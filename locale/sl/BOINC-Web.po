@@ -2,325 +2,332 @@
 # Copyright (C) 2008-2009 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-12-15 11:54-0700\n"
+"Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: poll.inc:18
 msgid "[check all that apply]"
-msgstr ""
+msgstr "[obkljukajte vse, kar velja]"
 
 #: poll.inc:47
 msgid "Other:"
-msgstr ""
+msgstr "Drugo:"
 
 #: poll_data.inc:19
 msgid "Yes - I have been running BOINC on my computer for..."
-msgstr ""
+msgstr "Da - poganjam BOINC na mojem računalniku že..."
 
 #: poll_data.inc:22
 msgid "less than a week"
-msgstr ""
+msgstr "manj kot teden"
 
 #: poll_data.inc:23
 msgid "less than a month"
-msgstr ""
+msgstr "manj kot mesec"
 
 #: poll_data.inc:24
 msgid "less than a year"
-msgstr ""
+msgstr "manj kot leto"
 
 #: poll_data.inc:25
 msgid "more than a year"
-msgstr ""
+msgstr "več kot leto"
 
 #: poll_data.inc:31
 msgid "No - I used to run BOINC, but..."
-msgstr ""
+msgstr "Ne - poganjal(-a) sem BOINC, vendar..."
 
 #: poll_data.inc:34
 msgid "I lost interest"
-msgstr ""
+msgstr "sem izgubil(-a) interes"
 
 #: poll_data.inc:35
 msgid "it was too complicated"
-msgstr ""
+msgstr "je bilo preveč komplicirano"
 
 #: poll_data.inc:36
 msgid "I stopped it and forgot to start again"
-msgstr ""
+msgstr "prenehal sem in pozabil spet pričeti"
 
 #: poll_data.inc:37
 msgid "it caused problems on my computer"
-msgstr ""
+msgstr "je na mojem računalniku povzročal probleme"
 
 #: poll_data.inc:38
 msgid "it used too much electricity"
-msgstr ""
+msgstr "je porabljal preveč elektrike"
 
 #: poll_data.inc:39
 msgid "I switched to a non-BOINC computing project"
-msgstr ""
+msgstr "Preklopil sem na na računski projekt, ki ni BOINC"
 
 #: poll_data.inc:45
 msgid "No - I tried running BOINC, but..."
-msgstr ""
+msgstr "Ne - poskusil(-a) sem pognati BOINC, vendar..."
 
 #: poll_data.inc:48
 msgid "the software didn't install correctly"
-msgstr ""
+msgstr "se programska oprema ni pravilno namestila"
 
 #: poll_data.inc:49
 msgid "I couldn't figure out how to use the software"
-msgstr ""
+msgstr "nisem mogel/mogla ugotoviti, kako uporabljati to programsko opremo"
 
 #: poll_data.inc:50
 msgid "I had network communication problems"
-msgstr ""
+msgstr "sem imel(-a) probleme s komunikacijo po mreži"
 
 #: poll_data.inc:51
 msgid "I couldn't attach to a project"
-msgstr ""
+msgstr "se nisem mogel/mogla pripeti na projekt"
 
 #: poll_data.inc:52
 msgid "I attached to a project, but never got any work"
 msgstr ""
+"nisem dobil(-a) nobenega dela, kljub temu, da sem se pripel(-a) na projekt"
 
 #: poll_data.inc:58
 msgid "No - I never tried running BOINC, because..."
-msgstr ""
+msgstr "Ne - nikoli nisem poskusil(-a) pognati BOINC, ker..."
 
 #: poll_data.inc:61
 msgid "I was concerned about security"
-msgstr ""
+msgstr "me je skrbelo za varnost"
 
 #: poll_data.inc:62
 msgid "I wasn't interested in any of the projects"
-msgstr ""
+msgstr "me nobeden izmed projektov ni zanimal"
 
 #: poll_data.inc:63
 msgid "I don't have permission to run it on my computer"
-msgstr ""
+msgstr "ga nimam pravice poganjati na mojem računalniku"
 
 #: poll_data.inc:64
 msgid "No version was available for my computer"
-msgstr ""
+msgstr "za moj računalnik ni bilo na voljo različice"
 
 #: poll_data.inc:75
 msgid "What kind of computers do you have running BOINC?"
-msgstr ""
+msgstr "Na kakšnih računalnikih poganjate BOINC?"
 
 #: poll_data.inc:85
 msgid "Where are they?"
-msgstr ""
+msgstr "Kje so?"
 
 #: poll_data.inc:87
 msgid "Home"
-msgstr ""
+msgstr "Doma"
 
 #: poll_data.inc:88
 msgid "Work"
-msgstr ""
+msgstr "Služba"
 
 #: poll_data.inc:89
 msgid "School"
-msgstr ""
+msgstr "Šola"
 
 #: poll_data.inc:96
 msgid "How many computers?"
-msgstr ""
+msgstr "Koliko računalnikov?"
 
 #: poll_data.inc:107
 msgid "On average, how many hours per day are they powered on?"
-msgstr ""
+msgstr "Koliko ur na dan so v povprečju prižgani?"
 
 #: poll_data.inc:119
 msgid "Age"
-msgstr ""
+msgstr "Starost"
 
 #: poll_data.inc:129
 msgid "Sex"
-msgstr ""
+msgstr "Spol"
 
 #: poll_data.inc:131
 msgid "Male"
-msgstr ""
+msgstr "moški"
 
 #: poll_data.inc:132
 msgid "Female"
-msgstr ""
+msgstr "ženska"
 
 #: poll_data.inc:137
 msgid "Your level of computer expertise"
-msgstr ""
+msgstr "Nivo vašega računalniškega znanja"
 
 #: poll_data.inc:139
 msgid "Beginner"
-msgstr ""
+msgstr "začetniško"
 
 #: poll_data.inc:140
 msgid "Intermediate"
-msgstr ""
+msgstr "srednje"
 
 #: poll_data.inc:141
 msgid "Advanced"
-msgstr ""
+msgstr "napredno"
 
 #: poll_data.inc:149
 msgid "Where did you learn about BOINC projects?"
-msgstr ""
+msgstr "Kje ste izvedeli o BOINC projektih?"
 
 #: poll_data.inc:151
 msgid "TV/radio/newspaper"
-msgstr ""
+msgstr "TV/radio/časopis"
 
 #: poll_data.inc:152
 msgid "From friends, relatives, or coworkers"
-msgstr ""
+msgstr "od prijateljev, sorodnikov ali sodelavcev"
 
 #: poll_data.inc:153
 msgid "Team message boards or web sites"
-msgstr ""
+msgstr "razpravljalnica ali spletna stran ekipe"
 
 #: poll_data.inc:154 poll_data.inc:210
 msgid "The BOINC web site"
-msgstr ""
+msgstr "Na spletni strani BOINC"
 
 #: poll_data.inc:155
 msgid "Other web sites"
-msgstr ""
+msgstr "Na drugih spletnih straneh"
 
 #: poll_data.inc:161
 msgid ""
 "Which are the most important factors when you decide whether to participate "
 "in a BOINC project?"
 msgstr ""
+"Kateri so najpomembnejši faktorji, ko se odločate, ali bi sodelovali v BOINC "
+"projektu?"
 
 #: poll_data.inc:163
 msgid "Nice-looking screensaver graphics"
-msgstr ""
+msgstr "dobra grafična podoba ohranjevalnika zaslona"
 
 #: poll_data.inc:164
 msgid "Fair and quick granting of credit for work done"
-msgstr ""
+msgstr "pošteno in hitro dodeljavanje točk za opravljeno delo"
 
 #: poll_data.inc:165
 msgid "Getting more credit from this project than from others"
-msgstr ""
+msgstr "od tega projekt dobim več točk kot od drugih"
 
 #: poll_data.inc:166
 msgid "Helpful and friendly message boards"
-msgstr ""
+msgstr "razpravljalnice so prijazne in v pomoč"
 
 #: poll_data.inc:167
 msgid "Participation by project staff on the message boards"
-msgstr ""
+msgstr "sodelovanje osebja projekta na razpravljalnicah"
 
 #: poll_data.inc:168
 msgid "Informative project web site"
-msgstr ""
+msgstr "informativna spletna stran"
 
 #: poll_data.inc:169
 msgid "The science is important and beneficial"
-msgstr ""
+msgstr "znanost je pomembna in koristna"
 
 #: poll_data.inc:170
 msgid "Non-profit, and results are public"
-msgstr ""
+msgstr "neprofitno in rezultati so javni"
 
 #: poll_data.inc:171
 msgid "Personal recognition if my computer finds something"
-msgstr ""
+msgstr "osebno priznanje, če moj računalnik nekaj najde"
 
 #: poll_data.inc:172
 msgid "Publication by the project in scientific journals"
-msgstr ""
+msgstr "publikacije projekta v znanstvenih revijah"
 
 #: poll_data.inc:173
 msgid "Periodic email newsletters from the project"
-msgstr ""
+msgstr "periodične novice projekta po elektronski pošti"
 
 #: poll_data.inc:180
 msgid "How many BOINC projects do you participate in?"
-msgstr ""
+msgstr "V koliko BOINC projektih sodelujete?"
 
 #: poll_data.inc:190
 msgid "Do you run BOINC as a screensaver?"
-msgstr ""
+msgstr "Ali uporabljate BOINC kot ohranjevalnik zaslona?"
 
 #: poll_data.inc:192
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: poll_data.inc:193
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: poll_data.inc:198
 msgid "Your usage of project messages boards:"
-msgstr ""
+msgstr "Vaša uporaba razpravljalnic projekta:"
 
 #: poll_data.inc:200
 msgid "to read information"
-msgstr ""
+msgstr "za branje informacije"
 
 #: poll_data.inc:201
 msgid "to read and post information"
-msgstr ""
+msgstr "za branje in objavo informacij"
 
 #: poll_data.inc:202
 msgid "None"
-msgstr ""
+msgstr "brez"
 
 #: poll_data.inc:206
 msgid ""
 "Where do you get information to help resolve problems with BOINC and/or "
 "BOINC projects?"
 msgstr ""
+"Kje dobite informacije, ki vam pomagajo razrešiti težave z BOINC in/ali "
+"BOINC projekti?"
 
 #: poll_data.inc:208
 msgid "The project message boards"
-msgstr ""
+msgstr "Razpravljalnice projekta"
 
 #: poll_data.inc:209
 msgid "The BOINC message boards"
-msgstr ""
+msgstr "Razpravljalnice BOINC"
 
 #: poll_data.inc:211
 msgid "BOINC mailing lists"
-msgstr ""
+msgstr "BOINC poštni seznam"
 
 #: poll_data.inc:212
 msgid "The Unofficial BOINC Wiki"
-msgstr ""
+msgstr "Neuradni BOINC Wiki"
 
 #: poll_data.inc:213
 msgid "Team web sites"
-msgstr ""
+msgstr "Spletne strani ekip"
 
 #: poll_data.inc:214
 msgid "Google or other search engines"
-msgstr ""
+msgstr "Google ali drugi iskalniki"
 
 #: download.php:40
 msgid "Download BOINC"
-msgstr ""
+msgstr "Naloži BOINC"
 
 #: download.php:42
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr ""
+msgstr "%s za %s (%s MB)"
 
 #: download.php:89
 msgid ""
@@ -329,6 +336,10 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
+"BOINC je program, ki vam omogoča podariti čas mirovanja računalnika "
+"znanstvenim projektom, kot so SETI@home, Climateprediction.net, "
+"Rosetta@home, World Community Grid in mnogi drugi. <p>Po namestitvi BOINC na "
+"vaš računalnik se lahko povežete na toliko projektov, kot želite."
 
 #: download.php:114
 #, php-format
@@ -336,26 +347,28 @@ msgid ""
 "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
 "(GPU), you may be able to %suse it to compute faster%s"
 msgstr ""
+"Opomba: če je vaš računalnik opremeljen z NVIDIA grafičnim procesorjem, ga "
+"morda lahko %suporabite, da računate hitreje%s"
 
 #: download.php:120
 msgid "System requirements"
-msgstr ""
+msgstr "Sistemske zahteve"
 
 #: download.php:121
 msgid "Release notes"
-msgstr ""
+msgstr "Opombe ob izdaji"
 
 #: download.php:122 index.php:89
 msgid "Help"
-msgstr ""
+msgstr "Pomoč"
 
 #: download.php:123
 msgid "All versions"
-msgstr ""
+msgstr "Vse različice"
 
 #: download.php:141
 msgid "BOINC: compute for science"
-msgstr ""
+msgstr "BOINC: računajte za znanost"
 
 #: help.php:12
 #, php-format
@@ -365,6 +378,10 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
+"BOINC pomoč na internetu vam omogoča govoriti ena-na-ena z izkušenimi "
+"uporabniki BOINC, ki lahko: %sodgovorijo na vprašanja o BOINC in "
+"prostovoljnem računanju; %s vas vodijo skozi proces namestitve in uporabe "
+"BOINC; %s odpravljajo morebitne probleme."
 
 #: help.php:21
 #, php-format
@@ -374,6 +391,10 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
+"BOINC pomoč na internetu temelji na %sSkype%s, telefonskem sistemu na "
+"internetu. Skype je zastonj (tako programska oprema kot klici).  Če še "
+"nimate Skype, ga %snaložite in namestite zdaj%s.  Ko boste končali, se "
+"vrnite na to stran."
 
 #: help.php:28
 msgid ""
@@ -382,16 +403,21 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
+"Najboljši način, da dobite pomoč je glasovno, za kar rabite ali vdelan "
+"mikrofon in zvočnike ali zunanji komplet slušalk in mikrofona za vaš "
+"računalnik.  Lahko tudi uporabite Skypov tekstovni klepet ali navadno pošto "
+"(če nimate Skype) za komunikacijo s prostovoljci za pomoč."
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
 msgstr ""
+"Na voljo so prostovoljci, ki govorijo več jezikov. Prosim, izberite jezik:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr ""
+msgstr "Bodi prostovoljec za pomoč."
 
 #: help.php:50
 #, php-format
@@ -400,69 +426,74 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
+"Če ste izkušen uporabnik BOINC, vas spodbujamo, da %spostanete prostovoljec "
+"za pomoč%s.  To je krasen način, da pomagate znastvenim raziskavam in "
+"prostovoljnem računanju - in zabavno je!"
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
+"Če ste že prostovoljec za pomoč: da uredite vaše nastavitve, %skliknite "
+"tu%s."
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "Računska moč"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "Najboljših 100 prostovoljcev"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "Aktivnih:"
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "prostovoljcev,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "računalnikov.\n"
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "24-urno povprečje:"
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TeraFLOPS"
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Novice"
 
 #: index.php:72
 msgid "... more"
-msgstr ""
+msgstr ".. več"
 
 #: index.php:76
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Novice so na voljo na %sRSS viru%s"
 
 #: index.php:86
 msgid "Volunteer"
-msgstr ""
+msgstr "Bodi prostovoljec"
 
 #: index.php:88
 msgid "Download"
-msgstr ""
+msgstr "Prenesi"
 
 #: index.php:90 index.php:125 index.php:163
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentacija"
 
 #: index.php:96
 #, php-format
@@ -472,6 +503,11 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
+" Uporabite čas mirovanja vašega računalnika (Windows, Mac ali Linux) za "
+"zdravljenje bolezni, preučevanje globalnega segrevanja, odkrivanje pulzarjev "
+"in mnogo drugih tipov znanstvenih raziskav.  Je varno, zaščiteno in "
+"preprosto:  %sIzberite%s projekte  %sNaložite%s in poženite BOINC programsko "
+"opremo  %sVnesite%s naslov elektronske pošte in geslo."
 
 #: index.php:107
 #, php-format
@@ -479,84 +515,88 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
+"Ali, če poganjate več projektov, poskusite %supravitelja računov% kot je "
+"%sGridRepublic%s ali %sBAM!%s"
 
 #: index.php:123
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "Računajte z BOINC"
 
 #: index.php:126
 msgid "Software updates"
-msgstr ""
+msgstr "Posodobitve programske opreme"
 
 #: index.php:153
 msgid "The BOINC project"
-msgstr ""
+msgstr "Projekt BOINC"
 
 #: index.php:158
 msgid "Help wanted!"
-msgstr ""
+msgstr "Potrebujemo pomoč!"
 
 #: index.php:160
 msgid "Programming"
-msgstr ""
+msgstr "Programiranje"
 
 #: index.php:161
 msgid "Translation"
-msgstr ""
+msgstr "Prevajanje"
 
 #: index.php:162
 msgid "Testing"
-msgstr ""
+msgstr "Testiranje"
 
 #: index.php:165
 msgid "Software development"
-msgstr ""
+msgstr "Razvoj programske opreme"
 
 #: index.php:166
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "programski vmesniki (API) za dodatno programsko opremo"
 
 #: index.php:167
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "Osebje in ljudje, ki so prispevali"
 
 #: index.php:168
 msgid "Message boards"
-msgstr ""
+msgstr "Razpravljalnice"
 
 #: index.php:169
 msgid "Email lists"
-msgstr ""
+msgstr "Poštni seznami"
 
 #: index.php:170
 msgid "Events"
-msgstr ""
+msgstr "Dogodki"
 
 #: index.php:171
 msgid "Conferences"
-msgstr ""
+msgstr "Konference"
 
 #: index.php:172
 msgid "Papers and talks"
-msgstr ""
+msgstr "Članki in govori"
 
 #: index.php:173
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Logotipi in grafika"
 
 #: index.php:206
 msgid "Browser default"
-msgstr ""
+msgstr "Privzeto v brskalniku"
 
 #: index.php:250
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
+"Odprtnokodna programska oprema za %sprostovoljno računanje%s and %smrežno "
+"računanje%s."
 
 #: poll.php:9
 msgid "BOINC user survey"
-msgstr ""
+msgstr "BOINC uporabniška anketa"
 
 #: poll.php:19
 msgid ""
@@ -570,65 +610,80 @@ msgid ""
 "will replace the old ones. <p> The current results of the survey are <a "
 "href=poll_results.php>here</a>. "
 msgstr ""
+"Več projektov prostovoljnega računanja, vključno s Climateprediction.net, "
+"Einstein@home in SETI@home, uporablja programsko opremo imenovano BOINC.  Če "
+"sodelujete v projektu, kot je ta, od vas želimo, da odgovorite na sledeča "
+"vprašanja. To bo pomagalo na BOINC temelječim projektom, da povečajo "
+"udeležbo in dosežejo večje znanstvene rezultate. <p> Prosim odgovorite na "
+"toliko vprašanj, kot želite, nato pojdite na dno in kliknite \"V redu\".  Če "
+"ste anketo že izpolnili, pa so se vaši odgovori vmes spremenili, jo prosim "
+"spet izpolnite - vaši novi odgovori bodo zamenjali stare. <p> Trenutni "
+"rezultati ankete so <a href=poll_results.php>tukaj</a>. "
 
 #: poll.php:25
 msgid "Do you run BOINC?"
-msgstr ""
+msgstr "Ali poganjate BOINC?"
 
 #: poll.php:30
 msgid "Your participation"
-msgstr ""
+msgstr "Vaša udeležba"
 
 #: poll.php:32
 msgid "Your computers"
-msgstr ""
+msgstr "Vaši računalniki"
 
 #: poll.php:34
 msgid "You"
-msgstr ""
+msgstr "Vi"
 
 #: poll.php:39
 msgid "Nationality"
-msgstr ""
+msgstr "Narodnost"
 
 #: poll.php:44
 msgid "Comments"
-msgstr ""
+msgstr "Pripombe"
 
 #: poll.php:46
 msgid ""
 "Please suggest ways that BOINC, and the projects that use it, could be "
 "improved:"
 msgstr ""
+"Prosim predlagajte na katere načine bi BOINC in projekti, ki ga uporabljajo, "
+"lahko bili izboljšani:"
 
 #: poll.php:50
 msgid "When done click:"
-msgstr ""
+msgstr "Ko zaključite, kliknite:"
 
 #: poll_action.php:9
 msgid "Error - results not recorded"
-msgstr ""
+msgstr "Napaka - rezultati niso zabeleženi"
 
 #: poll_action.php:10
 msgid ""
 "An internal error has prevented us from recording your survey response.  "
 "Please try again later."
 msgstr ""
+"Interna napaka nam je preprečila zabeležiti rezultate vaše ankete.  Prosimo, "
+"poskusite znova kasneje."
 
 #: poll_action.php:32
 msgid "Survey response recorded"
-msgstr ""
+msgstr "Odgovori na anketo zabeleženi"
 
 #: poll_action.php:33
 msgid "Thank you for completing the BOINC user survey."
-msgstr ""
+msgstr "Hvala, da ste izpolnili BOINC uporabniško anketo."
 
 #: poll_results.php:195
 msgid "Survey results"
-msgstr ""
+msgstr "Rezultati ankete"
 
 #: poll_results.php:196
 msgid ""
 "These are the current results of the <a href=poll.php>BOINC user survey</"
 "a>.  This page is updated every hour."
 msgstr ""
+"To so trenutni rezultati <a href=poll.php>BOINC uporabniške ankete</a>.  Ta "
+"stran je posodobljena vsako uro."

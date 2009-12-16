@@ -2,499 +2,514 @@
 # Copyright (C) 2008 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-12-15 11:48-0700\n"
+"Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "Search for words in forum messages"
-msgstr ""
+msgstr "Išči besede v sporočilih foruma"
 
 msgid "Search forums"
-msgstr ""
+msgstr "Išči po forumih"
 
 msgid "Advanced search"
-msgstr ""
+msgstr "Napredno iskanje"
 
 msgid "Private messages"
-msgstr ""
+msgstr "Zasebna sporočila"
 
 msgid "Questions and Answers"
-msgstr ""
+msgstr "Vprašanja in odgovori"
 
 msgid "Message boards"
-msgstr ""
+msgstr "Razpravljalnice"
 
 msgid "%1 message board"
-msgstr ""
+msgstr "%1 razpravljalnica"
 
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
+"Da lahko ustvarite novo temo v %1, morate imeti določeno število točk. To "
+"preprečuje in ščiti pred zlorabo sistema."
 
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
+"Trenutno ne morete ustvariti novih tem. Prosim, malo počakajte, preden spet "
+"poskusite. Ta odlog je bil uveljavljen za zaščito pred zlorabo sistema."
 
 msgid "Thread"
-msgstr ""
+msgstr "Tema"
 
 msgid "Posts"
-msgstr ""
+msgstr "Objave"
 
 msgid "Author"
-msgstr ""
+msgstr "Avtor"
 
 msgid "Views"
-msgstr ""
+msgstr "Pogledi"
 
 msgid "Last post"
-msgstr ""
+msgstr "Zadnja objava"
 
 msgid "Mark all threads as read"
-msgstr ""
+msgstr "Označi vse teme kot prebrane"
 
 msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
+msgstr "Označi vse teme na vseh oglasnih deskah kot 'prebrane'."
 
 msgid "Inbox"
-msgstr ""
+msgstr "Nabiralnik"
 
 msgid "Write"
-msgstr ""
+msgstr "Napiši"
 
 msgid "Send private message"
-msgstr ""
+msgstr "Pošlji zasebno sporočilo"
 
 msgid "Preview"
-msgstr ""
+msgstr "Predogled"
 
 msgid "To"
-msgstr ""
+msgstr "Za"
 
 msgid "User IDs or unique usernames, separated with commas"
-msgstr ""
+msgstr "IDji uporabnikov ali unikatna uporabniška imena, ločena z vejicami"
 
 msgid "Subject"
-msgstr ""
+msgstr "Zadeva"
 
 msgid "Message"
-msgstr ""
+msgstr "Sporočilo"
 
 msgid "Send message"
-msgstr ""
+msgstr "Pošlji sporočilo"
 
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
 msgstr ""
+"Ni vam dovoljeno tako pogosto pošiljati sporočil. Prosim, počakajte nekaj "
+"časa, preden pošljete nova."
 
 msgid "unread"
-msgstr ""
+msgstr "neprebrano"
 
 msgid "Edit your profile"
-msgstr ""
+msgstr "Uredite vaš profil"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Vaše povratne informacije o tem profilu"
 
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Predlagaj ta profil za Uporabnika dneva:"
 
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "Ta profil mi je %1všeč%2"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Opozori skrbnike na žaljiv profil:"
 
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "Ta profil mi %1ni všeč%2"
 
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "Iskalni kriteriji (uporabite enega ali več)"
 
 msgid "Key words"
-msgstr ""
+msgstr "Ključne besede"
 
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "Poišči ekipe s temi besedami v njihovem imenu ali opisu"
 
 msgid "Country"
-msgstr ""
+msgstr "Država"
 
 msgid "Type of team"
-msgstr ""
+msgstr "Tip ekipe"
 
 msgid "Show only active teams"
-msgstr ""
+msgstr "Prikaži le aktivne ekipe"
 
 msgid "Search"
-msgstr ""
+msgstr "Išči"
 
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
+msgstr "Zahtevali ste vi in rok za ustanoviteljev odgovor je potekel."
 
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "Dokončaj prenos ustanoviteljstva"
 
 msgid "Requested by you"
-msgstr ""
+msgstr "Zahtevali ste vi"
 
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "rok za ustanoviteljev odgovor je %1"
 
 msgid "None"
-msgstr ""
+msgstr "brez"
 
 msgid "Initiate request"
-msgstr ""
+msgstr "Prični zahtevo"
 
 msgid "Deferred"
-msgstr ""
+msgstr "Odloženo"
 
 msgid "Team info"
-msgstr ""
+msgstr "Informacije o ekipi"
 
 msgid "Description"
-msgstr ""
+msgstr "Opis"
 
 msgid "Web site"
-msgstr ""
+msgstr "Spletna stran"
 
 msgid "Total credit"
-msgstr ""
+msgstr "Skupaj točk"
 
 msgid "Recent average credit"
-msgstr ""
+msgstr "Povprečje točk v zadnjem času"
 
 msgid "Cross-project stats"
-msgstr ""
+msgstr "Medprojektna statistika"
 
 msgid "Type"
-msgstr ""
+msgstr "Tip"
 
 msgid "Message board"
-msgstr ""
+msgstr "Razpravljalnica"
 
 msgid "Threads"
-msgstr ""
+msgstr "Teme"
 
 msgid "Join this team"
-msgstr ""
+msgstr "Pridruži se tej ekipi"
 
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
+"Opomba: če je 'Dovoljeno pošiljanje pošte' nastavljeno v nastavitvah vašega "
+"projekta, ob pridružitvi ekipi daje njenemu ustanovitelju dostop do naslova "
+"vaše elektronske pošte."
 
 msgid "Not accepting new members"
-msgstr ""
+msgstr "Ne sprejema novih članov"
 
 msgid "Foundership change requested"
-msgstr ""
+msgstr "Zahtevana sprememba ustanoviteljstva"
 
 msgid "Respond by %1"
-msgstr ""
+msgstr "Odgovori z %1"
 
 msgid "Team foundership change"
-msgstr ""
+msgstr "Sprememba ustanoviteljstva ekipe"
 
 msgid "Members"
-msgstr ""
+msgstr "Člani"
 
 msgid "Founder"
-msgstr ""
+msgstr "Ustanovitelj"
 
 msgid "Admins"
-msgstr ""
+msgstr "Skrbniki"
 
 msgid "New members in last day"
-msgstr ""
+msgstr "Novi člani v zadnjem dnevu"
 
 msgid "Total members"
-msgstr ""
+msgstr "Skupaj članov"
 
 msgid "view"
-msgstr ""
+msgstr "poglej"
 
 msgid "Active members"
-msgstr ""
+msgstr "Aktivni člani"
 
 msgid "Members with credit"
-msgstr ""
+msgstr "Člani s točkami"
 
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 msgid "Admin"
-msgstr ""
+msgstr "Skrbnik"
 
 msgid "Last %1"
-msgstr ""
+msgstr "Zadnjih %1"
 
 msgid "Next %1"
-msgstr ""
+msgstr "Naslednjih %1"
 
 msgid "No such team."
-msgstr ""
+msgstr "Ekipa ne obstaja."
 
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "Ta operacija zahteva ustanoviteljstvo."
 
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "Ta operacija zahteva skrbniške pravice za ekipo"
 
 msgid "Rank"
-msgstr ""
+msgstr "Uvrstitev"
 
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
 msgstr ""
+"%1Opomba o zasebnosti%2: če ustvarite ekipo, bodo vaše nastavitve projekta "
+"(delitev virov, grafične nastavitve) vidne javnosti."
 
 msgid "Team name, text version"
-msgstr ""
+msgstr "Ime ekipe, tekstovna različica"
 
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "Ne uporabljajte HTML oznak."
 
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "Ime ekipe, HTML različica"
 
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "Lahko uporabljajte %1omejen nabor HTML oznak%2."
 
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "Če ne znate HTML, pustite ta okvir prazen."
 
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "URL spletne strani ekipe, če obstaja"
 
 msgid "without \"http://\""
-msgstr ""
+msgstr "brez \"http://\""
 
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "Na spletni strani ekipe bo povezava s tem URL."
 
 msgid "Description of team"
-msgstr ""
+msgstr "Opis ekipe"
 
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "Projekti, v katerih sodelujete"
 
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "Projekti, v katerih sodeluje %1"
 
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 msgid "Click for user page"
-msgstr ""
+msgstr "Kliknite za spletno stran uporabnika"
 
 msgid "Average credit"
-msgstr ""
+msgstr "Točk v povprečju"
 
 msgid "Since"
-msgstr ""
+msgstr "Od"
 
 msgid "Computing and credit"
-msgstr ""
+msgstr "Računanje in točke"
 
 msgid "Pending credit"
-msgstr ""
+msgstr "Čakajoče točke"
 
 msgid "View"
-msgstr ""
+msgstr "Pogled"
 
 msgid "Computers on this account"
-msgstr ""
+msgstr "Računalniki tega računa"
 
 msgid "Tasks"
-msgstr ""
+msgstr "Opravila"
 
 msgid "Cross-project ID"
-msgstr ""
+msgstr "Medprojektni ID"
 
 msgid "Cross-project statistics"
-msgstr ""
+msgstr "Medprojektna statistika"
 
 msgid "Certificate"
-msgstr ""
+msgstr "Certifikat"
 
 msgid "Stats on your cell phone"
-msgstr ""
+msgstr "Statistika na vašem mobilnem telefonu"
 
 msgid "Account information"
-msgstr ""
+msgstr "Informacije o računu"
 
 msgid "Email address"
-msgstr ""
+msgstr "Naslov elektronske pošte"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Postal code"
-msgstr ""
+msgstr "Poštna številka"
 
 msgid "%1 member since"
-msgstr ""
+msgstr "%1 član od"
 
 msgid "Change"
-msgstr ""
+msgstr "Spremeni"
 
 msgid "email address"
-msgstr ""
+msgstr "naslov elektronske pošte"
 
 msgid "password"
-msgstr ""
+msgstr "geslo"
 
 msgid "other account info"
-msgstr ""
+msgstr "druge informacije o računu"
 
 msgid "Log out"
-msgstr ""
+msgstr "Odjava"
 
 msgid "User ID"
-msgstr ""
+msgstr "ID uporabnika"
 
 msgid "Used in community functions"
-msgstr ""
+msgstr "Uporabljeno v funkcijah skupnosti"
 
 msgid "Account key"
-msgstr ""
+msgstr "Ključ računa"
 
 msgid "Provides full access to your account"
-msgstr ""
+msgstr "Priskrbi poln dostop do vašega računa"
 
 msgid "Weak account key"
-msgstr ""
+msgstr "Šibki ključ računa"
 
 msgid "Provides %1limited access%2 to your account"
-msgstr ""
+msgstr "Priskrbi %1omejen dostop%2 do vašega računa"
 
 msgid "Preferences"
-msgstr ""
+msgstr "Nastavitve"
 
 msgid "When and how BOINC uses your computer"
-msgstr ""
+msgstr "Kdaj in kako BOINC uporablja vaš računalnik"
 
 msgid "Computing preferences"
-msgstr ""
+msgstr "Nastavitve računanja"
 
 msgid "Message boards and private messages"
-msgstr ""
+msgstr "Razpravljalnice in zasebna sporočila"
 
 msgid "Community preferences"
-msgstr ""
+msgstr "Nastavitve skupnosti"
 
 msgid "Resource share and graphics"
-msgstr ""
+msgstr "Delitev virov in grafika"
 
 msgid "%1 preferences"
-msgstr ""
+msgstr "%1 nastavitve"
 
 msgid "Community"
-msgstr ""
+msgstr "Skupnost"
 
 msgid "Delete"
-msgstr ""
+msgstr "Briši"
 
 msgid "Create"
-msgstr ""
+msgstr "Ustvari"
 
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 msgid "%1 posts"
-msgstr ""
+msgstr "Objave %1"
 
 msgid "Notifications"
-msgstr ""
+msgstr "Obvestila"
 
 msgid "Quit team"
-msgstr ""
+msgstr "Zapusti ekipo"
 
 msgid "Administer"
-msgstr ""
+msgstr "Administriraj"
 
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(čakajoča zahteva po spremembi ustanoviteljstva)"
 
 msgid "Member of team"
-msgstr ""
+msgstr "Član ekipe"
 
 msgid "Team"
-msgstr ""
+msgstr "Ekipa"
 
 msgid "find a team"
-msgstr ""
+msgstr "poišči ekipo"
 
 msgid "Founder but not member of"
-msgstr ""
+msgstr "Ustanovitelj, vendar ne član"
 
 msgid "Find friends"
-msgstr ""
+msgstr "Poišči prijatelje"
 
 msgid "Friends"
-msgstr ""
+msgstr "Prijatelji"
 
 msgid "Computers"
-msgstr ""
+msgstr "Računalniki"
 
 msgid "hidden"
-msgstr ""
+msgstr "skrito"
 
 msgid "Donor"
-msgstr ""
+msgstr "Donator"
 
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 msgid "This person is a friend"
-msgstr ""
+msgstr "Ta oseba je prijatelj"
 
 msgid "Cancel friendship"
-msgstr ""
+msgstr "Prekliči prijateljstvo"
 
 msgid "Request pending"
-msgstr ""
+msgstr "Čakajoča prošnja"
 
 msgid "Add as friend"
-msgstr ""
+msgstr "Dodaj kot prijatelja"
 
 msgid "CHARSET"
-msgstr ""
+msgstr "nabor znakov"
 
 msgid "Use BBCode tags to format your text"
-msgstr ""
+msgstr "Uporabite BBCode oznake za oblikovanje vašega besedila"
 
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
+"Identificira vas na naši spletni strani. Uporabite vaše pravo ime ali "
+"vzdevek."
 
 msgid "Select the country you want to represent, if any."
-msgstr ""
+msgstr "Če želite, izberite državo, ki jo želite predstavljati."
 
 msgid "Postal or ZIP Code"
-msgstr ""
+msgstr "Poštna številka ali oznaka"
 
 msgid "Optional"
-msgstr ""
+msgstr "Opcijsko"
 
 msgid "Applications"
-msgstr ""
+msgstr "Aplikacije"
 
 msgid ""
 "%1 currently has the following applications. When you participate in %1, "
@@ -502,162 +517,185 @@ msgid ""
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
 msgstr ""
+"% ima trenutno sledeče aplikacije. Ko sodelujete v %1, bo vašemu računalniku "
+"dodeljeno delo za eno ali več teh aplikacij. Trenutna različica aplikacije "
+"bo naložena na vaš računalnik. To se zgodi samodejno, ni vam streba storiti "
+"ničesar."
 
 msgid "Platform"
-msgstr ""
+msgstr "Platforma"
 
 msgid "Version"
-msgstr ""
+msgstr "Različica"
 
 msgid "Installation time"
-msgstr ""
+msgstr "Čas namestitve"
 
 msgid "You must supply an invitation code to create an account."
-msgstr ""
+msgstr "Podati morate kodo vabila, da ustvarite račun."
 
 msgid "The invitation code you gave is not valid."
-msgstr ""
+msgstr "Koda vabila, ki ste jo podali, ni veljavna."
 
 msgid "Create an account"
-msgstr ""
+msgstr "Ustvarite račun"
 
 msgid "Account creation is disabled"
-msgstr ""
+msgstr "Ustvarjanje računov je onemogočeno"
 
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
+msgstr "Ustvarjanje računov je trenutno onemogočeno. Prosim, poskusite kasneje."
 
 msgid ""
 "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
 "form. Just run BOINC, select Attach Project, and enter an email address and "
 "password."
 msgstr ""
+"OPOMBA: Če uporabljate BOINC različico 5.2 ali novejšo z BOINC Upraviteljem, "
+"ne uporabljajte tega obrazca. Samo poženite BOINC, izberite Pripni projet "
+"in vnesi naslov elektronske pošte in geslo."
 
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
 msgstr ""
+"Ta račun bo pripadal ekipi %1 in bo imel nastavitve projekta njenega "
+"ustanovitelja."
 
 msgid "Invitation Code"
-msgstr ""
+msgstr "Koda vabila"
 
 msgid "A valid invitation code is required to create an account."
-msgstr ""
+msgstr "Da ustvarite račun, je potrebna veljavna koda vabila."
 
 msgid "Email Address"
-msgstr ""
+msgstr "Naslov elektronske pošte"
 
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
+msgstr "Mora biti veljaven naslov v obliki 'ime@domena'."
 
 msgid "Password"
-msgstr ""
+msgstr "Geslo"
 
 msgid "Must be at least %1 characters"
-msgstr ""
+msgstr "Biti mora vsaj %1 znakov"
 
 msgid "Confirm password"
-msgstr ""
+msgstr "Potrdi geslo"
 
 msgid "Create account"
-msgstr ""
+msgstr "Ustvari račun"
 
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "NAPAKA: %1 ne obstaja!  Ne morem ustvariti kombo izbirnika.<br>"
 
 msgid "Picture"
-msgstr ""
+msgstr "Slika"
 
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 Vaša slika profila je prikazana na levi."
 
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"Da jo zamenjate, kliknite gumb \"Brskaj\" in izberite JPEG ali PNG datoteko "
+"(%1 ali manjšo)."
 
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "Da odstranite sliko z vašega profila, kliknite ta okvir:"
 
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
+"Če bi k vašemu profilu radi vključili sliko, kliknite gumb \"Brskaj\" in "
+"izberite JPEG ali PNG datoteko. Prosim, izberite slike dolžine %1 ali manj."
 
 msgid "Language"
-msgstr ""
+msgstr "Jezik"
 
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "Izberite jezik v katerem naj bo napisan vaš profil:"
 
 msgid "Submit profile"
-msgstr ""
+msgstr "Vnesi profil"
 
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
+msgstr "Za zaščito spletne strani projekta pred smetjem, vas vljudno prosimo, da "
+"napišete besedi, prikazani na sliki:<br>\n"
 
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Ustvari/uredi profil"
 
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "Format slike, ki ste jo naložili, ni podprt."
 
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
+"Vaš %1profil%2 vam omogoča deliti vaša mnenja in ozadje s skupnostjo %3."
 
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
+"Vaš \"Recaptcha\" odgovor na vsebino slike ni bil pravilen.  Prosim, poskusite "
+"znova."
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Vaš prvi odgovor je bil označen kot smetje s strani Akismet proti-smetnega "
+"sistema.  Prosim, spremenite vaše besedilo in poskusite znova."
 
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Vaš drugi odgovor je bil označen kot smetje s strani Akismet proti-smetnega "
+"sistema.  Prosim, spremenite vaše besedilo in poskusite znova."
 
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "Vnesli ste prazen profil."
 
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "Ne morem posodobiti profila: napaka v podatkovni bazi"
 
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "Ne morem ustvariti profila: napaka v podatkovni bazi"
 
 msgid "Profile saved"
-msgstr ""
+msgstr "Profil shranjen"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
+msgstr "Čestitke! Vaš profil je bil uspešno vnesen v našo podatkovno bazo."
 
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Poglejte vaš profil%2"
 
 msgid "Create a profile"
-msgstr ""
+msgstr "Ustvarite profil"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
+"Za preprečitev smetja, je za ustvarjanje ali urejanje profila zahtevano "
+"povprečje točk %1 ali več.  Za to nevšečnost se vam opravičujemo."
 
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "Naloži dodatno programsko opremo BOINC"
 
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Naložite lahko aplikacije iz večih kategorij."
 
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr ""
+msgstr "Te aplikacije %1 ne podpira. Lahko jo uporabljate na lastno odgvornost."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -665,277 +703,298 @@ msgid ""
 "uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
+"Ne ponujamo navodil za namestitev teh aplikacij.\n"
+"Kakorkoli, avtor je morda priskrbel kaj pomoči o namestitvi ali "
+"odstranjevanju\n"
+"aplikacije.\n"
+"Če za vas to ni dovolj, bi morali kontaktirati avtorja."
 
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "Navodila za namestitev in poganjanje BOINC so %1tukaj%2."
 
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "Ta seznam je centralno upravljan na %1spletni strani BOINC%2."
 
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
-msgstr ""
+msgstr "Naslov"
 
 msgid "Add my signature to this post"
-msgstr ""
+msgstr "Dodaj moj podpis k tej objavi"
 
 msgid "%1 Message boards"
-msgstr ""
+msgstr "%1 razpravljalnice"
 
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"Če imate vprašanje ali problem, prosim uporabite odsek %1Vprašanja in "
+"odgovori%2 razpravljalnic."
 
 msgid "Topic"
-msgstr ""
+msgstr "Tema"
 
 msgid "Create a new thread"
-msgstr ""
+msgstr "Ustvari novo temo"
 
 msgid "Post to thread"
-msgstr ""
+msgstr "Objavi k temi"
 
 msgid "Forum search"
-msgstr ""
+msgstr "Iskanje po forumu"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "Rezultati iskanja po forumu"
 
 msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
+"Tema s tem ID %1 ne obstaja. Prosim, preverite povezavo in poskusite znova."
 
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "Ta forum za vas ni viden."
 
 msgid "This thread has been hidden for administrative purposes"
-msgstr ""
+msgstr "Ta tema je bila skrita zaradi skrbniških razlogov"
 
 msgid "My question was answered"
-msgstr ""
+msgstr "Na moje vprašanje je bilo odgovorjeno"
 
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
+"Če je bilo na vaše vprašanje zadovoljivo odgovorjeno, prosim kliknite tu, da "
+"ga zaprete!"
 
 msgid "I've also got this question"
-msgstr ""
+msgstr "Imam tudi to vprašanje"
 
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Dodaj novo sporočilo k tej temi"
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Odjavi naročilo"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
+msgstr "Naročeni ste na to temo.  Kliknite tu, da odjavite naročilo."
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Naroči se"
 
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
+"Kliknite tu, da dobite elektronsko pošto, kadar so v tej temi nove objave."
 
 msgid "Unhide"
-msgstr ""
+msgstr "Naredi vidno"
 
 msgid "Unhide this thread"
-msgstr ""
+msgstr "Naredi temo vidno"
 
 msgid "Hide"
-msgstr ""
+msgstr "Skrij"
 
 msgid "Hide this thread"
-msgstr ""
+msgstr "Skrij to temo"
 
 msgid "Make unsticky"
-msgstr ""
+msgstr "Odstrani lepljivost"
 
 msgid "Make this thread not sticky"
-msgstr ""
+msgstr "Odstrani lepljivost te teme"
 
 msgid "Make sticky"
-msgstr ""
+msgstr "Naredi lepljivo"
 
 msgid "Make this thread sticky"
-msgstr ""
+msgstr "Naredi to temo lepljivo"
 
 msgid "Unlock"
-msgstr ""
+msgstr "Odkleni"
 
 msgid "Unlock this thread"
-msgstr ""
+msgstr "Odkleni to temo"
 
 msgid "Lock"
-msgstr ""
+msgstr "Zakleni"
 
 msgid "Lock this thread"
-msgstr ""
+msgstr "Zakleni to temo"
 
 msgid "Move"
-msgstr ""
+msgstr "Premakni"
 
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "Premakni to temo v drug forum"
 
 msgid "Edit title"
-msgstr ""
+msgstr "Uredi naslov"
 
 msgid "Edit thread title"
-msgstr ""
+msgstr "Uredi naslov teme"
 
 msgid "Sort"
-msgstr ""
+msgstr "Uredi"
 
 msgid "Already friends"
-msgstr ""
+msgstr "Že prijatelja"
 
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Zahtevali ste prijateljstvo z %1 na %2."
 
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "Ta zahteva še vedno čaka na potrditev."
 
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 ne sprejema vaših zahtev po prijateljstvu"
 
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "Ne morete biti prijatelj samemu sebi"
 
 msgid "No such user"
-msgstr ""
+msgstr "Uporabnik ne obstaja"
 
 msgid "Add friend"
-msgstr ""
+msgstr "Dodaj prijatelja"
 
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
+"Prosili ste, da bi dodali %1 kot prijatelja. Obvestili bomo %2 in ga/jo "
+"vprašali za potrditev, da sta prijatelja/prijateljici."
 
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Tu lahko dodate sporočilo:"
 
 msgid "Database error"
-msgstr ""
+msgstr "Napaka v podatkovni bazi"
 
 msgid "Friend request sent"
-msgstr ""
+msgstr "Prošnja za prijateljstvo je poslana"
 
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "O vaši prošnji smo obvestili %1."
 
 msgid "Request not found"
-msgstr ""
+msgstr "Prošnja ni najdena"
 
 msgid "Friend request"
-msgstr ""
+msgstr "Prošnja za prijateljstvo"
 
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 vas je dodal(-a) kot prijatelja."
 
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 pravi: %2"
 
 msgid "Accept friendship"
-msgstr ""
+msgstr "Sprejmi prijateljstvo"
 
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "Klknite sprejmi, če je %1 zares vaš prijatelj(-ica)"
 
 msgid "Decline"
-msgstr ""
+msgstr "Odkloni"
 
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "Kliknite odkloni, če %1 ni vaš prijatelj(-ica)"
 
 msgid "No request"
-msgstr ""
+msgstr "Ni prošnje"
 
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Prijateljstvo potrjeno"
 
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "Vaše prijateljstvo z %1 je bilo potrjeno."
 
 msgid "Friendship declined"
-msgstr ""
+msgstr "Prijateljstvo odklonjeno"
 
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "Odklonili ste prijateljstvo z %1"
 
 msgid "Notification not found"
-msgstr ""
+msgstr "Obvestilo ni najdeno"
 
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Prijatelj(-ica) potrjen(-a)"
 
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "Zdaj sta s/z %1 prijatelja."
 
 msgid "Cancel friendship?"
-msgstr ""
+msgstr "Preklic prijateljstva?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite preklicati prijateljstvo s/z %1?"
 
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 msgid "Stay friends"
-msgstr ""
+msgstr "Ostani prijatelj"
 
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Prijateljstvo preklicano"
 
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "Vaše prijateljstvo s/z %1 je bilo preklicano."
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Neznano dejanje"
 
 msgid "Welcome to %1"
-msgstr ""
+msgstr "Dobrodošli k %1"
 
 msgid "View and edit your account preferences using the links below."
-msgstr ""
+msgstr "Poglejte in uredite nastavitve vašega računa s spodnjimi povezavami."
 
 msgid "Your account"
-msgstr ""
+msgstr "Vaš račun"
 
 msgid "Read our rules and policies"
-msgstr ""
+msgstr "Preberite naša pravila in politiko"
 
 msgid "Run %1 only on authorized computers"
-msgstr ""
+msgstr "Poganjajte %1 le na dovoljenih računalnikih"
 
 msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
 msgstr ""
+"Poganjajte %1 le na računalnikih, katerih lastnik ste ali za katere ste "
+"pridobili dovoljenje lastnika. Nekatera podjetja in šole imajo pravila, ki "
+"prepovedujejo uporabo njihovih računalnikov za projekte, kot je %1."
 
 msgid "How %1 will use your computer"
-msgstr ""
+msgstr "Kako bo %1 uporabljal vaš računalnik"
 
 msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
 msgstr ""
+"Med tem ko poganjate %1 na vašem računalniku, bo ta uporabljal del "
+"procesorske moči vašega računalnika, prostora na disku in pasovne širine "
+"mreže. Nastavite lahko koliko teh virov uporablja %1 in kdaj ."
 
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
 msgstr ""
+"Delo, ki ga opravi vaš računalnik, pripomore k ciljem %1, kot so opisani na "
+"njihovi spletni strani. Ta aplikacija se od časa do časa lahko spremeni."
 
 msgid "Privacy policy"
-msgstr ""
+msgstr "Politika zasebnosti"
 
 msgid ""
 "Your account on %1 is identified by a name that you choose. This name may be "
@@ -943,6 +1002,10 @@ msgid ""
 "done for %1. If you want to be anonymous, choose a name that doesn't reveal "
 "your identity."
 msgstr ""
+"Vaš račun na %1 je identificiran z imenom, ki ga izberete. To ime je lahko "
+"prikazano na spletni strani %1, skupaj s povzetkom dela, ki ga je vaš "
+"računalnik opravil za %1. Če želite biti anonimni, izberite ime, ki ne "
+"odkriva vaše identitete."
 
 msgid ""
 "If you participate in %1, information about your computer (such as its "
@@ -951,12 +1014,22 @@ msgid ""
 "also be shown on %1's web site. Nothing that reveals your computer's "
 "location (e.g. its domain name or network address) will be shown."
 msgstr ""
+"Če sodelujete v %1, bo %1 zabeležil informacije o vašem računalniku (kot "
+"naprimer tip procesorja, količina pomnilnika in podobno)  in to bo "
+"uporabljeno pri odločanju, kakšen tip dela je dodeljen vašemu računalniku. "
+"Ta informacija bo tudi prikazana na spletni strani %1. Nič, kar odkriva "
+"lokacijo vašega računalnika (kot ime domene ali mrežni naslov), ne bo "
+"prikazano."
 
 msgid ""
 "To participate in %1, you must give an address where you receive email. This "
 "address will not be shown on the %1 web site or shared with organizations. %"
 "1 may send you periodic newsletters; however, you can opt out at any time."
 msgstr ""
+"Za sodelovanje v %1 morate podati naslov, na katerega prejemate elektronsko "
+"pošto. Ta naslov ne bo prikazan na spletni strani %1 ali deljen z "
+"organizacijami. %1 vam morda pošlje periodične novice, kdajkoli se lahko od "
+"njih tudi odjavite."
 
 msgid ""
 "Private messages sent on the %1 web site are visible only to the sender and "
@@ -965,6 +1038,11 @@ msgid ""
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
+"Zasebna sporočila poslana na spletno stran %1 so vidna le pošiljatelju in "
+"prejemniku.  %1 ne pregleduje ali cenzurira vsebino teh sporočil.  Če ste "
+"prejeli neželjena zasebna sporočila od drugega uporabnika %1, jih lahko "
+"dodate k vašemu %2filtru sporočil%3.  To bo preprečilo, da bi videli "
+"katerokoli javno ali zasebno sporočilo tega uporabnika."
 
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
@@ -972,9 +1050,13 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+"Če uporabljate forume na naši spletni strani, morate slediti %2pravilom "
+"objavljanja%3. Sporočila objavljen na %1 forumih so vidna vsem, vključno "
+"nečlanom.  Z objavo na forum dajete trajno pravico vsakomur, da bere in "
+"kopira vaše objave."
 
 msgid "Is it safe to run %1?"
-msgstr ""
+msgstr "Je varno poganjati %1?"
 
 msgid ""
 "Any time you download a program through the Internet you are taking a "
@@ -985,326 +1067,377 @@ msgid ""
 "all executable files are digitally signed on a secure computer not connected "
 "to the Internet."
 msgstr ""
+"Vsakič, ko snamete program z interneta, tvegate: program ima morda nevarne "
+"napake ali pa so vdrli v strežnik. %1 se je potrudila, da čimbolj omeji ta "
+"tveganja. Našo aplikacijo smo natančno stestirali. Naši strežniki so za "
+"požarnim zidom in nastavljeni so za visoko varnost. Za zagotovitev "
+"integritete prenosov, so vse izvedljive datoteke digitalno podpisane na "
+"varnem računalniku, ki ni priključen na internet."
 
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
+"Aplikacije, ki jih poganja %1 lahko povzročijo, da se nekateri računalniki "
+"pregrejejo. Če se to zgodi, prenehajte poganjati %1 ali uporabite %2pomožni "
+"program%3, ki omeji uporabo procesorja."
 
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
+msgstr "%1 so razvili pri %2. BOINC je bil razvit na University of California."
 
 msgid "Liability"
-msgstr ""
+msgstr "Pravna odgovornost"
 
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
 "any other event or condition that may occur as a result of participating in %"
 "1."
 msgstr ""
+"%1 ne prevzema nikakeršne pravne odgovornosti za škodo na vašem računalniku, "
+"izgubo podatkov ali kateregakoli dogodka ali stanja, ki se lahko pripeti "
+"kot rezultat sodelovanja v %1."
 
 msgid "Other BOINC projects"
-msgstr ""
+msgstr "Drugi BOINC projekti"
 
 msgid ""
 "Other projects use the same platform, BOINC, as %1. You may want to consider "
 "participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
 msgstr ""
+"Drugi projekti uporabljajo isto platformo, BOINC, kot %1. Morda želite "
+"premisliti o sodelovanju v enem ali več teh projektih. S tem, da to storite, "
+"bo vaš računalnik opravljal uporabno delo tudi, kadar %1 zanj nima na voljo "
+"dela."
 
 msgid ""
 "These other projects are not associated with %1, and we cannot vouch for "
 "their security practices or the nature of their research. Join them at your "
 "own risk."
 msgstr ""
+"Ti projekti niso povezani s/z %1 in ne moremo jamčiti za njihovo varnostno "
+"prakso ali narave njihovih raziskav.  Uporabljajte jih na lastno "
+"odgovornost."
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr ""
+msgstr "Slovenian"
 
 msgid "LANG_NAME_NATIVE"
-msgstr ""
+msgstr "Slovenščina"
 
 msgid "Your message has been sent."
-msgstr ""
+msgstr "Vaše sporočilo je bilo poslano."
 
 msgid "You have no private messages."
-msgstr ""
+msgstr "Nimate zasebnih sporočil."
 
 msgid "Sender and date"
-msgstr ""
+msgstr "Pošiljatelj in datum"
 
 msgid "Reply"
-msgstr ""
+msgstr "Odgovor"
 
 msgid "Delete selected messages"
-msgstr ""
+msgstr "Briši izbrana sporočila"
 
 msgid "Sender"
-msgstr ""
+msgstr "Pošiljatelj"
 
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 msgid "You need to fill all fields to send a private message"
-msgstr ""
+msgstr "Da pošljete zasebno sporočilo, morate izpolniti vsa polja"
 
 msgid "Could not find user with id %1"
-msgstr ""
+msgstr "Ne najdem uporabnika z id %1"
 
 msgid "Could not find user with username %1"
-msgstr ""
+msgstr "Ne najdem uporabnika z uporabniškim imenom %1"
 
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr ""
+msgstr "%1 ni unikatno uporabniško ime; uporabiti boste morali ID uporabnika"
 
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr ""
+msgstr "Uporabnik %1 (ID: %2) ne sprejema vaših zasebnih sporočil."
 
 msgid "Really block %1?"
-msgstr ""
+msgstr "Zares blokirati %1?"
 
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
 msgstr ""
+"Ali ste res prepričani, da želite prepričiti uporabniku %1, da bi vam poslal "
+"zasebna sporočila?"
 
 msgid "Please note that you can only block a limited amount of users."
 msgstr ""
+"Prosim, imejte v mislih, da lahko blokirate le omejeno število uporabnikov."
 
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
 msgstr ""
+"Ko enkrat blokirate uporabnika, ga lahko odblokirate z uporabo strani z "
+"nastavitvami foruma."
 
 msgid "Add user to filter"
-msgstr ""
+msgstr "Dodaj uporabnika v filter"
 
 msgid "No, cancel"
-msgstr ""
+msgstr "Ne, prekliči"
 
 msgid "User %1 blocked"
-msgstr ""
+msgstr "Uporabnik %1 blokiran"
 
 msgid "User %1 has been blocked from sending you private messages."
-msgstr ""
+msgstr "Uporabniku %1 je preprečeno vam pošiljati zasebna sporočila."
 
 msgid "To unblock, visit %1message board preferences%2"
-msgstr ""
+msgstr "Da odblokirate, obiščite %1nastavitve razpravljalnice%2"
 
 msgid "Profiles"
-msgstr ""
+msgstr "Profili"
 
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
 msgstr ""
+"%1Profili%2 omogočajo posameznikom, da delijo svoje ozadje in mnenja s "
+"skupnostjo %3."
 
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
 msgstr ""
+"Raziščite raznolikost vaših kolegov in kolegic prostovoljcev in prispevajte "
+"vaše lastne poglede drugim v veselje."
 
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
 msgstr ""
+"Če še niste, lahko %1ustvarite vaš lasten uporabniški profil%2, da ga drugi "
+"vidijo!"
 
 msgid "User of the Day"
-msgstr ""
+msgstr "Uporabnik dneva"
 
 msgid "User Profile Explorer"
-msgstr ""
+msgstr "Raziskovalec uporabniških profilov"
 
 msgid "View the %1User Picture Gallery%2."
-msgstr ""
+msgstr "Poglejte %1Galerijo slik uporabnikov%2."
 
 msgid "Browse profiles %1by country%2."
-msgstr ""
+msgstr "Brskajte profile %1po državi%2."
 
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
+"Brskajte profile %1naključno%2, %3naključno s slikami%2 ali %4naključno brez "
+"slik%2."
 
 msgid "Alphabetical profile listings:"
-msgstr ""
+msgstr "Seznam profilov po abecedi:"
 
 msgid "Search profile text"
-msgstr ""
+msgstr "Iščite po besedilu profilov"
 
 msgid "No profiles"
-msgstr ""
+msgstr "Ni profilov"
 
 msgid "No profiles matched your query."
-msgstr ""
+msgstr "Ni profilov, ki bi se ujemali z vašim povpraševanjem."
 
 msgid "Invalid vote type:"
-msgstr ""
+msgstr "Neveljaven tip glasovnice:"
 
 msgid "Vote Recorded"
-msgstr ""
+msgstr "Glasovanje zabeleženo"
 
 msgid "Thank you"
-msgstr ""
+msgstr "Hvala"
 
 msgid "Your recommendation has been recorded."
-msgstr ""
+msgstr "Vaše priporočilo je bilo zabeleženo."
 
 msgid "Your vote to reject this profile has been recorded."
-msgstr ""
+msgstr "Vaš glas za zavrnitev tega profila je bil zabeležen."
 
 msgid "Return to profile."
-msgstr ""
+msgstr "Vrnite se na profil."
 
 msgid "This feature is turned off temporarily"
-msgstr ""
+msgstr "Ta možnost je začasno izklopljena"
 
 msgid "No computer with ID %1 found"
-msgstr ""
+msgstr "Ni bil najden računalnik z ID %1"
 
 msgid "Tasks for computer %1"
-msgstr ""
+msgstr "Opravila za računalnik %1"
 
 msgid "No access"
-msgstr ""
+msgstr "Ni dostopa"
 
 msgid "Missing user ID or host ID"
-msgstr ""
+msgstr "Manjka ID uporabnika ali ID gostitelja"
 
 msgid "User of the day"
-msgstr ""
+msgstr "Uporabnik dneva"
 
 msgid "Account data for %1"
-msgstr ""
+msgstr "Podatki o računu za %1"
 
 msgid "Statistics and leaderboards"
-msgstr ""
+msgstr "Statistika in lestvice"
 
 msgid "Statistics for %1"
-msgstr ""
+msgstr "Statistika za %1"
 
 msgid "Top participants"
-msgstr ""
+msgstr "Najboljši udeleženci"
 
 msgid "Top computers"
-msgstr ""
+msgstr "Najboljši računalniki"
 
 msgid "Top teams"
-msgstr ""
+msgstr "Najboljše ekipe"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
+"Več podrobnejše statistike za %1 in druge na BOINC temelječe projekte je na "
+"voljo na večih spletnih straneh:"
 
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
-msgstr ""
+msgstr "Vaše trenutne statistike lahko dobite tudi v obliki \"slikovni podpis\":"
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
+"Dodatno lahko dobite vaše osebne statistike seštete po vseh BOINC projektih "
+"na večih straneh; glejte vašo %1domačo stran%2."
 
 msgid "%1 participants may form %2teams%3"
-msgstr ""
+msgstr "%1 udeležencev lahko ustvari %2ekipo%3"
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
+"Pripadate lahko le eni ekipi. Kdajkoli se lahko pridružite k ekipi ali jo "
+"zapustite."
 
 msgid "Each team has a %1founder%2 who may:"
-msgstr ""
+msgstr "Vsaka ekipa ima %1ustanovitelja%2, ki lahko:"
 
 msgid "access team members' email addresses"
-msgstr ""
+msgstr "dostopa do naslovov elektronske pošte članov ekipe"
 
 msgid "edit the team's name and description"
-msgstr ""
+msgstr "ureja ime ekipe in njen opis"
 
 msgid "remove members from the team"
-msgstr ""
+msgstr "odstrani člane iz ekipe"
 
 msgid "disband a team if it has no members"
-msgstr ""
+msgstr "razpusti ekipo, če ta nima članov"
 
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+"Da se pridružite ekipi, obiščite spletno stran ekipe in kliknite %1Pridruži "
+"se tej ekipi%2."
 
 msgid "Find a team"
-msgstr ""
+msgstr "Poiščite ekipo"
 
 msgid "All teams"
-msgstr ""
+msgstr "Vse ekipe"
 
 msgid "%1 teams"
-msgstr ""
+msgstr "Ekipe %1"
 
 msgid "Create a new team"
-msgstr ""
+msgstr "Ustvari novo ekipo"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
-msgstr ""
+msgstr "Če ne najdete ekipe, pravšnje za vas, lahko %1ustvarite ekipo%2."
 
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "Izbrati morate ime ekipe, ki ni prazno"
 
 msgid "A team named %1 already exists - try another name"
-msgstr ""
+msgstr "Ekipa, imenovana %1, že obstaja - poskusite drugo ime"
 
 msgid "Could not create team - please try later."
-msgstr ""
+msgstr "Ekipe ni možno ustvariti - prosim, poskusite kasneje."
 
 msgid "Create a team"
-msgstr ""
+msgstr "Ustvari ekipo"
 
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
-msgstr ""
+msgstr "Pripadate k %1. Preden ustvarite novo, morate %2zapustiti to ekipo%3."
 
 msgid "Top hosts"
-msgstr ""
+msgstr "Najboljši gostitelji"
 
 msgid "Top %1 teams"
-msgstr ""
+msgstr "Najboljših %1 ekip"
 
 msgid "Participant since"
-msgstr ""
+msgstr "Udeleženec od"
 
 msgid "This user has no profile"
-msgstr ""
+msgstr "Ta uporabnik nima profila"
 
 msgid "Account data"
-msgstr ""
+msgstr "Podatki računa"
 
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
 "project, without giving the ability to log in to your account or to change "
 "it in any way."
 msgstr ""
+"Vaš 'šibki ključ računa' vam dovoli pripeti računalnike na vaš račun pri tem "
+"projektu, brez da bi se bilo možno prijaviti v račun ali ga kakorkoli "
+"spremeniti."
 
 msgid ""
 "This mechanism works only with projects that have upgraded their server "
 "software 7 Dec 2007 or later."
 msgstr ""
+"Ta mehanizem deluje le pri projektih, ki so posodobili programsko opremo na "
+"svojem strežniku na različico z datumom 7. december 2007 ali novejšo."
 
 msgid "Your weak account key for this project is:"
-msgstr ""
+msgstr "Vaš šibki uporabniški ključ za ta projekt je:"
 
 msgid ""
 "To use your weak account key on a given host, find or create the 'account "
 "file' for this project. This file has a name of the form "
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
+"Da na danem gostitelju uporabite vaš šibki ključ računa, poiščite ali "
+"ustvarite 'datoteko računov' za ta projekt. Ta datoteka ima obliko "
+"<b>račun_URL_PROJEKTA.xml</b>.Datoteka računov za %1 je <b>%2</b>."
 
 msgid "Create this file if needed. Set its contents to:"
-msgstr ""
+msgstr "Če je potrebno, ustvarite to datoteko. Njeno vsebino nastavite na:"
 
 msgid ""
 "Your weak account key is a function of your password. If you change your "
 "password, your weak account key changes, and your previous weak account key "
 "becomes invalid."
 msgstr ""
+"Vaš šibki ključ računa je funkcija vašega gesla. Če spremenite vaše geslo, "
+"se vaš šibki ključ računa spremeni in vaš prejšnji šibki ključ računa "
+"postane neveljaven."
