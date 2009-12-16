@@ -414,6 +414,7 @@ struct APP_VERSION {
     double max_ncpus;
     double ncudas;
     double natis;
+    double gpu_ram;
     double flops;
         /// additional cmdline args
     char cmdline[256];
@@ -607,6 +608,10 @@ struct RESULT {
         // keep track of coprocessor reservations
     char resources[256];
         // textual description of resources used
+    bool insufficient_video_ram();
+    double schedule_backoff;
+        // don't try to schedule until this time
+        // (wait for free video RAM)
 };
 
 /// represents an always/auto/never value, possibly temporarily overridden

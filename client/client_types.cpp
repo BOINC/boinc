@@ -1117,6 +1117,7 @@ int APP_VERSION::parse(MIOFILE& in) {
     max_ncpus = 1;
     ncudas = 0;
     natis = 0;
+    gpu_ram = 0;
     app = NULL;
     project = NULL;
     flops = gstate.host_info.p_fpops;
@@ -1136,6 +1137,7 @@ int APP_VERSION::parse(MIOFILE& in) {
         if (parse_double(buf, "<max_ncpus>", max_ncpus)) continue;
         if (parse_double(buf, "<flops>", flops)) continue;
         if (parse_str(buf, "<cmdline>", cmdline, sizeof(cmdline))) continue;
+        if (parse_double(buf, "<gpu_ram>", gpu_ram)) continue;
         if (match_tag(buf, "<coproc>")) {
             COPROC_REQ cp;
             int retval = cp.parse(in);
@@ -1210,6 +1212,12 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
             "        <count>%f</count>\n"
             "    </coproc>\n",
             natis
+        );
+    }
+    if (gpu_ram) {
+        out.printf(
+            "    <gpu_ram>%f</gpu_ram>\n",
+            gpu_ram
         );
     }
 
@@ -1512,6 +1520,7 @@ void RESULT::clear() {
     strcpy(plan_class, "");
     strcpy(resources, "");
     coproc_missing = false;
+    schedule_backoff = 0;
 }
 
 // parse a <result> element from scheduling server.
@@ -1892,6 +1901,48 @@ void RESULT::abort_inactive(int status) {
     if (state() >= RESULT_COMPUTE_ERROR) return;
     set_state(RESULT_ABORTED, "RESULT::abort_inactive");
     exit_status = status;
+}
+
+// return true if not enough video RAM on the allocated device.
+// This gets called only for coproc jobs without a process yet
+//
+bool RESULT::insufficient_video_ram() {
+    double available_ram;
+    int retval;
+
+    if (!avp->gpu_ram) return false;
+        // old schedulers don't report gpu RAM
+
+    if (avp->ncudas) {
+        retval = coproc_cuda->available_ram(
+            coproc_cuda->device_nums[coproc_indices[0]],
+            available_ram
+        );
+    } else if (avp->natis) {
+        retval = coproc_ati->available_ram(
+            coproc_ati->device_nums[coproc_indices[0]],
+            available_ram
+        );
+    } else {
+        return false;
+    }
+    if (retval) {
+        msg_printf(project, MSG_INFO,
+            "Can't get available GPU RAM: %d", retval
+        );
+        return false;   // benefit of the doubt
+    }
+    if (available_ram < avp->gpu_ram) {
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(project, MSG_INFO,
+                "[cpu_sched_debug] %s: insufficient GPU RAM (%.0fMB < %.0fMB)",
+                name,
+                available_ram/MEGA < avp->gpu_ram/MEGA
+            );
+        }
+        return true;
+    }
+    return false;
 }
 
 MODE::MODE() {
