@@ -766,14 +766,14 @@ void RSC_WORK_FETCH::update_short_term_debts() {
                 );
             }
             rpwf.short_term_debt += delta;
-            total_short_term_debt += rpwf.short_term_debt;
         }
+        total_short_term_debt += rpwf.short_term_debt;
     }
 
     //  normalize so mean is zero, and limit abs value to MAX_STD
     //
     if (nrprojects) {
-        double avg_short_term_debt = total_short_term_debt / nrprojects;
+        double avg_short_term_debt = total_short_term_debt / nprojects;
         for (i=0; i<gstate.projects.size(); i++) {
             p = gstate.projects[i];
             if (p->non_cpu_intensive) continue;
