@@ -9270,3 +9270,10 @@ David  11 Dec 2009
         work_fetch.cpp
     lib/
         coproc.h
+
+David  11 Dec 2009
+    - manager: add GPU always/auto/never menu items
+
+    clientgui
+        AdvancedFrame.cpp,h
+        Events.h

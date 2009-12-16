@@ -165,6 +165,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_WIZARDDETACH, CAdvancedFrame::OnWizardDetach)
     // Activity
     EVT_MENU_RANGE(ID_ADVACTIVITYRUNALWAYS, ID_ADVACTIVITYSUSPEND, CAdvancedFrame::OnActivitySelection)
+    EVT_MENU_RANGE(ID_ADVACTIVITYGPUALWAYS, ID_ADVACTIVITYGPUSUSPEND, CAdvancedFrame::OnGPUSelection)
     EVT_MENU_RANGE(ID_ADVNETWORKRUNALWAYS, ID_ADVNETWORKSUSPEND, CAdvancedFrame::OnNetworkSelection)
     // Advanced
     EVT_MENU(ID_OPTIONS, CAdvancedFrame::OnOptions)
@@ -447,6 +448,25 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
         _("&Suspend"),
         _("Stop work regardless of preferences")
     );
+    if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+        menuActivity->AppendSeparator();
+        menuActivity->AppendRadioItem(
+            ID_ADVACTIVITYGPUALWAYS,
+            _("Use GPU always"),
+            _("Allow GPU work regardless of preferences")
+        );
+        menuActivity->AppendRadioItem(
+            ID_ADVACTIVITYGPUBASEDONPREPERENCES,
+            _("Use GPU based on &preferences"),
+            _("Allow GPU work according to your preferences")
+        );
+        menuActivity->AppendRadioItem(
+            ID_ADVACTIVITYGPUSUSPEND,
+            _("Use GPU never"),
+            _("Stop GPU work regardless of preferences")
+        );
+    }
+
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
     menuActivity->AppendSeparator();
@@ -1153,6 +1173,25 @@ void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnActivitySelection - Function End"));
 }
 
+void CAdvancedFrame::OnGPUSelection(wxCommandEvent& event) {
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    switch(event.GetId()) {
+    case ID_ADVACTIVITYGPUALWAYS:
+        pDoc->SetGPURunMode(RUN_MODE_ALWAYS, 0);
+        break;
+    case ID_ADVACTIVITYGPUSUSPEND:
+        pDoc->SetGPURunMode(RUN_MODE_NEVER, 0);
+        break;
+    case ID_ADVACTIVITYGPUBASEDONPREPERENCES:
+        pDoc->SetGPURunMode(RUN_MODE_AUTO, 0);
+        break;
+    }
+}
+
 
 void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNetworkSelection - Function Begin"));
@@ -1779,6 +1818,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
                 CC_STATUS  status;
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetCoreClientStatus(status))) {
                     UpdateActivityModeControls(status);
+                    UpdateGPUModeControls(status);
                     UpdateNetworkModeControls(status);
 
                     if (status.disallow_attach) {
@@ -1909,6 +1949,26 @@ void CAdvancedFrame::UpdateActivityModeControls( CC_STATUS& status ) {
         pMenuBar->Check(ID_ADVACTIVITYSUSPEND, true);
     if (RUN_MODE_AUTO == status.task_mode)
         pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, true);
+}
+
+void CAdvancedFrame::UpdateGPUModeControls( CC_STATUS& status ) {
+    wxMenuBar* pMenuBar      = GetMenuBar();
+    wxASSERT(pMenuBar);
+    wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
+
+    if ((RUN_MODE_ALWAYS == status.gpu_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYGPUALWAYS)) return;
+    if ((RUN_MODE_NEVER == status.gpu_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYGPUSUSPEND)) return;
+    if ((RUN_MODE_AUTO == status.gpu_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYGPUBASEDONPREPERENCES)) return;
+
+    pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, false);
+    pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, false);
+    pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, false);
+    if (RUN_MODE_ALWAYS == status.gpu_mode)
+        pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, true);
+    if (RUN_MODE_NEVER == status.gpu_mode)
+        pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, true);
+    if (RUN_MODE_AUTO == status.gpu_mode)
+        pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, true);
 }
 
 

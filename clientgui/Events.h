@@ -70,6 +70,9 @@
 #define ID_ADVNETWORKRUNALWAYS                  6014
 #define ID_ADVNETWORKRUNBASEDONPREPERENCES      6015
 #define ID_ADVNETWORKSUSPEND                    6016
+#define ID_ADVACTIVITYGPUALWAYS                 6017
+#define ID_ADVACTIVITYGPUBASEDONPREPERENCES     6018
+#define ID_ADVACTIVITYGPUSUSPEND                6019
 
 // Advanced Menu
 #define ID_OPTIONS                              6017
