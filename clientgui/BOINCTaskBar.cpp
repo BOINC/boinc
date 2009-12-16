@@ -53,6 +53,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspendResume)
+    EVT_MENU(ID_TB_SUSPENDGPU, CTaskBarIcon::OnSuspendResumeGPU)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 
@@ -186,7 +187,7 @@ void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
 #ifdef __WXMSW__
         ::SetForegroundWindow((HWND)pFrame->GetHandle());
 #endif
-	}
+    }
 #ifdef __WXMAC__
     else {
         wxGetApp().ShowCurrentGUI();
@@ -609,6 +610,9 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     pMenu->AppendSeparator();
 
     pMenu->AppendCheckItem(ID_TB_SUSPEND, _("Snooze"), wxEmptyString);
+    if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+        pMenu->AppendCheckItem(ID_TB_SUSPEND_GPU, _("Snooze GPU"), wxEmptyString);
+    }
 
     pMenu->AppendSeparator();
 
@@ -690,21 +694,48 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     if (pDoc->WaitingForRPC()) return;
 
     pDoc->GetCoreClientStatus(status);
-    if (RUN_MODE_NEVER == status.task_mode) {
-        if (status.task_mode_perm == status.task_mode) {
+    switch (status.task_mode) {
+    case RUN_MODE_NEVER:
+        switch (status.task_mode_perm) {
+        case RUN_MODE_NEVER:
             pMenu->Check(ID_TB_SUSPEND, false);
             pMenu->Enable(ID_TB_SUSPEND, false);
-        } else {
+            break;
+        default:
             pMenu->Check(ID_TB_SUSPEND, true);
             if (!is_dialog_detected) {
-            pMenu->Enable(ID_TB_SUSPEND, true);
+                pMenu->Enable(ID_TB_SUSPEND, true);
             }
         }
-    } else {
+        pMenu->Check(ID_TB_SUSPEND_GPU, false);
+        pMenu->Enable(ID_TB_SUSPEND_GPU, false);
+        break;
+    default:
         pMenu->Check(ID_TB_SUSPEND, false);
-            if (!is_dialog_detected) {
-        pMenu->Enable(ID_TB_SUSPEND, true);
+        if (!is_dialog_detected) {
+            pMenu->Enable(ID_TB_SUSPEND, true);
+        }
+        switch (status.gpu_mode) {
+        case RUN_MODE_NEVER:
+            switch (status.gpu_mode_perm) {
+            case RUN_MODE_NEVER:
+                pMenu->Check(ID_TB_SUSPEND_GPU, false);
+                pMenu->Enable(ID_TB_SUSPEND_GPU, false);
+                break;
+            default:
+                pMenu->Check(ID_TB_SUSPEND_GPU, true);
+                if (!is_dialog_detected) {
+                    pMenu->Enable(ID_TB_SUSPEND_GPU, true);
+                }
             }
+            break;
+        default:
+            pMenu->Check(ID_TB_SUSPEND_GPU, false);
+            if (!is_dialog_detected) {
+                pMenu->Enable(ID_TB_SUSPEND_GPU, true);
+            }
+            break;
+        }
     }
 }
 

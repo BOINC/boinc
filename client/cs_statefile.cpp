@@ -422,6 +422,10 @@ int CLIENT_STATE::parse_state_file() {
             run_mode.set(retval, 0);
             continue;
         }
+        if (parse_int(buf, "<user_gpu_request>", retval)) {
+            gpu_mode.set(retval, 0);
+            continue;
+        }
         if (parse_int(buf, "<user_network_request>", retval)) {
             network_mode.set(retval, 0);
             continue;
@@ -686,6 +690,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<core_client_minor_version>%d</core_client_minor_version>\n"
         "<core_client_release>%d</core_client_release>\n"
         "<user_run_request>%d</user_run_request>\n"
+        "<user_gpu_request>%d</user_gpu_request>\n"
         "<user_network_request>%d</user_network_request>\n"
         "%s"
         "<new_version_check_time>%f</new_version_check_time>\n"
@@ -695,6 +700,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         core_client_version.minor,
         core_client_version.release,
         run_mode.get_perm(),
+        gpu_mode.get_perm(),
         network_mode.get_perm(),
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time,

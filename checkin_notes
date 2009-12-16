@@ -9198,3 +9198,17 @@ David  10 Dec 2009
 
     client/
         work_fetch.cpp
+
+David  10 Dec 2009
+    - client/manager: first whack at a "snooze GPU" button
+
+    client/
+        app.cpp,h
+        client_state.cpp,h
+        cpu_sched.cpp
+        cs_prefs.cpp
+        cs_statefile.cpp
+        gui_rpc_server_ops.cpp
+    clientgui/
+        BOINCTaskBar.cpp
+        Events.h

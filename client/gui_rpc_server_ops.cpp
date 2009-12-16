@@ -315,6 +315,26 @@ static void handle_set_run_mode(char* buf, MIOFILE& fout) {
     fout.printf("<success/>\n");
 }
 
+static void handle_set_gpu_mode(char* buf, MIOFILE& fout) {
+    double duration = 0;
+    int mode;
+    parse_double(buf, "<duration>", duration);
+    if (match_tag(buf, "<always")) {
+        mode = RUN_MODE_ALWAYS;
+    } else if (match_tag(buf, "<never")) {
+        mode = RUN_MODE_NEVER;
+    } else if (match_tag(buf, "<auto")) {
+        mode = RUN_MODE_AUTO;
+    } else if (match_tag(buf, "<restore")) {
+        mode = RUN_MODE_RESTORE;
+    } else {
+        fout.printf("<error>Missing mode</error>\n");
+        return;
+    }
+    gstate.gpu_mode.set(mode, duration);
+    fout.printf("<success/>\n");
+}
+
 static void handle_set_network_mode(char* buf, MIOFILE& fout) {
     double duration = 0;
     int mode;
@@ -578,10 +598,13 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         "   <task_suspend_reason>%d</task_suspend_reason>\n"
         "   <network_suspend_reason>%d</network_suspend_reason>\n"
         "   <task_mode>%d</task_mode>\n"
-        "   <network_mode>%d</network_mode>\n"
         "   <task_mode_perm>%d</task_mode_perm>\n"
-        "   <network_mode_perm>%d</network_mode_perm>\n"
         "   <task_mode_delay>%f</task_mode_delay>\n"
+        "   <gpu_mode>%d</gpu_mode>\n"
+        "   <gpu_mode_perm>%d</gpu_mode_perm>\n"
+        "   <gpu_mode_delay>%f</gpu_mode_delay>\n"
+        "   <network_mode>%d</network_mode>\n"
+        "   <network_mode_perm>%d</network_mode_perm>\n"
         "   <network_mode_delay>%f</network_mode_delay>\n"
         "   <disallow_attach>%d</disallow_attach>\n"
         "   <simple_gui_only>%ds</simple_gui_only>\n",
@@ -590,10 +613,13 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         gstate.suspend_reason,
         gstate.network_suspend_reason,
         gstate.run_mode.get_current(),
-        gstate.network_mode.get_current(),
         gstate.run_mode.get_perm(),
-        gstate.network_mode.get_perm(),
         gstate.run_mode.delay(),
+        gstate.gpu_mode.get_current(),
+        gstate.gpu_mode.get_perm(),
+        gstate.gpu_mode.delay(),
+        gstate.network_mode.get_current(),
+        gstate.network_mode.get_perm(),
         gstate.network_mode.delay(),
         config.disallow_attach?1:0,
         config.simple_gui_only?1:0
@@ -1206,6 +1232,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_project_op(request_msg, mf, "resume");
     } else if (match_req(request_msg, "set_run_mode")) {
         handle_set_run_mode(request_msg, mf);
+    } else if (match_req(request_msg, "set_gpu_mode")) {
+        handle_set_gpu_mode(request_msg, mf);
     } else if (match_req(request_msg, "quit")) {
         handle_quit(request_msg, mf);
     } else if (match_req(request_msg, "acct_mgr_info")) {
