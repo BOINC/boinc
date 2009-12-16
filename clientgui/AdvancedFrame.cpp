@@ -1818,7 +1818,9 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
                 CC_STATUS  status;
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetCoreClientStatus(status))) {
                     UpdateActivityModeControls(status);
-                    UpdateGPUModeControls(status);
+                    if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+                        UpdateGPUModeControls(status);
+                    }
                     UpdateNetworkModeControls(status);
 
                     if (status.disallow_attach) {
