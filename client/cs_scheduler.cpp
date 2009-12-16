@@ -854,13 +854,13 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             );
             if (coproc_cuda) {
                 msg_printf(project, MSG_INFO,
-                    "[sched_op_debug] estimated total NVIDIA CPU job duration: %.0f seconds",
+                    "[sched_op_debug] estimated total NVIDIA GPU job duration: %.0f seconds",
                     est_cuda_duration
                 );
             }
             if (coproc_ati) {
                 msg_printf(project, MSG_INFO,
-                    "[sched_op_debug] estimated total ATI CPU job duration: %.0f seconds",
+                    "[sched_op_debug] estimated total ATI GPU job duration: %.0f seconds",
                     est_ati_duration
                 );
             }

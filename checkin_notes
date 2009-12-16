@@ -9359,3 +9359,9 @@ David  14 Dec 2009
 		sandbox.h
 	lib/
 		filesys.h
+
+David  14 Dec 2009
+    - client: typo fix
+
+    client/
+        cs_scheduler.cpp
