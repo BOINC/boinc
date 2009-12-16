@@ -9371,3 +9371,32 @@ David  15 Dec 2009
 
     client/
         boinc_cmd.cpp
+
+Rom    16 Dec 2009
+    - Cleanup various warnings
+    - WINSCR: Implement new configuration dialog with new parameters
+    - WINSCR: Remove crufty code
+    - WINSCR: Update copyrights in resource files
+    
+    client/
+        app.cpp
+    clientscr/
+        boinc_ss.h
+        boinc_ss.rc
+        boinc_ss_opengl.h
+        boinc_ss_opengl.rc
+    clientscr/
+        screensaver.cpp, .h
+        screensaver_win.cpp, .h
+    lib/
+        common_defs.h
+        crypt.cpp
+        win_util.cpp
+    samples/worker/
+        worker.cpp
+    win_build/
+        boinc_ss.vcproj
+        multi_thread.vcproj
+        sleeper.vcproj
+        ss_app.vcproj
+        uc2_graphics.vcproj

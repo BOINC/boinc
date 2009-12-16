@@ -355,17 +355,19 @@ BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid)
       pace = (ACCESS_ALLOWED_ACE *)HeapAlloc(
             GetProcessHeap(),
             HEAP_ZERO_MEMORY,
-            sizeof(ACCESS_ALLOWED_ACE) + GetLengthSid(psid) -
-                  sizeof(DWORD));
+            sizeof(ACCESS_ALLOWED_ACE) + GetLengthSid(psid) - sizeof(DWORD)
+      );
 
       if (pace == NULL)
          throw;
 
       pace->Header.AceType  = ACCESS_ALLOWED_ACE_TYPE;
       pace->Header.AceFlags = CONTAINER_INHERIT_ACE |
-                   INHERIT_ONLY_ACE | OBJECT_INHERIT_ACE;
-      pace->Header.AceSize  = sizeof(ACCESS_ALLOWED_ACE) +
-                   GetLengthSid(psid) - sizeof(DWORD);
+                              INHERIT_ONLY_ACE |
+                              OBJECT_INHERIT_ACE;
+      pace->Header.AceSize  = (WORD)sizeof(ACCESS_ALLOWED_ACE) + 
+                              (WORD)GetLengthSid(psid) - 
+                              (WORD)sizeof(DWORD);
       pace->Mask            = GENERIC_ALL;
 
       if (!CopySid(GetLengthSid(psid), &pace->SidStart, psid))

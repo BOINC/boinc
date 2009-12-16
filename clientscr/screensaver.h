@@ -20,6 +20,7 @@
 #define __SCREENSAVER_H__
 
 // Default values, overriden by screensaver config file ss_config.xml
+#define GFX_BLANK_PERIOD 0     /* 0 minutes */
 #define GFX_DEFAULT_PERIOD 120 /* if default OpenGL screensaver exists, display it for 2 minutes */
 #define GFX_SCIENCE_PERIOD 600 /* Display various science graphics apps for 10 minutes */
 #define GFX_CHANGE_PERIOD 300  /* if > 1 CPUs, change screensaver every 5 minutes */
@@ -51,6 +52,7 @@ enum SS_PHASE {
 // The following are still used by the Mac:
 #define SCRAPPERR_BOINCSCREENSAVERLOADING                   0x82000008
 #define SCRAPPERR_SCREENSAVERBLANKED                        0x82000012
+
 // The following are new codes used by the Mac:
 #define SCRAPPERR_CANTLAUNCHDEFAULTGFXAPP                   0x82000014
 #define SCRAPPERR_DEFAULTGFXAPPCANTCONNECT                  0x82000015

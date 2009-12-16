@@ -8,8 +8,6 @@
 #define _SCREENSAVER_WIN_H
 
 
-#include <multimon.h>
-
 //-----------------------------------------------------------------------------
 // Constants
 //-----------------------------------------------------------------------------
@@ -123,8 +121,13 @@ protected:
     BOOL			m_bErrorMode;        // Whether to display an error
     HRESULT			m_hrError;           // Error code to display
     TCHAR			m_szError[400];      // Error message text
+
+    // Variables for configuration management
     DWORD           m_dwBlankScreen;
     DWORD           m_dwBlankTime;
+    DWORD           m_dwDefaultTime;
+    DWORD           m_dwRunTime;
+    DWORD           m_dwSwitchTime;
     std::string     m_strBOINCInstallDirectory;
     std::string     m_strBOINCDataDirectory;
 
@@ -225,6 +228,12 @@ protected:
 	void			DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, LONG yStart, COLORREF cTransparentColor);
 
 	LRESULT         SaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+
+    DWORD           ConvertSliderPositionToTime( DWORD dwPosition );
+    DWORD           ConvertTimeToSliderPosition( DWORD dwMinutes );
+    VOID            InitializeDefaultSlider( HWND hwndDlg, UINT uControl );
+    DWORD           GetSliderPosition( HWND hwndDlg, UINT uControl );
+    VOID            SetSliderPosition( HWND hwndDlg, UINT uControl, DWORD dwPosition );
 	INT_PTR         ConfigureDialogProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
     static LRESULT CALLBACK SaverProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
