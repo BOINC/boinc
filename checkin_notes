@@ -9299,3 +9299,27 @@ David  12 Dec 2009
 
     client/
         work_fetch.cpp
+
+David  12 Dec 2009
+    - API and client: add an API function boinc_temporary_exit(dt).
+        This exits the app with status zero and no finish file,
+        so the client will restart it.
+        It creates a file "temporary_exit" containing dt.
+        The (new) client reads this file and will postpone
+        scheduling the job again for dt seconds.
+        Old clients will treat it as a premature exit,
+        and potentially try to reschedule the job immediately.
+
+        This function is intended for GPU applications that
+        fail to allocate GPU RAM,
+        presumably because a non-GPU application has it allocated.
+        We don't want the job to fail,
+        and we want to wait for a while before trying the allocation again.
+
+    api/
+        boinc_api.cpp,h
+    client/
+        app.h
+        app_control.cpp
+    lib/
+        app_ipc.h

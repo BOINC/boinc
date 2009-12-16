@@ -214,6 +214,7 @@ public:
     double est_time_to_completion(bool for_work_fetch);
     bool read_stderr_file();
     bool finish_file_present();
+    bool temporary_exit_file_present(double&);
     bool supports_graphics();
     int write_app_init_file();
     int move_trickle_file();

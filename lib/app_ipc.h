@@ -215,6 +215,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 //
 #define INIT_DATA_FILE    "init_data.xml"
 #define BOINC_FINISH_CALLED_FILE "boinc_finish_called"
+#define TEMPORARY_EXIT_FILE "boinc_temporary_exit"
 #define TRICKLE_UP_FILENAME "trickle_up.xml"
 #define STDERR_FILE           "stderr.txt"
 #define STDOUT_FILE           "stdout.txt"
