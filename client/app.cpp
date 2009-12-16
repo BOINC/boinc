@@ -810,7 +810,7 @@ void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
 // if the last message in the buffer is "msg", remove it and return 1
 //
 int MSG_QUEUE::msg_queue_purge(const char* msg) {
-	int count = msgs.size();
+	int count = (int)msgs.size();
 	if (!count) return 0;
 	vector<string>::iterator iter = msgs.begin();
 	for (int i=0; i<count-1; i++) {

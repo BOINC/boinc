@@ -115,7 +115,7 @@ BEGIN
             VALUE "FileDescription", "GridRepublic Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2009 University of California"
+            VALUE "LegalCopyright", "© 2003-2010 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -150,7 +150,7 @@ BEGIN
             VALUE "FileDescription", "Progress Thru Processors Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2009 University of California"
+            VALUE "LegalCopyright", "© 2003-2010 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -185,7 +185,7 @@ BEGIN
             VALUE "FileDescription", "World Community Grid Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2009 University of California"
+            VALUE "LegalCopyright", "© 2003-2010 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -220,7 +220,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2009 University of California"
+            VALUE "LegalCopyright", "© 2003-2010 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -239,20 +239,227 @@ END
 // Dialog
 //
 
-DLG_CONFIG DIALOGEX 50, 50, 186, 76
-STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
-CAPTION "Config dialog"
+#if defined(_GRIDREPUBLIC)
+
+DLG_CONFIG DIALOGEX 50, 50, 249, 200
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "GridRepublic Screensaver Configuration"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,7,55,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,129,55,50,14
-    CONTROL         "Go to blank screen",IDC_BLANK,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,7,7,76,10
-    LTEXT           "Minutes until blank:",IDC_STATIC,7,31,62,8
-    EDITTEXT        IDC_BLANK_TIME,77,28,40,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,137,181,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,194,181,50,14
+    LTEXT           "Blank screensaver after:",IDC_STATIC,7,7,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_BLANKTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,20,220,15
+    CTEXT           "1",IDC_STATIC,20,36,8,8
+    CTEXT           "2",IDC_STATIC,44,36,8,8
+    CTEXT           "5",IDC_STATIC,70,36,8,8
+    CTEXT           "10",IDC_STATIC,95,36,8,8
+    CTEXT           "15",IDC_STATIC,121,36,8,8
+    CTEXT           "30",IDC_STATIC,146,36,8,8
+    CTEXT           "45",IDC_STATIC,171,36,8,8
+    CTEXT           "1hr",IDC_STATIC,194,36,10,8
+    CTEXT           "Never",IDC_STATIC,213,36,22,8
+    LTEXT           "Run GridRepublic screensaver for:",IDC_STATIC,7,49,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_DEFAULTTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,63,220,15
+    CTEXT           "1",IDC_STATIC,20,79,8,8
+    CTEXT           "2",IDC_STATIC,44,79,8,8
+    CTEXT           "5",IDC_STATIC,70,79,8,8
+    CTEXT           "10",IDC_STATIC,95,79,8,8
+    CTEXT           "15",IDC_STATIC,121,79,8,8
+    CTEXT           "30",IDC_STATIC,146,79,8,8
+    CTEXT           "45",IDC_STATIC,171,79,8,8
+    CTEXT           "1hr",IDC_STATIC,194,79,10,8
+    CTEXT           "Never",IDC_STATIC,213,79,22,8
+    LTEXT           "Run Application screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_RUNTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,106,220,15
+    CTEXT           "1",IDC_STATIC,20,122,8,8
+    CTEXT           "2",IDC_STATIC,44,122,8,8
+    CTEXT           "5",IDC_STATIC,70,122,8,8
+    CTEXT           "10",IDC_STATIC,95,122,8,8
+    CTEXT           "15",IDC_STATIC,121,122,8,8
+    CTEXT           "30",IDC_STATIC,146,122,8,8
+    CTEXT           "45",IDC_STATIC,171,122,8,8
+    CTEXT           "1hr",IDC_STATIC,194,122,10,8
+    CTEXT           "Never",IDC_STATIC,213,122,22,8
+    LTEXT           "Switch among Application screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_SWITCHTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,148,220,15
+    CTEXT           "1",IDC_STATIC,20,164,8,8
+    CTEXT           "2",IDC_STATIC,44,164,8,8
+    CTEXT           "5",IDC_STATIC,70,164,8,8
+    CTEXT           "10",IDC_STATIC,95,164,8,8
+    CTEXT           "15",IDC_STATIC,121,164,8,8
+    CTEXT           "30",IDC_STATIC,146,164,8,8
+    CTEXT           "45",IDC_STATIC,171,164,8,8
+    CTEXT           "1hr",IDC_STATIC,194,164,10,8
+    CTEXT           "Never",IDC_STATIC,213,164,22,8
 END
 
+#elif defined(_PROGRESSTHRUPROCESSORS)
+
+DLG_CONFIG DIALOGEX 50, 50, 249, 200
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Progress Thru Processors Screensaver Configuration"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,137,181,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,194,181,50,14
+    LTEXT           "Blank screensaver after:",IDC_STATIC,7,7,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_BLANKTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,20,220,15
+    CTEXT           "1",IDC_STATIC,20,36,8,8
+    CTEXT           "2",IDC_STATIC,44,36,8,8
+    CTEXT           "5",IDC_STATIC,70,36,8,8
+    CTEXT           "10",IDC_STATIC,95,36,8,8
+    CTEXT           "15",IDC_STATIC,121,36,8,8
+    CTEXT           "30",IDC_STATIC,146,36,8,8
+    CTEXT           "45",IDC_STATIC,171,36,8,8
+    CTEXT           "1hr",IDC_STATIC,194,36,10,8
+    CTEXT           "Never",IDC_STATIC,213,36,22,8
+    LTEXT           "Run Progress Thru Processors screensaver for:",IDC_STATIC,7,49,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_DEFAULTTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,63,220,15
+    CTEXT           "1",IDC_STATIC,20,79,8,8
+    CTEXT           "2",IDC_STATIC,44,79,8,8
+    CTEXT           "5",IDC_STATIC,70,79,8,8
+    CTEXT           "10",IDC_STATIC,95,79,8,8
+    CTEXT           "15",IDC_STATIC,121,79,8,8
+    CTEXT           "30",IDC_STATIC,146,79,8,8
+    CTEXT           "45",IDC_STATIC,171,79,8,8
+    CTEXT           "1hr",IDC_STATIC,194,79,10,8
+    CTEXT           "Never",IDC_STATIC,213,79,22,8
+    LTEXT           "Run Application screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_RUNTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,106,220,15
+    CTEXT           "1",IDC_STATIC,20,122,8,8
+    CTEXT           "2",IDC_STATIC,44,122,8,8
+    CTEXT           "5",IDC_STATIC,70,122,8,8
+    CTEXT           "10",IDC_STATIC,95,122,8,8
+    CTEXT           "15",IDC_STATIC,121,122,8,8
+    CTEXT           "30",IDC_STATIC,146,122,8,8
+    CTEXT           "45",IDC_STATIC,171,122,8,8
+    CTEXT           "1hr",IDC_STATIC,194,122,10,8
+    CTEXT           "Never",IDC_STATIC,213,122,22,8
+    LTEXT           "Switch among Application screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_SWITCHTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,148,220,15
+    CTEXT           "1",IDC_STATIC,20,164,8,8
+    CTEXT           "2",IDC_STATIC,44,164,8,8
+    CTEXT           "5",IDC_STATIC,70,164,8,8
+    CTEXT           "10",IDC_STATIC,95,164,8,8
+    CTEXT           "15",IDC_STATIC,121,164,8,8
+    CTEXT           "30",IDC_STATIC,146,164,8,8
+    CTEXT           "45",IDC_STATIC,171,164,8,8
+    CTEXT           "1hr",IDC_STATIC,194,164,10,8
+    CTEXT           "Never",IDC_STATIC,213,164,22,8
+END
+
+#elif defined(_WCG)
+
+DLG_CONFIG DIALOGEX 50, 50, 249, 200
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "World Community Grid Screensaver Configuration"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,137,181,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,194,181,50,14
+    LTEXT           "Blank screensaver after:",IDC_STATIC,7,7,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_BLANKTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,20,220,15
+    CTEXT           "1",IDC_STATIC,20,36,8,8
+    CTEXT           "2",IDC_STATIC,44,36,8,8
+    CTEXT           "5",IDC_STATIC,70,36,8,8
+    CTEXT           "10",IDC_STATIC,95,36,8,8
+    CTEXT           "15",IDC_STATIC,121,36,8,8
+    CTEXT           "30",IDC_STATIC,146,36,8,8
+    CTEXT           "45",IDC_STATIC,171,36,8,8
+    CTEXT           "1hr",IDC_STATIC,194,36,10,8
+    CTEXT           "Never",IDC_STATIC,213,36,22,8
+    LTEXT           "Run World Community Grid screensaver for:",IDC_STATIC,7,49,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_DEFAULTTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,63,220,15
+    CTEXT           "1",IDC_STATIC,20,79,8,8
+    CTEXT           "2",IDC_STATIC,44,79,8,8
+    CTEXT           "5",IDC_STATIC,70,79,8,8
+    CTEXT           "10",IDC_STATIC,95,79,8,8
+    CTEXT           "15",IDC_STATIC,121,79,8,8
+    CTEXT           "30",IDC_STATIC,146,79,8,8
+    CTEXT           "45",IDC_STATIC,171,79,8,8
+    CTEXT           "1hr",IDC_STATIC,194,79,10,8
+    CTEXT           "Never",IDC_STATIC,213,79,22,8
+    LTEXT           "Run Application screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_RUNTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,106,220,15
+    CTEXT           "1",IDC_STATIC,20,122,8,8
+    CTEXT           "2",IDC_STATIC,44,122,8,8
+    CTEXT           "5",IDC_STATIC,70,122,8,8
+    CTEXT           "10",IDC_STATIC,95,122,8,8
+    CTEXT           "15",IDC_STATIC,121,122,8,8
+    CTEXT           "30",IDC_STATIC,146,122,8,8
+    CTEXT           "45",IDC_STATIC,171,122,8,8
+    CTEXT           "1hr",IDC_STATIC,194,122,10,8
+    CTEXT           "Never",IDC_STATIC,213,122,22,8
+    LTEXT           "Switch among Application screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_SWITCHTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,148,220,15
+    CTEXT           "1",IDC_STATIC,20,164,8,8
+    CTEXT           "2",IDC_STATIC,44,164,8,8
+    CTEXT           "5",IDC_STATIC,70,164,8,8
+    CTEXT           "10",IDC_STATIC,95,164,8,8
+    CTEXT           "15",IDC_STATIC,121,164,8,8
+    CTEXT           "30",IDC_STATIC,146,164,8,8
+    CTEXT           "45",IDC_STATIC,171,164,8,8
+    CTEXT           "1hr",IDC_STATIC,194,164,10,8
+    CTEXT           "Never",IDC_STATIC,213,164,22,8
+END
+
+#else
+
+DLG_CONFIG DIALOGEX 50, 50, 249, 200
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "BOINC Screensaver Configuration"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,137,181,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,194,181,50,14
+    LTEXT           "Blank screensaver after:",IDC_STATIC,7,7,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_BLANKTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,20,220,15
+    CTEXT           "1",IDC_STATIC,20,36,8,8
+    CTEXT           "2",IDC_STATIC,44,36,8,8
+    CTEXT           "5",IDC_STATIC,70,36,8,8
+    CTEXT           "10",IDC_STATIC,95,36,8,8
+    CTEXT           "15",IDC_STATIC,121,36,8,8
+    CTEXT           "30",IDC_STATIC,146,36,8,8
+    CTEXT           "45",IDC_STATIC,171,36,8,8
+    CTEXT           "1hr",IDC_STATIC,194,36,10,8
+    CTEXT           "Never",IDC_STATIC,213,36,22,8
+    LTEXT           "Run BOINC screensaver for:",IDC_STATIC,7,49,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_DEFAULTTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,63,220,15
+    CTEXT           "1",IDC_STATIC,20,79,8,8
+    CTEXT           "2",IDC_STATIC,44,79,8,8
+    CTEXT           "5",IDC_STATIC,70,79,8,8
+    CTEXT           "10",IDC_STATIC,95,79,8,8
+    CTEXT           "15",IDC_STATIC,121,79,8,8
+    CTEXT           "30",IDC_STATIC,146,79,8,8
+    CTEXT           "45",IDC_STATIC,171,79,8,8
+    CTEXT           "1hr",IDC_STATIC,194,79,10,8
+    CTEXT           "Never",IDC_STATIC,213,79,22,8
+    LTEXT           "Run Application screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_RUNTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,106,220,15
+    CTEXT           "1",IDC_STATIC,20,122,8,8
+    CTEXT           "2",IDC_STATIC,44,122,8,8
+    CTEXT           "5",IDC_STATIC,70,122,8,8
+    CTEXT           "10",IDC_STATIC,95,122,8,8
+    CTEXT           "15",IDC_STATIC,121,122,8,8
+    CTEXT           "30",IDC_STATIC,146,122,8,8
+    CTEXT           "45",IDC_STATIC,171,122,8,8
+    CTEXT           "1hr",IDC_STATIC,194,122,10,8
+    CTEXT           "Never",IDC_STATIC,213,122,22,8
+    LTEXT           "Switch among Application screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDER_SWITCHTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,148,220,15
+    CTEXT           "1",IDC_STATIC,20,164,8,8
+    CTEXT           "2",IDC_STATIC,44,164,8,8
+    CTEXT           "5",IDC_STATIC,70,164,8,8
+    CTEXT           "10",IDC_STATIC,95,164,8,8
+    CTEXT           "15",IDC_STATIC,121,164,8,8
+    CTEXT           "30",IDC_STATIC,146,164,8,8
+    CTEXT           "45",IDC_STATIC,171,164,8,8
+    CTEXT           "1hr",IDC_STATIC,194,164,10,8
+    CTEXT           "Never",IDC_STATIC,213,164,22,8
+END
+
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 //

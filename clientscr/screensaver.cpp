@@ -681,7 +681,7 @@ void *CScreensaver::DataManagementProc()
                 // Is the current graphics app's associated task still running?
                 
                 if ((m_hGraphicsApplication) || (graphics_app_result_ptr)) {
-                    iResultCount = results.results.size();
+                    iResultCount = (int)results.results.size();
                     graphics_app_result_ptr = NULL;
 
                     // Find the current task in the new results vector (if it still exists)

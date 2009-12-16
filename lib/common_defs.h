@@ -182,20 +182,14 @@ struct VERSION_INFO {
     bool greater_than(VERSION_INFO&);
 };
 
-#ifdef _WIN32
-#define RUN_MUTEX           "BoincSingleInstance"
-#define REG_BLANK_NAME      "Blank"
-#define REG_BLANK_TIME      "Blank Time"
-#define REG_STARTUP_NAME    "BOINC"
-#define CLIENT_AUTH_FILENAME    "client_auth.xml"
-#else
-#define LOCK_FILE_NAME      "lockfile"
-#endif
-
-#define GRAPHICS_APP_FILENAME "graphics_app"
-#define ASSIGNED_WU_STR "asgn"
+#define RUN_MUTEX                   "BoincSingleInstance"
+#define CLIENT_AUTH_FILENAME        "client_auth.xml"
+#define LOCK_FILE_NAME              "lockfile"
+#define GRAPHICS_APP_FILENAME       "graphics_app"
+#define ASSIGNED_WU_STR             "asgn"
 #define GUI_RPC_PASSWD_FILE         "gui_rpc_auth.cfg"
 #define SS_CONFIG_FILE              "ss_config.xml"
+
 #ifdef _WIN32
 #define DEFAULT_SS_EXECUTABLE       "boincscr.exe"
 #else

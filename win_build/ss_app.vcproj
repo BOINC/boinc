@@ -65,6 +65,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4305;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
@@ -167,6 +168,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4305;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
@@ -265,6 +267,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				CompileAs="2"
+				DisableSpecificWarnings="4305;4244"
 				ForcedIncludeFiles=""
 			/>
 			<Tool
@@ -363,6 +366,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4305;4244"
 				ForcedIncludeFiles=""
 			/>
 			<Tool
@@ -461,6 +465,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				CompileAs="2"
+				DisableSpecificWarnings="4305;4244"
 				ForcedIncludeFiles=""
 			/>
 			<Tool
@@ -559,6 +564,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4305;4244"
 				ForcedIncludeFiles=""
 			/>
 			<Tool
@@ -660,6 +666,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4305;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
@@ -761,6 +768,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4305;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool

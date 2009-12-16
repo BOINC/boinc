@@ -129,8 +129,6 @@ bool startup_idle_monitor() {
                 0,
                 0
             );
-
-        _ASSERT( g_pSystemWideIdleData );
     }
 
     if( !bExists && g_pSystemWideIdleData )
@@ -200,8 +198,6 @@ bool attach_idle_monitor() {
                 0,
                 0
             );
-
-        _ASSERT( g_pSystemWideIdleData );
     }
 
     if( !bExists && g_pSystemWideIdleData )

@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
     fgets(buf, 256, stdin);
     fputs(buf, stdout);
 
-    int start = time(0);
+    int start = (int)time(0);
     int nsec = 10;
     if (argc > 1) nsec = atoi(argv[1]);
 

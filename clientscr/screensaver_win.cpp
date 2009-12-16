@@ -21,14 +21,6 @@
 //
 
 #include "boinc_win.h"
-
-#include <windowsx.h>
-#include <mmsystem.h>
-#include <regstr.h>
-#include <strsafe.h>
-#include <mmsystem.h>
-#define COMPILE_MULTIMON_STUBS
-
 #include "boinc_ss.h"
 #include "diagnostics.h"
 #include "common_defs.h"
@@ -37,17 +29,27 @@
 #include "screensaver.h"
 #include "screensaver_win.h"
 
-#ifdef _DEBUG
+#ifndef UNUSED
 #define UNUSED(x)
-#else
-#define UNUSED(x) x
 #endif
+
 
 static CScreensaver*            gspScreensaver = NULL;
 
 const UINT                      WM_SETTIMER = RegisterWindowMessage(TEXT("BOINCSetTimer"));
 const UINT                      WM_INTERRUPTSAVER = RegisterWindowMessage(TEXT("BOINCInterruptScreensaver"));
 const UINT                      WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
+
+
+#define REG_ENABLE_BLANK        _T("Blank")
+#define REG_BLANK_TIME          _T("Blank Time")
+#define REG_DEFAULT_TIME        _T("Default Time")
+#define REG_RUN_TIME            _T("Run Time")
+#define REG_SWITCH_TIME         _T("Switch Time")
+
+
+#define MAXSLIDERTIC            8     // Zero indexed arrays
+const DWORD                     dwTableSliderPositionToTime[] = {1, 2, 5, 10, 15, 30, 45, 60, 0};
 
 
 INT WINAPI WinMain(
@@ -57,8 +59,6 @@ INT WINAPI WinMain(
     CScreensaver BOINCSS;
     int          retval;
     WSADATA      wsdata;
-    DWORD        dwVal;
-    DWORD        dwSize = sizeof(dwVal); 
 
 
 #ifdef _DEBUG
@@ -82,6 +82,12 @@ INT WINAPI WinMain(
 
     // Initialize the CRT random number generator.
     srand((unsigned int)time(0));
+
+    // Initialize Windows Common Controls
+    INITCOMMONCONTROLSEX InitCtrls;
+    InitCtrls.dwSize = sizeof(InitCtrls);
+    InitCtrls.dwICC = ICC_WIN95_CLASSES;
+    InitCommonControlsEx(&InitCtrls);
 
     // Initialize the Windows sockets interface.
     retval = WSAStartup(MAKEWORD(1, 1), &wsdata);
@@ -180,40 +186,65 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
         
     // Retrieve the locations of the install directory and data directory
 	bReturnValue = UtilGetRegDirectoryStr(_T("DATADIR"), m_strBOINCDataDirectory);
-    BOINCTRACE("CScreensaver::Create - BOINC Data Directory '%s'\n", m_strBOINCDataDirectory.c_str());
 	bReturnValue = UtilGetRegDirectoryStr(_T("INSTALLDIR"), m_strBOINCInstallDirectory);
-    BOINCTRACE("CScreensaver::Create - BOINC Install Directory '%s'\n", m_strBOINCInstallDirectory.c_str());
 
 
-    // Retrieve the blank screen flag so we can determine if we are
-    // suppose to actually blank the screen at some point.
-	bReturnValue = UtilGetRegKey(REG_BLANK_NAME, m_dwBlankScreen);
-    BOINCTRACE("CScreensaver::Create - Get Reg Key REG_BLANK_NAME return value '%d'\n", bReturnValue);
-	if (!bReturnValue) m_dwBlankScreen = 0;
+    // Get the last set of saved values, if not set
+    // use the configuration file, if not set, use defaults.
+    // Normalize on Seconds...
+    if (!UtilGetRegKey(REG_ENABLE_BLANK, m_dwBlankScreen)) {
+        m_dwBlankScreen = 0;
+    }
+    if (!UtilGetRegKey(REG_BLANK_TIME, m_dwBlankTime)) {
+        m_dwBlankTime = GFX_BLANK_PERIOD;
+    } else {
+        // Registry stores minutes
+        m_dwBlankTime *= 60;
+    }
+    if (!UtilGetRegKey(REG_DEFAULT_TIME, m_dwDefaultTime)) {
+        m_dwDefaultTime = (DWORD)periods.GFXDefaultPeriod;
+    } else {
+        // Registry stores minutes
+        m_dwDefaultTime *= 60;
+    }
+    if (!UtilGetRegKey(REG_RUN_TIME, m_dwRunTime)) {
+        m_dwRunTime = (DWORD)periods.GFXSciencePeriod;
+    } else {
+        // Registry stores minutes
+        m_dwRunTime *= 60;
+    }
+    if (!UtilGetRegKey(REG_SWITCH_TIME, m_dwSwitchTime)) {
+        m_dwSwitchTime = (DWORD)periods.GFXChangePeriod;
+    } else {
+        // Registry stores minutes
+        m_dwSwitchTime *= 60;
+    }
 
-    // Retrieve the blank screen timeout
-	// make sure you check return value of registry queries
-	// in case the item in question doesn't happen to exist.
-	bReturnValue = UtilGetRegKey(REG_BLANK_TIME, m_dwBlankTime);
-    BOINCTRACE("CScreensaver::Create - Get Reg Key REG_BLANK_TIME return value '%d'\n", bReturnValue);
-	if (!bReturnValue) m_dwBlankTime = 5;
+    // Set the legacy value if needed
+    if (!m_dwBlankScreen) {
+        m_dwBlankTime = 0;
+    }
 
-//TODO: Update m_fGFXDefaultPeriod, m_fGFXSciencePeriod, m_fGFXChangePeriod from registry if present
-// Otherwise use values in periods struct returned from GetDefaultDisplayPeriods() call above.
+    // Convert values as stored into floating point values to be used
+    //   at runtime
+    m_fGFXDefaultPeriod = (double)m_dwDefaultTime;
+    m_fGFXSciencePeriod = (double)m_dwRunTime;
+    m_fGFXChangePeriod = (double)m_dwSwitchTime;
 
     // Save the value back to the registry in case this is the first
     // execution and so we need the default value later.
-	bReturnValue = UtilSetRegKey(REG_BLANK_NAME, m_dwBlankScreen);
-    BOINCTRACE("CScreensaver::Create - Set Reg Key REG_BLANK_NAME return value '%d'\n", bReturnValue);
-
-	bReturnValue = UtilSetRegKey(REG_BLANK_TIME, m_dwBlankTime);
-    BOINCTRACE("CScreensaver::Create - Set Reg Key REG_BLANK_TIME return value '%d'\n", bReturnValue);
+    // Store in minutes
+    UtilSetRegKey(REG_ENABLE_BLANK, m_dwBlankScreen);
+    UtilSetRegKey(REG_BLANK_TIME, m_dwBlankTime ? m_dwBlankTime / 60 : 0);
+    UtilSetRegKey(REG_DEFAULT_TIME, m_dwDefaultTime ? m_dwDefaultTime / 60 : 0);
+    UtilSetRegKey(REG_RUN_TIME, m_dwRunTime ? m_dwRunTime / 60 : 0);
+    UtilSetRegKey(REG_SWITCH_TIME, m_dwSwitchTime ? m_dwSwitchTime / 60 : 0);
 
 
     // Calculate the estimated blank time by adding the current time
-    //   and and the user specified time which is in minutes
+    //   and and the user specified time.
     if (m_dwBlankTime > 0) {
-        m_dwBlankTime = (DWORD)time(0) + (m_dwBlankTime * 60);
+        m_dwBlankTime = (DWORD)time(0) + m_dwBlankTime;
     }
     
     // Create the infrastructure mutexes so we can properly aquire them to report
@@ -482,8 +513,16 @@ VOID CScreensaver::EnumMonitors(VOID) {
 
             pMonitorInfoNew = &m_Monitors[m_dwNumMonitors];
             ZeroMemory(pMonitorInfoNew, sizeof(INTERNALMONITORINFO));
-            StringCchCopy(pMonitorInfoNew->strDeviceName, 128, dispdev.DeviceString);
-            StringCchCopy(pMonitorInfoNew->strMonitorName, 128, dispdev2.DeviceString);
+            strncpy(
+                pMonitorInfoNew->strDeviceName,
+                dispdev.DeviceString,
+                sizeof(pMonitorInfoNew->strDeviceName) * sizeof(TCHAR)
+            );
+            strncpy(
+                pMonitorInfoNew->strMonitorName,
+                dispdev2.DeviceString,
+                sizeof(pMonitorInfoNew->strMonitorName) * sizeof(TCHAR)
+            );
             
             if (dispdev.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) {
                 EnumDisplaySettings(dispdev.DeviceName, ENUM_CURRENT_SETTINGS, &devmode);
@@ -661,7 +700,7 @@ BOOL CScreensaver::GetError(
             hrError = m_hrError;
 
             if (NULL != pszError) {
-                StringCbCopyN(pszError, iErrorSize, m_szError, sizeof(m_szError) * sizeof(TCHAR));
+                strncpy(pszError, m_szError, iErrorSize);
             }
 
             bRetVal = TRUE;
@@ -744,19 +783,13 @@ BOOL CScreensaver::GetTextForError(
 ) {
     const DWORD dwErrorMap[][2] = {
     //  HRESULT, stringID
-        E_FAIL, IDS_ERR_GENERIC,
-        E_OUTOFMEMORY, IDS_ERR_OUTOFMEMORY,
+        (const DWORD)E_FAIL, IDS_ERR_GENERIC,
+        (const DWORD)E_OUTOFMEMORY, IDS_ERR_OUTOFMEMORY,
 		SCRAPPERR_NOPREVIEW, IDS_ERR_NOPREVIEW,
 		SCRAPPERR_BOINCSCREENSAVERLOADING, IDS_ERR_BOINCSCREENSAVERLOADING,
 		SCRAPPERR_BOINCSHUTDOWNEVENT, IDS_ERR_BOINCSHUTDOWNEVENT,
 		SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING, IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING,
-
         SCRAPPERR_BOINCNOTDETECTED, IDS_ERR_BOINCNOTDETECTED,
-		SCRAPPERR_BOINCSUSPENDED, IDS_ERR_BOINCSUSPENDED,
-		SCRAPPERR_BOINCNOAPPSEXECUTING, IDS_ERR_BOINCNOAPPSEXECUTING,
-        SCRAPPERR_BOINCNOPROJECTSDETECTED, IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED,
-		SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING, IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING,
-        SCRAPPERR_DAEMONALLOWSNOGRAPHICS, IDS_ERR_DAEMONALLOWSNOGRAPHICS
     };
     const DWORD dwErrorMapSize = sizeof(dwErrorMap) / sizeof(DWORD[2]);
 
@@ -1256,8 +1289,8 @@ LRESULT CScreensaver::SaverProc(
             if (m_SaverMode != sm_test) {
                 static INT xPrev = -1;
                 static INT yPrev = -1;
-                INT xCur = GET_X_LPARAM(lParam);
-                INT yCur = GET_Y_LPARAM(lParam);
+                INT xCur = LOWORD(lParam);
+                INT yCur = HIWORD(lParam);
                 if (xCur != xPrev || yCur != yPrev) {
                     xPrev = xCur;
                     yPrev = yCur;
@@ -1340,43 +1373,135 @@ LRESULT CScreensaver::SaverProc(
 
 
 
-INT_PTR CScreensaver::ConfigureDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM UNUSED(lParam)) {
-	DWORD screen_blank=0, blank_time=0;
-	char buf[256];
-	int retval;
+DWORD CScreensaver::ConvertSliderPositionToTime( DWORD dwPosition ) {
+    return dwTableSliderPositionToTime[dwPosition];
+}
 
-	switch (msg) {
-		case WM_INITDIALOG:
-			// make sure you check return value of registry queries
-			// in case the item in question doesn't happen to exist.
-			retval = UtilGetRegKey(REG_BLANK_NAME, screen_blank);
-			if (retval < 0) {
-                screen_blank=0;
+
+
+
+DWORD CScreensaver::ConvertTimeToSliderPosition( DWORD dwMinutes ) {
+    DWORD dwPosition = 0;
+    if (0 >= dwMinutes) {
+        dwPosition = MAXSLIDERTIC;     // Never
+    } else {
+        for (unsigned int i = 0; i <= MAXSLIDERTIC - 1; i++) {
+            if (dwTableSliderPositionToTime[i] <= dwMinutes) {
+                dwPosition = i;
             }
-			CheckDlgButton(hwnd, IDC_BLANK, screen_blank);
+        }
+    }
+    return dwPosition;
+}
 
-			retval = UtilGetRegKey(REG_BLANK_TIME, blank_time);
-			if (retval < 0) { blank_time=0; }
-			_ltot(blank_time, buf, 10);
-			SetDlgItemText(hwnd, IDC_BLANK_TIME, buf);
 
-			return TRUE;
-		case WM_COMMAND:
-			int id=LOWORD(wParam);
-			if (id==IDOK) {
 
-				screen_blank = (IsDlgButtonChecked(hwnd, IDC_BLANK) == BST_CHECKED);
-				UtilSetRegKey(REG_BLANK_NAME, screen_blank);
 
-				GetDlgItemText(hwnd, IDC_BLANK_TIME, buf, 256);
-				blank_time = atoi(buf);
-				UtilSetRegKey(REG_BLANK_TIME, blank_time);
+VOID CScreensaver::InitializeDefaultSlider( HWND hwndDlg, UINT uControl ) {
+    HWND hwndSlider = GetDlgItem(hwndDlg, uControl);
+    if (hwndSlider) {
+        SendMessage(hwndSlider, TBM_SETRANGE, TRUE, MAKELONG(0, MAXSLIDERTIC));
+        SendMessage(hwndSlider, TBM_SETLINESIZE, 0, 1);
+        SendMessage(hwndSlider, TBM_SETPAGESIZE, 0, 1);
+    }
+}
 
-			}
-			if (id == IDOK || id == IDCANCEL) {
-				EndDialog(hwnd, id);
+
+
+
+DWORD CScreensaver::GetSliderPosition( HWND hwndDlg, UINT uControl ) {
+    HWND hwndSlider = GetDlgItem(hwndDlg, uControl);
+    if (hwndSlider) {
+        return SendMessage(hwndSlider, TBM_GETPOS, 0, 0);
+    }
+    return 0;
+}
+
+
+
+
+VOID CScreensaver::SetSliderPosition( HWND hwndDlg, UINT uControl, DWORD dwPosition ) {
+    HWND hwndSlider = GetDlgItem(hwndDlg, uControl);
+    if (hwndSlider) {
+        SendMessage(hwndSlider, TBM_SETPOS, TRUE, dwPosition);
+    }
+}
+
+
+
+
+INT_PTR CScreensaver::ConfigureDialogProc(
+    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM UNUSED(lParam)
+){
+    DWORD dwEnableBlankTime = 0;
+    DWORD dwBlankTime = 0;
+    DWORD dwDefaultTime = 0;
+    DWORD dwRunTime = 0;
+    DWORD dwSwitchTime = 0;
+
+	switch (uMsg) {
+    case WM_INITDIALOG:
+        // Initialize slider controls
+        InitializeDefaultSlider(hWnd, IDC_SLIDER_BLANKTIME);
+        InitializeDefaultSlider(hWnd, IDC_SLIDER_DEFAULTTIME);
+        InitializeDefaultSlider(hWnd, IDC_SLIDER_RUNTIME);
+        InitializeDefaultSlider(hWnd, IDC_SLIDER_SWITCHTIME);
+
+        // Get the last set of saved values, if nothing is set
+        // use defaults.
+        if (!UtilGetRegKey(REG_ENABLE_BLANK, dwEnableBlankTime)) {
+            dwEnableBlankTime = 0;
+        }
+        if (!UtilGetRegKey(REG_BLANK_TIME, dwBlankTime)) {
+            dwBlankTime = GFX_BLANK_PERIOD ? GFX_BLANK_PERIOD / 60 : 0;
+        }
+        if (!UtilGetRegKey(REG_DEFAULT_TIME, dwDefaultTime)) {
+            dwDefaultTime = GFX_DEFAULT_PERIOD ? GFX_DEFAULT_PERIOD / 60 : 0;
+        }
+        if (!UtilGetRegKey(REG_RUN_TIME, dwRunTime)) {
+            dwRunTime = GFX_SCIENCE_PERIOD ? GFX_SCIENCE_PERIOD / 60 : 0;
+        }
+        if (!UtilGetRegKey(REG_SWITCH_TIME, dwSwitchTime)) {
+            dwSwitchTime = GFX_CHANGE_PERIOD ? GFX_CHANGE_PERIOD / 60 : 0;
+        }
+
+        // Set the legacy value if needed
+        if (!dwEnableBlankTime) {
+            dwBlankTime = 0;
+        }
+
+        // Update Slider Controls with previously saved values
+        SetSliderPosition(hWnd, IDC_SLIDER_BLANKTIME, ConvertTimeToSliderPosition(dwBlankTime));
+        SetSliderPosition(hWnd, IDC_SLIDER_DEFAULTTIME, ConvertTimeToSliderPosition(dwDefaultTime));
+        SetSliderPosition(hWnd, IDC_SLIDER_RUNTIME, ConvertTimeToSliderPosition(dwRunTime));
+        SetSliderPosition(hWnd, IDC_SLIDER_SWITCHTIME, ConvertTimeToSliderPosition(dwSwitchTime));
+
+        return TRUE;
+    case WM_COMMAND:
+        switch(LOWORD(wParam))
+        {
+        case IDOK:
+            dwBlankTime = ConvertSliderPositionToTime(GetSliderPosition(hWnd, IDC_SLIDER_BLANKTIME));
+            dwDefaultTime = ConvertSliderPositionToTime(GetSliderPosition(hWnd, IDC_SLIDER_DEFAULTTIME));
+            dwRunTime = ConvertSliderPositionToTime(GetSliderPosition(hWnd, IDC_SLIDER_RUNTIME));
+            dwSwitchTime = ConvertSliderPositionToTime(GetSliderPosition(hWnd, IDC_SLIDER_SWITCHTIME));
+
+            // Set the legacy value if needed
+            if (dwBlankTime) {
+                dwEnableBlankTime = 1;
             }
-			break;
+
+            UtilSetRegKey(REG_ENABLE_BLANK, dwEnableBlankTime);
+            UtilSetRegKey(REG_BLANK_TIME, dwBlankTime);
+            UtilSetRegKey(REG_DEFAULT_TIME, dwDefaultTime);
+            UtilSetRegKey(REG_RUN_TIME, dwRunTime);
+            UtilSetRegKey(REG_SWITCH_TIME, dwSwitchTime);
+
+            // Fall Through
+        case IDCANCEL:
+            EndDialog(hWnd, wParam);
+            return TRUE;
+        }
 	}
 	return FALSE;
 }
@@ -1589,7 +1714,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
 
 	static HBRUSH	hbrushBlack = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	static HBRUSH	hbrushRed = (HBRUSH)CreateSolidBrush(RGB(255,0,0));
-	static HBITMAP  hbmp = LoadBitmap(m_hInstance, MAKEINTRESOURCE(IDB_BOINCSPLAT));
+	static HBITMAP  hbmp = LoadBitmap(m_hInstance, MAKEINTRESOURCE(IDB_BOINC));
 
 
 	// Start off with a black screen and then draw on top of it.
@@ -1618,7 +1743,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
     // it. the bitmap is centered in the rectangle by adding 2
 	// to the left and top coordinates of the bitmap rectangle,
 	// and subtracting 4 from the right and bottom coordinates.
-    BITMAP     bm;
+    BITMAP bm;
     GetObject(hbmp, sizeof(BITMAP), (LPSTR)&bm);
 
 	long left = rc.left + (pMonitorInfo->widthError - 4 - bm.bmWidth)/2;
@@ -1630,13 +1755,25 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
 	SetTextColor(hdc, RGB(255,255,255));   // Red
    
 	// Set font
-	HFONT hf;
-    hf = CreateFont(0, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "Arial Narrow");
+	HFONT hFont;
+    hFont = CreateFont(
+        0,
+        0,
+        0,
+        0,
+        FW_DONTCARE,
+        FALSE,
+        FALSE,
+        0,
+        ANSI_CHARSET,
+        OUT_DEFAULT_PRECIS,
+        CLIP_DEFAULT_PRECIS,
+        DEFAULT_QUALITY,
+        DEFAULT_PITCH | FF_SWISS,
+        "Arial Narrow"
+    );
 	
-    if(hf)
-    {
-        SelectObject(hdc, hf);
-    }
+    if(hFont) SelectObject(hdc, hFont);
 
     // Try using the "Arial Narrow" font, if that fails use whatever
     // the system default font is.  Something is better than nothing.
@@ -1646,10 +1783,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
 	rc2.top += bm.bmHeight+20;
     DrawText(hdc, szError, -1, &rc2, DT_CENTER);
 
-    if(hf)
-    {
-        DeleteObject(hf);
-    }
+    if(hFont) DeleteObject(hFont);
 }
 
 
