@@ -77,7 +77,7 @@ foreach (array_reverse($project_news) as $item) {
     if (isset($item[2])) {
         $title = $item[2];
     } else {
-        $n = strpos($content, ".");
+        $n = strpos($content, ". ");
         if ($n) {
             $title = substr($content, 0, $n);
         } else {
