@@ -773,7 +773,7 @@ void CLIENT_STATE::schedule_cpus() {
         ordered_scheduled_results.push_back(rp);
     }
 
-    request_enforce_schedule("schedule_cpus");
+    request_enforce_schedule(NULL, "schedule_cpus");
 }
 
 static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
@@ -1251,6 +1251,7 @@ bool CLIENT_STATE::enforce_schedule() {
             if (!atp || !atp->process_exists()) {
                 if (rp->insufficient_video_ram()) {
                     rp->schedule_backoff = now + 300; // try again in 5 minutes
+                    request_schedule_cpus("insufficient GPU RAM");
                     continue;
                 }
             }
@@ -1461,7 +1462,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 "[cpu_sched_debug] coproc quit pending, deferring start"
             );
         }
-        request_enforce_schedule("coproc quit retry");
+        request_enforce_schedule(NULL, "coproc quit retry");
     }
     return action;
 }
@@ -1470,9 +1471,9 @@ bool CLIENT_STATE::enforce_schedule() {
 // Called when a new schedule is computed,
 // and when an app checkpoints.
 //
-void CLIENT_STATE::request_enforce_schedule(const char* where) {
+void CLIENT_STATE::request_enforce_schedule(PROJECT* p, const char* where) {
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Request enforce CPU schedule: %s", where);
+        msg_printf(p, MSG_INFO, "[cpu_sched_debug] Request enforce CPU schedule: %s", where);
     }
     must_enforce_cpu_schedule = true;
 }

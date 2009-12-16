@@ -47,7 +47,6 @@ extern "C" {
   extern int boinc_chown(const char*, gid_t);
 #endif
   extern int boinc_rmdir(const char*);
-  extern int remove_project_owned_file_or_dir(const char* path);
   extern void boinc_getcwd(char*);
   extern void relative_to_absolute(const char* relname, char* path);
   extern int boinc_make_dirs(char*, char*);
