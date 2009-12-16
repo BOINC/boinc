@@ -158,6 +158,7 @@ public:
 
     int parse(MIOFILE&);
     void print();
+    void print_disk_usage();
     void clear();
     void get_name(std::string&);
 
