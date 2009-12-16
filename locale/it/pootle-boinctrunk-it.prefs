@@ -7,3 +7,4 @@ rights:
   romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   mlincetto = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  baxnimis = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
