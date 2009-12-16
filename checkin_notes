@@ -9329,3 +9329,10 @@ Charlie 13 Dec 2009
     client/
         app_control.cpp
         client_types.cpp
+
+David  14 Dec 2009
+    - client: ATI: call calShutdown() when done.
+        Otherwise Lenovo can't switch to low-power GPU
+
+    client/
+        coproc_detect.cpp

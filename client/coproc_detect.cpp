@@ -721,6 +721,10 @@ void COPROC_ATI::get(COPROCS& coprocs,
     *ccp = best;
     strcpy(ccp->type, "ATI");
     coprocs.coprocs.push_back(ccp);
+
+    // shut down, otherwise Lenovo won't be able to switch to low-power GPU
+    //
+    retval = (*__calShutdown)();
 }
 
 void fake_ati(COPROCS& coprocs, int count) {
@@ -739,8 +743,12 @@ void fake_ati(COPROCS& coprocs, int count) {
 
 int COPROC_ATI::available_ram(int devnum, double& ar) {
     CALdevicestatus st;
-    int retval = (*__calDeviceGetStatus)(&st, devnum);
+    int retval;
+    retval = (*__calInit)();
+    if (retval) return retval;
+    retval = (*__calDeviceGetStatus)(&st, devnum);
     if (retval) return retval;
     ar = st.availLocalRAM*MEGA;
+    retval = (*__calShutdown)();
     return 0;
 }
