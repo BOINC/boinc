@@ -1016,17 +1016,18 @@ function show_post_moderation_links(
     }
 }
 
-function check_create_thread_access($user, $forum) {
+function user_can_create_thread($user, $forum) {
+    if (!$user) return false;
     if ($forum->is_dev_blog){
         if (
            (!$user->prefs->privilege(S_SCIENTIST)) &&
            (!$user->prefs->privilege(S_DEV)) &&
            (!$user->prefs->privilege(S_ADMIN))
         ) {
-            error_page("This forum is marked as a development blog, only people directly working with the project may start a new thread here. <br/>However, you may post a reply to an existing thread.");
+            return false;
         }
     }
-    check_post_access($user, $forum);
+    return true;
 }
 
 function check_post_access($user, $forum) {

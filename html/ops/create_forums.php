@@ -38,8 +38,8 @@ function create_category($orderID, $name, $is_helpdesk) {
     return mysql_insert_id();
 }
 
-function create_forum($category, $orderID, $title, $description) {
-    $q = "insert into forum (category, orderID, title, description) values ($category, $orderID, '$title', '$description')";
+function create_forum($category, $orderID, $title, $description, $is_dev_blog=0) {
+    $q = "insert into forum (category, orderID, title, description, is_dev_blog) values ($category, $orderID, '$title', '$description', $is_dev_blog)";
     $result = mysql_query($q);
     if (!$result) {
         echo "can't create forum\n";
@@ -52,9 +52,10 @@ function create_forum($category, $orderID, $title, $description) {
 db_init();
 
 $catid = create_category(0, "", 0);
-create_forum($catid, 0, "Science", "Discussion of this project\'s science");
-create_forum($catid, 1, "Number crunching", "Credit, leaderboards, CPU performance");
-create_forum($catid, 2, "Cafe", "Meet and greet other participants");
+create_forum($catid, 0, "News", "News from this project", 1);
+create_forum($catid, 1, "Science", "Discussion of this project\'s science");
+create_forum($catid, 2, "Number crunching", "Credit, leaderboards, CPU performance");
+create_forum($catid, 3, "Cafe", "Meet and greet other participants");
 
 $catid = create_category(0, "Platform-specific problems", 1);
 create_forum($catid, 0, "Windows", "Installing and running BOINC on Windows");

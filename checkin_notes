@@ -10146,3 +10146,46 @@ Rom    16 Dec 2009
         sleeper.vcproj
         ss_app.vcproj
         uc2_graphics.vcproj
+
+David  16 Dec 2009
+    - web: change the way project news is stored.
+        Old: in a flat file (html/project/project_news.inc)
+        New: in a forum (called "News" by default)
+        The script html/ops/news_convert.php copies news from
+        old to new format.
+        You'll also need to edit your index.php and use
+        "show_news(0, 5)" to show news.
+    - web: added a "message of the day" mechanism.
+        Edit html/user/motd.php to show a message.
+        This will be shown as the first news item,
+        but it's not archived (i.e., it's not a forum post)
+
+    html/
+        inc/
+            bbcode_convert.inc (new)
+            forum.inc
+            forum_db.inc
+            forum_rss.inc (new);
+            news.inc
+        ops/
+            bbcode_convert.php
+            bbcode_convert_response1.php
+            bbcode_convert_response2.php
+            bbcode_convert_signature.php
+            news_convert.php (new)
+            create_forums.php
+        project_sample/
+            project_news.inc (removed)
+        user/
+            all_news.php
+            forum_forum.php
+            forum_post.php
+            old_news.php
+            rss_main.php (new)
+            sample_index.php
+            sample_motd.php (new)
+            sample_rss_main.php (removed)
+    py/Boinc/
+        setup_project.py
+    tools/
+        upgrade

@@ -321,6 +321,8 @@ def install_boinc_files(dest_dir, web_only):
     install_glob(srcdir('html/user/*.png'), dir('html/user/img'))
     install_glob(srcdir('html/user/*.gif'), dir('html/user/img'))
     install_glob(srcdir('html/user/img/*.*'), dir('html/user/img'))
+    if not os.path.exists(dir('html/user/motd.php')):
+        shutil.copy(srcdir('html/user/sample_motd.php'), dir('html/user/motd.php'))
     os.system("rm -f "+dir('html/languages/translations/*'))
     install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
 
@@ -491,8 +493,6 @@ class Project:
             self.dir('html/project/project_news.inc'))
         install(srcdir('html/project.sample/cache_parameters.inc'),
             self.dir('html/project/cache_parameters.inc'))
-        install(srcdir('html/user', 'sample_rss_main.php'),
-            self.dir('html/user/rss_main.php'))
         install(srcdir('html/ops', 'sample_server_status.php'),
             self.dir('html/user/server_status.php'))
         install(srcdir('tools/project.xml'), self.dir('project.xml'))

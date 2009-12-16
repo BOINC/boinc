@@ -18,85 +18,14 @@
 
 $cli_only = true;
 require_once("../inc/util_ops.inc");
-require_once('../inc/sanitize_html.inc');
+require_once('../inc/bbcode_convert.inc');
 
 db_init();
 
 set_time_limit(0);
 
-function image_as_bb($text){
-    // This function depends on sanitized HTML
-
-    $pattern = '@<img(.*) src=\"([^>^"]+)\"([^>]*)>@si';
-    $replacement = '[img]$2[/img]';
-    $text = preg_replace($pattern, $replacement, $text);
-
-    $pattern = "@<img(.*) src='([^>^']+)'([^>]*)>@si";
-    $replacement = '[img]$2[/img]';
-    $text = preg_replace($pattern, $replacement, $text);
-
-    return $text;
-}
-
-function link_as_bb($text){
-        /* This function depends on sanitized HTML */
-    // Build some regex (should be a *lot* faster)
-    $pattern = '@<a href=\"([^>]+)\">@si'; // Gives us the URL in $1...
-    $replacement = '[url=$1]'; // Turns that URL into a hyperlink
-    $text = preg_replace($pattern, $replacement, $text);
-    $pattern = "@<a href='([^>]+)'>@si"; // Gives us the URL in $1...
-    $replacement = '[url=$1]'; // Turns that URL into a hyperlink
-    $text = preg_replace($pattern, $replacement, $text);
-
-    $pattern = "@</a>@si";
-    $replacement = '[/url]';
-    $text = preg_replace($pattern, $replacement, $text);
-    return $text;
-}
-
-function formatting_as_bb($text){
-        /* This function depends on sanitized HTML */
-    $in[]="<b>";$out[]="[b]";
-    $in[]="</b>";$out[]="[/b]";
-
-    $in[]="<i>";$out[]="[i]";
-    $in[]="</i>";$out[]="[/i]";
-
-    $in[]="<u>";$out[]="[u]";
-    $in[]="</u>";$out[]="[/u]";
-
-    $in[]="<b>";$out[]="[b]";
-    $in[]="</b>";$out[]="[/b]";
-
-    $in[]="<ul>";$out[]="[list]";
-    $in[]="</ul>";$out[]="[/list]";
-
-    $in[]="<ol>";$out[]="[list=1]";
-    $in[]="</ol>";$out[]="[/list]";
-
-    $in[]="<pre>";$out[]="[pre]";
-    $in[]="</pre>";$out[]="[/pre]";
-
-    $in[]="</br>";$out[]="\n";
-    $in[]="<br/>";$out[]="\n";
-    $in[]="<br>";$out[]="\n";
-    $in[]="&gt;";$out[]=">";
-    $in[]="&lt;";$out[]="<";
-    $in[]="&amp;";$out[]="&";
-
-    return str_replace($in, $out, $text);
-}
-
-function fix_text($text) {
-    $text = sanitize_html($text);    
-    $text = image_as_bb($text);
-    $text = link_as_bb($text);
-    $text = formatting_as_bb($text);
-    return $text;
-}
-
 function fix_profile($profile) {
-    $text = fix_text($profile->response1);
+    $text = html_to_bbcode($profile->response1);
     if ($text != $profile->response1) {
         $query = "update profile set response1 = '".mysql_escape_string($text)."' where userid=".$profile->userid;
         //echo "$profile->response1\n\n";

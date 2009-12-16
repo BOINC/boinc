@@ -87,7 +87,11 @@ echo '
     <td colspan=2>
 ';
 
-show_button("forum_post.php?id=$id", "New thread", "Add a new thread to this forum");
+if (user_can_create_thread($user, $forum)) {
+    show_button(
+        "forum_post.php?id=$id", "New thread", "Add a new thread to this forum"
+    );
+}
 
 echo "</td>
     <td valign=top align=\"right\">

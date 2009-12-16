@@ -87,5 +87,12 @@ except:
 
 os.system('cd '+INSTALL_DIR+'/html/ops; ./upgrade_db.php')
 
+if os.path.exists(INSTALL_DIR+'/html/project/project_news.inc'):
+    print '''\
+
+html/project/project_news.inc is deprecated.
+Run html/ops/news_convert.php to convert project news to forum format.
+'''
+
 if not options.web_only:
     print "Run `bin/start' to restart the project."

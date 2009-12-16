@@ -23,6 +23,10 @@ class BoincCategory {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'category', 'BoincCategory');
     }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('category', 'BoincCategory', $clause);
+    }
     static function enum($clause=null) {
         $db = BoincDb::get();
         return $db->enum('category', 'BoincCategory', $clause);

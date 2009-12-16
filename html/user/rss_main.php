@@ -16,13 +16,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/util.inc");
-require_once("../inc/news.inc");
+require_once("../project/project.inc");
+require_once("../inc/forum_rss.inc");
 
-page_head("News archive");
+if (defined("NEWS_FORUM_NAME")) {
+    $forum_name = NEWS_FORUM_NAME;
+} else {
+    $forum_name = "News";
+}
+$forum = BoincForum::lookup("parent_type=0 and title = '$forum_name'");
+if (!$forum) {
+    exit;
+}
 
-show_old_news(0, 0);
-
-page_tail();
-
+forum_rss($forum->id, 0, 0, 1, 9999);
 ?>

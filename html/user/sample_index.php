@@ -25,8 +25,6 @@ require_once("../inc/sanitize_html.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/text_transform.inc");
 require_once("../project/project.inc");
-require_once("../project/project_news.inc");
-
 
 function show_nav() {
     $config = get_config();
@@ -145,14 +143,9 @@ echo "
     <h2>News</h2>
     <p>
 ";
-show_news($project_news, 5);
-if (count($project_news) > 5) {
-    echo "<a href=\"old_news.php\">...more</a>";
-}
+include("motd.php");
+show_news(0, 5);
 echo "
-    <p class=\"smalltext\">
-    News is available as an
-    <a href=\"rss_main.php\">RSS feed</a> <img src=\"img/rss_icon.gif\" alt=\"RSS\">.</p>
     </td>
     </tr></table>
 ";
