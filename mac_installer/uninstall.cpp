@@ -359,10 +359,17 @@ static OSStatus CleanupAllVisibleUsers(void)
     DIR                 *dirp;
     dirent              *dp;
     passwd              *pw;
-    uid_t               saved_uid;
+    uid_t               saved_uid, saved_euid;
     char                s[1024];
     FILE                *f;
+    long                OSVersion = 0;
+    OSStatus            err;
     Boolean             changeSaver;
+
+    err = Gestalt(gestaltSystemVersion, &OSVersion);
+    if (err != noErr) {
+        OSVersion = 0;
+    }
 
     dirp = opendir("/Users");
     if (dirp == NULL) {      // Should never happen
@@ -370,6 +377,9 @@ static OSStatus CleanupAllVisibleUsers(void)
         return -1;
     }
     
+    saved_uid = getuid();
+    saved_euid = geteuid();
+
     while (true) {
         dp = readdir(dirp);
         if (dp == NULL)
@@ -393,7 +403,9 @@ static OSStatus CleanupAllVisibleUsers(void)
 //    ShowMessage(false, "Before seteuid(%d) for user %s, euid = %d", pw->pw_uid, dp->d_name, geteuid());
 #endif
         
-        saved_uid = geteuid();
+        if (OSVersion >= 0x1060) {
+            setuid(0);
+        }
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
 
         DeleteLoginItem();                          // Delete our login item(s) for this user
@@ -404,24 +416,44 @@ static OSStatus CleanupAllVisibleUsers(void)
         //  Set screensaver to "Computer Name" default screensaver only 
         //  if it was BOINC, GridRepublic or Progress Thru Processors.
         changeSaver = false;
+        if (OSVersion < 0x1060) {
         f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
+        } else {
+            sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
+                    dp->d_name); 
+            f = popen(s, "r");
+        }
         if (f) {
-            PersistentFGets(s, sizeof(s), f);
-            if (strstr(s, "BOINCSaver"))
+            while (PersistentFGets(s, sizeof(s), f)) {
+                if (strstr(s, "BOINCSaver")) {
                 changeSaver = true;
-            if (strstr(s, "GridRepublic"))
+                    break;
+                }
+                if (strstr(s, "GridRepublic")) {
                 changeSaver = true;
-            if (strstr(s, "Progress Thru Processors"))
+                    break;
+                }
+                if (strstr(s, "Progress Thru Processors")) {
                 changeSaver = true;
+                    break;
+                }
+            }
             pclose(f);
         }
         
         if (changeSaver) {
+            if (OSVersion < 0x1060) {
             system ("defaults -currentHost write com.apple.screensaver moduleName \"Computer Name\"");
             system ("defaults -currentHost write com.apple.screensaver modulePath \"/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/Computer Name.saver\"");
+            } else {
+                sprintf(s, 
+                    "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"Computer Name\" path \"/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/Computer Name.saver\"", 
+                    dp->d_name);
+                system (s);
+            }
         }
         
-        seteuid(saved_uid);                         // Set effective uid back to privileged user
+        seteuid(saved_euid);                         // Set effective uid back to privileged user
 #if TESTING
 //    ShowMessage(false, "After seteuid(%d) for user %s, euid = %d, saved_uid = %d", pw->pw_uid, dp->d_name, geteuid(), saved_uid);
 #endif

@@ -9180,3 +9180,9 @@ Charlie 15 Dec 2009
     clientscr/
         res/
             BOINCSaver.nib
+
+Charlie 16 Dec 2009
+    - Mac Uninstaller: Properly change screensaver settings under OS 10.6.
+         
+    mac_installer/
+        uninstall.cpp
