@@ -9365,3 +9365,9 @@ David  14 Dec 2009
 
     client/
         cs_scheduler.cpp
+
+David  15 Dec 2009
+    - boinccmd: compile fix
+
+    client/
+        boinc_cmd.cpp

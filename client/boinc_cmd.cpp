@@ -508,8 +508,14 @@ int main(int argc, char** argv) {
         while (i < argc) {
             PROJECT proj;
             proj.master_url = string(next_arg(argc, argv, i));
-            proj.short_term_debt = atoi(next_arg(argc, argv, i));
-            proj.cpu_long_term_debt = atoi(next_arg(argc, argv, i));
+            int std = atoi(next_arg(argc, argv, i));
+            proj.cpu_short_term_debt = std;
+            proj.cuda_short_term_debt = std;
+            proj.ati_short_term_debt = std;
+            int ltd = atoi(next_arg(argc, argv, i));
+            proj.cpu_long_term_debt = ltd;
+            proj.cuda_debt = ltd;
+            proj.ati_debt = ltd;
             projects.push_back(proj);
         }
         retval = rpc.set_debts(projects);
