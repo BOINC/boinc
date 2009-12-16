@@ -10095,3 +10095,12 @@ David  15 Dec 2009
             text_transform.inc
         user/
             forum_rss.php
+
+Charlie 14 Dec 2009
+    - Mac SS: In Mac screensaver control panel say "overview screensaver" not 
+        "BOINC screensaver" so we don't need 3 different versions of the NIB 
+        file for branding BOINC, GR and PtP.
+
+    clientscr/
+        res/
+            BOINCSaver.nib

@@ -252,14 +252,14 @@
 						<object class="NSTextField" id="184491242">
 							<reference key="NSNextResponder" ref="624770116"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{148, 136}, {177, 17}}</string>
+							<string key="NSFrame">{{132, 119}, {193, 34}}</string>
 							<reference key="NSSuperview" ref="624770116"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="219923304">
 								<int key="NSCellFlags">604110336</int>
 								<int key="NSCellFlags2">4194304</int>
-								<string key="NSContents">Run BOINC screensaver for</string>
+								<string key="NSContents">Run overview screensaver for</string>
 								<reference key="NSSupport" ref="458658335"/>
 								<reference key="NSControlView" ref="184491242"/>
 								<reference key="NSBackgroundColor" ref="493391060"/>
@@ -337,14 +337,14 @@
 						<object class="NSTextField" id="570244696">
 							<reference key="NSNextResponder" ref="624770116"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{109, 111}, {216, 17}}</string>
+							<string key="NSFrame">{{111, 111}, {214, 17}}</string>
 							<reference key="NSSuperview" ref="624770116"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="759535663">
 								<int key="NSCellFlags">604110336</int>
 								<int key="NSCellFlags2">4194304</int>
-								<string key="NSContents">Run Application screensavers for</string>
+								<string key="NSContents">Run application screensavers for</string>
 								<reference key="NSSupport" ref="458658335"/>
 								<reference key="NSControlView" ref="570244696"/>
 								<reference key="NSBackgroundColor" ref="493391060"/>
@@ -354,14 +354,14 @@
 						<object class="NSTextField" id="1005559079">
 							<reference key="NSNextResponder" ref="624770116"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{31, 86}, {294, 17}}</string>
+							<string key="NSFrame">{{32, 86}, {294, 17}}</string>
 							<reference key="NSSuperview" ref="624770116"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="96762991">
 								<int key="NSCellFlags">604110336</int>
 								<int key="NSCellFlags2">4194304</int>
-								<string key="NSContents">Switch among Application screensavers every</string>
+								<string key="NSContents">Switch among application screensavers every</string>
 								<reference key="NSSupport" ref="458658335"/>
 								<reference key="NSControlView" ref="1005559079"/>
 								<reference key="NSBackgroundColor" ref="493391060"/>
@@ -371,7 +371,7 @@
 						<object class="NSTextField" id="358636395">
 							<reference key="NSNextResponder" ref="624770116"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{298, 61}, {126, 17}}</string>
+							<string key="NSFrame">{{295, 61}, {126, 17}}</string>
 							<reference key="NSSuperview" ref="624770116"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
@@ -511,10 +511,10 @@
 							<reference ref="212510266"/>
 							<reference ref="872605925"/>
 							<reference ref="796415151"/>
-							<reference ref="184491242"/>
 							<reference ref="570244696"/>
 							<reference ref="293672032"/>
 							<reference ref="358636395"/>
+							<reference ref="184491242"/>
 						</object>
 						<reference key="parent" ref="1030563092"/>
 					</object>
