@@ -9186,3 +9186,15 @@ Charlie 16 Dec 2009
          
     mac_installer/
         uninstall.cpp
+
+David  10 Dec 2009
+    - client: STD for a device with N instances
+        can increase or decrease at N times real time.
+        My checkin of 7 Dec reflects this by changing
+        the STD limits to +- N*MAX_STD.
+        This looks like a bug to users.
+        Instead, scale that rate of STD change by 1/N,
+        and keep the old limits of +- MAX_STD
+
+    client/
+        work_fetch.cpp
