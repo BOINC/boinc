@@ -40,6 +40,7 @@ public:
     void OnOpenWebsite(wxCommandEvent& event);
     void OnOpen(wxCommandEvent& event);
     void OnSuspendResume(wxCommandEvent& event);
+    void OnSuspendResumeGPU(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
     void OnShutdown(wxTaskBarIconExEvent& event);

@@ -495,6 +495,12 @@ int RPCThread::ProcessRPCRequest() {
             *(double*)(current_request->arg2)
         );
         break;
+    case RPC_SET_GPU_MODE:
+        retval = (m_pDoc->rpcClient).set_gpu_mode(
+            *(int*)(current_request->arg1), 
+            *(double*)(current_request->arg2)
+        );
+        break;
     case RPC_SET_NETWORK_MODE:
         retval = (m_pDoc->rpcClient).set_network_mode(
             *(int*)(current_request->arg1),
