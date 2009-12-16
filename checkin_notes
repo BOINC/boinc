@@ -10110,3 +10110,9 @@ David  15 Dec 2009
 
     client/
         boinc_cmd.cpp
+
+Charlie 16 Dec 2009
+    - Mac Uninstaller: Properly change screensaver settings under OS 10.6.
+         
+    mac_installer/
+        uninstall.cpp
