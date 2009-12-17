@@ -221,6 +221,7 @@ void COPROC_CUDA::get(
     __cuCtxDestroy = (int(*)(unsigned int)) dlsym( cudalib, "cuCtxDestroy" );
     __cuMemAlloc = (int(*)(unsigned int*, unsigned int)) dlsym( cudalib, "cuMemAlloc" );
     __cuMemFree = (int(*)(unsigned int)) dlsym( cudalib, "cuMemFree" );
+    __cuMemGetInfo = (int(*)(unsigned int*, unsigned int*)) dlsym( cudalib, "cuMemGetInfo" );
 #endif
 
     if (!__cuDriverGetVersion) {

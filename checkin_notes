@@ -9408,3 +9408,9 @@ Rom    16 Dec 2009
     /
         configure.ac
         version.h
+
+Charlie 17 Dec 2009
+    - client: add missing dlsym of cuMemGetInfo() on non_Windows platforms. 
+
+    client/
+        coproc_detect.cpp
