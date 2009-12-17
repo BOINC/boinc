@@ -467,13 +467,13 @@ END
 //
 
 #if defined(_GRIDREPUBLIC)
-IDB_BOINCSPLAT          BITMAP                  "res\\gridrepublic.bmp"
+IDB_BOINC               BITMAP                  "res\\gridrepublic.bmp"
 #elif defined(_PROGRESSTHRUPROCESSORS)
-IDB_BOINCSPLAT          BITMAP                  "res\\progress.bmp"
+IDB_BOINC               BITMAP                  "res\\progress.bmp"
 #elif defined(_WCG)
-IDB_BOINCSPLAT          BITMAP                  "res\\wcg.bmp"
+IDB_BOINC               BITMAP                  "res\\wcg.bmp"
 #else
-IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
+IDB_BOINC               BITMAP                  "res\\boinc.bmp"
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
