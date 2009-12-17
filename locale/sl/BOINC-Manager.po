@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-16 00:35-0700\n"
+"PO-Revision-Date: 2009-12-17 04:43-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -2881,7 +2881,7 @@ msgstr "'%s' ne vsebuje veljavne poti."
 #: clientgui/ViewMessagesGrid.cpp:97
 #: clientgui/ViewProjects.cpp:169
 msgid "Commands"
-msgstr "Ukazi"
+msgstr "Možnosti"
 
 #: clientgui/ViewMessages.cpp:88
 #: clientgui/ViewMessagesGrid.cpp:101
@@ -2972,7 +2972,7 @@ msgstr "Daj opravila tega projekta na čakanje."
 #: clientgui/ViewProjects.cpp:187
 #: clientgui/ViewProjects.cpp:725
 msgid "No new tasks"
-msgstr "Ni novih opravil"
+msgstr "Brez novih opravil"
 
 #: clientgui/ViewProjects.cpp:188
 msgid "Don't get new tasks for this project."
@@ -3018,7 +3018,7 @@ msgstr "Opravljeno delo"
 
 #: clientgui/ViewProjects.cpp:222
 msgid "Avg. work done"
-msgstr "Povprečje opravljenega dela"
+msgstr "Povpr. opravljeno delo"
 
 #: clientgui/ViewProjects.cpp:224
 msgid "Status"
@@ -3091,7 +3091,7 @@ msgstr "Ne poberi novih opravil za ta projekt."
 
 #: clientgui/ViewProjects.cpp:1051
 msgid "Suspended by user"
-msgstr "Uporabnik dal na čakanje"
+msgstr "Na čakanju"
 
 #: clientgui/ViewProjects.cpp:1054
 msgid "Won't get new tasks"
@@ -3176,7 +3176,7 @@ msgstr "Zadnja posodobitev: pred %.0f dnevi"
 
 #: clientgui/ViewStatistics.cpp:1745
 msgid "Show user total"
-msgstr "Prikaži skupaj od uporabnika"
+msgstr "Uporabnik skupno"
 
 #: clientgui/ViewStatistics.cpp:1746
 msgid "Show total credit for user"
@@ -3184,7 +3184,7 @@ msgstr "Prikaži vse uporabnikove točke"
 
 #: clientgui/ViewStatistics.cpp:1752
 msgid "Show user average"
-msgstr "Prikaži povprečje za uporabnika"
+msgstr "Uporabnik povprečno"
 
 #: clientgui/ViewStatistics.cpp:1753
 msgid "Show average credit for user"
@@ -3192,7 +3192,7 @@ msgstr "Prikaži povprečje točk za uporabnika"
 
 #: clientgui/ViewStatistics.cpp:1759
 msgid "Show host total"
-msgstr "Prikaži skupno za gostitelja"
+msgstr "Gostitelj skupno"
 
 #: clientgui/ViewStatistics.cpp:1760
 msgid "Show total credit for host"
@@ -3200,7 +3200,7 @@ msgstr "Prikaži skupno točk za gostitelja"
 
 #: clientgui/ViewStatistics.cpp:1766
 msgid "Show host average"
-msgstr "Prikaži povprečje gostitelja"
+msgstr "Gostitelj povprečno"
 
 #: clientgui/ViewStatistics.cpp:1767
 msgid "Show average credit for host"
