@@ -10209,3 +10209,9 @@ Charlie 17 Dec 2009
 
     client/
         coproc_detect.cpp
+
+David  17 Dec 2009
+    - client: show <cpu_sched> message when suspend/resume GPU activity
+
+    client/
+        cs_prefs.cpp
