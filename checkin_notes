@@ -10189,3 +10189,17 @@ David  16 Dec 2009
         setup_project.py
     tools/
         upgrade
+
+David  16 Dec 2009
+    - web: bug fixes to the above.
+
+    html/
+        inc/
+            forum.inc
+            forum_rss.inc
+            news.inc
+        ops/
+            news_convert.php
+        user/
+            forum_forum.php
+            forum_post.php

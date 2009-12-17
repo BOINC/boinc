@@ -101,7 +101,7 @@ function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
         }
         $t = htmlspecialchars($t);
         echo "<item>
-        <title>".strip_tags($thread->title)."</title>
+        <title>".strip_tags(bb2html($thread->title))."</title>
         <link>$unique_url</link>
         <guid isPermaLink=\"true\">$unique_url</guid>
         <description>$t</description>

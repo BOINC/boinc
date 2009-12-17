@@ -35,10 +35,11 @@ $forum = BoincForum::lookup_id($forumid);
 
 if (!user_can_create_thread($logged_in_user, $forum)) {
     error_page(
-        "Only project admins may create a thread here. <br/>However, you may post a reply to existing threads."
+        "Only project admins may create a thread here.
+        However, you may reply existing threads."
     );
 }
-check_post_access($user, $forum);
+check_post_access($logged_in_user, $forum);
 
 $title = post_str("title", true);
 if (!$title) $title = get_str("title", true);

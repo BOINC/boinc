@@ -193,7 +193,7 @@ function show_forum($forum, $start, $sort_style, $user) {
         echo "</nobr></td>";
 
         $titlelength = 48;
-        $title = $thread->title;
+        $title = strip_tags(bb2html($thread->title));
         if (strlen($title) > $titlelength) {
             $title = substr($title,0,$titlelength)."...";
         }

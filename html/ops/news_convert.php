@@ -85,12 +85,18 @@ foreach (array_reverse($project_news) as $item) {
         }
     }
     $when = strtotime($item[0]);
+    $title = html_to_bbcode($title);
     $title = mysql_real_escape_string($title);
     $content = html_to_bbcode($content);
     $content = mysql_real_escape_string($content);
 
     $thread_id  = BoincThread::insert("(forum, owner, title, create_time, timestamp, replies) values ($forum_id, $user->id, '$title', $when, $when, 0)");
-    if (!$thread_id) die("thread insert failed");
+    if (!$thread_id) {
+        echo "thread insert failed\n";
+        echo "title: [$title]\n";
+        echo "when: $when\n";
+        exit;
+    }
 
     $id = BoincPost::insert("(thread, user, timestamp, content) values ($thread_id, $user->id, $when, '$content')");
     if (!$id) die("post insert");

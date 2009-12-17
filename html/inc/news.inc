@@ -19,6 +19,7 @@
 require_once("../project/project.inc");
 
 function news_item($date, $title, $text) {
+    echo "<p>";
     if ($title) {
         echo "<span class=news_title>$title</span>\n";
     }
@@ -27,7 +28,6 @@ function news_item($date, $title, $text) {
     echo "
         <br><span class=news_date>$d</span>
         <br><span class=news_content>$text</span>
-        <br><br>
     ";
 }
 
@@ -69,13 +69,15 @@ function show_news($start, $count) {
     }
 
     if ($count) {
-        echo "<a href=\"old_news.php\">...more</a>";
+        echo "<br><br><a href=\"old_news.php\">...more</a>";
     }
     echo "
-        <p class=\"smalltext\">
-        News is available as an
-        <a href=\"rss_main.php\">RSS feed</a> <img src=\"img/rss_icon.gif\" alt=\"RSS\">.</p>
+        <br><br><p class=\"smalltext\">
     ";
+    printf(tra("News is available as an %sRSS feed%s"),
+        "<a href=rss_main.php>",
+        "</a> &nbsp; <img src=\"img/rss_icon.gif\" alt=\"RSS\"></p>"
+    );
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
