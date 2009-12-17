@@ -10203,3 +10203,9 @@ David  16 Dec 2009
         user/
             forum_forum.php
             forum_post.php
+
+Charlie 17 Dec 2009
+    - client: add missing dlsym of cuMemGetInfo() on non_Windows platforms. 
+
+    client/
+        coproc_detect.cpp
