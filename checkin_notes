@@ -10229,3 +10229,12 @@ David  17 Dec 2009
 
     client/
         cpu_sched.cpp
+
+Rom    17 Dec 2009
+    - MGR: Make the minimum version of wxWidgets we support 2.8.0 or better
+    - MGR: Start cleaning up warning related to 2.6 backwards compatibility
+    
+    /
+        configure.ac
+    clientgui/
+        sg_DlgPreferences.cpp
