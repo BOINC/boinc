@@ -1274,7 +1274,10 @@ bool CLIENT_STATE::enforce_schedule() {
             // so that a GPU app and a multithread app can run together.
             //
             if (rp->avp->avg_ncpus > 1) {
-                if (ncpus_used + rp->avp->avg_ncpus >= ncpus+1) {
+                if (ncpus_used && (ncpus_used + rp->avp->avg_ncpus >= ncpus+1)) {
+                    // the "ncpus_used &&" is to allow running a job that uses
+                    // more than ncpus (this can happen in pathological cases)
+
                     if (log_flags.cpu_sched_debug) {
                         msg_printf(rp->project, MSG_INFO,
                             "[cpu_sched_debug] not enough CPUs for multithread job, skipping %s",

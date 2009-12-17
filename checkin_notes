@@ -10215,3 +10215,10 @@ David  17 Dec 2009
 
     client/
         cs_prefs.cpp
+
+David  17 Dec 2009
+	- client: there are oddball cases where the client has an app for which
+		avg_ncpus > ncpus.   Allow such jobs to run; otherwise nothing runs.
+
+	client/
+		cpu_sched.cpp
