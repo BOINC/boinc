@@ -673,7 +673,9 @@ bool IsUserInGroupBM() {
             return true;                // User's primary group is boinc_master
         }
 
-        userName = getlogin();
+        // On some systems with Automatic Login set, getlogin() returns "root" for a 
+        // time after the system is first booted, so we check "USER" environment variable.
+        userName = getenv("USER");
         if (userName) {
             for (i=0; ; i++) {          // Step through all users in group boinc_master
                 groupMember = grp->gr_mem[i];
