@@ -272,7 +272,6 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
                 pTaskbar->m_iconTaskBarNormal,
                 event.m_title,
                 event.m_message,
-                5000,
                 icon_type
             );
         }
