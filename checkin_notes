@@ -10248,3 +10248,9 @@ Rom    17 Dec 2009
         sg_ViewTabPage.cpp
     clientgui/common/
         wxPieCtrl.cpp, .h
+
+Rom    17 Dec 2009
+    - MGR: Deconflict menu item IDs.
+    
+    clientgui/
+        Events.h
