@@ -69,25 +69,17 @@ END_EVENT_TABLE ()
 wxTaskBarIconEx::wxTaskBarIconEx()
 {
     m_pTaskbarMutex = new wxMutex();
-    m_hWnd = 0;
     m_iTaskbarID = 0;
     m_iconAdded = FALSE;
-
-    if (RegisterWindowClass()) {
-        m_hWnd = CreateTaskBarWindow( wxTaskBarExWindow );
-    }
+    m_hWnd = CreateTaskBarWindow( wxTaskBarExWindow );
 }
 
 wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle, wxInt32 iTaskbarID )
 {
     m_pTaskbarMutex = new wxMutex();
-    m_hWnd = 0;
     m_iTaskbarID = iTaskbarID;
     m_iconAdded = FALSE;
-
-    if (RegisterWindowClass()) {
-        m_hWnd = CreateTaskBarWindow( szWindowTitle );
-    }
+    m_hWnd = CreateTaskBarWindow( szWindowTitle );
 }
 
 wxTaskBarIconEx::~wxTaskBarIconEx()
@@ -287,53 +279,42 @@ bool wxTaskBarIconEx::PopupMenu(wxMenu *menu)
 }
 
 
-bool wxTaskBarIconEx::RegisterWindowClass()
-{
-    if (m_registeredClass)
-        return TRUE;
-
-    WNDCLASS wc;
-    bool rc;
-
-    HINSTANCE hInstance = GetModuleHandle(NULL);
-
-    /*
-     * set up and register window class
-     */
-    wc.style = CS_HREDRAW | CS_VREDRAW;
-    wc.lpfnWndProc = (WNDPROC) wxTaskBarIconExWindowProc;
-    wc.cbClsExtra = 0;
-    wc.cbWndExtra = 0;
-    wc.hInstance = hInstance;
-    wc.hIcon = 0;
-    wc.hCursor = 0;
-    wc.hbrBackground = 0;
-    wc.lpszMenuName = NULL;
-    wc.lpszClassName = wxTaskBarExWindowClass ;
-    rc = (::RegisterClass( &wc ) != 0);
-
-    m_registeredClass = (rc != 0);
-
-    return( (rc != 0) );
-}
-
 WXHWND wxTaskBarIconEx::CreateTaskBarWindow( wxChar* szWindowTitle )
 {
     HINSTANCE hInstance = GetModuleHandle(NULL);
+    HWND hWnd = NULL;
+    WNDCLASS wc;
 
-    HWND hWnd = CreateWindowEx (0, wxTaskBarExWindowClass,
-            szWindowTitle,
-            WS_OVERLAPPED,
-            0,
-            0,
-            10,
-            10,
-            NULL,
-            (HMENU) 0,
-            hInstance,
-            NULL);
+    if (!::GetClassInfo( hInstance, wxTaskBarExWindowClass, &wc )) {
+        wc.style = CS_HREDRAW | CS_VREDRAW;
+        wc.lpfnWndProc = (WNDPROC) wxTaskBarIconExWindowProc;
+        wc.cbClsExtra = 0;
+        wc.cbWndExtra = 0;
+        wc.hInstance = hInstance;
+        wc.hIcon = 0;
+        wc.hCursor = 0;
+        wc.hbrBackground = 0;
+        wc.lpszMenuName = NULL;
+        wc.lpszClassName = wxTaskBarExWindowClass;
+        ::RegisterClass(&wc);
+    }
 
-    return (WXHWND) hWnd;
+    hWnd = ::CreateWindowEx (
+        0,
+        wxTaskBarExWindowClass,
+        szWindowTitle,
+        WS_OVERLAPPED,
+        0,
+        0,
+        10,
+        10,
+        NULL,
+        (HMENU)0,
+        hInstance,
+        NULL
+    );
+
+    return (WXHWND)hWnd;
 }
 
 bool wxTaskBarIconEx::IsBalloonsSupported()
@@ -356,30 +337,29 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
 
     if      ( WM_CLOSE == msg )
     {
-        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_CLOSE Detected"));
- 
         wxCloseEvent eventClose(wxEVT_CLOSE_WINDOW);
         ProcessEvent(eventClose);
 
-        if ( !eventClose.GetSkipped() )
+        if ( !eventClose.GetSkipped() ) {
             lReturnValue = DefWindowProc((HWND) hWnd, msg, wParam, lParam);
-        else
+        } else {
             lReturnValue = 0;
+        }
+
+        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_CLOSE Detected"));
     }
     else if ( WM_TASKBARCREATED == msg )
     {
-        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARCREATED Detected"));
         eventType = wxEVT_TASKBAR_CREATED;
+        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARCREATED Detected"));
     }
     else if ( WM_TASKBARSHUTDOWN == msg )
     {
-        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARSHUTDOWN Detected"));
         eventType = wxEVT_TASKBAR_SHUTDOWN;
+        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARSHUTDOWN Detected"));
     }
     else if ( WM_TASKBARMESSAGE == msg )
     {
-        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARMESSAGE(%d) Detected"), lParam);
-
         switch (lParam)
         {
             case WM_LBUTTONDOWN:
@@ -438,6 +418,7 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
                 eventType = wxEVT_TASKBAR_BALLOON_USERCLICK;
                 break;
         }
+        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARMESSAGE(%d) Detected"), eventType);
     }
     else
     {

@@ -44,31 +44,30 @@ public:
 
 // Operations
 
-    bool SetIcon( const wxIcon& icon );
+    virtual bool SetIcon( const wxIcon& icon );
 
-    bool SetTooltip( const wxString& message );
+    virtual bool SetTooltip( const wxString& message );
 
-    bool SetBalloon(
+    virtual bool SetBalloon(
         const wxIcon& icon, 
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
         unsigned int iconballoon = NIIF_INFO
     );
 
-    bool QueueBalloon(
+    virtual bool QueueBalloon(
         const wxIcon& icon, 
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
         unsigned int iconballoon = NIIF_INFO
     );
 
-    bool RemoveIcon();
-    void UpdateIcon();
+    virtual bool RemoveIcon();
+    virtual void UpdateIcon();
 
     bool PopupMenu(wxMenu *menu);
 
 // Implementation
-    bool RegisterWindowClass();
     WXHWND CreateTaskBarWindow( wxChar* szWindowTitle );
     static bool IsBalloonsSupported();
     long WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam );
@@ -79,13 +78,12 @@ protected:
     WXHWND          m_hWnd;
     wxInt32         m_iTaskbarID;
     bool            m_iconAdded;
-    bool            m_registeredClass;
     NOTIFYICONDATA  notifyData;
 
 
 private:
     DECLARE_EVENT_TABLE()
-
+    DECLARE_NO_COPY_CLASS(wxTaskBarIconEx)
 };
 
 
