@@ -10291,3 +10291,9 @@ Charlie  5 Dec 2009
 
     client/
         check_security.cpp
+
+Rom    18 Dec 2009
+    - MGR: Cleanup wxFlatNotebook warnings.
+    
+    clientgui/
+        wxFlatNotebook.cpp
