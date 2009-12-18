@@ -28,10 +28,10 @@ class wxTaskBarIconEx: public wxEvtHandler {
     DECLARE_DYNAMIC_CLASS(wxTaskBarIconEx)
 public:
 
-    wxTaskBarIconEx(void);
-    wxTaskBarIconEx( wxChar* szWindowTitle );
+    wxTaskBarIconEx();
+    wxTaskBarIconEx( wxChar* szWindowTitle, wxInt32 iTaskbarID );
 
-    virtual ~wxTaskBarIconEx(void);
+    virtual ~wxTaskBarIconEx();
 
 // Events
     virtual void OnClose( wxCloseEvent& event );
@@ -52,28 +52,36 @@ public:
         const wxIcon& icon, 
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
-        unsigned int timeout = 5000,
+        unsigned int iconballoon = NIIF_INFO
+    );
+
+    bool QueueBalloon(
+        const wxIcon& icon, 
+        const wxString title = wxEmptyString,
+        const wxString message = wxEmptyString,
         unsigned int iconballoon = NIIF_INFO
     );
 
     bool RemoveIcon();
     void UpdateIcon();
 
-    bool PopupMenu(wxMenu *menu); //, int x, int y);
+    bool PopupMenu(wxMenu *menu);
 
 // Implementation
-    static bool RegisterWindowClass();
-    static WXHWND CreateTaskBarWindow( wxChar* szWindowTitle );
+    bool RegisterWindowClass();
+    WXHWND CreateTaskBarWindow( wxChar* szWindowTitle );
     static bool IsBalloonsSupported();
     long WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam );
 
 // Data members
 protected:
+    wxMutex*        m_pTaskbarMutex;
     WXHWND          m_hWnd;
+    wxInt32         m_iTaskbarID;
     bool            m_iconAdded;
+    bool            m_registeredClass;
     NOTIFYICONDATA  notifyData;
-    static bool     sm_registeredClass;
-    static unsigned int sm_taskbarMsg;
+
 
 private:
     DECLARE_EVENT_TABLE()
