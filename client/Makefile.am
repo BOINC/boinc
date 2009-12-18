@@ -49,6 +49,7 @@ boinc_client_SOURCES = \
     cs_benchmark.cpp \
     cs_cmdline.cpp \
     cs_files.cpp \
+    cs_notice.cpp \
     cs_platforms.cpp \
     cs_prefs.cpp \
     cs_proxy.cpp \

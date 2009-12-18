@@ -33,6 +33,7 @@
 #include "prefs.h"
 #include "hostinfo.h"
 #include "common_defs.h"
+#include "notice.h"
 
 struct GUI_URL {
     std::string name;
@@ -677,6 +678,8 @@ public:
     int get_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
     int set_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
     int set_debts(std::vector<PROJECT>);
+    int get_notices(int, std::vector<NOTICE>&);
+    int get_notices_public(int, std::vector<NOTICE>&);
 };
 
 struct RPC {

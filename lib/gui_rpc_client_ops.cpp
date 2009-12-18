@@ -2280,5 +2280,54 @@ int RPC_CLIENT::set_debts(vector<PROJECT> projects) {
     return retval;
 }
 
+static int parse_notices(MIOFILE& fin, vector<NOTICE>& notices) {
+    XML_PARSER xp(&fin);
+    char tag[256];
+    bool is_tag;
+    int retval;
+
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "notice")) {
+            NOTICE notice;
+            retval = notice.parse(xp);
+            if (!retval) {
+                notices.push_back(notice);
+            }
+        }
+    }
+}
+
+int RPC_CLIENT::get_notices(int seqno, vector<NOTICE>& notices) {
+    SET_LOCALE sl;
+    char buf[1024];
+    RPC rpc(this);
+    int retval;
+
+    sprintf(buf,
+        "<get_notices>\n"
+        "   <seqno>%d</seqno>\n"
+        "</get_notices>\n"
+    );
+    retval = rpc.do_rpc(buf);
+    if (retval) return retval;
+    return parse_notices(rpc.fin, notices);
+}
+
+int RPC_CLIENT::get_notices_public(int seqno, vector<NOTICE>& notices) {
+    SET_LOCALE sl;
+    char buf[1024];
+    RPC rpc(this);
+    int retval;
+
+    sprintf(buf,
+        "<get_notices_public>\n"
+        "   <seqno>%d</seqno>\n"
+        "</get_notices_public>\n"
+    );
+    retval = rpc.do_rpc(buf);
+    if (retval) return retval;
+    return parse_notices(rpc.fin, notices);
+}
 
 const char *BOINC_RCSID_90e8b8d168="$Id$";

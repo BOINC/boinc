@@ -63,6 +63,7 @@
 #include "client_msgs.h"
 #include "client_state.h"
 #include "cs_proxy.h"
+#include "cs_notice.h"
 
 using std::string;
 using std::vector;
@@ -1092,6 +1093,18 @@ static void handle_set_cc_config(char* buf, MIOFILE& fout) {
     );
 }
 
+static void handle_get_notices(char* buf, MIOFILE& fout) {
+    int seqno = 0;
+    parse_int(buf, "<seqno>", seqno);
+    write_notices(seqno, fout, false);
+}
+
+static void handle_get_notices_public(char* buf, MIOFILE& fout) {
+    int seqno = 0;
+    parse_int(buf, "<seqno>", seqno);
+    write_notices(seqno, fout, true);
+}
+
 // Some of the RPCs have empty-element request messages.
 // We accept both <foo/> and <foo></foo>
 //
@@ -1190,6 +1203,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_cc_status(this, mf);
     } else if (match_req(request_msg, "get_all_projects_list")) {
         read_all_projects_list_file(mf);
+    } else if (match_req(request_msg, "get_notices_public")) {
+        handle_get_notices_public(request_msg, mf);
 
     // Operations that require authentication start here
 
@@ -1269,10 +1284,13 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.request_work_fetch("Core client configuration");
     } else if (match_req(request_msg, "set_debts")) {
         handle_set_debts(request_msg, mf);
+    } else if (match_req(request_msg, "get_notices")) {
+        handle_get_notices(request_msg, mf);
     } else {
 
         // RPCs after this point require authentication,
-        // and enable network communication for 5 minutes, overriding other factors.
+        // and enable network communication for 5 minutes,
+        // overriding other factors.
         // Things like attaching projects, etc.
         //
 

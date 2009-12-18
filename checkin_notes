@@ -10303,3 +10303,16 @@ David  18 Dec 2009
 
     client/
         app_start.cpp
+
+David  18 Dec 2009
+    - client and GUI RPC: add some plumbing for notices
+
+    client/
+        Makefile.am
+        cs_notice.cpp,h (new)
+        gui_rpc_server_ops.cpp
+    lib/
+        Makefile.am
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+        notice.cpp,h (new)

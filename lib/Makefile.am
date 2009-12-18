@@ -51,6 +51,7 @@ generic_sources = \
     miofile.cpp \
     msg_log.cpp \
     network.cpp \
+	notice.cpp \
     parse.cpp \
     prefs.cpp \
     procinfo_unix.cpp \
@@ -110,6 +111,7 @@ pkginclude_HEADERS = \
     miofile.h \
     msg_log.h \
     network.h \
+	notice.h \
     parse.h \
     prefs.h \
     proxy_info.h \
