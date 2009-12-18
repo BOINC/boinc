@@ -79,27 +79,27 @@ function print_form($vol, $action_name) {
 
 function get_form_data() {
     $vol->name = stripslashes($_GET['volname']);
-    if (!$vol->name) error_page("Name must not be blank");
-    if (strstr($vol->name, "<")) error_page("No &lt; allowed");
+    if (!$vol->name) boinc_error_page("Name must not be blank");
+    if (strstr($vol->name, "<")) boinc_error_page("No &lt; allowed");
     $vol->password = stripslashes($_GET['password']);
-    if (!$vol->password) error_page("Password must not be blank");
+    if (!$vol->password) boinc_error_page("Password must not be blank");
     $vol->email_addr = stripslashes($_GET['email_addr']);
-    if (!$vol->email_addr) error_page("Email address must not be blank");
+    if (!$vol->email_addr) boinc_error_page("Email address must not be blank");
     $vol->skypeid = stripslashes($_GET['skypeid']);
-    if (!$vol->skypeid) error_page("Skype ID must not be blank");
+    if (!$vol->skypeid) boinc_error_page("Skype ID must not be blank");
     $vol->lang1 = stripslashes($_GET['lang1']);
-    if (!$vol->lang1) error_page("Primary language must not be blank");
-    if (!is_spoken_language($vol->lang1)) error_page("Not a language");
+    if (!$vol->lang1) boinc_error_page("Primary language must not be blank");
+    if (!is_spoken_language($vol->lang1)) boinc_error_page("Not a language");
     $vol->lang2 = stripslashes($_GET['lang2']);
-    if (!is_spoken_language($vol->lang2)) error_page("Not a language");
+    if (!is_spoken_language($vol->lang2)) boinc_error_page("Not a language");
     $vol->country = stripslashes($_GET['country']);
-    if (!is_valid_country($vol->country)) error_page("Bad country");
+    if (!is_valid_country($vol->country)) boinc_error_page("Bad country");
     $vol->specialties = stripslashes($_GET['specialties']);
-    if (strstr($vol->specialties, "<")) error_page("No &lt; allowed");
+    if (strstr($vol->specialties, "<")) boinc_error_page("No &lt; allowed");
     $vol->projects = stripslashes($_GET['projects']);
-    if (strstr($vol->projects, "<")) error_page("No &lt; allowed");
+    if (strstr($vol->projects, "<")) boinc_error_page("No &lt; allowed");
     $vol->availability = stripslashes($_GET['availability']);
-    if (strstr($vol->availability, "<")) error_page("No &lt; allowed");
+    if (strstr($vol->availability, "<")) boinc_error_page("No &lt; allowed");
     $vol->voice_ok = $_GET['voice_ok']?1:0;
     $vol->text_ok = $_GET['text_ok']?1:0;
     $vol->hide = $_GET['hide']?1:0;
@@ -125,11 +125,11 @@ if ($create == 'OK') {
     
     $vol2 = vol_lookup_name($vol->name);
     if ($vol2) {
-        error_page("That name is already taken");
+        boinc_error_page("That name is already taken");
     }
     $vol2 = vol_lookup_email($vol->email_addr);
     if ($vol2) {
-        error_page("There's already an account with email address $vol->email_addr");
+        boinc_error_page("There's already an account with email address $vol->email_addr");
     }
     $retval = vol_insert($vol);
     if (!$retval) {
@@ -168,14 +168,14 @@ if ($create == 'OK') {
     $password = stripslashes($_GET['password']);
     $vol = vol_lookup_email($email_addr);
     if (!$vol) {
-        error_page("Bad email address $email_addr");
+        boinc_error_page("Bad email address $email_addr");
     }
     if (!$password) {
         email_password($vol);
         exit();
     }
     if ($password != $vol->password) {
-        error_page("Bad password");
+        boinc_error_page("Bad password");
     }
     page_head("Edit your Help Volunteer Account");
     echo "
@@ -191,10 +191,10 @@ if ($create == 'OK') {
     $old_password = stripslashes($_GET['old_password']);
     $vol = vol_lookup_email($old_email_addr);
     if (!$vol) {
-        error_page("Bad email address $old_email_addr");
+        boinc_error_page("Bad email address $old_email_addr");
     }
     if ($old_password != $vol->password) {
-        error_page("Bad password");
+        boinc_error_page("Bad password");
     }
     $vol2 = get_form_data();
     $vol2->timezone = $vol->timezone;

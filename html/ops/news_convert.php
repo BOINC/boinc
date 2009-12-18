@@ -86,8 +86,10 @@ foreach (array_reverse($project_news) as $item) {
     }
     $when = strtotime($item[0]);
     $title = html_to_bbcode($title);
+    $title = str_replace("\n", " ", $title);
     $title = mysql_real_escape_string($title);
     $content = html_to_bbcode($content);
+    $content = str_replace("\n", " ", $content);
     $content = mysql_real_escape_string($content);
 
     $thread_id  = BoincThread::insert("(forum, owner, title, create_time, timestamp, replies) values ($forum_id, $user->id, '$title', $when, $when, 0)");

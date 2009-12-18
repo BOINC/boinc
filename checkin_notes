@@ -10254,3 +10254,17 @@ Rom    17 Dec 2009
     
     clientgui/
         Events.h
+
+David  17 Dec 2009
+    - web: some fixes that arose from converting BOINC's news
+        to forum format.
+
+    html/
+        inc/
+            text_transform.inc
+            forum.inc
+            news.inc
+        ops/
+            news_convert.php
+        user/
+            forum_forum.php

@@ -118,16 +118,16 @@ if ($send_email) {
     $subject = stripslashes($_GET['subject']);
     $vol = vol_lookup($volid);
     if (!$vol || $vol->hide) {
-        error_page("No such volunteer $volid");
+        boinc_error_page("No such volunteer $volid");
     }
     $msg = stripslashes($_GET['message']);
     if (!$msg) {
-        error_page("You must supply a message");
+        boinc_error_page("You must supply a message");
     }
     $body = "The following message was sent by a BOINC Help user.\n";
     $email_addr = $_GET['email_addr'];
     if (!is_valid_email_addr($email_addr)) {
-        error_page("You must specify a valid email address");
+        boinc_error_page("You must specify a valid email address");
     }
     $reply = "\r\nreply-to: $email_addr";
     $body .= "\n\n";
@@ -141,15 +141,15 @@ if ($send_email) {
     $volid = $_GET['volid'];
     $vol = vol_lookup($volid);
     if (!$vol) {
-        error_page("No such volunteer $volid");
+        boinc_error_page("No such volunteer $volid");
     }
     $x = $_GET['rating'];
     if ($x==null) {
-        error_page("no rating given");
+        boinc_error_page("no rating given");
     }
     $rating = (int) $x;
     if ($rating < 0 || $rating > 5) {
-        error_page("bad rating");
+        boinc_error_page("bad rating");
     }
     $comment = stripslashes($_GET['comment']);
     $r = null;
@@ -173,7 +173,7 @@ if ($send_email) {
     }
     if (!$retval) {
         echo mysql_error();
-        error_page("database error");
+        boinc_error_page("database error");
     }
     page_head("Feedback recorded");
     echo "Your feedback has been recorded.  Thanks.

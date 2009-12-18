@@ -285,7 +285,7 @@ function thread_is_unread($user, $thread) {
 //
 function cleanup_title($title) {
     $x = strip_tags(bb2html($title));
-    $x = trim(htmlspecialchars($x));
+    $x = trim($x);
     if (strlen($x)==0) return "(no title)";
     else return $x;
 }

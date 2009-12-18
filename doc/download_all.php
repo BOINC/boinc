@@ -146,7 +146,7 @@ function show_platform_xml($short_name, $p, $dev) {
 if ($pname && $version) {
     $p = $platforms[$pname];
     if (!$p) {
-        error_page("platform not found");
+        boinc_error_page("platform not found");
     }
     $long_name = $p["name"];
     $va = $p["versions"];
@@ -158,7 +158,7 @@ if ($pname && $version) {
             exit();
         }
     }
-    error_page( "version not found\n");
+    boinc_error_page( "version not found\n");
 }
 
 if ($xml) {

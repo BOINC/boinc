@@ -54,7 +54,7 @@ if ($platform == 'win') {
 } else if ($platform == 'web') {
     $x = $web;
 } else {
-    error_page('bad name');
+    boinc_error_page('bad name');
 }
 
 $found = false;
@@ -66,7 +66,7 @@ foreach ($x as $y) {
     }
 }
 if (!$found) {
-    error_page('bad item');
+    boinc_error_page('bad item');
 }
 
 ?>

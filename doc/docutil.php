@@ -1,5 +1,7 @@
 <?php
 
+require_once("../inc/util_basic.inc");
+
 if (0) {
     $x = $_SERVER['PHP_SELF'];
     $path = "/tmp/php_pids/".getmypid();
@@ -125,14 +127,6 @@ function html_text($x) {
     ";
 }
 
-function start_table($extra="width=\"100%\"") {
-    echo "<table class=bordered $extra>";
-}
-
-function end_table() {
-    echo "</table>\n";
-}
-
 function list_start($attrs = 'width="100%"') {
     echo "<p><table $attrs border=0 cellpadding=6>\n";
 }
@@ -195,7 +189,7 @@ function list_end() {
     echo "</table><p>\n";
 }
 
-function error_page($x) {
+function boinc_error_page($x) {
     page_head("Error");
     echo $x;
     page_tail();
@@ -214,31 +208,8 @@ function block_end() {
     ";
 }
 
-function get_str($name) {
-    if (isset($_GET[$name])) {
-        $x = $_GET[$name];
-        $x = trim($x);
-        return mysql_real_escape_string($x);
-    }
-    return null;
-}
-
 function show_link($url) {
     echo "<br><a href=$url>$url</a>";
 }
 
-function parse_element($xml, $tag) {
-    $element = null;
-    $closetag = "</" . substr($tag,1);
-    $x = strstr($xml, $tag);
-    if ($x) {
-        if (strstr($tag, "/>")) return $tag;
-        $y = substr($x, strlen($tag));
-        $n = strpos($y, $closetag);
-        if ($n) {
-            $element = substr($y, 0, $n);
-        }
-    }
-    return trim($element);
-}
 ?>

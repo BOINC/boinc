@@ -1,4 +1,4 @@
-<?
+<?php
 
 $project_news = array(
 array("November 27, 2009",

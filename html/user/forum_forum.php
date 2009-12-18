@@ -193,12 +193,11 @@ function show_forum($forum, $start, $sort_style, $user) {
         echo "</nobr></td>";
 
         $titlelength = 48;
-        $title = strip_tags(bb2html($thread->title));
+        $title = cleanup_title($thread->title);
         if (strlen($title) > $titlelength) {
-            $title = substr($title,0,$titlelength)."...";
+            $title = substr($title, 0, $titlelength)."...";
         }
-        $title = cleanup_title($title);
-        echo '<td class="threadline"><a href="forum_thread.php?id='.$thread->id.'"><b>'.$title.'</b></a><br></td>';
+        echo "<td class=\"threadline\"><a href=\"forum_thread.php?id=$thread->id\"><b>$title</b></a><br></td>";
         $n = ($n+1)%2;
 
         echo '

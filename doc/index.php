@@ -57,8 +57,8 @@ function show_totals() {
 }
 
 function show_news_items() {
-    require_once("boinc_news.php");
     require_once("../html/inc/news.inc");
+    require_once("../html/inc/forum.inc");
     echo "
         <table border=0 cellpadding=8>
         <tr><td class=heading_right>
@@ -66,15 +66,8 @@ function show_news_items() {
         <span class=section_title>".tra("News")."</span>
         </center>
     ";
-    $nnews_items = 6;
-    show_news($project_news, $nnews_items);
-    if (count($project_news) > $nnews_items) {
-        echo "<a href=old_news.php>".tra("... more")."</a>\n";
-    }
-
-    echo "<p><font size=-2>";
-    printf(tra('News is available as an %sRSS feed%s'), '<a href="rss_main.php">', '</a>');
-    echo "<img src=xml.gif alt=\"RSS logo\"></font>
+    show_news(0, 5);
+    echo "
         </td></tr></table>
     ";
 }

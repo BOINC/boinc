@@ -69,7 +69,7 @@ function show_news($start, $count) {
     }
 
     if ($count) {
-        echo "<br><br><a href=\"old_news.php\">...more</a>";
+        echo "<br><br><a href=".URL_BASE."old_news.php>...more</a>";
     }
     echo "
         <br><br><p class=\"smalltext\">

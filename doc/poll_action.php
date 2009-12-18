@@ -4,7 +4,7 @@ require_once("poll.inc");
 require_once("../html/inc/translation.inc");
 require_once("poll_data.inc");
 
-error_page("The poll is closed");
+boinc_error_page("The poll is closed");
 function error() {
     page_head(tra("Error - results not recorded"));
     echo tra("An internal error has prevented us from recording your survey response.  Please try again later.");

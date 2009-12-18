@@ -41,7 +41,7 @@ class output_options {
         $this->images_as_links = 0;
         $this->link_popup = 0;
         $this->nl2br = 1;
-        $this->htmlitems = 1;
+        $this->htmlitems = 0;
         $this->htmlscrub = 0;
         $this->highlight_terms = 0;
         return true;
@@ -114,12 +114,12 @@ function bb2html($text, $export=false) {
         "@\[b\](.*?)\[/b\]@is",
         "@\[i\](.*?)\[/i\]@is",
         "@\[u\](.*?)\[/u\]@is",
-        "@\[url=$httpsregex\](.*?)\[/url\]@i",
-        "@\[url\]$httpsregex\[/url\]@i",
-        "@\[link=$urlregex\](.*?)\[/link\]@i",
-        "@\[link\]$urlregex\[/link\]@i",
-        "@\[url=$urlregex\](.*?)\[/url\]@i",
-        "@\[url\]$urlregex\[/url\]@i",
+        "@\[url=$httpsregex\](.*?)\[/url\]@is",
+        "@\[url\]$httpsregex\[/url\]@is",
+        "@\[link=$urlregex\](.*?)\[/link\]@is",
+        "@\[link\]$urlregex\[/link\]@is",
+        "@\[url=$urlregex\](.*?)\[/url\]@is",
+        "@\[url\]$urlregex\[/url\]@is",
         "@\[quote=(.*?)\](.*?)\[/quote\]@is",
         "@\[quote\](.*?)\[/quote\]@is",
         "@\[list\](.*?)\[/list\]@is",
