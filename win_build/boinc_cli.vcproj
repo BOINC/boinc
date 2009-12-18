@@ -1075,6 +1075,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\cs_notice.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\client\cs_platforms.cpp"
 				>
 			</File>
@@ -1241,6 +1245,10 @@
 			</File>
 			<File
 				RelativePath="..\client\cpu_benchmark.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\cs_notice.h"
 				>
 			</File>
 			<File

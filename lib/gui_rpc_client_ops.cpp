@@ -2296,6 +2296,7 @@ static int parse_notices(MIOFILE& fin, vector<NOTICE>& notices) {
             }
         }
     }
+    return 0;
 }
 
 int RPC_CLIENT::get_notices(int seqno, vector<NOTICE>& notices) {
@@ -2307,7 +2308,8 @@ int RPC_CLIENT::get_notices(int seqno, vector<NOTICE>& notices) {
     sprintf(buf,
         "<get_notices>\n"
         "   <seqno>%d</seqno>\n"
-        "</get_notices>\n"
+        "</get_notices>\n",
+        seqno
     );
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
@@ -2323,7 +2325,8 @@ int RPC_CLIENT::get_notices_public(int seqno, vector<NOTICE>& notices) {
     sprintf(buf,
         "<get_notices_public>\n"
         "   <seqno>%d</seqno>\n"
-        "</get_notices_public>\n"
+        "</get_notices_public>\n",
+        seqno
     );
     retval = rpc.do_rpc(buf);
     if (retval) return retval;

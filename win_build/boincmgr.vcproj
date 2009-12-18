@@ -1353,6 +1353,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\notice.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\parse.cpp"
 				>
 			</File>
