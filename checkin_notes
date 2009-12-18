@@ -10273,7 +10273,7 @@ Rom    18 Dec 2009
     - MGR: Update the base taskbar code to include some things
         from Windows Vista and Windows 7.
     - MGR: Update the base taskbar code for thread safety.
-    - MGR: Treat network status messages as NIF_REALTIME, is the
+    - MGR: Treat network status messages as NIF_REALTIME, if the
         screensaver or the logon screen appears, the messages are
         discarded.
     - MGR: Create a new class of balloon messages which can be
