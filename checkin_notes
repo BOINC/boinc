@@ -10338,3 +10338,17 @@ Rom    18 Dec 2009
         ViewNotifications.cpp, .h (Added)
     win_build/
         boincmgr.vcproj
+
+David  18 Dec 2009
+    - scheduler: use a more accurate way of estimating total FLOPS
+        and avg_ncpus for GPU apps.
+        App versions are now characterized by two parameters
+        (we assume that the app uses either the CPU or the GPU
+        at a given time, but not both):
+        - the fraction of FLOPs performed on the CPU
+        - when the app is using the GPU, the fraction of peak FLOPS
+            that it gets.
+        We then run the numbers to get the total FLOPS and avg_ncpus.
+
+    sched/
+        sched_customize.cpp
