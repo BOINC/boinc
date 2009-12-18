@@ -41,18 +41,20 @@ public:
     void OnOpen(wxCommandEvent& event);
     void OnSuspendResume(wxCommandEvent& event);
     void OnSuspendResumeGPU(wxCommandEvent& event);
+    void OnTestNotification(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
-    void OnShutdown(wxTaskBarIconExEvent& event);
 
     void OnIdle(wxIdleEvent& event);
     void OnClose(wxCloseEvent& event);
     void OnRefresh(CTaskbarEvent& event);
     void OnReloadSkin(CTaskbarEvent& event);
 
+    void OnContextMenu(wxTaskBarIconExEvent& event);
+    void OnNotificationClick(wxTaskBarIconExEvent& event);
+    void OnShutdown(wxTaskBarIconExEvent& event);
     void OnMouseMove(wxTaskBarIconEvent& event);
     void OnLButtonDClick(wxTaskBarIconEvent& event);
-    void OnContextMenu(wxTaskBarIconExEvent& event);
     void OnRButtonDown(wxTaskBarIconEvent& event);
     void OnRButtonUp(wxTaskBarIconEvent& event);
 

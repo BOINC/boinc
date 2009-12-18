@@ -367,8 +367,8 @@ public:
     // Simple GUI Updates
     //
     int                         m_iGet_simple_gui2_rpc_result;
-    int                         CachedSimpleGUIUpdate(bool bForce = false);
     int                         m_iAcct_mgr_info_rpc_result;
+    int                         CachedSimpleGUIUpdate(bool bForce = false);
 private:
     wxDateTime                  m_dtCachedSimpleGUITimestamp;
     wxDateTime                  m_dtCachedAcctMgrInfoTimestamp;

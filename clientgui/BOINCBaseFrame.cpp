@@ -43,6 +43,7 @@ DEFINE_EVENT_TYPE(wxEVT_FRAME_INITIALIZED)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_REFRESHVIEW)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATESTATUS)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_RELOADSKIN)
+DEFINE_EVENT_TYPE(wxEVT_FRAME_NOTIFICATION)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
@@ -305,11 +306,7 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function Begin"));
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
-    if (!event.CanVeto()
-#ifdef __WXMAC__
-        || IsIconized()
-#endif    
-    ) {
+    if (!event.CanVeto() || IsIconized()) {
         wxGetApp().FrameClosed();
         Destroy();
     } else {
@@ -400,6 +397,12 @@ void CBOINCBaseFrame::FireConnect() {
 
 void CBOINCBaseFrame::FireReloadSkin() {
     CFrameEvent event(wxEVT_FRAME_RELOADSKIN, this);
+    AddPendingEvent(event);
+}
+
+
+void CBOINCBaseFrame::FireNotification() {
+    CFrameEvent event(wxEVT_FRAME_NOTIFICATION, this);
     AddPendingEvent(event);
 }
 

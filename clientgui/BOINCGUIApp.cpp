@@ -166,6 +166,11 @@ bool CBOINCGUIApp::OnInit() {
     //  - seems to always redraw entire control even if asked to refresh only one row.
     //  - causes major flicker of progress bars, (probably due to full redraws.)
     wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
+
+    AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
+
+    // Cache the current process serial number
+    GetCurrentProcess(&m_psnCurrentProcess);
 #endif
 
 
@@ -173,13 +178,6 @@ bool CBOINCGUIApp::OnInit() {
     if (!wxApp::OnInit()) {
         return false;
     }
-
-#ifdef __WXMAC__
-    AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
-
-    // Cache the current process serial number
-    GetCurrentProcess(&m_psnCurrentProcess);
-#endif
 
     if (g_use_sandbox) {
         wxCHANGE_UMASK(2);  // Set file creation mask to be writable by both user and group
@@ -1063,6 +1061,23 @@ void CBOINCGUIApp::ShowApplication(bool) {
 #endif
 
 
+bool CBOINCGUIApp::ShowInterface() {
+    return SetActiveGUI(m_iGUISelected, true);
+}
+
+
+bool CBOINCGUIApp::ShowNotifications() {
+    bool retval = false;
+
+    retval = SetActiveGUI(m_iGUISelected, true);
+    if (retval) {
+        GetFrame()->FireNotification();
+    }
+
+    return retval;
+}
+
+
 bool CBOINCGUIApp::IsModalDialogDisplayed() {
     if (m_bSafeMessageBoxDisplayed) return true;
     
@@ -1123,7 +1138,6 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
         theObject = ((wxWindow*)theObject)->GetParent();
     }
     
-#if 1
     // Allow all except Command, Timer and Mouse Moved events
     if (event.IsCommandEvent()) {
         return false;
@@ -1140,37 +1154,6 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
 #endif
    
     return -1;
-#else
-    // Reject all events except:
-    //  - Taskbar Menu
-    //  - Paint
-    //  - Erase Background
-    if (theEventType == wxEVT_RPC_FINISHED) {
-        return -1;
-    }
-    
-#ifdef __WXMSW__
-    if (theEventType == wxEVT_TASKBAR_CONTEXT_MENU) {
-        return -1;
-     }
-    if (theEventType == wxEVT_TASKBAR_RIGHT_DOWN) {
-        return -1;
-    }
-    if (theEventType == wxEVT_TASKBAR_RIGHT_UP) {
-        return -1;
-    }
-#endif
-
-    if (theEventType == wxEVT_PAINT) {
-        return -1;
-    }
-
-    if (theEventType == wxEVT_ERASE_BACKGROUND) {
-        return -1;
-    }
-
-    return false;
-#endif
 }
 
 const char *BOINC_RCSID_487cbf3018 = "$Id$";

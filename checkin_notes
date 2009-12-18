@@ -10316,3 +10316,25 @@ David  18 Dec 2009
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
         notice.cpp,h (new)
+
+Rom    18 Dec 2009
+    - MGR: Add a test notification menu item to the taskbar
+    - MGR: When a notification is clicked open up the GUI
+        and switch to the notification tab in the advanced
+        view.
+    - MGR: Reorder tabs
+    - MGR: Review messages tab
+    - MGR: cleanup code in various places
+    
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp, .h
+        DlgEventLog.cpp, .h (Added)
+        Events.h
+        MainDocument.cpp, .h
+        ViewNews.cpp, .h (Deleted)
+        ViewNotifications.cpp, .h (Added)
+    win_build/
+        boincmgr.vcproj

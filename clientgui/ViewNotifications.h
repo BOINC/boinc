@@ -15,25 +15,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VIEWNEWS_H_
-#define _VIEWNEWS_H_
+#ifndef _VIEWNOTIFICATIONS_H_
+#define _VIEWNOTIFICATIONS_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ViewNews.cpp"
+#pragma interface "ViewNotifications.cpp"
 #endif
 
 
 #include "BOINCBaseView.h"
 
 
-class CViewNews : public CBOINCBaseView {
-    DECLARE_DYNAMIC_CLASS( CViewNews )
+class CViewNotifications : public CBOINCBaseView {
+    DECLARE_DYNAMIC_CLASS( CViewNotifications )
 
 public:
-    CViewNews();
-    CViewNews(wxNotebook* pNotebook);
+    CViewNotifications();
+    CViewNotifications(wxNotebook* pNotebook);
 
-    ~CViewNews();
+    ~CViewNotifications();
 
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();

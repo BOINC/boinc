@@ -39,13 +39,13 @@
 #include "BOINCTaskBar.h"
 #include "BOINCDialupManager.h"
 #include "AdvancedFrame.h"
+#include "ViewNotifications.h"
 #include "ViewProjects.h"
 #include "ViewWork.h"
 #include "ViewTransfers.h"
 #include "ViewMessages.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
-#include "ViewNews.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgSelectComputer.h"
@@ -158,7 +158,7 @@ IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     // View
-    EVT_MENU_RANGE(ID_ADVPROJECTSVIEW, ID_ADVNEWSVIEW, CAdvancedFrame::OnChangeView)
+    EVT_MENU_RANGE(ID_ADVNOTIFICATIONSVIEW, ID_ADVRESOURCEUSAGEVIEW, CAdvancedFrame::OnChangeView)
     EVT_MENU(ID_CHANGEGUI, CAdvancedFrame::OnChangeGUI)
     // Tools
     EVT_MENU(ID_WIZARDATTACH, CAdvancedFrame::OnWizardAttach)
@@ -185,6 +185,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     // Custom Events & Timers
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
+    EVT_FRAME_NOTIFICATION(CAdvancedFrame::OnNotification)
     EVT_FRAME_UPDATESTATUS(CAdvancedFrame::OnUpdateStatus)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
@@ -330,6 +331,12 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
     wxMenu *menuView = new wxMenu;
 
     menuView->Append(
+        ID_ADVNOTIFICATIONSVIEW,
+        _("&Notifications\tCtrl+Shift+N"),
+        _("Display notifications")
+    );
+
+    menuView->Append(
         ID_ADVPROJECTSVIEW,
         _("&Projects\tCtrl+Shift+P"),
         _("Display projects")
@@ -348,12 +355,6 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
     );
 
     menuView->Append(
-        ID_ADVMESSAGESVIEW,
-        _("&Messages\tCtrl+Shift+M"),
-        _("Display messages")
-    );
-
-    menuView->Append(
         ID_ADVSTATISTICSVIEW,
         _("&Statistics\tCtrl+Shift+S"),
         _("Display statistics")
@@ -363,12 +364,6 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
         ID_ADVRESOURCEUSAGEVIEW,
         _("&Disk usage\tCtrl+Shift+D"),
         _("Display disk usage")
-    );
-
-    menuView->Append(
-        ID_ADVNEWSVIEW,
-        _("&News\tCtrl+Shift+N"),
-        _("Display news")
     );
 
     menuView->AppendSeparator();
@@ -447,8 +442,25 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
         _("&Suspend"),
         _("Stop work regardless of preferences")
     );
+
     if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+#if defined(__WXMSW__) || defined(__WXMAC__)
         menuActivity->AppendSeparator();
+#else
+        // for some reason, the above radio items do not display the active
+        // selection on linux (wxGtk library) with the separator here,
+        // so we add a blank disabled menu item instead
+        //
+        menuActivity->Append(
+            ID_ADVACTIVITYMENUSEPARATOR1,
+            (const wxChar *) wxT(" "), // wxEmptyString here causes a wxWidgets
+                                       //   assertion when debugging
+            wxEmptyString,
+            wxITEM_NORMAL              // wxITEM_SEPARATOR here causes a wxWidgets
+                                       //   assertion when debugging
+        );
+        menuActivity->Enable(ID_ADVACTIVITYMENUSEPARATOR1, false);
+#endif
         menuActivity->AppendRadioItem(
             ID_ADVACTIVITYGPUALWAYS,
             _("Use GPU always"),
@@ -466,7 +478,6 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
         );
     }
 
-
 #if defined(__WXMSW__) || defined(__WXMAC__)
     menuActivity->AppendSeparator();
 #else
@@ -475,14 +486,14 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
     // so we add a blank disabled menu item instead
     //
     menuActivity->Append(
-        ID_ADVACTIVITYMENUSEPARATOR,
+        ID_ADVACTIVITYMENUSEPARATOR2,
         (const wxChar *) wxT(" "), // wxEmptyString here causes a wxWidgets
                                    //   assertion when debugging
         wxEmptyString,
         wxITEM_NORMAL              // wxITEM_SEPARATOR here causes a wxWidgets
                                    //   assertion when debugging
     );
-    menuActivity->Enable(ID_ADVACTIVITYMENUSEPARATOR, false);
+    menuActivity->Enable(ID_ADVACTIVITYMENUSEPARATOR2, false);
 #endif
 
     menuActivity->AppendRadioItem(
@@ -676,7 +687,7 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
 }
 
 
-bool CAdvancedFrame::CreateNotebook( bool /* bRPCsSafe */ ) {
+bool CAdvancedFrame::CreateNotebook( bool WXUNUSED(bRPCsSafe) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebook - Function Begin"));
 
     // create frame panel
@@ -717,13 +728,12 @@ bool CAdvancedFrame::RepopulateNotebook() {
     DeleteNotebook();
 
     // Create the various notebook pages
+    CreateNotebookPage(new CViewNotifications(m_pNotebook));
     CreateNotebookPage(new CViewProjects(m_pNotebook));
     CreateNotebookPage(new CViewWork(m_pNotebook));
     CreateNotebookPage(new CViewTransfers(m_pNotebook));
-    CreateNotebookPage(new CViewMessages(m_pNotebook));
     CreateNotebookPage(new CViewStatistics(m_pNotebook));
     CreateNotebookPage(new CViewResources(m_pNotebook));
-    CreateNotebookPage(new CViewNews(m_pNotebook));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function End"));
     return true;
@@ -733,8 +743,8 @@ bool CAdvancedFrame::RepopulateNotebook() {
 bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebookPage - Function Begin"));
 
-    wxImageList*    pImageList;
-    int         iImageIndex = 0;
+    wxImageList* pImageList;
+    int          iImageIndex = 0;
 
     wxASSERT(pwndNewNotebookPage);
     wxASSERT(m_pNotebook);
@@ -756,7 +766,7 @@ bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
 }
 
 
-bool CAdvancedFrame::CreateStatusbar( bool /* bRPCsSafe */ ) {
+bool CAdvancedFrame::CreateStatusbar( bool WXUNUSED(bRPCsSafe) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateStatusbar - Function Begin"));
 
     if (m_pStatusbar)
@@ -845,10 +855,11 @@ bool CAdvancedFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-     // Store the latest window dimensions.
+    // Store the latest window dimensions.
     SaveWindowDimensions();
 
-   pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
+    // Store the latest tab
+    pConfig->Write(wxT("CurrentPageV2"), m_pNotebook->GetSelection());
 
     //
     // Save Page(s) State
@@ -914,7 +925,7 @@ bool CAdvancedFrame::RestoreState() {
     if (wxGetApp().GetSkinManager()->GetAdvanced()->GetDefaultTab()) {
         m_pNotebook->SetSelection(wxGetApp().GetSkinManager()->GetAdvanced()->GetDefaultTab());
     } else {
-        pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
+        pConfig->Read(wxT("CurrentPageV2"), &iCurrentPage, (ID_ADVNOTIFICATIONSVIEW - ID_ADVVIEWBASE));
         m_pNotebook->SetSelection(iCurrentPage);
     }
 
@@ -1739,8 +1750,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 true
             );
         } else {
-            // If failure, display the messages tab
-            m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
+            // If failure, display the notification tab
+            m_pNotebook->SetSelection(ID_ADVNOTIFICATIONSVIEW - ID_ADVVIEWBASE);
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetProjectCount())) && !status.disallow_attach) {
         if (!IsShown()) {
@@ -1776,6 +1787,15 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         pAPWizard->Destroy();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function End"));
+}
+
+
+void CAdvancedFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotification - Function Begin"));
+
+    m_pNotebook->SetSelection(ID_ADVNOTIFICATIONSVIEW - ID_ADVVIEWBASE);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotification - Function End"));
 }
 
 
@@ -1957,6 +1977,14 @@ void CAdvancedFrame::UpdateGPUModeControls( CC_STATUS& status ) {
     wxMenuBar* pMenuBar      = GetMenuBar();
     wxASSERT(pMenuBar);
     wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
+
+    // Prevent asserts on startup, the document hasn't been initialized
+    // and so the flags used for determining the use of a GPU are initially
+    // false.  Later the document contains the latest information but the
+    // menu hasn't been updated yet, an assert happens.
+    if (!pMenuBar->FindItem(ID_ADVACTIVITYGPUALWAYS)) return;
+    if (!pMenuBar->FindItem(ID_ADVACTIVITYGPUSUSPEND)) return;
+    if (!pMenuBar->FindItem(ID_ADVACTIVITYGPUBASEDONPREPERENCES)) return;
 
     if ((RUN_MODE_ALWAYS == status.gpu_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYGPUALWAYS)) return;
     if ((RUN_MODE_NEVER == status.gpu_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYGPUSUSPEND)) return;

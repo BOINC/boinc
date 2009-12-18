@@ -99,6 +99,7 @@ public:
 
     void OnRefreshView( CFrameEvent& event );
     void OnConnect( CFrameEvent& event );
+    void OnNotification( CFrameEvent& event );
 
     void OnUpdateStatus( CFrameEvent& event );
 

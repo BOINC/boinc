@@ -564,7 +564,6 @@ int CMainDocument::OnRefreshState() {
     if (IsConnected()) {
         CachedStateUpdate();
     }
-
     return 0;
 }
 

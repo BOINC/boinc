@@ -45,30 +45,35 @@ DEFINE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN)
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_REFRESH)
 
 BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
+
     EVT_IDLE(CTaskBarIcon::OnIdle)
     EVT_CLOSE(CTaskBarIcon::OnClose)
     EVT_TASKBAR_REFRESH(CTaskBarIcon::OnRefresh)
     EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
+    EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspendResume)
     EVT_MENU(ID_TB_SUSPEND_GPU, CTaskBarIcon::OnSuspendResumeGPU)
+    EVT_MENU(ID_TB_TEST_NOTIFICATION, CTaskBarIcon::OnTestNotification)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 
 #ifdef __WXMSW__
     EVT_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
-    EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
     EVT_TASKBAR_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
+    EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
 #endif
+
 #ifdef __WXMAC__
     // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
     //  wxID_PREFERENCES to kHICommandPreferences
     EVT_MENU(kHICommandAbout, CTaskBarIcon::OnAbout)
 #endif
+
 END_EVENT_TABLE()
 
 
@@ -76,7 +81,7 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
 #if   defined(__WXMAC__)
     wxTaskBarIcon(DOCK)
 #elif defined(__WXMSW__)
-    wxTaskBarIconEx(wxT("BOINCManagerSystray"))
+    wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #else
     wxTaskBarIcon()
 #endif
@@ -160,39 +165,23 @@ void CTaskBarIcon::OnLButtonDClick(wxTaskBarIconEvent& event) {
 }
 
 
-void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
+void CTaskBarIcon::OnNotificationClick(wxTaskBarIconExEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnNotificationClick - Function Begin"));
+
     ResetTaskBar();
+    wxGetApp().ShowNotifications();
 
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-    wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnNotificationClick - Function End"));
+}
 
-    if (pFrame) {
-        pFrame->Show();
 
-#ifdef __WXMAC__
-        if (pFrame->IsIconized()) {
-            pFrame->Iconize(false);
-        }
-#else
-        if (pFrame->IsMaximized()) {
-            pFrame->Maximize(true);
-        } else {
-            pFrame->Maximize(false);
-        }
-#endif
-        pFrame->SendSizeEvent();
-        pFrame->Update();
+void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnOpen - Function Begin"));
 
-#ifdef __WXMSW__
-        ::SetForegroundWindow((HWND)pFrame->GetHandle());
-#endif
-    }
-#ifdef __WXMAC__
-    else {
-        wxGetApp().ShowCurrentGUI();
-    }
-#endif
+    ResetTaskBar();
+    wxGetApp().ShowInterface();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnOpen - Function End"));
 }
 
 
@@ -252,6 +241,20 @@ void CTaskBarIcon::OnSuspendResumeGPU(wxCommandEvent& WXUNUSED(event)) {
     }
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspendResumeGPU - Function End"));
 }
+
+void CTaskBarIcon::OnTestNotification(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnTestNotification - Function Begin"));
+
+    QueueBalloon(
+        m_iconTaskBarNormal,
+        _("BOINC Notification"),
+        _("TEST: Fluffy@Home just found out that the Fluffy project has been published in Nature"),
+        NIIF_INFO
+    );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnTestNotification - Function End"));
+}
+
 void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     bool bWasVisible;
 
@@ -318,7 +321,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         m_dtLastHoverDetected = wxDateTime::Now();
 
         CMainDocument* pDoc                 = wxGetApp().GetDocument();
-       wxString       strMachineName       = wxEmptyString;
+        wxString       strMachineName       = wxEmptyString;
         wxString       strMessage           = wxEmptyString;
         wxString       strProjectName       = wxEmptyString;
         wxString       strBuffer            = wxEmptyString;
@@ -616,6 +619,13 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     }
 
     pMenu->AppendSeparator();
+
+#ifdef _DEBUG
+
+    pMenu->Append(ID_TB_TEST_NOTIFICATION, _("Test Notification"), wxEmptyString);
+    pMenu->AppendSeparator();
+
+#endif
 
     menuName.Printf(
         _("&About %s..."),

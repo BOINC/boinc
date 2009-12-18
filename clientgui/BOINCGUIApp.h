@@ -159,8 +159,6 @@ public:
     int                 StartBOINCDefaultScreensaverTest();
 
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
-
-    bool                ShowCurrentGUI() { return SetActiveGUI(m_iGUISelected, true); }
     
     void                OnRPCFinished( CRPCFinishedEvent& event );
     void                OnSystemShutDown( wxCloseEvent &event );
@@ -178,6 +176,8 @@ public:
 
     bool                IsApplicationVisible();
     void                ShowApplication(bool bShow);
+    bool                ShowInterface();
+    bool                ShowNotifications();
 
     bool                IsModalDialogDisplayed();
     bool                IsSafeMesageBoxDisplayed() { return (m_bSafeMessageBoxDisplayed != 0); };

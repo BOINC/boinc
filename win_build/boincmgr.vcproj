@@ -1748,6 +1748,14 @@
 				Name="Dialogs"
 				>
 				<File
+					RelativePath="..\clientgui\DlgAbout.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgAbout.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\DlgExitMessage.cpp"
 					>
 				</File>
@@ -1796,19 +1804,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewMessages.cpp"
+					RelativePath="..\clientgui\ViewNotifications.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewMessages.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewNews.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewNews.h"
+					RelativePath="..\clientgui\ViewNotifications.h"
 					>
 				</File>
 				<File
@@ -1861,14 +1861,6 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\BOINCBaseView.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\DlgAbout.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\DlgAbout.h"
 					>
 				</File>
 				<File

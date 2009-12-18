@@ -49,13 +49,12 @@
 
 // View Menu
 #define ID_ADVVIEWBASE                          6125
-#define ID_ADVPROJECTSVIEW                      6125
-#define ID_ADVTASKSVIEW                         6126
-#define ID_ADVTRANSFERSVIEW                     6127
-#define ID_ADVMESSAGESVIEW                      6128
+#define ID_ADVNOTIFICATIONSVIEW                 6125
+#define ID_ADVPROJECTSVIEW                      6126
+#define ID_ADVTASKSVIEW                         6127
+#define ID_ADVTRANSFERSVIEW                     6128
 #define ID_ADVSTATISTICSVIEW                    6129
 #define ID_ADVRESOURCEUSAGEVIEW                 6130
-#define ID_ADVNEWSVIEW                          6131
 
 // Tools Menu
 //#define ID_ATTACHWIZARD
@@ -66,13 +65,14 @@
 #define ID_ADVACTIVITYRUNALWAYS                 6010
 #define ID_ADVACTIVITYRUNBASEDONPREPERENCES     6011
 #define ID_ADVACTIVITYSUSPEND                   6012
-#define ID_ADVACTIVITYMENUSEPARATOR             6013
-#define ID_ADVNETWORKRUNALWAYS                  6014
-#define ID_ADVNETWORKRUNBASEDONPREPERENCES      6015
-#define ID_ADVNETWORKSUSPEND                    6016
-#define ID_ADVACTIVITYGPUALWAYS                 6017
-#define ID_ADVACTIVITYGPUBASEDONPREPERENCES     6018
-#define ID_ADVACTIVITYGPUSUSPEND                6019
+#define ID_ADVACTIVITYMENUSEPARATOR1            6013
+#define ID_ADVACTIVITYGPUALWAYS                 6014
+#define ID_ADVACTIVITYGPUBASEDONPREPERENCES     6015
+#define ID_ADVACTIVITYGPUSUSPEND                6016
+#define ID_ADVACTIVITYMENUSEPARATOR2            6017
+#define ID_ADVNETWORKRUNALWAYS                  6018
+#define ID_ADVNETWORKRUNBASEDONPREPERENCES      6019
+#define ID_ADVNETWORKSUSPEND                    6020
 
 // Advanced Menu
 #define ID_OPTIONS                              6050
@@ -99,15 +99,14 @@
 #define ID_PIECTRL_RESOURCEUTILIZATIONVIEW      7004
 #define ID_PIECTRL_RESOURCEUTILIZATIONVIEWTOTAL	7005
 #define ID_LIST_STATISTICSVIEW                  7006
-#define ID_HTML_NEWSVIEW                        7007
+#define ID_HTML_NOTIFICATIONSVIEW               7007
 #define ID_TASK_BASE                            8000
-#define ID_TASK_PROJECTSVIEW                    8000
-#define ID_TASK_WORKVIEW                        8001
-#define ID_TASK_TRANSFERSVIEW                   8002
-#define ID_TASK_MESSAGESVIEW                    8003
+#define ID_TASK_NOTIFICATIONSVIEW               8000
+#define ID_TASK_PROJECTSVIEW                    8001
+#define ID_TASK_WORKVIEW                        8002
+#define ID_TASK_TRANSFERSVIEW                   8003
 #define ID_TASK_STATISTICSVIEW                  8004
 #define ID_TASK_RESOURCEUTILIZATIONVIEW         8005
-#define ID_TASK_NEWSVIEW                        8006
 #define ID_TASK_PROJECT_UPDATE                  9000
 #define ID_TASK_PROJECT_SUSPEND                 9002
 #define ID_TASK_PROJECT_RESUME                  9003
@@ -158,6 +157,7 @@
 //
 #define ID_TB_SUSPEND                           6801
 #define ID_TB_SUSPEND_GPU                       6802
+#define ID_TB_TEST_NOTIFICATION                 6803
 
 //
 // Dialogs
