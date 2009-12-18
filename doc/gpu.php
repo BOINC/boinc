@@ -62,7 +62,6 @@ Projects with NVIDIA applications:
 <li> <a href=http://aqua.dwavesys.com/>AQUA@home</a>
 <li> <a href=http://boinc.umiacs.umd.edu/>Lattice</a>
 <li> <a href=http://boinc.thesonntags.com/collatz/>Collatz Conjecture</a>
-<li> <a href=http://hydrogenathome.org/>Hydrogen@home</a>
 </ul>
 
 Projects with ATI applications:

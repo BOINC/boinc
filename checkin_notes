@@ -10297,3 +10297,9 @@ Rom    18 Dec 2009
     
     clientgui/
         wxFlatNotebook.cpp
+
+David  18 Dec 2009
+    - client (Mac): it's DYLD_LIBRARY_PATH, not DYLIB_LIBRARY_PATH
+
+    client/
+        app_start.cpp
