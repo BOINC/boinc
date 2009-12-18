@@ -10238,3 +10238,13 @@ Rom    17 Dec 2009
         configure.ac
     clientgui/
         sg_DlgPreferences.cpp
+
+Rom    17 Dec 2009
+    - MGR: More cleanup work
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp
+        sg_ViewTabPage.cpp
+    clientgui/common/
+        wxPieCtrl.cpp, .h

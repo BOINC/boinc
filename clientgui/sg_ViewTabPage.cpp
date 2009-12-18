@@ -513,13 +513,9 @@ CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - Begin"));
     
-#if (defined(__WXMAC__) && (! wxCHECK_VERSION(2,8,0)))
-    // wxBufferedDC.GetTextExtent() fails with wxMac-2.6.3, causing Manager to hang
-    wxClientDC dc(this);
-#else
     wxClientDC dcc(this);
 	wxBufferedDC dc(&dcc); 
-#endif
+
     //Project Name
     dc.DrawBitmap(*(pSkinSimple->GetWorkunitAreaBackgroundImage()->GetBitmap()), 0, 0);
 	WriteText(&dc);

@@ -159,7 +159,6 @@ bool CBOINCGUIApp::OnInit() {
     wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
 #endif
 #ifdef __WXMAC__
-#if wxCHECK_VERSION(2,8,0)
     // In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
     // so use traditional generic implementation.
     // This has been fixed in wxMac-2.8.8, but the Mac native implementation:
@@ -167,7 +166,6 @@ bool CBOINCGUIApp::OnInit() {
     //  - seems to always redraw entire control even if asked to refresh only one row.
     //  - causes major flicker of progress bars, (probably due to full redraws.)
     wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
-#endif
 #endif
 
 

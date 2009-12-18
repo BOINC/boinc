@@ -15,9 +15,6 @@
 
 using namespace std;
 
-#if ! wxCHECK_VERSION(2,8,0)
-WX_DEFINE_OBJARRAY(wxArrayDouble);
-#endif
 WX_DEFINE_OBJARRAY(wxPieSeries);
 
 /* ####### wxPiePart */
