@@ -1880,6 +1880,22 @@
 					>
 				</File>
 				<File
+					RelativePath="..\clientgui\DlgEventLog.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgEventLog.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgEventLogListCtrl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgEventLogListCtrl.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\DlgItemProperties.cpp"
 					>
 				</File>

@@ -50,6 +50,7 @@
 #include "DlgOptions.h"
 #include "DlgSelectComputer.h"
 #include "DlgGenericMessage.h"
+#include "DlgEventLog.h"
 #include "wizardex.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
@@ -177,6 +178,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_RETRYCOMMUNICATIONS, CAdvancedFrame::OnRetryCommunications)
 	EVT_MENU(ID_READPREFERENCES, CAdvancedFrame::OnReadPreferences)
 	EVT_MENU(ID_READCONFIG, CAdvancedFrame::OnReadConfig)
+	EVT_MENU(ID_EVENTLOG, CAdvancedFrame::OnEventLog)
     // Help
     EVT_MENU(ID_HELPBOINC, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
@@ -226,11 +228,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
-#ifdef __WXMAC__
     m_pRefreshStateTimer->Start(300000);            // Send event every 5 minutes
-#else
-    m_pRefreshStateTimer->Start(5000);              // Send event every 5 seconds
-#endif
 
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(m_pFrameRenderTimer);
@@ -560,6 +558,11 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
         ID_READPREFERENCES, 
         _("Read local prefs file"),
         _("Read preferences from global_prefs_override.xml.")
+    );
+    menuAdvanced->Append(
+        ID_EVENTLOG, 
+        _("Event Log..."),
+        _("Display diagnostic messages from the client.")
     );
 
 
@@ -1564,6 +1567,16 @@ void CAdvancedFrame::OnReadPreferences(wxCommandEvent& WXUNUSED(event)) {
     pDoc->rpc.read_global_prefs_override();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnReadPreferences - Function End"));
+}
+
+
+void CAdvancedFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnEventLog - Function Begin"));
+
+    CDlgEventLog dlg(this);
+    dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnEventLog - Function End"));
 }
 
 

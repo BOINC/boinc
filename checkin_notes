@@ -10352,3 +10352,16 @@ David  18 Dec 2009
 
     sched/
         sched_customize.cpp
+
+Rom    18 Dec 2009
+    - MGR: content that was formally in the messages tab can now be
+        found in the Event Log, check the advanced menu.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
+        DlgEventLog.cpp, .h
+        DlgEventLogListCtrl.cpp, .h (Added)
+        Events.h
+    win_build/
+        boincmgr.vcproj
+        
