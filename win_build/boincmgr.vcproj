@@ -1357,6 +1357,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\notice.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\parse.cpp"
 				>
 			</File>
