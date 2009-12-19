@@ -26,7 +26,6 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "hyperlink.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -650,11 +649,6 @@ void CBOINCBaseFrame::UpdateStatusText(const wxChar* szStatus) {
 void CBOINCBaseFrame::ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only, const FrameAlertEventType alert_event_type ) {
     CFrameAlertEvent event(wxEVT_FRAME_ALERT, this, title, message, style, notification_only, alert_event_type);
     AddPendingEvent(event);
-}
-
-
-void CBOINCBaseFrame::ExecuteBrowserLink(const wxString &strLink) {
-    wxHyperLink::ExecuteLink(strLink);
 }
 
 

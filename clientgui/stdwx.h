@@ -111,10 +111,9 @@
 #include <wx/fs_mem.h>
 #include <wx/dnd.h>
 #include <wx/htmllbox.h>
-
+#include <wx/hyperlink.h>
 
 #ifdef _WIN32
-
 // Visual Studio 2005 has extended the C Run-Time Library by including "secure"
 // runtime functions and deprecating the previous function prototypes.  Since
 // we need to use the previous prototypes to maintain compatibility with other

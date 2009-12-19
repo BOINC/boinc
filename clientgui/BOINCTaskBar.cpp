@@ -202,7 +202,7 @@ void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
 
     pDoc->rpc.acct_mgr_info(ami);
     url = wxString(ami.acct_mgr_url.c_str(), wxConvUTF8);
-    pFrame->ExecuteBrowserLink(url);
+    wxLaunchDefaultBrowser(url);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnOpenWebsite - Function End"));
 }

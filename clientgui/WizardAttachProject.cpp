@@ -28,7 +28,6 @@
 #include "error_numbers.h"
 #include "wizardex.h"
 #include "error_numbers.h"
-#include "hyperlink.h"
 #include "browser.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -658,17 +657,16 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
  */
 
 void CWizardAttachProject::OnFinished( wxWizardExEvent& event ) {
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
 
     if (IsAccountManagerWizard) {
         // Attached to an account manager
         if (!m_strReturnURL.empty() && GetAttachedToProjectSuccessfully()) {
-            pFrame->ExecuteBrowserLink(m_strReturnURL);
+            wxLaunchDefaultBrowser(m_strReturnURL);
         }
     } else {
         // Attached to a project
         if (GetAccountCreatedSuccessfully() && GetAttachedToProjectSuccessfully()) {
-            pFrame->ExecuteBrowserLink(GetProjectURL() + wxT("account_finish.php?auth=") + GetProjectAuthenticator());
+            wxLaunchDefaultBrowser(GetProjectURL() + wxT("account_finish.php?auth=") + GetProjectAuthenticator());
         }
     }
 

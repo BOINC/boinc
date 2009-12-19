@@ -10376,3 +10376,36 @@ Charlie  18 Dec 2009
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    19 Dec 2009
+    - MGR: Remove some old wxWidgets 2.4 cruft for dealing with Hyperlinks.
+        wxWidgets now natively supports them.
+        
+    clientgui/
+        AccountInfoPage.cpp, .h
+        AccountManagerInfoPage.cpp
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp, .h
+        BOINCGUI.cst (deleted)
+        BOINCGUI.pjd (deleted)
+        BOINCTaskBar.cpp
+        BOINCWizards.h
+        DlgAbout.cpp, .h
+        DlgAdvPreferences.cpp
+        DlgEventLog.cpp
+        hyperlink.cpp, .h (deleted)
+        ProjectInfoPage.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp
+        sg_StatImageLoader.cpp
+        stdwx.h
+        ViewProjects.cpp
+        ViewWork.cpp
+        WelcomePage.cpp
+        WizardAttachProject.cpp
+    win_build/
+        boinc_ss.vcproj
+        boincmgr.vcproj
+        libboinc_staticcrt.vcproj

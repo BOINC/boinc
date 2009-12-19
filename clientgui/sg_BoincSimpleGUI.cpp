@@ -281,7 +281,7 @@ void CSimpleFrame::OnHelpBOINC(wxCommandEvent& event) {
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
-		ExecuteBrowserLink(wxurl);
+		wxLaunchDefaultBrowser(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINC - Function End"));
@@ -301,7 +301,7 @@ void CSimpleFrame::OnHelp(wxHelpEvent& event) {
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
-        ExecuteBrowserLink(wxurl);
+        wxLaunchDefaultBrowser(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function End"));

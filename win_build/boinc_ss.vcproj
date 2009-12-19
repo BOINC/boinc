@@ -612,6 +612,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\notice.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\parse.cpp"
 				>
 			</File>
@@ -694,6 +698,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\network.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\notice.h"
 				>
 			</File>
 			<File

@@ -93,7 +93,7 @@ public:
 ////@begin CAccountInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pCookieDetectionFailedStaticCtrl;
-    wxHyperLink* m_pCookieDetectionFailedCtrl;
+    wxHyperlinkCtrl* m_pCookieDetectionFailedCtrl;
     wxStaticText* m_pAccountQuestionStaticCtrl;
     wxRadioButton* m_pAccountCreateCtrl;
     wxRadioButton* m_pAccountUseExistingCtrl;
@@ -109,7 +109,7 @@ public:
     wxString m_strAccountEmailAddress;
     wxString m_strAccountPassword;
     wxString m_strAccountConfirmPassword;
-    wxHyperLink* m_pAccountForgotPasswordCtrl;
+    wxHyperlinkCtrl* m_pAccountForgotPasswordCtrl;
 ////@end CAccountInfoPage member variables
 };
 

@@ -91,8 +91,6 @@ public:
                             const FrameAlertEventType alert_event_type = AlertNormal
                         );
 
-    void                ExecuteBrowserLink( const wxString& strLink );
-
     bool                Show( bool bShow = true );
 
     virtual bool        SaveState();

@@ -33,7 +33,6 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "hyperlink.h"
 #include "ValidateURL.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
@@ -447,7 +446,7 @@ void CProjectInfoPage::OnProjectItemChange( ProjectListCtrlEvent& event ) {
  */
 
 void CProjectInfoPage::OnProjectItemDisplay( ProjectListCtrlEvent& event ) {
-    wxHyperLink::ExecuteLink( event.GetURL() );
+    wxLaunchDefaultBrowser( event.GetURL() );
 }
 
 

@@ -27,7 +27,6 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "Events.h"
-#include "hyperlink.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -406,7 +405,7 @@ void CProjectsComponent::OnHelp(wxCommandEvent& event) {
         event.GetId()
     );
 
-    wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
+    wxLaunchDefaultBrowser(wxurl);
         
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnHelp - Function End"));
 }

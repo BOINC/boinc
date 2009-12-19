@@ -32,7 +32,6 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
-#include "hyperlink.h"
 #include "version.h"
 #include "DlgEventLogListCtrl.h"
 #include "DlgEventLog.h"
@@ -282,7 +281,7 @@ void CDlgEventLog::OnHelp(wxHelpEvent& event) {
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
-        wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
+        wxLaunchDefaultBrowser(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnHelp - Function End"));
@@ -616,7 +615,7 @@ void CDlgEventLog::OnButtonHelp( wxCommandEvent& event ) {
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
-        wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
+        wxLaunchDefaultBrowser(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnHelp - Function End"));

@@ -28,7 +28,6 @@
 
 ////@begin includes
 #include "wx/valgen.h"
-#include "hyperlink.h"
 #include "wx/statline.h"
 ////@end includes
 
@@ -37,7 +36,6 @@
  */
 
 ////@begin forward declarations
-class wxHyperLink;
 ////@end forward declarations
 
 /*!
@@ -108,7 +106,7 @@ public:
     wxStaticText* m_AboutBOINCTitleCtrl;
     wxStaticBitmap* m_AboutBOINCLogoCtrl;
     wxStaticText* m_AboutBOINCSloganCtrl;
-    wxHyperLink* m_AboutBOINCURLCtrl;
+    wxHyperlinkCtrl* m_AboutBOINCURLCtrl;
     wxString m_strVersion;
     wxString m_strWidgetsVersion;
 ////@end CDlgAbout member variables

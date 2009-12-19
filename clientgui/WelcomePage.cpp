@@ -35,7 +35,6 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
 #include "WelcomePage.h"
-#include "hyperlink.h"
 
 ////@begin XPM images
 ////@end XPM images
@@ -343,7 +342,7 @@ void CWelcomePage::OnChangeApplications( wxCommandEvent& /* event */ ) {
     wxASSERT(pWAP);
     wxASSERT(wxDynamicCast(pWAP, CWizardAttachProject));
 
-    wxHyperLink::ExecuteLink(wxT("http://www.worldcommunitygrid.org/ms/viewMyProjects.do"));
+    wxLaunchDefaultBrowser(wxT("http://www.worldcommunitygrid.org/ms/viewMyProjects.do"));
     pWAP->SimulateCancelButton();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnChangeApplications - Function End"));

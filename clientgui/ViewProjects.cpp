@@ -537,7 +537,7 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
     pFrame->UpdateStatusText(_("Launching browser..."));
 
     int website_task_index = event.GetId() - ID_TASK_PROJECT_WEB_PROJDEF_MIN;
-    pFrame->ExecuteBrowserLink(
+    wxLaunchDefaultBrowser(
         m_TaskGroups[1]->m_Tasks[website_task_index]->m_strWebSiteLink
     );
 

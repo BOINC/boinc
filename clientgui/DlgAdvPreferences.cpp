@@ -24,7 +24,6 @@
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "SkinManager.h"
-#include "hyperlink.h"
 #include "Events.h"
 #include "error_numbers.h"
 #include "version.h"
@@ -713,7 +712,7 @@ void CDlgAdvPreferences::OnHelp(wxCommandEvent& ev) {
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             ev.GetId()
         );
-        wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
+        wxLaunchDefaultBrowser(wxurl);
     }
 }
 

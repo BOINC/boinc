@@ -137,11 +137,6 @@ class CErrProxyInfoPage;
 class CErrProxyPage;
 
 
-// Forward declare special controls
-//
-class wxHyperLink;
-
-
 // Wizard Detection
 //
 #define IS_ATTACHTOPROJECTWIZARD() \

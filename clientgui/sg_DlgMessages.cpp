@@ -32,7 +32,6 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
-#include "hyperlink.h"
 #include "version.h"
 
 #include "sg_DlgMessages.h"
@@ -452,7 +451,7 @@ void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
-        wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
+        wxLaunchDefaultBrowser(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnHelp - Function End"));
@@ -844,7 +843,7 @@ void CDlgMessages::OnHelp(wxHelpEvent& event) {
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
-        wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
+        wxLaunchDefaultBrowser(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnHelp - Function End"));
