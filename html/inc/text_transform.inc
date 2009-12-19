@@ -41,7 +41,7 @@ class output_options {
         $this->images_as_links = 0;
         $this->link_popup = 0;
         $this->nl2br = 1;
-        $this->htmlitems = 0;
+        $this->htmlitems = 1;
         $this->htmlscrub = 0;
         $this->highlight_terms = 0;
         return true;

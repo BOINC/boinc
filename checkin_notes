@@ -10409,3 +10409,9 @@ Rom    19 Dec 2009
         boinc_ss.vcproj
         boincmgr.vcproj
         libboinc_staticcrt.vcproj
+
+David  18 Dec 2009
+    - web: small fix
+
+    html/inc/
+        text_transform.inc
