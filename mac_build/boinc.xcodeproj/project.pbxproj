@@ -64,7 +64,6 @@
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
 		DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.cpp */; };
 		DD35353607E1E13F00C4718D /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5755AD302FE063A012012A7 /* boinc_api.cpp */; };
-		DD377E090F6F95650089CE9A /* ViewNews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD377E070F6F95650089CE9A /* ViewNews.cpp */; };
 		DD3E14DB0A774397007E0084 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
 		DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDF3028907CCCE2C00701169 /* BOINCMgr.icns */; };
 		DD3E14DD0A774397007E0084 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
@@ -367,6 +366,12 @@
 		DDD9C5AC10CCF6AB00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */; };
+		DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372810DC5E5300161D6B /* cs_notice.cpp */; };
+		DDE1372F10DC5E8D00161D6B /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
+		DDE1373210DC5EA400161D6B /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
+		DDE1373D10DC60BB00161D6B /* ViewNotifications.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1373B10DC60BB00161D6B /* ViewNotifications.cpp */; };
+		DDE1374210DC60E200161D6B /* DlgEventLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374010DC60E200161D6B /* DlgEventLog.cpp */; };
+		DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */; };
 		DDE3A8800E90D1BF00A363A7 /* client_state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */; };
 		DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */; };
 		DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */; };
@@ -689,8 +694,6 @@
 		DD344BEE07C5B1770043025C /* proxy_info.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy_info.h; path = ../lib/proxy_info.h; sourceTree = SOURCE_ROOT; };
 		DD344BEF07C5B1770043025C /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = proxy_info.cpp; sourceTree = "<group>"; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD377E070F6F95650089CE9A /* ViewNews.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewNews.cpp; path = ../clientgui/ViewNews.cpp; sourceTree = SOURCE_ROOT; };
-		DD377E080F6F95650089CE9A /* ViewNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewNews.h; path = ../clientgui/ViewNews.h; sourceTree = SOURCE_ROOT; };
 		DD3E15420A774397007E0084 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mem_usage.cpp; sourceTree = "<group>"; };
@@ -943,6 +946,16 @@
 		DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coproc_detect.cpp; path = ../client/coproc_detect.cpp; sourceTree = SOURCE_ROOT; };
 		DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgExitMessage.cpp; path = ../clientgui/DlgExitMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDDE43B80EC04C3C00083520 /* DlgExitMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgExitMessage.h; path = ../clientgui/DlgExitMessage.h; sourceTree = SOURCE_ROOT; };
+		DDE1372810DC5E5300161D6B /* cs_notice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_notice.cpp; path = ../client/cs_notice.cpp; sourceTree = SOURCE_ROOT; };
+		DDE1372910DC5E5300161D6B /* cs_notice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cs_notice.h; path = ../client/cs_notice.h; sourceTree = SOURCE_ROOT; };
+		DDE1372D10DC5E8D00161D6B /* notice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = notice.cpp; path = ../lib/notice.cpp; sourceTree = SOURCE_ROOT; };
+		DDE1372E10DC5E8D00161D6B /* notice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = notice.h; path = ../lib/notice.h; sourceTree = SOURCE_ROOT; };
+		DDE1373B10DC60BB00161D6B /* ViewNotifications.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewNotifications.cpp; path = ../clientgui/ViewNotifications.cpp; sourceTree = SOURCE_ROOT; };
+		DDE1373C10DC60BB00161D6B /* ViewNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewNotifications.h; path = ../clientgui/ViewNotifications.h; sourceTree = SOURCE_ROOT; };
+		DDE1374010DC60E200161D6B /* DlgEventLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgEventLog.cpp; path = ../clientgui/DlgEventLog.cpp; sourceTree = SOURCE_ROOT; };
+		DDE1374110DC60E200161D6B /* DlgEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgEventLog.h; path = ../clientgui/DlgEventLog.h; sourceTree = SOURCE_ROOT; };
+		DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgEventLogListCtrl.cpp; path = ../clientgui/DlgEventLogListCtrl.cpp; sourceTree = SOURCE_ROOT; };
+		DDE1374810DC613600161D6B /* DlgEventLogListCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgEventLogListCtrl.h; path = ../clientgui/DlgEventLogListCtrl.h; sourceTree = SOURCE_ROOT; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = client_state.cpp; sourceTree = "<group>"; };
 		DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scheduler_op.cpp; sourceTree = "<group>"; };
@@ -1331,6 +1344,10 @@
 				DDFE84E20B60CD66009B43D9 /* DlgAdvPreferences.h */,
 				DDFE84E30B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp */,
 				DDFE84E40B60CD66009B43D9 /* DlgAdvPreferencesBase.h */,
+				DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */,
+				DDE1374810DC613600161D6B /* DlgEventLogListCtrl.h */,
+				DDE1374010DC60E200161D6B /* DlgEventLog.cpp */,
+				DDE1374110DC60E200161D6B /* DlgEventLog.h */,
 				DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */,
 				DDDE43B80EC04C3C00083520 /* DlgExitMessage.h */,
 				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
@@ -1410,8 +1427,8 @@
 				DD81C46507C5D29F0098A04D /* ValidateURL.h */,
 				DD81C42507C5D1D70098A04D /* ViewMessages.cpp */,
 				DD81C46407C5D29F0098A04D /* ViewMessages.h */,
-				DD377E070F6F95650089CE9A /* ViewNews.cpp */,
-				DD377E080F6F95650089CE9A /* ViewNews.h */,
+				DDE1373B10DC60BB00161D6B /* ViewNotifications.cpp */,
+				DDE1373C10DC60BB00161D6B /* ViewNotifications.h */,
 				DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */,
 				DDD52DC50C03CAE6009B5FC0 /* ViewProjects.h */,
 				DD81C42307C5D1D70098A04D /* ViewResources.cpp */,
@@ -1546,6 +1563,8 @@
 				DD6D0A8507E9A61B007F882B /* network.cpp */,
 				DD6D0A8607E9A61B007F882B /* network.h */,
 				F54B901602AC0A2201FB7237 /* parse.cpp */,
+				DDE1372D10DC5E8D00161D6B /* notice.cpp */,
+				DDE1372E10DC5E8D00161D6B /* notice.h */,
 				F54B901502AC0A2201FB7237 /* parse.h */,
 				DD344BE407C5B1670043025C /* prefs.cpp */,
 				DD344BE507C5B1670043025C /* prefs.h */,
@@ -1600,6 +1619,8 @@
 				F54B8FC702AC0A0C01FB7237 /* cs_apps.cpp */,
 				DD344B8507C5ADE70043025C /* cs_cmdline.cpp */,
 				F54B8FC802AC0A0C01FB7237 /* cs_files.cpp */,
+				DDE1372810DC5E5300161D6B /* cs_notice.cpp */,
+				DDE1372910DC5E5300161D6B /* cs_notice.h */,
 				DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */,
 				DD344B8D07C5ADFA0043025C /* cs_prefs.cpp */,
 				DD0052F710CA6F1D0067570C /* cs_proxy.cpp */,
@@ -2533,11 +2554,13 @@
 				DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */,
 				DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */,
 				DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */,
-				DD377E090F6F95650089CE9A /* ViewNews.cpp in Sources */,
 				DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */,
 				DDA99BF41099AF18002F8E9B /* MacAccessiblity.cpp in Sources */,
 				DDC06ABC10A3E98D00C8D9A5 /* url.cpp in Sources */,
 				DDD9C5A510CCF61F00A1E4CD /* coproc.cpp in Sources */,
+				DDE1373D10DC60BB00161D6B /* ViewNotifications.cpp in Sources */,
+				DDE1374210DC60E200161D6B /* DlgEventLog.cpp in Sources */,
+				DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2578,6 +2601,7 @@
 				DD6802300E701ACD0067D009 /* cert_sig.cpp in Sources */,
 				DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */,
 				DDC06AB410A3E93F00C8D9A5 /* url.cpp in Sources */,
+				DDE1372F10DC5E8D00161D6B /* notice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2830,6 +2854,8 @@
 				DDC06AB810A3E97700C8D9A5 /* url.cpp in Sources */,
 				DD0052F910CA6F1D0067570C /* cs_proxy.cpp in Sources */,
 				DDD9C59310CCF54300A1E4CD /* coproc_detect.cpp in Sources */,
+				DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */,
+				DDE1373210DC5EA400161D6B /* notice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -51,7 +51,7 @@ void NOTICE::write(MIOFILE& f) {
         "</notice>\n",
         seqno,
         title,
-        description,
+        description.c_str(),
         create_time,
         arrival_time,
         is_private?1:0,
