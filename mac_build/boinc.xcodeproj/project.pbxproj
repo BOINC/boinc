@@ -375,6 +375,8 @@
 		DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */; };
 		DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */; };
 		DDE41C260C1FCA8F00CA1F86 /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE41C250C1FCA8F00CA1F86 /* graphics2_util.cpp */; };
+		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
+		DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF9A32F0B2E3D4D00091FCB /* auto_update.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9A32D0B2E3D4D00091FCB /* auto_update.cpp */; };
 		DDFA60E20CB3391C0037B88C /* gfx_switcher in Resources */ = {isa = PBXBuildFile; fileRef = DDFA60D40CB337D40037B88C /* gfx_switcher */; };
 		DDFA60E40CB3396C0037B88C /* gfx_switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFA60E30CB3396C0037B88C /* gfx_switcher.cpp */; };
@@ -1599,8 +1601,8 @@
 				DD6617870A3FFD8C00FFEBEB /* check_security.cpp */,
 				F54B8FC302AC0A0C01FB7237 /* check_state.cpp */,
 				DD344B6C07C5AD270043025C /* client_msgs.cpp */,
-				DD344B6D07C5AD270043025C /* client_msgs.h */,
 				DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */,
+				DD344B6D07C5AD270043025C /* client_msgs.h */,
 				F54B8FC402AC0A0C01FB7237 /* client_state.h */,
 				F54B8FC502AC0A0C01FB7237 /* client_types.cpp */,
 				F54B8FC602AC0A0C01FB7237 /* client_types.h */,
@@ -2688,6 +2690,7 @@
 				DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */,
 				DDFE4E9110AB7C3A00919319 /* url.cpp in Sources */,
 				DDD9C5AB10CCF6A300A1E4CD /* coproc.cpp in Sources */,
+				DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2713,6 +2716,7 @@
 				DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */,
 				DD6803440E70A61D0067D009 /* diagnostics.cpp in Sources */,
 				DDD9C5AC10CCF6AB00A1E4CD /* coproc.cpp in Sources */,
+				DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
