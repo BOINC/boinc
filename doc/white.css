@@ -21,7 +21,7 @@ a.heading {
 a:link, a:visited, a:active{
 	color: rgb(0, 105, 161);
     text-decoration: none;
-	font-weight: bold;
+#font-weight: bold;
 }
 
 a:hover {

@@ -115,8 +115,8 @@ function show_create() {
         <center>
         <span class=section_title>".tra("Compute with BOINC")."</span>
         <br>
-        <a class=heading href=\"trac/wiki/ProjectMain\">".tra("Documentation")."</a>
-        &middot; <a class=heading href=\"trac/wiki/ServerUpdates\">".tra("Software updates")."</a>
+        <b><a class=heading href=\"trac/wiki/ProjectMain\">".tra("Documentation")."</a></b>
+        &middot; <b><a class=heading href=\"trac/wiki/ServerUpdates\">".tra("Software updates")."</a></b>
         </center>
         </td></tr>
         <tr><td>

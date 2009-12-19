@@ -10434,3 +10434,10 @@ Rom    19 Dec 2009
     clientgui/
         AdvancedFrame.cpp, .h
         DlgEventLog.cpp
+
+David  19 Dec 2009
+    - web: add Comment link to news items
+
+    html/inc/
+        news.inc
+

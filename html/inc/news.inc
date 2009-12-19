@@ -18,16 +18,17 @@
 
 require_once("../project/project.inc");
 
-function news_item($date, $title, $text) {
+function news_item($date, $title, $post) {
     echo "<p>";
     if ($title) {
         echo "<span class=news_title>$title</span><br>\n";
     }
     $d = time_str($date);
-    $text = bb2html($text);
+    $text = bb2html($post->content);
     echo "
-        <span class=news_date>$d</span>
-        <br><span class=news_content>$text</span>
+        <span class=news_content>$text</span>
+        <br><span class=news_date>$d
+        &nbsp; <a href=".URL_BASE."forum_thread.php?id=$post->thread>".tra("Comment")."</a></span>
     ";
 }
 
@@ -65,7 +66,7 @@ function show_news($start, $count) {
         } else {
             $title = $thread->title;
         }
-        news_item($thread->create_time, $title, $post->content);
+        news_item($thread->create_time, $title, $post);
     }
 
     if ($count) {
