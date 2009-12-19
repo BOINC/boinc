@@ -51,7 +51,9 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_REFRESH(CTaskBarIcon::OnRefresh)
     EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
-    EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
+#ifdef __WXMSW__
+    EVT_TASKBAR_CONTEXTUSERCLICK(CTaskBarIcon::OnNotificationClick)
+#endif
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspendResume)
@@ -189,14 +191,11 @@ void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnOpenWebsite - Function Begin"));
 
     CMainDocument*     pDoc = wxGetApp().GetDocument();
-    CBOINCBaseFrame*   pFrame = wxGetApp().GetFrame();
     ACCT_MGR_INFO      ami;
     wxString           url;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     ResetTaskBar();
 
@@ -245,6 +244,7 @@ void CTaskBarIcon::OnSuspendResumeGPU(wxCommandEvent& WXUNUSED(event)) {
 void CTaskBarIcon::OnTestNotification(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnTestNotification - Function Begin"));
 
+#ifdef __WXMSW__
     QueueBalloon(
         m_iconTaskBarNormal,
         _("BOINC Notification"),
@@ -252,6 +252,7 @@ void CTaskBarIcon::OnTestNotification(wxCommandEvent& WXUNUSED(event)) {
         NIIF_INFO
     );
 
+#endif
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnTestNotification - Function End"));
 }
 

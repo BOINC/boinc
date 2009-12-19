@@ -171,18 +171,12 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
 		 //call detach project function	
          OnProjectDetach();
 	 } else if (menuIDevt == WEBSITE_URL_MENU_ID_HOMEPAGE ) {
-	     CBOINCBaseFrame* pFrame = wxDynamicCast(m_parent->GetParent(),CBOINCBaseFrame);
-         wxASSERT(pFrame);
-         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 	     wxLaunchDefaultBrowser(wxString(m_prjUrl.c_str(),wxConvUTF8));
 	 } else{
          int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
 	     PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 		 project->gui_urls[menuId].name.c_str();
      
-	     CBOINCBaseFrame* pFrame = wxDynamicCast(m_parent->GetParent(),CBOINCBaseFrame);
-         wxASSERT(pFrame);
-         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 	     wxLaunchDefaultBrowser(wxString(project->gui_urls[menuId].url.c_str(),wxConvUTF8));
 	 }
 } 

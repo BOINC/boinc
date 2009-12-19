@@ -10415,3 +10415,15 @@ David  18 Dec 2009
 
     html/inc/
         text_transform.inc
+
+Charlie  19 Dec 2009
+    - MGR: Fix Mac compile errors caused by adding Windows-only code to 
+        cross-platform source files.  Also fix compiler warnings. 
+    - Mac: Remove deleted files hyperlink.cpp,.h from XCode project.
+
+    clientgui/
+        BOINCTaskBar.cpp
+        sg_StatImageLoader.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

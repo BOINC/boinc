@@ -90,7 +90,6 @@
 		DD3E14F50A774397007E0084 /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DD3E14F60A774397007E0084 /* gui_rpc_client_print.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */; };
 		DD3E14F70A774397007E0084 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
-		DD3E14F80A774397007E0084 /* hyperlink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD5EEB6A0873DD4400963F44 /* hyperlink.cpp */; };
 		DD3E14F90A774397007E0084 /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E3A308A078AF00656EB1 /* Localization.cpp */; };
 		DD3E14FA0A774397007E0084 /* LogBOINC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41407C5D13E0098A04D /* LogBOINC.cpp */; };
 		DD3E14FB0A774397007E0084 /* MacSysMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */; };
@@ -206,8 +205,8 @@
 		DD7BF7E60B8E7B6C00A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD7BF7E80B8E7BBE00A009F7 /* work_fetch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7E70B8E7BBE00A009F7 /* work_fetch.cpp */; };
 		DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42307C5D1D70098A04D /* ViewResources.cpp */; };
-		DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42507C5D1D70098A04D /* ViewMessages.cpp */; };
 		DD85AE4B0F5D284D0031F7AC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD867B7510DCE77700128AB4 /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DD89163D0F3B182700DE5B1C /* ss_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD89163C0F3B182700DE5B1C /* ss_app.cpp */; };
 		DD89165A0F3B1B9000DE5B1C /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DD89165F0F3B1BC200DE5B1C /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165D0F3B1BC200DE5B1C /* GLUT.framework */; };
@@ -774,8 +773,6 @@
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
 		DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = Uninstaller.r; path = ../mac_installer/Uninstaller.r; sourceTree = SOURCE_ROOT; };
 		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.10/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		DD5EEB6A0873DD4400963F44 /* hyperlink.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = hyperlink.cpp; sourceTree = "<group>"; };
-		DD5EEB6B0873DD4400963F44 /* hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hyperlink.h; sourceTree = "<group>"; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
 		DD635A410D384FA500BAC1A5 /* texfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = texfont.cpp; sourceTree = "<group>"; };
@@ -1359,8 +1356,6 @@
 				DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */,
 				DD2D25CC07FAB41700151141 /* DlgSelectComputer.h */,
 				DD81C44D07C5D2470098A04D /* Events.h */,
-				DD5EEB6A0873DD4400963F44 /* hyperlink.cpp */,
-				DD5EEB6B0873DD4400963F44 /* hyperlink.h */,
 				DD81C41407C5D13E0098A04D /* LogBOINC.cpp */,
 				DD73E3A308A078AF00656EB1 /* Localization.cpp */,
 				DD73E3A408A078AF00656EB1 /* Localization.h */,
@@ -2478,7 +2473,6 @@
 				DD3E14F50A774397007E0084 /* gui_rpc_client_ops.cpp in Sources */,
 				DD3E14F60A774397007E0084 /* gui_rpc_client_print.cpp in Sources */,
 				DD3E14F70A774397007E0084 /* hostinfo.cpp in Sources */,
-				DD3E14F80A774397007E0084 /* hyperlink.cpp in Sources */,
 				DD3E14F90A774397007E0084 /* Localization.cpp in Sources */,
 				DD3E14FA0A774397007E0084 /* LogBOINC.cpp in Sources */,
 				DD3E14FB0A774397007E0084 /* MacSysMenu.cpp in Sources */,
@@ -2534,7 +2528,6 @@
 				DDFE84E50B60CD66009B43D9 /* DlgAdvPreferences.cpp in Sources */,
 				DDFE84E70B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp in Sources */,
 				DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */,
-				DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */,
 				DD7BF7E60B8E7B6C00A009F7 /* str_util.cpp in Sources */,
 				DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */,
 				DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */,
@@ -2561,6 +2554,7 @@
 				DDE1373D10DC60BB00161D6B /* ViewNotifications.cpp in Sources */,
 				DDE1374210DC60E200161D6B /* DlgEventLog.cpp in Sources */,
 				DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */,
+				DD867B7510DCE77700128AB4 /* notice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
