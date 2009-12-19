@@ -209,6 +209,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     m_pMenubar = NULL;
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
+    m_pEventLog = NULL;
 
     // Working Variables
     m_strBaseTitle = title;
@@ -233,7 +234,6 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(m_pFrameRenderTimer);
     m_pFrameRenderTimer->Start(1000);               // Send event every 1 second
-
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Function End"));
 }
@@ -1573,8 +1573,8 @@ void CAdvancedFrame::OnReadPreferences(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnEventLog - Function Begin"));
 
-    CDlgEventLog dlg(this);
-    dlg.ShowModal();
+    m_pEventLog = new CDlgEventLog(this);
+    m_pEventLog->Show();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnEventLog - Function End"));
 }

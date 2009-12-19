@@ -10427,3 +10427,10 @@ Charlie  19 Dec 2009
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    19 Dec 2009
+    - MGR: Convert the event log to a modeless dialog.
+    
+    clientgui/
+        AdvancedFrame.cpp, .h
+        DlgEventLog.cpp

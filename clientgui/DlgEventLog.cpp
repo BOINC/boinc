@@ -294,7 +294,7 @@ void CDlgEventLog::OnHelp(wxHelpEvent& event) {
 
 void CDlgEventLog::OnOK( wxCommandEvent& /*event*/ ) {
     SaveState();
-    EndModal(wxID_OK);
+    Hide();
 }
 
 

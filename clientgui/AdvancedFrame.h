@@ -25,6 +25,7 @@
 
 
 class CBOINCBaseView;
+class CDlgEventLog;
 
 ///
 /// Bitmask values for CMainDocument::RunPeriodicRPCs()
@@ -123,6 +124,7 @@ private:
     wxMenuBar*      m_pMenubar;
     wxNotebook*     m_pNotebook;
     CStatusBar*     m_pStatusbar;
+    CDlgEventLog*   m_pEventLog;
 
     wxString        m_strBaseTitle;
 
