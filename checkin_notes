@@ -10441,3 +10441,8 @@ David  19 Dec 2009
     html/inc/
         news.inc
 
+Rom    19 Dec 2009
+    - WINSCR: Remove some more crufty code from the screensaver.
+    
+    clientscr/
+        screensaver_win.cpp, .h

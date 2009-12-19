@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib userenv.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -195,7 +195,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib userenv.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -303,7 +303,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib userenv.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmt.lib libcpmt.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="1"
@@ -412,7 +412,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib userenv.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmt.lib libcpmt.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="1"

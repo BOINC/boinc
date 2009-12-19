@@ -224,9 +224,6 @@ protected:
     VOID            DoConfig();
 	HRESULT         DoSaver();
 	VOID            DoPaint( HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps );
-
-	void			DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, LONG yStart, COLORREF cTransparentColor);
-
 	LRESULT         SaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
     DWORD           ConvertSliderPositionToTime( DWORD dwPosition );
