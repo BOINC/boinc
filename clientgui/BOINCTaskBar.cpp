@@ -51,9 +51,6 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_REFRESH(CTaskBarIcon::OnRefresh)
     EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
-#ifdef __WXMSW__
-    EVT_TASKBAR_CONTEXTUSERCLICK(CTaskBarIcon::OnNotificationClick)
-#endif
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspendResume)
@@ -64,6 +61,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 
 #ifdef __WXMSW__
     EVT_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
+    EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
     EVT_TASKBAR_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
     EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
