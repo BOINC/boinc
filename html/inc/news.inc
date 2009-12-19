@@ -21,12 +21,12 @@ require_once("../project/project.inc");
 function news_item($date, $title, $text) {
     echo "<p>";
     if ($title) {
-        echo "<span class=news_title>$title</span>\n";
+        echo "<span class=news_title>$title</span><br>\n";
     }
     $d = time_str($date);
     $text = bb2html($text);
     echo "
-        <br><span class=news_date>$d</span>
+        <span class=news_date>$d</span>
         <br><span class=news_content>$text</span>
     ";
 }
