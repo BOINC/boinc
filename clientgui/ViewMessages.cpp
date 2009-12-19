@@ -265,8 +265,8 @@ void CViewMessages::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesFilter - Function Begin"));
 
     wxInt32 iIndex = -1;
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
-    MESSAGE*   message;
+    CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    MESSAGE* message;
     
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
