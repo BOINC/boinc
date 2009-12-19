@@ -1248,6 +1248,7 @@ bool CLIENT_STATE::enforce_schedule() {
         atp = lookup_active_task_by_result(rp);
 
         if (rp->uses_coprocs()) {
+#ifndef SIM
             // for coproc jobs, make sure there's enough video RAM
             // currently free on the assigned device
             //
@@ -1258,6 +1259,7 @@ bool CLIENT_STATE::enforce_schedule() {
                     continue;
                 }
             }
+#endif
         } else {
             // see if we're already using too many CPUs to run this job
             //

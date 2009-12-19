@@ -214,7 +214,7 @@ public:
         return x;
     }
 
-    void request_enforce_schedule(const char*);
+    void request_enforce_schedule(PROJECT*, const char*);
     void request_schedule_cpus(const char*);
     bool sufficient_coprocs(APP_VERSION&);
     void reserve_coprocs(APP_VERSION&);
