@@ -10454,6 +10454,7 @@ Charlie  19 Dec 2009
     clientgui/
         AdvancedFrame.cpp, .h
         DlgEventLog.cpp, .h
+        Events.h
      mac_build/
         boinc.xcodeproj/
             project.pbxproj

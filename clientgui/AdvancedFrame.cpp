@@ -1654,6 +1654,10 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
         wxASSERT(pView);
 
         pView->FireOnListRender(timerEvent);
+        
+        if (m_pEventLog) {
+            m_pEventLog->OnRefresh(timerEvent);
+        }
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));

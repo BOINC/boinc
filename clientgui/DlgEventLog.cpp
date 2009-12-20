@@ -69,7 +69,6 @@ BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
     EVT_BUTTON(ID_COPYAll, CDlgEventLog::OnMessagesCopyAll)
     EVT_BUTTON(ID_COPYSELECTED, CDlgEventLog::OnMessagesCopySelected)
     EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
-    EVT_TIMER(ID_REFRESHTIMER, CDlgEventLog::OnRefresh)
     EVT_CLOSE(CDlgEventLog::OnClose)
 
 ////@end CDlgEventLog event table entries
@@ -100,12 +99,6 @@ CDlgEventLog::~CDlgEventLog() {
     CAdvancedFrame* pFrame      = wxDynamicCast(GetParent(), CAdvancedFrame);
 
 	SaveState();    // Save state if close box on window frame clicked
-
-    if (m_pRefreshTimer) {
-        m_pRefreshTimer->Stop();
-        delete m_pRefreshTimer;
-        m_pRefreshTimer = NULL;
-    }
 
 	if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
@@ -166,10 +159,6 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     // To work properly on Mac, RestoreState() must be called _after_ 
     //  calling GetSizer()->Fit(), GetSizer()->SetSizeHints() and Center()
     RestoreState();
-
-    m_pRefreshTimer = new wxTimer(this, ID_REFRESHTIMER);
-    wxASSERT(m_pRefreshTimer);
-    m_pRefreshTimer->Start(1000);               // Send event every 1 second
 
     return true;
 }
@@ -316,7 +305,7 @@ void CDlgEventLog::OnClose(wxCloseEvent& event) {
 
 
 /*!
- * called from CSimpleFrame::OnRefreshView()
+ * called from CAdvancedFrame::OnRefreshView()
  */
 
 void CDlgEventLog::OnRefresh( wxTimerEvent& WXUNUSED(event) ) {
