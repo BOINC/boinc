@@ -30,12 +30,13 @@ class CDlgEventLog;
 ///
 /// Bitmask values for CMainDocument::RunPeriodicRPCs()
 ///
-#define VW_PROJ 1
-#define VW_TASK 2
-#define VW_XFER 4
-#define VW_MSGS 8
+#define VW_NOTIF 1
+#define VW_PROJ 2
+#define VW_TASK 4
+#define VW_XFER 8
 #define VW_STAT 16
 #define VW_DISK 32
+#define VW_MSGS 128
 
 
 class CStatusBar : public wxStatusBar

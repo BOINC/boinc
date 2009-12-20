@@ -10446,3 +10446,13 @@ Rom    19 Dec 2009
     
     clientscr/
         screensaver_win.cpp, .h
+
+Charlie  19 Dec 2009
+    - MGR: Begin fixing new Event Log to integrate properly with async 
+        RPC logic.
+
+    clientgui/
+        AdvancedFrame.cpp .h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

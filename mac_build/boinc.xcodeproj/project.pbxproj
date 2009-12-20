@@ -1305,8 +1305,8 @@
 				DD58C42008F3343F00C1DF66 /* AccountManagerPropertiesPage.cpp */,
 				DD58C42108F3343F00C1DF66 /* AccountManagerPropertiesPage.h */,
 				DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */,
-				DD58C42408F3343F00C1DF66 /* AlreadyExistsPage.cpp */,
 				DD9C94A10A5A3A4100AB0D10 /* AdvancedFrame.h */,
+				DD58C42408F3343F00C1DF66 /* AlreadyExistsPage.cpp */,
 				DD58C42508F3343F00C1DF66 /* AlreadyExistsPage.h */,
 				DDC132F10E2DAB1B0014D305 /* AsyncRPC.h */,
 				DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */,
@@ -4616,7 +4616,7 @@
 		DD9E2366091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				ARCHS = i386;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;

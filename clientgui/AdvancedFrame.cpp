@@ -983,19 +983,21 @@ void CAdvancedFrame::SaveWindowDimensions() {
     
 
 int CAdvancedFrame::_GetCurrentViewPage() {
+    int vw_msg = m_pEventLog ? VW_MSGS : 0;
+    
     switch (m_pNotebook->GetSelection()) {
     case 0:
-        return VW_PROJ;
+        return VW_NOTIF | vw_msg;
     case 1:
-        return VW_TASK;
+        return VW_PROJ | vw_msg;
     case 2:
-        return VW_XFER;
+        return VW_TASK | vw_msg;
     case 3:
-        return VW_MSGS;
+        return VW_XFER | vw_msg;
     case 4:
-        return VW_STAT;
+        return VW_STAT | vw_msg;
     case 5:
-        return VW_DISK;
+        return VW_DISK | vw_msg;
     }
     return 0;       // Should never happen.
 }
