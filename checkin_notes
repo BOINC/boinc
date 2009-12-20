@@ -10449,10 +10449,11 @@ Rom    19 Dec 2009
 
 Charlie  19 Dec 2009
     - MGR: Begin fixing new Event Log to integrate properly with async 
-        RPC logic.
+        RPC logic and other bug fixes.
 
     clientgui/
-        AdvancedFrame.cpp .h
+        AdvancedFrame.cpp, .h
+        DlgEventLog.cpp, .h
      mac_build/
         boinc.xcodeproj/
             project.pbxproj

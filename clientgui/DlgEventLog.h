@@ -96,6 +96,9 @@ public:
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
+    
+    /// wxEVT_CLOSE event handler for CDlgEventLog (window close control clicked)
+    void OnClose(wxCloseEvent& event);
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYAll
     void OnMessagesCopyAll( wxCommandEvent& event );

@@ -35,6 +35,7 @@
 #include "version.h"
 #include "DlgEventLogListCtrl.h"
 #include "DlgEventLog.h"
+#include "AdvancedFrame.h"
 
 
 
@@ -69,6 +70,8 @@ BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
     EVT_BUTTON(ID_COPYSELECTED, CDlgEventLog::OnMessagesCopySelected)
     EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
     EVT_TIMER(ID_REFRESHTIMER, CDlgEventLog::OnRefresh)
+    EVT_CLOSE(CDlgEventLog::OnClose)
+
 ////@end CDlgEventLog event table entries
 END_EVENT_TABLE()
 
@@ -93,6 +96,8 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
+    
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent(), CAdvancedFrame);
 
 	SaveState();    // Save state if close box on window frame clicked
 
@@ -110,6 +115,10 @@ CDlgEventLog::~CDlgEventLog() {
     if (m_pMessageErrorAttr) {
         delete m_pMessageErrorAttr;
         m_pMessageErrorAttr = NULL;
+    }
+    
+    if (pFrame) {
+        pFrame->OnEventLogClose();
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function End"));
@@ -293,8 +302,16 @@ void CDlgEventLog::OnHelp(wxHelpEvent& event) {
  */
 
 void CDlgEventLog::OnOK( wxCommandEvent& /*event*/ ) {
-    SaveState();
-    Hide();
+    delete this;
+}
+
+
+/*!
+ * wxEVT_CLOSE event handler for CDlgEventLog (window close control clicked)
+ */
+
+void CDlgEventLog::OnClose(wxCloseEvent& event) {
+    delete this;
 }
 
 

@@ -1582,6 +1582,11 @@ void CAdvancedFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
+void CAdvancedFrame::OnEventLogClose() {
+    m_pEventLog = NULL;
+}
+
+
 void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
 
