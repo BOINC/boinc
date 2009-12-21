@@ -61,7 +61,7 @@ function show_news($start, $count) {
     foreach ($threads as $thread) {
         $posts = BoincPost::enum("thread=$thread->id order by id limit 1");
         $post = $posts[0];
-        if (strstr($post->content, $thread->title)) {
+        if (strstr($post->content, $thread->title) == $post->content) {
             $title = null;
         } else {
             $title = $thread->title;

@@ -9000,11 +9000,11 @@ David  9 Nov 2009
         sched_locality.cpp
 
 David  9 Nov 2009
-	- client: fix bug that crashed client if client_state.xml
-		had garbage within <file_info>
+    - client: fix bug that crashed client if client_state.xml
+        had garbage within <file_info>
 
-	client/
-		client_types.cpp
+    client/
+        client_types.cpp
 
 David  10 Nov 2009
     - Progress on new credit system.  Seems to work!
@@ -9642,15 +9642,15 @@ Charlie  1 Dec 2009
         License.rtf
 
 David  3 Dec 2009
-	- client: fix divide-by-zero bug in STD code
-	- fix compile warnings
+    - client: fix divide-by-zero bug in STD code
+    - fix compile warnings
 
-	client/
-		cpu_sched.cpp
-	clientgui/common/
-		wxPieCtrl.cpp
-	lib/
-		util.cpp
+    client/
+        cpu_sched.cpp
+    clientgui/common/
+        wxPieCtrl.cpp
+    lib/
+        util.cpp
 
 David  3 Dec 2009
     - client: Add offset to LTD of non-eligible projects
@@ -9841,20 +9841,20 @@ David  7 Dec 2009
         work_fetch.cpp
 
 David  8 Dec 2009
-	- client: scheduling tweak.
-		Old: if a project has RR sim deadline misses,
-			select jobs to run high-priority on the basis of:
-			1) deadline (earliest first)
-			2) estimated time to completion (least first)
-			This ignores whether jobs missed their deadline in RR sim,
-			so it may choose to run a job that's actually in no
-			danger of missing its deadline over one that is.
-		New: choose only jobs that miss their deadline in RR sim
+    - client: scheduling tweak.
+        Old: if a project has RR sim deadline misses,
+            select jobs to run high-priority on the basis of:
+            1) deadline (earliest first)
+            2) estimated time to completion (least first)
+            This ignores whether jobs missed their deadline in RR sim,
+            so it may choose to run a job that's actually in no
+            danger of missing its deadline over one that is.
+        New: choose only jobs that miss their deadline in RR sim
 
-	client/
-		cpu_sched.cpp
-		rr_sim.cpp
-		work_fetch.cpp
+    client/
+        cpu_sched.cpp
+        rr_sim.cpp
+        work_fetch.cpp
 
 David  10 Dec 2009
     - client: STD for a device with N instances
@@ -9883,23 +9883,23 @@ David  10 Dec 2009
         Events.h
 
 David  10 Dec 2009
-	- client/manager: finish "snooze GPU" button
+    - client/manager: finish "snooze GPU" button
 
-	client/
-		gui_rpc_server_ops.cpp
-	clientgui/
-		AsynchRPC.cpp,h
-		BOINCTaskBar.cpp
-		MainDocument.cpp,h
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.cpp
+    client/
+        gui_rpc_server_ops.cpp
+    clientgui/
+        AsynchRPC.cpp,h
+        BOINCTaskBar.cpp
+        MainDocument.cpp,h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
 
 David  10 Dec 2009
-	- manager: fix bug in the above
+    - manager: fix bug in the above
 
-	clientgui/
-		BOINCTaskBar.cpp
+    clientgui/
+        BOINCTaskBar.cpp
 
 David  11 Dec 2009
     - client/scheduler: deal with situation where GPU has enough
@@ -10058,18 +10058,18 @@ David  14 Dec 2009
         gui_rpc_client_ops.cpp
 
 David  14 Dec 2009
-	- client: fix bug in insufficient video RAM feature
-	- client: improve CPU sched debug msgs
-	- client: fix "temporary exit" feature
-	
-	client/
-		app_control.cpp
-		app_start.cpp
-		client_state.h
-		cpu_sched.cpp
-		sandbox.h
-	lib/
-		filesys.h
+    - client: fix bug in insufficient video RAM feature
+    - client: improve CPU sched debug msgs
+    - client: fix "temporary exit" feature
+    
+    client/
+        app_control.cpp
+        app_start.cpp
+        client_state.h
+        cpu_sched.cpp
+        sandbox.h
+    lib/
+        filesys.h
 
 David  14 Dec 2009
     - client: typo fix
@@ -10217,11 +10217,11 @@ David  17 Dec 2009
         cs_prefs.cpp
 
 David  17 Dec 2009
-	- client: there are oddball cases where the client has an app for which
-		avg_ncpus > ncpus.   Allow such jobs to run; otherwise nothing runs.
+    - client: there are oddball cases where the client has an app for which
+        avg_ncpus > ncpus.   Allow such jobs to run; otherwise nothing runs.
 
-	client/
-		cpu_sched.cpp
+    client/
+        cpu_sched.cpp
 
 David  17 Dec 2009
     - client: in computing "anticipated" STD, scale by ninstances
@@ -10465,16 +10465,16 @@ David  20 Dec 2009
         handle_request.cpp
 
 David  21 Dec 2009
-	- manager/client: show PID in task properties;
-		add PID to RESULT structure in GUI RPC
+    - manager/client: show PID in task properties;
+        add PID to RESULT structure in GUI RPC
 
-	client/
-		app.cpp
-	clientgui/
-		DlgItemProperties.cpp
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.cpp
+    client/
+        app.cpp
+    clientgui/
+        DlgItemProperties.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
 
 David  21 Dec 2009
     - client: a big glob of new code related to notices.
@@ -10492,14 +10492,20 @@ David  21 Dec 2009
         notice.cpp,h
 
 David  21 Dec 2009
-	- Win compile fixes.  Also, needed to provide a replacement
-		for strptime() on Win.  WTF?
+    - Win compile fixes.  Also, needed to provide a replacement
+        for strptime() on Win.  WTF?
 
-	client/
-		app.h
-		client_msgs.h
-		client_types.h
-		cs_notice.cpp
-		work_fetch.h
-	lib/
-		notice.cpp
+    client/
+        app.h
+        client_msgs.h
+        client_types.h
+        cs_notice.cpp
+        work_fetch.h
+    lib/
+        notice.cpp
+
+David  21 Dec 2009
+    - web: fix bug if news item title occurs in middle of content
+
+    html/inc/
+        news.inc
