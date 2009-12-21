@@ -8896,3 +8896,8 @@ David  6 Nov 2009
     db/
         boinc_db.cpp
 
+David  20 Dec 2009
+    - scheduler: fix SQL injection vulnerability
+
+    sched/
+        handle_request.cpp
