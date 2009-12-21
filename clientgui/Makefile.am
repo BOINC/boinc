@@ -60,12 +60,13 @@ boincmgr_SOURCES = \
     DlgAbout.cpp 		\
     DlgAdvPreferences.cpp \
     DlgAdvPreferencesBase.cpp \
+    DlgEventLog.cpp \
+    DlgEventLogListCtrl.cpp \
     DlgExitMessage.cpp \
     DlgGenericMessage.cpp \
     DlgItemProperties.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
-    hyperlink.cpp \
     LogBOINC.cpp \
     MainDocument.cpp \
     NoInternetConnectionPage.cpp \
@@ -96,8 +97,7 @@ boincmgr_SOURCES = \
     ValidateAccountKey.cpp \
     ValidateEmailAddress.cpp \
     ValidateURL.cpp \
-    ViewMessages.cpp \
-    ViewNews.cpp \
+    ViewNotifications.cpp \
     ViewProjects.cpp \
     ViewResources.cpp \
     ViewStatistics.cpp \
