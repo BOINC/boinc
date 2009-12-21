@@ -599,7 +599,10 @@ int send_result_abort() {
         orp.reason = ABORT_REASON_NOT_FOUND;
         if (i > 0) result_names.append(", ");
         result_names.append("'");
-        result_names.append(orp.name);
+        char buf[1024];
+        strcpy(buf, orp.name);
+        escape_string(buf, 1024);
+        result_names.append(buf);
         result_names.append("'");
     }
 
