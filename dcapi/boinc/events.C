@@ -134,17 +134,15 @@ static void handle_special_msg(DC_Workunit *wu, const char *msg)
 	if (!strncmp(msg, DC_MSG_UPLOAD, strlen(DC_MSG_UPLOAD)) &&
 			_dc_subresultcb)
 	{
-		char *p, *q, *subresult_name, *client_label, *path;
-
-		p = strchr(msg, ':');
+		const char *p = strchr(msg, ':');
 		if (!p)
 			return;
-		q = strchr(p + 1, ':');
+		const char *q = strchr(p + 1, ':');
 		if (!q)
 			return;
 
-		subresult_name = g_strndup(p + 1, (q - p) - 1);
-		client_label = g_strdup(q + 1);
+		char *subresult_name = g_strndup(p + 1, (q - p) - 1);
+		char *client_label = g_strdup(q + 1);
 
 		/* Paranoia; the XML signature should already prevent the
 		 * client from tampering with the destination path */
@@ -157,7 +155,7 @@ static void handle_special_msg(DC_Workunit *wu, const char *msg)
 			return;
 		}
 
-		path = _DC_hierPath(subresult_name, TRUE);
+		char *path = _DC_hierPath(subresult_name, TRUE);
 		_dc_subresultcb(wu, client_label, path);
 
 		g_free(subresult_name);
@@ -165,8 +163,7 @@ static void handle_special_msg(DC_Workunit *wu, const char *msg)
 		g_free(path);
 	}
 	else
-		DC_log(LOG_WARNING, "Received unknown control message %s",
-			msg);
+		DC_log(LOG_WARNING, "Received unknown control message %s", msg);
 }
 
 static int process_messages(void)
