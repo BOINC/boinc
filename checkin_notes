@@ -10458,3 +10458,7 @@ Charlie  19 Dec 2009
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+David  20 Dec 2009
+    - scheduler: fix SQL injection vulnerability
+    sched/
+        handle_request.cpp
