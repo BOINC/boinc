@@ -55,8 +55,7 @@
 #define FILE_NOT_PRESENT    0
 #define FILE_PRESENT        1
 
-class FILE_INFO {
-public:
+struct FILE_INFO {
     char name[256];
     char md5_cksum[33];
     double max_nbytes;
@@ -81,8 +80,8 @@ public:
         /// nonzero if in the process of being up/downloaded
     class PERS_FILE_XFER* pers_file_xfer;
         /// for upload files (to authenticate)
-    struct RESULT* result;
-    class PROJECT* project;
+    RESULT* result;
+    PROJECT* project;
     int ref_cnt;
     std::vector<std::string> urls;
     int start_url;
@@ -181,10 +180,8 @@ struct DAILY_STATS {
     int parse(FILE*);
 };
 bool operator < (const DAILY_STATS&, const DAILY_STATS&);
-class ACTIVE_TASK;
 
-class PROJECT {
-public:
+struct PROJECT {
     // the following items come from the account file
     // They are a function only of the user and the project
     //

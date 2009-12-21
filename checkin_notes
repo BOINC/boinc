@@ -10490,3 +10490,16 @@ David  21 Dec 2009
         news.inc
     lib/
         notice.cpp,h
+
+David  21 Dec 2009
+	- Win compile fixes.  Also, needed to provide a replacement
+		for strptime() on Win.  WTF?
+
+	client/
+		app.h
+		client_msgs.h
+		client_types.h
+		cs_notice.cpp
+		work_fetch.h
+	lib/
+		notice.cpp

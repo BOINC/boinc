@@ -51,8 +51,7 @@ typedef int PROCESS_ID;
 /// thus the task can use the slot directory for temp files
 /// that BOINC doesn't know about.
 
-class ACTIVE_TASK {
-public:
+struct ACTIVE_TASK {
 #ifdef _WIN32
     HANDLE pid_handle, shm_handle;
     bool kill_all_children();

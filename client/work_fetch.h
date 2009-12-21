@@ -28,9 +28,9 @@
 #define RSC_TYPE_CUDA   2
 #define RSC_TYPE_ATI    3
 
-class PROJECT;
+struct PROJECT;
 struct RESULT;
-class ACTIVE_TASK;
+struct ACTIVE_TASK;
 struct RSC_WORK_FETCH;
 struct SCHEDULER_REPLY;
 

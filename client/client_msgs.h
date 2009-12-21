@@ -30,9 +30,6 @@
 
 #include "log_flags.h"
 
-class PROJECT;
-
-
 /// stores a message in memory, where it can be retrieved via RPC
 
 struct MESSAGE_DESC {
@@ -44,8 +41,8 @@ struct MESSAGE_DESC {
 };
 
 extern std::deque<MESSAGE_DESC*> message_descs;
-extern void record_message(class PROJECT *p, int priority, int now, char* msg);
-extern void show_message(class PROJECT *p, char* message, int priority);
+extern void record_message(struct PROJECT *p, int priority, int now, char* msg);
+extern void show_message(struct PROJECT *p, char* message, int priority);
 
 // the __attribute((format...)) tags are GCC extensions that let the compiler
 // do like-checking on printf-like arguments
@@ -56,6 +53,6 @@ extern void show_message(class PROJECT *p, char* message, int priority);
 
 /// Show a message, preceded by timestamp and project name
 
-extern void msg_printf(PROJECT *p, int priority, const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
+extern void msg_printf(struct PROJECT *p, int priority, const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
 
 #endif

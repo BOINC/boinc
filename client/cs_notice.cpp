@@ -300,3 +300,71 @@ void handle_notice_feeds(vector<RSS_FEED>& feeds, PROJECT* p) {
         assign_masters();
     }
 }
+
+#ifdef _WIN32
+// compensate for lameness
+static int month_index(char* x) {
+    if (strstr(x, "Jan")) return 0;
+    if (strstr(x, "Feb")) return 1;
+    if (strstr(x, "Mar")) return 2;
+    if (strstr(x, "Apr")) return 3;
+    if (strstr(x, "May")) return 4;
+    if (strstr(x, "Jun")) return 5;
+    if (strstr(x, "Jul")) return 6;
+    if (strstr(x, "Aug")) return 7;
+    if (strstr(x, "Sep")) return 8;
+    if (strstr(x, "Oct")) return 9;
+    if (strstr(x, "Nov")) return 10;
+    if (strstr(x, "Dev")) return 11;
+    return 0;
+}
+
+static int parse_rss_time(char* buf) {
+    char day_name[64], month_name[64];
+    int day_num, year, h, m, s;
+    int n = sscanf(buf, "%s %d %s %d %d:%d:%d",
+        day_name, &day_num, month_name, &year, &h, &m, &s
+    );
+    printf("n: %d\n", n);
+
+    struct tm tm;
+    tm.tm_sec = s;
+    tm.tm_min = m;
+    tm.tm_hour = h;
+    tm.tm_mday = day_num;
+    tm.tm_mon = month_index(month_name);
+    tm.tm_year = year-1900;
+    tm.tm_wday = 0;
+    tm.tm_yday = 0;
+    tm.tm_isdst = 0;
+
+    int t = mktime(&tm);
+    t -= gstate.host_info.timezone;
+    return t;
+}
+#endif
+
+int NOTICE::parse_rss(XML_PARSER& xp) {
+    char tag[1024], buf[256];
+    bool is_tag;
+
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "/item")) return 0;
+        if (xp.parse_str(tag, "title", title, sizeof(title))) continue;
+        if (xp.parse_str(tag, "link", url, sizeof(url))) continue;
+        if (xp.parse_str(tag, "guid", guid, sizeof(guid))) continue;
+        if (xp.parse_string(tag, "description", description)) continue;
+        if (xp.parse_str(tag, "pubDate", buf, sizeof(buf))) {
+#ifdef _WIN32
+            create_time = parse_rss_time(buf);
+#else
+            struct tm tm;
+            strptime(buf, "%a, %d %b %Y %H:%M:%S", &tm);
+            create_time = mktime(&tm);
+#endif
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
