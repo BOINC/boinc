@@ -10475,3 +10475,18 @@ David  21 Dec 2009
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.cpp
+
+David  21 Dec 2009
+    - client: a big glob of new code related to notices.
+        Not functional yet.
+
+    client/
+        client_types.h
+        cs_notice.cpp,h
+        cs_scheduler.cpp
+        gui_rpc_server_ops.cpp
+        scheduler_op.cpp,h
+    html/inc/
+        news.inc
+    lib/
+        notice.cpp,h

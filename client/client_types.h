@@ -39,6 +39,7 @@
 
 #include "rr_sim.h"
 #include "work_fetch.h"
+#include "cs_notice.h"
 
 #define MAX_FILE_INFO_LEN   4096
 #define MAX_SIGNATURE_LEN   4096
@@ -399,6 +400,11 @@ public:
     int parse_statistics(FILE*);
     int write_statistics(MIOFILE&, bool gui_rpc=false);
     int write_statistics_file();
+
+    // feed-related
+    bool got_notice_feeds;
+        // whether scheduler reply included <notice_feeds>
+    std::vector<RSS_FEED> proj_feeds;
 };
 
 struct APP {

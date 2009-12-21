@@ -1096,13 +1096,13 @@ static void handle_set_cc_config(char* buf, MIOFILE& fout) {
 static void handle_get_notices(char* buf, MIOFILE& fout) {
     int seqno = 0;
     parse_int(buf, "<seqno>", seqno);
-    write_notices(seqno, fout, false);
+    notices.write(seqno, fout, false);
 }
 
 static void handle_get_notices_public(char* buf, MIOFILE& fout) {
     int seqno = 0;
     parse_int(buf, "<seqno>", seqno);
-    write_notices(seqno, fout, true);
+    notices.write(seqno, fout, true);
 }
 
 // Some of the RPCs have empty-element request messages.

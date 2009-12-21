@@ -28,7 +28,7 @@ function news_item($date, $title, $post) {
     echo "
         <span class=news_content>$text</span>
         <br><span class=news_date>$d
-        &nbsp; <a href=".URL_BASE."forum_thread.php?id=$post->thread>".tra("Comment")."</a></span>
+        &middot; <a href=".URL_BASE."forum_thread.php?id=$post->thread> ".tra("Comment")."</a></span>
     ";
 }
 

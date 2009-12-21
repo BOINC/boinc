@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef __NOTICE_H__
+#define __NOTICE_H__
+
 #include <string>
 
 #include "parse.h"
@@ -35,5 +38,8 @@ struct NOTICE {
     char guid[256];
 
     int parse(XML_PARSER&);
+    int parse_rss(XML_PARSER&);
     void write(MIOFILE&);
 };
+
+#endif

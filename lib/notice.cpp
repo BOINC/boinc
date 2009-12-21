@@ -41,6 +41,27 @@ int NOTICE::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+int NOTICE::parse_rss(XML_PARSER& xp) {
+    char tag[1024], buf[256];
+    bool is_tag;
+
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "/item")) return 0;
+        if (xp.parse_str(tag, "title", title, sizeof(title))) continue;
+        if (xp.parse_str(tag, "link", url, sizeof(url))) continue;
+        if (xp.parse_str(tag, "guid", guid, sizeof(guid))) continue;
+        if (xp.parse_string(tag, "description", description)) continue;
+        if (xp.parse_str(tag, "pubDate", buf, sizeof(buf))) {
+            struct tm tm;
+            strptime(buf, "%a, %d %b %Y %H:%M:%S", &tm);
+            create_time = mktime(&tm);
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
 void NOTICE::write(MIOFILE& f) {
     f.printf(
         "<notice>\n"

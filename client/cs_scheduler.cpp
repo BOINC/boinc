@@ -47,6 +47,7 @@
 #include "util.h"
 
 #include "client_msgs.h"
+#include "cs_notice.h"
 #include "scheduler_op.h"
 #include "sandbox.h"
 
@@ -985,6 +986,10 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     if (sr.request_delay) {
         double x = now + sr.request_delay;
         project->set_min_rpc_time(x, "requested by project");
+    }
+
+    if (sr.got_notice_feeds) {
+        handle_notice_feeds(sr.sr_feeds, project);
     }
 
     // garbage collect in case the project sent us some irrelevant FILE_INFOs;

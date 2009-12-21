@@ -227,43 +227,44 @@ function language_form() {
     ";
 }
 
-    header("Content-type: text/html; charset=utf-8");
+header("Content-type: text/html; charset=utf-8");
 
 html_tag();
 echo "
-<head>
-<link rel=\"shortcut icon\" href=\"logo/favicon.gif\">
-<link rel=\"stylesheet\" href=\"white.css\">
-<title>BOINC</title>
-<meta name=description content=\"BOINC is an open-source software platform for computing using volunteered resources\">
-<meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
-</head>
-<table width=\"100%\" border=0><tr><td valign=top>
-<img hspace=20 vspace=6 align=left src=\"logo/www_logo.gif\" alt=\"BOINC logo\">
-</td><td align=center>
-<span class=\"subtitle\">
-".sprintf(tra("Open-source software for %svolunteer computing%s and %sgrid computing%s."), '<a href=volunteer.php><span class=nobr>', '</span></a>', '<a href=dg.php><span class=nobr>', '</span></a>')."
-</span>
-<table><tr><td>
+    <head>
+    <link rel=\"shortcut icon\" href=\"logo/favicon.gif\">
+    <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\">
+    <title>BOINC</title>
+    <meta name=description content=\"BOINC is an open-source software platform for computing using volunteered resources\">
+    <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
+    </head>
+    <body>
+    <table width=\"100%\" border=0><tr><td valign=top>
+    <img hspace=20 vspace=6 align=left src=\"logo/www_logo.gif\" alt=\"BOINC logo\">
+    </td><td align=center>
+    <span class=\"subtitle\">
+    ".sprintf(tra("Open-source software for %svolunteer computing%s and %sgrid computing%s."), '<a href=volunteer.php><span class=nobr>', '</span></a>', '<a href=dg.php><span class=nobr>', '</span></a>')."
+    </span>
+    <table><tr><td>
 ";
 language_form();
 echo "</td><td>";
 search_form();
 echo "
-</td></tr></table>
-</td></tr></table>
-<table width=\"100%\" border=0 cellspacing=0 cellpadding=4>
-<tr>
-<td valign=top>
-<table width=\"100%\" border=0 cellspacing=0 cellpadding=8>
+    </td></tr></table>
+    </td></tr></table>
+    <table width=\"100%\" border=0 cellspacing=0 cellpadding=4>
+    <tr>
+    <td valign=top>
+    <table width=\"100%\" border=0 cellspacing=0 cellpadding=8>
 ";
 show_participate();
 show_create();
 show_other();
 show_nsf();
 echo "
-</table>
-</td>
+    </table>
+    </td>
 ";
 echo " <td valign=top width=390>
 ";
@@ -272,8 +273,8 @@ show_participant();
 show_news_items();
 
 echo "
-</td></tr>
-</table>
+    </td></tr>
+    </table>
 ";
 
 page_tail(true, true);

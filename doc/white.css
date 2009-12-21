@@ -6,11 +6,7 @@
  */
 
 
-pre {
-    font-size: medium;
-}
-
-code {
+pre, code {
     font-size: medium;
 }
 
@@ -26,7 +22,7 @@ a:link, a:visited, a:active{
 
 a:hover {
     color: rgb(232, 174, 0);
-	font-weight: bold;
+#font-weight: bold;
 }
 
 body , table , input , select {
