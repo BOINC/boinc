@@ -364,12 +364,6 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
         _("Display disk usage")
     );
 
-    menuView->Append(
-        ID_ADVNEWSVIEW,
-        _("&News\tCtrl+Shift+N"),
-        _("Display news")
-    );
-
     menuView->AppendSeparator();
 
     menuView->Append(
