@@ -10560,8 +10560,8 @@ Charlie  21 Dec 2009
         dim menu items, etc.  The ID 10000 must not be used for non-
         modal dialogs, and should be used for all modal dialogs.
     - MGR: add minimize and maximize boxes to Event Log window.
-    - MGR: (Mac only) close Window closes the Event Log window if it is 
-        the front window.
+    - MGR: (Mac only) Close Window menu item closes the Event Log window 
+        if it is the front window.
 
     clientgui/
         BOINCBaseFrame.cpp
