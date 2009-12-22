@@ -96,7 +96,7 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
     
-	SaveState();    // Save state if close box on window frame clicked
+    SaveState();    // Save state if close box on window frame clicked
 
     if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
