@@ -10552,3 +10552,17 @@ Rom    21 Dec 2009
         
     clientgui/
         AccountInfoPage.cpp
+
+Charlie  21 Dec 2009
+    - MGR: change ID_DLGEVENTLOG to unique value 30000. 
+        NOTE: ID_ANYDIALOG is defined as 10000, and is used by the 
+        CBOINCGUIApp::IsModalDialogDisplayed() to determine whether to 
+        dim menu items, etc.  The ID 10000 must not be used for non-
+        modal dialogs, and should be used for all modal dialogs.
+    - MGR: add minimize and maximize boxes to Event Log window.
+    - MGR: (Mac only) close Window closes the Event Log window if it is 
+        the front window.
+
+    clientgui/
+        BOINCBaseFrame.cpp
+        DlgEventLog.h

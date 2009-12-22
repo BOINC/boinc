@@ -33,6 +33,7 @@
 #include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCDialupManager.h"
+#include "DlgEventLog.h"
 #include "Events.h"
 
 
@@ -303,6 +304,23 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
 
 void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function Begin"));
+
+#ifdef __WXMAC__
+    // If Event Log is currently the active (frontmost) window, just close it
+    wxTopLevelWindowMac*    eventLog = NULL;
+    WindowRef               macWin = NULL;
+    
+    eventLog = (wxTopLevelWindowMac*)FindWindow(ID_DLGEVENTLOG);
+    if (eventLog) {
+        macWin = (WindowRef)eventLog->MacGetWindowRef();
+        if (macWin) {
+            if (IsWindowActive(macWin)) {
+                eventLog->Close();
+                return;
+            }
+        }
+    }
+#endif
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
     if (!event.CanVeto() || IsIconized()) {
