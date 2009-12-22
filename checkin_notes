@@ -10566,3 +10566,11 @@ Charlie  21 Dec 2009
     clientgui/
         BOINCBaseFrame.cpp
         DlgEventLog.h
+
+Rom    22 Dec 2009
+    - MGR: Treat the Event Log dialog as an orphan dialog. This allows
+        the main manager window to move to the top of the z-order even
+        while the dialog is up.
+        
+    clientgui/
+        DlgEventLog.cpp, .h

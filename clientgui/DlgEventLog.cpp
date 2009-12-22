@@ -140,7 +140,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
 
-    wxDialog::Create( parent, id, strCaption, pos, size, style );
+    wxDialog::Create( NULL, id, strCaption, pos, size, style );
 
     CreateControls();
 
