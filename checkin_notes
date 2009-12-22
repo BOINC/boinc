@@ -10574,3 +10574,9 @@ Rom    22 Dec 2009
         
     clientgui/
         DlgEventLog.cpp, .h
+
+David  22 Dec 2009
+    - web: fix motd bug
+
+    html/inc
+        news.inc

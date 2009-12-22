@@ -24,11 +24,23 @@ function news_item($date, $title, $post) {
         echo "<span class=news_title>$title</span><br>\n";
     }
     $d = time_str($date);
-    $text = bb2html($post->content);
+    if (is_string($post)) {
+        $forum_link = false;
+        $text = bb2html($post);
+    } else {
+        $forum_link = true;
+        $text = bb2html($post->content);
+    }
     echo "
         <span class=news_content>$text</span>
         <br><span class=news_date>$d
-        &middot; <a href=".URL_BASE."forum_thread.php?id=$post->thread> ".tra("Comment")."</a></span>
+    ";
+    if ($forum_link) {
+        echo "
+            &middot; <a href=".URL_BASE."forum_thread.php?id=$post->thread> ".tra("Comment")."</a>
+        ";
+    }
+    echo "</span>
     ";
 }
 
