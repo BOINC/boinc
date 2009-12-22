@@ -137,7 +137,7 @@ void CAccountInfoPage::CreateControls()
     itemBoxSizer57->Add(m_pCookieDetectionFailedStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pCookieDetectionFailedCtrl = new wxHyperlinkCtrl;
-    m_pCookieDetectionFailedCtrl->Create( itemWizardPage56, ID_ACCOUNTCOOKIEDETECTIONFAILEDCTRL, wxEmptyString, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
+    m_pCookieDetectionFailedCtrl->Create( itemWizardPage56, ID_ACCOUNTCOOKIEDETECTIONFAILEDCTRL, wxT(" "), wxT(" "), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
     m_pCookieDetectionFailedCtrl->Hide();
     itemBoxSizer57->Add(m_pCookieDetectionFailedCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
@@ -203,7 +203,7 @@ void CAccountInfoPage::CreateControls()
     itemBoxSizer57->Add(m_pAccountManagerLinkLabelStaticCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAccountForgotPasswordCtrl = new wxHyperlinkCtrl;
-    m_pAccountForgotPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTFORGOTPASSWORDCTRL, wxEmptyString, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
+    m_pAccountForgotPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTFORGOTPASSWORDCTRL, wxT(" "), wxT(" "), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
     itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators

@@ -10545,3 +10545,10 @@ David  21 Dec 2009
         file_names.h
         gui_http_cpp,h
         net_stats.cpp
+
+Rom    21 Dec 2009
+    - MGR: wxHyperlinkCtrl doesn't accept an empty url and title
+        at the same time when building a debug build.
+        
+    clientgui/
+        AccountInfoPage.cpp
