@@ -33,10 +33,10 @@ using std::string;
 using std::set;
 
 NOTICES notices;
-vector<RSS_FEED> rss_feeds;
+RSS_FEEDS rss_feeds;
 RSS_FEED_OP rss_feed_op;
 
-// write notices newer than seqno as XML
+// write notices newer than seqno as XML (for GUI RPC)
 //
 void NOTICES::write(int seqno, MIOFILE& fout, bool public_only) {
     unsigned int i;
@@ -51,6 +51,11 @@ void NOTICES::write(int seqno, MIOFILE& fout, bool public_only) {
 }
 
 void NOTICES::append(NOTICE& n) {
+    if (notices.empty()) {
+        n.seqno = 1;
+    } else {
+        n.seqno = notices.front().seqno + 1;
+    }
     notices.push_front(n);
 }
 
@@ -59,29 +64,84 @@ void NOTICES::append_unique(NOTICE& n) {
         NOTICE& n2 = notices[i];
         if (!strcmp(n.guid, n2.guid)) return;
     }
+    if (log_flags.notice_debug) {
+        msg_printf(0, MSG_INFO,
+            "[notice_debug] appending notice: %s",
+            n.title
+        );
+    }
     append(n);
 }
 
-// called when a scheduler RPC finishes.
-// Add or remove RSS feeds
+static bool cmp(NOTICE n1, NOTICE n2) {
+    if (n1.arrival_time < n2.arrival_time) return true;
+    if (n1.arrival_time > n2.arrival_time) return false;
+    return (strcmp(n1.guid, n2.guid) > 0);
+}
 
-// top-level poll.  See if need to start RSS fetch
-//
+void NOTICES::init() {
+    // todo: read archive of client and server notices
+    rss_feeds.init();
 
-// start an RSS fetch
-//
+    // sort by decreasing arrival time, then assign seqnos
+    //
+    sort(notices.begin(), notices.end(), cmp);
+    unsigned int n = notices.size();
+    for (unsigned int i=0; i<n; i++) {
+        notices[i].seqno = n - i;
+    }
+}
 
-// called when a fetch completes.
-// Add new items to "notices", prune old items, 
-// write disk file if got new items.
+// called on startup.  Read archives.
 //
-
-// called on startup.  Read disk files.
-//
-void init_rss_feeds() {
+void RSS_FEEDS::init() {
     boinc_mkdir(FEEDS_DIR);
-    for (unsigned int i=0; i<rss_feeds.size(); i++) {
-        rss_feeds[i].read_feed_file();
+    for (unsigned int i=0; i<feeds.size(); i++) {
+        feeds[i].read_archive_file();
+    }
+}
+
+RSS_FEED* RSS_FEEDS::lookup_url(char* url) {
+    for (unsigned int i=0; i<feeds.size(); i++) {
+        RSS_FEED& rf = feeds[i];
+        if (!strcmp(rf.url, url)) {
+            return &rf;
+        }
+    }
+    return NULL;
+}
+
+// the set of project feeds has changed.
+// update the master list.
+//
+void RSS_FEEDS::update() {
+    unsigned int i, j;
+    for (i=0; i<feeds.size(); i++) {
+        RSS_FEED& rf = feeds[i];
+        rf.found = false;
+    }
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        for (j=0; j<p->proj_feeds.size(); j++) {
+            RSS_FEED& rf = p->proj_feeds[i];
+            RSS_FEED* rfp = lookup_url(rf.url);
+            if (rfp) {
+                rfp->found = true;
+            } else {
+                rf.found = true;
+                feeds.push_back(rf);
+            }
+        }
+    }
+    vector<RSS_FEED>::iterator iter = feeds.begin();
+    while (iter != feeds.end()) {
+        RSS_FEED& rf = *iter;
+        if (rf.found) {
+            iter++;
+        } else {
+            // TODO: check if fetch in progress!
+            iter = feeds.erase(iter);
+        }
     }
 }
 
@@ -97,14 +157,52 @@ void RSS_FEED::archive_file_name(char* path) {
     sprintf(path, "feeds/archive_%s", buf);
 }
 
-void RSS_FEED::read_feed_file() {
+// read and parse the contents of the archive file;
+// insert items in NOTICES
+//
+int RSS_FEED::read_archive_file() {
     char path[256];
+    char tag[256];
+    bool is_tag;
+
     feed_file_name(path);
     FILE* f = fopen(path, "r");
+    if (!f) {
+        if (log_flags.notice_debug) {
+            msg_printf(0, MSG_INFO,
+                "[notice_debug] no archive file for %s", url
+            );
+        }
+        return 0;
+    }
     MIOFILE fin;
     fin.init_file(f);
     XML_PARSER xp(&fin);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "/notices")) {
+            fclose(f);
+            return 0;
+        }
+        if (!strcmp(tag, "notice")) {
+            NOTICE n;
+            int retval = n.parse(xp);
+            if (retval) {
+                if (log_flags.notice_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[notice_debug] archive item parse error: %d", retval
+                    );
+                }
+            } else {
+                notices.append(n);
+            }
+        }
+    }
+    if (log_flags.notice_debug) {
+        msg_printf(0, MSG_INFO, "[notice_debug] archive parse error");
+    }
     fclose(f);
+    return ERR_XML_PARSE;
 }
 
 // parse the descriptor in scheduler reply
@@ -117,8 +215,14 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/notice_feed")) {
-            if (!poll_interval) return ERR_XML_PARSE;
-            if (!strlen(url)) return ERR_XML_PARSE;
+            if (!poll_interval || !strlen(url)) {
+                if (log_flags.notice_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[notice_debug] URL or poll interval missing in sched reply feed"
+                    );
+                }
+                return ERR_XML_PARSE;
+            }
             return 0;
         }
         if (xp.parse_str(tag, "url", url, sizeof(url))) continue;
@@ -162,25 +266,6 @@ int RSS_FEED::parse_items(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-// parse the contents of the archive file
-//
-int RSS_FEED::parse_notices(XML_PARSER& xp) {
-    char tag[256];
-    bool is_tag;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "/notices")) return 0;
-        if (!strcmp(tag, "notice")) {
-            NOTICE n;
-            int retval = n.parse(xp);
-            if (!retval) {
-                notices.append(n);
-            }
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
 RSS_FEED_OP::RSS_FEED_OP() {
     error_num = BOINC_SUCCESS;
     gui_http = &gstate.gui_http;
@@ -191,18 +276,19 @@ RSS_FEED_OP::RSS_FEED_OP() {
 bool RSS_FEED_OP::poll() {
     unsigned int i, j;
     if (gstate.gui_http.is_busy()) return false;
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        for (j=0; j<p->proj_feeds.size(); j++) {
-            RSS_FEED& rf = p->proj_feeds[j];
-            if (rf.duplicate) continue;
-            if (gstate.now > rf.next_poll_time) {
-                rf.next_poll_time = gstate.now + rf.poll_interval;
-                char filename[256];
-                rf.feed_file_name(filename);
-                rfp = &rf;
-                gstate.gui_http.do_rpc(this, rf.url, filename);
+    for (i=0; i<rss_feeds.feeds.size(); i++) {
+        RSS_FEED& rf = rss_feeds.feeds[j];
+        if (gstate.now > rf.next_poll_time) {
+            rf.next_poll_time = gstate.now + rf.poll_interval;
+            char filename[256];
+            rf.feed_file_name(filename);
+            rfp = &rf;
+            if (log_flags.notice_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[notice_debug] start fetch from %s", rf.url
+                );
             }
+            gstate.gui_http.do_rpc(this, rf.url, filename);
         }
     }
     return false;
@@ -213,12 +299,25 @@ bool RSS_FEED_OP::poll() {
 void RSS_FEED_OP::handle_reply(int http_op_retval) {
     char filename[256];
 
+    if (log_flags.notice_debug) {
+        msg_printf(0, MSG_INFO,
+            "[notice_debug] handling reply from %s", rfp->url
+        );
+    }
+
     rfp->feed_file_name(filename);
     FILE* f = fopen(filename, "r");
     MIOFILE fin;
     fin.init_file(f);
     XML_PARSER xp(&fin);
-    rfp->parse_items(xp);
+    int retval = rfp->parse_items(xp);
+    if (retval) {
+        if (log_flags.notice_debug) {
+            msg_printf(0, MSG_INFO,
+                "[notice_debug] RSS parse error: %d", retval
+            );
+        }
+    }
     fclose(f);
 }
 
@@ -261,52 +360,6 @@ void write_notice_feeds(MIOFILE& fout, vector<RSS_FEED>& feeds) {
     fout.printf("</rss_feeds>\n");
 }
 
-// A feed has been updated.  Propagate to duplicates
-//
-void update_duplicates(RSS_FEED& rf, PROJECT* p0) {
-    unsigned int i, j;
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        if (p == p0) continue;
-        for (j=0; j<p->proj_feeds.size(); j++) {
-            if (!strcmp(rf.url, p->proj_feeds[i].url)) {
-                p->proj_feeds[i] = rf;
-                break;
-            }
-        }
-    }
-}
-
-// the two feeds have same URL.  Do they differ in some other way?
-//
-static bool different(RSS_FEED& f1, RSS_FEED&f2) {
-    if (f1.poll_interval != f2.poll_interval) return true;
-    if (f1.append_seqno != f2.append_seqno) return true;
-    return false;
-}
-
-// go through the set of all feeds,
-// and if there are multiple that refer to the same URL,
-// pick one as master and the others as duplicates
-//
-static void assign_masters() {
-    set<string> urls;
-    unsigned int i, j;
-
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        for (j=0; j<p->proj_feeds.size(); j++) {
-            RSS_FEED& rf = p->proj_feeds[j];
-            if (urls.find(string(rf.url)) != urls.end()) {
-                rf.duplicate = true;
-            } else {
-                urls.insert(string(rf.url));
-                rf.duplicate = false;
-            }
-        }
-    }
-}
-
 // A scheduler RPC returned a list (possibly empty) of feeds.
 // Add new ones to the project's set,
 // and remove ones from the project's set that aren't in the list.
@@ -327,11 +380,7 @@ void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJECT* p) {
         for (j=0; j<p->proj_feeds.size(); j++) {
             RSS_FEED& rf2 = p->proj_feeds[j];
             if (!strcmp(rf.url, rf2.url)) {
-                // update the permanent copy if needed
-                if (different(rf, rf2)) {
-                    rf2 = rf;
-                    update_duplicates(rf2, p);
-                }
+                rf2 = rf;
                 present = true;
                 break;
             }
@@ -340,7 +389,6 @@ void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJECT* p) {
             rf.found = true;
             p->proj_feeds.push_back(rf);
             feed_set_changed = true;
-            update_duplicates(rf, p);
         }
     }
 
@@ -352,17 +400,15 @@ void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJECT* p) {
         if (rf.found) {
             iter++;
         } else {
-            // TODO: make sure this feed isn't in the middle of an RPC
-            //
             iter = p->proj_feeds.erase(iter);
             feed_set_changed = true;
         }
     }
 
-    // if anything was added or removed, pick masters
+    // if anything was added or removed, update master set
     //
     if (feed_set_changed) {
-        assign_masters();
+        rss_feeds.update();
     }
 }
 

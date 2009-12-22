@@ -10612,3 +10612,10 @@ Rom    22 Dec 2009
     clientgui/
         DlgEventLog.cpp, .h
 
+David  22 Dec 2009
+    - client: more notice stuff.  Add <notice_debug> log flag
+
+    client/
+        client_state.cpp
+        cs_notice.cpp,h
+        log_flags.cpp,h

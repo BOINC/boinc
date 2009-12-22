@@ -461,7 +461,7 @@ int CLIENT_STATE::init() {
 
     http_ops->cleanup_temp_files();
 
-    init_rss_feeds();
+    notices.init();
     
     initialized = true;
     return 0;

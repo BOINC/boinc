@@ -103,6 +103,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "time_debug", time_debug)) continue;
         if (xp.parse_bool(tag, "unparsed_xml", unparsed_xml)) continue;
         if (xp.parse_bool(tag, "work_fetch_debug", work_fetch_debug)) continue;
+        if (xp.parse_bool(tag, "notice_debug", notice_debug)) continue;
 
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
@@ -163,6 +164,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, time_debug, "time_debug");
     show_flag(buf, unparsed_xml, "unparsed_xml");
     show_flag(buf, work_fetch_debug, "work_fetch_debug");
+    show_flag(buf, notice_debug, "notice_debug");
 
     if (strlen(buf)) {
         msg_printf(NULL, MSG_INFO, "log flags: %s", buf);

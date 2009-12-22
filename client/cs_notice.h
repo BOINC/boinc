@@ -37,7 +37,7 @@
 // Seqnos are not permanent.
 //
 // RSS_FEED represents an RSS feed.
-// The client polls feeds periodically.
+// The client polls each feed periodically.
 // A feed may have a (nonstandard) <use_seqno> attribute.
 // If present, each nonempty feed reply includes an opaque <seqno> element,
 // representing the last item returned.
@@ -48,8 +48,13 @@
 //
 // Two projects may request the same feed.
 // So each PROJECT has its own list of feeds.
-// All but one are marked as "duplicate" and ignored.
+// There's also a merged list "rss_feeds" where seqno is stored.
 //
+// files:
+// feeds/feeds.xml              feed list
+// feeds/feeds_PROJ_URL.xml     list of project feeds
+// feeds/archive_RSS_URL.xml    item archive for a feed
+// feeds/out_RSS_URL.xml        result of last fetch for a feed
 
 #include <deque>
 #include <vector>
@@ -67,6 +72,7 @@ struct NOTICES {
     void write(int seqno, MIOFILE&, bool public_only);
     void append(NOTICE&);
     void append_unique(NOTICE&);
+    void init();
 };
 
 extern NOTICES notices;
@@ -90,10 +96,9 @@ struct RSS_FEED {
     void write(MIOFILE&);
     int parse_desc(XML_PARSER&);
     int parse_items(XML_PARSER&);
-    int parse_notices(XML_PARSER&);
-    void read_feed_file();
     void feed_file_name(char*);
     void archive_file_name(char*);
+    int read_archive_file();
 };
 
 struct RSS_FEED_OP: public GUI_HTTP_OP {
@@ -106,10 +111,17 @@ struct RSS_FEED_OP: public GUI_HTTP_OP {
     bool poll();
 };
 
-void update_duplicates(RSS_FEED&, PROJECT*);
+struct RSS_FEEDS {
+    std::vector<RSS_FEED> feeds;
+    void init();
+    void update();
+    RSS_FEED* lookup_url(char*);
+};
+
+extern RSS_FEEDS rss_feeds;
+
 int parse_notice_feeds(MIOFILE& fin, std::vector<RSS_FEED>&);
 void handle_sr_feeds(std::vector<RSS_FEED>&, PROJECT*);
     // process the feeds in a scheduler reply
-void init_rss_feeds();
 
 #endif

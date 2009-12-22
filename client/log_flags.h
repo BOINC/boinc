@@ -101,6 +101,7 @@ struct LOG_FLAGS {
         // show unparsed XML lines
     bool work_fetch_debug;
         // work fetch policy 
+    bool notice_debug;
 
     LOG_FLAGS();
     int parse(XML_PARSER&);
