@@ -91,7 +91,6 @@ public:
     void OnReadPreferences( wxCommandEvent& event );
     void OnReadConfig( wxCommandEvent& event );
     void OnEventLog( wxCommandEvent& event );
-    void OnEventLogClose();
 
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINC( wxCommandEvent& event );
@@ -128,7 +127,6 @@ private:
     wxMenuBar*      m_pMenubar;
     wxNotebook*     m_pNotebook;
     CStatusBar*     m_pStatusbar;
-    CDlgEventLog*   m_pEventLog;
 
     wxString        m_strBaseTitle;
 

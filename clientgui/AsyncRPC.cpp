@@ -1198,7 +1198,6 @@ END_EVENT_TABLE()
 IMPLEMENT_CLASS(AsyncRPCDlg, wxDialog)
 
 AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPosition ) {
-    AsyncRPCDlg* itemDialog1 = this;
     CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString exit_label;
     wxASSERT(pSkinAdvanced);
@@ -1211,13 +1210,15 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     exit_label.Printf(_("E&xit %s"), pSkinAdvanced->GetApplicationName().c_str());
 #endif
 
+    wxString strCaption.Printf(_("%s - Communication"), pSkinAdvanced->GetApplicationName().c_str());
+    SetTitle(strCaption.c_str());
+
     wxBoxSizer *topsizer = new wxBoxSizer( wxVERTICAL );
     wxBoxSizer *icon_text = new wxBoxSizer( wxHORIZONTAL );
 
     icon_text->Add( CreateTextSizer( message ), 0, wxALIGN_CENTER | wxLEFT, 10 );
     topsizer->Add( icon_text, 1, wxCENTER | wxLEFT|wxRIGHT|wxTOP, 10 );
     
-    int center_flag = wxEXPAND;
     wxStdDialogButtonSizer *sizerBtn = CreateStdDialogButtonSizer(0);
     
     wxButton* exitbutton = new wxButton;
@@ -1225,11 +1226,11 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     sizerBtn->Add(exitbutton, 0, wxLEFT|wxRIGHT|wxALL, 5);
 
     wxButton* cancelbutton = new wxButton;
-    cancelbutton->Create( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    cancelbutton->Create( this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     sizerBtn->Add(cancelbutton, 0, wxLEFT|wxRIGHT|wxALL, 5);
     
     if ( sizerBtn )
-        topsizer->Add(sizerBtn, 0, center_flag | wxALL, 10 );
+        topsizer->Add(sizerBtn, 0, wxEXPAND | wxALL, 10 );
 
     SetAutoLayout( true );
     SetSizer( topsizer );

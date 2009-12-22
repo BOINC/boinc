@@ -209,7 +209,6 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     m_pMenubar = NULL;
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
-    m_pEventLog = NULL;
 
     // Working Variables
     m_strBaseTitle = title;
@@ -986,7 +985,6 @@ int CAdvancedFrame::_GetCurrentViewPage() {
 
     wxWindow*       pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
-    int             vw_msg = m_pEventLog ? VW_MSGS : 0;
 
     wxASSERT(m_pNotebook);
 
@@ -996,7 +994,7 @@ int CAdvancedFrame::_GetCurrentViewPage() {
     pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
     wxASSERT(pView);
 
-    return pView->GetViewCurrentViewPage() | vw_msg;
+    return pView->GetViewCurrentViewPage();
 }
 
 
@@ -1572,17 +1570,9 @@ void CAdvancedFrame::OnReadPreferences(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnEventLog - Function Begin"));
 
-    m_pEventLog = new CDlgEventLog(this);
-    m_pEventLog->Show();
-    UpdateRefreshTimerInterval(m_pNotebook->GetSelection());
+    wxGetApp().DisplayEventLog();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnEventLog - Function End"));
-}
-
-
-void CAdvancedFrame::OnEventLogClose() {
-    m_pEventLog = NULL;
-    UpdateRefreshTimerInterval(m_pNotebook->GetSelection());
 }
 
 
@@ -1653,10 +1643,6 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
         wxASSERT(pView);
 
         pView->FireOnListRender(timerEvent);
-        
-        if (m_pEventLog) {
-            m_pEventLog->OnRefresh(timerEvent);
-        }
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));
@@ -2079,11 +2065,7 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
                 if (pDoc->IsConnected()) {
                     // Set new view specific refresh rate
-                    if (m_pEventLog) {      // Update event log every second
-                        m_pPeriodicRPCTimer->Start(1000); 
-                    } else {
-                        m_pPeriodicRPCTimer->Start(pView->GetViewRefreshRate() * 1000);
-                    }
+                    m_pPeriodicRPCTimer->Start(pView->GetViewRefreshRate() * 1000);
                 } else {
                     // Set view refresh rate to 1 second
                     m_pPeriodicRPCTimer->Start(1000); 

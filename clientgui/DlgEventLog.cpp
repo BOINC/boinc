@@ -96,11 +96,9 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
     
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent(), CAdvancedFrame);
-
 	SaveState();    // Save state if close box on window frame clicked
 
-	if (m_pMessageInfoAttr) {
+    if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
         m_pMessageInfoAttr = NULL;
     }
@@ -110,9 +108,7 @@ CDlgEventLog::~CDlgEventLog() {
         m_pMessageErrorAttr = NULL;
     }
     
-    if (pFrame) {
-        pFrame->OnEventLogClose();
-    }
+    wxGetApp().CloseEventLog();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function End"));
 }

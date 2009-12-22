@@ -44,6 +44,7 @@ class CBOINCBaseFrame;
 class CMainDocument;
 class CTaskBarIcon;
 class CSkinManager;
+class CDlgEventLog;
 class CRPCFinishedEvent;
 
 
@@ -75,6 +76,7 @@ protected:
     CBOINCBaseFrame*    m_pFrame;
     CMainDocument*      m_pDocument;
     CTaskBarIcon*       m_pTaskBarIcon;
+    CDlgEventLog*       m_pEventLog;
 #ifdef __WXMAC__
     CMacSystemMenu*     m_pMacSystemMenu;
 #endif
@@ -151,6 +153,9 @@ public:
 
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
+
+    bool                DisplayEventLog();
+    void                CloseEventLog();
 
     void                FireReloadSkin();
     void                FrameClosed()               { m_pFrame = NULL; }

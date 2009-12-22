@@ -33,7 +33,6 @@
 #include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCDialupManager.h"
-#include "DlgEventLog.h"
 #include "Events.h"
 
 
@@ -76,12 +75,10 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     // Configuration Settings
     m_iSelectedLanguage = 0;
     m_iReminderFrequency = 0;
-
     m_strNetworkDialupConnectionName = wxEmptyString;
-
     m_aSelectedComputerMRU.Clear();
-
     m_bShowConnectionFailedAlert = false;
+
 
     m_pDialupManager = new CBOINCDialUpManager();
     wxASSERT(m_pDialupManager->IsOk());
@@ -140,8 +137,9 @@ CBOINCBaseFrame::~CBOINCBaseFrame() {
         delete m_pDocumentPollTimer;
     }
 
-    if (m_pDialupManager)
+    if (m_pDialupManager) {
         delete m_pDialupManager;
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::~CBOINCBaseFrame - Function End"));
 }

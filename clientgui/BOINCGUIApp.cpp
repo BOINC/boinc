@@ -51,6 +51,7 @@
 #include "sg_StatImageLoader.h"
 #include "sg_BoincSimpleGUI.h"
 #include "DlgExitMessage.h"
+#include "DlgEventLog.h"
 
 
 DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
@@ -123,6 +124,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pFrame = NULL;
     m_pDocument = NULL;
     m_pTaskBarIcon = NULL;
+    m_pEventLog = NULL;
 #ifdef __WXMAC__
     m_pMacSystemMenu = NULL;
 #endif
@@ -492,6 +494,11 @@ int CBOINCGUIApp::OnExit() {
         delete m_pLocale;
     }
 
+    if (m_pEventLog) {
+        m_pEventLog->Destroy();
+    }
+
+
     // Save Application State
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
@@ -795,6 +802,25 @@ int CBOINCGUIApp::StartBOINCDefaultScreensaverTest() {
 }
 
 
+// Display the Event Log, it is a modeless dialog not owned by any
+// other UI element.
+bool CBOINCGUIApp::DisplayEventLog() {
+    bool rc = false; 
+
+    m_pEventLog = new CDlgEventLog();
+    if (m_pEventLog) {
+        rc = m_pEventLog->Show();
+    }
+
+    return rc;
+}
+
+
+void CBOINCGUIApp::CloseEventLog() {
+    m_pEventLog = NULL;
+}
+
+    
 // The skin has changed and all UI elements need to reload their bitmaps.
 //
 void CBOINCGUIApp::FireReloadSkin() {

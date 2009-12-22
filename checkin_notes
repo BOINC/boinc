@@ -10580,3 +10580,20 @@ David  22 Dec 2009
 
     html/inc
         news.inc
+
+Rom    22 Dec 2009
+    - MGR: Move the event log initialization and clean-up to the application
+        class, it is not owned by any frame, it is modeless.
+        
+        NOTE: Need to consult with Charlie about how best to register modeless
+          dialogs for RPC updates. They are not owned by a frame and should
+          be capable of being displayed or view from any frame.  i.e.
+          SwitchActiveGUI() should not have any effect on them.
+    - MGR: Display a window title with the async waiting dialog.
+          
+    clientgui/
+        AdvancedFrame.cpp, .h
+        AsyncRPC.cpp
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp, .h
+        DlgEventLog.cpp
