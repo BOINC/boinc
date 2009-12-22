@@ -122,7 +122,7 @@ CDlgEventLog::~CDlgEventLog() {
  * CDlgEventLog creator
  */
 
-bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
 ////@begin CDlgEventLog member initialisation
     m_iPreviousDocCount = 0;
@@ -217,6 +217,7 @@ void CDlgEventLog::CreateControls()
     wxButton* itemButton44 = new wxButton(this, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+#ifndef __WXMSW__
 #ifdef __WXMAC__
 	wxButton* itemButton45 = new wxButton(this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize);
     itemButton45->SetHelpText(
@@ -229,6 +230,7 @@ void CDlgEventLog::CreateControls()
 #else
     wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#endif
 #endif
 }
 
@@ -288,8 +290,8 @@ void CDlgEventLog::OnHelp(wxHelpEvent& event) {
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
  */
 
-void CDlgEventLog::OnOK( wxCommandEvent& /*event*/ ) {
-    delete this;
+void CDlgEventLog::OnOK( wxCommandEvent& WXUNUSED(event) ) {
+    Destroy();
 }
 
 
@@ -297,8 +299,8 @@ void CDlgEventLog::OnOK( wxCommandEvent& /*event*/ ) {
  * wxEVT_CLOSE event handler for CDlgEventLog (window close control clicked)
  */
 
-void CDlgEventLog::OnClose(wxCloseEvent& event) {
-    delete this;
+void CDlgEventLog::OnClose(wxCloseEvent& WXUNUSED(event)) {
+    Destroy();
 }
 
 
