@@ -69,8 +69,8 @@ BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
     EVT_BUTTON(ID_COPYAll, CDlgEventLog::OnMessagesCopyAll)
     EVT_BUTTON(ID_COPYSELECTED, CDlgEventLog::OnMessagesCopySelected)
     EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
+    EVT_TIMER(ID_REFRESHTIMER, CDlgEventLog::OnRefresh)
     EVT_CLOSE(CDlgEventLog::OnClose)
-
 ////@end CDlgEventLog event table entries
 END_EVENT_TABLE()
 
@@ -103,6 +103,11 @@ CDlgEventLog::~CDlgEventLog() {
         m_pMessageErrorAttr = NULL;
     }
     
+    if (m_pRefreshTimer) {
+        m_pRefreshTimer->Stop();
+        delete m_pRefreshTimer;
+    }
+
     wxGetApp().CloseEventLog();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function End"));
@@ -150,6 +155,11 @@ bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxSt
     // To work properly on Mac, RestoreState() must be called _after_ 
     //  calling GetSizer()->Fit(), GetSizer()->SetSizeHints() and Center()
     RestoreState();
+
+    m_pRefreshTimer = new wxTimer(this, ID_REFRESHTIMER);
+    if (m_pRefreshTimer) {
+        m_pRefreshTimer->Start(1000);
+    }
 
     return true;
 }
@@ -296,7 +306,7 @@ void CDlgEventLog::OnClose(wxCloseEvent& WXUNUSED(event)) {
 
 
 /*!
- * called from CAdvancedFrame::OnRefreshView()
+ * wxEVT_TIMER event handler for CDlgEventLog
  */
 
 void CDlgEventLog::OnRefresh( wxTimerEvent& WXUNUSED(event) ) {
@@ -308,7 +318,7 @@ void CDlgEventLog::OnRefresh( wxTimerEvent& WXUNUSED(event) ) {
 
         wxASSERT(m_pList);
 
-        wxInt32 iDocCount = wxGetApp().GetDocument()->GetMessageCount();
+        wxInt32 iDocCount = wxGetApp().GetDocument()->messages.messages.size();
         if (0 >= iDocCount) {
             m_pList->DeleteAllItems();
         } else {

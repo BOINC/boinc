@@ -10604,3 +10604,11 @@ Rom    22 Dec 2009
         
     clientgui/
         DlgEventLog.cpp, .h
+
+Rom    22 Dec 2009
+    - MGR: Reenable the refresh timer local to CDlgEventLog, but do not
+        issue an RPC, determine the size by asking the vector.
+        
+    clientgui/
+        DlgEventLog.cpp, .h
+

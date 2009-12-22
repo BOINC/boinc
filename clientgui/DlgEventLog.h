@@ -65,7 +65,6 @@ class CDlgEventLogListCtrl;
 #define wxFIXED_MINSIZE 0
 #endif
 
-
 class CDlgEventLog : public wxDialog
 {
     DECLARE_DYNAMIC_CLASS( CDlgEventLog )
@@ -89,9 +88,6 @@ public:
     /// wxEVT_SHOW event handler for ID_DLGEVENTLOG
     void OnShow( wxShowEvent& event );
 
-    /// wxEVT_SHOW event handler for ID_DLGEVENTLOG
-    void OnRefresh( wxTimerEvent& event );
-
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
     
@@ -106,6 +102,9 @@ public:
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
+
+    /// wxEVT_TIMER event handler for ID_DLGEVENTLOG
+    void OnRefresh( wxTimerEvent& event );
 ////@end CDlgEventLog event handler declarations
 
 ////@begin CDlgEventLog member function declarations
