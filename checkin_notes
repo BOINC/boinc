@@ -10597,3 +10597,10 @@ Rom    22 Dec 2009
         BOINCBaseFrame.cpp
         BOINCGUIApp.cpp, .h
         DlgEventLog.cpp
+
+Rom    22 Dec 2009
+    - MGR: Make sure the correct constructor is called, otherwise nothing
+        happens.
+        
+    clientgui/
+        DlgEventLog.cpp, .h

@@ -78,11 +78,6 @@ END_EVENT_TABLE()
  * CDlgEventLog constructors
  */
 
-CDlgEventLog::CDlgEventLog( )
-{
-}
-
-
 CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Constructor Function Begin"));

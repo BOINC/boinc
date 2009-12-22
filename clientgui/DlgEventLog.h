@@ -73,9 +73,7 @@ class CDlgEventLog : public wxDialog
 
 public:
     /// Constructors
-    CDlgEventLog( );
-    CDlgEventLog( wxWindow* parent, wxWindowID id = SYMBOL_CDLGEVENTLOG_IDNAME, const wxString& caption = SYMBOL_CDLGEVENTLOG_TITLE, const wxPoint& pos = SYMBOL_CDLGEVENTLOG_POSITION, const wxSize& size = SYMBOL_CDLGEVENTLOG_SIZE, long style = SYMBOL_CDLGEVENTLOG_STYLE );
-
+    CDlgEventLog( wxWindow* parent = NULL, wxWindowID id = SYMBOL_CDLGEVENTLOG_IDNAME, const wxString& caption = SYMBOL_CDLGEVENTLOG_TITLE, const wxPoint& pos = SYMBOL_CDLGEVENTLOG_POSITION, const wxSize& size = SYMBOL_CDLGEVENTLOG_SIZE, long style = SYMBOL_CDLGEVENTLOG_STYLE );
     ~CDlgEventLog();
     
     /// Creation
