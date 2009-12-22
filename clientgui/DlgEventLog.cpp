@@ -217,7 +217,6 @@ void CDlgEventLog::CreateControls()
     wxButton* itemButton44 = new wxButton(this, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-#ifndef __WXMSW__
 #ifdef __WXMAC__
 	wxButton* itemButton45 = new wxButton(this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize);
     itemButton45->SetHelpText(
@@ -230,7 +229,6 @@ void CDlgEventLog::CreateControls()
 #else
     wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-#endif
 #endif
 }
 

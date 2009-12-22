@@ -751,10 +751,8 @@ void CBOINCGUIApp::OnRPCFinished( CRPCFinishedEvent& event ) {
 // This is never called on the Mac.
 void CBOINCGUIApp::OnSystemShutDown( wxCloseEvent& event ) {
     if (m_pFrame) {
-        m_pFrame->SaveState();
+        m_pFrame->ProcessEvent(event);
     }
-    
-    event.Skip();
 }
 
 

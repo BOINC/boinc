@@ -122,6 +122,11 @@ const char** CViewNotifications::GetViewIcon() {
 }
 
 
+const int CViewNotifications::GetViewCurrentViewPage() {
+     return VW_NOTIF;
+}
+
+
 bool CViewNotifications::OnSaveState(wxConfigBase* WXUNUSED(pConfig)) {
     return true;
 }

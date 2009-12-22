@@ -10509,3 +10509,25 @@ David  21 Dec 2009
 
     html/inc/
         news.inc
+
+Charlie  21 Dec 2009
+    - MGR: Make GetCurrentViewPage() indepenedent of tab positons. 
+    - MGR: Always set Periodic RPC timer to 1 second if showing event log.
+    - MGR: Minor code cleanup from Rom.
+    
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.h
+        BOINCBaseView.cpp, .h
+        BOINCGUIApp.cpp
+        DlgEventLog.cpp
+        sg_BoincSimpleGUI.h
+        MainDocument.cpp, .h
+        ViewNotifications.cpp, .h
+        ViewProjects.cpp, .h
+        ViewResources.cpp, .h
+        ViewStatistics.cpp, .h
+        ViewTransfers.cpp, .h
+        ViewWork.cpp, .h
+        Mac/
+            MacAccessibility.cpp

@@ -60,6 +60,8 @@ public:
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
+    virtual const int       GetViewCurrentViewPage();
+
     virtual wxString        GetKeyValue1(int iRowIndex);
     virtual int             FindRowIndexByKeyValues(wxString& key1, wxString& key2);
 

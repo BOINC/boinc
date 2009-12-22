@@ -395,7 +395,7 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
     m_iGet_status_rpc_result = 0;
     
-    m_dtProjecStatusTimestamp = wxDateTime((time_t)0);
+    m_dtProjectsStatusTimestamp = wxDateTime((time_t)0);
     m_iGet_project_status1_rpc_result = -1;
     
     m_dtResultsTimestamp = wxDateTime((time_t)0);
@@ -776,7 +776,7 @@ void CMainDocument::RefreshRPCs() {
     m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
 //    m_iGet_status_rpc_result = -1;
     
-    m_dtProjecStatusTimestamp = wxDateTime((time_t)0);
+    m_dtProjectsStatusTimestamp = wxDateTime((time_t)0);
 //  m_iGet_project_status1_rpc_result = -1;
         
     m_dtResultsTimestamp = wxDateTime((time_t)0);
@@ -833,7 +833,6 @@ void CMainDocument::RunPeriodicRPCs() {
     if (!IsConnected()) {
         CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
         pFrame->AddPendingEvent(event);
-
 #if defined(__WXMSW__) || defined(__WXMAC__)
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
@@ -841,7 +840,6 @@ void CMainDocument::RunPeriodicRPCs() {
             pTaskbar->AddPendingEvent(event);
         }
 #endif
-
         return;
     }
     
@@ -924,14 +922,14 @@ void CMainDocument::RunPeriodicRPCs() {
     // *********** RPC_GET_PROJECT_STATUS1 **************
 
     if (currentTabView & VW_PROJ) {
-        wxTimeSpan ts(dtNow - m_dtProjecStatusTimestamp);
+        wxTimeSpan ts(dtNow - m_dtProjectsStatusTimestamp);
         if (ts.GetSeconds() >= PROJECTSTATUSRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_PROJECT_STATUS1;
             request.arg1 = &async_projects_update_buf;
             request.arg2 = &state;
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
-            request.completionTime = &m_dtProjecStatusTimestamp;
+            request.completionTime = &m_dtProjectsStatusTimestamp;
             request.resultPtr = &m_iGet_project_status1_rpc_result;
            
             RequestRPC(request);
@@ -1170,10 +1168,10 @@ int CMainDocument::CachedProjectStatusUpdate(bool bForce) {
     wxTimeSpan ts(wxDateTime::Now() - m_dtProjecStatusTimestamp);
     if (ts.GetSeconds() >= (2 * PROJECTSTATUSRPC_INTERVAL)) bForce = true;
 #endif
-    if (m_dtProjecStatusTimestamp.IsEqualTo(wxDateTime((time_t)0))) bForce = true;
+    if (m_dtProjectsStatusTimestamp.IsEqualTo(wxDateTime((time_t)0))) bForce = true;
     
     if (bForce) {
-        m_dtProjecStatusTimestamp = wxDateTime::Now();
+        m_dtProjectsStatusTimestamp = wxDateTime::Now();
         m_iGet_project_status1_rpc_result = rpc.get_project_status(async_projects_update_buf, state);
     }
 

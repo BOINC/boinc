@@ -1837,6 +1837,10 @@ const int CViewStatistics::GetViewRefreshRate() {
     return 60;
 }
 
+const int CViewStatistics::GetViewCurrentViewPage() {
+    return VW_STAT;
+}
+
 void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserTotal - Function Begin"));
 

@@ -534,13 +534,11 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
 
                     if (isHeader) {
                         wxListItem      headerItem;
-                        int             currentTabView;
 
                         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
                         if (!pFrame) {
                             return eventNotHandledErr;
                         }
-                        currentTabView = pFrame->GetCurrentViewPage();
                         
                         pList->GetColumn(col, headerItem);
                         buf.Printf(_("%d of %d; "), col+1, pList->GetColumnCount());

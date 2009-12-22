@@ -25,7 +25,8 @@
 
 
 ///
-/// Bitmask values for CMainDocument::RunPeriodicRPCs()
+/// Bitmask values for GetCurrentViewPage() 
+/// Used by CMainDocument::RunPeriodicRPCs() and Mac Accessibility
 ///
 #define VW_SGUI 1024
 #define VW_SMSG 2048

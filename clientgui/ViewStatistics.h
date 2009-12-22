@@ -213,6 +213,7 @@ public:
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
     virtual const int       GetViewRefreshRate();
+    virtual const int       GetViewCurrentViewPage();
 
     void                    OnStatisticsUserTotal( wxCommandEvent& event );
     void                    OnStatisticsUserAverage( wxCommandEvent& event );

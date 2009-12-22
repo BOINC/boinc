@@ -93,6 +93,7 @@ public:
 
     bool                Show( bool bShow = true );
 
+    virtual bool        RestoreState();
     virtual bool        SaveState();
 
 protected:
@@ -113,8 +114,6 @@ protected:
     bool                m_bShowConnectionFailedAlert;
 
     virtual int         _GetCurrentViewPage();
-
-    virtual bool        RestoreState();
 
     DECLARE_EVENT_TABLE()
 };

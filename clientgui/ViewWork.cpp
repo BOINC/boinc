@@ -261,6 +261,11 @@ const char** CViewWork::GetViewIcon() {
 }
 
 
+const int CViewWork::GetViewCurrentViewPage() {
+    return VW_TASK;
+}
+
+
 wxString CViewWork::GetKeyValue1(int iRowIndex) {
     CWork*          work;
 

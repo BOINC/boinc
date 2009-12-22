@@ -219,6 +219,11 @@ const char** CViewTransfers::GetViewIcon() {
 }
 
 
+const int CViewTransfers::GetViewCurrentViewPage() {
+    return VW_XFER;
+}
+
+
 wxString CViewTransfers::GetKeyValue1(int iRowIndex) {
     CTransfer*  transfer;
     

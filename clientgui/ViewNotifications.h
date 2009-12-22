@@ -38,6 +38,7 @@ public:
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
+    virtual const int       GetViewCurrentViewPage();
 
     void                    OnNewsBOINC( wxCommandEvent& event );
     void                    OnNewsBOINCWebsite( wxCommandEvent& event );

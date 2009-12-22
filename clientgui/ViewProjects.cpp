@@ -256,6 +256,11 @@ const char** CViewProjects::GetViewIcon() {
 }
 
 
+const int CViewProjects::GetViewCurrentViewPage() {
+    return VW_PROJ;
+}
+
+
 wxString CViewProjects::GetKeyValue1(int iRowIndex) {
     CProject*   project;
     

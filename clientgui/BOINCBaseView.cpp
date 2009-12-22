@@ -190,6 +190,13 @@ const int CBOINCBaseView::GetViewRefreshRate() {
 }
 
 
+// Get bit mask of current view(s).
+//
+const int CBOINCBaseView::GetViewCurrentViewPage() {
+    return 0;
+}
+
+
 wxString CBOINCBaseView::GetKeyValue1(int) {
     return wxEmptyString;
 }

@@ -203,11 +203,11 @@ private:
     wxDateTime                  m_dtLasAsyncRPCDlgTime;
 
     //
-    // Project Tab
+    // Projects Tab
     //
 private:
     int                         m_iGet_project_status1_rpc_result;
-    wxDateTime                  m_dtProjecStatusTimestamp;
+    wxDateTime                  m_dtProjectsStatusTimestamp;
 
 public:
     int                         CachedProjectStatusUpdate(bool bForce = false);

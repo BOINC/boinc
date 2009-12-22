@@ -28,7 +28,8 @@ class CBOINCBaseView;
 class CDlgEventLog;
 
 ///
-/// Bitmask values for CMainDocument::RunPeriodicRPCs()
+/// Bitmask values for GetCurrentViewPage() 
+/// Used by CMainDocument::RunPeriodicRPCs() and Mac Accessibility
 ///
 #define VW_NOTIF 1
 #define VW_PROJ 2
@@ -109,6 +110,7 @@ public:
 
     void ResetReminderTimers();
 
+    bool RestoreState();
     bool SaveState();
 
     wxTimer*        m_pRefreshStateTimer;
@@ -140,8 +142,6 @@ private:
 
     bool            CreateStatusbar( bool bRPCsSafe = true );
     bool            DeleteStatusbar();
-
-    bool            RestoreState();
 
     void            SaveWindowDimensions();
 

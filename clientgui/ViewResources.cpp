@@ -23,6 +23,7 @@
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
+#include "AdvancedFrame.h"
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"
 #include "ViewResources.h"
@@ -123,16 +124,20 @@ const char** CViewResources::GetViewIcon() {
     return usage_xpm;
 }
 
-void CViewResources::UpdateSelection() {
-    CBOINCBaseView::PreUpdateSelection();
-}
 
-
-#ifdef __WXMAC__
 const int CViewResources::GetViewRefreshRate() {
     return 10;
 }
-#endif
+
+
+const int CViewResources::GetViewCurrentViewPage() {
+    return VW_DISK;
+}
+
+
+void CViewResources::UpdateSelection() {
+    CBOINCBaseView::PreUpdateSelection();
+}
 
 
 wxInt32 CViewResources::FormatProjectName(PROJECT* project, wxString& strBuffer) const {
