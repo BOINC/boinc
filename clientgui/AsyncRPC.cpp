@@ -1210,7 +1210,8 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     exit_label.Printf(_("E&xit %s"), pSkinAdvanced->GetApplicationName().c_str());
 #endif
 
-    wxString strCaption.Printf(_("%s - Communication"), pSkinAdvanced->GetApplicationName().c_str());
+    wxString strCaption;
+    strCaption.Printf(_("%s - Communication"), pSkinAdvanced->GetApplicationName().c_str());
     SetTitle(strCaption.c_str());
 
     wxBoxSizer *topsizer = new wxBoxSizer( wxVERTICAL );
