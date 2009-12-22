@@ -10619,3 +10619,10 @@ David  22 Dec 2009
         client_state.cpp
         cs_notice.cpp,h
         log_flags.cpp,h
+
+David  22 Dec 2009
+    - client: when parsing cc_config.xml,
+        clear vectors so we don't end up with duplicates
+
+    client/
+        log_flags.cpp
