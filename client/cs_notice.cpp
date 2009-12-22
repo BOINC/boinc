@@ -23,6 +23,7 @@
 #include "filesys.h"
 
 #include "client_state.h"
+#include "client_msgs.h"
 #include "file_names.h"
 
 #include "cs_notice.h"
@@ -111,9 +112,15 @@ void RSS_FEED::read_feed_file() {
 int RSS_FEED::parse_desc(XML_PARSER& xp) {
     char tag[256];
     bool is_tag;
+    strcpy(url, "");
+    poll_interval = 0;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "/notice_feed")) return 0;
+        if (!strcmp(tag, "/notice_feed")) {
+            if (!poll_interval) return ERR_XML_PARSE;
+            if (!strlen(url)) return ERR_XML_PARSE;
+            return 0;
+        }
         if (xp.parse_str(tag, "url", url, sizeof(url))) continue;
         if (xp.parse_double(tag, "poll_interval", poll_interval)) continue;
     }
@@ -229,7 +236,13 @@ int parse_notice_feeds(MIOFILE& fin, vector<RSS_FEED>& feeds) {
         if (!strcmp(tag, "notice_feed")) {
             RSS_FEED rf;
             retval = rf.parse_desc(xp);
-            if (!retval) {
+            if (retval) {
+                if (log_flags.sched_op_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[sched_op_debug] error in <notice_feed> element"
+                     );
+                }
+            } else {
                 feeds.push_back(rf);
             }
         }

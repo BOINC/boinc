@@ -533,7 +533,6 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <active_task_state>%d</active_task_state>\n"
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
-        "    <pid>%d</pid>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <checkpoint_elapsed_time>%f</checkpoint_elapsed_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
@@ -547,7 +546,6 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         task_state(),
         app_version->version_num,
         slot,
-        pid,
         checkpoint_cpu_time,
         checkpoint_elapsed_time,
         fraction_done,
