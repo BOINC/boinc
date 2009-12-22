@@ -460,6 +460,8 @@ int CLIENT_STATE::init() {
     auto_update.init();
 
     http_ops->cleanup_temp_files();
+
+    init_rss_feeds();
     
     initialized = true;
     return 0;

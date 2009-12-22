@@ -18,36 +18,37 @@
 #ifndef _GUI_HTTP_
 #define _GUI_HTTP_
 
-// Management of HTTP operations done in response to a GUI RPC,
-// i.e. triggered by the user.
-//
+// A high-level interface for client-initiated HTTP requests.
 
-using std::string;
+// GUI_HTTP represents a "channel" for doing HTTP ops.
+// There's one of these for each GUI RPC connection,
+// and one for the client itself (so the name is a misnomer).
 
 #include "http_curl.h"
 
 #define GUI_HTTP_STATE_IDLE     0
 #define GUI_HTTP_STATE_BUSY     1
 
-struct GUI_HTTP_OP;
-
-/// A "channel" for doing HTTP ops.
-
-/// There's one of these for each GUI RPC connection,
-/// and one for the client itself.
-
 struct GUI_HTTP {
-    int state;
-    GUI_HTTP_OP* gui_http_op;
+    int gui_http_state;
+    struct GUI_HTTP_OP* gui_http_op;
     HTTP_OP http_op;
 
-    GUI_HTTP(): state(GUI_HTTP_STATE_IDLE) {}
-    int do_rpc(GUI_HTTP_OP*, string url, string output_file);
-    int do_rpc_post(GUI_HTTP_OP*, string url, string input_file, string output_file);
+    GUI_HTTP(): gui_http_state(GUI_HTTP_STATE_IDLE) {}
+    int do_rpc(struct GUI_HTTP_OP*, char* url, char* output_file);
+    int do_rpc_post(
+        struct GUI_HTTP_OP*, char* url, char* input_file, char* output_file
+    );
     bool poll();
+    inline bool is_busy() {
+        return (gui_http_state == GUI_HTTP_STATE_BUSY);
+    }
 };
 
-/// base class for various types of ops
+// GUI_HTTP_OP is base class for various types of ops.
+// its gui_http field says what channel to use
+// Derived classes override handle_reply() to handle completion,
+// and provide a do_rpc() function to initiate requests.
 
 struct GUI_HTTP_OP {
     GUI_HTTP* gui_http;

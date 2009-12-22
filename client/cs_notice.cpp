@@ -20,8 +20,11 @@
 
 #include "parse.h"
 #include "url.h"
+#include "filesys.h"
 
 #include "client_state.h"
+#include "file_names.h"
+
 #include "cs_notice.h"
 
 using std::vector;
@@ -30,6 +33,7 @@ using std::set;
 
 NOTICES notices;
 vector<RSS_FEED> rss_feeds;
+RSS_FEED_OP rss_feed_op;
 
 // write notices newer than seqno as XML
 //
@@ -74,6 +78,7 @@ void NOTICES::append_unique(NOTICE& n) {
 // called on startup.  Read disk files.
 //
 void init_rss_feeds() {
+    boinc_mkdir(FEEDS_DIR);
     for (unsigned int i=0; i<rss_feeds.size(); i++) {
         rss_feeds[i].read_feed_file();
     }
@@ -83,6 +88,12 @@ void RSS_FEED::feed_file_name(char* path) {
     char buf[256];
     escape_project_url(url, buf);
     sprintf(path, "feeds/%s", buf);
+}
+
+void RSS_FEED::archive_file_name(char* path) {
+    char buf[256];
+    escape_project_url(url, buf);
+    sprintf(path, "feeds/archive_%s", buf);
 }
 
 void RSS_FEED::read_feed_file() {
@@ -161,6 +172,47 @@ int RSS_FEED::parse_notices(XML_PARSER& xp) {
         }
     }
     return ERR_XML_PARSE;
+}
+
+RSS_FEED_OP::RSS_FEED_OP() {
+    error_num = BOINC_SUCCESS;
+    gui_http = &gstate.gui_http;
+}
+
+// see if time to start new fetch
+//
+bool RSS_FEED_OP::poll() {
+    unsigned int i, j;
+    if (gstate.gui_http.is_busy()) return false;
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        for (j=0; j<p->proj_feeds.size(); j++) {
+            RSS_FEED& rf = p->proj_feeds[j];
+            if (rf.duplicate) continue;
+            if (gstate.now > rf.next_poll_time) {
+                rf.next_poll_time = gstate.now + rf.poll_interval;
+                char filename[256];
+                rf.feed_file_name(filename);
+                rfp = &rf;
+                gstate.gui_http.do_rpc(this, rf.url, filename);
+            }
+        }
+    }
+    return false;
+}
+
+// handle a completed RSS feed fetch
+//
+void RSS_FEED_OP::handle_reply(int http_op_retval) {
+    char filename[256];
+
+    rfp->feed_file_name(filename);
+    FILE* f = fopen(filename, "r");
+    MIOFILE fin;
+    fin.init_file(f);
+    XML_PARSER xp(&fin);
+    rfp->parse_items(xp);
+    fclose(f);
 }
 
 // parse notice feeds from scheduler reply
@@ -246,7 +298,7 @@ static void assign_masters() {
 // Add new ones to the project's set,
 // and remove ones from the project's set that aren't in the list.
 //
-void handle_notice_feeds(vector<RSS_FEED>& feeds, PROJECT* p) {
+void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJECT* p) {
     unsigned int i, j;
     bool feed_set_changed = false;
 

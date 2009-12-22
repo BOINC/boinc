@@ -677,7 +677,7 @@ int ACCT_MGR_INFO::init() {
 }
 
 bool ACCT_MGR_INFO::poll() {
-    if (gstate.acct_mgr_op.error_num == ERR_IN_PROGRESS) return false;
+    if (gstate.gui_http.is_busy()) return false;
 
     if (!strlen(login_name) && !strlen(password_hash)) return false;
 

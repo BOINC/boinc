@@ -989,7 +989,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     }
 
     if (sr.got_notice_feeds) {
-        handle_notice_feeds(sr.sr_feeds, project);
+        handle_sr_feeds(sr.sr_feeds, project);
     }
 
     // garbage collect in case the project sent us some irrelevant FILE_INFOs;

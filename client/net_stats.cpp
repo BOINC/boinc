@@ -214,7 +214,7 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
             "Project communication failed: attempting access to reference site"
         );
     }
-    retval = gui_http->do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
+    retval = gui_http->do_rpc(this, (char*)url.c_str(), LOOKUP_WEBSITE_FILENAME);
     if (retval) {
         error_num = retval;
         net_status.need_physical_connection = true;
@@ -260,7 +260,7 @@ void NET_STATUS::poll() {
     // otherwise might show spurious "need connection" message
     //
     if (gstate.now < gstate.last_wakeup_time + 30) return;
-	if (net_status.need_to_contact_reference_site && gstate.gui_http.state==GUI_HTTP_STATE_IDLE) {
+	if (net_status.need_to_contact_reference_site && !gstate.gui_http.is_busy()) {
 		net_status.contact_reference_site();
 	}
 }

@@ -10531,3 +10531,17 @@ Charlie  21 Dec 2009
         ViewWork.cpp, .h
         Mac/
             MacAccessibility.cpp
+
+David  21 Dec 2009
+    - client: intermediate checkin for RSS/notice stuff.
+        It's coming along.
+
+    client/
+        acct_mgr.cpp
+        acct_setup.cpp
+        client_state.cpp
+        cs_notice.cpp,h
+        cs_scheduler.cpp
+        file_names.h
+        gui_http_cpp,h
+        net_stats.cpp

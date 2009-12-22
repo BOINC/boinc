@@ -55,6 +55,9 @@
 #include <vector>
 
 #include "miofile.h"
+
+#include "gui_http.h"
+
 #include "notice.h"
 
 struct PROJECT;
@@ -90,10 +93,23 @@ struct RSS_FEED {
     int parse_notices(XML_PARSER&);
     void read_feed_file();
     void feed_file_name(char*);
+    void archive_file_name(char*);
+};
+
+struct RSS_FEED_OP: public GUI_HTTP_OP {
+    int error_num;
+    RSS_FEED* rfp;
+
+    RSS_FEED_OP();
+    virtual ~RSS_FEED_OP(){}
+    virtual void handle_reply(int http_op_retval);
+    bool poll();
 };
 
 void update_duplicates(RSS_FEED&, PROJECT*);
 int parse_notice_feeds(MIOFILE& fin, std::vector<RSS_FEED>&);
-void handle_notice_feeds(std::vector<RSS_FEED>&, PROJECT*);
+void handle_sr_feeds(std::vector<RSS_FEED>&, PROJECT*);
+    // process the feeds in a scheduler reply
+void init_rss_feeds();
 
 #endif
