@@ -399,8 +399,6 @@ struct PROJECT {
     int write_statistics_file();
 
     // feed-related
-    bool got_notice_feeds;
-        // whether scheduler reply included <notice_feeds>
     std::vector<RSS_FEED> proj_feeds;
 };
 

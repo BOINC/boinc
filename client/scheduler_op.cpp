@@ -570,7 +570,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     cpu_backoff = 0;
     cuda_backoff = 0;
     ati_backoff = 0;
-    got_notice_feeds = false;
+    got_rss_feeds = false;
     sr_feeds.clear();
 
     // First line should either be tag (HTTP 1.0) or
@@ -848,9 +848,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             if (ati_backoff > 28*SECONDS_PER_DAY) ati_backoff = 28*SECONDS_PER_DAY;
             if (ati_backoff < 0) ati_backoff = 0;
             continue;
-        } else if (match_tag(buf, "<notice_feeds>")) {
-            got_notice_feeds = true;
-            parse_notice_feeds(mf, sr_feeds);
+        } else if (match_tag(buf, "<rss_feeds>")) {
+            got_rss_feeds = true;
+            parse_rss_feed_descs(mf, sr_feeds);
         } else if (match_tag(buf, "<!--")) {
             continue;
         } else if (strlen(buf)>1){

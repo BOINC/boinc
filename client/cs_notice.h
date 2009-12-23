@@ -84,9 +84,7 @@ struct RSS_FEED {
     bool append_seqno;
         // if true, append "?seqno=x" to feed requests;
         // assume we'll get only unique items
-    bool duplicate;
-        // some other project has this same feed,
-        // and this one is a duplicate.
+    char last_seqno[256];
     bool found;
         // temp used in garbage collection
 
@@ -111,16 +109,19 @@ struct RSS_FEED_OP: public GUI_HTTP_OP {
     bool poll();
 };
 
+extern RSS_FEED_OP rss_feed_op;
+
 struct RSS_FEEDS {
     std::vector<RSS_FEED> feeds;
     void init();
     void update();
     RSS_FEED* lookup_url(char*);
+    void write_feed_list();
 };
 
 extern RSS_FEEDS rss_feeds;
 
-int parse_notice_feeds(MIOFILE& fin, std::vector<RSS_FEED>&);
+int parse_rss_feed_descs(MIOFILE& fin, std::vector<RSS_FEED>&);
 void handle_sr_feeds(std::vector<RSS_FEED>&, PROJECT*);
     // process the feeds in a scheduler reply
 

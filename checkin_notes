@@ -10626,3 +10626,14 @@ David  22 Dec 2009
 
     client/
         log_flags.cpp
+
+David  22 Dec 2009
+	- client: more notice stuff.  Substantial progress!
+		We're now saving feed lists, and fetching items from feeds.
+
+	client/
+		client_state.cpp
+		client_types.h
+		cs_notice.cpp,h
+		cs_scheduler.cpp
+		scheduler_op.cpp,h

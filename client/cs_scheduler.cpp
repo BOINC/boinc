@@ -988,7 +988,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         project->set_min_rpc_time(x, "requested by project");
     }
 
-    if (sr.got_notice_feeds) {
+    if (sr.got_rss_feeds) {
         handle_sr_feeds(sr.sr_feeds, project);
     }
 

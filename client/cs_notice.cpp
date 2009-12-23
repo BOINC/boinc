@@ -36,6 +36,23 @@ NOTICES notices;
 RSS_FEEDS rss_feeds;
 RSS_FEED_OP rss_feed_op;
 
+// write a list of feeds to a file
+//
+static void write_rss_feed_descs(MIOFILE& fout, vector<RSS_FEED>& feeds) {
+    if (!feeds.size()) return;
+    fout.printf("<rss_feeds>\n");
+    for (unsigned int i=0; i<feeds.size(); i++) {
+        feeds[i].write(fout);
+    }
+    fout.printf("</rss_feeds>\n");
+}
+
+static void project_feed_list_file_name(PROJECT* p, char* buf) {
+    char url[256];
+    escape_project_url(p->master_url, url);
+    sprintf(buf, "feeds/feeds_%s.xml", url);
+}
+
 // write notices newer than seqno as XML (for GUI RPC)
 //
 void NOTICES::write(int seqno, MIOFILE& fout, bool public_only) {
@@ -92,12 +109,47 @@ void NOTICES::init() {
     }
 }
 
-// called on startup.  Read archives.
+// called on startup.  Get list of feeds.  Read archives.
 //
 void RSS_FEEDS::init() {
+    unsigned int i;
+    MIOFILE fin;
+    FILE* f;
+
     boinc_mkdir(FEEDS_DIR);
-    for (unsigned int i=0; i<feeds.size(); i++) {
-        feeds[i].read_archive_file();
+    f = fopen("feeds/feeds.xml", "r");
+    if (f) {
+        fin.init_file(f);
+        parse_rss_feed_descs(fin, feeds);
+        fclose(f);
+    }
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        char path[256];
+        project_feed_list_file_name(p, path);
+        f = fopen(path, "r");
+        if (f) {
+            fin.init_file(f);
+            parse_rss_feed_descs(fin, p->proj_feeds);
+            fclose(f);
+        }
+    }
+
+    // normally the main list is union of the project lists.
+    // if it's not, the following will fix
+    //
+    update();
+
+    for (i=0; i<feeds.size(); i++) {
+        RSS_FEED& rf = feeds[i];
+        if (log_flags.notice_debug) {
+            msg_printf(0, MSG_INFO,
+                "[notice_debug] feed: %s, %.0f sec",
+                rf.url, rf.poll_interval
+            );
+        }
+        rf.read_archive_file();
     }
 }
 
@@ -123,13 +175,19 @@ void RSS_FEEDS::update() {
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         for (j=0; j<p->proj_feeds.size(); j++) {
-            RSS_FEED& rf = p->proj_feeds[i];
+            RSS_FEED& rf = p->proj_feeds[j];
             RSS_FEED* rfp = lookup_url(rf.url);
             if (rfp) {
                 rfp->found = true;
             } else {
                 rf.found = true;
                 feeds.push_back(rf);
+                if (log_flags.notice_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[notice_debug] adding feed: %s, %.0f sec",
+                        rf.url, rf.poll_interval
+                    );
+                }
             }
         }
     }
@@ -140,9 +198,25 @@ void RSS_FEEDS::update() {
             iter++;
         } else {
             // TODO: check if fetch in progress!
+            if (log_flags.notice_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[notice_debug] removing feed: %s",
+                    rf.url
+                );
+            }
             iter = feeds.erase(iter);
         }
     }
+    write_feed_list();
+}
+
+void RSS_FEEDS::write_feed_list() {
+    FILE* f = fopen("feeds/feeds.xml", "w");
+    if (!f) return;
+    MIOFILE fout;
+    fout.init_file(f);
+    write_rss_feed_descs(fout, feeds);
+    fclose(f);
 }
 
 void RSS_FEED::feed_file_name(char* path) {
@@ -205,16 +279,19 @@ int RSS_FEED::read_archive_file() {
     return ERR_XML_PARSE;
 }
 
-// parse the descriptor in scheduler reply
+// parse a feed descriptor (in scheduler reply or feed list file)
 //
 int RSS_FEED::parse_desc(XML_PARSER& xp) {
     char tag[256];
     bool is_tag;
     strcpy(url, "");
     poll_interval = 0;
+    next_poll_time = 0;
+    append_seqno = false;
+    strcpy(last_seqno, "");
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "/notice_feed")) {
+        if (!strcmp(tag, "/rss_feed")) {
             if (!poll_interval || !strlen(url)) {
                 if (log_flags.notice_debug) {
                     msg_printf(0, MSG_INFO,
@@ -227,18 +304,27 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
         }
         if (xp.parse_str(tag, "url", url, sizeof(url))) continue;
         if (xp.parse_double(tag, "poll_interval", poll_interval)) continue;
+        if (xp.parse_double(tag, "next_poll_time", next_poll_time)) continue;
+        if (xp.parse_bool(tag, "append_seqno", append_seqno)) continue;
+        if (xp.parse_str(tag, "last_seqno", last_seqno, sizeof(last_seqno))) continue;
     }
     return ERR_XML_PARSE;
 }
 
 void RSS_FEED::write(MIOFILE& fout) {
     fout.printf(
-        "<rss_feed>\n"
-        "   <url>%s</url>\n"
-        "   <poll_interval>%f</poll_interval>\n",
-        "</rss_feed>\n",
+        "  <rss_feed>\n"
+        "    <url>%s</url>\n"
+        "    <poll_interval>%f</poll_interval>\n"
+        "    <next_poll_time>%f</next_poll_time>\n"
+        "    <append_seqno>%d</append_seqno>\n"
+        "    <last_seqno>%s</last_seqno>\n"
+        "  </rss_feed>\n",
         url,
-        poll_interval
+        poll_interval,
+        next_poll_time,
+        append_seqno?1:0,
+        last_seqno
     );
 }
 
@@ -274,10 +360,10 @@ RSS_FEED_OP::RSS_FEED_OP() {
 // see if time to start new fetch
 //
 bool RSS_FEED_OP::poll() {
-    unsigned int i, j;
+    unsigned int i;
     if (gstate.gui_http.is_busy()) return false;
     for (i=0; i<rss_feeds.feeds.size(); i++) {
-        RSS_FEED& rf = rss_feeds.feeds[j];
+        RSS_FEED& rf = rss_feeds.feeds[i];
         if (gstate.now > rf.next_poll_time) {
             rf.next_poll_time = gstate.now + rf.poll_interval;
             char filename[256];
@@ -298,6 +384,15 @@ bool RSS_FEED_OP::poll() {
 //
 void RSS_FEED_OP::handle_reply(int http_op_retval) {
     char filename[256];
+
+    if (http_op_retval) {
+        if (log_flags.notice_debug) {
+            msg_printf(0, MSG_INFO,
+                "[notice_debug] fetch of %s failed: %d", rfp->url, http_op_retval
+            );
+        }
+        return;
+    }
 
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO,
@@ -321,9 +416,9 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     fclose(f);
 }
 
-// parse notice feeds from scheduler reply
+// parse feed descs from scheduler reply or feed list file
 //
-int parse_notice_feeds(MIOFILE& fin, vector<RSS_FEED>& feeds) {
+int parse_rss_feed_descs(MIOFILE& fin, vector<RSS_FEED>& feeds) {
     char tag[256];
     bool is_tag;
     XML_PARSER xp(&fin);
@@ -331,14 +426,14 @@ int parse_notice_feeds(MIOFILE& fin, vector<RSS_FEED>& feeds) {
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "/notice_feeds")) return 0;
-        if (!strcmp(tag, "notice_feed")) {
+        if (!strcmp(tag, "/rss_feeds")) return 0;
+        if (!strcmp(tag, "rss_feed")) {
             RSS_FEED rf;
             retval = rf.parse_desc(xp);
             if (retval) {
                 if (log_flags.sched_op_debug) {
                     msg_printf(0, MSG_INFO,
-                        "[sched_op_debug] error in <notice_feed> element"
+                        "[sched_op_debug] error in <rss_feed> element"
                      );
                 }
             } else {
@@ -349,15 +444,15 @@ int parse_notice_feeds(MIOFILE& fin, vector<RSS_FEED>& feeds) {
     return ERR_XML_PARSE;
 }
 
-// write a project's RSS feeds to the state file
-//
-void write_notice_feeds(MIOFILE& fout, vector<RSS_FEED>& feeds) {
-    if (!feeds.size()) return;
-    fout.printf("<rss_feeds>\n");
-    for (unsigned int i=0; i<feeds.size(); i++) {
-        feeds[i].write(fout);
-    }
-    fout.printf("</rss_feeds>\n");
+static void write_project_feed_list(PROJECT* p) {
+    char buf[256];
+    project_feed_list_file_name(p, buf);
+    FILE* f = fopen(buf, "w");
+    if (!f) return;
+    MIOFILE fout;
+    fout.init_file(f);
+    write_rss_feed_descs(fout, p->proj_feeds);
+    fclose(f);
 }
 
 // A scheduler RPC returned a list (possibly empty) of feeds.
@@ -408,6 +503,7 @@ void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJECT* p) {
     // if anything was added or removed, update master set
     //
     if (feed_set_changed) {
+        write_project_feed_list(p);
         rss_feeds.update();
     }
 }

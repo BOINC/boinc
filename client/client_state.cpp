@@ -55,6 +55,8 @@
 #include "client_msgs.h"
 #include "shmem.h"
 #include "sandbox.h"
+#include "cs_notice.h"
+
 #include "client_state.h"
 
 using std::max;
@@ -686,6 +688,7 @@ bool CLIENT_STATE::poll_slow_events() {
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );
         POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
+        POLL_ACTION(rss_feed_op            , rss_feed_op.poll );
     }
     POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
     POLL_ACTION(update_results         , update_results         );

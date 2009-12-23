@@ -129,8 +129,8 @@ struct SCHEDULER_REPLY {
     double cuda_backoff;
     double ati_backoff;
     std::vector<RSS_FEED> sr_feeds;
-    bool got_notice_feeds;
-        // whether scheduler reply included <notice_feeds>
+    bool got_rss_feeds;
+        // whether scheduler reply included <rss_feeds>
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();
