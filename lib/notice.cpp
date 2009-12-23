@@ -39,7 +39,7 @@ int NOTICE::parse(XML_PARSER& xp) {
         if (xp.parse_double(tag, "arrival_time", arrival_time)) continue;
         if (xp.parse_bool(tag, "is_private", is_private)) continue;
         if (xp.parse_str(tag, "category", category, sizeof(category))) continue;
-        if (xp.parse_str(tag, "url", url, sizeof(url))) continue;
+        if (xp.parse_str(tag, "link", link, sizeof(link))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -53,14 +53,14 @@ void NOTICE::write(MIOFILE& f, bool for_gui) {
         "   <arrival_time>%f</arrival_time>\n"
         "   <is_private>%d</is_private>\n"
         "   <category>%s</category>\n"
-        "   <url>%s</url>\n",
+        "   <link>%s</link>\n",
         title,
         description.c_str(),
         create_time,
         arrival_time,
         is_private?1:0,
         category,
-        url
+        link
     );
     if (!for_gui) {
         f.printf(

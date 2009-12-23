@@ -54,7 +54,7 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 
 #define PROJECTS_DIR                "projects"
 #define SLOTS_DIR                   "slots"
-#define FEEDS_DIR                   "feeds"
+#define NOTICES_DIR                 "notices"
 #define SWITCHER_DIR                "switcher"
 #define STATE_FILE_NEXT             "client_state_next.xml"
 #define STATE_FILE_NAME             "client_state.xml"

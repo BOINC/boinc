@@ -50,7 +50,7 @@ static void write_rss_feed_descs(MIOFILE& fout, vector<RSS_FEED>& feeds) {
 static void project_feed_list_file_name(PROJECT* p, char* buf) {
     char url[256];
     escape_project_url(p->master_url, url);
-    sprintf(buf, "feeds/feeds_%s.xml", url);
+    sprintf(buf, "notices/feeds_%s.xml", url);
 }
 
 // write notices newer than seqno as XML (for GUI RPC)
@@ -74,6 +74,10 @@ void NOTICES::append(NOTICE& n) {
         n.seqno = notices.front().seqno + 1;
     }
     notices.push_front(n);
+    prune();
+    if (!strlen(n.feed_url)) {
+        write_archive(NULL);
+    }
 }
 
 bool NOTICES::append_unique(NOTICE& n) {
@@ -89,6 +93,17 @@ bool NOTICES::append_unique(NOTICE& n) {
     }
     append(n);
     return true;
+}
+
+// get rid of old notices
+//
+void NOTICES::prune() {
+    while (1) {
+        if (!notices.size()) break;
+        NOTICE& n = notices.back();
+        if (n.arrival_time > gstate.now - 30*86400) break;
+        notices.pop_back();
+    }
 }
 
 static bool cmp(NOTICE n1, NOTICE n2) {
@@ -110,11 +125,18 @@ void NOTICES::init() {
     }
 }
 
+// write archive file for the RSS feed specified by URL
+// (or, if blank, non-RSS notices)
+//
 void NOTICES::write_archive(char* url) {
     char buf[256], path[256];
 
-    escape_project_url(url, buf);
-    sprintf(path, "feeds/archive_%s", buf);
+    if (url) {
+        escape_project_url(url, buf);
+        sprintf(path, NOTICES_DIR"/archive_%s", buf);
+    } else {
+        strcpy(path, NOTICES_DIR"/archive.xml");
+    }
     FILE* f = fopen(path, "w");
     MIOFILE fout;
     fout.init_file(f);
@@ -135,8 +157,8 @@ void RSS_FEEDS::init() {
     MIOFILE fin;
     FILE* f;
 
-    boinc_mkdir(FEEDS_DIR);
-    f = fopen("feeds/feeds.xml", "r");
+    boinc_mkdir(NOTICES_DIR);
+    f = fopen(NOTICES_DIR"/feeds.xml", "r");
     if (f) {
         fin.init_file(f);
         parse_rss_feed_descs(fin, feeds);
@@ -230,7 +252,7 @@ void RSS_FEEDS::update() {
 }
 
 void RSS_FEEDS::write_feed_list() {
-    FILE* f = fopen("feeds/feeds.xml", "w");
+    FILE* f = fopen(NOTICES_DIR"/feeds.xml", "w");
     if (!f) return;
     MIOFILE fout;
     fout.init_file(f);
@@ -241,13 +263,13 @@ void RSS_FEEDS::write_feed_list() {
 void RSS_FEED::feed_file_name(char* path) {
     char buf[256];
     escape_project_url(url, buf);
-    sprintf(path, "feeds/%s", buf);
+    sprintf(path, NOTICES_DIR"/%s", buf);
 }
 
 void RSS_FEED::archive_file_name(char* path) {
     char buf[256];
     escape_project_url(url, buf);
-    sprintf(path, "feeds/archive_%s", buf);
+    sprintf(path, NOTICES_DIR"/archive_%s", buf);
 }
 
 // read and parse the contents of the archive file;
@@ -287,6 +309,7 @@ int RSS_FEED::read_archive_file() {
                     );
                 }
             } else {
+                strcpy(n.feed_url, url);
                 notices.append(n);
             }
         }
@@ -364,6 +387,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
             int retval = n.parse_rss(xp);
             if (!retval) {
                 n.arrival_time = gstate.now;
+                strcpy(n.feed_url, url);
                 if (append_seqno) {
                     notices.append(n);
                     nitems++;
@@ -592,7 +616,7 @@ int NOTICE::parse_rss(XML_PARSER& xp) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/item")) return 0;
         if (xp.parse_str(tag, "title", title, sizeof(title))) continue;
-        if (xp.parse_str(tag, "link", url, sizeof(url))) continue;
+        if (xp.parse_str(tag, "link", link, sizeof(link))) continue;
         if (xp.parse_str(tag, "guid", guid, sizeof(guid))) continue;
         if (xp.parse_string(tag, "description", description)) continue;
         if (xp.parse_str(tag, "pubDate", buf, sizeof(buf))) {

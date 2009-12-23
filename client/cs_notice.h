@@ -51,10 +51,10 @@
 // There's also a merged list "rss_feeds" where seqno is stored.
 //
 // files:
-// feeds/feeds.xml              feed list
-// feeds/feeds_PROJ_URL.xml     list of project feeds
-// feeds/archive_RSS_URL.xml    item archive for a feed
-// feeds/out_RSS_URL.xml        result of last fetch for a feed
+// notices/feeds.xml              feed list
+// notices/feeds_PROJ_URL.xml     list of project feeds
+// notices/archive_RSS_URL.xml    item archive for a feed
+// notices/out_RSS_URL.xml        result of last fetch for a feed
 
 #include <deque>
 #include <vector>
@@ -74,6 +74,7 @@ struct NOTICES {
     bool append_unique(NOTICE&);
     void init();
     void write_archive(char* url);
+    void prune();
 };
 
 extern NOTICES notices;

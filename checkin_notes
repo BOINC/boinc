@@ -10697,3 +10697,14 @@ David  23 Dec 2009
         gui_rpc_server_ops.cpp
         main.cpp,h
         cs_scheduler.cpp
+
+David  23 Dec 2009
+    - client: more work on notices.
+        Create notices for client and scheduler user alerts
+
+    client/
+        cs_notices.cpp,h
+        client_msgs.cpp
+        file_names.h
+    lib/
+        notice.cpp,h

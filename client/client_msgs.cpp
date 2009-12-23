@@ -31,6 +31,8 @@ using std::deque;
 #include "str_replace.h"
 
 #include "client_types.h"
+#include "client_state.h"
+#include "cs_notice.h"
 #include "main.h"
 
 #include "client_msgs.h"
@@ -39,11 +41,10 @@ MESSAGE_DESCS message_descs;
 
 // Takes a printf style formatted string, inserts the proper values,
 // and passes it to show_message
-// TODO: add translation functionality
 //
 void msg_printf(PROJECT *p, int priority, const char *fmt, ...) {
-    char        buf[8192];  // output can be much longer than format
-    va_list     ap;
+    char buf[8192];  // output can be much longer than format
+    va_list ap;
 
     if (fmt == NULL) return;
 
@@ -55,7 +56,9 @@ void msg_printf(PROJECT *p, int priority, const char *fmt, ...) {
     show_message(p, buf, priority);
 }
 
-// add message to cache, and delete old messages if cache too big
+// handle new message:
+// add to cache, and delete old messages if cache too big.
+// If high priority, create a notice.
 //
 void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message) {
     MESSAGE_DESC* mdp = new MESSAGE_DESC;
@@ -75,8 +78,18 @@ void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message) {
         msgs.pop_back();
     }
     msgs.push_front(mdp);
-}
 
+    if (priority == MSG_USER_ALERT) {
+        NOTICE n;
+        n.description = message;
+        if (p) {
+            strcpy(n.project_name, p->get_project_name());
+        }
+        n.create_time = n.arrival_time = gstate.now;
+        strcpy(n.category, "client");
+        notices.append(n);
+    }
+}
 
 void MESSAGE_DESCS::write(int seqno, MIOFILE& fout) {
     int i, j;
