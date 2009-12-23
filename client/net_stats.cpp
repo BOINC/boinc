@@ -222,7 +222,7 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
 
         working_proxy_info.need_autodetect_proxy_settings = true;
         working_proxy_info.have_autodetect_proxy_settings = false;
-        msg_printf(0, MSG_USER_ERROR,
+        msg_printf(0, MSG_USER_ALERT,
             "BOINC can't access Internet - check network connection or proxy configuration."
         );
     } else {
@@ -242,7 +242,7 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
     if (http_op_retval) {
         net_status.need_physical_connection = true;
 		net_status.last_comm_time = 0;
-        msg_printf(0, MSG_USER_ERROR,
+        msg_printf(0, MSG_USER_ALERT,
             "BOINC can't access Internet - check network connection or proxy configuration."
         );
     } else {

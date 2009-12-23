@@ -480,11 +480,9 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         downcase_string(url1);
         downcase_string(url2);
         if (url1 != url2) {
-            msg_printf(project, MSG_USER_ERROR,
-                "You used the wrong URL for this project"
-            );
-            msg_printf(project, MSG_USER_ERROR,
-                "The correct URL is %s", sr.master_url
+            msg_printf(project, MSG_USER_ALERT,
+                "You used the wrong URL for this project; the correct URL is %s",
+                sr.master_url
             );
             p2 = lookup_project(sr.master_url);
             if (p2) {
@@ -522,11 +520,11 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         }
     }
     if (dup_name) {
-        msg_printf(project, MSG_USER_ERROR,
+        msg_printf(project, MSG_USER_ALERT,
             "Already attached to a project named %s (possibly with wrong URL)",
             project->project_name
         );
-        msg_printf(project, MSG_USER_ERROR,
+        msg_printf(project, MSG_USER_ALERT,
             "Consider detaching this project, then trying again"
         );
     }
@@ -536,7 +534,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
         sprintf(buf, "Message from server: %s", um.message.c_str());
-        int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_USER_ERROR:MSG_INFO;
+        int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_USER_ALERT:MSG_INFO;
         show_message(project, buf, prio);
     }
 

@@ -21,7 +21,7 @@
 // Code related to "notices", which come from
 // 1) RSS feeds specified by projects
 // 2) Scheduler replies (high-priority messages)
-// 3) the client (MSG_USER_ERROR messages)
+// 3) the client (MSG_USER_ALERT messages)
 //
 // Classes:
 //

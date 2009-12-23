@@ -10682,3 +10682,9 @@ David  23 Dec 2009
 	lib/
 		notice.cpp,h
 		parse.cpp
+
+David  23 Dec 2009
+    - internal change: rename MSG_USER_ERROR to MSG_USER_ALERT
+
+    client/, clientgui/, lib/
+        various files

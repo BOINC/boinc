@@ -366,14 +366,14 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     // email addresses
     //
     if (error_str.size()) {
-        msg_printf(NULL, MSG_USER_ERROR,
+        msg_printf(NULL, MSG_USER_ALERT,
             "Account manager error: %d %s", error_num, error_str.c_str()
         );
         if (!error_num) {
             error_num = ERR_XML_PARSE;
         }
     } else if (error_num) {
-        msg_printf(NULL, MSG_USER_ERROR,
+        msg_printf(NULL, MSG_USER_ALERT,
             "Account manager error: %s", boincerror(error_num)
         );
     }

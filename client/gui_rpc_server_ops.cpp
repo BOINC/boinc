@@ -263,7 +263,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         gstate.request_work_fetch("project resumed by user");
     } else if (!strcmp(op, "detach")) {
         if (p->attached_via_acct_mgr) {
-            msg_printf(p, MSG_USER_ERROR,
+            msg_printf(p, MSG_USER_ALERT,
                 "This project must be detached using the account manager web site."
             );
             fout.printf("<error>must detach using account manager</error>");

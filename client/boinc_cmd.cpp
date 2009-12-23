@@ -128,7 +128,7 @@ char* next_arg(int argc, char** argv, int& i) {
 const char* prio_name(int prio) {
     switch (prio) {
     case MSG_INFO: return "low";
-    case MSG_USER_ERROR: return "medium";
+    case MSG_USER_ALERT: return "medium";
     case MSG_INTERNAL_ERROR: return "high";
     }
     return "unknown";

@@ -212,7 +212,7 @@ int CLIENT_STATE::init() {
     );
 
     if (core_client_version.prerelease) {
-        msg_printf(NULL, MSG_USER_ERROR,
+        msg_printf(NULL, MSG_USER_ALERT,
             "This a development version of BOINC and may not function properly"
         );
     }
@@ -327,9 +327,8 @@ int CLIENT_STATE::init() {
     //
     retval = write_state_file();
     if (retval) {
-        msg_printf(NULL, MSG_USER_ERROR, "Couldn't write state file");
-        msg_printf(NULL, MSG_USER_ERROR,
-            "Make sure directory permissions are set correctly"
+        msg_printf(NULL, MSG_USER_ALERT,
+            "Couldn't write state file; make sure directory permissions are set correctly"
         );
         cant_write_state_file = true;
     }

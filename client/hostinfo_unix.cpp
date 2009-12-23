@@ -371,8 +371,8 @@ static void parse_meminfo_linux(HOST_INFO& host) {
     double x;
     FILE* f = fopen("/proc/meminfo", "r");
     if (!f) {
-        msg_printf(NULL, MSG_USER_ERROR,
-            "Can't open /proc/meminfo - defaulting to 1 GB."
+        msg_printf(NULL, MSG_USER_ALERT,
+            "Can't open /proc/meminfo to get memory size - defaulting to 1 GB."
         );
         host.m_nbytes = GIGA;
         host.m_swap = GIGA;
@@ -409,7 +409,9 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) {
-        msg_printf(NULL, MSG_USER_ERROR, "Can't open /proc/cpuinfo.");
+        msg_printf(NULL, MSG_USER_ALERT,
+            "Can't open /proc/cpuinfo to get CPU info"
+        );
         strcpy(host.p_model, "unknown");
         strcpy(host.p_vendor, "unknown");
         return;
@@ -1281,7 +1283,7 @@ bool HOST_INFO::users_idle(
             gEventHandle = NXOpenEventStatus();
             if (!gEventHandle) {
                 if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
-                     msg_printf(NULL, MSG_USER_ERROR,
+                     msg_printf(NULL, MSG_USER_ALERT,
                         "User idle detection is disabled: initialization failed."
                     );
                     error_posted = true;
@@ -1293,7 +1295,7 @@ bool HOST_INFO::users_idle(
         if (gEventHandle) {
             kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
             if ( kernResult != kIOReturnSuccess ) {
-                msg_printf(NULL, MSG_USER_ERROR,
+                msg_printf(NULL, MSG_USER_ALERT,
                     "User idle time measurement failed because IOHIDGetParameter failed."
                 );
                 error_posted = true;
@@ -1308,7 +1310,7 @@ bool HOST_INFO::users_idle(
             if ( (!service) || (kernResult != KERN_SUCCESS) ) {
                 // When the system first starts up, allow time for HIDSystem to be available if needed
                 if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
-                     msg_printf(NULL, MSG_USER_ERROR,
+                     msg_printf(NULL, MSG_USER_ALERT,
                         "Could not connect to HIDSystem: user idle detection is disabled."
                     );
                     error_posted = true;

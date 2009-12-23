@@ -445,7 +445,7 @@ wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
 
     if (message) {
         switch(message->priority) {
-        case MSG_USER_ERROR:
+        case MSG_USER_ALERT:
             pAttribute = item % 2 ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr;
             break;
         default:
