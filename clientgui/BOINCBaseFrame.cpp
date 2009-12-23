@@ -34,9 +34,7 @@
 #include "BOINCBaseFrame.h"
 #include "BOINCDialupManager.h"
 #include "Events.h"
-#ifdef __WXMAC__
 #include "DlgEventLog.h"
-#endif
 
 
 DEFINE_EVENT_TYPE(wxEVT_FRAME_ALERT)
