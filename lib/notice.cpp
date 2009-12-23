@@ -26,9 +26,12 @@ int NOTICE::parse(XML_PARSER& xp) {
     char tag[1024];
     bool is_tag;
 
+    memset(this, 0, sizeof(*this));
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "/notice")) return 0;
+        if (!strcmp(tag, "/notice")) {
+            return 0;
+        }
         if (xp.parse_int(tag, "seqno", seqno)) continue;
         if (xp.parse_str(tag, "title", title, sizeof(title))) continue;
         if (xp.parse_string(tag, "description", description)) continue;
@@ -41,19 +44,16 @@ int NOTICE::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-void NOTICE::write(MIOFILE& f) {
+void NOTICE::write(MIOFILE& f, bool for_gui) {
     f.printf(
         "<notice>\n"
-        "   <seqno>%d</seqno>\n"
         "   <title>%s</title>\n"
         "   <description>%s</description>\n"
         "   <create_time>%f</create_time>\n"
         "   <arrival_time>%f</arrival_time>\n"
         "   <is_private>%d</is_private>\n"
         "   <category>%s</category>\n"
-        "   <url>%s</url>\n"
-        "</notice>\n",
-        seqno,
+        "   <url>%s</url>\n",
         title,
         description.c_str(),
         create_time,
@@ -62,4 +62,16 @@ void NOTICE::write(MIOFILE& f) {
         category,
         url
     );
+    if (!for_gui) {
+        f.printf(
+            "   <guid>%s</guid>\n", guid
+        );
+    } else {
+        f.printf(
+            "   <seqno>%d</seqno>\n", seqno
+        );
+    }
+    f.printf(
+        "</notice>\n"
+     );
 }

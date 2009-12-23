@@ -62,7 +62,7 @@ void NOTICES::write(int seqno, MIOFILE& fout, bool public_only) {
         NOTICE& n = notices[i];
         if (n.seqno <= seqno) break;
         if (public_only && n.is_private) continue;
-        n.write(fout);
+        n.write(fout, true);
     }
     fout.printf("</notices>\n");
 }
@@ -76,10 +76,10 @@ void NOTICES::append(NOTICE& n) {
     notices.push_front(n);
 }
 
-void NOTICES::append_unique(NOTICE& n) {
+bool NOTICES::append_unique(NOTICE& n) {
     for (unsigned int i=0; i<notices.size(); i++) {
         NOTICE& n2 = notices[i];
-        if (!strcmp(n.guid, n2.guid)) return;
+        if (!strcmp(n.guid, n2.guid)) return false;
     }
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO,
@@ -88,6 +88,7 @@ void NOTICES::append_unique(NOTICE& n) {
         );
     }
     append(n);
+    return true;
 }
 
 static bool cmp(NOTICE n1, NOTICE n2) {
@@ -107,6 +108,24 @@ void NOTICES::init() {
     for (unsigned int i=0; i<n; i++) {
         notices[i].seqno = n - i;
     }
+}
+
+void NOTICES::write_archive(char* url) {
+    char buf[256], path[256];
+
+    escape_project_url(url, buf);
+    sprintf(path, "feeds/archive_%s", buf);
+    FILE* f = fopen(path, "w");
+    MIOFILE fout;
+    fout.init_file(f);
+    fout.printf("<notices>\n");
+    if (!f) return;
+    for (unsigned int i=0; i<notices.size(); i++) {
+        NOTICE& n = notices[i];
+        n.write(fout, false);
+    }
+    fout.printf("</notices>\n");
+    fclose(f);
 }
 
 // called on startup.  Get list of feeds.  Read archives.
@@ -239,7 +258,7 @@ int RSS_FEED::read_archive_file() {
     char tag[256];
     bool is_tag;
 
-    feed_file_name(path);
+    archive_file_name(path);
     FILE* f = fopen(path, "r");
     if (!f) {
         if (log_flags.notice_debug) {
@@ -328,22 +347,30 @@ void RSS_FEED::write(MIOFILE& fout) {
     );
 }
 
-// parse the actual RSS feed
+// parse the actual RSS feed.
+// Return true if got any new ones.
 //
-int RSS_FEED::parse_items(XML_PARSER& xp) {
+int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
     char tag[256];
     bool is_tag;
+    nitems = 0;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "/rss")) return 0;
+        if (!strcmp(tag, "/rss")) {
+            return 0;
+        }
         if (!strcmp(tag, "item")) {
             NOTICE n;
             int retval = n.parse_rss(xp);
             if (!retval) {
+                n.arrival_time = gstate.now;
                 if (append_seqno) {
                     notices.append(n);
+                    nitems++;
                 } else {
-                    notices.append_unique(n);
+                    if (notices.append_unique(n)) {
+                        nitems++;
+                    }
                 }
             }
             continue;
@@ -384,6 +411,7 @@ bool RSS_FEED_OP::poll() {
 //
 void RSS_FEED_OP::handle_reply(int http_op_retval) {
     char filename[256];
+    int nitems;
 
     if (http_op_retval) {
         if (log_flags.notice_debug) {
@@ -405,7 +433,7 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     MIOFILE fin;
     fin.init_file(f);
     XML_PARSER xp(&fin);
-    int retval = rfp->parse_items(xp);
+    int retval = rfp->parse_items(xp, nitems);
     if (retval) {
         if (log_flags.notice_debug) {
             msg_printf(0, MSG_INFO,
@@ -414,6 +442,10 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
         }
     }
     fclose(f);
+
+    if (nitems) {
+        notices.write_archive(rfp->url);
+    }
 }
 
 // parse feed descs from scheduler reply or feed list file
@@ -555,6 +587,7 @@ int NOTICE::parse_rss(XML_PARSER& xp) {
     char tag[1024], buf[256];
     bool is_tag;
 
+    memset(this, 0, sizeof(*this));
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/item")) return 0;

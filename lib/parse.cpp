@@ -518,9 +518,11 @@ int XML_PARSER::scan_tag(
                 *tag_buf++ = c;
             }
         } else {
-            if (found_space && attr_buf) {
-                if (--attr_len > 0) {
-                    *attr_buf++ = c;
+            if (found_space) {
+                if (attr_buf) {
+                    if (--attr_len > 0) {
+                        *attr_buf++ = c;
+                    }
                 }
             } else {
                 if (--tag_len > 0) {

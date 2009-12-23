@@ -39,7 +39,7 @@ struct NOTICE {
 
     int parse(XML_PARSER&);
     int parse_rss(XML_PARSER&);
-    void write(MIOFILE&);
+    void write(MIOFILE&, bool for_gui);
 };
 
 #endif

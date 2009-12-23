@@ -71,8 +71,9 @@ struct NOTICES {
     std::deque<NOTICE> notices;
     void write(int seqno, MIOFILE&, bool public_only);
     void append(NOTICE&);
-    void append_unique(NOTICE&);
+    bool append_unique(NOTICE&);
     void init();
+    void write_archive(char* url);
 };
 
 extern NOTICES notices;
@@ -93,7 +94,7 @@ struct RSS_FEED {
 
     void write(MIOFILE&);
     int parse_desc(XML_PARSER&);
-    int parse_items(XML_PARSER&);
+    int parse_items(XML_PARSER&, int&);
     void feed_file_name(char*);
     void archive_file_name(char*);
     int read_archive_file();

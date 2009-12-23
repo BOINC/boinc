@@ -10670,3 +10670,15 @@ Charlie  23 Dec 2009
     
     clientgui/
         DlgEventLog.cpp
+
+David  23 Dec 2009
+	- client: further work on notices.
+		The RSS feed part of it is mostly working.
+	- client: fix bug in XML_PARSER (tags with attributes weren't
+		parsed correctly if no attribute buffer supplied)
+
+	client/
+		cs_notice.cpp,h
+	lib/
+		notice.cpp,h
+		parse.cpp
