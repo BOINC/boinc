@@ -138,6 +138,7 @@ void NOTICES::write_archive(char* url) {
         strcpy(path, NOTICES_DIR"/archive.xml");
     }
     FILE* f = fopen(path, "w");
+    if (!f) return;
     MIOFILE fout;
     fout.init_file(f);
     fout.printf("<notices>\n");

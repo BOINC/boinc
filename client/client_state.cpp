@@ -195,6 +195,8 @@ int CLIENT_STATE::init() {
     client_start_time = now;
     scheduler_op->url_random = drand();
 
+    notices.init();
+    
     detect_platforms();
     time_stats.start();
 
@@ -212,7 +214,7 @@ int CLIENT_STATE::init() {
     );
 
     if (core_client_version.prerelease) {
-        msg_printf(NULL, MSG_USER_ALERT,
+        msg_printf(NULL, MSG_INFO,
             "This a development version of BOINC and may not function properly"
         );
     }
@@ -462,8 +464,6 @@ int CLIENT_STATE::init() {
 
     http_ops->cleanup_temp_files();
 
-    notices.init();
-    
     initialized = true;
     return 0;
 }
