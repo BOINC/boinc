@@ -10648,7 +10648,7 @@ Charlie  22 Dec 2009
         DlgEventLog.cpp
 
 Charlie  22 Dec 2009
-    - MGR: Restore my previous fixes to Event Log for the new orphan 
+    - MGR: Adapt my previous fixes to Event Log for the new orphan 
         dialog implementation to integrate properly with async RPC logic:
         - Always set Periodic RPC timer to 1 second if showing event log.
         - Eliminate separate timer.
@@ -10664,3 +10664,9 @@ Charlie  22 Dec 2009
         Events.h
         MainDocument.h
         sg_BoincSimpleGUI.cpp, .h
+
+Charlie  23 Dec 2009
+    - MGR: Fix save and restore of Event Log column widths.
+    
+    clientgui/
+        DlgEventLog.cpp

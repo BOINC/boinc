@@ -353,7 +353,7 @@ void CDlgEventLog::OnRefresh( wxTimerEvent& WXUNUSED(event) ) {
 bool CDlgEventLog::SaveState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::SaveState - Function Begin"));
 
-    wxString        strBaseConfigLocation = wxString(wxT("/Messages"));
+    wxString        strBaseConfigLocation = wxString(wxT("/Messages/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxListItem      liColumnInfo;
     wxInt32         iIndex = 0;
@@ -370,10 +370,10 @@ bool CDlgEventLog::SaveState() {
     //
     // Save Frame State
     //
-    pConfig->SetPath(strBaseConfigLocation);
-
     // Reterieve and store the latest window dimensions.
     SaveWindowDimensions();
+
+    pConfig->SetPath(strBaseConfigLocation);
 
     // Convert to a zero based index
     iColumnCount = m_pList->GetColumnCount() - 1;
@@ -399,7 +399,7 @@ bool CDlgEventLog::SaveState() {
 
 
 void CDlgEventLog::SaveWindowDimensions() {
-    wxString        strBaseConfigLocation = wxString(wxT("/Simple/Messages"));
+    wxString        strBaseConfigLocation = wxString(wxT("/EventLog"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 
     wxASSERT(pConfig);
@@ -421,7 +421,7 @@ void CDlgEventLog::SaveWindowDimensions() {
 bool CDlgEventLog::RestoreState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::RestoreState - Function Begin"));
 
-    wxString        strBaseConfigLocation = wxString(wxT("/Messages"));
+    wxString        strBaseConfigLocation = wxString(wxT("/Messages/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxListItem      liColumnInfo;
     wxInt32         iIndex = 0;
@@ -439,10 +439,11 @@ bool CDlgEventLog::RestoreState() {
     //
     // Restore Frame State
     //
-    pConfig->SetPath(strBaseConfigLocation);
 
     // Restore the windows properties
     RestoreWindowDimensions();
+
+    pConfig->SetPath(strBaseConfigLocation);
 
     // Convert to a zero based index
     iColumnCount = m_pList->GetColumnCount() - 1;
@@ -459,10 +460,12 @@ bool CDlgEventLog::RestoreState() {
         m_pList->GetColumn(iIndex, liColumnInfo);
 
         pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
-
         pConfig->Read(wxT("Width"), &iTempValue, -1);
         if (-1 != iTempValue) {
+            liColumnInfo.SetWidth(iTempValue);
+#if (defined(__WXMAC__) &&  wxCHECK_VERSION(2,8,0))
             m_pList->SetColumnWidth(iIndex,iTempValue); // Work around bug in wxMac-2.8.0 wxListCtrl::SetColumn()
+#endif
         }
 
         m_pList->SetColumn(iIndex, liColumnInfo);
@@ -474,7 +477,7 @@ bool CDlgEventLog::RestoreState() {
 
 
 void CDlgEventLog::RestoreWindowDimensions() {
-    wxString        strBaseConfigLocation = wxString(wxT("/Simple/Messages"));
+    wxString        strBaseConfigLocation = wxString(wxT("/EventLog"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     bool            bWindowIconized = false;
     bool            bWindowMaximized = false;
