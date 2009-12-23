@@ -985,6 +985,7 @@ int CAdvancedFrame::_GetCurrentViewPage() {
 
     wxWindow*       pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
+    int             vw_msg = wxGetApp().GetEventLog() ? VW_MSGS : 0;
 
     wxASSERT(m_pNotebook);
 
@@ -994,7 +995,7 @@ int CAdvancedFrame::_GetCurrentViewPage() {
     pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
     wxASSERT(pView);
 
-    return pView->GetViewCurrentViewPage();
+    return pView->GetViewCurrentViewPage() | vw_msg;
 }
 
 
@@ -1633,6 +1634,7 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
         wxWindow*       pwndNotebookPage = NULL;
         CBOINCBaseView* pView = NULL;
         wxTimerEvent    timerEvent;
+        CDlgEventLog*   eventLog;
 
         wxASSERT(m_pNotebook);
 
@@ -1643,6 +1645,11 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
         wxASSERT(pView);
 
         pView->FireOnListRender(timerEvent);
+
+        eventLog = wxGetApp().GetEventLog();
+        if (eventLog) {
+            eventLog->OnRefresh(timerEvent);
+        }
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));
@@ -2044,6 +2051,7 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
     if (IsShown()) {
         wxWindow*       pwndNotebookPage = NULL;
         CBOINCBaseView* pView = NULL;
+        CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
 
         wxASSERT(m_pNotebook);
 
@@ -2065,7 +2073,11 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
                 if (pDoc->IsConnected()) {
                     // Set new view specific refresh rate
-                    m_pPeriodicRPCTimer->Start(pView->GetViewRefreshRate() * 1000);
+                    if (eventLog) {      // Update event log every second
+                        m_pPeriodicRPCTimer->Start(1000); 
+                    } else {
+                        m_pPeriodicRPCTimer->Start(pView->GetViewRefreshRate() * 1000);
+                    }
                 } else {
                     // Set view refresh rate to 1 second
                     m_pPeriodicRPCTimer->Start(1000); 
@@ -2075,6 +2087,11 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::UpdateRefreshTimerInterval - Function End"));
+}
+
+
+void CAdvancedFrame::UpdateRefreshTimerInterval() {
+    UpdateRefreshTimerInterval(m_pNotebook->GetSelection());
 }
 
 
@@ -2094,6 +2111,7 @@ void CAdvancedFrame::StopTimers() {
     m_pRefreshStateTimer->Stop();
     m_pFrameRenderTimer->Stop();
 }
+
 
 
 const char *BOINC_RCSID_d881a56dc5 = "$Id$";

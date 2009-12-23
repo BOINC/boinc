@@ -27,19 +27,6 @@
 class CBOINCBaseView;
 class CDlgEventLog;
 
-///
-/// Bitmask values for GetCurrentViewPage() 
-/// Used by CMainDocument::RunPeriodicRPCs() and Mac Accessibility
-///
-#define VW_NOTIF 1
-#define VW_PROJ 2
-#define VW_TASK 4
-#define VW_XFER 8
-#define VW_STAT 16
-#define VW_DISK 32
-#define VW_MSGS 128
-
-
 class CStatusBar : public wxStatusBar
 {
     DECLARE_DYNAMIC_CLASS(CStatusBar)
@@ -147,6 +134,7 @@ private:
     void            UpdateGPUModeControls( CC_STATUS& status );
     void            UpdateNetworkModeControls( CC_STATUS& status );
     void            UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage );
+    void            UpdateRefreshTimerInterval();
 
     void            StartTimers();
     void            StopTimers();

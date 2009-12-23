@@ -80,6 +80,7 @@ public:
 
     virtual void        StartTimers();
     virtual void        StopTimers();
+    virtual void        UpdateRefreshTimerInterval();
 
     void                UpdateStatusText( const wxChar* szStatus );
 

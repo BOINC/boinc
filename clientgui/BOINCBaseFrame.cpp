@@ -378,6 +378,12 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 #if defined(__WXMSW__) || defined(__WXMAC__)
         wxGetApp().DeleteTaskBarIcon();
 #endif
+
+        CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
+        if (eventLog) {
+            eventLog->Destroy();
+        }
+
         Close(true);
     }
 
@@ -658,6 +664,9 @@ void CBOINCBaseFrame::StopTimers() {
     m_pDocumentPollTimer->Stop();
 }
 
+
+void CBOINCBaseFrame::UpdateRefreshTimerInterval() {
+}
 
 void CBOINCBaseFrame::UpdateStatusText(const wxChar* szStatus) {
     CFrameEvent event(wxEVT_FRAME_UPDATESTATUS, this, szStatus);

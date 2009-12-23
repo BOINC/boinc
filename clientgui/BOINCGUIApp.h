@@ -126,6 +126,8 @@ public:
     wxString            GetRootDirectory()          { return m_strBOINCMGRRootDirectory; }
     wxString            GetDataDirectory()          { return m_strBOINCMGRDataDirectory; }
     wxString            GetArguments()              { return m_strBOINCArguments; }
+    CDlgEventLog*       GetEventLog()               { return m_pEventLog; }
+
 #if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
     void                DeleteTaskBarIcon();

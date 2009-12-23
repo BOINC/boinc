@@ -39,6 +39,21 @@ typedef struct {
 } RUNNING_GFX_APP;
 
 
+///
+/// Bitmask values for GetCurrentViewPage() 
+/// Used by CMainDocument::RunPeriodicRPCs() and Mac Accessibility
+///
+#define VW_NOTIF 1
+#define VW_PROJ 2
+#define VW_TASK 4
+#define VW_XFER 8
+#define VW_STAT 16
+#define VW_DISK 32
+#define VW_MSGS 128
+#define VW_SGUI 1024
+#define VW_SMSG 2048
+
+
 extern bool g_use_sandbox;
 
 class CMainDocument;

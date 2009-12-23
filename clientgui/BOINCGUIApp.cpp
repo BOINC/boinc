@@ -492,10 +492,12 @@ int CBOINCGUIApp::OnExit() {
 
     if (m_pLocale) {
         delete m_pLocale;
+        m_pLocale = NULL;
     }
 
     if (m_pEventLog) {
         m_pEventLog->Destroy();
+        m_pEventLog = NULL;
     }
 
 
@@ -810,6 +812,9 @@ bool CBOINCGUIApp::DisplayEventLog() {
     m_pEventLog = new CDlgEventLog();
     if (m_pEventLog) {
         rc = m_pEventLog->Show();
+        if (m_pFrame) {
+            m_pFrame->UpdateRefreshTimerInterval();
+        }
     }
 
     return rc;
@@ -818,6 +823,9 @@ bool CBOINCGUIApp::DisplayEventLog() {
 
 void CBOINCGUIApp::OnEventLogClose() {
     m_pEventLog = NULL;
+        if (m_pFrame) {
+            m_pFrame->UpdateRefreshTimerInterval();
+        }
 }
 
     

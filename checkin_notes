@@ -10646,3 +10646,21 @@ Charlie  22 Dec 2009
         BOINCBaseFrame.cpp
         BOINCGUIApp.cpp, .h
         DlgEventLog.cpp
+
+Charlie  22 Dec 2009
+    - MGR: Restore my previous fixes to Event Log for the new orphan 
+        dialog implementation to integrate properly with async RPC logic:
+        - Always set Periodic RPC timer to 1 second if showing event log.
+        - Eliminate separate timer.
+        - GetCurrentViewPage() returns VW_MSGS bit if Event Log is open.
+    - MGR: if Event Log is open, close it in CBOINCBaseFrame::OnExit() 
+        so Manager can shut down properly.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        BOINCGUIApp.cpp, .h
+        DlgEventLog.cpp
+        Events.h
+        MainDocument.h
+        sg_BoincSimpleGUI.cpp, .h
