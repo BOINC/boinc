@@ -101,7 +101,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         x = "---";
     }
 
-    record_message(p, priority, (int)now, message);
+    message_descs.insert(p, priority, (int)now, message);
 
     printf("%s [%s] %s\n", time_string, x, message);
     if (gstate.executing_as_daemon) {

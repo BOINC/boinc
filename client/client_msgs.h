@@ -40,9 +40,19 @@ struct MESSAGE_DESC {
     std::string message;
 };
 
-extern std::deque<MESSAGE_DESC*> message_descs;
-extern void record_message(struct PROJECT *p, int priority, int now, char* msg);
-extern void show_message(struct PROJECT *p, char* message, int priority);
+#define MAX_SAVED_MESSAGES 2000
+
+// a cache of MAX_SAVED_MESSAGES most recent messages,
+// stored in newest-first order
+//
+struct MESSAGE_DESCS {
+    std::deque<MESSAGE_DESC*> msgs;
+    void insert(struct PROJECT *p, int priority, int now, char* msg);
+    void write(int seqno, class MIOFILE&);
+    int highest_seqno();
+};
+
+extern MESSAGE_DESCS message_descs;
 
 // the __attribute((format...)) tags are GCC extensions that let the compiler
 // do like-checking on printf-like arguments

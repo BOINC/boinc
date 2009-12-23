@@ -29,15 +29,13 @@ using std::deque;
 
 #include "log_flags.h"
 #include "str_replace.h"
+
 #include "client_types.h"
+#include "main.h"
+
 #include "client_msgs.h"
 
-#define MAX_SAVED_MESSAGES 2000
-
-// a cache of MAX_SAVED_MESSAGES most recent messages,
-// stored in newest-first order
-//
-deque<MESSAGE_DESC*> message_descs;
+MESSAGE_DESCS message_descs;
 
 // Takes a printf style formatted string, inserts the proper values,
 // and passes it to show_message
@@ -59,7 +57,7 @@ void msg_printf(PROJECT *p, int priority, const char *fmt, ...) {
 
 // add message to cache, and delete old messages if cache too big
 //
-void record_message(PROJECT* p, int priority, int now, char* message) {
+void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message) {
     MESSAGE_DESC* mdp = new MESSAGE_DESC;
     static int seqno = 1;
     strcpy(mdp->project_name, "");
@@ -72,11 +70,56 @@ void record_message(PROJECT* p, int priority, int now, char* message) {
     mdp->timestamp = now;
     mdp->seqno = seqno++;
     mdp->message = message;
-    while (message_descs.size() > MAX_SAVED_MESSAGES) {
-        delete message_descs.back();
-        message_descs.pop_back();
+    while (msgs.size() > MAX_SAVED_MESSAGES) {
+        delete msgs.back();
+        msgs.pop_back();
     }
-    message_descs.push_front(mdp);
+    msgs.push_front(mdp);
+}
+
+
+void MESSAGE_DESCS::write(int seqno, MIOFILE& fout) {
+    int i, j;
+    unsigned int k;
+    MESSAGE_DESC* mdp;
+
+    // messages are stored in descreasing seqno,
+    // i.e. newer ones are at the head of the vector.
+    // compute j = index of first message to return
+    //
+    j = (int)msgs.size()-1;
+    for (k=0; k<msgs.size(); k++) {
+        mdp = msgs[k];
+        if (mdp->seqno <= seqno) {
+            j = k-1;
+            break;
+        }
+    }
+
+    fout.printf("<msgs>\n");
+    for (i=j; i>=0; i--) {
+        mdp = msgs[i];
+        fout.printf(
+            "<msg>\n"
+            " <project>%s</project>\n"
+            " <pri>%d</pri>\n"
+            " <seqno>%d</seqno>\n"
+            " <body>\n%s\n</body>\n"
+            " <time>%d</time>\n",
+            mdp->project_name,
+            mdp->priority,
+            mdp->seqno,
+            mdp->message.c_str(),
+            mdp->timestamp
+        );
+        fout.printf("</msg>\n");
+    }
+    fout.printf("</msgs>\n");
+}
+
+int MESSAGE_DESCS::highest_seqno() {
+    if (msgs.size()) return msgs[0]->seqno;
+    return 0;
 }
 
 const char *BOINC_RCSID_9572274f4f = "$Id$";

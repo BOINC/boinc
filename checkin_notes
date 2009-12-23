@@ -10688,3 +10688,12 @@ David  23 Dec 2009
 
     client/, clientgui/, lib/
         various files
+
+David  23 Dec 2009
+    - client: code cleanup: most message code into a class
+
+    client/
+        client_msgs.cpp,h
+        gui_rpc_server_ops.cpp
+        main.cpp,h
+        cs_scheduler.cpp

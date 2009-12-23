@@ -535,7 +535,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         USER_MESSAGE& um = sr.messages[i];
         sprintf(buf, "Message from server: %s", um.message.c_str());
         int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_USER_ALERT:MSG_INFO;
-        show_message(project, buf, prio);
+        msg_printf(project, prio, buf);
     }
 
     if (log_flags.sched_op_debug && sr.request_delay) {

@@ -16,11 +16,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef _WIN32
-
 extern void log_message_startup(char* msg);
 extern void log_message_error(char* msg);
 extern void log_message_error(char* msg, int error_code);
-
 extern int boinc_main_loop();
-
 #endif
+
+extern void show_message(struct PROJECT *p, char* message, int priority);
