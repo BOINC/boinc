@@ -108,7 +108,7 @@ CDlgEventLog::~CDlgEventLog() {
         delete m_pRefreshTimer;
     }
 
-    wxGetApp().CloseEventLog();
+    wxGetApp().OnEventLogClose();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function End"));
 }

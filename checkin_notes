@@ -10511,7 +10511,7 @@ David  21 Dec 2009
         news.inc
 
 Charlie  21 Dec 2009
-    - MGR: Make GetCurrentViewPage() indepenedent of tab positons. 
+    - MGR: Make GetCurrentViewPage() indepenedent of tab positions. 
     - MGR: Always set Periodic RPC timer to 1 second if showing event log.
     - MGR: Minor code cleanup from Rom.
     
@@ -10637,3 +10637,12 @@ David  22 Dec 2009
 		cs_notice.cpp,h
 		cs_scheduler.cpp
 		scheduler_op.cpp,h
+
+Charlie  22 Dec 2009
+    - MGR: Fix bugs in my Close Window logic, rename CloseEventLog() to 
+        OnEventLogClose() because calling it does not close the event log. 
+
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp, .h
+        DlgEventLog.cpp

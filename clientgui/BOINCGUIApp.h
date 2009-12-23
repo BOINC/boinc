@@ -155,7 +155,7 @@ public:
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
 
     bool                DisplayEventLog();
-    void                CloseEventLog();
+    void                OnEventLogClose();
 
     void                FireReloadSkin();
     void                FrameClosed()               { m_pFrame = NULL; }

@@ -816,7 +816,7 @@ bool CBOINCGUIApp::DisplayEventLog() {
 }
 
 
-void CBOINCGUIApp::CloseEventLog() {
+void CBOINCGUIApp::OnEventLogClose() {
     m_pEventLog = NULL;
 }
 
