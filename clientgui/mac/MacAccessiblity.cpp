@@ -469,7 +469,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                         str = _("blank");
                     } else {
                         str = _("list of ");
-                        str += pView->GetViewName();
+                        str += pView->GetViewDisplayName();
                         if (pList->GetItemCount() <= 0) {
                             str += _(" is empty"); 
                         }
@@ -1097,7 +1097,7 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     wxString        str;
 
                     str = _("list of projects or account managers");
-//                    str += pView->GetViewName();
+//                    str += pView->GetViewDisplayName();
                     CFStringRef		roleDesc = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
 
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );

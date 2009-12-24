@@ -10708,3 +10708,11 @@ David  23 Dec 2009
         file_names.h
     lib/
         notice.cpp,h
+
+Charlie 23 Dec 2009
+    - Mac MGR: Call Mac accessibility calls GetViewDisplayName() instead of 
+        GetViewName() to announce localized tab names.
+        
+    clientgui/
+        Mac/
+            MacAccessibility.cpp
