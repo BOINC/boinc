@@ -10719,8 +10719,9 @@ Charlie 23 Dec 2009
 
 David  24 Dec 2009
     - client: divide LTD deltas by ninstances, same as for STD.
-        This is cosmetic - it won't affect work fetch,
-        but it will prevent LTD from changing faster than real time
+        This will prevent LTD from changing faster than real time,
+        and makes the notion of "overworked" meaningful
+        regardless of ninstances
 
     client/
         work_fetch.cpp
