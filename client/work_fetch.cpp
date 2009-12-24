@@ -609,7 +609,7 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
     // In this case, accumulate debt until we reach (around) zero, then stop.
     //
     if (backoff_interval == MAX_BACKOFF_INTERVAL) {
-        if (long_term_debt > -rwf.ninstances*DEBT_ADJUST_PERIOD) {
+        if (long_term_debt > -DEBT_ADJUST_PERIOD) {
             return false;
         }
     }
@@ -657,14 +657,16 @@ void RSC_WORK_FETCH::update_long_term_debts() {
             // (how much it's owed) - (how much it got)
             //
             double delta = share_frac*secs_this_debt_interval - w.secs_this_debt_interval;
+            delta /= ninstances;
             w.long_term_debt += delta;
             if (log_flags.debt_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[debt] %s LTD %.2f delta %.2f (%.2f*%.2f - %.2f)",
+                    "[debt] %s LTD %.2f delta %.2f (%.2f*%.2f - %.2f)/%d",
                     rsc_name(rsc_type),
                     w.long_term_debt, delta, share_frac,
                     secs_this_debt_interval,
-                    w.secs_this_debt_interval
+                    w.secs_this_debt_interval,
+                    ninstances
                 );
             }
             if (first) {
@@ -704,7 +706,7 @@ void RSC_WORK_FETCH::update_long_term_debts() {
     // and won't wait for months to get work.
     //
     double offset;
-    double delta_limit = secs_this_debt_interval*ninstances;
+    double delta_limit = secs_this_debt_interval;
     if (max_debt > -2*delta_limit) {
         offset = max_debt?-max_debt:0;  // avoid -0
     } else {
