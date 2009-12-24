@@ -1,5 +1,5 @@
 a, a:link, a:visited, a:active {
-	color: #0069A1; 
+	color: #0069A1;
 }
 
 body {
@@ -13,6 +13,11 @@ h1 {
 
 hr {
 	border-top: 2px solid #e8e8e8;
+}
+
+hr.news_line {
+    border: 0;
+    border-bottom: 1px solid rgb(200, 200, 200);
 }
 
 table.bordered {
@@ -87,7 +92,7 @@ a.button {
 
 input[type="button"]:hover,
 input[type="submit"]:hover,
-input.btn:hover, 
+input.btn:hover,
 .button:hover ,
 .forum_toplinks a:hover {
 	border: 1px solid #555;
@@ -116,11 +121,11 @@ td.category , tr.subtitle{
 	background-color: #ddd;
 }
 
-td.postheader { 
+td.postheader {
 	background-color: #eee;
 }
 
-td.postbody { 
+td.postbody {
 	background: transparent url('img/75pct_white.png');
 }
 
@@ -148,7 +153,9 @@ blockquote.postbody {
 }
 
 span.news_date {
-	color: #646464;
+    color: rgb(100,100,100);
+    font-size: 0.9em;
+    float: right;
 }
 
 span.highlight {

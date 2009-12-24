@@ -123,18 +123,14 @@ function state_string($result) {
         case 2: return "Couldn't send";
         case 3:
             if ($result->exit_status == -221) {
-                return "Redundant result";
+                return "Cancelled by server";
             }
             switch($result->client_state) {
             case 1: return "Error while downloading";
             case 2: return "Error while computing";
             case 3: return "Error while computing";
             case 4: return "Error while uploading";
-            case 6:
-                if ($result->exit_status == -221) {
-                    return "Cancelled by server";
-                }
-                return "Aborted by user";
+            case 6: return "Aborted by user";
             }
             return "Error";
         case 4: return "Timed out - no response";

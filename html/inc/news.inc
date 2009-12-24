@@ -33,7 +33,7 @@ function news_item($date, $title, $post) {
     }
     echo "
         <span class=news_content>$text</span>
-        <br><span class=news_date>$d
+        <span class=news_date>$d
     ";
     if ($forum_link) {
         echo "
@@ -41,6 +41,8 @@ function news_item($date, $title, $post) {
         ";
     }
     echo "</span>
+        <br clear=all>
+        <hr size=0 class=news_line>
     ";
 }
 
@@ -89,7 +91,7 @@ function show_news($start, $count) {
     ";
     printf(tra("News is available as an %sRSS feed%s"),
         "<a href=rss_main.php>",
-        "</a> &nbsp; <img src=\"img/rss_icon.gif\" alt=\"RSS\"></p>"
+        " &nbsp; <img src=\"img/rss_icon.gif\" alt=\"RSS\"></a>"
     );
 }
 
