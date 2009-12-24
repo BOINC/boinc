@@ -9424,3 +9424,11 @@ Charlie  5 Dec 2009
 
     client/
         check_security.cpp
+
+Charlie 23 Dec 2009
+    - Mac MGR: Call Mac accessibility calls GetViewDisplayName() instead of 
+        GetViewName() to announce localized tab names.
+        
+    clientgui/
+        Mac/
+            MacAccessibility.cpp
