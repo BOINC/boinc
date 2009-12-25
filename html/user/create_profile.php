@@ -339,6 +339,7 @@ if ($min_credit && $user->expavg_credit < $min_credit) {
 
 if (post_str("submit", true)) {
     process_create_profile($user, $profile);
+    clear_cache_entry("view_profile.php", "userid=$user->id");
     exit;
 }
 

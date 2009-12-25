@@ -10741,3 +10741,14 @@ David  24 Dec 2009
         rr_sim.cpp
     sched/
         handle_request.cpp
+
+David  24 Dec 2009
+    - web: if someone edits their profile, remove it from the cache
+        so that they and others will see the new version.
+
+    html/
+        inc/
+            cache.inc
+        user/
+            view_profile.php
+            create_profile.php

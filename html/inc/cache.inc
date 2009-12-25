@@ -41,10 +41,14 @@ function make_cache_dirs() {
     }
 }
 
-function get_path($params) {
+function get_path($params, $phpfile=null) {
     if (!@filemtime("../cache/00")) make_cache_dirs();
-    $y = pathinfo($_SERVER["PHP_SELF"]);
-    $z = $y["basename"];
+    if ($phpfile) {
+        $z = $phpfile;
+    } else {
+        $y = pathinfo($_SERVER["PHP_SELF"]);
+        $z = $y["basename"];
+    }
 
     // add a layer of subdirectories for reducing file lookup time
     $sz = substr(md5($z."_".urlencode($params)),1,2);
@@ -241,7 +245,20 @@ function set_cache_data($data,$params=""){
     }
     $path = get_path($params);
     //echo $path;
-    $fhandle=fopen($path, "w");
+    $fhandle = fopen($path, "w");
     fwrite($fhandle, $data);
     fclose($fhandle);
-}?>
+}
+
+function clear_cache_entry($phpfile, $params) {
+    if (strstr($phpfile, "..")) {
+        return;
+    }
+    if (strstr($params, "..")) {
+        return;
+    }
+    $path = get_path($params, $phpfile);
+    unlink($path);
+}
+
+?>

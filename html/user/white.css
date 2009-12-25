@@ -3,7 +3,7 @@ a, a:link, a:visited, a:active {
 }
 
 body {
-	background: #fff url("img/gray_gradient.png") repeat-x;
+	#background: #fff url("img/gray_gradient.png") repeat-x;
 	color: black;
 }
 
