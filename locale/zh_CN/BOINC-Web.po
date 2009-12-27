@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: 15349\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-08-25 13:39+0800\n"
+"PO-Revision-Date: 2009-12-27 12:51+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -196,7 +196,8 @@ msgstr "朋友、亲戚或同事"
 msgid "Team message boards or web sites"
 msgstr "计算团队的留言板或网站"
 
-#: poll_data.inc:154 poll_data.inc:210
+#: poll_data.inc:154
+#: poll_data.inc:210
 msgid "The BOINC web site"
 msgstr "BOINC 官方网站"
 
@@ -356,7 +357,8 @@ msgstr "系统需求"
 msgid "Release notes"
 msgstr "发行说明"
 
-#: download.php:122 index.php:89
+#: download.php:122
+#: index.php:89
 msgid "Help"
 msgstr "帮助"
 
@@ -426,48 +428,48 @@ msgstr "如果您已经是一位志愿帮助者并且想要修改您的参数设
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "计算能力"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "排名前 100 的志愿者"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "统计信息"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "活跃： "
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "志愿者，"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "计算机。 \n"
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "24 小时平均： "
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "万亿次浮点运算/秒。 "
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "新闻"
 
 #: index.php:72
 msgid "... more"
-msgstr ""
+msgstr "... 更多"
 
 #: index.php:76
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "新闻还可以通过 %sRSS%s 来访问"
 
 #: index.php:86
 msgid "Volunteer"
@@ -477,7 +479,9 @@ msgstr "志愿者"
 msgid "Download"
 msgstr "下载"
 
-#: index.php:90 index.php:125 index.php:163
+#: index.php:90
+#: index.php:125
+#: index.php:163
 msgid "Documentation"
 msgstr "文档"
 
@@ -503,71 +507,71 @@ msgstr ""
 
 #: index.php:123
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "用 BOINC 来计算"
 
 #: index.php:126
 msgid "Software updates"
-msgstr ""
+msgstr "软件更新"
 
 #: index.php:153
 msgid "The BOINC project"
-msgstr ""
+msgstr "BOINC 项目"
 
 #: index.php:158
 msgid "Help wanted!"
-msgstr ""
+msgstr "需要帮助！ "
 
 #: index.php:160
 msgid "Programming"
-msgstr ""
+msgstr "编程"
 
 #: index.php:161
 msgid "Translation"
-msgstr ""
+msgstr "翻译"
 
 #: index.php:162
 msgid "Testing"
-msgstr ""
+msgstr "测试"
 
 #: index.php:165
 msgid "Software development"
-msgstr ""
+msgstr "软件开发"
 
 #: index.php:166
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "辅助软件开发接口"
 
 #: index.php:167
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "项目人员"
 
 #: index.php:168
 msgid "Message boards"
-msgstr ""
+msgstr "留言板"
 
 #: index.php:169
 msgid "Email lists"
-msgstr ""
+msgstr "电子邮件列表"
 
 #: index.php:170
 msgid "Events"
-msgstr ""
+msgstr "事件通告"
 
 #: index.php:171
 msgid "Conferences"
-msgstr ""
+msgstr "会议"
 
 #: index.php:172
 msgid "Papers and talks"
-msgstr ""
+msgstr "论文和讲座"
 
 #: index.php:173
 msgid "Logos and graphics"
-msgstr ""
+msgstr "徽标和图片"
 
 #: index.php:206
 msgid "Browser default"
-msgstr ""
+msgstr "浏览器默认"
 
 #: index.php:250
 #, php-format
