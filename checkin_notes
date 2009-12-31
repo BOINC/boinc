@@ -10761,3 +10761,13 @@ David  30 Dec 2009
     lib/
         util.cpp
         filesys.cpp
+
+David  30 Dec 2009
+    - upgrade: add --server_only option
+        (updates scheduler and back-end programs, but not web code)
+        fixes #968
+
+    tools/
+        upgrade
+    py/Boinc/
+        setup_project.py

@@ -20,14 +20,14 @@ from Boinc.setup_project import *
 import os, getopt
 
 def usage():
-    print "Usage: upgrade [--project_root] [--web_only] [--srcdir DIR] project_name"
+    print "Usage: upgrade [--project_root] [--web_only | --server_only] [--srcdir DIR] project_name"
     raise SystemExit
 
 def syntax_error(str):
     raise SystemExit('%s; See "%s --help" for help\n' % (str, sys.argv[0]))
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], '', ['help', 'project_root=', 'web_only', 'srcdir='])
+    opts, args = getopt.getopt(sys.argv[1:], '', ['help', 'project_root=', 'web_only', 'server_only', 'srcdir='])
 except getopt.GetoptError, e:
     syntax_error(e)
 
@@ -35,12 +35,14 @@ home = os.path.expanduser('~')
 
 options.project_root = os.path.join(home, 'projects')
 options.web_only = False
+options.server_only = False
 options.srcdir = None
 
 for o,a in opts:
     if o == '--help':   usage()
     elif o == '--project_root': options.project_root = a
     elif o == '--web_only': options.web_only = True
+    elif o == '--server_only': options.server_only = True
     elif o == '--srcdir': options.srcdir = a
     else:
         raise SystemExit('internal error o=%s'%o)
@@ -70,7 +72,7 @@ print "Upgrading files... "
 
 options.install_method = 'copy'
 init()
-install_boinc_files(INSTALL_DIR, options.web_only)
+install_boinc_files(INSTALL_DIR, not options.server_only, not options.web_only)
 
 print "Upgrading files... done"
 

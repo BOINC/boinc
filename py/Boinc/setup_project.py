@@ -296,7 +296,7 @@ def create_project_dirs(dest_dir):
             'html/user_profile/images'
         ])
 
-def install_boinc_files(dest_dir, web_only):
+def install_boinc_files(dest_dir, install_web_files, install_server_files):
     """Copy files from source dir to project dir.
         Used by the upgrade script, so don't copy sample files to real name."""
 
@@ -305,26 +305,30 @@ def install_boinc_files(dest_dir, web_only):
 
     create_project_dirs(dest_dir);
 
-    install_glob(srcdir('html/inc/*.inc'), dir('html/inc/'))
-    install_glob(srcdir('html/inc/*.php'), dir('html/inc/'))
-    install_glob(srcdir('html/inc/*.dat'), dir('html/inc/'))
-    install_glob(srcdir('html/ops/*.php'), dir('html/ops/'))
-    install_glob(srcdir('html/ops/*.inc'), dir('html/ops/'))
-    install_glob(srcdir('html/ops/ffmail/sample*'), dir('html/ops/ffmail/'))
-    install_glob(srcdir('html/ops/mass_email/sample*'), dir('html/ops/mass_email/'))
-    install_glob(srcdir('html/ops/remind_email/sample*'), dir('html/ops/remind_email/'))
-    install_glob(srcdir('html/user/*.php'), dir('html/user/'))
-    install_glob(srcdir('html/user/*.inc'), dir('html/user/'))
-    install_glob(srcdir('html/user/*.css'), dir('html/user/'))
-    install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
-    install_glob(srcdir('html/user/*.js'), dir('html/user/'))
-    install_glob(srcdir('html/user/*.png'), dir('html/user/img'))
-    install_glob(srcdir('html/user/*.gif'), dir('html/user/img'))
-    install_glob(srcdir('html/user/img/*.*'), dir('html/user/img'))
-    if not os.path.exists(dir('html/user/motd.php')):
-        shutil.copy(srcdir('html/user/sample_motd.php'), dir('html/user/motd.php'))
-    os.system("rm -f "+dir('html/languages/translations/*'))
-    install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
+    if install_web_files:
+        install_glob(srcdir('html/inc/*.inc'), dir('html/inc/'))
+        install_glob(srcdir('html/inc/*.php'), dir('html/inc/'))
+        install_glob(srcdir('html/inc/*.dat'), dir('html/inc/'))
+        install_glob(srcdir('html/ops/*.php'), dir('html/ops/'))
+        install_glob(srcdir('html/ops/*.inc'), dir('html/ops/'))
+        install_glob(srcdir('html/ops/ffmail/sample*'), dir('html/ops/ffmail/'))
+        install_glob(srcdir('html/ops/mass_email/sample*'), dir('html/ops/mass_email/'))
+        install_glob(srcdir('html/ops/remind_email/sample*'), dir('html/ops/remind_email/'))
+        install_glob(srcdir('html/user/*.php'), dir('html/user/'))
+        install_glob(srcdir('html/user/*.inc'), dir('html/user/'))
+        install_glob(srcdir('html/user/*.css'), dir('html/user/'))
+        install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
+        install_glob(srcdir('html/user/*.js'), dir('html/user/'))
+        install_glob(srcdir('html/user/*.png'), dir('html/user/img'))
+        install_glob(srcdir('html/user/*.gif'), dir('html/user/img'))
+        install_glob(srcdir('html/user/img/*.*'), dir('html/user/img'))
+        if not os.path.exists(dir('html/user/motd.php')):
+            shutil.copy(srcdir('html/user/sample_motd.php'), dir('html/user/motd.php'))
+        os.system("rm -f "+dir('html/languages/translations/*'))
+        install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
+
+    if not install_server_files:
+        return
 
     # copy Python stuff
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
@@ -341,9 +345,6 @@ def install_boinc_files(dest_dir, web_only):
 import sys, os
 sys.path.insert(0, os.path.join('%s', 'py'))
 ''' % dest_dir
-
-    if web_only:
-        return
 
     # copy backend (C++) programs;
     # rename current web daemons in case they're in use
@@ -480,7 +481,7 @@ class Project:
         # Create the project log directory
         self.create_logdir()
 
-        install_boinc_files(self.dir(), self.web_only)
+        install_boinc_files(self.dir(), True, not self.web_only)
 
         # copy sample web files to final names
         install(srcdir('html/user/sample_index.php'),
@@ -489,8 +490,6 @@ class Project:
             self.dir('html/project/project.inc'))
         install(srcdir('html/project.sample/project_specific_prefs.inc'),
             self.dir('html/project/project_specific_prefs.inc'))
-        install(srcdir('html/project.sample/project_news.inc'),
-            self.dir('html/project/project_news.inc'))
         install(srcdir('html/project.sample/cache_parameters.inc'),
             self.dir('html/project/cache_parameters.inc'))
         install(srcdir('html/ops', 'sample_server_status.php'),
