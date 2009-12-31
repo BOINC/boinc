@@ -10771,3 +10771,10 @@ David  30 Dec 2009
         upgrade
     py/Boinc/
         setup_project.py
+
+David  30 Dec 2009
+    - user web: set user.has_profile when user edits profile
+        (shouldn't be necessary, but will fix problem cases)
+
+    html/user/
+        create_profile.php

@@ -291,8 +291,8 @@ function process_create_profile($user, $profile) {
         if (!$result) {
             error_page(tra("Could not create the profile: database error"));
         }
-        $user->update("has_profile=1");
     }
+    $user->update("has_profile=1");
 
     page_head(tra("Profile saved"));
 
