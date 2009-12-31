@@ -674,10 +674,10 @@ int FILE_LOCK::lock(const char* filename) {
     }
 
     struct flock fl;
-    fl.l_type=F_WRLCK;
-    fl.l_whence=SEEK_SET;
-    fl.l_start=0;
-    fl.l_len=0;
+    fl.l_type = F_WRLCK;
+    fl.l_whence = SEEK_SET;
+    fl.l_start = 0;
+    fl.l_len = 0;
     if (fcntl(fd, F_SETLK, &fl) == -1) {
         return ERR_FCNTL;
     }

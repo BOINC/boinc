@@ -63,6 +63,10 @@ span.section_title{
     text-align: center;
 }
 
+span.news_title,
+span.inboxunread {
+    font-weight: bold;
+}
 
 span.note{
 	font-weight: normal;
