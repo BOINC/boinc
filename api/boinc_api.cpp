@@ -15,6 +15,46 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// The BOINC API and runtime system.
+//
+// Notes:
+// 1) Thread structure:
+//  Sequential apps
+//    Unix
+//      getting CPU time and suspend/resume have to be done
+//      in the worker thread, so we use a SIGALRM signal handler.
+//      However, many library functions and system calls
+//      are not "asynch signal safe": see, e.g.
+//      http://www.opengroup.org/onlinepubs/009695399/functions/xsh_chap02_04.html#tag_02_04_03
+//      (e.g. sprintf() in a signal handler hangs Mac OS X)
+//      so we do as little as possible in the signal handler,
+//      and do the rest in a separate "timer thread".
+//    Win
+//      the timer thread does everything
+//  Parallel apps.
+//    Unix:
+//      fork
+//      original process runs timer loop:
+//        handle suspend/resume/quit, heartbeat (use signals)
+//      new process call boinc_init_options() with flags to
+//        send status messages and handle checkpoint stuff,
+//        and returns from boinc_init_parallel()
+//    Win:
+//      like sequential case, except suspend/resume must enumerate
+//      all threads (except timer) and suspend/resume them all
+//
+// 2) All variables that are accessed by two threads (i.e. worker and timer)
+//  MUST be declared volatile.
+//
+// 3) For compatibility with C, we use int instead of bool various places
+//
+// Terminology:
+// The processing of a result can be divided
+// into multiple "episodes" (executions of the app),
+// each of which resumes from the checkpointed state of the previous episode.
+// Unless otherwise noted, "CPU time" refers to the sum over all episodes
+// (not counting the part after the last checkpoint in an episode).
+
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
@@ -64,27 +104,6 @@
     // CPPFLAGS=-DGETRUSAGE_IN_TIMER_THREAD
 #endif
 
-// Implementation notes:
-// 1) Thread structure, Unix:
-//  getting CPU time and suspend/resume have to be done
-//  in the worker thread, so we use a SIGALRM signal handler.
-//  However, many library functions and system calls
-//  are not "asynch signal safe": see, e.g.
-//  http://www.opengroup.org/onlinepubs/009695399/functions/xsh_chap02_04.html#tag_02_04_03
-//  (e.g. sprintf() in a signal handler hangs Mac OS X)
-//  so we do as little as possible in the signal handler,
-//  and do the rest in a separate "timer thread".
-// 2) All variables that are accessed by two threads (i.e. worker and timer)
-//  MUST be declared volatile.
-// 3) For compatibility with C, we use int instead of bool various places
-
-// Terminology:
-// The processing of a result can be divided
-// into multiple "episodes" (executions of the app),
-// each of which resumes from the checkpointed state of the previous episode.
-// Unless otherwise noted, "CPU time" refers to the sum over all episodes
-// (not counting the part after the last checkpoint in an episode).
-
 const char* api_version="API_VERSION_"PACKAGE_VERSION;
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
@@ -95,9 +114,10 @@ static volatile int time_until_checkpoint;
 static volatile double fraction_done;
 static volatile double last_checkpoint_cpu_time;
 static volatile bool ready_to_checkpoint = false;
-static volatile int in_critical_section=0;
+static volatile int in_critical_section = 0;
 static volatile double last_wu_cpu_time;
-static volatile bool standalone          = false;
+static volatile bool standalone = false;
+static volatile bool is_parallel = false;
 static volatile double initial_wu_cpu_time;
 static volatile bool have_new_trickle_up = false;
 static volatile bool have_trickle_down = true;
@@ -140,6 +160,7 @@ static FUNC_PTR timer_callback = 0;
 #ifdef _WIN32
 static HANDLE hSharedMem;
 HANDLE worker_thread_handle;
+DWORD timer_thread_id;
     // used to suspend worker thread, and to measure its CPU time
 #else
 static volatile bool worker_thread_exit_flag = false;
@@ -343,10 +364,6 @@ int boinc_init() {
 
 int boinc_init_options(BOINC_OPTIONS* opt) {
     int retval;
-    if (!diagnostics_is_initialized()) {
-        retval = boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
-        if (retval) return retval;
-    }
     retval = boinc_init_options_general(*opt);
     if (retval) return retval;
     retval = start_timer_thread();
@@ -361,6 +378,11 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
 int boinc_init_options_general(BOINC_OPTIONS& opt) {
     int retval;
     options = opt;
+
+    if (!diagnostics_is_initialized()) {
+        retval = boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
+        if (retval) return retval;
+    }
 
     boinc_status.no_heartbeat = false;
     boinc_status.suspended = false;
@@ -665,8 +687,14 @@ int boinc_wu_cpu_time(double& cpu_t) {
 int suspend_activities() {
     BOINCINFO("Received Suspend Message");
 #ifdef _WIN32
+    static DWORD pid;
+    if (!pid) pid = GetCurrentProcessId();
     if (options.direct_process_action) {
-        SuspendThread(worker_thread_handle);
+        if (is_parallel) {
+            suspend_or_resume_threads(pid, timer_thread_id, false);
+        } else {
+            SuspendThread(worker_thread_handle);
+        }
     }
 #endif
     return 0;
@@ -676,15 +704,21 @@ int suspend_activities() {
 int resume_activities() {
     BOINCINFO("Received Resume Message");
 #ifdef _WIN32
+    static DWORD pid;
+    if (!pid) pid = GetCurrentProcessId();
     if (options.direct_process_action) {
-        ResumeThread(worker_thread_handle);
+        if (is_parallel) {
+            suspend_or_resume_threads(pid, timer_thread_id, true);
+        } else {
+            ResumeThread(worker_thread_handle);
+        }
     }
 #endif
     return 0;
 }
 
 int restore_activities() {
- int retval;
+    int retval;
     if (boinc_status.suspended) {
         retval = suspend_activities();
     } else {
@@ -1087,8 +1121,7 @@ int start_timer_thread() {
 
     // Create the timer thread
     //
-    DWORD id;
-    if (!CreateThread(NULL, 0, timer_thread, 0, 0, &id)) {
+    if (!CreateThread(NULL, 0, timer_thread, 0, 0, &timer_thread_id)) {
         fprintf(stderr,
             "%s start_timer_thread(): CreateThread() failed, errno %d\n",
             boinc_msg_prefix(), errno
@@ -1249,7 +1282,7 @@ void boinc_ops_cumulative(double fp, double i) {
 }
 
 void boinc_set_credit_claim(double credit) {
-    boinc_ops_cumulative(credit*8.64000e+11,0);
+    boinc_ops_cumulative(credit*8.64000e+11, 0);
 }
 
 void boinc_need_network() {
@@ -1286,6 +1319,61 @@ double boinc_get_fraction_done() {
 
 double boinc_elapsed_time() {
     return running_interrupt_count*TIMER_PERIOD;
+}
+
+static void parallel_master(int child_pid) {
+    char buf[MSG_CHANNEL_SIZE];
+    while (1) {
+        boinc_sleep(TIMER_PERIOD);
+        interrupt_count++;
+        if (app_client_shm) {
+            handle_heartbeat_msg();
+            if (app_client_shm->shm->process_control_request.get_msg(buf)) {
+                if (match_tag(buf, "<suspend/>")) {
+                    kill(child_pid, SIGSTOP);
+                } else if (match_tag(buf, "<resume/>")) {
+                    kill(child_pid, SIGCONT);
+                } else if (match_tag(buf, "<quit/>")) {
+                    kill(child_pid, SIGKILL);
+                } else if (match_tag(buf, "<abort/>")) {
+                    kill(child_pid, SIGKILL);
+                }
+            }
+
+            if (heartbeat_giveup_time < interrupt_count) {
+                kill(child_pid, SIGKILL);
+                exit(0);
+            }
+        }
+    }
+}
+
+int boinc_init_parallel() {
+#ifdef _WIN32
+    is_parallel = true;
+#else
+    BOINC_OPTIONS options;
+    boinc_options_defaults(options);
+
+    int child_pid = fork();
+    if (child_pid) {
+        // original process - master
+        //
+        options.send_status_msgs = false;
+        int retval = boinc_init_options_general(options);
+        if (retval) {
+            kill(child_pid, SIGKILL);
+            return retval;
+        }
+        parallel_master(child_pid);
+    }
+    // new process - slave
+    //
+    options.main_program = false;
+    options.check_heartbeat = false;
+    options.handle_process_control = false;
+    return boinc_init_options(&options);
+#endif
 }
 
 const char *BOINC_RCSID_0fa0410386 = "$Id$";

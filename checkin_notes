@@ -10778,3 +10778,21 @@ David  30 Dec 2009
 
     html/user/
         create_profile.php
+
+David  31 Dec 2009
+    - API: add boinc_init_parallel().
+        This is like boinc_init() but for multithread apps.
+        Unlike boinc_init(), it suspends/resumes all threads in the app,
+        not just one.
+        In Unix, this is done by forking,
+        and having the parent process handle suspend/resume messages
+        and suspend/resume the child using signals
+        On Win, there's some nasty code that enumerates all
+        threads in the whole system, and suspends/resumes
+        those in a particular process.
+
+    api/
+        boinc_api.cpp,h
+        graphics_lib.cpp
+    lib/
+        win_util.cpp

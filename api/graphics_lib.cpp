@@ -22,6 +22,8 @@
 //
 // This file is the code that's part of the main program
 
+// DEPRECATED
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
