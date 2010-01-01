@@ -73,6 +73,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <sys/wait.h>
 #include <pthread.h>
 #ifndef __EMX__
 #include <sched.h>
@@ -1325,6 +1326,7 @@ double boinc_elapsed_time() {
 #ifndef _WIN32
 static void parallel_master(int child_pid) {
     char buf[MSG_CHANNEL_SIZE];
+    int exit_status;
     while (1) {
         boinc_sleep(TIMER_PERIOD);
         interrupt_count++;
@@ -1347,7 +1349,10 @@ static void parallel_master(int child_pid) {
                 exit(0);
             }
         }
+        if (interrupt_count % TIMERS_PER_SEC) continue;
+        if (waitpid(child_pid, &exit_status, WNOHANG) == child_pid) break;
     }
+    boinc_finish(exit_status);
 }
 #endif
 
