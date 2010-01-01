@@ -10796,3 +10796,9 @@ David  31 Dec 2009
         graphics_lib.cpp
     lib/
         win_util.cpp
+
+David  31 Dec 2009
+    - example multi-thread app: change to use boinc_init_parallel().
+        It's way simpler now.
+    samples/multi_thread/
+        multi_thread.cpp
