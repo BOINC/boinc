@@ -46,7 +46,7 @@ inline std::string W2A(const std::wstring& str) {
   return result;
 }
 
-extern int suspend_or_resume_threads(DWORD pid, bool resume);
+extern int suspend_or_resume_threads(DWORD pid, DWORD threadid, bool resume);
 extern void chdir_to_data_dir();
 extern bool is_remote_desktop();
 
