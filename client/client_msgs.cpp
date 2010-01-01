@@ -79,6 +79,7 @@ void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message) {
     }
     msgs.push_front(mdp);
 
+#ifndef SIM
     if (priority == MSG_USER_ALERT) {
         NOTICE n;
         n.description = message;
@@ -89,6 +90,7 @@ void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message) {
         strcpy(n.category, "client");
         notices.append(n);
     }
+#endif
 }
 
 void MESSAGE_DESCS::write(int seqno, MIOFILE& fout) {

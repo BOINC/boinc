@@ -61,6 +61,7 @@
 
 #ifdef _WIN32
 #include "version.h"
+#include "win_util.h"
 #else
 #include "config.h"
 #include <cstdlib>
@@ -1321,6 +1322,7 @@ double boinc_elapsed_time() {
     return running_interrupt_count*TIMER_PERIOD;
 }
 
+#ifndef _WIN32
 static void parallel_master(int child_pid) {
     char buf[MSG_CHANNEL_SIZE];
     while (1) {
@@ -1347,10 +1349,12 @@ static void parallel_master(int child_pid) {
         }
     }
 }
+#endif
 
 int boinc_init_parallel() {
 #ifdef _WIN32
     is_parallel = true;
+    return boinc_init();
 #else
     BOINC_OPTIONS options;
     boinc_options_defaults(options);
