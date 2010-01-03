@@ -480,6 +480,8 @@ typedef int (__stdcall *ATI_GDI)(void);
 typedef int (__stdcall *ATI_INFO) (CALdeviceinfo *info, CALuint ordinal);
 typedef int (__stdcall *ATI_VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
 typedef int (__stdcall *ATI_STATUS) (CALdevicestatus*, CALdevice);
+typedef int (__stdcall *ATI_DEVICEOPEN) (CALdevice*, CALuint);
+typedef int (__stdcall *ATI_DEVICECLOSE) (CALdevice);
 
 ATI_ATTRIBS __calDeviceGetAttribs = NULL;
 ATI_CLOSE   __calShutdown = NULL;
@@ -488,7 +490,11 @@ ATI_GDI     __calInit = NULL;
 ATI_INFO    __calDeviceGetInfo = NULL;
 ATI_VER     __calGetVersion = NULL;
 ATI_STATUS  __calDeviceGetStatus = NULL;
+ATI_DEVICEOPEN  __calDeviceOpen = NULL;
+ATI_DEVICECLOSE  __calDeviceClose = NULL;
+
 #else
+
 int (*__calInit)();
 int (*__calGetVersion)(CALuint*, CALuint*, CALuint*);
 int (*__calDeviceGetCount)(CALuint*);
@@ -496,6 +502,9 @@ int (*__calDeviceGetAttribs)(CALdeviceattribs*, CALuint);
 int (*__calShutdown)();
 int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
 int (*__calDeviceGetStatus)(CALdevicestatus*, CALdevice);
+int (*__calDeviceOpen)(CALdevice*, CALuint);
+int (*__calDeviceClose)(CALdevice);
+
 #endif
 
 void COPROC_ATI::get(COPROCS& coprocs,
@@ -546,6 +555,8 @@ void COPROC_ATI::get(COPROCS& coprocs,
     __calShutdown = (ATI_CLOSE)GetProcAddress(callib, "calShutdown" );
     __calDeviceGetInfo = (ATI_INFO)GetProcAddress(callib, "calDeviceGetInfo" );
     __calDeviceGetStatus = (ATI_STATUS)GetProcAddress(callib, "calDeviceGetStatus" );
+    __calDeviceOpen = (ATI_DEVICEOPEN)GetProcAddress(callib, "calDeviceOpen" );
+    __calDeviceClose = (ATI_DEVICECLOSE)GetProcAddress(callib, "calDeviceClose" );
 
 #else
 
@@ -566,6 +577,8 @@ void COPROC_ATI::get(COPROCS& coprocs,
     __calShutdown = (int(*)()) dlsym(callib, "calShutdown");
     __calDeviceGetInfo = (int(*)(CALdeviceinfo*, CALuint)) dlsym(callib, "calDeviceGetInfo");
     __calDeviceGetStatus = (int(*)(CALdevicestatus*, CALdevice)) dlsym(callib, "calDeviceGetStatus");
+    __calDeviceOpen = (int(*)(CALdevice*, CALuint)) dlsym(callib, "calDeviceOpen");
+    __calDeviceClose = (int(*)(CALdevice)) dlsym(callib, "calDeviceClose");
 
 #endif
 
@@ -591,6 +604,14 @@ void COPROC_ATI::get(COPROCS& coprocs,
     }
     if (!__calDeviceGetStatus) {
         warnings.push_back("calDeviceGetStatus() missing from CAL library");
+        return;
+    }
+    if (!__calDeviceOpen) {
+        warnings.push_back("calDeviceOpen() missing from CAL library");
+        return;
+    }
+    if (!__calDeviceClose) {
+        warnings.push_back("calDeviceClose() missing from CAL library");
         return;
     }
 
@@ -744,12 +765,23 @@ void fake_ati(COPROCS& coprocs, int count) {
 
 int COPROC_ATI::available_ram(int devnum, double& ar) {
     CALdevicestatus st;
+    CALdevice dev;
     int retval;
     retval = (*__calInit)();
     if (retval) return retval;
-    retval = (*__calDeviceGetStatus)(&st, devnum);
-    if (retval) return retval;
+    retval = (*__calDeviceOpen)(&dev, devnum);
+    if (retval) {
+        (*__calShutdown)();
+        return retval;
+    }
+    retval = (*__calDeviceGetStatus)(&st, dev);
+    if (retval) {
+        (*__calDeviceClose)(dev);
+        (*__calShutdown)();
+        return retval;
+    }
     ar = st.availLocalRAM*MEGA;
-    retval = (*__calShutdown)();
+    (*__calDeviceClose)(dev);
+    (*__calShutdown)();
     return 0;
 }
