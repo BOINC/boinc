@@ -1,0 +1,5 @@
+David  3 Jan 2010
+    - client: ATI available RAM wasn't being detected correctly
+
+    client/
+        coproc_detect.cpp
