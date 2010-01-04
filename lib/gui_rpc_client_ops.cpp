@@ -851,6 +851,22 @@ void MESSAGES::clear() {
     messages.clear();
 }
 
+NOTICES::NOTICES() {
+    clear();
+}
+
+NOTICES::~NOTICES() {
+    clear();
+}
+
+void NOTICES::clear() {
+    unsigned int i;
+    for (i=0; i<notices.size(); i++) {
+        delete notices[i];
+    }
+    notices.clear();
+}
+
 ACCT_MGR_INFO::ACCT_MGR_INFO() {
     clear();
 }
@@ -2282,7 +2298,7 @@ int RPC_CLIENT::set_debts(vector<PROJECT> projects) {
     return retval;
 }
 
-static int parse_notices(MIOFILE& fin, vector<NOTICE>& notices) {
+static int parse_notices(MIOFILE& fin, NOTICES& notices) {
     XML_PARSER xp(&fin);
     char tag[256];
     bool is_tag;
@@ -2291,17 +2307,19 @@ static int parse_notices(MIOFILE& fin, vector<NOTICE>& notices) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "notice")) {
-            NOTICE notice;
-            retval = notice.parse(xp);
+            NOTICE* np = new NOTICE();
+            retval = np->parse(xp);
             if (!retval) {
-                notices.push_back(notice);
+                notices.notices.push_back(np);
+            } else {
+                delete np;
             }
         }
     }
     return 0;
 }
 
-int RPC_CLIENT::get_notices(int seqno, vector<NOTICE>& notices) {
+int RPC_CLIENT::get_notices(int seqno, NOTICES& notices) {
     SET_LOCALE sl;
     char buf[1024];
     RPC rpc(this);
@@ -2318,7 +2336,7 @@ int RPC_CLIENT::get_notices(int seqno, vector<NOTICE>& notices) {
     return parse_notices(rpc.fin, notices);
 }
 
-int RPC_CLIENT::get_notices_public(int seqno, vector<NOTICE>& notices) {
+int RPC_CLIENT::get_notices_public(int seqno, NOTICES& notices) {
     SET_LOCALE sl;
     char buf[1024];
     RPC rpc(this);

@@ -24,7 +24,8 @@
 
 // represents a notice delivered from client to GUI
 
-struct NOTICE {
+class NOTICE {
+public:
     int seqno;
     char title[256];
     std::string description;
@@ -45,12 +46,13 @@ struct NOTICE {
     char feed_url[256];
         // URL of RSS feed, or blank
 
-    NOTICE() {
-        memset(this, 0, sizeof(NOTICE));
-    }
+    NOTICE();
+    ~NOTICE();
+
     int parse(XML_PARSER&);
     int parse_rss(XML_PARSER&);
     void write(MIOFILE&, bool for_gui);
+    void clear();
 };
 
 #endif

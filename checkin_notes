@@ -17,3 +17,14 @@ David  4 Jan 2010
 		cs_notice.cpp,h
 	lib/
 		notice.cpp
+
+Rom    4 Jan 2010
+    - lib: fixup notice RPCs to make them manager compatible.
+    - lib: remove memset from notice constructor, bad things can happen
+        when you null out a std::string structure.
+        
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+        notice.cpp, .h
+        

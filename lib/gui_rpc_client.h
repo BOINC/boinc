@@ -438,6 +438,17 @@ public:
     void clear();
 };
 
+class NOTICES {
+public:
+    std::vector<NOTICE*> notices;
+
+    NOTICES();
+    ~NOTICES();
+
+    void print();
+    void clear();
+};
+
 struct DISPLAY_INFO {
     char window_station[256];   // windows
     char desktop[256];          // windows
@@ -635,6 +646,8 @@ public:
     int get_proxy_settings(GR_PROXY_INFO&);
     int get_messages(int seqno, MESSAGES&);
     int get_message_count(int& seqno);
+    int get_notices(int seqno, NOTICES&);
+    int get_notices_public(int seqno, NOTICES&);
     int file_transfer_op(FILE_TRANSFER&, const char*);
     int result_op(RESULT&, const char*);
     int get_host_info(HOST_INFO&);
@@ -679,8 +692,6 @@ public:
     int get_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
     int set_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
     int set_debts(std::vector<PROJECT>);
-    int get_notices(int, std::vector<NOTICE>&);
-    int get_notices_public(int, std::vector<NOTICE>&);
 };
 
 struct RPC {

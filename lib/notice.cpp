@@ -22,6 +22,17 @@
 #include "error_numbers.h"
 #include "notice.h"
 
+
+NOTICE::NOTICE() {
+    clear();
+}
+
+
+NOTICE::~NOTICE() {
+    clear();
+}
+
+
 // This is to parse our own XML.
 // parse_rss() parses an RSS feed item.
 //
@@ -46,6 +57,7 @@ int NOTICE::parse(XML_PARSER& xp) {
     }
     return ERR_XML_PARSE;
 }
+
 
 void NOTICE::write(MIOFILE& f, bool for_gui) {
     f.printf(
@@ -78,3 +90,17 @@ void NOTICE::write(MIOFILE& f, bool for_gui) {
         "</notice>\n"
      );
 }
+
+
+void NOTICE::clear() {
+    seqno = 0;
+    strcpy(title, "");
+    description = "";
+    create_time = 0;
+    arrival_time = 0;
+    is_private = 0;
+    strcpy(category, "");
+    strcpy(guid, "");
+    strcpy(feed_url, "");
+}
+
