@@ -27,4 +27,10 @@ Rom    4 Jan 2010
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
         notice.cpp, .h
-        
+
+Rom    4 Jan 2010
+    - MGR: Implement Notice RPC infrastructure.
+    
+    clientgui/
+        AsyncRPC.cpp, .h
+        MainDocument.cpp, .h

@@ -387,6 +387,7 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_fProjectTotalResourceShare = 0.0;
 
     m_iMessageSequenceNumber = 0;
+    m_iNoticeSequenceNumber = 0;
 
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
     m_iGet_state_rpc_result = 0;
@@ -406,6 +407,7 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_iGet_file_transfers_rpc_result = 0;
     
     m_iGet_messages_rpc_result = -1;
+    m_iGet_notices_rpc_result = -1;
     
     m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
     m_iGet_dsk_usage_rpc_result = -1;
@@ -610,6 +612,7 @@ int CMainDocument::Connect(const wxChar* szComputer, int iPort, const wxChar* sz
     m_pNetworkConnection->FireReconnectEvent();
 
     ResetMessageState();
+    ResetNoticeState();
     return 0;
 }
 
@@ -618,6 +621,7 @@ int CMainDocument::Reconnect() {
     m_pNetworkConnection->ForceReconnect();
     m_pNetworkConnection->FireReconnectEvent();
     ResetMessageState();
+    ResetNoticeState();
     return 0;
 }
 
@@ -871,6 +875,21 @@ void CMainDocument::RunPeriodicRPCs() {
        
         RequestRPC(request);
     }
+
+    // *********** RPC_GET_NOTICES **************
+
+    request.clear();
+    request.which_rpc = RPC_GET_NOTICES;
+    // m_iMessageSequenceNumber could change between request and execution
+    // of RPC, so pass in a pointer rather than its value
+    request.arg1 = &m_iNoticeSequenceNumber;
+    request.arg2 = &notices;
+    request.rpcType = (currentTabView & VW_NOTIF) ? 
+            RPC_TYPE_ASYNC_WITH_REFRESH_AFTER : RPC_TYPE_ASYNC_WITH_UPDATE_NOTICES_LIST_AFTER;
+    request.completionTime = NULL;
+    request.resultPtr = &m_iGet_notices_rpc_result;
+   
+    RequestRPC(request);
 
     // *********** RPC_GET_MESSAGES **************
 
@@ -1780,6 +1799,69 @@ int CMainDocument::WorkAbort(std::string& strProjectURL, std::string& strName) {
     }
 
     return iRetVal;
+}
+
+
+// Call this only when notice buffer is stable
+// Note: This must not call any rpcs.
+int CMainDocument::CachedNoticeUpdate() {
+    static bool in_this_func = false;
+
+    if (in_this_func) return 0;
+    in_this_func = true;
+
+    if (IsConnected()) {
+        // rpc.get_messages is now called from RunPeriodicRPCs()
+        if (m_iGet_notices_rpc_result) {
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedNoticeUpdate - Get Notices Failed '%d'"), m_iGet_notices_rpc_result);
+            m_pNetworkConnection->SetStateDisconnected();
+            goto done;
+        }
+        if (notices.notices.size() != 0) {
+            size_t last_ind = notices.notices.size()-1;
+            m_iNoticeSequenceNumber = notices.notices[last_ind]->seqno;
+        }
+    }
+done:
+    in_this_func = false;
+    return 0;
+}
+
+
+NOTICE* CMainDocument::notice(unsigned int i) {
+    NOTICE* pNotice = NULL;
+
+    try {
+        if (!notices.notices.empty())
+            pNotice = notices.notices.at(i);
+    }
+    catch (std::out_of_range e) {
+        pNotice = NULL;
+    }
+
+    return pNotice;
+}
+
+
+int CMainDocument::GetNoticeCount() {
+    int iCount = -1;
+
+    // CachedNoticeUpdate() is now called from CMainDocument::OnRPCComplete() 
+    // only after a get_notices RPC completes so notices buffer is stable.
+    CachedStateUpdate();
+
+    if (!notices.notices.empty()) {
+        iCount = (int)notices.notices.size();
+    }
+    
+    return iCount;
+}
+
+
+int CMainDocument::ResetNoticeState() {
+    notices.clear();
+    m_iNoticeSequenceNumber = 0;
+    return 0;
 }
 
 

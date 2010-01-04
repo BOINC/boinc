@@ -43,15 +43,16 @@ typedef struct {
 /// Bitmask values for GetCurrentViewPage() 
 /// Used by CMainDocument::RunPeriodicRPCs() and Mac Accessibility
 ///
-#define VW_NOTIF 1
-#define VW_PROJ 2
-#define VW_TASK 4
-#define VW_XFER 8
-#define VW_STAT 16
-#define VW_DISK 32
-#define VW_MSGS 128
-#define VW_SGUI 1024
-#define VW_SMSG 2048
+#define VW_PROJ   1
+#define VW_TASK   2
+#define VW_XFER   4
+#define VW_STAT   8
+#define VW_DISK   16
+#define VW_MSGS   32
+#define VW_NOTIF  128
+#define VW_SGUI   256
+#define VW_SMSG   2048
+#define VW_SNOTIF 4096
 
 
 extern bool g_use_sandbox;
@@ -291,6 +292,27 @@ public:
                                     std::string& strName
                                 );
     CC_STATE*                   GetState() { return &state; };
+
+
+    //
+    // Notices Tab
+    //
+private:
+
+
+public:
+    NOTICES                     notices;
+    NOTICES                     async_notices_buf;
+    int                         m_iGet_notices_rpc_result;
+    
+    NOTICE*                     notice(unsigned int);
+    int                         CachedNoticeUpdate();
+
+    int                         GetNoticeCount();
+
+    int                         ResetNoticeState();
+
+    int                         m_iNoticeSequenceNumber;
 
 
     //

@@ -133,6 +133,7 @@ enum RPC_SELECTOR {
     RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT,
     RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT,   // 50
     RPC_SET_DEBTS,
+    RPC_GET_NOTICES,
     NUM_RPC_SELECTORS
 };
 
@@ -150,6 +151,9 @@ enum ASYNC_RPC_TYPE {
     // Periodic RPC as above, but on completion also update message 
     // list by calling CMainDocument::CachedMessageUpdate().
     RPC_TYPE_ASYNC_WITH_UPDATE_MESSAGE_LIST_AFTER,
+    // Periodic RPC as above, but on completion also update notice 
+    // list by calling CMainDocument::CachedNoticeUpdate().
+    RPC_TYPE_ASYNC_WITH_UPDATE_NOTICES_LIST_AFTER,
     // Periodic RPC as above, but on completion also process a 
     // wxEVT_TASKBAR_REFRESH event to refresh the taskbar icon.
     RPC_TYPE_ASYNC_WITH_UPDATE_TASKBAR_ICON_AFTER,
@@ -264,6 +268,8 @@ public:
             { return RPC_Wait(RPC_GET_PROXY_SETTINGS, (void*)&arg1); }
     int get_messages(int seqno, MESSAGES& arg1)
             { return RPC_Wait(RPC_GET_MESSAGES, (void*)&seqno, (void*)&arg1); }
+    int get_notices(int seqno, NOTICES& arg1)
+            { return RPC_Wait(RPC_GET_NOTICES, (void*)&seqno, (void*)&arg1); }
     int file_transfer_op(FILE_TRANSFER& arg1, const char* op)
             { return RPC_Wait(RPC_FILE_TRANSFER_OP, (void*)&arg1, (void*)op); }
     int result_op(RESULT& arg1, const char* op)

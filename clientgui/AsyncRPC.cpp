@@ -522,6 +522,12 @@ int RPCThread::ProcessRPCRequest() {
     case RPC_GET_PROXY_SETTINGS:
         retval = (m_pDoc->rpcClient).get_proxy_settings(*(GR_PROXY_INFO*)(current_request->arg1));
         break;
+    case RPC_GET_NOTICES:
+        retval = (m_pDoc->rpcClient).get_notices(
+            *(int*)(current_request->arg1), 
+            *(NOTICES*)(current_request->arg2)
+        );
+        break;
     case RPC_GET_MESSAGES:
         retval = (m_pDoc->rpcClient).get_messages(
             *(int*)(current_request->arg1), 
@@ -1031,6 +1037,16 @@ void CMainDocument::HandleCompletedRPC() {
                 exchangeBuf->d_free = arg1->d_free;
                 exchangeBuf->d_boinc = arg1->d_boinc;
                 exchangeBuf->d_allowed = arg1->d_allowed;
+            }
+            break;
+        case RPC_GET_NOTICES:
+            if (current_rpc_request.exchangeBuf && !retval) {
+                NOTICES* arg2 = (NOTICES*)current_rpc_request.arg2;
+                NOTICES* exchangeBuf = (NOTICES*)current_rpc_request.exchangeBuf;
+                arg2->notices.swap(exchangeBuf->notices);
+            }
+            if (!retval) {
+                CachedNoticeUpdate();  // Call this only when notice buffer is stable
             }
             break;
         case RPC_GET_MESSAGES:
