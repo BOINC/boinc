@@ -3,3 +3,9 @@ David  3 Jan 2010
 
     client/
         coproc_detect.cpp
+
+David  4 Jan 2010
+    - web: don't show news items if they're hidden
+
+    html/inc/
+        news.inc

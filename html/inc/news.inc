@@ -70,7 +70,7 @@ function show_news($start, $count) {
     } else if ($count) {
         $lim = "limit $count";
     }
-    $threads = BoincThread::enum("forum = $forum->id order by id desc $lim");
+    $threads = BoincThread::enum("forum = $forum->id and hidden=0 order by id desc $lim");
 
     foreach ($threads as $thread) {
         $posts = BoincPost::enum("thread=$thread->id order by id limit 1");
