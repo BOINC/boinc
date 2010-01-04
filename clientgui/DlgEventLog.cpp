@@ -307,7 +307,7 @@ void CDlgEventLog::OnRefresh( wxTimerEvent& WXUNUSED(event) ) {
 
         wxASSERT(m_pList);
 
-        wxInt32 iDocCount = wxGetApp().GetDocument()->messages.messages.size();
+        wxInt32 iDocCount = wxGetApp().GetDocument()->GetMessageCount();
         if (0 >= iDocCount) {
             m_pList->DeleteAllItems();
         } else {
