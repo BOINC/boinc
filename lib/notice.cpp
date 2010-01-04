@@ -22,6 +22,9 @@
 #include "error_numbers.h"
 #include "notice.h"
 
+// This is to parse our own XML.
+// parse_rss() parses an RSS feed item.
+//
 int NOTICE::parse(XML_PARSER& xp) {
     char tag[1024];
     bool is_tag;

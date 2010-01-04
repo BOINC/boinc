@@ -65,8 +65,6 @@
 
 #include "notice.h"
 
-struct PROJECT;
-
 struct NOTICES {
     std::deque<NOTICE> notices;
     void write(int seqno, MIOFILE&, bool public_only);
@@ -83,7 +81,7 @@ struct RSS_FEED {
     char url[256];
     double poll_interval;
     double next_poll_time;
-    bool append_seqno;
+    bool use_seqno;
         // if true, append "?seqno=x" to feed requests;
         // assume we'll get only unique items
     char last_seqno[256];
@@ -124,7 +122,7 @@ struct RSS_FEEDS {
 extern RSS_FEEDS rss_feeds;
 
 int parse_rss_feed_descs(MIOFILE& fin, std::vector<RSS_FEED>&);
-void handle_sr_feeds(std::vector<RSS_FEED>&, PROJECT*);
+void handle_sr_feeds(std::vector<RSS_FEED>&, struct PROJECT*);
     // process the feeds in a scheduler reply
 
 #endif

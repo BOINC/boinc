@@ -9,3 +9,11 @@ David  4 Jan 2010
 
     html/inc/
         news.inc
+
+David  4 Jan 2010
+	- client: RSS feed stuff
+
+	client/
+		cs_notice.cpp,h
+	lib/
+		notice.cpp
