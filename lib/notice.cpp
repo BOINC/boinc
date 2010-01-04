@@ -54,6 +54,9 @@ int NOTICE::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "is_private", is_private)) continue;
         if (xp.parse_str(tag, "category", category, sizeof(category))) continue;
         if (xp.parse_str(tag, "link", link, sizeof(link))) continue;
+        if (xp.parse_str(tag, "project_name", project_name, sizeof(project_name))) continue;
+        if (xp.parse_str(tag, "guid", guid, sizeof(guid))) continue;
+        if (xp.parse_str(tag, "feed_url", feed_url, sizeof(feed_url))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -100,6 +103,8 @@ void NOTICE::clear() {
     arrival_time = 0;
     is_private = 0;
     strcpy(category, "");
+    strcpy(link, "");
+    strcpy(project_name, "");
     strcpy(guid, "");
     strcpy(feed_url, "");
 }
