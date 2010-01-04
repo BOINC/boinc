@@ -109,6 +109,10 @@ const char** CViewNotifications::GetViewIcon() {
 }
 
 
+const int CViewNotifications::GetViewRefreshRate() {
+    return 10;
+}
+
 const int CViewNotifications::GetViewCurrentViewPage() {
      return VW_NOTIF;
 }
@@ -129,9 +133,13 @@ void CViewNotifications::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
     CMainDocument*  pDoc   = wxGetApp().GetDocument();
     wxString strHTML;
-    wxString strPage;
+    wxString strItems;
     wxString strTemp;
+    wxDateTime dtBuffer;
+    NOTICE* pNotice = NULL;
     int iNoticeCount = 0;
+    unsigned int iNoticeIndex = 0;
+
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -141,22 +149,59 @@ void CViewNotifications::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
     if (iNoticeCount == -1) {
         
-        strPage +=   _("Retrieving notices now...");
+        strItems +=   _("Retrieving notices now...");
 
     } else {
 
-        strTemp.Printf(_("%d notices detected"), iNoticeCount);
-        strPage += strTemp;
+        // Pre-allocate buffer size so string concat is much faster
+        strItems.Alloc(4096*iNoticeCount);
 
+        for (iNoticeIndex = 0; iNoticeIndex < (unsigned int)iNoticeCount; iNoticeIndex++) {
+            pNotice = pDoc->notice(iNoticeIndex);
+
+            if (pNotice) {
+
+                strItems += wxT("<p></p>");
+                strItems += wxT("<table border=2 width=100%%>");
+                strItems += wxT("  <tr>");
+                strItems += wxT("    <td>");
+
+                strItems +=   _("Diag: ");
+                strTemp.Printf(wxT("index(%d)/seqno(%d)"), iNoticeIndex, pNotice->seqno);
+                strItems += strTemp;
+
+                strItems += wxT("      <br>");
+                strItems +=   _("Title: ");
+
+                strItems += wxString(pNotice->title, wxConvUTF8);
+
+                strItems += wxT("      <br>");
+                strItems +=   _("Date: ");
+
+                dtBuffer.Set((time_t)pNotice->arrival_time);
+                strItems += dtBuffer.Format();
+
+                strItems += wxT("    </td>");
+                strItems += wxT("  </tr>");
+                strItems += wxT("  <tr>");
+                strItems += wxT("    <td>");
+                strItems += wxString(pNotice->description.c_str(), wxConvUTF8);
+                strItems += wxT("    </td>");
+                strItems += wxT("  </tr>");
+                strItems += wxT("</table>");
+                strItems += wxT("<p></p>");
+
+            }
+        }
     }
 
-    strHTML  = wxT("<HTML>");
-    strHTML += wxT("<HEAD>");
-    strHTML += wxT("</HEAD>");
-    strHTML += wxT("<BODY>");
-    strHTML += strPage;
-    strHTML += wxT("</BODY>");
-    strHTML += wxT("</HTML>");
+    strHTML  = wxT("<html>");
+    strHTML += wxT("<head>");
+    strHTML += wxT("</head>");
+    strHTML += wxT("<body>");
+    strHTML += strItems;
+    strHTML += wxT("</body>");
+    strHTML += wxT("</html>");
 
     m_pHtmlPane->SetPage( strHTML );
 
