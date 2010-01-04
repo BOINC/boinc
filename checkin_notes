@@ -34,3 +34,9 @@ Rom    4 Jan 2010
     clientgui/
         AsyncRPC.cpp, .h
         MainDocument.cpp, .h
+
+Rom    4 Jan 2010
+    - MGR: Implement UI plumbing for notices
+
+    clientgui/
+        ViewNotifications.cpp, .h

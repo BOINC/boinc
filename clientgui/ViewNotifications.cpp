@@ -30,14 +30,12 @@
 #include "error_numbers.h"
 
 
-#include "res/xfer.xpm"
+#include "res/mess.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewNotifications, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewNotifications, CBOINCBaseView)
-    EVT_BUTTON(ID_TASK_NEWS_BOINC, CViewNotifications::OnNewsBOINC)
-    EVT_BUTTON(ID_TASK_NEWS_BOINCWEBSITE, CViewNotifications::OnNewsBOINCWebsite)
 END_EVENT_TABLE ()
 
 
@@ -48,8 +46,8 @@ CViewNotifications::CViewNotifications()
 CViewNotifications::CViewNotifications(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook)
 {
-	CTaskItemGroup* pGroup = NULL;
-	CTaskItem*      pItem = NULL;
+    CTaskItemGroup* pGroup = NULL; 
+    CTaskItem*      pItem = NULL; 
 
     //
     // Setup View
@@ -63,7 +61,7 @@ CViewNotifications::CViewNotifications(wxNotebook* pNotebook) :
     m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_NOTIFICATIONSVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
 
-	m_pHtmlPane = new wxHtmlWindow(this, ID_HTML_NOTIFICATIONSVIEW, wxDefaultPosition, wxSize(640, -1), wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL);
+	m_pHtmlPane = new wxHtmlWindow(this, ID_HTML_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL);
 	wxASSERT(m_pHtmlPane);
 
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
@@ -73,31 +71,20 @@ CViewNotifications::CViewNotifications(wxNotebook* pNotebook) :
 
     Layout();
 
-	pGroup = new CTaskItemGroup( _("News Feeds") );
-	m_TaskGroups.push_back( pGroup );
+    pGroup = new CTaskItemGroup( _("News Feeds") ); 
+    m_TaskGroups.push_back( pGroup ); 
 
-	pItem = new CTaskItem(
-        _("BOINC"),
-        _("Display the latest news about BOINC"),
-        ID_TASK_NEWS_BOINC 
-    );
-    pGroup->m_Tasks.push_back( pItem );
+    pItem = new CTaskItem( 
+        _("BOINC"), 
+        _("Display the latest news about BOINC"), 
+        ID_TASK_NEWS_BOINC  
+    ); 
+    pGroup->m_Tasks.push_back( pItem ); 
 
-	pItem = new CTaskItem(
-        _("BOINC Website"),
-        _("Display the latest news about BOINC from the BOINC website"),
-        ID_TASK_NEWS_BOINCWEBSITE
-    );
-    pGroup->m_Tasks.push_back( pItem );
-
-    m_TaskGroups.push_back( pGroup );
+    m_TaskGroups.push_back( pGroup ); 
 
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
-
-    // Display the BOINC website by default.
-    wxCommandEvent evt;
-    OnNewsBOINC(evt);
 }
 
 
@@ -106,19 +93,19 @@ CViewNotifications::~CViewNotifications() {
 
 
 wxString& CViewNotifications::GetViewName() {
-    static wxString strViewName(wxT("Notifications"));
+    static wxString strViewName(wxT("Notices"));
     return strViewName;
 }
 
 
 wxString& CViewNotifications::GetViewDisplayName() {
-    static wxString strViewName(_("Notifications"));
+    static wxString strViewName(_("Notices"));
     return strViewName;
 }
 
 
 const char** CViewNotifications::GetViewIcon() {
-    return xfer_xpm;
+    return mess_xpm;
 }
 
 
@@ -138,40 +125,41 @@ bool CViewNotifications::OnRestoreState(wxConfigBase* WXUNUSED(pConfig)) {
 
 
 void CViewNotifications::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
-}
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnListRender - Function Begin"));
 
+    CMainDocument*  pDoc   = wxGetApp().GetDocument();
+    wxString strHTML;
+    wxString strPage;
+    wxString strTemp;
+    int iNoticeCount = 0;
 
-void CViewNotifications::OnNewsBOINC( wxCommandEvent& WXUNUSED(event) ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnNewsBOINC - Function Begin"));
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+	wxASSERT(m_pHtmlPane);
 
-    wxString strHTML = wxEmptyString;
-    wxString strNewsFile = 
-        wxGetApp().GetRootDirectory() + wxFileName::GetPathSeparator() + wxT("news.html");
-    
-    wxFFile f(strNewsFile.c_str());
-    if (f.IsOpened()) {
-        f.ReadAll(&strHTML);
-        f.Close();
+    iNoticeCount = pDoc->GetNoticeCount();
+
+    if (iNoticeCount == -1) {
+        
+        strPage +=   _("Retrieving notices now...");
+
     } else {
-        strHTML.Printf (
-            wxT("<HTML><HEAD></HEAD><BODY>Could not open %s</BODY></HTML>"),
-            strNewsFile.c_str()
-        );
+
+        strTemp.Printf(_("%d notices detected"), iNoticeCount);
+        strPage += strTemp;
+
     }
 
-	wxASSERT(m_pHtmlPane);
-    m_pHtmlPane->SetPage(strHTML);
+    strHTML  = wxT("<HTML>");
+    strHTML += wxT("<HEAD>");
+    strHTML += wxT("</HEAD>");
+    strHTML += wxT("<BODY>");
+    strHTML += strPage;
+    strHTML += wxT("</BODY>");
+    strHTML += wxT("</HTML>");
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnNewsBOINC - Function End"));
-}
+    m_pHtmlPane->SetPage( strHTML );
 
-
-void CViewNotifications::OnNewsBOINCWebsite( wxCommandEvent& WXUNUSED(event) ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnNewsBOINCWebsite - Function Begin"));
-
-	wxASSERT(m_pHtmlPane);
-    m_pHtmlPane->LoadPage(wxT("http://boinc.berkeley.edu/"));
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnNewsBOINCWebsite - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnListRender - Function End"));
 }
 

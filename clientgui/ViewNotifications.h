@@ -40,9 +40,6 @@ public:
     virtual const char**    GetViewIcon();
     virtual const int       GetViewCurrentViewPage();
 
-    void                    OnNewsBOINC( wxCommandEvent& event );
-    void                    OnNewsBOINCWebsite( wxCommandEvent& event );
-
 protected:
 	wxHtmlWindow*           m_pHtmlPane;
 
