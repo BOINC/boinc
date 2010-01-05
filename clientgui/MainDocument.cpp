@@ -1818,11 +1818,7 @@ int CMainDocument::CachedNoticeUpdate() {
             goto done;
         }
         if (notices.notices.size() != 0) {
-            for (unsigned int i = 0; i < notices.notices.size(); i++) {
-                if (notices.notices[i]->seqno > m_iNoticeSequenceNumber) {
-                    m_iNoticeSequenceNumber = notices.notices[i]->seqno;
-                }
-            }
+            m_iNoticeSequenceNumber = notices.notices[0]->seqno;
         }
     }
 done:

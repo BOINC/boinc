@@ -52,3 +52,11 @@ David  4 Jan 2010
     - GUI RPC: return notices in order of increasing seqno, not decreasing
     client/
         cs_notice.cpp
+
+Rom    4 Jan 2010
+    - MGR: Present the newest notices first.
+
+    clientgui/
+        MainDocument.cpp
+    lib/
+        gui_rpc_client_ops.cpp
