@@ -60,3 +60,17 @@ Rom    4 Jan 2010
         MainDocument.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+Bernd  5 Jan 2010
+    a couple of locality scheduling fixes:
+    - remove obsolete and buggy code from transitioner (create_result() in backend_lib)
+    - account for 'mixed' scheduling in explain_to_user() in sched_send.cpp
+    - finish transition to configurable patterns for distinguishing files reported by the client
+      in the Einstein@home-specific part of send_work_locality in sched_locality
+      (removed previous hardcoded strcmps)
+
+    tools/
+        backend_lib.cpp
+    sched/
+        sched_send.cpp
+        sched_locality.cpp

@@ -1019,7 +1019,6 @@ bool is_sticky_file(char*fname) {
     return false;
 }
 
-
 bool is_workunit_file(char*fname) {
     for (unsigned int i=0; i<config.locality_scheduling_workunit_file->size(); i++) {
         if (!regexec(&((*config.locality_scheduling_workunit_file)[i]), fname, 0, NULL, 0)) {
@@ -1044,44 +1043,12 @@ void send_work_locality() {
     for (i=0; i<nfiles; i++) {
         char *fname = eah_copy[i].name;
 
-        // here, put a list of patterns of ALL files that should be kept
-        // for locality scheduling
-        //
-        bool useful = strlen(fname) > 10 ||
-                      (
-                        strncmp("H1_", fname, 3) &&
-                        strncmp("h1_", fname, 3) &&
-                        strncmp("w1_", fname, 3) &&
-                        strncmp("W1_", fname, 3) &&
-                        strncmp("l1_", fname, 3) &&
-                        strncmp("L1_", fname, 3)
-                       );
-#if 0
-        // here, put a list of patterns of ALL files that are still needed to be
-        // sticky, but are not 'data' files for locality scheduling purposes, eg they
-        // do not have associated WU with names FILENAME__*
-        //
-        bool data_files =
-            strncmp("grid_", fname, 5)
-            && strncmp("skygrid_", fname, 8)
-            && strncmp("Config_", fname, 7);
-        if (strlen(fname)==15 && !strncmp("l1_", fname, 3)) {
-            data_files = false;
-        }
-#endif
-
-
         if (is_workunit_file(fname)) {
-            // these files WILL be deleted from the host
+            // these are files that we will use for locality scheduling and
+            // to search for work
             //
-            g_request->files_not_needed.push_back(eah_copy[i]);
-            if (config.debug_locality) {
-                log_messages.printf(MSG_NORMAL,
-                    "[locality] [HOST#%d] adding file %s to files_not_needed list\n",
-                    g_reply->host.id, fname
-                );
-            }
-        } else if (is_sticky_file(fname)) {
+            g_request->file_infos.push_back(eah_copy[i]);
+        } else if (is_sticky_file(fname)) {  // was if(!data_files)
             // these files MIGHT be deleted from host if we need to make
             // disk space there
             //
@@ -1093,10 +1060,15 @@ void send_work_locality() {
                 );
             }
         } else {
-            // these are files that we will use for locality scheduling and
-            // to search for work
+            // these files WILL be deleted from the host
             //
-            g_request->file_infos.push_back(eah_copy[i]);
+            g_request->files_not_needed.push_back(eah_copy[i]);
+            if (config.debug_locality) {
+                log_messages.printf(MSG_NORMAL,
+                    "[locality] [HOST#%d] adding file %s to files_not_needed list\n",
+                    g_reply->host.id, fname
+                );
+            }
         }
     }
 #endif // EINSTEIN_AT_HOME

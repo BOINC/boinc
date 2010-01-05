@@ -1224,7 +1224,7 @@ static void explain_to_user() {
     // If work was sent from apps the user did not select, explain.
     // NOTE: this will have to be done differently with matchmaker scheduling
     //
-    if (!config.locality_scheduling && !config.matchmaker) {
+    if (!config.locality_scheduling && !config.locality_scheduler_fraction && !config.matchmaker) {
         if (g_wreq->njobs_sent && !g_wreq->user_apps_only) {
             g_reply->insert_message(
                 "No work can be sent for the applications you have selected",

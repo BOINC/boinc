@@ -501,19 +501,6 @@ int create_result(
         }
     }
 
-    // if using locality scheduling, advertise data file
-    // associated with this newly-created result
-    //
-    if (config_loc.locality_scheduling) {
-        const char *datafilename;
-        char *last=strstr(result.name, "__");
-        if (result.name<last && last<(result.name+255)) {
-            datafilename = config.project_path("locality_scheduling/working_set_removal/%s", result.name);
-            unlink(datafilename);
-            datafilename = config.project_path("locality_scheduling/work_available/%s", result.name);
-            boinc_touch_file(datafilename);
-        } 
-    }
     return 0;
 }
 
