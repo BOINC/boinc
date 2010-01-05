@@ -47,3 +47,8 @@ Rom    4 Jan 2010
     clientgui/
         MainDocument.cpp
         ViewNotifications.cpp, .h
+
+David  4 Jan 2010
+    - GUI RPC: return notices in order of increasing seqno, not decreasing
+    client/
+        cs_notice.cpp

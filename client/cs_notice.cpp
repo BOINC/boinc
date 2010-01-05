@@ -304,7 +304,8 @@ void NOTICES::write_archive(char* url) {
     fclose(f);
 }
 
-// write notices newer than seqno as XML (for GUI RPC)
+// write notices newer than seqno as XML (for GUI RPC).
+// Write them in order of increasing seqno
 //
 void NOTICES::write(int seqno, MIOFILE& fout, bool public_only) {
     unsigned int i;
@@ -312,6 +313,9 @@ void NOTICES::write(int seqno, MIOFILE& fout, bool public_only) {
     for (i=0; i<notices.size(); i++) {
         NOTICE& n = notices[i];
         if (n.seqno <= seqno) break;
+    }
+    for (; i>0; i--) {
+        NOTICE& n = notices[i-1];
         if (public_only && n.is_private) continue;
         n.write(fout, true);
     }
