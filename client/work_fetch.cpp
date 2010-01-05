@@ -44,6 +44,32 @@ WORK_FETCH work_fetch;
     // so if the project develops a GPU app,
     // we'll find out about it within a day.
 
+#define FETCH_IF_IDLE_INSTANCE          0
+    // If resource has an idle instance,
+    // get work for it from the project with greatest LTD,
+    // even if it's overworked.
+#define FETCH_IF_MAJOR_SHORTFALL        1
+    // If resource is saturated for less than work_buf_min(),
+    // get work for it from the project with greatest LTD,
+    // even if it's overworked.
+#define FETCH_IF_MINOR_SHORTFALL        2
+    // If resource is saturated for less than work_buf_total(),
+    // get work for it from the non-overworked project with greatest LTD.
+#define FETCH_IF_PROJECT_STARVED        3
+    // If any project is not overworked and has too few jobs
+    // to use its instance share,
+    // get work from the one with greatest LTD.
+
+static char* criterion_name(int criterion) {
+    switch (criterion) {
+    case FETCH_IF_IDLE_INSTANCE: return "idle instance";
+    case FETCH_IF_MAJOR_SHORTFALL: return "major shortfall";
+    case FETCH_IF_MINOR_SHORTFALL: return "minor shortfall";
+    case FETCH_IF_PROJECT_STARVED: return "starved";
+    }
+    return "unknown";
+}
+
 static inline const char* rsc_name(int t) {
     switch (t) {
     case RSC_TYPE_CPU: return "CPU";
@@ -51,15 +77,6 @@ static inline const char* rsc_name(int t) {
     case RSC_TYPE_ATI: return "ATI GPU";
     }
     return "Unknown";
-}
-
-RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
-    switch(rsc_type) {
-    case RSC_TYPE_CPU: return p->cpu_pwf;
-    case RSC_TYPE_CUDA: return p->cuda_pwf;
-    case RSC_TYPE_ATI: return p->ati_pwf;
-    default: return p->cpu_pwf;
-    }
 }
 
 inline bool prefs_prevent_fetch(PROJECT* p, int rsc_type) {
@@ -77,11 +94,37 @@ inline bool prefs_prevent_fetch(PROJECT* p, int rsc_type) {
     return false;
 }
 
-bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
-    if (prefs_prevent_fetch(p, rsc_type)) return false;
-    RSC_PROJECT_WORK_FETCH& w = project_state(p);
-    return (w.backoff_time < gstate.now);
+// does the project have a downloading or runnable job?
+//
+static bool has_a_job(PROJECT* p) {
+    for (unsigned int j=0; j<gstate.results.size(); j++) {
+        RESULT* rp = gstate.results[j];
+        if (rp->project != p) continue;
+        if (rp->state() <= RESULT_FILES_DOWNLOADED) {
+            return true;
+        }
+    }
+    return false;
 }
+
+inline bool has_coproc_app(PROJECT* p, int rsc_type) {
+    unsigned int i;
+    for (i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->project != p) continue;
+        switch(rsc_type) {
+        case RSC_TYPE_CUDA:
+            if (avp->ncudas) return true;
+            break;
+        case RSC_TYPE_ATI:
+            if (avp->natis) return true;
+            break;
+        }
+    }
+    return false;
+}
+
+///////////////  RSC_PROJECT_WORK_FETCH  ///////////////
 
 bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p, int rsc_type) {
     switch(rsc_type) {
@@ -108,6 +151,79 @@ void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT* p, int rsc_type) {
     deadlines_missed = 0;
 }
 
+// see if the project's debt is beyond what would normally happen;
+// if so we conclude that it had a long job that ran in EDF mode;
+// avoid asking it for work unless absolutely necessary.
+//
+bool RSC_PROJECT_WORK_FETCH::overworked() {
+    double x = gstate.work_buf_total() + gstate.global_prefs.cpu_scheduling_period(); 
+    if (x < 86400) x = 86400;
+    return (long_term_debt < -x);
+}
+
+// should this project be accumulating LTD for this resource?
+//
+bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
+    if (p->non_cpu_intensive) return false;
+    if (p->suspended_via_gui) return false;
+    if (has_runnable_jobs) return true;
+        // must precede the done_request_more_work check
+    if (p->dont_request_more_work) return false;
+    if (backoff_time > gstate.now) return false;
+    if (prefs_prevent_fetch(p, rwf.rsc_type)) return false;
+
+    // NOTE: it's critical that all conditions that might prevent
+    // us from asking the project for work of this type
+    // be included in the above list.
+    // Otherwise we might get in a state where debt accumulates,
+    // pushing other projects into overworked state
+
+    // The last time we asked for work we didn't get any,
+    // but it's been a while since we asked.
+    // In this case, accumulate debt until we reach (around) zero, then stop.
+    //
+    if (backoff_interval == MAX_BACKOFF_INTERVAL) {
+        if (long_term_debt > -DEBT_ADJUST_PERIOD) {
+            return false;
+        }
+    }
+    if (p->min_rpc_time > gstate.now) return false;
+    return true;
+}
+
+void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, const char* name) {
+    if (backoff_interval) {
+        backoff_interval *= 2;
+        if (backoff_interval > MAX_BACKOFF_INTERVAL) backoff_interval = MAX_BACKOFF_INTERVAL;
+    } else {
+        backoff_interval = MIN_BACKOFF_INTERVAL;
+    }
+    double x = drand()*backoff_interval;
+    backoff_time = gstate.now + x;
+    if (log_flags.work_fetch_debug) {
+        msg_printf(p, MSG_INFO,
+            "[wfd] backing off %s %.0f sec", name, x
+        );
+    }
+}
+
+///////////////  RSC_WORK_FETCH  ///////////////
+
+RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
+    switch(rsc_type) {
+    case RSC_TYPE_CPU: return p->cpu_pwf;
+    case RSC_TYPE_CUDA: return p->cuda_pwf;
+    case RSC_TYPE_ATI: return p->ati_pwf;
+    default: return p->cpu_pwf;
+    }
+}
+
+bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
+    if (prefs_prevent_fetch(p, rsc_type)) return false;
+    RSC_PROJECT_WORK_FETCH& w = project_state(p);
+    return (w.backoff_time < gstate.now);
+}
+
 void RSC_WORK_FETCH::rr_init() {
     shortfall = 0;
     nidle_now = 0;
@@ -118,46 +234,6 @@ void RSC_WORK_FETCH::rr_init() {
     saturated_time = 0;
     pending.clear();
     busy_time_estimator.reset();
-}
-
-void WORK_FETCH::rr_init() {
-    cpu_work_fetch.rr_init();
-    if (coproc_cuda) {
-        cuda_work_fetch.rr_init();
-    }
-    if (coproc_ati) {
-        ati_work_fetch.rr_init();
-    }
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        p->pwf.can_fetch_work = p->pwf.compute_can_fetch_work(p);
-        p->pwf.has_runnable_jobs = false;
-        p->cpu_pwf.rr_init(p, RSC_TYPE_CPU);
-        if (coproc_cuda) {
-            p->cuda_pwf.rr_init(p, RSC_TYPE_CUDA);
-        }
-        if (coproc_ati) {
-            p->ati_pwf.rr_init(p, RSC_TYPE_ATI);
-        }
-    }
-}
-
-bool PROJECT_WORK_FETCH::compute_can_fetch_work(PROJECT* p) {
-    if (p->non_cpu_intensive) return false;
-    if (p->suspended_via_gui) return false;
-    if (p->master_url_fetch_pending) return false;
-    if (p->min_rpc_time > gstate.now) return false;
-    if (p->dont_request_more_work) return false;
-    if (p->some_download_stalled()) return false;
-    if (p->some_result_suspended()) return false;
-    if (p->too_many_uploading_results) return false;
-    return true;
-}
-
-void PROJECT_WORK_FETCH::reset(PROJECT* p) {
-    p->cpu_pwf.reset();
-    p->cuda_pwf.reset();
-    p->ati_pwf.reset();
 }
 
 void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
@@ -181,42 +257,6 @@ void RSC_WORK_FETCH::update_saturated_time(double dt) {
 
 void RSC_WORK_FETCH::update_busy_time(double dur, double nused) {
     busy_time_estimator.update(dur, nused);
-}
-
-// see if the project's debt is beyond what would normally happen;
-// if so we conclude that it had a long job that ran in EDF mode;
-// avoid asking it for work unless absolutely necessary.
-//
-bool RSC_PROJECT_WORK_FETCH::overworked() {
-    double x = gstate.work_buf_total() + gstate.global_prefs.cpu_scheduling_period(); 
-    if (x < 86400) x = 86400;
-    return (long_term_debt < -x);
-}
-
-#define FETCH_IF_IDLE_INSTANCE          0
-    // If resource has an idle instance,
-    // get work for it from the project with greatest LTD,
-    // even if it's overworked.
-#define FETCH_IF_MAJOR_SHORTFALL        1
-    // If resource is saturated for less than work_buf_min(),
-    // get work for it from the project with greatest LTD,
-    // even if it's overworked.
-#define FETCH_IF_MINOR_SHORTFALL        2
-    // If resource is saturated for less than work_buf_total(),
-    // get work for it from the non-overworked project with greatest LTD.
-#define FETCH_IF_PROJECT_STARVED        3
-    // If any project is not overworked and has too few jobs
-    // to use its instance share,
-    // get work from the one with greatest LTD.
-
-static char* criterion_name(int criterion) {
-    switch (criterion) {
-    case FETCH_IF_IDLE_INSTANCE: return "idle instance";
-    case FETCH_IF_MAJOR_SHORTFALL: return "major shortfall";
-    case FETCH_IF_MINOR_SHORTFALL: return "minor shortfall";
-    case FETCH_IF_PROJECT_STARVED: return "starved";
-    }
-    return "unknown";
 }
 
 // Choose the best project to ask for work for this resource,
@@ -318,38 +358,6 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
     req_instances = std::max(x1, x2);
 }
 
-void WORK_FETCH::set_all_requests(PROJECT* p) {
-    cpu_work_fetch.set_request(p);
-    if (coproc_cuda && gpus_usable) {
-        cuda_work_fetch.set_request(p);
-    }
-    if (coproc_ati && gpus_usable) {
-        ati_work_fetch.set_request(p);
-    }
-}
-
-void WORK_FETCH::set_overall_debts() {
-    for (unsigned i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        p->pwf.overall_debt = p->cpu_pwf.long_term_debt;
-        if (coproc_cuda) {
-            p->pwf.overall_debt += cuda_work_fetch.speed*p->cuda_pwf.long_term_debt;
-        }
-        if (coproc_ati) {
-            p->pwf.overall_debt += ati_work_fetch.speed*p->ati_pwf.long_term_debt;
-        }
-    }
-}
-
-void WORK_FETCH::zero_debts() {
-    for (unsigned i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        p->cpu_pwf.zero_debt();
-        p->cuda_pwf.zero_debt();
-        p->ati_pwf.zero_debt();
-    }
-}
-
 void RSC_WORK_FETCH::print_state(const char* name) {
     msg_printf(0, MSG_INFO,
         "[wfd] %s: shortfall %.2f nidle %.2f saturated %.2f busy %.2f RS fetchable %.2f runnable %.2f",
@@ -389,222 +397,9 @@ void RSC_WORK_FETCH::print_state(const char* name) {
     }
 }
 
-void WORK_FETCH::print_state() {
-    msg_printf(0, MSG_INFO, "[wfd] ------- start work fetch state -------");
-    msg_printf(0, MSG_INFO, "[wfd] target work buffer: %.2f + %.2f sec",
-        gstate.work_buf_min(), gstate.work_buf_additional()
-    );
-    cpu_work_fetch.print_state("CPU");
-    if (coproc_cuda) {
-        cuda_work_fetch.print_state("NVIDIA GPU");
-    }
-    if (coproc_ati) {
-        ati_work_fetch.print_state("ATI GPU");
-    }
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        if (p->non_cpu_intensive) continue;
-        msg_printf(p, MSG_INFO, "[wfd] overall LTD %.2f", p->pwf.overall_debt);
-    }
-    msg_printf(0, MSG_INFO, "[wfd] ------- end work fetch state -------");
-}
-
 void RSC_WORK_FETCH::clear_request() {
     req_secs = 0;
     req_instances = 0;
-}
-
-void WORK_FETCH::clear_request() {
-    cpu_work_fetch.clear_request();
-    cuda_work_fetch.clear_request();
-    ati_work_fetch.clear_request();
-}
-
-// does the project have a downloading or runnable job?
-//
-static bool has_a_job(PROJECT* p) {
-    for (unsigned int j=0; j<gstate.results.size(); j++) {
-        RESULT* rp = gstate.results[j];
-        if (rp->project != p) continue;
-        if (rp->state() <= RESULT_FILES_DOWNLOADED) {
-            return true;
-        }
-    }
-    return false;
-}
-
-// we're going to contact this project for reasons other than work fetch;
-// decide if we should piggy-back a work fetch request.
-//
-void WORK_FETCH::compute_work_request(PROJECT* p) {
-    clear_request();
-    if (p->dont_request_more_work) return;
-    if (p->non_cpu_intensive) {
-        if (!has_a_job(p)) {
-            cpu_work_fetch.req_secs = 1;
-        }
-        return;
-    }
-
-    // See if this is the project we'd ask for work anyway.
-    // Temporarily clear resource backoffs,
-    // since we're going to contact this project in any case.
-    //
-    double cpu_save = p->cpu_pwf.backoff_time;
-    double cuda_save = p->cuda_pwf.backoff_time;
-    double ati_save = p->ati_pwf.backoff_time;
-    p->cpu_pwf.backoff_time = 0;
-    p->cuda_pwf.backoff_time = 0;
-    p->ati_pwf.backoff_time = 0;
-    PROJECT* pbest = choose_project();
-    p->cpu_pwf.backoff_time = cpu_save;
-    p->cuda_pwf.backoff_time = cuda_save;
-    p->ati_pwf.backoff_time = ati_save;
-    if (p == pbest) {
-        // Ask for work for all devices w/ a shortfall.
-        // Otherwise we can have a situation where a GPU is idle,
-        // we ask only for GPU work, and the project never has any
-        //
-        work_fetch.set_all_requests(pbest);
-        return;
-    }
-
-    // if not, don't request any work
-    //
-    clear_request();
-}
-
-// see if there's a fetchable non-CPU-intensive project without work
-//
-PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        if (!p->non_cpu_intensive) continue;
-        if (!p->can_request_work()) continue;
-        if (p->cpu_pwf.backoff_time > gstate.now) continue;
-        if (has_a_job(p)) continue;
-        clear_request();
-        cpu_work_fetch.req_secs = 1;
-        return p;
-    }
-    return 0;
-}
-
-// choose a project to fetch work from,
-// and set the request fields of resource objects
-//
-PROJECT* WORK_FETCH::choose_project() {
-    PROJECT* p = 0;
-
-    p = non_cpu_intensive_project_needing_work();
-    if (p) return p;
-
-    gstate.compute_nuploading_results();
-
-    gstate.rr_simulation();
-    set_overall_debts();
-
-    bool cuda_usable = coproc_cuda && gpus_usable;
-    bool ati_usable = coproc_ati && gpus_usable;
-
-    if (cuda_usable) {
-        p = cuda_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
-    }
-    if (ati_usable) {
-        p = ati_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
-    }
-    if (!p) {
-        p = cpu_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
-    }
-    if (!p && cuda_usable) {
-        p = cuda_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
-    }
-    if (!p && ati_usable) {
-        p = ati_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
-    }
-    if (!p) {
-        p = cpu_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
-    }
-    if (!p && cuda_usable) {
-        p = cuda_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
-    }
-    if (!p && ati_usable) {
-        p = ati_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
-    }
-    if (!p) {
-        p = cpu_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
-    }
-#if 0
-    // don't try to maintain GPU work for all projects,
-    // since we don't use round-robin scheduling for GPUs
-    //
-    if (!p && cuda_usable) {
-        p = cuda_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
-    }
-    if (!p && ati_usable) {
-        p = ati_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
-    }
-#endif
-    if (!p) {
-        p = cpu_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
-    }
-
-    if (log_flags.work_fetch_debug) {
-        print_state();
-        if (!p) {
-            msg_printf(0, MSG_INFO, "[wfd] No project chosen for work fetch");
-        }
-    }
-
-    return p;
-}
-
-void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
-    APP_VERSION* avp = atp->result->avp;
-    PROJECT* p = atp->result->project;
-    double x = dt*avp->avg_ncpus;
-    p->cpu_pwf.secs_this_debt_interval += x;
-    cpu_work_fetch.secs_this_debt_interval += x;
-    if (coproc_cuda) {
-        x = dt*avp->ncudas;
-        p->cuda_pwf.secs_this_debt_interval += x;
-        cuda_work_fetch.secs_this_debt_interval += x;
-    }
-    if (coproc_ati) {
-        x = dt*avp->natis;
-        p->ati_pwf.secs_this_debt_interval += x;
-        ati_work_fetch.secs_this_debt_interval += x;
-    }
-}
-
-// should this project be accumulating LTD for this resource?
-//
-bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
-    if (p->non_cpu_intensive) return false;
-    if (p->suspended_via_gui) return false;
-    if (has_runnable_jobs) return true;
-        // must precede the done_request_more_work check
-    if (p->dont_request_more_work) return false;
-    if (backoff_time > gstate.now) return false;
-    if (prefs_prevent_fetch(p, rwf.rsc_type)) return false;
-
-    // NOTE: it's critical that all conditions that might prevent
-    // us from asking the project for work of this type
-    // be included in the above list.
-    // Otherwise we might get in a state where debt accumulates,
-    // pushing other projects into overworked state
-
-    // The last time we asked for work we didn't get any,
-    // but it's been a while since we asked.
-    // In this case, accumulate debt until we reach (around) zero, then stop.
-    //
-    if (backoff_interval == MAX_BACKOFF_INTERVAL) {
-        if (long_term_debt > -DEBT_ADJUST_PERIOD) {
-            return false;
-        }
-    }
-    if (p->min_rpc_time > gstate.now) return false;
-    return true;
 }
 
 // update long-term debts for a resource.
@@ -789,6 +584,252 @@ void RSC_WORK_FETCH::update_short_term_debts() {
     }
 }
 
+///////////////  PROJECT_WORK_FETCH  ///////////////
+
+bool PROJECT_WORK_FETCH::compute_can_fetch_work(PROJECT* p) {
+    if (p->non_cpu_intensive) return false;
+    if (p->suspended_via_gui) return false;
+    if (p->master_url_fetch_pending) return false;
+    if (p->min_rpc_time > gstate.now) return false;
+    if (p->dont_request_more_work) return false;
+    if (p->some_download_stalled()) return false;
+    if (p->some_result_suspended()) return false;
+    if (p->too_many_uploading_results) return false;
+    return true;
+}
+
+void PROJECT_WORK_FETCH::reset(PROJECT* p) {
+    p->cpu_pwf.reset();
+    p->cuda_pwf.reset();
+    p->ati_pwf.reset();
+}
+
+///////////////  WORK_FETCH  ///////////////
+
+void WORK_FETCH::rr_init() {
+    cpu_work_fetch.rr_init();
+    if (coproc_cuda) {
+        cuda_work_fetch.rr_init();
+    }
+    if (coproc_ati) {
+        ati_work_fetch.rr_init();
+    }
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->pwf.can_fetch_work = p->pwf.compute_can_fetch_work(p);
+        p->pwf.has_runnable_jobs = false;
+        p->cpu_pwf.rr_init(p, RSC_TYPE_CPU);
+        if (coproc_cuda) {
+            p->cuda_pwf.rr_init(p, RSC_TYPE_CUDA);
+        }
+        if (coproc_ati) {
+            p->ati_pwf.rr_init(p, RSC_TYPE_ATI);
+        }
+    }
+}
+
+void WORK_FETCH::set_all_requests(PROJECT* p) {
+    cpu_work_fetch.set_request(p);
+    if (coproc_cuda && gpus_usable) {
+        cuda_work_fetch.set_request(p);
+    }
+    if (coproc_ati && gpus_usable) {
+        ati_work_fetch.set_request(p);
+    }
+}
+
+void WORK_FETCH::set_overall_debts() {
+    for (unsigned i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->pwf.overall_debt = p->cpu_pwf.long_term_debt;
+        if (coproc_cuda) {
+            p->pwf.overall_debt += cuda_work_fetch.speed*p->cuda_pwf.long_term_debt;
+        }
+        if (coproc_ati) {
+            p->pwf.overall_debt += ati_work_fetch.speed*p->ati_pwf.long_term_debt;
+        }
+    }
+}
+
+void WORK_FETCH::zero_debts() {
+    for (unsigned i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->cpu_pwf.zero_debt();
+        p->cuda_pwf.zero_debt();
+        p->ati_pwf.zero_debt();
+    }
+}
+
+void WORK_FETCH::print_state() {
+    msg_printf(0, MSG_INFO, "[wfd] ------- start work fetch state -------");
+    msg_printf(0, MSG_INFO, "[wfd] target work buffer: %.2f + %.2f sec",
+        gstate.work_buf_min(), gstate.work_buf_additional()
+    );
+    cpu_work_fetch.print_state("CPU");
+    if (coproc_cuda) {
+        cuda_work_fetch.print_state("NVIDIA GPU");
+    }
+    if (coproc_ati) {
+        ati_work_fetch.print_state("ATI GPU");
+    }
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (p->non_cpu_intensive) continue;
+        msg_printf(p, MSG_INFO, "[wfd] overall LTD %.2f", p->pwf.overall_debt);
+    }
+    msg_printf(0, MSG_INFO, "[wfd] ------- end work fetch state -------");
+}
+
+void WORK_FETCH::clear_request() {
+    cpu_work_fetch.clear_request();
+    cuda_work_fetch.clear_request();
+    ati_work_fetch.clear_request();
+}
+
+// we're going to contact this project for reasons other than work fetch;
+// decide if we should piggy-back a work fetch request.
+//
+void WORK_FETCH::compute_work_request(PROJECT* p) {
+    clear_request();
+    if (p->dont_request_more_work) return;
+    if (p->non_cpu_intensive) {
+        if (!has_a_job(p)) {
+            cpu_work_fetch.req_secs = 1;
+        }
+        return;
+    }
+
+    // See if this is the project we'd ask for work anyway.
+    // Temporarily clear resource backoffs,
+    // since we're going to contact this project in any case.
+    //
+    double cpu_save = p->cpu_pwf.backoff_time;
+    double cuda_save = p->cuda_pwf.backoff_time;
+    double ati_save = p->ati_pwf.backoff_time;
+    p->cpu_pwf.backoff_time = 0;
+    p->cuda_pwf.backoff_time = 0;
+    p->ati_pwf.backoff_time = 0;
+    PROJECT* pbest = choose_project();
+    p->cpu_pwf.backoff_time = cpu_save;
+    p->cuda_pwf.backoff_time = cuda_save;
+    p->ati_pwf.backoff_time = ati_save;
+    if (p == pbest) {
+        // Ask for work for all devices w/ a shortfall.
+        // Otherwise we can have a situation where a GPU is idle,
+        // we ask only for GPU work, and the project never has any
+        //
+        work_fetch.set_all_requests(pbest);
+        return;
+    }
+
+    // if not, don't request any work
+    //
+    clear_request();
+}
+
+// see if there's a fetchable non-CPU-intensive project without work
+//
+PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (!p->non_cpu_intensive) continue;
+        if (!p->can_request_work()) continue;
+        if (p->cpu_pwf.backoff_time > gstate.now) continue;
+        if (has_a_job(p)) continue;
+        clear_request();
+        cpu_work_fetch.req_secs = 1;
+        return p;
+    }
+    return 0;
+}
+
+// choose a project to fetch work from,
+// and set the request fields of resource objects
+//
+PROJECT* WORK_FETCH::choose_project() {
+    PROJECT* p = 0;
+
+    p = non_cpu_intensive_project_needing_work();
+    if (p) return p;
+
+    gstate.compute_nuploading_results();
+
+    gstate.rr_simulation();
+    set_overall_debts();
+
+    bool cuda_usable = coproc_cuda && gpus_usable;
+    bool ati_usable = coproc_ati && gpus_usable;
+
+    if (cuda_usable) {
+        p = cuda_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
+    }
+    if (ati_usable) {
+        p = ati_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
+    }
+    if (!p) {
+        p = cpu_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
+    }
+    if (!p && cuda_usable) {
+        p = cuda_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
+    }
+    if (!p && ati_usable) {
+        p = ati_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
+    }
+    if (!p) {
+        p = cpu_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
+    }
+    if (!p && cuda_usable) {
+        p = cuda_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
+    }
+    if (!p && ati_usable) {
+        p = ati_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
+    }
+    if (!p) {
+        p = cpu_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
+    }
+#if 0
+    // don't try to maintain GPU work for all projects,
+    // since we don't use round-robin scheduling for GPUs
+    //
+    if (!p && cuda_usable) {
+        p = cuda_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
+    }
+    if (!p && ati_usable) {
+        p = ati_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
+    }
+#endif
+    if (!p) {
+        p = cpu_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
+    }
+
+    if (log_flags.work_fetch_debug) {
+        print_state();
+        if (!p) {
+            msg_printf(0, MSG_INFO, "[wfd] No project chosen for work fetch");
+        }
+    }
+
+    return p;
+}
+
+void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
+    APP_VERSION* avp = atp->result->avp;
+    PROJECT* p = atp->result->project;
+    double x = dt*avp->avg_ncpus;
+    p->cpu_pwf.secs_this_debt_interval += x;
+    cpu_work_fetch.secs_this_debt_interval += x;
+    if (coproc_cuda) {
+        x = dt*avp->ncudas;
+        p->cuda_pwf.secs_this_debt_interval += x;
+        cuda_work_fetch.secs_this_debt_interval += x;
+    }
+    if (coproc_ati) {
+        x = dt*avp->natis;
+        p->ati_pwf.secs_this_debt_interval += x;
+        ati_work_fetch.secs_this_debt_interval += x;
+    }
+}
+
 // find total and per-project resource shares for each resource
 //
 void WORK_FETCH::compute_shares() {
@@ -842,23 +883,6 @@ void WORK_FETCH::compute_shares() {
     }
 }
 
-inline bool has_coproc_app(PROJECT* p, int rsc_type) {
-    unsigned int i;
-    for (i=0; i<gstate.app_versions.size(); i++) {
-        APP_VERSION* avp = gstate.app_versions[i];
-        if (avp->project != p) continue;
-        switch(rsc_type) {
-        case RSC_TYPE_CUDA:
-            if (avp->ncudas) return true;
-            break;
-        case RSC_TYPE_ATI:
-            if (avp->natis) return true;
-            break;
-        }
-    }
-    return false;
-}
-
 void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
     double work_req = cpu_work_fetch.req_secs;
 
@@ -882,7 +906,7 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
     fprintf(f,
         "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <cpu_req_secs>%f</cpu_req_secs>\n"
-        "    <cpu_req_instances>%d</cpu_req_instances>\n"
+        "    <cpu_req_instances>%f</cpu_req_instances>\n"
         "    <estimated_delay>%f</estimated_delay>\n",
         work_req,
         cpu_work_fetch.req_secs,
@@ -892,18 +916,18 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
     if (log_flags.work_fetch_debug) {
         char buf[256], buf2[256];
         sprintf(buf,
-            "[wfd] request: %.2f sec CPU (%.2f sec, %d)",
+            "[wfd] request: %.2f sec CPU (%.2f sec, %.2f)",
             work_req,
             cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
         );
         if (coproc_cuda) {
-            sprintf(buf2, " NVIDIA GPU (%.2f sec, %d)",
+            sprintf(buf2, " NVIDIA GPU (%.2f sec, %.2f)",
                 cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
             );
             strcat(buf, buf2);
         }
         if (coproc_ati) {
-            sprintf(buf2, " ATI GPU (%.2f sec, %d)",
+            sprintf(buf2, " ATI GPU (%.2f sec, %.2f)",
                 ati_work_fetch.req_secs, ati_work_fetch.req_instances
             );
             strcat(buf, buf2);
@@ -1008,22 +1032,6 @@ void WORK_FETCH::init() {
 
     if (config.zero_debts) {
         zero_debts();
-    }
-}
-
-void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, const char* name) {
-    if (backoff_interval) {
-        backoff_interval *= 2;
-        if (backoff_interval > MAX_BACKOFF_INTERVAL) backoff_interval = MAX_BACKOFF_INTERVAL;
-    } else {
-        backoff_interval = MIN_BACKOFF_INTERVAL;
-    }
-    double x = drand()*backoff_interval;
-    backoff_time = gstate.now + x;
-    if (log_flags.work_fetch_debug) {
-        msg_printf(p, MSG_INFO,
-            "[wfd] backing off %s %.0f sec", name, x
-        );
     }
 }
 

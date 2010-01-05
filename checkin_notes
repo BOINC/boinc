@@ -74,3 +74,16 @@ Bernd  5 Jan 2010
     sched/
         sched_send.cpp
         sched_locality.cpp
+
+David  4 Jan 2010
+    - code shuffle
+
+    client/
+        work_fetch.cpp
+
+David  4 Jan 2010
+    - client: fix format strings for ninstances (can be fraction now)
+
+    client/
+        scheduler_op.cpp
+        work_fetch.cpp
