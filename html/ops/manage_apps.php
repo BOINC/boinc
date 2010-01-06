@@ -107,7 +107,7 @@ if( !empty($_POST) ) {
 
         /* Homogendous redundancy restriction (same platform for all WU's) */
         $field="homogeneous_redundancy_".$id;
-        $new_v= ($_POST[$field]=='on') ? 1 : 0;
+        $new_v= $_POST[$field];
         $old_v=$item->homogeneous_redundancy;
         if( $new_v != $old_v ) {
             $cmd =  "UPDATE app SET homogeneous_redundancy=$new_v WHERE id=$id";
@@ -160,7 +160,7 @@ echo "<TR><TH>ID #</TH>
       <TH>Creation<br>Time</TH>
       <TH>minimum<br>version</TH>
       <TH>weight</TH>
-      <TH>Homogeneous<br>Redundancy</TH>
+      <TH>homogeneous<br>redundancy<br>class (0=none)</TH>
       <TH>deprecated?</TH>
       <TH>DELETE?<sup>*</sup>
     </TH>
@@ -203,10 +203,10 @@ for($j=1;$j<=$Nrow;$j++){
 
 
     $field="homogeneous_redundancy_".$id;
-    $v='';
-    if( $item->homogeneous_redundancy ) $v=' CHECKED ';
+    $v = $item->homogeneous_redundancy;
     echo "  <TD align='center'>
-    <input name='$field' type='checkbox' $v></TD>\n";
+        <input name='$field' value='$v'></TD>
+    ";
 
     $field="deprecated_".$id;
     $v='';
