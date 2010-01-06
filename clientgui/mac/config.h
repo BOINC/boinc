@@ -327,14 +327,9 @@
 /* Host for this compilation */
 #ifdef __ppc__
 #define HOSTTYPE "powerpc-apple-darwin"
-#endif
-
-#ifdef __i386__
-#define HOSTTYPE "i686-apple-darwin"
-#endif
-
-#ifdef __x86_64__
-#define HOSTTYPE "x86_64-apple-darwin"
+#else
+/* "i686-apple-darwin" or "x86_64-apple-darwin" determined at run time */
+extern char *HOSTTYPE;
 #endif
 
 /* "Define to 1 if largefile support causes missing symbols in C++" */

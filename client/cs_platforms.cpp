@@ -51,6 +51,13 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 #include "str_replace.h"
 #include "util.h"
 
+#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
+#include <sys/sysctl.h>
+#include <Carbon/Carbon.h>
+
+char *HOSTTYPE = "";
+#endif
+
 // return the primary platform id.
 //
 const char* CLIENT_STATE::get_primary_platform() {
@@ -94,12 +101,23 @@ void CLIENT_STATE::detect_platforms() {
 
 #elif defined(__APPLE__)
 
-#if defined(__x86_64__)
-    add_platform("x86_64-apple-darwin");
-#endif
-
 #if defined(__i386__) || defined(__x86_64__)
-    // Supported on both Mac Intel architectures
+    OSStatus err = noErr;
+    SInt32 version = 0;
+    int response = 0;
+    int retval = 0;
+    size_t len = sizeof(response);
+
+    err = Gestalt(gestaltSystemVersion, &version);
+    retval = sysctlbyname("hw.optional.x86_64", &response, &len, NULL, 0);
+    if ((err == noErr) && (version >= 0x1050) && response && (!retval)) {
+        HOSTTYPE = "x86_64-apple-darwin";
+        add_platform("x86_64-apple-darwin");
+    } else {
+        HOSTTYPE = "i686-apple-darwin";
+    }
+
+    // Supported on both Mac Intel architectures    
     add_platform("i686-apple-darwin");
 #endif
     // Supported on all 3 Mac architectures
