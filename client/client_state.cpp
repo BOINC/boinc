@@ -463,6 +463,7 @@ int CLIENT_STATE::init() {
     auto_update.init();
 
     http_ops->cleanup_temp_files();
+    notices.init_rss();
 
     initialized = true;
     return 0;

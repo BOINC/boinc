@@ -149,7 +149,7 @@ void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJECT* p) {
     //
     if (feed_set_changed) {
         write_project_feed_list(p);
-        rss_feeds.update();
+        rss_feeds.update_feed_list();
     }
 }
 
@@ -177,7 +177,6 @@ static int parse_rss_time(char* buf) {
     int n = sscanf(buf, "%s %d %s %d %d:%d:%d",
         day_name, &day_num, month_name, &year, &h, &m, &s
     );
-    printf("n: %d\n", n);
 
     struct tm tm;
     tm.tm_sec = s;
@@ -227,8 +226,17 @@ int NOTICE::parse_rss(XML_PARSER& xp) {
 ///////////// NOTICES ////////////////
 
 void NOTICES::init() {
-    // todo: read archive of client and server notices
+    read_archive_file(NOTICES_DIR"/archive.xml", NULL);
+    if (log_flags.notice_debug) {
+        msg_printf(0, MSG_INFO, "read %d BOINC notices", notices.size());
+    }
+}
+
+void NOTICES::init_rss() {
     rss_feeds.init();
+    if (log_flags.notice_debug) {
+        msg_printf(0, MSG_INFO, "read %d total notices", notices.size());
+    }
 
     // sort by decreasing arrival time, then assign seqnos
     //
@@ -265,6 +273,55 @@ bool NOTICES::append_unique(NOTICE& n) {
     }
     append(n);
     return true;
+}
+
+// read and parse the contents of an archive file;
+// insert items in NOTICES
+//
+int NOTICES::read_archive_file(char* path, char* feed_url) {
+    char tag[256];
+    bool is_tag;
+
+    FILE* f = fopen(path, "r");
+    if (!f) {
+        if (log_flags.notice_debug) {
+            msg_printf(0, MSG_INFO,
+                "[notice_debug] no archive file %s", path
+            );
+        }
+        return 0;
+    }
+    MIOFILE fin;
+    fin.init_file(f);
+    XML_PARSER xp(&fin);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "/notices")) {
+            fclose(f);
+            return 0;
+        }
+        if (!strcmp(tag, "notice")) {
+            NOTICE n;
+            int retval = n.parse(xp);
+            if (retval) {
+                if (log_flags.notice_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[notice_debug] archive item parse error: %d", retval
+                    );
+                }
+            } else {
+                if (feed_url) {
+                    strcpy(n.feed_url, feed_url);
+                }
+                notices.push_front(n);
+            }
+        }
+    }
+    if (log_flags.notice_debug) {
+        msg_printf(0, MSG_INFO, "[notice_debug] archive parse error");
+    }
+    fclose(f);
+    return ERR_XML_PARSE;
 }
 
 // get rid of old notices
@@ -341,48 +398,8 @@ void RSS_FEED::archive_file_name(char* path) {
 //
 int RSS_FEED::read_archive_file() {
     char path[256];
-    char tag[256];
-    bool is_tag;
-
     archive_file_name(path);
-    FILE* f = fopen(path, "r");
-    if (!f) {
-        if (log_flags.notice_debug) {
-            msg_printf(0, MSG_INFO,
-                "[notice_debug] no archive file for %s", url
-            );
-        }
-        return 0;
-    }
-    MIOFILE fin;
-    fin.init_file(f);
-    XML_PARSER xp(&fin);
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) continue;
-        if (!strcmp(tag, "/notices")) {
-            fclose(f);
-            return 0;
-        }
-        if (!strcmp(tag, "notice")) {
-            NOTICE n;
-            int retval = n.parse(xp);
-            if (retval) {
-                if (log_flags.notice_debug) {
-                    msg_printf(0, MSG_INFO,
-                        "[notice_debug] archive item parse error: %d", retval
-                    );
-                }
-            } else {
-                strcpy(n.feed_url, url);
-                notices.append(n);
-            }
-        }
-    }
-    if (log_flags.notice_debug) {
-        msg_printf(0, MSG_INFO, "[notice_debug] archive parse error");
-    }
-    fclose(f);
-    return ERR_XML_PARSE;
+    return notices.read_archive_file(path, url);
 }
 
 // parse a feed descriptor (in scheduler reply or feed list file)
@@ -573,7 +590,7 @@ void RSS_FEEDS::init() {
     // normally the main list is union of the project lists.
     // if it's not, the following will fix
     //
-    update();
+    update_feed_list();
 
     for (i=0; i<feeds.size(); i++) {
         RSS_FEED& rf = feeds[i];
@@ -600,7 +617,7 @@ RSS_FEED* RSS_FEEDS::lookup_url(char* url) {
 // the set of project feeds has changed.
 // update the master list.
 //
-void RSS_FEEDS::update() {
+void RSS_FEEDS::update_feed_list() {
     unsigned int i, j;
     for (i=0; i<feeds.size(); i++) {
         RSS_FEED& rf = feeds[i];

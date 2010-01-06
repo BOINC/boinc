@@ -71,6 +71,8 @@ struct NOTICES {
     void append(NOTICE&);
     bool append_unique(NOTICE&);
     void init();
+    void init_rss();
+    int read_archive_file(char* file, char* feed_url);
     void write_archive(char* url);
     void prune();
 };
@@ -114,7 +116,7 @@ extern RSS_FEED_OP rss_feed_op;
 struct RSS_FEEDS {
     std::vector<RSS_FEED> feeds;
     void init();
-    void update();
+    void update_feed_list();
     RSS_FEED* lookup_url(char*);
     void write_feed_list();
 };

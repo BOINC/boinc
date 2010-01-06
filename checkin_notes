@@ -140,3 +140,10 @@ David  6 Jan 2010
 
     client/
         work_fetch.cpp
+
+David  6 Jan 2010
+	- client: notice fixes
+
+	client/
+		client_state.cpp
+		cs_notice.cpp,h
