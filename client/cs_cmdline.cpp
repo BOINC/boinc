@@ -228,7 +228,13 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             if (i == argc-1) show_options = true;
             else safe_strcpy(update_prefs_url, argv[++i]);
         } else if (ARG(version)) {
+#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
+            CLIENT_STATE cs;
+            cs.detect_platforms();
+            printf(BOINC_VERSION_STRING " %s\n", HOSTTYPE);
+#else
             printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
+#endif
             exit(0);
         } else {
             printf("Unknown option: %s\n", argv[i]);
