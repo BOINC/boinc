@@ -134,3 +134,9 @@ Charlie  6 Jan 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  6 Jan 2010
+    - client: bug in ACTIVE_TASK::est_dur()
+
+    client/
+        work_fetch.cpp
