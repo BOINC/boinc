@@ -990,6 +990,7 @@ void CMainDocument::HandleCompletedRPC() {
                 exchangeBuf->version_info = arg1->version_info;
                 exchangeBuf->executing_as_daemon = arg1->executing_as_daemon;
                 exchangeBuf->have_cuda = arg1->have_cuda;
+                exchangeBuf->have_ati = arg1->have_ati;
             }
             break;
         case RPC_GET_RESULTS:

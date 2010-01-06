@@ -110,3 +110,22 @@ David  5 Jan 2010
         client_types.h
         rr_sim.cpp
         work_fetch.cpp
+
+Charlie  6 Jan 2010
+    - client: Eliminate x86_64 Mac client; i386 client determines if 
+        system supports x86_64 applications and sets HOSTTYPE and 
+        platform accordingly.  This allows us to link with the 32-bit 
+        CUDA libraries.  The one other effect is that the benchmarks 
+        are run in 32-bit mode even on a 64-bit capable Mac.
+    - client: Async get_state RPC was not updating state.have_ati field.
+        
+    client/
+        cs_cmdline.cpp
+        cs_platforms.cpp
+    clientgui/
+        AsyncRPC.cpp
+        mac/
+            config.h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
