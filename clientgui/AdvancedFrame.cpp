@@ -1692,10 +1692,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     }
 
 
-    // Update the menus
-    DeleteMenu();
-    CreateMenu();
-
     // Stop all timers so that the wizard is the only thing doing anything
     StopTimers();
 
@@ -1788,6 +1784,12 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         }
     }
 
+    // Update the menus
+    DeleteMenu();
+    CreateMenu();
+#ifdef __WXMAC__
+    wxGetApp().GetMacSystemMenu()->BuildMenu();
+#endif
 
     // Restart timers to continue normal operations.
     StartTimers();
