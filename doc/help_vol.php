@@ -97,8 +97,12 @@ function email_contact($vol) {
         input("email_addr", "")
     );
     list_item("Subject<br><span class=note>Include 'BOINC' in the subject so $vol->name will know it's not spam</span>", input("subject", ""));
-    list_item("Message<br><span class=note>Please including
-        a detailed description of the problem you're experiencing.</span>",
+    list_item("Message<br><span class=note>
+            
+        Please include a detailed description of the problem
+        you're experiencing.
+        If possible, include the contents of BOINC's message log.
+        </span>",
         textarea("message", "")
     );
     list_item("", "<input type=submit name=send_email value=OK>");
@@ -198,7 +202,7 @@ if ($send_email) {
         <script type=\"text/javascript\" src=\"http://download.skype.com/share/skypebuttons/js/skypeCheck.js\"></script>
         <img src=images/help/$image><p>
     ";
-    echo "<table class=box cellpadding=8 width=100%><tr><td>";
+    echo "<table class=box cellpadding=8 width=100%><tr><td width=40%>";
     if (online($status)) {
         live_contact($vol);
     }

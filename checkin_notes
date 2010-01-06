@@ -87,3 +87,26 @@ David  4 Jan 2010
     client/
         scheduler_op.cpp
         work_fetch.cpp
+
+David  5 Jan 2010
+    - client: scheduling problem:
+        - a project overestimates job FLOP counts
+        - the client starts jobs in EDF mode
+        - as job progresses and fraction done increases,
+            its completion time estimate decreases until
+            it's no longer a deadline miss.
+        - job gets preempted by other job from that project;
+            you end up with lots of partly completed jobs.
+        Solution (I hope): if an app version has running jobs,
+            compute a "temp DCF" for the app version,
+            which is the min of dynamic/static estimates for its jobs.
+            Apply this scaling factor to completion time estimates
+            for unstarted jobs in RR simulation
+    - client: the estimation of remaining time of running jobs was wrong
+        (how did this bug survive so long?)
+
+    client/
+        app.h
+        client_types.h
+        rr_sim.cpp
+        work_fetch.cpp

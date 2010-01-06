@@ -1177,31 +1177,22 @@ double RESULT::estimated_time_remaining(bool for_work_fetch) {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
     if (atp) {
-        return atp->est_time_to_completion(for_work_fetch);
+        return atp->est_dur(for_work_fetch) - atp->elapsed_time;
     }
     return estimated_duration(for_work_fetch);
 }
 
-// Returns the estimated elapsed time to completion (in seconds) of this task.
+// Returns the estimated total elapsed time of this task.
 // Compute this as a weighted average of estimates based on
 // 1) the workunit's flops count (static estimate)
 // 2) the current elapsed time and fraction done (dynamic estimate)
 //
-double ACTIVE_TASK::est_time_to_completion(bool for_work_fetch) {
+double ACTIVE_TASK::est_dur(bool for_work_fetch) {
     if (fraction_done >= 1) return 0;
     double wu_est = result->estimated_duration(for_work_fetch);
     if (fraction_done <= 0) return wu_est;
+    if (wu_est < elapsed_time) wu_est = elapsed_time;
     double frac_est = (elapsed_time / fraction_done) - elapsed_time;
-#if 0
-    // commenting this out for now - could cause big discontinuity
-    //
-    if (elapsed_time >= wu_est) {
-        // if the job has already run longer than static estimate,
-        // just use the dynamic estimate.
-        //
-        return frac_est;
-    }
-#endif
     double fraction_left = 1-fraction_done;
     double wu_weight = fraction_left * fraction_left;
     double fd_weight = 1 - wu_weight;

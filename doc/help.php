@@ -38,7 +38,7 @@ $n = 0;
 foreach ($langs as $lang) {
     $lang_enc = urlencode($lang);
     if ($n) {
-        echo "<br>";
+        echo " &middot; ";
     }
     $n++;
     echo "<a href=\"help_lang.php?lang=$lang_enc\"><b>$lang</b></a>";
