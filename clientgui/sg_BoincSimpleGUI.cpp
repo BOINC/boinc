@@ -386,6 +386,10 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->ForceCacheUpdate();
     pDoc->GetCoreClientStatus(status, true);
 
+#ifdef __WXMAC__
+    wxGetApp().GetMacSystemMenu()->BuildMenu();
+#endif
+
 	// If we are connected to the localhost, run a really quick screensaver
     //   test to trigger a firewall popup.
     pDoc->GetConnectedComputerName(strComputer);
