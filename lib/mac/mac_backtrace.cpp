@@ -178,17 +178,17 @@ void PrintBacktrace(void) {
         if (f) {
             setbuf(f, 0);
             for (i=0; i<frames; i++) {
-               fprintf(f, "%#lx\n", (long)callstack[i]);
+                fprintf(f, "%#lx\n", (long)callstack[i]);
                 PersistentFGets(pipeBuf, sizeof(pipeBuf), f);
 #ifdef __LP64__
                 fprintf(stderr, "%3d  0x%016llx  %s", i, (unsigned long long)callstack[i], pipeBuf);
 #else
                 fprintf(stderr, "%3d  0x%08lx  %s", i, (unsigned long)callstack[i], pipeBuf);
 #endif
-           }
+            }
+            pclose(f);
         }
         fprintf(stderr, "\n");
-        pclose(f);
         
         if (env) {
             setenv("NSUnbufferedIO", saved_env, 1);
@@ -251,7 +251,7 @@ static void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char
         return;
     PersistentFGets(nameBuf, nameBufLen, f);    // Discard header line
     PersistentFGets(nameBuf, nameBufLen, f);    // Get just the name of our application
-    fclose(f);
+    pclose(f);
 
     // Remove trailing newline if present
     p = strchr(nameBuf, '\n');

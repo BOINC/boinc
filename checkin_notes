@@ -21,3 +21,10 @@ Charlie  6 Jan 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie  7 Jan 2010
+    - Mac: Fix bug in backtrace code which showed up only under OS 10.6.
+
+    lib/
+        mac/
+            mac_backtrace.C
