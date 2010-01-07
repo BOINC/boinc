@@ -187,3 +187,11 @@ Charlie  7 Jan 2010
         GR-ReadMe.rtf
         PTP-ReadMe.rtf
         ReadMe.rtf
+
+David  7 Jan 2009
+	- manager: tweak notice appearance
+
+	client/
+		cs_notice.cpp
+	clientgui/
+		ViewNotifications.cpp

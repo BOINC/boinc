@@ -355,6 +355,7 @@ void NOTICES::write_archive(char* url) {
     if (!f) return;
     for (unsigned int i=0; i<notices.size(); i++) {
         NOTICE& n = notices[i];
+        if (strcmp(url, n.feed_url)) continue;
         n.write(fout, false);
     }
     fout.printf("</notices>\n");

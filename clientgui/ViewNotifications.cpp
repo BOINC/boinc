@@ -136,73 +136,45 @@ void CViewNotifications::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     wxString strItems;
     wxString strTemp;
     wxDateTime dtBuffer;
-    NOTICE* pNotice = NULL;
-    int iNoticeCount = 0;
-    unsigned int iNoticeIndex = 0;
+    int n = 0;
+    unsigned int i = 0;
 
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 	wxASSERT(m_pHtmlPane);
 
-    iNoticeCount = pDoc->GetNoticeCount();
+    n = pDoc->GetNoticeCount();
 
-    if (iNoticeCount == -1) {
-        
-        strItems +=   _("Retrieving notices now...");
-
+    if (n == -1) {
+        strItems +=   _("Retrieving notices...");
     } else {
 
         // Pre-allocate buffer size so string concat is much faster
-        strItems.Alloc(4096*iNoticeCount);
+        strItems.Alloc(4096*n);
 
-        for (iNoticeIndex = 0; iNoticeIndex < (unsigned int)iNoticeCount; iNoticeIndex++) {
-            pNotice = pDoc->notice(iNoticeIndex);
-
-            if (pNotice) {
-
-                strItems += wxT("<p></p>");
-                strItems += wxT("<table border=2 width=100%%>");
-                strItems += wxT("  <tr>");
-                strItems += wxT("    <td>");
-
-                strItems +=   _("Diag: ");
-                strTemp.Printf(wxT("index(%d)/seqno(%d)"), iNoticeIndex, pNotice->seqno);
-                strItems += strTemp;
-
-                strItems += wxT("      <br>");
-                strItems +=   _("Title: ");
-
-                strItems += wxString(pNotice->title, wxConvUTF8);
-
-                strItems += wxT("      <br>");
-                strItems +=   _("Date: ");
-
-                dtBuffer.Set((time_t)pNotice->arrival_time);
-                strItems += dtBuffer.Format();
-
-                strItems += wxT("    </td>");
-                strItems += wxT("  </tr>");
-                strItems += wxT("  <tr>");
-                strItems += wxT("    <td>");
-                strItems += wxString(pNotice->description.c_str(), wxConvUTF8);
-                strItems += wxT("    </td>");
-                strItems += wxT("  </tr>");
-                strItems += wxT("</table>");
-                strItems += wxT("<p></p>");
+        for (i = 0; i < (unsigned int)n; i++) {
+            NOTICE* np = pDoc->notice(i);
+            if (!np) continue;
+            char tbuf[512];
+            if (strlen(np->title)) {
+                sprintf(tbuf, "<b>%s</b><br>", np->title);
+                strItems += wxString(tbuf, wxConvUTF8);
 
             }
+            strItems += wxString(np->description.c_str(), wxConvUTF8);
+            strItems += wxT("<br><font size=-2 color=#8f8f8f>");
+            dtBuffer.Set((time_t)np->arrival_time);
+            strItems += dtBuffer.Format();
+            strItems += wxT("</font><hr>\n");
         }
     }
 
-    strHTML  = wxT("<html>");
-    strHTML += wxT("<head>");
-    strHTML += wxT("</head>");
-    strHTML += wxT("<body>");
+    strHTML  = wxT("<html>\n<body>\n");
     strHTML += strItems;
-    strHTML += wxT("</body>");
-    strHTML += wxT("</html>");
-
+    //strHTML += wxT("<h2>foobar</h2>blah <i>blah</i>\n");
+    strHTML += wxT("</body>\n</html>\n");
+    m_pHtmlPane->SetFonts(wxT("Sans Serif"), wxT("Courier"), 0);
     m_pHtmlPane->SetPage( strHTML );
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnListRender - Function End"));
