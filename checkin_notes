@@ -153,3 +153,9 @@ David  6 Jan 2010
 
     html/ops/
         manage_apps.php
+
+Charlie  6 Jan 2010
+    - client: Fix compiler warning.
+
+    client/
+        cs_notice.cpp

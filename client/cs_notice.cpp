@@ -228,14 +228,14 @@ int NOTICE::parse_rss(XML_PARSER& xp) {
 void NOTICES::init() {
     read_archive_file(NOTICES_DIR"/archive.xml", NULL);
     if (log_flags.notice_debug) {
-        msg_printf(0, MSG_INFO, "read %d BOINC notices", notices.size());
+        msg_printf(0, MSG_INFO, "read %d BOINC notices", (int)notices.size());
     }
 }
 
 void NOTICES::init_rss() {
     rss_feeds.init();
     if (log_flags.notice_debug) {
-        msg_printf(0, MSG_INFO, "read %d total notices", notices.size());
+        msg_printf(0, MSG_INFO, "read %d total notices", (int)notices.size());
     }
 
     // sort by decreasing arrival time, then assign seqnos
