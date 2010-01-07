@@ -294,11 +294,11 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
             if (rpwf.nused_total >= ninstances*rpwf.fetchable_share) continue;
             break;
         }
+
         if (pbest) {
             if (pbest->pwf.overall_debt > p->pwf.overall_debt) {
                 continue;
             }
-
         }
         pbest = p;
     }
@@ -327,13 +327,19 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
         work_fetch.set_all_requests(pbest);
         break;
     }
+    // in principle there should be a nonzero request.
+    // check, just in case
+    //
+    if (!req_secs && !req_instances) {
+        return 0;
+    }
+
     return pbest;
 }
 
 // request this project's share of shortfall and instances
 //
 void RSC_WORK_FETCH::set_request(PROJECT* p) {
-    if (!shortfall) return;
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     if (!w.may_have_work) return;
     if (w.overworked()) return;
@@ -356,6 +362,9 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
     double x2 = nidle_now * w.fetchable_share;
 
     req_instances = std::max(x1, x2);
+    if (req_instances && !req_secs) {
+        req_secs = 1;
+    }
 }
 
 void RSC_WORK_FETCH::print_state(const char* name) {
@@ -1197,10 +1206,10 @@ double ACTIVE_TASK::est_dur(bool for_work_fetch) {
     double wu_weight = fraction_left * fraction_left;
     double fd_weight = 1 - wu_weight;
     double x = fd_weight*frac_est + wu_weight*wu_est;
-#if 0
+#if 1
     if (log_flags.rr_simulation) {
         msg_printf(result->project, MSG_INFO,
-            "[rr_sim] %s: %.2f = %.3f*%.2f + %.3f*%.2f",
+            "[rr_sim] %s dur: %.2f = %.3f*%.2f + %.3f*%.2f",
             result->name, x, fd_weight, frac_est, wu_weight, wu_est
         );
     }

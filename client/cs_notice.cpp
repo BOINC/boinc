@@ -174,7 +174,7 @@ static int month_index(char* x) {
 static int parse_rss_time(char* buf) {
     char day_name[64], month_name[64];
     int day_num, year, h, m, s;
-    int n = sscanf(buf, "%s %d %s %d %d:%d:%d",
+    sscanf(buf, "%s %d %s %d %d:%d:%d",
         day_name, &day_num, month_name, &year, &h, &m, &s
     );
 
@@ -355,7 +355,11 @@ void NOTICES::write_archive(char* url) {
     if (!f) return;
     for (unsigned int i=0; i<notices.size(); i++) {
         NOTICE& n = notices[i];
-        if (strcmp(url, n.feed_url)) continue;
+        if (url) {
+            if (strcmp(url, n.feed_url)) continue;
+        } else {
+            if (strlen(n.feed_url)) continue;
+        }
         n.write(fout, false);
     }
     fout.printf("</notices>\n");

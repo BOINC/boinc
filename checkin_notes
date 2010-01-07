@@ -195,3 +195,10 @@ David  7 Jan 2009
 		cs_notice.cpp
 	clientgui/
 		ViewNotifications.cpp
+
+David  7 Jan 2009
+	- client: work fetch fix: avoid sending null request in certain cases.
+	- client: fix crash in notices code
+	client/
+		cs_notice.cpp
+		work_fetch.cpp
