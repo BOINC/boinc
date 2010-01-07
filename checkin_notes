@@ -24,10 +24,13 @@ Charlie  6 Jan 2010
 
 Charlie  7 Jan 2010
     - Mac: Fix bug in backtrace code which showed up only under OS 10.6.
+    - Mac installer: Add CUDA information to Mac ReadMe file.
 
     lib/
         mac/
             mac_backtrace.C
+    mac_installer/
+        ReadMe.rtf
 
 Charlie  7 Jan 2010
     - Tag for 6.10.26 release (changes from 6.10.25 are Mac only.)
