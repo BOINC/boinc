@@ -175,3 +175,15 @@ Charlie  7 Jan 2010
     lib/
         mac/
             mac_backtrace.C
+
+Charlie  7 Jan 2010
+    - Mac: Fix bug in backtrace code which showed up only under OS 10.6.
+    - Mac installer: Add CUDA information to Mac ReadMe files.
+
+    lib/
+        mac/
+            mac_backtrace.C
+    mac_installer/
+        GR-ReadMe.rtf
+        PTP-ReadMe.rtf
+        ReadMe.rtf
