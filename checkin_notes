@@ -168,3 +168,10 @@ David  6 Jan 2010
 
     client/
         boinc_cmd.cpp
+
+Charlie  7 Jan 2010
+    - Mac: Fix bug in backtrace code which showed up only under OS 10.6.
+
+    lib/
+        mac/
+            mac_backtrace.C
