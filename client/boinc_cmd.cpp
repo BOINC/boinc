@@ -70,6 +70,7 @@ Commands:\n\
  --get_proxy_settings\n\
  --get_messages [ seqno ]           show messages > seqno\n\
  --get_message_count                show largest message seqno\n\
+ --get_notices [ seqno ]            show notices > seqno\n\
  --get_host_info\n\
  --version, -V                      show core client version\n\
  --result url result_name op        job operation\n\
@@ -138,6 +139,7 @@ int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     int i, retval, port=0;
     MESSAGES messages;
+    NOTICES notices;
 	char passwd_buf[256], hostname_buf[256], *hostname=0;
     char* passwd = passwd_buf, *p;
 
@@ -388,6 +390,26 @@ int main(int argc, char** argv) {
                     prio_name(md.priority),
                     md.project.c_str(),
                     md.body.c_str()
+                );
+            }
+        }
+    } else if (!strcmp(cmd, "--get_notices")) {
+        int seqno;
+        if (i == argc) {
+            seqno = 0;
+        } else {
+            seqno = atoi(next_arg(argc, argv, i));
+        }
+        retval = rpc.get_notices(seqno, notices);
+        if (!retval) {
+            unsigned int j;
+            for (j=0; j<notices.notices.size(); j++) {
+                NOTICE& n = *notices.notices[j];
+                strip_whitespace(n.description);
+                printf("%d: (%s) %s\n",
+                    n.seqno,
+                    time_to_string(n.create_time),
+                    n.description.c_str()
                 );
             }
         }
