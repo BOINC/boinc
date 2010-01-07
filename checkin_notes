@@ -156,6 +156,9 @@ David  6 Jan 2010
 
 Charlie  6 Jan 2010
     - client: Fix compiler warning.
+    - client: Fix crash bug.
+        NOTE: do not call memset(this, 0, sizeof(*this)) when the data 
+        contains a std::string.
 
     client/
         cs_notice.cpp
