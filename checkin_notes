@@ -28,3 +28,11 @@ Charlie  7 Jan 2010
     lib/
         mac/
             mac_backtrace.C
+
+Charlie  7 Jan 2010
+    - Tag for 6.10.26 release (changes from 6.10.25 are Mac only.)
+      boinc_core_release_6_10_26
+
+    /
+        configure.ac
+        version.h
