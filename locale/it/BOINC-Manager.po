@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-23 03:57-0700\n"
+"PO-Revision-Date: 2010-01-05 16:11-0700\n"
 "Last-Translator: Bassi Paolo <baxpaolo@alice.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it\n"
@@ -147,7 +147,7 @@ msgstr ""
 #: clientgui/AccountInfoPage.cpp:554
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr ""
-"La password e la password di conferma non corrispondono. Prova a riscriverle "
+"La password e la password di conferma non corrispondono. Prova a scriverle "
 "di nuovo."
 
 #: clientgui/AccountManagerInfoPage.cpp:243
@@ -275,7 +275,7 @@ msgstr "&Visualizzazione Semplice...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
-msgstr "Visualizza l'interfaccia grafica semplice di BOINC."
+msgstr "Visualizza l'interfaccia grafica semplice di BOINC"
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
@@ -311,7 +311,7 @@ msgstr "&Smetti di utilizzare %s..."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Remove client from account manager control."
-msgstr "Rimuovi il client dal controllo dell'account manager."
+msgstr "Rimuovi il client dal controllo dell'account manager"
 
 #: clientgui/AdvancedFrame.cpp:435
 msgid "&Run always"
@@ -391,11 +391,11 @@ msgstr "Seleziona un computer..."
 
 #: clientgui/AdvancedFrame.cpp:509
 msgid "Shut down connected client..."
-msgstr "Arresta BOINC sul computer al quale è connesso il Manager..."
+msgstr "Arresta il client attualmente connesso..."
 
 #: clientgui/AdvancedFrame.cpp:510
 msgid "Shut down the currently connected core client"
-msgstr "Arresta BOINC sul computer al quale è attualmente connesso il Manager"
+msgstr "Arresta definitivamente tutte le elaborazioni in corso"
 
 #: clientgui/AdvancedFrame.cpp:514
 msgid "Run CPU &benchmarks"
@@ -411,7 +411,7 @@ msgstr "Ritenta le &comunicazioni di rete"
 
 #: clientgui/AdvancedFrame.cpp:520
 msgid "Do all pending network communication."
-msgstr "Ritenta tutte le comunicazioni di rete rinviate."
+msgstr "Ritenta tutte le comunicazioni di rete rinviate"
 
 #: clientgui/AdvancedFrame.cpp:524
 msgid "Read config file"
@@ -419,7 +419,7 @@ msgstr "Leggi il file di configurazione"
 
 #: clientgui/AdvancedFrame.cpp:525
 msgid "Read configuration info from cc_config.xml."
-msgstr "Leggi le informazioni di configurazione dal file cc_config.xml."
+msgstr "Leggi le informazioni di configurazione dal file cc_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:529
 msgid "Read local prefs file"
@@ -427,7 +427,7 @@ msgstr "Leggi il file delle preferenze locali"
 
 #: clientgui/AdvancedFrame.cpp:530
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "Leggi le preferenze dal file global_prefs_override.xml."
+msgstr "Leggi le preferenze dal file global_prefs_override.xml"
 
 #: clientgui/AdvancedFrame.cpp:540
 #, c-format
@@ -442,7 +442,7 @@ msgstr "Mostra le informazioni su %s"
 #: clientgui/AdvancedFrame.cpp:558
 #, c-format
 msgid "&%s help"
-msgstr "Aiuto su &%s"
+msgstr "Aiuto sul &%s"
 
 #: clientgui/AdvancedFrame.cpp:564
 #, c-format
@@ -457,13 +457,13 @@ msgstr "Sito &web di %s"
 #: clientgui/AdvancedFrame.cpp:582
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Mostra le informazioni su BOINC e su %s"
+msgstr "Mostra le informazioni su BOINC e sul %s"
 
 #: clientgui/AdvancedFrame.cpp:598
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "&About %s..."
-msgstr "&Informazioni su %s..."
+msgstr "&Informazioni sul %s..."
 
 #: clientgui/AdvancedFrame.cpp:604
 msgid "Licensing and copyright information."
@@ -704,8 +704,8 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s al momento non è connesso al client %s.\n"
-"Usa l'opzione del menù 'Avanzate->Seleziona computer...' per connettersi al "
-"client %s.\n"
+"Usa l'opzione del menù 'Avanzate->Seleziona un computer...' per connettersi "
+"al client %s.\n"
 "Per connettersi al computer locale usa 'localhost' come host name."
 
 #: clientgui/BOINCBaseView.cpp:750
@@ -1030,7 +1030,10 @@ msgstr ""
 #: clientgui/DlgAbout.cpp:179
 #: clientgui/DlgAbout.cpp:183
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr "Berkeley Open Infrastructure for Network Computing"
+msgstr ""
+"Traduzione a cura di BOINC.Italy (www.boincitaly.org)\n"
+"\n"
+"Berkeley Open Infrastructure for Network Computing"
 
 #: clientgui/DlgAbout.cpp:195
 #: clientgui/DlgExitMessage.cpp:172
@@ -1301,7 +1304,7 @@ msgstr "Opzioni di connessione"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:335
 msgid "Confirm before connecting to internet"
-msgstr "Chiedi conferma prima di connetterti ad Internet"
+msgstr "Chiede conferma prima di connettersi ad Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:337
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
@@ -1664,11 +1667,11 @@ msgstr "Stato"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Received"
-msgstr "Ricevuta il"
+msgstr "Ricevuta"
 
 #: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
-msgstr "Scadenza il"
+msgstr "Scadenza"
 
 #: clientgui/DlgItemProperties.cpp:190
 msgid "Resources"
@@ -1836,7 +1839,7 @@ msgid ""
 "Network reminder interval:\n"
 "(minutes)"
 msgstr ""
-"Intervallo di sollecito di richiesta di connessione alla rete:\n"
+"Intervallo di sollecito di connessione alla rete:\n"
 "(minuti)"
 
 #: clientgui/DlgOptions.cpp:180
@@ -2241,8 +2244,8 @@ msgstr "Scegli un progetto"
 #: clientgui/ProjectInfoPage.cpp:252
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
-"Per selezionare un progetto, clicca sul suo nome o digita il suo indirizzo "
-"(URL) sotto."
+"Per selezionare un progetto, clicca sul nome o digita il suo indirizzo "
+"sotto."
 
 #: clientgui/ProjectInfoPage.cpp:255
 msgid "Project &URL:"
@@ -2462,7 +2465,7 @@ msgstr ""
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
 msgid "Get help with BOINC"
-msgstr "Ottieni aiuto con BOINC"
+msgstr "Ottieni aiuto su BOINC"
 
 #: clientgui/sg_DlgMessages.cpp:754
 #, c-format
@@ -3222,7 +3225,7 @@ msgstr "Media del computer"
 #: clientgui/ViewStatistics.cpp:1283
 #, c-format
 msgid "Last update: %.0f days ago"
-msgstr "Ultimo aggiornamento: %0f giorni fa"
+msgstr "Ultimo aggiornamento: %.0f giorni fa"
 
 #: clientgui/ViewStatistics.cpp:1745
 msgid "Show user total"
@@ -3642,7 +3645,7 @@ msgstr "Modifica le applicazioni di ricerca su World Community Grid"
 
 #: clientgui/WelcomePage.cpp:295
 msgid "To continue, click Next."
-msgstr "Per continuare, premere Avanti."
+msgstr "Per continuare, clicca su Avanti."
 
 #: clientgui/WizardAttachProject.cpp:612
 msgid "Do you really want to cancel?"
