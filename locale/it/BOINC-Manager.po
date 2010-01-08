@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-12-23 03:57-0700\n"
+"PO-Revision-Date: 2010-01-05 16:11-0700\n"
 "Last-Translator: Bassi Paolo <baxpaolo@alice.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it\n"
@@ -142,7 +142,9 @@ msgstr "La lunghezza minima della password per questo account manager è %d. Sei
 
 #: clientgui/AccountInfoPage.cpp:554
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr "La password e la password di conferma non corrispondono. Prova a riscriverle di nuovo."
+msgstr ""
+"La password e la password di conferma non corrispondono. Prova a scriverle "
+"di nuovo."
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
@@ -269,7 +271,7 @@ msgstr "&Visualizzazione Semplice...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:376
 msgid "Display the simple graphical interface."
-msgstr "Visualizza l'interfaccia grafica semplice di BOINC."
+msgstr "Visualizza l'interfaccia grafica semplice di BOINC"
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to &project or account manager..."
@@ -304,7 +306,7 @@ msgstr "Connettiti ad un progetto per iniziare ad elaborare"
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Remove client from account manager control."
-msgstr "Rimuovi il client dal controllo dell'account manager."
+msgstr "Rimuovi il client dal controllo dell'account manager"
 
 #: clientgui/AdvancedFrame.cpp:434
 msgid "&Run always"
@@ -384,11 +386,11 @@ msgstr "Seleziona un computer..."
 
 #: clientgui/AdvancedFrame.cpp:508
 msgid "Shut down connected client..."
-msgstr "Arresta BOINC sul computer al quale è connesso il Manager..."
+msgstr "Arresta il client attualmente connesso..."
 
 #: clientgui/AdvancedFrame.cpp:509
 msgid "Shut down the currently connected core client"
-msgstr "Arresta BOINC sul computer al quale è attualmente connesso il Manager"
+msgstr "Arresta definitivamente tutte le elaborazioni in corso"
 
 #: clientgui/AdvancedFrame.cpp:513
 msgid "Run CPU &benchmarks"
@@ -404,7 +406,7 @@ msgstr "Ritenta le &comunicazioni di rete"
 
 #: clientgui/AdvancedFrame.cpp:519
 msgid "Do all pending network communication."
-msgstr "Ritenta tutte le comunicazioni di rete rinviate."
+msgstr "Ritenta tutte le comunicazioni di rete rinviate"
 
 #: clientgui/AdvancedFrame.cpp:523
 msgid "Read config file"
@@ -412,7 +414,7 @@ msgstr "Leggi il file di configurazione"
 
 #: clientgui/AdvancedFrame.cpp:524
 msgid "Read configuration info from cc_config.xml."
-msgstr "Leggi le informazioni di configurazione dal file cc_config.xml."
+msgstr "Leggi le informazioni di configurazione dal file cc_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:528
 msgid "Read local prefs file"
@@ -420,7 +422,7 @@ msgstr "Leggi il file delle preferenze locali"
 
 #: clientgui/AdvancedFrame.cpp:529
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "Leggi le preferenze dal file global_prefs_override.xml."
+msgstr "Leggi le preferenze dal file global_prefs_override.xml"
 
 #: clientgui/AdvancedFrame.cpp:539
 #, c-format
@@ -435,12 +437,12 @@ msgstr "Mostra le informazioni su %s"
 #: clientgui/AdvancedFrame.cpp:557
 #, c-format
 msgid "&%s help"
-msgstr "Aiuto su &%s"
+msgstr "Aiuto sul &%s"
 
 #: clientgui/AdvancedFrame.cpp:563
 #, c-format
 msgid "Show information about the %s"
-msgstr "Mostra le informazioni su %s"
+msgstr "Mostra le informazioni sul %s"
 
 #: clientgui/AdvancedFrame.cpp:575
 #, c-format
@@ -450,13 +452,13 @@ msgstr "Sito &web di %s"
 #: clientgui/AdvancedFrame.cpp:581
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Mostra le informazioni su BOINC e su %s"
+msgstr "Mostra le informazioni su BOINC e sul %s"
 
 #: clientgui/AdvancedFrame.cpp:597
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "&About %s..."
-msgstr "&Informazioni su %s..."
+msgstr "&Informazioni sul %s..."
 
 #: clientgui/AdvancedFrame.cpp:603
 msgid "Licensing and copyright information."
@@ -520,7 +522,7 @@ msgstr "%s - Selezione della lingua"
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
 "La lingua di default di %s è stata cambiata, per rendere effettive le "
-"modifiche occorre riavviare %s."
+"modifiche occorre riavviare il %s."
 
 #: clientgui/AdvancedFrame.cpp:1419
 #, c-format
@@ -697,7 +699,8 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s al momento non è connesso al client %s.\n"
-"Usa l'opzione del menù 'Avanzate->Seleziona computer...' per connettersi al client %s.\n"
+"Usa l'opzione del menù 'Avanzate->Seleziona un computer...' per connettersi "
+"al client %s.\n"
 "Per connettersi al computer locale usa 'localhost' come host name."
 
 #: clientgui/BOINCBaseView.cpp:749
@@ -1018,7 +1021,10 @@ msgstr ""
 #: clientgui/DlgAbout.cpp:179
 #: clientgui/DlgAbout.cpp:183
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr "Berkeley Open Infrastructure for Network Computing"
+msgstr ""
+"Traduzione a cura di BOINC.Italy (www.boincitaly.org)\n"
+"\n"
+"Berkeley Open Infrastructure for Network Computing"
 
 #: clientgui/DlgAbout.cpp:195
 #: clientgui/DlgExitMessage.cpp:172
@@ -1278,7 +1284,7 @@ msgstr "Opzioni di connessione"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:335
 msgid "Confirm before connecting to internet"
-msgstr "Chiedi conferma prima di connetterti ad Internet"
+msgstr "Chiede conferma prima di connettersi ad Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:337
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
@@ -1637,11 +1643,11 @@ msgstr "Stato"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Received"
-msgstr "Ricevuta il"
+msgstr "Ricevuta"
 
 #: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
-msgstr "Scadenza il"
+msgstr "Scadenza"
 
 #: clientgui/DlgItemProperties.cpp:190
 msgid "Resources"
@@ -1809,7 +1815,7 @@ msgid ""
 "Network reminder interval:\n"
 "(minutes)"
 msgstr ""
-"Intervallo di sollecito di richiesta di connessione alla rete:\n"
+"Intervallo di sollecito di connessione alla rete:\n"
 "(minuti)"
 
 #: clientgui/DlgOptions.cpp:180
@@ -2186,11 +2192,11 @@ msgstr "Autenticazione fallita."
 
 #: clientgui/NotFoundPage.cpp:186
 msgid "Check the username and password, and try again."
-msgstr "Controlla nome utente e password e riprova."
+msgstr "Controlla nome utente e password poi riprova."
 
 #: clientgui/NotFoundPage.cpp:190
 msgid "Check the email address and password, and try again."
-msgstr "Controlla l'indirizzo e-mail e la password e riprova"
+msgstr "Controlla l'indirizzo e-mail e la password poi riprova"
 
 #: clientgui/ProjectInfoPage.cpp:250
 msgid "Choose a project"
@@ -2198,7 +2204,9 @@ msgstr "Scegli un progetto"
 
 #: clientgui/ProjectInfoPage.cpp:253
 msgid "To choose a project, click its name or type its URL below."
-msgstr "Per selezionare un progetto, clicca sul suo nome o digita il suo indirizzo (URL) sotto."
+msgstr ""
+"Per selezionare un progetto, clicca sul nome o digita il suo indirizzo "
+"sotto."
 
 #: clientgui/ProjectInfoPage.cpp:256
 msgid "Project &URL:"
@@ -2347,23 +2355,23 @@ msgstr "Scaricamento del lavoro dal server in corso."
 
 #: clientgui/sg_ClientStateIndicator.cpp:299
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "Elaborazione sospesa: alimentazione a batterie."
+msgstr "Elaborazione sospesa:  alimentazione a batterie."
 
 #: clientgui/sg_ClientStateIndicator.cpp:301
 msgid "Processing Suspended:  User Active."
-msgstr "Elaborazione sospesa: l'utente è attivo."
+msgstr "Elaborazione sospesa:  l'utente è attivo."
 
 #: clientgui/sg_ClientStateIndicator.cpp:303
 msgid "Processing Suspended:  User paused processing."
-msgstr "Elaborazione sospesa: l'utente ha sospeso l'elaborazione."
+msgstr "Elaborazione sospesa:  l'utente ha sospeso l'elaborazione."
 
 #: clientgui/sg_ClientStateIndicator.cpp:305
 msgid "Processing Suspended:  Time of Day."
-msgstr "Elaborazione sospesa: superati i limiti di orario."
+msgstr "Elaborazione sospesa:  superati i limiti di orario."
 
 #: clientgui/sg_ClientStateIndicator.cpp:307
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Elaborazione sospesa: esecuzione dei benchmark."
+msgstr "Elaborazione sospesa:  esecuzione dei benchmark."
 
 #: clientgui/sg_ClientStateIndicator.cpp:309
 msgid "Processing Suspended."
@@ -2420,7 +2428,7 @@ msgstr ""
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
 msgid "Get help with BOINC"
-msgstr "Ottieni aiuto con BOINC"
+msgstr "Ottieni aiuto su BOINC"
 
 #: clientgui/sg_DlgMessages.cpp:754
 #, c-format
@@ -2625,7 +2633,7 @@ msgstr "In pausa: altre elaborazioni in corso"
 
 #: clientgui/sg_ImageButton.cpp:92
 msgid "Paused: User initiatied.  Click 'Resume' to continue"
-msgstr "In pausa: impostato dall'utente. Clicca su 'Riprendi' per continuare"
+msgstr "In pausa: impostato dall'utente.  Clicca su 'Riprendi' per continuare"
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
@@ -3182,7 +3190,7 @@ msgstr "Media del computer"
 #: clientgui/ViewStatistics.cpp:1281
 #, c-format
 msgid "Last update: %.0f days ago"
-msgstr "Ultimo aggiornamento: %0f giorni fa"
+msgstr "Ultimo aggiornamento: %.0f giorni fa"
 
 #: clientgui/ViewStatistics.cpp:1740
 msgid "Show user total"
@@ -3527,7 +3535,7 @@ msgstr "Modifica le applicazioni di ricerca su World Community Grid"
 
 #: clientgui/WelcomePage.cpp:295
 msgid "To continue, click Next."
-msgstr "Per continuare, premere Avanti."
+msgstr "Per continuare, cliccare su Avanti."
 
 #: clientgui/WizardAttachProject.cpp:612
 msgid "Do you really want to cancel?"
