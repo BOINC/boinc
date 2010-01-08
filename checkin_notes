@@ -188,7 +188,7 @@ Charlie  7 Jan 2010
         PTP-ReadMe.rtf
         ReadMe.rtf
 
-David  7 Jan 2009
+David  7 Jan 2010
 	- manager: tweak notice appearance
 
 	client/
@@ -196,9 +196,15 @@ David  7 Jan 2009
 	clientgui/
 		ViewNotifications.cpp
 
-David  7 Jan 2009
+David  7 Jan 2010
 	- client: work fetch fix: avoid sending null request in certain cases.
 	- client: fix crash in notices code
 	client/
 		cs_notice.cpp
 		work_fetch.cpp
+
+Rom    7 Jan 2010
+    - MGR: Prevent timer events from causing recursive ui issues.
+    
+    clientgui/
+        ViewNotifications.cpp

@@ -138,44 +138,50 @@ void CViewNotifications::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     wxDateTime dtBuffer;
     int n = 0;
     unsigned int i = 0;
+    static bool s_bInProgress = false;
 
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 	wxASSERT(m_pHtmlPane);
 
-    n = pDoc->GetNoticeCount();
+    if (!s_bInProgress) {
+        s_bInProgress = true;
 
-    if (n == -1) {
-        strItems +=   _("Retrieving notices...");
-    } else {
+        n = pDoc->GetNoticeCount();
 
-        // Pre-allocate buffer size so string concat is much faster
-        strItems.Alloc(4096*n);
+        if (n == -1) {
+            strItems +=   _("Retrieving notices...");
+        } else {
 
-        for (i = 0; i < (unsigned int)n; i++) {
-            NOTICE* np = pDoc->notice(i);
-            if (!np) continue;
-            char tbuf[512];
-            if (strlen(np->title)) {
-                sprintf(tbuf, "<b>%s</b><br>", np->title);
-                strItems += wxString(tbuf, wxConvUTF8);
+            // Pre-allocate buffer size so string concat is much faster
+            strItems.Alloc(4096*n);
 
+            for (i = 0; i < (unsigned int)n; i++) {
+                NOTICE* np = pDoc->notice(i);
+                if (!np) continue;
+                char tbuf[512];
+                if (strlen(np->title)) {
+                    sprintf(tbuf, "<b>%s</b><br>", np->title);
+                    strItems += wxString(tbuf, wxConvUTF8);
+
+                }
+                strItems += wxString(np->description.c_str(), wxConvUTF8);
+                strItems += wxT("<br><font size=-2 color=#8f8f8f>");
+                dtBuffer.Set((time_t)np->arrival_time);
+                strItems += dtBuffer.Format();
+                strItems += wxT("</font><hr>\n");
             }
-            strItems += wxString(np->description.c_str(), wxConvUTF8);
-            strItems += wxT("<br><font size=-2 color=#8f8f8f>");
-            dtBuffer.Set((time_t)np->arrival_time);
-            strItems += dtBuffer.Format();
-            strItems += wxT("</font><hr>\n");
         }
-    }
 
-    strHTML  = wxT("<html>\n<body>\n");
-    strHTML += strItems;
-    //strHTML += wxT("<h2>foobar</h2>blah <i>blah</i>\n");
-    strHTML += wxT("</body>\n</html>\n");
-    m_pHtmlPane->SetFonts(wxT("Sans Serif"), wxT("Courier"), 0);
-    m_pHtmlPane->SetPage( strHTML );
+        strHTML  = wxT("<html>\n<body>\n");
+        strHTML += strItems;
+        strHTML += wxT("</body>\n</html>\n");
+        m_pHtmlPane->SetFonts(wxT("Sans Serif"), wxT("Courier"), 0);
+        m_pHtmlPane->SetPage( strHTML );
+
+        s_bInProgress = false;
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnListRender - Function End"));
 }
