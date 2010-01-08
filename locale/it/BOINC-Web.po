@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-12-23 08:51-0700\n"
+"PO-Revision-Date: 2009-12-30 11:35-0700\n"
 "Last-Translator: Bassi Paolo <baxpaolo@alice.it>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -334,7 +334,9 @@ msgstr "BOINC è un programma che permette di donare il tempo in cui il computer
 #: download.php:114
 #, php-format
 msgid "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"
-msgstr "Nota: se il tuo computer ha una scheda video NVIDIA (GPU), potresti %susarla per elaborare più velocemente%s"
+msgstr ""
+"Nota: se il tuo computer è equipaggiato con una scheda video (GPU), potresti "
+"%susarla per elaborare più velocemente%s."
 
 #: download.php:120
 msgid "System requirements"
@@ -360,12 +362,20 @@ msgstr "BOINC: elabora per la scienza"
 #: help.php:12
 #, php-format
 msgid "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."
-msgstr "L'Aiuto Online di BOINC ti permette di parlare a tu per tu con utenti esperti di BOINC che possono: %s rispondere a domande su BOINC e sul calcolo distribuito volontario; %s assisterti nel processo di instllazione e utilizzo di BOINC; %s risolvere eventuali problemi che tu possa avere."
+msgstr ""
+"L'Aiuto Online di BOINC ti permette di parlare a tu per tu con utenti "
+"esperti di BOINC che possono: %s rispondere a domande su BOINC e sul calcolo "
+"distribuito volontario; %s assisterti nel processo di installazione e "
+"utilizzo di BOINC; %s risolvere eventuali problemi che tu possa avere."
 
 #: help.php:21
 #, php-format
 msgid "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."
-msgstr "L'Aiuto Online BOINC si appoggia a %sSkype%s, un sistema di telefonia tramite Internet. Skype è gratis (sia il software che le chiamate)._ _ Se non hai ancora Skype, %sscaricalo ed installalo ora%s._ _ Quando hai finito, ritorna su questa pagina."
+msgstr ""
+"L'Aiuto Online BOINC si appoggia a %sSkype%s, un sistema di telefonia "
+"tramite Internet. Skype è gratis (sia il software che le chiamate).  Se non "
+"hai ancora Skype, %sscaricalo ed installalo ora%s.  Quando hai finito, "
+"ritorna su questa pagina."
 
 #: help.php:28
 msgid "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
@@ -451,7 +461,12 @@ msgstr "Documentazione"
 #: index.php:96
 #, php-format
 msgid " Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
-msgstr "_Usa il tempo di inattività del tuo computer (Windows, Mac o Linux) per curare malattie, studiare il riscaldamento globale, scoprire pulsar e fare molti altri tipi di ricerche scientifiche._ _ E' sicuro, garantito e facile:_ _ %sScegli%s i progetti_ _ %sScarica%s e lancia il software BOINC_ _ %sInserisci%s un indirizzo email e una password._"
+msgstr ""
+" Usa il tempo di inattività del tuo computer (Windows, Mac o Linux) per "
+"curare malattie, studiare il riscaldamento globale, scoprire pulsar e fare "
+"molti altri tipi di ricerche scientifiche.  E' sicuro, garantito e facile:  "
+"%sScegli%s i progetti  %sScarica%s e lancia il software BOINC  %sInserisci%s "
+"un indirizzo email e una password. "
 
 #: index.php:107
 #, php-format
@@ -612,7 +627,8 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ msgid "LANG_NAME_NATIVE"
 #~ msgstr "English"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 # The name of this language in an international language (English)<br />
 # <br />
@@ -621,7 +637,8 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ msgid "LANG_NAME_INTERNATIONAL"
 #~ msgstr "English"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 # poll-related stuff
 # #######################################
@@ -633,7 +650,8 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ msgid "POLL_TITLE"
 #~ msgstr "BOINC user survey"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_INTRO"
 #~ msgstr ""
@@ -647,351 +665,420 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ "complete it again - your new answers will replace the old ones. <p> The "
 #~ "current results of the survey are <a href=poll_results.php>here</a>. "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_RUN"
 #~ msgstr "Do you run BOINC?"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_PARTICIPATION"
 #~ msgstr "Your participation"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_COMPUTERS"
 #~ msgstr "Your computers"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_YOU"
 #~ msgstr "You"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_NATIONALITY"
 #~ msgstr "Nationality"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_COMMENTS"
 #~ msgstr "Comments"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_COMMENTS_QUESTION"
 #~ msgstr ""
 #~ "Please suggest ways that BOINC, and the projects that use it, could be "
 #~ "improved:"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_OTHER"
 #~ msgstr "Other:"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_CHECK_ALL"
 #~ msgstr "[check all that apply]"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_DONE"
 #~ msgstr "When done click:"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_CURRENT"
 #~ msgstr "Yes - I have been running BOINC on my computer for..."
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_TWEEK"
 #~ msgstr "less than a week"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_TMONTH"
 #~ msgstr "less than a month"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_TYEAR"
 #~ msgstr "less than a year"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_TMOREYEAR"
 #~ msgstr "more than a year"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LAPSED"
 #~ msgstr "No - I was running BOINC, but stopped because..."
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LINTEREST"
 #~ msgstr "I lost interest"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LCOMPLICATED"
 #~ msgstr "it was too complicated"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LSTOPPED"
 #~ msgstr "I stopped it and forgot to start again"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LPROBLEMS"
 #~ msgstr "it caused problems on my computer"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LPOWER"
 #~ msgstr "it used too much electricity"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LNONBOINC"
 #~ msgstr "I switched to a non-BOINC computing project"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_FAILED"
 #~ msgstr "No - I tried running BOINC, but..."
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_FINSTALL"
 #~ msgstr "the software didn't install correctly"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_FFIGURE"
 #~ msgstr "I couldn't figure out how to use the software"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_FNETWORK"
 #~ msgstr "I had network communication problems"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_FATTACH"
 #~ msgstr "I couldn't attach to a project"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_FWORK"
 #~ msgstr "I attached to a project, but never got any work"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_NEVER"
 #~ msgstr "No - I never tried running BOINC, because..."
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_NSECURITY"
 #~ msgstr "I was concerned about security"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_NPROJECT"
 #~ msgstr "I wasn't interested in any of the projects"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_NPERMISSION"
 #~ msgstr "I don't have permission to run it on my computer"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_NVERSION"
 #~ msgstr "No version was available for my computer"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_KIND"
 #~ msgstr "What kind of computers do you have running BOINC?"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_WHERE"
 #~ msgstr "Where are they?"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_HOME"
 #~ msgstr "Home"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_WORK"
 #~ msgstr "Work"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_SCHOOL"
 #~ msgstr "School"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_HOW_MANY"
 #~ msgstr "How many computers?"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_TURNED_ON"
 #~ msgstr "On average, how many hours per day are they powered on?"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_AGE"
 #~ msgstr "Age"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_SEX"
 #~ msgstr "Sex"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_MALE"
 #~ msgstr "Male"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_FEMALE"
 #~ msgstr "Female"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_EXPERTISE"
 #~ msgstr "Your level of computer expertise"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LEVB"
 #~ msgstr "Beginner"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LEVI"
 #~ msgstr "Intermediate"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LEVA"
 #~ msgstr "Advanced"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_LEARN_WHERE"
 #~ msgstr "Where did you learn about BOINC projects?"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_WTV"
 #~ msgstr "TV/radio/newspaper"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_WPERS"
 #~ msgstr "From friends, relatives, or coworkers"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_WTEAM"
 #~ msgstr "Team message boards or web sites"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_WBOINC"
 #~ msgstr "The BOINC web site"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_WWEB"
 #~ msgstr "Other web sites"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_FACTOR"
 #~ msgstr ""
 #~ "Which are the most important factors when you decide whether to "
 #~ "participate in a BOINC project?"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_GRAPHICS"
 #~ msgstr "Nice-looking screensaver graphics"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_CREDIT_FAIR"
 #~ msgstr "Fair and quick granting of credit for work done"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_CREDIT_MORE"
 #~ msgstr "Getting more credit from this project than from others"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_MB_FRIENDLY"
 #~ msgstr "Helpful and friendly message boards"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_MB_STAFF"
 #~ msgstr "Participation by project staff on the message boards"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_WEB_SITE"
 #~ msgstr "Informative project web site"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_SCIENCE_IMPORTANT"
 #~ msgstr "The science is important and beneficial"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_SCIENCE_PUBLIC"
 #~ msgstr "Non-profit, and results are public"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_RECOGNIZE"
 #~ msgstr "Personal recognition if my computer finds something"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_PUBLISH"
 #~ msgstr "Publication by the project in scientific journals"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_EMAIL"
 #~ msgstr "Periodic email newsletters from the project"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_NPROJECTS"
 #~ msgstr "How many BOINC projects do you participate in?"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_SSAVER"
 #~ msgstr "Do you run BOINC as a screensaver?"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_YES"
 #~ msgstr "Yes"
@@ -999,96 +1086,114 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ msgid ""
 #~ msgstr "No"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_MBOARDS"
 #~ msgstr "Your usage of project messages boards:"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_MBR"
 #~ msgstr "to read information"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_MBRW"
 #~ msgstr "to read and post information"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_NONE"
 #~ msgstr "None"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_HELP"
 #~ msgstr ""
 #~ "Where do you get information to help resolve problems with BOINC and/or "
 #~ "BOINC projects?"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_HELP_PMB"
 #~ msgstr "The project message boards"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_HELP_BMB"
 #~ msgstr "The BOINC message boards"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_HELP_BDOC"
 #~ msgstr "The BOINC web site"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_HELP_BMLIST"
 #~ msgstr "BOINC mailing lists"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_HELP_WIKI"
 #~ msgstr "The Unofficial BOINC Wiki"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_HELP_TEAM"
 #~ msgstr "Team web sites"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_HELP_GOOGLE"
 #~ msgstr "Google or other search engines"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_ERROR_TITLE"
 #~ msgstr "Error - results not recorded"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_ERROR_TEXT"
 #~ msgstr ""
 #~ "An internal error has prevented us from recording your survey response.  "
 #~ "Please try again later."
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_RECORDED"
 #~ msgstr "Survey response recorded"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_THANKS"
 #~ msgstr "Thank you for completing the BOINC user survey."
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_RESULTS_TITLE"
 #~ msgstr "Survey results"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "POLL_RESULTS_TEXT"
 #~ msgstr ""
@@ -1109,7 +1214,8 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ "%s scarica gli eseguibili da un altro sito %s (disponibili per Solaris/"
 #~ "Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD ed altri)."
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "DL_MIRRORS"
 #~ msgstr ""
@@ -1119,7 +1225,8 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ "institutions). The server is chosen randomly - if a download fails, "
 #~ "reload this page and try again. "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 # help.php
 # #############################################
@@ -1131,12 +1238,14 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ msgid "HELP_TITLE"
 #~ msgstr "Getting help with BOINC"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_HEADING1"
 #~ msgstr "Online Help"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P1_1"
 #~ msgstr ""
@@ -1145,7 +1254,8 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ "you through the process of installing and using BOINC; %s troubleshoot "
 #~ "any problems you might have. "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P1_2"
 #~ msgstr ""
@@ -1154,7 +1264,8 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ "already have Skype, please %sdownload and install it now%s. When you're "
 #~ "finished, return to this page. "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P1_3"
 #~ msgstr ""
@@ -1163,49 +1274,58 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ "also use Skype's text-based chat system or regular email (if you don't "
 #~ "have Skype) to communicate with Help Volunteers."
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P1_4"
 #~ msgstr ""
 #~ "Volunteers speaking several languages are available. Please select a "
 #~ "language: "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_HEADING2"
 #~ msgstr "BOINC help on the web"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P2_ITEM1"
 #~ msgstr "BOINC user's manual"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P2_ITEM2"
 #~ msgstr "Troubleshooting BOINC "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P2_ITEM3"
 #~ msgstr "BOINC-related web sites "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P2_ITEM4"
 #~ msgstr "The BOINC message boards "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P2_ITEM5"
 #~ msgstr "The message boards on any BOINC-based project "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_HEADING3"
 #~ msgstr "Be a Help Volunteer"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P3_1"
 #~ msgstr ""
@@ -1213,14 +1333,16 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ "Volunteer%s. It's a great way to help the cause of scientific research "
 #~ "and volunteer computing - and it's fun!  "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HELP_P3_2"
 #~ msgstr ""
 #~ "If you're already a Help Volunteer: to edit your settings, %sclick here%"
 #~ "s. "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 # index.php
 # #############################################
@@ -1232,7 +1354,8 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ msgid "HOME_HEADING1"
 #~ msgstr "Volunteer"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HOME_P1"
 #~ msgstr ""
@@ -1242,18 +1365,21 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ "projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
 #~ "and password. "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HOME_P2"
 #~ msgstr ""
 #~ "Or, if you run several projects, try an %saccount manager%s such as %"
 #~ "sGridRepublic%s or %sBAM!%s. "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "HOME_P3"
 #~ msgstr ""
 #~ "If you have any questions, or need help getting started, you can %stalk "
 #~ "to a Volunteer Helper%s. "
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
