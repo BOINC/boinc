@@ -176,6 +176,7 @@ void CViewNotifications::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
         strHTML  = wxT("<html>\n<body>\n");
         strHTML += strItems;
+        //strHTML += wxT("<br><img src=http://boinc.berkeley.edu/logo/www_logo.gif>\n");
         strHTML += wxT("</body>\n</html>\n");
         m_pHtmlPane->SetFonts(wxT("Sans Serif"), wxT("Courier"), 0);
         m_pHtmlPane->SetPage( strHTML );
