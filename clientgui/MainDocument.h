@@ -48,7 +48,6 @@ typedef struct {
 #define VW_XFER   4
 #define VW_STAT   8
 #define VW_DISK   16
-#define VW_MSGS   32
 #define VW_NOTIF  128
 #define VW_SGUI   256
 #define VW_SMSG   2048

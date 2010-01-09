@@ -103,8 +103,8 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
 
-    /// wxEVT_TIMER event handler for ID_DLGEVENTLOG
-    void OnRefresh( wxTimerEvent& event );
+    /// called from CMainDocument::HandleCompletedRPC() after wxEVT_RPC_FINISHED event
+    void OnRefresh();
 ////@end CDlgEventLog event handler declarations
 
 ////@begin CDlgEventLog member function declarations

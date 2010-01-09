@@ -295,10 +295,9 @@ void CDlgEventLog::OnClose(wxCloseEvent& WXUNUSED(event)) {
 
 
 /*!
- * called from CAdvancedFrame::OnRefreshView()
+ * called from CMainDocument::HandleCompletedRPC() after wxEVT_RPC_FINISHED event
  */
-
-void CDlgEventLog::OnRefresh( wxTimerEvent& WXUNUSED(event) ) {
+void CDlgEventLog::OnRefresh() {
     bool isConnected;
     static bool was_connected = false;
     

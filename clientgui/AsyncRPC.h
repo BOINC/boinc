@@ -148,17 +148,13 @@ enum ASYNC_RPC_TYPE {
     // Periodic RPC as above, but on completion also process a 
     // wxEVT_FRAME_REFRESHVIEW event to refresh the display.
     RPC_TYPE_ASYNC_WITH_REFRESH_AFTER,
-    // Periodic RPC as above, but on completion also update message 
-    // list by calling CMainDocument::CachedMessageUpdate().
-    RPC_TYPE_ASYNC_WITH_UPDATE_MESSAGE_LIST_AFTER,
-    // Periodic RPC as above, but on completion also update notice 
-    // list by calling CMainDocument::CachedNoticeUpdate().
-    RPC_TYPE_ASYNC_WITH_UPDATE_NOTICES_LIST_AFTER,
+    // Periodic RPC as above, but on completion also process a 
+    // wxEVT_FRAME_REFRESHVIEW event to refresh the display.
+    RPC_TYPE_ASYNC_WITH_REFRESH_EVENT_LOG_AFTER,
     // Periodic RPC as above, but on completion also process a 
     // wxEVT_TASKBAR_REFRESH event to refresh the taskbar icon.
     RPC_TYPE_ASYNC_WITH_UPDATE_TASKBAR_ICON_AFTER,
     NUM_RPC_TYPES
-
 };
 
 // Pass the following structure to CMainDocument::RequestRPC()

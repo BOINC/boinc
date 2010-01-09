@@ -43,6 +43,7 @@ public:
 
 protected:
 	wxHtmlWindow*           m_pHtmlPane;
+    int                     m_iOldNoticeCount;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );

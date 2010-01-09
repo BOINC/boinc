@@ -71,6 +71,8 @@ CViewNotifications::CViewNotifications(wxNotebook* pNotebook) :
 
     Layout();
 
+    m_iOldNoticeCount = 0;
+
     pGroup = new CTaskItemGroup( _("News Feeds") ); 
     m_TaskGroups.push_back( pGroup ); 
 
@@ -153,37 +155,40 @@ void CViewNotifications::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         if (n == -1) {
             strItems +=   _("Retrieving notices...");
         } else {
+            // Update display only if there is something new
+            if (n != m_iOldNoticeCount) {
+                m_iOldNoticeCount = n;
+                
+                // Pre-allocate buffer size so string concat is much faster
+                strItems.Alloc(4096*n);
 
-            // Pre-allocate buffer size so string concat is much faster
-            strItems.Alloc(4096*n);
+                for (i = 0; i < (unsigned int)n; i++) {
+                    NOTICE* np = pDoc->notice(i);
+                    if (!np) continue;
+                    char tbuf[512];
+                    if (strlen(np->title)) {
+                        sprintf(tbuf, "<b>%s</b><br>", np->title);
+                        strItems += wxString(tbuf, wxConvUTF8);
 
-            for (i = 0; i < (unsigned int)n; i++) {
-                NOTICE* np = pDoc->notice(i);
-                if (!np) continue;
-                char tbuf[512];
-                if (strlen(np->title)) {
-                    sprintf(tbuf, "<b>%s</b><br>", np->title);
-                    strItems += wxString(tbuf, wxConvUTF8);
-
+                    }
+                    strItems += wxString(np->description.c_str(), wxConvUTF8);
+                    strItems += wxT("<br><font size=-2 color=#8f8f8f>");
+                    dtBuffer.Set((time_t)np->arrival_time);
+                    strItems += dtBuffer.Format();
+                    strItems += wxT("</font><hr>\n");
                 }
-                strItems += wxString(np->description.c_str(), wxConvUTF8);
-                strItems += wxT("<br><font size=-2 color=#8f8f8f>");
-                dtBuffer.Set((time_t)np->arrival_time);
-                strItems += dtBuffer.Format();
-                strItems += wxT("</font><hr>\n");
+
+                strHTML  = wxT("<html>\n<body>\n");
+                strHTML += strItems;
+                strHTML += wxT("<br><img src=http://boinc.berkeley.edu/logo/www_logo.gif>\n");
+                strHTML += wxT("</body>\n</html>\n");
+                m_pHtmlPane->SetFonts(wxT("Sans Serif"), wxT("Courier"), 0);
+                m_pHtmlPane->SetPage( strHTML );
             }
         }
-
-        strHTML  = wxT("<html>\n<body>\n");
-        strHTML += strItems;
-        //strHTML += wxT("<br><img src=http://boinc.berkeley.edu/logo/www_logo.gif>\n");
-        strHTML += wxT("</body>\n</html>\n");
-        m_pHtmlPane->SetFonts(wxT("Sans Serif"), wxT("Courier"), 0);
-        m_pHtmlPane->SetPage( strHTML );
-
+        
         s_bInProgress = false;
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnListRender - Function End"));
 }
-

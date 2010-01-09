@@ -32,6 +32,7 @@
 #include "BOINCTaskBar.h"
 #include "error_numbers.h"
 #include "SkinManager.h"
+#include "DlgEventLog.h"
 #include "util.h"
 
 extern bool s_bSkipExitConfirmation;
@@ -1140,9 +1141,11 @@ void CMainDocument::HandleCompletedRPC() {
     }
 #endif
 
-    // CachedMessageUpdate() does not do any RPCs, so it is safe here
-    if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_UPDATE_MESSAGE_LIST_AFTER) {
-        CachedMessageUpdate();
+    if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_EVENT_LOG_AFTER) {
+        CDlgEventLog* eventLog = wxGetApp().GetEventLog();
+        if (eventLog) {
+            eventLog->OnRefresh();
+        }
     }
     
     current_rpc_request.clear();

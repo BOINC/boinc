@@ -878,39 +878,40 @@ void CMainDocument::RunPeriodicRPCs() {
 
     // *********** RPC_GET_NOTICES **************
 
-    request.clear();
-    request.which_rpc = RPC_GET_NOTICES;
-    // m_iMessageSequenceNumber could change between request and execution
-    // of RPC, so pass in a pointer rather than its value
-    request.arg1 = &m_iNoticeSequenceNumber;
-    request.arg2 = &notices;
-    request.rpcType = (currentTabView & VW_NOTIF) ? 
-            RPC_TYPE_ASYNC_WITH_REFRESH_AFTER : RPC_TYPE_ASYNC_WITH_UPDATE_NOTICES_LIST_AFTER;
-    request.completionTime = NULL;
-    request.resultPtr = &m_iGet_notices_rpc_result;
-   
-    RequestRPC(request);
-
+    if (currentTabView & VW_NOTIF) {
+        request.clear();
+        request.which_rpc = RPC_GET_NOTICES;
+        // m_iNoticeSequenceNumber could change between request and execution
+        // of RPC, so pass in a pointer rather than its value
+        request.arg1 = &m_iNoticeSequenceNumber;
+        request.arg2 = &notices;
+        request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
+        request.completionTime = NULL;
+        request.resultPtr = &m_iGet_notices_rpc_result;
+       
+        RequestRPC(request);
+    }
+    
     // *********** RPC_GET_MESSAGES **************
 
-    request.clear();
-    request.which_rpc = RPC_GET_MESSAGES;
-    // m_iMessageSequenceNumber could change between request and execution
-    // of RPC, so pass in a pointer rather than its value
-    request.arg1 = &m_iMessageSequenceNumber;
-    request.arg2 = &messages;
-//        request.arg2 = &async_messages_buf;
-//        request.exchangeBuf = &messages;
-    request.rpcType = (currentTabView & VW_MSGS) ? 
-            RPC_TYPE_ASYNC_WITH_REFRESH_AFTER : RPC_TYPE_ASYNC_WITH_UPDATE_MESSAGE_LIST_AFTER;
-    request.completionTime = NULL;
-    request.resultPtr = &m_iGet_messages_rpc_result;
-   
-    RequestRPC(request);
+    if ((currentTabView & VW_SMSG) || wxGetApp().GetEventLog()) {
+        request.clear();
+        request.which_rpc = RPC_GET_MESSAGES;
+        // m_iMessageSequenceNumber could change between request and execution
+        // of RPC, so pass in a pointer rather than its value
+        request.arg1 = &m_iMessageSequenceNumber;
+        request.arg2 = &messages;
+    //        request.arg2 = &async_messages_buf;
+    //        request.exchangeBuf = &messages;
+        request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_EVENT_LOG_AFTER;
+        request.completionTime = NULL;
+        request.resultPtr = &m_iGet_messages_rpc_result;
+       
+        RequestRPC(request);
 
-    ts = dtNow - m_dtCachedStateTimestamp;
-    if (ts.GetSeconds() >= STATERPC_INTERVAL) {
-
+        ts = dtNow - m_dtCachedStateTimestamp;
+        if (ts.GetSeconds() >= STATERPC_INTERVAL) {
+    }
     // *********** RPC_GET_STATE **************
 
         request.clear();

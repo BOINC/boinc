@@ -985,7 +985,6 @@ int CAdvancedFrame::_GetCurrentViewPage() {
 
     wxWindow*       pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
-    int             vw_msg = wxGetApp().GetEventLog() ? VW_MSGS : 0;
 
     wxASSERT(m_pNotebook);
 
@@ -995,7 +994,7 @@ int CAdvancedFrame::_GetCurrentViewPage() {
     pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
     wxASSERT(pView);
 
-    return pView->GetViewCurrentViewPage() | vw_msg;
+    return pView->GetViewCurrentViewPage();
 }
 
 
@@ -1634,7 +1633,6 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
         wxWindow*       pwndNotebookPage = NULL;
         CBOINCBaseView* pView = NULL;
         wxTimerEvent    timerEvent;
-        CDlgEventLog*   eventLog;
 
         wxASSERT(m_pNotebook);
 
@@ -1645,11 +1643,6 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
         wxASSERT(pView);
 
         pView->FireOnListRender(timerEvent);
-
-        eventLog = wxGetApp().GetEventLog();
-        if (eventLog) {
-            eventLog->OnRefresh(timerEvent);
-        }
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));

@@ -251,12 +251,10 @@ bool CSimpleFrame::SaveState() {
 
 
 int CSimpleFrame::_GetCurrentViewPage() {
-    int             vw_msg = wxGetApp().GetEventLog() ? VW_MSGS : 0;
-
     if (isMessagesDlgOpen()) {
-        return VW_SGUI | VW_SMSG | vw_msg;
+        return VW_SGUI | VW_SMSG;
     } else {
-        return VW_SGUI | vw_msg;
+        return VW_SGUI;
     }
     return 0;       // Should never happen.
 }
@@ -324,7 +322,6 @@ void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function Start"));
     
     static bool bAlreadyRunning = false;
-    CDlgEventLog*   eventLog;
     wxTimerEvent    timerEvent;
     
     if (bAlreadyRunning) return;
@@ -334,11 +331,6 @@ void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     
     if (dlgMsgsPtr) {
         dlgMsgsPtr->OnRefresh();
-    }
-
-    eventLog = wxGetApp().GetEventLog();
-    if (eventLog) {
-        eventLog->OnRefresh(timerEvent);
     }
 
     bAlreadyRunning = false;
