@@ -808,16 +808,16 @@ int ACTIVE_TASK::start(bool first_time) {
         }
         setenv("LD_LIBRARY_PATH", libpath, 1);
 
-        // On the Mac, do the same for DYLIB_LIBRARY_PATH
+        // On the Mac, do the same for DYLD_LIBRARY_PATH
         //
 #ifdef __APPLE__
-        p = getenv("DYLIB_LIBRARY_PATH");
+        p = getenv("DYLD_LIBRARY_PATH");
         if (p) {
             sprintf(libpath, "../../%s:.:../..:%s", buf, p);
         } else {
             sprintf(libpath, "../../%s:.:../..", buf);
         }
-        setenv("DYLIB_LIBRARY_PATH", libpath, 1);
+        setenv("DYLD_LIBRARY_PATH", libpath, 1);
 #endif
 
         retval = chdir(slot_dir);
