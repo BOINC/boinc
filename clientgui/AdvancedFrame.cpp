@@ -2068,12 +2068,11 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
                 if (pDoc->IsConnected()) {
                     // Set new view specific refresh rate
-                    int refreshRate = pView->GetViewRefreshRate() * 1000;
-                    m_iFrameRefreshRate = refreshRate;
+                    m_iFrameRefreshRate = pView->GetViewRefreshRate() * 1000;
                     if (eventLog) {      // Update event log every second
                         m_pPeriodicRPCTimer->Start(1000); 
                     } else {
-                        m_pPeriodicRPCTimer->Start(refreshRate);
+                        m_pPeriodicRPCTimer->Start(m_iFrameRefreshRate);
 
                     }
                 } else {
