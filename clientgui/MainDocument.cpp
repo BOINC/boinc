@@ -810,7 +810,7 @@ void CMainDocument::RefreshRPCs() {
 }
 
 
-void CMainDocument::RunPeriodicRPCs(wxLongLong frameRefreshRate) {
+void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     ASYNC_RPC_REQUEST request;
     wxTimeSpan ts;
 

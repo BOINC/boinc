@@ -162,7 +162,7 @@ public:
     int                         SetNetworkRunMode(int iMode, int iTimeout);
 
     void                        RefreshRPCs();
-    void                        RunPeriodicRPCs(wxLongLong frameRefreshRate);
+    void                        RunPeriodicRPCs(int frameRefreshRate);
     int                         ForceCacheUpdate(bool immediate = true);
     int                         RunBenchmarks();
 
