@@ -1,6 +1,7 @@
 <?php
 
 require_once("../inc/util_basic.inc");
+require_once("../inc/translation.inc");
 
 if (0) {
     $x = $_SERVER['PHP_SELF'];
@@ -17,7 +18,7 @@ function search_form() {
     <input type=hidden name=sitesearch value=\"http://boinc.berkeley.edu\">
     <span class=\"nobar\">
     <input class=small name=q size=20>
-    <input class=small type=submit value=Search>
+    <input class=small type=submit value=".tra("Search").">
     </span>
     </form>
 ";

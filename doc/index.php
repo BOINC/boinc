@@ -154,6 +154,7 @@ function show_other() {
                 <li> <a href=\"trac/wiki/TranslateIntro\">".tra("Translation")."</a>
                 <li> <a href=\"trac/wiki/AlphaInstructions\">".tra("Testing")."</a>
                 <li> <a href=\"trac/wiki/WikiMeta\">".tra("Documentation")."</a>
+                <li> <a href=\"http://boinc.berkeley.edu/wiki/Publicizing_BOINC\">".tra("Publicity")."</a>
             </ul>
             <li> <a href=\"trac/wiki/SoftwareDevelopment\">".tra("Software development")."</a>
             <li> <a href=\"trac/wiki/SoftwareAddon\">".tra("APIs for add-on software")."</a>
@@ -245,7 +246,7 @@ echo "
     </td><td align=center>
     <span class=\"subtitle\">
     ".sprintf(tra("Open-source software for %svolunteer computing%s and %sgrid computing%s."), '<a href=volunteer.php><span class=nobr>', '</span></a>', '<a href=dg.php><span class=nobr>', '</span></a>')."
-    </span>
+    </span><br><br>
     <table><tr><td>
 ";
 language_form();
@@ -253,7 +254,16 @@ echo "</td><td>";
 search_form();
 echo "
     </td></tr></table>
-    </td></tr></table>
+    </td>
+    <td>
+    <center>
+    <a href=http://www.berkeley.edu>
+    <img src=images/uc_logo.jpg width=107 height=105 title=\"".tra("BOINC is based at The University of California, Berkeley")."\" alt=\"The University of California logo\">
+    </a>
+    </span>
+    </center>
+    </td>
+    </tr></table>
     <table width=\"100%\" border=0 cellspacing=0 cellpadding=4>
     <tr>
     <td valign=top>

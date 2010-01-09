@@ -17,13 +17,8 @@
 
 #include "util.h"
 
-#include "client_types.h"
-#include "client_msgs.h"
-#ifdef SIM
-#include "sim.h"
-#else
 #include "client_state.h"
-#endif
+#include "client_msgs.h"
 
 #include "scheduler_op.h"
 #include "work_fetch.h"

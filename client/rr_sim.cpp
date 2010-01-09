@@ -42,11 +42,7 @@
 #include "boinc_win.h"
 #endif
 
-#ifdef SIM
-#include "sim.h"
-#else
 #include "client_state.h"
-#endif
 
 #include "coproc.h"
 #include "client_msgs.h"

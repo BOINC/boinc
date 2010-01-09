@@ -5,6 +5,11 @@ require_once("docutil.php");
 page_head("Use your GPU for scientific computing");
 
 echo "
+
+THIS PAGE IS DEPRECATED: USE
+http://boinc.berkeley.edu/wiki/GPU_computing
+instead
+<p>
 <img align=right src=images/cuda.png>
 Most computers are equipped with a
 <b>Graphics Processing Unit (GPU)</b>
@@ -33,7 +38,7 @@ If your GPU is listed here and has at least 256MB of RAM, it's compatible.
 R600 and newer GPUs are found with ATI Radeon HD2400,
 HD2600, HD2900 and HD3800 graphics board.
 A full list is
-<a href=http://developer.amd.com/gpu/ATIStreamSDK/pages/ATIStreamSystemRequirements.aspx>here</a>.
+<a href=http://developer.amd.com/gpu/ATIStreamSDK/Pages/default.aspx#two>here</a>.
 </ul>
 <p>
 <h3>2) Get the latest BOINC software</h3>
@@ -49,6 +54,8 @@ Otherwise
 <ul>
 <li>
 <a href=http://www.nvidia.com/page/drivers.html>Get latest NVIDIA driver</a>
+(Mac users: you need a special
+ <a href=http://www.nvidia.com/object/cuda_get.html>CUDA Driver</a>).
 <li>
 <a href=http://support.amd.com/us/gpudownload/Pages/index.aspx>Get latest ATI driver</a>.
 </ul>

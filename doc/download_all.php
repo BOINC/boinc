@@ -195,7 +195,7 @@ if ($xml) {
             <h3>GPU computing</h3>
             If your computer is equipped with a Graphics Processing Unit (GPU),
             you may be able to
-            <a href=gpu.php>use it to compute faster</a>.
+            <a href=http://boinc.berkeley.edu/wiki/GPU_computing>use it to compute faster</a>.
             <h3>Other platforms</h3>
             If your computer is not of one of these types, you can
             <ul>

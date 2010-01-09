@@ -54,12 +54,7 @@
 
 #endif
 
-#ifdef SIM
-#include "sim.h"
-#else
 #include "client_state.h"
-#include "client_types.h"
-#endif
 
 #include "error_numbers.h"
 #include "filesys.h"

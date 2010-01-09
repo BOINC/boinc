@@ -39,11 +39,7 @@
 #include "shmem.h"
 #include "log_flags.h"
 #include "client_msgs.h"
-#ifdef SIM
-#include "sim.h"
-#else
 #include "client_state.h"
-#endif
 
 using std::vector;
 

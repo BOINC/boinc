@@ -39,7 +39,7 @@ See also
 <p>
 Note: if your computer is equipped with a Graphics Processing Unit
 (GPU), you may be able to
-<a href=http://boinc.berkeley.edu/gpu.php>use it to compute faster</a>.
+<a href=http://boinc.berkeley.edu/wiki/GPU_computing>use it to compute faster</a>.
 ";
 list_start("cellpadding=2 width=100%");
 list_heading(

@@ -237,3 +237,18 @@ Charlie  8 Jan 2010
         AdvancedFrame.cpp
         BOINCBaseFrame.cpp, .h
         MainDocument.cpp, .h
+
+David  9 Jan 2010
+    - client (Mac): append /usr/local/cuda/lib to LD_LIBRARY_PATH
+        and DYLD_LIBRARY_PATH
+    - client simulator: compile fixes
+
+    client/
+        app.cpp
+        app_start.cpp
+        client_state.h
+        cs_apps.cpp
+        rr_sim.cpp
+        sim.cpp,h
+        time_stats.cpp
+        work_fetch.cpp

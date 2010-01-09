@@ -164,6 +164,10 @@ public:
     double share_violation();
     double monotony();
     bool user_active;
+    bool abort_jobs_on_exit;
+    bool skip_cpu_benchmarks;
+    bool unsigned_apps_ok;
+    bool exit_after_finish;
 
 private:
     double app_started;

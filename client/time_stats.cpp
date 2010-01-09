@@ -37,11 +37,7 @@
 #include "error_numbers.h"
 #include "client_msgs.h"
 #include "file_names.h"
-#ifdef SIM
-#include "sim.h"
-#else
 #include "client_state.h"
-#endif
 #include "network.h"
 #include "log_flags.h"
 

@@ -18,6 +18,10 @@
 #ifndef _CLIENT_STATE_
 #define _CLIENT_STATE_
 
+#ifdef SIM
+#include "sim.h"
+#else
+
 #ifndef _WIN32
 #include <string>
 #include <vector>
@@ -538,4 +542,5 @@ extern void print_suspend_tasks_message(int);
 #define MAX_STD   (86400)
     // maximum short-term debt
 
+#endif
 #endif

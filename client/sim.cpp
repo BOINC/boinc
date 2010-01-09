@@ -644,6 +644,10 @@ int main(int argc, char** argv) {
     vector<std::string> dirs;
 
     logfile = fopen("sim_log.txt", "w");
+    if (!logfile) {
+        fprintf(stderr, "Can't open sim_log.txt\n");
+        exit(1);
+    }
 
     sim_results.clear();
     for (i=1; i<argc;) {
