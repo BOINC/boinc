@@ -88,17 +88,18 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     m_pDocumentPollTimer = new wxTimer(this, ID_DOCUMENTPOLLTIMER);
     wxASSERT(m_pDocumentPollTimer);
 
-    m_pDocumentPollTimer->Start(250);                // Send event every 250 milliseconds
+    m_pDocumentPollTimer->Start(250);               // Send event every 250 milliseconds
 
     m_pAlertPollTimer = new wxTimer(this, ID_ALERTPOLLTIMER);
     wxASSERT(m_pAlertPollTimer);
 
-    m_pAlertPollTimer->Start(1000);                  // Send event every 1000 milliseconds
+    m_pAlertPollTimer->Start(1000);                 // Send event every 1000 milliseconds
 
     m_pPeriodicRPCTimer = new wxTimer(this, ID_PERIODICRPCTIMER);
     wxASSERT(m_pPeriodicRPCTimer);
 
-    m_pPeriodicRPCTimer->Start(1000);                  // Send event every 1000 milliseconds
+    m_pPeriodicRPCTimer->Start(1000);               // Send event every 1000 milliseconds
+    m_iFrameRefreshRate = 1000;                     // Refresh frame every 1000 milliseconds
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
@@ -156,7 +157,7 @@ void CBOINCBaseFrame::OnPeriodicRPC(wxTimerEvent& WXUNUSED(event)) {
     if (!bAlreadyRunningLoop && m_pPeriodicRPCTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
 
-        pDoc->RunPeriodicRPCs();
+        pDoc->RunPeriodicRPCs(m_iFrameRefreshRate);
         
         bAlreadyRunningLoop = false;
     }
@@ -407,7 +408,7 @@ void CBOINCBaseFrame::FireRefreshView() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     
     pDoc->RefreshRPCs();
-    pDoc->RunPeriodicRPCs();
+    pDoc->RunPeriodicRPCs(0);
 }
 
 

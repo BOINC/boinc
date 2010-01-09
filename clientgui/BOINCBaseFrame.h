@@ -107,6 +107,7 @@ protected:
 
     int                 m_iSelectedLanguage;
     int                 m_iReminderFrequency;
+    wxLongLong          m_iFrameRefreshRate;
 
     wxString            m_strNetworkDialupConnectionName;
 

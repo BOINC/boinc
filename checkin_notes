@@ -228,3 +228,12 @@ Charlie  8 Jan 2010
         MainDocument.cpp, .h
         sg_BoincSimpleGUI.cpp
         ViewNotifications.cpp, .h
+
+Charlie  8 Jan 2010
+    - MGR: When Event Log is open, do get_messages RPC once per second but 
+        do view-specific periodic RPCs at their normal View refresh rate.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp, .h
+        MainDocument.cpp, .h

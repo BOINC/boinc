@@ -162,7 +162,7 @@ public:
     int                         SetNetworkRunMode(int iMode, int iTimeout);
 
     void                        RefreshRPCs();
-    void                        RunPeriodicRPCs();
+    void                        RunPeriodicRPCs(wxLongLong frameRefreshRate);
     int                         ForceCacheUpdate(bool immediate = true);
     int                         RunBenchmarks();
 
@@ -216,6 +216,7 @@ private:
     BOINC_Mutex*                m_pRPC_Request_Mutex;
     BOINC_Condition*            m_pRPC_Request_Condition;
     wxDateTime                  m_dtLasAsyncRPCDlgTime;
+    wxDateTime                  m_dtLastFrameViewRefreshRPCTime;
 
     //
     // Projects Tab

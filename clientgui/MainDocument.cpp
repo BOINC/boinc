@@ -422,6 +422,7 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_iAcct_mgr_info_rpc_result = -1;
     
     m_dtLasAsyncRPCDlgTime = wxDateTime((time_t)0);
+    m_dtLastFrameViewRefreshRPCTime = wxDateTime((time_t)0);
 }
 
 
@@ -804,10 +805,12 @@ void CMainDocument::RefreshRPCs() {
     m_iAcct_mgr_info_rpc_result = -1;
 
 //  m_iGet_state_rpc_result = -1;
+
+    m_dtLastFrameViewRefreshRPCTime = wxDateTime((time_t)0);
 }
 
 
-void CMainDocument::RunPeriodicRPCs() {
+void CMainDocument::RunPeriodicRPCs(wxLongLong frameRefreshRate) {
     ASYNC_RPC_REQUEST request;
     wxTimeSpan ts;
 
@@ -876,22 +879,6 @@ void CMainDocument::RunPeriodicRPCs() {
         RequestRPC(request);
     }
 
-    // *********** RPC_GET_NOTICES **************
-
-    if (currentTabView & VW_NOTIF) {
-        request.clear();
-        request.which_rpc = RPC_GET_NOTICES;
-        // m_iNoticeSequenceNumber could change between request and execution
-        // of RPC, so pass in a pointer rather than its value
-        request.arg1 = &m_iNoticeSequenceNumber;
-        request.arg2 = &notices;
-        request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
-        request.completionTime = NULL;
-        request.resultPtr = &m_iGet_notices_rpc_result;
-       
-        RequestRPC(request);
-    }
-    
     // *********** RPC_GET_MESSAGES **************
 
     if ((currentTabView & VW_SMSG) || wxGetApp().GetEventLog()) {
@@ -935,14 +922,29 @@ void CMainDocument::RunPeriodicRPCs() {
        
         RequestRPC(request);
     }
-     
+    
+    // **** All periodic RPCs after this point are used only 
+    // **** when refreshing Advanced Frame or Simple Frame views.
+    // **** If the Event Log is shown, the Periodic RPC Timer is 
+    // **** set for 1 second even though the Frame View may need 
+    // **** less frequent update.
+    // **** The argument frameRefreshRate is 0 if an immediate 
+    // **** update is needed due to some user action, etc.
+    // **** Otherwise frameRefreshRate is the rate at which the 
+    // **** the current Frame View should be updated.
+    ts = dtNow - m_dtLastFrameViewRefreshRPCTime;
+    if (ts.GetMilliseconds() < (frameRefreshRate - 500)) return;
+    
     // TODO: modify SimpleGUI to not do direct RPC calls when hidden / minimized
+    // Don't do periodic RPC calls when hidden / minimized unless SimpleGui
     if (! ((currentTabView & VW_SGUI) || pFrame->IsShown()) ) return;
+   
+    m_dtLastFrameViewRefreshRPCTime = dtNow;
    
     // *********** RPC_GET_PROJECT_STATUS1 **************
 
     if (currentTabView & VW_PROJ) {
-        wxTimeSpan ts(dtNow - m_dtProjectsStatusTimestamp);
+        ts = dtNow - m_dtProjectsStatusTimestamp;
         if (ts.GetSeconds() >= PROJECTSTATUSRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_PROJECT_STATUS1;
@@ -956,10 +958,26 @@ void CMainDocument::RunPeriodicRPCs() {
         }
     }
 
+    // *********** RPC_GET_NOTICES **************
+
+    if (currentTabView & VW_NOTIF) {
+        request.clear();
+        request.which_rpc = RPC_GET_NOTICES;
+        // m_iNoticeSequenceNumber could change between request and execution
+        // of RPC, so pass in a pointer rather than its value
+        request.arg1 = &m_iNoticeSequenceNumber;
+        request.arg2 = &notices;
+        request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
+        request.completionTime = NULL;
+        request.resultPtr = &m_iGet_notices_rpc_result;
+       
+        RequestRPC(request);
+    }
+    
     // *********** RPC_GET_RESULTS **************
 
     if (currentTabView & VW_TASK) {
-        wxTimeSpan ts(dtNow - m_dtResultsTimestamp);
+        ts = dtNow - m_dtResultsTimestamp;
         if (ts.GetSeconds() >= RESULTSRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_RESULTS;
@@ -977,7 +995,7 @@ void CMainDocument::RunPeriodicRPCs() {
     // *********** RPC_GET_FILE_TRANSFERS **************
 
     if (currentTabView & VW_XFER) {
-        wxTimeSpan ts(dtNow - m_dtFileTransfersTimestamp);
+        ts = dtNow - m_dtFileTransfersTimestamp;
         if (ts.GetSeconds() >= FILETRANSFERSRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_FILE_TRANSFERS;
@@ -994,7 +1012,7 @@ void CMainDocument::RunPeriodicRPCs() {
     // *********** RPC_GET_STATISTICS **************
 
     if (currentTabView & VW_STAT) {
-        wxTimeSpan ts(dtNow - m_dtStatisticsStatusTimestamp);
+        ts = dtNow - m_dtStatisticsStatusTimestamp;
         if (ts.GetSeconds() >= STATISTICSSTATUSRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_STATISTICS;
@@ -1011,7 +1029,7 @@ void CMainDocument::RunPeriodicRPCs() {
     // *********** RPC_GET_DISK_USAGE **************
 
     if (currentTabView & VW_DISK) {
-        wxTimeSpan ts(dtNow - m_dtDiskUsageTimestamp);
+        ts = dtNow - m_dtDiskUsageTimestamp;
         if ((ts.GetSeconds() >= DISKUSAGERPC_INTERVAL) || disk_usage.projects.empty()) {
             request.clear();
             request.which_rpc = RPC_GET_DISK_USAGE;
@@ -1027,7 +1045,7 @@ void CMainDocument::RunPeriodicRPCs() {
     
     // *********** GET_SIMPLE_GUI_INFO2 **************
     if (currentTabView & VW_SGUI) {
-        wxTimeSpan ts(dtNow - m_dtCachedSimpleGUITimestamp);
+        ts = dtNow - m_dtCachedSimpleGUITimestamp;
         if (ts.GetSeconds() >= CACHEDSIMPLEGUIRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_SIMPLE_GUI_INFO2;
@@ -1045,7 +1063,7 @@ void CMainDocument::RunPeriodicRPCs() {
     // *********** RPC_ACCT_MGR_INFO **************
 
     if (currentTabView & VW_SGUI) {
-        wxTimeSpan ts(dtNow - m_dtCachedAcctMgrInfoTimestamp);
+        ts = dtNow - m_dtCachedAcctMgrInfoTimestamp;
         if (ts.GetSeconds() >= CACHEDACCTMGRINFORPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_ACCT_MGR_INFO;

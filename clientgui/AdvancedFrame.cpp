@@ -1932,7 +1932,7 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         
         pDoc->RefreshRPCs();
-        pDoc->RunPeriodicRPCs();
+        pDoc->RunPeriodicRPCs(0);
     }
 
     pwndNotebookPage = m_pNotebook->GetPage(selection);
@@ -2068,13 +2068,17 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
                 if (pDoc->IsConnected()) {
                     // Set new view specific refresh rate
+                    int refreshRate = pView->GetViewRefreshRate() * 1000;
+                    m_iFrameRefreshRate = refreshRate;
                     if (eventLog) {      // Update event log every second
                         m_pPeriodicRPCTimer->Start(1000); 
                     } else {
-                        m_pPeriodicRPCTimer->Start(pView->GetViewRefreshRate() * 1000);
+                        m_pPeriodicRPCTimer->Start(refreshRate);
+
                     }
                 } else {
                     // Set view refresh rate to 1 second
+                    m_iFrameRefreshRate = 1000;
                     m_pPeriodicRPCTimer->Start(1000); 
                 }
             }
