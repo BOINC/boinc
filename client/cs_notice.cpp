@@ -201,7 +201,7 @@ int NOTICE::parse_rss(XML_PARSER& xp) {
     char tag[1024], buf[256];
     bool is_tag;
 
-    memset(this, 0, sizeof(*this));
+    clear();
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/item")) return 0;

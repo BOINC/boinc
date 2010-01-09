@@ -208,3 +208,10 @@ Rom    7 Jan 2010
     
     clientgui/
         ViewNotifications.cpp
+
+Charlie  6 Jan 2010
+    - client: Fix another crash bug due to calling memset(this, 0, sizeof(*this))
+        when the data contains a std::string.
+
+    client/
+        cs_notice.cpp
