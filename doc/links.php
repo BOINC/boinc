@@ -296,6 +296,7 @@ language("Polish", array(
     site("http://www.boincatpoland.org", "BOINC@Poland"),
     //site("http://www.boinc.pl", "www.boinc.pl"),
     site("http://www.tomaszpawel.republika.pl/", "TomaszPawelTeam"),
+    site("http://www.gpuforce.oxyone.pl/", "GPU Force"),
 ));
 language("Portuguese", array(
     site( "http://portugalathome.pt.vu/", "Portugal@home"),

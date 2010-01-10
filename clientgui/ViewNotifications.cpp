@@ -46,8 +46,8 @@ CViewNotifications::CViewNotifications()
 CViewNotifications::CViewNotifications(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook)
 {
-    CTaskItemGroup* pGroup = NULL; 
-    CTaskItem*      pItem = NULL; 
+    CTaskItemGroup* pGroup = NULL;
+    CTaskItem*      pItem = NULL;
 
     //
     // Setup View
@@ -57,7 +57,7 @@ CViewNotifications::CViewNotifications(wxNotebook* pNotebook) :
 
     itemFlexGridSizer->AddGrowableRow(0);
     itemFlexGridSizer->AddGrowableCol(1);
-    
+
     m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_NOTIFICATIONSVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
 
@@ -73,17 +73,17 @@ CViewNotifications::CViewNotifications(wxNotebook* pNotebook) :
 
     m_iOldNoticeCount = 0;
 
-    pGroup = new CTaskItemGroup( _("News Feeds") ); 
-    m_TaskGroups.push_back( pGroup ); 
+    pGroup = new CTaskItemGroup(_("News Feeds"));
+    m_TaskGroups.push_back(pGroup);
 
-    pItem = new CTaskItem( 
-        _("BOINC"), 
-        _("Display the latest news about BOINC"), 
-        ID_TASK_NEWS_BOINC  
-    ); 
-    pGroup->m_Tasks.push_back( pItem ); 
+    pItem = new CTaskItem(
+        _("BOINC"),
+        _("Display the latest news about BOINC"),
+        ID_TASK_NEWS_BOINC
+    );
+    pGroup->m_Tasks.push_back(pItem);
 
-    m_TaskGroups.push_back( pGroup ); 
+    m_TaskGroups.push_back(pGroup);
 
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
@@ -130,7 +130,7 @@ bool CViewNotifications::OnRestoreState(wxConfigBase* WXUNUSED(pConfig)) {
 }
 
 
-void CViewNotifications::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
+void CViewNotifications::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnListRender - Function Begin"));
 
     CMainDocument*  pDoc   = wxGetApp().GetDocument();
@@ -142,53 +142,51 @@ void CViewNotifications::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     unsigned int i = 0;
     static bool s_bInProgress = false;
 
-
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 	wxASSERT(m_pHtmlPane);
 
-    if (!s_bInProgress) {
-        s_bInProgress = true;
+    if (s_bInProgress) return;
+    s_bInProgress = true;
 
-        n = pDoc->GetNoticeCount();
-
-        if (n == -1) {
-            strItems +=   _("Retrieving notices...");
-        } else {
-            // Update display only if there is something new
-            if (n != m_iOldNoticeCount) {
-                m_iOldNoticeCount = n;
-                
-                // Pre-allocate buffer size so string concat is much faster
-                strItems.Alloc(4096*n);
-
-                for (i = 0; i < (unsigned int)n; i++) {
-                    NOTICE* np = pDoc->notice(i);
-                    if (!np) continue;
-                    char tbuf[512];
-                    if (strlen(np->title)) {
-                        sprintf(tbuf, "<b>%s</b><br>", np->title);
-                        strItems += wxString(tbuf, wxConvUTF8);
-
-                    }
-                    strItems += wxString(np->description.c_str(), wxConvUTF8);
-                    strItems += wxT("<br><font size=-2 color=#8f8f8f>");
-                    dtBuffer.Set((time_t)np->arrival_time);
-                    strItems += dtBuffer.Format();
-                    strItems += wxT("</font><hr>\n");
-                }
-
-                strHTML  = wxT("<html>\n<body>\n");
-                strHTML += strItems;
-                strHTML += wxT("<br><img src=http://boinc.berkeley.edu/logo/www_logo.gif>\n");
-                strHTML += wxT("</body>\n</html>\n");
-                m_pHtmlPane->SetFonts(wxT("Sans Serif"), wxT("Courier"), 0);
-                m_pHtmlPane->SetPage( strHTML );
-            }
+    n = pDoc->GetNoticeCount();
+    if (n == -1) {
+        strItems +=   _("Retrieving notices...");
+    } else {
+        // Update display only if there is something new
+        if (n == m_iOldNoticeCount) {
+            goto done;
         }
-        
-        s_bInProgress = false;
+        m_iOldNoticeCount = n;
+
+        // Pre-allocate buffer size so string concat is much faster
+        strItems.Alloc(4096*n);
+
+        for (i=0; i < (unsigned int)n; i++) {
+            NOTICE* np = pDoc->notice(i);
+            if (!np) continue;
+            char tbuf[512];
+            if (strlen(np->title)) {
+                sprintf(tbuf, "<b>%s</b><br>", np->title);
+                strItems += wxString(tbuf, wxConvUTF8);
+
+            }
+            strItems += wxString(np->description.c_str(), wxConvUTF8);
+            strItems += wxT("<br><font size=-2 color=#8f8f8f>");
+            dtBuffer.Set((time_t)np->arrival_time);
+            strItems += dtBuffer.Format();
+            strItems += wxT("</font><hr>\n");
+        }
     }
+    strHTML  = wxT("<html>\n<body>\n");
+    strHTML += strItems;
+    //strHTML += wxT("<br><img src=http://boinc.berkeley.edu/logo/www_logo.gif>\n");
+    strHTML += wxT("</body>\n</html>\n");
+    m_pHtmlPane->SetFonts(wxT("Sans Serif"), wxT("Courier"), 0);
+    m_pHtmlPane->SetPage(strHTML);
+
+done:
+    s_bInProgress = false;
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnListRender - Function End"));
 }

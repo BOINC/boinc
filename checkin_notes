@@ -258,3 +258,9 @@ David  9 Jan 2010
     html/user/
         donations.php
         user_search.php
+
+David  10 Jan 2010
+    - client: fix notification display logic
+
+    clientgui/
+        ViewNotifications.cpp
