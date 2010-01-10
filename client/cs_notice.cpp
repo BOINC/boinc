@@ -189,7 +189,7 @@ static int parse_rss_time(char* buf) {
     tm.tm_yday = 0;
     tm.tm_isdst = 0;
 
-    int t = mktime(&tm);
+    int t = (int)mktime(&tm);
     t -= gstate.host_info.timezone;
     return t;
 }
@@ -327,7 +327,7 @@ int NOTICES::read_archive_file(char* path, char* feed_url) {
 // get rid of old notices
 //
 void NOTICES::prune() {
-    while (1) {
+    for (;;) {
         if (!notices.size()) break;
         NOTICE& n = notices.back();
         if (n.arrival_time > gstate.now - 30*86400) break;
