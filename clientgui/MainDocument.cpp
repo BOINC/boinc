@@ -536,7 +536,7 @@ int CMainDocument::OnPoll() {
         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
-        pFrame->UpdateStatusText(_("Starting client services; please wait..."));
+        pFrame->UpdateStatusText(_("Starting client"));
 
         if (m_pClientManager->StartupBOINCCore()) {
             Connect(wxT("localhost"), GUI_RPC_PORT, wxEmptyString, TRUE, TRUE);
