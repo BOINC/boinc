@@ -49,7 +49,8 @@ require_once("../inc/user.inc");
 function filter_user($user, $filter) {
     if ($filter->do_country && $user->country!=$filter->country) return false;
     if ($filter->do_profile) {
-        if (!($user->has_profile!=0 xor $filter->has_profile)) return false;
+        if ($user->has_profile and !$filter->has_profile) return false;
+        if (!$user->has_profile and $filter->has_profile) return false;
     }
     if ($filter->do_team) {
         if ($filter->team xor $user->teamid!=0) return false;
@@ -60,7 +61,7 @@ function filter_user($user, $filter) {
 function show_user($user) {
     echo "
         <tr class=row1>
-        <td>", user_links($user), "</td>
+        <td>", $user->id, user_links($user), "</td>
     ";
     if ($user->teamid) {
         $team = BoincTeam::lookup_id($user->teamid);
@@ -98,7 +99,7 @@ function do_search($order, $filter) {
         }
     }
     start_table();
-    table_header("Name", "Team", "Average credit", "Total credit", "Country", "Joined");
+    table_header(tra("Name"), tra("Team"), tra("Average credit"), tra("Total credit"), tra("Country"), tra("Joined"));
     foreach ($filtered_list as $user) {
         show_user($user);
     }
@@ -109,26 +110,26 @@ function search_form() {
     page_head("User search");
     echo "<form name=f method=get action=user_search.php>";
     start_table();
-    row1("Search type", 2, "heading");
-    row2("User name starts with <input type=text name=search_string>", "<input type=radio name=search_type value=\"name_prefix\" checked >");
-    row2("Decreasing sign-up time", "<input type=radio name=search_type value=\"date\">");
-    row2("Decreasing average credit", "<input type=radio name=search_type value=\"rac\">");
-    row2("Decreasing total credit", "<input type=radio name=search_type value=\"total\">");
-    row1("Filters", 2, "heading");
-    row2_init("Country", "<select name=country><option value=\"any\" selected>Any</option>");
+    row1(tra("Search type"), 2, "heading");
+    row2(tra("User name starts with")." <input type=text name=search_string>", "<input type=radio name=search_type value=\"name_prefix\" checked >");
+    row2(tra("Decreasing sign-up time"), "<input type=radio name=search_type value=\"date\">");
+    row2(tra("Decreasing average credit"), "<input type=radio name=search_type value=\"rac\">");
+    row2(tra("Decreasing total credit"), "<input type=radio name=search_type value=\"total\">");
+    row1(tra("Filters"), 2, "heading");
+    row2_init(tra("Country"), "<select name=country><option value=\"any\" selected>Any</option>");
     print_country_select("asdf");
     echo "</select></td></tr>";
-    row2("With profile?",
+    row2(tra("With profile?"),
         "<input type=radio name=profile value=either checked=1> Either
         <input type=radio name=profile value=no> No
         <input type=radio name=profile value=yes> Yes
     ");
-    row2("On a team?",
+    row2(tra("On a team?"),
         "<input type=radio name=team value=either checked=1> Either
         <input type=radio name=team value=no> No
         <input type=radio name=team value=yes> Yes
     ");
-    row2("", "<input type=submit name=action value=Search>");
+    row2("", "<input type=submit name=action value=".tra("Search").">");
     end_table();
     echo "
         <script>document.f.search_string.focus()</script>
@@ -142,7 +143,7 @@ function name_search($filter) {
     $search_string = get_str('search_string');
 
     if (strlen($search_string)<3) {
-        error_page("search string must be at least 3 characters");
+        error_page(tra("search string must be at least 3 characters"));
     }
     $s = boinc_real_escape_string($search_string);
     $s = escape_pattern($s);
@@ -152,9 +153,9 @@ function name_search($filter) {
     foreach ($users as $user) {
         if (!filter_user($user, $filter)) continue;
         if ($n==0) {
-            echo "<h3>User names starting with '".htmlspecialchars($search_string)."'</h3>\n";
+            echo "<h3>".tra("User names starting with")." '".htmlspecialchars($search_string)."'</h3>\n";
             start_table();
-            table_header("Name", "Team", "Average credit", "Total credit", "Country", "Joined");
+            table_header(tra("Name"), tra("Team"), tra("Average credit"), tra("Total credit"), tra("Country"), tra("Joined"));
 
         }
         show_user($user);
@@ -162,7 +163,7 @@ function name_search($filter) {
     }
     end_table();
     if (!$n) {
-        echo "No users matching your search criteria.";
+        echo tra("No users match your search criteria.");
     }
 }
 
@@ -197,11 +198,11 @@ function main() {
         switch (get_str('profile')) {
         case 'yes':
             $filter->do_profile = true;
-            $filter->profile = true;
+            $filter->has_profile = true;
             break;
         case 'no':
             $filter->do_profile = true;
-            $filter->profile = false;
+            $filter->has_profile = false;
             break;
         case 'either':
             $filter->do_profile = false;
@@ -220,7 +221,7 @@ function main() {
             $filter->do_team = false;
             break;
         }
-        page_head("User search results");
+        page_head(tra("User search results"));
         if ($search_type == 'name_prefix') {
             name_search($filter);
         } else {

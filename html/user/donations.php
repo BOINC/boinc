@@ -34,12 +34,21 @@ page_head(PROJECT." donations");
 if (function_exists("donations_intro")) {
     donations_intro();
 } else {
-    echo "<div>This project is accepting donations via <a href=\"http://www.paypal.com/\">PayPal</a>.</div>\n";
-    echo "<div class=\"smalltext\">To donate, fill in the amount you want to donate using the field below. PayPal is accepting
-        multiple currencies (Canadian Dollars, Euros, Pounds Sterling, U.S. Dollars, Yen, Australian Dollars, New Zealand Dollars,
-        Swiss Francs, Hong Kong Dollars, Singapore Dollars, Swedish Kronor, Danish Kroner, Polish Zloty, Norwegian Kroner,
-        Hungarian Forint, Czech Koruna). You can use included currency converter to see the donation amount equivalent in different
-        currencies (please note that the rates are only estimates and the actual amount may differ).</div>";
+    echo "<div>This project is accepting donations via
+        <a href=\"http://www.paypal.com/\">PayPal</a>.</div>
+        <div class=\"smalltext\">
+        To donate, fill in the amount you want to donate using the field below.
+        PayPal is accepting multiple currencies
+        (Canadian Dollars, Euros, Pounds Sterling, U.S. Dollars,
+         Yen, Australian Dollars, New Zealand Dollars,
+        Swiss Francs, Hong Kong Dollars, Singapore Dollars, Swedish Kronor,
+        Danish Kroner, Polish Zloty, Norwegian Kroner,
+        Hungarian Forint, Czech Koruna).
+        You can use included currency converter
+        to see the donation amount equivalent in different currencies
+        (please note that the rates are only estimates
+         and the actual amount may differ).</div>
+    ";
 }
 
 echo "<script src=\"currency.js\" type=\"text/javascript\"></script>\n";

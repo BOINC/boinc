@@ -252,3 +252,9 @@ David  9 Jan 2010
         sim.cpp,h
         time_stats.cpp
         work_fetch.cpp
+
+David  9 Jan 2010
+    - user web: make user search translatable
+    html/user/
+        donations.php
+        user_search.php
