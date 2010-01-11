@@ -264,3 +264,9 @@ David  10 Jan 2010
 
     clientgui/
         ViewNotifications.cpp
+
+David  10 Jan 2010
+    - fix python deprecation warning (from Jeremy Cowles)
+
+    py/Boinc/
+        tools.py

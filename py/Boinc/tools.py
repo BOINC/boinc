@@ -1,7 +1,12 @@
 ## $Id$
 
 import configxml
-import os, md5, shutil, binascii, filecmp
+try:
+    # use new hashlib if available
+    from hashlib import md5
+except:
+    import md5
+import os, shutil, binascii, filecmp
 
 def check_immutable(src, dst):
     if not os.path.exists(dst):
