@@ -49,4 +49,7 @@ rm ${projdir}/BOINC-Manager.mo > /dev/null 2> /dev/null
 # Commit any changes to SVN
 svn commit -m 'Update Translations'
 
+# Update anything that needs updating
+svn update
+
 exit 0

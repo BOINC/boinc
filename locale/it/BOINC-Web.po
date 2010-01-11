@@ -1381,5 +1381,27 @@ msgstr "Questi sono i risultati attuali del <a href=poll.php>sondaggio sugli ute
 #~ "If you have any questions, or need help getting started, you can %stalk "
 #~ "to a Volunteer Helper%s. "
 
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# #########################################
+# Language: Italian (International)
+# FileID  : $Id$
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# The name of this language in this language<br />
+# <br />
+# The name of this language in this language
+# The name of this language in an international language (English)<br />
+# The name of this language in an international language (English)
+# poll-related stuff
+# #######################################
+# ######################################<br />
+# poll-related stuff<br />
+# ######################################
+# help.php
+# #############################################
+# ############################################<br />
+# help.php<br />
+# index.php
+# index.php<br />
 #~ msgid ""
 #~ msgstr ""
