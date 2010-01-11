@@ -270,3 +270,24 @@ David  10 Jan 2010
 
     py/Boinc/
         tools.py
+
+David  11 Jan 2010
+    - API: if app can't acquire lock file, tell the client not
+        to restart app for 10 minutes.
+        Hopefully what will happen is:
+        - another instance of app is running in slot dir
+            (shouldn't happen, but sometimes does)
+        - that app will eventually finish, and will write
+            a checkpoint file saying so.
+            It will call boinc_finish(0), but the client won't notice
+            that it has exited.
+        - the next time the client starts the app,
+            it will acquire lock, see that it's done,
+            and call boinc_finish(0).
+            This time the client will notice,
+            and the job will be reported as correct.
+        The downside to all this is that the client won't know
+        that the CPU is in use, and will schedule NCPUS jobs.
+
+    api/
+        boinc_api.cpp

@@ -415,7 +415,12 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             windows_error_string(buf, 256);
             fprintf(stderr, "%s Error: %s\n", boinc_msg_prefix(), buf);
 #endif
-            boinc_exit(0);           // status=0 means recoverable
+            // if we can't acquire the lock file there must be
+            // another app instance running in this slot.
+            // If we exit(0), the client will keep restarting us.
+            // Instead, tell the client not to restart us for 10 min.
+            //
+            boinc_temporary_exit(600);
         }
     }
 

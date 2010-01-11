@@ -98,7 +98,7 @@ function page_tail($translatable=false, $is_main=false) {
     if (!$is_main) {
         echo "
             <center>
-            <a href=\"/\">Return to BOINC main page</a>
+            <a href=\"/\">".tra("Return to BOINC main page")."</a>
             </center><p>
         ";
     }
@@ -107,8 +107,13 @@ function page_tail($translatable=false, $is_main=false) {
         <font color=#888888>
     ";
     if ($translatable) {
-        echo "
-            This page is <a href=\"trac/wiki/TranslateIntro\">translatable</a>.<br>
+        echo 
+            sprintf(
+                tra("This page is %stranslatable%s."),
+                "<a href=\"trac/wiki/TranslateIntro\">",
+                "</a>"
+            ),
+            "<br>
         ";
     }
     echo "

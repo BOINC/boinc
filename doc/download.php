@@ -123,7 +123,7 @@ function show_download($pname) {
         | <a href=\"wiki/Release_Notes\"><span class=nobr>".tra("Release notes")."</span></a>
         | <a href=\"wiki/BOINC_Help\"><span class=nobr>".tra("Help")."</span></a>
         | <a href=download_all.php><span class=nobr>".tra("All versions")."</span></a>
-        | <a href=\"trac/wiki/VersionHistory\">Version history</a>
+        | <a href=\"trac/wiki/VersionHistory\">".tra("Version history")."</a>
         </center>
         </td><td valign=top>
     ";
