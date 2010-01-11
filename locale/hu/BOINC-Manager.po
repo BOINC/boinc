@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-14 02:04-0700\n"
+"PO-Revision-Date: 2009-12-18 05:56-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -3134,7 +3134,7 @@ msgstr "Felhasználó által felfüggesztve"
 
 #: clientgui/ViewProjects.cpp:1054
 msgid "Won't get new tasks"
-msgstr "Nem töltsön le új munkát"
+msgstr "Ne töltsön le új munkát"
 
 #: clientgui/ViewProjects.cpp:1057
 msgid "Project ended - OK to detach"

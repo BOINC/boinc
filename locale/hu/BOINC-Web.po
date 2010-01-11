@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-11-08 08:59-0700\n"
-"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"PO-Revision-Date: 2010-01-02 11:55-0700\n"
+"Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -95,27 +95,27 @@ msgstr "Hálózati kommunikációs problémáim voltak."
 
 #: poll_data.inc:51
 msgid "I couldn't attach to a project"
-msgstr ""
+msgstr "Nem tudtam csatlakozni egy projekthez"
 
 #: poll_data.inc:52
 msgid "I attached to a project, but never got any work"
-msgstr ""
+msgstr "Csatlakoztam egy projekthez, de soha nem kaptam egy munkacsomagot sem"
 
 #: poll_data.inc:58
 msgid "No - I never tried running BOINC, because..."
-msgstr ""
+msgstr "Nem, sohasem próbáltam futtatni a  BOINC-ot, mivel..."
 
 #: poll_data.inc:61
 msgid "I was concerned about security"
-msgstr ""
+msgstr "kétségeim voltak a biztonsággal kapcsolatban"
 
 #: poll_data.inc:62
 msgid "I wasn't interested in any of the projects"
-msgstr ""
+msgstr "nem érdekelt egy projekt sem"
 
 #: poll_data.inc:63
 msgid "I don't have permission to run it on my computer"
-msgstr ""
+msgstr "nem volt jogosultságom ahhoz, hogy futassam a számítógépemen"
 
 #: poll_data.inc:64
 msgid "No version was available for my computer"

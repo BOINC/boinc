@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-11-04 02:01-0700\n"
-"Last-Translator: pH!Lm0 <philmo_one@yahoo.fr>\n"
+"PO-Revision-Date: 2009-12-30 05:48-0700\n"
+"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -480,16 +480,16 @@ msgstr "TeraFLOPS."
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Informations"
 
 #: index.php:72
 msgid "... more"
-msgstr ""
+msgstr "... plus"
 
 #: index.php:76
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Les informations sont disponibles via un %sflux RSS%s"
 
 #: index.php:86
 msgid "Volunteer"
@@ -529,7 +529,7 @@ msgstr ""
 
 #: index.php:123
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "Calculez avec BOINC"
 
 #: index.php:126
 msgid "Software updates"
@@ -562,39 +562,39 @@ msgstr "Développement"
 
 #: index.php:166
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "APIs pour logiciels complémentaires"
 
 #: index.php:167
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "Personnel et contributeurs"
 
 #: index.php:168
 msgid "Message boards"
-msgstr ""
+msgstr "Forums"
 
 #: index.php:169
 msgid "Email lists"
-msgstr ""
+msgstr "Listes de diffusion"
 
 #: index.php:170
 msgid "Events"
-msgstr ""
+msgstr "Evènements"
 
 #: index.php:171
 msgid "Conferences"
-msgstr ""
+msgstr "Conférences"
 
 #: index.php:172
 msgid "Papers and talks"
-msgstr ""
+msgstr "Articles et discussions"
 
 #: index.php:173
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Logos et graphiques"
 
 #: index.php:206
 msgid "Browser default"
-msgstr ""
+msgstr "Paramètre par défaut du navigateur"
 
 #: index.php:250
 #, php-format

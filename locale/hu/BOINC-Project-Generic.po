@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-11-11 15:39-0700\n"
+"PO-Revision-Date: 2010-01-11 05:24-0700\n"
 "Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -167,7 +167,7 @@ msgstr "Ön megigényelte és az alapító válaszának határideje lejárt."
 
 #, fuzzy
 msgid "Complete foundership transfer"
-msgstr "Teljes alapítói transzfer"
+msgstr "Az összes csapatalapítási jog átadása"
 
 msgid "Requested by you"
 msgstr "Ön megigényelte"
@@ -179,10 +179,10 @@ msgid "None"
 msgstr "Semmi"
 
 msgid "Initiate request"
-msgstr ""
+msgstr "Kérelem kezdete"
 
 msgid "Deferred"
-msgstr ""
+msgstr "Elhalasztott"
 
 msgid "Team info"
 msgstr "Csapatinformáció"
@@ -199,9 +199,8 @@ msgstr "Összes kredit"
 msgid "Recent average credit"
 msgstr "Átlagos kredit a közelmúltban"
 
-#, fuzzy
 msgid "Cross-project stats"
-msgstr "Projekt-közti statisztikák"
+msgstr "Projekt kereszt-statisztikák"
 
 msgid "Type"
 msgstr "Típus"
@@ -288,6 +287,8 @@ msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
 msgstr ""
+"iztonsági figyelmeztetés%2: ha csapatot hoz létre, a projekt beállításai "
+"láthatók lesznek (erőforrás megosztás, grafikai beállítás) mások számára is."
 
 msgid "Team name, text version"
 msgstr "Csapatnév, szöveges változat"
@@ -299,40 +300,40 @@ msgid "Team name, HTML version"
 msgstr "Csapatnév, HTML változat"
 
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "Ön korlátozottan használhat %1HTML formázásokat%2."
 
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "Ha nem ismeri a HTML-t, hagyja üresen ezt a mezőt."
 
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "a csapat weblapjának URL-je, ha van"
 
 msgid "without \"http://\""
-msgstr ""
+msgstr "\"http://\" nélkül"
 
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "Ez az URL be lesz linkelve a csapat honlapjáról erre az oldalra."
 
 msgid "Description of team"
-msgstr ""
+msgstr "A csapat leírása"
 
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "Projektek, amelyekben részt vesz"
 
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "Projektek amelyben %1 részt vesz."
 
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 msgid "Click for user page"
-msgstr ""
+msgstr "Kattintson a felhasználói lapra jutáshoz"
 
 msgid "Average credit"
-msgstr ""
+msgstr "Átlagos kredit"
 
 msgid "Since"
-msgstr ""
+msgstr "Ettől:"
 
 msgid "Computing and credit"
 msgstr "Számítás és kredit"
@@ -356,7 +357,7 @@ msgid "Cross-project statistics"
 msgstr "Projekt-közti statisztikák"
 
 msgid "Certificate"
-msgstr ""
+msgstr "Tanúsítvány"
 
 msgid "Stats on your cell phone"
 msgstr "Statisztikák a mobiltelefonján"
@@ -392,28 +393,28 @@ msgid "Log out"
 msgstr "Kijelentkezés"
 
 msgid "User ID"
-msgstr ""
+msgstr "Felhasználói azonosító"
 
 msgid "Used in community functions"
-msgstr ""
+msgstr "Közösségi funkciók során használt"
 
 msgid "Account key"
-msgstr ""
+msgstr "Fiók kulcs"
 
 msgid "Provides full access to your account"
-msgstr ""
+msgstr "Teljes hozzáférést biztosít a fiókjához"
 
 msgid "Weak account key"
-msgstr ""
+msgstr "Gyenge fiók kulcs"
 
 msgid "Provides %1limited access%2 to your account"
-msgstr ""
+msgstr "%Korlátozott hozzáférést%2 biztosít a fiókjához"
 
 msgid "Preferences"
 msgstr "Beállítások"
 
 msgid "When and how BOINC uses your computer"
-msgstr "Mikor és hogyan használja a BOINC számítógépét"
+msgstr "Mikor és hogyan használja a BOINC a számítógépét"
 
 msgid "Computing preferences"
 msgstr "Számítási beállítások"
@@ -446,7 +447,7 @@ msgid "%1 posts"
 msgstr "%1 üzenet"
 
 msgid "Notifications"
-msgstr ""
+msgstr "Értesítések"
 
 msgid "Quit team"
 msgstr "Kilépés a csapatból"
@@ -455,7 +456,7 @@ msgid "Administer"
 msgstr "Igazgató"
 
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(alapító változtatási kérelem folyamatban)"
 
 msgid "Member of team"
 msgstr "Ezen csapat tagja:"
@@ -470,34 +471,34 @@ msgid "Founder but not member of"
 msgstr "Alapítója, de nem tagja ennek a csapatnak:"
 
 msgid "Find friends"
-msgstr ""
+msgstr "Ismerősök keresése"
 
 msgid "Friends"
-msgstr ""
+msgstr "Ismerősök"
 
 msgid "Computers"
-msgstr ""
+msgstr "Számítógépek"
 
 msgid "hidden"
-msgstr ""
+msgstr "rejtett"
 
 msgid "Donor"
-msgstr ""
+msgstr "Felajánló"
 
 msgid "Contact"
-msgstr ""
+msgstr "Kapcsolat"
 
 msgid "This person is a friend"
-msgstr ""
+msgstr "Ez a személy ismerős"
 
 msgid "Cancel friendship"
-msgstr ""
+msgstr "Ismeretség visszavonása"
 
 msgid "Request pending"
-msgstr ""
+msgstr "Függő kérés"
 
 msgid "Add as friend"
-msgstr ""
+msgstr "Ismerősként hozzáad"
 
 ##########################################
 # Language: English (International)
@@ -568,7 +569,7 @@ msgid "Account creation is disabled"
 msgstr "Fiók létrehozása letiltva."
 
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
+msgstr "Fiók létrehozása jelenleg nem lehetséges. Próbálja meg később."
 
 msgid ""
 "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
@@ -612,101 +613,118 @@ msgid "Create account"
 msgstr "Fiók létrehozása"
 
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "HIBA: %1 nem létezik.  Nem tud létrehozni legördülő menüt. <br>"
 
 msgid "Picture"
-msgstr ""
+msgstr "Kép"
 
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 Az Ön profilképe bal oldalt jelenik meg."
 
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"A cseréhez kattintson a Böngészés gombra, majd válasszon ki egy JPEG vagy "
+"egy PNG fájlt (%1 vagy kevesebb)"
 
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "Profilból való törléséhez jelölje be ezt a dobozt:"
 
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
+"Ha képet is szeretne csatolni profiljához, kattintson a Böngészés gombra, "
+"majd válasszon ki egy JPEG vagy egy PNG fájlt. Válasszon egy képet a %1 vagy "
+"kevesebb."
 
 msgid "Language"
-msgstr ""
+msgstr "Nyelv"
 
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "Válassza ki profilja nyelvét:"
 
 msgid "Submit profile"
-msgstr ""
+msgstr "Profil elküldése"
 
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
+msgstr "Hogy megóvjuk a projekt honlapját a spamtől, kérjük gépelje be azt a két "
+"szót, amit a képen lát: <br>\n"
 
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Profil létrehozása/szerkesztése"
 
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "Az Ön által feltöltött kép formátuma nem megengedett."
 
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
+"Az Ön %1profilja%2 lehetővé teszi véleményének és hátterének megosztását a "
+"%3közösséggel."
 
 msgid "Your ReCaptcha response was not correct.  Please try again."
-msgstr ""
+msgstr "Az Ön ReCaptcha válasza helytelen volt. Kérjük, próbálja újra."
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Az Ön első válasza spamnak minősül az Akismet anti-spam rendszer alapján.  "
+"Kérjük módosítsa a szövegét, majd próbálja újra."
 
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Az Ön második válasza spamnak minősül az Akismet anti-spam rendszer alapján. "
+" Kérjük módosítsa a szövegét, majd próbálja újra."
 
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "Az Ön profilküldése üres volt."
 
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "Profil frissítés sikertelen: adatbázis hiba."
 
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "Profil létrehozás sikertelen: adatbázis hiba."
 
 msgid "Profile saved"
-msgstr ""
+msgstr "Profil elmentve"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
+msgstr "Gratulálunk! Profilja sikeresen bekerült adatbázisunkba!"
 
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Az Ön profiljának megtekintése%2"
 
 msgid "Create a profile"
-msgstr ""
+msgstr "Profil létrehozása"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
+"Spam megelőzése céljából egy %1 vagy több átlagos credit szükséges profil "
+"létrehozásához vagy szerkesztéséhez. Elnézést kérünk ezért a "
+"kellemetlenségért."
 
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "BOINC kiegészítő szoftver letöltése"
 
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Letölthet alkalmazásokat különböző kategóriákban."
 
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr ""
+"Ezek az alkalmazások nincsenek jóváhagyva %1 által, csak a saját "
+"felelősségére használja."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -714,12 +732,17 @@ msgid ""
 "uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
+"Nem szolgálunk utasításokkal ezeknek az alkalmazásoknak az installálásához. \n"
+"Valószínűleg a szerző biztosít egy kis segítséget a program telepítéséhez "
+"vagy eltávolításához. \n"
+"Amennyiben ez nem elég, lépjen kapcsolatba a program szerzőjével."
 
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "A BOINC telepítéséhez és futtatásához utasítások %1itt%2 találhatóak."
 
+#, fuzzy
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "Ez a lista központilag van kezelve a %1BOINC weboldalon%2"
 
 msgid "fll"
 msgstr ""
@@ -739,6 +762,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"Ha kérdése vagy problémája van, akkor használja az üzenőfalak %1Kérdések és "
+"válaszok%2 részét."
 
 msgid "Topic"
 msgstr "Téma"
@@ -755,13 +780,13 @@ msgid "Forum search"
 msgstr "Keresés a fórumban"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "Fórum keresési eredmények"
 
 msgid "No thread with id %1. Please check the link and try again."
-msgstr ""
+msgstr "Nincs téma %1 azonosítóval. Ellenőrizze a linket, és próbálja újra."
 
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "Ez a fórum nem látható az Ön részére."
 
 #########################################
 # Forum thread
@@ -769,41 +794,45 @@ msgid "This thread has been hidden for administrative purposes"
 msgstr "Ezt a témát adminisztratív okokból rejtetté tették"
 
 msgid "My question was answered"
-msgstr ""
+msgstr "Választ kaptam a kérdésemre"
 
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
+"Amennyiben a kérdése megfelelően megválaszolásra került, kérjük kattintson "
+"ide a bezáráshoz."
 
 msgid "I've also got this question"
-msgstr ""
+msgstr "Még van ez a kérdésem is"
 
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Új hozzászólás ehhez a témához"
 
 msgid "Unsubscribe"
 msgstr "Leiratkozás"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
+msgstr "Feliratkozott erre a témára. Leiratkozáshoz kattintson ide."
 
 msgid "Subscribe"
 msgstr "Feliratkozás"
 
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
+"Kattintson ide, hogy e-mailes értesítést kapjon, ha ehhez a témához "
+"hozzászóltak"
 
 msgid "Unhide"
-msgstr ""
+msgstr "Megjelenítés"
 
 msgid "Unhide this thread"
-msgstr ""
+msgstr "Téma megjelenítése"
 
 msgid "Hide"
-msgstr ""
+msgstr "Elrejtés"
 
 msgid "Hide this thread"
-msgstr ""
+msgstr "Téma elrejtése"
 
 msgid "Make unsticky"
 msgstr ""
@@ -818,141 +847,144 @@ msgid "Make this thread sticky"
 msgstr ""
 
 msgid "Unlock"
-msgstr ""
+msgstr "Feloldás"
 
 msgid "Unlock this thread"
-msgstr ""
+msgstr "Téma feloldása"
 
 msgid "Lock"
-msgstr ""
+msgstr "Rögzítés"
 
 msgid "Lock this thread"
-msgstr ""
+msgstr "Téma rögzítése"
 
 msgid "Move"
-msgstr ""
+msgstr "Mozgatás"
 
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "Téma mozgatása más fórumba"
 
 msgid "Edit title"
-msgstr ""
+msgstr "Cím szerkesztése"
 
 msgid "Edit thread title"
-msgstr ""
+msgstr "Témacím szerkesztése"
 
 msgid "Sort"
-msgstr ""
+msgstr "Rendezés"
 
 msgid "Already friends"
-msgstr ""
+msgstr "Már ismerős"
 
+#, fuzzy
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Bejelölte %1 ismerősnek %2-nél"
 
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "Ez a kérés még mindig megerősítésre vár."
 
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 nem jelölte vissza ismerősnek Önt."
 
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "Nem lehet önnön ismerőse."
 
 msgid "No such user"
 msgstr "Nincs ilyen felhasználó"
 
 msgid "Add friend"
-msgstr ""
+msgstr "Ismerős hozzáadása"
 
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
+"Bejelölte %1-t ismerősnek. Értesítjük %2-t és megerősítést kérünk tőle, hogy "
+"tényleg az Ön ismerőse."
 
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Tetszőleges üzenet hozzáadása:"
 
 msgid "Database error"
-msgstr ""
+msgstr "Adatbázis hiba"
 
 msgid "Friend request sent"
-msgstr ""
+msgstr "Ismerőssé jelölés elküldve"
 
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "Értesítettük %1-t a bejelölésről"
 
 msgid "Request not found"
-msgstr ""
+msgstr "Jelölés nem található"
 
 msgid "Friend request"
-msgstr ""
+msgstr "Bejelölték ismerősnek"
 
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 felvette Önt ismerősei közé."
 
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 azt mondja, hogy %2"
 
 msgid "Accept friendship"
-msgstr ""
+msgstr "Ismeretség bejelölésének elfogadása"
 
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "Kattintson az elfogadásra, ha %1 tényleg az ismerőse"
 
 msgid "Decline"
-msgstr ""
+msgstr "Elutasít"
 
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "Kattinson az elutasításra, ha %1 nem az ismerőse"
 
 msgid "No request"
-msgstr ""
+msgstr "NIncs jelölés"
 
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Ismeretség jóváhagyva"
 
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "Ön és %1 között az ismeretség jóváhagyva."
 
 msgid "Friendship declined"
-msgstr ""
+msgstr "Ismeretség elutasítva"
 
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "Ön visszautasította az %1 ismeretségét."
 
 msgid "Notification not found"
-msgstr ""
+msgstr "Értesítés nem található"
 
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Ismeretség jóváhagyva"
 
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "Önnek most már ismerőse %1."
 
 msgid "Cancel friendship?"
-msgstr ""
+msgstr "Ismeretség felbontása?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Biztos, hogy fel akarja bontani az ismeretségét Ön és %1 között?"
 
 msgid "Yes"
-msgstr ""
+msgstr "Igen"
 
 msgid "No"
-msgstr ""
+msgstr "Nem"
 
 msgid "Stay friends"
-msgstr ""
+msgstr "Maradjunk ismerősök"
 
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Ismeretség felbontva"
 
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "Ön és %1 között az ismeretség fel lett bontva."
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Ismeretlen művelet"
 
 msgid "Welcome to %1"
 msgstr "Üdvözöljük a(z) %1 nevű projektben"
@@ -1131,14 +1163,12 @@ msgstr ""
 "felelősségére csatlakozzon hozzájuk."
 
 # The name of this language in an international language (English)
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Hungarian"
 
 # The name of this language in this language
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "Hungarian"
+msgstr "Magyar"
 
 msgid "Your message has been sent."
 msgstr "Üzenet elküldve."
@@ -1157,10 +1187,10 @@ msgid "Delete selected messages"
 msgstr "Kiválasztott üzenetek megtekintése"
 
 msgid "Sender"
-msgstr ""
+msgstr "Küldő"
 
 msgid "Date"
-msgstr ""
+msgstr "Dátum"
 
 msgid "You need to fill all fields to send a private message"
 msgstr "Privát üzenet küldéséhez minden mezőt ki kell töltenie"
@@ -1222,63 +1252,71 @@ msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
 msgstr ""
+"%1A profilok%2 egyének számára biztosít lehetőséget arra, hogy megosszák "
+"hátterüket és véleményüket a %3 közösséggel."
 
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
 msgstr ""
+"Fedezze fel az önkéntes társainak sokféleségét, és ossza meg saját "
+"véleményét másokkal, azok örömére."
 
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
 msgstr ""
+"Ha még nem hozott létre %1saját magának nyilvános felhasználói profilt%2, "
+"akkor megteheti."
 
 msgid "User of the Day"
-msgstr ""
+msgstr "A nap felhasználója"
 
 msgid "User Profile Explorer"
-msgstr ""
+msgstr "Felhasználói profil böngésző"
 
 msgid "View the %1User Picture Gallery%2."
-msgstr ""
+msgstr "Nézze meg a %1Felhasználó képgalériáját%2."
 
 msgid "Browse profiles %1by country%2."
-msgstr ""
+msgstr "Böngéssze a profilokat %1 országok szerint%2."
 
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
+"Böngéssze a profilokat %1véletlenszerűen%2, %véletlenszerűen képekkel%2, "
+"vagy%4 véletlenszerűen képek nélkül%2."
 
 msgid "Alphabetical profile listings:"
-msgstr ""
+msgstr "Profil listázás ABC sorrendben:"
 
 msgid "Search profile text"
-msgstr ""
+msgstr "Keresés profil szövegben"
 
 msgid "No profiles"
-msgstr ""
+msgstr "Nincsenek profilok"
 
 msgid "No profiles matched your query."
-msgstr ""
+msgstr "Nincs a keresésének megfelelő profil."
 
 msgid "Invalid vote type:"
-msgstr ""
+msgstr "Érvénytelen szavazattípus:"
 
 msgid "Vote Recorded"
-msgstr ""
+msgstr "Szavazat rögzítve"
 
 msgid "Thank you"
-msgstr ""
+msgstr "Köszönjük"
 
 msgid "Your recommendation has been recorded."
-msgstr ""
+msgstr "Az ajánlása rögzítve lett."
 
 msgid "Your vote to reject this profile has been recorded."
-msgstr ""
+msgstr "Ennek a profil elutasításának javaslata rögzítve lett."
 
 msgid "Return to profile."
-msgstr ""
+msgstr "Visszatérés a profilhoz."
 
 msgid "This feature is turned off temporarily"
 msgstr "Ez a tulajdonság átmenetileg nem elérhető"
@@ -1313,33 +1351,38 @@ msgid "Top participants"
 msgstr "Kiemelkedő résztvevők"
 
 msgid "Top computers"
-msgstr ""
+msgstr "Legjobb számítógépek"
 
-#, fuzzy
 msgid "Top teams"
-msgstr "A legjobb %1 csapatok"
+msgstr "A legjobb csapatok"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
+"Részletesebb statisztikák a %1 és más BOINC-ra épülő projektről elérhetőek "
+"különböző weboldalakon:"
 
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
-msgstr ""
+msgstr "Elérheti még a jelenlegi statisztikáit az \"aláírási kép\" formájában."
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
+"Az egyéni statisztikáit elérheti még összesítve minden BOINC projektből "
+"különböző oldalakon; nézze meg az Ön %1honlapját%2."
 
 msgid "%1 participants may form %2teams%3"
-msgstr ""
+msgstr "%1 résztvevők alakíthatnak %2csapatokat%3"
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
+"Csak egy csapathoz tartozhat. Akármikor csatlakozhat, vagy kiléphet egy "
+"csapatból."
 
 msgid "Each team has a %1founder%2 who may:"
 msgstr "Minden csapatnak van egy %1alapítója%2, aki:"
@@ -1372,7 +1415,7 @@ msgstr "%1 csapat"
 
 #, fuzzy
 msgid "Create a new team"
-msgstr "Új téma létrehozása"
+msgstr "Új csapat létrehozása"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."

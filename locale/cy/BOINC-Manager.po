@@ -3,52 +3,44 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2010-01-09 15:35-0700\n"
-"Last-Translator: Valeriy Khakhutskyy <v.khakhutskyy@web.de>\n"
+"PO-Revision-Date: 2010-01-06 00:32+0100\n"
+"Last-Translator: Huw Waters <huwwaters@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
-msgstr "Ваш обліковий запис "
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
-"Будь ласка, введить данні Вашого облікового запису\n"
-"(для того щоб створити обліковий запис, зайдіть на веб-сайт проєкту)"
 
 #: clientgui/AccountInfoPage.cpp:380
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
-"На даний момент створення новий облікових записів у цьому проєкті не "
-"можливо.\n"
-"Ви можете підлючитися тільки якщо вже маєте обліковий запис."
 
 #: clientgui/AccountInfoPage.cpp:384
 msgid "Are you already running this project?"
-msgstr "Чи Ви вже виконуєте цій проєкт?"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:388
 msgid "&No, new user"
-msgstr "Ні, новий користувач"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:391
 msgid "&Yes, existing user"
-msgstr "Так, вже зареєстрован"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:396
 msgid ""
@@ -59,52 +51,46 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
-"Ми не змогли автоматично зароєструвати Ваш обліковий\n"
-"запис.\n"
-"\n"
-"Будь ласка клікніть на посилання \"Знайти інформацію для реєстрації\" внизу, "
-"щоб з'ясувати, що треба ввести в поле емейл-адрес\n"
-"та пароль."
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr "Знайти інформацію для реєстрації"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
 msgid "&Password:"
-msgstr "Пароль:"
+msgstr "Cyfrinair:"
 
 #: clientgui/AccountInfoPage.cpp:426
 #: clientgui/AccountInfoPage.cpp:600
 msgid "Choose a &password:"
-msgstr "Обрати пароль:"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:429
 msgid "C&onfirm password:"
-msgstr "Підтвердити пароль:"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:436
 #, c-format
 msgid "Are you already running %s?"
-msgstr "Чи Ви вже зареєстровані у проєкті %s?"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:453
 msgid "&Username:"
-msgstr "Ім'я користувача:"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:467
 msgid "&Email address:"
-msgstr "Адреса електронної пошти:"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:475
 #, c-format
 msgid "minimum length %d"
-msgstr "найменьша довжина %d"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:482
 msgid "Forgot your password?"
-msgstr "Забули пароль?"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:489
 msgid ""
@@ -112,396 +98,382 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
-"Якщо Ви ще не зареєструвалися у цьому менеджері облікових записів,\n"
-"будь ласка зробіть це перед тим, як продовжите._ _Клікніть на посилання "
-"внизу,\n"
-"щоб зареєструватися чи відновити забутий пароль."
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
-msgstr "Веб-сайт менеджера облікових записів"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
-msgstr "Підключення до проєкту"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:526
 msgid "Update account manager"
-msgstr "Оновлення менеджера облікових записів"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:528
 msgid "Attach to account manager"
-msgstr "Підлючення до менеджера облікових записів"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:537
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
-"Мінімальна довжина пароля для цього проєкта %d символів. Будь ласка введіть "
-"інший пароль."
 
 #: clientgui/AccountInfoPage.cpp:543
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
-"Мінімальна довжина пароля для цього менеджера обліковий записів %d символів. "
-"Будь ласка введіть інший пароль."
 
 #: clientgui/AccountInfoPage.cpp:554
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr ""
-"Записи у полях \"Пароль\" та \"Підтвердження пароля\" не збігаються. Будь ласка "
-"введіть їх знову."
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr "Виберіть менеджер облікових записів"
+msgstr ""
 
 #: clientgui/AccountManagerInfoPage.cpp:246
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Виберіть менеджер обліковиз записів, клікніть на його назві чи\n"
-"введіть його URL адресі внизу."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
-msgstr "URL адреса:"
+msgstr ""
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:196
 #, c-format
 msgid "Communicating with %s."
-msgstr "Встановлення зв'язку з %s."
+msgstr ""
 
 #: clientgui/AccountManagerProcessingPage.cpp:197
 #: clientgui/AccountManagerPropertiesPage.cpp:203
 msgid "Communicating with server."
-msgstr "Встановлення зв'язку з сервером."
+msgstr ""
 
 #: clientgui/AccountManagerProcessingPage.cpp:202
 #: clientgui/AccountManagerPropertiesPage.cpp:208
 msgid "Please wait..."
-msgstr "Будь ласка зачікайте..."
+msgstr ""
 
 #: clientgui/AccountManagerProcessingPage.cpp:326
 msgid "An internal server error has occurred.\n"
-msgstr "Відбулася внутрішня помилка сервера.\n"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
-msgstr "Зв'язок встановлено"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:101
 msgid "Disconnected"
-msgstr "Роз'єднано"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:304
 #, c-format
 msgid "Close the %s window"
-msgstr "Зачинити вікно %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:309
 msgid "&Close Window\tCtrl+W"
-msgstr "Зачинити вікно\tCtrl+W"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
 msgid "Exit %s"
-msgstr "Вийти з %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
 msgid "E&xit"
-msgstr "Вийти"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCtrl+Shift+P"
-msgstr "Проєкти\tCtrl+Shift+P"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
-msgstr "Показати проєкти"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr "Завдання\tCtrl+Shift+T"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
-msgstr "Показати завдання"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "Передавання\tCtrl+Shift+X"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
-msgstr "Показати передавання"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCtrl+Shift+M"
-msgstr "Повідомлення\tCtrl+Shift+M"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
-msgstr "Показати повідомлення"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr "Статистика\tCtrl+Shift+S"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
-msgstr "Показати статистику"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr "Заповнення диска\tCtrl+Shift+D"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
-msgstr "Показати заповнення диска"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCtrl+Shift+N"
-msgstr "Новини\tCtrl+Shift+N"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
-msgstr "Показати новини"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:374
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "Спрощенний вид...\tCtrl+Shift+V"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
-msgstr "Показати спрощенний графічній інтерфейс."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
-msgstr "Підлючитися до проєкту чи менеджера облікових записів..."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
 msgstr ""
-"Підлючитися до проєкту чи менеджера облікових записів, щоб почати обробку "
-"завдань"
 
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
 msgid "&Synchronize with %s"
-msgstr "Синхронізуватися з %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:404
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Отримати настройки з %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:415
 msgid "Attach to &project..."
-msgstr "Підключитися до проєкту..."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:416
 msgid "Attach to a project to begin processing work"
-msgstr "Підлючитися до проєкту, щоб почати обробку завдань"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:420
 #, c-format
 msgid "&Stop using %s..."
-msgstr "Зупинити користування %s..."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Remove client from account manager control."
-msgstr "Від'єднати клієнт від менеджера облікових записів."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:435
 msgid "&Run always"
-msgstr "Завжди виконувати"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:436
 msgid "Allow work regardless of preferences"
-msgstr "Дозволити обробку незалежно від настройок"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:440
 msgid "Run based on &preferences"
-msgstr "Виконувати згодно з настройкам"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:441
 msgid "Allow work according to your preferences"
-msgstr "Дозволити обробку згодно з Вашими настройками"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:445
 msgid "&Suspend"
-msgstr "Припинити"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:446
 msgid "Stop work regardless of preferences"
-msgstr "Зупинити обробку незаложно від настройок"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "&Network activity always available"
-msgstr "Доступ до мережі завжди вілний"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:470
 msgid "Allow network activity regardless of preferences"
-msgstr "Дозволити доступ до мережі незалежно від настройок"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:474
 msgid "Network activity based on pre&ferences"
-msgstr "Доступ до мережі згодно з настройками"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Allow network activity according to your preferences"
-msgstr "Дозволити доступ до мережі згодно з Вашими настройками"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Network activity s&uspended"
-msgstr "Доступ до мережі припинено"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Stop BOINC network activity"
-msgstr "Зупинити доступ до мережі для програми BOINC"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:487
 msgid "&Options..."
-msgstr "Опції"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:488
 msgid "Configure GUI options and proxy settings"
-msgstr "Настроїти опції графічного інтерфейсу та параметри проксі"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:492
 msgid "&Preferences..."
-msgstr "Настройки"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:493
 msgid "Configure local preferences"
-msgstr "Локальні настройки"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:499
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr "Приєднатися до іншого комп'ютера з %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:504
 msgid "Select computer..."
-msgstr "Вибрати комп'ютер..."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:509
 msgid "Shut down connected client..."
-msgstr "Виключити приєднаний клієнт..."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:510
 msgid "Shut down the currently connected core client"
-msgstr "Виключити зараз приєднаний основний клієнт"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:514
 msgid "Run CPU &benchmarks"
-msgstr "Виконати тести продуктивності процесора"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:515
 msgid "Runs BOINC CPU benchmarks"
-msgstr "Виконати BOINC тести продуктивності процесора"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:519
 msgid "Do network &communication"
-msgstr "Виконати транзакції з сервером"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:520
 msgid "Do all pending network communication."
-msgstr "Виконати всі незакінчені транзакції з сервером"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:524
 msgid "Read config file"
-msgstr "Зчитати з файлу настройок"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:525
 msgid "Read configuration info from cc_config.xml."
-msgstr "Зчитати настройки з файлу cc_config.xml."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:529
 msgid "Read local prefs file"
-msgstr "Зчитати локальний файл настройок"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:530
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "Зчитати настройки з файлу global_prefs_override.xml."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:540
 #, c-format
 msgid "%s &help"
-msgstr "Довідка %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:546
 #, c-format
 msgid "Show information about %s"
-msgstr "Показати інформацію по %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:558
 #, c-format
 msgid "&%s help"
-msgstr "Довідка %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:564
 #, c-format
 msgid "Show information about the %s"
-msgstr "Показати інформацію по %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:576
 #, c-format
 msgid "%s &website"
-msgstr "%s веб-сайт"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:582
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Показати інформацію по BOINC та %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:598
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "&About %s..."
-msgstr "О %s..."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:604
 msgid "Licensing and copyright information."
-msgstr "Інформація о ліцензій та авторських правах."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:611
 msgid "&File"
-msgstr "Файл"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:615
 msgid "&View"
-msgstr "Вид"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:619
 msgid "&Tools"
-msgstr "Сервіс"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:623
 msgid "&Activity"
-msgstr "Управління"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:627
 msgid "A&dvanced"
-msgstr "Додатково"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:631
 msgid "&Help"
-msgstr "Довідка"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:993
 msgid "Attaching to project or account manager..."
-msgstr "Відбувається підключення до проєкту чи менеджера облікових записів..."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
 msgid "%s - Detach from %s"
-msgstr "%s - Відключитися від %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1091
 #, c-format
@@ -512,27 +484,21 @@ msgid ""
 "\n"
 "Do you want to stop using %s?"
 msgstr ""
-"Якщо Ви від'єднаєтесь від %s,\n"
-"усі Ваші проєкти сберегуться,\n"
-"але ві будете повинні кирувати їми власноручно.\n"
-"Від'єднатися від %s?"
 
 #: clientgui/AdvancedFrame.cpp:1249
 #, c-format
 msgid "%s - Language Selection"
-msgstr "%s - вибір мови"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1256
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
-"Мову інтерфейсу %s було змінено, для того щоб ці зміни здійснилися треба "
-"перезапустити %s."
 
 #: clientgui/AdvancedFrame.cpp:1419
 #, c-format
 msgid "%s - Shutdown the current client..."
-msgstr "%s - закінчити роботу актуального BOINC клієнту..."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
@@ -540,41 +506,39 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
-"%s закінчить роботу приєднаного клієнту\n"
-"та запитає Вас адресу іншого сервера для приєднання.\n"
 
 #: clientgui/AdvancedFrame.cpp:1475
 msgid "Retrying communications for project(s)..."
-msgstr "Повторне підключення для проекту (проектів)..."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1675
 #, c-format
 msgid "%s"
-msgstr "%s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1684
 #, c-format
 msgid "%s has successfully attached to %s"
-msgstr "%s приєднався до %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1806
 #, c-format
 msgid "%s - (%s)"
-msgstr "%s - (%s)"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1809
 #, c-format
 msgid "Connecting to %s"
-msgstr "Приєднання до %s"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1812
 #, c-format
 msgid "Connected to %s (%s)"
-msgstr "Приєднано до %s (%s)"
+msgstr ""
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
-msgstr "Ім'я користувача вже зареєстровано"
+msgstr ""
 
 #: clientgui/AlreadyExistsPage.cpp:186
 msgid ""
@@ -583,14 +547,10 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"Обліковий запис користувача з цим ім'ям вже зареєстрована та має \n"
-"інший пароль, аніж той, що Ви ввели.\n"
-"\n"
-"Будь ласка виконайте інструкції на домашній сторінці проекту."
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
-msgstr "Email адреса вже була зареєстрована"
+msgstr ""
 
 #: clientgui/AlreadyExistsPage.cpp:193
 msgid ""
@@ -599,42 +559,35 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"Обліковий запис в цією email адресою вже існує та має \n"
-"інший  пароль аніж ти, що Ви ввели.\n"
-"\n"
-"Будь ласка виконайте інструкції на домашній сторінці проекту."
 
 #: clientgui/AsyncRPC.cpp:1200
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "Встановлюється зв'язок з BOINC клієнтом.  Будь ласка зачекайте..."
+msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
-msgstr "Вийти з %s"
+msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
-msgstr "Вийти з %s"
+msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
-msgstr "Відмінити"
+msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:422
 #, c-format
 msgid "%s - Connection Error"
-msgstr "%s - помилка під час з’єднання"
+msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:431
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
-"Ви не маєте прав, щоб  керувати клієнтом.\n"
-"Будь ласка зверніться до адміністратора, щоб той вніс вас у групу "
-"'boinc_users'."
 
 #: clientgui/BOINCBaseFrame.cpp:440
 msgid ""
@@ -3128,7 +3081,7 @@ msgstr ""
 
 #: clientgui/ViewStatistics.cpp:1826
 msgid "Statistics"
-msgstr ""
+msgstr "Ystadegau"
 
 #: clientgui/ViewStatistics.cpp:1846
 #: clientgui/ViewStatistics.cpp:1867
@@ -3165,7 +3118,7 @@ msgstr ""
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
 msgid "File"
-msgstr ""
+msgstr "Ffeil"
 
 #: clientgui/ViewTransfers.cpp:183
 #: clientgui/ViewTransfersGrid.cpp:129
