@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-06-28 06:26-0700\n"
+"PO-Revision-Date: 2010-01-11 10:29-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -279,9 +279,8 @@ msgid "to read information"
 msgstr "Informationen zu erhalten"
 
 #: poll_data.inc:201
-#, fuzzy
 msgid "to read and post information"
-msgstr "Informationen zu erhalten und abzugeben"
+msgstr "Informationen zu lesen und zu schreiben"
 
 #: poll_data.inc:202
 msgid "None"
@@ -443,48 +442,48 @@ msgstr ""
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "Rechenleistung"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "Top 100 der Helfer"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiken"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "Aktiv:"
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "Helfer,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "Computer."
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "24-Stunden Durchschnitt:"
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TeraFLOPS."
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Nachrichten"
 
 #: index.php:72
 msgid "... more"
-msgstr ""
+msgstr "... mehr"
 
 #: index.php:76
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Nachrichten auch als %sRSS feed%s erhältlich"
 
 #: index.php:86
 msgid "Volunteer"
@@ -524,76 +523,75 @@ msgstr ""
 
 #: index.php:123
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "Berechnung mit BOINC"
 
 #: index.php:126
 msgid "Software updates"
-msgstr ""
+msgstr "Programmaktualisierungen"
 
 #: index.php:153
 msgid "The BOINC project"
-msgstr ""
+msgstr "Das BOINC Projekt"
 
 #: index.php:158
 msgid "Help wanted!"
-msgstr ""
+msgstr "Helfer gesucht!"
 
 #: index.php:160
 msgid "Programming"
-msgstr ""
+msgstr "Programmieren"
 
 #: index.php:161
 msgid "Translation"
-msgstr ""
+msgstr "Übersetzen"
 
 #: index.php:162
 msgid "Testing"
-msgstr ""
+msgstr "Testen"
 
 #: index.php:165
 msgid "Software development"
-msgstr ""
+msgstr "Software entwickeln"
 
 #: index.php:166
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "APIs für Erweiterungs-Software"
 
 #: index.php:167
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "Mitarbeiter und Mitwirkende"
 
 #: index.php:168
 msgid "Message boards"
-msgstr ""
+msgstr "Foren"
 
 #: index.php:169
 msgid "Email lists"
-msgstr ""
+msgstr "E-Mail-Listen"
 
 #: index.php:170
 msgid "Events"
-msgstr ""
+msgstr "Veranstaltungen"
 
 #: index.php:171
 msgid "Conferences"
-msgstr ""
+msgstr "Konferenzen"
 
 #: index.php:172
 msgid "Papers and talks"
-msgstr ""
+msgstr "Abhandlungen und Präsentationen"
 
 #: index.php:173
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Logos und Grafiken"
 
 #: index.php:206
 msgid "Browser default"
-msgstr ""
+msgstr "Browserstandard"
 
 # Gesucht: kurze und einfache Übersetzungen um den Unterschied zwischen volunteer und grid darzustellen.
 #: index.php:250
 #, php-format
-#, fuzzy
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
@@ -690,3 +688,5 @@ msgid ""
 "These are the current results of the <a href=poll.php>BOINC user survey</"
 "a>.  This page is updated every hour."
 msgstr ""
+"Dies sind die aktuellen Ergebnisse der <a href=poll.php>BOINC "
+"Nutzerumfrage</a>. _ _ Diese Seite wird jede Stunde aktualisiert."
