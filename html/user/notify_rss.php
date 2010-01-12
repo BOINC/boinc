@@ -66,30 +66,7 @@ echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
 ";
 
 foreach ($notifies as $notify) {
-    switch ($notify->type) {
-    case NOTIFY_FRIEND_REQ:
-        friend_req_rss($notify, $title, $msg, $url);
-        break;
-    case NOTIFY_FRIEND_ACCEPT:
-        friend_accept_rss($notify, $title, $msg, $url);
-        break;
-    case NOTIFY_PM:
-        pm_rss($notify, $title, $msg, $url);
-        break;
-    case NOTIFY_SUBSCRIBED_POST:
-        subscribe_rss($notify, $title, $msg, $url);
-        break;
-    }
-
-    $news_date=gmdate('D, d M Y H:i:s',$notify->create_time) . ' GMT';
-    $unique_url=URL_BASE."home.php";
-    echo "<item>
-        <title>$title</title>
-        <link>".htmlentities($url)."</link>
-        <description><![CDATA[$msg]]></description>
-        <pubDate>$news_date</pubDate>
-        </item>
-    ";
+    show_notify_rss_item($notify);
 }
 
 echo "

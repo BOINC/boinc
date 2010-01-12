@@ -96,12 +96,6 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     }
     return false;
 }
-static void get_weak_auth(USER& user, char* buf) {
-    char buf2[256], out[256];
-    sprintf(buf2, "%s%s", user.authenticator, user.passwd_hash);
-    md5_block((unsigned char*)buf2, strlen(buf2), out);
-    sprintf(buf, "%d_%s", user.id, out);
-}
 
 static void send_error_message(const char* msg, int delay) {
     g_reply->insert_message(msg, "low");

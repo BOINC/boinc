@@ -345,3 +345,23 @@ David  12 Jan 2010
         AdvancedFrame.cpp
         Makefile.am
         ViewNotifications* -> ViewNotices*
+
+David  12 Jan 2010
+    - client: small tweak to work fetch:
+        if project has crazy DCF, don't automatically request 1 sec;
+        only request work if there's a shortfall.
+    - intermediate checkin for notices stuff
+
+    client/
+        Makefile.am
+        work_fetch.cpp
+    html/
+        inc/
+            forum_rss.inc
+            notify.inc
+            pm.inc
+        user/
+            notices.php (new)
+    sched
+        handle_request.cpp
+        sched_types.cpp,h

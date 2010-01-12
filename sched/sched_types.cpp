@@ -1194,7 +1194,7 @@ void GUI_URLS::init() {
 
 void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
     bool found;
-    char userid[256], teamid[256], hostid[256];
+    char userid[256], teamid[256], hostid[256], weak_auth[256], rss_auth[256];
     strcpy(buf, "");
     if (!text) return;
     strcpy(buf, text);
@@ -1208,8 +1208,10 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
         while (remove_element(buf, "<ifteam>", "</ifteam>")) {
             continue;
         }
-
     }
+
+    get_weak_auth(user, weak_auth);
+    get_rss_auth(user, rss_auth);
     while (1) {
         found = false;
         found |= str_replace(buf, "<userid/>", userid);
@@ -1218,6 +1220,8 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
         found |= str_replace(buf, "<teamid/>", teamid);
         found |= str_replace(buf, "<team_name/>", team.name);
         found |= str_replace(buf, "<authenticator/>", user.authenticator);
+        found |= str_replace(buf, "<weak_auth/>", weak_auth);
+        found |= str_replace(buf, "<rss_auth/>", rss_auth);
         if (!found) break;
     }
 }
@@ -1225,6 +1229,20 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
 void PROJECT_FILES::init() {
     text = 0;
     read_file_malloc(config.project_path("project_files.xml"), text);
+}
+
+void get_weak_auth(USER& user, char* buf) {
+    char buf2[256], out[256];
+    sprintf(buf2, "%s%s", user.authenticator, user.passwd_hash);
+    md5_block((unsigned char*)buf2, strlen(buf2), out);
+    sprintf(buf, "%d_%s", user.id, out);
+}
+
+void get_rss_auth(USER& user, char* buf) {
+    char buf2[256], out[256];
+    sprintf(buf2, "%s%s%s", user.authenticator, user.passwd_hash, "notify_rss");
+    md5_block((unsigned char*)buf2, strlen(buf2), out);
+    sprintf(buf, "%d_%s", user.id, out);
 }
 
 const char *BOINC_RCSID_ea659117b3 = "$Id$";

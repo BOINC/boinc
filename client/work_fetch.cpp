@@ -332,20 +332,23 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     return pbest;
 }
 
-// request this project's share of shortfall and instances
+// request this project's share of shortfall and instances.
+// don't request anything if project is overworked or backed off.
 //
 void RSC_WORK_FETCH::set_request(PROJECT* p) {
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     if (!w.may_have_work) return;
     if (w.overworked()) return;
-    double dcf = p->duration_correction_factor;
-    if (dcf < 0.02 || dcf > 80.0) {
-        // if project's DCF is too big or small,
-        // its completion time estimates are useless; just ask for 1 second
-        //
-        req_secs = 1;
-    } else {
-        req_secs = shortfall * w.fetchable_share;
+    if (shortfall) {
+        double dcf = p->duration_correction_factor;
+        if (dcf < 0.02 || dcf > 80.0) {
+            // if project's DCF is too big or small,
+            // its completion time estimates are useless; just ask for 1 second
+            //
+            req_secs = 1;
+        } else {
+            req_secs = shortfall * w.fetchable_share;
+        }
     }
 
     // the number of additional instances needed to have our share

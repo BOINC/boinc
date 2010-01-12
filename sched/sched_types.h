@@ -469,4 +469,7 @@ static inline void add_no_work_message(char* m) {
     g_wreq->add_no_work_message(m);
 }
 
+extern void get_weak_auth(USER&, char*);
+extern void get_rss_auth(USER&, char*);
+
 #endif

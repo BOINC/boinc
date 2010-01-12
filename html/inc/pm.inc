@@ -196,8 +196,8 @@ function pm_email_remind($user) {
 function pm_rss($notify, &$title, &$msg, &$url) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
-    $title = "New private message";
-    $msg = "$from_user->name sent you a private message; subject: $pm->subject";
+    $title = "Private message from $from_user->name: $pm->subject";
+    $msg = "$pm->content";
     $url = URL_BASE."pm.php";
 }
 

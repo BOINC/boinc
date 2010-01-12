@@ -22,6 +22,35 @@ require_once("../inc/util.inc");
 require_once("../inc/text_transform.inc");
 require_once("../project/project.inc");
 
+function show_forum_rss_item($thread, $userid, $threads_only, $truncate) {
+    $unique_url=URL_BASE."forum_thread.php?id=".$thread->id;
+
+    $clause2 = " and hidden=0 ";
+    if ($userid) $clause2 .= "and user=$userid";
+    if ($threads_only) {
+        $posts = BoincPost::enum("thread=$thread->id $clause2 order by id limit 1");
+    } else {
+        $posts = BoincPost::enum("thread=$thread->id $clause2 order by timestamp desc limit 1");
+    }
+    $post = $posts[0];
+    $post_date = gmdate('D, d M Y H:i:s',$post->timestamp).' GMT';
+    $t = bb2html($post->content, true);
+    if ($truncate) {
+        if (strlen($post->content) > 256) {
+            $t = substr($post->content, 0, 256).". . .";
+        }
+    }
+    $t = htmlspecialchars($t);
+    echo "<item>
+        <title>".strip_tags(bb2html($thread->title))."</title>
+        <link>$unique_url</link>
+        <guid isPermaLink=\"true\">$unique_url</guid>
+        <description>$t</description>
+        <pubDate>$post_date</pubDate>
+        </item>
+    ";
+}
+
 function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
     $clause = "forum=$forumid ";
 
@@ -82,32 +111,7 @@ function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
     // write news items
     //
     foreach ($threads as $thread) {
-        $unique_url=URL_BASE."forum_thread.php?id=".$thread->id;
-
-        $clause2 = " and hidden=0 ";
-        if ($userid) $clause2 .= "and user=$userid";
-        if ($threads_only) {
-            $posts = BoincPost::enum("thread=$thread->id $clause2 order by id limit 1");
-        } else {
-            $posts = BoincPost::enum("thread=$thread->id $clause2 order by timestamp desc limit 1");
-        }
-        $post = $posts[0];
-        $post_date=gmdate('D, d M Y H:i:s',$post->timestamp).' GMT';
-        $t = bb2html($post->content, true);
-        if ($truncate) {
-            if (strlen($post->content) > 256) {
-                $t = substr($post->content, 0, 256).". . .";
-            }
-        }
-        $t = htmlspecialchars($t);
-        echo "<item>
-        <title>".strip_tags(bb2html($thread->title))."</title>
-        <link>$unique_url</link>
-        <guid isPermaLink=\"true\">$unique_url</guid>
-        <description>$t</description>
-        <pubDate>$post_date</pubDate>
-    </item>
-    ";
+        show_forum_rss_item($thread, $truncate);
     }
 
     echo "

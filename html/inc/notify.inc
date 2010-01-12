@@ -26,4 +26,30 @@ function notify_rss_url($user) {
     return URL_BASE."notify_rss.php?userid=$user->id&auth=".notify_rss_auth($user);
 }
 
+function show_notify_rss_item($notify) {
+    switch ($notify->type) {
+    case NOTIFY_FRIEND_REQ:
+        friend_req_rss($notify, $title, $msg, $url);
+        break;
+    case NOTIFY_FRIEND_ACCEPT:
+        friend_accept_rss($notify, $title, $msg, $url);
+        break;
+    case NOTIFY_PM:
+        pm_rss($notify, $title, $msg, $url);
+        break;
+    case NOTIFY_SUBSCRIBED_POST:
+        subscribe_rss($notify, $title, $msg, $url);
+        break;
+    }
+
+    $news_date=gmdate('D, d M Y H:i:s',$notify->create_time) . ' GMT';
+    echo "<item>
+        <title>$title</title>
+        <link>".htmlentities($url)."</link>
+        <description><![CDATA[$msg]]></description>
+        <pubDate>$news_date</pubDate>
+        </item>
+    ";
+}
+
 ?>
