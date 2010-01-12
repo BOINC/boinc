@@ -795,16 +795,22 @@ int ACTIVE_TASK::start(bool first_time) {
         // - the project dir (../../projects/X)
         // - the slot dir (.)
         // - the BOINC dir (../..)
+        // (Mac) /usr/local/cuda/lib/
         // We use relative paths in case higher-level dirs
         // are not readable to the account under which app runs
         //
         char libpath[8192];
+        char newlibs[256];
         get_project_dir(wup->project, buf, sizeof(buf));
+        sprintf(newlibs, "../../%s:.:../..", buf);
+#ifdef __APPLE__
+        strcat(newlibs, ":/usr/local/cuda/lib/");
+#endif
         char* p = getenv("LD_LIBRARY_PATH");
         if (p) {
-            sprintf(libpath, "../../%s:.:../..:%s", buf, p);
+            sprintf(libpath, "%s:%s", newlibs, p);
         } else {
-            sprintf(libpath, "../../%s:.:../..", buf);
+            strcpy(libpath, newlibs);
         }
         setenv("LD_LIBRARY_PATH", libpath, 1);
 
@@ -813,9 +819,9 @@ int ACTIVE_TASK::start(bool first_time) {
 #ifdef __APPLE__
         p = getenv("DYLD_LIBRARY_PATH");
         if (p) {
-            sprintf(libpath, "../../%s:.:../..:%s", buf, p);
+            sprintf(libpath, "%s:%s", newlibs, p);
         } else {
-            sprintf(libpath, "../../%s:.:../..", buf);
+            strcpy(libpath, newlibs);
         }
         setenv("DYLD_LIBRARY_PATH", libpath, 1);
 #endif

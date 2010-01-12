@@ -81,3 +81,10 @@ Charlie  12 Jan 2010
     /
         configure.ac
         version.h
+        
+David  9 Jan 2010
+    - client (Mac): append /usr/local/cuda/lib to LD_LIBRARY_PATH
+        and DYLD_LIBRARY_PATH
+
+    client/
+        app_start.cpp
