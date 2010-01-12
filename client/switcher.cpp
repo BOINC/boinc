@@ -33,12 +33,22 @@
 #include <pwd.h>	// getpwuid
 #include <grp.h>
 
+#include "app_ipc.h"
+
 using std::strcpy;
 
+extern char ** environ;     // CAF
+
 int main(int argc, char** argv) {
-    passwd      *pw;
-    group       *grp;
-    char        user_name[256], group_name[256];
+    passwd          *pw;
+    group           *grp;
+    char            user_name[256], group_name[256];
+    APP_INIT_DATA   aid;
+    FILE            *f;
+    int             retval = -1;
+    char            libpath[8192];
+    char            newlibs[256];
+    char            *projectDirName;
 
     strcpy(user_name, "boinc_project");
     strcpy(group_name, "boinc_project");
@@ -73,6 +83,49 @@ int main(int argc, char** argv) {
     // effective user ID and saved set_user-ID for this process
     pw = getpwnam(user_name);
     if (pw) setuid(pw->pw_uid);
+
+    // For unknown reasons, the LD_LIBRARY_PATH and DYLD_LIBRARY_PATH
+    // environment variables are not passed in to switcher, though all 
+    // other environment variables do get propagated.  So we recreate 
+    // LD_LIBRARY_PATH and DYLD_LIBRARY_PATH here.
+    f = fopen(INIT_DATA_FILE, "r");
+    if (f) {
+        retval = parse_init_data_file(f, aid);
+        fclose(f);
+    }
+
+    if (!retval) {
+        // Get project name without leading path
+        projectDirName = strrchr(aid.project_dir, '/');
+        if (projectDirName) {
+            ++projectDirName;
+        } else {
+            projectDirName = aid.project_dir;
+        } 
+        sprintf(newlibs, "../../%s:.:../..", projectDirName);
+#ifdef __APPLE__
+        strcat(newlibs, ":/usr/local/cuda/lib/");
+#endif
+        char* p = getenv("LD_LIBRARY_PATH");
+        if (p) {
+            sprintf(libpath, "%s:%s", newlibs, p);
+        } else {
+            strcpy(libpath, newlibs);
+        }
+        setenv("LD_LIBRARY_PATH", libpath, 1);
+
+        // On the Mac, do the same for DYLD_LIBRARY_PATH
+        //
+#ifdef __APPLE__
+        p = getenv("DYLD_LIBRARY_PATH");
+        if (p) {
+            sprintf(libpath, "%s:%s", newlibs, p);
+        } else {
+            strcpy(libpath, newlibs);
+        }
+        setenv("DYLD_LIBRARY_PATH", libpath, 1);
+#endif
+    }
 
     execv(argv[1], argv+2);
     

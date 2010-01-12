@@ -291,3 +291,15 @@ David  11 Jan 2010
 
     api/
         boinc_api.cpp
+
+Charlie  8 Jan 2010
+    - client sandbox: set LD_LIBRARY_PATH and DYLD_LIBRARY_PATH in switcher.
+        For unknown reasons, the these 2 environment variables are not 
+        passed in to switcher, though all other environment variables do get 
+        propagated.  
+
+    client/
+        switcher.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

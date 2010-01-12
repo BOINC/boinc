@@ -64,6 +64,8 @@
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
 		DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.cpp */; };
 		DD35353607E1E13F00C4718D /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5755AD302FE063A012012A7 /* boinc_api.cpp */; };
+		DD3741D610FC948C001257EB /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
+		DD3741D910FC94BA001257EB /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DD3E14DB0A774397007E0084 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
 		DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDF3028907CCCE2C00701169 /* BOINCMgr.icns */; };
 		DD3E14DD0A774397007E0084 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
@@ -375,6 +377,16 @@
 		DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */; };
 		DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */; };
 		DDE41C260C1FCA8F00CA1F86 /* graphics2_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE41C250C1FCA8F00CA1F86 /* graphics2_util.cpp */; };
+		DDE5868E10FC8D2200DFA887 /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
+		DDE586A310FC8DD700DFA887 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; };
+		DDE586A410FC8DD900DFA887 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B901602AC0A2201FB7237 /* parse.cpp */; };
+		DDE586A710FC8E1200DFA887 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
+		DDE586A810FC8E2B00DFA887 /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
+		DDE586AB10FC8E5100DFA887 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDE586AC10FC8E6900DFA887 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
+		DDE586AF10FC8E7B00DFA887 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
+		DDE586B010FC8E9100DFA887 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF9A32F0B2E3D4D00091FCB /* auto_update.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9A32D0B2E3D4D00091FCB /* auto_update.cpp */; };
@@ -2760,6 +2772,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDD095490A3EDF2D00C95BA4 /* switcher.cpp in Sources */,
+				DDE5868E10FC8D2200DFA887 /* app_ipc.cpp in Sources */,
+				DDE586A310FC8DD700DFA887 /* miofile.cpp in Sources */,
+				DDE586A410FC8DD900DFA887 /* parse.cpp in Sources */,
+				DDE586A710FC8E1200DFA887 /* hostinfo.cpp in Sources */,
+				DDE586A810FC8E2B00DFA887 /* prefs.cpp in Sources */,
+				DDE586AB10FC8E5100DFA887 /* util.cpp in Sources */,
+				DDE586AC10FC8E6900DFA887 /* str_util.cpp in Sources */,
+				DDE586AF10FC8E7B00DFA887 /* proxy_info.cpp in Sources */,
+				DDE586B010FC8E9100DFA887 /* coproc.cpp in Sources */,
+				DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */,
+				DD3741D610FC948C001257EB /* filesys.cpp in Sources */,
+				DD3741D910FC94BA001257EB /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
