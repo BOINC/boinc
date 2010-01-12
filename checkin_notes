@@ -336,3 +336,12 @@ David  12 Jan 2010
             rss_main.php
     lib/
         util.cpp
+
+David  12 Jan 2010
+    - manager: "Notifications" => "Notices".  Consistent terminology.
+
+    clientgui/
+        Events.h
+        AdvancedFrame.cpp
+        Makefile.am
+        ViewNotifications* -> ViewNotices*

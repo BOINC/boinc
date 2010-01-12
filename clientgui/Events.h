@@ -50,7 +50,7 @@
 
 // View Menu
 #define ID_ADVVIEWBASE                          6125
-#define ID_ADVNOTIFICATIONSVIEW                 6125
+#define ID_ADVNOTICESVIEW                       6125
 #define ID_ADVPROJECTSVIEW                      6126
 #define ID_ADVTASKSVIEW                         6127
 #define ID_ADVTRANSFERSVIEW                     6128

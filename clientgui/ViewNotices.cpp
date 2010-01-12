@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ViewNotifications.h"
+#pragma implementation "ViewNotices.h"
 #endif
 
 #include "stdwx.h"
@@ -25,7 +25,7 @@
 #include "MainDocument.h"
 #include "AdvancedFrame.h"
 #include "BOINCTaskCtrl.h"
-#include "ViewNotifications.h"
+#include "ViewNotices.h"
 #include "Events.h"
 #include "error_numbers.h"
 
@@ -33,17 +33,17 @@
 #include "res/mess.xpm"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CViewNotifications, CBOINCBaseView)
+IMPLEMENT_DYNAMIC_CLASS(CViewNotices, CBOINCBaseView)
 
-BEGIN_EVENT_TABLE (CViewNotifications, CBOINCBaseView)
+BEGIN_EVENT_TABLE (CViewNotices, CBOINCBaseView)
 END_EVENT_TABLE ()
 
 
-CViewNotifications::CViewNotifications()
+CViewNotices::CViewNotices()
 {}
 
 
-CViewNotifications::CViewNotifications(wxNotebook* pNotebook) :
+CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook)
 {
     CTaskItemGroup* pGroup = NULL;
@@ -90,48 +90,48 @@ CViewNotifications::CViewNotifications(wxNotebook* pNotebook) :
 }
 
 
-CViewNotifications::~CViewNotifications() {
+CViewNotices::~CViewNotices() {
 }
 
 
-wxString& CViewNotifications::GetViewName() {
+wxString& CViewNotices::GetViewName() {
     static wxString strViewName(wxT("Notices"));
     return strViewName;
 }
 
 
-wxString& CViewNotifications::GetViewDisplayName() {
+wxString& CViewNotices::GetViewDisplayName() {
     static wxString strViewName(_("Notices"));
     return strViewName;
 }
 
 
-const char** CViewNotifications::GetViewIcon() {
+const char** CViewNotices::GetViewIcon() {
     return mess_xpm;
 }
 
 
-const int CViewNotifications::GetViewRefreshRate() {
+const int CViewNotices::GetViewRefreshRate() {
     return 10;
 }
 
-const int CViewNotifications::GetViewCurrentViewPage() {
+const int CViewNotices::GetViewCurrentViewPage() {
      return VW_NOTIF;
 }
 
 
-bool CViewNotifications::OnSaveState(wxConfigBase* WXUNUSED(pConfig)) {
+bool CViewNotices::OnSaveState(wxConfigBase* WXUNUSED(pConfig)) {
     return true;
 }
 
 
-bool CViewNotifications::OnRestoreState(wxConfigBase* WXUNUSED(pConfig)) {
+bool CViewNotices::OnRestoreState(wxConfigBase* WXUNUSED(pConfig)) {
     return true;
 }
 
 
-void CViewNotifications::OnListRender(wxTimerEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnListRender - Function Begin"));
+void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewNotices::OnListRender - Function Begin"));
 
     CMainDocument*  pDoc   = wxGetApp().GetDocument();
     wxString strHTML;
@@ -188,5 +188,5 @@ void CViewNotifications::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 done:
     s_bInProgress = false;
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewNotifications::OnListRender - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewNotices::OnListRender - Function End"));
 }

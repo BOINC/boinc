@@ -39,7 +39,7 @@
 #include "BOINCTaskBar.h"
 #include "BOINCDialupManager.h"
 #include "AdvancedFrame.h"
-#include "ViewNotifications.h"
+#include "ViewNotices.h"
 #include "ViewProjects.h"
 #include "ViewWork.h"
 #include "ViewTransfers.h"
@@ -159,7 +159,7 @@ IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     // View
-    EVT_MENU_RANGE(ID_ADVNOTIFICATIONSVIEW, ID_ADVRESOURCEUSAGEVIEW, CAdvancedFrame::OnChangeView)
+    EVT_MENU_RANGE(ID_ADVNOTICESVIEW, ID_ADVRESOURCEUSAGEVIEW, CAdvancedFrame::OnChangeView)
     EVT_MENU(ID_CHANGEGUI, CAdvancedFrame::OnChangeGUI)
     // Tools
     EVT_MENU(ID_WIZARDATTACH, CAdvancedFrame::OnWizardAttach)
@@ -328,9 +328,9 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
     wxMenu *menuView = new wxMenu;
 
     menuView->Append(
-        ID_ADVNOTIFICATIONSVIEW,
-        _("&Notifications\tCtrl+Shift+N"),
-        _("Display notifications")
+        ID_ADVNOTICESVIEW,
+        _("&Notices\tCtrl+Shift+N"),
+        _("Display notices")
     );
 
     menuView->Append(
@@ -730,7 +730,7 @@ bool CAdvancedFrame::RepopulateNotebook() {
     DeleteNotebook();
 
     // Create the various notebook pages
-    CreateNotebookPage(new CViewNotifications(m_pNotebook));
+    CreateNotebookPage(new CViewNotices(m_pNotebook));
     CreateNotebookPage(new CViewProjects(m_pNotebook));
     CreateNotebookPage(new CViewWork(m_pNotebook));
     CreateNotebookPage(new CViewTransfers(m_pNotebook));
@@ -927,7 +927,7 @@ bool CAdvancedFrame::RestoreState() {
     if (wxGetApp().GetSkinManager()->GetAdvanced()->GetDefaultTab()) {
         m_pNotebook->SetSelection(wxGetApp().GetSkinManager()->GetAdvanced()->GetDefaultTab());
     } else {
-        pConfig->Read(wxT("CurrentPageV2"), &iCurrentPage, (ID_ADVNOTIFICATIONSVIEW - ID_ADVVIEWBASE));
+        pConfig->Read(wxT("CurrentPageV2"), &iCurrentPage, (ID_ADVNOTICESVIEW - ID_ADVVIEWBASE));
         m_pNotebook->SetSelection(iCurrentPage);
     }
 
@@ -1756,7 +1756,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             );
         } else {
             // If failure, display the notification tab
-            m_pNotebook->SetSelection(ID_ADVNOTIFICATIONSVIEW - ID_ADVVIEWBASE);
+            m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetProjectCount())) && !status.disallow_attach) {
         if (!IsShown()) {
@@ -1804,7 +1804,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotification - Function Begin"));
 
-    m_pNotebook->SetSelection(ID_ADVNOTIFICATIONSVIEW - ID_ADVVIEWBASE);
+    m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotification - Function End"));
 }

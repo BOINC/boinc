@@ -19,21 +19,21 @@
 #define _VIEWNOTIFICATIONS_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ViewNotifications.cpp"
+#pragma interface "ViewNotices.cpp"
 #endif
 
 
 #include "BOINCBaseView.h"
 
 
-class CViewNotifications : public CBOINCBaseView {
-    DECLARE_DYNAMIC_CLASS( CViewNotifications )
+class CViewNotices : public CBOINCBaseView {
+    DECLARE_DYNAMIC_CLASS( CViewNotices )
 
 public:
-    CViewNotifications();
-    CViewNotifications(wxNotebook* pNotebook);
+    CViewNotices();
+    CViewNotices(wxNotebook* pNotebook);
 
-    ~CViewNotifications();
+    ~CViewNotices();
 
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();

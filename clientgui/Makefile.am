@@ -97,7 +97,7 @@ boincmgr_SOURCES = \
     ValidateAccountKey.cpp \
     ValidateEmailAddress.cpp \
     ValidateURL.cpp \
-    ViewNotifications.cpp \
+    ViewNotices.cpp \
     ViewProjects.cpp \
     ViewResources.cpp \
     ViewStatistics.cpp \
