@@ -303,3 +303,14 @@ Charlie  12 Jan 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Bernd  12 Jan 2010
+    - file_deleter:
+      - Limit the number of files to be deleted in one 'antique
+        deletion' pass to 50000 (can be changed with -delete_antiques_limit).
+	Previously large number of antiques led to not deleting any at all.
+      - Allow to change the interval between passes with -delete_antiques_interval.
+      - Allow to specify the name of an application instead of the appid.
+
+    sched/
+        file_deleter.cpp

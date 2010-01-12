@@ -29,6 +29,7 @@
 //
 #define ANTIQUE_DELAY       3600
 #define ANTIQUE_INTERVAL    86400
+#define ANTIQUE_LIMIT       50000
 
 // how often to retry errors
 //
@@ -74,6 +75,8 @@ bool dont_retry_errors = false;
 bool dont_delete_antiques = false;
 bool dont_delete_batches = false;
 int antique_delay = ANTIQUE_DELAY;
+int antique_interval = ANTIQUE_INTERVAL;
+int antique_limit = ANTIQUE_LIMIT;
 bool do_input_files = true;
 bool do_output_files = true;
 int sleep_interval = DEFAULT_SLEEP_INTERVAL;
@@ -101,6 +104,8 @@ void usage(char *name) {
         "  -delete_antiques_now           do 5) immediately\n"
         "  -dont_retry_error              don't do 4)\n"
         "  -dont_delete_antiques          don't do 5)\n"
+	"  -delete_antiques_interval      change the interval between delete antique passes (in seconds, defaults to 24h)\n"
+	"  -delete_antiques_limit         change the maximum number of files deleted in one delete antique pass (defaults to 50000)\n"
         "  -preserve_result_files         update the DB, but don't delete output files.\n"
         "                                 For debugging.\n"
         "  -preserve_wu_files             update the DB, but don't delete input files.\n"
@@ -475,7 +480,7 @@ int add_antiques_to_list(int days) {
 
     if (!apache_info) {
         log_messages.printf(MSG_CRITICAL,
-            "httpd_user'%s' found - add <httpd_user> entry in config.xml\n",
+            "default httpd_user '%s' found - add <httpd_user> entry in config.xml\n",
             config.httpd_user
         );
         return -1;
@@ -484,7 +489,7 @@ int add_antiques_to_list(int days) {
         "Searching for antique files older than %d days\n", days
     );
 
-    sprintf(command,  "find %s -type f -mtime +%d -follow", config.upload_dir, days);
+    sprintf(command, "find %s -type f -mtime +%d -follow | head -%d", config.upload_dir, days, antique_limit);
     
     // Now execute the command, read output on a stream.  We could use
     // find to also exec a 'delete' command.  But we want to log all
@@ -621,8 +626,11 @@ int main(int argc, char** argv) {
     int retval;
     bool one_pass = false;
     int i;
-
+    DB_APP app;
+    
     check_stop_daemons();
+
+    *app.name='\0';
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
@@ -632,6 +640,8 @@ int main(int argc, char** argv) {
             preserve_wu_files = true;
         } else if (!strcmp(argv[i], "-preserve_result_files")) {
             preserve_result_files = true;
+        } else if (!strcmp(argv[i], "-app")) {
+            strcpy(app.name, argv[++i]);
         } else if (!strcmp(argv[i], "-appid")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
@@ -656,6 +666,10 @@ int main(int argc, char** argv) {
             id_remainder = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-dont_delete_antiques")) {
             dont_delete_antiques = true;
+        } else if (!strcmp(argv[i], "-delete_antiques_interval")) {
+            antique_interval = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-delete_antiques_limit")) {
+            antique_limit = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-dont_delete_batches")) {
             dont_delete_batches = true;
         } else if (!strcmp(argv[i], "-delete_antiques_now")) {
@@ -713,6 +727,19 @@ int main(int argc, char** argv) {
             "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
         );
     }
+
+    if (*app.name && !appid) {
+      char buf[256];      
+      sprintf(buf, "where name='%s'", app.name);
+      retval = app.lookup(buf);
+      if (retval) {
+        log_messages.printf(MSG_CRITICAL, "Can't find app\n");
+        exit(1);
+      }
+      appid=app.id;
+      log_messages.printf(MSG_DEBUG, "Deleting files of appid %d\n",appid);
+    }
+
     install_stop_signal_handler();
 
     bool retry_errors_now = !dont_retry_errors;
@@ -741,7 +768,7 @@ int main(int argc, char** argv) {
                 "Doing antique deletion pass\n"
             );
             do_antique_pass();
-            next_antique_time = dtime() + ANTIQUE_INTERVAL;
+            next_antique_time = dtime() + antique_interval;
         }
         if (!dont_retry_errors && !retry_errors_now && (dtime() > next_error_time)) {
             retry_errors_now = true;
