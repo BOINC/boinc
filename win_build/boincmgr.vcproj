@@ -1808,11 +1808,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewNotifications.cpp"
+					RelativePath="..\clientgui\ViewNotices.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewNotifications.h"
+					RelativePath="..\clientgui\ViewNotices.h"
 					>
 				</File>
 				<File
