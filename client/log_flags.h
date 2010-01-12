@@ -137,6 +137,7 @@ struct CONFIG {
     int save_stats_days;
     bool simple_gui_only;
     double start_delay;
+    bool stderr_head;
     bool suppress_net_info;
     bool use_all_gpus;
     bool use_certs;

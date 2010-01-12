@@ -44,7 +44,7 @@ function project_footer($show_return, $show_date, $prefix) {
     // If you include any links, prepend URL with $prefix
     echo "<br><hr noshade size=1><center>";
     if ($show_return) {
-        echo "<a href=".$prefix."index.php>Home</a> | <a href=".$prefix."home.php>My Account</a> | <a href=".$prefix."forum_index.php>Message Boards</a><br>\n";
+        echo "<a href=".$prefix."index.php>Home</a> &middot; <a href=".$prefix."home.php>Your account</a> &middot; <a href=".$prefix."forum_index.php>Message boards</a><br>\n";
     }
     echo "<br><br>Copyright &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {

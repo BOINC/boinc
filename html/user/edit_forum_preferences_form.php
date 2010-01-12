@@ -199,7 +199,7 @@ row2("Filtered users".
 );
 
 row1("Update");
-row2("Click here to update message board preferences", "<input type=submit value=\"Update\">");
+row2("Click here to update preferences", "<input type=submit value=\"Update\">");
 echo "</form>\n";
 row1("Reset");
 row2("Or click here to reset preferences to the defaults",

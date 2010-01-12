@@ -46,13 +46,17 @@ function news_item($date, $title, $post) {
     ";
 }
 
-function show_news($start, $count) {
+function news_forum() {
     if (defined("NEWS_FORUM_NAME")) {
         $forum_name = NEWS_FORUM_NAME;
     } else {
         $forum_name = "News";
     }
-    $forum = BoincForum::lookup("parent_type=0 and title = '$forum_name'");
+    return BoincForum::lookup("parent_type=0 and title = '$forum_name'");
+}
+
+function show_news($start, $count) {
+    $forum = news_forum();
     if (!$forum) {
         echo "
             No news forum.  Run html/ops/create_forums.php.

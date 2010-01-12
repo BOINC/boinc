@@ -152,11 +152,11 @@ function pm_send($to_user, $subject, $content, $send_email) {
             );
             break;
         }
-
-        // create notification in any case
-        //
-        BoincNotify::insert("(userid, create_time, type, opaque) values ($to_user->id, ".time().", ".NOTIFY_PM.", $mid)");
     }
+
+    // create notification in any case
+    //
+    BoincNotify::insert("(userid, create_time, type, opaque) values ($to_user->id, ".time().", ".NOTIFY_PM.", $mid)");
 }
 
 function pm_count($userid, $duration) {

@@ -219,6 +219,8 @@ CONFIG::CONFIG() {
     clear();
 }
 
+// this is called first thing by client
+//
 void CONFIG::clear() {
     allow_multiple_clients = false;
     alt_platforms.clear();
@@ -248,6 +250,7 @@ void CONFIG::clear() {
     save_stats_days = 30;
     simple_gui_only = false;
     start_delay = 0;
+    stderr_head = false;
     suppress_net_info = false;
     use_all_gpus = false;
     use_certs = false;
@@ -355,6 +358,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
         if (xp.parse_bool(tag, "simple_gui_only", simple_gui_only)) continue;
         if (xp.parse_double(tag, "start_delay", start_delay)) continue;
+        if (xp.parse_bool(tag, "stderr_head", stderr_head)) continue;
         if (xp.parse_bool(tag, "suppress_net_info", suppress_net_info)) continue;
         if (xp.parse_bool(tag, "use_all_gpus", use_all_gpus)) continue;
         if (xp.parse_bool(tag, "use_certs", use_certs)) continue;

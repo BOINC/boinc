@@ -18,13 +18,9 @@
 
 require_once("../project/project.inc");
 require_once("../inc/forum_rss.inc");
+require_once("../inc/news.inc");
 
-if (defined("NEWS_FORUM_NAME")) {
-    $forum_name = NEWS_FORUM_NAME;
-} else {
-    $forum_name = "News";
-}
-$forum = BoincForum::lookup("parent_type=0 and title = '$forum_name'");
+$forum = news_forum();
 if (!$forum) {
     exit;
 }

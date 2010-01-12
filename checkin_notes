@@ -314,3 +314,25 @@ Bernd  12 Jan 2010
 
     sched/
         file_deleter.cpp
+
+David  12 Jan 2010
+    - client: add <stderr_head> config option;
+        sends the first rather than last 64KB of stderr to server.
+        This doesn't belong here; this choice should come from the server.
+        I may take this out later.
+    - user web: when add a private message, always add a notification
+
+    client/
+        app_control.cpp
+        log_flags.cpp,h
+    html/
+        inc/
+            news.inc
+            pm.inc
+        project.sample/
+            project.inc
+        user/
+            edit_form_preferences_form.php
+            rss_main.php
+    lib/
+        util.cpp
