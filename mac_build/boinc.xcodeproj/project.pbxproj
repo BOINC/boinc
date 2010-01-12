@@ -63,6 +63,18 @@
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
 		DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.cpp */; };
 		DD35353607E1E13F00C4718D /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5755AD302FE063A012012A7 /* boinc_api.cpp */; };
+		DD3741F810FC96BD001257EB /* app_ipc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.cpp */; };
+		DD3741F910FC96C1001257EB /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DD3741FA10FC96C6001257EB /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
+		DD3741FB10FC96CC001257EB /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
+		DD3741FC10FC96D1001257EB /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
+		DD3741FD10FC96D3001257EB /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; };
+		DD3741FE10FC96DF001257EB /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B901602AC0A2201FB7237 /* parse.cpp */; };
+		DD3741FF10FC96E0001257EB /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
+		DD37420010FC96E6001257EB /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
+		DD37420110FC96EB001257EB /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
+		DD37420210FC96EF001257EB /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFADC7010B4DBA400D13EFA /* url.cpp */; };
+		DD37420310FC96F1001257EB /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DD377E090F6F95650089CE9A /* ViewNews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD377E070F6F95650089CE9A /* ViewNews.cpp */; };
 		DD3E14DB0A774397007E0084 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
 		DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDF3028907CCCE2C00701169 /* BOINCMgr.icns */; };
@@ -2738,6 +2750,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDD095490A3EDF2D00C95BA4 /* switcher.cpp in Sources */,
+				DD3741F810FC96BD001257EB /* app_ipc.cpp in Sources */,
+				DD3741F910FC96C1001257EB /* coproc.cpp in Sources */,
+				DD3741FA10FC96C6001257EB /* filesys.cpp in Sources */,
+				DD3741FB10FC96CC001257EB /* hostinfo.cpp in Sources */,
+				DD3741FC10FC96D1001257EB /* mfile.cpp in Sources */,
+				DD3741FD10FC96D3001257EB /* miofile.cpp in Sources */,
+				DD3741FE10FC96DF001257EB /* parse.cpp in Sources */,
+				DD3741FF10FC96E0001257EB /* prefs.cpp in Sources */,
+				DD37420010FC96E6001257EB /* proxy_info.cpp in Sources */,
+				DD37420110FC96EB001257EB /* str_util.cpp in Sources */,
+				DD37420210FC96EF001257EB /* url.cpp in Sources */,
+				DD37420310FC96F1001257EB /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
