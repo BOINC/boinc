@@ -37,8 +37,6 @@
 
 using std::strcpy;
 
-extern char ** environ;     // CAF
-
 int main(int argc, char** argv) {
     passwd          *pw;
     group           *grp;
