@@ -73,3 +73,11 @@ Charlie  12 Jan 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie  12 Jan 2010
+    - Tag for 6.10.28 release (changes from 6.10.25 are Mac only.)
+      boinc_core_release_6_10_28
+
+    /
+        configure.ac
+        version.h
