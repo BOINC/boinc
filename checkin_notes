@@ -409,3 +409,10 @@ David  13 Jan 2010
         sched_types.cpp,h
         sched_send.cpp
         handle_request.cpp
+
+David  13 Jan 2010
+    - scheduler: close DB connection on SIGTERM (from Bernd M.)
+
+    sched/
+        sched_main.cpp
+

@@ -204,13 +204,17 @@ int open_database() {
     return 0;
 }
 
-// If the scheduler 'hangs', which it can do if a request is not fully processed
-// or some other process arises, then Apache will send a SIGTERM to the cgi.
-// This signal handler ensures that rather than dying silently,
-// the cgi process will leave behind some record in the log file.
+// If the scheduler 'hangs' (e.g. because DB is slow),
+// Apache will send it a SIGTERM.
+// Record this in the log file and close the DB conn.
 //
 void sigterm_handler(int signo) {
-    log_messages.printf(MSG_CRITICAL, "Caught SIGTERM (sent by Apache); exiting\n");
+    if (db_opened) {
+        boinc_db.close();
+    }
+    log_messages.printf(MSG_CRITICAL,
+        "Caught SIGTERM (sent by Apache); exiting\n"
+    );
     fflush((FILE*)NULL);
     exit(1);
     return;
@@ -232,7 +236,9 @@ static void log_request_headers(int& length) {
     }
 
     if (!cl) {
-        log_messages.printf(MSG_CRITICAL, "CONTENT_LENGTH environment variable not set\n");
+        log_messages.printf(MSG_CRITICAL,
+            "CONTENT_LENGTH environment variable not set\n"
+        );
     } else {
         length=atoi(cl);
         if (config.debug_request_details) {
@@ -254,10 +260,11 @@ void set_core_dump_size_limit() {
         char short_string[256], *short_message=short_string;
 
         short_message += sprintf(short_message,"Default resource limit for core dump size curr=");
-        if (limit.rlim_cur == RLIM_INFINITY)
+        if (limit.rlim_cur == RLIM_INFINITY) {
             short_message += sprintf(short_message,"Inf max=");
-        else
+        } else {
             short_message += sprintf(short_message,"%d max=", (int)limit.rlim_cur);
+        }
 
         if (limit.rlim_max == RLIM_INFINITY) {
             short_message += sprintf(short_message,"Inf\n");
