@@ -351,7 +351,7 @@ struct SCHEDULER_REQUEST {
     int core_client_major_version;
     int core_client_minor_version;
     int core_client_release;
-    int core_client_version;    // 100*major + minor
+    int core_client_version;    // 10000*major + 100*minor + release
     int rpc_seqno;
     double work_req_seconds;
 		// in "normalized CPU seconds" (see work_req.php)

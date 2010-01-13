@@ -838,11 +838,10 @@ bool send_code_sign_key(char* code_sign_key) {
     return true;
 }
 
-// This routine examines the <min_core_client_version_announced> value
-// from config.xml.  If set, and the core client version is less than
-// this version, send a warning to users to upgrade before deadline
-// given in <min_core_client_upgrade_deadline> in Unix time(2) format
-// expires.
+// If <min_core_client_version_announced> is set,
+// and the core client version is less than this version,
+// send a warning to users to upgrade before deadline
+// <min_core_client_upgrade_deadline>
 //
 void warn_user_if_core_client_upgrade_scheduled() {
     if (g_request->core_client_version < config.min_core_client_version_announced) {
@@ -858,11 +857,12 @@ void warn_user_if_core_client_upgrade_scheduled() {
             int hours = remaining % 24;
 
             sprintf(msg,
-                "Starting in %d days and %d hours, project will require a minimum "
-                "BOINC core client version of %d.%d.0.  You are currently using "
+                "In %d days and %d hours, this project will require a minimum "
+                "BOINC core client version of %d.%d.%d.  You are currently using "
                 "version %d.%d.%d; please upgrade before this time.",
                 days, hours,
-                config.min_core_client_version_announced / 100,
+                config.min_core_client_version_announced / 10000,
+                (config.min_core_client_version_announced / 100)%100,
                 config.min_core_client_version_announced % 100,
                 g_request->core_client_major_version,
                 g_request->core_client_minor_version,
@@ -940,31 +940,29 @@ bool unacceptable_cpu() {
 
 bool wrong_core_client_version() {
     char msg[256];
-    bool wrong_version = false;
-    if (config.min_core_client_version) {
-        int major = config.min_core_client_version/100;
-        int minor = config.min_core_client_version % 100;
-        if (g_request->core_client_major_version < major ||
-            ((g_request->core_client_major_version == major) && (g_request->core_client_minor_version < minor))) {
-            wrong_version = true;
-            sprintf(msg,
-                "Need version %d.%d or higher of the BOINC core client. You have %d.%d.",
-                major, minor,
-                g_request->core_client_major_version, g_request->core_client_minor_version
-            );
-            log_messages.printf(MSG_NORMAL,
-                "[HOST#%d] [auth %s] Wrong minor version from user: wanted %d, got %d\n",
-                g_request->hostid, g_request->authenticator,
-                minor, g_request->core_client_minor_version
-            );
-        }
+    if (!config.min_core_client_version) {
+        return false;
     }
-    if (wrong_version) {
-        g_reply->insert_message(msg, "low");
-        g_reply->set_delay(DELAY_BAD_CLIENT_VERSION);
-        return true;
+    if (g_request->core_client_version >= config.min_core_client_version) {
+        return false;
     }
-    return false;
+    sprintf(msg,
+        "Need version %d.%d.%d or higher of the BOINC client. You have %d.%d.%d.",
+        config.min_core_client_version / 10000,
+        (config.min_core_client_version / 100)%100,
+        config.min_core_client_version % 100,
+        g_request->core_client_major_version,
+        g_request->core_client_minor_version,
+        g_request->core_client_release
+    );
+    log_messages.printf(MSG_NORMAL,
+        "[HOST#%d] Wrong client version from user: wanted %d, got %d\n",
+        g_request->hostid,
+        config.min_core_client_version, g_request->core_client_minor_version
+    );
+    g_reply->insert_message(msg, "low");
+    g_reply->set_delay(DELAY_BAD_CLIENT_VERSION);
+    return true;
 }
 
 inline static const char* get_remote_addr() {

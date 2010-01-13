@@ -264,7 +264,7 @@ static double estimate_duration_unscaled(WORKUNIT& wu, BEST_APP_VERSION& bav) {
 
 static inline void get_running_frac() {
     double rf;
-    if (g_request->core_client_version<=419) {
+    if (g_request->core_client_version<=41900) {
         rf = g_reply->host.on_frac;
     } else {
         rf = g_reply->host.active_frac * g_reply->host.on_frac;
@@ -1298,7 +1298,7 @@ static void explain_to_user() {
             );
         }
         if (g_wreq->speed.insufficient) {
-            if (g_request->core_client_version>419) {
+            if (g_request->core_client_version>41900) {
                 sprintf(helpful,
                     "(won't finish in time) "
                     "BOINC runs %.1f%% of time, computation enabled %.1f%% of that",

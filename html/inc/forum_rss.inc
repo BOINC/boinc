@@ -40,12 +40,12 @@ function show_forum_rss_item($thread, $userid, $threads_only, $truncate) {
             $t = substr($post->content, 0, 256).". . .";
         }
     }
-    $t = htmlspecialchars($t);
+    //$t = htmlspecialchars($t);
     echo "<item>
         <title>".strip_tags(bb2html($thread->title))."</title>
         <link>$unique_url</link>
         <guid isPermaLink=\"true\">$unique_url</guid>
-        <description>$t</description>
+        <description><![CDATA[\n$t\n]]></description>
         <pubDate>$post_date</pubDate>
         </item>
     ";

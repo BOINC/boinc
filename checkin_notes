@@ -390,3 +390,22 @@ Charlie  13 Jan 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  13 Jan 2010
+    - server: client version numbers are represented as
+        10000*major + 100*minor + release,
+        rather than 100*major + minor.
+        Sometimes you need release-level resolution.
+        This affects:
+        - app_version.min_core_version
+        - config: min_core_client_version_announced
+        - config: min_core_client_version
+        Projects using these must multiply them by 100.
+
+    html/inc/
+        notify.inc
+        forum_rss.inc
+    sched/
+        sched_types.cpp,h
+        sched_send.cpp
+        handle_request.cpp

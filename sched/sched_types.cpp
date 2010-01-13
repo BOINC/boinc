@@ -208,7 +208,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         }
 
         if (match_tag(buf, "</scheduler_request>")) {
-            core_client_version = 100*core_client_major_version + core_client_minor_version;
+            core_client_version = 10000*core_client_major_version + 100*core_client_minor_version + core_client_release;
             return NULL;
         }
         if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
@@ -602,7 +602,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         host.id, wreq.njobs_sent, request_delay
     );
 
-    if (sreq.core_client_version <= 419) {
+    if (sreq.core_client_version <= 41900) {
         std::string msg;
         std::string pri = "low";
         for (i=0; i<messages.size(); i++) {
