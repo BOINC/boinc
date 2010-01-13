@@ -216,9 +216,9 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     SetIcons(icons);
 
     // Create UI elements
-    wxCHECK_RET(CreateMenu(false), _T("Failed to create menu bar."));
-    wxCHECK_RET(CreateNotebook(false), _T("Failed to create notebook."));
-    wxCHECK_RET(CreateStatusbar(false), _T("Failed to create status bar."));
+    wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
+    wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
+    wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
     RestoreState();
 
@@ -275,7 +275,7 @@ CAdvancedFrame::~CAdvancedFrame() {
 }
 
 
-bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
+bool CAdvancedFrame::CreateMenu() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateMenu - Function Begin"));
 
     CMainDocument*     pDoc = wxGetApp().GetDocument();
@@ -290,8 +290,8 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    if (bRPCsSafe) {
         // Account managers have a different menu arrangement
+    if (pDoc->IsConnected()) {
         pDoc->rpc.acct_mgr_info(ami);
         is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
     }
@@ -671,7 +671,7 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
 }
 
 
-bool CAdvancedFrame::CreateNotebook( bool /* bRPCsSafe */ ) {
+bool CAdvancedFrame::CreateNotebook() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebook - Function Begin"));
 
     // create frame panel
@@ -750,7 +750,7 @@ bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
 }
 
 
-bool CAdvancedFrame::CreateStatusbar( bool /* bRPCsSafe */ ) {
+bool CAdvancedFrame::CreateStatusbar() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateStatusbar - Function Begin"));
 
     if (m_pStatusbar)
