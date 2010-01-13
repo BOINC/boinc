@@ -370,7 +370,7 @@
 		DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372810DC5E5300161D6B /* cs_notice.cpp */; };
 		DDE1372F10DC5E8D00161D6B /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDE1373210DC5EA400161D6B /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
-		DDE1373D10DC60BB00161D6B /* ViewNotifications.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1373B10DC60BB00161D6B /* ViewNotifications.cpp */; };
+		DDE1373D10DC60BB00161D6B /* ViewNotices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1373B10DC60BB00161D6B /* ViewNotices.cpp */; };
 		DDE1374210DC60E200161D6B /* DlgEventLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374010DC60E200161D6B /* DlgEventLog.cpp */; };
 		DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */; };
 		DDE3A8800E90D1BF00A363A7 /* client_state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */; };
@@ -961,8 +961,8 @@
 		DDE1372910DC5E5300161D6B /* cs_notice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cs_notice.h; path = ../client/cs_notice.h; sourceTree = SOURCE_ROOT; };
 		DDE1372D10DC5E8D00161D6B /* notice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = notice.cpp; path = ../lib/notice.cpp; sourceTree = SOURCE_ROOT; };
 		DDE1372E10DC5E8D00161D6B /* notice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = notice.h; path = ../lib/notice.h; sourceTree = SOURCE_ROOT; };
-		DDE1373B10DC60BB00161D6B /* ViewNotifications.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewNotifications.cpp; path = ../clientgui/ViewNotifications.cpp; sourceTree = SOURCE_ROOT; };
-		DDE1373C10DC60BB00161D6B /* ViewNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewNotifications.h; path = ../clientgui/ViewNotifications.h; sourceTree = SOURCE_ROOT; };
+		DDE1373B10DC60BB00161D6B /* ViewNotices.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ViewNotices.cpp; sourceTree = "<group>"; };
+		DDE1373C10DC60BB00161D6B /* ViewNotices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewNotices.h; sourceTree = "<group>"; };
 		DDE1374010DC60E200161D6B /* DlgEventLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgEventLog.cpp; path = ../clientgui/DlgEventLog.cpp; sourceTree = SOURCE_ROOT; };
 		DDE1374110DC60E200161D6B /* DlgEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgEventLog.h; path = ../clientgui/DlgEventLog.h; sourceTree = SOURCE_ROOT; };
 		DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgEventLogListCtrl.cpp; path = ../clientgui/DlgEventLogListCtrl.cpp; sourceTree = SOURCE_ROOT; };
@@ -1436,8 +1436,8 @@
 				DD81C46507C5D29F0098A04D /* ValidateURL.h */,
 				DD81C42507C5D1D70098A04D /* ViewMessages.cpp */,
 				DD81C46407C5D29F0098A04D /* ViewMessages.h */,
-				DDE1373B10DC60BB00161D6B /* ViewNotifications.cpp */,
-				DDE1373C10DC60BB00161D6B /* ViewNotifications.h */,
+				DDE1373B10DC60BB00161D6B /* ViewNotices.cpp */,
+				DDE1373C10DC60BB00161D6B /* ViewNotices.h */,
 				DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */,
 				DDD52DC50C03CAE6009B5FC0 /* ViewProjects.h */,
 				DD81C42307C5D1D70098A04D /* ViewResources.cpp */,
@@ -2565,7 +2565,7 @@
 				DDA99BF41099AF18002F8E9B /* MacAccessiblity.cpp in Sources */,
 				DDC06ABC10A3E98D00C8D9A5 /* url.cpp in Sources */,
 				DDD9C5A510CCF61F00A1E4CD /* coproc.cpp in Sources */,
-				DDE1373D10DC60BB00161D6B /* ViewNotifications.cpp in Sources */,
+				DDE1373D10DC60BB00161D6B /* ViewNotices.cpp in Sources */,
 				DDE1374210DC60E200161D6B /* DlgEventLog.cpp in Sources */,
 				DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */,
 				DD867B7510DCE77700128AB4 /* notice.cpp in Sources */,

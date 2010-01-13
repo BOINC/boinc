@@ -375,3 +375,18 @@ David  12 Jan 2010
 	lib/
 		notice.cpp
 		parse.cpp,h
+
+Charlie  13 Jan 2010
+    - MGR: The fix of 14 Oct 2009 for "initial first connection problem on 
+        startup" caused the Tools menu to be incorrect when switching from 
+        Simple to Advanced View if using an account manager: solve this by 
+        calling pDoc->IsConnected() in CAdvancedFrame::CreateMenu() isntead 
+        of using bool argument bRPCsSafe.  Remove unused bRPCsSafe arg from 
+        CAdvancedFrame::CreateNotebook(), CAdvancedFrame::CreateStatusbar(). 
+    - Mac: Update XCode project for ViewNotifications* -> ViewNotices*.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
