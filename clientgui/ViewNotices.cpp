@@ -38,6 +38,15 @@ IMPLEMENT_DYNAMIC_CLASS(CViewNotices, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewNotices, CBOINCBaseView)
 END_EVENT_TABLE ()
 
+HtmlWindow::HtmlWindow(wxWindow *parent, wxWindowID id, const wxPoint& pos,
+	const wxSize& size, long style, const wxString& name)
+: wxHtmlWindow(parent, id, pos, size, style, name)
+{}
+ 
+void HtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link) {
+	if (link.GetHref().StartsWith(_T("http://")))
+		wxLaunchDefaultBrowser(link.GetHref());
+}
 
 CViewNotices::CViewNotices()
 {}
@@ -61,7 +70,7 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_NOTIFICATIONSVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
 
-	m_pHtmlPane = new wxHtmlWindow(this, ID_HTML_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL);
+	m_pHtmlPane = new HtmlWindow(this, ID_HTML_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL);
 	wxASSERT(m_pHtmlPane);
 
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
@@ -175,6 +184,10 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
             strItems += wxT("<br><font size=-2 color=#8f8f8f>");
             dtBuffer.Set((time_t)np->arrival_time);
             strItems += dtBuffer.Format();
+            if (strlen(np->link)) {
+                sprintf(tbuf, " &middot; <a target=_new href=%s>more...</a> ", np->link);
+                strItems += wxString(tbuf, wxConvUTF8);
+            }
             strItems += wxT("</font><hr>\n");
         }
     }
