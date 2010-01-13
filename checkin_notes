@@ -365,3 +365,13 @@ David  12 Jan 2010
     sched
         handle_request.cpp
         sched_types.cpp,h
+
+David  12 Jan 2010
+	- Notices: put message bodies inside CDATA
+	- XML_PARSER: handle CDATA
+
+	client/
+		cs_notice.cpp,h
+	lib/
+		notice.cpp
+		parse.cpp,h

@@ -29,6 +29,7 @@ class XML_PARSER {
     bool scan_nonws(int&);
     int scan_comment();
     int scan_tag(char*, int, char* ab=0, int al=0);
+    int scan_cdata(char*, int);
     bool copy_until_tag(char*, int);
 public:
     MIOFILE* f;

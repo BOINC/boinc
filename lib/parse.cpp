@@ -464,20 +464,45 @@ bool XML_PARSER::scan_nonws(int& first_char) {
     }
 }
 
+#define XML_PARSE_COMMENT   1
+#define XML_PARSE_EOF       2
+#define XML_PARSE_CDATA     3
+
 int XML_PARSER::scan_comment() {
     char buf[256];
     char* p = buf;
     while (1) {
         int c = f->_getc();
-        if (c == EOF) return 2;
+        if (c == EOF) return XML_PARSE_EOF;
         *p++ = c;
         *p = 0;
         if (strstr(buf, "-->")) {
-            return 1;
+            return XML_PARSE_COMMENT;
         }
         if (strlen(buf) > 32) {
             strcpy(buf, buf+16);
             p = buf;
+        }
+    }
+}
+
+int XML_PARSER::scan_cdata(char* buf, int len) {
+    char* p = buf;
+    len--;
+    while (1) {
+        int c = f->_getc();
+        if (c == EOF) return XML_PARSE_EOF;
+        if (len) {
+            *p++ = c;
+            len--;
+        }
+        if (c == '>') {
+            *p = 0;
+            char* q = strstr(buf, "]]>");
+            if (q) {
+                *q = 0;
+                return XML_PARSE_CDATA;
+            }
         }
     }
 }
@@ -493,11 +518,13 @@ int XML_PARSER::scan_comment() {
 // 2 if reached EOF
 //
 int XML_PARSER::scan_tag(
-    char* tag_buf, int tag_len, char* attr_buf, int attr_len
+    char* tag_buf, int _tag_len, char* attr_buf, int attr_len
 ) {
     int c;
     char* buf_start = tag_buf;
     bool found_space = false;
+    int tag_len = _tag_len;
+
     for (int i=0; ; i++) {
         c = f->_getc();
         if (c == EOF) return 2;
@@ -536,6 +563,9 @@ int XML_PARSER::scan_tag(
         if (i==2 && !strncmp(buf_start, "!--", 3)) {
             return scan_comment();
         }
+        if (i==7 && !strncmp(buf_start, "![CDATA[", 8)) {
+            return scan_cdata(buf_start, tag_len);
+        }
     }
 }
 
@@ -572,9 +602,13 @@ bool XML_PARSER::get(char* buf, int len, bool& is_tag, char* attr_buf, int attr_
         if (eof) return true;
         if (c == '<') {
             int retval = scan_tag(buf, len, attr_buf, attr_len);
-            if (retval == 2) return true;
-            if (retval == 1) continue;
-            is_tag = true;
+            if (retval == XML_PARSE_EOF) return true;
+            if (retval == XML_PARSE_COMMENT) continue;
+            if (retval == XML_PARSE_CDATA) {
+                is_tag = false;
+            } else {
+                is_tag = true;
+            }
         } else {
             buf[0] = c;
             eof = copy_until_tag(buf+1, len-1);

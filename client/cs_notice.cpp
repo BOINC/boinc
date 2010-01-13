@@ -335,15 +335,14 @@ void NOTICES::prune() {
     }
 }
 
-// write archive file for the RSS feed specified by URL
-// (or, if blank, non-RSS notices)
+// write archive file for the given RSS feed
+// (or, if NULL, non-RSS notices)
 //
-void NOTICES::write_archive(char* url) {
-    char buf[256], path[256];
+void NOTICES::write_archive(RSS_FEED* rfp) {
+    char path[256];
 
-    if (url) {
-        escape_project_url(url, buf);
-        sprintf(path, NOTICES_DIR"/archive_%s", buf);
+    if (rfp) {
+        rfp->archive_file_name(path);
     } else {
         strcpy(path, NOTICES_DIR"/archive.xml");
     }
@@ -355,8 +354,8 @@ void NOTICES::write_archive(char* url) {
     if (!f) return;
     for (unsigned int i=0; i<notices.size(); i++) {
         NOTICE& n = notices[i];
-        if (url) {
-            if (strcmp(url, n.feed_url)) continue;
+        if (rfp) {
+            if (strcmp(rfp->url, n.feed_url)) continue;
         } else {
             if (strlen(n.feed_url)) continue;
         }
@@ -388,13 +387,13 @@ void NOTICES::write(int seqno, MIOFILE& fout, bool public_only) {
 
 void RSS_FEED::feed_file_name(char* path) {
     char buf[256];
-    escape_project_url(url, buf);
+    escape_project_url(url_base, buf);
     sprintf(path, NOTICES_DIR"/%s", buf);
 }
 
 void RSS_FEED::archive_file_name(char* path) {
     char buf[256];
-    escape_project_url(url, buf);
+    escape_project_url(url_base, buf);
     sprintf(path, NOTICES_DIR"/archive_%s", buf);
 }
 
@@ -428,6 +427,9 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
                 }
                 return ERR_XML_PARSE;
             }
+            strcpy(url_base, url);
+            char* p = strchr(url_base, '?');
+            if (p) *p = 0;
             return 0;
         }
         if (xp.parse_str(tag, "url", url, sizeof(url))) continue;
@@ -462,15 +464,25 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
     char tag[256];
     bool is_tag;
     nitems = 0;
+    int ntotal = 0, nerror = 0;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/rss")) {
+            if (log_flags.notice_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[notice_debug] parsed RSS feed: total %d error %d added %d",
+                    ntotal, nerror, nitems
+                );
+            }
             return 0;
         }
         if (!strcmp(tag, "item")) {
             NOTICE n;
+            ntotal++;
             int retval = n.parse_rss(xp);
-            if (!retval) {
+            if (retval) {
+                nerror++;
+            } else {
                 n.arrival_time = gstate.now;
                 strcpy(n.feed_url, url);
                 if (notices.append_unique(n)) {
@@ -559,7 +571,7 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     fclose(f);
 
     if (nitems) {
-        notices.write_archive(rfp->url);
+        notices.write_archive(rfp);
     }
 }
 

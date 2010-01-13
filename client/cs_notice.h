@@ -73,7 +73,7 @@ struct NOTICES {
     void init();
     void init_rss();
     int read_archive_file(char* file, char* feed_url);
-    void write_archive(char* url);
+    void write_archive(struct RSS_FEED*);
     void prune();
 };
 
@@ -81,6 +81,7 @@ extern NOTICES notices;
 
 struct RSS_FEED {
     char url[256];
+    char url_base[256];
     double poll_interval;
     double next_poll_time;
     bool use_seqno;

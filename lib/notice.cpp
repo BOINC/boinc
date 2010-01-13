@@ -67,7 +67,7 @@ void NOTICE::write(MIOFILE& f, bool for_gui) {
     f.printf(
         "<notice>\n"
         "   <title>%s</title>\n"
-        "   <description>%s</description>\n"
+        "   <description><![CDATA[\n%s\n]]></description>\n"
         "   <create_time>%f</create_time>\n"
         "   <arrival_time>%f</arrival_time>\n"
         "   <is_private>%d</is_private>\n"
