@@ -635,9 +635,12 @@ static bool schedule_if_possible(
     }
     proc_rsc.schedule(rp);
     double dt = gstate.global_prefs.cpu_scheduling_period();
-    rp->project->cpu_pwf.anticipated_debt -= dt*rp->avp->avg_ncpus;
-    rp->project->cuda_pwf.anticipated_debt -= dt*rp->avp->ncudas;
-    rp->project->ati_pwf.anticipated_debt -= dt*rp->avp->natis;
+
+    // project STD at end of scheduling period
+    //
+    rp->project->cpu_pwf.anticipated_debt -= dt*rp->avp->avg_ncpus/cpu_work_fetch.ninstances;
+    rp->project->cuda_pwf.anticipated_debt -= dt*rp->avp->ncudas/cuda_work_fetch.ninstances;
+    rp->project->ati_pwf.anticipated_debt -= dt*rp->avp->natis/ati_work_fetch.ninstances;
     return true;
 }
 

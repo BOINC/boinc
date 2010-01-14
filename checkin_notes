@@ -112,3 +112,10 @@ David  17 Dec 2009
 
 	client/
 		cpu_sched.cpp
+
+David  17 Dec 2009
+    - client: in computing "anticipated" STD, scale by ninstances
+        (from John McLeod)
+
+    client/
+        cpu_sched.cpp
