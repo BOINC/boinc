@@ -144,3 +144,11 @@ David  22 Dec 2009
 
     client/
         log_flags.cpp
+
+David  24 Dec 2009
+    - client: divide LTD deltas by ninstances, same as for STD.
+        This is cosmetic - it won't affect work fetch,
+        but it will prevent LTD from changing faster than real time
+
+    client/
+        work_fetch.cpp
