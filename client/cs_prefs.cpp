@@ -144,6 +144,7 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
+    bool old_gpu_suspended = gpu_suspended;
     gpu_suspended = false;
     switch (gpu_mode.get_current()) {
     case RUN_MODE_ALWAYS:
@@ -159,6 +160,14 @@ int CLIENT_STATE::check_suspend_processing() {
         if (user_active && !global_prefs.run_gpu_if_user_active) {
             gpu_suspended = true;
             break;
+        }
+    }
+
+    if (log_flags.cpu_sched) {
+        if (old_gpu_suspended && !gpu_suspended) {
+            msg_printf(NULL, MSG_INFO, "[cpu_sched] resuming GPU activity");
+        } else if (!old_gpu_suspended && gpu_suspended) {
+            msg_printf(NULL, MSG_INFO, "[cpu_sched] suspending GPU activity");
         }
     }
 
