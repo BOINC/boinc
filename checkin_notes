@@ -217,3 +217,9 @@ David  6 Jan 2010
 
     client/
         work_fetch.cpp
+
+David  7 Jan 2009
+	- client: work fetch fix: avoid sending null request in certain cases.
+
+	client/
+		work_fetch.cpp
