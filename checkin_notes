@@ -168,3 +168,12 @@ David  24 Dec 2009
         rr_sim.cpp
     sched/
         handle_request.cpp
+
+David  30 Dec 2009
+    - client: Unix: if can't create client lock file,
+        report ERR_OPEN rather than ERR_ALREADY_RUNNING
+        fixes #970
+
+    lib/
+        util.cpp
+        filesys.cpp

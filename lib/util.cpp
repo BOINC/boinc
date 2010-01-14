@@ -496,7 +496,7 @@ static int get_client_mutex(const char*) {
     if (IsWindows2000Compatible()) {
         strcpy(buf, "Global\\");
     }
-    strcat( buf, RUN_MUTEX);
+    strcat(buf, RUN_MUTEX);
 
     HANDLE h = CreateMutexA(NULL, true, buf);
     if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
@@ -508,8 +508,11 @@ static int get_client_mutex(const char* dir) {
     static FILE_LOCK file_lock;
 
     sprintf(path, "%s/%s", dir, LOCK_FILE_NAME);
-    if (file_lock.lock(path)) {
+    int retval = file_lock.lock(path);
+    if (retval == ERR_FCNTL) {
         return ERR_ALREADY_RUNNING;
+    } else if (retval) {
+        return retval;
     }
 #endif
     return 0;
@@ -517,13 +520,14 @@ static int get_client_mutex(const char* dir) {
 
 int wait_client_mutex(const char* dir, double timeout) {
     double start = dtime();
+    int retval = 0;
     while (1) {
-        int retval = get_client_mutex(dir);
+        retval = get_client_mutex(dir);
         if (!retval) return 0;
         boinc_sleep(1);
         if (dtime() - start > timeout) break;
     }
-    return ERR_ALREADY_RUNNING;
+    return retval;
 }
 
 bool boinc_is_finite(double x) {
