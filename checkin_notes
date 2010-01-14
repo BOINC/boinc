@@ -244,3 +244,11 @@ David  12 Jan 2010
     client/
         Makefile.am
         work_fetch.cpp
+
+Rom    14 Jan 2010
+    - Tag for 6.10.29 release, all platforms
+      boinc_core_release_6_10_29
+
+    /
+        configure.ac
+        version.h
