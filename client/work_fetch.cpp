@@ -223,7 +223,6 @@ static char* criterion_name(int criterion) {
 // given the specific criterion
 //
 PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
-    double req;
     PROJECT* pbest = NULL;
 
     switch (criterion) {
