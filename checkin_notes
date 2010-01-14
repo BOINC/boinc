@@ -223,3 +223,15 @@ David  7 Jan 2009
 
 	client/
 		work_fetch.cpp
+
+David  12 Jan 2010
+    - client: add <stderr_head> config option;
+        sends the first rather than last 64KB of stderr to server.
+        This doesn't belong here; this choice should come from the server.
+        I may take this out later.
+
+    client/
+        app_control.cpp
+        log_flags.cpp,h
+    lib/
+        util.cpp

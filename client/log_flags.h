@@ -120,7 +120,6 @@ struct CONFIG {
     std::vector<int> ignore_ati_dev;
     int max_file_xfers;
     int max_file_xfers_per_project;
-    bool suppress_net_info;
     bool disallow_attach;
     bool os_random_only;
     bool no_alt_platform;
@@ -132,6 +131,9 @@ struct CONFIG {
     double start_delay;
     bool run_apps_manually;
     bool allow_multiple_clients;
+    bool stderr_head;
+    bool suppress_net_info;
+    bool use_all_gpus;
     bool use_certs;
     bool use_certs_only;
         // overrides use_certs
@@ -141,7 +143,6 @@ struct CONFIG {
     bool no_gpus;
     bool zero_debts;
     bool no_priority_change;
-    bool use_all_gpus;
 
     CONFIG();
     void clear();

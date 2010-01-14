@@ -663,7 +663,9 @@ bool ACTIVE_TASK::read_stderr_file() {
     int max_len = 63*1024;
     sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
     if (!boinc_file_exists(path)) return false;
-    if (read_file_string(path, stderr_file, max_len, true)) return false;
+    if (read_file_string(path, stderr_file, max_len, !config.stderr_head)) {
+        return false;
+    }
 
     result->stderr_out += "<stderr_txt>\n";
     result->stderr_out += stderr_file;

@@ -344,7 +344,9 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
 
 // read file (at most max_len chars, if nonzero) into string
 //
-int read_file_string(const char* path, string& result, size_t max_len, bool tail) {
+int read_file_string(
+    const char* path, string& result, size_t max_len, bool tail
+) {
     result.erase();
     int retval;
     char* buf;
