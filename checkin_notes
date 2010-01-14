@@ -166,8 +166,6 @@ David  24 Dec 2009
     client/
         work_fetch.cpp,h
         rr_sim.cpp
-    sched/
-        handle_request.cpp
 
 David  30 Dec 2009
     - client: Unix: if can't create client lock file,
@@ -183,3 +181,10 @@ David  3 Jan 2010
     
     client/
         coproc_detect.cpp
+
+David  4 Jan 2010
+    - client: fix format strings for ninstances (can be fraction now)
+
+    client/
+        scheduler_op.cpp
+        work_fetch.cpp

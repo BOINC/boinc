@@ -251,18 +251,18 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     }
     if (log_flags.sched_op_debug) {
         msg_printf(p, MSG_INFO,
-            "[sched_op_debug] CPU work request: %.2f seconds; %d idle CPUs",
+            "[sched_op_debug] CPU work request: %.2f seconds; %.2f idle CPUs",
             cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
         );
         if (coproc_cuda) {
             msg_printf(p, MSG_INFO,
-                "[sched_op_debug] NVIDIA GPU work request: %.2f seconds; %d idle GPUs",
+                "[sched_op_debug] NVIDIA GPU work request: %.2f seconds; %.2f idle GPUs",
                 cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
             );
         }
         if (coproc_ati) {
             msg_printf(p, MSG_INFO,
-                "[sched_op_debug] ATI GPU work request: %.2f seconds; %d idle GPUs",
+                "[sched_op_debug] ATI GPU work request: %.2f seconds; %.2f idle GPUs",
                 ati_work_fetch.req_secs, ati_work_fetch.req_instances
             );
         }
