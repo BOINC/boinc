@@ -36,17 +36,9 @@
 IMPLEMENT_DYNAMIC_CLASS(CViewNotices, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewNotices, CBOINCBaseView)
+    EVT_HTML_LINK_CLICKED(ID_HTML_NOTIFICATIONSVIEW, CViewNotices::OnLinkClicked)
 END_EVENT_TABLE ()
 
-HtmlWindow::HtmlWindow(wxWindow *parent, wxWindowID id, const wxPoint& pos,
-	const wxSize& size, long style, const wxString& name)
-: wxHtmlWindow(parent, id, pos, size, style, name)
-{}
- 
-void HtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link) {
-	if (link.GetHref().StartsWith(_T("http://")))
-		wxLaunchDefaultBrowser(link.GetHref());
-}
 
 CViewNotices::CViewNotices()
 {}
@@ -70,7 +62,7 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_NOTIFICATIONSVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
 
-	m_pHtmlPane = new HtmlWindow(this, ID_HTML_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL);
+	m_pHtmlPane = new wxHtmlWindow(this, ID_HTML_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL);
 	wxASSERT(m_pHtmlPane);
 
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
@@ -203,3 +195,12 @@ done:
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotices::OnListRender - Function End"));
 }
+
+
+void CViewNotices::OnLinkClicked( wxHtmlLinkEvent& event ) {
+    wxHtmlLinkInfo link = event.GetLinkInfo();
+    if (link.GetHref().StartsWith(wxT("http://"))) {
+		wxLaunchDefaultBrowser(link.GetHref());
+    }
+}
+

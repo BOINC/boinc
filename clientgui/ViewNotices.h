@@ -25,16 +25,7 @@
 
 #include "BOINCBaseView.h"
 
-// variant of wxHtmlWindow that directs links to default browser
-//
-class HtmlWindow: public wxHtmlWindow {
-public:
-	HtmlWindow(wxWindow *parent, wxWindowID id = -1,
-		const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
-		long style = wxHW_SCROLLBAR_AUTO, const wxString& name = _T("htmlWindow"));
-	void OnLinkClicked(const wxHtmlLinkInfo& link);
-};
- 
+
 class CViewNotices : public CBOINCBaseView {
     DECLARE_DYNAMIC_CLASS( CViewNotices )
 
@@ -51,13 +42,14 @@ public:
     virtual const int       GetViewCurrentViewPage();
 
 protected:
-	HtmlWindow*           m_pHtmlPane;
+	wxHtmlWindow*           m_pHtmlPane;
     int                     m_iOldNoticeCount;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
     virtual void            OnListRender( wxTimerEvent& event );
+    void                    OnLinkClicked( wxHtmlLinkEvent& event );
 
     DECLARE_EVENT_TABLE()
 };

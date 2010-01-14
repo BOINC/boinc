@@ -421,3 +421,10 @@ David  13 Jan 2010
 
     clientgui/
         ViewNotices.cpp,h
+
+Rom    14 Jan 2010
+    - MGR: Use an event handler, the function overload is deprecated.
+    
+    clientgui/
+        ViewNotices.cpp,h
+    
