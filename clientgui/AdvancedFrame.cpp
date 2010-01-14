@@ -290,7 +290,7 @@ bool CAdvancedFrame::CreateMenu() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-        // Account managers have a different menu arrangement
+    // Account managers have a different menu arrangement
     if (pDoc->IsConnected()) {
         pDoc->rpc.acct_mgr_info(ami);
         is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
@@ -839,10 +839,10 @@ bool CAdvancedFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-     // Store the latest window dimensions.
+    // Store the latest window dimensions.
     SaveWindowDimensions();
 
-   pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
+    pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
 
     //
     // Save Page(s) State
