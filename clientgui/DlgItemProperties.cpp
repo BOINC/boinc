@@ -204,6 +204,9 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         if (result->slot >= 0) {
             addProperty(_("Directory"), wxString::Format(wxT("slots/%d"), result->slot));
         }
+        if (result->pid) {
+            addProperty(_("Process ID"), wxString::Format(wxT("%d"), result->pid));
+        }
 	} else if (result->state >= RESULT_COMPUTE_ERROR) {
 		addProperty(_("CPU time"), FormatTime(result->final_cpu_time));
 		addProperty(_("Elapsed time"), FormatTime(result->final_elapsed_time));

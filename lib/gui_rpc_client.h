@@ -245,6 +245,7 @@ public:
     int active_task_state;
     int app_version_num;
     int slot;
+    int pid;
     double checkpoint_cpu_time;
     double current_cpu_time;
     double fraction_done;

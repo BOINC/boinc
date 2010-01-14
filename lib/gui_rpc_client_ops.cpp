@@ -461,6 +461,7 @@ int RESULT::parse(MIOFILE& in) {
         }
         if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         if (parse_int(buf, "<slot>", slot)) continue;
+        if (parse_int(buf, "<pid>", pid)) continue;
         if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
         if (parse_double(buf, "<elapsed_time>", elapsed_time)) continue;
@@ -505,6 +506,7 @@ void RESULT::clear() {
     active_task_state = 0;
     app_version_num = 0;
     slot = -1;
+    pid = 0;
     checkpoint_cpu_time = 0;
     current_cpu_time = 0;
     fraction_done = 0;

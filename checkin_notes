@@ -125,3 +125,15 @@ Rom    17 Dec 2009
     
     clientgui/
         Events.h
+
+David  21 Dec 2009
+	- manager/client: show PID in task properties;
+		add PID to RESULT structure in GUI RPC
+
+	client/
+		app.cpp
+	clientgui/
+		DlgItemProperties.cpp
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.cpp
