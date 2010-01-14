@@ -257,8 +257,15 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     int n;
 
     //clear();
-    // don't do this because some options are set by cmdline args,
+    // don't do this here because some options are set by cmdline args,
     // which are parsed first
+    // but do clear these, which aren't accessable via cmdline:
+    //
+    alt_platforms.clear();
+    exclusive_apps.clear();
+    exclusive_gpu_apps.clear();
+    ignore_cuda_dev.clear();
+    ignore_ati_dev.clear();
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {

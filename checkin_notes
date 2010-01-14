@@ -137,3 +137,10 @@ David  21 Dec 2009
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.cpp
+
+David  22 Dec 2009
+    - client: when parsing cc_config.xml,
+        clear vectors so we don't end up with duplicates
+
+    client/
+        log_flags.cpp
