@@ -79,8 +79,8 @@
 #define ID_PREFERENCES                          6021
 #define ID_SELECTCOMPUTER                       6022
 #define ID_SHUTDOWNCORECLIENT                   6023
-#define ID_RUNBENCHMARKS                        6024
-#define ID_RETRYCOMMUNICATIONS                  6025
+#define ID_RUNBENCHMARKS                        6028
+#define ID_RETRYCOMMUNICATIONS                  6029
 #define ID_READCONFIG                           6026
 #define ID_READPREFERENCES                      6027
 

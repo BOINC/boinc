@@ -119,3 +119,9 @@ David  17 Dec 2009
 
     client/
         cpu_sched.cpp
+
+Rom    17 Dec 2009
+    - MGR: Deconflict menu item IDs.
+    
+    clientgui/
+        Events.h
