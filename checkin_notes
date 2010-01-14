@@ -235,3 +235,12 @@ David  12 Jan 2010
         log_flags.cpp,h
     lib/
         util.cpp
+
+David  12 Jan 2010
+    - client: small tweak to work fetch:
+        if project has crazy DCF, don't automatically request 1 sec;
+        only request work if there's a shortfall.
+
+    client/
+        Makefile.am
+        work_fetch.cpp

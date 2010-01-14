@@ -84,6 +84,8 @@ boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD
 boinc_clientdir = $(bindir)
 
 switcher_SOURCES = switcher.cpp
+switcher_LDFLAGS = $(AM_LDFLAGS) -L../lib 
+switcher_LDADD = $(LIBBOINC)
 
 ## since we are using libtool we need some magic to get boinc and boinc_client
 ## to both be installed properly.  The next two rules do that...
