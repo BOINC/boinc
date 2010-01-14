@@ -152,3 +152,19 @@ David  24 Dec 2009
 
     client/
         work_fetch.cpp
+
+David  24 Dec 2009
+    - client: add logic to work fetch so that each project
+        will have enough jobs to use its share of resource instances.
+        This avoids situations where e.g. on a 2-CPU system
+        a project has 75% resource share and 1 CPU job,
+        and its STD increases without bound.
+        
+        Did a general cleanup of the logic for computing
+        work request sizes (seconds and instances).
+
+    client/
+        work_fetch.cpp,h
+        rr_sim.cpp
+    sched/
+        handle_request.cpp

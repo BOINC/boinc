@@ -62,6 +62,7 @@ struct RSC_PROJECT_WORK_FETCH {
         // determines how many instances this project deserves
     bool has_runnable_jobs;
     double sim_nused;
+    double nused_total;     // sum of instances over all runnable jobs
     int deadlines_missed;
     int deadlines_missed_copy;
         // copy of the above used during schedule_cpus()
@@ -185,7 +186,7 @@ struct RSC_WORK_FETCH {
     // the following specify the work request for this resource
     //
     double req_secs;
-    int req_instances;
+    double req_instances;
 
     // debt accounting
     double secs_this_debt_interval;
@@ -204,9 +205,7 @@ struct RSC_WORK_FETCH {
     void update_short_term_debts();
     void print_state(const char*);
     void clear_request();
-    void set_request(PROJECT*, double);
-    double share_request(PROJECT*);
-    void set_shortfall_request(PROJECT*);
+    void set_request(PROJECT*);
     bool may_have_work(PROJECT*);
     RSC_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
@@ -243,7 +242,7 @@ struct WORK_FETCH {
         PROJECT*, SCHEDULER_REPLY*, std::vector<RESULT*>new_results
     );
     void set_initial_work_request();
-    void set_shortfall_requests(PROJECT*);
+    void set_all_requests(PROJECT*);
     void print_state();
     void init();
     void rr_init();

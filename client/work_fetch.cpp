@@ -104,6 +104,7 @@ void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT* p, int rsc_type) {
     fetchable_share = 0;
     has_runnable_jobs = false;
     sim_nused = 0;
+    nused_total = 0;
     deadlines_missed = 0;
 }
 
@@ -204,9 +205,19 @@ bool RSC_PROJECT_WORK_FETCH::overworked() {
     // If resource is saturated for less than work_buf_total(),
     // get work for it from the non-overworked project with greatest LTD.
 #define FETCH_IF_PROJECT_STARVED        3
-    // If any project is not overworked and has no runnable jobs
-    // (for any resource, not just this one)
+    // If any project is not overworked and has too few jobs
+    // to use its instance share,
     // get work from the one with greatest LTD.
+
+static char* criterion_name(int criterion) {
+    switch (criterion) {
+    case FETCH_IF_IDLE_INSTANCE: return "idle instance";
+    case FETCH_IF_MAJOR_SHORTFALL: return "major shortfall";
+    case FETCH_IF_MINOR_SHORTFALL: return "minor shortfall";
+    case FETCH_IF_PROJECT_STARVED: return "starved";
+    }
+    return "unknown";
+}
 
 // Choose the best project to ask for work for this resource,
 // given the specific criterion
@@ -241,7 +252,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
             break;
         case FETCH_IF_PROJECT_STARVED:
             if (rpwf.overworked()) continue;
-            if (p->pwf.has_runnable_jobs) continue;
+            if (rpwf.nused_total >= ninstances*rpwf.fetchable_share) continue;
             break;
         }
         if (pbest) {
@@ -254,67 +265,68 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     }
     if (!pbest) return NULL;
 
+    if (log_flags.work_fetch_debug) {
+        msg_printf(pbest, MSG_INFO,
+            "chosen: %s %s", criterion_name(criterion), rsc_name(rsc_type)
+        );
+    }
+
     // decide how much work to request from each resource
     //
     work_fetch.clear_request();
     switch (criterion) {
     case FETCH_IF_IDLE_INSTANCE:
-        if (log_flags.work_fetch_debug) {
-            msg_printf(pbest, MSG_INFO,
-                "chosen: %s idle instance", rsc_name(rsc_type)
-            );
-        }
-        req = share_request(pbest);
-        if (req > shortfall) req = shortfall;
-        set_request(pbest, req);
+        set_request(pbest);
         break;
     case FETCH_IF_MAJOR_SHORTFALL:
-        if (log_flags.work_fetch_debug) {
-            msg_printf(pbest, MSG_INFO,
-                "chosen: %s major shortfall", rsc_name(rsc_type)
-            );
-        }
-        req = share_request(pbest);
-        if (req > shortfall) req = shortfall;
-        set_request(pbest, req);
+    case FETCH_IF_PROJECT_STARVED:
+        set_request(pbest);
         break;
     case FETCH_IF_MINOR_SHORTFALL:
-        if (log_flags.work_fetch_debug) {
-            msg_printf(pbest, MSG_INFO,
-                "chosen: %s minor shortfall", rsc_name(rsc_type)
-            );
-        }
-        work_fetch.set_shortfall_requests(pbest);
-        break;
-    case FETCH_IF_PROJECT_STARVED:
-        if (log_flags.work_fetch_debug) {
-            msg_printf(pbest, MSG_INFO,
-                "chosen: %s starved", rsc_name(rsc_type)
-            );
-        }
-        req = share_request(pbest);
-        set_request(pbest, req);
+        // in this case, potentially request work for all resources
+        //
+        work_fetch.set_all_requests(pbest);
         break;
     }
     return pbest;
 }
 
-void WORK_FETCH::set_shortfall_requests(PROJECT* p) {
-    cpu_work_fetch.set_shortfall_request(p);
-    if (coproc_cuda && gpus_usable) {
-        cuda_work_fetch.set_shortfall_request(p);
-    }
-    if (coproc_ati && gpus_usable) {
-        ati_work_fetch.set_shortfall_request(p);
-    }
-}
-
-void RSC_WORK_FETCH::set_shortfall_request(PROJECT* p) {
+// request this project's share of shortfall and instances
+//
+void RSC_WORK_FETCH::set_request(PROJECT* p) {
     if (!shortfall) return;
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     if (!w.may_have_work) return;
     if (w.overworked()) return;
-    set_request(p, shortfall);
+    double dcf = p->duration_correction_factor;
+    if (dcf < 0.02 || dcf > 80.0) {
+        // if project's DCF is too big or small,
+        // its completion time estimates are useless; just ask for 1 second
+        //
+        req_secs = 1;
+    } else {
+        req_secs = shortfall * w.fetchable_share;
+    }
+
+    // the number of additional instances needed to have our share
+    //
+    double x1 = (ninstances * w.fetchable_share) - w.nused_total;
+
+    // our share of the idle instances
+    //
+    double x2 = nidle_now * w.fetchable_share;
+
+    req_instances = std::max(x1, x2);
+}
+
+void WORK_FETCH::set_all_requests(PROJECT* p) {
+    cpu_work_fetch.set_request(p);
+    if (coproc_cuda && gpus_usable) {
+        cuda_work_fetch.set_request(p);
+    }
+    if (coproc_ati && gpus_usable) {
+        ati_work_fetch.set_request(p);
+    }
 }
 
 void WORK_FETCH::set_overall_debts() {
@@ -454,7 +466,7 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
         // Otherwise we can have a situation where a GPU is idle,
         // we ask only for GPU work, and the project never has any
         //
-        work_fetch.set_shortfall_requests(pbest);
+        work_fetch.set_all_requests(pbest);
         return;
     }
 
@@ -546,27 +558,6 @@ PROJECT* WORK_FETCH::choose_project() {
     }
 
     return p;
-}
-
-double RSC_WORK_FETCH::share_request(PROJECT* p) {
-    double dcf = p->duration_correction_factor;
-    if (dcf < 0.02 || dcf > 80.0) {
-        // if project's DCF is too big or small,
-        // its completion time estimates are useless; just ask for 1 second
-        //
-        return 1;
-    } else {
-        // otherwise ask for the project's share
-        //
-        RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        return gstate.work_buf_total()*w.fetchable_share;
-    }
-}
-
-void RSC_WORK_FETCH::set_request(PROJECT* p, double r) {
-    RSC_PROJECT_WORK_FETCH& w = project_state(p);
-    req_secs = r;
-    req_instances = (int)ceil(w.fetchable_share*nidle_now);
 }
 
 void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {

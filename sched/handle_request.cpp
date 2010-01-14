@@ -340,7 +340,7 @@ int authenticate_user() {
             );
             goto make_new_host;
         }
-        
+
     } else {
         // Here no hostid was given, or the ID was bad.
         // Look up the user, then create a new host record
@@ -487,7 +487,7 @@ got_host:
             user.update_field(buf);
         }
     }
-    
+
     return 0;
 }
 
@@ -584,7 +584,7 @@ int send_result_abort() {
     DB_IN_PROGRESS_RESULT result;
     std::string result_names;
     unsigned int i;
-    
+
     if (g_request->other_results.size() == 0) {
         return 0;
     }
@@ -594,6 +594,7 @@ int send_result_abort() {
     for (i=0; i<g_request->other_results.size(); i++) {
         OTHER_RESULT& orp=g_request->other_results[i];
         orp.abort = true;
+            // if the host has a result not in the DB, abort it
         orp.abort_if_not_started = false;
         orp.reason = ABORT_REASON_NOT_FOUND;
         if (i > 0) result_names.append(", ");
@@ -615,7 +616,7 @@ int send_result_abort() {
                     orp.abort = true;
                     orp.abort_if_not_started = false;
                     orp.reason = ABORT_REASON_WU_CANCELLED;
-                } else if ( result.assimilate_state == ASSIMILATE_DONE ) {
+                } else if (result.assimilate_state == ASSIMILATE_DONE) {
                     // if the WU has been assimilated, abort if not started
                     //
                     orp.abort = false;
@@ -654,8 +655,8 @@ int send_result_abort() {
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d]: Send result_abort for result %s; reason: %s\n",
                 g_reply->host.id, orp.name, reason_str(orp.reason)
-            ); 
-            // send user message 
+            );
+            // send user message
             char buf[256];
             sprintf(buf, "Result %s is no longer usable", orp.name);
             g_reply->insert_message(USER_MESSAGE(buf, "high"));
@@ -664,10 +665,10 @@ int send_result_abort() {
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d]: Send result_abort_if_unstarted for result %s; reason %d\n",
                 g_reply->host.id, orp.name, orp.reason
-            ); 
+            );
         }
     }
-    
+
     return aborts_sent;
 }
 
@@ -857,11 +858,11 @@ void warn_user_if_core_client_upgrade_scheduled() {
         remaining /= 3600;
 
         if (0 < remaining) {
-            
+
             char msg[512];
             int days  = remaining / 24;
             int hours = remaining % 24;
-      
+
             sprintf(msg,
                 "Starting in %d days and %d hours, project will require a minimum "
                 "BOINC core client version of %d.%d.0.  You are currently using "
@@ -1275,7 +1276,7 @@ void process_request(char* code_sign_key) {
             send_result_abort();
         }
     }
-    
+
     if (requesting_work()) {
         if (!send_code_sign_key(code_sign_key)) {
             ok_to_send_work = false;
