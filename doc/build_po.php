@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-// generate en.po
+// generate .po template for the BOINC web site.
 //
 // NOTE: after running this, move LANG_NAME_NATIVE and LANG_NAME_INTERNATIONAL
 // to the top, and set their strings to "English"
@@ -38,11 +38,6 @@ $pipe = popen("xgettext --omit-header -o - --keyword=tra -L PHP $path/*.inc $pat
 stream_copy_to_stream($pipe, $out);
 fclose($pipe);
 fclose($out);
-
-// msgen duplicates everything.
-// Don't need this.  Just rename to en.po
-
-//system("msgen -o $path/html/languages/translations/en.po $path/html/languages/translations/web.pot");
 
 echo "Created BOINC-Web.pot.  Move it to ../locale/templates\n";
 ?>

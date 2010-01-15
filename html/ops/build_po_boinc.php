@@ -1,17 +1,14 @@
 #!/usr/bin/php
 <?php
 
-// generate translation template "en.po" for BOINC web pages.
+// generate translation template for BOINC project web pages.
 //
 // Projects: don't use this.  Use build_po.php instead.
 //
-// Run this in boinc/html;
-// move the result to boinc/locale/templates/BOINC-Web.pot
+// Run this in boinc/html/ops;
+// move the result to boinc/locale/templates/BOINC-Project-Generic.pot
 
-$cli_only = true;
-require_once("../inc/util_ops.inc");
-
-$FILE_LIST = "inc/*.inc user/*.php project.sample/*.inc";
+$FILE_LIST = "../inc/*.inc ../user/*.php ../project.sample/*.inc";
 
 $date = strftime('%Y-%m-%d %H:%M %Z');
 $header = <<<HDR
