@@ -43,16 +43,16 @@ array(
     '',
     1234896753
 ),
-array(
-    'http://www.weebl00.nl/leiterow/zowtar/BOINC/',
-    'BOINC mIRC',
-    '0.1',
-    'MRC file for sending your BOINC status on IRC',
-    'http://www.weebl00.nl/leiterow/zowtar/BOINC/',
-    'all',
-    '',
-    1177964485
-),
+//array(
+//    'http://www.weebl00.nl/leiterow/zowtar/BOINC/',
+//    'BOINC mIRC',
+//    '0.1',
+//    'MRC file for sending your BOINC status on IRC',
+//    'http://www.weebl00.nl/leiterow/zowtar/BOINC/',
+//    'all',
+//    '',
+//    1177964485
+//),
 //array('boinc-irc.exe',
 //    'Boinc mIRC',
 //    '1.0',

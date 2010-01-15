@@ -254,6 +254,11 @@ void RSC_WORK_FETCH::update_busy_time(double dur, double nused) {
     busy_time_estimator.update(dur, nused);
 }
 
+static bool wacky_dcf(PROJECT* p) {
+    double dcf = p->duration_correction_factor;
+    return (dcf < 0.02 || dcf > 80.0);
+}
+
 // Choose the best project to ask for work for this resource,
 // given the specific criterion
 //
@@ -283,6 +288,10 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
         switch (criterion) {
         case FETCH_IF_MINOR_SHORTFALL:
             if (rpwf.overworked()) continue;
+            if (wacky_dcf(p)) continue;
+            break;
+        case FETCH_IF_MAJOR_SHORTFALL:
+            if (wacky_dcf(p)) continue;
             break;
         case FETCH_IF_PROJECT_STARVED:
             if (rpwf.overworked()) continue;
@@ -340,8 +349,7 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
     if (!w.may_have_work) return;
     if (w.overworked()) return;
     if (shortfall) {
-        double dcf = p->duration_correction_factor;
-        if (dcf < 0.02 || dcf > 80.0) {
+        if (wacky_dcf(p)) {
             // if project's DCF is too big or small,
             // its completion time estimates are useless; just ask for 1 second
             //

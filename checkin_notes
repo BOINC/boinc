@@ -428,3 +428,13 @@ Rom    14 Jan 2010
     clientgui/
         ViewNotices.cpp,h
     
+David  15 Jan 2010
+    - web DB code: fix PHP warning when enumeration returns nothing.
+        From Nicolas. fixes #974
+    - client: tiny code shuffle
+
+    client/
+        work_fetch.cpp
+        cpu_sched.cpp
+    html/inc/
+        db_conn.inc

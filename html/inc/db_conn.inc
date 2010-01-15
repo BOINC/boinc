@@ -83,6 +83,7 @@ class DbConn {
     function enum_general($classname, $query) {
         $result = $this->do_query($query);
         if (!$result) return null;
+        $x = array();
         while ($obj = mysql_fetch_object($result, $classname)) {
             $x[] = $obj;
         }
@@ -100,6 +101,7 @@ class DbConn {
         $query = "select $fields from DBNAME.$table $where_clause $order_clause";
         $result = $this->do_query($query);
         if (!$result) return null;
+        $x = array();
         while ($obj = mysql_fetch_object($result, $classname)) {
             $x[] = $obj;
         }

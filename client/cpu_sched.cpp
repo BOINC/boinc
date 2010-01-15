@@ -827,7 +827,7 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     if (miss0 && !miss1) return true;
     if (!miss0 && miss1) return false;
 
-    // favor coproc jobs, so that if we're RAM-limited
+    // favor coproc jobs, so that e.g. if we're RAM-limited
     // we'll use the GPU instead of the CPU
     //
     bool cp0 = r0->uses_coprocs();

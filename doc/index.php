@@ -130,11 +130,6 @@ function show_create() {
         <li><b>Companies</b>:
         use BOINC for <a href=dg.php>desktop Grid computing</a>.
         </ul>
-        Related software:
-        <ul>
-            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a>: middleware for web-based education and training
-            <li> <a href=\"http://bossa.berkeley.edu/\">Bossa</a>: middleware for distributed thinking projects
-        </ul>
         </td></tr>
     ";
 }
@@ -147,8 +142,20 @@ function show_other() {
         </center>
         </td></tr>
         <tr><td>
+            <table width=100%><tr><td width=50% valign=top>
             <ul>
-            <li> ".tra("Help wanted!")."
+            <li> <a href=\"dev/\">".tra("Message boards")."</a>
+            <li> <a href=email_lists.php>".tra("Email lists")."</a>
+            <li> <a href=\"trac/wiki/ProjectPeople\">".tra("Personnel and contributors")."</a>
+            <li> <a href=\"trac/wiki/BoincEvents\">".tra("Events")."</a>
+            <li> <a href=\"trac/wiki/BoincPapers\">".tra("Papers and talks")."</a>
+            <li> <a href=\"trac/wiki/ResearchProjects\">".tra("Research projects")."</a>
+            <li> <a href=logo.php>".tra("Logos and graphics")."</a>
+            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a> and  <a href=\"http://bossa.berkeley.edu/\">Bossa</a>
+            </ul>
+            </td><td valign=top>
+            <ul>
+            <li> ".tra("Help wanted")."
             <ul>
                 <li> <a href=\"trac/wiki/DevProjects\">".tra("Programming")."</a>
                 <li> <a href=\"trac/wiki/TranslateIntro\">".tra("Translation")."</a>
@@ -158,15 +165,8 @@ function show_other() {
             </ul>
             <li> <a href=\"trac/wiki/SoftwareDevelopment\">".tra("Software development")."</a>
             <li> <a href=\"trac/wiki/SoftwareAddon\">".tra("APIs for add-on software")."</a>
-            <li> <a href=\"trac/wiki/ProjectPeople\">".tra("Personnel and contributors")."</a>
-            <li> <a href=\"dev/\">".tra("Message boards")."</a>
-            <li> <a href=email_lists.php>".tra("Email lists")."</a>
-            <li> <a href=\"trac/wiki/BoincEvents\">".tra("Events")."</a>
-            <li> <a href=\"trac/wiki/ConferenceList\">".tra("Conferences")."</a>
-            <li> <a href=\"trac/wiki/BoincPapers\">".tra("Papers and talks")."</a>
-            <li> <a href=logo.php>".tra("Logos and graphics")."</a>
-            <li> <a href=\"trac/wiki/ResearchProjects\">".tra("Research projects")."</a>
             </ul>
+            </td></tr></table>
             <br>
         </td></tr>
     ";
