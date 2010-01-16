@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-01-11 05:24-0700\n"
-"Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
+"PO-Revision-Date: 2010-01-16 06:56-0700\n"
+"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -162,15 +162,16 @@ msgstr "Csak az aktív csapatokat mutassa"
 msgid "Search"
 msgstr "Keresés"
 
-msgid "Requested by you, and founder response deadline has passed."
-msgstr "Ön megigényelte és az alapító válaszának határideje lejárt."
-
+# Nincs olyan szó a magyar nyelvben, hogy megigényelte! (Legjobb tudomásom szerint ez nyelvtanilag helytelen volt.)
 #, fuzzy
+msgid "Requested by you, and founder response deadline has passed."
+msgstr "Ön igényelte és az alapító válaszának határideje lejárt."
+
 msgid "Complete foundership transfer"
-msgstr "Az összes csapatalapítási jog átadása"
+msgstr "Teljes csapatalapítási jogátadás"
 
 msgid "Requested by you"
-msgstr "Ön megigényelte"
+msgstr "Ön igényelte"
 
 msgid "founder response deadline is %1"
 msgstr "az alapítói válasz határideje %1"
@@ -249,9 +250,8 @@ msgstr "Új tagok az elmúlt napban"
 msgid "Total members"
 msgstr "Minden tag"
 
-#, fuzzy
 msgid "view"
-msgstr "Megtekint"
+msgstr "megtekint"
 
 msgid "Active members"
 msgstr "Aktív tagok"

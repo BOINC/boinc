@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-18 05:56-0700\n"
+"PO-Revision-Date: 2010-01-16 06:51-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -29,7 +29,7 @@ msgid ""
 "(to create an account, visit the project's web site)"
 msgstr ""
 "Kérjük, adja meg fiókinformációit\n"
-"(fiók létrehozásához keresse fel a project weblapját)"
+"(fiók létrehozásához keresse fel a projekt weblapját)"
 
 #: clientgui/AccountInfoPage.cpp:380
 msgid ""
@@ -88,7 +88,7 @@ msgstr "Jelszó &megerősítése:"
 #: clientgui/AccountInfoPage.cpp:436
 #, c-format
 msgid "Are you already running %s?"
-msgstr "Már futtatja a %s projektet?"
+msgstr "Már futtatja a(z) %s projektet?"
 
 #: clientgui/AccountInfoPage.cpp:453
 msgid "&Username:"
@@ -161,7 +161,7 @@ msgid ""
 "type its URL below."
 msgstr ""
 "Fiókkezelő kiválasztásához kattintson a fiókkezelő nevére\n"
-"vagy gépelje alább be az URL-jét."
+"vagy gépelje be alább az URL-jét."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
@@ -544,7 +544,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1475
 msgid "Retrying communications for project(s)..."
-msgstr "Újra kapcsolódik a projekt(ek)het..."
+msgstr "Újra kapcsolódik a projekt(ek)hez..."
 
 #: clientgui/AdvancedFrame.cpp:1675
 #, c-format
@@ -757,8 +757,9 @@ msgid ""
 "using Advanced/Options/Connections."
 msgstr ""
 "%s nem képes internetkapcsolatot létesíteni, és nincs kijelölve "
-"alapértelmezett kapcsolat.Kérjük, csatlakozzon az Internetre, vagy válasszon "
-"alapértelmezett kapcsolatota Haladó/Opciók/Kapcsolatok menüpontban."
+"alapértelmezett kapcsolat. Kérjük, csatlakozzon az Internetre, vagy "
+"válasszon alapértelmezett kapcsolatota Haladó/Opciók/Kapcsolatok "
+"menüpontban."
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format
