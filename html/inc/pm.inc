@@ -185,10 +185,13 @@ function pm_notification($user) {
 
 function pm_email_remind($user) {
     if (!$user->prefs->pm_notification) {
-        return "
-            <br><span class=note>For email notification,
-            <a href=edit_forum_preferences_form.php>edit community prefs</a></span>
-        ";
+        return '<br><span class="note">' .
+            tra(
+                "For email notification, %1edit community prefs%2",
+                '<a href="edit_forum_preferences_form.php">', '</a>'
+            ) .
+            '</span>'
+        ;
     }
     return "";
 }

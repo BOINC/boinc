@@ -38,32 +38,34 @@ if ($set_lang){
     }
 }
 
-page_head("Language selection");
+page_head(tra("Language selection"));
 
-echo "
-    <p>
-    This web site is available in several languages.
-    The currently selected language is: <em>".tra("LANG_NAME_INTERNATIONAL")."</em> (".tra("LANG_NAME_NATIVE").").
-    <p>
-    Normally the choice of language
-    is determined by your browser's language setting,
-    which is: <b>$prefs</b>.
-    You can change this setting using:
-    <ul>
-    <li>Firefox: Tools/Options/General
-    <li>Microsoft IE: Tools/Internet Options/Languages
-    </ul>
-    <p>
-    Or you can select a language by clicking on one of the links.
-    This will send your browser a cookie;
-    make sure your browser accepts cookies from our domain.
-    </p>
-";
+echo "<p>",
+    tra("This web site is available in several languages. ".
+    "The currently selected language is: %1 (%2).",
+    "<em>".tra("LANG_NAME_INTERNATIONAL")."</em>",
+    tra("LANG_NAME_NATIVE")),
+    "</p>",
+    "<p>",
+    tra("Normally the choice of language ".
+    "is determined by your browser's language setting, ".
+    "which is: %1. ".
+    "You can change this setting using:", "<b>$prefs</b>"),
+    "</p><ul>",
+    "<li>", tra("Firefox: Tools/Options/General"),
+    "<li>", tra("Microsoft IE: Tools/Internet Options/Languages"),
+    "</ul>",
+    "<p>",
+    tra("Or you can select a language by clicking on one of the links. ".
+    "This will send your browser a cookie; ".
+    "make sure your browser accepts cookies from our domain."),
+    "</p>"
+;
 
 start_table();
-row2("Language symbol", "Language name (click to select)");
+row2(tra("Language symbol"), tra("Language name (click to select)"));
 row2("",
-    "<a href=language_select.php?set_lang=auto>Use browser language setting</a>"
+    "<a href=language_select.php?set_lang=auto>".tra("Use browser language setting")."</a>"
 );
 sort($languages);
 foreach ($languages as $language) {
@@ -75,11 +77,11 @@ foreach ($languages as $language) {
     );
 }
 end_table();
-echo "
-    <p>
-    Translations are done by volunteers.
-    If your native language is not here,
-    <a href=http://boinc.berkeley.edu/trac/wiki/TranslateIntro>you can provide a translation</a>.
-";
+echo "<p>",
+    tra("Translations are done by volunteers. ".
+    "If your native language is not here, %1you can provide a translation%2.",
+    '<a href="http://boinc.berkeley.edu/trac/wiki/TranslateIntro">', '</a>'),
+    "</p>"
+;
 page_tail();
 ?>

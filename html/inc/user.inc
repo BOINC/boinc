@@ -157,11 +157,11 @@ function show_user_stats_private($user) {
     }
     $x .= "<br/><span class=\"smalltext\">".tra("Cross-project ID").": $cpid</span>\n";
     row2(tra("Cross-project statistics"), $x);
-    $x = "<a href=cert1.php>Account</a>";
+    $x = '<a href="cert1.php">'.tra("Account").'</a>';
     if ($user->teamid) {
-        $x .= " | <a href=cert_team.php>Team</a>";
+        $x .= ' | <a href="cert_team.php">'.tra("Team").'</a>';
     }
-    $x .= " | <a href=cert_all.php>Cross-project</a>";
+    $x .= ' | <a href="cert_all.php">'.tra("Cross-project").'</a>';
     row2(tra("Certificate"), $x);
     row2(tra("Stats on your cell phone"), URL_BASE."userw.php?id=$user->id");
 }

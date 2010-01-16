@@ -438,3 +438,18 @@ David  15 Jan 2010
         cpu_sched.cpp
     html/inc/
         db_conn.inc
+
+David  15 Jan 2010
+    - user web: make a bunch of strings translatable (from Nicolas)
+
+    html/
+        inc/
+            pm.inc
+            user.inc
+            util.inc
+        user/
+            language_select.php
+            edit_passwd_form.php
+            edit_email_form.php
+    locale/templates/
+        BOINC-Project-Generic.pot

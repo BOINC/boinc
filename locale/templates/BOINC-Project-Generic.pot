@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-15 15:22 PST\n"
+"POT-Creation-Date: 2010-01-15 22:16 PST\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -158,6 +158,10 @@ msgstr ""
 
 #: ../inc/pm.inc:180
 msgid "unread"
+msgstr ""
+
+#: ../inc/pm.inc:190
+msgid "For email notification, %1edit community prefs%2"
 msgstr ""
 
 #: ../inc/profile.inc:216 ../user/create_profile.php:306
@@ -476,6 +480,19 @@ msgstr ""
 msgid "Cross-project statistics"
 msgstr ""
 
+#: ../inc/user.inc:160
+msgid "Account"
+msgstr ""
+
+#: ../inc/user.inc:162 ../inc/user.inc:275 ../inc/user.inc:361
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr ""
+
+#: ../inc/user.inc:164
+msgid "Cross-project"
+msgstr ""
+
 #: ../inc/user.inc:165
 msgid "Certificate"
 msgstr ""
@@ -488,7 +505,7 @@ msgstr ""
 msgid "Account information"
 msgstr ""
 
-#: ../inc/user.inc:199
+#: ../inc/user.inc:199 ../user/edit_passwd_form.php:46
 msgid "Email address"
 msgstr ""
 
@@ -616,11 +633,6 @@ msgstr ""
 msgid "Member of team"
 msgstr ""
 
-#: ../inc/user.inc:275 ../inc/user.inc:361 ../inc/user.inc:363
-#: ../user/user_search.php:102 ../user/user_search.php:158
-msgid "Team"
-msgstr ""
-
 #: ../inc/user.inc:275
 msgid "find a team"
 msgstr ""
@@ -674,7 +686,39 @@ msgstr ""
 msgid "CHARSET"
 msgstr ""
 
-#: ../inc/util.inc:543
+#: ../inc/util.inc:388
+msgid "Email address:"
+msgstr ""
+
+#: ../inc/util.inc:388
+msgid "forgot email address?"
+msgstr ""
+
+#: ../inc/util.inc:390
+msgid "Password:"
+msgstr ""
+
+#: ../inc/util.inc:390
+msgid "forgot password?"
+msgstr ""
+
+#: ../inc/util.inc:393
+msgid "Stay logged in on this computer"
+msgstr ""
+
+#: ../inc/util.inc:398
+msgid "Log in"
+msgstr ""
+
+#: ../inc/util.inc:399
+msgid "or %1create an account%2."
+msgstr ""
+
+#: ../inc/util.inc:419
+msgid "Please log in"
+msgstr ""
+
+#: ../inc/util.inc:545
 msgid "Use BBCode tags to format your text"
 msgstr ""
 
@@ -767,7 +811,7 @@ msgstr ""
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr ""
 
-#: ../user/create_account_form.php:88
+#: ../user/create_account_form.php:88 ../user/edit_email_form.php:46
 msgid "Password"
 msgstr ""
 
@@ -921,6 +965,62 @@ msgstr ""
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
+msgstr ""
+
+#: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
+msgid "Change email address"
+msgstr ""
+
+#: ../user/edit_email_form.php:35
+msgid "Change the email address of your account"
+msgstr ""
+
+#: ../user/edit_email_form.php:36
+msgid "New email address"
+msgstr ""
+
+#: ../user/edit_email_form.php:37
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr ""
+
+#: ../user/edit_email_form.php:47
+msgid "No password?"
+msgstr ""
+
+#: ../user/edit_passwd_form.php:26 ../user/edit_passwd_form.php:56
+msgid "Change password"
+msgstr ""
+
+#: ../user/edit_passwd_form.php:40
+msgid "You can identify yourself using either"
+msgstr ""
+
+#: ../user/edit_passwd_form.php:42
+msgid "your email address and old password"
+msgstr ""
+
+#: ../user/edit_passwd_form.php:43
+msgid "your account key"
+msgstr ""
+
+#: ../user/edit_passwd_form.php:47
+msgid "Current password"
+msgstr ""
+
+#: ../user/edit_passwd_form.php:49
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+#: ../user/edit_passwd_form.php:50
+msgid "Get account key by email"
+msgstr ""
+
+#: ../user/edit_passwd_form.php:54
+msgid "New password"
+msgstr ""
+
+#: ../user/edit_passwd_form.php:55
+msgid "New password, again"
 msgstr ""
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
@@ -1368,12 +1468,52 @@ msgid ""
 "own risk."
 msgstr ""
 
+#: ../user/language_select.php:41
+msgid "Language selection"
+msgstr ""
+
 #: ../user/language_select.php:46
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr ""
 
-#: ../user/language_select.php:46
+#: ../user/language_select.php:47
 msgid "LANG_NAME_NATIVE"
+msgstr ""
+
+#: ../user/language_select.php:44
+msgid "This web site is available in several languages. "
+msgstr ""
+
+#: ../user/language_select.php:50
+msgid "Normally the choice of language "
+msgstr ""
+
+#: ../user/language_select.php:55
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+#: ../user/language_select.php:56
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+#: ../user/language_select.php:59
+msgid "Or you can select a language by clicking on one of the links. "
+msgstr ""
+
+#: ../user/language_select.php:66
+msgid "Language symbol"
+msgstr ""
+
+#: ../user/language_select.php:66
+msgid "Language name (click to select)"
+msgstr ""
+
+#: ../user/language_select.php:68
+msgid "Use browser language setting"
+msgstr ""
+
+#: ../user/language_select.php:81
+msgid "Translations are done by volunteers. "
 msgstr ""
 
 #: ../user/pm.php:68

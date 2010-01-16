@@ -385,16 +385,18 @@ function print_login_form_aux($next_url, $user, $email_addr="") {
         <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
     ";
     start_table();
-    row2("Email address:<br><span class=note><a href=get_passwd.php>forgot email address?</a></span>", "<input name=email_addr size=40 tabindex=1 value=\"$email_addr\">");
-    row2("Password:<br><span class=note><a href=get_passwd.php>forgot password?</a></span>",
+    row2(tra("Email address:") . '<br><span class="note"><a href="get_passwd.php">'.tra("forgot email address?")."</a></span>",
+        "<input name=email_addr size=40 tabindex=1 value=\"$email_addr\">");
+    row2(tra("Password:") . '<br><span class="note"><a href="get_passwd.php">' . tra("forgot password?") . "</a></span>",
         '<input type="password" name="passwd" size="40" tabindex="2">'
     );
-    row2("Stay logged in on this computer",
+    row2(tra("Stay logged in on this computer"),
         '<input type="checkbox" name="stay_logged_in" checked>'
     );
     $x = urlencode($next_url);
     row2("",
-        "<input type=\"submit\" name=\"mode\" value=\"Log in\" tabindex=\"3\"><br><br>or <a href=\"create_account_form.php?next_url=$x\">create an account</a>."
+        "<input type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>".
+        tra("or %1create an account%2.", "<a href=\"create_account_form.php?next_url=$x\">","</a>")
     );
     if ($user) {
         row1("Log out");
@@ -414,7 +416,7 @@ function print_login_form_aux($next_url, $user, $email_addr="") {
 
 if (!function_exists("print_login_form")){
 function print_login_form() {
-    page_head("Please log in");
+    page_head(tra("Please log in"));
     $next_url = $_SERVER['REQUEST_URI'];
     print_login_form_aux($next_url, null);
     page_tail();

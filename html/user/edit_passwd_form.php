@@ -23,7 +23,7 @@ db_init();
 
 $user = get_logged_in_user(false);
 
-page_head("Change password");
+page_head(tra("Change password"));
 
 echo "
     <form method=post action=edit_passwd_action.php>
@@ -37,24 +37,23 @@ if ($user) {
     start_table();
 } else {
     start_table();
-    row1("You can identify yourself using either
-        <ul>
-        <li> your email address and old password
-        <li> your account key
-        </ul>
-        "
+    row1(tra("You can identify yourself using either").
+        "<ul>".
+        "<li>".tra("your email address and old password").
+        "<li>".tra("your account key").
+        "</ul>"
     );
-    row2("Email address", "<input name=email_addr size=40>");
-    row2("Current password", "<input type=password name=old_passwd size=40>");
+    row2(tra("Email address"), "<input name=email_addr size=40>");
+    row2(tra("Current password"), "<input type=password name=old_passwd size=40>");
     row2(
-        "<b>OR</b>: Account key
-        <br><font size=-2><a href=get_passwd.php>Get account key by email</a>",
+        tra("<b>OR</b>: Account key").
+        "<br><font size=-2><a href=get_passwd.php>".tra("Get account key by email")."</a>",
         "<input name=auth size=40>"
     );
 }
-row2("New password", "<input type=password name=passwd size=40>");
-row2("New password, again", "<input type=password name=passwd2 size=40>");
-row2("", "<input type=submit value='Change password'>");
+row2(tra("New password"), "<input type=password name=passwd size=40>");
+row2(tra("New password, again"), "<input type=password name=passwd2 size=40>");
+row2("", "<input type=submit value='".tra("Change password")."'>");
 end_table();
 echo "</form>\n";
 page_tail();
