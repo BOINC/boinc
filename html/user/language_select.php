@@ -78,8 +78,7 @@ foreach ($languages as $language) {
 }
 end_table();
 echo "<p>",
-    tra("Translations are done by volunteers. ".
-    "If your native language is not here, %1you can provide a translation%2.",
+    tra("Translations are done by volunteers.  If your native language is not here, %1you can provide a translation%2.",
     '<a href="http://boinc.berkeley.edu/trac/wiki/TranslateIntro">', '</a>'),
     "</p>"
 ;

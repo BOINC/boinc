@@ -162,8 +162,8 @@ static FUNC_PTR timer_callback = 0;
 #ifdef _WIN32
 static HANDLE hSharedMem;
 HANDLE worker_thread_handle;
-DWORD timer_thread_id;
     // used to suspend worker thread, and to measure its CPU time
+DWORD timer_thread_id;
 #else
 static volatile bool worker_thread_exit_flag = false;
 static volatile int worker_thread_exit_status;
