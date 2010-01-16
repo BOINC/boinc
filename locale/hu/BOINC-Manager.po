@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-06-15 15:18-0700\n"
+"PO-Revision-Date: 2010-01-16 06:51-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
-msgstr ""
+msgstr "Fiókjának azonosítása"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid ""
@@ -29,7 +29,7 @@ msgid ""
 "(to create an account, visit the project's web site)"
 msgstr ""
 "Kérjük, adja meg fiókinformációit\n"
-"(fiók létrehozásához keresse fel a project weblapját)"
+"(fiók létrehozásához keresse fel a projekt weblapját)"
 
 #: clientgui/AccountInfoPage.cpp:380
 msgid ""
@@ -60,10 +60,16 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"Az automatikus fiókinformáció-beállítás\n"
+"nem sikerült.\n"
+"\n"
+"Kérjük, kattintson az alábbi 'Bejelentkezési infók keresése'\n"
+"linkre a megfelelő email cím és jelszó\n"
+"információkért."
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr ""
+msgstr "Bejelentkezési infók keresése"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -82,7 +88,7 @@ msgstr "Jelszó &megerősítése:"
 #: clientgui/AccountInfoPage.cpp:436
 #, c-format
 msgid "Are you already running %s?"
-msgstr "Már futtatja a %s projektet?"
+msgstr "Már futtatja a(z) %s projektet?"
 
 #: clientgui/AccountInfoPage.cpp:453
 msgid "&Username:"
@@ -107,10 +113,13 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"Ha még nem regisztrált ezzel a fiókkezelővel,\n"
+"kérjük, tegye meg, mielőtt továbbmenne. Kattintson az alábbi\n"
+"linkre a regisztrációhoz, vagy az elfelejtett jelszó visszaszerzéséhez."
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
-msgstr ""
+msgstr "Fiókkezelő honlap"
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
@@ -144,13 +153,15 @@ msgstr "A jelszó és megerősítése nem egyezik. Kérem, próbálja újra."
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Válasszon fiókkezelőt"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
+"Fiókkezelő kiválasztásához kattintson a fiókkezelő nevére\n"
+"vagy gépelje be alább az URL-jét."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
@@ -187,17 +198,16 @@ msgstr "Kapcsolat megszakítva"
 #: clientgui/AdvancedFrame.cpp:305
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "%s ablak bezárása"
 
 #: clientgui/AdvancedFrame.cpp:310
-#, fuzzy
 msgid "&Close Window\tCtrl+W"
-msgstr "Ablak &bezárásaCTRL+W"
+msgstr "Ablak &bezárása\tCtrl+W"
 
 #: clientgui/AdvancedFrame.cpp:317
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "%s bezárása"
 
 #: clientgui/AdvancedFrame.cpp:322
 #: clientgui/BOINCTaskBar.cpp:626
@@ -206,77 +216,77 @@ msgstr "&Kilépés"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "&Projects\tCtrl+Shift+P"
-msgstr ""
+msgstr "&Projektek\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:332
 msgid "Display projects"
-msgstr ""
+msgstr "Projektek mutatása"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr ""
+msgstr "&Feladatok\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "Display tasks"
-msgstr ""
+msgstr "Feladatok mutatása"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr ""
+msgstr "Át&vitelek\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "Display transfers"
-msgstr ""
+msgstr "Átvitelek mutatása"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "&Messages\tCtrl+Shift+M"
-msgstr ""
+msgstr "&Üzenetek\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Display messages"
-msgstr ""
+msgstr "Üzenetek mutatása"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr ""
+msgstr "&Statisztikák\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:356
 msgid "Display statistics"
-msgstr ""
+msgstr "Statisztikák mutatása"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr ""
+msgstr "&Lemezhasználat\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:362
 msgid "Display disk usage"
-msgstr ""
+msgstr "Lemezhasználat mutatása"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "&News\tCtrl+Shift+N"
-msgstr ""
+msgstr "&Hírek\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "Display news"
-msgstr ""
+msgstr "Hírek mutatása"
 
 #: clientgui/AdvancedFrame.cpp:375
-#, fuzzy
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Egyszerű nézet\tCTRL+SHIFT+S"
+msgstr "&Egyszerű nézet\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:376
-#, fuzzy
 msgid "Display the simple graphical interface."
-msgstr "A BOINC egyszerű grafikus felülete."
+msgstr "Az egyszerű grafikus felület megjelenítése."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to &project or account manager..."
-msgstr ""
+msgstr "Csatlakozás &projekthez vagy fiókkezelőhöz..."
 
 #: clientgui/AdvancedFrame.cpp:397
 msgid "Attach to a project or account manager to begin processing work"
 msgstr ""
+"A feldolgozási munka megkezdéséhez csatlakozzon egy projekthez vagy "
+"fiókkezelőhöz"
 
 #: clientgui/AdvancedFrame.cpp:401
 #, c-format
@@ -484,7 +494,7 @@ msgstr "&Segítség"
 
 #: clientgui/AdvancedFrame.cpp:993
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Csatlakozás projekthez vagy fiókkezelőhöz..."
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
@@ -520,13 +530,11 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1419
 #, c-format
-#, fuzzy
 msgid "%s - Shut down the current client..."
 msgstr "%s - A jelenlegi kliens leállítása..."
 
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
-#, fuzzy
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
@@ -535,9 +543,8 @@ msgstr ""
 "és javasol Önnek egy másik klienst, amihez csatlakozhat.\n"
 
 #: clientgui/AdvancedFrame.cpp:1475
-#, fuzzy
 msgid "Retrying communications."
-msgstr "Kapcsolódás újra"
+msgstr "Kapcsolódás újra."
 
 #: clientgui/AdvancedFrame.cpp:1675
 #, c-format
@@ -605,15 +612,14 @@ msgstr "Kommunikáció a BOINC klienssel. Kérem, várjon..."
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
-msgstr ""
+msgstr "%s &bezárása"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
-msgstr ""
+msgstr "%s &bezárása"
 
 #: clientgui/AsyncRPC.cpp:1222
-#, fuzzy
 msgid "Cancel"
 msgstr "Mégsem"
 
@@ -637,10 +643,13 @@ msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
 msgstr ""
+"Az engedélyezés sikertelen a futó klienshez való csatlakozáskor.\n"
+"Kérjük győződjön meg róla, hogy ezt a programot ugyanabban a könyvtárban "
+"indította, mint a klienst."
 
 #: clientgui/BOINCBaseFrame.cpp:442
 msgid "Authorization failed connecting to running client."
-msgstr ""
+msgstr "Az engedélyezés sikertelen a futó klienshez való csatlakozáskor."
 
 #: clientgui/BOINCBaseFrame.cpp:450
 msgid "The password you have provided is incorrect, please try again."
@@ -691,17 +700,15 @@ msgstr "%s - A kapcsolat állapota"
 
 #: clientgui/BOINCBaseFrame.cpp:607
 #, c-format
-#, fuzzy
 msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
-"%s jelenleg nem kapcsolódik egy %s klienshez.\n"
-"Kérjük, válassza a Haladó menü Számítógép kiválasztása menüpontját egy %s "
-"klienshez való csatlakozáshoz.\n"
-"A helyi számítógéphez történő csatlakozáshoz írja be a 'localhost' szót "
-"Számítógépnévnek."
+"%s jelenleg nem kapcsolódik egy %s klienshez sem.Kérjük, használja a "
+"'Haladó\\Számítógép kiválasztása...' menüpontot egy %s klienshez való "
+"csatlakozáshoz.A helyi számítógép csatlakoztatásához a számítógépnév "
+"megadásánál használja a 'localhost' kifejezést."
 
 #: clientgui/BOINCBaseView.cpp:749
 msgid "Web sites"
@@ -709,28 +716,24 @@ msgstr "Weboldalak"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
-#, fuzzy
 msgid "%s - Network Status"
 msgstr "%s - Hálózati Állapot"
 
 #: clientgui/BOINCDialupManager.cpp:255
 #, c-format
-#, fuzzy
 msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr ""
 "%s szeretne kapcsolódni az Internetre. Kérjük, kattintson %s megnyitásához."
 
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
-#, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
-"%s nem képes kommunikálni egy projekttel, és internetkapcsolatra van "
-"szüksége.\n"
-"Kérjük, kapcsolódjon az Internetre, majd válassza Haladó menü a Hálózati "
-"kommunikáció létesítése menüpontját."
+"%s nem képes kommunikálni egy projekttel és internetkapcsolatra van "
+"szüksége.Kérjük, csatlakozzon az Internetre, majd válassza a 'Hálózati "
+"kommunikáció létesítése' pontot a Haladó menüben."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -748,17 +751,15 @@ msgstr "%s kapcsolódik az internetre."
 
 #: clientgui/BOINCDialupManager.cpp:354
 #, c-format
-#, fuzzy
 msgid ""
 "%s couldn't do Internet communication, and no default connection is selected.\n"
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
-"%s nem volt képes az internetre csatlakozni, és alapértelmezett kapcsolat "
-"sincs kiválasztva.\n"
-"Kérjük, csatlakozzon az internetre, vagy válasszon alapértelmezett "
-"kapcsolatot\n"
-"a Haladó/Opciók/Kapcsolatok menüpontnál."
+"%s nem képes internetkapcsolatot létesíteni, és nincs kijelölve "
+"alapértelmezett kapcsolat. Kérjük, csatlakozzon az Internetre, vagy "
+"válasszon alapértelmezett kapcsolatota Haladó/Opciók/Kapcsolatok "
+"menüpontban."
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format

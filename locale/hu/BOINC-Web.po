@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-06-16 03:53-0700\n"
+"PO-Revision-Date: 2010-01-16 06:59-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -26,27 +26,27 @@ msgstr ""
 
 #: poll.inc:47
 msgid "Other:"
-msgstr ""
+msgstr "Egyéb:"
 
 #: poll_data.inc:19
 msgid "Yes - I have been running BOINC on my computer for..."
-msgstr ""
+msgstr "Igen - futtatom a BOINCot a számítógépemen ennyi ideje:"
 
 #: poll_data.inc:22
 msgid "less than a week"
-msgstr ""
+msgstr "kevesebb, mint egy hete"
 
 #: poll_data.inc:23
 msgid "less than a month"
-msgstr ""
+msgstr "kevesebb, mint egy hónapja"
 
 #: poll_data.inc:24
 msgid "less than a year"
-msgstr ""
+msgstr "kevesebb, mint egy éve"
 
 #: poll_data.inc:25
 msgid "more than a year"
-msgstr ""
+msgstr "több mint egy éve"
 
 #: poll_data.inc:31
 msgid "No - I used to run BOINC, but..."
