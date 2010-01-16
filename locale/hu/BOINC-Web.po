@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-01-16 06:59-0700\n"
+"PO-Revision-Date: 2010-01-16 07:14-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -50,135 +50,135 @@ msgstr "több mint egy éve"
 
 #: poll_data.inc:31
 msgid "No - I used to run BOINC, but..."
-msgstr ""
+msgstr "Nem - régebben futtattam a BOINC-ot, de..."
 
 #: poll_data.inc:34
 msgid "I lost interest"
-msgstr ""
+msgstr "elvesztettem az érdeklődésemet iránta"
 
 #: poll_data.inc:35
 msgid "it was too complicated"
-msgstr ""
+msgstr "túl bonyolult volt"
 
 #: poll_data.inc:36
 msgid "I stopped it and forgot to start again"
-msgstr ""
+msgstr "leállítottam és elfelejtettem újra elindítani"
 
 #: poll_data.inc:37
 msgid "it caused problems on my computer"
-msgstr ""
+msgstr "problémákat okozott a számítógépemen"
 
 #: poll_data.inc:38
 msgid "it used too much electricity"
-msgstr ""
+msgstr "túl sok áramot fogyasztott"
 
 #: poll_data.inc:39
 msgid "I switched to a non-BOINC computing project"
-msgstr ""
+msgstr "egy nem BOINCos számítási projekthez csatlakoztam"
 
 #: poll_data.inc:45
 msgid "No - I tried running BOINC, but..."
-msgstr ""
+msgstr "Nem - Megpróbáltam futtatni a BOINC-ot, de..."
 
 #: poll_data.inc:48
 msgid "the software didn't install correctly"
-msgstr ""
+msgstr "a szoftver nem megfelelően települt fel"
 
 #: poll_data.inc:49
 msgid "I couldn't figure out how to use the software"
-msgstr ""
+msgstr "nem jöttem rá, hogyan kell használni a programot"
 
 #: poll_data.inc:50
 msgid "I had network communication problems"
-msgstr ""
+msgstr "hálózati problémáim adódtak"
 
 #: poll_data.inc:51
 msgid "I couldn't attach to a project"
-msgstr ""
+msgstr "nem tudtam csatlakozni egy projekthez"
 
 #: poll_data.inc:52
 msgid "I attached to a project, but never got any work"
-msgstr ""
+msgstr "csatlakoztam egy projekthez, de nem kaptam munkacsomagot"
 
 #: poll_data.inc:58
 msgid "No - I never tried running BOINC, because..."
-msgstr ""
+msgstr "Nem - soha nem próbáltam futtatni a BOINCot, mert..."
 
 #: poll_data.inc:61
 msgid "I was concerned about security"
-msgstr ""
+msgstr "aggódtam a biztonság miatt"
 
 #: poll_data.inc:62
 msgid "I wasn't interested in any of the projects"
-msgstr ""
+msgstr "egyik projekt sem érdekelt"
 
 #: poll_data.inc:63
 msgid "I don't have permission to run it on my computer"
-msgstr ""
+msgstr "nincs jogosultságom, hogy futtassam a gépemen"
 
 #: poll_data.inc:64
 msgid "No version was available for my computer"
-msgstr ""
+msgstr "nem volt a számítógépem számára elérhető verzió"
 
 #: poll_data.inc:75
 msgid "What kind of computers do you have running BOINC?"
-msgstr ""
+msgstr "Milyen típusú számítógépen futtatja a BOINCot?"
 
 #: poll_data.inc:85
 msgid "Where are they?"
-msgstr ""
+msgstr "Hol találhatók ezek?"
 
 #: poll_data.inc:87
 msgid "Home"
-msgstr ""
+msgstr "Otthon"
 
 #: poll_data.inc:88
 msgid "Work"
-msgstr ""
+msgstr "Munkahelyen"
 
 #: poll_data.inc:89
 msgid "School"
-msgstr ""
+msgstr "Iskolában"
 
 #: poll_data.inc:96
 msgid "How many computers?"
-msgstr ""
+msgstr "Hány számítógépen futtatja a BOINCot?"
 
 #: poll_data.inc:107
 msgid "On average, how many hours per day are they powered on?"
-msgstr ""
+msgstr "Átlagosan hány órát vannak bekapcsolva naponta?"
 
 #: poll_data.inc:119
 msgid "Age"
-msgstr ""
+msgstr "Kora"
 
 #: poll_data.inc:129
 msgid "Sex"
-msgstr ""
+msgstr "Neme"
 
 #: poll_data.inc:131
 msgid "Male"
-msgstr ""
+msgstr "Férfi"
 
 #: poll_data.inc:132
 msgid "Female"
-msgstr ""
+msgstr "Nő"
 
 #: poll_data.inc:137
 msgid "Your level of computer expertise"
-msgstr ""
+msgstr "Számítógépes tapasztalatának szintje"
 
 #: poll_data.inc:139
 msgid "Beginner"
-msgstr ""
+msgstr "Kezdő"
 
 #: poll_data.inc:140
 msgid "Intermediate"
-msgstr ""
+msgstr "Középhaladó"
 
 #: poll_data.inc:141
 msgid "Advanced"
-msgstr ""
+msgstr "Haladó"
 
 #: poll_data.inc:149
 msgid "Where did you learn about BOINC projects?"
