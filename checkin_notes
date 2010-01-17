@@ -93,7 +93,7 @@ Charlie  13 Jan 2010
     - MGR: The fix of 14 Oct 2009 for "initial first connection problem on 
         startup" caused the Tools menu to be incorrect when switching from 
         Simple to Advanced View if using an account manager: solve this by 
-        calling pDoc->IsConnected() in CAdvancedFrame::CreateMenu() isntead 
+        calling pDoc->IsConnected() in CAdvancedFrame::CreateMenu() instead 
         of using bool argument bRPCsSafe.  Remove unused bRPCsSafe arg from 
         CAdvancedFrame::CreateNotebook(), CAdvancedFrame::CreateStatusbar(). 
         
@@ -252,3 +252,9 @@ Rom    14 Jan 2010
     /
         configure.ac
         version.h
+
+Charlie  16 Jan 2010
+    - Mac Installer: fix bug launching client when configured as a service.
+    
+    mac_installer/
+        PostInstall.cpp
