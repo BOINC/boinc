@@ -447,7 +447,7 @@ int DeleteReceipt()
     if (finalInstallAction == launchWhenDone) {
         // If system is set up to run BOINC Client as a daemon using launchd, launch it 
         //  as a daemon and allow time for client to start before launching BOINC Manager.
-        err = stat("launchctl unload /Library/LaunchDaemons/edu.berkeley.boinc.plist", &sbuf);
+        err = stat("/Library/LaunchDaemons/edu.berkeley.boinc.plist", &sbuf);
         if (err == noErr) {
             system("launchctl unload /Library/LaunchDaemons/edu.berkeley.boinc.plist");
             i = system("launchctl load /Library/LaunchDaemons/edu.berkeley.boinc.plist");
