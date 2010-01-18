@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-05 13:03-0700\n"
+"PO-Revision-Date: 2010-01-18 11:53-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr "Zoek inlog informatie"
+msgstr "Zoek inloggegevens"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -76,11 +76,11 @@ msgstr "&Wachtwoord:"
 #: clientgui/AccountInfoPage.cpp:426
 #: clientgui/AccountInfoPage.cpp:600
 msgid "Choose a &password:"
-msgstr "Kie&s een wachtwoord:"
+msgstr "Kies een &wachtwoord:"
 
 #: clientgui/AccountInfoPage.cpp:429
 msgid "C&onfirm password:"
-msgstr "Bevestig het wachtw&oord:"
+msgstr "&Bevestig het wachtwoord:"
 
 #: clientgui/AccountInfoPage.cpp:436
 #, c-format
@@ -89,7 +89,7 @@ msgstr "Heb je al een account bij %s?"
 
 #: clientgui/AccountInfoPage.cpp:453
 msgid "&Username:"
-msgstr "Gebr&uikersnaam:"
+msgstr "&Gebruikersnaam:"
 
 #: clientgui/AccountInfoPage.cpp:467
 msgid "&Email address:"
