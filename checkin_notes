@@ -477,3 +477,13 @@ Rytis  18 Jan 2010
 
     html/inc/
         prefs.inc
+
+David  18 Jan 2010
+    - scheduler: use COPROC_REQ instead of COPROC when parsing
+        anonymous-platform app versions.
+        Otherwise fractional GPU requirements get truncated to zero.
+        Thanks to Crunch3r for identifying the problem.
+
+    sched/
+        sched_types.cpp
+    

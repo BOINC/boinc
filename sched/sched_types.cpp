@@ -68,15 +68,15 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
         if (parse_int(buf, "<version_num>", version_num)) continue;
         if (parse_double(buf, "<flops>", host_usage.flops)) continue;
         if (match_tag(buf, "<coproc>")) {
-            COPROC coproc;
+            COPROC_REQ coproc_req;
             MIOFILE mf;
             mf.init_file(f);
-            int retval = coproc.parse(mf);
-            if (!retval && !strcmp(coproc.type, "CUDA")) {
-                host_usage.ncudas = coproc.count;
+            int retval = coproc_req.parse(mf);
+            if (!retval && !strcmp(coproc_req.type, "CUDA")) {
+                host_usage.ncudas = coproc_req.count;
             }
-            if (!retval && !strcmp(coproc.type, "ATI")) {
-                host_usage.natis = coproc.count;
+            if (!retval && !strcmp(coproc_req.type, "ATI")) {
+                host_usage.natis = coproc_req.count;
             }
         }
     }
