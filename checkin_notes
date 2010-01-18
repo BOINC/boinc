@@ -459,3 +459,14 @@ Charlie  16 Jan 2010
     
     mac_installer/
         PostInstall.cpp
+
+David  17 Jan 2010
+    - scheduler/feeder: if any client version number field
+        (min_core_version etc.) is < 10000,
+        multiply it by 100 and print a warning.
+
+    sched/
+        sched_config.cpp
+        sched_send.cpp
+        sched_shmem.cpp
+        handle_request.cpp

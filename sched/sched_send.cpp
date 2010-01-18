@@ -1255,11 +1255,11 @@ static void explain_to_user() {
                 g_reply->insert_message(g_wreq->no_work_messages.at(j));
             }
             g_reply->insert_message(
-                "You have selected to receive work from other applications if no work is available for the applications you selected",
-                "high"
+                "Your preferences allow work from applications other than those selected",
+                "low"
             );
             g_reply->insert_message(
-                "Sending work from other applications", "high"
+                "Sending work from other applications", "low"
             );
         }
     }
@@ -1283,7 +1283,7 @@ static void explain_to_user() {
                     );
                        g_reply->insert_message(explanation, "high");
                  }
-               }
+             }
         }
 
         // Tell the user about applications they didn't qualify for
@@ -1293,7 +1293,7 @@ static void explain_to_user() {
         }
         if (g_wreq->no_allowed_apps_available) {
             g_reply->insert_message(
-                "No work available for the applications you have selected.  Please check your settings on the web site.",
+                "No work available for the applications you have selected.  Please check your preferences on the web site.",
                 "high"
             );
         }

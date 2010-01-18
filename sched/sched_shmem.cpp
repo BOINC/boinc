@@ -147,6 +147,15 @@ int SCHED_SHMEM::scan_tables() {
             for (unsigned int k=0; k<avs.size(); k++) {
                 APP_VERSION& av1 = avs[k];
                 if (av1.deprecated) continue;
+                if (av1.min_core_version && av1.min_core_version < 10000) {
+                    fprintf(stderr, "min core version too small - multiplying by 100\n");
+                    av1.min_core_version *= 100;
+                }
+                if (av1.max_core_version && av1.max_core_version < 10000) {
+                    fprintf(stderr, "max core version too small - multiplying by 100\n");
+                    av1.max_core_version *= 100;
+                }
+
                 app_versions[n++] = av1;
                 if (n == MAX_APP_VERSIONS) {
                     overflow("app_versions", "MAX_APP_VERSIONS");

@@ -133,8 +133,24 @@ int SCHED_CONFIG::parse(FILE* f) {
             continue;
         }
         if (xp.parse_double(tag, "locality_scheduler_fraction", locality_scheduler_fraction)) continue;
-        if (xp.parse_int(tag, "min_core_client_version", min_core_client_version)) continue;
-        if (xp.parse_int(tag, "min_core_client_version_announced", min_core_client_version_announced)) continue;
+        if (xp.parse_int(tag, "min_core_client_version", min_core_client_version)) {
+            if (min_core_client_version && min_core_client_version < 10000) {
+                log_messages.printf(MSG_CRITICAL,
+                    "min_core_client_version too small; multiplying by 100\n"
+                );
+                min_core_client_version *= 100;
+            }
+            continue;
+        }
+        if (xp.parse_int(tag, "min_core_client_version_announced", min_core_client_version_announced)) {
+            if (min_core_client_version_announced && min_core_client_version_announced < 10000) {
+                log_messages.printf(MSG_CRITICAL,
+                    "min_core_client_version_announced too small; multiplying by 100\n"
+                );
+                min_core_client_version_announced *= 100;
+            }
+            continue;
+        }
         if (xp.parse_int(tag, "min_core_client_upgrade_deadline", min_core_client_upgrade_deadline)) continue;
         if (xp.parse_str(tag, "replace_download_url_by_timezone", replace_download_url_by_timezone, sizeof(replace_download_url_by_timezone))) continue;
         if (xp.parse_bool(tag, "cache_md5_info", cache_md5_info)) continue;
