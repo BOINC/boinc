@@ -217,6 +217,44 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     return 0;
 }
 
+void APP_INIT_DATA::clear() {
+    major_version = 0;
+    minor_version = 0;
+    release = 0;
+    app_version = 0;
+    strcpy(app_name, "");
+    strcpy(symstore, "");
+    strcpy(acct_mgr_url, "");
+    project_preferences = NULL;
+    hostid = 0;
+    strcpy(user_name, "");
+    strcpy(team_name, "");
+    strcpy(project_dir, "");
+    strcpy(boinc_dir, "");
+    strcpy(wu_name, "");
+    strcpy(authenticator, "");
+    slot = 0;
+    user_total_credit = 0;
+    user_expavg_credit = 0;
+    host_total_credit = 0;
+    host_expavg_credit = 0;
+    resource_share_fraction = 0;
+    host_info.clear_host_info();
+    proxy_info.clear();
+    global_prefs.defaults();
+    starting_elapsed_time = 0;
+    rsc_fpops_est = 0;
+    rsc_fpops_bound = 0;
+    rsc_memory_bound = 0;
+    rsc_disk_bound = 0;
+    computation_deadline = 0;
+    fraction_done_start = 0;
+    fraction_done_end = 0;
+    double checkpoint_period = 0;
+    memset(&shmem_seg_name, 0, sizeof(shmem_seg_name));
+    double wu_cpu_time = 0;
+}
+
 int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     char tag[1024];
     int retval;
@@ -235,7 +273,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         free(ai.project_preferences);
         ai.project_preferences = 0;
     }
-    memset(&ai, 0, sizeof(ai));
+    ai.clear();
     ai.fraction_done_start = 0;
     ai.fraction_done_end = 1;
 
