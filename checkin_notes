@@ -470,3 +470,10 @@ David  17 Jan 2010
         sched_send.cpp
         sched_shmem.cpp
         handle_request.cpp
+
+Rytis  18 Jan 2010
+    - user web: do SQL escaping before storing prefs in the database as some
+        projects store user-editable strings in the preferences.
+
+    html/inc/
+        prefs.inc

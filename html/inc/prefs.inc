@@ -1584,7 +1584,7 @@ function project_prefs_make_xml($prefs, $primary=true) {
 // Update user's prefs in database, from a given structure
 //
 function global_prefs_update(&$user, $prefs) {
-    $prefs_xml = global_prefs_make_xml($prefs);
+    $prefs_xml = mysql_real_escape_string(global_prefs_make_xml($prefs));
     $query = "update user set global_prefs='$prefs_xml' where id=$user->id";
     $retval = mysql_query($query);
     if (!$retval) {
@@ -1597,7 +1597,7 @@ function global_prefs_update(&$user, $prefs) {
 }
 
 function project_prefs_update(&$user, $prefs) {
-    $prefs_xml = project_prefs_make_xml($prefs);
+    $prefs_xml = mysql_real_escape_string(project_prefs_make_xml($prefs));
     $retval = mysql_query("update user set project_prefs='$prefs_xml', send_email=$user->send_email, show_hosts=$user->show_hosts where id=$user->id");
     $user->project_prefs = $prefs_xml;
     return $retval;
