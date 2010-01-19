@@ -250,9 +250,9 @@ void APP_INIT_DATA::clear() {
     computation_deadline = 0;
     fraction_done_start = 0;
     fraction_done_end = 0;
-    double checkpoint_period = 0;
+    checkpoint_period = 0;
     memset(&shmem_seg_name, 0, sizeof(shmem_seg_name));
-    double wu_cpu_time = 0;
+    wu_cpu_time = 0;
 }
 
 int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
