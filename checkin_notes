@@ -540,3 +540,18 @@ David  19 Jan 2010
     client/
         sim.cpp
         sim_util.cpp
+
+David  19 Jan 2010
+    - web: translation fix from Nicolas:
+        "There is a bug in tra() that causes problems if one of the arguments
+        contains a replacement marker itself. For example, if the first
+        argument contains an encoded URL, which contains '%2', the second
+        argument may appear in the middle of the URL."
+    - client simulator: further fiddling around.  Not done.
+
+    html/inc/
+        translation.inc
+    client/
+        sim.cpp
+        work_fetch.cpp
+        cpu_sched.cpp

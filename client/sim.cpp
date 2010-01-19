@@ -198,12 +198,17 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
 
     double diff = now - last_time;
     if (diff && diff < host_info.connection_interval) {
-        msg_printf(NULL, MSG_INFO, "simulate_rpc: too soon %f < %f", diff, host_info.connection_interval);
+        msg_printf(NULL, MSG_INFO,
+            "simulate_rpc: too soon %f < %f",
+            diff, host_info.connection_interval
+        );
         return false;
     }
     last_time = now;
 
-    sprintf(buf, "RPC to %s; asking for %f<br>", p->project_name, cpu_work_fetch.req_secs);
+    sprintf(buf, "RPC to %s; asking for %f<br>",
+        p->project_name, cpu_work_fetch.req_secs
+    );
     html_msg += buf;
 
     handle_completed_results();
@@ -245,12 +250,13 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
 
     if (cpu_work_fetch.req_secs > 0 && !sent_something) {
         p->backoff();
+        return false;
     } else {
         p->nrpc_failures = 0;
+        request_schedule_cpus("simulate_rpc");
+        request_work_fetch("simulate_rpc");
+        return true;
     }
-    request_schedule_cpus("simulate_rpc");
-    request_work_fetch("simulate_rpc");
-    return true;
 }
 
 void SIM_PROJECT::backoff() {
@@ -743,18 +749,22 @@ int main(int argc, char** argv) {
         total_results.divide((int)(dirs.size()));
         total_results.print(stdout, "Total");
     } else {
+        msg_printf(0, MSG_INFO, "SIMULATION START");
         read_config_file(true);
+        config.show();
+
         int retval;
         bool flag;
 
-        retval = gstate.parse_projects(PROJECTS_FILE);
-        if (retval) parse_error(PROJECTS_FILE, retval);
         retval = gstate.parse_host(HOST_FILE);
         if (retval) parse_error(HOST_FILE, retval);
+        retval = gstate.parse_projects(PROJECTS_FILE);
+        if (retval) parse_error(PROJECTS_FILE, retval);
         retval = gstate.global_prefs.parse_file(PREFS_FILE, "", flag);
         if (retval) parse_error(PREFS_FILE, retval);
 
         gstate.set_ncpus();
+        work_fetch.init();
         gstate.request_work_fetch("init");
         gstate.simulate();
 

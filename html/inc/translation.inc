@@ -184,11 +184,14 @@ function tra($text /* ...arglist... */){
         }
     }
 
-    // Replace relevant substrings with given arguments    
+    // Replace relevant substrings with given arguments.
+    // Use strtr to avoid problems if an argument contains %n.
+    $replacements = array();
     for ($i = 1; $i<func_num_args(); $i++){
-        $arg = func_get_arg($i);
-        $text = str_replace("%".$i, $arg, $text);
+        $replacements["%".$i] = func_get_arg($i);
     }
+    $text = strtr($text, $replacements);
+
     return $text;
 }
 

@@ -1342,7 +1342,7 @@ bool CLIENT_STATE::enforce_schedule() {
     }
 
     if (log_flags.cpu_sched_debug && ncpus_used < ncpus) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] using %f out of %d CPUs",
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] using %.2f out of %d CPUs",
             ncpus_used, ncpus
         );
         if (ncpus_used < ncpus) {
