@@ -519,3 +519,12 @@ David  18 Jan 2010
         prefs.inc
     lib/
         prefs.cpp,h
+
+Rom    19 Jan 2010
+    - lib: Don't allow the diagnostics threads to be suspended, if a crash happens within
+        the remaining thread the process will deadlock.
+
+    lib/
+        diagnostics.h
+        diagnostics_win.cpp
+        win_util.cpp
