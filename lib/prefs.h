@@ -40,6 +40,7 @@ struct GLOBAL_PREFS_MASK {
     bool run_gpu_if_user_active;
     bool idle_time_to_run;
     bool suspend_if_no_recent_input;
+    bool suspend_cpu_usage;
     bool start_hour;
     bool end_hour;
     bool net_start_hour;
@@ -137,6 +138,7 @@ struct GLOBAL_PREFS {
     bool run_gpu_if_user_active;
     double idle_time_to_run;
     double suspend_if_no_recent_input;
+    double suspend_cpu_usage;
     bool leave_apps_in_memory;
     bool confirm_before_connecting;
     bool hangup_if_dialed;

@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2010 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -81,6 +81,9 @@ define("IDLE_TIME_TO_RUN_DESC", "'In use' means mouse/keyboard activity in last"
 define("SUSPEND_IF_NO_RECENT_INPUT_DESC",
     "Suspend work if no mouse/keyboard activity in last
     <br><span class=note>(Needed to enter low-power mode on some computers)</span>"
+);
+define("SUSPEND_CPU_USAGE_DESC",
+    "Suspend work if CPU usage is above<br><span class=note>0 means no restriction<br>Enforced by version 6.10.30+</span>"
 );
 define("START_END_DESC", "Do work only between the hours of");
 define("START_END_DESC2", "<br><span class=note>(no restriction if equal)</span>");
@@ -356,6 +359,9 @@ function element_end_global($parser, $name) {
     case "suspend_if_no_recent_input":
         $parse_result->suspend_if_no_recent_input = $text;
         break;
+    case "suspend_cpu_usage":
+        $parse_result->suspend_cpu_usage = $text;
+        break;
     case "start_hour":
         $parse_result->start_hour = $text;
         break;
@@ -451,6 +457,7 @@ function default_prefs_global() {
     $p->suspend_gpu_if_user_active = true;
     $p->idle_time_to_run = 3;
     $p->suspend_if_no_recent_input = 0;
+    $p->suspend_cpu_usage = 25;
     $p->start_hour = 0;
     $p->end_hour = 0;
     $p->leave_apps_in_memory = false;
@@ -685,6 +692,7 @@ function prefs_show_columns_global($prefs) {
     row_defs(IDLE_TIME_TO_RUN_DESC, "idle_time_to_run", " minutes", "", $prefs);
 
     row_defs(SUSPEND_IF_NO_RECENT_INPUT_DESC, "suspend_if_no_recent_input", "minutes", "minutes", $prefs);
+    row_defs(SUSPEND_CPU_USAGE_DESC, "suspend_cpu_usage", "%", "", $prefs);
 
     row_hours(START_END_DESC, "run", $prefs);
 
@@ -730,6 +738,8 @@ function prefs_show_global($prefs) {
 
     $x = show_double($prefs->suspend_if_no_recent_input);
     row2(SUSPEND_IF_NO_RECENT_INPUT_DESC, "$x minutes");
+    $x = show_double($prefs->suspend_cpu_usage);
+    row2(SUSPEND_CPU_USAGE_DESC, "$x %");
 
     if ($prefs->start_hour == $prefs->end_hour) {
         $x = "(no restriction)";
@@ -1066,6 +1076,11 @@ function prefs_form_global($user, $prefs, $error=false) {
     if (isset($error->suspend_if_no_recent_input)) $show_error= true;
     row2(SUSPEND_IF_NO_RECENT_INPUT_DESC, $y, $show_error);
 
+    $y = "<input size=5 name=suspend_cpu_usage value='$prefs->suspend_cpu_usage'> % ";
+    $show_error = false;
+    if (isset($error->suspend_cpu_usage)) $show_error= true;
+    row2(SUSPEND_CPU_USAGE_DESC, $y, $show_error);
+
     $x = START_END_DESC.START_END_DESC2;
     $y = hour_select($prefs->start_hour, "start_hour")."and".hour_select($prefs->end_hour, "end_hour");
     row2($x, $y);
@@ -1337,6 +1352,7 @@ function prefs_global_parse_form(&$prefs) {
     $suspend_gpu_if_user_active = $_GET["suspend_gpu_if_user_active"];
     $idle_time_to_run = $_GET["idle_time_to_run"];
     $suspend_if_no_recent_input = $_GET["suspend_if_no_recent_input"];
+    $suspend_cpu_usage = $_GET["suspend_cpu_usage"];
     $start_hour = $_GET["start_hour"];
     $end_hour = $_GET["end_hour"];
     $leave_apps_in_memory = $_GET["leave_apps_in_memory"];
@@ -1363,6 +1379,7 @@ function prefs_global_parse_form(&$prefs) {
     // Verification of all user input values
     if (!verify_numeric($idle_time_to_run, 1)) $error->idle_time_to_run = true;
     if (!verify_numeric($suspend_if_no_recent_input, 0)) $error->suspend_if_no_recent_input = true;
+    if (!verify_numeric($suspend_cpu_usage, 0, 100)) $error->suspend_cpu_usage = true;
     if (!verify_numeric($start_hour, 0)) $error->start_hour = true;
     if (!verify_numeric($end_hour, 0)) $error->end_hour = true;
     if (!verify_numeric($cpu_scheduling_period_minutes, 1)) $error->cpu_scheduling_period_minutes = true;;
@@ -1388,6 +1405,7 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->suspend_gpu_if_user_active = ($suspend_gpu_if_user_active == "yes");
     $prefs->idle_time_to_run = $idle_time_to_run;
     $prefs->suspend_if_no_recent_input = $suspend_if_no_recent_input;
+    $prefs->suspend_cpu_usage = $suspend_cpu_usage;
     $prefs->start_hour = $start_hour;
     $prefs->end_hour = $end_hour;
     $prefs->leave_apps_in_memory = ($leave_apps_in_memory == "yes");
@@ -1482,6 +1500,7 @@ function global_prefs_make_xml($prefs, $primary=true) {
 
     $xml = $xml."<idle_time_to_run>$prefs->idle_time_to_run</idle_time_to_run>\n";
     $xml = $xml."<suspend_if_no_recent_input>$prefs->suspend_if_no_recent_input</suspend_if_no_recent_input>\n";
+    $xml = $xml."<suspend_cpu_usage>$prefs->suspend_cpu_usage</suspend_cpu_usage>\n";
 
     if ($prefs->start_hour != $prefs->end_hour) {
         $xml = $xml."<start_hour>$prefs->start_hour</start_hour>\n"

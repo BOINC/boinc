@@ -228,7 +228,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	// idle for X minutes
 	buffer.Printf(wxT("%.2f"),prefs.idle_time_to_run);
 	*m_txtProcIdleFor << buffer;
-	// siwtch every X minutes
+	// switch every X minutes
 	buffer.Printf(wxT("%.2f"),prefs.cpu_scheduling_period_minutes);
 	*m_txtProcSwitchEvery << buffer;
 	// max cpus

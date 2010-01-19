@@ -508,3 +508,14 @@ David  18 Jan 2010
 		procinfo_win.cpp
 	win_build/
 		libboinc.vcproj
+
+David  18 Jan 2010
+    - client and user web: finish the above.
+        Should add the Adv Prefs dialog as well.
+
+    client/
+        cs_prefs.cpp
+    html/inc/
+        prefs.inc
+    lib/
+        prefs.cpp,h
