@@ -620,6 +620,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\common_defs.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\coproc.h"
 				>
 			</File>

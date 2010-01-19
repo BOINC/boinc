@@ -431,6 +431,7 @@ int COPROC_CUDA::available_ram(int devnum, double& ar) {
     unsigned int memfree, memtotal;
     unsigned int ctx;
     
+    if (!__cuDeviceGet) return 0;       // avoid crash if faked GPU
     int retval = (*__cuDeviceGet)(&device, devnum);
     if (retval) return retval;
     retval = (*__cuCtxCreate)(&ctx, 0, device);
@@ -753,7 +754,11 @@ void fake_ati(COPROCS& coprocs, int count) {
     COPROC_ATI* cc = new COPROC_ATI;
     strcpy(cc->type, "ATI");
     strcpy(cc->version, "1.4.3");
+    strcpy(cc->name, "foobar");
     cc->count = count;
+    memset(&cc->attribs, 0, sizeof(cc->attribs));
+    memset(&cc->info, 0, sizeof(cc->info));
+    cc->attribs.localRAM = 1024;
     cc->attribs.numberOfSIMD = 32;
     cc->attribs.wavefrontSize = 32;
     cc->attribs.engineClock = 50;
@@ -767,6 +772,7 @@ int COPROC_ATI::available_ram(int devnum, double& ar) {
     CALdevicestatus st;
     CALdevice dev;
     int retval;
+    if (!__calInit) return 0;   // avoid crash if faked GPU
     retval = (*__calInit)();
     if (retval) return retval;
     retval = (*__calDeviceOpen)(&dev, devnum);

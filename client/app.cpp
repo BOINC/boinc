@@ -73,6 +73,7 @@ using std::min;
 bool exclusive_app_running;
 bool exclusive_gpu_app_running;
 bool gpu_suspended;
+double non_boinc_cpu_usage;
 
 #define ABORT_TIMEOUT   60
     // if we send app <abort> request, wait this long before killing it.
@@ -305,6 +306,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_mem_time=0;
     unsigned int i;
 	int retval;
+    static bool first = true;
+    static double last_cpu_time;
 
     double diff = gstate.now - last_mem_time;
     if (diff < 10) return;
@@ -363,16 +366,31 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         gstate.request_schedule_cpus("Exclusive GPU app status changed");
     }
 
-#if 0
-    // the following is not useful because most OSs don't
-    // move idle processes out of RAM, so physical memory is always full
+    // get info on non-BOINC processes.
+    // mem usage info is not useful because most OSs don't
+    // move idle processes out of RAM, so physical memory is always full.
+    // Also (at least on Win) page faults are used for various things,
+    // not all of them generate disk I/O,
+    // so they're not useful for detecting paging/thrashing.
     //
+    PROCINFO pi;
     procinfo_other(pi, piv);
     msg_printf(NULL, MSG_INFO, "All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",
         pi.working_set_size/MEGA, pi.swap_size/MEGA,
         pi.user_time, pi.kernel_time
     );
-#endif
+
+    double new_cpu_time = pi.user_time + pi.kernel_time;
+    if (first) {
+        first = false;
+    } else {
+        non_boinc_cpu_usage = (new_cpu_time - last_cpu_time)/(diff*gstate.host_info.p_ncpus);
+        // processes might have exited in the last 10 sec,
+        // causing this to be negative.
+        if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
+        msg_printf(NULL, MSG_INFO, "non-BOINC CPU usage: %f%%", non_boinc_cpu_usage*100);
+    }
+    last_cpu_time = new_cpu_time;
 }
 
 // Do periodic checks on running apps:

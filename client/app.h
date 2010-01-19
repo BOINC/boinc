@@ -276,5 +276,6 @@ public:
 extern bool exclusive_app_running;
 extern bool exclusive_gpu_app_running;
 extern bool gpu_suspended;
+extern double non_boinc_cpu_usage;
 
 #endif
