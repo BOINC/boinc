@@ -608,12 +608,10 @@ msgstr "Communication avec le client BOINC en cours._ _Veuillez patienter ..."
 
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
-#, c-format
 msgid "&Quit %s"
 msgstr "&Quitter %s"
 
 #: clientgui/AsyncRPC.cpp:1205
-#, c-format
 #, c-format
 msgid "E&xit %s"
 msgstr "&Fermer %s"
@@ -3480,7 +3478,6 @@ msgstr ""
 "(Avancement: %s, Etat: %s)"
 
 #: clientgui/ViewWork.cpp:432
-#, c-format
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Etes-vous sûr de vouloir annuler ces %d tâches ?"

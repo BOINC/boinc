@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-15 22:43 PST\n"
 "PO-Revision-Date: 2009-05-18 13:27+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
@@ -19,6 +19,14 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: CHINA\n"
 
+#, fuzzy
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+#, fuzzy
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 msgid "Search for words in forum messages"
 msgstr "在论坛的所有帖子中搜索关键字"
 
@@ -28,12 +36,14 @@ msgstr "搜索论坛"
 msgid "Advanced search"
 msgstr "高级搜索"
 
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "私人消息"
 
 msgid "Questions and Answers"
 msgstr "疑难解答"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "留言板"
 
@@ -54,15 +64,19 @@ msgstr "您暂时不能发表更多的新主题，请稍后再试，这是为了
 msgid "Thread"
 msgstr "主题"
 
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "贴数"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "作者"
 
 msgid "Views"
 msgstr "查看次数"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "最近发贴"
 
@@ -71,6 +85,17 @@ msgstr "标记所有主题为已读"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "标记所有留言板块的所有主题为已读。"
+
+msgid "Comment"
+msgstr ""
+
+"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+"
 
 msgid "Inbox"
 msgstr "收件箱"
@@ -81,6 +106,12 @@ msgstr "写信"
 msgid "Send private message"
 msgstr "发送私人消息"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "预览"
 
@@ -93,6 +124,9 @@ msgstr "用户ID或唯一的用户名，多个收件人之间用逗号分开"
 msgid "Subject"
 msgstr "标题"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "消息"
 
@@ -106,6 +140,11 @@ msgstr "您发送消息的间隔时间太短，请等待一段时间再发送更
 
 msgid "unread"
 msgstr "未读"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+
+"
 
 msgid "Edit your profile"
 msgstr "编辑您的用户档案"
@@ -134,6 +173,11 @@ msgstr "关键字"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "寻找名称或描述中包含这些关键字的团队"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "国家或地区"
 
@@ -176,9 +220,15 @@ msgstr "描述"
 msgid "Web site"
 msgstr "网站"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "总积分"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "近期平均积分"
 
@@ -238,6 +288,9 @@ msgstr "活跃的成员"
 msgid "Members with credit"
 msgstr "有积分的成员"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "用户名"
 
@@ -318,6 +371,8 @@ msgstr "计算和积分情况"
 msgid "Pending credit"
 msgstr "待授予的积分"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "查看"
 
@@ -332,6 +387,19 @@ msgstr "跨项目标识符 (CPID)"
 
 msgid "Cross-project statistics"
 msgstr "跨项目的统计网站"
+
+msgid "Account"
+msgstr ""
+
+"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "团队"
+
+#, fuzzy
+msgid "Cross-project"
+msgstr "跨项目标识符 (CPID)"
 
 msgid "Certificate"
 msgstr "计算证书"
@@ -402,8 +470,10 @@ msgstr "留言板和私人消息"
 msgid "Community preferences"
 msgstr "社区参数设置"
 
-msgid "Resource share and graphics"
-msgstr "资源分享和项目图形"
+msgid "Preferences for this project"
+msgstr ""
+
+"
 
 msgid "%1 preferences"
 msgstr "%1 参数设置"
@@ -438,9 +508,6 @@ msgstr "( 创建人转换请求待处理 )"
 msgid "Member of team"
 msgstr "团队成员"
 
-msgid "Team"
-msgstr "团队"
-
 msgid "find a team"
 msgstr "寻找团队"
 
@@ -450,6 +517,7 @@ msgstr "创建人 ( 已退出团队 )"
 msgid "Find friends"
 msgstr "寻找好友"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "好友"
 
@@ -479,6 +547,44 @@ msgstr "添加为好友"
 
 msgid "CHARSET"
 msgstr "UTF-8"
+
+#, fuzzy
+msgid "Email address:"
+msgstr "电子邮件地址"
+
+msgid "forgot email address?"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Password:"
+msgstr "用户口令"
+
+msgid "forgot password?"
+msgstr ""
+
+"
+
+msgid "Stay logged in on this computer"
+msgstr ""
+
+"
+
+msgid "Log in"
+msgstr ""
+
+"
+
+msgid "or %1create an account%2."
+msgstr ""
+
+"
+
+msgid "Please log in"
+msgstr ""
+
+"
 
 msgid "Use BBCode tags to format your text"
 msgstr "使用 BBCode 标记来格式化您的正文"
@@ -680,9 +786,74 @@ msgstr "安装及运行 BOINC 的说明请看 %1这里%2。"
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "本页面中的列表内容由 %1BOINC 官方网站%2 集中管理。"
 
-msgid "fll"
+msgid "Change email address"
 msgstr ""
 
+"
+
+msgid "Change the email address of your account"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "New email address"
+msgstr "电子邮件地址"
+
+#, fuzzy
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "必须是有效的电子邮件地址，形式如 '用户名@域名'。"
+
+msgid "No password?"
+msgstr ""
+
+"
+
+msgid "Change password"
+msgstr ""
+
+"
+
+msgid "You can identify yourself using either"
+msgstr ""
+
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "your account key"
+msgstr "弱帐户密钥"
+
+msgid "Current password"
+msgstr ""
+
+"
+
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+"
+
+msgid "Get account key by email"
+msgstr ""
+
+"
+
+msgid "New password"
+msgstr ""
+
+"
+
+msgid "New password, again"
+msgstr ""
+
+"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "标题"
 
@@ -703,6 +874,7 @@ msgstr "主题"
 msgid "Create a new thread"
 msgstr "创建新主题"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "回复该主题"
 
@@ -812,6 +984,8 @@ msgstr "%1 没有接受您的好友请求"
 msgid "You can't be friends with yourself"
 msgstr "您不能加自己为好友"
 
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "没有这个用户"
 
@@ -1042,11 +1216,63 @@ msgid ""
 "own risk."
 msgstr "其它项目同 %1 没有关系，所以我们也无法保证这些项目的安全性以及确切的研究内容，请您自行决定是否参加其他项目。"
 
+msgid "Language selection"
+msgstr ""
+
+"
+
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Simplified Chinese"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "简体中文"
+
+msgid "This web site is available in several languages. "
+msgstr ""
+
+"
+
+msgid "Normally the choice of language "
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid "Or you can select a language by clicking on one of the links. "
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
 
 msgid "Your message has been sent."
 msgstr "您的消息已被发送。"
@@ -1186,14 +1412,16 @@ msgstr "该特性已临时被关闭"
 msgid "No computer with ID %1 found"
 msgstr "找不到 ID 为 %1 的计算机"
 
-msgid "Tasks for computer %1"
-msgstr "计算机 %1 所完成的计算任务"
-
 msgid "No access"
 msgstr "无法访问"
 
 msgid "Missing user ID or host ID"
 msgstr "用户 ID 或 主机 ID 丢失"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
 
 msgid "User of the day"
 msgstr "今日用户"
@@ -1297,6 +1525,69 @@ msgstr "%s 团队排名"
 msgid "Participant since"
 msgstr "参加时间"
 
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Decreasing average credit"
+msgstr "近期平均积分"
+
+msgid "Decreasing total credit"
+msgstr ""
+
+"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "User search results"
+msgstr "论坛搜索结果"
+
 msgid "This user has no profile"
 msgstr "该用户未建立档案"
 
@@ -1333,6 +1624,12 @@ msgid ""
 "password, your weak account key changes, and your previous weak account key "
 "becomes invalid."
 msgstr "弱帐户密钥是根据您的帐户密码计算而来。如果您修改了您的帐户密码，您的弱帐户密钥也随之改变，您之前的弱帐户密钥将失效。"
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "资源分享和项目图形"
+
+#~ msgid "Tasks for computer %1"
+#~ msgstr "计算机 %1 所完成的计算任务"
 
 #~ msgid "Provides"
 #~ msgstr "可用于"

@@ -620,8 +620,9 @@ msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
+#, fuzzy
 msgid "E&xit %s"
-msgstr ""
+msgstr "Έξοδος %s"
 
 #: clientgui/AsyncRPC.cpp:1222
 #, fuzzy
@@ -2169,8 +2170,12 @@ msgid "Choose a project"
 msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:253
+#, fuzzy
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
+"Για να επιλέξετε ένα πρόγραμμα διαχείρισης λογαριασμού, πατήστε το όνομά του "
+"ή \n"
+"πληκτρολογήστε τη διεύθυνσή του παρακάτω."
 
 #: clientgui/ProjectInfoPage.cpp:256
 msgid "Project &URL:"
@@ -2189,8 +2194,9 @@ msgid "Click"
 msgstr ""
 
 #: clientgui/ProjectProcessingPage.cpp:323
+#, fuzzy
 msgid "Communicating with project."
-msgstr ""
+msgstr "Επικοινωνία με τον εξυπηρετητή (server)."
 
 #: clientgui/ProjectProcessingPage.cpp:499
 msgid "Required files not found on the server."
@@ -2198,8 +2204,9 @@ msgstr ""
 
 #: clientgui/ProjectProcessingPage.cpp:502
 #: clientgui/ProjectProcessingPage.cpp:564
+#, fuzzy
 msgid "An internal server error has occurred."
-msgstr ""
+msgstr "Προέκυψε ένα εσωτερικό σφάλμα στον εξυπηρετητή (internal server error).\n"
 
 #: clientgui/ProjectPropertiesPage.cpp:336
 #, fuzzy
@@ -3451,8 +3458,9 @@ msgid " (non-CPU-intensive)"
 msgstr ""
 
 #: clientgui/WelcomePage.cpp:250
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Σύνδεση σε &πρόγραμμα ή διαχειριστή λογαριασμού..."
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format

@@ -2184,8 +2184,11 @@ msgid "Choose a project"
 msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:253
+#, fuzzy
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
+"Fiókkezelő kiválasztásához kattintson a fiókkezelő nevére\n"
+"vagy gépelje be alább az URL-jét."
 
 #: clientgui/ProjectInfoPage.cpp:256
 msgid "Project &URL:"
@@ -3460,8 +3463,9 @@ msgid " (non-CPU-intensive)"
 msgstr ""
 
 #: clientgui/WelcomePage.cpp:250
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Csatlakozás &projekthez vagy fiókkezelőhöz..."
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format

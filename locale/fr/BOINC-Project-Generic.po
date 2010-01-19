@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-15 22:43 PST\n"
 "PO-Revision-Date: 2009-12-30 07:41-0700\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,14 @@ msgstr ""
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+#, fuzzy
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+#, fuzzy
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 msgid "Search for words in forum messages"
 msgstr "Chercher des mots dans les messages du forum"
 
@@ -27,12 +35,14 @@ msgstr "Chercher dans les forums"
 msgid "Advanced search"
 msgstr "Recherche avancée"
 
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Messages privés"
 
 msgid "Questions and Answers"
 msgstr "Questions et Réponses"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Forums"
 
@@ -58,15 +68,19 @@ msgstr ""
 msgid "Thread"
 msgstr "Sujet"
 
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Message"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Auteur"
 
 msgid "Views"
 msgstr "Vues"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Dernier message"
 
@@ -75,6 +89,17 @@ msgstr "Marquer tous les sujets comme lus"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Marquer tous les sujets de tous les forums comme 'lus'."
+
+msgid "Comment"
+msgstr ""
+
+"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+"
 
 msgid "Inbox"
 msgstr "Courrier entrant"
@@ -85,6 +110,12 @@ msgstr "Ecrire"
 msgid "Send private message"
 msgstr "Envoyer un message privé"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "Prévisualisation"
 
@@ -97,6 +128,9 @@ msgstr "Identifiants utilisateurs, séparés par des virgules"
 msgid "Subject"
 msgstr "Sujet"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Message"
 
@@ -112,6 +146,11 @@ msgstr ""
 
 msgid "unread"
 msgstr "non lu"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+
+"
 
 msgid "Edit your profile"
 msgstr "Éditer votre profil"
@@ -142,6 +181,11 @@ msgstr "Mots clés"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Trouver des équipes dont le nom ou la description contiennent ces mots"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "Pays"
 
@@ -185,9 +229,15 @@ msgstr "Description"
 msgid "Web site"
 msgstr "Site web"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Crédit total"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Crédit moyen (RAC)"
 
@@ -252,6 +302,9 @@ msgstr "Membres actifs"
 msgid "Members with credit"
 msgstr "Membres avec du crédit"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "Nom"
 
@@ -335,6 +388,8 @@ msgid "Pending credit"
 msgstr "Crédit en suspens"
 
 # vue ?
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "Voir"
 
@@ -349,6 +404,19 @@ msgstr "Identifiant inter-projets"
 
 msgid "Cross-project statistics"
 msgstr "Statistiques inter-projets"
+
+msgid "Account"
+msgstr ""
+
+"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "Equipe"
+
+#, fuzzy
+msgid "Cross-project"
+msgstr "Identifiant inter-projets"
 
 msgid "Certificate"
 msgstr "Certificat"
@@ -419,8 +487,10 @@ msgstr "Forums et messages privés"
 msgid "Community preferences"
 msgstr "Préférences de communauté"
 
-msgid "Resource share and graphics"
-msgstr "Partage de ressources et graphiques"
+msgid "Preferences for this project"
+msgstr ""
+
+"
 
 msgid "%1 preferences"
 msgstr "Préférences de %1"
@@ -455,9 +525,6 @@ msgstr "(demande de changement de fondateur en cours)"
 msgid "Member of team"
 msgstr "Membre de l'équipe"
 
-msgid "Team"
-msgstr "Equipe"
-
 msgid "find a team"
 msgstr "trouver une équipe"
 
@@ -467,6 +534,7 @@ msgstr "Fondateur mais non membre de"
 msgid "Find friends"
 msgstr "Trouver des amis"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Amis"
 
@@ -496,6 +564,44 @@ msgstr "Ajouter en tant qu'ami(e)"
 
 msgid "CHARSET"
 msgstr "CHARSET"
+
+#, fuzzy
+msgid "Email address:"
+msgstr "Adresse email"
+
+msgid "forgot email address?"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Password:"
+msgstr "Mot de passe"
+
+msgid "forgot password?"
+msgstr ""
+
+"
+
+msgid "Stay logged in on this computer"
+msgstr ""
+
+"
+
+msgid "Log in"
+msgstr ""
+
+"
+
+msgid "or %1create an account%2."
+msgstr ""
+
+"
+
+msgid "Please log in"
+msgstr ""
+
+"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Utiliser les balises BBCode pour mettre votre texte en forme"
@@ -726,10 +832,74 @@ msgstr "Instructions pour l'installation et le fonctionnement de BOINC %1ici%2."
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "La gestion de cette liste est centralisée sur %1le site web BOINC%2."
 
-# c'est quoi ça ?
-msgid "fll"
-msgstr "fll"
+msgid "Change email address"
+msgstr ""
 
+"
+
+msgid "Change the email address of your account"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "New email address"
+msgstr "adresse email"
+
+#, fuzzy
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "Doit être une adresse valide de type 'nom@domaine'."
+
+msgid "No password?"
+msgstr ""
+
+"
+
+msgid "Change password"
+msgstr ""
+
+"
+
+msgid "You can identify yourself using either"
+msgstr ""
+
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "your account key"
+msgstr "Clé de compte non robuste"
+
+msgid "Current password"
+msgstr ""
+
+"
+
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+"
+
+msgid "Get account key by email"
+msgstr ""
+
+"
+
+msgid "New password"
+msgstr ""
+
+"
+
+msgid "New password, again"
+msgstr ""
+
+"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Titre"
 
@@ -753,6 +923,7 @@ msgstr "Sujet"
 msgid "Create a new thread"
 msgstr "Créer une nouvelle discussion"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Écrire un message dans la discussion"
 
@@ -866,6 +1037,8 @@ msgstr "%1 n'accepte pas de demande d'amitié de votre part"
 msgid "You can't be friends with yourself"
 msgstr "Vous ne pouvez pas être ami avec vous-même"
 
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Utilisateur inexistant"
 
@@ -1071,8 +1244,12 @@ msgid ""
 "anyone to view and copy your posts."
 msgstr ""
 
+"
+
 msgid "Is it safe to run %1?"
 msgstr ""
+
+"
 
 msgid ""
 "Any time you download a program through the Internet you are taking a "
@@ -1084,14 +1261,20 @@ msgid ""
 "to the Internet."
 msgstr ""
 
+"
+
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 
+"
+
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
+
+"
 
 msgid "Liability"
 msgstr "Responsabilité"
@@ -1102,6 +1285,8 @@ msgid ""
 "1."
 msgstr ""
 
+"
+
 msgid "Other BOINC projects"
 msgstr "Autres projets BOINC"
 
@@ -1111,17 +1296,73 @@ msgid ""
 "will do useful work even when %1 has no work available for it."
 msgstr ""
 
+"
+
 msgid ""
 "These other projects are not associated with %1, and we cannot vouch for "
 "their security practices or the nature of their research. Join them at your "
 "own risk."
 msgstr ""
 
+"
+
+msgid "Language selection"
+msgstr ""
+
+"
+
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "French"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Français"
+
+msgid "This web site is available in several languages. "
+msgstr ""
+
+"
+
+msgid "Normally the choice of language "
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid "Or you can select a language by clicking on one of the links. "
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
 
 msgid "Your message has been sent."
 msgstr "Votre message a été envoyé."
@@ -1150,45 +1391,71 @@ msgstr "Vous devez remplir tous les champs pour envoyer un message privé"
 msgid "Could not find user with id %1"
 msgstr ""
 
+"
+
 msgid "Could not find user with username %1"
 msgstr ""
+
+"
 
 msgid "%1 is not a unique username; you will have to use user ID"
 msgstr ""
 
+"
+
 msgid "User %1 (ID: %2) is not accepting private messages from you."
 msgstr ""
 
+"
+
 msgid "Really block %1?"
 msgstr ""
+
+"
 
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
 msgstr ""
 
+"
+
 msgid "Please note that you can only block a limited amount of users."
 msgstr ""
+
+"
 
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
 msgstr ""
 
+"
+
 msgid "Add user to filter"
 msgstr ""
+
+"
 
 msgid "No, cancel"
 msgstr ""
 
+"
+
 msgid "User %1 blocked"
 msgstr ""
+
+"
 
 msgid "User %1 has been blocked from sending you private messages."
 msgstr ""
 
+"
+
 msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Profiles"
@@ -1199,138 +1466,220 @@ msgid ""
 "community."
 msgstr ""
 
+"
+
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
 msgstr ""
+
+"
 
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
 msgstr ""
 
+"
+
 msgid "User of the Day"
 msgstr ""
+
+"
 
 msgid "User Profile Explorer"
 msgstr ""
 
+"
+
 msgid "View the %1User Picture Gallery%2."
 msgstr ""
 
+"
+
 msgid "Browse profiles %1by country%2."
 msgstr ""
+
+"
 
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
 
+"
+
 msgid "Alphabetical profile listings:"
 msgstr ""
+
+"
 
 msgid "Search profile text"
 msgstr ""
 
+"
+
 msgid "No profiles"
 msgstr ""
+
+"
 
 msgid "No profiles matched your query."
 msgstr ""
 
+"
+
 msgid "Invalid vote type:"
 msgstr ""
+
+"
 
 msgid "Vote Recorded"
 msgstr ""
 
+"
+
 msgid "Thank you"
 msgstr ""
+
+"
 
 msgid "Your recommendation has been recorded."
 msgstr ""
 
+"
+
 msgid "Your vote to reject this profile has been recorded."
 msgstr ""
+
+"
 
 msgid "Return to profile."
 msgstr ""
 
+"
+
 msgid "This feature is turned off temporarily"
 msgstr ""
+
+"
 
 msgid "No computer with ID %1 found"
 msgstr ""
 
-msgid "Tasks for computer %1"
-msgstr ""
+"
 
 msgid "No access"
 msgstr ""
 
+"
+
 msgid "Missing user ID or host ID"
 msgstr ""
+
+"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
 
 msgid "User of the day"
 msgstr ""
 
+"
+
 msgid "Account data for %1"
 msgstr ""
+
+"
 
 msgid "Statistics and leaderboards"
 msgstr ""
 
+"
+
 msgid "Statistics for %1"
 msgstr ""
+
+"
 
 msgid "Top participants"
 msgstr ""
 
+"
+
 msgid "Top computers"
 msgstr ""
 
+"
+
 msgid "Top teams"
 msgstr ""
+
+"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
 
+"
+
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr ""
+
+"
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
 
+"
+
 msgid "%1 participants may form %2teams%3"
 msgstr ""
+
+"
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
 
+"
+
 msgid "Each team has a %1founder%2 who may:"
 msgstr ""
+
+"
 
 msgid "access team members' email addresses"
 msgstr ""
 
+"
+
 msgid "edit the team's name and description"
 msgstr ""
+
+"
 
 msgid "remove members from the team"
 msgstr ""
 
+"
+
 msgid "disband a team if it has no members"
 msgstr ""
 
+"
+
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Find a team"
@@ -1339,8 +1688,12 @@ msgstr "trouver une équipe"
 msgid "All teams"
 msgstr ""
 
+"
+
 msgid "%1 teams"
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Create a new team"
@@ -1350,14 +1703,22 @@ msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
 
+"
+
 msgid "You must choose a non-blank team name"
 msgstr ""
+
+"
 
 msgid "A team named %1 already exists - try another name"
 msgstr ""
 
+"
+
 msgid "Could not create team - please try later."
 msgstr ""
+
+"
 
 msgid "Create a team"
 msgstr "Créer une équipe"
@@ -1366,14 +1727,83 @@ msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
 
+"
+
 msgid "Top hosts"
 msgstr ""
+
+"
 
 msgid "Top %1 teams"
 msgstr ""
 
+"
+
 msgid "Participant since"
 msgstr "Participant depuis"
+
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Decreasing average credit"
+msgstr "Crédit moyen (RAC)"
+
+msgid "Decreasing total credit"
+msgstr ""
+
+"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "User search results"
+msgstr "Résultats de la recherche sur le forum"
 
 msgid "This user has no profile"
 msgstr "Cet utilisateur n'a pas de profil"
@@ -1387,13 +1817,19 @@ msgid ""
 "it in any way."
 msgstr ""
 
+"
+
 msgid ""
 "This mechanism works only with projects that have upgraded their server "
 "software 7 Dec 2007 or later."
 msgstr ""
 
+"
+
 msgid "Your weak account key for this project is:"
 msgstr ""
+
+"
 
 msgid ""
 "To use your weak account key on a given host, find or create the 'account "
@@ -1401,11 +1837,24 @@ msgid ""
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
 
+"
+
 msgid "Create this file if needed. Set its contents to:"
 msgstr ""
+
+"
 
 msgid ""
 "Your weak account key is a function of your password. If you change your "
 "password, your weak account key changes, and your previous weak account key "
 "becomes invalid."
 msgstr ""
+
+"
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "Partage de ressources et graphiques"
+
+# c'est quoi ça ?
+#~ msgid "fll"
+#~ msgstr "fll"
