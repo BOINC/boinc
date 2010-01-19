@@ -497,17 +497,17 @@ David  18 Jan 2010
         app_ipc.cpp,h
 
 David  18 Jan 2010
-	- client: initial checkin for "don't compute if CPU usage above X"
+    - client: initial checkin for "don't compute if CPU usage above X"
 
-	client/
-		app.cpp,h
-		coproc_detect.cpp
-		cs_prefs.cpp
-	lib/
-		common_defs.h
-		procinfo_win.cpp
-	win_build/
-		libboinc.vcproj
+    client/
+        app.cpp,h
+        coproc_detect.cpp
+        cs_prefs.cpp
+    lib/
+        common_defs.h
+        procinfo_win.cpp
+    win_build/
+        libboinc.vcproj
 
 David  18 Jan 2010
     - client and user web: finish the above.
@@ -521,10 +521,22 @@ David  18 Jan 2010
         prefs.cpp,h
 
 Rom    19 Jan 2010
-    - lib: Don't allow the diagnostics threads to be suspended, if a crash happens within
-        the remaining thread the process will deadlock.
+    - lib: Don't allow the diagnostics threads to be suspended.
+        If a crash happens within the remaining threads
+        the process will deadlock.
 
     lib/
         diagnostics.h
         diagnostics_win.cpp
         win_util.cpp
+
+David  19 Jan 2010
+    - API: fix crashing bug.  There was a leftover memset(aid, 0)
+        in boinc_parse_init_data_file()
+    - client sim: make it work again
+
+    api/
+        boinc_api.cpp
+    client/
+        sim.cpp
+        sim_util.cpp

@@ -99,8 +99,9 @@ void CLIENT_STATE::make_job(SIM_PROJECT* p, WORKUNIT* wup, RESULT* rp) {
     SIM_APP* ap1, *ap=0;
     double net_fpops = host_info.p_fpops;
     double x = drand();
+    unsigned int i;
 
-    for (unsigned int i=0; i<apps.size();i++) {
+    for (i=0; i<apps.size();i++) {
         ap1 = (SIM_APP*)apps[i];
         if (ap1->project != p) continue;
         x -= ap1->weight;
@@ -114,6 +115,18 @@ void CLIENT_STATE::make_job(SIM_PROJECT* p, WORKUNIT* wup, RESULT* rp) {
         exit(1);
     }
     rp->clear();
+    rp->avp = 0;
+    for (i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->app == ap) {
+            rp->avp = avp;
+            break;
+        }
+    }
+    if (!rp->avp) {
+        printf("ERROR - NO APP VERSION\n");
+        exit(1);
+    }
     rp->project = p;
     rp->wup = wup;
     sprintf(rp->name, "%s_%d", p->project_name, p->result_index++);
@@ -497,6 +510,10 @@ void CLIENT_STATE::html_start(bool show_prev) {
 
     sprintf(buf, "sim_out_%d.html", outfile_num++);
     html_out = fopen(buf, "w");
+    if (!html_out) {
+        fprintf(stderr, "can't open %s for writing\n", buf);
+        exit(1);
+    }
     setbuf(html_out, 0);
     fprintf(html_out, "<h2>Simulator output</h2>\n");
     if (show_prev) {

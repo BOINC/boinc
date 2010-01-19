@@ -472,6 +472,16 @@ int SIM_PROJECT::parse(XML_PARSER& xp) {
             if (retval) return retval;
             sap->project = this;
             gstate.apps.push_back(sap);
+
+            // for the time being, assume that there's a CPU app version
+            // for each app
+            //
+            APP_VERSION* avp = new APP_VERSION;
+            avp->app = sap;
+            avp->avg_ncpus = 1;
+            avp->flops = gstate.host_info.p_fpops;
+            gstate.app_versions.push_back(avp);
+
         } else if (!strcmp(tag, "available")) {
             retval = available.parse(xp, "/available");
             if (retval) return retval;

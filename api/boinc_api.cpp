@@ -617,14 +617,7 @@ int boinc_parse_init_data_file() {
         free(aid.project_preferences);
         aid.project_preferences = NULL;
     }
-    memset(&aid, 0, sizeof(aid));
-    strcpy(aid.user_name, "");
-    strcpy(aid.team_name, "");
-    aid.wu_cpu_time = 0;
-    aid.user_total_credit = 0;
-    aid.user_expavg_credit = 0;
-    aid.host_total_credit = 0;
-    aid.host_expavg_credit = 0;
+    aid.clear();
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
 
     if (!boinc_file_exists(INIT_DATA_FILE)) {
