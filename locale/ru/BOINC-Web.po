@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-11 12:46 PST\n"
-"PO-Revision-Date: 2010-01-20 09:51-0700\n"
+"PO-Revision-Date: 2010-01-20 10:26-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -74,8 +74,8 @@ msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
-"Примечание: если ваш компьютер оборудован видеокартой NVIDIA (GPU), вы "
-"можете %sиспользовать её для ускорения вычислений%s"
+"Примечание: если ваш компьютер оборудован видеокартой с графическим "
+"процессором (GPU), вы можете %sиспользовать её для ускорения вычислений%s"
 
 #: download.php:122
 msgid "System requirements"
@@ -95,7 +95,7 @@ msgstr "Все версии"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "История версий"
 
 #: download.php:143
 msgid "BOINC: compute for science"
@@ -260,7 +260,7 @@ msgstr "Разработка BOINC"
 
 #: index.php:151
 msgid "Help wanted!"
-msgstr "Необходима помощь!"
+msgstr "Необходима помощь"
 
 #: index.php:153
 msgid "Programming"
@@ -275,8 +275,9 @@ msgid "Testing"
 msgstr "Тестирование"
 
 #: index.php:157
+#, fuzzy
 msgid "Publicity"
-msgstr ""
+msgstr "Публикации в прессе"
 
 #: index.php:159
 msgid "Software development"
@@ -316,7 +317,7 @@ msgstr "Изображения и логотипы"
 
 #: index.php:168
 msgid "Research projects"
-msgstr ""
+msgstr "Научно-исследовательские проекты"
 
 #: index.php:201
 msgid "Browser default"
@@ -333,8 +334,9 @@ msgstr ""
 "на настольных компьютерах%s."
 
 #: index.php:261
+#, fuzzy
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC базируется в Университете Калифорнии, Беркли"
 
 #~ msgid "[check all that apply]"
 #~ msgstr "[можно указывать несколько пунктов одновременно]"
