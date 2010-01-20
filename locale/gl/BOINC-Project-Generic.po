@@ -1805,14 +1805,10 @@ msgstr ""
 "
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr ""
-
-"
+msgstr "English"
 
 msgid "LANG_NAME_NATIVE"
-msgstr ""
-
-"
+msgstr "English"
 
 msgid "This web site is available in several languages. "
 msgstr ""

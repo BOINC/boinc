@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-15 22:43 PST\n"
-"PO-Revision-Date: 2010-01-20 10:51-0700\n"
+"PO-Revision-Date: 2010-01-20 11:58-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -825,46 +825,46 @@ msgstr "Поменять адрес электронной почты"
 
 #, fuzzy
 msgid "Change the email address of your account"
-msgstr "Поменять адрес email вышей учётной записи"
+msgstr "Поменять адрес электронной почты вашей учётной записи"
 
-#, fuzzy
 msgid "New email address"
-msgstr "адрес email"
+msgstr "Новый адрес email"
 
-#, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr "Должен быть действительным адресом в форме 'имя@домен'."
+msgstr "Должен быть действительным адресом в форме 'имя@домен'"
 
 msgid "No password?"
-msgstr ""
+msgstr "Нет пароля?"
 
 msgid "Change password"
-msgstr ""
-
-msgid "You can identify yourself using either"
-msgstr ""
-
-msgid "your email address and old password"
-msgstr ""
+msgstr "Поменять пароль"
 
 #, fuzzy
+msgid "You can identify yourself using either"
+msgstr "Вы можете идентифицировать себя используя"
+
+#, fuzzy
+msgid "your email address and old password"
+msgstr "Ваш адрес email и старый пароль"
+
 msgid "your account key"
-msgstr "Слабый ключ учетной записи"
+msgstr "Ваш ключ учетной записи"
 
 msgid "Current password"
-msgstr ""
+msgstr "Текущий пароль"
 
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<b>ИЛИ</b>: Ключ учетной записи"
 
+#, fuzzy
 msgid "Get account key by email"
-msgstr ""
+msgstr "Получить ключ учетной записи по электронной почте"
 
 msgid "New password"
-msgstr ""
+msgstr "Новый пароль"
 
 msgid "New password, again"
-msgstr ""
+msgstr "Новый пароль, ещё раз"
 
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
@@ -1281,7 +1281,7 @@ msgstr ""
 "или природу их исследований. Присоединяйтесь к ним на свой страх и риск."
 
 msgid "Language selection"
-msgstr ""
+msgstr "Выбор языка"
 
 # The name of this language in an international language (English)
 # Имя языка в этом файле на интернациональном языке (английском)
@@ -1293,34 +1293,45 @@ msgstr "Russian"
 msgid "LANG_NAME_NATIVE"
 msgstr "Русский"
 
+#, fuzzy
 msgid "This web site is available in several languages. "
-msgstr ""
+msgstr "Этот веб-сайт доступен на нескольких языках. "
 
 msgid "Normally the choice of language "
 msgstr ""
 
+#, fuzzy
 msgid "Firefox: Tools/Options/General"
-msgstr ""
+msgstr "Firefox: Сервис/Настройки/Общие (Tools/Options/General)"
 
+#, fuzzy
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
+"Microsoft IE: Сервис/Свойства обозревателя/Языки (Tools/Internet "
+"Options/Languages)"
 
+#, fuzzy
 msgid "Or you can select a language by clicking on one of the links. "
-msgstr ""
+msgstr "Или Вы можете выбрать язык, нажав на одну из ссылок. "
 
 msgid "Language symbol"
-msgstr ""
+msgstr "Языковой символ"
 
+#, fuzzy
 msgid "Language name (click to select)"
-msgstr ""
+msgstr "Название языка (нажмите, чтобы выбрать)"
 
+#, fuzzy
 msgid "Use browser language setting"
-msgstr ""
+msgstr "Использовать языковые настройки обозревателя"
 
+#, fuzzy
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
+"Переводы сделаны добровольцами. Если Ваш родной язык здесь отсутствует, %1Вы "
+"можете обеспечить перевод%2."
 
 msgid "Your message has been sent."
 msgstr "Ваше сообщение было отправлено."
@@ -1482,8 +1493,9 @@ msgstr "Нет доступа"
 msgid "Missing user ID or host ID"
 msgstr "Отсутствует ID пользователя или ID компьютера"
 
+#, fuzzy
 msgid "No tasks to display"
-msgstr ""
+msgstr "Нет задач для показа"
 
 msgid "User of the day"
 msgstr "Пользователь Дня"
@@ -1601,39 +1613,45 @@ msgstr "Лучшие %1 команды"
 msgid "Participant since"
 msgstr "Участвует с"
 
+#, fuzzy
 msgid "Joined"
-msgstr ""
+msgstr "Присоединился"
 
 msgid "Search type"
-msgstr ""
+msgstr "Тип поиска"
 
+#, fuzzy
 msgid "User name starts with"
-msgstr ""
+msgstr "Имя пользователя начинается с"
 
+#, fuzzy
 msgid "Decreasing sign-up time"
-msgstr ""
+msgstr "В порядке уменьшения времени регистрации"
 
 #, fuzzy
 msgid "Decreasing average credit"
-msgstr "В среднем за день"
+msgstr "В порядке уменьшения среднего количества очков"
 
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
+msgstr "В порядке уменьшения общего количества очков"
 
 msgid "Filters"
-msgstr ""
+msgstr "Фильтры"
 
 msgid "With profile?"
-msgstr ""
+msgstr "С профилем?"
 
 msgid "On a team?"
-msgstr ""
+msgstr "В команде?"
 
+#, fuzzy
 msgid "search string must be at least 3 characters"
-msgstr ""
+msgstr "искомая строка должна быть минимум 3 символа"
 
+#, fuzzy
 msgid "User names starting with"
-msgstr ""
+msgstr "Имена пользователей, начинающиеся с"
 
 msgid "No users match your search criteria."
 msgstr ""

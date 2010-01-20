@@ -1918,10 +1918,9 @@ msgstr ""
 msgid "Decreasing average credit"
 msgstr "L&oslash;bende gennemsnit"
 
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
-
-"
+msgstr "L&oslash;bende gennemsnit"
 
 msgid "Filters"
 msgstr ""

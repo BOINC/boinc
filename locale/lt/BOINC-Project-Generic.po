@@ -1898,10 +1898,9 @@ msgstr ""
 msgid "Decreasing average credit"
 msgstr "Vidutinis kreditas"
 
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
-
-"
+msgstr "Vidutinis kreditas"
 
 msgid "Filters"
 msgstr ""

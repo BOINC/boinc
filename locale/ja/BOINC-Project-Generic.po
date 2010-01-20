@@ -1636,10 +1636,9 @@ msgstr ""
 msgid "Decreasing average credit"
 msgstr "最近の平均功績(credits/day)"
 
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
-
-"
+msgstr "最近の平均功績(credits/day)"
 
 msgid "Filters"
 msgstr ""

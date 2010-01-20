@@ -1647,10 +1647,9 @@ msgstr ""
 msgid "Decreasing average credit"
 msgstr "Současný průměrný kredit (RAC)"
 
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
-
-"
+msgstr "Současný průměrný kredit (RAC)"
 
 msgid "Filters"
 msgstr ""

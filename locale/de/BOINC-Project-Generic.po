@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-15 22:43 PST\n"
-"PO-Revision-Date: 2010-01-12 11:52-0700\n"
+"PO-Revision-Date: 2010-01-20 11:59-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -102,15 +102,11 @@ msgid "Mark all threads in all message boards as 'read'."
 msgstr "Alle Themen in allen Bereichen als gelesen markieren"
 
 msgid "Comment"
-msgstr ""
-
-"
+msgstr "Kommentar"
 
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
-
-"
+msgstr "Nachrichten sind auch als %sRSS feed%s verfügbar."
 
 msgid "Inbox"
 msgstr "Posteingang"
@@ -158,10 +154,9 @@ msgstr ""
 msgid "unread"
 msgstr "ungelesen"
 
+#, fuzzy
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
-
-"
+msgstr "E-Mail Mitteilungen in den %1Gemeinschafts-Einstellungen%2 einstellen."
 
 msgid "Edit your profile"
 msgstr "Profil bearbeiten"
@@ -283,9 +278,8 @@ msgstr "Wechsel des Gründerstatus beantragt"
 msgid "Respond by %1"
 msgstr "Rückmeldung bis %1"
 
-#, fuzzy
 msgid "Team foundership change"
-msgstr "Gründerstatus wechseln"
+msgstr "Teamgründer wechseln"
 
 msgid "Members"
 msgstr "Mitglieder"
@@ -367,7 +361,6 @@ msgstr "URL der Team-Internetseite, wenn vorhanden"
 msgid "without \"http://\""
 msgstr "ohne \"http://\""
 
-#, fuzzy
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "Diese URL wird als Link zur Team-Internetseite benutzt."
 
@@ -416,9 +409,7 @@ msgid "Cross-project statistics"
 msgstr "Projektübergreifende Statistiken"
 
 msgid "Account"
-msgstr ""
-
-"
+msgstr "Konto"
 
 #: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Team"
@@ -499,9 +490,7 @@ msgid "Community preferences"
 msgstr "Communityeinstellungen"
 
 msgid "Preferences for this project"
-msgstr ""
-
-"
+msgstr "Einstellungen für dieses Projekt"
 
 msgid "%1 preferences"
 msgstr "%1-Einstellungen"
@@ -585,8 +574,6 @@ msgstr "E-Mail-Adresse"
 msgid "forgot email address?"
 msgstr ""
 
-"
-
 #, fuzzy
 msgid "Password:"
 msgstr "Passwort"
@@ -594,27 +581,17 @@ msgstr "Passwort"
 msgid "forgot password?"
 msgstr ""
 
-"
-
 msgid "Stay logged in on this computer"
 msgstr ""
-
-"
 
 msgid "Log in"
 msgstr ""
 
-"
-
 msgid "or %1create an account%2."
 msgstr ""
 
-"
-
 msgid "Please log in"
 msgstr ""
-
-"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Der Text lässt sich mit Hilfe von BBCode-Tags formatieren"
@@ -859,12 +836,8 @@ msgstr "Diese Auflistung wird von der %1zentralen BOINC Webseite%2 verwaltet."
 msgid "Change email address"
 msgstr ""
 
-"
-
 msgid "Change the email address of your account"
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "New email address"
@@ -877,22 +850,14 @@ msgstr "Muss eine gültige E-Mail-Adresse der Form 'name@domain' sein."
 msgid "No password?"
 msgstr ""
 
-"
-
 msgid "Change password"
 msgstr ""
-
-"
 
 msgid "You can identify yourself using either"
 msgstr ""
 
-"
-
 msgid "your email address and old password"
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "your account key"
@@ -901,27 +866,17 @@ msgstr "schwacher Kontoschlüssel"
 msgid "Current password"
 msgstr ""
 
-"
-
 msgid "<b>OR</b>: Account key"
 msgstr ""
-
-"
 
 msgid "Get account key by email"
 msgstr ""
 
-"
-
 msgid "New password"
 msgstr ""
 
-"
-
 msgid "New password, again"
 msgstr ""
-
-"
 
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
@@ -1367,8 +1322,6 @@ msgstr ""
 msgid "Language selection"
 msgstr ""
 
-"
-
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "German"
@@ -1380,49 +1333,31 @@ msgstr "Deutsch"
 msgid "This web site is available in several languages. "
 msgstr ""
 
-"
-
 msgid "Normally the choice of language "
 msgstr ""
-
-"
 
 msgid "Firefox: Tools/Options/General"
 msgstr ""
 
-"
-
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
-
-"
 
 msgid "Or you can select a language by clicking on one of the links. "
 msgstr ""
 
-"
-
 msgid "Language symbol"
 msgstr ""
-
-"
 
 msgid "Language name (click to select)"
 msgstr ""
 
-"
-
 msgid "Use browser language setting"
 msgstr ""
-
-"
 
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
-
-"
 
 msgid "Your message has been sent."
 msgstr "Ihre Nachricht wurde versendet."
@@ -1591,8 +1526,6 @@ msgstr "Fehlende Benutzer oder Rechner ID"
 msgid "No tasks to display"
 msgstr ""
 
-"
-
 #, fuzzy
 msgid "User of the day"
 msgstr "Benutzer des Tages"
@@ -1717,61 +1650,40 @@ msgstr "Teilnehmer seit"
 msgid "Joined"
 msgstr ""
 
-"
-
 msgid "Search type"
 msgstr ""
-
-"
 
 msgid "User name starts with"
 msgstr ""
 
-"
-
 msgid "Decreasing sign-up time"
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "Decreasing average credit"
 msgstr "Durchschnittliches Guthaben"
 
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
-
-"
+msgstr "Durchschnittliches Guthaben"
 
 msgid "Filters"
 msgstr ""
 
-"
-
 msgid "With profile?"
 msgstr ""
-
-"
 
 msgid "On a team?"
 msgstr ""
 
-"
-
 msgid "search string must be at least 3 characters"
 msgstr ""
-
-"
 
 msgid "User names starting with"
 msgstr ""
 
-"
-
 msgid "No users match your search criteria."
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "User search results"

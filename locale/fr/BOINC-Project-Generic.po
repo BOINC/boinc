@@ -1766,10 +1766,9 @@ msgstr ""
 msgid "Decreasing average credit"
 msgstr "Crédit moyen (RAC)"
 
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
-
-"
+msgstr "Crédit moyen (RAC)"
 
 msgid "Filters"
 msgstr ""

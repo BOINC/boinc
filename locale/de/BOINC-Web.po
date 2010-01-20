@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-11 12:46 PST\n"
+"POT-Creation-Date: 2010-01-19 22:34 PST\n"
 "PO-Revision-Date: 2010-01-20 11:39-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -208,7 +208,7 @@ msgstr "Helfer"
 msgid "Download"
 msgstr "Herunterladen"
 
-#: index.php:83 index.php:118 index.php:156
+#: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
 msgstr "Dokumentation"
 
@@ -244,85 +244,105 @@ msgstr "Berechnung mit BOINC"
 msgid "Software updates"
 msgstr "Programmaktualisierungen"
 
-#: index.php:146
+#: index.php:126
+msgid ""
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
+"you the computing power of thousands of CPUs."
+msgstr ""
+
+#: index.php:130
+msgid ""
+"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
+"Center%4."
+msgstr ""
+
+#: index.php:135
+msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
+msgstr ""
+
+#: index.php:147
 msgid "The BOINC project"
 msgstr "Das BOINC Projekt"
 
-#: index.php:151
-msgid "Help wanted!"
-msgstr "Helfer gesucht!"
-
 #: index.php:153
-msgid "Programming"
-msgstr "Programmieren"
-
-#: index.php:154
-msgid "Translation"
-msgstr "Übersetzen"
-
-#: index.php:155
-msgid "Testing"
-msgstr "Testen"
-
-#: index.php:157
-msgid "Publicity"
-msgstr "Öffentlichkeitsarbeit"
-
-#: index.php:159
-msgid "Software development"
-msgstr "Software entwickeln"
-
-#: index.php:160
-msgid "APIs for add-on software"
-msgstr "APIs für Erweiterungs-Software"
-
-#: index.php:161
-msgid "Personnel and contributors"
-msgstr "Mitarbeiter und Mitwirkende"
-
-#: index.php:162
 msgid "Message boards"
 msgstr "Foren"
 
-#: index.php:163
+#: index.php:154
 msgid "Email lists"
 msgstr "E-Mail-Listen"
 
-#: index.php:164
+#: index.php:155
+msgid "Personnel and contributors"
+msgstr "Mitarbeiter und Mitwirkende"
+
+#: index.php:156
 msgid "Events"
 msgstr "Veranstaltungen"
 
-#: index.php:165
-msgid "Conferences"
-msgstr "Konferenzen"
-
-#: index.php:166
+#: index.php:157
 msgid "Papers and talks"
 msgstr "Abhandlungen und Präsentationen"
 
-#: index.php:167
-msgid "Logos and graphics"
-msgstr "Logos und Grafiken"
-
-#: index.php:168
+#: index.php:158
 msgid "Research projects"
 msgstr "Forschungsprojekte"
 
-#: index.php:201
+#: index.php:159
+msgid "Logos and graphics"
+msgstr "Logos und Grafiken"
+
+#: index.php:160
+msgid "and"
+msgstr ""
+
+#: index.php:164
+#, fuzzy
+msgid "Help wanted"
+msgstr "Helfer gesucht!"
+
+#: index.php:166
+msgid "Programming"
+msgstr "Programmieren"
+
+#: index.php:167
+msgid "Translation"
+msgstr "Übersetzen"
+
+#: index.php:168
+msgid "Testing"
+msgstr "Testen"
+
+#: index.php:170
+msgid "Publicity"
+msgstr "Öffentlichkeitsarbeit"
+
+#: index.php:172
+msgid "Software development"
+msgstr "Software entwickeln"
+
+#: index.php:173
+msgid "APIs for add-on software"
+msgstr "APIs für Erweiterungs-Software"
+
+#: index.php:207
 msgid "Browser default"
 msgstr "Browserstandard"
 
 # Gesucht: kurze und einfache Übersetzungen um den Unterschied zwischen volunteer und grid darzustellen.
-#: index.php:248
+#: index.php:254
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
 "Open-Source Software für %sVolunteer Computing%s und %sGrid Computing%s."
 
-#: index.php:261
+#: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr "BOINC wird an der Universität von Kalifornien in Berkeley entwickelt."
+
+#~ msgid "Conferences"
+#~ msgstr "Konferenzen"
 
 #~ msgid "[check all that apply]"
 #~ msgstr "[zutreffendes auswählen]"
