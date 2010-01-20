@@ -617,8 +617,9 @@ msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
+#, fuzzy
 msgid "E&xit %s"
-msgstr ""
+msgstr "Zamknij %s"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"

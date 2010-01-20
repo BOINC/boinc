@@ -11,11 +11,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: ?体中文, 日本語\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
@@ -2074,7 +2074,8 @@ msgstr "LIGO プロジェクト"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) プロジェクトのホームページ"
+msgstr ""
+"Laser Interferometer Gravitational-wave Observatory (LIGO) プロジェクトのホームページ"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2455,7 +2456,9 @@ msgstr "選択したメッセージをクリップボードにコピーします
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "選択したメッセージをクリップボードにコピーします。シフトキーまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできます。 "
+msgstr ""
+"選択したメッセージをクリップボードにコピーします。シフトキーまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にで"
+"きます。 "
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -3011,7 +3014,9 @@ msgstr "プロジェクトをリセット"
 #: clientgui/ViewProjects.cpp:195
 #: clientgui/ViewProjectsBase.cpp:130
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr "このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
+msgstr ""
+"このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 "
+"完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3021,7 +3026,9 @@ msgstr "離脱"
 #: clientgui/ViewProjects.cpp:202
 #: clientgui/ViewProjectsBase.cpp:140
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr "このコンピュータをこのプロジェクトから離脱させます。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、離脱する前にプロジェクトの「更新」を行ってください)"
+msgstr ""
+"このコンピュータをこのプロジェクトから離脱させます。作業中のタスクは消えてしまいます。 "
+"(完了したタスクを報告するため、離脱する前にプロジェクトの「更新」を行ってください)"
 
 #: clientgui/ViewProjects.cpp:208
 msgid "Properties"
@@ -3331,7 +3338,9 @@ msgstr "ファイル転送を中止"
 
 #: clientgui/ViewTransfers.cpp:171
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 (credit) は付与されなくなります。"
+msgstr ""
+"ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 "
+"(credit) は付与されなくなります。"
 
 #: clientgui/ViewTransfers.cpp:182
 msgid "File"
@@ -3717,150 +3726,9 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #, fuzzy
 #~ msgid "Account Manager URL"
 #~ msgstr "Account Manager URL"
-#~ msgid "Enter the URL of the account manager's web site."
-#~ msgstr "アカウント・マネージャのウェブサイトの URL を入力して下さい。"
-#~ msgid "Close BOINC Manager Window."
-#~ msgstr "BOINC マネージャのウィンドウを閉じる"
 
-#, c-format
 #~ msgid "Exit the %s"
 #~ msgstr "%s を終了します"
-#~ msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
-#~ msgstr "拡張表示では、任意の列でソートができます。また、進捗をバーグラフで表示できます。"
-#~ msgid "Attach to a project"
-#~ msgstr "プロジェクトに参加します"
-#~ msgid "Attach to &account manager..."
-#~ msgstr "アカウント・マネージャに接続(&A)..."
-#~ msgid "Attach to an account manager"
-#~ msgstr "アカウント・マネージャに接続します"
-#~ msgid "Attach to &project"
-#~ msgstr "プロジェクトに参加(&P)"
-#~ msgid "Attaching to project..."
-#~ msgstr "プロジェクトに参加処理中..."
 
-#, c-format
 #~ msgid "Removal from %s completed."
 #~ msgstr "%s からの削除が完了しました。"
-#~ msgid "Removal succeeded!"
-#~ msgstr "削除に成功しました！"
-#~ msgid "Write to disk at most every"
-#~ msgstr "ディスクへの書き込み頻度"
-#~ msgid "Slot"
-#~ msgstr "スロット"
-#~ msgid "Already Attached to Project"
-#~ msgstr "プロジェクトに参加済み"
-#~ msgid "This project may not have work for your type of computer."
-#~ msgstr "このプロジェクトには、この種のコンピュータに与える仕事はないかもしれません。"
-
-#, c-format
-#~ msgid "Click here to go to %s's website."
-#~ msgstr "%s のウェブサイトに行くにはここをクリック。"
-#~ msgid "ID"
-#~ msgstr "ID"
-#~ msgid "Priority"
-#~ msgstr "優先度"
-#~ msgid "MessagesGrid"
-#~ msgstr "メッセージ・グリッド"
-#~ msgid "Copying selected messages to Clipboard..."
-#~ msgstr "選択したメッセージをクリップボードにコピーしています..."
-#~ msgid "Info"
-#~ msgstr "ヘルプ(&I)"
-#~ msgid "Warning"
-#~ msgstr "警告"
-#~ msgid "Error"
-#~ msgstr "エラー"
-#~ msgid "ProjectsGrid"
-#~ msgstr "プロジェクトグリッド"
-#~ msgid "TransfersGrid"
-#~ msgstr "転送グリッド"
-#~ msgid "Aborting transfer(s)..."
-#~ msgstr "転送中止中..."
-#~ msgid ""
-#~ "Are you sure you want to abort this file(s) transfer ?\n"
-#~ "NOTE: Aborting a transfer will invalidate a task and you\n"
-#~ "will not receive credit for it."
-#~ msgstr ""
-#~ "このファイル転送 '%s' を中止してよいですか？\n"
-#~ "注意： 転送を中止するとタスクはキャンセルされたことになり\n"
-#~ "功績 (credit) は付与されなくなります。"
-#~ msgid "Abort File Transfer(s)"
-#~ msgstr "ファイル転送を中止"
-#~ msgid "TasksGrid"
-#~ msgstr "タスクグリッド"
-
-#, c-format
-#~ msgid ""
-#~ "Are you sure you want to abort this task '%s'?\n"
-#~ "(Progress: %s %%, Status: %s)"
-#~ msgstr ""
-#~ "このタスク '%s' を中止してよろしいですか？\n"
-#~ "(進捗状況： %s %%, 状態： %s)"
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to a project."
-#~ msgstr ""
-#~ "これから、プロジェクトへの参加手順を\n"
-#~ "ガイドいたします。"
-
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "%s の使用を中止(&S)"
-#, c-format
-#~ msgid "&Stop using%s"
-#~ msgstr "&Stop using%s"
-
-#, c-format
-#~ msgid ""
-#~ "We'll now remove this computer from %s.  From now on,\n"
-#~ "attach and detach projects directly from this computer.\n"
-#~ msgstr ""
-#~ "%s からこのコンピュータを削除します。これより\n"
-#~ "このコンピュータから直接プロジェクトに参加し離脱します。\n"
-
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "アカウント・マネージャ"
-#, fuzzy
-#~ msgid "Account manager"
-#~ msgstr "Account manager"
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to an account manager.\n"
-#~ "\n"
-#~ "If you want to attach to a single project, click Cancel,\n"
-#~ "then select the 'Attach to project' menu item instead."
-#~ msgstr ""
-#~ "これから、アカウント・マネージャへの追加手順を\n"
-#~ "案内します。\n"
-#~ "\n"
-#~ "ひとつのプロジェクトに参加する場合は，[キャンセル] をクリックして\n"
-#~ "代わりにメニューの「プロジェクトに参加」を選択してください。"
-#~ msgid "Debug Flags"
-#~ msgstr "デバッグ・フラグ"
-#~ msgid "Project Properties Failure"
-#~ msgstr "プロジェクト プロパティに問題があります"
-#~ msgid "Project Communication Failure"
-#~ msgstr "プロジェクトとの通信に失敗しました"
-#~ msgid "Project Properties URL Failure"
-#~ msgstr "プロジェクト プロパティの URL に問題があります"
-#~ msgid "Account Creation Disabled"
-#~ msgstr "アカウントの作成が停止されています"
-#~ msgid "Client Account Creation Disabled"
-#~ msgstr "クライアント・アカウントの作成が停止されています"
-#~ msgid "Account Already Exists"
-#~ msgstr "アカウントは既に存在しています"
-#~ msgid "Project Already Attached"
-#~ msgstr "プロジェクトに参加済みでした"
-#~ msgid "Project Attach Failure"
-#~ msgstr "プロジェクトへの参加に失敗"
-#~ msgid "Failure Communicating with Reference Site"
-#~ msgstr "インターネット接続可否の基準としているサイトとの通信に失敗しました"
-#~ msgid "Net Detection Failure"
-#~ msgstr "ネットワーク検出に失敗"
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr ""
-#~ "URL の値はブラウザのアドレス・バーから、コピー＆ペースト\n"
-#~ "することができます。"
-
-#, fuzzy
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "BOINC ベースのアカウント・マネージャの一覧表を見るには下記のリンクへ："
-

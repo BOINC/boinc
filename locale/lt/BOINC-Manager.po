@@ -611,8 +611,9 @@ msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
+#, fuzzy
 msgid "E&xit %s"
-msgstr ""
+msgstr "Išeiti iš %s"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
@@ -2183,8 +2184,11 @@ msgid "Choose a project"
 msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:253
+#, fuzzy
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
+"Kad pasirinktumėte abonento valdiklį, spragtelėkite jo vardą\n"
+"arba įveskite jo internetinį adresą žemiau."
 
 #: clientgui/ProjectInfoPage.cpp:256
 msgid "Project &URL:"

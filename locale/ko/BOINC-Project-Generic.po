@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rev.18063\n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-15 22:43 PST\n"
 "PO-Revision-Date: 2009-07-19 00:22-0700\n"
 "Last-Translator: Kangsan Lee <netpres@chol.com>\n"
 "Language-Team: BOINC@KOREA\n"
@@ -19,6 +19,16 @@ msgstr ""
 "X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
 "X-Poedit-Country: KOREA, REPUBLIC OF\n"
 
+# The name of this language in this language
+#, fuzzy
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+# The name of this language in an international language (English)
+#, fuzzy
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 msgid "Search for words in forum messages"
 msgstr "포럼 게시물 중에서 검색할 단어"
 
@@ -28,12 +38,14 @@ msgstr "포럼 검색"
 msgid "Advanced search"
 msgstr "고급 검색"
 
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "쪽지"
 
 msgid "Questions and Answers"
 msgstr "질문과 답변"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "게시판"
 
@@ -57,15 +69,19 @@ msgstr ""
 msgid "Thread"
 msgstr "스레드"
 
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "포스트"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "작성자"
 
 msgid "Views"
 msgstr "보기"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "마지막 포스트"
 
@@ -74,6 +90,17 @@ msgstr "모든 스레드를 읽은 것으로 표시"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "모든 게시판 스레드를 읽은 것으로 표시"
+
+msgid "Comment"
+msgstr ""
+
+"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+"
 
 msgid "Inbox"
 msgstr "목록"
@@ -84,6 +111,12 @@ msgstr "쓰기"
 msgid "Send private message"
 msgstr "쪽지 보내기"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "미리 보기"
 
@@ -96,6 +129,9 @@ msgstr "ID 혹은 고유한 사용자 이름을 콤마로 구분해서 써주세
 msgid "Subject"
 msgstr "제목"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "내용"
 
@@ -109,6 +145,11 @@ msgstr "쪽지를 일정 시간 안에 일정량 이상 보낼 수 없습니다.
 
 msgid "unread"
 msgstr "읽지 않음"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+
+"
 
 msgid "Edit your profile"
 msgstr "프로필 수정하기"
@@ -137,6 +178,11 @@ msgstr "키워드"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "이름이나 개요에 있는 단어로 팀을 찾으십시오"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "국가"
 
@@ -179,9 +225,15 @@ msgstr "개요"
 msgid "Web site"
 msgstr "웹 사이트"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "총 크레딧"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "최근 평균 크레딧"
 
@@ -243,6 +295,9 @@ msgstr "활동하는 맴버"
 msgid "Members with credit"
 msgstr "크레딧을 가진 맴버"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "이름"
 
@@ -323,6 +378,8 @@ msgstr "컴퓨팅과 크레딧"
 msgid "Pending credit"
 msgstr "대기 중인 크레딧"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "보기"
 
@@ -337,6 +394,19 @@ msgstr "공유-프로젝트 ID"
 
 msgid "Cross-project statistics"
 msgstr "공유-프로젝트 통계"
+
+msgid "Account"
+msgstr ""
+
+"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "팀"
+
+#, fuzzy
+msgid "Cross-project"
+msgstr "공유-프로젝트 ID"
 
 msgid "Certificate"
 msgstr "증명서"
@@ -407,8 +477,10 @@ msgstr "게시판과 쪽지"
 msgid "Community preferences"
 msgstr "커뮤니티 환경 설정"
 
-msgid "Resource share and graphics"
-msgstr "자원 공유와 그래픽"
+msgid "Preferences for this project"
+msgstr ""
+
+"
 
 msgid "%1 preferences"
 msgstr "%1 환경 설정"
@@ -443,9 +515,6 @@ msgstr "(창설자 변경 요청 대기중)"
 msgid "Member of team"
 msgstr "팀 구성원"
 
-msgid "Team"
-msgstr "팀"
-
 msgid "find a team"
 msgstr "팀 찾기"
 
@@ -455,6 +524,7 @@ msgstr "창설자 (맴버 제외)"
 msgid "Find friends"
 msgstr "친구 찾기"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "친구들"
 
@@ -492,6 +562,44 @@ msgstr "친구로 추가"
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+
+#, fuzzy
+msgid "Email address:"
+msgstr "Email 주소"
+
+msgid "forgot email address?"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Password:"
+msgstr "비밀번호"
+
+msgid "forgot password?"
+msgstr ""
+
+"
+
+msgid "Stay logged in on this computer"
+msgstr ""
+
+"
+
+msgid "Log in"
+msgstr ""
+
+"
+
+msgid "or %1create an account%2."
+msgstr ""
+
+"
+
+msgid "Please log in"
+msgstr ""
+
+"
 
 msgid "Use BBCode tags to format your text"
 msgstr "형식에 맞춰서 BBCode 태그를 쓰세요"
@@ -697,9 +805,74 @@ msgstr "BOINC를 설치하고 실행하기 위한 설명서는 %1여기%2에 있
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "이 목록은 %1BOINC 웹사이트%2를 중심으로 관리됩니다."
 
-msgid "fll"
-msgstr "fll"
+msgid "Change email address"
+msgstr ""
 
+"
+
+msgid "Change the email address of your account"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "New email address"
+msgstr "email 주소"
+
+#, fuzzy
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "반드시 올바른 형식(name@domain)으로 입력해 주세요."
+
+msgid "No password?"
+msgstr ""
+
+"
+
+msgid "Change password"
+msgstr ""
+
+"
+
+msgid "You can identify yourself using either"
+msgstr ""
+
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "your account key"
+msgstr "약한 계정 키"
+
+msgid "Current password"
+msgstr ""
+
+"
+
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+"
+
+msgid "Get account key by email"
+msgstr ""
+
+"
+
+msgid "New password"
+msgstr ""
+
+"
+
+msgid "New password, again"
+msgstr ""
+
+"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "제목"
 
@@ -720,6 +893,7 @@ msgstr "주제"
 msgid "Create a new thread"
 msgstr "새 스레드 만들기"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "스레드 글쓰기"
 
@@ -829,6 +1003,8 @@ msgstr "%1(은)는 친구 관계 요청을 허용하고 있지 않습니다."
 msgid "You can't be friends with yourself"
 msgstr "여러분 자신과는 친구가 될 수 없습니다"
 
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "해당 사용자가 없습니다"
 
@@ -1075,6 +1251,11 @@ msgstr ""
 "다른 프로젝트는 %1(과)와 아무 관련이 없으며, 그들의 보안 상태나 그들이 하는 연구의 성격을 보증할 수 없습니다. 여러분은 위험을 "
 "감수하고서 그 것에 참여하셔야 합니다."
 
+msgid "Language selection"
+msgstr ""
+
+"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Korean"
@@ -1082,6 +1263,53 @@ msgstr "Korean"
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "한국어"
+
+msgid "This web site is available in several languages. "
+msgstr ""
+
+"
+
+msgid "Normally the choice of language "
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid "Or you can select a language by clicking on one of the links. "
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
 
 msgid "Your message has been sent."
 msgstr "메세지가 전송되었습니다."
@@ -1221,14 +1449,16 @@ msgstr "이 기능은 일시적으로 꺼집니다"
 msgid "No computer with ID %1 found"
 msgstr "ID %1가 가진 컴퓨터를 찾지 못했습니다"
 
-msgid "Tasks for computer %1"
-msgstr "컴퓨터 작업 %1"
-
 msgid "No access"
 msgstr "접근불가"
 
 msgid "Missing user ID or host ID"
 msgstr "빠진 사용자 ID 혹은 호스트 ID"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
 
 msgid "User of the day"
 msgstr "오늘의 사용자"
@@ -1333,6 +1563,69 @@ msgstr "최고 %1 팀"
 msgid "Participant since"
 msgstr "참여 시작"
 
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Decreasing average credit"
+msgstr "최근 평균 크레딧"
+
+msgid "Decreasing total credit"
+msgstr ""
+
+"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "User search results"
+msgstr "포럼 검색 결과"
+
 msgid "This user has no profile"
 msgstr "이 사용자는 프로필이 없습니다"
 
@@ -1373,6 +1666,15 @@ msgid ""
 msgstr ""
 "약한 계정 키는 비밀번호와 같은 기능을 합니다. 만약 비밀번호를 바꾸면, 약한 계정 키도 바뀝니다. 그리고 기존에 있던 약한 계정 키로는 "
 "인증이 되지 않습니다."
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "자원 공유와 그래픽"
+
+#~ msgid "fll"
+#~ msgstr "fll"
+
+#~ msgid "Tasks for computer %1"
+#~ msgstr "컴퓨터 작업 %1"
 
 #~ msgid "Provides"
 #~ msgstr "제공"

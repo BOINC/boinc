@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-15 22:43 PST\n"
 "PO-Revision-Date: 2009-05-22 13:46-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
@@ -20,6 +20,18 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 
+# The name of this language in this language
+# Имя языка в этом файле
+#, fuzzy
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+# The name of this language in an international language (English)
+# Имя языка в этом файле на интернациональном языке (английском)
+#, fuzzy
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 msgid "Search for words in forum messages"
 msgstr "Поиск введенных слов в сообщениях на форумах"
 
@@ -29,12 +41,14 @@ msgstr "Найти в форумах"
 msgid "Advanced search"
 msgstr "Расширенный поиск"
 
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Личные сообщения"
 
 msgid "Questions and Answers"
 msgstr "Вопросы и ответы"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Доски сообщений"
 
@@ -61,15 +75,19 @@ msgstr ""
 msgid "Thread"
 msgstr "Обсуждение"
 
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Сообщения"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Автор"
 
 msgid "Views"
 msgstr "Просмотры"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Последнее сообщение"
 
@@ -78,6 +96,17 @@ msgstr "Отметить все обсуждения прочитанными"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Отметить все обсуждения во всех досках сообщений как 'прочитанные'."
+
+msgid "Comment"
+msgstr ""
+
+"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+"
 
 msgid "Inbox"
 msgstr "Входящие"
@@ -88,6 +117,12 @@ msgstr "Написать"
 msgid "Send private message"
 msgstr "Отправить личное сообщение"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "Предварительный просмотр"
 
@@ -101,6 +136,9 @@ msgstr ""
 msgid "Subject"
 msgstr "Тема"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Сообщение"
 
@@ -116,6 +154,11 @@ msgstr ""
 
 msgid "unread"
 msgstr "непрочтенных"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+
+"
 
 msgid "Edit your profile"
 msgstr "Редактировать профиль"
@@ -144,6 +187,11 @@ msgstr "Ключевые слова"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Найти команды с этими словами в их названиях или описаниях"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "Страна"
 
@@ -186,9 +234,15 @@ msgstr "Описание"
 msgid "Web site"
 msgstr "Вебсайт"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Всего очков"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "В среднем за день"
 
@@ -251,6 +305,9 @@ msgstr "Активных участников"
 msgid "Members with credit"
 msgstr "Участников с заработанными очками"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "Имя"
 
@@ -333,6 +390,8 @@ msgstr "Вычисления и вознаграждение"
 msgid "Pending credit"
 msgstr "Очки, ожидающие подтверждения"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "Просмотр"
 
@@ -347,6 +406,19 @@ msgstr "Межпроектный ID (CPID)"
 
 msgid "Cross-project statistics"
 msgstr "Объединенная статистика по проектам"
+
+msgid "Account"
+msgstr ""
+
+"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "Команда"
+
+#, fuzzy
+msgid "Cross-project"
+msgstr "Межпроектный ID (CPID)"
 
 msgid "Certificate"
 msgstr "Сертификат"
@@ -417,8 +489,10 @@ msgstr "Доска сообщений или личные сообщения"
 msgid "Community preferences"
 msgstr "Настройки сообщества"
 
-msgid "Resource share and graphics"
-msgstr "Выделенные ресурсы и графика"
+msgid "Preferences for this project"
+msgstr ""
+
+"
 
 msgid "%1 preferences"
 msgstr "Настройки %1"
@@ -453,9 +527,6 @@ msgstr "(запрос на смену основателя в ожидании)"
 msgid "Member of team"
 msgstr "Член команды"
 
-msgid "Team"
-msgstr "Команда"
-
 msgid "find a team"
 msgstr "найти команду"
 
@@ -465,6 +536,7 @@ msgstr "Основатель, но не участник"
 msgid "Find friends"
 msgstr "Найти друзей"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Друзья"
 
@@ -496,6 +568,44 @@ msgstr "Добавить друга"
 # Кодовая страница для текста в этом файле (пожалуйста, используйте UTF-8 по возможности)
 msgid "CHARSET"
 msgstr "UTF-8"
+
+#, fuzzy
+msgid "Email address:"
+msgstr "Адрес email"
+
+msgid "forgot email address?"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Password:"
+msgstr "Пароль"
+
+msgid "forgot password?"
+msgstr ""
+
+"
+
+msgid "Stay logged in on this computer"
+msgstr ""
+
+"
+
+msgid "Log in"
+msgstr ""
+
+"
+
+msgid "or %1create an account%2."
+msgstr ""
+
+"
+
+msgid "Please log in"
+msgstr ""
+
+"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Используйте тэги BBCode для форматирования Вашего текста"
@@ -726,9 +836,74 @@ msgstr "Инструкции по установке и запуску BOINC %1�
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Этот список ведется централизованно на %1web-сайте BOINC%2."
 
-msgid "fll"
-msgstr "fll"
+msgid "Change email address"
+msgstr ""
 
+"
+
+msgid "Change the email address of your account"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "New email address"
+msgstr "адрес email"
+
+#, fuzzy
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "Должен быть действительным адресом в форме 'имя@домен'."
+
+msgid "No password?"
+msgstr ""
+
+"
+
+msgid "Change password"
+msgstr ""
+
+"
+
+msgid "You can identify yourself using either"
+msgstr ""
+
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "your account key"
+msgstr "Слабый ключ учетной записи"
+
+msgid "Current password"
+msgstr ""
+
+"
+
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+"
+
+msgid "Get account key by email"
+msgstr ""
+
+"
+
+msgid "New password"
+msgstr ""
+
+"
+
+msgid "New password, again"
+msgstr ""
+
+"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Тема"
 
@@ -751,6 +926,7 @@ msgstr "Тема"
 msgid "Create a new thread"
 msgstr "Создать новую тему"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Ответить на обсуждение"
 
@@ -864,6 +1040,8 @@ msgstr "%1 не принимает запросы дружбы от Вас"
 msgid "You can't be friends with yourself"
 msgstr "Вы не можете дружить сами с собой"
 
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Нет такого пользователя"
 
@@ -1139,6 +1317,11 @@ msgstr ""
 "Другие проекты не связаны с %1, и мы не можем поручиться за их безопасность "
 "или природу их исследований. Присоединяйтесь к ним на свой страх и риск."
 
+msgid "Language selection"
+msgstr ""
+
+"
+
 # The name of this language in an international language (English)
 # Имя языка в этом файле на интернациональном языке (английском)
 msgid "LANG_NAME_INTERNATIONAL"
@@ -1148,6 +1331,53 @@ msgstr "Russian"
 # Имя языка в этом файле
 msgid "LANG_NAME_NATIVE"
 msgstr "Русский"
+
+msgid "This web site is available in several languages. "
+msgstr ""
+
+"
+
+msgid "Normally the choice of language "
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid "Or you can select a language by clicking on one of the links. "
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
 
 msgid "Your message has been sent."
 msgstr "Ваше сообщение было отправлено."
@@ -1303,14 +1533,16 @@ msgstr "Эта возможность временно отключена"
 msgid "No computer with ID %1 found"
 msgstr "Компьютер с ID %1 не найден"
 
-msgid "Tasks for computer %1"
-msgstr "Задания для компьютера %1"
-
 msgid "No access"
 msgstr "Нет доступа"
 
 msgid "Missing user ID or host ID"
 msgstr "Отсутствует ID пользователя или ID компьютера"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
 
 msgid "User of the day"
 msgstr "Пользователь Дня"
@@ -1428,6 +1660,69 @@ msgstr "Лучшие %1 команды"
 msgid "Participant since"
 msgstr "Участвует с"
 
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Decreasing average credit"
+msgstr "В среднем за день"
+
+msgid "Decreasing total credit"
+msgstr ""
+
+"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "User search results"
+msgstr "Результаты поиска по форуму"
+
 msgid "This user has no profile"
 msgstr "У этого пользователя нет профиля"
 
@@ -1473,6 +1768,15 @@ msgstr ""
 "Ваш слабый учетный ключ является функцией Вашего пароля. Если Вы измените "
 "свой пароль, Ваш слабый учетный ключ изменится, и Ваш предыдущий слабый "
 "учетный ключ станет недействительным."
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "Выделенные ресурсы и графика"
+
+#~ msgid "fll"
+#~ msgstr "fll"
+
+#~ msgid "Tasks for computer %1"
+#~ msgstr "Задания для компьютера %1"
 
 #~ msgid "Provides"
 #~ msgstr "Предоставляет"

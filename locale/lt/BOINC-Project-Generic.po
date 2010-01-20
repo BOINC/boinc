@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-15 22:43 PST\n"
 "PO-Revision-Date: 2009-12-11 11:06-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
@@ -20,6 +20,16 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
+# The name of this language in this language
+#, fuzzy
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+# The name of this language in an international language (English)
+#, fuzzy
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 msgid "Search for words in forum messages"
 msgstr "Ieškoti žodžių forumų žinutėse"
 
@@ -31,6 +41,7 @@ msgstr "Detali paieška"
 
 # ########################################
 # Private messages
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Asmeninės žinutės"
 
@@ -39,6 +50,7 @@ msgstr "Asmeninės žinutės"
 msgid "Questions and Answers"
 msgstr "Klausimai ir atsakymai"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Forumai"
 
@@ -66,15 +78,19 @@ msgstr "Tema"
 
 # ########################################
 # Forum
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Žinutės"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Autorius"
 
 msgid "Views"
 msgstr "Peržiūros"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Paskutinė žinutė"
 
@@ -83,6 +99,17 @@ msgstr "Pažymėti visas temas kaip perskaitytas"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Pažymėti visas temas forumuose kaip perskaitytas."
+
+msgid "Comment"
+msgstr ""
+
+"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+"
 
 msgid "Inbox"
 msgstr "Gautosios žinutės"
@@ -95,6 +122,12 @@ msgstr "Rašyti"
 msgid "Send private message"
 msgstr "Siųsti asmeninę žinutę"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "Peržiūra"
 
@@ -107,6 +140,9 @@ msgstr "Vartotojo ID arba unikalūs vardai, atskirti kableliais"
 msgid "Subject"
 msgstr "Tema"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Žinutė"
 
@@ -122,6 +158,11 @@ msgstr ""
 
 msgid "unread"
 msgstr "neskaityta"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+
+"
 
 msgid "Edit your profile"
 msgstr "Keisti aprašymą"
@@ -150,6 +191,11 @@ msgstr "Raktiniai žodžiai"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Rasti komandas su šiais žodžiais pavadinimuose ar aprašymuose"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "Valstybė"
 
@@ -192,9 +238,15 @@ msgstr "Aprašymas"
 msgid "Web site"
 msgstr "Tinklapis"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Iš viso kreditų"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Vidutinis kreditas"
 
@@ -257,6 +309,9 @@ msgstr "Aktyvūs nariai"
 msgid "Members with credit"
 msgstr "Nariai, turintys kreditų"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "Vardas"
 
@@ -341,6 +396,8 @@ msgstr "Skaičiavimai ir kreditai"
 msgid "Pending credit"
 msgstr "Laukiamas kreditas"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "Peržiūrėti"
 
@@ -355,6 +412,19 @@ msgstr "Tarpprojektinis ID"
 
 msgid "Cross-project statistics"
 msgstr "Tarpprojektinė statistika"
+
+msgid "Account"
+msgstr ""
+
+"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "Komanda"
+
+#, fuzzy
+msgid "Cross-project"
+msgstr "Tarpprojektinis ID"
 
 msgid "Certificate"
 msgstr "Sertifikatas"
@@ -429,8 +499,10 @@ msgstr "Forumai ir asmeninės žinutės"
 msgid "Community preferences"
 msgstr "Bendruomenės nustatymai"
 
-msgid "Resource share and graphics"
-msgstr "Resursų padalijimas ir grafika"
+msgid "Preferences for this project"
+msgstr ""
+
+"
 
 msgid "%1 preferences"
 msgstr "%1 nustatymai"
@@ -469,9 +541,6 @@ msgstr "(laukiamas įkūrėjo pakeitimas)"
 msgid "Member of team"
 msgstr "Komandos narys"
 
-msgid "Team"
-msgstr "Komanda"
-
 msgid "find a team"
 msgstr "raskite komandą"
 
@@ -481,6 +550,7 @@ msgstr "Įkūrėjas, tačiau ne narys"
 msgid "Find friends"
 msgstr "Rasti draugus"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Draugai"
 
@@ -518,6 +588,44 @@ msgstr "Pridėti draugą"
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+
+#, fuzzy
+msgid "Email address:"
+msgstr "El. pašto adresas"
+
+msgid "forgot email address?"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Password:"
+msgstr "Slaptažodis"
+
+msgid "forgot password?"
+msgstr ""
+
+"
+
+msgid "Stay logged in on this computer"
+msgstr ""
+
+"
+
+msgid "Log in"
+msgstr ""
+
+"
+
+msgid "or %1create an account%2."
+msgstr ""
+
+"
+
+msgid "Please log in"
+msgstr ""
+
+"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Naudokite BBCode žymes teksto formatavimui"
@@ -647,80 +755,124 @@ msgid ""
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
 
+"
+
 msgid "Language"
 msgstr ""
+
+"
 
 msgid "Select the language in which your profile is written:"
 msgstr ""
 
+"
+
 msgid "Submit profile"
 msgstr ""
+
+"
 
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
 msgstr ""
 
+"
+
 msgid "Create/edit profile"
 msgstr ""
 
+"
+
 msgid "The format of your uploaded image is not supported."
 msgstr ""
+
+"
 
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
 
+"
+
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
+
+"
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
 
+"
+
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
 
+"
+
 msgid "Your profile submission was empty."
 msgstr ""
+
+"
 
 msgid "Could not update the profile: database error"
 msgstr ""
 
+"
+
 msgid "Could not create the profile: database error"
 msgstr ""
 
+"
+
 msgid "Profile saved"
 msgstr ""
+
+"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
 msgstr ""
 
+"
+
 msgid "%1View your profile%2"
 msgstr ""
 
+"
+
 msgid "Create a profile"
 msgstr ""
+
+"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
 
+"
+
 msgid "Download BOINC add-on software"
 msgstr ""
+
+"
 
 msgid "You can download applications in several categories."
 msgstr ""
 
+"
+
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr ""
+
+"
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -729,15 +881,89 @@ msgid ""
 "If this is not enough you should contact the author."
 msgstr ""
 
+"
+
 msgid "Instructions for installing and running BOINC are %1here%2."
 msgstr ""
+
+"
 
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
 
-msgid "fll"
+"
+
+msgid "Change email address"
 msgstr ""
 
+"
+
+msgid "Change the email address of your account"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "New email address"
+msgstr "el. pašto adresą"
+
+#, fuzzy
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr ""
+"Turi būti galiojantis elektroninio pašto adresas formoje \"vardas@domenas\"."
+
+msgid "No password?"
+msgstr ""
+
+"
+
+msgid "Change password"
+msgstr ""
+
+"
+
+msgid "You can identify yourself using either"
+msgstr ""
+
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+# ########################################
+# "Your account" page (home.php)
+#, fuzzy
+msgid "your account key"
+msgstr "Silpnas abonemento raktas"
+
+msgid "Current password"
+msgstr ""
+
+"
+
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+"
+
+msgid "Get account key by email"
+msgstr ""
+
+"
+
+msgid "New password"
+msgstr ""
+
+"
+
+msgid "New password, again"
+msgstr ""
+
+"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Pavadinimas"
 
@@ -752,12 +978,15 @@ msgid ""
 "section of the message boards."
 msgstr ""
 
+"
+
 msgid "Topic"
 msgstr "Tema"
 
 msgid "Create a new thread"
 msgstr "Sukurti naują temą"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Rašyti į temą"
 
@@ -770,8 +999,12 @@ msgstr "Paieškos forume rezultatai"
 msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
 
+"
+
 msgid "This forum is not visible to you."
 msgstr ""
+
+"
 
 # ########################################
 # Forum thread
@@ -781,15 +1014,23 @@ msgstr "Ši tema buvo paslėpta administratorių"
 msgid "My question was answered"
 msgstr ""
 
+"
+
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
 
+"
+
 msgid "I've also got this question"
 msgstr ""
 
+"
+
 msgid "Add a new message to this thread"
 msgstr ""
+
+"
 
 msgid "Unsubscribe"
 msgstr "Nebepranešti apie naujas žinutes"
@@ -797,78 +1038,128 @@ msgstr "Nebepranešti apie naujas žinutes"
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr ""
 
+"
+
 msgid "Subscribe"
 msgstr "Pranešti apie naujas žinutes"
 
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
 
+"
+
 msgid "Unhide"
 msgstr ""
+
+"
 
 msgid "Unhide this thread"
 msgstr ""
 
+"
+
 msgid "Hide"
 msgstr ""
+
+"
 
 msgid "Hide this thread"
 msgstr ""
 
+"
+
 msgid "Make unsticky"
 msgstr ""
+
+"
 
 msgid "Make this thread not sticky"
 msgstr ""
 
+"
+
 msgid "Make sticky"
 msgstr ""
+
+"
 
 msgid "Make this thread sticky"
 msgstr ""
 
+"
+
 msgid "Unlock"
 msgstr ""
+
+"
 
 msgid "Unlock this thread"
 msgstr ""
 
+"
+
 msgid "Lock"
 msgstr ""
+
+"
 
 msgid "Lock this thread"
 msgstr ""
 
+"
+
 msgid "Move"
 msgstr ""
+
+"
 
 msgid "Move this thread to a different forum"
 msgstr ""
 
+"
+
 msgid "Edit title"
 msgstr ""
+
+"
 
 msgid "Edit thread title"
 msgstr ""
 
+"
+
 msgid "Sort"
 msgstr ""
+
+"
 
 msgid "Already friends"
 msgstr ""
 
+"
+
 msgid "You requested friendship with %1 on %2."
 msgstr ""
+
+"
 
 msgid "This request is still pending confirmation."
 msgstr ""
 
+"
+
 msgid "%1 is not accepting friendship requests from you"
 msgstr ""
+
+"
 
 msgid "You can't be friends with yourself"
 msgstr ""
 
+"
+
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Vartotojas nerastas"
 
@@ -881,65 +1172,107 @@ msgid ""
 "to confirm that you are friends."
 msgstr ""
 
+"
+
 msgid "Add an optional message here:"
 msgstr ""
+
+"
 
 msgid "Database error"
 msgstr ""
 
+"
+
 msgid "Friend request sent"
 msgstr ""
+
+"
 
 msgid "We have notified %1 of your request."
 msgstr ""
 
+"
+
 msgid "Request not found"
 msgstr ""
+
+"
 
 msgid "Friend request"
 msgstr ""
 
+"
+
 msgid "%1 has added you as a friend."
 msgstr ""
+
+"
 
 msgid "%1 says: %2"
 msgstr ""
 
+"
+
 msgid "Accept friendship"
 msgstr ""
+
+"
 
 msgid "Click accept if %1 is in fact a friend"
 msgstr ""
 
+"
+
 msgid "Decline"
 msgstr ""
+
+"
 
 msgid "Click decline if %1 is not a friend"
 msgstr ""
 
+"
+
 msgid "No request"
 msgstr ""
+
+"
 
 msgid "Friendship confirmed"
 msgstr ""
 
+"
+
 msgid "Your friendship with %1 has been confirmed."
 msgstr ""
+
+"
 
 msgid "Friendship declined"
 msgstr ""
 
+"
+
 msgid "You have declined friendship with %1"
 msgstr ""
+
+"
 
 msgid "Notification not found"
 msgstr ""
 
+"
+
 msgid "Friend confirmed"
 msgstr ""
 
+"
+
 msgid "You are now friends with %1."
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Cancel friendship?"
@@ -948,23 +1281,37 @@ msgstr "Nutraukti draugystę"
 msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr ""
 
+"
+
 msgid "Yes"
 msgstr ""
+
+"
 
 msgid "No"
 msgstr ""
 
+"
+
 msgid "Stay friends"
 msgstr ""
+
+"
 
 msgid "Friendship cancelled"
 msgstr ""
 
+"
+
 msgid "Your friendship with %1 has been cancelled."
 msgstr ""
 
+"
+
 msgid "Unknown action"
 msgstr ""
+
+"
 
 msgid "Welcome to %1"
 msgstr "Sveiki prisijungę prie %1"
@@ -1065,12 +1412,16 @@ msgid ""
 "public or private messages from that user."
 msgstr ""
 
+"
+
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
 "Messages posted to the %1 forums are visible to everyone, including non-"
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+
+"
 
 msgid "Is it safe to run %1?"
 msgstr "Ar saugu vykdyti %1?"
@@ -1136,6 +1487,11 @@ msgstr ""
 "projekto saugumą ar tyrimo tikslus. Jūs patys sprendžiate ar prisijungti "
 "prie kitų projektų."
 
+msgid "Language selection"
+msgstr ""
+
+"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Lithuanian"
@@ -1143,6 +1499,53 @@ msgstr "Lithuanian"
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Lietuvių"
+
+msgid "This web site is available in several languages. "
+msgstr ""
+
+"
+
+msgid "Normally the choice of language "
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid "Or you can select a language by clicking on one of the links. "
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
 
 msgid "Your message has been sent."
 msgstr "Jūsų žinutė išsiųsta."
@@ -1266,35 +1669,57 @@ msgstr "Nėra aprašymų, atitinkančių jūsų užklausą."
 msgid "Invalid vote type:"
 msgstr ""
 
+"
+
 msgid "Vote Recorded"
 msgstr ""
+
+"
 
 msgid "Thank you"
 msgstr ""
 
+"
+
 msgid "Your recommendation has been recorded."
 msgstr ""
+
+"
 
 msgid "Your vote to reject this profile has been recorded."
 msgstr ""
 
+"
+
 msgid "Return to profile."
 msgstr ""
+
+"
 
 msgid "This feature is turned off temporarily"
 msgstr ""
 
+"
+
 msgid "No computer with ID %1 found"
 msgstr ""
 
-msgid "Tasks for computer %1"
-msgstr ""
+"
 
 msgid "No access"
 msgstr ""
 
+"
+
 msgid "Missing user ID or host ID"
 msgstr ""
+
+"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
 
 #, fuzzy
 msgid "User of the day"
@@ -1303,11 +1728,17 @@ msgstr "Dienos dalyvis"
 msgid "Account data for %1"
 msgstr ""
 
+"
+
 msgid "Statistics and leaderboards"
 msgstr ""
 
+"
+
 msgid "Statistics for %1"
 msgstr ""
+
+"
 
 # ########################################
 # Various top table pages (top users, computers, teams)
@@ -1316,6 +1747,8 @@ msgstr "Geriausi dalyviai"
 
 msgid "Top computers"
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Top teams"
@@ -1326,40 +1759,62 @@ msgid ""
 "at several web sites:"
 msgstr ""
 
+"
+
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr ""
+
+"
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
 
+"
+
 msgid "%1 participants may form %2teams%3"
 msgstr ""
+
+"
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
 
+"
+
 msgid "Each team has a %1founder%2 who may:"
 msgstr ""
+
+"
 
 msgid "access team members' email addresses"
 msgstr ""
 
+"
+
 msgid "edit the team's name and description"
 msgstr ""
+
+"
 
 msgid "remove members from the team"
 msgstr ""
 
+"
+
 msgid "disband a team if it has no members"
 msgstr ""
 
+"
+
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Find a team"
@@ -1368,8 +1823,12 @@ msgstr "raskite komandą"
 msgid "All teams"
 msgstr ""
 
+"
+
 msgid "%1 teams"
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Create a new team"
@@ -1379,14 +1838,22 @@ msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
 
+"
+
 msgid "You must choose a non-blank team name"
 msgstr ""
+
+"
 
 msgid "A team named %1 already exists - try another name"
 msgstr ""
 
+"
+
 msgid "Could not create team - please try later."
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Create a team"
@@ -1395,6 +1862,8 @@ msgstr "Sukurti naują temą"
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
+
+"
 
 msgid "Top hosts"
 msgstr "Geriausi kompiuteriai"
@@ -1405,11 +1874,78 @@ msgstr "Geriausios %1 komandos"
 msgid "Participant since"
 msgstr "Dalyvis nuo"
 
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Decreasing average credit"
+msgstr "Vidutinis kreditas"
+
+msgid "Decreasing total credit"
+msgstr ""
+
+"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "User search results"
+msgstr "Paieškos forume rezultatai"
+
 msgid "This user has no profile"
 msgstr ""
 
+"
+
 msgid "Account data"
 msgstr ""
+
+"
 
 # ########################################
 # "Weak account key" page (weak_auth.php)
@@ -1453,6 +1989,9 @@ msgstr ""
 "Jūsų paprastas abonemento raktas sukuriamas pagal jūsų slaptažodį. Jei "
 "pakeičiate savo slaptažodį, jūsų paprastas abonemento raktas pasikeičia, ir "
 "jūsų senas paprastas abonemento raktas tampa nebegaliojančiu."
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "Resursų padalijimas ir grafika"
 
 #~ msgid "Provides"
 #~ msgstr "Suteikia"

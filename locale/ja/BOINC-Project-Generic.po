@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-15 22:43 PST\n"
 "PO-Revision-Date: 2009-06-12 07:21-0700\n"
 "Last-Translator: komo <je2bwm@jarl.com>\n"
 "Language-Team: \n"
@@ -19,6 +19,16 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
+# The name of this language in this language
+#, fuzzy
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+# The name of this language in an international language (English)
+#, fuzzy
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 msgid "Search for words in forum messages"
 msgstr "フォーラム掲示板内のメッセージを検索します"
 
@@ -28,8 +38,9 @@ msgstr "フォーラム内を検索"
 msgid "Advanced search"
 msgstr "高度な検索"
 
-#########################################
+# #######################################
 # Private messages
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "非公開メッセージ"
 
@@ -38,6 +49,7 @@ msgstr "非公開メッセージ"
 msgid "Questions and Answers"
 msgstr "質問と答(Q&A)"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "掲示板"
 
@@ -63,17 +75,21 @@ msgstr ""
 msgid "Thread"
 msgstr "スレッド"
 
-#########################################
+# #######################################
 # Forum
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "投稿"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "投稿者"
 
 msgid "Views"
 msgstr "閲覧数"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "最新の投稿"
 
@@ -82,6 +98,17 @@ msgstr "全てのスレッドを既読にする"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "すべての掲示板のすべてのスレッドを「既読」状態に設定します。"
+
+msgid "Comment"
+msgstr ""
+
+"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+"
 
 msgid "Inbox"
 msgstr "受信箱"
@@ -92,6 +119,12 @@ msgstr "作成"
 msgid "Send private message"
 msgstr "非公開メッセージを送信する"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "プレビュー"
 
@@ -104,6 +137,9 @@ msgstr "ユーザIDかユーザ名を入力。複数の場合はカンマで区�
 msgid "Subject"
 msgstr "件名"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "メッセージ"
 
@@ -117,6 +153,11 @@ msgstr "しばらく非公開メッセージを送信することができませ
 
 msgid "unread"
 msgstr "未読"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+
+"
 
 msgid "Edit your profile"
 msgstr "あなたのプロファイルを編集する"
@@ -145,6 +186,11 @@ msgstr "キーワード"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "指定する語句がチームの名称またはその説明にあるようなチームを探します"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "国名"
 
@@ -189,9 +235,15 @@ msgstr "説明"
 msgid "Web site"
 msgstr "ウェブサイト"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "総功績"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "最近の平均功績(credits/day)"
 
@@ -253,6 +305,9 @@ msgstr "活動中のメンバー数"
 msgid "Members with credit"
 msgstr "功績(credit)を獲得済みのメンバーの数"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "名前"
 
@@ -335,6 +390,8 @@ msgstr "計算と功績"
 msgid "Pending credit"
 msgstr "保留中の功績"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "表示"
 
@@ -349,6 +406,19 @@ msgstr "プロジェクト横断 ID"
 
 msgid "Cross-project statistics"
 msgstr "プロジェクト横断 統計情報"
+
+msgid "Account"
+msgstr ""
+
+"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "チーム"
+
+#, fuzzy
+msgid "Cross-project"
+msgstr "プロジェクト横断 ID"
 
 msgid "Certificate"
 msgstr "証明書"
@@ -419,8 +489,10 @@ msgstr "掲示板と非公開メッセージ"
 msgid "Community preferences"
 msgstr "コミュニティ設定（プレファレンス)"
 
-msgid "Resource share and graphics"
-msgstr "資源配分とグラフィクス"
+msgid "Preferences for this project"
+msgstr ""
+
+"
 
 msgid "%1 preferences"
 msgstr "%1 の好みの設定(プレファレンス)"
@@ -455,9 +527,6 @@ msgstr "(創設者を変更する要求は保留中)"
 msgid "Member of team"
 msgstr "所属チーム"
 
-msgid "Team"
-msgstr "チーム"
-
 msgid "find a team"
 msgstr "チームを探す"
 
@@ -467,6 +536,7 @@ msgstr "設立したチーム(メンバーではない)"
 msgid "Find friends"
 msgstr "友人を探す"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "友人"
 
@@ -504,6 +574,44 @@ msgstr "友人として追加"
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+
+#, fuzzy
+msgid "Email address:"
+msgstr "メイルアドレス"
+
+msgid "forgot email address?"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Password:"
+msgstr "パスワード"
+
+msgid "forgot password?"
+msgstr ""
+
+"
+
+msgid "Stay logged in on this computer"
+msgstr ""
+
+"
+
+msgid "Log in"
+msgstr ""
+
+"
+
+msgid "or %1create an account%2."
+msgstr ""
+
+"
+
+msgid "Please log in"
+msgstr ""
+
+"
 
 msgid "Use BBCode tags to format your text"
 msgstr "テキストに書式を付けたいときは BBCode タグを使ってください"
@@ -726,10 +834,74 @@ msgstr "BOINC の %1インストールと走らせ方%2 はここにあります
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "この一覧は%1 BOINC のウェブサイト%2で一元管理されています。"
 
-# Ugg? It seems to be a garbage.
-msgid "fll"
-msgstr "fll"
+msgid "Change email address"
+msgstr ""
 
+"
+
+msgid "Change the email address of your account"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "New email address"
+msgstr "メイルアドレス"
+
+#, fuzzy
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "有効なメイルアドレスを、「 name@domain 」の形で記入してください。"
+
+msgid "No password?"
+msgstr ""
+
+"
+
+msgid "Change password"
+msgstr ""
+
+"
+
+msgid "You can identify yourself using either"
+msgstr ""
+
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "your account key"
+msgstr "「弱い」アカウント・キー"
+
+msgid "Current password"
+msgstr ""
+
+"
+
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+"
+
+msgid "Get account key by email"
+msgstr ""
+
+"
+
+msgid "New password"
+msgstr ""
+
+"
+
+msgid "New password, again"
+msgstr ""
+
+"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "題名"
 
@@ -752,6 +924,7 @@ msgstr "トピック"
 msgid "Create a new thread"
 msgstr "新しくスレッドを作る"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "スレッドに投稿する"
 
@@ -865,6 +1038,8 @@ msgstr "%1 さんはあなたからの友人関係の要求を受け入れてい
 msgid "You can't be friends with yourself"
 msgstr "自分自身を友人にはできません"
 
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "そのようなユーザは見つかりません"
 
@@ -1119,6 +1294,11 @@ msgstr ""
 "これらの他のプロジェクトは、%1 と共同で運営されているわけではありません。 ですから、それらプロジェクトのセキュリティ管理の実施ぐあいや、研究内容の性"
 "質については、なんら私たちが保証できるものではありません。あなた自身のリスクで参加してください。"
 
+msgid "Language selection"
+msgstr ""
+
+"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Japanese"
@@ -1126,6 +1306,53 @@ msgstr "Japanese"
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "日本語"
+
+msgid "This web site is available in several languages. "
+msgstr ""
+
+"
+
+msgid "Normally the choice of language "
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid "Or you can select a language by clicking on one of the links. "
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
 
 msgid "Your message has been sent."
 msgstr "メッセージは送信されました。"
@@ -1268,14 +1495,16 @@ msgstr "この機能は一時的に停止しています"
 msgid "No computer with ID %1 found"
 msgstr "ID %1 を持つコンピュータは見つかりません"
 
-msgid "Tasks for computer %1"
-msgstr "コンピュータ %1 のタスク"
-
 msgid "No access"
 msgstr "アクセス禁止"
 
 msgid "Missing user ID or host ID"
 msgstr "参加者ID または計算機のIDが指定されていません"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
 
 msgid "User of the day"
 msgstr "毎日の参加者紹介"
@@ -1383,6 +1612,69 @@ msgstr "%1 チームのランキング"
 msgid "Participant since"
 msgstr "参加日時"
 
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Decreasing average credit"
+msgstr "最近の平均功績(credits/day)"
+
+msgid "Decreasing total credit"
+msgstr ""
+
+"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "User search results"
+msgstr "フォーラム掲示板の検索結果"
+
 msgid "This user has no profile"
 msgstr "この参加者にはプロファイルは登録されていません"
 
@@ -1424,3 +1716,13 @@ msgid ""
 msgstr ""
 "\"弱い\"アカウント・キーの値はパスワードによって決まります。パスワードを変更すると、\"弱い\"アカウント・キーは変り、以前の\"弱い\"アカウント・キーは無効"
 "になります。"
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "資源配分とグラフィクス"
+
+# Ugg? It seems to be a garbage.
+#~ msgid "fll"
+#~ msgstr "fll"
+
+#~ msgid "Tasks for computer %1"
+#~ msgstr "コンピュータ %1 のタスク"

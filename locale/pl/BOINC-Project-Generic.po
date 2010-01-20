@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-15 22:43 PST\n"
 "PO-Revision-Date: 2009-01-12 03:19-0700\n"
 "Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,16 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
+# The name of this language in this language
+#, fuzzy
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+# The name of this language in an international language (English)
+#, fuzzy
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 msgid "Search for words in forum messages"
 msgstr "Szukaj słów w postach na forum"
 
@@ -29,14 +39,16 @@ msgstr "Przeszukaj fora"
 msgid "Advanced search"
 msgstr "Zaawansowane wyszukiwanie"
 
-#########################################
+# #######################################
 # Private messages
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Prywatne wiadomości"
 
 msgid "Questions and Answers"
 msgstr "Pytania i odpowiedzi"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Forum dyskusyjne"
 
@@ -63,17 +75,21 @@ msgstr ""
 msgid "Thread"
 msgstr "Tematy"
 
-#########################################
+# #######################################
 # Forum
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Posty"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Autor"
 
 msgid "Views"
 msgstr "Odwiedzin"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Ostatni post"
 
@@ -82,6 +98,17 @@ msgstr "Zaznacz wszystkie tematy jako przeczytane"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Zaznacz wszystkie tematy we wszystkich forach jako przeczytane"
+
+msgid "Comment"
+msgstr ""
+
+"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+"
 
 msgid "Inbox"
 msgstr "Odebrane"
@@ -92,6 +119,12 @@ msgstr "Napisz"
 msgid "Send private message"
 msgstr "Wyślij prywatną wiadomość"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "Podgląd"
 
@@ -105,6 +138,9 @@ msgstr ""
 msgid "Subject"
 msgstr "Temat"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Wiadmość"
 
@@ -121,23 +157,40 @@ msgstr ""
 msgid "unread"
 msgstr "nieprzeczytanych"
 
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+
+"
+
 msgid "Edit your profile"
 msgstr ""
+
+"
 
 msgid "Your feedback on this profile"
 msgstr ""
 
+"
+
 msgid "Recommend this profile for User of the Day:"
 msgstr ""
+
+"
 
 msgid "I %1like%2 this profile"
 msgstr ""
 
+"
+
 msgid "Alert administrators to an offensive profile:"
 msgstr ""
 
+"
+
 msgid "I %1do not like%2 this profile"
 msgstr ""
+
+"
 
 msgid "Search criteria (use one or more)"
 msgstr "Kryteria wyszukiwania (wybierz jedno lub więcej)"
@@ -148,6 +201,11 @@ msgstr "Słowa kluczowe"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Znajdź zespoły z tymi słowami w nazwie lub opisie"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "Kraj"
 
@@ -178,6 +236,8 @@ msgstr "Żadna"
 msgid "Initiate request"
 msgstr ""
 
+"
+
 msgid "Deferred"
 msgstr "Odroczone"
 
@@ -190,9 +250,15 @@ msgstr "Opis"
 msgid "Web site"
 msgstr "Strona internetowa"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Całkowita liczba punktów"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Średnia liczba punktów"
 
@@ -222,6 +288,8 @@ msgstr ""
 
 msgid "Not accepting new members"
 msgstr ""
+
+"
 
 msgid "Foundership change requested"
 msgstr "Zażądano zmiany założyciela"
@@ -256,6 +324,9 @@ msgstr "Aktywni członkowie"
 msgid "Members with credit"
 msgstr "Członkowie z punktami"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "Nazwa użytkownika"
 
@@ -312,6 +383,8 @@ msgstr "bez \"http://\""
 msgid "This URL will be linked to from the team's page on this site."
 msgstr ""
 
+"
+
 msgid "Description of team"
 msgstr "Opis zespołu"
 
@@ -339,6 +412,8 @@ msgstr "Przetwarzanie i punkty"
 msgid "Pending credit"
 msgstr "Oczekujące punkty"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "Zobacz"
 
@@ -353,6 +428,19 @@ msgstr "Identyfikator międzyprojektowy"
 
 msgid "Cross-project statistics"
 msgstr "Statystyki międzyprojektowe"
+
+msgid "Account"
+msgstr ""
+
+"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "Zespół"
+
+#, fuzzy
+msgid "Cross-project"
+msgstr "Identyfikator międzyprojektowy"
 
 msgid "Certificate"
 msgstr "Certyfikat"
@@ -424,8 +512,10 @@ msgstr "Fora dyskusyjne i prywatne wiadomości"
 msgid "Community preferences"
 msgstr "Ustawienia społecznościowe"
 
-msgid "Resource share and graphics"
-msgstr "Przydział zasobów i grafika"
+msgid "Preferences for this project"
+msgstr ""
+
+"
 
 msgid "%1 preferences"
 msgstr "Ustawienia %1"
@@ -460,9 +550,6 @@ msgstr "(zażądano zmiany założyciela)"
 msgid "Member of team"
 msgstr "Członek zespołu"
 
-msgid "Team"
-msgstr "Zespół"
-
 msgid "find a team"
 msgstr "znajdź zespół"
 
@@ -472,6 +559,7 @@ msgstr "Założyciel, ale nie członek"
 msgid "Find friends"
 msgstr "Znajdź przyjaciół"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Przyjaciele"
 
@@ -510,6 +598,44 @@ msgstr "Dodaj jako przyjaciela"
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+
+#, fuzzy
+msgid "Email address:"
+msgstr "Adres email"
+
+msgid "forgot email address?"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Password:"
+msgstr "Hasło"
+
+msgid "forgot password?"
+msgstr ""
+
+"
+
+msgid "Stay logged in on this computer"
+msgstr ""
+
+"
+
+msgid "Log in"
+msgstr ""
+
+"
+
+msgid "or %1create an account%2."
+msgstr ""
+
+"
+
+msgid "Please log in"
+msgstr ""
+
+"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Używaj BBCode do formatowania wpisywanego tekstu"
@@ -551,6 +677,8 @@ msgstr "Platforma"
 msgid "Version"
 msgstr ""
 
+"
+
 msgid "Installation time"
 msgstr "Zainstalowano"
 
@@ -570,6 +698,8 @@ msgstr "Tworzenie nowego konta jest aktualnie wyłączone!"
 
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
+
+"
 
 msgid ""
 "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
@@ -616,99 +746,153 @@ msgstr "Stwórz konto"
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
 msgstr ""
 
+"
+
 msgid "Picture"
 msgstr ""
 
+"
+
 msgid "%1 Your profile picture is shown to the left."
 msgstr ""
+
+"
 
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
 
+"
+
 msgid "To remove it from your profile, check this box:"
 msgstr ""
+
+"
 
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
 
+"
+
 msgid "Language"
 msgstr ""
+
+"
 
 msgid "Select the language in which your profile is written:"
 msgstr ""
 
+"
+
 msgid "Submit profile"
 msgstr ""
+
+"
 
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
 msgstr ""
 
+"
+
 msgid "Create/edit profile"
 msgstr ""
 
+"
+
 msgid "The format of your uploaded image is not supported."
 msgstr ""
+
+"
 
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
 
+"
+
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
+
+"
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
 
+"
+
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
 
+"
+
 msgid "Your profile submission was empty."
 msgstr ""
+
+"
 
 msgid "Could not update the profile: database error"
 msgstr ""
 
+"
+
 msgid "Could not create the profile: database error"
 msgstr ""
 
+"
+
 msgid "Profile saved"
 msgstr ""
+
+"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
 msgstr ""
 
+"
+
 msgid "%1View your profile%2"
 msgstr ""
 
+"
+
 msgid "Create a profile"
 msgstr ""
+
+"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
 
+"
+
 msgid "Download BOINC add-on software"
 msgstr ""
+
+"
 
 msgid "You can download applications in several categories."
 msgstr ""
 
+"
+
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr ""
+
+"
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -717,15 +901,86 @@ msgid ""
 "If this is not enough you should contact the author."
 msgstr ""
 
+"
+
 msgid "Instructions for installing and running BOINC are %1here%2."
 msgstr ""
+
+"
 
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
 
-msgid "fll"
+"
+
+msgid "Change email address"
 msgstr ""
 
+"
+
+msgid "Change the email address of your account"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "New email address"
+msgstr "adres email"
+
+#, fuzzy
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "Musi to być aktualny adres wpisany w postaci 'nazwa@domena'."
+
+msgid "No password?"
+msgstr ""
+
+"
+
+msgid "Change password"
+msgstr ""
+
+"
+
+msgid "You can identify yourself using either"
+msgstr ""
+
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "your account key"
+msgstr "Słaby klucz konta"
+
+msgid "Current password"
+msgstr ""
+
+"
+
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+"
+
+msgid "Get account key by email"
+msgstr ""
+
+"
+
+msgid "New password"
+msgstr ""
+
+"
+
+msgid "New password, again"
+msgstr ""
+
+"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Nazwa"
 
@@ -742,12 +997,15 @@ msgid ""
 "section of the message boards."
 msgstr ""
 
+"
+
 msgid "Topic"
 msgstr "Kategorie"
 
 msgid "Create a new thread"
 msgstr "Stwórz nowy temat"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Odpowiedz na temat"
 
@@ -762,8 +1020,12 @@ msgstr "Wyniki wyszukiwania na forum"
 msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
 
+"
+
 msgid "This forum is not visible to you."
 msgstr ""
+
+"
 
 #########################################
 # Forum thread
@@ -773,15 +1035,23 @@ msgstr "Ten temat został ukryty przez administrację forum"
 msgid "My question was answered"
 msgstr ""
 
+"
+
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
 
+"
+
 msgid "I've also got this question"
 msgstr ""
 
+"
+
 msgid "Add a new message to this thread"
 msgstr ""
+
+"
 
 msgid "Unsubscribe"
 msgstr "Zakończ śledzenie tematu"
@@ -789,78 +1059,128 @@ msgstr "Zakończ śledzenie tematu"
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr ""
 
+"
+
 msgid "Subscribe"
 msgstr "Śledź ten temat"
 
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
 
+"
+
 msgid "Unhide"
 msgstr ""
+
+"
 
 msgid "Unhide this thread"
 msgstr ""
 
+"
+
 msgid "Hide"
 msgstr ""
+
+"
 
 msgid "Hide this thread"
 msgstr ""
 
+"
+
 msgid "Make unsticky"
 msgstr ""
+
+"
 
 msgid "Make this thread not sticky"
 msgstr ""
 
+"
+
 msgid "Make sticky"
 msgstr ""
+
+"
 
 msgid "Make this thread sticky"
 msgstr ""
 
+"
+
 msgid "Unlock"
 msgstr ""
+
+"
 
 msgid "Unlock this thread"
 msgstr ""
 
+"
+
 msgid "Lock"
 msgstr ""
+
+"
 
 msgid "Lock this thread"
 msgstr ""
 
+"
+
 msgid "Move"
 msgstr ""
+
+"
 
 msgid "Move this thread to a different forum"
 msgstr ""
 
+"
+
 msgid "Edit title"
 msgstr ""
+
+"
 
 msgid "Edit thread title"
 msgstr ""
 
+"
+
 msgid "Sort"
 msgstr ""
+
+"
 
 msgid "Already friends"
 msgstr ""
 
+"
+
 msgid "You requested friendship with %1 on %2."
 msgstr ""
+
+"
 
 msgid "This request is still pending confirmation."
 msgstr ""
 
+"
+
 msgid "%1 is not accepting friendship requests from you"
 msgstr ""
+
+"
 
 msgid "You can't be friends with yourself"
 msgstr ""
 
+"
+
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Użytkownik nie istnieje"
 
@@ -873,65 +1193,107 @@ msgid ""
 "to confirm that you are friends."
 msgstr ""
 
+"
+
 msgid "Add an optional message here:"
 msgstr ""
+
+"
 
 msgid "Database error"
 msgstr ""
 
+"
+
 msgid "Friend request sent"
 msgstr ""
+
+"
 
 msgid "We have notified %1 of your request."
 msgstr ""
 
+"
+
 msgid "Request not found"
 msgstr ""
+
+"
 
 msgid "Friend request"
 msgstr ""
 
+"
+
 msgid "%1 has added you as a friend."
 msgstr ""
+
+"
 
 msgid "%1 says: %2"
 msgstr ""
 
+"
+
 msgid "Accept friendship"
 msgstr ""
+
+"
 
 msgid "Click accept if %1 is in fact a friend"
 msgstr ""
 
+"
+
 msgid "Decline"
 msgstr ""
+
+"
 
 msgid "Click decline if %1 is not a friend"
 msgstr ""
 
+"
+
 msgid "No request"
 msgstr ""
+
+"
 
 msgid "Friendship confirmed"
 msgstr ""
 
+"
+
 msgid "Your friendship with %1 has been confirmed."
 msgstr ""
+
+"
 
 msgid "Friendship declined"
 msgstr ""
 
+"
+
 msgid "You have declined friendship with %1"
 msgstr ""
+
+"
 
 msgid "Notification not found"
 msgstr ""
 
+"
+
 msgid "Friend confirmed"
 msgstr ""
 
+"
+
 msgid "You are now friends with %1."
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Cancel friendship?"
@@ -940,23 +1302,37 @@ msgstr "Anuluj przyjaźń"
 msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr ""
 
+"
+
 msgid "Yes"
 msgstr ""
+
+"
 
 msgid "No"
 msgstr ""
 
+"
+
 msgid "Stay friends"
 msgstr ""
+
+"
 
 msgid "Friendship cancelled"
 msgstr ""
 
+"
+
 msgid "Your friendship with %1 has been cancelled."
 msgstr ""
 
+"
+
 msgid "Unknown action"
 msgstr ""
+
+"
 
 msgid "Welcome to %1"
 msgstr "Witaj w %1"
@@ -1058,12 +1434,16 @@ msgid ""
 "public or private messages from that user."
 msgstr ""
 
+"
+
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
 "Messages posted to the %1 forums are visible to everyone, including non-"
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+
+"
 
 msgid "Is it safe to run %1?"
 msgstr "Czy uruchamianie aplikacji projektu %1 jest bezpieczne?"
@@ -1133,6 +1513,11 @@ msgstr ""
 "jakość ich zabezpieczeń czy naturę prowadzonych badań. Uczestniczysz w nich "
 "na własną odpowiedzialność oraz ryzyko."
 
+msgid "Language selection"
+msgstr ""
+
+"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Polish"
@@ -1140,6 +1525,53 @@ msgstr "Polish"
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Polski"
+
+msgid "This web site is available in several languages. "
+msgstr ""
+
+"
+
+msgid "Normally the choice of language "
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid "Or you can select a language by clicking on one of the links. "
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
 
 msgid "Your message has been sent."
 msgstr "Twoja wiadomość została wysłana."
@@ -1155,6 +1587,8 @@ msgstr "Odpisz"
 
 msgid "Delete selected messages"
 msgstr ""
+
+"
 
 msgid "Sender"
 msgstr "Nadawca"
@@ -1222,21 +1656,29 @@ msgid ""
 "community."
 msgstr ""
 
+"
+
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
 msgstr ""
+
+"
 
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
 msgstr ""
 
+"
+
 msgid "User of the Day"
 msgstr "Uczestnik dnia"
 
 msgid "User Profile Explorer"
 msgstr ""
+
+"
 
 msgid "View the %1User Picture Gallery%2."
 msgstr "Zobacz %1galerię zdjęć uczestnika%2."
@@ -1254,8 +1696,12 @@ msgstr ""
 msgid "Alphabetical profile listings:"
 msgstr ""
 
+"
+
 msgid "Search profile text"
 msgstr ""
+
+"
 
 msgid "No profiles"
 msgstr "Brak profili"
@@ -1266,35 +1712,57 @@ msgstr "Brak profili odpowiadającym wybranym kryteriom."
 msgid "Invalid vote type:"
 msgstr ""
 
+"
+
 msgid "Vote Recorded"
 msgstr ""
+
+"
 
 msgid "Thank you"
 msgstr ""
 
+"
+
 msgid "Your recommendation has been recorded."
 msgstr ""
+
+"
 
 msgid "Your vote to reject this profile has been recorded."
 msgstr ""
 
+"
+
 msgid "Return to profile."
 msgstr ""
+
+"
 
 msgid "This feature is turned off temporarily"
 msgstr ""
 
+"
+
 msgid "No computer with ID %1 found"
 msgstr ""
 
-msgid "Tasks for computer %1"
-msgstr ""
+"
 
 msgid "No access"
 msgstr ""
 
+"
+
 msgid "Missing user ID or host ID"
 msgstr ""
+
+"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
 
 #, fuzzy
 msgid "User of the day"
@@ -1303,11 +1771,17 @@ msgstr "Uczestnik dnia"
 msgid "Account data for %1"
 msgstr ""
 
+"
+
 msgid "Statistics and leaderboards"
 msgstr ""
 
+"
+
 msgid "Statistics for %1"
 msgstr ""
+
+"
 
 #########################################
 # Various top table pages (top users, computers, teams)
@@ -1316,6 +1790,8 @@ msgstr "Najlepsi uczestnicy"
 
 msgid "Top computers"
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Top teams"
@@ -1326,40 +1802,62 @@ msgid ""
 "at several web sites:"
 msgstr ""
 
+"
+
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr ""
+
+"
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
 
+"
+
 msgid "%1 participants may form %2teams%3"
 msgstr ""
+
+"
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
 
+"
+
 msgid "Each team has a %1founder%2 who may:"
 msgstr ""
+
+"
 
 msgid "access team members' email addresses"
 msgstr ""
 
+"
+
 msgid "edit the team's name and description"
 msgstr ""
+
+"
 
 msgid "remove members from the team"
 msgstr ""
 
+"
+
 msgid "disband a team if it has no members"
 msgstr ""
 
+"
+
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Find a team"
@@ -1368,8 +1866,12 @@ msgstr "znajdź zespół"
 msgid "All teams"
 msgstr ""
 
+"
+
 msgid "%1 teams"
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Create a new team"
@@ -1379,14 +1881,22 @@ msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
 
+"
+
 msgid "You must choose a non-blank team name"
 msgstr ""
+
+"
 
 msgid "A team named %1 already exists - try another name"
 msgstr ""
 
+"
+
 msgid "Could not create team - please try later."
 msgstr ""
+
+"
 
 #, fuzzy
 msgid "Create a team"
@@ -1395,6 +1905,8 @@ msgstr "Stwórz nowy temat"
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
+
+"
 
 msgid "Top hosts"
 msgstr "Najlepsze komputery"
@@ -1405,11 +1917,78 @@ msgstr "Najlepsze zespoły"
 msgid "Participant since"
 msgstr "Uczestniczy od"
 
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Decreasing average credit"
+msgstr "Średnia liczba punktów"
+
+msgid "Decreasing total credit"
+msgstr ""
+
+"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "User search results"
+msgstr "Wyniki wyszukiwania na forum"
+
 msgid "This user has no profile"
 msgstr ""
 
+"
+
 msgid "Account data"
 msgstr ""
+
+"
 
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
@@ -1453,6 +2032,9 @@ msgstr ""
 "Twój słaby klucz konta jest generowany na podstawie twojego hasła. Jeśli "
 "zmienisz swoje hasło twój słaby klucz konta także ulegnie zmianie, a "
 "poprzedni słaby klucz konta stanie się nieprawidłowy."
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "Przydział zasobów i grafika"
 
 #~ msgid "Provides"
 #~ msgstr "Pozwala na"

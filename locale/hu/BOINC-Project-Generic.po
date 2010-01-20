@@ -2084,10 +2084,9 @@ msgstr ""
 msgid "Decreasing average credit"
 msgstr "Átlagos kredit a közelmúltban"
 
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
-
-"
+msgstr "Átlagos kredit a közelmúltban"
 
 msgid "Filters"
 msgstr ""
