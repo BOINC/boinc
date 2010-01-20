@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-11 12:46 PST\n"
-"PO-Revision-Date: 2009-08-03 08:23-0700\n"
-"Last-Translator: Max F <mifistor.x@gmail.com>\n"
+"PO-Revision-Date: 2010-01-20 09:51-0700\n"
+"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -23,16 +23,16 @@ msgstr ""
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Найти"
 
 #: docutil.php:101
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Вернуться на главную страницу BOINC"
 
 #: docutil.php:112
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Эта страница %sпереводима%s."
 
 # #######################################
 # download.php
@@ -63,6 +63,9 @@ msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"Вы можете запустить это программное обеспечение на компьютере только в том "
+"случае, если Вы владеете компьютером или у Вас есть разрешение его "
+"владельца."
 
 #: download.php:116
 #, php-format
