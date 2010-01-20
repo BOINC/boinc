@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-15 22:43 PST\n"
-"PO-Revision-Date: 2010-01-19 21:09-0700\n"
+"PO-Revision-Date: 2010-01-20 10:51-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -151,6 +151,8 @@ msgstr "непрочтенных"
 
 msgid "For email notification, %1edit community prefs%2"
 msgstr ""
+"Для получения уведомлений по электронной почте %1отредактируйте настройки "
+"сообщества%2"
 
 msgid "Edit your profile"
 msgstr "Редактировать профиль"
@@ -399,8 +401,9 @@ msgstr "Межпроектный ID (CPID)"
 msgid "Cross-project statistics"
 msgstr "Объединенная статистика по проектам"
 
+#, fuzzy
 msgid "Account"
-msgstr ""
+msgstr "Учетная информация"
 
 #: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Team"
@@ -408,7 +411,7 @@ msgstr "Команда"
 
 #, fuzzy
 msgid "Cross-project"
-msgstr "Межпроектный ID (CPID)"
+msgstr "Межпроектный"
 
 msgid "Certificate"
 msgstr "Сертификат"
@@ -480,7 +483,7 @@ msgid "Community preferences"
 msgstr "Настройки сообщества"
 
 msgid "Preferences for this project"
-msgstr ""
+msgstr "Настройки для этого проекта"
 
 msgid "%1 preferences"
 msgstr "Настройки %1"
@@ -559,29 +562,33 @@ msgstr "UTF-8"
 
 #, fuzzy
 msgid "Email address:"
-msgstr "Адрес email"
-
-msgid "forgot email address?"
-msgstr ""
+msgstr "Адрес email:"
 
 #, fuzzy
+msgid "forgot email address?"
+msgstr "забыли адрес email?"
+
 msgid "Password:"
-msgstr "Пароль"
+msgstr "Пароль:"
 
 msgid "forgot password?"
-msgstr ""
+msgstr "забыли пароль?"
 
+#, fuzzy
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "Оставаться авторизованным на этом компьютере"
 
+#, fuzzy
 msgid "Log in"
-msgstr ""
+msgstr "Войти"
 
+#, fuzzy
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "или %1создать учетную запись%2."
 
+#, fuzzy
 msgid "Please log in"
-msgstr ""
+msgstr "Пожалуйста авторизуйтесь"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Используйте тэги BBCode для форматирования Вашего текста"
@@ -812,11 +819,13 @@ msgstr "Инструкции по установке и запуску BOINC %1�
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Этот список ведется централизованно на %1web-сайте BOINC%2."
 
+#, fuzzy
 msgid "Change email address"
-msgstr ""
+msgstr "Поменять адрес электронной почты"
 
+#, fuzzy
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "Поменять адрес email вышей учётной записи"
 
 #, fuzzy
 msgid "New email address"
