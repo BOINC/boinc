@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-15 22:43 PST\n"
-"PO-Revision-Date: 2010-01-20 11:59-0700\n"
+"PO-Revision-Date: 2010-01-20 12:31-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -20,14 +20,12 @@ msgstr ""
 "X-Poedit-Country: UNITED STATES\n"
 
 # The name of this language in this language
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Deutsch"
 
 # The name of this language in an international language (English)
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "German"
 
 msgid "Search for words in forum messages"
 msgstr "Suche in Forenbeiträgen"
@@ -519,9 +517,8 @@ msgstr "Team verlassen"
 msgid "Administer"
 msgstr "Verwalten"
 
-#, fuzzy
 msgid "(foundership change request pending)"
-msgstr "(ausstehende Anfrage des Gründerwechsels)"
+msgstr "(ausstehender Gründerwechsel)"
 
 msgid "Member of team"
 msgstr "Mitglied im Team"
@@ -571,27 +568,27 @@ msgstr "UTF-8"
 msgid "Email address:"
 msgstr "E-Mail-Adresse"
 
-msgid "forgot email address?"
-msgstr ""
-
 #, fuzzy
+msgid "forgot email address?"
+msgstr "E-Mail-Adresse vergessen?"
+
 msgid "Password:"
-msgstr "Passwort"
+msgstr "Passwort:"
 
 msgid "forgot password?"
-msgstr ""
+msgstr "Passwort vergessen?"
 
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "Auf diesem Computer angemeldet bleiben"
 
 msgid "Log in"
-msgstr ""
+msgstr "Anmelden"
 
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "oder %1Konto erstellen%2."
 
 msgid "Please log in"
-msgstr ""
+msgstr "Bitte melden Sie sich an"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Der Text lässt sich mit Hilfe von BBCode-Tags formatieren"
@@ -834,24 +831,22 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Diese Auflistung wird von der %1zentralen BOINC Webseite%2 verwaltet."
 
 msgid "Change email address"
-msgstr ""
+msgstr "E-Mail-Adresse ändern"
 
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "Die E-Mail-Adresse Ihres Kontos ändern."
 
-#, fuzzy
 msgid "New email address"
-msgstr "E-Mail-Adresse"
+msgstr "neue E-Mail-Adresse"
 
-#, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr "Muss eine gültige E-Mail-Adresse der Form 'name@domain' sein."
+msgstr "Muss eine gültige E-Mail-Adresse der Form 'name@domain.tld' sein."
 
 msgid "No password?"
-msgstr ""
+msgstr "Kein Passwort?"
 
 msgid "Change password"
-msgstr ""
+msgstr "Passwort ändern"
 
 msgid "You can identify yourself using either"
 msgstr ""
@@ -859,24 +854,23 @@ msgstr ""
 msgid "your email address and old password"
 msgstr ""
 
-#, fuzzy
 msgid "your account key"
-msgstr "schwacher Kontoschlüssel"
+msgstr "Ihr Kontoschlüssel"
 
 msgid "Current password"
-msgstr ""
+msgstr "Aktuelles Passwort"
 
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<b>oder</b>: Kontoschlüssel"
 
 msgid "Get account key by email"
-msgstr ""
+msgstr "Kontoschlüssel per E-Mail zusenden"
 
 msgid "New password"
-msgstr ""
+msgstr "Neues Passwort"
 
 msgid "New password, again"
-msgstr ""
+msgstr "Passwort bestätigen"
 
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-15 22:43 PST\n"
-"PO-Revision-Date: 2010-01-20 11:58-0700\n"
+"PO-Revision-Date: 2010-01-20 12:32-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -1653,12 +1653,12 @@ msgstr "искомая строка должна быть минимум 3 си�
 msgid "User names starting with"
 msgstr "Имена пользователей, начинающиеся с"
 
-msgid "No users match your search criteria."
-msgstr ""
-
 #, fuzzy
+msgid "No users match your search criteria."
+msgstr "Нет пользователей, удовлетворяющих вашим критериям поиска."
+
 msgid "User search results"
-msgstr "Результаты поиска по форуму"
+msgstr "Результаты поиска пользователей"
 
 msgid "This user has no profile"
 msgstr "У этого пользователя нет профиля"
