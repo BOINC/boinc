@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-15 22:43 PST\n"
-"PO-Revision-Date: 2009-05-22 13:46-0700\n"
+"PO-Revision-Date: 2010-01-19 21:09-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -20,17 +20,15 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 
-# The name of this language in this language
+# The name of this language in this language<br />
 # Имя языка в этом файле
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Русский"
 
-# The name of this language in an international language (English)
+# The name of this language in an international language (English)<br />
 # Имя языка в этом файле на интернациональном языке (английском)
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Russian"
 
 msgid "Search for words in forum messages"
 msgstr "Поиск введенных слов в сообщениях на форумах"
@@ -98,15 +96,11 @@ msgid "Mark all threads in all message boards as 'read'."
 msgstr "Отметить все обсуждения во всех досках сообщений как 'прочитанные'."
 
 msgid "Comment"
-msgstr ""
-
-"
+msgstr "Комментарий"
 
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
-
-"
+msgstr "Новости доступны в формате %sленты RSS%s"
 
 msgid "Inbox"
 msgstr "Входящие"
@@ -157,8 +151,6 @@ msgstr "непрочтенных"
 
 msgid "For email notification, %1edit community prefs%2"
 msgstr ""
-
-"
 
 msgid "Edit your profile"
 msgstr "Редактировать профиль"
@@ -410,8 +402,6 @@ msgstr "Объединенная статистика по проектам"
 msgid "Account"
 msgstr ""
 
-"
-
 #: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Team"
 msgstr "Команда"
@@ -491,8 +481,6 @@ msgstr "Настройки сообщества"
 
 msgid "Preferences for this project"
 msgstr ""
-
-"
 
 msgid "%1 preferences"
 msgstr "Настройки %1"
@@ -576,8 +564,6 @@ msgstr "Адрес email"
 msgid "forgot email address?"
 msgstr ""
 
-"
-
 #, fuzzy
 msgid "Password:"
 msgstr "Пароль"
@@ -585,27 +571,17 @@ msgstr "Пароль"
 msgid "forgot password?"
 msgstr ""
 
-"
-
 msgid "Stay logged in on this computer"
 msgstr ""
-
-"
 
 msgid "Log in"
 msgstr ""
 
-"
-
 msgid "or %1create an account%2."
 msgstr ""
 
-"
-
 msgid "Please log in"
 msgstr ""
-
-"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Используйте тэги BBCode для форматирования Вашего текста"
@@ -839,12 +815,8 @@ msgstr "Этот список ведется централизованно на
 msgid "Change email address"
 msgstr ""
 
-"
-
 msgid "Change the email address of your account"
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "New email address"
@@ -857,22 +829,14 @@ msgstr "Должен быть действительным адресом в ф�
 msgid "No password?"
 msgstr ""
 
-"
-
 msgid "Change password"
 msgstr ""
-
-"
 
 msgid "You can identify yourself using either"
 msgstr ""
 
-"
-
 msgid "your email address and old password"
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "your account key"
@@ -881,27 +845,17 @@ msgstr "Слабый ключ учетной записи"
 msgid "Current password"
 msgstr ""
 
-"
-
 msgid "<b>OR</b>: Account key"
 msgstr ""
-
-"
 
 msgid "Get account key by email"
 msgstr ""
 
-"
-
 msgid "New password"
 msgstr ""
 
-"
-
 msgid "New password, again"
 msgstr ""
-
-"
 
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
@@ -1320,8 +1274,6 @@ msgstr ""
 msgid "Language selection"
 msgstr ""
 
-"
-
 # The name of this language in an international language (English)
 # Имя языка в этом файле на интернациональном языке (английском)
 msgid "LANG_NAME_INTERNATIONAL"
@@ -1335,49 +1287,31 @@ msgstr "Русский"
 msgid "This web site is available in several languages. "
 msgstr ""
 
-"
-
 msgid "Normally the choice of language "
 msgstr ""
-
-"
 
 msgid "Firefox: Tools/Options/General"
 msgstr ""
 
-"
-
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
-
-"
 
 msgid "Or you can select a language by clicking on one of the links. "
 msgstr ""
 
-"
-
 msgid "Language symbol"
 msgstr ""
-
-"
 
 msgid "Language name (click to select)"
 msgstr ""
 
-"
-
 msgid "Use browser language setting"
 msgstr ""
-
-"
 
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
-
-"
 
 msgid "Your message has been sent."
 msgstr "Ваше сообщение было отправлено."
@@ -1542,8 +1476,6 @@ msgstr "Отсутствует ID пользователя или ID компь�
 msgid "No tasks to display"
 msgstr ""
 
-"
-
 msgid "User of the day"
 msgstr "Пользователь Дня"
 
@@ -1663,22 +1595,14 @@ msgstr "Участвует с"
 msgid "Joined"
 msgstr ""
 
-"
-
 msgid "Search type"
 msgstr ""
-
-"
 
 msgid "User name starts with"
 msgstr ""
 
-"
-
 msgid "Decreasing sign-up time"
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "Decreasing average credit"
@@ -1687,37 +1611,23 @@ msgstr "В среднем за день"
 msgid "Decreasing total credit"
 msgstr ""
 
-"
-
 msgid "Filters"
 msgstr ""
-
-"
 
 msgid "With profile?"
 msgstr ""
 
-"
-
 msgid "On a team?"
 msgstr ""
-
-"
 
 msgid "search string must be at least 3 characters"
 msgstr ""
 
-"
-
 msgid "User names starting with"
 msgstr ""
 
-"
-
 msgid "No users match your search criteria."
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "User search results"
