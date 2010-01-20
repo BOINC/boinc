@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-20 12:49 PST\n"
-"PO-Revision-Date: 2010-01-20 13:59-0700\n"
+"PO-Revision-Date: 2010-01-20 14:59-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -402,9 +402,8 @@ msgstr "Compte"
 msgid "Team"
 msgstr "Grup"
 
-#, fuzzy
 msgid "Cross-project"
-msgstr "Identificador multi-projecte"
+msgstr "Multi-projecte"
 
 msgid "Certificate"
 msgstr "Certificat"
@@ -476,7 +475,7 @@ msgid "Community preferences"
 msgstr "Preferències de la comunitat"
 
 msgid "Preferences for this project"
-msgstr ""
+msgstr "Preferències per a aquest projecte"
 
 msgid "%1 preferences"
 msgstr "Preferències de %1"
@@ -551,31 +550,29 @@ msgstr "Afegir com amic"
 msgid "CHARSET"
 msgstr "UTF-8"
 
-#, fuzzy
 msgid "Email address:"
-msgstr "Adreça de correu"
+msgstr "Adreça de correu:"
 
 msgid "forgot email address?"
-msgstr ""
+msgstr "a oblidat l'adreça de correu electrònic?"
 
-#, fuzzy
 msgid "Password:"
-msgstr "Contrasenya"
+msgstr "Contrasenya:"
 
 msgid "forgot password?"
-msgstr ""
+msgstr "Heu oblidat la contrasenya?"
 
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "Mantenir-me en aquest ordinador"
 
 msgid "Log in"
-msgstr ""
+msgstr "Registrar-se"
 
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "o %1crei un compte%2."
 
 msgid "Please log in"
-msgstr ""
+msgstr "Si us plau registris"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Utilitzar les marques BBCode per formatar el text"
@@ -804,49 +801,46 @@ msgstr ""
 "BOINC%2."
 
 msgid "Change email address"
-msgstr ""
+msgstr "Canviar l'adreça de correu electrònic"
 
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "Canviï l'adreça de correu electrònic del seu compte"
 
-#, fuzzy
 msgid "New email address"
-msgstr "adreça de correu electrònic"
+msgstr "Nova adreça de correu electrònic"
 
-#, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr "Ha de ser una adreça de correu vàlida del tipus 'nom@domini'."
+msgstr "Ha de ser una adreça de correu vàlida del tipus 'nom@domini'"
 
 msgid "No password?"
-msgstr ""
+msgstr "Sense contrasenya?"
 
 msgid "Change password"
-msgstr ""
+msgstr "Canviï la contrasenya"
 
 msgid "You can identify yourself using either"
-msgstr ""
+msgstr "Vostè pot identificar-se utilitzant"
 
 msgid "your email address and old password"
-msgstr ""
+msgstr "la seva adreça de correu electrònic i la contrasenya antiga"
 
-#, fuzzy
 msgid "your account key"
-msgstr "Clau de compte feble"
+msgstr "clau del seu compte"
 
 msgid "Current password"
-msgstr ""
+msgstr "Contrasenya actual"
 
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<b>O</b>: Clau del compte"
 
 msgid "Get account key by email"
-msgstr ""
+msgstr "Obtenir la clau de compte per correu electrònic"
 
 msgid "New password"
-msgstr ""
+msgstr "Nova contrasenya"
 
 msgid "New password, again"
-msgstr ""
+msgstr "Nova contrasenya, una vegada més"
 
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
@@ -1259,7 +1253,7 @@ msgstr ""
 "vostra responsabilitat."
 
 msgid "Language selection"
-msgstr ""
+msgstr "Selecció d'idioma"
 
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Catalan"
@@ -1271,37 +1265,47 @@ msgid ""
 "This web site is available in several languages. The currently selected "
 "language is: %1 (%2)."
 msgstr ""
+"Aquest lloc web està disponible en diversos idiomes. L'idioma seleccionat "
+"actualment és: %1 (%2)."
 
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
+"Normalment, l'elecció de la llengua està determinada per la configuració "
+"d'idioma del seu navegador, que és: %1.  Podeu canviar aquesta configuració "
+"utilitzant:"
 
 msgid "Firefox: Tools/Options/General"
-msgstr ""
+msgstr "Firefox: Eines/Opcions/General"
 
 msgid "Microsoft IE: Tools/Internet Options/Languages"
-msgstr ""
+msgstr "Microsoft IE: Eines/Opcions d'Internet/Idiomes"
 
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
+"O pot seleccionar un idioma fent clic en un dels enllaços.  Això enviarà al "
+"seu navegador una galeta, assegureu-vos que el vostre navegador accepti "
+"galetes del nostre domini."
 
 msgid "Language symbol"
-msgstr ""
+msgstr "Símbol de l'idioma"
 
 msgid "Language name (click to select)"
-msgstr ""
+msgstr "Nom de l'idioma (feu clic per seleccionar-lo)"
 
 msgid "Use browser language setting"
-msgstr ""
+msgstr "Utilitzar la configuració d'idioma del navegador"
 
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
+"Les traduccions són realitzades per voluntaris.  Si la seva llengua materna "
+"no és aquí, %1vosté pot proporcionar una traducció%2."
 
 msgid "Your message has been sent."
 msgstr "El vostre missatge ha estat lliurat."
@@ -1461,7 +1465,7 @@ msgid "Missing user ID or host ID"
 msgstr "Falta L'ID de l'usuari o del servidor"
 
 msgid "No tasks to display"
-msgstr ""
+msgstr "No hi ha tasques per mostrar"
 
 msgid "User of the day"
 msgstr "Usuari del Dia"
@@ -1578,39 +1582,37 @@ msgid "Participant since"
 msgstr "Participant des de"
 
 msgid "Joined"
-msgstr ""
+msgstr "Adjuntat"
 
 msgid "Search type"
-msgstr ""
+msgstr "Tipus de cerca"
 
 msgid "User name starts with"
-msgstr ""
+msgstr "Nom d'usuari comença amb"
 
 msgid "Decreasing sign-up time"
-msgstr ""
+msgstr "Disminuir el temps d'inici de sessió"
 
-#, fuzzy
 msgid "Decreasing average credit"
-msgstr "Crèdit mitjà més recent"
+msgstr "Disminuint el crèdit mitjana"
 
-#, fuzzy
 msgid "Decreasing total credit"
-msgstr "Crèdit mitjà més recent"
+msgstr "Disminuint el crèdit total"
 
 msgid "Filters"
-msgstr ""
+msgstr "Filtres"
 
 msgid "With profile?"
-msgstr ""
+msgstr "Amb el perfil?"
 
 msgid "On a team?"
-msgstr ""
+msgstr "En un equip?"
 
 msgid "search string must be at least 3 characters"
-msgstr ""
+msgstr "la paraula a cercar ha de ser de com a mínim 3 caràcters"
 
 msgid "User names starting with"
-msgstr ""
+msgstr "Noms d'usuari que comencen per"
 
 msgid "No users match your search criteria."
 msgstr ""

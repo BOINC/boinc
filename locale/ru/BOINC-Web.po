@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-01-20 10:26-0700\n"
+"PO-Revision-Date: 2010-01-20 14:03-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -304,12 +304,11 @@ msgstr "Изображения и логотипы"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "и"
 
 #: index.php:164
-#, fuzzy
 msgid "Help wanted"
-msgstr "Необходима помощь"
+msgstr "Нужна помощь"
 
 #: index.php:166
 msgid "Programming"

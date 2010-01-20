@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-20 12:49 PST\n"
-"PO-Revision-Date: 2010-01-20 12:32-0700\n"
+"PO-Revision-Date: 2010-01-20 14:12-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -22,15 +22,13 @@ msgstr ""
 
 # The name of this language in this language
 # Имя языка в этом файле
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Русский"
 
 # The name of this language in an international language (English)
 # Имя языка в этом файле на интернациональном языке (английском)
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Russian"
 
 msgid "Search for words in forum messages"
 msgstr "Поиск введенных слов в сообщениях на форумах"
@@ -50,7 +48,7 @@ msgstr "Вопросы и ответы"
 
 #: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
-msgstr "Доски сообщений"
+msgstr "Доска сообщений"
 
 msgid "%1 message board"
 msgstr "Доска сообщений %1"
@@ -1300,14 +1298,10 @@ msgid ""
 "language is: %1 (%2)."
 msgstr ""
 
-"
-
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "Firefox: Tools/Options/General"
@@ -1324,8 +1318,6 @@ msgid ""
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
-
-"
 
 msgid "Language symbol"
 msgstr "Языковой символ"
