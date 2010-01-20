@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rev.18063\n"
+"Project-Id-Version: 2010/01/20\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-15 22:43 PST\n"
-"PO-Revision-Date: 2009-07-19 00:22-0700\n"
-"Last-Translator: Kangsan Lee <netpres@chol.com>\n"
+"PO-Revision-Date: 2010-01-20 19:32+0900\n"
+"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -13,21 +13,19 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
-"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
 "X-Poedit-Country: KOREA, REPUBLIC OF\n"
+"X-Poedit-SearchPath-0: html\\user\n"
 
 # The name of this language in this language
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "한국어"
 
 # The name of this language in an international language (English)
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Korean"
 
 msgid "Search for words in forum messages"
 msgstr "포럼 게시물 중에서 검색할 단어"
@@ -45,26 +43,20 @@ msgstr "쪽지"
 msgid "Questions and Answers"
 msgstr "질문과 답변"
 
-#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
+#: ../inc/user.inc:367
+#: ../user/forum_forum.php:68
+#: ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "게시판"
 
 msgid "%1 message board"
 msgstr "%1 게시판"
 
-msgid ""
-"In order to create a new thread in %1 you must have a certain amount of "
-"credit. This is to prevent and protect against abuse of the system."
-msgstr ""
-"%1에 새로운 스레드를 만들려면 여러분은 크레딧을 어느 정도 가지고 있어야 합니다. 이 것은 시스템 남용을 막으면서 보호해줍니다. "
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr "%1에 새로운 스레드를 만들려면 여러분은 크레딧을 어느 정도 가지고 있어야 합니다. 이 것은 시스템 남용을 막으면서 보호해줍니다. "
 
-msgid ""
-"You cannot create any more threads right now. Please wait a while before "
-"trying again. This delay has been enforced to protect against abuse of the "
-"system."
-msgstr ""
-"지금은 더 이상 새로운 스레드를 만들 수 없습니다. 다시 시도하시기 전에 잠시 기다려주십시오. 이러한 지연은 시스템을 남용으로부터 "
-"보호하기 위해서 시행하고 있습니다."
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr "지금은 더 이상 새로운 스레드를 만들 수 없습니다. 다시 시도하시기 전에 잠시 기다려주십시오. 이러한 지연은 시스템을 남용으로부터 보호하기 위해서 시행하고 있습니다."
 
 msgid "Thread"
 msgstr "스레드"
@@ -73,7 +65,8 @@ msgstr "스레드"
 msgid "Posts"
 msgstr "포스트"
 
-#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80
 #: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "작성자"
@@ -92,15 +85,11 @@ msgid "Mark all threads in all message boards as 'read'."
 msgstr "모든 게시판 스레드를 읽은 것으로 표시"
 
 msgid "Comment"
-msgstr ""
-
-"
+msgstr "내용"
 
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
-
-"
+msgstr "뉴스는 %sRSS 피드%s로도 제공됩니다"
 
 msgid "Inbox"
 msgstr "목록"
@@ -111,12 +100,18 @@ msgstr "쓰기"
 msgid "Send private message"
 msgstr "쪽지 보내기"
 
-#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
-#: ../user/forum_edit.php:145 ../user/forum_post.php:62
-#: ../user/forum_post.php:88 ../user/forum_post.php:91
-#: ../user/forum_post.php:129 ../user/forum_reply.php:75
-#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
-#: ../user/forum_reply.php:146 ../user/pm.php:175
+#: ../user/forum_edit.php:99
+#: ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145
+#: ../user/forum_post.php:62
+#: ../user/forum_post.php:88
+#: ../user/forum_post.php:91
+#: ../user/forum_post.php:129
+#: ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100
+#: ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146
+#: ../user/pm.php:175
 msgid "Preview"
 msgstr "미리 보기"
 
@@ -129,27 +124,26 @@ msgstr "ID 혹은 고유한 사용자 이름을 콤마로 구분해서 써주세
 msgid "Subject"
 msgstr "제목"
 
-#: ../user/forum_post.php:118 ../user/forum_reply.php:108
-#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
-#: ../user/pm.php:85 ../user/pm.php:140
+#: ../user/forum_post.php:118
+#: ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
+#: ../user/pm.php:85
+#: ../user/pm.php:140
 msgid "Message"
 msgstr "내용"
 
 msgid "Send message"
 msgstr "메세지 전송"
 
-msgid ""
-"You are not allowed to send privates messages so often. Please wait some "
-"time before sending more messages."
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
 msgstr "쪽지를 일정 시간 안에 일정량 이상 보낼 수 없습니다. 새로운 쪽지를 보내실려면 일정시간 기다리셔야 합니다."
 
 msgid "unread"
 msgstr "읽지 않음"
 
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
-
-"
+msgstr "email 알림을 받으시려면 %1커뮤니티 환경설정을 수정해 주세요%2"
 
 msgid "Edit your profile"
 msgstr "프로필 수정하기"
@@ -178,10 +172,15 @@ msgstr "키워드"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "이름이나 개요에 있는 단어로 팀을 찾으십시오"
 
-#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
-#: ../inc/user.inc:310 ../user/account_finish.php:44
-#: ../user/create_account_form.php:94 ../user/top_users.php:62
-#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../inc/team.inc:360
+#: ../inc/team.inc:447
+#: ../inc/user.inc:204
+#: ../inc/user.inc:310
+#: ../user/account_finish.php:44
+#: ../user/create_account_form.php:94
+#: ../user/top_users.php:62
+#: ../user/user_search.php:102
+#: ../user/user_search.php:119
 #: ../user/user_search.php:158
 msgid "Country"
 msgstr "국가"
@@ -225,15 +224,24 @@ msgstr "개요"
 msgid "Web site"
 msgstr "웹 사이트"
 
-#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
-#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
-#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../inc/team.inc:214
+#: ../inc/team.inc:351
+#: ../inc/team.inc:356
+#: ../inc/user.inc:118
+#: ../inc/user.inc:132
+#: ../user/top_users.php:53
+#: ../user/top_users.php:58
+#: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "총 크레딧"
 
-#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
-#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
+#: ../inc/team.inc:219
+#: ../inc/team.inc:350
+#: ../inc/team.inc:355
+#: ../inc/user.inc:133
+#: ../user/top_users.php:52
+#: ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "최근 평균 크레딧"
 
@@ -252,12 +260,8 @@ msgstr "스레드"
 msgid "Join this team"
 msgstr "이 팀에 가입"
 
-msgid ""
-"Note: if 'OK to email' is set in your project preferences, joining a team "
-"gives its founder access to your email address."
-msgstr ""
-"노트:만약 'OK to email\"이 프로젝트 환경설정에 설정되어 있으면, 가입한 팀의 창설자가 여러분의 email주소를 알 수 "
-"있습니다."
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgstr "노트:만약 'OK to email\"이 프로젝트 환경설정에 설정되어 있으면, 가입한 팀의 창설자가 여러분의 email주소를 알 수 있습니다."
 
 msgid "Not accepting new members"
 msgstr "회원 가입을 허가하지 않습니다"
@@ -295,8 +299,10 @@ msgstr "활동하는 맴버"
 msgid "Members with credit"
 msgstr "크레딧을 가진 맴버"
 
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
-#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/account_finish.php:40
+#: ../user/create_account_form.php:75
+#: ../user/top_users.php:48
+#: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Name"
 msgstr "이름"
@@ -322,9 +328,7 @@ msgstr "이 기능은 팀 관리자 권한이 필요합니다"
 msgid "Rank"
 msgstr "순위"
 
-msgid ""
-"%1Privacy note%2: if you create a team, your project preferences (resource "
-"share, graphics preferences) will be visible to the public."
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
 msgstr "%1개인적 노트%2: 팀을 만들면, 프로젝트 환경 설정(자원 공유, 그래픽 설정)이 모든 사람에게 공개됩니다."
 
 msgid "Team name, text version"
@@ -378,7 +382,9 @@ msgstr "컴퓨팅과 크레딧"
 msgid "Pending credit"
 msgstr "대기 중인 크레딧"
 
-#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../inc/user.inc:237
+#: ../inc/user.inc:318
+#: ../inc/user.inc:394
 #: ../user/view_profile.php:54
 msgid "View"
 msgstr "보기"
@@ -396,17 +402,16 @@ msgid "Cross-project statistics"
 msgstr "공유-프로젝트 통계"
 
 msgid "Account"
-msgstr ""
+msgstr "계정"
 
-"
-
-#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/user.inc:363
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Team"
 msgstr "팀"
 
-#, fuzzy
 msgid "Cross-project"
-msgstr "공유-프로젝트 ID"
+msgstr "공유-프로젝트"
 
 msgid "Certificate"
 msgstr "증명서"
@@ -478,9 +483,7 @@ msgid "Community preferences"
 msgstr "커뮤니티 환경 설정"
 
 msgid "Preferences for this project"
-msgstr ""
-
-"
+msgstr "해당 프로젝트 환경설정"
 
 msgid "%1 preferences"
 msgstr "%1 환경 설정"
@@ -524,7 +527,8 @@ msgstr "창설자 (맴버 제외)"
 msgid "Find friends"
 msgstr "친구 찾기"
 
-#: ../inc/user.inc:379 ../inc/user.inc:388
+#: ../inc/user.inc:379
+#: ../inc/user.inc:388
 msgid "Friends"
 msgstr "친구들"
 
@@ -563,43 +567,29 @@ msgstr "친구로 추가"
 msgid "CHARSET"
 msgstr "UTF-8"
 
-#, fuzzy
 msgid "Email address:"
-msgstr "Email 주소"
+msgstr "Email 주소:"
 
 msgid "forgot email address?"
-msgstr ""
+msgstr "email 주소를 잊어버렸습니까?"
 
-"
-
-#, fuzzy
 msgid "Password:"
-msgstr "비밀번호"
+msgstr "비밀번호:"
 
 msgid "forgot password?"
-msgstr ""
-
-"
+msgstr "비밀번호를 잊어버렸습니까?"
 
 msgid "Stay logged in on this computer"
-msgstr ""
-
-"
+msgstr "이 컴퓨터에서 로그인 유지"
 
 msgid "Log in"
-msgstr ""
-
-"
+msgstr "로그인"
 
 msgid "or %1create an account%2."
-msgstr ""
-
-"
+msgstr "또는 %1계정 생성%2."
 
 msgid "Please log in"
-msgstr ""
-
-"
+msgstr "로그인해 주세요"
 
 msgid "Use BBCode tags to format your text"
 msgstr "형식에 맞춰서 BBCode 태그를 쓰세요"
@@ -619,15 +609,8 @@ msgstr "부가 사항"
 msgid "Applications"
 msgstr "응용 프로그램"
 
-msgid ""
-"%1 currently has the following applications. When you participate in %1, "
-"work for one or more of these applications will be assigned to your "
-"computer. The current version of the application will be downloaded to your "
-"computer. This happens automatically; you don't have to do anything."
-msgstr ""
-"현재 %1(은)는 다음 응용 프로그램을 사용합니다. 여러분이 %1에 참여할 때 하나 이상의 응용 프로그램이 여러분 컴퓨터로 할당됩니다. "
-"최신 버전의 응용 프로그램이 여러분 컴퓨터로 다운로드될 것입니다. 이 것은 자동으로 처리됩니다. 여러분은 아무 것도 하실 필요가 "
-"없습니다."
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr "현재 %1(은)는 다음 응용 프로그램을 사용합니다. 여러분이 %1에 참여할 때 하나 이상의 응용 프로그램이 여러분 컴퓨터로 할당됩니다. 최신 버전의 응용 프로그램이 여러분 컴퓨터로 다운로드될 것입니다. 이 것은 자동으로 처리됩니다. 여러분은 아무 것도 하실 필요가 없습니다."
 
 msgid "Platform"
 msgstr "플랫폼"
@@ -653,17 +636,10 @@ msgstr "계정 생성이 불가능합니다"
 msgid "Account creation is currently disabled. Please try again later."
 msgstr "현재 계정을 만들 수 없습니다. 나중에 다시 시도해주세요."
 
-msgid ""
-"NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
-"form. Just run BOINC, select Attach Project, and enter an email address and "
-"password."
-msgstr ""
-"노트: 만약 BOINC 관리자가 있는 BOINC 버전 5.2 이상을 사용하면, 이 폼을 사용하지 마십시오. 대신 BOINC를 실행하고, "
-"프로젝트 연결을 선택한 후 Email 주소와 비밀번호를 입력해주세요."
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "노트: 만약 BOINC 관리자가 있는 BOINC 버전 5.2 이상을 사용하면, 이 폼을 사용하지 마십시오. 대신 BOINC를 실행하고, 프로젝트 연결을 선택한 후 Email 주소와 비밀번호를 입력해주세요."
 
-msgid ""
-"This account will belong to the team %1 and will have the project "
-"preferences of its founder."
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
 msgstr "이 계정은 %1팀에 속하게 되며 프로젝트 환경 설정은 그 팀 창설자를 따르게 됩니다."
 
 msgid "Invitation Code"
@@ -699,20 +675,14 @@ msgstr "사진"
 msgid "%1 Your profile picture is shown to the left."
 msgstr "%1 프로필 사진은 왼쪽에 표시됩니다."
 
-msgid ""
-"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
-"or less)."
+msgid "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 or less)."
 msgstr "교체하려면 \"찾아보기\" 버튼을 누르고 JPEG나 PNG 파일을 선택하세요 (%1이하)"
 
 msgid "To remove it from your profile, check this box:"
 msgstr "프로필에서 제거하려면 이 박스에 체크하세요:"
 
-msgid ""
-"If you would like include a picture with your profile, click the \"Browse\" "
-"button and select a JPEG or PNG file. Please select images of %1 or less."
-msgstr ""
-"만약 여러분 프로필에 사진을 포함시킬려면 \"찾아보기\" 버튼을 누르고 JPEG나 PNG 파일을 선택하세요. %1이하의 이미지를 "
-"선택해주세요."
+msgid "If you would like include a picture with your profile, click the \"Browse\" button and select a JPEG or PNG file. Please select images of %1 or less."
+msgstr "만약 여러분 프로필에 사진을 포함시킬려면 \"찾아보기\" 버튼을 누르고 JPEG나 PNG 파일을 선택하세요. %1이하의 이미지를 선택해주세요."
 
 msgid "Language"
 msgstr "언어"
@@ -723,9 +693,7 @@ msgstr "여러분 프로필을 작성한 언어를 선택해 주세요:"
 msgid "Submit profile"
 msgstr "프로필 제출"
 
-msgid ""
-"To protect the project's webpages from spam, we kindly ask you to type in "
-"the two words shown in the image:<br>\n"
+msgid "To protect the project's webpages from spam, we kindly ask you to type in the two words shown in the image:<br>\n"
 msgstr "스팸으로부터 프로젝트 웹페이지를 보호하기 위해서 우리는 여러분에게 이미지에 나타난 두 단어를 입력하도록 요구합니다:<br>\n"
 
 msgid "Create/edit profile"
@@ -734,22 +702,16 @@ msgstr "프로필 작성/수정하기"
 msgid "The format of your uploaded image is not supported."
 msgstr "업로드한 이미지 파일 포맷은 지원하지 않습니다."
 
-msgid ""
-"Your %1profile%2 lets you share your opinions and background with the %3 "
-"community."
+msgid "Your %1profile%2 lets you share your opinions and background with the %3 community."
 msgstr "%1프로필%2은 여러분의 의견과 배경등을 %3 커뮤니티에서 공유하도록 합니다."
 
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr "ReCaptcha 응답이 틀렸습니다. 다시 시도해 주세요."
 
-msgid ""
-"Your first response was flagged as spam by the Akismet anti-spam system.  "
-"Please modify your text and try again."
+msgid "Your first response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again."
 msgstr "첫번째 응답은 Akismet 스팸방어 시스템이 스팸으로 분류하였습니다. 텍스트를 수정하고 다시 시도해주세요."
 
-msgid ""
-"Your second response was flagged as spam by the Akismet anti-spam system.  "
-"Please modify your text and try again."
+msgid "Your second response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again."
 msgstr "두번째 응답은 Akismet 스팸방어 시스템이 스팸으로 분류하였습니다. 텍스트를 수정하고 다시 시도해주세요."
 
 msgid "Your profile submission was empty."
@@ -764,8 +726,7 @@ msgstr "프로필 작성에 실패했습니다: 데이터베이스 오류"
 msgid "Profile saved"
 msgstr "프로필이 저장되었습니다"
 
-msgid ""
-"Congratulations! Your profile was successfully entered into our database."
+msgid "Congratulations! Your profile was successfully entered into our database."
 msgstr "축하합니다! 여러분의 프로필이 성공적으로 데이터베이스에 입력되었습니다."
 
 msgid "%1View your profile%2"
@@ -774,9 +735,7 @@ msgstr "%1프로필 보기%2"
 msgid "Create a profile"
 msgstr "프로필 만들기"
 
-msgid ""
-"To prevent spam, an average credit of %1 or greater is required to create or "
-"edit a profile.  We apologize for this inconvenience."
+msgid "To prevent spam, an average credit of %1 or greater is required to create or edit a profile.  We apologize for this inconvenience."
 msgstr "스팸을 방지하기 위해서 프로필을 작성하거나 수정하려면 크레딧을 평균 %1 이상 가지고 있어야 합니다. 불편을 드려서 죄송합니다."
 
 msgid "Download BOINC add-on software"
@@ -785,14 +744,12 @@ msgstr "BOINC 애드온 소프트웨어 다운로드"
 msgid "You can download applications in several categories."
 msgstr "여러 항목의 응용 프로그램을 다운로드할 수 있습니다."
 
-msgid ""
-"These applications are not endorsed by %1 and you use them at your own risk."
+msgid "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr "이들 응용 프로그램은 %1에서 승인받지 않았으며 여러분이 위험부담을 안고 사용하셔야 합니다."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
-"However, the author may have provided some help on installing or "
-"uninstalling the application. \n"
+"However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
 "저희는 이들 응용 프로그램을 설치하기 위한 설명서를 제공하지 않습니다.\n"
@@ -806,73 +763,49 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "이 목록은 %1BOINC 웹사이트%2를 중심으로 관리됩니다."
 
 msgid "Change email address"
-msgstr ""
-
-"
+msgstr "email 주소 변경"
 
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "이 계정의 email 주소를 바꿉니다"
 
-"
-
-#, fuzzy
 msgid "New email address"
-msgstr "email 주소"
+msgstr "새 email 주소"
 
-#, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr "반드시 올바른 형식(name@domain)으로 입력해 주세요."
 
 msgid "No password?"
-msgstr ""
-
-"
+msgstr "비밀번호가 없습니까?"
 
 msgid "Change password"
-msgstr ""
-
-"
+msgstr "비밀번호 변경"
 
 msgid "You can identify yourself using either"
-msgstr ""
-
-"
+msgstr "여러분은 이메일 주소와 구 비밀번호를"
 
 msgid "your email address and old password"
-msgstr ""
+msgstr "사용해서 인증할 수도 있습니다"
 
-"
-
-#, fuzzy
 msgid "your account key"
-msgstr "약한 계정 키"
+msgstr "계정 키"
 
 msgid "Current password"
-msgstr ""
-
-"
+msgstr "현재 비밀번호"
 
 msgid "<b>OR</b>: Account key"
-msgstr ""
-
-"
+msgstr "<b>또는</b>: 계정 키"
 
 msgid "Get account key by email"
-msgstr ""
-
-"
+msgstr "email로 계정 키 받기"
 
 msgid "New password"
-msgstr ""
-
-"
+msgstr "새 비밀번호"
 
 msgid "New password, again"
-msgstr ""
+msgstr "새 비밀번호 재입력"
 
-"
-
-#: ../user/forum_post.php:110 ../user/forum_post.php:112
+#: ../user/forum_post.php:110
+#: ../user/forum_post.php:112
 msgid "Title"
 msgstr "제목"
 
@@ -882,9 +815,7 @@ msgstr "이 포스트에 서명을 추가하기"
 msgid "%1 Message boards"
 msgstr "%1 게시판"
 
-msgid ""
-"If you have a question or problem, please use the %1Questions & Answers%2 "
-"section of the message boards."
+msgid "If you have a question or problem, please use the %1Questions & Answers%2 section of the message boards."
 msgstr "질문이 있거나 문제가 생기면 게시판에서 %1질문 & 답변%2 섹션을 이용해 주세요."
 
 msgid "Topic"
@@ -915,8 +846,7 @@ msgstr "이 스레드는 관리 목적으로 열람할 수 없습니다"
 msgid "My question was answered"
 msgstr "질문에 답이 달렸습니다"
 
-msgid ""
-"If your question has been adequately answered please click here to close it!"
+msgid "If your question has been adequately answered please click here to close it!"
 msgstr "만약 여러분 질문에 충분한 답변이 달렸다면 여기를 눌러서 질문을 닫으세요!"
 
 msgid "I've also got this question"
@@ -1003,17 +933,19 @@ msgstr "%1(은)는 친구 관계 요청을 허용하고 있지 않습니다."
 msgid "You can't be friends with yourself"
 msgstr "여러분 자신과는 친구가 될 수 없습니다"
 
-#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
-#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
+#: ../user/friend.php:146
+#: ../user/friend.php:204
+#: ../user/friend.php:219
+#: ../user/friend.php:233
+#: ../user/pm.php:232
+#: ../user/view_profile.php:24
 msgid "No such user"
 msgstr "해당 사용자가 없습니다"
 
 msgid "Add friend"
 msgstr "친구로 추가"
 
-msgid ""
-"You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
-"to confirm that you are friends."
+msgid "You have asked to add %1 as a friend. We will notify %2 and will ask him/her to confirm that you are friends."
 msgstr "%1을 친구로 추가하길 요청했습니다. %2에게 알리고 그에게 여러분을 친구로 할지 확인하도록 요청할 것입니다."
 
 msgid "Add an optional message here:"
@@ -1115,201 +1047,92 @@ msgstr "규칙과 정책을 읽어주십시오"
 msgid "Run %1 only on authorized computers"
 msgstr "%1(은)는 검증된 컴퓨터로만 실행하십시오"
 
-msgid ""
-"Run %1 only on computers that you own, or for which you have obtained the "
-"owner's permission. Some companies and schools have policies that prohibit "
-"using their computers for projects such as %1."
-msgstr ""
-"%1(은)는 여러분이 가진 컴퓨터 또는 소유자의 허락을 얻은 컴퓨터로 수행하십시오. 어떤 회사와 학교는 %1(과)와 같은 프로젝트를 "
-"수행하지 못하게 하려고 그들의 컴퓨터를 사용하지 못하게 하는 정책을 가지고 있습니다."
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr "%1(은)는 여러분이 가진 컴퓨터 또는 소유자의 허락을 얻은 컴퓨터로 수행하십시오. 어떤 회사와 학교는 %1(과)와 같은 프로젝트를 수행하지 못하게 하려고 그들의 컴퓨터를 사용하지 못하게 하는 정책을 가지고 있습니다."
 
 msgid "How %1 will use your computer"
 msgstr "%1(은)는 이렇게 여러분의 컴퓨터를 사용합니다"
 
-msgid ""
-"When you run %1 on your computer, it will use part of the computer's CPU "
-"power, disk space, and network bandwidth. You can control how much of your "
-"resources are used by %1, and when it uses them."
-msgstr ""
-"%1(을)를 실행하실 경우 여러분 컴퓨터의 CPU, 디스크 공간, 네트워크 대역폭 중 일부를 사용하게 됩니다. 여러분은 언제, 얼마만큼 "
-"%1이 여러분의 컴퓨터 자원을 사용할지 제어할 수 있습니다."
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr "%1(을)를 실행하실 경우 여러분 컴퓨터의 CPU, 디스크 공간, 네트워크 대역폭 중 일부를 사용하게 됩니다. 여러분은 언제, 얼마만큼 %1이 여러분의 컴퓨터 자원을 사용할지 제어할 수 있습니다."
 
-msgid ""
-"The work done by your computer contributes to the goals of %1, as described "
-"on its web site. The application programs may change from time to time."
-msgstr ""
-"여러분이 가진 컴퓨터로 한 작업은 %1 웹 사이트에 설명된 목표에 도달하는데 공헌하고 있습니다. 응용 프로그램은 시간이 지나면 바뀔 수 "
-"있습니다."
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr "여러분이 가진 컴퓨터로 한 작업은 %1 웹 사이트에 설명된 목표에 도달하는데 공헌하고 있습니다. 응용 프로그램은 시간이 지나면 바뀔 수 있습니다."
 
 msgid "Privacy policy"
 msgstr "사생활 보호 정책"
 
-msgid ""
-"Your account on %1 is identified by a name that you choose. This name may be "
-"shown on the %1 web site, along with a summary of the work your computer has "
-"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
-"your identity."
-msgstr ""
-"%1(은)는 여러분이 선택한 이름을 바탕으로 여러분을 식별합니다. 이 이름은 %1 웹 사이트에서 여러분의 컴퓨터로  %1(을)를 수행한 "
-"결과와 함께 보여질 것입니다. 만약 익명으로 남길 원한다면 여러분의 이름을 밝히지 않도록 선택하십시오."
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr "%1(은)는 여러분이 선택한 이름을 바탕으로 여러분을 식별합니다. 이 이름은 %1 웹 사이트에서 여러분의 컴퓨터로  %1(을)를 수행한 결과와 함께 보여질 것입니다. 만약 익명으로 남길 원한다면 여러분의 이름을 밝히지 않도록 선택하십시오."
 
-msgid ""
-"If you participate in %1, information about your computer (such as its "
-"processor type, amount of memory, etc.) will be recorded by %1 and used to "
-"decide what type of work to assign to your computer. This information will "
-"also be shown on %1's web site. Nothing that reveals your computer's "
-"location (e.g. its domain name or network address) will be shown."
-msgstr ""
-"만약 여러분이 %1에 참여한다면 여러분의 컴퓨터 정보(프로세서 종류, 메모리 용량, 기타)가 %1 서버에 기록됩니다. 이 것은 여러분 "
-"컴퓨터로 어떤 작업을 할당할지 결정하기 위해 사용됩니다. 이 정보는 또한 %1 웹 사이트에 공개됩니다. 여러분 컴퓨터의 위치를 알 수 "
-"있는 정보(예를 들어 도메인 네임이나 네트워크 주소)는 아무 것도 공개되지 않습니다."
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr "만약 여러분이 %1에 참여한다면 여러분의 컴퓨터 정보(프로세서 종류, 메모리 용량, 기타)가 %1 서버에 기록됩니다. 이 것은 여러분 컴퓨터로 어떤 작업을 할당할지 결정하기 위해 사용됩니다. 이 정보는 또한 %1 웹 사이트에 공개됩니다. 여러분 컴퓨터의 위치를 알 수 있는 정보(예를 들어 도메인 네임이나 네트워크 주소)는 아무 것도 공개되지 않습니다."
 
-msgid ""
-"To participate in %1, you must give an address where you receive email. This "
-"address will not be shown on the %1 web site or shared with organizations. %"
-"1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
-"%1에 참여하려면 여러분이 실제로 받아볼 수 있는 email 주소를 제공해야 합니다. 이 주소는 %1 웹 사이트에 공개되지 않으며, 다른 "
-"기관과 공유하지도 않습니다. %1(은)는 여러분에게 주기적으로 소식지를 보낼 수도 있습니다. 그러나 이 것은 언제든지 거부할 수 "
-"있습니다."
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "%1에 참여하려면 여러분이 실제로 받아볼 수 있는 email 주소를 제공해야 합니다. 이 주소는 %1 웹 사이트에 공개되지 않으며, 다른 기관과 공유하지도 않습니다. %1(은)는 여러분에게 주기적으로 소식지를 보낼 수도 있습니다. 그러나 이 것은 언제든지 거부할 수 있습니다."
 
-msgid ""
-"Private messages sent on the %1 web site are visible only to the sender and "
-"recipient.  %1 does not examine or police the content of private messages.  "
-"If you receive unwanted private messages from another %1 user, you may add "
-"them to your %2message filter%3.  This will prevent you from seeing any "
-"public or private messages from that user."
-msgstr ""
-"%1 웹 사이트를 통해 보낸 쪽지는 송신자와 수신자만 볼 수 있습니다. %1은 쪽지 내용을 검사하거나 감시하지 않습니다. 만약 여러분이 "
-"다른 %1 사용자에게서 쪽지를 받길 원하지 않는다면 그 것들을 %2메세지 필터%3에 추가할 수 있습니다. 이 것은 불특정 다수에게 "
-"보여지거나 혹은 다른 사용자에게서 온 쪽지로부터 원하지 않는 메세지를 막아줍니다."
+msgid "Private messages sent on the %1 web site are visible only to the sender and recipient.  %1 does not examine or police the content of private messages.  If you receive unwanted private messages from another %1 user, you may add them to your %2message filter%3.  This will prevent you from seeing any public or private messages from that user."
+msgstr "%1 웹 사이트를 통해 보낸 쪽지는 송신자와 수신자만 볼 수 있습니다. %1은 쪽지 내용을 검사하거나 감시하지 않습니다. 만약 여러분이 다른 %1 사용자에게서 쪽지를 받길 원하지 않는다면 그 것들을 %2메세지 필터%3에 추가할 수 있습니다. 이 것은 불특정 다수에게 보여지거나 혹은 다른 사용자에게서 온 쪽지로부터 원하지 않는 메세지를 막아줍니다."
 
-msgid ""
-"If you use our web site forums you must follow the %2posting guidelines%3.  "
-"Messages posted to the %1 forums are visible to everyone, including non-"
-"members.  By posting to the forums, you are granting irrevocable license for "
-"anyone to view and copy your posts."
-msgstr ""
-"만약 우리 웹사이트 포럼을 이용하려면 %2글 쓰기 가이드라인%3을 따라야 합니다. %1 포럼에 작성된 게시물은 멤버가 아닌 사람을 포함한 "
-"누구나 볼 수 있습니다. 포럼에 글을 쓰면 여러분의 포스트들은 누구나 볼 수 있고 복사할 수 있는 권리를 부여받게 됩니다."
+msgid "If you use our web site forums you must follow the %2posting guidelines%3.  Messages posted to the %1 forums are visible to everyone, including non-members.  By posting to the forums, you are granting irrevocable license for anyone to view and copy your posts."
+msgstr "만약 우리 웹사이트 포럼을 이용하려면 %2글 쓰기 가이드라인%3을 따라야 합니다. %1 포럼에 작성된 게시물은 멤버가 아닌 사람을 포함한 누구나 볼 수 있습니다. 포럼에 글을 쓰면 여러분의 포스트들은 누구나 볼 수 있고 복사할 수 있는 권리를 부여받게 됩니다."
 
 msgid "Is it safe to run %1?"
 msgstr "%1(을)를 실행해도 안전합니까?"
 
-msgid ""
-"Any time you download a program through the Internet you are taking a "
-"chance: the program might have dangerous errors, or the download server "
-"might have been hacked. %1 has made efforts to minimize these risks. We have "
-"tested our applications carefully. Our servers are behind a firewall and are "
-"configured for high security. To ensure the integrity of program downloads, "
-"all executable files are digitally signed on a secure computer not connected "
-"to the Internet."
-msgstr ""
-"언제든지 여러분은 인터넷을 통해서 프로그램을 다운로드할 수 있습니다. 어떤 때는 프로그램이 위험한 오류를 가지고 있을 수 도 있고 "
-"다운로드 서버가 해킹당했을 수도 있습니다. %1(은)는 이러한 위험을 최소화하기 위해 노력합니다. 우리는 우리의 응용 프로그램을 조심히 "
-"테스트합니다. 우리 서버는 높은 보안성을 위해서 방화벽 뒤에 두고 있습니다. 프로그램 다운로드를 안전하게 하기 위해서 모든 실행가능한 "
-"파일은 인터넷에 연결되지 않은 안전한 컴퓨터로 디지털 서명을 하고 있습니다."
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr "언제든지 여러분은 인터넷을 통해서 프로그램을 다운로드할 수 있습니다. 어떤 때는 프로그램이 위험한 오류를 가지고 있을 수 도 있고 다운로드 서버가 해킹당했을 수도 있습니다. %1(은)는 이러한 위험을 최소화하기 위해 노력합니다. 우리는 우리의 응용 프로그램을 조심히 테스트합니다. 우리 서버는 높은 보안성을 위해서 방화벽 뒤에 두고 있습니다. 프로그램 다운로드를 안전하게 하기 위해서 모든 실행가능한 파일은 인터넷에 연결되지 않은 안전한 컴퓨터로 디지털 서명을 하고 있습니다."
 
-msgid ""
-"The applications run by %1 may cause some computers to overheat. If this "
-"happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
-"%1 응용을 수행 중에 어떤 컴퓨터는 과부하가 걸릴 수 있습니다. 만약 그렇게 되었다면 %1 수행을 중지하시거나 CPU사용량을 제한하기 "
-"위해 %2유틸리티 프로그램%3(을)를 사용하십시오."
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr "%1 응용을 수행 중에 어떤 컴퓨터는 과부하가 걸릴 수 있습니다. 만약 그렇게 되었다면 %1 수행을 중지하시거나 CPU사용량을 제한하기 위해 %2유틸리티 프로그램%3(을)를 사용하십시오."
 
-msgid ""
-"%1 was developed by %2. BOINC was developed at the University of California."
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr "%1(은)는 %2에서 개발했습니다. BOINC는 California 대학에서 개발했습니다."
 
 msgid "Liability"
 msgstr "책임"
 
-msgid ""
-"%1 and %2 assume no liability for damage to your computer, loss of data, or "
-"any other event or condition that may occur as a result of participating in %"
-"1."
-msgstr ""
-"%1(과)와 %2(은)는 %1에 참여한 결과로 인해 발생할지도 모르는 컴퓨터가 입은 충격, 데이터 손실, 혹은 어떤 사건이나 손해도 "
-"책임지지 않습니다."
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr "%1(과)와 %2(은)는 %1에 참여한 결과로 인해 발생할지도 모르는 컴퓨터가 입은 충격, 데이터 손실, 혹은 어떤 사건이나 손해도 책임지지 않습니다."
 
 msgid "Other BOINC projects"
 msgstr "다른 BOINC 프로젝트들"
 
-msgid ""
-"Other projects use the same platform, BOINC, as %1. You may want to consider "
-"participating in one or more of these projects. By doing so, your computer "
-"will do useful work even when %1 has no work available for it."
-msgstr ""
-"다른 프로젝트도 %1처럼 BOINC 플랫폼을 사용합니다. 여러분이 이들 프로젝트에 하나 이상 참여할 생각이 들지도 모릅니다. 그렇게 "
-"함으로서 %1에서 수행할 작업이 없어도 여러분 컴퓨터는 유용한 작업을 수행할 수 있습니다. "
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr "다른 프로젝트도 %1처럼 BOINC 플랫폼을 사용합니다. 여러분이 이들 프로젝트에 하나 이상 참여할 생각이 들지도 모릅니다. 그렇게 함으로서 %1에서 수행할 작업이 없어도 여러분 컴퓨터는 유용한 작업을 수행할 수 있습니다. "
 
-msgid ""
-"These other projects are not associated with %1, and we cannot vouch for "
-"their security practices or the nature of their research. Join them at your "
-"own risk."
-msgstr ""
-"다른 프로젝트는 %1(과)와 아무 관련이 없으며, 그들의 보안 상태나 그들이 하는 연구의 성격을 보증할 수 없습니다. 여러분은 위험을 "
-"감수하고서 그 것에 참여하셔야 합니다."
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr "다른 프로젝트는 %1(과)와 아무 관련이 없으며, 그들의 보안 상태나 그들이 하는 연구의 성격을 보증할 수 없습니다. 여러분은 위험을 감수하고서 그 것에 참여하셔야 합니다."
 
 msgid "Language selection"
-msgstr ""
-
-"
-
-# The name of this language in an international language (English)
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Korean"
-
-# The name of this language in this language
-msgid "LANG_NAME_NATIVE"
-msgstr "한국어"
+msgstr "언어 선택"
 
 msgid "This web site is available in several languages. "
-msgstr ""
-
-"
+msgstr "이 웹 사이트는 여러 언어로 이용가능합니다."
 
 msgid "Normally the choice of language "
-msgstr ""
-
-"
+msgstr "보통 언어를 선택하려면"
 
 msgid "Firefox: Tools/Options/General"
-msgstr ""
-
-"
+msgstr "Firefox: 도구/설정/일반"
 
 msgid "Microsoft IE: Tools/Internet Options/Languages"
-msgstr ""
-
-"
+msgstr "Microsoft IE: 도구/인터넷 옵션/언어"
 
 msgid "Or you can select a language by clicking on one of the links. "
-msgstr ""
-
-"
+msgstr "또는 링크 중에 하나를 클릭해서 언어를 선택할 수도 있습니다."
 
 msgid "Language symbol"
-msgstr ""
-
-"
+msgstr "언어 심볼"
 
 msgid "Language name (click to select)"
-msgstr ""
-
-"
+msgstr "언어명 (선택하려면 클릭)"
 
 msgid "Use browser language setting"
-msgstr ""
+msgstr "브라우저 언어 설정 사용"
 
-"
-
-msgid ""
-"Translations are done by volunteers.  If your native language is not here, %"
-"1you can provide a translation%2."
-msgstr ""
-
-"
+msgid "Translations are done by volunteers.  If your native language is not here, %1you can provide a translation%2."
+msgstr "번역은 자원봉사로 이루어 집니다. 만약 여러분의 언어가 여기에 없다면 %1번역을 할 수도 있습니다%2."
 
 msgid "Your message has been sent."
 msgstr "메세지가 전송되었습니다."
@@ -1350,17 +1173,13 @@ msgstr "사용자 %1 (ID: %2)는 여러분의 쪽지 수신을 허용하고 있�
 msgid "Really block %1?"
 msgstr "정말로 %1을 차단하시겠습니까?"
 
-msgid ""
-"Are you really sure you want to block user %1 from sending you private "
-"messages?"
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
 msgstr "정말로 사용자 %1에게서 오는 쪽지를 차단하시겠습니까?"
 
 msgid "Please note that you can only block a limited amount of users."
 msgstr "제한된 숫자의 사용자를 차단할 수 있다는 걸 알아두세요."
 
-msgid ""
-"Once the user has been blocked you can unblock it using forum preferences "
-"page."
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
 msgstr "사용자가 차단되었습니다. 포럼 환경 설정 페이지에서 차단을 해제할 수 있습니다."
 
 msgid "Add user to filter"
@@ -1381,19 +1200,13 @@ msgstr "차단을 해제할려면, %1게시판 환경설정%2을 방문하세요
 msgid "Profiles"
 msgstr "프로필"
 
-msgid ""
-"%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
-"community."
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
 msgstr "%1프로필%2은 배경 지식과 의견을 %3 커뮤니티에서 개별적으로 공유하도록 합니다."
 
-msgid ""
-"Explore the diversity of your fellow volunteers, and contribute your own "
-"views for others to enjoy."
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
 msgstr "여러분과 같은 기여자들의 다양성을 경험하고, 다른 사람과 즐기기 위해서 공헌할 수 있습니다."
 
-msgid ""
-"If you haven't already, you can %1create your own user profile%2 for others "
-"to see!"
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
 msgstr "만약 아직 가지지 못했다면, 다른 사람에게 보여주기위한 %1사용자 프로필%2을 생성할 수 있습니다!"
 
 msgid "User of the Day"
@@ -1408,9 +1221,7 @@ msgstr "%1사용자 사진 갤러리%2 보기"
 msgid "Browse profiles %1by country%2."
 msgstr "%1 국가%2로 프로필 탐색"
 
-msgid ""
-"Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
-"without pictures%2."
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
 msgstr "%1 무작위%2, %3 무작위 사진 있음%2, 혹은 %4 무작위 사진 없음%2으로 프로필 탐색."
 
 msgid "Alphabetical profile listings:"
@@ -1456,9 +1267,7 @@ msgid "Missing user ID or host ID"
 msgstr "빠진 사용자 ID 혹은 호스트 ID"
 
 msgid "No tasks to display"
-msgstr ""
-
-"
+msgstr "표시할 작업이 없습니다"
 
 msgid "User of the day"
 msgstr "오늘의 사용자"
@@ -1481,27 +1290,19 @@ msgstr "최고 컴퓨터"
 msgid "Top teams"
 msgstr "최고 팀"
 
-msgid ""
-"More detailed statistics for %1 and other BOINC-based projects are available "
-"at several web sites:"
+msgid "More detailed statistics for %1 and other BOINC-based projects are available at several web sites:"
 msgstr "%1에 대한 더 자세한 통계와 다른 BOINC 기반 프로젝트들은 여러 웹사이트에서 이용 가능합니다:"
 
-msgid ""
-"You can also get your current statistics in the form of a \"signature image"
-"\":"
+msgid "You can also get your current statistics in the form of a \"signature image\":"
 msgstr "또한 여러분의 현재 통계는\"서명 이미지\" 형식으로도 얻을 수 있습니다:"
 
-msgid ""
-"Additionally you can get your individual statistics summed across all BOINC "
-"projects from several sites; see your %1home page%2."
-msgstr ""
-"거기다 모든 BOINC 프로젝트들을 통틀어서 정리된 개인별 통계는 여러 사이트에서 얻을 수 있습니다. %1홈 페이지%2를 봅니다."
+msgid "Additionally you can get your individual statistics summed across all BOINC projects from several sites; see your %1home page%2."
+msgstr "거기다 모든 BOINC 프로젝트들을 통틀어서 정리된 개인별 통계는 여러 사이트에서 얻을 수 있습니다. %1홈 페이지%2를 봅니다."
 
 msgid "%1 participants may form %2teams%3"
 msgstr "%1 참여자는 %2팀%3 형식을 띄고 있을 것입니다"
 
-msgid ""
-"You may belong to only one team. You can join or quit a team at any time."
+msgid "You may belong to only one team. You can join or quit a team at any time."
 msgstr "여러분은 오직 한 팀에만 소속될 수 있습니다. 언제든지 팀에 가입하거나 탈퇴할 수 있습니다."
 
 msgid "Each team has a %1founder%2 who may:"
@@ -1534,8 +1335,7 @@ msgstr "%1 팀"
 msgid "Create a new team"
 msgstr "새로운 팀 만들기"
 
-msgid ""
-"If you cannot find a team that is right for you, you can %1create a team%2."
+msgid "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr "만약 여러분에게 맞는 팀을 찾지 못하셨다면 여러분은 %1팀을 만들 수도 있습니다%2."
 
 msgid "You must choose a non-blank team name"
@@ -1550,8 +1350,7 @@ msgstr "팀을 만들지 못했습니다 - 다음에 다시 시도해 주세요.
 msgid "Create a team"
 msgstr "팀을 만듭니다"
 
-msgid ""
-"You belong to %1. You must %2quit this team%3 before creating a new one."
+msgid "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr "%1에 소속되었습니다. 새로운 팀을 만들려면, 그 전에 %2이 팀을 탈퇴%3하셔야 됩니다."
 
 msgid "Top hosts"
@@ -1564,67 +1363,43 @@ msgid "Participant since"
 msgstr "참여 시작"
 
 msgid "Joined"
-msgstr ""
-
-"
+msgstr "가입됨"
 
 msgid "Search type"
-msgstr ""
-
-"
+msgstr "검색 유형"
 
 msgid "User name starts with"
-msgstr ""
-
-"
+msgstr "사용자 이름의 첫글자"
 
 msgid "Decreasing sign-up time"
-msgstr ""
+msgstr "가입 시각 내림차순"
 
-"
-
-#, fuzzy
 msgid "Decreasing average credit"
-msgstr "최근 평균 크레딧"
+msgstr "평균 크레딧 내림차순"
 
 msgid "Decreasing total credit"
-msgstr ""
-
-"
+msgstr "총 크레딧 내림차순"
 
 msgid "Filters"
-msgstr ""
-
-"
+msgstr "필터"
 
 msgid "With profile?"
-msgstr ""
-
-"
+msgstr "프로필도 검색?"
 
 msgid "On a team?"
-msgstr ""
-
-"
+msgstr "팀 검색?"
 
 msgid "search string must be at least 3 characters"
-msgstr ""
-
-"
+msgstr "검색어는 최소한 3글자 이상이어야 합니다"
 
 msgid "User names starting with"
-msgstr ""
-
-"
+msgstr "사용자 이름의 첫글자가"
 
 msgid "No users match your search criteria."
-msgstr ""
+msgstr "검색 조건과 일치하는 사용자가 없습니다."
 
-"
-
-#, fuzzy
 msgid "User search results"
-msgstr "포럼 검색 결과"
+msgstr "사용자 검색 결과"
 
 msgid "This user has no profile"
 msgstr "이 사용자는 프로필이 없습니다"
@@ -1632,49 +1407,21 @@ msgstr "이 사용자는 프로필이 없습니다"
 msgid "Account data"
 msgstr "계정 데이터"
 
-msgid ""
-"Your 'weak account key' lets you attach computers to your account on this "
-"project, without giving the ability to log in to your account or to change "
-"it in any way."
-msgstr ""
-"'약한 계정 키'는 여러분의 계정으로 로그인을 해야 한다거나 어떤 식으로든 변경을 가하지 않고, 이 프로젝트를 여러분 컴퓨터에 연결시켜 "
-"줍니다."
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "'약한 계정 키'는 여러분의 계정으로 로그인을 해야 한다거나 어떤 식으로든 변경을 가하지 않고, 이 프로젝트를 여러분 컴퓨터에 연결시켜 줍니다."
 
-msgid ""
-"This mechanism works only with projects that have upgraded their server "
-"software 7 Dec 2007 or later."
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
 msgstr "이 매커니즘은 오직 2007년 12월 7일 이후의 서버 소프트웨어로 업그레이드된 프로젝트에서만 작동합니다."
 
 msgid "Your weak account key for this project is:"
 msgstr "이 프로젝트를 위한 약한 계정 키:"
 
-msgid ""
-"To use your weak account key on a given host, find or create the 'account "
-"file' for this project. This file has a name of the form "
-"<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr ""
-"약한 계정 키를 사용하기 위해서 호스트에게 제공하려면, 이 프로젝트를 위한 '계정 파일'을 만들거나 찾으십시오. 이 파일의 이름 형식은 "
-"<b>account_PROJECT_URL.xml</b>입니다. %1을 위한 계정 파일은 <b>%2</b>입니다."
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "약한 계정 키를 사용하기 위해서 호스트에게 제공하려면, 이 프로젝트를 위한 '계정 파일'을 만들거나 찾으십시오. 이 파일의 이름 형식은 <b>account_PROJECT_URL.xml</b>입니다. %1을 위한 계정 파일은 <b>%2</b>입니다."
 
 msgid "Create this file if needed. Set its contents to:"
 msgstr "만약 필요하면 파일을 만드십시오. 설정할 내용:"
 
-msgid ""
-"Your weak account key is a function of your password. If you change your "
-"password, your weak account key changes, and your previous weak account key "
-"becomes invalid."
-msgstr ""
-"약한 계정 키는 비밀번호와 같은 기능을 합니다. 만약 비밀번호를 바꾸면, 약한 계정 키도 바뀝니다. 그리고 기존에 있던 약한 계정 키로는 "
-"인증이 되지 않습니다."
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "약한 계정 키는 비밀번호와 같은 기능을 합니다. 만약 비밀번호를 바꾸면, 약한 계정 키도 바뀝니다. 그리고 기존에 있던 약한 계정 키로는 인증이 되지 않습니다."
 
-#~ msgid "Resource share and graphics"
-#~ msgstr "자원 공유와 그래픽"
-
-#~ msgid "fll"
-#~ msgstr "fll"
-
-#~ msgid "Tasks for computer %1"
-#~ msgstr "컴퓨터 작업 %1"
-
-#~ msgid "Provides"
-#~ msgstr "제공"
