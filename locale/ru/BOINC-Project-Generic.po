@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-15 22:43 PST\n"
+"POT-Creation-Date: 2010-01-20 12:49 PST\n"
 "PO-Revision-Date: 2010-01-20 12:32-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
@@ -20,15 +20,17 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 
-# The name of this language in this language<br />
+# The name of this language in this language
 # Имя языка в этом файле
+#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "Русский"
+msgstr "English"
 
-# The name of this language in an international language (English)<br />
+# The name of this language in an international language (English)
 # Имя языка в этом файле на интернациональном языке (английском)
+#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Russian"
+msgstr "English"
 
 msgid "Search for words in forum messages"
 msgstr "Поиск введенных слов в сообщениях на форумах"
@@ -1293,12 +1295,19 @@ msgstr "Russian"
 msgid "LANG_NAME_NATIVE"
 msgstr "Русский"
 
-#, fuzzy
-msgid "This web site is available in several languages. "
-msgstr "Этот веб-сайт доступен на нескольких языках. "
-
-msgid "Normally the choice of language "
+msgid ""
+"This web site is available in several languages. The currently selected "
+"language is: %1 (%2)."
 msgstr ""
+
+"
+
+msgid ""
+"Normally the choice of language is determined by your browser's language "
+"setting, which is: %1.  You can change this setting using:"
+msgstr ""
+
+"
 
 #, fuzzy
 msgid "Firefox: Tools/Options/General"
@@ -1310,9 +1319,13 @@ msgstr ""
 "Microsoft IE: Сервис/Свойства обозревателя/Языки (Tools/Internet "
 "Options/Languages)"
 
-#, fuzzy
-msgid "Or you can select a language by clicking on one of the links. "
-msgstr "Или Вы можете выбрать язык, нажав на одну из ссылок. "
+msgid ""
+"Or you can select a language by clicking on one of the links.  This will "
+"send your browser a cookie; make sure your browser accepts cookies from our "
+"domain."
+msgstr ""
+
+"
 
 msgid "Language symbol"
 msgstr "Языковой символ"
@@ -1705,6 +1718,14 @@ msgstr ""
 "Ваш слабый учетный ключ является функцией Вашего пароля. Если Вы измените "
 "свой пароль, Ваш слабый учетный ключ изменится, и Ваш предыдущий слабый "
 "учетный ключ станет недействительным."
+
+#, fuzzy
+#~ msgid "This web site is available in several languages. "
+#~ msgstr "Этот веб-сайт доступен на нескольких языках. "
+
+#, fuzzy
+#~ msgid "Or you can select a language by clicking on one of the links. "
+#~ msgstr "Или Вы можете выбрать язык, нажав на одну из ссылок. "
 
 #~ msgid "Resource share and graphics"
 #~ msgstr "Выделенные ресурсы и графика"

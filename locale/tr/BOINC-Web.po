@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Web Site\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-11 12:46 PST\n"
+"POT-Creation-Date: 2010-01-19 22:34 PST\n"
 "PO-Revision-Date: 2009-07-25 10:16+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
@@ -200,7 +200,7 @@ msgstr "Gönüllü olun"
 msgid "Download"
 msgstr "İndir"
 
-#: index.php:83 index.php:118 index.php:156
+#: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
 msgstr "Belgeler"
 
@@ -236,75 +236,92 @@ msgstr "BOINC ile hesaplatın"
 msgid "Software updates"
 msgstr "Yazılım güncellemeleri"
 
-#: index.php:146
+#: index.php:126
+msgid ""
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
+"you the computing power of thousands of CPUs."
+msgstr ""
+
+#: index.php:130
+msgid ""
+"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
+"Center%4."
+msgstr ""
+
+#: index.php:135
+msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
+msgstr ""
+
+#: index.php:147
 msgid "The BOINC project"
 msgstr "BOINC projesi"
 
-#: index.php:151
-msgid "Help wanted!"
-msgstr "Yardım aranıyor!"
-
 #: index.php:153
-msgid "Programming"
-msgstr "Programlama"
-
-#: index.php:154
-msgid "Translation"
-msgstr "Çeviri"
-
-#: index.php:155
-msgid "Testing"
-msgstr "Test etme"
-
-#: index.php:157
-msgid "Publicity"
-msgstr ""
-
-#: index.php:159
-msgid "Software development"
-msgstr "Yazılım geliştirme"
-
-#: index.php:160
-msgid "APIs for add-on software"
-msgstr "API'ler ve eklenti yazılımları"
-
-#: index.php:161
-msgid "Personnel and contributors"
-msgstr "Personel ve katkıda bulunanlar"
-
-#: index.php:162
 msgid "Message boards"
 msgstr "Mesaj panoları"
 
-#: index.php:163
+#: index.php:154
 msgid "Email lists"
 msgstr "E-posta listeleri"
 
-#: index.php:164
+#: index.php:155
+msgid "Personnel and contributors"
+msgstr "Personel ve katkıda bulunanlar"
+
+#: index.php:156
 msgid "Events"
 msgstr "Etkinlikler"
 
-#: index.php:165
-msgid "Conferences"
-msgstr "Konferanslar"
-
-#: index.php:166
+#: index.php:157
 msgid "Papers and talks"
 msgstr "Belgeler ve konuşmalar"
 
-#: index.php:167
-msgid "Logos and graphics"
-msgstr "Logo ve grafikler"
-
-#: index.php:168
+#: index.php:158
 msgid "Research projects"
 msgstr ""
 
-#: index.php:201
+#: index.php:159
+msgid "Logos and graphics"
+msgstr "Logo ve grafikler"
+
+#: index.php:160
+msgid "and"
+msgstr ""
+
+#: index.php:164
+#, fuzzy
+msgid "Help wanted"
+msgstr "Yardım aranıyor!"
+
+#: index.php:166
+msgid "Programming"
+msgstr "Programlama"
+
+#: index.php:167
+msgid "Translation"
+msgstr "Çeviri"
+
+#: index.php:168
+msgid "Testing"
+msgstr "Test etme"
+
+#: index.php:170
+msgid "Publicity"
+msgstr ""
+
+#: index.php:172
+msgid "Software development"
+msgstr "Yazılım geliştirme"
+
+#: index.php:173
+msgid "APIs for add-on software"
+msgstr "API'ler ve eklenti yazılımları"
+
+#: index.php:207
 msgid "Browser default"
 msgstr "Tarayıcı varsayılanı"
 
-#: index.php:248
+#: index.php:254
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
@@ -312,9 +329,12 @@ msgstr ""
 "Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s "
 "yazılımı."
 
-#: index.php:261
+#: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr ""
+
+#~ msgid "Conferences"
+#~ msgstr "Konferanslar"
 
 #~ msgid "[check all that apply]"
 #~ msgstr "[uygulamak için tümünü işaretleyin]"

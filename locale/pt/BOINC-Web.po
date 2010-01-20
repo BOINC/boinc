@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-11 12:46 PST\n"
+"POT-Creation-Date: 2010-01-19 22:34 PST\n"
 "PO-Revision-Date: 2006-09-18 17:43-0300\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: \n"
@@ -48,8 +48,8 @@ msgid ""
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
 "BOINC é um programa que o deixa doar tempo inactivo do seu computador à "
-"ciência, a projectos como SETI@home, Climateprediction.net, Rosetta@home, World "
-"Community Grid e muitos outros. <p> Depois de instalar o BOINC no seu "
+"ciência, a projectos como SETI@home, Climateprediction.net, Rosetta@home, "
+"World Community Grid e muitos outros. <p> Depois de instalar o BOINC no seu "
 "computador, pode conectá-lo a tantos projectos quantos quiser."
 
 #: download.php:91
@@ -57,8 +57,8 @@ msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
-"Pode correr este software num computador apenas se for o proprietário ou tiver "
-"permissão do mesmo."
+"Pode correr este software num computador apenas se for o proprietário ou "
+"tiver permissão do mesmo."
 
 #: download.php:116
 #, php-format
@@ -128,10 +128,10 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
-"A melhor maneira de obter ajuda é por voz, pelo que precisa de um "
-"microfone e colunas ou um headset externo ao seu computador. Pode também "
-"usar o sistema de chat do Skype ou o e-mail (se não tiver o Skype para "
-"comunicar com os voluntários)."
+"A melhor maneira de obter ajuda é por voz, pelo que precisa de um microfone "
+"e colunas ou um headset externo ao seu computador. Pode também usar o "
+"sistema de chat do Skype ou o e-mail (se não tiver o Skype para comunicar "
+"com os voluntários)."
 
 #: help.php:31
 msgid ""
@@ -207,7 +207,7 @@ msgstr "Voluntário"
 msgid "Download"
 msgstr "Download"
 
-#: index.php:83 index.php:118 index.php:156
+#: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
 msgstr "Documentação"
 
@@ -221,8 +221,8 @@ msgid ""
 msgstr ""
 " Use o tempo inactivo do seu computador (Windows, Mac ou Linux) para curar "
 "doenças, estudar o aquecimento global, descobrir pulsares e muito mais tipos "
-"de pesquisa cientíca. É seguro e fácil: %sEscolha%s projectos %"
-"sDownload%s e use o software BOINC  %sInsira%s um endereço de e-mail e password. "
+"de pesquisa cientíca. É seguro e fácil: %sEscolha%s projectos %sDownload%s "
+"e use o software BOINC  %sInsira%s um endereço de e-mail e password. "
 
 #: index.php:100
 #, php-format
@@ -230,8 +230,8 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"Ou, se corre vários projectos, experimente um %sgestor de conta%s como a %"
-"sGridRepublic%s ou o %sBAM!%s. "
+"Ou, se corre vários projectos, experimente um %sgestor de conta%s como a "
+"%sGridRepublic%s ou o %sBAM!%s. "
 
 #: index.php:116
 msgid "Compute with BOINC"
@@ -241,84 +241,105 @@ msgstr "Computar com o BOINC"
 msgid "Software updates"
 msgstr "Updates do software"
 
-#: index.php:146
+#: index.php:126
+msgid ""
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
+"you the computing power of thousands of CPUs."
+msgstr ""
+
+#: index.php:130
+msgid ""
+"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
+"Center%4."
+msgstr ""
+
+#: index.php:135
+msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
+msgstr ""
+
+#: index.php:147
 msgid "The BOINC project"
 msgstr "O Projecto BOINC"
 
-#: index.php:151
-msgid "Help wanted!"
-msgstr "Ajuda precisa-se!"
-
 #: index.php:153
-msgid "Programming"
-msgstr "Programando"
-
-#: index.php:154
-msgid "Translation"
-msgstr "Tradução"
-
-#: index.php:155
-msgid "Testing"
-msgstr "Testando"
-
-#: index.php:157
-msgid "Publicity"
-msgstr "Publicidade"
-
-#: index.php:159
-msgid "Software development"
-msgstr "Desenvolvimento de software"
-
-#: index.php:160
-msgid "APIs for add-on software"
-msgstr "Software add-on para APIs (Interface de Programação de Aplicativos)"
-
-#: index.php:161
-msgid "Personnel and contributors"
-msgstr "Pessoal e contribuintes"
-
-#: index.php:162
 msgid "Message boards"
 msgstr "Fóruns"
 
-#: index.php:163
+#: index.php:154
 msgid "Email lists"
 msgstr "Listas de email"
 
-#: index.php:164
+#: index.php:155
+msgid "Personnel and contributors"
+msgstr "Pessoal e contribuintes"
+
+#: index.php:156
 msgid "Events"
 msgstr "Eventos"
 
-#: index.php:165
-msgid "Conferences"
-msgstr "Conferências"
-
-#: index.php:166
+#: index.php:157
 msgid "Papers and talks"
 msgstr "Papéis e conversas"
 
-#: index.php:167
-msgid "Logos and graphics"
-msgstr "Logos e gráficos"
-
-#: index.php:168
+#: index.php:158
 msgid "Research projects"
 msgstr "Projectos de pesquisa"
 
-#: index.php:201
+#: index.php:159
+msgid "Logos and graphics"
+msgstr "Logos e gráficos"
+
+#: index.php:160
+msgid "and"
+msgstr ""
+
+#: index.php:164
+#, fuzzy
+msgid "Help wanted"
+msgstr "Ajuda precisa-se!"
+
+#: index.php:166
+msgid "Programming"
+msgstr "Programando"
+
+#: index.php:167
+msgid "Translation"
+msgstr "Tradução"
+
+#: index.php:168
+msgid "Testing"
+msgstr "Testando"
+
+#: index.php:170
+msgid "Publicity"
+msgstr "Publicidade"
+
+#: index.php:172
+msgid "Software development"
+msgstr "Desenvolvimento de software"
+
+#: index.php:173
+msgid "APIs for add-on software"
+msgstr "Software add-on para APIs (Interface de Programação de Aplicativos)"
+
+#: index.php:207
 msgid "Browser default"
 msgstr "Navegador por default"
 
-#: index.php:248
+#: index.php:254
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
-"Software de open-source para a %scomputação voluntária%s e %srede de computação%s."
+"Software de open-source para a %scomputação voluntária%s e %srede de "
+"computação%s."
 
-#: index.php:261
+#: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr "O Boinc está sedeado na Universidade da California, Berkeley"
+
+#~ msgid "Conferences"
+#~ msgstr "Conferências"
 
 #~ msgid "[check all that apply]"
 #~ msgstr "[marque aqueles que se aplicam]"
@@ -608,7 +629,7 @@ msgstr "O Boinc está sedeado na Universidade da California, Berkeley"
 #~ "Please try again later."
 #~ msgstr ""
 #~ "Um erro interno impediu-nos de guardar as repostas do seu questionário.  "
-"~ "Por favor tente mais tarde."
+#~ "~ "Por favor tente mais tarde."
 
 #~ msgid "Survey response recorded"
 #~ msgstr "Respostas do questionário guardadas"
@@ -689,7 +710,7 @@ msgstr "O Boinc está sedeado na Universidade da California, Berkeley"
 #, fuzzy
 #~ msgid "POLL_COMMENTS_QUESTION"
 #~ msgstr "Por favor, sugira maneiras para que o BOINC e projectos que o usem, possam ser melhorados:"
-           
+
 #, fuzzy
 #~ msgid "POLL_OTHER"
 #~ msgstr "Outro:"

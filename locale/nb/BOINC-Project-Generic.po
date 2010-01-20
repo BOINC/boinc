@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC-prject-generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-15 22:43 PST\n"
+"POT-Creation-Date: 2010-01-20 12:49 PST\n"
 "PO-Revision-Date: 2009-11-29 09:58+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
@@ -1348,21 +1348,21 @@ msgstr ""
 "
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr ""
-
-"
+msgstr "English"
 
 msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+msgid ""
+"This web site is available in several languages. The currently selected "
+"language is: %1 (%2)."
 msgstr ""
 
 "
 
-msgid "This web site is available in several languages. "
-msgstr ""
-
-"
-
-msgid "Normally the choice of language "
+msgid ""
+"Normally the choice of language is determined by your browser's language "
+"setting, which is: %1.  You can change this setting using:"
 msgstr ""
 
 "
@@ -1377,7 +1377,10 @@ msgstr ""
 
 "
 
-msgid "Or you can select a language by clicking on one of the links. "
+msgid ""
+"Or you can select a language by clicking on one of the links.  This will "
+"send your browser a cookie; make sure your browser accepts cookies from our "
+"domain."
 msgstr ""
 
 "
@@ -1741,10 +1744,9 @@ msgstr ""
 msgid "Decreasing average credit"
 msgstr "Nylig gjennomsnitts kreditt"
 
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
-
-"
+msgstr "Nylig gjennomsnitts kreditt"
 
 msgid "Filters"
 msgstr ""
