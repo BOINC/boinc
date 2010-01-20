@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-15 22:43 PST\n"
+"POT-Creation-Date: 2010-01-20 12:49 PST\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -1480,39 +1480,46 @@ msgstr ""
 msgid "LANG_NAME_NATIVE"
 msgstr ""
 
-#: ../user/language_select.php:44
-msgid "This web site is available in several languages. "
+#: ../user/language_select.php:45
+msgid ""
+"This web site is available in several languages. The currently selected "
+"language is: %1 (%2)."
 msgstr ""
 
-#: ../user/language_select.php:50
-msgid "Normally the choice of language "
+#: ../user/language_select.php:52
+msgid ""
+"Normally the choice of language is determined by your browser's language "
+"setting, which is: %1.  You can change this setting using:"
 msgstr ""
 
-#: ../user/language_select.php:55
+#: ../user/language_select.php:57
 msgid "Firefox: Tools/Options/General"
 msgstr ""
 
-#: ../user/language_select.php:56
+#: ../user/language_select.php:59
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
 
-#: ../user/language_select.php:59
-msgid "Or you can select a language by clicking on one of the links. "
+#: ../user/language_select.php:63
+msgid ""
+"Or you can select a language by clicking on one of the links.  This will "
+"send your browser a cookie; make sure your browser accepts cookies from our "
+"domain."
 msgstr ""
 
-#: ../user/language_select.php:66
+#: ../user/language_select.php:69
 msgid "Language symbol"
 msgstr ""
 
-#: ../user/language_select.php:66
+#: ../user/language_select.php:69
 msgid "Language name (click to select)"
 msgstr ""
 
-#: ../user/language_select.php:68
+#: ../user/language_select.php:71
 msgid "Use browser language setting"
 msgstr ""
 
-#: ../user/language_select.php:81
+#: ../user/language_select.php:84
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
