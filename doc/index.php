@@ -121,15 +121,21 @@ function show_create() {
         </td></tr>
         <tr><td>
         <ul>
-        <li><b>Scientists</b>: 
-        use BOINC to create a
-        <a href=volunteer.php>volunteer computing project</a>,
-        giving you the computing power of thousands of CPUs.
-        <li><b>Universities</b>: use BOINC to create a
-        <a href=\"trac/wiki/VirtualCampusSupercomputerCenter\">Virtual Campus Supercomputing Center</a>.
-        <li><b>Companies</b>:
-        use BOINC for <a href=dg.php>desktop Grid computing</a>.
-        </ul>
+        <li>
+    ",
+    tra("%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving you the computing power of thousands of CPUs.",
+        "<b>", "</b>", "<a href=volunteer.php>", "</a>"
+    ),
+    "<li>",
+    tra("%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing Center%4.",
+        "<b>", "</b>",
+        "<a href=\"trac/wiki/VirtualCampusSupercomputerCenter\">", "</a>"
+    ),
+    "<li>",
+    tra("%1Companies%2: use BOINC for %3desktop Grid computing%4.",
+        "<b>", "</b>", "<a href=dg.php>", "</a>"
+    ),
+    " </ul>
         </td></tr>
     ";
 }
@@ -151,7 +157,7 @@ function show_other() {
             <li> <a href=\"trac/wiki/BoincPapers\">".tra("Papers and talks")."</a>
             <li> <a href=\"trac/wiki/ResearchProjects\">".tra("Research projects")."</a>
             <li> <a href=logo.php>".tra("Logos and graphics")."</a>
-            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a> and  <a href=\"http://bossa.berkeley.edu/\">Bossa</a>
+            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a> ",tra("and"),  <a href=\"http://bossa.berkeley.edu/\">Bossa</a>
             </ul>
             </td><td valign=top>
             <ul>
