@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-11 12:46 PST\n"
-"PO-Revision-Date: 2010-01-11 10:29-0700\n"
+"PO-Revision-Date: 2010-01-20 11:39-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -17,16 +17,16 @@ msgstr ""
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Suche"
 
 #: docutil.php:101
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Zurück zur BOINC Hauptseite"
 
 #: docutil.php:112
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Diese Seite ist %sübersetzbar%s."
 
 # #######################################<br />
 # download.php<br />
@@ -58,16 +58,17 @@ msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"Sie dürfen die Software nur auf einem Computer benutzen wenn Sie der "
+"Eigentümer sind oder das Einverständnis des Besitzers haben."
 
 #: download.php:116
 #, php-format
-#, fuzzy
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
-"Hinweis: Wenn Ihr Computer mit einer NVIDIA Grafikkarte ausgestattet ist "
-"(GPU), könnten Sie damit %sdie Berechnung beschleunigen%s."
+"Hinweis: Wenn Ihr Computer mit einer NVIDIA Grafikkarte (GPU) ausgestattet "
+"ist, könnten Sie damit %sdie Berechnung beschleunigen%s."
 
 #: download.php:122
 msgid "System requirements"
@@ -87,7 +88,7 @@ msgstr "Alle Versionen"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "Versionshistorie"
 
 #: download.php:143
 msgid "BOINC: compute for science"
@@ -265,7 +266,7 @@ msgstr "Testen"
 
 #: index.php:157
 msgid "Publicity"
-msgstr ""
+msgstr "Öffentlichkeitsarbeit"
 
 #: index.php:159
 msgid "Software development"
@@ -305,7 +306,7 @@ msgstr "Logos und Grafiken"
 
 #: index.php:168
 msgid "Research projects"
-msgstr ""
+msgstr "Forschungsprojekte"
 
 #: index.php:201
 msgid "Browser default"
@@ -321,7 +322,7 @@ msgstr ""
 
 #: index.php:261
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC wird an der Universität von Kalifornien in Berkeley entwickelt."
 
 #~ msgid "[check all that apply]"
 #~ msgstr "[zutreffendes auswählen]"
