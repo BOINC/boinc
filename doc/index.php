@@ -157,7 +157,7 @@ function show_other() {
             <li> <a href=\"trac/wiki/BoincPapers\">".tra("Papers and talks")."</a>
             <li> <a href=\"trac/wiki/ResearchProjects\">".tra("Research projects")."</a>
             <li> <a href=logo.php>".tra("Logos and graphics")."</a>
-            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a> ",tra("and"),  <a href=\"http://bossa.berkeley.edu/\">Bossa</a>
+            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a> ",tra("and"),  "<a href=\"http://bossa.berkeley.edu/\">Bossa</a>
             </ul>
             </td><td valign=top>
             <ul>
