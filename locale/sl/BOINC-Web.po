@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2009-12-15 11:54-0700\n"
+"PO-Revision-Date: 2010-01-21 08:34-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -16,25 +16,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3);\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Iskanje"
 
 #: docutil.php:101
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Vrnite se na glavno stran BOINC"
 
 #: docutil.php:112
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Ta stran je %sprevedljiva%s."
 
 #: download.php:40
 msgid "Download BOINC"
-msgstr "Naloži BOINC"
+msgstr "Prenesite BOINC"
 
 #: download.php:42
 #, php-format
@@ -58,16 +58,17 @@ msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"To programsko opremo lahko poganjate samo na računalniku, ki je vaš ali pa "
+"imate dovoljenje njegovega lastnika."
 
 #: download.php:116
 #, php-format
-#, fuzzy
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
-"Opomba: če je vaš računalnik opremeljen z NVIDIA grafičnim procesorjem, ga "
-"morda lahko %suporabite, da računate hitreje%s"
+"Opomba: če je vaš računalnik opremeljen z grafičnim procesorjem, ga morda "
+"lahko %suporabite, da računate hitreje%s"
 
 #: download.php:122
 msgid "System requirements"
@@ -87,7 +88,7 @@ msgstr "Vse različice"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "Zgodovina različic"
 
 #: download.php:143
 msgid "BOINC: compute for science"
@@ -245,16 +246,20 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%1Znanstveniki%2: uporabite BOINC, da ustvarite %3projekt prostovoljnega "
+"računanja%4, kar vam da računsko moč tisočev procesorjev."
 
 #: index.php:130
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Univerze%2: uporabite BOINC, da ustvarite %3navidezni univerzitetni "
+"superračunalniški center%4."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr ""
+msgstr "%1Podjetja%2: uporabite BOINC za %3namizno mrežno računanje%4."
 
 #: index.php:147
 msgid "The BOINC project"
@@ -282,7 +287,7 @@ msgstr "Članki in govori"
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Raziskovalni projekti"
 
 #: index.php:159
 msgid "Logos and graphics"
@@ -290,12 +295,11 @@ msgstr "Logotipi in grafika"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "in"
 
 #: index.php:164
-#, fuzzy
 msgid "Help wanted"
-msgstr "Potrebujemo pomoč!"
+msgstr "Potrebujemo pomoč"
 
 #: index.php:166
 msgid "Programming"
@@ -311,7 +315,7 @@ msgstr "Testiranje"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "Publiciteta"
 
 #: index.php:172
 msgid "Software development"
@@ -335,7 +339,7 @@ msgstr ""
 
 #: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC se nahaja na University of California, Berkeley"
 
 #~ msgid "Conferences"
 #~ msgstr "Konference"
