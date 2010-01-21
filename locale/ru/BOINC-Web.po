@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-01-21 09:59-0700\n"
+"PO-Revision-Date: 2010-01-21 10:30-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -255,20 +255,30 @@ msgid "Software updates"
 msgstr "Обновления серверного ПО"
 
 #: index.php:126
+#, fuzzy
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%1Ученые%2: используйте BOINC, чтобы создать %3проект добровольных "
+"распределённых вычислений%4, дающий Вам вычислительную мощь тысяч "
+"центральных процессоров."
 
 #: index.php:130
+#, fuzzy
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Университеты%2: используйте BOINC, чтобы создать %3Виртуальный "
+"Суперкомпьютерный Центр Университетского городка%4."
 
 #: index.php:135
+#, fuzzy
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr ""
+"%1Компании%2: используйте BOINC для %3распределённых вычислений на "
+"настольных компьютерах%4."
 
 #: index.php:147
 msgid "The BOINC project"
@@ -352,7 +362,7 @@ msgstr ""
 #: index.php:267
 #, fuzzy
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr "BOINC базируется в Университете Калифорнии, Беркли"
+msgstr "BOINC находится в Университете Калифорнии, Беркли"
 
 #~ msgid "Conferences"
 #~ msgstr "Конференции"

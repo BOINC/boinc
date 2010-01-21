@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2009-07-29 12:05-0700\n"
+"PO-Revision-Date: 2010-01-21 10:55-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -22,16 +22,16 @@ msgstr ""
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Zoeken"
 
 #: docutil.php:101
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Terug naar de BOINC hoofd pagina"
 
 #: docutil.php:112
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Deze pagina is %svertaalbaar%s."
 
 #: download.php:40
 msgid "Download BOINC"
@@ -60,15 +60,16 @@ msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"Je mag deze software alleen gebruiken op een computer van jezelf, of als de "
+"eigenaar toestemming heeft gegeven."
 
 #: download.php:116
 #, php-format
-#, fuzzy
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
-"Let op: Indien je computer is voorzien van een NVIDIA videokaart (GPU) is "
+"Let op: Indien je computer is voorzien van een grafische processor (GPU) is "
 "het misschien mogelijk deze in te zetten om %sje computer sneller te laten "
 "werken%s"
 
@@ -90,7 +91,7 @@ msgstr "Alle versies"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "Vorige versies"
 
 #: download.php:143
 msgid "BOINC: compute for science"
@@ -248,12 +249,14 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%1Wetenschappers%2: gebruik BOINC voor een %3vrijwillig reken project%4 "
+"gebruik makend van de kracht van duizenden processoren."
 
 #: index.php:130
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr ""
+msgstr "%1Universiteiten%2: gebruik BOINC als een %3Virtuele Supercomputer%4."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
