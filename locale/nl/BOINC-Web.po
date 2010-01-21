@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-01-21 10:55-0700\n"
+"PO-Revision-Date: 2010-01-21 11:12-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -256,11 +256,11 @@ msgstr ""
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr "%1Universiteiten%2: gebruik BOINC als een %3Virtuele Supercomputer%4."
+msgstr "%1Universiteiten%2: gebruik BOINC als een %3virtuele supercomputer%4."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr ""
+msgstr "%1Bedrijven%2: gebruik BOINC als een %3cluster van werkplekken%4."
 
 #: index.php:147
 msgid "The BOINC project"
@@ -288,7 +288,7 @@ msgstr "Publicaties en besprekingen"
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Onderzoeksprojecten"
 
 #: index.php:159
 msgid "Logos and graphics"
@@ -296,10 +296,9 @@ msgstr "Logo's en afbeeldingen"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "en"
 
 #: index.php:164
-#, fuzzy
 msgid "Help wanted"
 msgstr "Hulp gezocht!"
 
@@ -317,7 +316,7 @@ msgstr "Testen"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "Publiciteit"
 
 #: index.php:172
 msgid "Software development"
@@ -340,7 +339,7 @@ msgstr ""
 
 #: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC is gevestigd op de Universiteit van Californië, Berkeley"
 
 #~ msgid "Conferences"
 #~ msgstr "Conferenties"
