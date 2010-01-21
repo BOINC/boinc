@@ -828,6 +828,8 @@ static void demote_unstarted_edf(vector<RESULT*>& runnable_jobs) {
     list<RESULT*> x;
     RESULT *rp, *rp2;
 
+    if (runnable_jobs.empty()) return;
+
     // transfer to a list
     //
     unsigned int i;
@@ -839,9 +841,14 @@ static void demote_unstarted_edf(vector<RESULT*>& runnable_jobs) {
     // if find a started job, scan backwards from there,
     // looking for jobs to demote
     //
-    for (list<RESULT*>::iterator p = x.end(); p != x.begin(); --p) {
+    list<RESULT*>::iterator p = x.end();
+    --p;
+    while(p != x.begin()) {
         rp = *p;
-        if (rp->not_started()) continue;
+        if (rp->not_started()) {
+            --p;
+            continue;
+        }
         list<RESULT*>::iterator q = p;
         --q;
         while (1) {
@@ -868,8 +875,8 @@ static void demote_unstarted_edf(vector<RESULT*>& runnable_jobs) {
                 }
                 --q;
             }
-
         }
+        --p;
     }
 
     // transfer back to vector
