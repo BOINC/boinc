@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-20 12:49 PST\n"
-"PO-Revision-Date: 2010-01-21 09:58-0700\n"
+"PO-Revision-Date: 2010-01-21 10:32-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -1269,30 +1269,35 @@ msgstr ""
 "browser, nu ingesteld: %1  Als volgt aan te passen bij:"
 
 msgid "Firefox: Tools/Options/General"
-msgstr ""
+msgstr "Firefox: Extra/Opties/Inhoud"
 
 msgid "Microsoft IE: Tools/Internet Options/Languages"
-msgstr ""
+msgstr "Microsoft IE: Extra/Internet Opties/Algemeen"
 
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
+"Ook is het mogelijk een taal te selecteren door op een van de links te "
+"klikken.  Er wordt dan een cookie naar je browser verstuurd indien deze dit "
+"accepteert."
 
 msgid "Language symbol"
-msgstr ""
+msgstr "Taal symbool"
 
 msgid "Language name (click to select)"
-msgstr ""
+msgstr "Taal (klik om te selecteren)"
 
 msgid "Use browser language setting"
-msgstr ""
+msgstr "Gebruik taal instelling van browser"
 
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
+"Vertalingen worden door vrijwilligers gemaakt.  Indien jouw taal niet "
+"voorkomt kan je %1een nieuwe vertaling aanmaken%2"
 
 msgid "Your message has been sent."
 msgstr "Je bericht is verzonden."
@@ -1452,7 +1457,7 @@ msgid "Missing user ID or host ID"
 msgstr "Gebruikers of computer ID niet aanwezig"
 
 msgid "No tasks to display"
-msgstr ""
+msgstr "Geen taken om weer te geven"
 
 msgid "User of the day"
 msgstr "Gebruiker van de dag"
@@ -1571,46 +1576,43 @@ msgid "Participant since"
 msgstr "Deelnemer sinds"
 
 msgid "Joined"
-msgstr ""
+msgstr "Aangemeld"
 
 msgid "Search type"
-msgstr ""
+msgstr "Zoek type"
 
 msgid "User name starts with"
-msgstr ""
+msgstr "Gebruikersnaam begint met"
 
 msgid "Decreasing sign-up time"
-msgstr ""
+msgstr "Oplopende aanmeldings datum"
 
-#, fuzzy
 msgid "Decreasing average credit"
-msgstr "Gemiddelde punten"
+msgstr "Oplopend punten gemiddelde"
 
-#, fuzzy
 msgid "Decreasing total credit"
-msgstr "Gemiddelde punten"
+msgstr "Oplopend punten totaal"
 
 msgid "Filters"
-msgstr ""
+msgstr "Filter"
 
 msgid "With profile?"
-msgstr ""
+msgstr "Met een profiel?"
 
 msgid "On a team?"
-msgstr ""
+msgstr "Lid van een team?"
 
 msgid "search string must be at least 3 characters"
-msgstr ""
+msgstr "zoek waarde moet minimaal 3 karakters lang zijn"
 
 msgid "User names starting with"
-msgstr ""
+msgstr "Gebruikersnamen beginnend met"
 
 msgid "No users match your search criteria."
-msgstr ""
+msgstr "Zoek opdracht heeft geen gebruikers opgeleverd."
 
-#, fuzzy
 msgid "User search results"
-msgstr "Forum zoek resultaten"
+msgstr "Zoek resultaten voor gebruiker"
 
 msgid "This user has no profile"
 msgstr "Deze gebruiker heeft geen profiel"
