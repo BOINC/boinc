@@ -586,3 +586,12 @@ David  19 Jan 2010
         work_fetch.cpp,h
     html/user/
         language_select.php
+
+Charlie  21 Jan 2010
+    - MGR: Implement Mac accessibility for Event Log.
+
+    clientgui/
+        BOINCListCtrl.h
+        DlgEventLogListCtrl.cpp, .h
+        mac/
+            MacAccessiblity.cpp, .h

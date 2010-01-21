@@ -22,16 +22,28 @@
 #pragma interface "DlgEventLogListCtrl.cpp"
 #endif
 
+#ifdef __WXMAC__
+#include "macAccessiblity.h"
+#define LISTCTRL_BASE wxGenericListCtrl
+#else
+#define LISTCTRL_BASE wxListView
+#endif
+
 #define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
 
 class CDlgEventLog;
 
-class CDlgEventLogListCtrl : public wxListView {
+class CDlgEventLogListCtrl : public LISTCTRL_BASE
+{
     DECLARE_DYNAMIC_CLASS(CDlgEventLogListCtrl)
 
 public:
     CDlgEventLogListCtrl();
     CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, int iListWindowFlags);
+
+#ifdef __WXMAC__
+    ~CDlgEventLogListCtrl();
+#endif
 
 private:
     
@@ -43,6 +55,16 @@ private:
     bool                    m_bIsSingleSelection;
 
     CDlgEventLog*           m_pParentView;
+
+#ifdef __WXMAC__
+    void                    SetupMacAccessibilitySupport();
+    void                    RemoveMacAccessibilitySupport();
+
+    struct ListAccessData   accessibilityHandlerData;
+    
+    EventHandlerRef         m_pHeaderAccessibilityEventHandlerRef;
+    EventHandlerRef         m_pBodyAccessibilityEventHandlerRef;
+#endif
 };
 
 #endif

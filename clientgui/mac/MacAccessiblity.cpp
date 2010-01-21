@@ -23,9 +23,11 @@
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCBaseView.h"
+#include "DlgEventLog.h"
 #include "MainDocument.h"
 #include "AdvancedFrame.h"
 #include "BOINCListCtrl.h"
+#include "DlgEventLogListCtrl.h"
 #include "ProjectListCtrl.h"
 #include "ViewStatistics.h"
 #include "wxPieCtrl.h"
@@ -98,25 +100,71 @@ pascal OSStatus PieCtrlAccessibilityEventHandler( EventHandlerCallRef inHandlerC
 
 void CBOINCListCtrl::SetupMacAccessibilitySupport() {
 #if !USE_NATIVE_LISTCONTROL
-    HIViewRef       listControlView;
-    OSErr           err;
+    HIViewRef                       listControlView;
+    HIViewRef                       headerView;
+    HIViewRef                       bodyView;
+    OSErr                           err;
 
     listControlView = (HIViewRef)GetHandle();
-    m_headerView = HIViewGetFirstSubview(listControlView);
-    m_bodyView = HIViewGetNextView(m_headerView);
-    err = HIViewSetEnabled(m_headerView, true);
-    err = InstallHIObjectEventHandler((HIObjectRef)m_headerView, NewEventHandlerUPP(BOINCListHeaderAccessibilityEventHandler), 
+    headerView = HIViewGetFirstSubview(listControlView);
+    bodyView = HIViewGetNextView(headerView);
+    err = HIViewSetEnabled(headerView, true);
+    
+    accessibilityHandlerData.pList = (wxGenericListCtrl*)this;
+    accessibilityHandlerData.pView = m_pParentView;
+    accessibilityHandlerData.headerView = headerView;
+    accessibilityHandlerData.bodyView = bodyView;
+    accessibilityHandlerData.pEventLog = NULL;
+    
+    err = InstallHIObjectEventHandler((HIObjectRef)headerView, NewEventHandlerUPP(BOINCListHeaderAccessibilityEventHandler), 
                                 sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
-                                                        this, &m_pHeaderAccessibilityEventHandlerRef);
+                                                        &accessibilityHandlerData, &m_pHeaderAccessibilityEventHandlerRef);
 
-    err = InstallHIObjectEventHandler((HIObjectRef)m_bodyView, NewEventHandlerUPP(BOINCListBodyAccessibilityEventHandler), 
+    err = InstallHIObjectEventHandler((HIObjectRef)bodyView, NewEventHandlerUPP(BOINCListBodyAccessibilityEventHandler), 
                                 sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
-                                                        this, &m_pBodyAccessibilityEventHandlerRef); 
+                                                        &accessibilityHandlerData, &m_pBodyAccessibilityEventHandlerRef); 
 #endif
 }
 
 
 void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
+#if !USE_NATIVE_LISTCONTROL
+    ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
+    ::RemoveEventHandler(m_pBodyAccessibilityEventHandlerRef);
+#endif
+}
+
+
+void CDlgEventLogListCtrl::SetupMacAccessibilitySupport() {
+#if !USE_NATIVE_LISTCONTROL
+    HIViewRef                       listControlView;
+    HIViewRef                       headerView;
+    HIViewRef                       bodyView;
+    OSErr                           err;
+
+    listControlView = (HIViewRef)GetHandle();
+    headerView = HIViewGetFirstSubview(listControlView);
+    bodyView = HIViewGetNextView(headerView);
+    err = HIViewSetEnabled(headerView, true);
+    
+    accessibilityHandlerData.pList = (wxGenericListCtrl*)this;
+    accessibilityHandlerData.pView = NULL;
+    accessibilityHandlerData.headerView = headerView;
+    accessibilityHandlerData.bodyView = bodyView;
+    accessibilityHandlerData.pEventLog = m_pParentView;
+    
+    err = InstallHIObjectEventHandler((HIObjectRef)headerView, NewEventHandlerUPP(BOINCListHeaderAccessibilityEventHandler), 
+                                sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
+                                                        &accessibilityHandlerData, &m_pHeaderAccessibilityEventHandlerRef);
+
+    err = InstallHIObjectEventHandler((HIObjectRef)bodyView, NewEventHandlerUPP(BOINCListBodyAccessibilityEventHandler), 
+                                sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
+                                                        &accessibilityHandlerData, &m_pBodyAccessibilityEventHandlerRef); 
+#endif
+}
+
+
+void CDlgEventLogListCtrl::RemoveMacAccessibilitySupport() {
 #if !USE_NATIVE_LISTCONTROL
     ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
     ::RemoveEventHandler(m_pBodyAccessibilityEventHandlerRef);
@@ -242,7 +290,11 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
     const UInt32        eventClass = GetEventClass(inEvent);
     const UInt32        eventKind = GetEventKind(inEvent);
     OSStatus            err;
-    CBOINCListCtrl*     pList = (CBOINCListCtrl*)pData;
+    wxGenericListCtrl*  pList = ((struct ListAccessData*)pData)->pList;
+    CBOINCBaseView*     pView = ((struct ListAccessData*)pData)->pView;
+    HIViewRef           headerView = ((struct ListAccessData*)pData)->headerView;
+    HIViewRef           bodyView = ((struct ListAccessData*)pData)->bodyView;
+    CDlgEventLog*       pEventLog = ((struct ListAccessData*)pData)->pEventLog;
 
     if (eventClass != kEventClassAccessibility) {
         return eventNotHandledErr;
@@ -253,7 +305,6 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
     UInt64              outIdentifier = 0;
     SInt32              row = 0;
     SInt32              col = 0;
-    CBOINCBaseView*     pView = NULL;
     HIObjectRef         obj = NULL;
     
     err = GetEventParameter (inEvent, kEventParamAccessibleObject, 
@@ -262,8 +313,6 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
     
     AXUIElementGetIdentifier( element, &inIdentifier );
     obj = AXUIElementGetHIObject(element);
-
-    pView = pList->GetParentView();
      
     if (inIdentifier) {
         if (! isHeader) {
@@ -305,7 +354,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
             }
             
             if (isHeader) {
-                if ((p.y > 0) || (p.y < -pList->GetHeaderHeight())) {
+                if ((p.y > 0) || (p.y < -pList->m_headerHeight)) {
                     return noErr;
                 }
                 outIdentifier = col+1;
@@ -469,7 +518,13 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                         str = _("blank");
                     } else {
                         str = _("list of ");
-                        str += pView->GetViewDisplayName();
+                        if (pEventLog) {
+                            str += _("events");
+                        } else {
+                            if (pView) {
+                                str += pView->GetViewDisplayName();
+                            }
+                        }
                         if (pList->GetItemCount() <= 0) {
                             str += _(" is empty"); 
                         }
@@ -484,7 +539,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     AXUIElementRef		parent;
                     HIViewRef           parentView;
 
-                    parentView = HIViewGetSuperview(isHeader ? pList->m_headerView : pList->m_bodyView);
+                    parentView = HIViewGetSuperview(isHeader ? headerView : bodyView);
                     parent = AXUIElementCreateWithHIObjectAndIdentifier((HIObjectRef)parentView, 0);
                     if (parent == NULL) {
                         return eventNotHandledErr;
@@ -496,7 +551,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                 } else if ( CFStringCompare( attribute, kAXSizeAttribute, 0 ) == kCFCompareEqualTo ) {
                     HIRect          r;
                     
-                    err = HIViewGetBounds(isHeader ? pList->m_headerView : pList->m_bodyView, &r);
+                    err = HIViewGetBounds(isHeader ? headerView : bodyView, &r);
                     HISize          size = r.size;
                     
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeHISize, sizeof( HISize ), &size );
@@ -506,14 +561,14 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     HIRect          r;
                     HIPoint         pt;
                     
-                    err = HIViewGetBounds(isHeader ? pList->m_headerView : pList->m_bodyView, &r);
+                    err = HIViewGetBounds(isHeader ? headerView : bodyView, &r);
                      int             x = r.origin.x, y = r.origin.y;
                     
                     // Now convert to global coordinates
                     pList->ClientToScreen(&x, &y);
                     pt.x = x;
                     if (isHeader) {
-                        pt.y = y - pList->GetHeaderHeight();
+                        pt.y = y - pList->m_headerHeight;
                     } else {
                         pt.y = y;
                     }
@@ -531,6 +586,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                 if ( CFStringCompare( attribute, kAXDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
                     wxString        str, buf;
                     int             rowCount;
+                    Boolean         isCurrentSortCol = false;
 
                     if (isHeader) {
                         wxListItem      headerItem;
@@ -542,7 +598,12 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                         
                         pList->GetColumn(col, headerItem);
                         buf.Printf(_("%d of %d; "), col+1, pList->GetColumnCount());
-                        if (col == pView->m_iSortColumn) {
+                        if (pView) {
+                            if (col == pView->m_iSortColumn) {
+                                isCurrentSortCol = true;
+                            }
+                        }
+                        if (isCurrentSortCol) {
                             str = _("current sort column ");
                             str += buf;
                             str += (pView->m_bReverseSort ? _(" descending order ") : _(" ascending order "));
@@ -570,7 +631,11 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                            }
                             buf.Printf(_("column %d; "), col+1);
                             str += buf;
-                            buf = pView->FireOnListGetItemText(row, col);
+                            if (pEventLog) {
+                                buf = pEventLog->OnListGetItemText(row, col);
+                            } else {
+                                buf = pView->FireOnListGetItemText(row, col);
+                            }
                             if (buf.IsEmpty()) {
                                 buf = _("blank");
                             }
@@ -586,7 +651,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     AXUIElementRef		parent;
                     HIViewRef           parentView;
 
-                    parentView = isHeader ? pList->m_headerView : pList->m_bodyView;
+                    parentView = isHeader ? headerView : bodyView;
                     parent = AXUIElementCreateWithHIObjectAndIdentifier((HIObjectRef)parentView, 0);
                     if (parent == NULL) {
                         return eventNotHandledErr;
@@ -676,7 +741,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     // Return the size of this part as an HISize.
                     size.width = pList->GetColumnWidth(col);
                     if (isHeader) {
-                        size.height = pList->GetHeaderHeight();
+                        size.height = pList->m_headerHeight;
                     } else {    // ! isHeader
                         pList->GetItemRect(row, r);
                         size.height = r.height;
@@ -703,7 +768,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     // Now convert to global coordinates
                     pList->ClientToScreen(&x, &y);
                     pt.x = x;
-                    pt.y = y - pList->GetHeaderHeight();
+                    pt.y = y - pList->m_headerHeight;
 
                     SetEventParameter(inEvent, kEventParamAccessibleAttributeValue, typeHIPoint, sizeof(HIPoint), &pt);
                     return noErr;
@@ -859,8 +924,10 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                 event.m_col = col;
                 pList->AddPendingEvent(event);
             } else {
-                pView->ClearSelections();
-                pList->SelectRow(row, true);
+                if (pView) {
+                    pView->ClearSelections();
+                }
+                pList->SetItemState(row,  wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
             }
             return noErr;
         }

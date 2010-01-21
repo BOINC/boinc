@@ -33,18 +33,30 @@
 #include "DlgEventLog.h"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CDlgEventLogListCtrl, wxListView)
+IMPLEMENT_DYNAMIC_CLASS(CDlgEventLogListCtrl, LISTCTRL_BASE)
 
 
 CDlgEventLogListCtrl::CDlgEventLogListCtrl() {}
 
 CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags)
-    :wxListView(pView, iListWindowID, wxDefaultPosition, wxSize(640,480), iListWindowFlags) 
+    : LISTCTRL_BASE(pView, iListWindowID, wxDefaultPosition, wxSize(640,480), iListWindowFlags) 
 {
     m_pParentView = pView;
 
     m_bIsSingleSelection = (iListWindowFlags & wxLC_SINGLE_SEL) ? true : false ;
+
+#ifdef __WXMAC__
+    SetupMacAccessibilitySupport();
+#endif
 }
+
+
+#ifdef __WXMAC__
+CDlgEventLogListCtrl::~CDlgEventLogListCtrl()
+{
+    RemoveMacAccessibilitySupport();
+}
+#endif
 
 
 wxString CDlgEventLogListCtrl::OnGetItemText(long item, long column) const {
