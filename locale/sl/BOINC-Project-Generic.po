@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-20 12:49 PST\n"
-"PO-Revision-Date: 2009-12-15 11:48-0700\n"
+"PO-Revision-Date: 2010-01-21 08:00-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -16,16 +16,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3);\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Slovenščina"
 
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Slovenian"
 
 msgid "Search for words in forum messages"
 msgstr "Išči besede v sporočilih foruma"
@@ -91,15 +89,11 @@ msgid "Mark all threads in all message boards as 'read'."
 msgstr "Označi vse teme na vseh oglasnih deskah kot 'prebrane'."
 
 msgid "Comment"
-msgstr ""
-
-"
+msgstr "Komentar"
 
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
-
-"
+msgstr "Novice so na voljo kot %sRSS vir%s"
 
 msgid "Inbox"
 msgstr "Nabiralnik"
@@ -148,9 +142,7 @@ msgid "unread"
 msgstr "neprebrano"
 
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
-
-"
+msgstr "Za obveščanje po e-pošti, %1uredite nastavitve skupnosti%2"
 
 msgid "Edit your profile"
 msgstr "Uredite vaš profil"
@@ -400,17 +392,14 @@ msgid "Cross-project statistics"
 msgstr "Medprojektna statistika"
 
 msgid "Account"
-msgstr ""
-
-"
+msgstr "Račun"
 
 #: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Team"
 msgstr "Ekipa"
 
-#, fuzzy
 msgid "Cross-project"
-msgstr "Medprojektni ID"
+msgstr "Medprojektno"
 
 msgid "Certificate"
 msgstr "Certifikat"
@@ -482,9 +471,7 @@ msgid "Community preferences"
 msgstr "Nastavitve skupnosti"
 
 msgid "Preferences for this project"
-msgstr ""
-
-"
+msgstr "Nastavitve za ta projekt"
 
 msgid "%1 preferences"
 msgstr "%1 nastavitve"
@@ -559,43 +546,29 @@ msgstr "Dodaj kot prijatelja"
 msgid "CHARSET"
 msgstr "nabor znakov"
 
-#, fuzzy
 msgid "Email address:"
-msgstr "Naslov elektronske pošte"
+msgstr "Naslov e-pošte"
 
 msgid "forgot email address?"
-msgstr ""
+msgstr "ste pozabili naslov e-pošte?"
 
-"
-
-#, fuzzy
 msgid "Password:"
-msgstr "Geslo"
+msgstr "Geslo:"
 
 msgid "forgot password?"
-msgstr ""
-
-"
+msgstr "ste pozabili geslo?"
 
 msgid "Stay logged in on this computer"
-msgstr ""
-
-"
+msgstr "Ostanite prijavljeni na tem računalniku"
 
 msgid "Log in"
-msgstr ""
-
-"
+msgstr "Prijavite se"
 
 msgid "or %1create an account%2."
-msgstr ""
-
-"
+msgstr "ali %1ustvarite račun%2."
 
 msgid "Please log in"
-msgstr ""
-
-"
+msgstr "Prosim, prijavite se"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Uporabite BBCode oznake za oblikovanje vašega besedila"
@@ -822,71 +795,46 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Ta seznam je centralno upravljan na %1spletni strani BOINC%2."
 
 msgid "Change email address"
-msgstr ""
-
-"
+msgstr "Spremenite naslov e-pošte"
 
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "Spremenite naslov e-pošte vašega računa"
 
-"
-
-#, fuzzy
 msgid "New email address"
-msgstr "naslov elektronske pošte"
+msgstr "Nov naslov e-pošte"
 
-#, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr "Mora biti veljaven naslov v obliki 'ime@domena'."
+msgstr "Mora biti veljaven naslov oblike 'ime@domena'"
 
 msgid "No password?"
-msgstr ""
-
-"
+msgstr "Brez gesla?"
 
 msgid "Change password"
-msgstr ""
-
-"
+msgstr "Spremenite geslo"
 
 msgid "You can identify yourself using either"
-msgstr ""
-
-"
+msgstr "Lahko se identificirate ali z"
 
 msgid "your email address and old password"
-msgstr ""
+msgstr "vašim naslovom e-pošte in starim geslom"
 
-"
-
-#, fuzzy
 msgid "your account key"
-msgstr "Šibki ključ računa"
+msgstr "vašim ključem računa"
 
 msgid "Current password"
-msgstr ""
-
-"
+msgstr "Trenutno geslo"
 
 msgid "<b>OR</b>: Account key"
-msgstr ""
-
-"
+msgstr "<b>ALI</b>: Ključ računa"
 
 msgid "Get account key by email"
-msgstr ""
-
-"
+msgstr "Dobi ključ računa po e-pošti"
 
 msgid "New password"
-msgstr ""
-
-"
+msgstr "Novo geslo"
 
 msgid "New password, again"
-msgstr ""
-
-"
+msgstr "Novo geslo, znova"
 
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
@@ -1295,9 +1243,7 @@ msgstr ""
 "odgovornost."
 
 msgid "Language selection"
-msgstr ""
-
-"
+msgstr "Izbira jezika"
 
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Slovenian"
@@ -1308,56 +1254,45 @@ msgstr "Slovenščina"
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is: %1 (%2)."
-msgstr ""
-
-"
+msgstr "Ta stran je na voljo v več jezikih. Trenutno izbran jezik je: %1 (%2)."
 
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
-
-"
+"Običajno je izbira jezika odvisna od nastavitve jezika vašega brskalnika, ki "
+"je: %1.  To nastavitev lahko spremenite z uporabo:"
 
 msgid "Firefox: Tools/Options/General"
-msgstr ""
-
-"
+msgstr "Firefox: Orodja/Možnosti/Splošno"
 
 msgid "Microsoft IE: Tools/Internet Options/Languages"
-msgstr ""
-
-"
+msgstr "Microsoft IE: Orodja/Internetne možnosti/Jeziki"
 
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
-
-"
+"Lahko pa izberete jezik s klikom na eno izmed povezav.  To bo vašemu "
+"brskalniku poslalo piškotek; prepričajte se, da vaš brskalnik sprejema "
+"piškotke iz naše domene."
 
 msgid "Language symbol"
-msgstr ""
-
-"
+msgstr "Simbol jezika"
 
 msgid "Language name (click to select)"
-msgstr ""
-
-"
+msgstr "Ime jezika (kliknite za izbiro)"
 
 msgid "Use browser language setting"
-msgstr ""
-
-"
+msgstr "Uporabi brskalnikovo nastavitev jezika"
 
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
-
-"
+"Prevode opravljajo prostovoljci.  Če vašega materinega jezika ni tu, %1lahko "
+"prevod priskrbite Vi%2."
 
 msgid "Your message has been sent."
 msgstr "Vaše sporočilo je bilo poslano."
@@ -1517,9 +1452,7 @@ msgid "Missing user ID or host ID"
 msgstr "Manjka ID uporabnika ali ID gostitelja"
 
 msgid "No tasks to display"
-msgstr ""
-
-"
+msgstr "Ni opravil za prikaz "
 
 msgid "User of the day"
 msgstr "Uporabnik dneva"
@@ -1634,22 +1567,14 @@ msgstr "Udeleženec od"
 msgid "Joined"
 msgstr ""
 
-"
-
 msgid "Search type"
 msgstr ""
-
-"
 
 msgid "User name starts with"
 msgstr ""
 
-"
-
 msgid "Decreasing sign-up time"
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "Decreasing average credit"
@@ -1662,32 +1587,20 @@ msgstr "Povprečje točk v zadnjem času"
 msgid "Filters"
 msgstr ""
 
-"
-
 msgid "With profile?"
 msgstr ""
-
-"
 
 msgid "On a team?"
 msgstr ""
 
-"
-
 msgid "search string must be at least 3 characters"
 msgstr ""
-
-"
 
 msgid "User names starting with"
 msgstr ""
 
-"
-
 msgid "No users match your search criteria."
 msgstr ""
-
-"
 
 #, fuzzy
 msgid "User search results"
