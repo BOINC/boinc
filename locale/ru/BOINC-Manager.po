@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-11-12 10:33-0700\n"
+"PO-Revision-Date: 2010-01-21 12:32-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: mifistor_x <mifistor.x@gmail.com>\n"
 "Language: ru\n"
@@ -565,8 +565,9 @@ msgstr ""
 "и запросит у Вас для подключения адрес другого компьютера.\n"
 
 #: clientgui/AdvancedFrame.cpp:1475
+#, fuzzy
 msgid "Retrying communications."
-msgstr ""
+msgstr "Повтор коммуникаций."
 
 #: clientgui/AdvancedFrame.cpp:1675
 #, c-format
@@ -2385,15 +2386,15 @@ msgid "Communicating with project."
 msgstr "Установка связи с сервером."
 
 #: clientgui/ProjectProcessingPage.cpp:499
+#, fuzzy
 msgid "Required files not found on the server."
-msgstr ""
+msgstr "Необходимые файлы не найдены на сервере."
 
 # что бы это значило???
 #: clientgui/ProjectProcessingPage.cpp:502
 #: clientgui/ProjectProcessingPage.cpp:564
-#, fuzzy
 msgid "An internal server error has occurred."
-msgstr "Произошла внутренняя ошибка сервера.\n"
+msgstr "Произошла внутренняя ошибка сервера."
 
 #: clientgui/ProjectPropertiesPage.cpp:336
 msgid ""
@@ -3797,62 +3798,75 @@ msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:344
+#, fuzzy
 msgid "list of "
-msgstr ""
+msgstr "список "
 
 #: clientgui/mac/MacAccessiblity.cpp:414
 #, c-format
+#, fuzzy
 msgid "%d of %d "
-msgstr ""
+msgstr "%d из %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:416
+#, fuzzy
 msgid "current sort column "
-msgstr ""
+msgstr "текущий столбец сортировки "
 
 #: clientgui/mac/MacAccessiblity.cpp:418
+#, fuzzy
 msgid " descending order "
-msgstr ""
+msgstr "порядок убывания "
 
 #: clientgui/mac/MacAccessiblity.cpp:418
+#, fuzzy
 msgid " ascending order "
-msgstr ""
+msgstr "порядок возрастания "
 
 #: clientgui/mac/MacAccessiblity.cpp:420
+#, fuzzy
 msgid "column "
-msgstr ""
+msgstr "столбец "
 
 #: clientgui/mac/MacAccessiblity.cpp:426
 #: clientgui/mac/MacAccessiblity.cpp:1003
+#, fuzzy
 msgid "selected "
-msgstr ""
+msgstr "выбран "
 
 #: clientgui/mac/MacAccessiblity.cpp:431
 #, c-format
+#, fuzzy
 msgid "row %d "
-msgstr ""
+msgstr "строка %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:434
 #, c-format
+#, fuzzy
 msgid "of %d "
-msgstr ""
+msgstr "из %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:437
 #, c-format
+#, fuzzy
 msgid "column %d "
-msgstr ""
+msgstr "столбец %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:441
+#, fuzzy
 msgid "blank"
-msgstr ""
+msgstr "пусто"
 
 #: clientgui/mac/MacAccessiblity.cpp:965
+#, fuzzy
 msgid "list of projects or account managers"
-msgstr ""
+msgstr "список проектов и менеджеров проектов"
 
 #: clientgui/mac/MacAccessiblity.cpp:1007
 #, c-format
+#, fuzzy
 msgid "row %d of %d "
-msgstr ""
+msgstr "строка %d из %d "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
