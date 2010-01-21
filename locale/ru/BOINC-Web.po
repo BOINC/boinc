@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-01-20 14:03-0700\n"
+"PO-Revision-Date: 2010-01-21 09:59-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -32,7 +32,7 @@ msgstr "Вернуться на главную страницу BOINC"
 #: docutil.php:112
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr "Эта страница %sпереводима%s."
+msgstr "Эту страницу можно %sперевести%s."
 
 # #######################################
 # download.php
