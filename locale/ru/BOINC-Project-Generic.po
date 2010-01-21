@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-20 12:49 PST\n"
-"PO-Revision-Date: 2010-01-20 14:12-0700\n"
+"PO-Revision-Date: 2010-01-21 11:31-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -1293,15 +1293,21 @@ msgstr "Russian"
 msgid "LANG_NAME_NATIVE"
 msgstr "Русский"
 
+#, fuzzy
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is: %1 (%2)."
 msgstr ""
+"Этот веб-сайт доступен на нескольких языках. В настоящее время выбран язык: "
+"%1 (%2)."
 
+#, fuzzy
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
+"Обычно выбор языка определяется языковыми настройками вашего браузера, а "
+"именно: %1. Вы можете поменять эту настройку, используя:"
 
 #, fuzzy
 msgid "Firefox: Tools/Options/General"
@@ -1313,11 +1319,15 @@ msgstr ""
 "Microsoft IE: Сервис/Свойства обозревателя/Языки (Tools/Internet "
 "Options/Languages)"
 
+#, fuzzy
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
+"Или Вы можете выбрать язык, нажав на одну из ссылок. Вашему браузеру будет "
+"отправлен файл 'cookie'; убедитесь, что ваш браузер принимает файлы 'cookie' "
+"нашего домена."
 
 msgid "Language symbol"
 msgstr "Языковой символ"
