@@ -434,7 +434,7 @@ struct APP_VERSION {
     double max_working_set_size;
         // max working set of tasks using this app version.
         // temp var used in schedule_cpus()
-    double temp_dcf;
+    //double temp_dcf;
 
     APP_VERSION(){}
     ~APP_VERSION(){}

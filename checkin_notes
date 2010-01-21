@@ -562,3 +562,27 @@ David  19 Jan 2010
     client/
         sim.cpp
         rr_sim.cpp
+
+David  19 Jan 2010
+    - client: brute-force attempt at eliminating domino-effect preemption:
+        if job A is unstarted and EDF,
+        and there's a job B that is later in the list,
+        is started, has the same app version,
+        and has the same arrival time,
+        move A after B.
+    - client: remove the "temp_dcf" mechanism,
+        which had the same goal but didn't work.
+    - client: in computing overall debt for a project,
+        subtract a term that reflects pending work.
+        This should reduce repeated fetches from the same project.
+    - client simulator: tweaks
+
+    client/
+        client_types.h
+        cpu_sched.cpp
+        rr_sim.cpp
+        sim.cpp,h
+        sim_util.cpp
+        work_fetch.cpp,h
+    html/user/
+        language_select.php

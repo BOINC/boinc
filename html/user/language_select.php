@@ -41,24 +41,27 @@ if ($set_lang){
 page_head(tra("Language selection"));
 
 echo "<p>",
-    tra("This web site is available in several languages. ".
-    "The currently selected language is: %1 (%2).",
-    "<em>".tra("LANG_NAME_INTERNATIONAL")."</em>",
-    tra("LANG_NAME_NATIVE")),
+    tra(
+        "This web site is available in several languages. The currently selected language is: %1 (%2).",
+        "<em>".tra("LANG_NAME_INTERNATIONAL")."</em>",
+        tra("LANG_NAME_NATIVE")
+    ),
     "</p>",
     "<p>",
-    tra("Normally the choice of language ".
-    "is determined by your browser's language setting, ".
-    "which is: %1. ".
-    "You can change this setting using:", "<b>$prefs</b>"),
+    tra(
+        "Normally the choice of language is determined by your browser's language setting, which is: %1.  You can change this setting using:",
+        "<b>$prefs</b>"
+    ),
     "</p><ul>",
-    "<li>", tra("Firefox: Tools/Options/General"),
-    "<li>", tra("Microsoft IE: Tools/Internet Options/Languages"),
+    "<li>",
+    tra("Firefox: Tools/Options/General"),
+    "<li>",
+    tra("Microsoft IE: Tools/Internet Options/Languages"),
     "</ul>",
     "<p>",
-    tra("Or you can select a language by clicking on one of the links. ".
-    "This will send your browser a cookie; ".
-    "make sure your browser accepts cookies from our domain."),
+    tra(
+        "Or you can select a language by clicking on one of the links.  This will send your browser a cookie; make sure your browser accepts cookies from our domain."
+    ),
     "</p>"
 ;
 

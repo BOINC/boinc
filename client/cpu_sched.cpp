@@ -42,6 +42,7 @@
 
 #include <string>
 #include <cstring>
+#include <list>
 
 #include "str_util.h"
 #include "util.h"
@@ -59,6 +60,7 @@
 #endif
 
 using std::vector;
+using std::list;
 
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
@@ -817,6 +819,67 @@ static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
     }
 }
 
+// if job A is unstarted and EDF,
+// and there's a job later in the list that is started
+// and has the same arrival time and app version,
+// move A after B
+//
+static void demote_unstarted_edf(vector<RESULT*>& runnable_jobs) {
+    list<RESULT*> x;
+    RESULT *rp, *rp2;
+
+    // transfer to a list
+    //
+    unsigned int i;
+    for (i=0; i<runnable_jobs.size(); i++) {
+        x.push_back(runnable_jobs[i]);
+    }
+
+    // scan backwards through the list.
+    // if find a started job, scan backwards from there,
+    // looking for jobs to demote
+    //
+    for (list<RESULT*>::iterator p = x.end(); p != x.begin(); --p) {
+        rp = *p;
+        if (rp->not_started()) continue;
+        list<RESULT*>::iterator q = p;
+        --q;
+        while (1) {
+            rp2 = *q;
+            if (rp2->not_started()
+                && (rp2->received_time==rp->received_time)
+                && (rp2->avp==rp->avp)
+                && rp2->edf_scheduled
+            ) {
+                list<RESULT*>::iterator p2 = p;
+                p2++;
+                x.insert(p2, rp2);
+
+                if (q == x.begin()) {
+                    x.erase(q);
+                    break;
+                }
+                list<RESULT*>::iterator q2 = q;
+                --q;
+                x.erase(q2);
+            } else {
+                if (q == x.begin()) {
+                    break;
+                }
+                --q;
+            }
+
+        }
+    }
+
+    // transfer back to vector
+    //
+    runnable_jobs.clear();
+    for (list<RESULT*>::iterator p = x.begin(); p!= x.end(); ++p) {
+        runnable_jobs.push_back(*p);
+    }
+}
+
 // return true if r0 is more important to run than r1
 //
 static inline bool more_important(RESULT* r0, RESULT* r1) {
@@ -843,7 +906,7 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     if (!unfin0 && unfin1) return false;
 
     // favor jobs selected first by schedule_cpus()
-    // (e.g., because their project has high debt)
+    // (e.g., because their project has high STD)
     //
     if (r0->seqno < r1->seqno) return true;
     if (r0->seqno > r1->seqno) return false;
@@ -1195,6 +1258,15 @@ bool CLIENT_STATE::enforce_schedule() {
     // append running jobs not done with time slice to the to-run list
     //
     append_unfinished_time_slice(runnable_jobs);
+
+    // Remove the EDF flag from unstarted jobs for which
+    // there's a running job with the same app version.
+    // This is a (crude) mechanism to avoid the situation
+    // where there's a set of EDF unstarted jobs,
+    // each one runs for a little and leaves EDF
+    // and is preempted by the next.
+    //
+    demote_unstarted_edf(runnable_jobs);
 
     // sort to-run list by decreasing importance
     //

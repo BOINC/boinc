@@ -90,7 +90,7 @@ public:
     double lambda;
     int parse(XML_PARSER&, char* end_tag);
     bool sample(double);
-    void init();
+    void init(double);
     RANDOM_PROCESS();
 };
 
@@ -313,6 +313,8 @@ extern bool dual_dcf;
 extern bool work_fetch_old;
 extern bool gpus_usable;
 
+#define SCHEDULER_RPC_POLL_PERIOD   5.0
+
 #define WORK_FETCH_PERIOD   60
 
 #define CPU_SCHED_ENFORCE_PERIOD    60
@@ -325,3 +327,6 @@ extern bool gpus_usable;
 
 #define MAX_STD   (86400)
     // maximum short-term debt
+
+#define START_TIME  946684800
+    // Jan 1 2000

@@ -221,6 +221,7 @@ void CLIENT_STATE::print_deadline_misses() {
     }
 }
 
+#if 0
 // compute a per-app-version "temporary DCF" based on the elapsed time
 // and fraction done of running jobs
 //
@@ -238,6 +239,7 @@ void compute_temp_dcf() {
         }
     }
 }
+#endif
 
 void CLIENT_STATE::rr_simulation() {
     PROJECT* p, *pbest;
@@ -248,7 +250,7 @@ void CLIENT_STATE::rr_simulation() {
     double ar = available_ram();
 
     work_fetch.rr_init();
-    compute_temp_dcf();
+    //compute_temp_dcf();
 
     if (log_flags.rr_simulation) {
         msg_printf(0, MSG_INFO,
@@ -338,7 +340,8 @@ void CLIENT_STATE::rr_simulation() {
         for (i=0; i<sim_status.active.size(); i++) {
             rp = sim_status.active[i];
             set_rrsim_flops(rp);
-            rp->rrsim_finish_delay = rp->avp->temp_dcf*rp->rrsim_flops_left/rp->rrsim_flops;
+            //rp->rrsim_finish_delay = rp->avp->temp_dcf*rp->rrsim_flops_left/rp->rrsim_flops;
+            rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
             if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
                 rpbest = rp;
             }
@@ -348,10 +351,9 @@ void CLIENT_STATE::rr_simulation() {
 
         if (log_flags.rr_simulation) {
             msg_printf(pbest, MSG_INFO,
-                "[rr_sim] %.2f: %s finishes after %.2f (%f * %.2fG/%.2fG)",
+                "[rr_sim] %.2f: %s finishes after %.2f (%.2fG/%.2fG)",
                 sim_now - now,
                 rpbest->name, rpbest->rrsim_finish_delay,
-                rpbest->avp->temp_dcf,
                 rpbest->rrsim_flops_left/1e9, rpbest->rrsim_flops/1e9
             );
         }
