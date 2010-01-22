@@ -40,14 +40,35 @@ if ($set_lang){
 
 page_head(tra("Language selection"));
 
+function language_name($code) {
+    if ($code == 'en') {
+        return "<em>en</em> (English)";
+    } else {
+        $lname = tr_specific("LANG_NAME_NATIVE", $code);
+        if ($lname == 'English' || $lname == '') {
+            return "<b>$code</b>";
+        } else {
+            return "<b>$code</b> ("
+                .tr_specific("LANG_NAME_INTERNATIONAL", $code)
+                ."/$lname)"
+            ;
+        }
+    }
+}
+
+if (count($languages_in_use)) {
+    $cur_lang_name = language_name($languages_in_use[0]);
+} else {
+    echo "foo";
+    $cur_lang_name = language_name('en');
+}
+
 echo "<p>",
     tra(
-        "This web site is available in several languages. The currently selected language is: %1 (%2).",
-        "<em>".tra("LANG_NAME_INTERNATIONAL")."</em>",
-        tra("LANG_NAME_NATIVE")
+        "This web site is available in several languages. The currently selected language is %1.",
+        $cur_lang_name
     ),
-    "</p>",
-    "<p>",
+    "</p><p>",
     tra(
         "Normally the choice of language is determined by your browser's language setting, which is: %1.  You can change this setting using:",
         "<b>$prefs</b>"
@@ -66,18 +87,21 @@ echo "<p>",
 ;
 
 start_table();
-row2(tra("Language symbol"), tra("Language name (click to select)"));
-row2("",
-    "<a href=language_select.php?set_lang=auto>".tra("Use browser language setting")."</a>"
+row1(tra("Language name (click to select)"));
+row1("<a href=language_select.php?set_lang=auto>"
+    .tra("Use browser language setting")
+    ."</a>",
+    1, "row1"
 );
 sort($languages);
+$i = 0;
 foreach ($languages as $language) {
-    $inter = tr_specific("LANG_NAME_INTERNATIONAL", $language);
-    $native = tr_specific("LANG_NAME_NATIVE", $language);
-    row2(
-        "<a href=\"language_select.php?set_lang=$language\">$language</a>",
-        "<a href=\"language_select.php?set_lang=$language\">$inter ($native)</a>"
+    $name = language_name($language);
+    row1(
+        "<a href=\"language_select.php?set_lang=$language\">$name</a>",
+        1, "row$i"
     );
+    $i = 1-$i;
 }
 end_table();
 echo "<p>",

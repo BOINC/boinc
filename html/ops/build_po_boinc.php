@@ -31,10 +31,11 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr ""
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr ""
+
 
 HDR;
 

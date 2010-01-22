@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-20 12:49 PST\n"
+"POT-Creation-Date: 2010-01-22 10:06 PST\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -17,10 +17,11 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr ""
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr ""
+
 #: ../inc/forum.inc:124
 msgid "Search for words in forum messages"
 msgstr ""
@@ -1472,54 +1473,42 @@ msgstr ""
 msgid "Language selection"
 msgstr ""
 
-#: ../user/language_select.php:46
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr ""
-
-#: ../user/language_select.php:47
-msgid "LANG_NAME_NATIVE"
-msgstr ""
-
-#: ../user/language_select.php:45
+#: ../user/language_select.php:68
 msgid ""
 "This web site is available in several languages. The currently selected "
-"language is: %1 (%2)."
+"language is %1."
 msgstr ""
 
-#: ../user/language_select.php:52
+#: ../user/language_select.php:73
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
 
-#: ../user/language_select.php:57
+#: ../user/language_select.php:78
 msgid "Firefox: Tools/Options/General"
 msgstr ""
 
-#: ../user/language_select.php:59
+#: ../user/language_select.php:80
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
 
-#: ../user/language_select.php:63
+#: ../user/language_select.php:84
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
 
-#: ../user/language_select.php:69
-msgid "Language symbol"
-msgstr ""
-
-#: ../user/language_select.php:69
+#: ../user/language_select.php:90
 msgid "Language name (click to select)"
 msgstr ""
 
-#: ../user/language_select.php:71
+#: ../user/language_select.php:92
 msgid "Use browser language setting"
 msgstr ""
 
-#: ../user/language_select.php:84
+#: ../user/language_select.php:108
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
