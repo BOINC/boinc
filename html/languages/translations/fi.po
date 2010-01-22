@@ -1,880 +1,2382 @@
-﻿# Language: English (International)
-# FileID  : $Id: en.po 15938 2008-08-25 15:24:35Z boincadm $
+# BOINC web translation
+# Copyright (C) 2008 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-11-13 12:06+0200\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-20 12:49 PST\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: html\\user\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-msgid "CHARSET"
-msgstr "UTF-8"
-
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "Finnish"
+msgstr "English"
 
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Finnish"
-
-msgid "Rank"
-msgstr "Arvo"
-
-msgid "Name"
-msgstr "Nimi"
+msgstr "English"
 
 msgid "Search for words in forum messages"
-msgstr "Hae sanoja foorumiviesteissä"
+msgstr ""
+
+"
 
 msgid "Search forums"
-msgstr "Hae foorumilta"
+msgstr ""
+
+"
 
 msgid "Advanced search"
-msgstr "Tarkennettu haku"
+msgstr ""
 
+"
+
+#: ../user/pm.php:129
 msgid "Private messages"
-msgstr "Yksityisviestit"
+msgstr ""
+
+"
 
 msgid "Questions and Answers"
-msgstr "Kysymyksiä ja vastauksia"
+msgstr ""
 
+"
+
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
-msgstr "Foorumi"
+msgstr ""
+
+"
 
 msgid "%1 message board"
-msgstr "%1 foorumi"
-
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
 msgstr ""
-"Luodaksesi aiheen %1:ssä, sinulla täytää olla tietty määrä luottoa. Tämä on "
-"asetettu väärinkäytösten estämiseksi."
 
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+"
+
+msgid ""
+"In order to create a new thread in %1 you must have a certain amount of "
+"credit. This is to prevent and protect against abuse of the system."
 msgstr ""
-"Et voi luoda enempää aiheita tällä hetkellä. Odota hetki ja yritä uudelleen. "
-"Tämä viive on asetettu foorumin väärinkäytön suojaamiseksi."
+
+"
+
+msgid ""
+"You cannot create any more threads right now. Please wait a while before "
+"trying again. This delay has been enforced to protect against abuse of the "
+"system."
+msgstr ""
+
+"
 
 msgid "Thread"
-msgstr "Ketju"
+msgstr ""
 
+"
+
+#: ../user/forum_index.php:93
 msgid "Posts"
-msgstr "Viestit"
+msgstr ""
 
+"
+
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
-msgstr "Kirjoittaja"
+msgstr ""
+
+"
 
 msgid "Views"
-msgstr "Näkymät"
+msgstr ""
 
+"
+
+#: ../user/forum_index.php:93
 msgid "Last post"
-msgstr "Viimeisin viesti"
+msgstr ""
+
+"
 
 msgid "Mark all threads as read"
-msgstr "Merkitse kaikki ketjut luetuiksi"
+msgstr ""
+
+"
 
 msgid "Mark all threads in all message boards as 'read'."
-msgstr "Merkitse kaikki aiheet foorumilla luetuiksi"
+msgstr ""
+
+"
+
+msgid "Comment"
+msgstr ""
+
+"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+"
 
 msgid "Inbox"
-msgstr "Saapuneet"
+msgstr ""
+
+"
 
 msgid "Write"
-msgstr "Kirjoita"
+msgstr ""
+
+"
 
 msgid "Send private message"
-msgstr "Lähetä viesti"
+msgstr ""
 
+"
+
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
-msgstr "Esikatsele"
+msgstr ""
+
+"
 
 msgid "To"
-msgstr "Kenelle"
+msgstr ""
+
+"
 
 msgid "User IDs or unique usernames, separated with commas"
-msgstr "Käyttäjä ID:tä tai uniikkeja käyttäjänimiä, pilkulla erotettuna"
+msgstr ""
+
+"
 
 msgid "Subject"
-msgstr "Aihe"
+msgstr ""
 
+"
+
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
-msgstr "Viesti"
+msgstr ""
+
+"
 
 msgid "Send message"
-msgstr "Lähetä viesti"
-
-msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
 msgstr ""
-"Pikaviestien lähettäminen näin nopeasti ei ole sallittua. Ole hyvä ja odota "
-"hetki ennen seuraavan viestin lähettämistä"
+
+"
+
+msgid ""
+"You are not allowed to send privates messages so often. Please wait some "
+"time before sending more messages."
+msgstr ""
+
+"
 
 msgid "unread"
-msgstr "lukematon"
+msgstr ""
+
+"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+
+"
+
+msgid "Edit your profile"
+msgstr ""
+
+"
+
+msgid "Your feedback on this profile"
+msgstr ""
+
+"
+
+msgid "Recommend this profile for User of the Day:"
+msgstr ""
+
+"
+
+msgid "I %1like%2 this profile"
+msgstr ""
+
+"
+
+msgid "Alert administrators to an offensive profile:"
+msgstr ""
+
+"
+
+msgid "I %1do not like%2 this profile"
+msgstr ""
+
+"
 
 msgid "Search criteria (use one or more)"
-msgstr "Hakuehdot (yksi tai useampi)"
+msgstr ""
+
+"
 
 msgid "Key words"
-msgstr "Avainsanat"
+msgstr ""
+
+"
 
 msgid "Find teams with these words in their names or descriptions"
-msgstr "Etsi joukkueita, joilla on nämä sanat nimissä tai kuvauksissa"
+msgstr ""
 
+"
+
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
-msgstr "Maa"
+msgstr ""
+
+"
 
 msgid "Type of team"
-msgstr "Joukkueen tyyppi"
+msgstr ""
+
+"
 
 msgid "Show only active teams"
-msgstr "Näytä vain aktiiviset joukkueet"
+msgstr ""
+
+"
 
 msgid "Search"
-msgstr "Etsi"
+msgstr ""
+
+"
 
 msgid "Requested by you, and founder response deadline has passed."
-msgstr "Sinun pyyntösi, joiden perustajan vastauksen aikaraja on mennyt umpeen"
+msgstr ""
+
+"
 
 msgid "Complete foundership transfer"
-msgstr "Perustajan vaihdos valmis"
+msgstr ""
+
+"
 
 msgid "Requested by you"
-msgstr "Sinun pyyntösi"
+msgstr ""
+
+"
 
 msgid "founder response deadline is %1"
-msgstr "Perustajan vastauksen aikaraja on %1"
+msgstr ""
+
+"
 
 msgid "None"
-msgstr "Ei mitään"
+msgstr ""
+
+"
 
 msgid "Initiate request"
-msgstr "Jäsenyyshakemus"
+msgstr ""
+
+"
 
 msgid "Deferred"
-msgstr "Viivästynyt"
+msgstr ""
+
+"
 
 msgid "Team info"
-msgstr "Joukkueen tiedot"
+msgstr ""
+
+"
 
 msgid "Description"
-msgstr "Kuvaus"
+msgstr ""
+
+"
 
 msgid "Web site"
-msgstr "Web-sivu"
+msgstr ""
 
+"
+
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
-msgstr "Kokonaiskrediitti"
+msgstr ""
 
+"
+
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
-msgstr "Viimeaikainen keskimääräinen krediitti"
+msgstr ""
+
+"
+
+msgid "Cross-project stats"
+msgstr ""
+
+"
 
 msgid "Type"
-msgstr "Tyyppi"
+msgstr ""
+
+"
 
 msgid "Message board"
-msgstr "Foorumi"
+msgstr ""
+
+"
 
 msgid "Threads"
-msgstr "Ketjut"
+msgstr ""
+
+"
 
 msgid "Join this team"
-msgstr "Liity tähän joukkueeseen"
-
-msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
 msgstr ""
-"Huom: Jos \"Sallittu lähettää sähköpostia\" on asetetty projektiasetuksissasi, "
-"joukkueeseen liittyminen antaa sen perustajalle tiedot "
-"sähköpostiosoitteestasi"
+
+"
+
+msgid ""
+"Note: if 'OK to email' is set in your project preferences, joining a team "
+"gives its founder access to your email address."
+msgstr ""
+
+"
+
+msgid "Not accepting new members"
+msgstr ""
+
+"
 
 msgid "Foundership change requested"
-msgstr "Perustajan muutosta pyydetty"
+msgstr ""
+
+"
 
 msgid "Respond by %1"
-msgstr "%1 vastaus"
+msgstr ""
+
+"
 
 msgid "Team foundership change"
-msgstr "Perustajan muutos"
+msgstr ""
+
+"
 
 msgid "Members"
-msgstr "Jäsenet"
+msgstr ""
+
+"
 
 msgid "Founder"
-msgstr "Perustaja"
+msgstr ""
+
+"
 
 msgid "Admins"
-msgstr "Adminit"
+msgstr ""
+
+"
 
 msgid "New members in last day"
-msgstr "Uusia jäseniä 24h aikana"
+msgstr ""
+
+"
 
 msgid "Total members"
-msgstr "Yhteensä jäseniä"
+msgstr ""
+
+"
 
 msgid "view"
-msgstr "katsele"
+msgstr ""
+
+"
 
 msgid "Active members"
-msgstr "Aktiivisia jäseniä"
+msgstr ""
+
+"
 
 msgid "Members with credit"
-msgstr "Jäseniä joilla on krediittiä"
+msgstr ""
+
+"
+
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
+msgid "Name"
+msgstr ""
+
+"
 
 msgid "Admin"
-msgstr "Admin"
+msgstr ""
+
+"
 
 msgid "Last %1"
-msgstr "Edellinen %1"
+msgstr ""
+
+"
 
 msgid "Next %1"
-msgstr "Seuraava %1"
+msgstr ""
+
+"
 
 msgid "No such team."
-msgstr "Joukkuetta ei ole"
+msgstr ""
+
+"
 
 msgid "This operation requires foundership."
-msgstr "Tämä toiminto vaatii joukkueen perustajaoikeudet"
+msgstr ""
+
+"
 
 msgid "This operation requires team admin privileges"
-msgstr "Tämä toiminto vaatii joukkueen adminoikeudet"
-
-msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
 msgstr ""
-"%1Yksityisyyshuomautus%2: Jos luot joukkueen, projektiasetuksesi (resurssien "
-"jako, grafiikka-asetukset) tulevat julkisesti näkyviin."
+
+"
+
+msgid "Rank"
+msgstr ""
+
+"
+
+msgid ""
+"%1Privacy note%2: if you create a team, your project preferences (resource "
+"share, graphics preferences) will be visible to the public."
+msgstr ""
+
+"
 
 msgid "Team name, text version"
-msgstr "Joukkueen nimi, tekstiversio"
+msgstr ""
+
+"
 
 msgid "Don't use HTML tags."
-msgstr "Älä käytä HTML -tageja"
+msgstr ""
+
+"
 
 msgid "Team name, HTML version"
-msgstr "Joukkueen nimi, HTML versio"
+msgstr ""
+
+"
 
 msgid "You may use %1limited HTML tags%2."
-msgstr "Voit käyttää %1rajoitettuja HTML-tageja%2."
+msgstr ""
+
+"
 
 msgid "If you don't know HTML, leave this box blank."
-msgstr "Jos et osaa HTML:ää, jätä tämä laatikko tyhjäksi"
+msgstr ""
+
+"
 
 msgid "URL of team web page, if any"
-msgstr "Joukkueen kotisivut"
+msgstr ""
+
+"
 
 msgid "without \"http://\""
-msgstr "ilman \"http://\""
+msgstr ""
+
+"
 
 msgid "This URL will be linked to from the team's page on this site."
-msgstr "Tämä URL linkitetään joukkueen sivulta tälle sivulle"
+msgstr ""
+
+"
 
 msgid "Description of team"
-msgstr "Joukkueinfo"
+msgstr ""
+
+"
 
 msgid "Projects in which you are participating"
-msgstr "Projektit, joihin sinä osallistut"
+msgstr ""
+
+"
 
 msgid "Projects in which %1 is participating"
-msgstr "Projektit, joihin %1 osallistuu"
+msgstr ""
+
+"
 
 msgid "Project"
-msgstr "Projekti"
+msgstr ""
+
+"
 
 msgid "Click for user page"
-msgstr "Klikkaa nähdäksesi käyttäjän sivun"
+msgstr ""
+
+"
 
 msgid "Average credit"
-msgstr "Keskimääräinen krediitti"
+msgstr ""
+
+"
 
 msgid "Since"
-msgstr "Alkaen"
+msgstr ""
+
+"
 
 msgid "Computing and credit"
-msgstr "Tietokoneet ja luotto"
+msgstr ""
+
+"
 
 msgid "Pending credit"
-msgstr "Odottava luotto"
+msgstr ""
 
+"
+
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
-msgstr "Katsele"
+msgstr ""
+
+"
 
 msgid "Computers on this account"
-msgstr "Tietokoneet tällä käyttäjätilillä"
+msgstr ""
+
+"
 
 msgid "Tasks"
-msgstr "Tehtävät"
+msgstr ""
+
+"
 
 msgid "Cross-project ID"
-msgstr "Poikittaisprojektin tunnukset"
+msgstr ""
+
+"
 
 msgid "Cross-project statistics"
-msgstr "Poikittaisprojektien tilastot"
+msgstr ""
+
+"
+
+msgid "Account"
+msgstr ""
+
+"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr ""
+
+"
+
+msgid "Cross-project"
+msgstr ""
+
+"
 
 msgid "Certificate"
-msgstr "Sertifikaatti"
+msgstr ""
+
+"
 
 msgid "Stats on your cell phone"
-msgstr "Matkapuhelimesi tilastot"
+msgstr ""
+
+"
 
 msgid "Account information"
-msgstr "Käyttäjätilin tiedot"
+msgstr ""
+
+"
 
 msgid "Email address"
-msgstr "Sähköpostiosoite"
+msgstr ""
+
+"
 
 msgid "URL"
-msgstr "URL"
+msgstr ""
+
+"
 
 msgid "Postal code"
-msgstr "Postinumero"
+msgstr ""
+
+"
 
 msgid "%1 member since"
-msgstr "%1 jäsen päivästä"
+msgstr ""
+
+"
 
 msgid "Change"
-msgstr "Muokkaa"
+msgstr ""
+
+"
 
 msgid "email address"
-msgstr "sähköpostiosoite"
+msgstr ""
+
+"
 
 msgid "password"
-msgstr "salasana"
+msgstr ""
+
+"
 
 msgid "other account info"
-msgstr "muut tilin tiedot"
+msgstr ""
+
+"
 
 msgid "Log out"
-msgstr "Kirjaudu ulos"
+msgstr ""
+
+"
 
 msgid "User ID"
-msgstr "Käyttäjänimi"
+msgstr ""
+
+"
 
 msgid "Used in community functions"
-msgstr "Käytetään yhteisön toiminnoissa"
+msgstr ""
+
+"
 
 msgid "Account key"
-msgstr "Tiliavain"
+msgstr ""
+
+"
 
 msgid "Provides full access to your account"
-msgstr "Sallii täyden pääsyn tilillesi"
+msgstr ""
+
+"
 
 msgid "Weak account key"
-msgstr "Heikko tiliavain"
+msgstr ""
 
-msgid "Provides"
-msgstr "Sallii"
+"
 
-msgid "limited access"
-msgstr "rajoitettu pääsy"
+msgid "Provides %1limited access%2 to your account"
+msgstr ""
 
-msgid "to your account"
-msgstr "tilillesi"
+"
 
 msgid "Preferences"
-msgstr "Asetukset"
+msgstr ""
+
+"
 
 msgid "When and how BOINC uses your computer"
-msgstr "Milloin ja miten BOINC käyttää tietokonettasi"
+msgstr ""
+
+"
 
 msgid "Computing preferences"
-msgstr "Tietokoneasetukset"
+msgstr ""
+
+"
 
 msgid "Message boards and private messages"
-msgstr "Foorumi ja yksityisviestit"
+msgstr ""
+
+"
 
 msgid "Community preferences"
-msgstr "Yhteisön asetukset"
+msgstr ""
 
-msgid "Resource share and graphics"
-msgstr "Resurssien jako ja grafiikat"
+"
+
+msgid "Preferences for this project"
+msgstr ""
+
+"
 
 msgid "%1 preferences"
-msgstr "%1 asetukset"
+msgstr ""
+
+"
 
 msgid "Community"
-msgstr "Yhteisö"
+msgstr ""
+
+"
 
 msgid "Delete"
-msgstr "Poista"
+msgstr ""
+
+"
 
 msgid "Create"
-msgstr "Luo"
+msgstr ""
+
+"
 
 msgid "Profile"
-msgstr "Profiili"
+msgstr ""
+
+"
 
 msgid "%1 posts"
-msgstr "%1 viestiä"
+msgstr ""
+
+"
 
 msgid "Notifications"
-msgstr "Huomautukset"
+msgstr ""
+
+"
 
 msgid "Quit team"
-msgstr "Lähde joukkueesta"
+msgstr ""
+
+"
 
 msgid "Administer"
-msgstr "Hallitse"
+msgstr ""
+
+"
 
 msgid "(foundership change request pending)"
-msgstr "(perustajamuutospyyntö lähetetty)"
+msgstr ""
+
+"
 
 msgid "Member of team"
-msgstr "Joukkueen jäsen"
+msgstr ""
 
-msgid "Team"
-msgstr "Joukkue"
+"
 
 msgid "find a team"
-msgstr "Etsi joukkue"
+msgstr ""
+
+"
 
 msgid "Founder but not member of"
-msgstr "Perustaja, mutta ei jäsen"
+msgstr ""
+
+"
 
 msgid "Find friends"
-msgstr "Etsi ystäviä"
+msgstr ""
 
+"
+
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
-msgstr "Ystävät"
+msgstr ""
+
+"
 
 msgid "Computers"
-msgstr "Tietokoneet"
+msgstr ""
+
+"
 
 msgid "hidden"
-msgstr "piilotettu"
+msgstr ""
+
+"
 
 msgid "Donor"
-msgstr "Lahjoittaja"
+msgstr ""
+
+"
 
 msgid "Contact"
-msgstr "Kontakti"
+msgstr ""
+
+"
 
 msgid "This person is a friend"
-msgstr "Tämä käyttäjä on ystäväsi"
+msgstr ""
+
+"
 
 msgid "Cancel friendship"
-msgstr "Katkaise ystävyys"
+msgstr ""
+
+"
 
 msgid "Request pending"
-msgstr "Pyyntö lähetetty"
+msgstr ""
+
+"
 
 msgid "Add as friend"
-msgstr "Lisää ystäväksi"
+msgstr ""
+
+"
+
+msgid "CHARSET"
+msgstr ""
+
+"
+
+msgid "Email address:"
+msgstr ""
+
+"
+
+msgid "forgot email address?"
+msgstr ""
+
+"
+
+msgid "Password:"
+msgstr ""
+
+"
+
+msgid "forgot password?"
+msgstr ""
+
+"
+
+msgid "Stay logged in on this computer"
+msgstr ""
+
+"
+
+msgid "Log in"
+msgstr ""
+
+"
+
+msgid "or %1create an account%2."
+msgstr ""
+
+"
+
+msgid "Please log in"
+msgstr ""
+
+"
 
 msgid "Use BBCode tags to format your text"
-msgstr "Käytä BBCode tageja muokataksesi tekstiäsi"
+msgstr ""
+
+"
 
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
-"Tunnistaa sinut web-sivulla. Käytä oikeaa nimeäsi tai valinnaista "
-"nimimerkkiä."
+
+"
 
 msgid "Select the country you want to represent, if any."
-msgstr "Valitse maa, jota haluat edustaa."
+msgstr ""
+
+"
 
 msgid "Postal or ZIP Code"
-msgstr "Postinumero"
+msgstr ""
+
+"
 
 msgid "Optional"
-msgstr "Vapaaehtoinen"
+msgstr ""
+
+"
 
 msgid "Applications"
-msgstr "Sovellukset"
-
-msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
 msgstr ""
-"%1:llä on tällä hetkellä käytössä seuraavat sovellukset. Kun osallistut "
-"projektiin %1, näiden sovellusten tekemää työtä jaetaan tietokoneellesi. "
-"Sovelluksen nykyinen versio ladataan koneellesi - tämä tapahtuu "
-"automaattisesti, joten sinun ei tarvitse tehdä mitään."
+
+"
+
+msgid ""
+"%1 currently has the following applications. When you participate in %1, "
+"work for one or more of these applications will be assigned to your "
+"computer. The current version of the application will be downloaded to your "
+"computer. This happens automatically; you don't have to do anything."
+msgstr ""
+
+"
 
 msgid "Platform"
-msgstr "Alusta"
+msgstr ""
 
-msgid "Current version"
-msgstr "Versionumero"
+"
+
+msgid "Version"
+msgstr ""
+
+"
 
 msgid "Installation time"
-msgstr "Asennusaika"
+msgstr ""
+
+"
 
 msgid "You must supply an invitation code to create an account."
-msgstr "Sinun täytyy antaa kutsukoodi luodaksesi tilin."
+msgstr ""
+
+"
 
 msgid "The invitation code you gave is not valid."
-msgstr "Antamasi kutsukoodi ei ole kelvollinen."
+msgstr ""
+
+"
 
 msgid "Create an account"
-msgstr "Luo käyttäjätili"
+msgstr ""
+
+"
 
 msgid "Account creation is disabled"
-msgstr "Käyttäjätilien luominen on pois käytöstä."
+msgstr ""
+
+"
 
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
-"Käyttäjätilien luominen ei tällä hetkellä ole mahdollista. Yritä myöhemmin "
-"uudelleen."
 
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr ""
-"HUOM: Jos käytät BOINC versiota 5.2+ BOINC Managerilla, älä käytä tätä "
-"kaavaketta. Aja BOINC, valitse \"Attach Project\" ja syötä sähköpostiosoite ja "
-"salasana."
+"
 
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgid ""
+"NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
+"form. Just run BOINC, select Attach Project, and enter an email address and "
+"password."
 msgstr ""
-"Tämä tili kuuluu joukkueeseen %1 ja sillä tulee olemaan sen "
-"projektiasetukset."
+
+"
+
+msgid ""
+"This account will belong to the team %1 and will have the project "
+"preferences of its founder."
+msgstr ""
+
+"
 
 msgid "Invitation Code"
-msgstr "Kutsukoodi"
+msgstr ""
+
+"
 
 msgid "A valid invitation code is required to create an account."
-msgstr "Kelvollinen kutsukoodi vaaditaan tilin luomiseksi."
+msgstr ""
+
+"
 
 msgid "Email Address"
-msgstr "Sähköpostiosoite"
+msgstr ""
+
+"
 
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr "Täytyy olla kelvollinen osoite muodossa nimi@domain"
+msgstr ""
+
+"
 
 msgid "Password"
-msgstr "Salasana"
+msgstr ""
+
+"
 
 msgid "Must be at least %1 characters"
-msgstr "Täytyy olla vähintään %1 merkkiä"
+msgstr ""
+
+"
 
 msgid "Confirm password"
-msgstr "Varmista salasana"
+msgstr ""
+
+"
 
 msgid "Create account"
-msgstr "Luo käyttäjätili"
+msgstr ""
 
+"
+
+msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
+msgstr ""
+
+"
+
+msgid "Picture"
+msgstr ""
+
+"
+
+msgid "%1 Your profile picture is shown to the left."
+msgstr ""
+
+"
+
+msgid ""
+"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
+"or less)."
+msgstr ""
+
+"
+
+msgid "To remove it from your profile, check this box:"
+msgstr ""
+
+"
+
+msgid ""
+"If you would like include a picture with your profile, click the \"Browse\" "
+"button and select a JPEG or PNG file. Please select images of %1 or less."
+msgstr ""
+
+"
+
+msgid "Language"
+msgstr ""
+
+"
+
+msgid "Select the language in which your profile is written:"
+msgstr ""
+
+"
+
+msgid "Submit profile"
+msgstr ""
+
+"
+
+msgid ""
+"To protect the project's webpages from spam, we kindly ask you to type in "
+"the two words shown in the image:<br>\n"
+msgstr ""
+
+"
+
+msgid "Create/edit profile"
+msgstr ""
+
+"
+
+msgid "The format of your uploaded image is not supported."
+msgstr ""
+
+"
+
+msgid ""
+"Your %1profile%2 lets you share your opinions and background with the %3 "
+"community."
+msgstr ""
+
+"
+
+msgid "Your ReCaptcha response was not correct.  Please try again."
+msgstr ""
+
+"
+
+msgid ""
+"Your first response was flagged as spam by the Akismet anti-spam system.  "
+"Please modify your text and try again."
+msgstr ""
+
+"
+
+msgid ""
+"Your second response was flagged as spam by the Akismet anti-spam system.  "
+"Please modify your text and try again."
+msgstr ""
+
+"
+
+msgid "Your profile submission was empty."
+msgstr ""
+
+"
+
+msgid "Could not update the profile: database error"
+msgstr ""
+
+"
+
+msgid "Could not create the profile: database error"
+msgstr ""
+
+"
+
+msgid "Profile saved"
+msgstr ""
+
+"
+
+msgid ""
+"Congratulations! Your profile was successfully entered into our database."
+msgstr ""
+
+"
+
+msgid "%1View your profile%2"
+msgstr ""
+
+"
+
+msgid "Create a profile"
+msgstr ""
+
+"
+
+msgid ""
+"To prevent spam, an average credit of %1 or greater is required to create or "
+"edit a profile.  We apologize for this inconvenience."
+msgstr ""
+
+"
+
+msgid "Download BOINC add-on software"
+msgstr ""
+
+"
+
+msgid "You can download applications in several categories."
+msgstr ""
+
+"
+
+msgid ""
+"These applications are not endorsed by %1 and you use them at your own risk."
+msgstr ""
+
+"
+
+msgid ""
+"We do not provide instructions for installing these applications.\n"
+"However, the author may have provided some help on installing or "
+"uninstalling the application. \n"
+"If this is not enough you should contact the author."
+msgstr ""
+
+"
+
+msgid "Instructions for installing and running BOINC are %1here%2."
+msgstr ""
+
+"
+
+msgid "This list is managed centrally at %1the BOINC website%2."
+msgstr ""
+
+"
+
+msgid "Change email address"
+msgstr ""
+
+"
+
+msgid "Change the email address of your account"
+msgstr ""
+
+"
+
+msgid "New email address"
+msgstr ""
+
+"
+
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr ""
+
+"
+
+msgid "No password?"
+msgstr ""
+
+"
+
+msgid "Change password"
+msgstr ""
+
+"
+
+msgid "You can identify yourself using either"
+msgstr ""
+
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+msgid "your account key"
+msgstr ""
+
+"
+
+msgid "Current password"
+msgstr ""
+
+"
+
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+"
+
+msgid "Get account key by email"
+msgstr ""
+
+"
+
+msgid "New password"
+msgstr ""
+
+"
+
+msgid "New password, again"
+msgstr ""
+
+"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
-msgstr "Otsikko"
+msgstr ""
+
+"
 
 msgid "Add my signature to this post"
-msgstr "Lisää allekirjoitukseni tähän viestiin"
+msgstr ""
+
+"
 
 msgid "%1 Message boards"
-msgstr "%1 Foorumi"
+msgstr ""
+
+"
+
+msgid ""
+"If you have a question or problem, please use the %1Questions & Answers%2 "
+"section of the message boards."
+msgstr ""
+
+"
 
 msgid "Topic"
-msgstr "Aihe"
-
-msgid "Your message has been sent."
-msgstr "Viesti on lähetetty."
-
-msgid "You have no private messages."
-msgstr "Sinulla ei ole yksityisviestejä."
-
-msgid "Sender"
-msgstr "Lähettäjä"
-
-msgid "Date"
-msgstr "Päivämäärä"
-
-msgid "Mark as read"
-msgstr "Merkkaa luetuksi"
-
-msgid "Mark as unread"
-msgstr "Merkkaa lukemattomaksi"
-
-msgid "With selected"
-msgstr "Valituilla"
-
-msgid "No such message"
-msgstr "Viestiä ei ole"
-
-msgid "Block user"
-msgstr "Estä käyttäjä"
-
-msgid "Reply"
-msgstr "Vastaa"
-
-msgid "Really delete?"
-msgstr "Poistetaanko?"
-
-msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
 msgstr ""
-"Oletko varma että haluat poistaa viestin jonka otsikko on &quot;%1&quot; "
-"(lähettänyt %2 %3)"
 
-msgid "Yes, delete"
-msgstr "Kyllä, poista"
-
-msgid "No, cancel"
-msgstr "Ei, peruuta"
-
-msgid "No such message."
-msgstr "Viestiä ei ole"
-
-msgid "You need to fill all fields to send a private message"
-msgstr "Sinun tarvitsee täyttää kaikki kentät lähettääksesi viestin"
-
-msgid "Could not find user with id %1"
-msgstr "Tunnuksella %1 ei löytynyt käyttäjää"
-
-msgid "Could not find user with username %1"
-msgstr "%1 nimistä käyttäjää ei löytynyt"
-
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 ei ole uniikki käyttäjänimi, sinun tarvitsee antaa käyttäjä ID"
-
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "Käyttäjä %1 (ID: %2) ei vastaanota viestejä sinulta"
-
-msgid "Really block %1?"
-msgstr "Estä %1?"
-
-msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr "Oletko varma että haluat estää %1 käyttäjän lähettämät viestit?"
-
-msgid "Please note that you can only block a limited amount of users."
-msgstr "Huomioithan että voit estää vain rajallisen määrän käyttäjiä"
-
-msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr "Kun käyttäjä on estetty, voit poistaa eston foorumiasetuksista."
-
-msgid "Add user to filter"
-msgstr "Lisää käyttäjä suodattimeen"
-
-msgid "No such user"
-msgstr "Käyttäjää ei ole"
-
-msgid "User %1 blocked"
-msgstr "Käyttäjä %1 estetty"
-
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "Käyttäjän %1 sinulle lähettämät yksityisviestit on estetty."
-
-msgid "To unblock, visit %1message board preferences%2"
-msgstr "Poistaaksesi eston, mene %1foorumiasetuksiin%2"
+"
 
 msgid "Create a new thread"
-msgstr "Luo uusi aihe"
+msgstr ""
 
+"
+
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
-msgstr "Kirjoita aiheeseen"
+msgstr ""
 
-msgid "Forum search results"
-msgstr "Foorumihaun tulokset"
+"
 
 msgid "Forum search"
-msgstr "Foorumihaku"
+msgstr ""
+
+"
+
+msgid "Forum search results"
+msgstr ""
+
+"
+
+msgid "No thread with id %1. Please check the link and try again."
+msgstr ""
+
+"
+
+msgid "This forum is not visible to you."
+msgstr ""
+
+"
 
 msgid "This thread has been hidden for administrative purposes"
-msgstr "Tämä aihe on piilotettu hallinnallisten syiden takia"
+msgstr ""
+
+"
+
+msgid "My question was answered"
+msgstr ""
+
+"
+
+msgid ""
+"If your question has been adequately answered please click here to close it!"
+msgstr ""
+
+"
+
+msgid "I've also got this question"
+msgstr ""
+
+"
+
+msgid "Add a new message to this thread"
+msgstr ""
+
+"
 
 msgid "Unsubscribe"
-msgstr "Poista tilisi"
+msgstr ""
+
+"
+
+msgid "You are subscribed to this thread.  Click here to unsubscribe."
+msgstr ""
+
+"
 
 msgid "Subscribe"
-msgstr "Ilmoittaudu"
+msgstr ""
+
+"
+
+msgid "Click to get email when there are new posts in this thread"
+msgstr ""
+
+"
+
+msgid "Unhide"
+msgstr ""
+
+"
+
+msgid "Unhide this thread"
+msgstr ""
+
+"
+
+msgid "Hide"
+msgstr ""
+
+"
+
+msgid "Hide this thread"
+msgstr ""
+
+"
+
+msgid "Make unsticky"
+msgstr ""
+
+"
+
+msgid "Make this thread not sticky"
+msgstr ""
+
+"
+
+msgid "Make sticky"
+msgstr ""
+
+"
+
+msgid "Make this thread sticky"
+msgstr ""
+
+"
+
+msgid "Unlock"
+msgstr ""
+
+"
+
+msgid "Unlock this thread"
+msgstr ""
+
+"
+
+msgid "Lock"
+msgstr ""
+
+"
+
+msgid "Lock this thread"
+msgstr ""
+
+"
+
+msgid "Move"
+msgstr ""
+
+"
+
+msgid "Move this thread to a different forum"
+msgstr ""
+
+"
+
+msgid "Edit title"
+msgstr ""
+
+"
+
+msgid "Edit thread title"
+msgstr ""
+
+"
+
+msgid "Sort"
+msgstr ""
+
+"
+
+msgid "Already friends"
+msgstr ""
+
+"
+
+msgid "You requested friendship with %1 on %2."
+msgstr ""
+
+"
+
+msgid "This request is still pending confirmation."
+msgstr ""
+
+"
+
+msgid "%1 is not accepting friendship requests from you"
+msgstr ""
+
+"
+
+msgid "You can't be friends with yourself"
+msgstr ""
+
+"
+
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
+msgid "No such user"
+msgstr ""
+
+"
+
+msgid "Add friend"
+msgstr ""
+
+"
+
+msgid ""
+"You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
+"to confirm that you are friends."
+msgstr ""
+
+"
+
+msgid "Add an optional message here:"
+msgstr ""
+
+"
+
+msgid "Database error"
+msgstr ""
+
+"
+
+msgid "Friend request sent"
+msgstr ""
+
+"
+
+msgid "We have notified %1 of your request."
+msgstr ""
+
+"
+
+msgid "Request not found"
+msgstr ""
+
+"
+
+msgid "Friend request"
+msgstr ""
+
+"
+
+msgid "%1 has added you as a friend."
+msgstr ""
+
+"
+
+msgid "%1 says: %2"
+msgstr ""
+
+"
+
+msgid "Accept friendship"
+msgstr ""
+
+"
+
+msgid "Click accept if %1 is in fact a friend"
+msgstr ""
+
+"
+
+msgid "Decline"
+msgstr ""
+
+"
+
+msgid "Click decline if %1 is not a friend"
+msgstr ""
+
+"
+
+msgid "No request"
+msgstr ""
+
+"
+
+msgid "Friendship confirmed"
+msgstr ""
+
+"
+
+msgid "Your friendship with %1 has been confirmed."
+msgstr ""
+
+"
+
+msgid "Friendship declined"
+msgstr ""
+
+"
+
+msgid "You have declined friendship with %1"
+msgstr ""
+
+"
+
+msgid "Notification not found"
+msgstr ""
+
+"
+
+msgid "Friend confirmed"
+msgstr ""
+
+"
+
+msgid "You are now friends with %1."
+msgstr ""
+
+"
+
+msgid "Cancel friendship?"
+msgstr ""
+
+"
+
+msgid "Are you sure you want to cancel your friendship with %1?"
+msgstr ""
+
+"
+
+msgid "Yes"
+msgstr ""
+
+"
+
+msgid "No"
+msgstr ""
+
+"
+
+msgid "Stay friends"
+msgstr ""
+
+"
+
+msgid "Friendship cancelled"
+msgstr ""
+
+"
+
+msgid "Your friendship with %1 has been cancelled."
+msgstr ""
+
+"
+
+msgid "Unknown action"
+msgstr ""
+
+"
 
 msgid "Welcome to %1"
-msgstr "Tervetuloa projektiin %1"
+msgstr ""
+
+"
 
 msgid "View and edit your account preferences using the links below."
 msgstr ""
-"Tarkastele ja muokkaa käyttäjäasetuksiasi käyttämällä alapuolella olevia "
-"linkkejä."
 
-msgid "Read our rules and policies"
-msgstr "Lue sääntömme ja politiikkamme."
-
-msgid "Run %1 only on authorized computers"
-msgstr "Aja %1 vain siihen oikeutetuilla tietokoneiilla."
-
-msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr ""
-"Aja %1 vain tietokoneilla, jotka sitä omistat tai joiden käyttöön sinulla on "
-"omistajan lupa. Jotkut yritykset ja koulut kieltävät tietokoneidensa käytön "
-"%1:n kaltaisiin projekteihin."
-
-msgid "How %1 will use your computer"
-msgstr "Miten %1 käyttää tietokonettasi"
-
-msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr ""
-"Kun %1 ajetaan tietokoneellasi, se käyttää osan tietokoneesi suoritinajasta, "
-"levytilasta sekä Internetkaistasta. Voit määrittää kuinka paljon ja milloin "
-"%1 käyttää tietokoneesi resursseja. "
-
-msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr ""
-"Kuten web-sivulla on kuvattu, tietokoneesi tekemä työ osallistuu %1:n "
-"tavoitteisiin. Sovellusohjelmat voivat muuttua ajoittain."
-
-msgid "Privacy policy"
-msgstr "Yksityisyyspolitiikka"
-
-msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr ""
-"Voit valita %1:ssä käyttäjänimesi. Tämä nimi saatetaan näyttää %1 web-"
-"sivulle yhdessä tietokoneesi tekemän työmäärän kanssa. Jos haluat pysyä "
-"nimettömänä, valitse käyttäjänimi joka ei paljasta henkilöllisyyttäsi."
-
-msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr ""
-"Mikäli osallistut projektiin %1, tietokoneesi tiedot (esim. "
-"prosessorityyppi, muistin määrä jne) tallennetaan ja niitä käytetään "
-"määrittämään minkälaista työtä tietokoneellesi annetaan. Nämä tiedot näkyvät "
-"lisäksi %1:n web-sivulla, mutta mitään mikä paljastaisi tietokoneesi "
-"sijainnin (domainnimi, IP-osoite) ei näytetä."
-
-msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
-"Osallistuaksesi projektiin %1, sinun täytyy antaa sähköpostiosoitteesi. Tätä "
-"osoitetta ei näytetä %1 web-sivulla tai jaeta muille organisaatioille. %1 "
-"saattaa ajoittain lähettää sinulle uutissähkeitä. Voit kuitenkin hakeutua "
-"ulos milloin tahansa."
-
-msgid "Is it safe to run %1?"
-msgstr "Onko turvallista ajaa %1?"
-
-msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr ""
-"Joka kerta kun lataat sovelluksen Internetistä otat riskin; sovelluksessa "
-"voi olla kriittisiä bugeja tai latauspalvelin voi olla altistunut "
-"tietomurroille. %1 on nähnyt vaivaa minimoidakseen nämä riskit. Olemme "
-"testanneet sovelluksemme huolellisesti. Palvelimemme ovat palomuurin takana, "
-"ja ne on konfiguroitu erittäin tietoturvallisiksi. Taataksemme "
-"sovelluslatausten turvallisuuden, kaikki suoritettavat tiedostot on "
-"digitaalisesti allekirjoitettu turvallisella tietokoneella, joka ei ole "
-"yhteydessä Internetiin."
-
-msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
-"Sovellukset, joita %1 ajaa voivat aiheuttaa joillekin tietokoneille "
-"ylikuumenemista. Jos näin tapahtuu, keskeytä %1 tai käytä %2apuohjelmaa%3, "
-"joka rajoittaa suorittimen käyttöä."
-
-msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1:n kehittäjä on %2. BOINC kehitettiin Kalifornian Yliopistossa."
-
-msgid "Liability"
-msgstr "Alttius"
-
-msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr ""
-"%1 ja %2 eivät vastaa vaurioista tietokoneelle, tiedon menetyksestä tai "
-"muusta tapahtumasta tai tilasta joka saattaa aiheutua %1iin "
-"osallistumisesta."
-
-msgid "Other BOINC projects"
-msgstr "Muut BOINC -projektit"
-
-msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr ""
-"Muut projektit käyttävät samaa alustaa, BOINCcia, kuin %1. Kannattaa harkita "
-"osallistumista myös yhteen tai useampaan näistä projekteista. Tekemällä "
-"näin, tietokoneesi tekee hyödyllistä työtä silloinkin kun %1 ei anna sille "
-"töitä."
-
-msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr ""
-"Nämä muut projektit eivät ole yhteydessä projektiin %1, emmekä voi taata "
-"näiden turvallisuuskäytäntöjä tai tutkimusmetodeja. Liity näihin omalla "
-"vastuullasi."
-
-msgid "Sender and date"
-msgstr "Lähettäjä ja päivämäärä"
-
-msgid "Profiles"
-msgstr "Profiilit"
-
-msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
-msgstr ""
-"%1Profiilit%2 sallivat yksilöiden jakaa taustoja ja mielipiteitä %3 yhteisön "
-"kanssa."
-
-msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
-msgstr ""
-"Tutki kanssakäyttäjiesi monimuotoisuutta ja jaa mielipiteesi muiden "
-"nautittavaksi."
-
-msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
-msgstr ""
-"Voit %1luoda oman käyttäjäprofiilisi%2 muiden nähtäviksi, jos et ole vielä "
-"ehtinyt!"
-
-msgid "User of the Day"
-msgstr "Päivän käyttäjä"
-
-msgid "User Profile Explorer"
-msgstr "Käyttäjäprofiilit"
-
-msgid "View the %1User Picture Gallery%2."
-msgstr "Katso käyttäjän %1käyttäjän kuvagalleriaa%2"
-
-msgid "Browse profiles %1by country%2."
-msgstr "Selaa profiileja %1maan mukaan%2."
-
-msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
-msgstr ""
-"Selaa profiileja %1satunnaisesti%2, %3satunnaisesti kuvien kanssa%2, tai "
-"%4satunnaisesti ilman kuvia%2."
-
-msgid "Alphabetical profile listings:"
-msgstr "Aakkosellinen listaus"
-
-msgid "Search profile text"
-msgstr "Etsi profiilitekstiä"
-
-msgid "No profiles"
-msgstr "Ei profiileja"
-
-msgid "No profiles matched your query."
-msgstr "Yksikään profiili ei vastannut hakuasi"
-
-msgid "Top hosts"
-msgstr "Parhaat tietokoneet"
-
-msgid "Top participants"
-msgstr "Parhaat osallistujat"
-
-msgid "Top %1 teams"
-msgstr "Parhaat %1 joukkueet"
-
-msgid "Participant since"
-msgstr "Liittymispäivä"
-
-msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
-msgstr ""
-"'Heikko tiliavaimesi' antaa sinun liittää tietokoneita sinun tiliisi tässä "
-"projektissa, ilman mahdollisuutta kirjautua tilillesi tai muuttaa sitä "
-"millään lailla."
-
-msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
-msgstr ""
-"Tämä mekanismi toimii ainoastaan projekteissa, jotka ovat päivittäneet "
-"palvelinohjelmistonsta 7.12.2007 jälkeen"
-
-msgid "Your weak account key for this project is:"
-msgstr "Heikko tiliavaimesi tälle projektille on:"
-
-msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr ""
-"Käyttääksesi heikkoa tiliavainta sinun tarvii käyttää tai luoda "
-"'tilitiedosto' tälle projektille. Tämän tiedoston nimi on muotoa "
-"<b>account_PROJECT_URL.xml</b>. Tili avain %1 lle on <b>%2</b>."
-
-msgid "Create this file if needed. Set its contents to:"
-msgstr "Luo tämä tiedosto tarvittaessa. Laita sen sisällöksi:"
-
-msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr ""
-"Heikko tiliavain on riippuvainen salasanastasi. Jos vaihdat salasanaa heikko "
-"tiliavain vaihtuu ja edellinen tiliavaimesi ei enää toimi."
+"
 
 msgid "Your account"
-msgstr "Käyttäjätilisi"
+msgstr ""
+
+"
+
+msgid "Read our rules and policies"
+msgstr ""
+
+"
+
+msgid "Run %1 only on authorized computers"
+msgstr ""
+
+"
+
+msgid ""
+"Run %1 only on computers that you own, or for which you have obtained the "
+"owner's permission. Some companies and schools have policies that prohibit "
+"using their computers for projects such as %1."
+msgstr ""
+
+"
+
+msgid "How %1 will use your computer"
+msgstr ""
+
+"
+
+msgid ""
+"When you run %1 on your computer, it will use part of the computer's CPU "
+"power, disk space, and network bandwidth. You can control how much of your "
+"resources are used by %1, and when it uses them."
+msgstr ""
+
+"
+
+msgid ""
+"The work done by your computer contributes to the goals of %1, as described "
+"on its web site. The application programs may change from time to time."
+msgstr ""
+
+"
+
+msgid "Privacy policy"
+msgstr ""
+
+"
+
+msgid ""
+"Your account on %1 is identified by a name that you choose. This name may be "
+"shown on the %1 web site, along with a summary of the work your computer has "
+"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
+"your identity."
+msgstr ""
+
+"
+
+msgid ""
+"If you participate in %1, information about your computer (such as its "
+"processor type, amount of memory, etc.) will be recorded by %1 and used to "
+"decide what type of work to assign to your computer. This information will "
+"also be shown on %1's web site. Nothing that reveals your computer's "
+"location (e.g. its domain name or network address) will be shown."
+msgstr ""
+
+"
+
+msgid ""
+"To participate in %1, you must give an address where you receive email. This "
+"address will not be shown on the %1 web site or shared with organizations. %"
+"1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr ""
+
+"
+
+msgid ""
+"Private messages sent on the %1 web site are visible only to the sender and "
+"recipient.  %1 does not examine or police the content of private messages.  "
+"If you receive unwanted private messages from another %1 user, you may add "
+"them to your %2message filter%3.  This will prevent you from seeing any "
+"public or private messages from that user."
+msgstr ""
+
+"
+
+msgid ""
+"If you use our web site forums you must follow the %2posting guidelines%3.  "
+"Messages posted to the %1 forums are visible to everyone, including non-"
+"members.  By posting to the forums, you are granting irrevocable license for "
+"anyone to view and copy your posts."
+msgstr ""
+
+"
+
+msgid "Is it safe to run %1?"
+msgstr ""
+
+"
+
+msgid ""
+"Any time you download a program through the Internet you are taking a "
+"chance: the program might have dangerous errors, or the download server "
+"might have been hacked. %1 has made efforts to minimize these risks. We have "
+"tested our applications carefully. Our servers are behind a firewall and are "
+"configured for high security. To ensure the integrity of program downloads, "
+"all executable files are digitally signed on a secure computer not connected "
+"to the Internet."
+msgstr ""
+
+"
+
+msgid ""
+"The applications run by %1 may cause some computers to overheat. If this "
+"happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr ""
+
+"
+
+msgid ""
+"%1 was developed by %2. BOINC was developed at the University of California."
+msgstr ""
+
+"
+
+msgid "Liability"
+msgstr ""
+
+"
+
+msgid ""
+"%1 and %2 assume no liability for damage to your computer, loss of data, or "
+"any other event or condition that may occur as a result of participating in %"
+"1."
+msgstr ""
+
+"
+
+msgid "Other BOINC projects"
+msgstr ""
+
+"
+
+msgid ""
+"Other projects use the same platform, BOINC, as %1. You may want to consider "
+"participating in one or more of these projects. By doing so, your computer "
+"will do useful work even when %1 has no work available for it."
+msgstr ""
+
+"
+
+msgid ""
+"These other projects are not associated with %1, and we cannot vouch for "
+"their security practices or the nature of their research. Join them at your "
+"own risk."
+msgstr ""
+
+"
+
+msgid "Language selection"
+msgstr ""
+
+"
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+msgid ""
+"This web site is available in several languages. The currently selected "
+"language is: %1 (%2)."
+msgstr ""
+
+"
+
+msgid ""
+"Normally the choice of language is determined by your browser's language "
+"setting, which is: %1.  You can change this setting using:"
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid ""
+"Or you can select a language by clicking on one of the links.  This will "
+"send your browser a cookie; make sure your browser accepts cookies from our "
+"domain."
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
+
+msgid "Your message has been sent."
+msgstr ""
+
+"
+
+msgid "You have no private messages."
+msgstr ""
+
+"
+
+msgid "Sender and date"
+msgstr ""
+
+"
+
+msgid "Reply"
+msgstr ""
+
+"
+
+msgid "Delete selected messages"
+msgstr ""
+
+"
+
+msgid "Sender"
+msgstr ""
+
+"
+
+msgid "Date"
+msgstr ""
+
+"
+
+msgid "You need to fill all fields to send a private message"
+msgstr ""
+
+"
+
+msgid "Could not find user with id %1"
+msgstr ""
+
+"
+
+msgid "Could not find user with username %1"
+msgstr ""
+
+"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr ""
+
+"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr ""
+
+"
+
+msgid "Really block %1?"
+msgstr ""
+
+"
+
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
+msgstr ""
+
+"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr ""
+
+"
+
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
+msgstr ""
+
+"
+
+msgid "Add user to filter"
+msgstr ""
+
+"
+
+msgid "No, cancel"
+msgstr ""
+
+"
+
+msgid "User %1 blocked"
+msgstr ""
+
+"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr ""
+
+"
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr ""
+
+"
+
+msgid "Profiles"
+msgstr ""
+
+"
+
+msgid ""
+"%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
+"community."
+msgstr ""
+
+"
+
+msgid ""
+"Explore the diversity of your fellow volunteers, and contribute your own "
+"views for others to enjoy."
+msgstr ""
+
+"
+
+msgid ""
+"If you haven't already, you can %1create your own user profile%2 for others "
+"to see!"
+msgstr ""
+
+"
+
+msgid "User of the Day"
+msgstr ""
+
+"
+
+msgid "User Profile Explorer"
+msgstr ""
+
+"
+
+msgid "View the %1User Picture Gallery%2."
+msgstr ""
+
+"
+
+msgid "Browse profiles %1by country%2."
+msgstr ""
+
+"
+
+msgid ""
+"Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
+"without pictures%2."
+msgstr ""
+
+"
+
+msgid "Alphabetical profile listings:"
+msgstr ""
+
+"
+
+msgid "Search profile text"
+msgstr ""
+
+"
+
+msgid "No profiles"
+msgstr ""
+
+"
+
+msgid "No profiles matched your query."
+msgstr ""
+
+"
+
+msgid "Invalid vote type:"
+msgstr ""
+
+"
+
+msgid "Vote Recorded"
+msgstr ""
+
+"
+
+msgid "Thank you"
+msgstr ""
+
+"
+
+msgid "Your recommendation has been recorded."
+msgstr ""
+
+"
+
+msgid "Your vote to reject this profile has been recorded."
+msgstr ""
+
+"
+
+msgid "Return to profile."
+msgstr ""
+
+"
+
+msgid "This feature is turned off temporarily"
+msgstr ""
+
+"
+
+msgid "No computer with ID %1 found"
+msgstr ""
+
+"
+
+msgid "No access"
+msgstr ""
+
+"
+
+msgid "Missing user ID or host ID"
+msgstr ""
+
+"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
+
+msgid "User of the day"
+msgstr ""
+
+"
+
+msgid "Account data for %1"
+msgstr ""
+
+"
+
+msgid "Statistics and leaderboards"
+msgstr ""
+
+"
+
+msgid "Statistics for %1"
+msgstr ""
+
+"
+
+msgid "Top participants"
+msgstr ""
+
+"
+
+msgid "Top computers"
+msgstr ""
+
+"
+
+msgid "Top teams"
+msgstr ""
+
+"
+
+msgid ""
+"More detailed statistics for %1 and other BOINC-based projects are available "
+"at several web sites:"
+msgstr ""
+
+"
+
+msgid ""
+"You can also get your current statistics in the form of a \"signature image"
+"\":"
+msgstr ""
+
+"
+
+msgid ""
+"Additionally you can get your individual statistics summed across all BOINC "
+"projects from several sites; see your %1home page%2."
+msgstr ""
+
+"
+
+msgid "%1 participants may form %2teams%3"
+msgstr ""
+
+"
+
+msgid ""
+"You may belong to only one team. You can join or quit a team at any time."
+msgstr ""
+
+"
+
+msgid "Each team has a %1founder%2 who may:"
+msgstr ""
+
+"
+
+msgid "access team members' email addresses"
+msgstr ""
+
+"
+
+msgid "edit the team's name and description"
+msgstr ""
+
+"
+
+msgid "remove members from the team"
+msgstr ""
+
+"
+
+msgid "disband a team if it has no members"
+msgstr ""
+
+"
+
+msgid "To join a team, visit its team page and click %1Join this team%2."
+msgstr ""
+
+"
+
+msgid "Find a team"
+msgstr ""
+
+"
+
+msgid "All teams"
+msgstr ""
+
+"
+
+msgid "%1 teams"
+msgstr ""
+
+"
+
+msgid "Create a new team"
+msgstr ""
+
+"
+
+msgid ""
+"If you cannot find a team that is right for you, you can %1create a team%2."
+msgstr ""
+
+"
+
+msgid "You must choose a non-blank team name"
+msgstr ""
+
+"
+
+msgid "A team named %1 already exists - try another name"
+msgstr ""
+
+"
+
+msgid "Could not create team - please try later."
+msgstr ""
+
+"
+
+msgid "Create a team"
+msgstr ""
+
+"
+
+msgid ""
+"You belong to %1. You must %2quit this team%3 before creating a new one."
+msgstr ""
+
+"
+
+msgid "Top hosts"
+msgstr ""
+
+"
+
+msgid "Top %1 teams"
+msgstr ""
+
+"
+
+msgid "Participant since"
+msgstr ""
+
+"
+
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+msgid "Decreasing average credit"
+msgstr ""
+
+"
+
+msgid "Decreasing total credit"
+msgstr ""
+
+"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+msgid "User search results"
+msgstr ""
+
+"
+
+msgid "This user has no profile"
+msgstr ""
+
+"
+
+msgid "Account data"
+msgstr ""
+
+"
+
+msgid ""
+"Your 'weak account key' lets you attach computers to your account on this "
+"project, without giving the ability to log in to your account or to change "
+"it in any way."
+msgstr ""
+
+"
+
+msgid ""
+"This mechanism works only with projects that have upgraded their server "
+"software 7 Dec 2007 or later."
+msgstr ""
+
+"
+
+msgid "Your weak account key for this project is:"
+msgstr ""
+
+"
+
+msgid ""
+"To use your weak account key on a given host, find or create the 'account "
+"file' for this project. This file has a name of the form "
+"<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr ""
+
+"
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr ""
+
+"
+
+msgid ""
+"Your weak account key is a function of your password. If you change your "
+"password, your weak account key changes, and your previous weak account key "
+"becomes invalid."
+msgstr ""
+
+"

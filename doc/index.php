@@ -157,7 +157,7 @@ function show_other() {
             <li> <a href=\"trac/wiki/BoincPapers\">".tra("Papers and talks")."</a>
             <li> <a href=\"trac/wiki/ResearchProjects\">".tra("Research projects")."</a>
             <li> <a href=logo.php>".tra("Logos and graphics")."</a>
-            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a> ",tra("and"),  "<a href=\"http://bossa.berkeley.edu/\">Bossa</a>
+            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a> ",tra("and"),  " <a href=\"http://bossa.berkeley.edu/\">Bossa</a>
             </ul>
             </td><td valign=top>
             <ul>
@@ -223,7 +223,8 @@ function language_form() {
         //."<option value=pl>Polski (Polish)"
         //."<option value=pt_BR>Portugu&ecirc;s - Brasil (Portuguese - Brazil)"
         ."<option value=ru>Русский (Russian)"
-        //."<option value=sk>Slovenčina (Slovenian)"
+        //."<option value=sk>Slovenčina (Slovakian)"
+        ."<option value=sl> Slovenščina (Slovenian)"
         ."<option value=tr>Türkçe (Turkish)"
         ."<option value=zh_CN>简体中文 (Chinese)"
         ."</select>

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-20 12:49 PST\n"
 "PO-Revision-Date: 2009-07-30 12:24-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: \n"
@@ -19,6 +19,14 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
+#, fuzzy
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+#, fuzzy
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 msgid "Search for words in forum messages"
 msgstr "Buscar palabras en los mensajes del foro"
 
@@ -30,6 +38,7 @@ msgstr "Busqueda avanzada"
 
 # ########################################
 # Private messages
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Mensajes privados"
 
@@ -38,6 +47,7 @@ msgstr "Mensajes privados"
 msgid "Questions and Answers"
 msgstr "Preguntas y Respuestas"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Foros"
 
@@ -68,15 +78,19 @@ msgstr "Hilo"
 
 # ########################################
 # Forum
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Mensajes"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Autor"
 
 msgid "Views"
 msgstr "Visitas"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Último mensaje"
 
@@ -85,6 +99,17 @@ msgstr "Marcar todos los hilos como leídos"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Marcar todos los hilos en todos los foros como 'leídos'."
+
+msgid "Comment"
+msgstr ""
+
+"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+"
 
 msgid "Inbox"
 msgstr "Bandeja de entrada"
@@ -97,6 +122,12 @@ msgstr "Escribir"
 msgid "Send private message"
 msgstr "Enviar mensaje privado"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "Previsualizar"
 
@@ -109,6 +140,9 @@ msgstr "IDs de usuario o nombres de usuario únicos, separados con comas."
 msgid "Subject"
 msgstr "Asunto"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Mensaje"
 
@@ -124,6 +158,11 @@ msgstr ""
 
 msgid "unread"
 msgstr "no leído"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+
+"
 
 msgid "Edit your profile"
 msgstr "Edite su perfil"
@@ -152,6 +191,11 @@ msgstr "Palabras clave"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Buscar equipos con estas palabras en sus nombres o descripciones"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "País"
 
@@ -196,9 +240,15 @@ msgstr "Descripción"
 msgid "Web site"
 msgstr "Sitio web"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Crédito total"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Promedio de créditos recientes"
 
@@ -261,6 +311,9 @@ msgstr "Miembros activos"
 msgid "Members with credit"
 msgstr "Miembros con crédito"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "Nombre"
 
@@ -347,6 +400,8 @@ msgstr "Trabajo  computacional y crédito"
 msgid "Pending credit"
 msgstr "Crédito pendiente"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "Ver"
 
@@ -361,6 +416,19 @@ msgstr "ID interproyectos"
 
 msgid "Cross-project statistics"
 msgstr "Estadísticas interproyectos"
+
+msgid "Account"
+msgstr ""
+
+"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "Equipo"
+
+#, fuzzy
+msgid "Cross-project"
+msgstr "ID interproyectos"
 
 msgid "Certificate"
 msgstr "Certificado"
@@ -431,8 +499,10 @@ msgstr "Foros y mensajes privados"
 msgid "Community preferences"
 msgstr "Preferencias de la comunidad"
 
-msgid "Resource share and graphics"
-msgstr "Recursos usados y gráficos"
+msgid "Preferences for this project"
+msgstr ""
+
+"
 
 msgid "%1 preferences"
 msgstr "Preferencias de %1"
@@ -471,9 +541,6 @@ msgstr "(petición de modificación del fundador pendiente)"
 msgid "Member of team"
 msgstr "Miembro del equipo"
 
-msgid "Team"
-msgstr "Equipo"
-
 msgid "find a team"
 msgstr "buscar un equipo"
 
@@ -483,6 +550,7 @@ msgstr "Fundador pero no miembro de"
 msgid "Find friends"
 msgstr "Encontrar amigos"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Amigos"
 
@@ -520,6 +588,44 @@ msgstr "Añadir como amigo"
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+
+#, fuzzy
+msgid "Email address:"
+msgstr "Dirección de correo electrónico"
+
+msgid "forgot email address?"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Password:"
+msgstr "Contraseña"
+
+msgid "forgot password?"
+msgstr ""
+
+"
+
+msgid "Stay logged in on this computer"
+msgstr ""
+
+"
+
+msgid "Log in"
+msgstr ""
+
+"
+
+msgid "or %1create an account%2."
+msgstr ""
+
+"
+
+msgid "Please log in"
+msgstr ""
+
+"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Use etiquetas BBCode para formatear su texto"
@@ -758,9 +864,74 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
 "Esta lista es administrada centralmente desde %1el sitio web de BOINC%2."
 
-msgid "fll"
-msgstr "fll"
+msgid "Change email address"
+msgstr ""
 
+"
+
+msgid "Change the email address of your account"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "New email address"
+msgstr "correo electrónico"
+
+#, fuzzy
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "Debe ser una dirección válida con la forma 'nombre@dominio'."
+
+msgid "No password?"
+msgstr ""
+
+"
+
+msgid "Change password"
+msgstr ""
+
+"
+
+msgid "You can identify yourself using either"
+msgstr ""
+
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "your account key"
+msgstr "Clave débil de cuenta"
+
+msgid "Current password"
+msgstr ""
+
+"
+
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+"
+
+msgid "Get account key by email"
+msgstr ""
+
+"
+
+msgid "New password"
+msgstr ""
+
+"
+
+msgid "New password, again"
+msgstr ""
+
+"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Título"
 
@@ -785,6 +956,7 @@ msgstr "Tema"
 msgid "Create a new thread"
 msgstr "Crear un hilo nuevo"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Responder a este hilo"
 
@@ -850,14 +1022,22 @@ msgstr "Ocultar este hilo"
 msgid "Make unsticky"
 msgstr ""
 
+"
+
 msgid "Make this thread not sticky"
 msgstr ""
+
+"
 
 msgid "Make sticky"
 msgstr ""
 
+"
+
 msgid "Make this thread sticky"
 msgstr ""
+
+"
 
 msgid "Unlock"
 msgstr "Desbloquear"
@@ -901,6 +1081,8 @@ msgstr "%1 no está aceptando peticiones suyas de amistad"
 msgid "You can't be friends with yourself"
 msgstr "No puedes hacerte amigo de ti mismo."
 
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "No existe dicho usuario"
 
@@ -1105,6 +1287,8 @@ msgid ""
 "anyone to view and copy your posts."
 msgstr ""
 
+"
+
 msgid "Is it safe to run %1?"
 msgstr "¿Es seguro ejecutar %1?"
 
@@ -1173,11 +1357,70 @@ msgstr ""
 "niveles de seguridad o la naturaleza de su investigación. Únase a ellos por "
 "su cuenta y riesgo."
 
+msgid "Language selection"
+msgstr ""
+
+"
+
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Spanish"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Español"
+
+msgid ""
+"This web site is available in several languages. The currently selected "
+"language is: %1 (%2)."
+msgstr ""
+
+"
+
+msgid ""
+"Normally the choice of language is determined by your browser's language "
+"setting, which is: %1.  You can change this setting using:"
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid ""
+"Or you can select a language by clicking on one of the links.  This will "
+"send your browser a cookie; make sure your browser accepts cookies from our "
+"domain."
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
 
 msgid "Your message has been sent."
 msgstr "Su mensaje ha sido enviado."
@@ -1312,8 +1555,12 @@ msgstr "No hay perfiles que correspondan a su búsqueda."
 msgid "Invalid vote type:"
 msgstr ""
 
+"
+
 msgid "Vote Recorded"
 msgstr ""
+
+"
 
 msgid "Thank you"
 msgstr "Gracias"
@@ -1324,6 +1571,8 @@ msgstr "Su recomendación ha sido grabada."
 msgid "Your vote to reject this profile has been recorded."
 msgstr ""
 
+"
+
 msgid "Return to profile."
 msgstr "Regresar al perfil."
 
@@ -1333,14 +1582,16 @@ msgstr "Esta opción está deshabilitada temporalmente"
 msgid "No computer with ID %1 found"
 msgstr "No se encontró computadora con ID %1"
 
-msgid "Tasks for computer %1"
-msgstr "Tareas para la computadora %1"
-
 msgid "No access"
 msgstr "Sin acceso"
 
 msgid "Missing user ID or host ID"
 msgstr "Falta el ID de usuario o del host"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
 
 msgid "User of the day"
 msgstr "Usuario del día"
@@ -1461,6 +1712,68 @@ msgstr "Mejores equipos de %1"
 msgid "Participant since"
 msgstr "Participante desde"
 
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Decreasing average credit"
+msgstr "Promedio de créditos recientes"
+
+#, fuzzy
+msgid "Decreasing total credit"
+msgstr "Promedio de créditos recientes"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "User search results"
+msgstr "Resultados de la búsqueda en el foro"
+
 msgid "This user has no profile"
 msgstr "Este usuario no tiene perfil"
 
@@ -1509,6 +1822,15 @@ msgstr ""
 "Su clave débil de cuenta está basada en su contraseña. Si cambia su "
 "contraseña, su clave débil cambiará también, y su clave anterior quedará "
 "invalidada."
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "Recursos usados y gráficos"
+
+#~ msgid "fll"
+#~ msgstr "fll"
+
+#~ msgid "Tasks for computer %1"
+#~ msgstr "Tareas para la computadora %1"
 
 #~ msgid "Provides"
 #~ msgstr "Proporciona"

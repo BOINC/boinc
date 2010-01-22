@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-20 12:49 PST\n"
 "PO-Revision-Date: 2009-05-20 14:38-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,14 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
+#, fuzzy
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+#, fuzzy
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 msgid "Search for words in forum messages"
 msgstr "Hledat slova v příspěvcích ve fóru"
 
@@ -28,12 +36,14 @@ msgstr "Hledat v diskuzních fórech"
 msgid "Advanced search"
 msgstr "Pokročilé hledání"
 
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Soukromé zprávy"
 
 msgid "Questions and Answers"
 msgstr "Otázky a odpovědi"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Diskuzní fóra"
 
@@ -58,15 +68,19 @@ msgstr ""
 msgid "Thread"
 msgstr "Vlákno"
 
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Příspěvků"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Autor"
 
 msgid "Views"
 msgstr "Zobrazení"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Poslední příspěvek"
 
@@ -75,6 +89,17 @@ msgstr "Označit všechna vlákna jako přečtená"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Označit všechna vlákna ve všech diskuzních fórech jako přečtená"
+
+msgid "Comment"
+msgstr ""
+
+"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr ""
+
+"
 
 msgid "Inbox"
 msgstr "Schránka"
@@ -85,6 +110,12 @@ msgstr "Psát zprávu"
 msgid "Send private message"
 msgstr "Poslat soukromou zprávu"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "Náhled"
 
@@ -97,6 +128,9 @@ msgstr "Uživatelská ID nebo unikátní uživatelská jména, oddělená čárk
 msgid "Subject"
 msgstr "Předmět"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Zpráva"
 
@@ -112,6 +146,11 @@ msgstr ""
 
 msgid "unread"
 msgstr "nepřečtené"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+
+"
 
 msgid "Edit your profile"
 msgstr "Upravit Váš profil"
@@ -140,6 +179,11 @@ msgstr "Klíčová slova"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Hledat týmy s těmito slovy v názvu nebo popisu"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "Země"
 
@@ -182,9 +226,15 @@ msgstr "Popis"
 msgid "Web site"
 msgstr "Webové stránky"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Celkový kredit"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Současný průměrný kredit (RAC)"
 
@@ -246,6 +296,9 @@ msgstr "Aktivní členové"
 msgid "Members with credit"
 msgstr "Členové s kreditem"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "Jméno"
 
@@ -329,6 +382,8 @@ msgstr "Výpočty a kredit"
 msgid "Pending credit"
 msgstr "Očekávaný kredit"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "Zobrazit"
 
@@ -343,6 +398,19 @@ msgstr "ID napříč projekty"
 
 msgid "Cross-project statistics"
 msgstr "Statistiky napříč projekty"
+
+msgid "Account"
+msgstr ""
+
+"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "Tým"
+
+#, fuzzy
+msgid "Cross-project"
+msgstr "ID napříč projekty"
 
 msgid "Certificate"
 msgstr "Certifikát"
@@ -413,8 +481,10 @@ msgstr "Diskuzní fóra a soukromé zprávy"
 msgid "Community preferences"
 msgstr "Komunitní nastavení"
 
-msgid "Resource share and graphics"
-msgstr "Využití prostředků a grafika"
+msgid "Preferences for this project"
+msgstr ""
+
+"
 
 msgid "%1 preferences"
 msgstr "%1 nastavení"
@@ -449,9 +519,6 @@ msgstr "(dosud nevyřízený požadavek na změnu vlastnictví)"
 msgid "Member of team"
 msgstr "Člen týmu"
 
-msgid "Team"
-msgstr "Tým"
-
 msgid "find a team"
 msgstr "najít tým"
 
@@ -461,6 +528,7 @@ msgstr "Vlastník, ale ne člen týmu"
 msgid "Find friends"
 msgstr "Najít přátele"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Přátelé"
 
@@ -490,6 +558,44 @@ msgstr "Přidat jako přítele"
 
 msgid "CHARSET"
 msgstr "UTF-8"
+
+#, fuzzy
+msgid "Email address:"
+msgstr "Emailová adresa"
+
+msgid "forgot email address?"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Password:"
+msgstr "Heslo"
+
+msgid "forgot password?"
+msgstr ""
+
+"
+
+msgid "Stay logged in on this computer"
+msgstr ""
+
+"
+
+msgid "Log in"
+msgstr ""
+
+"
+
+msgid "or %1create an account%2."
+msgstr ""
+
+"
+
+msgid "Please log in"
+msgstr ""
+
+"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Používejte BBCode tagy pro formátování Vašeho textu"
@@ -710,9 +816,74 @@ msgstr "Instrukce pro instalaci a používání BOINCu jsou %1zde%2."
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Tento seznam je spravován centrálně na %1webových stránkách BOINC%2."
 
-msgid "fll"
-msgstr "fll"
+msgid "Change email address"
+msgstr ""
 
+"
+
+msgid "Change the email address of your account"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "New email address"
+msgstr "emailová adresa"
+
+#, fuzzy
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "Adresa musí být platného tvaru 'jmeno@domena'."
+
+msgid "No password?"
+msgstr ""
+
+"
+
+msgid "Change password"
+msgstr ""
+
+"
+
+msgid "You can identify yourself using either"
+msgstr ""
+
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "your account key"
+msgstr "Slabý klíč k účtu"
+
+msgid "Current password"
+msgstr ""
+
+"
+
+msgid "<b>OR</b>: Account key"
+msgstr ""
+
+"
+
+msgid "Get account key by email"
+msgstr ""
+
+"
+
+msgid "New password"
+msgstr ""
+
+"
+
+msgid "New password, again"
+msgstr ""
+
+"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Název"
 
@@ -735,6 +906,7 @@ msgstr "Téma"
 msgid "Create a new thread"
 msgstr "Vytvořit nové vlákno"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Přidat příspěvek"
 
@@ -848,6 +1020,8 @@ msgstr "%1 nepřijímá Vaše žádosti o přátelství"
 msgid "You can't be friends with yourself"
 msgstr "Nemůžete mít jako přítele sami sebe"
 
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Uživatel nenalezen"
 
@@ -1117,11 +1291,70 @@ msgstr ""
 "zaručit za jejich bezpečnost či předmět výzkumu. Připojte se k nim dle "
 "Vašeho uvážení."
 
+msgid "Language selection"
+msgstr ""
+
+"
+
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Czech"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Čeština"
+
+msgid ""
+"This web site is available in several languages. The currently selected "
+"language is: %1 (%2)."
+msgstr ""
+
+"
+
+msgid ""
+"Normally the choice of language is determined by your browser's language "
+"setting, which is: %1.  You can change this setting using:"
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid ""
+"Or you can select a language by clicking on one of the links.  This will "
+"send your browser a cookie; make sure your browser accepts cookies from our "
+"domain."
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
 
 msgid "Your message has been sent."
 msgstr "Vaše zpráva byla odeslána."
@@ -1274,14 +1507,16 @@ msgstr "Tato vlastnost je dočasně nedostupná."
 msgid "No computer with ID %1 found"
 msgstr "Nenalezen žádný počítač s ID %1"
 
-msgid "Tasks for computer %1"
-msgstr "Úkoly pro počítač %1"
-
 msgid "No access"
 msgstr "Nemáte přístup"
 
 msgid "Missing user ID or host ID"
 msgstr "Chybí uživatelské ID nebo ID počítače"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
 
 msgid "User of the day"
 msgstr "Uživatel dne"
@@ -1395,6 +1630,68 @@ msgstr "Nejlepší %1 týmy"
 msgid "Participant since"
 msgstr "Účastníkem od"
 
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Decreasing average credit"
+msgstr "Současný průměrný kredit (RAC)"
+
+#, fuzzy
+msgid "Decreasing total credit"
+msgstr "Současný průměrný kredit (RAC)"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "User search results"
+msgstr "Výsledky hledání na fóru"
+
 msgid "This user has no profile"
 msgstr "Tento uživatel nemá žádný profil"
 
@@ -1438,6 +1735,15 @@ msgid ""
 msgstr ""
 "Váš slabý klíč k účtu je spjatý s Vaším heslem. Pokud změníte Vaše heslo, "
 "Váš slabý klíč se také změní a Váš předchozí slabý klíč se tímto zneplatní."
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "Využití prostředků a grafika"
+
+#~ msgid "fll"
+#~ msgstr "fll"
+
+#~ msgid "Tasks for computer %1"
+#~ msgstr "Úkoly pro počítač %1"
 
 #~ msgid "Provides"
 #~ msgstr "Poskytuje"

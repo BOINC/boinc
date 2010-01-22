@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-17 06:23-0700\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-20 12:49 PST\n"
+"PO-Revision-Date: 2010-01-21 10:32-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -19,6 +19,12 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
+msgid "LANG_NAME_NATIVE"
+msgstr "Nederlands"
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Dutch"
+
 msgid "Search for words in forum messages"
 msgstr "Zoek naar woorden in forumberichten"
 
@@ -28,12 +34,14 @@ msgstr "Zoek in het forum"
 msgid "Advanced search"
 msgstr "Uitgebreid zoeken"
 
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Privé berichten"
 
 msgid "Questions and Answers"
 msgstr "Vraag en Antwoord"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Forum"
 
@@ -58,15 +66,19 @@ msgstr ""
 msgid "Thread"
 msgstr "Onderwerp"
 
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Reacties"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Auteur"
 
 msgid "Views"
 msgstr "Bekeken"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Laatste reactie"
 
@@ -75,6 +87,13 @@ msgstr "Markeer alle onderwerpen als gelezen"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Markeer alle forums als 'gelezen'."
+
+msgid "Comment"
+msgstr "Opmerkingen"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr "Nieuws is ook verkrijgbaar als %sRSS feed%s"
 
 msgid "Inbox"
 msgstr "Postvak In"
@@ -85,6 +104,12 @@ msgstr "Schrijven"
 msgid "Send private message"
 msgstr "Verstuur privé bericht"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "Voorbeeld"
 
@@ -97,6 +122,9 @@ msgstr "Gebruikers ID of unieke gebruikersnaam, gescheiden door komma's"
 msgid "Subject"
 msgstr "Onderwerp"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Bericht"
 
@@ -112,6 +140,9 @@ msgstr ""
 
 msgid "unread"
 msgstr "ongelezen"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr "Voor een e-mail bevestiging, %1pas voorkeuren aan%1"
 
 msgid "Edit your profile"
 msgstr "Profiel aanpassen"
@@ -140,6 +171,11 @@ msgstr "Steekwoorden"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Zoek teams met deze woorden in hun naam of beschrijving"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "Land"
 
@@ -182,9 +218,15 @@ msgstr "Beschrijving"
 msgid "Web site"
 msgstr "Website"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Punten totaal"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Gemiddelde punten"
 
@@ -247,6 +289,9 @@ msgstr "Actieve leden"
 msgid "Members with credit"
 msgstr "Leden met punten"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "Naam"
 
@@ -329,6 +374,8 @@ msgstr "Berekeningen en punten"
 msgid "Pending credit"
 msgstr "Openstaande punten"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "Bekijk"
 
@@ -343,6 +390,16 @@ msgstr "Cross-project ID"
 
 msgid "Cross-project statistics"
 msgstr "Cross-project statistieken"
+
+msgid "Account"
+msgstr "Account"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "Team"
+
+msgid "Cross-project"
+msgstr "Cross-project"
 
 msgid "Certificate"
 msgstr "Certificaat"
@@ -413,8 +470,8 @@ msgstr "Forum en privé berichten"
 msgid "Community preferences"
 msgstr "Gemeenschaps voorkeuren"
 
-msgid "Resource share and graphics"
-msgstr "Gedeelde bronnen en grafische weergave"
+msgid "Preferences for this project"
+msgstr "Voorkeuren voor dit project"
 
 msgid "%1 preferences"
 msgstr "%1 voorkeuren"
@@ -449,9 +506,6 @@ msgstr "(oprichters wissel in aanvraag)"
 msgid "Member of team"
 msgstr "Lid van team"
 
-msgid "Team"
-msgstr "Team"
-
 msgid "find a team"
 msgstr "vind een team"
 
@@ -461,6 +515,7 @@ msgstr "Oprichter maar geen lid van"
 msgid "Find friends"
 msgstr "Vind vrienden"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Vrienden"
 
@@ -491,6 +546,30 @@ msgstr "Voeg toe als vriend"
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+
+msgid "Email address:"
+msgstr "E-mail adres:"
+
+msgid "forgot email address?"
+msgstr "e-mail adres vergeten?"
+
+msgid "Password:"
+msgstr "Wachtwoord:"
+
+msgid "forgot password?"
+msgstr "wachtwoord vergeten?"
+
+msgid "Stay logged in on this computer"
+msgstr "Blijf ingelogd op deze computer"
+
+msgid "Log in"
+msgstr "Inloggen"
+
+msgid "or %1create an account%2."
+msgstr "of %1maak een account%2"
+
+msgid "Please log in"
+msgstr "Log a.u.b. in"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Gebruik BBCode om de tekst op te maken"
@@ -719,9 +798,49 @@ msgstr ""
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Deze lijst wordt centraal onderhouden door %1de BOINC website%2."
 
-msgid "fll"
-msgstr "fll"
+msgid "Change email address"
+msgstr "Verander e-mail adres"
 
+msgid "Change the email address of your account"
+msgstr "Verander het e-mail adres van je account"
+
+msgid "New email address"
+msgstr "Nieuw e-mail adres"
+
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "Moet een geldig email adres zijn in de vorm 'naam@domein'"
+
+msgid "No password?"
+msgstr "Geen wachtwoord?"
+
+msgid "Change password"
+msgstr "Verander wachtwoord"
+
+msgid "You can identify yourself using either"
+msgstr "Je kan jezelf inloggen door middel van"
+
+msgid "your email address and old password"
+msgstr "je e-mail adres en het oude wachtwoord"
+
+msgid "your account key"
+msgstr "je account key"
+
+msgid "Current password"
+msgstr "Huidig wachtwoord"
+
+msgid "<b>OR</b>: Account key"
+msgstr "<b>OF</b>: Account key"
+
+msgid "Get account key by email"
+msgstr "Ontvang account key per e-mail"
+
+msgid "New password"
+msgstr "Nieuw wachtwoord"
+
+msgid "New password, again"
+msgstr "Nieuw wachtwoord, opnieuw"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Titel"
 
@@ -744,6 +863,7 @@ msgstr "Onderwerp"
 msgid "Create a new thread"
 msgstr "Start nieuw onderwerp"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Plaats bericht"
 
@@ -856,6 +976,8 @@ msgstr "%1 accepteert geen verzoeken tot vriendschap van jou "
 msgid "You can't be friends with yourself"
 msgstr "Je kan geen vriendschap met jezelf aangaan"
 
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Gebruiker niet gevonden"
 
@@ -1123,11 +1245,59 @@ msgstr ""
 "garanties geven over hun doelstellingen en de mate van veiligheid. Deelname "
 "is daarom op eigen risico."
 
+msgid "Language selection"
+msgstr "Taal selectie"
+
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Dutch"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Nederlands"
+
+msgid ""
+"This web site is available in several languages. The currently selected "
+"language is: %1 (%2)."
+msgstr ""
+"Deze website is beschikbaar in verschillende talen. De geselecteerde taal is "
+"nu: %1 (%2)"
+
+msgid ""
+"Normally the choice of language is determined by your browser's language "
+"setting, which is: %1.  You can change this setting using:"
+msgstr ""
+"Normaal wordt de taal geselecteerd op basis van de taal instellingen van je "
+"browser, nu ingesteld: %1  Als volgt aan te passen bij:"
+
+msgid "Firefox: Tools/Options/General"
+msgstr "Firefox: Extra/Opties/Inhoud"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr "Microsoft IE: Extra/Internet Opties/Algemeen"
+
+msgid ""
+"Or you can select a language by clicking on one of the links.  This will "
+"send your browser a cookie; make sure your browser accepts cookies from our "
+"domain."
+msgstr ""
+"Ook is het mogelijk een taal te selecteren door op een van de links te "
+"klikken.  Er wordt dan een cookie naar je browser verstuurd indien deze dit "
+"accepteert."
+
+msgid "Language symbol"
+msgstr "Taal symbool"
+
+msgid "Language name (click to select)"
+msgstr "Taal (klik om te selecteren)"
+
+msgid "Use browser language setting"
+msgstr "Gebruik taal instelling van browser"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+"Vertalingen worden door vrijwilligers gemaakt.  Indien jouw taal niet "
+"voorkomt kan je %1een nieuwe vertaling aanmaken%2"
 
 msgid "Your message has been sent."
 msgstr "Je bericht is verzonden."
@@ -1280,14 +1450,14 @@ msgstr "Deze optie is tijdelijk uit gezet"
 msgid "No computer with ID %1 found"
 msgstr "Computer met ID %1 niet gevonden"
 
-msgid "Tasks for computer %1"
-msgstr "Taken voor computer %1"
-
 msgid "No access"
 msgstr "Geen toegang"
 
 msgid "Missing user ID or host ID"
 msgstr "Gebruikers of computer ID niet aanwezig"
+
+msgid "No tasks to display"
+msgstr "Geen taken om weer te geven"
 
 msgid "User of the day"
 msgstr "Gebruiker van de dag"
@@ -1405,6 +1575,45 @@ msgstr "Top %1 teams"
 msgid "Participant since"
 msgstr "Deelnemer sinds"
 
+msgid "Joined"
+msgstr "Aangemeld"
+
+msgid "Search type"
+msgstr "Zoek type"
+
+msgid "User name starts with"
+msgstr "Gebruikersnaam begint met"
+
+msgid "Decreasing sign-up time"
+msgstr "Oplopende aanmeldings datum"
+
+msgid "Decreasing average credit"
+msgstr "Oplopend punten gemiddelde"
+
+msgid "Decreasing total credit"
+msgstr "Oplopend punten totaal"
+
+msgid "Filters"
+msgstr "Filter"
+
+msgid "With profile?"
+msgstr "Met een profiel?"
+
+msgid "On a team?"
+msgstr "Lid van een team?"
+
+msgid "search string must be at least 3 characters"
+msgstr "zoek waarde moet minimaal 3 karakters lang zijn"
+
+msgid "User names starting with"
+msgstr "Gebruikersnamen beginnend met"
+
+msgid "No users match your search criteria."
+msgstr "Zoek opdracht heeft geen gebruikers opgeleverd."
+
+msgid "User search results"
+msgstr "Zoek resultaten voor gebruiker"
+
 msgid "This user has no profile"
 msgstr "Deze gebruiker heeft geen profiel"
 
@@ -1451,6 +1660,15 @@ msgstr ""
 "Je 'beperkte account key' is afhankelijk van je wachtwoord. Indien je je "
 "wachtwoord veranderd, zal ook je 'beperkte account key' aangepast worden en "
 "is de vorige niet meer geldig."
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "Gedeelde bronnen en grafische weergave"
+
+#~ msgid "fll"
+#~ msgstr "fll"
+
+#~ msgid "Tasks for computer %1"
+#~ msgstr "Taken voor computer %1"
 
 #~ msgid "Provides"
 #~ msgstr "Geeft"

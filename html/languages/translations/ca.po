@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-15 16:26-0700\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-20 12:49 PST\n"
+"PO-Revision-Date: 2010-01-20 15:12-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -19,6 +19,12 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
+msgid "LANG_NAME_NATIVE"
+msgstr "Català"
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Catalan"
+
 msgid "Search for words in forum messages"
 msgstr "Cercar paraules en els fòrums de missatges"
 
@@ -28,12 +34,14 @@ msgstr "Cercar en els fòrums"
 msgid "Advanced search"
 msgstr "Recerca avançada"
 
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Missatges privats"
 
 msgid "Questions and Answers"
 msgstr "Preguntes i respostes"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Panells de missatges"
 
@@ -59,15 +67,19 @@ msgstr ""
 msgid "Thread"
 msgstr "Fil"
 
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Correu"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Autor"
 
 msgid "Views"
 msgstr "Opinions"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Últim correu"
 
@@ -76,6 +88,13 @@ msgstr "Marcar tots el fils com a llegits"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Marcar com a llegits tots els fils a tots els taulers de missatges."
+
+msgid "Comment"
+msgstr "Comentari"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr "News està disponible com un canal %sRSS%s"
 
 msgid "Inbox"
 msgstr "Bústia d'entrada"
@@ -86,6 +105,12 @@ msgstr "Escriure"
 msgid "Send private message"
 msgstr "Enviar un missatge privat"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "Vista prèvia"
 
@@ -98,6 +123,9 @@ msgstr "Identificadors (ID) o noms d'usuaris únics, separats per comes"
 msgid "Subject"
 msgstr "Assumpte"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Missatge"
 
@@ -113,6 +141,11 @@ msgstr ""
 
 msgid "unread"
 msgstr "no llegit"
+
+msgid "For email notification, %1edit community prefs%2"
+msgstr ""
+"Per obtenir notificació per correu electrònic,%1editi les preferències de la "
+"comunitat%2"
 
 msgid "Edit your profile"
 msgstr "Editi el seu perfil"
@@ -141,6 +174,11 @@ msgstr "Paraules clau"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Trobar equips amb aquestes paraules en els seus noms o descripcions"
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "País"
 
@@ -183,11 +221,20 @@ msgstr "Descripció"
 msgid "Web site"
 msgstr "Pàgina web"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Crèdit total"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Crèdit mitjà més recent"
+
+msgid "Cross-project stats"
+msgstr "Estadístiques multi-projecte"
 
 msgid "Type"
 msgstr "Tipus"
@@ -245,6 +292,9 @@ msgstr "Membres actius"
 msgid "Members with credit"
 msgstr "Membres amb crèdits"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "Nom"
 
@@ -328,6 +378,8 @@ msgstr "Computació i crèdits"
 msgid "Pending credit"
 msgstr "Crèdits pendents"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "Mirar"
 
@@ -342,6 +394,16 @@ msgstr "Identificador multi-projecte"
 
 msgid "Cross-project statistics"
 msgstr "Estadístiques multi-projecte"
+
+msgid "Account"
+msgstr "Compte"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "Grup"
+
+msgid "Cross-project"
+msgstr "Multi-projecte"
 
 msgid "Certificate"
 msgstr "Certificat"
@@ -412,8 +474,8 @@ msgstr "Panell de missatges i missatges privats"
 msgid "Community preferences"
 msgstr "Preferències de la comunitat"
 
-msgid "Resource share and graphics"
-msgstr "Compartició de recursos i gràfics"
+msgid "Preferences for this project"
+msgstr "Preferències per a aquest projecte"
 
 msgid "%1 preferences"
 msgstr "Preferències de %1"
@@ -448,9 +510,6 @@ msgstr "(petició de canvi del fundador pendent)"
 msgid "Member of team"
 msgstr "Membre de l'equip"
 
-msgid "Team"
-msgstr "Grup"
-
 msgid "find a team"
 msgstr "Trobar un grup"
 
@@ -460,6 +519,7 @@ msgstr "Fundador però no membre de "
 msgid "Find friends"
 msgstr "Trobar amics"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Amics"
 
@@ -489,6 +549,30 @@ msgstr "Afegir com amic"
 
 msgid "CHARSET"
 msgstr "UTF-8"
+
+msgid "Email address:"
+msgstr "Adreça de correu:"
+
+msgid "forgot email address?"
+msgstr "a oblidat l'adreça de correu electrònic?"
+
+msgid "Password:"
+msgstr "Contrasenya:"
+
+msgid "forgot password?"
+msgstr "Heu oblidat la contrasenya?"
+
+msgid "Stay logged in on this computer"
+msgstr "Mantenir-me en aquest ordinador"
+
+msgid "Log in"
+msgstr "Registrar-se"
+
+msgid "or %1create an account%2."
+msgstr "o %1crei un compte%2."
+
+msgid "Please log in"
+msgstr "Si us plau registris"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Utilitzar les marques BBCode per formatar el text"
@@ -606,8 +690,9 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Si desitja incloure una imatge en el seu perfil, premi el botó "
-"\"Navegar\" i seleccioni un fitxer JPEG o PNG. Si us plau seleccioni imatges de %1 o menys."
+"Si desitja incloure una imatge en el seu perfil, premi el botó \"Navegar\" i "
+"seleccioni un fitxer JPEG o PNG. Si us plau seleccioni imatges de %1 o "
+"menys."
 
 msgid "Language"
 msgstr "Idioma"
@@ -621,8 +706,7 @@ msgstr "Lliurar el perfil"
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
-"Per protegir les pàgines del projectes de l'spam, li demanem que introdueixi "
+msgstr "Per protegir les pàgines del projectes de l'spam, li demanem que introdueixi "
 "les dues paraules que es mostren en la imatge:<br>\n"
 
 msgid "Create/edit profile"
@@ -635,25 +719,26 @@ msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
-"El seu %1perfil%2 li permet compartir les seves opinions i coneixements amb %3 "
-"comunitat."
+"El seu %1perfil%2 li permet compartir les seves opinions i coneixements amb "
+"%3 comunitat."
 
 msgid "Your ReCaptcha response was not correct.  Please try again."
-msgstr "La seva resposta 'ReCaptcha' no es correcte. Si us plau, provi-ho de nou."
+msgstr ""
+"La seva resposta 'ReCaptcha' no es correcte. Si us plau, provi-ho de nou."
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"La seva primera resposta ha estat marcada com spam per el sistema anti-spam Akimest.  "
-"Si us plau modifiqui el text i provi-ho de nou."
+"La seva primera resposta ha estat marcada com spam per el sistema anti-spam "
+"Akimest.  Si us plau modifiqui el text i provi-ho de nou."
 
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"La seva segona resposta ha estat marcada com spam per el sistema anti-spam Akismet.  "
-"Si us plau modifiqui el seu text i provi-ho de nou."
+"La seva segona resposta ha estat marcada com spam per el sistema anti-spam "
+"Akismet.  Si us plau modifiqui el seu text i provi-ho de nou."
 
 msgid "Your profile submission was empty."
 msgstr "El perfil que ha lliurat està buit"
@@ -669,8 +754,7 @@ msgstr "S'ha guardat el perfil"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
-"Felicitats! El seu perfil ha estat incorporat a la base de dades."
+msgstr "Felicitats! El seu perfil ha estat incorporat a la base de dades."
 
 msgid "%1View your profile%2"
 msgstr "%1Veure el seu perfil%2"
@@ -682,8 +766,8 @@ msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
-"Per prevenir l'spam, necessita un crèdit promitg de %1 o mes gran per crear o "
-"editar un perfil. Disculpin aquestes molèsties."
+"Per prevenir l'spam, necessita un crèdit promitg de %1 o mes gran per crear "
+"o editar un perfil. Disculpin aquestes molèsties."
 
 msgid "Download BOINC add-on software"
 msgstr "Descarregar programari BOINC addicional"
@@ -694,7 +778,8 @@ msgstr "Pot descarregar aplicatius de diverses categories."
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr ""
-"Aquestes aplicacions no estan aprovades per %1 i les ha d'utilitzar sota la seva responsabilitat."
+"Aquestes aplicacions no estan aprovades per %1 i les ha d'utilitzar sota la "
+"seva responsabilitat."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -703,19 +788,61 @@ msgid ""
 "If this is not enough you should contact the author."
 msgstr ""
 "No proporcionem instruccions per la instal·lació d'aquestes aplicacions.\n"
-"De totes maneres, es probable que l'autor hagi proporcionat algun tipus d'ajuda per "
-"la instal·lació o des-instal·lació de l'aplicació. \n"
+"De totes maneres, es probable que l'autor hagi proporcionat algun tipus "
+"d'ajuda per la instal·lació o des-instal·lació de l'aplicació. \n"
 "Si no estès disponible contacti l'autor."
 
 msgid "Instructions for installing and running BOINC are %1here%2."
 msgstr "Les instruccions per instal·lar i executar BOINC es troben %1aquí%2."
 
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr "Aquesta llista està gestionada per el servidor de la %1pagína web de BOINC%2."
+msgstr ""
+"Aquesta llista està gestionada per el servidor de la %1pagína web de "
+"BOINC%2."
 
-msgid "fll"
-msgstr "f11"
+msgid "Change email address"
+msgstr "Canviar l'adreça de correu electrònic"
 
+msgid "Change the email address of your account"
+msgstr "Canviï l'adreça de correu electrònic del seu compte"
+
+msgid "New email address"
+msgstr "Nova adreça de correu electrònic"
+
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "Ha de ser una adreça de correu vàlida del tipus 'nom@domini'"
+
+msgid "No password?"
+msgstr "Sense contrasenya?"
+
+msgid "Change password"
+msgstr "Canviï la contrasenya"
+
+msgid "You can identify yourself using either"
+msgstr "Vostè pot identificar-se utilitzant"
+
+msgid "your email address and old password"
+msgstr "la seva adreça de correu electrònic i la contrasenya antiga"
+
+msgid "your account key"
+msgstr "clau del seu compte"
+
+msgid "Current password"
+msgstr "Contrasenya actual"
+
+msgid "<b>OR</b>: Account key"
+msgstr "<b>O</b>: Clau del compte"
+
+msgid "Get account key by email"
+msgstr "Obtenir la clau de compte per correu electrònic"
+
+msgid "New password"
+msgstr "Nova contrasenya"
+
+msgid "New password, again"
+msgstr "Nova contrasenya, una vegada més"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Títol"
 
@@ -738,6 +865,7 @@ msgstr "Tema"
 msgid "Create a new thread"
 msgstr "Crear un nou fil"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Correu del fil"
 
@@ -748,7 +876,8 @@ msgid "Forum search results"
 msgstr "Resultats de la recerca al fòrum"
 
 msgid "No thread with id %1. Please check the link and try again."
-msgstr "No hi ha cap fil amb id %1. Si us plau comprovi l'accés i provi-ho de nou."
+msgstr ""
+"No hi ha cap fil amb id %1. Si us plau comprovi l'accés i provi-ho de nou."
 
 msgid "This forum is not visible to you."
 msgstr "Aquest fòrum no està disponible per a vostè."
@@ -762,7 +891,8 @@ msgstr "La meva pregunta ja va ser contestada"
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
-"Si la seva pregunta ha estat resposta satisfactòriment si us plau premi aqui per finalitzar-la!"
+"Si la seva pregunta ha estat resposta satisfactòriment si us plau premi aqui "
+"per finalitzar-la!"
 
 msgid "I've also got this question"
 msgstr "Jo també m'he fet aquesta pregunta"
@@ -848,6 +978,8 @@ msgstr "%1 no accepta les peticions d'amistat de vostè"
 msgid "You can't be friends with yourself"
 msgstr "vostè no pot ser amic de vostè mateix"
 
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "No existeix l'usuari"
 
@@ -858,8 +990,8 @@ msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
-"Heu demanat d'afegir %1 com amic. Ho notificarem a %2 i li demanarem "
-"que confirmi que sou amics."
+"Heu demanat d'afegir %1 com amic. Ho notificarem a %2 i li demanarem que "
+"confirmi que sou amics."
 
 msgid "Add an optional message here:"
 msgstr "Afegir aquí un missatge opcional:"
@@ -949,7 +1081,9 @@ msgid "Welcome to %1"
 msgstr "Benvingut a %1"
 
 msgid "View and edit your account preferences using the links below."
-msgstr "Revisi i editi les preferències del seu compte utilitzant els vincles següents."
+msgstr ""
+"Revisi i editi les preferències del seu compte utilitzant els vincles "
+"següents."
 
 msgid "Your account"
 msgstr "El seu compte"
@@ -1034,10 +1168,10 @@ msgid ""
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
-"El missatges privats a la web %1 només son visibles per qui els envia i "
-"el receptor.  %1 no comprova ni restringeix el continguts del missatges privats.  "
-"Si rep un missatge privat no desitjat d'un altre usuari %1, pot afegir-lo "
-"en el seu %2filtre de missatges%3.  Això evitarà que vegi cap "
+"El missatges privats a la web %1 només son visibles per qui els envia i el "
+"receptor.  %1 no comprova ni restringeix el continguts del missatges "
+"privats.  Si rep un missatge privat no desitjat d'un altre usuari %1, pot "
+"afegir-lo en el seu %2filtre de missatges%3.  Això evitarà que vegi cap "
 "missatge públic o privat d'aquest usuari."
 
 msgid ""
@@ -1046,10 +1180,10 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
-"Si utilitza els fòrums de la nostra web ha de seguir les %2normes%3.  "
-"Els missatges que enviï missatges als fòrums de %1 seran visibles per tothom, "
-"inclosos els que no son membres.  Lliurant els missatges al fòrum, esteu autoritzant "
-"de forma incondicional a tothom a veure'ls i copiar-los."
+"Si utilitza els fòrums de la nostra web ha de seguir les %2normes%3.  Els "
+"missatges que enviï missatges als fòrums de %1 seran visibles per tothom, "
+"inclosos els que no son membres.  Lliurant els missatges al fòrum, esteu "
+"autoritzant de forma incondicional a tothom a veure'ls i copiar-los."
 
 msgid "Is it safe to run %1?"
 msgstr "Es segura l'execució de %1?"
@@ -1118,11 +1252,60 @@ msgstr ""
 "seva seguretat o la naturalesa de la seva recerca. Uniu-vos-hi sota la "
 "vostra responsabilitat."
 
+msgid "Language selection"
+msgstr "Selecció d'idioma"
+
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Catalan"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Català"
+
+msgid ""
+"This web site is available in several languages. The currently selected "
+"language is: %1 (%2)."
+msgstr ""
+"Aquest lloc web està disponible en diversos idiomes. L'idioma seleccionat "
+"actualment és: %1 (%2)."
+
+msgid ""
+"Normally the choice of language is determined by your browser's language "
+"setting, which is: %1.  You can change this setting using:"
+msgstr ""
+"Normalment, l'elecció de la llengua està determinada per la configuració "
+"d'idioma del seu navegador, que és: %1.  Podeu canviar aquesta configuració "
+"utilitzant:"
+
+msgid "Firefox: Tools/Options/General"
+msgstr "Firefox: Eines/Opcions/General"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr "Microsoft IE: Eines/Opcions d'Internet/Idiomes"
+
+msgid ""
+"Or you can select a language by clicking on one of the links.  This will "
+"send your browser a cookie; make sure your browser accepts cookies from our "
+"domain."
+msgstr ""
+"O pot seleccionar un idioma fent clic en un dels enllaços.  Això enviarà al "
+"seu navegador una galeta, assegureu-vos que el vostre navegador accepti "
+"galetes del nostre domini."
+
+msgid "Language symbol"
+msgstr "Símbol de l'idioma"
+
+msgid "Language name (click to select)"
+msgstr "Nom de l'idioma (feu clic per seleccionar-lo)"
+
+msgid "Use browser language setting"
+msgstr "Utilitzar la configuració d'idioma del navegador"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+"Les traduccions són realitzades per voluntaris.  Si la seva llengua materna "
+"no és aquí, %1vosté pot proporcionar una traducció%2."
 
 msgid "Your message has been sent."
 msgstr "El vostre missatge ha estat lliurat."
@@ -1167,11 +1350,12 @@ msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
 msgstr ""
-"Està segur que vol bloquejar que l'usuari %1 li enviï missatges "
-"privats?"
+"Està segur que vol bloquejar que l'usuari %1 li enviï missatges privats?"
 
 msgid "Please note that you can only block a limited amount of users."
-msgstr "Si us plau, tingui en compte que només pot bloquejar un nombre limitat d'usuaris."
+msgstr ""
+"Si us plau, tingui en compte que només pot bloquejar un nombre limitat "
+"d'usuaris."
 
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
@@ -1274,14 +1458,14 @@ msgstr "Aquesta opció està desactivada temporalment"
 msgid "No computer with ID %1 found"
 msgstr "No s'ha trobat cap ordinador amb el ID %1"
 
-msgid "Tasks for computer %1"
-msgstr "Feines de l'ordinador %1"
-
 msgid "No access"
 msgstr "No hi ha accés"
 
 msgid "Missing user ID or host ID"
 msgstr "Falta L'ID de l'usuari o del servidor"
+
+msgid "No tasks to display"
+msgstr "No hi ha tasques per mostrar"
 
 msgid "User of the day"
 msgstr "Usuari del Dia"
@@ -1308,28 +1492,30 @@ msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
-"Estadístiques mes detallades de %1 i altres projectes BOINC disponibles "
-"a diverses pàgines web:"
+"Estadístiques mes detallades de %1 i altres projectes BOINC disponibles a "
+"diverses pàgines web:"
 
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
-msgstr ""
-"També pot obtenir les seves estadístiques en forma de \"imatge\":"
+msgstr "També pot obtenir les seves estadístiques en forma de \"imatge\":"
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
 "També pot obtenir les seves estadístiques individuals com a suma de tots els "
-"projectes BOINC a partir de diverses pàgines web; vegi la seva %1pàgina principal%2."
+"projectes BOINC a partir de diverses pàgines web; vegi la seva %1pàgina "
+"principal%2."
 
 msgid "%1 participants may form %2teams%3"
 msgstr "%1 participants poden formar %2equips%3"
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
-msgstr "Només podeu pertànyer a un equip. Us podeu adjuntar o separar en qualsevol moment."
+msgstr ""
+"Només podeu pertànyer a un equip. Us podeu adjuntar o separar en qualsevol "
+"moment."
 
 msgid "Each team has a %1founder%2 who may:"
 msgstr "Cada equip te un %1fondador%2 que pot:"
@@ -1347,7 +1533,9 @@ msgid "disband a team if it has no members"
 msgstr "dissoldre un equip si no te membres"
 
 msgid "To join a team, visit its team page and click %1Join this team%2."
-msgstr "Per adjuntar-vos a u  equip, visiteu la seva pàgina i premeu %1Adjuntar-se a aquest equip%2."
+msgstr ""
+"Per adjuntar-vos a u  equip, visiteu la seva pàgina i premeu %1Adjuntar-se a "
+"aquest equip%2."
 
 msgid "Find a team"
 msgstr "Trobar un grup"
@@ -1392,6 +1580,45 @@ msgstr "Els %1 equips principals"
 
 msgid "Participant since"
 msgstr "Participant des de"
+
+msgid "Joined"
+msgstr "Adjuntat"
+
+msgid "Search type"
+msgstr "Tipus de cerca"
+
+msgid "User name starts with"
+msgstr "Nom d'usuari comença amb"
+
+msgid "Decreasing sign-up time"
+msgstr "Disminuir el temps d'inici de sessió"
+
+msgid "Decreasing average credit"
+msgstr "Disminuint el crèdit mitjana"
+
+msgid "Decreasing total credit"
+msgstr "Disminuint el crèdit total"
+
+msgid "Filters"
+msgstr "Filtres"
+
+msgid "With profile?"
+msgstr "Amb el perfil?"
+
+msgid "On a team?"
+msgstr "En un equip?"
+
+msgid "search string must be at least 3 characters"
+msgstr "la paraula a cercar ha de ser de com a mínim 3 caràcters"
+
+msgid "User names starting with"
+msgstr "Noms d'usuari que comencen per"
+
+msgid "No users match your search criteria."
+msgstr "No hi ha usuaris que coincideixin amb els seus criteris de recerca."
+
+msgid "User search results"
+msgstr "Resultats de la recerca de l'usuari"
 
 msgid "This user has no profile"
 msgstr "Aquest usuari no te perfil"
@@ -1439,3 +1666,12 @@ msgstr ""
 "La seva clau de compte feble és una funció de la seva contrasenya. Si canvia "
 "la contrasenya, la clau de compte feble canvia, i la clau de compte feble "
 "anterior deixa de ser vàlida."
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "Compartició de recursos i gràfics"
+
+#~ msgid "fll"
+#~ msgstr "f11"
+
+#~ msgid "Tasks for computer %1"
+#~ msgstr "Feines de l'ordinador %1"

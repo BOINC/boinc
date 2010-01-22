@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-06-04 09:44-0700\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2010-01-20 12:49 PST\n"
+"PO-Revision-Date: 2010-01-20 12:31-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -19,6 +19,16 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
+# The name of this language in this language
+#, fuzzy
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+# The name of this language in an international language (English)
+#, fuzzy
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
 msgid "Search for words in forum messages"
 msgstr "Suche in Forenbeiträgen"
 
@@ -30,6 +40,7 @@ msgstr "Erweiterte Suche"
 
 # ########################################
 # Private messages
+#: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Private Nachrichten"
 
@@ -38,13 +49,14 @@ msgstr "Private Nachrichten"
 msgid "Questions and Answers"
 msgstr "Fragen und Antworten"
 
+#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Diskussionsforen"
 
 # ########################################<br />
 # Forum sample index page
 msgid "%1 message board"
-msgstr "%1-Diskussionsforen"
+msgstr "%1-Diskussionsforum"
 
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
@@ -67,15 +79,19 @@ msgstr "Themen"
 
 # ########################################
 # Forum
+#: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Beiträge"
 
+#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Autor"
 
 msgid "Views"
 msgstr "Ansichten"
 
+#: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Letzter Beitrag"
 
@@ -84,6 +100,13 @@ msgstr "Alle Themen als gelesen markieren"
 
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Alle Themen in allen Bereichen als gelesen markieren"
+
+msgid "Comment"
+msgstr "Kommentar"
+
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr "Nachrichten sind auch als %sRSS feed%s verfügbar."
 
 msgid "Inbox"
 msgstr "Posteingang"
@@ -94,6 +117,12 @@ msgstr "Schreiben"
 msgid "Send private message"
 msgstr "Privatnachricht versenden"
 
+#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145 ../user/forum_post.php:62
+#: ../user/forum_post.php:88 ../user/forum_post.php:91
+#: ../user/forum_post.php:129 ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
 msgstr "Vorschau"
 
@@ -106,6 +135,9 @@ msgstr "Benutzer-IDs oder eindeutige Benutzernamen, durch Kommas getrennt"
 msgid "Subject"
 msgstr "Betreff"
 
+#: ../user/forum_post.php:118 ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Nachricht"
 
@@ -121,6 +153,10 @@ msgstr ""
 
 msgid "unread"
 msgstr "ungelesen"
+
+#, fuzzy
+msgid "For email notification, %1edit community prefs%2"
+msgstr "E-Mail Mitteilungen in den %1Gemeinschafts-Einstellungen%2 einstellen."
 
 msgid "Edit your profile"
 msgstr "Profil bearbeiten"
@@ -149,6 +185,11 @@ msgstr "Schlagwörter"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Findet Teams mit diesen Begriffen im Namen oder der Beschreibung."
 
+#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
+#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../user/create_account_form.php:94 ../user/top_users.php:62
+#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "Land"
 
@@ -193,9 +234,15 @@ msgstr "Beschreibung"
 msgid "Web site"
 msgstr "Internetseite"
 
+#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
+#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
+#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Gesamtguthaben"
 
+#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
+#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Durchschnittliches Guthaben"
 
@@ -219,8 +266,8 @@ msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
-"Hinweis: Wenn 'OK für emails' in den Projekteinstellungen gesetzt ist kann "
-"der Gründer des Teams Ihre Emailadresse einsehen."
+"Hinweis: Wenn 'OK für E-Mails' in den Projekteinstellungen gesetzt ist kann "
+"der Gründer des Teams Ihre E-Mail-Adresse einsehen."
 
 msgid "Not accepting new members"
 msgstr "Akzeptiert keine neuen Mitglieder"
@@ -231,9 +278,8 @@ msgstr "Wechsel des Gründerstatus beantragt"
 msgid "Respond by %1"
 msgstr "Rückmeldung bis %1"
 
-#, fuzzy
 msgid "Team foundership change"
-msgstr "Gründerstatus wechseln"
+msgstr "Teamgründer wechseln"
 
 msgid "Members"
 msgstr "Mitglieder"
@@ -259,6 +305,9 @@ msgstr "aktive Mitglieder"
 msgid "Members with credit"
 msgstr "Mitglieder mit Guthaben"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "Name"
 
@@ -312,7 +361,6 @@ msgstr "URL der Team-Internetseite, wenn vorhanden"
 msgid "without \"http://\""
 msgstr "ohne \"http://\""
 
-#, fuzzy
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "Diese URL wird als Link zur Team-Internetseite benutzt."
 
@@ -343,6 +391,8 @@ msgstr "Berechnungen und Guthaben"
 msgid "Pending credit"
 msgstr "Ausstehendes Guthaben"
 
+#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../user/view_profile.php:54
 msgid "View"
 msgstr "Anzeigen"
 
@@ -357,6 +407,17 @@ msgstr "Projektübergreifende ID"
 
 msgid "Cross-project statistics"
 msgstr "Projektübergreifende Statistiken"
+
+msgid "Account"
+msgstr "Konto"
+
+#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+msgid "Team"
+msgstr "Team"
+
+#, fuzzy
+msgid "Cross-project"
+msgstr "Projektübergreifende ID"
 
 msgid "Certificate"
 msgstr "Urkunde"
@@ -428,8 +489,8 @@ msgstr "Diskussionsforen und Private Nachrichten"
 msgid "Community preferences"
 msgstr "Communityeinstellungen"
 
-msgid "Resource share and graphics"
-msgstr "Ressourcenaufteilung und Grafik"
+msgid "Preferences for this project"
+msgstr "Einstellungen für dieses Projekt"
 
 msgid "%1 preferences"
 msgstr "%1-Einstellungen"
@@ -458,15 +519,11 @@ msgstr "Team verlassen"
 msgid "Administer"
 msgstr "Verwalten"
 
-#, fuzzy
 msgid "(foundership change request pending)"
-msgstr "(ausstehende Anfrage des Gründerwechsels)"
+msgstr "(ausstehender Gründerwechsel)"
 
 msgid "Member of team"
 msgstr "Mitglied im Team"
-
-msgid "Team"
-msgstr "Team"
 
 msgid "find a team"
 msgstr "Team finden"
@@ -477,6 +534,7 @@ msgstr "Gründer aber nicht Mitglied von"
 msgid "Find friends"
 msgstr "Freunde finden"
 
+#: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Freunde"
 
@@ -507,6 +565,32 @@ msgstr "als Freund hinzufügen"
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+
+#, fuzzy
+msgid "Email address:"
+msgstr "E-Mail-Adresse"
+
+#, fuzzy
+msgid "forgot email address?"
+msgstr "E-Mail-Adresse vergessen?"
+
+msgid "Password:"
+msgstr "Passwort:"
+
+msgid "forgot password?"
+msgstr "Passwort vergessen?"
+
+msgid "Stay logged in on this computer"
+msgstr "Auf diesem Computer angemeldet bleiben"
+
+msgid "Log in"
+msgstr "Anmelden"
+
+msgid "or %1create an account%2."
+msgstr "oder %1Konto erstellen%2."
+
+msgid "Please log in"
+msgstr "Bitte melden Sie sich an"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Der Text lässt sich mit Hilfe von BBCode-Tags formatieren"
@@ -625,12 +709,11 @@ msgstr "Bild"
 msgid "%1 Your profile picture is shown to the left."
 msgstr "%1 Ihr Profilbild wird auf der linken Seite angezeigt."
 
-#, fuzzy
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Zum ersetzen wählen Sie eine JPG oder PNG Datei (max. %1) mit der \"Browse\" "
+"Zum Ersetzen wählen Sie eine JPG oder PNG Datei (max. %1) mit der \"Browse\" "
 "Schaltfläche aus."
 
 msgid "To remove it from your profile, check this box:"
@@ -749,9 +832,53 @@ msgstr ""
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Diese Auflistung wird von der %1zentralen BOINC Webseite%2 verwaltet."
 
-msgid "fll"
+msgid "Change email address"
+msgstr "E-Mail-Adresse ändern"
+
+msgid "Change the email address of your account"
+msgstr "Die E-Mail-Adresse Ihres Kontos ändern."
+
+msgid "New email address"
+msgstr "neue E-Mail-Adresse"
+
+msgid "Must be a valid address of the form 'name@domain'"
+msgstr "Muss eine gültige E-Mail-Adresse der Form 'name@domain.tld' sein."
+
+msgid "No password?"
+msgstr "Kein Passwort?"
+
+msgid "Change password"
+msgstr "Passwort ändern"
+
+msgid "You can identify yourself using either"
 msgstr ""
 
+"
+
+msgid "your email address and old password"
+msgstr ""
+
+"
+
+msgid "your account key"
+msgstr "Ihr Kontoschlüssel"
+
+msgid "Current password"
+msgstr "Aktuelles Passwort"
+
+msgid "<b>OR</b>: Account key"
+msgstr "<b>oder</b>: Kontoschlüssel"
+
+msgid "Get account key by email"
+msgstr "Kontoschlüssel per E-Mail zusenden"
+
+msgid "New password"
+msgstr "Neues Passwort"
+
+msgid "New password, again"
+msgstr "Passwort bestätigen"
+
+#: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Betreff"
 
@@ -776,6 +903,7 @@ msgstr "Themengebiet"
 msgid "Create a new thread"
 msgstr "Neues Thema anlegen"
 
+#: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Antworten"
 
@@ -898,6 +1026,8 @@ msgstr "%1 hat einer Freundschaft mit Ihnen nicht zugestimmt"
 msgid "You can't be friends with yourself"
 msgstr "Sie können nicht mit sich selbst Freundschaft schließen."
 
+#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
+#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Benutzer nicht gefunden"
 
@@ -1023,10 +1153,10 @@ msgid ""
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
 msgstr ""
-"Installieren Sie $1 ausschliesslich auf Computern, die Sie besitzen, oder "
+"Installieren Sie %1 ausschliesslich auf Computern, die Sie besitzen, oder "
 "von denen Ihnen die Zugriffserlaubnis des Besitzers vorliegt. Die Regeln "
 "mancher Firmen und Schulen verbieten die Nutzung ihrer Computer für Projekte "
-"wie $1."
+"wie %1."
 
 msgid "How %1 will use your computer"
 msgstr "Wie %1 Ihren Computer verwendet"
@@ -1072,7 +1202,7 @@ msgid ""
 "location (e.g. its domain name or network address) will be shown."
 msgstr ""
 "Wenn Sie an %1 teilnehmen, werden Informationen über Ihren Computer  "
-"(darunter der Prozessortyp, die Speichergrösse, usw.) aufgezeichnet und von "
+"(darunter der Prozessortyp, die Speichergröße, usw.) aufgezeichnet und von "
 "%1 verwendet, um zu entscheiden, welche Art von Arbeit Ihrem Computer "
 "zugewiesen werden soll. Diese Informationen werden ebenfalls auf der "
 "Webseite von %1 gezeigt. Nichts, das Rückschlüsse auf den Standort Ihres "
@@ -1087,7 +1217,7 @@ msgstr ""
 "Um an %1 teilnehmen zu können, müssen Sie eine E-Mail-Adresse angeben, mit "
 "der Sie E-Mails empfangen können. Diese ist nicht auf der %1-Webseite  "
 "einsehbar und wird auch nicht mit anderen Organisationen getauscht. %1 wird "
-"Ihnen möglicherweise in regelmässigen Abständen Newsletter senden; darauf "
+"Ihnen möglicherweise in regelmäßigen Abständen Newsletter senden; darauf "
 "können Sie aber jederzeit verzichten."
 
 #, fuzzy
@@ -1189,6 +1319,11 @@ msgstr ""
 "Nachforschungen verbürgen. Nehmen Sie an diesen Projekten auf eigene "
 "Verantwortung teil."
 
+msgid "Language selection"
+msgstr ""
+
+"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "German"
@@ -1196,6 +1331,60 @@ msgstr "German"
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Deutsch"
+
+msgid ""
+"This web site is available in several languages. The currently selected "
+"language is: %1 (%2)."
+msgstr ""
+
+"
+
+msgid ""
+"Normally the choice of language is determined by your browser's language "
+"setting, which is: %1.  You can change this setting using:"
+msgstr ""
+
+"
+
+msgid "Firefox: Tools/Options/General"
+msgstr ""
+
+"
+
+msgid "Microsoft IE: Tools/Internet Options/Languages"
+msgstr ""
+
+"
+
+msgid ""
+"Or you can select a language by clicking on one of the links.  This will "
+"send your browser a cookie; make sure your browser accepts cookies from our "
+"domain."
+msgstr ""
+
+"
+
+msgid "Language symbol"
+msgstr ""
+
+"
+
+msgid "Language name (click to select)"
+msgstr ""
+
+"
+
+msgid "Use browser language setting"
+msgstr ""
+
+"
+
+msgid ""
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
+msgstr ""
+
+"
 
 msgid "Your message has been sent."
 msgstr "Ihre Nachricht wurde versendet."
@@ -1332,7 +1521,7 @@ msgid "No profiles matched your query."
 msgstr "Keine Profile entsprachen Ihren Kriterien."
 
 msgid "Invalid vote type:"
-msgstr ""
+msgstr "Ungültige Wahl"
 
 msgid "Vote Recorded"
 msgstr "Stimme gespeichert"
@@ -1355,14 +1544,16 @@ msgstr "Diese Funktion ist zur Zeit deaktiviert."
 msgid "No computer with ID %1 found"
 msgstr "Kein Computer mit der ID %1 gefunden"
 
-msgid "Tasks for computer %1"
-msgstr "Aufgaben für Computer %1"
-
 msgid "No access"
 msgstr "Zugang verweigert"
 
 msgid "Missing user ID or host ID"
 msgstr "Fehlende Benutzer oder Rechner ID"
+
+msgid "No tasks to display"
+msgstr ""
+
+"
 
 #, fuzzy
 msgid "User of the day"
@@ -1422,7 +1613,7 @@ msgid "Each team has a %1founder%2 who may:"
 msgstr "Jedes Team besitzt einen %1Gründer%2 welcher:"
 
 msgid "access team members' email addresses"
-msgstr "die E-Mailadressen der Mitglieder einsehen kann,"
+msgstr "die E-Mail-Adressen der Mitglieder einsehen kann,"
 
 msgid "edit the team's name and description"
 msgstr "den Namen und die Beschreibung des Teams ändern kann,"
@@ -1485,6 +1676,68 @@ msgstr "Die besten %1 Teams"
 msgid "Participant since"
 msgstr "Teilnehmer seit"
 
+msgid "Joined"
+msgstr ""
+
+"
+
+msgid "Search type"
+msgstr ""
+
+"
+
+msgid "User name starts with"
+msgstr ""
+
+"
+
+msgid "Decreasing sign-up time"
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "Decreasing average credit"
+msgstr "Durchschnittliches Guthaben"
+
+#, fuzzy
+msgid "Decreasing total credit"
+msgstr "Durchschnittliches Guthaben"
+
+msgid "Filters"
+msgstr ""
+
+"
+
+msgid "With profile?"
+msgstr ""
+
+"
+
+msgid "On a team?"
+msgstr ""
+
+"
+
+msgid "search string must be at least 3 characters"
+msgstr ""
+
+"
+
+msgid "User names starting with"
+msgstr ""
+
+"
+
+msgid "No users match your search criteria."
+msgstr ""
+
+"
+
+#, fuzzy
+msgid "User search results"
+msgstr "Ergebnisse der Forensuche"
+
 msgid "This user has no profile"
 msgstr "Dieser Benutzer hat kein Profil."
 
@@ -1532,6 +1785,12 @@ msgstr ""
 "Der schwache Kontoschlüssel ist abhängig von Ihrem Passwort. Wenn Sie das "
 "Passwort ändern, ändert sich auch der schwache Kontoschlüssel und der "
 "vorherige wird ungültig."
+
+#~ msgid "Resource share and graphics"
+#~ msgstr "Ressourcenaufteilung und Grafik"
+
+#~ msgid "Tasks for computer %1"
+#~ msgstr "Aufgaben für Computer %1"
 
 #~ msgid "Provides"
 #~ msgstr "Ermöglicht"
