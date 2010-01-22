@@ -603,3 +603,15 @@ Bernd 21 Jan 2010
     lib/
         Makefile.mingw
 
+Charlie  22 Jan 2010
+    Mac Sandbox: To keep authenticators private, make all .xml files readable 
+        only by user and group boinc_master; except ss_config.xml is world-
+        readable so screensaver coordinator can access it.  All other files 
+        except gui_rpc_auth.cfg are world-readable to allow access by 
+        screensavers. 
+
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        Mac_SA_Secure.sh
