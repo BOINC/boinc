@@ -630,3 +630,10 @@ David  22 Jan 2010
             build_po_boinc.php
         user/
             language_select.php
+
+David  22 Jan 2010
+    - DB purge: allow fractional min_age_days (from Travis Desell)
+
+    sched/
+        db_purge.cpp
+        transitioner.cpp

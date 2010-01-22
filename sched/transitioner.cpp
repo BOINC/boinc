@@ -291,7 +291,7 @@ int handle_wu(
     // if WU has results with errors and no success yet,
     // reset homogeneous redundancy class to give other platforms a try
     //
-    if (nerrors & !(nsuccess || ninprogress)) {
+    if (nerrors && !(nsuccess || ninprogress)) {
         wu_item.hr_class = 0;
     }
 
@@ -433,13 +433,14 @@ int handle_wu(
     //  - see if all over and validated
     //
     all_over_and_validated = true;
-    bool all_over_and_ready_to_assimilate = true; // used for the defer assmilation
+    bool all_over_and_ready_to_assimilate = true;
+        // used for the defer assmilation
     int most_recently_returned = 0;
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
         if (!res_item.res_id) continue;
         if (res_item.res_server_state == RESULT_SERVER_STATE_OVER) {
-            if ( res_item.res_received_time > most_recently_returned ) {
+            if (res_item.res_received_time > most_recently_returned) {
                 most_recently_returned = res_item.res_received_time;
             }
             if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS) {
@@ -447,8 +448,8 @@ int handle_wu(
                     all_over_and_validated = false;
                     all_over_and_ready_to_assimilate = false;
                 }
-            } else if ( res_item.res_outcome == RESULT_OUTCOME_NO_REPLY ) {
-                if ( ( res_item.res_report_deadline + config.grace_period_hours*60*60 ) > now ) {
+            } else if (res_item.res_outcome == RESULT_OUTCOME_NO_REPLY) {
+                if ((res_item.res_report_deadline + config.grace_period_hours*60*60) > now) {
                     all_over_and_validated = false;
                 }
             }
@@ -463,7 +464,10 @@ int handle_wu(
     // that it gets advanced to assimilate ready
     // the items.size is a kludge
     //
-    if (all_over_and_ready_to_assimilate == true && wu_item.assimilate_state == ASSIMILATE_INIT && items.size() > 0 && wu_item.canonical_resultid > 0
+    if (all_over_and_ready_to_assimilate
+        && wu_item.assimilate_state == ASSIMILATE_INIT
+        && items.size() > 0
+        && wu_item.canonical_resultid > 0
     ) {
         wu_item.assimilate_state = ASSIMILATE_READY;
         log_messages.printf(MSG_NORMAL,
@@ -473,7 +477,9 @@ int handle_wu(
     }
     // if WU is assimilated, trigger file deletion
     //
-    if (wu_item.assimilate_state == ASSIMILATE_DONE && ((most_recently_returned + config.delete_delay_hours*60*60) < now)) {
+    if (wu_item.assimilate_state == ASSIMILATE_DONE
+        && ((most_recently_returned + config.delete_delay_hours*60*60) < now)
+    ) {
         // can delete input files if all results OVER
         //
         if (all_over_and_validated && wu_item.file_delete_state == FILE_DELETE_INIT) {
@@ -497,34 +503,33 @@ int handle_wu(
                 continue;
             }
 
-            if (res_item.res_id) {
-                do_delete = false;
-                switch(res_item.res_outcome) {
-                case RESULT_OUTCOME_CLIENT_ERROR:
-                    do_delete = true;
-                    break;
-                case RESULT_OUTCOME_SUCCESS:
-                    do_delete = (res_item.res_validate_state != VALIDATE_STATE_INIT);
-                    break;
-                }
-                if (do_delete && res_item.res_file_delete_state == FILE_DELETE_INIT) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[WU#%d %s] [RESULT#%d %s] file_delete_state:=>READY\n",
-                        wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
-                    );
-                    res_item.res_file_delete_state = FILE_DELETE_READY;
+            if (!res_item.res_id) continue;
+            do_delete = false;
+            switch(res_item.res_outcome) {
+            case RESULT_OUTCOME_CLIENT_ERROR:
+                do_delete = true;
+                break;
+            case RESULT_OUTCOME_SUCCESS:
+                do_delete = (res_item.res_validate_state != VALIDATE_STATE_INIT);
+                break;
+            }
+            if (do_delete && res_item.res_file_delete_state == FILE_DELETE_INIT) {
+                log_messages.printf(MSG_NORMAL,
+                    "[WU#%d %s] [RESULT#%d %s] file_delete_state:=>READY\n",
+                    wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
+                );
+                res_item.res_file_delete_state = FILE_DELETE_READY;
 
-                    retval = transitioner.update_result(res_item);
-                    if (retval) {
-                        log_messages.printf(MSG_CRITICAL,
-                            "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
-                            wu_item.id, wu_item.name, res_item.res_id, res_item.res_name, retval
-                        );
-                    }
+                retval = transitioner.update_result(res_item);
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
+                        wu_item.id, wu_item.name, res_item.res_id, res_item.res_name, retval
+                    );
                 }
             }
         }
-    } else if ( wu_item.assimilate_state == ASSIMILATE_DONE ) {
+    } else if (wu_item.assimilate_state == ASSIMILATE_DONE) {
         log_messages.printf(MSG_DEBUG,
             "[WU#%d %s] not checking for items to be ready for delete because the deferred delete time has not expired.  That will occur in %d seconds\n",
             wu_item.id,
@@ -551,37 +556,39 @@ int handle_wu(
     int max_grace_or_delay_time = 0;  
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
-        if (res_item.res_id) {
-            if (res_item.res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
-                // In cases where a result has been RESENT to a host, the
-                // report deadline time may be EARLIER than
-                // sent_time + delay_bound
-                // because the sent_time has been updated with the later
-                // "resend" time.
+        if (!res_item.res_id) continue;
+        if (res_item.res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
+            // In cases where a result has been RESENT to a host, the
+            // report deadline time may be EARLIER than
+            // sent_time + delay_bound
+            // because the sent_time has been updated with the later
+            // "resend" time.
+            //
+            // x = res_item.res_sent_time + wu_item.delay_bound;
+            x = res_item.res_report_deadline;
+            if (x < wu_item.transition_time) {
+                wu_item.transition_time = x;
+            }
+        } else if (res_item.res_server_state == RESULT_SERVER_STATE_OVER) {
+            if (res_item.res_outcome == RESULT_OUTCOME_NO_REPLY) {
+                // Transition again after the grace period has expired
                 //
-                // x = res_item.res_sent_time + wu_item.delay_bound;
-                x = res_item.res_report_deadline;
-                if (x < wu_item.transition_time) {
-                    wu_item.transition_time = x;
-                }
-            } else if ( res_item.res_server_state == RESULT_SERVER_STATE_OVER  ) {
-                if ( res_item.res_outcome == RESULT_OUTCOME_NO_REPLY ) {
-                    // Transition again after the grace period has expired
-                    //
-                    if ((res_item.res_report_deadline + config.grace_period_hours*60*60) > now) {
-                        x = res_item.res_report_deadline + config.grace_period_hours*60*60;
-                        if (x > max_grace_or_delay_time) {
-                            max_grace_or_delay_time = x;
-                        }
+                if ((res_item.res_report_deadline + config.grace_period_hours*60*60) > now) {
+                    x = res_item.res_report_deadline + config.grace_period_hours*60*60;
+                    if (x > max_grace_or_delay_time) {
+                        max_grace_or_delay_time = x;
                     }
-                } else if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS || res_item.res_outcome == RESULT_OUTCOME_CLIENT_ERROR || res_item.res_outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
-                    // Transition again after deferred delete period has experied
-                    //
-                    if ((res_item.res_received_time + config.delete_delay_hours*60*60) > now) {
-                        x = res_item.res_received_time + config.delete_delay_hours*60*60;
-                        if (x > max_grace_or_delay_time && res_item.res_received_time > 0) {
-                            max_grace_or_delay_time = x;
-                        }
+                }
+            } else if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS
+                || res_item.res_outcome == RESULT_OUTCOME_CLIENT_ERROR
+                || res_item.res_outcome == RESULT_OUTCOME_VALIDATE_ERROR
+            ) {
+                // Transition again after deferred delete period has experied
+                //
+                if ((res_item.res_received_time + config.delete_delay_hours*60*60) > now) {
+                    x = res_item.res_received_time + config.delete_delay_hours*60*60;
+                    if (x > max_grace_or_delay_time && res_item.res_received_time > 0) {
+                        max_grace_or_delay_time = x;
                     }
                 }
             }

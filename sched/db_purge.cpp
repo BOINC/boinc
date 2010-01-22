@@ -70,7 +70,7 @@ FILE *re_stream=NULL;
 FILE *wu_index_stream=NULL;
 FILE *re_index_stream=NULL;
 int time_int=0;
-int min_age_days = 0;
+double min_age_days = 0;
 bool no_archive = false;
 int purged_workunits = 0;
     // used if limiting the total number of workunits to eliminate
@@ -449,7 +449,7 @@ bool do_pass() {
 
     if (min_age_days) {
         char timestamp[15];
-        mysql_timestamp(dtime()-min_age_days*86400, timestamp);
+        mysql_timestamp(dtime()-min_age_days*86400., timestamp);
         sprintf(buf,
             "where file_delete_state=%d and mod_time<'%s' limit %d",
             FILE_DELETE_DONE, timestamp, DB_QUERY_LIMIT
@@ -596,7 +596,7 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-            min_age_days = atoi(argv[i]);
+            min_age_days = atof(argv[i]);
         } else if (!strcmp(argv[i], "-max")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
