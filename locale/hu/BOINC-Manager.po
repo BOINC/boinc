@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2010-01-16 06:51-0700\n"
+"PO-Revision-Date: 2010-01-22 08:59-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -3069,7 +3069,7 @@ msgstr "A projekt munkáinak folytatása."
 #: clientgui/ViewProjects.cpp:722
 #: clientgui/ViewProjectsBase.cpp:568
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Új munkacsomagok engedélyezése"
 
 #: clientgui/ViewProjects.cpp:722
 #: clientgui/ViewProjectsBase.cpp:568
