@@ -62,7 +62,7 @@
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
 
-# Last updated 11/4/09 for BOINC version 6.8.18, 6.10.18 and 6.11.0
+# Last updated 1/22/10 for BOINC version 6.8.19, 6.10.30 and 6.11.1
 # WARNING: do not use this script with versions of BOINC older 
 # than 6.8.17 and 6.10.3
 
@@ -180,11 +180,22 @@ make_boinc_users
 dscl . -merge /groups/boinc_master users "$(LOGNAME)"
 dscl . -merge /groups/boinc_project users "$(LOGNAME)"
 
+# Set permissions of BOINC Data directory's contents:
+#   ss_config.xml is world-readable so screensaver coordinator can read it
+#   all other *.xml are not world-readable to keep authenticators private
+#   gui_rpc_auth.cfg is not world-readable to keep RPC password private
+#   all other files are world-readable so default screensaver can read them
 set_perm_recursive . boinc_master boinc_master u+rw,g+rw,o+r-w
-set_perm . boinc_master boinc_master 0771
 if [ -f gui_rpc_auth.cfg ] ; then
     set_perm gui_rpc_auth.cfg boinc_master boinc_master 0660
 fi
+chmod 0660 *.xml
+if [ -f ss_config.xml ] ; then
+    set_perm ss_config.xml boinc_master boinc_master 0661
+fi
+
+# Set permissions of BOINC Data directory itself
+set_perm . boinc_master boinc_master 0771
 
 if [ -d projects ] ; then
     set_perm_recursive projects boinc_master boinc_project u+rw,g+rw,o+r-w

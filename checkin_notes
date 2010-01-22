@@ -6465,3 +6465,53 @@ Charlie  1 Dec 2009
 
     mac_installer/
         License.rtf
+
+Charlie  5 Dec 2009
+    - Mac installer: fix a bug where installer would not start Maanger 
+        because getlogin() is not reliable under OS 10.6 when running 
+        with authentication; use getenv("USER") instead.
+    
+    mac_installer/
+        PostInstall.cpp
+
+Charlie 16 Dec 2009
+    - Mac Uninstaller: Properly change screensaver settings under OS 10.6.
+         
+    mac_installer/
+        uninstall.cpp
+
+Charlie  18 Dec 2009
+    - MGR: fix another bug due to changes for Snow Leopard compatibility:
+        on OS 10.4.11 (Tiger) and perhaps others, when Automatic Login is 
+        set, getlogin() returns "root" for a time after the system is first 
+        booted, causing the Manager to think the user is not a member of 
+        group boinc_master.  So check "USER" environment variable instead.
+
+    client/
+        check_security.cpp
+
+Charlie  7 Jan 2010
+    - Mac: Fix bug in backtrace code which showed up only under OS 10.6.
+
+    lib/
+        mac/
+            mac_backtrace.C
+
+Charlie  16 Jan 2010
+    - Mac Installer: fix bug launching client when configured as a service.
+    
+    mac_installer/
+        PostInstall.cpp
+
+Charlie  22 Jan 2010
+    Mac Sandbox: To keep authenticators private, make all .xml files readable 
+        only by user and group boinc_master; except ss_config.xml is world-
+        readable so screensaver coordinator can access it.  All other files 
+        except gui_rpc_auth.cfg are world-readable to allow access by 
+        screensavers. 
+
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        Mac_SA_Secure.sh

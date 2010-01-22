@@ -69,7 +69,13 @@ extern int check_security(char *bundlePath, char *dataPath, int use_sandbox, int
 
 #define NUMBRANDS 3
 
-static Boolean                  gQuitFlag = false;	/* global */
+/* globals */
+static Boolean                  gQuitFlag = false;
+static Boolean                  currentUserCanRunBOINC = false;
+static char                     loginName[256];
+static long                     OSVersion = 0;
+
+
 
 static char *saverName[NUMBRANDS];
 static char *saverNameEscaped[NUMBRANDS];
@@ -96,7 +102,6 @@ enum { launchWhenDone,
 int main(int argc, char *argv[])
 {
     Boolean                 Success;
-    long                    OSVersion;
     ProcessSerialNumber     ourProcess, installerPSN;
     short                   itemHit;
     long                    brandID = 0;
@@ -136,14 +141,21 @@ int main(int argc, char *argv[])
     saverNameEscaped[2] = "Progress\\ Thru\\ Processors";
     receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors.pkg";
 
+    ::GetCurrentProcess (&ourProcess);
+    
+    // getlogin() gives unreliable results under OS 10.6.2, so use environment
+    strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+
+    err = Gestalt(gestaltSystemVersion, &OSVersion);
+    if (err != noErr)
+        return err;
+
     for (i=0; i<argc; i++) {
         if (strcmp(argv[i], "-part2") == 0)
             return DeleteReceipt();
     }
 
     Initialize();
-
-    ::GetCurrentProcess (&ourProcess);
 
     QuitBOINCManager('BNC!'); // Quit any old instance of BOINC manager
     sleep(2);
@@ -163,10 +175,6 @@ int main(int argc, char *argv[])
         brandID = 0;
     }
     
-    err = Gestalt(gestaltSystemVersion, &OSVersion);
-    if (err != noErr)
-        return err;
-
     if (OSVersion < 0x1039) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
@@ -247,12 +255,10 @@ int main(int argc, char *argv[])
     
     // Find an appropriate admin user to set as owner of installed files
     // First, try the user currently logged in
-    q = getlogin();
-
     grp = getgrnam("admin");
     i = 0;
     while ((p = grp->gr_mem[i]) != NULL) {   // Step through all users in group admin
-        if (strcmp(p, q) == 0) {
+        if (strcmp(p, loginName) == 0) {
             Success = true;     // Logged in user is a member of group admin
             break;
         }
@@ -441,7 +447,7 @@ int DeleteReceipt()
     if (finalInstallAction == launchWhenDone) {
         // If system is set up to run BOINC Client as a daemon using launchd, launch it 
         //  as a daemon and allow time for client to start before launching BOINC Manager.
-        err = stat("launchctl unload /Library/LaunchDaemons/edu.berkeley.boinc.plist", &sbuf);
+        err = stat("/Library/LaunchDaemons/edu.berkeley.boinc.plist", &sbuf);
         if (err == noErr) {
             system("launchctl unload /Library/LaunchDaemons/edu.berkeley.boinc.plist");
             i = system("launchctl load /Library/LaunchDaemons/edu.berkeley.boinc.plist");
@@ -470,7 +476,7 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     CFStringRef             errorString = NULL;
     OSStatus                err = noErr;
 #ifdef SANDBOX
-    char                    *p, *loginName = NULL;
+    char                    *p;
     group                   *grp = NULL;
     int                     i;
     Boolean                 isMember = false;
@@ -478,8 +484,11 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     
     *finalAction = restartRequired;
 
+    if (OSVersion < 0x1040) {
+        return noErr;   // Always require restart on OS 10.3.9
+    }
+    
 #ifdef SANDBOX
-    loginName = getlogin();
     grp = getgrnam("boinc_master");
     if (loginName && grp) {
         i = 0;
@@ -492,7 +501,7 @@ OSStatus CheckLogoutRequirement(int *finalAction)
         }
     }
 
-    if (!isMember) {
+    if (!isMember && !currentUserCanRunBOINC) {
         *finalAction = nothingrequired;
         return noErr;
     }
@@ -790,12 +799,10 @@ Boolean CheckDeleteFile(char *name)
 
 void SetEUIDBackToUser (void)
 {
-    char *p;
     uid_t login_uid;
     passwd *pw;
 
-    p = getlogin();
-    pw = getpwnam(p);
+    pw = getpwnam(loginName);
     login_uid = pw->pw_uid;
 
     setuid(login_uid);
@@ -879,15 +886,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
     Boolean             found = false;
     FILE                *f;
     OSStatus            err;
-    long                OSVersion;
     Boolean             isGroupMember;
 #ifdef SANDBOX
     char                *p;
     short               i;
-
-    err = Gestalt(gestaltSystemVersion, &OSVersion);
-    if (err != noErr)
-        return err;
 
     err = getgrnam_r("admin", &grpAdmin, adminBuf, sizeof(adminBuf), &grpAdminPtr);
     if (err) {          // Should never happen unless buffer too small
@@ -957,6 +959,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
 #endif  // SANDBOX
 
         if (isGroupMember) {
+            if (strcmp(loginName, dp->d_name) == 0) {
+                currentUserCanRunBOINC = true;
+            }
+            
             saved_uid = geteuid();
             seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
             
@@ -1004,6 +1010,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             brandName[brandID], brandName[brandID])
         ) {
             allowNonAdminUsersToRunBOINC = true;
+            currentUserCanRunBOINC = true;
             saverAlreadySetForAll = false;
         }
     }
@@ -1153,13 +1160,9 @@ int TestRPCBind()
 
 
 static OSStatus ResynchSystem() {
-    SInt32          response;
     OSStatus        err = noErr;
     
-    err = Gestalt(gestaltSystemVersion, &response);
-    if (err) return err;
-    
-    if (response >= 0x1050) {
+    if (OSVersion >= 0x1050) {
         // OS 10.5
         err = system("dscacheutil -flushcache");
         err = system("dsmemberutil flushcache");
@@ -1168,8 +1171,7 @@ static OSStatus ResynchSystem() {
     
     err = system("lookupd -flushcache");
     
-    err = Gestalt(gestaltSystemVersion, &response);
-    if ((err == noErr) && (response >= 0x1040))
+    if (OSVersion >= 0x1040)
         err = system("memberd -r");           // Available only in OS 10.4
     
     return noErr;
