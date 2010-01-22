@@ -93,6 +93,7 @@ pkginclude_HEADERS = \
     base64.h \
     boinc_fcgi.h \
     boinc_win.h \
+    cal.h \
     cert_sig.h \
     common_defs.h \
     coproc.h \

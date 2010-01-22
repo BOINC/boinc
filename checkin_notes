@@ -615,3 +615,10 @@ Charlie  22 Jan 2010
             SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+Bernd 22 Jan 2010
+    lib: add cal.h to install headers
+
+    lib/
+        Makefile.am
+
