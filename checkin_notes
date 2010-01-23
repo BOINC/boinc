@@ -637,3 +637,14 @@ David  22 Jan 2010
     sched/
         db_purge.cpp
         transitioner.cpp
+
+David  22 Jan 2010
+    - user web: don't show "database error" if result refers
+        to deleted app version
+
+    client/
+        app_start.cpp
+    html/inc/
+        result.inc
+    sched/
+        transitioner.cpp

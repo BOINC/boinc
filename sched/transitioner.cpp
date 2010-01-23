@@ -434,8 +434,8 @@ int handle_wu(
     //
     all_over_and_validated = true;
     bool all_over_and_ready_to_assimilate = true;
-        // used for the defer assmilation
-    int most_recently_returned = 0;
+        // used for the defer assimilation
+    double most_recently_returned = 0;
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
         if (!res_item.res_id) continue;
@@ -449,7 +449,7 @@ int handle_wu(
                     all_over_and_ready_to_assimilate = false;
                 }
             } else if (res_item.res_outcome == RESULT_OUTCOME_NO_REPLY) {
-                if ((res_item.res_report_deadline + config.grace_period_hours*60*60) > now) {
+                if ((res_item.res_report_deadline + config.grace_period_hours*3600) > now) {
                     all_over_and_validated = false;
                 }
             }
@@ -459,7 +459,7 @@ int handle_wu(
         }
     }
 
-    // If we are defering assimilation until all results are over
+    // If we are deferring assimilation until all results are over
     // and validated then when that happens we need to make sure
     // that it gets advanced to assimilate ready
     // the items.size is a kludge
@@ -478,7 +478,7 @@ int handle_wu(
     // if WU is assimilated, trigger file deletion
     //
     if (wu_item.assimilate_state == ASSIMILATE_DONE
-        && ((most_recently_returned + config.delete_delay_hours*60*60) < now)
+        && ((most_recently_returned + config.delete_delay_hours*3600) < now)
     ) {
         // can delete input files if all results OVER
         //
@@ -531,10 +531,10 @@ int handle_wu(
         }
     } else if (wu_item.assimilate_state == ASSIMILATE_DONE) {
         log_messages.printf(MSG_DEBUG,
-            "[WU#%d %s] not checking for items to be ready for delete because the deferred delete time has not expired.  That will occur in %d seconds\n",
+            "[WU#%d %s] not checking for results ready for delete because deferred delete time has not expired.  That will occur in %d seconds\n",
             wu_item.id,
             wu_item.name,
-            most_recently_returned + config.delete_delay_hours*60*60-(int)now
+            most_recently_returned + config.delete_delay_hours*3600-now
         );
     }
 
@@ -573,8 +573,8 @@ int handle_wu(
             if (res_item.res_outcome == RESULT_OUTCOME_NO_REPLY) {
                 // Transition again after the grace period has expired
                 //
-                if ((res_item.res_report_deadline + config.grace_period_hours*60*60) > now) {
-                    x = res_item.res_report_deadline + config.grace_period_hours*60*60;
+                x = res_item.res_report_deadline + config.grace_period_hours*3600;
+                if (x > now) {
                     if (x > max_grace_or_delay_time) {
                         max_grace_or_delay_time = x;
                     }
@@ -583,10 +583,10 @@ int handle_wu(
                 || res_item.res_outcome == RESULT_OUTCOME_CLIENT_ERROR
                 || res_item.res_outcome == RESULT_OUTCOME_VALIDATE_ERROR
             ) {
-                // Transition again after deferred delete period has experied
+                // Transition again after deferred delete period has expired
                 //
-                if ((res_item.res_received_time + config.delete_delay_hours*60*60) > now) {
-                    x = res_item.res_received_time + config.delete_delay_hours*60*60;
+                x = res_item.res_received_time + config.delete_delay_hours*3600;
+                if (x > now) {
                     if (x > max_grace_or_delay_time && res_item.res_received_time > 0) {
                         max_grace_or_delay_time = x;
                     }
@@ -598,10 +598,13 @@ int handle_wu(
     // If either of the grace period or delete delay is less than
     // the next transition time then use that value
     //
-    if (max_grace_or_delay_time < wu_item.transition_time && max_grace_or_delay_time > now && ninprogress == 0) {
+    if (max_grace_or_delay_time < wu_item.transition_time
+        && max_grace_or_delay_time > now
+        && ninprogress == 0
+    ) {
         wu_item.transition_time = max_grace_or_delay_time;
         log_messages.printf(MSG_NORMAL,
-            "[WU#%d %s] Delaying transition due to grace period or delete day.  New transition time = %d sec\n",
+            "[WU#%d %s] Delaying transition due to grace period or delete delay.  New transition time: %d\n",
             wu_item.id, wu_item.name, wu_item.transition_time
         );
     }

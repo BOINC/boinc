@@ -28,6 +28,9 @@ function app_version_string($id) {
         $app = $apps[$av->appid];
     } else {
         $av = BoincAppVersion::lookup("id=$id");
+        if (!$av) {
+            return "Not in DB";
+        }
         $app_versions[$id] = $av;
         $app = BoincApp::lookup_id($av->appid);
         $apps[$av->appid] = $app;
