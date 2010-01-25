@@ -648,3 +648,14 @@ David  22 Jan 2010
         result.inc
     sched/
         transitioner.cpp
+
+David  25 Jan 2010
+    - transitioner: fix bug where WUs with error_mask <> 0 keep
+        transitioning every 10 days, hence never become eligible for purging.
+        The problem: the transitioner has a "safety net" where,
+        if the WU doesn't have a canonical result,
+        it arranges for another transition in 10 days.
+        Skip this if error_mask<>0.
+
+    sched/
+        transitioner.cpp
