@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-01-24 02:55-0700\n"
+"PO-Revision-Date: 2010-01-25 12:28-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -186,7 +186,7 @@ msgstr "Helfer,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr "Computer."
+msgstr "Computer.\n"
 
 #: index.php:54
 msgid "24-hour average:"
@@ -266,7 +266,7 @@ msgstr ""
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr ""
 "%1Unternehmen%2: benutzen Sie BOINC für %3Vernetztes Rechnen%4 (desktop "
-"Grid)"
+"Grid)."
 
 #: index.php:147
 msgid "The BOINC project"
