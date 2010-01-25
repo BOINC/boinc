@@ -1249,19 +1249,19 @@ msgstr "O Boinc está sedeado na Universidade da California, Berkeley"
 #~ msgstr "Resolução de problemas"
 
 #~ msgid "RLN_NEWF_5_4_AM"
-#~ msgstr "Suporte para  'Gerenciadores de contas' - sites que permitem a você navegar nos projetos BOINC, conectar/desconectar, mudar configurações e partilhar recursos, tudo de maneira simples, com um único clique. Os Gerenciadores de contas também são úteis caso você tiver vários micros - você faz alterações em um micro, e todos os outros micros serão alterados. "
+#~ msgstr "Suporte para  'Gestores de contas' - websites que lhe permitem navegar nos projectos BOINC, conectar/desconectar, mudar configurações e partilhar recursos, tudo de maneira simples com um único clique. Os Gestores de contas também são úteis caso tenha vários computadores - faça alterações num computador e, em todos os outros computadores serão alterados. "
 
 #~ msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
-#~ msgstr "As preferências gerais podem ser sobre-escritas por um arquivo local; os detalhes estão  %s aqui %s."
+#~ msgstr "As preferências gerais podem ser re-escritas por um arquivo local; os detalhes estão  %s aqui %s."
 
 #~ msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
-#~ msgstr "O BOINC alertará você sempre que necessário para criar uma conexão com a internet."
+#~ msgstr "O BOINC alertá-lo-á sempre que necessário para criar uma conexão com a internet."
 
 #~ msgid "RLN_RECOMMEND_LATEST_VERSION"
-#~ msgstr "Recomendamos que todos os usuários do BOINC atualizem para a %s."
+#~ msgstr "Recomendamos a todos os usuários do BOINC que actualizem para a %s."
 
 #~ msgid "RLN_LINK2_VERSION_HISTORY"
-#~ msgstr "Um histórico detalhado da revisão está %s aqui %s."
+#~ msgstr "Historial da versão está %s aqui %s."
 
 #~ msgid "RLN_MSWIN"
 #~ msgstr "Windows"
@@ -1276,28 +1276,28 @@ msgstr "O Boinc está sedeado na Universidade da California, Berkeley"
 #~ msgstr "O BOINC pode ser instalado de vários modos:"
 
 #~ msgid "RLN_SINGLE_USER_INSTALL"
-#~ msgstr "Instalação tipo Simples-usuário"
+#~ msgstr "Instalação de Utilizador unico"
 
 #~ msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
-#~ msgstr "Este é o modo recomendado. O BOINC rodará somente quando você (o usuário instalador) estiver \"logado\" no micro. O BOINC ficará na lista do menu Iniciar para seu perfil, mas não estará disponível em outros perfis. A opção \"Exibir gráficos\" do gerenciador de tarefas do BOINC funcionará somente em seu perfil. O protetor de telas do BOINC será exibido somente em seu perfil (os outros perfis poderão rodar o protetor de telas, mas somente com textos)."
+#~ msgstr "Este é o modo recomendado. O BOINC correrá apenas quando(o utilizador instalador) estiver \"logado\" no computador. O BOINC ficará na lista do menu Iniciar para o seu perfil, mas não estará disponível em outros perfis. A opção \"Exibir gráficos\" do gestor de tarefas do BOINC funcionará apenas no seu perfil. A protecção de ecrã do BOINC será exibido apenas no seu perfil (os outros perfis poderão correr a protecção de ecrã, mas somente com textos)."
 
 #~ msgid "RLN_SHARED_INSTALL"
-#~ msgstr "Instalação compartilhada"
+#~ msgstr "Instalação partilhada"
 
 #~ msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
-#~ msgstr "O BOINC rodará sempre, em qualquer perfil. Também será exibido no menu Iniciar de todos os usuários. Quando o BOINC estiver rodando, ele rodará como um usuário em particular (sempre será o primeiro usuário instalou o BOINC pela primeira vez). O comando \"Exibir gráficos\" no gerenciador do BOINC funcionará somente no perfil do instalador. O protetor de telas do BOINC funcionará somente no perfil do instalador (outros perfis poderão rodar o protetor de telas, mas verão somente textos)."
+#~ msgstr "O BOINC funcionará sempre, em qualquer perfil. Também será exibido no menu Iniciar de todos os utilizadores. Quando o BOINC estiver correndo, ele correrá como um utilizador em particular (será sempre o utilizador que instalou o BOINC pela primeira vez). O comando \"Exibir gráficos\" no gestor do BOINC funcionará somente no perfil do instalador. A protecção de ecrã do BOINC funcionará apenas no perfil do instalador (outros perfis poderão correr a protecção de ecrã, mas verão somente textos)."
 
 #~ msgid "RLN_WIN_SERVICE_INSTALL"
-#~ msgstr "Instalação tipo serviço"
+#~ msgstr "Instalação de um serviço"
 
 #~ msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
-#~ msgstr "O BOINC funcionará o tempo todo (mesmo que nenhum perfil estiver selecionado). O BOINC aparecerá no menu Iniciar do perfil do instalador, mas não nos outros perfis. O comando \"Exibir gráficos\" no gerenciador BOINC não funcionará para nenhum usuário. O protetor de telas do BOINC exibirá somente textos. "
+#~ msgstr "O BOINC funcionará sempre (mesmo que nenhum perfil estiveja seleccionado). O BOINC aparecerá no menu Iniciar do perfil do instalador, mas não nos outros perfis. O comando \"Exibir gráficos\" no gestor BOINC não funcionará para nenhum utilizador. A protecção de ecrã do BOINC exibirá apenas textos. "
 
 #~ msgid "RLN_LINUX_INSTALL_SEA_DESC"
-#~ msgstr "O BOINC para Linux é distribuído como um arquivo auto-extrator. Esse tipo de instalação requer que voc~e esteja familiarizado com o modo linha-de-comando do UNIX "
+#~ msgstr "O BOINC para Linux é distribuído como um ficheiro auto-extractor. Este tipo de instalação requer que esteja familiarizado com a linha de comandos do UNIX "
 
 #~ msgid "RLN_LINUX_DL_FILENAME"
-#~ msgstr "Os arquivos recebidos tem nomes como <code>%s</code>."
+#~ msgstr "Os ficheiros recebidos têm nomes como <code>%s</code>."
 
 #~ msgid "RLN_LINUX_RUN_SEA"
 #~ msgstr "Após baixar o arquivo, escreva<pre>%s</pre>"
