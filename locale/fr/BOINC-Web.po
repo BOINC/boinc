@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2009-08-07 08:13-0700\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
+"PO-Revision-Date: 2010-01-25 16:32-0700\n"
+"Last-Translator: pH!Lm0 <philmo_one@yahoo.fr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -22,16 +22,16 @@ msgstr ""
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Recherche"
 
 #: docutil.php:101
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Retourner à la page principale de BOINC"
 
 #: docutil.php:112
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Cette page est %straduisible%s."
 
 #: download.php:40
 msgid "Download BOINC"
@@ -60,6 +60,9 @@ msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"Vous ne devez faire fonctionner ce logiciel sur un ordinateur uniquement si "
+"l'ordinateur vous appartient ou si vous en avez la permission de son "
+"propriétaire."
 
 #: download.php:116
 #, php-format
