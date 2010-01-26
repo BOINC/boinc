@@ -659,3 +659,11 @@ David  25 Jan 2010
 
     sched/
         transitioner.cpp
+
+David  25 Jan 2010
+    - client: when launching app, delete init_data.xml using switcher
+        prior to trying to write it,
+        in case it's owned by another user (e.g., boinc_project)
+
+    client/
+        app_start.cpp

@@ -234,6 +234,11 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.starting_elapsed_time = checkpoint_elapsed_time;
 
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
+
+    // delete the file using the switcher (Unix)
+    // in case it's owned by another user and we don't have write access
+    //
+    delete_project_owned_file(init_data_path, false);
     f = boinc_fopen(init_data_path, "w");
     if (!f) {
         msg_printf(wup->project, MSG_INTERNAL_ERROR,
