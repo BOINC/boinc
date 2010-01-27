@@ -41,8 +41,9 @@
 # the --insecure option.
 # NOTE: running BOINC with security disabled is not recommended.
 #
-# Last updated 9/1/09 for BOINC version 6.8.17 and 6.10.3
-# WARNING: do not use this script with older versions of BOINC
+# Last updated 1/26/10 for BOINC versions 6.8.19, 6.10.30 and 6.11.1 
+# WARNING: do not use this script with older versions of BOINC older 
+# than 6.8.17 and 6.10.3
 
 function remove_boinc_users() {
     name=$(dscl . search /users RecordName boinc_master | cut -f1 -s)
@@ -99,7 +100,7 @@ then
 fi
 
 chown -R ${user}:${group} .
-chmod -R u+rw-s,g+r-w-s,o+r-w .
+chmod -R +Xu+rw-s,g+r-w-s,o+r-w .
 chmod 600 gui_rpc_auth.cfg
 
 if [ -f switcher/AppStats ] ; then 
