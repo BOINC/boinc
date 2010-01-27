@@ -55,6 +55,9 @@ public:
     GET_PROJECT_CONFIG_OP get_project_config_op;
     LOOKUP_ACCOUNT_OP lookup_account_op;
     CREATE_ACCOUNT_OP create_account_op;
+    bool notice_refresh;
+        // next time we get a get_notices RPC,
+        // send a -1 seqno, then the whole list
 
     GUI_RPC_CONN(int);
     ~GUI_RPC_CONN();
@@ -96,4 +99,9 @@ public:
     void send_quits();
     bool quits_sent();
     bool poll();
+    void set_notice_refresh() {
+        for (unsigned int i=0; i<gui_rpcs.size(); i++) {
+            gui_rpcs[i]->notice_refresh = true;
+        }
+    }
 };

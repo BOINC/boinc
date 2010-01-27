@@ -31,6 +31,7 @@
 using std::vector;
 using std::string;
 using std::set;
+using std::deque;
 
 NOTICES notices;
 RSS_FEEDS rss_feeds;
@@ -230,6 +231,7 @@ void NOTICES::init() {
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO, "read %d BOINC notices", (int)notices.size());
     }
+    write_archive(NULL);
 }
 
 void NOTICES::init_rss() {
@@ -247,23 +249,46 @@ void NOTICES::init_rss() {
     }
 }
 
-void NOTICES::append(NOTICE& n) {
+static inline bool equivalent(NOTICE& n1, NOTICE& n2) {
+    if (strcmp(n1.title, n2.title)) return false;
+    if (n1.description != n2.description) return false;
+    return true;
+}
+
+// we're considering adding a notice n.
+// See if an equivalent notice n2 is already there; if so:
+// keep_old: return false
+// !keep_old: delete n2
+//
+bool NOTICES::remove_dups(NOTICE& n, bool keep_old) {
+    deque<NOTICE>::iterator i = notices.begin();
+    bool removed_something = false;
+    while (i != notices.end()) {
+        NOTICE& n2 = *i;
+        if (equivalent(n, n2) || (n2.arrival_time < gstate.now - 30*86400)) {
+            if (keep_old) {
+                return false;
+            }
+            i = notices.erase(i);
+            removed_something = true;
+        } else {
+            ++i;
+        }
+    }
+    if (removed_something) {
+        gstate.gui_rpcs.set_notice_refresh();
+    }
+    return true;
+}
+
+bool NOTICES::append(NOTICE& n, bool keep_old, bool archive) {
     if (notices.empty()) {
         n.seqno = 1;
     } else {
+        if (!remove_dups(n, keep_old)) {
+            return false;
+        }
         n.seqno = notices.front().seqno + 1;
-    }
-    notices.push_front(n);
-    prune();
-    if (!strlen(n.feed_url)) {
-        write_archive(NULL);
-    }
-}
-
-bool NOTICES::append_unique(NOTICE& n) {
-    for (unsigned int i=0; i<notices.size(); i++) {
-        NOTICE& n2 = notices[i];
-        if (!strcmp(n.guid, n2.guid)) return false;
     }
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO,
@@ -271,11 +296,16 @@ bool NOTICES::append_unique(NOTICE& n) {
             n.title
         );
     }
-    append(n);
+    notices.push_front(n);
+    if (archive && !strlen(n.feed_url)) {
+        write_archive(NULL);
+    }
     return true;
 }
 
-// read and parse the contents of an archive file;
+
+// read and parse the contents of an archive file.
+// If feed_url is empty it's a system msg, else a feed msg.
 // insert items in NOTICES
 //
 int NOTICES::read_archive_file(char* path, char* feed_url) {
@@ -313,7 +343,7 @@ int NOTICES::read_archive_file(char* path, char* feed_url) {
                 if (feed_url) {
                     strcpy(n.feed_url, feed_url);
                 }
-                notices.push_front(n);
+                append(n, false, false);
             }
         }
     }
@@ -322,17 +352,6 @@ int NOTICES::read_archive_file(char* path, char* feed_url) {
     }
     fclose(f);
     return ERR_XML_PARSE;
-}
-
-// get rid of old notices
-//
-void NOTICES::prune() {
-    for (;;) {
-        if (!notices.size()) break;
-        NOTICE& n = notices.back();
-        if (n.arrival_time > gstate.now - 30*86400) break;
-        notices.pop_back();
-    }
 }
 
 // write archive file for the given RSS feed
@@ -368,12 +387,19 @@ void NOTICES::write_archive(RSS_FEED* rfp) {
 // write notices newer than seqno as XML (for GUI RPC).
 // Write them in order of increasing seqno
 //
-void NOTICES::write(int seqno, MIOFILE& fout, bool public_only) {
+void NOTICES::write(int seqno, MIOFILE& fout, bool public_only, bool notice_refresh) {
     unsigned int i;
     fout.printf("<notices>\n");
-    for (i=0; i<notices.size(); i++) {
-        NOTICE& n = notices[i];
-        if (n.seqno <= seqno) break;
+    if (notice_refresh) {
+        NOTICE n;
+        n.seqno = -1;
+        seqno = -1;
+        i = notices.size();
+    } else {
+        for (i=0; i<notices.size(); i++) {
+            NOTICE& n = notices[i];
+            if (n.seqno <= seqno) break;
+        }
     }
     for (; i>0; i--) {
         NOTICE& n = notices[i-1];
@@ -485,7 +511,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
             } else {
                 n.arrival_time = gstate.now;
                 strcpy(n.feed_url, url);
-                if (notices.append_unique(n)) {
+                if (notices.append(n, true, false)) {
                     nitems++;
                 }
             }

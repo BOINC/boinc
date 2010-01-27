@@ -67,14 +67,13 @@
 
 struct NOTICES {
     std::deque<NOTICE> notices;
-    void write(int seqno, MIOFILE&, bool public_only);
-    void append(NOTICE&);
-    bool append_unique(NOTICE&);
+    void write(int seqno, MIOFILE&, bool public_only, bool notice_refresh);
+    bool append(NOTICE&, bool keep_old, bool archive);
     void init();
     void init_rss();
     int read_archive_file(char* file, char* feed_url);
     void write_archive(struct RSS_FEED*);
-    void prune();
+    bool remove_dups(NOTICE&, bool keep_old);
 };
 
 extern NOTICES notices;

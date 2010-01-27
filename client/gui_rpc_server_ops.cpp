@@ -1055,16 +1055,16 @@ static void handle_set_cc_config(char* buf, MIOFILE& fout) {
     );
 }
 
-static void handle_get_notices(char* buf, MIOFILE& fout) {
+static void handle_get_notices(char* buf, MIOFILE& fout, bool notice_refresh) {
     int seqno = 0;
     parse_int(buf, "<seqno>", seqno);
-    notices.write(seqno, fout, false);
+    notices.write(seqno, fout, false, notice_refresh);
 }
 
-static void handle_get_notices_public(char* buf, MIOFILE& fout) {
+static void handle_get_notices_public(char* buf, MIOFILE& fout, bool notice_refresh) {
     int seqno = 0;
     parse_int(buf, "<seqno>", seqno);
-    notices.write(seqno, fout, true);
+    notices.write(seqno, fout, true, notice_refresh);
 }
 
 // Some of the RPCs have empty-element request messages.
@@ -1166,7 +1166,8 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_req(request_msg, "get_all_projects_list")) {
         read_all_projects_list_file(mf);
     } else if (match_req(request_msg, "get_notices_public")) {
-        handle_get_notices_public(request_msg, mf);
+        handle_get_notices_public(request_msg, mf, notice_refresh);
+        notice_refresh = false;
 
     // Operations that require authentication start here
 
@@ -1247,7 +1248,8 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_req(request_msg, "set_debts")) {
         handle_set_debts(request_msg, mf);
     } else if (match_req(request_msg, "get_notices")) {
-        handle_get_notices(request_msg, mf);
+        handle_get_notices(request_msg, mf, notice_refresh);
+        notice_refresh = false;
     } else {
 
         // RPCs after this point require authentication,

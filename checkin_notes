@@ -667,3 +667,27 @@ David  25 Jan 2010
 
     client/
         app_start.cpp
+
+David  26 Jan 2010
+    - client/manager: eliminate duplicate notices.
+        When appending a new notice, we check whether one with
+        the same title and description is present already.
+        If so we remove one or the other, depending on the situation.
+
+        This introduces the possibility of "holes" in the seqno space.
+        In order that the manager learns of these deletions,
+        we use the following mechanism:
+        whenever a notice is removed (because it's a dup or too old)
+        a flag is set in each GUI_RPC_CONN.
+        On the next get_notice() RPC, the client returns the entire
+        list of notices, preceded by a dummy notice with seqno=-1;
+        this tells the RPC stub function to replace the current list
+        rather than appending to it.
+
+    client/
+        client_msgs.cpp
+        cs_notice.cpp,h
+        gui_rpc_server.h
+        gui_rpc_server_ops.cpp
+    samples/multi_thread/
+        multi_thread.cpp

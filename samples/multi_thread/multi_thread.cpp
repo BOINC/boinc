@@ -16,7 +16,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Example multi-thread BOINC application.
-// It does 64 "units" of computation, where each units is about 1 GFLOP.
+// This app defines its own classes (THREAD, THREAD_SET) for managing threads.
+// You can also use libraries such as OpenMP.
+// Just make sure you call boinc_init_parallel().
+//
+// This app does 64 "units" of computation, where each units is about 1 GFLOP.
 // It divides this among N "worker" threads.
 // N is passed in the command line, and defaults to 1.
 //

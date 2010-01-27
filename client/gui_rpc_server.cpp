@@ -79,6 +79,7 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s):
     got_auth1 = false;
     got_auth2 = false;
     sent_unauthorized = false;
+    notice_refresh = false;
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
