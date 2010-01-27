@@ -442,7 +442,27 @@ bool CAdvancedFrame::CreateMenu() {
         _("&Suspend"),
         _("Stop work regardless of preferences")
     );
+
     if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+
+#if defined(__WXMSW__) || defined(__WXMAC__)
+        menuActivity->AppendSeparator();
+#else
+        // for some reason, the above radio items do not display the active
+        // selection on linux (wxGtk library) with the separator here,
+        // so we add a blank disabled menu item instead
+        //
+        menuActivity->Append(
+            ID_ADVACTIVITYMENUSEPARATOR,
+            (const wxChar *) wxT(" "), // wxEmptyString here causes a wxWidgets
+                                       //   assertion when debugging
+            wxEmptyString,
+            wxITEM_NORMAL              // wxITEM_SEPARATOR here causes a wxWidgets
+                                       //   assertion when debugging
+        );
+        menuActivity->Enable(ID_ADVACTIVITYMENUSEPARATOR, false);
+#endif
+
         menuActivity->AppendSeparator();
         menuActivity->AppendRadioItem(
             ID_ADVACTIVITYGPUALWAYS,
@@ -460,7 +480,6 @@ bool CAdvancedFrame::CreateMenu() {
             _("Stop GPU work regardless of preferences")
         );
     }
-
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
     menuActivity->AppendSeparator();

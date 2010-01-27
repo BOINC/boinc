@@ -303,3 +303,10 @@ Charlie  27 Jan 2010
     clientgui/
         mac/
             MacAccessiblity.cpp
+
+Rom    27 Jan 2009
+    - MGR: Separators should appear between radio button groupings for cross-platform
+        compatibility.
+        
+    clientgui/
+        AdvancedFrame.cpp
