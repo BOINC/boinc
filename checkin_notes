@@ -721,6 +721,8 @@ Charlie  26 Jan 2010
     clientgui/
         mac/
             SetupSecurity.cpp
+    doc/
+        sandbox.php
     mac_build/
         Mac_SA_Insecure.sh
         Mac_SA_Secure.sh

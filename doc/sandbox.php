@@ -4,7 +4,7 @@ page_head("Sandbox design");
 
 echo "
 This document describes the permissions structure for 
-BOINC on the Macintosh.  It has been updated for BOINC 6.11 and later.
+BOINC on the Macintosh.  It has been updated for BOINC 6.10.30 and later.
 The purpose of this scheme is to 'sandbox' BOINC applications,
 i.e. to limit the amount of damage that a malicious
 or malfunctioning application can cause.
@@ -36,7 +36,7 @@ $mm0444 = prot('boinc_master', 'boinc_master', '0444');
 $mm0660 = prot('boinc_master', 'boinc_master', '0660');
 $mm0664 = prot('boinc_master', 'boinc_master', '0664');
 $mm0771 = prot('boinc_master', 'boinc_master', '0771');
-$mm0775 = prot('boinc_master', 'boinc_master', '0775');
+$mp0770 = prot('boinc_master', 'boinc_project', '0770');
 $mp0775 = prot('boinc_master', 'boinc_project', '0775');
 $mp06610771 = prot('boinc_master', 'boinc_project', '0661 or 0771');
 $mp06640775 = prot('boinc_master', 'boinc_project', '0664 or 0775');
@@ -104,13 +104,13 @@ for the BOINC file and directory tree:
 
 echo
     show_dir(0, 'BOINC data', $mm0771, array(
-        show_dir(1, 'projects', $mm0775, array(
+        show_dir(1, 'projects', $mp0770, array(
             show_dir(2, 'setiathome.berkeley.edu', $mp0775, array(
                 show_file('files created by BOINC Client', $mp06610771),
                 show_file('files created by project apps', $pp06610771)
             ))
         )),
-        show_dir(1, 'slots', $mm0775, array(
+        show_dir(1, 'slots', $mp0770, array(
             show_dir(2, '0', $mp0775, array(
                 show_file('files created by BOINC Client', $mp06610771),
                 show_file('files created by project apps', $pp06610771)
@@ -210,7 +210,7 @@ group ID to <b>boinc_project</b>.
 <li>Starting with BOINC version 6.7, a default screenaver graphics application 
 is provided with BOINC.  The screensaver (now more properly called the 
 <b>screensaver coordinator</b>) runs the default graphics alternating with science 
-graphics applications according to a schedule set by the data file ss-config.xml.  
+graphics applications according to a schedule set by the data file ss_config.xml.  
 The default graphics are run also when no science graphics are available, such as 
 when BOINC is suspended.  The default graphics executable is run as user and group 
 <b>boinc_project</b>.  
@@ -233,33 +233,34 @@ application with the process ID; since it is running as user and group
 <b>boinc_project</b>, it can affect only processes belonging to that user.  
 This is used to exit all screensaver graphics applications.</ul>
 </ul>
-<li>BOINC Client sets its umask to 006 to hide account keys from unauthorized 
-users.  This means that third-party add-ons cannot read BOINC data files; they 
-must use GUI RPCs to access BOINC Data.  
+<li>To hide account keys from unauthorized users, BOINC Client sets its umask 
+to 006 and (as of version 6.10.30) makes all *.xml files at the top level 
+directory not world-readable (except ss_config.xml, which must be read by the 
+screensaver coordinator).  This means that third-party add-ons cannot read BOINC 
+data files; they must use GUI RPCs to access BOINC Data.  
 <li>BOINC sets the umask for project applications to 002; the default permissions 
 for all files and directories they create prevent modification outside the 
-<b>boinc_project</b> user and group.  Files written by projects are world-readable so 
-that the BOINC Client can read them.
-<li>Non-admin users cannot directly modify BOINC or project files.
-They can modify these files only by running the BOINC Manager and Client.  
+<b>boinc_project</b> user and group.  
+<li>Files written by projects are world-readable so that the BOINC Client can read 
+them.  But, starting with BOINC version 6.10.30, the slots directory and the projects 
+directory are executable (traversable) only by user boinc_master and group 
+boinc_projects, to prevent unauthorized users from reading account keys from the 
+init_data.xml files. 
+<li>Unauthorized users cannot modify BOINC or project files.
 <li>Users with admin access are members of groups <b>boinc_master</b>
 and <b>boinc_project</b> so that they do have 
 direct access to all BOINC and project files
 to simplify maintenance and administration.
 <li>The RPC password file <i>gui_rpc_auth.cfg</i>
 is accessible only by user and group <b>boinc_master</b>.
-In other words, only BOINC Manager, BOINC Client and authorized administrative 
-users can read or modify it, limiting access to most BOINC RPC functions.  
-<li>BOINC Manager restricts certain functions to authorized users:
-Attach to Project, Detach from Project, Reset Project, Abort Task,
-Abort Transfer, Update Account Manager.  
-If an unauthorized user requests these functions,
-the Manager requires password authentication.
+In other words, only BOINC Manager, BOINC Client and authorized 
+users can read or modify it, restricting access to those BOINC RPC functions 
+which modify BOINC's operation.  
 <li>On Macintosh computers, the actual directory structures
 of the BOINC Manager application bundle and the screensaver bundle are 
 more complex than implied by the box <i>BOINC executables</i> in the 
 BOINC tree diagram shown above.
-<li>Some Macintosh system administrators may wish to limit which users
+<li>Some Macintosh system administrators may wish to further limit which users
 can perform BOINC Manager functions (Activity Menu, etc.).
 This can be done by moving BOINC Manager out of the
 <b>/Applications</b> directory into a directory with restricted access.
