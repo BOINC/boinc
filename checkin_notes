@@ -271,3 +271,25 @@ Charlie  22 Jan 2010
             SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+Charlie  26 Jan 2010
+    - Mac Sandbox: The init_data.xml file in each slot directory also contains 
+        an authenticator; to keep these private, change ownership of the "slots" 
+        directory to boinc_master:boinc_project and eliminate read and execute 
+        permissions of this directory for "other".  For consistency, make the 
+        same changes to the "projects" directory.  The individual slot and 
+        project directories are still world-executable and they and their 
+        contents are still world-readable, so the Client can still read files 
+        created by project apps with ownership boinc_project:boinc_project.
+      - NOTE: I believe this should not cause any problems for either BOINC or 
+        project applications, but it needs to be tested thoroughly.
+
+    client/
+        check_security.cpp
+        file_names.cpp
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        Mac_SA_Insecure.sh
+        Mac_SA_Secure.sh

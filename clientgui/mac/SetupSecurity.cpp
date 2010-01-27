@@ -388,35 +388,37 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
-        // Set owner and group of projects directory's contents
+        // Set owner and group of projects directory and it's contents
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
         // chown -R boinc_master:boinc_project "/Library/Application Support/BOINC Data/projects"
         err = DoPrivilegedExec(chownPath, "-Rh", buf1, fullpath, NULL, NULL);
         if (err)
             return err;
 
+#if 0       // Redundant if the same as projects directory's contents
         // Set owner and group of projects directory itself
-        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
-        // chown boinc_master:boinc_master "/Library/Application Support/BOINC Data/projects"
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
+        // chown -R boinc_master:boinc_project "/Library/Application Support/BOINC Data/projects"
         err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
         if (err)
             return err;
+#endif
 
-        // Set permissions for projects directory itself (not its contents)
-        // chmod u=rwx,g=rwx,o=rx "/Library/Application Support/BOINC Data/projects"
-        // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
-        // Set read, write and execute permission for user & group; read and execute permission for others
-        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
-        if (err)
-            return err;
-
-        // Set permissions of projects directory's contents
+        // Set permissions of project directories' contents
         // Contents of project directories must be world-readable so BOINC Client can read 
         // files written by projects which have user boinc_project and group boinc_project
         // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/projects"
         // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
-        // Set read and write permission for user and group, read-only for others (leaves execute bits unchanged)
+        // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
         err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set permissions for projects directory itself (not its contents)
+        // chmod u=rwx,g=rwx,o= "/Library/Application Support/BOINC Data/projects"
+        // 0770 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP
+        // Set read, write and execute permission for user & group, no access for others
+        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
 
@@ -433,35 +435,37 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
-        // Set owner and group of slots directory's contents
+        // Set owner and group of slots directory and it's contents
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
         // chown -R boinc_master:boinc_project "/Library/Application Support/BOINC Data/slots"
         err = DoPrivilegedExec(chownPath, "-Rh", buf1, fullpath, NULL, NULL);
         if (err)
             return err;
 
+#if 0       // Redundant if the same as slots directory's contents
         // Set owner and group of slots directory itself
-        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
-        // chown boinc_master:boinc_master "/Library/Application Support/BOINC Data/slots"
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
+        // chown boinc_master:boinc_project "/Library/Application Support/BOINC Data/slots"
         err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+#endif
+
+        // Set permissions of slot directories' contents
+        // Contents of slot directories must be world-readable so BOINC Client can read 
+        // files written by projects which have user boinc_project and group boinc_project
+        // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/slots"
+        // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
+        // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
+        err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
         if (err)
             return err;
 
         // Set permissions for slots directory itself (not its contents)
-        // chmod u=rwx,g=rwx,o=rx "/Library/Application Support/BOINC Data/slots"
-        // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
-        // Set read, write and execute permission for user & group;  read and execute permission for others
-        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
-        if (err)
-            return err;
-
-        // Set permissions of slots directory's contents
-        // Contents of slot directories must be world-readable so BOINC Client can read 
-        // files written by projects whcih have user boinc_project and group boinc_project
-        // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/slots"
-        // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
-        // Set read and write permission for user and group, read-only for others (leaves execute bits unchanged)
-        err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
+        // chmod u=rwx,g=rwx,o= "/Library/Application Support/BOINC Data/slots"
+        // 0770 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP
+        // Set read, write and execute permission for user & group, no access for others
+        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
 

@@ -133,20 +133,24 @@ int make_project_dir(PROJECT& p) {
 #ifndef _WIN32
     mode_t old_mask;
     if (g_use_sandbox) {
-        old_mask = umask(2);     // Project directories must be world-readable
+        old_mask = umask(2);        // Allow writing by group
          chmod(PROJECTS_DIR,
             S_IRUSR|S_IWUSR|S_IXUSR
             |S_IRGRP|S_IWGRP|S_IXGRP
-            |S_IROTH|S_IXOTH
         );
         umask(old_mask);
+        // Only user boinc_master and group boinc_project can access 
+        // project directories, to keep authenticators private
+        set_to_project_group(buf);
     }
 #endif
     get_project_dir(&p, buf, sizeof(buf));
     retval = boinc_mkdir(buf);
 #ifndef _WIN32
     if (g_use_sandbox) {
-        old_mask = umask(2);     // Project directories must be world-readable
+        old_mask = umask(2);
+        // Contents of projects directory must be world-readable so BOINC Client can read 
+        // files written by projects which have user boinc_project and group boinc_project
         chmod(buf,
             S_IRUSR|S_IWUSR|S_IXUSR
             |S_IRGRP|S_IWGRP|S_IXGRP
@@ -185,20 +189,25 @@ int make_slot_dir(int slot) {
 #ifndef _WIN32
     mode_t old_mask;
     if (g_use_sandbox) {
-        old_mask = umask(2);     // Slot directories must be world-readable
+        old_mask = umask(2);        // Allow writing by group
         chmod(SLOTS_DIR,
             S_IRUSR|S_IWUSR|S_IXUSR
             |S_IRGRP|S_IWGRP|S_IXGRP
-            |S_IROTH|S_IXOTH
         );
         umask(old_mask);
+        // Only user boinc_master and group boinc_project can 
+        // access slot directories, to keep authenticators private
+        set_to_project_group(buf);
     }
+
 #endif
     get_slot_dir(slot, buf, sizeof(buf));
     int retval = boinc_mkdir(buf);
 #ifndef _WIN32
     if (g_use_sandbox) {
-        old_mask = umask(2);     // Slot directories must be world-readable
+        old_mask = umask(2);
+        // Contents of slots directory must be world-readable so BOINC Client can read 
+        // files written by projects which have user boinc_project and group boinc_project
         chmod(buf,
             S_IRUSR|S_IWUSR|S_IXUSR
             |S_IRGRP|S_IWGRP|S_IXGRP
