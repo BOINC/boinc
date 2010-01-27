@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-22 10:06 PST\n"
+"POT-Creation-Date: 2010-01-26 20:00 PST\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -683,43 +683,39 @@ msgstr ""
 msgid "Add as friend"
 msgstr ""
 
-#: ../inc/util.inc:120 ../user/sample_index.php:89
-msgid "CHARSET"
-msgstr ""
-
-#: ../inc/util.inc:388
+#: ../inc/util.inc:385
 msgid "Email address:"
 msgstr ""
 
-#: ../inc/util.inc:388
+#: ../inc/util.inc:385
 msgid "forgot email address?"
 msgstr ""
 
-#: ../inc/util.inc:390
+#: ../inc/util.inc:387
 msgid "Password:"
 msgstr ""
 
-#: ../inc/util.inc:390
+#: ../inc/util.inc:387
 msgid "forgot password?"
 msgstr ""
 
-#: ../inc/util.inc:393
+#: ../inc/util.inc:390
 msgid "Stay logged in on this computer"
 msgstr ""
 
-#: ../inc/util.inc:398
+#: ../inc/util.inc:395
 msgid "Log in"
 msgstr ""
 
-#: ../inc/util.inc:399
+#: ../inc/util.inc:396
 msgid "or %1create an account%2."
 msgstr ""
 
-#: ../inc/util.inc:419
+#: ../inc/util.inc:416
 msgid "Please log in"
 msgstr ""
 
-#: ../inc/util.inc:545
+#: ../inc/util.inc:542
 msgid "Use BBCode tags to format your text"
 msgstr ""
 
@@ -1706,7 +1702,7 @@ msgstr ""
 msgid "No tasks to display"
 msgstr ""
 
-#: ../user/sample_index.php:134
+#: ../user/sample_index.php:130
 msgid "User of the day"
 msgstr ""
 

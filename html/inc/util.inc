@@ -117,10 +117,7 @@ function page_head(
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
     
-    $charset = tra("CHARSET");
-    if ($charset != "CHARSET") {
-        header("Content-type: text/html; charset=$charset");
-    }
+    header("Content-type: text/html; charset=utf-8");
     if (!$caching) {
         header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
         header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified

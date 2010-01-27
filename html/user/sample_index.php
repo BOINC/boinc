@@ -86,11 +86,7 @@ $stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
 $rsslink = URL_BASE . "rss_main.php";
 
-$charset = tra("CHARSET");
-
-if ($charset != "CHARSET") {
-    header("Content-type: text/html; charset=$charset");
-}
+header("Content-type: text/html; charset=utf-8");
 
 echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
 

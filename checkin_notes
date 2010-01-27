@@ -691,3 +691,14 @@ David  26 Jan 2010
         gui_rpc_server_ops.cpp
     samples/multi_thread/
         multi_thread.cpp
+
+David  26 Jan 2010
+    - web: assume all translation files are UTF-8
+
+    html/
+        inc/
+            util.inc
+        ops/
+            build_po_boinc.php
+        user/
+            sample_index.php

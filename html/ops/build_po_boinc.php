@@ -5,8 +5,7 @@
 //
 // Projects: don't use this.  Use build_po.php instead.
 //
-// Run this in boinc/html/ops;
-// move the result to boinc/locale/templates/BOINC-Project-Generic.pot
+// Run this in boinc/html/ops.
 
 $FILE_LIST = "../inc/*.inc ../user/*.php ../project.sample/*.inc";
 
@@ -51,5 +50,7 @@ stream_copy_to_stream($pipe, $out);
 
 fclose($pipe);
 fclose($out);
+
+echo "Done.  Move en.po to boinc/locale/templates/BOINC-Project-Generic.pot\n";
 
 ?>
