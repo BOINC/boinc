@@ -347,10 +347,10 @@ saverName[2] = "Progress Thru Processors";
     retval = stat(full_path, &sbuf);
     if (! retval) {                 // Client can create projects directory if it does not yet exist.  
         if (use_sandbox) {
-            if (sbuf.st_gid != boinc_master_gid)
+            if (sbuf.st_gid != boinc_project_gid)
                 return -1024;
 
-        if ((sbuf.st_mode & 0777) != 0775)
+        if ((sbuf.st_mode & 0777) != 0770)
             return -1025;
         }
         
@@ -369,10 +369,10 @@ saverName[2] = "Progress Thru Processors";
     retval = stat(full_path, &sbuf);
     if (! retval) {                 // Client can create slots directory if it does not yet exist.  
        if (use_sandbox) {
-            if (sbuf.st_gid != boinc_master_gid)
+            if (sbuf.st_gid != boinc_project_gid)
                 return -1027;
 
-            if ((sbuf.st_mode & 0777) != 0775)
+            if ((sbuf.st_mode & 0777) != 0770)
                 return -1028;
         }
         

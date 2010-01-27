@@ -62,9 +62,9 @@
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
 
-# Last updated 1/22/10 for BOINC version 6.8.19, 6.10.30 and 6.11.1
+# Last updated 1/26/10 for BOINC version 6.8.19, 6.10.30 and 6.11.1
 # WARNING: do not use this script with versions of BOINC older 
-# than 6.8.17 and 6.10.3
+# than 6.8.19 and 6.10.30
 
 function make_boinc_user() {
     # Check whether group already exists
@@ -150,11 +150,10 @@ function set_perm_dir() {
 }
 
 function update_nested_dirs() {
-   chmod u+x,g+x,o+x "${1}"
-   
    for file in $(ls "$1")
     do
 	if [ -d "${1}/${file}" ] ; then
+        chmod u+x,g+x,o+x "${1}/${file}"
 		update_nested_dirs "${1}/${file}"
 	fi
     done
@@ -199,13 +198,13 @@ set_perm . boinc_master boinc_master 0771
 
 if [ -d projects ] ; then
     set_perm_recursive projects boinc_master boinc_project u+rw,g+rw,o+r-w
-    set_perm projects boinc_master boinc_master 0775
+    set_perm projects boinc_master boinc_project 0770
     update_nested_dirs projects
 fi
 
 if [ -d slots ] ; then
     set_perm_recursive slots boinc_master boinc_project u+rw,g+rw,o+r-w
-    set_perm slots boinc_master boinc_master 0775
+    set_perm slots boinc_master boinc_project 0770
     update_nested_dirs slots
 fi
 
