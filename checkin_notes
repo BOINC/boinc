@@ -734,3 +734,10 @@ Charlie  27 Jan 2010
     clientgui/
         mac/
             MacAccessiblity.cpp
+
+David  27 Jan 2010
+    - client: fix small bug that could interfere with work fetch
+        on hosts with both NVIDIA and ATI GPU
+
+    client/
+        work_fetch.cpp
