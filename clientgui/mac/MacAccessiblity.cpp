@@ -774,7 +774,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     // Return the window or top level ui element for this part. They are both the same so re-use the code.
                     AXUIElementRef		windOrTopUI;
 
-                    WindowRef win = GetFrontWindowOfClass(kDocumentWindowClass, true);
+                    WindowRef win = GetControlOwner(pList->m_bodyView);
                     if (win == NULL) {
                         return eventNotHandledErr;
                     }
@@ -1252,7 +1252,7 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     // Return the window or top level ui element for this part. They are both the same so re-use the code.
                     AXUIElementRef		windOrTopUI;
 
-                    WindowRef win = GetFrontWindowOfClass(kDocumentWindowClass, true);
+                    WindowRef win = GetControlOwner((HIViewRef)obj);
                     if (win == NULL) {
                         return eventNotHandledErr;
                     }

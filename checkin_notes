@@ -295,3 +295,11 @@ Charlie  26 Jan 2010
     mac_build/
         Mac_SA_Insecure.sh
         Mac_SA_Secure.sh
+
+Charlie  27 Jan 2010
+    - MGR: Fix minor bugs in Mac accessibility reporting kAXWindowAttribute and 
+        kAXTopLevelUIElementAttribute.
+
+    clientgui/
+        mac/
+            MacAccessiblity.cpp
