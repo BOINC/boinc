@@ -741,3 +741,14 @@ David  27 Jan 2010
 
     client/
         work_fetch.cpp
+
+David  27 Jan 2010
+	- client: fix work fetch bug that prevented getting work
+		from an overworked project,
+		even if idle instance or major shortfall.
+	- GUI RPC: finish the notice-duplication thing
+
+	client/
+		work_fetch.cpp,h
+	lib/
+		gui_rpc_client_ops.cpp

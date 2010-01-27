@@ -2310,7 +2310,11 @@ static int parse_notices(MIOFILE& fin, NOTICES& notices) {
             NOTICE* np = new NOTICE();
             retval = np->parse(xp);
             if (!retval) {
-                notices.notices.insert(notices.notices.begin(), np);
+                if (np->seqno == -1) {
+                    notices.notices.clear();
+                } else {
+                    notices.notices.insert(notices.notices.begin(), np);
+                }
             } else {
                 delete np;
             }
