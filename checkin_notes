@@ -752,3 +752,9 @@ David  27 Jan 2010
 		work_fetch.cpp,h
 	lib/
 		gui_rpc_client_ops.cpp
+
+David  27 Jan 2010
+    - client: remove debug msgs
+
+    client/
+        app.cpp
