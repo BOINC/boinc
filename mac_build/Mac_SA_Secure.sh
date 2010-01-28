@@ -62,9 +62,9 @@
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
 
-# Last updated 1/26/10 for BOINC version 6.8.19, 6.10.30 and 6.11.1
+# Last updated 1/28/10 for BOINC version 6.8.19, 6.10.30 and 6.11.1
 # WARNING: do not use this script with versions of BOINC older 
-# than 6.8.19 and 6.10.30
+# than 6.8.20 and 6.10.30
 
 function make_boinc_user() {
     # Check whether group already exists
@@ -153,8 +153,8 @@ function update_nested_dirs() {
    for file in $(ls "$1")
     do
 	if [ -d "${1}/${file}" ] ; then
-        chmod u+x,g+x,o+x "${1}/${file}"
-		update_nested_dirs "${1}/${file}"
+            chmod u+x,g+x,o+x "${1}/${file}"
+            update_nested_dirs "${1}/${file}"
 	fi
     done
 }
