@@ -25,6 +25,7 @@
 #include <unistd.h>     // usleep
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <dirent.h>
 
 #include <Carbon/Carbon.h>
