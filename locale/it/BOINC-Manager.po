@@ -3814,6 +3814,7 @@ msgstr ""
 #~ msgid "Retrying communications for project(s)..."
 #~ msgstr "Nuovo tentativo di comunicazione con i/il progetti/o"
 
+#, c-format
 #, fuzzy
 #~ msgid ""
 #~ "You currently are not authorized to manage the client.\n"
