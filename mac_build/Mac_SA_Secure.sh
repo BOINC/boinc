@@ -62,7 +62,7 @@
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
 
-# Last updated 1/28/10 for BOINC version 6.8.19, 6.10.30 and 6.11.1
+# Last updated 1/28/10 for BOINC version 6.8.20, 6.10.30 and 6.11.1
 # WARNING: do not use this script with versions of BOINC older 
 # than 6.8.20 and 6.10.30
 
