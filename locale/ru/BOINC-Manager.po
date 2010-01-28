@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-01-28 13:58-0700\n"
+"PO-Revision-Date: 2010-01-28 14:01-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -3188,12 +3188,14 @@ msgid "Display the latest news about BOINC"
 msgstr "Показать последние новости BOINC"
 
 #: clientgui/ViewNotices.cpp:105
+#, fuzzy
 msgid "Notices"
-msgstr ""
+msgstr "Уведомления"
 
 #: clientgui/ViewNotices.cpp:155
+#, fuzzy
 msgid "Retrieving notices..."
-msgstr ""
+msgstr "Получение уведомлений..."
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
@@ -3868,8 +3870,9 @@ msgid "list of "
 msgstr "список "
 
 #: clientgui/mac/MacAccessiblity.cpp:522
+#, fuzzy
 msgid "events"
-msgstr ""
+msgstr "события"
 
 #: clientgui/mac/MacAccessiblity.cpp:529
 #, fuzzy
