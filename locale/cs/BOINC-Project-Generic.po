@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-20 12:49 PST\n"
+"POT-Creation-Date: 2010-01-26 20:00 PST\n"
 "PO-Revision-Date: 2009-05-20 14:38-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,37 +19,43 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Čeština"
 
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Czech"
 
+#: ../inc/forum.inc:124
 msgid "Search for words in forum messages"
 msgstr "Hledat slova v příspěvcích ve fóru"
 
+#: ../inc/forum.inc:124
 msgid "Search forums"
 msgstr "Hledat v diskuzních fórech"
 
+#: ../inc/forum.inc:125
 msgid "Advanced search"
 msgstr "Pokročilé hledání"
 
+#: ../inc/forum.inc:131 ../inc/user.inc:247 ../user/pm.php:64
 #: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Soukromé zprávy"
 
+#: ../inc/forum.inc:149 ../user/forum_forum.php:65 ../user/sample_index.php:71
 msgid "Questions and Answers"
 msgstr "Otázky a odpovědi"
 
+#: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:244
 #: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Diskuzní fóra"
 
+#: ../inc/forum.inc:186 ../inc/forum.inc:194
 msgid "%1 message board"
 msgstr "Diskuzní fórum %1"
 
+#: ../inc/forum.inc:1056
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
@@ -57,6 +63,7 @@ msgstr ""
 "Pro vytvoření nového vlákna v %1 musíte mít určité množství kreditu. Toto "
 "omezení slouží jako ochrana proti zneužití systému."
 
+#: ../inc/forum.inc:1063
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
@@ -65,51 +72,60 @@ msgstr ""
 "Nové vlákno nemůžete vytvořit hned teď. Počkejte prosím chvíli a zkuste to "
 "znova. Tato prodleva byla zavedena proti zneužití systému."
 
+#: ../inc/forum.inc:1100
 msgid "Thread"
 msgstr "Vlákno"
 
+#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Příspěvků"
 
+#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
 #: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
 #: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Autor"
 
+#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
 msgid "Views"
 msgstr "Zobrazení"
 
+#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Poslední příspěvek"
 
+#: ../inc/forum.inc:1172
 msgid "Mark all threads as read"
 msgstr "Označit všechna vlákna jako přečtená"
 
+#: ../inc/forum.inc:1172
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Označit všechna vlákna ve všech diskuzních fórech jako přečtená"
 
+#: ../inc/news.inc:40
 msgid "Comment"
 msgstr ""
 
-"
-
+#: ../inc/news.inc:96
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr ""
 
-"
-
+#: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
 msgid "Inbox"
 msgstr "Schránka"
 
+#: ../inc/pm.inc:26 ../inc/pm.inc:182
 msgid "Write"
 msgstr "Psát zprávu"
 
+#: ../inc/pm.inc:33 ../inc/user.inc:370
 msgid "Send private message"
 msgstr "Poslat soukromou zprávu"
 
+#: ../inc/pm.inc:35 ../inc/pm.inc:38 ../inc/pm.inc:92
 #: ../user/forum_edit.php:99 ../user/forum_edit.php:102
 #: ../user/forum_edit.php:145 ../user/forum_post.php:62
 #: ../user/forum_post.php:88 ../user/forum_post.php:91
@@ -119,24 +135,30 @@ msgstr "Poslat soukromou zprávu"
 msgid "Preview"
 msgstr "Náhled"
 
+#: ../inc/pm.inc:85
 msgid "To"
 msgstr "Komu"
 
+#: ../inc/pm.inc:85
 msgid "User IDs or unique usernames, separated with commas"
 msgstr "Uživatelská ID nebo unikátní uživatelská jména, oddělená čárkami"
 
+#: ../inc/pm.inc:88 ../user/pm.php:85 ../user/pm.php:135
 msgid "Subject"
 msgstr "Předmět"
 
+#: ../inc/pm.inc:89 ../user/forum_edit.php:128 ../user/forum_edit.php:133
 #: ../user/forum_post.php:118 ../user/forum_reply.php:108
 #: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
 #: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Zpráva"
 
+#: ../inc/pm.inc:92
 msgid "Send message"
 msgstr "Odeslat zprávu"
 
+#: ../inc/pm.inc:170
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
@@ -144,41 +166,51 @@ msgstr ""
 "Není možné posílat tolik soukromých zpráv během tak krátké chvíle. Počkejte "
 "prosím před posláním další zprávy."
 
+#: ../inc/pm.inc:180
 msgid "unread"
 msgstr "nepřečtené"
 
+#: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
 msgstr ""
 
-"
-
+#: ../inc/profile.inc:216 ../user/create_profile.php:306
 msgid "Edit your profile"
 msgstr "Upravit Váš profil"
 
+#: ../inc/profile.inc:254
 msgid "Your feedback on this profile"
 msgstr "Vaše reakce na tento profil"
 
+#: ../inc/profile.inc:256
 msgid "Recommend this profile for User of the Day:"
 msgstr "Doporučit tento profil na 'Uživatele dne'\""
 
+#: ../inc/profile.inc:257
 msgid "I %1like%2 this profile"
 msgstr "%1Líbí%2 se mi tento profil"
 
+#: ../inc/profile.inc:260
 msgid "Alert administrators to an offensive profile:"
 msgstr "Upozornit administrátory na urážlivý profil\""
 
+#: ../inc/profile.inc:261
 msgid "I %1do not like%2 this profile"
 msgstr "%1Nelíbí%2 se mi tento profil"
 
+#: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
 msgstr "Kriteria pro hledání (použijte jedno či více)"
 
+#: ../inc/team.inc:34
 msgid "Key words"
 msgstr "Klíčová slova"
 
+#: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Hledat týmy s těmito slovy v názvu nebo popisu"
 
+#: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
 #: ../inc/user.inc:310 ../user/account_finish.php:44
 #: ../user/create_account_form.php:94 ../user/top_users.php:62
@@ -187,45 +219,59 @@ msgstr "Hledat týmy s těmito slovy v názvu nebo popisu"
 msgid "Country"
 msgstr "Země"
 
+#: ../inc/team.inc:42 ../inc/team.inc:445
 msgid "Type of team"
 msgstr "Typ týmu"
 
+#: ../inc/team.inc:44
 msgid "Show only active teams"
 msgstr "Zobrazit jen aktivní týmy"
 
+#: ../inc/team.inc:45 ../user/profile_menu.php:75 ../user/user_search.php:132
 msgid "Search"
 msgstr "Hledat"
 
+#: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
 msgstr "Vaše žádosti, u nichž vypršela lhůta na odpověď vlastníka"
 
+#: ../inc/team.inc:56
 msgid "Complete foundership transfer"
 msgstr "Dokončit převod vlastnictví"
 
+#: ../inc/team.inc:60
 msgid "Requested by you"
 msgstr "Vaše žádosti"
 
+#: ../inc/team.inc:60
 msgid "founder response deadline is %1"
 msgstr "lhůta na odpověď vlastníka je %1"
 
+#: ../inc/team.inc:65 ../inc/user.inc:275 ../inc/user.inc:363
 msgid "None"
 msgstr "Žádná"
 
+#: ../inc/team.inc:67
 msgid "Initiate request"
 msgstr "Podat žádost"
 
+#: ../inc/team.inc:70
 msgid "Deferred"
 msgstr "Odložené"
 
+#: ../inc/team.inc:80
 msgid "Team info"
 msgstr "Informace o týmu"
 
+#: ../inc/team.inc:82
 msgid "Description"
 msgstr "Popis"
 
+#: ../inc/team.inc:90
 msgid "Web site"
 msgstr "Webové stránky"
 
+#: ../inc/team.inc:94 ../inc/team.inc:207 ../inc/team.inc:212
 #: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
 #: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
 #: ../user/top_users.php:58 ../user/user_search.php:102
@@ -233,26 +279,33 @@ msgstr "Webové stránky"
 msgid "Total credit"
 msgstr "Celkový kredit"
 
+#: ../inc/team.inc:95 ../inc/team.inc:208 ../inc/team.inc:217
 #: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
 #: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Současný průměrný kredit (RAC)"
 
+#: ../inc/team.inc:112
 msgid "Cross-project stats"
 msgstr "Statistiky napříč projekty"
 
+#: ../inc/team.inc:115
 msgid "Type"
 msgstr "Typ"
 
+#: ../inc/team.inc:119
 msgid "Message board"
 msgstr "Diskuzní fórum"
 
+#: ../inc/team.inc:120 ../user/forum_forum.php:131 ../user/forum_index.php:93
 msgid "Threads"
 msgstr "Vlákna"
 
+#: ../inc/team.inc:128
 msgid "Join this team"
 msgstr "Připojit se k tomuto týmu"
 
+#: ../inc/team.inc:129
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
@@ -260,69 +313,90 @@ msgstr ""
 "Poznámka: pokud máte v nastavení projektu 'OK u emailu', připojením k týmu "
 "poskytnete jeho vlastníkovi přístup k vaší emailové adrese."
 
+#: ../inc/team.inc:132
 msgid "Not accepting new members"
 msgstr "Nepřijímá nové členy"
 
+#: ../inc/team.inc:139
 msgid "Foundership change requested"
 msgstr "Požádáno o změnu vlastnictví"
 
+#: ../inc/team.inc:140
 msgid "Respond by %1"
 msgstr "Odpověď od %1"
 
+#: ../inc/team.inc:144
 msgid "Team foundership change"
 msgstr "Změna vlastníka týmu"
 
+#: ../inc/team.inc:148 ../inc/team.inc:346
 msgid "Members"
 msgstr "Členové"
 
+#: ../inc/team.inc:149 ../inc/team.inc:241
 msgid "Founder"
 msgstr "Vlastník"
 
+#: ../inc/team.inc:161
 msgid "Admins"
 msgstr "Administrátoři"
 
+#: ../inc/team.inc:176
 msgid "New members in last day"
 msgstr "Noví členové za poslední dny"
 
+#: ../inc/team.inc:177
 msgid "Total members"
 msgstr "Celkem členů"
 
+#: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
 msgid "view"
 msgstr "zobrazit"
 
+#: ../inc/team.inc:178
 msgid "Active members"
 msgstr "Aktivní členové"
 
+#: ../inc/team.inc:179
 msgid "Members with credit"
 msgstr "Členové s kreditem"
 
+#: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
 #: ../user/account_finish.php:40 ../user/create_account_form.php:75
 #: ../user/top_users.php:48 ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Name"
 msgstr "Jméno"
 
+#: ../inc/team.inc:243
 msgid "Admin"
 msgstr "Administrátor"
 
+#: ../inc/team.inc:264
 msgid "Last %1"
 msgstr "Posledních %1"
 
+#: ../inc/team.inc:268
 msgid "Next %1"
 msgstr "Prvních %1"
 
+#: ../inc/team.inc:276
 msgid "No such team."
 msgstr "Nenalezen žádný tým."
 
+#: ../inc/team.inc:289
 msgid "This operation requires foundership."
 msgstr "Tuto operaci může provádět jen vlastník."
 
+#: ../inc/team.inc:313
 msgid "This operation requires team admin privileges"
 msgstr "Tuto operaci může provést jen administrátor týmu"
 
+#: ../inc/team.inc:344 ../user/top_users.php:47
 msgid "Rank"
 msgstr "Pořadí"
 
+#: ../inc/team.inc:420
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
@@ -330,292 +404,360 @@ msgstr ""
 "%1Poznámka k soukromí%2: pokud založíte tým, vaše projektová nastavení "
 "(podíl prostředků, nastavení grafiky) budou veřejně viditelná."
 
+#: ../inc/team.inc:424
 msgid "Team name, text version"
 msgstr "Název týmu, textová verze"
 
+#: ../inc/team.inc:425
 msgid "Don't use HTML tags."
 msgstr "Nepoužívejte HTML tagy."
 
+#: ../inc/team.inc:428
 msgid "Team name, HTML version"
 msgstr "Název týmu, HTML verze"
 
+#: ../inc/team.inc:430 ../inc/team.inc:440
 msgid "You may use %1limited HTML tags%2."
 msgstr "Můžete použít %1tyto HTML tagy%2."
 
+#: ../inc/team.inc:431
 msgid "If you don't know HTML, leave this box blank."
 msgstr "Pokud neznáte HTML, nevyplňujte tento box."
 
+#: ../inc/team.inc:434
 msgid "URL of team web page, if any"
 msgstr "Webová stránka týmu, pokud je"
 
+#: ../inc/team.inc:434
 msgid "without \"http://\""
 msgstr "bez \"http://\""
 
+#: ../inc/team.inc:435
 msgid "This URL will be linked to from the team's page on this site."
 msgstr ""
 "Tato adresa bude použita jako odkaz z hlavní týmové stránky na tomto webu."
 
+#: ../inc/team.inc:438
 msgid "Description of team"
 msgstr "Popis týmu"
 
+#: ../inc/user.inc:112
 msgid "Projects in which you are participating"
 msgstr "Projekty, v nichž se účastníte"
 
+#: ../inc/user.inc:114
 msgid "Projects in which %1 is participating"
 msgstr "Projekty, v nichž se účastní %1"
 
+#: ../inc/user.inc:118
 msgid "Project"
 msgstr "Projekt"
 
+#: ../inc/user.inc:118
 msgid "Click for user page"
 msgstr "Klikněte pro zobrazení stránky uživatele"
 
+#: ../inc/user.inc:118 ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Average credit"
 msgstr "Průměrný kredit"
 
+#: ../inc/user.inc:118
 msgid "Since"
 msgstr "Od"
 
+#: ../inc/user.inc:142
 msgid "Computing and credit"
 msgstr "Výpočty a kredit"
 
+#: ../inc/user.inc:146
 msgid "Pending credit"
 msgstr "Očekávaný kredit"
 
+#: ../inc/user.inc:146 ../inc/user.inc:148 ../inc/user.inc:149
 #: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
 #: ../user/view_profile.php:54
 msgid "View"
 msgstr "Zobrazit"
 
+#: ../inc/user.inc:148
 msgid "Computers on this account"
 msgstr "Počítače na tomto účtu"
 
+#: ../inc/user.inc:149
 msgid "Tasks"
 msgstr "Úkoly"
 
+#: ../inc/user.inc:158
 msgid "Cross-project ID"
 msgstr "ID napříč projekty"
 
+#: ../inc/user.inc:159
 msgid "Cross-project statistics"
 msgstr "Statistiky napříč projekty"
 
+#: ../inc/user.inc:160
 msgid "Account"
 msgstr ""
 
-"
-
+#: ../inc/user.inc:162 ../inc/user.inc:275 ../inc/user.inc:361
 #: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Team"
 msgstr "Tým"
 
+#: ../inc/user.inc:164
 #, fuzzy
 msgid "Cross-project"
 msgstr "ID napříč projekty"
 
+#: ../inc/user.inc:165
 msgid "Certificate"
 msgstr "Certifikát"
 
+#: ../inc/user.inc:166
 msgid "Stats on your cell phone"
 msgstr "Statistiky ve Vašem mobilu"
 
+#: ../inc/user.inc:197
 msgid "Account information"
 msgstr "Informace o účtu"
 
+#: ../inc/user.inc:199 ../user/edit_passwd_form.php:46
 msgid "Email address"
 msgstr "Emailová adresa"
 
+#: ../inc/user.inc:202 ../inc/user.inc:312
 msgid "URL"
 msgstr "URL"
 
+#: ../inc/user.inc:205
 msgid "Postal code"
 msgstr "Směrovací číslo"
 
+#: ../inc/user.inc:206 ../inc/user.inc:309
 msgid "%1 member since"
 msgstr "Členem %1 od"
 
+#: ../inc/user.inc:208
 msgid "Change"
 msgstr "Změnit"
 
+#: ../inc/user.inc:208
 msgid "email address"
 msgstr "emailová adresa"
 
+#: ../inc/user.inc:208
 msgid "password"
 msgstr "heslo"
 
+#: ../inc/user.inc:208
 msgid "other account info"
 msgstr "další informace o účtu"
 
+#: ../inc/user.inc:209
 msgid "Log out"
 msgstr "Odhlásit"
 
+#: ../inc/user.inc:210
 msgid "User ID"
 msgstr "Uživatelské ID"
 
+#: ../inc/user.inc:210
 msgid "Used in community functions"
 msgstr "Použití u komunitních funkcí"
 
+#: ../inc/user.inc:212
 msgid "Account key"
 msgstr "Klíč k účtu"
 
+#: ../inc/user.inc:212
 msgid "Provides full access to your account"
 msgstr "Poskytuje plný přístup k Vašemu účtu"
 
+#: ../inc/user.inc:213
 msgid "Weak account key"
 msgstr "Slabý klíč k účtu"
 
+#: ../inc/user.inc:213
 msgid "Provides %1limited access%2 to your account"
 msgstr "Poskytuje %1omezený přístup%2 k Vašemu účtu"
 
+#: ../inc/user.inc:216
 msgid "Preferences"
 msgstr "Nastavení"
 
+#: ../inc/user.inc:219
 msgid "When and how BOINC uses your computer"
 msgstr "Kdy a jak má BOINC používat Váš počítač"
 
+#: ../inc/user.inc:220
 msgid "Computing preferences"
 msgstr "Výpočetní nastavení"
 
+#: ../inc/user.inc:223
 msgid "Message boards and private messages"
 msgstr "Diskuzní fóra a soukromé zprávy"
 
+#: ../inc/user.inc:224
 msgid "Community preferences"
 msgstr "Komunitní nastavení"
 
+#: ../inc/user.inc:227
 msgid "Preferences for this project"
 msgstr ""
 
-"
-
+#: ../inc/user.inc:228
 msgid "%1 preferences"
 msgstr "%1 nastavení"
 
+#: ../inc/user.inc:234 ../user/sample_index.php:66
 msgid "Community"
 msgstr "Komunita"
 
+#: ../inc/user.inc:237 ../user/pm.php:103 ../user/pm.php:143
 msgid "Delete"
 msgstr "Smazat"
 
+#: ../inc/user.inc:239
 msgid "Create"
 msgstr "Vytvořit"
 
+#: ../inc/user.inc:241 ../inc/user.inc:394
 msgid "Profile"
 msgstr "Profil"
 
+#: ../inc/user.inc:244 ../inc/user.inc:367
 msgid "%1 posts"
 msgstr "%1 příspěvků"
 
+#: ../inc/user.inc:256
 msgid "Notifications"
 msgstr "Upozornění"
 
+#: ../inc/user.inc:263
 msgid "Quit team"
 msgstr "Opustit tým"
 
+#: ../inc/user.inc:265 ../inc/user.inc:282
 msgid "Administer"
 msgstr "Spravovat"
 
+#: ../inc/user.inc:271 ../inc/user.inc:284
 msgid "(foundership change request pending)"
 msgstr "(dosud nevyřízený požadavek na změnu vlastnictví)"
 
+#: ../inc/user.inc:273
 msgid "Member of team"
 msgstr "Člen týmu"
 
+#: ../inc/user.inc:275
 msgid "find a team"
 msgstr "najít tým"
 
+#: ../inc/user.inc:286
 msgid "Founder but not member of"
 msgstr "Vlastník, ale ne člen týmu"
 
+#: ../inc/user.inc:292
 msgid "Find friends"
 msgstr "Najít přátele"
 
+#: ../inc/user.inc:299 ../inc/user.inc:301 ../inc/user.inc:377
 #: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Přátelé"
 
+#: ../inc/user.inc:318 ../inc/user.inc:320
 msgid "Computers"
 msgstr "Počítače"
 
+#: ../inc/user.inc:320
 msgid "hidden"
 msgstr "skryté"
 
+#: ../inc/user.inc:327
 msgid "Donor"
 msgstr "Dárce"
 
+#: ../inc/user.inc:370
 msgid "Contact"
 msgstr "Kontakt"
 
+#: ../inc/user.inc:373
 msgid "This person is a friend"
 msgstr "Tento člověk je Váš přítel"
 
+#: ../inc/user.inc:374 ../user/friend.php:224
 msgid "Cancel friendship"
 msgstr "Zrušit přátelství"
 
+#: ../inc/user.inc:377 ../user/friend.php:35
 msgid "Request pending"
 msgstr "Zažádat o přátelství"
 
+#: ../inc/user.inc:379
 msgid "Add as friend"
 msgstr "Přidat jako přítele"
 
-msgid "CHARSET"
-msgstr "UTF-8"
-
+#: ../inc/util.inc:385
 #, fuzzy
 msgid "Email address:"
 msgstr "Emailová adresa"
 
+#: ../inc/util.inc:385
 msgid "forgot email address?"
 msgstr ""
 
-"
-
+#: ../inc/util.inc:387
 #, fuzzy
 msgid "Password:"
 msgstr "Heslo"
 
+#: ../inc/util.inc:387
 msgid "forgot password?"
 msgstr ""
 
-"
-
+#: ../inc/util.inc:390
 msgid "Stay logged in on this computer"
 msgstr ""
 
-"
-
+#: ../inc/util.inc:395
 msgid "Log in"
 msgstr ""
 
-"
-
+#: ../inc/util.inc:396
 msgid "or %1create an account%2."
 msgstr ""
 
-"
-
+#: ../inc/util.inc:416
 msgid "Please log in"
 msgstr ""
 
-"
-
+#: ../inc/util.inc:542
 msgid "Use BBCode tags to format your text"
 msgstr "Používejte BBCode tagy pro formátování Vašeho textu"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
 "Vaše identifikace na stránkách. Použijte skutečné jméno, nebo přezdívku."
 
+#: ../user/account_finish.php:44 ../user/create_account_form.php:94
 msgid "Select the country you want to represent, if any."
 msgstr "Vyberte si zemi, kterou chcete reprezentovat."
 
+#: ../user/account_finish.php:50 ../user/create_account_form.php:100
 msgid "Postal or ZIP Code"
 msgstr "Směrovací číslo nebo ZIP kód"
 
+#: ../user/account_finish.php:50 ../user/create_account_form.php:100
 msgid "Optional"
 msgstr "Volitelné"
 
+#: ../user/apps.php:31 ../user/sample_index.php:63
 msgid "Applications"
 msgstr "Aplikační programy"
 
+#: ../user/apps.php:32
 msgid ""
 "%1 currently has the following applications. When you participate in %1, "
 "work for one or more of these applications will be assigned to your "
@@ -627,30 +769,39 @@ msgstr ""
 "programů. Aktuální verze aplikačního programu se vždy automaticky stáhne do "
 "Vašeho počítače - není třeba pro to nic dělat."
 
+#: ../user/apps.php:48
 msgid "Platform"
 msgstr "Platforma"
 
+#: ../user/apps.php:49
 msgid "Version"
 msgstr "Verze"
 
+#: ../user/apps.php:50
 msgid "Installation time"
 msgstr "Čas instalace"
 
+#: ../user/create_account_action.php:64
 msgid "You must supply an invitation code to create an account."
 msgstr "Pro vytvoření účtu je třeba vložit pozvánkový kód."
 
+#: ../user/create_account_action.php:67
 msgid "The invitation code you gave is not valid."
 msgstr "Vámi vložený pozvánkový kód je neplatný."
 
+#: ../user/create_account_form.php:24
 msgid "Create an account"
 msgstr "Vytvořit účet"
 
+#: ../user/create_account_form.php:29
 msgid "Account creation is disabled"
 msgstr "Vytváření účtů je zakázáno"
 
+#: ../user/create_account_form.php:30
 msgid "Account creation is currently disabled. Please try again later."
 msgstr "Vytváření účtů je v %1 dočasně zakázáno. Zkuste to prosím později."
 
+#: ../user/create_account_form.php:41
 msgid ""
 "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
 "form. Just run BOINC, select Attach Project, and enter an email address and "
@@ -660,6 +811,7 @@ msgstr ""
 "tento formulář. Jednoduše spusťte BOINC, zvolte Připojit projekt (Attach "
 "Project) a vložte emailovou adresu a heslo."
 
+#: ../user/create_account_form.php:57
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
@@ -667,39 +819,51 @@ msgstr ""
 "Tento účet bude náležet týmu %1 a bude mít nastavení projektu po jeho "
 "vlastníkovi."
 
+#: ../user/create_account_form.php:69
 msgid "Invitation Code"
 msgstr "Pozvánkový kód"
 
+#: ../user/create_account_form.php:69
 msgid "A valid invitation code is required to create an account."
 msgstr "Pro vytvoření účtu je zapotřebí platný povánkový kód."
 
+#: ../user/create_account_form.php:79
 msgid "Email Address"
 msgstr "Emailová adresa"
 
+#: ../user/create_account_form.php:79
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Adresa musí být platného tvaru 'jmeno@domena'."
 
+#: ../user/create_account_form.php:88 ../user/edit_email_form.php:46
 msgid "Password"
 msgstr "Heslo"
 
+#: ../user/create_account_form.php:89
 msgid "Must be at least %1 characters"
 msgstr "Musí mít délku aspoň %1 znaků"
 
+#: ../user/create_account_form.php:92
 msgid "Confirm password"
 msgstr "Potvrzení hesla"
 
+#: ../user/create_account_form.php:104
 msgid "Create account"
 msgstr "Vytvořte si účet"
 
+#: ../user/create_profile.php:31
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
 msgstr "CHYBA: %1 neexistuje! Nelze vytvořit nabídku pro volbu.<br/>"
 
+#: ../user/create_profile.php:51
 msgid "Picture"
 msgstr "Obrázek"
 
+#: ../user/create_profile.php:65
 msgid "%1 Your profile picture is shown to the left."
 msgstr "%1 Váš obrázek bude zobrazen vlevo."
 
+#: ../user/create_profile.php:67
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
@@ -707,9 +871,11 @@ msgstr ""
 "Pro změnu klikněte na tlačítko \"Hledat\" a vyberte soubor typu JPEG nebo PNG "
 "(do %10."
 
+#: ../user/create_profile.php:70
 msgid "To remove it from your profile, check this box:"
 msgstr "Pro odebrání obrázku z Vašeho profilu zaškrtněte toto pole:"
 
+#: ../user/create_profile.php:78
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
@@ -717,36 +883,45 @@ msgstr ""
 "Pokud si přejete mít u svého profilu obrázek, klikněte na \"Hledat\" a zvolte "
 "soubor typu JPEG nebo PNG. Obrázek může být velký maximálně %1."
 
+#: ../user/create_profile.php:87
 msgid "Language"
 msgstr "Jazyk"
 
+#: ../user/create_profile.php:90
 msgid "Select the language in which your profile is written:"
 msgstr "Zvolte jazyk, ve kterém je napsán Váš profil:"
 
+#: ../user/create_profile.php:102
 msgid "Submit profile"
 msgstr "Uložit profil"
 
+#: ../user/create_profile.php:107
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
 msgstr "Pro ochranu projektových stránek před spamem je vyžadováno zadání dvou slov "
 "které prosím opište z tohoto obrázku:<br/>\n"
 
+#: ../user/create_profile.php:110
 msgid "Create/edit profile"
 msgstr "Vytvořit/upravit profil"
 
+#: ../user/create_profile.php:132
 msgid "The format of your uploaded image is not supported."
 msgstr "Formát Vámi zvoleného obrázku není podporován."
 
+#: ../user/create_profile.php:161
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr "Váš %1profil%2 Vám umožňuje sdílet své názory a zázemí s %3 komunitou."
 
+#: ../user/create_profile.php:208
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
 "Vaše odpověď na zadání ReCaptcha nebylo správné. Zkuste to prosím znova."
 
+#: ../user/create_profile.php:217
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
@@ -754,6 +929,7 @@ msgstr ""
 "Váš první příspěvek byl ohodnocen anti-spamovým systémem Akismet jako spam. "
 "Upravte ho prosím a zkuste jej vložit znova."
 
+#: ../user/create_profile.php:225
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
@@ -761,28 +937,36 @@ msgstr ""
 "Váš druhý příspěvek byl ohodnocen anti-spamovým systémem Akismet jako spam. "
 "Upravte ho prosím a zkuste jej vložit znova."
 
+#: ../user/create_profile.php:241
 msgid "Your profile submission was empty."
 msgstr "Váš profil k uložení je prázdný."
 
+#: ../user/create_profile.php:280
 msgid "Could not update the profile: database error"
 msgstr "Není možné upravit profil: chyba databáze"
 
+#: ../user/create_profile.php:292
 msgid "Could not create the profile: database error"
 msgstr "Není možné vytvořit profil: chyba databáze"
 
+#: ../user/create_profile.php:297
 msgid "Profile saved"
 msgstr "Profil uložen"
 
+#: ../user/create_profile.php:299
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
 msgstr "Blahopřejeme! Váš profil byl úspěšně uložen v naší databázi."
 
+#: ../user/create_profile.php:300
 msgid "%1View your profile%2"
 msgstr "%1Zobrazit profil%2"
 
+#: ../user/create_profile.php:308
 msgid "Create a profile"
 msgstr "Založit si profil"
 
+#: ../user/create_profile.php:336
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
@@ -790,16 +974,20 @@ msgstr ""
 "Jako ochrana proti spamu je vyžadován kredit aspoň %1 pro založení či úpravu "
 "profilu. Omlouváme se za tuto nepříjemnost."
 
+#: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
 msgstr "Stáhnout doplňkový software BOINC"
 
+#: ../user/download_network.php:28
 msgid "You can download applications in several categories."
 msgstr "Je možné si stáhnout aplikace různých typů."
 
+#: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr "Za tyto aplikace %1 nijak neručí, použití je na Vaše riziko."
 
+#: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
 "However, the author may have provided some help on installing or "
@@ -810,89 +998,87 @@ msgstr ""
 "obvykle poskytuje základní informace pro instalaci a odinstalování své "
 "aplikace.Pokud nemáte dostatek informací, zkuste kontaktovat autora."
 
+#: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
 msgstr "Instrukce pro instalaci a používání BOINCu jsou %1zde%2."
 
+#: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Tento seznam je spravován centrálně na %1webových stránkách BOINC%2."
 
+#: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
 msgid "Change email address"
 msgstr ""
 
-"
-
+#: ../user/edit_email_form.php:35
 msgid "Change the email address of your account"
 msgstr ""
 
-"
-
+#: ../user/edit_email_form.php:36
 #, fuzzy
 msgid "New email address"
 msgstr "emailová adresa"
 
+#: ../user/edit_email_form.php:37
 #, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr "Adresa musí být platného tvaru 'jmeno@domena'."
 
+#: ../user/edit_email_form.php:47
 msgid "No password?"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:26 ../user/edit_passwd_form.php:56
 msgid "Change password"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:40
 msgid "You can identify yourself using either"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:42
 msgid "your email address and old password"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:43
 #, fuzzy
 msgid "your account key"
 msgstr "Slabý klíč k účtu"
 
+#: ../user/edit_passwd_form.php:47
 msgid "Current password"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:49
 msgid "<b>OR</b>: Account key"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:50
 msgid "Get account key by email"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:54
 msgid "New password"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:55
 msgid "New password, again"
 msgstr ""
 
-"
-
+#: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Název"
 
+#: ../user/forum_edit.php:144 ../user/forum_post.php:128
 msgid "Add my signature to this post"
 msgstr "Přidat můj podpis k tomuto příspěvku"
 
+#: ../user/forum_index.php:69
 msgid "%1 Message boards"
 msgstr "%1 Diskuzní fóra"
 
+#: ../user/forum_index.php:79
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
@@ -900,134 +1086,175 @@ msgstr ""
 "Pokud máte nějaké dotazy či problémy, podívejte se prosím na sekci %1Otázky "
 "a odpovědi (Questions & Answers)%2 na diskuzním fóru."
 
+#: ../user/forum_index.php:93
 msgid "Topic"
 msgstr "Téma"
 
+#: ../user/forum_post.php:101
 msgid "Create a new thread"
 msgstr "Vytvořit nové vlákno"
 
+#: ../user/forum_reply.php:85 ../user/forum_thread.php:139
 #: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Přidat příspěvek"
 
+#: ../user/forum_search.php:25
 msgid "Forum search"
 msgstr "Hledat na fóru"
 
+#: ../user/forum_search_action.php:139
 msgid "Forum search results"
 msgstr "Výsledky hledání na fóru"
 
+#: ../user/forum_thread.php:45
 msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
 "Nenelezeno vlákno s id %1. Zkontrolujte si prosím odkaz a zkuste to znova."
 
+#: ../user/forum_thread.php:48
 msgid "This forum is not visible to you."
 msgstr "Toto fórum pro Vás není přístupné."
 
+#: ../user/forum_thread.php:54
 msgid "This thread has been hidden for administrative purposes"
 msgstr "Toto vlákno bylo schováno z administrativních důvodů"
 
+#: ../user/forum_thread.php:111
 msgid "My question was answered"
 msgstr "Má otázka byla zodpovězena."
 
+#: ../user/forum_thread.php:113
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
 "Pokud byla Vaše otázka dostatečně zodpovězena, klikněte prosím sem pro její "
 "zavření."
 
+#: ../user/forum_thread.php:120
 msgid "I've also got this question"
 msgstr "Také mám tuto otázku"
 
+#: ../user/forum_thread.php:139 ../user/forum_thread.php:194
 msgid "Add a new message to this thread"
 msgstr "Přidat zprávu do tohoto vlákna"
 
+#: ../user/forum_thread.php:146
 msgid "Unsubscribe"
 msgstr "Zrušit odebírání příspěvků"
 
+#: ../user/forum_thread.php:146
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr ""
 "Odebíráte příspěvky z tohoto vlákna. Klikněte sem pro zrušení odebírání."
 
+#: ../user/forum_thread.php:149
 msgid "Subscribe"
 msgstr "Odebírat příspěvky"
 
+#: ../user/forum_thread.php:149
 msgid "Click to get email when there are new posts in this thread"
 msgstr "Klikněte pro zasílání emailu při každém novém příspěvku v tomto vlákně."
 
+#: ../user/forum_thread.php:156
 msgid "Unhide"
 msgstr "Odkrýt"
 
+#: ../user/forum_thread.php:156
 msgid "Unhide this thread"
 msgstr "Odkrýt toto vlákno"
 
+#: ../user/forum_thread.php:158
 msgid "Hide"
 msgstr "Skrýt"
 
+#: ../user/forum_thread.php:158
 msgid "Hide this thread"
 msgstr "Skrýt toto vlákno"
 
+#: ../user/forum_thread.php:161
 msgid "Make unsticky"
 msgstr "Zrušit trvalou viditelnost"
 
+#: ../user/forum_thread.php:161
 msgid "Make this thread not sticky"
 msgstr "Zrušit trvalou viditelnost tohoto vlákna"
 
+#: ../user/forum_thread.php:163
 msgid "Make sticky"
 msgstr "Nastav trvalou viditelnost"
 
+#: ../user/forum_thread.php:163
 msgid "Make this thread sticky"
 msgstr "Nastav trvalou viditelnost tohoto vlákna"
 
+#: ../user/forum_thread.php:166
 msgid "Unlock"
 msgstr "Odemknout"
 
+#: ../user/forum_thread.php:166
 msgid "Unlock this thread"
 msgstr "Odemknout toto vlákno"
 
+#: ../user/forum_thread.php:168
 msgid "Lock"
 msgstr "Zamknout"
 
+#: ../user/forum_thread.php:168
 msgid "Lock this thread"
 msgstr "Zamknout toto vlákno"
 
+#: ../user/forum_thread.php:171
 msgid "Move"
 msgstr "Přesunout"
 
+#: ../user/forum_thread.php:171
 msgid "Move this thread to a different forum"
 msgstr "Přesunout toto vlákno do jiného fóra"
 
+#: ../user/forum_thread.php:173
 msgid "Edit title"
 msgstr "Upravit nadpis"
 
+#: ../user/forum_thread.php:173
 msgid "Edit thread title"
 msgstr "Upravit nadpis vlákna"
 
+#: ../user/forum_thread.php:180
 msgid "Sort"
 msgstr "Setřídit"
 
+#: ../user/friend.php:31
 msgid "Already friends"
 msgstr "Současní přátelé"
 
+#: ../user/friend.php:37
 msgid "You requested friendship with %1 on %2."
 msgstr "Požádali jste o přátelství s %1 v %2."
 
+#: ../user/friend.php:39
 msgid "This request is still pending confirmation."
 msgstr "Žádost stále očekává potvrzení."
 
+#: ../user/friend.php:50
 msgid "%1 is not accepting friendship requests from you"
 msgstr "%1 nepřijímá Vaše žádosti o přátelství"
 
+#: ../user/friend.php:59
 msgid "You can't be friends with yourself"
 msgstr "Nemůžete mít jako přítele sami sebe"
 
+#: ../user/friend.php:62 ../user/friend.php:90 ../user/friend.php:123
 #: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
 #: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Uživatel nenalezen"
 
+#: ../user/friend.php:67
 msgid "Add friend"
 msgstr "Přidat jako přítele"
 
+#: ../user/friend.php:72
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
@@ -1035,107 +1262,141 @@ msgstr ""
 "Požádali jste o přidání %1 jako svého přítele. %2 nyní dostane zprávu s Vaší "
 "žádostí o potvrzení přátelství."
 
+#: ../user/friend.php:75
 msgid "Add an optional message here:"
 msgstr "Přidat doprovodnou zprávu:"
 
+#: ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
 msgstr "Chyba databáze"
 
+#: ../user/friend.php:113
 msgid "Friend request sent"
 msgstr "Žádost o přátelství zaslána"
 
+#: ../user/friend.php:114
 msgid "We have notified %1 of your request."
 msgstr "%1 dostal Vaší žádost."
 
+#: ../user/friend.php:125
 msgid "Request not found"
 msgstr "Žádost nenalezena"
 
+#: ../user/friend.php:126
 msgid "Friend request"
 msgstr "Žádost o přátelství"
 
+#: ../user/friend.php:128
 msgid "%1 has added you as a friend."
 msgstr "%1 si Vás přidal jako svého přítele."
 
+#: ../user/friend.php:130
 msgid "%1 says: %2"
 msgstr "%1 říká: %2"
 
+#: ../user/friend.php:134
 msgid "Accept friendship"
 msgstr "Přijmout přátelství"
 
+#: ../user/friend.php:134
 msgid "Click accept if %1 is in fact a friend"
 msgstr "Klikněte na přijmout, pokud je %1 Vaším přítelem"
 
+#: ../user/friend.php:135
 msgid "Decline"
 msgstr "Odmítnout"
 
+#: ../user/friend.php:135
 msgid "Click decline if %1 is not a friend"
 msgstr "Klikněte na odmítnout, pokud %1 není Vaším přítelem"
 
+#: ../user/friend.php:150
 msgid "No request"
 msgstr "Žádná žádost"
 
+#: ../user/friend.php:174
 msgid "Friendship confirmed"
 msgstr "Přátelství potvrzeno"
 
+#: ../user/friend.php:175
 msgid "Your friendship with %1 has been confirmed."
 msgstr "Vaše přátelství s %1 bylo potvrzeno."
 
+#: ../user/friend.php:193
 msgid "Friendship declined"
 msgstr "Přátelství zamítnuto"
 
+#: ../user/friend.php:194
 msgid "You have declined friendship with %1"
 msgstr "Odmítli jste přítelství s %1"
 
+#: ../user/friend.php:209
 msgid "Notification not found"
 msgstr "Oznámení nenalezeno"
 
+#: ../user/friend.php:211
 msgid "Friend confirmed"
 msgstr "Přítel potvrzen"
 
+#: ../user/friend.php:212
 msgid "You are now friends with %1."
 msgstr "%1 je nyní Vaším přítelem."
 
+#: ../user/friend.php:220
 msgid "Cancel friendship?"
 msgstr "Zrušit přátelství?"
 
+#: ../user/friend.php:221
 msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr "Jste si jistí, že chcete zrušit Vaše přátelství s %1?"
 
+#: ../user/friend.php:224
 msgid "Yes"
 msgstr "Ano"
 
+#: ../user/friend.php:225
 msgid "No"
 msgstr "Ne"
 
+#: ../user/friend.php:225
 msgid "Stay friends"
 msgstr "Zůstat přáteli"
 
+#: ../user/friend.php:235
 msgid "Friendship cancelled"
 msgstr "Přátelství zrušeno"
 
+#: ../user/friend.php:236
 msgid "Your friendship with %1 has been cancelled."
 msgstr "Vaše přátelství s %1 bylo zrušeno."
 
+#: ../user/friend.php:274
 msgid "Unknown action"
 msgstr "Neznámá akce"
 
+#: ../user/home.php:40
 msgid "Welcome to %1"
 msgstr "Vítejte v %1"
 
+#: ../user/home.php:41
 msgid "View and edit your account preferences using the links below."
 msgstr ""
 "Pro zobrazení a nastavení vlastností Vašeho účtu použijte následující "
 "odkazy."
 
+#: ../user/home.php:49
 msgid "Your account"
 msgstr "Váš účet"
 
+#: ../user/info.php:22 ../user/sample_index.php:47
 msgid "Read our rules and policies"
 msgstr "Přečtěte si naše pravidla a zásady"
 
+#: ../user/info.php:33
 msgid "Run %1 only on authorized computers"
 msgstr "Používejte %1 jen na počítačích, kde to máte povoleno"
 
+#: ../user/info.php:34
 msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
@@ -1145,9 +1406,11 @@ msgstr ""
 "jejich vlastník povolil. Některé školy nebo firmy se řídí předpisy, které "
 "zakazují používat jejich počítače pro projekty jako je %1."
 
+#: ../user/info.php:36
 msgid "How %1 will use your computer"
 msgstr "Jak bude %1 využívat Váš počítač"
 
+#: ../user/info.php:37
 msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
@@ -1157,6 +1420,7 @@ msgstr ""
 "přenosové kapacity připojení Vašeho počítače. Můžete ovlivnit, kolik "
 "prostředků bude %1 využívat a také kdy je bude využívat."
 
+#: ../user/info.php:38
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
@@ -1165,9 +1429,11 @@ msgstr ""
 "popsané na svých webových stránkách. Cíle projektu se mohou čas od času "
 "měnit."
 
+#: ../user/info.php:40
 msgid "Privacy policy"
 msgstr "Ochrana soukromí"
 
+#: ../user/info.php:41
 msgid ""
 "Your account on %1 is identified by a name that you choose. This name may be "
 "shown on the %1 web site, along with a summary of the work your computer has "
@@ -1179,6 +1445,7 @@ msgstr ""
 "již Váš počítač v %1 vykonal. Pokud si přejete zůstat v anonymitě, zvolte si "
 "takové jméno, které skryje Vaší pravou identitu."
 
+#: ../user/info.php:42
 msgid ""
 "If you participate in %1, information about your computer (such as its "
 "processor type, amount of memory, etc.) will be recorded by %1 and used to "
@@ -1192,6 +1459,7 @@ msgstr ""
 "stránkách %1. Nebude zobrazeno nic, co by odhalovalo umístění Vašeho "
 "počítače, jako např. jméno domény či IP adresa."
 
+#: ../user/info.php:43
 msgid ""
 "To participate in %1, you must give an address where you receive email. This "
 "address will not be shown on the %1 web site or shared with organizations. %"
@@ -1202,6 +1470,7 @@ msgstr ""
 "organizacím. %1 vám bude zasílat emailové novinky, které ovšem můžete "
 "kdykoliv zrušit."
 
+#: ../user/info.php:44
 msgid ""
 "Private messages sent on the %1 web site are visible only to the sender and "
 "recipient.  %1 does not examine or police the content of private messages.  "
@@ -1215,6 +1484,7 @@ msgstr ""
 "zablokovat pomocí %2filtru zpráv%3. Tím zabráníte doručování veřejných i "
 "soukromých zpráv od tohoto uživatele."
 
+#: ../user/info.php:45
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
 "Messages posted to the %1 forums are visible to everyone, including non-"
@@ -1226,9 +1496,11 @@ msgstr ""
 "všechny uživatele, včetně ne-členů. Přispíváním do fóra také dáváte všem "
 "nezrušitelné právo na čtení a kopírování Vašich příspěvků."
 
+#: ../user/info.php:46
 msgid "Is it safe to run %1?"
 msgstr "Je bezpečné být zapojen v %1?"
 
+#: ../user/info.php:47
 msgid ""
 "Any time you download a program through the Internet you are taking a "
 "chance: the program might have dangerous errors, or the download server "
@@ -1246,6 +1518,7 @@ msgstr ""
 "testovány a také digitálně podepsány na zabezpečeném počítači, který není "
 "připojen k internetu."
 
+#: ../user/info.php:48
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
@@ -1254,14 +1527,17 @@ msgstr ""
 "přehřívání. Pokud se tak stane, zastavte %1 nebo používejte %2pomocné "
 "programy%3 které omezí využití počítače."
 
+#: ../user/info.php:49
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
 "%1 byl vyvinut v %2. BOINC byl vyvinut na Kalifornské universitě v Berkeley."
 
+#: ../user/info.php:51
 msgid "Liability"
 msgstr "Zodpovědnost"
 
+#: ../user/info.php:52
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
 "any other event or condition that may occur as a result of participating in %"
@@ -1270,9 +1546,11 @@ msgstr ""
 "%1 a %2 nenese žádnou zodpovědnost za ztrátu dat nebo jakoukoliv jinou "
 "příhodu nebo stav, který může vzniknout jako následek používání %1."
 
+#: ../user/info.php:54
 msgid "Other BOINC projects"
 msgstr "Jiné BOINC projekty"
 
+#: ../user/info.php:55
 msgid ""
 "Other projects use the same platform, BOINC, as %1. You may want to consider "
 "participating in one or more of these projects. By doing so, your computer "
@@ -1282,6 +1560,7 @@ msgstr ""
 "Vaše přispění i do těchto projektů a pokud tak učiníte, Váš počítač bude "
 "pracovat užitečně i v době, kdy %1 nebude mít nic na práci."
 
+#: ../user/info.php:56
 msgid ""
 "These other projects are not associated with %1, and we cannot vouch for "
 "their security practices or the nature of their research. Join them at your "
@@ -1291,110 +1570,104 @@ msgstr ""
 "zaručit za jejich bezpečnost či předmět výzkumu. Připojte se k nim dle "
 "Vašeho uvážení."
 
+#: ../user/language_select.php:41
 msgid "Language selection"
 msgstr ""
 
-"
-
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Czech"
-
-msgid "LANG_NAME_NATIVE"
-msgstr "Čeština"
-
+#: ../user/language_select.php:68
 msgid ""
 "This web site is available in several languages. The currently selected "
-"language is: %1 (%2)."
+"language is %1."
 msgstr ""
 
-"
-
+#: ../user/language_select.php:73
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
 
-"
-
+#: ../user/language_select.php:78
 msgid "Firefox: Tools/Options/General"
 msgstr ""
 
-"
-
+#: ../user/language_select.php:80
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
 
-"
-
+#: ../user/language_select.php:84
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
 
-"
-
-msgid "Language symbol"
-msgstr ""
-
-"
-
+#: ../user/language_select.php:90
 msgid "Language name (click to select)"
 msgstr ""
 
-"
-
+#: ../user/language_select.php:92
 msgid "Use browser language setting"
 msgstr ""
 
-"
-
+#: ../user/language_select.php:108
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
 
-"
-
+#: ../user/pm.php:68
 msgid "Your message has been sent."
 msgstr "Vaše zpráva byla odeslána."
 
+#: ../user/pm.php:78
 msgid "You have no private messages."
 msgstr "Nemáte žádné soukromé zprávy."
 
+#: ../user/pm.php:85
 msgid "Sender and date"
 msgstr "Odesílatel a datum"
 
+#: ../user/pm.php:102 ../user/pm.php:142
 msgid "Reply"
 msgstr "Odpovědět"
 
+#: ../user/pm.php:113
 msgid "Delete selected messages"
 msgstr "Smazat vybrané zprávy"
 
+#: ../user/pm.php:136
 msgid "Sender"
 msgstr "Odesílatel"
 
+#: ../user/pm.php:139
 msgid "Date"
 msgstr "Datum"
 
+#: ../user/pm.php:179
 msgid "You need to fill all fields to send a private message"
 msgstr "Je třeba vyplnit všechna pole pro poslání soukromé zprávy"
 
+#: ../user/pm.php:199
 msgid "Could not find user with id %1"
 msgstr "Uživatel s ID %1 nenalezen"
 
+#: ../user/pm.php:204
 msgid "Could not find user with username %1"
 msgstr "Uživatel se jménem %1 nenalezen"
 
+#: ../user/pm.php:206
 msgid "%1 is not a unique username; you will have to use user ID"
 msgstr "%1 není unikátní uživatelské jméno; budete muset použít uživatelské ID"
 
+#: ../user/pm.php:211
 msgid "User %1 (ID: %2) is not accepting private messages from you."
 msgstr "Uživatel %1 (ID: %2) od vás nepřijímá soukromé zprávy."
 
+#: ../user/pm.php:234
 msgid "Really block %1?"
 msgstr "Opravdu zablokovat %1?"
 
+#: ../user/pm.php:235
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
@@ -1402,10 +1675,12 @@ msgstr ""
 "Jste si opravdu jisti, že chcete zablokovat uživatele %1, aby vám nemohl "
 "posílat soukromé zprávy?"
 
+#: ../user/pm.php:236
 msgid "Please note that you can only block a limited amount of users."
 msgstr ""
 "Vemte prosím na vědomí, že můžete zablokovat jen určitý počet uživatelů."
 
+#: ../user/pm.php:237
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
@@ -1413,24 +1688,31 @@ msgstr ""
 "Uživatele, kterého jste zablokovali, můžete znova odblokovat ve vašem "
 "nastavení diskuzního fóra."
 
+#: ../user/pm.php:243
 msgid "Add user to filter"
 msgstr "Přidat uživatele do filtru"
 
+#: ../user/pm.php:244
 msgid "No, cancel"
 msgstr "Ne, nemazat"
 
+#: ../user/pm.php:255
 msgid "User %1 blocked"
 msgstr "Uživatel %1 zablokován"
 
+#: ../user/pm.php:257
 msgid "User %1 has been blocked from sending you private messages."
 msgstr "Uživatel %1 byl zablokován, nemůže vám posílat soukromé zprávy."
 
+#: ../user/pm.php:258
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Pro odblokování navštivte %1nastavení diskuzního fóra%2"
 
+#: ../user/profile_menu.php:33 ../user/sample_index.php:68
 msgid "Profiles"
 msgstr "Profily"
 
+#: ../user/profile_menu.php:36
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
@@ -1438,6 +1720,7 @@ msgstr ""
 "%1Profily%2 umožňují uživatelům sdílet svá osobní zázemí a názory s "
 "komunitou %3."
 
+#: ../user/profile_menu.php:37
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
@@ -1445,6 +1728,7 @@ msgstr ""
 "Prozkoumejte, jak různorodý svět je mezi Vámi dobrovolníky, a přispějte i "
 "Vaším vlastním pohledem pro ostatní k nahlédnutí."
 
+#: ../user/profile_menu.php:38
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
@@ -1452,18 +1736,23 @@ msgstr ""
 "Pokud se tak ještě nestalo, můžete si %1vytvořit svůj vlastní uživatelský "
 "profil%2, který ukážete ostatním!"
 
+#: ../user/profile_menu.php:43
 msgid "User of the Day"
 msgstr "Uživatel dne"
 
+#: ../user/profile_menu.php:56
 msgid "User Profile Explorer"
 msgstr "Prohlížení uživatelských profilů"
 
+#: ../user/profile_menu.php:59
 msgid "View the %1User Picture Gallery%2."
 msgstr "Prohlédněte si %1Galerii uživatelských obrázků%2."
 
+#: ../user/profile_menu.php:60
 msgid "Browse profiles %1by country%2."
 msgstr "Procházet profily %1podle země%2."
 
+#: ../user/profile_menu.php:61
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
@@ -1471,74 +1760,95 @@ msgstr ""
 "Procházet profily %1náhodně%2, %3náhodně ty s obrázky%2, nebo %4náhodně ty "
 "bez obrázků%2."
 
+#: ../user/profile_menu.php:65
 msgid "Alphabetical profile listings:"
 msgstr "Abecední výčet profilů:"
 
+#: ../user/profile_menu.php:71
 msgid "Search profile text"
 msgstr "Hledat v textech profilů"
 
+#: ../user/profile_menu.php:96
 msgid "No profiles"
 msgstr "Žádné profily"
 
+#: ../user/profile_menu.php:97
 msgid "No profiles matched your query."
 msgstr "Nenalezen žádný profil odpovídající vašemu dotazu."
 
+#: ../user/profile_rate.php:27
 msgid "Invalid vote type:"
 msgstr "Neplatný typ hlasu:"
 
+#: ../user/profile_rate.php:32
 msgid "Vote Recorded"
 msgstr "Hlas uložen"
 
+#: ../user/profile_rate.php:36
 msgid "Thank you"
 msgstr "Děkujeme"
 
+#: ../user/profile_rate.php:39
 msgid "Your recommendation has been recorded."
 msgstr "Vaše doporučení bylo uloženo."
 
+#: ../user/profile_rate.php:41
 msgid "Your vote to reject this profile has been recorded."
 msgstr "Váš hlas pro zamítnutí tohoto profilu byl uložen."
 
+#: ../user/profile_rate.php:44
 msgid "Return to profile."
 msgstr "Vrátit se do profilu."
 
+#: ../user/results.php:27
 msgid "This feature is turned off temporarily"
 msgstr "Tato vlastnost je dočasně nedostupná."
 
+#: ../user/results.php:46
 msgid "No computer with ID %1 found"
 msgstr "Nenalezen žádný počítač s ID %1"
 
+#: ../user/results.php:52
 msgid "No access"
 msgstr "Nemáte přístup"
 
+#: ../user/results.php:57
 msgid "Missing user ID or host ID"
 msgstr "Chybí uživatelské ID nebo ID počítače"
 
+#: ../user/results.php:85
 msgid "No tasks to display"
 msgstr ""
 
-"
-
+#: ../user/sample_index.php:130
 msgid "User of the day"
 msgstr "Uživatel dne"
 
+#: ../user/show_user.php:91
 msgid "Account data for %1"
 msgstr "Data o účtu %1"
 
+#: ../user/stats.php:23
 msgid "Statistics and leaderboards"
 msgstr "Statistiky a žebříčky"
 
+#: ../user/stats.php:27
 msgid "Statistics for %1"
 msgstr "Statistiky %1"
 
+#: ../user/stats.php:29 ../user/top_users.php:115
 msgid "Top participants"
 msgstr "Nejlepší účastníci"
 
+#: ../user/stats.php:30
 msgid "Top computers"
 msgstr "Nejlepší počítače"
 
+#: ../user/stats.php:31 ../user/team.php:43
 msgid "Top teams"
 msgstr "Nejlepší týmy"
 
+#: ../user/stats.php:35
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
@@ -1546,11 +1856,13 @@ msgstr ""
 "Na mnoha webových stránkách jsou dostupné detailní statistiky o %1 a jiných "
 "BOINC projektech:"
 
+#: ../user/stats.php:38
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr "Je též možné získat Vaše statistiky ve formě \"obrázku do podpisu\":"
 
+#: ../user/stats.php:41
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
@@ -1558,146 +1870,163 @@ msgstr ""
 "Též je možné získat individuální statistiky ze všech BOINC projektů, kde "
 "jste zapojeni - na Vaší %1domovské stránce%2."
 
+#: ../user/team.php:25
 msgid "%1 participants may form %2teams%3"
 msgstr "%1 účastníci mohou vytvořit %2týmy%3"
 
+#: ../user/team.php:27
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
 "Je možné být členem jen jednoho týmu v jeden okamžik. Tým můžete kdykoliv "
 "opustit a přidat se do jiného."
 
+#: ../user/team.php:29
 msgid "Each team has a %1founder%2 who may:"
 msgstr "Každý tým má %1zakladatele%2, který může:"
 
+#: ../user/team.php:31
 msgid "access team members' email addresses"
 msgstr "přistupovat k emailovým adresám členů týmu"
 
+#: ../user/team.php:32
 msgid "edit the team's name and description"
 msgstr "upravovat jméno a popis týmu"
 
+#: ../user/team.php:33
 msgid "remove members from the team"
 msgstr "vyloučit členy z týmu"
 
+#: ../user/team.php:34
 msgid "disband a team if it has no members"
 msgstr "rozpustit tým, pokud nebude mít žádné členy"
 
+#: ../user/team.php:37
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
 "Pro připojení do týmu navštivte týmovou stránku a tam klikněte na %1Připojit "
 "se do týmu%2."
 
+#: ../user/team.php:38
 msgid "Find a team"
 msgstr "Najít tým"
 
+#: ../user/team.php:45
 msgid "All teams"
 msgstr "Všechny týmy"
 
+#: ../user/team.php:49
 msgid "%1 teams"
 msgstr "%1 týmy"
 
+#: ../user/team.php:55
 msgid "Create a new team"
 msgstr "Vytvořit nový tým"
 
+#: ../user/team.php:56
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr "Pokud Vám nevyhovuje žádný tým, můžete si %1vytvořit vlastní%2."
 
+#: ../user/team_create_action.php:27
 msgid "You must choose a non-blank team name"
 msgstr "Je třeba zvolit neprázdné jméno týmu."
 
+#: ../user/team_create_action.php:32
 msgid "A team named %1 already exists - try another name"
 msgstr "Tým pojmenovaný %1 již existuje - zvolte si prosím jiné jméno."
 
+#: ../user/team_create_action.php:52
 msgid "Could not create team - please try later."
 msgstr "Není možné vytvořit tým - zkuste to prosím později."
 
+#: ../user/team_create_form.php:25 ../user/team_create_form.php:30
 msgid "Create a team"
 msgstr "Vytvořit tým"
 
+#: ../user/team_create_form.php:28
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
 "Nyní jste v %1. Musíte nejdříve %2opustit tento tým%3 před vytvářením "
 "nového."
 
+#: ../user/top_hosts.php:81
 msgid "Top hosts"
 msgstr "Nejlepší počítače"
 
+#: ../user/top_teams.php:104
 msgid "Top %1 teams"
 msgstr "Nejlepší %1 týmy"
 
+#: ../user/top_users.php:63
 msgid "Participant since"
 msgstr "Účastníkem od"
 
+#: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Joined"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:113
 msgid "Search type"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:114
 msgid "User name starts with"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:115
 msgid "Decreasing sign-up time"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:116
 #, fuzzy
 msgid "Decreasing average credit"
 msgstr "Současný průměrný kredit (RAC)"
 
+#: ../user/user_search.php:117
 #, fuzzy
 msgid "Decreasing total credit"
 msgstr "Současný průměrný kredit (RAC)"
 
+#: ../user/user_search.php:118
 msgid "Filters"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:122
 msgid "With profile?"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:127
 msgid "On a team?"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:146
 msgid "search string must be at least 3 characters"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:156
 msgid "User names starting with"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:166
 msgid "No users match your search criteria."
 msgstr ""
 
-"
-
+#: ../user/user_search.php:224
 #, fuzzy
 msgid "User search results"
 msgstr "Výsledky hledání na fóru"
 
+#: ../user/view_profile.php:27
 msgid "This user has no profile"
 msgstr "Tento uživatel nemá žádný profil"
 
+#: ../user/view_profile.php:53
 msgid "Account data"
 msgstr "Data účtu"
 
+#: ../user/weak_auth.php:47
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
 "project, without giving the ability to log in to your account or to change "
@@ -1706,6 +2035,7 @@ msgstr ""
 "Váš 'slabý klíč k ůčtu' Vám umožňuje přidávat počítače s omezenými právy k "
 "Vašemu účtu - bez možnosti přístupu na účet či ke změně nastavení."
 
+#: ../user/weak_auth.php:48
 msgid ""
 "This mechanism works only with projects that have upgraded their server "
 "software 7 Dec 2007 or later."
@@ -1713,9 +2043,11 @@ msgstr ""
 "Tento mechanismus funguje pouze tehdy, pokud byl software na serveru "
 "projektu aktualizován po 7. prosinci 2007."
 
+#: ../user/weak_auth.php:49
 msgid "Your weak account key for this project is:"
 msgstr "Váš slabý klíč k účtu pro tento projekt je:"
 
+#: ../user/weak_auth.php:51
 msgid ""
 "To use your weak account key on a given host, find or create the 'account "
 "file' for this project. This file has a name of the form "
@@ -1725,9 +2057,11 @@ msgstr ""
 "účtem' k danému projektu. Tento soubor má jméno ve tvaru "
 "<b>account_ADRESA_PROJEKTU.xml</b>. Soubor s účtem pro %1 je <b>%2</b>."
 
+#: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
 msgstr "Vytvořte tento soubor, pokud je to třeba. Nastavte jeho obsah na:"
 
+#: ../user/weak_auth.php:60
 msgid ""
 "Your weak account key is a function of your password. If you change your "
 "password, your weak account key changes, and your previous weak account key "
@@ -1735,6 +2069,9 @@ msgid ""
 msgstr ""
 "Váš slabý klíč k účtu je spjatý s Vaším heslem. Pokud změníte Vaše heslo, "
 "Váš slabý klíč se také změní a Váš předchozí slabý klíč se tímto zneplatní."
+
+#~ msgid "CHARSET"
+#~ msgstr "UTF-8"
 
 #~ msgid "Resource share and graphics"
 #~ msgstr "Využití prostředků a grafika"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-20 12:49 PST\n"
+"POT-Creation-Date: 2010-01-26 20:00 PST\n"
 "PO-Revision-Date: 2009-01-06 01:37-0500\n"
 "Last-Translator: Janus Kristensen <jbk@visualgroup.dk>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -25,29 +25,37 @@ msgstr "Danish"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Danish"
 
+#: ../inc/forum.inc:124
 msgid "Search for words in forum messages"
 msgstr "S&oslash;g efter ord i forum-posts"
 
+#: ../inc/forum.inc:124
 msgid "Search forums"
 msgstr "S&oslash;g i forummet"
 
+#: ../inc/forum.inc:125
 msgid "Advanced search"
 msgstr "Avanceret s&oslash;gning"
 
+#: ../inc/forum.inc:131 ../inc/user.inc:247 ../user/pm.php:64
 #: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Personlige beskeder"
 
+#: ../inc/forum.inc:149 ../user/forum_forum.php:65 ../user/sample_index.php:71
 msgid "Questions and Answers"
 msgstr "Sp&oslash;rgsm&aring;l og svar (Q&A)"
 
+#: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:244
 #: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Forum"
 
+#: ../inc/forum.inc:186 ../inc/forum.inc:194
 msgid "%1 message board"
 msgstr "Forum for %1"
 
+#: ../inc/forum.inc:1056
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
@@ -55,6 +63,7 @@ msgstr ""
 "For at starte et nyt emne i %t skal du have optjent points. Denne "
 "begr&aelig;nsning er til for at forhindre misbrug af systemet."
 
+#: ../inc/forum.inc:1063
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
@@ -64,51 +73,60 @@ msgstr ""
 "du pr&oslash;ver igen. Denne begr&aelig;nsning er til for at forhindre "
 "misbrug af systemet."
 
+#: ../inc/forum.inc:1100
 msgid "Thread"
 msgstr "Emne"
 
+#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Indl&aelig;g"
 
+#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
 #: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
 #: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Forfatter"
 
+#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
 msgid "Views"
 msgstr "Visninger"
 
+#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Sidste indl&aelig;g"
 
+#: ../inc/forum.inc:1172
 msgid "Mark all threads as read"
 msgstr "Marker alle emner l&aelig;st"
 
+#: ../inc/forum.inc:1172
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Marker alle emner i alle fora 'l&aelig;st'."
 
+#: ../inc/news.inc:40
 msgid "Comment"
 msgstr ""
 
-"
-
+#: ../inc/news.inc:96
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr ""
 
-"
-
+#: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
 msgid "Inbox"
 msgstr "Indbakke"
 
+#: ../inc/pm.inc:26 ../inc/pm.inc:182
 msgid "Write"
 msgstr "Skriv"
 
+#: ../inc/pm.inc:33 ../inc/user.inc:370
 msgid "Send private message"
 msgstr "Send personlig meddelelse"
 
+#: ../inc/pm.inc:35 ../inc/pm.inc:38 ../inc/pm.inc:92
 #: ../user/forum_edit.php:99 ../user/forum_edit.php:102
 #: ../user/forum_edit.php:145 ../user/forum_post.php:62
 #: ../user/forum_post.php:88 ../user/forum_post.php:91
@@ -118,24 +136,30 @@ msgstr "Send personlig meddelelse"
 msgid "Preview"
 msgstr "Forh&aring;ndsvisning"
 
+#: ../inc/pm.inc:85
 msgid "To"
 msgstr "Til"
 
+#: ../inc/pm.inc:85
 msgid "User IDs or unique usernames, separated with commas"
 msgstr "Bruger ID eller unikke brugernavne, separeret med komma"
 
+#: ../inc/pm.inc:88 ../user/pm.php:85 ../user/pm.php:135
 msgid "Subject"
 msgstr "Emne"
 
+#: ../inc/pm.inc:89 ../user/forum_edit.php:128 ../user/forum_edit.php:133
 #: ../user/forum_post.php:118 ../user/forum_reply.php:108
 #: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
 #: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "Meddelelse"
 
+#: ../inc/pm.inc:92
 msgid "Send message"
 msgstr "Send meddelelse"
 
+#: ../inc/pm.inc:170
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
@@ -143,53 +167,51 @@ msgstr ""
 "Du kan ikke sende personlige meddelelser s&aring; ofte. Vent venligst et "
 "stykke tid f&oslash;r du sender flere meddelelser."
 
+#: ../inc/pm.inc:180
 msgid "unread"
 msgstr "ul&aelig;st"
 
+#: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
 msgstr ""
 
-"
-
+#: ../inc/profile.inc:216 ../user/create_profile.php:306
 msgid "Edit your profile"
 msgstr ""
 
-"
-
+#: ../inc/profile.inc:254
 msgid "Your feedback on this profile"
 msgstr ""
 
-"
-
+#: ../inc/profile.inc:256
 msgid "Recommend this profile for User of the Day:"
 msgstr ""
 
-"
-
+#: ../inc/profile.inc:257
 msgid "I %1like%2 this profile"
 msgstr ""
 
-"
-
+#: ../inc/profile.inc:260
 msgid "Alert administrators to an offensive profile:"
 msgstr ""
 
-"
-
+#: ../inc/profile.inc:261
 msgid "I %1do not like%2 this profile"
 msgstr ""
 
-"
-
+#: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
 msgstr "S&oslash;ge-kriterier (brug en eller flere)"
 
+#: ../inc/team.inc:34
 msgid "Key words"
 msgstr "N&oslash;gleord"
 
+#: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Find hold med disse ord i deres navn eller beskrivelse"
 
+#: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
 #: ../inc/user.inc:310 ../user/account_finish.php:44
 #: ../user/create_account_form.php:94 ../user/top_users.php:62
@@ -198,47 +220,59 @@ msgstr "Find hold med disse ord i deres navn eller beskrivelse"
 msgid "Country"
 msgstr "Land"
 
+#: ../inc/team.inc:42 ../inc/team.inc:445
 msgid "Type of team"
 msgstr "Holdets type"
 
+#: ../inc/team.inc:44
 msgid "Show only active teams"
 msgstr "Vis kun aktive hold"
 
+#: ../inc/team.inc:45 ../user/profile_menu.php:75 ../user/user_search.php:132
 msgid "Search"
 msgstr "S&oslash;g"
 
+#: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
 msgstr ""
 
-"
-
+#: ../inc/team.inc:56
 msgid "Complete foundership transfer"
 msgstr "Fuldf&oslash;r overf&oslash;rslen af ejerskab"
 
+#: ../inc/team.inc:60
 msgid "Requested by you"
 msgstr "Startet af dig"
 
+#: ../inc/team.inc:60
 msgid "founder response deadline is %1"
 msgstr "deadline for grundl&aelig;ggerens svar er %1"
 
+#: ../inc/team.inc:65 ../inc/user.inc:275 ../inc/user.inc:363
 msgid "None"
 msgstr "Ingen"
 
+#: ../inc/team.inc:67
 msgid "Initiate request"
 msgstr "Begynd foresp&oslash;rgsel"
 
+#: ../inc/team.inc:70
 msgid "Deferred"
 msgstr "Udskudt"
 
+#: ../inc/team.inc:80
 msgid "Team info"
 msgstr "Hold-info"
 
+#: ../inc/team.inc:82
 msgid "Description"
 msgstr "Beskrivelse"
 
+#: ../inc/team.inc:90
 msgid "Web site"
 msgstr "Website"
 
+#: ../inc/team.inc:94 ../inc/team.inc:207 ../inc/team.inc:212
 #: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
 #: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
 #: ../user/top_users.php:58 ../user/user_search.php:102
@@ -246,27 +280,34 @@ msgstr "Website"
 msgid "Total credit"
 msgstr "Points ialt"
 
+#: ../inc/team.inc:95 ../inc/team.inc:208 ../inc/team.inc:217
 #: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
 #: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "L&oslash;bende gennemsnit"
 
+#: ../inc/team.inc:112
 #, fuzzy
 msgid "Cross-project stats"
 msgstr "Cross-project statistik"
 
+#: ../inc/team.inc:115
 msgid "Type"
 msgstr "Type"
 
+#: ../inc/team.inc:119
 msgid "Message board"
 msgstr "Forum"
 
+#: ../inc/team.inc:120 ../user/forum_forum.php:131 ../user/forum_index.php:93
 msgid "Threads"
 msgstr "Emner"
 
+#: ../inc/team.inc:128
 msgid "Join this team"
 msgstr "Bliv medlem"
 
+#: ../inc/team.inc:129
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
@@ -275,75 +316,90 @@ msgstr ""
 "lederen af det hold du bliver medlem i f&aring; adgang til din email "
 "addresse."
 
+#: ../inc/team.inc:132
 msgid "Not accepting new members"
 msgstr "Accepterer ikke nye medlemmer"
 
+#: ../inc/team.inc:139
 msgid "Foundership change requested"
 msgstr ""
 
-"
-
+#: ../inc/team.inc:140
 msgid "Respond by %1"
 msgstr ""
 
-"
-
+#: ../inc/team.inc:144
 msgid "Team foundership change"
 msgstr ""
 
-"
-
+#: ../inc/team.inc:148 ../inc/team.inc:346
 msgid "Members"
 msgstr "Medlemmer"
 
+#: ../inc/team.inc:149 ../inc/team.inc:241
 msgid "Founder"
 msgstr "Hold-leder"
 
+#: ../inc/team.inc:161
 msgid "Admins"
 msgstr "Admins"
 
+#: ../inc/team.inc:176
 msgid "New members in last day"
 msgstr "Nye medlemmer siden ig&aring;r"
 
+#: ../inc/team.inc:177
 msgid "Total members"
 msgstr "Medlemmer ialt"
 
+#: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
 msgid "view"
 msgstr "se"
 
+#: ../inc/team.inc:178
 msgid "Active members"
 msgstr "Aktive medlemmer"
 
+#: ../inc/team.inc:179
 msgid "Members with credit"
 msgstr "Medlemmer med points"
 
+#: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
 #: ../user/account_finish.php:40 ../user/create_account_form.php:75
 #: ../user/top_users.php:48 ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Name"
 msgstr "Navn"
 
+#: ../inc/team.inc:243
 msgid "Admin"
 msgstr "Admin"
 
+#: ../inc/team.inc:264
 msgid "Last %1"
 msgstr "Sidste %1"
 
+#: ../inc/team.inc:268
 msgid "Next %1"
 msgstr "N&aelig;ste %1"
 
+#: ../inc/team.inc:276
 msgid "No such team."
 msgstr "Holdet findes ikke."
 
+#: ../inc/team.inc:289
 msgid "This operation requires foundership."
 msgstr "Denne funktion kr&aelig;ver at du er leder af holdet."
 
+#: ../inc/team.inc:313
 msgid "This operation requires team admin privileges"
 msgstr "Denne funktion kr&aelig;ver at du har hold-administrator rettigheder"
 
+#: ../inc/team.inc:344 ../user/top_users.php:47
 msgid "Rank"
 msgstr "Rang"
 
+#: ../inc/team.inc:420
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
@@ -352,306 +408,361 @@ msgstr ""
 "(dvs. resource-fordeling, grafik-indstillinger osv.) blive "
 "tilg&aelig;ngelige for offentligheden."
 
+#: ../inc/team.inc:424
 msgid "Team name, text version"
 msgstr "Hold navn, rentekst-udgave"
 
+#: ../inc/team.inc:425
 msgid "Don't use HTML tags."
 msgstr "Brug ikke HTML tags."
 
+#: ../inc/team.inc:428
 msgid "Team name, HTML version"
 msgstr "Hold navn, HTML-udgave"
 
+#: ../inc/team.inc:430 ../inc/team.inc:440
 msgid "You may use %1limited HTML tags%2."
 msgstr "Du kan bruge %1nogle HTML tags%2."
 
+#: ../inc/team.inc:431
 msgid "If you don't know HTML, leave this box blank."
 msgstr "Hvis ikke du kan HTML kan du lade feltet v&aelig;re tomt."
 
+#: ../inc/team.inc:434
 msgid "URL of team web page, if any"
 msgstr "Holdets hjemmeside-URL, hvis den findes"
 
+#: ../inc/team.inc:434
 msgid "without \"http://\""
 msgstr "uden \"http://\""
 
+#: ../inc/team.inc:435
 msgid "This URL will be linked to from the team's page on this site."
 msgstr ""
 "Der vil blive linket til denne URL fra holdets side p&aring; dette website."
 
+#: ../inc/team.inc:438
 msgid "Description of team"
 msgstr "Beskrivelse af holdet"
 
+#: ../inc/user.inc:112
 msgid "Projects in which you are participating"
 msgstr "Projekter som du deltager i"
 
+#: ../inc/user.inc:114
 msgid "Projects in which %1 is participating"
 msgstr "Projekter som %1 deltager i"
 
+#: ../inc/user.inc:118
 msgid "Project"
 msgstr "Projekt"
 
+#: ../inc/user.inc:118
 msgid "Click for user page"
 msgstr ""
 
-"
-
+#: ../inc/user.inc:118 ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Average credit"
 msgstr "L&oslash;bende gennemsnit"
 
+#: ../inc/user.inc:118
 msgid "Since"
 msgstr "Siden"
 
+#: ../inc/user.inc:142
 msgid "Computing and credit"
 msgstr "Udregninger og points"
 
+#: ../inc/user.inc:146
 msgid "Pending credit"
 msgstr "Points der er i k&oslash;"
 
+#: ../inc/user.inc:146 ../inc/user.inc:148 ../inc/user.inc:149
 #: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
 #: ../user/view_profile.php:54
 msgid "View"
 msgstr "Se"
 
+#: ../inc/user.inc:148
 msgid "Computers on this account"
 msgstr "Computere p&aring; denne konto"
 
+#: ../inc/user.inc:149
 msgid "Tasks"
 msgstr "Jobs"
 
+#: ../inc/user.inc:158
 msgid "Cross-project ID"
 msgstr ""
 
-"
-
+#: ../inc/user.inc:159
 msgid "Cross-project statistics"
 msgstr "Cross-project statistik"
 
+#: ../inc/user.inc:160
 msgid "Account"
 msgstr ""
 
-"
-
+#: ../inc/user.inc:162 ../inc/user.inc:275 ../inc/user.inc:361
 #: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Team"
 msgstr "Hold"
 
+#: ../inc/user.inc:164
 msgid "Cross-project"
 msgstr ""
 
-"
-
+#: ../inc/user.inc:165
 msgid "Certificate"
 msgstr "Certifikat"
 
+#: ../inc/user.inc:166
 msgid "Stats on your cell phone"
 msgstr "Statistik p&aring; din mobil"
 
+#: ../inc/user.inc:197
 msgid "Account information"
 msgstr "Konto-information"
 
+#: ../inc/user.inc:199 ../user/edit_passwd_form.php:46
 msgid "Email address"
 msgstr "Emailaddresse"
 
+#: ../inc/user.inc:202 ../inc/user.inc:312
 msgid "URL"
 msgstr "URL"
 
+#: ../inc/user.inc:205
 msgid "Postal code"
 msgstr "Postboks (omr&aring;denummer)"
 
+#: ../inc/user.inc:206 ../inc/user.inc:309
 msgid "%1 member since"
 msgstr "Medlem af %1 siden"
 
+#: ../inc/user.inc:208
 msgid "Change"
 msgstr "Skift"
 
+#: ../inc/user.inc:208
 msgid "email address"
 msgstr "emailaddresse"
 
+#: ../inc/user.inc:208
 msgid "password"
 msgstr "password"
 
+#: ../inc/user.inc:208
 msgid "other account info"
 msgstr "anden konto-information"
 
+#: ../inc/user.inc:209
 msgid "Log out"
 msgstr "Log ud"
 
+#: ../inc/user.inc:210
 msgid "User ID"
 msgstr "Bruger ID"
 
+#: ../inc/user.inc:210
 msgid "Used in community functions"
 msgstr ""
 
-"
-
+#: ../inc/user.inc:212
 msgid "Account key"
 msgstr "Konton&oslash;gle"
 
+#: ../inc/user.inc:212
 msgid "Provides full access to your account"
 msgstr "Giver fuld adgang til din konto"
 
+#: ../inc/user.inc:213
 msgid "Weak account key"
 msgstr "Svag konton&oslash;gle"
 
+#: ../inc/user.inc:213
 #, fuzzy
 msgid "Provides %1limited access%2 to your account"
 msgstr "Giver fuld adgang til din konto"
 
+#: ../inc/user.inc:216
 msgid "Preferences"
 msgstr "Indstillinger"
 
+#: ../inc/user.inc:219
 msgid "When and how BOINC uses your computer"
 msgstr "Hvorn&aring;r og hvordan BOINC m&aring; bruge din computer"
 
+#: ../inc/user.inc:220
 msgid "Computing preferences"
 msgstr "Computer-indstillinger"
 
+#: ../inc/user.inc:223
 msgid "Message boards and private messages"
 msgstr "Forum og personlige meddelelser"
 
+#: ../inc/user.inc:224
 msgid "Community preferences"
 msgstr "Forum-indstillinger"
 
+#: ../inc/user.inc:227
 msgid "Preferences for this project"
 msgstr ""
 
-"
-
+#: ../inc/user.inc:228
 msgid "%1 preferences"
 msgstr "%1-indstillinger"
 
+#: ../inc/user.inc:234 ../user/sample_index.php:66
 msgid "Community"
 msgstr ""
 
-"
-
+#: ../inc/user.inc:237 ../user/pm.php:103 ../user/pm.php:143
 msgid "Delete"
 msgstr "Slet"
 
+#: ../inc/user.inc:239
 msgid "Create"
 msgstr "Opret"
 
+#: ../inc/user.inc:241 ../inc/user.inc:394
 msgid "Profile"
 msgstr "Profil"
 
+#: ../inc/user.inc:244 ../inc/user.inc:367
 msgid "%1 posts"
 msgstr "%1 indl&aelig;g"
 
+#: ../inc/user.inc:256
 msgid "Notifications"
 msgstr "Notificering"
 
+#: ../inc/user.inc:263
 msgid "Quit team"
 msgstr "Forlad holdet"
 
+#: ../inc/user.inc:265 ../inc/user.inc:282
 msgid "Administer"
 msgstr "Administrer"
 
+#: ../inc/user.inc:271 ../inc/user.inc:284
 msgid "(foundership change request pending)"
 msgstr ""
 
-"
-
+#: ../inc/user.inc:273
 msgid "Member of team"
 msgstr "Medlem af hold"
 
+#: ../inc/user.inc:275
 msgid "find a team"
 msgstr "find et hold"
 
+#: ../inc/user.inc:286
 msgid "Founder but not member of"
 msgstr "Leder men ikke medlem af"
 
+#: ../inc/user.inc:292
 msgid "Find friends"
 msgstr "Find venner"
 
+#: ../inc/user.inc:299 ../inc/user.inc:301 ../inc/user.inc:377
 #: ../inc/user.inc:379 ../inc/user.inc:388
 msgid "Friends"
 msgstr "Venner"
 
+#: ../inc/user.inc:318 ../inc/user.inc:320
 msgid "Computers"
 msgstr "Computere"
 
+#: ../inc/user.inc:320
 msgid "hidden"
 msgstr "skjult"
 
+#: ../inc/user.inc:327
 msgid "Donor"
 msgstr "Donor"
 
+#: ../inc/user.inc:370
 msgid "Contact"
 msgstr "Kontakt"
 
+#: ../inc/user.inc:373
 msgid "This person is a friend"
 msgstr "Denne person er en ven"
 
+#: ../inc/user.inc:374 ../user/friend.php:224
 msgid "Cancel friendship"
 msgstr "Afbryd venskab"
 
+#: ../inc/user.inc:377 ../user/friend.php:35
 msgid "Request pending"
 msgstr "Foresp&oslash;rgsel igang"
 
+#: ../inc/user.inc:379
 msgid "Add as friend"
 msgstr "Tilf&oslash;j som ven"
 
-#, fuzzy
-msgid "CHARSET"
-msgstr "UTF-8"
-
+#: ../inc/util.inc:385
 #, fuzzy
 msgid "Email address:"
 msgstr "Emailaddresse"
 
+#: ../inc/util.inc:385
 msgid "forgot email address?"
 msgstr ""
 
-"
-
+#: ../inc/util.inc:387
 #, fuzzy
 msgid "Password:"
 msgstr "Password"
 
+#: ../inc/util.inc:387
 msgid "forgot password?"
 msgstr ""
 
-"
-
+#: ../inc/util.inc:390
 msgid "Stay logged in on this computer"
 msgstr ""
 
-"
-
+#: ../inc/util.inc:395
 msgid "Log in"
 msgstr ""
 
-"
-
+#: ../inc/util.inc:396
 msgid "or %1create an account%2."
 msgstr ""
 
-"
-
+#: ../inc/util.inc:416
 msgid "Please log in"
 msgstr ""
 
-"
-
+#: ../inc/util.inc:542
 msgid "Use BBCode tags to format your text"
 msgstr "Du kan bruge BBCode-tags til at formatere din tekst"
 
+#: ../user/account_finish.php:40 ../user/create_account_form.php:75
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
 "Identificerer dig p&aring; vores website. Brug dit rigtige navn eller et "
 "d&aelig;knavn."
 
+#: ../user/account_finish.php:44 ../user/create_account_form.php:94
 msgid "Select the country you want to represent, if any."
 msgstr "V&aelig;lg det land, om noget, du gerne vil repr&aelig;sentere."
 
+#: ../user/account_finish.php:50 ../user/create_account_form.php:100
 msgid "Postal or ZIP Code"
 msgstr "Postbox (omr&aring;denummer)"
 
+#: ../user/account_finish.php:50 ../user/create_account_form.php:100
 msgid "Optional"
 msgstr "Ikke p&aring;kr&aelig;vet"
 
+#: ../user/apps.php:31 ../user/sample_index.php:63
 msgid "Applications"
 msgstr "Applikationer"
 
+#: ../user/apps.php:32
 msgid ""
 "%1 currently has the following applications. When you participate in %1, "
 "work for one or more of these applications will be assigned to your "
@@ -664,34 +775,41 @@ msgstr ""
 "downloaded til din computer. Dette sker helt automatisk; du beh&oslash;ver "
 "ikke at foretage dig noget."
 
+#: ../user/apps.php:48
 msgid "Platform"
 msgstr "Platform"
 
+#: ../user/apps.php:49
 msgid "Version"
 msgstr ""
 
-"
-
+#: ../user/apps.php:50
 msgid "Installation time"
 msgstr "Installeret"
 
+#: ../user/create_account_action.php:64
 msgid "You must supply an invitation code to create an account."
 msgstr "Du skal angive en invitationskode for at oprette en konto."
 
+#: ../user/create_account_action.php:67
 msgid "The invitation code you gave is not valid."
 msgstr "Den invitationskode du angav var ikke korrekt."
 
+#: ../user/create_account_form.php:24
 msgid "Create an account"
 msgstr "Opret en konto"
 
+#: ../user/create_account_form.php:29
 msgid "Account creation is disabled"
 msgstr "Der er lukket for oprettelse af nye brugerkonti"
 
+#: ../user/create_account_form.php:30
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
 "Der er midlertidigt lukket for oprettelse af nye brugerkonto, men "
 "pr&oslash;v igen senere."
 
+#: ../user/create_account_form.php:41
 msgid ""
 "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
 "form. Just run BOINC, select Attach Project, and enter an email address and "
@@ -702,6 +820,7 @@ msgstr ""
 "'Attach Project' (eller 'Tilmeld projekt'), og indtaste en emailaddresse og "
 "et password."
 
+#: ../user/create_account_form.php:57
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
@@ -709,181 +828,163 @@ msgstr ""
 "Denne brugerkonto vil blive tilmeldt holder '%1' og vil f&aring; tildelt "
 "projekt-indstillingers fra dette holds leder."
 
+#: ../user/create_account_form.php:69
 msgid "Invitation Code"
 msgstr "Invitationskode"
 
+#: ../user/create_account_form.php:69
 msgid "A valid invitation code is required to create an account."
 msgstr "A valid invitation code is required to create an account."
 
+#: ../user/create_account_form.php:79
 msgid "Email Address"
 msgstr "Emailaddresse"
 
+#: ../user/create_account_form.php:79
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Det skal v&aelig;re en gyldig adresse p&aring; formen 'navn@domain'."
 
+#: ../user/create_account_form.php:88 ../user/edit_email_form.php:46
 msgid "Password"
 msgstr "Password"
 
+#: ../user/create_account_form.php:89
 msgid "Must be at least %1 characters"
 msgstr "Skal v&aelig;re p&aring; mindst %1 bogstaver"
 
+#: ../user/create_account_form.php:92
 msgid "Confirm password"
 msgstr "Bekr&aelig;ft password"
 
+#: ../user/create_account_form.php:104
 msgid "Create account"
 msgstr "Opret brugerkonto"
 
+#: ../user/create_profile.php:31
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:51
 msgid "Picture"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:65
 msgid "%1 Your profile picture is shown to the left."
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:67
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:70
 msgid "To remove it from your profile, check this box:"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:78
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:87
 msgid "Language"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:90
 msgid "Select the language in which your profile is written:"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:102
 msgid "Submit profile"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:107
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:110
 msgid "Create/edit profile"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:132
 msgid "The format of your uploaded image is not supported."
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:161
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:208
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:217
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:225
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:241
 msgid "Your profile submission was empty."
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:280
 msgid "Could not update the profile: database error"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:292
 msgid "Could not create the profile: database error"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:297
 msgid "Profile saved"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:299
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:300
 msgid "%1View your profile%2"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:308
 msgid "Create a profile"
 msgstr ""
 
-"
-
+#: ../user/create_profile.php:336
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
 
-"
-
+#: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
 msgstr ""
 
-"
-
+#: ../user/download_network.php:28
 msgid "You can download applications in several categories."
 msgstr ""
 
-"
-
+#: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr ""
 
-"
-
+#: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
 "However, the author may have provided some help on installing or "
@@ -891,452 +992,399 @@ msgid ""
 "If this is not enough you should contact the author."
 msgstr ""
 
-"
-
+#: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
 msgstr ""
 
-"
-
+#: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
 
-"
-
+#: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
 msgid "Change email address"
 msgstr ""
 
-"
-
+#: ../user/edit_email_form.php:35
 msgid "Change the email address of your account"
 msgstr ""
 
-"
-
+#: ../user/edit_email_form.php:36
 #, fuzzy
 msgid "New email address"
 msgstr "emailaddresse"
 
+#: ../user/edit_email_form.php:37
 #, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr "Det skal v&aelig;re en gyldig adresse p&aring; formen 'navn@domain'."
 
+#: ../user/edit_email_form.php:47
 msgid "No password?"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:26 ../user/edit_passwd_form.php:56
 msgid "Change password"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:40
 msgid "You can identify yourself using either"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:42
 msgid "your email address and old password"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:43
 #, fuzzy
 msgid "your account key"
 msgstr "Svag konton&oslash;gle"
 
+#: ../user/edit_passwd_form.php:47
 msgid "Current password"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:49
 msgid "<b>OR</b>: Account key"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:50
 msgid "Get account key by email"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:54
 msgid "New password"
 msgstr ""
 
-"
-
+#: ../user/edit_passwd_form.php:55
 msgid "New password, again"
 msgstr ""
 
-"
-
+#: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
 msgid "Title"
 msgstr "Titel"
 
+#: ../user/forum_edit.php:144 ../user/forum_post.php:128
 msgid "Add my signature to this post"
 msgstr "Tilf&oslash;j min signatur til dette indl&aelig;g"
 
+#: ../user/forum_index.php:69
 msgid "%1 Message boards"
 msgstr "%1 Forum"
 
+#: ../user/forum_index.php:79
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
 
-"
-
+#: ../user/forum_index.php:93
 msgid "Topic"
 msgstr "Emne"
 
+#: ../user/forum_post.php:101
 msgid "Create a new thread"
 msgstr "Opret nyt emne"
 
+#: ../user/forum_reply.php:85 ../user/forum_thread.php:139
 #: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Skriv indl&aelig;g"
 
+#: ../user/forum_search.php:25
 msgid "Forum search"
 msgstr "Forum s&oslash;gning"
 
+#: ../user/forum_search_action.php:139
 msgid "Forum search results"
 msgstr "Resultater af forum s&oslash;gning"
 
+#: ../user/forum_thread.php:45
 msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:48
 msgid "This forum is not visible to you."
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:54
 msgid "This thread has been hidden for administrative purposes"
 msgstr "Dette emne er blevet skjuldt af administrationelle &aring;rsager"
 
+#: ../user/forum_thread.php:111
 msgid "My question was answered"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:113
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:120
 msgid "I've also got this question"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:139 ../user/forum_thread.php:194
 msgid "Add a new message to this thread"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:146
 msgid "Unsubscribe"
 msgstr "Afmeld notificering"
 
+#: ../user/forum_thread.php:146
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:149
 msgid "Subscribe"
 msgstr "Tilmeld notificering"
 
+#: ../user/forum_thread.php:149
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:156
 msgid "Unhide"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:156
 msgid "Unhide this thread"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:158
 msgid "Hide"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:158
 msgid "Hide this thread"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:161
 msgid "Make unsticky"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:161
 msgid "Make this thread not sticky"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:163
 msgid "Make sticky"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:163
 msgid "Make this thread sticky"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:166
 msgid "Unlock"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:166
 msgid "Unlock this thread"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:168
 msgid "Lock"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:168
 msgid "Lock this thread"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:171
 msgid "Move"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:171
 msgid "Move this thread to a different forum"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:173
 msgid "Edit title"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:173
 msgid "Edit thread title"
 msgstr ""
 
-"
-
+#: ../user/forum_thread.php:180
 msgid "Sort"
 msgstr ""
 
-"
-
+#: ../user/friend.php:31
 msgid "Already friends"
 msgstr ""
 
-"
-
+#: ../user/friend.php:37
 msgid "You requested friendship with %1 on %2."
 msgstr ""
 
-"
-
+#: ../user/friend.php:39
 msgid "This request is still pending confirmation."
 msgstr ""
 
-"
-
+#: ../user/friend.php:50
 msgid "%1 is not accepting friendship requests from you"
 msgstr ""
 
-"
-
+#: ../user/friend.php:59
 msgid "You can't be friends with yourself"
 msgstr ""
 
-"
-
+#: ../user/friend.php:62 ../user/friend.php:90 ../user/friend.php:123
 #: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
 #: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Ingen s&aring;dan bruger fundet"
 
+#: ../user/friend.php:67
 #, fuzzy
 msgid "Add friend"
 msgstr "Tilf&oslash;j som ven"
 
+#: ../user/friend.php:72
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
 
-"
-
+#: ../user/friend.php:75
 msgid "Add an optional message here:"
 msgstr ""
 
-"
-
+#: ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
 msgstr ""
 
-"
-
+#: ../user/friend.php:113
 msgid "Friend request sent"
 msgstr ""
 
-"
-
+#: ../user/friend.php:114
 msgid "We have notified %1 of your request."
 msgstr ""
 
-"
-
+#: ../user/friend.php:125
 msgid "Request not found"
 msgstr ""
 
-"
-
+#: ../user/friend.php:126
 msgid "Friend request"
 msgstr ""
 
-"
-
+#: ../user/friend.php:128
 msgid "%1 has added you as a friend."
 msgstr ""
 
-"
-
+#: ../user/friend.php:130
 msgid "%1 says: %2"
 msgstr ""
 
-"
-
+#: ../user/friend.php:134
 msgid "Accept friendship"
 msgstr ""
 
-"
-
+#: ../user/friend.php:134
 msgid "Click accept if %1 is in fact a friend"
 msgstr ""
 
-"
-
+#: ../user/friend.php:135
 msgid "Decline"
 msgstr ""
 
-"
-
+#: ../user/friend.php:135
 msgid "Click decline if %1 is not a friend"
 msgstr ""
 
-"
-
+#: ../user/friend.php:150
 msgid "No request"
 msgstr ""
 
-"
-
+#: ../user/friend.php:174
 msgid "Friendship confirmed"
 msgstr ""
 
-"
-
+#: ../user/friend.php:175
 msgid "Your friendship with %1 has been confirmed."
 msgstr ""
 
-"
-
+#: ../user/friend.php:193
 msgid "Friendship declined"
 msgstr ""
 
-"
-
+#: ../user/friend.php:194
 msgid "You have declined friendship with %1"
 msgstr ""
 
-"
-
+#: ../user/friend.php:209
 msgid "Notification not found"
 msgstr ""
 
-"
-
+#: ../user/friend.php:211
 msgid "Friend confirmed"
 msgstr ""
 
-"
-
+#: ../user/friend.php:212
 msgid "You are now friends with %1."
 msgstr ""
 
-"
-
+#: ../user/friend.php:220
 #, fuzzy
 msgid "Cancel friendship?"
 msgstr "Afbryd venskab"
 
+#: ../user/friend.php:221
 msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr ""
 
-"
-
+#: ../user/friend.php:224
 msgid "Yes"
 msgstr ""
 
-"
-
+#: ../user/friend.php:225
 msgid "No"
 msgstr ""
 
-"
-
+#: ../user/friend.php:225
 msgid "Stay friends"
 msgstr ""
 
-"
-
+#: ../user/friend.php:235
 msgid "Friendship cancelled"
 msgstr ""
 
-"
-
+#: ../user/friend.php:236
 msgid "Your friendship with %1 has been cancelled."
 msgstr ""
 
-"
-
+#: ../user/friend.php:274
 msgid "Unknown action"
 msgstr ""
 
-"
-
+#: ../user/home.php:40
 msgid "Welcome to %1"
 msgstr "Velkommen til %1"
 
+#: ../user/home.php:41
 msgid "View and edit your account preferences using the links below."
 msgstr ""
 "Se og rediger dine konto-indstillinger ved at bruge nedenst&aring;ende "
 "links."
 
+#: ../user/home.php:49
 msgid "Your account"
 msgstr ""
 
-"
-
+#: ../user/info.php:22 ../user/sample_index.php:47
 msgid "Read our rules and policies"
 msgstr "L&aelig;s vores regler og politik"
 
+#: ../user/info.php:33
 msgid "Run %1 only on authorized computers"
 msgstr "K&oslash;r kun %1 p&aring; computere hvor du har lov til det"
 
+#: ../user/info.php:34
 msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
@@ -1347,9 +1395,11 @@ msgstr ""
 "computer-politik som forbyder at man bruger deres computere til projekter "
 "som %1."
 
+#: ../user/info.php:36
 msgid "How %1 will use your computer"
 msgstr "Hvordan %1 vil bruge din computer"
 
+#: ../user/info.php:37
 msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
@@ -1360,6 +1410,7 @@ msgstr ""
 "selv styre hvor mange af dine systemresourcer vil blive brugt af %1 - og "
 "hvorn&aring;r de bliver brugt."
 
+#: ../user/info.php:38
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
@@ -1367,9 +1418,11 @@ msgstr ""
 "Arbejdet som din computer laver bidrager til %1's m&aring;l som beskrevet "
 "her p&aring; hjemmesiden. Applikationerne kan skifte fra tid til anden."
 
+#: ../user/info.php:40
 msgid "Privacy policy"
 msgstr "Informationspolitik"
 
+#: ../user/info.php:41
 msgid ""
 "Your account on %1 is identified by a name that you choose. This name may be "
 "shown on the %1 web site, along with a summary of the work your computer has "
@@ -1382,6 +1435,7 @@ msgstr ""
 "&oslash;nsker at v&aelig;re anonym b&oslash;r du v&aelig;lge et navn som "
 "ikke afsl&oslash;rer din identitet."
 
+#: ../user/info.php:42
 msgid ""
 "If you participate in %1, information about your computer (such as its "
 "processor type, amount of memory, etc.) will be recorded by %1 and used to "
@@ -1396,6 +1450,7 @@ msgstr ""
 "Information som kan afsl&oslash;re computerens placering (som f.eks. "
 "dom&aelig;nenavn eller netv&aelig;rksadresse) vil dog ikke blive vist."
 
+#: ../user/info.php:43
 msgid ""
 "To participate in %1, you must give an address where you receive email. This "
 "address will not be shown on the %1 web site or shared with organizations. %"
@@ -1407,6 +1462,7 @@ msgstr ""
 "nyhedsbreve, som du kan tilmelde eller framelde dig hvorn&aring;r det skal "
 "v&aelig;re."
 
+#: ../user/info.php:44
 msgid ""
 "Private messages sent on the %1 web site are visible only to the sender and "
 "recipient.  %1 does not examine or police the content of private messages.  "
@@ -1415,8 +1471,7 @@ msgid ""
 "public or private messages from that user."
 msgstr ""
 
-"
-
+#: ../user/info.php:45
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
 "Messages posted to the %1 forums are visible to everyone, including non-"
@@ -1424,11 +1479,11 @@ msgid ""
 "anyone to view and copy your posts."
 msgstr ""
 
-"
-
+#: ../user/info.php:46
 msgid "Is it safe to run %1?"
 msgstr "Er det sikkert at k&oslash;re %1?"
 
+#: ../user/info.php:47
 msgid ""
 "Any time you download a program through the Internet you are taking a "
 "chance: the program might have dangerous errors, or the download server "
@@ -1447,6 +1502,7 @@ msgstr ""
 "eksekverbare filer sikret med en digital signatur fra en computer der ikke "
 "er tilsluttet Internettet."
 
+#: ../user/info.php:48
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
@@ -1456,14 +1512,17 @@ msgstr ""
 "stoppe med at k&oslash;re %1 og fremover kun k&oslash;re %1 sammen med et "
 "%2add-on program%3 som begr&aelig;nser CPU-forbruget."
 
+#: ../user/info.php:49
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
 "%1 er udviklet af %2. BOINC er udviklet p&aring; 'University of California'."
 
+#: ../user/info.php:51
 msgid "Liability"
 msgstr "Ansvarsfrasigelse"
 
+#: ../user/info.php:52
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
 "any other event or condition that may occur as a result of participating in %"
@@ -1473,9 +1532,11 @@ msgstr ""
 "data eller en hvilken som helst anden h&aelig;ndelse eller tilstand som "
 "m&aring;tte opst&aelig; som resultat af deltagelse i %1."
 
+#: ../user/info.php:54
 msgid "Other BOINC projects"
 msgstr "Andre BOINC projekter"
 
+#: ../user/info.php:55
 msgid ""
 "Other projects use the same platform, BOINC, as %1. You may want to consider "
 "participating in one or more of these projects. By doing so, your computer "
@@ -1486,6 +1547,7 @@ msgstr ""
 "projekter. Ved at g&oslash;re dette vil din computer kunne udf&oslash;re "
 "beregninger og arbejde selv n&aring;r %1 ikke har arbejde til den."
 
+#: ../user/info.php:56
 msgid ""
 "These other projects are not associated with %1, and we cannot vouch for "
 "their security practices or the nature of their research. Join them at your "
@@ -1495,116 +1557,106 @@ msgstr ""
 "ikke st&aring; inde for deres sikkerhedspraksis eller deres forksning. "
 "Deltagelse sker p&aring; egen risiko."
 
+#: ../user/language_select.php:41
 msgid "Language selection"
 msgstr ""
 
-"
-
-#, fuzzy
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Danish"
-
-#, fuzzy
-msgid "LANG_NAME_NATIVE"
-msgstr "Danish"
-
+#: ../user/language_select.php:68
 msgid ""
 "This web site is available in several languages. The currently selected "
-"language is: %1 (%2)."
+"language is %1."
 msgstr ""
 
-"
-
+#: ../user/language_select.php:73
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
 
-"
-
+#: ../user/language_select.php:78
 msgid "Firefox: Tools/Options/General"
 msgstr ""
 
-"
-
+#: ../user/language_select.php:80
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
 
-"
-
+#: ../user/language_select.php:84
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
 
-"
-
-msgid "Language symbol"
-msgstr ""
-
-"
-
+#: ../user/language_select.php:90
 msgid "Language name (click to select)"
 msgstr ""
 
-"
-
+#: ../user/language_select.php:92
 msgid "Use browser language setting"
 msgstr ""
 
-"
-
+#: ../user/language_select.php:108
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
 
-"
-
+#: ../user/pm.php:68
 msgid "Your message has been sent."
 msgstr "Din besked blev sendt."
 
+#: ../user/pm.php:78
 msgid "You have no private messages."
 msgstr "Du har ingen personlige meddelelser."
 
+#: ../user/pm.php:85
 msgid "Sender and date"
 msgstr "Afsender og dato"
 
+#: ../user/pm.php:102 ../user/pm.php:142
 msgid "Reply"
 msgstr "Svar"
 
+#: ../user/pm.php:113
 msgid "Delete selected messages"
 msgstr ""
 
-"
-
+#: ../user/pm.php:136
 msgid "Sender"
 msgstr "Afsender"
 
+#: ../user/pm.php:139
 msgid "Date"
 msgstr "Dato"
 
+#: ../user/pm.php:179
 msgid "You need to fill all fields to send a private message"
 msgstr "Du skal udfylde alle felterne for at sende en personlig meddelelse"
 
+#: ../user/pm.php:199
 msgid "Could not find user with id %1"
 msgstr "Kunne ikke finde en bruger med id %1"
 
+#: ../user/pm.php:204
 msgid "Could not find user with username %1"
 msgstr "Kunne ikke finde en bruger med brugernavn %1"
 
+#: ../user/pm.php:206
 msgid "%1 is not a unique username; you will have to use user ID"
 msgstr ""
 "%1 er ikke et unikt brugernavn; du bliver n&oslash;dt til at bruge brugerens "
 "bruger-ID"
 
+#: ../user/pm.php:211
 msgid "User %1 (ID: %2) is not accepting private messages from you."
 msgstr "Brugeren %1 (ID: %2) accepterer ikke personlige meddelelser fra dig."
 
+#: ../user/pm.php:234
 msgid "Really block %1?"
 msgstr "Skal %1 virkelig blokkeres?"
 
+#: ../user/pm.php:235
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
@@ -1612,11 +1664,13 @@ msgstr ""
 "Er du sikker p&aring; at du &oslash;nsker at blokkere %1 fra at sende dig "
 "personlige meddelelser?"
 
+#: ../user/pm.php:236
 msgid "Please note that you can only block a limited amount of users."
 msgstr ""
 "Bem&aelig;rk venligst at du kun kan blokkere et begr&aelig;nset antal "
 "brugere."
 
+#: ../user/pm.php:237
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
@@ -1624,25 +1678,32 @@ msgstr ""
 "N&aring;r brugeren er blevet blokkeret kan du gen&aring;bne adgangen igennem "
 "siden med forum-indstillinger."
 
+#: ../user/pm.php:243
 msgid "Add user to filter"
 msgstr "Tilf&oslash;j bruger til filter"
 
+#: ../user/pm.php:244
 msgid "No, cancel"
 msgstr "Nej, afbryd"
 
+#: ../user/pm.php:255
 msgid "User %1 blocked"
 msgstr "Bruger %1 er blokkeret"
 
+#: ../user/pm.php:257
 msgid "User %1 has been blocked from sending you private messages."
 msgstr ""
 "Brugeren %1 er blevet blokkeret fra at sende dig personlige meddelelser."
 
+#: ../user/pm.php:258
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "For at gen&aring;bne adgangen, bes&oslash; %1forum-indstillingerne%2"
 
+#: ../user/profile_menu.php:33 ../user/sample_index.php:68
 msgid "Profiles"
 msgstr "Profiler"
 
+#: ../user/profile_menu.php:36
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
@@ -1650,6 +1711,7 @@ msgstr ""
 "%1Profiler%2 lader brugere dele deres baggrund og synspunkter med andre "
 "%3-brugere."
 
+#: ../user/profile_menu.php:37
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
@@ -1657,6 +1719,7 @@ msgstr ""
 "Udforsk mangfoldigheden blandt de andre deltagere - og bidrag med dine egne "
 "synspunkter og holdninger"
 
+#: ../user/profile_menu.php:38
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
@@ -1664,18 +1727,23 @@ msgstr ""
 "Hvis du ikke allere har gjort det kan du %1oprette din egen profil%2 "
 "s&aring; andre kan se den!"
 
+#: ../user/profile_menu.php:43
 msgid "User of the Day"
 msgstr "Dagens Bruger"
 
+#: ../user/profile_menu.php:56
 msgid "User Profile Explorer"
 msgstr "Bruger-profil Visning"
 
+#: ../user/profile_menu.php:59
 msgid "View the %1User Picture Gallery%2."
 msgstr "Se %1Brugernes Billedgalleri%2."
 
+#: ../user/profile_menu.php:60
 msgid "Browse profiles %1by country%2."
 msgstr "Gennemse profiler sortered %1efter land%2."
 
+#: ../user/profile_menu.php:61
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
@@ -1683,296 +1751,268 @@ msgstr ""
 "Gennemse profiler %1tilf&aelig;ldigt%2, %3tilf&aelig;ldigt med billeder%2, "
 "or %4tilf&aelig;ldigt uden billeder%2."
 
+#: ../user/profile_menu.php:65
 msgid "Alphabetical profile listings:"
 msgstr "Alfabetisk profilliste:"
 
+#: ../user/profile_menu.php:71
 msgid "Search profile text"
 msgstr "S&oslash;g i profil-teksten"
 
+#: ../user/profile_menu.php:96
 msgid "No profiles"
 msgstr "Ingen profiler"
 
+#: ../user/profile_menu.php:97
 msgid "No profiles matched your query."
 msgstr "Ingen profiler passede med din s&oslash;gning."
 
+#: ../user/profile_rate.php:27
 msgid "Invalid vote type:"
 msgstr ""
 
-"
-
+#: ../user/profile_rate.php:32
 msgid "Vote Recorded"
 msgstr ""
 
-"
-
+#: ../user/profile_rate.php:36
 msgid "Thank you"
 msgstr ""
 
-"
-
+#: ../user/profile_rate.php:39
 msgid "Your recommendation has been recorded."
 msgstr ""
 
-"
-
+#: ../user/profile_rate.php:41
 msgid "Your vote to reject this profile has been recorded."
 msgstr ""
 
-"
-
+#: ../user/profile_rate.php:44
 msgid "Return to profile."
 msgstr ""
 
-"
-
+#: ../user/results.php:27
 msgid "This feature is turned off temporarily"
 msgstr ""
 
-"
-
+#: ../user/results.php:46
 msgid "No computer with ID %1 found"
 msgstr ""
 
-"
-
+#: ../user/results.php:52
 msgid "No access"
 msgstr ""
 
-"
-
+#: ../user/results.php:57
 msgid "Missing user ID or host ID"
 msgstr ""
 
-"
-
+#: ../user/results.php:85
 msgid "No tasks to display"
 msgstr ""
 
-"
-
+#: ../user/sample_index.php:130
 #, fuzzy
 msgid "User of the day"
 msgstr "Dagens Bruger"
 
+#: ../user/show_user.php:91
 msgid "Account data for %1"
 msgstr ""
 
-"
-
+#: ../user/stats.php:23
 msgid "Statistics and leaderboards"
 msgstr ""
 
-"
-
+#: ../user/stats.php:27
 msgid "Statistics for %1"
 msgstr ""
 
-"
-
+#: ../user/stats.php:29 ../user/top_users.php:115
 msgid "Top participants"
 msgstr "Top deltagere"
 
+#: ../user/stats.php:30
 msgid "Top computers"
 msgstr ""
 
-"
-
+#: ../user/stats.php:31 ../user/team.php:43
 #, fuzzy
 msgid "Top teams"
 msgstr "Top %1 hold"
 
+#: ../user/stats.php:35
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
 
-"
-
+#: ../user/stats.php:38
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr ""
 
-"
-
+#: ../user/stats.php:41
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
 
-"
-
+#: ../user/team.php:25
 msgid "%1 participants may form %2teams%3"
 msgstr ""
 
-"
-
+#: ../user/team.php:27
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
 
-"
-
+#: ../user/team.php:29
 msgid "Each team has a %1founder%2 who may:"
 msgstr ""
 
-"
-
+#: ../user/team.php:31
 msgid "access team members' email addresses"
 msgstr ""
 
-"
-
+#: ../user/team.php:32
 msgid "edit the team's name and description"
 msgstr ""
 
-"
-
+#: ../user/team.php:33
 msgid "remove members from the team"
 msgstr ""
 
-"
-
+#: ../user/team.php:34
 msgid "disband a team if it has no members"
 msgstr ""
 
-"
-
+#: ../user/team.php:37
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
 
-"
-
+#: ../user/team.php:38
 #, fuzzy
 msgid "Find a team"
 msgstr "find et hold"
 
+#: ../user/team.php:45
 msgid "All teams"
 msgstr ""
 
-"
-
+#: ../user/team.php:49
 msgid "%1 teams"
 msgstr ""
 
-"
-
+#: ../user/team.php:55
 #, fuzzy
 msgid "Create a new team"
 msgstr "Opret nyt emne"
 
+#: ../user/team.php:56
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
 
-"
-
+#: ../user/team_create_action.php:27
 msgid "You must choose a non-blank team name"
 msgstr ""
 
-"
-
+#: ../user/team_create_action.php:32
 msgid "A team named %1 already exists - try another name"
 msgstr ""
 
-"
-
+#: ../user/team_create_action.php:52
 msgid "Could not create team - please try later."
 msgstr ""
 
-"
-
+#: ../user/team_create_form.php:25 ../user/team_create_form.php:30
 #, fuzzy
 msgid "Create a team"
 msgstr "Opret nyt emne"
 
+#: ../user/team_create_form.php:28
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
 
-"
-
+#: ../user/top_hosts.php:81
 msgid "Top hosts"
 msgstr "Top computere"
 
+#: ../user/top_teams.php:104
 msgid "Top %1 teams"
 msgstr "Top %1 hold"
 
+#: ../user/top_users.php:63
 msgid "Participant since"
 msgstr "Deltager siden"
 
+#: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Joined"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:113
 msgid "Search type"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:114
 msgid "User name starts with"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:115
 msgid "Decreasing sign-up time"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:116
 #, fuzzy
 msgid "Decreasing average credit"
 msgstr "L&oslash;bende gennemsnit"
 
+#: ../user/user_search.php:117
 #, fuzzy
 msgid "Decreasing total credit"
 msgstr "L&oslash;bende gennemsnit"
 
+#: ../user/user_search.php:118
 msgid "Filters"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:122
 msgid "With profile?"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:127
 msgid "On a team?"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:146
 msgid "search string must be at least 3 characters"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:156
 msgid "User names starting with"
 msgstr ""
 
-"
-
+#: ../user/user_search.php:166
 msgid "No users match your search criteria."
 msgstr ""
 
-"
-
+#: ../user/user_search.php:224
 #, fuzzy
 msgid "User search results"
 msgstr "Resultater af forum s&oslash;gning"
 
+#: ../user/view_profile.php:27
 msgid "This user has no profile"
 msgstr ""
 
-"
-
+#: ../user/view_profile.php:53
 msgid "Account data"
 msgstr ""
 
-"
-
+#: ../user/weak_auth.php:47
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
 "project, without giving the ability to log in to your account or to change "
@@ -1982,6 +2022,7 @@ msgstr ""
 "konto til dette projekt uden at give mulighed for at logge ind p&aring; "
 "kontoen eller &aelig;ndre den p&aring; nogen m&aring;de."
 
+#: ../user/weak_auth.php:48
 msgid ""
 "This mechanism works only with projects that have upgraded their server "
 "software 7 Dec 2007 or later."
@@ -1989,9 +2030,11 @@ msgstr ""
 "Denne mekanisme virker kun p&aring; projekter som har opgraderet deres "
 "software d. 7 Dec 2007 eller senere."
 
+#: ../user/weak_auth.php:49
 msgid "Your weak account key for this project is:"
 msgstr "Din svage konton&oslash;gle for dette projekt er:"
 
+#: ../user/weak_auth.php:51
 msgid ""
 "To use your weak account key on a given host, find or create the 'account "
 "file' for this project. This file has a name of the form "
@@ -2002,11 +2045,13 @@ msgstr ""
 "p&aring; formen <b>account_PROJECT_URL.xml</b>. Konto-filen for %1 er "
 "<b>%2</b>."
 
+#: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
 msgstr ""
 "Opret denne fil hvis ikke den eksisterer allerede. Indholdet skal "
 "v&aelig;re:"
 
+#: ../user/weak_auth.php:60
 msgid ""
 "Your weak account key is a function of your password. If you change your "
 "password, your weak account key changes, and your previous weak account key "
@@ -2015,6 +2060,10 @@ msgstr ""
 "Din svage konton&oslash;gle er baseret p&aring; dit password. Hvis du "
 "&aelig;ndrer dit password vil din svage konton&oslash;gle ogs&aring; "
 "&aelig;ndres og den tidligere n&oslash;gle holder op med at virke."
+
+#, fuzzy
+#~ msgid "CHARSET"
+#~ msgstr "UTF-8"
 
 #~ msgid "Resource share and graphics"
 #~ msgstr "Resource-fordeling og grafik"
