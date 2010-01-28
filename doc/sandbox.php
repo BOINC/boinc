@@ -4,7 +4,7 @@ page_head("Sandbox design");
 
 echo "
 This document describes the permissions structure for 
-BOINC on the Macintosh.  It has been updated for BOINC 6.10.30 and later.
+BOINC on the Macintosh.  It has been updated for BOINC versions 6.8.20 and 6.10.30 and later.
 The purpose of this scheme is to 'sandbox' BOINC applications,
 i.e. to limit the amount of damage that a malicious
 or malfunctioning application can cause.
@@ -234,7 +234,7 @@ application with the process ID; since it is running as user and group
 This is used to exit all screensaver graphics applications.</ul>
 </ul>
 <li>To hide account keys from unauthorized users, BOINC Client sets its umask 
-to 006 and (as of version 6.10.30) makes all *.xml files at the top level 
+to 006 and (as of versions 6.8.20 and 6.10.30) makes all *.xml files at the top level 
 directory not world-readable (except ss_config.xml, which must be read by the 
 screensaver coordinator).  This means that third-party add-ons cannot read BOINC 
 data files; they must use GUI RPCs to access BOINC Data.  
@@ -242,7 +242,7 @@ data files; they must use GUI RPCs to access BOINC Data.
 for all files and directories they create prevent modification outside the 
 <b>boinc_project</b> user and group.  
 <li>Files written by projects are world-readable so that the BOINC Client can read 
-them.  But, starting with BOINC version 6.10.30, the slots directory and the projects 
+them.  But, starting with BOINC versions 6.8.20 and 6.10.30, the slots directory and the projects 
 directory are executable (traversable) only by user boinc_master and group 
 boinc_projects, to prevent unauthorized users from reading account keys from the 
 init_data.xml files. 
