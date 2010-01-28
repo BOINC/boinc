@@ -84,7 +84,7 @@ void PROJECT::init() {
     user_total_credit = 0;
     user_expavg_credit = 0;
     user_create_time = 0;
-    ams_resource_share = 0;
+    ams_resource_share = -1;
     rpc_seqno = 0;
     hostid = 0;
     host_total_credit = 0;
@@ -405,7 +405,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     ended = p.ended;
     duration_correction_factor = p.duration_correction_factor;
     ams_resource_share = p.ams_resource_share;
-    if (ams_resource_share > 0) {
+    if (ams_resource_share >= 0) {
         resource_share = ams_resource_share;
     }
     use_symlinks = p.use_symlinks;

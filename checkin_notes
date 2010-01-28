@@ -758,3 +758,16 @@ David  27 Jan 2010
 
     client/
         app.cpp
+
+David  28 Jan 2010
+    - client: if a project has zero resource share,
+        treat it as a "backup project":
+        fetch work from it only if there is an idle instance
+        and no other projects have work.
+
+    client/
+        acct_mgr.cpp
+        client_types.cpp,h
+        rr_sim.cpp
+        work_fetch.cpp
+

@@ -165,6 +165,8 @@ void set_rrsim_flops(RESULT* rp) {
     // if the project's total CPU usage is more than its share, scale
     //
     double share_cpus = p->cpu_pwf.runnable_share*gstate.ncpus;
+    if (!share_cpus) share_cpus = gstate.ncpus;
+        // deal with projects w/ resource share = 0
     double r2 = r1;
     if (p->cpu_pwf.sim_nused > share_cpus) {
         r2 *= (share_cpus / p->cpu_pwf.sim_nused);
