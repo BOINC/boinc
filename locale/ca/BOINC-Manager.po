@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2009-11-06 15:09-0700\n"
+"PO-Revision-Date: 2010-01-28 15:43-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -203,7 +203,7 @@ msgstr "Tancar la finestra %s"
 
 #: clientgui/AdvancedFrame.cpp:307
 msgid "&Close Window"
-msgstr ""
+msgstr "Tan&car la finestra"
 
 #: clientgui/AdvancedFrame.cpp:318
 #, c-format
@@ -216,13 +216,12 @@ msgid "E&xit"
 msgstr "&Sortir"
 
 #: clientgui/AdvancedFrame.cpp:332
-#, fuzzy
 msgid "&Notices\tCtrl+Shift+N"
 msgstr "&Notícies\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "Display notices"
-msgstr ""
+msgstr "Mostra anuncis"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "&Projects\tCtrl+Shift+P"
@@ -335,31 +334,27 @@ msgstr "Aturar les tasques tot i les preferències"
 
 #: clientgui/AdvancedFrame.cpp:463
 msgid "Use GPU always"
-msgstr ""
+msgstr "Utilitzeu sempre la GPU"
 
 #: clientgui/AdvancedFrame.cpp:464
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Permetre treballs tot i les preferències"
+msgstr "Permetre treballar la GPU tot i les preferències"
 
 #: clientgui/AdvancedFrame.cpp:468
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Executar segons les &preferències"
+msgstr "Utilitzar la GPU basant-se en les &preferències"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Permetre treballs segons les preferències"
+msgstr "Permetre treballar la GPU segons les preferències"
 
 #: clientgui/AdvancedFrame.cpp:473
 msgid "Use GPU never"
-msgstr ""
+msgstr "No utilitzar mai la GPU"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Aturar les tasques tot i les preferències"
+msgstr "Aturar les tasques de la GPU tot i les preferències"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "&Network activity always available"
@@ -452,11 +447,11 @@ msgstr "Llegir les preferències des de global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:563
 msgid "Event Log..."
-msgstr ""
+msgstr "Registre d'esdeveniments..."
 
 #: clientgui/AdvancedFrame.cpp:564
 msgid "Display diagnostic messages from the client."
-msgstr ""
+msgstr "Mostra missatges de diagnòstic del client"
 
 #: clientgui/AdvancedFrame.cpp:574
 #, c-format
@@ -650,7 +645,7 @@ msgstr "&Tancar %s"
 #: clientgui/AsyncRPC.cpp:1234
 #, c-format
 msgid "%s - Communication"
-msgstr ""
+msgstr "%s - Comunicació"
 
 #: clientgui/AsyncRPC.cpp:1250
 msgid "Cancel"
@@ -913,11 +908,13 @@ msgstr "(Definit per l'Usuari)"
 
 #: clientgui/BOINCTaskBar.cpp:248
 msgid "BOINC Notification"
-msgstr ""
+msgstr "Notificació BOINC"
 
 #: clientgui/BOINCTaskBar.cpp:249
 msgid "TEST: Fluffy@Home just found out that the Fluffy project has been published in Nature"
 msgstr ""
+"TEST: Fluffy@Home acaba d'notificar que el projecte Fluffy ha estat publicat "
+"a la revista Nature"
 
 #: clientgui/BOINCTaskBar.cpp:350
 msgid "Computation is suspended."
@@ -961,11 +958,11 @@ msgstr "Becaina"
 
 #: clientgui/BOINCTaskBar.cpp:617
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Becaina de la GPU"
 
 #: clientgui/BOINCTaskBar.cpp:624
 msgid "Test Notification"
-msgstr ""
+msgstr "Prova de notificació"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1072,12 +1069,11 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 Universitat de California, Berkeley.\n"
+"(C) 2003-2008 Universitat de Califòrnia, Berkeley.\n"
 "Tots els Drets Reservats."
 
 #: clientgui/DlgAbout.cpp:179
@@ -1490,7 +1486,7 @@ msgstr "mostra la pàgina web de les preferències"
 #: clientgui/DlgEventLog.cpp:128
 #, c-format
 msgid "%s - Event Log"
-msgstr ""
+msgstr "%s - Registre d'esdeveniments"
 
 #: clientgui/DlgEventLog.cpp:138
 msgid "Project"
@@ -1506,7 +1502,7 @@ msgstr "Missatge"
 
 #: clientgui/DlgEventLog.cpp:176
 msgid "Copy All"
-msgstr ""
+msgstr "Copiar-ho tot"
 
 #: clientgui/DlgEventLog.cpp:178
 #: clientgui/DlgEventLog.cpp:182
@@ -1515,7 +1511,7 @@ msgstr "Copiar tots els missatges al porta papers."
 
 #: clientgui/DlgEventLog.cpp:187
 msgid "Copy Selected"
-msgstr ""
+msgstr "Copia els seleccionats"
 
 #: clientgui/DlgEventLog.cpp:190
 #: clientgui/DlgEventLog.cpp:198
@@ -1532,9 +1528,8 @@ msgstr ""
 "missatges prement les tecles shift o control mentre prem en els missatges."
 
 #: clientgui/DlgEventLog.cpp:207
-#, fuzzy
 msgid "Close"
-msgstr "&Tancar"
+msgstr "Tancar"
 
 #: clientgui/DlgEventLog.cpp:214
 #: clientgui/DlgEventLog.cpp:217
@@ -1725,7 +1720,7 @@ msgstr "Interval d'ajornament de la feina de la CPU"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "Planificació de la prioritat de la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"
@@ -1740,9 +1735,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Interval d'ajornament de la feina a la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Planificació prioritària de la CPU"
+msgstr "Planificació de la prioritat de la CPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -1824,7 +1818,7 @@ msgstr "Directori"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "ID del procés"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
@@ -2267,7 +2261,7 @@ msgstr "Aprendre respecte del projectes controlats per la World Community Grid"
 
 #: clientgui/MainDocument.cpp:539
 msgid "Starting client"
-msgstr ""
+msgstr "Iniciant client"
 
 #: clientgui/MainDocument.cpp:1108
 msgid "Retrieving system state; please wait..."
@@ -2359,19 +2353,19 @@ msgstr "Clic"
 
 #: clientgui/ProjectListCtrl.cpp:506
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "Multicore CPU Suportada"
 
 #: clientgui/ProjectListCtrl.cpp:508
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "Nvidia GPU Suportada"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "ATI GPU Suportada"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Project Website"
-msgstr ""
+msgstr "Lloc Web del Projecte"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 msgid "Communicating with project."
@@ -3039,11 +3033,11 @@ msgstr "Mostrar les darreres noticies sobre BOINC"
 
 #: clientgui/ViewNotices.cpp:105
 msgid "Notices"
-msgstr ""
+msgstr "Notícies"
 
 #: clientgui/ViewNotices.cpp:155
 msgid "Retrieving notices..."
-msgstr ""
+msgstr "Recuperació dels notícies..."
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
@@ -3557,7 +3551,7 @@ msgstr " (no-CPU-intensiva)"
 
 #: clientgui/ViewWork.cpp:1207
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Avortat: no s'ha iniciat per haver superat el de temps de finalització"
 
 #: clientgui/WelcomePage.cpp:254
 msgid "Attach to project or account manager"
@@ -3666,10 +3660,14 @@ msgstr "Ctrl de Pastis"
 #: clientgui/mac/MacAccessiblity.cpp:205
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
+"per donar suport a l'accessibilitat, si us plau, seleccioneu Opcions "
+"avançades al menú Veure o premeu shift-a"
 
 #: clientgui/mac/MacAccessiblity.cpp:250
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
+"Aquest panell conté gràfics que mostren els totals dels projectes de "
+"l'usuari"
 
 #: clientgui/mac/MacAccessiblity.cpp:518
 #: clientgui/mac/MacAccessiblity.cpp:640
@@ -3682,17 +3680,16 @@ msgstr "llista de "
 
 #: clientgui/mac/MacAccessiblity.cpp:522
 msgid "events"
-msgstr ""
+msgstr "esdeveniments"
 
 #: clientgui/mac/MacAccessiblity.cpp:529
 msgid " is empty"
-msgstr ""
+msgstr " és buida"
 
 #: clientgui/mac/MacAccessiblity.cpp:600
 #, c-format
-#, fuzzy
 msgid "%d of %d; "
-msgstr "%d de %d "
+msgstr "%d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
@@ -3712,7 +3709,7 @@ msgstr "columna "
 
 #: clientgui/mac/MacAccessiblity.cpp:618
 msgid "list is empty"
-msgstr ""
+msgstr "la llista està buida"
 
 #: clientgui/mac/MacAccessiblity.cpp:621
 #: clientgui/mac/MacAccessiblity.cpp:1204
@@ -3726,15 +3723,13 @@ msgstr "fila %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:629
 #, c-format
-#, fuzzy
 msgid "of %d; "
-msgstr "de %d "
+msgstr "de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
-#, fuzzy
 msgid "column %d; "
-msgstr "columna %d "
+msgstr "columna %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1166
 msgid "list of projects or account managers"
@@ -3742,9 +3737,8 @@ msgstr "llista de projectes o administradors de comptes"
 
 #: clientgui/mac/MacAccessiblity.cpp:1208
 #, c-format
-#, fuzzy
 msgid "row %d of %d; "
-msgstr "fila %d de %d "
+msgstr "fila %d de %d; "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
