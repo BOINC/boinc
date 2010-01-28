@@ -3,9 +3,9 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-01-28 11:29-0700\n"
+"PO-Revision-Date: 2010-01-28 13:58-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
-"Language-Team: mifistor_x <mifistor.x@gmail.com>\n"
+"Language-Team: Russia\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -343,32 +343,35 @@ msgid "Stop work regardless of preferences"
 msgstr "Приостанавливается обработка всех заданий во всех проектах"
 
 #: clientgui/AdvancedFrame.cpp:463
+#, fuzzy
 msgid "Use GPU always"
-msgstr ""
+msgstr "Постоянная обработка на GPU"
 
 #: clientgui/AdvancedFrame.cpp:464
 #, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Обработка заданий запущена всегда"
+msgstr "Обработка заданий на GPU запущена всегда"
 
 #: clientgui/AdvancedFrame.cpp:468
 #, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "График работы определяется настройками"
+msgstr "График работы GPU определяется настройками"
 
 #: clientgui/AdvancedFrame.cpp:469
 #, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Обработка происходит в моменты времени в соответствие с настройками"
+msgstr ""
+"Обработка на GPU происходит в моменты времени в соответствие с настройками"
 
 #: clientgui/AdvancedFrame.cpp:473
+#, fuzzy
 msgid "Use GPU never"
-msgstr ""
+msgstr "Не использовать GPU"
 
 #: clientgui/AdvancedFrame.cpp:474
 #, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Приостанавливается обработка всех заданий во всех проектах"
+msgstr "Приостанавливается обработка на GPU всех заданий во всех проектах"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "&Network activity always available"
@@ -468,12 +471,14 @@ msgid "Read preferences from global_prefs_override.xml."
 msgstr "Перезагрузить локальный файл общих настроек global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:563
+#, fuzzy
 msgid "Event Log..."
-msgstr ""
+msgstr "Просмотр событий..."
 
 #: clientgui/AdvancedFrame.cpp:564
+#, fuzzy
 msgid "Display diagnostic messages from the client."
-msgstr ""
+msgstr "Показать диагностические сообщения клиента."
 
 #: clientgui/AdvancedFrame.cpp:574
 #, c-format
@@ -595,7 +600,7 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:1532
 #, fuzzy
 msgid "Retrying communications."
-msgstr "Повтор коммуникаций."
+msgstr "Повторный обмен данными."
 
 #: clientgui/AdvancedFrame.cpp:1737
 #, c-format
@@ -671,8 +676,9 @@ msgstr "Выйти из %s"
 
 #: clientgui/AsyncRPC.cpp:1234
 #, c-format
+#, fuzzy
 msgid "%s - Communication"
-msgstr ""
+msgstr "%s - Обмен данными"
 
 #: clientgui/AsyncRPC.cpp:1250
 msgid "Cancel"
@@ -934,12 +940,16 @@ msgid "(User Defined)"
 msgstr "(Пользовательский)"
 
 #: clientgui/BOINCTaskBar.cpp:248
+#, fuzzy
 msgid "BOINC Notification"
-msgstr ""
+msgstr "Уведомления BOINC"
 
 #: clientgui/BOINCTaskBar.cpp:249
+#, fuzzy
 msgid "TEST: Fluffy@Home just found out that the Fluffy project has been published in Nature"
 msgstr ""
+"TEST: Fluffy@Home just found out that the Fluffy project has been published "
+"in Nature"
 
 # пауза
 #: clientgui/BOINCTaskBar.cpp:350
@@ -985,12 +995,15 @@ msgid "Snooze"
 msgstr "Пауза"
 
 #: clientgui/BOINCTaskBar.cpp:617
+#, fuzzy
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Приостановить GPU"
 
+# ?
 #: clientgui/BOINCTaskBar.cpp:624
+#, fuzzy
 msgid "Test Notification"
-msgstr ""
+msgstr "Проверить уведомление"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1113,12 +1126,11 @@ msgid "Copyright:"
 msgstr "Авторские права:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 Калифорнийский университет, Беркли.\n"
+"(C) 2003-2010 Калифорнийский университет, Беркли.\n"
 "Все права защищены."
 
 #: clientgui/DlgAbout.cpp:179
@@ -1316,7 +1328,6 @@ msgstr "Другие параметры"
 
 # поправить
 #: clientgui/DlgAdvPreferencesBase.cpp:233
-#, fuzzy
 msgid "Switch between applications every"
 msgstr "Переключение между проектами каждые"
 
@@ -1551,8 +1562,9 @@ msgstr "перейти на веб-страницу с описанием дан
 
 #: clientgui/DlgEventLog.cpp:128
 #, c-format
+#, fuzzy
 msgid "%s - Event Log"
-msgstr ""
+msgstr "%s - Просмотр событий"
 
 #: clientgui/DlgEventLog.cpp:138
 msgid "Project"
@@ -1568,7 +1580,7 @@ msgstr "Сообщение"
 
 #: clientgui/DlgEventLog.cpp:176
 msgid "Copy All"
-msgstr ""
+msgstr "Копировать всё"
 
 #: clientgui/DlgEventLog.cpp:178
 #: clientgui/DlgEventLog.cpp:182
@@ -1577,7 +1589,7 @@ msgstr "Копировать все сообщения в буфер обмен�
 
 #: clientgui/DlgEventLog.cpp:187
 msgid "Copy Selected"
-msgstr ""
+msgstr "Копировать выделенное"
 
 #: clientgui/DlgEventLog.cpp:190
 #: clientgui/DlgEventLog.cpp:198
@@ -1793,7 +1805,7 @@ msgstr "Интервал задержки запроса заданий для �
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "Приоритет планировщика GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"
@@ -1808,9 +1820,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Интервал задержки запроса заданий для GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Приоритет планировщика процессора"
+msgstr "Приоритет планировщика GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -1895,7 +1906,7 @@ msgstr "Каталог"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "ID процесса"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
@@ -2375,8 +2386,9 @@ msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Подробные описания проектов запущенных в рамках WCG"
 
 #: clientgui/MainDocument.cpp:539
+#, fuzzy
 msgid "Starting client"
-msgstr ""
+msgstr "Попытка запустить службу; пожалуйста подождите..."
 
 #: clientgui/MainDocument.cpp:1108
 msgid "Retrieving system state; please wait..."
@@ -2474,19 +2486,19 @@ msgstr "Нажать"
 
 #: clientgui/ProjectListCtrl.cpp:506
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "Поддержка многоядерных ЦП"
 
 #: clientgui/ProjectListCtrl.cpp:508
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "Поддержка GPU NVIDIA"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "Поддержка GPU ATI"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Project Website"
-msgstr ""
+msgstr "Веб-сайт проекта"
 
 # ???
 #: clientgui/ProjectProcessingPage.cpp:322
@@ -3717,12 +3729,13 @@ msgid " (non-CPU-intensive)"
 msgstr " (без использования ЦП)"
 
 #: clientgui/ViewWork.cpp:1207
+#, fuzzy
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Прервано: не было запущено до крайнего срока"
 
 #: clientgui/WelcomePage.cpp:254
 msgid "Attach to project or account manager"
-msgstr "Подключение к проекту или менеджеру проектов"
+msgstr "Выбор проекта или менеджера проектов"
 
 #: clientgui/WelcomePage.cpp:262
 #, c-format
@@ -3830,12 +3843,18 @@ msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:205
+#, fuzzy
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
+"для поддержки доступности, пожалуйста выберите меню Расширенный вид или "
+"введите команду Shift a"
 
 #: clientgui/mac/MacAccessiblity.cpp:250
+#, fuzzy
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
+"Эта панель содержит графики, показывающие пользовательские достижения в "
+"проектах"
 
 #: clientgui/mac/MacAccessiblity.cpp:518
 #: clientgui/mac/MacAccessiblity.cpp:640
@@ -3853,14 +3872,15 @@ msgid "events"
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:529
+#, fuzzy
 msgid " is empty"
-msgstr ""
+msgstr "пуст"
 
 #: clientgui/mac/MacAccessiblity.cpp:600
 #, c-format
 #, fuzzy
 msgid "%d of %d; "
-msgstr "%d из %d "
+msgstr "%d из %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 #, fuzzy
@@ -3883,8 +3903,9 @@ msgid "column "
 msgstr "столбец "
 
 #: clientgui/mac/MacAccessiblity.cpp:618
+#, fuzzy
 msgid "list is empty"
-msgstr ""
+msgstr "список пуст"
 
 #: clientgui/mac/MacAccessiblity.cpp:621
 #: clientgui/mac/MacAccessiblity.cpp:1204
@@ -3902,13 +3923,13 @@ msgstr "строка %d "
 #, c-format
 #, fuzzy
 msgid "of %d; "
-msgstr "из %d "
+msgstr "из %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
 #, fuzzy
 msgid "column %d; "
-msgstr "столбец %d "
+msgstr "столбец %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1166
 #, fuzzy
@@ -3919,7 +3940,7 @@ msgstr "список проектов и менеджеров проектов"
 #, c-format
 #, fuzzy
 msgid "row %d of %d; "
-msgstr "строка %d из %d "
+msgstr "строка %d из %d; "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
