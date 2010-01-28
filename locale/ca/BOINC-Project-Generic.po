@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-26 20:00 PST\n"
-"PO-Revision-Date: 2010-01-20 15:12-0700\n"
+"PO-Revision-Date: 2010-01-28 15:03-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -1582,13 +1582,12 @@ msgid "Language selection"
 msgstr "Selecció d'idioma"
 
 #: ../user/language_select.php:68
-#, fuzzy
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
 "Aquest lloc web està disponible en diversos idiomes. L'idioma seleccionat "
-"actualment és: %1 (%2)."
+"actualment és: %1."
 
 #: ../user/language_select.php:73
 msgid ""
