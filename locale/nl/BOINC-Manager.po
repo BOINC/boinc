@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2009-11-05 13:02-0700\n"
+"PO-Revision-Date: 2010-01-28 12:27-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -201,7 +201,7 @@ msgstr "Sluit het %s venster"
 
 #: clientgui/AdvancedFrame.cpp:307
 msgid "&Close Window"
-msgstr ""
+msgstr "&Sluit Venster"
 
 #: clientgui/AdvancedFrame.cpp:318
 #, c-format
@@ -214,13 +214,12 @@ msgid "E&xit"
 msgstr "Afsluiten"
 
 #: clientgui/AdvancedFrame.cpp:332
-#, fuzzy
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Nieuws\tCtrl+Shift+N"
+msgstr "&Berichten\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "Display notices"
-msgstr ""
+msgstr "Berichten weergeven"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "&Projects\tCtrl+Shift+P"
@@ -331,31 +330,27 @@ msgstr "Stop al het werk ongeacht de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:463
 msgid "Use GPU always"
-msgstr ""
+msgstr "GPU altijd gebruiken"
 
 #: clientgui/AdvancedFrame.cpp:464
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Werk actief ongeacht de persoonlijke voorkeuren"
+msgstr "GPU actief ongeacht de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:468
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Werk actief o&p basis van voorkeuren"
+msgstr "GPU actief o&p basis van voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Werk actief op basis van de persoonlijke voorkeuren"
+msgstr "GPU actief op basis van de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:473
 msgid "Use GPU never"
-msgstr ""
+msgstr "GPU nooit gebruiken"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Stop al het werk ongeacht de persoonlijke voorkeuren"
+msgstr "GPU inactief ongeacht de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "&Network activity always available"
@@ -448,11 +443,11 @@ msgstr "Lokale voorkeur inlezen vanuit global_prefs_override.xml"
 
 #: clientgui/AdvancedFrame.cpp:563
 msgid "Event Log..."
-msgstr ""
+msgstr "Gebeurtenissen Logboek..."
 
 #: clientgui/AdvancedFrame.cpp:564
 msgid "Display diagnostic messages from the client."
-msgstr ""
+msgstr "Diagnostische berichten van de cliënt weergeven."
 
 #: clientgui/AdvancedFrame.cpp:574
 #, c-format
@@ -646,7 +641,7 @@ msgstr "%s &Afsluiten"
 #: clientgui/AsyncRPC.cpp:1234
 #, c-format
 msgid "%s - Communication"
-msgstr ""
+msgstr "%s - Communicatie"
 
 #: clientgui/AsyncRPC.cpp:1250
 msgid "Cancel"
@@ -901,11 +896,13 @@ msgstr "(Gedefineerd door gebruiker)"
 
 #: clientgui/BOINCTaskBar.cpp:248
 msgid "BOINC Notification"
-msgstr ""
+msgstr "BOINC Bericht"
 
 #: clientgui/BOINCTaskBar.cpp:249
 msgid "TEST: Fluffy@Home just found out that the Fluffy project has been published in Nature"
 msgstr ""
+"TEST: Fluffy@Home heeft zojuist ontdekt dat het project in de krant heeft "
+"gestaan"
 
 #: clientgui/BOINCTaskBar.cpp:350
 msgid "Computation is suspended."
@@ -949,11 +946,11 @@ msgstr "Sluimer"
 
 #: clientgui/BOINCTaskBar.cpp:617
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Sluimer GPU"
 
 #: clientgui/BOINCTaskBar.cpp:624
 msgid "Test Notification"
-msgstr ""
+msgstr "Test Bericht"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1060,11 +1057,12 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr "(C) 2003-2008 University of California at Berkeley.All Rights Reserved."
+msgstr ""
+"(C) 2003-2010 University of California at Berkeley.\n"
+"All Rights Reserved."
 
 #: clientgui/DlgAbout.cpp:179
 #: clientgui/DlgAbout.cpp:183
@@ -1469,7 +1467,7 @@ msgstr "laat de voorkeuren website zien"
 #: clientgui/DlgEventLog.cpp:128
 #, c-format
 msgid "%s - Event Log"
-msgstr ""
+msgstr "%s - Gebeurtenissen Logboek"
 
 #: clientgui/DlgEventLog.cpp:138
 msgid "Project"
@@ -1485,7 +1483,7 @@ msgstr "Bericht"
 
 #: clientgui/DlgEventLog.cpp:176
 msgid "Copy All"
-msgstr ""
+msgstr "Alles kopiëren"
 
 #: clientgui/DlgEventLog.cpp:178
 #: clientgui/DlgEventLog.cpp:182
@@ -1494,7 +1492,7 @@ msgstr "Alle berichten kopiëren"
 
 #: clientgui/DlgEventLog.cpp:187
 msgid "Copy Selected"
-msgstr ""
+msgstr "Selectie kopiëren"
 
 #: clientgui/DlgEventLog.cpp:190
 #: clientgui/DlgEventLog.cpp:198
@@ -1513,7 +1511,6 @@ msgstr ""
 "bestanden te klikken."
 
 #: clientgui/DlgEventLog.cpp:207
-#, fuzzy
 msgid "Close"
 msgstr "Sluiten"
 
@@ -1707,7 +1704,7 @@ msgstr "Interval voor CPU werkverzoek"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "Prioriteit voor NVIDIA GPU taakverdeling"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"
@@ -1722,9 +1719,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Interval voor NVIDIA GPU werkverzoek"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Prioriteit voor CPU taakverdeling"
+msgstr "Prioriteit voor ATI GPU taakverdeling"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -1806,7 +1802,7 @@ msgstr "Map"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "Proces ID"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
@@ -2243,7 +2239,7 @@ msgstr "Bekijk de projecten die door 'World Community Grid' ondersteund worden"
 
 #: clientgui/MainDocument.cpp:539
 msgid "Starting client"
-msgstr ""
+msgstr "Cliënt opstarten "
 
 #: clientgui/MainDocument.cpp:1108
 msgid "Retrieving system state; please wait..."
