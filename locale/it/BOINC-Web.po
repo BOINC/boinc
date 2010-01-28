@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2009-12-30 11:35-0700\n"
-"Last-Translator: Bassi Paolo <baxpaolo@alice.it>\n"
+"PO-Revision-Date: 2010-01-22 13:38+0100\n"
+"Last-Translator: LocutusOfBorg <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -22,16 +22,16 @@ msgstr ""
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Cerca"
 
 #: docutil.php:101
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Torna alla pagina principale del BOINC"
 
 #: docutil.php:112
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Questa pagina %spuò essere tradotta%s.\""
 
 # ######################################<br />
 # download.php<br />
@@ -64,10 +64,11 @@ msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"Puoi eseguire questo software su un computer solo se possiedi il computer o "
+"se hai il permesso del suo padrone."
 
 #: download.php:116
 #, php-format
-#, fuzzy
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
@@ -83,7 +84,8 @@ msgstr "Requisiti di sistema"
 msgid "Release notes"
 msgstr "Note di rilascio"
 
-#: download.php:124 index.php:82
+#: download.php:124
+#: index.php:82
 msgid "Help"
 msgstr "Aiuto"
 
@@ -93,7 +95,7 @@ msgstr "Tutte le versioni"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "Storia delle versioni"
 
 #: download.php:143
 msgid "BOINC: compute for science"
@@ -212,7 +214,9 @@ msgstr "Utente volontario"
 msgid "Download"
 msgstr "Scarica"
 
-#: index.php:83 index.php:118 index.php:169
+#: index.php:83
+#: index.php:118
+#: index.php:169
 msgid "Documentation"
 msgstr "Documentazione"
 
@@ -252,16 +256,21 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%Scientifico%2: usa il BOINC per creare un %3progetto di calcolo "
+"distribuito%4 che ti da la potenza computazionale di centinaia di CPU."
 
 #: index.php:130
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Università%2: usa il BOINC per creare un %3Centro di supercomputer "
+"virtuale del campus%4."
 
 #: index.php:135
+#, fuzzy
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr ""
+msgstr "%Aziende%2: usa il BOINC per %3Calcolo desktop Grid%4."
 
 #: index.php:147
 msgid "The BOINC project"
@@ -289,7 +298,7 @@ msgstr "Pubblicazioni e relazioni"
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Progetti di ricerca"
 
 #: index.php:159
 msgid "Logos and graphics"
@@ -297,7 +306,7 @@ msgstr "Loghi e immagini"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "e"
 
 #: index.php:164
 #, fuzzy
@@ -318,7 +327,7 @@ msgstr "Test delle applicazioni"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "Pubblicità"
 
 #: index.php:172
 msgid "Software development"
@@ -342,7 +351,7 @@ msgstr ""
 
 #: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC è basato sull'università di Berkeley in California"
 
 #~ msgid "Conferences"
 #~ msgstr "Conferenze"
