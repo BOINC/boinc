@@ -318,3 +318,15 @@ Rom    27 Jan 2010
     /
         configure.ac
         version.h
+
+Charlie  28 Jan 2010
+    - Mac Sandbox: SetupAuthorizationExecuteWithPrivileges() forks to run chmod and chown, 
+        leaving zombie processes which can exceed the system-imposed limit of processes 
+        MAXUPRC for a user.  Call waitpid() to clear these zombies.
+    - Mac Sandbox: fix comment in Mac_SA_Secure.sh script.
+
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        Mac_SA_Secure.sh
