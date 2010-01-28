@@ -782,3 +782,10 @@ Charlie  28 Jan 2010
             SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+David  28 Jan 2010
+	- client: fix my last checkin
+
+	client/
+		client_types.cpp
+		cs_statefile.cpp

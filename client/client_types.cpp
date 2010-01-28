@@ -209,7 +209,12 @@ int PROJECT::parse_state(MIOFILE& in) {
             // not authoritative
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
-        if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
+            // backwards compat - old state files had ams_resource_share = 0
+        if (parse_double(buf, "<ams_resource_share_new>", ams_resource_share)) continue;
+        if (parse_double(buf, "<ams_resource_share>", x)) {
+            if (x > 0) ams_resource_share = x;
+            continue;
+        }
         if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
         if (parse_bool(buf, "use_symlinks", use_symlinks)) continue;
         if (log_flags.unparsed_xml) {
@@ -319,7 +324,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         use_symlinks?"    <use_symlinks/>\n":""
     );
     if (ams_resource_share >= 0) {
-        out.printf("    <ams_resource_share>%f</ams_resource_share>\n",
+        out.printf("    <ams_resource_share_new>%f</ams_resource_share_new>\n",
             ams_resource_share
         );
     }
