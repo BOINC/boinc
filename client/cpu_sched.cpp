@@ -178,10 +178,11 @@ struct PROC_RESOURCES {
     }
 };
 
+bool gpus_usable = true;
+#ifndef SIM
 // see whether there's been a change in coproc usability;
 // if so set or clear "coproc_missing" flags and return true.
 //
-bool gpus_usable = true;
 bool check_coprocs_usable() {
 #ifdef _WIN32
     unsigned int i;
@@ -218,6 +219,7 @@ bool check_coprocs_usable() {
 #endif
     return false;
 }
+#endif
 
 // return true if the task has finished its time slice
 // and has checkpointed in last 10 secs
@@ -1232,12 +1234,14 @@ bool CLIENT_STATE::enforce_schedule() {
     last_time = now;
     bool action = false;
 
+#ifndef SIM
     // check whether GPUs are usable
     //
     if (check_coprocs_usable()) {
         request_schedule_cpus("GPU usability change");
         return true;
     }
+#endif
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
