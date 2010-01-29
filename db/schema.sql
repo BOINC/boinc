@@ -361,6 +361,7 @@ create table thread (
     id                  integer     not null auto_increment,
     forum               integer     not null,
     owner               integer     not null,
+        -- user ID of creator
     status              integer     not null,
     title               varchar(254) not null,
     timestamp           integer     not null,

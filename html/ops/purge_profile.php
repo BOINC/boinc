@@ -39,6 +39,8 @@ $ids = array(
 foreach ($ids as $id) {
     mysql_query("delete from user where id=$id");
     mysql_query("delete from profile where userid=$id");
+    mysql_query("delete from thread where owner=$id");
+    mysql_query("delete from post where user=$id");
 }
 
 ?>
