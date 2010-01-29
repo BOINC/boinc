@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-01-22 13:38+0100\n"
+"PO-Revision-Date: 2010-01-29 00:00+0100\n"
 "Last-Translator: LocutusOfBorg <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -309,7 +309,6 @@ msgid "and"
 msgstr "e"
 
 #: index.php:164
-#, fuzzy
 msgid "Help wanted"
 msgstr "C'è bisogno di aiuto!"
 

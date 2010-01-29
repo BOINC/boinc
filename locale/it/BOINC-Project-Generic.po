@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-20 12:49 PST\n"
-"PO-Revision-Date: 2010-01-28 14:58-0700\n"
-"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: 2010-01-29 00:03+0100\n"
+"Last-Translator: LocutusOfBorg <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -598,7 +598,6 @@ msgstr "Richiesta in corso"
 msgid "Add as friend"
 msgstr "Aggiungi come amico"
 
-#, fuzzy
 msgid "Email address:"
 msgstr "Indirizzo E-mail:"
 
@@ -1340,6 +1339,8 @@ msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
+"Questo sito web è disponibile in molte lingue. La lingua correntemente "
+"selezionata è %1."
 
 msgid ""
 "Normally the choice of language is determined by your browser's language "
@@ -1765,6 +1766,14 @@ msgstr ""
 #~ msgid "Tasks for computer %1"
 #~ msgstr "Elaborazioni per il computer %1"
 
+# #########################################
+# Language: Italian (Italy)
+# FileID  : $Id: it.po 16733 2008-12-22 05:56:53Z JensSeidler $
+# Author  : Janus Kristensen (Translator: Andrea Savioli)
+# Email   : jbk@visualgroup.dk (jhonnyellen@jhonnyellen.it)
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 #~ msgid "Provides"
 #~ msgstr "Fornisci"
 
