@@ -789,3 +789,15 @@ David  28 Jan 2010
 	client/
 		client_types.cpp
 		cs_statefile.cpp
+
+David  29 Jan 2010
+    - user web: allow zero resource share
+    - client: allow zero resource share
+
+    apps/
+        upper_case.cpp
+    html/inc/
+        prefs.inc
+    client/
+        work_fetch.cpp
+        makefile_sim

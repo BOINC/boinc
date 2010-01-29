@@ -937,14 +937,20 @@ void WORK_FETCH::compute_shares() {
         }
         if (!p->pwf.can_fetch_work) continue;
         if (p->cpu_pwf.may_have_work) {
-            p->cpu_pwf.fetchable_share = p->resource_share/cpu_work_fetch.total_fetchable_share;
-            msg_printf(p, MSG_INFO, "FS: %f = %f/%f\n", p->cpu_pwf.fetchable_share, p->resource_share, cpu_work_fetch.total_fetchable_share);
+            p->cpu_pwf.fetchable_share = cpu_work_fetch.total_fetchable_share?p->resource_share/cpu_work_fetch.total_fetchable_share:1;
+            if (log_flags.work_fetch_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[wfd] FS: %f = %f/%f\n",
+                    p->cpu_pwf.fetchable_share, p->resource_share,
+                    cpu_work_fetch.total_fetchable_share
+                );
+            }
         }
         if (coproc_cuda && p->cuda_pwf.may_have_work) {
-            p->cuda_pwf.fetchable_share = p->resource_share/cuda_work_fetch.total_fetchable_share;
+            p->cuda_pwf.fetchable_share = cuda_work_fetch.total_fetchable_share?p->resource_share/cuda_work_fetch.total_fetchable_share:1;
         }
         if (coproc_ati && p->ati_pwf.may_have_work) {
-            p->ati_pwf.fetchable_share = p->resource_share/ati_work_fetch.total_fetchable_share;
+            p->ati_pwf.fetchable_share = ati_work_fetch.total_fetchable_share?p->resource_share/ati_work_fetch.total_fetchable_share:1;
         }
     }
 }

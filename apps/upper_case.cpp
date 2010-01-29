@@ -15,13 +15,21 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// This is the primary sample BOINC application;
-// it shows most of the features of the BOINC API.
+// This program serves as both
+// - An example BOINC application, illustrating the use of the BOINC API
+// - A program for testing various features of BOINC
 //
+// NOTE: this file exists as both
+// boinc/apps/upper_case.cpp
+// and
+// boinc_samples/example_app/uc2.cpp
+// If you update one, please update the other!
+
+// The program converts a mixed-case file to upper case:
 // read "in", convert to upper case, write to "out"
 //
-// command line options (use for debugging various scenarios):
-// -run_slow: sleep 1 second after each character; useful for debugging
+// command line options
+// -run_slow: sleep 1 second after each character
 // -cpu_time N: use about N CPU seconds after copying files
 // -early_exit: exit(10) after 30 chars
 // -early_crash: crash after 30 chars
@@ -62,16 +70,21 @@ bool run_slow = false;
 bool early_exit = false;
 bool early_crash = false;
 bool early_sleep = false;
-double cpu_time = 20;
+double cpu_time = 20, comp_result;
 
-static void use_some_cpu() {
-    double j = 3.14159;
-    int i, n = 0;
-    for (i=0; i<20000000; i++) {
-        n++;
-        j *= n+j-3.14159;
-        j /= (float)n;
+// do a billion floating-point ops
+// (note: I needed to add an arg to this;
+// otherwise the MS C++ compiler optimizes away
+// all but the first call to it!)
+//
+static double do_a_giga_flop(int foo) {
+    double x = 3.14159*foo;
+    int i;
+    for (i=0; i<500000000; i++) {
+        x += 5.12313123;
+        x *= 0.5398394834;
     }
+    return x;
 }
 
 int do_checkpoint(MFILE& mf, int nchars) {
@@ -83,25 +96,36 @@ int do_checkpoint(MFILE& mf, int nchars) {
     fprintf(f, "%d", nchars);
     fclose(f);
 
-    fprintf(stderr, "APP: upper_case checkpointing\n");
-
     retval = mf.flush();
     if (retval) return retval;
     boinc_resolve_filename_s(CHECKPOINT_FILE, resolved_name);
     retval = boinc_rename("temp", resolved_name.c_str());
     if (retval) return retval;
 
-	//use_some_cpu();
-    fprintf(stderr, "APP: upper_case checkpoint done\n");
     return 0;
 }
 
 #ifdef APP_GRAPHICS
 void update_shmem() {
     if (!shmem) return;
+
+    // always do this; otherwise a graphics app will immediately
+    // assume we're not alive
+    shmem->update_time = dtime();
+
+    // Check whether a graphics app is running,
+    // and don't bother updating shmem if so.
+    // This doesn't matter here,
+    // but may be worth doing if updating shmem is expensive.
+    //
+    if (shmem->countdown > 0) {
+        // the graphics app sets this to 5 every time it renders a frame
+        shmem->countdown--;
+    } else {
+        return;
+    }
     shmem->fraction_done = boinc_get_fraction_done();
     shmem->cpu_time = boinc_worker_thread_cpu_time();;
-    shmem->update_time = dtime();
     boinc_get_status(&shmem->status);
 }
 #endif
@@ -125,7 +149,12 @@ int main(int argc, char **argv) {
     }
 
     retval = boinc_init();
-    if (retval) exit(retval);
+    if (retval) {
+        fprintf(stderr, "%s boinc_init returned %d\n",
+            boinc_msg_prefix(), retval
+        );
+        exit(retval);
+    }
 
     // open the input file (resolve logical name first)
     //
@@ -133,7 +162,8 @@ int main(int argc, char **argv) {
     infile = boinc_fopen(input_path, "r");
     if (!infile) {
         fprintf(stderr,
-            "Couldn't find input file, resolved name %s.\n", input_path
+            "%s Couldn't find input file, resolved name %s.\n",
+            boinc_msg_prefix(), input_path
         );
         exit(-1);
     }
@@ -156,13 +186,17 @@ int main(int argc, char **argv) {
     if (state && n==1) {
         fseek(infile, nchars, SEEK_SET);
         boinc_truncate(output_path, nchars);
-        retval = out.open(output_path, "a");
+        retval = out.open(output_path, "ab");
     } else {
-        retval = out.open(output_path, "w");
+        retval = out.open(output_path, "wb");
     }
     if (retval) {
-        fprintf(stderr, "APP: upper_case output open failed:\n");
-        fprintf(stderr, "resolved name %s, retval %d\n", output_path, retval);
+        fprintf(stderr, "%s APP: upper_case output open failed:\n",
+            boinc_msg_prefix()
+        );
+        fprintf(stderr, "%s resolved name %s, retval %d\n",
+            boinc_msg_prefix(), output_path, retval
+        );
         perror("open");
         exit(1);
     }
@@ -171,12 +205,18 @@ int main(int argc, char **argv) {
     // create shared mem segment for graphics, and arrange to update it
     //
     shmem = (UC_SHMEM*)boinc_graphics_make_shmem("uppercase", sizeof(UC_SHMEM));
+    if (!shmem) {
+        fprintf(stderr, "%s failed to create shared mem segment\n",
+            boinc_msg_prefix()
+        );
+    }
+    update_shmem();
     boinc_register_timer_callback(update_shmem);
 #endif
 
     // main loop - read characters, convert to UC, write
     //
-    for (i=0; ; i++) {
+    for (int i=0; ; i++) {
         c = fgetc(infile);
 
         if (c == EOF) break;
@@ -195,14 +235,16 @@ int main(int argc, char **argv) {
             boinc_crash();
         }
         if (early_sleep && i>30) {
-			g_sleep = true;
-			while (1) boinc_sleep(1);
-		}
+            g_sleep = true;
+            while (1) boinc_sleep(1);
+        }
 
         if (boinc_time_to_checkpoint()) {
             retval = do_checkpoint(out, nchars);
             if (retval) {
-                fprintf(stderr, "APP: upper_case checkpoint failed %d\n", retval);
+                fprintf(stderr, "%s APP: upper_case checkpoint failed %d\n",
+                    boinc_msg_prefix(), retval
+                );
                 exit(retval);
             }
             boinc_checkpoint_completed();
@@ -215,7 +257,9 @@ int main(int argc, char **argv) {
 
     retval = out.flush();
     if (retval) {
-        fprintf(stderr, "APP: upper_case flush failed %d\n", retval);
+        fprintf(stderr, "%s APP: upper_case flush failed %d\n",
+            boinc_msg_prefix(), retval
+        );
         exit(1);
     }
 
@@ -223,22 +267,23 @@ int main(int argc, char **argv) {
     //
     if (cpu_time) {
         double start = dtime();
-        while (1) {
+        for (int i=0; ; i++) {
             double e = dtime()-start;
             if (e > cpu_time) break;
             fd = .5 + .5*(e/cpu_time);
             boinc_fraction_done(fd);
 
-			if (boinc_time_to_checkpoint()) {
-				retval = do_checkpoint(out, nchars);
-				if (retval) {
-					fprintf(stderr, "APP: upper_case checkpoint failed %d\n", retval);
-					exit(1);
-				}
-				boinc_checkpoint_completed();
-			}
-
-            use_some_cpu();
+            if (boinc_time_to_checkpoint()) {
+                retval = do_checkpoint(out, nchars);
+                if (retval) {
+                    fprintf(stderr, "%s APP: upper_case checkpoint failed %d\n",
+                        boinc_msg_prefix(), retval
+                    );
+                    exit(1);
+                }
+                boinc_checkpoint_completed();
+            }
+            comp_result = do_a_giga_flop(i);
         }
     }
     boinc_fraction_done(1);
