@@ -86,6 +86,10 @@ page_head(tra("Post to thread"),'','','', $bbcode_js);
 
 show_forum_header($logged_in_user);
 
+if ($warning) {
+    echo "<span class=error>$warning</span><p>";
+}
+
 switch ($forum->parent_type) {
 case 0:
     $category = BoincCategory::lookup_id($forum->category);

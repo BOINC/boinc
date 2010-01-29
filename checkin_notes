@@ -801,3 +801,9 @@ David  29 Jan 2010
     client/
         work_fetch.cpp
         makefile_sim
+
+David  29 Jan 2010
+    - user web: if Akismet rejects thread reply, show warning
+
+    html/user/
+        forum_reply.php
