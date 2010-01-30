@@ -388,8 +388,8 @@ bool CAdvancedFrame::CreateMenu() {
     if (!is_acct_mgr_detected) {
         menuTools->Append(
             ID_WIZARDATTACH, 
-            _("Attach to &project or account manager..."),
-            _("Attach to a project or account manager to begin processing work")
+            _("&Attach to project or account manager..."),
+            _("Attach this computer to a project or account manager")
         );
     } else {
         strMenuName.Printf(
@@ -405,21 +405,31 @@ bool CAdvancedFrame::CreateMenu() {
             strMenuName,
             strMenuDescription
         );
-        strMenuName.Printf(
-            _("&Stop using %s..."), 
-            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
-        );
         menuTools->Append(
             ID_WIZARDATTACH, 
-            _("Attach to &project..."),
-            _("Attach to a project to begin processing work")
+            _("&Attach to project..."),
+            _("Attach to a project")
+        );
+        strMenuName.Printf(
+            _("S&top using %s..."), 
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuTools->Append(
             ID_WIZARDDETACH, 
             strMenuName,
-            _("Remove client from account manager control.")
+            _("Remove this computer from account manager control.")
         );
     }
+    menuTools->Append(
+        ID_OPTIONS, 
+        _("Display and network &options..."),
+        _("Configure GUI options and proxy settings")
+    );
+    menuTools->Append(
+		ID_PREFERENCES, 
+        _("Computing &preferences..."),
+        _("Configure computing preferences")
+    );
 
     // Activity menu
     wxMenu *menuActivity = new wxMenu;
@@ -432,7 +442,7 @@ bool CAdvancedFrame::CreateMenu() {
     menuActivity->AppendRadioItem(
         ID_ADVACTIVITYRUNBASEDONPREPERENCES,
         _("Run based on &preferences"),
-        _("Allow work according to your preferences")
+        _("Allow work according to preferences")
     );
     menuActivity->AppendRadioItem(
         ID_ADVACTIVITYSUSPEND,
@@ -465,8 +475,8 @@ bool CAdvancedFrame::CreateMenu() {
         );
         menuActivity->AppendRadioItem(
             ID_ADVACTIVITYGPUBASEDONPREPERENCES,
-            _("Use GPU based on &preferences"),
-            _("Allow GPU work according to your preferences")
+            _("Use GPU based on preferences"),
+            _("Allow GPU work according to preferences")
         );
         menuActivity->AppendRadioItem(
             ID_ADVACTIVITYGPUSUSPEND,
@@ -495,32 +505,23 @@ bool CAdvancedFrame::CreateMenu() {
 
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKRUNALWAYS,
-        _("&Network activity always available"),
+        _("Network activity always available"),
         _("Allow network activity regardless of preferences")
     );
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKRUNBASEDONPREPERENCES,
-        _("Network activity based on &preferences"),
-        _("Allow network activity according to your preferences")
+        _("Network activity based on preferences"),
+        _("Allow network activity according to preferences")
     );
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKSUSPEND,
-        _("&Network activity suspended"),
+        _("Network activity suspended"),
         _("Stop BOINC network activity")
     );
 
     // Advanced menu
+
     wxMenu *menuAdvanced = new wxMenu;
-    menuAdvanced->Append(
-        ID_OPTIONS, 
-        _("&Options..."),
-        _("Configure GUI options and proxy settings")
-    );
-    menuAdvanced->Append(
-		ID_PREFERENCES, 
-        _("&Preferences..."),
-        _("Configure local preferences")
-    );
 
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
@@ -536,7 +537,7 @@ bool CAdvancedFrame::CreateMenu() {
     menuAdvanced->Append(
         ID_SHUTDOWNCORECLIENT, 
         _("Shut down connected client..."),
-        _("Shut down the currently connected core client")
+        _("Shut down the currently connected client")
     );
     menuAdvanced->Append(
         ID_RUNBENCHMARKS, 
@@ -545,13 +546,13 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuAdvanced->Append(
         ID_RETRYCOMMUNICATIONS, 
-        _("Do network &communication"),
-        _("Do all pending network communication.")
+        _("Do network communication"),
+        _("Do all pending network communication")
     );
     menuAdvanced->Append(
         ID_READCONFIG, 
         _("Read config file"),
-        _("Read configuration info from cc_config.xml.")
+        _("Read configuration info from cc_config.xml")
     );
     menuAdvanced->Append(
         ID_READPREFERENCES, 
@@ -561,7 +562,7 @@ bool CAdvancedFrame::CreateMenu() {
     menuAdvanced->Append(
         ID_EVENTLOG, 
         _("Event Log..."),
-        _("Display diagnostic messages from the client.")
+        _("Display diagnostic messages.")
     );
 
 

@@ -807,3 +807,11 @@ David  29 Jan 2010
 
     html/user/
         forum_reply.php
+
+David  30 Jan 2010
+	- manager: move Preferences and Options to Task menu.
+		Give them more descriptive names.
+		Clean up mnemonics
+
+	clientgui/
+		AdvancedFrame.cpp
