@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-26 20:00 PST\n"
-"PO-Revision-Date: 2010-01-21 10:32-0700\n"
+"PO-Revision-Date: 2010-01-31 05:10-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -1574,7 +1574,6 @@ msgid "Language selection"
 msgstr "Taal selectie"
 
 #: ../user/language_select.php:68
-#, fuzzy
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
