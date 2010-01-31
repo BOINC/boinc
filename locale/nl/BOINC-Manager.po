@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-01-28 12:27-0700\n"
+"PO-Revision-Date: 2010-01-31 04:56-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -2327,19 +2327,19 @@ msgstr "Klik"
 
 #: clientgui/ProjectListCtrl.cpp:506
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "Multicore CPU Ondersteund"
 
 #: clientgui/ProjectListCtrl.cpp:508
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "NVIDIA GPU Ondersteund"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "ATI GPU Ondersteund"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Project Website"
-msgstr ""
+msgstr "Project Website"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 msgid "Communicating with project."
@@ -3005,11 +3005,11 @@ msgstr "Bekijk het laatste BOINC nieuws"
 
 #: clientgui/ViewNotices.cpp:105
 msgid "Notices"
-msgstr ""
+msgstr "Berichten"
 
 #: clientgui/ViewNotices.cpp:155
 msgid "Retrieving notices..."
-msgstr ""
+msgstr "Berichten binnenhalen..."
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
@@ -3524,7 +3524,7 @@ msgstr " (niet CPU intensief)"
 
 #: clientgui/ViewWork.cpp:1207
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Afgebroken: niet gestart voor deadline"
 
 #: clientgui/WelcomePage.cpp:254
 msgid "Attach to project or account manager"
