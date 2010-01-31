@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-01-31 05:10-0700\n"
+"PO-Revision-Date: 2010-01-31 05:31-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -1061,7 +1061,7 @@ msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2010 University of California at Berkeley.\n"
+"(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 
 #: clientgui/DlgAbout.cpp:179
@@ -3638,7 +3638,7 @@ msgstr "Diagram besturing"
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
 "voor de toegankelijkheid optie; kies geavanceerd in het weergave menu of "
-"gebruik Ctrl+Shft+A"
+"gebruik Command+Shift+A"
 
 #: clientgui/mac/MacAccessiblity.cpp:250
 msgid "This panel contains graphs showing user totals for projects"
@@ -3664,7 +3664,7 @@ msgstr " is leeg"
 #: clientgui/mac/MacAccessiblity.cpp:600
 #, c-format
 msgid "%d of %d; "
-msgstr "%d van %d "
+msgstr "%d van %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
@@ -3699,7 +3699,7 @@ msgstr "rij %d "
 #: clientgui/mac/MacAccessiblity.cpp:629
 #, c-format
 msgid "of %d; "
-msgstr "van %d "
+msgstr "van %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
@@ -3713,7 +3713,7 @@ msgstr "lijst van projecten of account managers"
 #: clientgui/mac/MacAccessiblity.cpp:1208
 #, c-format
 msgid "row %d of %d; "
-msgstr "rij %d van %d "
+msgstr "rij %d van %d; "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
