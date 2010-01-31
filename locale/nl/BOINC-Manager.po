@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-01-31 05:45-0700\n"
+"PO-Revision-Date: 2010-01-31 05:57-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -184,7 +184,7 @@ msgstr "Even geduld..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr "Er is een server fout opgetreden.\n"
+msgstr "Er is een fout op de server opgetreden.\n"
 
 #: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
@@ -271,11 +271,11 @@ msgstr "Schakel over naar de eenvoudige BOINC weergave."
 
 #: clientgui/AdvancedFrame.cpp:392
 msgid "Attach to &project or account manager..."
-msgstr "&Project of account manager toevoegen..."
+msgstr "&Project of accountmanager toevoegen..."
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Attach to a project or account manager to begin processing work"
-msgstr "Een project of account manager toevoegen om werk binnen te kunnen halen"
+msgstr "Een project of accountmanager toevoegen om werk binnen te kunnen halen"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -298,11 +298,11 @@ msgstr "Voeg een project toe om werk binnen te halen en te verwerken"
 #: clientgui/AdvancedFrame.cpp:417
 #, c-format
 msgid "&Stop using %s..."
-msgstr "&Stop gebruik van%s"
+msgstr "&Stop gebruik van %s..."
 
 #: clientgui/AdvancedFrame.cpp:423
 msgid "Remove client from account manager control."
-msgstr "Stopt het beheer, van een project, door de account manager."
+msgstr "Stopt het beheer, van een project, door de accountmanager."
 
 #: clientgui/AdvancedFrame.cpp:432
 msgid "&Run always"
