@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-01-31 05:31-0700\n"
+"PO-Revision-Date: 2010-01-31 05:45-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -93,7 +93,7 @@ msgstr "&Gebruikersnaam:"
 
 #: clientgui/AccountInfoPage.cpp:473
 msgid "&Email address:"
-msgstr "&Email adres:"
+msgstr "&E-mail adres:"
 
 #: clientgui/AccountInfoPage.cpp:481
 #, c-format
@@ -116,7 +116,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:498
 msgid "Account manager website"
-msgstr "Account manager website"
+msgstr "Accountmanager website"
 
 #: clientgui/AccountInfoPage.cpp:530
 msgid "Attach to project"
@@ -124,46 +124,47 @@ msgstr "Project toevoegen"
 
 #: clientgui/AccountInfoPage.cpp:532
 msgid "Update account manager"
-msgstr "Account manager bijwerken"
+msgstr "Accountmanager bijwerken"
 
 #: clientgui/AccountInfoPage.cpp:534
 msgid "Attach to account manager"
-msgstr "Account manager toevoegen"
+msgstr "Accountmanager toevoegen"
 
 #: clientgui/AccountInfoPage.cpp:543
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
-"De minimum lengte van een wachtwoord voor dit project is %d. Kies a.u.b. een "
+"De minimum lengte van het wachtwoord voor dit project is %d. Kies a.u.b. een "
 "ander wachtwoord."
 
 #: clientgui/AccountInfoPage.cpp:549
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
-"De minimum lengte van een wachtwoord voor deze account manager is %d. Kies "
+"De minimum lengte van het wachtwoord voor deze account manager is %d. Kies "
 "a.u.b. een ander wachtwoord."
 
 #: clientgui/AccountInfoPage.cpp:560
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr ""
-"Het wachtwoord en het bevestigings wachtwoord komen niet overeen. Vul ze "
+"Het wachtwoord en het bevestigde wachtwoord komen niet overeen. Vul ze "
 "a.u.b. opnieuw in."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Choose an account manager"
-msgstr "Kies een account manager"
+msgstr "Kies een accountmanager"
 
 #: clientgui/AccountManagerInfoPage.cpp:252
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Klik op de naam om een account manager te kiezen of vul onder het URL in."
+"Klik op de naam om een accountmanager te kiezen of \n"
+" vul hieronder het URL in."
 
 #: clientgui/AccountManagerInfoPage.cpp:255
 msgid "Account Manager &URL:"
-msgstr "Account Manager &URL:"
+msgstr "Accountmanager &URL:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:195
