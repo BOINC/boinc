@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-01-31 05:59-0700\n"
+"PO-Revision-Date: 2010-01-31 06:02-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -141,30 +141,30 @@ msgstr ""
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
-"De minimum lengte van een wachtwoord voor deze account manager is %d. Kies "
+"De minimum lengte van het wachtwoord voor deze accountmanager is %d. Kies "
 "a.u.b. een ander wachtwoord."
 
 #: clientgui/AccountInfoPage.cpp:559
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr ""
-"Het wachtwoord en het bevestigings wachtwoord komen niet overeen. Vul ze "
+"Het wachtwoord en het bevestigde wachtwoord komen niet overeen. Vul ze "
 "a.u.b. opnieuw in."
 
 #: clientgui/AccountManagerInfoPage.cpp:248
 msgid "Choose an account manager"
-msgstr "Kies een account manager"
+msgstr "Kies een accountmanager"
 
 #: clientgui/AccountManagerInfoPage.cpp:251
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Klik op de naam om een account manager te kiezen of \n"
-"vul onder het URL in."
+"Klik op de naam om een accountmanager te kiezen of \n"
+"vul hieronder het URL in."
 
 #: clientgui/AccountManagerInfoPage.cpp:254
 msgid "Account Manager &URL:"
-msgstr "Account Manager &URL:"
+msgstr "Accountmanager &URL:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:195
@@ -271,11 +271,11 @@ msgstr "Schakel over naar de eenvoudige BOINC weergave."
 
 #: clientgui/AdvancedFrame.cpp:391
 msgid "Attach to &project or account manager..."
-msgstr "&Project of account manager toevoegen..."
+msgstr "&Project of accountmanager toevoegen..."
 
 #: clientgui/AdvancedFrame.cpp:392
 msgid "Attach to a project or account manager to begin processing work"
-msgstr "Een project of account manager toevoegen om werk binnen te kunnen halen"
+msgstr "Een project of accountmanager toevoegen om werk binnen te kunnen halen"
 
 #: clientgui/AdvancedFrame.cpp:396
 #, c-format
@@ -302,7 +302,7 @@ msgstr "Voeg een project toe om werk binnen te halen en te verwerken"
 
 #: clientgui/AdvancedFrame.cpp:420
 msgid "Remove client from account manager control."
-msgstr "Stopt het beheer, van een project, door de account manager."
+msgstr "Stopt het beheer, van een project, door de accountmanager."
 
 #: clientgui/AdvancedFrame.cpp:429
 msgid "&Run always"
