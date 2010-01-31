@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-01-31 05:31-0700\n"
+"PO-Revision-Date: 2010-01-31 05:59-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -110,13 +110,13 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
-"Indien je je nog niet hebt geregistreerd bij deze account manager,\n"
+"Indien je je nog niet hebt geregistreerd bij deze accountmanager,\n"
 "doe dit dan voor je verder gaat.  Klik op de link hieronder\n"
 "om dit nu te doen of een vergeten wachtwoord op te halen."
 
 #: clientgui/AccountInfoPage.cpp:497
 msgid "Account manager website"
-msgstr "Account manager website"
+msgstr "Accountmanager website"
 
 #: clientgui/AccountInfoPage.cpp:529
 msgid "Attach to project"
@@ -124,17 +124,17 @@ msgstr "Project toevoegen"
 
 #: clientgui/AccountInfoPage.cpp:531
 msgid "Update account manager"
-msgstr "Account manager bijwerken"
+msgstr "Accountmanager bijwerken"
 
 #: clientgui/AccountInfoPage.cpp:533
 msgid "Attach to account manager"
-msgstr "Account manager toevoegen"
+msgstr "Accountmanager toevoegen"
 
 #: clientgui/AccountInfoPage.cpp:542
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
-"De minimum lengte van een wachtwoord voor dit project is %d. Kies a.u.b. een "
+"De minimum lengte van het wachtwoord voor dit project is %d. Kies a.u.b. een "
 "ander wachtwoord."
 
 #: clientgui/AccountInfoPage.cpp:548
