@@ -412,7 +412,11 @@ void boinc_app_key_release(int, int){}
 void app_graphics_init() {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     txf_load_fonts(".");
+#ifdef _WCG
+    logo.load_image_file("wcg.bmp");
+#else
     logo.load_image_file("boinc_logo_black.jpg");
+#endif
     init_lights();
 }
 
