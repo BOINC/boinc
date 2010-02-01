@@ -815,3 +815,9 @@ David  30 Jan 2010
 
 	clientgui/
 		AdvancedFrame.cpp
+
+David  1 Feb 2010
+    - graphics API: if font missing, find one that isn't (from Kevin)
+
+    api/
+        txf_util.cpp

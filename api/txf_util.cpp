@@ -69,24 +69,30 @@ void txf_render_string(
 	float fRotY,            // optional rotation vector for Y
 	float fRotZ            // optional rotation vector for Z
 ){
+    // if requested font isn't available, find first one that is
+    //
+    while((i < TXF_NUM_FONT) && !txf[i]) i++;
+	if((i >= TXF_NUM_FONT) || !txf[i]) {
+        // bad font index
+        return;
+    }
 	glPushMatrix();
 	glEnable(GL_TEXTURE_2D);
-	if((i < TXF_NUM_FONT) && txf[i]) {
-	    glBindTexture(GL_TEXTURE_2D, txf[i]->texobj);
-	    glTranslated(x, y, z);
-	    glScalef(1/fscale, 1/fscale, 1/fscale);
-
-		if (fRotAngle != 0.0f) { // we want to rotate around Z y default, which keeps our text in 2D plane
-		   glRotatef(fRotAngle, fRotX, fRotY, fRotZ);
-		}
-	    glEnable(GL_ALPHA_TEST);
-	    // use .1 and .5 for a dark and bright background respectively
-	    glAlphaFunc(GL_GEQUAL, alpha_value);
-	    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	    glColor4fv(col);
-	    txfRenderString(txf[i], s, (int)strlen(s));
-	}
+    glBindTexture(GL_TEXTURE_2D, txf[i]->texobj);
+    glTranslated(x, y, z);
+    glScalef(1/fscale, 1/fscale, 1/fscale);
+    if (fRotAngle != 0.0f) {
+        // we want to rotate around Z y default,
+        // which keeps our text in 2D plane
+       glRotatef(fRotAngle, fRotX, fRotY, fRotZ);
+    }
+    glEnable(GL_ALPHA_TEST);
+    // use .1 and .5 for a dark and bright background respectively
+    glAlphaFunc(GL_GEQUAL, alpha_value);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glColor4fv(col);
+    txfRenderString(txf[i], s, (int)strlen(s));
 	glDisable(GL_TEXTURE_2D);	
 	glPopMatrix();
 }
