@@ -45,14 +45,15 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
-				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005_6_10\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;_WCG;$(NOINHERIT)"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdwx.h"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
 				WarningLevel="4"
 				WarnAsError="false"
 				Detect64BitPortabilityProblems="true"
@@ -65,18 +66,18 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;.."
+				PreprocessorDefinitions="NDEBUG;_WCG"
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28.lib wxbase28_net.lib wxbase28_xml.lib wxmsw28_adv.lib wxmsw28_core.lib wxmsw28_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28u.lib wxbase28u_net.lib wxbase28u_xml.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -110,6 +111,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Checking boincmgr.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -139,8 +142,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win"
-				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005_6_10\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;$(NOINHERIT)"
 				StringPooling="false"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -150,9 +153,9 @@
 				EnableEnhancedInstructionSet="0"
 				FloatingPointModel="2"
 				DisableLanguageExtensions="false"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdwx.h"
-				PrecompiledHeaderFile="$(IntDir)/$(TargetName).pch"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
@@ -165,18 +168,18 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_WCG"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;.."
+				PreprocessorDefinitions="_DEBUG"
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28d.lib wxbase28d_net.lib wxbase28d_xml.lib wxmsw28d_adv.lib wxmsw28d_core.lib wxmsw28d_html.lib wxregexd.lib wxexpatd.lib wxpngd.lib wxzlibd.lib boinc_dll.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28ud.lib wxbase28ud_net.lib wxbase28ud_xml.lib wxmsw28ud_adv.lib wxmsw28ud_core.lib wxmsw28ud_html.lib wxregexud.lib wxexpatd.lib wxjpegd.lib wxtiffd.lib wxpngd.lib wxzlibd.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -207,10 +210,111 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Checking boincmgr.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
-			Name="ReleaseSigned|Win32"
+			Name="Samples - Debug|Win32"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005_6_10\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
+				StringPooling="false"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="true"
+				EnableFunctionLevelLinking="false"
+				EnableEnhancedInstructionSet="0"
+				FloatingPointModel="2"
+				DisableLanguageExtensions="false"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdwx.h"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="stdwx.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;.."
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28d.lib wxbase28d_net.lib wxbase28d_xml.lib wxmsw28d_adv.lib wxmsw28d_core.lib wxmsw28d_html.lib wxregexd.lib wxexpatd.lib wxpngd.lib wxjpegd.lib wxtiffd.lib wxzlibd.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
+				LinkIncremental="0"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
+				IgnoreAllDefaultLibraries="true"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
+				SubSystem="2"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				EmbedManifest="true"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Checking boincmgr.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Samples - Release|Win32"
 			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
@@ -236,14 +340,15 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;&quot;$(WXWINPROD)\include&quot;;&quot;$(WXWINPROD)\contrib\include&quot;;&quot;$(WXWINPROD)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
-				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1;_WCG"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005_6_10\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdwx.h"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
 				WarningLevel="4"
 				WarnAsError="false"
 				Detect64BitPortabilityProblems="true"
@@ -256,18 +361,18 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_WCG"
-				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;.."
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase26.lib wxbase26_net.lib wxbase26_xml.lib wxmsw26_adv.lib wxmsw26_core.lib wxmsw26_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28.lib wxbase28_net.lib wxbase28_xml.lib wxmsw28_adv.lib wxmsw28_core.lib wxmsw28_html.lib wxregex.lib wxexpat.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWINPROD)\lib\vc_lib&quot;;&quot;$(WXWINPROD)\contrib\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -301,7 +406,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
+				Description="Checking boincmgr.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -332,14 +438,16 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;&quot;$(WXWINX64)\contrib\include&quot;;&quot;$(WXWINX64)\include&quot;;&quot;$(WXWINX64)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
-				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005_6_10\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;$(NOINHERIT)"
 				StringPooling="true"
+				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdwx.h"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
 				WarningLevel="4"
 				WarnAsError="false"
 				Detect64BitPortabilityProblems="true"
@@ -353,17 +461,17 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28.lib wxbase28_net.lib wxbase28_xml.lib wxmsw28_adv.lib wxmsw28_core.lib wxmsw28_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28u.lib wxbase28u_net.lib wxbase28u_xml.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxtiff.lib wxjpeg.lib wxzlib.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWINX64)\lib\vc_lib&quot;;&quot;$(WXWINX64)\contrib\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -397,6 +505,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Checking boincmgr.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -427,8 +537,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;&quot;$(WXWINX64)\contrib\include&quot;;&quot;$(WXWINX64)\include&quot;;&quot;$(WXWINX64)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win"
-				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005_6_10\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;$(NOINHERIT)"
 				StringPooling="false"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -438,9 +548,9 @@
 				EnableEnhancedInstructionSet="0"
 				FloatingPointModel="2"
 				DisableLanguageExtensions="false"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdwx.h"
-				PrecompiledHeaderFile="$(IntDir)/$(TargetName).pch"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
@@ -454,17 +564,17 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28d.lib wxbase28d_net.lib wxbase28d_xml.lib wxmsw28d_adv.lib wxmsw28d_core.lib wxmsw28d_html.lib wxregexd.lib wxexpatd.lib wxpngd.lib wxzlibd.lib boinc_dll.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28ud.lib wxbase28ud_net.lib wxbase28ud_xml.lib wxmsw28ud_adv.lib wxmsw28ud_core.lib wxmsw28ud_html.lib wxregexud.lib wxexpatd.lib wxpngd.lib wxtiffd.lib wxjpegd.lib wxzlibd.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWINX64)\lib\vc_lib&quot;;&quot;$(WXWINX64)\contrib\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -495,10 +605,112 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Checking boincmgr.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
-			Name="ReleaseSigned|x64"
+			Name="Samples - Debug|x64"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="0"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005_6_10\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
+				StringPooling="false"
+				MinimalRebuild="false"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="true"
+				EnableFunctionLevelLinking="false"
+				EnableEnhancedInstructionSet="0"
+				FloatingPointModel="2"
+				DisableLanguageExtensions="false"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdwx.h"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
+				WarningLevel="4"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="stdwx.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;.."
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28d.lib wxbase28d_net.lib wxbase28d_xml.lib wxmsw28d_adv.lib wxmsw28d_core.lib wxmsw28d_html.lib wxregexd.lib wxexpatd.lib wxpngd.lib wxjpegd.lib wxtiffd.lib wxzlibd.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
+				LinkIncremental="0"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
+				IgnoreAllDefaultLibraries="true"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
+				SubSystem="2"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				EmbedManifest="true"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Checking boincmgr.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Samples - Release|x64"
 			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
@@ -525,14 +737,15 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;&quot;$(WXWINPRODX64)\contrib\include&quot;;&quot;$(WXWINPRODX64)\include&quot;;&quot;$(WXWINPRODX64)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005_6_10\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdwx.h"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
 				WarningLevel="4"
 				WarnAsError="false"
 				Detect64BitPortabilityProblems="true"
@@ -546,17 +759,17 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_10\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase26.lib wxbase26_net.lib wxbase26_xml.lib wxmsw26_adv.lib wxmsw26_core.lib wxmsw26_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28.lib wxbase28_net.lib wxbase28_xml.lib wxmsw28_adv.lib wxmsw28_core.lib wxmsw28_html.lib wxregex.lib wxexpat.lib wxpng.lib wxtiff.lib wxjpeg.lib wxzlib.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWINPRODX64)\lib\vc_lib&quot;;&quot;$(WXWINPRODX64)\contrib\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_10\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -590,7 +803,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
+				Description="Checking boincmgr.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -602,6 +816,10 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;xrc"
 			UniqueIdentifier="{08DB1F42-8D4B-491a-870C-2A991D5ED0DB}"
 			>
+			<File
+				RelativePath="..\clientgui\res\atiicon.xpm"
+				>
+			</File>
 			<File
 				RelativePath="..\clientgui\res\boinc.xpm"
 				>
@@ -625,22 +843,6 @@
 			<File
 				RelativePath="..\clientgui\BOINCGUIApp.rc"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;.."
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;.."
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\clientgui\res\boincsnooze.xpm"
@@ -655,14 +857,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\res\gridrepublic.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\gridrepublic2.ico"
-				>
-			</File>
-			<File
 				RelativePath="..\clientgui\res\gridrepublicamwizard.xpm"
 				>
 			</File>
@@ -671,27 +865,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientgui\res\multicore.xpm"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\res\nvidiaicon.xpm"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\res\proj.xpm"
 				>
 			</File>
 			<File
 				RelativePath="..\clientgui\res\result.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\seed16.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\seed32.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\seedamwizard.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\seedapwizard.xpm"
 				>
 			</File>
 			<File
@@ -1039,80 +1225,16 @@
 			Name="libboinc"
 			>
 			<File
-				RelativePath="..\lib\app_ipc.C"
+				RelativePath="..\lib\app_ipc.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\app_ipc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\base64.C"
+				RelativePath="..\lib\base64.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\base64.h"
@@ -1123,160 +1245,36 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics.C"
+				RelativePath="..\lib\coproc.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\diagnostics.cpp"
+				>
 			</File>
 			<File
 				RelativePath="..\lib\diagnostics.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics_win.C"
+				RelativePath="..\lib\diagnostics_win.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\error_numbers.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\filesys.C"
+				RelativePath="..\lib\filesys.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\filesys.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\hostinfo.C"
+				RelativePath="..\lib\hostinfo.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\hostinfo.h"
@@ -1294,23 +1292,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1323,336 +1305,64 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\md5_file.C"
+				RelativePath="..\lib\md5_file.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\md5_file.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\mfile.C"
+				RelativePath="..\lib\mfile.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\mfile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\miofile.C"
+				RelativePath="..\lib\miofile.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\miofile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\network.C"
+				RelativePath="..\lib\network.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\network.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\parse.C"
+				RelativePath="..\lib\parse.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\parse.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\prefs.C"
+				RelativePath="..\lib\prefs.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\prefs.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\proc_control.C"
+				RelativePath="..\lib\proc_control.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\proc_control.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\proxy_info.C"
+				RelativePath="..\lib\proxy_info.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\proxy_info.h"
@@ -1675,120 +1385,32 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\str_util.C"
+				RelativePath="..\lib\str_util.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\str_util.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\util.C"
+				RelativePath="..\lib\url.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\url.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\util.cpp"
+				>
 			</File>
 			<File
 				RelativePath="..\lib\util.h"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\win_util.C"
+				RelativePath="..\lib\win_util.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\win_util.h"
@@ -1804,14 +1426,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\AccountInfoPage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\AccountKeyPage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\AccountKeyPage.h"
 				>
 			</File>
 			<File
@@ -1836,14 +1450,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\AccountManagerPropertiesPage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\AlreadyAttachedPage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\AlreadyAttachedPage.h"
 				>
 			</File>
 			<File
@@ -1935,6 +1541,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientgui\TermsOfUsePage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\TermsOfUsePage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\UnavailablePage.cpp"
 				>
 			</File>
@@ -1951,14 +1565,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\WizardAccountManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\WizardAccountManager.h"
-				>
-			</File>
-			<File
 				RelativePath="..\clientgui\WizardAttachProject.cpp"
 				>
 			</File>
@@ -1968,6 +1574,18 @@
 			</File>
 			<Filter
 				Name="Support"
+				>
+				<File
+					RelativePath="..\clientgui\ProjectListCtrl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\ProjectListCtrl.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Infrastructure"
 				>
 				<File
 					RelativePath="..\clientgui\BOINCBaseWizard.cpp"
@@ -1981,18 +1599,6 @@
 					RelativePath="..\clientgui\BOINCWizards.h"
 					>
 				</File>
-				<File
-					RelativePath="..\clientgui\ProjectListCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ProjectListCtrl.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Infrastructure"
-				>
 				<File
 					RelativePath="..\clientgui\wizardex.cpp"
 					>
@@ -2031,40 +1637,8 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\browser.C"
+				RelativePath="..\clientgui\browser.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\clientgui\browser.h"
@@ -2114,6 +1688,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\clientgui\common\wxFlatNotebookImages.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\common\wxFNBDropTarget.h"
 					>
 				</File>
@@ -2150,6 +1728,14 @@
 				Name="Dialogs"
 				>
 				<File
+					RelativePath="..\clientgui\DlgExitMessage.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgExitMessage.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\DlgGenericMessage.cpp"
 					>
 				</File>
@@ -2173,14 +1759,6 @@
 			<Filter
 				Name="Views"
 				>
-				<File
-					RelativePath="..\clientgui\BOINCGridCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\BOINCGridCtrl.h"
-					>
-				</File>
 				<File
 					RelativePath="..\clientgui\BOINCListCtrl.cpp"
 					>
@@ -2206,27 +1784,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewMessagesGrid.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewMessagesGrid.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\ViewProjects.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\clientgui\ViewProjects.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewProjectsGrid.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewProjectsGrid.h"
 					>
 				</File>
 				<File
@@ -2254,27 +1816,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewTransfersGrid.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewTransfersGrid.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\ViewWork.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\clientgui\ViewWork.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewWorkGrid.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewWorkGrid.h"
 					>
 				</File>
 			</Filter>
@@ -2311,6 +1857,14 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\DlgAdvPreferencesBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgItemProperties.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgItemProperties.h"
 					>
 				</File>
 				<File
@@ -2378,118 +1932,24 @@
 				Name="Support"
 				>
 				<File
-					RelativePath="..\lib\gui_rpc_client.C"
+					RelativePath="..\clientgui\AsyncRPC.cpp"
 					>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							CompileAs="2"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"
-							BrowseInformation="1"
-							CompileAs="2"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseSigned|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							CompileAs="2"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							CompileAs="2"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"
-							BrowseInformation="1"
-							CompileAs="2"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseSigned|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							CompileAs="2"
-						/>
-					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\clientgui\AsyncRPC.h"
+					>
+				</File>
+				<File
+					RelativePath="..\lib\gui_rpc_client.cpp"
+					>
 				</File>
 				<File
 					RelativePath="..\lib\gui_rpc_client.h"
 					>
 				</File>
 				<File
-					RelativePath="..\lib\gui_rpc_client_ops.C"
+					RelativePath="..\lib\gui_rpc_client_ops.cpp"
 					>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							CompileAs="2"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseSigned|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							CompileAs="2"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							CompileAs="2"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="ReleaseSigned|x64"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							CompileAs="2"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
@@ -2533,7 +1993,15 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="ReleaseSigned|Win32"
+				Name="Samples - Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Samples - Release|Win32"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -2557,7 +2025,31 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="ReleaseSigned|x64"
+				Name="Samples - Debug|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Samples - Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Unicode - Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Unicode - Debug|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
