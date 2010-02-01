@@ -154,7 +154,7 @@
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE;_GRIDREPUBLIC"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_DLL;_CONSOLE;_GRIDREPUBLIC"
 				StringPooling="false"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -182,7 +182,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib wsock32.lib MSVCRT.LIB MSVCPRT.LIB"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
