@@ -15,24 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Example graphics application, paired with uc2.C
-// This demonstrates:
-// - using shared memory to communicate with the worker app
-// - reading XML preferences by which users can customize graphics
-//   (in this case, select colors)
-// - handle mouse input (in this case, to zoom and rotate)
-// - draw text and 3D objects using OpenGL
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include <math.h>
-#endif
 #include <string>
 #include <vector>
-#ifdef __APPLE__
-#include "boinc_api.h"
-#include <sys/socket.h>
 #endif
 
 #include "diagnostics.h"
@@ -62,72 +50,6 @@ double next_connect_time = 0.0;
 
 CC_STATE cc_state;
 CC_STATUS cc_status;
-
-#if 0
-struct APP_SLIDES {
-    string name;
-    int index;
-    double switch_time;
-    vector<TEXTURE_DESC> slides;
-    APP_SLIDES(string n): name(n), index(0), switch_time(0) {}
-};
-
-struct PROJECT_IMAGES {
-    string url;
-    TEXTURE_DESC icon;
-    vector<APP_SLIDES> app_slides;
-};
-
-vector<PROJECT_IMAGES> project_images;
-void icon_path(PROJECT* p, char* buf) {
-    char dir[256];
-    url_to_project_dir((char*)p->master_url.c_str(), dir);
-    sprintf(buf, "%s/stat_icon", dir);
-}
-
-void slideshow(PROJECT* p) {
-    char dir[256], buf[256];
-    int i;
-
-    url_to_project_dir((char*)p->master_url.c_str(), dir);
-    for (i=0; i<99; i++) {
-        sprintf(buf, "%s/slideshow_%02d", dir, i);
-    }
-}
-
-PROJECT_IMAGES* get_project_images(PROJECT* p) {
-    unsigned int i;
-    char dir[256], path[256], filename[256];
-
-    for (i=0; i<project_images.size(); i++) {
-        PROJECT_IMAGES& pi = project_images[i];
-        if (pi.url == p->master_url) return &pi;
-    }
-    PROJECT_IMAGES pim;
-    pim.url = p->master_url;
-    url_to_project_dir((char*)p->master_url.c_str(), dir);
-    sprintf(path, "%s/stat_icon", dir);
-    boinc_resolve_filename(path, filename, 256);
-    pim.icon.load_image_file(filename);
-    for (i=0; i<cc_state.apps.size(); i++) {
-        APP& app = *cc_state.apps[i];
-        if (app.project != p) continue;
-        APP_SLIDES as(app.name);
-        for (int j=0; j<99; j++) {
-            sprintf(path, "%s/slideshow_%s_%02d", dir, app.name.c_str(), j);
-            boinc_resolve_filename(path, filename, 256);
-            TEXTURE_DESC td;
-            int retval = td.load_image_file(filename);
-            if (retval) break;
-            as.slides.push_back(td);
-        }
-        pim.app_slides.push_back(as);
-    }
-    project_images.push_back(pim);
-    return &(project_images.back());
-}
-
-#endif
 
 // set up lighting model
 //
@@ -171,23 +93,6 @@ void show_result(RESULT* r, float x, float& y, float alpha) {
     y -= .03;
 }
 
-#if 0
-void show_coords() {
-    int i;
-    char buf[256];
-    for (i=-100; i< 101; i+=5) {
-        sprintf(buf, "%d", i);
-        float x = (float)i/100;
-        txf_render_string(.1, x, 0, 0, 1000., white, 0, buf);
-    }
-    for (i=-100; i< 101; i+=5) {
-        sprintf(buf, "%d", i);
-        float y = (float)i/100;
-        txf_render_string(.1, 0, y, 0, 1000., white, 0, buf);
-    }
-}
-#endif
-
 void show_project(unsigned int index, float alpha) {
     float x=.2, y=.6;
     char buf[1024];
@@ -216,14 +121,26 @@ void show_project(unsigned int index, float alpha) {
 
 void show_disconnected() {
     float x=.3, y=.3;
+#ifdef _GRIDREPUBLIC
+    txf_render_string(.1, x, y, 0, 800., white, 0, "GridRepublic is not running.");
+#else
     txf_render_string(.1, x, y, 0, 800., white, 0, "BOINC is not running.");
+#endif
 }
 
 void show_no_projects() {
     float x=.2, y=.3;
+#ifdef _GRIDREPUBLIC
+    txf_render_string(.1, x, y, 0, 800., white, 0, "GridRepublic is not attached to any projects.");
+#else
     txf_render_string(.1, x, y, 0, 800., white, 0, "BOINC is not attached to any projects.");
+#endif
     y = .25;
+#ifdef _GRIDREPUBLIC
+    txf_render_string(.1, x, y, 0, 800., white, 0, "Attach to projects using the GridRepublic Desktop.");
+#else
     txf_render_string(.1, x, y, 0, 800., white, 0, "Attach to projects using the BOINC Manager.");
+#endif
 }
 
 void show_jobs(unsigned int index, double alpha) {
@@ -268,7 +185,11 @@ void show_jobs(unsigned int index, double alpha) {
         case SUSPEND_REASON_NO_RECENT_INPUT:
             p = "Computing suspended while computer not in use"; break;
         case SUSPEND_REASON_INITIAL_DELAY:
+#ifdef _GRIDREPUBLIC
+            p = "Computing suspended while GridRepublic is starting up"; break;
+#else
             p = "Computing suspended while BOINC is starting up"; break;
+#endif
         case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
             p = "Computing suspended while exclusive application running"; break;
         }
@@ -427,7 +348,11 @@ void boinc_app_key_release(int, int){}
 void app_graphics_init() {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     txf_load_fonts(".");
+#ifdef _GRIDREPUBLIC
+    logo.load_image_file("gridrepublic_ss_logo.jpg");
+#else
     logo.load_image_file("boinc_logo_black.jpg");
+#endif
     init_lights();
 }
 
