@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-20 12:49 PST\n"
-"PO-Revision-Date: 2009-12-23 07:34-0700\n"
-"Last-Translator: Bassi Paolo <baxpaolo@alice.it>\n"
+"PO-Revision-Date: 2010-01-29 00:03+0100\n"
+"Last-Translator: LocutusOfBorg <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -19,13 +19,11 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Italiano"
 
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Italian"
 
 msgid "Search for words in forum messages"
 msgstr "Cerca delle parole nei massaggi del forum"
@@ -47,7 +45,9 @@ msgstr "Messaggi privati"
 msgid "Questions and Answers"
 msgstr "Domande e risposte"
 
-#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
+#: ../inc/user.inc:367
+#: ../user/forum_forum.php:68
+#: ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Indice del forum"
 
@@ -81,7 +81,8 @@ msgstr "Argomento"
 msgid "Posts"
 msgstr "Messaggi"
 
-#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80
 #: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Autore"
@@ -100,15 +101,11 @@ msgid "Mark all threads in all message boards as 'read'."
 msgstr "Segna tutti gli argomenti di tutti i temi come 'letti'."
 
 msgid "Comment"
-msgstr ""
-
-"
+msgstr "Commenta"
 
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
-
-"
+msgstr "Puoi ricevere le news con un %sRSS feed%s"
 
 msgid "Inbox"
 msgstr "Leggi"
@@ -121,12 +118,18 @@ msgstr "Scrivi"
 msgid "Send private message"
 msgstr "Spedisci un messaggio privato"
 
-#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
-#: ../user/forum_edit.php:145 ../user/forum_post.php:62
-#: ../user/forum_post.php:88 ../user/forum_post.php:91
-#: ../user/forum_post.php:129 ../user/forum_reply.php:75
-#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
-#: ../user/forum_reply.php:146 ../user/pm.php:175
+#: ../user/forum_edit.php:99
+#: ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145
+#: ../user/forum_post.php:62
+#: ../user/forum_post.php:88
+#: ../user/forum_post.php:91
+#: ../user/forum_post.php:129
+#: ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100
+#: ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146
+#: ../user/pm.php:175
 msgid "Preview"
 msgstr "Anteprima"
 
@@ -139,9 +142,12 @@ msgstr "User ID o nomi deli utenti, separati da virgole"
 msgid "Subject"
 msgstr "Oggetto"
 
-#: ../user/forum_post.php:118 ../user/forum_reply.php:108
-#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
-#: ../user/pm.php:85 ../user/pm.php:140
+#: ../user/forum_post.php:118
+#: ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
+#: ../user/pm.php:85
+#: ../user/pm.php:140
 msgid "Message"
 msgstr "Messaggio"
 
@@ -160,8 +166,7 @@ msgstr "non letto"
 
 msgid "For email notification, %1edit community prefs%2"
 msgstr ""
-
-"
+"Per ricevere le notifiche via mail, %1edita le preferenze della comunità%2"
 
 msgid "Edit your profile"
 msgstr "Modifica il tuo profilo"
@@ -192,10 +197,15 @@ msgstr ""
 "Trova i team che hanno queste parole chiave nel loro nome o nella loro "
 "descrizione"
 
-#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
-#: ../inc/user.inc:310 ../user/account_finish.php:44
-#: ../user/create_account_form.php:94 ../user/top_users.php:62
-#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../inc/team.inc:360
+#: ../inc/team.inc:447
+#: ../inc/user.inc:204
+#: ../inc/user.inc:310
+#: ../user/account_finish.php:44
+#: ../user/create_account_form.php:94
+#: ../user/top_users.php:62
+#: ../user/user_search.php:102
+#: ../user/user_search.php:119
 #: ../user/user_search.php:158
 msgid "Country"
 msgstr "Nazionalità"
@@ -239,15 +249,24 @@ msgstr "Descrizione"
 msgid "Web site"
 msgstr "Sito web"
 
-#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
-#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
-#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../inc/team.inc:214
+#: ../inc/team.inc:351
+#: ../inc/team.inc:356
+#: ../inc/user.inc:118
+#: ../inc/user.inc:132
+#: ../user/top_users.php:53
+#: ../user/top_users.php:58
+#: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Crediti totali"
 
-#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
-#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
+#: ../inc/team.inc:219
+#: ../inc/team.inc:350
+#: ../inc/team.inc:355
+#: ../inc/user.inc:133
+#: ../user/top_users.php:52
+#: ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Media dei crediti recenti"
 
@@ -310,8 +329,10 @@ msgstr "Membri attivi"
 msgid "Members with credit"
 msgstr "Membri con credito"
 
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
-#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../user/account_finish.php:40
+#: ../user/create_account_form.php:75
+#: ../user/top_users.php:48
+#: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Name"
 msgstr "Nome"
@@ -398,7 +419,9 @@ msgstr "Elaborazioni e crediti"
 msgid "Pending credit"
 msgstr "Crediti non ancora assegnati"
 
-#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../inc/user.inc:237
+#: ../inc/user.inc:318
+#: ../inc/user.inc:394
 #: ../user/view_profile.php:54
 msgid "View"
 msgstr "Visualizza"
@@ -416,11 +439,11 @@ msgid "Cross-project statistics"
 msgstr "Statistiche di tutti i progetti"
 
 msgid "Account"
-msgstr ""
+msgstr "Account"
 
-"
-
-#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/user.inc:363
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Team"
 msgstr "Team"
 
@@ -498,9 +521,7 @@ msgid "Community preferences"
 msgstr "Preferenze per la comunità"
 
 msgid "Preferences for this project"
-msgstr ""
-
-"
+msgstr "Preferenze per questo progetto"
 
 msgid "%1 preferences"
 msgstr "Preferenze per %1"
@@ -548,7 +569,8 @@ msgstr "Fondatore ma non membro di"
 msgid "Find friends"
 msgstr "Trova degli amici"
 
-#: ../inc/user.inc:379 ../inc/user.inc:388
+#: ../inc/user.inc:379
+#: ../inc/user.inc:388
 msgid "Friends"
 msgstr "Amici"
 
@@ -576,54 +598,30 @@ msgstr "Richiesta in corso"
 msgid "Add as friend"
 msgstr "Aggiungi come amico"
 
-# #########################################
-# Language: Italian (Italy)
-# FileID  : $Id$
-# Author  : Janus Kristensen (Translator: Andrea Savioli)
-# Email   : jbk@visualgroup.dk (jhonnyellen@jhonnyellen.it)
-# For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
-# The charset used for the text in this file (please try to use UTF-8 if possible)
-msgid "CHARSET"
-msgstr "UTF-8"
-
-#, fuzzy
 msgid "Email address:"
-msgstr "E-mail"
+msgstr "Indirizzo E-mail:"
 
 msgid "forgot email address?"
-msgstr ""
-
-"
+msgstr "hai dimenticato l'indirizzo mail?"
 
 #, fuzzy
 msgid "Password:"
 msgstr "Password"
 
 msgid "forgot password?"
-msgstr ""
-
-"
+msgstr "hai dimenticato la password?"
 
 msgid "Stay logged in on this computer"
-msgstr ""
-
-"
+msgstr "Rimani loggato su questo computer"
 
 msgid "Log in"
-msgstr ""
-
-"
+msgstr "Entra"
 
 msgid "or %1create an account%2."
-msgstr ""
-
-"
+msgstr "oppure %1crea un account%2."
 
 msgid "Please log in"
-msgstr ""
-
-"
+msgstr "Per favore esegui il log in"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Usa i tag BBCode per formattare il testo"
@@ -862,14 +860,10 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Questo elenco è amministrato centralmente dal %1sito web di BOINC%2."
 
 msgid "Change email address"
-msgstr ""
-
-"
+msgstr "Cambia indirizzo mail"
 
 msgid "Change the email address of your account"
-msgstr ""
-
-"
+msgstr "Cambia gli indirizzi mail del tuo account"
 
 #, fuzzy
 msgid "New email address"
@@ -880,55 +874,38 @@ msgid "Must be a valid address of the form 'name@domain'"
 msgstr "Devi inserire un indirizzo email valido del tipo 'nome@dominio'."
 
 msgid "No password?"
-msgstr ""
-
-"
+msgstr "Non hai la password?"
 
 msgid "Change password"
-msgstr ""
-
-"
+msgstr "Cambia password"
 
 msgid "You can identify yourself using either"
-msgstr ""
-
-"
+msgstr "Puoi identificarti usando"
 
 msgid "your email address and old password"
-msgstr ""
-
-"
+msgstr "il tuo indirizzo mail e la vecchia password"
 
 #, fuzzy
 msgid "your account key"
 msgstr "Chiave di accesso debole"
 
 msgid "Current password"
-msgstr ""
-
-"
+msgstr "Password corrente"
 
 msgid "<b>OR</b>: Account key"
-msgstr ""
-
-"
+msgstr "<b>OPPURE</b>: Chiave account"
 
 msgid "Get account key by email"
-msgstr ""
-
-"
+msgstr "Ottieni una chiave account via email"
 
 msgid "New password"
-msgstr ""
-
-"
+msgstr "Nuova password"
 
 msgid "New password, again"
-msgstr ""
+msgstr "Ripeti nuova password"
 
-"
-
-#: ../user/forum_post.php:110 ../user/forum_post.php:112
+#: ../user/forum_post.php:110
+#: ../user/forum_post.php:112
 msgid "Title"
 msgstr "Titolo"
 
@@ -1070,8 +1047,12 @@ msgstr "%1 non accetta la tua richiesta di amicizia"
 msgid "You can't be friends with yourself"
 msgstr "Non puoi essere amico di te stesso"
 
-#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
-#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
+#: ../user/friend.php:146
+#: ../user/friend.php:204
+#: ../user/friend.php:219
+#: ../user/friend.php:233
+#: ../user/pm.php:232
+#: ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Nessun utente"
 
@@ -1351,69 +1332,50 @@ msgstr ""
 "progetti è sotto la vostra sola responsabilità."
 
 msgid "Language selection"
-msgstr ""
+msgstr "Selezione lingua"
 
-"
-
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Italian"
-
-msgid "LANG_NAME_NATIVE"
-msgstr "Italiano"
-
+#: ../user/language_select.php:68
 msgid ""
 "This web site is available in several languages. The currently selected "
-"language is: %1 (%2)."
+"language is %1."
 msgstr ""
-
-"
+"Questo sito web è disponibile in molte lingue. La lingua correntemente "
+"selezionata è %1."
 
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
-
-"
+"Normalmente la scelta della lingua è determinata dalle impostazioni di "
+"lingua del tuo browser, che è: %1. Puoi cambiare questa impostazione usando:"
 
 msgid "Firefox: Tools/Options/General"
-msgstr ""
-
-"
+msgstr "Firefox: Strumenti/Opzioni/Generale"
 
 msgid "Microsoft IE: Tools/Internet Options/Languages"
-msgstr ""
-
-"
+msgstr "Microsoft IE: Strumenti/Opzioni Internet/Lingue"
 
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
-
-"
-
-msgid "Language symbol"
-msgstr ""
-
-"
+"Oppure puoi selezionare una lingua cliccando su uno dei link.  Questo "
+"manderà al tuo browser un cookie; assicurati che il tuo browser accetti i "
+"cookies dal nostro dominio."
 
 msgid "Language name (click to select)"
-msgstr ""
-
-"
+msgstr "Nome lingua (clicca per selezionare)"
 
 msgid "Use browser language setting"
-msgstr ""
-
-"
+msgstr "Usa impostazioni lingua del browser"
 
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
-
-"
+"Le traduzioni sono fatte da volontari.  Se la tua lingua madre non è qui, "
+"%1puoi tradurla tu%2."
 
 msgid "Your message has been sent."
 msgstr "Il tuo messaggio è stato inviato."
@@ -1572,9 +1534,7 @@ msgid "Missing user ID or host ID"
 msgstr "Manca l'ID dell'utente o l'ID del computer"
 
 msgid "No tasks to display"
-msgstr ""
-
-"
+msgstr "Nessun lavoro da visualizzare"
 
 msgid "User of the day"
 msgstr "Utente del giorno"
@@ -1695,24 +1655,17 @@ msgid "Participant since"
 msgstr "Partecipante dal"
 
 msgid "Joined"
-msgstr ""
-
-"
+msgstr "Entrato"
 
 msgid "Search type"
-msgstr ""
-
-"
+msgstr "Tipo ricerca"
 
 msgid "User name starts with"
-msgstr ""
+msgstr "Il nome utente inizia con"
 
-"
-
+#, fuzzy
 msgid "Decreasing sign-up time"
-msgstr ""
-
-"
+msgstr "Decremento tempo di sign-up"
 
 #, fuzzy
 msgid "Decreasing average credit"
@@ -1723,34 +1676,22 @@ msgid "Decreasing total credit"
 msgstr "Media dei crediti recenti"
 
 msgid "Filters"
-msgstr ""
-
-"
+msgstr "Filtri"
 
 msgid "With profile?"
-msgstr ""
-
-"
+msgstr "Con un profilo?"
 
 msgid "On a team?"
-msgstr ""
-
-"
+msgstr "In un team?"
 
 msgid "search string must be at least 3 characters"
-msgstr ""
-
-"
+msgstr "la stringa deve essere di almeno 3 caratteri"
 
 msgid "User names starting with"
-msgstr ""
-
-"
+msgstr "I nomi utente iniziano con"
 
 msgid "No users match your search criteria."
-msgstr ""
-
-"
+msgstr "Nessun utente corrisponde al criterio di ricerca."
 
 #, fuzzy
 msgid "User search results"
@@ -1805,6 +1746,17 @@ msgstr ""
 "password cambia anche la chiave di accesso debole invalidando quella "
 "precedente."
 
+# #########################################
+# Language: Italian (Italy)
+# FileID  : $Id$
+# Author  : Janus Kristensen (Translator: Andrea Savioli)
+# Email   : jbk@visualgroup.dk (jhonnyellen@jhonnyellen.it)
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+#~ msgid "CHARSET"
+#~ msgstr "UTF-8"
+
 #~ msgid "Resource share and graphics"
 #~ msgstr "Allocazione delle risorse e grafica"
 
@@ -1814,5 +1766,31 @@ msgstr ""
 #~ msgid "Tasks for computer %1"
 #~ msgstr "Elaborazioni per il computer %1"
 
+# #########################################
+# Language: Italian (Italy)
+# FileID  : $Id$
+# Author  : Janus Kristensen (Translator: Andrea Savioli)
+# Email   : jbk@visualgroup.dk (jhonnyellen@jhonnyellen.it)
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 #~ msgid "Provides"
 #~ msgstr "Fornisci"
+
+# #########################################
+# Language: Italian (Italy)
+# FileID  : $Id$
+# Author  : Janus Kristensen (Translator: Andrea Savioli)
+# Email   : jbk@visualgroup.dk (jhonnyellen@jhonnyellen.it)
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+msgid "This web site is available in several languages. The currently selected language is: %1 (%2)."
+msgstr "Questo sito web è disponibile in molte lingue. Il linguaggio corrente è: %1 (%2)."
+
+#, fuzzy
+msgid "Language symbol"
+msgstr "Simboli di lingua"
