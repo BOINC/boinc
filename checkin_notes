@@ -6551,3 +6551,12 @@ Charlie  28 Jan 2010
             SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+Rom    1 Feb 2010
+    - Tag for 6.8.20 release, all platforms
+      boinc_core_release_6_8_20
+
+    /
+        configure.ac
+        version.h
+
