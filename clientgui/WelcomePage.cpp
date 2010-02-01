@@ -244,7 +244,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 #if defined (_WCG)
     // Determine if we are the World Community Grid version of the client
     // and connected to World Community Grid
-    if ( pDoc->state.lookup_project("http://www.worldcommunitygrid.org/") ) {
+	std::string wcgUrl = "http://www.worldcommunitygrid.org/";
+    if ( pDoc->state.lookup_project(wcgUrl) ) {
         is_wcg_client = true;
     }
 #endif
