@@ -313,12 +313,6 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     }
     if (!pbest) return NULL;
 
-    if (log_flags.work_fetch_debug) {
-        msg_printf(pbest, MSG_INFO,
-            "chosen: %s %s", criterion_name(criterion), rsc_name(rsc_type)
-        );
-    }
-
     // decide how much work to request from each resource
     //
     work_fetch.clear_request();
@@ -346,6 +340,14 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
             );
         }
         return 0;
+    }
+
+    if (log_flags.work_fetch_debug) {
+        msg_printf(pbest, MSG_INFO,
+            "chosen: %s %s: %.2f inst, %.2f sec",
+            criterion_name(criterion), rsc_name(rsc_type),
+            req_instances, req_secs
+        );
     }
 
     return pbest;
@@ -821,7 +823,7 @@ PROJECT* WORK_FETCH::choose_project() {
     if (cuda_usable) {
         p = cuda_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
     }
-    if (ati_usable) {
+    if (!p && ati_usable) {
         p = ati_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
     }
     if (!p) {

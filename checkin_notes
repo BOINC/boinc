@@ -434,3 +434,10 @@ David  25 Jan 2010
 
     client/
         app_start.cpp
+
+David  27 Jan 2010
+    - client: fix small bug that could interfere with work fetch
+        on hosts with both NVIDIA and ATI GPU
+
+    client/
+        work_fetch.cpp
