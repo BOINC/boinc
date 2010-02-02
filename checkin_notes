@@ -352,3 +352,16 @@ David  18 Jan 2010
 
     lib/
         app_ipc.cpp,h
+
+David  18 Jan 2010
+	- client: initial checkin for "don't compute if CPU usage above X"
+
+	client/
+		app.cpp,h
+		coproc_detect.cpp
+		cs_prefs.cpp
+	lib/
+		common_defs.h
+		procinfo_win.cpp
+	win_build/
+		libboinc.vcproj

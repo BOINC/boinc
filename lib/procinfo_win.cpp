@@ -163,7 +163,7 @@ void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
 	memset(&pi, 0, sizeof(pi));
 	for (i=0; i<piv.size(); i++) {
 		PROCINFO& p = piv[i];
-		if (!p.is_boinc_app) {
+		if (!p.is_boinc_app && p.id != 0) {     // PID 0 is idle process
 			pi.kernel_time += p.kernel_time;
 			pi.user_time += p.user_time;
 			pi.swap_size += p.swap_size;

@@ -128,6 +128,9 @@ int CLIENT_STATE::check_suspend_processing() {
         if (exclusive_app_running) {
             return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
         }
+        if (non_boinc_cpu_usage > 0.2) {
+            return SUSPEND_REASON_CPU_USAGE;
+        }
     }
 
     if (global_prefs.cpu_usage_limit < 99) {        // round-off?
@@ -175,35 +178,19 @@ int CLIENT_STATE::check_suspend_processing() {
 }
 
 static string reason_string(int reason) {
-    string s_reason;
-    if (reason & SUSPEND_REASON_BATTERIES) {
-        s_reason += " - on batteries";
+    switch (reason) {
+    case SUSPEND_REASON_BATTERIES: return " - on batteries";
+    case SUSPEND_REASON_USER_ACTIVE: return " - user is active";
+    case SUSPEND_REASON_USER_REQ: return " - user request";
+    case SUSPEND_REASON_TIME_OF_DAY: return " - time of day";
+    case SUSPEND_REASON_BENCHMARKS: return " - running CPU benchmarks";
+    case SUSPEND_REASON_DISK_SIZE: return " - out of disk space - change global prefs";
+    case SUSPEND_REASON_NO_RECENT_INPUT: return " - no recent user activity";
+    case SUSPEND_REASON_INITIAL_DELAY: return " - initial delay";
+    case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING: return " - an exclusive app is running";
+    case SUSPEND_REASON_CPU_USAGE: return " - CPU usage is too high";
     }
-    if (reason & SUSPEND_REASON_USER_ACTIVE) {
-        s_reason += " - user is active";
-    }
-    if (reason & SUSPEND_REASON_USER_REQ) {
-        s_reason += " - user request";
-    }
-    if (reason & SUSPEND_REASON_TIME_OF_DAY) {
-        s_reason += " - time of day";
-    }
-    if (reason & SUSPEND_REASON_BENCHMARKS) {
-        s_reason += " - running CPU benchmarks";
-    }
-    if (reason & SUSPEND_REASON_DISK_SIZE) {
-        s_reason += " - out of disk space - change global prefs";
-    }
-    if (reason & SUSPEND_REASON_NO_RECENT_INPUT) {
-        s_reason += " - no recent user activity";
-    }
-    if (reason & SUSPEND_REASON_INITIAL_DELAY) {
-        s_reason += " - initial delay";
-    }
-    if (reason & SUSPEND_REASON_EXCLUSIVE_APP_RUNNING) {
-        s_reason += " - an exclusive app is running";
-    }
-    return s_reason;
+    return "";
 }
 
 void print_suspend_tasks_message(int reason) {
