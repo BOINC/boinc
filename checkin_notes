@@ -835,4 +835,5 @@ Charlie  2 Feb 2010
             gridrepublic_ss_logo.jpg
     mac_installer/
         make_GridRepublic.sh
+        make_ProgThruProc.sh
         release_boinc.sh
