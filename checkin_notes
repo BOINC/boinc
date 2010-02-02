@@ -6574,3 +6574,10 @@ Charlie  2 Feb 2010
             project.pbxproj
     mac_installer/
         make_GridRepublic.sh
+
+Charlie  2 Feb 2010
+    - ss_app: Substitute a higher-resolution background GridRepublic logo.
+    
+    clientscr/
+        res/
+            gridrepublic_ss_logo.jpg
