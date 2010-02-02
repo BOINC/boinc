@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-02-02 09:59-0700\n"
+"PO-Revision-Date: 2010-02-02 10:58-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -444,7 +444,7 @@ msgstr "Preberi nastavitve iz global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:563
 msgid "Event Log..."
-msgstr "Sistemski dnevnik"
+msgstr "Dnevnik dogodkov..."
 
 #: clientgui/AdvancedFrame.cpp:564
 msgid "Display diagnostic messages from the client."
@@ -642,7 +642,7 @@ msgstr "Za&pusti %s"
 #: clientgui/AsyncRPC.cpp:1234
 #, c-format
 msgid "%s - Communication"
-msgstr ""
+msgstr "%s - Komunikacija"
 
 #: clientgui/AsyncRPC.cpp:1250
 msgid "Cancel"
@@ -900,11 +900,13 @@ msgstr "(določeno s strani uporabnika)"
 
 #: clientgui/BOINCTaskBar.cpp:248
 msgid "BOINC Notification"
-msgstr ""
+msgstr "BOINC obvestilo"
 
 #: clientgui/BOINCTaskBar.cpp:249
 msgid "TEST: Fluffy@Home just found out that the Fluffy project has been published in Nature"
 msgstr ""
+"TEST: Fluffy@Home so pravkar ugotovili, da je bil v Nature objavljen članek "
+"o projektu Fluffy"
 
 #: clientgui/BOINCTaskBar.cpp:350
 msgid "Computation is suspended."
@@ -948,11 +950,11 @@ msgstr "Dremež"
 
 #: clientgui/BOINCTaskBar.cpp:617
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Dremež grafičnega procesorja"
 
 #: clientgui/BOINCTaskBar.cpp:624
 msgid "Test Notification"
-msgstr ""
+msgstr "Testno obvestilo"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1064,7 +1066,7 @@ msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 University of California, Berkeley.\n"
+"(C) 2003-2010 University of California, Berkeley.\n"
 "Vse pravice pridržane."
 
 #: clientgui/DlgAbout.cpp:179
@@ -1473,7 +1475,7 @@ msgstr "prikaže spletno stran z nastavitvami"
 #: clientgui/DlgEventLog.cpp:128
 #, c-format
 msgid "%s - Event Log"
-msgstr ""
+msgstr "%s - Dnevnik dogodkov"
 
 #: clientgui/DlgEventLog.cpp:138
 msgid "Project"
@@ -1489,7 +1491,7 @@ msgstr "Sporočilo"
 
 #: clientgui/DlgEventLog.cpp:176
 msgid "Copy All"
-msgstr ""
+msgstr "Kopiraj vse"
 
 #: clientgui/DlgEventLog.cpp:178
 #: clientgui/DlgEventLog.cpp:182
@@ -1498,7 +1500,7 @@ msgstr "Kopiraj vsa sporočila na odložišče."
 
 #: clientgui/DlgEventLog.cpp:187
 msgid "Copy Selected"
-msgstr ""
+msgstr "Kopiraj izbrano"
 
 #: clientgui/DlgEventLog.cpp:190
 #: clientgui/DlgEventLog.cpp:198
@@ -1515,9 +1517,8 @@ msgstr ""
 "da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
 
 #: clientgui/DlgEventLog.cpp:207
-#, fuzzy
 msgid "Close"
-msgstr "&Zapri"
+msgstr "Zapri"
 
 #: clientgui/DlgEventLog.cpp:214
 #: clientgui/DlgEventLog.cpp:217
@@ -1709,7 +1710,7 @@ msgstr "Odložitveni interval prevzemanja dela za procesor"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "Prioriteta razvrščanja NIVIDIA grafičnega procesorja"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"
@@ -1724,9 +1725,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Odložitveni interval prevzemanja dela za NVIDIA grafični procesor"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Prioriteta razvrščanja procesorja"
+msgstr "Prioriteta razvrščanja ATI grafičnega procesorja"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -1808,7 +1808,7 @@ msgstr "Imenik"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "ID procesa"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
@@ -2241,7 +2241,7 @@ msgstr "Izvejte o projektih, ki gostujejo na World Community Grid"
 
 #: clientgui/MainDocument.cpp:539
 msgid "Starting client"
-msgstr ""
+msgstr "Zaganjam odjemalca"
 
 #: clientgui/MainDocument.cpp:1108
 msgid "Retrieving system state; please wait..."
@@ -2330,19 +2330,19 @@ msgstr "Kliknite"
 
 #: clientgui/ProjectListCtrl.cpp:506
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "Podprti večjedrni procesorji"
 
 #: clientgui/ProjectListCtrl.cpp:508
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "Podprti Nvidia grafični procesorji"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "Podprti ATI grafični procesorji"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Project Website"
-msgstr ""
+msgstr "Spletna stran projekta"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 msgid "Communicating with project."
@@ -3009,11 +3009,11 @@ msgstr "Prikaži najnovejše novice o BOINC"
 
 #: clientgui/ViewNotices.cpp:105
 msgid "Notices"
-msgstr ""
+msgstr "Obvestila"
 
 #: clientgui/ViewNotices.cpp:155
 msgid "Retrieving notices..."
-msgstr ""
+msgstr "Prejemam obvestila..."
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
@@ -3528,7 +3528,7 @@ msgstr " (ne-procesorsko-intenzitvno)"
 
 #: clientgui/ViewWork.cpp:1207
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Opuščeno: ni se pričelo do roka"
 
 #: clientgui/WelcomePage.cpp:254
 msgid "Attach to project or account manager"
@@ -3639,10 +3639,13 @@ msgstr "Pie Ctrl"
 #: clientgui/mac/MacAccessiblity.cpp:205
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
+"za podporo pomožnim tehnologijam, prosim, izberite napredno pod menujem "
+"pogled ali pritisnite command shift a"
 
 #: clientgui/mac/MacAccessiblity.cpp:250
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
+"Ta pladenj vsebuje grafe, ki prikazujejo skupne točke uporabnika za projekte"
 
 #: clientgui/mac/MacAccessiblity.cpp:518
 #: clientgui/mac/MacAccessiblity.cpp:640
@@ -3655,17 +3658,16 @@ msgstr "seznam"
 
 #: clientgui/mac/MacAccessiblity.cpp:522
 msgid "events"
-msgstr ""
+msgstr "dogodki"
 
 #: clientgui/mac/MacAccessiblity.cpp:529
 msgid " is empty"
-msgstr ""
+msgstr " je prazno"
 
 #: clientgui/mac/MacAccessiblity.cpp:600
 #, c-format
-#, fuzzy
 msgid "%d of %d; "
-msgstr "%d od %d "
+msgstr "%d od %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
@@ -3685,7 +3687,7 @@ msgstr "stolpec "
 
 #: clientgui/mac/MacAccessiblity.cpp:618
 msgid "list is empty"
-msgstr ""
+msgstr "seznam je prazen"
 
 #: clientgui/mac/MacAccessiblity.cpp:621
 #: clientgui/mac/MacAccessiblity.cpp:1204
@@ -3699,15 +3701,13 @@ msgstr "vrstica %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:629
 #, c-format
-#, fuzzy
 msgid "of %d; "
-msgstr "od %d "
+msgstr "od %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
-#, fuzzy
 msgid "column %d; "
-msgstr "stolpec %d "
+msgstr "stolpec %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1166
 msgid "list of projects or account managers"
@@ -3715,9 +3715,8 @@ msgstr "seznam projektov ali upraviteljev računov"
 
 #: clientgui/mac/MacAccessiblity.cpp:1208
 #, c-format
-#, fuzzy
 msgid "row %d of %d; "
-msgstr "vrstica %d od %d "
+msgstr "vrstica %d od %d; "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
