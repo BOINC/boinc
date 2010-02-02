@@ -282,12 +282,12 @@ bool NOTICES::remove_dups(NOTICE& n, bool keep_old) {
 }
 
 bool NOTICES::append(NOTICE& n, bool keep_old, bool archive) {
+    if (!remove_dups(n, keep_old)) {
+        return false;
+    }
     if (notices.empty()) {
         n.seqno = 1;
     } else {
-        if (!remove_dups(n, keep_old)) {
-            return false;
-        }
         n.seqno = notices.front().seqno + 1;
     }
     if (log_flags.notice_debug) {
