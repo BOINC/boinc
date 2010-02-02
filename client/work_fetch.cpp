@@ -318,11 +318,11 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     work_fetch.clear_request();
     switch (criterion) {
     case FETCH_IF_IDLE_INSTANCE:
-        set_request(pbest);
-        break;
     case FETCH_IF_MAJOR_SHORTFALL:
+        set_request(pbest, true);
+        break;
     case FETCH_IF_PROJECT_STARVED:
-        set_request(pbest);
+        set_request(pbest, false);
         break;
     case FETCH_IF_MINOR_SHORTFALL:
         // in this case, potentially request work for all resources
@@ -356,10 +356,10 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
 // request this project's share of shortfall and instances.
 // don't request anything if project is overworked or backed off.
 //
-void RSC_WORK_FETCH::set_request(PROJECT* p) {
+void RSC_WORK_FETCH::set_request(PROJECT* p, bool allow_overworked) {
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     if (!w.may_have_work) return;
-    if (w.overworked()) return;
+    if (!allow_overworked && w.overworked()) return;
     if (shortfall) {
         if (wacky_dcf(p)) {
             // if project's DCF is too big or small,
@@ -657,12 +657,12 @@ void WORK_FETCH::rr_init() {
 }
 
 void WORK_FETCH::set_all_requests(PROJECT* p) {
-    cpu_work_fetch.set_request(p);
+    cpu_work_fetch.set_request(p, false);
     if (coproc_cuda && gpus_usable) {
-        cuda_work_fetch.set_request(p);
+        cuda_work_fetch.set_request(p, false);
     }
     if (coproc_ati && gpus_usable) {
-        ati_work_fetch.set_request(p);
+        ati_work_fetch.set_request(p, false);
     }
 }
 

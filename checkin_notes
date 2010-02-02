@@ -441,3 +441,11 @@ David  27 Jan 2010
 
     client/
         work_fetch.cpp
+
+David  27 Jan 2010
+	- client: fix work fetch bug that prevented getting work
+		from an overworked project,
+		even if idle instance or major shortfall.
+
+	client/
+		work_fetch.cpp,h

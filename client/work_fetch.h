@@ -209,7 +209,7 @@ struct RSC_WORK_FETCH {
     void update_short_term_debts();
     void print_state(const char*);
     void clear_request();
-    void set_request(PROJECT*);
+    void set_request(PROJECT*, bool allow_overworked);
     bool may_have_work(PROJECT*);
     RSC_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
