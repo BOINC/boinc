@@ -600,6 +600,12 @@ void CLIENT_STATE::simulate() {
             if (!action) break;
         }
         now += delta;
+        for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
+            ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+            if (atp->task_state() == PROCESS_EXECUTING) {
+                atp->elapsed_time += delta;
+            }
+        }
         html_rec();
         if (now > duration) break;
     }

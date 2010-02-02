@@ -391,3 +391,10 @@ David  19 Jan 2010
         sim.cpp
         work_fetch.cpp
         cpu_sched.cpp
+
+David  19 Jan 2010
+    - client simulator: done for now
+
+    client/
+        sim.cpp
+        rr_sim.cpp

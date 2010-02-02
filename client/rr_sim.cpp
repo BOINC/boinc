@@ -352,9 +352,10 @@ void CLIENT_STATE::rr_simulation() {
 
         if (log_flags.rr_simulation) {
             msg_printf(pbest, MSG_INFO,
-                "[rr_sim] %.2f: %s finishes after %.2f (%.2fG/%.2fG)",
+                "[rr_sim] %.2f: %s finishes after %.2f (%f * %.2fG/%.2fG)",
                 sim_now - now,
                 rpbest->name, rpbest->rrsim_finish_delay,
+                rpbest->avp->temp_dcf,
                 rpbest->rrsim_flops_left/1e9, rpbest->rrsim_flops/1e9
             );
         }
