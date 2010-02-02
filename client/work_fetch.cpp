@@ -518,12 +518,13 @@ void RSC_WORK_FETCH::update_long_term_debts() {
     double offset;
     double delta_limit = secs_this_debt_interval;
     if (max_debt > -2*delta_limit) {
+        if (fabs(max_debt) < 1e-6) max_debt = 0;
         offset = max_debt?-max_debt:0;  // avoid -0
     } else {
         offset = 2*delta_limit;
     }
     if (log_flags.debt_debug) {
-        msg_printf(0, MSG_INFO, "[debt] %s LTD: adding offset %.2f",
+        msg_printf(0, MSG_INFO, "[debt] %s LTD: adding offset %f",
             rsc_name(rsc_type), offset
         );
     }
@@ -663,15 +664,43 @@ void WORK_FETCH::set_all_requests(PROJECT* p) {
     }
 }
 
+// Compute an "overall long-term debt" for each project.
+// This is a sum of per-resource terms, scaled by the relative speed of the resource.
+// The term for a resource is its LTD plus an estimate of queued work.
+//
 void WORK_FETCH::set_overall_debts() {
-    for (unsigned i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        p->pwf.overall_debt = p->cpu_pwf.long_term_debt;
+    unsigned int i;
+    PROJECT* p;
+    RESULT* rp;
+    APP_VERSION* avp;
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        p->cpu_pwf.queue_est = 0;
+        p->cuda_pwf.queue_est = 0;
+        p->ati_pwf.queue_est = 0;
+    }
+    for (i=0; i<gstate.results.size(); i++) {
+        rp = gstate.results[i];
+        p = rp->project;
+        if (!rp->nearly_runnable()) continue;
+        if (p->non_cpu_intensive) continue;
+        double dt = rp->estimated_time_remaining(false);
+        avp = rp->avp;
+        p->cpu_pwf.queue_est += dt*avp->avg_ncpus;
+        p->cuda_pwf.queue_est += dt*avp->ncudas;
+        p->ati_pwf.queue_est += dt*avp->natis;
+    }
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        p->pwf.overall_debt = p->cpu_pwf.long_term_debt - p->cpu_pwf.queue_est/gstate.ncpus;
         if (coproc_cuda) {
-            p->pwf.overall_debt += cuda_work_fetch.speed*p->cuda_pwf.long_term_debt;
+            p->pwf.overall_debt += cuda_work_fetch.relative_speed*
+                (p->cuda_pwf.long_term_debt - p->cuda_pwf.queue_est/coproc_cuda->count);
         }
         if (coproc_ati) {
-            p->pwf.overall_debt += ati_work_fetch.speed*p->ati_pwf.long_term_debt;
+            p->pwf.overall_debt += ati_work_fetch.relative_speed*
+                (p->ati_pwf.long_term_debt - p->ati_pwf.queue_est/coproc_ati->count);
         }
     }
 }
@@ -773,6 +802,10 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
 //
 PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p = 0;
+
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO, "[wfd]: work fetch start");
+    }
 
     p = non_cpu_intensive_project_needing_work();
     if (p) return p;
@@ -898,6 +931,7 @@ void WORK_FETCH::compute_shares() {
         if (!p->pwf.can_fetch_work) continue;
         if (p->cpu_pwf.may_have_work) {
             p->cpu_pwf.fetchable_share = p->resource_share/cpu_work_fetch.total_fetchable_share;
+            msg_printf(p, MSG_INFO, "FS: %f = %f/%f\n", p->cpu_pwf.fetchable_share, p->resource_share, cpu_work_fetch.total_fetchable_share);
         }
         if (coproc_cuda && p->cuda_pwf.may_have_work) {
             p->cuda_pwf.fetchable_share = p->resource_share/cuda_work_fetch.total_fetchable_share;

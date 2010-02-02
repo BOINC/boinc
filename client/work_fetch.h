@@ -45,10 +45,14 @@ struct RSC_PROJECT_WORK_FETCH {
 
     // the following used by debt accounting
     double anticipated_debt;
+        // short-term debt, adjusted by scheduled jobs
     double secs_this_debt_interval;
     inline void reset_debt_accounting() {
         secs_this_debt_interval = 0;
     }
+    double queue_est;
+        // an estimate of instance-secs of queued work;
+        // a temp used in computing overall debts
 
     // the following are used by rr_simulation()
     //
@@ -157,7 +161,7 @@ struct BUSY_TIME_ESTIMATOR {
 struct RSC_WORK_FETCH {
     int rsc_type;
     int ninstances;
-    double speed;   // total FLOPS relative to CPU total FLOPS
+    double relative_speed;   // total FLOPS relative to CPU total FLOPS
 
     // the following used/set by rr_simulation():
     //
@@ -180,7 +184,7 @@ struct RSC_WORK_FETCH {
     void init(int t, int n, double sp) {
         rsc_type = t;
         ninstances = n;
-        speed = sp;
+        relative_speed = sp;
         busy_time_estimator.init(n);
     }
     // the following specify the work request for this resource

@@ -172,10 +172,13 @@ void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
     init_ip_results(work_buf_min(), ncpus, ip_results);
 }
 
+// simulate trying to do an RPC
+// return false if we didn't actually do one
+//
 bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     char buf[256];
     SIM_PROJECT* p = (SIM_PROJECT*) _p;
-    static double last_time=0;
+    static double last_time=-1e9;
     vector<IP_RESULT> ip_results;
     int infeasible_count = 0;
 
@@ -189,10 +192,12 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     }
     last_time = now;
 
-    sprintf(buf, "RPC to %s; asking for %f<br>",
-        p->project_name, cpu_work_fetch.req_secs
+    sprintf(buf, "RPC to %s; asking for %f/%.2f<br>",
+        p->project_name, cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
     );
     html_msg += buf;
+
+    msg_printf(0, MSG_INFO, buf);
 
     handle_completed_results();
 
@@ -202,7 +207,8 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
 
     bool sent_something = false;
     double work_left = cpu_work_fetch.req_secs;
-    while (work_left > 0) {
+    double instances_needed = cpu_work_fetch.req_instances;
+    while (work_left > 0 || instances_needed>0) {
         RESULT* rp = new RESULT;
         WORKUNIT* wup = new WORKUNIT;
         make_job(p, wup, rp);
@@ -229,17 +235,18 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
         );
         html_msg += buf;
         work_left -= p->duration_correction_factor*wup->rsc_fpops_est/host_info.p_fpops;
+        instances_needed -= 1;
     }
 
     if (cpu_work_fetch.req_secs > 0 && !sent_something) {
         p->backoff();
-        return false;
-    } else {
-        p->nrpc_failures = 0;
+    }
+    p->nrpc_failures = 0;
+    if (sent_something) {
         request_schedule_cpus("simulate_rpc");
         request_work_fetch("simulate_rpc");
-        return true;
     }
+    return true;
 }
 
 void SIM_PROJECT::backoff() {
@@ -252,23 +259,62 @@ void SIM_PROJECT::backoff() {
 
 bool CLIENT_STATE::scheduler_rpc_poll() {
     PROJECT *p;
+    bool action = false;
+    static double last_time=0;
+    static double last_work_fetch_time = 0;
+    double elapsed_time;
+
+    // check only every 5 sec
+    //
+    if (now - last_time < SCHEDULER_RPC_POLL_PERIOD) {
+        msg_printf(NULL, MSG_INFO, "RPC poll: not time %f - %f < %f",
+            now, last_time, SCHEDULER_RPC_POLL_PERIOD
+        );
+        return false;
+    }
+    last_time = now;
 
     msg_printf(NULL, MSG_INFO, "RPC poll start");
-    p = next_project_sched_rpc_pending();
-    if (p) {
-        return simulate_rpc(p);
-    }
+    while (1) {
+        p = next_project_sched_rpc_pending();
+        if (p) {
+            work_fetch.compute_work_request(p);
+            action = simulate_rpc(p);
+            break;
+        }
     
-    p = find_project_with_overdue_results();
-    if (p) {
-        return simulate_rpc(p);
+        p = find_project_with_overdue_results();
+        if (p) {
+            work_fetch.compute_work_request(p);
+            action = simulate_rpc(p);
+            break;
+        }
+
+        // should we check work fetch?  Do this at most once/minute
+
+        if (must_check_work_fetch) {
+            last_work_fetch_time = 0;
+        }
+        elapsed_time = now - last_work_fetch_time;
+        if (elapsed_time < WORK_FETCH_PERIOD) {
+            return false;
+        }
+        must_check_work_fetch = false;
+        last_work_fetch_time = now;
+
+        p = work_fetch.choose_project();
+        if (p) {
+            action = simulate_rpc(p);
+            break;
+        }
+        break;
     }
-    p = work_fetch.choose_project();
-    if (p) {
-        return simulate_rpc(p);
+    if (action) {
+        msg_printf(p, MSG_INFO, "RPC poll: did an RPC");
+    } else {
+        msg_printf(0, MSG_INFO, "RPC poll: didn't do an RPC");
     }
-    msg_printf(NULL, MSG_INFO, "RPC poll: nothing to do");
-    return false;
+    return action;
 }
 
 bool ACTIVE_TASK_SET::poll() {
@@ -286,9 +332,9 @@ bool ACTIVE_TASK_SET::poll() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = (SIM_PROJECT*) gstate.projects[i];
         p->idle = true;
-        sprintf(buf, "%s STD: %f min RPC<br>",
+        sprintf(buf, "%s STD: %f LTD %f<br>",
             p->project_name, p->cpu_pwf.short_term_debt,
-            time_to_string(p->min_rpc_time)
+            p->pwf.overall_debt
         );
         gstate.html_msg += buf;
     }
@@ -585,11 +631,16 @@ void CLIENT_STATE::html_end(bool show_next) {
 
 void CLIENT_STATE::simulate() {
     bool action;
-    now = 0;
+    double start = START_TIME;
+    now = start;
     html_start(false);
+    msg_printf(0, MSG_INFO,
+        "starting simultion. delta %f duration %f", delta, duration
+    );
     while (1) {
         running = host_info.available.sample(now);
         while (1) {
+            msg_printf(0, MSG_INFO, "polling");
             action = active_tasks.poll();
             if (running) {
                 action |= handle_finished_apps();
@@ -597,9 +648,11 @@ void CLIENT_STATE::simulate() {
                 action |= enforce_schedule();
                 action |= scheduler_rpc_poll();
             }
+            msg_printf(0, MSG_INFO, action?"did action":"did no action");
             if (!action) break;
         }
         now += delta;
+        msg_printf(0, MSG_INFO, "took time step");
         for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
             ACTIVE_TASK* atp = active_tasks.active_tasks[i];
             if (atp->task_state() == PROCESS_EXECUTING) {
@@ -607,7 +660,7 @@ void CLIENT_STATE::simulate() {
             }
         }
         html_rec();
-        if (now > duration) break;
+        if (now > start + duration) break;
     }
     html_end(false);
 }
