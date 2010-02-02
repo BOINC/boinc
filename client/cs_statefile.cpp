@@ -500,7 +500,7 @@ int CLIENT_STATE::parse_state_file() {
             x += projects[i]->resource_share;
         }
         if (!x) {
-            msg_printf(NULL, MSG_USER_ALERT,
+            msg_printf(NULL, MSG_USER_ERROR,
                 "All projects have zero resource share; setting to 100"
             );
             for (i=0; i<projects.size(); i++) {

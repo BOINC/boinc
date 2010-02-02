@@ -776,7 +776,6 @@ int suspend_or_resume_threads(DWORD pid, bool resume) {
 
     do { 
         if (!diagnostics_is_thread_exempt_suspend(te.th32ThreadID)) continue;
-        if (te.th32ThreadID == calling_thread_id) continue;
         if (te.th32OwnerProcessID == pid) {
             thread = pOT(THREAD_SUSPEND_RESUME, FALSE, te.th32ThreadID);
             resume ?  ResumeThread(thread) : SuspendThread(thread);
