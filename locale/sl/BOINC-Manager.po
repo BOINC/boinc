@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2009-12-17 04:43-0700\n"
+"PO-Revision-Date: 2010-02-02 09:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -199,7 +199,7 @@ msgstr "Zapri okno %s"
 
 #: clientgui/AdvancedFrame.cpp:307
 msgid "&Close Window"
-msgstr ""
+msgstr "&Zapri okno"
 
 #: clientgui/AdvancedFrame.cpp:318
 #, c-format
@@ -212,13 +212,12 @@ msgid "E&xit"
 msgstr "Iz&hod"
 
 #: clientgui/AdvancedFrame.cpp:332
-#, fuzzy
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Novice\tCtrl+Shift+N"
+msgstr "&Obvestila\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "Display notices"
-msgstr ""
+msgstr "Prikaži obvestila"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "&Projects\tCtrl+Shift+P"
@@ -330,31 +329,27 @@ msgstr "Ustavi delo ne glede na nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:463
 msgid "Use GPU always"
-msgstr ""
+msgstr "Vedno uporabi grafični procesor"
 
 #: clientgui/AdvancedFrame.cpp:464
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Dovoli delo, ne glede na nastavitve"
+msgstr "Dovoli delo grafičnega procesorja, ne glede na nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:468
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Poganjaj glede na &nastavitve"
+msgstr "Uporabi grafični procesor, glede na &nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Dovoli delo glede na vaše nastavitve"
+msgstr "Dovoli delo grafičnega procesorja glede na vaše nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:473
 msgid "Use GPU never"
-msgstr ""
+msgstr "Nikoli ne uporabi grafičnega procesorja"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Ustavi delo ne glede na nastavitve"
+msgstr "Ustavi delo grafičnega procesorja, ne glede na nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "&Network activity always available"
@@ -449,11 +444,11 @@ msgstr "Preberi nastavitve iz global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:563
 msgid "Event Log..."
-msgstr ""
+msgstr "Sistemski dnevnik"
 
 #: clientgui/AdvancedFrame.cpp:564
 msgid "Display diagnostic messages from the client."
-msgstr ""
+msgstr "Prikaži diagnostična sporočila odjemalca."
 
 #: clientgui/AdvancedFrame.cpp:574
 #, c-format
