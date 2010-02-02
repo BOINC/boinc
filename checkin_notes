@@ -496,3 +496,11 @@ Rom    2 Feb 2010
         
     client/
         coproc_detect.cpp
+
+Rom    2 Feb 2010
+    - Tag for 6.10.32 release, all platforms
+      boinc_core_release_6_10_32
+
+    /
+        configure.ac
+        version.h
