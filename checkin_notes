@@ -837,3 +837,10 @@ Charlie  2 Feb 2010
         make_GridRepublic.sh
         make_ProgThruProc.sh
         release_boinc.sh
+
+David  2 Feb 2010
+    - scheduler: don't send CUDA jobs to Macs with client < 6.10.28;
+        they'll crash.
+
+    sched/
+        sched_customize.cpp

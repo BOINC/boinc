@@ -299,6 +299,17 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             return false;
         }
 
+        // Macs require 6.10.28
+        //
+        if (strstr(sreq.host.os_name, "Darwin")) {
+            if (sreq.core_client_version < 61028) {
+                add_no_work_message(
+                    "CUDA apps require BOINC version 6.10.28 or greater on Mac"
+                );
+                return false;
+            }
+        }
+
         // check compute capability
         //
         int v = (cp->prop.major)*100 + cp->prop.minor;
