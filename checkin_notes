@@ -383,3 +383,11 @@ Rom    19 Jan 2010
         diagnostics.h
         diagnostics_win.cpp
         win_util.cpp
+
+David  19 Jan 2010
+    - client simulator: further fiddling around.  Not done.
+
+    client/
+        sim.cpp
+        work_fetch.cpp
+        cpu_sched.cpp

@@ -340,6 +340,11 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     // check, just in case
     //
     if (!req_secs && !req_instances) {
+        if (log_flags.work_fetch_debug) {
+            msg_printf(pbest, MSG_INFO,
+                "[wfd] error: project chosen but zero request"
+            );
+        }
         return 0;
     }
 
