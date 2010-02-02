@@ -6560,3 +6560,17 @@ Rom    1 Feb 2010
         configure.ac
         version.h
 
+Charlie  2 Feb 2010
+    - Mac ss_app: Fix compile break on Mac.
+    - Mac ss_app: Compile with -D_GRIDREPUBLIC since the 6.8 branch is used only to 
+        build clients for GridRepublic and ProgressThruProcessors, not standard BOINC.
+    - Mac Installer: update script for new gridrepublic_ss_logo.jpg file, etc.
+            (All these changes checked into 6.8.20 tag.)
+
+    clientscr/
+        ss_app.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        make_GridRepublic.sh

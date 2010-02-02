@@ -22,6 +22,10 @@
 #include <string>
 #include <vector>
 #endif
+#ifdef __APPLE__
+#include "boinc_api.h"
+#include <sys/socket.h>
+#endif
 
 #include "diagnostics.h"
 #include "gutil.h"

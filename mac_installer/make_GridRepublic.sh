@@ -19,7 +19,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to GridRepublic Desktop installer
-# updated 11/18/09 by Charlie Fenton
+# updated 2/2/10 by Charlie Fenton
 ##
 
 ## Usage:
@@ -37,9 +37,9 @@
 ##     acct_mgr_url.xml (to have BOINC automatically connect to Account Manager)
 ##     PostInstall.app (needed only for version 6.2.x or earlier)
 ##     gridrepublic.tiff (for screensaver coordinator)
-##     gridrepublic_ss_logo (for screensaver coordinator)
+##     gridrepublic_ss_logo.png (for screensaver coordinator)
 ##     GR_saver directory containing GridRepublic default screensaver and associated files, including:
-##          boincscr (default screensaver)
+##          gridrepublic_ss_logo.jpg
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -215,9 +215,6 @@ sudo cp -fp "${SAVER_LOGO}" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.save
 
 # Delete the BOINC default screensaver and its associated files
 sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/boinc_logo_black.jpg"
-sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/Helvetica.tx"
-sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/ss_config.xm"
-sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/boincsc"
 
 # Copy the GridRepublic default screensaver files into BOINC Data folder
 sudo cp -fR "${SAVER_DIR}/" "${PR_PATH}/Library/Application Support/BOINC Data/"

@@ -3968,6 +3968,15 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-D_GRIDREPUBLIC",
+					"-D_THREAD_SAFE",
+					"-D_DEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
@@ -3980,6 +3989,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
+				);
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-D_GRIDREPUBLIC",
+					"-D_THREAD_SAFE",
+					"-D_DEBUG",
+					"-include",
+					../clientgui/mac/config.h,
 				);
 				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
@@ -3994,6 +4011,15 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-D_GRIDREPUBLIC",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
@@ -4006,6 +4032,15 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
+				);
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-D_GRIDREPUBLIC",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
 				);
 				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
@@ -4020,6 +4055,15 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-D_GRIDREPUBLIC",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
@@ -4033,6 +4077,15 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-D_GRIDREPUBLIC",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
@@ -4045,6 +4098,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
+				);
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-D_GRIDREPUBLIC",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-include",
+					../clientgui/mac/config.h,
 				);
 				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
