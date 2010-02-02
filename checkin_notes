@@ -330,3 +330,9 @@ Charlie  28 Jan 2010
             SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+Charlie  2 Feb 2010
+    - Mac Installer: update, fix bugs in script for building GridRepublic Installer. 
+
+    mac_installer/
+        make_GridRepublic.sh
