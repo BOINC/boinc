@@ -128,7 +128,7 @@ int CLIENT_STATE::check_suspend_processing() {
         if (exclusive_app_running) {
             return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
         }
-        if (non_boinc_cpu_usage > 0.2) {
+        if (global_prefs.suspend_cpu_usage && non_boinc_cpu_usage > global_prefs.suspend_cpu_usage) {
             return SUSPEND_REASON_CPU_USAGE;
         }
     }

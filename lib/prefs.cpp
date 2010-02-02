@@ -52,6 +52,7 @@ void GLOBAL_PREFS_MASK::set_all() {
     run_gpu_if_user_active = true;
     idle_time_to_run = true;
     suspend_if_no_recent_input = true;
+    suspend_cpu_usage = 0;
     start_hour = true;
     end_hour = true;
     net_start_hour = true;
@@ -84,6 +85,7 @@ bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (run_gpu_if_user_active) return true;
     if (idle_time_to_run) return true;
     if (suspend_if_no_recent_input) return true;
+    if (suspend_cpu_usage) return true;
     if (start_hour) return true;
     if (end_hour) return true;
     if (net_start_hour) return true;
@@ -205,6 +207,7 @@ void GLOBAL_PREFS::defaults() {
     run_gpu_if_user_active = false;
     idle_time_to_run = 3;
     suspend_if_no_recent_input = 0;
+    suspend_cpu_usage = 25;
     cpu_times.clear();
     net_times.clear();
     leave_apps_in_memory = false;
@@ -398,6 +401,10 @@ int GLOBAL_PREFS::parse_override(
             mask.suspend_if_no_recent_input = true;
             continue;
         }
+        if (xp.parse_double(tag, "suspend_cpu_usage", suspend_cpu_usage)) {
+            mask.suspend_cpu_usage = true;
+            continue;
+        }
         if (xp.parse_double(tag, "start_hour", cpu_times.start_hour)) {
             mask.start_hour = true;
             continue;
@@ -560,6 +567,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <run_if_user_active>%d</run_if_user_active>\n"
         "   <run_gpu_if_user_active>%d</run_gpu_if_user_active>\n"
         "   <suspend_if_no_recent_input>%f</suspend_if_no_recent_input>\n"
+        "   <suspend_cpu_usage>%f</suspend_cpu_usage>\n"
         "   <start_hour>%f</start_hour>\n"
         "   <end_hour>%f</end_hour>\n"
         "   <net_start_hour>%f</net_start_hour>\n"
@@ -589,6 +597,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         run_if_user_active?1:0,
         run_gpu_if_user_active?1:0,
         suspend_if_no_recent_input,
+        suspend_cpu_usage,
         cpu_times.start_hour,
         cpu_times.end_hour,
         net_times.start_hour,
@@ -683,6 +692,12 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
 
         f.printf("   <suspend_if_no_recent_input>%f</suspend_if_no_recent_input>\n",
             suspend_if_no_recent_input
+        );
+    }
+    if (mask.suspend_cpu_usage) {
+
+        f.printf("   <suspend_cpu_usage>%f</suspend_cpu_usage>\n",
+            suspend_cpu_usage
         );
     }
     if (mask.start_hour) {
