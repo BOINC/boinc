@@ -474,3 +474,10 @@ David  28 Jan 2010
 	client/
 		client_types.cpp
 		cs_statefile.cpp
+
+David  29 Jan 2010
+    - client: allow zero resource share
+
+    client/
+        work_fetch.cpp
+        makefile_sim
