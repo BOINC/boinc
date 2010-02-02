@@ -343,3 +343,12 @@ David  15 Jan 2010
     client/
         work_fetch.cpp
         cpu_sched.cpp
+
+David  18 Jan 2010
+    - API: fix crashing bug.  Don't memset(0) APP_INIT_DATA;
+        it contains HOST_INFO, which now contains COPROCS,
+        which has a vector.
+        Define a clear() for APP_INIT_DATA.
+
+    lib/
+        app_ipc.cpp,h
