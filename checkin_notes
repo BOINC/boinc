@@ -468,3 +468,9 @@ David  28 Jan 2010
         rr_sim.cpp
         work_fetch.cpp
 
+David  28 Jan 2010
+	- client: fix my last checkin
+
+	client/
+		client_types.cpp
+		cs_statefile.cpp

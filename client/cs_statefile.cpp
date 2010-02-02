@@ -490,6 +490,24 @@ int CLIENT_STATE::parse_state_file() {
     }
     sort_results();
     fclose(f);
+    
+    // if total resource share is zero, set all shares to 1
+    //
+    if (projects.size()) {
+        unsigned int i;
+        double x=0;
+        for (i=0; i<projects.size(); i++) {
+            x += projects[i]->resource_share;
+        }
+        if (!x) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "All projects have zero resource share; setting to 100"
+            );
+            for (i=0; i<projects.size(); i++) {
+                projects[i]->resource_share = 100;
+            }
+        }
+    }
     return 0;
 }
 
