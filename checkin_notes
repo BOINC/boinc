@@ -821,3 +821,18 @@ David  1 Feb 2010
 
     api/
         txf_util.cpp
+
+Charlie  2 Feb 2010
+    - ss_app: Allow branding for GridRepublic by compiling with -D_GRIDREPUBLIC on 
+        non_apple systems and by testing Branding file on Macs. 
+    - ss_app: Add a high-resolution background GridRepublic logo.
+    - Mac Installer: update script for new gridrepublic_ss_logo.jpg file, etc.
+    - Mac Installer: add .txt extension to copyright files in GUI installer extras.
+    
+    clientscr/
+        ss_app.cpp
+        res/
+            gridrepublic_ss_logo.jpg
+    mac_installer/
+        make_GridRepublic.sh
+        release_boinc.sh

@@ -59,6 +59,17 @@ double next_connect_time = 0.0;
 CC_STATE cc_state;
 CC_STATUS cc_status;
 
+// Possible values of iBrandId:
+#define BOINC_BRAND_ID 0
+#define GRIDREPUBLIC_BRAND_ID 1
+#define PROGRESSTHRUPROCESSORS_BRAND_ID 2
+
+#ifdef _GRIDREPUBLIC
+static long iBrandId = GRIDREPUBLIC_BRAND_ID;
+#else
+static long iBrandId = BOINC_BRAND_ID;   // Default value for BOINC
+#endif
+
 #if 0
 struct APP_SLIDES {
     string name;
@@ -212,14 +223,26 @@ void show_project(unsigned int index, float alpha) {
 
 void show_disconnected() {
     float x=.3, y=.3;
-    txf_render_string(.1, x, y, 0, 800., white, 0, "BOINC is not running.");
+    if (iBrandId == GRIDREPUBLIC_BRAND_ID) {
+        txf_render_string(.1, x, y, 0, 800., white, 0, "GridRepublic is not running.");
+    } else {    
+        txf_render_string(.1, x, y, 0, 800., white, 0, "BOINC is not running.");
+    }
 }
 
 void show_no_projects() {
     float x=.2, y=.3;
-    txf_render_string(.1, x, y, 0, 800., white, 0, "BOINC is not attached to any projects.");
+    if (iBrandId == GRIDREPUBLIC_BRAND_ID) {
+        txf_render_string(.1, x, y, 0, 800., white, 0, "GridRepublic is not attached to any projects.");
+    } else {    
+        txf_render_string(.1, x, y, 0, 800., white, 0, "BOINC is not attached to any projects.");
+    }
     y = .25;
-    txf_render_string(.1, x, y, 0, 800., white, 0, "Attach to projects using the BOINC Manager.");
+    if (iBrandId == GRIDREPUBLIC_BRAND_ID) {
+        txf_render_string(.1, x, y, 0, 800., white, 0, "Attach to projects using the GridRepublic Desktop.");
+    } else {    
+        txf_render_string(.1, x, y, 0, 800., white, 0, "Attach to projects using the BOINC Manager.");
+    }
 }
 
 void show_jobs(unsigned int index, double alpha) {
@@ -264,7 +287,11 @@ void show_jobs(unsigned int index, double alpha) {
         case SUSPEND_REASON_NO_RECENT_INPUT:
             p = "Computing suspended while computer not in use"; break;
         case SUSPEND_REASON_INITIAL_DELAY:
-            p = "Computing suspended while BOINC is starting up"; break;
+            if (iBrandId == GRIDREPUBLIC_BRAND_ID) {
+                p = "Computing suspended while GridRepublic is starting up"; break;
+            } else {    
+                p = "Computing suspended while BOINC is starting up"; break;
+            }
         case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
             p = "Computing suspended while exclusive application running"; break;
         }
@@ -415,7 +442,11 @@ void app_graphics_init() {
 #ifdef _WCG
     logo.load_image_file("wcg.bmp");
 #else
-    logo.load_image_file("boinc_logo_black.jpg");
+    if (iBrandId == GRIDREPUBLIC_BRAND_ID) {
+        logo.load_image_file("gridrepublic_ss_logo.jpg");
+    } else {    
+        logo.load_image_file("boinc_logo_black.jpg");
+    }
 #endif
     init_lights();
 }
@@ -443,6 +474,16 @@ int main(int argc, char** argv) {
         }
         exit(ERR_CONNECT);
     }
+    
+#ifdef __APPLE__
+    // For GridRepublic, the installer put a branding file in our data directory
+    FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
+    if (f) {
+        fscanf(f, "BrandId=%ld\n", &iBrandId);
+        fclose(f);
+    }
+#else
+#endif
 
     boinc_graphics_loop(argc, argv, "BOINC screensaver");
     boinc_finish_diag();
