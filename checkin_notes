@@ -336,3 +336,10 @@ Charlie  2 Feb 2010
 
     mac_installer/
         make_GridRepublic.sh
+    
+David  15 Jan 2010
+    - client: tiny code shuffle
+
+    client/
+        work_fetch.cpp
+        cpu_sched.cpp
