@@ -105,8 +105,9 @@ msgstr ""
 "przetwarzania"
 
 #: poll_data.inc:58
+#, fuzzy
 msgid "No - I never tried running BOINC, because..."
-msgstr ""
+msgstr "Nie - próbowałem używać BOINC, ale..."
 
 #: poll_data.inc:61
 msgid "I was concerned about security"

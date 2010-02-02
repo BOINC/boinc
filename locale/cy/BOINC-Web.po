@@ -7,18 +7,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-01-06 00:28+0100\n"
+"PO-Revision-Date: 2010-01-19 11:30-0700\n"
 "Last-Translator: Huw Waters <huwwaters@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: cy\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n==2) ? 1 : 0;\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: poll.inc:18
 msgid "[check all that apply]"
-msgstr ""
+msgstr "[dewis pob un perthnasol]"
 
 #: poll.inc:47
 msgid "Other:"
@@ -26,11 +28,11 @@ msgstr "Arall:"
 
 #: poll_data.inc:19
 msgid "Yes - I have been running BOINC on my computer for..."
-msgstr ""
+msgstr "Ydw - Yr ydwyf yn rhedeg BOINC ar fy nghyfrifiadur am..."
 
 #: poll_data.inc:22
 msgid "less than a week"
-msgstr "llai nag wythnos"
+msgstr "lai nag wythnos"
 
 #: poll_data.inc:23
 msgid "less than a month"
@@ -46,7 +48,7 @@ msgstr "mwy na blwyddyn"
 
 #: poll_data.inc:31
 msgid "No - I used to run BOINC, but..."
-msgstr ""
+msgstr "Na - Rhedais BOINC, ond..."
 
 #: poll_data.inc:34
 msgid "I lost interest"
@@ -58,47 +60,47 @@ msgstr "yr oedd yn rhy gymhleth"
 
 #: poll_data.inc:36
 msgid "I stopped it and forgot to start again"
-msgstr ""
+msgstr "stopiais ac anghofiais ei ail-gydio"
 
 #: poll_data.inc:37
 msgid "it caused problems on my computer"
-msgstr ""
+msgstr "achosodd problemau ar fy nghyfrifiadur"
 
 #: poll_data.inc:38
 msgid "it used too much electricity"
-msgstr ""
+msgstr "defnyddiodd gormod o drydan"
 
 #: poll_data.inc:39
 msgid "I switched to a non-BOINC computing project"
-msgstr ""
+msgstr "symudais i brosiect cyfrifiaduro di-BOINC"
 
 #: poll_data.inc:45
 msgid "No - I tried running BOINC, but..."
-msgstr ""
+msgstr "Na - Ceisiais redeg BOINC, ond"
 
 #: poll_data.inc:48
 msgid "the software didn't install correctly"
-msgstr ""
+msgstr "ni arsefydlodd y meddalwedd yn gywir"
 
 #: poll_data.inc:49
 msgid "I couldn't figure out how to use the software"
-msgstr ""
+msgstr "methais a datrys sut i ddefnyddio'r meddalwedd"
 
 #: poll_data.inc:50
 msgid "I had network communication problems"
-msgstr ""
+msgstr "cefais problemau cyfathrebu rhwydwaith"
 
 #: poll_data.inc:51
 msgid "I couldn't attach to a project"
-msgstr ""
+msgstr "methais ag atodi at brosiect"
 
 #: poll_data.inc:52
 msgid "I attached to a project, but never got any work"
-msgstr ""
+msgstr "atodais at brosiect, ond ni dderbyniais unrhyw waith"
 
 #: poll_data.inc:58
 msgid "No - I never tried running BOINC, because..."
-msgstr ""
+msgstr "Na - Ni cheisiais redeg BOINC, oherwydd..."
 
 #: poll_data.inc:61
 msgid "I was concerned about security"
@@ -192,8 +194,7 @@ msgstr ""
 msgid "Team message boards or web sites"
 msgstr ""
 
-#: poll_data.inc:154
-#: poll_data.inc:210
+#: poll_data.inc:154 poll_data.inc:210
 msgid "The BOINC web site"
 msgstr "Gwefan BOINC"
 
@@ -345,8 +346,7 @@ msgstr ""
 msgid "Release notes"
 msgstr ""
 
-#: download.php:122
-#: index.php:89
+#: download.php:122 index.php:89
 msgid "Help"
 msgstr ""
 
@@ -461,9 +461,7 @@ msgstr "Gwirfoddoli"
 msgid "Download"
 msgstr ""
 
-#: index.php:90
-#: index.php:125
-#: index.php:163
+#: index.php:90 index.php:125 index.php:163
 msgid "Documentation"
 msgstr "Dogfennaeth"
 

@@ -192,8 +192,7 @@ msgstr ""
 msgid "Team message boards or web sites"
 msgstr ""
 
-#: poll_data.inc:154
-#: poll_data.inc:210
+#: poll_data.inc:154 poll_data.inc:210
 msgid "The BOINC web site"
 msgstr "BOINC nettside"
 
@@ -345,8 +344,7 @@ msgstr ""
 msgid "Release notes"
 msgstr ""
 
-#: download.php:122
-#: index.php:89
+#: download.php:122 index.php:89
 msgid "Help"
 msgstr ""
 
@@ -461,9 +459,7 @@ msgstr "Frivillig"
 msgid "Download"
 msgstr "Last ned"
 
-#: index.php:90
-#: index.php:125
-#: index.php:163
+#: index.php:90 index.php:125 index.php:163
 msgid "Documentation"
 msgstr ""
 

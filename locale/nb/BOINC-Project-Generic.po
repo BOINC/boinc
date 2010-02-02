@@ -764,14 +764,16 @@ msgstr ""
 msgid "Unhide"
 msgstr ""
 
+#, fuzzy
 msgid "Unhide this thread"
-msgstr ""
+msgstr "Lås opp denne tråden"
 
 msgid "Hide"
 msgstr "Skjul"
 
+#, fuzzy
 msgid "Hide this thread"
-msgstr ""
+msgstr "Lås denne tråden"
 
 msgid "Make unsticky"
 msgstr ""
@@ -898,8 +900,9 @@ msgstr ""
 msgid "You are now friends with %1."
 msgstr ""
 
+#, fuzzy
 msgid "Cancel friendship?"
-msgstr ""
+msgstr "Kanslere vennskap "
 
 msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr ""

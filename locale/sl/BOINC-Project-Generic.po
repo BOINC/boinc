@@ -631,11 +631,9 @@ msgid "Create/edit profile"
 msgstr "Ustvari/uredi profil"
 
 msgid "The format of your uploaded image is not supported."
-<<<<<<< .mine
-msgstr "Format slike, ki ste jo naložili, ni podprt."
-=======
-msgstr "Format vaše naložene slike ni podprt."
->>>>>>> .r20123
+msgstr ""
+"Format slike, ki ste jo naložili, ni podprt.Format vaše naložene slike ni "
+"podprt."
 
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
@@ -707,19 +705,16 @@ msgid ""
 "uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
-<<<<<<< .mine
 "Ne ponujamo navodil za namestitev teh aplikacij.\n"
 "Kakorkoli, avtor je morda priskrbel kaj pomoči o namestitvi ali "
 "odstranjevanju\n"
 "aplikacije.\n"
-"Če za vas to ni dovolj, bi morali kontaktirati avtorja."
-=======
-"Ne ponujamo navodil za namestitev teh aplikacij.\n"
+"Če za vas to ni dovolj, bi morali kontaktirati avtorja.Ne ponujamo navodil "
+"za namestitev teh aplikacij.\n"
 "Kakorkoli, avtor je morda priskrbel kaj pomoči o namestitvi ali "
 "odstranjeanju\n"
 "aplikacije.\n"
 "Če za vas to ni dovolj, bi morali kontaktirati avtorja."
->>>>>>> .r20123
 
 msgid "Instructions for installing and running BOINC are %1here%2."
 msgstr "Navodila za namestitev in poganjanje BOINC so %1tukaj%2."
@@ -942,11 +937,9 @@ msgid "Cancel friendship?"
 msgstr "Preklic prijateljstva?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
-<<<<<<< .mine
-msgstr "Ali ste prepričani, da želite preklicati prijateljstvo s/z %1?"
-=======
-msgstr "Ali ste prepričani, da želite preklicati prijateljstvo z %1?"
->>>>>>> .r20123
+msgstr ""
+"Ali ste prepričani, da želite preklicati prijateljstvo s/z %1?Ali ste "
+"prepričani, da želite preklicati prijateljstvo z %1?"
 
 msgid "Yes"
 msgstr "Da"
