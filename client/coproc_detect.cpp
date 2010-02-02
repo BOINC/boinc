@@ -772,6 +772,9 @@ int COPROC_ATI::available_ram(int devnum, double& ar) {
     CALdevicestatus st;
     CALdevice dev;
     int retval;
+
+    st.struct_size = sizeof(CALdevicestatus);
+
     if (!__calInit) return 0;   // avoid crash if faked GPU
     retval = (*__calInit)();
     if (retval) return retval;

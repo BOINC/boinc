@@ -844,3 +844,10 @@ David  2 Feb 2010
 
     sched/
         sched_customize.cpp
+
+Rom    2 Feb 2010
+    - client: newer ATI drivers crash if struct_size isn't filled out
+        before the structure is used.
+        
+    client/
+        coproc_detect.cpp
