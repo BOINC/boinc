@@ -489,3 +489,10 @@ Rom    2 Feb 2010
     /
         configure.ac
         version.h
+
+Rom    2 Feb 2010
+    - client: newer ATI drivers crash if struct_size isn't filled out
+        before the structure is used.
+        
+    client/
+        coproc_detect.cpp
