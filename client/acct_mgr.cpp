@@ -75,7 +75,7 @@ int ACCT_MGR_OP::do_rpc(
         for (i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
             p->attached_via_acct_mgr = false;
-            p->ams_resource_share = 0;
+            p->ams_resource_share = -1;
         }
         return 0;
     }

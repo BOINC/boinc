@@ -294,17 +294,23 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
         case FETCH_IF_MINOR_SHORTFALL:
             if (rpwf.overworked()) continue;
             if (wacky_dcf(p)) continue;
+            if (!p->resource_share) continue;
             break;
         case FETCH_IF_MAJOR_SHORTFALL:
             if (wacky_dcf(p)) continue;
+            if (!p->resource_share) continue;
             break;
         case FETCH_IF_PROJECT_STARVED:
             if (rpwf.overworked()) continue;
             if (rpwf.nused_total >= ninstances*rpwf.fetchable_share) continue;
+            if (!p->resource_share) continue;
             break;
         }
 
         if (pbest) {
+            if (!p->resource_share) {
+                continue;
+            }
             if (pbest->pwf.overall_debt > p->pwf.overall_debt) {
                 continue;
             }
@@ -461,6 +467,7 @@ void RSC_WORK_FETCH::update_long_term_debts() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
+        if (!p->resource_share) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         if (w.debt_eligible(p, *this)) {
             double share_frac = p->resource_share/ders;
@@ -533,6 +540,7 @@ void RSC_WORK_FETCH::update_long_term_debts() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
+        if (!p->resource_share) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         if (w.debt_eligible(p, *this)) {
             w.long_term_debt += offset;
@@ -560,6 +568,7 @@ void RSC_WORK_FETCH::update_short_term_debts() {
         double delta;
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
+        if (!p->resource_share) continue;
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         nprojects++;
 
@@ -592,6 +601,7 @@ void RSC_WORK_FETCH::update_short_term_debts() {
         for (i=0; i<gstate.projects.size(); i++) {
             p = gstate.projects[i];
             if (p->non_cpu_intensive) continue;
+            if (!p->resource_share) continue;
             RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
             rpwf.short_term_debt -= avg_short_term_debt;
             if (rpwf.short_term_debt > MAX_STD) {
