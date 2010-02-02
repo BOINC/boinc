@@ -78,7 +78,7 @@ extern int diagnostics_init(
 );
 extern int diagnostics_finish();
 extern int diagnostics_is_initialized();
-extern int diagnostics_is_flag_set( int flags );
+extern int diagnostics_is_flag_set(int flags);
 
 // Properties
 extern char* diagnostics_get_boinc_dir();
@@ -100,6 +100,7 @@ extern int diagnostics_init_thread_list();
 extern int diagnostics_finish_thread_list();
 extern int diagnostics_update_thread_list();
 extern int diagnostics_set_thread_exempt_suspend();
+extern int diagnostics_is_thread_exempt_suspend(long thread_id);
 
 // Message Monitoring
 extern int diagnostics_init_message_monitor();

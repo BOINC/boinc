@@ -578,8 +578,8 @@ int diagnostics_update_thread_list() {
 }
 
 
-// Set the current threads name to make it easy to know what the
-//   thread is supposed to be doing.
+// Set the cached exception record for the current thread, let the exception monitor
+// thread dump the human readable exception information.
 int diagnostics_set_thread_exception_record(PEXCEPTION_POINTERS pExPtrs) {
     HANDLE hThread;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
@@ -616,8 +616,7 @@ int diagnostics_set_thread_exception_record(PEXCEPTION_POINTERS pExPtrs) {
 }
 
 
-// Set the current threads name to make it easy to know what the
-//   thread is supposed to be doing.
+// Set the current thread to suspend exempt status.  Prevents deadlocks.
 int diagnostics_set_thread_exempt_suspend() {
     HANDLE hThread;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
@@ -654,8 +653,31 @@ int diagnostics_set_thread_exempt_suspend() {
 }
 
 
+// Checks to see if the specified thread id is flagged for suspend exempt status.
+// returns 0 on true, 1 on false.  Couldn't use a bool data type since the function
+// prototype needs to be compatible with C.
+int diagnostics_is_thread_exempt_suspend(long thread_id) {
+    int retval = 1;
+    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
+
+    // Wait for the ThreadListSync mutex before writing updates
+    WaitForSingleObject(hThreadListSync, INFINITE);
+
+    pThreadEntry = diagnostics_find_thread_entry(thread_id);
+    if (pThreadEntry) {
+        if (pThreadEntry->crash_suspend_exempt) {
+            retval = 0;
+        }
+    }
+
+    // Release the Mutex
+    ReleaseMutex(hThreadListSync);
+
+    return retval;
+}
+
+
 // Set the current thread's crash message.
-//
 int diagnostics_set_thread_crash_message(char* message) {
     HANDLE hThread;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
