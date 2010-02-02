@@ -449,3 +449,9 @@ David  27 Jan 2010
 
 	client/
 		work_fetch.cpp,h
+
+David  27 Jan 2010
+    - client: remove debug msgs
+
+    client/
+        app.cpp

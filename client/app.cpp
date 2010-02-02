@@ -380,11 +380,13 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     //
     PROCINFO pi;
     procinfo_other(pi, piv);
-    msg_printf(NULL, MSG_INFO, "All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",
-        pi.working_set_size/MEGA, pi.swap_size/MEGA,
-        pi.user_time, pi.kernel_time
-    );
-
+    if (log_flags.mem_usage_debug) {
+        msg_printf(NULL, MSG_INFO,
+            "All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",
+            pi.working_set_size/MEGA, pi.swap_size/MEGA,
+            pi.user_time, pi.kernel_time
+        );
+    }
     double new_cpu_time = pi.user_time + pi.kernel_time;
     if (first) {
         first = false;
@@ -393,7 +395,11 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         // processes might have exited in the last 10 sec,
         // causing this to be negative.
         if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
-        msg_printf(NULL, MSG_INFO, "non-BOINC CPU usage: %f%%", non_boinc_cpu_usage*100);
+        if (log_flags.mem_usage_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "non-BOINC CPU usage: %f%%", non_boinc_cpu_usage*100
+            );
+        }
     }
     last_cpu_time = new_cpu_time;
 }
