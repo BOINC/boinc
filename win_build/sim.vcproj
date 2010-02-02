@@ -1067,10 +1067,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\win_util.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\client\work_fetch.cpp"
 				>
 			</File>
