@@ -420,5 +420,9 @@ David  19 Jan 2010
         sim.cpp,h
         sim_util.cpp
         work_fetch.cpp,h
-    html/user/
-        language_select.php
+
+David  22 Jan 2010
+    - client bug fixes
+
+    client/
+        app_start.cpp

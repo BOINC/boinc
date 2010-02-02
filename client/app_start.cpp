@@ -163,8 +163,10 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 
     // ftok() only works if there's a file at the given location
     //
-    FILE* f = boinc_fopen(init_data_path, "w");
-    if (f) fclose(f);
+    if (!boinc_file_exists(init_data_path)) {
+        FILE* f = boinc_fopen(init_data_path, "w");
+        if (f) fclose(f);
+    }
     shmem_seg_name = ftok(init_data_path, 1);
     if (shmem_seg_name == -1) return ERR_SHMEM_NAME;
 #endif
