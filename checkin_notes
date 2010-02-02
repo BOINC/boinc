@@ -481,3 +481,11 @@ David  29 Jan 2010
     client/
         work_fetch.cpp
         makefile_sim
+
+Rom    2 Feb 2010
+    - Tag for 6.10.31 release, all platforms
+      boinc_core_release_6_10_31
+
+    /
+        configure.ac
+        version.h
