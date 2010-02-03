@@ -120,4 +120,7 @@ function salted_key($key) {
     return md5($key.'oogabooga');
 }
 
+function opt_out_url($user) {
+    return URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id";
+}
 ?>

@@ -168,7 +168,7 @@ function replace($user, $template) {
         $user->name,
         gmdate('d F Y', $user->create_time),
         number_format($user->total_credit, 0),
-        URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
+        opt_out_url($user),
         floor((time() - $user->last_rpc_time) / 86400),
     );
     return preg_replace($pat, $rep, $template);
