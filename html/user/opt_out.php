@@ -26,21 +26,22 @@ $code = get_str("code");
 $userid = get_int('userid');
 $user = lookup_user_id($userid);
 if (!$user) {
-    error_page("no user");
+    error_page("no such user");
 }
 
 if (salted_key($user->authenticator) != $code) {
-    error_page("bad code");
+    error_page("invalid code");
 }
 
 $result = $user->update("send_email=0");
 
 if ($result) {
-    page_head("$email removed from mailing list");
+    page_head("Removed from mailing list");
     echo "
         No further emails will be sent to $user->email_addr.
+        <p>
         To resume getting emails,
-        go <a href=".URL_BASE."prefs_edit.php?subset=project>here</a>
+        <a href=".URL_BASE."prefs_edit.php?subset=project>edit your project preferences</a>.
     ";
     page_tail();
 }
