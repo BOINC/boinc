@@ -1920,9 +1920,6 @@ bool RESULT::insufficient_video_ram() {
     double available_ram;
     int retval;
 
-    if (!avp->gpu_ram) return false;
-        // old schedulers don't report gpu RAM
-
     if (avp->ncudas) {
         retval = coproc_cuda->available_ram(
             coproc_cuda->device_nums[coproc_indices[0]],
@@ -1940,8 +1937,14 @@ bool RESULT::insufficient_video_ram() {
         msg_printf(project, MSG_INFO,
             "Can't get available GPU RAM: %d", retval
         );
-        return false;   // benefit of the doubt
+        return true;   // it can't get available RAM, driver must be wedged.
+            // Better not use it.
     }
+    if (!avp->gpu_ram) {
+        // old schedulers don't report gpu RAM
+        return false;
+    }
+
     if (available_ram < avp->gpu_ram) {
         if (log_flags.cpu_sched_debug) {
             msg_printf(project, MSG_INFO,

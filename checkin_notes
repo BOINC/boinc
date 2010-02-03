@@ -859,3 +859,13 @@ Charlie  2 Feb 2010
         
     clientscr/
         mac_saver_module.cpp
+
+David  3 Feb 2010
+    - client: if GPU get available RAM fails, don't use the GPU
+    - web: put $languages_in_use into $GLOBALS.
+        Apparently it can't be referenced as a global in Drupal otherwise
+
+    client/
+        client_types.cpp
+    html/inc/
+        tranlsation.inc
