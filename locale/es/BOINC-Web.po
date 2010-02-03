@@ -706,5 +706,6 @@ msgstr "BOINC está emplazado en la Universidad de California, Berkeley"
 # The name of this language in an international language (English)<br />
 # <br />
 # The name of this language in an international language (English)
+#, php-format
 #~ msgid "Volunteers speaking several languages are available. "
 #~ msgstr "Hay disponibles voluntarios que hablan distintos idiomas."
