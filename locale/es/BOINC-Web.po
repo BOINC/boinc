@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-01-30 04:50-0700\n"
+"PO-Revision-Date: 2010-02-03 11:30-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -300,7 +300,7 @@ msgstr "Prensa y charlas"
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Proyectos de investigación"
 
 #: index.php:159
 msgid "Logos and graphics"
@@ -308,10 +308,9 @@ msgstr "Logotipos y gráficos"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "y"
 
 #: index.php:164
-#, fuzzy
 msgid "Help wanted"
 msgstr "¡Se busca ayuda!"
 
@@ -325,11 +324,11 @@ msgstr "Traducción"
 
 #: index.php:168
 msgid "Testing"
-msgstr "Probar (testing)"
+msgstr "Pruebas"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "Publicidad"
 
 #: index.php:172
 msgid "Software development"
@@ -353,7 +352,7 @@ msgstr ""
 
 #: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC está emplazado en la Universidad de California, Berkeley"
 
 #~ msgid "Conferences"
 #~ msgstr "Congresos"
