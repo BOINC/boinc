@@ -851,3 +851,11 @@ Rom    2 Feb 2010
         
     client/
         coproc_detect.cpp
+
+Charlie  2 Feb 2010
+    - Mac SS: look for Branding file in BOINC Data folder before the one in Manager
+        to avoid confusion if newer copies of BOINC Manager exist elsewhere on system.
+        (This is primarily for convenience in debugging on build system)
+        
+    clientscr/
+        mac_saver_module.cpp

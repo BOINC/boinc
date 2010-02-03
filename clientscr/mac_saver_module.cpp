@@ -707,20 +707,22 @@ int CScreensaver::GetBrandID()
 
     iBrandId = 0;   // Default value
     
-    err = GetpathToBOINCManagerApp(buf, sizeof(buf));
-    if (err) {     
-        // If we couldn't find our application bundle, look in BOINC Data Directory 
-        // (the installer put a copy there for us)
-        strcpy(buf, "/Library/Application Support/BOINC Data/Branding");
-    } else
-        strcat(buf, "/Contents/Resources/Branding");
-
-    FILE *f = fopen(buf, "r");
+    // The installer put a copy of Branding file in the BOINC Data Directory
+    FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
+    if (f == NULL) {
+       // If we couldn't find our Branding file in the BOINC Data Directory,  
+       // look in our application bundle
+        err = GetpathToBOINCManagerApp(buf, sizeof(buf));
+        if (err == noErr) {
+            strcat(buf, "/Contents/Resources/Branding");
+            f = fopen(buf, "r");
+        }
+    }
     if (f) {
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);
     }
-    
+        
     return iBrandId;
 }
 
