@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-01-28 12:51-0700\n"
+"PO-Revision-Date: 2010-02-03 10:35-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -277,9 +277,7 @@ msgstr "Przyłącz się do &projektu albo menadżera kont..."
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Attach to a project or account manager to begin processing work"
-msgstr ""
-"Przyłącz się do projektu\n"
-"albo do menadżera kont"
+msgstr "Przyłącz się"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -337,7 +335,7 @@ msgstr "Wstrzymanie przetwarzania danych."
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "Use GPU always"
-msgstr "Zawsze używaj GPU"
+msgstr "Zawsze używaj procesora karty graficznej"
 
 #: clientgui/AdvancedFrame.cpp:470
 msgid "Allow GPU work regardless of preferences"
@@ -347,7 +345,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:474
 msgid "Use GPU based on &preferences"
-msgstr "Uruchamiaj zgodnie z &preferencjami"
+msgstr "Używaj procesora karty graficznej zgodnie z &preferencjami"
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Allow GPU work according to your preferences"
@@ -357,13 +355,13 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Use GPU never"
-msgstr "Nigdy nie używaj GPU"
+msgstr "Nigdy nie używaj procesora karty graficznej"
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Stop GPU work regardless of preferences"
 msgstr ""
 "Wstrzymanie przetwarzania danych przez GPU bez względu na ustawienia "
-"preferencji.."
+"preferencji."
 
 #: clientgui/AdvancedFrame.cpp:504
 msgid "&Network activity always available"
@@ -3657,9 +3655,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:255
 msgid "Attach to project or account manager"
-msgstr ""
-"Przyłącz się do projektu\n"
-"albo menadżera kont"
+msgstr "Przyłącz się"
 
 #: clientgui/WelcomePage.cpp:263
 #, c-format
