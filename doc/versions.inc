@@ -62,10 +62,10 @@ function type_text($type) {
 }
 
 $w610dev = array(
-	"num"=>"6.10.29",
+	"num"=>"6.10.32",
 	"status"=>"Development version",
-	"file"=>"boinc_6.10.29_windows_intelx86.exe",
-	"date"=>"15 Jan 2010",
+	"file"=>"boinc_6.10.32_windows_intelx86.exe",
+	"date"=>"3 Feb 2010",
 	"type"=>"win_new",
 );
 
@@ -86,10 +86,10 @@ $w66 = array(
 );
 
 $w610x64dev = array(
-	"num"=>"6.10.29",
+	"num"=>"6.10.32",
 	"status"=>"Development version",
-	"file"=>"boinc_6.10.29_windows_x86_64.exe",
-	"date"=>"15 Jan 2010",
+	"file"=>"boinc_6.10.32_windows_x86_64.exe",
+	"date"=>"3 Feb 2010",
 	"type"=>"win_new",
 );
 
