@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-02-04 06:46-0700\n"
+"PO-Revision-Date: 2010-02-04 07:08-0700\n"
 "Last-Translator: Paolo Landi <landipaolo@tin.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it\n"
@@ -331,21 +331,20 @@ msgstr "Sospendi l'elaborazione indipendentemente dalle preferenze"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "Use GPU always"
-msgstr "Elaborazione GPU con&tinua"
+msgstr "Elaborazione GPU continua"
 
 #: clientgui/AdvancedFrame.cpp:470
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Elabora senza interruzioni e indipendentemente dalle preferenze"
+msgstr ""
+"Elabora con la GPU senza interruzioni e indipendentemente dalle preferenze"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Elaborazione secondo le &preferenze"
+msgstr "Utilizza la GPU secondo &preferenze"
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Allow GPU work according to your preferences"
-msgstr "Elabora seguendo le specifiche fornite dalle preferenze"
+msgstr "Elabora con la GPU seguendo le specifiche fornite dalle preferenze"
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Use GPU never"
