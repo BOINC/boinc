@@ -892,3 +892,19 @@ David  4 Feb 2010
             user.inc
         user/
             home.php
+
+David  4 Feb 2010
+    - scheduler: add example code for SETI@home's situation
+        where app has both GPU and CPU versions,
+        but for certain jobs (VLAR WUs in this case)
+        the GPU version performs poorly and shouldn't be used.
+
+        The fix is a kludge - it will result in these jobs
+        not being sent to the host at all,
+        rather than being sent with the CPU app.
+        The current architecture makes it difficult to do otherwise.
+        One possible fix would be to create a separate app
+        for VLAR jobs, with only CPU app versions.
+
+    sched/
+        sched_customize.cpp

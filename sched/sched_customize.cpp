@@ -55,6 +55,17 @@
 
 bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #if 0
+    // example: if WU name contains "_v1", don't use CUDA app
+    // Note: this is slightly suboptimal.
+    // If the host is able to accept both GPU and CPU jobs,
+    // we'll skip this job rather than send it for the CPU.
+    // Fixing this would require a big architectural change.
+    //
+    if (strstr(wu.name, "_v1") && bav.host_usage.ncudas) {
+        return true;
+    }
+#endif
+#if 0
     // example: for CUDA app, wu.batch is the minimum number of processors.
     // Don't send if #procs is less than this.
     //
