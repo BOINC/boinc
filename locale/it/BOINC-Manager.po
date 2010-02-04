@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-01-29 00:08+0100\n"
-"Last-Translator: LocutusOfBorg <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: 2010-02-04 06:46-0700\n"
+"Last-Translator: Paolo Landi <landipaolo@tin.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -215,7 +215,7 @@ msgstr "&Esci"
 
 #: clientgui/AdvancedFrame.cpp:332
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Avvisi\tCtrl+Shift+A"
+msgstr "&Avvisi\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "Display notices"
@@ -303,11 +303,11 @@ msgstr "Connettiti ad un progetto per iniziare ad elaborare"
 
 #: clientgui/AdvancedFrame.cpp:423
 msgid "Remove client from account manager control."
-msgstr "Rimuovi il client dal controllo dell'account manager"
+msgstr "Rimuovi il client dal controllo dell'account manager."
 
 #: clientgui/AdvancedFrame.cpp:432
 msgid "&Run always"
-msgstr "Elaborazione &continua"
+msgstr "Elabo&razione continua"
 
 #: clientgui/AdvancedFrame.cpp:433
 msgid "Allow work regardless of preferences"
