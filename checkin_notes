@@ -869,3 +869,13 @@ David  3 Feb 2010
         client_types.cpp
     html/inc/
         tranlsation.inc
+
+David  4 Feb 2010
+    - web: code shuffle for Drupal
+
+    html/
+        inc/
+            host.inc
+            stats_sites.inc
+        user/
+            hosts_user.php
