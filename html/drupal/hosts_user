@@ -1,0 +1,23 @@
+<?php
+
+$original_cwd = getcwd();
+chdir('includes/boinc');
+require_once('host.inc');
+
+function display_hosts($userid) {
+    $user = BoincUser::lookup_id($userid);
+    if (!$user) {
+        echo "<h3>No such user</h3>\n";
+        return;
+    }
+    show_user_hosts($userid, true, true, "total_credit", false);
+}
+
+$userid = arg(2);
+if (!$userid) $userid = 1;
+$userid = 1;
+
+display_host($userid);
+
+chdir($original_cwd);
+?>

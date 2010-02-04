@@ -879,3 +879,16 @@ David  4 Feb 2010
             stats_sites.inc
         user/
             hosts_user.php
+
+David  4 Feb 2010
+    - web: Drupal stuff
+
+    html/
+        drupal/
+            home
+            view_profile
+            hosts_user
+        inc/
+            user.inc
+        user/
+            home.php

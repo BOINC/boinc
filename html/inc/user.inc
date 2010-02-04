@@ -329,10 +329,9 @@ function show_user_summary_public($user) {
     }
 }
 
-/**
- * Returns a cacheable community links data object
- * @param user The users to produce a community links object for
- */
+// Returns a cacheable community links data object
+// @param user The user to produce a community links object for
+
 function get_community_links_object($user){
     $cache_object->post_count = total_posts($user);
     $cache_object->user = $user;
@@ -393,6 +392,32 @@ function show_profile_link($user) {
     if ($user->has_profile) {
         row2(tra("Profile"), "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a>");
     }
+}
+
+function show_account_private($user) {
+    start_table_noborder();
+    echo "<tr><td valign=top>";
+    start_table();
+    show_user_info_private($user);
+    if (!no_computing()) {
+        show_user_stats_private($user);
+    }
+
+    if (file_exists("../project/donations.inc")) {
+        require_once("../project/donations.inc");
+        if (function_exists('show_user_donations_private')) {
+            show_user_donations_private($user);
+        }
+    }
+    end_table();
+    show_other_projects($user, true);
+    project_user_page_private($user);
+    echo "</td><td valign=top>";
+    start_table();
+    show_community_private($user);
+    end_table();
+
+    echo "</td></tr></table>";
 }
 
 function is_banned_email_addr($email_addr) {
