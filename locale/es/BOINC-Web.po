@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-02-03 11:30-0700\n"
+"PO-Revision-Date: 2010-02-04 11:58-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -263,16 +263,20 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%1Científicos%2: usa BOINC para crear un %3proyecto de computación "
+"voluntaria%4 obteniendo la potencia de procesamiento de miles de CPUs."
 
 #: index.php:130
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Universidades%2: usa BOINC para crear un %3Campus Virtual de "
+"Supercomputación%4"
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr ""
+msgstr "ompañías%2: usa BOINC para =escargar Red informática%4"
 
 #: index.php:147
 msgid "The BOINC project"
