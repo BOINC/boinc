@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-02-04 11:58-0700\n"
+"PO-Revision-Date: 2010-02-04 12:04-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -97,7 +97,7 @@ msgstr "Todas las versiones"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "Historial de las versiones"
 
 #: download.php:143
 msgid "BOINC: compute for science"
@@ -276,7 +276,9 @@ msgstr ""
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "ompañías%2: usa BOINC para =escargar Red informática%4"
+msgstr ""
+"%1Empresas%2: usa BOINC para %3computación en Red con ordenadores "
+"personales%4"
 
 #: index.php:147
 msgid "The BOINC project"
