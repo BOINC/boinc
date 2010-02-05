@@ -300,18 +300,6 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
 }
 
 
-#ifdef __WXMSW__
-void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
-
-    wxCloseEvent eventClose;
-    OnClose(eventClose);
-    if (eventClose.GetSkipped()) event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
-}
-
-
 // Note: tooltip must not have a trailing linebreak. 
 void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
@@ -428,11 +416,6 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 }
 
 
-void CTaskBarIcon::OnContextMenu(wxTaskBarIconExEvent& WXUNUSED(event)) {
-    DisplayContextMenu();
-}
-
-
 void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
     if (!IsBalloonsSupported()) {
         m_bMouseButtonPressed = true;
@@ -447,6 +430,23 @@ void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
             m_bMouseButtonPressed = false;
         }
     }
+}
+
+
+#ifdef __WXMSW__
+void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
+
+    wxCloseEvent eventClose;
+    OnClose(eventClose);
+    if (eventClose.GetSkipped()) event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
+}
+
+
+void CTaskBarIcon::OnContextMenu(wxTaskBarIconExEvent& WXUNUSED(event)) {
+    DisplayContextMenu();
 }
 #endif
 
