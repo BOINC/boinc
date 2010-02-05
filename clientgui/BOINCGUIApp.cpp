@@ -410,7 +410,6 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
     // Initialize the task bar icon
-#ifdef wxHAS_TASK_BAR_ICON
 	m_pTaskBarIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
@@ -418,7 +417,6 @@ bool CBOINCGUIApp::OnInit() {
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
     );
     wxASSERT(m_pTaskBarIcon);
-#endif
 #ifdef __WXMAC__
     m_pMacSystemMenu = new CMacSystemMenu(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
