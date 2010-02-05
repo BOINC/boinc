@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2009-11-12 11:15-0700\n"
-"Last-Translator: David M <davidcomp at telefonica dot net>\n"
+"PO-Revision-Date: 2010-02-05 12:16-0700\n"
+"Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -204,7 +204,7 @@ msgstr "Cerrar la ventana %s"
 
 #: clientgui/AdvancedFrame.cpp:307
 msgid "&Close Window"
-msgstr ""
+msgstr "&Cerrar Ventana"
 
 #: clientgui/AdvancedFrame.cpp:318
 #, c-format
@@ -217,13 +217,12 @@ msgid "E&xit"
 msgstr "&Salir"
 
 #: clientgui/AdvancedFrame.cpp:332
-#, fuzzy
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Noticias\tCtrl+Shift+N"
+msgstr "&Anuncios\tCtrl+Shift+A"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "Display notices"
-msgstr ""
+msgstr "Visualiza los anuncios"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "&Projects\tCtrl+Shift+P"
@@ -243,7 +242,7 @@ msgstr "Visualizar las tareas"
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "Trans&ferencias\tCtrl+Shift+X"
+msgstr "Trans&ferencias\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:351
 msgid "Display transfers"
@@ -336,26 +335,23 @@ msgstr "Detiene el trabajo sin tener en cuenta sus preferencias"
 
 #: clientgui/AdvancedFrame.cpp:463
 msgid "Use GPU always"
-msgstr ""
+msgstr "Usar la GPU siempre"
 
 #: clientgui/AdvancedFrame.cpp:464
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Hace el trabajo sin tener en cuenta sus preferencias"
+msgstr "Permitir trabajar a la GPU sin tener en cuenta sus preferencias"
 
 #: clientgui/AdvancedFrame.cpp:468
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Ejecutar según &preferencias"
+msgstr "Usar GPU según &preferencias"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Hace el trabajo de acuerdo con sus preferencias"
+msgstr "Permitir trabajar a la GPU de acuerdo con sus preferencias"
 
 #: clientgui/AdvancedFrame.cpp:473
 msgid "Use GPU never"
-msgstr ""
+msgstr "No usar nunca la GPU"
 
 #: clientgui/AdvancedFrame.cpp:474
 #, fuzzy
