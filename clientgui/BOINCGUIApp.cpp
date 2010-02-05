@@ -1127,14 +1127,12 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
     return false;
 }
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
 void CBOINCGUIApp::DeleteTaskBarIcon() {
     if (m_pTaskBarIcon) {
         delete m_pTaskBarIcon;
     }
     m_pTaskBarIcon = NULL;
 }
-#endif
 
 #ifdef __WXMAC__
 void CBOINCGUIApp::DeleteMacSystemMenu() {

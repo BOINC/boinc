@@ -306,7 +306,6 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function Begin"));
 
 
-#ifdef wxHAS_TASK_BAR_ICON
     if (!event.CanVeto() || IsIconized()) {
         wxGetApp().FrameClosed();
         Destroy();
@@ -329,10 +328,6 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
 #endif
         Hide();
     }
-#else
-    wxGetApp().FrameClosed();
-    Destroy();
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function End"));
 }
@@ -373,9 +368,7 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
         wxGetApp().DeleteMacSystemMenu();
 #endif
 
-#ifdef wxHAS_TASK_BAR_ICON
         wxGetApp().DeleteTaskBarIcon();
-#endif
 
         CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
         if (eventLog) {
