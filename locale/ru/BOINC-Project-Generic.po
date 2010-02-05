@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-26 20:00 PST\n"
-"PO-Revision-Date: 2010-01-21 11:31-0700\n"
+"PO-Revision-Date: 2010-02-05 11:10-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -506,9 +506,8 @@ msgid "Cross-project statistics"
 msgstr "Объединенная статистика по проектам"
 
 #: ../inc/user.inc:160
-#, fuzzy
 msgid "Account"
-msgstr "Учетная информация"
+msgstr "Учетная запись"
 
 #: ../inc/user.inc:162 ../inc/user.inc:275 ../inc/user.inc:361
 #: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
