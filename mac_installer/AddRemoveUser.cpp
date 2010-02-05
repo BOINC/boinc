@@ -35,12 +35,13 @@ int main(int argc, char *argv[])
 {
     Boolean             AddUsers = false;
     Boolean             SetSavers = false;
-    Boolean             isGroupMember;
+    Boolean             isBMGroupMember, isBPGroupMember;
     Boolean             saverIsSet = false;
     passwd              *pw;
     uid_t               saved_uid;
     long                OSVersion;
     group               grpBOINC_master, *grpBOINC_masterPtr;
+    group               grpBOINC_project, *grpBOINC_projectPtr;
     char                bmBuf[32768];
     short               index, i;
     char                *p;
@@ -81,32 +82,59 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+    err = getgrnam_r("boinc_project", &grpBOINC_project, bmBuf, sizeof(bmBuf), &grpBOINC_projectPtr);
+    if (err) {          // Should never happen unless buffer too small
+        puts("getgrnam(\"boinc_project\") failed\n");
+        return -1;
+    }
+
     for (index=2; index<argc; index++) {
-        isGroupMember = false;
+        pw = getpwnam(argv[index]);
+        if (pw == NULL) {
+            printf("User %s not found.\n", argv[index]);
+            continue;
+        }
+
+        isBMGroupMember = false;
         i = 0;
         while ((p = grpBOINC_master.gr_mem[i]) != NULL) {  // Step through all users in group boinc_master
             if (strcmp(p, argv[index]) == 0) {
                 // User is a member of group boinc_master
-                isGroupMember = true;
+                isBMGroupMember = true;
                 break;
             }
             ++i;
         }
 
-        if ((!isGroupMember) && AddUsers) {
+        isBPGroupMember = false;
+        i = 0;
+        while ((p = grpBOINC_project.gr_mem[i]) != NULL) {  // Step through all users in group boinc_project
+            if (strcmp(p, argv[index]) == 0) {
+                // User is a member of group boinc_master
+                isBPGroupMember = true;
+                break;
+            }
+            ++i;
+        }
+
+        if ((!isBMGroupMember) && AddUsers) {
             sprintf(s, "dscl . -merge /groups/boinc_master users %s", argv[index]);
             system(s);
         }
         
-        if (isGroupMember && (!AddUsers)) {
+        if ((!isBPGroupMember) && AddUsers) {
+            sprintf(s, "dscl . -merge /groups/boinc_project users %s", argv[index]);
+            system(s);
+        }
+        
+        if (isBMGroupMember && (!AddUsers)) {
             sprintf(s, "dscl . -delete /Groups/boinc_master GroupMembership %s", argv[index]);
             system(s);
         }
 
-        pw = getpwnam(argv[index]);
-        if (pw == NULL) {
-            printf("User %s not found.\n", argv[index]);
-            continue;
+        if (isBPGroupMember && (!AddUsers)) {
+            sprintf(s, "dscl . -delete /Groups/boinc_project GroupMembership %s", argv[index]);
+            system(s);
         }
 
         saved_uid = geteuid();
