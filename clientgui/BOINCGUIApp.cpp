@@ -410,7 +410,7 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
     // Initialize the task bar icon
-#if defined(__WXMSW__) || defined(__WXMAC__)
+#ifdef wxHAS_TASK_BAR_ICON
 	m_pTaskBarIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),

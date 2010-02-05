@@ -932,3 +932,10 @@ Rom    5 Feb 2010
     
     clientscr/
         boinc_ss.rc
+
+Rom    5 Feb 2010
+    - MGR: Enable task bar icon on Linux.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp

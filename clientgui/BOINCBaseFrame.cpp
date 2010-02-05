@@ -306,7 +306,7 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function Begin"));
 
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
+#ifdef wxHAS_TASK_BAR_ICON
     if (!event.CanVeto() || IsIconized()) {
         wxGetApp().FrameClosed();
         Destroy();
@@ -373,8 +373,7 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
         wxGetApp().DeleteMacSystemMenu();
 #endif
 
-        // TaskBarIcon isn't used in Linux
-#if defined(__WXMSW__) || defined(__WXMAC__)
+#ifdef wxHAS_TASK_BAR_ICON
         wxGetApp().DeleteTaskBarIcon();
 #endif
 
