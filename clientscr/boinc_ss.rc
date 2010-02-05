@@ -270,7 +270,7 @@ BEGIN
     CTEXT           "45",IDC_STATIC,171,79,8,8
     CTEXT           "1hr",IDC_STATIC,194,79,10,8
     CTEXT           "Never",IDC_STATIC,213,79,22,8
-    LTEXT           "Run Application screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
+    LTEXT           "Run project screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
     CONTROL         "",IDC_SLIDER_RUNTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,106,220,15
     CTEXT           "1",IDC_STATIC,20,122,8,8
     CTEXT           "2",IDC_STATIC,44,122,8,8
@@ -281,7 +281,7 @@ BEGIN
     CTEXT           "45",IDC_STATIC,171,122,8,8
     CTEXT           "1hr",IDC_STATIC,194,122,10,8
     CTEXT           "Never",IDC_STATIC,213,122,22,8
-    LTEXT           "Switch among Application screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
+    LTEXT           "Switch between project screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
     CONTROL         "",IDC_SLIDER_SWITCHTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,148,220,15
     CTEXT           "1",IDC_STATIC,20,164,8,8
     CTEXT           "2",IDC_STATIC,44,164,8,8
@@ -325,7 +325,7 @@ BEGIN
     CTEXT           "45",IDC_STATIC,171,79,8,8
     CTEXT           "1hr",IDC_STATIC,194,79,10,8
     CTEXT           "Never",IDC_STATIC,213,79,22,8
-    LTEXT           "Run Application screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
+    LTEXT           "Run project screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
     CONTROL         "",IDC_SLIDER_RUNTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,106,220,15
     CTEXT           "1",IDC_STATIC,20,122,8,8
     CTEXT           "2",IDC_STATIC,44,122,8,8
@@ -336,7 +336,7 @@ BEGIN
     CTEXT           "45",IDC_STATIC,171,122,8,8
     CTEXT           "1hr",IDC_STATIC,194,122,10,8
     CTEXT           "Never",IDC_STATIC,213,122,22,8
-    LTEXT           "Switch among Application screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
+    LTEXT           "Switch between project screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
     CONTROL         "",IDC_SLIDER_SWITCHTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,148,220,15
     CTEXT           "1",IDC_STATIC,20,164,8,8
     CTEXT           "2",IDC_STATIC,44,164,8,8
@@ -380,7 +380,7 @@ BEGIN
     CTEXT           "45",IDC_STATIC,171,79,8,8
     CTEXT           "1hr",IDC_STATIC,194,79,10,8
     CTEXT           "Never",IDC_STATIC,213,79,22,8
-    LTEXT           "Run Application screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
+    LTEXT           "Run project screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
     CONTROL         "",IDC_SLIDER_RUNTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,106,220,15
     CTEXT           "1",IDC_STATIC,20,122,8,8
     CTEXT           "2",IDC_STATIC,44,122,8,8
@@ -391,7 +391,7 @@ BEGIN
     CTEXT           "45",IDC_STATIC,171,122,8,8
     CTEXT           "1hr",IDC_STATIC,194,122,10,8
     CTEXT           "Never",IDC_STATIC,213,122,22,8
-    LTEXT           "Switch among Application screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
+    LTEXT           "Switch between project screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
     CONTROL         "",IDC_SLIDER_SWITCHTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,148,220,15
     CTEXT           "1",IDC_STATIC,20,164,8,8
     CTEXT           "2",IDC_STATIC,44,164,8,8
@@ -435,7 +435,7 @@ BEGIN
     CTEXT           "45",IDC_STATIC,171,79,8,8
     CTEXT           "1hr",IDC_STATIC,194,79,10,8
     CTEXT           "Never",IDC_STATIC,213,79,22,8
-    LTEXT           "Run Application screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
+    LTEXT           "Run project screensavers for:",IDC_STATIC,7,92,237,14,SS_CENTERIMAGE
     CONTROL         "",IDC_SLIDER_RUNTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,106,220,15
     CTEXT           "1",IDC_STATIC,20,122,8,8
     CTEXT           "2",IDC_STATIC,44,122,8,8
@@ -446,7 +446,7 @@ BEGIN
     CTEXT           "45",IDC_STATIC,171,122,8,8
     CTEXT           "1hr",IDC_STATIC,194,122,10,8
     CTEXT           "Never",IDC_STATIC,213,122,22,8
-    LTEXT           "Switch among Application screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
+    LTEXT           "Switch between project screensavers every:",IDC_STATIC,7,135,237,14,SS_CENTERIMAGE
     CONTROL         "",IDC_SLIDER_SWITCHTIME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,148,220,15
     CTEXT           "1",IDC_STATIC,20,164,8,8
     CTEXT           "2",IDC_STATIC,44,164,8,8

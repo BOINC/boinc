@@ -524,3 +524,9 @@ Charlie  5 Feb 2010
     /
         configure.ac
         version.h
+
+Rom    5 Feb 2010
+    - WINSCR: cleanup configuration dialog text.
+    
+    clientscr/
+        boinc_ss.rc
