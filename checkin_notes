@@ -940,3 +940,10 @@ Rom    5 Feb 2010
         AsyncRPC.cpp
         BOINCBaseFrame.cpp
         BOINCGUIApp.cpp
+
+Rom    5 Feb 2010
+    - MGR: Move cross-platform event handlers for creating context menus and updating
+        tooltips out of the Windows only scope.
+        
+    clientgui/
+        BOINCTaskBar.cpp, .h
