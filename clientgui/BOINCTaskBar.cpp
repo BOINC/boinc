@@ -411,7 +411,10 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             strMessage += strBuffer;
         }
 
+#ifdef wxUSE_TOOLTIPS
         SetTooltip(strMessage);
+#endif
+
     }
 }
 
