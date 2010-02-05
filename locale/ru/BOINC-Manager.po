@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-01-28 13:44-0700\n"
+"PO-Revision-Date: 2010-02-05 10:48-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -343,33 +343,27 @@ msgid "Stop work regardless of preferences"
 msgstr "Приостанавливается обработка всех заданий во всех проектах"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Use GPU always"
 msgstr "Постоянная обработка на GPU"
 
 #: clientgui/AdvancedFrame.cpp:470
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
 msgstr "Обработка заданий на GPU запущена всегда"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Use GPU based on &preferences"
 msgstr "График работы GPU определяется настройками"
 
 #: clientgui/AdvancedFrame.cpp:475
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
 msgstr ""
 "Обработка на GPU происходит в моменты времени в соответствие с настройками"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Use GPU never"
 msgstr "Не использовать GPU"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
 msgstr "Приостанавливается обработка на GPU всех заданий во всех проектах"
 
@@ -3915,7 +3909,7 @@ msgstr "Pie Ctrl"
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
 "для поддержки доступности, пожалуйста выберите меню Расширенный вид или "
-"введите команду Shift a"
+"введите команду shift a"
 
 #: clientgui/mac/MacAccessiblity.cpp:245
 #, fuzzy
