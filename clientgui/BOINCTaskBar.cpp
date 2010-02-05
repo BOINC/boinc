@@ -141,11 +141,14 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
 
     // Which icon should be displayed?
     if (!pDoc->IsConnected()) {
+        m_iconCurrent = m_iconTaskBarDisconnected;
         SetIcon(m_iconTaskBarDisconnected);
     } else {
         if (RUN_MODE_NEVER == status.task_mode) {
+            m_iconCurrent = m_iconTaskBarSnooze;
             SetIcon(m_iconTaskBarSnooze);
         } else {
+            m_iconCurrent = m_iconTaskBarNormal;
             SetIcon(m_iconTaskBarNormal);
         }
     }
@@ -411,10 +414,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             strMessage += strBuffer;
         }
 
-#ifdef wxUSE_TOOLTIPS
-        SetTooltip(strMessage);
-#endif
-
+        SetIcon(m_iconCurrent, strMessage);
     }
 }
 

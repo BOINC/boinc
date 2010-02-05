@@ -947,3 +947,12 @@ Rom    5 Feb 2010
         
     clientgui/
         BOINCTaskBar.cpp, .h
+
+Rom    5 Feb 2010
+    - MGR: Fix build break by adjusting the SetIcon function prototype so that it conforms
+        to the wxWidget standard.
+        
+    clientgui/
+        BOINCTaskBar.cpp, .h
+    clientgui/msw/
+        taskbarex.cpp, .h

@@ -77,6 +77,7 @@ public:
     wxIcon     m_iconTaskBarNormal;
     wxIcon     m_iconTaskBarDisconnected;
     wxIcon     m_iconTaskBarSnooze;
+    wxIcon     m_iconCurrent;
     wxString   m_strDefaultTitle;
     bool       m_bTaskbarInitiatedShutdown;
 

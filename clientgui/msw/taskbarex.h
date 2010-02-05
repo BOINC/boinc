@@ -44,9 +44,7 @@ public:
 
 // Operations
 
-    virtual bool SetIcon( const wxIcon& icon );
-
-    virtual bool SetTooltip( const wxString& message );
+    virtual bool SetIcon( const wxIcon& icon, const wxString& message = wxEmptyString );
 
     virtual bool SetBalloon(
         const wxIcon& icon, 
