@@ -111,7 +111,7 @@ function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
     // write news items
     //
     foreach ($threads as $thread) {
-        show_forum_rss_item($thread, $truncate);
+        show_forum_rss_item($thread, $userid, $threads_only, $truncate);
     }
 
     echo "

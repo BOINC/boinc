@@ -920,3 +920,9 @@ Charlie  4 Feb 2010
         AddRemoveUser.cpp
         PostInstall.cpp
         WaitPermissions.cpp
+
+David  4 Feb 2010
+    - web: fix bug that caused news RSS to show wrong items
+
+    html/inc/
+        forum_rss.inc
