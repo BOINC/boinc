@@ -33,6 +33,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <cerrno>
+#include <time.h>       // for time()
 
 #include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
 
@@ -45,6 +46,7 @@
 #define boinc_project_group_name "boinc_project"
 
 void Initialize(void);	/* function prototypes */
+Boolean myFilterProc(DialogRef theDialog, EventRecord *theEvent, DialogItemIndex *itemHit);
 int DeleteReceipt(void);
 OSStatus CheckLogoutRequirement(int *finalAction);
 void CheckUserAndGroupConflicts();
@@ -74,8 +76,7 @@ static Boolean                  gQuitFlag = false;
 static Boolean                  currentUserCanRunBOINC = false;
 static char                     loginName[256];
 static long                     OSVersion = 0;
-
-
+static time_t                   waitPermissionsStartTime;
 
 static char *saverName[NUMBRANDS];
 static char *saverNameEscaped[NUMBRANDS];
@@ -116,6 +117,8 @@ int main(int argc, char *argv[])
     uid_t                   saved_euid, saved_uid, b_m_uid;
     passwd                  *pw;
     int                     finalInstallAction;
+    DialogRef               theWin;
+
 #else   // SANDBOX
     group                   *grp;
 #endif  // SANDBOX
@@ -390,17 +393,47 @@ int main(int argc, char *argv[])
         // application.
         err = LSOpenFSRef(&theFSRef, NULL);
 
-        for (i=0; i<180; i++) {     // Limit delay to 3 minutes
+        waitPermissionsStartTime = time(NULL);
+        for (i=0; i<15; i++) {     // Show "Please wait..." alert after 15 seconds
             waitPermissionsPID = FindProcessPID("WaitPermissions", 0);
             if (waitPermissionsPID == 0) {
-                break;
+                return 0;
             }
             sleep(1);
         }
+        
+        CreateStandardAlert(kAlertNoteAlert, CFSTR("Finishing install.  Please wait ..."), CFSTR("This may take a few more minutes."), NULL, &theWin);
+        HideDialogItem(theWin, kStdOkItemIndex);
+        RemoveDialogItems(theWin, kStdOkItemIndex, 1, false);
+        RunStandardAlert(theWin, &myFilterProc, &itemHit);
+
     }
 #endif   // SANDBOX
     
     return 0;
+}
+
+
+Boolean myFilterProc(DialogRef theDialog, EventRecord *theEvent, DialogItemIndex *itemHit) {
+    static time_t       lastCheckTime = 0;
+    time_t              now = time(NULL);
+    pid_t               waitPermissionsPID = 0;
+
+    if (now != lastCheckTime) {
+            waitPermissionsPID = FindProcessPID("WaitPermissions", 0);
+            if (waitPermissionsPID == 0) {
+                *itemHit = kStdOkItemIndex;
+                return true;
+            }
+        lastCheckTime = now;
+        // Limit delay to 3 minutes
+        if ((now - waitPermissionsStartTime) > 180) {
+            *itemHit = kStdOkItemIndex;
+            return true;
+        }
+    }
+
+return false;
 }
 
 
@@ -996,12 +1029,6 @@ OSErr UpdateAllVisibleUsers(long brandID)
 
     ResynchSystem();
 
-    err = getgrnam_r("boinc_master", &grpBOINC_master, bmBuf, sizeof(bmBuf), &grpBOINC_masterPtr);
-    if (err) {          // Should never happen unless buffer too small
-        puts("getgrnam(\"boinc_master\") failed\n");
-        return -1;
-    }
-    
     if (! allNonAdminUsersAreSet) {
         if (ShowMessage(true, 
             "Users who are permitted to administer this computer will automatically be allowed to "
@@ -1044,19 +1071,21 @@ OSErr UpdateAllVisibleUsers(long brandID)
         isGroupMember = false;
 
         i = 0;
-        while ((p = grpBOINC_master.gr_mem[i]) != NULL) {  // Step through all users in group boinc_master
+        while ((p = grpAdmin.gr_mem[i]) != NULL) {  // Step through all users in group admin
             if (strcmp(p, dp->d_name) == 0) {
-                // User is a member of group boinc_master
+                // User is a member of group admin
                 isGroupMember = true;
                 break;
             }
             ++i;
         }
 
+        // If allNonAdminUsersAreSet, some older versions added non-admin users only to 
+        // group boinc_master; make sure they are also members of group boinc_project
         if (! isGroupMember) {
-            if (allowNonAdminUsersToRunBOINC) {
+            if (allowNonAdminUsersToRunBOINC || allNonAdminUsersAreSet) {
                 // Add to group boinc_master but not group boinc_project
-                err = AddAdminUserToGroups(dp->d_name, false);
+                err = AddAdminUserToGroups(dp->d_name);
                 isGroupMember = true;
             }
         }
@@ -1399,4 +1428,3 @@ void print_to_log_file(const char *format, ...) {
 #endif
 }
 const char *BOINC_RCSID_c7abe0490e="$Id$";
-

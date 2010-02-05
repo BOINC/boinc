@@ -39,7 +39,7 @@
 bool IsUserInGroupBM();
 #endif
 
-static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox);
+static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox, int isManager);
 
 #if (! defined(__WXMAC__) && ! defined(_MAC_INSTALLER))
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
@@ -358,7 +358,7 @@ saverName[2] = "Progress Thru Processors";
             return -1026;
 
         // Step through project directories
-        retval = CheckNestedDirectories(full_path, 1, use_sandbox);
+        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager);
         if (retval)
             return retval;
     }
@@ -380,7 +380,7 @@ saverName[2] = "Progress Thru Processors";
             return -1029;
 
         // Step through slot directories
-        retval = CheckNestedDirectories(full_path, 1, use_sandbox);
+        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager);
         if (retval)
             return retval;
     }
@@ -497,7 +497,7 @@ saverName[2] = "Progress Thru Processors";
 }
 
 
-static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox) {
+static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox, int isManager) {
     int             isDirectory;
     char            full_path[MAXPATHLEN];
     struct stat     sbuf;
@@ -579,11 +579,11 @@ static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox) {
         }           // if (!S_ISLNK(sbuf.st_mode))
         
         if (isDirectory && !S_ISLNK(sbuf.st_mode)) {
-            if (use_sandbox && (depth > 1))
-                if ((sbuf.st_uid != boinc_master_uid) && (sbuf.st_gid != boinc_master_gid))
-                    continue;       // We can't check subdirectories owned by boinc_project
-            
-            retval = CheckNestedDirectories(full_path, depth + 1, use_sandbox);
+            if (use_sandbox && (depth > 1)) {
+                if ((! isManager) && (sbuf.st_uid != boinc_master_uid))
+                    continue;       // Client can't check subdirectories owned by boinc_project
+            }
+            retval = CheckNestedDirectories(full_path, depth + 1, use_sandbox, isManager);
             if (retval)
                 break;
         }

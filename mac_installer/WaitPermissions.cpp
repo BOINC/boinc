@@ -23,14 +23,17 @@
 
 #include <sys/stat.h>   // for stat
 #include <unistd.h>	// getuid
+#include <dirent.h>
 
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
-// When we first create the boinc_master group and add the current user to the 
-// new group, there is a delay before the new group membership is recognized.  
-// If we launch the BOINC Manager too soon, it will fail with a -1037 permissions 
-// error, so we wait until the current user can access the switcher application.
+// When we first create the boinc_master and boinc_project groups and add the 
+// current user to the  new groups, there is a delay before the new group 
+// membership is recognized.  If we launch the BOINC Manager too soon, it will 
+// fail with either a -1037 or -1200 permissions error, so we wait until the 
+// current user can access the projects directory and the switcher application.
+//
 // Apparently, in order to get the changed permissions / group membership, we must 
 // launch a new process belonging to the user.  It may also need to be in a new 
 // process group or new session. Neither system() nor popen() works, even after 
@@ -41,15 +44,33 @@ int main(int argc, char *argv[])
 {
     struct stat             sbuf;
     int                     i;
-    int                     retval;
+    int                     retval = 0;
+    DIR                     *dirp;
     
     for (i=0; i<180; i++) {     // Limit delay to 3 minutes
+    
+        retval = stat("/Library/Application Support/BOINC Data/projects", &sbuf);
+        if (retval) {
+            if (errno == EACCES) {      // if stat() had permissions error
+                sleep(1);
+                continue;
+            }
+        } else {      // projects directory exists
+            dirp = opendir("/Library/Application Support/BOINC Data/projects");
+            if (dirp) {
+                closedir(dirp);
+            } else {
+                sleep(1);    // Our boinc_project group membership may not yet be active
+                continue;
+            }
+        }
+        
         retval = stat("/Library/Application Support/BOINC Data/switcher/switcher", &sbuf);
 //        print_to_log_file("WaitPermissions: stat(switcher path) returned %d, uid = %d, euid = %d\n", retval, (int)getuid(), (int)geteuid());
         if (retval == 0) {
             return 0;
         }
-        sleep(1);
+        sleep(1);    // Our boinc_master group membership may not yet be active
     }
     return retval;
 }
