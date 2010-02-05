@@ -926,3 +926,9 @@ David  4 Feb 2010
 
     html/inc/
         forum_rss.inc
+
+Rom    5 Feb 2010
+    - WINSCR: cleanup configuration dialog text.
+    
+    clientscr/
+        boinc_ss.rc
