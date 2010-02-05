@@ -1129,7 +1129,6 @@ void CMainDocument::HandleCompletedRPC() {
         }
     }
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
     if (m_bNeedTaskBarRefresh && !m_bWaitingForRPC) {
         m_bNeedTaskBarRefresh = false;
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
@@ -1139,7 +1138,6 @@ void CMainDocument::HandleCompletedRPC() {
             pTaskbar->ProcessEvent(event);
         }
     }
-#endif
 
     if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_EVENT_LOG_AFTER) {
         CDlgEventLog* eventLog = wxGetApp().GetEventLog();
