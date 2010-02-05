@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
     group               grpBOINC_master, *grpBOINC_masterPtr;
     group               grpBOINC_project, *grpBOINC_projectPtr;
     char                bmBuf[32768];
+    char                bpBuf[32768];
     short               index, i;
     char                *p;
     char                s[256];
@@ -82,7 +83,7 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    err = getgrnam_r("boinc_project", &grpBOINC_project, bmBuf, sizeof(bmBuf), &grpBOINC_projectPtr);
+    err = getgrnam_r("boinc_project", &grpBOINC_project, bpBuf, sizeof(bpBuf), &grpBOINC_projectPtr);
     if (err) {          // Should never happen unless buffer too small
         puts("getgrnam(\"boinc_project\") failed\n");
         return -1;
