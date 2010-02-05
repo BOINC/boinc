@@ -516,4 +516,11 @@ Charlie  4 Feb 2010
         AddRemoveUser.cpp
         PostInstall.cpp
         WaitPermissions.cpp
-    
+
+Charlie  5 Feb 2010
+    - Tag for 6.10.33 release (changes from 6.10.32 are Mac only.)
+      boinc_core_release_6_10_33
+
+    /
+        configure.ac
+        version.h
