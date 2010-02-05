@@ -23,11 +23,11 @@
 #define ID_CLOSEWINDOW                          6100
 #define ID_CHANGEGUI                            6101
 #define ID_OPENWEBSITE                          6102
-#define ID_PERIODICRPCTIMER                     6103
-#define ID_DOCUMENTPOLLTIMER                    6104
-#define ID_ALERTPOLLTIMER                       6105
-#define ID_REFRESHSTATETIMER                    6106
-//#define ID_REFRESHTIMER                         6107
+#define ID_OPENBOINCMANAGER                     6103
+#define ID_PERIODICRPCTIMER                     6104
+#define ID_DOCUMENTPOLLTIMER                    6105
+#define ID_ALERTPOLLTIMER                       6106
+#define ID_REFRESHSTATETIMER                    6107
 #define ID_WIZARDATTACH                         6108
 #define ID_WIZARDUPDATE                         6109
 #define ID_WIZARDDETACH                         6110

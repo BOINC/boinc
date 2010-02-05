@@ -54,7 +54,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
     EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
-    EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
+    EVT_MENU(ID_OPENBOINCMANAGER, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspendResume)
     EVT_MENU(ID_TB_SUSPEND_GPU, CTaskBarIcon::OnSuspendResumeGPU)
@@ -611,7 +611,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
         _("Open %s..."),
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    pMenu->Append(wxID_OPEN, menuName, wxEmptyString);
+    pMenu->Append(ID_OPENBOINCMANAGER, menuName, wxEmptyString);
 
     pMenu->AppendSeparator();
 
@@ -622,12 +622,10 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     pMenu->AppendSeparator();
 
-#ifdef _DEBUG
-
     pMenu->Append(ID_TB_TEST_NOTIFICATION, _("Test Notification"), wxEmptyString);
+
     pMenu->AppendSeparator();
 
-#endif
 
     menuName.Printf(
         _("&About %s..."),

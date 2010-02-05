@@ -956,3 +956,12 @@ Rom    5 Feb 2010
         BOINCTaskBar.cpp, .h
     clientgui/msw/
         taskbarex.cpp, .h
+
+Rom    5 Feb 2010
+    - MGR: Change the 'Open BOINC Manager' menu item ID for the task bar icon.  wxID_OPEN
+        causes a folder icon to be prepended to the menu item on Linux.
+    - MGR: Enable the Test Notification menu item on Linux
+        
+    clientgui/
+        BOINCTaskBar.cpp, .h
+ 
