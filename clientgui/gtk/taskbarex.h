@@ -46,7 +46,7 @@ public:
 
 // Accessors
     bool IsOK() const { return true; }
-    bool IsIconInstalled() const { return m_statusIcon; }
+    bool IsIconInstalled() const { return m_pStatusIcon; }
 
 // Operations
     virtual bool SetIcon(
@@ -73,7 +73,7 @@ public:
     bool PopupMenu(wxMenu *menu);
 
 // Implementation
-    static bool IsBalloonsSupported() const { return true; };
+    bool IsBalloonsSupported() const { return true; };
 
 // Data members
 protected:
