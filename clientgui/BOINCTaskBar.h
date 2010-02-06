@@ -23,8 +23,10 @@
 #endif
 
 
-#ifdef __WXMSW__
+#if   defined(__WXMSW__)
 #include "msw/taskbarex.h"
+#elif defined(__WXGTK__)
+#include "gtk/taskbarex.h"
 #else
 #define wxTaskBarIconEx         wxTaskBarIcon
 #define wxTaskBarIconExEvent    wxTaskBarIconEvent

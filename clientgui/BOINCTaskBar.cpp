@@ -80,10 +80,8 @@ END_EVENT_TABLE()
 CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze) : 
 #if   defined(__WXMAC__)
     wxTaskBarIcon(DOCK)
-#elif defined(__WXMSW__)
+#else 
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
-#else
-    wxTaskBarIcon()
 #endif
 {
     m_iconTaskBarNormal = *icon;

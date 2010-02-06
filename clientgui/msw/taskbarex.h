@@ -3,20 +3,27 @@
 // Purpose:     Defines wxTaskBarIcon class for manipulating icons on the
 //              Windows task bar.
 // Author:      Julian Smart
-// Modified by:
+// Modified by: Rom Walton
 // Created:     24/3/98
 // RCS-ID:      $Id$
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////
 
-#ifndef _TASKBAREX_H_
-#define _TASKBAREX_H_
-
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "taskbarex.cpp"
 #endif
 
+#ifndef _TASKBAREX_H_
+#define _TASKBAREX_H_
+
+// ----------------------------------------------------------------------------
+// wxTaskBarIconEx Balloon Types 
+// ----------------------------------------------------------------------------
+
+#define BALLOONTYPE_INFO        NIIF_INFO
+#define BALLOONTYPE_WARNING     NIIF_WARNING
+#define BALLOONTYPE_ERROR       NIIF_ERROR
 
 // ----------------------------------------------------------------------------
 // wxTaskBarIconEx 
@@ -24,8 +31,11 @@
 
 class wxTaskBarIconExEvent;
 
-class wxTaskBarIconEx: public wxEvtHandler {
+class wxTaskBarIconEx: public wxEvtHandler
+{
+    DECLARE_EVENT_TABLE()
     DECLARE_DYNAMIC_CLASS(wxTaskBarIconEx)
+    DECLARE_NO_COPY_CLASS(wxTaskBarIconEx)
 public:
 
     wxTaskBarIconEx();
@@ -43,21 +53,23 @@ public:
     inline bool IsIconInstalled() const { return m_iconAdded; }
 
 // Operations
-
-    virtual bool SetIcon( const wxIcon& icon, const wxString& message = wxEmptyString );
+    virtual bool SetIcon(
+        const wxIcon& icon,
+        const wxString& message = wxEmptyString
+    );
 
     virtual bool SetBalloon(
         const wxIcon& icon, 
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
-        unsigned int iconballoon = NIIF_INFO
+        unsigned int iconballoon = BALLOONTYPE_INFO
     );
 
     virtual bool QueueBalloon(
         const wxIcon& icon, 
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
-        unsigned int iconballoon = NIIF_INFO
+        unsigned int iconballoon = BALLOONTYPE_INFO
     );
 
     virtual bool RemoveIcon();
@@ -74,14 +86,9 @@ public:
 protected:
     wxMutex*        m_pTaskbarMutex;
     WXHWND          m_hWnd;
-    wxInt32         m_iTaskbarID;
     bool            m_iconAdded;
+    wxInt32         m_iTaskbarID;
     NOTIFYICONDATA  notifyData;
-
-
-private:
-    DECLARE_EVENT_TABLE()
-    DECLARE_NO_COPY_CLASS(wxTaskBarIconEx)
 };
 
 
@@ -133,9 +140,4 @@ typedef void (wxEvtHandler::*wxTaskBarIconExEventFunction)(wxTaskBarIconExEvent&
 
 
 #endif
-    // _TASKBAR_H_
-
-
-
-
-
+    // _TASKBAREX_H_

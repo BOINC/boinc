@@ -3,7 +3,7 @@
 // Purpose:     Implements wxTaskBarIconEx class for manipulating icons on
 //              the Windows task bar.
 // Author:      Julian Smart
-// Modified by:
+// Modified by: Rom Walton
 // Created:     24/3/98
 // RCS-ID:      $Id$
 // Copyright:   (c)
@@ -157,7 +157,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     notifyData.hWnd             = (HWND) m_hWnd;
     notifyData.uID              = m_iTaskbarID;
     notifyData.uCallbackMessage = WM_TASKBARMESSAGE;
-    notifyData.uFlags           = NIF_MESSAGE | NIF_INFO | NIF_TIP | NIF_ICON | NIF_REALTIME;
+    notifyData.uFlags           = NIF_MESSAGE | NIF_INFO | NIF_ICON | NIF_REALTIME;
     notifyData.dwInfoFlags      = iconballoon | NIIF_NOSOUND | NIIF_RESPECT_QUIET_TIME;
     notifyData.uVersion         = NOTIFYICON_VERSION;
     notifyData.hIcon            = (HICON) icon.GetHICON();
@@ -182,7 +182,7 @@ bool wxTaskBarIconEx::QueueBalloon(const wxIcon& icon, const wxString title, con
     notifyData.hWnd             = (HWND) m_hWnd;
     notifyData.uID              = m_iTaskbarID;
     notifyData.uCallbackMessage = WM_TASKBARMESSAGE;
-    notifyData.uFlags           = NIF_MESSAGE | NIF_INFO | NIF_TIP | NIF_ICON;
+    notifyData.uFlags           = NIF_MESSAGE | NIF_INFO | NIF_ICON;
     notifyData.dwInfoFlags      = iconballoon | NIIF_RESPECT_QUIET_TIME;
     notifyData.uVersion         = NOTIFYICON_VERSION;
     notifyData.hIcon            = (HICON) icon.GetHICON();

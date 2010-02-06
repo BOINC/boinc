@@ -965,3 +965,14 @@ Rom    5 Feb 2010
     clientgui/
         BOINCTaskBar.cpp, .h
  
+Rom    6 Feb 2010
+     - MGR: Introduce balloons to Linux version of BOINC Manager.
+         (Note: Not debugged yet)
+         
+    clientgui/
+        BOINCTaskBar.cpp, .h
+        Makefile.am
+    clientgui/gtk/
+        taskbarex.cpp, .h
+    clientgui/msw/
+        taskbarex.cpp, .h
