@@ -679,6 +679,7 @@ fi
 
 dnl ---------- wxWidgets --------------------------------------------------
 if test "${enable_manager}" = yes ; then
+  AM_PATH_GTK_2_0([2.10.0])
   BOINC_OPTIONS_WXWIDGETS([2.8.0])
   if test "$enable_release_client" = yes -a "$disable_static_linkage" = no 
   then
