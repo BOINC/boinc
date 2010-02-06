@@ -19,7 +19,7 @@
 #include <libnotify/notify.h>
 
 #include "BOINCGUIApp.h"
-#include "msw/taskbarex.h"
+#include "gtk/taskbarex.h"
 #include "BOINCTaskBar.h"
 
 
