@@ -993,3 +993,9 @@ David  7 Feb 2010
         user/
             workunit.php
             result.php
+
+David  7 Feb 2010
+    - more tra()s from Christian.  fixes #976
+
+    html/user/
+        user_search.php

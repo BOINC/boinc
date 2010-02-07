@@ -116,18 +116,18 @@ function search_form() {
     row2(tra("Decreasing average credit"), "<input type=radio name=search_type value=\"rac\">");
     row2(tra("Decreasing total credit"), "<input type=radio name=search_type value=\"total\">");
     row1(tra("Filters"), 2, "heading");
-    row2_init(tra("Country"), "<select name=country><option value=\"any\" selected>Any</option>");
+    row2_init(tra("Country"), "<select name=country><option value=\"any\" selected>".tra("Any")."</option>");
     print_country_select("asdf");
     echo "</select></td></tr>";
     row2(tra("With profile?"),
-        "<input type=radio name=profile value=either checked=1> Either
-        <input type=radio name=profile value=no> No
-        <input type=radio name=profile value=yes> Yes
+        "<input type=radio name=profile value=either checked=1> ".tra("Either")."
+        <input type=radio name=profile value=no> ".tra("No")."
+        <input type=radio name=profile value=yes> ".tra("Yes")."
     ");
     row2(tra("On a team?"),
-        "<input type=radio name=team value=either checked=1> Either
-        <input type=radio name=team value=no> No
-        <input type=radio name=team value=yes> Yes
+        "<input type=radio name=team value=either checked=1> ".tra("Either")."
+        <input type=radio name=team value=no> ".tra("No")."
+        <input type=radio name=team value=yes> ".tra("Yes")."
     ");
     row2("", "<input type=submit name=action value=".tra("Search").">");
     end_table();
@@ -183,7 +183,7 @@ function main() {
         case 'name_prefix':
             break;
         default:
-            error_page("missing search type");
+            error_page(tra("missing search type"));
         }
 
         $filter = null;
