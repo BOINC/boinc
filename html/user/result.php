@@ -25,9 +25,9 @@ require_once("../inc/result.inc");
 $resultid = get_int("resultid");
 $result = lookup_result($resultid);
 if (!$result) {
-    error_page("No such task");
+    error_page(tra("No such task"));
 }
-page_head("Task $resultid");
+page_head(tra("Task %1", $resultid"));
 show_result($result);
 page_tail();
 

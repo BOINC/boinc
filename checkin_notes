@@ -982,3 +982,14 @@ David  6 Feb 2010
 
     doc/
         get_platforms.inc
+
+David  7 Feb 2010
+    - web: make a bunch of strings translatable (from Christian Beer)
+        fixes #977
+
+    html/
+        inc/
+            result.inc
+        user/
+            workunit.php
+            result.php

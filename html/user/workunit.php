@@ -27,21 +27,21 @@ BoincDb::get(true);
 $wuid = get_int("wuid");
 $wu = BoincWorkunit::lookup_id($wuid);
 if (!$wu) {
-    error_page("can't find workunit");
+    error_page(tra("can't find workunit"));
 }
 
-page_head("Workunit $wuid");
+page_head(tra("Workunit %1", $wuid));
 $app = BoincApp::lookup_id($wu->appid);
 
 start_table();
-row2("name", $wu->name);
-row2("application", $app->user_friendly_name);
-row2("created", time_str($wu->create_time));
+row2(tra("name"), $wu->name);
+row2(tra("application"), $app->user_friendly_name);
+row2(tra("created"), time_str($wu->create_time));
 if ($wu->canonical_resultid) {
-    row2("canonical result",
+    row2(tra("canonical result"),
         "<a href=result.php?resultid=$wu->canonical_resultid>$wu->canonical_resultid</a>"
     );
-    row2("granted credit", format_credit($wu->canonical_credit));
+    row2(tra("granted credit"), format_credit($wu->canonical_credit));
 }
 
 // if app is using adaptive replication and no canonical result yet,
@@ -49,19 +49,19 @@ if ($wu->canonical_resultid) {
 // (so that bad guys can't tell if they have an unreplicated job)
 
 if ($app->target_nresults>0 && !$wu->canonical_resultid) {
-    row2("Tasks in progress", "suppressed pending completion");
+    row2(tra("Tasks in progress"), tra("suppressed pending completion"));
     end_table();
 } else {
-    row2("minimum quorum", $wu->min_quorum);
-    row2("initial replication", $wu->target_nresults);
-    row2("max # of error/total/success tasks",
+    row2(tra("minimum quorum"), $wu->min_quorum);
+    row2(tra("initial replication"), $wu->target_nresults);
+    row2(tra("max # of error/total/success tasks"),
         "$wu->max_error_results, $wu->max_total_results, $wu->max_success_results"
     );
     if ($wu->error_mask) {
-        row2("errors", wu_error_mask_str($wu->error_mask));
+        row2(tra("errors"), wu_error_mask_str($wu->error_mask));
     }
     if ($wu->need_validate) {
-        row2("validation", "Pending");
+        row2(tra("validation"), tra("Pending"));
     }
     end_table();
     project_workunit($wu);
