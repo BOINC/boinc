@@ -976,3 +976,9 @@ Rom    6 Feb 2010
         taskbarex.cpp, .h
     clientgui/msw/
         taskbarex.cpp, .h
+
+David  6 Feb 2010
+    - parsing of platforms from WCG's get_project_config.php was wrong
+
+    doc/
+        get_platforms.inc

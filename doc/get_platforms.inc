@@ -41,6 +41,24 @@ function friendly_name($p) {
 
 // get platforms from get_project_config.php (preferred method)
 //
+// format is either
+//
+// <project_config>
+// <platforms>
+//  <platform>windows_intelx86</platform>
+//  ...
+//
+// or
+//
+// <project_config>
+// <platforms>
+//   <platform>
+//    <platform_name>windows_intelx86</platform_name>
+//    <user_friendly_name>Windows</user_friendly_name>
+//    [<plan_class>xxx</plan_class>]
+//   </platform>
+//   ...
+//
 function get_platforms(&$url) {
     $url .= 'get_project_config.php';
     $x = @file_get_contents($url);
@@ -51,16 +69,27 @@ function get_platforms(&$url) {
     if (array_key_exists('rpc_prefix', $s)) {
         $url = $s->rpc_prefix;
     }
-    if (!array_key_exists('platforms', $s)) return null;
+    if (!array_key_exists('platforms', $s)) {
+        return null;
+    }
     $p = $s->platforms;
-    if (!array_key_exists('platform', $p)) return null;
-    if (sizeof($p->platform) == 0) return null;
+    //print_r($p);
+    //echo "---\n";
+    //foreach ($p->children() as $x) {
+    //    echo $x;
+    //}
+    if (!array_key_exists('platform', $p)) {
+        return null;
+    }
+    if (sizeof($p->platform) == 0) {
+        return null;
+    }
+    $list = array();
     if (array_key_exists(0, $p->platform[0])) {
-        foreach ($p->platform as $r) {
-            $list[] = (string)$r->platform_name;
+        foreach ($p->children() as $r) {
+            $list[] = (string)$r;
         }
     } else {
-        $list = array();
         foreach ($p->platform as $r) {
             if (array_key_exists('plan_class', $r)) {
                 $list[] = (string)$r->platform_name.'['.(string)$r->plan_class.']';
@@ -152,7 +181,10 @@ function get_platforms_string($url) {
     return make_friendly_string($l);
 }
 
-//echo get_platforms_string("http://www.worldcommunitygrid.org/");
+//$u = "http://www.worldcommunitygrid.org/";
+//$u = "http://setiathome.berkeley.edu/";
+//$x = get_platforms($u);
+//print_r($x);
 //echo get_platforms_string("http://setiathome.berkeley.edu/");
 //echo get_platforms_string("http://dist.ist.tugraz.at/cape5/");
 //print_r(get_platforms2("http://www.primegrid.com/"));
