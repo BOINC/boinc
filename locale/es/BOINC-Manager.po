@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-02-05 12:16-0700\n"
+"PO-Revision-Date: 2010-02-08 12:19-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -354,9 +354,8 @@ msgid "Use GPU never"
 msgstr "No usar nunca la GPU"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Detiene el trabajo sin tener en cuenta sus preferencias"
+msgstr "Detiene el trabajo de la GPU sin tener en cuenta sus preferencias"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "&Network activity always available"
@@ -449,11 +448,11 @@ msgstr "Leer preferencias de global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:563
 msgid "Event Log..."
-msgstr ""
+msgstr "Registro de Sucesos..."
 
 #: clientgui/AdvancedFrame.cpp:564
 msgid "Display diagnostic messages from the client."
-msgstr ""
+msgstr "Visualiza mensajes de diagnóstico procedentes del cliente."
 
 #: clientgui/AdvancedFrame.cpp:574
 #, c-format
@@ -647,7 +646,7 @@ msgstr "&Salir de %s"
 #: clientgui/AsyncRPC.cpp:1234
 #, c-format
 msgid "%s - Communication"
-msgstr ""
+msgstr "%s - Comunicación"
 
 #: clientgui/AsyncRPC.cpp:1250
 msgid "Cancel"
