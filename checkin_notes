@@ -999,3 +999,11 @@ David  7 Feb 2010
 
     html/user/
         user_search.php
+
+Rom    8 Feb 2010
+    - client: detect CPU information via the cpuid instruction instead of
+        the registry.  This change is only for Windows but I haven't tested
+        this with GCC.
+        
+    client/
+        hostinfo_win.cpp
