@@ -202,7 +202,7 @@ msgstr "Fechar a %s janela"
 
 #: clientgui/AdvancedFrame.cpp:307
 msgid "&Close Window"
-msgstr ""
+msgstr "&Fechar Janela"
 
 #: clientgui/AdvancedFrame.cpp:318
 #, c-format
@@ -221,7 +221,7 @@ msgstr "&Novidades\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "Display notices"
-msgstr ""
+msgstr "Mostrar notícias"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "&Projects\tCtrl+Shift+P"
@@ -279,8 +279,7 @@ msgstr "Anexar ao &projecto ou gestor de conta..."
 
 #: clientgui/AdvancedFrame.cpp:392
 msgid "Attach to a project or account manager to begin processing work"
-msgstr ""
-"Anexar a um projecto ou gestor de conta para começar a executar trabalho"
+msgstr "Anexar a um projecto ou gestor de conta para começar a executar trabalho"
 
 #: clientgui/AdvancedFrame.cpp:396
 #, c-format
@@ -336,7 +335,7 @@ msgstr "Parar de trabalhar independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:463
 msgid "Use GPU always"
-msgstr ""
+msgstr "Usar GPU sempre"
 
 #: clientgui/AdvancedFrame.cpp:464
 #, fuzzy
@@ -346,7 +345,7 @@ msgstr "Permitir trabalhar independentemente das preferências"
 #: clientgui/AdvancedFrame.cpp:468
 #, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Correr baseado nas &preferências"
+msgstr "Usar GPU baseado nas &preferências"
 
 #: clientgui/AdvancedFrame.cpp:469
 #, fuzzy
@@ -355,12 +354,12 @@ msgstr "Permitir trabalhar de acordo com as preferências"
 
 #: clientgui/AdvancedFrame.cpp:473
 msgid "Use GPU never"
-msgstr ""
+msgstr "Nunca usar GPU"
 
 #: clientgui/AdvancedFrame.cpp:474
 #, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Parar de trabalhar independentemente das preferências"
+msgstr "Parar GPU de trabalhar independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "&Network activity always available"
@@ -453,11 +452,11 @@ msgstr "Ler preferências de global_prefs_override.xml"
 
 #: clientgui/AdvancedFrame.cpp:563
 msgid "Event Log..."
-msgstr ""
+msgstr "Log de Eventos..."
 
 #: clientgui/AdvancedFrame.cpp:564
 msgid "Display diagnostic messages from the client."
-msgstr ""
+msgstr "Mostrar mensagens de diagnóstico do cliente."
 
 #: clientgui/AdvancedFrame.cpp:574
 #, c-format
@@ -556,9 +555,7 @@ msgstr "%s  - Selecção de Linguagem"
 #: clientgui/AdvancedFrame.cpp:1313
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"A %s linguagem por default foi mudada, para que estas alterações tenham "
-"efeito, deve reiniciar o %s."
+msgstr "A %s linguagem por default foi mudada, para que estas alterações tenham efeito, deve reiniciar o %s."
 
 #: clientgui/AdvancedFrame.cpp:1476
 #, c-format
@@ -654,7 +651,7 @@ msgstr "S&air %s"
 #: clientgui/AsyncRPC.cpp:1234
 #, c-format
 msgid "%s - Communication"
-msgstr ""
+msgstr "%s - Comunicação"
 
 #: clientgui/AsyncRPC.cpp:1250
 msgid "Cancel"
@@ -888,8 +885,7 @@ msgstr "Inicie o BOINC com estes argumentos opcionais"
 
 #: clientgui/BOINCGUIApp.cpp:529
 msgid "disable BOINC security users and permissions"
-msgstr ""
-"desabilite os utilizadores de gestão de segurança e as permissões do BOINC"
+msgstr "desabilite os utilizadores de gestão de segurança e as permissões do BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:530
 msgid "set skin debugging mode to enable skin manager error messages"
@@ -909,11 +905,11 @@ msgstr "(Definido pelo Utilizador)"
 
 #: clientgui/BOINCTaskBar.cpp:248
 msgid "BOINC Notification"
-msgstr ""
+msgstr "Notificação do BOINC"
 
 #: clientgui/BOINCTaskBar.cpp:249
 msgid "TEST: Fluffy@Home just found out that the Fluffy project has been published in Nature"
-msgstr ""
+msgstr "TESTE: Fluffy@home descobiru que o projecto Fluffy foi publicado na Natureza"
 
 #: clientgui/BOINCTaskBar.cpp:350
 msgid "Computation is suspended."
@@ -957,11 +953,11 @@ msgstr "Suspender Temporariamente"
 
 #: clientgui/BOINCTaskBar.cpp:617
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Suspender GPU"
 
 #: clientgui/BOINCTaskBar.cpp:624
 msgid "Test Notification"
-msgstr ""
+msgstr "Notificação de Teste"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1152,8 +1148,7 @@ msgstr "Enquanto o computador está ligado à bateria"
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
-"certifique se quiser que o seu computador execute trabalho enquanto está "
-"ligado à bateria"
+"certifique se quiser que o seu computador execute trabalho enquanto está ligado à bateria"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:89
 msgid " While computer is in use"
@@ -1162,8 +1157,7 @@ msgstr "Enquanto o computador está em uso"
 #: clientgui/DlgAdvPreferencesBase.cpp:92
 msgid "check this if you want this computer to do work even when you're using it"
 msgstr ""
-"certifique aqui se quiser que o seu computador execute trabalho enquanto "
-"está a ser usado"
+"certifique aqui se quiser que o seu computador execute trabalho enquanto está a ser usado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
@@ -1172,8 +1166,7 @@ msgstr "Usar GPU enquanto o computador está a ser usado"
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr ""
-"certifique aqui se quiser que o seu GPU execute trabalho enquanto está a ser "
-"usado"
+"certifique aqui se quiser que o seu GPU execute trabalho enquanto está a ser usado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
@@ -1182,8 +1175,7 @@ msgstr "Apenas depois do computador estar inactivo por"
 #: clientgui/DlgAdvPreferencesBase.cpp:115
 msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
-"executar trabalho só depois do computador não estar em uso por este número "
-"de minutos"
+"executar trabalho só depois do computador não estar em uso por este número de minutos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:119
 #: clientgui/DlgAdvPreferencesBase.cpp:239
@@ -1342,8 +1334,7 @@ msgstr "Saltar verificação do ficheiro de imagem"
 #: clientgui/DlgAdvPreferencesBase.cpp:324
 msgid "check this if your Internet provider modifies image files"
 msgstr ""
-"certifique aqui se o seu provedor de Internet modifica os ficheiros de "
-"imagem"
+"certifique aqui se o seu provedor de Internet modifica os ficheiros de imagem"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:333
 msgid "Connect options"
@@ -1490,7 +1481,7 @@ msgstr "Mostrar páginas web das preferências"
 #: clientgui/DlgEventLog.cpp:128
 #, c-format
 msgid "%s - Event Log"
-msgstr ""
+msgstr "%s - Log de Eventos"
 
 #: clientgui/DlgEventLog.cpp:138
 msgid "Project"
@@ -1506,7 +1497,7 @@ msgstr "Mensagem"
 
 #: clientgui/DlgEventLog.cpp:176
 msgid "Copy All"
-msgstr ""
+msgstr "Copiar todos"
 
 #: clientgui/DlgEventLog.cpp:178
 #: clientgui/DlgEventLog.cpp:182
@@ -1515,7 +1506,7 @@ msgstr "Copiar todas as mensagens para o clipboard."
 
 #: clientgui/DlgEventLog.cpp:187
 msgid "Copy Selected"
-msgstr ""
+msgstr "Copiar Seleccionado"
 
 #: clientgui/DlgEventLog.cpp:190
 #: clientgui/DlgEventLog.cpp:198
@@ -1557,7 +1548,8 @@ msgid ""
 "If you also want to stop running the science applications when you\n"
 "exit the Manager, then choose from the following options:"
 msgstr ""
-"Solicitou a saída do %s,n\\\"que lhe permite ver e gerir\n"
+"Solicitou a saída do %s,\n"
+"que lhe permite ver e gerir\n"
 "as aplicações de ciência a correr no seu computador.\n"
 "\n"
 "Se também quiser parar de correr as aplicações de ciência quando\n"
@@ -1726,7 +1718,7 @@ msgstr "Intervalo de busca de trabalho para CPU deferido"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "prioridade de agendamento para NVIDIA GPU"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"
@@ -1743,7 +1735,7 @@ msgstr "Intervalo de busca de trabalho para NVIDIA GPU deferido"
 #: clientgui/DlgItemProperties.cpp:161
 #, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "prioridade de agendamento do CPU"
+msgstr "prioridade de agendamento para ATI GPU"
 
 #: clientgui/DlgItemProperties.cpp:162
 #, fuzzy
@@ -1828,7 +1820,7 @@ msgstr "Directoria"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "ID do Processo"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
@@ -2266,7 +2258,7 @@ msgstr "Aprender acerca dos projectos alojados em World Community Grid"
 
 #: clientgui/MainDocument.cpp:539
 msgid "Starting client"
-msgstr ""
+msgstr "Iniciando cliente"
 
 #: clientgui/MainDocument.cpp:1108
 msgid "Retrieving system state; please wait..."
@@ -2355,19 +2347,19 @@ msgstr "Carregue"
 
 #: clientgui/ProjectListCtrl.cpp:506
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "CPU Multicore Suportado"
 
 #: clientgui/ProjectListCtrl.cpp:508
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "Nvidia GPU Suportado"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "ATI GPU Suportado"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Project Website"
-msgstr ""
+msgstr "Website do Projecto"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 #, fuzzy
@@ -3035,11 +3027,11 @@ msgstr "Mostrar as ultimas novidades acerca do BOINC"
 
 #: clientgui/ViewNotices.cpp:105
 msgid "Notices"
-msgstr ""
+msgstr "Notícias"
 
 #: clientgui/ViewNotices.cpp:155
 msgid "Retrieving notices..."
-msgstr ""
+msgstr "A rever notícias..."
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
@@ -3553,7 +3545,7 @@ msgstr " (CPU não intensivo)"
 
 #: clientgui/ViewWork.cpp:1207
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Abortado: não iniciado devido á deadline"
 
 #: clientgui/WelcomePage.cpp:254
 #, fuzzy
@@ -3669,11 +3661,11 @@ msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:205
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
-msgstr ""
+msgstr "para suporte de acessibilidade, por favor seleccione a vista de menu avançada ou escreva o comando shift a"
 
 #: clientgui/mac/MacAccessiblity.cpp:250
 msgid "This panel contains graphs showing user totals for projects"
-msgstr ""
+msgstr "Este painel contém gráficos mostrando os totais do utilizador para os projectos"
 
 #: clientgui/mac/MacAccessiblity.cpp:518
 #: clientgui/mac/MacAccessiblity.cpp:640
@@ -3686,11 +3678,11 @@ msgstr "lista de "
 
 #: clientgui/mac/MacAccessiblity.cpp:522
 msgid "events"
-msgstr ""
+msgstr "eventos"
 
 #: clientgui/mac/MacAccessiblity.cpp:529
 msgid " is empty"
-msgstr ""
+msgstr "está vazio"
 
 #: clientgui/mac/MacAccessiblity.cpp:600
 #, c-format
@@ -3716,7 +3708,7 @@ msgstr "coluna "
 
 #: clientgui/mac/MacAccessiblity.cpp:618
 msgid "list is empty"
-msgstr ""
+msgstr "a lista está vazia"
 
 #: clientgui/mac/MacAccessiblity.cpp:621
 #: clientgui/mac/MacAccessiblity.cpp:1204
