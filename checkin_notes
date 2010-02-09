@@ -1010,7 +1010,11 @@ Rom    8 Feb 2010
 
 Charlie  8 Feb 2010
     - MGR: Fix build breaks and potential crashes from recent task bar changes.
+    - Mac SS: change configuration dialog text to match new Windows wording.  
     
     clientgui/
         BOINCBaseFrame.cpp
         BOINCTaskBar.cpp, .h
+    clientscr/
+        res/
+            BOINCSaver.nib
