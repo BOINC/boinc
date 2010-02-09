@@ -1028,3 +1028,9 @@ David  9 Feb 2010
 	client/
 		cpu_sched.cpp
 		work_fetch.cpp
+
+Rom    9 Feb 2010
+    - client: some more CPU detection cleanup.
+    
+    client/
+        hostinfo_win.cpp

@@ -811,12 +811,24 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 }
 
 
+// Returns the CPU count
+//
+int get_processor_count(int& processor_count) {
+    SYSTEM_INFO SystemInfo;
+    memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
+    ::GetSystemInfo( &SystemInfo );
+
+    processor_count = SystemInfo.dwNumberOfProcessors;
+    return 0;
+}
+
+
 // Returns the processor make, model, and additional cpu flags supported by
 //   the processor, use the Linux CPU processor feature descriptions.
 //
 int get_processor_info(
     char* p_vendor, int p_vendor_size, char* p_model, int p_model_size,
-    char* p_features, int p_features_size, double& p_cache
+    char* p_features, int p_features_size, double& p_cache, int& p_ncpus
 )
 {
     int family = 0, model = 0, stepping = 0, cache = 0;
@@ -827,6 +839,7 @@ int get_processor_info(
     get_processor_name(processor_name, sizeof(processor_name));
     get_processor_cache(cache);
     get_processor_features(vendor_name, features, sizeof(features));
+    get_processor_count(p_ncpus);
 
     snprintf(p_vendor, p_vendor_size,
         "%s", 
@@ -849,18 +862,6 @@ int get_processor_info(
 }
 
 
-// Returns the CPU count
-//
-int get_processor_count(int& processor_count) {
-    SYSTEM_INFO SystemInfo;
-    memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
-    ::GetSystemInfo( &SystemInfo );
-
-    processor_count = SystemInfo.dwNumberOfProcessors;
-    return 0;
-}
-
-
 // Gets host information; called on startup and before each sched RPC
 //
 int HOST_INFO::get_host_info() {
@@ -874,9 +875,9 @@ int HOST_INFO::get_host_info() {
         p_vendor, sizeof(p_vendor),
         p_model, sizeof(p_model),
         p_features, sizeof(p_features),
-        m_cache
+        m_cache,
+        p_ncpus
     );
-    get_processor_count(p_ncpus);
     get_local_network_info();
     if (!strlen(host_cpid)) {
         generate_host_cpid();
