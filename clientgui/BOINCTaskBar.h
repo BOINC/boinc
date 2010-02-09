@@ -67,7 +67,7 @@ public:
 
 #ifdef __APPLE__
     wxMenu *CreatePopupMenu();
-    bool SetIcon(const wxIcon& icon);
+    bool SetIcon(const wxIcon& icon, const wxString& message = wxEmptyString);
 #endif
 
 #ifndef __WXMSW__

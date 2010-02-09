@@ -51,9 +51,11 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_REFRESH(CTaskBarIcon::OnRefresh)
     EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
+#ifndef __WXMAC__
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
     EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
+#endif
     EVT_MENU(ID_OPENBOINCMANAGER, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspendResume)
@@ -301,6 +303,7 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
 }
 
 
+#ifndef __WXMAC__
 // Note: tooltip must not have a trailing linebreak. 
 void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
@@ -432,6 +435,7 @@ void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
         }
     }
 }
+#endif  // #ifndef __WXMAC__
 
 
 #ifdef __WXMSW__
@@ -497,7 +501,7 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
 // Rather than using an entire separate icon, overlay the Dock icon with a badge 
 // so we don't need additional Snooze and Disconnected icons for branding.
-bool CTaskBarIcon::SetIcon(const wxIcon& icon) {
+bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     wxIcon macIcon;
     bool result;
     OSStatus err = noErr ;

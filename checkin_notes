@@ -1007,3 +1007,10 @@ Rom    8 Feb 2010
         
     client/
         hostinfo_win.cpp
+
+Charlie  8 Feb 2010
+    - MGR: Fix build breaks and potential crashes from recent task bar changes.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCTaskBar.cpp, .h
