@@ -1097,3 +1097,11 @@ Rom    10 Feb 2010
         
     clientgui/
         BOINCTaskBar.cpp, .h
+
+Rom    10 Feb 2010
+    - MGR: Fill in missing pieces to get the notification
+        handler to signal us when a notification has closed.
+        
+    clientgui/gtk
+        taskbarex.cpp, .h
+    
