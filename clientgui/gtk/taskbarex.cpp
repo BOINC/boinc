@@ -55,10 +55,10 @@ extern "C" {
 
         g_value_init(&val, G_TYPE_PARAM_UINT);
 
-        g_object_get_property(G_OBJECT(notification), "id", val);
+        g_object_get_property(G_OBJECT(notification), "id", &val);
         id = g_value_get_int(&val);
 
-        g_object_get_property(G_OBJECT(notification), "closed-reason", val);
+        g_object_get_property(G_OBJECT(notification), "closed-reason", &val);
         closed_reason = g_value_get_int(&val);
 
         if (id == taskBarIcon->GetNotificationID()) {
@@ -213,7 +213,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
         g_value_init(&val, G_TYPE_PARAM_UINT);
         g_value_set_int(&val, m_iNotificationID);
 
-        g_object_set_property(G_OBJECT(notification), "id", val);
+        g_object_set_property(G_OBJECT(g_pNotification), "id", &val);
 
         g_signal_connect(g_pNotification, "closed", G_CALLBACK(statis_icon_notification_closed), this);
     }
