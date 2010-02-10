@@ -19,7 +19,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to Progress Thru Processors Desktop installer
-# updated 11/18/09 by Charlie Fenton
+# updated 2/10/10 by Charlie Fenton
 ##
 
 ## Usage:
@@ -161,9 +161,17 @@ if [ -d "skins" ]; then
     sudo cp -fR "skins" "${PR_PATH}/Library/Application Support/BOINC Data/"
 fi
 
-## If account manager URL file is present, copy it into BOINC Data folder
+## Normally, we would put the account manager URL file into the Package Root folder 
+## for delivery to the BOINC Data folder.  But if the user later installs standard 
+## BOINC (without this file), the Apple installer would then delete the file.
+## So we "hide" it in the installer's resources, and have the PostInstall script copy 
+## it into the BOINC Data folder
+##
+## If account manager URL file is present, copy it into installer resources for 
+## eventual delivery into the BOINC Data folder
 if [ -f "acct_mgr_url.xml" ]; then
-    sudo cp -fR "acct_mgr_url.xml" "${PR_PATH}/Library/Application Support/BOINC Data/acct_mgr_url.xml"
+##    sudo cp -fR "acct_mgr_url.xml" "${PR_PATH}/Library/Application Support/BOINC Data/acct_mgr_url.xml"
+    sudo cp -fR "acct_mgr_url.xml" "${IR_PATH}/"
 fi
 
 ## Modify for Progress Thru Processors
@@ -270,7 +278,7 @@ sudo chmod -R 644 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ex
 
 # COPYING.LESSER is part of GNU License v3, included only with BOINC 6.3.x and later
 if [ -f "COPYING.LESSER" ]; then
-    sudo cp -fp "COPYING.LESSER" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extrasCOPYING.LESSER.txt"
+    sudo cp -fp "COPYING.LESSER" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER.txt"
     sudo chown -R 501:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER.txt"
     sudo chmod -R 644 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER.txt"
 fi

@@ -1034,3 +1034,18 @@ Rom    9 Feb 2010
     
     client/
         hostinfo_win.cpp
+
+Charlie  10 Feb 2010
+    - Mac installer: If installing an acct_mgr_url.xml file, don't install it 
+        directly into the BOINC Data directory.  Instead, put it into the 
+        installer's resources and have the postinstall or postupgrade script 
+        copy it to the BOINC Data directory.  This fixes a problem which would 
+        happen if the user later ran the standard BOINC installer without an 
+        acct_mgr_url.xml file: the Apple installer would then delete the file, 
+        causing BOINC to detach from the account manager.
+    
+    mac_installer/
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
+        postinstall
+        postupgrade

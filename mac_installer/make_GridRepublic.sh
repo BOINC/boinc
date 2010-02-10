@@ -163,9 +163,17 @@ if [ -d "skins" ]; then
     sudo cp -fR "skins" "${PR_PATH}/Library/Application Support/BOINC Data/"
 fi
 
-## If account manager URL file is present, copy it into BOINC Data folder
+## Normally, we would put the account manager URL file into the Package Root folder 
+## for delivery to the BOINC Data folder.  But if the user later installs standard 
+## BOINC (without this file), the Apple installer would then delete the file.
+## So we "hide" it in the installer's resources, and have the PostInstall script copy 
+## it into the BOINC Data folder
+##
+## If account manager URL file is present, copy it into installer resources for 
+## eventual delivery into the BOINC Data folder
 if [ -f "acct_mgr_url.xml" ]; then
-    sudo cp -fR "acct_mgr_url.xml" "${PR_PATH}/Library/Application Support/BOINC Data/acct_mgr_url.xml"
+##    sudo cp -fR "acct_mgr_url.xml" "${PR_PATH}/Library/Application Support/BOINC Data/acct_mgr_url.xml"
+    sudo cp -fR "acct_mgr_url.xml" "${IR_PATH}/"
 fi
 
 ## Modify for Grid Republic
