@@ -41,9 +41,9 @@ extern "C" {
     static void
     status_icon_popup_menu(GtkStatusIcon*, guint, guint, wxTaskBarIconEx* taskBarIcon)
     {
-        wxTaskBarIconExEvent eventDown(EVT_TASKBAR_RIGHT_DOWN, taskBarIcon);
+        wxTaskBarIconExEvent eventDown(wxEVT_TASKBAR_RIGHT_DOWN, taskBarIcon);
         taskBarIcon->ProcessEvent(eventDown);
-        wxTaskBarIconExEvent eventUp(EVT_TASKBAR_RIGHT_UP, taskBarIcon);
+        wxTaskBarIconExEvent eventUp(wxEVT_TASKBAR_RIGHT_UP, taskBarIcon);
         taskBarIcon->ProcessEvent(eventUp);
     }
 
