@@ -115,9 +115,9 @@ EXTRA_DIST = *.h \
     ../lib/error_numbers.h \
     locale $(mac_headers)
 
-boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
-boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
-boincmgr_LDADD = $(LIBBOINC) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS)
+boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(GTK_CFLAGS) $(CLIENTGUIFLAGS)
+boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(GTK_CFLAGS) $(CLIENTGUIFLAGS)
+boincmgr_LDADD = $(LIBBOINC) $(GTK_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS)
 
 win_config.h: $(top_srcdir)/config.h
 	grep '#define.*BOINC.*VERSION' $^ > $@

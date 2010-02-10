@@ -1055,3 +1055,11 @@ Charlie  10 Feb 2010
     
     mac_installer/
         PostInstall.cpp
+
+Rom    10 Feb 2010
+    - build: Attempt to hook up the gtk flags and libs to BOINC Manager
+    
+    /
+        configure.ac
+    clientgui/
+        Makefile.am
