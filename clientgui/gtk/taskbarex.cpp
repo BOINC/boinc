@@ -157,7 +157,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::SetBalloon - Function Begin"));
 
     bool retval = false;
-    GError* error;
+    GError error;
 
     if (!IsOK())
         return false;
