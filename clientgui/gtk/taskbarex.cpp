@@ -34,16 +34,16 @@ extern "C" {
     static void
     status_icon_activate(GtkStatusIcon*, wxTaskBarIconEx* taskBarIcon)
     {
-        wxTaskBarIconEvent eventLeftDClick(wxEVT_TASKBAR_LEFT_DCLICK, taskBarIcon);
+        wxTaskBarIconExEvent eventLeftDClick(wxEVT_TASKBAR_LEFT_DCLICK, taskBarIcon);
         taskBarIcon->SafelyProcessEvent(eventLeftDClick);
     }
 
     static void
     status_icon_popup_menu(GtkStatusIcon*, guint, guint, wxTaskBarIconEx* taskBarIcon)
     {
-        wxTaskBarIconEvent eventDown(EVT_TASKBAR_RIGHT_DOWN, taskBarIcon);
+        wxTaskBarIconExEvent eventDown(EVT_TASKBAR_RIGHT_DOWN, taskBarIcon);
         taskBarIcon->SafelyProcessEvent(eventDown);
-        wxTaskBarIconEvent eventUp(EVT_TASKBAR_RIGHT_UP, taskBarIcon);
+        wxTaskBarIconExEvent eventUp(EVT_TASKBAR_RIGHT_UP, taskBarIcon);
         taskBarIcon->SafelyProcessEvent(eventUp);
     }
 
@@ -94,7 +94,7 @@ wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle, wxInt32 iTaskbarID )
     g_pStatusIcon = NULL;
     g_pNotification = NULL;
 
-    notify_init(szWindowTitle);
+    notify_init((char*)szWindowTitle);
 }
 
 wxTaskBarIconEx::~wxTaskBarIconEx()
@@ -119,7 +119,7 @@ wxTaskBarIconEx::~wxTaskBarIconEx()
     }
 }
 
-bool IsIconInstalled() const {
+bool wxTaskBarIconEx::IsIconInstalled() const {
     return g_pStatusIcon;
 }
 
