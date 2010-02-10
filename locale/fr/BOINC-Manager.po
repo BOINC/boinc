@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2009-12-11 10:34-0700\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
+"PO-Revision-Date: 2010-02-10 11:59-0700\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -199,7 +199,7 @@ msgstr "Fermer la fenêtre %s"
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
-msgstr ""
+msgstr "&Fermer la fenêtre"
 
 #: clientgui/AdvancedFrame.cpp:319
 #, c-format
@@ -327,30 +327,27 @@ msgstr "&Suspendre"
 
 #: clientgui/AdvancedFrame.cpp:443
 msgid "Stop work regardless of preferences"
-msgstr "Arrête les calculs sans tenir compte des préférences"
+msgstr "Arrêter les calculs sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "Use GPU always"
-msgstr ""
+msgstr "Toujours utiliser le GPU"
 
 #: clientgui/AdvancedFrame.cpp:470
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Autorise le travail sans tenir compte des préférences"
+msgstr "Autoriser les calculs sur le GPU sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Calculer selon les &préférences"
+msgstr "Utiliser le GPU selon les &préférences"
 
 #: clientgui/AdvancedFrame.cpp:475
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Autorise le travail selon vos préférences"
+msgstr "Autoriser le calcul sur le GPU selon vos préférences"
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Use GPU never"
-msgstr ""
+msgstr "Ne jamais utiliser le GPU"
 
 #: clientgui/AdvancedFrame.cpp:480
 #, fuzzy
@@ -3749,16 +3746,16 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:530
 msgid "list of "
-msgstr ""
+msgstr "liste de "
 
 #: clientgui/mac/MacAccessiblity.cpp:533
 msgid " is empty"
-msgstr ""
+msgstr " est vide"
 
 #: clientgui/mac/MacAccessiblity.cpp:605
 #, c-format
 msgid "%d of %d; "
-msgstr ""
+msgstr "%d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
@@ -3770,20 +3767,20 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " ascending order "
-msgstr ""
+msgstr " ordre ascendant "
 
 #: clientgui/mac/MacAccessiblity.cpp:611
 msgid "column "
-msgstr ""
+msgstr "colonne "
 
 #: clientgui/mac/MacAccessiblity.cpp:618
 msgid "list is empty"
-msgstr ""
+msgstr "la liste est vide"
 
 #: clientgui/mac/MacAccessiblity.cpp:621
 #: clientgui/mac/MacAccessiblity.cpp:1198
 msgid "selected "
-msgstr ""
+msgstr "sélectionné "
 
 #: clientgui/mac/MacAccessiblity.cpp:626
 #, c-format
@@ -3793,7 +3790,7 @@ msgstr ""
 #: clientgui/mac/MacAccessiblity.cpp:629
 #, c-format
 msgid "of %d; "
-msgstr ""
+msgstr "de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
