@@ -45,8 +45,8 @@ public:
 // Accessors
     bool IsOK() const { return true; }
     bool IsIconInstalled() const;
-    wxInt32 GetTaskbarID const { return m_iTaskbarID; }
-    wxInt32 GetNotificationID const { return m_iNotificationID; }
+    wxInt32 GetTaskbarID() const { return m_iTaskbarID; }
+    wxInt32 GetNotificationID() const { return m_iNotificationID; }
 
 // Operations
     virtual bool SetIcon(
