@@ -23,6 +23,10 @@
 #include "BOINCTaskBar.h"
 
 
+GtkStatusIcon*      g_pStatusIcon;
+NotifyNotification* g_pNotification;
+
+
 //-----------------------------------------------------------------------------
 
 extern "C" {
@@ -77,8 +81,8 @@ wxTaskBarIconEx::wxTaskBarIconEx()
 {
     m_pWnd = NULL;
     m_iTaskbarID = 0;
-    m_pStatusIcon = NULL;
-    m_pNotification = NULL;
+    g_pStatusIcon = NULL;
+    g_pNotification = NULL;
 
     notify_init(wxTaskBarExWindow);
 }
@@ -87,8 +91,8 @@ wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle, wxInt32 iTaskbarID )
 {
     m_pWnd = NULL;
     m_iTaskbarID = iTaskbarID;
-    m_pStatusIcon = NULL;
-    m_pNotification = NULL;
+    g_pStatusIcon = NULL;
+    g_pNotification = NULL;
 
     notify_init(szWindowTitle);
 }
@@ -102,16 +106,16 @@ wxTaskBarIconEx::~wxTaskBarIconEx()
         m_pWnd = NULL;
     }
 
-    if (m_pStatusIcon)
+    if (g_pStatusIcon)
     {
-        g_object_unref(m_pStatusIcon);
-        m_pStatusIcon = NULL;
+        g_object_unref(g_pStatusIcon);
+        g_pStatusIcon = NULL;
     }
 
-    if (m_pNotification)
+    if (g_pNotification)
     {
-        notify_notification_close(m_pNotification, NULL);
-        m_pNotification = NULL;
+        notify_notification_close(g_pNotification, NULL);
+        g_pNotification = NULL;
     }
 }
 
@@ -126,19 +130,19 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& message)
 
     wxBitmap bitmap = icon;
 
-    if (!m_pStatusIcon)
+    if (!g_pStatusIcon)
     {
-        m_pStatusIcon = gtk_status_icon_new_from_pixbuf(bitmap.GetPixbuf());
-        g_signal_connect(m_pStatusIcon, "activate", G_CALLBACK(status_icon_activate), this);
-        g_signal_connect(m_pStatusIcon, "popup_menu", G_CALLBACK(status_icon_popup_menu), this);
+        g_pStatusIcon = gtk_status_icon_new_from_pixbuf(bitmap.GetPixbuf());
+        g_signal_connect(g_pStatusIcon, "activate", G_CALLBACK(status_icon_activate), this);
+        g_signal_connect(g_pStatusIcon, "popup_menu", G_CALLBACK(status_icon_popup_menu), this);
     }
 
-    gtk_status_icon_set_from_pixbuf(m_pStatusIcon, bitmap.GetPixbuf());
+    gtk_status_icon_set_from_pixbuf(g_pStatusIcon, bitmap.GetPixbuf());
     if (!message.empty())
     {
-        gtk_status_icon_set_tooltip(m_pStatusIcon, message.mb_str());
+        gtk_status_icon_set_tooltip(g_pStatusIcon, message.mb_str());
     }
-    gtk_status_icon_set_visible(m_pStatusIcon, TRUE);
+    gtk_status_icon_set_visible(g_pStatusIcon, TRUE);
 
     return true;
 }
@@ -168,21 +172,21 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
             break;
     }
 
-    if (!m_pNotification)
+    if (!g_pNotification)
     {
-        m_pNotification = 
+        g_pNotification = 
             notify_notification_new_with_status_icon(
                 title.mb_str(),
                 message.mb_str(),
                 desired_icon,
-                m_pStatusIcon
+                g_pStatusIcon
             );
-        g_signal_connect(m_pNotification, "closed", NOTIFY_ACTION_CALLBACK(statis_icon_notification_closed), this);
+        g_signal_connect(g_pNotification, "closed", NOTIFY_ACTION_CALLBACK(statis_icon_notification_closed), this);
     }
     else
     {
         notify_notification_update(
-            m_pNotification,
+            g_pNotification,
             title.mb_str(),
             message.mb_str(),
             desired_icon
@@ -210,16 +214,16 @@ bool wxTaskBarIconEx::RemoveIcon()
         m_pWnd = NULL;
     }
 
-    if (m_pStatusIcon)
+    if (g_pStatusIcon)
     {
-        g_object_unref(m_pStatusIcon);
-        m_pStatusIcon = NULL;
+        g_object_unref(g_pStatusIcon);
+        g_pStatusIcon = NULL;
     }
 
-    if (m_pNotification)
+    if (g_pNotification)
     {
-        notify_notification_close(m_pNotification, NULL);
-        m_pNotification = NULL;
+        notify_notification_close(g_pNotification, NULL);
+        g_pNotification = NULL;
     }
 
     return true;
@@ -229,10 +233,10 @@ bool wxTaskBarIconEx::PopupMenu(wxMenu* menu)
 {
 #if wxUSE_MENUS
 
-    if (m_pWin == NULL)
+    if (m_pWnd == NULL)
     {
-        m_pWin = new wxTopLevelWindow(NULL, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-        m_pWin->PushEventHandler(this);
+        m_pWnd = new wxTopLevelWindow(NULL, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+        m_pWnd->PushEventHandler(this);
     }
 
     wxPoint point(-1, -1);
@@ -240,7 +244,7 @@ bool wxTaskBarIconEx::PopupMenu(wxMenu* menu)
     point = wxGetMousePosition();
 #endif
 
-    m_pWin->PopupMenu(menu, point);
+    m_pWnd->PopupMenu(menu, point);
 
 #endif // wxUSE_MENUS
     return true;

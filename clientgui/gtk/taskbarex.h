@@ -28,8 +28,6 @@
 // wxTaskBarIconEx 
 // ----------------------------------------------------------------------------
 
-class GtkStatusIcon;
-class NotifyNotification;
 class wxTaskBarIconExEvent;
 
 class wxTaskBarIconEx: public wxEvtHandler
@@ -79,8 +77,6 @@ public:
 protected:
     wxWindow*           m_pWnd;
     wxInt32             m_iTaskbarID;
-    GtkStatusIcon*      m_pStatusIcon;
-    NotifyNotification* m_pNotification;
 };
 
 

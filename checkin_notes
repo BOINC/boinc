@@ -1063,3 +1063,9 @@ Rom    10 Feb 2010
         configure.ac
     clientgui/
         Makefile.am
+
+Rom    10 Feb 2010
+    - MGR: Move GTK structures out of the class scope.
+    
+    clientgui/gtk
+        taskbarex.cpp, .h
