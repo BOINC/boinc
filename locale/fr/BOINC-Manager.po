@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-02-10 11:59-0700\n"
+"PO-Revision-Date: 2010-02-10 12:18-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -350,9 +350,8 @@ msgid "Use GPU never"
 msgstr "Ne jamais utiliser le GPU"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Arrête les calculs sans tenir compte des préférences"
+msgstr "Arrêter les calculs sur le GPU sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:504
 msgid "&Network activity always available"
@@ -930,7 +929,7 @@ msgstr "En veille"
 
 #: clientgui/BOINCTaskBar.cpp:625
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Mettre le GPU en veille"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1027,7 +1026,7 @@ msgstr "A propos de %s"
 
 #: clientgui/DlgAbout.cpp:155
 msgid "Version:"
-msgstr "Version:"
+msgstr "Version :"
 
 #: clientgui/DlgAbout.cpp:163
 msgid "wxWidgets Version:"
@@ -1035,14 +1034,15 @@ msgstr "Version de wxWidgets :"
 
 #: clientgui/DlgAbout.cpp:171
 msgid "Copyright:"
-msgstr "Copyright:"
+msgstr "Copyright :"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr "(C) 2003-2007 Université de Californie, Berkeley.Tous droits réservés."
+msgstr ""
+"(C) 2003-2007 Université de Californie, Berkeley.\n"
+"Tous droits réservés."
 
 #: clientgui/DlgAbout.cpp:179
 #: clientgui/DlgAbout.cpp:183
@@ -1636,7 +1636,7 @@ msgstr "Intervalle d'ajournement de demande de travail CPU"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "Priorité d'ordonnancement de GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"
@@ -1651,9 +1651,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervalle d'ajournement de demande de travail GPU NVidia"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Priorité de planification CPU"
+msgstr "Priorité de planification de GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -1735,7 +1734,7 @@ msgstr "Répertoire"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "ID de process"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
@@ -2288,19 +2287,19 @@ msgstr "Cliquer"
 
 #: clientgui/ProjectListCtrl.cpp:506
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "CPU multi-coeurs supportés"
 
 #: clientgui/ProjectListCtrl.cpp:508
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "GPU Nvidia supportés"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "GPU ATI supportés"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Project Website"
-msgstr ""
+msgstr "Site web du projet"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 #: clientgui/ProjectPropertiesPage.cpp:335
@@ -3608,7 +3607,7 @@ msgstr " (CPU-non-intensif)"
 
 #: clientgui/ViewWork.cpp:1202
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Avorté : non démarré dans le délai imparti"
 
 # I don't understand the context of this item.
 #: clientgui/ViewWorkGrid.cpp:184
@@ -3734,15 +3733,19 @@ msgstr "Légende du Camembert"
 #: clientgui/mac/MacAccessiblity.cpp:184
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
+"pour le support de l'accessibilité, veuillez sélectionner Avancé dans le "
+"menu Vue ou entrez la commande shift-a"
 
 #: clientgui/mac/MacAccessiblity.cpp:245
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
+"Ce panneau contient de graphes montrant la somme totale pour les "
+"utilisateurs des projets"
 
 #: clientgui/mac/MacAccessiblity.cpp:528
 #: clientgui/mac/MacAccessiblity.cpp:636
 msgid "blank"
-msgstr ""
+msgstr "blanc"
 
 #: clientgui/mac/MacAccessiblity.cpp:530
 msgid "list of "
@@ -3759,11 +3762,11 @@ msgstr "%d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
-msgstr ""
+msgstr "colonne de tri courante "
 
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " descending order "
-msgstr ""
+msgstr " ordre décroissant "
 
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " ascending order "
@@ -3785,7 +3788,7 @@ msgstr "sélectionné "
 #: clientgui/mac/MacAccessiblity.cpp:626
 #, c-format
 msgid "row %d "
-msgstr ""
+msgstr "ligne %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:629
 #, c-format
@@ -3795,16 +3798,16 @@ msgstr "de %d; "
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
 msgid "column %d; "
-msgstr ""
+msgstr "colonne %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1160
 msgid "list of projects or account managers"
-msgstr ""
+msgstr "liste des projets ou des gestionnaires de comptes"
 
 #: clientgui/mac/MacAccessiblity.cpp:1202
 #, c-format
 msgid "row %d of %d; "
-msgstr ""
+msgstr "ligne %d de %d;"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
