@@ -554,3 +554,8 @@ Charlie  10 Feb 2010
         postinstall
         postupgrade
 
+Charlie  10 Feb 2010
+    - Mac Installer: Fix receipt name for GridRepublic installer so we can remove it.
+    
+    mac_installer/
+        PostInstall.cpp
