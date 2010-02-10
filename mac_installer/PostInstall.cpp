@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
     brandName[1] = "GridRepublic";
     saverName[1] = "GridRepublic";
     saverNameEscaped[1] = "GridRepublic";
-    receiptNameEscaped[1] = "/Library/Receipts/GridRepublic\\ Desktop.pkg";
+    receiptNameEscaped[1] = "/Library/Receipts/GridRepublic.pkg";
 
     appName[2] = "/Applications/Progress Thru Processors Desktop.app";
     appNameEscaped[2] = "/Applications/Progress\\ Thru\\ Processors\\ Desktop.app";
