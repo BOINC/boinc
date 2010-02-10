@@ -84,7 +84,7 @@ wxTaskBarIconEx::wxTaskBarIconEx()
     g_pStatusIcon = NULL;
     g_pNotification = NULL;
 
-    notify_init(wxTaskBarExWindow);
+    notify_init((const char*)wxString(wxTaskBarExWindow).mb_str());
 }
 
 wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle, wxInt32 iTaskbarID )
@@ -94,7 +94,7 @@ wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle, wxInt32 iTaskbarID )
     g_pStatusIcon = NULL;
     g_pNotification = NULL;
 
-    notify_init((char*)szWindowTitle);
+    notify_init((const char*)wxString(szWindowTitle).mb_str());
 }
 
 wxTaskBarIconEx::~wxTaskBarIconEx()
@@ -186,7 +186,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
                 desired_icon,
                 g_pStatusIcon
             );
-        g_signal_connect(g_pNotification, "closed", NOTIFY_ACTION_CALLBACK(statis_icon_notification_closed), this);
+        g_signal_connect(g_pNotification, "closed", G_CALLBACK(statis_icon_notification_closed), this);
     }
     else
     {
@@ -198,7 +198,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
         );
     }
 
-    return notify_notification_show(m_pNotification, NULL);
+    return notify_notification_show(g_pNotification, NULL);
 }
 
 bool wxTaskBarIconEx::QueueBalloon(const wxIcon& icon, const wxString title, const wxString message, unsigned int iconballoon)
