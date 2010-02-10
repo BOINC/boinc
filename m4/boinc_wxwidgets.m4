@@ -8,6 +8,12 @@ AC_DEFUN([BOINC_OPTIONS_WXWIDGETS],[
      [enable_unicode="$enableval"],
      [])
 
+   AC_ARG_ENABLE(debug, 
+     AS_HELP_STRING([--enable-debug/--disable-debug],
+                   [enable/disable building the manager with debug support]),
+     [enable_debug="$enableval"],
+     [])
+
    AM_OPTIONS_WXCONFIG
      AM_PATH_WXCONFIG($1, [_ac_cv_have_wxwidgets=yes], [_ac_cv_have_wxwidgets=no])
    AC_CACHE_CHECK([if wxWidgets works],[ac_cv_have_wxwidgets],
@@ -25,51 +31,27 @@ dnl Find the default wxWidgets options.
      AC_MSG_RESULT($wx_default_config)
      AC_CACHE_CHECK([for wxwidgets options],[ac_cv_wxwidgets_options],[
        ac_cv_wxwidgets_options=""
-       if test "x${enable_client_release}" = xyes ; then
-         if $WX_CONFIG $ac_cv_wxwidgets_options --static=yes --selected-config 2>&1 >/dev/null ; then
-           ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options} --static=yes"
-         else
-           AC_MSG_WARN(
-[===============================================================================
-WARNING: No static libraries for wxWidgets are installed.
-         ==> building with dynamic libraries.
-
-  You requested a release build, but configure is unable to find static 
-  wxWidgets libraries.  This may be OK if your release will be installed with
-  a packaging system that supports dependencies.  Be sure to include the 
-  wxWidgets dynamic library package as a dependency.  
-  
-  If not, you have several options.  You can install the wxWidgets static 
-  libraries on your system and rerun configure.  You can link with uninstalled
-  wxWidgets static libraries by using the --with-wxdir=PATH option to 
-  configure.  Or you can require that people using your build manually install
-  the wxWidgets dynamic libraries.
-===============================================================================
-])
-           ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options} --static=no"
-         fi
-       fi
        wx_default_config="`$WX_CONFIG ${ac_cv_wxwidgets_options} --selected-config`"
        if test "x${enable_unicode}" = x ; then
          isuc="`echo ${wx_default_config} | grep unicode`" 
-	 if test "x${isuc}" = x ; then
-	   enable_unicode=no
-	 else
-	   enable_unicode=yes
-	 fi
+         if test "x${isuc}" = x ; then
+           enable_unicode=no
+         else
+           enable_unicode=yes
+         fi
        fi
 	   
        if test "x${enable_unicode}" != x ; then
          if $WX_CONFIG ${ac_cv_wxwidgets_options} --unicode=${enable_unicode} --selected-config 2>&1 >/dev/null ; then
            ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options} --unicode=${enable_unicode}"
          else
-	   if test "x${enable_unicode}" = xno ; then
-	     uprf="ascii"
-	     nprf="unicode"
-	   else
-	     uprf="unicode"
-	     nprf="ascii"
-	   fi  
+           if test "x${enable_unicode}" = xno ; then
+             uprf="ascii"
+             nprf="unicode"
+           else
+             uprf="unicode"
+             nprf="ascii"
+           fi  
            AC_MSG_WARN([
 ===============================================================================
 WARNING: No ${uprf} libraries for wxWidgets are installed.
@@ -87,13 +69,13 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
          if $WX_CONFIG ${ac_cv_wxwidgets_options} --debug=${enable_debug} --selected-config 2>&1 >/dev/null ; then
            ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options} --debug=${enable_debug}"
          else
-	   if test "x${enable_debug}" = xno ; then
-	     uprf="non-debug"
-	     nprf="debug"
-	   else
-	     uprf="debug"
-	     nprf="non-debug"
-	   fi  
+           if test "x${enable_debug}" = xno ; then
+             uprf="non-debug"
+             nprf="debug"
+           else
+             uprf="debug"
+             nprf="non-debug"
+           fi  
            AC_MSG_WARN([
 ===============================================================================
 WARNING: No ${uprf} libraries for wxWidgets are installed.
