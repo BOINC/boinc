@@ -6582,6 +6582,14 @@ Charlie  2 Feb 2010
         res/
             gridrepublic_ss_logo.jpg
 
+Charlie  2 Feb 2010
+    - Mac SS: look for Branding file in BOINC Data folder before the one in Manager
+        to avoid confusion if newer copies of BOINC Manager exist elsewhere on system.
+        (This is primarily for convenience in debugging on build system)
+        
+    clientscr/
+        mac_saver_module.cpp
+
 Charlie  4 Feb 2010
     - Mac Installer: when adding non-admin users to group boinc_master, also add 
         them to group boinc_project; this fixes permissions error -1200 for non-
