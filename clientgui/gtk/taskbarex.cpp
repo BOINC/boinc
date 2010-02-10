@@ -154,6 +154,11 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& message)
 
 bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const wxString message, unsigned int iconballoon)
 {
+    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::SetBalloon - Function Begin"));
+
+    bool retval = false;
+    GError* error;
+
     if (!IsOK())
         return false;
 
@@ -198,7 +203,13 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
         );
     }
 
-    return notify_notification_show(g_pNotification, NULL);
+    retval = notify_notification_show(g_pNotification, &error);
+    if (!retval) {
+        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::SetBalloon - notify_notification_show error: '%s'"), error->message);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::SetBalloon - Function End"));
+    return retval;
 }
 
 bool wxTaskBarIconEx::QueueBalloon(const wxIcon& icon, const wxString title, const wxString message, unsigned int iconballoon)
