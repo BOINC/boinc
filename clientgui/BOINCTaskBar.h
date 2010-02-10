@@ -52,7 +52,6 @@ public:
     void OnRefresh(CTaskbarEvent& event);
     void OnReloadSkin(CTaskbarEvent& event);
 
-    void OnContextMenu(wxTaskBarIconExEvent& event);
     void OnNotificationClick(wxTaskBarIconExEvent& event);
     void OnShutdown(wxTaskBarIconExEvent& event);
     void OnMouseMove(wxTaskBarIconEvent& event);

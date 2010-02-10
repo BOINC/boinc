@@ -67,7 +67,6 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 #ifdef __WXMSW__
     EVT_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
     EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
-    EVT_TASKBAR_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
 #endif
 
 #ifdef __WXMAC__
@@ -421,18 +420,14 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
 
 void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
-    if (!IsBalloonsSupported()) {
-        m_bMouseButtonPressed = true;
-    }
+    m_bMouseButtonPressed = true;
 }
 
 
 void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
-    if (!IsBalloonsSupported()) {
-        if (m_bMouseButtonPressed) {
-            DisplayContextMenu();
-            m_bMouseButtonPressed = false;
-        }
+    if (m_bMouseButtonPressed) {
+        DisplayContextMenu();
+        m_bMouseButtonPressed = false;
     }
 }
 #endif  // #ifndef __WXMAC__
@@ -447,11 +442,6 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
     if (eventClose.GetSkipped()) event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
-}
-
-
-void CTaskBarIcon::OnContextMenu(wxTaskBarIconExEvent& WXUNUSED(event)) {
-    DisplayContextMenu();
 }
 #endif
 

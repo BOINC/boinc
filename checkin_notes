@@ -1090,3 +1090,10 @@ Rom    10 Feb 2010
         
     clientgui/
         BOINCTaskBar.cpp, .h
+
+Rom    10 Feb 2010
+    - MGR: Re-enable the context menu support mechinism so
+        that it is compatible with Linux.
+        
+    clientgui/
+        BOINCTaskBar.cpp, .h
