@@ -51,10 +51,13 @@ extern "C" {
     statis_icon_notification_closed(NotifyNotification* notification, wxTaskBarIconEx* taskBarIcon)
     {
         gint id, closed_reason;
-        g_object_get(notification,
-            "id", &intval,
+
+        g_object_get(
+            notification,
+            "id", &id,
             "closed-reason", &closed_reason,
-            NULL);
+            NULL
+        );
 
         if (id == taskBarIcon->GetNotificationID()) {
             fprintf(stdout, "Notification Closed: id: %d closed-reason: %d", id, closed_reason);
