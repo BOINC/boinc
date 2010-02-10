@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-02-08 12:19-0700\n"
+"PO-Revision-Date: 2010-02-10 12:37-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -956,7 +956,7 @@ msgstr "Dormitar"
 
 #: clientgui/BOINCTaskBar.cpp:617
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Dormitar la GPU"
 
 #: clientgui/BOINCTaskBar.cpp:624
 msgid "Test Notification"
@@ -1067,12 +1067,11 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 Universidad de California, Berkeley.\n"
+"(C) 2003-2010 Universidad de California, Berkeley.\n"
 "Reservados Todos los Derechos."
 
 #: clientgui/DlgAbout.cpp:179
@@ -1486,7 +1485,7 @@ msgstr "muestra la página web de preferencias"
 #: clientgui/DlgEventLog.cpp:128
 #, c-format
 msgid "%s - Event Log"
-msgstr ""
+msgstr "%s - Registro de Sucesos"
 
 #: clientgui/DlgEventLog.cpp:138
 msgid "Project"
@@ -1502,7 +1501,7 @@ msgstr "Mensaje"
 
 #: clientgui/DlgEventLog.cpp:176
 msgid "Copy All"
-msgstr ""
+msgstr "Copiar Todo"
 
 #: clientgui/DlgEventLog.cpp:178
 #: clientgui/DlgEventLog.cpp:182
@@ -1511,7 +1510,7 @@ msgstr "Copia todos los mensajes al portapapeles"
 
 #: clientgui/DlgEventLog.cpp:187
 msgid "Copy Selected"
-msgstr ""
+msgstr "Copiar Selección"
 
 #: clientgui/DlgEventLog.cpp:190
 #: clientgui/DlgEventLog.cpp:198
@@ -1530,9 +1529,8 @@ msgstr ""
 "mientras hace clic en los mensajes."
 
 #: clientgui/DlgEventLog.cpp:207
-#, fuzzy
 msgid "Close"
-msgstr "&Cerrar"
+msgstr "Cerrar"
 
 #: clientgui/DlgEventLog.cpp:214
 #: clientgui/DlgEventLog.cpp:217
@@ -1741,9 +1739,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervalo de búsqueda de trabajo para la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Planificación de CPU prioritaria"
+msgstr "Planificación de GPU ATI prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -1825,7 +1822,7 @@ msgstr "Carpeta"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "ID de proceso"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
@@ -2266,7 +2263,7 @@ msgstr "Aprenda acerca de los proyectos albergados en World Community Grid"
 
 #: clientgui/MainDocument.cpp:539
 msgid "Starting client"
-msgstr ""
+msgstr "Iniciando cliente"
 
 #: clientgui/MainDocument.cpp:1108
 msgid "Retrieving system state; please wait..."
@@ -2355,19 +2352,19 @@ msgstr "Pulsar"
 
 #: clientgui/ProjectListCtrl.cpp:506
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "CPU multinúcleo soportada"
 
 #: clientgui/ProjectListCtrl.cpp:508
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "GPU Nvidia soportada"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "GPU ATI soportada"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Project Website"
-msgstr ""
+msgstr "Sitio Web del proyecto"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 msgid "Communicating with project."
@@ -3031,11 +3028,11 @@ msgstr "Mostrar las últimas noticias sobre BOINC"
 
 #: clientgui/ViewNotices.cpp:105
 msgid "Notices"
-msgstr ""
+msgstr "Avisos"
 
 #: clientgui/ViewNotices.cpp:155
 msgid "Retrieving notices..."
-msgstr ""
+msgstr "Recuperando avisos..."
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
