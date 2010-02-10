@@ -3715,10 +3715,9 @@ msgstr "指定开始和停止使用网络的时间，格式是 HH:MM-HH:MM"
 
 #~ msgid "&Close Window\tCtrl+W"
 #~ msgstr "关闭窗口(&C)\tCtrl+W"
-#~ msgid "&News\tCtrl+Shift+N"
-#~ msgstr "新闻(&N)\tCtrl+Shift+N"
-#~ msgid "Display news"
-#~ msgstr "显示新闻页"
-#~ msgid "&Projects\tCTRL+SHIFT+P"
-#~ msgstr "项目(&P)\tCTRL+SHIFT+P"
 
+#~ msgid ""
+#~ msgstr "新闻(&N)\tCtrl+Shift+N"
+
+#~ msgid ""
+#~ msgstr "显示新闻页"
