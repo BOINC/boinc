@@ -2,7 +2,7 @@
 # Copyright (C) 2008 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzzy
+#, fuzz  
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -318,7 +318,7 @@ msgstr "Não aceitando novos membros"
 
 #: ../inc/team.inc:139
 msgid "Foundership change requested"
-msgstr ""
+msgstr "Mudança de Liderança pedida"
 
 #: ../inc/team.inc:140
 msgid "Respond by %1"
@@ -326,7 +326,7 @@ msgstr "Responder por %1"
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
-msgstr ""
+msgstr "Mudança do lider de equipa"
 
 #: ../inc/team.inc:148 ../inc/team.inc:346
 msgid "Members"
@@ -334,66 +334,66 @@ msgstr "Membros"
 
 #: ../inc/team.inc:149 ../inc/team.inc:241
 msgid "Founder"
-msgstr ""
+msgstr "Fundador"
 
 #: ../inc/team.inc:161
 msgid "Admins"
-msgstr ""
+msgstr "Administradores"
 
 #: ../inc/team.inc:176
 msgid "New members in last day"
-msgstr ""
+msgstr "Novos membros no ultimo dia"
 
 #: ../inc/team.inc:177
 msgid "Total members"
-msgstr ""
+msgstr "Total de membros"
 
 #: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
 msgid "view"
-msgstr ""
+msgstr "ver"
 
 #: ../inc/team.inc:178
 msgid "Active members"
-msgstr ""
+msgstr "Membros activos"
 
 #: ../inc/team.inc:179
 msgid "Members with credit"
-msgstr ""
+msgstr "Membros com créditos"
 
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
 #: ../user/account_finish.php:40 ../user/create_account_form.php:75
 #: ../user/top_users.php:48 ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: ../inc/team.inc:243
 msgid "Admin"
-msgstr ""
+msgstr "Administrador"
 
 #: ../inc/team.inc:264
 msgid "Last %1"
-msgstr ""
+msgstr "Ultimo %1"
 
 #: ../inc/team.inc:268
 msgid "Next %1"
-msgstr ""
+msgstr "Próximo %1"
 
 #: ../inc/team.inc:276
 msgid "No such team."
-msgstr ""
+msgstr "Não existe essa equipa"
 
 #: ../inc/team.inc:289
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "Esta operação requer liderança"
 
 #: ../inc/team.inc:313
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "Esta operação requer privilégios de administradir na equipa"
 
 #: ../inc/team.inc:344 ../user/top_users.php:47
 msgid "Rank"
-msgstr ""
+msgstr "Rank"
 
 #: ../inc/team.inc:420
 msgid ""
