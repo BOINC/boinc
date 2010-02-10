@@ -44,7 +44,7 @@ public:
 
 // Accessors
     bool IsOK() const { return true; }
-    bool IsIconInstalled() const { return m_pStatusIcon; }
+    bool IsIconInstalled() const;
 
 // Operations
     virtual bool SetIcon(

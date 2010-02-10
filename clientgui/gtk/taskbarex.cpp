@@ -119,6 +119,11 @@ wxTaskBarIconEx::~wxTaskBarIconEx()
     }
 }
 
+bool IsIconInstalled() const {
+    return g_pStatusIcon;
+}
+
+
 // Operations
 bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& message)
 {
