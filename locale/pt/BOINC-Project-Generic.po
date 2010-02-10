@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-26 20:00 PST\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2010-02-10 HO:MI+ZONE\n"
+"Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
+"Language-Team: Portuguese <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,46 +18,48 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Português"
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Portuguese"
 
 #: ../inc/forum.inc:124
 msgid "Search for words in forum messages"
-msgstr ""
+msgstr "Procurar palavras em mensagens nos fóruns"
 
 #: ../inc/forum.inc:124
 msgid "Search forums"
-msgstr ""
+msgstr "Procurar fóruns"
 
 #: ../inc/forum.inc:125
 msgid "Advanced search"
-msgstr ""
+msgstr "Procura avançada"
 
 #: ../inc/forum.inc:131 ../inc/user.inc:247 ../user/pm.php:64
 #: ../user/pm.php:129
 msgid "Private messages"
-msgstr ""
+msgstr "Mensagens privadas"
 
 #: ../inc/forum.inc:149 ../user/forum_forum.php:65 ../user/sample_index.php:71
 msgid "Questions and Answers"
-msgstr ""
+msgstr "Perguntas e Respostas"
 
 #: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:244
 #: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
-msgstr ""
+msgstr "Mensagens do fórum"
 
 #: ../inc/forum.inc:186 ../inc/forum.inc:194
 msgid "%1 message board"
-msgstr ""
+msgstr "%1 mensagem do fórum"
 
 #: ../inc/forum.inc:1056
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
+"Em ordem para criar um novo tópico no %1 tem que ter um certo número de "
+"créditos. Isto previne e protege contra abusos do sistema."
 
 #: ../inc/forum.inc:1063
 msgid ""
@@ -65,59 +67,62 @@ msgid ""
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
+"Não pode criar mais tópicos de momento. Por favor aguarde um momento antes "
+"de tentar movamente. Este atraso foi forçado para protecção de abusos do "
+"sistema."
 
 #: ../inc/forum.inc:1100
 msgid "Thread"
-msgstr ""
+msgstr "Tópico"
 
 #: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Posts"
-msgstr ""
+msgstr "Posts"
 
 #: ../inc/forum.inc:1100 ../user/forum_forum.php:131
 #: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
 #: ../user/forum_thread.php:187
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: ../inc/forum.inc:1100 ../user/forum_forum.php:131
 msgid "Views"
-msgstr ""
+msgstr "Vistas"
 
 #: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Last post"
-msgstr ""
+msgstr "Ultimo post"
 
 #: ../inc/forum.inc:1172
 msgid "Mark all threads as read"
-msgstr ""
+msgstr "Marque todos os tópicos como lidos"
 
 #: ../inc/forum.inc:1172
 msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
+msgstr "Marque todos os tópicos nas mensagens do fórum como 'lidas'."
 
 #: ../inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Comentário"
 
 #: ../inc/news.inc:96
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Novidades estão disponíveis como %sRSS feed%s"
 
 #: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
 msgid "Inbox"
-msgstr ""
+msgstr "Caixa de entrada"
 
 #: ../inc/pm.inc:26 ../inc/pm.inc:182
 msgid "Write"
-msgstr ""
+msgstr "Escrever"
 
 #: ../inc/pm.inc:33 ../inc/user.inc:370
 msgid "Send private message"
-msgstr ""
+msgstr "Mandar mensagem privada"
 
 #: ../inc/pm.inc:35 ../inc/pm.inc:38 ../inc/pm.inc:92
 #: ../user/forum_edit.php:99 ../user/forum_edit.php:102
@@ -127,80 +132,82 @@ msgstr ""
 #: ../user/forum_reply.php:100 ../user/forum_reply.php:103
 #: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
-msgstr ""
+msgstr "Prévisualizar"
 
 #: ../inc/pm.inc:85
 msgid "To"
-msgstr ""
+msgstr "Para"
 
 #: ../inc/pm.inc:85
 msgid "User IDs or unique usernames, separated with commas"
-msgstr ""
+msgstr "IDs dos utilizadores ou nomes de utilizador unicos, separados com virgulas"
 
 #: ../inc/pm.inc:88 ../user/pm.php:85 ../user/pm.php:135
 msgid "Subject"
-msgstr ""
+msgstr "Assunto"
 
 #: ../inc/pm.inc:89 ../user/forum_edit.php:128 ../user/forum_edit.php:133
 #: ../user/forum_post.php:118 ../user/forum_reply.php:108
 #: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
 #: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
-msgstr ""
+msgstr "Mensagen"
 
 #: ../inc/pm.inc:92
 msgid "Send message"
-msgstr ""
+msgstr "Mandar mensagem"
 
 #: ../inc/pm.inc:170
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
 msgstr ""
+"Não está autorizado a mandar mensagens privadas tão frequentemente. Por favor aguarde algum "
+"tempo antes de mandar mais mensagens."
 
 #: ../inc/pm.inc:180
 msgid "unread"
-msgstr ""
+msgstr "não lidas"
 
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
+msgstr "Para notificações de email, %1edite as preferências da comunidade%2"
 
 #: ../inc/profile.inc:216 ../user/create_profile.php:306
 msgid "Edit your profile"
-msgstr ""
+msgstr "Edite o ser perfil"
 
 #: ../inc/profile.inc:254
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "O seu feedback neste perfil"
 
 #: ../inc/profile.inc:256
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Recomende este perfil como Utilizador do Dia:"
 
 #: ../inc/profile.inc:257
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "%1Gosto%2 deste perfil"
 
 #: ../inc/profile.inc:260
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Alertar administradores para um perfil ofensivo:"
 
 #: ../inc/profile.inc:261
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "%1Não gosto%2 deste perfil"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "Procurar por critérios (usar um ou mais)"
 
 #: ../inc/team.inc:34
 msgid "Key words"
-msgstr ""
+msgstr "Palavras chave"
 
 #: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "Procurar equipas com estas palavaras nos seus nomes ou descrições"
 
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
@@ -209,59 +216,59 @@ msgstr ""
 #: ../user/user_search.php:102 ../user/user_search.php:119
 #: ../user/user_search.php:158
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #: ../inc/team.inc:42 ../inc/team.inc:445
 msgid "Type of team"
-msgstr ""
+msgstr "Tipo de equipa"
 
 #: ../inc/team.inc:44
 msgid "Show only active teams"
-msgstr ""
+msgstr "Mostrar apenas equipas activas"
 
 #: ../inc/team.inc:45 ../user/profile_menu.php:75 ../user/user_search.php:132
 msgid "Search"
-msgstr ""
+msgstr "Procurar"
 
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
+msgstr "Requisitado por si, e o tempo de resposta do fundador passou."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "Completar transferência do fundador"
 
 #: ../inc/team.inc:60
 msgid "Requested by you"
-msgstr ""
+msgstr "Requisitado por si"
 
 #: ../inc/team.inc:60
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "o tempo de resposta do fundador é %1"
 
 #: ../inc/team.inc:65 ../inc/user.inc:275 ../inc/user.inc:363
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #: ../inc/team.inc:67
 msgid "Initiate request"
-msgstr ""
+msgstr "Iniciar pedido"
 
 #: ../inc/team.inc:70
 msgid "Deferred"
-msgstr ""
+msgstr "Deferido"
 
 #: ../inc/team.inc:80
 msgid "Team info"
-msgstr ""
+msgstr "Informação da equipa"
 
 #: ../inc/team.inc:82
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 #: ../inc/team.inc:90
 msgid "Web site"
-msgstr ""
+msgstr "Website"
 
 #: ../inc/team.inc:94 ../inc/team.inc:207 ../inc/team.inc:212
 #: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
@@ -269,43 +276,45 @@ msgstr ""
 #: ../user/top_users.php:58 ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Total credit"
-msgstr ""
+msgstr "Créditos totais"
 
 #: ../inc/team.inc:95 ../inc/team.inc:208 ../inc/team.inc:217
 #: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
 #: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
-msgstr ""
+msgstr "Média de créditos recentes"
 
 #: ../inc/team.inc:112
 msgid "Cross-project stats"
-msgstr ""
+msgstr "Cruzar estatísticas do projecto"
 
 #: ../inc/team.inc:115
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: ../inc/team.inc:119
 msgid "Message board"
-msgstr ""
+msgstr "Mensagem do fórum"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:131 ../user/forum_index.php:93
 msgid "Threads"
-msgstr ""
+msgstr "Tópicos"
 
 #: ../inc/team.inc:128
 msgid "Join this team"
-msgstr ""
+msgstr "Juntar a esta equipa"
 
 #: ../inc/team.inc:129
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
+"Nota: Se o 'OK para o email' está definido nas preferências do projecto, juntar-se a uma equipa "
+"dá ao fundador acesso ao seu endereço de email."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
-msgstr ""
+msgstr "Não aceitando novos membros"
 
 #: ../inc/team.inc:139
 msgid "Foundership change requested"
@@ -313,7 +322,7 @@ msgstr ""
 
 #: ../inc/team.inc:140
 msgid "Respond by %1"
-msgstr ""
+msgstr "Responder por %1"
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
@@ -321,7 +330,7 @@ msgstr ""
 
 #: ../inc/team.inc:148 ../inc/team.inc:346
 msgid "Members"
-msgstr ""
+msgstr "Membros"
 
 #: ../inc/team.inc:149 ../inc/team.inc:241
 msgid "Founder"
