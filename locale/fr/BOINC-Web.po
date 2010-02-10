@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-01-25 16:32-0700\n"
-"Last-Translator: pH!Lm0 <philmo_one@yahoo.fr>\n"
+"PO-Revision-Date: 2010-02-10 12:58-0700\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -66,13 +66,12 @@ msgstr ""
 
 #: download.php:116
 #, php-format
-#, fuzzy
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
-"Note: si votre ordinateur est équipé d'un processeur graphique (GPU) NVIDIA, "
-"vous pourrez peut-être %sl'utiliser pour calculer plus rapidement%s"
+"Note: si votre ordinateur est équipé d'un processeur graphique (GPU), vous "
+"pourrez peut-être %sl'utiliser pour calculer plus rapidement%s"
 
 #: download.php:122
 msgid "System requirements"
@@ -92,7 +91,7 @@ msgstr "Toutes les versions"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "Historique des versions"
 
 #: download.php:143
 msgid "BOINC: compute for science"
@@ -255,16 +254,20 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%1Scientifiques%2 : utilisez BOINC pour créer un %3projet de calcul "
+"bénévole%4 vous procurant ainsi la puissance de calcul de milliers de CPUs."
 
 #: index.php:130
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Universités%2 : utilisez BOINC pour créer un %3centre de calcul d'un "
+"campus virtuel%4."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr ""
+msgstr "%1Sociétés%2 : utilisez BOINC pour du %3desktop grid computing%4."
 
 #: index.php:147
 msgid "The BOINC project"
@@ -292,7 +295,7 @@ msgstr "Publications et discussions"
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Projets de recherche"
 
 #: index.php:159
 msgid "Logos and graphics"
@@ -300,7 +303,7 @@ msgstr "Logos et graphiques"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "et"
 
 #: index.php:164
 #, fuzzy
@@ -321,7 +324,7 @@ msgstr "Tests"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "Publicité"
 
 #: index.php:172
 msgid "Software development"
@@ -343,7 +346,7 @@ msgstr "Logiciel libre de %scalcul bénévole%s et %sdistribué%s."
 
 #: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC est basé à l'Université de Californie, Berkeley"
 
 #~ msgid "Conferences"
 #~ msgstr "Conférences"

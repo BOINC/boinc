@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2009-12-30 06:59-0700\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
+"PO-Revision-Date: 2010-02-10 12:48-0700\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -200,7 +200,7 @@ msgstr "Fermez la fenêtre %s"
 
 #: clientgui/AdvancedFrame.cpp:307
 msgid "&Close Window"
-msgstr ""
+msgstr "&Fermer la fenêtre"
 
 #: clientgui/AdvancedFrame.cpp:318
 #, c-format
@@ -213,13 +213,12 @@ msgid "E&xit"
 msgstr "&Quitter"
 
 #: clientgui/AdvancedFrame.cpp:332
-#, fuzzy
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Nouvelles\tCtrl+Shift+N"
+msgstr "&Remarques\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "Display notices"
-msgstr ""
+msgstr "Afficher les remarques"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "&Projects\tCtrl+Shift+P"
@@ -328,35 +327,31 @@ msgstr "&Suspendre"
 
 #: clientgui/AdvancedFrame.cpp:440
 msgid "Stop work regardless of preferences"
-msgstr "Arrête les calculs sans tenir compte des préférences"
+msgstr "Arrêter les calculs sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:463
 msgid "Use GPU always"
-msgstr ""
+msgstr "Toujours utiliser le GPU"
 
 #: clientgui/AdvancedFrame.cpp:464
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Autorise le travail sans tenir compte des préférences"
+msgstr "Autorise les calculs sur le GPU sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:468
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Calculer selon les &préférences"
+msgstr "Utiliser le GPU selon les &préférences"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Autorise le travail selon vos préférences"
+msgstr "Autoriser les calculs sur le GPU selon vos préférences"
 
 #: clientgui/AdvancedFrame.cpp:473
 msgid "Use GPU never"
-msgstr ""
+msgstr "Ne jamais utiliser le GPU"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Arrête les calculs sans tenir compte des préférences"
+msgstr "Arrête les calculs du GPU sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "&Network activity always available"
@@ -364,7 +359,7 @@ msgstr "&Activité réseau toujours disponible"
 
 #: clientgui/AdvancedFrame.cpp:499
 msgid "Allow network activity regardless of preferences"
-msgstr "Autorise l'activité réseau sans tenir compte des préférences"
+msgstr "Autoriser l'activité réseau sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "Network activity based on &preferences"
@@ -372,7 +367,7 @@ msgstr "Activité réseau selon les &préférences"
 
 #: clientgui/AdvancedFrame.cpp:504
 msgid "Allow network activity according to your preferences"
-msgstr "Autorise l'activité réseau selon vos préférences"
+msgstr "Autoriser l'activité réseau selon vos préférences"
 
 #: clientgui/AdvancedFrame.cpp:508
 msgid "&Network activity suspended"
@@ -380,7 +375,7 @@ msgstr "&Activité réseau suspendue"
 
 #: clientgui/AdvancedFrame.cpp:509
 msgid "Stop BOINC network activity"
-msgstr "Arrête l'activité réseau de BOINC"
+msgstr "Arrêter l'activité réseau de BOINC"
 
 #: clientgui/AdvancedFrame.cpp:516
 msgid "&Options..."
@@ -396,12 +391,12 @@ msgstr "&Préférences..."
 
 #: clientgui/AdvancedFrame.cpp:522
 msgid "Configure local preferences"
-msgstr "Configure les préférences locales"
+msgstr "Configurer les préférences locales"
 
 #: clientgui/AdvancedFrame.cpp:528
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr "Se connecte à un autre ordinateur travaillant sur %s"
+msgstr "Se connecter à un autre ordinateur travaillant sur %s"
 
 #: clientgui/AdvancedFrame.cpp:533
 msgid "Select computer..."
@@ -413,15 +408,15 @@ msgstr "Arrêter le client connecté..."
 
 #: clientgui/AdvancedFrame.cpp:539
 msgid "Shut down the currently connected core client"
-msgstr "Arrête le client qui est actuellement connecté"
+msgstr "Arrêter le client qui est actuellement connecté"
 
 #: clientgui/AdvancedFrame.cpp:543
 msgid "Run CPU &benchmarks"
-msgstr "Effectuer les &tests de puissance sur votre ordinateur"
+msgstr "Effectuer les &tests de puissance de votre CPU"
 
 #: clientgui/AdvancedFrame.cpp:544
 msgid "Runs BOINC CPU benchmarks"
-msgstr "Effectue les tests de puissance BOINC sur votre ordinateur"
+msgstr "Effectue les tests de puissance BOINC de votre CPU"
 
 #: clientgui/AdvancedFrame.cpp:548
 msgid "Do network &communication"
@@ -450,11 +445,11 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:563
 msgid "Event Log..."
-msgstr ""
+msgstr "Journal des événements..."
 
 #: clientgui/AdvancedFrame.cpp:564
 msgid "Display diagnostic messages from the client."
-msgstr ""
+msgstr "Afficher les messages de diagnostique de clients."
 
 #: clientgui/AdvancedFrame.cpp:574
 #, c-format
@@ -648,7 +643,7 @@ msgstr "&Fermer %s"
 #: clientgui/AsyncRPC.cpp:1234
 #, c-format
 msgid "%s - Communication"
-msgstr ""
+msgstr "%s - Communication"
 
 #: clientgui/AsyncRPC.cpp:1250
 msgid "Cancel"
@@ -897,7 +892,7 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:720
 msgid "(Automatic Detection)"
-msgstr "(Détection Automatique)"
+msgstr "(Détection automatique)"
 
 #: clientgui/BOINCGUIApp.cpp:721
 msgid "(Unknown)"
@@ -909,11 +904,13 @@ msgstr "(Défini par l'utilisateur)"
 
 #: clientgui/BOINCTaskBar.cpp:248
 msgid "BOINC Notification"
-msgstr ""
+msgstr "Notifications BOINC"
 
 #: clientgui/BOINCTaskBar.cpp:249
 msgid "TEST: Fluffy@Home just found out that the Fluffy project has been published in Nature"
 msgstr ""
+"TEST : Fluffy@Home vient de découvrir que le projet Fluffy a été publié dans "
+"la revue Nature"
 
 #: clientgui/BOINCTaskBar.cpp:350
 msgid "Computation is suspended."
@@ -953,15 +950,15 @@ msgstr "Ouvrir %s..."
 
 #: clientgui/BOINCTaskBar.cpp:615
 msgid "Snooze"
-msgstr "En veille"
+msgstr "Mettre en veille"
 
 #: clientgui/BOINCTaskBar.cpp:617
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Mettre en veille le GPU"
 
 #: clientgui/BOINCTaskBar.cpp:624
 msgid "Test Notification"
-msgstr ""
+msgstr "Notification de test"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1057,7 +1054,7 @@ msgstr "A propos de %s"
 
 #: clientgui/DlgAbout.cpp:155
 msgid "Version:"
-msgstr "Version:"
+msgstr "Version :"
 
 #: clientgui/DlgAbout.cpp:163
 msgid "wxWidgets Version:"
@@ -1065,15 +1062,14 @@ msgstr "Version de wxWidgets :"
 
 #: clientgui/DlgAbout.cpp:171
 msgid "Copyright:"
-msgstr "Copyright:"
+msgstr "Copyright :"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 Université de Californie, Berkeley.\n"
+"(C) 2003-2010 Université de Californie, Berkeley.\n"
 "Tous droits réservés."
 
 #: clientgui/DlgAbout.cpp:179
@@ -1484,7 +1480,7 @@ msgstr "affiche la page web des préférences"
 #: clientgui/DlgEventLog.cpp:128
 #, c-format
 msgid "%s - Event Log"
-msgstr ""
+msgstr "%s - Journal des événements"
 
 #: clientgui/DlgEventLog.cpp:138
 msgid "Project"
@@ -1500,7 +1496,7 @@ msgstr "Message"
 
 #: clientgui/DlgEventLog.cpp:176
 msgid "Copy All"
-msgstr ""
+msgstr "Tout copier"
 
 #: clientgui/DlgEventLog.cpp:178
 #: clientgui/DlgEventLog.cpp:182
@@ -1509,7 +1505,7 @@ msgstr "Copie tous les messages dans le presse-papiers"
 
 #: clientgui/DlgEventLog.cpp:187
 msgid "Copy Selected"
-msgstr ""
+msgstr "Copier la sélection"
 
 #: clientgui/DlgEventLog.cpp:190
 #: clientgui/DlgEventLog.cpp:198
@@ -1528,9 +1524,8 @@ msgstr ""
 "Ctrl lorsque vous cliquez sur les messages."
 
 #: clientgui/DlgEventLog.cpp:207
-#, fuzzy
 msgid "Close"
-msgstr "&Fermer"
+msgstr "Fermer"
 
 #: clientgui/DlgEventLog.cpp:214
 #: clientgui/DlgEventLog.cpp:217
@@ -1723,7 +1718,7 @@ msgstr "Intervalle d'ajournement de demande de travail CPU"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "Priorité d'ordonnancement du GPU NVidia"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"
@@ -1738,9 +1733,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervalle d'ajournement de demande de travail GPU NVidia"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Priorité de planification CPU"
+msgstr "Priorité de planification de CPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -1822,7 +1816,7 @@ msgstr "Répertoire"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "ID du process"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
@@ -2264,7 +2258,7 @@ msgstr "S'informer sur les projets hébergés par World Community Grid"
 
 #: clientgui/MainDocument.cpp:539
 msgid "Starting client"
-msgstr ""
+msgstr "Client en court de démarrage"
 
 #: clientgui/MainDocument.cpp:1108
 msgid "Retrieving system state; please wait..."
@@ -2353,19 +2347,19 @@ msgstr "Cliquer"
 
 #: clientgui/ProjectListCtrl.cpp:506
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "CPU multi-cœurs supportés"
 
 #: clientgui/ProjectListCtrl.cpp:508
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "GPU NVidia supportés"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "GPU ATI supportés"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Project Website"
-msgstr ""
+msgstr "Site web du projet"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 msgid "Communicating with project."
@@ -3032,11 +3026,11 @@ msgstr "Afficher les dernières nouvelles au sujet de BOINC"
 
 #: clientgui/ViewNotices.cpp:105
 msgid "Notices"
-msgstr ""
+msgstr "Remarques"
 
 #: clientgui/ViewNotices.cpp:155
 msgid "Retrieving notices..."
-msgstr ""
+msgstr "En cours de récupération des remarques..."
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
@@ -3553,7 +3547,7 @@ msgstr " (CPU-non-intensif)"
 
 #: clientgui/ViewWork.cpp:1207
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Avorté : non démarré dans le délai imparti"
 
 #: clientgui/WelcomePage.cpp:254
 msgid "Attach to project or account manager"
@@ -3666,10 +3660,14 @@ msgstr "Légende du Camembert"
 #: clientgui/mac/MacAccessiblity.cpp:205
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
+"pour le support de l'accessibilité, veuillez sélectionner avancé dans le "
+"menu affichage ou entrez la commande shift-a"
 
 #: clientgui/mac/MacAccessiblity.cpp:250
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
+"Ce panneau contient des graphes montrant le total pour les utilisateurs des "
+"projets"
 
 #: clientgui/mac/MacAccessiblity.cpp:518
 #: clientgui/mac/MacAccessiblity.cpp:640
@@ -3682,17 +3680,16 @@ msgstr "liste de "
 
 #: clientgui/mac/MacAccessiblity.cpp:522
 msgid "events"
-msgstr ""
+msgstr "événements"
 
 #: clientgui/mac/MacAccessiblity.cpp:529
 msgid " is empty"
-msgstr ""
+msgstr " est vide"
 
 #: clientgui/mac/MacAccessiblity.cpp:600
 #, c-format
-#, fuzzy
 msgid "%d of %d; "
-msgstr "%d de %d "
+msgstr "%d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
@@ -3712,7 +3709,7 @@ msgstr "colonne "
 
 #: clientgui/mac/MacAccessiblity.cpp:618
 msgid "list is empty"
-msgstr ""
+msgstr "la liste est vide"
 
 #: clientgui/mac/MacAccessiblity.cpp:621
 #: clientgui/mac/MacAccessiblity.cpp:1204
@@ -3726,15 +3723,13 @@ msgstr "ligne %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:629
 #, c-format
-#, fuzzy
 msgid "of %d; "
-msgstr "de %d "
+msgstr "de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
-#, fuzzy
 msgid "column %d; "
-msgstr "colonne %d "
+msgstr "colonne %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1166
 msgid "list of projects or account managers"
@@ -3742,9 +3737,8 @@ msgstr "liste de projets ou de gestionnaires de compte"
 
 #: clientgui/mac/MacAccessiblity.cpp:1208
 #, c-format
-#, fuzzy
 msgid "row %d of %d; "
-msgstr "ligne %d de %d "
+msgstr "ligne %d de %d; "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
