@@ -65,12 +65,12 @@ public:
     wxMenu *BuildContextMenu();
     void AdjustMenuItems(wxMenu* menu);
 
-#ifdef __APPLE__
+#ifdef __WXMAC__
     wxMenu *CreatePopupMenu();
     bool SetIcon(const wxIcon& icon, const wxString& message = wxEmptyString);
 #endif
 
-#ifndef __WXMSW__
+#ifdef __WXMAC__
     inline bool IsBalloonsSupported() {
         return false;
     }

@@ -245,15 +245,15 @@ void CTaskBarIcon::OnSuspendResumeGPU(wxCommandEvent& WXUNUSED(event)) {
 void CTaskBarIcon::OnTestNotification(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnTestNotification - Function Begin"));
 
-#ifdef __WXMSW__
+#ifndef __WXMAC__
     QueueBalloon(
         m_iconTaskBarNormal,
         _("BOINC Notification"),
         _("TEST: Fluffy@Home just found out that the Fluffy project has been published in Nature"),
-        NIIF_INFO
+        BALLOONTYPE_INFO
     );
-
 #endif
+
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnTestNotification - Function End"));
 }
 

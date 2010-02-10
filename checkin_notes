@@ -1083,3 +1083,10 @@ Rom    10 Feb 2010
     
     clientgui/gtk
         taskbarex.cpp, .h
+
+Rom    10 Feb 2010
+    - MGR: Re-enable the test notification mechinism so
+        that it is compatible with Linux.
+        
+    clientgui/
+        BOINCTaskBar.cpp, .h
