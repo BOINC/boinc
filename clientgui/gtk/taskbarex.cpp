@@ -35,16 +35,16 @@ extern "C" {
     status_icon_activate(GtkStatusIcon*, wxTaskBarIconEx* taskBarIcon)
     {
         wxTaskBarIconExEvent eventLeftDClick(wxEVT_TASKBAR_LEFT_DCLICK, taskBarIcon);
-        taskBarIcon->SafelyProcessEvent(eventLeftDClick);
+        taskBarIcon->ProcessEvent(eventLeftDClick);
     }
 
     static void
     status_icon_popup_menu(GtkStatusIcon*, guint, guint, wxTaskBarIconEx* taskBarIcon)
     {
         wxTaskBarIconExEvent eventDown(EVT_TASKBAR_RIGHT_DOWN, taskBarIcon);
-        taskBarIcon->SafelyProcessEvent(eventDown);
+        taskBarIcon->ProcessEvent(eventDown);
         wxTaskBarIconExEvent eventUp(EVT_TASKBAR_RIGHT_UP, taskBarIcon);
-        taskBarIcon->SafelyProcessEvent(eventUp);
+        taskBarIcon->ProcessEvent(eventUp);
     }
 
     static void
