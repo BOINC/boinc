@@ -52,12 +52,8 @@ extern "C" {
     {
         gint id, closed_reason;
 
-        g_object_get(
-            notification,
-            "id", &id,
-            "closed-reason", &closed_reason,
-            NULL
-        );
+        g_object_get(notification, "id", &id, NULL);
+        g_object_get(notification, "closed-reason", &closed_reason, NULL);
 
         if (id == taskBarIcon->GetNotificationID()) {
             fprintf(stdout, "Notification Closed: id: %d closed-reason: %d", id, closed_reason);
@@ -218,9 +214,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     }
 
     retval = notify_notification_show(g_pNotification, &error);
-    if (!retval) {
-        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::SetBalloon - notify_notification_show error: '%s'"), error->message);
-    }
+    g_clear_error(&error);
 
     wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::SetBalloon - Function End"));
     return retval;
