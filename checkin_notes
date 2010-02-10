@@ -1069,3 +1069,11 @@ Rom    10 Feb 2010
     
     clientgui/gtk
         taskbarex.cpp, .h
+
+Rom    10 Feb 2010
+    - build: replace gtk flags and libs with libnotify
+    
+    /
+        configure.ac
+    clientgui/
+        Makefile.am
