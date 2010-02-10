@@ -51,21 +51,15 @@ extern "C" {
     statis_icon_notification_closed(NotifyNotification* notification, wxTaskBarIconEx* taskBarIcon)
     {
         int id, closed_reason;
-        GValue val = { 0, };
 
-        g_value_init(&val, G_TYPE_PARAM_UINT);
+        fprintf(stdout, "statis_icon_notification_closed called!\n");
 
-        g_object_get_property(G_OBJECT(notification), "id", &val);
-        id = g_value_get_int(&val);
-
-        g_object_get_property(G_OBJECT(notification), "closed-reason", &val);
-        closed_reason = g_value_get_int(&val);
+        g_object_get(G_OBJECT(notification), "id", &id);
+        g_object_get(G_OBJECT(notification), "closed-reason", &closed_reason);
 
         if (id == taskBarIcon->GetNotificationID()) {
             fprintf(stdout, "Notification Closed: id: %d closed-reason: %d", id, closed_reason);
         }
-
-        g_value_unset(&val);
     }
 }
 
@@ -175,7 +169,6 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
 
     bool retval = false;
     GError* error = NULL;
-    GValue val = { 0, };
 
     if (!IsOK())
         return false;
@@ -210,11 +203,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
                 g_pStatusIcon
             );
 
-        g_value_init(&val, G_TYPE_PARAM_UINT);
-        g_value_set_int(&val, m_iNotificationID);
-
-        g_object_set_property(G_OBJECT(g_pNotification), "id", &val);
-
+        g_object_set(G_OBJECT(g_pNotification), "id", m_iNotificationID);
         g_signal_connect(g_pNotification, "closed", G_CALLBACK(statis_icon_notification_closed), this);
     }
     else
@@ -229,7 +218,6 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
 
     retval = notify_notification_show(g_pNotification, &error);
     g_clear_error(&error);
-    g_value_unset(&val);
 
     wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::SetBalloon - Function End"));
     return retval;
