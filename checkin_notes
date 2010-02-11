@@ -6638,3 +6638,11 @@ Charlie  10 Feb 2010
     
     mac_installer/
         PostInstall.cpp
+
+Charlie  11 Feb 2010
+    - Tag for 6.8.22 release (changes from 6.8.21 are Mac only.)
+      boinc_core_release_6_8_22
+
+    /
+        configure.ac
+        version.h
