@@ -50,7 +50,7 @@ extern "C" {
     static void
     statis_icon_notification_actions(NotifyNotification* notification, gchar *action, wxTaskBarIconEx* taskBarIcon)
     {
-        if (g_strcmp(action, "default") == 0) {
+        if (strcmp(action, "default") == 0) {
             taskBarIcon->FireUserClickedEvent();
         }
     }
@@ -148,7 +148,7 @@ void wxTaskBarIconEx::ClearEvents() {
     m_bUserClicked = false;
 }
 
-void wxTaskBarIconEx::FireUserClickedEvent() const {
+void wxTaskBarIconEx::FireUserClickedEvent() {
     m_bUserClicked = true;
 }
 

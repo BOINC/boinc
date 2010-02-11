@@ -48,7 +48,7 @@ public:
 
 // Event Callbacks
     void ClearEvents();
-    void FireUserClickedEvent() const;
+    void FireUserClickedEvent();
     bool IsUserClicked();
 
 // Operations
