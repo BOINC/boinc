@@ -46,7 +46,6 @@ public:
     bool IsOK() const { return true; }
     bool IsIconInstalled() const;
     wxInt32 GetTaskbarID() const { return m_iTaskbarID; }
-    wxInt32 GetNotificationID() const { return m_iNotificationID; }
 
 // Operations
     virtual bool SetIcon(
@@ -79,7 +78,6 @@ public:
 protected:
     wxWindow*           m_pWnd;
     wxInt32             m_iTaskbarID;
-    wxInt32             m_iNotificationID;
 };
 
 

@@ -50,16 +50,15 @@ extern "C" {
     static void
     statis_icon_notification_closed(NotifyNotification* notification, wxTaskBarIconEx* taskBarIcon)
     {
-        int id, closed_reason;
+        int closed_reason;
 
-        fprintf(stdout, "statis_icon_notification_closed called!\n");
+        fprintf(stderr, "statis_icon_notification_closed begin!\n");
 
-        g_object_get(G_OBJECT(notification), "id", &id);
         g_object_get(G_OBJECT(notification), "closed-reason", &closed_reason);
 
-        if (id == taskBarIcon->GetNotificationID()) {
-            fprintf(stdout, "Notification Closed: id: %d closed-reason: %d", id, closed_reason);
-        }
+        fprintf(stderr, "statis_icon_notification_closed closed-reason: %d", id, closed_reason);
+
+        fprintf(stderr, "statis_icon_notification_closed end!\n");
     }
 }
 
@@ -90,7 +89,6 @@ wxTaskBarIconEx::wxTaskBarIconEx()
 {
     m_pWnd = NULL;
     m_iTaskbarID = 1;
-    m_iNotificationID = 1;
     g_pStatusIcon = NULL;
     g_pNotification = NULL;
 
@@ -101,7 +99,6 @@ wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle, wxInt32 iTaskbarID )
 {
     m_pWnd = NULL;
     m_iTaskbarID = iTaskbarID;
-    m_iNotificationID = iTaskbarID;
     g_pStatusIcon = NULL;
     g_pNotification = NULL;
 
@@ -126,6 +123,7 @@ wxTaskBarIconEx::~wxTaskBarIconEx()
     if (g_pNotification)
     {
         notify_notification_close(g_pNotification, NULL);
+        notify_uninit();
         g_pNotification = NULL;
     }
 }
@@ -203,7 +201,6 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
                 g_pStatusIcon
             );
 
-        g_object_set(G_OBJECT(g_pNotification), "id", m_iNotificationID);
         g_signal_connect(g_pNotification, "closed", G_CALLBACK(statis_icon_notification_closed), this);
     }
     else
