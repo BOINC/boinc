@@ -54,7 +54,6 @@ public:
 
     void OnNotificationClick(wxTaskBarIconExEvent& event);
     void OnShutdown(wxTaskBarIconExEvent& event);
-    void OnMouseMove(wxTaskBarIconEvent& event);
     void OnLButtonDClick(wxTaskBarIconEvent& event);
     void OnRButtonDown(wxTaskBarIconEvent& event);
     void OnRButtonUp(wxTaskBarIconEvent& event);

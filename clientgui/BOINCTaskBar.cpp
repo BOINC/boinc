@@ -54,7 +54,6 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 #ifndef __WXMAC__
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
-    EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
     EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
 #endif
     EVT_MENU(ID_OPENBOINCMANAGER, CTaskBarIcon::OnOpen)
@@ -129,28 +128,122 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc                 = wxGetApp().GetDocument();
+    wxString       strMachineName       = wxEmptyString;
+    wxString       strMessage           = wxEmptyString;
+    wxString       strProjectName       = wxEmptyString;
+    wxString       strBuffer            = wxEmptyString;
+    wxString       strActiveTaskBuffer  = wxEmptyString;
+    float          fProgress            = 0;
+    bool           bIsActive            = false;
+    bool           bIsExecuting         = false;
+    bool           bIsDownloaded        = false;
+    wxInt32        iResultCount         = 0;
+    wxInt32        iActiveTaskCount     = 0;
+    wxInt32        iIndex               = 0;
     CC_STATUS      status;
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    if (!pDoc) return;
 
-    // What is the current status of the client?
-    pDoc->GetCoreClientStatus(status);
+    if (pDoc->IsConnected()) {
+        m_iconCurrent = m_iconTaskBarNormal;
 
-    // Which icon should be displayed?
-    if (!pDoc->IsConnected()) {
-        m_iconCurrent = m_iconTaskBarDisconnected;
-        SetIcon(m_iconTaskBarDisconnected);
-    } else {
+        pDoc->GetConnectedComputerName(strMachineName);
+
+        // Only show machine name if connected to remote machine.
+        if (!pDoc->IsComputerNameLocal(strMachineName)) {
+            strMessage += strMachineName;
+        }
+
+        pDoc->GetCoreClientStatus(status);
+
         if (RUN_MODE_NEVER == status.task_mode) {
             m_iconCurrent = m_iconTaskBarSnooze;
-            SetIcon(m_iconTaskBarSnooze);
-        } else {
-            m_iconCurrent = m_iconTaskBarNormal;
-            SetIcon(m_iconTaskBarNormal);
         }
+
+        if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+            strBuffer.Printf(
+                _("Computation is suspended.")
+            );
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strBuffer;
+        }
+
+        if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+            strBuffer.Printf(
+                _("Network activity is suspended.")
+            );
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strBuffer;
+        }
+
+        iResultCount = pDoc->GetWorkCount();
+        for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+            RESULT* result = pDoc->result(iIndex);
+            RESULT* state_result = NULL;
+            std::string project_name;
+
+            bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
+            bIsActive     = result->active_task;
+            bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
+            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
+
+            // Increment the active task counter
+            iActiveTaskCount++;
+
+            // If we have more then two active tasks then we'll just be displaying
+            //   the total number of active tasks anyway, so just look at the rest
+            //   of the result records.
+            if (iActiveTaskCount > 2) continue;
+
+            if (result) {
+                state_result = pDoc->state.lookup_result(result->project_url, result->name);
+                if (state_result) {
+                    state_result->project->get_name(project_name);
+                    strProjectName = wxString(project_name.c_str(), wxConvUTF8);
+                }
+                fProgress = floor(result->fraction_done*10000)/100;
+            }
+
+            strBuffer.Printf(_("%s: %.2f%% completed."), strProjectName.c_str(), fProgress );
+            if (strActiveTaskBuffer.Length() > 0) strActiveTaskBuffer += wxT("\n");
+            strActiveTaskBuffer += strBuffer;
+        }
+
+        if (iActiveTaskCount <= 2) {
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strActiveTaskBuffer;
+        } else {
+            // More than two active tasks are running on the system, we don't have
+            //   enough room to display them all, so just tell the user how many are
+            //   currently running.
+            strBuffer.Printf(
+                _("%d tasks running."),
+                iActiveTaskCount
+            );
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strBuffer;
+        }
+
+    } else if (pDoc->IsReconnecting()) {
+        m_iconCurrent = m_iconTaskBarDisconnected;
+
+        strBuffer.Printf(
+            _("Reconnecting to client.")
+        );
+        if (strMessage.Length() > 0) strMessage += wxT("\n");
+        strMessage += strBuffer;
+    } else {
+        m_iconCurrent = m_iconTaskBarDisconnected;
+
+        strBuffer.Printf(
+            _("Not connected to a client.")
+        );
+        if (strMessage.Length() > 0) strMessage += wxT("\n");
+        strMessage += strBuffer;
     }
+
+    SetIcon(m_iconCurrent, strMessage);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function End"));
 }
@@ -303,122 +396,6 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
 
 
 #ifndef __WXMAC__
-// Note: tooltip must not have a trailing linebreak. 
-void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
-
-    wxTimeSpan tsLastHover(wxDateTime::Now() - m_dtLastHoverDetected);
-    if (tsLastHover.GetSeconds() >= 2) {
-        m_dtLastHoverDetected = wxDateTime::Now();
-
-        CMainDocument* pDoc                 = wxGetApp().GetDocument();
-        wxString       strMachineName       = wxEmptyString;
-        wxString       strMessage           = wxEmptyString;
-        wxString       strProjectName       = wxEmptyString;
-        wxString       strBuffer            = wxEmptyString;
-        wxString       strActiveTaskBuffer  = wxEmptyString;
-        float          fProgress            = 0;
-        bool           bIsActive            = false;
-        bool           bIsExecuting         = false;
-        bool           bIsDownloaded        = false;
-        wxInt32        iResultCount         = 0;
-        wxInt32        iActiveTaskCount     = 0;
-        wxInt32        iIndex               = 0;
-        CC_STATUS      status;
-
-        if (!pDoc) return;
-
-        if (pDoc->IsConnected()) {
-            pDoc->GetConnectedComputerName(strMachineName);
-
-            // Only show machine name if connected to remote machine.
-            if (!pDoc->IsComputerNameLocal(strMachineName)) {
-                strMessage += strMachineName;
-            }
-
-            pDoc->GetCoreClientStatus(status);
-            if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
-                strBuffer.Printf(
-                    _("Computation is suspended.")
-                );
-                if (strMessage.Length() > 0) strMessage += wxT("\n");
-                strMessage += strBuffer;
-            }
-
-            if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
-                strBuffer.Printf(
-                    _("Network activity is suspended.")
-                );
-                if (strMessage.Length() > 0) strMessage += wxT("\n");
-                strMessage += strBuffer;
-            }
-
-            iResultCount = pDoc->GetWorkCount();
-            for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                RESULT* result = pDoc->result(iIndex);
-                RESULT* state_result = NULL;
-                std::string project_name;
-
-                bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
-                bIsActive     = result->active_task;
-                bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
-                if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
-
-                // Increment the active task counter
-                iActiveTaskCount++;
-
-                // If we have more then two active tasks then we'll just be displaying
-                //   the total number of active tasks anyway, so just look at the rest
-                //   of the result records.
-                if (iActiveTaskCount > 2) continue;
-
-                if (result) {
-                    state_result = pDoc->state.lookup_result(result->project_url, result->name);
-                    if (state_result) {
-                        state_result->project->get_name(project_name);
-                        strProjectName = wxString(project_name.c_str(), wxConvUTF8);
-                    }
-                    fProgress = floor(result->fraction_done*10000)/100;
-                }
-
-                strBuffer.Printf(_("%s: %.2f%% completed."), strProjectName.c_str(), fProgress );
-                if (strActiveTaskBuffer.Length() > 0) strActiveTaskBuffer += wxT("\n");
-                strActiveTaskBuffer += strBuffer;
-            }
-
-            if (iActiveTaskCount <= 2) {
-                if (strMessage.Length() > 0) strMessage += wxT("\n");
-                strMessage += strActiveTaskBuffer;
-            } else {
-                // More than two active tasks are running on the system, we don't have
-                //   enough room to display them all, so just tell the user how many are
-                //   currently running.
-                strBuffer.Printf(
-                    _("%d tasks running."),
-                    iActiveTaskCount
-                );
-                if (strMessage.Length() > 0) strMessage += wxT("\n");
-                strMessage += strBuffer;
-            }
-
-        } else if (pDoc->IsReconnecting()) {
-            strBuffer.Printf(
-                _("Reconnecting to client.")
-            );
-            if (strMessage.Length() > 0) strMessage += wxT("\n");
-            strMessage += strBuffer;
-        } else {
-            strBuffer.Printf(
-                _("Not connected to a client.")
-            );
-            if (strMessage.Length() > 0) strMessage += wxT("\n");
-            strMessage += strBuffer;
-        }
-
-        SetIcon(m_iconCurrent, strMessage);
-    }
-}
-
-
 void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
     m_bMouseButtonPressed = true;
 }

@@ -1121,3 +1121,12 @@ Rom    10 Feb 2010
         
     clientgui/
         BOINCTaskBar.cpp, .h
+
+Rom    10 Feb 2010
+    - MGR: The Linux notification area doesn't report when mouse
+        activity happens over the notification icon, so merge the
+        OnMouseMove event handler with the OnRefresh event handler
+        so we have the correct tooltips.
+        
+    clientgui/
+        BOINCTaskBar.cpp, .h
