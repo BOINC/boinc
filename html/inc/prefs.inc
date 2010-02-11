@@ -88,9 +88,9 @@ define("SUSPEND_CPU_USAGE_DESC",
 define("START_END_DESC", "Do work only between the hours of");
 define("START_END_DESC2", "<br><span class=note>(no restriction if equal)</span>");
 define("LEAVE_APPS_IN_MEMORY_DESC",
-    "Leave applications in memory while suspended?
-    <br><span class=note>(suspended applications will consume swap space if 'yes')</span>");
-define("CPU_SCHEDULING_DESC", "Switch between applications every
+    "Leave tasks in memory while suspended?
+    <br><span class=note>(suspended tasks will consume swap space if 'yes')</span>");
+define("CPU_SCHEDULING_DESC", "Switch between tasks every
     <br><span class=note>(recommended: 60 minutes)</span>");
 define("CONFIRM_BEFORE_CONNECTING_DESC",
     "Confirm before connecting to Internet?

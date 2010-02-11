@@ -743,15 +743,15 @@ David  27 Jan 2010
         work_fetch.cpp
 
 David  27 Jan 2010
-	- client: fix work fetch bug that prevented getting work
-		from an overworked project,
-		even if idle instance or major shortfall.
-	- GUI RPC: finish the notice-duplication thing
+    - client: fix work fetch bug that prevented getting work
+        from an overworked project,
+        even if idle instance or major shortfall.
+    - GUI RPC: finish the notice-duplication thing
 
-	client/
-		work_fetch.cpp,h
-	lib/
-		gui_rpc_client_ops.cpp
+    client/
+        work_fetch.cpp,h
+    lib/
+        gui_rpc_client_ops.cpp
 
 David  27 Jan 2010
     - client: remove debug msgs
@@ -784,11 +784,11 @@ Charlie  28 Jan 2010
         Mac_SA_Secure.sh
 
 David  28 Jan 2010
-	- client: fix my last checkin
+    - client: fix my last checkin
 
-	client/
-		client_types.cpp
-		cs_statefile.cpp
+    client/
+        client_types.cpp
+        cs_statefile.cpp
 
 David  29 Jan 2010
     - user web: allow zero resource share
@@ -809,12 +809,12 @@ David  29 Jan 2010
         forum_reply.php
 
 David  30 Jan 2010
-	- manager: move Preferences and Options to Task menu.
-		Give them more descriptive names.
-		Clean up mnemonics
+    - manager: move Preferences and Options to Task menu.
+        Give them more descriptive names.
+        Clean up mnemonics
 
-	clientgui/
-		AdvancedFrame.cpp
+    clientgui/
+        AdvancedFrame.cpp
 
 David  1 Feb 2010
     - graphics API: if font missing, find one that isn't (from Kevin)
@@ -1020,14 +1020,14 @@ Charlie  8 Feb 2010
             BOINCSaver.nib
 
 David  9 Feb 2010
-	- client: undo [17160].  <ncpus>0</ncpus> in cc_config.xml
-		no longer means simulate zero CPUs.
-		There are several places that divide by ncpus.
-		Zero CPUs doesn't make any sense anyway.
+    - client: undo [17160].  <ncpus>0</ncpus> in cc_config.xml
+        no longer means simulate zero CPUs.
+        There are several places that divide by ncpus.
+        Zero CPUs doesn't make any sense anyway.
 
-	client/
-		cpu_sched.cpp
-		work_fetch.cpp
+    client/
+        cpu_sched.cpp
+        work_fetch.cpp
 
 Rom    9 Feb 2010
     - client: some more CPU detection cleanup.
@@ -1145,3 +1145,14 @@ Rom    10 Feb 2010
         
     clientgui/
         BOINCTaskBar.cpp, .h
+
+David  11 Feb 2009
+    - client: if a project is anonymous platform and it has no
+        app versions that use a resource,
+        don't request work from it for that resource.
+
+    client/
+        work_fetch.cpp,h
+        client_state.cpp
+    html/inc/
+        prefs.inc

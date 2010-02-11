@@ -53,6 +53,9 @@ struct RSC_PROJECT_WORK_FETCH {
     double queue_est;
         // an estimate of instance-secs of queued work;
         // a temp used in computing overall debts
+    bool anon_skip;
+        // set if this project is anonymous platform
+        // and it has no app version that uses this resource
 
     // the following are used by rr_simulation()
     //
