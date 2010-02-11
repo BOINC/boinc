@@ -56,7 +56,7 @@ extern "C" {
 
         g_object_get(G_OBJECT(notification), "closed-reason", &closed_reason);
 
-        fprintf(stderr, "statis_icon_notification_closed closed-reason: %d", closed_reason);
+        fprintf(stderr, "statis_icon_notification_closed closed-reason: %d\n", closed_reason);
 
         fprintf(stderr, "statis_icon_notification_closed end!\n");
     }
