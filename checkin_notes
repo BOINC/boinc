@@ -1130,3 +1130,12 @@ Rom    10 Feb 2010
         
     clientgui/
         BOINCTaskBar.cpp, .h
+
+Rom    10 Feb 2010
+    - MGR: Another place that interacts with the taskbar but was
+        included only if compiled for Windows or the Mac.
+        
+    clientgui/
+        AsyncRPC.cpp
+        MainDocument.cpp
+    

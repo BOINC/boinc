@@ -1122,7 +1122,6 @@ void CMainDocument::HandleCompletedRPC() {
         // We must get the frame immediately before using it, 
         // since it may have been changed by SetActiveGUI().
         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-
         if (pFrame) {
             CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
             pFrame->ProcessEvent(event);
@@ -1132,7 +1131,6 @@ void CMainDocument::HandleCompletedRPC() {
     if (m_bNeedTaskBarRefresh && !m_bWaitingForRPC) {
         m_bNeedTaskBarRefresh = false;
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
-
         if (pTaskbar) {
             CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
             pTaskbar->ProcessEvent(event);
