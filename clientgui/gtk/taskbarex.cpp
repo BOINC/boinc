@@ -248,7 +248,7 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
             "default",
             "Do Default Action",
             NOTIFY_ACTION_CALLBACK(statis_icon_notification_actions),
-            NULL,
+            this,
             NULL
         );
     }
