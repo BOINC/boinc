@@ -51,6 +51,11 @@ extern "C" {
     statis_icon_notification_actions(NotifyNotification* notification, gchar *action, wxTaskBarIconEx* taskBarIcon)
     {
         fprintf(stderr, "statis_icon_notification_actions begin...\n");
+        fprintf(
+            stderr,
+            "statis_icon_notification_actions notification = %d, action = %s, taskBarIcon = %d...\n"
+            notification, action, taskBarIcon
+        );
         if (strcmp(action, "default") == 0) {
             taskBarIcon->FireUserClickedEvent();
         }
