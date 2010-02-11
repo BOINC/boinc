@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-02-10 12:58-0700\n"
+"PO-Revision-Date: 2010-02-11 09:15-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -287,7 +287,7 @@ msgstr "Personnel et donateurs"
 
 #: index.php:156
 msgid "Events"
-msgstr "Evènements"
+msgstr "Evénements"
 
 #: index.php:157
 msgid "Papers and talks"
@@ -306,9 +306,8 @@ msgid "and"
 msgstr "et"
 
 #: index.php:164
-#, fuzzy
 msgid "Help wanted"
-msgstr "Besoin d'aide ! "
+msgstr "Aidez nous ! "
 
 #: index.php:166
 msgid "Programming"

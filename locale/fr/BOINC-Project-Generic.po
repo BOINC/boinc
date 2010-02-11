@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-26 20:00 PST\n"
-"PO-Revision-Date: 2009-12-30 07:41-0700\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
+"PO-Revision-Date: 2010-02-11 09:50-0700\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -106,12 +106,12 @@ msgstr "Marquer tous les sujets de tous les forums comme 'lus'."
 
 #: ../inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Commentaire"
 
 #: ../inc/news.inc:96
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Les nouvelles sont disponibles dans un %sflux RSS%s"
 
 #: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
 msgid "Inbox"
@@ -173,6 +173,7 @@ msgstr "non lu"
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
 msgstr ""
+"Pour les notifications par email, éditer les %1préférences de communauté%2"
 
 #: ../inc/profile.inc:216 ../user/create_profile.php:306
 msgid "Edit your profile"
@@ -503,7 +504,7 @@ msgstr "Statistiques inter-projets"
 
 #: ../inc/user.inc:160
 msgid "Account"
-msgstr ""
+msgstr "Compte"
 
 #: ../inc/user.inc:162 ../inc/user.inc:275 ../inc/user.inc:361
 #: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
@@ -609,7 +610,7 @@ msgstr "Préférences de communauté"
 
 #: ../inc/user.inc:227
 msgid "Preferences for this project"
-msgstr ""
+msgstr "Préférences pour ce projet"
 
 #: ../inc/user.inc:228
 msgid "%1 preferences"
@@ -705,38 +706,36 @@ msgid "Add as friend"
 msgstr "Ajouter en tant qu'ami(e)"
 
 #: ../inc/util.inc:385
-#, fuzzy
 msgid "Email address:"
-msgstr "Adresse email"
+msgstr "Adresse email :"
 
 #: ../inc/util.inc:385
 msgid "forgot email address?"
-msgstr ""
+msgstr "adresse email oubliée ?"
 
 #: ../inc/util.inc:387
-#, fuzzy
 msgid "Password:"
-msgstr "Mot de passe"
+msgstr "Mot de passe :"
 
 #: ../inc/util.inc:387
 msgid "forgot password?"
-msgstr ""
+msgstr "mot de passe oublié ?"
 
 #: ../inc/util.inc:390
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "Rester connecté sur cet ordinateur"
 
 #: ../inc/util.inc:395
 msgid "Log in"
-msgstr ""
+msgstr "Connexion"
 
 #: ../inc/util.inc:396
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "ou %1créer un compte%2"
 
 #: ../inc/util.inc:416
 msgid "Please log in"
-msgstr ""
+msgstr "Veuillez vous connecter"
 
 #: ../inc/util.inc:542
 msgid "Use BBCode tags to format your text"
@@ -1024,16 +1023,15 @@ msgstr "La gestion de cette liste est centralisée sur %1le site web BOINC%2."
 
 #: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
 msgid "Change email address"
-msgstr ""
+msgstr "Modifier l'adresse email"
 
 #: ../user/edit_email_form.php:35
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "Modifie l'adresse email de votre compte"
 
 #: ../user/edit_email_form.php:36
-#, fuzzy
 msgid "New email address"
-msgstr "adresse email"
+msgstr "Nouvelle adresse email"
 
 #: ../user/edit_email_form.php:37
 #, fuzzy
@@ -1042,44 +1040,43 @@ msgstr "Doit être une adresse valide de type 'nom@domaine'."
 
 #: ../user/edit_email_form.php:47
 msgid "No password?"
-msgstr ""
+msgstr "Aucun mot de passe ?"
 
 #: ../user/edit_passwd_form.php:26 ../user/edit_passwd_form.php:56
 msgid "Change password"
-msgstr ""
+msgstr "Modifier le mot de passe"
 
 #: ../user/edit_passwd_form.php:40
 msgid "You can identify yourself using either"
-msgstr ""
+msgstr "Vous pouvez vous identifier en utilisant soit"
 
 #: ../user/edit_passwd_form.php:42
 msgid "your email address and old password"
-msgstr ""
+msgstr "votre adresse email et l'ancien mot de passe"
 
 #: ../user/edit_passwd_form.php:43
-#, fuzzy
 msgid "your account key"
-msgstr "Clé de compte non robuste"
+msgstr "Clef de compte"
 
 #: ../user/edit_passwd_form.php:47
 msgid "Current password"
-msgstr ""
+msgstr "Mot de passe actuel"
 
 #: ../user/edit_passwd_form.php:49
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<b>OU<b> : clef de compte"
 
 #: ../user/edit_passwd_form.php:50
 msgid "Get account key by email"
-msgstr ""
+msgstr "Recevoir la clef de compte par email"
 
 #: ../user/edit_passwd_form.php:54
 msgid "New password"
-msgstr ""
+msgstr "Nouveau mot de passe"
 
 #: ../user/edit_passwd_form.php:55
 msgid "New password, again"
-msgstr ""
+msgstr "Nouveau mot de passe (vérification)"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
@@ -1513,10 +1510,14 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+"Si vous utilisez les forums de notre site, vous devez suivre le %2guide du "
+"forum%3.  Les messages postés sur les forums %1 sont visibles pour tous, "
+"même les non-membres.  En postant sur les forums, vous accorder à tout le "
+"monde, de façon irrévocable, la possibilité de voir et copier vos messages."
 
 #: ../user/info.php:46
 msgid "Is it safe to run %1?"
-msgstr ""
+msgstr "Est-il sûr de lancer %1 ?"
 
 #: ../user/info.php:47
 msgid ""
@@ -1528,17 +1529,30 @@ msgid ""
 "all executable files are digitally signed on a secure computer not connected "
 "to the Internet."
 msgstr ""
+"A chaque fois que vous téléchargez un programme par internet vous jouez "
+"votre chance : le programme peut contenir des erreurs dangereuses, ou le "
+"serveur de téléchargement peut avoir été compromis. %1 a fait des efforts "
+"pour minimiser ces risques. Nous avons testé nos applications avec "
+"attention. Nos serveurs sont derrière des pares-feu et sont configurés pour "
+"une haute sécurité. Pour assurer l'intégrité des téléchargements de "
+"programmes, tous les fichiers exécutables sont signés numériquement sur un "
+"ordinateur sécurisé non connecté à internet."
 
 #: ../user/info.php:48
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
+"Les applications lancées par %1 peuvent engendrer une surchauffe sur "
+"certains ordinateurs. Si cela se produit, arrêter %1 ou utiliser un "
+"%2programme utilitaire%3 pour limiter l'utilisation du CPU."
 
 #: ../user/info.php:49
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
+"%1 a été développé par %2. BOINC a été développé à l'Université de "
+"Californie."
 
 #: ../user/info.php:51
 msgid "Liability"
@@ -1550,6 +1564,9 @@ msgid ""
 "any other event or condition that may occur as a result of participating in %"
 "1."
 msgstr ""
+"%1 et %2 n'assument aucune responsabilité pour les dommages éventuels à "
+"votre ordinateur, la perte de données, ou tout autre événement ou condition "
+"qui peuvent être engendrés par la participation à %1."
 
 #: ../user/info.php:54
 msgid "Other BOINC projects"
@@ -1561,6 +1578,10 @@ msgid ""
 "participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
 msgstr ""
+"D'autre projets utilisent la même plateforme BOINC, comme %1. Vous pouvez "
+"participer à un ou plusieurs de ces projets. Ce faisant, votre ordinateur "
+"participera à un travail utile, même lorsque %1 n'a aucune tâche disponible "
+"actuellement."
 
 #: ../user/info.php:56
 msgid ""
@@ -1568,30 +1589,37 @@ msgid ""
 "their security practices or the nature of their research. Join them at your "
 "own risk."
 msgstr ""
+"Ces autres projets ne sont pas associés à %1, et nous ne pouvons pas nous "
+"porter garant de leur pratiques de sécurité ou de la nature de leur "
+"recherches. Vous pouvez les rejoindre mais à vos propres risques."
 
 #: ../user/language_select.php:41
 msgid "Language selection"
-msgstr ""
+msgstr "Choix de la langue"
 
 #: ../user/language_select.php:68
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
+"Ce site web est disponible dans plusieurs langues. La langue sélectionnée "
+"actuellement est %1."
 
 #: ../user/language_select.php:73
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
+"Normalement, le choix de la langue est déterminé par la langue configurée "
+"dans votre navigateur, qui est : %1.  Vous pouvez la modifier en utilisant :"
 
 #: ../user/language_select.php:78
 msgid "Firefox: Tools/Options/General"
-msgstr ""
+msgstr "Firefox : Outils/Options/Général"
 
 #: ../user/language_select.php:80
 msgid "Microsoft IE: Tools/Internet Options/Languages"
-msgstr ""
+msgstr "Microsoft IE : Outils/Options Internet/Langues"
 
 #: ../user/language_select.php:84
 msgid ""
@@ -1599,20 +1627,25 @@ msgid ""
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
+"Ou vous pouvez choisir une langue en cliquant sur l'un des liens.  Ceci "
+"enverra un cookie à votre navigateur. Assurez-vous alors que votre "
+"navigateur accepte les cookies provenant de notre domaine."
 
 #: ../user/language_select.php:90
 msgid "Language name (click to select)"
-msgstr ""
+msgstr "Nom des langues (cliquer pour sélectionner)"
 
 #: ../user/language_select.php:92
 msgid "Use browser language setting"
-msgstr ""
+msgstr "Utiliser la langue paramétrée dans le navigateur"
 
 #: ../user/language_select.php:108
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
+"Les traductions sont effectuées par des volontaires.  Si votre langue native "
+"n'y est pas, %1vous pouvez fournir une traduction%2."
 
 #: ../user/pm.php:68
 msgid "Your message has been sent."
