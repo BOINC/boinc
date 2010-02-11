@@ -48,18 +48,26 @@ extern "C" {
     }
 
     static void
+    statis_icon_notification_actions(NotifyNotification* notification, gchar *action, wxTaskBarIconEx* taskBarIcon)
+    {
+        fprintf(stderr, "statis_icon_notification_actions begin!\n");
+        fprintf(stderr, "statis_icon_notification_actions end!\n");
+    }
+
+    static void
     statis_icon_notification_closed(NotifyNotification* notification, wxTaskBarIconEx* taskBarIcon)
     {
-        int closed_reason;
+        //int closed_reason;
 
         fprintf(stderr, "statis_icon_notification_closed begin!\n");
 
-        g_object_get(G_OBJECT(notification), "closed-reason", &closed_reason);
+        //g_object_get(G_OBJECT(notification), "closed-reason", &closed_reason);
 
-        fprintf(stderr, "statis_icon_notification_closed closed-reason: %d\n", closed_reason);
+        //fprintf(stderr, "statis_icon_notification_closed closed-reason: %d\n", closed_reason);
 
         fprintf(stderr, "statis_icon_notification_closed end!\n");
     }
+
 }
 
 
@@ -199,9 +207,23 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
                 message.mb_str(),
                 desired_icon,
                 g_pStatusIcon
-            );
+        );
 
-        g_signal_connect(g_pNotification, "closed", G_CALLBACK(statis_icon_notification_closed), this);
+        g_signal_connect(
+            g_pNotification,
+            "closed",
+            G_CALLBACK(statis_icon_notification_closed),
+            this
+        );
+
+        notify_notification_add_action(
+            g_pNotification,
+            "default",
+            "Do Default Action",
+            NOTIFY_ACTION_CALLBACK(statis_icon_notification_actions),
+            NULL,
+            NULL
+        );
     }
     else
     {
