@@ -607,6 +607,11 @@ void CheckUserAndGroupConflicts()
     char            cmd[256], buf[256];
     int             entryCount;
 
+    // "dscl . -search /Groups PrimaryGroupID xx" returned a different format before OS 10.4
+    if (OSVersion < 0x1040) {
+        return;
+    }
+    
     entryCount = 0;
     grp = getgrnam(boinc_master_group_name);
     if (grp) {

@@ -6631,3 +6631,10 @@ Charlie  10 Feb 2010
     
     mac_installer/
         PostInstall.cpp
+
+Charlie  10 Feb 2010
+    - Mac Installer: Don't perform user and group conflict check on OS 10.3.9 because it 
+        is not needed and produces false positives on that OS.
+    
+    mac_installer/
+        PostInstall.cpp
