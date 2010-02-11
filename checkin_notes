@@ -1114,3 +1114,10 @@ Rom    10 Feb 2010
         
     clientgui/gtk
         taskbarex.cpp, .h
+
+Rom    10 Feb 2010
+    - MGR: Re-enable the balloon context click event handler
+        for Linux.
+        
+    clientgui/
+        BOINCTaskBar.cpp, .h
