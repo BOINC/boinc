@@ -50,23 +50,30 @@ extern "C" {
     static void
     statis_icon_notification_actions(NotifyNotification* notification, gchar *action, wxTaskBarIconEx* taskBarIcon)
     {
+        fprintf(stderr, "statis_icon_notification_actions begin...\n");
         if (strcmp(action, "default") == 0) {
             taskBarIcon->FireUserClickedEvent();
         }
+        fprintf(stderr, "statis_icon_notification_actions end...\n");
     }
 
     static void
     statis_icon_notification_closed(NotifyNotification* notification, wxTaskBarIconEx* taskBarIcon)
     {
+        fprintf(stderr, "statis_icon_notification_actions begin...\n");
         if (taskBarIcon->IsUserClicked()) {
+            fprintf(stderr, "Fire wxEVT_TASKBAR_BALLOON_USERCLICK...\n");
             wxTaskBarIconExEvent eventUserClicked(wxEVT_TASKBAR_BALLOON_USERCLICK, taskBarIcon);
             taskBarIcon->AddPendingEvent(eventUserClicked);
         }
         
+        fprintf(stderr, "Fire wxEVT_TASKBAR_BALLOON_HIDE...\n");
         wxTaskBarIconExEvent eventHide(wxEVT_TASKBAR_BALLOON_HIDE, taskBarIcon);
         taskBarIcon->AddPendingEvent(eventHide);
 
+        fprintf(stderr, "Clear Event Flags...\n");
         taskBarIcon->ClearEvents();
+        fprintf(stderr, "statis_icon_notification_actions end...\n");
     }
 
 }
