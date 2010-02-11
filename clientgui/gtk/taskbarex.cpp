@@ -35,16 +35,16 @@ extern "C" {
     status_icon_activate(GtkStatusIcon*, wxTaskBarIconEx* taskBarIcon)
     {
         wxTaskBarIconExEvent eventLeftDClick(wxEVT_TASKBAR_LEFT_DCLICK, taskBarIcon);
-        taskBarIcon->ProcessEvent(eventLeftDClick);
+        taskBarIcon->AddPendingEvent(eventLeftDClick);
     }
 
     static void
     status_icon_popup_menu(GtkStatusIcon*, guint, guint, wxTaskBarIconEx* taskBarIcon)
     {
         wxTaskBarIconExEvent eventDown(wxEVT_TASKBAR_RIGHT_DOWN, taskBarIcon);
-        taskBarIcon->ProcessEvent(eventDown);
+        taskBarIcon->AddPendingEvent(eventDown);
         wxTaskBarIconExEvent eventUp(wxEVT_TASKBAR_RIGHT_UP, taskBarIcon);
-        taskBarIcon->ProcessEvent(eventUp);
+        taskBarIcon->AddPendingEvent(eventUp);
     }
 
     static void
@@ -60,11 +60,11 @@ extern "C" {
     {
         if (taskBarIcon->IsUserClicked()) {
             wxTaskBarIconExEvent eventUserClicked(wxEVT_TASKBAR_BALLOON_USERCLICK, taskBarIcon);
-            taskBarIcon->ProcessEvent(eventUserClicked);
+            taskBarIcon->AddPendingEvent(eventUserClicked);
         }
         
         wxTaskBarIconExEvent eventHide(wxEVT_TASKBAR_BALLOON_HIDE, taskBarIcon);
-        taskBarIcon->ProcessEvent(eventHide);
+        taskBarIcon->AddPendingEvent(eventHide);
 
         taskBarIcon->ClearEvents();
     }
