@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-01-26 04:37-0700\n"
+"PO-Revision-Date: 2010-02-11 09:17-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -542,7 +542,7 @@ msgstr "Le projet BOINC"
 # Vérifier la longueur du libellé...
 #: index.php:158
 msgid "Help wanted!"
-msgstr "Nous avons besoin de votre aide !"
+msgstr "Aidez nous !"
 
 #: index.php:160
 msgid "Programming"
