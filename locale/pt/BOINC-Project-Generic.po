@@ -1,4 +1,4 @@
-# BOINC web translation
+ï»¿# BOINC web translation
 # Copyright (C) 2008 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
@@ -18,22 +18,22 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "Português"
+msgstr "PortuguÃªs"
 
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Portuguese"
 
 #: ../inc/forum.inc:124
 msgid "Search for words in forum messages"
-msgstr "Procurar palavras em mensagens nos fóruns"
+msgstr "Procurar palavras em mensagens nos fÃ³runs"
 
 #: ../inc/forum.inc:124
 msgid "Search forums"
-msgstr "Procurar fóruns"
+msgstr "Procurar fÃ³runs"
 
 #: ../inc/forum.inc:125
 msgid "Advanced search"
-msgstr "Procura avançada"
+msgstr "Procura avanÃ§ada"
 
 #: ../inc/forum.inc:131 ../inc/user.inc:247 ../user/pm.php:64
 #: ../user/pm.php:129
@@ -47,19 +47,19 @@ msgstr "Perguntas e Respostas"
 #: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:244
 #: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
 msgid "Message boards"
-msgstr "Mensagens do fórum"
+msgstr "Mensagens do fÃ³rum"
 
 #: ../inc/forum.inc:186 ../inc/forum.inc:194
 msgid "%1 message board"
-msgstr "%1 mensagem do fórum"
+msgstr "%1 mensagem do fÃ³rum"
 
 #: ../inc/forum.inc:1056
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
-"Em ordem para criar um novo tópico no %1 tem que ter um certo número de "
-"créditos. Isto previne e protege contra abusos do sistema."
+"Em ordem para criar um novo tÃ³pico no %1 tem que ter um certo nÃºmero de "
+"crÃ©ditos. Isto previne e protege contra abusos do sistema."
 
 #: ../inc/forum.inc:1063
 msgid ""
@@ -67,13 +67,13 @@ msgid ""
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
-"Não pode criar mais tópicos de momento. Por favor aguarde um momento antes "
-"de tentar movamente. Este atraso foi forçado para protecção de abusos do "
+"NÃ£o pode criar mais tÃ³picos de momento. Por favor aguarde um momento antes "
+"de tentar movamente. Este atraso foi forÃ§ado para protecÃ§Ã£o de abusos do "
 "sistema."
 
 #: ../inc/forum.inc:1100
 msgid "Thread"
-msgstr "Tópico"
+msgstr "TÃ³pico"
 
 #: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
@@ -97,20 +97,20 @@ msgstr "Ultimo post"
 
 #: ../inc/forum.inc:1172
 msgid "Mark all threads as read"
-msgstr "Marque todos os tópicos como lidos"
+msgstr "Marque todos os tÃ³picos como lidos"
 
 #: ../inc/forum.inc:1172
 msgid "Mark all threads in all message boards as 'read'."
-msgstr "Marque todos os tópicos nas mensagens do fórum como 'lidas'."
+msgstr "Marque todos os tÃ³picos nas mensagens do fÃ³rum como 'lidas'."
 
 #: ../inc/news.inc:40
 msgid "Comment"
-msgstr "Comentário"
+msgstr "ComentÃ¡rio"
 
 #: ../inc/news.inc:96
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "Novidades estão disponíveis como %sRSS feed%s"
+msgstr "Novidades estÃ£o disponÃ­veis como %sRSS feed%s"
 
 #: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
 msgid "Inbox"
@@ -132,7 +132,7 @@ msgstr "Mandar mensagem privada"
 #: ../user/forum_reply.php:100 ../user/forum_reply.php:103
 #: ../user/forum_reply.php:146 ../user/pm.php:175
 msgid "Preview"
-msgstr "Prévisualizar"
+msgstr "PrÃ©visualizar"
 
 #: ../inc/pm.inc:85
 msgid "To"
@@ -162,16 +162,16 @@ msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
 msgstr ""
-"Não está autorizado a mandar mensagens privadas tão frequentemente. Por favor aguarde algum "
+"NÃ£o estÃ¡ autorizado a mandar mensagens privadas tÃ£o frequentemente. Por favor aguarde algum "
 "tempo antes de mandar mais mensagens."
 
 #: ../inc/pm.inc:180
 msgid "unread"
-msgstr "não lidas"
+msgstr "nÃ£o lidas"
 
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
-msgstr "Para notificações de email, %1edite as preferências da comunidade%2"
+msgstr "Para notificaÃ§Ãµes de email, %1edite as preferÃªncias da comunidade%2"
 
 #: ../inc/profile.inc:216 ../user/create_profile.php:306
 msgid "Edit your profile"
@@ -195,11 +195,11 @@ msgstr "Alertar administradores para um perfil ofensivo:"
 
 #: ../inc/profile.inc:261
 msgid "I %1do not like%2 this profile"
-msgstr "%1Não gosto%2 deste perfil"
+msgstr "%1NÃ£o gosto%2 deste perfil"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
-msgstr "Procurar por critérios (usar um ou mais)"
+msgstr "Procurar por critÃ©rios (usar um ou mais)"
 
 #: ../inc/team.inc:34
 msgid "Key words"
@@ -207,7 +207,7 @@ msgstr "Palavras chave"
 
 #: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
-msgstr "Procurar equipas com estas palavaras nos seus nomes ou descrições"
+msgstr "Procurar equipas com estas palavaras nos seus nomes ou descriÃ§Ãµes"
 
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
@@ -216,7 +216,7 @@ msgstr "Procurar equipas com estas palavaras nos seus nomes ou descrições"
 #: ../user/user_search.php:102 ../user/user_search.php:119
 #: ../user/user_search.php:158
 msgid "Country"
-msgstr "País"
+msgstr "PaÃ­s"
 
 #: ../inc/team.inc:42 ../inc/team.inc:445
 msgid "Type of team"
@@ -236,7 +236,7 @@ msgstr "Requisitado por si, e o tempo de resposta do fundador passou."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
-msgstr "Completar transferência do fundador"
+msgstr "Completar transferÃªncia do fundador"
 
 #: ../inc/team.inc:60
 msgid "Requested by you"
@@ -244,7 +244,7 @@ msgstr "Requisitado por si"
 
 #: ../inc/team.inc:60
 msgid "founder response deadline is %1"
-msgstr "o tempo de resposta do fundador é %1"
+msgstr "o tempo de resposta do fundador Ã© %1"
 
 #: ../inc/team.inc:65 ../inc/user.inc:275 ../inc/user.inc:363
 msgid "None"
@@ -260,11 +260,11 @@ msgstr "Deferido"
 
 #: ../inc/team.inc:80
 msgid "Team info"
-msgstr "Informação da equipa"
+msgstr "InformaÃ§Ã£o da equipa"
 
 #: ../inc/team.inc:82
 msgid "Description"
-msgstr "Descrição"
+msgstr "DescriÃ§Ã£o"
 
 #: ../inc/team.inc:90
 msgid "Web site"
@@ -276,17 +276,17 @@ msgstr "Website"
 #: ../user/top_users.php:58 ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Total credit"
-msgstr "Créditos totais"
+msgstr "CrÃ©ditos totais"
 
 #: ../inc/team.inc:95 ../inc/team.inc:208 ../inc/team.inc:217
 #: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
 #: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
 msgid "Recent average credit"
-msgstr "Média de créditos recentes"
+msgstr "MÃ©dia de crÃ©ditos recentes"
 
 #: ../inc/team.inc:112
 msgid "Cross-project stats"
-msgstr "Cruzar estatísticas do projecto"
+msgstr "Cruzar estatÃ­sticas do projecto"
 
 #: ../inc/team.inc:115
 msgid "Type"
@@ -294,11 +294,11 @@ msgstr "Tipo"
 
 #: ../inc/team.inc:119
 msgid "Message board"
-msgstr "Mensagem do fórum"
+msgstr "Mensagem do fÃ³rum"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:131 ../user/forum_index.php:93
 msgid "Threads"
-msgstr "Tópicos"
+msgstr "TÃ³picos"
 
 #: ../inc/team.inc:128
 msgid "Join this team"
@@ -309,16 +309,16 @@ msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
-"Nota: Se o 'OK para o email' está definido nas preferências do projecto, juntar-se a uma equipa "
-"dá ao fundador acesso ao seu endereço de email."
+"Nota: Se o 'OK para o email' estÃ¡ definido nas preferÃªncias do projecto, juntar-se a uma equipa "
+"dÃ¡ ao fundador acesso ao seu endereÃ§o de email."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
-msgstr "Não aceitando novos membros"
+msgstr "NÃ£o aceitando novos membros"
 
 #: ../inc/team.inc:139
 msgid "Foundership change requested"
-msgstr "Mudança de Liderança pedida"
+msgstr "MudanÃ§a de LideranÃ§a pedida"
 
 #: ../inc/team.inc:140
 msgid "Respond by %1"
@@ -326,7 +326,7 @@ msgstr "Responder por %1"
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
-msgstr "Mudança do lider de equipa"
+msgstr "MudanÃ§a do lider de equipa"
 
 #: ../inc/team.inc:148 ../inc/team.inc:346
 msgid "Members"
@@ -358,7 +358,7 @@ msgstr "Membros activos"
 
 #: ../inc/team.inc:179
 msgid "Members with credit"
-msgstr "Membros com créditos"
+msgstr "Membros com crÃ©ditos"
 
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
 #: ../user/account_finish.php:40 ../user/create_account_form.php:75
@@ -377,19 +377,19 @@ msgstr "Ultimo %1"
 
 #: ../inc/team.inc:268
 msgid "Next %1"
-msgstr "Próximo %1"
+msgstr "PrÃ³ximo %1"
 
 #: ../inc/team.inc:276
 msgid "No such team."
-msgstr "Não existe essa equipa"
+msgstr "NÃ£o existe essa equipa"
 
 #: ../inc/team.inc:289
 msgid "This operation requires foundership."
-msgstr "Esta operação requer liderança"
+msgstr "Esta operaÃ§Ã£o requer lideranÃ§a"
 
 #: ../inc/team.inc:313
 msgid "This operation requires team admin privileges"
-msgstr "Esta operação requer privilégios de administradir na equipa"
+msgstr "Esta operaÃ§Ã£o requer privilÃ©gios de administradir na equipa"
 
 #: ../inc/team.inc:344 ../user/top_users.php:47
 msgid "Rank"
