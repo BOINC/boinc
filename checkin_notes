@@ -1104,4 +1104,13 @@ Rom    10 Feb 2010
         
     clientgui/gtk
         taskbarex.cpp, .h
-    
+
+Rom    10 Feb 2010
+    - MGR: Over half of the information on the Internet about
+        libnotify is now out of date.  The 'closed-reason'
+        property has been removed and that is why I was having
+        so many problems.  Hook up the events I can determine
+        from the remaining information.
+        
+    clientgui/gtk
+        taskbarex.cpp, .h

@@ -45,7 +45,11 @@ public:
 // Accessors
     bool IsOK() const { return true; }
     bool IsIconInstalled() const;
-    wxInt32 GetTaskbarID() const { return m_iTaskbarID; }
+
+// Event Callbacks
+    void ClearEvents();
+    void FireUserClickedEvent() const;
+    bool IsUserClicked();
 
 // Operations
     virtual bool SetIcon(
@@ -78,6 +82,7 @@ public:
 protected:
     wxWindow*           m_pWnd;
     wxInt32             m_iTaskbarID;
+    bool                m_bUserClicked;
 };
 
 

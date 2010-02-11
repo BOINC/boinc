@@ -50,22 +50,23 @@ extern "C" {
     static void
     statis_icon_notification_actions(NotifyNotification* notification, gchar *action, wxTaskBarIconEx* taskBarIcon)
     {
-        fprintf(stderr, "statis_icon_notification_actions begin!\n");
-        fprintf(stderr, "statis_icon_notification_actions end!\n");
+        if (g_strcmp(action, "default") == 0) {
+            taskBarIcon->FireUserClickedEvent();
+        }
     }
 
     static void
     statis_icon_notification_closed(NotifyNotification* notification, wxTaskBarIconEx* taskBarIcon)
     {
-        //int closed_reason;
+        if (taskBarIcon->IsUserClicked()) {
+            wxTaskBarIconExEvent eventUserClicked(wxEVT_TASKBAR_BALLOON_USERCLICK, taskBarIcon);
+            taskBarIcon->ProcessEvent(eventUserClicked);
+        }
+        
+        wxTaskBarIconExEvent eventHide(wxEVT_TASKBAR_BALLOON_HIDE, taskBarIcon);
+        taskBarIcon->ProcessEvent(eventHide);
 
-        fprintf(stderr, "statis_icon_notification_closed begin!\n");
-
-        //g_object_get(G_OBJECT(notification), "closed-reason", &closed_reason);
-
-        //fprintf(stderr, "statis_icon_notification_closed closed-reason: %d\n", closed_reason);
-
-        fprintf(stderr, "statis_icon_notification_closed end!\n");
+        taskBarIcon->ClearEvents();
     }
 
 }
@@ -109,12 +110,15 @@ wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle, wxInt32 iTaskbarID )
     m_iTaskbarID = iTaskbarID;
     g_pStatusIcon = NULL;
     g_pNotification = NULL;
+    m_bUserClicked = false;
 
     notify_init((const char*)wxString(szWindowTitle).mb_str());
 }
 
 wxTaskBarIconEx::~wxTaskBarIconEx()
 {
+    m_bUserClicked = false;
+
     if (m_pWnd)
     {
         m_pWnd->PopEventHandler();
@@ -140,6 +144,17 @@ bool wxTaskBarIconEx::IsIconInstalled() const {
     return g_pStatusIcon;
 }
 
+void wxTaskBarIconEx::ClearEvents() {
+    m_bUserClicked = false;
+}
+
+void wxTaskBarIconEx::FireUserClickedEvent() const {
+    m_bUserClicked = true;
+}
+
+bool wxTaskBarIconEx::IsUserClicked() {
+    return m_bUserClicked;
+}
 
 // Operations
 bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& message)
