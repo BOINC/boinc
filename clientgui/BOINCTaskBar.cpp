@@ -87,6 +87,10 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_iconTaskBarNormal = *icon;
     m_iconTaskBarDisconnected = *iconDisconnected;
     m_iconTaskBarSnooze = *iconSnooze;
+
+    m_iconCurrentIcon = *icon;
+    m_strCurrentMessage = wxEmptyString;
+
     m_strDefaultTitle = title;
     m_bTaskbarInitiatedShutdown = false;
 
@@ -134,6 +138,7 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
     wxString       strProjectName       = wxEmptyString;
     wxString       strBuffer            = wxEmptyString;
     wxString       strActiveTaskBuffer  = wxEmptyString;
+    wxIcon         iconCurrent;
     float          fProgress            = 0;
     bool           bIsActive            = false;
     bool           bIsExecuting         = false;
@@ -146,7 +151,7 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
     if (!pDoc) return;
 
     if (pDoc->IsConnected()) {
-        m_iconCurrent = m_iconTaskBarNormal;
+        iconCurrent = m_iconTaskBarNormal;
 
         pDoc->GetConnectedComputerName(strMachineName);
 
@@ -158,7 +163,7 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
         pDoc->GetCoreClientStatus(status);
 
         if (RUN_MODE_NEVER == status.task_mode) {
-            m_iconCurrent = m_iconTaskBarSnooze;
+            iconCurrent = m_iconTaskBarSnooze;
         }
 
         if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
@@ -226,24 +231,31 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
         }
 
     } else if (pDoc->IsReconnecting()) {
-        m_iconCurrent = m_iconTaskBarDisconnected;
+        iconCurrent = m_iconTaskBarDisconnected;
 
         strBuffer.Printf(
             _("Reconnecting to client.")
         );
-        if (strMessage.Length() > 0) strMessage += wxT("\n");
         strMessage += strBuffer;
     } else {
-        m_iconCurrent = m_iconTaskBarDisconnected;
+        iconCurrent = m_iconTaskBarDisconnected;
 
         strBuffer.Printf(
             _("Not connected to a client.")
         );
-        if (strMessage.Length() > 0) strMessage += wxT("\n");
         strMessage += strBuffer;
     }
 
-    SetIcon(m_iconCurrent, strMessage);
+    // Prevent flick on those platforms that do out of band
+    // updates to the UI.
+    if (!iconCurrent.IsSameAs(m_iconCurrentIcon) ||
+        (strMessage != m_strCurrentMessage))
+    {
+        m_iconCurrentIcon = iconCurrent;
+        m_strCurrentMessage = strMessage;
+        
+        SetIcon(m_iconCurrentIcon, m_strCurrentMessage);
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function End"));
 }

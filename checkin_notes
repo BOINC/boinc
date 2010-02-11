@@ -1138,4 +1138,10 @@ Rom    10 Feb 2010
     clientgui/
         AsyncRPC.cpp
         MainDocument.cpp
-    
+
+Rom    10 Feb 2010
+    - MGR: Only notify the OS of a change in the notification area
+        if something has changed, otherwise don't update.
+        
+    clientgui/
+        BOINCTaskBar.cpp, .h
