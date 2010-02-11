@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-02-10 12:37-0700\n"
+"PO-Revision-Date: 2010-02-11 12:21-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -1724,7 +1724,7 @@ msgstr "Intervalo de búsqueda de trabajo para la CPU"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "Planificación de GPU NVIDIA prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"
@@ -3546,7 +3546,7 @@ msgstr "(no-CPU-intensivo)"
 
 #: clientgui/ViewWork.cpp:1207
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Abortado: no iniciado por el límite de tiempo"
 
 #: clientgui/WelcomePage.cpp:254
 msgid "Attach to project or account manager"
@@ -3677,17 +3677,16 @@ msgstr "lista de  "
 
 #: clientgui/mac/MacAccessiblity.cpp:522
 msgid "events"
-msgstr ""
+msgstr "sucesos"
 
 #: clientgui/mac/MacAccessiblity.cpp:529
 msgid " is empty"
-msgstr ""
+msgstr " está vacío"
 
 #: clientgui/mac/MacAccessiblity.cpp:600
 #, c-format
-#, fuzzy
 msgid "%d of %d; "
-msgstr "%d de %d  "
+msgstr "%d de %d;"
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
