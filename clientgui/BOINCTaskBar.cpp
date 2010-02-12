@@ -133,6 +133,28 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
     CMainDocument* pDoc                 = wxGetApp().GetDocument();
+    CC_STATUS      status;
+
+    if (!pDoc) return;
+
+#ifdef __WXMAC__    // Mac Taskbar Icon does not support tooltips
+
+    // What is the current status of the client?
+    pDoc->GetCoreClientStatus(status);
+
+    // Which icon should be displayed?
+    if (!pDoc->IsConnected()) {
+        SetIcon(m_iconTaskBarDisconnected);
+    } else {
+        if (RUN_MODE_NEVER == status.task_mode) {
+            SetIcon(m_iconTaskBarSnooze);
+        } else {
+            SetIcon(m_iconTaskBarNormal);
+        }
+    }
+    
+#else
+
     wxString       strMachineName       = wxEmptyString;
     wxString       strMessage           = wxEmptyString;
     wxString       strProjectName       = wxEmptyString;
@@ -146,9 +168,6 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
     wxInt32        iResultCount         = 0;
     wxInt32        iActiveTaskCount     = 0;
     wxInt32        iIndex               = 0;
-    CC_STATUS      status;
-
-    if (!pDoc) return;
 
     if (pDoc->IsConnected()) {
         iconCurrent = m_iconTaskBarNormal;
@@ -256,6 +275,7 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
         
         SetIcon(m_iconCurrentIcon, m_strCurrentMessage);
     }
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function End"));
 }
@@ -484,13 +504,12 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
     wxIcon macIcon;
     bool result;
     OSStatus err = noErr ;
-    static const wxIcon* currentIcon = NULL;
     int w, h, x, y;
 
-    if (&icon == currentIcon)
+    if (icon.IsSameAs(m_iconCurrentIcon))
         return true;
     
-    currentIcon = &icon;
+    m_iconCurrentIcon = icon;
     
     CMacSystemMenu* sysMenu = wxGetApp().GetMacSystemMenu();
     if (sysMenu == NULL) return 0;
