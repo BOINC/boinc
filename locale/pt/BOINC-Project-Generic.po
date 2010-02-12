@@ -1,14 +1,12 @@
-﻿# BOINC web translation
 # Copyright (C) 2008 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzz  
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-26 20:00 PST\n"
-"PO-Revision-Date: 2010-02-10 HO:MI+ZONE\n"
+"PO-Revision-Date: 2010-02-12 17:27-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -35,62 +33,68 @@ msgstr "Procurar fóruns"
 msgid "Advanced search"
 msgstr "Procura avançada"
 
-#: ../inc/forum.inc:131 ../inc/user.inc:247 ../user/pm.php:64
+#: ../inc/forum.inc:131
+#: ../inc/user.inc:247
+#: ../user/pm.php:64
 #: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Mensagens privadas"
 
-#: ../inc/forum.inc:149 ../user/forum_forum.php:65 ../user/sample_index.php:71
+#: ../inc/forum.inc:149
+#: ../user/forum_forum.php:65
+#: ../user/sample_index.php:71
 msgid "Questions and Answers"
 msgstr "Perguntas e Respostas"
 
-#: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:244
-#: ../inc/user.inc:367 ../user/forum_forum.php:68 ../user/sample_index.php:70
+#: ../inc/forum.inc:149
+#: ../inc/forum.inc:182
+#: ../inc/user.inc:244
+#: ../inc/user.inc:367
+#: ../user/forum_forum.php:68
+#: ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "Mensagens do fórum"
 
-#: ../inc/forum.inc:186 ../inc/forum.inc:194
+#: ../inc/forum.inc:186
+#: ../inc/forum.inc:194
 msgid "%1 message board"
 msgstr "%1 mensagem do fórum"
 
 #: ../inc/forum.inc:1056
-msgid ""
-"In order to create a new thread in %1 you must have a certain amount of "
-"credit. This is to prevent and protect against abuse of the system."
-msgstr ""
-"Em ordem para criar um novo tópico no %1 tem que ter um certo número de "
-"créditos. Isto previne e protege contra abusos do sistema."
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr "Em ordem para criar um novo tópico no %1 tem que ter um certo número de créditos. Isto previne e protege contra abusos do sistema."
 
 #: ../inc/forum.inc:1063
-msgid ""
-"You cannot create any more threads right now. Please wait a while before "
-"trying again. This delay has been enforced to protect against abuse of the "
-"system."
-msgstr ""
-"Não pode criar mais tópicos de momento. Por favor aguarde um momento antes "
-"de tentar movamente. Este atraso foi forçado para protecção de abusos do "
-"sistema."
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr "Não pode criar mais tópicos de momento. Por favor aguarde um momento antes de tentar movamente. Este atraso foi forçado para protecção de abusos do sistema."
 
 #: ../inc/forum.inc:1100
 msgid "Thread"
 msgstr "Tópico"
 
-#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1100
+#: ../inc/team.inc:120
+#: ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Posts"
 
-#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
-#: ../user/forum_reply.php:108 ../user/forum_report_post.php:80
+#: ../inc/forum.inc:1100
+#: ../user/forum_forum.php:131
+#: ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80
 #: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Autor"
 
-#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1100
+#: ../user/forum_forum.php:131
 msgid "Views"
 msgstr "Vistas"
 
-#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1100
+#: ../inc/team.inc:120
+#: ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Ultimo post"
@@ -112,27 +116,40 @@ msgstr "Comentário"
 msgid "News is available as an %sRSS feed%s"
 msgstr "Novidades estão disponíveis como %sRSS feed%s"
 
-#: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
+#: ../inc/pm.inc:25
+#: ../inc/pm.inc:178
+#: ../user/pm.php:64
+#: ../user/pm.php:144
 msgid "Inbox"
 msgstr "Caixa de entrada"
 
-#: ../inc/pm.inc:26 ../inc/pm.inc:182
+#: ../inc/pm.inc:26
+#: ../inc/pm.inc:182
 msgid "Write"
 msgstr "Escrever"
 
-#: ../inc/pm.inc:33 ../inc/user.inc:370
+#: ../inc/pm.inc:33
+#: ../inc/user.inc:370
 msgid "Send private message"
 msgstr "Mandar mensagem privada"
 
-#: ../inc/pm.inc:35 ../inc/pm.inc:38 ../inc/pm.inc:92
-#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
-#: ../user/forum_edit.php:145 ../user/forum_post.php:62
-#: ../user/forum_post.php:88 ../user/forum_post.php:91
-#: ../user/forum_post.php:129 ../user/forum_reply.php:75
-#: ../user/forum_reply.php:100 ../user/forum_reply.php:103
-#: ../user/forum_reply.php:146 ../user/pm.php:175
+#: ../inc/pm.inc:35
+#: ../inc/pm.inc:38
+#: ../inc/pm.inc:92
+#: ../user/forum_edit.php:99
+#: ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145
+#: ../user/forum_post.php:62
+#: ../user/forum_post.php:88
+#: ../user/forum_post.php:91
+#: ../user/forum_post.php:129
+#: ../user/forum_reply.php:75
+#: ../user/forum_reply.php:100
+#: ../user/forum_reply.php:103
+#: ../user/forum_reply.php:146
+#: ../user/pm.php:175
 msgid "Preview"
-msgstr "Prévisualizar"
+msgstr "Pré-visualizar"
 
 #: ../inc/pm.inc:85
 msgid "To"
@@ -142,28 +159,31 @@ msgstr "Para"
 msgid "User IDs or unique usernames, separated with commas"
 msgstr "IDs dos utilizadores ou nomes de utilizador unicos, separados com virgulas"
 
-#: ../inc/pm.inc:88 ../user/pm.php:85 ../user/pm.php:135
+#: ../inc/pm.inc:88
+#: ../user/pm.php:85
+#: ../user/pm.php:135
 msgid "Subject"
 msgstr "Assunto"
 
-#: ../inc/pm.inc:89 ../user/forum_edit.php:128 ../user/forum_edit.php:133
-#: ../user/forum_post.php:118 ../user/forum_reply.php:108
-#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
-#: ../user/pm.php:85 ../user/pm.php:140
+#: ../inc/pm.inc:89
+#: ../user/forum_edit.php:128
+#: ../user/forum_edit.php:133
+#: ../user/forum_post.php:118
+#: ../user/forum_reply.php:108
+#: ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
+#: ../user/pm.php:85
+#: ../user/pm.php:140
 msgid "Message"
-msgstr "Mensagen"
+msgstr "Mensagem"
 
 #: ../inc/pm.inc:92
 msgid "Send message"
 msgstr "Mandar mensagem"
 
 #: ../inc/pm.inc:170
-msgid ""
-"You are not allowed to send privates messages so often. Please wait some "
-"time before sending more messages."
-msgstr ""
-"Não está autorizado a mandar mensagens privadas tão frequentemente. Por favor aguarde algum "
-"tempo antes de mandar mais mensagens."
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "Não está autorizado a mandar mensagens privadas tão frequentemente. Por favor aguarde algum tempo antes de mandar mais mensagens."
 
 #: ../inc/pm.inc:180
 msgid "unread"
@@ -173,9 +193,10 @@ msgstr "não lidas"
 msgid "For email notification, %1edit community prefs%2"
 msgstr "Para notificações de email, %1edite as preferências da comunidade%2"
 
-#: ../inc/profile.inc:216 ../user/create_profile.php:306
+#: ../inc/profile.inc:216
+#: ../user/create_profile.php:306
 msgid "Edit your profile"
-msgstr "Edite o ser perfil"
+msgstr "Edite o seu perfil"
 
 #: ../inc/profile.inc:254
 msgid "Your feedback on this profile"
@@ -207,18 +228,26 @@ msgstr "Palavras chave"
 
 #: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
-msgstr "Procurar equipas com estas palavaras nos seus nomes ou descrições"
+msgstr "Procurar equipas com estas palavras nos seus nomes ou descrições"
 
-#: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
-#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
-#: ../inc/user.inc:310 ../user/account_finish.php:44
-#: ../user/create_account_form.php:94 ../user/top_users.php:62
-#: ../user/user_search.php:102 ../user/user_search.php:119
+#: ../inc/team.inc:36
+#: ../inc/team.inc:114
+#: ../inc/team.inc:225
+#: ../inc/team.inc:360
+#: ../inc/team.inc:447
+#: ../inc/user.inc:204
+#: ../inc/user.inc:310
+#: ../user/account_finish.php:44
+#: ../user/create_account_form.php:94
+#: ../user/top_users.php:62
+#: ../user/user_search.php:102
+#: ../user/user_search.php:119
 #: ../user/user_search.php:158
 msgid "Country"
 msgstr "País"
 
-#: ../inc/team.inc:42 ../inc/team.inc:445
+#: ../inc/team.inc:42
+#: ../inc/team.inc:445
 msgid "Type of team"
 msgstr "Tipo de equipa"
 
@@ -226,13 +255,15 @@ msgstr "Tipo de equipa"
 msgid "Show only active teams"
 msgstr "Mostrar apenas equipas activas"
 
-#: ../inc/team.inc:45 ../user/profile_menu.php:75 ../user/user_search.php:132
+#: ../inc/team.inc:45
+#: ../user/profile_menu.php:75
+#: ../user/user_search.php:132
 msgid "Search"
 msgstr "Procurar"
 
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
-msgstr "Requisitado por si, e o tempo de resposta do fundador passou."
+msgstr "Requisitado por si, e o tempo de resposta limite do fundador passou."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
@@ -244,9 +275,11 @@ msgstr "Requisitado por si"
 
 #: ../inc/team.inc:60
 msgid "founder response deadline is %1"
-msgstr "o tempo de resposta do fundador é %1"
+msgstr "o tempo de resposta limite do fundador é %1"
 
-#: ../inc/team.inc:65 ../inc/user.inc:275 ../inc/user.inc:363
+#: ../inc/team.inc:65
+#: ../inc/user.inc:275
+#: ../inc/user.inc:363
 msgid "None"
 msgstr "Nenhum"
 
@@ -270,17 +303,30 @@ msgstr "Descrição"
 msgid "Web site"
 msgstr "Website"
 
-#: ../inc/team.inc:94 ../inc/team.inc:207 ../inc/team.inc:212
-#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
-#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
-#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../inc/team.inc:94
+#: ../inc/team.inc:207
+#: ../inc/team.inc:212
+#: ../inc/team.inc:214
+#: ../inc/team.inc:351
+#: ../inc/team.inc:356
+#: ../inc/user.inc:118
+#: ../inc/user.inc:132
+#: ../user/top_users.php:53
+#: ../user/top_users.php:58
+#: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Créditos totais"
 
-#: ../inc/team.inc:95 ../inc/team.inc:208 ../inc/team.inc:217
-#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
-#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
+#: ../inc/team.inc:95
+#: ../inc/team.inc:208
+#: ../inc/team.inc:217
+#: ../inc/team.inc:219
+#: ../inc/team.inc:350
+#: ../inc/team.inc:355
+#: ../inc/user.inc:133
+#: ../user/top_users.php:52
+#: ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "Média de créditos recentes"
 
@@ -296,7 +342,9 @@ msgstr "Tipo"
 msgid "Message board"
 msgstr "Mensagem do fórum"
 
-#: ../inc/team.inc:120 ../user/forum_forum.php:131 ../user/forum_index.php:93
+#: ../inc/team.inc:120
+#: ../user/forum_forum.php:131
+#: ../user/forum_index.php:93
 msgid "Threads"
 msgstr "Tópicos"
 
@@ -305,12 +353,8 @@ msgid "Join this team"
 msgstr "Juntar a esta equipa"
 
 #: ../inc/team.inc:129
-msgid ""
-"Note: if 'OK to email' is set in your project preferences, joining a team "
-"gives its founder access to your email address."
-msgstr ""
-"Nota: Se o 'OK para o email' está definido nas preferências do projecto, juntar-se a uma equipa "
-"dá ao fundador acesso ao seu endereço de email."
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgstr "Nota: Se o 'OK para o email' está definido nas preferências do projecto, juntar-se a uma equipa dá ao fundador acesso ao seu endereço de email."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
@@ -328,11 +372,13 @@ msgstr "Responder por %1"
 msgid "Team foundership change"
 msgstr "Mudança do lider de equipa"
 
-#: ../inc/team.inc:148 ../inc/team.inc:346
+#: ../inc/team.inc:148
+#: ../inc/team.inc:346
 msgid "Members"
 msgstr "Membros"
 
-#: ../inc/team.inc:149 ../inc/team.inc:241
+#: ../inc/team.inc:149
+#: ../inc/team.inc:241
 msgid "Founder"
 msgstr "Fundador"
 
@@ -348,7 +394,9 @@ msgstr "Novos membros no ultimo dia"
 msgid "Total members"
 msgstr "Total de membros"
 
-#: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
+#: ../inc/team.inc:177
+#: ../inc/team.inc:178
+#: ../inc/team.inc:179
 msgid "view"
 msgstr "ver"
 
@@ -360,9 +408,13 @@ msgstr "Membros activos"
 msgid "Members with credit"
 msgstr "Membros com créditos"
 
-#: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
-#: ../user/top_users.php:48 ../user/user_search.php:102
+#: ../inc/team.inc:202
+#: ../inc/team.inc:345
+#: ../inc/user.inc:198
+#: ../user/account_finish.php:40
+#: ../user/create_account_form.php:75
+#: ../user/top_users.php:48
+#: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Name"
 msgstr "Nome"
@@ -385,49 +437,49 @@ msgstr "Não existe essa equipa"
 
 #: ../inc/team.inc:289
 msgid "This operation requires foundership."
-msgstr "Esta operação requer liderança"
+msgstr "Esta operação requer privilégio de lider."
 
 #: ../inc/team.inc:313
 msgid "This operation requires team admin privileges"
-msgstr "Esta operação requer privilégios de administradir na equipa"
+msgstr "Esta operação requer privilégios de administrador na equipa"
 
-#: ../inc/team.inc:344 ../user/top_users.php:47
+#: ../inc/team.inc:344
+#: ../user/top_users.php:47
 msgid "Rank"
 msgstr "Rank"
 
 #: ../inc/team.inc:420
-msgid ""
-"%1Privacy note%2: if you create a team, your project preferences (resource "
-"share, graphics preferences) will be visible to the public."
-msgstr ""
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgstr "%1Note privada%2: se criar uma equipa, as preferênciass do projecto (partilha de recursosm preferências de gráficos) ficarão visíveis ao publico."
 
 #: ../inc/team.inc:424
 msgid "Team name, text version"
-msgstr ""
+msgstr "Nome da equipa, versão do texto"
 
 #: ../inc/team.inc:425
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "Não use tags HTML."
 
 #: ../inc/team.inc:428
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "Nome da equipa, versão de HTML"
 
-#: ../inc/team.inc:430 ../inc/team.inc:440
+#: ../inc/team.inc:430
+#: ../inc/team.inc:440
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "Pode usar %1tags HTLM limitados%2"
 
 #: ../inc/team.inc:431
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "Se não conhece HTML, deixe esta caixa em branco"
 
 #: ../inc/team.inc:434
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "URL da página web da equipa, se tiver"
 
 #: ../inc/team.inc:434
 msgid "without \"http://\""
-msgstr ""
+msgstr "sem \"http://\""
 
 #: ../inc/team.inc:435
 msgid "This URL will be linked to from the team's page on this site."
@@ -435,436 +487,455 @@ msgstr ""
 
 #: ../inc/team.inc:438
 msgid "Description of team"
-msgstr ""
+msgstr "Descrição da equipa"
 
 #: ../inc/user.inc:112
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "Projectos em que está a participar"
 
 #: ../inc/user.inc:114
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "Projectos em que está %1 a participar"
 
 #: ../inc/user.inc:118
 msgid "Project"
-msgstr ""
+msgstr "Projecto"
 
 #: ../inc/user.inc:118
 msgid "Click for user page"
-msgstr ""
+msgstr "Carregue para página do utilizador"
 
-#: ../inc/user.inc:118 ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/user.inc:118
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Average credit"
-msgstr ""
+msgstr "Média de créditos"
 
 #: ../inc/user.inc:118
 msgid "Since"
-msgstr ""
+msgstr "a partir de"
 
 #: ../inc/user.inc:142
 msgid "Computing and credit"
-msgstr ""
+msgstr "Computação e perfil"
 
 #: ../inc/user.inc:146
 msgid "Pending credit"
-msgstr ""
+msgstr "Créditos pendentes"
 
-#: ../inc/user.inc:146 ../inc/user.inc:148 ../inc/user.inc:149
-#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:394
+#: ../inc/user.inc:146
+#: ../inc/user.inc:148
+#: ../inc/user.inc:149
+#: ../inc/user.inc:237
+#: ../inc/user.inc:318
+#: ../inc/user.inc:394
 #: ../user/view_profile.php:54
 msgid "View"
-msgstr ""
+msgstr "Ver"
 
 #: ../inc/user.inc:148
 msgid "Computers on this account"
-msgstr ""
+msgstr "Computadores nesta conta"
 
 #: ../inc/user.inc:149
 msgid "Tasks"
-msgstr ""
+msgstr "Tarefas"
 
 #: ../inc/user.inc:158
 msgid "Cross-project ID"
-msgstr ""
+msgstr "ID Cross-project"
 
 #: ../inc/user.inc:159
 msgid "Cross-project statistics"
-msgstr ""
+msgstr "Estatísticas Cross-project"
 
 #: ../inc/user.inc:160
 msgid "Account"
-msgstr ""
+msgstr "Conta"
 
-#: ../inc/user.inc:162 ../inc/user.inc:275 ../inc/user.inc:361
-#: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/user.inc:162
+#: ../inc/user.inc:275
+#: ../inc/user.inc:361
+#: ../inc/user.inc:363
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Team"
-msgstr ""
+msgstr "Equipa"
 
 #: ../inc/user.inc:164
 msgid "Cross-project"
-msgstr ""
+msgstr "Cross-project"
 
 #: ../inc/user.inc:165
 msgid "Certificate"
-msgstr ""
+msgstr "Certificado"
 
 #: ../inc/user.inc:166
 msgid "Stats on your cell phone"
-msgstr ""
+msgstr "Dados do seu telemóvel"
 
 #: ../inc/user.inc:197
 msgid "Account information"
-msgstr ""
+msgstr "Informação da conta"
 
-#: ../inc/user.inc:199 ../user/edit_passwd_form.php:46
+#: ../inc/user.inc:199
+#: ../user/edit_passwd_form.php:46
 msgid "Email address"
-msgstr ""
+msgstr "Endereço de email"
 
-#: ../inc/user.inc:202 ../inc/user.inc:312
+#: ../inc/user.inc:202
+#: ../inc/user.inc:312
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ../inc/user.inc:205
 msgid "Postal code"
-msgstr ""
+msgstr "Código postal"
 
-#: ../inc/user.inc:206 ../inc/user.inc:309
+#: ../inc/user.inc:206
+#: ../inc/user.inc:309
 msgid "%1 member since"
-msgstr ""
+msgstr "%1 membro desde"
 
 #: ../inc/user.inc:208
 msgid "Change"
-msgstr ""
+msgstr "Mudar"
 
 #: ../inc/user.inc:208
 msgid "email address"
-msgstr ""
+msgstr "endereço de email"
 
 #: ../inc/user.inc:208
 msgid "password"
-msgstr ""
+msgstr "palavra passe"
 
 #: ../inc/user.inc:208
 msgid "other account info"
-msgstr ""
+msgstr "outra informações da conta"
 
 #: ../inc/user.inc:209
 msgid "Log out"
-msgstr ""
+msgstr "Log out"
 
 #: ../inc/user.inc:210
 msgid "User ID"
-msgstr ""
+msgstr "ID do utilizador"
 
 #: ../inc/user.inc:210
 msgid "Used in community functions"
-msgstr ""
+msgstr "Usado nas funções da comunidade"
 
 #: ../inc/user.inc:212
 msgid "Account key"
-msgstr ""
+msgstr "Palavra chave da conta"
 
 #: ../inc/user.inc:212
 msgid "Provides full access to your account"
-msgstr ""
+msgstr "Providencia acesso total a sua conta"
 
 #: ../inc/user.inc:213
 msgid "Weak account key"
-msgstr ""
+msgstr "Palavra chave fraca"
 
 #: ../inc/user.inc:213
 msgid "Provides %1limited access%2 to your account"
-msgstr ""
+msgstr "Providencia %1acesso limitado%2 à sua conta"
 
 #: ../inc/user.inc:216
 msgid "Preferences"
-msgstr ""
+msgstr "Preferências"
 
 #: ../inc/user.inc:219
 msgid "When and how BOINC uses your computer"
-msgstr ""
+msgstr "Quando e como o BOINC usa o seu computador"
 
 #: ../inc/user.inc:220
 msgid "Computing preferences"
-msgstr ""
+msgstr "Preferências de computação"
 
 #: ../inc/user.inc:223
 msgid "Message boards and private messages"
-msgstr ""
+msgstr "Mensagens do fórum e mensagens privadas"
 
 #: ../inc/user.inc:224
 msgid "Community preferences"
-msgstr ""
+msgstr "Preferências da comunidade"
 
 #: ../inc/user.inc:227
 msgid "Preferences for this project"
-msgstr ""
+msgstr "Preferências para este projecto"
 
 #: ../inc/user.inc:228
 msgid "%1 preferences"
-msgstr ""
+msgstr "%1 preferências"
 
-#: ../inc/user.inc:234 ../user/sample_index.php:66
+#: ../inc/user.inc:234
+#: ../user/sample_index.php:66
 msgid "Community"
-msgstr ""
+msgstr "Comunidade"
 
-#: ../inc/user.inc:237 ../user/pm.php:103 ../user/pm.php:143
+#: ../inc/user.inc:237
+#: ../user/pm.php:103
+#: ../user/pm.php:143
 msgid "Delete"
-msgstr ""
+msgstr "Apagar"
 
 #: ../inc/user.inc:239
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
-#: ../inc/user.inc:241 ../inc/user.inc:394
+#: ../inc/user.inc:241
+#: ../inc/user.inc:394
 msgid "Profile"
-msgstr ""
+msgstr "Perfil"
 
-#: ../inc/user.inc:244 ../inc/user.inc:367
+#: ../inc/user.inc:244
+#: ../inc/user.inc:367
 msgid "%1 posts"
-msgstr ""
+msgstr "%1 posts"
 
 #: ../inc/user.inc:256
 msgid "Notifications"
-msgstr ""
+msgstr "Notificações"
 
 #: ../inc/user.inc:263
 msgid "Quit team"
-msgstr ""
+msgstr "Sair da equipa"
 
-#: ../inc/user.inc:265 ../inc/user.inc:282
+#: ../inc/user.inc:265
+#: ../inc/user.inc:282
 msgid "Administer"
-msgstr ""
+msgstr "Administrar"
 
-#: ../inc/user.inc:271 ../inc/user.inc:284
+#: ../inc/user.inc:271
+#: ../inc/user.inc:284
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(solicitação de mudança de lider pendente)"
 
 #: ../inc/user.inc:273
 msgid "Member of team"
-msgstr ""
+msgstr "Membro da equipa"
 
 #: ../inc/user.inc:275
 msgid "find a team"
-msgstr ""
+msgstr "encontrar uma equipa"
 
 #: ../inc/user.inc:286
 msgid "Founder but not member of"
-msgstr ""
+msgstr "Fundador mas não membro de"
 
 #: ../inc/user.inc:292
 msgid "Find friends"
-msgstr ""
+msgstr "Encontrar amigos"
 
-#: ../inc/user.inc:299 ../inc/user.inc:301 ../inc/user.inc:377
-#: ../inc/user.inc:379 ../inc/user.inc:388
+#: ../inc/user.inc:299
+#: ../inc/user.inc:301
+#: ../inc/user.inc:377
+#: ../inc/user.inc:379
+#: ../inc/user.inc:388
 msgid "Friends"
-msgstr ""
+msgstr "Amigos"
 
-#: ../inc/user.inc:318 ../inc/user.inc:320
+#: ../inc/user.inc:318
+#: ../inc/user.inc:320
 msgid "Computers"
-msgstr ""
+msgstr "Computadores"
 
 #: ../inc/user.inc:320
 msgid "hidden"
-msgstr ""
+msgstr "escondido"
 
 #: ../inc/user.inc:327
 msgid "Donor"
-msgstr ""
+msgstr "Doador"
 
 #: ../inc/user.inc:370
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #: ../inc/user.inc:373
 msgid "This person is a friend"
-msgstr ""
+msgstr "Esta pessoa é amiga"
 
-#: ../inc/user.inc:374 ../user/friend.php:224
+#: ../inc/user.inc:374
+#: ../user/friend.php:224
 msgid "Cancel friendship"
-msgstr ""
+msgstr "Cancelar amizade"
 
-#: ../inc/user.inc:377 ../user/friend.php:35
+#: ../inc/user.inc:377
+#: ../user/friend.php:35
 msgid "Request pending"
-msgstr ""
+msgstr "Pedido pendente"
 
 #: ../inc/user.inc:379
 msgid "Add as friend"
-msgstr ""
+msgstr "Adicionar como amigo"
 
 #: ../inc/util.inc:385
 msgid "Email address:"
-msgstr ""
+msgstr "Endereço de email:"
 
 #: ../inc/util.inc:385
 msgid "forgot email address?"
-msgstr ""
+msgstr "esqueceu o endereço de email?"
 
 #: ../inc/util.inc:387
 msgid "Password:"
-msgstr ""
+msgstr "Palavra passe:"
 
 #: ../inc/util.inc:387
 msgid "forgot password?"
-msgstr ""
+msgstr "esqueceu a palavra passe?"
 
 #: ../inc/util.inc:390
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "Manter-se logado neste computador"
 
 #: ../inc/util.inc:395
 msgid "Log in"
-msgstr ""
+msgstr "Log in"
 
 #: ../inc/util.inc:396
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "ou %1criar uma conta%2"
 
 #: ../inc/util.inc:416
 msgid "Please log in"
-msgstr ""
+msgstr "Por favor faça log in"
 
 #: ../inc/util.inc:542
 msgid "Use BBCode tags to format your text"
-msgstr ""
+msgstr "Use tags BBcode para formatar o texto"
 
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/account_finish.php:40
+#: ../user/create_account_form.php:75
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
+msgstr "indentifica-o no seu website. Use o seu nome real ou o nickname."
 
-#: ../user/account_finish.php:44 ../user/create_account_form.php:94
+#: ../user/account_finish.php:44
+#: ../user/create_account_form.php:94
 msgid "Select the country you want to represent, if any."
-msgstr ""
+msgstr "Seleccione o País que represente, se algum."
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:100
+#: ../user/account_finish.php:50
+#: ../user/create_account_form.php:100
 msgid "Postal or ZIP Code"
-msgstr ""
+msgstr "Código Postal"
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:100
+#: ../user/account_finish.php:50
+#: ../user/create_account_form.php:100
 msgid "Optional"
-msgstr ""
+msgstr "Opcional"
 
-#: ../user/apps.php:31 ../user/sample_index.php:63
+#: ../user/apps.php:31
+#: ../user/sample_index.php:63
 msgid "Applications"
-msgstr ""
+msgstr "Aplicações"
 
 #: ../user/apps.php:32
-msgid ""
-"%1 currently has the following applications. When you participate in %1, "
-"work for one or more of these applications will be assigned to your "
-"computer. The current version of the application will be downloaded to your "
-"computer. This happens automatically; you don't have to do anything."
-msgstr ""
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr "%1 actualmente tem as seguintes aplicações. Quando participa em %1, o trabalho para uma ou mais destas aplicações será atribuída a este computador. A versão actual da aplicação será baixada para p seu computador. Isto acontece automaticamente; não tem que fazer nada."
 
 #: ../user/apps.php:48
 msgid "Platform"
-msgstr ""
+msgstr "Plataforma"
 
 #: ../user/apps.php:49
 msgid "Version"
-msgstr ""
+msgstr "Versão"
 
 #: ../user/apps.php:50
 msgid "Installation time"
-msgstr ""
+msgstr "Tempo de instalação"
 
 #: ../user/create_account_action.php:64
 msgid "You must supply an invitation code to create an account."
-msgstr ""
+msgstr "Tem que fornecer um código de convite para criar uma conta."
 
 #: ../user/create_account_action.php:67
 msgid "The invitation code you gave is not valid."
-msgstr ""
+msgstr "O código de convite que inseriu não é válido"
 
 #: ../user/create_account_form.php:24
 msgid "Create an account"
-msgstr ""
+msgstr "Criar uma conta"
 
 #: ../user/create_account_form.php:29
 msgid "Account creation is disabled"
-msgstr ""
+msgstr "A criação de conta está desabilitada"
 
 #: ../user/create_account_form.php:30
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
+msgstr "A criação de conta está actualmente desabilitada. Por favor, tente mais tarde"
 
 #: ../user/create_account_form.php:41
-msgid ""
-"NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
-"form. Just run BOINC, select Attach Project, and enter an email address and "
-"password."
-msgstr ""
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "NOTA: Se usa a versão 5.2+ do BOINC com o Gestor do BOINC, não use este form. Apenas corra o BOINC, seleccione Anexar Projecto e insira o endereço de email e palavra passe."
 
 #: ../user/create_account_form.php:57
-msgid ""
-"This account will belong to the team %1 and will have the project "
-"preferences of its founder."
-msgstr ""
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr "Esta conta irá pertencer à equipa %1 e terá as preferências do projecto do seu fundador."
 
 #: ../user/create_account_form.php:69
 msgid "Invitation Code"
-msgstr ""
+msgstr "Código de Convite"
 
 #: ../user/create_account_form.php:69
 msgid "A valid invitation code is required to create an account."
-msgstr ""
+msgstr "Um  código de convite válido é necessário para cirar uma conta."
 
 #: ../user/create_account_form.php:79
 msgid "Email Address"
-msgstr ""
+msgstr "Endereço de Email"
 
 #: ../user/create_account_form.php:79
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
+msgstr "Tem que ser um endereço válido do form 'name@domain'."
 
-#: ../user/create_account_form.php:88 ../user/edit_email_form.php:46
+#: ../user/create_account_form.php:88
+#: ../user/edit_email_form.php:46
 msgid "Password"
-msgstr ""
+msgstr "Palavra passe"
 
 #: ../user/create_account_form.php:89
 msgid "Must be at least %1 characters"
-msgstr ""
+msgstr "Tem que ter pelo menos %1 caracteres"
 
 #: ../user/create_account_form.php:92
 msgid "Confirm password"
-msgstr ""
+msgstr "Confirme palavra passe"
 
 #: ../user/create_account_form.php:104
 msgid "Create account"
-msgstr ""
+msgstr "Criar conta"
 
 #: ../user/create_profile.php:31
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "ERRO: %1 não existe! Não pode criar combo box.<br>"
 
 #: ../user/create_profile.php:51
 msgid "Picture"
-msgstr ""
+msgstr "Imagem"
 
 #: ../user/create_profile.php:65
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 A imagem do seu perfil é mostrada à esquerda."
 
 #: ../user/create_profile.php:67
-msgid ""
-"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
-"or less)."
-msgstr ""
+msgid "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 or less)."
+msgstr "Para a substituir, carregue no botão \"Procurar em\" e seleccione um ficheiro JPEG ou PNG (%1 ou menos)."
 
 #: ../user/create_profile.php:70
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "Para a remover do perfil, seleccione esta caixa:"
 
 #: ../user/create_profile.php:78
-msgid ""
-"If you would like include a picture with your profile, click the \"Browse\" "
-"button and select a JPEG or PNG file. Please select images of %1 or less."
+msgid "If you would like include a picture with your profile, click the \"Browse\" button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
 
 #: ../user/create_profile.php:87
 msgid "Language"
-msgstr ""
+msgstr "Linguagem"
 
 #: ../user/create_profile.php:90
 msgid "Select the language in which your profile is written:"
@@ -875,9 +946,7 @@ msgid "Submit profile"
 msgstr ""
 
 #: ../user/create_profile.php:107
-msgid ""
-"To protect the project's webpages from spam, we kindly ask you to type in "
-"the two words shown in the image:<br>\n"
+msgid "To protect the project's webpages from spam, we kindly ask you to type in the two words shown in the image:<br>\n"
 msgstr ""
 
 #: ../user/create_profile.php:110
@@ -889,9 +958,7 @@ msgid "The format of your uploaded image is not supported."
 msgstr ""
 
 #: ../user/create_profile.php:161
-msgid ""
-"Your %1profile%2 lets you share your opinions and background with the %3 "
-"community."
+msgid "Your %1profile%2 lets you share your opinions and background with the %3 community."
 msgstr ""
 
 #: ../user/create_profile.php:208
@@ -899,15 +966,11 @@ msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
 
 #: ../user/create_profile.php:217
-msgid ""
-"Your first response was flagged as spam by the Akismet anti-spam system.  "
-"Please modify your text and try again."
+msgid "Your first response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again."
 msgstr ""
 
 #: ../user/create_profile.php:225
-msgid ""
-"Your second response was flagged as spam by the Akismet anti-spam system.  "
-"Please modify your text and try again."
+msgid "Your second response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again."
 msgstr ""
 
 #: ../user/create_profile.php:241
@@ -927,8 +990,7 @@ msgid "Profile saved"
 msgstr ""
 
 #: ../user/create_profile.php:299
-msgid ""
-"Congratulations! Your profile was successfully entered into our database."
+msgid "Congratulations! Your profile was successfully entered into our database."
 msgstr ""
 
 #: ../user/create_profile.php:300
@@ -940,9 +1002,7 @@ msgid "Create a profile"
 msgstr ""
 
 #: ../user/create_profile.php:336
-msgid ""
-"To prevent spam, an average credit of %1 or greater is required to create or "
-"edit a profile.  We apologize for this inconvenience."
+msgid "To prevent spam, an average credit of %1 or greater is required to create or edit a profile.  We apologize for this inconvenience."
 msgstr ""
 
 #: ../user/download_network.php:25
@@ -954,15 +1014,13 @@ msgid "You can download applications in several categories."
 msgstr ""
 
 #: ../user/download_network.php:31
-msgid ""
-"These applications are not endorsed by %1 and you use them at your own risk."
+msgid "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr ""
 
 #: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
-"However, the author may have provided some help on installing or "
-"uninstalling the application. \n"
+"However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
 
@@ -974,7 +1032,8 @@ msgstr ""
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
 
-#: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
+#: ../user/edit_email_form.php:26
+#: ../user/edit_email_form.php:50
 msgid "Change email address"
 msgstr ""
 
@@ -994,7 +1053,8 @@ msgstr ""
 msgid "No password?"
 msgstr ""
 
-#: ../user/edit_passwd_form.php:26 ../user/edit_passwd_form.php:56
+#: ../user/edit_passwd_form.php:26
+#: ../user/edit_passwd_form.php:56
 msgid "Change password"
 msgstr ""
 
@@ -1030,12 +1090,15 @@ msgstr ""
 msgid "New password, again"
 msgstr ""
 
-#: ../user/forum_edit.php:115 ../user/forum_edit.php:120
-#: ../user/forum_post.php:110 ../user/forum_post.php:112
+#: ../user/forum_edit.php:115
+#: ../user/forum_edit.php:120
+#: ../user/forum_post.php:110
+#: ../user/forum_post.php:112
 msgid "Title"
 msgstr ""
 
-#: ../user/forum_edit.php:144 ../user/forum_post.php:128
+#: ../user/forum_edit.php:144
+#: ../user/forum_post.php:128
 msgid "Add my signature to this post"
 msgstr ""
 
@@ -1044,9 +1107,7 @@ msgid "%1 Message boards"
 msgstr ""
 
 #: ../user/forum_index.php:79
-msgid ""
-"If you have a question or problem, please use the %1Questions & Answers%2 "
-"section of the message boards."
+msgid "If you have a question or problem, please use the %1Questions & Answers%2 section of the message boards."
 msgstr ""
 
 #: ../user/forum_index.php:93
@@ -1057,7 +1118,8 @@ msgstr ""
 msgid "Create a new thread"
 msgstr ""
 
-#: ../user/forum_reply.php:85 ../user/forum_thread.php:139
+#: ../user/forum_reply.php:85
+#: ../user/forum_thread.php:139
 #: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr ""
@@ -1087,15 +1149,15 @@ msgid "My question was answered"
 msgstr ""
 
 #: ../user/forum_thread.php:113
-msgid ""
-"If your question has been adequately answered please click here to close it!"
+msgid "If your question has been adequately answered please click here to close it!"
 msgstr ""
 
 #: ../user/forum_thread.php:120
 msgid "I've also got this question"
 msgstr ""
 
-#: ../user/forum_thread.php:139 ../user/forum_thread.php:194
+#: ../user/forum_thread.php:139
+#: ../user/forum_thread.php:194
 msgid "Add a new message to this thread"
 msgstr ""
 
@@ -1203,9 +1265,15 @@ msgstr ""
 msgid "You can't be friends with yourself"
 msgstr ""
 
-#: ../user/friend.php:62 ../user/friend.php:90 ../user/friend.php:123
-#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
-#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
+#: ../user/friend.php:62
+#: ../user/friend.php:90
+#: ../user/friend.php:123
+#: ../user/friend.php:146
+#: ../user/friend.php:204
+#: ../user/friend.php:219
+#: ../user/friend.php:233
+#: ../user/pm.php:232
+#: ../user/view_profile.php:24
 msgid "No such user"
 msgstr ""
 
@@ -1214,16 +1282,15 @@ msgid "Add friend"
 msgstr ""
 
 #: ../user/friend.php:72
-msgid ""
-"You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
-"to confirm that you are friends."
+msgid "You have asked to add %1 as a friend. We will notify %2 and will ask him/her to confirm that you are friends."
 msgstr ""
 
 #: ../user/friend.php:75
 msgid "Add an optional message here:"
 msgstr ""
 
-#: ../user/friend.php:103 ../user/friend.php:160
+#: ../user/friend.php:103
+#: ../user/friend.php:160
 msgid "Database error"
 msgstr ""
 
@@ -1343,7 +1410,8 @@ msgstr ""
 msgid "Your account"
 msgstr ""
 
-#: ../user/info.php:22 ../user/sample_index.php:47
+#: ../user/info.php:22
+#: ../user/sample_index.php:47
 msgid "Read our rules and policies"
 msgstr ""
 
@@ -1352,10 +1420,7 @@ msgid "Run %1 only on authorized computers"
 msgstr ""
 
 #: ../user/info.php:34
-msgid ""
-"Run %1 only on computers that you own, or for which you have obtained the "
-"owner's permission. Some companies and schools have policies that prohibit "
-"using their computers for projects such as %1."
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
 msgstr ""
 
 #: ../user/info.php:36
@@ -1363,16 +1428,11 @@ msgid "How %1 will use your computer"
 msgstr ""
 
 #: ../user/info.php:37
-msgid ""
-"When you run %1 on your computer, it will use part of the computer's CPU "
-"power, disk space, and network bandwidth. You can control how much of your "
-"resources are used by %1, and when it uses them."
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
 msgstr ""
 
 #: ../user/info.php:38
-msgid ""
-"The work done by your computer contributes to the goals of %1, as described "
-"on its web site. The application programs may change from time to time."
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
 msgstr ""
 
 #: ../user/info.php:40
@@ -1380,44 +1440,23 @@ msgid "Privacy policy"
 msgstr ""
 
 #: ../user/info.php:41
-msgid ""
-"Your account on %1 is identified by a name that you choose. This name may be "
-"shown on the %1 web site, along with a summary of the work your computer has "
-"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
-"your identity."
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
 msgstr ""
 
 #: ../user/info.php:42
-msgid ""
-"If you participate in %1, information about your computer (such as its "
-"processor type, amount of memory, etc.) will be recorded by %1 and used to "
-"decide what type of work to assign to your computer. This information will "
-"also be shown on %1's web site. Nothing that reveals your computer's "
-"location (e.g. its domain name or network address) will be shown."
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
 msgstr ""
 
 #: ../user/info.php:43
-msgid ""
-"To participate in %1, you must give an address where you receive email. This "
-"address will not be shown on the %1 web site or shared with organizations. %"
-"1 may send you periodic newsletters; however, you can opt out at any time."
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
 msgstr ""
 
 #: ../user/info.php:44
-msgid ""
-"Private messages sent on the %1 web site are visible only to the sender and "
-"recipient.  %1 does not examine or police the content of private messages.  "
-"If you receive unwanted private messages from another %1 user, you may add "
-"them to your %2message filter%3.  This will prevent you from seeing any "
-"public or private messages from that user."
+msgid "Private messages sent on the %1 web site are visible only to the sender and recipient.  %1 does not examine or police the content of private messages.  If you receive unwanted private messages from another %1 user, you may add them to your %2message filter%3.  This will prevent you from seeing any public or private messages from that user."
 msgstr ""
 
 #: ../user/info.php:45
-msgid ""
-"If you use our web site forums you must follow the %2posting guidelines%3.  "
-"Messages posted to the %1 forums are visible to everyone, including non-"
-"members.  By posting to the forums, you are granting irrevocable license for "
-"anyone to view and copy your posts."
+msgid "If you use our web site forums you must follow the %2posting guidelines%3.  Messages posted to the %1 forums are visible to everyone, including non-members.  By posting to the forums, you are granting irrevocable license for anyone to view and copy your posts."
 msgstr ""
 
 #: ../user/info.php:46
@@ -1425,25 +1464,15 @@ msgid "Is it safe to run %1?"
 msgstr ""
 
 #: ../user/info.php:47
-msgid ""
-"Any time you download a program through the Internet you are taking a "
-"chance: the program might have dangerous errors, or the download server "
-"might have been hacked. %1 has made efforts to minimize these risks. We have "
-"tested our applications carefully. Our servers are behind a firewall and are "
-"configured for high security. To ensure the integrity of program downloads, "
-"all executable files are digitally signed on a secure computer not connected "
-"to the Internet."
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
 msgstr ""
 
 #: ../user/info.php:48
-msgid ""
-"The applications run by %1 may cause some computers to overheat. If this "
-"happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 
 #: ../user/info.php:49
-msgid ""
-"%1 was developed by %2. BOINC was developed at the University of California."
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
 
 #: ../user/info.php:51
@@ -1451,10 +1480,7 @@ msgid "Liability"
 msgstr ""
 
 #: ../user/info.php:52
-msgid ""
-"%1 and %2 assume no liability for damage to your computer, loss of data, or "
-"any other event or condition that may occur as a result of participating in %"
-"1."
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
 msgstr ""
 
 #: ../user/info.php:54
@@ -1462,17 +1488,11 @@ msgid "Other BOINC projects"
 msgstr ""
 
 #: ../user/info.php:55
-msgid ""
-"Other projects use the same platform, BOINC, as %1. You may want to consider "
-"participating in one or more of these projects. By doing so, your computer "
-"will do useful work even when %1 has no work available for it."
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
 msgstr ""
 
 #: ../user/info.php:56
-msgid ""
-"These other projects are not associated with %1, and we cannot vouch for "
-"their security practices or the nature of their research. Join them at your "
-"own risk."
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
 msgstr ""
 
 #: ../user/language_select.php:41
@@ -1480,15 +1500,11 @@ msgid "Language selection"
 msgstr ""
 
 #: ../user/language_select.php:68
-msgid ""
-"This web site is available in several languages. The currently selected "
-"language is %1."
+msgid "This web site is available in several languages. The currently selected language is %1."
 msgstr ""
 
 #: ../user/language_select.php:73
-msgid ""
-"Normally the choice of language is determined by your browser's language "
-"setting, which is: %1.  You can change this setting using:"
+msgid "Normally the choice of language is determined by your browser's language setting, which is: %1.  You can change this setting using:"
 msgstr ""
 
 #: ../user/language_select.php:78
@@ -1500,10 +1516,7 @@ msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
 
 #: ../user/language_select.php:84
-msgid ""
-"Or you can select a language by clicking on one of the links.  This will "
-"send your browser a cookie; make sure your browser accepts cookies from our "
-"domain."
+msgid "Or you can select a language by clicking on one of the links.  This will send your browser a cookie; make sure your browser accepts cookies from our domain."
 msgstr ""
 
 #: ../user/language_select.php:90
@@ -1515,9 +1528,7 @@ msgid "Use browser language setting"
 msgstr ""
 
 #: ../user/language_select.php:108
-msgid ""
-"Translations are done by volunteers.  If your native language is not here, %"
-"1you can provide a translation%2."
+msgid "Translations are done by volunteers.  If your native language is not here, %1you can provide a translation%2."
 msgstr ""
 
 #: ../user/pm.php:68
@@ -1532,7 +1543,8 @@ msgstr ""
 msgid "Sender and date"
 msgstr ""
 
-#: ../user/pm.php:102 ../user/pm.php:142
+#: ../user/pm.php:102
+#: ../user/pm.php:142
 msgid "Reply"
 msgstr ""
 
@@ -1573,9 +1585,7 @@ msgid "Really block %1?"
 msgstr ""
 
 #: ../user/pm.php:235
-msgid ""
-"Are you really sure you want to block user %1 from sending you private "
-"messages?"
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
 msgstr ""
 
 #: ../user/pm.php:236
@@ -1583,9 +1593,7 @@ msgid "Please note that you can only block a limited amount of users."
 msgstr ""
 
 #: ../user/pm.php:237
-msgid ""
-"Once the user has been blocked you can unblock it using forum preferences "
-"page."
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
 msgstr ""
 
 #: ../user/pm.php:243
@@ -1608,26 +1616,21 @@ msgstr ""
 msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
 
-#: ../user/profile_menu.php:33 ../user/sample_index.php:68
+#: ../user/profile_menu.php:33
+#: ../user/sample_index.php:68
 msgid "Profiles"
 msgstr ""
 
 #: ../user/profile_menu.php:36
-msgid ""
-"%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
-"community."
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
 msgstr ""
 
 #: ../user/profile_menu.php:37
-msgid ""
-"Explore the diversity of your fellow volunteers, and contribute your own "
-"views for others to enjoy."
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
 msgstr ""
 
 #: ../user/profile_menu.php:38
-msgid ""
-"If you haven't already, you can %1create your own user profile%2 for others "
-"to see!"
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
 msgstr ""
 
 #: ../user/profile_menu.php:43
@@ -1647,9 +1650,7 @@ msgid "Browse profiles %1by country%2."
 msgstr ""
 
 #: ../user/profile_menu.php:61
-msgid ""
-"Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
-"without pictures%2."
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
 msgstr ""
 
 #: ../user/profile_menu.php:65
@@ -1728,7 +1729,8 @@ msgstr ""
 msgid "Statistics for %1"
 msgstr ""
 
-#: ../user/stats.php:29 ../user/top_users.php:115
+#: ../user/stats.php:29
+#: ../user/top_users.php:115
 msgid "Top participants"
 msgstr ""
 
@@ -1736,26 +1738,21 @@ msgstr ""
 msgid "Top computers"
 msgstr ""
 
-#: ../user/stats.php:31 ../user/team.php:43
+#: ../user/stats.php:31
+#: ../user/team.php:43
 msgid "Top teams"
 msgstr ""
 
 #: ../user/stats.php:35
-msgid ""
-"More detailed statistics for %1 and other BOINC-based projects are available "
-"at several web sites:"
+msgid "More detailed statistics for %1 and other BOINC-based projects are available at several web sites:"
 msgstr ""
 
 #: ../user/stats.php:38
-msgid ""
-"You can also get your current statistics in the form of a \"signature image"
-"\":"
+msgid "You can also get your current statistics in the form of a \"signature image\":"
 msgstr ""
 
 #: ../user/stats.php:41
-msgid ""
-"Additionally you can get your individual statistics summed across all BOINC "
-"projects from several sites; see your %1home page%2."
+msgid "Additionally you can get your individual statistics summed across all BOINC projects from several sites; see your %1home page%2."
 msgstr ""
 
 #: ../user/team.php:25
@@ -1763,8 +1760,7 @@ msgid "%1 participants may form %2teams%3"
 msgstr ""
 
 #: ../user/team.php:27
-msgid ""
-"You may belong to only one team. You can join or quit a team at any time."
+msgid "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
 
 #: ../user/team.php:29
@@ -1808,8 +1804,7 @@ msgid "Create a new team"
 msgstr ""
 
 #: ../user/team.php:56
-msgid ""
-"If you cannot find a team that is right for you, you can %1create a team%2."
+msgid "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
 
 #: ../user/team_create_action.php:27
@@ -1824,13 +1819,13 @@ msgstr ""
 msgid "Could not create team - please try later."
 msgstr ""
 
-#: ../user/team_create_form.php:25 ../user/team_create_form.php:30
+#: ../user/team_create_form.php:25
+#: ../user/team_create_form.php:30
 msgid "Create a team"
 msgstr ""
 
 #: ../user/team_create_form.php:28
-msgid ""
-"You belong to %1. You must %2quit this team%3 before creating a new one."
+msgid "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
 
 #: ../user/top_hosts.php:81
@@ -1845,7 +1840,8 @@ msgstr ""
 msgid "Participant since"
 msgstr ""
 
-#: ../user/user_search.php:102 ../user/user_search.php:158
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Joined"
 msgstr ""
 
@@ -1906,16 +1902,11 @@ msgid "Account data"
 msgstr ""
 
 #: ../user/weak_auth.php:47
-msgid ""
-"Your 'weak account key' lets you attach computers to your account on this "
-"project, without giving the ability to log in to your account or to change "
-"it in any way."
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
 msgstr ""
 
 #: ../user/weak_auth.php:48
-msgid ""
-"This mechanism works only with projects that have upgraded their server "
-"software 7 Dec 2007 or later."
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
 msgstr ""
 
 #: ../user/weak_auth.php:49
@@ -1923,19 +1914,14 @@ msgid "Your weak account key for this project is:"
 msgstr ""
 
 #: ../user/weak_auth.php:51
-msgid ""
-"To use your weak account key on a given host, find or create the 'account "
-"file' for this project. This file has a name of the form "
-"<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
-msgstr ""
+msgstr "Crie este ficheiro se necessário. Defina o seu conteudo para:"
 
 #: ../user/weak_auth.php:60
-msgid ""
-"Your weak account key is a function of your password. If you change your "
-"password, your weak account key changes, and your previous weak account key "
-"becomes invalid."
-msgstr ""
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "A sua palavra fraca da conta é uma função da sua palavra-passe. Se mudar a palavra passe, a sua palavra fraca da conta muda e a sua palavra fraca da conta torna-se inválida."
+
