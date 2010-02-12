@@ -1,14 +1,14 @@
 /*
- * local/local_master.c
+ * local/local_master.C
  *
  * DC-API functions of master side
  *
  * (c) Gabor Vida 2005-2006, Daniel Drotos, 2007
  */
 
-/* $Id$ */
-/* $Date$ */
-/* $Revision$ */
+/* $Id: local_master.c 2246 2009-09-08 15:28:03Z gombasg $ */
+/* $Date: 2009-09-08 17:28:03 +0200 (Tue, 08 Sep 2009) $ */
+/* $Revision: 2246 $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -503,7 +503,7 @@ static int copy_file(const char *src, const char *dst)
 }
 
 int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
-	DC_FileMode fileMode)
+	DC_FileMode fileMode, const char *hashString = NULL)
 {
 	DC_PhysicalFile *file;
 	char *workpath;
@@ -789,7 +789,7 @@ DC_sendWUMessage(DC_Workunit *wu, const char *message)
 	dn= g_string_new(wu->workdir);
 	g_string_append(dn, "/");
 	g_string_append(dn, _DC_wu_cfg(wu, cfg_master_message_box));
-	ret= _DC_create_message(dn->str, _DCAPI_MSG_MESSAGE, message, NULL);
+	ret= _DC_create_message(dn->str, (char*)_DCAPI_MSG_MESSAGE, message, NULL);
 	g_string_free(dn, TRUE);
 	return(ret);
 }
@@ -800,13 +800,12 @@ static struct {
 	char *name;
 }
 _DC_state_names[]= {
-	{ DC_WU_READY, "READY" },
-	{ DC_WU_RUNNING, "RUNNING" },
-	{ DC_WU_FINISHED, "FINISHED" },
-	{ DC_WU_SUSPENDED, "SUSPENDED" },
-	{ DC_WU_ABORTED, "ABORTED" },
-	{ DC_WU_UNKNOWN, "UNKNOWN" },
-	{ 0, NULL }
+	{ DC_WU_READY, (char*) "READY" },
+	{ DC_WU_RUNNING, (char*) "RUNNING" },
+	{ DC_WU_FINISHED, (char*) "FINISHED" },
+	{ DC_WU_SUSPENDED, (char*) "SUSPENDED" },
+	{ DC_WU_ABORTED, (char*) "ABORTED" },
+	{ DC_WU_UNKNOWN, (char*) "UNKNOWN" }
 };
 
 char *
@@ -815,8 +814,8 @@ _DC_state_name(DC_WUState state)
 	int i;
 	for (i= 0; _DC_state_names[i].name; i++)
 		if (_DC_state_names[i].state == state)
-			return(_DC_state_names[i].name);
-	return("(unknown)");
+			return _DC_state_names[i].name;
+	return _DC_state_names[DC_WU_UNKNOWN].name;
 }
 
 
