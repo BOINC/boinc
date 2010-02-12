@@ -147,7 +147,7 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 
 /* Sets an input file for the work unit. */
 int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
-	DC_FileMode fileMode);
+	DC_FileMode fileMode, const char *hashString);
 
 /* Defines an output file for the work unit. */
 int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName);
