@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-02-11 12:21-0700\n"
+"PO-Revision-Date: 2010-02-12 12:47-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -3665,6 +3665,8 @@ msgstr ""
 #: clientgui/mac/MacAccessiblity.cpp:250
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
+"Este panel contiene gráficos que muestran los totales del usuario para los "
+"proyectos"
 
 #: clientgui/mac/MacAccessiblity.cpp:518
 #: clientgui/mac/MacAccessiblity.cpp:640
@@ -3686,49 +3688,47 @@ msgstr " está vacío"
 #: clientgui/mac/MacAccessiblity.cpp:600
 #, c-format
 msgid "%d of %d; "
-msgstr "%d de %d;"
+msgstr "%d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
-msgstr "columna de orden actual  "
+msgstr "columna de orden actual "
 
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " descending order "
-msgstr "  orden descendente  "
+msgstr " orden descendente "
 
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " ascending order "
-msgstr "  orden ascendente  "
+msgstr " orden ascendente "
 
 #: clientgui/mac/MacAccessiblity.cpp:611
 msgid "column "
-msgstr "columna  "
+msgstr "columna "
 
 #: clientgui/mac/MacAccessiblity.cpp:618
 msgid "list is empty"
-msgstr ""
+msgstr "la lista está vacía"
 
 #: clientgui/mac/MacAccessiblity.cpp:621
 #: clientgui/mac/MacAccessiblity.cpp:1204
 msgid "selected "
-msgstr "seleccionada  "
+msgstr "seleccionada "
 
 #: clientgui/mac/MacAccessiblity.cpp:626
 #, c-format
 msgid "row %d "
-msgstr "fila %d   "
+msgstr "fila %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:629
 #, c-format
-#, fuzzy
 msgid "of %d; "
-msgstr "de %d  "
+msgstr "de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
-#, fuzzy
 msgid "column %d; "
-msgstr "columna %d  "
+msgstr "columna %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1166
 msgid "list of projects or account managers"
@@ -3736,9 +3736,8 @@ msgstr "lista de proyectos o administradores de cuenta"
 
 #: clientgui/mac/MacAccessiblity.cpp:1208
 #, c-format
-#, fuzzy
 msgid "row %d of %d; "
-msgstr "fila %d de %d"
+msgstr "fila %d de %d; "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
