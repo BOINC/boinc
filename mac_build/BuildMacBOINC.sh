@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2010 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -22,6 +22,8 @@
 # Script for building Macintosh BOINC Manager, Core Client and libraries
 # by Charlie Fenton 3/27/08
 # with thanks to Reinhard Prix for his assistance
+#
+# Updated for OS 10.6 and XCode 3.2 on 2/11/10
 ##
 
 ## Usage:
@@ -29,10 +31,10 @@
 ##     cd [path]/boinc/mac_build
 ##
 ## then invoke this script as follows:
-##      source BuildMacBOINC.sh [-dev] [-noclean] [-no64bit] [-all] [-lib] [-client] [-help]
+##      source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]
 ## or
 ##      chmod +x BuildMacBOINC.sh
-##      ./BuildMacBOINC.sh [-dev] [-noclean] [-no64bit] [-all] [-lib] [-client] [-help]
+##      ./BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]
 ##
 ## optional arguments
 ## -dev         build the development (debug) version (native architecture only). 
@@ -40,8 +42,6 @@
 ##
 ## -noclean     don't do a "clean" of each target before building.
 ##              default is to clean all first.
-##
-## -no64bit     build 32-bit binaries only, no x86_64 architecture
 ##
 ##  The following arguments determine which targets to build
 ##
@@ -61,7 +61,6 @@ doclean="clean"
 buildall=0
 buildlibs=0
 buildclient=0
-no64bit=0
 style="Deployment"
 
 while [ $# -gt 0 ]; do
@@ -71,8 +70,7 @@ while [ $# -gt 0 ]; do
     -all ) buildall=1 ; shift 1 ;;
     -lib ) buildlibs=1 ; shift 1 ;;
     -client ) buildclient=1 ; shift 1 ;;
-    -no64bit ) no64bit=1 ; shift 1 ;;
-    * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-no64bit] [-all] [-lib] [-client] [-help]" ; return 1 ;;
+    * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]" ; return 1 ;;
   esac
 done
 
@@ -101,25 +99,14 @@ major=`echo $version | sed 's/\([0-9]*\)[.].*/\1/' `;
 # echo "major = $major"
 # echo "minor = $minor"
 #
+# Darwin version 10.x.y corresponds to OS 10.6.x
 # Darwin version 9.x.y corresponds to OS 10.5.x
 # Darwin version 8.x.y corresponds to OS 10.4.x
 # Darwin version 7.x.y corresponds to OS 10.3.x
 # Darwin version 6.x corresponds to OS 10.2.x
 
-if [ "$major" -lt "8" ]; then
-    echo "ERROR: Building BOINC requires System 10.4 or later.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
-fi
-    
-if [ "$major" -gt "8" ]; then
-    echo "Building BOINC under System 10.5 or later"
-else
-    echo "Building BOINC under System 10.4"
-fi
-
-if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
-    echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at"
+if [ "$major" -lt "10" ]; then
+    echo "ERROR: Building BOINC requires System 10.6 or later.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
@@ -130,22 +117,23 @@ if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
     return 1
 fi
 
+if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+    return 1
+fi
+
 if [ "${style}" = "Development" ]; then
     echo "Development (debug) build"
-elif [ "${no64bit}" = "1" ]; then
-    style="Deployment-no64"
-    echo "Deployment (release) build for architectures ppc, i386"
-elif [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    echo "************************************************************************"
-    echo "**                                                                    **"
-    echo "** WARNING: System 10.5 SDK not found.  Building 32-bit binaries only **"
-    echo "**                                                                    **"
-    echo "************************************************************************"
-    style="Deployment-no64"
-    echo "Deployment (release) build for architectures: i386, ppc"
 else
     style="Deployment"
     echo "Deployment (release) build for architectures: i386, ppc, x86_64"
+fi
+
+if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
+    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+    return 1
 fi
 
 echo ""

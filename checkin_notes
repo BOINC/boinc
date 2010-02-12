@@ -1085,14 +1085,14 @@ Rom    10 Feb 2010
         taskbarex.cpp, .h
 
 Rom    10 Feb 2010
-    - MGR: Re-enable the test notification mechinism so
+    - MGR: Re-enable the test notification mechanism so
         that it is compatible with Linux.
         
     clientgui/
         BOINCTaskBar.cpp, .h
 
 Rom    10 Feb 2010
-    - MGR: Re-enable the context menu support mechinism so
+    - MGR: Re-enable the context menu support mechanism so
         that it is compatible with Linux.
         
     clientgui/
@@ -1156,3 +1156,10 @@ David  11 Feb 2009
         client_state.cpp
     html/inc/
         prefs.inc
+
+Charlie  11 Feb 2010
+    - Mac: Update build script for OS 10.6 and XCode 3.2 (thanks to Jack 
+        Shultz for pointing out this was needed.)
+
+    mac_build/
+        BuildMacBOINC.sh
