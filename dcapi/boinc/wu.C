@@ -670,36 +670,6 @@ static int check_logical_name(DC_Workunit *wu, const char *logicalFileName)
 	return 0;
 }
 
-/*
-static void create_hash_file(DC_PhysicalFile *file, const char *hashString)
-{
-	const char *hashFileExt=".md5";
-	GString *hashFile;
-	FILE *f;
-
-	if (!hashString || !file || !file->path)
-		return;
-
-	hashFile = g_string_new(file->path);
-	g_string_append(hashFile, hashFileExt);
-
-	f = fopen(hashFile->str, "w");
-	if (!f)
-	{
-		DC_log(LOG_ERR, "Failed to create file %s: %s", hashFile->str,strerror(errno));
-		g_string_free(hashFile, TRUE);
-		return;
-	}
-	fprintf(f, "%s", hashString);
-	fclose(f);
-
-	DC_log(LOG_DEBUG, "MD5 hash file \"%s\" has been created with content \"%s\".", hashFile->str, hashString);
-
-	g_string_free(hashFile, TRUE);
-	return;
-}
-*/
-
 int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	DC_FileMode fileMode, const char *hashString = NULL)
 {
@@ -736,7 +706,6 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 			{
 				/* Remember the file mode */
 				file->mode = DC_FILE_PERSISTENT;
-				//create_hash_file(file, hashString);
 				break;
 			}
 
@@ -752,15 +721,11 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 				_DC_destroyPhysicalFile(file);
 				return ret;
 			}
-			//create_hash_file(file, hashString);
 			break;
 		case DC_FILE_VOLATILE:
 			ret = rename(URL, file->path);
 			if (!ret)
-			{
-				//create_hash_file(file, hashString);
 				break;
-			}
 			DC_log(LOG_DEBUG, "Renaming failed for input file %s: %s; "
 				"falling back to copy/delete", URL, strerror(errno));
 			ret = _DC_copyFile(URL, file->path);
@@ -772,7 +737,6 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 				return ret;
 			}
 			unlink(URL);
-			//create_hash_file(file, hashString);
 			break;
 		default:
 			DC_log(LOG_ERR, "Invalid file mode %d", fileMode);
