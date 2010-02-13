@@ -26,10 +26,10 @@ check_tokens($user->authenticator);
 
 $name = boinc_htmlentities(post_str("user_name"));
 if ($name != strip_tags($name)) {
-    error_page("HTML tags not allowed in name");
+    error_page(tra("HTML tags are not allowed in your name."));
 }
 if (strlen($name) == 0) {
-   error_page("You must supply a name for your account.");
+   error_page(tra("You must supply a name for your account."));
 }
 $url = post_str("url", true);
 $url = strip_tags($url);
@@ -38,7 +38,7 @@ if ($country == "") {
     $country = "International";
 }
 if (!is_valid_country($country)) {
-    error_page("bad country");
+    error_page(tra("bad country"));
 }
 $country = BoincDb::escape_string($country);
 $postal_code = post_str("postal_code", true);
@@ -54,7 +54,7 @@ $result = $user->update(
 if ($result) {
     Header("Location: home.php");
 } else {
-    error_page("Couldn't update user info.");
+    error_page(tra("Couldn't update user info."));
 }
 
 ?>

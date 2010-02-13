@@ -1169,3 +1169,9 @@ Charlie  11 Feb 2010
 
     clientgui/
         BOINCTaskBar.cpp
+
+David  13 Feb 2010
+    - web: make strings translatable. fixes #980
+
+    html/user
+        edit_user_info_form/action.php

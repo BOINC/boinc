@@ -24,27 +24,27 @@ db_init();
 $user = get_logged_in_user();
 check_tokens($user->authenticator);
 
-page_head("Edit account information");
+page_head(tra("Edit account information"));
 
 echo "<form method=post action=edit_user_info_action.php>";
 echo form_tokens($user->authenticator);
 start_table();
-row2("Name<br><font size=-2>real name or nickname</font>",
+row2(tra("Name %1 real name or nickname%2", "<br><font size=-2>", "</font>"),
     "<input name=user_name size=30 value='$user->name'>"
 );
-row2("URL<br><font size=-2>of your web page; optional</font>",
+row2(tra("URL %1 of your web page; optional%2", "<br><font size=-2>", "</font>"),
     "http://<input name=url size=50 value='$user->url'>"
 );
-row2_init("Country",
+row2_init(tra("Country"),
     "<select name=country>"
 );
 print_country_select($user->country);
 echo "</select></td></tr>\n";
-row2("Postal (ZIP) code<br><font size=-2>Optional</font>",
+row2(tra("Postal (ZIP) code %1 Optional%2", "<br><font size=-2>", "</font>"),
     "<input name=postal_code size=20 value='$user->postal_code'>"
 );
 
-row2("", "<input type=submit value='Update info'>");
+row2("", "<input type=submit value='".tra("Update info")."'>");
 end_table();
 echo "</form>\n";
 page_tail();
