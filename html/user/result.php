@@ -27,7 +27,7 @@ $result = lookup_result($resultid);
 if (!$result) {
     error_page(tra("No such task"));
 }
-page_head(tra("Task %1", $resultid"));
+page_head(tra("Task %1", $resultid));
 show_result($result);
 page_tail();
 
