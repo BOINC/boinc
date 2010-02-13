@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-01-22 09:04-0700\n"
+"PO-Revision-Date: 2010-02-13 00:53-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -202,7 +202,7 @@ msgstr "%s ablak bezárása"
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
-msgstr ""
+msgstr "&Ablak bezárása"
 
 #: clientgui/AdvancedFrame.cpp:319
 #, c-format
@@ -333,31 +333,27 @@ msgstr "Beállítások figyelembe vétele nélkül leáll"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "Use GPU always"
-msgstr ""
+msgstr "GPU használata mindenképp"
 
 #: clientgui/AdvancedFrame.cpp:470
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Munka engedélyezése a beállítások figyelmen kívül hagyásával"
+msgstr "GPU-s munka engedélyezése a beállítások figyelmen kívül hagyásával"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "&Beállítások szerint fut"
+msgstr "GPU használata a &beállítások szerint"
 
 #: clientgui/AdvancedFrame.cpp:475
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Munka engedélyezése a beállítások figyelembevételével"
+msgstr "GPU-s munka engedélyezése a beállítások figyelembevételével"
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Use GPU never"
-msgstr ""
+msgstr "Soha ne használja a GPU-t"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Beállítások figyelembe vétele nélkül leáll"
+msgstr "A GPU-s munkák leállítása a beállítások figyelembe vétele nélkül"
 
 #: clientgui/AdvancedFrame.cpp:504
 msgid "&Network activity always available"
@@ -936,7 +932,7 @@ msgstr "Felfüggeszt"
 
 #: clientgui/BOINCTaskBar.cpp:625
 msgid "Snooze GPU"
-msgstr ""
+msgstr "GPU-t felfüggeszt"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1043,12 +1039,11 @@ msgid "Copyright:"
 msgstr "Készítő:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 Kaliforniai Berkeley Egyetem.\n"
+"(C) 2003-2010 Kaliforniai Berkeley Egyetem.\n"
 "Minden jog fenntartva."
 
 #: clientgui/DlgAbout.cpp:179
@@ -1645,7 +1640,7 @@ msgstr "CPU munka behívás elhalasztási intervalluma"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "nVidia GPU ütemezési prioritás"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"
@@ -1660,9 +1655,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "nVidia GPU munkabehívás elhalasztási intervalluma"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "CPU ütemezési prioritás"
+msgstr "ATI GPU ütemezési prioritás"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -1744,7 +1738,7 @@ msgstr "Könyvtár"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "Processz azonosító (ID)"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
@@ -2298,19 +2292,19 @@ msgstr "Kattintás"
 
 #: clientgui/ProjectListCtrl.cpp:506
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "Támogatja a többmagos CPU-kat"
 
 #: clientgui/ProjectListCtrl.cpp:508
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "Támogatja az nVidia GPU-kat"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "Támogatja az ATI GPU-kat"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Project Website"
-msgstr ""
+msgstr "Projekt weboldala"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 #: clientgui/ProjectPropertiesPage.cpp:335
@@ -3622,7 +3616,7 @@ msgstr "(nem processzor igényes)"
 
 #: clientgui/ViewWork.cpp:1202
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Megszakítva: nem indult el határidőig"
 
 #: clientgui/ViewWorkGrid.cpp:184
 msgid "TasksGrid"
