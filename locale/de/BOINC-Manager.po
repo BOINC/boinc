@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-01-25 12:06-0700\n"
+"PO-Revision-Date: 2010-02-14 15:00-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -29,7 +29,7 @@ msgid ""
 "(to create an account, visit the project's web site)"
 msgstr ""
 "Bitte geben Sie Ihre Kontoinformationen ein.\n"
-"(Bitte besuchen sie die Projektwebseite\n"
+"(Bitte besuchen sie die Projektwebseite, \n"
 "um ein Teilnehmerkonto einzurichten.)"
 
 #: clientgui/AccountInfoPage.cpp:386
@@ -64,7 +64,7 @@ msgid ""
 msgstr ""
 "Die Kontoinformationen konnten nicht ermittelt werden. \n"
 "\n"
-"Bitte benutzen Sie den 'Kontoinformationen suchen' Link, \n"
+"Bitte benutzen Sie den Link \"Kontoinformationen suchen\", \n"
 "um die richtigen Eingaben für die E-Mail-Adresse und \n"
 "das Passwort zu finden."
 
@@ -114,10 +114,10 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
-"Bevor Sie fortfahren müssen Sie bereits ein Konto\n"
+"Bevor Sie fortfahren, müssen Sie bereits ein Konto\n"
 "bei dieser Kontoverwaltung besitzen. Klicken Sie auf\n"
-"den folgenden Link um sich zu registrieren oder ein\n"
-"neues Passwort abzurufen."
+"den folgenden Link, um sich zu registrieren oder ein\n"
+"neues Passwort anzufordern."
 
 #: clientgui/AccountInfoPage.cpp:498
 msgid "Account manager website"
@@ -206,7 +206,7 @@ msgstr "Das %s Fenster schließen."
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
-msgstr ""
+msgstr "&Fenster schließen"
 
 #: clientgui/AdvancedFrame.cpp:319
 #, c-format
@@ -342,7 +342,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "Use GPU always"
-msgstr ""
+msgstr "GPU immer nutzen"
 
 #: clientgui/AdvancedFrame.cpp:470
 #, fuzzy
@@ -359,11 +359,11 @@ msgstr "Ausführen nach &Voreinstellung"
 #: clientgui/AdvancedFrame.cpp:475
 #, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "BOINC arbeitet entsprechend der Einstellungen."
+msgstr "BOINC nutzt die GPU entsprechend der Einstellungen."
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Use GPU never"
-msgstr ""
+msgstr "GPU nie nutzen"
 
 #: clientgui/AdvancedFrame.cpp:480
 #, fuzzy
@@ -1057,12 +1057,11 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 University of California, Berkeley.Alle Rechte vorbehalten."
+"(C) 2003-2010 University of California, Berkeley. Alle Rechte vorbehalten."
 
 #: clientgui/DlgAbout.cpp:179
 #: clientgui/DlgAbout.cpp:183
@@ -1672,9 +1671,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Verzögerungsintervall für NVIDIA GPU Arbeitsabruf"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "CPU Zeitplanungspriorität"
+msgstr "ATI GPU Zeitplanungspriorität"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -1756,7 +1754,7 @@ msgstr "Ordner"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "Prozess-Nr."
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
