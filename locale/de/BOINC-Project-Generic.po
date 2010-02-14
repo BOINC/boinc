@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-26 20:00 PST\n"
-"PO-Revision-Date: 2010-01-25 08:00-0700\n"
+"PO-Revision-Date: 2010-02-14 15:02-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -1517,10 +1517,10 @@ msgid ""
 "1 may send you periodic newsletters; however, you can opt out at any time."
 msgstr ""
 "Um an %1 teilnehmen zu können, müssen Sie eine E-Mail-Adresse angeben, mit "
-"der Sie E-Mails empfangen können. Diese ist nicht auf der öffentlichen "
-"%1-Webseite einsehbar und wird auch nicht an Dritte weitergegeben. %1 wird "
-"Ihnen möglicherweise in regelmäßigen Abständen Newsletter senden; darauf "
-"können Sie aber jederzeit verzichten."
+"der Sie E-Mails empfangen können. Diese ist nicht auf der %1-Webseite "
+"einsehbar und wird auch nicht an Dritte weitergegeben. %1 wird Ihnen "
+"möglicherweise in regelmäßigen Abständen Newsletter senden; darauf können "
+"Sie aber jederzeit verzichten."
 
 #: ../user/info.php:44
 #, fuzzy
@@ -2064,9 +2064,8 @@ msgid "User name starts with"
 msgstr "Benutzername beginnt mit"
 
 #: ../user/user_search.php:115
-#, fuzzy
 msgid "Decreasing sign-up time"
-msgstr "Absteigendes Beitrittsdatum"
+msgstr "Absteigendes Anmeldedatum"
 
 #: ../user/user_search.php:116
 msgid "Decreasing average credit"
