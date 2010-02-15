@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-15 12:25-0000\n"
+"PO-Revision-Date: 2010-02-15 15:24-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -785,7 +785,7 @@ msgstr "Completo"
 #: ../inc/result.inc:126
 #: ../inc/result.inc:162
 msgid "Couldn't send"
-msgstr "Não conseguiu mandar"
+msgstr "Não foi possivel mandar"
 
 #: ../inc/result.inc:129
 #: ../inc/result.inc:186
@@ -816,7 +816,7 @@ msgstr "Tempo limite atingido - sem resposta"
 #: ../inc/result.inc:140
 #: ../inc/result.inc:169
 msgid "Didn't need"
-msgstr ""
+msgstr "Desnecessário"
 
 #: ../inc/result.inc:141
 #: ../inc/result.inc:170
@@ -898,7 +898,7 @@ msgstr "A tarefa foi reportada demasiado tarde para ser validada"
 
 #: ../inc/result.inc:211
 msgid "Couldn't send result"
-msgstr "Não conseguiu mandar o resultado"
+msgstr "Não foi possivel mandar o resultado"
 
 #: ../inc/result.inc:215
 msgid "Too many errors (may have bug)"
@@ -1796,15 +1796,15 @@ msgstr ""
 
 #: ../user/create_profile.php:110
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Criar/editar perfil"
 
 #: ../user/create_profile.php:132
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "O formato da imagem que fez o upload não é suportadp"
 
 #: ../user/create_profile.php:161
 msgid "Your %1profile%2 lets you share your opinions and background with the %3 community."
-msgstr ""
+msgstr "O seu %1perfil%2 permite-lhe partilhar as suas opiniões e os fundos de trabalho com a %3 comunidade."
 
 #: ../user/create_profile.php:208
 msgid "Your ReCaptcha response was not correct.  Please try again."
@@ -1812,55 +1812,55 @@ msgstr ""
 
 #: ../user/create_profile.php:217
 msgid "Your first response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again."
-msgstr ""
+msgstr "A sua primera resposta foi definida como spam pelo sistema Akismet anti-spam. Por favor, modifique o texto e tente novamente."
 
 #: ../user/create_profile.php:225
 msgid "Your second response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again."
-msgstr ""
+msgstr "A sua segunda resposta foi definida como spam pelo sistema Akismet anti-spam. Por favor, modifique o texto e tente novamente."
 
 #: ../user/create_profile.php:241
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "A sua submissão do perfil estava vazia."
 
 #: ../user/create_profile.php:280
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "Não foi possivel actualizar o perfil: erro da base de dados"
 
 #: ../user/create_profile.php:292
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "Não foi possivel criar o perfil: erro da base de dados"
 
 #: ../user/create_profile.php:297
 msgid "Profile saved"
-msgstr ""
+msgstr "Perfil salvo"
 
 #: ../user/create_profile.php:299
 msgid "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
+msgstr "Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
 
 #: ../user/create_profile.php:300
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Ver o seu perfil%2"
 
 #: ../user/create_profile.php:308
 msgid "Create a profile"
-msgstr ""
+msgstr "Criar um perfil"
 
 #: ../user/create_profile.php:336
 msgid "To prevent spam, an average credit of %1 or greater is required to create or edit a profile.  We apologize for this inconvenience."
-msgstr ""
+msgstr "Para prevenir spam, um amédia de créditos de %1 ou superior é necessária para criar ou editar um perfil. Pedimos desculpa pela incoveniência."
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "Fazer o download de software add-on para o BOINC"
 
 #: ../user/download_network.php:28
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Pode fazer o download de aplicação em várias categorias."
 
 #: ../user/download_network.php:31
 msgid "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr ""
+msgstr "Estas aplicações não estão aprovadas pelo %1 e está a usá-las pela sua conta e risco."
 
 #: ../user/download_network.php:33
 msgid ""
@@ -1868,23 +1868,26 @@ msgid ""
 "However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
+"Não providenciamos instruções para instalar estas aplicações.\n"
+"No entanto, o autor pode lhe providenciar ajuda a instalar ou desinstalar a aplicação.\n"
+"Se não for suficiente, deve contactar o autor."
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "Instruções para instalar e correr o BOINC estão %1aqui%2."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "Esta lista é gerida centralmente no %1website do BOINC%2."
 
 #: ../user/edit_email_form.php:26
 #: ../user/edit_email_form.php:50
 msgid "Change email address"
-msgstr ""
+msgstr "Mude o endereço de email"
 
 #: ../user/edit_email_form.php:35
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "Mude o endereço de email da sua conta"
 
 #: ../user/edit_email_form.php:36
 #, fuzzy
@@ -1898,20 +1901,20 @@ msgstr "Tem que ser um endereço válido do form 'name@domain'."
 
 #: ../user/edit_email_form.php:47
 msgid "No password?"
-msgstr ""
+msgstr "Sem palavra passe?"
 
 #: ../user/edit_passwd_form.php:26
 #: ../user/edit_passwd_form.php:56
 msgid "Change password"
-msgstr ""
+msgstr "Mude palavra passe"
 
 #: ../user/edit_passwd_form.php:40
 msgid "You can identify yourself using either"
-msgstr ""
+msgstr "Pode se identificar usando um ou outro"
 
 #: ../user/edit_passwd_form.php:42
 msgid "your email address and old password"
-msgstr ""
+msgstr "o seu endereço de email e palavra passe antiga"
 
 #: ../user/edit_passwd_form.php:43
 #, fuzzy
@@ -1920,31 +1923,31 @@ msgstr "Palavra chave fraca"
 
 #: ../user/edit_passwd_form.php:47
 msgid "Current password"
-msgstr ""
+msgstr "Palavra passe actual"
 
 #: ../user/edit_passwd_form.php:49
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<b>OU</b>: Palavra chave da conta"
 
 #: ../user/edit_passwd_form.php:50
 msgid "Get account key by email"
-msgstr ""
+msgstr "Obter palavra chave da conta por email"
 
 #: ../user/edit_passwd_form.php:54
 msgid "New password"
-msgstr ""
+msgstr "Nova palavra passe"
 
 #: ../user/edit_passwd_form.php:55
 msgid "New password, again"
-msgstr ""
+msgstr "nova palavra passe outra vez"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "Tags HTML não são permitidas no seu nome."
 
 #: ../user/edit_user_info_action.php:32
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Tem que fornecer um nome para a sua conta."
 
 #: ../user/edit_user_info_action.php:41
 msgid "bad country"
@@ -1952,7 +1955,7 @@ msgstr ""
 
 #: ../user/edit_user_info_action.php:57
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "Não foi possivel actualizar a informação do utilizador"
 
 #: ../user/edit_user_info_form.php:27
 #, fuzzy
@@ -1961,31 +1964,31 @@ msgstr "Informação da conta"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Nome %1 nome real ou nick%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "URL %1 da sua página web; opcional%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Código postal %1 Opcional%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Actualizar informação"
 
 #: ../user/forum_edit.php:115
 #: ../user/forum_edit.php:120
 #: ../user/forum_post.php:110
 #: ../user/forum_post.php:112
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #: ../user/forum_edit.php:144
 #: ../user/forum_post.php:128
 msgid "Add my signature to this post"
-msgstr ""
+msgstr "Adicionar a minha assinatura a este post"
 
 #: ../user/forum_index.php:69
 #, fuzzy
@@ -1994,90 +1997,90 @@ msgstr "%1 mensagem do fórum"
 
 #: ../user/forum_index.php:79
 msgid "If you have a question or problem, please use the %1Questions & Answers%2 section of the message boards."
-msgstr ""
+msgstr "Se tiver uma questão ou um problema, por favor use a secção  %1Questões & Respostas%2 do fórun."
 
 #: ../user/forum_index.php:93
 msgid "Topic"
-msgstr ""
+msgstr "Tópico"
 
 #: ../user/forum_post.php:101
 msgid "Create a new thread"
-msgstr ""
+msgstr "Criar um novo tópico"
 
 #: ../user/forum_reply.php:85
 #: ../user/forum_thread.php:139
 #: ../user/forum_thread.php:194
 msgid "Post to thread"
-msgstr ""
+msgstr "Postar no tópico"
 
 #: ../user/forum_search.php:25
 msgid "Forum search"
-msgstr ""
+msgstr "Procura no fórum"
 
 #: ../user/forum_search_action.php:139
 msgid "Forum search results"
-msgstr ""
+msgstr "Resultados da procura no fórum"
 
 #: ../user/forum_thread.php:45
 msgid "No thread with id %1. Please check the link and try again."
-msgstr ""
+msgstr "Não existe tópico com esse id %1. Por favor verifique o link e tente novamente."
 
 #: ../user/forum_thread.php:48
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "Este fórum não é visivel a si."
 
 #: ../user/forum_thread.php:54
 msgid "This thread has been hidden for administrative purposes"
-msgstr ""
+msgstr "Este tópico foi escondido com propósitos administrativos"
 
 #: ../user/forum_thread.php:111
 msgid "My question was answered"
-msgstr ""
+msgstr "A minha questão foi respondida"
 
 #: ../user/forum_thread.php:113
 msgid "If your question has been adequately answered please click here to close it!"
-msgstr ""
+msgstr "Se a sua questão foi adequadamente respondida, por favor carregue aqui para a fechar!"
 
 #: ../user/forum_thread.php:120
 msgid "I've also got this question"
-msgstr ""
+msgstr "Também tenho esta questão"
 
 #: ../user/forum_thread.php:139
 #: ../user/forum_thread.php:194
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Adicionar uma nova mensagem a este tópico"
 
 #: ../user/forum_thread.php:146
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Deixar de subscrever"
 
 #: ../user/forum_thread.php:146
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
+msgstr "Já esta subscrito a este tópico. Carregue aqui para deixar de subscrever."
 
 #: ../user/forum_thread.php:149
 msgid "Subscribe"
-msgstr ""
+msgstr "Subscrever"
 
 #: ../user/forum_thread.php:149
 msgid "Click to get email when there are new posts in this thread"
-msgstr ""
+msgstr "Carregue para obter emails quando houver novos posts neste tópico"
 
 #: ../user/forum_thread.php:156
 msgid "Unhide"
-msgstr ""
+msgstr "Deixar de esconder"
 
 #: ../user/forum_thread.php:156
 msgid "Unhide this thread"
-msgstr ""
+msgstr "Deixar de esconder este tópico"
 
 #: ../user/forum_thread.php:158
 msgid "Hide"
-msgstr ""
+msgstr "Esconder"
 
 #: ../user/forum_thread.php:158
 msgid "Hide this thread"
-msgstr ""
+msgstr "Esconder este tópico"
 
 #: ../user/forum_thread.php:161
 msgid "Make unsticky"
@@ -2097,59 +2100,59 @@ msgstr ""
 
 #: ../user/forum_thread.php:166
 msgid "Unlock"
-msgstr ""
+msgstr "Desbloquear"
 
 #: ../user/forum_thread.php:166
 msgid "Unlock this thread"
-msgstr ""
+msgstr "Desbloquar este tópico"
 
 #: ../user/forum_thread.php:168
 msgid "Lock"
-msgstr ""
+msgstr "Bloquear"
 
 #: ../user/forum_thread.php:168
 msgid "Lock this thread"
-msgstr ""
+msgstr "Bloquear este tópico"
 
 #: ../user/forum_thread.php:171
 msgid "Move"
-msgstr ""
+msgstr "Mover"
 
 #: ../user/forum_thread.php:171
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "Mover este tópico para um fórum diferente"
 
 #: ../user/forum_thread.php:173
 msgid "Edit title"
-msgstr ""
+msgstr "Editar título"
 
 #: ../user/forum_thread.php:173
 msgid "Edit thread title"
-msgstr ""
+msgstr "Editar o título deste tópico"
 
 #: ../user/forum_thread.php:180
 msgid "Sort"
-msgstr ""
+msgstr "Ordenar"
 
 #: ../user/friend.php:31
 msgid "Already friends"
-msgstr ""
+msgstr "Já amigos"
 
 #: ../user/friend.php:37
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Solicitou amizade com %1 no %2"
 
 #: ../user/friend.php:39
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "Esta solicitação está ainda pendente por confirmação"
 
 #: ../user/friend.php:50
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 não está a aceitar pedidos de amizade seus"
 
 #: ../user/friend.php:59
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "Não pode ser amigo de si mesmo"
 
 #: ../user/friend.php:62
 #: ../user/friend.php:90
@@ -2161,7 +2164,7 @@ msgstr ""
 #: ../user/pm.php:232
 #: ../user/view_profile.php:24
 msgid "No such user"
-msgstr ""
+msgstr "Não existe tal utilizador"
 
 #: ../user/friend.php:67
 #, fuzzy
@@ -2170,88 +2173,88 @@ msgstr "Adicionar como amigo"
 
 #: ../user/friend.php:72
 msgid "You have asked to add %1 as a friend. We will notify %2 and will ask him/her to confirm that you are friends."
-msgstr ""
+msgstr "Pediu para adicionar %1 como amigo. Iremos notificar %2 e pedir-lhe que confirme que são amigos."
 
 #: ../user/friend.php:75
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Adicionar uma mensagem opcional aqui:"
 
 #: ../user/friend.php:103
 #: ../user/friend.php:160
 msgid "Database error"
-msgstr ""
+msgstr "Erro da base de dados"
 
 #: ../user/friend.php:113
 msgid "Friend request sent"
-msgstr ""
+msgstr "Pedido de amizade enviado"
 
 #: ../user/friend.php:114
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "Notificámos %1 do seu pedido."
 
 #: ../user/friend.php:125
 msgid "Request not found"
-msgstr ""
+msgstr "Pedido não encontrado"
 
 #: ../user/friend.php:126
 msgid "Friend request"
-msgstr ""
+msgstr "Pedido de amigo"
 
 #: ../user/friend.php:128
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 adicionou-o como amigo."
 
 #: ../user/friend.php:130
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 diz: %2"
 
 #: ../user/friend.php:134
 msgid "Accept friendship"
-msgstr ""
+msgstr "Aceitar amizade"
 
 #: ../user/friend.php:134
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "Carregue em aceitar se %1 é de facto um amigo"
 
 #: ../user/friend.php:135
 msgid "Decline"
-msgstr ""
+msgstr "Declinar"
 
 #: ../user/friend.php:135
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "Carregue em declinar se %1 não é um amigo"
 
 #: ../user/friend.php:150
 msgid "No request"
-msgstr ""
+msgstr "Sem pedido"
 
 #: ../user/friend.php:174
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Amizade confirmada"
 
 #: ../user/friend.php:175
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "A sua amizade com %1 foi confirmada."
 
 #: ../user/friend.php:193
 msgid "Friendship declined"
-msgstr ""
+msgstr "Amizade declinada"
 
 #: ../user/friend.php:194
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "Declinou a amizade com %1"
 
 #: ../user/friend.php:209
 msgid "Notification not found"
-msgstr ""
+msgstr "Notificação não encontrada"
 
 #: ../user/friend.php:211
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Amigo confirmado"
 
 #: ../user/friend.php:212
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "É agora amigo de %1."
 
 #: ../user/friend.php:220
 #, fuzzy
@@ -2260,40 +2263,40 @@ msgstr "Cancelar amizade"
 
 #: ../user/friend.php:221
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Tem a certeza que quer cancelar a sua amizade com %1?"
 
 #: ../user/friend.php:224
 #: ../user/prefs_remove.php:53
 #: ../user/user_search.php:125
 #: ../user/user_search.php:130
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: ../user/friend.php:225
 #: ../user/user_search.php:124
 #: ../user/user_search.php:129
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #: ../user/friend.php:225
 msgid "Stay friends"
-msgstr ""
+msgstr "Manter amigos"
 
 #: ../user/friend.php:235
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Amizade cancelada"
 
 #: ../user/friend.php:236
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "A sua amizade com %1 foi cancelada."
 
 #: ../user/friend.php:274
 msgid "Unknown action"
-msgstr ""
+msgstr "Acção desconhecida"
 
 #: ../user/home.php:40
 msgid "Welcome to %1"
-msgstr ""
+msgstr "Bem vindo a %1"
 
 #: ../user/home.php:41
 msgid "View and edit your account preferences using the links below."
