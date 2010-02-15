@@ -1720,8 +1720,9 @@ msgid "CPU work fetch deferral interval"
 msgstr "Interval odkládání vyzvedávání práce procesoru"
 
 #: clientgui/DlgItemProperties.cpp:153
+#, fuzzy
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "Priorita plánovávní procesoru"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"

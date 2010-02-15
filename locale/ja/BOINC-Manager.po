@@ -1711,8 +1711,9 @@ msgid "CPU work fetch deferral interval"
 msgstr "CPU 向けの仕事を獲得する処理の保留間隔"
 
 #: clientgui/DlgItemProperties.cpp:153
+#, fuzzy
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "CPU 向けスケジューリングの優先度"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"

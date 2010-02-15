@@ -84,8 +84,7 @@ msgstr "Requisiti di sistema"
 msgid "Release notes"
 msgstr "Note di rilascio"
 
-#: download.php:124
-#: index.php:82
+#: download.php:124 index.php:82
 msgid "Help"
 msgstr "Aiuto"
 
@@ -214,9 +213,7 @@ msgstr "Utente volontario"
 msgid "Download"
 msgstr "Scarica"
 
-#: index.php:83
-#: index.php:118
-#: index.php:169
+#: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
 msgstr "Documentazione"
 
