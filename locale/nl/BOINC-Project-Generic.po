@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-01-31 05:10-0700\n"
+"PO-Revision-Date: 2010-02-15 11:32-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -176,47 +176,56 @@ msgstr "Voor een e-mail bevestiging, %1pas voorkeuren aan%1"
 
 #: ../inc/prefs.inc:68
 msgid "Processor usage"
-msgstr ""
+msgstr "Processor gebruik"
 
 #: ../inc/prefs.inc:70
 msgid ""
 "Suspend work while computer is on battery power? %1\n"
 "        (matters only for portable computers)%2"
 msgstr ""
+"Werk onderbreken indien computer op accu werkt? %1\n"
+"        (van toepassing bij laptops e.d.)%2"
 
 #: ../inc/prefs.inc:74
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "Werk onderbreken indien computer in gebruik is?"
 
 #: ../inc/prefs.inc:77
 msgid ""
 "Suspend GPU work while computer is in use? %1\n"
 "        Enforced by version 6.7+"
 msgstr ""
+"Werk voor GPU onderbreken indien computer in gebruik is? %1\n"
+"        Instelbaar vanaf versie 6.7+"
 
 #: ../inc/prefs.inc:80
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
+msgstr "'In gebruik' betekent muis/toetsenbord gebruik in laatste"
 
 #: ../inc/prefs.inc:82
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1\n"
 "        (Needed to enter low-power mode on some computers)%2"
 msgstr ""
+"Werk onderbreken indien er geen muis/toetsenbord gebruik is geweest in "
+"laatste %1\n"
+"        (Nodig op sommige computers om sluimer-modus te activeren)%2"
 
 #: ../inc/prefs.inc:86
 msgid ""
 "Suspend work if CPU usage is above %1\n"
 "        0 means no restriction<br>Enforced by version 6.10.30+%2"
 msgstr ""
+"Werk onderbreken indien CPU gebruik hoger is dan %1\n"
+"        0 betekent geen beperking<br>Instelbaar vanaf versie 6.10.30+%2"
 
 #: ../inc/prefs.inc:89
 msgid "Do work only between the hours of"
-msgstr ""
+msgstr "Alleen werk uitvoeren tussen"
 
 #: ../inc/prefs.inc:90
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(geen beperkingen indien gelijk)"
 
 #: ../inc/prefs.inc:92
 msgid ""
