@@ -42,7 +42,7 @@ if ($action) {
         else $prefs = $main_prefs;
         $error = prefs_global_parse_form($prefs);
         if ($error != false) {
-            $title = "Edit ".subset_name($subset)." preferences";
+            $title = tra("Edit %1 preferences", subset_name($subset));
             if ($venue) $title = "$title for $venue";
             page_head($title);
             $x = $venue?"&venue=$venue":"";
@@ -68,8 +68,8 @@ if ($action) {
         $error = prefs_resource_parse_form($prefs);
         if (isset($project_has_beta) && $project_has_beta) prefs_beta_parse_form($prefs);
         if ($error != false || $project_error != false) {
-            $title = "Edit ".subset_name($subset)." preferences";
-            if ($venue) $title = "$title for $venue";
+            $title = tra("Edit %1 preferences", subset_name($subset));
+            if ($venue) $title = tra("%1 for %2", $title, $venue);
             page_head($title);
             $x = $venue?"&venue=$venue":"";
 
@@ -97,8 +97,8 @@ if ($action) {
         }
     }
 } else {
-    $title = "Edit ".subset_name($subset)." preferences";
-    if ($venue) $title = "$title for $venue";
+    $title = tra("Edit %1 preferences", subset_name($subset));
+    if ($venue) $title = tra("%1 for %2", $title, $venue);
     page_head($title);
     $x = $venue?"&venue=$venue":"";
 
@@ -116,7 +116,7 @@ if ($action) {
     }
     print_prefs_form("edit", $subset, $venue, $user, $prefs, $columns);
 }
-echo "<a href=prefs.php?subset=$subset$x$c>Back to preferences</a>\n";
+echo "<a href=prefs.php?subset=$subset$x$c>".tra("Back to preferences")."</a>\n";
 page_tail();
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

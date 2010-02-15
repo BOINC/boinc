@@ -1183,3 +1183,15 @@ David  14 Feb 2010
 
     lib/
         procinfo*.cpp
+
+David  14 Feb 2010
+    - web: more translations, from Christian.  fixes #981
+
+    html/
+        inc/
+            prefs.inc
+        user/
+            prefs_remove.php
+            prefs.php
+            prefs_edit.php
+            add_venue.php

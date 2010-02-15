@@ -43,19 +43,16 @@ if ($confirmed) {
     }
     Header("Location: prefs.php?subset=$subset$c");
 } else {
-    page_head("Confirm delete preferences");
+    page_head(tra("Confirm delete preferences"));
     $tokens = url_tokens($user->authenticator);
-    echo "
-        <p>
-        Are you sure you want to delete your separate ", subset_name($subset),
-        " preferences for $venue?
-        <br><br>
-    ";
+    echo "<p>".
+        tra("Are you sure you want to delete your separate %1 preferences for %2?", subset_name($subset), $venue).
+        "</p><br><br>\n";
     show_button(
         "prefs_remove.php?subset=$subset&amp;venue=$venue&amp;confirmed=yes$c$tokens",
-        'Yes', "Remove preferences"
+        tra("Yes"), tra("Remove preferences")
     );
-    show_button("prefs.php?subset=$subset$c", "Cancel", "Cancel");
+    show_button("prefs.php?subset=$subset$c", tra("Cancel"), tra("Cancel"));
     page_tail();
 }
 

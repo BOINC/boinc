@@ -65,94 +65,109 @@ $app_types = get_app_types();
 
 // strings describing various preference fields
 //
-define("CPU_LIMIT_DESC", "Processor usage");
+define("CPU_LIMIT_DESC", tra("Processor usage"));
 define("SUSPEND_WHILE_ON_BATTERIES_DESC",
-    "Suspend work while computer is on battery power?
-    <br><span class=note>(matters only for portable computers)</span>"
+    tra("Suspend work while computer is on battery power? %1
+        (matters only for portable computers)%2", "<br><span class=note>", "</span>")
 );
 define("RUN_IF_USER_ACTIVE_DESC",
-    "Suspend work while computer is in use?"
+    tra("Suspend work while computer is in use?")
 );
 define("RUN_GPU_IF_USER_ACTIVE_DESC",
-    "Suspend GPU work while computer is in use?
-    <br><span class=note>Enforced by version 6.7+</span>"
+    tra("Suspend GPU work while computer is in use? %1
+        Enforced by version 6.7+", "<br><span class=note>", "</span>")
 );
-define("IDLE_TIME_TO_RUN_DESC", "'In use' means mouse/keyboard activity in last");
+define("IDLE_TIME_TO_RUN_DESC", tra("'In use' means mouse/keyboard activity in last"));
 define("SUSPEND_IF_NO_RECENT_INPUT_DESC",
-    "Suspend work if no mouse/keyboard activity in last
-    <br><span class=note>(Needed to enter low-power mode on some computers)</span>"
+    tra("Suspend work if no mouse/keyboard activity in last %1
+        (Needed to enter low-power mode on some computers)%2", "<br><span class=note>", "</span>")
 );
 define("SUSPEND_CPU_USAGE_DESC",
-    "Suspend work if CPU usage is above<br><span class=note>0 means no restriction<br>Enforced by version 6.10.30+</span>"
+    tra("Suspend work if CPU usage is above %1
+        0 means no restriction<br>Enforced by version 6.10.30+%2", "<br><span class=note>", "</span>")
 );
-define("START_END_DESC", "Do work only between the hours of");
-define("START_END_DESC2", "<br><span class=note>(no restriction if equal)</span>");
+define("START_END_DESC", tra("Do work only between the hours of"));
+define("START_END_DESC2", "<br><span class=note>".tra("(no restriction if equal)")."</span>");
 define("LEAVE_APPS_IN_MEMORY_DESC",
-    "Leave tasks in memory while suspended?
-    <br><span class=note>(suspended tasks will consume swap space if 'yes')</span>");
-define("CPU_SCHEDULING_DESC", "Switch between tasks every
-    <br><span class=note>(recommended: 60 minutes)</span>");
+    tra("Leave tasks in memory while suspended? %1
+        (suspended tasks will consume swap space if 'yes')%2", "<br><span class=note>", "</span>")
+);
+define("CPU_SCHEDULING_DESC",
+    tra("Switch between tasks every %1
+        (recommended: 60 minutes)%2", "<br><span class=note>", "</span>")
+);
 define("CONFIRM_BEFORE_CONNECTING_DESC",
-    "Confirm before connecting to Internet?
-    <br><span class=note>(matters only if you have a modem, ISDN or VPN connection)</span>"
+    tra("Confirm before connecting to Internet? %1
+        (matters only if you have a modem, ISDN or VPN connection)%2", "<br><span class=note>", "</span>")
 );
 define("HANGUP_IF_DIALED_DESC",
-    "Disconnect when done?
-    <br><span class=note>(matters only if you have a modem, ISDN or VPN connection)</span>"
+    tra("Disconnect when done? %1
+        (matters only if you have a modem, ISDN or VPN connection)%2", "<br><span class=note>", "</span>")
 );
 define("WORK_BUF_MIN_DAYS_DESC",
-    "Computer is connected to the Internet about every
-    <br><span class=note>(Leave blank or 0 if always connected.
-    <br>BOINC will try to maintain at least this much work.)</span>
-    "
+    tra("Computer is connected to the Internet about every %1
+        (Leave blank or 0 if always connected.<br>
+        BOINC will try to maintain at least this much work.)%2", "<br><span class=note>", "</span>")
 );
 define("WORK_BUF_ADDITIONAL_DAYS_DESC",
-    "Maintain enough work for an additional"
+    tra("Maintain enough work for an additional")
 );
-define("MAX_NCPUS_PCT_DESC", "On multiprocessors, use at most<span class=note><br>Enforced by version 6.1+</span>");
-define("MAX_NCPUS_PCT_DESC2", "% of the processors");
-define("MAX_CPUS_DESC", "On multiprocessors, use at most");
-define("MAX_CPUS_DESC2", "processors");
-define("USE_AT_MOST", "Use at most");
-define("USE_AT_MOST2", "Use at most<span class=note><br>(Can be used to reduce CPU heat)</span>");
-define("USE_AT_MOST3", "Use at most");
-define("CPU_USAGE_LIMIT_DESC2", "percent of CPU time");
-define("DISK_INTERVAL_DESC", "Tasks checkpoint to disk at most every");
-define("DISK_LIMIT_DESC", "Disk and memory usage");
-define("DISK_MIN_FREE_GB_DESC", "Leave at least");
-define("DISK_SCHED_MIN_FREE_DESC1", "<br><span class=note>(Values smaller than ");
-define("DISK_SCHED_MIN_FREE_DESC2", " are ignored)</span>");
-define("DISK_MAX_USED_PCT_DESC2", "% of total disk space");
-define("VM_MAX_USED_PCT_DESC2", "% of page file (swap space)");
-define("RAM_MAX_USED_BUSY_PCT_DESC2", "% of memory when computer is in use");
-define("RAM_MAX_USED_IDLE_PCT_DESC2", "% of memory when computer is not in use");
-define("NETWORK_LIMIT_DESC", "Network usage");
-define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
-define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
-define("NET_START_END_DESC", "Use network only between the hours of");
+define("MAX_NCPUS_PCT_DESC",
+    tra("On multiprocessors, use at most %1 Enforced by version 6.1+%2", "<br><span class=note>", "</span>")
+);
+define("MAX_NCPUS_PCT_DESC2", tra("% of the processors"));
+define("MAX_CPUS_DESC", tra("On multiprocessors, use at most"));
+define("MAX_CPUS_DESC2", tra("processors"));
+define("USE_AT_MOST", tra("Use at most"));
+define("USE_AT_MOST2",
+    tra("Use at most %1 (Can be used to reduce CPU heat)%2", "<br><span class=note>", "</span>")
+);
+define("USE_AT_MOST3", tra("Use at most"));
+define("CPU_USAGE_LIMIT_DESC2", tra("percent of CPU time"));
+define("DISK_INTERVAL_DESC", tra("Tasks checkpoint to disk at most every"));
+define("DISK_LIMIT_DESC", tra("Disk and memory usage"));
+define("DISK_MIN_FREE_GB_DESC", tra("Leave at least"));
+define("DISK_SCHED_MIN_FREE_DESC",
+    "<br><span class=note>".tra("(Values smaller than %s are ignored)")."</span>"
+);
+define("DISK_MAX_USED_PCT_DESC2", tra("% of total disk space"));
+define("VM_MAX_USED_PCT_DESC2", tra("% of page file (swap space)"));
+define("RAM_MAX_USED_BUSY_PCT_DESC2", tra("% of memory when computer is in use"));
+define("RAM_MAX_USED_IDLE_PCT_DESC2", tra("% of memory when computer is not in use"));
+define("NETWORK_LIMIT_DESC", tra("Network usage"));
+define("MAX_BYTES_SEC_DOWN_DESC", tra("Maximum download rate:"));
+define("MAX_BYTES_SEC_UP_DESC", tra("Maximum upload rate:"));
+define("NET_START_END_DESC", tra("Use network only between the hours of"));
 define("DONT_VERIFY_IMAGES_DESC",
-    "Skip image file verification?
-    <br><span class=note>Check this ONLY if your Internet provider
-    modifies image files (UMTS does this, for example).
-    <br>Skipping verification reduces the security of BOINC.</span>"
+    tra("Skip image file verification? %1
+        Check this ONLY if your Internet provider modifies image files (UMTS does this, for example).<br />
+        Skipping verification reduces the security of BOINC.%2", "<br><span class=note>", "</span>")
 );
-define('ATI_SELECT_DESC', "Use ATI GPU if present<br><span class=note>(enforced by 6.10+ clients)</span>");
-define('CUDA_SELECT_DESC', "Use NVIDIA GPU if present<br><span class=note>(enforced by 6.10+ clients)</span>");
-define('CPU_SELECT_DESC', "Use CPU<br><span class=note>(enforced by 6.10+ clients)</span>");
+define('ATI_SELECT_DESC',
+    tra("Use ATI GPU if present %1 (enforced by 6.10+ clients)%2", "<br><span class=note>", "</span>")
+);
+define('CUDA_SELECT_DESC',
+    tra("Use NVIDIA GPU if present %1 (enforced by 6.10+ clients)%2", "<br><span class=note>", "</span>")
+);
+define('CPU_SELECT_DESC',
+    tra("Use CPU % 1 (enforced by 6.10+ clients)%2", "<br><span class=note>", "</span>")
+);
 
 
 define("BYTE_CONVERSION", 1000.0);
-define("BYTE_UNITS", "Kbytes/sec");
-define("BYTE_ABBR", "KB/s");
+define("BYTE_UNITS", tra("Kbytes/sec"));
+define("BYTE_ABBR", tra("KB/s"));
 define("ALLOW_BETA_WORK",
-    "Run test applications?<br>
-    <span class=note>This helps us develop applications,
-    but may cause jobs to fail on your computer</span>"
+    tra("Run test applications? %1
+        This helps us develop applications, but may cause jobs to fail on your computer%2", "<br><span class=note>", "</span>")
 );
 
 // These texts are used in multiple places in prefs_edit.php and add_venue.php
-define("PREFS_FORM_DESC1", "These preferences apply to all the BOINC projects in which you participate.<br><br>");
-define("PREFS_FORM_ERROR_DESC", "<b>Unable to update preferences.</b> The values marked in red below were out of range or not numeric.<br><br>");
+define("PREFS_FORM_DESC1", tra("These preferences apply to all the BOINC projects in which you participate.")."<br><br>");
+define("PREFS_FORM_ERROR_DESC",
+    tra("%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric.", "<strong>", "</strong>").
+    "<br><br>"
+);
 
 global $text;
 global $parse_result;
@@ -202,13 +217,13 @@ function check_venue($x) {
     if ($x == "home") return;
     if ($x == "work") return;
     if ($x == "school") return;
-    error_page("bad venue: $x");
+    error_page(tra("bad venue: %1", $x));
 }
 
 function check_subset($x) {
     if ($x == "global") return;
     if ($x == "project") return;
-    error_page("bad subset: $x");
+    error_page(tra("bad subset: %1", $x));
 }
 
 // functions to convert between max_bytes_sec_* as stored in the
@@ -271,9 +286,6 @@ function element_start_global($parser, $name, $attrs) {
         $venue_name = $attrs["name"];
         $top_parse_result = $parse_result;
         $parse_result = default_prefs_global();
-        //echo "VENUE PREFS AFTER INIT: <pre>";
-        //var_dump($parse_result);
-        //echo "</pre>";
         break;
     }
     $text = "";
@@ -288,9 +300,6 @@ function element_end_project($parser, $name) {
 
     switch($name) {
     case "venue":
-        //echo "VENUE PREFS AFTER PARSE: <pre>";
-        //var_dump($parse_result);
-        //echo "</pre>";
         $top_parse_result->$venue_name = $parse_result;
         $parse_result = $top_parse_result;
         break;
@@ -619,15 +628,15 @@ function row_field($value, $type) {
     $type = $value === "--" ? "--" : $type;
     switch($type) {
     case "yesno":
-        echo $value ?"yes":"no";
+        echo $value ?tra("yes"):tra("no");
         break;
     case "noyes":
-        echo $value ?"no":"yes";
+        echo $value ?tra("no"):tra("yes");
         break;
     case "limit":
         $x = max_bytes_display_mode($value);
         $y = "$x " . BYTE_ABBR;
-        echo $x ? "$y" : "no limit";
+        echo $x ? "$y" : tra("no limit");
         break;
     case "minutes":
         if ($value) {
@@ -652,10 +661,10 @@ function row_links($subset, $prefs) {
     $pre_add  = "<a href=add_venue.php?venue=";
     $pre_edit  = "<a href=prefs_edit.php?venue=";
     $pre_remove = "<a href=prefs_remove.php?venue=";
-    $post_add = "&amp;subset=$subset&cols=1$tokens>Add</a>";
-    $post_edit = "&amp;subset=$subset&cols=1$tokens>Edit</a>";
-    $post_remove = "&amp;subset=$subset&cols=1$tokens>Remove</a>";
-    $gen = "<a href=prefs_edit.php?subset=$subset&amp;cols=1$tokens>Edit</a>";
+    $post_add = "&amp;subset=$subset&cols=1$tokens>".tra("Add")."</a>";
+    $post_edit = "&amp;subset=$subset&cols=1$tokens>".tra("Edit")."</a>";
+    $post_remove = "&amp;subset=$subset&cols=1$tokens>".tra("Remove")."</a>";
+    $gen = "<a href=prefs_edit.php?subset=$subset&amp;cols=1$tokens>".tra("Edit")."</a>";
 
     $hom  = isset($prefs->home) ? $pre_edit."home".$post_edit : $pre_add."home".$post_add;
     $schl = isset($prefs->school) ? $pre_edit."school".$post_edit : $pre_add."school".$post_add;
@@ -689,31 +698,31 @@ function prefs_show_columns_global($prefs) {
     row_defs(SUSPEND_WHILE_ON_BATTERIES_DESC, "suspend_while_on_batteries", "", "yesno", $prefs);
     row_defs(RUN_IF_USER_ACTIVE_DESC, "suspend_if_user_active", "", "yesno", $prefs);
     row_defs(RUN_GPU_IF_USER_ACTIVE_DESC, "suspend_gpu_if_user_active", "", "yesno", $prefs);
-    row_defs(IDLE_TIME_TO_RUN_DESC, "idle_time_to_run", " minutes", "", $prefs);
+    row_defs(IDLE_TIME_TO_RUN_DESC, "idle_time_to_run", tra("minutes"), "", $prefs);
 
-    row_defs(SUSPEND_IF_NO_RECENT_INPUT_DESC, "suspend_if_no_recent_input", "minutes", "minutes", $prefs);
+    row_defs(SUSPEND_IF_NO_RECENT_INPUT_DESC, "suspend_if_no_recent_input", tra("minutes"), "minutes", $prefs);
     row_defs(SUSPEND_CPU_USAGE_DESC, "suspend_cpu_usage", "%", "", $prefs);
 
     row_hours(START_END_DESC, "run", $prefs);
 
     row_defs(LEAVE_APPS_IN_MEMORY_DESC, "leave_apps_in_memory", "", "yesno", $prefs);
-    row_defs(CPU_SCHEDULING_DESC, "cpu_scheduling_period_minutes", " minutes", "", $prefs);
+    row_defs(CPU_SCHEDULING_DESC, "cpu_scheduling_period_minutes", tra("minutes"), "", $prefs);
     row_defs(MAX_CPUS_DESC, "max_cpus", MAX_CPUS_DESC2, "", $prefs);
     row_defs(MAX_NCPUS_PCT_DESC, "max_ncpus_pct", MAX_NCPUS_PCT_DESC2, "", $prefs);
     row_defs(USE_AT_MOST2, "cpu_usage_limit", CPU_USAGE_LIMIT_DESC2, "", $prefs);
 
     row_top(DISK_LIMIT_DESC);
-    row_defs(USE_AT_MOST, "disk_max_used_gb", " GB disk space", "", $prefs);
-    row_defs(DISK_MIN_FREE_GB_DESC, "disk_min_free_gb", " GB disk space free", "", $prefs);
+    row_defs(USE_AT_MOST, "disk_max_used_gb", tra("GB disk space"), "", $prefs);
+    row_defs(DISK_MIN_FREE_GB_DESC, "disk_min_free_gb", tra("GB disk space free"), "", $prefs);
     row_defs(USE_AT_MOST, "disk_max_used_pct", DISK_MAX_USED_PCT_DESC2, "", $prefs);
-    row_defs(DISK_INTERVAL_DESC, "disk_interval", " seconds", "", $prefs);
+    row_defs(DISK_INTERVAL_DESC, "disk_interval", tra("seconds"), "", $prefs);
     row_defs(USE_AT_MOST, "vm_max_used_pct", VM_MAX_USED_PCT_DESC2, "", $prefs);
     row_defs(USE_AT_MOST3, "ram_max_used_busy_pct", RAM_MAX_USED_BUSY_PCT_DESC2, "", $prefs);
     row_defs(USE_AT_MOST3, "ram_max_used_idle_pct", RAM_MAX_USED_IDLE_PCT_DESC2, "", $prefs);
 
     row_top(NETWORK_LIMIT_DESC);
-    row_defs(WORK_BUF_MIN_DAYS_DESC, "work_buf_min_days", " days", "", $prefs);
-    row_defs(WORK_BUF_ADDITIONAL_DAYS_DESC, "work_buf_additional_days", " days", "", $prefs);
+    row_defs(WORK_BUF_MIN_DAYS_DESC, "work_buf_min_days", tra("days"), "", $prefs);
+    row_defs(WORK_BUF_ADDITIONAL_DAYS_DESC, "work_buf_additional_days", tra("days"), "", $prefs);
     row_defs(CONFIRM_BEFORE_CONNECTING_DESC, "confirm_before_connecting", "", "yesno", $prefs);
     row_defs(HANGUP_IF_DIALED_DESC, "hangup_if_dialed", "", "yesno", $prefs);
     row_defs(MAX_BYTES_SEC_DOWN_DESC, "max_bytes_sec_down", "", "limit", $prefs);
@@ -731,74 +740,75 @@ function show_double($x) {
 
 function prefs_show_global($prefs) {
     row1(CPU_LIMIT_DESC);
-    row2(SUSPEND_WHILE_ON_BATTERIES_DESC, $prefs->suspend_while_on_batteries?"yes":"no");
-    row2(RUN_IF_USER_ACTIVE_DESC, $prefs->suspend_if_user_active?"yes":"no");
-    row2(RUN_GPU_IF_USER_ACTIVE_DESC, $prefs->suspend_gpu_if_user_active?"yes":"no");
-    row2(IDLE_TIME_TO_RUN_DESC, "$prefs->idle_time_to_run minutes");
+    row2(SUSPEND_WHILE_ON_BATTERIES_DESC, $prefs->suspend_while_on_batteries?tra("yes"):tra("no"));
+    row2(RUN_IF_USER_ACTIVE_DESC, $prefs->suspend_if_user_active?tra("yes"):tra("no"));
+    row2(RUN_GPU_IF_USER_ACTIVE_DESC, $prefs->suspend_gpu_if_user_active?tra("yes"):tra("no"));
+    row2(IDLE_TIME_TO_RUN_DESC, tra("%1 minutes", $prefs->idle_time_to_run));
 
     $x = show_double($prefs->suspend_if_no_recent_input);
-    row2(SUSPEND_IF_NO_RECENT_INPUT_DESC, "$x minutes");
+    row2(SUSPEND_IF_NO_RECENT_INPUT_DESC, tra("%1 minutes", $x));
     $x = show_double($prefs->suspend_cpu_usage);
     row2(SUSPEND_CPU_USAGE_DESC, "$x %");
 
     if ($prefs->start_hour == $prefs->end_hour) {
-        $x = "(no restriction)";
+        $x = tra("(no restriction)");
     } else {
         $s = hour_str($prefs->start_hour);
         $e = hour_str($prefs->end_hour);
-        $x = "$s and $e";
+        $x = "$s ".tra("and")." $e";
     }
     row2(START_END_DESC, $x);
-    row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?"yes":"no");
-    row2(CPU_SCHEDULING_DESC, "$prefs->cpu_scheduling_period_minutes minutes");
+    row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?tra("yes"):tra("no"));
+    row2(CPU_SCHEDULING_DESC, tra("%1 minutes", $prefs->cpu_scheduling_period_minutes));
     $x = $prefs->max_cpus?$prefs->max_cpus:'---';
     row2(MAX_CPUS_DESC, "$x ".MAX_CPUS_DESC2);
     $x = $prefs->max_ncpus_pct?$prefs->max_ncpus_pct:'---';
     row2(MAX_NCPUS_PCT_DESC, "$x ".MAX_NCPUS_PCT_DESC2);
     row2(USE_AT_MOST2, "$prefs->cpu_usage_limit ".CPU_USAGE_LIMIT_DESC2);
     row1(DISK_LIMIT_DESC);
-    row2(USE_AT_MOST, "$prefs->disk_max_used_gb GB disk space");
+    row2(USE_AT_MOST, tra("%1 GB disk space", $prefs->disk_max_used_gb));
 
     $dp = get_disk_space_config();
 
     $msg = null;
     if ($dp->new_sched_flag) {
-        $msg = DISK_SCHED_MIN_FREE_DESC1.$dp->sched_disk_min_free_gb.DISK_SCHED_MIN_FREE_DESC2;
+        $msg = sprintf(DISK_SCHED_MIN_FREE_DESC, $dp->sched_disk_min_free_gb);
     }
-    row2(DISK_MIN_FREE_GB_DESC.$msg, "$prefs->disk_min_free_gb GB disk space free");
+    row2(DISK_MIN_FREE_GB_DESC.$msg, tra("%1 GB disk space free", $prefs->disk_min_free_gb));
     row2(USE_AT_MOST, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
     row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
     row2(USE_AT_MOST, "$prefs->vm_max_used_pct".VM_MAX_USED_PCT_DESC2);
     row2(USE_AT_MOST3, "$prefs->ram_max_used_busy_pct".RAM_MAX_USED_BUSY_PCT_DESC2);
     row2(USE_AT_MOST3, "$prefs->ram_max_used_idle_pct".RAM_MAX_USED_IDLE_PCT_DESC2);
     row1(NETWORK_LIMIT_DESC);
-    row2(WORK_BUF_MIN_DAYS_DESC, "$prefs->work_buf_min_days days");
-    row2(WORK_BUF_ADDITIONAL_DAYS_DESC, "$prefs->work_buf_additional_days days");
-    row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
-    row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?"yes":"no");
+    row2(WORK_BUF_MIN_DAYS_DESC, tra("%1 days", $prefs->work_buf_min_days));
+    row2(WORK_BUF_ADDITIONAL_DAYS_DESC, tra("%1 days", $prefs->work_buf_additional_days));
+    row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?tra("yes"):tra("no"));
+    row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?tra("yes"):tra("no"));
     $x = max_bytes_display_mode($prefs->max_bytes_sec_down);
     $y = "$x " . BYTE_ABBR;
-    row2(MAX_BYTES_SEC_DOWN_DESC, $x?"$y":"no limit");
+    row2(MAX_BYTES_SEC_DOWN_DESC, $x?"$y":tra("no limit"));
     $x = max_bytes_display_mode($prefs->max_bytes_sec_up);
     $y = "$x " . BYTE_ABBR;
-    row2(MAX_BYTES_SEC_UP_DESC, $x?"$y":"no limit");
+    row2(MAX_BYTES_SEC_UP_DESC, $x?"$y":tra("no limit"));
     if ($prefs->net_start_hour == $prefs->net_end_hour) {
-        $x = "(no restriction)";
+        $x = tra("(no restriction)");
     } else {
         $s = hour_str($prefs->net_start_hour);
         $e = hour_str($prefs->net_end_hour);
-        $x = "$s and $e";
+        $x = "$s ".tra("and")." $e";
     }
     row2(NET_START_END_DESC, $x);
-    row2(DONT_VERIFY_IMAGES_DESC, $prefs->dont_verify_images?"yes":"no");
+    row2(DONT_VERIFY_IMAGES_DESC, $prefs->dont_verify_images?tra("yes"):tra("no"));
 }
 
 function prefs_show_resource($prefs, $columns=false) {
     global $app_types;
-    $x = "Resource share<br>
-        <span class=note>If you participate in multiple BOINC projects,
-        this is the proportion of your resources used by ".PROJECT."</span>
-    ";
+    $x = tra("Resource share %1
+             If you participate in multiple BOINC projects,
+             this is the proportion of your resources used by %2%3",
+             "<br><span class=note>", PROJECT, "</span>"
+        );
     if ($columns) {
         row_defs($x, "resource_share", "", "" ,$prefs);
         if ($app_types->count > 1) {
@@ -816,13 +826,13 @@ function prefs_show_resource($prefs, $columns=false) {
         row2($x, $prefs->resource_share);
         if ($app_types->count > 1) {
             if ($app_types->cpu) {
-                row2(CPU_SELECT_DESC, $prefs->no_cpu?"no":"yes");
+                row2(CPU_SELECT_DESC, $prefs->no_cpu?tra("no"):tra("yes"));
             }
             if ($app_types->cuda) {
-                row2(CUDA_SELECT_DESC, $prefs->no_cuda?"no":"yes");
+                row2(CUDA_SELECT_DESC, $prefs->no_cuda?tra("no"):tra("yes"));
             }
             if ($app_types->ati) {
-                row2(ATI_SELECT_DESC, $prefs->no_ati?"no":"yes");
+                row2(ATI_SELECT_DESC, $prefs->no_ati?tra("no"):tra("yes"));
             }
         }
     }
@@ -832,20 +842,21 @@ function prefs_show_beta($prefs, $columns=false) {
     if ($columns) {
         row_defs(ALLOW_BETA_WORK, "allow_beta_work", "", "yesno" ,$prefs);
     } else {
-        row2(ALLOW_BETA_WORK, $prefs->allow_beta_work?"yes":"no");
+        row2(ALLOW_BETA_WORK, $prefs->allow_beta_work?tra("yes"):tra("no"));
     }
 }
 
 function prefs_show_privacy($user) {
     $x = "";
     if (defined('EMAIL_FROM')) {
-        $x = "<br><span class=note>Emails will be sent from ".EMAIL_FROM.";
-            make sure your spam filter accepts this address.</span>";
+        $x = "<br><span class=note>".
+            tra("Emails will be sent from %1; make sure your spam filter accepts this address.", EMAIL_FROM).
+            "</span>";
     }
-    row2("Is it OK for ".PROJECT." and your team (if any) to email you? $x",
-        $user->send_email?"yes":"no"
+    row2(tra("Is it OK for %1 and your team (if any) to email you?", PROJECT)." $x",
+        $user->send_email?tra("yes"):tra("no")
     );
-    row2("Should ".PROJECT." show your computers on its web site?", $user->show_hosts?"yes":"no");
+    row2(tra("Should %1 show your computers on its web site?", PROJECT), $user->show_hosts?tra("yes"):tra("no"));
 }
 
 function prefs_show_project($prefs, $columns=false) {
@@ -861,7 +872,7 @@ function prefs_show_project($prefs, $columns=false) {
 }
 
 function subset_name($subset) {
-    if ($subset == "global") return "Computing";
+    if ($subset == "global") return tra("Computing");
     return PROJECT;
 }
 
@@ -873,7 +884,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
     if ($x) {
-        row1("Separate preferences for $venue", 2, "heading");
+        row1(tra("Separate preferences for %1", $venue), 2, "heading");
         echo "<tr><td colspan=2>";
         start_table();
         if ($subset == "global") {
@@ -883,11 +894,11 @@ function prefs_display_venue($prefs, $venue, $subset) {
             if ($project_has_beta) prefs_show_beta($x);
             prefs_show_project($x);
         }
-        row2("<br>", "<a href=prefs_edit.php?venue=$venue&amp;subset=$subset$tokens>Edit preferences</a> | <a href=prefs_remove.php?venue=$venue&amp;subset=$subset$tokens>Remove</a>");
+        row2("<br>", "<a href=prefs_edit.php?venue=$venue&amp;subset=$subset$tokens>".tra("Edit preferences")."</a> | <a href=prefs_remove.php?venue=$venue&amp;subset=$subset$tokens>".tra("Remove")."</a>");
         end_table();
         echo "</td></tr>\n";
     } else {
-        row1("<a href=add_venue.php?venue=$venue&amp;subset=$subset$tokens>Add separate preferences for $venue</a>", 2, "heading");
+        row1("<a href=add_venue.php?venue=$venue&amp;subset=$subset$tokens>".tra("Add separate preferences for %1", $venue)."</a>", 2, "heading");
     }
 }
 
@@ -896,14 +907,14 @@ function print_prefs_display_project($user, $columns=false) {
     $project_prefs = prefs_parse_project($user->project_prefs);
 
     start_table();
-    $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=project&cols=". (int)!$columns .">(Switch View)</a></font>";
+    $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=project&cols=". (int)!$columns .">".tra("(Switch View)")."</a></font>";
     if ($columns) {
-        row1("Combined preferences".$switch_link, 2, "heading");
+        row1(tra("Combined preferences").$switch_link, 2, "heading");
         echo "<tr><td colspan=2>";
         start_table();
         prefs_show_privacy($user);
         venue_show($user);
-        row_top("Project specific settings");
+        row_top(tra("Project specific settings"));
         prefs_show_resource($project_prefs, true);
         if ($project_has_beta) prefs_show_beta($project_prefs, true);
         prefs_show_project($project_prefs, true);
@@ -912,7 +923,7 @@ function print_prefs_display_project($user, $columns=false) {
         echo "</td></tr>\n";
     } else {
         if (isset($project_prefs->home) || isset($project_prefs->work) || isset($project_prefs->school)) {
-            row1("Primary (default) preferences".$switch_link, 2, "heading");
+            row1(tra("Primary (default) preferences").$switch_link, 2, "heading");
         }
         echo "<tr><td colspan=2>";
         start_table();
@@ -922,7 +933,7 @@ function print_prefs_display_project($user, $columns=false) {
         venue_show($user);
         prefs_show_project($project_prefs, false);
         $tokens = url_tokens($user->authenticator);
-        row2("", "<a href=prefs_edit.php?subset=project$tokens>Edit ".PROJECT." preferences</a>");
+        row2("", "<a href=prefs_edit.php?subset=project$tokens>".tra("Edit %1 preferences", PROJECT)."</a>");
         end_table();
         echo "</td></tr>\n";
         prefs_display_venue($project_prefs, "home", "project");
@@ -935,26 +946,18 @@ function print_prefs_display_project($user, $columns=false) {
 function print_prefs_display_global($user, $columns=false) {
     $global_prefs = prefs_parse_global($user->global_prefs);
 
-    echo "<span class=note>
-        These apply to all BOINC projects in which you participate.
-        <br>
-        On computers attached to multiple projects,
-        the most recently modified preferences will be used.
-        </span>
-        <br><br>
-    ";
+    echo "<span class=note>".
+         tra("These apply to all BOINC projects in which you participate.<br>
+             On computers attached to multiple projects, the most recently modified preferences will be used.").
+         "</span><br><br>";
     if (isset($global_prefs->mod_time)) {
-        echo "
-            Preferences last modified: ", pretty_time_str($global_prefs->mod_time), "
-        ";
+        echo tra("Preferences last modified:")." ".pretty_time_str($global_prefs->mod_time);
     }
-    echo "
-        <br><br>
-    ";
-    $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=global&cols=". (int)!$columns .">(Switch View)</a></font>";
+    echo "<br><br>";
+    $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=global&cols=". (int)!$columns .">".tra("(Switch View)")."</a></font>";
     start_table();
     if ($columns) {
-        row1("Combined preferences".$switch_link, 2, "heading");
+        row1(tra("Combined preferences").$switch_link, 2, "heading");
         echo "<tr><td colspan=2>";
         start_table();
         prefs_show_columns_global($global_prefs);
@@ -963,13 +966,13 @@ function print_prefs_display_global($user, $columns=false) {
 
     } else {
         if (isset($global_prefs->home) || isset($global_prefs->work) || isset($global_prefs->school)) {
-            row1("Primary (default) preferences".$switch_link, 2, "heading");
+            row1(tra("Primary (default) preferences").$switch_link, 2, "heading");
         }
         echo "<tr><td colspan=2>";
         start_table();
         prefs_show_global($global_prefs);
         $tokens = url_tokens($user->authenticator);
-        row2("<br>", "<a href=prefs_edit.php?subset=global$tokens>Edit preferences</a>");
+        row2("<br>", "<a href=prefs_edit.php?subset=global$tokens>".tra("Edit preferences")."</a>");
         end_table();
         echo "</td></tr>\n";
 
@@ -1000,11 +1003,11 @@ function print_prefs_form(
 
     if ($action == "add") {
         $script = "add_venue.php";
-        $submit_value = "Add preferences";
+        $submit_value = tra("Add preferences");
     }
     if ($action == "edit") {
         $script = "prefs_edit.php";
-        $submit_value = "Update preferences";
+        $submit_value = tra("Update preferences");
     }
     echo "<form action=$script><input type=hidden name=subset value=$subset>
         ".form_tokens($user->authenticator);
@@ -1038,40 +1041,23 @@ function print_prefs_form(
 // Functions to display preference subsets as forms
 //
 function prefs_form_global($user, $prefs, $error=false) {
-    //echo "IN PREFS_FORM_GLOBAL: <pre>";
-    //var_dump($prefs);
-    //echo "</pre>";
+
     row1(CPU_LIMIT_DESC);
-    $y = "yes <input type=radio name=suspend_while_on_batteries value=yes "
-        .($prefs->suspend_while_on_batteries?"checked":"")
-        ."> no <input type=radio name=suspend_while_on_batteries value=no "
-        .($prefs->suspend_while_on_batteries?"":"checked")
-        .">
-    ";
+    $y = prefs_form_radio_buttons("suspend_while_on_batteries", $prefs->suspend_while_on_batteries);
     row2(SUSPEND_WHILE_ON_BATTERIES_DESC, $y);
 
-    $y = "yes <input type=radio name=suspend_if_user_active value=yes "
-        .($prefs->suspend_if_user_active?"checked":"")
-        ."> no <input type=radio name=suspend_if_user_active value=no "
-        .($prefs->suspend_if_user_active?"":"checked")
-        .">
-    ";
+    $y = prefs_form_radio_buttons("suspend_if_user_active", $prefs->suspend_if_user_active);
     row2(RUN_IF_USER_ACTIVE_DESC, $y);
 
-    $y = "yes <input type=radio name=suspend_gpu_if_user_active value=yes "
-        .($prefs->suspend_gpu_if_user_active?"checked":"")
-        ."> no <input type=radio name=suspend_gpu_if_user_active value=no "
-        .($prefs->suspend_gpu_if_user_active?"":"checked")
-        .">
-    ";
+    $y = prefs_form_radio_buttons("suspend_gpu_if_user_active", $prefs->suspend_gpu_if_user_active);
     row2(RUN_GPU_IF_USER_ACTIVE_DESC, $y);
 
-    $y = "<input size=5 name=idle_time_to_run value='$prefs->idle_time_to_run'> minutes ";
+    $y = "<input size=5 name=idle_time_to_run value='$prefs->idle_time_to_run'> ".tra("minutes");
     $show_error = false;
     if (isset($error->idle_time_to_run)) $show_error= true;
     row2(IDLE_TIME_TO_RUN_DESC, $y, $show_error);
 
-    $y = "<input size=5 name=suspend_if_no_recent_input value='$prefs->suspend_if_no_recent_input'> minutes ";
+    $y = "<input size=5 name=suspend_if_no_recent_input value='$prefs->suspend_if_no_recent_input'> ".tra("minutes");
     $show_error = false;
     if (isset($error->suspend_if_no_recent_input)) $show_error= true;
     row2(SUSPEND_IF_NO_RECENT_INPUT_DESC, $y, $show_error);
@@ -1082,19 +1068,14 @@ function prefs_form_global($user, $prefs, $error=false) {
     row2(SUSPEND_CPU_USAGE_DESC, $y, $show_error);
 
     $x = START_END_DESC.START_END_DESC2;
-    $y = hour_select($prefs->start_hour, "start_hour")."and".hour_select($prefs->end_hour, "end_hour");
+    $y = hour_select($prefs->start_hour, "start_hour").tra("and").hour_select($prefs->end_hour, "end_hour");
     row2($x, $y);
 
     $x = LEAVE_APPS_IN_MEMORY_DESC;
-    $y = "yes <input type=radio name=leave_apps_in_memory value=yes "
-        .($prefs->leave_apps_in_memory?"checked":"")
-        ."> no <input type=radio name=leave_apps_in_memory value=no "
-        .($prefs->leave_apps_in_memory?"":"checked")
-        .">
-    ";
+    $y = prefs_form_radio_buttons("leave_apps_in_memory", $prefs->leave_apps_in_memory);
     row2($x, $y);
 
-    $y = "<input size=5 name=cpu_scheduling_period_minutes value='$prefs->cpu_scheduling_period_minutes'> minutes ";
+    $y = "<input size=5 name=cpu_scheduling_period_minutes value='$prefs->cpu_scheduling_period_minutes'> ".tra("minutes");
     $show_error = false;
     if (isset($error->cpu_scheduling_period_minutes)) $show_error= true;
     row2(CPU_SCHEDULING_DESC, $y, $show_error);
@@ -1125,7 +1106,7 @@ function prefs_form_global($user, $prefs, $error=false) {
     $show_error = false;
     if (isset($error->disk_max_used_gb)) $show_error= true;
     row2(USE_AT_MOST,
-        "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes",
+        "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> ".tra("Gbytes"),
         $show_error
     );
 
@@ -1133,13 +1114,13 @@ function prefs_form_global($user, $prefs, $error=false) {
 
     $msg=null;
     if ($dp->new_sched_flag) {
-        $msg = DISK_SCHED_MIN_FREE_DESC1.$dp->sched_disk_min_free_gb.DISK_SCHED_MIN_FREE_DESC2;
+        $msg = sprintf(DISK_SCHED_MIN_FREE_DESC, $dp->sched_disk_min_free_gb);
     } 
 
     $show_error = false;
     if (isset($error->disk_min_free_gb)) $show_error= true;
     row2(DISK_MIN_FREE_GB_DESC.$msg,
-        "<input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free",
+        "<input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> ".tra("Gbytes free"),
         $show_error
     );
 
@@ -1153,7 +1134,7 @@ function prefs_form_global($user, $prefs, $error=false) {
     $show_error = false;
     if (isset($error->disk_interval)) $show_error= true;
     row2(DISK_INTERVAL_DESC,
-        "<input size=6 name=disk_interval value=$prefs->disk_interval> seconds",
+        "<input size=6 name=disk_interval value=$prefs->disk_interval> ".tra("seconds"),
         $show_error
     );
 
@@ -1180,33 +1161,23 @@ function prefs_form_global($user, $prefs, $error=false) {
 
     row1(NETWORK_LIMIT_DESC);
     $x = WORK_BUF_MIN_DAYS_DESC;
-    $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'> days";
+    $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'> ".tra("days");
     $show_error = false;
     if (isset($error->work_buf_min_days)) $show_error= true;
     row2($x, $y, $show_error);
 
     $x = WORK_BUF_ADDITIONAL_DAYS_DESC;
-    $y = "<input size=5 name=work_buf_additional_days value='$prefs->work_buf_additional_days'> days";
+    $y = "<input size=5 name=work_buf_additional_days value='$prefs->work_buf_additional_days'> ".tra("days");
     $show_error = false;
     if (isset($error->work_buf_additional_days)) $show_error= true;
     row2($x, $y, $show_error);
 
     $x = CONFIRM_BEFORE_CONNECTING_DESC;
-    $y = "yes <input type=radio name=confirm_before_connecting value=yes "
-        .($prefs->confirm_before_connecting?"checked":"")
-        ."> no <input type=radio name=confirm_before_connecting value=no "
-        .($prefs->confirm_before_connecting?"":"checked")
-        .">
-    ";
+    $y = prefs_form_radio_buttons("confirm_before_connecting", $prefs->confirm_before_connecting);
     row2($x, $y);
 
     $x = HANGUP_IF_DIALED_DESC;
-    $y = "yes <input type=radio name=hangup_if_dialed value=yes "
-        .($prefs->hangup_if_dialed?"checked":"")
-        ."> no <input type=radio name=hangup_if_dialed value=no "
-        .($prefs->hangup_if_dialed?"":"checked")
-        .">
-    ";
+    $y = prefs_form_radio_buttons("hangup_if_dialed", $prefs->hangup_if_dialed);
     row2($x, $y);
 
     $d = max_bytes_display_mode($prefs->max_bytes_sec_down);
@@ -1229,35 +1200,20 @@ function prefs_form_global($user, $prefs, $error=false) {
     );
 
     $x = NET_START_END_DESC.START_END_DESC2;
-    $y = hour_select($prefs->net_start_hour, "net_start_hour")."and".hour_select($prefs->net_end_hour, "net_end_hour");
+    $y = hour_select($prefs->net_start_hour, "net_start_hour").tra("and").hour_select($prefs->net_end_hour, "net_end_hour");
     row2($x, $y);
     $x = DONT_VERIFY_IMAGES_DESC;
-    $y = "yes <input type=radio name=dont_verify_images value=yes "
-        .($prefs->dont_verify_images?"checked":"")
-        ."> no <input type=radio name=dont_verify_images value=no "
-        .($prefs->dont_verify_images?"":"checked")
-        .">
-    ";
+    $y = prefs_form_radio_buttons("dont_verify_images", $prefs->dont_verify_images);
     row2($x, $y);
 
 }
 
 function prefs_form_privacy($user) {
-    $y = "yes <input type=radio name=send_email value=yes "
-        .($user->send_email?"checked":"")
-        ."> no <input type=radio name=send_email value=no "
-        .($user->send_email?"":"checked")
-        .">
-    ";
-    row2("Is it OK for ".PROJECT." and your team (if any) to email you?", $y);
+    $y = prefs_form_radio_buttons("send_email", $user->send_email);
+    row2(tra("Is it OK for %1 and your team (if any) to email you?", PROJECT), $y);
 
-    $y = "yes <input type=radio name=show_hosts value=yes "
-        .($user->show_hosts?"checked":"")
-        ."> no <input type=radio name=show_hosts value=no "
-        .($user->show_hosts?"":"checked")
-        .">
-    ";
-    row2("Should ".PROJECT." show your computers on its web site?", $y);
+    $y = prefs_form_radio_buttons("show_hosts", $user->show_hosts);
+    row2(tra("Should %1 show your computers on its web site?", PROJECT), $y);
 }
 
 function prefs_form_resource($prefs, $error=false) {
@@ -1265,13 +1221,13 @@ function prefs_form_resource($prefs, $error=false) {
     $show_error = false;
     if (isset($error->resource_share)) $show_error= true;
     row2(
-        "<b>Resource share:</b>
-        <span class=note><br>Determines the proportion of your computer's resources
-        allocated to this project.
-        Example: if you participate in two BOINC projects with
-        resource shares of 100 and 200,
-        the first will get 1/3 of your resources and the second will get 2/3.
-        </span>",
+        "<strong>".tra("Resource share").":</strong>
+        <br><span class=note>".
+        tra("Determines the proportion of your computer's resources
+            allocated to this project. Example: if you participate in two
+            BOINC projects with resource shares of 100 and 200, the first
+            will get 1/3 of your resources and the second will get 2/3.").
+        "</span>",
         "<input name=resource_share value='$prefs->resource_share'>",
         $show_error
     );
@@ -1295,13 +1251,8 @@ function prefs_form_resource($prefs, $error=false) {
 }
 
 function prefs_form_beta($prefs, $error=false) {
-    $ychecked = $prefs->allow_beta_work?"checked":"";
-    $nchecked = $prefs->allow_beta_work?"":"checked";
-    row2(
-        ALLOW_BETA_WORK,
-        "yes <input type=radio checkbox name=allow_beta_work value=1 $ychecked>
-        no <input type=radio checkbox name=allow_beta_work value=0 $nchecked>"
-    );
+    $y = prefs_form_radio_buttons("allow_beta_work", $prefs->allow_beta_work);
+    row2(ALLOW_BETA_WORK, $y);
 }
 
 function prefs_form_project($prefs_xml, $error=false) {
@@ -1309,10 +1260,24 @@ function prefs_form_project($prefs_xml, $error=false) {
     project_specific_prefs_edit($prefs, $error);
 }
 
+// returns a set of translated yes/no radio buttons for editing prefs forms
+// Example: prefs_form_radio_buttons("allow_beta_work", $user->allow_beta_work);
+//
+// @param string $name name of the radio buttons
+// @param bool $yesno toggles the preset of the buttons; true=yes, false=no
+function prefs_form_radio_buttons($name, $yesno) {
+    $rb = tra("yes")." <input type=radio name=$name value=yes "
+        .($yesno?"checked":"")
+        ."> ".tra("no")." <input type=radio name=$name value=no "
+        .(!$yesno?"":"checked")
+        .">\n";
+    return $rb;
+}
+
 function venue_show($user) {
     $venue = $user->venue;
     if ($venue =='') $venue = '---';
-    row2("Default computer location", $venue);
+    row2(tra("Default computer location"), $venue);
 }
 
 function venue_form($user) {
@@ -1321,12 +1286,12 @@ function venue_form($user) {
     if ($user->venue == 'home') $h = 'selected';
     if ($user->venue == 'work') $w = 'selected';
     if ($user->venue == 'school') $s = 'selected';
-    row2('Default computer location',
+    row2(tra("Default computer location"),
         "<select name=default_venue>
         <option value=\"\" $n>---
-        <option value=home $h>Home
-        <option value=work $w>Work
-        <option value=school $s>School
+        <option value=home $h>".tra("Home")."
+        <option value=work $w>".tra("Work")."
+        <option value=school $s>".tra("School")."
         </select>"
     );
 }
@@ -1452,11 +1417,7 @@ function prefs_resource_parse_form(&$prefs) {
 }
 
 function prefs_beta_parse_form(&$prefs) {
-    $prefs->allow_beta_work = false;
-    $x = $_GET['allow_beta_work'];
-    if ($x) {
-        $prefs->allow_beta_work = true;
-    }
+    $prefs->allow_beta_work = ($_GET['allow_beta_work'] == "yes")?1:0;
 }
 
 function prefs_privacy_parse_form(&$user) {
@@ -1605,7 +1566,7 @@ function global_prefs_update(&$user, $prefs) {
     $query = "update user set global_prefs='$prefs_xml' where id=$user->id";
     $retval = mysql_query($query);
     if (!$retval) {
-        echo "Update failed: ".htmlspecialchars($query)."\n";
+        echo tra("Update failed: ").htmlspecialchars($query)."\n";
         echo mysql_error();
         exit();
     }

@@ -30,14 +30,13 @@ $subset = get_str("subset");
 $columns = get_int("cols", true);
 $updated = get_int("updated", true);
 
-page_head(subset_name($subset)." preferences");
+page_head(subset_name($subset)." ".tra("preferences"));
 if (isset($updated)) {
 	echo "<p style='color: red'>
-        Your preferences have been updated.
-        Client-related preferences
-        will take effect when your computer communicates
-        with ".PROJECT." or
-        you issue the \"Update\" command from the BOINC client.
+        ".tra("Your preferences have been updated. Client-related preferences
+	      will take effect when your computer communicates with %1
+	      or you issue the %2Update%3 command from the BOINC client.",
+	      PROJECT, "<strong>", "</strong>")."
         </p>
     ";
 }

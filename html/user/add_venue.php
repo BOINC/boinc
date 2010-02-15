@@ -40,7 +40,7 @@ if ($action) {
         $prefs->$venue = $prefs;
         $error = prefs_global_parse_form($new_prefs);
         if ($error != false) {
-            $title = "Edit ".subset_name($subset)." preferences";
+            $title = tra("Edit %1 preferences", subset_name($subset));
             if ($venue) $title = "$title for $venue";
             page_head($title);
             $x = $venue?"&venue=$venue":"";
@@ -65,7 +65,7 @@ if ($action) {
         if (isset($project_has_beta) && $project_has_beta) prefs_beta_parse_form($new_prefs);
 
         if ($error != false || $project_error != false) {
-            $title = "Edit ".subset_name($subset)." preferences";
+            $title = tra("Edit %1 preferences", subset_name($subset));
             if ($venue) $title = "$title for $venue";
             page_head($title);
             $x = $venue?"&venue=$venue":"";
@@ -83,7 +83,7 @@ if ($action) {
         }
     }
 } else {
-    $title = "Add ".subset_name($subset)." preferences for $venue";
+    $title = tra("Add %1 preferences for %2", subset_name($subset), $venue);
     page_head($title);
 
     if ($subset == "global") {
