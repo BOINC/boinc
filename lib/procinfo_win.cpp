@@ -67,7 +67,7 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
     ULONG                   cbBuffer = 128*1024;    // 128k initial buffer
     PVOID                   pBuffer = NULL;
     PSYSTEM_PROCESSES       pProcesses = NULL;
-    statid DWORD pid = 0;
+    static DWORD pid = 0;
 
     if (!pid) {
         pid = GetCurrentProcessId();
