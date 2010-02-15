@@ -38,7 +38,7 @@ using std::vector;
 // build table of all processes in system
 //
 int procinfo_setup(vector<PROCINFO>& pi) {
-
+    int pid = getpid();
     FILE* fd;
     PROCINFO p;
     int c, real_mem, virtual_mem, hours;
@@ -106,7 +106,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
         p.working_set_size = (double)real_mem * 1024.;
         p.swap_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
-        p.is_boinc_app = false;
+        p.is_boinc_app = (p.id == pid || strstr(p.command, "boinc"));
         pi.push_back(p);
     }
     
