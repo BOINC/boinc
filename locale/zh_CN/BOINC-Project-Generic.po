@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-15 21:02+0800\n"
+"PO-Revision-Date: 2010-02-15 22:14+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -254,12 +254,16 @@ msgid ""
 "Leave tasks in memory while suspended? %1\n"
 "        (suspended tasks will consume swap space if 'yes')%2"
 msgstr ""
+"暂停计算时将任务驻留在内存？%1\n"
+"        （选择是的话，暂停的内存将占用交换空间）%2"
 
 #: ../inc/prefs.inc:96
 msgid ""
 "Switch between tasks every %1\n"
 "        (recommended: 60 minutes)%2"
 msgstr ""
+"计算任务的切换时间间隔%1\n"
+"        （推荐设置：60 分钟）%2"
 
 #: ../inc/prefs.inc:100
 msgid ""
@@ -320,7 +324,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:128
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "磁盘和内存使用"
 
 #: ../inc/prefs.inc:129
 msgid "Leave at least"
@@ -353,19 +357,19 @@ msgstr ""
 
 #: ../inc/prefs.inc:137
 msgid "Network usage"
-msgstr ""
+msgstr "网络使用"
 
 #: ../inc/prefs.inc:138
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "最大下载速率："
 
 #: ../inc/prefs.inc:139
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "最大上传速率："
 
 #: ../inc/prefs.inc:140
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "允许使用网络的时间段"
 
 #: ../inc/prefs.inc:142
 msgid ""
@@ -388,11 +392,11 @@ msgstr ""
 
 #: ../inc/prefs.inc:158
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "千字节/秒"
 
 #: ../inc/prefs.inc:159
 msgid "KB/s"
-msgstr ""
+msgstr "千字节/秒"
 
 #: ../inc/prefs.inc:161
 msgid ""
@@ -433,7 +437,7 @@ msgstr ""
 #: ../inc/prefs.inc:859
 #: ../inc/prefs.inc:1269
 msgid "yes"
-msgstr ""
+msgstr "是"
 
 #: ../inc/prefs.inc:631
 #: ../inc/prefs.inc:634
@@ -452,27 +456,27 @@ msgstr ""
 #: ../inc/prefs.inc:859
 #: ../inc/prefs.inc:1271
 msgid "no"
-msgstr ""
+msgstr "否"
 
 #: ../inc/prefs.inc:639
 #: ../inc/prefs.inc:790
 #: ../inc/prefs.inc:793
 msgid "no limit"
-msgstr ""
+msgstr "不限制"
 
 #: ../inc/prefs.inc:664
 msgid "Add"
-msgstr ""
+msgstr "增加"
 
 #: ../inc/prefs.inc:665
 #: ../inc/prefs.inc:667
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 #: ../inc/prefs.inc:666
 #: ../inc/prefs.inc:897
 msgid "Remove"
-msgstr ""
+msgstr "移除"
 
 #: ../inc/prefs.inc:701
 #: ../inc/prefs.inc:703
@@ -481,38 +485,38 @@ msgstr ""
 #: ../inc/prefs.inc:1060
 #: ../inc/prefs.inc:1078
 msgid "minutes"
-msgstr ""
+msgstr "分钟"
 
 #: ../inc/prefs.inc:715
 msgid "GB disk space"
-msgstr ""
+msgstr "GB 磁盘空间"
 
 #: ../inc/prefs.inc:716
 msgid "GB disk space free"
-msgstr ""
+msgstr "GB 空闲磁盘空间"
 
 #: ../inc/prefs.inc:718
 #: ../inc/prefs.inc:1137
 msgid "seconds"
-msgstr ""
+msgstr "秒"
 
 #: ../inc/prefs.inc:724
 #: ../inc/prefs.inc:725
 #: ../inc/prefs.inc:1164
 #: ../inc/prefs.inc:1170
 msgid "days"
-msgstr ""
+msgstr "天"
 
 #: ../inc/prefs.inc:746
 #: ../inc/prefs.inc:749
 #: ../inc/prefs.inc:762
 msgid "%1 minutes"
-msgstr ""
+msgstr "%1 分钟"
 
 #: ../inc/prefs.inc:754
 #: ../inc/prefs.inc:795
 msgid "(no restriction)"
-msgstr ""
+msgstr "（不限制）"
 
 #: ../inc/prefs.inc:758
 #: ../inc/prefs.inc:799
@@ -617,19 +621,19 @@ msgstr "增加参数设置"
 
 #: ../inc/prefs.inc:1010
 msgid "Update preferences"
-msgstr ""
+msgstr "更新参数设置"
 
 #: ../inc/prefs.inc:1109
 msgid "Gbytes"
-msgstr ""
+msgstr "G字节"
 
 #: ../inc/prefs.inc:1123
 msgid "Gbytes free"
-msgstr ""
+msgstr "G字节空闲"
 
 #: ../inc/prefs.inc:1224
 msgid "Resource share"
-msgstr ""
+msgstr "资源分享"
 
 #: ../inc/prefs.inc:1226
 msgid ""
@@ -642,23 +646,23 @@ msgstr ""
 #: ../inc/prefs.inc:1280
 #: ../inc/prefs.inc:1289
 msgid "Default computer location"
-msgstr ""
+msgstr "默认的计算机位置"
 
 #: ../inc/prefs.inc:1292
 msgid "Home"
-msgstr ""
+msgstr "家庭"
 
 #: ../inc/prefs.inc:1293
 msgid "Work"
-msgstr ""
+msgstr "工作"
 
 #: ../inc/prefs.inc:1294
 msgid "School"
-msgstr ""
+msgstr "学习"
 
 #: ../inc/prefs.inc:1569
 msgid "Update failed: "
-msgstr ""
+msgstr "更新失败："
 
 #: ../inc/profile.inc:216
 #: ../user/create_profile.php:306
@@ -687,156 +691,156 @@ msgstr "我%1不喜欢%2这个用户档案"
 
 #: ../inc/result.inc:25
 msgid "Anonymous platform"
-msgstr ""
+msgstr "匿名平台"
 
 #: ../inc/result.inc:32
 msgid "Not in DB"
-msgstr ""
+msgstr "数据库中不存在"
 
 #: ../inc/result.inc:70
 msgid "pending"
-msgstr ""
+msgstr "等待验证"
 
 #: ../inc/result.inc:92
 msgid "All"
-msgstr ""
+msgstr "所有"
 
 #: ../inc/result.inc:93
 #: ../inc/result.inc:113
 #: ../inc/result.inc:152
 msgid "In progress"
-msgstr ""
+msgstr "计算中"
 
 #: ../inc/result.inc:94
 #: ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "等待验证"
 
 #: ../inc/result.inc:95
 #: ../inc/result.inc:195
 msgid "Valid"
-msgstr ""
+msgstr "有效结果"
 
 #: ../inc/result.inc:96
 #: ../inc/result.inc:198
 msgid "Invalid"
-msgstr ""
+msgstr "无效结果"
 
 #: ../inc/result.inc:97
 #: ../inc/result.inc:138
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: ../inc/result.inc:111
 #: ../inc/result.inc:150
 msgid "Inactive"
-msgstr ""
+msgstr "不活跃的"
 
 #: ../inc/result.inc:112
 #: ../inc/result.inc:151
 msgid "Unsent"
-msgstr ""
+msgstr "未发送的"
 
 #: ../inc/result.inc:118
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "已完成，等待验证"
 
 #: ../inc/result.inc:119
 msgid "Completed and validated"
-msgstr ""
+msgstr "已完成并且通过验证"
 
 #: ../inc/result.inc:120
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "已完成，标记为错误"
 
 #: ../inc/result.inc:121
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "已完成，不能验证"
 
 #: ../inc/result.inc:122
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "已完成，验证结果不确定"
 
 #: ../inc/result.inc:123
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "已完成，超出上报期限无法验证"
 
 #: ../inc/result.inc:125
 msgid "Completed"
-msgstr ""
+msgstr "已完成"
 
 #: ../inc/result.inc:126
 #: ../inc/result.inc:162
 msgid "Couldn't send"
-msgstr ""
+msgstr "无法发送"
 
 #: ../inc/result.inc:129
 #: ../inc/result.inc:186
 msgid "Cancelled by server"
-msgstr ""
+msgstr "被服务端取消"
 
 #: ../inc/result.inc:132
 msgid "Error while downloading"
-msgstr ""
+msgstr "下载过程出错"
 
 #: ../inc/result.inc:134
 msgid "Error while computing"
-msgstr ""
+msgstr "计算过程出错"
 
 #: ../inc/result.inc:135
 msgid "Error while uploading"
-msgstr ""
+msgstr "上传过程出错"
 
 #: ../inc/result.inc:136
 #: ../inc/result.inc:188
 msgid "Aborted by user"
-msgstr ""
+msgstr "被用户中止"
 
 #: ../inc/result.inc:139
 msgid "Timed out - no response"
-msgstr ""
+msgstr "超时 - 无回应"
 
 #: ../inc/result.inc:140
 #: ../inc/result.inc:169
 msgid "Didn't need"
-msgstr ""
+msgstr "不需要"
 
 #: ../inc/result.inc:141
 #: ../inc/result.inc:170
 msgid "Validate error"
-msgstr ""
+msgstr "验证错误"
 
 #: ../inc/result.inc:142
 #: ../inc/result.inc:171
 msgid "Client detached"
-msgstr ""
+msgstr "客户端已退出项目"
 
 #: ../inc/result.inc:145
 #: ../inc/result.inc:155
 #: ../inc/result.inc:173
 #: ../inc/result.inc:205
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: ../inc/result.inc:153
 msgid "Over"
-msgstr ""
+msgstr "完成"
 
 #: ../inc/result.inc:161
 msgid "Success"
-msgstr ""
+msgstr "成功"
 
 #: ../inc/result.inc:165
 msgid "Client error"
-msgstr ""
+msgstr "客户端错误"
 
 #: ../inc/result.inc:167
 msgid "Redundant result"
-msgstr ""
+msgstr "冗余结果"
 
 #: ../inc/result.inc:168
 msgid "No reply"
-msgstr ""
+msgstr "无回应"
 
 #: ../inc/result.inc:178
 msgid "New"
