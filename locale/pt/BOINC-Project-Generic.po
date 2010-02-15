@@ -3,7 +3,7 @@
 # FileID  : $Id$
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
 "PO-Revision-Date: 2010-02-12 17:27-0000\n"
@@ -16,10 +16,10 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "Português"
+msgstr "PORTUGUÊS"
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Portuguese"
+msgstr "PORTUGUESE"
 
 #: ../inc/forum.inc:124
 msgid "Search for words in forum messages"
