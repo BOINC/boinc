@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2009-05-18 13:27+0800\n"
+"PO-Revision-Date: 2010-02-15 21:02+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -13,11 +13,11 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Chinese\n"
-"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: CHINA\n"
+"X-Poedit-SearchPath-0: html\\user\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "简体中文"
@@ -37,57 +37,68 @@ msgstr "搜索论坛"
 msgid "Advanced search"
 msgstr "高级搜索"
 
-#: ../inc/forum.inc:131 ../inc/user.inc:247 ../user/pm.php:64
+#: ../inc/forum.inc:131
+#: ../inc/user.inc:247
+#: ../user/pm.php:64
 #: ../user/pm.php:129
 msgid "Private messages"
 msgstr "私人消息"
 
-#: ../inc/forum.inc:149 ../user/forum_forum.php:65 ../user/sample_index.php:71
+#: ../inc/forum.inc:149
+#: ../user/forum_forum.php:65
+#: ../user/sample_index.php:71
 msgid "Questions and Answers"
 msgstr "疑难解答"
 
-#: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:244
-#: ../inc/user.inc:366 ../user/forum_forum.php:68 ../user/sample_index.php:70
+#: ../inc/forum.inc:149
+#: ../inc/forum.inc:182
+#: ../inc/user.inc:244
+#: ../inc/user.inc:366
+#: ../user/forum_forum.php:68
+#: ../user/sample_index.php:70
 msgid "Message boards"
 msgstr "留言板"
 
-#: ../inc/forum.inc:186 ../inc/forum.inc:194
+#: ../inc/forum.inc:186
+#: ../inc/forum.inc:194
 msgid "%1 message board"
 msgstr "%1 留言板"
 
 #: ../inc/forum.inc:1056
-msgid ""
-"In order to create a new thread in %1 you must have a certain amount of "
-"credit. This is to prevent and protect against abuse of the system."
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
 msgstr "您必须在已经获得了一定的积分后才能在 %1 发表一个新主题。这是为了防止对论坛系统的滥用。"
 
 #: ../inc/forum.inc:1063
-msgid ""
-"You cannot create any more threads right now. Please wait a while before "
-"trying again. This delay has been enforced to protect against abuse of the "
-"system."
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
 msgstr "您暂时不能发表更多的新主题，请稍后再试，这是为了防止对论坛系统的滥用而采取的延时。"
 
 #: ../inc/forum.inc:1100
 msgid "Thread"
 msgstr "主题"
 
-#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1100
+#: ../inc/team.inc:120
+#: ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "贴数"
 
-#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
-#: ../user/forum_reply.php:112 ../user/forum_report_post.php:80
+#: ../inc/forum.inc:1100
+#: ../user/forum_forum.php:131
+#: ../user/forum_reply.php:112
+#: ../user/forum_report_post.php:80
 #: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "作者"
 
-#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1100
+#: ../user/forum_forum.php:131
 msgid "Views"
 msgstr "查看次数"
 
-#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1100
+#: ../inc/team.inc:120
+#: ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "最近发贴"
@@ -102,32 +113,45 @@ msgstr "标记所有留言板块的所有主题为已读。"
 
 #: ../inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "评论"
 
 #: ../inc/news.inc:96
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "新闻还可以通过 %sRSS%s 来获取"
 
-#: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
+#: ../inc/pm.inc:25
+#: ../inc/pm.inc:178
+#: ../user/pm.php:64
+#: ../user/pm.php:144
 msgid "Inbox"
 msgstr "收件箱"
 
-#: ../inc/pm.inc:26 ../inc/pm.inc:182
+#: ../inc/pm.inc:26
+#: ../inc/pm.inc:182
 msgid "Write"
 msgstr "写信"
 
-#: ../inc/pm.inc:33 ../inc/user.inc:369
+#: ../inc/pm.inc:33
+#: ../inc/user.inc:369
 msgid "Send private message"
 msgstr "发送私人消息"
 
-#: ../inc/pm.inc:35 ../inc/pm.inc:38 ../inc/pm.inc:92
-#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
-#: ../user/forum_edit.php:145 ../user/forum_post.php:62
-#: ../user/forum_post.php:88 ../user/forum_post.php:91
-#: ../user/forum_post.php:129 ../user/forum_reply.php:75
-#: ../user/forum_reply.php:104 ../user/forum_reply.php:107
-#: ../user/forum_reply.php:150 ../user/pm.php:175
+#: ../inc/pm.inc:35
+#: ../inc/pm.inc:38
+#: ../inc/pm.inc:92
+#: ../user/forum_edit.php:99
+#: ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145
+#: ../user/forum_post.php:62
+#: ../user/forum_post.php:88
+#: ../user/forum_post.php:91
+#: ../user/forum_post.php:129
+#: ../user/forum_reply.php:75
+#: ../user/forum_reply.php:104
+#: ../user/forum_reply.php:107
+#: ../user/forum_reply.php:150
+#: ../user/pm.php:175
 msgid "Preview"
 msgstr "预览"
 
@@ -139,14 +163,21 @@ msgstr "收件人"
 msgid "User IDs or unique usernames, separated with commas"
 msgstr "用户ID或唯一的用户名，多个收件人之间用逗号分开"
 
-#: ../inc/pm.inc:88 ../user/pm.php:85 ../user/pm.php:135
+#: ../inc/pm.inc:88
+#: ../user/pm.php:85
+#: ../user/pm.php:135
 msgid "Subject"
 msgstr "标题"
 
-#: ../inc/pm.inc:89 ../user/forum_edit.php:128 ../user/forum_edit.php:133
-#: ../user/forum_post.php:118 ../user/forum_reply.php:112
-#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
-#: ../user/pm.php:85 ../user/pm.php:140
+#: ../inc/pm.inc:89
+#: ../user/forum_edit.php:128
+#: ../user/forum_edit.php:133
+#: ../user/forum_post.php:118
+#: ../user/forum_reply.php:112
+#: ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
+#: ../user/pm.php:85
+#: ../user/pm.php:140
 msgid "Message"
 msgstr "消息"
 
@@ -155,9 +186,7 @@ msgid "Send message"
 msgstr "发送消息"
 
 #: ../inc/pm.inc:170
-msgid ""
-"You are not allowed to send privates messages so often. Please wait some "
-"time before sending more messages."
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
 msgstr "您发送消息的间隔时间太短，请等待一段时间再发送更多的消息。"
 
 #: ../inc/pm.inc:180
@@ -166,51 +195,59 @@ msgstr "未读"
 
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
+msgstr "如需要电子邮件通知，请%1编辑社区参数设置%2。"
 
 #: ../inc/prefs.inc:68
 msgid "Processor usage"
-msgstr ""
+msgstr "处理器使用"
 
 #: ../inc/prefs.inc:70
 msgid ""
 "Suspend work while computer is on battery power? %1\n"
 "        (matters only for portable computers)%2"
 msgstr ""
+"当计算机通过电池供电时暂停计算？%1\n"
+"        （只有移动计算机需要使用该设置）%2"
 
 #: ../inc/prefs.inc:74
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "当计算机在使用的时候暂停计算？"
 
 #: ../inc/prefs.inc:77
 msgid ""
 "Suspend GPU work while computer is in use? %1\n"
 "        Enforced by version 6.7+"
 msgstr ""
+"当计算机在使用的时候暂停 GPU 计算？%1\n"
+"        6.7之后的版本必须设置"
 
 #: ../inc/prefs.inc:80
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
+msgstr "如果在最近的多少时间内有鼠标或键盘操作则认为计算机在使用中"
 
 #: ../inc/prefs.inc:82
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1\n"
 "        (Needed to enter low-power mode on some computers)%2"
 msgstr ""
+"如果在最近的多少时间内没有鼠标或键盘操作则暂停计算%1\n"
+"        （在某些计算上如果要进入低能耗模式必须设置）%2"
 
 #: ../inc/prefs.inc:86
 msgid ""
 "Suspend work if CPU usage is above %1\n"
 "        0 means no restriction<br>Enforced by version 6.10.30+%2"
 msgstr ""
+"如果 CPU 占用率高于指定值则暂停计算%1\n"
+"        0 表示没有限制<br>6.10.30之后的版本必须设置%2"
 
 #: ../inc/prefs.inc:89
 msgid "Do work only between the hours of"
-msgstr ""
+msgstr "仅在指定的时间段进行计算"
 
 #: ../inc/prefs.inc:90
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "（如果相同则表示不限制）"
 
 #: ../inc/prefs.inc:92
 msgid ""
@@ -258,15 +295,16 @@ msgstr ""
 
 #: ../inc/prefs.inc:119
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "在多处理器计算机上，最多使用"
 
 #: ../inc/prefs.inc:120
 msgid "processors"
-msgstr ""
+msgstr "处理器"
 
-#: ../inc/prefs.inc:121 ../inc/prefs.inc:125
+#: ../inc/prefs.inc:121
+#: ../inc/prefs.inc:125
 msgid "Use at most"
-msgstr ""
+msgstr "最多使用"
 
 #: ../inc/prefs.inc:123
 msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
@@ -286,7 +324,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:129
 msgid "Leave at least"
-msgstr ""
+msgstr "至少保留"
 
 #: ../inc/prefs.inc:131
 #, php-format
@@ -332,8 +370,7 @@ msgstr ""
 #: ../inc/prefs.inc:142
 msgid ""
 "Skip image file verification? %1\n"
-"        Check this ONLY if your Internet provider modifies image files (UMTS "
-"does this, for example).<br />\n"
+"        Check this ONLY if your Internet provider modifies image files (UMTS does this, for example).<br />\n"
 "        Skipping verification reduces the security of BOINC.%2"
 msgstr ""
 
@@ -360,19 +397,15 @@ msgstr ""
 #: ../inc/prefs.inc:161
 msgid ""
 "Run test applications? %1\n"
-"        This helps us develop applications, but may cause jobs to fail on "
-"your computer%2"
+"        This helps us develop applications, but may cause jobs to fail on your computer%2"
 msgstr ""
 
 #: ../inc/prefs.inc:166
-msgid ""
-"These preferences apply to all the BOINC projects in which you participate."
+msgid "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
 
 #: ../inc/prefs.inc:168
-msgid ""
-"%1Unable to update preferences.%2 The values marked in red below were out of "
-"range or not numeric."
+msgid "%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric."
 msgstr ""
 
 #: ../inc/prefs.inc:220
@@ -383,25 +416,47 @@ msgstr ""
 msgid "bad subset: %1"
 msgstr ""
 
-#: ../inc/prefs.inc:631 ../inc/prefs.inc:634 ../inc/prefs.inc:743
-#: ../inc/prefs.inc:744 ../inc/prefs.inc:745 ../inc/prefs.inc:761
-#: ../inc/prefs.inc:786 ../inc/prefs.inc:787 ../inc/prefs.inc:802
-#: ../inc/prefs.inc:829 ../inc/prefs.inc:832 ../inc/prefs.inc:835
-#: ../inc/prefs.inc:845 ../inc/prefs.inc:857 ../inc/prefs.inc:859
+#: ../inc/prefs.inc:631
+#: ../inc/prefs.inc:634
+#: ../inc/prefs.inc:743
+#: ../inc/prefs.inc:744
+#: ../inc/prefs.inc:745
+#: ../inc/prefs.inc:761
+#: ../inc/prefs.inc:786
+#: ../inc/prefs.inc:787
+#: ../inc/prefs.inc:802
+#: ../inc/prefs.inc:829
+#: ../inc/prefs.inc:832
+#: ../inc/prefs.inc:835
+#: ../inc/prefs.inc:845
+#: ../inc/prefs.inc:857
+#: ../inc/prefs.inc:859
 #: ../inc/prefs.inc:1269
 msgid "yes"
 msgstr ""
 
-#: ../inc/prefs.inc:631 ../inc/prefs.inc:634 ../inc/prefs.inc:743
-#: ../inc/prefs.inc:744 ../inc/prefs.inc:745 ../inc/prefs.inc:761
-#: ../inc/prefs.inc:786 ../inc/prefs.inc:787 ../inc/prefs.inc:802
-#: ../inc/prefs.inc:829 ../inc/prefs.inc:832 ../inc/prefs.inc:835
-#: ../inc/prefs.inc:845 ../inc/prefs.inc:857 ../inc/prefs.inc:859
+#: ../inc/prefs.inc:631
+#: ../inc/prefs.inc:634
+#: ../inc/prefs.inc:743
+#: ../inc/prefs.inc:744
+#: ../inc/prefs.inc:745
+#: ../inc/prefs.inc:761
+#: ../inc/prefs.inc:786
+#: ../inc/prefs.inc:787
+#: ../inc/prefs.inc:802
+#: ../inc/prefs.inc:829
+#: ../inc/prefs.inc:832
+#: ../inc/prefs.inc:835
+#: ../inc/prefs.inc:845
+#: ../inc/prefs.inc:857
+#: ../inc/prefs.inc:859
 #: ../inc/prefs.inc:1271
 msgid "no"
 msgstr ""
 
-#: ../inc/prefs.inc:639 ../inc/prefs.inc:790 ../inc/prefs.inc:793
+#: ../inc/prefs.inc:639
+#: ../inc/prefs.inc:790
+#: ../inc/prefs.inc:793
 msgid "no limit"
 msgstr ""
 
@@ -409,16 +464,22 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: ../inc/prefs.inc:665 ../inc/prefs.inc:667
+#: ../inc/prefs.inc:665
+#: ../inc/prefs.inc:667
 msgid "Edit"
 msgstr ""
 
-#: ../inc/prefs.inc:666 ../inc/prefs.inc:897
+#: ../inc/prefs.inc:666
+#: ../inc/prefs.inc:897
 msgid "Remove"
 msgstr ""
 
-#: ../inc/prefs.inc:701 ../inc/prefs.inc:703 ../inc/prefs.inc:709
-#: ../inc/prefs.inc:1055 ../inc/prefs.inc:1060 ../inc/prefs.inc:1078
+#: ../inc/prefs.inc:701
+#: ../inc/prefs.inc:703
+#: ../inc/prefs.inc:709
+#: ../inc/prefs.inc:1055
+#: ../inc/prefs.inc:1060
+#: ../inc/prefs.inc:1078
 msgid "minutes"
 msgstr ""
 
@@ -430,24 +491,32 @@ msgstr ""
 msgid "GB disk space free"
 msgstr ""
 
-#: ../inc/prefs.inc:718 ../inc/prefs.inc:1137
+#: ../inc/prefs.inc:718
+#: ../inc/prefs.inc:1137
 msgid "seconds"
 msgstr ""
 
-#: ../inc/prefs.inc:724 ../inc/prefs.inc:725 ../inc/prefs.inc:1164
+#: ../inc/prefs.inc:724
+#: ../inc/prefs.inc:725
+#: ../inc/prefs.inc:1164
 #: ../inc/prefs.inc:1170
 msgid "days"
 msgstr ""
 
-#: ../inc/prefs.inc:746 ../inc/prefs.inc:749 ../inc/prefs.inc:762
+#: ../inc/prefs.inc:746
+#: ../inc/prefs.inc:749
+#: ../inc/prefs.inc:762
 msgid "%1 minutes"
 msgstr ""
 
-#: ../inc/prefs.inc:754 ../inc/prefs.inc:795
+#: ../inc/prefs.inc:754
+#: ../inc/prefs.inc:795
 msgid "(no restriction)"
 msgstr ""
 
-#: ../inc/prefs.inc:758 ../inc/prefs.inc:799 ../inc/prefs.inc:1071
+#: ../inc/prefs.inc:758
+#: ../inc/prefs.inc:799
+#: ../inc/prefs.inc:1071
 #: ../inc/prefs.inc:1203
 msgid "and"
 msgstr ""
@@ -460,7 +529,8 @@ msgstr ""
 msgid "%1 GB disk space free"
 msgstr ""
 
-#: ../inc/prefs.inc:784 ../inc/prefs.inc:785
+#: ../inc/prefs.inc:784
+#: ../inc/prefs.inc:785
 msgid "%1 days"
 msgstr ""
 
@@ -472,19 +542,21 @@ msgid ""
 msgstr ""
 
 #: ../inc/prefs.inc:853
-msgid ""
-"Emails will be sent from %1; make sure your spam filter accepts this address."
+msgid "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
 
-#: ../inc/prefs.inc:856 ../inc/prefs.inc:1213
+#: ../inc/prefs.inc:856
+#: ../inc/prefs.inc:1213
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr ""
 
-#: ../inc/prefs.inc:859 ../inc/prefs.inc:1216
+#: ../inc/prefs.inc:859
+#: ../inc/prefs.inc:1216
 msgid "Should %1 show your computers on its web site?"
 msgstr ""
 
-#: ../inc/prefs.inc:875 ../inc/result.inc:180
+#: ../inc/prefs.inc:875
+#: ../inc/result.inc:180
 msgid "Computing"
 msgstr ""
 
@@ -492,34 +564,39 @@ msgstr ""
 msgid "Separate preferences for %1"
 msgstr ""
 
-#: ../inc/prefs.inc:897 ../inc/prefs.inc:975
-#, fuzzy
+#: ../inc/prefs.inc:897
+#: ../inc/prefs.inc:975
 msgid "Edit preferences"
-msgstr "%1 参数设置"
+msgstr "编辑参数设置"
 
 #: ../inc/prefs.inc:901
 msgid "Add separate preferences for %1"
 msgstr ""
 
-#: ../inc/prefs.inc:910 ../inc/prefs.inc:957
+#: ../inc/prefs.inc:910
+#: ../inc/prefs.inc:957
 msgid "(Switch View)"
 msgstr ""
 
-#: ../inc/prefs.inc:912 ../inc/prefs.inc:960
-#, fuzzy
+#: ../inc/prefs.inc:912
+#: ../inc/prefs.inc:960
 msgid "Combined preferences"
-msgstr "计算参数设置"
+msgstr "组合的参数设置"
 
 #: ../inc/prefs.inc:917
 msgid "Project specific settings"
 msgstr ""
 
-#: ../inc/prefs.inc:926 ../inc/prefs.inc:969
+#: ../inc/prefs.inc:926
+#: ../inc/prefs.inc:969
 msgid "Primary (default) preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:936 ../user/add_venue.php:43 ../user/add_venue.php:68
-#: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
+#: ../inc/prefs.inc:936
+#: ../user/add_venue.php:43
+#: ../user/add_venue.php:68
+#: ../user/prefs_edit.php:45
+#: ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
 msgid "Edit %1 preferences"
 msgstr ""
@@ -527,8 +604,7 @@ msgstr ""
 #: ../inc/prefs.inc:950
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
-"             On computers attached to multiple projects, the most recently "
-"modified preferences will be used."
+"             On computers attached to multiple projects, the most recently modified preferences will be used."
 msgstr ""
 
 #: ../inc/prefs.inc:954
@@ -536,9 +612,8 @@ msgid "Preferences last modified:"
 msgstr ""
 
 #: ../inc/prefs.inc:1006
-#, fuzzy
 msgid "Add preferences"
-msgstr "%1 参数设置"
+msgstr "增加参数设置"
 
 #: ../inc/prefs.inc:1010
 msgid "Update preferences"
@@ -564,7 +639,8 @@ msgid ""
 "            will get 1/3 of your resources and the second will get 2/3."
 msgstr ""
 
-#: ../inc/prefs.inc:1280 ../inc/prefs.inc:1289
+#: ../inc/prefs.inc:1280
+#: ../inc/prefs.inc:1289
 msgid "Default computer location"
 msgstr ""
 
@@ -584,7 +660,8 @@ msgstr ""
 msgid "Update failed: "
 msgstr ""
 
-#: ../inc/profile.inc:216 ../user/create_profile.php:306
+#: ../inc/profile.inc:216
+#: ../user/create_profile.php:306
 msgid "Edit your profile"
 msgstr "编辑您的用户档案"
 
@@ -624,31 +701,39 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: ../inc/result.inc:93 ../inc/result.inc:113 ../inc/result.inc:152
+#: ../inc/result.inc:93
+#: ../inc/result.inc:113
+#: ../inc/result.inc:152
 msgid "In progress"
 msgstr ""
 
-#: ../inc/result.inc:94 ../user/workunit.php:64
+#: ../inc/result.inc:94
+#: ../user/workunit.php:64
 msgid "Pending"
 msgstr ""
 
-#: ../inc/result.inc:95 ../inc/result.inc:195
+#: ../inc/result.inc:95
+#: ../inc/result.inc:195
 msgid "Valid"
 msgstr ""
 
-#: ../inc/result.inc:96 ../inc/result.inc:198
+#: ../inc/result.inc:96
+#: ../inc/result.inc:198
 msgid "Invalid"
 msgstr ""
 
-#: ../inc/result.inc:97 ../inc/result.inc:138
+#: ../inc/result.inc:97
+#: ../inc/result.inc:138
 msgid "Error"
 msgstr ""
 
-#: ../inc/result.inc:111 ../inc/result.inc:150
+#: ../inc/result.inc:111
+#: ../inc/result.inc:150
 msgid "Inactive"
 msgstr ""
 
-#: ../inc/result.inc:112 ../inc/result.inc:151
+#: ../inc/result.inc:112
+#: ../inc/result.inc:151
 msgid "Unsent"
 msgstr ""
 
@@ -680,11 +765,13 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-#: ../inc/result.inc:126 ../inc/result.inc:162
+#: ../inc/result.inc:126
+#: ../inc/result.inc:162
 msgid "Couldn't send"
 msgstr ""
 
-#: ../inc/result.inc:129 ../inc/result.inc:186
+#: ../inc/result.inc:129
+#: ../inc/result.inc:186
 msgid "Cancelled by server"
 msgstr ""
 
@@ -700,7 +787,8 @@ msgstr ""
 msgid "Error while uploading"
 msgstr ""
 
-#: ../inc/result.inc:136 ../inc/result.inc:188
+#: ../inc/result.inc:136
+#: ../inc/result.inc:188
 msgid "Aborted by user"
 msgstr ""
 
@@ -708,19 +796,24 @@ msgstr ""
 msgid "Timed out - no response"
 msgstr ""
 
-#: ../inc/result.inc:140 ../inc/result.inc:169
+#: ../inc/result.inc:140
+#: ../inc/result.inc:169
 msgid "Didn't need"
 msgstr ""
 
-#: ../inc/result.inc:141 ../inc/result.inc:170
+#: ../inc/result.inc:141
+#: ../inc/result.inc:170
 msgid "Validate error"
 msgstr ""
 
-#: ../inc/result.inc:142 ../inc/result.inc:171
+#: ../inc/result.inc:142
+#: ../inc/result.inc:171
 msgid "Client detached"
 msgstr ""
 
-#: ../inc/result.inc:145 ../inc/result.inc:155 ../inc/result.inc:173
+#: ../inc/result.inc:145
+#: ../inc/result.inc:155
+#: ../inc/result.inc:173
 #: ../inc/result.inc:205
 msgid "Unknown"
 msgstr ""
@@ -762,9 +855,8 @@ msgid "Uploading"
 msgstr ""
 
 #: ../inc/result.inc:183
-#, fuzzy
 msgid "Done"
-msgstr "未加入团队"
+msgstr "已完成"
 
 #: ../inc/result.inc:194
 msgid "Initial"
@@ -814,7 +906,9 @@ msgstr ""
 msgid "Task name"
 msgstr ""
 
-#: ../inc/result.inc:257 ../inc/result.inc:262 ../inc/result.inc:265
+#: ../inc/result.inc:257
+#: ../inc/result.inc:262
+#: ../inc/result.inc:265
 #: ../inc/result.inc:268
 msgid "click for details"
 msgstr ""
@@ -836,11 +930,11 @@ msgid "Work unit ID"
 msgstr ""
 
 #: ../inc/result.inc:271
-#, fuzzy
 msgid "Computer"
 msgstr "计算机"
 
-#: ../inc/result.inc:274 ../inc/result.inc:378
+#: ../inc/result.inc:274
+#: ../inc/result.inc:378
 msgid "Sent"
 msgstr ""
 
@@ -864,23 +958,29 @@ msgstr ""
 msgid "CPU time<br />(sec)"
 msgstr ""
 
-#: ../inc/result.inc:281 ../inc/result.inc:390
+#: ../inc/result.inc:281
+#: ../inc/result.inc:390
 msgid "Claimed credit"
 msgstr ""
 
-#: ../inc/result.inc:282 ../inc/result.inc:391
+#: ../inc/result.inc:282
+#: ../inc/result.inc:391
 msgid "Granted credit"
 msgstr ""
 
 #: ../inc/result.inc:283
-#, fuzzy
 msgid "Application"
 msgstr "计算程序"
 
-#: ../inc/result.inc:375 ../inc/team.inc:202 ../inc/team.inc:345
-#: ../inc/user.inc:198 ../user/account_finish.php:40
-#: ../user/create_account_form.php:75 ../user/top_users.php:48
-#: ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/result.inc:375
+#: ../inc/team.inc:202
+#: ../inc/team.inc:345
+#: ../inc/user.inc:198
+#: ../user/account_finish.php:40
+#: ../user/create_account_form.php:75
+#: ../user/top_users.php:48
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "用户名"
 
@@ -889,9 +989,8 @@ msgid "Workunit"
 msgstr ""
 
 #: ../inc/result.inc:377
-#, fuzzy
 msgid "Created"
-msgstr "创建"
+msgstr "创建时间"
 
 #: ../inc/result.inc:379
 msgid "Received"
@@ -961,16 +1060,25 @@ msgstr "关键字"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "寻找名称或描述中包含这些关键字的团队"
 
-#: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
-#: ../inc/team.inc:360 ../inc/team.inc:447 ../inc/user.inc:204
-#: ../inc/user.inc:310 ../user/account_finish.php:44
-#: ../user/create_account_form.php:94 ../user/edit_user_info_form.php:38
-#: ../user/top_users.php:62 ../user/user_search.php:102
-#: ../user/user_search.php:119 ../user/user_search.php:158
+#: ../inc/team.inc:36
+#: ../inc/team.inc:114
+#: ../inc/team.inc:225
+#: ../inc/team.inc:360
+#: ../inc/team.inc:447
+#: ../inc/user.inc:204
+#: ../inc/user.inc:310
+#: ../user/account_finish.php:44
+#: ../user/create_account_form.php:94
+#: ../user/edit_user_info_form.php:38
+#: ../user/top_users.php:62
+#: ../user/user_search.php:102
+#: ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "国家或地区"
 
-#: ../inc/team.inc:42 ../inc/team.inc:445
+#: ../inc/team.inc:42
+#: ../inc/team.inc:445
 msgid "Type of team"
 msgstr "团队类型"
 
@@ -978,7 +1086,9 @@ msgstr "团队类型"
 msgid "Show only active teams"
 msgstr "只显示活跃的团队"
 
-#: ../inc/team.inc:45 ../user/profile_menu.php:75 ../user/user_search.php:132
+#: ../inc/team.inc:45
+#: ../user/profile_menu.php:75
+#: ../user/user_search.php:132
 msgid "Search"
 msgstr "搜索"
 
@@ -998,7 +1108,9 @@ msgstr "请求已由您发起过"
 msgid "founder response deadline is %1"
 msgstr "原创建人的回复期限是 %1"
 
-#: ../inc/team.inc:65 ../inc/user.inc:275 ../inc/user.inc:362
+#: ../inc/team.inc:65
+#: ../inc/user.inc:275
+#: ../inc/user.inc:362
 msgid "None"
 msgstr "未加入团队"
 
@@ -1022,17 +1134,30 @@ msgstr "描述"
 msgid "Web site"
 msgstr "网站"
 
-#: ../inc/team.inc:94 ../inc/team.inc:207 ../inc/team.inc:212
-#: ../inc/team.inc:214 ../inc/team.inc:351 ../inc/team.inc:356
-#: ../inc/user.inc:118 ../inc/user.inc:132 ../user/top_users.php:53
-#: ../user/top_users.php:58 ../user/user_search.php:102
+#: ../inc/team.inc:94
+#: ../inc/team.inc:207
+#: ../inc/team.inc:212
+#: ../inc/team.inc:214
+#: ../inc/team.inc:351
+#: ../inc/team.inc:356
+#: ../inc/user.inc:118
+#: ../inc/user.inc:132
+#: ../user/top_users.php:53
+#: ../user/top_users.php:58
+#: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "总积分"
 
-#: ../inc/team.inc:95 ../inc/team.inc:208 ../inc/team.inc:217
-#: ../inc/team.inc:219 ../inc/team.inc:350 ../inc/team.inc:355
-#: ../inc/user.inc:133 ../user/top_users.php:52 ../user/top_users.php:57
+#: ../inc/team.inc:95
+#: ../inc/team.inc:208
+#: ../inc/team.inc:217
+#: ../inc/team.inc:219
+#: ../inc/team.inc:350
+#: ../inc/team.inc:355
+#: ../inc/user.inc:133
+#: ../user/top_users.php:52
+#: ../user/top_users.php:57
 msgid "Recent average credit"
 msgstr "近期平均积分"
 
@@ -1048,7 +1173,9 @@ msgstr "类型"
 msgid "Message board"
 msgstr "留言板"
 
-#: ../inc/team.inc:120 ../user/forum_forum.php:131 ../user/forum_index.php:93
+#: ../inc/team.inc:120
+#: ../user/forum_forum.php:131
+#: ../user/forum_index.php:93
 msgid "Threads"
 msgstr "主题"
 
@@ -1057,9 +1184,7 @@ msgid "Join this team"
 msgstr "加入该团队"
 
 #: ../inc/team.inc:129
-msgid ""
-"Note: if 'OK to email' is set in your project preferences, joining a team "
-"gives its founder access to your email address."
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
 msgstr "如果你在项目参数中设置了允许接收电子邮件，加入团队后该团队的创建人将可以年到您的电子邮件地址。"
 
 #: ../inc/team.inc:132
@@ -1078,11 +1203,13 @@ msgstr "回复期限 %1"
 msgid "Team foundership change"
 msgstr "团队创建人改变"
 
-#: ../inc/team.inc:148 ../inc/team.inc:346
+#: ../inc/team.inc:148
+#: ../inc/team.inc:346
 msgid "Members"
 msgstr "成员"
 
-#: ../inc/team.inc:149 ../inc/team.inc:241
+#: ../inc/team.inc:149
+#: ../inc/team.inc:241
 msgid "Founder"
 msgstr "创建人"
 
@@ -1098,7 +1225,9 @@ msgstr "昨天新加入的成员"
 msgid "Total members"
 msgstr "所有成员"
 
-#: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
+#: ../inc/team.inc:177
+#: ../inc/team.inc:178
+#: ../inc/team.inc:179
 msgid "view"
 msgstr "查看"
 
@@ -1134,14 +1263,13 @@ msgstr "本操作需要创建人权限。"
 msgid "This operation requires team admin privileges"
 msgstr "本操作需要团队创建人的权限"
 
-#: ../inc/team.inc:344 ../user/top_users.php:47
+#: ../inc/team.inc:344
+#: ../user/top_users.php:47
 msgid "Rank"
 msgstr "名次"
 
 #: ../inc/team.inc:420
-msgid ""
-"%1Privacy note%2: if you create a team, your project preferences (resource "
-"share, graphics preferences) will be visible to the public."
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
 msgstr "%1隐私事项%2：如果您要创建一个团队，则您的项目参数 ( 资源分享率，图形参数设置等 ) 将会对团队成员公开。"
 
 #: ../inc/team.inc:424
@@ -1156,7 +1284,8 @@ msgstr "请不要使用 HTML 标记。"
 msgid "Team name, HTML version"
 msgstr "团队名称，HTML 版本"
 
-#: ../inc/team.inc:430 ../inc/team.inc:440
+#: ../inc/team.inc:430
+#: ../inc/team.inc:440
 msgid "You may use %1limited HTML tags%2."
 msgstr "您可以使用 %1有限的 HTML 标记%2。"
 
@@ -1196,7 +1325,9 @@ msgstr "项目"
 msgid "Click for user page"
 msgstr "点击访问用户页面"
 
-#: ../inc/user.inc:118 ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/user.inc:118
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Average credit"
 msgstr "平均积分"
 
@@ -1212,8 +1343,12 @@ msgstr "计算和积分情况"
 msgid "Pending credit"
 msgstr "待授予的积分"
 
-#: ../inc/user.inc:146 ../inc/user.inc:148 ../inc/user.inc:149
-#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:393
+#: ../inc/user.inc:146
+#: ../inc/user.inc:148
+#: ../inc/user.inc:149
+#: ../inc/user.inc:237
+#: ../inc/user.inc:318
+#: ../inc/user.inc:393
 #: ../user/view_profile.php:54
 msgid "View"
 msgstr "查看"
@@ -1238,15 +1373,18 @@ msgstr "跨项目的统计网站"
 msgid "Account"
 msgstr ""
 
-#: ../inc/user.inc:162 ../inc/user.inc:275 ../inc/user.inc:360
-#: ../inc/user.inc:362 ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/user.inc:162
+#: ../inc/user.inc:275
+#: ../inc/user.inc:360
+#: ../inc/user.inc:362
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Team"
 msgstr "团队"
 
 #: ../inc/user.inc:164
-#, fuzzy
 msgid "Cross-project"
-msgstr "跨项目标识符 (CPID)"
+msgstr "跨项目"
 
 #: ../inc/user.inc:165
 msgid "Certificate"
@@ -1260,11 +1398,13 @@ msgstr "用手机查看您的统计信息"
 msgid "Account information"
 msgstr "帐户信息"
 
-#: ../inc/user.inc:199 ../user/edit_passwd_form.php:46
+#: ../inc/user.inc:199
+#: ../user/edit_passwd_form.php:46
 msgid "Email address"
 msgstr "电子邮件地址"
 
-#: ../inc/user.inc:202 ../inc/user.inc:312
+#: ../inc/user.inc:202
+#: ../inc/user.inc:312
 msgid "URL"
 msgstr "网址"
 
@@ -1272,7 +1412,8 @@ msgstr "网址"
 msgid "Postal code"
 msgstr "邮编"
 
-#: ../inc/user.inc:206 ../inc/user.inc:309
+#: ../inc/user.inc:206
+#: ../inc/user.inc:309
 msgid "%1 member since"
 msgstr "加入 %1 的日期"
 
@@ -1348,11 +1489,14 @@ msgstr ""
 msgid "%1 preferences"
 msgstr "%1 参数设置"
 
-#: ../inc/user.inc:234 ../user/sample_index.php:66
+#: ../inc/user.inc:234
+#: ../user/sample_index.php:66
 msgid "Community"
 msgstr "社区"
 
-#: ../inc/user.inc:237 ../user/pm.php:103 ../user/pm.php:143
+#: ../inc/user.inc:237
+#: ../user/pm.php:103
+#: ../user/pm.php:143
 msgid "Delete"
 msgstr "删除"
 
@@ -1360,11 +1504,13 @@ msgstr "删除"
 msgid "Create"
 msgstr "创建"
 
-#: ../inc/user.inc:241 ../inc/user.inc:393
+#: ../inc/user.inc:241
+#: ../inc/user.inc:393
 msgid "Profile"
 msgstr "用户档案"
 
-#: ../inc/user.inc:244 ../inc/user.inc:366
+#: ../inc/user.inc:244
+#: ../inc/user.inc:366
 msgid "%1 posts"
 msgstr "%1 个帖子"
 
@@ -1376,11 +1522,13 @@ msgstr "通知"
 msgid "Quit team"
 msgstr "退出团队"
 
-#: ../inc/user.inc:265 ../inc/user.inc:282
+#: ../inc/user.inc:265
+#: ../inc/user.inc:282
 msgid "Administer"
 msgstr "管理"
 
-#: ../inc/user.inc:271 ../inc/user.inc:284
+#: ../inc/user.inc:271
+#: ../inc/user.inc:284
 msgid "(foundership change request pending)"
 msgstr "( 创建人转换请求待处理 )"
 
@@ -1400,12 +1548,16 @@ msgstr "创建人 ( 已退出团队 )"
 msgid "Find friends"
 msgstr "寻找好友"
 
-#: ../inc/user.inc:299 ../inc/user.inc:301 ../inc/user.inc:376
-#: ../inc/user.inc:378 ../inc/user.inc:387
+#: ../inc/user.inc:299
+#: ../inc/user.inc:301
+#: ../inc/user.inc:376
+#: ../inc/user.inc:378
+#: ../inc/user.inc:387
 msgid "Friends"
 msgstr "好友"
 
-#: ../inc/user.inc:318 ../inc/user.inc:320
+#: ../inc/user.inc:318
+#: ../inc/user.inc:320
 msgid "Computers"
 msgstr "计算机"
 
@@ -1425,11 +1577,13 @@ msgstr "联系"
 msgid "This person is a friend"
 msgstr "这是一位好友"
 
-#: ../inc/user.inc:373 ../user/friend.php:224
+#: ../inc/user.inc:373
+#: ../user/friend.php:224
 msgid "Cancel friendship"
 msgstr "删除该好友"
 
-#: ../inc/user.inc:376 ../user/friend.php:35
+#: ../inc/user.inc:376
+#: ../user/friend.php:35
 msgid "Request pending"
 msgstr "请求待处理"
 
@@ -1438,56 +1592,58 @@ msgid "Add as friend"
 msgstr "添加为好友"
 
 #: ../inc/util.inc:385
-#, fuzzy
 msgid "Email address:"
-msgstr "电子邮件地址"
+msgstr "电子邮件地址："
 
 #: ../inc/util.inc:385
 msgid "forgot email address?"
-msgstr ""
+msgstr "忘记了电子邮箱地址？"
 
 #: ../inc/util.inc:387
-#, fuzzy
 msgid "Password:"
-msgstr "用户口令"
+msgstr "用户口令："
 
 #: ../inc/util.inc:387
 msgid "forgot password?"
-msgstr ""
+msgstr "忘记了口令？"
 
 #: ../inc/util.inc:390
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "保持这台计算机上的登录状态"
 
 #: ../inc/util.inc:395
 msgid "Log in"
-msgstr ""
+msgstr "登录"
 
 #: ../inc/util.inc:396
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "或者%1创建一个新帐户%2。"
 
 #: ../inc/util.inc:416
 msgid "Please log in"
-msgstr ""
+msgstr "请先登录"
 
 #: ../inc/util.inc:542
 msgid "Use BBCode tags to format your text"
 msgstr "使用 BBCode 标记来格式化您的正文"
 
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/account_finish.php:40
+#: ../user/create_account_form.php:75
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "您在我们网站上的标识，可以使用您的真实姓名或是昵称。"
 
-#: ../user/account_finish.php:44 ../user/create_account_form.php:94
+#: ../user/account_finish.php:44
+#: ../user/create_account_form.php:94
 msgid "Select the country you want to represent, if any."
 msgstr "选择您所希望代表的国家或地区。"
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:100
+#: ../user/account_finish.php:50
+#: ../user/create_account_form.php:100
 msgid "Postal or ZIP Code"
 msgstr "邮编"
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:100
+#: ../user/account_finish.php:50
+#: ../user/create_account_form.php:100
 msgid "Optional"
 msgstr "可选的"
 
@@ -1495,19 +1651,14 @@ msgstr "可选的"
 msgid "Add %1 preferences for %2"
 msgstr ""
 
-#: ../user/apps.php:31 ../user/sample_index.php:63
+#: ../user/apps.php:31
+#: ../user/sample_index.php:63
 msgid "Applications"
 msgstr "计算程序"
 
 #: ../user/apps.php:32
-msgid ""
-"%1 currently has the following applications. When you participate in %1, "
-"work for one or more of these applications will be assigned to your "
-"computer. The current version of the application will be downloaded to your "
-"computer. This happens automatically; you don't have to do anything."
-msgstr ""
-"%1 目前有如下几个计算程序。当您参与 %1 "
-"项目时，适用于这些计算程序的任务包将会分发给您的计算机。当前版本的计算程序也会下载到您的计算机上。这一切都是自动的，您不需要做任何操作。"
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr "%1 目前有如下几个计算程序。当您参与 %1 项目时，适用于这些计算程序的任务包将会分发给您的计算机。当前版本的计算程序也会下载到您的计算机上。这一切都是自动的，您不需要做任何操作。"
 
 #: ../user/apps.php:48
 msgid "Platform"
@@ -1542,17 +1693,11 @@ msgid "Account creation is currently disabled. Please try again later."
 msgstr "新帐户创建功能当前已暂停，请以后再试。"
 
 #: ../user/create_account_form.php:41
-msgid ""
-"NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
-"form. Just run BOINC, select Attach Project, and enter an email address and "
-"password."
-msgstr ""
-"注意：如果您正在使用5.2版本之后的客户端，请不要使用这个表单。运行 BOINC，运行菜单中的“加入项目”，然后输入电子邮件地址并设置一个用户口令。"
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "注意：如果您正在使用5.2版本之后的客户端，请不要使用这个表单。运行 BOINC，运行菜单中的“加入项目”，然后输入电子邮件地址并设置一个用户口令。"
 
 #: ../user/create_account_form.php:57
-msgid ""
-"This account will belong to the team %1 and will have the project "
-"preferences of its founder."
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
 msgstr "此帐户将属于 %1 团队并且其项目参数的默认值和团队创建人的项目参数相同。"
 
 #: ../user/create_account_form.php:69
@@ -1571,7 +1716,8 @@ msgstr "电子邮件地址"
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "必须是有效的电子邮件地址，形式如 '用户名@域名'。"
 
-#: ../user/create_account_form.php:88 ../user/edit_email_form.php:46
+#: ../user/create_account_form.php:88
+#: ../user/edit_email_form.php:46
 msgid "Password"
 msgstr "用户口令"
 
@@ -1600,9 +1746,7 @@ msgid "%1 Your profile picture is shown to the left."
 msgstr "%1您的用户档案图片将显示在左边"
 
 #: ../user/create_profile.php:67
-msgid ""
-"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
-"or less)."
+msgid "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 or less)."
 msgstr "要替换的话，点击“浏览”按钮并选择一个 JPEG 或 PNG 文件（大小不超过 %1）。"
 
 #: ../user/create_profile.php:70
@@ -1610,9 +1754,7 @@ msgid "To remove it from your profile, check this box:"
 msgstr "如果想从用户档案中删除它，请选择："
 
 #: ../user/create_profile.php:78
-msgid ""
-"If you would like include a picture with your profile, click the \"Browse\" "
-"button and select a JPEG or PNG file. Please select images of %1 or less."
+msgid "If you would like include a picture with your profile, click the \"Browse\" button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr "如果您想在用户档案中包含一张照片，点击“浏览”按钮并选择一个 JPEG 或 PNG 文件。文件大小不能超过 %1。"
 
 #: ../user/create_profile.php:87
@@ -1628,9 +1770,7 @@ msgid "Submit profile"
 msgstr "提交用户档案"
 
 #: ../user/create_profile.php:107
-msgid ""
-"To protect the project's webpages from spam, we kindly ask you to type in "
-"the two words shown in the image:<br>\n"
+msgid "To protect the project's webpages from spam, we kindly ask you to type in the two words shown in the image:<br>\n"
 msgstr "为保护我们网站不被垃圾信息破坏，我们请求您输入下面图片中的两个单词：<br>\n"
 
 #: ../user/create_profile.php:110
@@ -1642,9 +1782,7 @@ msgid "The format of your uploaded image is not supported."
 msgstr "您上传的图片格式不支持。"
 
 #: ../user/create_profile.php:161
-msgid ""
-"Your %1profile%2 lets you share your opinions and background with the %3 "
-"community."
+msgid "Your %1profile%2 lets you share your opinions and background with the %3 community."
 msgstr "通过 %1用户档案%2，您可以和 %3 社区分享您的观点和背景。"
 
 #: ../user/create_profile.php:208
@@ -1652,15 +1790,11 @@ msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr "您的验证字符回复不正确，请重试。"
 
 #: ../user/create_profile.php:217
-msgid ""
-"Your first response was flagged as spam by the Akismet anti-spam system.  "
-"Please modify your text and try again."
+msgid "Your first response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again."
 msgstr "您第一次输入的验证字符被 Akismet 防垃圾信息系统标记为垃圾信息，请修改您的输入并重试。"
 
 #: ../user/create_profile.php:225
-msgid ""
-"Your second response was flagged as spam by the Akismet anti-spam system.  "
-"Please modify your text and try again."
+msgid "Your second response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again."
 msgstr "您第二次输入的验证字符被 Akismet 防垃圾信息系统标记为垃圾信息，请修改您的输入并重试。"
 
 #: ../user/create_profile.php:241
@@ -1680,8 +1814,7 @@ msgid "Profile saved"
 msgstr "用户档案内容已保存"
 
 #: ../user/create_profile.php:299
-msgid ""
-"Congratulations! Your profile was successfully entered into our database."
+msgid "Congratulations! Your profile was successfully entered into our database."
 msgstr "恭喜！您的用户档案已经成功进入了我们的数据库。"
 
 #: ../user/create_profile.php:300
@@ -1693,9 +1826,7 @@ msgid "Create a profile"
 msgstr "创建一个用户档案"
 
 #: ../user/create_profile.php:336
-msgid ""
-"To prevent spam, an average credit of %1 or greater is required to create or "
-"edit a profile.  We apologize for this inconvenience."
+msgid "To prevent spam, an average credit of %1 or greater is required to create or edit a profile.  We apologize for this inconvenience."
 msgstr "为防止垃圾信息，如果要创建或编译用户档案，近期平均积分不能小于 %1，由此带来的不方便之处我们深感抱歉。"
 
 #: ../user/download_network.php:25
@@ -1707,15 +1838,13 @@ msgid "You can download applications in several categories."
 msgstr "您可以下载如下几个类别的应用程序。"
 
 #: ../user/download_network.php:31
-msgid ""
-"These applications are not endorsed by %1 and you use them at your own risk."
+msgid "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr "这些应用程序未经过 %1 的仔细检查，若准备使用请自担风险。"
 
 #: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
-"However, the author may have provided some help on installing or "
-"uninstalling the application. \n"
+"However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
 "我们不能提供这些应用程序的安装及使用文档。\n"
@@ -1730,7 +1859,8 @@ msgstr "安装及运行 BOINC 的说明请看 %1这里%2。"
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "本页面中的列表内容由 %1BOINC 官方网站%2 集中管理。"
 
-#: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
+#: ../user/edit_email_form.php:26
+#: ../user/edit_email_form.php:50
 msgid "Change email address"
 msgstr ""
 
@@ -1739,20 +1869,19 @@ msgid "Change the email address of your account"
 msgstr ""
 
 #: ../user/edit_email_form.php:36
-#, fuzzy
 msgid "New email address"
-msgstr "电子邮件地址"
+msgstr "新的电子邮件地址"
 
 #: ../user/edit_email_form.php:37
-#, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr "必须是有效的电子邮件地址，形式如 '用户名@域名'。"
+msgstr "必须是有效的电子邮件地址，形式如 '用户名@域名'"
 
 #: ../user/edit_email_form.php:47
 msgid "No password?"
 msgstr ""
 
-#: ../user/edit_passwd_form.php:26 ../user/edit_passwd_form.php:56
+#: ../user/edit_passwd_form.php:26
+#: ../user/edit_passwd_form.php:56
 msgid "Change password"
 msgstr ""
 
@@ -1765,9 +1894,8 @@ msgid "your email address and old password"
 msgstr ""
 
 #: ../user/edit_passwd_form.php:43
-#, fuzzy
 msgid "your account key"
-msgstr "弱帐户密钥"
+msgstr "你的帐户密钥"
 
 #: ../user/edit_passwd_form.php:47
 msgid "Current password"
@@ -1806,9 +1934,8 @@ msgid "Couldn't update user info."
 msgstr ""
 
 #: ../user/edit_user_info_form.php:27
-#, fuzzy
 msgid "Edit account information"
-msgstr "帐户信息"
+msgstr "编辑帐户信息"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
@@ -1826,12 +1953,15 @@ msgstr ""
 msgid "Update info"
 msgstr ""
 
-#: ../user/forum_edit.php:115 ../user/forum_edit.php:120
-#: ../user/forum_post.php:110 ../user/forum_post.php:112
+#: ../user/forum_edit.php:115
+#: ../user/forum_edit.php:120
+#: ../user/forum_post.php:110
+#: ../user/forum_post.php:112
 msgid "Title"
 msgstr "标题"
 
-#: ../user/forum_edit.php:144 ../user/forum_post.php:128
+#: ../user/forum_edit.php:144
+#: ../user/forum_post.php:128
 msgid "Add my signature to this post"
 msgstr "在帖子后附上我的个性签名"
 
@@ -1840,9 +1970,7 @@ msgid "%1 Message boards"
 msgstr "%1 留言板"
 
 #: ../user/forum_index.php:79
-msgid ""
-"If you have a question or problem, please use the %1Questions & Answers%2 "
-"section of the message boards."
+msgid "If you have a question or problem, please use the %1Questions & Answers%2 section of the message boards."
 msgstr "如果您有问题希望得到解答，请使用留言板中的 %1问题解答%2 区。"
 
 #: ../user/forum_index.php:93
@@ -1853,7 +1981,8 @@ msgstr "主题"
 msgid "Create a new thread"
 msgstr "创建新主题"
 
-#: ../user/forum_reply.php:85 ../user/forum_thread.php:139
+#: ../user/forum_reply.php:85
+#: ../user/forum_thread.php:139
 #: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "回复该主题"
@@ -1883,15 +2012,15 @@ msgid "My question was answered"
 msgstr "我的问题已得到解答"
 
 #: ../user/forum_thread.php:113
-msgid ""
-"If your question has been adequately answered please click here to close it!"
+msgid "If your question has been adequately answered please click here to close it!"
 msgstr "如果您的问题已经得到充分的解答，请点击这里关闭它！"
 
 #: ../user/forum_thread.php:120
 msgid "I've also got this question"
 msgstr "我也有同样的问题"
 
-#: ../user/forum_thread.php:139 ../user/forum_thread.php:194
+#: ../user/forum_thread.php:139
+#: ../user/forum_thread.php:194
 msgid "Add a new message to this thread"
 msgstr "回复本主题"
 
@@ -1999,9 +2128,15 @@ msgstr "%1 没有接受您的好友请求"
 msgid "You can't be friends with yourself"
 msgstr "您不能加自己为好友"
 
-#: ../user/friend.php:62 ../user/friend.php:90 ../user/friend.php:123
-#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
-#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
+#: ../user/friend.php:62
+#: ../user/friend.php:90
+#: ../user/friend.php:123
+#: ../user/friend.php:146
+#: ../user/friend.php:204
+#: ../user/friend.php:219
+#: ../user/friend.php:233
+#: ../user/pm.php:232
+#: ../user/view_profile.php:24
 msgid "No such user"
 msgstr "没有这个用户"
 
@@ -2010,16 +2145,15 @@ msgid "Add friend"
 msgstr "添加好友"
 
 #: ../user/friend.php:72
-msgid ""
-"You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
-"to confirm that you are friends."
+msgid "You have asked to add %1 as a friend. We will notify %2 and will ask him/her to confirm that you are friends."
 msgstr "您已经要求将 %1 加为好友，我们将通知 %2 并请他/她来确认你们的关系。"
 
 #: ../user/friend.php:75
 msgid "Add an optional message here:"
 msgstr "可以在这里添加一条附加消息："
 
-#: ../user/friend.php:103 ../user/friend.php:160
+#: ../user/friend.php:103
+#: ../user/friend.php:160
 msgid "Database error"
 msgstr "数据库错误"
 
@@ -2103,12 +2237,15 @@ msgstr "删除好友"
 msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr "您确定想要取消与 %1 的好友关系吗？"
 
-#: ../user/friend.php:224 ../user/prefs_remove.php:53
-#: ../user/user_search.php:125 ../user/user_search.php:130
+#: ../user/friend.php:224
+#: ../user/prefs_remove.php:53
+#: ../user/user_search.php:125
+#: ../user/user_search.php:130
 msgid "Yes"
 msgstr "是的"
 
-#: ../user/friend.php:225 ../user/user_search.php:124
+#: ../user/friend.php:225
+#: ../user/user_search.php:124
 #: ../user/user_search.php:129
 msgid "No"
 msgstr "不是"
@@ -2141,7 +2278,8 @@ msgstr "使用下面的链接查看及编辑您的帐户参数"
 msgid "Your account"
 msgstr "您的帐户"
 
-#: ../user/info.php:22 ../user/sample_index.php:47
+#: ../user/info.php:22
+#: ../user/sample_index.php:47
 msgid "Read our rules and policies"
 msgstr "阅读规定和政策"
 
@@ -2150,10 +2288,7 @@ msgid "Run %1 only on authorized computers"
 msgstr "仅在已授权的计算机上运行 %1"
 
 #: ../user/info.php:34
-msgid ""
-"Run %1 only on computers that you own, or for which you have obtained the "
-"owner's permission. Some companies and schools have policies that prohibit "
-"using their computers for projects such as %1."
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
 msgstr "仅在您自己的或者已获准使用的计算机上运行 %1。某些企业和学校是禁止在他们的计算机上运行和 %1 的类似的项目。"
 
 #: ../user/info.php:36
@@ -2161,16 +2296,11 @@ msgid "How %1 will use your computer"
 msgstr "%1 如何使用您的计算机"
 
 #: ../user/info.php:37
-msgid ""
-"When you run %1 on your computer, it will use part of the computer's CPU "
-"power, disk space, and network bandwidth. You can control how much of your "
-"resources are used by %1, and when it uses them."
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
 msgstr "当您在计算机上运行 %1 时，他会使用您计算机上部分的处理器资源、磁盘空间以及网络带宽。您可以控制 %1 的资源使用量以及何时可以使用。"
 
 #: ../user/info.php:38
-msgid ""
-"The work done by your computer contributes to the goals of %1, as described "
-"on its web site. The application programs may change from time to time."
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
 msgstr "您的计算机所完成的计算任务仅用来帮助 %1 实现其项目网站上所申明的目标。项目计算程序的版本可能会经常改变。"
 
 #: ../user/info.php:40
@@ -2178,83 +2308,39 @@ msgid "Privacy policy"
 msgstr "隐私政策"
 
 #: ../user/info.php:41
-msgid ""
-"Your account on %1 is identified by a name that you choose. This name may be "
-"shown on the %1 web site, along with a summary of the work your computer has "
-"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
-"your identity."
-msgstr ""
-"%1 通过您选择的用户名来标识您的帐户。该用户名以及您为 %1 完成的计算任务的摘要将显示在 %1 "
-"的网站上。如果您想要匿名，那请选择一个不会泄漏您身份的用户名。"
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr "%1 通过您选择的用户名来标识您的帐户。该用户名以及您为 %1 完成的计算任务的摘要将显示在 %1 的网站上。如果您想要匿名，那请选择一个不会泄漏您身份的用户名。"
 
 #: ../user/info.php:42
-msgid ""
-"If you participate in %1, information about your computer (such as its "
-"processor type, amount of memory, etc.) will be recorded by %1 and used to "
-"decide what type of work to assign to your computer. This information will "
-"also be shown on %1's web site. Nothing that reveals your computer's "
-"location (e.g. its domain name or network address) will be shown."
-msgstr ""
-"如果您参加了 %1，那您的计算机中的相关信息比如处理器的型号、内存的大小等会被 %1 记录下来，以用来决定什么样的计算任务最适合您的计算机。 "
-"这些信息也会显示在 %1 的网站上，但是请不要担心，我们绝对不会泄漏出您的计算机的位置比如域名、网络地址等。"
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr "如果您参加了 %1，那您的计算机中的相关信息比如处理器的型号、内存的大小等会被 %1 记录下来，以用来决定什么样的计算任务最适合您的计算机。 这些信息也会显示在 %1 的网站上，但是请不要担心，我们绝对不会泄漏出您的计算机的位置比如域名、网络地址等。"
 
 #: ../user/info.php:43
-msgid ""
-"To participate in %1, you must give an address where you receive email. This "
-"address will not be shown on the %1 web site or shared with organizations. %"
-"1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
-"为了参加 %1，您必须提供一个能够接收邮件的电子邮件地址。这个地址不会被显示在 %1 的网站上。%1 可能会定期向您发送项目的新闻快讯； "
-"当然，您随时可以选择退订。"
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "为了参加 %1，您必须提供一个能够接收邮件的电子邮件地址。这个地址不会被显示在 %1 的网站上。%1 可能会定期向您发送项目的新闻快讯； 当然，您随时可以选择退订。"
 
 #: ../user/info.php:44
-msgid ""
-"Private messages sent on the %1 web site are visible only to the sender and "
-"recipient.  %1 does not examine or police the content of private messages.  "
-"If you receive unwanted private messages from another %1 user, you may add "
-"them to your %2message filter%3.  This will prevent you from seeing any "
-"public or private messages from that user."
-msgstr ""
-"在 %1 网站上发送的私人消息只对发送者和接收者可见。%1 不会检查或审查消息的内容。如果您从 %1 "
-"的用户那收到不希望收到的私人消息，您可以把他们加入到您的 %2消息过滤器%3。这样就可以避免您收到来自那位用户的任何公共或私人消息。"
+msgid "Private messages sent on the %1 web site are visible only to the sender and recipient.  %1 does not examine or police the content of private messages.  If you receive unwanted private messages from another %1 user, you may add them to your %2message filter%3.  This will prevent you from seeing any public or private messages from that user."
+msgstr "在 %1 网站上发送的私人消息只对发送者和接收者可见。%1 不会检查或审查消息的内容。如果您从 %1 的用户那收到不希望收到的私人消息，您可以把他们加入到您的 %2消息过滤器%3。这样就可以避免您收到来自那位用户的任何公共或私人消息。"
 
 #: ../user/info.php:45
-msgid ""
-"If you use our web site forums you must follow the %2posting guidelines%3.  "
-"Messages posted to the %1 forums are visible to everyone, including non-"
-"members.  By posting to the forums, you are granting irrevocable license for "
-"anyone to view and copy your posts."
-msgstr ""
-"如果您要使用我们的网站论坛，您必须遵守 %2发贴注意事项%3。发送到 %1 "
-"论坛的帖子对所有人都是可见的，即便不是我们网站的用户也能看到。您的发帖同时表明你允许所有人查看和复制您的帖子。"
+msgid "If you use our web site forums you must follow the %2posting guidelines%3.  Messages posted to the %1 forums are visible to everyone, including non-members.  By posting to the forums, you are granting irrevocable license for anyone to view and copy your posts."
+msgstr "如果您要使用我们的网站论坛，您必须遵守 %2发贴注意事项%3。发送到 %1 论坛的帖子对所有人都是可见的，即便不是我们网站的用户也能看到。您的发帖同时表明你允许所有人查看和复制您的帖子。"
 
 #: ../user/info.php:46
 msgid "Is it safe to run %1?"
 msgstr "运行 %1 安全吗？"
 
 #: ../user/info.php:47
-msgid ""
-"Any time you download a program through the Internet you are taking a "
-"chance: the program might have dangerous errors, or the download server "
-"might have been hacked. %1 has made efforts to minimize these risks. We have "
-"tested our applications carefully. Our servers are behind a firewall and are "
-"configured for high security. To ensure the integrity of program downloads, "
-"all executable files are digitally signed on a secure computer not connected "
-"to the Internet."
-msgstr ""
-"只要您从互联网下载程序就有可能碰到有危险错误的程序或者下载服务器已被黑客攻击的情况。%1 已经尽力最小化这方面的风险。我们已经仔细测试了我们的程序。我们"
-"的服务器处于防火墙之后，并且设置了最高的安全级别。为了保证程序下载的正确性，全部的可执行文件会被放置在一台未联网的安全的计算机中进行数字签名。"
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr "只要您从互联网下载程序就有可能碰到有危险错误的程序或者下载服务器已被黑客攻击的情况。%1 已经尽力最小化这方面的风险。我们已经仔细测试了我们的程序。我们的服务器处于防火墙之后，并且设置了最高的安全级别。为了保证程序下载的正确性，全部的可执行文件会被放置在一台未联网的安全的计算机中进行数字签名。"
 
 #: ../user/info.php:48
-msgid ""
-"The applications run by %1 may cause some computers to overheat. If this "
-"happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
-"%1 的计算程序可能会导致某些计算机温度过高。如果您碰到了这种情形，请停止运行 %1 或者使用 %2某些工具软件%3 来限制计算程序对处理器的使用。"
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr "%1 的计算程序可能会导致某些计算机温度过高。如果您碰到了这种情形，请停止运行 %1 或者使用 %2某些工具软件%3 来限制计算程序对处理器的使用。"
 
 #: ../user/info.php:49
-msgid ""
-"%1 was developed by %2. BOINC was developed at the University of California."
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr "%1 由 %2 开发。BOINC 由加州大学开发。"
 
 #: ../user/info.php:51
@@ -2262,10 +2348,7 @@ msgid "Liability"
 msgstr "免责申明"
 
 #: ../user/info.php:52
-msgid ""
-"%1 and %2 assume no liability for damage to your computer, loss of data, or "
-"any other event or condition that may occur as a result of participating in %"
-"1."
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
 msgstr "%1 和 %2 对于您的计算机损坏、数据丢失或其他任意由于参与 %1 所可能造成的事件没有赔偿责任。"
 
 #: ../user/info.php:54
@@ -2273,19 +2356,11 @@ msgid "Other BOINC projects"
 msgstr "其它 BOINC 项目"
 
 #: ../user/info.php:55
-msgid ""
-"Other projects use the same platform, BOINC, as %1. You may want to consider "
-"participating in one or more of these projects. By doing so, your computer "
-"will do useful work even when %1 has no work available for it."
-msgstr ""
-"除了 %1，还有其它一些项目也使用BOINC平台。您也许会考虑同时参加多个项目，这样当您无法从 %1 "
-"获取计算任务时，您的计算机仍可以处理其它项目的计算任务。"
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr "除了 %1，还有其它一些项目也使用BOINC平台。您也许会考虑同时参加多个项目，这样当您无法从 %1 获取计算任务时，您的计算机仍可以处理其它项目的计算任务。"
 
 #: ../user/info.php:56
-msgid ""
-"These other projects are not associated with %1, and we cannot vouch for "
-"their security practices or the nature of their research. Join them at your "
-"own risk."
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
 msgstr "其它项目同 %1 没有关系，所以我们也无法保证这些项目的安全性以及确切的研究内容，请您自行决定是否参加其他项目。"
 
 #: ../user/language_select.php:41
@@ -2293,15 +2368,11 @@ msgid "Language selection"
 msgstr ""
 
 #: ../user/language_select.php:68
-msgid ""
-"This web site is available in several languages. The currently selected "
-"language is %1."
+msgid "This web site is available in several languages. The currently selected language is %1."
 msgstr ""
 
 #: ../user/language_select.php:73
-msgid ""
-"Normally the choice of language is determined by your browser's language "
-"setting, which is: %1.  You can change this setting using:"
+msgid "Normally the choice of language is determined by your browser's language setting, which is: %1.  You can change this setting using:"
 msgstr ""
 
 #: ../user/language_select.php:78
@@ -2313,10 +2384,7 @@ msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
 
 #: ../user/language_select.php:84
-msgid ""
-"Or you can select a language by clicking on one of the links.  This will "
-"send your browser a cookie; make sure your browser accepts cookies from our "
-"domain."
+msgid "Or you can select a language by clicking on one of the links.  This will send your browser a cookie; make sure your browser accepts cookies from our domain."
 msgstr ""
 
 #: ../user/language_select.php:90
@@ -2328,9 +2396,7 @@ msgid "Use browser language setting"
 msgstr ""
 
 #: ../user/language_select.php:108
-msgid ""
-"Translations are done by volunteers.  If your native language is not here, %"
-"1you can provide a translation%2."
+msgid "Translations are done by volunteers.  If your native language is not here, %1you can provide a translation%2."
 msgstr ""
 
 #: ../user/pm.php:68
@@ -2345,7 +2411,8 @@ msgstr "您目前没有私人消息。"
 msgid "Sender and date"
 msgstr "发送人及日期"
 
-#: ../user/pm.php:102 ../user/pm.php:142
+#: ../user/pm.php:102
+#: ../user/pm.php:142
 msgid "Reply"
 msgstr "回复"
 
@@ -2386,9 +2453,7 @@ msgid "Really block %1?"
 msgstr "确定要阻止 %1 吗？"
 
 #: ../user/pm.php:235
-msgid ""
-"Are you really sure you want to block user %1 from sending you private "
-"messages?"
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
 msgstr "您确定要阻止用户 %1 向您发送私人消息吗？"
 
 #: ../user/pm.php:236
@@ -2396,9 +2461,7 @@ msgid "Please note that you can only block a limited amount of users."
 msgstr "请注意您只有阻止有限数量的用户。"
 
 #: ../user/pm.php:237
-msgid ""
-"Once the user has been blocked you can unblock it using forum preferences "
-"page."
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
 msgstr "一旦该用户被您阻止，您可以在论坛的参数设置页面中解除该阻止。"
 
 #: ../user/pm.php:243
@@ -2422,7 +2485,6 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "要解除阻止，请访问 %1留言板的参数设置%2"
 
 #: ../user/prefs.php:33
-#, fuzzy
 msgid "preferences"
 msgstr "参数设置"
 
@@ -2433,7 +2495,8 @@ msgid ""
 "\t      or you issue the %2Update%3 command from the BOINC client."
 msgstr ""
 
-#: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
+#: ../user/prefs_edit.php:72
+#: ../user/prefs_edit.php:101
 msgid "%1 for %2"
 msgstr ""
 
@@ -2457,26 +2520,21 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../user/profile_menu.php:33 ../user/sample_index.php:68
+#: ../user/profile_menu.php:33
+#: ../user/sample_index.php:68
 msgid "Profiles"
 msgstr "用户档案"
 
 #: ../user/profile_menu.php:36
-msgid ""
-"%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
-"community."
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
 msgstr "通过 %1用户档案%2 志愿者可以和 %3 社区分享他的背景和观点。"
 
 #: ../user/profile_menu.php:37
-msgid ""
-"Explore the diversity of your fellow volunteers, and contribute your own "
-"views for others to enjoy."
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
 msgstr "可以了解其他志愿者的想法，也可以让他人看到您分享的观点。"
 
 #: ../user/profile_menu.php:38
-msgid ""
-"If you haven't already, you can %1create your own user profile%2 for others "
-"to see!"
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
 msgstr "如果您还没有用户档案的话，您现在就可以%1创建属于您自己的用户档案了%2！"
 
 #: ../user/profile_menu.php:43
@@ -2496,9 +2554,7 @@ msgid "Browse profiles %1by country%2."
 msgstr "%1按国家或地区%2浏览用户档案。"
 
 #: ../user/profile_menu.php:61
-msgid ""
-"Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
-"without pictures%2."
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
 msgstr "%1随机地浏览所有用户档案%2，%3随机地浏览带图片的用户档案%2，或者%4随机地浏览不带图片%2的用户档案。"
 
 #: ../user/profile_menu.php:65
@@ -2542,9 +2598,8 @@ msgid "Return to profile."
 msgstr "返回用户档案。"
 
 #: ../user/result.php:28
-#, fuzzy
 msgid "No such task"
-msgstr "没有这个团队。"
+msgstr "没有这个任务"
 
 #: ../user/result.php:30
 msgid "Task %1"
@@ -2586,7 +2641,8 @@ msgstr "统计信息和排行榜"
 msgid "Statistics for %1"
 msgstr "%1 的统计信息"
 
-#: ../user/stats.php:29 ../user/top_users.php:115
+#: ../user/stats.php:29
+#: ../user/top_users.php:115
 msgid "Top participants"
 msgstr "用户排名"
 
@@ -2594,26 +2650,21 @@ msgstr "用户排名"
 msgid "Top computers"
 msgstr "主机排名"
 
-#: ../user/stats.php:31 ../user/team.php:43
+#: ../user/stats.php:31
+#: ../user/team.php:43
 msgid "Top teams"
 msgstr "团队排名"
 
 #: ../user/stats.php:35
-msgid ""
-"More detailed statistics for %1 and other BOINC-based projects are available "
-"at several web sites:"
+msgid "More detailed statistics for %1 and other BOINC-based projects are available at several web sites:"
 msgstr "下列几个网站可以查询到关于 %1 和其它 BOINC 项目的更详细的统计信息："
 
 #: ../user/stats.php:38
-msgid ""
-"You can also get your current statistics in the form of a \"signature image"
-"\":"
+msgid "You can also get your current statistics in the form of a \"signature image\":"
 msgstr "你还可以通过“签名图片”的形式得到您当前的统计信息："
 
 #: ../user/stats.php:41
-msgid ""
-"Additionally you can get your individual statistics summed across all BOINC "
-"projects from several sites; see your %1home page%2."
+msgid "Additionally you can get your individual statistics summed across all BOINC projects from several sites; see your %1home page%2."
 msgstr "另外，您还可以在您的 %1帐户主页面%2 中查看所有你参加的 BOINC 项目中的个人统计信息。"
 
 #: ../user/team.php:25
@@ -2621,8 +2672,7 @@ msgid "%1 participants may form %2teams%3"
 msgstr "%1 的用户可以组成 %2团队%3"
 
 #: ../user/team.php:27
-msgid ""
-"You may belong to only one team. You can join or quit a team at any time."
+msgid "You may belong to only one team. You can join or quit a team at any time."
 msgstr "你最多只能加入一个团队。您可以在任何时候加入或退出一个团队。"
 
 #: ../user/team.php:29
@@ -2666,8 +2716,7 @@ msgid "Create a new team"
 msgstr "创建新团队"
 
 #: ../user/team.php:56
-msgid ""
-"If you cannot find a team that is right for you, you can %1create a team%2."
+msgid "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr "如果您找不到适合您的团队，您可以 %1创建一个团队%2。"
 
 #: ../user/team_create_action.php:27
@@ -2682,13 +2731,13 @@ msgstr "名为 %1 的团队已经存在 - 请尝试其它的名称"
 msgid "Could not create team - please try later."
 msgstr "无法创建团队 - 请稍后再试。"
 
-#: ../user/team_create_form.php:25 ../user/team_create_form.php:30
+#: ../user/team_create_form.php:25
+#: ../user/team_create_form.php:30
 msgid "Create a team"
 msgstr "创建一个团队"
 
 #: ../user/team_create_form.php:28
-msgid ""
-"You belong to %1. You must %2quit this team%3 before creating a new one."
+msgid "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr "您当前加入了 %1，您在创建新团队之前必须先 %2退出这个团队%3。"
 
 #: ../user/top_hosts.php:81
@@ -2703,7 +2752,8 @@ msgstr "%s 团队排名"
 msgid "Participant since"
 msgstr "参加时间"
 
-#: ../user/user_search.php:102 ../user/user_search.php:158
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Joined"
 msgstr ""
 
@@ -2720,14 +2770,12 @@ msgid "Decreasing sign-up time"
 msgstr ""
 
 #: ../user/user_search.php:116
-#, fuzzy
 msgid "Decreasing average credit"
-msgstr "近期平均积分"
+msgstr "按近期平均积分降序"
 
 #: ../user/user_search.php:117
-#, fuzzy
 msgid "Decreasing total credit"
-msgstr "近期平均积分"
+msgstr "按总积分降序"
 
 #: ../user/user_search.php:118
 msgid "Filters"
@@ -2741,7 +2789,8 @@ msgstr ""
 msgid "With profile?"
 msgstr ""
 
-#: ../user/user_search.php:123 ../user/user_search.php:128
+#: ../user/user_search.php:123
+#: ../user/user_search.php:128
 msgid "Either"
 msgstr ""
 
@@ -2766,9 +2815,8 @@ msgid "missing search type"
 msgstr ""
 
 #: ../user/user_search.php:224
-#, fuzzy
 msgid "User search results"
-msgstr "论坛搜索结果"
+msgstr "用户搜索结果"
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -2779,16 +2827,11 @@ msgid "Account data"
 msgstr "帐户数据"
 
 #: ../user/weak_auth.php:47
-msgid ""
-"Your 'weak account key' lets you attach computers to your account on this "
-"project, without giving the ability to log in to your account or to change "
-"it in any way."
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
 msgstr "'弱帐户密钥'仅用于在客户端加入项目，而不能用来登录您在项目网站上的帐户。"
 
 #: ../user/weak_auth.php:48
-msgid ""
-"This mechanism works only with projects that have upgraded their server "
-"software 7 Dec 2007 or later."
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
 msgstr "该机制只对于那些已更新至2007年12月7日版本服务端软件的项目才有效。"
 
 #: ../user/weak_auth.php:49
@@ -2796,23 +2839,15 @@ msgid "Your weak account key for this project is:"
 msgstr "您在本项目的弱帐户密钥为："
 
 #: ../user/weak_auth.php:51
-msgid ""
-"To use your weak account key on a given host, find or create the 'account "
-"file' for this project. This file has a name of the form "
-"<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr ""
-"要在指定的主机上使用您的弱帐户密钥，得先找到或创建相应项目的'帐户文件'，该文件的名称类似于 <b>account_项目网址.xml</b>。%1 "
-"的帐户文件为 <b>%2</b>。"
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "要在指定的主机上使用您的弱帐户密钥，得先找到或创建相应项目的'帐户文件'，该文件的名称类似于 <b>account_项目网址.xml</b>。%1 的帐户文件为 <b>%2</b>。"
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
 msgstr "根据需要创建该文件，并将其内容设置为："
 
 #: ../user/weak_auth.php:60
-msgid ""
-"Your weak account key is a function of your password. If you change your "
-"password, your weak account key changes, and your previous weak account key "
-"becomes invalid."
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
 msgstr "弱帐户密钥是根据您的帐户密码计算而来。如果您修改了您的帐户密码，您的弱帐户密钥也随之改变，您之前的弱帐户密钥将失效。"
 
 #: ../user/workunit.php:30
@@ -2824,12 +2859,10 @@ msgid "Workunit %1"
 msgstr ""
 
 #: ../user/workunit.php:37
-#, fuzzy
 msgid "name"
-msgstr "用户名"
+msgstr "名称"
 
 #: ../user/workunit.php:38
-#, fuzzy
 msgid "application"
 msgstr "计算程序"
 
