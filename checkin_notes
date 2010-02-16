@@ -1195,3 +1195,11 @@ David  14 Feb 2010
             prefs.php
             prefs_edit.php
             add_venue.php
+
+Charlie  15 Feb 2010
+    Mac wrapper: add build script and make file to buuild wrapper on Mac.
+    
+    samples/
+        wrapper/
+            BuildMacWrapper.sh
+            Makefile_mac
