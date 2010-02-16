@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-01-28 15:03-0700\n"
+"PO-Revision-Date: 2010-02-16 11:58-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -179,33 +179,39 @@ msgstr ""
 
 #: ../inc/prefs.inc:68
 msgid "Processor usage"
-msgstr ""
+msgstr "Ús del processador"
 
 #: ../inc/prefs.inc:70
 msgid ""
 "Suspend work while computer is on battery power? %1\n"
 "        (matters only for portable computers)%2"
 msgstr ""
+"Suspendre el treball mentre l'ordinador utilitza la bateria? %1\n"
+"        (únicament per als ordinadors portàtils)%2"
 
 #: ../inc/prefs.inc:74
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "Suspendre el treball mentre l'ordinador està en ús?"
 
 #: ../inc/prefs.inc:77
 msgid ""
 "Suspend GPU work while computer is in use? %1\n"
 "        Enforced by version 6.7+"
 msgstr ""
+"Suspendre el treball de la GPU mentre l'ordinador està en ús? %1\n"
+"        Forçades per la versió 6.7+"
 
 #: ../inc/prefs.inc:80
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
+msgstr "'En ús' significa activitat del ratolí/teclat"
 
 #: ../inc/prefs.inc:82
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1\n"
 "        (Needed to enter low-power mode on some computers)%2"
 msgstr ""
+"Suspendre el treball, si no hi ha activitat del ratolí/teclat en l'últim %1\n"
+"        (Necessari per entrar en mode de baix consum en alguns ordinadors)%2"
 
 #: ../inc/prefs.inc:86
 msgid ""
