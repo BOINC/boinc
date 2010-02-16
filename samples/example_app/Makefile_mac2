@@ -22,21 +22,24 @@ CXXFLAGS_ALL = \
 CC_PPC = /usr/bin/gcc-4.0
 CXX_PPC = /usr/bin/g++-4.0
 CXXFLAGS_PPC = -arch ppc -mmacosx-version-min=10.4 \
-    $(CXXFLAGS_ALL)  -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_PPC = -Wl,-arch,ppc
+    -isysroot /Developer/SDKs/MacOSX10.4u.sdk \
+    $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
+LDFLAGS_PPC = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,ppc
 
 
 CC_i386 = /usr/bin/gcc-4.0
 CXX_i386 = /usr/bin/g++-4.0
 CXXFLAGS_i386 = -arch i386 -mmacosx-version-min=10.4  \
-    $(CXXFLAGS_ALL)  -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_i386 = -Wl,-arch,i386
+    -isysroot /Developer/SDKs/MacOSX10.4u.sdk \
+    $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
+LDFLAGS_i386 = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,i386
 
 CC_x86_64 = /usr/bin/gcc-4.0
 CXX_x86_64 = /usr/bin/g++-4.0
 CXXFLAGS_x86_64 = -arch x86_64 -mmacosx-version-min=10.5 \
-    $(CXXFLAGS_ALL)  -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_x86_64 = -Wl,-arch,x86_64
+    -isysroot /Developer/SDKs/MacOSX10.5.sdk \
+    $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
+LDFLAGS_x86_64 = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk,-arch,x86_64
 
 
 LIBJPEG = ../../../jpeg-6b/libjpeg.a

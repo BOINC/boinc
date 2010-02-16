@@ -59,8 +59,8 @@ echo "***************************************************"
 echo
 
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-Wl,-arch,ppc"
-export VARIANTFLAGS="-arch ppc -fvisibility=hidden -fvisibility-inlines-hidden"
+export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,ppc"
+export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -fvisibility=hidden -fvisibility-inlines-hidden"
 if [ "$HAS_1039SDK" = "1" ]; then
 export MACOSX_DEPLOYMENT_TARGET=10.3
 else
@@ -87,8 +87,8 @@ echo
 
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-Wl,-arch,i386"
-export VARIANTFLAGS="-arch i386 -fvisibility=hidden -fvisibility-inlines-hidden"
+export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,i386"
+export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 rm -f uc2.o
 rm -f uc2_graphics.o
@@ -110,8 +110,8 @@ echo
 
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-Wl,-arch,x86_64"
-export VARIANTFLAGS="-arch x86_64 -fvisibility=hidden -fvisibility-inlines-hidden"
+export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk,-arch,x86_64"
+export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 rm -f uc2.o
 rm -f uc2_graphics.o
