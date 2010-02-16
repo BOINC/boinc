@@ -1208,3 +1208,13 @@ David  15 Feb 2010
     - web: more translations, from Christian.  fixes #982
 
     html/various
+
+Charlie  16 Feb 2010
+    - Samples: Update MakeMacExample.sh and Mac make files in example_app for 
+        OS 10.6 and XCode 3.2.
+        
+    samples/
+        example_app/
+            Makefile_mac
+            Makefile_mac2
+            MakeMacExample.sh

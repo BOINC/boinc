@@ -20,46 +20,57 @@
 #
 # Script to build Macintosh example_app using Makefile
 #
-# by Charlie Fenton 5/2/08
+# This will build for OS 10.3.9 and later on Mac OS 10.5 and XCode 3.1
+# if you have installed the OS 10.3.9 SDK.
 #
+# This will build for OS 10.4 and later on Mac OS 10.6 and XCode 3.2 or 
+# on Mac OS 10.5 and XCode 3.1 if you have not installed OS 10.3.9 SDK.
+#
+# by Charlie Fenton 2/16/10
+#
+## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
+##
 ## In Terminal, CD to the example_app directory.
 ##     cd [path]/example_app/
 ## then run this script:
-##     sh [path]/MakeMacExample.sh [ -clean ]
+##     sh [path]/MakeMacExample.sh
 ##
-## the -clean argument will force a full rebuild.
-#
 
 rm -fR ppc i386 x86_64
 
-if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
-    echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    exit 1
-fi
-
-if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
-    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    exit 1
+if [ -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
+    HAS_1039SDK=1
+else
+    HAS_1039SDK=0
+    echo
+    echo "System 10.3.9 SDK is not available.  Building for OS 10.4 and later"
+    echo
 fi
 
 echo
 echo "***************************************************"
 echo "********** Building PowerPC Application ***********"
+if [ "$HAS_1039SDK" = "1" ]; then
+    echo "************ for OS 10.3.9 and later **************"
+else
+    echo "************* for OS 10.4 and later ***************"
+fi
 echo "***************************************************"
 echo
 
-## PowerPC build for OS 10.3.0 must use GCC-3.3 and MacOSX10.3.9 SDK
-export PATH=/usr/local/bin:$PATH
+export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
+export LDFLAGS="-Wl,-arch,ppc"
+export VARIANTFLAGS="-arch ppc -fvisibility=hidden -fvisibility-inlines-hidden"
+if [ "$HAS_1039SDK" = "1" ]; then
 export MACOSX_DEPLOYMENT_TARGET=10.3
-export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
-export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
-## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
-## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
-export VARIANTFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
+else
+export MACOSX_DEPLOYMENT_TARGET=10.4
+fi
 
-make -f Makefile_mac clean
+rm -f uc2.o
+rm -f uc2_graphics.o
+rm -f uc2
+rm -f uc2_graphics
 make -f Makefile_mac all
 
 if [  $? -ne 0 ]; then exit 1; fi
@@ -74,16 +85,15 @@ echo "******* Building 32-bit Intel Application *********"
 echo "***************************************************"
 echo
 
-## 32-bit Intel build for OS 10.4 must use GCC-4.0 and MacOSX10.4u SDK
-
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
-## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch i386"
-export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -fvisibility=hidden -fvisibility-inlines-hidden"
+export LDFLAGS="-Wl,-arch,i386"
+export VARIANTFLAGS="-arch i386 -fvisibility=hidden -fvisibility-inlines-hidden"
 
-make -f Makefile_mac clean
+rm -f uc2.o
+rm -f uc2_graphics.o
+rm -f uc2
+rm -f uc2_graphics
 make -f Makefile_mac all
 
 if [  $? -ne 0 ]; then exit 1; fi
@@ -92,34 +102,29 @@ mkdir i386
 mv uc2 i386/
 mv uc2_graphics i386/
 
-## 64-bit Intel build for OS 10.5 must use GCC-4.0 and MacOSX10.5 SDK
+echo
+echo "***************************************************"
+echo "******* Building 64-bit Intel Application *********"
+echo "***************************************************"
+echo
 
-# Build for x86_64 architecture only if OS 10.5 SDK is present
-if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+export MACOSX_DEPLOYMENT_TARGET=10.5
+export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
+export LDFLAGS="-Wl,-arch,x86_64"
+export VARIANTFLAGS="-arch x86_64 -fvisibility=hidden -fvisibility-inlines-hidden"
 
-    echo
-    echo "***************************************************"
-    echo "******* Building 64-bit Intel Application *********"
-    echo "***************************************************"
-    echo
+rm -f uc2.o
+rm -f uc2_graphics.o
+rm -f uc2
+rm -f uc2_graphics
+make -f Makefile_mac all
 
-    export MACOSX_DEPLOYMENT_TARGET=10.5
-    export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-    export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-    ## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
-    ## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch x86_64"
-    export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -fvisibility=hidden -fvisibility-inlines-hidden"
+if [  $? -ne 0 ]; then exit 1; fi
 
-    make -f Makefile_mac clean
-    make -f Makefile_mac all
+mkdir x86_64
+mv uc2 x86_64/
+mv uc2_graphics x86_64/
 
-    if [  $? -ne 0 ]; then exit 1; fi
-
-    mkdir x86_64
-    mv uc2 x86_64/
-    mv uc2_graphics x86_64/
-
-fi
 
 echo
 echo "***************************************************"
