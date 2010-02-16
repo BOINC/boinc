@@ -1232,3 +1232,11 @@ David  16 Feb 2010
 
 	clientscr/
 		ss_app.cpp
+
+Rom    16 Feb 2010
+    - MGR: Fix icons for dialogs that display them.
+    
+    clientgui/
+        DlgEventLog.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp

@@ -119,18 +119,26 @@ bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxSt
 	m_bProcessingRefreshEvent = false;
 ////@end CDlgEventLog member initialisation
 
-    wxString strCaption = caption;
-    if (strCaption.IsEmpty()) {
-        CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-        wxASSERT(pSkinAdvanced);
-        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-
-        strCaption.Printf(_("%s - Event Log"), pSkinAdvanced->GetApplicationName().c_str());
-    }
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
 
-    wxDialog::Create( NULL, id, strCaption, pos, size, style );
+    wxDialog::Create( NULL, id, caption, pos, size, style );
+
+    // Initialize Application Title
+    wxString strCaption = caption;
+    if (strCaption.IsEmpty()) {
+        strCaption.Printf(_("%s - Event Log"), pSkinAdvanced->GetApplicationName().c_str());
+    }
+    SetTitle(strCaption);
+
+    // Initialize Application Icon
+    wxIconBundle icons;
+    icons.AddIcon(*pSkinAdvanced->GetApplicationIcon());
+    icons.AddIcon(*pSkinAdvanced->GetApplicationIcon32());
+    SetIcons(icons);
 
     CreateControls();
 

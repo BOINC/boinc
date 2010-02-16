@@ -1026,26 +1026,36 @@ CDlgPreferences::CDlgPreferences( wxWindow* parent, wxWindowID id, const wxStrin
 
 bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
-    wxString strCaption = caption;
-    if (strCaption.IsEmpty()) {
-        CSkinAdvanced*         pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-        wxASSERT(pSkinAdvanced);
-        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-        strCaption.Printf(_("%s - Preferences"), pSkinAdvanced->GetApplicationName().c_str());
-    }
 
     SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
 
-    wxDialog::Create( parent, id, strCaption, pos, size, style );
+    wxDialog::Create( parent, id, caption, pos, size, style );
+
+    // Initialize Application Title
+    wxString strCaption = caption;
+    if (strCaption.IsEmpty()) {
+        strCaption.Printf(_("%s - Preferences"), pSkinAdvanced->GetApplicationName().c_str());
+    }
+    SetTitle(strCaption);
+
+    // Initialize Application Icon
+    wxIconBundle icons;
+    icons.AddIcon(*pSkinAdvanced->GetApplicationIcon());
+    icons.AddIcon(*pSkinAdvanced->GetApplicationIcon32());
+    SetIcons(icons);
 
     Freeze();
+
+    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
     SetForegroundColour(*wxBLACK);
 #ifdef __WXDEBUG__
     SetBackgroundColour(wxColour(255, 0, 255));
 #endif
-    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
     m_pBackgroundPanel = new CPanelPreferences(this);
     wxBoxSizer* itemBoxSizer = new wxBoxSizer(wxVERTICAL);
