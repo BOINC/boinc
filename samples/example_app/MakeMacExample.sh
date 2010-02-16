@@ -62,7 +62,7 @@ export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
 if [ "$HAS_1039SDK" = "1" ]; then
 export MACOSX_DEPLOYMENT_TARGET=10.3
 export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk,-arch,ppc"
-export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc -fvisibility=hidden -fvisibility-inlines-hidden"
+export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 else
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,ppc"
