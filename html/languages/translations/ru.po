@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-26 20:00 PST\n"
-"PO-Revision-Date: 2010-01-21 11:31-0700\n"
+"PO-Revision-Date: 2010-02-05 12:20-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -506,9 +506,8 @@ msgid "Cross-project statistics"
 msgstr "Объединенная статистика по проектам"
 
 #: ../inc/user.inc:160
-#, fuzzy
 msgid "Account"
-msgstr "Учетная информация"
+msgstr "Учетная запись"
 
 #: ../inc/user.inc:162 ../inc/user.inc:275 ../inc/user.inc:361
 #: ../inc/user.inc:363 ../user/user_search.php:102 ../user/user_search.php:158
@@ -710,12 +709,10 @@ msgid "Add as friend"
 msgstr "Добавить друга"
 
 #: ../inc/util.inc:385
-#, fuzzy
 msgid "Email address:"
 msgstr "Адрес email:"
 
 #: ../inc/util.inc:385
-#, fuzzy
 msgid "forgot email address?"
 msgstr "забыли адрес email?"
 
@@ -728,22 +725,18 @@ msgid "forgot password?"
 msgstr "забыли пароль?"
 
 #: ../inc/util.inc:390
-#, fuzzy
 msgid "Stay logged in on this computer"
 msgstr "Оставаться авторизованным на этом компьютере"
 
 #: ../inc/util.inc:395
-#, fuzzy
 msgid "Log in"
 msgstr "Войти"
 
 #: ../inc/util.inc:396
-#, fuzzy
 msgid "or %1create an account%2."
 msgstr "или %1создать учетную запись%2."
 
 #: ../inc/util.inc:416
-#, fuzzy
 msgid "Please log in"
 msgstr "Пожалуйста авторизуйтесь"
 
@@ -1032,14 +1025,12 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Этот список ведется централизованно на %1web-сайте BOINC%2."
 
 #: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
-#, fuzzy
 msgid "Change email address"
-msgstr "Поменять адрес электронной почты"
+msgstr "Поменять адрес email"
 
 #: ../user/edit_email_form.php:35
-#, fuzzy
 msgid "Change the email address of your account"
-msgstr "Поменять адрес электронной почты вашей учётной записи"
+msgstr "Изменение адреса электронной почты вашей учётной записи"
 
 #: ../user/edit_email_form.php:36
 msgid "New email address"
@@ -1058,12 +1049,10 @@ msgid "Change password"
 msgstr "Поменять пароль"
 
 #: ../user/edit_passwd_form.php:40
-#, fuzzy
 msgid "You can identify yourself using either"
 msgstr "Вы можете идентифицировать себя используя"
 
 #: ../user/edit_passwd_form.php:42
-#, fuzzy
 msgid "your email address and old password"
 msgstr "Ваш адрес email и старый пароль"
 
@@ -1080,7 +1069,6 @@ msgid "<b>OR</b>: Account key"
 msgstr "<b>ИЛИ</b>: Ключ учетной записи"
 
 #: ../user/edit_passwd_form.php:50
-#, fuzzy
 msgid "Get account key by email"
 msgstr "Получить ключ учетной записи по электронной почте"
 
@@ -1608,16 +1596,14 @@ msgid "Language selection"
 msgstr "Выбор языка"
 
 #: ../user/language_select.php:68
-#, fuzzy
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
 "Этот веб-сайт доступен на нескольких языках. В настоящее время выбран язык: "
-"%1 (%2)."
+"%1."
 
 #: ../user/language_select.php:73
-#, fuzzy
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
@@ -1626,19 +1612,16 @@ msgstr ""
 "именно: %1. Вы можете поменять эту настройку, используя:"
 
 #: ../user/language_select.php:78
-#, fuzzy
 msgid "Firefox: Tools/Options/General"
 msgstr "Firefox: Сервис/Настройки/Общие (Tools/Options/General)"
 
 #: ../user/language_select.php:80
-#, fuzzy
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
 "Microsoft IE: Сервис/Свойства обозревателя/Языки (Tools/Internet "
 "Options/Languages)"
 
 #: ../user/language_select.php:84
-#, fuzzy
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
@@ -1649,17 +1632,14 @@ msgstr ""
 "нашего домена."
 
 #: ../user/language_select.php:90
-#, fuzzy
 msgid "Language name (click to select)"
-msgstr "Название языка (нажмите, чтобы выбрать)"
+msgstr "Название языка (нажмите для выбора)"
 
 #: ../user/language_select.php:92
-#, fuzzy
 msgid "Use browser language setting"
 msgstr "Использовать языковые настройки обозревателя"
 
 #: ../user/language_select.php:108
-#, fuzzy
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
@@ -1872,7 +1852,6 @@ msgid "Missing user ID or host ID"
 msgstr "Отсутствует ID пользователя или ID компьютера"
 
 #: ../user/results.php:85
-#, fuzzy
 msgid "No tasks to display"
 msgstr "Нет задач для показа"
 
@@ -2065,7 +2044,6 @@ msgid "On a team?"
 msgstr "В команде?"
 
 #: ../user/user_search.php:146
-#, fuzzy
 msgid "search string must be at least 3 characters"
 msgstr "искомая строка должна быть минимум 3 символа"
 
@@ -2075,7 +2053,6 @@ msgid "User names starting with"
 msgstr "Имена пользователей, начинающиеся с"
 
 #: ../user/user_search.php:166
-#, fuzzy
 msgid "No users match your search criteria."
 msgstr "Нет пользователей, удовлетворяющих вашим критериям поиска."
 

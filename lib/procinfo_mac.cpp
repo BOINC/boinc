@@ -106,7 +106,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
         p.working_set_size = (double)real_mem * 1024.;
         p.swap_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
-        p.is_boinc_app = (p.id == pid || strstr(p.command, "boinc"));
+        p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
         pi.push_back(p);
     }
     
