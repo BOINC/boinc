@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-15 22:14+0800\n"
+"PO-Revision-Date: 2010-02-16 20:25+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -219,7 +219,7 @@ msgid ""
 "        Enforced by version 6.7+"
 msgstr ""
 "当计算机在使用的时候暂停 GPU 计算？%1\n"
-"        6.7之后的版本必须设置"
+"        6.7 之后的版本实现了该设置"
 
 #: ../inc/prefs.inc:80
 msgid "'In use' means mouse/keyboard activity in last"
@@ -239,7 +239,7 @@ msgid ""
 "        0 means no restriction<br>Enforced by version 6.10.30+%2"
 msgstr ""
 "如果 CPU 占用率高于指定值则暂停计算%1\n"
-"        0 表示没有限制<br>6.10.30之后的版本必须设置%2"
+"        0 表示没有限制<br>6.10.30 之后的版本实现了该设置%2"
 
 #: ../inc/prefs.inc:89
 msgid "Do work only between the hours of"
@@ -270,12 +270,16 @@ msgid ""
 "Confirm before connecting to Internet? %1\n"
 "        (matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"连接至互联网前要求用户确认？%1\n"
+"        （仅 Modem、ISDN 和 VPN 用户需要使用该设置）%2"
 
 #: ../inc/prefs.inc:104
 msgid ""
 "Disconnect when done? %1\n"
 "        (matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"传输完成时断开网络？%1\n"
+"        （仅 Modem、ISDN 和 VPN 用户需要使用该设置）%2 "
 
 #: ../inc/prefs.inc:108
 msgid ""
@@ -283,19 +287,22 @@ msgid ""
 "        (Leave blank or 0 if always connected.<br>\n"
 "        BOINC will try to maintain at least this much work.)%2"
 msgstr ""
+"计算机连接互联网的时间间隔%1\n"
+"        （留空或 0 即表示一直在线，<br>\n"
+"        BOINC 将根据该设定值决定在本地缓存多少计算任务。）%2"
 
 #: ../inc/prefs.inc:113
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "维护足够的任务缓存"
 
 #: ../inc/prefs.inc:116
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+%2"
-msgstr ""
+msgstr "在多处理器计算机上，最多使用%16.1 之后的版本实现了该设置%2"
 
 #: ../inc/prefs.inc:118
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "处理器数量的百分比"
 
 #: ../inc/prefs.inc:119
 msgid "On multiprocessors, use at most"
@@ -312,15 +319,15 @@ msgstr "最多使用"
 
 #: ../inc/prefs.inc:123
 msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
-msgstr ""
+msgstr "最多使用%1（可用于减少 CPU  的发热量）%2"
 
 #: ../inc/prefs.inc:126
 msgid "percent of CPU time"
-msgstr ""
+msgstr "CPU 时间的百分比"
 
 #: ../inc/prefs.inc:127
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "计算任务最小的存盘时间间隔"
 
 #: ../inc/prefs.inc:128
 msgid "Disk and memory usage"
@@ -333,27 +340,27 @@ msgstr "至少保留"
 #: ../inc/prefs.inc:131
 #, php-format
 msgid "(Values smaller than %s are ignored)"
-msgstr ""
+msgstr "（小于 %s 的设定值将被忽略）"
 
 #: ../inc/prefs.inc:133
 #, php-format
 msgid "% of total disk space"
-msgstr ""
+msgstr "总磁盘空间的百分比"
 
 #: ../inc/prefs.inc:134
 #, php-format
 msgid "% of page file (swap space)"
-msgstr ""
+msgstr "页面文件（交换空间）的百分比"
 
 #: ../inc/prefs.inc:135
 #, php-format
 msgid "% of memory when computer is in use"
-msgstr ""
+msgstr "内存的百分比（计算机在使用时）"
 
 #: ../inc/prefs.inc:136
 #, php-format
 msgid "% of memory when computer is not in use"
-msgstr ""
+msgstr "内存的百分比（计算机未在使用时）"
 
 #: ../inc/prefs.inc:137
 msgid "Network usage"
@@ -377,18 +384,21 @@ msgid ""
 "        Check this ONLY if your Internet provider modifies image files (UMTS does this, for example).<br />\n"
 "        Skipping verification reduces the security of BOINC.%2"
 msgstr ""
+"跳过映像文件验证？%1\n"
+"        仅在你的 ISP 会修改映像文件的情况下（比如 UMTS 就会这样）需要选中这个。<br />\n"
+"        跳过验证会影响 BOINC 的安全性。%2"
 
 #: ../inc/prefs.inc:147
 msgid "Use ATI GPU if present %1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "使用计算机上的 ATI GPU 进行计算%1（6.10 之后的版本实现了该设置）%2"
 
 #: ../inc/prefs.inc:150
 msgid "Use NVIDIA GPU if present %1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "使用计算机上的 NVIDIA GPU 进行计算%1（6.10 之后的版本实现了该设置）%2"
 
 #: ../inc/prefs.inc:153
 msgid "Use CPU % 1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "使用计算机上的 CPU 进行计算%1（6.10 之后的版本实现了该设置）%2"
 
 #: ../inc/prefs.inc:158
 msgid "Kbytes/sec"
@@ -403,10 +413,12 @@ msgid ""
 "Run test applications? %1\n"
 "        This helps us develop applications, but may cause jobs to fail on your computer%2"
 msgstr ""
+"运行测试用途的计算程序？%1\n"
+"        这可以帮助我们开发计算程序，但可能会导致你计算机上的计算任务运行失败%2"
 
 #: ../inc/prefs.inc:166
 msgid "These preferences apply to all the BOINC projects in which you participate."
-msgstr ""
+msgstr "这些参数设置对你参加的所有 BOINC 项目均有效。"
 
 #: ../inc/prefs.inc:168
 msgid "%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric."
@@ -625,11 +637,11 @@ msgstr "更新参数设置"
 
 #: ../inc/prefs.inc:1109
 msgid "Gbytes"
-msgstr "G字节"
+msgstr "GB"
 
 #: ../inc/prefs.inc:1123
 msgid "Gbytes free"
-msgstr "G字节空闲"
+msgstr "GB 空闲"
 
 #: ../inc/prefs.inc:1224
 msgid "Resource share"
@@ -1054,7 +1066,7 @@ msgstr ""
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
-msgstr "搜索条件 ( 可使用一个或多个 )"
+msgstr "搜索条件（可使用一个或多个）"
 
 #: ../inc/team.inc:34
 msgid "Key words"
@@ -1534,7 +1546,7 @@ msgstr "管理"
 #: ../inc/user.inc:271
 #: ../inc/user.inc:284
 msgid "(foundership change request pending)"
-msgstr "( 创建人转换请求待处理 )"
+msgstr "（创建人转换请求待处理）"
 
 #: ../inc/user.inc:273
 msgid "Member of team"
@@ -1546,7 +1558,7 @@ msgstr "寻找团队"
 
 #: ../inc/user.inc:286
 msgid "Founder but not member of"
-msgstr "创建人 ( 已退出团队 )"
+msgstr "创建人（已退出团队）"
 
 #: ../inc/user.inc:292
 msgid "Find friends"
