@@ -188,7 +188,7 @@ function error_page($msg) {
     if ($generating_xml) {
         xml_error(-1, $msg);
     }
-    page_head("Unable to handle request");
+    page_head(tra("Unable to handle request"));
     echo $msg;
     page_tail();
     exit();

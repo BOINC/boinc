@@ -44,10 +44,10 @@ function option($name, $val) {
     return "<option name='$name' $x>$name\n";
 }
 
-define('COLOR_DESC', 'Color scheme for graphics');
-define("MAX_GFX_CPU_PCT_DESC", "Maximum CPU % for graphics<br><span class=note>0 ... 100</span>");
-define('APP_SELECT_DESC', 'Run only the selected applications');
-define('ACCEPT_ANY_DESC', 'If no work for selected applications is available, accept work from other applications?');
+define('COLOR_DESC', tra('Color scheme for graphics'));
+define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<br><span class=note>", "</span>"));
+define('APP_SELECT_DESC', tra('Run only the selected applications'));
+define('ACCEPT_ANY_DESC', tra('If no work for selected applications is available, accept work from other applications?'));
 
 // The following array is for app filtering; uncomment if you want it.
 // Note: in this implementation, if a user selects all apps,
@@ -71,13 +71,13 @@ function selected_app_text($prefs) {
             $app_id = $app[0];
             $app_name = $app[1];
             if (in_array($app_id, $prefs->app_ids)) {
-                $x .= "$app_name: yes<br>";
+                $x .= "$app_name: ".tra("yes")."<br>";
             } else {
-                $x .= "$app_name: no<br>";
+                $x .= "$app_name: ".tra("no")."<br>";
             }
         }
     } else {
-        $x = "(all applications)";
+        $x = tra("(all applications)");
     }
     return $x;
 }

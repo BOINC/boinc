@@ -29,40 +29,35 @@ function show_admin($user, $admin) {
         <td>$date</td>
         <td>
     ";
-    show_button("team_admins.php?teamid=$admin->teamid&action=remove&userid=$admin_user->id".$tokens, "Remove", "Remove Team Admin status from this member");
+    show_button("team_admins.php?teamid=$admin->teamid&action=remove&userid=$admin_user->id".$tokens, tra("Remove"), tra("Remove Team Admin status from this member"));
     echo "</td></tr>
     ";
 }
 
 function show_admins($user, $teamid) {
-    page_head("Add or remove Team Admins");
-    echo "
-        You can select team members as 'Team Admins'.
-        Team Admins can:
+    page_head(tra("Add or remove Team Admins"));
+    echo tra("You can select team members as 'Team Admins'. Team Admins can:")."
         <ul>
-        <li> Edit team information (name, URL, description, country).
-        <li> View the team's join/quit history.
-        <li> Moderate the team forum, if any (admins get emails notification
-            of moderation events and red X reports).
+        <li>".tra("Edit team information (name, URL, description, country)")."
+        <li>".tra("View the team's join/quit history")."
+        <li>".tra("Moderate the team forum, if any (admins get email notification of moderation events and red X reports)")."
         </ul>
-        Team Admins cannot:
+        ".tra("Team Admins cannot:")."
         <ul>
-        <li> Change the team founder.
-        <li> Remove members.
-        <li> Add or remove Team Admins.
+        <li>".tra("Change the team founder")."
+        <li>".tra("Remove members")."
+        <li>".tra("Add or remove Team Admins")."
         </ul>
-        If a Team Admin quits the team, they cease to be a Team Admin.
-        <p>
-        We recommend that you select only people
-        you know and trust very well as Team Admins.
-    ";
+        ".tra("If a Team Admin quits the team, they cease to be a Team Admin.")."
+        <br /><br />".tra("We recommend that you select only people you know and trust very well as Team Admins.")
+    ;
     $admins = BoincTeamAdmin::enum("teamid=$teamid");
     start_table();
     if (count($admins)==0) {
-        row1("There are currently no Team Admins");
+        row1(tra("There are currently no Team Admins"));
     } else {
-        row1("Current Team Admins", 3);
-        table_header("Name", "Became Team Admin on", "");
+        row1(tra("Current Team Admins"), 3);
+        table_header(tra("Name"), tra("Became Team Admin on"), "");
         foreach ($admins as $admin) {
             show_admin($user, $admin);
         }
@@ -77,9 +72,9 @@ function show_admins($user, $teamid) {
     ";
     echo form_tokens($user->authenticator);
     start_table();
-    row1("Add Team Admin");
-    row2("Email address of team member:", "<input name=email_addr>");
-    row2("", "<input type=submit action value=\"Add\">");
+    row1(tra("Add Team Admin"));
+    row2(tra("Email address of team member:"), "<input name=email_addr>");
+    row2("", "<input type=submit action value=\"".tra("Add")."\">");
     end_table();
     echo "</form>";
 
@@ -90,27 +85,27 @@ function remove_admin($team) {
     $userid = get_int('userid');
     $ret = BoincTeamAdmin::delete("teamid=$team->id and userid=$userid");
     if (!$ret) {
-        error_page("failed to remove admin");
+        error_page(tra("failed to remove admin"));
     }
 }
 
 function add_admin($team) {
     $email_addr = get_str('email_addr');
     $user = BoincUser::lookup("email_addr='$email_addr'");
-    if (!$user) error_page("no such user");
-    if ($user->teamid != $team->id) error_page("User is not member of team");
+    if (!$user) error_page(tra("no such user"));
+    if ($user->teamid != $team->id) error_page(tra("User is not member of team"));
     if (is_team_admin($user, $team)) {
-        error_page("$email_addr is already an admin of $team->name");
+        error_page(tra("%1 is already an admin of %2", $email_addr, $team->name));
     }
     $now = time();
     $ret = BoincTeamAdmin::insert("(teamid, userid, create_time) values ($team->id, $user->id, $now)");
-    if (!$ret) error_page("Couldn't add admin");
+    if (!$ret) error_page(tra("Couldn't add admin"));
 }
 
 $user = get_logged_in_user();
 $teamid = get_int('teamid');
 $team = BoincTeam::lookup_id($teamid);
-if (!$team) error_page("No such team");
+if (!$team) error_page(tra("No such team"));
 require_founder_login($user, $team);
 
 $action = get_str('action', true);

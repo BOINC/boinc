@@ -64,7 +64,7 @@ if ($get_from_db) {
 }
 
 if (!$team) {
-    error_page("No such team");
+    error_page(tra("no such team"));
 }
 
 display_team_page($team, $user);

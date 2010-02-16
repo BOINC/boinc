@@ -20,7 +20,6 @@ require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/boinc_db.inc");
-require_once("../inc/translation.inc");
 
 $config = get_config();
 $users_per_page = parse_config($config, "<users_per_page>");
@@ -108,7 +107,7 @@ if ($offset < ITEM_LIMIT) {
         set_cache_data(serialize($data),$cache_args);
     }
 } else {
-    error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
+    error_page(tra("Limit exceeded - Sorry, first %1 items only", ITEM_LIMIT));
 }
 
 // Now display what we've got (either gotten from cache or from DB)
@@ -123,12 +122,12 @@ foreach ($data as $user) {
 echo "</table>\n<p>";
 if ($offset > 0) {
     $new_offset = $offset - $users_per_page;
-    echo "<a href=top_users.php?sort_by=$sort_by&amp;offset=$new_offset>Previous ".$users_per_page."</a> | ";
+    echo "<a href=top_users.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Previous %1", $users_per_page)."</a> | ";
 
 }
 if ($n==$users_per_page){ //If we aren't on the last page
     $new_offset = $offset + $users_per_page;
-    echo "<a href=top_users.php?sort_by=$sort_by&amp;offset=$new_offset>Next ".$users_per_page."</a>";
+    echo "<a href=top_users.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Next %1", $users_per_page)."</a>";
 }
 
 page_tail();

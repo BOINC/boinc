@@ -20,7 +20,6 @@ require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/db.inc");
-require_once("../inc/translation.inc");
 
 $config = get_config();
 $teams_per_page = parse_config($config, "<teams_per_page>");
@@ -96,7 +95,7 @@ if ($offset < ITEM_LIMIT) {
         set_cache_data(teams_to_store($data),$cache_args);
     }
 } else {
-    error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
+    error_page(tra("Limit exceeded - Sorry, first %1 items only", ITEM_LIMIT));
 }
 
 
@@ -104,7 +103,7 @@ if ($offset < ITEM_LIMIT) {
 page_head(tra("Top %1 teams", $type_name));
 
 if (count($data) == 0) {
-    echo "There are no $type_name teams";
+    echo tra("There are no %1 teams", $type_name);
 } else {
     start_table();
     team_table_start($sort_by, $type_url);
@@ -117,12 +116,12 @@ if (count($data) == 0) {
     echo "</table>\n<p>";
     if ($offset > 0) {
         $new_offset = $offset - $teams_per_page;
-        echo "<a href=top_teams.php?sort_by=$sort_by&amp;offset=$new_offset".$type_url.">Previous ".$teams_per_page."</a> | ";
+        echo "<a href=top_teams.php?sort_by=$sort_by&amp;offset=$new_offset".$type_url.">".tra("Previous %1", $teams_per_page)."</a> | ";
 
     }
     if ($n==$teams_per_page){ //If we aren't on the last page
         $new_offset = $offset + $teams_per_page;
-        echo "<a href=top_teams.php?sort_by=$sort_by&amp;offset=$new_offset".$type_url.">Next ".$teams_per_page."</a>";
+        echo "<a href=top_teams.php?sort_by=$sort_by&amp;offset=$new_offset".$type_url.">".tra("Next %1", $teams_per_page)."</a>";
     }
 }
 page_tail();

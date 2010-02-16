@@ -23,58 +23,44 @@ require_once("../inc/team.inc");
 $user = get_logged_in_user();
 $team = BoincTeam::lookup_id($user->teamid);
 if (!$team) {
-    error_page("You need to be a member of a team to access this page.");
+    error_page(tra("You need to be a member of a team to access this page."));
 }
 
-page_head("Request foundership of $team->name");
+page_head(tra("Request foundership of %1", $team->name));
 $now = time();
 
 // it should never happen, but just in case
 //
 if (!$team->userid) {
     $team->update("userid=$user->id, ping_user=0, ping_time=0");
-    echo "You are now founder of team $team->name.";
+    echo tra("You are now founder of team %1.", $team->name);
     page_tail();
     exit;
 }
 
 if ($user->id == $team->ping_user) {
-    echo "<p>You requested the foundership of $team->name
-        on ".date_str($team->ping_time).".
-    ";
+    echo "<p>".tra("You requested the foundership of %1 on %2.", $team->name, date_str($team->ping_time))."
+    </p>";
     if (transfer_ok($team, $now)) {
-        echo "
-            60 days have elapsed since your request,
-            and the founder has not responded.
-            You may now assume foundership by clicking here:
-            <form method=\"post\" action=\"team_founder_transfer_action.php\">
+        echo tra("60 days have elapsed since your request, and the founder has not responded. You may now assume foundership by clicking here:")
+            ."<form method=\"post\" action=\"team_founder_transfer_action.php\">
             <input type=\"hidden\" name=\"action\" value=\"finalize_transfer\">
-            <input type=\"submit\" value=\"Assume foundership\">
+            <input type=\"submit\" value=\"".tra("Assume foundership")."\">
             </form>
         ";
     } else {
-        echo "<p>
-            The founder was notified of your request.
-            If he/she does not respond by ".date_str(transfer_ok_time($team))."
-            you will be given an option to become founder.
-        ";
+        echo "<p>".tra("The founder was notified of your request. If he/she does not respond by %1 you will be given an option to become founder.", date_str(transfer_ok_time($team)))
+        ."</p>";
     }
 } else {
     if (new_transfer_request_ok($team, $now)) {
         echo "<form method=\"post\" action=\"team_founder_transfer_action.php\">";
-        echo "<p>If the team founder is not active and you want to assume
-            the role of founder, click the button below.
-            The current founder will be sent an email detailing your request,
-            and will be able to transfer foundership to you
-            or to decline your request.
-            If the founder does not respond in 60 days,
-            you will be allowed to become the founder.
-            <p>
-            Are you sure you want to request foundership?
-        ";
+        echo "<p>".tra("If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />
+                       Are you sure you want to request foundership?")
+        ."</p>";
 
         echo "<input type=\"hidden\" name=\"action\" value=\"initiate_transfer\">
-            <input type=\"submit\" value=\"Request foundership\">
+            <input type=\"submit\" value=\"".tra("Request foundership")."\">
             </form>
         ";
     } else {
@@ -83,19 +69,16 @@ if ($user->id == $team->ping_user) {
                 $team->ping_user = -$team->ping_user;
             }
             $ping_user = BoincUser::lookup_id($team->ping_user);
-            echo "<p>Founder change has already been requested by ".
-                user_links($ping_user)." on ".date_str($team->ping_time).".
-            ";
+            echo "<p>".tra("Founder change has already been requested by %1 on %2.", user_links($ping_user), date_str($team->ping_time))
+            ."</p>";
         } else {
-            echo "<p>A foundership change was requested during the last 90 days,
-                 so new requests are not allowed.
-                 Please try again later.
-            ";
+            echo "<p>".tra("A foundership change was requested during the last 90 days, so new requests are not allowed. Please try again later.")
+            ."</p>";
         }
     }
 }
 
-echo "<p><a href=\"team_display.php?teamid=".$team->id."\">Return to team page</a>";
+echo "<p><a href=\"team_display.php?teamid=".$team->id."\">".tra("Return to team page")."</a>";
 
 page_tail();
 

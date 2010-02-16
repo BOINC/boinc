@@ -16,8 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// action = 'transfer':
-//    handle a user's request to initiate a foundership transfer 
+// action = 'initiate_transfer':
+//    handle a user's request to initiate a foundership transfer
+// action = 'finalize_transfer':
+//    handle a user's request to finalize a foundership transfer 
 // action = 'decline':
 //    handle the current founder's declining of the request
 
@@ -29,7 +31,7 @@ require_once("../inc/pm.inc");
 
 $user = get_logged_in_user();
 if (!$user->teamid) {
-    error_page("You must be a member of a team to access this page.");
+    error_page(tra("You must be a member of a team to access this page."));
 }
 
 function send_founder_transfer_email($team, $user) {
@@ -83,7 +85,7 @@ case "initiate_transfer":
     $team = BoincTeam::lookup_id($user->teamid);
     $now = time();
     if (new_transfer_request_ok($team, $now)) {
-        page_head("Requesting foundership of ".$team->name);
+        page_head(tra("Requesting foundership of %1", $team->name));
         $success = send_founder_transfer_email($team, $user);
 
         // Go ahead with the transfer even if the email send fails.
@@ -91,56 +93,46 @@ case "initiate_transfer":
         // whose founder email is invalid
         //
         $team->update("ping_user=$user->id, ping_time=$now");
-        echo "<p>
-            The current founder has been notified of your request by email
-            and private message.
-            <p>
-            If the founder does not respond within 60 days you will be
-            allowed to become the founder.
-            <p>
-        ";
+        echo "<p>".tra("The current founder has been notified of your request by email and private message.<br /><br />
+                       If the founder does not respond within 60 days you will be allowed to become the founder.")
+        ."</p>\n";
     } else {
-        error_page("Foundership request not allowed now");
+        error_page(tra("Foundership request not allowed now"));
     }
     break;
 case "finalize_transfer":
     $team = BoincTeam::lookup_id($user->teamid);
     $now = time();
     if ($user->id == $team->ping_user && transfer_ok($team, $now)) {
-        page_head("Assumed foundership of ".$team->name);
+        page_head(tra("Assumed foundership of %1", $team->name));
         $team->update("userid=$user->id, ping_user=0, ping_time=0");
-        echo "
-            Congratulations, you are now the founder of team ".$team->name."
-            Go to <a href=\"".URL_BASE."home.php\">Your Account page</a>
-            to find the Team Admin options.
-        ";
+        echo tra("Congratulations, you are now the founder of team %1. Go to %2Your Account page%3 to find the Team Admin options.", $team->name, "<a href=\"".URL_BASE."home.php\">", "</a>");
     } else {
-        error_page("Foundership request not allowed now");
+        error_page(tra("Foundership request not allowed now"));
     }
     break;
 case "decline":
     $teamid = post_int("teamid");
     $team = lookup_team($teamid);
     require_founder_login($user, $team);
-    page_head("Decline founder change request");
+    page_head(tra("Decline founder change request"));
     
     if ($team->ping_user) {
         $ping_user = BoincUser::lookup_id($team->ping_user);
         
         $team->update("ping_user=0");
         send_founder_transfer_decline_email($team, $ping_user);
-        echo "<p>The foundership request from ".user_links($ping_user)
-            ." has been declined.
-        ";
+        echo "<p>".tra("The foundership request from %1 has been declined.", user_links($ping_user))
+        ."</p>";
     } else {
-        echo "<p>There were no foundership requests.";
+        echo "<p>".tra("There were no foundership requests.")."</p>";
     }
     break;
 default:
-    error_page("undefined action $action");
+    error_page(tra("undefined action %1", $action));
 }
 
-echo "<a href='team_display.php?teamid=$team->id'>Return to team page</a>";
+echo "<a href='team_display.php?teamid=$team->id'>".tra("Return to team page")."</a>";
 
 page_tail();
 

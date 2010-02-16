@@ -21,20 +21,20 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
 function show_admin_page($user, $team) {
-    page_head("Team administration for $team->name");
+    page_head(tra("Team administration for %1", $team->name));
     echo "
         <ul>
-        <li><a href=team_edit_form.php?teamid=$team->id>Edit team info</a>
-            <br><span class=note>Change team name, URL, description, type, or country</span>
+        <li><a href=team_edit_form.php?teamid=$team->id>".tra("Edit team info")."</a>
+            <br><span class=note>".tra("Change team name, URL, description, type, or country")."</span>
         <li>
-            Member list:
-        <a href=team_email_list.php?teamid=$team->id>HTML</a>
-        | <a href=team_email_list.php?teamid=$team->id&plain=1>text</a>
-            <br><span class=note> View member names and email addresses </span>
-        <li>View change history:
-            <a href=team_delta.php?teamid=$team->id>HTML</a>
-            | <a href=team_delta.php?teamid=$team->id&xml=1>XML</a>
-            <br><span class=note>See when members joined or quit this team</span>
+            ".tra("Member list:")."
+        <a href=team_email_list.php?teamid=$team->id>".tra("HTML")."</a>
+        | <a href=team_email_list.php?teamid=$team->id&plain=1>".tra("text")."</a>
+            <br><span class=note>".tra("View member names and email addresses")."</span>
+        <li>".tra("View change history:")."
+            <a href=team_delta.php?teamid=$team->id>".tra("HTML")."</a>
+            | <a href=team_delta.php?teamid=$team->id&xml=1>".tra("XML")."</a>
+            <br><span class=note>".tra("See when members joined or quit this team")."</span>
     ";
 
     // founder-only stuff follows
@@ -45,37 +45,32 @@ function show_admin_page($user, $team) {
             $user2 = BoincUser::lookup_id($team->ping_user);
             $deadline = date_str(transfer_ok_time($team));
             echo "<li>
-                <a href=team_change_founder_form.php?teamid=$team->id><font color=red><b>Respond to foundership request</b></font></a>.  If you don't respond by $deadline, $user2->name may assume foundership of this team.
-            ";
+                <a href=team_change_founder_form.php?teamid=$team->id><font color=red><strong>".tra("Respond to foundership request.")."</strong></font></a>  ".tra("If you don't respond by %1, %2 may assume foundership of this team.", $deadline, $user2->name)
+                ;
         }
         echo "
-            <li><a href=team_remove_inactive_form.php?teamid=$team->id>Remove members</a>
-                <br><span class=note>Remove inactive or unwanted members from this team</span>
-            <li><a href=team_change_founder_form.php?teamid=$team->id>Change founder</a>
-                <br><span class=note>Transfer foundership to another member</span>
-            <li><a href=team_admins.php?teamid=$team->id>Add/remove Team Admins</a>
-                <br><span class=note>Give selected team members Team Admin privileges</span>
+            <li><a href=team_remove_inactive_form.php?teamid=$team->id>".tra("Remove members")."</a>
+                <br><span class=note>".tra("Remove inactive or unwanted members from this team")."</span>
+            <li><a href=team_change_founder_form.php?teamid=$team->id>".tra("Change founder")."</a>
+                <br><span class=note>".tra("Transfer foundership to another member")."</span>
+            <li><a href=team_admins.php?teamid=$team->id>".tra("Add/remove Team Admins")."</a>
+                <br><span class=note>".tra("Give selected team members Team Admin privileges")."</span>
 
-            <li><a href=team_manage.php?teamid=$team->id&action=delete&$tokens>Remove team</a>
-                <br><span class=note>Allowed only if team has no members</a>
-            <li><a href=team_forum.php?teamid=$team->id&cmd=manage>Message board</a>
-                <br><span class=note>Create or manage team message board</span>
+            <li><a href=team_manage.php?teamid=$team->id&action=delete&$tokens>".tra("Remove team")."</a>
+                <br><span class=note>".tra("Allowed only if team has no members")."</a>
+            <li><a href=team_forum.php?teamid=$team->id&cmd=manage>".tra("Message board")."</a>
+                <br><span class=note>".tra("Create or manage a team message board")."</span>
         ";
     }
     echo "
 
         <p>
         <li>
-            To have this team created on all BOINC projects
-            (current and future) you can make it into a
-            <a href=http://boinc.berkeley.edu/teams/>BOINC-wide team</a>.
+            ".tra("To have this team created on all BOINC projects (current and future) you can make it into a %1BOINC-wide team%2.", "<a href=http://boinc.berkeley.edu/teams/>", "</a>")."
         <li>
-            Team admins are encouraged to join and participate in the Google
-            <a href=http://groups.google.com/group/boinc-team-founders>boinc-team-founders</a> group.
+            ".tra("Team admins are encouraged to join and participate in the Google %1boinc-team-founders%2 group.", "<a href=http://groups.google.com/group/boinc-team-founders>", "</a>")."
         <li>
-            Other resources for BOINC team admins
-            are available from a third-party site,
-            <a href=http://www.boincteams.com>www.boincteams.com</a>.
+            ".tra("Other resources for BOINC team admins are available from a third-party site, %1www.boincteams.com%2.", "<a href=http://www.boincteams.com>", "</a>")."
     </ul>
     ";
 
@@ -85,17 +80,17 @@ function show_admin_page($user, $team) {
 $user = get_logged_in_user(true);
 $teamid = get_int('teamid');
 $team = BoincTeam::lookup_id($teamid);
-if (!$team) error_page("no such team");
+if (!$team) error_page(tra("no such team"));
 
 $action = get_str('action', true);
 if ($action == 'delete') {
     require_founder_login($user, $team);
     if (team_count_members($team->id) > 0) {
-        error_page("Can't delete non-empty team");
+        error_page(tra("Can't delete non-empty team"));
     }
     check_tokens($user->authenticator);
     $team->delete();
-    page_head("Team $team->name deleted");
+    page_head(tra("Team %1 deleted", $team->name));
     page_tail();
 } else {
     require_admin($user, $team);

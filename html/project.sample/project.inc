@@ -3,6 +3,8 @@
 // This is a sample project file.
 // Modify it to suit your project.
 // Put your version in html/project/project.inc
+// add tra() around visible strings to make them translatable
+// see inc/translation.inc and http://boinc.berkeley.edu/trac/wiki/TranslateProject for Details
 
 require_once("../inc/util.inc");
 
@@ -44,12 +46,12 @@ function project_footer($show_return, $show_date, $prefix) {
     // If you include any links, prepend URL with $prefix
     echo "<br><hr noshade size=1><center>";
     if ($show_return) {
-        echo "<a href=".$prefix."index.php>Home</a> &middot; <a href=".$prefix."home.php>Your account</a> &middot; <a href=".$prefix."forum_index.php>Message boards</a><br>\n";
+        echo "<a href=".$prefix."index.php>".tra("Home")."</a> &middot; <a href=".$prefix."home.php>".tra("Your account")."</a> &middot; <a href=".$prefix."forum_index.php>".tra("Message boards")."</a><br>\n";
     }
-    echo "<br><br>Copyright &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
+    echo "<br><br>".tra("Copyright")." &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {
         $t = time_str(time());
-        echo "<span class=\"note\">Generated $t</span>\n";
+        echo "<span class=\"note\">".tra("Generated")." $t</span>\n";
     }
 }
 
@@ -83,29 +85,23 @@ function auth_ops() {
 }
 
 function show_profile_heading1() {
-    return "Your personal background.";
+    return tra("Your personal background.");
 }
 
 function show_profile_question1() {
-    return "
-        Tell us about yourself.
-        You could tell us where you're from, your age, occupation, hobbies,
-        or anything else about yourself.
-    ";
+    return tra("Tell us about yourself. You could tell us where you're from, your age, occupation, hobbies, or anything else about yourself.");
 }
 
 function show_profile_heading2() {
-    return "Your opinions about " . PROJECT;
+    return tra("Your opinions about %1", PROJECT);
 }
 
 function show_profile_question2() {
-    return "
-        Tell us your thoughts about " . PROJECT . "<ol>
-        <li>Why do you run " . PROJECT . "?
-        <li>What are your views about the project?
-        <li>Any suggestions?
-        </ol>
-    ";
+    return tra("Tell us your thoughts about %1<ol>
+    <li>Why do you run %1?
+    <li>What are your views about the project?
+    <li>Any suggestions?
+    </ol>", PROJECT);
 }
 
 function project_workunit($wu){

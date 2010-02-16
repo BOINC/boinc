@@ -27,20 +27,18 @@ $teamid = post_int("teamid");
 $team = BoincTeam::lookup_id($teamid);
 require_team($team);
 if (!$team->joinable) {
-    error_page("The team is not joinable.");
+    error_page(tra("The team %1 is not joinable.", $team->name));
 }
 if ($user->teamid == $team->id) {
-    page_head("Unable to add $user->name");
-    echo "You are already a member of $team->name.";
+    page_head(tra("Already a member"));
+    echo tra("You are already a member of %1.", $team->name);
 } else {
     $success = user_join_team($team, $user);
     if ($success) {
-        page_head("Joined $team->name");
-        echo "You have joined
-            <a href=team_display.php?teamid=$team->id>$team->name</a>.
-        ";
+        page_head(tra("Joined %1", $team->name));
+        echo tra("You have joined %1.", "<a href=team_display.php?teamid=$team->id>$team->name</a>");
     } else {
-        error_page("Couldn't join team - please try later.");
+        error_page(tra("Couldn't join team - please try again later."));
     }
 }
 

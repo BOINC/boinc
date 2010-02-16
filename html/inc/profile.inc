@@ -83,16 +83,13 @@ function offensive_profile_warning($verify_flag) {
     if ($verify_flag == 0) {
         return "
             <font size='+2' color='#33cc33'>
-            Your profile will be made visible to other people<br>
-            as soon as it has been approved by the project.<br>
-            This may take up to a few days.<br>
+            ".tra("Your profile will be made visible to other people as soon as it has been approved by the project. This may take up to a few days.")."
             </font>
         ";
     } else if ($verify_flag == -1) {
         return "
             <font size='+2' color='#ff3333'>
-            Your profile has been marked as unacceptable.<br>
-            It is not visible to other people. Please change it.<br>
+            ".tra("Your profile has been marked as unacceptable. It is not visible to other people. Please change it.")."
             </font>
         ";
     }
@@ -167,7 +164,7 @@ function get_profile_summary($profile) {
     $user = get_user_from_id($profile->userid);
 
     if (!$user || !$profile) {
-        echo "Database error!";  // Change this to a standard error page.
+        error_page(tra("Database error"));
         exit();
     }
 
@@ -187,11 +184,11 @@ function check_whether_to_show_profile($user, $logged_in_user) {
     $min_credit = parse_config(get_config(), "<profile_min_credit>");
     if (!$logged_in_user && $min_credit && $user->expavg_credit < $min_credit ) {
         error_page(
-           "To prevent spam, profiles of users with an average credit of less than $min_credit are displayed only to logged-in users.  We apologize for this inconvenience."
+           tra("To prevent spam, profiles of users with an average credit of less than %1 are displayed only to logged-in users.  We apologize for this inconvenience.", $min_credit)
         );
     }
     if (is_banished($user)) {
-        error_page("User is banished");
+        error_page(tra("User is banished"));
     }
 
 }
@@ -205,7 +202,7 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     BoincForumPrefs::lookup($user);
     $profile = BoincProfile::lookup("userid = $user->id");
     if (!$profile) {
-        row1("No profile exists for that user ID.");
+        row1(tra("No profile exists for that user ID."));
         $user->update("has_profile = 0");
         return;
     }

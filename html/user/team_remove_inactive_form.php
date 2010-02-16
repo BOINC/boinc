@@ -27,17 +27,17 @@ $teamid = get_int("teamid");
 $team = BoincTeam::lookup_id($teamid);
 if (!$team) error_page("no such team");
 require_admin($logged_in_user, $team);
-page_head("Remove members from $team->name");
+page_head(tra("Remove members from %1", $team->name));
 echo "
     <form method=\"post\" action=\"team_remove_inactive_action.php\">
     <input type=\"hidden\" name=\"id\" value=\"".$team->id."\">
 ";
 start_table();
 echo "<tr>
-    <th>Remove?</th>
-    <th>Name (ID)</th>
-    <th>Total credit</th>
-    <th>Recent average credit</th>
+    <th>".tra("Remove?")."</th>
+    <th>".tra("Name (ID)")."</th>
+    <th>".tra("Total credit")."</th>
+    <th>".tra("Recent average credit")."</th>
     </tr>
 ";
 
@@ -60,10 +60,10 @@ foreach($users as $user) {
 }
 end_table();
 if ($ninactive_users == 0) {
-    echo "<p>No members are eligible for removal.";
+    echo "<p>".tra("No members are eligible for removal.")."</p>";
 } else {
     echo "<input type=hidden name=ninactive_users value=$ninactive_users>";
-    echo "<input type=submit value=\"Remove users\">";
+    echo "<input type=submit value=\"".tra("Remove users")."\">";
 }
 echo "</form>";
 page_tail();

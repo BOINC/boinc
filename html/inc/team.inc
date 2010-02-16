@@ -261,7 +261,7 @@ function display_team_members($team, $offset, $sort_by) {
 
     if ($offset > 0) {
         $new_offset = $offset - $n;
-        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>".tra('Last %1', $n)."</a> | ";
+        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>".tra('Previous %1', $n)."</a> | ";
     }
     if ($j == $offset + $n + 1) {
         $new_offset = $offset + $n;
@@ -358,7 +358,7 @@ function team_table_start($sort_by, $type_url) {
     }
     echo "
         <th>".tra('Country')."</th>
-        <th>Type</th>
+        <th>".tra("Type")."</th>
         </tr>
     ";
 }
@@ -407,11 +407,8 @@ function team_edit_form($team, $label, $url) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
     }
     if ($team->seti_id) {
-        echo "<p><span class=error>WARNING: this is a BOINC-wide team.
-            If you make changes here, they will soon be overwritten.
-            Edit the
-            <a href=http://boinc.berkeley.edu/teams/>BOINC-wide team</a>
-            instead.</span>
+        echo "<p><span class=error>".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead.", "<a href=http://boinc.berkeley.edu/teams/>", "</a>")
+        ."</span>
             <p>
         ";
     }
@@ -451,7 +448,7 @@ function team_edit_form($team, $label, $url) {
     
     echo "</select></td></tr>\n";
     $x = $team->joinable?"checked":"";
-    row2("Accept new members?", "<input type=checkbox name=joinable $x>");
+    row2(tra("Accept new members?"), "<input type=checkbox name=joinable $x>");
     row2("",
         "<input type=submit name=new value='$label'>"
     );

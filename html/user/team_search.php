@@ -62,11 +62,11 @@ function show_list($list) {
     start_table();
     echo "
         <tr>
-        <th>Team name</th>
-        <th>Description</th>
-        <th>Average credit</th>
-        <th>Type</th>
-        <th>Country</th>
+        <th>".tra("Team name")."</th>
+        <th>".tra("Description")."</th>
+        <th>".tra("Average credit")."</th>
+        <th>".tra("Type")."</th>
+        <th>".tra("Country")."</th>
         </tr>
     ";
     $i = 0;
@@ -124,24 +124,20 @@ function search($params) {
     }
 
     if (sizeof($list) == 0) {
-        echo "
-            No teams were found matching your criteria.
-            Try another search.
-            <p>
-            Or you can <a href=team_create_form.php>create a new team</a>.
-            <p>
-        ";
+        echo tra("No teams were found matching your criteria. Try another search.")
+            ."<p>"
+            .tra("Or you can %1create a new team%2.", "<a href=team_create_form.php>", "</a>")
+            ."</p>\n";
         team_search_form($params);
     } else {
-        echo "
-            The following teams match one or more of your search criteria.
+        echo tra("The following teams match one or more of your search criteria.
             To join a team, click its name to go to the team page,
-               then click <b>Join this team</b>.
-            <p>
+               then click %1Join this team%2.", "<strong>", "</strong>")
+            ."<p>
         ";
         sort_list($list);
         show_list($list);
-        echo "<h2>Change your search</h2>";
+        echo "<h2>".tra("Change your search")."</h2>";
         team_search_form($params);
     }
 }
@@ -153,24 +149,18 @@ if (isset($_GET['submit'])) {
     $params->country = $_GET['country'];
     $params->type = $_GET['type'];
     $params->active = get_str('active', true);
-    page_head("Team search results");
+    page_head(tra("Team search results"));
     search($params);
 } else {
-    page_head("Find a team", 'document.form.keywords.focus()');
-    echo "
-        You can team up with other people with similar interests,
-        or from the same country, company, or school.
-        <p>
-        Use this form to find teams that might be right for you.
-        <p>
-    ";
+    page_head(tra("Find a team"), 'document.form.keywords.focus()');
+    echo tra("You can team up with other people with similar interests, or from the same country, company, or school.")
+        ."<p>"
+        .tra("Use this form to find teams that might be right for you.")
+        ."</p>\n";
     team_search_form($params);
     if (isset($_COOKIE['init'])) {
-        echo "
-            <p>
-            <a href=home.php>Click here</a>
-            if you're not interested in joining a team right now.
-        ";
+        echo "<p>
+            ".tra("%1I'm not interested%2 in joining a team right now.", "<a href=home.php>", "</a>");
     }
 }
 page_tail();

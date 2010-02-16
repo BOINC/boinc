@@ -1203,3 +1203,8 @@ Charlie  15 Feb 2010
         wrapper/
             BuildMacWrapper.sh
             Makefile_mac
+
+David  15 Feb 2010
+    - web: more translations, from Christian.  fixes #982
+
+    html/various

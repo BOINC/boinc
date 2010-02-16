@@ -26,21 +26,21 @@ $teamid = get_int("id");
 
 $team = lookup_team($teamid);
 if (!$team->joinable) {
-    error_page("The team is not joinable.");
+    error_page(tra("The team %1 is not joinable.", $team->name));
 }
 $team_name = $team->name;
-page_head("Join $team_name");
-echo " <p><b>Please note:</b>
+page_head(tra("Join %1", $team_name));
+echo " <p><b>".tra("Please note:")."</b>
     <ul>
-    <li> Joining a team gives its founder access to your email address.
-    <li> Joining a team does not affect your account's credit.
+    <li>".tra("Joining a team gives its founder access to your email address.")."
+    <li>".tra("Joining a team does not affect your account's credit.")."
     </ul>
     <hr>
     <form method=\"post\" action=\"team_join_action.php\">";
 echo form_tokens($user->authenticator);
 echo "
     <input type=\"hidden\" name=\"teamid\" value=\"$teamid\">
-    <input type=\"submit\" value=\"Join team\">
+    <input type=\"submit\" value=\"".tra("Join team")."\">
     </form>
 ";
 page_tail();

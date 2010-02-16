@@ -24,12 +24,12 @@ $user = get_logged_in_user();
 
 $teamid = get_int("teamid");
 $team = BoincTeam::lookup_id($teamid);
-if (!$team) error_page("no such team");
+if (!$team) error_page(tra("no such team"));
 require_admin($user, $team);
 
 $team_name = strtr($team->name, '"', "'");
-page_head("Edit ".$team_name);
-team_edit_form($team, "Update team info", "team_edit_action.php");
+page_head(tra("Edit %1", $team_name));
+team_edit_form($team, tra("Update team info"), "team_edit_action.php");
 page_tail();
 
 ?>

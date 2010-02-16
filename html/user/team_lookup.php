@@ -59,11 +59,11 @@ if ($format == 'xml') {
     exit();
 }
 
-page_head("Search Results");
+page_head(tra("Search Results"));
 if (count($teams)) {
-    echo "<h2>Search results for '".strip_tags($team_name)."'</h2>";
+    echo "<h2>".tra("Search results for '%1'", strip_tags($team_name))."</h2>";
     echo "<p>";
-    echo "You may view these teams' members, statistics, and information.";
+    echo tra("You may view these teams' members, statistics, and information.");
     echo "<ul>";
     foreach($teams as $team) {
         echo "<li>";
@@ -72,15 +72,12 @@ if (count($teams)) {
     }
     echo "</ul>";
     if (count($teams)==100) {
-        echo "
-            More than 100 teams match your search.
-            The first 100 are shown.<br>
-        ";
+        echo tra("More than 100 teams match your search. The first 100 are shown.")
+        ."<br>\n";
     }
 }
-echo "End of results<br>";
-echo "If you cannot find the team you are looking for, you may create a team ";
-echo "by clicking <a href=team_create_form.php>here</a>.";
+echo tra("End of results<br>
+         If you cannot find the team you are looking for, you may %1create a team%2 by yourself.", "<a href=team_create_form.php>", "</a>");
 page_tail();
 
 ?>

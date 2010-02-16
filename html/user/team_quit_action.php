@@ -29,8 +29,8 @@ if ($user->teamid == $team->id) {
     user_quit_team($user);
     Header("Location: home.php");
 } else {
-    page_head("Unable to quit team");
-    echo "Team doesn't exist, or you don't belong to it.\n";
+    page_head(tra("Unable to quit team"));
+    echo tra("Team doesn't exist, or you don't belong to it.");
 }
 
 page_tail();

@@ -38,7 +38,7 @@ and to get instructions for submitting translations into your language.
 
 <p>
 You can also help
-<a href=http://boinc.berkeley.edu/language.php>translate the BOINC client software</a>.
+<a href=http://boinc.berkeley.edu/translation.php>translate the BOINC client software</a>.
 <p>
 
 There is an email list

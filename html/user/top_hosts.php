@@ -21,7 +21,6 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/host.inc");
 require_once("../inc/boinc_db.inc");
-require_once("../inc/translation.inc");
 
 $config = get_config();
 $hosts_per_page = parse_config($config, "<hosts_per_page>");
@@ -63,7 +62,7 @@ if (!$offset) $offset=0;
 if ($offset % $hosts_per_page) $offset = 0;
 
 if ($offset >= ITEM_LIMIT) {
-    error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
+    error_page(tra("Limit exceeded - Sorry, first %1 items only", ITEM_LIMIT));
 }
 
 $cache_args = "sort_by=$sort_by&offset=$offset";
@@ -89,12 +88,12 @@ foreach($data as $host) {
 echo "</table>\n<p>";
 if ($offset > 0) {
     $new_offset = $offset - $hosts_per_page;
-    echo "<a href=top_hosts.php?sort_by=$sort_by&amp;offset=$new_offset>Previous ".$hosts_per_page."</a> | ";
+    echo "<a href=top_hosts.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Previous %1", $hosts_per_page)."</a> | ";
 
 }
 if ($n==$hosts_per_page){ //If we aren't on the last page
     $new_offset = $offset + $hosts_per_page;
-    echo "<a href=top_hosts.php?sort_by=$sort_by&amp;offset=$new_offset>Next ".$hosts_per_page."</a>";
+    echo "<a href=top_hosts.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Next %1", $hosts_per_page)."</a>";
 }
 
 page_tail();

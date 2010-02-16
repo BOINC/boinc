@@ -25,7 +25,7 @@ $user = get_logged_in_user();
 $teamid = post_int("teamid");
 $team = BoincTeam::lookup_id($teamid);
 
-if (!$team) error_page("no such team");
+if (!$team) error_page(tra("no such team"));
 require_admin($user, $team);
 
 $team_url = BoincDb::escape_string(strip_tags(post_str("url", true)));
@@ -48,16 +48,16 @@ if ($country == "") {
     $country = "International";
 }
 if (!is_valid_country($country)) {
-    error_page("bad country");
+    error_page(tra("bad country"));
 }
 $joinable = post_str('joinable', true)?1:0;
 
 $t = BoincTeam::lookup("name='$team_name'");
 if ($t && $t->id != $teamid) {
-    error_page("The name '$team_name' is being used by another team.");
+    error_page(tra("The name '%1' is being used by another team.", $team_name));
 }
 if (strlen($team_name) == 0) {
-    error_page("Must specify team name");
+    error_page(tra("Must specify team name"));
     // Should be caught up with the post_str("name"),
     // but you can never be too safe.
 }
@@ -85,7 +85,7 @@ $ret = $team->update($clause);
 if ($ret) {
     Header("Location: team_display.php?teamid=$team->id");
 } else {
-    error_page("Could not update team - please try later.");
+    error_page(tra("Could not update team - please try again later."));
 }
 
 ?>

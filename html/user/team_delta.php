@@ -61,20 +61,20 @@ if (!$team || !is_team_admin($user, $team)) {
     if ($xml) {
         xml_error("-1", "Not founder or admin");
     } else {
-        error_page("Not founder or admin");
+        error_page(tra("Not founder or admin"));
     }
 }
 
 if ($xml) {
     echo "<actions>\n";
 } else {
-    page_head("Team history for $team->name");
+    page_head(tra("Team history for %1", $team->name));
     start_table();
     echo "<tr>
-        <th>When</th>
-        <th>User</th>
-        <th>Action</th>
-        <th>Total credit at time of action</th>
+        <th>".tra("When")."</th>
+        <th>".tra("User")."</th>
+        <th>".tra("Action")."</th>
+        <th>".tra("Total credit at time of action")."</th>
         </tr>
     ";
 }

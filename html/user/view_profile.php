@@ -41,7 +41,7 @@ if ($cacheddata){
     set_cache_data(serialize($community_links_object), $cache_args);
 }
 
-page_head("Profile: $user->name");
+page_head(tra("Profile: %1", $user->name));
 
 start_table();
 echo "<tr><td valign=\"top\">";

@@ -27,17 +27,17 @@ $teamid = get_int("teamid");
 $team = BoincTeam::lookup_id($teamid);
 require_team($team);
 if (!$team->joinable) {
-    error_page("The team is not joinable.");
+    error_page(tra("The team %1 is not joinable.", $team->name));
 }
 if ($user->teamid == $team->id) {
-    page_head("Already a member");
-    echo "You are already a member of $team->name.";
+    page_head(tra("Already a member"));
+    echo tra("You are already a member of %1.", $team->name);
 } else {
     $success = user_join_team($team, $user);
     if ($success) {
         Header("Location: home.php");
     } else {
-        error_page("Couldn't join team - please try later.");
+        error_page(tra("Couldn't join team - please try again later."));
     }
 }
 

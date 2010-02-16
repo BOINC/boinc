@@ -22,7 +22,7 @@ require_once("../inc/user.inc");
 $url = parse_config(get_config(), "<master_url>");
 
 $user = get_logged_in_user();
-page_head("Weak account key");
+page_head(tra("Weak account key"));
 
 $weak_auth = weak_auth($user);
 

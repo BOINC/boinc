@@ -30,7 +30,7 @@ $offset = get_int("offset", true);
 if (!$offset) $offset=0;
 
 if ($offset > 1000) {
-    error_page("Limit exceeded:  Can only display the first 1000 members.");
+    error_page(tra("Limit exceeded:  Can only display the first 1000 members."));
 }
 
 $teamid = get_int("teamid");
@@ -40,7 +40,7 @@ start_cache(TEAM_PAGE_TTL, $cache_args);
 
 $team = BoincTeam::lookup_id($teamid);
 
-page_head("Members of <a href=team_display.php?teamid=$teamid>$team->name</a>");
+page_head(tra("Members of %1", "<a href=team_display.php?teamid=$teamid>$team->name</a>"));
 display_team_members($team, $offset, $sort_by);
 page_tail();
 
