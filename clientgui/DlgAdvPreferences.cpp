@@ -94,6 +94,7 @@ CDlgAdvPreferences::~CDlgAdvPreferences() {
 void CDlgAdvPreferences::SetValidators() {
 	//proc page
 	m_txtProcIdleFor->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+	m_txtMaxLoad->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtProcSwitchEvery->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtProcUseProcessors->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtProcUseCPUTime->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
@@ -228,6 +229,10 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	// idle for X minutes
 	buffer.Printf(wxT("%.2f"),prefs.idle_time_to_run);
 	*m_txtProcIdleFor << buffer;
+
+	buffer.Printf(wxT("%.0f"), prefs.suspend_cpu_usage*100);
+	*m_txtMaxLoad << buffer;
+
 	// switch every X minutes
 	buffer.Printf(wxT("%.2f"),prefs.cpu_scheduling_period_minutes);
 	*m_txtProcSwitchEvery << buffer;
@@ -330,6 +335,11 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 		prefs.idle_time_to_run=td;
 		mask.idle_time_to_run=true;
 	}
+
+    m_txtMaxLoad->GetValue().ToDouble(&td);
+    prefs.suspend_cpu_usage=td/100.;
+    mask.suspend_cpu_usage=true;
+
 	//
 	prefs.cpu_times.start_hour=TimeStringToDouble(m_txtProcEveryDayStart->GetValue());
 	mask.start_hour = true;        
@@ -488,6 +498,11 @@ bool CDlgAdvPreferences::ValidateInput() {
 			return false;
 		}
 	}
+    buffer = m_txtMaxLoad->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtMaxLoad);
+        return false;
+    }
 	
 	buffer = m_txtProcEveryDayStart->GetValue();
 	if(!IsValidTimeValue(buffer)) {

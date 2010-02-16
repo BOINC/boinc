@@ -55,16 +55,6 @@ function cancel_wu($wuid1, $wuid2) {
 require_once("../inc/db.inc");
 require_once("../inc/util_ops.inc");
 
-// REMOVE THE FOLLOWING ONLY AFTER PASSWORD-PROTECTING html/ops
-//
-if (1) {
-    echo "
-        WARNING! Make sure the html/ops directory is password-protected,
-        then edit html/ops/cancel_wu_action.php by hand to remove this message.
-    ";
-    exit();
-}
-
 admin_page_head("Cancel WU");
 
 db_init();

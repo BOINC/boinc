@@ -1218,3 +1218,11 @@ Charlie  16 Feb 2010
             Makefile_mac
             Makefile_mac2
             MakeMacExample.sh
+
+David  16 Feb 2010
+    - manager: first whack at "suspend if CPU load exceeds x" in dialog
+    clientgui/
+        DlgAdvPreferences*
+    html/ops/
+        cancel_wu_action.php
+
