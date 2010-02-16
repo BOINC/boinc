@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-16 11:58-0700\n"
+"PO-Revision-Date: 2010-02-16 12:59-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -253,12 +253,18 @@ msgid ""
 "Confirm before connecting to Internet? %1\n"
 "        (matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"Demander confirmation avant de se connecter à internet ? %1\n"
+"        (importe seulement si vous avez un modem, une connexion RNIS ou "
+"VPN)%2"
 
 #: ../inc/prefs.inc:104
 msgid ""
 "Disconnect when done? %1\n"
 "        (matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"Déconnecter lorsque terminé ? %1\n"
+"         (importe seulement si vous avez un modem, une connexion RNIS ou "
+"VPN)%2"
 
 #: ../inc/prefs.inc:108
 msgid ""
@@ -266,39 +272,47 @@ msgid ""
 "        (Leave blank or 0 if always connected.<br>\n"
 "        BOINC will try to maintain at least this much work.)%2"
 msgstr ""
+"L'ordinateur est connecté à internet environ tous les %1\n"
+"        (laisser blanc ou à 0 si connecté en permanence.<br>\n"
+"        BOINC va essayer de maintenir les calculs effectués pendant ce "
+"temps.)%2"
 
 #: ../inc/prefs.inc:113
+#, fuzzy
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "Maintenir suffisamment de travail pour un additionnel"
 
 #: ../inc/prefs.inc:116
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+%2"
 msgstr ""
+"Sur les multiprocesseurs, utiliser au plus %1 Applicable à une version "
+"6.1+%2"
 
 #: ../inc/prefs.inc:118
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% des processeurs"
 
 #: ../inc/prefs.inc:119
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "Sur le multiprocesseurs, utiliser au plus"
 
 #: ../inc/prefs.inc:120
 msgid "processors"
-msgstr ""
+msgstr "processeurs"
 
 #: ../inc/prefs.inc:121 ../inc/prefs.inc:125
 msgid "Use at most"
-msgstr ""
+msgstr "Utiliser au plus"
 
 #: ../inc/prefs.inc:123
 msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
 msgstr ""
+"Utiliser au plus %1 (peut être utilisé pour réduire la température CPU)%2"
 
 #: ../inc/prefs.inc:126
 msgid "percent of CPU time"
-msgstr ""
+msgstr "pourcents du temps CPU"
 
 #: ../inc/prefs.inc:127
 msgid "Tasks checkpoint to disk at most every"
@@ -306,52 +320,52 @@ msgstr ""
 
 #: ../inc/prefs.inc:128
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "Utilisation disque et mémoire"
 
 #: ../inc/prefs.inc:129
 msgid "Leave at least"
-msgstr ""
+msgstr "Laisser au moins"
 
 #: ../inc/prefs.inc:131
 #, php-format
 msgid "(Values smaller than %s are ignored)"
-msgstr ""
+msgstr "(les valeurs inférieures à %s sont ignorées)"
 
 #: ../inc/prefs.inc:133
 #, php-format
 msgid "% of total disk space"
-msgstr ""
+msgstr "% de l'espace disque total"
 
 #: ../inc/prefs.inc:134
 #, php-format
 msgid "% of page file (swap space)"
-msgstr ""
+msgstr "% du fichier de pagination (swap)"
 
 #: ../inc/prefs.inc:135
 #, php-format
 msgid "% of memory when computer is in use"
-msgstr ""
+msgstr "% de la mémoire lorsque l'ordinateur est utilisé"
 
 #: ../inc/prefs.inc:136
 #, php-format
 msgid "% of memory when computer is not in use"
-msgstr ""
+msgstr "% de la mémoire lorsque l'ordinateur n'est pas utilisé"
 
 #: ../inc/prefs.inc:137
 msgid "Network usage"
-msgstr ""
+msgstr "Utilisation du réseau"
 
 #: ../inc/prefs.inc:138
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "Débit maximum en download :"
 
 #: ../inc/prefs.inc:139
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "Débit maximum en upload :"
 
 #: ../inc/prefs.inc:140
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Utiliser le réseau uniquement pendant les horaires de"
 
 #: ../inc/prefs.inc:142
 msgid ""
@@ -360,26 +374,30 @@ msgid ""
 "does this, for example).<br />\n"
 "        Skipping verification reduces the security of BOINC.%2"
 msgstr ""
+"Passer l'étape de vérification du fichier image ? %1\n"
+"        Cocher ceci UNIQUEMENT si votre fournisseur internet modifie les "
+"fichiers images (c'est le cas d'UMTS par exemple).<br />\n"
+"        Passer cette étape réduit la sécurité de BOINC.%2"
 
 #: ../inc/prefs.inc:147
 msgid "Use ATI GPU if present %1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Utiliser le GPU ATI si présent %1 (applicable aux clients 6.10+)%2"
 
 #: ../inc/prefs.inc:150
 msgid "Use NVIDIA GPU if present %1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Utiliser le GPU NVIDIA si présent %1 (applicable aux clients 6.10+)%2"
 
 #: ../inc/prefs.inc:153
 msgid "Use CPU % 1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Utiliser le CPU % 1 (applicable aux clients 6.10+)%2"
 
 #: ../inc/prefs.inc:158
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "Koctets/sec"
 
 #: ../inc/prefs.inc:159
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 #: ../inc/prefs.inc:161
 msgid ""
@@ -387,11 +405,16 @@ msgid ""
 "        This helps us develop applications, but may cause jobs to fail on "
 "your computer%2"
 msgstr ""
+"Lancer les applications de test ? %1\n"
+"        Ceci nous aide à développer les applications, mais peut engendrer "
+"des échec de calculs sur votre ordinateur%2"
 
 #: ../inc/prefs.inc:166
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
+"Ces préférences s'appliquent à tous les projets BOINC auxquels vous "
+"participez."
 
 #: ../inc/prefs.inc:168
 msgid ""

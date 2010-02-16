@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-16 11:58-0700\n"
+"PO-Revision-Date: 2010-02-16 12:58-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -199,7 +199,7 @@ msgid ""
 "        Enforced by version 6.7+"
 msgstr ""
 "Suspendre el treball de la GPU mentre l'ordinador està en ús? %1\n"
-"        Forçades per la versió 6.7+"
+"        Imposat per la versió 6.7+"
 
 #: ../inc/prefs.inc:80
 msgid "'In use' means mouse/keyboard activity in last"
@@ -218,38 +218,49 @@ msgid ""
 "Suspend work if CPU usage is above %1\n"
 "        0 means no restriction<br>Enforced by version 6.10.30+%2"
 msgstr ""
+"Suspendre el treball si l'ús de CPU és superior a %1\n"
+"        0 significa sense restricció<br>Imposat per la versió 6.10.30+%2"
 
 #: ../inc/prefs.inc:89
 msgid "Do work only between the hours of"
-msgstr ""
+msgstr "Només treballar entre les hores de"
 
 #: ../inc/prefs.inc:90
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(sense restricció en cas d'igualtat)"
 
 #: ../inc/prefs.inc:92
 msgid ""
 "Leave tasks in memory while suspended? %1\n"
 "        (suspended tasks will consume swap space if 'yes')%2"
 msgstr ""
+"Deixar les tasques en la memòria mentre està suspès? %1\n"
+"        (les tasques suspeses consumeixen espai d'intercanvi en cas "
+"afirmatiu)%2"
 
 #: ../inc/prefs.inc:96
 msgid ""
 "Switch between tasks every %1\n"
 "        (recommended: 60 minutes)%2"
 msgstr ""
+"Canviar de tasca cada %1\n"
+"        (recomanat: 60 minuts)%2"
 
 #: ../inc/prefs.inc:100
 msgid ""
 "Confirm before connecting to Internet? %1\n"
 "        (matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"Confirmar abans de connectar-se a Internet? %1\n"
+"(Tan sols si teniu un mòdem, ISDN o una connexió VPN)% 2"
 
 #: ../inc/prefs.inc:104
 msgid ""
 "Disconnect when done? %1\n"
 "        (matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"Desconnectar quan es finalitzar? %1\n"
+"(Tan sols si teniu un mòdem, ISDN o una connexió VPN)%2"
 
 #: ../inc/prefs.inc:108
 msgid ""
@@ -257,61 +268,67 @@ msgid ""
 "        (Leave blank or 0 if always connected.<br>\n"
 "        BOINC will try to maintain at least this much work.)%2"
 msgstr ""
+"L'ordinador està connectat a Internet cada %1\n"
+"        (Deixar en blanc o 0 si està sempre connectat.<br>\n"
+"        BOINC tractarà de fer el màxim de feina.)%2"
 
 #: ../inc/prefs.inc:113
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "Mantenir prou feina per un període addicional"
 
 #: ../inc/prefs.inc:116
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+%2"
 msgstr ""
+"Amb multiprocessadors, utilitzar com a màxim %1 Imposat per la versió 6.1+%2"
 
 #: ../inc/prefs.inc:118
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% dels processadors"
 
 #: ../inc/prefs.inc:119
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "Amb multiprocessadors, utilitzar com a màxim"
 
 #: ../inc/prefs.inc:120
 msgid "processors"
-msgstr ""
+msgstr "processadors"
 
 #: ../inc/prefs.inc:121 ../inc/prefs.inc:125
 msgid "Use at most"
-msgstr ""
+msgstr "Utilitzar com a màxim"
 
 #: ../inc/prefs.inc:123
 msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
 msgstr ""
+"Utilitzar com a màxim %1 (Pot ser utilitzat per reduir la escalfor de la "
+"CPU)%2"
 
 #: ../inc/prefs.inc:126
 msgid "percent of CPU time"
-msgstr ""
+msgstr "per cent del temps de CPU"
 
 #: ../inc/prefs.inc:127
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Guardar els punts de control de les tasques a disc almenys cada"
 
 #: ../inc/prefs.inc:128
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "Ús de disc i memòria"
 
 #: ../inc/prefs.inc:129
 msgid "Leave at least"
-msgstr ""
+msgstr "Deixa com a mínim"
 
 #: ../inc/prefs.inc:131
 #, php-format
 msgid "(Values smaller than %s are ignored)"
-msgstr ""
+msgstr "(Els valors inferiors a %s s'ignoren)"
 
 #: ../inc/prefs.inc:133
 #, php-format
 msgid "% of total disk space"
-msgstr ""
+msgstr "% de l'espai total de disc"
 
 #: ../inc/prefs.inc:134
 #, php-format
