@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-16 13:58-0700\n"
+"PO-Revision-Date: 2010-02-16 14:58-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -562,13 +562,13 @@ msgstr "Configuració específica del projecte"
 
 #: ../inc/prefs.inc:926 ../inc/prefs.inc:969
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Preferències principals (per defecte)"
 
 #: ../inc/prefs.inc:936 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
 msgid "Edit %1 preferences"
-msgstr ""
+msgstr "Edita les preferències de  %1"
 
 #: ../inc/prefs.inc:950
 msgid ""
@@ -576,31 +576,33 @@ msgid ""
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
+"Aquestes s'apliquen a tots els projectes BOINC en què vostè participa.<br>\n"
+"             En els ordinadors connectats a múltiples projectes, "
+"s'utilitzaràn les preferències modificades més recentment."
 
 #: ../inc/prefs.inc:954
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Preferències modificades per última vegada:"
 
 #: ../inc/prefs.inc:1006
-#, fuzzy
 msgid "Add preferences"
-msgstr "Preferències de %1"
+msgstr "Afegir preferències"
 
 #: ../inc/prefs.inc:1010
 msgid "Update preferences"
-msgstr ""
+msgstr "Actualitzar les preferències"
 
 #: ../inc/prefs.inc:1109
 msgid "Gbytes"
-msgstr ""
+msgstr "Gbytes"
 
 #: ../inc/prefs.inc:1123
 msgid "Gbytes free"
-msgstr ""
+msgstr "Gbytes lliures"
 
 #: ../inc/prefs.inc:1224
 msgid "Resource share"
-msgstr ""
+msgstr "Compartir recursos"
 
 #: ../inc/prefs.inc:1226
 msgid ""
@@ -609,26 +611,30 @@ msgid ""
 "            BOINC projects with resource shares of 100 and 200, the first\n"
 "            will get 1/3 of your resources and the second will get 2/3."
 msgstr ""
+"Determina la proporció dels recursos de l'ordinador\n"
+"            assignats a aquest projecte. Exemple: si vostè participa en dos\n"
+"            projectes BOINC, amb quotes de recursos de 100 i 200, el primer\n"
+"            rebrà 1/3 dels seus recursos i el segon obtindrà 2/3."
 
 #: ../inc/prefs.inc:1280 ../inc/prefs.inc:1289
 msgid "Default computer location"
-msgstr ""
+msgstr "Ubicació defecte de l'equip"
 
 #: ../inc/prefs.inc:1292
 msgid "Home"
-msgstr ""
+msgstr "Inici"
 
 #: ../inc/prefs.inc:1293
 msgid "Work"
-msgstr ""
+msgstr "Treball"
 
 #: ../inc/prefs.inc:1294
 msgid "School"
-msgstr ""
+msgstr "Escola"
 
 #: ../inc/prefs.inc:1569
 msgid "Update failed: "
-msgstr ""
+msgstr "Error en l'actualització:"
 
 #: ../inc/profile.inc:216 ../user/create_profile.php:306
 msgid "Edit your profile"
@@ -656,173 +662,172 @@ msgstr "No %1m'agrada%2 aquest perfil"
 
 #: ../inc/result.inc:25
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Plataforma anònima"
 
 #: ../inc/result.inc:32
 msgid "Not in DB"
-msgstr ""
+msgstr "No en la DB"
 
 #: ../inc/result.inc:70
 msgid "pending"
-msgstr ""
+msgstr "pendent"
 
 #: ../inc/result.inc:92
 msgid "All"
-msgstr ""
+msgstr "Tot"
 
 #: ../inc/result.inc:93 ../inc/result.inc:113 ../inc/result.inc:152
 msgid "In progress"
-msgstr ""
+msgstr "En progrés"
 
 #: ../inc/result.inc:94 ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "Pendent"
 
 #: ../inc/result.inc:95 ../inc/result.inc:195
 msgid "Valid"
-msgstr ""
+msgstr "Vàlid"
 
 #: ../inc/result.inc:96 ../inc/result.inc:198
 msgid "Invalid"
-msgstr ""
+msgstr "No vàlid"
 
 #: ../inc/result.inc:97 ../inc/result.inc:138
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: ../inc/result.inc:111 ../inc/result.inc:150
 msgid "Inactive"
-msgstr ""
+msgstr "Inactiu"
 
 #: ../inc/result.inc:112 ../inc/result.inc:151
 msgid "Unsent"
-msgstr ""
+msgstr "No enviats"
 
 #: ../inc/result.inc:118
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Finalitzat, a l'espera de la validació"
 
 #: ../inc/result.inc:119
 msgid "Completed and validated"
-msgstr ""
+msgstr "Finalitzat i validat"
 
 #: ../inc/result.inc:120
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Finalitzat, marcat com a no vàlid"
 
 #: ../inc/result.inc:121
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Finalitzat, no es pot validar"
 
 #: ../inc/result.inc:122
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Finalitzat, validació no concloent"
 
 #: ../inc/result.inc:123
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Finalitzat, massa tard per validar"
 
 #: ../inc/result.inc:125
 msgid "Completed"
-msgstr ""
+msgstr "Finalitzat"
 
 #: ../inc/result.inc:126 ../inc/result.inc:162
 msgid "Couldn't send"
-msgstr ""
+msgstr "No s'ha pogut lliurar"
 
 #: ../inc/result.inc:129 ../inc/result.inc:186
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Cancel·lat pel servidor"
 
 #: ../inc/result.inc:132
 msgid "Error while downloading"
-msgstr ""
+msgstr "No s'ha pogut descarregar"
 
 #: ../inc/result.inc:134
 msgid "Error while computing"
-msgstr ""
+msgstr "S'ha produït un error durant la computació"
 
 #: ../inc/result.inc:135
 msgid "Error while uploading"
-msgstr ""
+msgstr "Error en carregar"
 
 #: ../inc/result.inc:136 ../inc/result.inc:188
 msgid "Aborted by user"
-msgstr ""
+msgstr "Avortada per l'usuari"
 
 #: ../inc/result.inc:139
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Temps d'espera esgotat - sense resposta"
 
 #: ../inc/result.inc:140 ../inc/result.inc:169
 msgid "Didn't need"
-msgstr ""
+msgstr "No era necessari"
 
 #: ../inc/result.inc:141 ../inc/result.inc:170
 msgid "Validate error"
-msgstr ""
+msgstr "Error de validació"
 
 #: ../inc/result.inc:142 ../inc/result.inc:171
 msgid "Client detached"
-msgstr ""
+msgstr "Client independent"
 
 #: ../inc/result.inc:145 ../inc/result.inc:155 ../inc/result.inc:173
 #: ../inc/result.inc:205
 msgid "Unknown"
-msgstr ""
+msgstr "Desconegut"
 
 #: ../inc/result.inc:153
 msgid "Over"
-msgstr ""
+msgstr "Per sobre de"
 
 #: ../inc/result.inc:161
 msgid "Success"
-msgstr ""
+msgstr "Èxit"
 
 #: ../inc/result.inc:165
 msgid "Client error"
-msgstr ""
+msgstr "Error del client"
 
 #: ../inc/result.inc:167
 msgid "Redundant result"
-msgstr ""
+msgstr "Resultat redundant"
 
 #: ../inc/result.inc:168
 msgid "No reply"
-msgstr ""
+msgstr "Sense resposta"
 
 #: ../inc/result.inc:178
 msgid "New"
-msgstr ""
+msgstr "Nou"
 
 #: ../inc/result.inc:179
 msgid "Downloading"
-msgstr ""
+msgstr "Descarregant"
 
 #: ../inc/result.inc:181
 msgid "Compute error"
-msgstr ""
+msgstr "Error de càlcul"
 
 #: ../inc/result.inc:182
 msgid "Uploading"
-msgstr ""
+msgstr "Carregant"
 
 #: ../inc/result.inc:183
-#, fuzzy
 msgid "Done"
-msgstr "Cap"
+msgstr "Fet"
 
 #: ../inc/result.inc:194
 msgid "Initial"
-msgstr ""
+msgstr "Inicial"
 
 #: ../inc/result.inc:200
 msgid "Not necessary"
-msgstr ""
+msgstr "No cal"
 
 #: ../inc/result.inc:201
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Error workunit - comprovació omesa"
 
 #: ../inc/result.inc:202
 msgid "Checked, but no consensus yet"
