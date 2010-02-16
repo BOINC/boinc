@@ -102,13 +102,11 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     );
 	sbSizer4->Add( m_chkGPUProcInUse, 0, wxALL, 5 );
 
-	wxFlexGridSizer* fgSizer5;
-	fgSizer5 = new wxFlexGridSizer( 2, 4, 0, 0 );
+    // min idle time
+	wxFlexGridSizer* fgSizer5 = new wxFlexGridSizer( 2, 4, 0, 0 );
 	fgSizer5->AddGrowableCol( 3 );
 	fgSizer5->SetFlexibleDirection( wxHORIZONTAL );
 	fgSizer5->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-
-    // min idle time
 	fgSizer5->Add(
         new wxStaticText(
             m_panelProcessor, ID_DEFAULT,
@@ -132,36 +130,46 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
         ),
         0, wxALL, 5
     );
+	fgSizer5->Add(
+        new wxStaticText( m_panelProcessor, ID_DEFAULT, wxT(""), wxDefaultPosition, wxDefaultSize, 0),
+        0, wxALL, 5
+    );
+	sbSizer4->Add( fgSizer5, 0, wxEXPAND, 5);
 
     // max CPU load
-	fgSizer5->Add(
+	wxFlexGridSizer* fgSizer13 = new wxFlexGridSizer( 2, 4, 0, 0 );
+	fgSizer13->AddGrowableCol( 3 );
+	fgSizer13->SetFlexibleDirection( wxHORIZONTAL );
+	fgSizer13->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	fgSizer13->Add(
         new wxStaticText(
             m_panelProcessor, ID_DEFAULT,
-            _("If CPU load exceeds"),
+            _("While processor usage is less than"),
             wxDefaultPosition, wxDefaultSize, 0
         ),
         0, wxALL, 5
     );
 	m_txtMaxLoad = new wxTextCtrl(
         m_panelProcessor, ID_TXTMAXLOAD, wxT(""), wxDefaultPosition,
-        wxSize( 50,-1 ), wxTE_RIGHT
+        wxSize( 30,-1 ), wxTE_RIGHT
     );
-	m_txtProcIdleFor->SetToolTip(
+	m_txtMaxLoad->SetToolTip(
         _("suspend work if processor usage exceeds this level")
     );
-	fgSizer5->Add( m_txtMaxLoad, 0, wxALL, 1 );
-	fgSizer5->Add(
+	fgSizer13->Add( m_txtMaxLoad, 0, wxALL, 1 );
+	fgSizer13->Add(
         new wxStaticText(
-            m_panelProcessor, ID_DEFAULT, _("%% (0 means no restriction)"),
+            m_panelProcessor, ID_DEFAULT, _("percent (0 means no restriction)"),
             wxDefaultPosition, wxDefaultSize, 0
         ),
         0, wxALL, 5
     );
+	fgSizer13->Add(
+        new wxStaticText( m_panelProcessor, ID_DEFAULT, wxT(""), wxDefaultPosition, wxDefaultSize, 0),
+        0, wxALL, 5
+    );
+	sbSizer4->Add( fgSizer13, 0, wxEXPAND, 5);
 
-	m_staticText28 = new wxStaticText( m_panelProcessor, ID_DEFAULT, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer5->Add( m_staticText28, 0, wxALL, 5 );
-
-	sbSizer4->Add( fgSizer5, 0, wxEXPAND, 5 );
 
 	wxBoxSizer* bSizer111;
 	bSizer111 = new wxBoxSizer( wxHORIZONTAL );
