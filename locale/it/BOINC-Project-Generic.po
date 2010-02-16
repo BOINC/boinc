@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-01-29 00:03+0100\n"
-"Last-Translator: LocutusOfBorg <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: 2010-02-16 13:34-0700\n"
+"Last-Translator: Bassi Paolo <baxpaolo@alice.it>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -188,71 +188,92 @@ msgstr ""
 
 #: ../inc/prefs.inc:68
 msgid "Processor usage"
-msgstr ""
+msgstr "Uso del processore"
 
 #: ../inc/prefs.inc:70
 msgid ""
 "Suspend work while computer is on battery power? %1\n"
 "        (matters only for portable computers)%2"
 msgstr ""
+"Sospendere l'elaborazione mentre il computer è a batterie? %1\n"
+"        (riguarda solo i computer portatili)%2"
 
 #: ../inc/prefs.inc:74
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "Sospendere l'elaborazione mentre è in uso il computer?"
 
 #: ../inc/prefs.inc:77
 msgid ""
 "Suspend GPU work while computer is in use? %1\n"
 "        Enforced by version 6.7+"
 msgstr ""
+"Sospendere l'elaborazione con GPU mentre è in uso il computer? %1\n"
+"        Si applica dalla versione 6.7+"
 
 #: ../inc/prefs.inc:80
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
+msgstr "'In uso' significa che c'è attività del mouse/tastiera negli ultimi"
 
 #: ../inc/prefs.inc:82
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1\n"
 "        (Needed to enter low-power mode on some computers)%2"
 msgstr ""
+"Sospende l'elaborazione se non c'è attività del mouse/tastiera negli ultimi "
+"%1\n"
+"        (Necessario per entrare in modalità risparmio energetico in certi "
+"computer)%2"
 
 #: ../inc/prefs.inc:86
 msgid ""
 "Suspend work if CPU usage is above %1\n"
 "        0 means no restriction<br>Enforced by version 6.10.30+%2"
 msgstr ""
+"Sospendi l'elaborazione se l'uso della CPU è superiore a %1\n"
+"        0 significa assenza di restrizioni<br>Si applica dalla versione "
+"6.10.30+%2"
 
 #: ../inc/prefs.inc:89
 msgid "Do work only between the hours of"
-msgstr ""
+msgstr "Elabora solamente tra le ore"
 
 #: ../inc/prefs.inc:90
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(nessuna restrizione se sono uguali)"
 
 #: ../inc/prefs.inc:92
 msgid ""
 "Leave tasks in memory while suspended? %1\n"
 "        (suspended tasks will consume swap space if 'yes')%2"
 msgstr ""
+"Lasciare le applicazioni in memoria mentre sono sospese? %1\n"
+"        (in caso affermativo le applicazioni consumano memoria di swap)%2"
 
 #: ../inc/prefs.inc:96
 msgid ""
 "Switch between tasks every %1\n"
 "        (recommended: 60 minutes)%2"
 msgstr ""
+"Cambia applicazione ogni %1\n"
+"        (consigliati: 60 minuti)%2"
 
 #: ../inc/prefs.inc:100
 msgid ""
 "Confirm before connecting to Internet? %1\n"
 "        (matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"Confermare prima di connettersi a Internet? %1\n"
+"        (ha senso solo in caso tu abbia un modem, ISDN o una connessione "
+"VPN)%2"
 
 #: ../inc/prefs.inc:104
 msgid ""
 "Disconnect when done? %1\n"
 "        (matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"Disconnettere al termine? %1\n"
+"        (ha senso solo in caso tu abbia un modem, ISDN o una connessione "
+"VPN)%2"
 
 #: ../inc/prefs.inc:108
 msgid ""
@@ -260,10 +281,13 @@ msgid ""
 "        (Leave blank or 0 if always connected.<br>\n"
 "        BOINC will try to maintain at least this much work.)%2"
 msgstr ""
+"Computer è connesso a Internet ogni %1\n"
+"        (Lascia in bianco o scrivi 0 se è sempre connesso.<br>\n"
+"        BOINC cercherà di scaricare abbastanza lavoro.)%2"
 
 #: ../inc/prefs.inc:113
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "Richiedi abbastanza riserva di lavoro per"
 
 #: ../inc/prefs.inc:116
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+%2"

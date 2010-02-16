@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-16 12:58-0700\n"
+"PO-Revision-Date: 2010-02-16 13:58-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -333,33 +333,33 @@ msgstr "% de l'espai total de disc"
 #: ../inc/prefs.inc:134
 #, php-format
 msgid "% of page file (swap space)"
-msgstr ""
+msgstr "% de l'arxiu de paginació (swap)"
 
 #: ../inc/prefs.inc:135
 #, php-format
 msgid "% of memory when computer is in use"
-msgstr ""
+msgstr "% de la memòria quan l'ordinador està en ús"
 
 #: ../inc/prefs.inc:136
 #, php-format
 msgid "% of memory when computer is not in use"
-msgstr ""
+msgstr "% de la memòria quan l'ordinador no està en ús"
 
 #: ../inc/prefs.inc:137
 msgid "Network usage"
-msgstr ""
+msgstr "Ús de la xarxa"
 
 #: ../inc/prefs.inc:138
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "Taxa màxima de descàrrega:"
 
 #: ../inc/prefs.inc:139
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "Taxa màxima de càrrega:"
 
 #: ../inc/prefs.inc:140
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Utilitzar la xarxa només entre les hores de"
 
 #: ../inc/prefs.inc:142
 msgid ""
@@ -368,26 +368,30 @@ msgid ""
 "does this, for example).<br />\n"
 "        Skipping verification reduces the security of BOINC.%2"
 msgstr ""
+"Evitar la verificació de l'arxiu imatge? %1\n"
+"        Seleccioneu aquesta opció només si el vostre proveïdor d'Internet "
+"modifica els arxius imatge (per exemple UMTS ho fa).<br>\n"
+"        Ometre la comprovació redueix la seguretat de BOINC.%2"
 
 #: ../inc/prefs.inc:147
 msgid "Use ATI GPU if present %1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Usar la GPU ATI si està present %1 (imposada pels clients 6.10+)%2"
 
 #: ../inc/prefs.inc:150
 msgid "Use NVIDIA GPU if present %1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Usar la GPU NVIDIA si està present %1 (imposada pels clients 6.10+)%2"
 
 #: ../inc/prefs.inc:153
 msgid "Use CPU % 1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Usar la CPU %1 (imposada pels clients 6.10+)%2"
 
 #: ../inc/prefs.inc:158
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "Kbytes/seg"
 
 #: ../inc/prefs.inc:159
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 #: ../inc/prefs.inc:161
 msgid ""
@@ -395,25 +399,32 @@ msgid ""
 "        This helps us develop applications, but may cause jobs to fail on "
 "your computer%2"
 msgstr ""
+"Executar les aplicacions de prova? %1\n"
+"        Això ens ajuda a desenvolupar aplicacions, però pot causar errors en "
+"els treballs en el seu ordinador%2"
 
 #: ../inc/prefs.inc:166
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
+"Aquestes preferències s'apliquen a tots els projectes BOINC en què vostè "
+"participa."
 
 #: ../inc/prefs.inc:168
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
+"%1No es poden actualitzar les preferències.%2 Els valors marcats en vermell "
+"a continuació son fora de rang o no numèrics."
 
 #: ../inc/prefs.inc:220
 msgid "bad venue: %1"
-msgstr ""
+msgstr "lloc erroni: %1"
 
 #: ../inc/prefs.inc:226
 msgid "bad subset: %1"
-msgstr ""
+msgstr "subconjunt erroni: %1"
 
 #: ../inc/prefs.inc:631 ../inc/prefs.inc:634 ../inc/prefs.inc:743
 #: ../inc/prefs.inc:744 ../inc/prefs.inc:745 ../inc/prefs.inc:761
@@ -422,7 +433,7 @@ msgstr ""
 #: ../inc/prefs.inc:845 ../inc/prefs.inc:857 ../inc/prefs.inc:859
 #: ../inc/prefs.inc:1269
 msgid "yes"
-msgstr ""
+msgstr "si"
 
 #: ../inc/prefs.inc:631 ../inc/prefs.inc:634 ../inc/prefs.inc:743
 #: ../inc/prefs.inc:744 ../inc/prefs.inc:745 ../inc/prefs.inc:761
@@ -431,70 +442,70 @@ msgstr ""
 #: ../inc/prefs.inc:845 ../inc/prefs.inc:857 ../inc/prefs.inc:859
 #: ../inc/prefs.inc:1271
 msgid "no"
-msgstr ""
+msgstr "no"
 
 #: ../inc/prefs.inc:639 ../inc/prefs.inc:790 ../inc/prefs.inc:793
 msgid "no limit"
-msgstr ""
+msgstr "sense límit"
 
 #: ../inc/prefs.inc:664
 msgid "Add"
-msgstr ""
+msgstr "Afegir"
 
 #: ../inc/prefs.inc:665 ../inc/prefs.inc:667
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: ../inc/prefs.inc:666 ../inc/prefs.inc:897
 msgid "Remove"
-msgstr ""
+msgstr "Eliminar"
 
 #: ../inc/prefs.inc:701 ../inc/prefs.inc:703 ../inc/prefs.inc:709
 #: ../inc/prefs.inc:1055 ../inc/prefs.inc:1060 ../inc/prefs.inc:1078
 msgid "minutes"
-msgstr ""
+msgstr "minuts"
 
 #: ../inc/prefs.inc:715
 msgid "GB disk space"
-msgstr ""
+msgstr "GB d'espai en disc"
 
 #: ../inc/prefs.inc:716
 msgid "GB disk space free"
-msgstr ""
+msgstr "GB d'espai lliure"
 
 #: ../inc/prefs.inc:718 ../inc/prefs.inc:1137
 msgid "seconds"
-msgstr ""
+msgstr "segons"
 
 #: ../inc/prefs.inc:724 ../inc/prefs.inc:725 ../inc/prefs.inc:1164
 #: ../inc/prefs.inc:1170
 msgid "days"
-msgstr ""
+msgstr "dies"
 
 #: ../inc/prefs.inc:746 ../inc/prefs.inc:749 ../inc/prefs.inc:762
 msgid "%1 minutes"
-msgstr ""
+msgstr "%1 minuts"
 
 #: ../inc/prefs.inc:754 ../inc/prefs.inc:795
 msgid "(no restriction)"
-msgstr ""
+msgstr "(sense restricció)"
 
 #: ../inc/prefs.inc:758 ../inc/prefs.inc:799 ../inc/prefs.inc:1071
 #: ../inc/prefs.inc:1203
 msgid "and"
-msgstr ""
+msgstr "i"
 
 #: ../inc/prefs.inc:769
 msgid "%1 GB disk space"
-msgstr ""
+msgstr "%1 GB d'espai en disc"
 
 #: ../inc/prefs.inc:777
 msgid "%1 GB disk space free"
-msgstr ""
+msgstr "%1 GB d'espai lliure"
 
 #: ../inc/prefs.inc:784 ../inc/prefs.inc:785
 msgid "%1 days"
-msgstr ""
+msgstr "%1 dies"
 
 #: ../inc/prefs.inc:807
 msgid ""
@@ -502,49 +513,52 @@ msgid ""
 "             If you participate in multiple BOINC projects,\n"
 "             this is the proportion of your resources used by %2%3"
 msgstr ""
+"Compartir recursos %1\n"
+"             Si vostè participa en diversos projectes BOINC,\n"
+"             aquesta és la proporció dels recursos utilitzats per %2%3"
 
 #: ../inc/prefs.inc:853
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
+"Missatges de correu electrònic seràn enviats des de %1; assegureu-vos que el "
+"seu filtre anti-spam accepta aquesta direcció."
 
 #: ../inc/prefs.inc:856 ../inc/prefs.inc:1213
 msgid "Is it OK for %1 and your team (if any) to email you?"
-msgstr ""
+msgstr "Està bé per 1% i el seu equip (si n'hi ha) enviar-li correu?"
 
 #: ../inc/prefs.inc:859 ../inc/prefs.inc:1216
 msgid "Should %1 show your computers on its web site?"
-msgstr ""
+msgstr "1% ha de mostrar els seus equips en el seu lloc web?"
 
 #: ../inc/prefs.inc:875 ../inc/result.inc:180
 msgid "Computing"
-msgstr ""
+msgstr "Computant"
 
 #: ../inc/prefs.inc:887
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Separa les preferències per %1"
 
 #: ../inc/prefs.inc:897 ../inc/prefs.inc:975
-#, fuzzy
 msgid "Edit preferences"
-msgstr "Preferències de %1"
+msgstr "Editar les preferències"
 
 #: ../inc/prefs.inc:901
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Afegir preferències independents per %1"
 
 #: ../inc/prefs.inc:910 ../inc/prefs.inc:957
 msgid "(Switch View)"
-msgstr ""
+msgstr "(Canvar vista)"
 
 #: ../inc/prefs.inc:912 ../inc/prefs.inc:960
-#, fuzzy
 msgid "Combined preferences"
-msgstr "Preferències de computació"
+msgstr "Preferències combinades"
 
 #: ../inc/prefs.inc:917
 msgid "Project specific settings"
-msgstr ""
+msgstr "Configuració específica del projecte"
 
 #: ../inc/prefs.inc:926 ../inc/prefs.inc:969
 msgid "Primary (default) preferences"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-16 12:59-0700\n"
+"PO-Revision-Date: 2010-02-16 13:05-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -421,6 +421,8 @@ msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
+"%1Impossible de mettre à jour les préférences.%2 Les valeurs marquées en "
+"rouge ci-dessous sont hors bornes ou non numériques."
 
 #: ../inc/prefs.inc:220
 msgid "bad venue: %1"
@@ -437,7 +439,7 @@ msgstr ""
 #: ../inc/prefs.inc:845 ../inc/prefs.inc:857 ../inc/prefs.inc:859
 #: ../inc/prefs.inc:1269
 msgid "yes"
-msgstr ""
+msgstr "oui"
 
 #: ../inc/prefs.inc:631 ../inc/prefs.inc:634 ../inc/prefs.inc:743
 #: ../inc/prefs.inc:744 ../inc/prefs.inc:745 ../inc/prefs.inc:761
@@ -446,70 +448,70 @@ msgstr ""
 #: ../inc/prefs.inc:845 ../inc/prefs.inc:857 ../inc/prefs.inc:859
 #: ../inc/prefs.inc:1271
 msgid "no"
-msgstr ""
+msgstr "non"
 
 #: ../inc/prefs.inc:639 ../inc/prefs.inc:790 ../inc/prefs.inc:793
 msgid "no limit"
-msgstr ""
+msgstr "aucune limite"
 
 #: ../inc/prefs.inc:664
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: ../inc/prefs.inc:665 ../inc/prefs.inc:667
 msgid "Edit"
-msgstr ""
+msgstr "Editer"
 
 #: ../inc/prefs.inc:666 ../inc/prefs.inc:897
 msgid "Remove"
-msgstr ""
+msgstr "Supprimer"
 
 #: ../inc/prefs.inc:701 ../inc/prefs.inc:703 ../inc/prefs.inc:709
 #: ../inc/prefs.inc:1055 ../inc/prefs.inc:1060 ../inc/prefs.inc:1078
 msgid "minutes"
-msgstr ""
+msgstr "minutes"
 
 #: ../inc/prefs.inc:715
 msgid "GB disk space"
-msgstr ""
+msgstr "GB d'espace disque"
 
 #: ../inc/prefs.inc:716
 msgid "GB disk space free"
-msgstr ""
+msgstr "GB d'espace disque disponible"
 
 #: ../inc/prefs.inc:718 ../inc/prefs.inc:1137
 msgid "seconds"
-msgstr ""
+msgstr "secondes"
 
 #: ../inc/prefs.inc:724 ../inc/prefs.inc:725 ../inc/prefs.inc:1164
 #: ../inc/prefs.inc:1170
 msgid "days"
-msgstr ""
+msgstr "jours"
 
 #: ../inc/prefs.inc:746 ../inc/prefs.inc:749 ../inc/prefs.inc:762
 msgid "%1 minutes"
-msgstr ""
+msgstr "%1 minutes"
 
 #: ../inc/prefs.inc:754 ../inc/prefs.inc:795
 msgid "(no restriction)"
-msgstr ""
+msgstr "(aucune restriction)"
 
 #: ../inc/prefs.inc:758 ../inc/prefs.inc:799 ../inc/prefs.inc:1071
 #: ../inc/prefs.inc:1203
 msgid "and"
-msgstr ""
+msgstr "et"
 
 #: ../inc/prefs.inc:769
 msgid "%1 GB disk space"
-msgstr ""
+msgstr "%1 GB d'espace disque"
 
 #: ../inc/prefs.inc:777
 msgid "%1 GB disk space free"
-msgstr ""
+msgstr "%1 GB d'espace disque disponible"
 
 #: ../inc/prefs.inc:784 ../inc/prefs.inc:785
 msgid "%1 days"
-msgstr ""
+msgstr "%1 jours"
 
 #: ../inc/prefs.inc:807
 msgid ""
