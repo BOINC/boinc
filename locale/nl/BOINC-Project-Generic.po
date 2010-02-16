@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-16 10:30-0700\n"
+"PO-Revision-Date: 2010-02-16 11:54-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -354,7 +354,7 @@ msgstr "Maximale upload waarde:"
 
 #: ../inc/prefs.inc:140
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Gebruik het netwerk alleen tussen"
 
 #: ../inc/prefs.inc:142
 msgid ""
@@ -363,26 +363,31 @@ msgid ""
 "does this, for example).<br />\n"
 "        Skipping verification reduces the security of BOINC.%2"
 msgstr ""
+"Verificatie van bestand overslaan? %1\n"
+"        Vink dit alleen aan als je provider de indeling van bestanden "
+"aanpast (UMTS doet dit bijvoorbeeld).<br />\n"
+"        Verificatie overslaan verlaagt de veiligheid van BOINC.%2"
 
 #: ../inc/prefs.inc:147
 msgid "Use ATI GPU if present %1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Indien aanwezig gebruik ATI GPU %1 (instelbaar vanaf 6.10+)%2"
 
 #: ../inc/prefs.inc:150
 msgid "Use NVIDIA GPU if present %1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Indien aanwezig gebruik NVIDIA GPU %1 (instelbaar vanaf 6.10+)%2"
 
 #: ../inc/prefs.inc:153
+#, fuzzy
 msgid "Use CPU % 1 (enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Gebruik CPU % 1 (instelbaar vanaf 6.10+)%2"
 
 #: ../inc/prefs.inc:158
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "Kbytes/sec"
 
 #: ../inc/prefs.inc:159
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 #: ../inc/prefs.inc:161
 msgid ""
@@ -390,25 +395,33 @@ msgid ""
 "        This helps us develop applications, but may cause jobs to fail on "
 "your computer%2"
 msgstr ""
+"Test applicaties uitvoeren? %1\n"
+"        Dit helpt ons bij het ontwikkelen van applicaties, maar kan fouten "
+"veroorzaken tijdens het uitvoeren%2"
 
 #: ../inc/prefs.inc:166
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
+"Deze voorkeuren hebben betrekking op alle projecten waar je aan deelneemt."
 
 #: ../inc/prefs.inc:168
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
+"%1Voorkeuren bijwerken niet gelukt.%2 De waarden gemarkeerd in rood zijn "
+"niet correct ingevuld."
 
 #: ../inc/prefs.inc:220
+#, fuzzy
 msgid "bad venue: %1"
-msgstr ""
+msgstr "foute locatie: %1"
 
 #: ../inc/prefs.inc:226
+#, fuzzy
 msgid "bad subset: %1"
-msgstr ""
+msgstr "foute toevoeging: %1"
 
 #: ../inc/prefs.inc:631 ../inc/prefs.inc:634 ../inc/prefs.inc:743
 #: ../inc/prefs.inc:744 ../inc/prefs.inc:745 ../inc/prefs.inc:761
@@ -417,7 +430,7 @@ msgstr ""
 #: ../inc/prefs.inc:845 ../inc/prefs.inc:857 ../inc/prefs.inc:859
 #: ../inc/prefs.inc:1269
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: ../inc/prefs.inc:631 ../inc/prefs.inc:634 ../inc/prefs.inc:743
 #: ../inc/prefs.inc:744 ../inc/prefs.inc:745 ../inc/prefs.inc:761
@@ -426,70 +439,72 @@ msgstr ""
 #: ../inc/prefs.inc:845 ../inc/prefs.inc:857 ../inc/prefs.inc:859
 #: ../inc/prefs.inc:1271
 msgid "no"
-msgstr ""
+msgstr "nee"
 
 #: ../inc/prefs.inc:639 ../inc/prefs.inc:790 ../inc/prefs.inc:793
 msgid "no limit"
-msgstr ""
+msgstr "geen limiet"
 
 #: ../inc/prefs.inc:664
 msgid "Add"
-msgstr ""
+msgstr "Toevoegen"
 
 #: ../inc/prefs.inc:665 ../inc/prefs.inc:667
 msgid "Edit"
-msgstr ""
+msgstr "Aanpassen"
 
 #: ../inc/prefs.inc:666 ../inc/prefs.inc:897
 msgid "Remove"
-msgstr ""
+msgstr "Verwijderen"
 
 #: ../inc/prefs.inc:701 ../inc/prefs.inc:703 ../inc/prefs.inc:709
 #: ../inc/prefs.inc:1055 ../inc/prefs.inc:1060 ../inc/prefs.inc:1078
 msgid "minutes"
-msgstr ""
+msgstr "minuten"
 
 #: ../inc/prefs.inc:715
 msgid "GB disk space"
-msgstr ""
+msgstr "Gb schijfruimte"
 
 #: ../inc/prefs.inc:716
+#, fuzzy
 msgid "GB disk space free"
-msgstr ""
+msgstr "Gb schijfruimte vrij"
 
 #: ../inc/prefs.inc:718 ../inc/prefs.inc:1137
 msgid "seconds"
-msgstr ""
+msgstr "seconden"
 
 #: ../inc/prefs.inc:724 ../inc/prefs.inc:725 ../inc/prefs.inc:1164
 #: ../inc/prefs.inc:1170
 msgid "days"
-msgstr ""
+msgstr "dagen"
 
 #: ../inc/prefs.inc:746 ../inc/prefs.inc:749 ../inc/prefs.inc:762
 msgid "%1 minutes"
-msgstr ""
+msgstr "%1 minuten"
 
 #: ../inc/prefs.inc:754 ../inc/prefs.inc:795
 msgid "(no restriction)"
-msgstr ""
+msgstr "(geen beperking)"
 
 #: ../inc/prefs.inc:758 ../inc/prefs.inc:799 ../inc/prefs.inc:1071
 #: ../inc/prefs.inc:1203
 msgid "and"
-msgstr ""
+msgstr "en"
 
 #: ../inc/prefs.inc:769
 msgid "%1 GB disk space"
-msgstr ""
+msgstr "%1 Gb schijfruimte"
 
 #: ../inc/prefs.inc:777
+#, fuzzy
 msgid "%1 GB disk space free"
-msgstr ""
+msgstr "%1 Gb schijfruimte vrij"
 
 #: ../inc/prefs.inc:784 ../inc/prefs.inc:785
 msgid "%1 days"
-msgstr ""
+msgstr "%1 dagen"
 
 #: ../inc/prefs.inc:807
 msgid ""
@@ -520,9 +535,8 @@ msgid "Separate preferences for %1"
 msgstr ""
 
 #: ../inc/prefs.inc:897 ../inc/prefs.inc:975
-#, fuzzy
 msgid "Edit preferences"
-msgstr "%1 voorkeuren"
+msgstr "Voorkeuren bijwerken"
 
 #: ../inc/prefs.inc:901
 msgid "Add separate preferences for %1"
@@ -533,9 +547,8 @@ msgid "(Switch View)"
 msgstr ""
 
 #: ../inc/prefs.inc:912 ../inc/prefs.inc:960
-#, fuzzy
 msgid "Combined preferences"
-msgstr "Computer voorkeuren"
+msgstr "Gecombineerde voorkeuren"
 
 #: ../inc/prefs.inc:917
 msgid "Project specific settings"
@@ -563,9 +576,8 @@ msgid "Preferences last modified:"
 msgstr ""
 
 #: ../inc/prefs.inc:1006
-#, fuzzy
 msgid "Add preferences"
-msgstr "%1 voorkeuren"
+msgstr "Voorkeuren toevoegen"
 
 #: ../inc/prefs.inc:1010
 msgid "Update preferences"
@@ -597,15 +609,15 @@ msgstr ""
 
 #: ../inc/prefs.inc:1292
 msgid "Home"
-msgstr ""
+msgstr "Thuis"
 
 #: ../inc/prefs.inc:1293
 msgid "Work"
-msgstr ""
+msgstr "Werk"
 
 #: ../inc/prefs.inc:1294
 msgid "School"
-msgstr ""
+msgstr "School"
 
 #: ../inc/prefs.inc:1569
 msgid "Update failed: "
@@ -645,11 +657,11 @@ msgstr ""
 
 #: ../inc/result.inc:70
 msgid "pending"
-msgstr ""
+msgstr "in behandeling"
 
 #: ../inc/result.inc:92
 msgid "All"
-msgstr ""
+msgstr "Alles"
 
 #: ../inc/result.inc:93 ../inc/result.inc:113 ../inc/result.inc:152
 msgid "In progress"
