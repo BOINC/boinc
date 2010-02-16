@@ -9,10 +9,10 @@ BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
 
 CXXFLAGS = $(VARIANTFLAGS) \
 	-g \
+    -I$(BOINC_CONFIG_DIR) \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
-    -I$(BOINC_CONFIG_DIR) \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
     -L$(BOINC_BUILD_DIR) \
