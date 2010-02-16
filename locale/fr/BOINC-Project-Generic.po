@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-11 13:13-0700\n"
+"PO-Revision-Date: 2010-02-16 01:24-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -177,47 +177,59 @@ msgstr ""
 
 #: ../inc/prefs.inc:68
 msgid "Processor usage"
-msgstr ""
+msgstr "Utilisation du processeur"
 
 #: ../inc/prefs.inc:70
 msgid ""
 "Suspend work while computer is on battery power? %1\n"
 "        (matters only for portable computers)%2"
 msgstr ""
+"Suspendre les calculs si l'ordinateur fonctionne sur batterie ?%1\n"
+"        (ne concerne que les ordinateurs portables)%2"
 
 #: ../inc/prefs.inc:74
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "Suspendre les calculs lorsque l'ordinateur est utilisé ?"
 
 #: ../inc/prefs.inc:77
 msgid ""
 "Suspend GPU work while computer is in use? %1\n"
 "        Enforced by version 6.7+"
 msgstr ""
+"Suspendre les calculs du GPU lorsque l'ordinateur est utilisé ? %1\n"
+"        Applicable à une version 6.7+"
 
 #: ../inc/prefs.inc:80
 msgid "'In use' means mouse/keyboard activity in last"
 msgstr ""
+"'Est utilisé' signifie que l'activité de la souris ou du clavier dans les "
+"dernières"
 
 #: ../inc/prefs.inc:82
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1\n"
 "        (Needed to enter low-power mode on some computers)%2"
 msgstr ""
+"Suspendre les calculs si aucune activité de la souris ou du clavier dans les "
+"dernières %1\n"
+"        (Requis pour basculer en mode basse consommation dans certains "
+"ordinateurs)%2"
 
 #: ../inc/prefs.inc:86
 msgid ""
 "Suspend work if CPU usage is above %1\n"
 "        0 means no restriction<br>Enforced by version 6.10.30+%2"
 msgstr ""
+"Suspendre les calculs si l'utilisation du CPU est au dessus de %1\n"
+"        0 signifie aucune restriction<br>Applicable à une version 6.10.30+%2"
 
 #: ../inc/prefs.inc:89
 msgid "Do work only between the hours of"
-msgstr ""
+msgstr "N'exécuter les calculs qu'entre les horaires de"
 
 #: ../inc/prefs.inc:90
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(aucune restriction si égaux)"
 
 #: ../inc/prefs.inc:92
 msgid ""
