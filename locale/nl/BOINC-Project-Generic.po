@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-16 09:58-0700\n"
+"PO-Revision-Date: 2010-02-16 10:30-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -248,12 +248,16 @@ msgid ""
 "Confirm before connecting to Internet? %1\n"
 "        (matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"Bevestiging bij het openen van de internet verbinding? %1\n"
+"        (alleen van belang bij een modem, ISDN of VPN verbinding)%2"
 
 #: ../inc/prefs.inc:104
 msgid ""
 "Disconnect when done? %1\n"
 "        (matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"Verbinding verbreken indien gereed? %1\n"
+"        (alleen van belang bij een modem, ISDN of VPN verbinding)%2"
 
 #: ../inc/prefs.inc:108
 msgid ""
@@ -261,88 +265,92 @@ msgid ""
 "        (Leave blank or 0 if always connected.<br>\n"
 "        BOINC will try to maintain at least this much work.)%2"
 msgstr ""
+"Computer is verbonden met het internet elke %1\n"
+"        (laat leeg of vul 0 in indien altijd verbonden.<br>\n"
+"        BOINC haalt minimaal de aangegeven hoeveelheid aan werk binnen)%2"
 
 #: ../inc/prefs.inc:113
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "Extra werk binnen halen voor tenminste"
 
 #: ../inc/prefs.inc:116
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+%2"
 msgstr ""
+"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+%2"
 
 #: ../inc/prefs.inc:118
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% van de processoren"
 
 #: ../inc/prefs.inc:119
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "Bij meerdere processoren, gebruik maximaal"
 
 #: ../inc/prefs.inc:120
 msgid "processors"
-msgstr ""
+msgstr "processoren"
 
 #: ../inc/prefs.inc:121 ../inc/prefs.inc:125
 msgid "Use at most"
-msgstr ""
+msgstr "Gebruik maximaal"
 
 #: ../inc/prefs.inc:123
 msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
-msgstr ""
+msgstr "Gebruik maximaal %1 (om CPU warmte te beperken)%2"
 
 #: ../inc/prefs.inc:126
 msgid "percent of CPU time"
-msgstr ""
+msgstr "procent van de CPU tijd"
 
 #: ../inc/prefs.inc:127
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Controlepunt van het werk opslaan elke"
 
 #: ../inc/prefs.inc:128
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "Schijf- en geheugengebruik"
 
 #: ../inc/prefs.inc:129
 msgid "Leave at least"
-msgstr ""
+msgstr "Laat minstens"
 
 #: ../inc/prefs.inc:131
 #, php-format
 msgid "(Values smaller than %s are ignored)"
-msgstr ""
+msgstr "(Waarden kleiner dan %s worden genegeerd)"
 
 #: ../inc/prefs.inc:133
 #, php-format
 msgid "% of total disk space"
-msgstr ""
+msgstr "% vrij van totale schijfgrootte"
 
 #: ../inc/prefs.inc:134
 #, php-format
 msgid "% of page file (swap space)"
-msgstr ""
+msgstr "% vrij van het virtuele geheugen"
 
 #: ../inc/prefs.inc:135
 #, php-format
 msgid "% of memory when computer is in use"
-msgstr ""
+msgstr "% vrij van het geheugen, als de computer in gebruik is"
 
 #: ../inc/prefs.inc:136
 #, php-format
 msgid "% of memory when computer is not in use"
-msgstr ""
+msgstr "% vrij van het geheugen, als de computer niet in gebruik is"
 
 #: ../inc/prefs.inc:137
 msgid "Network usage"
-msgstr ""
+msgstr "Netwerkgebruik"
 
 #: ../inc/prefs.inc:138
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "Maximale download waarde:"
 
 #: ../inc/prefs.inc:139
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "Maximale upload waarde:"
 
 #: ../inc/prefs.inc:140
 msgid "Use network only between the hours of"
