@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-16 14:58-0700\n"
+"PO-Revision-Date: 2010-02-16 15:18-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -831,77 +831,76 @@ msgstr "Error workunit - comprovació omesa"
 
 #: ../inc/result.inc:202
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Comprovat, però encara no hi ha consens"
 
 #: ../inc/result.inc:203
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "La tasca va ser informada massa tard per validar"
 
 #: ../inc/result.inc:211
 msgid "Couldn't send result"
-msgstr ""
+msgstr "No s'ha pogut lliurar el resultat"
 
 #: ../inc/result.inc:215
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Massa errors (pot tenir errors)"
 
 #: ../inc/result.inc:219
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "Massa resultats (pot ser no determinista)"
 
 #: ../inc/result.inc:223
 msgid "Too many total results"
-msgstr ""
+msgstr "Massa resultats totals"
 
 #: ../inc/result.inc:227
 msgid "WU cancelled"
-msgstr ""
+msgstr "WU cancel·lada"
 
 #: ../inc/result.inc:231
 msgid "Unrecognized Error: %1"
-msgstr ""
+msgstr "Error no reconegut: %1"
 
 #: ../inc/result.inc:257
 msgid "Task name"
-msgstr ""
+msgstr "Nom de la tasca"
 
 #: ../inc/result.inc:257 ../inc/result.inc:262 ../inc/result.inc:265
 #: ../inc/result.inc:268
 msgid "click for details"
-msgstr ""
+msgstr "feu clic per més detalls"
 
 #: ../inc/result.inc:257
 msgid "Show IDs"
-msgstr ""
+msgstr "Mostra ID's"
 
 #: ../inc/result.inc:262
 msgid "Show names"
-msgstr ""
+msgstr "Mostra els noms"
 
 #: ../inc/result.inc:265
 msgid "Task ID"
-msgstr ""
+msgstr "Identificador de tasca"
 
 #: ../inc/result.inc:268
 msgid "Work unit ID"
-msgstr ""
+msgstr "Identificador de la unitat de treball"
 
 #: ../inc/result.inc:271
-#, fuzzy
 msgid "Computer"
-msgstr "Ordinadors"
+msgstr "Ordinador"
 
 #: ../inc/result.inc:274 ../inc/result.inc:378
 msgid "Sent"
-msgstr ""
+msgstr "Lliurat"
 
 #: ../inc/result.inc:275
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Temps informat <br /> o termini"
 
 #: ../inc/result.inc:276
 msgid "explain"
-msgstr ""
+msgstr "explicar"
 
 #: ../inc/result.inc:278
 msgid "Status"
