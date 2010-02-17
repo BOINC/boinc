@@ -13,12 +13,12 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
+"X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
-"X-Poedit-SearchPath-0: doc\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -48,16 +48,27 @@ msgid "%s for %s (%s MB)"
 msgstr "%s 用于 %s (%s兆字节)"
 
 #: download.php:89
-msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
-msgstr "BOINC 使得您可以把计算机的闲置时间捐献给如 SETI@home、Einstein@home、Climateprediction.net、Rosetta@home、World Commnunity Grid 等等许多科研项目。<p>在将 BOINC 安装到您的计算机上之后，您可以加入任意多个您喜欢的项目。<p>"
+msgid ""
+"BOINC is a program that lets you donate your idle computer time to science "
+"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
+"Community Grid, and many others. <p> After installing BOINC on your "
+"computer, you can connect it to as many of these projects as you like."
+msgstr ""
+"BOINC 使得您可以把计算机的闲置时间捐献给如 "
+"SETI@home、Einstein@home、Climateprediction.net、Rosetta@home、World Commnunity "
+"Grid 等等许多科研项目。<p>在将 BOINC 安装到您的计算机上之后，您可以加入任意多个您喜欢的项目。<p>"
 
 #: download.php:91
-msgid "You may run this software on a computer only if you own the computer or have the permission of its owner."
+msgid ""
+"You may run this software on a computer only if you own the computer or have "
+"the permission of its owner."
 msgstr "你应该在自己拥有的计算机或得到使用许可的计算机上运行这个软件。"
 
 #: download.php:116
 #, php-format
-msgid "Note: if your computer is equipped with an Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"
+msgid ""
+"Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
+"you may be able to %suse it to compute faster%s"
 msgstr "注意：如果您的计算机配备了 NVIDIA 的显示卡，您 也许可以%s通过它来使计算变得更快%s。"
 
 #: download.php:122
@@ -68,8 +79,7 @@ msgstr "系统需求"
 msgid "Release notes"
 msgstr "发行说明"
 
-#: download.php:124
-#: index.php:82
+#: download.php:124 index.php:82
 msgid "Help"
 msgstr "帮助"
 
@@ -87,20 +97,40 @@ msgstr "BOINC：为科学而计算"
 
 #: help.php:12
 #, php-format
-msgid "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."
-msgstr "BOINC 的在线帮助让您可以一对一地与有经验的 BOINC 用户进行交谈，他们可以：%s回答您关于 BOINC 以及志愿计算的问题；%s带您完成安装及使用 BOINC 的过程；%s解决您可能有的任何问题。"
+msgid ""
+"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
+"can: %s answer questions about BOINC and volunteer computing; %s walk you "
+"through the process of installing and using BOINC; %s troubleshoot any "
+"problems you might have."
+msgstr ""
+"BOINC 的在线帮助让您可以一对一地与有经验的 BOINC 用户进行交谈，他们可以：%s回答您关于 BOINC "
+"以及志愿计算的问题；%s带您完成安装及使用 BOINC 的过程；%s解决您可能有的任何问题。"
 
 #: help.php:21
 #, php-format
-msgid "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."
-msgstr "BOINC 的在线帮助基于 %sSkype%s，一个基于互联网的电话系统。Skype 可以免费使用（包括软件本身及使用该软件进行通话）。如果您还没没有 Skype，请 %s现在就下载并安装它%s。当您完成后再回到这个页面。"
+msgid ""
+"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
+"Skype is free (both the software and the calls).  If you don't already have "
+"Skype, please %sdownload and install it now%s.  When you're finished, return "
+"to this page."
+msgstr ""
+"BOINC 的在线帮助基于 %sSkype%s，一个基于互联网的电话系统。Skype 可以免费使用（包括软件本身及使用该软件进行通话）。如果您还没没有 "
+"Skype，请 %s现在就下载并安装它%s。当您完成后再回到这个页面。"
 
 #: help.php:28
-msgid "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
-msgstr "得到帮助的最好途径是通过声音，您的计算机必须拥有一个内置的麦克和扬声器或外接的耳麦。  您也可以使用 Skype 的文本聊天系统或者普通的电子邮件（如果您不使用 Skype）和志愿帮助者进行交流。"
+msgid ""
+"The best way to get help is by voice, for which you need either built-in "
+"microphone and speakers or an external headset for your computer.  You can "
+"also use Skype's text-based chat system or regular email (if you don't have "
+"Skype) to communicate with Help Volunteers."
+msgstr ""
+"得到帮助的最好途径是通过声音，您的计算机必须拥有一个内置的麦克和扬声器或外接的耳麦。  您也可以使用 Skype "
+"的文本聊天系统或者普通的电子邮件（如果您不使用 Skype）和志愿帮助者进行交流。"
 
 #: help.php:31
-msgid "Volunteers speaking several languages are available. Please select a language:"
+msgid ""
+"Volunteers speaking several languages are available. Please select a "
+"language:"
 msgstr "志愿帮助者们使用的语言有如下几种，请选择您所希望的一种："
 
 #: help.php:47
@@ -109,12 +139,16 @@ msgstr "成为一位志愿帮助者"
 
 #: help.php:50
 #, php-format
-msgid "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s.  It's a great way to help the cause of scientific research and volunteer computing - and it's fun!"
+msgid ""
+"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+"Volunteer%s.  It's a great way to help the cause of scientific research and "
+"volunteer computing - and it's fun!"
 msgstr "如果您是一位有经验的 BOINC 用户，我们鼓励您 %s成为一位志愿帮助者%s。这对于科学研究和志愿计算都大有益处 － 而且还很有趣！"
 
 #: help.php:56
 #, php-format
-msgid "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgid ""
+"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr "如果您已经是一位志愿帮助者并且想要修改您的参数设置，请 %s点击这里%s。"
 
 #: index.php:23
@@ -161,21 +195,29 @@ msgstr "志愿者"
 msgid "Download"
 msgstr "下载"
 
-#: index.php:83
-#: index.php:118
-#: index.php:169
+#: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
 msgstr "文档"
 
 #: index.php:89
 #, php-format
-msgid " Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
-msgstr " 将您计算机 (包括 Windows、Mac 以及Linux) 的闲置时间利用起来，就可以帮助科学家们治疗疾病、了解全球变暖、发现脉冲星以及其它多种类型的科学研究，而且这还很简单和安全：  %s选择%s 项目  %s下载%s 并运行 BOINC 软件%s  输入%s 您的电子邮件地址以及项目密码。 "
+msgid ""
+" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+"diseases, study global warming, discover pulsars, and do many other types of "
+"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
+"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr ""
+" 将您计算机 (包括 Windows、Mac 以及Linux) "
+"的闲置时间利用起来，就可以帮助科学家们治疗疾病、了解全球变暖、发现脉冲星以及其它多种类型的科学研究，而且这还很简单和安全：  %s选择%s 项目  "
+"%s下载%s 并运行 BOINC 软件%s  输入%s 您的电子邮件地址以及项目密码。 "
 
 #: index.php:100
 #, php-format
-msgid "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
-msgstr "或者，如果您想参加多个研究项目，可以使用 %s帐户管理器%s 来简化您的日常操作，比如 %sGridRepublic%s 或者 %sBAM!%s。"
+msgid ""
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
+msgstr ""
+"或者，如果您想参加多个研究项目，可以使用 %s帐户管理器%s 来简化您的日常操作，比如 %sGridRepublic%s 或者 %sBAM!%s。"
 
 #: index.php:116
 msgid "Compute with BOINC"
@@ -186,11 +228,15 @@ msgid "Software updates"
 msgstr "软件更新"
 
 #: index.php:126
-msgid "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving you the computing power of thousands of CPUs."
+msgid ""
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
+"you the computing power of thousands of CPUs."
 msgstr "%1科研人员%2：使用 BOINC 来创建%3志愿计算项目%4，得到成千上万个处理器的计算能力。"
 
 #: index.php:130
-msgid "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing Center%4."
+msgid ""
+"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
+"Center%4."
 msgstr "%1大学院校%2：使用 BOINC 来创建%3虚拟校园超级计算中心%4。"
 
 #: index.php:135
@@ -267,7 +313,8 @@ msgstr "浏览器默认"
 
 #: index.php:254
 #, php-format
-msgid "Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgid ""
+"Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr "用于 %s志愿计算%s 和 %s网格计算%s 的开源软件"
 
 #: index.php:267
