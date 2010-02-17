@@ -1249,3 +1249,9 @@ David  17 Feb 2010
 
     sched/
         db_dump.cpp
+
+David  17 Feb 2010
+    - web: fix typo
+
+    html/inc/
+        prefs.inc

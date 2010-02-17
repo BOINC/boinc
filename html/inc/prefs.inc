@@ -67,60 +67,95 @@ $app_types = get_app_types();
 //
 define("CPU_LIMIT_DESC", tra("Processor usage"));
 define("SUSPEND_WHILE_ON_BATTERIES_DESC",
-    tra("Suspend work while computer is on battery power? %1
-        (matters only for portable computers)%2", "<br><span class=note>", "</span>")
+    tra(
+        "Suspend work while computer is on battery power? %1(matters only for portable computers)%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define("RUN_IF_USER_ACTIVE_DESC",
     tra("Suspend work while computer is in use?")
 );
 define("RUN_GPU_IF_USER_ACTIVE_DESC",
-    tra("Suspend GPU work while computer is in use? %1
-        Enforced by version 6.7+", "<br><span class=note>", "</span>")
+    tra(
+        "Suspend GPU work while computer is in use? %1Enforced by version 6.7+%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define("IDLE_TIME_TO_RUN_DESC", tra("'In use' means mouse/keyboard activity in last"));
 define("SUSPEND_IF_NO_RECENT_INPUT_DESC",
-    tra("Suspend work if no mouse/keyboard activity in last %1
-        (Needed to enter low-power mode on some computers)%2", "<br><span class=note>", "</span>")
+    tra(
+        "Suspend work if no mouse/keyboard activity in last %1(Needed to enter low-power mode on some computers)%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define("SUSPEND_CPU_USAGE_DESC",
-    tra("Suspend work if CPU usage is above %1
-        0 means no restriction<br>Enforced by version 6.10.30+%2", "<br><span class=note>", "</span>")
+    tra(
+        "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define("START_END_DESC", tra("Do work only between the hours of"));
 define("START_END_DESC2", "<br><span class=note>".tra("(no restriction if equal)")."</span>");
 define("LEAVE_APPS_IN_MEMORY_DESC",
-    tra("Leave tasks in memory while suspended? %1
-        (suspended tasks will consume swap space if 'yes')%2", "<br><span class=note>", "</span>")
+    tra(
+        "Leave tasks in memory while suspended? %1(suspended tasks will consume swap space if 'yes')%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define("CPU_SCHEDULING_DESC",
-    tra("Switch between tasks every %1
-        (recommended: 60 minutes)%2", "<br><span class=note>", "</span>")
+    tra(
+        "Switch between tasks every %1(recommended: 60 minutes)%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define("CONFIRM_BEFORE_CONNECTING_DESC",
-    tra("Confirm before connecting to Internet? %1
-        (matters only if you have a modem, ISDN or VPN connection)%2", "<br><span class=note>", "</span>")
+    tra(
+        "Confirm before connecting to Internet? %1(matters only if you have a modem, ISDN or VPN connection)%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define("HANGUP_IF_DIALED_DESC",
-    tra("Disconnect when done? %1
-        (matters only if you have a modem, ISDN or VPN connection)%2", "<br><span class=note>", "</span>")
+    tra(
+        "Disconnect when done? %1(matters only if you have a modem, ISDN or VPN connection)%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define("WORK_BUF_MIN_DAYS_DESC",
-    tra("Computer is connected to the Internet about every %1
-        (Leave blank or 0 if always connected.<br>
-        BOINC will try to maintain at least this much work.)%2", "<br><span class=note>", "</span>")
+    tra(
+        "Computer is connected to the Internet about every %1(Leave blank or 0 if always connected.%2 BOINC will try to maintain at least this much work.)%3",
+        "<br><span class=note>",
+        "<br>",
+        "</span>"
+    )
 );
 define("WORK_BUF_ADDITIONAL_DAYS_DESC",
     tra("Maintain enough work for an additional")
 );
 define("MAX_NCPUS_PCT_DESC",
-    tra("On multiprocessors, use at most %1 Enforced by version 6.1+%2", "<br><span class=note>", "</span>")
+    tra(
+        "On multiprocessors, use at most %1 Enforced by version 6.1+%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define("MAX_NCPUS_PCT_DESC2", tra("% of the processors"));
 define("MAX_CPUS_DESC", tra("On multiprocessors, use at most"));
 define("MAX_CPUS_DESC2", tra("processors"));
 define("USE_AT_MOST", tra("Use at most"));
 define("USE_AT_MOST2",
-    tra("Use at most %1 (Can be used to reduce CPU heat)%2", "<br><span class=note>", "</span>")
+    tra(
+        "Use at most %1 (Can be used to reduce CPU heat)%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define("USE_AT_MOST3", tra("Use at most"));
 define("CPU_USAGE_LIMIT_DESC2", tra("percent of CPU time"));
@@ -139,18 +174,33 @@ define("MAX_BYTES_SEC_DOWN_DESC", tra("Maximum download rate:"));
 define("MAX_BYTES_SEC_UP_DESC", tra("Maximum upload rate:"));
 define("NET_START_END_DESC", tra("Use network only between the hours of"));
 define("DONT_VERIFY_IMAGES_DESC",
-    tra("Skip image file verification? %1
-        Check this ONLY if your Internet provider modifies image files (UMTS does this, for example).<br />
-        Skipping verification reduces the security of BOINC.%2", "<br><span class=note>", "</span>")
+    tra(
+        "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC.%3",
+        "<br><span class=note>",
+        "<br>",
+        "</span>"
+    )
 );
 define('ATI_SELECT_DESC',
-    tra("Use ATI GPU if present %1 (enforced by 6.10+ clients)%2", "<br><span class=note>", "</span>")
+    tra(
+        "Use ATI GPU if present %1(enforced by 6.10+ clients)%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define('CUDA_SELECT_DESC',
-    tra("Use NVIDIA GPU if present %1 (enforced by 6.10+ clients)%2", "<br><span class=note>", "</span>")
+    tra(
+        "Use NVIDIA GPU if present %1(enforced by 6.10+ clients)%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 define('CPU_SELECT_DESC',
-    tra("Use CPU % 1 (enforced by 6.10+ clients)%2", "<br><span class=note>", "</span>")
+    tra(
+        "Use CPU %1(enforced by 6.10+ clients)%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 
 
@@ -158,14 +208,21 @@ define("BYTE_CONVERSION", 1000.0);
 define("BYTE_UNITS", tra("Kbytes/sec"));
 define("BYTE_ABBR", tra("KB/s"));
 define("ALLOW_BETA_WORK",
-    tra("Run test applications? %1
-        This helps us develop applications, but may cause jobs to fail on your computer%2", "<br><span class=note>", "</span>")
+    tra(
+        "Run test applications? %1This helps us develop applications, but may cause jobs to fail on your computer%2",
+        "<br><span class=note>",
+        "</span>"
+    )
 );
 
 // These texts are used in multiple places in prefs_edit.php and add_venue.php
 define("PREFS_FORM_DESC1", tra("These preferences apply to all the BOINC projects in which you participate.")."<br><br>");
 define("PREFS_FORM_ERROR_DESC",
-    tra("%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric.", "<strong>", "</strong>").
+    tra(
+        "%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric.",
+        "<strong>",
+        "</strong>"
+    ).
     "<br><br>"
 );
 
@@ -804,11 +861,12 @@ function prefs_show_global($prefs) {
 
 function prefs_show_resource($prefs, $columns=false) {
     global $app_types;
-    $x = tra("Resource share %1
-             If you participate in multiple BOINC projects,
-             this is the proportion of your resources used by %2%3",
-             "<br><span class=note>", PROJECT, "</span>"
-        );
+    $x = tra(
+        "Resource share %1If you participate in multiple BOINC projects, this is the proportion of your resources used by %2%3",
+         "<br><span class=note>",
+         PROJECT,
+         "</span>"
+    );
     if ($columns) {
         row_defs($x, "resource_share", "", "" ,$prefs);
         if ($app_types->count > 1) {
