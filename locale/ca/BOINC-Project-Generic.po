@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-16 15:18-0700\n"
+"PO-Revision-Date: 2010-02-16 16:59-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -904,28 +904,27 @@ msgstr "explicar"
 
 #: ../inc/result.inc:278
 msgid "Status"
-msgstr ""
+msgstr "Estatus"
 
 #: ../inc/result.inc:279
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Temps d'execució<br />(seg)"
 
 #: ../inc/result.inc:280
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "Temps de CPU<br />(seg)"
 
 #: ../inc/result.inc:281 ../inc/result.inc:390
 msgid "Claimed credit"
-msgstr ""
+msgstr "Crèdit reclamat"
 
 #: ../inc/result.inc:282 ../inc/result.inc:391
 msgid "Granted credit"
-msgstr ""
+msgstr "Crèdit concedit"
 
 #: ../inc/result.inc:283
-#, fuzzy
 msgid "Application"
-msgstr "Aplicacions"
+msgstr "Aplicació"
 
 #: ../inc/result.inc:375 ../inc/team.inc:202 ../inc/team.inc:345
 #: ../inc/user.inc:198 ../user/account_finish.php:40
@@ -936,68 +935,67 @@ msgstr "Nom"
 
 #: ../inc/result.inc:376
 msgid "Workunit"
-msgstr ""
+msgstr "Workunit"
 
 #: ../inc/result.inc:377
-#, fuzzy
 msgid "Created"
-msgstr "Crear"
+msgstr "Creat"
 
 #: ../inc/result.inc:379
 msgid "Received"
-msgstr ""
+msgstr "Rebut"
 
 #: ../inc/result.inc:380
 msgid "Server state"
-msgstr ""
+msgstr "Estat del servidor"
 
 #: ../inc/result.inc:381
 msgid "Outcome"
-msgstr ""
+msgstr "Final"
 
 #: ../inc/result.inc:382
 msgid "Client state"
-msgstr ""
+msgstr "Estat del client"
 
 #: ../inc/result.inc:383
 msgid "Exit status"
-msgstr ""
+msgstr "L'estat de sortida"
 
 #: ../inc/result.inc:384
 msgid "Computer ID"
-msgstr ""
+msgstr "ID de l'ordinador"
 
 #: ../inc/result.inc:385
 msgid "Report deadline"
-msgstr ""
+msgstr "Informe termini"
 
 #: ../inc/result.inc:386
 msgid "Run time"
-msgstr ""
+msgstr "Temps d'execució"
 
 #: ../inc/result.inc:387
 msgid "CPU time"
-msgstr ""
+msgstr "Temps de CPU"
 
 #: ../inc/result.inc:388
 msgid "stderr out"
-msgstr ""
+msgstr "sortida stderr"
 
 #: ../inc/result.inc:389
 msgid "Validate state"
-msgstr ""
+msgstr "Validar l'estat"
 
 #: ../inc/result.inc:392
 msgid "application version"
-msgstr ""
+msgstr "versió de l'aplicació"
 
 #: ../inc/result.inc:406
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 #: ../inc/result.inc:415
 msgid "Next"
-msgstr ""
+msgstr "Següent"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1546,7 +1544,7 @@ msgstr "Opcional"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Afegir %1 les preferències per a %2"
 
 #: ../user/apps.php:31 ../user/sample_index.php:63
 msgid "Applications"
@@ -1867,40 +1865,39 @@ msgstr "Nova contrasenya, una vegada més"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "Etiquetes HTML no estan permesos en el seu nom."
 
 #: ../user/edit_user_info_action.php:32
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Ha de proporcionar un nom per al seu compte."
 
 #: ../user/edit_user_info_action.php:41
 msgid "bad country"
-msgstr ""
+msgstr "pais erroni"
 
 #: ../user/edit_user_info_action.php:57
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "No es pot actualitzar la informació de l'usuari."
 
 #: ../user/edit_user_info_form.php:27
-#, fuzzy
 msgid "Edit account information"
-msgstr "Informació del compte"
+msgstr "Edita la configuració del compte"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Nom %1 real o sobrenom%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "URL %1 de la seva pàgina web; %2 opcional"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Codi Postal (ZIP) %1 opcional%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Actualitzar informació"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
@@ -2560,9 +2557,8 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Per desbloquejar, visiti les %1preferències del panell de missatges%2"
 
 #: ../user/prefs.php:33
-#, fuzzy
 msgid "preferences"
-msgstr "Preferències"
+msgstr "preferències"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -2570,6 +2566,10 @@ msgid ""
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC client."
 msgstr ""
+"Les vostres preferències han estat actualitzades. Les preferències relatives "
+"al client\n"
+"\t      entraràn en efecte quan l'ordinador es comuniqui amb %1\n"
+"\t      o emeti el comando %3%Actualitzar%2 des del client BOINC."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
