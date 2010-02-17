@@ -3761,5 +3761,3 @@ msgstr "ağ kullanım saatlerini SS:DD-SS:DD formatına göre belirleyin"
 
 #~ msgid "%s - Can't find web browser"
 #~ msgstr "%s - İnternet tarayıcı bulunamadı"
-
-#~ "
