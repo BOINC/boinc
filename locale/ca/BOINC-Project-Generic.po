@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-16 16:59-0700\n"
+"PO-Revision-Date: 2010-02-16 17:26-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -2573,27 +2573,27 @@ msgstr ""
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
-msgstr ""
+msgstr "%1 de %2"
 
 #: ../user/prefs_edit.php:119
 msgid "Back to preferences"
-msgstr ""
+msgstr "Tornar a les preferències"
 
 #: ../user/prefs_remove.php:46
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "Confirmeu l'eliminació de les preferències"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
+msgstr "Estàs segur que voleu suprimir les preferències independents %1 de %2?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
-msgstr ""
+msgstr "Eliminar preferències"
 
 #: ../user/prefs_remove.php:55
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel·lar"
 
 #: ../user/profile_menu.php:33 ../user/sample_index.php:68
 msgid "Profiles"
@@ -2688,13 +2688,12 @@ msgid "Return to profile."
 msgstr "Torna al perfil."
 
 #: ../user/result.php:28
-#, fuzzy
 msgid "No such task"
-msgstr "Equip inexistent"
+msgstr "No és una tasca"
 
 #: ../user/result.php:30
 msgid "Task %1"
-msgstr ""
+msgstr "Tasca %1"
 
 #: ../user/results.php:27
 msgid "This feature is turned off temporarily"
@@ -2891,7 +2890,7 @@ msgstr "Filtres"
 
 #: ../user/user_search.php:119
 msgid "Any"
-msgstr ""
+msgstr "Qualsevol"
 
 #: ../user/user_search.php:122
 msgid "With profile?"
@@ -2899,7 +2898,7 @@ msgstr "Amb el perfil?"
 
 #: ../user/user_search.php:123 ../user/user_search.php:128
 msgid "Either"
-msgstr ""
+msgstr "Qualsevol"
 
 #: ../user/user_search.php:127
 msgid "On a team?"
@@ -2919,7 +2918,7 @@ msgstr "No hi ha usuaris que coincideixin amb els seus criteris de recerca."
 
 #: ../user/user_search.php:186
 msgid "missing search type"
-msgstr ""
+msgstr "falta el tipus de cerca"
 
 #: ../user/user_search.php:224
 msgid "User search results"
@@ -2982,61 +2981,59 @@ msgstr ""
 
 #: ../user/workunit.php:30
 msgid "can't find workunit"
-msgstr ""
+msgstr "no pot trobar workunit"
 
 #: ../user/workunit.php:33
 msgid "Workunit %1"
-msgstr ""
+msgstr "Workunit %1"
 
 #: ../user/workunit.php:37
-#, fuzzy
 msgid "name"
-msgstr "Nom"
+msgstr "nom"
 
 #: ../user/workunit.php:38
-#, fuzzy
 msgid "application"
-msgstr "Aplicacions"
+msgstr "aplicació"
 
 #: ../user/workunit.php:39
 msgid "created"
-msgstr ""
+msgstr "creat"
 
 #: ../user/workunit.php:41
 msgid "canonical result"
-msgstr ""
+msgstr "resultat canònic"
 
 #: ../user/workunit.php:44
 msgid "granted credit"
-msgstr ""
+msgstr "crèdit atorgat"
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Tasques en curs"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
-msgstr ""
+msgstr "suprimit a l'espera de la conclusió"
 
 #: ../user/workunit.php:55
 msgid "minimum quorum"
-msgstr ""
+msgstr "quòrum mínim"
 
 #: ../user/workunit.php:56
 msgid "initial replication"
-msgstr ""
+msgstr "replicació inicial"
 
 #: ../user/workunit.php:57
 msgid "max # of error/total/success tasks"
-msgstr ""
+msgstr "Nombre màxim de tasques amb error/totals/amb èxit"
 
 #: ../user/workunit.php:61
 msgid "errors"
-msgstr ""
+msgstr "errors"
 
 #: ../user/workunit.php:64
 msgid "validation"
-msgstr ""
+msgstr "validació"
 
 #~ msgid "CHARSET"
 #~ msgstr "UTF-8"
