@@ -1240,3 +1240,12 @@ Rom    16 Feb 2010
         DlgEventLog.cpp
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
+
+David  17 Feb 2010
+    - db_dump: don't error out if try to rename output dir
+        and it doesn't exist.
+        Seems to me that this would cause db_dump to always fail
+        for new projects.
+
+    sched/
+        db_dump.cpp

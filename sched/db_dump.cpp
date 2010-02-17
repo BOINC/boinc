@@ -871,30 +871,32 @@ int main(int argc, char** argv) {
 
     // rename the old stats dir to a name that includes the date
 
-    struct tm* tmp;
-    time_t now = time(0);
-    tmp = localtime(&now);
-    char base[256];
-    if (strlen(spec.archive_dir)) {
-        strcpy(base, spec.archive_dir);
-        strcat(base, "/stats");
-    } else {
-        strcpy(base, spec.final_output_dir);
-    }
-    sprintf(buf, "mv %s %s_%d_%d_%d_%d_%d_%d",
-        spec.final_output_dir,
-        base,
-        1900+tmp->tm_year,
-        tmp->tm_mon+1,
-        tmp->tm_mday,
-        tmp->tm_hour,
-        tmp->tm_min,
-        tmp->tm_sec
-    );
-    retval = system(buf);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL, "Can't rename old stats\n");
-        exit(1);
+    if (boinc_file_exists(spec.final_output_dir)) {
+        struct tm* tmp;
+        time_t now = time(0);
+        tmp = localtime(&now);
+        char base[256];
+        if (strlen(spec.archive_dir)) {
+            strcpy(base, spec.archive_dir);
+            strcat(base, "/stats");
+        } else {
+            strcpy(base, spec.final_output_dir);
+        }
+        sprintf(buf, "mv %s %s_%d_%d_%d_%d_%d_%d",
+            spec.final_output_dir,
+            base,
+            1900+tmp->tm_year,
+            tmp->tm_mon+1,
+            tmp->tm_mday,
+            tmp->tm_hour,
+            tmp->tm_min,
+            tmp->tm_sec
+        );
+        retval = system(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "Can't rename old stats\n");
+            exit(1);
+        }
     }
     sprintf(buf, "mv %s %s", spec.output_dir, spec.final_output_dir);
     retval = system(buf);
