@@ -518,6 +518,9 @@ void txfRenderGlyph(TexFont * txf, int c){
 void txfRenderString(TexFont * txf, char *string, int len){
 	int i;
 	for (i = 0; i < len; i++) {
+        if (!isascii(string[i])) {
+            string[i] = '?';
+        }
 		txfRenderGlyph(txf, string[i]);
 	}
 }

@@ -1313,3 +1313,10 @@ David  18 Feb 2010
     lib/
         app_ipc.cpp
         gui_rpc_client_ops.cpp
+
+David  18 Feb 2010
+	- API: in txfRenderString, replace non-ASCII chars with ?.
+		Otherwise it calls abort()!
+
+	api/
+		texfont.cpp
