@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-17 10:06 PST\n"
-"PO-Revision-Date: 2010-02-18 12:20-0000\n"
+"PO-Revision-Date: 2010-02-18 16:54-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1655,7 +1655,7 @@ msgstr "Administrador"
 #: ../user/top_teams.php:119
 #: ../user/top_users.php:125
 msgid "Previous %1"
-msgstr ""
+msgstr "Anterior %1"
 
 #: ../inc/team.inc:268
 #: ../user/top_hosts.php:96
@@ -3368,7 +3368,7 @@ msgstr ""
 #: ../user/team_forum.php:26
 #: ../user/team_forum.php:37
 msgid "Create Message Board"
-msgstr ""
+msgstr "Criar Mensagem no Fórum"
 
 #: ../user/team_forum.php:27
 msgid "You may create a message board for use by %1."
@@ -3376,7 +3376,7 @@ msgstr ""
 
 #: ../user/team_forum.php:29
 msgid "Only team members will be able to post."
-msgstr ""
+msgstr "Apenas membros da equipa podem postar."
 
 #: ../user/team_forum.php:30
 msgid "At your option, only members will be able to read."
@@ -3384,7 +3384,7 @@ msgstr ""
 
 #: ../user/team_forum.php:31
 msgid "You and your Team Admins will have moderator privileges."
-msgstr ""
+msgstr "Você e os Administradores da Equipa terão privilégios de moderação."
 
 #: ../user/team_forum.php:38
 msgid "Create a message board for %1"
@@ -3408,19 +3408,19 @@ msgstr ""
 
 #: ../user/team_forum.php:69
 msgid "Minimum time between posts (seconds)"
-msgstr ""
+msgstr "Tempo minímo entres posts (segundos)"
 
 #: ../user/team_forum.php:72
 msgid "Minimum total credit to post"
-msgstr ""
+msgstr "Total de créditos minímos para postar"
 
 #: ../user/team_forum.php:75
 msgid "Minimum average credit to post"
-msgstr ""
+msgstr "Média de créditos minímos para postar"
 
 #: ../user/team_forum.php:78
 msgid "Submit"
-msgstr ""
+msgstr "Submeter"
 
 #: ../user/team_forum.php:87
 msgid "Remove your team's message board."
@@ -3452,7 +3452,7 @@ msgstr ""
 
 #: ../user/team_forum.php:120
 msgid "<p>"
-msgstr ""
+msgstr "<p>"
 
 #: ../user/team_forum.php:135
 msgid "Team Message Board Updated"
@@ -3460,7 +3460,7 @@ msgstr ""
 
 #: ../user/team_forum.php:136
 msgid "Update successful"
-msgstr ""
+msgstr "Actualização com sucesso"
 
 #: ../user/team_forum.php:139
 msgid "Update failed"
@@ -3468,19 +3468,19 @@ msgstr "Actualização falhada"
 
 #: ../user/team_forum.php:146
 msgid "team has no forum"
-msgstr ""
+msgstr "a equipa não tem fórum"
 
 #: ../user/team_forum.php:181
 msgid "no such forum"
-msgstr ""
+msgstr "não existe tal fórum"
 
 #: ../user/team_forum.php:192
 msgid "unknown command %1"
-msgstr ""
+msgstr "comando desconhecido %1"
 
 #: ../user/team_founder_transfer_action.php:34
 msgid "You must be a member of a team to access this page."
-msgstr ""
+msgstr "Tem que ser um membro de uma equipa para aceder a esta página."
 
 #: ../user/team_founder_transfer_action.php:88
 msgid "Requesting foundership of %1"
@@ -3519,16 +3519,16 @@ msgstr ""
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
-msgstr ""
+msgstr "acção indefinida %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
 msgid "Return to team page"
-msgstr ""
+msgstr "Regressar à página da equipa"
 
 #: ../user/team_founder_transfer_form.php:26
 msgid "You need to be a member of a team to access this page."
-msgstr ""
+msgstr "Tem que ser um membro duma equipa para aceder a esta página."
 
 #: ../user/team_founder_transfer_form.php:29
 msgid "Request foundership of %1"
@@ -3581,61 +3581,61 @@ msgstr ""
 #: ../user/team_join.php:33
 #: ../user/team_join_action.php:33
 msgid "Already a member"
-msgstr ""
+msgstr "Já é membro"
 
 #: ../user/team_join.php:34
 #: ../user/team_join_action.php:34
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "Já é membro de %1"
 
 #: ../user/team_join.php:40
 #: ../user/team_join_action.php:41
 msgid "Couldn't join team - please try again later."
-msgstr ""
+msgstr "Não foi possivel se juntar à equipa - por favor tente mais tarde."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
-msgstr ""
+msgstr "Juntou-se a %1"
 
 #: ../user/team_join_action.php:39
 msgid "You have joined %1."
-msgstr ""
+msgstr "Juntou-se a %1"
 
 #: ../user/team_join_form.php:32
 msgid "Join %1"
-msgstr ""
+msgstr "Juntar %1"
 
 #: ../user/team_join_form.php:33
 msgid "Please note:"
-msgstr ""
+msgstr "Por favor tenha atenção:"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
-msgstr ""
+msgstr "Juntar-se a uma equipa dá ao fundador acesso ao seu endereço de email."
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
-msgstr ""
+msgstr "Juntar-se a uma equipa não afecta os créditos da sua conta."
 
 #: ../user/team_join_form.php:43
 msgid "Join team"
-msgstr ""
+msgstr "Juntar a equipa"
 
 #: ../user/team_lookup.php:62
 msgid "Search Results"
-msgstr ""
+msgstr "Resultados da Procura"
 
 #: ../user/team_lookup.php:64
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Procurar resultados para '%1'"
 
 #: ../user/team_lookup.php:66
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
+msgstr "Pode ver os membros, estatísticas e informações das equipas."
 
 #: ../user/team_lookup.php:75
 msgid "More than 100 teams match your search. The first 100 are shown."
-msgstr ""
+msgstr "Mais de 100 equipas correspondem à sua procura. Os primeiros são são mostrados."
 
 #: ../user/team_lookup.php:79
 msgid ""
@@ -3645,24 +3645,24 @@ msgstr ""
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
-msgstr ""
+msgstr "Administrador da equipa para %1"
 
 #: ../user/team_manage.php:27
 msgid "Edit team info"
-msgstr ""
+msgstr "Editar informação da equipa"
 
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
-msgstr ""
+msgstr "Mudar nome da equipa, URL, descrição, tipo ou país"
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
-msgstr ""
+msgstr "Lista de membros"
 
 #: ../user/team_manage.php:31
 #: ../user/team_manage.php:35
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:32
 msgid "text"
@@ -3670,19 +3670,19 @@ msgstr "texto"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "Ver nomes dos membros e endereços de email"
 
 #: ../user/team_manage.php:34
 msgid "View change history:"
-msgstr ""
+msgstr "Ver historial de mudanças:"
 
 #: ../user/team_manage.php:36
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: ../user/team_manage.php:37
 msgid "See when members joined or quit this team"
-msgstr ""
+msgstr "Ver quando os membros se juntaram ou sairam da equipa"
 
 #: ../user/team_manage.php:48
 msgid "Respond to foundership request."
@@ -3694,7 +3694,7 @@ msgstr ""
 
 #: ../user/team_manage.php:53
 msgid "Remove inactive or unwanted members from this team"
-msgstr ""
+msgstr "Remover membros inactivos ou indesejáveis desta equipa"
 
 #: ../user/team_manage.php:55
 msgid "Transfer foundership to another member"
@@ -3702,19 +3702,19 @@ msgstr ""
 
 #: ../user/team_manage.php:56
 msgid "Add/remove Team Admins"
-msgstr ""
+msgstr "Adicionar/remover Administradores da Equipa"
 
 #: ../user/team_manage.php:57
 msgid "Give selected team members Team Admin privileges"
-msgstr ""
+msgstr "Dar aos membros seleccionados privilégios de Administração da Equipa"
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
-msgstr ""
+msgstr "Remover equipa"
 
 #: ../user/team_manage.php:60
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "Permitido apenas se a equipa não tiver membros"
 
 #: ../user/team_manage.php:62
 msgid "Create or manage a team message board"
@@ -3734,31 +3734,31 @@ msgstr ""
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "Não é possivel apagar uma equipa não vazia"
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "Equipa %1 apagada"
 
 #: ../user/team_members.php:33
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr ""
+msgstr "Limite excedido: Só possivel mostrar os primeiros 1000 membros."
 
 #: ../user/team_members.php:43
 msgid "Members of %1"
-msgstr ""
+msgstr "Membros de %1"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
-msgstr ""
+msgstr "Não foi possivel sair da equipa"
 
 #: ../user/team_quit_action.php:33
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "A equipa não existe ou não pertence à mesma."
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
-msgstr ""
+msgstr "Sair %1"
 
 #: ../user/team_quit_form.php:32
 msgid ""
@@ -3775,19 +3775,19 @@ msgstr "Sair da Equipa"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Removendo utilizadores de %1"
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "%1 não é membro de %2"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 foi removido"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Remover membros de %1"
 
 #: ../user/team_remove_inactive_form.php:37
 msgid "Remove?"
@@ -3795,7 +3795,7 @@ msgstr "Remover?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
-msgstr ""
+msgstr "Nome (ID)"
 
 #: ../user/team_remove_inactive_form.php:63
 msgid "No members are eligible for removal."
@@ -3803,11 +3803,11 @@ msgstr ""
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
-msgstr ""
+msgstr "Remover utilizadores"
 
 #: ../user/team_search.php:65
 msgid "Team name"
-msgstr ""
+msgstr "Nome da equipa"
 
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
@@ -3815,7 +3815,7 @@ msgstr ""
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "Ou pode %1criar uma nova equipa%2."
 
 #: ../user/team_search.php:133
 msgid ""
@@ -3826,7 +3826,7 @@ msgstr ""
 
 #: ../user/team_search.php:140
 msgid "Change your search"
-msgstr ""
+msgstr "Mudar a sua procura"
 
 #: ../user/team_search.php:152
 msgid "Team search results"
@@ -3842,7 +3842,7 @@ msgstr ""
 
 #: ../user/team_search.php:163
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr ""
+msgstr "%1Não estou interessado%2 em juntar-me a uma equipa neste momento."
 
 #: ../user/top_hosts.php:65
 #: ../user/top_teams.php:98
@@ -3868,11 +3868,11 @@ msgstr "Participante desde"
 
 #: ../user/uotd.php:27
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "Não foi escolhido utilizador do dia."
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "Uitlizador do Dia para %1: %2"
 
 #: ../user/user_search.php:102
 #: ../user/user_search.php:158
@@ -3942,11 +3942,11 @@ msgstr "Resultados da procura de utilizador"
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "Utilizador não encontrado!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "Dados da Conta<br>para %1<br/>Tempo:"
 
 #: ../user/userw.php:46
 msgid "Team:"
@@ -3958,27 +3958,27 @@ msgstr ""
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "Média de Créditos da Equipa:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr ""
+msgstr "Equipa: Nenhuma"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "Validar endereço de email do BOINC"
 
 #: ../user/validate_email_addr.php:31
 msgid "Please visit the following link to validate the email address of your %1 account:"
-msgstr ""
+msgstr "Por favor visite o seguinte link para validar o endereço de email da sua %1 conta:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "Email de validação enviado"
 
 #: ../user/validate_email_addr.php:35
 msgid "An email has been sent to %1. Visit the link it contains to validate your email address."
-msgstr ""
+msgstr "Um email foi enviado para %1. Visite o link contido para validar o seu endereço de email."
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
@@ -3986,19 +3986,19 @@ msgstr "Não existe tal utilizador."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
-msgstr ""
+msgstr "Erro de dados no URL - não é possivel validar o endereço de email"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
-msgstr ""
+msgstr "Actualização da base de dados falhada - por favor, tente mais tarde."
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "Validar endereço de email"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "O endereço de email da sua conta foi validado."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4006,7 +4006,7 @@ msgstr "Este utilizador não tem perfil"
 
 #: ../user/view_profile.php:44
 msgid "Profile: %1"
-msgstr ""
+msgstr "Perfil: %1"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
@@ -4098,7 +4098,7 @@ msgstr ""
 
 #: ../project.sample/project.inc:54
 msgid "Generated"
-msgstr ""
+msgstr "Gerado"
 
 #: ../project.sample/project.inc:88
 msgid "Your personal background."
@@ -4110,7 +4110,7 @@ msgstr ""
 
 #: ../project.sample/project.inc:96
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "As suas opiniões acerca de %1"
 
 #: ../project.sample/project.inc:100
 msgid ""
@@ -4123,23 +4123,23 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "Esquema de cores para os gráficos"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "CPU máximo % para os gráficos%10... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Executar apenas as aplicações seleccionadas"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid "If no work for selected applications is available, accept work from other applications?"
-msgstr ""
+msgstr "Se não houver trabalho para as aplicações seleccionadas, aceitar trabalho de outras aplicações?"
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(todas as aplicações)"
 
 #~ msgid "Last %1"
 #~ msgstr "Ultimo %1"
