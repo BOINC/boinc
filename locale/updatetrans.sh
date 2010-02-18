@@ -33,7 +33,7 @@ for file in `find -name 'BOINC-Manager.po'` ; do
     #
     # Example: http://boinc.berkeley.edu/translate/ar/boinctrunk/BOINC-Manager.mo
     #
-    wget http://boinc.berkeley.edu/translate/${locale}/${projname}/BOINC-Manager.mo > /dev/null 2> /dev/null
+    wget "http://boinc.berkeley.edu/translate/${locale}/${projname}/BOINC-Manager.mo" > /dev/null 2> /dev/null
     
     # Add any new MO files to SVN
     svn add ${template_name}.mo > /dev/null 2> /dev/null
@@ -74,17 +74,9 @@ then
     dir=`dirname $file`
     locale=`basename $dir`
     po_name=`basename $file .po`
- 
-    # Remove old index.html from previous iteration
-    #
-    rm ${projdir}/index.html > /dev/null 2> /dev/null
 
-    # Use wget to cause the Pottle system to update the po file based on the template.
-    #
-    # Example: http://boinc.berkeley.edu/translate/ar/boinctrunk/index.html?editing=1&doupdate=1&updatefile=BOINC-Manager.po
-    #
-    wget http://boinc.berkeley.edu/translate/${locale}/${projname}/index.html?editing=1&doupdate=1&updatefile=${po_name}.po > /dev/null 2> /dev/null
-    
+    msgmerge --update ${locale}/${po_name}.po templates/${po_name}.pot > /dev/null 2> /dev/null
+ 
   done
 
 fi
