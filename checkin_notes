@@ -1280,3 +1280,36 @@ Rom    18 Feb 2010
         
     locale/
         updatetrans.sh
+
+David  18 Feb 2010
+    - various components: fix inconsistencies in how user names
+        and team names are represented.
+        In particular, edit_user_info_action.php was using
+        htmlentities() on names; this led to double-encoding.
+
+        The new rules:
+        1) no HTML tags allowed in either one.
+            This is enforced silently, using strip_tags()
+        2) names are stored in the DB exactly as entered.
+            They may contain chars like & and >.
+            They may contain non-ASCII characters
+            (use UTF-8 if you want them displayed correctly).
+            None of these are not escaped.
+        3) When the names are put in XML
+            (e.g. in scheduler reply or db_dump output)
+            they are XML-escaped.
+            This escapes <, &, and non-ASCII chars
+        4) The client leaves them in this form,
+            and writes them that way in GUI RPCs
+            and init_data.xml files.
+        5) The parsing of GUI RPC replies and init_data.xml files
+            XML-unescapes them.
+
+    html/
+        inc/
+            user.inc
+        user/
+            edit_user_info_action.php
+    lib/
+        app_ipc.cpp
+        gui_rpc_client_ops.cpp

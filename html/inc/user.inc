@@ -446,6 +446,7 @@ function make_user(
     if (!is_valid_country($country)) return null;
 
     $email_addr = BoincDb::escape_string($email_addr);
+    $name = strip_tags($name);
     $name = BoincDb::escape_string($name);
     $passwd_hash = BoincDb::escape_string($passwd_hash);
 

@@ -310,8 +310,14 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_str(tag, "symstore", ai.symstore, sizeof(ai.symstore))) continue;
         if (xp.parse_str(tag, "acct_mgr_url", ai.acct_mgr_url, sizeof(ai.acct_mgr_url))) continue;
         if (xp.parse_int(tag, "hostid", ai.hostid)) continue;
-        if (xp.parse_str(tag, "user_name", ai.user_name, sizeof(ai.user_name))) continue;
-        if (xp.parse_str(tag, "team_name", ai.team_name, sizeof(ai.team_name))) continue;
+        if (xp.parse_str(tag, "user_name", ai.user_name, sizeof(ai.user_name))) {
+            xml_unescape(ai.user_name);
+            continue;
+        }
+        if (xp.parse_str(tag, "team_name", ai.team_name, sizeof(ai.team_name))) {
+            xml_unescape(ai.team_name);
+            continue;
+        }
         if (xp.parse_str(tag, "project_dir", ai.project_dir, sizeof(ai.project_dir))) continue;
         if (xp.parse_str(tag, "boinc_dir", ai.boinc_dir, sizeof(ai.boinc_dir))) continue;
         if (xp.parse_str(tag, "authenticator", ai.authenticator, sizeof(ai.authenticator))) continue;

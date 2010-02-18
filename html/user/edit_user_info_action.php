@@ -24,12 +24,12 @@ require_once("../inc/countries.inc");
 $user = get_logged_in_user();
 check_tokens($user->authenticator);
 
-$name = boinc_htmlentities(post_str("user_name"));
+$name = post_str("user_name");
 if ($name != strip_tags($name)) {
     error_page(tra("HTML tags are not allowed in your name."));
 }
 if (strlen($name) == 0) {
-   error_page(tra("You must supply a name for your account."));
+    error_page(tra("You must supply a name for your account."));
 }
 $url = post_str("url", true);
 $url = strip_tags($url);
