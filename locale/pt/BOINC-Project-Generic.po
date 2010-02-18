@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-17 10:06 PST\n"
-"PO-Revision-Date: 2010-02-18 11:50-0000\n"
+"PO-Revision-Date: 2010-02-18 12:20-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,10 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "PORTUGUÊS"
+msgstr "Português"
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "PORTUGUESE"
+msgstr "Portuguese"
 
 #: ../inc/forum.inc:124
 msgid "Search for words in forum messages"
@@ -237,18 +237,16 @@ msgid "Cross project credit"
 msgstr ""
 
 #: ../inc/host.inc:114
-#, fuzzy
 msgid "CPU type"
-msgstr "Tempo de CPU"
+msgstr "Tipo de CPU"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
 msgstr "Número de processadores"
 
 #: ../inc/host.inc:117
-#, fuzzy
 msgid "Coprocessors"
-msgstr "processadores"
+msgstr "Coprocessadores"
 
 #: ../inc/host.inc:119
 #: ../inc/host.inc:627
@@ -461,9 +459,8 @@ msgid "Details"
 msgstr "Detalhes"
 
 #: ../inc/host.inc:306
-#, fuzzy
 msgid "Cross-project stats:"
-msgstr "Cruzar estatísticas do projecto"
+msgstr "Cruzar estatísticas do projecto:"
 
 #: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
@@ -3069,9 +3066,8 @@ msgstr "Top computadores"
 
 #: ../user/stats.php:31
 #: ../user/team.php:43
-#, fuzzy
 msgid "Top teams"
-msgstr "Top %1 equipas"
+msgstr "Top equipas"
 
 #: ../user/stats.php:35
 msgid "More detailed statistics for %1 and other BOINC-based projects are available at several web sites:"
@@ -3209,9 +3205,8 @@ msgid "failed to remove admin"
 msgstr "falhou a remoção do administrador"
 
 #: ../user/team_admins.php:95
-#, fuzzy
 msgid "no such user"
-msgstr "Não existe tal utilizador"
+msgstr "não existe tal utilizador"
 
 #: ../user/team_admins.php:96
 msgid "User is not member of team"
@@ -3228,7 +3223,6 @@ msgstr "Não foi possivel adicionar administrador"
 #: ../user/team_admins.php:108
 #: ../user/team_quit_form.php:28
 #: ../user/team_remove_inactive_action.php:26
-#, fuzzy
 msgid "No such team"
 msgstr "Não existe essa equipa"
 
@@ -3240,9 +3234,8 @@ msgstr "Não existe essa equipa"
 #: ../user/team_email_list.php:52
 #: ../user/team_forum.php:156
 #: ../user/team_manage.php:83
-#, fuzzy
 msgid "no such team"
-msgstr "Não existe essa equipa"
+msgstr "não existe essa equipa"
 
 #: ../user/team_change_founder_action.php:36
 msgid "User is not a member of %1"
@@ -3349,9 +3342,8 @@ msgid "Must specify team name"
 msgstr "Tem que especificar um nome para a equipa"
 
 #: ../user/team_edit_action.php:88
-#, fuzzy
 msgid "Could not update team - please try again later."
-msgstr "Não foi possivel criar a equipa - por favor tente mais tarde."
+msgstr "Não foi possivel actualizar a equipa - por favor tente mais tarde."
 
 #: ../user/team_edit_form.php:31
 msgid "Edit %1"
@@ -3471,9 +3463,8 @@ msgid "Update successful"
 msgstr ""
 
 #: ../user/team_forum.php:139
-#, fuzzy
 msgid "Update failed"
-msgstr "Actualização falhada:"
+msgstr "Actualização falhada"
 
 #: ../user/team_forum.php:146
 msgid "team has no forum"
@@ -3674,9 +3665,8 @@ msgid "HTML"
 msgstr ""
 
 #: ../user/team_manage.php:32
-#, fuzzy
 msgid "text"
-msgstr "Próximo"
+msgstr "texto"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
@@ -3780,9 +3770,8 @@ msgid ""
 msgstr ""
 
 #: ../user/team_quit_form.php:40
-#, fuzzy
 msgid "Quit Team"
-msgstr "Sair da equipa"
+msgstr "Sair da Equipa"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
@@ -3801,9 +3790,8 @@ msgid "Remove members from %1"
 msgstr ""
 
 #: ../user/team_remove_inactive_form.php:37
-#, fuzzy
 msgid "Remove?"
-msgstr "Remover"
+msgstr "Remover?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
@@ -3841,9 +3829,8 @@ msgid "Change your search"
 msgstr ""
 
 #: ../user/team_search.php:152
-#, fuzzy
 msgid "Team search results"
-msgstr "Resultados da procura no fórum"
+msgstr "Resultados da procura de equipas"
 
 #: ../user/team_search.php:156
 msgid "You can team up with other people with similar interests, or from the same country, company, or school."
@@ -3962,9 +3949,8 @@ msgid "Account Data<br/>for %1<br/>Time:"
 msgstr ""
 
 #: ../user/userw.php:46
-#, fuzzy
 msgid "Team:"
-msgstr "Equipa"
+msgstr "Equipa:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
@@ -3995,9 +3981,8 @@ msgid "An email has been sent to %1. Visit the link it contains to validate your
 msgstr ""
 
 #: ../user/validate_email_addr.php:44
-#, fuzzy
 msgid "No such user."
-msgstr "Não existe tal utilizador"
+msgstr "Não existe tal utilizador."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
