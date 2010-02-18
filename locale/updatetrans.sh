@@ -52,7 +52,7 @@ done
 # languages.
 for file in `find -name '*.pot'` ; do
   template_rootname=`basename $file`
-  template_name=${projdir}/${locale}/${template_rootname}
+  template_name=${projdir}/templates/${template_rootname}
 
   # Check to see if the file exists, if not create it
   if test ! -e ${template_name}.flag
