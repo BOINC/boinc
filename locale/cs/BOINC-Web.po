@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2009-07-28 12:45-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: \n"
-"Language: cs\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Czech\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "This page is %stranslatable%s."
 msgstr ""
 
-########################################
+# #######################################
 # download.php 2006/08/03 by je2bwm
 # ######################################
 #: download.php:40
@@ -50,10 +50,10 @@ msgid ""
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
 "<p>BOINC je program, který Vám umožňuje darovat volný výpočetní výkon Vašeho "
-"počítače pro účely vědeckých projektů jako jsou SETI@home, "
-"Climateprediction.net, Rosetta@home, World Community Grid a mnohé "
-"další.</p><p>Po nainstalování programu BOINC na Vašem počítači se můžete "
-"připojit do tolika projektů, kolik chcete.</p>"
+"počítače pro účely vědeckých projektů jako jsou SETI@home, Climateprediction."
+"net, Rosetta@home, World Community Grid a mnohé další.</p><p>Po "
+"nainstalování programu BOINC na Vašem počítači se můžete připojit do tolika "
+"projektů, kolik chcete.</p>"
 
 #: download.php:91
 msgid ""
@@ -62,8 +62,7 @@ msgid ""
 msgstr ""
 
 #: download.php:116
-#, php-format
-#, fuzzy
+#, fuzzy, php-format
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
@@ -222,8 +221,8 @@ msgid ""
 msgstr ""
 "Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) k hledání léků "
 "proti nemocem, studování globální oteplování, k objevení pulsarů nebo k "
-"mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte "
-"si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte%s vaší "
+"mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte si%"
+"s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte%s vaší "
 "emailovou adresu a heslo k projektu."
 
 #: index.php:100
@@ -232,8 +231,8 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"Případně, pokud používáte více projektů současně, vyzkoušejte některého ze "
-"%ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
+"Případně, pokud používáte více projektů současně, vyzkoušejte některého ze %"
+"ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
 
 #: index.php:116
 msgid "Compute with BOINC"
@@ -481,8 +480,8 @@ msgstr ""
 #~ msgstr "Z jiných webových stránek"
 
 #~ msgid ""
-#~ "Which are the most important factors when you decide whether to participate "
-#~ "in a BOINC project?"
+#~ "Which are the most important factors when you decide whether to "
+#~ "participate in a BOINC project?"
 #~ msgstr ""
 #~ "Jaké jsou pro Vás nejdůležitější faktory, když se rozhodujete, do jakého "
 #~ "BOINC projektu se zapojíte?"
@@ -548,7 +547,8 @@ msgstr ""
 #~ "Where do you get information to help resolve problems with BOINC and/or "
 #~ "BOINC projects?"
 #~ msgstr ""
-#~ "Kde získáváte informace o tom, jak řešit problémy s BOINC či BOINC projekty?"
+#~ "Kde získáváte informace o tom, jak řešit problémy s BOINC či BOINC "
+#~ "projekty?"
 
 #~ msgid "The project message boards"
 #~ msgstr "Na diskuzním fóru projektu"
@@ -571,7 +571,6 @@ msgstr ""
 #~ msgid "... more"
 #~ msgstr "... více"
 
-#, php-format
 #~ msgid "News is available as an %sRSS feed%s"
 #~ msgstr "Novinky jsou dostupné jako %szprávy RSS%s"
 
@@ -580,25 +579,26 @@ msgstr ""
 
 #~ msgid ""
 #~ "Several volunteer computing projects, including Climateprediction.net, "
-#~ "Einstein@home, and SETI@home, use software called BOINC.  If you participate "
-#~ "in projects like this, we request that you answer the following questions.  "
-#~ "This will help BOINC-based projects increase participation and achieve "
-#~ "greater scientific results. <p> Please answer as many questions as you want, "
-#~ "then go to the bottom and click OK. If you previously completed the survey "
-#~ "but your answers have changed, please complete it again - your new answers "
-#~ "will replace the old ones. <p> The current results of the survey are <a "
-#~ "href=poll_results.php>here</a>. "
+#~ "Einstein@home, and SETI@home, use software called BOINC.  If you "
+#~ "participate in projects like this, we request that you answer the "
+#~ "following questions.  This will help BOINC-based projects increase "
+#~ "participation and achieve greater scientific results. <p> Please answer "
+#~ "as many questions as you want, then go to the bottom and click OK. If you "
+#~ "previously completed the survey but your answers have changed, please "
+#~ "complete it again - your new answers will replace the old ones. <p> The "
+#~ "current results of the survey are <a href=poll_results.php>here</a>. "
 #~ msgstr ""
 #~ "Mnoho dobrovolných výpočetních projektů, např. Climateprediction.net, "
-#~ "Einstein@home a SETI@home, používá program nazývaný BOINC. Pokud se podílíte "
-#~ "na některém z takovýchto projektů, rádi bychom Vás požádali o vyplnění "
-#~ "následujícího dotazníku. Zodpovězení následujících otázek nám pomůže zlepšit "
-#~ "jednotlivé projekty, získat více účastníku a také dosáhnout lepších "
-#~ "vědeckých výsledků.</p><p>Odpovězte prosím na tolik otázek, kolik chcete, "
-#~ "poté jděte na konec stránky a klikněte na OK. Pokud jste již dotazník dříve "
-#~ "vyplnili, ale vaše odpovědi se změnily, prosím, vyplňte jej znova - vaše "
-#~ "staré odpovědi budou nahrazeny novými.</p><p>Současné výsledky BOINC "
-#~ "dotazníku jsou k <a href=poll_results.php>vidění zde</a>.</p>"
+#~ "Einstein@home a SETI@home, používá program nazývaný BOINC. Pokud se "
+#~ "podílíte na některém z takovýchto projektů, rádi bychom Vás požádali o "
+#~ "vyplnění následujícího dotazníku. Zodpovězení následujících otázek nám "
+#~ "pomůže zlepšit jednotlivé projekty, získat více účastníku a také "
+#~ "dosáhnout lepších vědeckých výsledků.</p><p>Odpovězte prosím na tolik "
+#~ "otázek, kolik chcete, poté jděte na konec stránky a klikněte na OK. Pokud "
+#~ "jste již dotazník dříve vyplnili, ale vaše odpovědi se změnily, prosím, "
+#~ "vyplňte jej znova - vaše staré odpovědi budou nahrazeny novými.</"
+#~ "p><p>Současné výsledky BOINC dotazníku jsou k <a href=poll_results."
+#~ "php>vidění zde</a>.</p>"
 
 #~ msgid "Do you run BOINC?"
 #~ msgstr "Používáte BOINC?"
@@ -635,8 +635,8 @@ msgstr ""
 #~ "An internal error has prevented us from recording your survey response.  "
 #~ "Please try again later."
 #~ msgstr ""
-#~ "Vnitřní chyba bohužel znemožnila uložení vašeho BOINC dotazníku, zkuste to "
-#~ "prosím později."
+#~ "Vnitřní chyba bohužel znemožnila uložení vašeho BOINC dotazníku, zkuste "
+#~ "to prosím později."
 
 #~ msgid "Survey response recorded"
 #~ msgstr "Váš BOINC dotazník byl uložen"
@@ -654,15 +654,15 @@ msgstr ""
 #~ "Zde jsou současné výsledky <a href=poll.php>BOINC dotazníku</a>, tato "
 #~ "stránka se aktualizuje každou hodinu."
 
-##########################################
+# #########################################
 # Language: Czech
 # FileID  : $Id$
 # Author  : Martin Suchan
 # Email   : martin.suchan@email.cz
-##########################################
+# #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/trac/wiki/TranslateIntro
-##########################################
+# #########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 #~ msgid "CHARSET"
 #~ msgstr "UTF-8"
@@ -675,14 +675,25 @@ msgstr ""
 #~ msgid "LANG_NAME_INTERNATIONAL"
 #~ msgstr "Czech"
 
-########################################
+# #######################################
 # poll-related stuff
-########################################
+# #######################################
 #~ msgid "POLL_TITLE"
 #~ msgstr "BOINC dotazník"
 
 #~ msgid "POLL_INTRO"
-#~ msgstr "Mnoho dobrovolných výpočetních projektů, např. Climateprediction.net, Einstein@home a SETI@home, používá program nazývaný BOINC. Pokud se podílíte na některém z takovýchto projektů, rádi bychom Vás požádali o vyplnění následujícího dotazníku. Zodpovězení následujících otázek nám pomůže zlepšit jednotlivé projekty, získat více účastníku a také dosáhnout větších vědeckých výsledků.</p><p>Odpovězte prosím na tolik otázek, kolik chcete, poté jděte na konec stránky a klikněte na OK. Pokud jste již dotazník dříve vyplnili, ale vaše odpovědi se změnily, prosím, vyplňte jej znova - vaše staré odpovědi budou nahrazeny novými.</p><p>Současné výsledky BOINC dotazníku jsou k <a href=poll_results.php>vidění zde</a>.</p>"
+#~ msgstr ""
+#~ "Mnoho dobrovolných výpočetních projektů, např. Climateprediction.net, "
+#~ "Einstein@home a SETI@home, používá program nazývaný BOINC. Pokud se "
+#~ "podílíte na některém z takovýchto projektů, rádi bychom Vás požádali o "
+#~ "vyplnění následujícího dotazníku. Zodpovězení následujících otázek nám "
+#~ "pomůže zlepšit jednotlivé projekty, získat více účastníku a také "
+#~ "dosáhnout větších vědeckých výsledků.</p><p>Odpovězte prosím na tolik "
+#~ "otázek, kolik chcete, poté jděte na konec stránky a klikněte na OK. Pokud "
+#~ "jste již dotazník dříve vyplnili, ale vaše odpovědi se změnily, prosím, "
+#~ "vyplňte jej znova - vaše staré odpovědi budou nahrazeny novými.</"
+#~ "p><p>Současné výsledky BOINC dotazníku jsou k <a href=poll_results."
+#~ "php>vidění zde</a>.</p>"
 
 #~ msgid "POLL_RUN"
 #~ msgstr "Používáte BOINC?"
@@ -703,7 +714,9 @@ msgstr ""
 #~ msgstr "Komentáře"
 
 #~ msgid "POLL_COMMENTS_QUESTION"
-#~ msgstr "Zkuste prosím navrhnout, jakými způsoby by se daly vylepšit jednotlivé projekty, nebo samotný BOINC:"
+#~ msgstr ""
+#~ "Zkuste prosím navrhnout, jakými způsoby by se daly vylepšit jednotlivé "
+#~ "projekty, nebo samotný BOINC:"
 
 #~ msgid "POLL_OTHER"
 #~ msgstr "Další:"
@@ -847,7 +860,9 @@ msgstr ""
 #~ msgstr "Z jiných webových stránek"
 
 #~ msgid "POLL_FACTOR"
-#~ msgstr "Jaké jsou pro Vás nejdůležitější faktory, když se rozhodujete, do jakého BOINC projektu se zapojíte?"
+#~ msgstr ""
+#~ "Jaké jsou pro Vás nejdůležitější faktory, když se rozhodujete, do jakého "
+#~ "BOINC projektu se zapojíte?"
 
 #~ msgid "POLL_GRAPHICS"
 #~ msgstr "Hezky vypadající šetřič obrazovky"
@@ -907,7 +922,9 @@ msgstr ""
 #~ msgstr "žádné"
 
 #~ msgid "POLL_HELP"
-#~ msgstr "Kde získáváte informace o tom, jak řešit problémy s BOINC či BOINC projekty?"
+#~ msgstr ""
+#~ "Kde získáváte informace o tom, jak řešit problémy s BOINC či BOINC "
+#~ "projekty?"
 
 #~ msgid "POLL_HELP_PMB"
 #~ msgstr "Na diskuzním fóru projektu"
@@ -934,7 +951,9 @@ msgstr ""
 #~ msgstr "Chyba - výsledek se neuložil"
 
 #~ msgid "POLL_ERROR_TEXT"
-#~ msgstr "Vnitřní chyba bohužel znemožnila uložení vašeho BOINC dotazníku, zkuste to prosím později."
+#~ msgstr ""
+#~ "Vnitřní chyba bohužel znemožnila uložení vašeho BOINC dotazníku, zkuste "
+#~ "to prosím později."
 
 #~ msgid "POLL_RECORDED"
 #~ msgstr "Váš BOINC dotazník byl uložen"
@@ -946,7 +965,9 @@ msgstr ""
 #~ msgstr "Výsledky BOINC dotazníku"
 
 #~ msgid "POLL_RESULTS_TEXT"
-#~ msgstr "Zde jsou současné výsledky <a href=poll.php>BOINC dotazníku</a>, tato stránka se aktualizuje každou hodinu."
+#~ msgstr ""
+#~ "Zde jsou současné výsledky <a href=poll.php>BOINC dotazníku</a>, tato "
+#~ "stránka se aktualizuje každou hodinu."
 
 #~ msgid "Other systems"
 #~ msgstr "Jiné systémy"
@@ -957,15 +978,24 @@ msgstr ""
 #~ msgid "%s make your own client software %s or"
 #~ msgstr "%s vytvořit vlastní klientský program %s nebo si"
 
-#~ msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
-#~ msgstr "%s stáhnout aplikaci od jiných autorů %s (dostupné pro Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD a další)."
+#~ msgid ""
+#~ "%s download executables from a third-party site %s (available for Solaris/"
+#~ "Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
+#~ msgstr ""
+#~ "%s stáhnout aplikaci od jiných autorů %s (dostupné pro Solaris/Opteron, "
+#~ "Linux/Opteron, Linux/PPC, HP-UX, FreeBSD a další)."
 
 #~ msgid "DL_MIRRORS"
-#~ msgstr "Poznámka, soubory jsou stahované z naších zrcadlových serverů na boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, a einstein.aset.psu.edu (děkujeme těmto institucím). Server je vždy vybírán náhodně - pokud se stahování nezdaří, obnovte stránku a zkuste to prosím znova. "
+#~ msgstr ""
+#~ "Poznámka, soubory jsou stahované z naších zrcadlových serverů na boinc."
+#~ "berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac."
+#~ "uk, einstein.ligo.caltech.edu, a einstein.aset.psu.edu (děkujeme těmto "
+#~ "institucím). Server je vždy vybírán náhodně - pokud se stahování nezdaří, "
+#~ "obnovte stránku a zkuste to prosím znova. "
 
-##############################################
+# #############################################
 # help.php
-##############################################
+# #############################################
 #~ msgid "HELP_TITLE"
 #~ msgstr "Získejte pomoc k BOINC"
 
@@ -973,16 +1003,30 @@ msgstr ""
 #~ msgstr "Online pomoc"
 
 #~ msgid "HELP_P1_1"
-#~ msgstr "BOINC online pomoc Vám umoňuje hovořit se zkušenými uživateli systému BOINC, kteří vám mohou: %s odpovědět otázky o BOINC dobrovolnickém počítání %s provést Vás procesem instalace a nastavení programu BOINC %s vyřešit problémy, na které můžete narazit"
+#~ msgstr ""
+#~ "BOINC online pomoc Vám umoňuje hovořit se zkušenými uživateli systému "
+#~ "BOINC, kteří vám mohou: %s odpovědět otázky o BOINC dobrovolnickém "
+#~ "počítání %s provést Vás procesem instalace a nastavení programu BOINC %s "
+#~ "vyřešit problémy, na které můžete narazit"
 
 #~ msgid "HELP_P1_2"
-#~ msgstr "BOINC online pomoc je založena na programu %sSkype%s pro telefonování přes internet. Skype je zdarma (program i telefonování). Pokud Skype dosud nemáte, %sstáhněte si jej zde%s a potom se vraťte na tuto stránku."
+#~ msgstr ""
+#~ "BOINC online pomoc je založena na programu %sSkype%s pro telefonování "
+#~ "přes internet. Skype je zdarma (program i telefonování). Pokud Skype "
+#~ "dosud nemáte, %sstáhněte si jej zde%s a potom se vraťte na tuto stránku."
 
 #~ msgid "HELP_P1_3"
-#~ msgstr "Nejlepší způsob, jak získat pomoc, je pomocí hlasové komunikace, pro kterou budete potřebovat buď vestavěný mikrofon a sluchátka, nebo přenosný headset pro Váš počítač. Pro komunikaci s dobrovolnými pomocníky lze též použít textovového rozhovoru přes Skype, nebo klasický email (pokud nepoužíváte Skype)."
+#~ msgstr ""
+#~ "Nejlepší způsob, jak získat pomoc, je pomocí hlasové komunikace, pro "
+#~ "kterou budete potřebovat buď vestavěný mikrofon a sluchátka, nebo "
+#~ "přenosný headset pro Váš počítač. Pro komunikaci s dobrovolnými pomocníky "
+#~ "lze též použít textovového rozhovoru přes Skype, nebo klasický email "
+#~ "(pokud nepoužíváte Skype)."
 
 #~ msgid "HELP_P1_4"
-#~ msgstr "Jsou dostupní dobrovolní pomocníci mluvící mnoha jazyky. Vyberte si prosím Váš jazyk: "
+#~ msgstr ""
+#~ "Jsou dostupní dobrovolní pomocníci mluvící mnoha jazyky. Vyberte si "
+#~ "prosím Váš jazyk: "
 
 #~ msgid "HELP_HEADING2"
 #~ msgstr "Nápověda BOINC na webu"
@@ -1006,14 +1050,19 @@ msgstr ""
 #~ msgstr "Staňte se dobrovolným pomocníkem"
 
 #~ msgid "HELP_P3_1"
-#~ msgstr "Pokud jste zkušeným uživatelem programu BOINC, byly bychom rádi, pokud byste se stal dobrovolným pomocníkem. Je to skvělý způsob, jak pomoci věci vědeckého výzkumu a dobrovolnickému počítání - a je to také zábava! "
+#~ msgstr ""
+#~ "Pokud jste zkušeným uživatelem programu BOINC, byly bychom rádi, pokud "
+#~ "byste se stal dobrovolným pomocníkem. Je to skvělý způsob, jak pomoci "
+#~ "věci vědeckého výzkumu a dobrovolnickému počítání - a je to také zábava! "
 
 #~ msgid "HELP_P3_2"
-#~ msgstr "Pokud jste již dobrovolným pomocníkem: k úpravě svého nastavení %sklikněte zde%s."
+#~ msgstr ""
+#~ "Pokud jste již dobrovolným pomocníkem: k úpravě svého nastavení %"
+#~ "sklikněte zde%s."
 
-##############################################
+# #############################################
 # index.php
-##############################################
+# #############################################
 #~ msgid "HOME_HEADING1"
 #~ msgstr "Staňte se dobrovolníkem"
 
@@ -1022,14 +1071,18 @@ msgstr ""
 #~ "Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) k hledání léků "
 #~ "proti nemocem, studování globální oteplování, k objevení pulsarů nebo k "
 #~ "mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte "
-#~ "si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte%s vaší "
-#~ "emailovou adresu a heslo k projektu."
+#~ "si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte%s "
+#~ "vaší emailovou adresu a heslo k projektu."
 
 #~ msgid "HOME_P2"
-#~ msgstr "Případně, pokud používáte více projektů současně, vyzkoušejte některého ze %ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
+#~ msgstr ""
+#~ "Případně, pokud používáte více projektů současně, vyzkoušejte některého "
+#~ "ze %ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
 
 #~ msgid "HOME_P3"
-#~ msgstr "Pokud máte nějaké dotazy, nebo potřebujete poradit, můžete se %szeptat dobrovolných pomocníků%s."
+#~ msgstr ""
+#~ "Pokud máte nějaké dotazy, nebo potřebujete poradit, můžete se %szeptat "
+#~ "dobrovolných pomocníků%s."
 
 #~ msgid "HOME_DOWNLOAD"
 #~ msgstr "Ke stažení"
@@ -1046,7 +1099,7 @@ msgstr ""
 #~ msgid "HOME_BOINC"
 #~ msgstr "Berkeley Open Infrastructure for Network Computing"
 
-##########################################
+# #########################################
 # Language: Czech
 # FileID  : $Id$
 # Author  : Martin Suchan
@@ -1056,10 +1109,11 @@ msgstr ""
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 # The name of this language in this language
 # The name of this language in an international language (English)
-########################################
+# #######################################
 # poll-related stuff
-##############################################
+# #############################################
 # help.php
 # index.php
 #~ msgid "HOME_BOINC_DESC"
-#~ msgstr "Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s."
+#~ msgstr ""
+#~ "Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s."

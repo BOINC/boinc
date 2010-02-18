@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-17 10:06 PST\n"
+"POT-Creation-Date: 2010-02-17 13:11 PST\n"
 "PO-Revision-Date: 2010-01-21 00:33-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
-"Language: hu\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Bookmarks: 7,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
@@ -126,15 +126,15 @@ msgstr ""
 msgid "Unavailable"
 msgstr ""
 
-#: ../inc/host.inc:55 ../inc/prefs.inc:1292 ../project.sample/project.inc:49
+#: ../inc/host.inc:55 ../inc/prefs.inc:1350 ../project.sample/project.inc:49
 msgid "Home"
 msgstr ""
 
-#: ../inc/host.inc:56 ../inc/prefs.inc:1293
+#: ../inc/host.inc:56 ../inc/prefs.inc:1351
 msgid "Work"
 msgstr ""
 
-#: ../inc/host.inc:57 ../inc/prefs.inc:1294
+#: ../inc/host.inc:57 ../inc/prefs.inc:1352
 msgid "School"
 msgstr ""
 
@@ -301,7 +301,7 @@ msgstr ""
 msgid "Average turnaround time"
 msgstr ""
 
-#: ../inc/host.inc:163 ../inc/prefs.inc:784 ../inc/prefs.inc:785
+#: ../inc/host.inc:163 ../inc/prefs.inc:841 ../inc/prefs.inc:842
 msgid "%1 days"
 msgstr ""
 
@@ -557,389 +557,381 @@ msgstr ""
 msgid "Processor usage"
 msgstr ""
 
-#: ../inc/prefs.inc:70
+#: ../inc/prefs.inc:71
 msgid ""
-"Suspend work while computer is on battery power? %1\n"
-"        (matters only for portable computers)%2"
-msgstr ""
-
-#: ../inc/prefs.inc:74
-msgid "Suspend work while computer is in use?"
+"Suspend work while computer is on battery power? %1(matters only for "
+"portable computers)%2"
 msgstr ""
 
 #: ../inc/prefs.inc:77
-msgid ""
-"Suspend GPU work while computer is in use? %1\n"
-"        Enforced by version 6.7+"
+msgid "Suspend work while computer is in use?"
 msgstr ""
 
-#: ../inc/prefs.inc:80
-msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
-
-#: ../inc/prefs.inc:82
-msgid ""
-"Suspend work if no mouse/keyboard activity in last %1\n"
-"        (Needed to enter low-power mode on some computers)%2"
+#: ../inc/prefs.inc:81
+msgid "Suspend GPU work while computer is in use? %1Enforced by version 6.7+%2"
 msgstr ""
 
 #: ../inc/prefs.inc:86
-msgid ""
-"Suspend work if CPU usage is above %1\n"
-"        0 means no restriction<br>Enforced by version 6.10.30+%2"
+msgid "'In use' means mouse/keyboard activity in last"
 msgstr ""
 
 #: ../inc/prefs.inc:89
-msgid "Do work only between the hours of"
-msgstr ""
-
-#: ../inc/prefs.inc:90
-msgid "(no restriction if equal)"
-msgstr ""
-
-#: ../inc/prefs.inc:92
 msgid ""
-"Leave tasks in memory while suspended? %1\n"
-"        (suspended tasks will consume swap space if 'yes')%2"
+"Suspend work if no mouse/keyboard activity in last %1(Needed to enter low-"
+"power mode on some computers)%2"
 msgstr ""
 
 #: ../inc/prefs.inc:96
 msgid ""
-"Switch between tasks every %1\n"
-"        (recommended: 60 minutes)%2"
+"Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
+"version 6.10.30+%2"
 msgstr ""
 
-#: ../inc/prefs.inc:100
+#: ../inc/prefs.inc:101
+msgid "Do work only between the hours of"
+msgstr ""
+
+#: ../inc/prefs.inc:102
+msgid "(no restriction if equal)"
+msgstr ""
+
+#: ../inc/prefs.inc:105
 msgid ""
-"Confirm before connecting to Internet? %1\n"
-"        (matters only if you have a modem, ISDN or VPN connection)%2"
+"Leave tasks in memory while suspended? %1(suspended tasks will consume swap "
+"space if 'yes')%2"
 msgstr ""
 
-#: ../inc/prefs.inc:104
+#: ../inc/prefs.inc:112
+msgid "Switch between tasks every %1(recommended: 60 minutes)%2"
+msgstr ""
+
+#: ../inc/prefs.inc:119
 msgid ""
-"Disconnect when done? %1\n"
-"        (matters only if you have a modem, ISDN or VPN connection)%2"
+"Confirm before connecting to Internet? %1(matters only if you have a modem, "
+"ISDN or VPN connection)%2"
 msgstr ""
 
-#: ../inc/prefs.inc:108
+#: ../inc/prefs.inc:126
 msgid ""
-"Computer is connected to the Internet about every %1\n"
-"        (Leave blank or 0 if always connected.<br>\n"
-"        BOINC will try to maintain at least this much work.)%2"
+"Disconnect when done? %1(matters only if you have a modem, ISDN or VPN "
+"connection)%2"
 msgstr ""
 
-#: ../inc/prefs.inc:113
+#: ../inc/prefs.inc:133
+msgid ""
+"Computer is connected to the Internet about every %1(Leave blank or 0 if "
+"always connected.%2 BOINC will try to maintain at least this much work.)%3"
+msgstr ""
+
+#: ../inc/prefs.inc:140
 msgid "Maintain enough work for an additional"
 msgstr ""
 
-#: ../inc/prefs.inc:116
+#: ../inc/prefs.inc:144
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+%2"
 msgstr ""
 
-#: ../inc/prefs.inc:118
+#: ../inc/prefs.inc:149
 #, php-format
 msgid "% of the processors"
 msgstr ""
 
-#: ../inc/prefs.inc:119
+#: ../inc/prefs.inc:150
 msgid "On multiprocessors, use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:120
+#: ../inc/prefs.inc:151
 msgid "processors"
 msgstr ""
 
-#: ../inc/prefs.inc:121 ../inc/prefs.inc:125
+#: ../inc/prefs.inc:152 ../inc/prefs.inc:160
 msgid "Use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:123
+#: ../inc/prefs.inc:155
 msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
 msgstr ""
 
-#: ../inc/prefs.inc:126
+#: ../inc/prefs.inc:161
 msgid "percent of CPU time"
 msgstr ""
 
-#: ../inc/prefs.inc:127
+#: ../inc/prefs.inc:162
 msgid "Tasks checkpoint to disk at most every"
 msgstr ""
 
-#: ../inc/prefs.inc:128
+#: ../inc/prefs.inc:163
 msgid "Disk and memory usage"
 msgstr ""
 
-#: ../inc/prefs.inc:129
+#: ../inc/prefs.inc:164
 msgid "Leave at least"
 msgstr ""
 
-#: ../inc/prefs.inc:131
+#: ../inc/prefs.inc:166
 #, php-format
 msgid "(Values smaller than %s are ignored)"
 msgstr ""
 
-#: ../inc/prefs.inc:133
+#: ../inc/prefs.inc:168
 #, php-format
 msgid "% of total disk space"
 msgstr ""
 
-#: ../inc/prefs.inc:134
+#: ../inc/prefs.inc:169
 #, php-format
 msgid "% of page file (swap space)"
 msgstr ""
 
-#: ../inc/prefs.inc:135
+#: ../inc/prefs.inc:170
 #, php-format
 msgid "% of memory when computer is in use"
 msgstr ""
 
-#: ../inc/prefs.inc:136
+#: ../inc/prefs.inc:171
 #, php-format
 msgid "% of memory when computer is not in use"
 msgstr ""
 
-#: ../inc/prefs.inc:137
+#: ../inc/prefs.inc:172
 msgid "Network usage"
 msgstr ""
 
-#: ../inc/prefs.inc:138
+#: ../inc/prefs.inc:173
 msgid "Maximum download rate:"
 msgstr ""
 
-#: ../inc/prefs.inc:139
+#: ../inc/prefs.inc:174
 msgid "Maximum upload rate:"
 msgstr ""
 
-#: ../inc/prefs.inc:140
+#: ../inc/prefs.inc:175
 msgid "Use network only between the hours of"
 msgstr ""
 
-#: ../inc/prefs.inc:142
+#: ../inc/prefs.inc:178
 msgid ""
-"Skip image file verification? %1\n"
-"        Check this ONLY if your Internet provider modifies image files (UMTS "
-"does this, for example).<br />\n"
-"        Skipping verification reduces the security of BOINC.%2"
+"Skip image file verification? %1 Check this ONLY if your Internet provider "
+"modifies image files (UMTS does this, for example). %2 Skipping verification "
+"reduces the security of BOINC.%3"
 msgstr ""
 
-#: ../inc/prefs.inc:147
-msgid "Use ATI GPU if present %1 (enforced by 6.10+ clients)%2"
+#: ../inc/prefs.inc:186
+msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
 msgstr ""
 
-#: ../inc/prefs.inc:150
-msgid "Use NVIDIA GPU if present %1 (enforced by 6.10+ clients)%2"
+#: ../inc/prefs.inc:193
+msgid "Use NVIDIA GPU if present %1(enforced by 6.10+ clients)%2"
 msgstr ""
 
-#: ../inc/prefs.inc:153
-msgid "Use CPU % 1 (enforced by 6.10+ clients)%2"
+#: ../inc/prefs.inc:200
+msgid "Use CPU %1(enforced by 6.10+ clients)%2"
 msgstr ""
 
-#: ../inc/prefs.inc:158
+#: ../inc/prefs.inc:208
 msgid "Kbytes/sec"
 msgstr ""
 
-#: ../inc/prefs.inc:159
+#: ../inc/prefs.inc:209
 msgid "KB/s"
 msgstr ""
 
-#: ../inc/prefs.inc:161
+#: ../inc/prefs.inc:212
 msgid ""
-"Run test applications? %1\n"
-"        This helps us develop applications, but may cause jobs to fail on "
-"your computer%2"
+"Run test applications? %1This helps us develop applications, but may cause "
+"jobs to fail on your computer%2"
 msgstr ""
 
-#: ../inc/prefs.inc:166
+#: ../inc/prefs.inc:219
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
 
-#: ../inc/prefs.inc:168
+#: ../inc/prefs.inc:222
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
 
-#: ../inc/prefs.inc:220
+#: ../inc/prefs.inc:277
 msgid "bad venue: %1"
 msgstr ""
 
-#: ../inc/prefs.inc:226
+#: ../inc/prefs.inc:283
 msgid "bad subset: %1"
 msgstr ""
 
-#: ../inc/prefs.inc:631 ../inc/prefs.inc:634 ../inc/prefs.inc:743
-#: ../inc/prefs.inc:744 ../inc/prefs.inc:745 ../inc/prefs.inc:761
-#: ../inc/prefs.inc:786 ../inc/prefs.inc:787 ../inc/prefs.inc:802
-#: ../inc/prefs.inc:829 ../inc/prefs.inc:832 ../inc/prefs.inc:835
-#: ../inc/prefs.inc:845 ../inc/prefs.inc:857 ../inc/prefs.inc:859
-#: ../inc/prefs.inc:1269 ../project.sample/project_specific_prefs.inc:74
+#: ../inc/prefs.inc:688 ../inc/prefs.inc:691 ../inc/prefs.inc:800
+#: ../inc/prefs.inc:801 ../inc/prefs.inc:802 ../inc/prefs.inc:818
+#: ../inc/prefs.inc:843 ../inc/prefs.inc:844 ../inc/prefs.inc:859
+#: ../inc/prefs.inc:887 ../inc/prefs.inc:890 ../inc/prefs.inc:893
+#: ../inc/prefs.inc:903 ../inc/prefs.inc:915 ../inc/prefs.inc:917
+#: ../inc/prefs.inc:1327 ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
 msgstr ""
 
-#: ../inc/prefs.inc:631 ../inc/prefs.inc:634 ../inc/prefs.inc:743
-#: ../inc/prefs.inc:744 ../inc/prefs.inc:745 ../inc/prefs.inc:761
-#: ../inc/prefs.inc:786 ../inc/prefs.inc:787 ../inc/prefs.inc:802
-#: ../inc/prefs.inc:829 ../inc/prefs.inc:832 ../inc/prefs.inc:835
-#: ../inc/prefs.inc:845 ../inc/prefs.inc:857 ../inc/prefs.inc:859
-#: ../inc/prefs.inc:1271 ../project.sample/project_specific_prefs.inc:76
+#: ../inc/prefs.inc:688 ../inc/prefs.inc:691 ../inc/prefs.inc:800
+#: ../inc/prefs.inc:801 ../inc/prefs.inc:802 ../inc/prefs.inc:818
+#: ../inc/prefs.inc:843 ../inc/prefs.inc:844 ../inc/prefs.inc:859
+#: ../inc/prefs.inc:887 ../inc/prefs.inc:890 ../inc/prefs.inc:893
+#: ../inc/prefs.inc:903 ../inc/prefs.inc:915 ../inc/prefs.inc:917
+#: ../inc/prefs.inc:1329 ../project.sample/project_specific_prefs.inc:76
 msgid "no"
 msgstr ""
 
-#: ../inc/prefs.inc:639 ../inc/prefs.inc:790 ../inc/prefs.inc:793
+#: ../inc/prefs.inc:696 ../inc/prefs.inc:847 ../inc/prefs.inc:850
 msgid "no limit"
 msgstr ""
 
-#: ../inc/prefs.inc:664 ../user/team_admins.php:77
+#: ../inc/prefs.inc:721 ../user/team_admins.php:77
 msgid "Add"
 msgstr ""
 
-#: ../inc/prefs.inc:665 ../inc/prefs.inc:667
+#: ../inc/prefs.inc:722 ../inc/prefs.inc:724
 msgid "Edit"
 msgstr ""
 
-#: ../inc/prefs.inc:666 ../inc/prefs.inc:897 ../user/team_admins.php:32
+#: ../inc/prefs.inc:723 ../inc/prefs.inc:955 ../user/team_admins.php:32
 msgid "Remove"
 msgstr ""
 
-#: ../inc/prefs.inc:701 ../inc/prefs.inc:703 ../inc/prefs.inc:709
-#: ../inc/prefs.inc:1055 ../inc/prefs.inc:1060 ../inc/prefs.inc:1078
+#: ../inc/prefs.inc:758 ../inc/prefs.inc:760 ../inc/prefs.inc:766
+#: ../inc/prefs.inc:1113 ../inc/prefs.inc:1118 ../inc/prefs.inc:1136
 msgid "minutes"
 msgstr ""
 
-#: ../inc/prefs.inc:715
+#: ../inc/prefs.inc:772
 msgid "GB disk space"
 msgstr ""
 
-#: ../inc/prefs.inc:716
+#: ../inc/prefs.inc:773
 msgid "GB disk space free"
 msgstr ""
 
-#: ../inc/prefs.inc:718 ../inc/prefs.inc:1137
+#: ../inc/prefs.inc:775 ../inc/prefs.inc:1195
 msgid "seconds"
 msgstr ""
 
-#: ../inc/prefs.inc:724 ../inc/prefs.inc:725 ../inc/prefs.inc:1164
-#: ../inc/prefs.inc:1170
+#: ../inc/prefs.inc:781 ../inc/prefs.inc:782 ../inc/prefs.inc:1222
+#: ../inc/prefs.inc:1228
 msgid "days"
 msgstr ""
 
-#: ../inc/prefs.inc:746 ../inc/prefs.inc:749 ../inc/prefs.inc:762
+#: ../inc/prefs.inc:803 ../inc/prefs.inc:806 ../inc/prefs.inc:819
 msgid "%1 minutes"
 msgstr ""
 
-#: ../inc/prefs.inc:754 ../inc/prefs.inc:795
+#: ../inc/prefs.inc:811 ../inc/prefs.inc:852
 msgid "(no restriction)"
 msgstr ""
 
-#: ../inc/prefs.inc:758 ../inc/prefs.inc:799 ../inc/prefs.inc:1071
-#: ../inc/prefs.inc:1203
+#: ../inc/prefs.inc:815 ../inc/prefs.inc:856 ../inc/prefs.inc:1129
+#: ../inc/prefs.inc:1261
 msgid "and"
 msgstr ""
 
-#: ../inc/prefs.inc:769
+#: ../inc/prefs.inc:826
 msgid "%1 GB disk space"
 msgstr ""
 
-#: ../inc/prefs.inc:777
+#: ../inc/prefs.inc:834
 msgid "%1 GB disk space free"
 msgstr ""
 
-#: ../inc/prefs.inc:807
+#: ../inc/prefs.inc:865
 msgid ""
-"Resource share %1\n"
-"             If you participate in multiple BOINC projects,\n"
-"             this is the proportion of your resources used by %2%3"
+"Resource share %1If you participate in multiple BOINC projects, this is the "
+"proportion of your resources used by %2%3"
 msgstr ""
 
-#: ../inc/prefs.inc:853
+#: ../inc/prefs.inc:911
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
 
-#: ../inc/prefs.inc:856 ../inc/prefs.inc:1213
+#: ../inc/prefs.inc:914 ../inc/prefs.inc:1271
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr ""
 
-#: ../inc/prefs.inc:859 ../inc/prefs.inc:1216
+#: ../inc/prefs.inc:917 ../inc/prefs.inc:1274
 msgid "Should %1 show your computers on its web site?"
 msgstr ""
 
-#: ../inc/prefs.inc:875 ../inc/result.inc:180
+#: ../inc/prefs.inc:933 ../inc/result.inc:180
 msgid "Computing"
 msgstr ""
 
-#: ../inc/prefs.inc:887
+#: ../inc/prefs.inc:945
 msgid "Separate preferences for %1"
 msgstr ""
 
-#: ../inc/prefs.inc:897 ../inc/prefs.inc:975
+#: ../inc/prefs.inc:955 ../inc/prefs.inc:1033
 #, fuzzy
 msgid "Edit preferences"
 msgstr "%1 beállítások"
 
-#: ../inc/prefs.inc:901
+#: ../inc/prefs.inc:959
 msgid "Add separate preferences for %1"
 msgstr ""
 
-#: ../inc/prefs.inc:910 ../inc/prefs.inc:957
+#: ../inc/prefs.inc:968 ../inc/prefs.inc:1015
 msgid "(Switch View)"
 msgstr ""
 
-#: ../inc/prefs.inc:912 ../inc/prefs.inc:960
+#: ../inc/prefs.inc:970 ../inc/prefs.inc:1018
 #, fuzzy
 msgid "Combined preferences"
 msgstr "Számítási beállítások"
 
-#: ../inc/prefs.inc:917
+#: ../inc/prefs.inc:975
 msgid "Project specific settings"
 msgstr ""
 
-#: ../inc/prefs.inc:926 ../inc/prefs.inc:969
+#: ../inc/prefs.inc:984 ../inc/prefs.inc:1027
 msgid "Primary (default) preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:936 ../user/add_venue.php:43 ../user/add_venue.php:68
+#: ../inc/prefs.inc:994 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
 #, fuzzy
 msgid "Edit %1 preferences"
 msgstr "%1 beállítások"
 
-#: ../inc/prefs.inc:950
+#: ../inc/prefs.inc:1008
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
 
-#: ../inc/prefs.inc:954
+#: ../inc/prefs.inc:1012
 msgid "Preferences last modified:"
 msgstr ""
 
-#: ../inc/prefs.inc:1006
+#: ../inc/prefs.inc:1064
 #, fuzzy
 msgid "Add preferences"
 msgstr "%1 beállítások"
 
-#: ../inc/prefs.inc:1010
+#: ../inc/prefs.inc:1068
 #, fuzzy
 msgid "Update preferences"
 msgstr "%1 beállítások"
 
-#: ../inc/prefs.inc:1109
+#: ../inc/prefs.inc:1167
 msgid "Gbytes"
 msgstr ""
 
-#: ../inc/prefs.inc:1123
+#: ../inc/prefs.inc:1181
 msgid "Gbytes free"
 msgstr ""
 
-#: ../inc/prefs.inc:1224
+#: ../inc/prefs.inc:1282
 msgid "Resource share"
 msgstr ""
 
-#: ../inc/prefs.inc:1226
+#: ../inc/prefs.inc:1284
 msgid ""
 "Determines the proportion of your computer's resources\n"
 "            allocated to this project. Example: if you participate in two\n"
@@ -947,11 +939,11 @@ msgid ""
 "            will get 1/3 of your resources and the second will get 2/3."
 msgstr ""
 
-#: ../inc/prefs.inc:1280 ../inc/prefs.inc:1289
+#: ../inc/prefs.inc:1338 ../inc/prefs.inc:1347
 msgid "Default computer location"
 msgstr ""
 
-#: ../inc/prefs.inc:1569
+#: ../inc/prefs.inc:1627
 msgid "Update failed: "
 msgstr ""
 
@@ -2672,15 +2664,14 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "A(z) %1 által futtatott alkalmazások a számítógép túlmelegedését okozhatják. "
-"Ha ez megtörténik, ne futtassa tovább a(z) %1 projektet, vagy használjon "
-"egy %2segédprogramot%3, mely limitálja a CPU-használatot."
+"Ha ez megtörténik, ne futtassa tovább a(z) %1 projektet, vagy használjon egy "
+"%2segédprogramot%3, mely limitálja a CPU-használatot."
 
 #: ../user/info.php:49
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
-"A(z) %1 %2 által fejlesztve. A BOINCot a Kaliforniai Egyetemen "
-"fejlesztették."
+"A(z) %1 %2 által fejlesztve. A BOINCot a Kaliforniai Egyetemen fejlesztették."
 
 # Vagy kötelezettség, még meg kéne nézni!!!
 #: ../user/info.php:51
@@ -2707,8 +2698,8 @@ msgid ""
 "participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
 msgstr ""
-"Más projektek is használják ugyanazt a platformot - a BOINCot -, amit a(z) "
-"%1 is. Fontolja meg részvételét egy vagy több ilyen projektben. Ha Ön így "
+"Más projektek is használják ugyanazt a platformot - a BOINCot -, amit a(z) %"
+"1 is. Fontolja meg részvételét egy vagy több ilyen projektben. Ha Ön így "
 "tesz, számítógépe hasznos munkát végezhet akkor is, amikor a(z) %1 "
 "projektnek nincs elérhető munkacsomagja."
 
@@ -2814,7 +2805,8 @@ msgstr "%1 nevű felhasználóból több is van. Használja a felhasználó ID-j
 
 #: ../user/pm.php:211
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "A %1 nevű felhasználó (ID-je: %2) nem fogad Öntől személyes üzeneteket."
+msgstr ""
+"A %1 nevű felhasználó (ID-je: %2) nem fogad Öntől személyes üzeneteket."
 
 #: ../user/pm.php:234
 msgid "Really block %1?"
@@ -2854,8 +2846,7 @@ msgstr "A(z) %1 nevű felhasználó blokkolva"
 #: ../user/pm.php:257
 msgid "User %1 has been blocked from sending you private messages."
 msgstr ""
-"A(z) %1 nevű felhasználót blokkolta, így Ő nem küldhet Önnek privát "
-"üzenetet."
+"A(z) %1 nevű felhasználót blokkolta, így Ő nem küldhet Önnek privát üzenetet."
 
 # Ez sem biztos, hogy jó, ellenőrizni kell!!!
 #: ../user/pm.php:258
@@ -4192,7 +4183,7 @@ msgstr ""
 msgid "(all applications)"
 msgstr ""
 
-##########################################
+# #########################################
 # Language: English (International)
 # FileID  : $Id$
 # Author  : Janus Kristensen
@@ -4228,7 +4219,9 @@ msgstr ""
 #~ msgid "Really delete?"
 #~ msgstr "Valóban törli?"
 
-#~ msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+#~ msgid ""
+#~ "Are you sure you want to delete the message with subject &quot;%1&quot; "
+#~ "(sent by %2 on %3)?"
 #~ msgstr ""
 #~ "Biztosan törölni akarja a &quot;%1&quot; tárgyú, (küldte: %2, ekkor: %3) "
 #~ "üzenetet?"
@@ -4240,8 +4233,11 @@ msgstr ""
 #~ msgid "No such message."
 #~ msgstr "Nincs ilyen üzenet"
 
-#~ msgid "Account creation is disabled for %1 at the moment. Please try again later."
-#~ msgstr "A fióklétrehozás a(z) %1 projekthez jelenleg le van tiltva. Kérjük, próbálja újra később."
+#~ msgid ""
+#~ "Account creation is disabled for %1 at the moment. Please try again later."
+#~ msgstr ""
+#~ "A fióklétrehozás a(z) %1 projekthez jelenleg le van tiltva. Kérjük, "
+#~ "próbálja újra később."
 
 #~ msgid "Edit message"
 #~ msgstr "Üzenet szerkesztése"
