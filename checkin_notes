@@ -1267,3 +1267,9 @@ David  18 Feb 2010
 
     client/
         work_fetch.cpp
+
+David  18 Feb 2010
+    - wrapper: print more detailed msgs if process creation fails
+
+    samples/wrapper/
+        wrapper.cpp

@@ -326,6 +326,9 @@ int TASK::run(int argct, char** argvt) {
         &startup_info,
         &process_info
     )) {
+        char error_msg[1024];
+        windows_error_string(error_msg, sizeof(error_msg));
+        fprintf(stderr, "can't run app: %s\n", error_msg);
         return ERR_EXEC;
     }
     pid_handle = process_info.hProcess;
@@ -343,7 +346,8 @@ int TASK::run(int argct, char** argvt) {
 
     pid = fork();
     if (pid == -1) {
-        boinc_finish(ERR_FORK);
+        perror("fork(): ");
+        return ERR_FORK;
     }
     if (pid == 0) {
 		// we're in the child process here
@@ -376,6 +380,7 @@ int TASK::run(int argct, char** argvt) {
         argc = parse_command_line(arglist, argv+1);
         setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
         retval = execv(app_path, argv);
+        perror("execv() failed: ");
         exit(ERR_EXEC);
     }
 #endif
@@ -567,7 +572,6 @@ int main(int argc, char** argv) {
         task.starting_cpu = checkpoint_cpu_time;
         retval = task.run(argc, argv);
         if (retval) {
-            fprintf(stderr, "can't run app: %d\n", retval);
             boinc_finish(retval);
         }
         while (1) {
