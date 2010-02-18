@@ -75,7 +75,7 @@ then
     locale=`basename $dir`
     po_name=`basename $file .po`
 
-    msgmerge --update ${locale}/${po_name}.po templates/${po_name}.pot > /dev/null 2> /dev/null
+    msgmerge --update ${locale}/${po_name}.po templates/${po_name}.pot
  
   done
 
@@ -83,16 +83,12 @@ fi
 
 for file in `find -name '*.pot'` ; do
   template_rootname=`basename $file .pot`
-  template_name=${projdir}/${locale}/${template_rootname}
+  template_name=${projdir}/templates/${template_rootname}
 
-  if test ${template_name}.pot -nt ${template_name}.flag
-  then
+  # Touch each file to adjust timestamps
+  touch ${template_name}.pot
+  touch ${template_name}.flag
 
-    # Touch each file to adjust timestamps
-    touch ${template_name}.pot
-    touch ${template_name}.flag
-
-  fi  
 done
 
 
