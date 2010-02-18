@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-02-17 12:49-0700\n"
+"PO-Revision-Date: 2010-02-18 09:53-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -3406,9 +3406,8 @@ msgid "Download pending"
 msgstr "Downloaden in behandeling"
 
 #: clientgui/ViewTransfers.cpp:775
-#, fuzzy
 msgid " (project backoff: "
-msgstr " (volgende poging na: "
+msgstr " (project uitgesteld: "
 
 #: clientgui/ViewTransfers.cpp:775
 msgid ")"
