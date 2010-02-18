@@ -1540,7 +1540,8 @@ msgid ""
 "share, graphics preferences) will be visible to the public."
 msgstr ""
 "%1Note privada%2: se criar uma equipa, as preferênciass do projecto "
-"(partilha de recursosm preferências de gráficos) ficarão visíveis ao publico."
+"(partilha de recursosm preferências de gráficos) ficarão visíveis ao "
+"publico."
 
 #: ../inc/team.inc:421
 msgid "Team name, text version"
@@ -1942,7 +1943,8 @@ msgstr "A criação de conta está desabilitada"
 #: ../user/create_account_form.php:30
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
-"A criação de conta está actualmente desabilitada. Por favor, tente mais tarde"
+"A criação de conta está actualmente desabilitada. Por favor, tente mais "
+"tarde"
 
 #: ../user/create_account_form.php:41
 msgid ""
@@ -2011,8 +2013,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Para a substituir, carregue no botão \"Procurar em\" e seleccione um "
-"ficheiro JPEG ou PNG (%1 ou menos)."
+"Para a substituir, carregue no botão \"Procurar em\" e seleccione um ficheiro "
+"JPEG ou PNG (%1 ou menos)."
 
 #: ../user/create_profile.php:70
 msgid "To remove it from your profile, check this box:"
@@ -2097,8 +2099,7 @@ msgstr "Perfil salvo"
 #: ../user/create_profile.php:299
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
-"Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
+msgstr "Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
 
 #: ../user/create_profile.php:300
 msgid "%1View your profile%2"
@@ -2668,10 +2669,10 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
-"Se usa o nosso fórum na web, tem que seguir as %2instruções para fazer posts%"
-"3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo não-"
-"membros. Ao postar nos fóruns, está a garantir licença irrevogável para que "
-"qualquer pessoa possa ver e copiar os seus posts."
+"Se usa o nosso fórum na web, tem que seguir as %2instruções para fazer "
+"posts%3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo "
+"não-membros. Ao postar nos fóruns, está a garantir licença irrevogável para "
+"que qualquer pessoa possa ver e copiar os seus posts."
 
 #: ../user/info.php:46
 msgid "Is it safe to run %1?"
@@ -2694,8 +2695,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "As aplicações executadas pelo %1 podem causar em alguns computadores "
-"sobreaquecimento. Se isto acontecer, para de executar %1 ou uso um %"
-"aplicativo%3 que limite o uso do CPU."
+"sobreaquecimento. Se isto acontecer, para de executar %1 ou uso um "
+"%aplicativo%3 que limite o uso do CPU."
 
 #: ../user/info.php:49
 msgid ""
@@ -2911,8 +2912,7 @@ msgstr "Confirmar apagar preferências"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
-"Tem a certeza que quer apagar as suas %1preferências separadas para %2?"
+msgstr "Tem a certeza que quer apagar as suas %1preferências separadas para %2?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
@@ -3139,8 +3139,8 @@ msgstr "Criar uma nova equipa"
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
-"Se não encontrar uma equipa que seja adequada a si, pode %1criar uma equipa%"
-"2."
+"Se não encontrar uma equipa que seja adequada a si, pode %1criar uma "
+"equipa%2."
 
 #: ../user/team_admins.php:32
 msgid "Remove Team Admin status from this member"
@@ -3417,8 +3417,9 @@ msgid "couldn't create message board"
 msgstr ""
 
 #: ../user/team_forum.php:57
+#, fuzzy
 msgid "Team Message Board"
-msgstr ""
+msgstr "Criar Mensagem no Fórum"
 
 #: ../user/team_forum.php:66
 msgid "Discussion among members of %1"
@@ -3993,8 +3994,9 @@ msgid "Team:"
 msgstr "Equipa:"
 
 #: ../user/userw.php:47
+#, fuzzy
 msgid "Team TotCred:"
-msgstr ""
+msgstr "Média de Créditos da Equipa:"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"

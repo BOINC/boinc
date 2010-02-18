@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-17 13:11 PST\n"
-"PO-Revision-Date: 2010-02-18 13:50-0700\n"
+"PO-Revision-Date: 2010-02-18 14:17-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -204,66 +204,64 @@ msgid "Cross project credit"
 msgstr ""
 
 #: ../inc/host.inc:114
-#, fuzzy
 msgid "CPU type"
-msgstr "Temps de CPU"
+msgstr "Tipus de CPU"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "Número de processadors"
 
 #: ../inc/host.inc:117
-#, fuzzy
 msgid "Coprocessors"
-msgstr "processadors"
+msgstr "Coprocessadors"
 
 #: ../inc/host.inc:119 ../inc/host.inc:627
 msgid "Operating System"
-msgstr ""
+msgstr "Sistema Operatiu"
 
 #: ../inc/host.inc:122
 msgid "BOINC client version"
-msgstr ""
+msgstr "Versió de client BOINC"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "Memòria"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr ""
+msgstr "Espai d'intercanvi"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "Espai total en disc"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Espai lliure al disc"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "Velocitat de càlcul de punt flotant evaluada"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 milions ops/seg"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
