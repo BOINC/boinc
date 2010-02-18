@@ -1255,3 +1255,9 @@ David  17 Feb 2010
 
     html/inc/
         prefs.inc
+
+David 18 Feb 2010
+    - assimilator: fix --one_pass bug (from Bernd)
+
+    sched/
+        assimilator.cpp

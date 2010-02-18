@@ -76,7 +76,7 @@ void usage(char** argv) {
 }
 
 // assimilate all WUs that need it
-// return nonzero if did anything
+// return nonzero (true) if did anything
 //
 bool do_pass(APP& app) {
     DB_WORKUNIT wu;
@@ -273,12 +273,13 @@ int main(int argc, char** argv) {
         exit(1);
     }
     install_stop_signal_handler();
-    while (1) {
-        if (!do_pass(app)) {
-            if (one_pass) break;
-            sleep(sleep_interval);
+    do {
+      if (!do_pass(app)) {
+	if (!one_pass) {
+          sleep(sleep_interval);
         }
-    }
+      }
+    } while (!one_pass);
 }
 
 
