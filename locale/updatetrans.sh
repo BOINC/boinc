@@ -51,7 +51,7 @@ done
 # timestamp as the template files. If the timestamps do not match update all
 # languages.
 for file in `find -name '*.pot'` ; do
-  template_rootname=`basename $file`
+  template_rootname=`basename $file .pot`
   template_name=${projdir}/templates/${template_rootname}
 
   # Check to see if the file exists, if not create it
@@ -73,28 +73,24 @@ then
   for file in `find -name '*.po'` ; do
     dir=`dirname $file`
     locale=`basename $dir`
-    po_name=`basename $file`
+    po_name=`basename $file .po`
  
     # Remove old index.html from previous iteration
     #
     rm ${projdir}/index.html > /dev/null 2> /dev/null
 
-    if test ${template_name}.po -nt ${template_name}.mo
-    then
-
-      # Use wget to cause the Pottle system to update the po file based on the template.
-      #
-      # Example: http://boinc.berkeley.edu/translate/ar/boinctrunk/index.html?editing=1&doupdate=1&updatefile=BOINC-Manager.po
-      #
-      wget http://boinc.berkeley.edu/translate/${locale}/${projname}/index.html?editing=1&doupdate=1&updatefile=${po_name}.po > /dev/null 2> /dev/null
+    # Use wget to cause the Pottle system to update the po file based on the template.
+    #
+    # Example: http://boinc.berkeley.edu/translate/ar/boinctrunk/index.html?editing=1&doupdate=1&updatefile=BOINC-Manager.po
+    #
+    wget http://boinc.berkeley.edu/translate/${locale}/${projname}/index.html?editing=1&doupdate=1&updatefile=${po_name}.po > /dev/null 2> /dev/null
     
-    fi  
   done
 
 fi
 
 for file in `find -name '*.pot'` ; do
-  template_rootname=`basename $file`
+  template_rootname=`basename $file .pot`
   template_name=${projdir}/${locale}/${template_rootname}
 
   if test ${template_name}.pot -nt ${template_name}.flag
