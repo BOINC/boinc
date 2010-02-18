@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-17 10:06 PST\n"
-"PO-Revision-Date: 2010-02-16 17:26-0700\n"
+"PO-Revision-Date: 2010-02-18 13:43-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -108,11 +108,11 @@ msgstr "Marcar com a llegits tots els fils a tots els taulers de missatges."
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "No hi ha servidor"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "No disponible"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:1292 ../project.sample/project.inc:49
 msgid "Home"
