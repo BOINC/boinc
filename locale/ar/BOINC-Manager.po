@@ -3947,6 +3947,7 @@ msgstr "حدد ساعات بدء و توقف استغلال الشبكة في ا
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "فشل في اتصالات ياهوو"
 
+#, c-format
 #~ msgid ""
 #~ "Report completed work, get latest credit, get latest preferences, and "
 #~ "possibly get more work."

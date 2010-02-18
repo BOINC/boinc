@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-17 10:06 PST\n"
-"PO-Revision-Date: 2010-02-18 11:59-0700\n"
+"PO-Revision-Date: 2010-02-18 12:46-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -306,12 +306,13 @@ msgid "%1 days"
 msgstr "%1 Tage"
 
 #: ../inc/host.inc:165
+#, fuzzy
 msgid "Maximum daily WU quota per CPU"
-msgstr ""
+msgstr "maximale Anzahl Arbeitspakete pro CPU pro Tag"
 
 #: ../inc/host.inc:165
 msgid "%1/day"
-msgstr ""
+msgstr "%1/Tag"
 
 #: ../inc/host.inc:174 ../inc/host.inc:302 ../inc/user.inc:149
 msgid "Tasks"
@@ -319,30 +320,32 @@ msgstr "Aufgaben"
 
 #: ../inc/host.inc:178
 msgid "Number of times client has contacted server"
-msgstr ""
+msgstr "Anzahl der Clientverbindungen zum Server"
 
 #: ../inc/host.inc:179
 msgid "Last time contacted server"
-msgstr ""
+msgstr "letztmaliger Kontakt mit Server"
 
 #: ../inc/host.inc:180
 #, php-format
+#, fuzzy
 msgid "% of time BOINC client is running"
-msgstr ""
+msgstr "% der Zeit in der der BOINC-Client läuft"
 
 #: ../inc/host.inc:182
 #, php-format
+#, fuzzy
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
+msgstr "Während BOINC läuft, % der Zeit in der eine Internetverbindung besteht"
 
 #: ../inc/host.inc:184
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "Während BOINC läuft, % der Zeit in der Berechnungen erlaubt sind"
 
 #: ../inc/host.inc:186
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "mittlere CPU Effizienz"
 
 #: ../inc/host.inc:189
 msgid "Task duration correction factor"
@@ -350,11 +353,11 @@ msgstr ""
 
 #: ../inc/host.inc:191 ../inc/host.inc:614
 msgid "Location"
-msgstr ""
+msgstr "Ort"
 
 #: ../inc/host.inc:193
 msgid "Delete this computer"
-msgstr ""
+msgstr "Diesen Computer löschen"
 
 #: ../inc/host.inc:197
 msgid "Click to"
@@ -362,11 +365,11 @@ msgstr ""
 
 #: ../inc/host.inc:197
 msgid "Merge this computer"
-msgstr ""
+msgstr "Diesen Computer zusammenführen"
 
 #: ../inc/host.inc:211
 msgid "Computer info"
-msgstr ""
+msgstr "Informationen zum Computer"
 
 #: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:344
 #: ../user/top_users.php:46
@@ -388,56 +391,60 @@ msgstr "Durchschnittliches Guthaben"
 
 #: ../inc/host.inc:226
 msgid "BOINC version"
-msgstr ""
+msgstr "BOINC Version"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: ../inc/host.inc:228 ../inc/host.inc:625
 msgid "GPU"
-msgstr ""
+msgstr "GPU"
 
 #: ../inc/host.inc:229
 msgid "Operating system"
-msgstr ""
+msgstr "Betriebssystem"
 
 #: ../inc/host.inc:281
 msgid "(%1 processors)"
-msgstr ""
+msgstr "(%1 Prozessoren)"
 
 #: ../inc/host.inc:301
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 #: ../inc/host.inc:306
-#, fuzzy
 msgid "Cross-project stats:"
-msgstr "Projektübergreifende Statistiken"
+msgstr "Projektübergreifende Statistiken:"
 
 #: ../inc/host.inc:460
+#, fuzzy
 msgid "Host %1 has overlapping lifetime:"
-msgstr ""
+msgstr "PC %1 hat eine überschneidende Nutzungszeit:"
 
 #: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
-msgstr ""
+msgstr "PC %1 hat kein kompatibles Betriebssystem:"
 
 #: ../inc/host.inc:473
 msgid "Host %1 has an incompatible CPU:"
-msgstr ""
+msgstr "PC %1 hat keinen kompatiblen Prozessor:"
 
 #: ../inc/host.inc:540
+#, fuzzy
 msgid "same host"
-msgstr ""
+msgstr "gleicher Computer"
 
 #: ../inc/host.inc:543
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr ""
+"Der PC %1 kann nicht mit %2 zusammen geführt werden. Die Computer sind "
+"inkompatibel."
 
 #: ../inc/host.inc:546
+#, fuzzy
 msgid "Merging host %1 into host %2"
-msgstr ""
+msgstr "Führe PC %1 mit %2 zusammen."
 
 #: ../inc/host.inc:563
 msgid "Couldn't update credit of new computer"
