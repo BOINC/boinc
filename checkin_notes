@@ -1273,3 +1273,10 @@ David  18 Feb 2010
 
     samples/wrapper/
         wrapper.cpp
+
+Rom    18 Feb 2010
+    - locale: automatically update each language based on whatever the
+        new template has.
+        
+    locale/
+        updatetrans.sh
