@@ -377,7 +377,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     procinfo_other(pi, piv);
     if (log_flags.mem_usage_debug) {
         msg_printf(NULL, MSG_INFO,
-            "All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",
+            "[mem_usage_debug] All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",
             pi.working_set_size/MEGA, pi.swap_size/MEGA,
             pi.user_time, pi.kernel_time
         );
@@ -392,7 +392,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
         if (log_flags.mem_usage_debug) {
             msg_printf(NULL, MSG_INFO,
-                "non-BOINC CPU usage: %f%%", non_boinc_cpu_usage*100
+                "[mem_usage_debug] non-BOINC CPU usage: %.2f%%", non_boinc_cpu_usage*100
             );
         }
     }

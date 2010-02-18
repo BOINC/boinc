@@ -1320,3 +1320,12 @@ David  18 Feb 2010
 
 	api/
 		texfont.cpp
+
+David  18 Feb 2010
+	- client: fix bug in "suspend if CPU load too high" feature.
+		Forgot to convert between fraction and percentage
+
+	client/
+		app.cpp
+		cs_prefs.cpp
+		log_flags.cpp
