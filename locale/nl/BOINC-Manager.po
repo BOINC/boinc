@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-01-31 05:57-0700\n"
+"PO-Revision-Date: 2010-02-18 09:52-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -3432,7 +3432,7 @@ msgstr "Downloaden in behandeling"
 
 #: clientgui/ViewTransfers.cpp:770
 msgid " (project backoff: "
-msgstr " (project teruggetrokken: "
+msgstr " (project uitgesteld: "
 
 #: clientgui/ViewTransfers.cpp:770
 msgid ")"
