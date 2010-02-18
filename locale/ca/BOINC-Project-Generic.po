@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-17 10:06 PST\n"
-"PO-Revision-Date: 2010-02-18 13:43-0700\n"
+"PO-Revision-Date: 2010-02-18 13:50-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -128,39 +128,39 @@ msgstr "Escola"
 
 #: ../inc/host.inc:59
 msgid "Update"
-msgstr ""
+msgstr "Actualitzar"
 
 #: ../inc/host.inc:83
 msgid "Computer information"
-msgstr ""
+msgstr "Informació de l'ordinador"
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "Adreça IP"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(el mateix els últims %1 cops)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr ""
+msgstr "Adreça IP externa"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "Mostra l'adreça IP"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
-msgstr ""
+msgstr "Nom de domini"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
-msgstr ""
+msgstr "Temps Local Estàndard"
 
 #: ../inc/host.inc:97
 msgid "UTC %1 hours"
-msgstr ""
+msgstr "UTC %1 hores"
 
 #: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:375
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
@@ -173,11 +173,11 @@ msgstr "Nom"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
 msgid "Owner"
-msgstr ""
+msgstr "Propietari"
 
 #: ../inc/host.inc:104 ../inc/host.inc:318
 msgid "Anonymous"
-msgstr ""
+msgstr "Anònim"
 
 #: ../inc/host.inc:108 ../inc/result.inc:377
 msgid "Created"
