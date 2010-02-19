@@ -177,7 +177,7 @@ function result_client_state_string($result) {
     switch($result->client_state) {
     case 0: return tra("New");
     case 1: return tra("Downloading");
-    case 2: return tra("Computing");
+    case 2: return tra("Processing");
     case 3: return tra("Compute error");
     case 4: return tra("Uploading");
     case 5: return tra("Done");

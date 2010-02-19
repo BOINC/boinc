@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-17 13:11 PST\n"
+"POT-Creation-Date: 2010-02-19 09:49 PST\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -833,7 +833,7 @@ msgstr ""
 msgid "Should %1 show your computers on its web site?"
 msgstr ""
 
-#: ../inc/prefs.inc:933 ../inc/result.inc:180
+#: ../inc/prefs.inc:933
 msgid "Computing"
 msgstr ""
 
@@ -1110,6 +1110,10 @@ msgstr ""
 
 #: ../inc/result.inc:179
 msgid "Downloading"
+msgstr ""
+
+#: ../inc/result.inc:180
+msgid "Processing"
 msgstr ""
 
 #: ../inc/result.inc:181
@@ -1675,7 +1679,7 @@ msgstr ""
 msgid "Preferences for this project"
 msgstr ""
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:228 ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr ""
 
@@ -2724,10 +2728,6 @@ msgstr ""
 
 #: ../user/pm.php:258
 msgid "To unblock, visit %1message board preferences%2"
-msgstr ""
-
-#: ../user/prefs.php:33
-msgid "preferences"
 msgstr ""
 
 #: ../user/prefs.php:36

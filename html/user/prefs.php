@@ -30,7 +30,7 @@ $subset = get_str("subset");
 $columns = get_int("cols", true);
 $updated = get_int("updated", true);
 
-page_head(subset_name($subset)." ".tra("preferences"));
+page_head(tra("%1 preferences", subset_name($subset)));
 if (isset($updated)) {
 	echo "<p style='color: red'>
         ".tra("Your preferences have been updated. Client-related preferences

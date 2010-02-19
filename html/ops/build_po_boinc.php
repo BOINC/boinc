@@ -51,6 +51,8 @@ stream_copy_to_stream($pipe, $out);
 fclose($pipe);
 fclose($out);
 
-echo "Done.  Move en.po to boinc/locale/templates/BOINC-Project-Generic.pot\n";
+system("mv en.po ../../locale/templates/BOINC-Project-Generic.pot\n");
+
+echo "Done\n";
 
 ?>

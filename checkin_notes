@@ -1329,3 +1329,11 @@ David  18 Feb 2010
 		app.cpp
 		cs_prefs.cpp
 		log_flags.cpp
+
+David  19 Feb 2010
+    - web: translation stuff
+    html/
+        inc/
+            result.inc
+        user/
+            prefs.php
