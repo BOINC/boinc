@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-02-08 01:20-0700\n"
+"PO-Revision-Date: 2010-02-18 16:28-0700\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -449,7 +449,6 @@ msgid "Read preferences from global_prefs_override.xml."
 msgstr "Leggi le preferenze dal file global_prefs_override.xml"
 
 #: clientgui/AdvancedFrame.cpp:563
-#, fuzzy
 msgid "Event Log..."
 msgstr "Log messaggi..."
 
@@ -921,7 +920,6 @@ msgid "BOINC Notification"
 msgstr "Notifiche BOINC"
 
 #: clientgui/BOINCTaskBar.cpp:249
-#, fuzzy
 msgid ""
 "TEST: Fluffy@Home just found out that the Fluffy project has been published "
 "in Nature"
@@ -974,7 +972,6 @@ msgid "Snooze GPU"
 msgstr "Ferma GPU"
 
 #: clientgui/BOINCTaskBar.cpp:624
-#, fuzzy
 msgid "Test Notification"
 msgstr "Notifica Test"
 
@@ -1529,7 +1526,6 @@ msgid "Copy all the messages to the clipboard."
 msgstr "Copia tutti i messaggi negli appunti."
 
 #: clientgui/DlgEventLog.cpp:187
-#, fuzzy
 msgid "Copy Selected"
 msgstr "Copia Selezionato"
 
@@ -1550,9 +1546,8 @@ msgstr ""
 "insieme tenendo premuto il tasto Shift o Ctrl mentre clicchi sui messaggi."
 
 #: clientgui/DlgEventLog.cpp:207
-#, fuzzy
 msgid "Close"
-msgstr "&Chiudi"
+msgstr "Chiudi"
 
 #: clientgui/DlgEventLog.cpp:214 clientgui/DlgEventLog.cpp:217
 msgid "Get help with BOINC"
@@ -1733,7 +1728,6 @@ msgid "CPU work fetch deferral interval"
 msgstr "Intervallo di rinvio"
 
 #: clientgui/DlgItemProperties.cpp:153
-#, fuzzy
 msgid "NVIDIA GPU scheduling priority"
 msgstr "Priorità esecuzione NVIDIA GPU"
 
@@ -1750,9 +1744,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervallo di rinvio"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Priorità della CPU"
+msgstr "Priorità della GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -3531,7 +3524,6 @@ msgid " (non-CPU-intensive)"
 msgstr " (non intensivo per la CPU)"
 
 #: clientgui/ViewWork.cpp:1207
-#, fuzzy
 msgid "Aborted: not started by deadline"
 msgstr "Abortito: non è partito per timeout"
 
@@ -3648,7 +3640,6 @@ msgid "Pie Ctrl"
 msgstr "Controllo"
 
 #: clientgui/mac/MacAccessiblity.cpp:205
-#, fuzzy
 msgid ""
 "for accessibility support, please select advanced from the view menu or type "
 "command shift a"
