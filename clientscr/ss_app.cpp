@@ -41,6 +41,17 @@
 using std::string;
 using std::vector;
 
+// text sizes - larger is smaller (???)
+#define TASK_INTRO_SIZE     1000.
+#define TASK_NONE_SIZE      500.
+#define TASK_NONE_REASON_SIZE    800.
+#define TASK_PROJ_SIZE      1000.
+#define TASK_INFO_SIZE      1200.
+#define PROJ_INTRO_SIZE     800.
+#define PROJ_NAME_SIZE      500.
+#define PROJ_INFO_SIZE      800.
+#define ALERT_SIZE          800.
+
 float white[4] = {1., 1., 1., 1.};
 TEXTURE_DESC logo;
 int width, height;      // window dimensions
@@ -76,7 +87,7 @@ static void draw_logo(float* pos, float alpha) {
 void show_result(RESULT* r, float x, float& y, float alpha) {
     PROGRESS_2D progress;
     char buf[256];
-    txf_render_string(.1, x, y, 0, 1000., white, 0, (char*)r->project->project_name.c_str());
+    txf_render_string(.1, x, y, 0, TASK_PROJ_SIZE, white, 0, (char*)r->project->project_name.c_str());
     y -= .02;
     float prog_pos[] = {x, y, 0};
     float prog_c[] = {.5, .4, .1, alpha/2};
@@ -84,69 +95,73 @@ void show_result(RESULT* r, float x, float& y, float alpha) {
     progress.init(prog_pos, .4, -.01, -0.008, prog_c, prog_ci);
     progress.draw(r->fraction_done);
     sprintf(buf, "%.2f%% ", r->fraction_done*100);
-    txf_render_string(.1, x+.41, y, 0, 1200., white, 0, buf);
+    txf_render_string(.1, x+.41, y, 0, TASK_INFO_SIZE, white, 0, buf);
     y -= .03;
     x += .05;
     sprintf(buf, "Elapsed: %.0f sec  Remaining: %.0f sec", r->elapsed_time, r->estimated_cpu_time_remaining);
-    txf_render_string(.1, x, y, 0, 1200., white, 0, buf);
+    txf_render_string(.1, x, y, 0, TASK_INFO_SIZE, white, 0, buf);
     y -= .03;
     sprintf(buf, "App: %s  Task: %s", (char*)r->app->user_friendly_name.c_str(),
         r->wup->name.c_str()
     );
-    txf_render_string(.1, x, y, 0, 1200., white, 0, buf);
+    txf_render_string(.1, x, y, 0, TASK_INFO_SIZE, white, 0, buf);
     y -= .03;
 }
 
 void show_project(unsigned int index, float alpha) {
     float x=.2, y=.6;
     char buf[1024];
-    txf_render_string(.1, x, y, 0, 1200., white, 0, "This computer is participating in");
+    txf_render_string(.1, x, y, 0, PROJ_INTRO_SIZE, white, 0, "This computer is participating in");
     y -= .07;
     PROJECT *p = cc_state.projects[index];
-    txf_render_string(.1, x, y, 0, 500., white, 0, (char*)p->project_name.c_str());
+    txf_render_string(.1, x, y, 0, PROJ_NAME_SIZE, white, 0, (char*)p->project_name.c_str());
     y -= .07;
-    txf_render_string(.1, x, y, 0, 800., white, 0, (char*)p->master_url.c_str());
+    txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, (char*)p->master_url.c_str());
     y -= .05;
     sprintf(buf, "User: %s", p->user_name.c_str());
-    txf_render_string(.1, x, y, 0, 800., white, 0, buf);
+    txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, buf);
     y -= .05;
     if (p->team_name.size()) {
         sprintf(buf, "Team: %s",  p->team_name.c_str());
-        txf_render_string(.1, x, y, 0, 800., white, 0, buf);
+        txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, buf);
         y -= .05;
     }
     sprintf(buf, "Total credit: %.0f   Average credit: %.0f", p->user_total_credit, p->user_expavg_credit);
-    txf_render_string(.1, x, y, 0, 800., white, 0, buf);
+    txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, buf);
     y -= .05;
     if (p->suspended_via_gui) {
-        txf_render_string(.1, x, y, 0, 800., white, 0, "Suspended");
+        txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, "Suspended");
     }
 }
 
 void show_disconnected() {
     float x=.3, y=.3;
 #ifdef _GRIDREPUBLIC
-    txf_render_string(.1, x, y, 0, 800., white, 0, "GridRepublic is not running.");
+    txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "GridRepublic is not running.");
 #else
-    txf_render_string(.1, x, y, 0, 800., white, 0, "BOINC is not running.");
+    txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "BOINC is not running.");
 #endif
 }
 
 void show_no_projects() {
     float x=.2, y=.3;
 #ifdef _GRIDREPUBLIC
-    txf_render_string(.1, x, y, 0, 800., white, 0, "GridRepublic is not attached to any projects.");
+    txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "GridRepublic is not attached to any projects.");
 #else
-    txf_render_string(.1, x, y, 0, 800., white, 0, "BOINC is not attached to any projects.");
+    txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "BOINC is not attached to any projects.");
 #endif
     y = .25;
 #ifdef _GRIDREPUBLIC
-    txf_render_string(.1, x, y, 0, 800., white, 0, "Attach to projects using the GridRepublic Desktop.");
+    txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "Attach to projects using the GridRepublic Desktop.");
 #else
-    txf_render_string(.1, x, y, 0, 800., white, 0, "Attach to projects using the BOINC Manager.");
+    txf_render_string(.1, x, y, 0, ALERT_SIZE, white, 0, "Attach to projects using the BOINC Manager.");
 #endif
 }
 
+#define MAX_JOBS_DISPLAY   4
+
+// index is where to start looking in job array
+//
 void show_jobs(unsigned int index, double alpha) {
     float x=.1, y=.7;
     unsigned int nfound = 0;
@@ -155,23 +170,23 @@ void show_jobs(unsigned int index, double alpha) {
     
     if (!cc_status.task_suspend_reason) {
         for (i=0; i<cc_state.results.size(); i++) {
-            RESULT* r = cc_state.results[i];
+            int j = (i + index) % cc_state.results.size();
+            RESULT* r = cc_state.results[j];
             if (!r->active_task) continue;
             if (r->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-            if (nfound == index) {
-                txf_render_string(.1, x, y, 0, 1200., white, 0, "Running tasks:");
+            if (!nfound) {
+                txf_render_string(.1, x, y, 0, TASK_INTRO_SIZE, white, 0, "Running tasks:");
                 y -= .05;
             }
-            if (nfound >= index && nfound < index+4) {
-                show_result(r, x, y, alpha);
-                y -= .05;
-            }
+            show_result(r, x, y, alpha);
+            y -= .05;
             nfound++;
+            if (nfound == MAX_JOBS_DISPLAY) break;
         }
     }
     if (!nfound) {
         y = .5;
-        txf_render_string(.1, x, y, 0, 500., white, 0, "No running tasks");
+        txf_render_string(.1, x, y, 0, TASK_NONE_SIZE, white, 0, "No running tasks");
         char *p = 0;
         switch (cc_status.task_suspend_reason) {
         case SUSPEND_REASON_BATTERIES:
@@ -196,10 +211,12 @@ void show_jobs(unsigned int index, double alpha) {
 #endif
         case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
             p = "Computing suspended while exclusive application running"; break;
+        case SUSPEND_REASON_CPU_USAGE:
+            p = "Computing suspended because processor usage is high"; break;
         }
         if (p) {
             y -= .1;
-            txf_render_string(.1, x, y, 0, 800., white, 0, p);
+            txf_render_string(.1, x, y, 0, TASK_NONE_REASON_SIZE, white, 0, p);
         }
     }
 }
@@ -312,10 +329,8 @@ void app_graphics_render(int xs, int ys, double t) {
                 showing_project = false;
                 project_index++;
             } else {
-                job_index += 4;
-                if (job_index >= cc_state.results.size()) {
-                    job_index = 0;
-                }
+                job_index += MAX_JOBS_DISPLAY;
+                job_index %= cc_state.results.size();
                 showing_project = true;
             }
         }

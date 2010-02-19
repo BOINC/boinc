@@ -6646,3 +6646,10 @@ Charlie  11 Feb 2010
     /
         configure.ac
         version.h
+
+David  16 Feb 2010
+	- screensaver: fix bug where sometimes no tasks are shown;
+		change font sizes for max of 2 sizes at a time
+
+	clientscr/
+		ss_app.cpp
