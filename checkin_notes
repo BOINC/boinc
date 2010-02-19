@@ -6653,3 +6653,11 @@ David  16 Feb 2010
 
 	clientscr/
 		ss_app.cpp
+
+Rom    19 Feb 2010
+    - Tag for 6.8.23 release, all platforms
+      boinc_core_release_6_8_23
+
+    /
+        configure.ac
+        version.h
