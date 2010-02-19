@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-02-18 09:52-0700\n"
+"PO-Revision-Date: 2010-02-18 10:01-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -289,7 +289,7 @@ msgstr "Haal de huidige instellingen op van %s"
 
 #: clientgui/AdvancedFrame.cpp:412
 msgid "Attach to &project..."
-msgstr "Project toevoegen"
+msgstr "Project toevoegen..."
 
 #: clientgui/AdvancedFrame.cpp:413
 msgid "Attach to a project to begin processing work"

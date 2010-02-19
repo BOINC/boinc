@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-02-08 01:19-0700\n"
+"PO-Revision-Date: 2010-02-18 16:18-0700\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it\n"
@@ -334,28 +334,26 @@ msgid "Use GPU always"
 msgstr "Elaborazione GPU con&tinua"
 
 #: clientgui/AdvancedFrame.cpp:470
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Elabora senza interruzioni e indipendentemente dalle preferenze"
+msgstr ""
+"Elabora dalla GPU senza interruzioni e indipendentemente dalle preferenze"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Elaborazione secondo le &preferenze"
+msgstr "Elaborazione GPU secondo le p&referenze"
 
 #: clientgui/AdvancedFrame.cpp:475
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Elabora seguendo le specifiche fornite dalle preferenze"
+msgstr ""
+"Elabora il lavoro della GPU seguendo le specifiche fornite dalle preferenze"
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Use GPU never"
 msgstr "Elaborazione GPU sospes&a"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Sospendi l'elaborazione indipendentemente dalle preferenze"
+msgstr "Sospendi l'elaborazione GPU indipendentemente dalle preferenze"
 
 #: clientgui/AdvancedFrame.cpp:504
 msgid "&Network activity always available"
@@ -1646,7 +1644,6 @@ msgid "CPU work fetch deferral interval"
 msgstr "Intervallo di rinvio"
 
 #: clientgui/DlgItemProperties.cpp:153
-#, fuzzy
 msgid "NVIDIA GPU scheduling priority"
 msgstr "Priorità esecuzione NVIDIA GPU"
 
@@ -1663,9 +1660,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervallo di rinvio"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Priorità della CPU"
+msgstr "Priorità della GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:162
 msgid "ATI GPU work fetch priority"
@@ -3622,7 +3618,6 @@ msgid " (non-CPU-intensive)"
 msgstr " (non intensivo per la CPU)"
 
 #: clientgui/ViewWork.cpp:1202
-#, fuzzy
 msgid "Aborted: not started by deadline"
 msgstr "Abortito: non è partito per timeout"
 
@@ -3752,7 +3747,6 @@ msgid "Pie Ctrl"
 msgstr "Controllo"
 
 #: clientgui/mac/MacAccessiblity.cpp:184
-#, fuzzy
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
 "per il supporto accessibilità, per favore seleziona avanzate dal menu "

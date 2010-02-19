@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2009-11-24 23:52+0900\n"
+"PO-Revision-Date: 2010-02-18 01:40+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,15 +11,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-BOINC-UTF8-Marker: ?体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "Identify your account "
-msgstr "アカウントを確認する"
+msgstr "アカウントを特定する"
 
 #: clientgui/AccountInfoPage.cpp:382
 msgid ""
@@ -61,7 +61,7 @@ msgstr ""
 "あなたのアカウント情報を自動的には設定できませんでした。\n"
 "\n"
 "次の 'ログオン情報を探す' のリンクをクリックして、\n"
-"Eメイルアドレスとパスワードの2つのフィールに入れる内容を\n"
+"Eメイルアドレスとパスワードの2つのフィールドに入れる内容を\n"
 "見つけて下さい。"
 
 #: clientgui/AccountInfoPage.cpp:405
@@ -120,9 +120,8 @@ msgstr "アカウント・マネージャのウェブサイト"
 
 # This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトに参加"
 #: clientgui/AccountInfoPage.cpp:530
-#, fuzzy
 msgid "Attach to project"
-msgstr "Attach to project"
+msgstr "プロジェクトに接続"
 
 #: clientgui/AccountInfoPage.cpp:532
 msgid "Update account manager"
@@ -202,7 +201,7 @@ msgstr "この %s ウィンドーを閉じる"
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
-msgstr ""
+msgstr "ウィンドーを閉じる（&C)"
 
 #: clientgui/AdvancedFrame.cpp:319
 #, c-format
@@ -232,7 +231,7 @@ msgstr "タスクを表示"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "転送(&f)\tCtrl+Shift+X"
+msgstr "転送(&F)\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:346
 msgid "Display transfers"
@@ -332,31 +331,27 @@ msgstr "プレファレンス (好みの設定) に関わらず仕事を停止�
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "Use GPU always"
-msgstr ""
+msgstr "常時 GPU を使う"
 
 #: clientgui/AdvancedFrame.cpp:470
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "プレファレンス (好みの設定) に関わらず仕事を許可します"
+msgstr "プレファレンス (好みの設定) に関わらず GPU に仕事をさせることを許可します"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "プレファレンスに従って稼働(&P)"
+msgstr "プレファレンスに従って GPUを使用(&P)"
 
 #: clientgui/AdvancedFrame.cpp:475
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "プレファレンス (好みの設定) に従って仕事を許可します"
+msgstr "プレファレンス (好みの設定) に従って GPU に仕事をさせることを許可します"
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Use GPU never"
-msgstr ""
+msgstr "GPU を使わない"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "プレファレンス (好みの設定) に関わらず仕事を停止します"
+msgstr "プレファレンス (好みの設定) に関わらず GPU の仕事を停止します"
 
 #: clientgui/AdvancedFrame.cpp:504
 msgid "&Network activity always available"
@@ -633,12 +628,12 @@ msgstr "BOINC クライアントと通信中です。お待ちください ...."
 #: clientgui/AsyncRPC.cpp:1210
 #, c-format
 msgid "&Quit %s"
-msgstr "%s を終了する(Q)"
+msgstr "%s を終了する(&Q)"
 
 #: clientgui/AsyncRPC.cpp:1212
 #, c-format
 msgid "E&xit %s"
-msgstr "%s を終了する(X)"
+msgstr "%s を終了する(&X)"
 
 #: clientgui/AsyncRPC.cpp:1229
 msgid "Cancel"
@@ -929,7 +924,7 @@ msgstr "休止"
 
 #: clientgui/BOINCTaskBar.cpp:625
 msgid "Snooze GPU"
-msgstr ""
+msgstr "GPU を休止"
 
 # This dialog title is rendered not correctly if it is translated into Japanese, as "プロジェクト参加に失敗"
 #: clientgui/CompletionErrorPage.cpp:199
@@ -1631,7 +1626,7 @@ msgstr "CPU 向けの仕事を獲得する処理の保留間隔"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "NVIDIA GPU のスケジューリング優先度"
 
 #: clientgui/DlgItemProperties.cpp:154
 msgid "NVIDIA GPU work fetch priority"
@@ -1651,24 +1646,20 @@ msgid "ATI GPU scheduling priority"
 msgstr "CPU 向けスケジューリングの優先度"
 
 #: clientgui/DlgItemProperties.cpp:162
-#, fuzzy
 msgid "ATI GPU work fetch priority"
-msgstr "NVIDIA GPU 向けスケジューリングの優先度"
+msgstr "ATI GPU 向けスケジューリングの優先度"
 
 #: clientgui/DlgItemProperties.cpp:165
-#, fuzzy
 msgid "ATI GPU work fetch deferred for"
-msgstr "NVIDIA GPU 向けの仕事を獲得する処理の保留時間"
+msgstr "ATI GPU 向けの仕事を獲得する処理の保留時間"
 
 #: clientgui/DlgItemProperties.cpp:166
-#, fuzzy
 msgid "ATI GPU work fetch deferral interval"
-msgstr "NVIDIA GPU 向けの仕事を獲得する処理の保留間隔"
+msgstr "ATI GPU 向けの仕事を獲得する処理の保留間隔"
 
 #: clientgui/DlgItemProperties.cpp:168
-#, fuzzy
 msgid "Duration correction factor"
-msgstr "Duration correction factor"
+msgstr "期間補正因子"
 
 #: clientgui/DlgItemProperties.cpp:178
 msgid "Properties of task "
@@ -1709,7 +1700,7 @@ msgstr "CPU時間"
 
 #: clientgui/DlgItemProperties.cpp:198
 #: clientgui/DlgItemProperties.cpp:212
-msgid "Elapsed time"
+msgid "fElapsed time"
 msgstr "経過時間"
 
 #: clientgui/DlgItemProperties.cpp:200
@@ -1734,7 +1725,7 @@ msgstr "ディレクトリ"
 
 #: clientgui/DlgItemProperties.cpp:208
 msgid "Process ID"
-msgstr ""
+msgstr "プロセスID"
 
 #: clientgui/DlgItemProperties.cpp:306
 msgid "New"
@@ -2109,8 +2100,7 @@ msgstr "LIGO プロジェクト"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Laser Interferometer Gravitational-wave Observatory (LIGO) プロジェクトのホームページ"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) プロジェクトのホームページ"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2285,19 +2275,19 @@ msgstr "Click"
 
 #: clientgui/ProjectListCtrl.cpp:506
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "マルチコア CPU サポート済み"
 
 #: clientgui/ProjectListCtrl.cpp:508
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "Nvidia GPU サポート済み"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "ATI GPU サポート済み"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Project Website"
-msgstr ""
+msgstr "プロジェクトのウェブサイト"
 
 # This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトと通信中\n
 # お待ち下さい..."
@@ -2503,9 +2493,7 @@ msgstr "選択したメッセージをクリップボードにコピーします
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"選択したメッセージをクリップボードにコピーします。シフトキーまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にで"
-"きます。 "
+msgstr "選択したメッセージをクリップボードにコピーします。シフトキーまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできます。 "
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -3015,9 +3003,10 @@ msgstr "メッセージ・グリッド"
 msgid "Copying selected messages to Clipboard..."
 msgstr "選択したメッセージをクリップボードにコピーしています..."
 
+# Not sure the context in which used. 
 #: clientgui/ViewMessagesGrid.cpp:396
 msgid "Info"
-msgstr "ヘルプ(&I)"
+msgstr "Info"
 
 #: clientgui/ViewMessagesGrid.cpp:399
 msgid "Warning"
@@ -3080,9 +3069,7 @@ msgstr "プロジェクトをリセット"
 
 #: clientgui/ViewProjects.cpp:195
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 "
-"完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
+msgstr "このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
 
 #: clientgui/ViewProjects.cpp:201
 msgid "Detach"
@@ -3090,9 +3077,7 @@ msgstr "離脱"
 
 #: clientgui/ViewProjects.cpp:202
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"このコンピュータをこのプロジェクトから離脱させます。作業中のタスクは消えてしまいます。 "
-"(完了したタスクを報告するため、離脱する前にプロジェクトの「更新」を行ってください)"
+msgstr "このコンピュータをこのプロジェクトから離脱させます。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、離脱する前にプロジェクトの「更新」を行ってください)"
 
 #: clientgui/ViewProjects.cpp:208
 msgid "Properties"
@@ -3382,9 +3367,7 @@ msgstr "ファイル転送を中止"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 "
-"(credit) は付与されなくなります。"
+msgstr "ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 (credit) は付与されなくなります。"
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3612,7 +3595,7 @@ msgstr "CPU を常時、使用しているわけではありません"
 
 #: clientgui/ViewWork.cpp:1202
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "中止されました： 期限までに開始されませんでした"
 
 #: clientgui/ViewWorkGrid.cpp:184
 msgid "TasksGrid"
@@ -3738,78 +3721,92 @@ msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:184
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
-msgstr ""
+msgstr "アクセシビリティを向上させるには、詳細表示を表示メニューから選ぶか、あるいは コマンドキー＋シフト＋A　を打ってください。"
 
 #: clientgui/mac/MacAccessiblity.cpp:245
 msgid "This panel contains graphs showing user totals for projects"
-msgstr ""
+msgstr "このパネルには、参加者ごとにプロジェクト横断の合計値を表示するグラフがあります"
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:528
 #: clientgui/mac/MacAccessiblity.cpp:636
 msgid "blank"
-msgstr ""
+msgstr "blank"
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:530
 msgid "list of "
-msgstr ""
+msgstr "list of "
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:533
 msgid " is empty"
-msgstr ""
+msgstr " is empty"
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:605
 #, c-format
 msgid "%d of %d; "
-msgstr ""
+msgstr "%d of %d; "
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
-msgstr ""
+msgstr "current sort column "
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " descending order "
-msgstr ""
+msgstr " descending order "
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " ascending order "
-msgstr ""
+msgstr " ascending order "
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:611
 msgid "column "
-msgstr ""
+msgstr "column "
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:618
 msgid "list is empty"
-msgstr ""
+msgstr "list is empty"
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:621
 #: clientgui/mac/MacAccessiblity.cpp:1198
 msgid "selected "
-msgstr ""
+msgstr "selected "
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:626
 #, c-format
 msgid "row %d "
-msgstr ""
+msgstr "row %d "
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:629
 #, c-format
 msgid "of %d; "
-msgstr ""
+msgstr "of %d; "
 
+# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
 msgid "column %d; "
-msgstr ""
+msgstr "column %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1160
 msgid "list of projects or account managers"
-msgstr ""
+msgstr "プロジェクト一覧 または アカウントマネージャ"
 
+# This fragment of English is hard to be translated without knowing the context it is used.
 #: clientgui/mac/MacAccessiblity.cpp:1202
 #, c-format
 msgid "row %d of %d; "
-msgstr ""
+msgstr "row %d of %d; "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
@@ -3822,10 +3819,8 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #, fuzzy
 #~ msgid "&Close Window\tCtrl+W"
 #~ msgstr "ウィンドウを閉じる(&C)\tCTRL+W"
-
 #~ msgid "&News\tCtrl+Shift+N"
 #~ msgstr "ニュース(&N)\tCtrl+Shift+N"
-
 #~ msgid "Display news"
 #~ msgstr "ニュースを表示"
 
@@ -3847,6 +3842,6 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #, fuzzy
 #~ msgid "Account Manager URL"
 #~ msgstr "Account Manager URL"
-
 #~ msgid "Exit the %s"
 #~ msgstr "%s を終了します"
+
