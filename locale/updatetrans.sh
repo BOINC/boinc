@@ -3,7 +3,7 @@
 # Automate the compilation of the various locale PO files by automatically
 # generating them at night.
 #
-projname=boinctrunk
+projname=boincclient610
 projdir=$HOME/pootle/po/$projname
 
 cd $projdir
