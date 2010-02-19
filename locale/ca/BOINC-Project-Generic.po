@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-17 13:11 PST\n"
+"POT-Creation-Date: 2010-02-19 09:49 PST\n"
 "PO-Revision-Date: 2010-02-18 14:42-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -901,7 +901,7 @@ msgstr "Està bé per 1% i el seu equip (si n'hi ha) enviar-li correu?"
 msgid "Should %1 show your computers on its web site?"
 msgstr "1% ha de mostrar els seus equips en el seu lloc web?"
 
-#: ../inc/prefs.inc:933 ../inc/result.inc:180
+#: ../inc/prefs.inc:933
 msgid "Computing"
 msgstr "Computant"
 
@@ -1186,6 +1186,11 @@ msgstr "Nou"
 #: ../inc/result.inc:179
 msgid "Downloading"
 msgstr "Descarregant"
+
+#: ../inc/result.inc:180
+#, fuzzy
+msgid "Processing"
+msgstr "Ús del processador"
 
 #: ../inc/result.inc:181
 msgid "Compute error"
@@ -1756,7 +1761,7 @@ msgstr "Preferències de la comunitat"
 msgid "Preferences for this project"
 msgstr "Preferències per a aquest projecte"
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:228 ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "Preferències de %1"
 
@@ -2917,10 +2922,6 @@ msgstr "L'usuari %1 té bloquejat el lliurament de missatges privats a vostè."
 #: ../user/pm.php:258
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Per desbloquejar, visiti les %1preferències del panell de missatges%2"
-
-#: ../user/prefs.php:33
-msgid "preferences"
-msgstr "preferències"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -4261,6 +4262,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
+
+#~ msgid "preferences"
+#~ msgstr "preferències"
 
 #~ msgid "Last %1"
 #~ msgstr "Últim %1"

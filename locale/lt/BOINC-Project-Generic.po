@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-17 13:11 PST\n"
+"POT-Creation-Date: 2010-02-19 09:49 PST\n"
 "PO-Revision-Date: 2009-12-11 11:06-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
@@ -856,7 +856,7 @@ msgstr ""
 msgid "Should %1 show your computers on its web site?"
 msgstr ""
 
-#: ../inc/prefs.inc:933 ../inc/result.inc:180
+#: ../inc/prefs.inc:933
 msgid "Computing"
 msgstr ""
 
@@ -1138,6 +1138,10 @@ msgstr ""
 
 #: ../inc/result.inc:179
 msgid "Downloading"
+msgstr ""
+
+#: ../inc/result.inc:180
+msgid "Processing"
 msgstr ""
 
 #: ../inc/result.inc:181
@@ -1720,7 +1724,7 @@ msgstr "Bendruomenės nustatymai"
 msgid "Preferences for this project"
 msgstr ""
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:228 ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1 nustatymai"
 
@@ -2863,11 +2867,6 @@ msgstr "Vartotojui %1 uždrausta jums siųsti asmenines žinutes."
 #: ../user/pm.php:258
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Kad atblokuotumėte, apsilankykite %1diskusijų lentos nustatymuose%2"
-
-#: ../user/prefs.php:33
-#, fuzzy
-msgid "preferences"
-msgstr "Nustatymai"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -4200,6 +4199,10 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
+
+#, fuzzy
+#~ msgid "preferences"
+#~ msgstr "Nustatymai"
 
 #~ msgid "Last %1"
 #~ msgstr "Buvę %1"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-17 13:11 PST\n"
+"POT-Creation-Date: 2010-02-19 09:49 PST\n"
 "PO-Revision-Date: 2009-06-12 07:21-0700\n"
 "Last-Translator: komo <je2bwm@jarl.com>\n"
 "Language-Team: \n"
@@ -856,7 +856,7 @@ msgstr ""
 msgid "Should %1 show your computers on its web site?"
 msgstr ""
 
-#: ../inc/prefs.inc:933 ../inc/result.inc:180
+#: ../inc/prefs.inc:933
 msgid "Computing"
 msgstr ""
 
@@ -1138,6 +1138,10 @@ msgstr ""
 
 #: ../inc/result.inc:179
 msgid "Downloading"
+msgstr ""
+
+#: ../inc/result.inc:180
+msgid "Processing"
 msgstr ""
 
 #: ../inc/result.inc:181
@@ -1718,7 +1722,7 @@ msgstr "コミュニティ設定（プレファレンス)"
 msgid "Preferences for this project"
 msgstr ""
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:228 ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1 の好みの設定(プレファレンス)"
 
@@ -2914,11 +2918,6 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
 "ブロックを解除するには、%1掲示板のプレファレンス（好みの設定)%2 で行って下さ"
 "い。"
-
-#: ../user/prefs.php:33
-#, fuzzy
-msgid "preferences"
-msgstr "プレファレンス(好みの設定)"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -4273,6 +4272,10 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
+
+#, fuzzy
+#~ msgid "preferences"
+#~ msgstr "プレファレンス(好みの設定)"
 
 #~ msgid "Last %1"
 #~ msgstr "前の%1人"

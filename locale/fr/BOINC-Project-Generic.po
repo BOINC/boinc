@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-17 13:11 PST\n"
+"POT-Creation-Date: 2010-02-19 09:49 PST\n"
 "PO-Revision-Date: 2010-02-19 01:18-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -758,8 +758,8 @@ msgid ""
 "jobs to fail on your computer%2"
 msgstr ""
 "Lancer les applications de test ? %1Ceci nous aide à développer les "
-"applications, mais peut engendrer des échecs de calculs sur votre "
-"ordinateur%2"
+"applications, mais peut engendrer des échecs de calculs sur votre ordinateur%"
+"2"
 
 #: ../inc/prefs.inc:219
 msgid ""
@@ -886,7 +886,7 @@ msgstr ""
 msgid "Should %1 show your computers on its web site?"
 msgstr "Acceptez-vous que %1 affiche vos ordinateurs sur son site web ?"
 
-#: ../inc/prefs.inc:933 ../inc/result.inc:180
+#: ../inc/prefs.inc:933
 msgid "Computing"
 msgstr "Calculs en cours"
 
@@ -1168,6 +1168,11 @@ msgstr ""
 #: ../inc/result.inc:179
 msgid "Downloading"
 msgstr ""
+
+#: ../inc/result.inc:180
+#, fuzzy
+msgid "Processing"
+msgstr "Utilisation du processeur"
 
 #: ../inc/result.inc:181
 msgid "Compute error"
@@ -1743,7 +1748,7 @@ msgstr "Préférences de communauté"
 msgid "Preferences for this project"
 msgstr "Préférences pour ce projet"
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:228 ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "Préférences de %1"
 
@@ -2919,11 +2924,6 @@ msgstr ""
 #: ../user/pm.php:258
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Pour débloquer, aller sur les %1préférences de messages%2"
-
-#: ../user/prefs.php:33
-#, fuzzy
-msgid "preferences"
-msgstr "Préférences"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -4266,6 +4266,10 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
+
+#, fuzzy
+#~ msgid "preferences"
+#~ msgstr "Préférences"
 
 #~ msgid "Last %1"
 #~ msgstr "Derniers %1"

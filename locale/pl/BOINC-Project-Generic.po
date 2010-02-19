@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-17 13:11 PST\n"
+"POT-Creation-Date: 2010-02-19 09:49 PST\n"
 "PO-Revision-Date: 2009-01-12 03:19-0700\n"
 "Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -854,7 +854,7 @@ msgstr ""
 msgid "Should %1 show your computers on its web site?"
 msgstr ""
 
-#: ../inc/prefs.inc:933 ../inc/result.inc:180
+#: ../inc/prefs.inc:933
 msgid "Computing"
 msgstr ""
 
@@ -1136,6 +1136,10 @@ msgstr ""
 
 #: ../inc/result.inc:179
 msgid "Downloading"
+msgstr ""
+
+#: ../inc/result.inc:180
+msgid "Processing"
 msgstr ""
 
 #: ../inc/result.inc:181
@@ -1715,7 +1719,7 @@ msgstr "Ustawienia społecznościowe"
 msgid "Preferences for this project"
 msgstr ""
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:228 ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "Ustawienia %1"
 
@@ -2858,11 +2862,6 @@ msgstr "Użytkownik %1 nie może teraz wysyłać do Ciebie prywatnych wiadomośc
 #: ../user/pm.php:258
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Aby odblokować, odwiedź stronę 1%ustawienia forum dyskusyjnego%2"
-
-#: ../user/prefs.php:33
-#, fuzzy
-msgid "preferences"
-msgstr "Ustawienia"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -4194,6 +4193,10 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
+
+#, fuzzy
+#~ msgid "preferences"
+#~ msgstr "Ustawienia"
 
 #~ msgid "Last %1"
 #~ msgstr "Poprzednia %1"

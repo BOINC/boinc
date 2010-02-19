@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-17 13:11 PST\n"
+"POT-Creation-Date: 2010-02-19 09:49 PST\n"
 "PO-Revision-Date: 2010-02-16 21:38+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
@@ -888,7 +888,7 @@ msgstr "是否允许 %1 和你所在的计算团队发送电子邮件给你？"
 msgid "Should %1 show your computers on its web site?"
 msgstr "%1 是否可以将你的计算机显示在它的网站上？"
 
-#: ../inc/prefs.inc:933 ../inc/result.inc:180
+#: ../inc/prefs.inc:933
 msgid "Computing"
 msgstr "计算中"
 
@@ -1171,6 +1171,11 @@ msgstr "新建任务"
 #: ../inc/result.inc:179
 msgid "Downloading"
 msgstr "下载中"
+
+#: ../inc/result.inc:180
+#, fuzzy
+msgid "Processing"
+msgstr "处理器使用"
 
 #: ../inc/result.inc:181
 msgid "Compute error"
@@ -1739,7 +1744,7 @@ msgstr "社区参数设置"
 msgid "Preferences for this project"
 msgstr "本项目的参数设置"
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:228 ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1 参数设置"
 
@@ -2839,10 +2844,6 @@ msgstr "用户 %1 已被阻止向您发送私人消息。"
 #: ../user/pm.php:258
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "要解除阻止，请访问 %1留言板的参数设置%2"
-
-#: ../user/prefs.php:33
-msgid "preferences"
-msgstr "参数设置"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -4159,6 +4160,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
+
+#~ msgid "preferences"
+#~ msgstr "参数设置"
 
 #~ msgid "Last %1"
 #~ msgstr "最近 %1"

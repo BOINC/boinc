@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-17 13:11 PST\n"
+"POT-Creation-Date: 2010-02-19 09:49 PST\n"
 "PO-Revision-Date: 2010-02-05 12:20-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
@@ -855,7 +855,7 @@ msgstr ""
 msgid "Should %1 show your computers on its web site?"
 msgstr ""
 
-#: ../inc/prefs.inc:933 ../inc/result.inc:180
+#: ../inc/prefs.inc:933
 msgid "Computing"
 msgstr ""
 
@@ -1137,6 +1137,10 @@ msgstr ""
 
 #: ../inc/result.inc:179
 msgid "Downloading"
+msgstr ""
+
+#: ../inc/result.inc:180
+msgid "Processing"
 msgstr ""
 
 #: ../inc/result.inc:181
@@ -1711,7 +1715,7 @@ msgstr "Настройки сообщества"
 msgid "Preferences for this project"
 msgstr "Настройки для этого проекта"
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:228 ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "Настройки %1"
 
@@ -2883,11 +2887,6 @@ msgstr "Отправка Вам личных сообщений от польз�
 #: ../user/pm.php:258
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Чтобы разблокировать, посетите %1настройки доски сообщений%2"
-
-#: ../user/prefs.php:33
-#, fuzzy
-msgid "preferences"
-msgstr "Настройки"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -4232,6 +4231,10 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
+
+#, fuzzy
+#~ msgid "preferences"
+#~ msgstr "Настройки"
 
 #~ msgid "Last %1"
 #~ msgstr "Предыдущие %1"

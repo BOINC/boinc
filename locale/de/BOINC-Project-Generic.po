@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-17 13:11 PST\n"
+"POT-Creation-Date: 2010-02-19 09:49 PST\n"
 "PO-Revision-Date: 2010-02-18 12:46-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -864,7 +864,7 @@ msgstr ""
 msgid "Should %1 show your computers on its web site?"
 msgstr ""
 
-#: ../inc/prefs.inc:933 ../inc/result.inc:180
+#: ../inc/prefs.inc:933
 msgid "Computing"
 msgstr ""
 
@@ -1146,6 +1146,10 @@ msgstr ""
 
 #: ../inc/result.inc:179
 msgid "Downloading"
+msgstr ""
+
+#: ../inc/result.inc:180
+msgid "Processing"
 msgstr ""
 
 #: ../inc/result.inc:181
@@ -1724,7 +1728,7 @@ msgstr "Communityeinstellungen"
 msgid "Preferences for this project"
 msgstr "Einstellungen für dieses Projekt"
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:228 ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1-Einstellungen"
 
@@ -2933,11 +2937,6 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
 "Die Blockierung können Sie in den %1Einstellungen für das Diskussionsforum %"
 "2 aufheben."
-
-#: ../user/prefs.php:33
-#, fuzzy
-msgid "preferences"
-msgstr "Einstellungen"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -4288,6 +4287,10 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
+
+#, fuzzy
+#~ msgid "preferences"
+#~ msgstr "Einstellungen"
 
 #~ msgid "Last %1"
 #~ msgstr "Vorherige %1"
