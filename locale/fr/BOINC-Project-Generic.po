@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-17 13:11 PST\n"
-"PO-Revision-Date: 2010-02-19 00:59-0700\n"
+"PO-Revision-Date: 2010-02-19 01:18-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -609,35 +609,29 @@ msgid "Switch between tasks every %1(recommended: 60 minutes)%2"
 msgstr "Permuter entre les tâches toutes les %1 (recommandé : 60 minutes)%2"
 
 #: ../inc/prefs.inc:119
-#, fuzzy
 msgid ""
 "Confirm before connecting to Internet? %1(matters only if you have a modem, "
 "ISDN or VPN connection)%2"
 msgstr ""
-"Demander confirmation avant de se connecter à internet ? %1\n"
-"        (importe seulement si vous avez un modem, une connexion RNIS ou VPN)%"
-"2"
+"Demander confirmation avant de se connecter à internet ? %1(importe "
+"seulement si vous avez un modem, une connexion RNIS ou VPN)%2"
 
 #: ../inc/prefs.inc:126
-#, fuzzy
 msgid ""
 "Disconnect when done? %1(matters only if you have a modem, ISDN or VPN "
 "connection)%2"
 msgstr ""
-"Déconnecter lorsque terminé ? %1\n"
-"         (importe seulement si vous avez un modem, une connexion RNIS ou "
-"VPN)%2"
+"Déconnecter lorsque terminé ? %1(importe seulement si vous avez un modem, "
+"une connexion RNIS ou VPN)%2"
 
 #: ../inc/prefs.inc:133
-#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1(Leave blank or 0 if "
 "always connected.%2 BOINC will try to maintain at least this much work.)%3"
 msgstr ""
-"L'ordinateur est connecté à internet environ tous les %1\n"
-"        (laisser blanc ou à 0 si connecté en permanence.<br>\n"
-"        BOINC va essayer de maintenir les calculs effectués pendant ce "
-"temps.)%2"
+"L'ordinateur est connecté à internet environ tous les %1 (laisser blanc ou à "
+"0 si connecté en permanence.%2BOINC va essayer de maintenir les calculs "
+"effectués pendant ce temps.)%3"
 
 #: ../inc/prefs.inc:140
 #, fuzzy
@@ -677,7 +671,7 @@ msgstr "pourcents du temps CPU"
 
 #: ../inc/prefs.inc:162
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Sauvegarde sur disque au plus tous les"
 
 #: ../inc/prefs.inc:163
 msgid "Disk and memory usage"
@@ -729,31 +723,26 @@ msgid "Use network only between the hours of"
 msgstr "Utiliser le réseau uniquement pendant les horaires de"
 
 #: ../inc/prefs.inc:178
-#, fuzzy
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
 "reduces the security of BOINC.%3"
 msgstr ""
-"Passer l'étape de vérification du fichier image ? %1\n"
-"        Cocher ceci UNIQUEMENT si votre fournisseur internet modifie les "
-"fichiers images (c'est le cas d'UMTS par exemple).<br />\n"
-"        Passer cette étape réduit la sécurité de BOINC.%2"
+"Passer l'étape de vérification du fichier image ? %1 Cocher ceci UNIQUEMENT "
+"si votre fournisseur internet modifie les fichiers images (c'est le cas "
+"d'UMTS par exemple).%2 Passer cette étape réduit la sécurité de BOINC.%3"
 
 #: ../inc/prefs.inc:186
-#, fuzzy
 msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr "Utiliser le GPU ATI si présent %1 (applicable aux clients 6.10+)%2"
+msgstr "Utiliser le GPU ATI si présent %1(applicable aux clients 6.10+)%2"
 
 #: ../inc/prefs.inc:193
-#, fuzzy
 msgid "Use NVIDIA GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr "Utiliser le GPU NVIDIA si présent %1 (applicable aux clients 6.10+)%2"
+msgstr "Utiliser le GPU NVIDIA si présent %1(applicable aux clients 6.10+)%2"
 
 #: ../inc/prefs.inc:200
-#, fuzzy
 msgid "Use CPU %1(enforced by 6.10+ clients)%2"
-msgstr "Utiliser le CPU % 1 (applicable aux clients 6.10+)%2"
+msgstr "Utiliser le CPU %1(applicable aux clients 6.10+)%2"
 
 #: ../inc/prefs.inc:208
 msgid "Kbytes/sec"
@@ -764,14 +753,13 @@ msgid "KB/s"
 msgstr "KB/s"
 
 #: ../inc/prefs.inc:212
-#, fuzzy
 msgid ""
 "Run test applications? %1This helps us develop applications, but may cause "
 "jobs to fail on your computer%2"
 msgstr ""
-"Lancer les applications de test ? %1\n"
-"        Ceci nous aide à développer les applications, mais peut engendrer "
-"des échec de calculs sur votre ordinateur%2"
+"Lancer les applications de test ? %1Ceci nous aide à développer les "
+"applications, mais peut engendrer des échecs de calculs sur votre "
+"ordinateur%2"
 
 #: ../inc/prefs.inc:219
 msgid ""
@@ -878,60 +866,63 @@ msgid ""
 "Resource share %1If you participate in multiple BOINC projects, this is the "
 "proportion of your resources used by %2%3"
 msgstr ""
+"Partage de ressources %1Si vous participez à plusieurs projets BOINC, c'est "
+"la proportion de vos ressources utilisée par %2%3"
 
 #: ../inc/prefs.inc:911
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
+"Les e-mails seront envoyés de %1. Assurez-vous que votre filtre anti-spam "
+"accepte cette adresse."
 
 #: ../inc/prefs.inc:914 ../inc/prefs.inc:1271
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr ""
+"Acceptez-vous que %1 et votre équipe (si vous en avez une) puisse vous "
+"envoyer des e-mails ?"
 
 #: ../inc/prefs.inc:917 ../inc/prefs.inc:1274
 msgid "Should %1 show your computers on its web site?"
-msgstr ""
+msgstr "Acceptez-vous que %1 affiche vos ordinateurs sur son site web ?"
 
 #: ../inc/prefs.inc:933 ../inc/result.inc:180
 msgid "Computing"
-msgstr ""
+msgstr "Calculs en cours"
 
 #: ../inc/prefs.inc:945
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Préférences séparées pour %1"
 
 #: ../inc/prefs.inc:955 ../inc/prefs.inc:1033
-#, fuzzy
 msgid "Edit preferences"
-msgstr "Préférences de %1"
+msgstr "Modifier les préférences"
 
 #: ../inc/prefs.inc:959
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Ajouter des préférences séparées pour %1"
 
 #: ../inc/prefs.inc:968 ../inc/prefs.inc:1015
 msgid "(Switch View)"
-msgstr ""
+msgstr "(Basculer de vue)"
 
 #: ../inc/prefs.inc:970 ../inc/prefs.inc:1018
-#, fuzzy
 msgid "Combined preferences"
-msgstr "Préférences de calcul"
+msgstr "Préférences combinées"
 
 #: ../inc/prefs.inc:975
 msgid "Project specific settings"
-msgstr ""
+msgstr "Paramètres spécifiques au projet"
 
 #: ../inc/prefs.inc:984 ../inc/prefs.inc:1027
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Préférences principales (par défaut)"
 
 #: ../inc/prefs.inc:994 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
-#, fuzzy
 msgid "Edit %1 preferences"
-msgstr "Préférences de %1"
+msgstr "Modifier les préférences de %1"
 
 #: ../inc/prefs.inc:1008
 msgid ""
