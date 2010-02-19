@@ -211,8 +211,6 @@ void show_jobs(unsigned int index, double alpha) {
 #endif
         case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
             p = "Computing suspended while exclusive application running"; break;
-        case SUSPEND_REASON_CPU_USAGE:
-            p = "Computing suspended because processor usage is high"; break;
         }
         if (p) {
             y -= .1;
