@@ -147,17 +147,6 @@ function get_logged_in_user_ops() {
 
 ////////// functions for access control of admin web pages /////////////
 
-// deny access
-
-function auth_ops_deny() {
-    error_page("To allow access to admin pages,
-        you must define a function auth_ops() in html/project/project.inc
-        that specifies your access control policy.
-         <a href=http://boinc.berkeley.edu/trac/wiki/HtmlOps>See how here</a>
-         .
-    ");
-}
-
 // allow access only if logged in as user in a given set
 //
 function auth_ops_userid($admin_user_ids) {
@@ -199,11 +188,19 @@ function auth_ops_privilege() {
     error_page("Access denied");
 }
 
-// if project hasn't specified a policy in project.inc, the default is no access
+// if project hasn't specified a policy in project.inc,
+// and no .htaccess, don't allow access
 //
 if (!function_exists('auth_ops')) {
     function auth_ops() {
-        auth_ops_deny();
+        if (!file_exists(".htaccess")) {
+            error_page("
+                You must protect the admin interface
+                with either a .htaccess file or an auto_ops() function.
+                <p>
+                <a href=http://boinc.berkeley.edu/trac/wiki/HtmlOps>See how here</a>"
+            );
+        }
     }
 }
 

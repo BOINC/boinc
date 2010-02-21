@@ -1337,3 +1337,18 @@ David  19 Feb 2010
             result.inc
         user/
             prefs.php
+
+David  20 Feb 2010
+    - admin web: a project must provide an .htaccess file
+        or an auth_ops() function (not necessarily both).
+        New projects are given an .htaccess file with no .htpasswd,
+        so they must either create a .htpasswd file
+        or define auth_ops() in order to use admin web pages.
+
+    tools/
+        make_projects
+    html/
+        project/
+            sample_project.inc
+        inc/
+            util_ops.inc

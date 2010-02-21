@@ -58,7 +58,7 @@ function project_footer($show_return, $show_date, $prefix) {
 // Authorize access to administrative pages.
 // You can check for login, IP address, or whatever you want.
 //
-function auth_ops() {
+function auth_ops_example() {
     // if running from cmdline, skip checks
     //
     if (!$_SERVER['REMOTE_ADDR']) {
@@ -79,9 +79,6 @@ function auth_ops() {
         auth_ops_privilege();
         return;
     }
-
-    // default: deny access
-    auth_ops_deny();
 }
 
 function show_profile_heading1() {

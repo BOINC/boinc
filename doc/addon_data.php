@@ -14,6 +14,16 @@ array(
 
 $win = array(
 array(
+    'http://boincdotnet.tnmshouse.com/',
+    'Boinc.NET',
+    'beta',
+    'A GUI for managing groups of BOINC clients',
+    'http://boincdotnet.tnmshouse.com/',
+    'Windows, .NET 3.5 required',
+    'A GUI for managing groups of BOINC clients',
+    '1266617628'
+),
+array(
     'http://www.efmer.eu/boinc/boinc_tasks/download.html',
     'BoincTasks',
     '0.20',

@@ -375,15 +375,13 @@ if options.test_app:
 -  The project is configured with a test application.
    To install this application (recommended) run:
         cd %(proot)s
-        bin/xadd
         bin/update_versions
 '''%locals()
     
 html_user_url = options.html_user_url
 html_ops_url = options.html_ops_url
 
-print >>open(readme_filename,'w'), '''
-Steps to complete installation:
+print >>open(readme_filename,'w'), '''Steps to complete installation:
 
 -  Change Apache configuration (as root):
 
@@ -397,14 +395,22 @@ Steps to complete installation:
 
 -  Add to crontab (as %(USER)s)
 
+    crontab -e
+
+    and add the line:
+
     0,5,10,15,20,25,30,35,40,45,50,55 * * * * %(proot)s/bin/start --cron
 
-   (If cron cannot run "start", try using a helper script to set PATH and
-   PYTHONPATH)
-%(test_app_msg)s
-
 -  In the project home directory (%(proot)s) run
+
     bin/xadd
+%(test_app_msg)s
+-  Add a .htpasswd file in the project's html/ops directory:
+    (You'll need this to access the project's Administrative page)
+
+    htpasswd -c .htpasswd username
+
+----------------------------
 
 To start, show status, and stop the project, run:
     bin/start
