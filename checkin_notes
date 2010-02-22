@@ -649,3 +649,11 @@ David  18 Feb 2010
 		app.cpp
 		cs_prefs.cpp
 		log_flags.cpp
+
+Rom    2 Feb 2010
+    - Tag for 6.10.34 release, all platforms
+      boinc_core_release_6_10_34
+
+    /
+        configure.ac
+        version.h
