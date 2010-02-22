@@ -431,6 +431,13 @@ DC_destroyWU(DC_Workunit *wu)
 }
 
 
+int DC_addWUInputAdvanced(DC_Workunit *wu, const char *logicalFileName, const char *URL,
+        DC_FileMode fileMode, const char *physicalFileName, const char *physicalFileHashString)
+{
+        DC_log(LOG_ERR,"Function \"%s\" is not implemented in this backend.",__func__);
+        return DC_ERR_INTERNAL;
+}
+
 /* Sets an input file for the work unit. */
 int
 DC_addWUInput(DC_Workunit *wu,
