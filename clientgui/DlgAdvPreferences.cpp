@@ -231,7 +231,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	buffer.Printf(wxT("%.2f"),prefs.idle_time_to_run);
 	*m_txtProcIdleFor << buffer;
 
-	buffer.Printf(wxT("%.0f"), prefs.suspend_cpu_usage*100);
+	buffer.Printf(wxT("%.0f"), prefs.suspend_cpu_usage);
 	*m_txtMaxLoad << buffer;
 
 	// switch every X minutes
@@ -338,7 +338,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	}
 
     m_txtMaxLoad->GetValue().ToDouble(&td);
-    prefs.suspend_cpu_usage=td/100.;
+    prefs.suspend_cpu_usage=td;
     mask.suspend_cpu_usage=true;
 
 	//
