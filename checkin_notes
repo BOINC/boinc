@@ -627,3 +627,9 @@ David  16 Feb 2010
 
 	clientscr/
 		ss_app.cpp
+
+David  18 Feb 2010
+    - client: don't accumulate LTD for projects w/ suspended jobs
+
+    client/
+        work_fetch.cpp

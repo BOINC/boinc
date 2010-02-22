@@ -166,6 +166,7 @@ bool RSC_PROJECT_WORK_FETCH::overworked() {
 bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
     if (p->non_cpu_intensive) return false;
     if (p->suspended_via_gui) return false;
+    if (p->some_result_suspended()) return false;
     if (has_runnable_jobs) return true;
         // must precede the done_request_more_work check
     if (p->dont_request_more_work) return false;
