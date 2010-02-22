@@ -128,7 +128,7 @@ int CLIENT_STATE::check_suspend_processing() {
         if (exclusive_app_running) {
             return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
         }
-        if (global_prefs.suspend_cpu_usage && non_boinc_cpu_usage > global_prefs.suspend_cpu_usage) {
+        if (global_prefs.suspend_cpu_usage && non_boinc_cpu_usage*100 > global_prefs.suspend_cpu_usage) {
             return SUSPEND_REASON_CPU_USAGE;
         }
     }
@@ -437,6 +437,12 @@ void CLIENT_STATE::read_global_prefs() {
     }
     if (!global_prefs.run_gpu_if_user_active) {
         msg_printf(NULL, MSG_INFO, "   don't use GPU while active");
+    }
+    if (global_prefs.suspend_cpu_usage) {
+        msg_printf(NULL, MSG_INFO,
+            "   suspend work if non-BOINC CPU load exceeds %.0f %%",
+            global_prefs.suspend_cpu_usage
+        );
     }
     if (global_prefs.max_bytes_sec_down) {
         msg_printf(NULL, MSG_INFO,
