@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2010-02-18 16:20-0700\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -1085,6 +1085,28 @@ msgstr "BOINC è basato sull'università di Berkeley in California"
 #~ "Or, if you run several projects, try an %saccount manager%s such as %"
 #~ "sGridRepublic%s or %sBAM!%s. "
 
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# #########################################
+# Language: Italian (International)
+# FileID  : $Id$
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# The name of this language in this language<br />
+# <br />
+# The name of this language in this language
+# The name of this language in an international language (English)<br />
+# The name of this language in an international language (English)
+# poll-related stuff
+# #######################################
+# ######################################<br />
+# poll-related stuff<br />
+# ######################################
+# help.php
+# #############################################
+# ############################################<br />
+# help.php<br />
+# index.php
+# index.php<br />
 #~ msgid "HOME_P3"
 #~ msgstr ""
 #~ "If you have any questions, or need help getting started, you can %stalk "
