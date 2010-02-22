@@ -21,7 +21,7 @@ noinst_HEADERS = \
 		local_wu.h
 
 libdcapi_local_la_SOURCES = \
-		local_master.C \
+		local_master.c \
 		local_events.c \
 		local_result.c \
 		local_utils.c \

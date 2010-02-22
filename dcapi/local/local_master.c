@@ -502,8 +502,15 @@ static int copy_file(const char *src, const char *dst)
 	return 0;
 }
 
+int DC_addWUInputAdvanced(DC_Workunit *wu, const char *logicalFileName, const char *URL,
+        DC_FileMode fileMode, const char *physicalFileName, const char *physicalFileHashString)
+{
+	DC_log(LOG_ERR,"Function \"%s\" is not implemented in this backend.",__func__);
+	return DC_ERR_INTERNAL;
+}
+	
 int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
-	DC_FileMode fileMode, const char *hashString = NULL)
+	DC_FileMode fileMode)
 {
 	DC_PhysicalFile *file;
 	char *workpath;

@@ -237,20 +237,25 @@ static FILE *open_workdir_file(const DC_Workunit *wu, const char *label,
 
 /* Returns the unique per-wu file name in the BOINC download hierarchy,
  * without path components */
-static char *get_input_download_name(DC_Workunit *wu, const char *label)
+static char *get_input_download_name(DC_Workunit *wu, const char *label, const char *physicalfilename)
 {
 	char uuid_str[37];
 
-	uuid_unparse_lower(wu->uuid, uuid_str);
-	return g_strdup_printf("%s_%s", label, uuid_str);
+	if (physicalfilename)
+		return g_strdup(physicalfilename);
+	else
+	{
+		uuid_unparse_lower(wu->uuid, uuid_str);
+		return g_strdup_printf("%s_%s", label, uuid_str);
+	}
 }
 
 /* Returns the full path of the input file in the BOINC download hierarchy */
-static char *get_input_download_path(DC_Workunit *wu, const char *label)
+static char *get_input_download_path(DC_Workunit *wu, const char *label, const char *physicalfilename)
 {
 	char *filename, *path;
 
-	filename = get_input_download_name(wu, label);
+	filename = get_input_download_name(wu, label, physicalfilename);
 	path = _DC_hierPath(filename, FALSE);
 	g_free(filename);
 	return path;
@@ -671,7 +676,13 @@ static int check_logical_name(DC_Workunit *wu, const char *logicalFileName)
 }
 
 int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
-	DC_FileMode fileMode, const char *hashString = NULL)
+        DC_FileMode fileMode) 
+{
+	return DC_addWUInputAdvanced(wu, logicalFileName, URL, fileMode, NULL, NULL);
+}
+
+int DC_addWUInputAdvanced(DC_Workunit *wu, const char *logicalFileName, const char *URL,
+	DC_FileMode fileMode, const char *physicalFileName, const char *physicalFileHashString)
 {
 	DC_PhysicalFile *file;
 	char *workpath;
@@ -695,8 +706,16 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	g_free(workpath);
 	if (!file)
 		return DC_ERR_INTERNAL;
-	if (hashString) 
-		file->hash = strdup(hashString);
+	if (physicalFileName)
+	{
+		file->physicalfilename = strdup(physicalFileName);
+		DC_log(LOG_DEBUG, "Physicalfilename received: %s",file->physicalfilename);
+	}
+	if (physicalFileHashString)
+	{
+		file->physicalfilehash = strdup(physicalFileHashString);
+		DC_log(LOG_DEBUG, "Hash received: %s",file->physicalfilehash);
+	}
 
 	switch (fileMode)
 	{
@@ -792,19 +811,26 @@ static int install_input_files(DC_Workunit *wu)
 		DC_PhysicalFile *file = (DC_PhysicalFile *)l->data;
 
 		/* This also creates the directory if needed */
-		dest = get_input_download_path(wu, file->label);
+		dest = get_input_download_path(wu, file->label, file->physicalfilename);
 		/* By creating the hard link ourselves we prevent BOINC from
 		 * copying the file later */
 		ret = link(file->path, dest);
-		if (ret)
+		if (ret) 
 		{
-			DC_log(LOG_ERR, "Failed to install file %s to the "
-				"Boinc download directory at %s: %s",
-				file->path, dest, strerror(errno));
-			g_free(dest);
-			return DC_ERR_INTERNAL;
+			if (errno == EEXIST && file->physicalfilename)
+			{
+				DC_log(LOG_NOTICE, "File %s already exists under Boinc at %s. Skipping...",file->physicalfilename,dest);
+			}
+			else
+			{
+				DC_log(LOG_ERR, "Failed to install file %s to the "
+					"Boinc download directory at %s: %s",
+					file->path, dest, strerror(errno));
+				g_free(dest);
+				return DC_ERR_INTERNAL;
+			}
 		}
-		if (file->hash)
+		if (file->physicalfilehash)
 		{
 			const char *hashFileExt=".md5";
 			GString *hashFile;
@@ -816,15 +842,25 @@ static int install_input_files(DC_Workunit *wu)
 			f = fopen(hashFile->str, "w");
 			if (!f)
 			{
-				DC_log(LOG_ERR, "Failed to create hash file %s: %s", hashFile->str,strerror(errno));
-				g_string_free(hashFile, TRUE);
-				return DC_ERR_INTERNAL;
+				if (errno == EEXIST && file->physicalfilename)
+                        	{
+                                	DC_log(LOG_NOTICE, "File %s already exists under Boinc. Skipping...",hashFile->str);
+                        	}
+	                        else
+        	                {
+					DC_log(LOG_ERR, "Failed to create hash file %s: %s", hashFile->str,strerror(errno));
+					g_string_free(hashFile, TRUE);
+					g_free(dest);
+					return DC_ERR_INTERNAL;
+				}
 			}
-			fprintf(f, "%s", file->hash);
-	        fclose(f);
-
-			DC_log(LOG_DEBUG, "MD5 hash file \"%s\" has been created with content \"%s\".", hashFile->str, file->hash);
-
+			else
+			{
+				fprintf(f, "%s", file->physicalfilehash);
+			        fclose(f);
+				DC_log(LOG_DEBUG, "Hash file \"%s\" has been created with content \"%s\".", hashFile->str, file->physicalfilehash);
+			}
+			
 			g_string_free(hashFile, TRUE);
 		}
 		g_free(dest);
@@ -836,7 +872,7 @@ static int install_input_files(DC_Workunit *wu)
 		char *src;
 
 		src = _DC_workDirPath(wu, wu->ckpt_name, FILE_CKPT);
-		dest = get_input_download_path(wu, wu->ckpt_name);
+		dest = get_input_download_path(wu, wu->ckpt_name, NULL);
 		ret = link(src, dest);
 		if (ret)
 		{
@@ -1192,10 +1228,10 @@ int DC_submitWU(DC_Workunit *wu)
 			l = l->next, i++)
 	{
 		DC_PhysicalFile *file = (DC_PhysicalFile *)l->data;
-		infiles[i] = get_input_download_name(wu, file->label);
+		infiles[i] = get_input_download_name(wu, file->label, file->physicalfilename);
 	}
 	if (wu->ckpt_name)
-		infiles[i++] = get_input_download_name(wu, wu->ckpt_name);
+		infiles[i++] = get_input_download_name(wu, wu->ckpt_name, NULL);
 	/* Terminator so we can use g_strfreev() later */
 	infiles[i] = NULL;
 

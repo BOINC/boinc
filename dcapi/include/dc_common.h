@@ -86,7 +86,8 @@ struct _DC_PhysicalFile
 	char			*label;
 	char			*path;
 	DC_FileMode		mode;
-	char			*hash;
+	char			*physicalfilename;
+	char			*physicalfilehash;
 };
 
 

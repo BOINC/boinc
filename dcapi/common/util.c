@@ -153,7 +153,8 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 
 	file->label = strdup(label);
 	file->path = strdup(path);
-	file->hash = NULL;
+	file->physicalfilename = NULL;
+	file->physicalfilehash = NULL;
 
 	if (!file->label || !file->path)
 	{
@@ -172,8 +173,10 @@ void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
 
 	free(file->label);
 	free(file->path);
-	if (file->hash)
-		free(file->hash);
+	if (file->physicalfilename)
+		free(file->physicalfilename);
+	if (file->physicalfilehash)
+		free(file->physicalfilehash);
 	free(file);
 
 }
