@@ -37,28 +37,6 @@ HINSTANCE g_hClientLibraryDll;
 #endif
 
 
-// Newer processor features than what is currently defined in
-//   Visual Studio 2003
-#ifndef PF_SSE_DAZ_MODE_AVAILABLE
-#define PF_SSE_DAZ_MODE_AVAILABLE               11   
-#endif
-#ifndef PF_NX_ENABLED
-#define PF_NX_ENABLED                           12   
-#endif
-#ifndef PF_SSE3_INSTRUCTIONS_AVAILABLE
-#define PF_SSE3_INSTRUCTIONS_AVAILABLE          13   
-#endif
-#ifndef PF_COMPARE_EXCHANGE128
-#define PF_COMPARE_EXCHANGE128                  14   
-#endif
-#ifndef PF_COMPARE64_EXCHANGE128
-#define PF_COMPARE64_EXCHANGE128                15   
-#endif
-#ifndef PF_CHANNELS_ENABLED
-#define PF_CHANNELS_ENABLED                     16
-#endif
-
-
 // Newer product types than what is currently defined in
 //   Visual Studio 2005
 #ifndef PRODUCT_ULTIMATE
