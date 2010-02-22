@@ -1548,5 +1548,7 @@ msgstr ""
 #~ msgid "Yes, delete"
 #~ msgstr "Sì"
 
+# ########################################
+# "Your account" page (home.php)
 #~ msgid "No such message."
 #~ msgstr "Nessun messaggio."
