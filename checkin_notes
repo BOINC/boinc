@@ -595,3 +595,14 @@ Rom    9 Feb 2010
     
     client/
         hostinfo_win.cpp
+
+David  11 Feb 2009
+    - client: if a project is anonymous platform and it has no
+        app versions that use a resource,
+        don't request work from it for that resource.
+
+    client/
+        work_fetch.cpp,h
+        client_state.cpp
+    html/inc/
+        prefs.inc

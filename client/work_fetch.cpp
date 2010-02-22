@@ -290,6 +290,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
         if (!p->pwf.can_fetch_work) continue;
         if (!project_state(p).may_have_work) continue;
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
+        if (rpwf.anon_skip) continue;
         switch (criterion) {
         case FETCH_IF_MINOR_SHORTFALL:
             if (rpwf.overworked()) continue;
@@ -365,6 +366,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
 void RSC_WORK_FETCH::set_request(PROJECT* p, bool allow_overworked) {
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     if (!w.may_have_work) return;
+    if (w.anon_skip) return;
     if (!allow_overworked && w.overworked()) return;
     if (shortfall) {
         if (wacky_dcf(p)) {
@@ -1110,6 +1112,31 @@ void WORK_FETCH::init() {
 
     if (config.zero_debts) {
         zero_debts();
+    }
+
+    // see what resources anon platform projects can use
+    //
+    unsigned int i, j;
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (!p->anonymous_platform) continue;
+        p->cpu_pwf.anon_skip = true;
+        p->cuda_pwf.anon_skip = true;
+        p->ati_pwf.anon_skip = true;
+        for (j=0; j<gstate.app_versions.size(); j++) {
+            APP_VERSION* avp = gstate.app_versions[j];
+            if (avp->project != p) continue;
+            if (avp->ncudas) {
+                p->cuda_pwf.anon_skip = false;
+                break;
+            } else if (avp->natis) {
+                p->ati_pwf.anon_skip = false;
+                break;
+            } else {
+                p->cpu_pwf.anon_skip = false;
+                break;
+            }
+        }
     }
 }
 

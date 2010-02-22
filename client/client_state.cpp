@@ -283,7 +283,9 @@ int CLIENT_STATE::init() {
     //
     check_anonymous();
 
-    cpu_benchmarks_set_defaults();  // for first time, make sure p_fpops nonzero
+    // first time, set p_fpops nonzero to avoid div by zero
+    //
+    cpu_benchmarks_set_defaults();
 
     // Parse the client state file,
     // ignoring any <project> tags (and associated stuff)
@@ -297,7 +299,7 @@ int CLIENT_STATE::init() {
     parse_account_files_venue();
 
 
-    // fill in avp->flops for anonymous project
+    // fill in avp->flops for anonymous platform projects
     //
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
@@ -1585,7 +1587,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
 // - Reset (see above)
 // - delete all file infos
 // - delete account file
-// - delete account directory
+// - delete project directory
 //
 int CLIENT_STATE::detach_project(PROJECT* project) {
     vector<PROJECT*>::iterator project_iter;
