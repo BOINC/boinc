@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-18 12:46-0700\n"
+"PO-Revision-Date: 2010-02-22 12:59-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -211,7 +211,7 @@ msgstr "Durchschnittliches Guthaben"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr ""
+msgstr "Projektübergreifendes Guthaben"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
@@ -446,36 +446,36 @@ msgstr "Führe PC %1 mit %2 zusammen."
 
 #: ../inc/host.inc:563
 msgid "Couldn't update credit of new computer"
-msgstr ""
+msgstr "Konnte Guthaben für neuen Computer nicht aktualisieren."
 
 #: ../inc/host.inc:567
 msgid "Couldn't update results"
-msgstr ""
+msgstr "Aufgaben konnten nicht aktualisiert werden"
 
 #: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "Konnte den alten Computer nicht zur Ruhe setzen"
 
 #: ../inc/host.inc:574
 msgid "Retired old computer %1"
-msgstr ""
-
-#: ../inc/host.inc:597 ../inc/host.inc:600
-msgid "Show:"
-msgstr ""
+msgstr "Setze Computer %1 zur Ruhe"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 #, fuzzy
+msgid "Show:"
+msgstr "Zeige:"
+
+#: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "All computers"
-msgstr "Die besten Computer"
+msgstr "Alle Computer"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
-msgstr ""
+msgstr "Nur aktive Computer der letzten 30 Tage"
 
 #: ../inc/host.inc:609 ../inc/result.inc:384
 msgid "Computer ID"
-msgstr ""
+msgstr "Computer ID"
 
 #: ../inc/host.inc:622
 msgid "BOINC<br>version"
