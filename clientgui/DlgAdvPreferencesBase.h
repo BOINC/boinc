@@ -84,6 +84,7 @@
 #define ID_TXTPROCUSEPROCESSORS 20054
 #define ID_TXTPROCWEDNESDAY 20055
 #define ID_CHKGPUPROCINUSE 20056
+#define ID_TXTMAXLOAD 20057
 
 /**
  * Class CDlgAdvPreferencesBase
@@ -102,9 +103,8 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxCheckBox* m_chkProcOnBatteries;
 		wxCheckBox* m_chkProcInUse;
 		wxCheckBox* m_chkGPUProcInUse;
-		wxStaticText* m_staticText26;
 		wxTextCtrl* m_txtProcIdleFor;
-		wxStaticText* m_staticText27;
+		wxTextCtrl* m_txtMaxLoad;
 		wxStaticText* m_staticText28;
 		wxStaticText* m_staticText351;
 		wxTextCtrl* m_txtProcEveryDayStart;

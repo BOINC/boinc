@@ -108,16 +108,55 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	fgSizer5->SetFlexibleDirection( wxHORIZONTAL );
 	fgSizer5->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-	m_staticText26 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("Only after computer has been idle for"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer5->Add( m_staticText26, 0, wxALL, 5 );
-
-	m_txtProcIdleFor = new wxTextCtrl( m_panelProcessor, ID_TXTPROCIDLEFOR, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-	m_txtProcIdleFor->SetToolTip( _("do work only after you haven't used the computer for this number of minutes") );
-
+    // min idle time
+	fgSizer5->Add(
+        new wxStaticText(
+            m_panelProcessor, ID_DEFAULT,
+            _("Only after computer has been idle for"),
+            wxDefaultPosition, wxDefaultSize, 0
+        ),
+        0, wxALL, 5
+    );
+	m_txtProcIdleFor = new wxTextCtrl(
+        m_panelProcessor, ID_TXTPROCIDLEFOR, wxT(""), wxDefaultPosition,
+        wxSize( 50,-1 ), wxTE_RIGHT
+    );
+	m_txtProcIdleFor->SetToolTip(
+        _("do work only after you haven't used the computer for this number of minutes")
+    );
 	fgSizer5->Add( m_txtProcIdleFor, 0, wxALL, 1 );
+	fgSizer5->Add(
+        new wxStaticText(
+            m_panelProcessor, ID_DEFAULT, _("minutes"),
+            wxDefaultPosition, wxDefaultSize, 0
+        ),
+        0, wxALL, 5
+    );
 
-	m_staticText27 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer5->Add( m_staticText27, 0, wxALL, 5 );
+    // max CPU load
+	fgSizer5->Add(
+        new wxStaticText(
+            m_panelProcessor, ID_DEFAULT,
+            _("If CPU load exceeds"),
+            wxDefaultPosition, wxDefaultSize, 0
+        ),
+        0, wxALL, 5
+    );
+	m_txtMaxLoad = new wxTextCtrl(
+        m_panelProcessor, ID_TXTMAXLOAD, wxT(""), wxDefaultPosition,
+        wxSize( 50,-1 ), wxTE_RIGHT
+    );
+	m_txtProcIdleFor->SetToolTip(
+        _("suspend work if processor usage exceeds this level")
+    );
+	fgSizer5->Add( m_txtMaxLoad, 0, wxALL, 1 );
+	fgSizer5->Add(
+        new wxStaticText(
+            m_panelProcessor, ID_DEFAULT, _("%% (0 means no restriction)"),
+            wxDefaultPosition, wxDefaultSize, 0
+        ),
+        0, wxALL, 5
+    );
 
 	m_staticText28 = new wxStaticText( m_panelProcessor, ID_DEFAULT, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer5->Add( m_staticText28, 0, wxALL, 5 );

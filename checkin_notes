@@ -614,3 +614,9 @@ David  14 Feb 2010
 
     lib/
         procinfo*.cpp
+
+David  16 Feb 2010
+    - manager: first whack at "suspend if CPU load exceeds x" in dialog
+
+    clientgui/
+        DlgAdvPreferences*
