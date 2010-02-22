@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-22 12:59-0700\n"
+"PO-Revision-Date: 2010-02-22 13:13-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -479,15 +479,15 @@ msgstr "Computer ID"
 
 #: ../inc/host.inc:622
 msgid "BOINC<br>version"
-msgstr ""
+msgstr "BOINC<br />Version"
 
 #: ../inc/host.inc:629
 msgid "Last contact"
-msgstr ""
+msgstr "Letzter Kontakt"
 
 #: ../inc/host.inc:678
 msgid "Merge computers by name"
-msgstr ""
+msgstr "Computer nach Namen zusammen führen"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -562,25 +562,29 @@ msgstr ""
 
 #: ../inc/prefs.inc:68
 msgid "Processor usage"
-msgstr ""
+msgstr "Prozessornutzung"
 
 #: ../inc/prefs.inc:71
 msgid ""
 "Suspend work while computer is on battery power? %1(matters only for "
 "portable computers)%2"
 msgstr ""
+"Ausführung anhalten bei Batteriebetrieb? %1(gilt nur für tragbare "
+"Computer)%2"
 
 #: ../inc/prefs.inc:77
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "Ausführung anhalten wenn der Computer benutzt wird?"
 
 #: ../inc/prefs.inc:81
 msgid "Suspend GPU work while computer is in use? %1Enforced by version 6.7+%2"
 msgstr ""
+"Ausführung auf Grafikkarte anhalten wenn der Computer benutzt wird? "
+"%1Unterstützt ab Version 6.7 aufwärts%2"
 
 #: ../inc/prefs.inc:86
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
+msgstr "'In Benutzung' bedeutet Maus/Tastatur Aktivitäten in den letzten"
 
 #: ../inc/prefs.inc:89
 msgid ""

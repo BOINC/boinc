@@ -4306,4 +4306,3 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
-
