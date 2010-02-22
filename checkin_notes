@@ -559,3 +559,9 @@ Charlie  10 Feb 2010
     
     mac_installer/
         PostInstall.cpp
+
+David  1 Feb 2010
+    - graphics API: if font missing, find one that isn't (from Kevin)
+
+    api/
+        txf_util.cpp
