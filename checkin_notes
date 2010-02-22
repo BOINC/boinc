@@ -606,3 +606,11 @@ David  11 Feb 2009
         client_state.cpp
     html/inc/
         prefs.inc
+
+David  14 Feb 2010
+    - client: include CPU usage of client in BOINC total.
+        Also include manager if its name includes "boinc"
+        (can't figure out another way)
+
+    lib/
+        procinfo*.cpp

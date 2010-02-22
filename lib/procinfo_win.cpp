@@ -67,6 +67,11 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
     ULONG                   cbBuffer = 128*1024;    // 128k initial buffer
     PVOID                   pBuffer = NULL;
     PSYSTEM_PROCESSES       pProcesses = NULL;
+    statid DWORD pid = 0;
+
+    if (!pid) {
+        pid = GetCurrentProcessId();
+    }
 #if 0
 	printf("FILETIME: %d\n", sizeof(FILETIME));
 	printf("LARGE_INTEGER: %d\n", sizeof(LARGE_INTEGER));
@@ -97,7 +102,7 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
             sizeof(p.command),
             NULL, NULL
         );
-		p.is_boinc_app = false;
+		p.is_boinc_app = (p.id == pid) || (strcmp(p.command, "boinc") != NULL);
         pi.push_back(p);
         if (!pProcesses->NextEntryDelta) {
             break;
