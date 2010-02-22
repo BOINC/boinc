@@ -615,6 +615,218 @@ int get_os_information(
 }
 
 
+// Handle the cpuid instruction on supported compilers
+// NOTE: This only handles structured exceptions with Microsoft compilers.
+// 
+int get_cpuid(int info_type, int& a, int& b, int& c, int& d) {
+
+#ifdef _MSC_VER
+
+    // Microsoft compiler - use intrinsic
+    int retval = 1;
+    int CPUInfo[4] = {0,0,0,0};
+
+    __try {
+        __cpuid(CPUInfo, info_type);
+
+        a = CPUInfo[0];
+        b = CPUInfo[1];
+        c = CPUInfo[2];
+        d = CPUInfo[3];
+
+        retval = 0;
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER) {}
+    return retval;
+
+#elif defined(__GNUC__)
+
+    // GCC compiler
+    __asm__ __volatile__ ("cpuid": "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (info_type));
+    return 0;
+
+#else
+    return 1;
+#endif
+}
+
+
+// Returns the processor vendor.
+// see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+// see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
+// see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
+int get_processor_vendor(char* name, int name_size) {
+    int eax, ebx, ecx, edx;
+
+    if (name_size < 13) return 1;
+
+    memset(name, 0, sizeof(name_size));
+
+    if (!get_cpuid(0x00000000, eax, ebx, ecx, edx)) {
+        *((int*)(name + 0)) = ebx;
+        *((int*)(name + 4)) = edx;
+        *((int*)(name + 8)) = ecx;
+        *((int*)(name + 12)) = '\0';
+    }
+    return 0;
+}
+
+
+// Returns the processor family, model, stepping.
+// see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+// see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
+// see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
+int get_processor_version(int& family, int& model, int& stepping) {
+    int eax, ebx, ecx, edx;
+
+    if (!get_cpuid(0x00000001, eax, ebx, ecx, edx)) {
+        family = (((eax >> 8) + (eax >> 20)) & 0xff);
+        model = (((((eax >> 16) & 0xf) << 4) + ((eax >> 4) & 0xf)) & 0xff);
+        stepping = (eax & 0xf);
+    }
+    return 0;
+}
+
+
+// Returns the processor name.
+// see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+// see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
+// see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
+int get_processor_name(char* name, int name_size) {
+    int eax, ebx, ecx, edx;
+
+    if (name_size < 49) return 1;
+
+    memset(name, 0, sizeof(name_size));
+
+    if (!get_cpuid(0x80000002, eax, ebx, ecx, edx)) {
+        *((int*)(name + 0))  = eax;
+        *((int*)(name + 4))  = ebx;
+        *((int*)(name + 8))  = ecx;
+        *((int*)(name + 12)) = edx;
+    }
+    if (!get_cpuid(0x80000003, eax, ebx, ecx, edx)) {
+        *((int*)(name + 16)) = eax;
+        *((int*)(name + 20)) = ebx;
+        *((int*)(name + 24)) = ecx;
+        *((int*)(name + 28)) = edx;
+    }
+    if (!get_cpuid(0x80000004, eax, ebx, ecx, edx)) {
+        *((int*)(name + 32)) = eax;
+        *((int*)(name + 36)) = ebx;
+        *((int*)(name + 40)) = ecx;
+        *((int*)(name + 44)) = edx;
+    }
+    return 0;
+}
+
+
+// Returns the processor cache.
+// see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+// see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
+// see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
+int get_processor_cache(int& cache) {
+    int eax, ebx, ecx, edx;
+
+    if (!get_cpuid(0x80000006, eax, ebx, ecx, edx)) {
+        cache = ((ecx >> 16) & 0xffff) * 1024;
+    }
+    return 0;
+}
+
+
+// Returns the features supported by the processor, use the 
+// Linux CPU processor feature mnemonics.
+// see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+// see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
+// see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
+#define FEATURE_TEST(test, feature_name) \
+    if (test) strncat(features, feature_name, features_size - strlen(features))
+
+int get_processor_features(char* vendor, char* features, int features_size) {
+    int std_eax, std_ebx, std_ecx, std_edx;
+    int ext_eax, ext_ebx, ext_ecx, ext_edx;
+    int std_supported = 0, ext_supported = 0, intel_supported = 0, amd_supported = 0;
+
+    memset(features, 0, sizeof(features_size));
+
+    if (!get_cpuid(0x00000001, std_eax, std_ebx, std_ecx, std_edx)) {
+        std_supported = 1;
+    }
+    if (!get_cpuid(0x80000001, ext_eax, ext_ebx, ext_ecx, ext_edx)) {
+        ext_supported = 1;
+    }
+    if (strcmp(vendor, "GenuineIntel") == 0) {
+        intel_supported = 1;
+    }
+    if (strcmp(vendor, "AuthenticAMD") == 0) {
+        amd_supported = 1;
+    }
+
+    FEATURE_TEST((std_edx & (1 << 0)), "fpu ");
+    FEATURE_TEST((std_edx & (1 << 1)), "vme ");
+    FEATURE_TEST((std_edx & (1 << 2)), "de ");
+    FEATURE_TEST((std_edx & (1 << 3)), "pse ");
+    FEATURE_TEST((std_edx & (1 << 4)), "tsc ");
+    FEATURE_TEST((std_edx & (1 << 5)), "msr ");
+    FEATURE_TEST((std_edx & (1 << 6)), "pae ");
+    FEATURE_TEST((std_edx & (1 << 7)), "mce ");
+    FEATURE_TEST((std_edx & (1 << 8)), "cx8 ");
+    FEATURE_TEST((std_edx & (1 << 9)), "apic ");
+    FEATURE_TEST((std_edx & (1 << 11)), "sep ");
+    FEATURE_TEST((std_edx & (1 << 12)), "mtrr ");
+    FEATURE_TEST((std_edx & (1 << 13)), "pge ");
+    FEATURE_TEST((std_edx & (1 << 14)), "mca ");
+    FEATURE_TEST((std_edx & (1 << 15)), "cmov ");
+    FEATURE_TEST((std_edx & (1 << 16)), "pat ");
+    FEATURE_TEST((std_edx & (1 << 17)), "pse36 ");
+    FEATURE_TEST((std_edx & (1 << 18)), "psn ");
+    FEATURE_TEST((std_edx & (1 << 19)), "clflush ");
+    FEATURE_TEST((std_edx & (1 << 21)), "dts ");
+    FEATURE_TEST((std_edx & (1 << 22)), "acpi ");
+    FEATURE_TEST((std_edx & (1 << 23)), "mmx ");
+    FEATURE_TEST((std_edx & (1 << 24)), "fxsr ");
+    FEATURE_TEST((std_edx & (1 << 25)), "sse ");
+    FEATURE_TEST((std_edx & (1 << 26)), "sse2 ");
+    FEATURE_TEST((std_edx & (1 << 27)), "ss ");
+    FEATURE_TEST((std_edx & (1 << 28)), "htt ");
+    FEATURE_TEST((std_edx & (1 << 29)), "tm ");
+
+    FEATURE_TEST((std_ecx & (1 << 0)), "pni ");
+    FEATURE_TEST((std_ecx & (1 << 9)), "ssse3 ");
+    FEATURE_TEST((std_ecx & (1 << 13)), "cx16 ");
+    FEATURE_TEST((std_ecx & (1 << 19)), "sse4_1 ");
+    FEATURE_TEST((std_ecx & (1 << 20)), "sse4_2 ");
+
+    FEATURE_TEST((ext_edx & (1 << 11)), "syscall ");
+    FEATURE_TEST((ext_edx & (1 << 20)), "nx ");
+    FEATURE_TEST((ext_edx & (1 << 29)), "lm ");
+
+    if (intel_supported) {
+        // Intel only features
+        FEATURE_TEST((std_ecx & (1 << 5)), "vmx ");
+        FEATURE_TEST((std_ecx & (1 << 6)), "smx ");
+        FEATURE_TEST((std_ecx & (1 << 6)), "tm2 ");
+        FEATURE_TEST((std_ecx & (1 << 18)), "dca ");
+
+        FEATURE_TEST((std_edx & (1 << 31)), "pbe ");
+    }
+
+    if (amd_supported) {
+        // AMD only features
+        FEATURE_TEST((ext_ecx & (1 << 6)), "sse4a ");
+        FEATURE_TEST((ext_ecx & (1 << 11)), "sse5 ");
+
+        FEATURE_TEST((ext_edx & (1 << 30)), "3dnowext ");
+        FEATURE_TEST((ext_edx & (1 << 31)), "3dnow ");
+    }
+
+    strip_whitespace(features);
+
+    return 0;
+}
+
+
 // Returns the processor make, model, and additional cpu flags supported by
 //   the processor, use the Linux CPU processor feature descriptions.
 //
@@ -623,118 +835,31 @@ int get_processor_info(
     char* p_features, int p_features_size, double& p_cache
 )
 {
-    int CPUInfo[4] = {-1};
-	char vendorName[256], processorName[256], identifierName[256], capabilities[256], temp_model[256];
-	HKEY hKey = NULL;
-	LONG retval = 0;
-	DWORD nameSize = 0, procSpeed = 0;
-	bool gotIdent = false, gotProcName = false, gotMHz = false, gotVendIdent = false;
+    int family = 0, model = 0, stepping = 0, cache = 0;
+    char vendor_name[256], processor_name[256], features[256];
 
-    strcpy(vendorName, "");
-    strcpy(processorName, "");
-    strcpy(capabilities, "");
-    strcpy(temp_model, "");
+    get_processor_vendor(vendor_name, sizeof(vendor_name));
+    get_processor_version(family, model, stepping);
+    get_processor_name(processor_name, sizeof(processor_name));
+    get_processor_cache(cache);
+    get_processor_features(vendor_name, features, sizeof(features));
 
-    // determine what the cpu's capabilities are
-    if (!IsProcessorFeaturePresent(PF_FLOATING_POINT_EMULATED)) {
-        strncat(capabilities, "fpu ", sizeof(capabilities) - strlen(capabilities));
-    }
-    if (IsProcessorFeaturePresent(PF_RDTSC_INSTRUCTION_AVAILABLE)) {
-        strncat(capabilities, "tsc ", sizeof(capabilities) - strlen(capabilities));
-    }
-    if (IsProcessorFeaturePresent(PF_PAE_ENABLED)) {
-        strncat(capabilities, "pae ", sizeof(capabilities) - strlen(capabilities));
-    }
-    if (IsProcessorFeaturePresent(PF_NX_ENABLED)) {
-        strncat(capabilities, "nx ", sizeof(capabilities) - strlen(capabilities));
-    }
-    if (IsProcessorFeaturePresent(PF_XMMI_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "sse ", sizeof(capabilities) - strlen(capabilities));
-    }
-    if (IsProcessorFeaturePresent(PF_XMMI64_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "sse2 ", sizeof(capabilities) - strlen(capabilities));
-    }
-    if (IsProcessorFeaturePresent(PF_SSE3_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "pni ", sizeof(capabilities) - strlen(capabilities));
-    }
-    if (IsProcessorFeaturePresent(PF_3DNOW_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "3dnow ", sizeof(capabilities) - strlen(capabilities));
-    }
-    if (IsProcessorFeaturePresent(PF_MMX_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "mmx ", sizeof(capabilities) - strlen(capabilities));
-    }
-    strip_whitespace(capabilities);
+    snprintf(p_vendor, p_vendor_size,
+        "%s", 
+        vendor_name
+    );
 
+    snprintf(p_model, p_model_size,
+        "%s [Family %d Model %d, Stepping %d]", 
+        processor_name, family, model, stepping
+    );
 
-#ifndef __CYGWIN__
-    // determine CPU cache size
-    // see: http://msdn.microsoft.com/en-us/library/hskdteyh(VS.80).aspx
-    __cpuid(CPUInfo, 0x80000006);
-    p_cache = (double)((CPUInfo[2] >> 16) & 0xffff) * 1024;
-#endif
+    snprintf(p_features, p_features_size,
+        "%s", 
+        features
+    );
 
-
-	retval = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey);
-	if(retval == ERROR_SUCCESS) {
-        // Win9x and WinNT store different information in these field.
-        // NT Examples:
-        //     ProcessorNameString: Intel(R) Xeon(TM) CPU 3.06GHz
-        //     Identifier: x86 Family 15 Model 2 Stepping 7
-        //     VendorIdentifier: GenuineIntel
-        //     ~MHz: 3056
-        // 9X Examples:
-        //     ProcessorNameString: <Not Defined>
-        //     Identifier: Pentium(r) Processor
-        //     ~MHz: <Not Defined>
-        //     VendorIdentifier: GenuineIntel
-
-        // Look in various places for processor information, add'l
-		// entries suggested by mark mcclure
-		nameSize = sizeof(vendorName);
-		retval = RegQueryValueEx(hKey, "VendorIdentifier", NULL, NULL, (LPBYTE)vendorName, &nameSize);
-		if (retval == ERROR_SUCCESS) gotVendIdent = true;
-
-		nameSize = sizeof(identifierName);
-		retval = RegQueryValueEx(hKey, "Identifier", NULL, NULL, (LPBYTE)identifierName, &nameSize);
-		if (retval == ERROR_SUCCESS) gotIdent = true;
-
-		nameSize = sizeof(processorName);
-		retval = RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)processorName, &nameSize);
-		if (retval == ERROR_SUCCESS) gotProcName = true;
-
-		nameSize = sizeof(DWORD);
-		retval = RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&procSpeed, &nameSize);
-		if (retval == ERROR_SUCCESS) gotMHz = true;
-	}
-
-    // populate vendor field.
-    if (gotVendIdent) {
-        strlcpy( p_vendor, vendorName, p_vendor_size );
-    } else {
-        strlcpy( p_vendor, "Unknown", p_vendor_size );
-    }
-
-    // construct the human readable model name
-    if (gotProcName) {
-        strlcpy( temp_model, processorName, sizeof(temp_model) );
-    } else if (gotIdent && gotMHz) {
-        sprintf( temp_model, "%s %dMHz", identifierName, procSpeed );
-    } else if (gotVendIdent && gotMHz) {
-        sprintf( temp_model, "%s %dMHz", vendorName, procSpeed );
-    } else if (gotIdent) {
-        strlcpy( temp_model, identifierName, sizeof(temp_model) );
-    } else if (gotVendIdent) {
-        strlcpy( temp_model, vendorName, sizeof(temp_model) );
-    } else {
-        strlcpy( temp_model, "Unknown", sizeof(temp_model) );
-    }
-
-    // Merge all the seperate pieces of information into one.
-    snprintf(p_model, p_model_size, "%s [%s]", temp_model, identifierName);
-    p_model[p_model_size-1] = 0;
-    strlcpy(p_features, capabilities, p_features_size);
-
-	RegCloseKey(hKey);
+    p_cache = (double)cache;
 
     return 0;
 }
@@ -803,7 +928,6 @@ bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {
         return seconds_idle > seconds_time_to_run;
     }
 
-    return false;
 }
 
 const char *BOINC_RCSID_37fbd07edd = "$Id$";
