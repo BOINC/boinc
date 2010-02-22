@@ -579,3 +579,13 @@ Rom    8 Feb 2010
         
     client/
         hostinfo_win.cpp
+
+David  9 Feb 2010
+	- client: undo [17160].  <ncpus>0</ncpus> in cc_config.xml
+		no longer means simulate zero CPUs.
+		There are several places that divide by ncpus.
+		Zero CPUs doesn't make any sense anyway.
+
+	client/
+		cpu_sched.cpp
+		work_fetch.cpp

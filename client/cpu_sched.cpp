@@ -1712,29 +1712,26 @@ void RESULT::set_state(int val, const char* where) {
 }
 
 // called at startup (after get_host_info())
-// and when general prefs have been parsed
+// and when general prefs have been parsed.
+// NOTE: GSTATE.NCPUS MUST BE 1 OR MORE; WE DIVIDE BY IT IN A COUPLE OF PLACES
 //
 void CLIENT_STATE::set_ncpus() {
     int ncpus_old = ncpus;
 
-    if (config.ncpus>=0) {
+    if (config.ncpus>0) {
         host_info.p_ncpus = config.ncpus;
-        ncpus = config.ncpus;
-    } else if (host_info.p_ncpus>0) {
+    }
+    if (host_info.p_ncpus>0) {
         ncpus = host_info.p_ncpus;
     } else {
         ncpus = 1;
     }
 
-    // if config says no CPUs, honor it
-    //
-    if (ncpus) {
-        if (global_prefs.max_ncpus_pct) {
-            ncpus = (int)((ncpus * global_prefs.max_ncpus_pct)/100);
-            if (ncpus == 0) ncpus = 1;
-        } else if (global_prefs.max_ncpus && global_prefs.max_ncpus < ncpus) {
-            ncpus = global_prefs.max_ncpus;
-        }
+    if (global_prefs.max_ncpus_pct) {
+        ncpus = (int)((ncpus * global_prefs.max_ncpus_pct)/100);
+        if (ncpus == 0) ncpus = 1;
+    } else if (global_prefs.max_ncpus && global_prefs.max_ncpus < ncpus) {
+        ncpus = global_prefs.max_ncpus;
     }
 
     if (initialized && ncpus != ncpus_old) {

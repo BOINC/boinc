@@ -705,7 +705,8 @@ void WORK_FETCH::set_overall_debts() {
     }
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
-        p->pwf.overall_debt = p->cpu_pwf.long_term_debt - p->cpu_pwf.queue_est/gstate.ncpus;
+        double queue_debt = p->cpu_pwf.queue_est/gstate.ncpus;
+        p->pwf.overall_debt = p->cpu_pwf.long_term_debt - queue_debt;
         if (coproc_cuda) {
             p->pwf.overall_debt += cuda_work_fetch.relative_speed*
                 (p->cuda_pwf.long_term_debt - p->cuda_pwf.queue_est/coproc_cuda->count);
