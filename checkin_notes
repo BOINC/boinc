@@ -633,3 +633,10 @@ David  18 Feb 2010
 
     client/
         work_fetch.cpp
+
+David  18 Feb 2010
+	- API: in txfRenderString, replace non-ASCII chars with ?.
+		Otherwise it calls abort()!
+
+	api/
+		texfont.cpp
