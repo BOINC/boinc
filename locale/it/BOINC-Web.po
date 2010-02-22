@@ -1466,5 +1466,30 @@ msgstr ""
 #~ msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 #~ msgstr "se invece hai dei problemi proprio con il BOINC, cerca aiuto dalla nostra %s lista dei messaggi %s."
 
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+##########################################
+# Language: Italian (International)
+# FileID  : $Id$
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# The name of this language in this language
+# The name of this language in this language<br />
+# <br />
+# The name of this language in an international language (English)
+# The name of this language in an international language (English)<br />
+########################################
+# poll-related stuff
+# ######################################<br />
+# poll-related stuff<br />
+# ######################################
+##############################################
+# help.php
+# ############################################<br />
+# help.php<br />
+# index.php
+# index.php<br />
+# download.php 2006/08/03 by je2bwm
+# system_requirements.php by je2bwm 2006/08/07
+# release_notes.php
 #~ msgid "HOME_MORE_INFO"
 #~ msgstr "Avviare il BOINC"
