@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:07-0500\n"
-"PO-Revision-Date: 2010-02-18 16:18-0700\n"
+"PO-Revision-Date: 2010-02-22 10:08-0700\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it\n"
@@ -1848,7 +1848,7 @@ msgstr "Riconosciuto"
 
 #: clientgui/DlgItemProperties.cpp:386
 msgid "Ready to report"
-msgstr "Pronto da riportare"
+msgstr "Pronto per il report"
 
 #: clientgui/DlgItemProperties.cpp:388
 #, c-format
