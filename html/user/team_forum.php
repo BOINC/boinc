@@ -117,8 +117,14 @@ function remove($team) {
     $forum->delete();
 
     page_head(tra("Message board removed"));
-    echo tra("<p>".tra("Your teams message board has been removed. You may now %1create a new one%2."), "<a href=team_forum.php?teamid=$team->id&cmd=manage>", "</a>")
-        ."</p>";
+    echo "<p>"
+        .tra(
+            "Your team's message board has been removed. You may now %1create a new one%2.",
+            "<a href=team_forum.php?teamid=$team->id&cmd=manage>",
+            "</a>"
+        )
+        ."</p>"
+    ;
     page_tail();
 }
 

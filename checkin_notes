@@ -1360,3 +1360,8 @@ Rom    23 Feb 2010
         
     client/
         hostinfo_win.cpp
+
+David  23 Feb 2010
+    - web: translation typo
+    html/user/
+        team_forum.php
