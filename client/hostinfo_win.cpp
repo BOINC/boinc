@@ -32,6 +32,7 @@
 #include "str_util.h"
 #include "str_replace.h"
 #include "client_msgs.h"
+#include "error_numbers.h"
 #include "hostinfo_network.h"
 #include "hostinfo.h"
 #include "idlemon.h"
@@ -859,6 +860,57 @@ int get_processor_info(
     p_cache = (double)cache;
 
     return 0;
+}
+
+
+// detect the network usage totals for the host.
+//
+int get_network_usage_totals(unsigned int& total_received, unsigned int& total_sent) {
+
+    // Declare and initialize variables.
+    int i;
+    int iRetVal = 0;
+    DWORD dwSize = 0;
+    MIB_IFTABLE* pIfTable;
+    MIB_IFROW* pIfRow;
+
+    // Allocate memory for our pointers.
+    pIfTable = (MIB_IFTABLE*)malloc(sizeof(MIB_IFTABLE));
+    if (pIfTable == NULL) {
+        return ERR_MALLOC;
+    }
+
+    // Make an initial call to GetIfTable to get the
+    // necessary size into dwSize
+    dwSize = sizeof(MIB_IFTABLE);
+    if (GetIfTable(pIfTable, &dwSize, FALSE) == ERROR_INSUFFICIENT_BUFFER) {
+        free(pIfTable);
+        pIfTable = (MIB_IFTABLE*)malloc(dwSize);
+        if (pIfTable == NULL) {
+            return ERR_MALLOC;
+        }
+    }
+
+    // Make a second call to GetIfTable to get the actual
+    // data we want.
+    iRetVal = (int)GetIfTable(pIfTable, &dwSize, FALSE);
+    if (iRetVal == NO_ERROR) {
+        for (i = 0; i < (int)pIfTable->dwNumEntries; i++) {
+            pIfRow = (MIB_IFROW *) & pIfTable->table[i];
+            if (IF_TYPE_SOFTWARE_LOOPBACK != pIfRow->dwType) {
+                total_received += pIfRow->dwInOctets;
+                total_sent += pIfRow->dwOutOctets;
+            }
+        }
+    }
+
+    if (pIfTable != NULL) {
+        free(pIfTable);
+        pIfTable = NULL;
+    }
+
+    return iRetVal;
+
 }
 
 

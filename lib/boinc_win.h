@@ -60,6 +60,7 @@
 #include <shlobj.h>
 #include <userenv.h>
 #include <aclapi.h>
+#include <iphlpapi.h>
 
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 

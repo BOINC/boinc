@@ -1352,3 +1352,11 @@ David  20 Feb 2010
             sample_project.inc
         inc/
             util_ops.inc
+
+Rom    23 Feb 2010
+    - client: Add a function to the client software to be able to detect
+        the number of bytes sent and received across all non-loopback
+        interfaces.
+        
+    client/
+        hostinfo_win.cpp
