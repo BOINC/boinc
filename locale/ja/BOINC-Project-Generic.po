@@ -455,48 +455,56 @@ msgid "Merging host %1 into host %2"
 msgstr "計算機 %1 を %2 にマージしています"
 
 #: ../inc/host.inc:563
+#, fuzzy
 msgid "Couldn't update credit of new computer"
-msgstr ""
+msgstr "新しいコンピュータの功績値を更新できませんでした"
 
 #: ../inc/host.inc:567
+#, fuzzy
 msgid "Couldn't update results"
-msgstr ""
+msgstr "リザルトを更新できませんでした"
 
 #: ../inc/host.inc:572
+#, fuzzy
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "古いコンピュータを退役させることができませんでした"
 
 #: ../inc/host.inc:574
+#, fuzzy
 msgid "Retired old computer %1"
-msgstr ""
+msgstr "退役した古いコンピュータ"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
+#, fuzzy
 msgid "Show:"
-msgstr ""
+msgstr "表示:"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "All computers"
 msgstr "すべてのコンピュータ"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
+#, fuzzy
 msgid "Only computers active in past 30 days"
-msgstr ""
+msgstr "過去30日の間に活動のあったコンピュータのみ"
 
 #: ../inc/host.inc:609 ../inc/result.inc:384
 msgid "Computer ID"
-msgstr ""
+msgstr "コンピュータ ID "
 
 #: ../inc/host.inc:622
 msgid "BOINC<br>version"
-msgstr ""
+msgstr "BOINC<br>版数"
 
 #: ../inc/host.inc:629
+#, fuzzy
 msgid "Last contact"
-msgstr ""
+msgstr "最後の接続日時"
 
 #: ../inc/host.inc:678
+#, fuzzy
 msgid "Merge computers by name"
-msgstr ""
+msgstr "名前でコンピュータをマージする"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -1013,13 +1021,13 @@ msgstr "更新の失敗："
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
-msgstr ""
+msgstr "あなたの自己紹介記事は、このプロジェクトから許可が出しだい他の方にも見えるようになります。それまで数日かかるかもしれません。"
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
-msgstr ""
+msgstr "あなたの自己紹介記事は不許可とされました。他の方からは見えません。変更をお願いします。"
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
@@ -1030,14 +1038,16 @@ msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
+"スパムを防ぐため、功績の平均増加量が %1 より少ない参加者の自己紹介記事は、ログイン済みの参加者だけしか見ることができません。ご不便をおかけします。"
 
 #: ../inc/profile.inc:191
+#, fuzzy
 msgid "User is banished"
-msgstr ""
+msgstr "参加者は追放されました"
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "その参加者IDには自己紹介はありません。"
 
 #: ../inc/profile.inc:216 ../user/create_profile.php:306
 msgid "Edit your profile"
@@ -3088,6 +3098,7 @@ msgid "No profiles matched your query."
 msgstr "検索条件に該当する自己紹介はありませんでした。"
 
 # It seems an Error message for the implementors.
+# It seems to be an error message for the implementors.
 #: ../user/profile_rate.php:27
 msgid "Invalid vote type:"
 msgstr "Invalid vote type:"
@@ -3257,60 +3268,64 @@ msgstr ""
 "もできます。"
 
 #: ../user/team_admins.php:32
+#, fuzzy
 msgid "Remove Team Admin status from this member"
-msgstr ""
+msgstr "このメンバーをチーム管理者の地位からはずします。"
 
 #: ../user/team_admins.php:38 ../user/team_admins.php:49
+#, fuzzy
 msgid "Add or remove Team Admins"
-msgstr ""
+msgstr "チーム管理者を追加または削除する"
 
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
-msgstr ""
+msgstr "チームのメンバーの中から「チーム管理者」を何人か選ぶことができます。チーム管理者は以下のことができます:"
 
 #: ../user/team_admins.php:41
+#, fuzzy
 msgid "Edit team information (name, URL, description, country)"
-msgstr ""
+msgstr "チームの情報(名前、URL、説明文、国名)を編集する"
 
 #: ../user/team_admins.php:42
 msgid "View the team's join/quit history"
-msgstr ""
+msgstr "チームへの参加・脱退の履歴を見る"
 
 #: ../user/team_admins.php:43
+#, fuzzy
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
-msgstr ""
+msgstr "必要に応じてチーム掲示板の司会役をする(司会が必要な状況を知らせるメイル、あるいは、Red X レポートを受信した場合)"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
-msgstr ""
+msgstr "チーム管理者にはできないことは以下のとおり:"
 
 #: ../user/team_admins.php:47
 msgid "Change the team founder"
-msgstr ""
+msgstr "チーム創設者の変更"
 
 #: ../user/team_admins.php:48 ../user/team_manage.php:52
 msgid "Remove members"
-msgstr ""
+msgstr "メンバーの除名"
 
 #: ../user/team_admins.php:51
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr ""
+msgstr "チーム管理者がそのチームを脱退したら、チーム管理者ではなくなります。"
 
 #: ../user/team_admins.php:52
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
-msgstr ""
+msgstr "チーム管理者としては、あなたが知っていて十分信頼している人を選ぶことをお薦めします。"
 
 #: ../user/team_admins.php:57
 msgid "There are currently no Team Admins"
-msgstr ""
+msgstr "現在、チーム管理者はしません。"
 
 #: ../user/team_admins.php:59
 msgid "Current Team Admins"
-msgstr ""
+msgstr "現在のチーム管理者"
 
 #: ../user/team_admins.php:60
 msgid "Became Team Admin on"
@@ -3318,15 +3333,15 @@ msgstr ""
 
 #: ../user/team_admins.php:75
 msgid "Add Team Admin"
-msgstr ""
+msgstr "チーム管理者を追加する"
 
 #: ../user/team_admins.php:76
 msgid "Email address of team member:"
-msgstr ""
+msgstr "チームメンバーのEメイルアドレス:"
 
 #: ../user/team_admins.php:88
 msgid "failed to remove admin"
-msgstr ""
+msgstr "チーム管理者の削除に失敗しました"
 
 #: ../user/team_admins.php:95
 msgid "no such user"
@@ -3334,15 +3349,15 @@ msgstr "該当する参加者はありません"
 
 #: ../user/team_admins.php:96
 msgid "User is not member of team"
-msgstr ""
+msgstr "その人はチームのメンバーではありません"
 
 #: ../user/team_admins.php:98
 msgid "%1 is already an admin of %2"
-msgstr ""
+msgstr "%1 はすでに %2 のチーム管理者です"
 
 #: ../user/team_admins.php:102
 msgid "Couldn't add admin"
-msgstr ""
+msgstr "チーム管理者を追加できませんでした"
 
 #: ../user/team_admins.php:108 ../user/team_quit_form.php:28
 #: ../user/team_remove_inactive_action.php:26
@@ -3359,61 +3374,70 @@ msgstr "該当するチームはありません"
 
 #: ../user/team_change_founder_action.php:36
 msgid "User is not a member of %1"
-msgstr ""
+msgstr "その人は %1 のメンバーではありません"
 
 #: ../user/team_change_founder_action.php:39
+#, fuzzy
 msgid "Changing founder of %1"
-msgstr ""
+msgstr "%1 の創設者を変更している最中です"
 
 #: ../user/team_change_founder_action.php:41
 msgid "%1 is now founder of %2"
-msgstr ""
+msgstr "%1 は今、%2 の創設者になりました"
 
 #: ../user/team_change_founder_form.php:35
 msgid "Change founder of %1"
-msgstr ""
+msgstr "%1 の創設者を変更する"
 
 #: ../user/team_change_founder_form.php:41
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
-msgstr ""
+msgstr "チームメンバであった %1 は、%2の創設者の地位を要求していましたが、チームから脱退してしまったので、その要求を取り消します。"
 
 #: ../user/team_change_founder_form.php:47
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
+"チームメンバの %1 "
+"は、このチームの創設者の地位を要求しています。それはあなたがそのチームを去ったか、あるいは長い間チームとの連絡を絶っていたからかもしれません。"
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
-msgstr ""
+msgstr "要求を拒否する"
 
 #: ../user/team_change_founder_form.php:56
+#, fuzzy
 msgid ""
 "If you don't decline the request by %1, %2 will have the option of assuming "
 "team foundership.<br /><br />\n"
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
+"%1 による要求を拒否しないなら、%2 はチームの創設者を引き受ける選択肢をもつことになります。<br /><br />\n"
+"                  要求を受け入れるなら、下記のフォームを使って創設者の権限を%3 に割り当てて下さい。"
 
 #: ../user/team_change_founder_form.php:64
 msgid "No transfer request is pending."
-msgstr ""
+msgstr "保留されている権限委譲の要求はありません。"
 
 #: ../user/team_change_founder_form.php:67
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
 msgstr ""
+"他のメンバーにこのチームの創設者権限を割り当てるには、メンバー名の横にあるボックスにチェックを入れて、下にある<strong>創設者の変更</stron"
+"g> をクリックします。"
 
 #: ../user/team_change_founder_form.php:74
+#, fuzzy
 msgid "New founder?"
-msgstr ""
+msgstr "新しい創設者?"
 
 #: ../user/team_change_founder_form.php:103 ../user/team_manage.php:54
 msgid "Change founder"
-msgstr ""
+msgstr "創設者の変更"
 
 #: ../user/team_create_action.php:27
 msgid "You must choose a non-blank team name"
@@ -3441,35 +3465,39 @@ msgstr ""
 
 #: ../user/team_delta.php:64
 msgid "Not founder or admin"
-msgstr ""
+msgstr "創設者でもチーム管理者でもありません"
 
 #: ../user/team_delta.php:71
+#, fuzzy
 msgid "Team history for %1"
-msgstr ""
+msgstr "%1 のチーム履歴"
 
 #: ../user/team_delta.php:74
+#, fuzzy
 msgid "When"
-msgstr ""
+msgstr "いつ"
 
 #: ../user/team_delta.php:75
 msgid "User"
-msgstr ""
+msgstr "参加者"
 
 #: ../user/team_delta.php:76
+#, fuzzy
 msgid "Action"
-msgstr ""
+msgstr "行動"
 
 #: ../user/team_delta.php:77
+#, fuzzy
 msgid "Total credit at time of action"
-msgstr ""
+msgstr "行動時の総功績"
 
 #: ../user/team_edit_action.php:57
 msgid "The name '%1' is being used by another team."
-msgstr ""
+msgstr "名前 '%' は他のチームによって使われています。"
 
 #: ../user/team_edit_action.php:60
 msgid "Must specify team name"
-msgstr ""
+msgstr "チームｎ名前は指定必須です"
 
 #: ../user/team_edit_action.php:88
 msgid "Could not update team - please try again later."
@@ -3479,87 +3507,90 @@ msgstr ""
 
 #: ../user/team_edit_form.php:31
 msgid "Edit %1"
-msgstr ""
+msgstr "% を編集"
 
 #: ../user/team_edit_form.php:32
 msgid "Update team info"
-msgstr ""
+msgstr "チームの情報を更新"
 
 #: ../user/team_email_list.php:58
+#, fuzzy
 msgid "%1 Email List"
-msgstr ""
+msgstr "%1 メイリングリスト"
 
 #: ../user/team_email_list.php:60
 msgid "Member list of %1"
-msgstr ""
+msgstr "%1 のメンバー一覧"
 
 #: ../user/team_email_list.php:75
 msgid "Show as plain text"
-msgstr ""
+msgstr "プレインテキストで表示"
 
 #: ../user/team_forum.php:26 ../user/team_forum.php:37
 msgid "Create Message Board"
-msgstr ""
+msgstr "掲示板を作成する"
 
 #: ../user/team_forum.php:27
+#, fuzzy
 msgid "You may create a message board for use by %1."
-msgstr ""
+msgstr "%1 によって使われる掲示板を作ってもよいです。"
 
 #: ../user/team_forum.php:29
 msgid "Only team members will be able to post."
-msgstr ""
+msgstr "チームに所属するメンバーだけが投稿できます。"
 
 #: ../user/team_forum.php:30
 msgid "At your option, only members will be able to read."
-msgstr ""
+msgstr "チームのメンバーだけが読めるようにすることも選べます。"
 
 #: ../user/team_forum.php:31
 msgid "You and your Team Admins will have moderator privileges."
-msgstr ""
+msgstr "あなたとチーム管理者に司会者(モデレータ）の権限が付きます。"
 
 #: ../user/team_forum.php:38
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "%1 用の掲示板を作成する"
 
 #: ../user/team_forum.php:46
 msgid "Team already has a message board"
-msgstr ""
+msgstr "チームにはすでに掲示板が作られています"
 
 #: ../user/team_forum.php:51
 msgid "couldn't create message board"
-msgstr ""
+msgstr "掲示板を作成できませんでした"
 
 #: ../user/team_forum.php:57
 msgid "Team Message Board"
-msgstr ""
+msgstr "チームの掲示板"
 
 #: ../user/team_forum.php:66
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "%1 メンバー間での議論"
 
 #: ../user/team_forum.php:69
 msgid "Minimum time between posts (seconds)"
-msgstr ""
+msgstr "連続投稿の間の最小時間間隔(秒)"
 
 #: ../user/team_forum.php:72
 msgid "Minimum total credit to post"
-msgstr ""
+msgstr "投稿するために必要な総功績(credit)の最小値"
 
 #: ../user/team_forum.php:75
 msgid "Minimum average credit to post"
-msgstr ""
+msgstr "投稿するために必要な平均功績(credit)の最小値"
 
 #: ../user/team_forum.php:78
+#, fuzzy
 msgid "Submit"
-msgstr ""
+msgstr "送信"
 
 #: ../user/team_forum.php:87
 msgid "Remove your team's message board."
-msgstr ""
+msgstr "チーム掲示板を削除する"
 
 #: ../user/team_forum.php:95
 msgid "Really remove message board?"
-msgstr ""
+msgstr "本当に掲示板を削除しますか?"
 
 #: ../user/team_forum.php:96
 msgid ""
@@ -3567,23 +3598,25 @@ msgid ""
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
 msgstr ""
+"あなたのチームの掲示板を削除しようとしていますが、よろしいですか? "
+"すべのスレッドと投稿内容が永久に失われます。(それでも、その後で新しい掲示板を作ることはできます。)"
 
 #: ../user/team_forum.php:98
 msgid "Yes - remove message board"
-msgstr ""
+msgstr "はい - 掲示板を削除します"
 
 #: ../user/team_forum.php:105
 msgid "message board not found"
-msgstr ""
+msgstr "掲示板が見つかりません"
 
 #: ../user/team_forum.php:119
 msgid "Message board removed"
-msgstr ""
+msgstr "掲示板を削除しました"
 
 #: ../user/team_forum.php:120
 msgid ""
 "Your teams message board has been removed. You may now %1create a new one%2."
-msgstr ""
+msgstr "あなたのチームの掲示板は削除されました。%1新しい掲示板を作る%2ことができます。"
 
 #: ../user/team_forum.php:120
 msgid "<p>"
@@ -3591,35 +3624,37 @@ msgstr ""
 
 #: ../user/team_forum.php:135
 msgid "Team Message Board Updated"
-msgstr ""
+msgstr "チームの掲示板が更新されました"
 
 #: ../user/team_forum.php:136
 msgid "Update successful"
-msgstr ""
+msgstr "更新成功"
 
 #: ../user/team_forum.php:139
 msgid "Update failed"
-msgstr ""
+msgstr "更新失敗"
 
 #: ../user/team_forum.php:146
 msgid "team has no forum"
-msgstr ""
+msgstr "チームには掲示板がありません"
 
 #: ../user/team_forum.php:181
 msgid "no such forum"
-msgstr ""
+msgstr "該当する掲示板なし"
 
+# It seems to be an error message for the implementors.
 #: ../user/team_forum.php:192
 msgid "unknown command %1"
-msgstr ""
+msgstr "unknown command %1"
 
 #: ../user/team_founder_transfer_action.php:34
 msgid "You must be a member of a team to access this page."
-msgstr ""
+msgstr "このページにアクセスするにはチームのメンバーでなければなりません。"
 
 #: ../user/team_founder_transfer_action.php:88
+#, fuzzy
 msgid "Requesting foundership of %1"
-msgstr ""
+msgstr "%1 の創設者権限を要求しています"
 
 #: ../user/team_founder_transfer_action.php:96
 msgid ""
@@ -3628,68 +3663,73 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
+"あなたの要求を現在の創設者に Eメイルと非公開メッセージの両方で通知しました。<br /><br />\n"
+"                       創設者が 60日以内に応答しなければ、あなたが創設者になることが許されます。"
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
 msgid "Foundership request not allowed now"
-msgstr ""
+msgstr "創設者権限の要求は現在許されません"
 
 #: ../user/team_founder_transfer_action.php:107
 msgid "Assumed foundership of %1"
-msgstr ""
+msgstr "%1 の創設者権限を引継ぎました"
 
 #: ../user/team_founder_transfer_action.php:109
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
+"おめでとうございます。今、あなたはチーム %1 の創設者になりました。%2あなたのアカウントのページ%3 "
+"へ行って、チーム管理者の選択の部分を見てください。"
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
-msgstr ""
+msgstr "創設者変更の要求を拒絶する"
 
 #: ../user/team_founder_transfer_action.php:125
 msgid "The foundership request from %1 has been declined."
-msgstr ""
+msgstr "%1 からの創設者変更の要求は拒否されました。"
 
 #: ../user/team_founder_transfer_action.php:128
 msgid "There were no foundership requests."
-msgstr ""
+msgstr "創設者権限移譲の要求はありませんでした。"
 
+# It seems to be an error message for the implementors.
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
-msgstr ""
+msgstr "undefined action %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
 msgid "Return to team page"
-msgstr ""
+msgstr "チームのページへ戻る"
 
 #: ../user/team_founder_transfer_form.php:26
 msgid "You need to be a member of a team to access this page."
-msgstr ""
+msgstr "このページにアクセスするにはチームのメンバーでなければなりません。"
 
 #: ../user/team_founder_transfer_form.php:29
 msgid "Request foundership of %1"
-msgstr ""
+msgstr "%1 の創設者権限を要求する"
 
 #: ../user/team_founder_transfer_form.php:36
 msgid "You are now founder of team %1."
-msgstr ""
+msgstr "あなたは今、チーム %1 の創設者になりました。"
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "あなたは %2に %1 の創設者権限を要求しました。"
 
 #: ../user/team_founder_transfer_form.php:45
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
-msgstr ""
+msgstr "あなたが要求を出してから 60日が経過しましたが、創設者は応答しませんでした。ここをクリックして創設者権限を引き継いでください:"
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
-msgstr ""
+msgstr "創設者権限を引き継ぐ"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid ""
