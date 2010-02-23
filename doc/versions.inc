@@ -62,10 +62,10 @@ function type_text($type) {
 }
 
 $w610dev = array(
-	"num"=>"6.10.32",
+	"num"=>"6.10.34",
 	"status"=>"Development version",
-	"file"=>"boinc_6.10.32_windows_intelx86.exe",
-	"date"=>"3 Feb 2010",
+	"file"=>"boinc_6.10.34_windows_intelx86.exe",
+	"date"=>"23 Feb 2010",
 	"type"=>"win_new",
 );
 
@@ -86,10 +86,10 @@ $w66 = array(
 );
 
 $w610x64dev = array(
-	"num"=>"6.10.32",
+	"num"=>"6.10.34",
 	"status"=>"Development version",
-	"file"=>"boinc_6.10.32_windows_x86_64.exe",
-	"date"=>"3 Feb 2010",
+	"file"=>"boinc_6.10.34_windows_x86_64.exe",
+	"date"=>"23 Feb 2010",
 	"type"=>"win_new",
 );
 
@@ -182,10 +182,10 @@ $l64 = array(
 );
 
 $l610ubuntudev = array(
-	"num"=>"6.10.32",
+	"num"=>"6.10.34",
 	"status"=>"Development version",
-	"file"=>"boinc_6.10.32_i686-pc-linux-gnu.sh",
-	"date"=>"3 Feb 2010",
+	"file"=>"boinc_6.10.34_i686-pc-linux-gnu.sh",
+	"date"=>"23 Feb 2010",
 	"type"=>"sea",
 );
 
@@ -206,10 +206,10 @@ $l66ubuntu = array(
 );
 
 $l610ubuntux64dev = array(
-	"num"=>"6.10.32",
+	"num"=>"6.10.34",
 	"status"=>"Development version",
-	"file"=>"boinc_6.10.32_x86_64-pc-linux-gnu.sh",
-	"date"=>"3 Feb 2010",
+	"file"=>"boinc_6.10.34_x86_64-pc-linux-gnu.sh",
+	"date"=>"23 Feb 2010",
 	"type"=>"sea",
 );
 
