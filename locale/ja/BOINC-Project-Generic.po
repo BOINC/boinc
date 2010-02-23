@@ -115,60 +115,64 @@ msgid "Mark all threads in all message boards as 'read'."
 msgstr "すべての掲示板のすべてのスレッドを「既読」状態に設定します。"
 
 #: ../inc/host.inc:24
+#, fuzzy
 msgid "No host"
-msgstr ""
+msgstr "計算機がありません"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "利用不可"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:1350 ../project.sample/project.inc:49
 msgid "Home"
-msgstr ""
+msgstr "自宅"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:1351
 msgid "Work"
-msgstr ""
+msgstr "勤務場所"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:1352
 msgid "School"
-msgstr ""
+msgstr "学校"
 
 #: ../inc/host.inc:59
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: ../inc/host.inc:83
+#, fuzzy
 msgid "Computer information"
-msgstr ""
+msgstr "コンピュータの情報"
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "IP アドレス"
 
 #: ../inc/host.inc:87
+#, fuzzy
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(前の%1回と同じ)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr ""
+msgstr "外部 IP アドレス"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "IP アドレスを表示"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
-msgstr ""
+msgstr "ドメイン名"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
-msgstr ""
+msgstr "現地標準時刻"
 
 #: ../inc/host.inc:97
+#, fuzzy
 msgid "UTC %1 hours"
-msgstr ""
+msgstr "UTC %1 時間"
 
 #: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:375
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
@@ -180,12 +184,14 @@ msgid "Name"
 msgstr "名前"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
+#, fuzzy
 msgid "Owner"
-msgstr ""
+msgstr "所有者"
 
 #: ../inc/host.inc:104 ../inc/host.inc:318
+#, fuzzy
 msgid "Anonymous"
-msgstr ""
+msgstr "名前なし"
 
 #: ../inc/host.inc:108 ../inc/result.inc:377
 msgid "Created"
@@ -209,104 +215,108 @@ msgstr "功績の平均増加量"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr ""
+msgstr "プロジェクト横断の功績値"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "CPUのタイプ"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "プロセッサ数"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
-msgstr ""
+msgstr "コプロセッサの数"
 
 #: ../inc/host.inc:119 ../inc/host.inc:627
 msgid "Operating System"
-msgstr ""
+msgstr "オペレーティングシステム"
 
 #: ../inc/host.inc:122
 msgid "BOINC client version"
-msgstr ""
+msgstr "BOINC クライアントの版数"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "メモリ"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "キャッシュ"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr ""
+msgstr "スワップ領域"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "合計ディスク領域"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "空きディスク領域"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "浮動小数点演算速度の測定値"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
+#, fuzzy
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 メガ 命令/秒"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
-msgstr ""
+msgstr "整数演算速度の測定値"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
-msgstr ""
+msgstr "平均アップロード速度"
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
-msgstr ""
+msgstr "%1 KB/秒"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:145
 #: ../inc/result.inc:155 ../inc/result.inc:173 ../inc/result.inc:205
+#, fuzzy
 msgid "Unknown"
-msgstr ""
+msgstr "不明"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
 msgid "Average download rate"
-msgstr ""
+msgstr "平均ダウンロード速度"
 
 #: ../inc/host.inc:163
+#, fuzzy
 msgid "Average turnaround time"
-msgstr ""
+msgstr "平均ターンアラウンド所要時間"
 
 #: ../inc/host.inc:163 ../inc/prefs.inc:841 ../inc/prefs.inc:842
 msgid "%1 days"
-msgstr ""
+msgstr "%1 日"
 
 #: ../inc/host.inc:165
+#, fuzzy
 msgid "Maximum daily WU quota per CPU"
-msgstr ""
+msgstr "CPU ごとの最大WU割当量/日"
 
 #: ../inc/host.inc:165
 msgid "%1/day"
-msgstr ""
+msgstr "%1/日"
 
 #: ../inc/host.inc:174 ../inc/host.inc:302 ../inc/user.inc:149
 msgid "Tasks"
@@ -314,54 +324,59 @@ msgstr "タスク"
 
 #: ../inc/host.inc:178
 msgid "Number of times client has contacted server"
-msgstr ""
+msgstr "クライアントがサーバに接続した回数"
 
 #: ../inc/host.inc:179
 msgid "Last time contacted server"
-msgstr ""
+msgstr "最後にサーバに接続した日時"
 
 #: ../inc/host.inc:180
 #, php-format
 msgid "% of time BOINC client is running"
-msgstr ""
+msgstr "BOINC クライアントが走行している時間の割合(%)"
 
 #: ../inc/host.inc:182
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
+msgstr "BOINC 走行中にインターネットに接続している時間の割合(%)"
 
 #: ../inc/host.inc:184
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "BOINC 走行中に仕事を処理することが許されている時間割合(%)"
 
 #: ../inc/host.inc:186
+#, fuzzy
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "平均の CPU 効率"
 
 #: ../inc/host.inc:189
+#, fuzzy
 msgid "Task duration correction factor"
 msgstr ""
 
 #: ../inc/host.inc:191 ../inc/host.inc:614
+#, fuzzy
 msgid "Location"
-msgstr ""
+msgstr "所在地"
 
 #: ../inc/host.inc:193
+#, fuzzy
 msgid "Delete this computer"
-msgstr ""
+msgstr "このコンピュータを削除する"
 
 #: ../inc/host.inc:197
 msgid "Click to"
 msgstr ""
 
 #: ../inc/host.inc:197
+#, fuzzy
 msgid "Merge this computer"
-msgstr ""
+msgstr "このコンピュータをマージする"
 
 #: ../inc/host.inc:211
 msgid "Computer info"
-msgstr ""
+msgstr "コンピュータの情報"
 
 #: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:344
 #: ../user/top_users.php:46
@@ -370,7 +385,7 @@ msgstr "順位"
 
 #: ../inc/host.inc:216 ../inc/host.inc:619
 msgid "Avg. credit"
-msgstr ""
+msgstr "平均功績値"
 
 #: ../inc/host.inc:221 ../inc/team.inc:95 ../inc/team.inc:208
 #: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:350
@@ -383,27 +398,28 @@ msgstr "最近の平均功績(credits/day)"
 
 #: ../inc/host.inc:226
 msgid "BOINC version"
-msgstr ""
+msgstr "BOINC の版数"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: ../inc/host.inc:228 ../inc/host.inc:625
 msgid "GPU"
-msgstr ""
+msgstr "GPU"
 
 #: ../inc/host.inc:229
 msgid "Operating system"
-msgstr ""
+msgstr "オペレーティングシステム"
 
 #: ../inc/host.inc:281
+#, fuzzy
 msgid "(%1 processors)"
-msgstr ""
+msgstr "(%1 プロセッサ)"
 
 #: ../inc/host.inc:301
 msgid "Details"
-msgstr ""
+msgstr "詳細"
 
 #: ../inc/host.inc:306
 msgid "Cross-project stats:"
@@ -414,24 +430,29 @@ msgid "Host %1 has overlapping lifetime:"
 msgstr ""
 
 #: ../inc/host.inc:467
+#, fuzzy
 msgid "Host %1 has an incompatible OS:"
-msgstr ""
+msgstr "計算機 %1 の右記OSとは相互運用性がありません："
 
 #: ../inc/host.inc:473
+#, fuzzy
 msgid "Host %1 has an incompatible CPU:"
-msgstr ""
+msgstr "計算機 %1 の右記CPUとは相互運用性がありません："
 
 #: ../inc/host.inc:540
+#, fuzzy
 msgid "same host"
 msgstr ""
 
 #: ../inc/host.inc:543
+#, fuzzy
 msgid "Can't merge host %1 into %2 - they're incompatible"
-msgstr ""
+msgstr "計算機 %1 を %2 にはマージできません - 互換性がありません"
 
 #: ../inc/host.inc:546
+#, fuzzy
 msgid "Merging host %1 into host %2"
-msgstr ""
+msgstr "計算機 %1 を %2 にマージしています"
 
 #: ../inc/host.inc:563
 msgid "Couldn't update credit of new computer"
