@@ -442,7 +442,7 @@ msgstr "計算機 %1 の右記CPUとは相互運用性がありません："
 #: ../inc/host.inc:540
 #, fuzzy
 msgid "same host"
-msgstr ""
+msgstr "同一の計算機"
 
 #: ../inc/host.inc:543
 #, fuzzy
@@ -1579,6 +1579,8 @@ msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
+"＜警告＞: これは BOINCワイドのチームです。ここで変更を行っても、そのうち上書きされてしまいます。代わりに%1BOINC "
+"ワイドのチーム%2を編集してください。"
 
 #: ../inc/team.inc:420
 msgid ""
@@ -1628,11 +1630,11 @@ msgstr "チームの説明"
 
 #: ../inc/team.inc:451
 msgid "Accept new members?"
-msgstr ""
+msgstr "新メンバーを受け入れますか?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr ""
+msgstr "参加者の自己紹介"
 
 #: ../inc/user.inc:112
 msgid "Projects in which you are participating"
@@ -1883,9 +1885,11 @@ msgstr "要求は保留中"
 msgid "Add as friend"
 msgstr "友人として追加"
 
+# Is it an error message for implementors?
 #: ../inc/util.inc:191
+#, fuzzy
 msgid "Unable to handle request"
-msgstr ""
+msgstr "要求を処理できません"
 
 #: ../inc/util.inc:385
 msgid "Email address:"
@@ -3620,7 +3624,7 @@ msgstr "あなたのチームの掲示板は削除されました。%1新しい�
 
 #: ../user/team_forum.php:120
 msgid "<p>"
-msgstr ""
+msgstr "<p>"
 
 #: ../user/team_forum.php:135
 msgid "Team Message Board Updated"
@@ -3735,7 +3739,7 @@ msgstr "創設者権限を引き継ぐ"
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
-msgstr ""
+msgstr "創設者にあなたの要求が通知されました. %1 までに創設者が応答しなければ、あなたが創設者になれます。"
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
@@ -3746,10 +3750,14 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
+"チームの創設者が活動しておらずあなたがその役割を引き継ぎたいなら、以下のボタンをクリックしてください。現在の創設者にEメイルが送られ、あなたの要求が説明"
+"されます。創設者は権限をあなたに委譲するか、委譲要求を拒否するかを選べます。創設者が60日以内に応答しなければ、あなたが新しい創設者になれます。<br "
+"/><br />\n"
+"                       創設者の権限委譲を要求しますか?"
 
 #: ../user/team_founder_transfer_form.php:63
 msgid "Request foundership"
-msgstr ""
+msgstr "創設者権限の委譲要求"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
@@ -3759,197 +3767,210 @@ msgstr ""
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
-msgstr ""
+msgstr "過去90日内に創設者の権限委譲が要求されていましたので、新規の要求は許されません。しばらくたってからもう一度試してください。"
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
 msgid "The team %1 is not joinable."
-msgstr ""
+msgstr "チーム %1 には参加できません。"
 
 #: ../user/team_join.php:33 ../user/team_join_action.php:33
 msgid "Already a member"
-msgstr ""
+msgstr "すでに所属しています"
 
 #: ../user/team_join.php:34 ../user/team_join_action.php:34
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "あなたはすでに %1 に所属しています。"
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
 msgid "Couldn't join team - please try again later."
-msgstr ""
+msgstr "チームに参加不可 - しばらくたってからもう一度試してください。"
 
 #: ../user/team_join_action.php:38
+#, fuzzy
 msgid "Joined %1"
-msgstr ""
+msgstr "%1 に参加完了"
 
 #: ../user/team_join_action.php:39
 msgid "You have joined %1."
-msgstr ""
+msgstr "%1 に参加しました。"
 
 #: ../user/team_join_form.php:32
 msgid "Join %1"
-msgstr ""
+msgstr "%1 に参加する"
 
 #: ../user/team_join_form.php:33
 msgid "Please note:"
-msgstr ""
+msgstr "以下にご注意ください:"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
-msgstr ""
+msgstr "チームに参加すると、その創設者にあなたのEメイルアドレスが知らされます。"
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
-msgstr ""
+msgstr "チームへ参加しても、あなたのアカウントの功績値には影響はありません。"
 
 #: ../user/team_join_form.php:43
 msgid "Join team"
-msgstr ""
+msgstr "チームに参加する"
 
 #: ../user/team_lookup.php:62
 msgid "Search Results"
-msgstr ""
+msgstr "検索結果"
 
 #: ../user/team_lookup.php:64
+#, fuzzy
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "%1 の検索結果"
 
 #: ../user/team_lookup.php:66
+#, fuzzy
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
+msgstr "これらのチームのメンバー数、統計データおよび情報を見ることができます。"
 
 #: ../user/team_lookup.php:75
 msgid "More than 100 teams match your search. The first 100 are shown."
-msgstr ""
+msgstr "100件を超える数のチームが見つかりました。最初の100件を表示します。"
 
 #: ../user/team_lookup.php:79
+#, fuzzy
 msgid ""
 "End of results<br>\n"
 "         If you cannot find the team you are looking for, you may %1create a "
 "team%2 by yourself."
 msgstr ""
+"結果の末尾<br>\n"
+"         探しているチームを見つけることができなかったなら、ご自身で %1チームを作る%2 こともできます。"
 
 #: ../user/team_manage.php:24
+#, fuzzy
 msgid "Team administration for %1"
-msgstr ""
+msgstr "%1 のチーム管理"
 
 #: ../user/team_manage.php:27
 msgid "Edit team info"
-msgstr ""
+msgstr "チームの情報を更新する"
 
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
-msgstr ""
+msgstr "チームの名前、URL、説明文、タイプ、国名を更新する"
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
-msgstr ""
+msgstr "メンバー一覧:"
 
 #: ../user/team_manage.php:31 ../user/team_manage.php:35
+#, fuzzy
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:32
+#, fuzzy
 msgid "text"
-msgstr ""
+msgstr "テキスト"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "メンバーの名前とEメイルアドレスを表示する"
 
 #: ../user/team_manage.php:34
+#, fuzzy
 msgid "View change history:"
-msgstr ""
+msgstr "更新履歴:"
 
 #: ../user/team_manage.php:36
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: ../user/team_manage.php:37
 msgid "See when members joined or quit this team"
-msgstr ""
+msgstr "メンバーのチーム参加と脱退の日時を表示する"
 
 #: ../user/team_manage.php:48
 msgid "Respond to foundership request."
-msgstr ""
+msgstr "創設者権限の委譲要求に応答する。"
 
 #: ../user/team_manage.php:48
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
-msgstr ""
+msgstr "%1までに応答しないと、%2 がチーム創設者の地位を引き継ぐかもしれません。"
 
 #: ../user/team_manage.php:53
 msgid "Remove inactive or unwanted members from this team"
-msgstr ""
+msgstr "チームから不活性なメンバー、好ましくないメンバーを削除する"
 
 #: ../user/team_manage.php:55
 msgid "Transfer foundership to another member"
-msgstr ""
+msgstr "創設者の権限を他のメンバーに委譲する"
 
 #: ../user/team_manage.php:56
 msgid "Add/remove Team Admins"
-msgstr ""
+msgstr "チーム管理者を追加・削除する"
 
 #: ../user/team_manage.php:57
 msgid "Give selected team members Team Admin privileges"
-msgstr ""
+msgstr "選んだメンバーにチーム管理者の権限を与える"
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
-msgstr ""
+msgstr "チームを削除する"
 
 #: ../user/team_manage.php:60
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "チームにメンバーがいないときだけ可能"
 
 #: ../user/team_manage.php:62
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "チームの掲示板を作成・管理する"
 
 #: ../user/team_manage.php:69
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
+"このチームをすべての BOINCプロジェクト(現在および未来にわたって)に設置するために、%1BOINC ワイドのチーム%2 "
+"というものにすることも可能です。"
 
 #: ../user/team_manage.php:71
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
-msgstr ""
+msgstr "チーム管理者には、Googleの %1boinc-team-founders%2 グループに参加して活動することをお奨めします。"
 
 #: ../user/team_manage.php:73
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
-msgstr ""
+msgstr "その他、BOINC のチーム管理者向けの資材・資料が外部のサイト%1www.boincteams.com%2 にあります。"
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "メンバーのいるチームは削除できません"
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "チーム %1 を削除しました"
 
 #: ../user/team_members.php:33
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr ""
+msgstr "制限値を超過: 最初の1000メンバーのみ表示可能です。"
 
 #: ../user/team_members.php:43
+#, fuzzy
 msgid "Members of %1"
-msgstr ""
+msgstr "%1のメンバー一覧"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
-msgstr ""
+msgstr "チームから脱退できません"
 
 #: ../user/team_quit_action.php:33
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "指定したチームが存在しないか、あなたがそのチームに所属していません。"
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
-msgstr ""
+msgstr "%1 から脱退する"
 
 #: ../user/team_quit_form.php:32
 msgid ""
@@ -3961,6 +3982,11 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
+"<strong>チームを脱退する前に注意していただくこと:</strong>\n"
+"         <ul>\n"
+"         <li>チームを抜けたら、後でそこに戻ることも、お望みの他のチームに参加することもできます\n"
+"         <li>チームを脱退しても、決してあなた個人の功績データに影響はありません。\n"
+"         </ul>"
 
 #: ../user/team_quit_form.php:40
 msgid "Quit Team"
@@ -3968,47 +3994,49 @@ msgstr "チームから離脱する"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
-msgstr ""
+msgstr "%1 からメンバーを削除しています"
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "%1 は %2のメンバーではありません"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 は削除されました"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
-msgstr ""
+msgstr "%1からメンバーを削除する"
 
 #: ../user/team_remove_inactive_form.php:37
 msgid "Remove?"
-msgstr ""
+msgstr "削除しますか?"
 
 #: ../user/team_remove_inactive_form.php:38
+#, fuzzy
 msgid "Name (ID)"
-msgstr ""
+msgstr "名前(ID)"
 
 #: ../user/team_remove_inactive_form.php:63
 msgid "No members are eligible for removal."
-msgstr ""
+msgstr "削除すべきメンバーは存在しません。"
 
 #: ../user/team_remove_inactive_form.php:66
+#, fuzzy
 msgid "Remove users"
-msgstr ""
+msgstr "メンバーを削除する"
 
 #: ../user/team_search.php:65
 msgid "Team name"
-msgstr ""
+msgstr "チームの名前"
 
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
-msgstr ""
+msgstr "検索条件に合致するチームはありません。違う条件で探してみて下さい。"
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "あるいは、%1新しくチームを作る%2こともできます。"
 
 #: ../user/team_search.php:133
 msgid ""
@@ -4016,33 +4044,38 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
+"以下のチームが検索条件のうち1つ以上に合致しました。\n"
+"            チームに参加するにはその名前をクリックしてそのチームのページ\n"
+"               に行き、%1このチームに参加%2をクリックしてください。"
 
 #: ../user/team_search.php:140
+#, fuzzy
 msgid "Change your search"
-msgstr ""
+msgstr "検索条件を変える"
 
 #: ../user/team_search.php:152
-#, fuzzy
 msgid "Team search results"
-msgstr ""
+msgstr "チームの検査結果"
 
 #: ../user/team_search.php:156
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
-msgstr ""
+msgstr "チームは、似かよった興味を持った人、同じ国・会社・学校などの人などと一緒になって結成することができます。"
 
 #: ../user/team_search.php:158
 msgid "Use this form to find teams that might be right for you."
-msgstr ""
+msgstr "このフォームを使ってあなたに適切なチームを探して下さい。"
 
 #: ../user/team_search.php:163
+#, fuzzy
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr ""
+msgstr "今のところチームに参加することに%1私は興味がありません%2。"
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
+#, fuzzy
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr ""
+msgstr "制限値を超過 - 残念ですが、最初の %1項目のみ"
 
 #: ../user/top_hosts.php:81
 msgid "Top hosts"
@@ -4053,16 +4086,18 @@ msgid "Top %1 teams"
 msgstr "%1 チームのランキング"
 
 #: ../user/top_teams.php:106
+#, fuzzy
 msgid "There are no %1 teams"
-msgstr ""
+msgstr "%1 のチームはありません"
 
 #: ../user/top_users.php:63
 msgid "Participant since"
 msgstr "参加日時"
 
 #: ../user/uotd.php:27
+#, fuzzy
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "毎日の参加者紹介は選ばれていません。"
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
@@ -4134,7 +4169,7 @@ msgstr "参加者の検索結果"
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "該当する参加者はいません!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
@@ -4146,35 +4181,36 @@ msgstr "チーム"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
-msgstr ""
+msgstr "チームの総功績"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "チームの平均功績"
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr ""
+msgstr "チーム: なし"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
 msgstr ""
 
 #: ../user/validate_email_addr.php:31
+#, fuzzy
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
-msgstr ""
+msgstr "下記のリンクをたどることによって、あなたの %1 アカウントに指定したEメイルアドレスの正しさを証明してください:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "送信されたEメイルに確認を返す"
 
 #: ../user/validate_email_addr.php:35
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
-msgstr ""
+msgstr "Eメイルを %1 に送りました。そこに含まれるリンクをたどることによって、あなたのEメイルアドレスの正しさを証明してください。"
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
@@ -4182,27 +4218,28 @@ msgstr "該当する参加者はありません。"
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
-msgstr ""
+msgstr "URLデータに異常あり - Eメイルアドレスの正しさが確認できません"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
-msgstr ""
+msgstr "データベース更新失敗 - 後ほどやり直してください。"
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "Eメイルアドレスの正しさを証明する"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "あなたのアカウントのEメイルアドレスが正しいことは確認済みです。"
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
 msgstr "この参加者の自己紹介は登録されていません"
 
 #: ../user/view_profile.php:44
+#, fuzzy
 msgid "Profile: %1"
-msgstr ""
+msgstr "自己紹介: %1"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
@@ -4317,25 +4354,26 @@ msgstr "検証"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: ../project.sample/project.inc:54
+#, fuzzy
 msgid "Generated"
-msgstr ""
+msgstr "生成されました"
 
 #: ../project.sample/project.inc:88
 msgid "Your personal background."
-msgstr ""
+msgstr "あなたの経歴"
 
 #: ../project.sample/project.inc:92
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
-msgstr ""
+msgstr "ご自身について書いてください。どこ出身であるかとか、年齢、職業、趣味ほか何でもあなたに関することをどうぞ。"
 
 #: ../project.sample/project.inc:96
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "%1 についてのあなたのご意見"
 
 #: ../project.sample/project.inc:100
 msgid ""
@@ -4345,25 +4383,32 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
+"%1についてどのような考えをお持ちか教えてください。<ol>\n"
+"    <li>なぜ %1 を走らせているのでしょうか?\n"
+"    <li>このプロジェクトについて何を期待していますか?\n"
+"    <li>その他にも示唆をいただけますか?\n"
+"    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
+#, fuzzy
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "グラフィクス用の配色"
 
 #: ../project.sample/project_specific_prefs.inc:48
+#, fuzzy
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "グラフィクスに割当てる最大CPU使用率(%)%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "選択したアプリケーションだけを実行する"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
-msgstr ""
+msgstr "選択したアプリケーションの仕事がないとき、他のアプリケーションの仕事も受け入れますか?"
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(すべてのアプリケーション)"
