@@ -6661,3 +6661,10 @@ Rom    19 Feb 2010
     /
         configure.ac
         version.h
+
+Charlie  24 Feb 2010
+    - Mac Installer: add missing .txt extension to copyright files in 
+        installer build script.
+
+    mac_installer/
+        release_boinc.sh
