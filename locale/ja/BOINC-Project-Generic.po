@@ -542,6 +542,7 @@ msgid "To"
 msgstr "宛先"
 
 #: ../inc/pm.inc:85
+#, fuzzy
 msgid "User IDs or unique usernames, separated with commas"
 msgstr "ユーザIDあるいは、一意なユーザ名を入力。複数の場合はカンマで区切って下さい。"
 
@@ -2938,10 +2939,12 @@ msgid "You need to fill all fields to send a private message"
 msgstr "非公開メッセージを送信するためには、すべての欄を入力して下さい。"
 
 #: ../user/pm.php:199
+#, fuzzy
 msgid "Could not find user with id %1"
 msgstr "IDが %1 のユーザは見つかりませんでした"
 
 #: ../user/pm.php:204
+#, fuzzy
 msgid "Could not find user with username %1"
 msgstr "名前が %1 のユーザは見つかりませんでした"
 
