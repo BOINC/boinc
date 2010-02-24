@@ -121,7 +121,7 @@ $m610dev = array(
 	"num"=>"6.10.34",
 	"status"=>"Development version (standard GUI)",
 	"file"=>"boinc_6.10.34_macOSX_universal.zip",
-	"date"=>"23 Feb 2010",
+	"date"=>"24 Feb 2010",
 	"type"=>"mac_advanced",
 );
 
@@ -145,7 +145,7 @@ $m610cdev = array(
     "num"=>"6.10.34",
 	"status"=>"Development version (Unix command-line version)",
     "file"=>"boinc_6.10.34_universal-apple-darwin.zip",
-    "date"=>"23 Feb 2010",
+    "date"=>"24 Feb 2010",
     "type"=>"bare_core",
 );
 
