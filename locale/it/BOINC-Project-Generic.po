@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-24 12:35-0700\n"
+"PO-Revision-Date: 2010-02-24 12:40-0700\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -163,8 +163,9 @@ msgid "Domain name"
 msgstr "Nome dominio"
 
 #: ../inc/host.inc:97
+#, fuzzy
 msgid "Local Standard Time"
-msgstr ""
+msgstr "Ora locale"
 
 #: ../inc/host.inc:97
 msgid "UTC %1 hours"
