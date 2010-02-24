@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-24 07:59-0700\n"
+"PO-Revision-Date: 2010-02-24 08:21-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -1099,179 +1099,176 @@ msgstr "Terminé, validation impossible"
 
 #: ../inc/result.inc:122
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Terminé, validation peu concluante"
 
 #: ../inc/result.inc:123
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Terminé, trop tardif pour valider"
 
 #: ../inc/result.inc:125
 msgid "Completed"
-msgstr ""
+msgstr "Terminé"
 
 #: ../inc/result.inc:126 ../inc/result.inc:162
 msgid "Couldn't send"
-msgstr ""
+msgstr "Impossible d'envoyer"
 
 #: ../inc/result.inc:129 ../inc/result.inc:186
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Annulé par le serveur"
 
 #: ../inc/result.inc:132
 msgid "Error while downloading"
-msgstr ""
+msgstr "Erreur en cours de téléchargement (sens download)"
 
 #: ../inc/result.inc:134
 msgid "Error while computing"
-msgstr ""
+msgstr "Erreur en cours de calculs"
 
 #: ../inc/result.inc:135
 msgid "Error while uploading"
-msgstr ""
+msgstr "Erreur en cours de téléchargement (sens upload)"
 
 #: ../inc/result.inc:136 ../inc/result.inc:188
 msgid "Aborted by user"
-msgstr ""
+msgstr "Annulé par l'utilisateur"
 
 #: ../inc/result.inc:139
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Délai expiré - aucune réponse"
 
 #: ../inc/result.inc:140 ../inc/result.inc:169
 msgid "Didn't need"
-msgstr ""
+msgstr "N'a pas eu besoin de"
 
 #: ../inc/result.inc:141 ../inc/result.inc:170
 msgid "Validate error"
-msgstr ""
+msgstr "Valider l'erreur"
 
 #: ../inc/result.inc:142 ../inc/result.inc:171
 msgid "Client detached"
-msgstr ""
+msgstr "Client détaché"
 
 #: ../inc/result.inc:153
 msgid "Over"
-msgstr ""
+msgstr "Sur"
 
 #: ../inc/result.inc:161
 msgid "Success"
-msgstr ""
+msgstr "Succès"
 
 #: ../inc/result.inc:165
 msgid "Client error"
-msgstr ""
+msgstr "Erreur du client"
 
 #: ../inc/result.inc:167
 msgid "Redundant result"
-msgstr ""
+msgstr "Résultats redondants"
 
 #: ../inc/result.inc:168
 msgid "No reply"
-msgstr ""
+msgstr "Aucune réponse"
 
 #: ../inc/result.inc:178
 msgid "New"
-msgstr ""
+msgstr "Nouveau"
 
 #: ../inc/result.inc:179
 msgid "Downloading"
-msgstr ""
+msgstr "Téléchargement (download)"
 
 #: ../inc/result.inc:180
-#, fuzzy
 msgid "Processing"
-msgstr "Utilisation du processeur"
+msgstr "En cours de calculs"
 
 #: ../inc/result.inc:181
 msgid "Compute error"
-msgstr ""
+msgstr "Erreur de calcul"
 
 #: ../inc/result.inc:182
 msgid "Uploading"
-msgstr ""
+msgstr "Téléversement (upload)"
 
 #: ../inc/result.inc:183
-#, fuzzy
 msgid "Done"
-msgstr "Aucun(e)"
+msgstr "Fait"
 
 #: ../inc/result.inc:194
 msgid "Initial"
-msgstr ""
+msgstr "Initial"
 
 #: ../inc/result.inc:200
 msgid "Not necessary"
-msgstr ""
+msgstr "Pas nécessaire"
 
 #: ../inc/result.inc:201
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Erreur d'unité de travail (WU) - contrôle abandonné"
 
 #: ../inc/result.inc:202
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Vérifié, mais encore aucun consensus déterminé"
 
 #: ../inc/result.inc:203
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "La tâche a été déclarée trop tardivement pour être validée"
 
 #: ../inc/result.inc:211
 msgid "Couldn't send result"
-msgstr ""
+msgstr "Impossible d'envoyer les résultats"
 
 #: ../inc/result.inc:215
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Trop d'erreurs (peut être un bug)"
 
 #: ../inc/result.inc:219
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "Trop de résultats (peut être est-ce non déterministe)"
 
 #: ../inc/result.inc:223
 msgid "Too many total results"
-msgstr ""
+msgstr "Trop de résultats totaux"
 
 #: ../inc/result.inc:227
 msgid "WU cancelled"
-msgstr ""
+msgstr "Unité de travail (WU) annulée"
 
 #: ../inc/result.inc:231
 msgid "Unrecognized Error: %1"
-msgstr ""
+msgstr "Erreur non reconnue : %1"
 
 #: ../inc/result.inc:257
 msgid "Task name"
-msgstr ""
+msgstr "Nom de tâche"
 
 #: ../inc/result.inc:257 ../inc/result.inc:262 ../inc/result.inc:265
 #: ../inc/result.inc:268
 msgid "click for details"
-msgstr ""
+msgstr "cliquer pour voir les détails"
 
 #: ../inc/result.inc:257
 msgid "Show IDs"
-msgstr ""
+msgstr "Afficher les ID"
 
 #: ../inc/result.inc:262
 msgid "Show names"
-msgstr ""
+msgstr "Afficher les noms"
 
 #: ../inc/result.inc:265
 msgid "Task ID"
-msgstr ""
+msgstr "ID de tâche"
 
 #: ../inc/result.inc:268
 msgid "Work unit ID"
-msgstr ""
+msgstr "ID d'unité de travail (WU)"
 
 #: ../inc/result.inc:271
-#, fuzzy
 msgid "Computer"
-msgstr "Ordinateurs"
+msgstr "Ordinateur"
 
 #: ../inc/result.inc:274 ../inc/result.inc:378
 msgid "Sent"
-msgstr ""
+msgstr "Envoyé"
 
 #: ../inc/result.inc:275
 msgid "Time reported<br />or deadline"
@@ -1279,44 +1276,43 @@ msgstr ""
 
 #: ../inc/result.inc:276
 msgid "explain"
-msgstr ""
+msgstr "explication"
 
 #: ../inc/result.inc:278
 msgid "Status"
-msgstr ""
+msgstr "État"
 
 #: ../inc/result.inc:279
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Temps de fonctionnement<br />(sec)"
 
 #: ../inc/result.inc:280
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "Temps de CPU<br />(sec)"
 
 #: ../inc/result.inc:281 ../inc/result.inc:390
 msgid "Claimed credit"
-msgstr ""
+msgstr "Crédit demandé"
 
 #: ../inc/result.inc:282 ../inc/result.inc:391
 msgid "Granted credit"
-msgstr ""
+msgstr "Crédit accordé"
 
 #: ../inc/result.inc:283
-#, fuzzy
 msgid "Application"
-msgstr "Applications"
+msgstr "Application"
 
 #: ../inc/result.inc:376
 msgid "Workunit"
-msgstr ""
+msgstr "Unité de travail (WU)"
 
 #: ../inc/result.inc:379
 msgid "Received"
-msgstr ""
+msgstr "Reçu"
 
 #: ../inc/result.inc:380
 msgid "Server state"
-msgstr ""
+msgstr "État du serveur"
 
 #: ../inc/result.inc:381
 msgid "Outcome"
@@ -1324,11 +1320,11 @@ msgstr ""
 
 #: ../inc/result.inc:382
 msgid "Client state"
-msgstr ""
+msgstr "État du client"
 
 #: ../inc/result.inc:383
 msgid "Exit status"
-msgstr ""
+msgstr "État à la sortie"
 
 #: ../inc/result.inc:385
 msgid "Report deadline"
@@ -1336,15 +1332,15 @@ msgstr ""
 
 #: ../inc/result.inc:386
 msgid "Run time"
-msgstr ""
+msgstr "Temps de fonctionnement"
 
 #: ../inc/result.inc:387
 msgid "CPU time"
-msgstr ""
+msgstr "Temps de CPU"
 
 #: ../inc/result.inc:388
 msgid "stderr out"
-msgstr ""
+msgstr "Sortie sur stderr"
 
 #: ../inc/result.inc:389
 msgid "Validate state"
@@ -1352,15 +1348,15 @@ msgstr ""
 
 #: ../inc/result.inc:392
 msgid "application version"
-msgstr ""
+msgstr "version de l'application"
 
 #: ../inc/result.inc:406
 msgid "Previous"
-msgstr ""
+msgstr "Précédent"
 
 #: ../inc/result.inc:415
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1368,11 +1364,12 @@ msgstr "Critères de recherche (un ou plus)"
 
 #: ../inc/team.inc:34
 msgid "Key words"
-msgstr "Mots clés"
+msgstr "Mots clefs"
 
 #: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
-msgstr "Trouver des équipes dont le nom ou la description contiennent ces mots"
+msgstr ""
+"Trouver des équipes dont le nom ou la description contiennent ces mots clefs"
 
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:360 ../inc/team.inc:444 ../inc/user.inc:204
