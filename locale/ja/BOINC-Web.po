@@ -20,16 +20,16 @@ msgstr ""
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "検索"
 
 #: docutil.php:101
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "BOINCホームページに戻る"
 
 #: docutil.php:112
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "このページは%s翻訳可能です%s"
 
 #: download.php:40
 msgid "Download BOINC"
@@ -57,10 +57,11 @@ msgstr ""
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
-msgstr ""
+msgstr "ご自身で所有しているコンピュータあるいは所有者に許可を得た場合のみそのコンピュータでこのソフトウェアを実行することを許します。"
 
 #: download.php:116
-#, fuzzy, php-format
+#, php-format
+#, php-format
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
@@ -85,8 +86,9 @@ msgid "All versions"
 msgstr "ダウンロード一覧"
 
 #: download.php:126
+#, fuzzy
 msgid "Version history"
-msgstr ""
+msgstr "版数の履歴"
 
 #: download.php:143
 msgid "BOINC: compute for science"
@@ -247,12 +249,16 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%1科学者%2: は BOINC を使って%3ボランティア・コンピューティング・プロジェクト%4 "
+"を作成することで、何千ものCPUの計算能力を手に入れることができます。"
 
 #: index.php:130
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
+"Center%4.%1大学%2: BOINC を使って%3仮想キャンパス・スーパーコンピューティング・センタ%4を作ることができます。"
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
@@ -284,7 +290,7 @@ msgstr "論文と講演"
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "研究プロジェクト"
 
 #: index.php:159
 msgid "Logos and graphics"
@@ -313,7 +319,7 @@ msgstr "テスト"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "広報"
 
 #: index.php:172
 msgid "Software development"
@@ -338,7 +344,7 @@ msgstr ""
 
 #: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC の本拠地は、カリフォルニア大学バークレー校にあります"
 
 #~ msgid "Conferences"
 #~ msgstr "カンファレンス"
