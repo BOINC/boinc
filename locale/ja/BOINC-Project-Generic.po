@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-21 23:18+0900\n"
+"PO-Revision-Date: 2010-02-214 23:19+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -115,7 +115,6 @@ msgid "Mark all threads in all message boards as 'read'."
 msgstr "すべての掲示板のすべてのスレッドを「既読」状態に設定します。"
 
 #: ../inc/host.inc:24
-#, fuzzy
 msgid "No host"
 msgstr "計算機がありません"
 
@@ -140,7 +139,6 @@ msgid "Update"
 msgstr "更新"
 
 #: ../inc/host.inc:83
-#, fuzzy
 msgid "Computer information"
 msgstr "コンピュータの情報"
 
@@ -170,7 +168,6 @@ msgid "Local Standard Time"
 msgstr "現地標準時刻"
 
 #: ../inc/host.inc:97
-#, fuzzy
 msgid "UTC %1 hours"
 msgstr "UTC %1 時間"
 
@@ -184,7 +181,6 @@ msgid "Name"
 msgstr "名前"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
-#, fuzzy
 msgid "Owner"
 msgstr "所有者"
 
@@ -274,7 +270,6 @@ msgid "Measured floating point speed"
 msgstr "浮動小数点演算速度の測定値"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
-#, fuzzy
 msgid "%1 million ops/sec"
 msgstr "%1 メガ 命令/秒"
 
@@ -292,7 +287,6 @@ msgstr "%1 KB/秒"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:145
 #: ../inc/result.inc:155 ../inc/result.inc:173 ../inc/result.inc:205
-#, fuzzy
 msgid "Unknown"
 msgstr "不明"
 
@@ -310,7 +304,6 @@ msgid "%1 days"
 msgstr "%1 日"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Maximum daily WU quota per CPU"
 msgstr "CPU ごとの最大WU割当量/日"
 
@@ -351,9 +344,8 @@ msgid "Average CPU efficiency"
 msgstr "平均の CPU 効率"
 
 #: ../inc/host.inc:189
-#, fuzzy
 msgid "Task duration correction factor"
-msgstr ""
+msgstr "タスク期間補正因子r"
 
 #: ../inc/host.inc:191 ../inc/host.inc:614
 #, fuzzy
@@ -367,7 +359,7 @@ msgstr "このコンピュータを削除する"
 
 #: ../inc/host.inc:197
 msgid "Click to"
-msgstr ""
+msgstr "右のリンクをクリックすると"
 
 #: ../inc/host.inc:197
 #, fuzzy
@@ -427,7 +419,7 @@ msgstr "プロジェクト横断 統計情報"
 
 #: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
-msgstr ""
+msgstr "計算機 %1 には右の重複生存期間があります:"
 
 #: ../inc/host.inc:467
 #, fuzzy
@@ -450,22 +442,18 @@ msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr "計算機 %1 を %2 にはマージできません - 互換性がありません"
 
 #: ../inc/host.inc:546
-#, fuzzy
 msgid "Merging host %1 into host %2"
 msgstr "計算機 %1 を %2 にマージしています"
 
 #: ../inc/host.inc:563
-#, fuzzy
 msgid "Couldn't update credit of new computer"
 msgstr "新しいコンピュータの功績値を更新できませんでした"
 
 #: ../inc/host.inc:567
-#, fuzzy
 msgid "Couldn't update results"
 msgstr "リザルトを更新できませんでした"
 
 #: ../inc/host.inc:572
-#, fuzzy
 msgid "Couldn't retire old computer"
 msgstr "古いコンピュータを退役させることができませんでした"
 
@@ -484,7 +472,6 @@ msgid "All computers"
 msgstr "すべてのコンピュータ"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
-#, fuzzy
 msgid "Only computers active in past 30 days"
 msgstr "過去30日の間に活動のあったコンピュータのみ"
 
@@ -497,7 +484,6 @@ msgid "BOINC<br>version"
 msgstr "BOINC<br>版数"
 
 #: ../inc/host.inc:629
-#, fuzzy
 msgid "Last contact"
 msgstr "最後の接続日時"
 
@@ -926,9 +912,8 @@ msgstr ""
 
 # Two different usage share one msgid. One of them will be cut out to "processing" that means one of the result status.
 #: ../inc/prefs.inc:933
-#, fuzzy
 msgid "Computing"
-msgstr ""
+msgstr "計算"
 
 #: ../inc/prefs.inc:887
 msgid "Separate preferences for %1"
@@ -3289,7 +3274,6 @@ msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr "チームのメンバーの中から「チーム管理者」を何人か選ぶことができます。チーム管理者は以下のことができます:"
 
 #: ../user/team_admins.php:41
-#, fuzzy
 msgid "Edit team information (name, URL, description, country)"
 msgstr "チームの情報(名前、URL、説明文、国名)を編集する"
 
@@ -3336,7 +3320,7 @@ msgstr "現在のチーム管理者"
 
 #: ../user/team_admins.php:60
 msgid "Became Team Admin on"
-msgstr ""
+msgstr "チーム管理者になりました"
 
 #: ../user/team_admins.php:75
 msgid "Add Team Admin"
@@ -3438,7 +3422,6 @@ msgstr ""
 "g> をクリックします。"
 
 #: ../user/team_change_founder_form.php:74
-#, fuzzy
 msgid "New founder?"
 msgstr "新しい創設者?"
 
@@ -3475,7 +3458,6 @@ msgid "Not founder or admin"
 msgstr "創設者でもチーム管理者でもありません"
 
 #: ../user/team_delta.php:71
-#, fuzzy
 msgid "Team history for %1"
 msgstr "%1 のチーム履歴"
 
@@ -3587,7 +3569,6 @@ msgid "Minimum average credit to post"
 msgstr "投稿するために必要な平均功績(credit)の最小値"
 
 #: ../user/team_forum.php:78
-#, fuzzy
 msgid "Submit"
 msgstr "送信"
 
@@ -3764,7 +3745,7 @@ msgstr "創設者権限の委譲要求"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
-msgstr ""
+msgstr "創設者の変更は %1 からすでに %2 に要求されています。"
 
 #: ../user/team_founder_transfer_form.php:75
 msgid ""
@@ -3790,7 +3771,6 @@ msgid "Couldn't join team - please try again later."
 msgstr "チームに参加不可 - しばらくたってからもう一度試してください。"
 
 #: ../user/team_join_action.php:38
-#, fuzzy
 msgid "Joined %1"
 msgstr "%1 に参加完了"
 
@@ -3847,7 +3827,6 @@ msgstr ""
 "         探しているチームを見つけることができなかったなら、ご自身で %1チームを作る%2 こともできます。"
 
 #: ../user/team_manage.php:24
-#, fuzzy
 msgid "Team administration for %1"
 msgstr "%1 のチーム管理"
 
@@ -3864,12 +3843,10 @@ msgid "Member list:"
 msgstr "メンバー一覧:"
 
 #: ../user/team_manage.php:31 ../user/team_manage.php:35
-#, fuzzy
 msgid "HTML"
 msgstr "HTML"
 
 #: ../user/team_manage.php:32
-#, fuzzy
 msgid "text"
 msgstr "テキスト"
 
@@ -3959,7 +3936,6 @@ msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr "制限値を超過: 最初の1000メンバーのみ表示可能です。"
 
 #: ../user/team_members.php:43
-#, fuzzy
 msgid "Members of %1"
 msgstr "%1のメンバー一覧"
 
@@ -4016,7 +3992,6 @@ msgid "Remove?"
 msgstr "削除しますか?"
 
 #: ../user/team_remove_inactive_form.php:38
-#, fuzzy
 msgid "Name (ID)"
 msgstr "名前(ID)"
 
@@ -4025,7 +4000,6 @@ msgid "No members are eligible for removal."
 msgstr "削除すべきメンバーは存在しません。"
 
 #: ../user/team_remove_inactive_form.php:66
-#, fuzzy
 msgid "Remove users"
 msgstr "メンバーを削除する"
 
@@ -4052,7 +4026,6 @@ msgstr ""
 "               に行き、%1このチームに参加%2をクリックしてください。"
 
 #: ../user/team_search.php:140
-#, fuzzy
 msgid "Change your search"
 msgstr "検索条件を変える"
 
@@ -4076,7 +4049,6 @@ msgid "%1I'm not interested%2 in joining a team right now."
 msgstr "今のところチームに参加することに%1私は興味がありません%2。"
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
-#, fuzzy
 msgid "Limit exceeded - Sorry, first %1 items only"
 msgstr "制限値を超過 - 残念ですが、最初の %1項目のみ"
 
@@ -4104,7 +4076,7 @@ msgstr "毎日の参加者紹介は選ばれていません。"
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "毎日の参加者紹介、本日(%1)は %2 さん"
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Joined"
@@ -4176,7 +4148,7 @@ msgstr "該当する参加者はいません!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "アカウント・データ<br/>名前: %1<br/>時刻:"
 
 #: ../user/userw.php:46
 msgid "Team:"
@@ -4196,7 +4168,7 @@ msgstr "チーム: なし"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "BOINCへEメイルアドレス確認"
 
 #: ../user/validate_email_addr.php:31
 #, fuzzy
@@ -4240,7 +4212,6 @@ msgid "This user has no profile"
 msgstr "この参加者の自己紹介は登録されていません"
 
 #: ../user/view_profile.php:44
-#, fuzzy
 msgid "Profile: %1"
 msgstr "自己紹介: %1"
 
@@ -4393,12 +4364,10 @@ msgstr ""
 "    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
-#, fuzzy
 msgid "Color scheme for graphics"
 msgstr "グラフィクス用の配色"
 
 #: ../project.sample/project_specific_prefs.inc:48
-#, fuzzy
 msgid "Maximum CPU % for graphics%10 ... 100%2"
 msgstr "グラフィクスに割当てる最大CPU使用率(%)%10 ... 100%2"
 
