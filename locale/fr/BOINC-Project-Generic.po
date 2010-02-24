@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-19 01:18-0700\n"
+"PO-Revision-Date: 2010-02-24 07:59-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -930,32 +930,33 @@ msgid ""
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
+"Celles-ci s'appliquent à tous les projets BOINC auxquels vous "
+"participez.<br>           Sur les ordinateurs rattachés à plusieurs projets, "
+"les préférences les plus récemment modifiées seront utilisées."
 
 #: ../inc/prefs.inc:1012
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Dernière modification des préférences :"
 
 #: ../inc/prefs.inc:1064
-#, fuzzy
 msgid "Add preferences"
-msgstr "Préférences de %1"
+msgstr "Ajouter des préférences"
 
 #: ../inc/prefs.inc:1068
-#, fuzzy
 msgid "Update preferences"
-msgstr "Préférences de %1"
+msgstr "Mettre à jour les préférences"
 
 #: ../inc/prefs.inc:1167
 msgid "Gbytes"
-msgstr ""
+msgstr "Goctets"
 
 #: ../inc/prefs.inc:1181
 msgid "Gbytes free"
-msgstr ""
+msgstr "Goctets libres"
 
 #: ../inc/prefs.inc:1282
 msgid "Resource share"
-msgstr ""
+msgstr "Ressource partagée"
 
 #: ../inc/prefs.inc:1284
 msgid ""
@@ -967,23 +968,27 @@ msgstr ""
 
 #: ../inc/prefs.inc:1338 ../inc/prefs.inc:1347
 msgid "Default computer location"
-msgstr ""
+msgstr "Localisation par défaut de l'ordinateur"
 
 #: ../inc/prefs.inc:1627
 msgid "Update failed: "
-msgstr ""
+msgstr "Échec de la mise à jour : "
 
 #: ../inc/profile.inc:86
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
 msgstr ""
+"Votre profil sera visible pour les autres personnes dès qu'il aura été "
+"approuvé par le projet. Cela peut prendre quelques jours."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
 msgstr ""
+"Votre profil a été marqué comme inacceptable. Il n'est pas visible par les "
+"autres personnes. Veuillez en changer."
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
@@ -994,14 +999,17 @@ msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
+"Pour se prémunir du spam, les profils des utilisateurs ayant un crédit moyen "
+"inférieur à %1 sont affichés uniquement aux utilisateurs connectés. "
+"Veuillez nous excuser de cet inconvénient."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
-msgstr ""
+msgstr "L'utilisateur est banni"
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "Aucun profil n'existe pour cet ID d'utilisateur"
 
 #: ../inc/profile.inc:213 ../user/create_profile.php:306
 msgid "Edit your profile"
@@ -1013,7 +1021,7 @@ msgstr "Vos impressions sur ce profil"
 
 #: ../inc/profile.inc:253
 msgid "Recommend this profile for User of the Day:"
-msgstr "Recommander ce profil en tant qu'utilisateur du jour : "
+msgstr "Recommander ce profil en tant qu'utilisateur du jour :"
 
 # ?????
 #: ../inc/profile.inc:254
@@ -1031,63 +1039,63 @@ msgstr "Je %1n'aime pas%2 ce profil"
 
 #: ../inc/result.inc:25
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Plateforme anonyme"
 
 #: ../inc/result.inc:32
 msgid "Not in DB"
-msgstr ""
+msgstr "Pas en DB"
 
 #: ../inc/result.inc:70
 msgid "pending"
-msgstr ""
+msgstr "en attente"
 
 #: ../inc/result.inc:92
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 #: ../inc/result.inc:93 ../inc/result.inc:113 ../inc/result.inc:152
 msgid "In progress"
-msgstr ""
+msgstr "En cours"
 
 #: ../inc/result.inc:94 ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "En attente"
 
 #: ../inc/result.inc:95 ../inc/result.inc:195
 msgid "Valid"
-msgstr ""
+msgstr "Valide"
 
 #: ../inc/result.inc:96 ../inc/result.inc:198
 msgid "Invalid"
-msgstr ""
+msgstr "Invalide"
 
 #: ../inc/result.inc:97 ../inc/result.inc:138
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #: ../inc/result.inc:111 ../inc/result.inc:150
 msgid "Inactive"
-msgstr ""
+msgstr "Inactif"
 
 #: ../inc/result.inc:112 ../inc/result.inc:151
 msgid "Unsent"
-msgstr ""
+msgstr "Non envoyé"
 
 #: ../inc/result.inc:118
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Terminé, en attente de validation"
 
 #: ../inc/result.inc:119
 msgid "Completed and validated"
-msgstr ""
+msgstr "Terminé et validé"
 
 #: ../inc/result.inc:120
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Terminé, marqué comme invalide"
 
 #: ../inc/result.inc:121
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Terminé, validation impossible"
 
 #: ../inc/result.inc:122
 msgid "Completed, validation inconclusive"
