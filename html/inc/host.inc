@@ -194,8 +194,7 @@ function show_host($host, $user, $ipprivate) {
         } else {
             $x = "";
         }
-        row2(tra("Click to"), "<a href=host_edit_form.php?hostid=$host->id>".tra("Merge this computer")."</a> $x");
-        //row2("Click to", "<a href=host_update_credit.php?hostid=$host->id>recompute credit</a>");
+        row2(tra("Merge duplicate records of this computer"), "<a href=host_edit_form.php?hostid=$host->id>".tra("Merge")."</a> $x");
     }
     echo "</table>\n";
 
