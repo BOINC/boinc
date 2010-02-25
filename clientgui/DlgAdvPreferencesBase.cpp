@@ -644,6 +644,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	bSizer5->Fit( m_panelButtons );
 	bSizer1->Add( m_panelButtons, 0, wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxALL, 1 );
 
+    bSizer1->Fit( this );
 	this->SetSizer( bSizer1 );
 	this->Layout();
 }

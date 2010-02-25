@@ -202,7 +202,7 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxButton* m_btnHelp;
 	
 	public:
-		CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxSize( 547,526 ), int style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxSize( 547,526 ), int style = wxDEFAULT_DIALOG_STYLE );
 	
 };
 
