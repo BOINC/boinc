@@ -678,3 +678,11 @@ Charlie  25 Feb 2010
     clientgui/
         DlgAdvPreferences.cpp
         DlgAdvPreferencesBase.cpp, .h
+
+Rom    25 Feb 2010
+    - WIN: Add some missing CPU features to the feature list
+    - WIN: Make sure the Brand string for a CPU is printable. Older Intel
+        processors have some control characters.
+        
+    client/
+        hostinfo_win.cpp
