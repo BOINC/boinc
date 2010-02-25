@@ -678,9 +678,9 @@ int get_processor_version(int& family, int& model, int& stepping) {
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
 int get_processor_name(char* name, int name_size) {
-    int eax, ebx, ecx, edx;
+    int eax, ebx, ecx, edx, i;
 
-    if (name_size < 49) return 1;
+    if (name_size < 48) return 1;
 
     memset(name, 0, sizeof(name_size));
 
@@ -702,6 +702,16 @@ int get_processor_name(char* name, int name_size) {
         *((int*)(name + 40)) = ecx;
         *((int*)(name + 44)) = edx;
     }
+
+    // Old processors contain junk in the brand string, Intel's documentation
+    // doesn't mention this at all.  So before returning, change all non-ascii
+    // characters to spaces.
+    for (i = 0; i < strlen(name); i++) {
+        if (!isprint(*(name + i))) {
+            *(name + i) = ' ';
+        }
+    }
+
     return 0;
 }
 
@@ -791,17 +801,31 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         // Intel only features
         FEATURE_TEST((std_ecx & (1 << 5)), "vmx ");
         FEATURE_TEST((std_ecx & (1 << 6)), "smx ");
-        FEATURE_TEST((std_ecx & (1 << 6)), "tm2 ");
+        FEATURE_TEST((std_ecx & (1 << 8)), "tm2 ");
+		FEATURE_TEST((std_ecx & (1 << 12)), "fma ");
         FEATURE_TEST((std_ecx & (1 << 18)), "dca ");
+		FEATURE_TEST((std_ecx & (1 << 22)), "movebe ");
+        FEATURE_TEST((std_ecx & (1 << 23)), "popcnt ");
+		FEATURE_TEST((std_ecx & (1 << 25)), "aes ");
 
         FEATURE_TEST((std_edx & (1 << 31)), "pbe ");
     }
 
     if (amd_supported) {
         // AMD only features
+		FEATURE_TEST((ext_ecx & (1 << 2)), "svm ");
         FEATURE_TEST((ext_ecx & (1 << 6)), "sse4a ");
-        FEATURE_TEST((ext_ecx & (1 << 11)), "sse5 ");
+        FEATURE_TEST((ext_ecx & (1 << 9)), "osvw "); 
+ 		FEATURE_TEST((ext_ecx & (1 << 10)), "ibs ");
+		FEATURE_TEST((ext_ecx & (1 << 11)), "xop ");
+		FEATURE_TEST((ext_ecx & (1 << 12)), "skinit ");
+		FEATURE_TEST((ext_ecx & (1 << 13)), "wdt ");
+        FEATURE_TEST((ext_ecx & (1 << 15)), "lwp ");
+		FEATURE_TEST((ext_ecx & (1 << 16)), "fma4 ");
+        FEATURE_TEST((ext_ecx & (1 << 18)), "cvt16 ");
 
+		FEATURE_TEST((ext_edx & (1 << 26)), "page1gb ");
+		FEATURE_TEST((ext_edx & (1 << 27)), "rdtscp ");
         FEATURE_TEST((ext_edx & (1 << 30)), "3dnowext ");
         FEATURE_TEST((ext_edx & (1 << 31)), "3dnow ");
     }
@@ -848,7 +872,7 @@ int get_processor_info(
     );
 
     snprintf(p_model, p_model_size,
-        "%s [Family %d Model %d, Stepping %d]", 
+        "%s [Family %d Model %d Stepping %d]", 
         processor_name, family, model, stepping
     );
 
