@@ -686,3 +686,11 @@ Rom    25 Feb 2010
         
     client/
         hostinfo_win.cpp
+
+Rom    25 Feb 2010
+    - Tag for 6.10.35 release, all platforms
+      boinc_core_release_6_10_35
+
+    /
+        configure.ac
+        version.h
