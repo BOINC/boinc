@@ -664,3 +664,17 @@ Charlie  24 Feb 2010
 
     mac_installer/
         release_boinc.sh
+
+Charlie  25 Feb 2010
+    - MGR: Fix a long-standing bug that made sizers fail on Mac for Advanced 
+        Preferences dialog: I added bSizer1->Fit(this) to end of constructor. 
+        To work around this bug, the dialog had been made resizeable and the 
+        height and width were saved in the Manager settings.  But this meant 
+        that when we add an item to the dialog, it is too small until the 
+        user expands it.  And Modal dialogs like this should not be resizeable.
+        I also made the dialog no longer resizeable by the user.
+        Remove second "between" in "Switch between applications between every".
+        
+    clientgui/
+        DlgAdvPreferences.cpp
+        DlgAdvPreferencesBase.cpp, .h

@@ -144,8 +144,6 @@ bool CDlgAdvPreferences::SaveState() {
 
 	pConfig->SetPath(strBaseConfigLocation);
 	pConfig->Write(wxT("CurrentPage"),m_Notebook->GetSelection());
-	pConfig->Write(wxT("Width"),this->GetSize().GetWidth());
-	pConfig->Write(wxT("Height"),this->GetSize().GetHeight());
 	return true;
 }
 
@@ -153,7 +151,7 @@ bool CDlgAdvPreferences::SaveState() {
 bool CDlgAdvPreferences::RestoreState() {
     wxString        strBaseConfigLocation = wxString(wxT("/DlgAdvPreferences/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-	int				p,w,h;
+	int				p;
 
 	wxASSERT(pConfig);
 
@@ -163,9 +161,6 @@ bool CDlgAdvPreferences::RestoreState() {
 
 	pConfig->Read(wxT("CurrentPage"), &p,0);
 	m_Notebook->SetSelection(p);	
-	pConfig->Read(wxT("Width"), &w,-1);
-	pConfig->Read(wxT("Height"), &h,-1);
-	this->SetSize(w,h);	
 
 	return true;
 }

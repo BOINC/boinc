@@ -277,7 +277,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	fgSizer3->SetFlexibleDirection( wxHORIZONTAL );
 	fgSizer3->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-	m_staticText18 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("Switch between applications between every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	m_staticText18 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("Switch between applications every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	fgSizer3->Add( m_staticText18, 0, wxALL|wxEXPAND, 5 );
 
 	m_txtProcSwitchEvery = new wxTextCtrl( m_panelProcessor, ID_TXTPROCSWITCHEVERY, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
@@ -644,6 +644,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	bSizer5->Fit( m_panelButtons );
 	bSizer1->Add( m_panelButtons, 0, wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxALL, 1 );
 
+    bSizer1->Fit( this );
 	this->SetSizer( bSizer1 );
 	this->Layout();
 }
