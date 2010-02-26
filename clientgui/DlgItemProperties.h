@@ -53,6 +53,8 @@ private:
 	wxString FormatStatus(RESULT* result);
 	wxString FormatTime(float fBuffer);
 	//generic layout methods
+    bool SaveState();
+    bool RestoreState();
 	void addSection(const wxString& title);
 	void addProperty(const wxString& name, const wxString& value);
 protected:

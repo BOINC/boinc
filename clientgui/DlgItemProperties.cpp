@@ -64,10 +64,46 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
 	Centre( wxBOTH );
 
 	m_current_row=0;
+
+	RestoreState();
 }
 
 // destructor
 CDlgItemProperties::~CDlgItemProperties() {
+	SaveState();
+}
+
+/* saves dialog size */
+bool CDlgItemProperties::SaveState() {
+    wxString        strBaseConfigLocation = wxString(wxT("/DlgProperties/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+
+    wxASSERT(pConfig);
+	if (!pConfig) return false;
+
+	pConfig->SetPath(strBaseConfigLocation);
+	pConfig->Write(wxT("Width"),this->GetSize().GetWidth());
+	pConfig->Write(wxT("Height"),this->GetSize().GetHeight());
+	return true;
+}
+
+/* restores former dialog size */
+bool CDlgItemProperties::RestoreState() {
+    wxString        strBaseConfigLocation = wxString(wxT("/DlgProperties/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+	int				w, h;
+
+	wxASSERT(pConfig);
+
+    if (!pConfig) return false;
+
+	pConfig->SetPath(strBaseConfigLocation);
+
+	pConfig->Read(wxT("Width"), &w,-1);
+	pConfig->Read(wxT("Height"), &h,-1);
+	SetSize(w,h);	
+
+	return true;
 }
 
 // show project properties

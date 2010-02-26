@@ -1386,3 +1386,12 @@ Rom    25 Feb 2010
         
     client/
         hostinfo_win.cpp
+
+Charlie  26 Feb 2010
+    - MGR: Save and restore height and width of Properties dialog; fix comments.
+    
+    clientgui/
+        DlgAdvPreferences.cpp
+        DlgItemProperties.cpp, .h
+
+    

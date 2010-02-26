@@ -133,7 +133,7 @@ void CDlgAdvPreferences::SetSpecialTooltips() {
 	m_txtNetSunday->SetToolTip(TXT_NET_TIME_TOOLTIP);
 }
 
-/* saves selected tab page and dialog size*/
+/* saves selected tab page */
 bool CDlgAdvPreferences::SaveState() {
     wxString        strBaseConfigLocation = wxString(wxT("/DlgAdvPreferences/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
@@ -146,7 +146,7 @@ bool CDlgAdvPreferences::SaveState() {
 	return true;
 }
 
-/* restores former selected tab page and dialog size*/
+/* restores former selected tab page */
 bool CDlgAdvPreferences::RestoreState() {
     wxString        strBaseConfigLocation = wxString(wxT("/DlgAdvPreferences/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
