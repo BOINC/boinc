@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-19 01:18-0700\n"
+"PO-Revision-Date: 2010-02-26 07:49-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -405,7 +405,7 @@ msgstr "Statistiques inter-projets :"
 
 #: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
-msgstr ""
+msgstr "Le hôte %1 a une durée de vie qui chevauche :"
 
 #: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
@@ -782,7 +782,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:283
 msgid "bad subset: %1"
-msgstr ""
+msgstr "mauvais sous-ensemble : %1"
 
 #: ../inc/prefs.inc:688 ../inc/prefs.inc:691 ../inc/prefs.inc:800
 #: ../inc/prefs.inc:801 ../inc/prefs.inc:802 ../inc/prefs.inc:818
@@ -930,32 +930,33 @@ msgid ""
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
+"Celles-ci s'appliquent à tous les projets BOINC auxquels vous "
+"participez.<br>           Sur les ordinateurs rattachés à plusieurs projets, "
+"les préférences les plus récemment modifiées seront utilisées."
 
 #: ../inc/prefs.inc:1012
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Dernière modification des préférences :"
 
 #: ../inc/prefs.inc:1064
-#, fuzzy
 msgid "Add preferences"
-msgstr "Préférences de %1"
+msgstr "Ajouter des préférences"
 
 #: ../inc/prefs.inc:1068
-#, fuzzy
 msgid "Update preferences"
-msgstr "Préférences de %1"
+msgstr "Mettre à jour les préférences"
 
 #: ../inc/prefs.inc:1167
 msgid "Gbytes"
-msgstr ""
+msgstr "Goctets"
 
 #: ../inc/prefs.inc:1181
 msgid "Gbytes free"
-msgstr ""
+msgstr "Goctets libres"
 
 #: ../inc/prefs.inc:1282
 msgid "Resource share"
-msgstr ""
+msgstr "Ressource partagée"
 
 #: ../inc/prefs.inc:1284
 msgid ""
@@ -964,26 +965,35 @@ msgid ""
 "            BOINC projects with resource shares of 100 and 200, the first\n"
 "            will get 1/3 of your resources and the second will get 2/3."
 msgstr ""
+"Détermine la part de ressources de votre ordinateur\n"
+"            allouée à ce projet.Exemple : si vous participez à deux\n"
+"            projets BOINC avec un partage de ressources de 100 et 200, le "
+"premier\n"
+"            aura 1/3 des vos ressources et le second en aura les 2/3."
 
 #: ../inc/prefs.inc:1338 ../inc/prefs.inc:1347
 msgid "Default computer location"
-msgstr ""
+msgstr "Localisation par défaut de l'ordinateur"
 
 #: ../inc/prefs.inc:1627
 msgid "Update failed: "
-msgstr ""
+msgstr "Échec de la mise à jour : "
 
 #: ../inc/profile.inc:86
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
 msgstr ""
+"Votre profil sera visible pour les autres personnes dès qu'il aura été "
+"approuvé par le projet. Cela peut prendre quelques jours."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
 msgstr ""
+"Votre profil a été marqué comme inacceptable. Il n'est pas visible par les "
+"autres personnes. Veuillez en changer."
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
@@ -994,14 +1004,17 @@ msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
+"Pour se prémunir du spam, les profils des utilisateurs ayant un crédit moyen "
+"inférieur à %1 sont affichés uniquement aux utilisateurs connectés. "
+"Veuillez nous excuser de cet inconvénient."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
-msgstr ""
+msgstr "L'utilisateur est banni"
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "Aucun profil n'existe pour cet ID d'utilisateur"
 
 #: ../inc/profile.inc:213 ../user/create_profile.php:306
 msgid "Edit your profile"
@@ -1013,7 +1026,7 @@ msgstr "Vos impressions sur ce profil"
 
 #: ../inc/profile.inc:253
 msgid "Recommend this profile for User of the Day:"
-msgstr "Recommander ce profil en tant qu'utilisateur du jour : "
+msgstr "Recommander ce profil en tant qu'utilisateur du jour :"
 
 # ?????
 #: ../inc/profile.inc:254
@@ -1031,239 +1044,236 @@ msgstr "Je %1n'aime pas%2 ce profil"
 
 #: ../inc/result.inc:25
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Plateforme anonyme"
 
 #: ../inc/result.inc:32
 msgid "Not in DB"
-msgstr ""
+msgstr "Pas en DB"
 
 #: ../inc/result.inc:70
 msgid "pending"
-msgstr ""
+msgstr "en attente"
 
 #: ../inc/result.inc:92
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 #: ../inc/result.inc:93 ../inc/result.inc:113 ../inc/result.inc:152
 msgid "In progress"
-msgstr ""
+msgstr "En cours"
 
 #: ../inc/result.inc:94 ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "En attente"
 
 #: ../inc/result.inc:95 ../inc/result.inc:195
 msgid "Valid"
-msgstr ""
+msgstr "Valide"
 
 #: ../inc/result.inc:96 ../inc/result.inc:198
 msgid "Invalid"
-msgstr ""
+msgstr "Invalide"
 
 #: ../inc/result.inc:97 ../inc/result.inc:138
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #: ../inc/result.inc:111 ../inc/result.inc:150
 msgid "Inactive"
-msgstr ""
+msgstr "Inactif"
 
 #: ../inc/result.inc:112 ../inc/result.inc:151
 msgid "Unsent"
-msgstr ""
+msgstr "Non envoyé"
 
 #: ../inc/result.inc:118
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Terminé, en attente de validation"
 
 #: ../inc/result.inc:119
 msgid "Completed and validated"
-msgstr ""
+msgstr "Terminé et validé"
 
 #: ../inc/result.inc:120
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Terminé, marqué comme invalide"
 
 #: ../inc/result.inc:121
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Terminé, validation impossible"
 
 #: ../inc/result.inc:122
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Terminé, validation peu concluante"
 
 #: ../inc/result.inc:123
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Terminé, trop tardif pour valider"
 
 #: ../inc/result.inc:125
 msgid "Completed"
-msgstr ""
+msgstr "Terminé"
 
 #: ../inc/result.inc:126 ../inc/result.inc:162
 msgid "Couldn't send"
-msgstr ""
+msgstr "Impossible d'envoyer"
 
 #: ../inc/result.inc:129 ../inc/result.inc:186
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Annulé par le serveur"
 
 #: ../inc/result.inc:132
 msgid "Error while downloading"
-msgstr ""
+msgstr "Erreur en cours de téléchargement (sens download)"
 
 #: ../inc/result.inc:134
 msgid "Error while computing"
-msgstr ""
+msgstr "Erreur en cours de calculs"
 
 #: ../inc/result.inc:135
 msgid "Error while uploading"
-msgstr ""
+msgstr "Erreur en cours de téléchargement (sens upload)"
 
 #: ../inc/result.inc:136 ../inc/result.inc:188
 msgid "Aborted by user"
-msgstr ""
+msgstr "Annulé par l'utilisateur"
 
 #: ../inc/result.inc:139
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Délai expiré - aucune réponse"
 
 #: ../inc/result.inc:140 ../inc/result.inc:169
 msgid "Didn't need"
-msgstr ""
+msgstr "N'a pas eu besoin de"
 
 #: ../inc/result.inc:141 ../inc/result.inc:170
 msgid "Validate error"
-msgstr ""
+msgstr "Valider l'erreur"
 
 #: ../inc/result.inc:142 ../inc/result.inc:171
 msgid "Client detached"
-msgstr ""
+msgstr "Client détaché"
 
 #: ../inc/result.inc:153
 msgid "Over"
-msgstr ""
+msgstr "Sur"
 
 #: ../inc/result.inc:161
 msgid "Success"
-msgstr ""
+msgstr "Succès"
 
 #: ../inc/result.inc:165
 msgid "Client error"
-msgstr ""
+msgstr "Erreur du client"
 
 #: ../inc/result.inc:167
 msgid "Redundant result"
-msgstr ""
+msgstr "Résultats redondants"
 
 #: ../inc/result.inc:168
 msgid "No reply"
-msgstr ""
+msgstr "Aucune réponse"
 
 #: ../inc/result.inc:178
 msgid "New"
-msgstr ""
+msgstr "Nouveau"
 
 #: ../inc/result.inc:179
 msgid "Downloading"
-msgstr ""
+msgstr "Téléchargement (download)"
 
 #: ../inc/result.inc:180
-#, fuzzy
 msgid "Processing"
-msgstr "Utilisation du processeur"
+msgstr "En cours de calculs"
 
 #: ../inc/result.inc:181
 msgid "Compute error"
-msgstr ""
+msgstr "Erreur de calcul"
 
 #: ../inc/result.inc:182
 msgid "Uploading"
-msgstr ""
+msgstr "Téléversement (upload)"
 
 #: ../inc/result.inc:183
-#, fuzzy
 msgid "Done"
-msgstr "Aucun(e)"
+msgstr "Fait"
 
 #: ../inc/result.inc:194
 msgid "Initial"
-msgstr ""
+msgstr "Initial"
 
 #: ../inc/result.inc:200
 msgid "Not necessary"
-msgstr ""
+msgstr "Pas nécessaire"
 
 #: ../inc/result.inc:201
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Erreur d'unité de travail (WU) - contrôle abandonné"
 
 #: ../inc/result.inc:202
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Vérifié, mais encore aucun consensus déterminé"
 
 #: ../inc/result.inc:203
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "La tâche a été déclarée trop tardivement pour être validée"
 
 #: ../inc/result.inc:211
 msgid "Couldn't send result"
-msgstr ""
+msgstr "Impossible d'envoyer les résultats"
 
 #: ../inc/result.inc:215
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Trop d'erreurs (peut être un bug)"
 
 #: ../inc/result.inc:219
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "Trop de résultats (peut être est-ce non déterministe)"
 
 #: ../inc/result.inc:223
 msgid "Too many total results"
-msgstr ""
+msgstr "Trop de résultats totaux"
 
 #: ../inc/result.inc:227
 msgid "WU cancelled"
-msgstr ""
+msgstr "Unité de travail (WU) annulée"
 
 #: ../inc/result.inc:231
 msgid "Unrecognized Error: %1"
-msgstr ""
+msgstr "Erreur non reconnue : %1"
 
 #: ../inc/result.inc:257
 msgid "Task name"
-msgstr ""
+msgstr "Nom de tâche"
 
 #: ../inc/result.inc:257 ../inc/result.inc:262 ../inc/result.inc:265
 #: ../inc/result.inc:268
 msgid "click for details"
-msgstr ""
+msgstr "cliquer pour voir les détails"
 
 #: ../inc/result.inc:257
 msgid "Show IDs"
-msgstr ""
+msgstr "Afficher les ID"
 
 #: ../inc/result.inc:262
 msgid "Show names"
-msgstr ""
+msgstr "Afficher les noms"
 
 #: ../inc/result.inc:265
 msgid "Task ID"
-msgstr ""
+msgstr "ID de tâche"
 
 #: ../inc/result.inc:268
 msgid "Work unit ID"
-msgstr ""
+msgstr "ID d'unité de travail (WU)"
 
 #: ../inc/result.inc:271
-#, fuzzy
 msgid "Computer"
-msgstr "Ordinateurs"
+msgstr "Ordinateur"
 
 #: ../inc/result.inc:274 ../inc/result.inc:378
 msgid "Sent"
-msgstr ""
+msgstr "Envoyé"
 
 #: ../inc/result.inc:275
 msgid "Time reported<br />or deadline"
@@ -1271,44 +1281,43 @@ msgstr ""
 
 #: ../inc/result.inc:276
 msgid "explain"
-msgstr ""
+msgstr "explication"
 
 #: ../inc/result.inc:278
 msgid "Status"
-msgstr ""
+msgstr "État"
 
 #: ../inc/result.inc:279
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Temps de fonctionnement<br />(sec)"
 
 #: ../inc/result.inc:280
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "Temps de CPU<br />(sec)"
 
 #: ../inc/result.inc:281 ../inc/result.inc:390
 msgid "Claimed credit"
-msgstr ""
+msgstr "Crédit demandé"
 
 #: ../inc/result.inc:282 ../inc/result.inc:391
 msgid "Granted credit"
-msgstr ""
+msgstr "Crédit accordé"
 
 #: ../inc/result.inc:283
-#, fuzzy
 msgid "Application"
-msgstr "Applications"
+msgstr "Application"
 
 #: ../inc/result.inc:376
 msgid "Workunit"
-msgstr ""
+msgstr "Unité de travail (WU)"
 
 #: ../inc/result.inc:379
 msgid "Received"
-msgstr ""
+msgstr "Reçu"
 
 #: ../inc/result.inc:380
 msgid "Server state"
-msgstr ""
+msgstr "État du serveur"
 
 #: ../inc/result.inc:381
 msgid "Outcome"
@@ -1316,11 +1325,11 @@ msgstr ""
 
 #: ../inc/result.inc:382
 msgid "Client state"
-msgstr ""
+msgstr "État du client"
 
 #: ../inc/result.inc:383
 msgid "Exit status"
-msgstr ""
+msgstr "État à la sortie"
 
 #: ../inc/result.inc:385
 msgid "Report deadline"
@@ -1328,31 +1337,31 @@ msgstr ""
 
 #: ../inc/result.inc:386
 msgid "Run time"
-msgstr ""
+msgstr "Temps de fonctionnement"
 
 #: ../inc/result.inc:387
 msgid "CPU time"
-msgstr ""
+msgstr "Temps de CPU"
 
 #: ../inc/result.inc:388
 msgid "stderr out"
-msgstr ""
+msgstr "Sortie sur stderr"
 
 #: ../inc/result.inc:389
 msgid "Validate state"
-msgstr ""
+msgstr "Valider l'état"
 
 #: ../inc/result.inc:392
 msgid "application version"
-msgstr ""
+msgstr "version de l'application"
 
 #: ../inc/result.inc:406
 msgid "Previous"
-msgstr ""
+msgstr "Précédent"
 
 #: ../inc/result.inc:415
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1360,11 +1369,12 @@ msgstr "Critères de recherche (un ou plus)"
 
 #: ../inc/team.inc:34
 msgid "Key words"
-msgstr "Mots clés"
+msgstr "Mots clefs"
 
 #: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
-msgstr "Trouver des équipes dont le nom ou la description contiennent ces mots"
+msgstr ""
+"Trouver des équipes dont le nom ou la description contiennent ces mots clefs"
 
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:360 ../inc/team.inc:444 ../inc/user.inc:204
@@ -1514,7 +1524,7 @@ msgstr "Administrateur"
 #: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
 #: ../user/top_users.php:125
 msgid "Previous %1"
-msgstr ""
+msgstr "%1 précédent"
 
 #: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
 #: ../user/top_users.php:130
@@ -1538,6 +1548,9 @@ msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
+"ATTENTION : ceci est une équipe regroupant tout BOINC. Si vous faites des "
+"modifications ici, elles seront écrasées rapidement. A la place, éditez "
+"%1l'équipe globale BOINC%2."
 
 #: ../inc/team.inc:417
 msgid ""
@@ -1585,11 +1598,11 @@ msgstr "Description de l'équipe"
 
 #: ../inc/team.inc:451
 msgid "Accept new members?"
-msgstr ""
+msgstr "Accepte des nouveaux membres ?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr ""
+msgstr "Profil utilisateur"
 
 #: ../inc/user.inc:112
 msgid "Projects in which you are participating"
@@ -1843,7 +1856,7 @@ msgstr "Ajouter en tant qu'ami(e)"
 
 #: ../inc/util.inc:191
 msgid "Unable to handle request"
-msgstr ""
+msgstr "Impossible de traiter la requête"
 
 #: ../inc/util.inc:385
 msgid "Email address:"
@@ -1900,7 +1913,7 @@ msgstr "Facultatif"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Ajouter %1 préférences pour %2"
 
 #: ../user/apps.php:31 ../user/sample_index.php:63
 msgid "Applications"
@@ -2225,40 +2238,39 @@ msgstr "Nouveau mot de passe (vérification)"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "Les balises HTML ne sont pas autorisées dans le nom."
 
 #: ../user/edit_user_info_action.php:32
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Vous devez fournir un nom pour votre compte."
 
 #: ../user/edit_user_info_action.php:41 ../user/team_edit_action.php:51
 msgid "bad country"
-msgstr ""
+msgstr "pays invalide"
 
 #: ../user/edit_user_info_action.php:57
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "Impossible de mettre à jour les informations de l'utilisateur."
 
 #: ../user/edit_user_info_form.php:27
-#, fuzzy
 msgid "Edit account information"
-msgstr "Informations de compte"
+msgstr "Éditer les informations de compte"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Nom %1 nom réel ou surnom%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "URL %1 de votre page web; optionnel%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Code postal %1 optionnel%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Mettre à jour les informations"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
@@ -2931,30 +2943,34 @@ msgid ""
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC client."
 msgstr ""
+"Vos préférences ont été mises à jour. Les préférences du client\n"
+"\t      seront prises en compte lorsque votre ordinateur communiquera avec %1\n"
+"\t      ou si vous utilisez la commande %2Mise à jour%2 depuis le client "
+"BOINC."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
-msgstr ""
+msgstr "%1 pour %2"
 
 #: ../user/prefs_edit.php:119
 msgid "Back to preferences"
-msgstr ""
+msgstr "Retour aux préférences"
 
 #: ../user/prefs_remove.php:46
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "Confirmer la suppression des préférences"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer vos préférences séparées de %1 pour %2 ?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
-msgstr ""
+msgstr "Supprimer les préférences"
 
 #: ../user/prefs_remove.php:55
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: ../user/profile_menu.php:33 ../user/sample_index.php:68
 msgid "Profiles"
@@ -3049,13 +3065,12 @@ msgid "Return to profile."
 msgstr "Retour au profil."
 
 #: ../user/result.php:28
-#, fuzzy
 msgid "No such task"
-msgstr "Pas de telle équipe."
+msgstr "Aucune tâche de ce type"
 
 #: ../user/result.php:30
 msgid "Task %1"
-msgstr ""
+msgstr "Tâche %1"
 
 #: ../user/results.php:27
 msgid "This feature is turned off temporarily"
@@ -3192,129 +3207,139 @@ msgstr ""
 
 #: ../user/team_admins.php:32
 msgid "Remove Team Admin status from this member"
-msgstr ""
+msgstr "Supprimer ce membre des administrateurs de l'équipe"
 
 #: ../user/team_admins.php:38 ../user/team_admins.php:49
 msgid "Add or remove Team Admins"
-msgstr ""
+msgstr "Ajouter ou supprimer des administrateurs de l'équipe"
 
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr ""
+"Vous pouvez sélectionner des membres de l'équipe comme 'administrateurs de "
+"l'équipe'.\n"
+"Ces administrateurs peuvent :"
 
 #: ../user/team_admins.php:41
 msgid "Edit team information (name, URL, description, country)"
-msgstr ""
+msgstr "Éditer les informations de l'équipe (nom, URL, description, pays)"
 
 #: ../user/team_admins.php:42
 msgid "View the team's join/quit history"
-msgstr ""
+msgstr "Voir l'historique des entrées/départs de l'équipe"
 
 #: ../user/team_admins.php:43
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
+"Modérer le forum de l'équipe, s'il existe (les administrateurs reçoivent des "
+"notification par e-mail des événements de modération et des rapports "
+"'rouges X')"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
-msgstr ""
+msgstr "Les administrateurs de l'équipe ne peuvent pas :"
 
 #: ../user/team_admins.php:47
 msgid "Change the team founder"
-msgstr ""
+msgstr "Modifier le nom du fondateur de l'équipe"
 
 #: ../user/team_admins.php:48 ../user/team_manage.php:52
 msgid "Remove members"
-msgstr ""
+msgstr "Supprimer des membres"
 
 #: ../user/team_admins.php:51
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr ""
+"Si une administrateur quitte l'équipe, il cesse d'être administrateur "
+"d'équipe."
 
 #: ../user/team_admins.php:52
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr ""
+"Nous vous recommandons de sélectionner uniquement des gens que vous "
+"connaissez et auxquels vous avez pleinement confiance pour être "
+"administrateur de l'équipe."
 
 #: ../user/team_admins.php:57
 msgid "There are currently no Team Admins"
-msgstr ""
+msgstr "Il n'y a actuellement aucun administrateur de l'équipe"
 
 #: ../user/team_admins.php:59
 msgid "Current Team Admins"
-msgstr ""
+msgstr "Administrateurs de l'équipe actuels"
 
 #: ../user/team_admins.php:60
 msgid "Became Team Admin on"
-msgstr ""
+msgstr "Administrateur de l'équipe depuis"
 
 #: ../user/team_admins.php:75
 msgid "Add Team Admin"
-msgstr ""
+msgstr "Ajouter un administrateur de l'équipe"
 
 #: ../user/team_admins.php:76
 msgid "Email address of team member:"
-msgstr ""
+msgstr "Adresse e-mail du membre de l'équipe :"
 
 #: ../user/team_admins.php:88
 msgid "failed to remove admin"
-msgstr ""
+msgstr "échec de la suppression de l'administrateur"
 
 #: ../user/team_admins.php:95
-#, fuzzy
 msgid "no such user"
 msgstr "Utilisateur inexistant"
 
 #: ../user/team_admins.php:96
 msgid "User is not member of team"
-msgstr ""
+msgstr "L'utilisateur n'est pas membre de l'équipe"
 
 #: ../user/team_admins.php:98
 msgid "%1 is already an admin of %2"
-msgstr ""
+msgstr "%1 est déjà administrateur de %2"
 
 #: ../user/team_admins.php:102
 msgid "Couldn't add admin"
-msgstr ""
+msgstr "Impossible d'ajouter l'administrateur"
 
 #: ../user/team_admins.php:108 ../user/team_quit_form.php:28
 #: ../user/team_remove_inactive_action.php:26
-#, fuzzy
 msgid "No such team"
-msgstr "Pas de telle équipe."
+msgstr "Équipe inexistante"
 
 #: ../user/team_change_founder_action.php:28
 #: ../user/team_change_founder_form.php:31 ../user/team_display.php:67
 #: ../user/team_edit_action.php:28 ../user/team_edit_form.php:27
 #: ../user/team_email_list.php:52 ../user/team_forum.php:156
 #: ../user/team_manage.php:83
-#, fuzzy
 msgid "no such team"
-msgstr "Pas de telle équipe."
+msgstr "équipe inexistante"
 
 #: ../user/team_change_founder_action.php:36
 msgid "User is not a member of %1"
-msgstr ""
+msgstr "L'utilisateur n'est pas membre de %1"
 
 #: ../user/team_change_founder_action.php:39
 msgid "Changing founder of %1"
-msgstr ""
+msgstr "En cours de modification du fondateur de %1"
 
 #: ../user/team_change_founder_action.php:41
 msgid "%1 is now founder of %2"
-msgstr ""
+msgstr "%1 est maintenant le fondateur de %2"
 
 #: ../user/team_change_founder_form.php:35
 msgid "Change founder of %1"
-msgstr ""
+msgstr "Modifier le fondateur de %1"
 
 #: ../user/team_change_founder_form.php:41
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
+"Le membre %1 a demandé à être déclaré fondateur de l'équipe le %2, mais a "
+"quitté l'équipe depuis : la requête va être supprimée."
 
 #: ../user/team_change_founder_form.php:47
 msgid ""

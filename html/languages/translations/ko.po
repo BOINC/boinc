@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: 2010/02/19\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-19 00:14+0900\n"
-"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
+"PO-Revision-Date: 2010-02-20 03:06-0700\n"
+"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
@@ -1161,9 +1161,8 @@ msgid "Downloading"
 msgstr "내려받는 중"
 
 #: ../inc/result.inc:180
-#, fuzzy
 msgid "Processing"
-msgstr "프로세서 사용량"
+msgstr "진행 중"
 
 #: ../inc/result.inc:181
 msgid "Compute error"
