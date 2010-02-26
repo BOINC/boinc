@@ -1425,3 +1425,10 @@ David  26 Feb 2009
         manage_app_versions.php
         clear_host.php
         transition_all.php
+
+David  26 Feb 2009
+    - scheduler: add plan class "cuda_fermi":
+        requires CUDA 2.3 and compute capability 2.0+
+
+    sched/
+        sched_customize.cpp
