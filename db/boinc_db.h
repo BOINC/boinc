@@ -431,8 +431,9 @@ struct CREDITED_JOB {
     // an error happened on the client
 #define RESULT_OUTCOME_NO_REPLY         4
 #define RESULT_OUTCOME_DIDNT_NEED       5
-    // we created the result but didn't need to send it because we already
-    // got a canonical result for the WU
+    // we created the result but didn't need to send it because
+    // 1) we already got a canonical result for the WU, or
+    // 2) the WU had an error
 #define RESULT_OUTCOME_VALIDATE_ERROR   6
     // The outcome was initially SUCCESS,
     // but the validator had a permanent error reading a result file,

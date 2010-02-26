@@ -38,7 +38,7 @@ if (file_exists("../../local.revision")) {
     $local_rev = file_get_contents("../../local.revision");
 }
 if ($local_rev) {
-    echo "Currently used SVN revision: ".$local_rev."; ";
+    echo "Currently used BOINC SVN revision: ".$local_rev."; ";
 }
 
 if (file_exists("../cache/remote.revision")
@@ -75,7 +75,7 @@ if (file_exists("../cache/remote.revision")
 }
 
 if ($remote_rev) {
-    echo "Latest SVN revision: ".$remote_rev."</li>\n";
+    echo "Latest BOINC SVN revision: ".$remote_rev."</li>\n";
 }
 
 if (!file_exists(".htaccess")) {
@@ -128,35 +128,41 @@ echo "
         <li><a href=\"db_form.php?table=workunit\">Workunits</a></li>
         <li><a href=\"db_form.php?table=result&amp;detail=low\">Results</a></li>
         <li><a href=dbinfo.php>DB row counts and disk usage</a>
+        <li><a href=\"show_log.php?f=mysql*.log&amp;l=-20\">Tail MySQL logs</a>
     </ul>
     
+
     </td> 
-    <td><b>Regular Operations:</b>
-    <ul>
-        <li><a href=\"profile_screen_form.php\">Screen user profiles </a></li>
-        <li><a href=\"manage_special_users.php\">Manage special users</a></li>
-    </ul>
-    
-    </td> 
-    <td><b>Special Operations:</b>
+    <td><b>Computing</b>
     <ul>
         <li><a href=\"manage_apps.php\">Manage applications</a></li>
         <li><a href=\"manage_app_versions.php\">Manage application versions</a></li>
+        <li><a href=\"cancel_wu_form.php\">Cancel workunits</a></li>
+        <li><a href=\"job_times.php\">FLOP count statistics</a>
+        <li><a href=\"$stripchart_cgi_url/stripchart.cgi\">Stripcharts</a>
+        <li><a href=\"show_log.php\">Show/Grep logs</a>
+        <li><a href=transition_all.php>Transition all WUs</a>
+          <br><span class=note>(this can 'unstick' old WUs)</span>
+        <li>
+            <form method=\"get\" action=\"clear_host.php\">
+            <input type=\"submit\" value=\"Clear RPC seqno\">
+            host ID: 
+            <input type=\"text\" size=\"5\" name=\"hostid\">
+            </form>
+    </ul>
+    
+    </td> 
+    <td><b>User management</b>
+    <ul>
+        <li><a href=\"profile_screen_form.php\">Screen user profiles </a></li>
+        <li><a href=\"manage_special_users.php\">User privileges</a></li>
         <li><a href=\"mass_email.php\">Send mass email to a selected set of users</a></li>
         <li><a href=\"problem_host.php\">Email user with misconfigured host</a></li>
-        <li><a href=\"job_times.php\">FLOP count statistics</a>
-        <li><a href=\"cancel_wu_form.php\">Cancel workunits</a></li>
         <li><form action=\"manage_user.php\">
             <input type=\"submit\" value=\"Manage user\">
             ID: <input name=\"userid\">
             </form>
         </li>
-        <li>
-            <form method=\"get\" action=\"clear_host.php\">
-            Clear Host: 
-            <input type=\"text\" size=\"5\" name=\"hostid\">
-            <input type=\"submit\" value=\"Clear RPC\">
-            </form>
         </li>
     </ul>
     </td>
@@ -214,15 +220,6 @@ echo "<h3>Periodic or special tasks</h3>
         <pre>forum_repair.php, team_repair.php, repair_validator_problem.php</pre>
    </ul>
     ";
-
-// Stripcharts, logs, etc
-
-echo "<div>
-    <a href=\"$stripchart_cgi_url/stripchart.cgi\">Stripcharts</a>
-    | <a href=\"show_log.php\">Show/Grep all logs</a>
-    | <a href=\"show_log.php?f=mysql*.log&amp;l=-20\">Tail MySQL logs</a>
-    </div>
-";
 
 admin_page_tail();
 

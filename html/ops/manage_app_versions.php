@@ -135,12 +135,10 @@ echo "<form action='$self' method='POST'>\n";
 
 // Application Version table:
 
-echo"<P>\n";
 start_table("align='center'");
-row1("<b>".PROJECT." Application Versions</b>", 8);
 
 echo "<TR><TH>ID #</TH>
-      <TH>Appllication</TH>
+      <TH>Application</TH>
       <TH>Version</TH>
       <TH>Platform</TH>
       <TH>Plan Class</TH>

@@ -1412,4 +1412,16 @@ Rom    26 Feb 2010
     client/
         coproc_detect.cpp
 
-        
+David  26 Feb 2009
+    - admin web: reorganize main page;
+        add "transition all" command
+
+    db/
+        boinc_db.h
+    html/ops/
+        index.php
+        manage_apps.php
+        job_times.php
+        manage_app_versions.php
+        clear_host.php
+        transition_all.php

@@ -141,7 +141,7 @@ if( !empty($_POST) ) {
  * Display the DB contents in a form
  \***************************************************/
 
-admin_page_head("Manage Project Applications");
+admin_page_head("Manage Applications");
 
 if($commands) echo $commands;
 
@@ -152,7 +152,7 @@ echo "<form action='$self' method='POST'>\n";
 // Application Table:
 
 echo"<P>
-     <h2>". PROJECT . " Applications</h2>\n";
+     <h2>Applications</h2>\n";
 
 start_table("align='center'");
 echo "<TR><TH>ID #</TH>

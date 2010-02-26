@@ -193,20 +193,26 @@ function analyze($appid, $platformid, $nresults) {
 }
 
 function show_form() {
+    admin_page_head("Show FLOPS distribution");
     echo "
         <form method=get action=job_times.php>
-        App ID: <input name=appid>
-        <br>platform ID (0 for all): <input name=platformid value=0>
-        <br>FLOP quantum: <input name=quantum value=1e12>
-        <br># of results: <input name=nresults value=1000>
-        <br><input type=submit name=submit value=OK>
+    ";
+    start_table();
+    row2("App ID:", "<input name=appid>");
+    row2("platform ID (0 for all):", "<input name=platformid value=0>");
+    row2("FLOP quantum:<br><span class=note>(determines graph resolution; if you see only one bar, use a smaller value)</span>", "<input name=quantum value=1e12>");
+    row2("Sample size (# of jobs):", "<input name=nresults value=1000>");
+    row2("", "<input type=submit name=submit value=OK>");
+    end_table();
+    echo "
         </form>
     ";
     show_platforms();
     show_apps();
+    admin_page_tail();
 }
 
-if ($_GET['submit']=='OK') {
+if (get_str('submit', true)=='OK') {
     set_time_limit(0);
     $appid = $_GET['appid'];
     if (!$appid) {
