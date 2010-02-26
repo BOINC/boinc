@@ -1403,3 +1403,13 @@ Charlie  26 Feb 2010
     clientgui/
         DlgEventLog.cpp, .h
         MainDocument.cpp
+
+Rom    26 Feb 2010
+    - client: Add SEH handlers around the Nvidia and ATI detection
+        routines.  Take care of situations where something within
+        the vendors functions cause a crash.
+        
+    client/
+        coproc_detect.cpp
+
+        

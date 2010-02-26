@@ -61,8 +61,26 @@ void COPROCS::get(
 ) {
 
 #ifdef _WIN32
+
+#ifdef _MSC_VER
+    __try {
+        COPROC_CUDA::get(*this, use_all, descs, warnings, ignore_cuda_dev);
+    }
+    __finally {
+        warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
+    }
+
+    __try {
+        COPROC_ATI::get(*this, descs, warnings, ignore_ati_dev);
+    }
+    __finally {
+        warnings.push_back("Caught SIGSEGV in ATI GPU detection");
+    }
+#else
     COPROC_CUDA::get(*this, use_all, descs, warnings, ignore_cuda_dev);
     COPROC_ATI::get(*this, descs, warnings, ignore_ati_dev);
+#endif
+
 #else
     void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
