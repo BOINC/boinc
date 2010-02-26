@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-24 08:21-0700\n"
+"PO-Revision-Date: 2010-02-26 07:49-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -405,7 +405,7 @@ msgstr "Statistiques inter-projets :"
 
 #: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
-msgstr ""
+msgstr "Le hôte %1 a une durée de vie qui chevauche :"
 
 #: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
@@ -782,7 +782,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:283
 msgid "bad subset: %1"
-msgstr ""
+msgstr "mauvais sous-ensemble : %1"
 
 #: ../inc/prefs.inc:688 ../inc/prefs.inc:691 ../inc/prefs.inc:800
 #: ../inc/prefs.inc:801 ../inc/prefs.inc:802 ../inc/prefs.inc:818
@@ -965,6 +965,11 @@ msgid ""
 "            BOINC projects with resource shares of 100 and 200, the first\n"
 "            will get 1/3 of your resources and the second will get 2/3."
 msgstr ""
+"Détermine la part de ressources de votre ordinateur\n"
+"            allouée à ce projet.Exemple : si vous participez à deux\n"
+"            projets BOINC avec un partage de ressources de 100 et 200, le "
+"premier\n"
+"            aura 1/3 des vos ressources et le second en aura les 2/3."
 
 #: ../inc/prefs.inc:1338 ../inc/prefs.inc:1347
 msgid "Default computer location"
@@ -1344,7 +1349,7 @@ msgstr "Sortie sur stderr"
 
 #: ../inc/result.inc:389
 msgid "Validate state"
-msgstr ""
+msgstr "Valider l'état"
 
 #: ../inc/result.inc:392
 msgid "application version"
@@ -1519,7 +1524,7 @@ msgstr "Administrateur"
 #: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
 #: ../user/top_users.php:125
 msgid "Previous %1"
-msgstr ""
+msgstr "%1 précédent"
 
 #: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
 #: ../user/top_users.php:130
@@ -1543,6 +1548,9 @@ msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
+"ATTENTION : ceci est une équipe regroupant tout BOINC. Si vous faites des "
+"modifications ici, elles seront écrasées rapidement. A la place, éditez "
+"%1l'équipe globale BOINC%2."
 
 #: ../inc/team.inc:417
 msgid ""
@@ -1590,11 +1598,11 @@ msgstr "Description de l'équipe"
 
 #: ../inc/team.inc:451
 msgid "Accept new members?"
-msgstr ""
+msgstr "Accepte des nouveaux membres ?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr ""
+msgstr "Profil utilisateur"
 
 #: ../inc/user.inc:112
 msgid "Projects in which you are participating"
@@ -1848,7 +1856,7 @@ msgstr "Ajouter en tant qu'ami(e)"
 
 #: ../inc/util.inc:191
 msgid "Unable to handle request"
-msgstr ""
+msgstr "Impossible de traiter la requête"
 
 #: ../inc/util.inc:385
 msgid "Email address:"
@@ -1905,7 +1913,7 @@ msgstr "Facultatif"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Ajouter %1 préférences pour %2"
 
 #: ../user/apps.php:31 ../user/sample_index.php:63
 msgid "Applications"
@@ -2230,40 +2238,39 @@ msgstr "Nouveau mot de passe (vérification)"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "Les balises HTML ne sont pas autorisées dans le nom."
 
 #: ../user/edit_user_info_action.php:32
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Vous devez fournir un nom pour votre compte."
 
 #: ../user/edit_user_info_action.php:41 ../user/team_edit_action.php:51
 msgid "bad country"
-msgstr ""
+msgstr "pays invalide"
 
 #: ../user/edit_user_info_action.php:57
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "Impossible de mettre à jour les informations de l'utilisateur."
 
 #: ../user/edit_user_info_form.php:27
-#, fuzzy
 msgid "Edit account information"
-msgstr "Informations de compte"
+msgstr "Éditer les informations de compte"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Nom %1 nom réel ou surnom%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "URL %1 de votre page web; optionnel%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Code postal %1 optionnel%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Mettre à jour les informations"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
@@ -2936,30 +2943,34 @@ msgid ""
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC client."
 msgstr ""
+"Vos préférences ont été mises à jour. Les préférences du client\n"
+"\t      seront prises en compte lorsque votre ordinateur communiquera avec %1\n"
+"\t      ou si vous utilisez la commande %2Mise à jour%2 depuis le client "
+"BOINC."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
-msgstr ""
+msgstr "%1 pour %2"
 
 #: ../user/prefs_edit.php:119
 msgid "Back to preferences"
-msgstr ""
+msgstr "Retour aux préférences"
 
 #: ../user/prefs_remove.php:46
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "Confirmer la suppression des préférences"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer vos préférences séparées de %1 pour %2 ?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
-msgstr ""
+msgstr "Supprimer les préférences"
 
 #: ../user/prefs_remove.php:55
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: ../user/profile_menu.php:33 ../user/sample_index.php:68
 msgid "Profiles"
@@ -3054,13 +3065,12 @@ msgid "Return to profile."
 msgstr "Retour au profil."
 
 #: ../user/result.php:28
-#, fuzzy
 msgid "No such task"
-msgstr "Pas de telle équipe."
+msgstr "Aucune tâche de ce type"
 
 #: ../user/result.php:30
 msgid "Task %1"
-msgstr ""
+msgstr "Tâche %1"
 
 #: ../user/results.php:27
 msgid "This feature is turned off temporarily"
@@ -3197,129 +3207,139 @@ msgstr ""
 
 #: ../user/team_admins.php:32
 msgid "Remove Team Admin status from this member"
-msgstr ""
+msgstr "Supprimer ce membre des administrateurs de l'équipe"
 
 #: ../user/team_admins.php:38 ../user/team_admins.php:49
 msgid "Add or remove Team Admins"
-msgstr ""
+msgstr "Ajouter ou supprimer des administrateurs de l'équipe"
 
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr ""
+"Vous pouvez sélectionner des membres de l'équipe comme 'administrateurs de "
+"l'équipe'.\n"
+"Ces administrateurs peuvent :"
 
 #: ../user/team_admins.php:41
 msgid "Edit team information (name, URL, description, country)"
-msgstr ""
+msgstr "Éditer les informations de l'équipe (nom, URL, description, pays)"
 
 #: ../user/team_admins.php:42
 msgid "View the team's join/quit history"
-msgstr ""
+msgstr "Voir l'historique des entrées/départs de l'équipe"
 
 #: ../user/team_admins.php:43
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
+"Modérer le forum de l'équipe, s'il existe (les administrateurs reçoivent des "
+"notification par e-mail des événements de modération et des rapports "
+"'rouges X')"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
-msgstr ""
+msgstr "Les administrateurs de l'équipe ne peuvent pas :"
 
 #: ../user/team_admins.php:47
 msgid "Change the team founder"
-msgstr ""
+msgstr "Modifier le nom du fondateur de l'équipe"
 
 #: ../user/team_admins.php:48 ../user/team_manage.php:52
 msgid "Remove members"
-msgstr ""
+msgstr "Supprimer des membres"
 
 #: ../user/team_admins.php:51
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr ""
+"Si une administrateur quitte l'équipe, il cesse d'être administrateur "
+"d'équipe."
 
 #: ../user/team_admins.php:52
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr ""
+"Nous vous recommandons de sélectionner uniquement des gens que vous "
+"connaissez et auxquels vous avez pleinement confiance pour être "
+"administrateur de l'équipe."
 
 #: ../user/team_admins.php:57
 msgid "There are currently no Team Admins"
-msgstr ""
+msgstr "Il n'y a actuellement aucun administrateur de l'équipe"
 
 #: ../user/team_admins.php:59
 msgid "Current Team Admins"
-msgstr ""
+msgstr "Administrateurs de l'équipe actuels"
 
 #: ../user/team_admins.php:60
 msgid "Became Team Admin on"
-msgstr ""
+msgstr "Administrateur de l'équipe depuis"
 
 #: ../user/team_admins.php:75
 msgid "Add Team Admin"
-msgstr ""
+msgstr "Ajouter un administrateur de l'équipe"
 
 #: ../user/team_admins.php:76
 msgid "Email address of team member:"
-msgstr ""
+msgstr "Adresse e-mail du membre de l'équipe :"
 
 #: ../user/team_admins.php:88
 msgid "failed to remove admin"
-msgstr ""
+msgstr "échec de la suppression de l'administrateur"
 
 #: ../user/team_admins.php:95
-#, fuzzy
 msgid "no such user"
 msgstr "Utilisateur inexistant"
 
 #: ../user/team_admins.php:96
 msgid "User is not member of team"
-msgstr ""
+msgstr "L'utilisateur n'est pas membre de l'équipe"
 
 #: ../user/team_admins.php:98
 msgid "%1 is already an admin of %2"
-msgstr ""
+msgstr "%1 est déjà administrateur de %2"
 
 #: ../user/team_admins.php:102
 msgid "Couldn't add admin"
-msgstr ""
+msgstr "Impossible d'ajouter l'administrateur"
 
 #: ../user/team_admins.php:108 ../user/team_quit_form.php:28
 #: ../user/team_remove_inactive_action.php:26
-#, fuzzy
 msgid "No such team"
-msgstr "Pas de telle équipe."
+msgstr "Équipe inexistante"
 
 #: ../user/team_change_founder_action.php:28
 #: ../user/team_change_founder_form.php:31 ../user/team_display.php:67
 #: ../user/team_edit_action.php:28 ../user/team_edit_form.php:27
 #: ../user/team_email_list.php:52 ../user/team_forum.php:156
 #: ../user/team_manage.php:83
-#, fuzzy
 msgid "no such team"
-msgstr "Pas de telle équipe."
+msgstr "équipe inexistante"
 
 #: ../user/team_change_founder_action.php:36
 msgid "User is not a member of %1"
-msgstr ""
+msgstr "L'utilisateur n'est pas membre de %1"
 
 #: ../user/team_change_founder_action.php:39
 msgid "Changing founder of %1"
-msgstr ""
+msgstr "En cours de modification du fondateur de %1"
 
 #: ../user/team_change_founder_action.php:41
 msgid "%1 is now founder of %2"
-msgstr ""
+msgstr "%1 est maintenant le fondateur de %2"
 
 #: ../user/team_change_founder_form.php:35
 msgid "Change founder of %1"
-msgstr ""
+msgstr "Modifier le fondateur de %1"
 
 #: ../user/team_change_founder_form.php:41
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
+"Le membre %1 a demandé à être déclaré fondateur de l'équipe le %2, mais a "
+"quitté l'équipe depuis : la requête va être supprimée."
 
 #: ../user/team_change_founder_form.php:47
 msgid ""
