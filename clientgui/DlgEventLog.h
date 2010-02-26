@@ -100,6 +100,9 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
     void OnMessagesCopySelected( wxCommandEvent& event );
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASK_MESSAGES_FILTERBYPROJECT
+    void CDlgEventLog::OnMessagesFilter( wxCommandEvent& event );
+
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
 
@@ -109,6 +112,9 @@ public:
 
 ////@begin CDlgEventLog member function declarations
 ////@end CDlgEventLog member function declarations
+
+    virtual wxInt32         GetFilteredMessageIndex( wxInt32 iRow) const;
+    virtual wxInt32         GetDocCount();
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
@@ -124,8 +130,19 @@ private:
     wxInt32                 m_iPreviousDocCount;
 
     CDlgEventLogListCtrl*   m_pList;
+    wxArrayInt              m_iFilteredIndexes;
+    wxInt32                 m_iTotalDocCount;
+    wxInt32                 m_iFilteredDocCount;
+    wxInt32                 m_iPreviousTotalDocCount;
+    wxInt32                 m_iPreviousRowCount;
+    bool                    m_bIsFiltered;
+    std::string             m_strFilteredProjectName;
+    wxButton*               m_pFilterButton;
+
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
+    wxListItemAttr*         m_pMessageInfoGrayAttr;
+    wxListItemAttr*         m_pMessageErrorGrayAttr;
 
     bool                    m_bProcessingRefreshEvent;
 

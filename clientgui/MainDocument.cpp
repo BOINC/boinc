@@ -34,6 +34,7 @@
 #include "sg_BoincSimpleGUI.h"
 #include "BOINCClientManager.h"
 #include "BOINCTaskBar.h"
+#include "DlgEventLog.h"
 #include "Events.h"
 
 #ifndef _WIN32
@@ -844,6 +845,10 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
         if (pTaskbar) {
             CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
             pTaskbar->AddPendingEvent(event);
+        }
+        CDlgEventLog* eventLog = wxGetApp().GetEventLog();
+        if (eventLog) {
+            eventLog->OnRefresh();
         }
         return;
     }

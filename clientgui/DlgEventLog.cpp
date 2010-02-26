@@ -68,6 +68,7 @@ BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
     EVT_BUTTON(wxID_OK, CDlgEventLog::OnOK)
     EVT_BUTTON(ID_COPYAll, CDlgEventLog::OnMessagesCopyAll)
     EVT_BUTTON(ID_COPYSELECTED, CDlgEventLog::OnMessagesCopySelected)
+    EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYPROJECT, CDlgEventLog::OnMessagesFilter)
     EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
     EVT_CLOSE(CDlgEventLog::OnClose)
 ////@end CDlgEventLog event table entries
@@ -102,6 +103,19 @@ CDlgEventLog::~CDlgEventLog() {
         m_pMessageErrorAttr = NULL;
     }
 
+    if (m_pMessageInfoGrayAttr) {
+        delete m_pMessageInfoGrayAttr;
+        m_pMessageInfoGrayAttr = NULL;
+    }
+
+    if (m_pMessageErrorGrayAttr) {
+        delete m_pMessageErrorGrayAttr;
+        m_pMessageErrorGrayAttr = NULL;
+    }
+
+    m_strFilteredProjectName.clear();
+    m_iFilteredIndexes.Clear();
+
     wxGetApp().OnEventLogClose();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function End"));
@@ -115,7 +129,12 @@ CDlgEventLog::~CDlgEventLog() {
 bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
 ////@begin CDlgEventLog member initialisation
-    m_iPreviousDocCount = 0;
+    m_iPreviousRowCount = 0;
+    m_iTotalDocCount = 0;
+    m_iPreviousTotalDocCount = 0;
+    m_bIsFiltered = false;
+    m_strFilteredProjectName.clear();
+    m_iFilteredIndexes.Clear();
 	m_bProcessingRefreshEvent = false;
 ////@end CDlgEventLog member initialisation
 
@@ -149,6 +168,8 @@ bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxSt
 
     m_pMessageInfoAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
     m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
+    m_pMessageInfoGrayAttr = new wxListItemAttr(*wxBLACK, wxColour(240, 240, 240), wxNullFont);
+    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(240, 240, 240), wxNullFont);
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
@@ -179,6 +200,12 @@ void CDlgEventLog::CreateControls()
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
     
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
+
+    m_pFilterButton = new wxButton(this, ID_TASK_MESSAGES_FILTERBYPROJECT, _("Show only this project"),  wxDefaultPosition, wxDefaultSize);
+    itemBoxSizer4->Add(m_pFilterButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#ifdef wxUSE_TOOLTIPS
+	m_pFilterButton->SetToolTip(_("Show only the messages for the selected project"));
+#endif
 
 #ifdef wxUSE_CLIPBOARD
     wxButton* itemButton1 = new wxButton(this, ID_COPYAll, _("Copy All"), wxDefaultPosition, wxDefaultSize );
@@ -302,6 +329,95 @@ void CDlgEventLog::OnClose(wxCloseEvent& WXUNUSED(event)) {
 }
 
 
+void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnMessagesFilter - Function Begin"));
+
+    wxInt32 iIndex = -1;
+    MESSAGE* message;
+    
+    wxASSERT(m_pList);
+
+    m_iFilteredIndexes.Clear();
+    m_strFilteredProjectName.clear();
+
+    if (m_bIsFiltered) {
+        m_bIsFiltered = false;
+        m_pFilterButton->SetLabel( _("Show only this project") );
+        m_pFilterButton->SetHelpText( _("Show only the messages for the selected project") );
+#ifdef wxUSE_TOOLTIPS
+        m_pFilterButton->SetToolTip(_("Show only the messages for the selected project"));
+#endif
+        m_iFilteredDocCount = m_iTotalDocCount;
+    } else {
+        iIndex = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if (iIndex >= 0) {
+             message = wxGetApp().GetDocument()->message(iIndex);
+             if ((message->project).size() > 0) {
+                m_strFilteredProjectName = message->project;
+                m_bIsFiltered = true;
+                m_pFilterButton->SetLabel( _("Show all messages") );
+                m_pFilterButton->SetHelpText( _("Show messages for all projects") );
+#ifdef wxUSE_TOOLTIPS
+                m_pFilterButton->SetToolTip(_("Show messages for all projects"));
+#endif
+                for (iIndex = 0; iIndex < m_iTotalDocCount; iIndex++) {
+                    message = wxGetApp().GetDocument()->message(iIndex);
+                    if (message->project.empty() || (message->project == m_strFilteredProjectName)) {
+                        m_iFilteredIndexes.Add(iIndex);
+                    }
+
+                }
+                m_iFilteredDocCount = (int)(m_iFilteredIndexes.GetCount());
+           }
+        }
+    }
+    
+    // Force a complete update
+    m_iPreviousRowCount = 0;
+    m_pList->DeleteAllItems();
+    m_pList->SetItemCount(m_iFilteredDocCount);
+    OnRefresh();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnMessagesFilter - Function End"));
+}
+
+
+wxInt32 CDlgEventLog::GetFilteredMessageIndex( wxInt32 iRow) const {
+    if (m_bIsFiltered) return m_iFilteredIndexes[iRow];
+    return iRow;
+}
+
+
+// Get the (possibly filtered) item count (i.e., the Row count)
+wxInt32 CDlgEventLog::GetDocCount() {
+    int i;
+    
+    m_iTotalDocCount = wxGetApp().GetDocument()->GetMessageCount();
+    if (m_iTotalDocCount < m_iPreviousTotalDocCount) {
+        // Usually due to a disconnect from client
+        m_bIsFiltered = false;
+        m_strFilteredProjectName.clear();
+        m_iFilteredIndexes.Clear();
+    }
+    
+    if (m_bIsFiltered) {
+        for (i = m_iPreviousTotalDocCount; i < m_iTotalDocCount; i++) {
+            MESSAGE*   message = wxGetApp().GetDocument()->message(i);
+            if (message->project.empty() || (message->project == m_strFilteredProjectName)) {
+                m_iFilteredIndexes.Add(i);
+            }
+        }
+        m_iPreviousTotalDocCount = m_iTotalDocCount;
+        m_iFilteredDocCount = (int)(m_iFilteredIndexes.GetCount());
+        return m_iFilteredDocCount;
+    }
+
+    m_iPreviousTotalDocCount = m_iTotalDocCount;
+    m_iFilteredDocCount = m_iTotalDocCount;
+    return m_iTotalDocCount;
+}
+
+
 /*!
  * called from CMainDocument::HandleCompletedRPC() after wxEVT_RPC_FINISHED event
  */
@@ -314,8 +430,8 @@ void CDlgEventLog::OnRefresh() {
 
         wxASSERT(m_pList);
 
-        wxInt32 iDocCount = wxGetApp().GetDocument()->GetMessageCount();
-        if (0 >= iDocCount) {
+        wxInt32 iRowCount = GetDocCount();
+        if (0 >= iRowCount) {
             m_pList->DeleteAllItems();
         } else {
             // If connection status changed, adjust color of messages display
@@ -325,32 +441,61 @@ void CDlgEventLog::OnRefresh() {
                 if (isConnected) {
                     m_pMessageInfoAttr->SetTextColour(*wxBLACK);
                     m_pMessageErrorAttr->SetTextColour(*wxRED);
+                    m_pMessageInfoGrayAttr->SetTextColour(*wxBLACK);
+                    m_pMessageErrorGrayAttr->SetTextColour(*wxRED);
                 } else {
                     wxColourDatabase colorBase;
                     m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
                     m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
+                    m_pMessageInfoGrayAttr->SetTextColour(wxColour(128, 128, 128));
+                    m_pMessageErrorGrayAttr->SetTextColour(wxColour(255, 128, 128));
                 }
 
                 // Force a complete update
                 m_pList->DeleteAllItems();
-                m_pList->SetItemCount(iDocCount);
-                m_iPreviousDocCount = 0;    // Force scrolling to bottom
+                m_pList->SetItemCount(iRowCount);
+                m_iPreviousRowCount = 0;    // Force scrolling to bottom
 
             } else {
                 // Connection status didn't change
-                if (m_iPreviousDocCount != iDocCount) {
-                    m_pList->SetItemCount(iDocCount);
+                if (m_iPreviousRowCount != iRowCount) {
+                    m_pList->SetItemCount(iRowCount);
                 }
             }
         }
 
-        if ((iDocCount > 1) && (EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
-            m_pList->EnsureVisible(iDocCount - 1);
+        if ((iRowCount > 1) && (EnsureLastItemVisible()) && (m_iPreviousRowCount != iRowCount)) {
+            m_pList->EnsureVisible(iRowCount - 1);
         }
 
-        if (m_iPreviousDocCount != iDocCount) {
-            m_iPreviousDocCount = iDocCount;
+#if 0   // This was in ViewMessages.cpp; is it needed herre?
+        if (isConnected) {
+            pDoc->GetConnectedComputerName(strNewMachineName);
+            if (strLastMachineName != strNewMachineName) {
+                strLastMachineName = strNewMachineName;
+                     if (iRowCount) {
+                        m_pList->EnsureVisible(iRowCount - 1);
+                    }
+            }
         }
+#endif
+
+        if (m_iPreviousRowCount != iRowCount) {
+            m_iPreviousRowCount = iRowCount;
+        }
+
+        bool enableButton = m_bIsFiltered; 
+        if ((! m_bIsFiltered) && (m_iTotalDocCount > 0)) {
+            int n = m_pList->GetSelectedItemCount();
+            if (n == 1) {
+                n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+                MESSAGE* message = wxGetApp().GetDocument()->message(n);
+                if ((message->project).size() > 0) {
+                    enableButton = true;
+                }
+            }
+        }
+        m_pFilterButton->Enable(enableButton);
 
         m_bProcessingRefreshEvent = false;
     }
@@ -550,7 +695,6 @@ void CDlgEventLog::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
 
     OpenClipboard( iRowCount * 1024 );
 
-    iRowCount = m_pList->GetItemCount();
     for (iIndex = 0; iIndex < iRowCount; iIndex++) {
         CopyToClipboard(iIndex);            
     }
@@ -630,16 +774,17 @@ void CDlgEventLog::OnButtonHelp( wxCommandEvent& event ) {
 
 wxString CDlgEventLog::OnListGetItemText(long item, long column) const {
     wxString        strBuffer   = wxEmptyString;
+    wxInt32         index       = GetFilteredMessageIndex(item);
 
     switch(column) {
     case COLUMN_PROJECT:
-        FormatProjectName(item, strBuffer);
+        FormatProjectName(index, strBuffer);
         break;
     case COLUMN_TIME:
-        FormatTime(item, strBuffer);
+        FormatTime(index, strBuffer);
         break;
     case COLUMN_MESSAGE:
-        FormatMessage(item, strBuffer);
+        FormatMessage(index, strBuffer);
         break;
     }
 
@@ -654,16 +799,15 @@ wxListItemAttr* CDlgEventLog::OnListGetItemAttr(long item) const {
     if (message) {
         switch(message->priority) {
         case MSG_USER_ALERT:
-            pAttribute = m_pMessageErrorAttr;
+            pAttribute = item % 2 ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr;
             break;
         default:
-            pAttribute = m_pMessageInfoAttr;
+           pAttribute = item % 2 ? m_pMessageInfoGrayAttr : m_pMessageInfoAttr;
             break;
         }
     }
 
     return pAttribute;
-	
 }
 
 
@@ -671,8 +815,8 @@ bool CDlgEventLog::EnsureLastItemVisible() {
     int numVisible = m_pList->GetCountPerPage();
 
     // Auto-scroll only if already at bottom of list
-    if ((m_iPreviousDocCount > numVisible)
-         && ((m_pList->GetTopItem() + numVisible) < (m_iPreviousDocCount-1)) 
+    if ((m_iPreviousRowCount > numVisible)
+         && ((m_pList->GetTopItem() + numVisible) < (m_iPreviousRowCount-1)) 
     ) {
         return false;
     }
