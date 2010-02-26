@@ -387,7 +387,7 @@ print >>open(readme_filename,'w'), '''Steps to complete installation:
 
    cat %(httpd_conf_template_filename)s >> /etc/apache/httpd.conf
 
-   (path to httpd.conf varies; try /etc/httpd/)
+   (path to httpd.conf varies; try /etc/httpd/ or /etc/apache2)
    Then restart the web server:
 
    /usr/sbin/apache2ctl restart
