@@ -1432,3 +1432,13 @@ David  26 Feb 2009
 
     sched/
         sched_customize.cpp
+
+David  26 Feb 2009
+	- client: if suspend a file xfer, set upload_offset to -1;
+		that way it will query server for file length when it resumes,
+		rather than uploading from the beginning
+	- client: back out SEH handling for GPU detection
+	client/
+		coproc_detect.cpp
+		file_xfer.cpp
+		pers_file_xfer.cpp
