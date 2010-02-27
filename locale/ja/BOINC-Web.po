@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-02-25 00:10+0900\n"
+"PO-Revision-Date: 2010-02-28 22:40+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: Japanese <nobody@example.com>\n"
 "MIME-Version: 1.0\n"
@@ -86,7 +86,6 @@ msgid "All versions"
 msgstr "ダウンロード一覧"
 
 #: download.php:126
-#, fuzzy
 msgid "Version history"
 msgstr "版数の履歴"
 
@@ -301,9 +300,8 @@ msgid "and"
 msgstr "と"
 
 #: index.php:164
-#, fuzzy
 msgid "Help wanted"
-msgstr "助けを乞う！"
+msgstr "手助けを求む"
 
 #: index.php:166
 msgid "Programming"
