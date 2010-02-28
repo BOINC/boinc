@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-05 12:20-0700\n"
+"PO-Revision-Date: 2010-02-28 04:57-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -114,35 +114,35 @@ msgstr "Отметить все обсуждения во всех досках 
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "Нет компьютера"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Недоступно"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:1350 ../project.sample/project.inc:49
 msgid "Home"
-msgstr ""
+msgstr "Дом"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:1351
 msgid "Work"
-msgstr ""
+msgstr "Работа"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:1352
 msgid "School"
-msgstr ""
+msgstr "Школа"
 
 #: ../inc/host.inc:59
 msgid "Update"
-msgstr ""
+msgstr "Обновить"
 
 #: ../inc/host.inc:83
 msgid "Computer information"
-msgstr ""
+msgstr "Информация о компьютере"
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "IP-адрес"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
