@@ -644,12 +644,9 @@ void PROJECT_WORK_FETCH::reset(PROJECT* p) {
 
 void WORK_FETCH::rr_init() {
     cpu_work_fetch.rr_init();
-    if (coproc_cuda) {
-        cuda_work_fetch.rr_init();
-    }
-    if (coproc_ati) {
-        ati_work_fetch.rr_init();
-    }
+    // do these even if no device; there may be "coproc_missing" jobs
+    cuda_work_fetch.rr_init();
+    ati_work_fetch.rr_init();
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->pwf.can_fetch_work = p->pwf.compute_can_fetch_work(p);

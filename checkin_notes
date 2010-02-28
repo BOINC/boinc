@@ -1442,3 +1442,14 @@ David  26 Feb 2009
 		coproc_detect.cpp
 		file_xfer.cpp
 		pers_file_xfer.cpp
+
+David  27 Feb 2009
+    - client: if have coproc jobs but coproc is missing,
+        skip those jobs in RR sim.
+        Otherwise we add stuff to uninitialized data structures,
+        and a crash can result.
+    - client: initialize the above data structures anyway
+
+    client/
+        work_fetch.cpp
+        rr_sim.cpp
