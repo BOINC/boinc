@@ -1121,13 +1121,10 @@ void WORK_FETCH::init() {
             if (avp->project != p) continue;
             if (avp->ncudas) {
                 p->cuda_pwf.anon_skip = false;
-                break;
             } else if (avp->natis) {
                 p->ati_pwf.anon_skip = false;
-                break;
             } else {
                 p->cpu_pwf.anon_skip = false;
-                break;
             }
         }
     }
