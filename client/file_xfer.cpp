@@ -89,6 +89,11 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         fip->upload_offset = 0;
     }
 
+    if (log_flags.file_xfer_debug) {
+        msg_printf(file_info.project, MSG_INFO,
+            "[fxd] starting upload, upload_offset %.0f", file_info.upload_offset
+        );
+    }
     if (file_info.upload_offset < 0) {
         bytes_xferred = 0;
         sprintf(header,

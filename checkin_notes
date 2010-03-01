@@ -701,3 +701,12 @@ Charlie  26 Feb 2010
     clientgui/
         DlgAdvPreferences.cpp
         DlgItemProperties.cpp, .h
+
+David  26 Feb 2009
+	- client: if suspend a file xfer, set upload_offset to -1;
+		that way it will query server for file length when it resumes,
+		rather than uploading from the beginning
+
+	client/
+		file_xfer.cpp
+		pers_file_xfer.cpp
