@@ -42,20 +42,43 @@ DB_CONN::DB_CONN() {
 int DB_CONN::open(char* db_name, char* db_host, char* db_user, char* dbpassword) {
     mysql = mysql_init(0);
     if (!mysql) return ERR_DB_CANT_INIT;
-#if MYSQL_VERSION_ID >= 50106
-    my_bool mbReconnect = 1;
-    mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
-#endif
-    mysql = mysql_real_connect(mysql, db_host, db_user, dbpassword, db_name, 0, 0, 0);
+
+    // MySQL's support for the reconnect option has changed over time:
+    // see http://dev.mysql.com/doc/refman/5.0/en/mysql-options.html
+    // and http://dev.mysql.com/doc/refman/5.1/en/mysql-options.html
+    //
+    // v < 5.0.13: not supported
+    // 5.0.13 <= v < 5.0.19: set option after real_connect()
+    // 5.0.19 < v < 5.1: set option before real_connect();
+    // 5.1.0 <= v < 5.1.6: set option after real_connect()
+    // 5.1.6 <= v: set option before real_connect
+
+    int v = MYSQL_VERSION_ID;
+    bool set_opt_before = false, set_opt_after = false;
+    if (v < 50013 ) {
+    } else if (v < 50019) {
+        set_opt_after = true;
+    } else if (v < 50100) {
+        set_opt_before = true;
+    } else if (v < 50106) {
+        set_opt_after = true;
+    } else {
+        set_opt_before = true;
+    }
+
+    if (set_opt_before) {
+        my_bool mbReconnect = 1;
+        mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
+    }
+    mysql = mysql_real_connect(
+        mysql, db_host, db_user, dbpassword, db_name, 0, 0, 0
+    );
     if (mysql == 0) return ERR_DB_CANT_CONNECT;
 
-    // older versions of MySQL lib need to set the option AFTER connecting;
-    // see http://dev.mysql.com/doc/refman/5.1/en/mysql-options.html
-    //
-#if MYSQL_VERSION_ID >= 50013 && MYSQL_VERSION_ID < 50106
-    my_bool mbReconnect = 1;
-    mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
-#endif
+    if (set_opt_after) {
+        my_bool mbReconnect = 1;
+        mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
+    }
     return 0;
 }
 

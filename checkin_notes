@@ -1460,3 +1460,15 @@ David  27 Feb 2009
 
     client/
         work_fetch.cpp
+
+David  1 Mar 2009
+    - server: if MySQL version is 5.0.19 <= v < 5.1,
+        set the reconnect option before real_connect() instead of after.
+        From Oliver Bock.
+
+    db/
+        db_base.cpp
+    sched/
+        sched_customize.cpp
+    client/
+        cpu_sched.cpp
