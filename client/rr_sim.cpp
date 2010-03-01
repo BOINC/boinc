@@ -290,7 +290,7 @@ void CLIENT_STATE::rr_simulation() {
         p = rp->project;
         p->pwf.has_runnable_jobs = true;
         p->cpu_pwf.nused_total += rp->avp->avg_ncpus;
-        if (rp->uses_cuda()) {
+        if (rp->uses_cuda() && coproc_cuda) {
             p->cuda_pwf.nused_total += rp->avp->ncudas;
             p->cuda_pwf.has_runnable_jobs = true;
             if (cuda_work_fetch.sim_nused < coproc_cuda->count) {
@@ -299,7 +299,7 @@ void CLIENT_STATE::rr_simulation() {
             } else {
                 cuda_work_fetch.pending.push_back(rp);
             }
-        } else if (rp->uses_ati()) {
+        } else if (rp->uses_ati() && coproc_ati) {
             p->ati_pwf.nused_total += rp->avp->natis;
             p->ati_pwf.has_runnable_jobs = true;
             if (ati_work_fetch.sim_nused < coproc_ati->count) {
