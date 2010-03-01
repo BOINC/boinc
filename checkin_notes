@@ -721,3 +721,10 @@ David  27 Feb 2009
     client/
         work_fetch.cpp
         rr_sim.cpp
+
+David  27 Feb 2009
+    - client: fix bug that interfered with work fetch
+        for particular resources in anonymous platform case.
+
+    client/
+        work_fetch.cpp
