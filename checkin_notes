@@ -1491,7 +1491,7 @@ David  1 Mar 2010
 		app_control.cpp
 		cs_prefs.cpp
 
-Charlie  1 Mar 2010
+Charlie  2 Mar 2010
     - MGR: Fix more Event Log bugs: Exit from taskbar closes Event Log just 
         like exit from regular menu; enable and disable Copy Selected and Filter 
         buttons depending on selected messages; fix misplaced curly bracket in 
@@ -1503,4 +1503,11 @@ Charlie  1 Mar 2010
         BOINCBaseFrame.cpp
         BOINCTaskBar.cpp
         DlgEventLog.cpp, .h
+        MainDocument.cpp
+
+harlie  2 Mar 2010
+    - MGR: Keep getting messages even if the Event Log is not open; otherwise 
+        some may be lost due to the limited size of the client's buffer, causing 
+        gaps when the Event Log is later opened.
+    clientgui/
         MainDocument.cpp
