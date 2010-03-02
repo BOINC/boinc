@@ -1509,5 +1509,6 @@ Charlie  2 Mar 2010
     - MGR: Keep getting messages even if the Event Log is not open; otherwise 
         some may be lost due to the limited size of the client's buffer, causing 
         gaps when the Event Log is later opened.
+        
     clientgui/
         MainDocument.cpp
