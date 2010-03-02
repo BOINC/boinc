@@ -32,6 +32,7 @@
 #include "BOINCBaseFrame.h"
 #include "BOINCClientManager.h"
 #include "DlgAbout.h"
+#include "DlgEventLog.h"
 #include "Events.h"
 
 #ifdef __WXMAC__
@@ -116,6 +117,11 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 
     RemoveIcon();
     m_bTaskbarInitiatedShutdown = true;
+
+    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
+    if (eventLog) {
+        eventLog->Close();
+    }
 
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame) {

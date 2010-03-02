@@ -1490,3 +1490,17 @@ David  1 Mar 2010
 		app.h
 		app_control.cpp
 		cs_prefs.cpp
+
+Charlie  1 Mar 2010
+    - MGR: Fix more Event Log bugs: Exit from taskbar closes Event Log just 
+        like exit from regular menu; enable and disable Copy Selected and Filter 
+        buttons depending on selected messages; fix misplaced curly bracket in 
+        CMainDocument::RunPeriodicRPCs() which caused excessive CPU usage and 
+        other problems.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp
+        BOINCTaskBar.cpp
+        DlgEventLog.cpp, .h
+        MainDocument.cpp

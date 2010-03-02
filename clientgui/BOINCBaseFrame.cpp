@@ -310,22 +310,6 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
         wxGetApp().FrameClosed();
         Destroy();
     } else {
-#ifdef __WXMAC__
-        // If Event Log is currently the active (frontmost) window, just close it
-        wxTopLevelWindowMac*    eventLog = NULL;
-        WindowRef               macWin = NULL;
-        
-        eventLog = (wxTopLevelWindowMac*)wxWindow::FindWindowById(ID_DLGEVENTLOG);
-        if (eventLog) {
-            macWin = (WindowRef)eventLog->MacGetWindowRef();
-            if (macWin) {
-                if (IsWindowActive(macWin)) {
-                    eventLog->Close();
-                    return;
-                }
-            }
-        }
-#endif
         Hide();
     }
 

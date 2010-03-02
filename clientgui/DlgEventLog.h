@@ -138,6 +138,7 @@ private:
     bool                    m_bIsFiltered;
     std::string             m_strFilteredProjectName;
     wxButton*               m_pFilterButton;
+    wxButton*               m_pCopySelectedButton;
 
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
@@ -151,6 +152,10 @@ private:
     bool                    RestoreState();
     void                    RestoreWindowDimensions();
 
+    void                    UpdateButtons();
+    void                    OnListSelected(wxListEvent& event);
+    void                    OnListDeselected(wxListEvent& event);
+    
     bool                    EnsureLastItemVisible();
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;

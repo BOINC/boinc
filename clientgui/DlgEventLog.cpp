@@ -71,6 +71,8 @@ BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
     EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYPROJECT, CDlgEventLog::OnMessagesFilter)
     EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
     EVT_CLOSE(CDlgEventLog::OnClose)
+    EVT_LIST_ITEM_SELECTED(ID_SIMPLE_MESSAGESVIEW, CDlgEventLog::OnListSelected)
+    EVT_LIST_ITEM_DESELECTED(ID_SIMPLE_MESSAGESVIEW, CDlgEventLog::OnListDeselected)
 ////@end CDlgEventLog event table entries
 END_EVENT_TABLE()
 
@@ -219,8 +221,8 @@ void CDlgEventLog::CreateControls()
 #endif
     itemBoxSizer4->Add(itemButton1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* itemButton2 = new wxButton(this, ID_COPYSELECTED, _("Copy Selected"),  wxDefaultPosition, wxDefaultSize );
-    itemButton2->SetHelpText(
+    m_pCopySelectedButton = new wxButton(this, ID_COPYSELECTED, _("Copy Selected"),  wxDefaultPosition, wxDefaultSize );
+    m_pCopySelectedButton->SetHelpText(
 #ifdef __WXMAC__
         _("Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages.")
 #else
@@ -228,7 +230,7 @@ void CDlgEventLog::CreateControls()
 #endif
     );
 #if wxUSE_TOOLTIPS
-    itemButton2->SetToolTip(
+    m_pCopySelectedButton->SetToolTip(
 #ifdef __WXMAC__
         _("Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages.")
 #else
@@ -236,7 +238,7 @@ void CDlgEventLog::CreateControls()
 #endif
     );
 #endif
-    itemBoxSizer4->Add(itemButton2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer4->Add(m_pCopySelectedButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
     wxButton* itemButton44 = new wxButton(this, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
@@ -424,7 +426,7 @@ wxInt32 CDlgEventLog::GetDocCount() {
 void CDlgEventLog::OnRefresh() {
     bool isConnected;
     static bool was_connected = false;
-    
+
     if (!m_bProcessingRefreshEvent) {
         m_bProcessingRefreshEvent = true;
 
@@ -484,18 +486,7 @@ void CDlgEventLog::OnRefresh() {
             m_iPreviousRowCount = iRowCount;
         }
 
-        bool enableButton = m_bIsFiltered; 
-        if ((! m_bIsFiltered) && (m_iTotalDocCount > 0)) {
-            int n = m_pList->GetSelectedItemCount();
-            if (n == 1) {
-                n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-                MESSAGE* message = wxGetApp().GetDocument()->message(n);
-                if ((message->project).size() > 0) {
-                    enableButton = true;
-                }
-            }
-        }
-        m_pFilterButton->Enable(enableButton);
+        UpdateButtons();
 
         m_bProcessingRefreshEvent = false;
     }
@@ -769,6 +760,37 @@ void CDlgEventLog::OnButtonHelp( wxCommandEvent& event ) {
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnHelp - Function End"));
+}
+
+
+void CDlgEventLog::UpdateButtons() {
+        bool enableFilterButton = m_bIsFiltered; 
+        bool enableCopySelectedButon = false; 
+        if ((! m_bIsFiltered) && (m_iTotalDocCount > 0)) {
+            int n = m_pList->GetSelectedItemCount();
+            if (n > 0) {
+                enableCopySelectedButon = true;
+            }
+            if (n == 1) {
+                n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+                MESSAGE* message = wxGetApp().GetDocument()->message(n);
+                if ((message->project).size() > 0) {
+                    enableFilterButton = true;
+                }
+            }
+        }
+        m_pFilterButton->Enable(enableFilterButton);
+        m_pCopySelectedButton->Enable(enableCopySelectedButon);
+}
+
+
+void CDlgEventLog::OnListSelected(wxListEvent& event) {
+    UpdateButtons();
+}
+
+
+void CDlgEventLog::OnListDeselected(wxListEvent& event) {
+    UpdateButtons();
 }
 
 

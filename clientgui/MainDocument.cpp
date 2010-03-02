@@ -898,10 +898,11 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
         request.resultPtr = &m_iGet_messages_rpc_result;
        
         RequestRPC(request);
-
-        ts = dtNow - m_dtCachedStateTimestamp;
-        if (ts.GetSeconds() >= STATERPC_INTERVAL) {
     }
+
+    ts = dtNow - m_dtCachedStateTimestamp;
+    if (ts.GetSeconds() >= STATERPC_INTERVAL) {
+
     // *********** RPC_GET_STATE **************
 
         request.clear();

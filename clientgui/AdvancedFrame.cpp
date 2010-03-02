@@ -2074,7 +2074,6 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
                         m_pPeriodicRPCTimer->Start(1000); 
                     } else {
                         m_pPeriodicRPCTimer->Start(m_iFrameRefreshRate);
-
                     }
                 } else {
                     // Set view refresh rate to 1 second
