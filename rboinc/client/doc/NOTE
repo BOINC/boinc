@@ -1,0 +1,284 @@
+$Id: NOTE 192 2009-04-20 16:07:25Z toni $
+
+
+----------------------------------------
+
+
+* The unity for a submission is the Job. 
+** A Job has a set of input files
+   which are associated to it as soon as it is created. 
+** Jobs are created by "submit" operations. 
+** A job has a user-decided JOBID, which is required for retrieval. 
+*** The user-decided JOBID can also be left empty, 
+    in which case a random one will be generated
+** A job may have ore or more TAGs, which are used to facilitate retrieval
+** Current step, maximum step
+** Owner (user name)
+** Current safety level
+** URL (or project)
+
+
+
+* Files are cached in a pool to avoid duplicate uploads
+
+* Files are cached in a pool to avoid duplicate storage
+** cache is in <WR>/pool
+
+* Retrieve operations fetch a given ID or all those with a given TAG
+
+* Workflow files are kept in <WR>/userid_jobid
+
+
+
+
+
+
+
+
+----------------------------------------
+
+RBOINC_TRASH_DIR=/home/boinc/projects/LUNA/workflow_results/rboinc_trash_dir
+0 * * * * find $RBOINC_TRASH_DIR -depth -not        -type d -mtime +2 -print
+0 * * * * find $RBOINC_TRASH_DIR -depth -not        -type d -mtime +2 -delete
+0 * * * * find $RBOINC_TRASH_DIR -depth -mindepth 1 -type d -empty    -delete
+
+
+
+
+
+
+
+
+----------------------------------------
+
+
+
+
+
+SUBMIT
+
+* die if files !xsist				OK
+* die if !authenticator    			OK
+* make description xml 	   			OK
+* make random upload_id				OK
+* create 0 index, if not given			OK
+* up to dav	   	   			OK
+* call rpc, send random id			OK
+
+(Better? first authenticate, get rid from server.
+ Alternatively: use webdav authentication based on server tables)
+
+
+* rpc callee
+  - args: random_id
+    	  url
+	  auth
+  - authenticate (-)
+  - if OK
+    - build work_id=name/dir in wft
+    - cp/mv to wfr
+    - create_work
+    - return work_id
+  - if NOTOK
+    - remove dav dir (not)
+    - return error code
+
+
+* get result id
+* if error: remove dav upload_id
+* print result
+
+
+
+
+
+* dav area
+  Enable mod_dav, mod_dav_fs.  On debian: use a2enmod
+  Need a DAV area   $DAV_AREA
+  Make an user for uploading and an user file OUTSIDE of the DAV area
+  A good solution: put them in PROJECT_DIR
+
+  The dav area will be good for downloading (via symlinks), as well.
+  No indexes will be shown.
+
+
+
+* wfr area
+  - */user/job
+
+Remember that it must be writable by the user which executes
+apache (on debian: www-data)
+
+
+
+
+----------------------------------------
+
+
+
+RETRIEVE
+
+
+
+* call rpc
+
+* callee:
+  - authenticate user with boinc
+  - generate a random identifier
+  - create dir in DAV
+  - make symlinks from a download area to the wfr
+    all non-recent result files can be symlinked
+  - return id as xml
+
+* cd to the DAV/code dir
+  - retrieve stuff
+  - optionally delete them
+
+Note that symlinks in the DAV directory are not visible when listed.
+
+
+
+
+----------------------------------------
+
+Cpan: add modules on boinc@grosso
+
+export PERL5LIB=/home/boinc/toni/perl/lib/
+perl -MCPAN -eshell
+o conf makepl_arg "LIB=~/toni/perl/lib PREFIX=~/toni/perl"
+
+DEPLOY:
+	copy perl modules from boinc to ps3grid
+
+
+
+
+----------------------------------------
+
+SECURITY TODO
+
+* Add boinc authentication to S/R
+* Retrieve: check for user "owning" the directory
+* Restrict TCL command set
+* Restrict parameters:
+  - Priority
+  - N. of runs
+  - ...
+* Possibly, add digest authentication to DAV (pre-shared secret, not great). 
+* Refuse odd chars in tag name	      	 OK
+* get DAV from authentication step
+
+
+TODO
+
+* Remove getopt::simple
+* Refactor server			OK
+* stop/resume
+* status/status all
+
+
+
+----------------------------------------
+
+# Figure out the current step with respect to the others
+
+
+pushd $GROUP_DIR
+shopt -s nullglob
+
+namelist=`ls -1 *_0 | cut -f1 -d- | sort | uniq`
+catchup=0
+
+if [[ -n $namelist ]]; then
+    maxlist=""
+    for i in $namelist; do
+      maxstepi=`ls -1 $i-*_0 | cut -f3 -d- |sort -n|tail -1`
+      maxlist="$maxlist $maxstepi"
+    done
+
+    # use perl to decide 
+    threshold=`perl -e '
+         @l=reverse sort {$a<=>$b} @ARGV;
+         print $l[0]-2;
+    ' $maxlist`
+         
+    if (( $NEW_STEP < $threshold )); then
+        echo "I should run in catchup mode, thr $threshold"
+        catchup=1
+    fi
+fi
+
+shopt -u nullglob
+popd
+
+
+
+
+
+
+
+----------------------------------------
+
+
+http://www.perl.com/pub/a/2002/11/14/exception.html
+
+
+
+ use Error qw(:try);
+
+  try {
+    some code;
+    code that might thrown an exception;
+    more code;
+    return;
+  }
+  catch Error with {
+    my $ex = shift;   # Get hold of the exception object
+    handle the exception;
+  }
+  finally {
+    cleanup code;
+  };  # <-- Remember the semicolon
+
+
+
+
+----------------------------------------
+
+Installing Perl packages as non-root
+
+http://tldp.org/LDP/LGNET/139/okopnik.html
+
+
+----------------------------------------
+
+http://boinc.berkeley.edu/trac/wiki/WebRpc#lookup_account
+
+----------------------------------------
+
+
+EXAMPLE INVOCATION 
+
+
+ON GROSSO
+
+echo \
+perl -w boinc_submit.pl -name N1 -group TONIR3   \
+ -conf sample/TONI/input_boinc_gpu.conf -pdb sample/TONI/grama.ionized.pdb \
+ -psf sample/TONI/grama.ionized.psf -coor sample/TONI/equil.coor  \
+ -vel sample/TONI/equil.vel -par sample/TONI/parameters \
+ -url  http://www.ps3grid.net:8383/rboinc_cgi -dry
+
+echo \
+perl -w boinc_retrieve.pl -group TONIR3 -name N1  \
+ -url http://www.ps3grid.net:8383/rboinc_cgi \
+ -into /tmp/
+
+
+
+Prerequisites for client:
+
+	XML::Simple
+	Error
+
+

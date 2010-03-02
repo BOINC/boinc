@@ -1530,3 +1530,8 @@ David  2 Mar 2010
         boinc_api.cpp
     client/
         scheduler_op.cpp
+
+David  2 Mar 2010
+    - add remote job submission system (from Toni Giorgino)
+
+    rboinc/*

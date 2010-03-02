@@ -1,0 +1,115 @@
+<rboinc application="acemdbeta"
+	description="Standard ACEMD run with optional DCD and PLUMED"/>
+<file_info>
+	<number>0</number>
+</file_info>
+<file_info>
+	<number>1</number>
+</file_info>
+<file_info>
+	<number>2</number>
+</file_info>
+<file_info>
+	<number>3</number>
+</file_info>
+<file_info>
+	<number>4</number>
+</file_info>
+<file_info>
+	<number>5</number>
+</file_info>
+<file_info>
+	<number>6</number>
+</file_info>
+<file_info>
+	<number>7</number>
+</file_info>
+<file_info>
+	<number>8</number>
+</file_info>
+<file_info>
+	<number>9</number>
+</file_info>
+<file_info>
+	<number>10</number>
+</file_info>
+<workunit>
+    <file_ref>
+        <file_number>0</file_number>
+        <open_name>LICENSE</open_name>
+	<rboinc immutable="true"/>
+    </file_ref>
+    <file_ref>
+        <file_number>1</file_number>
+        <open_name>COPYRIGHT</open_name>
+        <rboinc immutable="true"/>
+    </file_ref>
+    <file_ref>
+        <file_number>2</file_number>
+        <open_name>input.coor</open_name>
+        <copy_file/>
+	<rboinc parameter_name="coor_file" 
+		parameter_description="Binary coordinates"
+		/>
+    </file_ref>
+    <file_ref>
+        <file_number>3</file_number>
+        <open_name>input.vel</open_name>
+        <copy_file/>
+	<rboinc parameter_name="vel_file"
+		parameter_description="Binary velocities"
+		/>
+    </file_ref>
+    <file_ref>
+        <file_number>4</file_number>
+        <open_name>input.idx</open_name>
+        <copy_file/>
+	<rboinc parameter_name="idx_file" optional="true" />
+    </file_ref>
+    <file_ref>
+        <file_number>5</file_number>
+        <open_name>structure.pdb</open_name>
+	<rboinc parameter_name="pdb_file"
+		parameter_description="PDB structure"/>
+    </file_ref>
+    <file_ref>
+        <file_number>6</file_number>
+        <open_name>structure.psf</open_name>
+	<rboinc parameter_name="psf_file"
+		parameter_description="PSF topology"/>
+    </file_ref>
+    <file_ref>
+        <file_number>7</file_number>
+        <open_name>parameters</open_name>
+	<rboinc parameter_name="par_file"
+		parameter_description="CHARMM parameters"/>
+    </file_ref>
+    <file_ref>
+        <file_number>8</file_number>
+        <open_name>input</open_name>
+	<rboinc parameter_name="conf_file"
+		parameter_description="ACEMD input file"
+		encode="true" />
+    </file_ref>
+    <file_ref>
+        <file_number>9</file_number>
+        <open_name>META_INP</open_name>
+        <copy_file/>
+	<rboinc parameter_name="metainp_file"
+		parameter_description="PLUMED metadynamics configuration"
+		optional="true" />
+    </file_ref>
+    <file_ref>
+        <file_number>10</file_number>
+        <open_name>HILLS</open_name>
+        <copy_file/>
+	<rboinc parameter_name="hills_file"
+		parameter_description="PLUMED metadynamics restart"
+		optional="true" />
+    </file_ref>
+    <rsc_fpops_est>250e12</rsc_fpops_est>
+    <rsc_fpops_bound>12.5e15</rsc_fpops_bound>
+      <rsc_disk_bound>200000000</rsc_disk_bound>
+    <rsc_memory_bound>100000000</rsc_memory_bound>
+    <delay_bound>432000</delay_bound>
+</workunit>

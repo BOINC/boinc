@@ -1,0 +1,102 @@
+# -*- Conf -*-
+# Remoteboinc additions to apache
+# Toni Giorgino (c) 2009
+
+# Beware to disable the DocumentRoot possibly defined elsewhere
+
+
+# Note that the trailing slash is important
+
+Listen 8484
+DocumentRoot "/home/ps3grid/remote/apache/root/"
+
+<Directory "/home/ps3grid/remote/apache/root/">
+
+#
+# Possible values for the Options directive are "None", "All",
+# or any combination of:
+#   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
+#
+# Note that "MultiViews" must be named *explicitly* --- "Options All"
+# doesn't give it to you.
+#
+# The Options directive is both complicated and important.  Please see
+# http://httpd.apache.org/docs/2.2/mod/core.html#options
+# for more information.
+#
+    Options Indexes FollowSymLinks
+
+#
+# AllowOverride controls what directives may be placed in .htaccess files.
+# It can be "All", "None", or any combination of the keywords:
+#   Options FileInfo AuthConfig Limit
+#
+    AllowOverride None
+
+#
+# Controls who can get stuff from this server.
+#
+    Order allow,deny
+    Allow from all
+
+</Directory>
+
+
+
+# Part I: WebDAV access
+
+
+# Note that the DAVLockDB directive must be commented 
+# in the main configuration file
+
+# Remember to make the dir writable to apache
+
+
+DAVLockDB lockdb
+
+<Directory "/home/ps3grid/remote/apache/DAV">
+    Dav On
+
+    Order Allow,Deny
+    Allow from all
+
+    AuthType Digest
+    AuthName DAV-upload
+    
+    Options +MultiViews +Indexes +FollowSymLinks
+
+    # You can use the htdigest program to create the password database:
+    #   htdigest -c "/home/toni/Apps/apache//user.passwd" DAV-upload admin
+    AuthUserFile "/home/boincadm/RemoteBoincProject/server/user.passwd"
+    AuthDigestProvider file
+
+
+    # Allow universal read-access, but writes are restricted
+    # to the admin user.
+#    <LimitExcept GET OPTIONS>
+#        require user admin
+#    </LimitExcept>
+</Directory>
+Alias /DAV /home/ps3grid/remote/apache/DAV
+
+
+
+
+
+
+
+# Part II: CGI Access
+# Make sure cgis are executable
+
+
+<Directory "/home/ps3grid/remote/apache/cgi-bin">
+        Options ExecCGI
+        AllowOverride AuthConfig
+        Order allow,deny
+        Allow from all
+</Directory>
+ScriptAlias /rboinc_cgi /home/ps3grid/remote/apache/cgi-bin
+
+
+
+
