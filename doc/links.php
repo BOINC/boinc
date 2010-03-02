@@ -250,6 +250,7 @@ language("French", array(
     site("http://www.boinc-af.org", "L'Alliance Francophone"),
 ));
 language("German", array(
+    site("http://www.crunchers-freiburg.de/", "crunchers@freiburg"),
     //site("http://www.boinc-gemeinschaft.de/", "BOINC Gemeinschaft"),
     site("http://www.gridcommunity.de/index.php", "International Grid Community"),
     site("http://www.swissteam.net/", "SwissTeam.net"),

@@ -593,6 +593,10 @@ static void exit_from_timer_thread(int status) {
     );
 #endif
 #ifdef _WIN32
+    // TerminateProcess() doesn't work if there are suspended threads?
+    if (boinc_status.suspended) {
+        retval = resume_activities();
+    }
     // this seems to work OK on Windows
     //
     boinc_exit(status);

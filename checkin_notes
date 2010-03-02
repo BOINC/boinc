@@ -1507,8 +1507,8 @@ Charlie  2 Mar 2010
 
 Charlie  2 Mar 2010
     - MGR: Keep getting messages even if the Event Log is not open; otherwise 
-        some may be lost due to the limited size of the client's buffer, causing 
-        gaps when the Event Log is later opened.
+        some may be lost due to the limited size of the client's buffer,
+        causing gaps when the Event Log is later opened.
         
     clientgui/
         MainDocument.cpp
@@ -1519,3 +1519,14 @@ Rom    2 Mar 2010
         
     client/
         hostinfo_win.cpp
+
+David  2 Mar 2010
+    - API: Win: resume other threads before exiting from timer thread.
+        Attempt to fix E@h bug.
+    - client: fix messages: asking for X instances doesn't mean
+        that X instances are idle
+
+    api/
+        boinc_api.cpp
+    client/
+        scheduler_op.cpp
