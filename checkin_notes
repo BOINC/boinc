@@ -1481,3 +1481,12 @@ Rom    1 Mar 2010
         hostinfo_win.cpp
     lib/
         str_util.h
+
+David  1 Mar 2010
+	- client: if suspending apps because of CPU benchmarks,
+		leave them in memory
+
+	client/
+		app.h
+		app_control.cpp
+		cs_prefs.cpp

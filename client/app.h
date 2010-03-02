@@ -238,7 +238,7 @@ public:
     ACTIVE_TASK* lookup_result(RESULT*);
     void init();
     bool poll();
-    void suspend_all(bool leave_apps_in_memory=true);
+    void suspend_all(int reason);
     void unsuspend_all();
     bool is_task_executing();
     void request_tasks_exit(PROJECT* p=0);
