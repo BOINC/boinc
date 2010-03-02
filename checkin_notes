@@ -1412,7 +1412,7 @@ Rom    26 Feb 2010
     client/
         coproc_detect.cpp
 
-David  26 Feb 2009
+David  26 Feb 2010
     - admin web: reorganize main page;
         add "transition all" command
 
@@ -1426,14 +1426,14 @@ David  26 Feb 2009
         clear_host.php
         transition_all.php
 
-David  26 Feb 2009
+David  26 Feb 2010
     - scheduler: add plan class "cuda_fermi":
         requires CUDA 2.3 and compute capability 2.0+
 
     sched/
         sched_customize.cpp
 
-David  26 Feb 2009
+David  26 Feb 2010
 	- client: if suspend a file xfer, set upload_offset to -1;
 		that way it will query server for file length when it resumes,
 		rather than uploading from the beginning
@@ -1443,7 +1443,7 @@ David  26 Feb 2009
 		file_xfer.cpp
 		pers_file_xfer.cpp
 
-David  27 Feb 2009
+David  27 Feb 2010
     - client: if have coproc jobs but coproc is missing,
         skip those jobs in RR sim.
         Otherwise we add stuff to uninitialized data structures,
@@ -1454,14 +1454,14 @@ David  27 Feb 2009
         work_fetch.cpp
         rr_sim.cpp
 
-David  27 Feb 2009
+David  27 Feb 2010
     - client: fix bug that interfered with work fetch
         for particular resources in anonymous platform case.
 
     client/
         work_fetch.cpp
 
-David  1 Mar 2009
+David  1 Mar 2010
     - server: if MySQL version is 5.0.19 <= v < 5.1,
         set the reconnect option before real_connect() instead of after.
         From Oliver Bock.
@@ -1472,3 +1472,12 @@ David  1 Mar 2009
         sched_customize.cpp
     client/
         cpu_sched.cpp
+
+Rom    1 Mar 2010
+    - client: Improve error checking with CPU detection features.
+    - lib: cleanup some warnings.
+    
+    client/
+        hostinfo_win.cpp
+    lib/
+        str_util.h

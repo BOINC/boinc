@@ -53,13 +53,13 @@ inline bool starts_with(std::string const& s, std::string const& prefix) {
 
 inline void downcase_string(std::string& w) {
     for (std::string::iterator p = w.begin(); p != w.end(); ++p) {
-        *p = tolower(*p);
+        *p = (char)tolower((int)*p);
     }
 }
 
 inline void downcase_string(char* p) {
     while (*p) {
-        *p = tolower(*p);
+        *p = (char)tolower((int)*p);
         p++;
     }
 }

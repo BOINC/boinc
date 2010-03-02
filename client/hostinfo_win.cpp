@@ -603,7 +603,7 @@ int get_os_information(
 // Handle the cpuid instruction on supported compilers
 // NOTE: This only handles structured exceptions with Microsoft compilers.
 // 
-int get_cpuid(int info_type, int& a, int& b, int& c, int& d) {
+int get_cpuid(unsigned int info_type, unsigned int& a, unsigned int& b, unsigned int& c, unsigned int& d) {
 
 #ifdef _MSC_VER
 
@@ -641,9 +641,10 @@ int get_cpuid(int info_type, int& a, int& b, int& c, int& d) {
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
 int get_processor_vendor(char* name, int name_size) {
-    int eax, ebx, ecx, edx;
+    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
 
-    if (name_size < 13) return 1;
+    if (!name) return ERR_INVALID_PARAM;
+    if (name_size < 13) return ERR_WRONG_SIZE;
 
     memset(name, 0, sizeof(name_size));
 
@@ -662,7 +663,10 @@ int get_processor_vendor(char* name, int name_size) {
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
 int get_processor_version(int& family, int& model, int& stepping) {
-    int eax, ebx, ecx, edx;
+    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
+
+    get_cpuid(0x00000000, eax, ebx, ecx, edx);
+    if (!(eax == 0x00000001)) return ERR_NOT_IMPLEMENTED;
 
     if (!get_cpuid(0x00000001, eax, ebx, ecx, edx)) {
         family = (((eax >> 8) + (eax >> 20)) & 0xff);
@@ -678,11 +682,16 @@ int get_processor_version(int& family, int& model, int& stepping) {
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
 int get_processor_name(char* name, int name_size) {
-    int eax, ebx, ecx, edx, i;
+    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
+    size_t i = 0;
 
-    if (name_size < 48) return 1;
+    if (!name) return ERR_INVALID_PARAM;
+    if (name_size < 48) return ERR_WRONG_SIZE;
 
     memset(name, 0, sizeof(name_size));
+
+    get_cpuid(0x80000000, eax, ebx, ecx, edx);
+    if (!(eax >= 0x80000004)) return ERR_NOT_IMPLEMENTED;
 
     if (!get_cpuid(0x80000002, eax, ebx, ecx, edx)) {
         *((int*)(name + 0))  = eax;
@@ -721,7 +730,10 @@ int get_processor_name(char* name, int name_size) {
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
 int get_processor_cache(int& cache) {
-    int eax, ebx, ecx, edx;
+    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
+
+    get_cpuid(0x80000000, eax, ebx, ecx, edx);
+    if (!(eax >= 0x80000006)) return ERR_NOT_IMPLEMENTED;
 
     if (!get_cpuid(0x80000006, eax, ebx, ecx, edx)) {
         cache = ((ecx >> 16) & 0xffff) * 1024;
@@ -735,22 +747,20 @@ int get_processor_cache(int& cache) {
 // see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
-#define FEATURE_TEST(test, feature_name) \
-    if (test) strncat(features, feature_name, features_size - strlen(features))
+#define FEATURE_TEST(feature_set_supported, test, feature_name) \
+    if (feature_set_supported && test) strncat(features, feature_name, features_size - strlen(features))
 
 int get_processor_features(char* vendor, char* features, int features_size) {
-    int std_eax, std_ebx, std_ecx, std_edx;
-    int ext_eax, ext_ebx, ext_ecx, ext_edx;
-    int std_supported = 0, ext_supported = 0, intel_supported = 0, amd_supported = 0;
+    unsigned int std_eax = 0, std_ebx = 0, std_ecx = 0, std_edx = 0;
+    unsigned int ext_eax = 0, ext_ebx = 0, ext_ecx = 0, ext_edx = 0;
+    unsigned int std_supported = 0, ext_supported = 0, intel_supported = 0, amd_supported = 0;
+
+    if (!vendor) return ERR_INVALID_PARAM;
+    if (!features) return ERR_INVALID_PARAM;
+    if (features_size < 250) return ERR_WRONG_SIZE;
 
     memset(features, 0, sizeof(features_size));
 
-    if (!get_cpuid(0x00000001, std_eax, std_ebx, std_ecx, std_edx)) {
-        std_supported = 1;
-    }
-    if (!get_cpuid(0x80000001, ext_eax, ext_ebx, ext_ecx, ext_edx)) {
-        ext_supported = 1;
-    }
     if (strcmp(vendor, "GenuineIntel") == 0) {
         intel_supported = 1;
     }
@@ -758,76 +768,88 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         amd_supported = 1;
     }
 
-    FEATURE_TEST((std_edx & (1 << 0)), "fpu ");
-    FEATURE_TEST((std_edx & (1 << 1)), "vme ");
-    FEATURE_TEST((std_edx & (1 << 2)), "de ");
-    FEATURE_TEST((std_edx & (1 << 3)), "pse ");
-    FEATURE_TEST((std_edx & (1 << 4)), "tsc ");
-    FEATURE_TEST((std_edx & (1 << 5)), "msr ");
-    FEATURE_TEST((std_edx & (1 << 6)), "pae ");
-    FEATURE_TEST((std_edx & (1 << 7)), "mce ");
-    FEATURE_TEST((std_edx & (1 << 8)), "cx8 ");
-    FEATURE_TEST((std_edx & (1 << 9)), "apic ");
-    FEATURE_TEST((std_edx & (1 << 11)), "sep ");
-    FEATURE_TEST((std_edx & (1 << 12)), "mtrr ");
-    FEATURE_TEST((std_edx & (1 << 13)), "pge ");
-    FEATURE_TEST((std_edx & (1 << 14)), "mca ");
-    FEATURE_TEST((std_edx & (1 << 15)), "cmov ");
-    FEATURE_TEST((std_edx & (1 << 16)), "pat ");
-    FEATURE_TEST((std_edx & (1 << 17)), "pse36 ");
-    FEATURE_TEST((std_edx & (1 << 18)), "psn ");
-    FEATURE_TEST((std_edx & (1 << 19)), "clflush ");
-    FEATURE_TEST((std_edx & (1 << 21)), "dts ");
-    FEATURE_TEST((std_edx & (1 << 22)), "acpi ");
-    FEATURE_TEST((std_edx & (1 << 23)), "mmx ");
-    FEATURE_TEST((std_edx & (1 << 24)), "fxsr ");
-    FEATURE_TEST((std_edx & (1 << 25)), "sse ");
-    FEATURE_TEST((std_edx & (1 << 26)), "sse2 ");
-    FEATURE_TEST((std_edx & (1 << 27)), "ss ");
-    FEATURE_TEST((std_edx & (1 << 28)), "htt ");
-    FEATURE_TEST((std_edx & (1 << 29)), "tm ");
+    get_cpuid(0x00000000, std_eax, std_ebx, std_ecx, std_edx);
+    if (std_eax >= 0x00000001) {
+        std_supported = 1;
+        get_cpuid(0x00000001, std_eax, std_ebx, std_ecx, std_edx);
+    }
 
-    FEATURE_TEST((std_ecx & (1 << 0)), "pni ");
-    FEATURE_TEST((std_ecx & (1 << 9)), "ssse3 ");
-    FEATURE_TEST((std_ecx & (1 << 13)), "cx16 ");
-    FEATURE_TEST((std_ecx & (1 << 19)), "sse4_1 ");
-    FEATURE_TEST((std_ecx & (1 << 20)), "sse4_2 ");
+    get_cpuid(0x80000000, ext_eax, ext_ebx, ext_ecx, ext_edx);
+    if (ext_eax >= 0x80000001) {
+        ext_supported = 1;
+        get_cpuid(0x80000001, ext_eax, ext_ebx, ext_ecx, ext_edx);
+    }
 
-    FEATURE_TEST((ext_edx & (1 << 11)), "syscall ");
-    FEATURE_TEST((ext_edx & (1 << 20)), "nx ");
-    FEATURE_TEST((ext_edx & (1 << 29)), "lm ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 0)), "fpu ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 1)), "vme ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 2)), "de ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 3)), "pse ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 4)), "tsc ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 5)), "msr ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 6)), "pae ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 7)), "mce ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 8)), "cx8 ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 9)), "apic ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 11)), "sep ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 12)), "mtrr ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 13)), "pge ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 14)), "mca ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 15)), "cmov ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 16)), "pat ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 17)), "pse36 ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 18)), "psn ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 19)), "clflush ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 21)), "dts ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 22)), "acpi ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 23)), "mmx ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 24)), "fxsr ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 25)), "sse ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 26)), "sse2 ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 27)), "ss ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 28)), "htt ");
+    FEATURE_TEST(std_supported, (std_edx & (1 << 29)), "tm ");
+
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 0)), "pni ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 9)), "ssse3 ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 19)), "sse4_1 ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 20)), "sse4_2 ");
+
+    FEATURE_TEST(ext_supported, (ext_edx & (1 << 11)), "syscall ");
+    FEATURE_TEST(ext_supported, (ext_edx & (1 << 20)), "nx ");
+    FEATURE_TEST(ext_supported, (ext_edx & (1 << 29)), "lm ");
 
     if (intel_supported) {
         // Intel only features
-        FEATURE_TEST((std_ecx & (1 << 5)), "vmx ");
-        FEATURE_TEST((std_ecx & (1 << 6)), "smx ");
-        FEATURE_TEST((std_ecx & (1 << 8)), "tm2 ");
-		FEATURE_TEST((std_ecx & (1 << 12)), "fma ");
-        FEATURE_TEST((std_ecx & (1 << 18)), "dca ");
-		FEATURE_TEST((std_ecx & (1 << 22)), "movebe ");
-        FEATURE_TEST((std_ecx & (1 << 23)), "popcnt ");
-		FEATURE_TEST((std_ecx & (1 << 25)), "aes ");
+        FEATURE_TEST(std_supported, (std_ecx & (1 << 5)), "vmx ");
+        FEATURE_TEST(std_supported, (std_ecx & (1 << 6)), "smx ");
+        FEATURE_TEST(std_supported, (std_ecx & (1 << 8)), "tm2 ");
+		FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
+        FEATURE_TEST(std_supported, (std_ecx & (1 << 18)), "dca ");
+		FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");
+        FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");
+		FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
 
-        FEATURE_TEST((std_edx & (1 << 31)), "pbe ");
+        FEATURE_TEST(std_supported, (std_edx & (1 << 31)), "pbe ");
     }
 
     if (amd_supported) {
         // AMD only features
-		FEATURE_TEST((ext_ecx & (1 << 2)), "svm ");
-        FEATURE_TEST((ext_ecx & (1 << 6)), "sse4a ");
-        FEATURE_TEST((ext_ecx & (1 << 9)), "osvw "); 
- 		FEATURE_TEST((ext_ecx & (1 << 10)), "ibs ");
-		FEATURE_TEST((ext_ecx & (1 << 11)), "xop ");
-		FEATURE_TEST((ext_ecx & (1 << 12)), "skinit ");
-		FEATURE_TEST((ext_ecx & (1 << 13)), "wdt ");
-        FEATURE_TEST((ext_ecx & (1 << 15)), "lwp ");
-		FEATURE_TEST((ext_ecx & (1 << 16)), "fma4 ");
-        FEATURE_TEST((ext_ecx & (1 << 18)), "cvt16 ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 2)), "svm ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 6)), "sse4a ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 9)), "osvw "); 
+ 		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 10)), "ibs ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 11)), "xop ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 12)), "skinit ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 13)), "wdt ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 15)), "lwp ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 16)), "fma4 ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 18)), "cvt16 ");
 
-		FEATURE_TEST((ext_edx & (1 << 26)), "page1gb ");
-		FEATURE_TEST((ext_edx & (1 << 27)), "rdtscp ");
-        FEATURE_TEST((ext_edx & (1 << 30)), "3dnowext ");
-        FEATURE_TEST((ext_edx & (1 << 31)), "3dnow ");
+		FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "page1gb ");
+		FEATURE_TEST(ext_supported, (ext_edx & (1 << 27)), "rdtscp ");
+        FEATURE_TEST(ext_supported, (ext_edx & (1 << 30)), "3dnowext ");
+        FEATURE_TEST(ext_supported, (ext_edx & (1 << 31)), "3dnow ");
     }
 
     strip_whitespace(features);
