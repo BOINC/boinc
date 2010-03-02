@@ -1067,30 +1067,84 @@ static void handle_get_notices_public(char* buf, MIOFILE& fout, bool notice_refr
     notices.write(seqno, fout, true, notice_refresh);
 }
 
+static bool complete_post_request(char* buf) {
+    if (strncmp(buf, "POST", 4)) return false;
+    char* p = strstr(buf, "Content-Length: ");
+    if (!p) return false;
+    p += strlen("Content-Length: ");
+    int n = atoi(p);
+    p = strstr(p, "\r\n\r\n");
+    if (!p) return false;
+    p += 4;
+    if ((int)strlen(p) < n) return false;
+    return true;
+}
+
 // Some of the RPCs have empty-element request messages.
 // We accept both <foo/> and <foo></foo>
 //
 #define match_req(buf, tag) (match_tag(buf, "<" tag ">") || match_tag(buf, "<" tag "/>"))
 
 int GUI_RPC_CONN::handle_rpc() {
-    char request_msg[4096];
     int n, retval=0;
     MIOFILE mf;
     MFILE m;
     char* p;
     mf.init_mfile(&m);
 
-    // read the request message in one read()
-    // so that the core client won't hang because
-    // of malformed request msgs
-    //
+    int left = GUI_RPC_REQ_MSG_SIZE - request_nbytes;
 #ifdef _WIN32
-        n = recv(sock, request_msg, 4095, 0);
+        n = recv(sock, request_msg+request_nbytes, left, 0);
 #else
-        n = read(sock, request_msg, 4095);
+        n = read(sock, request_msg+request_nbytes, left);
 #endif
-    if (n <= 0) return ERR_READ;
-    request_msg[n-1] = 0;   // replace 003 with NULL
+    if (n <= 0) {
+        request_nbytes = 0;
+        return ERR_READ;
+    }
+    request_nbytes += n;
+
+    // buffer full?
+    if (request_nbytes >= GUI_RPC_REQ_MSG_SIZE) {
+        request_nbytes = 0;
+        return ERR_READ;
+    }
+    request_msg[request_nbytes] = 0;
+    if (!strncmp(request_msg, "OPTIONS", 7)) {
+        char buf[1024];
+        sprintf(buf, "HTTP/1.1 200 OK\n"
+            "Server: BOINC client\n"
+            "Access-Control-Allow-Origin: *\n"
+            "Access-Control-Allow-Methods: POST, GET, OPTIONS\n"
+            "Content-Length: 0\n"
+            "Keep-Alive: timeout=2, max=100\n"
+            "Connection: Keep-Alive\n"
+            "Content-Type: text/plain\n\n"
+        );
+        send(sock, buf, strlen(buf), 0);
+        request_nbytes = 0;
+        if (log_flags.guirpc_debug) {
+            msg_printf(0, MSG_INFO,
+                "[guirpc_debug] processed OPTIONS"
+            );
+        }
+        return 0;
+    }
+    bool http_request;
+    if (complete_post_request(request_msg)) {
+        http_request = true;
+    } else if (p = strchr(request_msg, 3)) {
+        *p = 0;
+        http_request = false;
+    } else {
+        if (log_flags.guirpc_debug) {
+            msg_printf(0, MSG_INFO,
+                "[guirpc_debug] partial GUI RPC Command = '%s'\n", request_msg
+            );
+        }
+        return 0;
+    }
+    request_nbytes = 0;
 
     if (log_flags.guirpc_debug) {
         msg_printf(0, MSG_INFO,
@@ -1299,6 +1353,11 @@ int GUI_RPC_CONN::handle_rpc() {
 
     mf.printf("</boinc_gui_rpc_reply>\n\003");
     m.get_buf(p, n);
+    if (http_request) {
+        char buf[1024];
+        sprintf(buf, "HTTP/1.1 200 OK\nDate: Fri, 31 Dec 1999 23:59:59 GMT\nContent-Type: text/xml\nContent-Length: %d\n\n", n);
+        send(sock, buf, strlen(buf), 0);
+    }
     if (p) {
         send(sock, p, n, 0);
         p[n-1]=0;   // replace 003 with NULL

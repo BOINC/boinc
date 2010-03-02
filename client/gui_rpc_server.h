@@ -33,10 +33,13 @@
 #define AU_MGR_GOT          1
 #define AU_MGR_QUIT_REQ     2
 #define AU_MGR_QUIT_SENT    3
-    
+
+#define GUI_RPC_REQ_MSG_SIZE    4096
 class GUI_RPC_CONN {
 public:
     int sock;
+    char request_msg[GUI_RPC_REQ_MSG_SIZE+1];
+    int request_nbytes;
     char nonce[256];
         /// if true, don't allow operations other than authentication
     bool auth_needed;

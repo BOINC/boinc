@@ -80,6 +80,7 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s):
     got_auth2 = false;
     sent_unauthorized = false;
     notice_refresh = false;
+    request_nbytes = 0;
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {

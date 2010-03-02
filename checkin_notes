@@ -1535,3 +1535,21 @@ David  2 Mar 2010
     - add remote job submission system (from Toni Giorgino)
 
     rboinc/*
+
+David  2 Mar 2010
+	- client: generalize the GUI RPC mechanism to access via HTTP.
+		The handler checks for POST headers,
+		and if present adds a reply header.
+		Also: remove the restriction that request messages
+		must be read in their entirety on the first recv().
+
+		I'm testing this using javascript's XMLHttpRequest.
+		It's not completely working;
+		the browser sends an OPTIONS request, then sends a POST.
+		The BOINC client parses and replies to these,
+		but for some reason the browser doesn't seem to be
+		parsing the POST reply.
+
+	client/
+		gui_rpc_server.cpp,h
+		gui_rpc_server_ops.cpp
