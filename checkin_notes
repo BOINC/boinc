@@ -1512,3 +1512,10 @@ Charlie  2 Mar 2010
         
     clientgui/
         MainDocument.cpp
+
+Rom    2 Mar 2010
+    - client: Add missing European SKUs to the host detection code.
+        (from: Robert Kreﬂ)
+        
+    client/
+        hostinfo_win.cpp

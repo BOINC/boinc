@@ -184,6 +184,84 @@
 #ifndef PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE
 #define PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE      0x0000002E
 #endif
+#ifndef PRODUCT_PROFESSIONAL
+#define PRODUCT_PROFESSIONAL                        0x00000030
+#endif
+#ifndef PRODUCT_PROFESSIONAL_N
+#define PRODUCT_PROFESSIONAL_N                      0x00000031
+#endif
+#ifndef PRODUCT_SB_SOLUTION_SERVER
+#define PRODUCT_SB_SOLUTION_SERVER                  0x00000032
+#endif
+#ifndef PRODUCT_SERVER_FOR_SB_SOLUTIONS
+#define PRODUCT_SERVER_FOR_SB_SOLUTIONS             0x00000033
+#endif
+#ifndef PRODUCT_STANDARD_SERVER_SOLUTIONS
+#define PRODUCT_STANDARD_SERVER_SOLUTIONS           0x00000034
+#endif
+#ifndef PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE
+#define PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE      0x00000035
+#endif
+#ifndef PRODUCT_SB_SOLUTION_SERVER_EM
+#define PRODUCT_SB_SOLUTION_SERVER_EM               0x00000036
+#endif
+#ifndef PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM
+#define PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM          0x00000037
+#endif
+#ifndef PRODUCT_SOLUTION_EMBEDDEDSERVER
+#define PRODUCT_SOLUTION_EMBEDDEDSERVER             0x00000038
+#endif
+#ifndef PRODUCT_SOLUTION_EMBEDDEDSERVER_CORE
+#define PRODUCT_SOLUTION_EMBEDDEDSERVER_CORE        0x00000039
+#endif
+#ifndef PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE
+#define PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE   0x0000003F
+#endif
+#ifndef PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT       0x0000003B
+#endif
+#ifndef PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL       0x0000003C
+#endif
+#ifndef PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC    0x0000003D
+#endif
+#ifndef PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC    0x0000003E
+#endif
+#ifndef PRODUCT_CLUSTER_SERVER_V
+#define PRODUCT_CLUSTER_SERVER_V                    0x00000040
+#endif
+#ifndef PRODUCT_EMBEDDED
+#define PRODUCT_EMBEDDED                            0x00000041
+#endif
+#ifndef PRODUCT_STARTER_E
+#define PRODUCT_STARTER_E                           0x00000042
+#endif
+#ifndef PRODUCT_HOME_BASIC_E
+#define PRODUCT_HOME_BASIC_E                        0x00000043
+#endif
+#ifndef PRODUCT_HOME_PREMIUM_E
+#define PRODUCT_HOME_PREMIUM_E                      0x00000044
+#endif
+#ifndef PRODUCT_PROFESSIONAL_E
+#define PRODUCT_PROFESSIONAL_E                      0x00000045
+#endif
+#ifndef PRODUCT_ENTERPRISE_E
+#define PRODUCT_ENTERPRISE_E                        0x00000046
+#endif
+#ifndef PRODUCT_ULTIMATE_E
+#define PRODUCT_ULTIMATE_E                          0x00000047
+#endif
+
+
+// Newer suite types than what is currently defined in
+//   Visual Studio 2005
+#ifndef VER_SUITE_WH_SERVER
+#define VER_SUITE_WH_SERVER                         0x00008000
+#endif
+
+
 
 
 // Returns the number of seconds difference from UTC
@@ -265,7 +343,7 @@ int get_os_information(
     pGPI = (PGPI) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetProductInfo");
 
 
-    // Windows s a Microsoft OS
+    // Windows is a Microsoft OS
     strcpy(os_name, "Microsoft ");
 
     switch (osvi.dwPlatformId)
@@ -356,6 +434,9 @@ int get_os_information(
                             case PRODUCT_ULTIMATE:
                                strcat(szSKU, "Ultimate ");
                                break;
+                            case PRODUCT_PROFESSIONAL:
+                               strcat(szSKU, "Professional ");
+                               break;
                             case PRODUCT_HOME_PREMIUM:
                                strcat(szSKU, "Home Premium ");
                                break;
@@ -371,6 +452,9 @@ int get_os_information(
                             case PRODUCT_STARTER:
                                strcat(szSKU, "Starter ");
                                break;
+							case PRODUCT_PROFESSIONAL_N:
+                               strcat(szSKU, "Professional N ");
+                               break;
 							case PRODUCT_HOME_PREMIUM_N:
                                strcat(szSKU, "Home Premium N ");
                                break;
@@ -385,6 +469,21 @@ int get_os_information(
                                break;
                             case PRODUCT_BUSINESS_N:
                                strcat(szSKU, "Business N ");
+                               break;
+							case PRODUCT_PROFESSIONAL_E:
+                               strcat(szSKU, "Professional E ");
+                               break;
+							case PRODUCT_HOME_PREMIUM_E:
+                               strcat(szSKU, "Home Premium E ");
+                               break;
+							case PRODUCT_HOME_BASIC_E:
+                               strcat(szSKU, "Home Basic E ");
+                               break;
+                            case PRODUCT_ULTIMATE_E:
+                               strcat(szSKU, "Ultimate E ");
+                               break;
+                            case PRODUCT_ENTERPRISE_E:
+                               strcat(szSKU, "Enterprise E ");
                                break;
                         }
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
@@ -461,8 +560,10 @@ int get_os_information(
                             strcat( szSKU, "Datacenter Server " );
                         } else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
                             strcat( szSKU, "Enterprise Server " );
-                        } else if ( osvi.wSuiteMask == VER_SUITE_BLADE ) {
+                        } else if ( osvi.wSuiteMask & VER_SUITE_BLADE ) {
                             strcat( szSKU, "Web Server " );
+                        } else if ( osvi.wSuiteMask & VER_SUITE_WH_SERVER ) {
+                            strcat( szSKU, "Home Server " );
                         } else {
                             strcat( szSKU, "Standard Server " );
                         }
