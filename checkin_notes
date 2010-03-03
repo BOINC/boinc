@@ -736,3 +736,11 @@ Rom    1 Mar 2010
     /
         configure.ac
         version.h
+
+Charlie  2 Mar 2010
+    - MGR: Save & restore size information of properties dialogs separately 
+        for project and task property dialogs, also save and restore dialog 
+        positions on Mac.
+        
+    clientgui/
+        DlgItemProperties.cpp, .h
