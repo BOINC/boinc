@@ -62,6 +62,8 @@ protected:
         wxScrolledWindow* m_scrolledWindow;
         wxGridBagSizer* m_gbSizer;
         wxButton* m_btnClose;
+        wxString m_strBaseConfigLocation;
+
 };
 
 #endif // _DLGITEMPROPERTIES_H_

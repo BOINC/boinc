@@ -1553,3 +1553,11 @@ David  2 Mar 2010
 	client/
 		gui_rpc_server.cpp,h
 		gui_rpc_server_ops.cpp
+
+Charlie  2 Mar 2010
+    - MGR: Save & restore size information of properties dialogs separately 
+        for project and task property dialogs, also save and restore dialog 
+        positions on Mac.
+        
+    clientgui/
+        DlgItemProperties.cpp, .h

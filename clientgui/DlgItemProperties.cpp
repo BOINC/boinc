@@ -23,6 +23,7 @@
 #include "util.h"
 #include "DlgItemProperties.h"
 #include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
 #include "Events.h"
 #include "error_numbers.h"
 
@@ -32,6 +33,10 @@ IMPLEMENT_DYNAMIC_CLASS(CDlgItemProperties, wxDialog)
 CDlgItemProperties::CDlgItemProperties(wxWindow* parent) : 
     wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition, 
                 wxSize( 503,480 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER ) {
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    wxASSERT(pFrame);
+    if (!pFrame) return;
+
 	SetSizeHints( wxDefaultSize, wxDefaultSize );
 	SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 	
@@ -65,6 +70,19 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
 
 	m_current_row=0;
 
+    int currentTabView = pFrame->GetCurrentViewPage();
+    switch(currentTabView) {
+        case VW_PROJ:
+        m_strBaseConfigLocation = wxString(wxT("/DlgProjectProperties/"));
+        break;
+        case VW_TASK:
+        m_strBaseConfigLocation = wxString(wxT("/DlgTaskProperties/"));
+        break;
+        default:
+        m_strBaseConfigLocation = wxString(wxT("/DlgProperties/"));
+        break;
+    }
+
 	RestoreState();
 }
 
@@ -73,35 +91,73 @@ CDlgItemProperties::~CDlgItemProperties() {
 	SaveState();
 }
 
-/* saves dialog size */
+/* saves dialog size and (on Mac) position */
 bool CDlgItemProperties::SaveState() {
-    wxString        strBaseConfigLocation = wxString(wxT("/DlgProperties/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-
     wxASSERT(pConfig);
 	if (!pConfig) return false;
 
-	pConfig->SetPath(strBaseConfigLocation);
-	pConfig->Write(wxT("Width"),this->GetSize().GetWidth());
-	pConfig->Write(wxT("Height"),this->GetSize().GetHeight());
+	pConfig->SetPath(m_strBaseConfigLocation);
+	pConfig->Write(wxT("Width"), GetSize().GetWidth());
+	pConfig->Write(wxT("Height"), GetSize().GetHeight());
+#ifdef __WXMAC__
+    pConfig->Write(wxT("XPos"), GetPosition().x);
+    pConfig->Write(wxT("YPos"), GetPosition().y);
+#endif
 	return true;
 }
 
-/* restores former dialog size */
+/* restores former dialog size and (on Mac) position */
 bool CDlgItemProperties::RestoreState() {
-    wxString        strBaseConfigLocation = wxString(wxT("/DlgProperties/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-	int				w, h;
+	int				iWidth, iHeight;
 
 	wxASSERT(pConfig);
 
     if (!pConfig) return false;
 
-	pConfig->SetPath(strBaseConfigLocation);
+	pConfig->SetPath(m_strBaseConfigLocation);
 
-	pConfig->Read(wxT("Width"), &w,-1);
-	pConfig->Read(wxT("Height"), &h,-1);
-	SetSize(w,h);	
+	pConfig->Read(wxT("Width"), &iWidth, wxDefaultCoord);
+	pConfig->Read(wxT("Height"), &iHeight, wxDefaultCoord);
+
+#ifndef __WXMAC__
+    // Set size to saved values or defaults if no saved values
+    SetSize(iWidth, iHeight);	
+#else
+	int				iTop, iLeft;
+    
+    pConfig->Read(wxT("YPos"), &iTop, wxDefaultCoord);
+    pConfig->Read(wxT("XPos"), &iLeft, wxDefaultCoord);
+    
+    // If either co-ordinate is less then 0 then set it equal to 0 to ensure
+    // it displays on the screen.
+    if ((iLeft < 0) && (iLeft != wxDefaultCoord)) iLeft = 30;
+    if ((iTop < 0) && (iTop != wxDefaultCoord)) iTop = 30;
+
+    // Set size and position to saved values or defaults if no saved values
+    SetSize(iLeft, iTop, iWidth, iHeight, wxSIZE_USE_EXISTING);
+
+    // Now make sure window is on screen
+    GetScreenPosition(&iLeft, &iTop);
+    GetSize(&iWidth, &iHeight);
+    
+    Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
+    InsetRect(&titleRect, 5, 5);                // Make sure at least a 5X5 piece visible
+    RgnHandle displayRgn = NewRgn();
+    CopyRgn(GetGrayRgn(), displayRgn);          // Region encompassing all displays
+    Rect menuRect = ((**GetMainDevice())).gdRect;
+    menuRect.bottom = GetMBarHeight() + menuRect.top;
+    RgnHandle menuRgn = NewRgn();
+    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
+    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar region
+    if (!RectInRgn(&titleRect, displayRgn)) {
+        iTop = iLeft = 30;
+        SetSize(iLeft, iTop, iWidth, iHeight, wxSIZE_USE_EXISTING);
+    }
+    DisposeRgn(menuRgn);
+    DisposeRgn(displayRgn);
+#endif
 
 	return true;
 }
