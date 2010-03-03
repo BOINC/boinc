@@ -517,12 +517,12 @@ int get_os_information(
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1) ) {
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
                             strcat(szSKU, "Home ");
-						} else if( GetSystemMetrics(SM_TABLETPC) ) {
-							strcat(szSKU, "Tablet PC ");
-						} else if( GetSystemMetrics(SM_MEDIACENTER) ) {
-							strcat(szSKU, "Media Center ");
-						} else if( GetSystemMetrics(SM_STARTER) ) {
-							strcat(szSKU, "Starter ");
+                        } else if( GetSystemMetrics(SM_TABLETPC) ) {
+                            strcat(szSKU, "Tablet PC ");
+                        } else if( GetSystemMetrics(SM_MEDIACENTER) ) {
+                            strcat(szSKU, "Media Center ");
+                        } else if( GetSystemMetrics(SM_STARTER) ) {
+                            strcat(szSKU, "Starter ");
                         } else {
                             strcat(szSKU, "Professional ");
                         }
@@ -580,21 +580,21 @@ int get_os_information(
                             case PRODUCT_HOME_PREMIUM_SERVER:
                                strcat( szSKU, "Home Premium Server ");
                                break;
-							case PRODUCT_STORAGE_EXPRESS_SERVER:
-							   strcat( szSKU, "Storage Server Express ");
-							   break;
-							case PRODUCT_STORAGE_STANDARD_SERVER:
-							   strcat( szSKU, "Storage Server Standard ");
-							   break;
-							case PRODUCT_STORAGE_WORKGROUP_SERVER:
-							   strcat( szSKU, "Storage Server Workgroup ");
-							   break;
-							case PRODUCT_STORAGE_ENTERPRISE_SERVER:
-							   strcat( szSKU, "Storage Server Enterprise ");
-							   break;
-							case PRODUCT_SERVER_FOR_SMALLBUSINESS:
-							   strcat( szSKU, "Server For Small Business ");
-							   break;
+                            case PRODUCT_STORAGE_EXPRESS_SERVER:
+                               strcat( szSKU, "Storage Server Express ");
+                               break;
+                            case PRODUCT_STORAGE_STANDARD_SERVER:
+                               strcat( szSKU, "Storage Server Standard ");
+                               break;
+                            case PRODUCT_STORAGE_WORKGROUP_SERVER:
+                               strcat( szSKU, "Storage Server Workgroup ");
+                               break;
+                            case PRODUCT_STORAGE_ENTERPRISE_SERVER:
+                               strcat( szSKU, "Storage Server Enterprise ");
+                               break;
+                            case PRODUCT_SERVER_FOR_SMALLBUSINESS:
+                               strcat( szSKU, "Server For Small Business ");
+                               break;
                         }
 
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
