@@ -1602,3 +1602,13 @@ David  3 Mar 2010
         gui_rpc_client_print.cpp
     client/
         boinc_cmd.cpp
+
+David  3 Mar 2010
+    - update_versions: if file is already in download dir,
+        and is the same, don't copy (it might not be writeable)
+    - client: change "result" to "task" in user-visible messages
+
+    py/Boinc/tools.py
+    client/
+        client_state.cpp
+        cs_scheduler.cpp

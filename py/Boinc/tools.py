@@ -9,10 +9,15 @@ except:
 import os, shutil, binascii, filecmp
 
 def check_immutable(src, dst):
+    """If dst exists and is the same as src, return false
+       If dst exists and differs from src, throw an exception
+       If dst doesn't exist, return true
+    """
     if not os.path.exists(dst):
-        return
+        return True
     if filecmp.cmp(src, dst) == 0:
         raise SystemExit("\nERROR: file "+src+" is different from existing file "+dst+".\nBOINC files are immutable; you must use different names for different files")
+    return False
 
 # from http://www.plope.com/software/uuidgen/view
 _urandomfd = None
@@ -119,8 +124,8 @@ def process_app_file(file, signature_text=None, quiet=False, executable=True):
     target_url = os.path.join(config.config.download_url, target_file_base)
     if not quiet:
         print "Copying %s to %s"%(source_file_base, target_path)
-    check_immutable(file, target_path)
-    shutil.copy(file, target_path)
+    if check_immutable(file, target_path):
+        shutil.copy(file, target_path)
 
     xml = '''<file_info>
     <name>%s</name>

@@ -1424,7 +1424,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     vsnprintf(err_msg, sizeof(err_msg), format, va);
     va_end(va);
 
-    sprintf(buf, "Unrecoverable error for result %s (%s)", res.name, err_msg);
+    sprintf(buf, "Unrecoverable error for task %s (%s)", res.name, err_msg);
     scheduler_op->backoff(res.project, buf);
 
     sprintf( buf, "<message>\n%s\n</message>\n", err_msg);
