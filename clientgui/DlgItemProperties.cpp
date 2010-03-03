@@ -94,6 +94,7 @@ CDlgItemProperties::~CDlgItemProperties() {
 /* saves dialog size and (on Mac) position */
 bool CDlgItemProperties::SaveState() {
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+
     wxASSERT(pConfig);
 	if (!pConfig) return false;
 
@@ -113,7 +114,6 @@ bool CDlgItemProperties::RestoreState() {
 	int				iWidth, iHeight;
 
 	wxASSERT(pConfig);
-
     if (!pConfig) return false;
 
 	pConfig->SetPath(m_strBaseConfigLocation);

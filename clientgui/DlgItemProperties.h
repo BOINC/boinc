@@ -63,7 +63,6 @@ protected:
         wxGridBagSizer* m_gbSizer;
         wxButton* m_btnClose;
         wxString m_strBaseConfigLocation;
-
 };
 
 #endif // _DLGITEMPROPERTIES_H_
