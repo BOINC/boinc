@@ -1350,7 +1350,6 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
     char buf[1024];
-    double start_time = dtime();
 
     g_request = &sreq;
     g_reply = &sreply;
@@ -1362,6 +1361,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     log_messages.set_indent_level(1);
 
     const char* p = sreq.parse(fin);
+    double start_time = dtime();
     if (!p){
         process_request(code_sign_key);
     } else {

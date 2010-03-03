@@ -17,12 +17,10 @@ a.heading {
 a:link, a:visited, a:active{
 	color: rgb(0, 105, 161);
     text-decoration: none;
-#font-weight: bold;
 }
 
 a:hover {
     color: rgb(232, 174, 0);
-#font-weight: bold;
 }
 
 body , table , input , select {
@@ -32,7 +30,7 @@ body , table , input , select {
 
 table.box {
     border: solid lightblue;
-    padding: 8;
+    padding: 8px;
 }
 
 table.bordered {
@@ -121,7 +119,6 @@ td.heading_right {
 
 td.fieldname {
         background-color: rgb(235, 248, 255);
-#border: 1px solid gray;
 }
 
 td.category {

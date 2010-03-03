@@ -1573,3 +1573,14 @@ Rom    3 Mar 2010
     clientgui/
         BOINCBaseView.cpp
         DlgEventLog.cpp
+
+David  3 Mar 2010
+    - scheduler: code cleanup: goto considered harmful
+    - scheduler: when calculate scheduler runtime,
+        don't include the part reading request msg from client.
+        That can be misleadingly long
+
+    sched/
+        sched_array.cpp
+        handle_request.cpp
+        sched_resend.cpp
