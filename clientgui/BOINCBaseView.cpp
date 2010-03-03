@@ -123,8 +123,16 @@ CBOINCBaseView::CBOINCBaseView(
     m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
     
-    m_pWhiteBackgroundAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
-    m_pGrayBackgroundAttr = new wxListItemAttr(*wxBLACK, wxColour(240, 240, 240), wxNullFont);
+    m_pWhiteBackgroundAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
+        wxNullFont
+    );
+    m_pGrayBackgroundAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT),
+        wxNullFont
+    );
 }
 
 

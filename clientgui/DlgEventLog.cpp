@@ -168,10 +168,26 @@ bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxSt
     m_pList->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 130);
     m_pList->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, 378);
 
-    m_pMessageInfoAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
-    m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
-    m_pMessageInfoGrayAttr = new wxListItemAttr(*wxBLACK, wxColour(240, 240, 240), wxNullFont);
-    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(240, 240, 240), wxNullFont);
+    m_pMessageInfoAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
+        wxNullFont
+    );
+    m_pMessageErrorAttr = new wxListItemAttr(
+        *wxRED,
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
+        wxNullFont
+    );
+    m_pMessageInfoGrayAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT),
+        wxNullFont
+    );
+    m_pMessageErrorGrayAttr = new wxListItemAttr(
+        *wxRED,
+        wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT),
+        wxNullFont
+    );
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);

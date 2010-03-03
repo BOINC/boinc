@@ -1561,3 +1561,15 @@ Charlie  2 Mar 2010
         
     clientgui/
         DlgItemProperties.cpp, .h
+
+Rom    3 Mar 2010
+    - MGR: Use theme colors when setting up the color scheme for list items.
+        The previous use of gray just happened to be the same color as the
+        deselected but highlighted list item which caused the 'gray'
+        backgrounded items to display a white background after Windows
+        inverted the color for highlighting. By using theme colors we avoid
+        having to worry about such things.
+        
+    clientgui/
+        BOINCBaseView.cpp
+        DlgEventLog.cpp
