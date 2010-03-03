@@ -1584,3 +1584,10 @@ David  3 Mar 2010
         sched_array.cpp
         handle_request.cpp
         sched_resend.cpp
+
+Rom    3 Mar 2010
+    - client: more Windows SKU detection changes
+        (from: [P3D] Crashtest)
+
+    client/
+        hostinfo_win.cpp

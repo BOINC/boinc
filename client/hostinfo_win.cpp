@@ -38,7 +38,17 @@
 #include "idlemon.h"
 
 
-// Newer system metrics values
+// Newer system metrics values than what is currently defined in
+//   Visual Studio 2005
+#ifndef SM_TABLETPC
+#define SM_TABLETPC 86
+#endif
+#ifndef SM_MEDIACENTER
+#define SM_MEDIACENTER 87
+#endif
+#ifndef SM_STARTER
+#define SM_STARTER 88
+#endif
 #ifndef SM_SERVERR2
 #define SM_SERVERR2 89   
 #endif
@@ -384,26 +394,38 @@ int get_os_information(
             }
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 )
+            {
                 strcat(os_name, "Windows XP");
+            }
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 )
+            {
                 strcat(os_name, "Windows 2000");
+            }
 
             if ( osvi.dwMajorVersion <= 4 )
+            {
                 strcat(os_name, "Windows NT");
+            }
 
             break;
 
         case VER_PLATFORM_WIN32_WINDOWS:
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0)
+            {
                 strcat(os_name, "Windows 95");
+            }
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10)
+            {
                 strcat( os_name, "Windows 98");
+            }
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 90)
+            {
                 strcat( os_name, "Windows Millennium");
+            }
 
             break;
 
@@ -495,6 +517,12 @@ int get_os_information(
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1) ) {
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
                             strcat(szSKU, "Home ");
+						} else if( GetSystemMetrics(SM_TABLETPC) ) {
+							strcat(szSKU, "Tablet PC ");
+						} else if( GetSystemMetrics(SM_MEDIACENTER) ) {
+							strcat(szSKU, "Media Center ");
+						} else if( GetSystemMetrics(SM_STARTER) ) {
+							strcat(szSKU, "Starter ");
                         } else {
                             strcat(szSKU, "Professional ");
                         }
@@ -552,6 +580,21 @@ int get_os_information(
                             case PRODUCT_HOME_PREMIUM_SERVER:
                                strcat( szSKU, "Home Premium Server ");
                                break;
+							case PRODUCT_STORAGE_EXPRESS_SERVER:
+							   strcat( szSKU, "Storage Server Express ");
+							   break;
+							case PRODUCT_STORAGE_STANDARD_SERVER:
+							   strcat( szSKU, "Storage Server Standard ");
+							   break;
+							case PRODUCT_STORAGE_WORKGROUP_SERVER:
+							   strcat( szSKU, "Storage Server Workgroup ");
+							   break;
+							case PRODUCT_STORAGE_ENTERPRISE_SERVER:
+							   strcat( szSKU, "Storage Server Enterprise ");
+							   break;
+							case PRODUCT_SERVER_FOR_SMALLBUSINESS:
+							   strcat( szSKU, "Server For Small Business ");
+							   break;
                         }
 
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
