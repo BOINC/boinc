@@ -24,6 +24,7 @@
 #include "DlgItemProperties.h"
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
+#include "AdvancedFrame.h"
 #include "Events.h"
 #include "error_numbers.h"
 
