@@ -1591,3 +1591,14 @@ Rom    3 Mar 2010
 
     client/
         hostinfo_win.cpp
+
+David  3 Mar 2010
+    - scheduler: cuda_fermi class needs CUDA version 3.0+
+    - boinccmd: "result" -> "task"
+
+    sched/
+        sched_customize.cpp
+    lib/
+        gui_rpc_client_print.cpp
+    client/
+        boinc_cmd.cpp

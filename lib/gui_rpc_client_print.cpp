@@ -195,7 +195,7 @@ void SIMPLE_GUI_INFO::print() {
         printf("%d) -----------\n", i+1);
         projects[i]->print();
     }
-    printf("\n======== Results ========\n");
+    printf("\n======== Tasks ========\n");
     for (i=0; i<results.size(); i++) {
         printf("%d) -----------\n", i+1);
         results[i]->print();
@@ -224,7 +224,7 @@ void CC_STATE::print() {
         printf("%d) -----------\n", i+1);
         wus[i]->print();
     }
-    printf("\n======== Results ========\n");
+    printf("\n======== Tasks ========\n");
     for (i=0; i<results.size(); i++) {
         printf("%d) -----------\n", i+1);
         results[i]->print();
@@ -253,7 +253,7 @@ void DISK_USAGE::print() {
 
 void RESULTS::print() {
     unsigned int i;
-    printf("\n======== Results ========\n");
+    printf("\n======== Tasks ========\n");
     for (i=0; i<results.size(); i++) {
         printf("%d) -----------\n", i+1);
         results[i]->print();

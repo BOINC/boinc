@@ -342,7 +342,18 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         // Old BOINC clients report display driver version;
         // newer ones report CUDA RT version
         //
-        if (!strcmp(plan_class, "cuda23") || !strcmp(plan_class, "cuda_fermi")) {
+        if (!strcmp(plan_class, "cuda_fermi")) {
+            int compute_capability = cp->prop.major*100 + cp->prop.minor;
+            if (compute_capability < 200) {
+                add_no_work_message("Fermi-class GPU needed");
+                return false;
+            }
+            if (cp->cuda_version < 3000) {
+                add_no_work_message("CUDA version 2.3 needed");
+                return false;
+            }
+            min_ram = PLAN_CUDA23_MIN_RAM;
+        } else if (!strcmp(plan_class, "cuda23")) {
             if (cp->cuda_version) {
                 if (cp->cuda_version < 2030) {
                     add_no_work_message("CUDA version 2.3 needed");
@@ -364,13 +375,6 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 return false;
             }
             min_ram = PLAN_CUDA23_MIN_RAM;
-            if (!strcmp(plan_class, "cuda_fermi")) {
-                int compute_capability = cp->prop.major*100 + cp->prop.minor;
-                if (compute_capability < 200) {
-                    add_no_work_message("Fermi-class GPU needed");
-                    return false;
-                }
-            }
         } else {
             if (cp->display_driver_version && cp->display_driver_version < PLAN_CUDA_MIN_DRIVER_VERSION) {
                 if (config.debug_version_select) {

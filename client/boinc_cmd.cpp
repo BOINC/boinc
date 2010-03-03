@@ -62,8 +62,8 @@ Commands:\n\
  --join_acct_mgr URL name passwd    attach account manager\n\
  --quit_acct_mgr                    quit current account manager\n\
  --get_state                        show entire state\n\
- --get_results                      show results\n\
- --get_simple_gui_info              show status of projects and active results\n\
+ --get_tasks                        show tasks\n\
+ --get_simple_gui_info              show status of projects and active tasks\n\
  --get_file_transfers               show file transfers\n\
  --get_project_status               show status of all attached projects\n\
  --get_disk_usage                   show disk usage\n\
@@ -73,7 +73,7 @@ Commands:\n\
  --get_notices [ seqno ]            show notices > seqno\n\
  --get_host_info\n\
  --version, -V                      show core client version\n\
- --result url result_name op        job operation\n\
+ --task url task_name op            task operation\n\
    op = suspend | resume | abort | graphics_window | graphics_fullscreen\n\
  --project URL op                   project operation\n\
    op = reset | detach | update | suspend | resume | nomorework | allowmorework\n\
@@ -218,7 +218,7 @@ int main(int argc, char** argv) {
         CC_STATE state;
         retval = rpc.get_state(state);
         if (!retval) state.print();
-    } else if (!strcmp(cmd, "--get_results")) {
+    } else if (!strcmp(cmd, "--get_tasks")) {
         RESULTS results;
         retval = rpc.get_results(results);
         if (!retval) results.print();
@@ -238,7 +238,7 @@ int main(int argc, char** argv) {
         DISK_USAGE du;
         retval = rpc.get_disk_usage(du);
         if (!retval) du.print();
-    } else if (!strcmp(cmd, "--result")) {
+    } else if (!strcmp(cmd, "--task")) {
         RESULT result;
         char* project_url = next_arg(argc, argv, i);
         result.project_url = project_url;
