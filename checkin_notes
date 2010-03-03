@@ -70,7 +70,7 @@ Charlie  12 Jan 2010
 
     client/
         switcher.cpp
-     mac_build/
+    mac_build/
         boinc.xcodeproj/
             project.pbxproj
 
@@ -744,3 +744,12 @@ Charlie  2 Mar 2010
         
     clientgui/
         DlgItemProperties.cpp, .h
+
+Charlie  2 Mar 2010
+    - Mac: explicitly specify compiler as GCC 4.0 instead of system default in 
+        build settings to allow building with XCode 3.2 on OS 10.6 as well as 
+        XCode 3.1 on OS 10.5.8.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
