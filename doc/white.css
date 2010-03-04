@@ -89,7 +89,8 @@ th {
 	background-color: rgb(200, 221, 250);
 	color: black;
 	font-weight: bold;
-        border: 1px solid lightgray;
+    border: 1px solid lightgray;
+    padding: 12px;
 }
 
 td.indent {

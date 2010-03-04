@@ -1,12 +1,20 @@
 <?php
 
+// 0: name
+// 1: web site URL
+// 2: home
+// 3: area
+// 4: goals
+// 5: logo
+// 6: master URL (if different from web site)
+
 $biomed = array(
     "Biology and Medicine",
     array(
         array(
             "POEM@HOME",
             "http://boinc.fzk.de/poem/",
-            "University of Karlsruhe",
+            "University of Karlsruhe (Germany)",
             "Protein structure prediction",
             "POEM@HOME uses a computational approach to predict the biologically active structure of proteins, to understand the signal-processing mechanisms when the proteins interact with one another, to understand diseases related to protein malfunction or aggregation, and to develop new drugs on the basis of the three-dimensions structure of biologically important proteins.",
             "poem.jpg"
@@ -97,10 +105,17 @@ $earth = array(
     "Earth Sciences",
     array(
         array(
+            "Virtual Prairie",
+            "http://vcsc.cs.uh.edu/virtual-prairie/",
+            "University of Houston",
+            "Study of botanical ecosystems",
+            "Provide ecological guidelines on the design of prairies with the best potential for water purification."
+        ),
+        array(
             "Climateprediction.net",
             "http://climateprediction.net/",
             "Oxford University",
-            "Earth sciences",
+            "Climate study",
             "To investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios.",
             "cpn_logo_world_1.jpg",
             "http://climateapps2.oucs.ox.ac.uk/cpdnboinc/"
@@ -110,6 +125,14 @@ $earth = array(
 $astro_phys_chem = array(
     "Astronomy/Physics/Chemistry",
     array(
+        array(
+            "Orbit@home",
+            "http://orbit.psi.edu/",
+            "Planetary Science Institute",
+            "Astronomy",
+            "Monitor and study the hazard posed by near-Earth asteroids",
+            "http://orbit.psi.edu/"
+        ),
         array(
             "Cosmology@Home",
             "http://www.cosmologyathome.org/",
@@ -145,7 +168,7 @@ $astro_phys_chem = array(
         array(
             "Einstein@home",
             "http://einstein.phys.uwm.edu/",
-            "Univ. of Wisconsin - Milwaukee, Albert Einstein Institute",
+            "Univ. of Wisconsin - Milwaukee, Max Planck Institute",
             "Astrophysics",
             "Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors. Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations.",
             "einstein.jpg"
@@ -161,7 +184,7 @@ $astro_phys_chem = array(
         array(
             "SETI@home",
             "http://setiathome.berkeley.edu/",
-            "U.C. Berkeley Space Sciences Laboratory",
+            "University of California, Berkeley",
             "Astrophysics, astrobiology",
             "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose goal is to detect intelligent life outside Earth. One approach, known as radio SETI, uses radio telescopes to listen for narrow-bandwidth radio signals from space. Such signals are not known to occur naturally, so a detection would provide evidence of extraterrestrial technology.",
             "seti_logo.png"
@@ -169,7 +192,7 @@ $astro_phys_chem = array(
         array(
             "Quantum Monte Carlo at Home",
             "http://qah.uni-muenster.de/",
-            "University of Muenster",
+            "University of Muenster (Germany)",
             "Chemistry",
             "Study the structure and reactivity of molecules using Quantum Chemistry.",
             "logo_oben.jpg"
@@ -188,10 +211,17 @@ $mixed = array(
     "Multiple applications",
     array(
         array(
+            "Yoyo@home",
+            "http://www.rechenkraft.net/yoyo/",
+            "private",
+            "Mathematics, physics, evolution",
+            "Yoyo@home is an adapter between BOINC and several existing volunteer computing projects: ECM, Muon, Evolution@home, and distributed.net"
+        ),
+        array(
             "EDGeS@Home",
             "http://home.edges-grid.eu/home/",
-            "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Budapest)",
-            "Scientific research in multiple areas",
+            "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)",
+            "European research projects",
             "The EDGeS@Home Beta project integrates volunteer computing into the service grid network of Europe by allowing service grids to send workunits to be processed by the volunteers of this project. The scientific projects covered by the project include math, physics, biology, etc.",
             "logo_edges.png"
         ),
@@ -199,7 +229,7 @@ $mixed = array(
             "Ibercivis",
             "http://registro.ibercivis.es/",
             "Spanish universities and research centers",
-            "Support Spanish research",
+            "Various Spanish research projects",
             "Research in physics, material science, and biomedicine",
             "cabecera2.jpg"
         ),
@@ -216,6 +246,20 @@ $mixed = array(
 $math = array(
     "Mathematics, computing, and games",
     array(
+        array(
+            "Enigma@Home",
+            "http://www.enigmaathome.net/",
+            "private",
+            "Cryptography",
+            "Attempt to decode 3 original Enigma messages. The signals were intercepted in the North Atlantic in 1942 and are believed to be unbroken."
+        ),
+        array(
+            "Collatz Conjecture",
+            "http://boinc.thesonntags.com/collatz/",
+            "private",
+            "Mathematics",
+            "Study the Collatz Conjecture, an unsolved conjecture in mathematics",
+        ),
         array(
             "NFS@home",
             "http://escatter11.fullerton.edu/nfs/",
@@ -243,7 +287,7 @@ $math = array(
         array(
             "SHA-1 Collision Search Graz",
             "http://boinc.iaik.tugraz.at/sha1_coll_search/",
-            "Graz University of Technology",
+            "Graz University of Technology (Austria)",
             "Cryptography",
             "Search for collisions (weaknesses) of the widely-used SHA-1 hash function.",
             "LogoKryptoGroup_klein.jpg"
@@ -267,7 +311,7 @@ $math = array(
         array(
             "SZTAKI Desktop Grid",
             "http://szdg.lpds.sztaki.hu/szdg/",
-            "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Budapest)",
+            "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)",
             "Mathematics",
             "Find all the generalized binary number systems (in which bases are matrices and digits are vectors) up to dimension 11.",
             "szdg1_small.jpg"
@@ -299,8 +343,8 @@ $math = array(
         array(
             "NQueens@home",
             "http://nqueens.ing.udec.cl/",
-            "Universidad de Concepción, Chile",
-            "Game-playing",
+            "Universidad de ConcepciÃ³n, Chile",
+            "Mathematics",
             "The eight queens problem consists of trying to place eight queens on a chessboard so that no queen attacks any other queen.  I has long been known that there are 92 solutions, of which 12 are distinct. NQueens@home studies the generalization to N queens on an NxN board, for N=19 and greater.",
             "NQueens-Logo1b.png"
         ),

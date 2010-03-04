@@ -152,7 +152,7 @@ function list_heading($x, $y, $z=null) {
 function list_heading_array($x) {
     echo "<tr>";
     foreach ($x as $h) {
-        echo "<td class=heading valign=top><center><b>$h</b></center></td>";
+        echo "<th>$h</th>";
     }
     echo "</tr>\n";
 }
