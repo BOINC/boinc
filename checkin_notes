@@ -1642,3 +1642,11 @@ Charlie  4 Mar 2010
     clientgui/
         DlgEventLog.cpp, .h
         DlgEventLogListCtrl.cpp, .h
+
+Rom    4 Mar 2010
+    - MGR: Remove some hacks to deal with early wxGTK bugs which have since
+        been fixed.
+
+    clientgui/
+        AdvancedFrame.cpp
+        Events.h
