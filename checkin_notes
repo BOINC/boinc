@@ -764,3 +764,11 @@ Charlie  4 Mar 2010
     clientgui/
         BOINCBaseView.cpp,.h
         BOINCListCtrl.cpp, .h
+
+Rom    4 Mar 2010
+    - MGR: Remove some hacks to deal with early wxGTK bugs which have since
+        been fixed.
+
+    clientgui/
+        AdvancedFrame.cpp
+        Events.h
