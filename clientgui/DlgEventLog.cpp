@@ -190,7 +190,7 @@ void CDlgEventLog::CreateControls()
     itemFlexGridSizer2->AddGrowableCol(0);
     SetSizer(itemFlexGridSizer2);
 
-    m_pList = new CDlgEventLogListCtrl(this, ID_SIMPLE_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS | wxLC_HRULES);
+    m_pList = new CDlgEventLogListCtrl(this, ID_SIMPLE_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS);
     itemFlexGridSizer2->Add(m_pList, 0, wxGROW|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
