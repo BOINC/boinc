@@ -753,3 +753,14 @@ Charlie  2 Mar 2010
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie  4 Mar 2010
+    - MGR: Instead of alternating gray and white backgrounds in lists, 
+        create CBOINCListCtrl with wxLC_HRULES flag.  This avoids theme 
+        color conflicts with our backgrounds.  It also eliminates the 
+        need to set item attributes, since the default attribute setting 
+        already uses theme colors. 
+
+    clientgui/
+        BOINCBaseView.cpp,.h
+        BOINCListCtrl.cpp, .h
