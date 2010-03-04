@@ -49,14 +49,13 @@ static bool quick_check(
     if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
         return false;
     }
-
-    // If we are looking for beta results and result is not a beta result
-    // then move on
-    //
     app = ssp->lookup_app(wu_result.workunit.appid);
     if (app == NULL) {
         return false; // this should never happen
     }
+
+    // If we're looking for beta jobs and this isn't one, skip it
+    //
     if (g_wreq->beta_only) {
         if (!app->beta) {
             return false;
@@ -94,8 +93,6 @@ static bool quick_check(
         return false;
     }
     
-
-
     // check app filter if needed
     //
     if (g_wreq->user_apps_only &&

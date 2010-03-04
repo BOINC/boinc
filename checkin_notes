@@ -1612,3 +1612,10 @@ David  3 Mar 2010
     client/
         client_state.cpp
         cs_scheduler.cpp
+
+David  3 Mar 2010
+    - web: fix bug that caused "send email" and "show hosts"
+        in project prefs to always select "no"
+
+    html/inc/
+        prefs.inc

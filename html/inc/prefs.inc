@@ -1327,7 +1327,7 @@ function prefs_form_radio_buttons($name, $yesno) {
     $rb = tra("yes")." <input type=radio name=$name value=yes "
         .($yesno?"checked":"")
         ."> ".tra("no")." <input type=radio name=$name value=no "
-        .(!$yesno?"":"checked")
+        .($yesno?"":"checked")
         .">\n";
     return $rb;
 }
