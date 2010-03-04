@@ -625,10 +625,6 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuDescription
     );
 
-#ifndef __WXMAC__
-    menuHelp->AppendSeparator();
-#endif
-
     // %s is the project name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
