@@ -451,7 +451,25 @@ bool CAdvancedFrame::CreateMenu() {
     );
 
     if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+
+#ifndef __WXGTK__
         menuActivity->AppendSeparator();
+#else
+        // for some reason, the above radio items do not display the active
+        // selection on linux (wxGtk library) with the separator here,
+        // so we add a blank disabled menu item instead
+        //
+        wxMenuItem* pItem = menuActivity->Append(
+            ID_MENUSEPARATOR1,
+            (const wxChar *) wxT(" "),
+                // wxEmptyString here causes a wxWidgets assertion when debugging
+            wxEmptyString,
+            wxITEM_NORMAL
+                // wxITEM_SEPARATOR here causes a wxWidgets assertion when debugging
+        );
+        pItem->Enable(false); // disable this menu item
+#endif
+
         menuActivity->AppendRadioItem(
             ID_ADVACTIVITYGPUALWAYS,
             _("Use GPU always"),
@@ -469,7 +487,23 @@ bool CAdvancedFrame::CreateMenu() {
         );
     }
 
-    menuActivity->AppendSeparator();
+#ifndef __WXGTK__
+        menuActivity->AppendSeparator();
+#else
+        // for some reason, the above radio items do not display the active
+        // selection on linux (wxGtk library) with the separator here,
+        // so we add a blank disabled menu item instead
+        //
+        wxMenuItem* pItem = menuActivity->Append(
+            ID_MENUSEPARATOR2,
+            (const wxChar *) wxT(" "),
+                // wxEmptyString here causes a wxWidgets assertion when debugging
+            wxEmptyString,
+            wxITEM_NORMAL
+                // wxITEM_SEPARATOR here causes a wxWidgets assertion when debugging
+        );
+        pItem->Enable(false); // disable this menu item
+#endif
 
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKRUNALWAYS,

@@ -1650,3 +1650,10 @@ Rom    4 Mar 2010
     clientgui/
         AdvancedFrame.cpp
         Events.h
+
+Rom    4 Mar 2010
+    - MGR: Restore wxGTK hacks, bug is still alive and well.
+
+    clientgui/
+        AdvancedFrame.cpp
+        Events.h
