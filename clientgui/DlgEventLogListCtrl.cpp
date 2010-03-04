@@ -33,13 +33,17 @@
 #include "DlgEventLog.h"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CDlgEventLogListCtrl, LISTCTRL_BASE)
+IMPLEMENT_DYNAMIC_CLASS(CDlgEventLogListCtrl, wxListView)
+
+BEGIN_EVENT_TABLE(CDlgEventLogListCtrl, wxListView)
+    EVT_LEFT_UP(CDlgEventLogListCtrl::OnMouseUp)
+END_EVENT_TABLE()
 
 
 CDlgEventLogListCtrl::CDlgEventLogListCtrl() {}
 
 CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags)
-    : LISTCTRL_BASE(pView, iListWindowID, wxDefaultPosition, wxSize(640,480), iListWindowFlags) 
+    : wxListView(pView, iListWindowID, wxDefaultPosition, wxSize(640,480), iListWindowFlags) 
 {
     m_pParentView = pView;
 
@@ -82,4 +86,10 @@ wxListItemAttr* CDlgEventLogListCtrl::OnGetItemAttr(long item) const {
 
 wxColour CDlgEventLogListCtrl::GetBackgroundColour() {
     return *wxWHITE;
+}
+
+
+void CDlgEventLogListCtrl::OnMouseUp(wxMouseEvent& event) {
+    m_pParentView->UpdateButtons();
+    event.Skip();
 }

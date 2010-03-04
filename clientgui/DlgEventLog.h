@@ -122,6 +122,8 @@ public:
     bool                    OnSaveState(wxConfigBase* pConfig);
     bool                    OnRestoreState(wxConfigBase* pConfig);
 
+    void                    UpdateButtons();
+
 private:
 ////@begin CDlgEventLog member variables
 ////@end CDlgEventLog member variables
@@ -150,9 +152,7 @@ private:
     bool                    RestoreState();
     void                    RestoreWindowDimensions();
 
-    void                    UpdateButtons();
-    void                    OnListSelected(wxListEvent& event);
-    void                    OnListDeselected(wxListEvent& event);
+    void                    OnMouseUp(wxMouseEvent& event);
     
     bool                    EnsureLastItemVisible();
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;

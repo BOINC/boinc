@@ -1633,3 +1633,12 @@ Charlie  4 Mar 2010
         BOINCBaseView.cpp,.h
         BOINCListCtrl.cpp, .h
         DlgEventLog.cpp
+
+Charlie  4 Mar 2010
+    - MGR: in Event Log: enable and disable Copy Selected and Filter buttons 
+        immediately when selecting or deselecting items; fix Mac-only bug 
+        drawing selected items when Event Log window is inactive.
+
+    clientgui/
+        DlgEventLog.cpp, .h
+        DlgEventLogListCtrl.cpp, .h

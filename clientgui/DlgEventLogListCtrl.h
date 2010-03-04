@@ -24,18 +24,16 @@
 
 #ifdef __WXMAC__
 #include "macAccessiblity.h"
-#define LISTCTRL_BASE wxGenericListCtrl
-#else
-#define LISTCTRL_BASE wxListView
 #endif
 
 #define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
 
 class CDlgEventLog;
 
-class CDlgEventLogListCtrl : public LISTCTRL_BASE
+class CDlgEventLogListCtrl : public wxListView
 {
     DECLARE_DYNAMIC_CLASS(CDlgEventLogListCtrl)
+    DECLARE_EVENT_TABLE()
 
 public:
     CDlgEventLogListCtrl();
@@ -51,6 +49,7 @@ private:
     virtual int             OnGetItemImage(long item) const;
     virtual wxListItemAttr* OnGetItemAttr(long item) const;
     virtual wxColour        GetBackgroundColour();
+    void                    OnMouseUp(wxMouseEvent& event);
 
     bool                    m_bIsSingleSelection;
 

@@ -71,8 +71,6 @@ BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
     EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYPROJECT, CDlgEventLog::OnMessagesFilter)
     EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
     EVT_CLOSE(CDlgEventLog::OnClose)
-    EVT_LIST_ITEM_SELECTED(ID_SIMPLE_MESSAGESVIEW, CDlgEventLog::OnListSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_SIMPLE_MESSAGESVIEW, CDlgEventLog::OnListDeselected)
 ////@end CDlgEventLog event table entries
 END_EVENT_TABLE()
 
@@ -773,16 +771,6 @@ void CDlgEventLog::UpdateButtons() {
         }
         m_pFilterButton->Enable(enableFilterButton);
         m_pCopySelectedButton->Enable(enableCopySelectedButon);
-}
-
-
-void CDlgEventLog::OnListSelected(wxListEvent& event) {
-    UpdateButtons();
-}
-
-
-void CDlgEventLog::OnListDeselected(wxListEvent& event) {
-    UpdateButtons();
 }
 
 
