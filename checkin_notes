@@ -1657,3 +1657,9 @@ Rom    4 Mar 2010
     clientgui/
         AdvancedFrame.cpp
         Events.h
+
+David  4 Mar 2010
+    - client: don't start new network activity if CPU benchmarks in progress
+
+    client/
+        client_state.cpp
