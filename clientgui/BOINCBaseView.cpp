@@ -95,7 +95,7 @@ CBOINCBaseView::CBOINCBaseView(
     m_pTaskPane = new CBOINCTaskCtrl(this, iTaskWindowID, iTaskWindowFlags);
     wxASSERT(m_pTaskPane);
 
-    m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags | wxLC_HRULES);
+    m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags);
     wxASSERT(m_pListPane);
     
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
