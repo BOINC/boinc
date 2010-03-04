@@ -253,14 +253,6 @@ int CBOINCListCtrl::OnGetItemImage(long item) const {
 }
 
 
-wxListItemAttr* CBOINCListCtrl::OnGetItemAttr(long item) const {
-    wxASSERT(m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    return m_pParentView->FireOnListGetItemAttr(item);
-}
-
-
 void CBOINCListCtrl::DrawProgressBars()
 {
     long topItem, numItems, numVisibleItems, i, row;

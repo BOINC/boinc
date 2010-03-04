@@ -126,7 +126,6 @@ public:
     void                    FireOnListDeselected( wxListEvent& event );
     wxString                FireOnListGetItemText( long item, long column ) const;
     int                     FireOnListGetItemImage( long item ) const;
-    wxListItemAttr*         FireOnListGetItemAttr( long item ) const;
     
     int                     GetProgressColumn() { return m_iProgressColumn; }
     virtual double          GetProgressValue(long item);
@@ -165,7 +164,6 @@ protected:
     virtual void            OnCacheHint(wxListEvent& event);
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual int             OnListGetItemImage( long item ) const;
-    virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
     void                    OnColClick(wxListEvent& event);
     
@@ -215,10 +213,6 @@ protected:
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;
-
-    wxListItemAttr*         m_pWhiteBackgroundAttr;
-    wxListItemAttr*         m_pGrayBackgroundAttr;
-
 };
 
 

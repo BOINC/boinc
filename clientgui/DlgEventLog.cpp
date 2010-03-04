@@ -105,16 +105,6 @@ CDlgEventLog::~CDlgEventLog() {
         m_pMessageErrorAttr = NULL;
     }
 
-    if (m_pMessageInfoGrayAttr) {
-        delete m_pMessageInfoGrayAttr;
-        m_pMessageInfoGrayAttr = NULL;
-    }
-
-    if (m_pMessageErrorGrayAttr) {
-        delete m_pMessageErrorGrayAttr;
-        m_pMessageErrorGrayAttr = NULL;
-    }
-
     m_strFilteredProjectName.clear();
     m_iFilteredIndexes.Clear();
 
@@ -178,16 +168,6 @@ bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxSt
         wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
         wxNullFont
     );
-    m_pMessageInfoGrayAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT),
-        wxNullFont
-    );
-    m_pMessageErrorGrayAttr = new wxListItemAttr(
-        *wxRED,
-        wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT),
-        wxNullFont
-    );
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
@@ -212,7 +192,7 @@ void CDlgEventLog::CreateControls()
     itemFlexGridSizer2->AddGrowableCol(0);
     SetSizer(itemFlexGridSizer2);
 
-    m_pList = new CDlgEventLogListCtrl(this, ID_SIMPLE_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS);
+    m_pList = new CDlgEventLogListCtrl(this, ID_SIMPLE_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS | wxLC_HRULES);
     itemFlexGridSizer2->Add(m_pList, 0, wxGROW|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
@@ -459,14 +439,10 @@ void CDlgEventLog::OnRefresh() {
                 if (isConnected) {
                     m_pMessageInfoAttr->SetTextColour(*wxBLACK);
                     m_pMessageErrorAttr->SetTextColour(*wxRED);
-                    m_pMessageInfoGrayAttr->SetTextColour(*wxBLACK);
-                    m_pMessageErrorGrayAttr->SetTextColour(*wxRED);
                 } else {
                     wxColourDatabase colorBase;
                     m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
                     m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
-                    m_pMessageInfoGrayAttr->SetTextColour(wxColour(128, 128, 128));
-                    m_pMessageErrorGrayAttr->SetTextColour(wxColour(255, 128, 128));
                 }
 
                 // Force a complete update
@@ -837,10 +813,10 @@ wxListItemAttr* CDlgEventLog::OnListGetItemAttr(long item) const {
     if (message) {
         switch(message->priority) {
         case MSG_USER_ALERT:
-            pAttribute = item % 2 ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr;
+            pAttribute = m_pMessageErrorAttr;
             break;
         default:
-           pAttribute = item % 2 ? m_pMessageInfoGrayAttr : m_pMessageInfoAttr;
+           pAttribute = m_pMessageInfoAttr;
             break;
         }
     }

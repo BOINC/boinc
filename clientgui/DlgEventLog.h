@@ -142,8 +142,6 @@ private:
 
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
-    wxListItemAttr*         m_pMessageInfoGrayAttr;
-    wxListItemAttr*         m_pMessageErrorGrayAttr;
 
     bool                    m_bProcessingRefreshEvent;
 

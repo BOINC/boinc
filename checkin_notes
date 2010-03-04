@@ -1619,3 +1619,17 @@ David  3 Mar 2010
 
     html/inc/
         prefs.inc
+
+Charlie  4 Mar 2010
+    - MGR: Instead of alternating gray and white backgrounds in lists, 
+        create CBOINCListCtrl and CDlgEventLogListCtrl with wxLC_HRULES 
+        flag.  This avoids theme color conflicts with our backgrounds.  
+        It also eliminates the need to set item attributes in the views, 
+        since the default attribute setting already uses theme colors. 
+        (We still use item attributes in the Event Log to list 
+        error messages in red text.)
+
+    clientgui/
+        BOINCBaseView.cpp,.h
+        BOINCListCtrl.cpp, .h
+        DlgEventLog.cpp
