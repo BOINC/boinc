@@ -1695,3 +1695,21 @@ Bernd 5 Mar 2010
 
     api/
         boinc_api.cpp
+
+David  5 Mar 2010
+    - client: revisit the domino-effect preemption problem.
+        Removed my changes of 19 Jan 2010, which didn't work.
+        Added new mechanism: keep track of whether a job J has ever run in EDF.
+        If so, and if another job of the same project and resource type as J
+        is marked as deadline miss, then mark J as deadline miss,
+        so that it won't get preempted.
+    - web: change "result" to "task" in server status page
+    - admin web: show server stable SVN revision, not trunk
+
+    html/ops/
+        index.php
+        sample_server_status.php
+    client/
+        client_types.h
+        app.cpp,h
+        cpu_sched.cpp

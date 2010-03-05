@@ -299,15 +299,15 @@ if ($retval) {
     //
     // $sendfile = "/home/boincadm/server_status_data/count_results_unsent.out";
     // $n = `/bin/tail -1 $sendfile`;
-    // show_counts("Results ready to send","results_ready_to_send",$n);
+    // show_counts("Tasks ready to send","results_ready_to_send",$n);
 
     show_counts(
-        "Results ready to send",
+        "Tasks ready to send",
         "results_ready_to_send",
         get_mysql_count("result where server_state = 2")
     );
     show_counts(
-        "Results in progress",
+        "Tasks in progress",
         "results_in_progress",
         get_mysql_count("result where server_state = 4")
     );
@@ -322,12 +322,12 @@ if ($retval) {
         get_mysql_count("workunit where assimilate_state=1")
     );
     show_counts(
-        "Workunits waiting for deletion",
+        "Workunits waiting for file deletion",
         "workunits_waiting_for_deletion",
         get_mysql_count("workunit where file_delete_state=1")
     );
     show_counts(
-        "Results waiting for deletion",
+        "Tasks waiting for file deletion",
         "results_waiting_for_deletion",
         get_mysql_count("result where file_delete_state=1")
     );

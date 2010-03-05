@@ -21,6 +21,19 @@ require_once("../inc/util_ops.inc");
 require_once("../inc/uotd.inc");
 require_once("../project/project.inc");
 
+function svn_revision($path) {
+    $out = array();
+    exec("svn info http://boinc.berkeley.edu/svn/$path", $out);
+    foreach ($out as $line) {
+        $x = strstr($line, "Last Changed Rev: ");
+        if ($x) {
+            $y = substr($x, strlen("Last Changed Rev: "));
+            return (int) $y;
+        }
+    }
+    return null;
+}
+
 $config = get_config();
 $cgi_url = parse_config($config, "<cgi_url>");
 $stripchart_cgi_url = parse_config($config, "<stripchart_cgi_url>");
@@ -38,44 +51,22 @@ if (file_exists("../../local.revision")) {
     $local_rev = file_get_contents("../../local.revision");
 }
 if ($local_rev) {
-    echo "Currently used BOINC SVN revision: ".$local_rev."; ";
+    echo "Using BOINC SVN revision: ".$local_rev."; ";
 }
 
-if (file_exists("../cache/remote.revision")
-    && (time() < filemtime("../cache/remote.revision")+(24*60*60))
+if (0
+//if (file_exists("../cache/remote.revision")
+//    && (time() < filemtime("../cache/remote.revision")+(24*60*60))
 ) {
     $remote_rev = file_get_contents("../cache/remote.revision");
 } else {
-    // Get latest revision
-    if (isset($project_http_proxy)) {
-        $context = stream_context_create(
-            array(
-                'http' => array(
-                    'request_fulluri' => true,
-                    'proxy' => $project_http_proxy
-                )
-            )
-        );
-        $handle = fopen("http://boinc.berkeley.edu/svn/", "r", false, $context);
-    } else {
-        $handle = fopen("http://boinc.berkeley.edu/svn/", "r");
-    }
-    if ($handle) {
-        $remote = fread($handle, 255);
-        fclose($handle);
-        preg_match("/Revision (\d+)/", $remote, $remote_rev);
-        $remote_rev = $remote_rev[1];
-
-        $handle = fopen("../cache/remote.revision", "w");
-        fwrite($handle, $remote_rev);
-        fclose($handle);
-    } else {
-        echo "Can't get latest SVN revision";
-    }
+    $remote_rev = svn_revision("branches/server_stable");
 }
 
 if ($remote_rev) {
-    echo "Latest BOINC SVN revision: ".$remote_rev."</li>\n";
+    echo "BOINC server_stable SVN revision: $remote_rev";
+} else {
+    echo "Can't get BOINC server_stable SVN revision";
 }
 
 if (!file_exists(".htaccess")) {

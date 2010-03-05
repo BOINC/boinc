@@ -90,7 +90,7 @@ struct PROC_RESOURCES {
         if (rp->uses_coprocs()) {
             if (gpu_suspended) return false;
             if (sufficient_coprocs(
-                *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug")
+                *rp->avp, log_flags.cpu_sched_debug)
             ) {
                 return true;
             } else {
@@ -117,9 +117,7 @@ struct PROC_RESOURCES {
         ncpus_used += rp->avp->avg_ncpus;
     }
 
-    bool sufficient_coprocs(
-        APP_VERSION& av, bool log_flag, const char* prefix
-    ) {
+    bool sufficient_coprocs(APP_VERSION& av, bool log_flag) {
         double x;
         COPROC* cp2;
         if (av.ncudas) {
@@ -140,8 +138,8 @@ struct PROC_RESOURCES {
         if (cp2->used + x > cp2->count) {
             if (log_flag) {
                 msg_printf(NULL, MSG_INFO,
-                    "[%s] rr_sim: insufficient coproc %s (%f + %f > %d)",
-                    prefix, cp2->type, cp2->used, x, cp2->count
+                    "[cpu_sched_debug] insufficient coproc %s (%f + %f > %d)",
+                    cp2->type, cp2->used, x, cp2->count
                 );
             }
             return false;
@@ -648,6 +646,24 @@ static bool schedule_if_possible(
     return true;
 }
 
+// If a job J once ran in EDF,
+// and its project has another job of the same resource type
+// marked as deadline miss, mark J as deadline miss.
+// This avoids domino-effect preemption
+//
+static void promote_once_ran_edf() {
+    for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
+        if (atp->once_ran_edf) {
+            RESULT* rp = atp->result;
+            PROJECT* p = rp->project;
+            if (p->deadlines_missed(rp->avp->rsc_type())) {
+                rp->rr_sim_misses_deadline = true;
+            }
+        }
+    }
+}
+
 // CPU scheduler - decide which results to run.
 // output: sets ordered_scheduled_result.
 //
@@ -674,6 +690,10 @@ void CLIENT_STATE::schedule_cpus() {
     if (log_flags.cpu_sched_debug) {
         print_deadline_misses();
     }
+
+    // avoid preemption of jobs that once ran EDF
+    //
+    promote_once_ran_edf();
 
     // set temporary variables
     //
@@ -818,74 +838,6 @@ static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
         }
         cpus_used += nc;
         cur++;
-    }
-}
-
-// if job A is unstarted and EDF,
-// and there's a job later in the list that is started
-// and has the same arrival time and app version,
-// move A after B
-//
-static void demote_unstarted_edf(vector<RESULT*>& runnable_jobs) {
-    list<RESULT*> x;
-    RESULT *rp, *rp2;
-
-    if (runnable_jobs.empty()) return;
-
-    // transfer to a list
-    //
-    unsigned int i;
-    for (i=0; i<runnable_jobs.size(); i++) {
-        x.push_back(runnable_jobs[i]);
-    }
-
-    // scan backwards through the list.
-    // if find a started job, scan backwards from there,
-    // looking for jobs to demote
-    //
-    list<RESULT*>::iterator p = x.end();
-    --p;
-    while(p != x.begin()) {
-        rp = *p;
-        if (rp->not_started()) {
-            --p;
-            continue;
-        }
-        list<RESULT*>::iterator q = p;
-        --q;
-        while (1) {
-            rp2 = *q;
-            if (rp2->not_started()
-                && (rp2->received_time==rp->received_time)
-                && (rp2->avp==rp->avp)
-                && rp2->edf_scheduled
-            ) {
-                list<RESULT*>::iterator p2 = p;
-                p2++;
-                x.insert(p2, rp2);
-
-                if (q == x.begin()) {
-                    x.erase(q);
-                    break;
-                }
-                list<RESULT*>::iterator q2 = q;
-                --q;
-                x.erase(q2);
-            } else {
-                if (q == x.begin()) {
-                    break;
-                }
-                --q;
-            }
-        }
-        --p;
-    }
-
-    // transfer back to vector
-    //
-    runnable_jobs.clear();
-    for (list<RESULT*>::iterator p = x.begin(); p!= x.end(); ++p) {
-        runnable_jobs.push_back(*p);
     }
 }
 
@@ -1264,15 +1216,6 @@ bool CLIENT_STATE::enforce_schedule() {
     //
     append_unfinished_time_slice(runnable_jobs);
 
-    // Remove the EDF flag from unstarted jobs for which
-    // there's a running job with the same app version.
-    // This is a (crude) mechanism to avoid the situation
-    // where there's a set of EDF unstarted jobs,
-    // each one runs for a little and leaves EDF
-    // and is preempted by the next.
-    //
-    demote_unstarted_edf(runnable_jobs);
-
     // sort to-run list by decreasing importance
     //
     std::sort(
@@ -1522,6 +1465,9 @@ bool CLIENT_STATE::enforce_schedule() {
                 );
                 request_schedule_cpus("start failed");
                 continue;
+            }
+            if (atp->result->rr_sim_misses_deadline) {
+                atp->once_ran_edf = true;
             }
             atp->run_interval_start_wall_time = now;
             app_started = now;

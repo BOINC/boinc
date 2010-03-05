@@ -8,6 +8,19 @@
 // 5: logo
 // 6: master URL (if different from web site)
 
+$cogsci = array(
+    "Cognitive science and artifical intelligence",
+    array(
+        array(
+            "FreeHAL",
+            "http://freehal.net/freehal_at_home/",
+            "private",
+            "Artificial intelligence",
+            "Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate a very close human behavior within conversations."
+        ),
+    ),
+);
+
 $biomed = array(
     "Biology and Medicine",
     array(
@@ -284,14 +297,14 @@ $math = array(
             "D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose goal is to predict the performance of superconducting adiabatic quantum computers on a variety of hard problems arising in fields ranging from materials science to machine learning. AQUA@home uses Internet-connected computers to help design and analyze quantum computing algorithms, using Quantum Monte Carlo techniques.",
             "logo_dwave2.png"
         ),
-        array(
-            "SHA-1 Collision Search Graz",
-            "http://boinc.iaik.tugraz.at/sha1_coll_search/",
-            "Graz University of Technology (Austria)",
-            "Cryptography",
-            "Search for collisions (weaknesses) of the widely-used SHA-1 hash function.",
-            "LogoKryptoGroup_klein.jpg"
-        ),
+//        array(
+//            "SHA-1 Collision Search Graz",
+//            "http://boinc.iaik.tugraz.at/sha1_coll_search/",
+//            "Graz University of Technology (Austria)",
+//            "Cryptography",
+//            "Search for collisions (weaknesses) of the widely-used SHA-1 hash function.",
+//            "LogoKryptoGroup_klein.jpg"
+//        ),
         array(
             "ABC@home",
             "http://abcathome.com/",
@@ -351,6 +364,6 @@ $math = array(
     ),
 );
 
-$areas = array($biomed, $astro_phys_chem, $math, $earth, $mixed);
+$areas = array($biomed, $astro_phys_chem, $math, $earth, $mixed, $cogsci);
 
 ?>

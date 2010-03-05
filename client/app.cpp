@@ -160,6 +160,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     checkpoint_cpu_time = 0;
     checkpoint_wall_time = 0;
     current_cpu_time = 0;
+    once_ran_edf = false;
     elapsed_time = 0;
     checkpoint_elapsed_time = 0;
     have_trickle_down = false;
@@ -556,6 +557,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <checkpoint_elapsed_time>%f</checkpoint_elapsed_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
+        "    <once_ran_edf>%d</once_ran_edf>\n"
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
@@ -569,6 +571,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         checkpoint_elapsed_time,
         fraction_done,
         current_cpu_time,
+        once_ran_edf?1:0,
         procinfo.swap_size,
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
@@ -713,6 +716,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             current_cpu_time = checkpoint_cpu_time;
             continue;
         }
+        else if (parse_bool(buf, "once_ran_edf", once_ran_edf)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<checkpoint_elapsed_time>", checkpoint_elapsed_time)) {
             elapsed_time = checkpoint_elapsed_time;
@@ -735,8 +739,6 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
-// Write XML information about this active task set
-//
 int ACTIVE_TASK_SET::write(MIOFILE& fout) {
     unsigned int i;
     int retval;
@@ -750,8 +752,6 @@ int ACTIVE_TASK_SET::write(MIOFILE& fout) {
     return 0;
 }
 
-// Parse XML information about an active task set
-//
 int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
     ACTIVE_TASK* atp;
     char buf[256];

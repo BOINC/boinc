@@ -82,6 +82,7 @@ struct ACTIVE_TASK {
     double fraction_done;
         /// most recent CPU time reported by app
     double current_cpu_time;
+    bool once_ran_edf;
 
     //// END OF ITEMS SAVED IN STATE FILE
 
