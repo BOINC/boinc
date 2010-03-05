@@ -1680,3 +1680,10 @@ Bernd 5 Mar 2010
 
     lib/
         filesys.h
+
+Bernd 5 Mar 2010
+    for now maintain (install, uninstall) header files in both BOINC/ and boinc/
+    (BOINC/ kept for compatibility, shall be dropped at some point later)
+
+    lib/
+        Makefile.mingw

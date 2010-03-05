@@ -115,8 +115,9 @@ RANLIB ?= ranlib
 # additional targets
 
 install: $(BIN) $(HEADERS)
-	mkdir -p $(BOINC_PREFIX)/include/BOINC $(BOINC_PREFIX)/lib
+	mkdir -p $(BOINC_PREFIX)/include/BOINC $(BOINC_PREFIX)/include/boinc $(BOINC_PREFIX)/lib
 	cp $(HEADERS) $(BOINC_PREFIX)/include/BOINC
+	cp $(HEADERS) $(BOINC_PREFIX)/include/boinc
 	$(RANLIB) $(BIN)
 	cp $(BIN) $(BOINC_PREFIX)/lib
 
@@ -128,6 +129,9 @@ install-zip: $(ZIP_BIN) $(ZIP_HEADERS)
 
 uninstall:
 	rm -f $(BOINC_PREFIX)/include/BOINC/*.h
+	rmdir -p $(BOINC_PREFIX)/include/BOINC
+	rm -f $(BOINC_PREFIX)/include/boinc/*.h
+	rmdir -p $(BOINC_PREFIX)/include/boinc
 	( cd $(BOINC_PREFIX)/lib && rm -f $(BIN) || exit 0 )
 
 clean:
