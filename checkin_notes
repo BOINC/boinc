@@ -1674,3 +1674,9 @@ Charlie  4 Mar 2010
         BOINCListCtrl.cpp, .h
         DlgEventLog.cpp, .h
         DlgEventLogListCtrl.h
+
+Bernd 5 Mar 2010
+    include sys/types.h for gid_t
+
+    lib/
+        filesys.h

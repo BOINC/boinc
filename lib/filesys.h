@@ -28,6 +28,7 @@
 #include <dirent.h>
 #include <grp.h>
 #include <stdio.h>
+#include <sys/types.h>
 #ifdef __cplusplus
 #include <string>
 #endif
