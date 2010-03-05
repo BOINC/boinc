@@ -1687,3 +1687,11 @@ Bernd 5 Mar 2010
 
     lib/
         Makefile.mingw
+
+Bernd 5 Mar 2010
+    fix to compile boinc_api.cpp on Windows
+    looks like copy/paste error, retval is not defined there
+    David, please review & change if necessary
+
+    api/
+        boinc_api.cpp
