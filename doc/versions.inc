@@ -61,19 +61,11 @@ function type_text($type) {
     }
 }
 
-$w610dev = array(
+$w610 = array(
 	"num"=>"6.10.36",
-	"status"=>"Development version",
+	"status"=>"Recommended version",
 	"file"=>"boinc_6.10.36_windows_intelx86.exe",
 	"date"=>"1 Mar 2010",
-	"type"=>"win_new",
-);
-
-$w610 = array(
-	"num"=>"6.10.18",
-	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.18_windows_intelx86.exe",
-	"date"=>"9 Nov 2009",
 	"type"=>"win_new",
 );
 
@@ -81,30 +73,6 @@ $w66 = array(
     "num"=>"6.6.38",
 	"status"=>"Older version (also works on Windows 98, Windows ME)",
     "file"=>"boinc_6.6.38_windows_intelx86.exe",
-    "date"=>"28 Oct 2009",
-    "type"=>"win_new",
-);
-
-$w610x64dev = array(
-	"num"=>"6.10.36",
-	"status"=>"Development version",
-	"file"=>"boinc_6.10.36_windows_x86_64.exe",
-	"date"=>"1 Mar 2010",
-	"type"=>"win_new",
-);
-
-$w610x64 = array(
-	"num"=>"6.10.18",
-	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.18_windows_x86_64.exe",
-	"date"=>"9 Nov 2009",
-	"type"=>"win_new",
-);
-
-$w66x64 = array(
-    "num"=>"6.6.38",
-	"status"=>"Older version",
-    "file"=>"boinc_6.6.38_windows_x86_64.exe",
     "date"=>"28 Oct 2009",
     "type"=>"win_new",
 );
@@ -117,19 +85,27 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
-$m610dev = array(
+$w610x64 = array(
 	"num"=>"6.10.36",
-	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_6.10.36_macOSX_universal.zip",
+	"status"=>"Recommended version",
+	"file"=>"boinc_6.10.36_windows_x86_64.exe",
 	"date"=>"1 Mar 2010",
-	"type"=>"mac_advanced",
+	"type"=>"win_new",
+);
+
+$w66x64 = array(
+    "num"=>"6.6.38",
+	"status"=>"Older version",
+    "file"=>"boinc_6.6.38_windows_x86_64.exe",
+    "date"=>"28 Oct 2009",
+    "type"=>"win_new",
 );
 
 $m610 = array(
-	"num"=>"6.10.21",
+	"num"=>"6.10.36",
 	"status"=>"Recommended version (standard GUI)",
-	"file"=>"boinc_6.10.21_macOSX_universal.zip",
-	"date"=>"1 Dec 2009",
+	"file"=>"boinc_6.10.36_macOSX_universal.zip",
+	"date"=>"1 Mar 2010",
 	"type"=>"mac_advanced",
 );
 
@@ -141,19 +117,11 @@ $m66 = array(
     "type"=>"mac_advanced",
 );
 
-$m610cdev = array(
-    "num"=>"6.10.36",
-	"status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.10.36_universal-apple-darwin.zip",
-    "date"=>"1 Mar 2010",
-    "type"=>"bare_core",
-);
-
 $m610c = array(
-	"num"=>"6.10.21",
+	"num"=>"6.10.36",
 	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_6.10.21_universal-apple-darwin.zip",
-	"date"=>"1 Dec 2009",
+	"file"=>"boinc_6.10.36_universal-apple-darwin.zip",
+	"date"=>"1 Mar 2010",
 	"type"=>"bare_core",
 );
 
@@ -238,7 +206,6 @@ $windows = array(
     "description"=>"2000/XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-		$w610dev,
 		$w610,
 		$w66,
         $w5816,
@@ -250,7 +217,6 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-		$w610x64dev,
 		$w610x64,
 		$w66x64,
     )
@@ -261,8 +227,6 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-		$m610dev,
-		$m610cdev,
 		$m610,
 		$m610c,
 		$m66,
