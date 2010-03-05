@@ -1355,7 +1355,15 @@ int GUI_RPC_CONN::handle_rpc() {
     m.get_buf(p, n);
     if (http_request) {
         char buf[1024];
-        sprintf(buf, "HTTP/1.1 200 OK\nDate: Fri, 31 Dec 1999 23:59:59 GMT\nContent-Type: text/xml\nContent-Length: %d\n\n", n);
+        sprintf(buf,
+            "HTTP/1.1 200 OK\n"
+            "Date: Fri, 31 Dec 1999 23:59:59 GMT\n"
+            "Server: BOINC client\n"
+            "Connection: close\n"
+            "Content-Type: text/xml; charset=utf-8\n"
+            "Content-Length: %d\n\n",
+            n
+        );
         send(sock, buf, strlen(buf), 0);
     }
     if (p) {
