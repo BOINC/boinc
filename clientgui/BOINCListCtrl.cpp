@@ -253,6 +253,16 @@ int CBOINCListCtrl::OnGetItemImage(long item) const {
 }
 
 
+#if BASEVIEW_STRIPES
+wxListItemAttr* CBOINCListCtrl::OnGetItemAttr(long item) const {
+    wxASSERT(m_pParentView);
+    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
+
+    return m_pParentView->FireOnListGetItemAttr(item);
+}
+#endif
+
+
 void CBOINCListCtrl::DrawProgressBars()
 {
     long topItem, numItems, numVisibleItems, i, row;

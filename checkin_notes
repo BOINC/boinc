@@ -1663,3 +1663,14 @@ David  4 Mar 2010
 
     client/
         client_state.cpp
+
+Charlie  4 Mar 2010
+    - MGR: Allow compile-time choice of either rules or alternating gray and white 
+        background stripes in lists by defining EVENT_LOG_STRIPES (in DlgEventLog.h) 
+        and BASEVIEW_STRIPES (in BOINCBaseView.h) to 0 for rules or 1 for stripes.
+
+    clientgui/
+        BOINCBaseView.cpp,.h
+        BOINCListCtrl.cpp, .h
+        DlgEventLog.cpp, .h
+        DlgEventLogListCtrl.h

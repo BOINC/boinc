@@ -26,8 +26,6 @@
 #include "macAccessiblity.h"
 #endif
 
-#define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
-
 class CDlgEventLog;
 
 class CDlgEventLogListCtrl : public wxListView

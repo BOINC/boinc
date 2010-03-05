@@ -23,6 +23,14 @@
 #pragma interface "DlgEventLog.cpp"
 #endif
 
+#define EVENT_LOG_STRIPES 1
+
+#if EVENT_LOG_STRIPES
+#define EVENT_LOG_DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
+#else
+#define EVENT_LOG_DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL | wxLC_HRULES
+#endif
+
 
 /*!
  * Includes
@@ -144,6 +152,8 @@ private:
 
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
+    wxListItemAttr*         m_pMessageInfoGrayAttr;
+    wxListItemAttr*         m_pMessageErrorGrayAttr;
 
     bool                    m_bProcessingRefreshEvent;
 

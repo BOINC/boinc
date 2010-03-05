@@ -61,6 +61,11 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     SetName(GetViewName());
 
     SetAutoLayout(TRUE);
+
+#if BASEVIEW_STRIPES    
+    m_pWhiteBackgroundAttr = NULL;
+    m_pGrayBackgroundAttr = NULL;
+#endif
 }
 
 
@@ -119,6 +124,11 @@ CBOINCBaseView::CBOINCBaseView(
     m_SortArrows->Add( wxIcon( sortascending_xpm ) );
     m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
+
+#if BASEVIEW_STRIPES    
+    m_pWhiteBackgroundAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
+    m_pGrayBackgroundAttr = new wxListItemAttr(*wxBLACK, wxColour(240, 240, 240), wxNullFont);
+#endif
 }
 
 
@@ -136,6 +146,18 @@ CBOINCBaseView::~CBOINCBaseView() {
     m_arrSelectedKeys1.Clear();
     m_arrSelectedKeys2.Clear();
     m_iSortedIndexes.Clear();
+
+#if BASEVIEW_STRIPES    
+    if (m_pWhiteBackgroundAttr) {
+        delete m_pWhiteBackgroundAttr;
+        m_pWhiteBackgroundAttr = NULL;
+    }
+
+    if (m_pGrayBackgroundAttr) {
+        delete m_pGrayBackgroundAttr;
+        m_pGrayBackgroundAttr = NULL;
+    }
+#endif
 }
 
 
@@ -235,6 +257,18 @@ wxString CBOINCBaseView::FireOnListGetItemText(long item, long column) const {
 int CBOINCBaseView::FireOnListGetItemImage(long item) const {
     return OnListGetItemImage(item);
 }
+
+
+#if BASEVIEW_STRIPES
+wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const {
+    return OnListGetItemAttr(item);
+}
+
+
+wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const {
+    return item % 2 ? m_pGrayBackgroundAttr : m_pWhiteBackgroundAttr;
+}
+#endif
 
 
 void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
