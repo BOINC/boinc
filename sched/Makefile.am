@@ -29,6 +29,7 @@ libsched_la_LIBADD= $(SSL_LIBS)
 ## install only headers that are meant for exporting the API !!
 if INSTALL_HEADERS
 pkginclude_HEADERS = \
+	credit.h \
 	sched_config.h \
 	sched_msgs.h \
 	sched_util.h \

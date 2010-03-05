@@ -307,101 +307,138 @@ static int possibly_send_result(DB_RESULT& result) {
     return add_result_to_reply(result, wu, bavp, true);
 }
 
-// returns true if the work generator can not make more work for this
-// file, false if it can.
+// Retrieves and returns a trigger instance identified by the given
+// fileset name.
 //
-static bool work_generation_over(char *filename) {
-    return boinc_file_exists(config.project_path("locality_scheduling/no_work_available/%s", filename));
+static bool retrieve_single_trigger_by_fileset_name(char *fileset_name, DB_SCHED_TRIGGER& trigger) {
+    int retval = 0;
+
+    // retrieve trigger
+    retval = trigger.select_unique_by_fileset_name(fileset_name);
+    if(!retval) {
+        if (config.debug_locality) {
+            log_messages.printf(MSG_DEBUG,
+                    "[locality] trigger %s state after retrieval: nw=%i wa=%i nwa=%i wsr=%i\n",
+                    fileset_name,
+                    trigger.need_work,
+                    trigger.work_available,
+                    trigger.no_work_available,
+                    trigger.working_set_removal
+            );
+        }
+
+        // successful retrieval
+        return true;
+    }
+    else if(retval == ERR_DB_NOT_FOUND) {
+        log_messages.printf(MSG_NORMAL,
+                "[locality] trigger retrieval for filename %s returned empty set\n", fileset_name
+        );
+        return false;
+    }
+    else {
+        log_messages.printf(MSG_CRITICAL,
+                "[locality] trigger retrieval for filename %s failed with error %i\n", fileset_name, retval
+        );
+        return false;
+    }
 }
 
 // Ask the WU generator to make more WUs for this file.
 // Returns nonzero if can't make more work.
 // Returns zero if it *might* have made more work
-// (no way to be sure if it suceeded).
+// (no way to be sure if it succeeded).
 //
 int make_more_work_for_file(char* filename) {
-    const char *fullpath;
+	int retval = 0;
+    DB_SCHED_TRIGGER trigger;
 
-    if (work_generation_over(filename)) {
-        // since we found this file, it means that no work remains for this WU.
-        // So give up trying to interact with the WU generator.
+
+    if (!retrieve_single_trigger_by_fileset_name(filename, trigger)) {
+    	// trigger retrieval failed (message logged by previous method)
+        return -1;
+    }
+
+    // Check if there's remaining work for this WU
+    if (trigger.no_work_available) {
+        // Give up trying to interact with the WU generator.
         if (config.debug_locality) {
             log_messages.printf(MSG_NORMAL,
-                "[locality] work generator says no work remaining for file %s\n", filename
+                "[locality] work generator says no work remaining for trigger %s\n", filename
             );
         }
         return -1;
     }
 
-    // open and touch a file in the need_work/
-    // directory as a way of indicating that we need work for this file.
-    // If this operation fails, don't worry or tarry!
-    //
-    fullpath = config.project_path("locality_scheduling/need_work/%s", filename);
-    if (boinc_touch_file(fullpath)) {
-        log_messages.printf(MSG_CRITICAL, "unable to touch %s\n", fullpath);
+//    // FIXME: should we reset these? The old code didn't do any consistency checks...
+//    trigger.work_available = false;
+//    trigger.no_work_available = false;
+//    trigger.working_set_removal = false;
+
+    // set trigger state to need_work as a way of indicating that we need work
+    // for this fileset. If this operation fails, don't worry or tarry!
+    retval = trigger.update_single_state(DB_SCHED_TRIGGER::state_need_work, true);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "unable to set need_work state for trigger %s (error: %d)\n", filename, retval);
         return -1;
     }
 
-    if (config.debug_locality) {
-        log_messages.printf(MSG_NORMAL,
-            "[locality] touched %s: need work for file %s\n", fullpath, filename
-        );
-    }
     return 0;
 }
 
 // Get a randomly-chosen filename in the working set.
 //
 // We store a static list to prevent duplicate filename returns
-// and to cut down on invocations of glob
+// and to cut down on DB queries
 //
 //
-
 std::vector<std::string> filenamelist;
 int list_type = 0; // 0: none, 1: slowhost, 2: fasthost
 
 static void build_working_set_namelist(bool slowhost) {
-    glob_t globbuf;
-    int retglob;
+    int retval = 0;
     unsigned int i;
-    const char *pattern = config.project_path("locality_scheduling/work_available/*");
+    const char *pattern = ".*";
+    bool use_pattern = false;
     const char *errtype = "unrecognized error";
     const char *hosttype = "fasthost";
+    DB_FILESET_SCHED_TRIGGER_ITEM_SET filesets;
 
 #ifdef EINSTEIN_AT_HOME
     if (slowhost) {
         hosttype = "slowhost";
-        pattern = config.project_path("locality_scheduling/work_available/*_0[0-3]*");
+        pattern = ".*_0[0-3].*";
+        use_pattern = true;
     }
 #endif
 
-    retglob=glob(pattern, GLOB_ERR|GLOB_NOSORT|GLOB_NOCHECK, NULL, &globbuf);
+    if(use_pattern) {
+        retval = filesets.select_by_name_state(pattern, true, DB_SCHED_TRIGGER::state_work_available, true);
+    }
+    else {
+        retval = filesets.select_by_name_state(NULL, false, DB_SCHED_TRIGGER::state_work_available, true);
+    }
 
-    if (retglob || !globbuf.gl_pathc) {
-        errtype = "no directory or not readable";
-    } else {
-        if (globbuf.gl_pathc==1 && !strcmp(pattern, globbuf.gl_pathv[0])) {
-            errtype = "empty directory";
-        } else {
-            for (i=0; i<globbuf.gl_pathc; i++) {
-                filenamelist.push_back(globbuf.gl_pathv[i]);
-            }
-            if (config.debug_locality) {
-                log_messages.printf(MSG_NORMAL,
-                    "[locality] build_working_set_namelist(%s): pattern %s has %d matches\n",
-                    hosttype, pattern, globbuf.gl_pathc
-                );
-            }
-            globfree(&globbuf);
-            return;
+    if (retval == ERR_DB_NOT_FOUND) {
+        errtype = "empty directory";
+    }
+    else if(!retval) {
+        for (i=0; i<filesets.items.size(); i++) {
+            filenamelist.push_back(filesets.items[i].fileset.name);
         }
+        if (config.debug_locality) {
+            log_messages.printf(MSG_NORMAL,
+                "[locality] build_working_set_namelist(%s): pattern %s has %d matches\n",
+                hosttype, pattern, filesets.items.size()
+            );
+        }
+        return;
     }
 
     log_messages.printf(MSG_CRITICAL,
         "build_working_set_namelist(%s): pattern %s not found (%s)\n", hosttype, pattern, errtype
     );
-    globfree(&globbuf);
+
     return;
 }
 
@@ -439,28 +476,18 @@ static int get_working_set_filename(char *filename, bool slowhost) {
         filenamelist[random_file_num] = filenamelist.back();
         filenamelist.pop_back();
 
-        // locate trailing file name
-        //
-        std::string slash = "/";
-        std::string::size_type last_slash_pos = thisname.rfind(slash);
-        if (last_slash_pos == std::string::npos) {
-            errtype = "no trailing slash";
-        } else {
-            // extract file name
-            thisname = thisname.substr(last_slash_pos);
-            if (thisname.length() < 2) {
+        // final check
+        if (thisname.length() < 1) {
                 errtype = "zero length filename";
-            } else {
-                thisname = thisname.substr(1);
-                strcpy(filename, thisname.c_str());
-                if (config.debug_locality) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[locality] get_working_set_filename(%s): returning %s\n",
-                        hosttype, filename
-                    );
-                }
-                return 0;
+        } else {
+            strcpy(filename, thisname.c_str());
+            if (config.debug_locality) {
+                log_messages.printf(MSG_NORMAL,
+                    "[locality] get_working_set_filename(%s): returning %s\n",
+                    hosttype, filename
+                );
             }
+            return 0;
         }
     }
 
@@ -471,9 +498,25 @@ static int get_working_set_filename(char *filename, bool slowhost) {
 }
 
 
-static void flag_for_possible_removal(char* filename) {
-    boinc_touch_file(config.project_path("locality_scheduling/working_set_removal/%s", filename));
-    return;
+static void flag_for_possible_removal(char* fileset_name) {
+	int retval = 0;
+    DB_SCHED_TRIGGER trigger;
+
+    if (!retrieve_single_trigger_by_fileset_name(fileset_name, trigger)) {
+    	// trigger retrieval failed (message logged by previous method)
+        return;
+    }
+
+//    // FIXME: should we reset these? The old code didn't do any consistency checks...
+//    trigger.need_work = false;
+//    trigger.work_available = false;
+//    trigger.no_work_available = false;
+
+    // set trigger state to working_set_removal
+    retval = trigger.update_single_state(DB_SCHED_TRIGGER::state_working_set_removal, true);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "unable to set working_set_removal state for trigger %s (error: %d)\n", fileset_name, retval);
+    }
 }
 
 // The client has (or will soon have) the given file.

@@ -214,6 +214,7 @@ create table workunit (
     priority            integer     not null,
     mod_time            timestamp,
     rsc_bandwidth_bound double      not null,
+    fileset_id          integer     not null,
     primary key (id)
 ) engine=InnoDB;
 

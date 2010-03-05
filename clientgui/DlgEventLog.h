@@ -109,7 +109,7 @@ public:
     void OnMessagesCopySelected( wxCommandEvent& event );
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASK_MESSAGES_FILTERBYPROJECT
-    void CDlgEventLog::OnMessagesFilter( wxCommandEvent& event );
+    void OnMessagesFilter( wxCommandEvent& event );
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );

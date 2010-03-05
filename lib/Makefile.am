@@ -90,6 +90,7 @@ endif
 if INSTALL_HEADERS
 pkginclude_HEADERS = \
     app_ipc.h \
+    average.h \
     base64.h \
     boinc_fcgi.h \
     boinc_win.h \

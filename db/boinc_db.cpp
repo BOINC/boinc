@@ -70,6 +70,18 @@ void VALIDATOR_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void SCHED_RESULT_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void CREDIT_MULTIPLIER::clear() {memset(this, 0, sizeof(*this));}
 void STATE_COUNTS::clear() {memset(this, 0, sizeof(*this));}
+void FILE_ITEM::clear() {memset(this, 0, sizeof(*this));}
+void FILESET_ITEM::clear() {memset(this, 0, sizeof(*this));}
+void FILESET_FILE_ITEM::clear() {memset(this, 0, sizeof(*this));}
+void SCHED_TRIGGER_ITEM::clear() {
+    id = 0;
+    fileset_id = 0;
+    need_work = false;
+    work_available = false;
+    no_work_available = false;
+    working_set_removal = false;
+}
+void FILESET_SCHED_TRIGGER_ITEM::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
@@ -112,6 +124,25 @@ DB_IN_PROGRESS_RESULT::DB_IN_PROGRESS_RESULT(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_SCHED_RESULT_ITEM_SET::DB_SCHED_RESULT_ITEM_SET(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+DB_FILE::DB_FILE(DB_CONN* dc) :
+    DB_BASE("file", dc?dc:&boinc_db){}
+DB_FILESET::DB_FILESET(DB_CONN* dc) :
+    DB_BASE("fileset", dc?dc:&boinc_db){}
+DB_FILESET_FILE::DB_FILESET_FILE(DB_CONN* dc) :
+    DB_BASE("fileset_file", dc?dc:&boinc_db){}
+DB_SCHED_TRIGGER::DB_SCHED_TRIGGER(DB_CONN* dc) :
+    DB_BASE("sched_trigger", dc?dc:&boinc_db) {
+    id = 0;
+    fileset_id = 0;
+    need_work = false;
+    work_available = false;
+    no_work_available = false;
+    working_set_removal = false;
+}
+DB_FILESET_SCHED_TRIGGER_ITEM::DB_FILESET_SCHED_TRIGGER_ITEM(DB_CONN* dc) :
+    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+DB_FILESET_SCHED_TRIGGER_ITEM_SET::DB_FILESET_SCHED_TRIGGER_ITEM_SET(DB_CONN* dc) :
+    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_APP::get_id() {return id;}
@@ -126,6 +157,9 @@ int DB_MSG_TO_HOST::get_id() {return id;}
 int DB_ASSIGNMENT::get_id() {return id;}
 int DB_CREDIT_MULTIPLIER::get_id() {return id;}
 int DB_STATE_COUNTS::get_id() {return appid;}
+int DB_FILE::get_id() {return id;}
+int DB_FILESET::get_id() {return id;}
+int DB_SCHED_TRIGGER::get_id() {return id;}
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,
@@ -661,7 +695,8 @@ void DB_WORKUNIT::db_print(char* buf){
         "max_total_results=%d, max_success_results=%d, "
         "result_template_file='%s', "
         "priority=%d, "
-        "rsc_bandwidth_bound=%.15e ",
+        "rsc_bandwidth_bound=%.15e, "
+        "fileset_id=%d ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -677,7 +712,8 @@ void DB_WORKUNIT::db_print(char* buf){
         max_success_results,
         result_template_file,
         priority,
-        rsc_bandwidth_bound
+        rsc_bandwidth_bound,
+        fileset_id
     );
 }
 
@@ -713,6 +749,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     priority = atoi(r[i++]);
     strcpy2(mod_time, r[i++]);
     rsc_bandwidth_bound = atof(r[i++]);
+    fileset_id = atoi(r[i++]);
 }
 
 void DB_CREDITED_JOB::db_print(char* buf){
@@ -1457,6 +1494,7 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     wu.priority = atoi(r[i++]);
     strcpy2(wu.mod_time, r[i++]);
     wu.rsc_bandwidth_bound = atof(r[i++]);
+    wu.fileset_id = atoi(r[i++]);
 }
 
 int DB_WORK_ITEM::enumerate(
@@ -1771,6 +1809,289 @@ int DB_SCHED_RESULT_ITEM_SET::update_workunits() {
     } else {
         return db->do_query(query);
     }
+}
+
+void DB_FILE::db_print(char* buf){
+    snprintf(buf, MAX_QUERY_LEN,
+        "name='%s', md5sum=%s, size=%f",
+        name, md5sum, size
+    );
+}
+
+void DB_FILE::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    strcpy2(name, r[i++]);
+    strcpy2(md5sum, r[i++]);
+    size = atof(r[i++]);
+}
+
+void DB_FILESET::db_print(char* buf){
+    snprintf(buf, MAX_QUERY_LEN, "name='%s'", name);
+}
+
+void DB_FILESET::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    strcpy2(name, r[i++]);
+}
+
+int DB_FILESET::select_by_name(const char* name) {
+    char where_clause[MAX_QUERY_LEN] = {0};
+
+    // construct where clause and select single record
+    snprintf(where_clause, MAX_QUERY_LEN, "WHERE name = '%s'", name);
+    return lookup(where_clause);
+}
+
+void DB_FILESET_FILE::db_print(char* buf){
+    snprintf(buf, MAX_QUERY_LEN,
+        "fileset_id=%d, file_id=%d",
+        fileset_id, file_id
+    );
+}
+
+void DB_FILESET_FILE::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    fileset_id = atoi(r[i++]);
+    file_id = atoi(r[i++]);
+}
+
+void DB_SCHED_TRIGGER::db_print(char* buf){
+    snprintf(buf, MAX_QUERY_LEN,
+        "fileset_id=%d, need_work=%d, work_available=%d, no_work_available=%d, working_set_removal=%d",
+        fileset_id, need_work?1:0, work_available?1:0, no_work_available?1:0, working_set_removal?1:0
+    );
+}
+
+void DB_SCHED_TRIGGER::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    fileset_id = atoi(r[i++]);
+    need_work = atoi(r[i++]);
+    work_available = atoi(r[i++]);
+    no_work_available = atoi(r[i++]);
+    working_set_removal = atoi(r[i++]);
+}
+
+int DB_SCHED_TRIGGER::select_unique_by_fileset_name(const char* fileset_name) {
+    char query[MAX_QUERY_LEN];
+    int retval;
+    int count = 0;
+    MYSQL_RES* recordset;
+    MYSQL_ROW row;
+
+    if (!cursor.active) {
+        // prepare statement
+        snprintf(query, MAX_QUERY_LEN,
+            "SELECT"
+            "  t.id,"
+            "  t.fileset_id,"
+            "  t.need_work,"
+            "  t.work_available,"
+            "  t.no_work_available,"
+            "  t.working_set_removal "
+            "FROM"
+            "  fileset fs INNER JOIN sched_trigger t ON fs.id = t.fileset_id "
+            "WHERE"
+            "  fs.name = '%s'",
+            fileset_name
+        );
+
+        retval = db->do_query(query);
+
+        if (retval) return mysql_errno(db->mysql);
+
+        recordset = mysql_store_result(db->mysql);
+        if (!recordset) return mysql_errno(db->mysql);
+    }
+
+    // determine number of records, fetch first
+    count = mysql_num_rows(recordset);
+    row = mysql_fetch_row(recordset);
+
+    if (!row || count != 1) {
+        // something bad happened
+        if (!row) {
+            // no row returned, due to an error?
+            retval = mysql_errno(db->mysql);
+            mysql_free_result(recordset);
+
+            // yes, probably lost DB connection
+            if (retval) return ERR_DB_CONN_LOST;
+
+            // no, just no record available
+            return ERR_DB_NOT_FOUND;
+        }
+        else {
+            // we got more records than expected
+            mysql_free_result(recordset);
+            return ERR_DB_NOT_UNIQUE;
+        }
+    } else {
+        // all fine, parse single record
+        db_parse(row);
+        mysql_free_result(recordset);
+    }
+    return 0;
+}
+
+int DB_SCHED_TRIGGER::update_single_state(const DB_SCHED_TRIGGER::STATE state, const bool value) {
+    char column_clause[MAX_QUERY_LEN] = {0};
+    int retval = 0;
+
+    switch(state) {
+    case DB_SCHED_TRIGGER::state_need_work:
+        snprintf(column_clause, MAX_QUERY_LEN, "need_work = %d", value?1:0);
+        need_work = value;
+        break;
+    case DB_SCHED_TRIGGER::state_work_available:
+        snprintf(column_clause, MAX_QUERY_LEN, "work_available = %d", value?1:0);
+        work_available = value;
+        break;
+    case DB_SCHED_TRIGGER::state_no_work_available:
+        snprintf(column_clause, MAX_QUERY_LEN, "no_work_available = %d", value?1:0);
+        no_work_available = value;
+        break;
+    case DB_SCHED_TRIGGER::state_working_set_removal:
+        snprintf(column_clause, MAX_QUERY_LEN, "working_set_removal = %d", value?1:0);
+        working_set_removal = value;
+        break;
+    default:
+        // unknown state
+        return -1;
+    }
+
+    // run actual update on current trigger (retrieved earlier)
+    retval = update_field(column_clause, NULL);
+
+    if (retval) return retval;
+    return 0;
+}
+
+void DB_FILESET_SCHED_TRIGGER_ITEM::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    fileset.id = atoi(r[i++]);
+    strcpy2(fileset.name, r[i++]);
+    trigger.id = atoi(r[i++]);
+    trigger.fileset_id = atoi(r[i++]);
+    trigger.need_work = atoi(r[i++]);
+    trigger.work_available = atoi(r[i++]);
+    trigger.no_work_available = atoi(r[i++]);
+    trigger.working_set_removal = atoi(r[i++]);
+}
+
+int DB_FILESET_SCHED_TRIGGER_ITEM_SET::select_by_name_state(
+    const char* fileset_name = NULL,
+    const bool use_regexp = false,
+    const DB_SCHED_TRIGGER::STATE state = DB_SCHED_TRIGGER::none,
+    const bool state_value = true
+) {
+    char where_clause[MAX_QUERY_LEN] = {0};
+    char query[MAX_QUERY_LEN] = {0};
+    int retval = 0;
+    int count = 0;
+    MYSQL_RES* recordset;
+    MYSQL_ROW row;
+    DB_FILESET_SCHED_TRIGGER_ITEM fileset_trigger;
+
+    // prepare requested compare mode
+    const char* comparator = use_regexp ? "REGEXP" : "=";
+
+    // prepare optional state filter
+    char state_filter[MAX_QUERY_LEN] = {0};
+    switch(state) {
+    case DB_SCHED_TRIGGER::state_need_work:
+        snprintf(state_filter, MAX_QUERY_LEN, "need_work = %d", state_value?1:0);
+        break;
+    case DB_SCHED_TRIGGER::state_work_available:
+        snprintf(state_filter, MAX_QUERY_LEN, "work_available = %d", state_value?1:0);
+        break;
+    case DB_SCHED_TRIGGER::state_no_work_available:
+        snprintf(state_filter, MAX_QUERY_LEN, "no_work_available = %d", state_value?1:0);
+        break;
+    case DB_SCHED_TRIGGER::state_working_set_removal:
+        snprintf(state_filter, MAX_QUERY_LEN, "working_set_removal = %d", state_value?1:0);
+        break;
+    default:
+        // none or unknown state (keep empty filter)
+        break;
+    }
+
+    // prepare WHERE clause
+    if(fileset_name && !state) {
+        snprintf(where_clause, MAX_QUERY_LEN, "WHERE fs.name %s '%s'", comparator, fileset_name);
+    } else if(!fileset_name && state) {
+        snprintf(where_clause, MAX_QUERY_LEN, "WHERE %s", state_filter);
+    } else if(fileset_name && state) {
+        snprintf(where_clause, MAX_QUERY_LEN, "WHERE fs.name %s '%s' AND %s", comparator, fileset_name, state_filter);
+    }
+
+    // prepare final statement
+    snprintf(query, MAX_QUERY_LEN,
+        "SELECT"
+        "  fs.id,"
+        "  fs.name,"
+        "  t.id,"
+        "  t.fileset_id,"
+        "  t.need_work,"
+        "  t.work_available,"
+        "  t.no_work_available,"
+        "  t.working_set_removal "
+        "FROM"
+        "  fileset fs INNER JOIN sched_trigger t ON fs.id = t.fileset_id "
+        "%s",
+        where_clause
+    );
+
+    retval = db->do_query(query);
+    if (retval) return retval;
+
+    recordset = mysql_store_result(db->mysql);
+    if (!recordset) return mysql_errno(db->mysql);
+
+    // check if we got at least one record
+    count = mysql_num_rows(recordset);
+    if(count == 0) {
+        mysql_free_result(recordset);
+        return ERR_DB_NOT_FOUND;
+    }
+
+    // all fine, iterate over recordset
+    do {
+        row = mysql_fetch_row(recordset);
+        if (!row) {
+            // clean up
+            mysql_free_result(recordset);
+
+            // no row returned, due to an error?
+            retval = mysql_errno(db->mysql);
+            // yes, probably lost DB connection
+            if (retval) return ERR_DB_CONN_LOST;
+        } else {
+            // parse record, add to vector
+            fileset_trigger.db_parse(row);
+            items.push_back(fileset_trigger);
+        }
+    } while (row);
+
+    return 0;
+}
+
+int DB_FILESET_SCHED_TRIGGER_ITEM_SET::contains_trigger(const char* fileset_name) {
+    // iterate over item vector
+    for(int i = 0; i < items.size(); ++i) {
+        if(strcmp(items[i].fileset.name, fileset_name) == 0) {
+            // return 1-indexed position for boolean tests
+            return i+1;
+        }
+    }
+    return 0;
 }
 
 const char *BOINC_RCSID_ac374386c8 = "$Id$";

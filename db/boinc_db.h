@@ -369,8 +369,6 @@ struct WORKUNIT {
         // used for 2 purposes:
         // 1) for scheduling (don't send this WU to a host w/ insuff. disk)
         // 2) abort task if it uses more than this disk
-    double rsc_bandwidth_bound;
-        // send only to hosts with at least this much download bandwidth
     bool need_validate;         // this WU has at least 1 result in
                                 // validate state = NEED_CHECK
     int canonical_resultid;     // ID of canonical result, or zero
@@ -399,6 +397,9 @@ struct WORKUNIT {
     char result_template_file[64];
     int priority;
     char mod_time[16];
+    double rsc_bandwidth_bound;
+        // send only to hosts with at least this much download bandwidth
+    int fileset_id;
 
     // the following not used in the DB
     char app_name[256];
@@ -629,7 +630,6 @@ struct VALIDATOR_ITEM {
     void parse(MYSQL_ROW&);
 };
 
-    
 
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:
@@ -873,6 +873,127 @@ public:
 
     int update_result(SCHED_RESULT_ITEM& result);
     int update_workunits();
+};
+
+struct FILE_ITEM {
+    int id;
+    char name[254];
+    char md5sum[34];
+    double size;
+
+    void clear();
+};
+
+class DB_FILE : public DB_BASE, public FILE_ITEM {
+public:
+    DB_FILE(DB_CONN* p=0);
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(FILE_ITEM& f) {FILE_ITEM::operator=(f);}
+};
+
+struct FILESET_ITEM {
+    int id;
+    char name[254];
+
+    void clear();
+};
+
+class DB_FILESET : public DB_BASE, public FILESET_ITEM {
+public:
+    DB_FILESET(DB_CONN* p=0);
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(FILESET_ITEM& f) {FILESET_ITEM::operator=(f);}
+
+    // retrieve fileset instance (populate object)
+    int select_by_name(const char* name);
+};
+
+struct FILESET_FILE_ITEM {
+    int fileset_id;
+    int file_id;
+
+    void clear();
+};
+
+class DB_FILESET_FILE : public DB_BASE, public FILESET_FILE_ITEM {
+public:
+    DB_FILESET_FILE(DB_CONN* p=0);
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(FILESET_FILE_ITEM& tf) {FILESET_FILE_ITEM::operator=(tf);}
+};
+
+struct SCHED_TRIGGER_ITEM {
+    int id;
+    int fileset_id;
+    bool need_work;
+    bool work_available;
+    bool no_work_available;
+    bool working_set_removal;
+
+    void clear();
+};
+
+class DB_SCHED_TRIGGER : public DB_BASE, public SCHED_TRIGGER_ITEM {
+public:
+    DB_SCHED_TRIGGER(DB_CONN* p=0);
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(SCHED_TRIGGER_ITEM& t) {SCHED_TRIGGER_ITEM::operator=(t);}
+
+    typedef enum {
+        none                         = 0,
+        state_need_work              = 1,
+        state_work_available         = 2,
+        state_no_work_available      = 3,
+        state_working_set_removal    = 4
+    } STATE;
+
+    // retrieve trigger instance (populate object)
+    int select_unique_by_fileset_name(const char* fileset_name);
+    // set single trigger state
+    int update_single_state(const DB_SCHED_TRIGGER::STATE state, const bool value);
+};
+
+struct FILESET_SCHED_TRIGGER_ITEM {
+    FILESET_ITEM fileset;
+    SCHED_TRIGGER_ITEM trigger;
+
+    void clear();
+};
+
+class DB_FILESET_SCHED_TRIGGER_ITEM : public DB_BASE_SPECIAL, public FILESET_SCHED_TRIGGER_ITEM {
+public:
+    DB_FILESET_SCHED_TRIGGER_ITEM(DB_CONN* p=0);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(FILESET_SCHED_TRIGGER_ITEM& fst) {FILESET_SCHED_TRIGGER_ITEM::operator=(fst);}
+};
+
+class DB_FILESET_SCHED_TRIGGER_ITEM_SET : public DB_BASE_SPECIAL {
+public:
+    DB_FILESET_SCHED_TRIGGER_ITEM_SET(DB_CONN* p=0);
+    
+    // select available triggers based on name and/or state
+    // -> name filter optional (set string, default NULL)
+    // -> pattern search optional (set use_regexp to true, default false))
+    // -> state filter optional (set state, default none)
+    // -> state_value (default true)
+    int select_by_name_state(
+            const char* fileset_name,
+            const bool use_regexp,
+            const DB_SCHED_TRIGGER::STATE state,
+            const bool state_value);
+
+    // check if given trigger (fileset name) is part of set and return position (1-indexed)
+    int contains_trigger(const char* fileset_name);
+
+    // storage vector
+    std::vector<DB_FILESET_SCHED_TRIGGER_ITEM> items;
 };
 
 #endif

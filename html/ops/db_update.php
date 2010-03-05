@@ -653,6 +653,10 @@ function update_9_3_2009() {
     ");
 }
 
+function update_3_5_2010() {
+    do_query("alter table workunit add fileset_id integer not null");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -666,6 +670,7 @@ function update_9_3_2009() {
 $db_updates = array (
     array(18490, "update_6_16_2009"),
     array(19001, "update_9_3_2009"),
+    array(20807, "update_3_5_2010"),
 );
 
 ?>

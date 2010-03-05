@@ -1713,3 +1713,28 @@ David  5 Mar 2010
         client_types.h
         app.cpp,h
         cpu_sched.cpp
+
+David  5 Mar 2010
+    - server: major improvements to locality scheduling from Einstein@home.
+        Triggering the work generator is now done via the DB
+        instead of flat files.
+
+        Since only E@h uses locality scheduling,
+        I kept the DB changes in a separate file (db/schema_locality.sql).
+        There's a new field in the workunit table,
+        and that's a required update (in db_update.php)
+    - manager: compile fix
+
+    clientgui/
+        DlgEventLog.h
+    db/
+        boinc_db.cpp,h
+        schema.sql
+        schema_locality.sql
+    sched/
+        sched_locality.cpp
+        Makefile.am
+    html/ops
+        db_update.php
+    lib/
+        Makefile.am
