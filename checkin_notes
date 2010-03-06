@@ -1738,3 +1738,10 @@ David  5 Mar 2010
         db_update.php
     lib/
         Makefile.am
+
+David  6 Mar 2010
+    - web RPC: generalize team lookup so that you can look up multiple
+        teams in one RPC.  From Willy de Zutter.
+
+    html/user/
+        team_lookup.php
