@@ -149,19 +149,11 @@ $l64 = array(
     "type"=>"sea",
 );
 
-$l610ubuntudev = array(
+$l610ubuntu = array(
 	"num"=>"6.10.36",
-	"status"=>"Development version",
+	"status"=>"Recommended version",
 	"file"=>"boinc_6.10.36_i686-pc-linux-gnu.sh",
 	"date"=>"1 Mar 2010",
-	"type"=>"sea",
-);
-
-$l610ubuntu = array(
-	"num"=>"6.10.17",
-	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.17_i686-pc-linux-gnu.sh",
-	"date"=>"28 Oct 2009",
 	"type"=>"sea",
 	);
 
@@ -173,19 +165,11 @@ $l66ubuntu = array(
 	"type"=>"sea",
 );
 
-$l610ubuntux64dev = array(
+$l610ubuntux64 = array(
 	"num"=>"6.10.36",
-	"status"=>"Development version",
+	"status"=>"Recommended version",
 	"file"=>"boinc_6.10.36_x86_64-pc-linux-gnu.sh",
 	"date"=>"1 Mar 2010",
-	"type"=>"sea",
-);
-
-$l610ubuntux64 = array(
-	"num"=>"6.10.17",
-	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.17_x86_64-pc-linux-gnu.sh",
-	"date"=>"28 Oct 2009",
 	"type"=>"sea",
 );
 
@@ -249,7 +233,6 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-		$l610ubuntudev,
 		$l610ubuntu,
 		$l66ubuntu,
     )
@@ -260,7 +243,6 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-		$l610ubuntux64dev,
 		$l610ubuntux64,
 		$l66ubuntux64,
     )
