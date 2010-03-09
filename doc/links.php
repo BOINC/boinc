@@ -276,6 +276,7 @@ language("Hungarian", array(
     site("http://seti.hwsw.hu/", "HWSW SETI@home Team")
 ));
 language("Italian", array(
+    site("http://www.calcolodistribuito.it/", "Calcolo Distribuito"),
     site("http://www.boincitaly.org/", "BOINC.Italy"),
     site("http://gaming.ngi.it/forum/forumdisplay.php?f=73", "NGI forum"),
     site("http://it.groups.yahoo.com/group/BOINC-ITALIA/", "BOINC-ITALIA")

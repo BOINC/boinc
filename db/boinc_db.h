@@ -76,7 +76,6 @@ struct APP {
                             // should come from this app
     bool beta;
     int target_nresults;
-    AVERAGE vnpfc;
 
     int write(FILE*);
     void clear();
@@ -120,6 +119,7 @@ struct APP_VERSION {
     AVERAGE pfc;
     double pfc_scale_factor;
 
+    APP_VERSION() : pfc(50000, .005, 10) {}
     int write(FILE*);
     void clear();
 };

@@ -49,6 +49,9 @@ create table app (
     weight              double      not null default 1,
     beta                smallint    not null default 0,
     target_nresults     smallint    not null default 0,
+    vnpfc_n             double      not null,
+    vnpfc_sum           double      not null,
+    vnpfc_avg           double      not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -63,6 +66,10 @@ create table app_version (
     max_core_version    integer     not null default 0,
     deprecated          tinyint     not null default 0,
     plan_class          varchar(254) not null default '',
+    pfc_n               double      not null,
+    pfc_sum             double      not null,
+    pfc_avg             double      not null,
+    pfc_scale           double      not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -615,3 +622,20 @@ create table state_counts (
     workunit_file_delete_state_2        integer not null,
     primary key (appid)
 ) engine=MyISAM; 
+
+create table host_app_version (
+    host_id;            integer     not null,
+    app_version_id      integer     not null,
+    vnpfc_n             double      not null,
+    vnpfc_sum           double      not null,
+    vnpfc_avg           double      not null,
+    et_n                double      not null,
+    et_sum              double      not null,
+    et_avg              double      not null,
+    et_var              double      not null,
+    et_sum_sq           double      not null,
+    host_scale_time     double      not null,
+    scale_probagtion    tinyint     not null,
+    error_rate          double      not null,
+    max_results_day     integer     not null,
+) engine = InnoDB;

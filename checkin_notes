@@ -1745,3 +1745,15 @@ David  6 Mar 2010
 
     html/user/
         team_lookup.php
+
+David  8 Mar 2010
+    - server credit stuff (partial checkin)
+
+    db/
+        boinc_db.h
+        schema.sql
+    sched/
+        credit_test.cpp
+    lib/
+        average.cpp,h
+        Makefile.am

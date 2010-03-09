@@ -1,57 +1,68 @@
-// structure for tracking the recent mean
-// of a distribution that may change over time
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2010 University of California
 //
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <math.h>
 
-#define MIN_SAMPLES    50000
-    // after this many samples, use exponential average
-#define SAMPLE_WEIGHT    0.005
-    // new samples get this weight in exp avg
-#define SAMPLE_LIMIT    20
-    // cap samples at recent_mean*limit
-
+// structure for tracking the recent average
+// of a distribution that may change over time
+//
 struct AVERAGE {
     double n;       // double to avoid integer overflow
     double sum;
-    double exp_avg;
+    double avg;
 
-    void update(double sample) {
-        double delta, limit;
-        if (sample < 0) return;
-        if (n > MIN_SAMPLES) {
-            if (sample > exp_avg*SAMPLE_LIMIT) {
-                printf(" truncating sample:  %.0fG exp_avg %.0fG\n",
-                    sample/1e9, exp_avg/1e9
-                );
-                sample = exp_avg*SAMPLE_LIMIT;
-            }
-        } else {
-            double x = sum/n;
-            if (sample > x*SAMPLE_LIMIT) {
-                printf(" truncating sample: %.0fG avg %.0fG\n",
-                    sample/1e9, x/1e9
-                );
-                sample = x*SAMPLE_LIMIT;
-            }
-        }
-        n++;
+    double n_threshold;
+        // after this many samples, use exponential average
+    double sample_weight;
+        // new samples get this weight in exp avg
+    double sample_limit;
+        // truncate samples at avg*limit
 
-        sum += sample;
-        if (n < MIN_SAMPLES) {
-            exp_avg = sum/n;
-        } else {
-            delta = sample - exp_avg;
-            exp_avg += SAMPLE_WEIGHT*delta;
-        }
-    }
-    inline double get_mean() {
-        return exp_avg;
+    // return true if sample exceeded limit and was truncated
+    //
+    bool update(double);
+
+    inline double get_avg() {
+        return avg;
     }
 
-    void clear() {
+    AVERAGE(double n_thresh, double sample_w, double sample_lim) {
         n = 0;
         sum = 0;
-        exp_avg = 0;
+        avg = 0;
+        n_threshold = n_thresh;
+        sample_weight = sample_w;
+        sample_limit = sample_lim;
+    }
+};
+
+// same, but variance also
+//
+struct AVERAGE_VAR : AVERAGE {
+    double var;
+    double sum_sq;
+
+    bool update(double);
+    inline double get_var() {
+        return var;
+    }
+
+    AVERAGE_VAR(double n, double w, double l):AVERAGE(n,w,l){
+        var = 0;
+        sum_sq = 0;
     }
 };
