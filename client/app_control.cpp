@@ -812,7 +812,7 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         switch (reason) {
-        case SUSPEND_REASON_CPU_USAGE_LIMIT:
+        case SUSPEND_REASON_CPU_THROTTLE:
 			// if we're doing CPU throttling, don't bother suspending apps
 			// that don't use a full CPU
 			//
@@ -823,6 +823,9 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
         case SUSPEND_REASON_BENCHMARKS:
             atp->preempt(REMOVE_NEVER);
             break;
+        case SUSPEND_REASON_CPU_USAGE:
+            if (atp->result->project->non_cpu_intensive) break;
+            // fall through
         default:
             atp->preempt(REMOVE_MAYBE_USER);
         }

@@ -148,7 +148,7 @@ void TIME_STATS::get_log_after(double t, MIOFILE& mf) {
 void TIME_STATS::update(int suspend_reason) {
     double dt, w1, w2;
 
-    bool is_active = !(suspend_reason & ~SUSPEND_REASON_CPU_USAGE_LIMIT);
+    bool is_active = !(suspend_reason & ~SUSPEND_REASON_CPU_THROTTLE);
     if (last_update == 0) {
         // this is the first time this client has executed.
         // Assume that everything is active
