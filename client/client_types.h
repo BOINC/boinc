@@ -362,6 +362,13 @@ public:
         cuda_pwf.reset();
         ati_pwf.reset();
     }
+    inline int deadlines_missed(int rsc_type) {
+        switch(rsc_type) {
+        case RSC_TYPE_CUDA: return cuda_pwf.deadlines_missed;
+        case RSC_TYPE_ATI: return ati_pwf.deadlines_missed;
+        }
+        return cpu_pwf.deadlines_missed;
+    }
 
         /// # of results being returned in current scheduler op
     int nresults_returned;
@@ -439,12 +446,17 @@ struct APP_VERSION {
     void clear_errors();
     int api_major_version();
     bool missing_coproc();
-    bool uses_coproc(int rsc_type) {
+    inline bool uses_coproc(int rsc_type) {
         switch (rsc_type) {
         case RSC_TYPE_CUDA: return (ncudas>0);
         case RSC_TYPE_ATI: return (natis>0);
         }
         return false;
+    }
+    inline int rsc_type() {
+        if (ncudas>0) return RSC_TYPE_CUDA;
+        if (natis>0) return RSC_TYPE_ATI;
+        return RSC_TYPE_CPU;
     }
 };
 

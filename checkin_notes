@@ -779,3 +779,16 @@ Rom    4 Mar 2010
     clientgui/
         AdvancedFrame.cpp
         Events.h
+
+David  5 Mar 2010
+    - client: revisit the domino-effect preemption problem.
+        Removed my changes of 19 Jan 2010, which didn't work.
+        Added new mechanism: keep track of whether a job J has ever run in EDF.
+        If so, and if another job of the same project and resource type as J
+        is marked as deadline miss, then mark J as deadline miss,
+        so that it won't get preempted.
+
+    client/
+        client_types.h
+        app.cpp,h
+        cpu_sched.cpp
