@@ -55,6 +55,7 @@
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
@@ -125,6 +126,7 @@
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
@@ -191,6 +193,7 @@
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
@@ -259,6 +262,7 @@
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
@@ -328,6 +332,7 @@
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
@@ -398,6 +403,7 @@
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
@@ -464,6 +470,7 @@
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
@@ -531,6 +538,7 @@
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="boinc_win.h"
 			/>
 			<Tool
