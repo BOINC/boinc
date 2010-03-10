@@ -792,3 +792,12 @@ David  5 Mar 2010
         client_types.h
         app.cpp,h
         cpu_sched.cpp
+
+David  9 Mar 2010
+    - client: if a GPU job is blocked on available mem,
+        don't fetch more jobs for that resource type
+
+    client/
+        client_types.cpp,h
+        work_fetch.cpp
+        cpu_sched.cpp

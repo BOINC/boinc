@@ -206,6 +206,14 @@ public:
     bool no_cpu_pref;
     bool no_cuda_pref;
     bool no_ati_pref;
+        // the following are from the project itself
+    bool no_cpu_apps;
+    bool no_cuda_apps;
+    bool no_ati_apps;
+        // the following set dynamically
+    bool cuda_low_mem;
+    bool ati_low_mem;
+
         /// logically, this belongs in the client state file
         /// rather than the account file.
         /// But we need it in the latter in order to parse prefs.
