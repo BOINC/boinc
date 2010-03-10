@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-03-10 13:58-0700\n"
+"PO-Revision-Date: 2010-03-10 14:59-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -286,7 +286,7 @@ msgstr ""
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Kutatási projektek"
 
 #: index.php:159
 msgid "Logos and graphics"
@@ -322,7 +322,7 @@ msgstr "Szoftverfejlesztés"
 
 #: index.php:173
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "API-k kiegészítő szoftverekhez"
 
 #: index.php:207
 msgid "Browser default"
