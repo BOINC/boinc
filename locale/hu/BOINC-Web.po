@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-03-10 11:56-0700\n"
+"PO-Revision-Date: 2010-03-10 13:58-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -149,17 +149,22 @@ msgstr "Legyen ön is önkéntes segítő"
 
 #: help.php:50
 #, php-format
+#, fuzzy
 msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
+"Ha ön egy tapasztalt BOINC felhasználó, bátran %sjelentkezzen önkéntes "
+"segítőnek%s. Ez egy nagyszerű lehetőség a tudományos kutatás elősegítésére - "
+"és szórakoztató is!"
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
+"Ha ön már önkéntes segítő: a beállításai szerkesztéséhez %skattintson ide%s."
 
 #: index.php:23
 msgid "Computing power"
@@ -199,7 +204,7 @@ msgstr "Hírek"
 
 #: index.php:79
 msgid "Volunteer"
-msgstr ""
+msgstr "Részvétel"
 
 #: index.php:81
 msgid "Download"
