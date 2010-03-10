@@ -1771,3 +1771,16 @@ David  9 Mar 2010
         credit_test.cpp
     lib/
         average.cpp,h
+
+David  9 Mar 2010
+    - client: if a GPU job is blocked on available mem,
+        don't fetch more jobs for that resource type
+
+    db/
+        boinc_db.h
+    sched/
+        credit_test.cpp
+    client/
+        client_types.cpp,h
+        work_fetch.cpp
+        cpu_sched.cpp

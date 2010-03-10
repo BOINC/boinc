@@ -226,7 +226,7 @@ void update_av_scales() {
 // and update data structures.
 // Return false if the PFC is an average.
 //
-bool get_pfc(RESULT& r, double& pfc) {
+bool get_pfc(RESULT& r, WORKUNIT& wu, double& pfc) {
     APP_VERSION* avp = NULL;
     DB_HOST host;
     int rsc_type;
@@ -249,7 +249,7 @@ bool get_pfc(RESULT& r, double& pfc) {
             printf("  skipping: anon platform\n");
             return false;
         } else {
-            pfc = r.elapsed_time * r.flops_estimate;
+            pfc = (r.elapsed_time * r.flops_estimate)/wu.rsc_fpops_est;
             avp = lookup_av(r.app_version_id);
             printf("  sec: %.0f GFLOPS: %.0f PFC: %.0fG raw credit: %.2f\n",
                 r.elapsed_time, r.flops_estimate/1e9, pfc/1e9, pfc*COBBLESTONE_SCALE
@@ -341,9 +341,15 @@ int main(int argc, char** argv) {
         printf("%d) result %d WU %d host %d\n",
             n, r.id, r.workunitid, r.hostid
         );
+        DB_WORKUNIT wu;
+        retval = wu.lookup_id(r.workunitid);
+        if (retval) {
+            printf("  No WU!\n");
+            continue;
+        }
 
         double pfc;
-        if (!get_pfc(r, pfc)) {
+        if (!get_pfc(r, wu, pfc)) {
             continue;
         }
         double new_claimed_credit = pfc * COBBLESTONE_SCALE;

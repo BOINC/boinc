@@ -1258,6 +1258,11 @@ bool CLIENT_STATE::enforce_schedule() {
     //
     assign_coprocs(runnable_jobs);
 
+    for (i=0; i<projects.size(); i++) {
+        projects[i]->cuda_low_mem = false;
+        projects[i]->ati_low_mem = false;
+    }
+
     // prune jobs that don't fit in RAM or that exceed CPU usage limits.
     // Mark the rest as SCHEDULED
     //
@@ -1274,6 +1279,11 @@ bool CLIENT_STATE::enforce_schedule() {
             //
             if (!atp || !atp->process_exists()) {
                 if (rp->insufficient_video_ram()) {
+                    if (rp->uses_cuda()) {
+                        rp->project->cuda_low_mem = true;
+                    } else {
+                        rp->project->ati_low_mem = true;
+                    }
                     rp->schedule_backoff = now + 300; // try again in 5 minutes
                     request_schedule_cpus("insufficient GPU RAM");
                     continue;

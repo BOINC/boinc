@@ -498,13 +498,18 @@ struct RESULT {
     int teamid;
     int priority;
     char mod_time[16];
-        // the following 3 fields returned by 6.10+ clients
-    double elapsed_time;            // AKA runtime
-    double flops_estimate;          // as returned by app_plan()
+    double elapsed_time;
+        // AKA runtime; returned by 6.10+ clients
+    double flops_estimate;
+        // misnomer: actually the peak device FLOPS,
+        // returned by app_plan()
+        // An adjusted version of this is sent to clients.
     int app_version_id;
-        // ID of app versions used to compute this
-        // 0 if not reported (pre-6.10 client)
-        // -1 if anonymous platform
+        // ID of app version used to compute this
+        // 0 if unknown (relic of old scheduler)
+        // -1 if anonymous platform CPU
+        // -2 if anonymous platform NVIDIA
+        // -3 if anonymous platform ATI
 
     // the following used by the scheduler, but not stored in the DB
     //

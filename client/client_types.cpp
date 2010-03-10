@@ -71,6 +71,8 @@ void PROJECT::init() {
     no_cpu_apps = false;
     no_cuda_apps = false;
     no_ati_apps = false;
+    cuda_low_mem = false;
+    ati_low_mem = false;
     strcpy(host_venue, "");
     using_venue_specific_prefs = false;
     scheduler_urls.clear();
