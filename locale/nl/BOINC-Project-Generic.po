@@ -1482,7 +1482,9 @@ msgstr ""
 #~ msgid "Really delete?"
 #~ msgstr "Echt verwijderen?"
 
-#~ msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+#~ msgid ""
+#~ "Are you sure you want to delete the message with subject &quot;%1&quot; "
+#~ "(sent by %2 on %3)?"
 #~ msgstr ""
 #~ "Weet je zeker dat je het bericht met het onderwerp &quot;%1&quot wilt "
 #~ "verwijderen; (verzonden door %2 op %3)?"
@@ -1494,17 +1496,17 @@ msgstr ""
 #~ msgstr "Geen bericht gevonden."
 
 # Apps page (apps.php)
-#########################################
+# ########################################
 #~ msgid "APPS_TITLE"
 #~ msgstr "Applicaties"
 
 # Rules and Policies page (info.php)
-#########################################
+# ########################################
 #~ msgid "RULES_TITLE"
 #~ msgstr "Lees onze regels en beleid"
 
 # Create account form (create_account_form.php)
-#########################################
+# ########################################
 #~ msgid "CREATE_AC_TITLE"
 #~ msgstr "Maak een an account"
 
@@ -1514,9 +1516,9 @@ msgstr ""
 #~ msgid "FORUM_TITLE_SHORT"
 #~ msgstr "Forums"
 
-#########################################
+# ########################################
 # General stuff (create_account_form.php and others)
-#########################################
+# ########################################
 #~ msgid "OPTIONAL"
 #~ msgstr "Optioneel"
 
@@ -1547,21 +1549,21 @@ msgstr ""
 #~ msgid "TEAM_TABLE_MEMBERS"
 #~ msgstr "Leden"
 
-#########################################
+# ########################################
 # Forum
-#########################################
+# ########################################
 #~ msgid "FORUM_POSTS"
 #~ msgstr "Berichten"
 
 # Forum thread
-#########################################
+# ########################################
 #~ msgid "FORUM_THREAD_HIDDEN"
 #~ msgstr "Deze discussie is verborgen voor administratieve doeleinden"
 
 # Forum search features
-#########################################
+# ########################################
 # Apps page (apps.php)
-#########################################
+# ########################################
 # Rules and Policies page (info.php)
 # Create account form (create_account_form.php)
 # General stuff (create_account_form.php and others)

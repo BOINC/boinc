@@ -3,12 +3,12 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-06-12 07:21-0700\n"
+"PO-Revision-Date: 2010-02-23 22:55-0700\n"
 "Last-Translator: komo <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
@@ -28,12 +28,12 @@ msgstr "フォーラム内を検索"
 msgid "Advanced search"
 msgstr "高度な検索"
 
-#########################################
+# ########################################
 # Private messages
 msgid "Private messages"
 msgstr "非公開メッセージ"
 
-#########################################
+# ########################################
 # Links from the main page
 msgid "Questions and Answers"
 msgstr "質問と答(Q&A)"
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Thread"
 msgstr "スレッド"
 
-#########################################
+# ########################################
 # Forum
 msgid "Posts"
 msgstr "投稿"
@@ -176,7 +176,6 @@ msgid "Initiate request"
 msgstr "要求を開始する"
 
 # I guess, it should not happen, so it is an error message for the implementors.
-#, fuzzy
 msgid "Deferred"
 msgstr "延期状態"
 
@@ -494,7 +493,7 @@ msgstr "要求は保留中"
 msgid "Add as friend"
 msgstr "友人として追加"
 
-##########################################
+# #########################################
 # Language: English (International)
 # FileID  : $Id: ja.po 14742 2008-02-14 06:38:32Z JensSeidler $
 # Author  : Janus Kristensen
@@ -517,12 +516,12 @@ msgstr "表示したい国の名前があれば、選択してください。"
 msgid "Postal or ZIP Code"
 msgstr "郵便番号／ZIP コード"
 
-#########################################
+# ########################################
 # General stuff (create_account_form.php and others)
 msgid "Optional"
 msgstr "記入は任意"
 
-#########################################
+# ########################################
 # Apps page (apps.php)
 msgid "Applications"
 msgstr "アプリケーション"
@@ -552,7 +551,7 @@ msgstr "アカウントを作るには、招待コードを入力してくださ
 msgid "The invitation code you gave is not valid."
 msgstr "入力した招待コードの値は正しくありません。"
 
-#########################################
+# ########################################
 # Create account form (create_account_form.php)
 msgid "Create an account"
 msgstr "新しいアカウントを作る"
@@ -584,7 +583,6 @@ msgstr "招待コード"
 msgid "A valid invitation code is required to create an account."
 msgstr "アカウントを作るには、正しい招待コードが必要です。"
 
-#, fuzzy
 msgid "Email Address"
 msgstr "メイルアドレス"
 
@@ -736,7 +734,7 @@ msgstr "題名"
 msgid "Add my signature to this post"
 msgstr "自分の署名をこの投稿に付ける"
 
-#########################################
+# ########################################
 # Forum sample index page
 msgid "%1 Message boards"
 msgstr "%1 掲示板"
@@ -755,7 +753,7 @@ msgstr "新しくスレッドを作る"
 msgid "Post to thread"
 msgstr "スレッドに投稿する"
 
-#########################################
+# ########################################
 # Forum search features
 msgid "Forum search"
 msgstr "掲示板内の検索"
@@ -769,7 +767,7 @@ msgstr "id が %1 のスレッドはありません。リンクを確認して�
 msgid "This forum is not visible to you."
 msgstr "あなたはこのフォーラムを見ることはできません。"
 
-#########################################
+# ########################################
 # Forum thread
 msgid "This thread has been hidden for administrative purposes"
 msgstr "管理上の都合でこのスレッドは隠されています。"
@@ -966,12 +964,12 @@ msgstr "%1 へようこそ！"
 msgid "View and edit your account preferences using the links below."
 msgstr "アカウントのプレファレンス(好みの設定）を確認・変更するには以下のリンクを使って下さい。"
 
-#########################################
+# ########################################
 # "Your account" page (home.php)
 msgid "Your account"
 msgstr "あなたのアカウント"
 
-#########################################
+# ########################################
 # Rules and Policies page (info.php)
 msgid "Read our rules and policies"
 msgstr "このプロジェクトの「規則と方針」を読んで下さい。"
@@ -1289,7 +1287,7 @@ msgstr "統計データとリーダーボード"
 msgid "Statistics for %1"
 msgstr "%1 の統計データ"
 
-#########################################
+# ########################################
 # Various top table pages (top users, computers, teams)
 msgid "Top participants"
 msgstr "参加者のランキング"
@@ -1389,7 +1387,7 @@ msgstr "この参加者にはプロファイルは登録されていません"
 msgid "Account data"
 msgstr "アカウントのデータ"
 
-#########################################
+# ########################################
 # "Weak account key" page (weak_auth.php)
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "

@@ -29,7 +29,7 @@ msgstr "Przeszukaj fora"
 msgid "Advanced search"
 msgstr "Zaawansowane wyszukiwanie"
 
-#########################################
+# ########################################
 # Private messages
 msgid "Private messages"
 msgstr "Prywatne wiadomości"
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Thread"
 msgstr "Tematy"
 
-#########################################
+# ########################################
 # Forum
 msgid "Posts"
 msgstr "Posty"
@@ -499,12 +499,12 @@ msgstr "Oczekujące zaproszenia"
 msgid "Add as friend"
 msgstr "Dodaj jako przyjaciela"
 
-####################################
+# ###################################
 # Language: Polish [rev. 1.40 (12.09.2007/18:15)]
 # FileID  : $Id: pl.po 14266 2007-11-20 06:29:21Z JensSeidler $
 # Author  : Bartosz Kaszubowski
 # Email   : gosimek@gmail.com
-##########################################
+# #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 # The charset used for the text in this file (please try to use UTF-8 if possible)
@@ -523,12 +523,12 @@ msgstr "Jeśli chcesz, wybierz kraj, który reprezentujesz."
 msgid "Postal or ZIP Code"
 msgstr "Kod pocztowy"
 
-#########################################
+# ########################################
 # General stuff (create_account_form.php and others)
 msgid "Optional"
 msgstr "Nie jest wymagany; możesz go podać jeśli chcesz"
 
-#########################################
+# ########################################
 # Apps page (apps.php)
 msgid "Applications"
 msgstr "Aplikacje"
@@ -560,7 +560,7 @@ msgstr "Aby stworzyć konto w tym projekcie musisz posiadać kod rejestracyjny."
 msgid "The invitation code you gave is not valid."
 msgstr "Wpisany kod rejestracyjny jest nieprawidłowy."
 
-#########################################
+# ########################################
 # Create account form (create_account_form.php)
 msgid "Create an account"
 msgstr "Stwórz konto"
@@ -732,7 +732,7 @@ msgstr "Nazwa"
 msgid "Add my signature to this post"
 msgstr "Dodaj moją sygnaturę do tego postu"
 
-#########################################
+# ########################################
 # Forum sample index page
 msgid "%1 Message boards"
 msgstr "Forum dyskusyjne %1"
@@ -751,7 +751,7 @@ msgstr "Stwórz nowy temat"
 msgid "Post to thread"
 msgstr "Odpowiedz na temat"
 
-#########################################
+# ########################################
 # Forum search features
 msgid "Forum search"
 msgstr "Szukaj na forum"
@@ -765,7 +765,7 @@ msgstr ""
 msgid "This forum is not visible to you."
 msgstr ""
 
-#########################################
+# ########################################
 # Forum thread
 msgid "This thread has been hidden for administrative purposes"
 msgstr "Ten temat został ukryty przez administrację forum"
@@ -964,13 +964,13 @@ msgstr "Witaj w %1"
 msgid "View and edit your account preferences using the links below."
 msgstr "Zobacz lub zmień ustawiania swojego konta używając poniższych linków."
 
-########################################
+# #######################################
 # "Your account" page (home.php)
-#########################################
+# ########################################
 msgid "Your account"
 msgstr "Twoje konto"
 
-#########################################
+# ########################################
 # Rules and Policies page (info.php)
 msgid "Read our rules and policies"
 msgstr "Zasady i reguły"
@@ -1309,7 +1309,7 @@ msgstr ""
 msgid "Statistics for %1"
 msgstr ""
 
-#########################################
+# ########################################
 # Various top table pages (top users, computers, teams)
 msgid "Top participants"
 msgstr "Najlepsi uczestnicy"
@@ -1484,10 +1484,12 @@ msgstr ""
 #~ msgid "Really delete?"
 #~ msgstr "Na pewno usunąć?"
 
-#~ msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+#~ msgid ""
+#~ "Are you sure you want to delete the message with subject &quot;%1&quot; "
+#~ "(sent by %2 on %3)?"
 #~ msgstr ""
-#~ "Jesteś pewny, że chcesz usunąć wiadomość o tytule &quot;%1&quot; (wysłaną %3 "
-#~ "przez użytkownika %2)?"
+#~ "Jesteś pewny, że chcesz usunąć wiadomość o tytule &quot;%1&quot; (wysłaną "
+#~ "%3 przez użytkownika %2)?"
 
 #~ msgid "Yes, delete"
 #~ msgstr "Tak, usuń"
@@ -1495,8 +1497,12 @@ msgstr ""
 #~ msgid "No such message."
 #~ msgstr "Nie ma takiej wiadomości."
 
-#~ msgid "Account creation is disabled for %1 at the moment. Please try again later."
-#~ msgstr "W tej chwili możliwość stworzenia konta w projekcie %1 jest zawieszona. Śledź nowinki tego projektu i jeśli chcesz, spróbuj stworzyć nowe konto za jakiś czas."
+#~ msgid ""
+#~ "Account creation is disabled for %1 at the moment. Please try again later."
+#~ msgstr ""
+#~ "W tej chwili możliwość stworzenia konta w projekcie %1 jest zawieszona. "
+#~ "Śledź nowinki tego projektu i jeśli chcesz, spróbuj stworzyć nowe konto "
+#~ "za jakiś czas."
 
 #~ msgid "USER_TABLE_NAME"
 #~ msgstr "Nazwa"
@@ -1528,9 +1534,9 @@ msgstr ""
 #~ msgid "You have no unread private messages."
 #~ msgstr "Nie masz nowych prywatnych wiadomości."
 
-#########################################
+# ########################################
 # Links from the main page
-#########################################
+# ########################################
 #~ msgid "LINKS_QA"
 #~ msgstr "Pytania i odpowiedzi"
 

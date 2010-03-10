@@ -593,7 +593,7 @@ msgstr ""
 # Gesucht: kurze und einfache Übersetzungen um den Unterschied zwischen volunteer und grid darzustellen.
 #: index.php:250
 #, php-format
-#, fuzzy
+#, fuzzy, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""

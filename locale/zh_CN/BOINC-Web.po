@@ -8,7 +8,7 @@ msgstr ""
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
@@ -690,10 +690,13 @@ msgstr "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果�
 
 #~ msgid "POLL_INTRO"
 #~ msgstr ""
-#~ "包括 Climateprediction.net、Einstein@home 和 SETI@home 在内的几个志愿计算项目都使用一个称之为 BOINC "
-#~ "的软件。如果您参加了这些项目，我们希望您能回答下面的问题。这将能帮助所有基于 BOINC 的项目提高它们的用户参与度并得到更好的科研成果。<p>请尽可"
-#~ "能多回答一些问题，然后点击页面最底部的确定按钮。如果您之前完成过这个调查，但现在有了不同的回答，请重新填写调查 － "
-#~ "您的新回答将会取代旧的。<p>要查看当前的调查结果请点击 <a href=poll_results.php>这里</a>。"
+#~ "包括 Climateprediction.net、Einstein@home 和 SETI@home 在内的几个志愿计算"
+#~ "项目都使用一个称之为 BOINC 的软件。如果您参加了这些项目，我们希望您能回答"
+#~ "下面的问题。这将能帮助所有基于 BOINC 的项目提高它们的用户参与度并得到更好"
+#~ "的科研成果。<p>请尽可能多回答一些问题，然后点击页面最底部的确定按钮。如果"
+#~ "您之前完成过这个调查，但现在有了不同的回答，请重新填写调查 － 您的新回答将"
+#~ "会取代旧的。<p>要查看当前的调查结果请点击 <a href=poll_results.php>这里</"
+#~ "a>。"
 
 #~ msgid "POLL_RUN"
 #~ msgstr "您使用 BOINC 吗？"
@@ -918,7 +921,8 @@ msgstr "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果�
 #~ msgstr "不使用"
 
 #~ msgid "POLL_HELP"
-#~ msgstr "如果碰到 BOINC平台 或 BOINC 平台上的计算项目的相关问题，您会去哪寻求帮助？"
+#~ msgstr ""
+#~ "如果碰到 BOINC平台 或 BOINC 平台上的计算项目的相关问题，您会去哪寻求帮助？"
 
 #~ msgid "POLL_HELP_PMB"
 #~ msgstr "项目留言板"
@@ -957,7 +961,9 @@ msgstr "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果�
 #~ msgstr "调查结果"
 
 #~ msgid "POLL_RESULTS_TEXT"
-#~ msgstr "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果，该页面每小时更新一次。"
+#~ msgstr ""
+#~ "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果，该页面每小时更"
+#~ "新一次。"
 
 #~ msgid "Other systems"
 #~ msgstr "其它系统"
@@ -968,16 +974,19 @@ msgstr "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果�
 #~ msgid "%s make your own client software %s or"
 #~ msgstr "%s 制作您自己的客户端软件 %s 或者"
 
-#~ msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
+#~ msgid ""
+#~ "%s download executables from a third-party site %s (available for Solaris/"
+#~ "Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
 #~ msgstr ""
-#~ "%s 从第三方网站下载相应的可执行文件 %s (包括 Solaris/Opteron、Linux/Opteron、 Linux/PPC、HP-UX 以及 "
-#~ "FreeBSD 等等)。"
+#~ "%s 从第三方网站下载相应的可执行文件 %s (包括 Solaris/Opteron、Linux/"
+#~ "Opteron、 Linux/PPC、HP-UX 以及 FreeBSD 等等)。"
 
 #~ msgid "DL_MIRRORS"
 #~ msgstr ""
-#~ "注意：文件是从包括 boinc.berkeley.edu、morel.mit.edu、einstein.aei.mpg.de、einstein.astr"
-#~ "o.gla.ac.uk、einstein.ligo.caltech.edu 以及 einstein.aset.psu.edu "
-#~ "在内的镜像服务器下载的，感谢提供下载服务的这些机构。下载服务器是随机选择的，如果下载失败，请尝试刷新页面后重新下载。"
+#~ "注意：文件是从包括 boinc.berkeley.edu、morel.mit.edu、einstein.aei.mpg."
+#~ "de、einstein.astro.gla.ac.uk、einstein.ligo.caltech.edu 以及 einstein."
+#~ "aset.psu.edu 在内的镜像服务器下载的，感谢提供下载服务的这些机构。下载服务"
+#~ "器是随机选择的，如果下载失败，请尝试刷新页面后重新下载。"
 
 # ############################################<br />
 # <br />
@@ -995,18 +1004,21 @@ msgstr "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果�
 
 #~ msgid "HELP_P1_1"
 #~ msgstr ""
-#~ "BOINC 的在线帮助让您可以一对一地与有经验的 BOINC 用户进行交谈，他们可以：%s回答您关于 BOINC "
-#~ "以及志愿计算的问题；%s带您完成安装及使用 BOINC 的过程；%s解决您可能有的任何问题。"
+#~ "BOINC 的在线帮助让您可以一对一地与有经验的 BOINC 用户进行交谈，他们可以：%"
+#~ "s回答您关于 BOINC 以及志愿计算的问题；%s带您完成安装及使用 BOINC 的过程；%"
+#~ "s解决您可能有的任何问题。"
 
 #~ msgid "HELP_P1_2"
 #~ msgstr ""
-#~ "BOINC 的在线帮助基于 %sSkype%s，一个基于互联网的电话系统。Skype 可以免费使用（包括软件本身及使用该软件进行通话）。如果您还没没有 "
-#~ "Skype，请 %s现在就下载并安装它%s。当您完成后再回到这个页面。"
+#~ "BOINC 的在线帮助基于 %sSkype%s，一个基于互联网的电话系统。Skype 可以免费使"
+#~ "用（包括软件本身及使用该软件进行通话）。如果您还没没有 Skype，请 %s现在就"
+#~ "下载并安装它%s。当您完成后再回到这个页面。"
 
 #~ msgid "HELP_P1_3"
 #~ msgstr ""
-#~ "得到帮助的最好途径是通过声音，您的计算机必须拥有一个内置的麦克和扬声器或外接的耳麦。另外，您也可以使用 Skype "
-#~ "的文本聊天系统或者普通的电子邮件（如果您不使用 Skype）和志愿帮助者进行交流。"
+#~ "得到帮助的最好途径是通过声音，您的计算机必须拥有一个内置的麦克和扬声器或外"
+#~ "接的耳麦。另外，您也可以使用 Skype 的文本聊天系统或者普通的电子邮件（如果"
+#~ "您不使用 Skype）和志愿帮助者进行交流。"
 
 #~ msgid "HELP_P1_4"
 #~ msgstr "志愿帮助者们使用的语言有如下几种，请选择一种："
@@ -1033,10 +1045,13 @@ msgstr "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果�
 #~ msgstr "成为一位志愿帮助者"
 
 #~ msgid "HELP_P3_1"
-#~ msgstr "如果您是一位有经验的 BOINC 用户，我们鼓励您 %s成为一位志愿帮助者%s。这对于科学研究和志愿计算都大有益处 － 而且还很有趣！"
+#~ msgstr ""
+#~ "如果您是一位有经验的 BOINC 用户，我们鼓励您 %s成为一位志愿帮助者%s。这对于"
+#~ "科学研究和志愿计算都大有益处 － 而且还很有趣！"
 
 #~ msgid "HELP_P3_2"
-#~ msgstr "如果您已经是一位志愿帮助者并且想要编辑您的参数设置，请 %s点击这里%s。"
+#~ msgstr ""
+#~ "如果您已经是一位志愿帮助者并且想要编辑您的参数设置，请 %s点击这里%s。"
 
 # ############################################<br />
 # <br />
@@ -1051,15 +1066,20 @@ msgstr "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果�
 
 #~ msgid "HOME_P1"
 #~ msgstr ""
-#~ "只需要简单并且安全的几个操作，就可以将计算机 (包括 Windows、Mac 以及Linux) "
-#~ "的闲置时间用来帮助治疗疾病、研究全球变暖、发现脉冲星以及其它多种类型的科学研究：%s选择%s 项目%s下载%s 并运行 BOINC 软件%s输入%s "
-#~ "您的电子邮件地址以及项目密码。"
+#~ "只需要简单并且安全的几个操作，就可以将计算机 (包括 Windows、Mac 以及"
+#~ "Linux) 的闲置时间用来帮助治疗疾病、研究全球变暖、发现脉冲星以及其它多种类"
+#~ "型的科学研究：%s选择%s 项目%s下载%s 并运行 BOINC 软件%s输入%s 您的电子邮件"
+#~ "地址以及项目密码。"
 
 #~ msgid "HOME_P2"
-#~ msgstr "如果参加了多个项目，您可以使用 %s帐户管理器%s 来简化您的日常操作，比如 %sGridRepublic%s 或者 %sBAM!%s。"
+#~ msgstr ""
+#~ "如果参加了多个项目，您可以使用 %s帐户管理器%s 来简化您的日常操作，比如 %"
+#~ "sGridRepublic%s 或者 %sBAM!%s。"
 
 #~ msgid "HOME_P3"
-#~ msgstr "如果有任何相关问题，或者需要一些帮助，您还可以 %s和很乐意帮忙的志愿者们进行交谈%s。"
+#~ msgstr ""
+#~ "如果有任何相关问题，或者需要一些帮助，您还可以 %s和很乐意帮忙的志愿者们进"
+#~ "行交谈%s。"
 
 #~ msgid "HOME_DOWNLOAD"
 #~ msgstr "下载"

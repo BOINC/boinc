@@ -659,7 +659,16 @@ msgstr ""
 
 #~ msgid "POLL_INTRO"
 #~ msgstr ""
-#~ "Algúns proxectos voluntarios de cálculo computacional, incluíndo  Climateprediction.net, Einstein@home, e SETI@home, usan un software chamado BOINC. Se participa en proxectos como estes, pedímoslle que responda ás seguintes preguntas. Isto axudará aos proxectos baseados en BOINC a incrementar a participación e acadar mellores resultados científicos.  <p> Por favor, reponda a tódalas preguntas que desexe, e despois vaia ao final da páxina e prema OK . Se completou a enquisa anteriormente pero as súas respostas cambiaron, por favor, compléteo de novo - as súas novas respostas remplazarán ás anteriores.  <p> Os resultados actuais da enquisa están <a href=poll_results.php>aquí</a>. "
+#~ "Algúns proxectos voluntarios de cálculo computacional, incluíndo  "
+#~ "Climateprediction.net, Einstein@home, e SETI@home, usan un software "
+#~ "chamado BOINC. Se participa en proxectos como estes, pedímoslle que "
+#~ "responda ás seguintes preguntas. Isto axudará aos proxectos baseados en "
+#~ "BOINC a incrementar a participación e acadar mellores resultados "
+#~ "científicos.  <p> Por favor, reponda a tódalas preguntas que desexe, e "
+#~ "despois vaia ao final da páxina e prema OK . Se completou a enquisa "
+#~ "anteriormente pero as súas respostas cambiaron, por favor, compléteo de "
+#~ "novo - as súas novas respostas remplazarán ás anteriores.  <p> Os "
+#~ "resultados actuais da enquisa están <a href=poll_results.php>aquí</a>. "
 
 #~ msgid "POLL_RUN"
 #~ msgstr "Utiliza o BOINC?"
@@ -680,7 +689,9 @@ msgstr ""
 #~ msgstr "Comentarios"
 
 #~ msgid "POLL_COMMENTS_QUESTION"
-#~ msgstr "Por favor, suxira formas nas que BOINC e os proxectos que o utilizan, poidan ser mellorados:"
+#~ msgstr ""
+#~ "Por favor, suxira formas nas que BOINC e os proxectos que o utilizan, "
+#~ "poidan ser mellorados:"
 
 #~ msgid "POLL_OTHER"
 #~ msgstr "Outros:"
@@ -824,7 +835,9 @@ msgstr ""
 #~ msgstr "Noutros sitios web"
 
 #~ msgid "POLL_FACTOR"
-#~ msgstr "Cales son os factores máis importantes cando decide unirse a un proxecto do BOINC?"
+#~ msgstr ""
+#~ "Cales son os factores máis importantes cando decide unirse a un proxecto "
+#~ "do BOINC?"
 
 #~ msgid "POLL_GRAPHICS"
 #~ msgstr "Protector de pantalla con gráficas atractivas"
@@ -884,7 +897,9 @@ msgstr ""
 #~ msgstr "non os uso"
 
 #~ msgid "POLL_HELP"
-#~ msgstr "De onde obtén a información para resolver os problemas co BOINC e/ou os seus proxectos?"
+#~ msgstr ""
+#~ "De onde obtén a información para resolver os problemas co BOINC e/ou os "
+#~ "seus proxectos?"
 
 #~ msgid "POLL_HELP_PMB"
 #~ msgstr "Os foros de mensaxes do proxecto"
@@ -911,7 +926,9 @@ msgstr ""
 #~ msgstr "Erro - non se gardaron os resultados"
 
 #~ msgid "POLL_ERROR_TEXT"
-#~ msgstr "Un erro interno impediunos gardar as súas respostas á enquisa. Por favor inténteo de novo máis tarde."
+#~ msgstr ""
+#~ "Un erro interno impediunos gardar as súas respostas á enquisa. Por favor "
+#~ "inténteo de novo máis tarde."
 
 #~ msgid "POLL_RECORDED"
 #~ msgstr "Respostas á enquisa gardadas"
@@ -923,26 +940,38 @@ msgstr ""
 #~ msgstr "Resultados da enquisa"
 
 #~ msgid "POLL_RESULTS_TEXT"
-#~ msgstr "Estes son os resultados actuais da <a href=poll.php>enquisa a usuarios do BOINC</a>. Esta páxina actualízase cada hora."
+#~ msgstr ""
+#~ "Estes son os resultados actuais da <a href=poll.php>enquisa a usuarios do "
+#~ "BOINC</a>. Esta páxina actualízase cada hora."
 
 #~ msgid "Other systems"
 #~ msgstr "Outros sistemas"
 
 #~ msgid "If your computer is not of one of the above types, you can"
-#~ msgstr "Se o seu computador non é de ningún tipo dos anteriores, vostede pode"
+#~ msgstr ""
+#~ "Se o seu computador non é de ningún tipo dos anteriores, vostede pode"
 
 #~ msgid "%s make your own client software %s or"
 #~ msgstr "%s crear o seu propio programa cliente %s ou"
 
-#~ msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
-#~ msgstr "%s obter executables de sitios web de terceiros %s (dispoñibles para Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD, e outros)."
+#~ msgid ""
+#~ "%s download executables from a third-party site %s (available for Solaris/"
+#~ "Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
+#~ msgstr ""
+#~ "%s obter executables de sitios web de terceiros %s (dispoñibles para "
+#~ "Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD, e outros)."
 
 #~ msgid "DL_MIRRORS"
-#~ msgstr "Nota: os arquivos son descargados de servidores espello en boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, e einstein.aset.psu.edu (grazas a estas institucións). O servidor é elixido aleatoriamente - se a descarga falla, recargue esta páxina e inténteo de novo."
+#~ msgstr ""
+#~ "Nota: os arquivos son descargados de servidores espello en boinc.berkeley."
+#~ "edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, "
+#~ "einstein.ligo.caltech.edu, e einstein.aset.psu.edu (grazas a estas "
+#~ "institucións). O servidor é elixido aleatoriamente - se a descarga falla, "
+#~ "recargue esta páxina e inténteo de novo."
 
-##############################################
+# #############################################
 # help.php
-##############################################
+# #############################################
 #~ msgid "HELP_TITLE"
 #~ msgstr "Axuda para o BOINC"
 
@@ -950,16 +979,30 @@ msgstr ""
 #~ msgstr "Axuda en liña"
 
 #~ msgid "HELP_P1_1"
-#~ msgstr "A axuda Online do BOINC permítelle falar directamente con usuarios do BOINC con experiencia, que poden: %s contestar preguntas sobre o BOINC e computación voluntaria; %s guiaráo no proceso de instalar e usar BOINC; %s resolverá calquer problema que puidera ter."
+#~ msgstr ""
+#~ "A axuda Online do BOINC permítelle falar directamente con usuarios do "
+#~ "BOINC con experiencia, que poden: %s contestar preguntas sobre o BOINC e "
+#~ "computación voluntaria; %s guiaráo no proceso de instalar e usar BOINC; %"
+#~ "s resolverá calquer problema que puidera ter."
 
 #~ msgid "HELP_P1_2"
-#~ msgstr "A axuda Online do BOINC está baseada no %sSkype%s, un sistema de telefonía baseado na Internet. Skype é gratuito (o programa e as chamadas). Se aínda non ten Skype, por favor, %sdescárgueo e instáleo agora%s. Cando remate, volva a esta páxina."
+#~ msgstr ""
+#~ "A axuda Online do BOINC está baseada no %sSkype%s, un sistema de "
+#~ "telefonía baseado na Internet. Skype é gratuito (o programa e as "
+#~ "chamadas). Se aínda non ten Skype, por favor, %sdescárgueo e instáleo "
+#~ "agora%s. Cando remate, volva a esta páxina."
 
 #~ msgid "HELP_P1_3"
-#~ msgstr "O mellor xeito de obter axuda é por voz, para o que precisa micrófono e altavoces integrados ou externos. Pode usar tamén o chat baseado en texto de Skype ou coreo electrónico normal (se non ten Skype) para comunicarse con Voluntarios para Axuda."
+#~ msgstr ""
+#~ "O mellor xeito de obter axuda é por voz, para o que precisa micrófono e "
+#~ "altavoces integrados ou externos. Pode usar tamén o chat baseado en texto "
+#~ "de Skype ou coreo electrónico normal (se non ten Skype) para comunicarse "
+#~ "con Voluntarios para Axuda."
 
 #~ msgid "HELP_P1_4"
-#~ msgstr "Hai dispoñibles Voluntarios que falan distintos idiomas. Por favor, seleccione un idioma: "
+#~ msgstr ""
+#~ "Hai dispoñibles Voluntarios que falan distintos idiomas. Por favor, "
+#~ "seleccione un idioma: "
 
 #~ msgid "HELP_HEADING2"
 #~ msgstr "Axuda para o BOINC na web"
@@ -983,25 +1026,40 @@ msgstr ""
 #~ msgstr "Sexa Voluntario para Axuda"
 
 #~ msgid "HELP_P3_1"
-#~ msgstr "Se vostede é un usuario do BOINC con experiencia, animámolo a %sser un Voluntario para Axuda%s. Este é un gran xeito de axudar á causa da investigación científica e computación voluntaria - ademáis é divertido!"
+#~ msgstr ""
+#~ "Se vostede é un usuario do BOINC con experiencia, animámolo a %sser un "
+#~ "Voluntario para Axuda%s. Este é un gran xeito de axudar á causa da "
+#~ "investigación científica e computación voluntaria - ademáis é divertido!"
 
 #~ msgid "HELP_P3_2"
-#~ msgstr "Se vostede é xa un Voluntario para Axuda: para editar as súas preferencias, %sprema aquí%s. "
+#~ msgstr ""
+#~ "Se vostede é xa un Voluntario para Axuda: para editar as súas "
+#~ "preferencias, %sprema aquí%s. "
 
-##############################################
+# #############################################
 # index.php
-##############################################
+# #############################################
 #~ msgid "HOME_HEADING1"
 #~ msgstr "Voluntario"
 
 #~ msgid "HOME_P1"
-#~ msgstr "Use o tempo de inactividade do seu computador (Windows, Mac, ou Linux) para curar enfermidades, estudiar o quencemento global, descubra púlsares, e faga moitos outros tipos de investigación científica. É seguro, protexido, e doado: %sEscolla%s proxectos %sDescargue%s e execute o programa BOINC %sIntroduza%s un enderezo de correo electrónico e un contrasinal."
+#~ msgstr ""
+#~ "Use o tempo de inactividade do seu computador (Windows, Mac, ou Linux) "
+#~ "para curar enfermidades, estudiar o quencemento global, descubra "
+#~ "púlsares, e faga moitos outros tipos de investigación científica. É "
+#~ "seguro, protexido, e doado: %sEscolla%s proxectos %sDescargue%s e execute "
+#~ "o programa BOINC %sIntroduza%s un enderezo de correo electrónico e un "
+#~ "contrasinal."
 
 #~ msgid "HOME_P2"
-#~ msgstr "Ou, se vostede executa varios proxectos, probe un %sxestor de contas%s coma %sGridRepublic%s ou %sBAM!%s. "
+#~ msgstr ""
+#~ "Ou, se vostede executa varios proxectos, probe un %sxestor de contas%s "
+#~ "coma %sGridRepublic%s ou %sBAM!%s. "
 
 #~ msgid "HOME_P3"
-#~ msgstr "Se ten algunha pregunta, ou precisa axuda para comezar, pode %sfalar cun Voluntario para Axuda%s. "
+#~ msgstr ""
+#~ "Se ten algunha pregunta, ou precisa axuda para comezar, pode %sfalar cun "
+#~ "Voluntario para Axuda%s. "
 
 #~ msgid "HOME_DOWNLOAD"
 #~ msgstr "Descargar"
@@ -1019,4 +1077,6 @@ msgstr ""
 #~ msgstr "Infraestrutura Aberta de Berkeley para Computación en Rede (BOINC)"
 
 #~ msgid "HOME_BOINC_DESC"
-#~ msgstr "Programas de código aberto para %scomputación voluntaria%s e %scomputación en rede (grid)%s"
+#~ msgstr ""
+#~ "Programas de código aberto para %scomputación voluntaria%s e %"
+#~ "scomputación en rede (grid)%s"

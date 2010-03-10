@@ -8,7 +8,7 @@ msgstr ""
 "Language-Team: \n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
@@ -29,12 +29,12 @@ msgstr "Keresés a fórumokban"
 msgid "Advanced search"
 msgstr "Részletes keresés"
 
-#########################################
+# ########################################
 # Private messages
 msgid "Private messages"
 msgstr "Személyes üzenetek"
 
-#########################################
+# ########################################
 # Links from the main page
 msgid "Questions and Answers"
 msgstr "Kérdések és válaszok"
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Thread"
 msgstr "Téma"
 
-#########################################
+# ########################################
 # Forum
 msgid "Posts"
 msgstr "Üzenetek"
@@ -500,7 +500,7 @@ msgstr "Függő kérés"
 msgid "Add as friend"
 msgstr "Ismerősként hozzáad"
 
-##########################################
+# #########################################
 # Language: English (International)
 # FileID  : $Id$
 # Author  : Janus Kristensen
@@ -524,12 +524,12 @@ msgstr "Válassza ki, melyik országot képviseli, ha van ilyen."
 msgid "Postal or ZIP Code"
 msgstr "Irányítószám"
 
-#########################################
+# ########################################
 # General stuff (create_account_form.php and others)
 msgid "Optional"
 msgstr "Választható"
 
-#########################################
+# ########################################
 # Apps page (apps.php)
 msgid "Applications"
 msgstr "Alkalmazások"
@@ -560,7 +560,7 @@ msgstr "Új fiók létrehozásához Önnek meghívókóddal kell rendelkeznie."
 msgid "The invitation code you gave is not valid."
 msgstr "Az Ön által megadott meghívó"
 
-#########################################
+# ########################################
 # Create account form (create_account_form.php)
 msgid "Create an account"
 msgstr "Fiók létrehozása"
@@ -753,7 +753,7 @@ msgstr "Cím"
 msgid "Add my signature to this post"
 msgstr "Aláírás hozzáadása ehhez az üzenethez"
 
-#########################################
+# ########################################
 # Forum sample index page
 msgid "%1 Message boards"
 msgstr "%1 Üzenőfalak"
@@ -774,7 +774,7 @@ msgstr "Új téma létrehozása"
 msgid "Post to thread"
 msgstr "Küldés a témához"
 
-#########################################
+# ########################################
 # Forum search features
 msgid "Forum search"
 msgstr "Keresés a fórumban"
@@ -788,7 +788,7 @@ msgstr "Nincs téma %1 azonosítóval. Ellenőrizze a linket, és próbálja új
 msgid "This forum is not visible to you."
 msgstr "Ez a fórum nem látható az Ön részére."
 
-#########################################
+# ########################################
 # Forum thread
 msgid "This thread has been hidden for administrative purposes"
 msgstr "Ezt a témát adminisztratív okokból rejtetté tették"
@@ -994,12 +994,12 @@ msgstr ""
 "Fiókbeállításainak megtekintéséhez és megváltoztatásához használja az alábbi "
 "linkeket."
 
-#########################################
+# ########################################
 # "Your account" page (home.php)
 msgid "Your account"
 msgstr "Az Ön fiókja"
 
-#########################################
+# ########################################
 # Rules and Policies page (info.php)
 msgid "Read our rules and policies"
 msgstr "Olvassa el a szabályokat és eljárásokat"
@@ -1345,7 +1345,7 @@ msgstr "Statisztikák és helyezési listák"
 msgid "Statistics for %1"
 msgstr "Statisztikák %1 részére"
 
-#########################################
+# ########################################
 # Various top table pages (top users, computers, teams)
 msgid "Top participants"
 msgstr "Kiemelkedő résztvevők"
@@ -1454,7 +1454,7 @@ msgstr "Ez a felhasználó nem adott meg magáról semmit"
 msgid "Account data"
 msgstr "Fiók adatok"
 
-#########################################
+# ########################################
 # "Weak account key" page (weak_auth.php)
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
@@ -1519,7 +1519,9 @@ msgstr ""
 #~ msgid "Really delete?"
 #~ msgstr "Valóban törli?"
 
-#~ msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+#~ msgid ""
+#~ "Are you sure you want to delete the message with subject &quot;%1&quot; "
+#~ "(sent by %2 on %3)?"
 #~ msgstr ""
 #~ "Biztosan törölni akarja a &quot;%1&quot; tárgyú, (küldte: %2, ekkor: %3) "
 #~ "üzenetet?"
@@ -1531,8 +1533,11 @@ msgstr ""
 #~ msgid "No such message."
 #~ msgstr "Nincs ilyen üzenet"
 
-#~ msgid "Account creation is disabled for %1 at the moment. Please try again later."
-#~ msgstr "A fióklétrehozás a(z) %1 projekthez jelenleg le van tiltva. Kérjük, próbálja újra később."
+#~ msgid ""
+#~ "Account creation is disabled for %1 at the moment. Please try again later."
+#~ msgstr ""
+#~ "A fióklétrehozás a(z) %1 projekthez jelenleg le van tiltva. Kérjük, "
+#~ "próbálja újra később."
 
 #~ msgid "Edit message"
 #~ msgstr "Üzenet szerkesztése"
