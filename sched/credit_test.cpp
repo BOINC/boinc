@@ -15,10 +15,10 @@
 
 #define NJOBS   100000
     // scan this many jobs
-#define MAX_CLAIMED_CREDIT  1e3
+#define MAX_CLAIMED_CREDIT  1e4
     // Ignore jobs whose claimed (old) credit is greater than this.
     // Rejects jobs with garbage values.
-#define MIN_CLAIMED_CREDIT 50.0
+#define MIN_CLAIMED_CREDIT 10.0
     // Ignore jobs whose claimed (old) credit is less than this.
     // Small jobs are noisy.
 #define COBBLESTONE_SCALE 100/86400e9
@@ -31,55 +31,30 @@
     // don't update a version's scale unless it has this many samples,
     // and don't accumulate stats until this occurs
 
-#define RSC_TYPE_CPU    -1
-#define RSC_TYPE_CUDA   -2
-#define RSC_TYPE_ATI    -3
-
-// guess (by looking at stderr_out) which type of app processed this job.
-// This is needed for jobs from pre-6.10 clients,
-// where the client doesn't report this.
-// THIS IS PROJECT-SPECIFIC: YOU'LL NEED TO EDIT THIS
-//
-int get_rsc_type(RESULT& r) {
-    if (strstr(r.stderr_out, "CUDA")) return RSC_TYPE_CUDA;
-    if (strstr(r.stderr_out, "ATI")) return RSC_TYPE_ATI;
-    return RSC_TYPE_CPU;
-}
-
-inline const char* rsc_type_name(int t) {
-    switch (t) {
-    case RSC_TYPE_CPU: return "CPU";
-    case RSC_TYPE_CUDA: return "NVIDIA";
-    case RSC_TYPE_ATI: return "ATI";
-    }
-}
-
 struct HOST_APP_VERSION {
     int host_id;
-    int app_version_id;     // -1 means anon platform
+    int app_version_id;     // 0 unknown, -1 anon platform
+    int app_id;     // if unknown or anon platform
     AVERAGE pfc;
     AVERAGE et;
-
-    HOST_APP_VERSION() : pfc(50, .01, 10), et(50, .01, 10) {}
 };
 
 vector<APP_VERSION> app_versions;
 vector<APP> apps;
 vector<HOST_APP_VERSION> host_app_versions;
 vector<PLATFORM> platforms;
-int windows_platformid;
-int linux_platformid;
-int mac_platformid;
 bool accumulate_stats = false;
+    // set to true after warm-up period
 
 void read_db() {
     DB_APP app;
     DB_APP_VERSION av;
 
-    while (!app.enumerate("where deprecated=0")) {
+    while (!app.enumerate("")) {
         apps.push_back(app);
     }
     while (!av.enumerate("where deprecated=0 order by id desc")) {
+        av.pfc.init(5000, .005, 10);
         av.pfc_scale_factor = 1;
         //if (strstr(av.plan_class, "cuda")) {
         //    av.pfc_scale_factor = 0.15;
@@ -89,15 +64,6 @@ void read_db() {
     DB_PLATFORM platform;
     while (!platform.enumerate("")) {
         platforms.push_back(platform);
-        if (!strcmp(platform.name, "windows_intelx86")) {
-            windows_platformid = platform.id;
-        }
-        if (!strcmp(platform.name, "i686-pc-linux-gnu")) {
-            linux_platformid = platform.id;
-        }
-        if (!strcmp(platform.name, "i686-apple-darwin")) {
-            mac_platformid = platform.id;
-        }
     }
 }
 
@@ -120,57 +86,13 @@ APP_VERSION* lookup_av(int id) {
     exit(1);
 }
 
-// find CPU app version matching host's OS
-// Note: app_versions is sorted by decreasing ID
-// so we'll automatically find the newest one
-//
-APP_VERSION* lookup_av_old(int appid, HOST& host) {
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        APP_VERSION& av = app_versions[i];
-        if (av.appid != appid) continue;
-        if (strlen(av.plan_class)) continue;
-        if (av.platformid == windows_platformid && strstr(host.os_name, "Microsoft") != NULL ) return &av;
-        if (av.platformid == mac_platformid && strstr(host.os_name, "Darwin") != NULL ) return &av;
-        if (av.platformid == linux_platformid && strstr(host.os_name, "Linux") != NULL ) return &av;        
-    }
-    printf(" missing app version app %d type %s\n", appid, host.os_name);
-    return 0;
-}
-
-// find the newest Windows app version for the given resource type,
-// if there is one.
-//
-APP_VERSION* lookup_av_anon(int appid, int rsc_type) {
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        APP_VERSION& av = app_versions[i];
-        if (av.appid != appid) continue;
-        if (av.platformid != windows_platformid) continue;
-        switch(rsc_type) {
-        case RSC_TYPE_CPU:
-            if (strlen(av.plan_class)) continue;
-            break;
-        case RSC_TYPE_CUDA:
-            if (strcmp(av.plan_class, "cuda")) continue;
-            break;
-        case RSC_TYPE_ATI:
-            if (strcmp(av.plan_class, "ati")) continue;
-            break;
-        }
-        return &av;
-    }
-    printf(" missing app version app %d type %d\n", appid, rsc_type);
-    return 0;
-}
-
 APP& lookup_app(int id) {
     unsigned int i;
     for (i=0; i<apps.size(); i++) {
         APP& app = apps[i];
         if (app.id == id) return app;
     }
-    printf("missing app%d\n", id);
+    printf("missing app: %d\n", id);
 }
 
 HOST_APP_VERSION& lookup_host_app_version(int hostid, int avid) {
@@ -184,6 +106,8 @@ HOST_APP_VERSION& lookup_host_app_version(int hostid, int avid) {
     HOST_APP_VERSION h;
     h.host_id = hostid;
     h.app_version_id = avid;
+    h.pfc.init(50, .01, 10);
+    h.et.init(50, .01, 10);
     host_app_versions.push_back(h);
     return host_app_versions.back();
 }
@@ -218,13 +142,16 @@ void lookup_host(DB_HOST& h, int id) {
     }
 }
 
-// update app version scale factors
+// update app version scale factors,
+// and find the min average PFC for each app
 //
 void update_av_scales() {
     unsigned int i, j;
     printf("----- updating scales --------\n");
     for (i=0; i<apps.size(); i++) {
         APP& app = apps[i];
+
+        app.min_avg_pfc = 1e9;
 
         // find the average PFC of CPU and GPU versions
 
@@ -268,10 +195,11 @@ void update_av_scales() {
             if (gpu_n) {
                 min_avg = gpu_avg;
             } else {
-                return;
+                continue;
             }
         }
 
+        app.min_avg_pfc = min_avg;
 
         // update scale factors
         //
@@ -294,123 +222,76 @@ void update_av_scales() {
     printf("-------------\n");
 }
 
-// Compute or estimate peak FLOP count (PFC).
-// This is done as follows:
-// if new client (reports elapsed time etc.)
-//    if anonymous platform
-//       user may not have set flops_estimate correctly.
-//       So, if it looks like CUDA app (from stderr)
-//       use the CUDA average PFC (but don't update the CUDA avg)
-//       Otherwise use CPU speed
-//    else
-//       use ET*flops_est
-// else
-//    if it looks like CUDA app, use CUDA avg
-//    else use CPU
+// Compute or estimate normalized peak FLOP count (PFC),
+// and update data structures.
+// Return false if the PFC is an average.
 //
-bool get_credit(RESULT& r, double& new_claimed_credit) {
-    double pfc;
+bool get_pfc(RESULT& r, double& pfc) {
     APP_VERSION* avp = NULL;
     DB_HOST host;
     int rsc_type;
 
+    APP& app = lookup_app(r.appid);
+    HOST_APP_VERSION& hav = lookup_host_app_version(
+        r.hostid, r.app_version_id
+    );
+
     if (r.elapsed_time && r.flops_estimate && r.app_version_id) {
         // new client
+        hav.et.update(r.elapsed_time);
         if (r.app_version_id < 0) {
-            // user is using anon platform app.
-            // Don't trust the FLOPS estimate.
-            // If it's a CPU app, use benchmarks*time.
-            // Otherwise use mean PFC for (resource type, app)
+            // anon platform
             //
-            rsc_type = get_rsc_type(r);
-            printf("  anonymous platform, rsc type %s\n",
-                rsc_type_name(rsc_type)
-            );
-            if (rsc_type == RSC_TYPE_CPU) {
-                lookup_host(host, r.hostid);
-                pfc = host.p_fpops * r.elapsed_time;
-            } else {
-                avp = lookup_av_anon(r.appid, rsc_type);
-                if (!avp) {
-                    printf(" no version for resource type %s; skipping\n",
-                        rsc_type_name(rsc_type)
-                    );
-                    return false;
-                }
-                if (avp->pfc.n < 10) {
-                    printf(
-                        "  app version %d has too few samples %f; skipping\n",
-                        avp->id, avp->pfc.n
-                    );
-                    return false;
-                }
-                pfc = avp->pfc.get_avg();
-                printf("  using mean PFC: %.0fG\n", pfc/1e9);
+            pfc = app.min_avg_pfc;
+            if (hav.et.n > MIN_HOST_SCALE_SAMPLES) {
+                pfc *= r.elapsed_time/hav.et.get_avg();
             }
-            printf("  PFC: %.0fG raw credit: %.2f\n",
-                pfc/1e9, pfc*COBBLESTONE_SCALE
-            );
+            printf("  skipping: anon platform\n");
+            return false;
         } else {
             pfc = r.elapsed_time * r.flops_estimate;
             avp = lookup_av(r.app_version_id);
             printf("  sec: %.0f GFLOPS: %.0f PFC: %.0fG raw credit: %.2f\n",
                 r.elapsed_time, r.flops_estimate/1e9, pfc/1e9, pfc*COBBLESTONE_SCALE
             );
-            avp->pfc.update(pfc);
         }
     } else {
         // old client
-        rsc_type = get_rsc_type(r);
-        if (rsc_type != RSC_TYPE_CPU) {
-            // ignore GPU jobs since old client doesn't report elapsed time
-            
-            printf("  old client, GPU app: skipping\n");
-            return false;
+        //
+        hav.et.update(r.cpu_time);
+        pfc = app.min_avg_pfc;
+        if (hav.et.n > MIN_HOST_SCALE_SAMPLES) {
+            pfc *= r.elapsed_time/hav.et.get_avg();
         }
-        printf("  (old client)\n");
-        
-        lookup_host(host, r.hostid);
-        avp = lookup_av_old(r.appid, host);
-        if (!avp) return false;
-        r.elapsed_time = r.cpu_time;
-        r.flops_estimate =  host.p_fpops;
-        pfc = r.elapsed_time * r.flops_estimate;
-        printf("  sec: %.0f GFLOPS: %.0f PFC: %.0fG raw credit: %.2f\n",
-            r.elapsed_time, r.flops_estimate/1e9, pfc/1e9, pfc*COBBLESTONE_SCALE
-        );
-        avp->pfc.update(pfc);
+        printf("  skipping: old client\n");
+        return false;
     }
 
-    APP& app = lookup_app(r.appid);
+    avp->pfc.update(pfc);
 
-    double vnpfc = pfc;
+    // version normalization
 
-    if (avp) {
-        vnpfc *= avp->pfc_scale_factor;
-        PLATFORM* p = lookup_platform(avp->platformid);
-        printf("  version scale (%s %s): %f\n",
-            p->name, avp->plan_class, avp->pfc_scale_factor
-        );
-    }
+    double vnpfc = pfc * avp->pfc_scale_factor;
+
+    PLATFORM* p = lookup_platform(avp->platformid);
+    printf("  version scale (%s %s): %f\n",
+        p->name, avp->plan_class, avp->pfc_scale_factor
+    );
 
     // host normalization
 
-    HOST_APP_VERSION& hav = lookup_host_app_version(
-        r.hostid, avp?avp->id:-1
-    );
+    hav.pfc.update(pfc);
+
     double host_scale = 1;
 
     // only apply it if have at MIN_HOST_SCALE_SAMPLES
+    //
     if (hav.pfc.n >= MIN_HOST_SCALE_SAMPLES) {
         host_scale = avp->pfc.get_avg()/hav.pfc.get_avg();
         // if (host_scale > 1) host_scale = 1;
         printf("  host scale: %f\n", host_scale);
     }
-    double claimed_flops = vnpfc * host_scale;
-    new_claimed_credit = claimed_flops * COBBLESTONE_SCALE;
-
-    avp->pfc.update(pfc);
-    hav.pfc.update(pfc);
+    pfc = vnpfc * host_scale;
 
     return true;
 }
@@ -442,7 +323,11 @@ int main(int argc, char** argv) {
     }
 
     sprintf(clause,
-        "where server_state=%d and outcome=%d and claimed_credit<%f and claimed_credit>%f %s order by id desc limit %d",
+        "where server_state=%d and outcome=%d"
+        " and claimed_credit<%f and claimed_credit>%f"
+        " %s "
+        //" order by id desc "
+        " limit %d",
         RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS,
         MAX_CLAIMED_CREDIT, MIN_CLAIMED_CREDIT,
         subclause, NJOBS
@@ -457,10 +342,11 @@ int main(int argc, char** argv) {
             n, r.id, r.workunitid, r.hostid
         );
 
-        double new_claimed_credit;
-        if (!get_credit(r, new_claimed_credit)) {
+        double pfc;
+        if (!get_pfc(r, pfc)) {
             continue;
         }
+        double new_claimed_credit = pfc * COBBLESTONE_SCALE;
         printf(" new credit %.2f old credit %.2f\n",
             new_claimed_credit, r.claimed_credit
         );

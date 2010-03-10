@@ -21,10 +21,12 @@ bool AVERAGE::update(double sample) {
     double delta, limit;
     bool truncated = false;
     if (sample < 0) return true;
-    double x = (n > n_threshold) ? avg : sum/n;
-    if (sample > x*sample_limit) {
-        sample = x*sample_limit;
-        truncated = true;
+    if (n) {
+        double x = (n > n_threshold) ? avg : sum/n;
+        if (sample > x*sample_limit) {
+            sample = x*sample_limit;
+            truncated = true;
+        }
     }
     n++;
     sum += sample;
@@ -41,10 +43,12 @@ bool AVERAGE_VAR::update(double sample) {
     double delta, limit;
     bool truncated = false;
     if (sample < 0) return true;
-    double x = (n > n_threshold) ? avg : sum/n;
-    if (sample > x*sample_limit) {
-        sample = x*sample_limit;
-        truncated = true;
+    if (n) {
+        double x = (n > n_threshold) ? avg : sum/n;
+        if (sample > x*sample_limit) {
+            sample = x*sample_limit;
+            truncated = true;
+        }
     }
     n++;
     sum += sample;

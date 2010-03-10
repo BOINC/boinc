@@ -77,6 +77,8 @@ struct APP {
     bool beta;
     int target_nresults;
 
+    double min_avg_pfc;
+
     int write(FILE*);
     void clear();
 };
@@ -119,7 +121,6 @@ struct APP_VERSION {
     AVERAGE pfc;
     double pfc_scale_factor;
 
-    APP_VERSION() : pfc(50000, .005, 10) {}
     int write(FILE*);
     void clear();
 };
@@ -497,9 +498,13 @@ struct RESULT {
     int teamid;
     int priority;
     char mod_time[16];
+        // the following 3 fields returned by 6.10+ clients
     double elapsed_time;            // AKA runtime
     double flops_estimate;          // as returned by app_plan()
-    int app_version_id;             // or -1 if anonymous platform
+    int app_version_id;
+        // ID of app versions used to compute this
+        // 0 if not reported (pre-6.10 client)
+        // -1 if anonymous platform
 
     // the following used by the scheduler, but not stored in the DB
     //

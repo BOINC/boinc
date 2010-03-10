@@ -635,7 +635,8 @@ create table host_app_version (
     et_var              double      not null,
     et_sum_sq           double      not null,
     host_scale_time     double      not null,
-    scale_probagtion    tinyint     not null,
+    scale_probation     tinyint     not null,
     error_rate          double      not null,
     max_results_day     integer     not null,
+    app_id              integer     not null,
 ) engine = InnoDB;

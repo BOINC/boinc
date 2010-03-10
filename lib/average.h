@@ -40,7 +40,7 @@ struct AVERAGE {
         return avg;
     }
 
-    AVERAGE(double n_thresh, double sample_w, double sample_lim) {
+    inline void init(double n_thresh, double sample_w, double sample_lim) {
         n = 0;
         sum = 0;
         avg = 0;
@@ -61,7 +61,8 @@ struct AVERAGE_VAR : AVERAGE {
         return var;
     }
 
-    AVERAGE_VAR(double n, double w, double l):AVERAGE(n,w,l){
+    inline void init(double n, double w, double l) {
+        AVERAGE::init(n,w,l);
         var = 0;
         sum_sq = 0;
     }

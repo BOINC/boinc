@@ -1757,3 +1757,17 @@ David  8 Mar 2010
     lib/
         average.cpp,h
         Makefile.am
+
+David  9 Mar 2010
+    - server credit stuff.
+        New policy: anon platform and old platform jobs
+        get average credit, possibly scaled by elapsed time.
+        We no longer attempt to guess what app version produced them.
+
+    db/
+        boinc_db.h
+        schema.sql
+    sched/
+        credit_test.cpp
+    lib/
+        average.cpp,h
