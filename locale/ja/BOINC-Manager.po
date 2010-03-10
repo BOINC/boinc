@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-02-28 21:21+0900\n"
+"PO-Revision-Date: 2010-03-01 22:18+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -151,7 +151,6 @@ msgid "Choose an account manager"
 msgstr "アカウント・マネージャを1つ選ぶ"
 
 #: clientgui/AccountManagerInfoPage.cpp:251
-#, fuzzy
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
@@ -267,9 +266,8 @@ msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "簡易ビュー(&V)...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:371
-#, fuzzy
 msgid "Display the simple graphical interface."
-msgstr "BOINC 簡易グラフィックで表示します"
+msgstr "BOINC 簡易グラフィックインタフェースで表示します"
 
 #: clientgui/AdvancedFrame.cpp:391
 msgid "Attach to &project or account manager..."
@@ -1067,12 +1065,11 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2007 University of California, Berkeley.\n"
+"(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 
 #: clientgui/DlgAbout.cpp:179
@@ -3660,21 +3657,25 @@ msgstr "このパネルには、参加者ごとにプロジェクト横断の合
 # This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:518
 #: clientgui/mac/MacAccessiblity.cpp:640
+#, fuzzy
 msgid "blank"
 msgstr "blank"
 
 # This way of splitting the statement is not translatable into normal Japanese because it is  dependent on English word sequences.
 #: clientgui/mac/MacAccessiblity.cpp:520
+#, fuzzy
 msgid "list of "
 msgstr "list of "
 
 # This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:522
+#, fuzzy
 msgid "events"
 msgstr "events"
 
 # This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:529
+#, fuzzy
 msgid " is empty"
 msgstr " is empty"
 
@@ -3701,6 +3702,7 @@ msgstr "カラム"
 
 # This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:618
+#, fuzzy
 msgid "list is empty"
 msgstr "list is empty"
 
@@ -3740,4 +3742,3 @@ msgstr "処理をする時間帯を「HH:MM-HH:MM」の形式で指定して下�
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指定して下さい。"
-

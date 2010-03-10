@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-01-21 00:34-0700\n"
+"PO-Revision-Date: 2010-03-10 09:05-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -49,12 +49,19 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
+"A BOINC egy program, melynek segítségével a szabad gépidejét olyan "
+"tudományos projekteknek adományozhatja, mint a SETI@home, "
+"Climateprediction.net, Rosetta@home, World Community Grid, és sokan mások. "
+"<p> Számítógépre telepítés után a BOINC tetszőleges számú projekthez "
+"csalakoztatható."
 
 #: download.php:91
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"Csak olyan számítógépeken futtassa ezt a szoftvert, ahol rendelkezik a "
+"tulajdonos engedélyével."
 
 #: download.php:116
 #, php-format
@@ -62,6 +69,8 @@ msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
+"Megjegyzés: ha a számítógép tartalmaz Grafikus Processzort (GPU), akkor "
+"lehetséges, hogy az felhasználható a %sszámítások gyorsításához%s"
 
 #: download.php:122
 msgid "System requirements"
@@ -77,16 +86,15 @@ msgstr "Segítség"
 
 #: download.php:125
 msgid "All versions"
-msgstr "Minden verzió"
+msgstr "Összes verzió"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "Verziótörténet"
 
 #: download.php:143
-#, fuzzy
 msgid "BOINC: compute for science"
-msgstr "BOINC: számoljon a tudományért"
+msgstr "BOINC: számítás a tudományért"
 
 #: help.php:12
 #, php-format
@@ -96,6 +104,11 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
+"A BOINC Online Segítség lehetőséget biztosít önnek olyan tapasztalt "
+"felhasználókkal való személyes beszélgetésre, akik %s megválaszolják a "
+"BOINC-kal és az önkéntes részvétellel kapcsolatos kérdéseit; %s végigvezetik "
+"a BOINC telepítésének és használatának folyamatán; %s segítenek a felmerülő "
+"problémák megoldásában."
 
 #: help.php:21
 #, php-format
@@ -105,6 +118,10 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
+"A BOINC Online Segítség alapja a %sSkype%s, egy internetes telefonrendszer. "
+"A Skype ingyenes (a szoftver is és a hívások is). Ha önnek még nincs meg a "
+"Skype, kérem %stöltse le és telepítse most%s. Ha ezzel végzett, térjen "
+"vissza erre az oldalra."
 
 #: help.php:28
 msgid ""
@@ -113,16 +130,22 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
+"Szóban a legjobb segítséget kapni, de ehhez szüksége lesz vagy beépített "
+"mikrofonra és hangszórókra, vagy egy külső headsetre a számítógépén. "
+"Használhatja a Skype szöveg alapú chat rendszerét is, vagy akár email-címét "
+"(ha önnek nincs Skype-ja), hogy kommunikáljon az önkéntes segítőkkel."
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
 msgstr ""
+"Számos különböző nyelven áll rendelkezésre önkéntes. Kérem válasszon egy "
+"nyelvet:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr ""
+msgstr "Legyen ön is önkéntes segítő"
 
 #: help.php:50
 #, php-format
@@ -140,31 +163,31 @@ msgstr ""
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "Számítási teljesítmény"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "100 legjobb önkéntes"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Statisztika"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "Aktív:"
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "önkéntes,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "számítógép.\n"
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "24 órás átlag:"
 
 #: index.php:54
 msgid "TeraFLOPS."
@@ -172,7 +195,7 @@ msgstr ""
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Hírek"
 
 #: index.php:79
 msgid "Volunteer"
@@ -180,11 +203,11 @@ msgstr ""
 
 #: index.php:81
 msgid "Download"
-msgstr ""
+msgstr "Letöltés"
 
 #: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentáció"
 
 #: index.php:89
 #, php-format
@@ -194,6 +217,10 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
+"Használja számítógépe (Windows, Linux, Mac) üresjárási processzoridejét "
+"arra, hogy betegségeket gyógyítson, tanulmányozza a globális felmelegedést, "
+"pulzárokat fedezzen fel, vagy számos különböző tudományos kutatásban vegyen "
+"részt."
 
 #: index.php:100
 #, php-format
@@ -201,14 +228,16 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
+"Ha számos projektben vesz részt, próbáljon ki egy %sfiókkezelőt%s, mint "
+"például a %sGridRepublic%s vagy a %sBAM!%s."
 
 #: index.php:116
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "Számítás a BOINC segítségével"
 
 #: index.php:119
 msgid "Software updates"
-msgstr ""
+msgstr "Szoftverfrissítések"
 
 #: index.php:126
 msgid ""
@@ -228,23 +257,23 @@ msgstr ""
 
 #: index.php:147
 msgid "The BOINC project"
-msgstr ""
+msgstr "A BOINC projekt"
 
 #: index.php:153
 msgid "Message boards"
-msgstr ""
+msgstr "Üzenőfalak"
 
 #: index.php:154
 msgid "Email lists"
-msgstr ""
+msgstr "Levelezőlisták"
 
 #: index.php:155
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "Munkatársak és közreműködők"
 
 #: index.php:156
 msgid "Events"
-msgstr ""
+msgstr "Események"
 
 #: index.php:157
 msgid "Papers and talks"
@@ -256,11 +285,11 @@ msgstr ""
 
 #: index.php:159
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Logók és grafikák"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "és"
 
 #: index.php:164
 msgid "Help wanted"
@@ -268,23 +297,23 @@ msgstr ""
 
 #: index.php:166
 msgid "Programming"
-msgstr ""
+msgstr "Programozás"
 
 #: index.php:167
 msgid "Translation"
-msgstr ""
+msgstr "Fordítás"
 
 #: index.php:168
 msgid "Testing"
-msgstr ""
+msgstr "Tesztelés"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "Nyilvánosság"
 
 #: index.php:172
 msgid "Software development"
-msgstr ""
+msgstr "Szoftverfejlesztés"
 
 #: index.php:173
 msgid "APIs for add-on software"
@@ -292,7 +321,7 @@ msgstr ""
 
 #: index.php:207
 msgid "Browser default"
-msgstr ""
+msgstr "Böngésző alapértelmezés"
 
 #: index.php:254
 #, php-format

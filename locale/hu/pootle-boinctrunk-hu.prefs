@@ -8,3 +8,4 @@ rights:
   Csega = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   Vandorr = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  Robee = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

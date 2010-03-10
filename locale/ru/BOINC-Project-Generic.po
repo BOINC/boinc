@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-28 04:57-0700\n"
+"PO-Revision-Date: 2010-02-28 07:40-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -146,27 +146,28 @@ msgstr "IP-адрес"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(такой же последние %1 раз)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr ""
+msgstr "Внешний IP-адрес"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "Показать IP-адрес"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
-msgstr ""
+msgstr "Доменное имя"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
-msgstr ""
+msgstr "Местное Стандартное Время"
 
 #: ../inc/host.inc:97
+#, fuzzy
 msgid "UTC %1 hours"
-msgstr ""
+msgstr "UTC %1 часа"
 
 #: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:375
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
@@ -179,16 +180,15 @@ msgstr "Имя"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
 msgid "Owner"
-msgstr ""
+msgstr "Владелец"
 
 #: ../inc/host.inc:104 ../inc/host.inc:318
 msgid "Anonymous"
-msgstr ""
+msgstr "Анонимный"
 
 #: ../inc/host.inc:108 ../inc/result.inc:377
-#, fuzzy
 msgid "Created"
-msgstr "Создать"
+msgstr "Создан"
 
 #: ../inc/host.inc:109 ../inc/host.inc:217 ../inc/host.inc:222
 #: ../inc/host.inc:621 ../inc/team.inc:94 ../inc/team.inc:207
@@ -207,160 +207,176 @@ msgid "Average credit"
 msgstr "В среднем очков"
 
 #: ../inc/host.inc:112
+#, fuzzy
 msgid "Cross project credit"
-msgstr ""
+msgstr "Объединенных по проектам очков"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "Тип ЦП"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "Число процессоров"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
-msgstr ""
+msgstr "Сопроцессоры"
 
 #: ../inc/host.inc:119 ../inc/host.inc:627
 msgid "Operating System"
-msgstr ""
+msgstr "Операционная система"
 
 #: ../inc/host.inc:122
 msgid "BOINC client version"
-msgstr ""
+msgstr "Версия клиента BOINC"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "Память"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 Мб"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "Кэш"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 Кб"
 
 #: ../inc/host.inc:134
+#, fuzzy
 msgid "Swap space"
-msgstr ""
+msgstr "Виртуальная память"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "Полное дисковое пространство"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 Гб"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Свободное дисковое пространство"
 
 #: ../inc/host.inc:144
+#, fuzzy
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "Измеренная скорость вычислений с плавающей запятой"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
+#, fuzzy
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 млн операций/с"
 
 #: ../inc/host.inc:147
+#, fuzzy
 msgid "Measured integer speed"
-msgstr ""
+msgstr "Измеренная скорость целочисленных вычислений"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
+#, fuzzy
 msgid "Average upload rate"
-msgstr ""
+msgstr "Средняя скорость отправки данных"
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
-msgstr ""
+msgstr "%1 Кб/с"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:145
 #: ../inc/result.inc:155 ../inc/result.inc:173 ../inc/result.inc:205
 msgid "Unknown"
-msgstr ""
+msgstr "Неизвестно"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
+#, fuzzy
 msgid "Average download rate"
-msgstr ""
+msgstr "Средняя скорость загрузки данных"
 
 #: ../inc/host.inc:163
+#, fuzzy
 msgid "Average turnaround time"
-msgstr ""
+msgstr "Среднее оборотное время"
 
 #: ../inc/host.inc:163 ../inc/prefs.inc:841 ../inc/prefs.inc:842
 msgid "%1 days"
-msgstr ""
+msgstr "%1 дней"
 
 #: ../inc/host.inc:165
+#, fuzzy
 msgid "Maximum daily WU quota per CPU"
-msgstr ""
+msgstr "Максимальная дневная квота заданий на один ЦП"
 
 #: ../inc/host.inc:165
 msgid "%1/day"
-msgstr ""
+msgstr "%1/день"
 
 #: ../inc/host.inc:174 ../inc/host.inc:302 ../inc/user.inc:149
 msgid "Tasks"
 msgstr "Задания"
 
 #: ../inc/host.inc:178
+#, fuzzy
 msgid "Number of times client has contacted server"
-msgstr ""
+msgstr "Количество контактов клиента с сервером"
 
 #: ../inc/host.inc:179
+#, fuzzy
 msgid "Last time contacted server"
-msgstr ""
+msgstr "Время последнего контакта с сервером"
 
 #: ../inc/host.inc:180
 #, php-format
+#, fuzzy
 msgid "% of time BOINC client is running"
-msgstr ""
+msgstr "% времени работы клиента BOINC"
 
 #: ../inc/host.inc:182
 #, php-format
+#, fuzzy
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
+msgstr "% времени подключения компьютера к Интернет за время работы BOINC"
 
 #: ../inc/host.inc:184
 #, php-format
+#, fuzzy
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "% времени разрешенной работы за время работы BOINC"
 
 #: ../inc/host.inc:186
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "Средняя эффективность ЦП"
 
 #: ../inc/host.inc:189
 msgid "Task duration correction factor"
-msgstr ""
+msgstr "Фактор исправления продолжительности выполнения задачи"
 
 #: ../inc/host.inc:191 ../inc/host.inc:614
 msgid "Location"
-msgstr ""
+msgstr "Размещение"
 
 #: ../inc/host.inc:193
 msgid "Delete this computer"
-msgstr ""
+msgstr "Удалить этот компьютер"
 
 #: ../inc/host.inc:197
+#, fuzzy
 msgid "Click to"
-msgstr ""
+msgstr "Нажать чтобы"
 
 #: ../inc/host.inc:197
+#, fuzzy
 msgid "Merge this computer"
-msgstr ""
+msgstr "Объединить этот компьютер"
 
 #: ../inc/host.inc:211
 msgid "Computer info"
-msgstr ""
+msgstr "Информация о компьютере"
 
 #: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:344
 #: ../user/top_users.php:46
@@ -369,7 +385,7 @@ msgstr "Позиция"
 
 #: ../inc/host.inc:216 ../inc/host.inc:619
 msgid "Avg. credit"
-msgstr ""
+msgstr "В среднем за день"
 
 #: ../inc/host.inc:221 ../inc/team.inc:95 ../inc/team.inc:208
 #: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:350
@@ -382,101 +398,107 @@ msgstr "В среднем за день"
 
 #: ../inc/host.inc:226
 msgid "BOINC version"
-msgstr ""
+msgstr "Версия BOINC"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624
 msgid "CPU"
-msgstr ""
+msgstr "Тип ЦП"
 
 #: ../inc/host.inc:228 ../inc/host.inc:625
+#, fuzzy
 msgid "GPU"
-msgstr ""
+msgstr "Тип ГП"
 
 #: ../inc/host.inc:229
 msgid "Operating system"
-msgstr ""
+msgstr "Операционная система"
 
 #: ../inc/host.inc:281
+#, fuzzy
 msgid "(%1 processors)"
-msgstr ""
+msgstr "(%1 процессоров)"
 
 #: ../inc/host.inc:301
 msgid "Details"
-msgstr ""
+msgstr "Подробности"
 
 #: ../inc/host.inc:306
-#, fuzzy
 msgid "Cross-project stats:"
-msgstr "Объединенная статистика по проектам"
+msgstr "Объединенная статистика по проектам:"
 
 #: ../inc/host.inc:460
+#, fuzzy
 msgid "Host %1 has overlapping lifetime:"
-msgstr ""
+msgstr "У компьютера %1 наложение времени жизни:"
 
 #: ../inc/host.inc:467
+#, fuzzy
 msgid "Host %1 has an incompatible OS:"
-msgstr ""
+msgstr "У компьютера %1 несовместимая ОС:"
 
 #: ../inc/host.inc:473
+#, fuzzy
 msgid "Host %1 has an incompatible CPU:"
-msgstr ""
+msgstr "У компьютера %1 несовместимый ЦП:"
 
 #: ../inc/host.inc:540
 msgid "same host"
-msgstr ""
+msgstr "тот же самый компьютер"
 
 #: ../inc/host.inc:543
+#, fuzzy
 msgid "Can't merge host %1 into %2 - they're incompatible"
-msgstr ""
+msgstr "Невозможно объединить компьютеры %1 и %2 - они несовместимы"
 
 #: ../inc/host.inc:546
+#, fuzzy
 msgid "Merging host %1 into host %2"
-msgstr ""
+msgstr "Объединение компьютеров %1 и %2"
 
 #: ../inc/host.inc:563
+#, fuzzy
 msgid "Couldn't update credit of new computer"
-msgstr ""
+msgstr "Невозможно обновить очки нового компьютера"
 
 #: ../inc/host.inc:567
 msgid "Couldn't update results"
-msgstr ""
+msgstr "Невозможно обновить результаты"
 
 #: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "Невозможно удалить старый компьютер"
 
 #: ../inc/host.inc:574
 msgid "Retired old computer %1"
-msgstr ""
+msgstr "Старый компьютер %1 удален"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Show:"
-msgstr ""
+msgstr "Показать:"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
-#, fuzzy
 msgid "All computers"
-msgstr "Лучшие компьютеры"
+msgstr "Все компьютеры"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
-msgstr ""
+msgstr "Только компьютеры, активные за последние 30 дней"
 
 #: ../inc/host.inc:609 ../inc/result.inc:384
 msgid "Computer ID"
-msgstr ""
+msgstr "ID компьютера"
 
 #: ../inc/host.inc:622
 msgid "BOINC<br>version"
-msgstr ""
+msgstr "Версия<br>BOINC"
 
 #: ../inc/host.inc:629
 msgid "Last contact"
-msgstr ""
+msgstr "Последний контакт"
 
 #: ../inc/host.inc:678
 msgid "Merge computers by name"
-msgstr ""
+msgstr "Объединить компьютеры по имени"
 
 #: ../inc/news.inc:40
 msgid "Comment"
