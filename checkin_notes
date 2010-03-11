@@ -736,3 +736,10 @@ Rom    1 Mar 2010
     /
         configure.ac
         version.h
+
+Rom    11 Mar 2010
+    - MGR: Prevent flicker and lack of display by using the regular tooltip
+        for the Project List control on Windows.
+        
+    clientgui/
+        ProjectListCtrl.cpp, .h
