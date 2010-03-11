@@ -22,7 +22,6 @@
 //
 struct AVERAGE {
     double n;       // double to avoid integer overflow
-    double sum;
     double avg;
 
     double n_threshold;
@@ -42,7 +41,6 @@ struct AVERAGE {
 
     inline void init(double n_thresh, double sample_w, double sample_lim) {
         n = 0;
-        sum = 0;
         avg = 0;
         n_threshold = n_thresh;
         sample_weight = sample_w;
@@ -54,9 +52,9 @@ struct AVERAGE {
 //
 struct AVERAGE_VAR : AVERAGE {
     double var;
-    double sum_sq;
+    double q;
 
-    bool update(double);
+    bool update_var(double);
     inline double get_var() {
         return var;
     }
@@ -64,6 +62,6 @@ struct AVERAGE_VAR : AVERAGE {
     inline void init(double n, double w, double l) {
         AVERAGE::init(n,w,l);
         var = 0;
-        sum_sq = 0;
+        q = 0;
     }
 };

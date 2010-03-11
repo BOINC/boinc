@@ -1827,3 +1827,13 @@ Rom    11 Mar 2010
         
     clientgui/
         ProjectListCtrl.cpp, .h
+
+David  11 Mar 2010
+    - credit test program:
+        It's working pretty well; for S@h, new credit is 56% of old credit,
+        whether or not we include small-credit jobs.
+    - improve AVERAGE class (from John McLeod)
+    sched/
+        credit_test.cpp
+    lib/
+        average.cpp,h

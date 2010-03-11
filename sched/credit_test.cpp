@@ -188,6 +188,7 @@ void update_av_scales() {
     printf("----- updating scales --------\n");
     for (i=0; i<apps.size(); i++) {
         APP& app = apps[i];
+        printf("app %d\n", app.id);
         RSC_INFO cpu_info, gpu_info;
 
         // find the average PFC of CPU and GPU versions
@@ -196,8 +197,10 @@ void update_av_scales() {
             APP_VERSION& av = app_versions[j];
             if (av.appid != app.id) continue;
             if (strstr(av.plan_class, "cuda") || strstr(av.plan_class, "ati")) {
+                printf("gpu update: %d %s %f\n", av.id, av.plan_class, av.pfc.get_avg());
                 gpu_info.update(av);
             } else {
+                printf("cpu update: %d %s %f\n", av.id, av.plan_class, av.pfc.get_avg());
                 cpu_info.update(av);
             }
         }
@@ -369,9 +372,9 @@ int main(int argc, char** argv) {
                 total_old_credit += r.claimed_credit;
                 total_new_credit += new_claimed_credit;
                 nstats++;
-                //fprintf(f, "%d %d %.2f %.2f\n",
-                //    r.workunitid, r.id, new_claimed_credit, r.claimed_credit
-                //);
+                fprintf(f, "%d %d %.2f %.2f\n",
+                    r.workunitid, r.id, new_claimed_credit, r.claimed_credit
+                );
             } else {
                 printf("  not accumulated\n");
             }

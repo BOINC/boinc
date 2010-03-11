@@ -22,16 +22,14 @@ bool AVERAGE::update(double sample) {
     bool truncated = false;
     if (sample < 0) return true;
     if (n) {
-        double x = (n > n_threshold) ? avg : sum/n;
-        if (sample > x*sample_limit) {
-            sample = x*sample_limit;
+        if (sample > avg*sample_limit) {
+            sample = avg*sample_limit;
             truncated = true;
         }
     }
     n++;
-    sum += sample;
     if (n < n_threshold) {
-        avg = sum/n;
+        avg += (sample-avg)/n;
     } else {
         delta = sample - avg;
         avg += sample_weight*delta;
@@ -39,23 +37,21 @@ bool AVERAGE::update(double sample) {
     return truncated;
 }
 
-bool AVERAGE_VAR::update(double sample) {
+bool AVERAGE_VAR::update_var(double sample) {
     double delta, limit;
     bool truncated = false;
     if (sample < 0) return true;
     if (n) {
-        double x = (n > n_threshold) ? avg : sum/n;
-        if (sample > x*sample_limit) {
-            sample = x*sample_limit;
+        if (sample > avg*sample_limit) {
+            sample = avg*sample_limit;
             truncated = true;
         }
     }
     n++;
-    sum += sample;
-    sum_sq += sample*sample;
     if (n < n_threshold) {
-        avg = sum/n;
-        var = sum_sq/n - (avg*avg);
+        q += (sample - avg ) * (n - 1) / n;
+        avg += (sample-avg)/n;
+        var = q/n;
     } else {
         delta = sample - avg;
         avg += sample_weight*delta;
@@ -66,12 +62,14 @@ bool AVERAGE_VAR::update(double sample) {
 }
 
 #if 0
+#include <stdio.h>
 #include "util.h"
 int main() {
-    AVERAGE_VAR avg(100, .01, 10);
+    AVERAGE_VAR avg;
+    avg.init(100, .01, 10);
 
     for (int i=0; i<1000; i++) {
-        avg.update(drand());
+        avg.update_var(drand());
         printf("%d %f %f\n", i, avg.get_avg(), sqrt(avg.get_var()));
     }
 }
