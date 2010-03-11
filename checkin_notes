@@ -1796,3 +1796,10 @@ David  10 Mar 2010
         time_stats.cpp
         app_control.cpp
 
+Charlie  10 Mar 2010
+    - MGR: Improve performance when reducing number of rows in lists (as  
+        when selecting "Show active tasks") by calling ClearSelections() 
+        and SetItemCount() instead of repeatedly calling DeleteItem().
+        
+    clientgui/
+        BOINCBaseView.cpp
