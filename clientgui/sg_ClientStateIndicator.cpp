@@ -261,7 +261,7 @@ bool ClientStateIndicator::Suspended() {
 	CC_STATUS status;
 	bool result = false;
 	pDoc->GetCoreClientStatus(status);
-	if ( pDoc->IsConnected() && status.task_suspend_reason > 0 && status.task_suspend_reason != SUSPEND_REASON_DISK_SIZE &&  status.task_suspend_reason != SUSPEND_REASON_CPU_USAGE_LIMIT ) {
+	if ( pDoc->IsConnected() && status.task_suspend_reason > 0 && status.task_suspend_reason != SUSPEND_REASON_DISK_SIZE &&  status.task_suspend_reason != SUSPEND_REASON_THROTTLE ) {
 		result = true;
 	}
 	return result;

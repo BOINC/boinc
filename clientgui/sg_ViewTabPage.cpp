@@ -62,7 +62,7 @@ bool isRunning(RESULT* result) {
 			CC_STATUS status;
 			pDoc->GetCoreClientStatus(status);
 			// Make sure that the core client isn't global suspended for some reason
-			if ( status.task_suspend_reason == 0 || status.task_suspend_reason == SUSPEND_REASON_CPU_USAGE_LIMIT ) {
+			if ( status.task_suspend_reason == 0 || status.task_suspend_reason == SUSPEND_REASON_CPU_THROTTLE ) {
 				outcome = true;
 			}
 		}

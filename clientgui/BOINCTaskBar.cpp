@@ -191,7 +191,7 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
             iconCurrent = m_iconTaskBarSnooze;
         }
 
-        if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+        if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE)) {
             strBuffer.Printf(
                 _("Computation is suspended.")
             );
@@ -199,7 +199,7 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
             strMessage += strBuffer;
         }
 
-        if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+        if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_THROTTLE)) {
             strBuffer.Printf(
                 _("Network activity is suspended.")
             );
