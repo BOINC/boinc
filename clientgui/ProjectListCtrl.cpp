@@ -422,9 +422,6 @@ bool CProjectListCtrl::Create( wxWindow* parent )
 {
 ////@begin CProjectListCtrl member initialisation
 ////@end CProjectListCtrl member initialisation
-#ifdef __WXMSW__
-    m_pTipWindow = NULL;
-#endif
 
 ////@begin CProjectListCtrl creation
     wxHtmlListBox::Create( parent, ID_PROJECTLISTCTRL, wxDefaultPosition, wxDefaultSize,
@@ -517,20 +514,8 @@ void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
         strTooltip = m_Items[i]->GetDescription();
     }
 
-#ifdef __WXMSW__
-    wxRect rc;
-    rc.SetTop(pCell->GetAbsPos().x);
-    rc.SetLeft(pCell->GetAbsPos().y);
-    rc.SetHeight(pCell->GetHeight());
-    rc.SetWidth(pCell->GetWidth());
-
-    m_pTipWindow = new wxTipWindow(this, strTooltip, 350, &m_pTipWindow, &rc);
-#else
     // Set Tooltip to the item currently being hovered over
     SetToolTip(strTooltip);
-#endif
-
-    event.Skip();
 }
 
 

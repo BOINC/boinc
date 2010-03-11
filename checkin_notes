@@ -828,3 +828,10 @@ David  10 Mar 2010
         cs_prefs.cpp
         time_stats.cpp
         app_control.cpp
+
+Rom    11 Mar 2010
+    - MGR: Prevent flicker and lack of display by using the regular tooltip
+        for the Project List control on Windows.
+        
+    clientgui/
+        ProjectListCtrl.cpp, .h
