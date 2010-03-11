@@ -62,6 +62,11 @@ static int lookup_db_id(DC_Workunit *wu)
 	return 0;
 }
 
+int _DC_getDBid(DC_Workunit *wu)
+{
+	return lookup_db_id(wu);
+}
+
 void _DC_resultCompleted(DC_Result *result)
 {
 	char *query;

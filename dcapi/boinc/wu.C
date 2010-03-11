@@ -1251,6 +1251,9 @@ int DC_submitWU(DC_Workunit *wu)
 	wu->state = DC_WU_RUNNING;
 
 	wu->submitted = TRUE;
+
+	_DC_getDBid(wu);
+	
 	write_wudesc(wu);
 
 	return 0;
@@ -1578,20 +1581,16 @@ char *DC_getWUTag(const DC_Workunit *wu)
 
 char *DC_getWUId(const DC_Workunit *wu)
 {
-	char *name, *tmp;
-
 	if (!wu)
 	{
 		DC_log(LOG_ERR, "%s: Missing WU", __func__);
 		return NULL;
 	}
-
-	name = _DC_getWUName(wu);
-	if (g_mem_is_system_malloc())
-		return name;
-	tmp = strdup(name);
-	g_free(name);
-	return tmp;
+	
+	if (wu->db_id)
+		return g_strdup_printf("%i",wu->db_id);
+	else
+		return NULL;
 }
 
 int DC_setWUPriority(DC_Workunit *wu, int priority)
