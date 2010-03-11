@@ -257,11 +257,12 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                     m_pListPane->SetItemCount(iDocCount);
                     m_bNeedSort = true;
                } else {
-                    // We can't just call SetItemCount() here because we need to 
-                    // let the virtual ListCtrl adjust its list of selected rows
-                    // to remove (deselect) any beyond the new last row
+                    // The virtual ListCtrl keeps a separate its list of selected rows; 
+                    // make sure it does not reference any rows beyond the new last row.
+                    // We can ClearSelections() because we called SaveSelections() above.
+                    ClearSelections();
+                    m_pListPane->SetItemCount(iDocCount);
                     for (iIndex = (iCacheCount - 1); iIndex >= iDocCount; --iIndex) {
-                        m_pListPane->DeleteItem(iIndex);
                         iReturnValue = RemoveCacheElement();
                         wxASSERT(!iReturnValue);
                     }
