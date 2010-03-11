@@ -809,3 +809,11 @@ Charlie  10 Mar 2010
         
     clientgui/
         BOINCBaseView.cpp
+
+Charlie  11 Mar 2010
+    - MGR: Fix a bug which caused unnecessary demand RPCs on some platforms: 
+        set RPC time stamps to 1 rather than 0 in RefreshRPCs() so a not to 
+        trigger initialization code.
+        
+    clientgui/
+        MainDocument.cpp
