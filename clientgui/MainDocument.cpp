@@ -772,32 +772,34 @@ int CMainDocument::SetNetworkRunMode(int iMode, int iTimeout) {
     return iRetVal;
 }
 
+// Set last update time to (time_t)1 rather than (time_t)0, since 
+// we use 0 to indicate that this is the first time.
 void CMainDocument::RefreshRPCs() {
 
-    m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
+    m_dtCachedCCStatusTimestamp = wxDateTime((time_t)1);
 //    m_iGet_status_rpc_result = -1;
     
-    m_dtProjecStatusTimestamp = wxDateTime((time_t)0);
+    m_dtProjecStatusTimestamp = wxDateTime((time_t)1);
 //  m_iGet_project_status1_rpc_result = -1;
         
-    m_dtResultsTimestamp = wxDateTime((time_t)0);
+    m_dtResultsTimestamp = wxDateTime((time_t)1);
 //  m_iGet_results_rpc_result = -1;
         
-    m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
+    m_dtFileTransfersTimestamp = wxDateTime((time_t)1);
 //  m_iGet_file_transfers_rpc_result = 0;
         
 //  m_iGet_messages_rpc_result = -1;
         
-    m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
+    m_dtDiskUsageTimestamp = wxDateTime((time_t)1);
 //  m_iGet_dsk_usage_rpc_result = -1;
 
-    m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
+    m_dtStatisticsStatusTimestamp = wxDateTime((time_t)1);
 //  m_iGet_statistics_rpc_result = -1;
         
-    m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
+    m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)1);
 //  m_iGet_simple_gui2_rpc_result = -1;
 
-    m_dtCachedAcctMgrInfoTimestamp = wxDateTime((time_t)0);
+    m_dtCachedAcctMgrInfoTimestamp = wxDateTime((time_t)1);
     m_iAcct_mgr_info_rpc_result = -1;
 
 //  m_iGet_state_rpc_result = -1;
@@ -1061,7 +1063,7 @@ int CMainDocument::ForceCacheUpdate(bool immediate) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::ForceCacheUpdate - Function Begin"));
 
     if (!immediate) {
-        m_dtCachedStateTimestamp = wxDateTime((time_t)0);
+        m_dtCachedStateTimestamp = wxDateTime((time_t)1);
         return m_iGet_state_rpc_result;
     }
     
