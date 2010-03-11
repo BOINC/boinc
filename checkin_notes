@@ -1803,3 +1803,12 @@ Charlie  10 Mar 2010
         
     clientgui/
         BOINCBaseView.cpp
+
+David  10 Mar 2010
+    - credit test program: create a data file separately so you
+        don't have to do a big DB query each time
+
+    sched/
+        credit_test.cpp
+    html/ops/
+        credit_test.php

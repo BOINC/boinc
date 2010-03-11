@@ -1,10 +1,11 @@
-// credit_test [--app N]
+// credit_test
 //
 // Simulate the new credit system for the N most recent jobs
 // in project's database, and give a comparison of new and old systems.
 // Doesn't modify anything.
 //
-// --app N: restrict to jobs from app with ID N
+// You must first run html/ops/credit_test.php to create a data file
+//
 
 #include <stdio.h>
 #include <string.h>
@@ -13,21 +14,14 @@
 #include "sched_customize.h"
 #include "boinc_db.h"
 
-#define NJOBS   100000
-    // scan this many jobs
-#define MAX_CLAIMED_CREDIT  1e4
-    // Ignore jobs whose claimed (old) credit is greater than this.
-    // Rejects jobs with garbage values.
-#define MIN_CLAIMED_CREDIT 10.0
-    // Ignore jobs whose claimed (old) credit is less than this.
-    // Small jobs are noisy.
+#define MAX_JOBS 100000
 #define COBBLESTONE_SCALE 100/86400e9
-    // FLOPS to cobblestones
 #define PRINT_AV_PERIOD 100
 #define SCALE_AV_PERIOD 20
-#define MIN_HOST_SCALE_SAMPLES  10
+
+#define MIN_HOST_SAMPLES  10
     // don't use host scaling unless have this many samples for host
-#define MIN_SCALE_SAMPLES   100
+#define MIN_VERSION_SAMPLES   100
     // don't update a version's scale unless it has this many samples,
     // and don't accumulate stats until this occurs
 
@@ -39,12 +33,14 @@ struct HOST_APP_VERSION {
     AVERAGE et;
 };
 
+double min_credit = 0;
 vector<APP_VERSION> app_versions;
 vector<APP> apps;
 vector<HOST_APP_VERSION> host_app_versions;
 vector<PLATFORM> platforms;
 bool accumulate_stats = false;
-    // set to true after warm-up period
+    // set to true when we have PFC averages for
+    // both a GPU and a CPU version
 
 void read_db() {
     DB_APP app;
@@ -54,7 +50,7 @@ void read_db() {
         apps.push_back(app);
     }
     while (!av.enumerate("where deprecated=0 order by id desc")) {
-        av.pfc.init(5000, .005, 10);
+        av.pfc.init(50000, .005, 10);
         av.pfc_scale_factor = 1;
         //if (strstr(av.plan_class, "cuda")) {
         //    av.pfc_scale_factor = 0.15;
@@ -106,15 +102,14 @@ HOST_APP_VERSION& lookup_host_app_version(int hostid, int avid) {
     HOST_APP_VERSION h;
     h.host_id = hostid;
     h.app_version_id = avid;
-    h.pfc.init(50, .01, 10);
-    h.et.init(50, .01, 10);
+    h.pfc.init(500, .01, 10);
+    h.et.init(500, .01, 10);
     host_app_versions.push_back(h);
     return host_app_versions.back();
 }
 
 void print_average(AVERAGE& a) {
-    printf("n %.0f avg PFC %.0fG avg raw credit %.2f",
-        a.n, a.get_avg()/1e9, a.get_avg()*COBBLESTONE_SCALE
+    printf("n %f avg %f\n", a.n, a.get_avg()
     );
 }
 
@@ -142,6 +137,49 @@ void lookup_host(DB_HOST& h, int id) {
     }
 }
 
+struct RSC_INFO {
+    double pfc_sum;
+    double pfc_n;
+    int nvers_thresh;   // # app versions w/ lots of samples
+    int nvers_total;
+
+    RSC_INFO() {
+        pfc_sum = 0;
+        pfc_n = 0;
+        nvers_thresh = 0;
+        nvers_total = 0;
+    }
+    void update(APP_VERSION& av) {
+        nvers_total++;
+        if (av.pfc.n > MIN_VERSION_SAMPLES) {
+            nvers_thresh++;
+            pfc_sum += av.pfc.get_avg() * av.pfc.n;
+            pfc_n += av.pfc.n;
+        }
+    }
+    double avg() {
+        return pfc_sum/pfc_n;
+    }
+};
+
+void scale_versions(APP& app, double avg) {
+    for (unsigned int j=0; j<app_versions.size(); j++) {
+        APP_VERSION& av = app_versions[j];
+        if (av.appid != app.id) continue;
+        if (av.pfc.n < MIN_VERSION_SAMPLES) continue;
+
+        av.pfc_scale_factor = avg/av.pfc.get_avg();
+        PLATFORM* p = lookup_platform(av.platformid);
+        printf("updating scale factor for (%s %s)\n",
+             p->name, av.plan_class
+        );
+        printf(" n: %f avg PFC: %f new scale: %f\n",
+            av.pfc.n, av.pfc.get_avg(), av.pfc_scale_factor
+        );
+    }
+    app.min_avg_pfc = avg;
+}
+
 // update app version scale factors,
 // and find the min average PFC for each app
 //
@@ -150,81 +188,58 @@ void update_av_scales() {
     printf("----- updating scales --------\n");
     for (i=0; i<apps.size(); i++) {
         APP& app = apps[i];
-
-        app.min_avg_pfc = 1e9;
+        RSC_INFO cpu_info, gpu_info;
 
         // find the average PFC of CPU and GPU versions
 
-        double cpu_pfc_sum = 0;
-        double cpu_pfc_n = 0;
-        int cpu_n = 0;
-        double gpu_pfc_sum = 0;
-        double gpu_pfc_n = 0;
-        int gpu_n = 0;
         for (j=0; j<app_versions.size(); j++) {
             APP_VERSION& av = app_versions[j];
             if (av.appid != app.id) continue;
-            if (av.pfc.n < MIN_SCALE_SAMPLES) continue;
             if (strstr(av.plan_class, "cuda") || strstr(av.plan_class, "ati")) {
-                gpu_pfc_sum += av.pfc.get_avg() * av.pfc.n;
-                gpu_pfc_n += av.pfc.n;
-                gpu_n++;
+                gpu_info.update(av);
             } else {
-                cpu_pfc_sum += av.pfc.get_avg() * av.pfc.n;
-                cpu_pfc_n += av.pfc.n;
-                cpu_n++;
+                cpu_info.update(av);
             }
         }
-        double cpu_avg, gpu_avg;
-        if (cpu_n) {
-            cpu_avg = cpu_pfc_sum / cpu_pfc_n;
-            printf("CPU avg is %0.fG\n", cpu_avg/1e9);
-        }
-        if (gpu_n) {
-            gpu_avg = gpu_pfc_sum / gpu_pfc_n;
-            printf("GPU avg is %0.fG\n", gpu_avg/1e9);
-        }
-        double min_avg;
-        if (cpu_n) {
-            if (gpu_n) {
-                min_avg = (cpu_avg < gpu_avg)?cpu_avg:gpu_avg;
+
+        // If there are only CPU or only GPU versions,
+        // and 2 are above threshold, normalize to the average
+        //
+        // If there are both, and at least 1 of each is above threshold,
+        // normalize to the min of the averages
+        //
+        if (cpu_info.nvers_total) {
+            if (gpu_info.nvers_total) {
+                if (cpu_info.nvers_thresh && gpu_info.nvers_thresh) {
+                    printf("CPU avg: %f\n", cpu_info.avg());
+                    printf("GPU avg: %f\n", gpu_info.avg());
+                    scale_versions(app,
+                        cpu_info.avg()<gpu_info.avg()?cpu_info.avg():gpu_info.avg()
+                    );
+                    accumulate_stats = true;
+                }
             } else {
-                min_avg = cpu_avg;
+                if (cpu_info.nvers_thresh > 1) {
+                    scale_versions(app, cpu_info.avg());
+                    accumulate_stats = true;
+                }
             }
         } else {
-            if (gpu_n) {
-                min_avg = gpu_avg;
-            } else {
-                continue;
+            if (gpu_info.nvers_thresh > 1) {
+                scale_versions(app, gpu_info.avg());
+                accumulate_stats = true;
             }
         }
 
-        app.min_avg_pfc = min_avg;
 
-        // update scale factors
-        //
-        for (j=0; j<app_versions.size(); j++) {
-            APP_VERSION& av = app_versions[j];
-            if (av.appid != app.id) continue;
-            if (av.pfc.n < MIN_SCALE_SAMPLES) continue;
-
-            av.pfc_scale_factor = min_avg/av.pfc.get_avg();
-            PLATFORM* p = lookup_platform(av.platformid);
-            printf("updating scale factor for (%s %s)\n",
-                 p->name, av.plan_class
-            );
-            printf(" n: %0.f avg PFC: %0.fG new scale: %f\n",
-                av.pfc.n, av.pfc.get_avg()/1e9, av.pfc_scale_factor
-            );
-        }
-        accumulate_stats = true;
     }
     printf("-------------\n");
 }
 
 // Compute or estimate normalized peak FLOP count (PFC),
 // and update data structures.
-// Return false if the PFC is an average.
+// Return true if the PFC was computed in the "normal" way,
+// i.e. not anon platform, and reflects version scaling
 //
 bool get_pfc(RESULT& r, WORKUNIT& wu, double& pfc) {
     APP_VERSION* avp = NULL;
@@ -236,20 +251,20 @@ bool get_pfc(RESULT& r, WORKUNIT& wu, double& pfc) {
         r.hostid, r.app_version_id
     );
 
-    if (r.elapsed_time && r.flops_estimate && r.app_version_id) {
+    if (r.elapsed_time) {
         // new client
-        hav.et.update(r.elapsed_time);
+        hav.et.update(r.elapsed_time/wu.rsc_fpops_est);
         if (r.app_version_id < 0) {
             // anon platform
             //
             pfc = app.min_avg_pfc;
-            if (hav.et.n > MIN_HOST_SCALE_SAMPLES) {
-                pfc *= r.elapsed_time/hav.et.get_avg();
+            if (hav.et.n > MIN_HOST_SAMPLES) {
+                pfc *= (r.elapsed_time/wu.rsc_fpops_est)/hav.et.get_avg();
             }
             printf("  skipping: anon platform\n");
             return false;
         } else {
-            pfc = (r.elapsed_time * r.flops_estimate)/wu.rsc_fpops_est;
+            pfc = (r.elapsed_time * r.flops_estimate);
             avp = lookup_av(r.app_version_id);
             printf("  sec: %.0f GFLOPS: %.0f PFC: %.0fG raw credit: %.2f\n",
                 r.elapsed_time, r.flops_estimate/1e9, pfc/1e9, pfc*COBBLESTONE_SCALE
@@ -258,58 +273,63 @@ bool get_pfc(RESULT& r, WORKUNIT& wu, double& pfc) {
     } else {
         // old client
         //
-        hav.et.update(r.cpu_time);
-        pfc = app.min_avg_pfc;
-        if (hav.et.n > MIN_HOST_SCALE_SAMPLES) {
-            pfc *= r.elapsed_time/hav.et.get_avg();
+        hav.et.update(r.cpu_time/wu.rsc_fpops_est);
+        pfc = app.min_avg_pfc*wu.rsc_fpops_est;
+        if (hav.et.n > MIN_HOST_SAMPLES) {
+            double s = r.elapsed_time/hav.et.get_avg();
+            pfc *= s;
+            printf("  old client: scaling by %f (%f/%f)\n",
+                s, r.elapsed_time, hav.et.get_avg()
+            );
+        } else {
+            printf("  old client: not scaling\n");
         }
-        printf("  skipping: old client\n");
         return false;
     }
 
-    avp->pfc.update(pfc);
+    avp->pfc.update(pfc/wu.rsc_fpops_est);
 
     // version normalization
 
     double vnpfc = pfc * avp->pfc_scale_factor;
 
     PLATFORM* p = lookup_platform(avp->platformid);
+    printf("  updated version PFC: %f\n", pfc/wu.rsc_fpops_est);
     printf("  version scale (%s %s): %f\n",
         p->name, avp->plan_class, avp->pfc_scale_factor
     );
 
     // host normalization
 
-    hav.pfc.update(pfc);
+    hav.pfc.update(pfc/wu.rsc_fpops_est);
 
     double host_scale = 1;
 
-    // only apply it if have at MIN_HOST_SCALE_SAMPLES
-    //
-    if (hav.pfc.n >= MIN_HOST_SCALE_SAMPLES) {
+    if (hav.pfc.n > MIN_HOST_SAMPLES && avp->pfc.n > MIN_VERSION_SAMPLES) {
         host_scale = avp->pfc.get_avg()/hav.pfc.get_avg();
-        // if (host_scale > 1) host_scale = 1;
-        printf("  host scale: %f\n", host_scale);
+        if (host_scale > 1) host_scale = 1;
+        printf("  host scale: %f (%f/%f)\n",
+            host_scale, avp->pfc.get_avg(), hav.pfc.get_avg()
+        );
     }
     pfc = vnpfc * host_scale;
 
-    return true;
+    return avp->pfc.n > MIN_VERSION_SAMPLES;
 }
 
 int main(int argc, char** argv) {
-    DB_RESULT r;
-    char clause[256], subclause[256];
+    RESULT r;
+    WORKUNIT wu;
     int retval;
     int appid=0;
     FILE* f = fopen("credit_test_unsorted", "w");
 
-    if (argc >= 3 && !strcmp(argv[1], "--app")) {
-        appid = atoi(argv[2]);
+    if (argc > 1) {
+        min_credit = atof(argv[1]);
     }
 
     retval = config.parse_file();
     if (retval) {printf("no config: %d\n", retval); exit(1);}
-    //strcpy(config.db_host, "jocelyn");
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
@@ -317,56 +337,47 @@ int main(int argc, char** argv) {
 
     read_db();
 
-    strcpy(subclause, "");
-    if (appid) {
-        sprintf(subclause, "and appid=%d", appid);
-    }
-
-    sprintf(clause,
-        "where server_state=%d and outcome=%d"
-        " and claimed_credit<%f and claimed_credit>%f"
-        " %s "
-        //" order by id desc "
-        " limit %d",
-        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS,
-        MAX_CLAIMED_CREDIT, MIN_CLAIMED_CREDIT,
-        subclause, NJOBS
-    );
-
     int n=0, nstats=0;
     double total_old_credit = 0;
     double total_new_credit = 0;
-    printf("DB query: select * from result %s\n", clause);
-    while (!r.enumerate(clause)) {
-        printf("%d) result %d WU %d host %d\n",
-            n, r.id, r.workunitid, r.hostid
+    FILE* in = fopen("credit_test_data", "r");
+    printf("min credit: %f\n", min_credit);
+    while (!feof(in)) {
+        int c = fscanf(in, "%d %d %d %d %lf %d %lf %lf %lf %lf",
+            &r.id, &r.workunitid, &r.appid, &r.hostid,
+            &r.claimed_credit, &r.app_version_id, &r.elapsed_time,
+            &r.flops_estimate, &r.cpu_time, &wu.rsc_fpops_est
         );
-        DB_WORKUNIT wu;
-        retval = wu.lookup_id(r.workunitid);
-        if (retval) {
-            printf("  No WU!\n");
+        if (c != 10) break;
+        printf("%d) result %d WU %d host %d old credit %f\n",
+            n, r.id, r.workunitid, r.hostid, r.claimed_credit
+        );
+        n++;
+        if (r.claimed_credit < min_credit) {
+            printf("  skipping: small credit\n");
             continue;
         }
 
         double pfc;
-        if (!get_pfc(r, wu, pfc)) {
-            continue;
-        }
+        bool normal = get_pfc(r, wu, pfc);
         double new_claimed_credit = pfc * COBBLESTONE_SCALE;
-        printf(" new credit %.2f old credit %.2f\n",
-            new_claimed_credit, r.claimed_credit
-        );
-
-        if (accumulate_stats) {
-            total_old_credit += r.claimed_credit;
-            total_new_credit += new_claimed_credit;
-            nstats++;
-            fprintf(f, "%d %d %.2f %.2f\n",
-                r.workunitid, r.id, new_claimed_credit, r.claimed_credit
+        if (normal) {
+            printf(" new credit %.2f old credit %.2f\n",
+                new_claimed_credit, r.claimed_credit
             );
+            if (accumulate_stats) {
+                total_old_credit += r.claimed_credit;
+                total_new_credit += new_claimed_credit;
+                nstats++;
+                //fprintf(f, "%d %d %.2f %.2f\n",
+                //    r.workunitid, r.id, new_claimed_credit, r.claimed_credit
+                //);
+            } else {
+                printf("  not accumulated\n");
+            }
+        } else {
+            printf(" new credit (average): %f\n", new_claimed_credit);
         }
-
-        n++;
 
         if (n%SCALE_AV_PERIOD ==0) {
             update_av_scales();
@@ -377,6 +388,7 @@ int main(int argc, char** argv) {
         if (n%1000 == 0) {
             fprintf(stderr, "%d\n", n);
         }
+        if (n >= MAX_JOBS) break;
     }
     fclose(f);
     if (nstats == 0) {
