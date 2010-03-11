@@ -802,7 +802,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
 // called only from CLIENT_STATE::suspend_tasks(),
 // e.g. because on batteries, time of day, benchmarking, CPU throttle, etc.
 //
-void ACTIVE_TASK_SET::suspend_all(bool cpu_throttle) {
+void ACTIVE_TASK_SET::suspend_all(bool reason) {
     for (unsigned int i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
