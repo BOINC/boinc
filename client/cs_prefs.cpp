@@ -203,11 +203,10 @@ int CLIENT_STATE::suspend_tasks(int reason) {
         if (log_flags.cpu_sched) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched] Suspending - CPU throttle");
         }
-        active_tasks.suspend_all(true);
     } else {
         print_suspend_tasks_message(reason);
-        active_tasks.suspend_all(false);
     }
+    active_tasks.suspend_all(reason);
     return 0;
 }
 
