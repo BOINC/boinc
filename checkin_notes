@@ -835,3 +835,12 @@ Rom    11 Mar 2010
         
     clientgui/
         ProjectListCtrl.cpp, .h
+
+David  1 Mar 2010  
+    - client: if suspending apps because of CPU benchmarks,  
+        leave them in memory  
+ 
+    client/  
+        app.h  
+        app_control.cpp  
+        cs_prefs.cpp  
