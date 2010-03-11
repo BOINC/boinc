@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-03-10 16:29-0700\n"
+"PO-Revision-Date: 2010-03-10 17:08-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -225,7 +225,8 @@ msgstr ""
 "Használja számítógépe (Windows, Linux, Mac) üresjárási processzoridejét "
 "arra, hogy betegségeket gyógyítson, tanulmányozza a globális felmelegedést, "
 "pulzárokat fedezzen fel, vagy számos különböző tudományos kutatásban vegyen "
-"részt."
+"részt. Ez biztonságos és egyszerű: %sVálasszon%s projekteket %sTöltse le%s "
+"és futtassa a BOINC szoftvert %sAdjon meg%s egy email címet és jelszót."
 
 #: index.php:100
 #, php-format
