@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-02-05 10:48-0700\n"
+"PO-Revision-Date: 2010-03-10 23:36-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -1219,17 +1219,17 @@ msgid "minutes"
 msgstr "минут"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "процессор"
+msgstr "При использовании процессора менее"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
 msgstr ""
+"остановить обработку, если использование процессора превысит этот уровень"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "процентов (0 - нет ограничений)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1306,9 +1306,8 @@ msgstr "Другие параметры"
 
 # поправить
 #: clientgui/DlgAdvPreferencesBase.cpp:280
-#, fuzzy
 msgid "Switch between applications every"
-msgstr "Переключение между проектами каждые"
+msgstr "Переключение между приложениями каждые"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:289
 msgid "On multiprocessor systems, use at most"
