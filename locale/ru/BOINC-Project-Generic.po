@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-28 07:40-0700\n"
+"PO-Revision-Date: 2010-03-11 07:48-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -453,7 +453,7 @@ msgstr "Невозможно объединить компьютеры %1 и %2 
 #: ../inc/host.inc:546
 #, fuzzy
 msgid "Merging host %1 into host %2"
-msgstr "Объединение компьютеров %1 и %2"
+msgstr "Слияние компьютера %1 в %2"
 
 #: ../inc/host.inc:563
 #, fuzzy
@@ -575,13 +575,15 @@ msgstr ""
 
 #: ../inc/prefs.inc:68
 msgid "Processor usage"
-msgstr ""
+msgstr "Использование процессора"
 
 #: ../inc/prefs.inc:71
 msgid ""
 "Suspend work while computer is on battery power? %1(matters only for "
 "portable computers)%2"
 msgstr ""
+"Останавливать обработку, пока компьютер питается от аккумуляторов? "
+"%1(применимо только для портативных компьютеров)%2"
 
 #: ../inc/prefs.inc:77
 msgid "Suspend work while computer is in use?"
