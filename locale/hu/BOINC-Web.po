@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-03-10 14:59-0700\n"
+"PO-Revision-Date: 2010-03-10 15:55-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -245,16 +245,23 @@ msgid "Software updates"
 msgstr "Szoftverfrissítések"
 
 #: index.php:126
+#, fuzzy
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%1Kutatók%2: Használjanak BOINC-ot egy olyan %3önkéntes számítási projekt%4 "
+"létrehozásához, amely több ezer processzor számítási teljesítményét "
+"biztosítja."
 
 #: index.php:130
+#, fuzzy
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Egyetemek%2: Használjanak BOINC-ot egy %3Virtuális Campus "
+"Szuperszámítóközpont%4 létrehozásához."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
