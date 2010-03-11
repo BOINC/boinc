@@ -140,7 +140,7 @@ int CLIENT_STATE::check_suspend_processing() {
         if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
             debt += diff*global_prefs.cpu_usage_limit/100;
             if (debt < 0) {
-                return SUSPEND_REASON_CPU_USAGE_LIMIT;
+                return SUSPEND_REASON_CPU_THROTTLE;
             } else {
                 debt -= diff;
             }
@@ -199,7 +199,7 @@ void print_suspend_tasks_message(int reason) {
 }
 
 int CLIENT_STATE::suspend_tasks(int reason) {
-    if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
+    if (reason == SUSPEND_REASON_CPU_THROTTLE) {
         if (log_flags.cpu_sched) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched] Suspending - CPU throttle");
         }
@@ -212,7 +212,7 @@ int CLIENT_STATE::suspend_tasks(int reason) {
 }
 
 int CLIENT_STATE::resume_tasks(int reason) {
-    if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
+    if (reason == SUSPEND_REASON_CPU_THROTTLE) {
         if (log_flags.cpu_sched) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched] Resuming - CPU throttle");
         }

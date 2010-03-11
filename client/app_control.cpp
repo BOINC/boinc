@@ -806,14 +806,22 @@ void ACTIVE_TASK_SET::suspend_all(bool cpu_throttle) {
     for (unsigned int i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
-		if (cpu_throttle) {
-			// if we're doing CPU throttling, don't bother suspending apps
-			// that don't use a full CPU
-			//
-			if (atp->result->project->non_cpu_intensive) continue;
-			if (atp->app_version->avg_ncpus < 1) continue;
+        switch (reason) {
+        case SUSPEND_REASON_CPU_THROTTLE:
+            // if we're doing CPU throttling, don't bother suspending apps
+            // that don't use a full CPU
+            //
+            if (atp->result->project->non_cpu_intensive) continue;
+            if (atp->app_version->avg_ncpus < 1) continue;
             atp->preempt(REMOVE_NEVER);
-		} else {
+            break;
+        case SUSPEND_REASON_BENCHMARKS:
+            atp->preempt(REMOVE_NEVER);
+            break;
+        case SUSPEND_REASON_CPU_USAGE:
+            if (atp->result->project->non_cpu_intensive) break;
+            // fall through
+        default:
             atp->preempt(REMOVE_MAYBE_USER);
         }
     }

@@ -817,3 +817,14 @@ Charlie  11 Mar 2010
         
     clientgui/
         MainDocument.cpp
+
+David  10 Mar 2010
+    - client: don't suspend non-CPU-intensive jobs because of CPU load
+
+    lib/
+        common_defs.h
+    client/
+        gui_rpc_server_ops.cpp
+        cs_prefs.cpp
+        time_stats.cpp
+        app_control.cpp
