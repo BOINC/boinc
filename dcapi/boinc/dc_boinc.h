@@ -171,6 +171,9 @@ char *_DC_getWUName(const DC_Workunit *wu) G_GNUC_INTERNAL;
 /* Looks up a WU by name */
 DC_Workunit *_DC_getWUByName(const char *name) G_GNUC_INTERNAL;
 
+/* Looks up the id of a wu */
+int _DC_getDBid(DC_Workunit *wu) G_GNUC_INTERNAL;
+
 /* Parses <file_ref> definitions in an XML document */
 GList *_DC_parseFileRefs(const char *xml_doc, int *num_files) G_GNUC_INTERNAL;
 
