@@ -743,3 +743,11 @@ Rom    11 Mar 2010
         
     clientgui/
         ProjectListCtrl.cpp, .h
+
+Rom    11 Mar 2010
+    - Tag for 6.10.36 release, all platforms
+      boinc_core_release_6_10_37
+
+    /
+        configure.ac
+        version.h
