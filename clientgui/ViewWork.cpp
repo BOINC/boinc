@@ -687,7 +687,7 @@ void CViewWork::UpdateSelection() {
         enableAbort = true;
         
         pDoc->GetCoreClientStatus(status);
-        if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+        if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_THROTTLE)) {
             enableShowGraphics = false;
         }
 
@@ -1108,7 +1108,7 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         strBuffer += _("GPU missing, ");
     }
 
-	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
+	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
     switch(result->state) {
     case RESULT_NEW:
         strBuffer += _("New"); 

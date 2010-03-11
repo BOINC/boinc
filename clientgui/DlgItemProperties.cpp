@@ -394,7 +394,7 @@ wxString CDlgItemProperties::FormatStatus(RESULT* result) {
 
     doc->GetCoreClientStatus(status);
     
-	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
+	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
     switch(result->state) {
     case RESULT_NEW:
         strBuffer = _("New"); 

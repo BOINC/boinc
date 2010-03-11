@@ -131,6 +131,8 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+#ifdef __WXMAC__    // Mac Taskbar Icon does not support tooltips
+
     // What is the current status of the client?
     pDoc->GetCoreClientStatus(status);
 
@@ -144,6 +146,131 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
             SetIcon(m_iconTaskBarNormal);
         }
     }
+
+#else
+
+    wxString       strMachineName       = wxEmptyString;
+    wxString       strMessage           = wxEmptyString;
+    wxString       strProjectName       = wxEmptyString;
+    wxString       strBuffer            = wxEmptyString;
+    wxString       strActiveTaskBuffer  = wxEmptyString;
+    wxIcon         iconCurrent;
+    float          fProgress            = 0;
+    bool           bIsActive            = false;
+    bool           bIsExecuting         = false;
+    bool           bIsDownloaded        = false;
+    wxInt32        iResultCount         = 0;
+    wxInt32        iActiveTaskCount     = 0;
+    wxInt32        iIndex               = 0;
+
+    if (pDoc->IsConnected()) {
+        iconCurrent = m_iconTaskBarNormal;
+
+        pDoc->GetConnectedComputerName(strMachineName);
+
+        // Only show machine name if connected to remote machine.
+        if (!pDoc->IsComputerNameLocal(strMachineName)) {
+            strMessage += strMachineName;
+        }
+
+        pDoc->GetCoreClientStatus(status);
+
+        if (RUN_MODE_NEVER == status.task_mode) {
+            iconCurrent = m_iconTaskBarSnooze;
+        }
+
+        if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE)) {
+            strBuffer.Printf(
+                _("Computation is suspended.")
+            );
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strBuffer;
+        }
+
+        if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_THROTTLE)) {
+            strBuffer.Printf(
+                _("Network activity is suspended.")
+            );
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strBuffer;
+        }
+
+        iResultCount = pDoc->GetWorkCount();
+        for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+            RESULT* result = pDoc->result(iIndex);
+            RESULT* state_result = NULL;
+            std::string project_name;
+
+            bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
+            bIsActive     = result->active_task;
+            bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
+            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
+
+            // Increment the active task counter
+            iActiveTaskCount++;
+
+            // If we have more then two active tasks then we'll just be displaying
+            //   the total number of active tasks anyway, so just look at the rest
+            //   of the result records.
+            if (iActiveTaskCount > 2) continue;
+
+            if (result) {
+                state_result = pDoc->state.lookup_result(result->project_url, result->name);
+                if (state_result) {
+                    state_result->project->get_name(project_name);
+                    strProjectName = wxString(project_name.c_str(), wxConvUTF8);
+                }
+                fProgress = floor(result->fraction_done*10000)/100;
+            }
+
+            strBuffer.Printf(_("%s: %.2f%% completed."), strProjectName.c_str(), fProgress );
+            if (strActiveTaskBuffer.Length() > 0) strActiveTaskBuffer += wxT("\n");
+            strActiveTaskBuffer += strBuffer;
+        }
+
+        if (iActiveTaskCount <= 2) {
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strActiveTaskBuffer;
+        } else {
+            // More than two active tasks are running on the system, we don't have
+            //   enough room to display them all, so just tell the user how many are
+            //   currently running.
+            strBuffer.Printf(
+                _("%d tasks running."),
+                iActiveTaskCount
+            );
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strBuffer;
+        }
+
+    } else if (pDoc->IsReconnecting()) {
+        iconCurrent = m_iconTaskBarDisconnected;
+
+        strBuffer.Printf(
+            _("Reconnecting to client.")
+        );
+        strMessage += strBuffer;
+    } else {
+        iconCurrent = m_iconTaskBarDisconnected;
+
+        strBuffer.Printf(
+            _("Not connected to a client.")
+        );
+        strMessage += strBuffer;
+    }
+
+    // Prevent flick on those platforms that do out of band
+    // updates to the UI.
+    if (!iconCurrent.IsSameAs(m_iconCurrentIcon) ||
+        (strMessage != m_strCurrentMessage))
+    {
+        m_iconCurrentIcon = iconCurrent;
+        m_strCurrentMessage = strMessage;
+        
+        SetIcon(m_iconCurrentIcon, m_strCurrentMessage);
+    }
+
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function End"));
 }

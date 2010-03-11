@@ -245,7 +245,7 @@ void show_jobs(unsigned int index, double alpha) {
     float x=.1, y=.7;
     unsigned int nfound = 0;
     unsigned int i;
-    cc_status.task_suspend_reason &= ~SUSPEND_REASON_CPU_USAGE_LIMIT;
+    cc_status.task_suspend_reason &= ~SUSPEND_REASON_CPU_THROTTLE;
     
     if (!cc_status.task_suspend_reason) {
         for (i=0; i<cc_state.results.size(); i++) {
