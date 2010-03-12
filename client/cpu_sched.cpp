@@ -744,6 +744,7 @@ void CLIENT_STATE::schedule_cpus() {
         } else if (rp->avp->natis) {
             rp->project->ati_pwf.deadlines_missed_copy--;
         }
+        rp->edf_scheduled = true;
         ordered_scheduled_results.push_back(rp);
     }
 
@@ -846,8 +847,8 @@ static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
 static inline bool more_important(RESULT* r0, RESULT* r1) {
     // favor jobs in danger of deadline miss
     //
-    bool miss0 = r0->rr_sim_misses_deadline;
-    bool miss1 = r1->rr_sim_misses_deadline;
+    bool miss0 = r0->edf_scheduled;
+    bool miss1 = r1->edf_scheduled;
     if (miss0 && !miss1) return true;
     if (!miss0 && miss1) return false;
 
@@ -876,21 +877,15 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     return (r0 < r1);
 }
 
-static void print_job_list(vector<RESULT*>& jobs, bool details) {
+static void print_job_list(vector<RESULT*>& jobs) {
     for (unsigned int i=0; i<jobs.size(); i++) {
         RESULT* rp = jobs[i];
-        if (details) {
-            msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] %d: %s", i, rp->name
-            );
-        } else {
-            msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] %d: %s (MD: %s; UTS: %s)",
-                i, rp->name,
-                rp->rr_sim_misses_deadline?"yes":"no",
-                rp->unfinished_time_slice?"yes":"no"
-            );
-        }
+        msg_printf(rp->project, MSG_INFO,
+            "[cpu_sched_debug] %d: %s (MD: %s; UTS: %s)",
+            i, rp->name,
+            rp->edf_scheduled?"yes":"no",
+            rp->unfinished_time_slice?"yes":"no"
+        );
     }
 }
 
@@ -1198,7 +1193,7 @@ bool CLIENT_STATE::enforce_schedule() {
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] preliminary job list:");
-        print_job_list(ordered_scheduled_results, false);
+        print_job_list(ordered_scheduled_results);
     }
 
     // Set next_scheduler_state to PREEMPT for all tasks
@@ -1234,7 +1229,7 @@ bool CLIENT_STATE::enforce_schedule() {
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] final job list:");
-        print_job_list(runnable_jobs, true);
+        print_job_list(runnable_jobs);
     }
 
     double ram_left = available_ram();
@@ -1279,6 +1274,7 @@ bool CLIENT_STATE::enforce_schedule() {
         atp = lookup_active_task_by_result(rp);
 
         if (rp->uses_coprocs()) {
+#ifndef SIM
             // for coproc jobs, make sure there's enough video RAM
             // currently free on the assigned device
             //
@@ -1294,6 +1290,7 @@ bool CLIENT_STATE::enforce_schedule() {
                     continue;
                 }
             }
+#endif
         } else {
             // see if we're already using too many CPUs to run this job
             //
