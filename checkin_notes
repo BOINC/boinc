@@ -1867,3 +1867,14 @@ David  11 Mar 2010
 		ViewNotices.cpp
 	lib/
 		notice.cpp
+
+Charlie  12 Mar 2010
+    - MGR: Allow separate compile-time choice of rules and / or alternating gray 
+        and white background stripes in lists by defining EVENT_LOG_RULES and 
+        EVENT_LOG_STRIPES (in DlgEventLog.h) and BASEVIEW_RULES and BASEVIEW_STRIPES 
+        (in BOINCBaseView.h); set each to 1 to enable or 0 to disable; currently all 
+        are set to 1 for both stripes and rules in both types of lists.
+
+    clientgui/
+        BOINCBaseView.h
+        DlgEventLog.h
