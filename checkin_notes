@@ -1913,3 +1913,9 @@ David  12 Mar 2010
         gui_rpc_client.h
     client/
         boinc_cmd.cpp
+
+David  12 Mar 2010
+    - client: we weren't marking GPU jobs as EDF-scheduled
+
+    client/
+        cpu_sched.cpp

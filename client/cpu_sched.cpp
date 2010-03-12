@@ -744,6 +744,7 @@ void CLIENT_STATE::schedule_cpus() {
         } else if (rp->avp->natis) {
             rp->project->ati_pwf.deadlines_missed_copy--;
         }
+        rp->edf_scheduled = true;
         ordered_scheduled_results.push_back(rp);
     }
 
