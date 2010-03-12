@@ -88,7 +88,7 @@ void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message) {
         }
         n.create_time = n.arrival_time = gstate.now;
         strcpy(n.category, "client");
-        notices.append(n, false, false);
+        notices.append(n, false);
     }
 #endif
 }

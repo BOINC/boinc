@@ -166,11 +166,19 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
         for (i=0; i < (unsigned int)n; i++) {
             NOTICE* np = pDoc->notice(i);
             if (!np) continue;
-            char tbuf[512];
+            char tbuf[512], buf[256];
+            strcpy(tbuf, "");
             if (strlen(np->title)) {
-                sprintf(tbuf, "<b>%s</b><br>", np->title);
-                strItems += wxString(tbuf, wxConvUTF8);
+                sprintf(tbuf, "<b>%s</b>", np->title);
 
+            }
+            if (strlen(np->project_name)) {
+                sprintf(buf, " from %s", np->project_name);
+                strcat(tbuf, buf);
+            }
+            if (strlen(tbuf)) {
+                strcat(tbuf, "<br>");
+                strItems += wxString(tbuf, wxConvUTF8);
             }
             strItems += wxString(np->description.c_str(), wxConvUTF8);
             strItems += wxT("<br><font size=-2 color=#8f8f8f>");

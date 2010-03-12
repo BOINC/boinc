@@ -67,11 +67,12 @@
 
 struct NOTICES {
     std::deque<NOTICE> notices;
+        // stored newest (i.e. highest seqno) message first
     void write(int seqno, MIOFILE&, bool public_only, bool notice_refresh);
-    bool append(NOTICE&, bool keep_old, bool archive);
+    bool append(NOTICE&, bool keep_old);
     void init();
     void init_rss();
-    int read_archive_file(char* file, char* feed_url);
+    int read_archive_file(char* file, struct RSS_FEED*);
     void write_archive(struct RSS_FEED*);
     bool remove_dups(NOTICE&, bool keep_old);
 };
@@ -81,6 +82,7 @@ extern NOTICES notices;
 struct RSS_FEED {
     char url[256];
     char url_base[256];
+    char project_name[256];
     double poll_interval;
     double next_poll_time;
     bool use_seqno;

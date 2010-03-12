@@ -71,6 +71,7 @@ void NOTICE::write(MIOFILE& f, bool for_gui) {
         "   <create_time>%f</create_time>\n"
         "   <arrival_time>%f</arrival_time>\n"
         "   <is_private>%d</is_private>\n"
+        "   <project_name>%s</project_name>"
         "   <category>%s</category>\n"
         "   <link>%s</link>\n",
         title,
@@ -78,6 +79,7 @@ void NOTICE::write(MIOFILE& f, bool for_gui) {
         create_time,
         arrival_time,
         is_private?1:0,
+        project_name,
         category,
         link
     );

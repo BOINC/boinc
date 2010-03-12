@@ -1856,3 +1856,14 @@ Charlie  11 Mar 2010
         BOINCListCtrl.cpp, .h
         DlgEventLog.cpp, .h
         DlgEventLogListCtrl.h
+
+David  11 Mar 2010
+	- Manager/client: show project name with notices
+
+	client/
+		client_msgs.cpp
+		cs_notice.cpp,h
+	clientgui/
+		ViewNotices.cpp
+	lib/
+		notice.cpp

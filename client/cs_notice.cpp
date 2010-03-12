@@ -260,17 +260,25 @@ static inline bool equivalent(NOTICE& n1, NOTICE& n2) {
 // keep_old: return false
 // !keep_old: delete n2
 //
+// Also remove notices older than 30 days
+//
 bool NOTICES::remove_dups(NOTICE& n, bool keep_old) {
     deque<NOTICE>::iterator i = notices.begin();
     bool removed_something = false;
+    bool retval = true;
     while (i != notices.end()) {
         NOTICE& n2 = *i;
-        if (equivalent(n, n2) || (n2.arrival_time < gstate.now - 30*86400)) {
-            if (keep_old) {
-                return false;
-            }
+        if (n2.arrival_time < gstate.now - 30*86400) {
             i = notices.erase(i);
             removed_something = true;
+        } else if (equivalent(n, n2)) {
+            if (keep_old) {
+                retval = false;
+                ++i;
+            } else {
+                i = notices.erase(i);
+                removed_something = true;
+            }
         } else {
             ++i;
         }
@@ -278,10 +286,18 @@ bool NOTICES::remove_dups(NOTICE& n, bool keep_old) {
     if (removed_something) {
         gstate.gui_rpcs.set_notice_refresh();
     }
-    return true;
+    return retval;
 }
 
-bool NOTICES::append(NOTICE& n, bool keep_old, bool archive) {
+// add a notice.
+// If an identical notice is already there:
+// - if keep_old is set, use the existing one unless it's really old
+//   otherwise delete the old one and add the new one
+//
+// This is called from various places:
+//  client_msgs.cpp:
+// 
+bool NOTICES::append(NOTICE& n, bool keep_old) {
     if (!remove_dups(n, keep_old)) {
         return false;
     }
@@ -292,12 +308,12 @@ bool NOTICES::append(NOTICE& n, bool keep_old, bool archive) {
     }
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO,
-            "[notice_debug] appending notice: %s",
-            n.title
+            "[notice_debug] appending notice %d: %s",
+            n.seqno, n.title
         );
     }
     notices.push_front(n);
-    if (archive && !strlen(n.feed_url)) {
+    if (!strlen(n.feed_url)) {
         write_archive(NULL);
     }
     return true;
@@ -305,10 +321,10 @@ bool NOTICES::append(NOTICE& n, bool keep_old, bool archive) {
 
 
 // read and parse the contents of an archive file.
-// If feed_url is empty it's a system msg, else a feed msg.
+// If rfp is NULL it's a system msg, else a feed msg.
 // insert items in NOTICES
 //
-int NOTICES::read_archive_file(char* path, char* feed_url) {
+int NOTICES::read_archive_file(char* path, RSS_FEED* rfp) {
     char tag[256];
     bool is_tag;
 
@@ -340,10 +356,11 @@ int NOTICES::read_archive_file(char* path, char* feed_url) {
                     );
                 }
             } else {
-                if (feed_url) {
-                    strcpy(n.feed_url, feed_url);
+                if (rfp) {
+                    strcpy(n.feed_url, rfp->url);
+                    strcpy(n.project_name, rfp->project_name);
                 }
-                append(n, false, false);
+                append(n, false);
             }
         }
     }
@@ -429,7 +446,7 @@ void RSS_FEED::archive_file_name(char* path) {
 int RSS_FEED::read_archive_file() {
     char path[256];
     archive_file_name(path);
-    return notices.read_archive_file(path, url);
+    return notices.read_archive_file(path, this);
 }
 
 // parse a feed descriptor (in scheduler reply or feed list file)
@@ -511,7 +528,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
             } else {
                 n.arrival_time = gstate.now;
                 strcpy(n.feed_url, url);
-                if (notices.append(n, true, false)) {
+                if (notices.append(n, true)) {
                     nitems++;
                 }
             }
@@ -611,12 +628,6 @@ void RSS_FEEDS::init() {
     FILE* f;
 
     boinc_mkdir(NOTICES_DIR);
-    f = fopen(NOTICES_DIR"/feeds.xml", "r");
-    if (f) {
-        fin.init_file(f);
-        parse_rss_feed_descs(fin, feeds);
-        fclose(f);
-    }
 
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
@@ -630,9 +641,6 @@ void RSS_FEEDS::init() {
         }
     }
 
-    // normally the main list is union of the project lists.
-    // if it's not, the following will fix
-    //
     update_feed_list();
 
     for (i=0; i<feeds.size(); i++) {
@@ -675,6 +683,7 @@ void RSS_FEEDS::update_feed_list() {
                 rfp->found = true;
             } else {
                 rf.found = true;
+                strcpy(rf.project_name, p->get_project_name());
                 feeds.push_back(rf);
                 if (log_flags.notice_debug) {
                     msg_printf(0, MSG_INFO,
