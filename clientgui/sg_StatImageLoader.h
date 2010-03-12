@@ -26,12 +26,9 @@
 class StatImageLoader : public wxWindow 
 { 
 public: 
-	//members
     wxMenu *statPopUpMenu;
-    //Skin Class
-	std::string m_prjUrl;
-	/// Constructors
-	StatImageLoader(wxWindow* parent, std::string url); 
+	char project_url[256];
+	StatImageLoader(wxWindow* parent, char* url); 
 	~StatImageLoader(); 
 	void LoadImage();
 	void OnMenuLinkClicked(wxCommandEvent& event);
@@ -43,7 +40,6 @@ public:
 
 private: 
 
-    //private memb 
     wxBitmap Bitmap; 
 	std::string projectIcon;
 	int numReloadTries;

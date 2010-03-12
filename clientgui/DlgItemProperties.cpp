@@ -184,7 +184,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 		std::string tname;		
 		tp->get_name(tname);
 		wxString t1(wxString(tname.c_str(),wxConvUTF8));
-		if(t1.IsSameAs(wxString(projectname.c_str(),wxConvUTF8)) || t1.IsSameAs(wxString(project->master_url.c_str(),wxConvUTF8))) {
+		if(t1.IsSameAs(wxString(projectname.c_str(),wxConvUTF8)) || t1.IsSameAs(wxString(project->master_url, wxConvUTF8))) {
 			diskusage =tp->disk_usage;
 			break;
 		}
@@ -195,7 +195,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	SetTitle(wxTitle);
 	//layout controls
 	addSection(_("General"));
-	addProperty(_("Master URL"),wxString(project->master_url.c_str(),wxConvUTF8));
+	addProperty(_("Master URL"),wxString(project->master_url, wxConvUTF8));
 	addProperty(_("User name"),wxString(project->user_name.c_str(),wxConvUTF8));
 	addProperty(_("Team name"),wxString(project->team_name.c_str(),wxConvUTF8));
 	addProperty(_("Resource share"),wxString::Format(wxT("%0.0f"),project->resource_share));
@@ -268,11 +268,11 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 void CDlgItemProperties::renderInfos(RESULT* result) {
     wxDateTime dt;
 	wxString wxTitle = _("Properties of task ");
-	wxTitle.append(wxString(result->name.c_str(),wxConvUTF8));
+	wxTitle.append(wxString(result->name, wxConvUTF8));
 	SetTitle(wxTitle);
 
 	addProperty(_("Application"), FormatApplicationName(result));
-	addProperty(_("Workunit name"),wxString(result->wu_name.c_str(),wxConvUTF8));
+	addProperty(_("Workunit name"),wxString(result->wu_name, wxConvUTF8));
 	addProperty(_("State"), FormatStatus(result));
     if (result->received_time) {
         dt.Set((time_t)result->received_time);
@@ -280,8 +280,8 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     }
     dt.Set((time_t)result->report_deadline);
 	addProperty(_("Report deadline"), dt.Format());
-	if (result->resources.size()) {
-		addProperty(_("Resources"), wxString(result->resources.c_str(), wxConvUTF8));
+	if (strlen(result->resources)) {
+		addProperty(_("Resources"), wxString(result->resources, wxConvUTF8));
 	}
     if (result->active_task) {
 		addProperty(_("CPU time at last checkpoint"), FormatTime(result->checkpoint_cpu_time));

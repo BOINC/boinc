@@ -48,10 +48,10 @@ BEGIN_EVENT_TABLE(StatImageLoader, wxWindow)
 	EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,StatImageLoader::OnMenuLinkClicked)
 END_EVENT_TABLE() 
 
-StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : 
+StatImageLoader::StatImageLoader(wxWindow* parent, char* url) : 
     wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(40,40), wxNO_BORDER) 
 {
-    m_prjUrl = url;
+    strcpy(project_url,  url);
 	project_files_downloaded_time = 1;
 	project_last_rpc_time = 1;
 	BuildUserStatToolTip();
@@ -95,7 +95,7 @@ void StatImageLoader::BuildUserStatToolTip() {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
+    PROJECT* project = pDoc->state.lookup_project(project_url);
 
     strBuffer.Printf(
         _("%s. Work done by %s: %0.2f"),
@@ -120,7 +120,7 @@ void StatImageLoader::AddMenuItems()
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 #endif
-	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
+	PROJECT* project = pDoc->state.lookup_project(project_url);
 	urlCount = project->gui_urls.size();
 
 	// Add the home page link
@@ -171,10 +171,10 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
 		 //call detach project function	
          OnProjectDetach();
 	 } else if (menuIDevt == WEBSITE_URL_MENU_ID_HOMEPAGE ) {
-	     wxLaunchDefaultBrowser(wxString(m_prjUrl.c_str(),wxConvUTF8));
+	     wxLaunchDefaultBrowser(wxString(project_url, wxConvUTF8));
 	 } else{
          int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
-	     PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
+	     PROJECT* project = pDoc->state.lookup_project(project_url);
 		 project->gui_urls[menuId].name.c_str();
      
 	     wxLaunchDefaultBrowser(wxString(project->gui_urls[menuId].url.c_str(),wxConvUTF8));
@@ -202,7 +202,7 @@ void StatImageLoader::OnProjectDetach() {
 	for(int m = 0; m < prjCount; m++){
 		PROJECT* project = pDoc->project(m);
 		project->get_name(strProjectName);
-		if(project->master_url == m_prjUrl){
+		if(!strcmp(project->master_url, project_url)){
 			indexOfProj = m;
 			break;
 		}
@@ -236,8 +236,8 @@ void StatImageLoader::LoadStatIcon(wxBitmap& image) {
 std::string StatImageLoader::GetProjectIconLoc() {
 	char urlDirectory[256];
 	CMainDocument* pDoc = wxGetApp().GetDocument();
-	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
-	url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
+	PROJECT* project = pDoc->state.lookup_project(project_url);
+	url_to_project_dir(project->master_url, urlDirectory);
 	return (std::string)urlDirectory + "/stat_icon";
 }
 
@@ -280,7 +280,7 @@ void StatImageLoader::ReloadProjectSpecificIcon() {
 
 void StatImageLoader::UpdateInterface() {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
-	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
+	PROJECT* project = pDoc->state.lookup_project(project_url);
 
 	// Check to see if we need to reload the stat icon
 	if ( project > NULL && project->project_files_downloaded_time > project_files_downloaded_time ) {

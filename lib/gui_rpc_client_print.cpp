@@ -59,7 +59,7 @@ void GUI_URL::print() {
 }
 
 void PROJECT::print_disk_usage() {
-    printf("   master URL: %s\n", master_url.c_str());
+    printf("   master URL: %s\n", master_url);
     printf("   disk usage: %.2fMB\n", disk_usage/MEGA);
 }
 
@@ -67,7 +67,7 @@ void PROJECT::print() {
     unsigned int i;
 
     printf("   name: %s\n", project_name.c_str());
-    printf("   master URL: %s\n", master_url.c_str());
+    printf("   master URL: %s\n", master_url);
     printf("   user_name: %s\n", user_name.c_str());
     printf("   team_name: %s\n", team_name.c_str());
     printf("   resource share: %f\n", resource_share);
@@ -111,9 +111,9 @@ void WORKUNIT::print() {
 }
 
 void RESULT::print() {
-    printf("   name: %s\n", name.c_str());
-    printf("   WU name: %s\n", wu_name.c_str());
-    printf("   project URL: %s\n", project_url.c_str());
+    printf("   name: %s\n", name);
+    printf("   WU name: %s\n", wu_name);
+    printf("   project URL: %s\n", project_url);
     time_t foo = (time_t)report_deadline;
     printf("   report deadline: %s", ctime(&foo));
     printf("   ready to report: %s\n", ready_to_report?"yes":"no");
@@ -125,7 +125,7 @@ void RESULT::print() {
     printf("   signal: %d\n", signal);
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
     printf("   active_task_state: %d\n", active_task_state);
-    printf("   stderr_out: %s\n", stderr_out.c_str());
+    //printf("   stderr_out: %s\n", stderr_out.c_str());
     printf("   app version num: %d\n", app_version_num);
     printf("   checkpoint CPU time: %f\n", checkpoint_cpu_time);
     printf("   current CPU time: %f\n", current_cpu_time);

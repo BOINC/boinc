@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-14 20:30 PST\n"
-"PO-Revision-Date: 2010-02-214 23:19+0900\n"
+"PO-Revision-Date: 2010-02-28 22:50+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -4306,9 +4306,8 @@ msgid "Tasks in progress"
 msgstr "タスク 実行中"
 
 #: ../user/workunit.php:52
-#, fuzzy
 msgid "suppressed pending completion"
-msgstr "完了保留中の状態は表示を省略"
+msgstr "完了保留中のワークウニットは表示を省略"
 
 #: ../user/workunit.php:55
 msgid "minimum quorum"

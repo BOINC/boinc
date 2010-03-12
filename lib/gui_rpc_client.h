@@ -104,7 +104,7 @@ public:
 
 class PROJECT {
 public:
-    std::string master_url;
+    char master_url[256];
     double resource_share;
     std::string project_name;
     std::string user_name;
@@ -221,11 +221,11 @@ public:
 
 class RESULT {
 public:
-    std::string name;
-    std::string wu_name;
-    std::string project_url;
+    char name[256];
+    char wu_name[256];
+    char project_url[256];
     int version_num;
-    std::string plan_class;
+    char plan_class[64];
     double report_deadline;
     double received_time;
     bool ready_to_report;
@@ -236,7 +236,7 @@ public:
     int scheduler_state;
     int exit_status;
     int signal;
-    std::string stderr_out;
+    //std::string stderr_out;
     bool suspended_via_gui;
     bool project_suspended_via_gui;
     bool coproc_missing;
@@ -260,10 +260,10 @@ public:
     bool too_large;
     bool needs_shmem;
     bool edf_scheduled;
-    std::string graphics_exec_path;
-    std::string slot_path;
+    char graphics_exec_path[512];
+    char slot_path[512];
         // only present if graphics_exec_path is
-    std::string resources;
+    char resources[256];
 
     APP* app;
     WORKUNIT* wup;
@@ -368,13 +368,13 @@ public:
     CC_STATE();
     ~CC_STATE();
 
-    PROJECT* lookup_project(std::string&);
+    PROJECT* lookup_project(char* url);
     APP* lookup_app(PROJECT*, std::string&);
-    APP_VERSION* lookup_app_version(PROJECT*, APP*, int, std::string&);
+    APP_VERSION* lookup_app_version(PROJECT*, APP*, int, char* plan_class);
     APP_VERSION* lookup_app_version_old(PROJECT*, APP*, int);
-    WORKUNIT* lookup_wu(PROJECT*, std::string&);
-    RESULT* lookup_result(PROJECT*, std::string&);
-    RESULT* lookup_result(std::string&, std::string&);
+    WORKUNIT* lookup_wu(PROJECT*, char* name);
+    RESULT* lookup_result(PROJECT*, char* name);
+    RESULT* lookup_result(char* url, char* name);
 
     void print();
     void clear();

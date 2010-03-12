@@ -749,7 +749,7 @@ void CViewWork::UpdateSelection() {
         
         // Disable Show Graphics button if any selected task can't display graphics
         if (((!result->supports_graphics) || pDoc->GetState()->executing_as_daemon) 
-            && result->graphics_exec_path.empty()
+            && !strlen(result->graphics_exec_path)
         ) {
                 enableShowGraphics = false;
         }
@@ -965,7 +965,7 @@ void CViewWork::GetDocName(wxInt32 item, wxString& strBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
 
     if (result) {
-        strBuffer = wxString(result->name.c_str(), wxConvUTF8);
+        strBuffer = wxString(result->name, wxConvUTF8);
     }
 }
 
@@ -1077,7 +1077,7 @@ void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     if (result) {
-        time = result->report_deadline;
+        time = (time_t)result->report_deadline;
     } else {
         time = (time_t)0;
     }
@@ -1153,8 +1153,8 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
             if (status.task_suspend_reason & SUSPEND_REASON_EXCLUSIVE_APP_RUNNING) {
                 strBuffer += _(" - an exclusive app is running");
             }
-            if (result->resources.size()) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str(), wxConvUTF8) + wxString(wxT(")"));
+            if (strlen(result->resources)) {
+                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
             }
         } else if (result->active_task) {
             if (result->too_large) {
@@ -1178,8 +1178,8 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                 strBuffer += _("Ready to start");
             }
-            if (result->resources.size()) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str(), wxConvUTF8) + wxString(wxT(")"));
+            if (strlen(result->resources)) {
+                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
             }
         } else {
             strBuffer += _("Ready to start");
@@ -1245,7 +1245,7 @@ void CViewWork::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
 
     if (result) {
-        strBuffer = wxString(result->project_url.c_str(), wxConvUTF8);
+        strBuffer = wxString(result->project_url, wxConvUTF8);
     }
 }
 

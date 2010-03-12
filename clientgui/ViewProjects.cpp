@@ -1110,7 +1110,7 @@ void CViewProjects::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
     }
 
     if (project) {
-        strBuffer = wxString(project->master_url.c_str(), wxConvUTF8);
+        strBuffer = wxString(project->master_url, wxConvUTF8);
     } else {
         strBuffer = wxEmptyString;
     }

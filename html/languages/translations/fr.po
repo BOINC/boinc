@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-02-26 07:49-0700\n"
+"PO-Revision-Date: 2010-03-02 06:07-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -3346,10 +3346,13 @@ msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
+"Le membre %1 a demandé à être déclaré fondateur de l'équipe. Ceci peut être "
+"du au fait que vous avez quitté l'équipe ou que vous n'avez eu aucun contact "
+"avec l'équipe depuis un long moment."
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
-msgstr ""
+msgstr "décline la requête"
 
 #: ../user/team_change_founder_form.php:56
 msgid ""
@@ -3358,24 +3361,31 @@ msgid ""
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
+"Si vous ne déclinez pas la requête par %1, %2 aura l'option d'assumer le "
+"rôle de fondateur de l'équipe.<br /><br />\n"
+"                                Pour accepter la requête, assignez le rôle "
+"de fondateur à %3 en utilisant le formulaire ci-dessous."
 
 #: ../user/team_change_founder_form.php:64
 msgid "No transfer request is pending."
-msgstr ""
+msgstr "Aucune requête de transfert en attente."
 
 #: ../user/team_change_founder_form.php:67
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
 msgstr ""
+"Pour assigner le rôle de fondateur de cette équipe à un autre membre, "
+"sélectionnez le membre via la boîte de sélection située près de son nom et "
+"cliquer <strong>Changer de fondateur</strong> ci-dessous."
 
 #: ../user/team_change_founder_form.php:74
 msgid "New founder?"
-msgstr ""
+msgstr "Nouveau fondateur ?"
 
 #: ../user/team_change_founder_form.php:103 ../user/team_manage.php:54
 msgid "Change founder"
-msgstr ""
+msgstr "Changer de fondateur"
 
 #: ../user/team_create_action.php:27
 msgid "You must choose a non-blank team name"
@@ -3402,124 +3412,125 @@ msgstr ""
 
 #: ../user/team_delta.php:64
 msgid "Not founder or admin"
-msgstr ""
+msgstr "Aucun fondateur ou administrateur"
 
 #: ../user/team_delta.php:71
 msgid "Team history for %1"
-msgstr ""
+msgstr "Historique d'équipe pour %1"
 
 #: ../user/team_delta.php:74
 msgid "When"
-msgstr ""
+msgstr "Quand"
 
 #: ../user/team_delta.php:75
 msgid "User"
-msgstr ""
+msgstr "Utilisateur"
 
 #: ../user/team_delta.php:76
 msgid "Action"
-msgstr ""
+msgstr "Action"
 
 #: ../user/team_delta.php:77
 msgid "Total credit at time of action"
-msgstr ""
+msgstr "Crédit total au moment de l'action"
 
 #: ../user/team_edit_action.php:57
 msgid "The name '%1' is being used by another team."
-msgstr ""
+msgstr "Le nom '%1' est déjà utilisé par une autre équipe."
 
 #: ../user/team_edit_action.php:60
 msgid "Must specify team name"
-msgstr ""
+msgstr "Doit spécifier un nom d'équipe"
 
 #: ../user/team_edit_action.php:88
-#, fuzzy
 msgid "Could not update team - please try again later."
-msgstr "Impossible de créer l'équipe. Essayez plus tard."
+msgstr "Impossible de mettre à jour l'équipe. Réessayez plus tard."
 
 #: ../user/team_edit_form.php:31
 msgid "Edit %1"
-msgstr ""
+msgstr "Éditer %1"
 
 #: ../user/team_edit_form.php:32
 msgid "Update team info"
-msgstr ""
+msgstr "Mettre à jour les informations d'équipe"
 
 #: ../user/team_email_list.php:58
 msgid "%1 Email List"
-msgstr ""
+msgstr "Liste des e-mails de %1"
 
 #: ../user/team_email_list.php:60
 msgid "Member list of %1"
-msgstr ""
+msgstr "Liste des membres de %1"
 
 #: ../user/team_email_list.php:75
 msgid "Show as plain text"
-msgstr ""
+msgstr "Afficher en clair"
 
 #: ../user/team_forum.php:26 ../user/team_forum.php:37
 msgid "Create Message Board"
-msgstr ""
+msgstr "Créer un forum"
 
 #: ../user/team_forum.php:27
 msgid "You may create a message board for use by %1."
-msgstr ""
+msgstr "Vous pouvez créer un forum relatif à %1."
 
 #: ../user/team_forum.php:29
 msgid "Only team members will be able to post."
-msgstr ""
+msgstr "Seuls les membres de l'équipe pourront poster dans le forum."
 
 #: ../user/team_forum.php:30
 msgid "At your option, only members will be able to read."
-msgstr ""
+msgstr "Selon votre choix, seuls les membres pourront lire."
 
 #: ../user/team_forum.php:31
 msgid "You and your Team Admins will have moderator privileges."
 msgstr ""
+"Vous et les administrateurs de votre équipe auront les privilèges de "
+"modérateur."
 
 #: ../user/team_forum.php:38
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "Créer un forum pour %1"
 
 #: ../user/team_forum.php:46
 msgid "Team already has a message board"
-msgstr ""
+msgstr "L'équipe a déjà un forum"
 
 #: ../user/team_forum.php:51
 msgid "couldn't create message board"
-msgstr ""
+msgstr "impossible de créer le forum"
 
 #: ../user/team_forum.php:57
 msgid "Team Message Board"
-msgstr ""
+msgstr "Forum de l'équipe"
 
 #: ../user/team_forum.php:66
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "Discussions entres les membres de %1"
 
 #: ../user/team_forum.php:69
 msgid "Minimum time between posts (seconds)"
-msgstr ""
+msgstr "Délai minimum entre les dépôts de messages (en secondes)"
 
 #: ../user/team_forum.php:72
 msgid "Minimum total credit to post"
-msgstr ""
+msgstr "Crédit total minimum pour pouvoir poster"
 
 #: ../user/team_forum.php:75
 msgid "Minimum average credit to post"
-msgstr ""
+msgstr "Crédit moyen minimum pour pouvoir poster"
 
 #: ../user/team_forum.php:78
 msgid "Submit"
-msgstr ""
+msgstr "Soumettre"
 
 #: ../user/team_forum.php:87
 msgid "Remove your team's message board."
-msgstr ""
+msgstr "Supprimer le forum de votre équipe."
 
 #: ../user/team_forum.php:95
 msgid "Really remove message board?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer le forum de votre équipe ?"
 
 #: ../user/team_forum.php:96
 msgid ""
@@ -3527,59 +3538,64 @@ msgid ""
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
 msgstr ""
+"Êtes-vous sûr de vouloir supprimer le forum de votre équipe ? Tous les fils "
+"et messages seront alors définitivement supprimés. (Vous aurez néanmoins la "
+"possibilité de créer un nouveau forum ensuite)."
 
 #: ../user/team_forum.php:98
 msgid "Yes - remove message board"
-msgstr ""
+msgstr "Oui - supprimer le forum"
 
 #: ../user/team_forum.php:105
 msgid "message board not found"
-msgstr ""
+msgstr "impossible de trouver le forum"
 
 #: ../user/team_forum.php:119
 msgid "Message board removed"
-msgstr ""
+msgstr "Le forum a été supprimé"
 
 #: ../user/team_forum.php:120
 msgid ""
 "Your teams message board has been removed. You may now %1create a new one%2."
 msgstr ""
+"Le forum de votre équipe a été supprimé. Vous pouvez éventuellement en "
+"%1créer un nouveau%2."
 
 #: ../user/team_forum.php:120
 msgid "<p>"
-msgstr ""
+msgstr "<p>"
 
 #: ../user/team_forum.php:135
 msgid "Team Message Board Updated"
-msgstr ""
+msgstr "Le forum de l'équipe a été mis à jour"
 
 #: ../user/team_forum.php:136
 msgid "Update successful"
-msgstr ""
+msgstr "Mis à jour avec succès"
 
 #: ../user/team_forum.php:139
 msgid "Update failed"
-msgstr ""
+msgstr "Échec de la mise à jour"
 
 #: ../user/team_forum.php:146
 msgid "team has no forum"
-msgstr ""
+msgstr "l'équipe n'a pas de forum"
 
 #: ../user/team_forum.php:181
 msgid "no such forum"
-msgstr ""
+msgstr "Ce forum n'existe pas"
 
 #: ../user/team_forum.php:192
 msgid "unknown command %1"
-msgstr ""
+msgstr "commande inconnue %1"
 
 #: ../user/team_founder_transfer_action.php:34
 msgid "You must be a member of a team to access this page."
-msgstr ""
+msgstr "Vous devez être membre d'une équipe pour pouvoir accéder à cette page."
 
 #: ../user/team_founder_transfer_action.php:88
 msgid "Requesting foundership of %1"
-msgstr ""
+msgstr "Demande en cours du titre de fondateur pour %1"
 
 #: ../user/team_founder_transfer_action.php:96
 msgid ""
@@ -3588,74 +3604,86 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
+"Le fondateur actuel a été notifié de votre demande par un e-mail et un "
+"message privé.<br /><br />\n"
+"                       Si le fondateur ne répond pas dans les 60 jours, vous "
+"serez alors autorisé à devenir le fondateur."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
 msgid "Foundership request not allowed now"
 msgstr ""
+"Les requêtes pour le titre de fondateur ne sont pas autorisées actuellement."
 
 #: ../user/team_founder_transfer_action.php:107
 msgid "Assumed foundership of %1"
-msgstr ""
+msgstr "Titre de fondateur assumé pour %1"
 
 #: ../user/team_founder_transfer_action.php:109
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
+"Félicitations ! Vous êtes maintenant le fondateur de l'équipe %1. Allez sur "
+"%2la page de votre compte%3 pour y trouver les options d'administration."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
-msgstr ""
+msgstr "Refuser la requête de changement de fondateur"
 
 #: ../user/team_founder_transfer_action.php:125
 msgid "The foundership request from %1 has been declined."
-msgstr ""
+msgstr "La requête de titre de fondateur de %1 a été rejetée."
 
 #: ../user/team_founder_transfer_action.php:128
 msgid "There were no foundership requests."
-msgstr ""
+msgstr "Il n'y a aucune requête de titre de fondateur."
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
-msgstr ""
+msgstr "action non-définie %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
 msgid "Return to team page"
-msgstr ""
+msgstr "Retour à la page principale"
 
 #: ../user/team_founder_transfer_form.php:26
 msgid "You need to be a member of a team to access this page."
-msgstr ""
+msgstr "Vous devez être membre d'une équipe pour accéder à cette page."
 
 #: ../user/team_founder_transfer_form.php:29
 msgid "Request foundership of %1"
-msgstr ""
+msgstr "Demande le titre de fondateur pour %1"
 
 #: ../user/team_founder_transfer_form.php:36
 msgid "You are now founder of team %1."
-msgstr ""
+msgstr "Vous avez maintenant le titre de fondateur de %1."
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "Vous avez demandé le titre de fondateur de %1 le %2."
 
 #: ../user/team_founder_transfer_form.php:45
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
+"Soixante jours se sont écoulés depuis votre requête et le fondateur n'a pas "
+"répondu. Vous pouvez maintenant prendre le titre de fondateur en cliquant "
+"ici :"
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
-msgstr ""
+msgstr "Prendre le titre de fondateur"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
+"Le fondateur a été notifié de votre requête. S'il ne répond pas dans les %1, "
+"il vous sera proposé une option pour devenir le fondateur."
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
@@ -3666,14 +3694,22 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
+"Si le fondateur de l'équipe n'est pas actif et que vous voulez assumer ce "
+"rôle, cliquer sur le bouton ci-dessous. Un e-mail sera envoyé au fondateur "
+"actuel pour détailler votre requête. Il pourra alors vous transférer le "
+"titre de fondateur ou refuser votre requête. Si le fondateur ne répond pas "
+"dans les 60 jours, vous serez alors autorisé à devenir fondateur.<br /><br "
+"/>\n"
+"                       Voulez-vous vraiment demander le titre de fondateur ?"
 
 #: ../user/team_founder_transfer_form.php:63
 msgid "Request foundership"
-msgstr ""
+msgstr "Demander le titre de fondateur"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
 msgstr ""
+"Une demande de changement de fondateur a déjà été effectuée par %1 le %2."
 
 #: ../user/team_founder_transfer_form.php:75
 msgid ""

@@ -215,6 +215,7 @@ function language_form() {
         ."<option value=es>Espa&ntilde;ol (Spanish)"
         ."<option value=fr>Fran&ccedil;ais (French)"
         ."<option value=el>﻿Ελληνικά (Greek)"
+        ."<option value=hu>Magyar (Hungarian)"
         ."<option value=it>Italiano (Italian)"
         ."<option value=ja>日本語 (Japanese)"
         ."<option value=ko>한국어 (Korean)"

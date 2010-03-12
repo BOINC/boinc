@@ -310,7 +310,7 @@ void CProjectsComponent::UpdateProjectArray() {
 				bool found = false;
 				std::vector<StatImageLoader*>::iterator j;
 				for(j=m_statProjects.begin(); j < m_statProjects.end(); j++) {
-					if ( project->master_url == (*j)->m_prjUrl ) {
+					if (!strcmp(project->master_url, (*j)->project_url)) {
 						found = true;
 						break;
 					}
@@ -327,7 +327,7 @@ void CProjectsComponent::UpdateProjectArray() {
 			PROJECT* project = NULL;
 			std::vector<StatImageLoader*>::iterator i;
 			for(i=m_statProjects.begin(); i < m_statProjects.end(); i++) {
-				project = pDoc->state.lookup_project((*i)->m_prjUrl);
+				project = pDoc->state.lookup_project((*i)->project_url);
 				if ( project == NULL ) {
 					(*i)->Show(false);
 					delete (*i);

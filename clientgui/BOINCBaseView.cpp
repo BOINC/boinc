@@ -777,7 +777,7 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
                 pItem = new CTaskItem(
                     wxString(project->project_name.c_str(), wxConvUTF8), 
                     wxT(""), 
-                    wxString(project->master_url.c_str(), wxConvUTF8),
+                    wxString(project->master_url, wxConvUTF8),
                     ID_TASK_PROJECT_WEB_PROJDEF_MIN
                 );
                 pGroup->m_Tasks.push_back(pItem);

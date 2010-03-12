@@ -278,19 +278,10 @@ public:
 
     int                         GetWorkCount();
 
-    int                         WorkSuspend(
-                                    std::string& strProjectURL,
-                                    std::string& strName
-                                );
-    int                         WorkResume(
-                                    std::string& strProjectURL,
-                                    std::string& strName
-                                );
+    int                         WorkSuspend(char* url, char* name);
+    int                         WorkResume(char* url, char* name);
     int                         WorkShowGraphics(RESULT* result);
-    int                         WorkAbort(
-                                    std::string& strProjectURL,
-                                    std::string& strName
-                                );
+    int                         WorkAbort(char* url, char* name);
     CC_STATE*                   GetState() { return &state; };
 
 

@@ -222,7 +222,7 @@ int PROJECT::parse(MIOFILE& in) {
 
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
-        if (parse_str(buf, "<master_url>", master_url)) continue;
+        if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         if (parse_double(buf, "<resource_share>", resource_share)) continue;
         if (parse_str(buf, "<project_name>", project_name)) continue;
         if (parse_str(buf, "<user_name>", user_name)) {
@@ -286,7 +286,7 @@ int PROJECT::parse(MIOFILE& in) {
 }
 
 void PROJECT::clear() {
-    master_url.clear();
+    strcpy(master_url, "");
     resource_share = 0;
     project_name.clear();
     user_name.clear();
@@ -436,11 +436,11 @@ int RESULT::parse(MIOFILE& in) {
             }
             return 0;
         }
-        if (parse_str(buf, "<name>", name)) continue;
-        if (parse_str(buf, "<wu_name>", wu_name)) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
-        if (parse_str(buf, "<plan_class>", plan_class)) continue;
-        if (parse_str(buf, "<project_url>", project_url)) continue;
+        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
+        if (parse_str(buf, "<project_url>", project_url, sizeof(project_url))) continue;
         if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
         if (parse_double(buf, "<received_time>", received_time)) continue;
         if (parse_bool(buf, "ready_to_report", ready_to_report)) continue;
@@ -461,10 +461,12 @@ int RESULT::parse(MIOFILE& in) {
         if (parse_int(buf, "<exit_status>", exit_status)) continue;
         if (parse_int(buf, "<signal>", signal)) continue;
         if (parse_int(buf, "<active_task_state>", active_task_state)) continue;
+#if 0
         if (match_tag(buf, "<stderr_out>")) {
             copy_element_contents(in, "</stderr_out>", stderr_out);
             continue;
         }
+#endif
         if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         if (parse_int(buf, "<slot>", slot)) continue;
         if (parse_int(buf, "<pid>", pid)) continue;
@@ -478,21 +480,21 @@ int RESULT::parse(MIOFILE& in) {
         if (parse_bool(buf, "too_large", too_large)) continue;
         if (parse_bool(buf, "needs_shmem", needs_shmem)) continue;
         if (parse_bool(buf, "edf_scheduled", edf_scheduled)) continue;
-        if (parse_str(buf, "graphics_exec_path", graphics_exec_path)) continue;
-        if (parse_str(buf, "slot_path", slot_path)) continue;
-        if (parse_str(buf, "resources", resources)) continue;
+        if (parse_str(buf, "graphics_exec_path", graphics_exec_path, sizeof(graphics_exec_path))) continue;
+        if (parse_str(buf, "slot_path", slot_path, sizeof(slot_path))) continue;
+        if (parse_str(buf, "resources", resources, sizeof(resources))) continue;
     }
     return ERR_XML_PARSE;
 }
 
 void RESULT::clear() {
-    name.clear();
-    wu_name.clear();
+    strcpy(name, "");
+    strcpy(wu_name, "");
     version_num = 0;
-    plan_class.clear();
-    project_url.clear();
-    graphics_exec_path.clear();
-    slot_path.clear();
+    strcpy(plan_class, "");
+    strcpy(project_url, "");
+    strcpy(graphics_exec_path, "");
+    strcpy(slot_path, "");
     report_deadline = 0;
     received_time = 0;
     ready_to_report = false;
@@ -503,7 +505,7 @@ void RESULT::clear() {
     scheduler_state = 0;
     exit_status = 0;
     signal = 0;
-    stderr_out.clear();
+    //stderr_out.clear();
     suspended_via_gui = false;
     project_suspended_via_gui = false;
     coproc_missing = false;
@@ -714,10 +716,10 @@ void CC_STATE::clear() {
     have_ati = false;
 }
 
-PROJECT* CC_STATE::lookup_project(string& str) {
+PROJECT* CC_STATE::lookup_project(char* url) {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
-        if (projects[i]->master_url == str) return projects[i];
+        if (!strcmp(projects[i]->master_url, url)) return projects[i];
     }
     return 0;
 }
@@ -732,7 +734,7 @@ APP* CC_STATE::lookup_app(PROJECT* project, string& str) {
 }
 
 APP_VERSION* CC_STATE::lookup_app_version(
-    PROJECT* project, APP* app, int version_num, string& plan_class
+    PROJECT* project, APP* app, int version_num, char* plan_class
 ) {
     unsigned int i;
     for (i=0; i<app_versions.size(); i++) {
@@ -758,29 +760,29 @@ APP_VERSION* CC_STATE::lookup_app_version_old(
     return 0;
 }
 
-WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, string& str) {
+WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, char* name) {
     unsigned int i;
     for (i=0; i<wus.size(); i++) {
         if (wus[i]->project != project) continue;
-        if (wus[i]->name == str) return wus[i];
+        if (wus[i]->name == name) return wus[i];
     }
     return 0;
 }
 
-RESULT* CC_STATE::lookup_result(PROJECT* project, string& str) {
+RESULT* CC_STATE::lookup_result(PROJECT* project, char* name) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         if (results[i]->project != project) continue;
-        if (results[i]->name == str) return results[i];
+        if (results[i]->name == name) return results[i];
     }
     return 0;
 }
 
-RESULT* CC_STATE::lookup_result(string& url, string& str) {
+RESULT* CC_STATE::lookup_result(char* url, char* name) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
-        if (results[i]->project->master_url != url) continue;
-        if (results[i]->name == str) return results[i];
+        if (strcmp(results[i]->project->master_url, url)) continue;
+        if (!strcmp(results[i]->name, name)) return results[i];
     }
     return 0;
 }
@@ -1440,7 +1442,7 @@ int RPC_CLIENT::get_statistics(PROJECTS& p) {
 
                 while (rpc.fin.fgets(buf, 256)) {
                     if (match_tag(buf, "</project_statistics>")) break;
-                    if (parse_str(buf, "<master_url>", p.projects.back()->master_url)) continue;
+                    if (parse_str(buf, "<master_url>", p.projects.back()->master_url, sizeof(project->master_url))) continue;
                     if (match_tag(buf, "<daily_statistics>")) {
                         DAILY_STATS ds;
                         retval = ds.parse(rpc.fin);
@@ -1569,7 +1571,7 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
         "  <project_url>%s</project_url>\n"
         "</%s>\n",
         tag,
-        project.master_url.c_str(),
+        project.master_url,
         tag
     );
     retval = rpc.do_rpc(buf);
@@ -1885,8 +1887,8 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
         "   <name>%s</name>\n"
         "</%s>\n",
         tag,
-        result.project_url.c_str(),
-        result.name.c_str(),
+        result.project_url,
+        result.name,
         tag
     );
     retval = rpc.do_rpc(buf);
@@ -2293,7 +2295,7 @@ int RPC_CLIENT::set_debts(vector<PROJECT> projects) {
             "        <short_term_debt>%f</short_term_debt>\n"
             "        <long_term_debt>%f</long_term_debt>\n"
             "    </project>\n",
-            p.master_url.c_str(),
+            p.master_url,
             p.cpu_short_term_debt,
             p.cpu_long_term_debt
         );

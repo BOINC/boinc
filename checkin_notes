@@ -1884,3 +1884,32 @@ Rom    12 Mar 2010
         properly.
         
     <Various Files>
+
+David  12 Mar 2010
+    - GUI RPC: in the structures used in the C++ interface to GUI RPC,
+        change various std::string to char[n], to improve performance.
+
+    NOTE: std::string should ONLY be used in cases where there is
+    no a priori limit on string length.
+    If there's a limit (e.g. because the string originates in
+    a fixed-size database field) always use char[n].
+
+    clientgui/
+        sg_StatImageLoader.cpp
+        BOINCBaseView.cpp
+        sg_StatImageLoader.h
+        sg_ViewTabPage.h
+        sg_ProjectsComponent.cpp
+        sg_ViewTabPage.cpp
+        MainDocument.h
+        MainDocument.cpp
+        ViewStatistics.cpp
+        DlgItemProperties.cpp
+        ViewWork.cpp
+        ViewProjects.cpp
+    lib/
+        gui_rpc_client_print.cpp
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
+    client/
+        boinc_cmd.cpp

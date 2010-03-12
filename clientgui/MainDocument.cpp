@@ -1271,7 +1271,7 @@ PROJECT* CMainDocument::project(const wxString& projectname) {
 		PROJECT* tp = state.projects[i];
 		wxString t1(tp->project_name.c_str(), wxConvUTF8);
 		if(t1.IsSameAs(projectname)) return tp;
-		wxString t2(tp->master_url.c_str(), wxConvUTF8);
+		wxString t2(tp->master_url, wxConvUTF8);
 		if(t2.IsSameAs(projectname)) return tp;
 	}
     return NULL;
@@ -1521,9 +1521,9 @@ RESULT* CMainDocument::result(const wxString& name, const wxString& project_url)
             //iterating over the vector and find the right result
             for(unsigned int i=0; i< results.results.size();i++) {
                 RESULT* tResult = results.results.at(i);
-                wxString resname(tResult->name.c_str(),wxConvUTF8);
+                wxString resname(tResult->name, wxConvUTF8);
                 if(resname.IsSameAs(name)){
-                    wxString resurl(tResult->project_url.c_str(),wxConvUTF8);
+                    wxString resurl(tResult->project_url, wxConvUTF8);
                     if(resurl.IsSameAs(project_url)){
                         pResult = tResult;
                         break;
@@ -1552,10 +1552,10 @@ int CMainDocument::GetWorkCount() {
 }
 
 
-int CMainDocument::WorkSuspend(std::string& strProjectURL, std::string& strName) {
+int CMainDocument::WorkSuspend(char* url, char* name) {
     int iRetVal = 0;
 
-    RESULT* pStateResult = state.lookup_result(strProjectURL, strName);
+    RESULT* pStateResult = state.lookup_result(url, name);
     if (pStateResult) {
         iRetVal = rpc.result_op((*pStateResult), "suspend");
     } else {
@@ -1566,10 +1566,10 @@ int CMainDocument::WorkSuspend(std::string& strProjectURL, std::string& strName)
 }
 
 
-int CMainDocument::WorkResume(std::string& strProjectURL, std::string& strName) {
+int CMainDocument::WorkResume(char* url, char* name) {
     int iRetVal = 0;
 
-    RESULT* pStateResult = state.lookup_result(strProjectURL, strName);
+    RESULT* pStateResult = state.lookup_result(url, name);
     if (pStateResult) {
         iRetVal = rpc.result_op((*pStateResult), "resume");
     } else {
@@ -1720,7 +1720,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
 {
     int iRetVal = 0;
     
-    if (!result->graphics_exec_path.empty()) {
+    if (strlen(result->graphics_exec_path)) {
         // V6 Graphics
         RUNNING_GFX_APP gfx_app;
         RUNNING_GFX_APP* previous_gfx_app;
@@ -1732,7 +1732,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         int      id;
 #endif
 
-        p = strrchr((char*)result->slot_path.c_str(), '/');
+        p = strrchr((char*)result->slot_path, '/');
         if (!p) return ERR_INVALID_PARAM;
         slot = atoi(p+1);
         
@@ -1761,13 +1761,13 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         // exits with "RegisterProcess failed (error = -50)" unless 
         // we pass its full path twice in the argument list to execv.
         //
-        argv[1] = (char *)result->graphics_exec_path.c_str();
-        argv[2] = (char *)result->graphics_exec_path.c_str();
+        argv[1] = (char *)result->graphics_exec_path;
+        argv[2] = (char *)result->graphics_exec_path;
         argv[3] = 0;
     
          if (g_use_sandbox) {
             iRetVal = run_program(
-                result->slot_path.c_str(),
+                result->slot_path,
                "../../switcher/switcher",
                 3,
                 argv,
@@ -1776,8 +1776,8 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
             );
         } else {        
             iRetVal = run_program(
-                result->slot_path.c_str(),
-                result->graphics_exec_path.c_str(),
+                result->slot_path,
+                result->graphics_exec_path,
                 1,
                 &argv[2],
                 0,
@@ -1819,8 +1819,8 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         strcpy(di.display, (const char*)wxGetApp().m_strDefaultDisplay.mb_str());
 
         iRetVal = rpc.show_graphics(
-            result->project_url.c_str(),
-            result->name.c_str(),
+            result->project_url,
+            result->name,
             MODE_WINDOW,
             di
         );
@@ -1830,10 +1830,10 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
 }
 
 
-int CMainDocument::WorkAbort(std::string& strProjectURL, std::string& strName) {
+int CMainDocument::WorkAbort(char* url, char* name) {
     int iRetVal = 0;
 
-    RESULT* pStateResult = state.lookup_result(strProjectURL, strName);
+    RESULT* pStateResult = state.lookup_result(url, name);
     if (pStateResult) {
         iRetVal = rpc.result_op((*pStateResult), "abort");
     } else {

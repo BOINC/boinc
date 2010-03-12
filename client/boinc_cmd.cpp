@@ -241,9 +241,9 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--task")) {
         RESULT result;
         char* project_url = next_arg(argc, argv, i);
-        result.project_url = project_url;
+        strcpy(result.project_url, project_url);
         char* name = next_arg(argc, argv, i);
-        result.name = name;
+        strcpy(result.name, name);
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "suspend")) {
             retval = rpc.result_op(result, "suspend");
@@ -264,7 +264,7 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--project")) {
         PROJECT project;
-        project.master_url =  next_arg(argc, argv, i);
+        strcpy(project.master_url, next_arg(argc, argv, i));
         canonicalize_master_url(project.master_url);
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "reset")) {
@@ -529,7 +529,7 @@ int main(int argc, char** argv) {
         vector<PROJECT>projects;
         while (i < argc) {
             PROJECT proj;
-            proj.master_url = string(next_arg(argc, argv, i));
+            strcpy(proj.master_url, next_arg(argc, argv, i));
             int std = atoi(next_arg(argc, argv, i));
             proj.cpu_short_term_debt = std;
             proj.cuda_short_term_debt = std;

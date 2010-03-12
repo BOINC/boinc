@@ -85,7 +85,7 @@ public:
 
     CViewTabPage();
     CViewTabPage(
-		WorkunitNotebook* parent, RESULT* result, std::string name,std::string url
+		WorkunitNotebook* parent, RESULT* result, std::string name, char* url
     );
     ~CViewTabPage();
 
@@ -112,7 +112,7 @@ protected:
 
     //tab identifier
 	std::string m_name;
-	std::string m_prjUrl;
+    char project_url[256];
 	bool m_hasGraphic;
 
 	wxInt32 FormatCPUTime( RESULT* rslt, wxString& strBuffer ) const;
