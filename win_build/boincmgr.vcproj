@@ -112,7 +112,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="buildenv.cmd type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -211,7 +211,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="buildenv.cmd type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -310,7 +310,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="buildenv.cmd type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -410,7 +410,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="buildenv.cmd type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -509,7 +509,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="buildenv.cmd type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -609,7 +609,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="buildenv.cmd type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -706,7 +706,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="buildenv.cmd type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -804,7 +804,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="buildenv.cmd type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type $(ConfigurationName) platform $(PlatformName) exec updatedepends.cmd"
 			/>
 		</Configuration>
 	</Configurations>
