@@ -238,6 +238,7 @@ $windows = array(
     "description"=>"2000/XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+		$w610dev,
 		$w610,
 		$w66,
         $w5816,
@@ -249,6 +250,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+		$w610x64dev,
 		$w610x64,
 		$w66x64,
     )
@@ -259,7 +261,9 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+		$m610dev,
 		$m610,
+		$m610cdev,
 		$m610c,
 		$m66,
         $m66c,
@@ -281,6 +285,7 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
+		$l610ubuntudev,
 		$l610ubuntu,
 		$l66ubuntu,
     )
@@ -291,6 +296,7 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
+		$l610ubuntux64dev,
 		$l610ubuntux64,
 		$l66ubuntux64,
     )
