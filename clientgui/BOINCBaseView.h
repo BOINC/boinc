@@ -22,7 +22,7 @@
 #pragma interface "BOINCBaseView.cpp"
 #endif
 
-#define BASEVIEW_STRIPES 0
+#define BASEVIEW_STRIPES 1
 
 #define DEFAULT_TASK_FLAGS             wxTAB_TRAVERSAL | wxADJUST_MINSIZE | wxFULL_REPAINT_ON_RESIZE
 

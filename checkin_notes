@@ -1845,3 +1845,13 @@ Charlie  11 Mar 2010
         
     clientgui/
         MainDocument.cpp
+
+Charlie  11 Mar 2010
+    - MGR: use alternating gray and white background stripes in all lists; change 
+        gray color to (230, 230, 230).
+
+    clientgui/
+        BOINCBaseView.cpp,.h
+        BOINCListCtrl.cpp, .h
+        DlgEventLog.cpp, .h
+        DlgEventLogListCtrl.h
