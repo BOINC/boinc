@@ -844,3 +844,11 @@ David  1 Mar 2010
         app.h  
         app_control.cpp  
         cs_prefs.cpp  
+
+Charlie  11 Mar 2010
+    - MGR: Fix to my previous checkin: RefreshRPCs() shouldn't change time stamp 
+        if it was zero, as this is a special vslue to indicate the RPC has never 
+        been called.
+        
+    clientgui/
+        MainDocument.cpp
