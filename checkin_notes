@@ -1919,3 +1919,14 @@ David  12 Mar 2010
 
     client/
         cpu_sched.cpp
+
+David  12 Mar 2010
+    - server: DB update queries check that the number of affected rows is 1.
+        However, MySQL's default is that "affected rows" is
+        rows actually modified, which is not what we want.
+        Use the CLIENT_FOUND_ROWS option in mysql_real_connect()
+        to change the semantics to "rows matched".
+        From Oliver Bock.
+
+    db/
+        db_base.cpp

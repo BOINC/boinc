@@ -70,8 +70,11 @@ int DB_CONN::open(char* db_name, char* db_host, char* db_user, char* dbpassword)
         my_bool mbReconnect = 1;
         mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
     }
+    // CLIENT_FOUND_ROWS means that the # of affected rows for an update
+    // is the # matched by the where, rather than the # actually changed
+    //
     mysql = mysql_real_connect(
-        mysql, db_host, db_user, dbpassword, db_name, 0, 0, 0
+        mysql, db_host, db_user, dbpassword, db_name, 0, 0, CLIENT_FOUND_ROWS
     );
     if (mysql == 0) return ERR_DB_CANT_CONNECT;
 
@@ -122,6 +125,8 @@ int DB_CONN::do_query(const char* p) {
     return retval;
 }
 
+// returns the number of rows matched by an update query
+//
 int DB_CONN::affected_rows() {
     unsigned long x = (unsigned long)mysql_affected_rows(mysql);
     //fprintf(stderr, "x: %lu i: %d\n", x, (int)x);
