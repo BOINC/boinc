@@ -24,8 +24,8 @@ ECHO Initializing BOINC Build Environment for Windows
 rem ***** Construct Build Environment Root Paths *****
 rem
 SET BUILDDRIVE=%~d0
-SET BUILDROOT=%~dp0
-SET BUILDROOT=%BUILDROOT:\win_build\=%
+SET BUILDROOT=%~dps0
+SET BUILDROOT=%BUILDROOT:\win_bu~1\=%
 
 rem Detect Branch Name
 PUSHD %BUILDROOT%\..
