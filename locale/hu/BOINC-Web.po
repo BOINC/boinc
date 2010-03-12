@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-03-11 07:40-0700\n"
+"PO-Revision-Date: 2010-03-11 18:37-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -347,7 +347,7 @@ msgstr ""
 
 #: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr "A BOINC központja a California egyetem, Berkeley-ben"
+msgstr "A BOINC központja a California egyetemen, Berkeley-ben található"
 
 #~ msgid "Other:"
 #~ msgstr "Egyéb:"
