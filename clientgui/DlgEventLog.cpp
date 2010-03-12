@@ -177,8 +177,8 @@ bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxSt
         wxNullFont
     );
 #if EVENT_LOG_STRIPES
-	m_pMessageInfoGrayAttr = new wxListItemAttr(*wxBLACK, wxColour(230, 230, 230), wxNullFont);
-    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(230, 230, 230), wxNullFont);
+	m_pMessageInfoGrayAttr = new wxListItemAttr(*wxBLACK, wxColour(247, 247, 247), wxNullFont);
+    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(247, 247, 247), wxNullFont);
     m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(0, 0, 0, 15), wxNullFont);
 #else
     m_pMessageInfoGrayAttr = new wxListItemAttr(*m_pMessageInfoAttr);

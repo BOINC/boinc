@@ -127,7 +127,7 @@ CBOINCBaseView::CBOINCBaseView(
 
 #if BASEVIEW_STRIPES    
     m_pWhiteBackgroundAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
-    m_pGrayBackgroundAttr = new wxListItemAttr(*wxBLACK, wxColour(230, 230, 230), wxNullFont);
+    m_pGrayBackgroundAttr = new wxListItemAttr(*wxBLACK, wxColour(247, 247, 247), wxNullFont);
 #endif
 }
 
