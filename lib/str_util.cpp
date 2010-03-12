@@ -672,4 +672,3 @@ int string_substitute(
     return retval;
 }
 
-const char *BOINC_RCSID_ab90e1e = "$Id$";

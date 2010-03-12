@@ -534,4 +534,3 @@ int main(int argc, char** argv) {
     exit(retval);
 }
 
-const char *BOINC_RCSID_77f00010ab = "$Id$";

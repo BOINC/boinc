@@ -2116,5 +2116,3 @@ void CViewStatistics::UpdateSelection() {
     CBOINCBaseView::PostUpdateSelection();
 }
 
-
-const char *BOINC_RCSID_7aadb93333 = "$Id$";

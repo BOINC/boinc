@@ -240,4 +240,4 @@ tImageTGA *LoadTGA(const char *filename)
 	// Return the TGA data (remember, you must free this data after you are done)
 	return pImageData;
 }
-const char *BOINC_RCSID_fa7b4ce9be = "$Id$";
+

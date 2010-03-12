@@ -139,4 +139,3 @@ bool ACTIVE_TASK::supports_graphics() {
     return true;
 }
 
-const char *BOINC_RCSID_71e9cd9f4d = "$Id$";

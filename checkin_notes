@@ -852,3 +852,9 @@ Charlie  11 Mar 2010
         
     clientgui/
         MainDocument.cpp
+
+Rom    12 Mar 2010
+    - Remove BOINC_RCSID tags from source files, we are doing branching and tagging
+        properly.
+        
+    <Various Files>

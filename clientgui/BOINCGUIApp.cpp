@@ -1201,4 +1201,3 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
 #endif
 }
 
-const char *BOINC_RCSID_487cbf3018 = "$Id$";

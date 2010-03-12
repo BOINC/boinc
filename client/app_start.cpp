@@ -1071,4 +1071,3 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
 }
 #endif
 
-const char *BOINC_RCSID_be8bae8cbb = "$Id$";

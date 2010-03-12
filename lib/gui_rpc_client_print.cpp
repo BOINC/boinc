@@ -297,4 +297,3 @@ void ACCOUNT_OUT::print() {
     }
 }
 
-const char *BOINC_RCSID_2bed1889d8="$Id$";

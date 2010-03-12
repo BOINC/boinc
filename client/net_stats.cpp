@@ -265,4 +265,3 @@ void NET_STATUS::poll() {
 	}
 }
 
-const char *BOINC_RCSID_733b4006f5 = "$Id$";

@@ -1191,5 +1191,3 @@ int CViewProjects::GetProjectCacheAtIndex(CProject*& projectPtr, int index) {
     return 0;
 }
 
-
-const char *BOINC_RCSID_b4edf777fc = "$Id$";

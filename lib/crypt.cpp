@@ -694,4 +694,3 @@ int cert_verify_file(
     return verified;
 }
 
-const char *BOINC_RCSID_4f0c2e42ea = "$Id$";

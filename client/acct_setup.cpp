@@ -330,4 +330,3 @@ void CLIENT_STATE::all_projects_list_check() {
     get_project_list_op.do_rpc();
 }
 
-const char *BOINC_RCSID_84df3fc17e="$Id$";

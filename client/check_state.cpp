@@ -240,4 +240,3 @@ void CLIENT_STATE::free_mem() {
 }
 #endif
 
-const char *BOINC_RCSID_d91498c9e4 = "$Id$";

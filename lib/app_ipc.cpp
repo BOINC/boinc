@@ -455,4 +455,3 @@ void url_to_project_dir(char* url, char* dir) {
     sprintf(dir, "%s/%s", PROJECT_DIR, buf);
 }
 
-const char *BOINC_RCSID_3add42d20e = "$Id$";

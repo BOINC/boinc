@@ -332,4 +332,3 @@ int read_gui_rpc_password(char* buf) {
     return 0;
 }
 
-const char *BOINC_RCSID_6802bead97 = "$Id$";

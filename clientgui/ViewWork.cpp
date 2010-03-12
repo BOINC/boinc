@@ -1291,5 +1291,3 @@ int CViewWork::GetWorkCacheAtIndex(CWork*& workPtr, int index) {
     return 0;
 }
 
-
-const char *BOINC_RCSID_34f860f736 = "$Id$";

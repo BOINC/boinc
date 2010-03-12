@@ -977,4 +977,3 @@ void ACTIVE_TASK_SET::init() {
 
 #endif
 
-const char *BOINC_RCSID_778b61195e = "$Id$";

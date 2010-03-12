@@ -305,5 +305,3 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
 }
 #endif
 
-const char *BOINC_RCSID_33ac47a071 = "$Id: upper_case.C 12135 2007-02-21 20:04:14Z davea $";
-

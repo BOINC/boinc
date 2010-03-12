@@ -734,4 +734,3 @@ void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size) {
     if (stderr_size) max_stderr_file_size = stderr_size;
 }
 
-const char *BOINC_RCSID_4967ad204c = "$Id$";

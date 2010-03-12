@@ -2283,4 +2283,3 @@ int RPC_CLIENT::set_debts(vector<PROJECT> projects) {
 }
 
 
-const char *BOINC_RCSID_90e8b8d168="$Id$";

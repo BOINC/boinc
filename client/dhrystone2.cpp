@@ -123,6 +123,3 @@ bool Func_3(Enumeration Enum_Par_Val)
     return (false);
 }
 
-
-
-const char *BOINC_RCSID_20575a27a0 = "$Id$";

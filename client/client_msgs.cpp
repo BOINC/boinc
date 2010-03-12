@@ -79,4 +79,3 @@ void record_message(PROJECT* p, int priority, int now, char* message) {
     message_descs.push_front(mdp);
 }
 
-const char *BOINC_RCSID_9572274f4f = "$Id$";

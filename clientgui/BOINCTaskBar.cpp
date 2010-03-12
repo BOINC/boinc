@@ -881,4 +881,3 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     }
 }
 
-const char *BOINC_RCSID_531575eeaa = "$Id$";

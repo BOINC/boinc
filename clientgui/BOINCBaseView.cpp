@@ -1058,5 +1058,3 @@ wxString CBOINCBaseView::HtmlEntityDecode(wxString strRaw) {
 	return strDecodedHtml;
 }
 
-
-const char *BOINC_RCSID_0a1bd38a5a = "$Id$";

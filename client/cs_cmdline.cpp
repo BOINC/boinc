@@ -362,4 +362,3 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 }
 
-const char *BOINC_RCSID_829bd0f60b = "$Id$";

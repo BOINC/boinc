@@ -429,4 +429,3 @@ int read_config_file(bool init) {
     return 0;
 }
 
-const char *BOINC_RCSID_5f23de6652 = "$Id$";

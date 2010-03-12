@@ -535,4 +535,3 @@ int destroy_shmem(key_t) {
 
 #endif  // !defined(_WIN32) && !defined(__EMX__)
 
-const char *BOINC_RCSID_f835f078de = "$Id$";

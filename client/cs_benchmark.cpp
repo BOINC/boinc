@@ -561,4 +561,3 @@ bool CLIENT_STATE::are_cpu_benchmarks_running() {
     return benchmarks_running;
 }
 
-const char *BOINC_RCSID_97ee090db0 = "$Id$";

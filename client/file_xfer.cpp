@@ -431,4 +431,3 @@ void FILE_XFER_SET::set_bandwidth_limits(bool is_upload) {
     }
 }
 
-const char *BOINC_RCSID_31ba21bea3 = "$Id$";

@@ -1162,4 +1162,3 @@ void CLIENT_STATE::request_work_fetch(const char* where) {
     must_check_work_fetch = true;
 }
 
-const char *BOINC_RCSID_d35a4a7711 = "$Id$";

@@ -1998,4 +1998,3 @@ double MODE::delay() {
 	}
 }
 
-const char *BOINC_RCSID_b81ff9a584 = "$Id$";

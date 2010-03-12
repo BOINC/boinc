@@ -933,4 +933,3 @@ bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {
 
 }
 
-const char *BOINC_RCSID_37fbd07edd = "$Id$";

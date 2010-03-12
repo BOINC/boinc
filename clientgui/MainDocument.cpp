@@ -2187,5 +2187,3 @@ int CMainDocument::GetSimpleGUIWorkCount() {
     return iCount;
 }
 
-
-const char *BOINC_RCSID_aa03a835ba = "$Id$";

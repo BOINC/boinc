@@ -1752,4 +1752,3 @@ void PROJECT::update_duration_correction_factor(ACTIVE_TASK* atp) {
     }
 }
 
-const char *BOINC_RCSID_e830ee1 = "$Id$";

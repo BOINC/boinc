@@ -126,4 +126,3 @@ int make_random_string(char* out) {
     return 0;
 }
 
-const char *BOINC_RCSID_5a0dc438fe = "$Id$";

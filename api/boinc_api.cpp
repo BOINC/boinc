@@ -1277,4 +1277,3 @@ double boinc_elapsed_time() {
     return running_interrupt_count*TIMER_PERIOD;
 }
 
-const char *BOINC_RCSID_0fa0410386 = "$Id$";
