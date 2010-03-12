@@ -571,5 +571,3 @@ wxIcon CDlgOptions::GetIconResource( const wxString& WXUNUSED(name) )
 ////@end CDlgOptions icon retrieval
 }
 
-
-const char *BOINC_RCSID_5743f67054="$Id$";

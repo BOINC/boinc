@@ -143,4 +143,3 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
     return ERR_XML_PARSE;
 }
 
-const char *BOINC_RCSID_acbefbad3d = "$Id$";

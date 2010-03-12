@@ -141,4 +141,3 @@ int mem_usage(double& vm_usage, double& resident_set) {
 #endif
 }
 
-const char *BOINC_RCSID_dc202bfd53 = "$Id$";

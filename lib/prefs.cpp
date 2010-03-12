@@ -787,7 +787,3 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     return 0;
 }
 
-const char *BOINC_RCSID_3fb442bb02 = "$Id$";
-
-
-

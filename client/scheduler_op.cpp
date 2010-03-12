@@ -875,4 +875,3 @@ USER_MESSAGE::USER_MESSAGE(char* m, char* p) {
     priority = p;
 }
 
-const char *BOINC_RCSID_11c806525b = "$Id$";

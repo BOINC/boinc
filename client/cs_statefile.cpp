@@ -965,4 +965,3 @@ int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
     return 0;
 }
 
-const char *BOINC_RCSID_375ec798cc = "$Id$";

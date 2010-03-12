@@ -2111,5 +2111,3 @@ void boinc_catch_signal_invalid_parameter(
 	DebugBreak();
 }
 
-
-const char *BOINC_RCSID_5967ad204d = "$Id$";

@@ -512,4 +512,3 @@ void PERS_FILE_XFER_SET::suspend() {
     }
 }
 
-const char *BOINC_RCSID_76edfcfb49 = "$Id$";

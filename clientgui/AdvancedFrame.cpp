@@ -2108,6 +2108,3 @@ void CAdvancedFrame::StopTimers() {
     m_pFrameRenderTimer->Stop();
 }
 
-
-
-const char *BOINC_RCSID_d881a56dc5 = "$Id$";

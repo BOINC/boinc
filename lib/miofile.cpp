@@ -159,4 +159,3 @@ int copy_element_contents(MIOFILE& in, const char* end_tag, string& str) {
     return ERR_XML_PARSE;
 }
 
-const char *BOINC_RCSID_37339d4dc0 = "$Id$";

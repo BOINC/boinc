@@ -798,5 +798,3 @@ void CFrameAlertEvent::ProcessResponse(const int response) const {
     }
 }
 
-
-const char *BOINC_RCSID_0a1bd38a5b = "$Id$";

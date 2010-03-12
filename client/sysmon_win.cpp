@@ -722,5 +722,3 @@ VOID LogEventInfoMessage(LPTSTR lpszMsg)
     }
 }
 
-
-const char *BOINC_RCSID_ad2dd5eef4 = "$Id$";

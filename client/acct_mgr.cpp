@@ -691,4 +691,3 @@ bool ACCT_MGR_INFO::poll() {
     return false;
 }
 
-const char *BOINC_RCSID_8fd9e873bf="$Id$";

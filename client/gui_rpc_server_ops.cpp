@@ -1378,4 +1378,4 @@ int GUI_RPC_CONN::handle_rpc() {
     }
     return retval;
 }
-const char *BOINC_RCSID_7bf15dcb49="$Id$";
+

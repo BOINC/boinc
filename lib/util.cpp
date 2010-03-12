@@ -544,4 +544,3 @@ bool boinc_is_finite(double x) {
 #endif
 }
 
-const char *BOINC_RCSID_ab65c90e1e = "$Id$";

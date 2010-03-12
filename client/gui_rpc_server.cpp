@@ -487,4 +487,3 @@ bool GUI_RPC_CONN_SET::quits_sent() {
     return true;
 }
 
-const char *BOINC_RCSID_88dd75dd85 = "$Id$";

@@ -1820,7 +1820,3 @@ VOID CScreensaver::ChangePassword() {
     }
 }
 
-
-
-
-const char *BOINC_RCSID_116268c72f = "$Id$";

@@ -244,5 +244,3 @@ bool CBOINCTaskCtrl::OnRestoreState(wxConfigBase* pConfig) {
     return true;
 }
 
-
-const char *BOINC_RCSID_125ef3d14d = "$Id$";

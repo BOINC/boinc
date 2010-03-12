@@ -1124,4 +1124,3 @@ void HTTP_OP_SET::cleanup_temp_files() {
     dir_close(d);
 }
 
-const char *BOINC_RCSID_57f273bb60 = "$Id$";

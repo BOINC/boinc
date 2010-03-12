@@ -362,4 +362,3 @@ void CLIENT_STATE::check_file_existence() {
     }
 }
 
-const char *BOINC_RCSID_66410b3cab = "$Id$";

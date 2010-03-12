@@ -805,4 +805,3 @@ int get_file_dir(char* filename, char* dir) {
 
 #endif
 
-const char *BOINC_RCSID_636c8d709b = "$Id$";

@@ -219,4 +219,3 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     return 0;
 }
 
-const char *BOINC_RCSID_edf7e5c147 = "$Id$";

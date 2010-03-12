@@ -1012,4 +1012,3 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     LeaveCriticalSection(&g_csFileOpenClose);
 }
 
-const char *BOINC_RCSID_e8b4633192 = "$Id$";

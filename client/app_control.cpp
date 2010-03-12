@@ -1147,4 +1147,3 @@ void ACTIVE_TASK::read_task_state_file() {
     }
 }
 
-const char *BOINC_RCSID_10ca137461 = "$Id$";

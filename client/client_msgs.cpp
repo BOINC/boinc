@@ -137,4 +137,3 @@ int MESSAGE_DESCS::highest_seqno() {
     return 0;
 }
 
-const char *BOINC_RCSID_9572274f4f = "$Id$";

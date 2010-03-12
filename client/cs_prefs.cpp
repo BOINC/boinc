@@ -514,4 +514,3 @@ double CLIENT_STATE::max_available_ram() {
     );
 }
 
-const char *BOINC_RCSID_92ad99cddf = "$Id$";

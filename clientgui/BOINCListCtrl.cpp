@@ -444,4 +444,3 @@ void CBOINCListCtrl::RefreshCell(int row, int col) {
     RefreshRect(r);
 }
 
-const char *BOINC_RCSID_5cf411daa0 = "$Id$";

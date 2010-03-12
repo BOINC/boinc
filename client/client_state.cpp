@@ -1795,4 +1795,3 @@ bool CLIENT_STATE::abort_sequence_done() {
     return true;
 }
 
-const char *BOINC_RCSID_e836980ee1 = "$Id$";

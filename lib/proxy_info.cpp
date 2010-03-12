@@ -128,4 +128,3 @@ void PROXY_INFO::clear() {
     autodetect_protocol = 0;
 }
 
-const char *BOINC_RCSID_af13db88e5 = "$Id$";

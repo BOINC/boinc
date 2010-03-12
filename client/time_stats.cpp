@@ -355,4 +355,3 @@ void TIME_STATS::log_append_net(int new_state) {
     }
 }
 
-const char *BOINC_RCSID_472504d8c2 = "$Id$";

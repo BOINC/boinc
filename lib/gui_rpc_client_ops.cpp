@@ -2363,4 +2363,3 @@ int RPC_CLIENT::get_notices_public(int seqno, NOTICES& notices) {
     return parse_notices(rpc.fin, notices);
 }
 
-const char *BOINC_RCSID_90e8b8d168="$Id$";

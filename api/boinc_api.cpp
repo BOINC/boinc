@@ -1387,4 +1387,3 @@ int boinc_init_parallel() {
 #endif
 }
 
-const char *BOINC_RCSID_0fa0410386 = "$Id$";

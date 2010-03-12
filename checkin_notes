@@ -1878,3 +1878,9 @@ Charlie  12 Mar 2010
     clientgui/
         BOINCBaseView.h
         DlgEventLog.h
+
+Rom    12 Mar 2010
+    - Remove BOINC_RCSID tags from source files, we are doing branching and tagging
+        properly.
+        
+    <Various Files>

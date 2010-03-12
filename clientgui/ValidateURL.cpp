@@ -176,5 +176,3 @@ bool CValidateURL::CheckValidator() const {
     return TRUE;
 }
 
-
-const char *BOINC_RCSID_1f1a9f5f09 = "$Id$";

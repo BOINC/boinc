@@ -845,5 +845,3 @@ int CViewTransfers::GetTransferCacheAtIndex(CTransfer*& transferPtr, int index) 
     return 0;
 }
 
-
-const char *BOINC_RCSID_7aadb93332 = "$Id$";

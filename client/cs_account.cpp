@@ -508,4 +508,3 @@ int CLIENT_STATE::parse_preferences_for_user_files() {
     return 0;
 }
 
-const char *BOINC_RCSID_497223a3f8 = "$Id$";

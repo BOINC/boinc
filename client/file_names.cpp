@@ -345,4 +345,3 @@ bool is_version_dir(char* buf, VERSION_INFO& vi) {
     return (n==3);
 }
 
-const char *BOINC_RCSID_7d362a6a52 = "$Id$";

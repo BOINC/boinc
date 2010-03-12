@@ -210,4 +210,3 @@ void reset_dns() {
 #endif
 }
 
-const char *BOINC_RCSID_557bf0741f="$Id$";
