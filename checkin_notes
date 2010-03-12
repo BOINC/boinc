@@ -1848,7 +1848,8 @@ Charlie  11 Mar 2010
 
 Charlie  11 Mar 2010
     - MGR: use alternating gray and white background stripes in all lists; change 
-        gray color to (247, 247, 247) from (240, 240, 240).
+        gray color to (247, 247, 247) from (240, 240, 240).  Use system colors for 
+        text.
 
     clientgui/
         BOINCBaseView.cpp,.h

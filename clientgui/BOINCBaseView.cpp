@@ -126,8 +126,16 @@ CBOINCBaseView::CBOINCBaseView(
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
 
 #if BASEVIEW_STRIPES    
-    m_pWhiteBackgroundAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
-    m_pGrayBackgroundAttr = new wxListItemAttr(*wxBLACK, wxColour(247, 247, 247), wxNullFont);
+    m_pWhiteBackgroundAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
+        wxNullFont
+    );
+    m_pGrayBackgroundAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxColour(247, 247, 247),
+        wxNullFont
+        );
 #endif
 }
 
