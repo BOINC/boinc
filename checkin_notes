@@ -859,3 +859,13 @@ Rom    12 Mar 2010
         
     <Various Files>
 
+Rom    12 Mar 2010
+    - client: add missing CPU scheduler code
+    - client: fix formatting in app_control.cpp
+    - MGR: fix build break
+    
+    client/
+        app_control.cpp
+        cpu_sched.cpp
+    clientgui/
+        BOINCTaskBar.cpp
