@@ -1837,3 +1837,11 @@ David  11 Mar 2010
         credit_test.cpp
     lib/
         average.cpp,h
+
+Charlie  11 Mar 2010
+    - MGR: Fix to my previous checkin: RefreshRPCs() shouldn't change time stamp 
+        if it was zero, as this is a special vslue to indicate the RPC has never 
+        been called.
+        
+    clientgui/
+        MainDocument.cpp
