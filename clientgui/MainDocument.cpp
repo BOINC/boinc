@@ -1793,8 +1793,8 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         argv[0] =0;
         
         iRetVal = run_program(
-            result->slot_path.c_str(),
-            result->graphics_exec_path.c_str(),
+            result->slot_path,
+            result->graphics_exec_path,
             0,
             argv,
             0,

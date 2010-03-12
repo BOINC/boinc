@@ -495,6 +495,7 @@ void RESULT::clear() {
     strcpy(project_url, "");
     strcpy(graphics_exec_path, "");
     strcpy(slot_path, "");
+    strcpy(resources, "");
     report_deadline = 0;
     received_time = 0;
     ready_to_report = false;
