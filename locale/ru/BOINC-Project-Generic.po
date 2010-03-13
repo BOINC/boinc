@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-13 04:49-0700\n"
+"PO-Revision-Date: 2010-03-13 05:47-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -781,42 +781,54 @@ msgid "Use network only between the hours of"
 msgstr "Использовать сеть только между указанными часами"
 
 #: ../inc/prefs.inc:178
+#, fuzzy
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
 "reduces the security of BOINC.%3"
 msgstr ""
+"Пропускать проверку файлов изображений? %1 Отметьте ТОЛЬКО В ТОМ СЛУЧАЕ, "
+"если ваш интернет-поставщик изменяет файлы изображений (Например, это делает "
+"UMTS). %2 Пропуск проверки уменьшает безопасность BOINC.%3"
 
 #: ../inc/prefs.inc:186
+#, fuzzy
 msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Использовать ГП ATI, при наличии %1(начиная с версии 6.10+)%2"
 
 #: ../inc/prefs.inc:193
+#, fuzzy
 msgid "Use NVIDIA GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Использовать ГП NVIDIA, при наличии %1(начиная с версии 6.10+)%2"
 
 #: ../inc/prefs.inc:200
+#, fuzzy
 msgid "Use CPU %1(enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Использовать ЦП %1(начиная с версии 6.10+)%2"
 
 #: ../inc/prefs.inc:208
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "Кбайт/с"
 
 #: ../inc/prefs.inc:209
 msgid "KB/s"
-msgstr ""
+msgstr "КБ/с"
 
 #: ../inc/prefs.inc:212
+#, fuzzy
 msgid ""
 "Run test applications? %1This helps us develop applications, but may cause "
 "jobs to fail on your computer%2"
 msgstr ""
+"Выполнять тестовые приложения? %1Это поможет нам разрабатывать приложения, "
+"но может привести к ошибкам в расчётах заданий на вашем компьютере%2"
 
 #: ../inc/prefs.inc:219
+#, fuzzy
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
+"Эти настройки применяются ко всем проектам BOINC, в которых Вы участвуете."
 
 #: ../inc/prefs.inc:222
 msgid ""
