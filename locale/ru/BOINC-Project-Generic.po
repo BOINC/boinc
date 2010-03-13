@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-13 03:58-0700\n"
+"PO-Revision-Date: 2010-03-13 04:49-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -664,96 +664,121 @@ msgstr ""
 "модемного, ISDN- или VPN-подключения)%2"
 
 #: ../inc/prefs.inc:133
+#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1(Leave blank or 0 if "
 "always connected.%2 BOINC will try to maintain at least this much work.)%3"
 msgstr ""
+"Компьютер подключен к Интернету примерно каждые %1(Оставить пустым или 0 "
+"если всегда подключен.%2 BOINC будет пытаться поддерживать по крайней мере "
+"такой объем работы.)%3"
 
 #: ../inc/prefs.inc:140
+#, fuzzy
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "Поддерживать достаточный объем работы для дополнительных"
 
 #: ../inc/prefs.inc:144
+#, fuzzy
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+%2"
 msgstr ""
+"На мультипроцессорных системах использовать не более %1 Начиная с версии "
+"6.1+%2"
 
 #: ../inc/prefs.inc:149
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% процессоров"
 
 #: ../inc/prefs.inc:150
+#, fuzzy
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "На мультипроцессорных системах использовать не более"
 
 #: ../inc/prefs.inc:151
 msgid "processors"
-msgstr ""
+msgstr "процессоров"
 
 #: ../inc/prefs.inc:152 ../inc/prefs.inc:160
 msgid "Use at most"
-msgstr ""
+msgstr "Использовать не более"
 
 #: ../inc/prefs.inc:155
+#, fuzzy
 msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
 msgstr ""
+"Использовать не более %1(Может быть использовано для уменьшения перегрева "
+"ЦП)%2"
 
 #: ../inc/prefs.inc:161
+#, fuzzy
 msgid "percent of CPU time"
-msgstr ""
+msgstr "процентов времени ЦП"
 
 #: ../inc/prefs.inc:162
+#, fuzzy
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Период сохранения на диск промежуточных результатов заданий"
 
 #: ../inc/prefs.inc:163
+#, fuzzy
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "Использование диска и памяти"
 
 #: ../inc/prefs.inc:164
+#, fuzzy
 msgid "Leave at least"
-msgstr ""
+msgstr "Оставлять не менее"
 
 #: ../inc/prefs.inc:166
 #, php-format
+#, fuzzy
 msgid "(Values smaller than %s are ignored)"
-msgstr ""
+msgstr "(Значения менее %s будут проигнорированы)"
 
 #: ../inc/prefs.inc:168
 #, php-format
+#, fuzzy
 msgid "% of total disk space"
-msgstr ""
+msgstr "% от полного объема диска"
 
 #: ../inc/prefs.inc:169
 #, php-format
+#, fuzzy
 msgid "% of page file (swap space)"
-msgstr ""
+msgstr "% виртуальной памяти (файл подкачки)"
 
 #: ../inc/prefs.inc:170
 #, php-format
+#, fuzzy
 msgid "% of memory when computer is in use"
-msgstr ""
+msgstr "% памяти, когда компьютер используется для работы"
 
 #: ../inc/prefs.inc:171
 #, php-format
+#, fuzzy
 msgid "% of memory when computer is not in use"
-msgstr ""
+msgstr "% памяти, когда компьютер простаивает"
 
 #: ../inc/prefs.inc:172
+#, fuzzy
 msgid "Network usage"
-msgstr ""
+msgstr "Использование сети"
 
 #: ../inc/prefs.inc:173
+#, fuzzy
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "Максимальная скорость загрузки:"
 
 #: ../inc/prefs.inc:174
+#, fuzzy
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "Максимальная скорость отправки:"
 
 #: ../inc/prefs.inc:175
+#, fuzzy
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Использовать сеть только между указанными часами"
 
 #: ../inc/prefs.inc:178
 msgid ""
