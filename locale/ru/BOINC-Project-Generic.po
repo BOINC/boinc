@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-13 09:58-0700\n"
+"PO-Revision-Date: 2010-03-13 10:53-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -1233,130 +1233,142 @@ msgid "Aborted by user"
 msgstr "Прервано пользователем"
 
 #: ../inc/result.inc:139
+#, fuzzy
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Время истекло - нет ответа"
 
 #: ../inc/result.inc:140 ../inc/result.inc:169
 msgid "Didn't need"
-msgstr ""
+msgstr "Не нужно"
 
 #: ../inc/result.inc:141 ../inc/result.inc:170
 msgid "Validate error"
-msgstr ""
+msgstr "Ошибка проверки"
 
 #: ../inc/result.inc:142 ../inc/result.inc:171
+#, fuzzy
 msgid "Client detached"
-msgstr ""
+msgstr "Клиент отсоединён"
 
 #: ../inc/result.inc:153
 msgid "Over"
 msgstr ""
 
 #: ../inc/result.inc:161
+#, fuzzy
 msgid "Success"
-msgstr ""
+msgstr "Успех"
 
 #: ../inc/result.inc:165
 msgid "Client error"
-msgstr ""
+msgstr "Ошибка клиента"
 
 #: ../inc/result.inc:167
+#, fuzzy
 msgid "Redundant result"
-msgstr ""
+msgstr "Лишний результат"
 
 #: ../inc/result.inc:168
 msgid "No reply"
-msgstr ""
+msgstr "Нет ответа"
 
 #: ../inc/result.inc:178
 msgid "New"
-msgstr ""
+msgstr "Новый"
 
 #: ../inc/result.inc:179
 msgid "Downloading"
-msgstr ""
+msgstr "Загрузка"
 
 #: ../inc/result.inc:180
 msgid "Processing"
-msgstr ""
+msgstr "Обработка"
 
 #: ../inc/result.inc:181
 msgid "Compute error"
-msgstr ""
+msgstr "Ошибка расчётов"
 
 #: ../inc/result.inc:182
 msgid "Uploading"
-msgstr ""
+msgstr "Отправка"
 
 #: ../inc/result.inc:183
-#, fuzzy
 msgid "Done"
-msgstr "Нет"
+msgstr "Готово"
 
 #: ../inc/result.inc:194
+#, fuzzy
 msgid "Initial"
-msgstr ""
+msgstr "Первичный"
 
 #: ../inc/result.inc:200
 msgid "Not necessary"
-msgstr ""
+msgstr "Необязательно"
 
 #: ../inc/result.inc:201
+#, fuzzy
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Ошибка задания - проверка пропущена"
 
 #: ../inc/result.inc:202
+#, fuzzy
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Проверено, но пока нет согласия"
 
 #: ../inc/result.inc:203
+#, fuzzy
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "Задача сообщена слишком поздно для проверки"
 
 #: ../inc/result.inc:211
+#, fuzzy
 msgid "Couldn't send result"
-msgstr ""
+msgstr "Не удалось отправить результат"
 
 #: ../inc/result.inc:215
+#, fuzzy
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Слишком много ошибок (может иметь ошибку)"
 
 #: ../inc/result.inc:219
+#, fuzzy
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "Слишком много результатов (может быть недетерминированным)"
 
 #: ../inc/result.inc:223
+#, fuzzy
 msgid "Too many total results"
-msgstr ""
+msgstr "Слишком много всего результатов"
 
 #: ../inc/result.inc:227
+#, fuzzy
 msgid "WU cancelled"
-msgstr ""
+msgstr "WU отменён"
 
 #: ../inc/result.inc:231
 msgid "Unrecognized Error: %1"
-msgstr ""
+msgstr "Нераспознанная ошибка: %1"
 
 #: ../inc/result.inc:257
 msgid "Task name"
-msgstr ""
+msgstr "Имя задачи"
 
 #: ../inc/result.inc:257 ../inc/result.inc:262 ../inc/result.inc:265
 #: ../inc/result.inc:268
 msgid "click for details"
-msgstr ""
+msgstr "щёлкните для деталей"
 
 #: ../inc/result.inc:257
 msgid "Show IDs"
-msgstr ""
+msgstr "Показать ID-ы"
 
 #: ../inc/result.inc:262
 msgid "Show names"
-msgstr ""
+msgstr "Показать имена"
 
 #: ../inc/result.inc:265
 msgid "Task ID"
-msgstr ""
+msgstr "ID задачи"
 
 #: ../inc/result.inc:268
 msgid "Work unit ID"
