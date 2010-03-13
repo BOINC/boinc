@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-11 07:48-0700\n"
+"PO-Revision-Date: 2010-03-12 23:59-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -165,7 +165,6 @@ msgid "Local Standard Time"
 msgstr "Местное Стандартное Время"
 
 #: ../inc/host.inc:97
-#, fuzzy
 msgid "UTC %1 hours"
 msgstr "UTC %1 часа"
 
@@ -587,15 +586,18 @@ msgstr ""
 
 #: ../inc/prefs.inc:77
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "Останавливать обработку, пока компьютер используется?"
 
 #: ../inc/prefs.inc:81
 msgid "Suspend GPU work while computer is in use? %1Enforced by version 6.7+%2"
 msgstr ""
+"Останавливать обработку на ГП, пока компьютер используется? %1Начиная с "
+"версии 6.7+%2"
 
 #: ../inc/prefs.inc:86
+#, fuzzy
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
+msgstr "'Использование' означает активность мыши/клавиатуры за последние"
 
 #: ../inc/prefs.inc:89
 msgid ""
