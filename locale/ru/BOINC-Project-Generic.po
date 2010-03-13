@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-13 08:58-0700\n"
+"PO-Revision-Date: 2010-03-13 09:58-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -1059,42 +1059,55 @@ msgstr ""
 "первый получит 1/3 ваших ресурсов, а второй получит 2/3."
 
 #: ../inc/prefs.inc:1338 ../inc/prefs.inc:1347
+#, fuzzy
 msgid "Default computer location"
-msgstr ""
+msgstr "Расположение компьютера по умолчанию"
 
 #: ../inc/prefs.inc:1627
+#, fuzzy
 msgid "Update failed: "
-msgstr ""
+msgstr "Неудача при обновлении: "
 
 #: ../inc/profile.inc:86
+#, fuzzy
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
 msgstr ""
+"Ваш профиль станет виден другим людям, как только он будет одобрен проектом. "
+"На это может потребоваться несколько дней."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
 msgstr ""
+"Ваш профиль был отмечен как недопустимый. Другие люди его не видят. "
+"Пожалуйста измените его."
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
 msgstr "Ошибка базы данных"
 
 #: ../inc/profile.inc:187
+#, fuzzy
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
+"Чтобы предотвратить спам, профили пользователей со средним количеством очков "
+"меньше чем %1 показываются только вошедшим пользователям.  Мы приносим "
+"извинения за это неудобство."
 
 #: ../inc/profile.inc:191
+#, fuzzy
 msgid "User is banished"
-msgstr ""
+msgstr "Пользователь заблокирован"
 
 #: ../inc/profile.inc:205
+#, fuzzy
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "Профиль не существует для пользователя с этим ID"
 
 #: ../inc/profile.inc:213 ../user/create_profile.php:306
 msgid "Edit your profile"
@@ -1121,100 +1134,103 @@ msgid "I %1do not like%2 this profile"
 msgstr "Мне %1не нравится%2 этот профиль"
 
 #: ../inc/result.inc:25
+#, fuzzy
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Анонимная платформа"
 
 #: ../inc/result.inc:32
 msgid "Not in DB"
-msgstr ""
+msgstr "Нет в БД"
 
 #: ../inc/result.inc:70
 msgid "pending"
-msgstr ""
+msgstr "ожидание"
 
 #: ../inc/result.inc:92
 msgid "All"
-msgstr ""
+msgstr "Все"
 
 #: ../inc/result.inc:93 ../inc/result.inc:113 ../inc/result.inc:152
 msgid "In progress"
-msgstr ""
+msgstr "В процессе"
 
 #: ../inc/result.inc:94 ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "Ожидание"
 
 #: ../inc/result.inc:95 ../inc/result.inc:195
 msgid "Valid"
-msgstr ""
+msgstr "Правильный"
 
 #: ../inc/result.inc:96 ../inc/result.inc:198
 msgid "Invalid"
-msgstr ""
+msgstr "Неправильный"
 
 #: ../inc/result.inc:97 ../inc/result.inc:138
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: ../inc/result.inc:111 ../inc/result.inc:150
 msgid "Inactive"
-msgstr ""
+msgstr "Неактивен"
 
 #: ../inc/result.inc:112 ../inc/result.inc:151
 msgid "Unsent"
-msgstr ""
+msgstr "Неотправлен"
 
 #: ../inc/result.inc:118
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Завершён, ожидает проверки"
 
 #: ../inc/result.inc:119
 msgid "Completed and validated"
-msgstr ""
+msgstr "Завершён и проверен"
 
 #: ../inc/result.inc:120
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Завершён, отмечен как неправильный"
 
 #: ../inc/result.inc:121
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Завершён, невозможно проверить"
 
 #: ../inc/result.inc:122
+#, fuzzy
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Завершён, проверка неокончательная"
 
 #: ../inc/result.inc:123
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Завершён, слишком поздно для проверки"
 
 #: ../inc/result.inc:125
 msgid "Completed"
-msgstr ""
+msgstr "Завершён"
 
 #: ../inc/result.inc:126 ../inc/result.inc:162
+#, fuzzy
 msgid "Couldn't send"
-msgstr ""
+msgstr "Не удалось отправить"
 
 #: ../inc/result.inc:129 ../inc/result.inc:186
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Отменён сервером"
 
 #: ../inc/result.inc:132
 msgid "Error while downloading"
-msgstr ""
+msgstr "Ошибка при загрузке"
 
 #: ../inc/result.inc:134
 msgid "Error while computing"
-msgstr ""
+msgstr "Ошибка при расчёте"
 
 #: ../inc/result.inc:135
 msgid "Error while uploading"
-msgstr ""
+msgstr "Ошибка при отправке"
 
 #: ../inc/result.inc:136 ../inc/result.inc:188
 msgid "Aborted by user"
-msgstr ""
+msgstr "Прервано пользователем"
 
 #: ../inc/result.inc:139
 msgid "Timed out - no response"
