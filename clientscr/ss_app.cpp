@@ -182,9 +182,7 @@ void show_result(RESULT* r, float x, float& y, float alpha) {
     sprintf(buf, "Elapsed: %.0f sec  Remaining: %.0f sec", r->elapsed_time, r->estimated_cpu_time_remaining);
     txf_render_string(.1, x, y, 0, TASK_INFO_SIZE, white, 0, buf);
     y -= .03;
-    sprintf(buf, "App: %s  Task: %s", (char*)r->app->user_friendly_name.c_str(),
-        r->wup->name.c_str()
-    );
+    sprintf(buf, "App: %s  Task: %s", r->app->user_friendly_name, r->wup->name);
     txf_render_string(.1, x, y, 0, TASK_INFO_SIZE, white, 0, buf);
     y -= .03;
 }
