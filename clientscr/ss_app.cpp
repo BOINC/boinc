@@ -214,7 +214,7 @@ void show_project(unsigned int index, float alpha) {
     PROJECT *p = cc_state.projects[index];
     txf_render_string(.1, x, y, 0, PROJ_NAME_SIZE, white, 0, (char*)p->project_name.c_str());
     y -= .07;
-    txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, (char*)p->master_url.c_str());
+    txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, p->master_url);
     y -= .05;
     sprintf(buf, "User: %s", p->user_name.c_str());
     txf_render_string(.1, x, y, 0, PROJ_INFO_SIZE, white, 0, buf);
