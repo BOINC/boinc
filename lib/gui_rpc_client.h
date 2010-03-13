@@ -171,8 +171,8 @@ public:
 
 class APP {
 public:
-    std::string name;
-    std::string user_friendly_name;
+    char name[256];
+    char user_friendly_name[256];
     PROJECT* project;
 
     APP();
@@ -185,9 +185,9 @@ public:
 
 class APP_VERSION {
 public:
-    std::string app_name;
+    char app_name[256];
     int version_num;
-    std::string plan_class;
+    char plan_class[64];
     APP* app;
     PROJECT* project;
 
@@ -201,8 +201,8 @@ public:
 
 class WORKUNIT {
 public:
-    std::string name;
-    std::string app_name;
+    char name[256];
+    char app_name[256];
     int version_num;    // backwards compat
     double rsc_fpops_est;
     double rsc_fpops_bound;
@@ -369,7 +369,7 @@ public:
     ~CC_STATE();
 
     PROJECT* lookup_project(char* url);
-    APP* lookup_app(PROJECT*, std::string&);
+    APP* lookup_app(PROJECT*, char* name);
     APP_VERSION* lookup_app_version(PROJECT*, APP*, int, char* plan_class);
     APP_VERSION* lookup_app_version_old(PROJECT*, APP*, int);
     WORKUNIT* lookup_wu(PROJECT*, char* name);

@@ -937,16 +937,16 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         APP_VERSION* avp = state_result->avp;
         if (!avp) return;
 
-        if (app->user_friendly_name.size()) {
-            strAppBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
+        if (strlen(app->user_friendly_name)) {
+            strAppBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name, wxConvUTF8));
         } else {
-            strAppBuffer = HtmlEntityDecode(wxString(state_result->avp->app_name.c_str(), wxConvUTF8));
+            strAppBuffer = HtmlEntityDecode(wxString(state_result->avp->app_name, wxConvUTF8));
         }
         
-        if (avp->plan_class.size()) {
+        if (strlen(avp->plan_class)) {
             strClassBuffer.Printf(
                 wxT(" (%s)"),
-                wxString(avp->plan_class.c_str(), wxConvUTF8).c_str()
+                wxString(avp->plan_class, wxConvUTF8).c_str()
             );
         }
 

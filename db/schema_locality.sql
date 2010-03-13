@@ -41,3 +41,6 @@ alter table sched_trigger
     add index(work_available),
     add index(no_work_available),
     add index(working_set_removal);
+
+alter table workunit
+    add index (fileset_id);

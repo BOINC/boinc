@@ -356,16 +356,16 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
         APP_VERSION* avp = state_result->avp;
         if (!avp) return strBuffer;
 
-        if (app->user_friendly_name.size()) {
-            strAppBuffer = wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8);
+        if (strlen(app->user_friendly_name)) {
+            strAppBuffer = wxString(state_result->app->user_friendly_name, wxConvUTF8);
         } else {
-            strAppBuffer = wxString(state_result->avp->app_name.c_str(), wxConvUTF8);
+            strAppBuffer = wxString(state_result->avp->app_name, wxConvUTF8);
         }
 
-        if (avp->plan_class.size()) {
+        if (strlen(avp->plan_class)) {
             strClassBuffer.Printf(
                 wxT(" (%s)"),
-                wxString(avp->plan_class.c_str(), wxConvUTF8).c_str()
+                wxString(avp->plan_class, wxConvUTF8).c_str()
             );
         }
 

@@ -1930,3 +1930,20 @@ David  12 Mar 2010
 
     db/
         db_base.cpp
+
+David  12 Mar 2010
+    - GUI RPC: more replacement of std::string
+
+    clientgui/
+        sg_ViewTagPage.cpp
+        DlgItemProperties.cpp
+        ViewWork.cpp
+    db/
+        schema.sql
+        schema_locality.sql
+    sched/
+        credit_test.cpp
+    lib/
+        gui_rpc_client_print.cpp
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

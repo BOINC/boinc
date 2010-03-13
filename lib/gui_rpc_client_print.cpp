@@ -92,18 +92,18 @@ void PROJECT::print() {
 }
 
 void APP::print() {
-    printf("   name: %s\n", name.c_str());
+    printf("   name: %s\n", name);
     printf("   Project: %s\n", project->project_name.c_str());
 }
 
 void APP_VERSION::print() {
-    printf("   application: %s\n", app->name.c_str());
+    printf("   application: %s\n", app->name);
     printf("   version: %.2f\n", version_num/100.0);
     printf("   project: %s\n", project->project_name.c_str());
 }
 
 void WORKUNIT::print() {
-    printf("   name: %s\n", name.c_str());
+    printf("   name: %s\n", name);
     printf("   FP estimate: %f\n", rsc_fpops_est);
     printf("   FP bound: %f\n", rsc_fpops_bound);
     printf("   memory bound: %f\n", rsc_memory_bound);

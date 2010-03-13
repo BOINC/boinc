@@ -114,10 +114,10 @@ void CViewTabPage::CreatePage()
 	resState = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
 	if(resState){
 		projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
-        if (resState->app->user_friendly_name.size()) {
-            projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+        if (strlen(resState->app->user_friendly_name)) {
+            projectFrName = wxString(resState->app->user_friendly_name, wxConvUTF8);
         } else {
-            projectFrName = wxString(resState->avp->app_name.c_str(), wxConvUTF8);
+            projectFrName = wxString(resState->avp->app_name, wxConvUTF8);
         }
 	} else {
 		projName = wxString("Not Available", wxConvUTF8 );
@@ -198,7 +198,7 @@ void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
 	char resolvedFile[512];
 	wxBitmap* btmpSlideShow;
 	for(int i=0; i<99; i++) {
-		sprintf(file, "%s/slideshow_%s_%02d", urlDirectory, result->app->name.c_str(), i);
+		sprintf(file, "%s/slideshow_%s_%02d", urlDirectory, result->app->name, i);
 		if(boinc_resolve_filename(file, resolvedFile, sizeof(resolvedFile)) == 0){
 			btmpSlideShow = new wxBitmap();
 			if ( btmpSlideShow->LoadFile(wxString(resolvedFile,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
@@ -723,7 +723,7 @@ void WorkunitNotebook::AddTab(RESULT* result) {
 		pDoc->ForceCacheUpdate();
  		return;
 	}
- 	wxString appShortName = wxString(resState->app->name.c_str(), wxConvUTF8 );
+ 	wxString appShortName = wxString(resState->app->name, wxConvUTF8 );
 	// Do not update screen at this point
     Freeze();
 	std::string index = " ";

@@ -27,7 +27,7 @@
 
 struct HOST_APP_VERSION {
     int host_id;
-    int app_version_id;     // 0 unknown, -1 anon platform
+    int app_version_id;     // 0 unknown, -1/-2/-3 anon platform
     int app_id;     // if unknown or anon platform
     AVERAGE pfc;
     AVERAGE et;

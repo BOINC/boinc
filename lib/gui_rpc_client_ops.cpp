@@ -339,14 +339,15 @@ int APP::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) return 0;
-        if (parse_str(buf, "<name>", name)) continue;
-        if (parse_str(buf, "<user_friendly_name>", user_friendly_name)) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<user_friendly_name>", user_friendly_name, sizeof(user_friendly_name))) continue;
     }
     return ERR_XML_PARSE;
 }
 
 void APP::clear() {
-    name.clear();
+    strcpy(name, "");
+    strcpy(user_friendly_name, "");
     project = NULL;
 }
 
@@ -362,15 +363,16 @@ int APP_VERSION::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
-        if (parse_str(buf, "<app_name>", app_name)) continue;
-        if (parse_str(buf, "<plan_class>", plan_class)) continue;
+        if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
+        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 void APP_VERSION::clear() {
-    app_name.clear();
+    strcpy(app_name, "");
+    strcpy(plan_class, "");
     version_num = 0;
     app = NULL;
     project = NULL;
@@ -388,8 +390,8 @@ int WORKUNIT::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</workunit>")) return 0;
-        if (parse_str(buf, "<name>", name)) continue;
-        if (parse_str(buf, "<app_name>", app_name)) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
         if (parse_double(buf, "<rsc_fpops_est>", rsc_fpops_est)) continue;
         if (parse_double(buf, "<rsc_fpops_bound>", rsc_fpops_bound)) continue;
@@ -400,8 +402,8 @@ int WORKUNIT::parse(MIOFILE& in) {
 }
 
 void WORKUNIT::clear() {
-    name.clear();
-    app_name.clear();
+    strcpy(name, "");
+    strcpy(app_name, "");
     version_num = 0;
     rsc_fpops_est = 0;
     rsc_fpops_bound = 0;
@@ -725,11 +727,11 @@ PROJECT* CC_STATE::lookup_project(char* url) {
     return 0;
 }
 
-APP* CC_STATE::lookup_app(PROJECT* project, string& str) {
+APP* CC_STATE::lookup_app(PROJECT* project, char* name) {
     unsigned int i;
     for (i=0; i<apps.size(); i++) {
         if (apps[i]->project != project) continue;
-        if (apps[i]->name == str) return apps[i];
+        if (!strcmp(apps[i]->name, name)) return apps[i];
     }
     return 0;
 }
