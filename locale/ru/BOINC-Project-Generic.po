@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-13 00:15-0700\n"
+"PO-Revision-Date: 2010-03-13 03:58-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -632,26 +632,36 @@ msgid "(no restriction if equal)"
 msgstr "(ограничение не действует при равенстве значений)"
 
 #: ../inc/prefs.inc:105
+#, fuzzy
 msgid ""
 "Leave tasks in memory while suspended? %1(suspended tasks will consume swap "
 "space if 'yes')%2"
 msgstr ""
+"Оставлять неактивные задания в памяти? %1(если 'да', приостановленные "
+"задания будут занимать место в виртуальной памяти)%2"
 
 #: ../inc/prefs.inc:112
+#, fuzzy
 msgid "Switch between tasks every %1(recommended: 60 minutes)%2"
-msgstr ""
+msgstr "Переключение между задачами каждые %1(рекомендуется: 60 минут)%2"
 
 #: ../inc/prefs.inc:119
+#, fuzzy
 msgid ""
 "Confirm before connecting to Internet? %1(matters only if you have a modem, "
 "ISDN or VPN connection)%2"
 msgstr ""
+"Подтверждать подключение к Интернету? %1(используется только при наличии "
+"модемного, ISDN- или VPN-подключения)%2"
 
 #: ../inc/prefs.inc:126
+#, fuzzy
 msgid ""
 "Disconnect when done? %1(matters only if you have a modem, ISDN or VPN "
 "connection)%2"
 msgstr ""
+"Разорвать соединение после завершения? %1(используется только при наличии "
+"модемного, ISDN- или VPN-подключения)%2"
 
 #: ../inc/prefs.inc:133
 msgid ""
