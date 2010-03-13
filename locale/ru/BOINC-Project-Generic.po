@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-13 07:59-0700\n"
+"PO-Revision-Date: 2010-03-13 08:58-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -925,113 +925,138 @@ msgid "and"
 msgstr "и"
 
 #: ../inc/prefs.inc:826
+#, fuzzy
 msgid "%1 GB disk space"
-msgstr ""
+msgstr "%1 Гбайт места на диске"
 
 #: ../inc/prefs.inc:834
+#, fuzzy
 msgid "%1 GB disk space free"
-msgstr ""
+msgstr "%1 Гбайт свободного места на диске"
 
 #: ../inc/prefs.inc:865
+#, fuzzy
 msgid ""
 "Resource share %1If you participate in multiple BOINC projects, this is the "
 "proportion of your resources used by %2%3"
 msgstr ""
+"Выделено ресурсов %1Если Вы участвуете во многих проектах BOINC, это "
+"пропорция ваших ресурсов, используемых проектом %2%3"
 
 #: ../inc/prefs.inc:911
+#, fuzzy
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
+"Электронные письма будут отправлены с адреса %1; убедитесь, что ваш фильтр "
+"спама принимает этот адрес."
 
 #: ../inc/prefs.inc:914 ../inc/prefs.inc:1271
+#, fuzzy
 msgid "Is it OK for %1 and your team (if any) to email you?"
-msgstr ""
+msgstr "Могут ли %1 и ваша команда отправлять Вам электронные письма?"
 
 #: ../inc/prefs.inc:917 ../inc/prefs.inc:1274
+#, fuzzy
 msgid "Should %1 show your computers on its web site?"
-msgstr ""
+msgstr "Должен ли %1 показывать ваши компьютеры на своем веб-сайте?"
 
 #: ../inc/prefs.inc:933
+#, fuzzy
 msgid "Computing"
-msgstr ""
+msgstr "вычислений"
 
 #: ../inc/prefs.inc:945
+#, fuzzy
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Отдельные настройки для конфигурации %1"
 
 #: ../inc/prefs.inc:955 ../inc/prefs.inc:1033
 #, fuzzy
 msgid "Edit preferences"
-msgstr "Настройки %1"
+msgstr "Редактировать настройки"
 
 #: ../inc/prefs.inc:959
+#, fuzzy
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Добавить отдельные настройки для конфигурации %1"
 
 #: ../inc/prefs.inc:968 ../inc/prefs.inc:1015
+#, fuzzy
 msgid "(Switch View)"
-msgstr ""
+msgstr "(Переключить вид)"
 
 #: ../inc/prefs.inc:970 ../inc/prefs.inc:1018
 #, fuzzy
 msgid "Combined preferences"
-msgstr "Настройки вычислений"
+msgstr "Объединённые настройки"
 
 #: ../inc/prefs.inc:975
+#, fuzzy
 msgid "Project specific settings"
-msgstr ""
+msgstr "Определенные параметры проекта"
 
 #: ../inc/prefs.inc:984 ../inc/prefs.inc:1027
+#, fuzzy
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Основные настройки (по умолчанию)"
 
 #: ../inc/prefs.inc:994 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
 #, fuzzy
 msgid "Edit %1 preferences"
-msgstr "Настройки %1"
+msgstr "Редактировать настройки %1"
 
 #: ../inc/prefs.inc:1008
+#, fuzzy
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
+"Они относятся ко всем проектам BOINC, в которых Вы участвуете.<br>\n"
+"На компьютерах, подключенных к нескольким проектам, будут использоваться "
+"настройки, изменённые самыми последними."
 
 #: ../inc/prefs.inc:1012
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Последнее изменение настроек:"
 
 #: ../inc/prefs.inc:1064
-#, fuzzy
 msgid "Add preferences"
-msgstr "Настройки %1"
+msgstr "Добавить настройки"
 
 #: ../inc/prefs.inc:1068
-#, fuzzy
 msgid "Update preferences"
-msgstr "Настройки %1"
+msgstr "Обновить настройки"
 
 #: ../inc/prefs.inc:1167
 msgid "Gbytes"
-msgstr ""
+msgstr "Гбайт"
 
 #: ../inc/prefs.inc:1181
 msgid "Gbytes free"
-msgstr ""
+msgstr "Гбайт свободно"
 
 #: ../inc/prefs.inc:1282
+#, fuzzy
 msgid "Resource share"
-msgstr ""
+msgstr "Выделено ресурсов"
 
 #: ../inc/prefs.inc:1284
+#, fuzzy
 msgid ""
 "Determines the proportion of your computer's resources\n"
 "            allocated to this project. Example: if you participate in two\n"
 "            BOINC projects with resource shares of 100 and 200, the first\n"
 "            will get 1/3 of your resources and the second will get 2/3."
 msgstr ""
+"Определяет пропорции ресурсов вашего компьютера,\n"
+"выделенных этому проекту.\n"
+"Пример: если Вы участвуете в двух\n"
+"проектах BOINC с долями ресурсов 100 и 200,\n"
+"первый получит 1/3 ваших ресурсов, а второй получит 2/3."
 
 #: ../inc/prefs.inc:1338 ../inc/prefs.inc:1347
 msgid "Default computer location"
