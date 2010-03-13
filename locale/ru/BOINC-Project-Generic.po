@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-13 05:47-0700\n"
+"PO-Revision-Date: 2010-03-13 07:59-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -831,10 +831,13 @@ msgstr ""
 "Эти настройки применяются ко всем проектам BOINC, в которых Вы участвуете."
 
 #: ../inc/prefs.inc:222
+#, fuzzy
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
+"%1Невозможно обновить настройки.%2 Значения, отмеченные красным ниже, вне "
+"диапазона или нечисловые."
 
 #: ../inc/prefs.inc:277
 msgid "bad venue: %1"
@@ -851,7 +854,7 @@ msgstr ""
 #: ../inc/prefs.inc:903 ../inc/prefs.inc:915 ../inc/prefs.inc:917
 #: ../inc/prefs.inc:1327 ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
-msgstr ""
+msgstr "да"
 
 #: ../inc/prefs.inc:688 ../inc/prefs.inc:691 ../inc/prefs.inc:800
 #: ../inc/prefs.inc:801 ../inc/prefs.inc:802 ../inc/prefs.inc:818
@@ -860,58 +863,66 @@ msgstr ""
 #: ../inc/prefs.inc:903 ../inc/prefs.inc:915 ../inc/prefs.inc:917
 #: ../inc/prefs.inc:1329 ../project.sample/project_specific_prefs.inc:76
 msgid "no"
-msgstr ""
+msgstr "нет"
 
 #: ../inc/prefs.inc:696 ../inc/prefs.inc:847 ../inc/prefs.inc:850
+#, fuzzy
 msgid "no limit"
-msgstr ""
+msgstr "нет ограничений"
 
 #: ../inc/prefs.inc:721 ../user/team_admins.php:77
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: ../inc/prefs.inc:722 ../inc/prefs.inc:724
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #: ../inc/prefs.inc:723 ../inc/prefs.inc:955 ../user/team_admins.php:32
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: ../inc/prefs.inc:758 ../inc/prefs.inc:760 ../inc/prefs.inc:766
 #: ../inc/prefs.inc:1113 ../inc/prefs.inc:1118 ../inc/prefs.inc:1136
+#, fuzzy
 msgid "minutes"
-msgstr ""
+msgstr "минут"
 
 #: ../inc/prefs.inc:772
+#, fuzzy
 msgid "GB disk space"
-msgstr ""
+msgstr "Гбайт места на диске"
 
 #: ../inc/prefs.inc:773
+#, fuzzy
 msgid "GB disk space free"
-msgstr ""
+msgstr "Гбайт свободного места на диске"
 
 #: ../inc/prefs.inc:775 ../inc/prefs.inc:1195
+#, fuzzy
 msgid "seconds"
-msgstr ""
+msgstr "секунд"
 
 #: ../inc/prefs.inc:781 ../inc/prefs.inc:782 ../inc/prefs.inc:1222
 #: ../inc/prefs.inc:1228
+#, fuzzy
 msgid "days"
-msgstr ""
+msgstr "дней"
 
 #: ../inc/prefs.inc:803 ../inc/prefs.inc:806 ../inc/prefs.inc:819
+#, fuzzy
 msgid "%1 minutes"
-msgstr ""
+msgstr "%1 минут"
 
 #: ../inc/prefs.inc:811 ../inc/prefs.inc:852
+#, fuzzy
 msgid "(no restriction)"
-msgstr ""
+msgstr "(без ограничений)"
 
 #: ../inc/prefs.inc:815 ../inc/prefs.inc:856 ../inc/prefs.inc:1129
 #: ../inc/prefs.inc:1261
 msgid "and"
-msgstr ""
+msgstr "и"
 
 #: ../inc/prefs.inc:826
 msgid "%1 GB disk space"
