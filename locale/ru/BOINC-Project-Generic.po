@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-13 10:53-0700\n"
+"PO-Revision-Date: 2010-03-13 12:39-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -1375,46 +1375,50 @@ msgid "Work unit ID"
 msgstr ""
 
 #: ../inc/result.inc:271
-#, fuzzy
 msgid "Computer"
-msgstr "Компьютеры"
+msgstr "Компьютер"
 
 #: ../inc/result.inc:274 ../inc/result.inc:378
+#, fuzzy
 msgid "Sent"
-msgstr ""
+msgstr "Отправлен"
 
 #: ../inc/result.inc:275
+#, fuzzy
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Время подтверждения<br />или крайний срок"
 
 #: ../inc/result.inc:276
 msgid "explain"
-msgstr ""
+msgstr "объяснить"
 
 #: ../inc/result.inc:278
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: ../inc/result.inc:279
+#, fuzzy
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Время выполнения<br />(сек)"
 
 #: ../inc/result.inc:280
+#, fuzzy
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "Время ЦП<br />(сек)"
 
 #: ../inc/result.inc:281 ../inc/result.inc:390
+#, fuzzy
 msgid "Claimed credit"
-msgstr ""
+msgstr "Затребовано очков"
 
 #: ../inc/result.inc:282 ../inc/result.inc:391
+#, fuzzy
 msgid "Granted credit"
-msgstr ""
+msgstr "Предоставлено очков"
 
 #: ../inc/result.inc:283
-#, fuzzy
 msgid "Application"
-msgstr "Приложения"
+msgstr "Приложение"
 
 #: ../inc/result.inc:376
 msgid "Workunit"
