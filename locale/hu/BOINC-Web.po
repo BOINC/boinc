@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-03-12 15:12-0700\n"
+"PO-Revision-Date: 2010-03-12 16:37-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -344,6 +344,8 @@ msgstr "Böngésző alapértelmezés"
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
+"Nyílt forráskódú %sönkéntes%s, illetve %shálózatos%s elosztott számítási "
+"rendszer."
 
 #: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
@@ -886,6 +888,14 @@ msgstr "A BOINC központja a California egyetemen, Berkeley-ben található"
 #~ msgid "HOME_BOINC"
 #~ msgstr "Berkeley Open Infrastructure for Network Computing"
 
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# The name of this language in this language
+# The name of this language in an international language (English)
+# #######################################
+# poll-related stuff
+# #############################################
+# help.php
+# index.php
 #~ msgid "HOME_BOINC_DESC"
 #~ msgstr ""
 #~ "Open-source software for %svolunteer computing%s and %sgrid computing%s"
