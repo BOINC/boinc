@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-13 12:39-0700\n"
+"PO-Revision-Date: 2010-03-14 03:50-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -1299,7 +1299,7 @@ msgstr "Готово"
 #: ../inc/result.inc:194
 #, fuzzy
 msgid "Initial"
-msgstr "Первичный"
+msgstr "Исходный"
 
 #: ../inc/result.inc:200
 msgid "Not necessary"
@@ -1335,6 +1335,7 @@ msgstr "Слишком много ошибок (может иметь ошибк
 msgid "Too many results (may be nondeterministic)"
 msgstr "Слишком много результатов (может быть недетерминированным)"
 
+# каких результатов??? тотальных???
 #: ../inc/result.inc:223
 #, fuzzy
 msgid "Too many total results"
@@ -1414,7 +1415,7 @@ msgstr "Затребовано очков"
 #: ../inc/result.inc:282 ../inc/result.inc:391
 #, fuzzy
 msgid "Granted credit"
-msgstr "Предоставлено очков"
+msgstr "Дано очков"
 
 #: ../inc/result.inc:283
 msgid "Application"
