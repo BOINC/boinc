@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-03-14 19:46+0200\n"
+"PO-Revision-Date: 2010-03-14 23:38+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,7 @@ msgstr "Bu hesap yöneticisi için en az parola uzunluğu %d karakter. Lütfen f
 
 #: clientgui/AccountInfoPage.cpp:560
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr "Parola ve doğrulama parolası birbirini tutmuyor. Lütfen tekrar yazın."
+msgstr "Parola ve parola doğrulaması birbirini tutmuyor. Lütfen tekrar yazın."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Choose an account manager"
@@ -154,7 +154,9 @@ msgstr "Bir hesap yöneticisi seçin"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "Bir proje seçmek için aşağıda ismine tıklayın ya da adresini girin."
+msgstr ""
+"Bir hesap yöneticisi seçmek için ismine tıklayın ya da\n"
+"aşağıya adresini girin."
 
 #: clientgui/AccountManagerInfoPage.cpp:255
 msgid "Account Manager &URL:"
@@ -279,7 +281,7 @@ msgstr "%s ile &eşitle"
 #: clientgui/AdvancedFrame.cpp:401
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Güncel ayarları %s'den alır."
+msgstr "Güncel ayarları %s hesap yöneticisinden alır."
 
 #: clientgui/AdvancedFrame.cpp:412
 msgid "Attach to &project..."
@@ -501,7 +503,7 @@ msgstr "&Yardım"
 
 #: clientgui/AdvancedFrame.cpp:1028
 msgid "Attaching to project or account manager..."
-msgstr "&Projeye bağlan ya da hesap yöneticisine katıl..."
+msgstr "Projeye katılıyor ya da hesap yöneticisine bağlanıyor..."
 
 #: clientgui/AdvancedFrame.cpp:1121
 #, c-format
@@ -708,7 +710,7 @@ msgid ""
 msgstr ""
 "%s şu anda bir %s istemcisine bağlı değil.\n"
 "Lütfen 'Gelişmiş\\Bilgisayar seç ve bağlan...' menüsünden bir %s istemcisine bağlanın.\n"
-"Kullandığınız bu bilgisayara bağlanmak için lütfen bigisayar adı olarak 'localhost' yazın."
+"Kendi bilgisayarınıza bağlanmak için lütfen bigisayar adı olarak 'localhost' yazın."
 
 #: clientgui/BOINCBaseView.cpp:723
 msgid "Web sites"
@@ -1120,7 +1122,7 @@ msgstr "Bilgisayar kullanımda olduğunda GPU'yu kullan"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr "bilgisayarınızı kullandığınız sırada ekran kartınızın (GPU) hesaplama için çalışmasını istiyorsanız bunu işaretleyin (bilgisayarı yavaşlatabilir)"
+msgstr "bilgisayarınızı kullandığınız sırada ekran kartınızın (GPU) hesaplama için çalışmasını istiyorsanız bunu işaretleyin (bazı bilgisayarlarda yavaşlama yaratabilir)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:113
 msgid "Only after computer has been idle for"
@@ -1849,7 +1851,7 @@ msgid ""
 "Network reminder interval:\n"
 "(minutes)"
 msgstr ""
-"Ağ ihtiyacı hatırlatma aralığı\n"
+"Ağ ihtiyacını hatırlatma sıklığı\n"
 "(dakika)"
 
 #: clientgui/DlgOptions.cpp:180
@@ -3583,7 +3585,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:256
 msgid "Attach to project or account manager"
-msgstr "Projeye ya da hesap yöneticisine bağlan"
+msgstr "Projeye katıl ya da hesap yöneticisine bağlan"
 
 #: clientgui/WelcomePage.cpp:264
 #, c-format
@@ -3605,8 +3607,8 @@ msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
 msgstr ""
-"Size bir projeye katılma ya da hesap yöneticisine bağlanma işleminde\n"
-"rehberlik edeceğiz."
+"Size bir projeye katılma ya da hesap yöneticisine\n"
+"bağlanma işleminde rehberlik edeceğiz."
 
 #: clientgui/WelcomePage.cpp:281
 msgid ""
