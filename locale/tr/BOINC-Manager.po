@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-03-14 19:32+0200\n"
+"PO-Revision-Date: 2010-03-14 19:46+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -1406,7 +1406,7 @@ msgstr "Durdurulduğunda uygulamaları bellekte tut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:605
 msgid "if checked, suspended work units are left in memory"
-msgstr "işaretlenirse, durdurulmuş işler kapatılmaz ve bellekte kalmayı sürdürür"
+msgstr "işaretlenirse, duraklayan hesaplama uygulamaları kapatılmaz ve bellekte kalmayı sürdürür"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:614
 msgid "disk and memory usage"
