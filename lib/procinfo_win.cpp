@@ -102,7 +102,7 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
             sizeof(p.command),
             NULL, NULL
         );
-		p.is_boinc_app = (p.id == pid) || (strstr(p.command, "boinc") != NULL);
+		p.is_boinc_app = (p.id == pid) || (strcasestr(p.command, "boinc") != NULL);
         pi.push_back(p);
         if (!pProcesses->NextEntryDelta) {
             break;

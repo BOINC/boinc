@@ -1947,3 +1947,12 @@ David  12 Mar 2010
         gui_rpc_client_print.cpp
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  15 Mar 2010
+    - client: in computing non-BOINC CPU time,
+        exclude any process whose executable includes "boinc", case-insensitive.
+        Fix problem with BoincTasks.exe
+
+    lib/
+        procinfo_unix.cpp
+        procinfo_win.cpp
