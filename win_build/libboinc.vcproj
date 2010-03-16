@@ -732,6 +732,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\str_replace.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\str_util.h"
 				>
 			</File>
