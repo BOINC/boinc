@@ -4,6 +4,7 @@
 #include "error_numbers.h"
 #include "diagnostics_win.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "procinfo.h"
 
 using std::vector;
@@ -102,7 +103,7 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
             sizeof(p.command),
             NULL, NULL
         );
-		p.is_boinc_app = (p.id == pid) || (strstr(p.command, "boinc") != NULL);
+		p.is_boinc_app = (p.id == pid) || (strcasestr(p.command, "boinc") != NULL);
         pi.push_back(p);
         if (!pProcesses->NextEntryDelta) {
             break;

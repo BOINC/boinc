@@ -206,7 +206,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                             p.page_fault_count = prusage.pr_majf + prusage.pr_minf;
                         }
                         fclose(fd);
-                        p.is_boinc_app = (p.id == pid || strstr(p.command, "boinc"));
+                        p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
                         pi.push_back(p);
                     }
                 }
@@ -231,7 +231,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                     p.user_time = ps.utime / 100.;
                     p.kernel_time = ps.stime / 100.;
                     strlcpy(p.command, ps.comm, sizeof(p.command));
-                    p.is_boinc_app = (p.id == pid || strstr(p.command, "boinc"));
+                    p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
                     pi.push_back(p);
                 }
 #endif
