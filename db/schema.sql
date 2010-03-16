@@ -624,7 +624,7 @@ create table state_counts (
 ) engine=MyISAM; 
 
 create table host_app_version (
-    host_id;            integer     not null,
+    host_id             integer     not null,
     app_version_id      integer     not null,
     pfc_n               double      not null,
     pfc_avg             double      not null,

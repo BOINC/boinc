@@ -1971,3 +1971,12 @@ Bernd 16 Mar 2010
 
     lib/
         Makefile.mingw
+
+David  16 Mar 2010
+    - fix bugs in strcasestr(), which apparently had never been tested
+    - fix typo in schema
+
+    db/
+        schema.sql
+    lib/
+        str_util.cpp

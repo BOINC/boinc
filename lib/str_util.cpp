@@ -81,55 +81,57 @@ size_t strlcat(char *dst, const char *src, size_t size) {
 
 #if !defined(HAVE_STRCASESTR)
 const char *strcasestr(const char *s1, const char *s2) {
-  char *needle, *haystack, *p=NULL;
-  // Is alloca() really less likely to fail with out of memory error 
-  // than strdup?
+    char *needle=NULL, *haystack=NULL, *p=NULL;
+    bool need_free = false;
+    // Is alloca() really less likely to fail with out of memory error 
+    // than strdup?
 #if defined(HAVE_STRDUPA)
-  haystack=strdupa(s1);
-  needle=strdupa(s2);
+    haystack=strdupa(s1);
+    needle=strdupa(s2);
 #elif defined(HAVE_ALLOCA_H) || defined(HAVE_ALLOCA)
-  haystack=(char *)alloca(strlen(s1)+1);
-  needle=(char *)alloca(strlen(s2)+1);
-  if (needle && haystack) {
-    strlcpy(haystack,s1,strlen(s1)+1);
-    strlcpy(needle,s2,strlen(s2)+1);
-  }
-#elif defined(HAVE_STRDUP)
-  haystack=strdup(s1);
-  needle=strdup(s1)
-#else
-  haystack=(char *)malloc(strlen(s1)+1);
-  needle=(char *)malloc(strlen(s2)+1);
-  if (needle && haystack) {
-    strlcpy(haystack,s1,strlen(s1)+1);
-    strlcpy(needle,s2,strlen(s2)+1);
-  }
-#endif
-  if (needle && haystack) {
-    // convert both strings to lower case
-    do {
-      *haystack=tolower(*haystack);
-    } while (*(++haystack));
-    do {
-      *needle=tolower(*needle);
-    } while (*(++needle));
-    // find the substring
-    p=strstr(haystack,needle);
-    // correct the pointer to point to the substring within s1
-    if (p) {
-      // C++ type checking requires const_cast here, although this
-      // is dangerous if s1 points to read only storage.  But the C
-      // function definitely takes a const char * as the first parameter
-      // and returns a char *.  So that's what we'll do.
-      p=const_cast<char *>(s1)+(p-haystack);
+    haystack=(char *)alloca(strlen(s1)+1);
+    needle=(char *)alloca(strlen(s2)+1);
+    if (needle && haystack) {
+        strlcpy(haystack,s1,strlen(s1)+1);
+        strlcpy(needle,s2,strlen(s2)+1);
     }
-  } 
-#if !defined(HAVE_STRDUPA) && !defined(HAVE_ALLOCA) && !defined(HAVE_ALLOC_H)
-  // If we didn't allocate on the stack free our strings
-  if (needle) free(needle);
-  if (haystack) free(haystack);
+#elif defined(HAVE_STRDUP)
+    haystack=strdup(s1);
+    needle=strdup(s1)
+    need_free = true;
+#else
+    haystack=(char *)malloc(strlen(s1)+1);
+    needle=(char *)malloc(strlen(s2)+1);
+    if (needle && haystack) {
+        strlcpy(haystack,s1,strlen(s1)+1);
+        strlcpy(needle,s2,strlen(s2)+1);
+    }
+    need_free = true;
 #endif
-  return p;
+    if (needle && haystack) {
+        // convert both strings to lower case
+        p = haystack;
+        while (*p) {
+            *p = tolower(*p);
+            p++;
+        }
+        p = needle;
+        while (*p) {
+            *p = tolower(*p);
+            p++;
+        }
+        // find the substring
+        p = strstr(haystack, needle);
+        // correct the pointer to point to the substring within s1
+        if (p) {
+            p = const_cast<char *>(s1)+(p-haystack);
+        }
+    } 
+    if (need_free) {
+        if (needle) free(needle);
+        if (haystack) free(haystack);
+    }
+    return p;
 }
 #endif
 // Converts a double precision time (where the value of 1 represents
