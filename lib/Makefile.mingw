@@ -8,10 +8,11 @@ BOINC_SRC ?= ..
 
 
 # headers to install
-HEADERS = version.h api/boinc_api.h api/graphics2.h lib/app_ipc.h lib/boinc_win.h lib/url.h \
-	lib/common_defs.h lib/diagnostics.h lib/diagnostics_win.h lib/filesys.h lib/hostinfo.h \
-	lib/proxy_info.h lib/prefs.h lib/miofile.h lib/mfile.h lib/parse.h lib/util.h \
-	lib/coproc.h lib/cal.h win_build/config.h
+HEADERS = $(BOINC_SRC)/version.h $(BOINC_SRC)/api/boinc_api.h $(BOINC_SRC)/api/graphics2.h $(BOINC_SRC)/lib/app_ipc.h \
+	$(BOINC_SRC)/lib/boinc_win.h $(BOINC_SRC)/lib/url.h $(BOINC_SRC)/lib/common_defs.h $(BOINC_SRC)/lib/diagnostics.h \
+	$(BOINC_SRC)/lib/diagnostics_win.h $(BOINC_SRC)/lib/filesys.h $(BOINC_SRC)/lib/hostinfo.h $(BOINC_SRC)/lib/proxy_info.h \
+	$(BOINC_SRC)/lib/prefs.h $(BOINC_SRC)/lib/miofile.h $(BOINC_SRC)/lib/mfile.h $(BOINC_SRC)/lib/parse.h \
+	$(BOINC_SRC)/lib/util.h $(BOINC_SRC)/lib/coproc.h $(BOINC_SRC)/lib/cal.h $(BOINC_SRC)/win_build/config.h
 
 ZIP_HEADERS = zip/boinc_zip.h
 

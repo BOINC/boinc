@@ -1965,3 +1965,9 @@ Charlie  16 Mar 2010
         
     client/
         file_names.cpp
+
+Bernd 16 Mar 2010
+    allow out-of-source-tree build & install of MinGW Makefile build
+
+    lib/
+        Makefile.mingw
