@@ -895,3 +895,9 @@ Rom    16 Mar 2010
     /
         configure.ac
         version.h
+
+David  16 Mar 2010
+    - fix bugs in strcasestr(), which apparently had never been tested
+
+    lib/
+        str_util.cpp
