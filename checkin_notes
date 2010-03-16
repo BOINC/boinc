@@ -868,7 +868,6 @@ Rom    12 Mar 2010
         app_control.cpp
         cpu_sched.cpp
     clientgui/
-<<<<<<< .working
         BOINCTaskBar.cpp
 
 Charlie  16 Mar 2010
@@ -877,19 +876,6 @@ Charlie  16 Mar 2010
         
     client/
         file_names.cpp
-=======
-        sg_ViewTagPage.cpp
-        DlgItemProperties.cpp
-        ViewWork.cpp
-    db/
-        schema.sql
-        schema_locality.sql
-    sched/
-        credit_test.cpp
-    lib/
-        gui_rpc_client_print.cpp
-        gui_rpc_client_ops.cpp
-        gui_rpc_client.h
 
 David  15 Mar 2010
     - client: in computing non-BOINC CPU time,
@@ -901,4 +887,11 @@ David  15 Mar 2010
     lib/
         procinfo_unix.cpp
         procinfo_win.cpp
->>>>>>> .merge-right.r20912
+
+Rom    16 Mar 2010
+    - Tag for 6.10.38 release, all platforms
+      boinc_core_release_6_10_38
+
+    /
+        configure.ac
+        version.h
