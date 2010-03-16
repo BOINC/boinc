@@ -1952,6 +1952,8 @@ David  15 Mar 2010
     - client: in computing non-BOINC CPU time,
         exclude any process whose executable includes "boinc", case-insensitive.
         Fix problem with BoincTasks.exe
+        NOTE: this affects only Win and Linux;
+        Mac already had case-insensitive comparison.
 
     lib/
         procinfo_unix.cpp
