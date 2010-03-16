@@ -869,3 +869,10 @@ Rom    12 Mar 2010
         cpu_sched.cpp
     clientgui/
         BOINCTaskBar.cpp
+
+Charlie  16 Mar 2010
+    - Mac Sandbox: Fix bug in my changes of 26 Jan 2010 to set projects directory 
+        and slots directory to group boinc_project, not boinc_master.
+        
+    client/
+        file_names.cpp

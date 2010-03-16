@@ -141,7 +141,7 @@ int make_project_dir(PROJECT& p) {
         umask(old_mask);
         // Only user boinc_master and group boinc_project can access 
         // project directories, to keep authenticators private
-        set_to_project_group(buf);
+        set_to_project_group(PROJECTS_DIR);
     }
 #endif
     get_project_dir(&p, buf, sizeof(buf));
@@ -197,7 +197,7 @@ int make_slot_dir(int slot) {
         umask(old_mask);
         // Only user boinc_master and group boinc_project can 
         // access slot directories, to keep authenticators private
-        set_to_project_group(buf);
+        set_to_project_group(SLOTS_DIR);
     }
 
 #endif
