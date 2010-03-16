@@ -22,9 +22,31 @@
 #ifndef _BOINC_WIN_
 #define _BOINC_WIN_
 
+#ifndef __CYGWIN32__
+
+// Windows C Runtime Library
+
+#ifndef HAVE_STD_MAX
+#define HAVE_STD_MAX 1
+#endif 
+
+#ifndef HAVE_STD_MIN
+#define HAVE_STD_MIN 1
+#endif 
+
+#ifndef HAVE_STD_TRANSFORM
+#define HAVE_STD_TRANSFORM 1
+#endif 
+
+#ifndef HAVE_ALLOCA
+#define HAVE_ALLOCA 1
+#endif 
+
+#else
+
 // Under CYGWIN we need to include config.h first.
-#ifdef __CYGWIN32__
 #include "config.h"
+
 #endif
 
 // Windows System Libraries
@@ -36,9 +58,15 @@
 // platforms we are going to disable the deprecation warnings if we are compiling
 // on Visual Studio 2005
 #if _MSC_VER >= 1400
+
 #ifndef _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
 #endif
+
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #endif
 
 // Target Windows 2000 or better with Internet Explorer 5.01 or better

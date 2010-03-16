@@ -1980,3 +1980,14 @@ David  16 Mar 2010
         schema.sql
     lib/
         str_util.cpp
+
+Rom    16 Mar 2010
+    - Define HAVE_ALLOCA in boinc_win.h so that any component using
+      strcasestr in str_util.cpp uses stack allocations instead of
+      more expensive heap allocations.
+    - Move remaining HAVE_* defines from project files to boinc_win.h
+
+    lib/
+        boinc_win.h
+    win_build/
+        *.vcproc
