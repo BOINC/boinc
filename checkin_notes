@@ -946,7 +946,7 @@ David  18 Mar 2010
 	lib/
 		mfile.cpp
 
-Rom    16 Mar 2010
+Rom    18 Mar 2010
     - Tag for 6.10.40 release, all platforms
       boinc_core_release_6_10_40
 
@@ -964,3 +964,12 @@ Charlie  18 Mar 2010
     
      clientgui/
         ViewMessages.cpp
+
+Rom    18 Mar 2010
+    - Tag for 6.10.41 release, all platforms
+      boinc_core_release_6_10_41
+
+    /
+        configure.ac
+        version.h
+
