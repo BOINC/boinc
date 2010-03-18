@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-01-28 14:29-0700\n"
+"PO-Revision-Date: 2010-03-18 15:21-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -1155,17 +1155,16 @@ msgid "minutes"
 msgstr "minuts"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "utilització de processador"
+msgstr "Mentre l'ús del processador és inferior a"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
+msgstr "suspendre el treball si l'ús del processador supera a aquest nivell"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "per cent (0 significa que no hi ha restricció)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1243,7 +1242,6 @@ msgid "Other options"
 msgstr "Altres opcions"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
-#, fuzzy
 msgid "Switch between applications every"
 msgstr "Canviar entre aplicacions cada"
 
@@ -2334,7 +2332,6 @@ msgid "Network communication failure"
 msgstr "Fallo en la comunicació per xarxa."
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2353,7 +2350,7 @@ msgstr ""
 "The World Community Grid - BOINC no ha pogut establir comunicació\n"
 "per Internet. Les raons més probables son:\n"
 "\n"
-"1) Problema de connectivitat. Verifiqueu la vostra xarxa o la connexió per "
+"1) Problema de connectivitat.  Verifiqueu la vostra xarxa o la connexió per "
 "mòdem\n"
 "i després premeu Enrere per intentar-ho de nou.\n"
 "\n"
