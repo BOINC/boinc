@@ -401,9 +401,9 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
             if (was_connected != isConnected) {
                 was_connected = isConnected;
                 if (isConnected) {
-                    m_pMessageInfoAttr->SetTextColour(*wxBLACK);
+                    m_pMessageInfoAttr->SetTextColour(m_pWhiteBackgroundAttr->GetTextColour());
                     m_pMessageErrorAttr->SetTextColour(*wxRED);
-                    m_pMessageInfoGrayAttr->SetTextColour(*wxBLACK);
+                    m_pMessageInfoGrayAttr->SetTextColour(m_pGrayBackgroundAttr->GetTextColour());
                     m_pMessageErrorGrayAttr->SetTextColour(*wxRED);
                 } else {
                     wxColourDatabase colorBase;
