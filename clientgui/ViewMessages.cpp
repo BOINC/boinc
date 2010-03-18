@@ -118,10 +118,41 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 145);
     m_pListPane->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, 550);
 
-    m_pMessageInfoAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
-    m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
-    m_pMessageInfoGrayAttr = new wxListItemAttr(*wxBLACK, wxColour(240, 240, 240), wxNullFont);
-    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(240, 240, 240), wxNullFont);
+#if BASEVIEW_STRIPES    
+    m_pMessageInfoAttr = new wxListItemAttr(
+        m_pWhiteBackgroundAttr->GetTextColour(), 
+        m_pWhiteBackgroundAttr->GetBackgroundColour(), 
+        wxNullFont
+    );
+    m_pMessageErrorAttr = new wxListItemAttr(
+        *wxRED, 
+        m_pWhiteBackgroundAttr->GetBackgroundColour(), 
+        wxNullFont
+    );
+    m_pMessageInfoGrayAttr = new wxListItemAttr(
+        m_pGrayBackgroundAttr->GetTextColour(), 
+        m_pGrayBackgroundAttr->GetBackgroundColour(), 
+        wxNullFont
+    );
+    m_pMessageErrorGrayAttr = new wxListItemAttr(
+        *wxRED, 
+        m_pGrayBackgroundAttr->GetBackgroundColour(), 
+        wxNullFont
+    );
+#else
+    m_pMessageInfoAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
+        wxNullFont
+    );
+    m_pMessageErrorAttr = new wxListItemAttr(
+        *wxRED, 
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
+        wxNullFont
+    );
+    m_pMessageInfoGrayAttr = new wxListItemAttr(*m_pMessageInfoAttr);
+    m_pMessageErrorGrayAttr = new wxListItemAttr(*m_pMessageErrorAttr);
+#endif
 
     UpdateSelection();
 }

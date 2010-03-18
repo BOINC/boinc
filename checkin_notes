@@ -958,4 +958,9 @@ David  18 Mar 2010
 	- unix compile fix
 
 	lib/
-		mfile.cpp
+
+Charlie  18 Mar 2010
+    - MGR: Derive messages tab colors from base class colors.
+    
+     clientgui/
+        ViewMessages.cpp
