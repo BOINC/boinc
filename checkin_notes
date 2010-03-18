@@ -1992,7 +1992,6 @@ Rom    16 Mar 2010
     win_build/
         *.vcproc
 
-
 Charlie  18 Mar 2010
     - MGR: If user selects Event Log from menu when Event Log window already open, 
         just bring it to the front instead of opening another window.

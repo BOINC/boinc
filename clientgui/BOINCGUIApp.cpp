@@ -811,12 +811,11 @@ bool CBOINCGUIApp::DisplayEventLog() {
         m_pEventLog->Raise();
     } else {
         m_pEventLog = new CDlgEventLog();
-    }
-    
-    if (m_pEventLog) {
-        rc = m_pEventLog->Show();
-        if (m_pFrame) {
-            m_pFrame->UpdateRefreshTimerInterval();
+        if (m_pEventLog) {
+            rc = m_pEventLog->Show();
+            if (m_pFrame) {
+                m_pFrame->UpdateRefreshTimerInterval();
+            }
         }
     }
 
