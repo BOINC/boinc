@@ -807,7 +807,12 @@ int CBOINCGUIApp::StartBOINCDefaultScreensaverTest() {
 bool CBOINCGUIApp::DisplayEventLog() {
     bool rc = false; 
 
-    m_pEventLog = new CDlgEventLog();
+    if (m_pEventLog) {
+        m_pEventLog->Raise();
+    } else {
+        m_pEventLog = new CDlgEventLog();
+    }
+    
     if (m_pEventLog) {
         rc = m_pEventLog->Show();
         if (m_pFrame) {

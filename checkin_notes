@@ -1991,3 +1991,14 @@ Rom    16 Mar 2010
         boinc_win.h
     win_build/
         *.vcproc
+
+
+Charlie  18 Mar 2010
+    - MGR: If user selects Event Log from menu when Event Log window already open, 
+        just bring it to the front instead of opening another window.
+    - lib: Fix crash bugs.
+
+    clientgui/
+        BOINCGUIApp.cpp
+    lib/
+        gui_rpc_client_ops.cpp
