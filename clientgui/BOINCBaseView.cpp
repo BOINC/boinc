@@ -135,7 +135,7 @@ CBOINCBaseView::CBOINCBaseView(
         wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
         wxColour(247, 247, 247),
         wxNullFont
-        );
+    );
 #endif
 }
 

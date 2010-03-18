@@ -930,3 +930,10 @@ Charlie  18 Mar 2010
     clientgui/
         BOINCBaseView.cpp,.h
         BOINCListCtrl.cpp, .h
+
+Rom    18 Mar 2010
+    - MGR: Change previous commit to strips only for the next build. Things look
+        wonky with both stripes and rules around the margins.
+        
+    clientgui/
+        BOINCBaseView.cpp,.h
