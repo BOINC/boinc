@@ -71,6 +71,9 @@ private:
 
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;
+#if BASEVIEW_STRIPES
+    virtual wxListItemAttr* OnGetItemAttr(long item) const;
+#endif
 
     CBOINCBaseView*         m_pParentView;
     wxArrayInt              m_iRowsNeedingProgressBars;

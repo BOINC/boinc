@@ -921,3 +921,12 @@ Rom    16 Mar 2010
         configure.ac
         version.h
 
+Charlie  18 Mar 2010
+    - MGR: Allow separate compile-time choice of rules and / or alternating gray 
+        and white background stripes in lists by defining BASEVIEW_RULES and 
+        BASEVIEW_STRIPES (in BOINCBaseView.h); set each to 1 to enable or 0 to 
+        disable; currently both are set to 1 for both stripes and rules.
+
+    clientgui/
+        BOINCBaseView.cpp,.h
+        BOINCListCtrl.cpp, .h

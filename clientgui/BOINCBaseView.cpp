@@ -61,6 +61,11 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     SetName(GetViewName());
 
     SetAutoLayout(TRUE);
+
+#if BASEVIEW_STRIPES    
+    m_pWhiteBackgroundAttr = NULL;
+    m_pGrayBackgroundAttr = NULL;
+#endif
 }
 
 
@@ -95,7 +100,7 @@ CBOINCBaseView::CBOINCBaseView(
     m_pTaskPane = new CBOINCTaskCtrl(this, iTaskWindowID, iTaskWindowFlags);
     wxASSERT(m_pTaskPane);
 
-    m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags | wxLC_HRULES);
+    m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags);
     wxASSERT(m_pListPane);
     
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
@@ -119,6 +124,19 @@ CBOINCBaseView::CBOINCBaseView(
     m_SortArrows->Add( wxIcon( sortascending_xpm ) );
     m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
+    
+#if BASEVIEW_STRIPES    
+    m_pWhiteBackgroundAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
+        wxNullFont
+    );
+    m_pGrayBackgroundAttr = new wxListItemAttr(
+        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
+        wxColour(247, 247, 247),
+        wxNullFont
+        );
+#endif
 }
 
 
@@ -136,6 +154,18 @@ CBOINCBaseView::~CBOINCBaseView() {
     m_arrSelectedKeys1.Clear();
     m_arrSelectedKeys2.Clear();
     m_iSortedIndexes.Clear();
+
+#if BASEVIEW_STRIPES    
+    if (m_pWhiteBackgroundAttr) {
+        delete m_pWhiteBackgroundAttr;
+        m_pWhiteBackgroundAttr = NULL;
+    }
+
+    if (m_pGrayBackgroundAttr) {
+        delete m_pGrayBackgroundAttr;
+        m_pGrayBackgroundAttr = NULL;
+    }
+#endif
     }
 
 
@@ -228,6 +258,18 @@ wxString CBOINCBaseView::FireOnListGetItemText(long item, long column) const {
 int CBOINCBaseView::FireOnListGetItemImage(long item) const {
     return OnListGetItemImage(item);
 }
+
+
+#if BASEVIEW_STRIPES
+wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const {
+    return OnListGetItemAttr(item);
+}
+
+
+wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const {
+    return item % 2 ? m_pGrayBackgroundAttr : m_pWhiteBackgroundAttr;
+}
+#endif
 
 
 void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
