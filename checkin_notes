@@ -953,3 +953,9 @@ Rom    16 Mar 2010
     /
         configure.ac
         version.h
+
+David  18 Mar 2010
+	- unix compile fix
+
+	lib/
+		mfile.cpp
