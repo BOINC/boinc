@@ -40,7 +40,7 @@
 
 
 MFILE::MFILE() {
-    buf = 0;
+    buf = (char*)malloc(64*1024);
     len = 0;
 }
 
@@ -52,6 +52,13 @@ int MFILE::open(const char* path, const char* mode) {
     f = boinc_fopen(path, mode);
     if (!f) return ERR_FOPEN;
     return 0;
+}
+
+// seems like Win's realloc is stupid,  Make it smart.
+//
+static inline char* realloc_aux(char* p, int len) {
+    if (_msize(p) >= len) return p;
+    return (char*) realloc(p, len*2);
 }
 
 #define BUFSIZE 100000
@@ -68,7 +75,7 @@ int MFILE::vprintf(const char* format, va_list ap) {
         return -1;
     }
     n = (int)strlen(buf2);
-    buf = (char*)realloc(buf, len+n+1);
+    buf = (char*)realloc_aux(buf, len+n+1);
     if (!buf) {
         fprintf(stderr, "ERROR: realloc() failed in MFILE::vprintf()\n");
         exit(1);
@@ -90,7 +97,7 @@ int MFILE::printf(const char* format, ...) {
 }
 
 size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
-    buf = (char *)realloc( buf, len+(size*nitems)+1 );
+    buf = (char *)realloc_aux( buf, len+(size*nitems)+1 );
     if (!buf) {
         fprintf(stderr, "ERROR: realloc() failed in MFILE::write()\n");
         exit(1);
@@ -102,7 +109,7 @@ size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
 }
 
 int MFILE::_putchar(char c) {
-    buf = (char*)realloc(buf, len+1+1);
+    buf = (char*)realloc_aux(buf, len+1+1);
     if (!buf) {
         fprintf(stderr, "ERROR: realloc() failed in MFILE::_putchar()\n");
         exit(1);
@@ -115,7 +122,7 @@ int MFILE::_putchar(char c) {
 
 int MFILE::puts(const char* p) {
     int n = (int)strlen(p);
-    buf = (char*)realloc(buf, len+n+1);
+    buf = (char*)realloc_aux(buf, len+n+1);
     if (!buf) {
         fprintf(stderr, "ERROR: realloc() failed in MFILE::puts()\n");
         exit(1);

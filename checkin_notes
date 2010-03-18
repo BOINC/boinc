@@ -2001,3 +2001,12 @@ Charlie  18 Mar 2010
         BOINCGUIApp.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+David  18 Mar 2010
+	- client (and anything else using MFILE): Win efficiency fix.
+		Shockingly, realloc() wasn't doing exponential growth.
+		So create realloc_aux() that does.
+
+	lib/
+		mfile.cpp
+		gui_rpc_client_ops.cpp
