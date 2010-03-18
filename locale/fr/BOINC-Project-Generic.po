@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-02 06:07-0700\n"
+"PO-Revision-Date: 2010-03-18 09:50-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -3716,67 +3716,74 @@ msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
 msgstr ""
+"Un changement de fondateur a été demandé dans les 90 derniers jours : aucune "
+"nouvelle requête n'est donc autorisée. Veuillez réessayer ultérieurement."
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
 msgid "The team %1 is not joinable."
-msgstr ""
+msgstr "L'équipe %1 ne peut être rejointe."
 
 #: ../user/team_join.php:33 ../user/team_join_action.php:33
 msgid "Already a member"
-msgstr ""
+msgstr "Déjà un membre"
 
 #: ../user/team_join.php:34 ../user/team_join_action.php:34
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "Vous êtes déjà membre de %1."
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
 msgid "Couldn't join team - please try again later."
-msgstr ""
+msgstr "Impossible de rejoindre l'équipe - veuillez réessayer ultérieurement."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
-msgstr ""
+msgstr "A rejoint %1"
 
 #: ../user/team_join_action.php:39
 msgid "You have joined %1."
-msgstr ""
+msgstr "Vous avez rejoint %1."
 
 #: ../user/team_join_form.php:32
 msgid "Join %1"
-msgstr ""
+msgstr "Rejoindre %1"
 
 #: ../user/team_join_form.php:33
 msgid "Please note:"
-msgstr ""
+msgstr "Veuillez noter :"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
 msgstr ""
+"Rejoindre une équipe donne à son fondateur l'accès à votre adresse e-mail."
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
-msgstr ""
+msgstr "Rejoindre une équipe ne modifie pas le crédit sur votre compte."
 
 #: ../user/team_join_form.php:43
 msgid "Join team"
-msgstr ""
+msgstr "Rejoindre l'équipe"
 
 #: ../user/team_lookup.php:62
 msgid "Search Results"
-msgstr ""
+msgstr "Résultats de la recherche"
 
 #: ../user/team_lookup.php:64
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Résultats pour la recherche de '%1'"
 
 #: ../user/team_lookup.php:66
 msgid "You may view these teams' members, statistics, and information."
 msgstr ""
+"Vous pouvez voir les membres, les statistiques et les informations de ces "
+"équipes."
 
 #: ../user/team_lookup.php:75
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
+"Plus de 100 équipes correspondent à vos critères de recherche. Seules les "
+"100 premières sont affichées."
 
 #: ../user/team_lookup.php:79
 msgid ""
@@ -3784,82 +3791,88 @@ msgid ""
 "         If you cannot find the team you are looking for, you may %1create a "
 "team%2 by yourself."
 msgstr ""
+"Fin des résultats.<br />\n"
+"         Si vous ne pouvez pas trouver l'équipe que vous recherchez, vous "
+"pouvez %1créer une équipe%2 par vous même."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
-msgstr ""
+msgstr "Administration de l'équipe %1"
 
 #: ../user/team_manage.php:27
 msgid "Edit team info"
-msgstr ""
+msgstr "Éditer les informations d'équipe"
 
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
-msgstr ""
+msgstr "Modifier le nom d'équipe, URL, description, type ou pays"
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
-msgstr ""
+msgstr "Liste des membres :"
 
 #: ../user/team_manage.php:31 ../user/team_manage.php:35
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:32
 msgid "text"
-msgstr ""
+msgstr "texte"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "Voir le nom des membres et leur adresse e-mail"
 
 #: ../user/team_manage.php:34
 msgid "View change history:"
-msgstr ""
+msgstr "Historique des changements d'affichage :"
 
 #: ../user/team_manage.php:36
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: ../user/team_manage.php:37
 msgid "See when members joined or quit this team"
-msgstr ""
+msgstr "Voir quand les membres on rejoint ou quitté cette équipe"
 
 #: ../user/team_manage.php:48
 msgid "Respond to foundership request."
-msgstr ""
+msgstr "Répondre à une requête de titre de fondateur."
 
 #: ../user/team_manage.php:48
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
 msgstr ""
+"Si vous ne répondez pas par %1, %2 pourra obtenir le titre de fondateur de "
+"cette équipe."
 
 #: ../user/team_manage.php:53
 msgid "Remove inactive or unwanted members from this team"
-msgstr ""
+msgstr "Supprimer de cette équipe les membres inactifs ou non désirés"
 
 #: ../user/team_manage.php:55
 msgid "Transfer foundership to another member"
-msgstr ""
+msgstr "Transférer le titre de fondateur à un autre membre"
 
 #: ../user/team_manage.php:56
 msgid "Add/remove Team Admins"
-msgstr ""
+msgstr "Ajouter/Supprimer un administrateur de l'équipe"
 
 #: ../user/team_manage.php:57
 msgid "Give selected team members Team Admin privileges"
 msgstr ""
+"Donner les privilèges d'administrateur de l'équipe aux membres sélectionnés"
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
-msgstr ""
+msgstr "Supprimer l'équipe"
 
 #: ../user/team_manage.php:60
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "Autorisé uniquement si l'équipe ne possède aucun membre"
 
 #: ../user/team_manage.php:62
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "Créer ou gérer un forum d'équipe"
 
 #: ../user/team_manage.php:69
 msgid ""
