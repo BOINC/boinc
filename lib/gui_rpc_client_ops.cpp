@@ -767,7 +767,7 @@ WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, char* name) {
     unsigned int i;
     for (i=0; i<wus.size(); i++) {
         if (wus[i]->project != project) continue;
-        if (wus[i]->name == name) return wus[i];
+        if (strcmp(wus[i]->name, name)) return wus[i];
     }
     return 0;
 }
@@ -776,7 +776,7 @@ RESULT* CC_STATE::lookup_result(PROJECT* project, char* name) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         if (results[i]->project != project) continue;
-        if (results[i]->name == name) return results[i];
+        if (strcmp(results[i]->name, name)) return results[i];
     }
     return 0;
 }
