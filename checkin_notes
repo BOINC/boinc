@@ -2010,3 +2010,11 @@ David  18 Mar 2010
 	lib/
 		mfile.cpp
 		gui_rpc_client_ops.cpp
+
+Charlie  19 Mar 2010
+    - MGR: Switch background color for the list view stripes back to 
+        the original color (240, 240, 240) from (247, 247, 247).
+        
+    clientgui/
+        BOINCBaseView.cpp
+        DlgEventLog.cpp
