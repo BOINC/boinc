@@ -973,3 +973,9 @@ Rom    18 Mar 2010
         configure.ac
         version.h
 
+Rom    19 Mar 2010
+    - MGR: Switch background color for the list view stripes back to 
+        the original color (247, 247, 247).
+        
+    clientgui/
+        BOINCBaseView.cpp,.h

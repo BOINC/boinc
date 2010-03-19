@@ -133,7 +133,7 @@ CBOINCBaseView::CBOINCBaseView(
     );
     m_pGrayBackgroundAttr = new wxListItemAttr(
         wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxColour(247, 247, 247),
+        wxColour(240, 240, 240),
         wxNullFont
     );
 #endif
