@@ -980,10 +980,16 @@ Rom    19 Mar 2010
     clientgui/
         BOINCBaseView.cpp,.h
 
-Rom    18 Mar 2010
+Rom    19 Mar 2010
     - Tag for 6.10.42 release, all platforms
       boinc_core_release_6_10_42
 
     /
         configure.ac
         version.h
+
+Rom    19 Mar 2010
+    - MGR: Deconflict menu IDs
+    
+    clientgui/
+        AdvancedFrame.cpp

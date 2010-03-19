@@ -76,14 +76,14 @@
 #define ID_ADVNETWORKSUSPEND                    6020
 
 // Advanced Menu
-#define ID_OPTIONS                              6020
-#define ID_PREFERENCES                          6021
-#define ID_SELECTCOMPUTER                       6022
-#define ID_SHUTDOWNCORECLIENT                   6023
-#define ID_RUNBENCHMARKS                        6028
-#define ID_RETRYCOMMUNICATIONS                  6029
-#define ID_READCONFIG                           6026
-#define ID_READPREFERENCES                      6027
+#define ID_OPTIONS                              6021
+#define ID_PREFERENCES                          6022
+#define ID_SELECTCOMPUTER                       6023
+#define ID_SHUTDOWNCORECLIENT                   6026
+#define ID_RUNBENCHMARKS                        6027
+#define ID_RETRYCOMMUNICATIONS                  6028
+#define ID_READCONFIG                           6029
+#define ID_READPREFERENCES                      6030
 
 // Help Menu
 #define ID_HELPBOINC                            6035  // Locked: Used by manager_links.php
