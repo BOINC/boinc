@@ -993,3 +993,11 @@ Rom    19 Mar 2010
     
     clientgui/
         AdvancedFrame.cpp
+
+Rom    19 Mar 2010
+    - Tag for 6.10.43 release, all platforms
+      boinc_core_release_6_10_43
+
+    /
+        configure.ac
+        version.h
