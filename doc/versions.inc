@@ -182,10 +182,10 @@ $l64 = array(
 );
 
 $l610ubuntudev = array(
-	"num"=>"6.10.36",
+	"num"=>"6.10.43",
 	"status"=>"Development version",
-	"file"=>"boinc_6.10.36_i686-pc-linux-gnu.sh",
-	"date"=>"1 Mar 2010",
+	"file"=>"boinc_6.10.43_i686-pc-linux-gnu.sh",
+	"date"=>"19 Mar 2010",
 	"type"=>"sea",
 );
 
@@ -206,10 +206,10 @@ $l66ubuntu = array(
 );
 
 $l610ubuntux64dev = array(
-	"num"=>"6.10.36",
+	"num"=>"6.10.43",
 	"status"=>"Development version",
-	"file"=>"boinc_6.10.36_x86_64-pc-linux-gnu.sh",
-	"date"=>"1 Mar 2010",
+	"file"=>"boinc_6.10.43_x86_64-pc-linux-gnu.sh",
+	"date"=>"19 Mar 2010",
 	"type"=>"sea",
 );
 
