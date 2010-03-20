@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-14 19:51+0200\n"
+"PO-Revision-Date: 2010-03-20 05:04+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <weboglan@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -160,7 +160,7 @@ msgstr "IP adresini görüntüle"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
-msgstr "Alan adı"
+msgstr "Etki alanı adı"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
@@ -256,7 +256,7 @@ msgstr "İşletim sistemi"
 
 #: ../inc/host.inc:122
 msgid "BOINC client version"
-msgstr "BOINC istemci sürümü"
+msgstr "BOINC istemcisi sürümü"
 
 #: ../inc/host.inc:126
 msgid "Memory"
@@ -477,11 +477,11 @@ msgstr "Sunucu %1 farklı bir CPU'ya sahip:"
 
 #: ../inc/host.inc:540
 msgid "same host"
-msgstr "benzer sunucu"
+msgstr "aynı sunucu"
 
 #: ../inc/host.inc:543
 msgid "Can't merge host %1 into %2 - they're incompatible"
-msgstr "Sunucu %1 ile %2 birleştirilemedi. Birbirinden farklılar"
+msgstr "Sunucu %1 ile %2 birleştirilemedi. Birbirlerinden farklılar"
 
 #: ../inc/host.inc:546
 msgid "Merging host %1 into host %2"
@@ -521,7 +521,7 @@ msgstr "Yalnızca son 30 gün içerisinde aktif olan bilgisayarlar"
 #: ../inc/host.inc:609
 #: ../inc/result.inc:384
 msgid "Computer ID"
-msgstr "Bilgisayar ID"
+msgstr "Bilgisayar NO"
 
 #: ../inc/host.inc:622
 msgid "BOINC<br>version"
@@ -529,7 +529,7 @@ msgstr "BOINC<br>sürümü"
 
 #: ../inc/host.inc:629
 msgid "Last contact"
-msgstr "Son iletişim"
+msgstr "Son bağlantı"
 
 #: ../inc/host.inc:678
 msgid "Merge computers by name"
@@ -585,7 +585,7 @@ msgstr "Alıcı"
 
 #: ../inc/pm.inc:85
 msgid "User IDs or unique usernames, separated with commas"
-msgstr "Kullanıcı ID'leri ya da benzersiz kullanıcı adları, virgülle ayrılmış"
+msgstr "Kullanıcı NO'ları ya da benzersiz kullanıcı adları, virgülle ayrılmış"
 
 #: ../inc/pm.inc:88
 #: ../user/pm.php:85
@@ -627,31 +627,31 @@ msgstr "İşlemci kullanımı"
 
 #: ../inc/prefs.inc:71
 msgid "Suspend work while computer is on battery power? %1(matters only for portable computers)%2"
-msgstr "Bilgisayar pil gücünde olduğunda işler durdurulsun %1(yalnızca taşınabilir bilgisayarlara uygulanır)%2"
+msgstr "Bilgisayar pil gücünde olduğunda işler duraklatılsın mı?%1(yalnızca taşınabilir bilgisayarlara uygulanır)%2"
 
 #: ../inc/prefs.inc:77
 msgid "Suspend work while computer is in use?"
-msgstr "Bilgisayar kullanımda olduğunda işler durdurulsun"
+msgstr "Bilgisayar kullanımda olduğunda işler duraklatılsın mı?"
 
 #: ../inc/prefs.inc:81
 msgid "Suspend GPU work while computer is in use? %1Enforced by version 6.7+%2"
-msgstr "Bilgisayar kullanımda olduğunda GPU kullanımı durdurulsun %1Sürüm 6.7 ve üzeri için%2"
+msgstr "Bilgisayar kullanımda olduğunda GPU kullanımı duraklatılsın mı?%1Sürüm 6.7 ve üzeri için%2"
 
 #: ../inc/prefs.inc:86
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr "Bilgisayarı (fare ve klavyeyi) bu kadar süre kullanılmadığımda hesaplama işi başlasın"
+msgstr "Bilgisayarı (fare ve klavyeyi) bu kadar süre kullanmadığımda hesaplama işi başlasın"
 
 #: ../inc/prefs.inc:89
 msgid "Suspend work if no mouse/keyboard activity in last %1(Needed to enter low-power mode on some computers)%2"
-msgstr "Bu kadar süre fare/klavye aktivitesi yoksa iş durdurulsun %1(Bazı bilgisayarlarda, düşük güç moduna geçmek için gerekli)%2"
+msgstr "Bu kadar süre fare/klavye aktivitesi yoksa iş duraklasın %1(Bazı bilgisayarlarda, düşük güç moduna geçmek için gerekli)%2"
 
 #: ../inc/prefs.inc:96
 msgid "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+%2"
-msgstr "CPU kullanımı bu orandaysa iş durdurulsun%1 0 yazılırsa sınırlama olmaz<br>Sürüm 6.10.30 ve üzeri için%2"
+msgstr "CPU kullanımı bu orandan fazlaysa iş duraklasın %1 0 yazılırsa sınırlama olmaz<br>Sürüm 6.10.30 ve üzeri için%2"
 
 #: ../inc/prefs.inc:101
 msgid "Do work only between the hours of"
-msgstr "Hergün yalnızca bu saatler arasında işleri çalıştır:"
+msgstr "İşler hergün yalnızca bu saatler arasında çalışsın"
 
 #: ../inc/prefs.inc:102
 msgid "(no restriction if equal)"
@@ -659,7 +659,7 @@ msgstr "(birbirine eşitse, sınırlama yok)"
 
 #: ../inc/prefs.inc:105
 msgid "Leave tasks in memory while suspended? %1(suspended tasks will consume swap space if 'yes')%2"
-msgstr "Durakladığında uygulamalar bellekte kalsın %1('evet'i seçerseniz, uygulamalar durakladığında sanal bellekte yer işgal etmeyi sürdürecek)%2"
+msgstr "Durakladığında uygulamalar bellekte kalsın mı? %1('Evet'i seçerseniz, uygulamalar durakladığında sanal bellekte yer işgal etmeyi sürdürecek)%2"
 
 #: ../inc/prefs.inc:112
 msgid "Switch between tasks every %1(recommended: 60 minutes)%2"
@@ -683,37 +683,37 @@ msgstr "Depolanacak ek iş miktarı"
 
 #: ../inc/prefs.inc:144
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+%2"
-msgstr "Çok işlemcili sistemlerde, işlemcilerin bu kadarını kullan%1 Sürüm 6.1+ ve üzeri için geçerli%2"
+msgstr "Çok işlemcili sistemlerde, işlemcilerin en fazla %1 Sürüm 6.1+ ve üzeri için geçerli%2"
 
 #: ../inc/prefs.inc:149
 #, php-format
 msgid "% of the processors"
-msgstr "kadarını kullan"
+msgstr "% kadarı kullanılsın"
 
 #: ../inc/prefs.inc:150
 msgid "On multiprocessors, use at most"
-msgstr "Çok işlemcili (CPU'lu) sistemlerde işlemcilerin %"
+msgstr "Çok işlemcili sistemlerde işlemcilerin en fazla"
 
 #: ../inc/prefs.inc:151
 msgid "processors"
-msgstr "kadarını kullan"
+msgstr "adeti kullanılsın"
 
 #: ../inc/prefs.inc:152
 #: ../inc/prefs.inc:160
 msgid "Use at most"
-msgstr "Yaklaşık %"
+msgstr "En fazla"
 
 #: ../inc/prefs.inc:155
 msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
-msgstr "En fazla bu kadar güç kullan %1 (CPU sıcaklığını azaltmak için kullanılabilir)%2"
+msgstr "İşlemci zamanın en fazla %1 (CPU sıcaklığını azaltmak için kullanılabilir)%2"
 
 #: ../inc/prefs.inc:161
 msgid "percent of CPU time"
-msgstr "kadar işlemci gücü kullan"
+msgstr "% kadarı kullanılsın"
 
 #: ../inc/prefs.inc:162
 msgid "Tasks checkpoint to disk at most every"
-msgstr "İşler kontrol noktasını diske en çok"
+msgstr "İşler kontrol noktasını diske en çok bu kadar sürede bir kaydetsin"
 
 #: ../inc/prefs.inc:163
 msgid "Disk and memory usage"
@@ -731,22 +731,22 @@ msgstr "(%s değerinden küçük değerler görmezden gelinecek)"
 #: ../inc/prefs.inc:168
 #, php-format
 msgid "% of total disk space"
-msgstr "kadar disk alanı kullan (en çok)"
+msgstr "% kadar disk alanı kullanılsın"
 
 #: ../inc/prefs.inc:169
 #, php-format
 msgid "% of page file (swap space)"
-msgstr "kadar sayfa dosyası (swap alanı) kullan"
+msgstr "% kadar sayfa dosyası (swap alanı) kullanılsın"
 
 #: ../inc/prefs.inc:170
 #, php-format
 msgid "% of memory when computer is in use"
-msgstr "kadar bellek kullan (bilgisayar kullanımdayken, en fazla)"
+msgstr "% kadar bellek kullanılsın (bilgisayar kullanımdayken)"
 
 #: ../inc/prefs.inc:171
 #, php-format
 msgid "% of memory when computer is not in use"
-msgstr "kadar bellek kullan (bilgisayar kullanımda değilken, en fazla)"
+msgstr "% kadar bellek kullanılsın (bilgisayar boştayken)"
 
 #: ../inc/prefs.inc:172
 msgid "Network usage"
@@ -770,15 +770,15 @@ msgstr "Resim dosyasıyla doğrulamayı atla %1 YALNIZCA, internet sağlayıcın
 
 #: ../inc/prefs.inc:186
 msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr "Mevcutsa ATI GPU'yu kullan%1(sürüm 6.10+ istemciler için)%2"
+msgstr "Mevcutsa ATI GPU'yu kullan %1(sürüm 6.10 ve üzeri istemciler için)%2"
 
 #: ../inc/prefs.inc:193
 msgid "Use NVIDIA GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr "Mevcutsa NVIDIA GPU'yu kullan%1(sürüm 6.10+ istemciler için)%2"
+msgstr "Mevcutsa NVIDIA GPU'yu kullan %1(sürüm 6.10 ve üzeri istemciler için)%2"
 
 #: ../inc/prefs.inc:200
 msgid "Use CPU %1(enforced by 6.10+ clients)%2"
-msgstr "CPU'yu kullan%1(sürüm 6.10+ istemciler için)%2"
+msgstr "CPU'yu kullan %1(sürüm 6.10 ve üzeri istemciler için)%2"
 
 #: ../inc/prefs.inc:208
 msgid "Kbytes/sec"
@@ -790,7 +790,7 @@ msgstr "KB/sn"
 
 #: ../inc/prefs.inc:212
 msgid "Run test applications? %1This helps us develop applications, but may cause jobs to fail on your computer%2"
-msgstr "Test uygulamalarını çalıştır? %1Bu, uygulamaları kullanıma sunmada bize yardımcı olur, ancak, iş hesaplamalarının başarısız olmasına sebep olabilir%2"
+msgstr "Test uygulamaları çalıştırılsın mı? %1Bu, uygulamaları geliştirme konusunda bize yardımcı olacak. Ancak, bazen iş hesaplamalarının başarısız olmasına sebep olabilir%2"
 
 #: ../inc/prefs.inc:219
 msgid "These preferences apply to all the BOINC projects in which you participate."
@@ -826,7 +826,7 @@ msgstr "geçersiz altküme: %1"
 #: ../inc/prefs.inc:1327
 #: ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
-msgstr "evet"
+msgstr "Evet"
 
 #: ../inc/prefs.inc:688
 #: ../inc/prefs.inc:691
@@ -846,13 +846,13 @@ msgstr "evet"
 #: ../inc/prefs.inc:1329
 #: ../project.sample/project_specific_prefs.inc:76
 msgid "no"
-msgstr "hayır"
+msgstr "Hayır"
 
 #: ../inc/prefs.inc:696
 #: ../inc/prefs.inc:847
 #: ../inc/prefs.inc:850
 msgid "no limit"
-msgstr "sınırlama yok"
+msgstr "Sınırlama yok"
 
 #: ../inc/prefs.inc:721
 #: ../user/team_admins.php:77
@@ -881,16 +881,16 @@ msgstr "dakika"
 
 #: ../inc/prefs.inc:772
 msgid "GB disk space"
-msgstr "Gigabayt disk alanı kullan"
+msgstr "GB disk alanı kullan"
 
 #: ../inc/prefs.inc:773
 msgid "GB disk space free"
-msgstr "Gigabayt disk alanı boş kalsın"
+msgstr "GB disk alanı boş kalsın"
 
 #: ../inc/prefs.inc:775
 #: ../inc/prefs.inc:1195
 msgid "seconds"
-msgstr "saniyede bir kaydetsin"
+msgstr "saniye"
 
 #: ../inc/prefs.inc:781
 #: ../inc/prefs.inc:782
@@ -908,7 +908,7 @@ msgstr "%1 dakika"
 #: ../inc/prefs.inc:811
 #: ../inc/prefs.inc:852
 msgid "(no restriction)"
-msgstr "(kısıtlama yok)"
+msgstr "(sınırlama yok)"
 
 #: ../inc/prefs.inc:815
 #: ../inc/prefs.inc:856
@@ -919,11 +919,11 @@ msgstr "ve"
 
 #: ../inc/prefs.inc:826
 msgid "%1 GB disk space"
-msgstr "%1 Gigabayt disk alanı kullan"
+msgstr "%1 GB disk alanı kullan"
 
 #: ../inc/prefs.inc:834
 msgid "%1 GB disk space free"
-msgstr "%1 Gigabayt disk alanı boş kalsın"
+msgstr "%1 GB disk alanı boş kalsın"
 
 #: ../inc/prefs.inc:865
 msgid "Resource share %1If you participate in multiple BOINC projects, this is the proportion of your resources used by %2%3"
@@ -945,11 +945,11 @@ msgstr "%1, projeye katıldığınız bilgisayarları bu internet sitesi üzerin
 
 #: ../inc/prefs.inc:933
 msgid "Computing"
-msgstr "Hesaplama izinleri"
+msgstr "Hesaplama"
 
 #: ../inc/prefs.inc:945
 msgid "Separate preferences for %1"
-msgstr "%1 için farklı tercihler"
+msgstr "%1 için ayrı tercihler"
 
 #: ../inc/prefs.inc:955
 #: ../inc/prefs.inc:1033
@@ -994,7 +994,7 @@ msgid ""
 "             On computers attached to multiple projects, the most recently modified preferences will be used."
 msgstr ""
 "Bu ayarlar, katıldığınız tüm BOINC projelerine uygulanacak.<br>\n"
-"             Birden fazla projeye katıldığınız bilgisayarlar, en son güncellenen tercihleri kullanacak."
+"             Birden fazla projeye katıldığınız bilgisayarlarda, en son güncellenen tercihler kullanılacak."
 
 #: ../inc/prefs.inc:1012
 msgid "Preferences last modified:"
@@ -1013,9 +1013,8 @@ msgid "Gbytes"
 msgstr "Gigabayt"
 
 #: ../inc/prefs.inc:1181
-#, fuzzy
 msgid "Gbytes free"
-msgstr "Gigabayt disk alanı boş kalsın"
+msgstr "Gigabayt boş"
 
 #: ../inc/prefs.inc:1282
 msgid "Resource share"
@@ -1058,7 +1057,7 @@ msgstr "Veritabanı hatası"
 
 #: ../inc/profile.inc:187
 msgid "To prevent spam, profiles of users with an average credit of less than %1 are displayed only to logged-in users.  We apologize for this inconvenience."
-msgstr "Sitemize saldırıların önüne geçmek amacıyla, ortalama kredisi %1'den az olan kullanıcılar, yalnızca giriş yapmış kullanıcılara görünür.   Verdiğimiz rahatsızlık nedeniyle özür dileriz."
+msgstr "Sitemize saldırıların önüne geçmek amacıyla, ortalama kredisi %1'den az olan kullanıcılar, yalnızca giriş yapmış kullanıcılara görünür.  Verdiğimiz rahatsızlık nedeniyle özür dileriz."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
@@ -1066,7 +1065,7 @@ msgstr "Kullanıcı uzaklaştırıldı"
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
-msgstr "Bu kullanıcı ID ile eşleşen profil yok."
+msgstr "Bu kullanıcı NO ile eşleşen profil yok."
 
 #: ../inc/profile.inc:213
 #: ../user/create_profile.php:306
@@ -1138,7 +1137,7 @@ msgstr "Hatalı"
 #: ../inc/result.inc:111
 #: ../inc/result.inc:150
 msgid "Inactive"
-msgstr "Etkisiz"
+msgstr "Pasif"
 
 #: ../inc/result.inc:112
 #: ../inc/result.inc:151
@@ -1221,11 +1220,11 @@ msgstr "İstemci projeden ayrıldı"
 
 #: ../inc/result.inc:153
 msgid "Over"
-msgstr ""
+msgstr "Sona erdi"
 
 #: ../inc/result.inc:161
 msgid "Success"
-msgstr ""
+msgstr "Başarılı"
 
 #: ../inc/result.inc:165
 msgid "Client error"
@@ -1240,234 +1239,198 @@ msgid "No reply"
 msgstr "Yanıt yok"
 
 #: ../inc/result.inc:178
-#, fuzzy
 msgid "New"
 msgstr "Yeni"
 
 #: ../inc/result.inc:179
-#, fuzzy
 msgid "Downloading"
 msgstr "İndiriliyor"
 
 #: ../inc/result.inc:180
-#, fuzzy
 msgid "Processing"
-msgstr "İşlemci kullanımı"
+msgstr "Sürüyor"
 
 #: ../inc/result.inc:181
-#, fuzzy
 msgid "Compute error"
-msgstr "%s - Bağlantı Hatası"
+msgstr "Hesaplama hatası"
 
 #: ../inc/result.inc:182
-#, fuzzy
 msgid "Uploading"
 msgstr "Gönderiliyor"
 
 #: ../inc/result.inc:183
-#, fuzzy
 msgid "Done"
-msgstr "Tamamlanan bölüm"
+msgstr "Tamamlandı"
 
 #: ../inc/result.inc:194
 msgid "Initial"
-msgstr ""
+msgstr "Başlangıçta"
 
 #: ../inc/result.inc:200
-#, fuzzy
 msgid "Not necessary"
-msgstr "Çalışmıyor"
+msgstr "Gerekli değil"
 
 #: ../inc/result.inc:201
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "İş birimi hatası - kontrol atlandı"
 
 #: ../inc/result.inc:202
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Kontrol edildi, ancak henüz uzlaşılamadı"
 
 #: ../inc/result.inc:203
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "İşin doğrulama için çok geciktiği bildirildi"
 
 #: ../inc/result.inc:211
-#, fuzzy
 msgid "Couldn't send result"
-msgstr "Özel mesaj gönder"
+msgstr "Sonuç gönderilemedi"
 
 #: ../inc/result.inc:215
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Çok fazla hata oluştu (yazılımsal bir hata olabilir)"
 
 #: ../inc/result.inc:219
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "Çok fazla sonuç (belirleyici olmayabilir)"
 
 #: ../inc/result.inc:223
 msgid "Too many total results"
-msgstr ""
+msgstr "Çok fazla toplam sonuç"
 
 #: ../inc/result.inc:227
-#, fuzzy
 msgid "WU cancelled"
-msgstr "Arkadaşlık bitirildi"
+msgstr "İş birimi iptal edildi"
 
 #: ../inc/result.inc:231
-#, fuzzy
 msgid "Unrecognized Error: %1"
-msgstr "%s - Bağlantı Hatası"
+msgstr "Bilinmeyen hata: %1"
 
 #: ../inc/result.inc:257
-#, fuzzy
 msgid "Task name"
-msgstr "Kullanıcı adı"
+msgstr "İş adı"
 
 #: ../inc/result.inc:257
 #: ../inc/result.inc:262
 #: ../inc/result.inc:265
 #: ../inc/result.inc:268
-#, fuzzy
 msgid "click for details"
-msgstr "Kullanıcı safyası için tıklayın"
+msgstr "detaylar için tıklayın"
 
 #: ../inc/result.inc:257
-#, fuzzy
 msgid "Show IDs"
-msgstr "Grafikleri göster"
+msgstr "NO'ları göster"
 
 #: ../inc/result.inc:262
-#, fuzzy
 msgid "Show names"
-msgstr "Grafikleri göster"
+msgstr "İsimleri göster"
 
 #: ../inc/result.inc:265
-#, fuzzy
 msgid "Task ID"
-msgstr "Bilgisayar ID"
+msgstr "İş NO"
 
 #: ../inc/result.inc:268
-#, fuzzy
 msgid "Work unit ID"
-msgstr "Her iş birimi için değişken kredi"
+msgstr "İş birimi NO"
 
 #: ../inc/result.inc:271
-#, fuzzy
 msgid "Computer"
-msgstr "Bilgisayar seç ve bağlan..."
+msgstr "Bilgisayar"
 
 #: ../inc/result.inc:274
 #: ../inc/result.inc:378
-#, fuzzy
 msgid "Sent"
-msgstr "Arkadaşlık isteği gönderildi"
+msgstr "Gönderilme"
 
 #: ../inc/result.inc:275
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Raporlanma ya da<br />son teslim tarihi"
 
 #: ../inc/result.inc:276
 msgid "explain"
-msgstr ""
+msgstr "açıklama"
 
 #: ../inc/result.inc:278
-#, fuzzy
 msgid "Status"
 msgstr "Durum"
 
 #: ../inc/result.inc:279
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Çalışma zamanı<br />(sn)"
 
 #: ../inc/result.inc:280
-#, fuzzy
 msgid "CPU time<br />(sec)"
-msgstr "Kontrol noktasındaki CPU zamanı"
+msgstr "İşlemci zamanı<br />(sn)"
 
 #: ../inc/result.inc:281
 #: ../inc/result.inc:390
-#, fuzzy
 msgid "Claimed credit"
-msgstr "Toplam kredi"
+msgstr "Hak edilen kredi"
 
 #: ../inc/result.inc:282
 #: ../inc/result.inc:391
-#, fuzzy
 msgid "Granted credit"
-msgstr "Toplam kredi"
+msgstr "Alınan kredi"
 
 #: ../inc/result.inc:283
-#, fuzzy
 msgid "Application"
 msgstr "Uygulama"
 
 #: ../inc/result.inc:376
-#, fuzzy
 msgid "Workunit"
-msgstr "İş birimi ismi"
+msgstr "İş birimi"
 
 #: ../inc/result.inc:379
-#, fuzzy
 msgid "Received"
 msgstr "Alınma tarihi"
 
 #: ../inc/result.inc:380
-#, fuzzy
 msgid "Server state"
 msgstr "Sunucu durumu"
 
 #: ../inc/result.inc:381
 msgid "Outcome"
-msgstr ""
+msgstr "Sonuç"
 
 #: ../inc/result.inc:382
-#, fuzzy
 msgid "Client state"
-msgstr "İstemci başlıyor"
+msgstr "İstemci durumu"
 
 #: ../inc/result.inc:383
-#, fuzzy
 msgid "Exit status"
-msgstr "%s - Bağlantı Durumu"
+msgstr "Çıkış durumu"
 
 #: ../inc/result.inc:385
-#, fuzzy
 msgid "Report deadline"
 msgstr "Son teslim tarihi"
 
 #: ../inc/result.inc:386
-#, fuzzy
 msgid "Run time"
-msgstr "kadar işlemci gücü kullan"
+msgstr "Çalışma zamanı"
 
 #: ../inc/result.inc:387
-#, fuzzy
 msgid "CPU time"
 msgstr "CPU zamanı"
 
 #: ../inc/result.inc:388
-#, fuzzy
 msgid "stderr out"
-msgstr "Çıkış"
+msgstr "stderr çıktısı"
 
 #: ../inc/result.inc:389
-#, fuzzy
 msgid "Validate state"
-msgstr "Hata: Geçersiz durum '%d'"
+msgstr "Doğrulama durumu"
 
 #: ../inc/result.inc:392
-#, fuzzy
 msgid "application version"
-msgstr "wxWidgets sürümü:"
+msgstr "Uygulama sürümü"
 
 #: ../inc/result.inc:406
-#, fuzzy
 msgid "Previous"
-msgstr "< &Önceki proje"
+msgstr "Önceki"
 
 #: ../inc/result.inc:415
-#, fuzzy
 msgid "Next"
-msgstr "&İleri >"
+msgstr "Sonraki"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1648,9 +1611,8 @@ msgstr "Yönetici"
 #: ../user/top_hosts.php:91
 #: ../user/top_teams.php:119
 #: ../user/top_users.php:125
-#, fuzzy
 msgid "Previous %1"
-msgstr "< &Önceki proje"
+msgstr "Önceki %1"
 
 #: ../inc/team.inc:268
 #: ../user/top_hosts.php:96
@@ -1770,7 +1732,7 @@ msgstr "Bu hesaptaki bilgisayarlar"
 
 #: ../inc/user.inc:158
 msgid "Cross-project ID"
-msgstr "Çapraz-proje ID"
+msgstr "Çapraz-proje NO"
 
 #: ../inc/user.inc:159
 msgid "Cross-project statistics"
@@ -1847,7 +1809,7 @@ msgstr "Çıkış"
 
 #: ../inc/user.inc:210
 msgid "User ID"
-msgstr "Kullanıcı ID"
+msgstr "Kullanıcı NO"
 
 #: ../inc/user.inc:210
 msgid "Used in community functions"
@@ -2420,7 +2382,7 @@ msgstr "Forum arama sonuçları"
 
 #: ../user/forum_thread.php:45
 msgid "No thread with id %1. Please check the link and try again."
-msgstr "%1 ID'siyle bir konu başlığı mevcut değil. Lütfen bağlantıyı kontrol edip tekrar deneyin."
+msgstr "%1 NO'suyla bir konu başlığı mevcut değil. Lütfen bağlantıyı kontrol edip tekrar deneyin."
 
 #: ../user/forum_thread.php:48
 msgid "This forum is not visible to you."
@@ -2853,7 +2815,7 @@ msgstr "Özel mesaj göndermek için tüm alanları doldurmalısınız"
 
 #: ../user/pm.php:199
 msgid "Could not find user with id %1"
-msgstr "%1 ID'siyle bir kullanıcı bulunamadı"
+msgstr "%1 NO'suyla bir kullanıcı bulunamadı"
 
 #: ../user/pm.php:204
 msgid "Could not find user with username %1"
@@ -2861,11 +2823,11 @@ msgstr "%1 adında bir kullanıcı bulunamadı."
 
 #: ../user/pm.php:206
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 benzersiz bir kullanıcı adı değil; kullanıcının ID numarasını kullanmalısınız"
+msgstr "%1 benzersiz bir kullanıcı adı değil; kullanıcının kimlik NO'sunu kullanmalısınız"
 
 #: ../user/pm.php:211
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "%1 kullanıcısı (ID: %2) sizden gelen özel mesajları kabul etmiyor."
+msgstr "%1 kullanıcısı (NO: %2) sizden gelen özel mesajları kabul etmiyor."
 
 #: ../user/pm.php:234
 msgid "Really block %1?"
@@ -3033,7 +2995,7 @@ msgstr "Bu özellik geçici olarak kapatıldı"
 
 #: ../user/results.php:46
 msgid "No computer with ID %1 found"
-msgstr "%1 ID'siyle bilgisayar bulunamadı"
+msgstr "%1 NO'suyla bilgisayar bulunamadı"
 
 #: ../user/results.php:52
 msgid "No access"
@@ -3041,7 +3003,7 @@ msgstr "Erişim yok"
 
 #: ../user/results.php:57
 msgid "Missing user ID or host ID"
-msgstr "Eksik kullanıcı ID ya da sunucu ID"
+msgstr "Eksik kullanıcı NO ya da sunucu NO"
 
 #: ../user/results.php:85
 msgid "No tasks to display"
@@ -3886,9 +3848,8 @@ msgid "Remove?"
 msgstr "Kaldır"
 
 #: ../user/team_remove_inactive_form.php:38
-#, fuzzy
 msgid "Name (ID)"
-msgstr "Bilgisayar ID"
+msgstr "İsim (NO)"
 
 #: ../user/team_remove_inactive_form.php:63
 msgid "No members are eligible for removal."
@@ -4158,9 +4119,8 @@ msgid "can't find workunit"
 msgstr "%s - İnternet tarayıcı bulunamadı"
 
 #: ../user/workunit.php:33
-#, fuzzy
 msgid "Workunit %1"
-msgstr "İş birimi ismi"
+msgstr "İş birimi %1"
 
 #: ../user/workunit.php:37
 #, fuzzy
@@ -4184,7 +4144,7 @@ msgstr "Sonuç iptal ediliyor..."
 #: ../user/workunit.php:44
 #, fuzzy
 msgid "granted credit"
-msgstr "Toplam kredi"
+msgstr "alınan kredi"
 
 #: ../user/workunit.php:52
 #, fuzzy
@@ -4216,37 +4176,27 @@ msgstr ""
 #: ../user/workunit.php:64
 #, fuzzy
 msgid "validation"
-msgstr "Doğrulama Hatası"
+msgstr "doğrulama"
 
 #: ../project.sample/project.inc:51
-#, fuzzy
 msgid "Copyright"
-msgstr "Telif hakkı:"
+msgstr "Telif hakkı"
 
 #: ../project.sample/project.inc:54
-#, fuzzy
 msgid "Generated"
 msgstr "Oluşturulma"
 
 #: ../project.sample/project.inc:88
-#, fuzzy
 msgid "Your personal background."
 msgstr "Kişisel geçmişiniz."
 
 #: ../project.sample/project.inc:92
-#, fuzzy
 msgid "Tell us about yourself. You could tell us where you're from, your age, occupation, hobbies, or anything else about yourself."
-msgstr ""
-"\n"
-"        Bize kendinizi anlatın.\n"
-"        Örneğin, nereden olduğunuzu, yaşınızı, mesleğinizi, hobilerinizi\n"
-"        ya da kendiniz hakkındaki istediğiniz bir şeyi yazın.\n"
-"    "
+msgstr "Bize kendinizi anlatın. Örneğin, nereden olduğunuzu, yaşınızı, mesleğinizi, hobilerinizi ya da kendiniz hakkındaki istediğiniz bir şeyi yazabilirsiniz."
 
 #: ../project.sample/project.inc:96
-#, fuzzy
 msgid "Your opinions about %1"
-msgstr "Fikirleriniz hakkında"
+msgstr "%1 hakkındaki fikirleriniz"
 
 #: ../project.sample/project.inc:100
 msgid ""
@@ -4274,9 +4224,8 @@ msgid "If no work for selected applications is available, accept work from other
 msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:80
-#, fuzzy
 msgid "(all applications)"
-msgstr "Çoklu uygulamalar"
+msgstr "(tüm uygulamalar)"
 
 #, fuzzy
 #~ msgid "preferences"
