@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-03-20 13:09+0200\n"
+"PO-Revision-Date: 2010-03-20 13:14+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -1386,7 +1386,7 @@ msgstr "saniyede bir kaydetsin"
 #: clientgui/DlgAdvPreferencesBase.cpp:565
 #, no-c-format
 msgid "% of page file (swap space)"
-msgstr "% kadar sayfa dosyası (swap alanı) kullan"
+msgstr "% kadar sayfa dosyası (swap alanı) kullanılsın"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:573
 msgid "Memory usage"
