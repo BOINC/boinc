@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-20 05:04+0200\n"
+"PO-Revision-Date: 2010-03-20 13:23+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <weboglan@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -663,7 +663,7 @@ msgstr "Durakladığında uygulamalar bellekte kalsın mı? %1('Evet'i seçersen
 
 #: ../inc/prefs.inc:112
 msgid "Switch between tasks every %1(recommended: 60 minutes)%2"
-msgstr "Çalışan uygulamayı bu kadar sürede bir değiştir %1(önerilen: 60 dakika)%2"
+msgstr "Çalışan uygulama bu kadar sürede bir değişsin %1(önerilen: 60 dakika)%2"
 
 #: ../inc/prefs.inc:119
 msgid "Confirm before connecting to Internet? %1(matters only if you have a modem, ISDN or VPN connection)%2"
@@ -762,23 +762,23 @@ msgstr "En yüksek gönderme hızı:"
 
 #: ../inc/prefs.inc:175
 msgid "Use network only between the hours of"
-msgstr "Ağ bağlantısını yalnızca bu saatler arasında kullan"
+msgstr "Ağ bağlantısı yalnızca bu saatler arasında kullanılsın"
 
 #: ../inc/prefs.inc:178
 msgid "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC.%3"
-msgstr "Resim dosyasıyla doğrulamayı atla %1 YALNIZCA, internet sağlayıcınız resim dosyalarını değiştiriyorsa işaretleyin (örneğin UMTS bunu yapabilir). %2 Resim dosyasıyla doğrulamayı atlamak, BOINC'in güvenliğini azaltır. %3"
+msgstr "Resim dosyasıyla doğrulama atlansın %1 YALNIZCA, internet sağlayıcınız resim dosyalarını değiştiriyorsa işaretleyin (örneğin UMTS bunu yapabilir). %2 Resim dosyasıyla doğrulamayı atlamak, BOINC'in güvenliğini azaltır. %3"
 
 #: ../inc/prefs.inc:186
 msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr "Mevcutsa ATI GPU'yu kullan %1(sürüm 6.10 ve üzeri istemciler için)%2"
+msgstr "Mevcutsa ATI GPU kullanılsın %1(sürüm 6.10 ve üzeri istemciler için)%2"
 
 #: ../inc/prefs.inc:193
 msgid "Use NVIDIA GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr "Mevcutsa NVIDIA GPU'yu kullan %1(sürüm 6.10 ve üzeri istemciler için)%2"
+msgstr "Mevcutsa NVIDIA GPU kullanılsın %1(sürüm 6.10 ve üzeri istemciler için)%2"
 
 #: ../inc/prefs.inc:200
 msgid "Use CPU %1(enforced by 6.10+ clients)%2"
-msgstr "CPU'yu kullan %1(sürüm 6.10 ve üzeri istemciler için)%2"
+msgstr "CPU kullanılsın %1(sürüm 6.10 ve üzeri istemciler için)%2"
 
 #: ../inc/prefs.inc:208
 msgid "Kbytes/sec"
@@ -881,7 +881,7 @@ msgstr "dakika"
 
 #: ../inc/prefs.inc:772
 msgid "GB disk space"
-msgstr "GB disk alanı kullan"
+msgstr "GB disk alanı kullanılsın"
 
 #: ../inc/prefs.inc:773
 msgid "GB disk space free"
@@ -919,7 +919,7 @@ msgstr "ve"
 
 #: ../inc/prefs.inc:826
 msgid "%1 GB disk space"
-msgstr "%1 GB disk alanı kullan"
+msgstr "%1 GB disk alanı kullanılsın"
 
 #: ../inc/prefs.inc:834
 msgid "%1 GB disk space free"
@@ -1028,7 +1028,7 @@ msgid ""
 "            will get 1/3 of your resources and the second will get 2/3."
 msgstr ""
 "Bilgisayarınızın bu projeye ayırılacak kaynak oranını belirler. \n"
-"            Örneğin: Eğer bilgisayarınızda iki BOINC projesine katıldıysanız ve\n"
+"            Örneğin: Bilgisayarınızda iki BOINC projesine katıldıysanız ve\n"
 "            projelere 100 ve 200 kaynak ayrıldıysa, ilk proje kaynakların 1/3'ünü,\n"
 "            ikincisi ise 2/3'ünü kullanacak."
 
