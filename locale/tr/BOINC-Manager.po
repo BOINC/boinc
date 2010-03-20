@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-03-14 23:38+0200\n"
+"PO-Revision-Date: 2010-03-20 13:09+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -1118,7 +1118,7 @@ msgstr "bilgisayarınızı kullandığınız sırada hesaplama işinin çalışm
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
-msgstr "Bilgisayar kullanımda olduğunda GPU'yu kullan"
+msgstr "Bilgisayar kullanımda olduğunda GPU kullanılsın"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
@@ -1139,15 +1139,15 @@ msgstr "dakika"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
 msgid "While processor usage is less than"
-msgstr "İşlemci kullanımı bu orandan az olduğunda: %"
+msgstr "İşlemci kullanımı bu orandan azsa:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr "işlemci kullanımı bu seviyeyi aşarsa hesaplama duraklatılır"
+msgstr "BOINC dışı işlemci kullanımı bu seviyeyi aşarsa, hesaplama duraklatılır"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr "(sınırlamayı kaldırmak için 0 yazın)"
+msgstr "% (sınırlamayı kaldırmak için 0 yazın)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1223,16 +1223,16 @@ msgstr "Diğer seçenekler"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
 msgid "Switch between applications every"
-msgstr "Bu kadar sürede bir, çalışan uygulamayı değiştir:"
+msgstr "Bu kadar sürede bir, çalışan uygulama değişsin:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:289
 msgid "On multiprocessor systems, use at most"
-msgstr "Çok işlemcili (CPU'lu) sistemlerde işlemcilerin %"
+msgstr "Çok işlemcili sistemlerde işlemcilerin en fazla"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:296
 #, no-c-format
 msgid "% of the processors"
-msgstr "kadarını kullan"
+msgstr "% kadarı kullanılsın"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:299
 #: clientgui/DlgAdvPreferencesBase.cpp:515
@@ -1241,12 +1241,12 @@ msgstr "kadarını kullan"
 #: clientgui/DlgAdvPreferencesBase.cpp:581
 #: clientgui/DlgAdvPreferencesBase.cpp:591
 msgid "Use at most"
-msgstr "Yaklaşık %"
+msgstr "En fazla"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:306
 #, no-c-format
 msgid "% CPU time"
-msgstr "kadar işlemci gücü kullan"
+msgstr "% kadar CPU zamanı kullanılsın"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:316
 msgid "processor usage"
@@ -1278,7 +1278,7 @@ msgid ""
 "this computer is connected to the Internet about every X days\n"
 "(0 if it's always connected)"
 msgstr ""
-"bu bilgisayar internete yaklaşık her X günde bir bağlanır\n"
+"bu bilgisayarın internete kaç günde bir bağlandığını belirtin\n"
 "(sürekli bağlıysa 0 yazın)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:357
@@ -1287,11 +1287,11 @@ msgstr "günde bir"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:360
 msgid "Additional work buffer"
-msgstr "Depolanacak iş miktarı:"
+msgstr "Depolanacak ek iş miktarı:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:366
 msgid "days (max. 10)"
-msgstr "günlük (en çok 10)"
+msgstr "günlük (en fazla 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:369
 msgid " Skip image file verification"
@@ -1303,7 +1303,7 @@ msgstr "internet sağlayıcınız resim dosyalarını değiştiriyorsa bunu işa
 
 #: clientgui/DlgAdvPreferencesBase.cpp:380
 msgid "Connect options"
-msgstr "Bağlantı seçenekleri"
+msgstr "Bağlanma seçenekleri"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:382
 msgid "Confirm before connecting to internet"
@@ -1352,7 +1352,7 @@ msgstr "BOINC tarafından kullanılacak en fazla disk alanı (Gigabayt olarak)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:523
 msgid "Gigabytes disk space"
-msgstr "Gigabayt disk alanı kullan"
+msgstr "Gigabayt disk alanı kullanılsın"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:526
 msgid "Leave at least"
@@ -1368,16 +1368,16 @@ msgstr "Gigabayt disk alanı boş kalsın"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:541
 msgid "BOINC uses at most this percentage of total disk space"
-msgstr "BOINC yüzde olarak en çok bu miktarda disk alanını kullanacak"
+msgstr "BOINC disk alanının yüzde olarak en fazla bu kadarını kullanacak"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:546
 #, no-c-format
 msgid "% of total disk space"
-msgstr "kadar disk alanı kullan (en çok)"
+msgstr "% kadar disk alanı kullanılsın"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:549
 msgid "Tasks checkpoint to disk at most every"
-msgstr "İşler kontrol noktasını diske en çok"
+msgstr "İşler kontrol noktasını diske en fazla"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:555
 msgid "seconds"
@@ -1386,7 +1386,7 @@ msgstr "saniyede bir kaydetsin"
 #: clientgui/DlgAdvPreferencesBase.cpp:565
 #, no-c-format
 msgid "% of page file (swap space)"
-msgstr "kadar sayfa dosyası (swap alanı) kullan"
+msgstr "% kadar sayfa dosyası (swap alanı) kullan"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:573
 msgid "Memory usage"
@@ -1395,20 +1395,20 @@ msgstr "Bellek kullanımı"
 #: clientgui/DlgAdvPreferencesBase.cpp:588
 #, no-c-format
 msgid "% when computer is in use"
-msgstr "kadar bellek kullan (bilgisayar kullanımdayken, en çok)"
+msgstr "% kadar bellek kullan (bilgisayar kullanımdayken)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:598
 #, no-c-format
 msgid "% when computer is idle"
-msgstr "kadar bellek kullan (bilgisayar boştayken, en çok)"
+msgstr "% kadar bellek kullan (bilgisayar boştayken)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:603
 msgid " Leave applications in memory while suspended"
-msgstr "Durdurulduğunda uygulamaları bellekte tut"
+msgstr "Durakladığında uygulamaları bellekte tut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:605
 msgid "if checked, suspended work units are left in memory"
-msgstr "işaretlenirse, duraklayan hesaplama uygulamaları kapatılmaz ve bellekte kalmayı sürdürür"
+msgstr "işaretlenirse, duraklamış işlerin uygulamaları kapatılmaz ve bellekte kalmayı sürdürür"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:614
 msgid "disk and memory usage"
