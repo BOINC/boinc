@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-21 11:04-0700\n"
+"PO-Revision-Date: 2010-03-21 12:04-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -600,11 +600,11 @@ msgstr ""
 
 #: ../inc/prefs.inc:101
 msgid "Do work only between the hours of"
-msgstr ""
+msgstr "Erlaube Arbeit nur in der Zeit zwischen"
 
 #: ../inc/prefs.inc:102
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(keine Einschränkung wenn gleich)"
 
 #: ../inc/prefs.inc:105
 msgid ""
@@ -645,7 +645,7 @@ msgstr ""
 #: ../inc/prefs.inc:149
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% von den Prozessoren"
 
 #: ../inc/prefs.inc:150
 msgid "On multiprocessors, use at most"
@@ -779,7 +779,7 @@ msgstr ""
 #: ../inc/prefs.inc:903 ../inc/prefs.inc:915 ../inc/prefs.inc:917
 #: ../inc/prefs.inc:1327 ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: ../inc/prefs.inc:688 ../inc/prefs.inc:691 ../inc/prefs.inc:800
 #: ../inc/prefs.inc:801 ../inc/prefs.inc:802 ../inc/prefs.inc:818
@@ -788,15 +788,15 @@ msgstr ""
 #: ../inc/prefs.inc:903 ../inc/prefs.inc:915 ../inc/prefs.inc:917
 #: ../inc/prefs.inc:1329 ../project.sample/project_specific_prefs.inc:76
 msgid "no"
-msgstr ""
+msgstr "nein"
 
 #: ../inc/prefs.inc:696 ../inc/prefs.inc:847 ../inc/prefs.inc:850
 msgid "no limit"
-msgstr ""
+msgstr "keine Einschränkung"
 
 #: ../inc/prefs.inc:721 ../user/team_admins.php:77
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: ../inc/prefs.inc:722 ../inc/prefs.inc:724
 msgid "Edit"
@@ -804,12 +804,12 @@ msgstr ""
 
 #: ../inc/prefs.inc:723 ../inc/prefs.inc:955 ../user/team_admins.php:32
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 #: ../inc/prefs.inc:758 ../inc/prefs.inc:760 ../inc/prefs.inc:766
 #: ../inc/prefs.inc:1113 ../inc/prefs.inc:1118 ../inc/prefs.inc:1136
 msgid "minutes"
-msgstr ""
+msgstr "Minuten"
 
 #: ../inc/prefs.inc:772
 msgid "GB disk space"
@@ -821,25 +821,25 @@ msgstr ""
 
 #: ../inc/prefs.inc:775 ../inc/prefs.inc:1195
 msgid "seconds"
-msgstr ""
+msgstr "Sekunden"
 
 #: ../inc/prefs.inc:781 ../inc/prefs.inc:782 ../inc/prefs.inc:1222
 #: ../inc/prefs.inc:1228
 msgid "days"
-msgstr ""
+msgstr "Tage"
 
 #: ../inc/prefs.inc:803 ../inc/prefs.inc:806 ../inc/prefs.inc:819
 msgid "%1 minutes"
-msgstr ""
+msgstr "%1 Minuten"
 
 #: ../inc/prefs.inc:811 ../inc/prefs.inc:852
 msgid "(no restriction)"
-msgstr ""
+msgstr "(keine Einschränkung)"
 
 #: ../inc/prefs.inc:815 ../inc/prefs.inc:856 ../inc/prefs.inc:1129
 #: ../inc/prefs.inc:1261
 msgid "and"
-msgstr ""
+msgstr "und"
 
 #: ../inc/prefs.inc:826
 msgid "%1 GB disk space"
@@ -4233,7 +4233,7 @@ msgstr ""
 
 #: ../user/workunit.php:61
 msgid "errors"
-msgstr ""
+msgstr "Fehler"
 
 #: ../user/workunit.php:64
 msgid "validation"
@@ -4241,7 +4241,7 @@ msgstr ""
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: ../project.sample/project.inc:54
 msgid "Generated"
@@ -4259,7 +4259,7 @@ msgstr ""
 
 #: ../project.sample/project.inc:96
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Deine Meinungen zu %1"
 
 #: ../project.sample/project.inc:100
 msgid ""
