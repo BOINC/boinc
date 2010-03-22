@@ -42,7 +42,7 @@ class CDlgItemProperties : public wxDialog {
 public:
 	CDlgItemProperties(wxWindow* parent=NULL);//to act as standard constructor set a default value
 	virtual ~CDlgItemProperties();
-	//
+    //
 	void renderInfos(PROJECT* project);
 	void renderInfos(RESULT* result);
 private:

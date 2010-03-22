@@ -30,6 +30,9 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgItemProperties, wxDialog)
 
+BEGIN_EVENT_TABLE(CDlgItemProperties, wxDialog)
+END_EVENT_TABLE()
+
 /* Constructor */
 CDlgItemProperties::CDlgItemProperties(wxWindow* parent) : 
     wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition, 
@@ -163,7 +166,6 @@ bool CDlgItemProperties::RestoreState() {
 
 	return true;
 }
-
 // show project properties
 //
 void CDlgItemProperties::renderInfos(PROJECT* project_in) {

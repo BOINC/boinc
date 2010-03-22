@@ -1001,3 +1001,9 @@ Rom    19 Mar 2010
     /
         configure.ac
         version.h
+
+Rom    22 Mar 2010
+    - MGR: Add event map to the properties dialog.
+    
+    clientgui/
+        DlgItemProperties.cpp, .h
