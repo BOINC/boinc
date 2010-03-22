@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-01-28 12:38-0700\n"
+"PO-Revision-Date: 2010-03-22 14:29-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
@@ -1155,17 +1155,16 @@ msgid "minutes"
 msgstr "min."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "Využití procesoru"
+msgstr "Pokud je využití procesoru nižší než"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
+msgstr "pozastavit práci, pokud využití procesoru překročí tuto úroveň"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "procent (0 znamená bez omezení)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1240,9 +1239,8 @@ msgid "Other options"
 msgstr "Ostatní předvolby"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
-#, fuzzy
 msgid "Switch between applications every"
-msgstr "Změnit aplikaci nejpozději každých "
+msgstr "Přepnout aplikaci každých"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:289
 msgid "On multiprocessor systems, use at most"
@@ -2335,7 +2333,6 @@ msgid "Network communication failure"
 msgstr "Selhala síťová komunikace"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2359,7 +2356,7 @@ msgstr ""
 "Poté klikněte na tlačítko <Zpět> a zopakujte předchozí krok.\n"
 "\n"
 "2) Nainstalovaný firewall blokuje World Community Grid - BOINC.\n"
-"Nastavte prosím firewall tak, aby umožnil programům \"BOINC' a 'Správce "
+"Nastavte prosím firewall tak, aby umožnil programům 'BOINC' a 'Správce "
 "BOINC' komunikovat na portu 80 a 443.\n"
 "Poté klikněte na tlačítko <Zpět> a zopakujte předchozí krok.\n"
 "\n"
