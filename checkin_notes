@@ -2018,3 +2018,9 @@ Charlie  19 Mar 2010
     clientgui/
         BOINCBaseView.cpp
         DlgEventLog.cpp
+
+Rom    22 Mar 2010
+    - MGR: Add event map to the properties dialog.
+    
+    clientgui/
+        DlgItemProperties.cpp, .h
