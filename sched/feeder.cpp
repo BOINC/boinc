@@ -138,14 +138,15 @@ bool all_apps = false;
 int purge_stale_time = 0;
 int num_work_items = MAX_WU_RESULTS;
 int enum_limit = MAX_WU_RESULTS*2;
+
+// The following defined if -allapps:
 int *enum_sizes;
-    // if -allapps, the enum size per app; else not used
+    // the enum size per app; else not used
 int *app_indices;
-    // if -allapps, this maps slot number to app index.
-    // otherwise it's all zero
+    // maps slot number to app index, else all zero
 int napps;
-    // if -allapps, the number of apps
-    // otherwise one
+    // number of apps, else one
+
 HR_INFO hr_info;
 bool using_hr;
     // true iff any app is using HR
@@ -235,7 +236,7 @@ void hr_count_slots() {
 // If reach end of enum for second time on this array scan, return false
 // 
 static bool get_job_from_db(
-    DB_WORK_ITEM& wi,    // if -allapps, array of enumerators; else just one
+    DB_WORK_ITEM& wi,    // enumerator to get job from
     int app_index,       // if using -allapps, the app index
     int& enum_phase,
     int& ncollisions
@@ -358,7 +359,13 @@ static bool get_job_from_db(
 void weighted_interleave(double* weights, int n, int k, int* v, int* count) {
     double *x = (double*) calloc(n, sizeof(double));
     int i;
-    for (i=0; i<n; i++) count[i] = 0;
+    for (i=0; i<n; i++) {
+        // make sure apps with no weight get no slots
+        if (weights[i] == 0) {
+            x[i] = 1e-100;
+        }
+        count[i] = 0;
+    }
     for (i=0; i<k; i++) {
         int best = 0;
         for (int j=1; j<n; j++) {
@@ -821,11 +828,11 @@ int main(int argc, char** argv) {
         enum_sizes = (int*) calloc(ssp->napps, sizeof(int));
         double* weights = (double*) calloc(ssp->napps, sizeof(double));
         int* counts = (int*) calloc(ssp->napps, sizeof(int));
-        if (ssp->app_weights == 0) {
+        if (ssp->app_weight_sum == 0) {
             for (i=0; i<ssp->napps; i++) {
                 ssp->apps[i].weight = 1;
             }
-            ssp->app_weights = ssp->napps;
+            ssp->app_weight_sum = ssp->napps;
         }
         for (i=0; i<ssp->napps; i++) {
             weights[i] = ssp->apps[i].weight;

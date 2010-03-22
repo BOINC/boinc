@@ -79,7 +79,7 @@ struct SCHED_SHMEM {
     int wu_result_size;     // sizeof(WU_RESULT)
     int nplatforms;
     int napps;
-    double app_weights;
+    double app_weight_sum;
     int napp_versions;
     int nassignments;
     int max_platforms;

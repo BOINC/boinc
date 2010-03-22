@@ -105,14 +105,14 @@ int SCHED_SHMEM::scan_tables() {
     nplatforms = n;
 
     n = 0;
-    app_weights = 0;
+    app_weight_sum = 0;
     while (!app.enumerate()) {
         if (app.deprecated) continue;
         apps[n++] = app;
         if (n == MAX_APPS) {
             overflow("apps", "MAX_APPS");
         }
-        app_weights += app.weight;
+        app_weight_sum += app.weight;
     }
     napps = n;
 
