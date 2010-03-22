@@ -2032,3 +2032,9 @@ David  22 Mar 2010
     sched/
         sched_shmem.cpp,h
         feeder.cpp
+
+Charlie  22 Mar 2010
+    - MGR: Fix crash bug when using Mac accessibility with Event Log.
+    
+    clientgui/
+        DlgEventLogListCtrl.cpp, .h

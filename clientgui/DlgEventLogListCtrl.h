@@ -24,11 +24,15 @@
 
 #ifdef __WXMAC__
 #include "macAccessiblity.h"
+#define DLG_LISTCTRL_BASE wxGenericListCtrl
+#else
+#define DLG_LISTCTRL_BASE wxListView
+
 #endif
 
 class CDlgEventLog;
 
-class CDlgEventLogListCtrl : public wxListView
+class CDlgEventLogListCtrl : public DLG_LISTCTRL_BASE
 {
     DECLARE_DYNAMIC_CLASS(CDlgEventLogListCtrl)
     DECLARE_EVENT_TABLE()

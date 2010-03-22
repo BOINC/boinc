@@ -33,9 +33,9 @@
 #include "DlgEventLog.h"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CDlgEventLogListCtrl, wxListView)
+IMPLEMENT_DYNAMIC_CLASS(CDlgEventLogListCtrl, DLG_LISTCTRL_BASE)
 
-BEGIN_EVENT_TABLE(CDlgEventLogListCtrl, wxListView)
+BEGIN_EVENT_TABLE(CDlgEventLogListCtrl, DLG_LISTCTRL_BASE)
     EVT_LEFT_UP(CDlgEventLogListCtrl::OnMouseUp)
 END_EVENT_TABLE()
 
@@ -43,7 +43,7 @@ END_EVENT_TABLE()
 CDlgEventLogListCtrl::CDlgEventLogListCtrl() {}
 
 CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags)
-    : wxListView(pView, iListWindowID, wxDefaultPosition, wxSize(640,480), iListWindowFlags) 
+    : DLG_LISTCTRL_BASE(pView, iListWindowID, wxDefaultPosition, wxSize(640,480), iListWindowFlags) 
 {
     m_pParentView = pView;
 
