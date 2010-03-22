@@ -39,6 +39,7 @@
 
 class CDlgItemProperties : public wxDialog {
 	DECLARE_DYNAMIC_CLASS( CDlgItemProperties )
+    DECLARE_EVENT_TABLE()
 public:
 	CDlgItemProperties(wxWindow* parent=NULL);//to act as standard constructor set a default value
 	virtual ~CDlgItemProperties();
