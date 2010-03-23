@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-23 10:59-0700\n"
+"PO-Revision-Date: 2010-03-23 11:10-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -587,10 +587,13 @@ msgid "'In use' means mouse/keyboard activity in last"
 msgstr "'In Benutzung' bedeutet Maus/Tastatur Aktivitäten in den letzten"
 
 #: ../inc/prefs.inc:89
+#, fuzzy
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1(Needed to enter low-"
 "power mode on some computers)%2"
 msgstr ""
+"Arbeit unterbrechen wenn keine Maus-/Tastaturaktivität für %1(zur "
+"Umschaltung in den Ruhemodus bei manchen PC)%2"
 
 #: ../inc/prefs.inc:96
 msgid ""
