@@ -82,7 +82,7 @@ public:
     virtual void        StopTimers();
     virtual void        UpdateRefreshTimerInterval();
 
-    void                UpdateStatusText( const wxChar* szStatus );
+    inline void                UpdateStatusText( const wxChar* ){}
 
     void                ShowAlert( 
                             const wxString title,

@@ -339,9 +339,13 @@ int CLIENT_STATE::parse_state_file() {
                 delete rp;
                 continue;
             }
-            if (!strlen(rp->platform) || !is_supported_platform(rp->platform)) {
-                strcpy(rp->platform, get_primary_platform());
-                rp->version_num = latest_version(rp->wup->app, rp->platform);
+            // handle transition from old clients which didn't store result.platform;
+            // skip for anon platform
+            if (!project->anonymous_platform) {
+                if (!strlen(rp->platform) || !is_supported_platform(rp->platform)) {
+                    strcpy(rp->platform, get_primary_platform());
+                    rp->version_num = latest_version(rp->wup->app, rp->platform);
+                }
             }
             rp->avp = lookup_app_version(
                 rp->wup->app, rp->platform, rp->version_num, rp->plan_class

@@ -56,9 +56,9 @@ int MFILE::open(const char* path, const char* mode) {
 
 // seems like Win's realloc is stupid,  Make it smart.
 //
-static inline char* realloc_aux(char* p, int len) {
+static inline char* realloc_aux(char* p, size_t len) {
 #ifdef _WIN32
-    if (_msize(p) >= len) return p;
+    if (_msize(p) >= (unsigned int)len) return p;
     return (char*) realloc(p, len*2);
 #else
     return (char*) realloc(p, len);

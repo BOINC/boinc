@@ -2038,3 +2038,16 @@ Charlie  22 Mar 2010
     
     clientgui/
         DlgEventLogListCtrl.cpp, .h
+
+David  22 Mar 2010
+	- client: fix bug where if anon platform file had bad platform name,
+		it would cause jobs to get discarded on client restart.
+	- manager: remove flicker-producing messages on status bar
+
+	client/
+		cs_statefile.cpp
+	clientgui/
+		BOINCBaseFrame.cpp
+		BOINCBaseFrame.h
+	lib/
+		mfile.cpp

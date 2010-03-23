@@ -642,11 +642,12 @@ void CBOINCBaseFrame::StopTimers() {
 void CBOINCBaseFrame::UpdateRefreshTimerInterval() {
 }
 
+#if 0
 void CBOINCBaseFrame::UpdateStatusText(const wxChar* szStatus) {
     CFrameEvent event(wxEVT_FRAME_UPDATESTATUS, this, szStatus);
     ProcessEvent(event);
 }
-
+#endif
 
 void CBOINCBaseFrame::ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only, const FrameAlertEventType alert_event_type ) {
     CFrameAlertEvent event(wxEVT_FRAME_ALERT, this, title, message, style, notification_only, alert_event_type);
