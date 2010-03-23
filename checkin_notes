@@ -2063,3 +2063,9 @@ David  23 Mar 2010
 
     sched/
         feeder.cpp
+
+Charlie  23 Mar 2010
+    - MGR: Change Advanced Menu item "Run GPU never" to "Suspend GPU".
+    
+    clientgui/
+        AdvancedFrame.cpp
