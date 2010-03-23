@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-21 12:04-0700\n"
+"PO-Revision-Date: 2010-03-23 10:59-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -150,7 +150,7 @@ msgstr "IP Adresse"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(die letzten %1 mal gleich)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
