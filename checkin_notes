@@ -1007,3 +1007,9 @@ Rom    22 Mar 2010
     
     clientgui/
         DlgItemProperties.cpp, .h
+
+Charlie  23 Mar 2010
+    - MGR: Change Advanced Menu item "Run GPU never" to "Suspend GPU".
+    
+    clientgui/
+        AdvancedFrame.cpp

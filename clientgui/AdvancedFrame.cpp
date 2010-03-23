@@ -475,7 +475,7 @@ bool CAdvancedFrame::CreateMenu() {
         );
         menuActivity->AppendRadioItem(
             ID_ADVACTIVITYGPUSUSPEND,
-            _("Use GPU never"),
+            _("Suspend GPU"),
             _("Stop GPU work regardless of preferences")
         );
     }
