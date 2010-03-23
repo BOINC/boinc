@@ -2057,3 +2057,9 @@ Charlie  23 Mar 2010
 
     clientscr/
         screensaver.cpp
+
+David  23 Mar 2010
+    - feeder: compile fix
+
+    sched/
+        feeder.cpp

@@ -838,7 +838,7 @@ int main(int argc, char** argv) {
             weights[i] = ssp->apps[i].weight;
         }
         for (i=0; i<ssp->napps; i++) {
-            enum_sizes[i] = (int) floor(0.5 + enum_limit*(weights[i])/(ssp->app_weights));
+            enum_sizes[i] = (int) floor(0.5 + enum_limit*(weights[i])/(ssp->app_weight_sum));
         }
         weighted_interleave(
             weights, ssp->napps, ssp->max_wu_results, app_indices, counts
