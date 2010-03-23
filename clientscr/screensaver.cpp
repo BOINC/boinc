@@ -176,14 +176,14 @@ int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application)
         char* argv[5];
         argv[0] = "gfx_Switcher";
         argv[1] = "-launch_gfx";
-        argv[2] = strrchr(rp->slot_path.c_str(), '/');
+        argv[2] = strrchr(rp->slot_path, '/');
         if (*argv[2]) argv[2]++;    // Point to the slot number in ascii
         
         argv[3] = "--fullscreen";
         argv[4] = 0;
 
        retval = run_program(
-            rp->slot_path.c_str(),
+            rp->slot_path,
             m_gfx_Switcher_Path,
             4,
             argv,
