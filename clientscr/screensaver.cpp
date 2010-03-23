@@ -73,8 +73,8 @@
 
 bool CScreensaver::is_same_task(RESULT* taska, RESULT* taskb) {
     if ((taska == NULL) || (taskb == NULL)) return false;
-    if (taska->name != taskb->name) return false;
-    if (taska->project_url != taskb->project_url) return false;
+    if (strcmp(taska->name, taskb->name)) return false;
+    if (strcmp(taska->project_url, taskb->project_url)) return false;
     return true;
 }
 
@@ -93,7 +93,10 @@ int CScreensaver::count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
         );
         if (results.results[i]->supports_graphics) m_bV5_GFX_app_is_running = true;
         if (!strlen(results.results[i]->graphics_exec_path) 
-                && (state.executing_as_daemon || !(results.results[i]->supports_graphics))) continue;
+            && (state.executing_as_daemon || !(results.results[i]->supports_graphics))
+        ) {
+            continue;
+        }
         BOINCTRACE(_T("get_random_graphics_app -- active task detected w/graphics\n"));
 
         if (is_same_task(results.results[i], exclude)) continue;
@@ -138,7 +141,10 @@ RESULT* CScreensaver::get_random_graphics_app(RESULTS& results, RESULT* exclude)
     // Lets find the chosen graphics application.
     for (i = 0; i < results.results.size(); i++) {
         if (!strlen(results.results[i]->graphics_exec_path) 
-                && (state.executing_as_daemon || !(results.results[i]->supports_graphics))) continue;
+            && (state.executing_as_daemon || !(results.results[i]->supports_graphics))
+        ){
+            continue;
+        }
         if (is_same_task(results.results[i], avoid)) continue;
 
         current_counter++;
