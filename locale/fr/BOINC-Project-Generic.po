@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-24 12:59-0700\n"
+"PO-Revision-Date: 2010-03-24 13:18-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -3895,34 +3895,37 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
+"D'autres ressources pour les administrateurs d'équipe BOINC sont disponibles "
+"sur le site tiers : %1www.boincteams.com%2."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "Impossible de supprimer une équipe non vide"
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "L'équipe %1 a été supprimée"
 
 #: ../user/team_members.php:33
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr ""
+"Limite dépassée : seuls les 1000 premiers membres peuvent être affichés."
 
 #: ../user/team_members.php:43
 msgid "Members of %1"
-msgstr ""
+msgstr "Membres de %1"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
-msgstr ""
+msgstr "Impossible de quitter l'équipe"
 
 #: ../user/team_quit_action.php:33
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "L'équipe n'existe pas, ou vous n'en êtes pas membre."
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
-msgstr ""
+msgstr "Quitter %1"
 
 #: ../user/team_quit_form.php:32
 msgid ""
@@ -3934,56 +3937,63 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
+"<strong>Avant de quitter une équipe, veuillez noter :</strong>\n"
+"         <ul>\n"
+"         <li>Si vous quittez une équipe, vous pourrez la rejoindre à nouveau "
+"ultérieurement, ou rejoindre une autre équipe.</li>\n"
+"         <li>Quitter une équipe ne modifie aucunement les statistiques de "
+"votre crédit personnel.</li>\n"
+"          </ul>"
 
 #: ../user/team_quit_form.php:40
-#, fuzzy
 msgid "Quit Team"
 msgstr "Quitter l'équipe"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Enlever les utilisateurs de %1"
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "%1 n'est pas membre de %2"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 a été enlevé"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Enlever les membres de %1"
 
 #: ../user/team_remove_inactive_form.php:37
-#, fuzzy
 msgid "Remove?"
-msgstr "Supprimer"
+msgstr "Enlever ?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
-msgstr ""
+msgstr "Nom (ID)"
 
 #: ../user/team_remove_inactive_form.php:63
 msgid "No members are eligible for removal."
-msgstr ""
+msgstr "Aucun membre n'est éligible pour la suppression."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
-msgstr ""
+msgstr "Enlever les utilisateurs"
 
 #: ../user/team_search.php:65
 msgid "Team name"
-msgstr ""
+msgstr "Nom d'équipe"
 
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
 msgstr ""
+"Aucune équipe correspondant à vos critères n'a été trouvée. Essayez une "
+"autre recherche."
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "Sinon vous pouvez %1créer une nouvelle équipe%2."
 
 #: ../user/team_search.php:133
 msgid ""
@@ -3991,15 +4001,19 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
+"Les équipes suivantes correspondent à au moins un critère de votre "
+"recherche.\n"
+"            Pour rejoindre une équipe, cliquer sur son nom aller sur la page "
+"de l'équipe,\n"
+"            ensuite cliquer %1Rejoindre cette équipe%2."
 
 #: ../user/team_search.php:140
 msgid "Change your search"
-msgstr ""
+msgstr "Modifier votre recherche"
 
 #: ../user/team_search.php:152
-#, fuzzy
 msgid "Team search results"
-msgstr "Résultats de la recherche sur le forum"
+msgstr "Résultats de la recherche d'équipe"
 
 #: ../user/team_search.php:156
 msgid ""
