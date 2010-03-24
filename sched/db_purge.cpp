@@ -72,6 +72,8 @@ FILE *re_index_stream=NULL;
 int time_int=0;
 double min_age_days = 0;
 bool no_archive = false;
+bool dont_delete = false;
+bool daily_dir = false;
 int purged_workunits = 0;
     // used if limiting the total number of workunits to eliminate
 int max_number_workunits_to_purge = 0;
@@ -107,8 +109,25 @@ void open_archive(const char* filename_prefix, FILE*& f){
     char path[256];
     char command[512];
 
+    if(daily_dir) {
+      time_t time_time = time_int;
+      char dirname[32];
+      strftime(dirname, sizeof(dirname), "%Y_%m_%d", gmtime(&time_time));
+      strcpy(path, config.project_path("archives/%s",dirname));
+      if(mkdir(path,0775))
+	if(errno!=EEXIST) {
+	  char errstr[256];
+	  sprintf(errstr, "could not create directory '%s': %s\n",
+		  path, strerror(errno));
+	  fail(errstr);
+	}
+      strcpy(path, config.project_path("archives/%s/%s_%d.xml",
+				       dirname, filename_prefix, time_int));
+    } else {
+      strcpy(path, config.project_path("archives/%s_%d.xml",
+				       filename_prefix, time_int));
+    }
     // append appropriate suffix for file type
-    strcpy(path, config.project_path("archives/%s_%d.xml", filename_prefix, time_int));
     strcat(path, suffix[compression_type]);
 
     // and construct appropriate command if needed
@@ -172,8 +191,18 @@ void close_archive(const char *filename, FILE*& fp){
     
     fp = NULL;
 
+    // reconstruct the filename
+    if(daily_dir) {
+      time_t time_time = time_int;
+      char dirname[32];
+      strftime(dirname, sizeof(dirname), "%Y_%m_%d", gmtime(&time_time));
+      strcpy(path, config.project_path("archives/%s/%s_%d.xml",
+				       dirname, filename, time_int));
+    } else {
+      strcpy(path, config.project_path("archives/%s_%d.xml",
+				       filename, time_int));
+    }
     // append appropriate file type
-    strcpy(path, config.project_path("archives/%s_%d.xml", filename, time_int));
     strcat(path, suffix[compression_type]);
     
     log_messages.printf(MSG_NORMAL,
@@ -414,7 +443,8 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
                 "Archived result [%d] to a file\n", result.id
             );
         }
-        retval = result.delete_from_db();
+	if(!dont_delete)
+	  retval = result.delete_from_db();
         if (retval) return retval;
         log_messages.printf(MSG_DEBUG,
             "Purged result [%d] from database\n", result.id
@@ -500,7 +530,8 @@ bool do_pass() {
 
         // purge workunit from DB
         //
-        retval= wu.delete_from_db();
+	if(!dont_delete)
+	  retval= wu.delete_from_db();
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "Can't delete workunit [%d] from database:%d\n", wu.id, retval
@@ -564,9 +595,11 @@ void usage(char* name) {
         "    [-zip]                       Compuress output files using zip\n"
         "    [-gzip]                      uress output files using gzip\n"
         "    [-no_archive]                Don't write output files, just purge\n"
+        "    [-daily_dir]                 Write archives in a new directory each day\n"
         "    [-max_wu_per_file N]         Write at most N WUs per output file\n"
         "    [-sleep N]                   Sleep N sec after DB scan\n"
         "    [-one_pass]                  Make one DB scan, then exit\n"
+        "    [-dont_delete]               Don't actually delete anything from the DB (for testing only)\n"
         "    [-h | -help | --help]        Show this help text\n"
         "    [-v | -version | --version]  Show version information\n",
         name
@@ -583,6 +616,8 @@ int main(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
+        } else if (!strcmp(argv[i], "-dont_delete")) {
+            dont_delete = true;
         } else if (!strcmp(argv[i], "-d")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
@@ -604,6 +639,8 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             max_number_workunits_to_purge= atoi(argv[i]);
+        } else if (!strcmp(argv[i], "-daily_dir")) {
+	  daily_dir=true;
         } else if (!strcmp(argv[i], "-zip")) {
             compression_type=COMPRESSION_ZIP;
         } else if (!strcmp(argv[i], "-gzip")) {
@@ -678,11 +715,13 @@ int main(int argc, char** argv) {
         if (time_to_quit()) {
             break;
         }
-        if (!do_pass()) {
-            if (one_pass) break;
-            log_messages.printf(MSG_NORMAL, "Sleeping....\n");
-            sleep(sleep_sec);
+        if (!do_pass() && !one_pass) {
+	  log_messages.printf(MSG_NORMAL, "Sleeping....\n");
+	  sleep(sleep_sec);
         }
+	if (one_pass) {
+	  break;
+	}
     }
 
     // files and database are closed by exit handler

@@ -2069,3 +2069,12 @@ Charlie  23 Mar 2010
     
     clientgui/
         AdvancedFrame.cpp
+
+Bernd  24 Mar 2010
+    - db_purge:
+        - fix -one_pass
+        - added -dont_delete (don't delete from DB, for testing)
+        - added -daily_dir (write archives in a new directory each day)
+
+    sched/
+        db_purge.cpp
