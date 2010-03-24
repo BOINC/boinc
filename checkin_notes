@@ -1013,3 +1013,9 @@ Charlie  23 Mar 2010
     
     clientgui/
         AdvancedFrame.cpp
+
+Rom    24 Mar 2010
+    - MGR: Revert menu change until after the next public release.
+    
+    clientgui/
+        AdvancedFrame.cpp
