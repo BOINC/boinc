@@ -562,6 +562,10 @@ AH_TOP([
 ])
 AH_BOTTOM([
 
+#ifndef HAVE_RES_INIT
+#define res_init() (0)
+#endif
+
 /* end double-inclusion protection for config.h */
 #endif /* #ifndef BOINC_CONFIG_H */
 ])
@@ -573,7 +577,7 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/mount.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/mount.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h resolv.h)
 AC_CHECK_HEADERS(netinet/if_ether.h,[],[],[[
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -644,7 +648,7 @@ AC_FUNC_ALLOCA
 if test "${ac_cv_func_alloca_works}" = "yes" ; then
   ac_cv_func_alloca="yes"
 fi
-AC_CHECK_FUNCS(alloca _alloca __builtin_alloca ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv)
+AC_CHECK_FUNCS(alloca _alloca __builtin_alloca ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -769,6 +773,20 @@ fi
 fi
 SAH_CHECK_LIB([wsock32],[fopen],[
     AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+
+svlibs=$LIBS
+if test "${ac_cv_func_res_init}" != "yes" ; then 
+  AC_CHECK_LIB([resolv],[res_init],[
+    ac_cv_func_res_init="yes"
+    AC_CHECK_FUNCS([res_init])
+  ])
+fi
+LIBS=$svlibs
+
+SAH_CHECK_LIB([resolv],[res_query],[
+    AC_DEFINE([HAVE_RESOLV],[1],[Define to 1 if you have the resolv library])
     CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 
