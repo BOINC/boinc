@@ -178,7 +178,7 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
             }
         } else {
             strBuffer.Printf(
-                _("client is processing results.")
+                _("Client is processing results.")
             );
             if (strMessage.Length() > 0) strMessage += wxT("\n");
             strMessage += strBuffer;
