@@ -2084,3 +2084,10 @@ David  25 Mar 2010
 
     html/inc/
         xml.inc
+
+Rom    25 Mar 2010
+    - MGR: Simplify the taskbar code before implementing the notice detection
+        code for the taskbar.
+        
+    clientgui/
+        BOINCTaskBar.cpp
