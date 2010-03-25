@@ -3178,7 +3178,7 @@ msgstr "Afegir o treure Administradors d'Equip"
 
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
-msgstr "Vostè pot seleccionar els membres de l'equip com a "Equip d'Administradors '. L'Equip d'Administradors pot:"
+msgstr "Vostè pot seleccionar els membres de l'equip com a Equip d'Administradors '. L'Equip d'Administradors pot:"
 
 #: ../user/team_admins.php:41
 msgid "Edit team information (name, URL, description, country)"
@@ -3826,7 +3826,7 @@ msgid ""
 "team-founders%2 group."
 msgstr ""
 "Animem als administradors d'equip a unir-se i participar en el grup Google de "
-"%1fundadors-d'equips-boinc2%"."
+"%1fundadors-d'equips-boinc2%."
 
 #: ../user/team_manage.php:73
 msgid ""
@@ -4073,7 +4073,7 @@ msgstr "Equip TotCred:"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr "Equip AvgCred:""
+msgstr "Equip AvgCred:"
 
 #: ../user/userw.php:51
 msgid "Team: None"

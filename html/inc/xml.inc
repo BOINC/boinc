@@ -52,6 +52,9 @@ function show_host_xml($host) {
         <p_iops>$host->p_iops</p_iops>
         <os_name>$host->os_name</os_name>
         <os_version>$host->os_version</os_version>
+        <m_nbytes>$host->m_nbytes</m_nbytes>
+        <d_free>$host->d_free</d_free>
+        <d_total>$host->d_total</d_total>
         <venue>$host->venue</venue>
     </host>
 ";

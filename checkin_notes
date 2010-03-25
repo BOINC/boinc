@@ -2078,3 +2078,9 @@ Bernd  24 Mar 2010
 
     sched/
         db_purge.cpp
+
+David  25 Mar 2010
+    - web RPC: include mem and disk info in host XML record
+
+    html/inc/
+        xml.inc
