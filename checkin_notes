@@ -2091,3 +2091,14 @@ Rom    25 Mar 2010
         
     clientgui/
         BOINCTaskBar.cpp
+
+David  25 Mar 2010
+    - boinccmd: add --set_gpu_mode command
+    - fix some compile warnings
+
+    client/
+        cs_notice.cpp,h
+        work_fetch.cpp
+        boinc_cmd.cpp
+        gui_http.cpp,h
+        main.cpp

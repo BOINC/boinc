@@ -72,7 +72,7 @@ struct NOTICES {
     bool append(NOTICE&, bool keep_old);
     void init();
     void init_rss();
-    int read_archive_file(char* file, struct RSS_FEED*);
+    int read_archive_file(const char* file, struct RSS_FEED*);
     void write_archive(struct RSS_FEED*);
     bool remove_dups(NOTICE&, bool keep_old);
 };

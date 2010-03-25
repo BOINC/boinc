@@ -55,7 +55,7 @@ WORK_FETCH work_fetch;
     // to use its instance share,
     // get work from the one with greatest LTD.
 
-static char* criterion_name(int criterion) {
+static const char* criterion_name(int criterion) {
     switch (criterion) {
     case FETCH_IF_IDLE_INSTANCE: return "idle instance";
     case FETCH_IF_MAJOR_SHORTFALL: return "major shortfall";

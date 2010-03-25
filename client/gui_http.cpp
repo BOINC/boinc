@@ -28,7 +28,7 @@
 
 #include "gui_http.h"
 
-int GUI_HTTP::do_rpc(GUI_HTTP_OP* op, char* url, char* output_file) {
+int GUI_HTTP::do_rpc(GUI_HTTP_OP* op, char* url, const char* output_file) {
     int retval;
 
     // this check should be done at a higher level.
@@ -47,7 +47,10 @@ int GUI_HTTP::do_rpc(GUI_HTTP_OP* op, char* url, char* output_file) {
     return 0;
 }
 
-int GUI_HTTP::do_rpc_post(GUI_HTTP_OP* op, char* url, char* input_file, char* output_file) {
+int GUI_HTTP::do_rpc_post(
+    GUI_HTTP_OP* op, char* url,
+    const char* input_file, const char* output_file
+) {
     int retval;
 
     if (gui_http_state != GUI_HTTP_STATE_IDLE) {

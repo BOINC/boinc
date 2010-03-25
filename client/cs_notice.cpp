@@ -324,7 +324,7 @@ bool NOTICES::append(NOTICE& n, bool keep_old) {
 // If rfp is NULL it's a system msg, else a feed msg.
 // insert items in NOTICES
 //
-int NOTICES::read_archive_file(char* path, RSS_FEED* rfp) {
+int NOTICES::read_archive_file(const char* path, RSS_FEED* rfp) {
     char tag[256];
     bool is_tag;
 

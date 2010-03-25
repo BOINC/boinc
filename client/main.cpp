@@ -115,7 +115,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
 
 // Log informational messages to system specific places
 //
-void log_message_startup(char* msg) {
+void log_message_startup(const char* msg) {
     char evt_msg[2048];
     snprintf(evt_msg, sizeof(evt_msg),
         "%s\n",
@@ -136,7 +136,7 @@ void log_message_startup(char* msg) {
 
 // Log error messages to system specific places
 //
-void log_message_error(char* msg) {
+void log_message_error(const char* msg) {
     char evt_msg[2048];
 #ifdef _WIN32
     snprintf(evt_msg, sizeof(evt_msg),
@@ -163,7 +163,7 @@ void log_message_error(char* msg) {
     }
 }
 
-void log_message_error(char* msg, int error_code) {
+void log_message_error(const char* msg, int error_code) {
     char evt_msg[2048];
     snprintf(evt_msg, sizeof(evt_msg),
         "%s\n"
