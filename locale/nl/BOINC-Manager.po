@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-02-18 10:01-0700\n"
+"PO-Revision-Date: 2010-03-26 12:57-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -1147,17 +1147,16 @@ msgid "minutes"
 msgstr "minuten"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "processorgebruik"
+msgstr "Alleen als het processorgebruik lager is dan"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
+msgstr "pauzeer het werk als het processorgebruik meer is dan aangegeven"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "procent (0 betekend geen beperking)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1232,7 +1231,6 @@ msgid "Other options"
 msgstr "Extra opties"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
-#, fuzzy
 msgid "Switch between applications every"
 msgstr "Schakel tussen programma's elke"
 
@@ -2316,7 +2314,6 @@ msgid "Network communication failure"
 msgstr "Netwerk communicatie fout"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2338,7 +2335,7 @@ msgstr ""
 "1) Verbindings probleem. Controleer de netwerk- of modemverbinding\n"
 "en klik op Vorige om opnieuw te proberen.\n"
 "\n"
-"2) Een firewall blokkeerd de World Community Grid - BOINC software.\n"
+"2) Een firewall blokkeert de World Community Grid - BOINC software.\n"
 "Configureer je firewall om BOINC en de BOINC Manager toegang te\n"
 "verlenen tot poort 80 en poort 443, klik daarna op\n"
 "Vorige om opnieuw te proberen.\n"
