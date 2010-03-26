@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-25 21:41+0200\n"
+"PO-Revision-Date: 2010-03-26 16:13+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <weboglan@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -365,17 +365,17 @@ msgstr "Sunucuya son bağlandığı zaman"
 #: ../inc/host.inc:180
 #, php-format
 msgid "% of time BOINC client is running"
-msgstr "BOINC istemcisinin çalışır durumda olduğu zaman oranı"
+msgstr "BOINC istemcisinin çalışır durumda olduğu zaman yüzdesi"
 
 #: ../inc/host.inc:182
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "BOINC çalışırken, bilgisayarın internet bağlantısına sahip olduğu zaman oranı"
+msgstr "BOINC çalışırken, bilgisayarın internet bağlantısına sahip olduğu zaman yüzdesi"
 
 #: ../inc/host.inc:184
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr "BOINC çalışırken, yeni işlerin kabul edildiği zaman oranı"
+msgstr "BOINC çalışırken, yeni işlerin kabul edildiği zaman yüzdesi"
 
 #: ../inc/host.inc:186
 msgid "Average CPU efficiency"
@@ -432,7 +432,7 @@ msgstr "Ort. kredi"
 #: ../user/top_users.php:51
 #: ../user/top_users.php:56
 msgid "Recent average credit"
-msgstr "En son ortalama kredi"
+msgstr "Güncel ortalama kredi"
 
 #: ../inc/host.inc:226
 msgid "BOINC version"
@@ -928,7 +928,7 @@ msgstr "%1 GB disk alanı boş kalsın"
 
 #: ../inc/prefs.inc:865
 msgid "Resource share %1If you participate in multiple BOINC projects, this is the proportion of your resources used by %2%3"
-msgstr "Kaynak paylaşımı %1Eğer birden fazla BOINC projesine katıldıysanız, bu ayar, %2 tarafından kullanılacak kaynak oranını belirlemenizi sağlar%3"
+msgstr "Kaynak paylaşımı %1Birden fazla BOINC projesine katıldıysanız, bu ayar, %2 projesinin bilgisayarınızın kaynaklarını ne oranda kullanacağını belirlemenizi sağlar%3"
 
 #: ../inc/prefs.inc:911
 msgid "Emails will be sent from %1; make sure your spam filter accepts this address."
@@ -1265,7 +1265,7 @@ msgstr "Tamamlandı"
 
 #: ../inc/result.inc:194
 msgid "Initial"
-msgstr "Başlangıçta"
+msgstr "Başlangıcında"
 
 #: ../inc/result.inc:200
 msgid "Not necessary"
@@ -1293,11 +1293,11 @@ msgstr "Çok fazla hata oluştu (yazılımsal bir hata olabilir)"
 
 #: ../inc/result.inc:219
 msgid "Too many results (may be nondeterministic)"
-msgstr "Çok fazla sonuç (belirleyici olmayabilir)"
+msgstr "Çok fazla sonuç var (belirleyici olmayabilir)"
 
 #: ../inc/result.inc:223
 msgid "Too many total results"
-msgstr "Çok fazla toplam sonuç"
+msgstr "Çok fazla toplam sonuç var"
 
 #: ../inc/result.inc:227
 msgid "WU cancelled"
@@ -1366,7 +1366,7 @@ msgstr "İşlemci zamanı<br />(sn)"
 #: ../inc/result.inc:281
 #: ../inc/result.inc:390
 msgid "Claimed credit"
-msgstr "Hak edilen kredi"
+msgstr "İstenen kredi"
 
 #: ../inc/result.inc:282
 #: ../inc/result.inc:391
@@ -1399,7 +1399,7 @@ msgstr "İstemci durumu"
 
 #: ../inc/result.inc:383
 msgid "Exit status"
-msgstr "Çıkış durumu"
+msgstr "Çıkış kodu"
 
 #: ../inc/result.inc:385
 msgid "Report deadline"
@@ -1550,7 +1550,7 @@ msgstr "Bu takıma katıl"
 
 #: ../inc/team.inc:129
 msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
-msgstr "Not: Eğer proje tercihlerinizde 'e-postayla uyarı' seçiliyse, takıma katıldığınızda kurucusu e-posta adresinizi görebilecek."
+msgstr "Not: Eğer proje topluluk tercihlerinizde 'e-postayla uyarı' ayarlıysa, takıma katıldığınızda kurucusu e-posta adresinizi görebilecek."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
@@ -1562,7 +1562,7 @@ msgstr "Kurucu değişimi talep edildi"
 
 #: ../inc/team.inc:140
 msgid "Respond by %1"
-msgstr "%1 ile yanıtla"
+msgstr "%1 tarafından yanıt"
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
@@ -1598,11 +1598,11 @@ msgstr "bak"
 
 #: ../inc/team.inc:178
 msgid "Active members"
-msgstr "Aktif üye"
+msgstr "Aktif üyeler"
 
 #: ../inc/team.inc:179
 msgid "Members with credit"
-msgstr "Kredisi bulunan üye"
+msgstr "Kredisi bulunan üyeler"
 
 #: ../inc/team.inc:243
 msgid "Admin"
@@ -1640,7 +1640,7 @@ msgstr "UYARI: Bu bir BOINC-genişletilmiş takımıdır. Eğer burada değişik
 
 #: ../inc/team.inc:417
 msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
-msgstr "%1Gizlilik notu%2: bir takım kurarsanız, proje tercihleriniz (kaynak paylaşımı, grafik tercihleri) herkese görünür olacaktır."
+msgstr "%1Gizlilik notu%2: Bir takım kurarsanız, proje tercihleriniz (kaynak paylaşımı, grafik tercihleri) herkese görünür olacaktır."
 
 #: ../inc/team.inc:421
 msgid "Team name, text version"
@@ -2362,7 +2362,7 @@ msgstr "Yeni konu başlığı oluştur"
 #: ../user/forum_thread.php:139
 #: ../user/forum_thread.php:194
 msgid "Post to thread"
-msgstr "Konu başlığına gönder"
+msgstr "Cevap yaz"
 
 #: ../user/forum_search.php:25
 msgid "Forum search"
@@ -3808,11 +3808,11 @@ msgstr "Takım arama sonuçları"
 
 #: ../user/team_search.php:156
 msgid "You can team up with other people with similar interests, or from the same country, company, or school."
-msgstr "Benzer ilgilere sahip ya da aynı ülke, şirket ya da okuldan kişilerle takım oluşturabilirsiniz."
+msgstr "Sizinle benzer ilgilere sahip olan ya da aynı ülke, şirket ya da okuldan kişilerin bulunduğu takımlara katılabilirsiniz."
 
 #: ../user/team_search.php:158
 msgid "Use this form to find teams that might be right for you."
-msgstr "Bu formu sizin için doğru olan takımları bulmak için kullanın."
+msgstr "Bu formu kendiniz için doğru olan takımları bulmak için kullanın."
 
 #: ../user/team_search.php:163
 msgid "%1I'm not interested%2 in joining a team right now."
@@ -4106,7 +4106,7 @@ msgstr "Grafikler için renk düzeni"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr "Grafikler için kullanılacak en yüksek CPU gücü oranı%10 ... 100%2"
+msgstr "Grafikler için kullanılacak en yüksek CPU gücü yüzdesi%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
