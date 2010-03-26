@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-26 13:59-0700\n"
+"PO-Revision-Date: 2010-03-26 14:11-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -1074,67 +1074,67 @@ msgstr "Niet verzonden"
 
 #: ../inc/result.inc:118
 msgid "Completed, waiting for validation"
-msgstr "Voltooid, wacht op validatie"
+msgstr "Voltooid, wacht op controle"
 
 #: ../inc/result.inc:119
 msgid "Completed and validated"
-msgstr "Voltooid en gevalideerd"
+msgstr "Voltooid en gecontroleerd"
 
 #: ../inc/result.inc:120
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Voltooid, gemarkeerd als ongeldig"
 
 #: ../inc/result.inc:121
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Voltooid, kan niet gecontroleerd worden"
 
 #: ../inc/result.inc:122
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Voltooid, controle niet overtuigend"
 
 #: ../inc/result.inc:123
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Voltooid, te laat om te controleren"
 
 #: ../inc/result.inc:125
 msgid "Completed"
-msgstr ""
+msgstr "Voltooid"
 
 #: ../inc/result.inc:126 ../inc/result.inc:162
 msgid "Couldn't send"
-msgstr ""
+msgstr "Kon niet verzonden worden"
 
 #: ../inc/result.inc:129 ../inc/result.inc:186
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Geannuleerd door server"
 
 #: ../inc/result.inc:132
 msgid "Error while downloading"
-msgstr ""
+msgstr "Fout tijdens downloaden"
 
 #: ../inc/result.inc:134
 msgid "Error while computing"
-msgstr ""
+msgstr "Fout tijdens verwerking"
 
 #: ../inc/result.inc:135
 msgid "Error while uploading"
-msgstr ""
+msgstr "Fout tijdens uploaden"
 
 #: ../inc/result.inc:136 ../inc/result.inc:188
 msgid "Aborted by user"
-msgstr ""
+msgstr "Afgebroken door gebruiker"
 
 #: ../inc/result.inc:139
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Geen reactie - tijd verstreken"
 
 #: ../inc/result.inc:140 ../inc/result.inc:169
 msgid "Didn't need"
-msgstr ""
+msgstr "Niet nodig"
 
 #: ../inc/result.inc:141 ../inc/result.inc:170
 msgid "Validate error"
-msgstr ""
+msgstr "Fout tijdens controle"
 
 #: ../inc/result.inc:142 ../inc/result.inc:171
 msgid "Client detached"
