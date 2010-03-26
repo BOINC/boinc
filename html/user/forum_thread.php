@@ -45,13 +45,19 @@ $forum = BoincForum::lookup_id($thread->forum);
 if (!$thread) error_page(tra("No thread with id %1. Please check the link and try again.", $threadid));
 
 if (!is_forum_visible_to_user($forum, $logged_in_user)) {
+    if ($logged_in_user) {
+        remove_subscriptions_forum($logged_in_user->id, $forum->id);
+    }
     error_page(tra("This forum is not visible to you."));
 }
 
 if ($thread->hidden) {
     if (!is_moderator($logged_in_user, $forum)) {
+        if ($logged_in_user) {
+            remove_subscriptions_forum($logged_in_user->id, $thread->id);
+        }
         error_page(
-            tra("This thread has been hidden for administrative purposes")
+            tra("This thread has been hidden by moderators")
         );
     }
 }

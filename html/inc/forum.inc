@@ -1173,4 +1173,18 @@ function show_mark_as_read_button($user) {
     }
 }
 
+function remove_subscriptions_forum($userid, $forumid) {
+    $subs = BoincSubscription::enum("userid=$userid");
+    foreach ($subs as $sub) {
+        $thread = BoincThread::lookup_id($sub->threadid);
+        if ($thread && $thread->forum == $forumid) {
+            BoincSubscription::delete($userid, $thread->id);
+        }
+    }
+}
+
+function remove_subscriptions_thread($userid, $threadid) {
+    BoincSubscription::delete($userid, $threadid);
+}
+
 ?>

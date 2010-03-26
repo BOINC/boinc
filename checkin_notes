@@ -2102,3 +2102,14 @@ David  25 Mar 2010
         boinc_cmd.cpp
         gui_http.cpp,h
         main.cpp
+
+David  25 Mar 2010
+    - user web: if a forum or thread is not visible to a user,
+        remove their subscriptions to it.
+
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_thread.php
+            forum_forum.php

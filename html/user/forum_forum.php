@@ -29,9 +29,13 @@ $start = get_int("start", true);
 if (!$start) $start = 0;
 
 $forum = BoincForum::lookup_id($id);
+if (!$forum) error_page("no forum");
 $user = get_logged_in_user(false);
 
 if (!is_forum_visible_to_user($forum, $user)) {
+    if ($user) {
+        remove_subscriptions_forum($user->id, $id);
+    }
     error_page("Not visible");
 }
 
