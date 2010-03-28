@@ -1181,10 +1181,18 @@ function remove_subscriptions_forum($userid, $forumid) {
             BoincSubscription::delete($userid, $thread->id);
         }
     }
+    $notices = BoincNotify::enum("userid=$userid and type=".NOTIFY_SUBSCRIBED_POST);
+    foreach ($notices as $n) {
+        $thread = BoincThread::lookup_id($n->opaque);
+        if ($thread && $thread->forum == $forumid) {
+            $n->delete();
+        }
+    }
 }
 
 function remove_subscriptions_thread($userid, $threadid) {
     BoincSubscription::delete($userid, $threadid);
+    BoincNotify::delete_aux("userid=$userid and type=".NOTIFY_SUBSCRIBED_POST." and opaque=$threadid");
 }
 
 ?>

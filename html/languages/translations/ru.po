@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-14 03:50-0700\n"
+"PO-Revision-Date: 2010-03-28 13:13-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -42,22 +42,31 @@ msgstr "Найти в форумах"
 msgid "Advanced search"
 msgstr "Расширенный поиск"
 
-#: ../inc/forum.inc:131 ../inc/user.inc:247 ../user/pm.php:64
+#: ../inc/forum.inc:131
+#: ../inc/user.inc:247
+#: ../user/pm.php:64
 #: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Личные сообщения"
 
-#: ../inc/forum.inc:149 ../user/forum_forum.php:65 ../user/sample_index.php:71
+#: ../inc/forum.inc:149
+#: ../user/forum_forum.php:65
+#: ../user/sample_index.php:71
 msgid "Questions and Answers"
 msgstr "Вопросы и ответы"
 
-#: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:244
-#: ../inc/user.inc:366 ../user/forum_forum.php:68 ../user/sample_index.php:70
+#: ../inc/forum.inc:149
+#: ../inc/forum.inc:182
+#: ../inc/user.inc:244
+#: ../inc/user.inc:366
+#: ../user/forum_forum.php:68
+#: ../user/sample_index.php:70
 #: ../project.sample/project.inc:49
 msgid "Message boards"
 msgstr "Доска сообщений"
 
-#: ../inc/forum.inc:186 ../inc/forum.inc:194
+#: ../inc/forum.inc:186
+#: ../inc/forum.inc:194
 msgid "%1 message board"
 msgstr "Доска сообщений %1"
 
@@ -84,22 +93,29 @@ msgstr ""
 msgid "Thread"
 msgstr "Обсуждение"
 
-#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1100
+#: ../inc/team.inc:120
+#: ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "Сообщения"
 
-#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
-#: ../user/forum_reply.php:112 ../user/forum_report_post.php:80
+#: ../inc/forum.inc:1100
+#: ../user/forum_forum.php:131
+#: ../user/forum_reply.php:112
+#: ../user/forum_report_post.php:80
 #: ../user/forum_thread.php:187
 msgid "Author"
 msgstr "Автор"
 
-#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1100
+#: ../user/forum_forum.php:131
 msgid "Views"
 msgstr "Просмотры"
 
-#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1100
+#: ../inc/team.inc:120
+#: ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "Последнее сообщение"
@@ -120,15 +136,19 @@ msgstr "Нет компьютера"
 msgid "Unavailable"
 msgstr "Недоступно"
 
-#: ../inc/host.inc:55 ../inc/prefs.inc:1350 ../project.sample/project.inc:49
+#: ../inc/host.inc:55
+#: ../inc/prefs.inc:1350
+#: ../project.sample/project.inc:49
 msgid "Home"
 msgstr "Дом"
 
-#: ../inc/host.inc:56 ../inc/prefs.inc:1351
+#: ../inc/host.inc:56
+#: ../inc/prefs.inc:1351
 msgid "Work"
 msgstr "Работа"
 
-#: ../inc/host.inc:57 ../inc/prefs.inc:1352
+#: ../inc/host.inc:57
+#: ../inc/prefs.inc:1352
 msgid "School"
 msgstr "Школа"
 
@@ -140,7 +160,8 @@ msgstr "Обновить"
 msgid "Computer information"
 msgstr "Информация о компьютере"
 
-#: ../inc/host.inc:87 ../inc/host.inc:92
+#: ../inc/host.inc:87
+#: ../inc/host.inc:92
 msgid "IP address"
 msgstr "IP-адрес"
 
@@ -168,40 +189,66 @@ msgstr "Местное Стандартное Время"
 msgid "UTC %1 hours"
 msgstr "UTC %1 часа"
 
-#: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:375
-#: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
-#: ../user/team_admins.php:60 ../user/team_change_founder_form.php:75
-#: ../user/team_email_list.php:61 ../user/top_users.php:47
-#: ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/host.inc:98
+#: ../inc/host.inc:612
+#: ../inc/result.inc:375
+#: ../inc/team.inc:202
+#: ../inc/team.inc:345
+#: ../inc/user.inc:198
+#: ../user/account_finish.php:40
+#: ../user/create_account_form.php:75
+#: ../user/team_admins.php:60
+#: ../user/team_change_founder_form.php:75
+#: ../user/team_email_list.php:61
+#: ../user/top_users.php:47
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Name"
 msgstr "Имя"
 
-#: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
+#: ../inc/host.inc:102
+#: ../inc/host.inc:104
+#: ../inc/host.inc:213
 msgid "Owner"
 msgstr "Владелец"
 
-#: ../inc/host.inc:104 ../inc/host.inc:318
+#: ../inc/host.inc:104
+#: ../inc/host.inc:318
 msgid "Anonymous"
 msgstr "Анонимный"
 
-#: ../inc/host.inc:108 ../inc/result.inc:377
+#: ../inc/host.inc:108
+#: ../inc/result.inc:377
 msgid "Created"
 msgstr "Создан"
 
-#: ../inc/host.inc:109 ../inc/host.inc:217 ../inc/host.inc:222
-#: ../inc/host.inc:621 ../inc/team.inc:94 ../inc/team.inc:207
-#: ../inc/team.inc:212 ../inc/team.inc:214 ../inc/team.inc:351
-#: ../inc/team.inc:356 ../inc/user.inc:118 ../inc/user.inc:132
-#: ../user/team_change_founder_form.php:76 ../user/team_email_list.php:61
-#: ../user/team_remove_inactive_form.php:39 ../user/top_users.php:52
-#: ../user/top_users.php:57 ../user/user_search.php:102
+#: ../inc/host.inc:109
+#: ../inc/host.inc:217
+#: ../inc/host.inc:222
+#: ../inc/host.inc:621
+#: ../inc/team.inc:94
+#: ../inc/team.inc:207
+#: ../inc/team.inc:212
+#: ../inc/team.inc:214
+#: ../inc/team.inc:351
+#: ../inc/team.inc:356
+#: ../inc/user.inc:118
+#: ../inc/user.inc:132
+#: ../user/team_change_founder_form.php:76
+#: ../user/team_email_list.php:61
+#: ../user/team_remove_inactive_form.php:39
+#: ../user/top_users.php:52
+#: ../user/top_users.php:57
+#: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Всего очков"
 
-#: ../inc/host.inc:110 ../inc/user.inc:118 ../user/team_search.php:67
-#: ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/host.inc:110
+#: ../inc/user.inc:118
+#: ../user/team_search.php:67
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Average credit"
 msgstr "В среднем очков"
 
@@ -222,7 +269,8 @@ msgstr "Число процессоров"
 msgid "Coprocessors"
 msgstr "Сопроцессоры"
 
-#: ../inc/host.inc:119 ../inc/host.inc:627
+#: ../inc/host.inc:119
+#: ../inc/host.inc:627
 msgid "Operating System"
 msgstr "Операционная система"
 
@@ -234,7 +282,8 @@ msgstr "Версия клиента BOINC"
 msgid "Memory"
 msgstr "Память"
 
-#: ../inc/host.inc:126 ../inc/host.inc:134
+#: ../inc/host.inc:126
+#: ../inc/host.inc:134
 msgid "%1 MB"
 msgstr "%1 Мб"
 
@@ -255,7 +304,8 @@ msgstr "Виртуальная память"
 msgid "Total disk space"
 msgstr "Полное дисковое пространство"
 
-#: ../inc/host.inc:137 ../inc/host.inc:140
+#: ../inc/host.inc:137
+#: ../inc/host.inc:140
 msgid "%1 GB"
 msgstr "%1 Гб"
 
@@ -268,7 +318,8 @@ msgstr "Свободное дисковое пространство"
 msgid "Measured floating point speed"
 msgstr "Измеренная скорость вычислений с плавающей запятой"
 
-#: ../inc/host.inc:144 ../inc/host.inc:147
+#: ../inc/host.inc:144
+#: ../inc/host.inc:147
 #, fuzzy
 msgid "%1 million ops/sec"
 msgstr "%1 млн операций/с"
@@ -278,21 +329,28 @@ msgstr "%1 млн операций/с"
 msgid "Measured integer speed"
 msgstr "Измеренная скорость целочисленных вычислений"
 
-#: ../inc/host.inc:151 ../inc/host.inc:153
+#: ../inc/host.inc:151
+#: ../inc/host.inc:153
 #, fuzzy
 msgid "Average upload rate"
 msgstr "Средняя скорость отправки данных"
 
-#: ../inc/host.inc:151 ../inc/host.inc:158
+#: ../inc/host.inc:151
+#: ../inc/host.inc:158
 msgid "%1 KB/sec"
 msgstr "%1 Кб/с"
 
-#: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:145
-#: ../inc/result.inc:155 ../inc/result.inc:173 ../inc/result.inc:205
+#: ../inc/host.inc:153
+#: ../inc/host.inc:160
+#: ../inc/result.inc:145
+#: ../inc/result.inc:155
+#: ../inc/result.inc:173
+#: ../inc/result.inc:205
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: ../inc/host.inc:158 ../inc/host.inc:160
+#: ../inc/host.inc:158
+#: ../inc/host.inc:160
 #, fuzzy
 msgid "Average download rate"
 msgstr "Средняя скорость загрузки данных"
@@ -302,7 +360,9 @@ msgstr "Средняя скорость загрузки данных"
 msgid "Average turnaround time"
 msgstr "Среднее оборотное время"
 
-#: ../inc/host.inc:163 ../inc/prefs.inc:841 ../inc/prefs.inc:842
+#: ../inc/host.inc:163
+#: ../inc/prefs.inc:841
+#: ../inc/prefs.inc:842
 msgid "%1 days"
 msgstr "%1 дней"
 
@@ -315,7 +375,9 @@ msgstr "Максимальная дневная квота заданий на �
 msgid "%1/day"
 msgstr "%1/день"
 
-#: ../inc/host.inc:174 ../inc/host.inc:302 ../inc/user.inc:149
+#: ../inc/host.inc:174
+#: ../inc/host.inc:302
+#: ../inc/user.inc:149
 msgid "Tasks"
 msgstr "Задания"
 
@@ -331,19 +393,16 @@ msgstr "Время последнего контакта с сервером"
 
 #: ../inc/host.inc:180
 #, php-format
-#, fuzzy
 msgid "% of time BOINC client is running"
 msgstr "% времени работы клиента BOINC"
 
 #: ../inc/host.inc:182
 #, php-format
-#, fuzzy
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr "% времени подключения компьютера к Интернет за время работы BOINC"
 
 #: ../inc/host.inc:184
 #, php-format
-#, fuzzy
 msgid "While BOINC running, % of time work is allowed"
 msgstr "% времени разрешенной работы за время работы BOINC"
 
@@ -353,9 +412,10 @@ msgstr "Средняя эффективность ЦП"
 
 #: ../inc/host.inc:189
 msgid "Task duration correction factor"
-msgstr "Фактор исправления продолжительности выполнения задачи"
+msgstr "Фактор исправления продолжительности выполнения задания"
 
-#: ../inc/host.inc:191 ../inc/host.inc:614
+#: ../inc/host.inc:191
+#: ../inc/host.inc:614
 msgid "Location"
 msgstr "Размещение"
 
@@ -377,20 +437,30 @@ msgstr "Объединить этот компьютер"
 msgid "Computer info"
 msgstr "Информация о компьютере"
 
-#: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:344
+#: ../inc/host.inc:212
+#: ../inc/host.inc:616
+#: ../inc/team.inc:344
 #: ../user/top_users.php:46
 msgid "Rank"
 msgstr "Позиция"
 
-#: ../inc/host.inc:216 ../inc/host.inc:619
+#: ../inc/host.inc:216
+#: ../inc/host.inc:619
 msgid "Avg. credit"
 msgstr "В среднем за день"
 
-#: ../inc/host.inc:221 ../inc/team.inc:95 ../inc/team.inc:208
-#: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:350
-#: ../inc/team.inc:355 ../inc/user.inc:133
-#: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:61
-#: ../user/team_remove_inactive_form.php:40 ../user/top_users.php:51
+#: ../inc/host.inc:221
+#: ../inc/team.inc:95
+#: ../inc/team.inc:208
+#: ../inc/team.inc:217
+#: ../inc/team.inc:219
+#: ../inc/team.inc:350
+#: ../inc/team.inc:355
+#: ../inc/user.inc:133
+#: ../user/team_change_founder_form.php:77
+#: ../user/team_email_list.php:61
+#: ../user/team_remove_inactive_form.php:40
+#: ../user/top_users.php:51
 #: ../user/top_users.php:56
 msgid "Recent average credit"
 msgstr "В среднем за день"
@@ -399,11 +469,13 @@ msgstr "В среднем за день"
 msgid "BOINC version"
 msgstr "Версия BOINC"
 
-#: ../inc/host.inc:227 ../inc/host.inc:624
+#: ../inc/host.inc:227
+#: ../inc/host.inc:624
 msgid "CPU"
 msgstr "Тип ЦП"
 
-#: ../inc/host.inc:228 ../inc/host.inc:625
+#: ../inc/host.inc:228
+#: ../inc/host.inc:625
 #, fuzzy
 msgid "GPU"
 msgstr "Тип ГП"
@@ -471,19 +543,23 @@ msgstr "Невозможно удалить старый компьютер"
 msgid "Retired old computer %1"
 msgstr "Старый компьютер %1 удален"
 
-#: ../inc/host.inc:597 ../inc/host.inc:600
+#: ../inc/host.inc:597
+#: ../inc/host.inc:600
 msgid "Show:"
 msgstr "Показать:"
 
-#: ../inc/host.inc:597 ../inc/host.inc:600
+#: ../inc/host.inc:597
+#: ../inc/host.inc:600
 msgid "All computers"
 msgstr "Все компьютеры"
 
-#: ../inc/host.inc:597 ../inc/host.inc:600
+#: ../inc/host.inc:597
+#: ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
 msgstr "Только компьютеры, активные за последние 30 дней"
 
-#: ../inc/host.inc:609 ../inc/result.inc:384
+#: ../inc/host.inc:609
+#: ../inc/result.inc:384
 msgid "Computer ID"
 msgstr "ID компьютера"
 
@@ -508,25 +584,38 @@ msgstr "Комментарий"
 msgid "News is available as an %sRSS feed%s"
 msgstr "Новости доступны в формате %sленты RSS%s"
 
-#: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
+#: ../inc/pm.inc:25
+#: ../inc/pm.inc:178
+#: ../user/pm.php:64
+#: ../user/pm.php:144
 msgid "Inbox"
 msgstr "Входящие"
 
-#: ../inc/pm.inc:26 ../inc/pm.inc:182
+#: ../inc/pm.inc:26
+#: ../inc/pm.inc:182
 msgid "Write"
 msgstr "Написать"
 
-#: ../inc/pm.inc:33 ../inc/user.inc:369
+#: ../inc/pm.inc:33
+#: ../inc/user.inc:369
 msgid "Send private message"
 msgstr "Отправить личное сообщение"
 
-#: ../inc/pm.inc:35 ../inc/pm.inc:38 ../inc/pm.inc:92
-#: ../user/forum_edit.php:99 ../user/forum_edit.php:102
-#: ../user/forum_edit.php:145 ../user/forum_post.php:62
-#: ../user/forum_post.php:88 ../user/forum_post.php:91
-#: ../user/forum_post.php:129 ../user/forum_reply.php:75
-#: ../user/forum_reply.php:104 ../user/forum_reply.php:107
-#: ../user/forum_reply.php:150 ../user/pm.php:175
+#: ../inc/pm.inc:35
+#: ../inc/pm.inc:38
+#: ../inc/pm.inc:92
+#: ../user/forum_edit.php:99
+#: ../user/forum_edit.php:102
+#: ../user/forum_edit.php:145
+#: ../user/forum_post.php:62
+#: ../user/forum_post.php:88
+#: ../user/forum_post.php:91
+#: ../user/forum_post.php:129
+#: ../user/forum_reply.php:75
+#: ../user/forum_reply.php:104
+#: ../user/forum_reply.php:107
+#: ../user/forum_reply.php:150
+#: ../user/pm.php:175
 msgid "Preview"
 msgstr "Предварительный просмотр"
 
@@ -539,14 +628,21 @@ msgid "User IDs or unique usernames, separated with commas"
 msgstr ""
 "Идентификаторы (ID) или уникальные имена пользователей, разделенные запятыми"
 
-#: ../inc/pm.inc:88 ../user/pm.php:85 ../user/pm.php:135
+#: ../inc/pm.inc:88
+#: ../user/pm.php:85
+#: ../user/pm.php:135
 msgid "Subject"
 msgstr "Тема"
 
-#: ../inc/pm.inc:89 ../user/forum_edit.php:128 ../user/forum_edit.php:133
-#: ../user/forum_post.php:118 ../user/forum_reply.php:112
-#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
-#: ../user/pm.php:85 ../user/pm.php:140
+#: ../inc/pm.inc:89
+#: ../user/forum_edit.php:128
+#: ../user/forum_edit.php:133
+#: ../user/forum_post.php:118
+#: ../user/forum_reply.php:112
+#: ../user/forum_report_post.php:80
+#: ../user/forum_thread.php:187
+#: ../user/pm.php:85
+#: ../user/pm.php:140
 msgid "Message"
 msgstr "Сообщение"
 
@@ -641,9 +737,8 @@ msgstr ""
 "задания будут занимать место в виртуальной памяти)%2"
 
 #: ../inc/prefs.inc:112
-#, fuzzy
 msgid "Switch between tasks every %1(recommended: 60 minutes)%2"
-msgstr "Переключение между задачами каждые %1(рекомендуется: 60 минут)%2"
+msgstr "Переключение между заданиями каждые %1(рекомендуется: 60 минут)%2"
 
 #: ../inc/prefs.inc:119
 #, fuzzy
@@ -699,7 +794,8 @@ msgstr "На мультипроцессорных системах исполь�
 msgid "processors"
 msgstr "процессоров"
 
-#: ../inc/prefs.inc:152 ../inc/prefs.inc:160
+#: ../inc/prefs.inc:152
+#: ../inc/prefs.inc:160
 msgid "Use at most"
 msgstr "Использовать не более"
 
@@ -732,31 +828,26 @@ msgstr "Оставлять не менее"
 
 #: ../inc/prefs.inc:166
 #, php-format
-#, fuzzy
 msgid "(Values smaller than %s are ignored)"
 msgstr "(Значения менее %s будут проигнорированы)"
 
 #: ../inc/prefs.inc:168
 #, php-format
-#, fuzzy
 msgid "% of total disk space"
 msgstr "% от полного объема диска"
 
 #: ../inc/prefs.inc:169
 #, php-format
-#, fuzzy
 msgid "% of page file (swap space)"
 msgstr "% виртуальной памяти (файл подкачки)"
 
 #: ../inc/prefs.inc:170
 #, php-format
-#, fuzzy
 msgid "% of memory when computer is in use"
 msgstr "% памяти, когда компьютер используется для работы"
 
 #: ../inc/prefs.inc:171
 #, php-format
-#, fuzzy
 msgid "% of memory when computer is not in use"
 msgstr "% памяти, когда компьютер простаивает"
 
@@ -840,50 +931,84 @@ msgstr ""
 "диапазона или нечисловые."
 
 #: ../inc/prefs.inc:277
+#, fuzzy
 msgid "bad venue: %1"
-msgstr ""
+msgstr "плохая конфигурация: %1"
 
 #: ../inc/prefs.inc:283
+#, fuzzy
 msgid "bad subset: %1"
-msgstr ""
+msgstr "плохой набор: %1"
 
-#: ../inc/prefs.inc:688 ../inc/prefs.inc:691 ../inc/prefs.inc:800
-#: ../inc/prefs.inc:801 ../inc/prefs.inc:802 ../inc/prefs.inc:818
-#: ../inc/prefs.inc:843 ../inc/prefs.inc:844 ../inc/prefs.inc:859
-#: ../inc/prefs.inc:887 ../inc/prefs.inc:890 ../inc/prefs.inc:893
-#: ../inc/prefs.inc:903 ../inc/prefs.inc:915 ../inc/prefs.inc:917
-#: ../inc/prefs.inc:1327 ../project.sample/project_specific_prefs.inc:74
+#: ../inc/prefs.inc:688
+#: ../inc/prefs.inc:691
+#: ../inc/prefs.inc:800
+#: ../inc/prefs.inc:801
+#: ../inc/prefs.inc:802
+#: ../inc/prefs.inc:818
+#: ../inc/prefs.inc:843
+#: ../inc/prefs.inc:844
+#: ../inc/prefs.inc:859
+#: ../inc/prefs.inc:887
+#: ../inc/prefs.inc:890
+#: ../inc/prefs.inc:893
+#: ../inc/prefs.inc:903
+#: ../inc/prefs.inc:915
+#: ../inc/prefs.inc:917
+#: ../inc/prefs.inc:1327
+#: ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
 msgstr "да"
 
-#: ../inc/prefs.inc:688 ../inc/prefs.inc:691 ../inc/prefs.inc:800
-#: ../inc/prefs.inc:801 ../inc/prefs.inc:802 ../inc/prefs.inc:818
-#: ../inc/prefs.inc:843 ../inc/prefs.inc:844 ../inc/prefs.inc:859
-#: ../inc/prefs.inc:887 ../inc/prefs.inc:890 ../inc/prefs.inc:893
-#: ../inc/prefs.inc:903 ../inc/prefs.inc:915 ../inc/prefs.inc:917
-#: ../inc/prefs.inc:1329 ../project.sample/project_specific_prefs.inc:76
+#: ../inc/prefs.inc:688
+#: ../inc/prefs.inc:691
+#: ../inc/prefs.inc:800
+#: ../inc/prefs.inc:801
+#: ../inc/prefs.inc:802
+#: ../inc/prefs.inc:818
+#: ../inc/prefs.inc:843
+#: ../inc/prefs.inc:844
+#: ../inc/prefs.inc:859
+#: ../inc/prefs.inc:887
+#: ../inc/prefs.inc:890
+#: ../inc/prefs.inc:893
+#: ../inc/prefs.inc:903
+#: ../inc/prefs.inc:915
+#: ../inc/prefs.inc:917
+#: ../inc/prefs.inc:1329
+#: ../project.sample/project_specific_prefs.inc:76
 msgid "no"
 msgstr "нет"
 
-#: ../inc/prefs.inc:696 ../inc/prefs.inc:847 ../inc/prefs.inc:850
+#: ../inc/prefs.inc:696
+#: ../inc/prefs.inc:847
+#: ../inc/prefs.inc:850
 #, fuzzy
 msgid "no limit"
 msgstr "нет ограничений"
 
-#: ../inc/prefs.inc:721 ../user/team_admins.php:77
+#: ../inc/prefs.inc:721
+#: ../user/team_admins.php:77
 msgid "Add"
 msgstr "Добавить"
 
-#: ../inc/prefs.inc:722 ../inc/prefs.inc:724
+#: ../inc/prefs.inc:722
+#: ../inc/prefs.inc:724
 msgid "Edit"
 msgstr "Редактировать"
 
-#: ../inc/prefs.inc:723 ../inc/prefs.inc:955 ../user/team_admins.php:32
+#: ../inc/prefs.inc:723
+#: ../inc/prefs.inc:955
+#: ../user/team_admins.php:32
 msgid "Remove"
 msgstr "Удалить"
 
-#: ../inc/prefs.inc:758 ../inc/prefs.inc:760 ../inc/prefs.inc:766
-#: ../inc/prefs.inc:1113 ../inc/prefs.inc:1118 ../inc/prefs.inc:1136
+#: ../inc/prefs.inc:758
+#: ../inc/prefs.inc:760
+#: ../inc/prefs.inc:766
+#: ../inc/prefs.inc:1113
+#: ../inc/prefs.inc:1118
+#: ../inc/prefs.inc:1136
 #, fuzzy
 msgid "minutes"
 msgstr "минут"
@@ -898,28 +1023,36 @@ msgstr "Гбайт места на диске"
 msgid "GB disk space free"
 msgstr "Гбайт свободного места на диске"
 
-#: ../inc/prefs.inc:775 ../inc/prefs.inc:1195
+#: ../inc/prefs.inc:775
+#: ../inc/prefs.inc:1195
 #, fuzzy
 msgid "seconds"
 msgstr "секунд"
 
-#: ../inc/prefs.inc:781 ../inc/prefs.inc:782 ../inc/prefs.inc:1222
+#: ../inc/prefs.inc:781
+#: ../inc/prefs.inc:782
+#: ../inc/prefs.inc:1222
 #: ../inc/prefs.inc:1228
 #, fuzzy
 msgid "days"
 msgstr "дней"
 
-#: ../inc/prefs.inc:803 ../inc/prefs.inc:806 ../inc/prefs.inc:819
+#: ../inc/prefs.inc:803
+#: ../inc/prefs.inc:806
+#: ../inc/prefs.inc:819
 #, fuzzy
 msgid "%1 minutes"
 msgstr "%1 минут"
 
-#: ../inc/prefs.inc:811 ../inc/prefs.inc:852
+#: ../inc/prefs.inc:811
+#: ../inc/prefs.inc:852
 #, fuzzy
 msgid "(no restriction)"
 msgstr "(без ограничений)"
 
-#: ../inc/prefs.inc:815 ../inc/prefs.inc:856 ../inc/prefs.inc:1129
+#: ../inc/prefs.inc:815
+#: ../inc/prefs.inc:856
+#: ../inc/prefs.inc:1129
 #: ../inc/prefs.inc:1261
 msgid "and"
 msgstr "и"
@@ -951,12 +1084,14 @@ msgstr ""
 "Электронные письма будут отправлены с адреса %1; убедитесь, что ваш фильтр "
 "спама принимает этот адрес."
 
-#: ../inc/prefs.inc:914 ../inc/prefs.inc:1271
+#: ../inc/prefs.inc:914
+#: ../inc/prefs.inc:1271
 #, fuzzy
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr "Могут ли %1 и ваша команда отправлять Вам электронные письма?"
 
-#: ../inc/prefs.inc:917 ../inc/prefs.inc:1274
+#: ../inc/prefs.inc:917
+#: ../inc/prefs.inc:1274
 #, fuzzy
 msgid "Should %1 show your computers on its web site?"
 msgstr "Должен ли %1 показывать ваши компьютеры на своем веб-сайте?"
@@ -971,7 +1106,8 @@ msgstr "вычислений"
 msgid "Separate preferences for %1"
 msgstr "Отдельные настройки для конфигурации %1"
 
-#: ../inc/prefs.inc:955 ../inc/prefs.inc:1033
+#: ../inc/prefs.inc:955
+#: ../inc/prefs.inc:1033
 #, fuzzy
 msgid "Edit preferences"
 msgstr "Редактировать настройки"
@@ -981,12 +1117,14 @@ msgstr "Редактировать настройки"
 msgid "Add separate preferences for %1"
 msgstr "Добавить отдельные настройки для конфигурации %1"
 
-#: ../inc/prefs.inc:968 ../inc/prefs.inc:1015
+#: ../inc/prefs.inc:968
+#: ../inc/prefs.inc:1015
 #, fuzzy
 msgid "(Switch View)"
 msgstr "(Переключить вид)"
 
-#: ../inc/prefs.inc:970 ../inc/prefs.inc:1018
+#: ../inc/prefs.inc:970
+#: ../inc/prefs.inc:1018
 #, fuzzy
 msgid "Combined preferences"
 msgstr "Объединённые настройки"
@@ -996,13 +1134,17 @@ msgstr "Объединённые настройки"
 msgid "Project specific settings"
 msgstr "Определенные параметры проекта"
 
-#: ../inc/prefs.inc:984 ../inc/prefs.inc:1027
+#: ../inc/prefs.inc:984
+#: ../inc/prefs.inc:1027
 #, fuzzy
 msgid "Primary (default) preferences"
 msgstr "Основные настройки (по умолчанию)"
 
-#: ../inc/prefs.inc:994 ../user/add_venue.php:43 ../user/add_venue.php:68
-#: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
+#: ../inc/prefs.inc:994
+#: ../user/add_venue.php:43
+#: ../user/add_venue.php:68
+#: ../user/prefs_edit.php:45
+#: ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
 #, fuzzy
 msgid "Edit %1 preferences"
@@ -1058,7 +1200,8 @@ msgstr ""
 "проектах BOINC с долями ресурсов 100 и 200,\n"
 "первый получит 1/3 ваших ресурсов, а второй получит 2/3."
 
-#: ../inc/prefs.inc:1338 ../inc/prefs.inc:1347
+#: ../inc/prefs.inc:1338
+#: ../inc/prefs.inc:1347
 #, fuzzy
 msgid "Default computer location"
 msgstr "Расположение компьютера по умолчанию"
@@ -1085,7 +1228,9 @@ msgstr ""
 "Ваш профиль был отмечен как недопустимый. Другие люди его не видят. "
 "Пожалуйста измените его."
 
-#: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
+#: ../inc/profile.inc:167
+#: ../user/friend.php:103
+#: ../user/friend.php:160
 msgid "Database error"
 msgstr "Ошибка базы данных"
 
@@ -1105,11 +1250,11 @@ msgid "User is banished"
 msgstr "Пользователь заблокирован"
 
 #: ../inc/profile.inc:205
-#, fuzzy
 msgid "No profile exists for that user ID."
-msgstr "Профиль не существует для пользователя с этим ID"
+msgstr "Профиль не существует для пользователя с этим ID."
 
-#: ../inc/profile.inc:213 ../user/create_profile.php:306
+#: ../inc/profile.inc:213
+#: ../user/create_profile.php:306
 msgid "Edit your profile"
 msgstr "Редактировать профиль"
 
@@ -1150,31 +1295,39 @@ msgstr "ожидание"
 msgid "All"
 msgstr "Все"
 
-#: ../inc/result.inc:93 ../inc/result.inc:113 ../inc/result.inc:152
+#: ../inc/result.inc:93
+#: ../inc/result.inc:113
+#: ../inc/result.inc:152
 msgid "In progress"
 msgstr "В процессе"
 
-#: ../inc/result.inc:94 ../user/workunit.php:64
+#: ../inc/result.inc:94
+#: ../user/workunit.php:64
 msgid "Pending"
 msgstr "Ожидание"
 
-#: ../inc/result.inc:95 ../inc/result.inc:195
+#: ../inc/result.inc:95
+#: ../inc/result.inc:195
 msgid "Valid"
 msgstr "Правильный"
 
-#: ../inc/result.inc:96 ../inc/result.inc:198
+#: ../inc/result.inc:96
+#: ../inc/result.inc:198
 msgid "Invalid"
 msgstr "Неправильный"
 
-#: ../inc/result.inc:97 ../inc/result.inc:138
+#: ../inc/result.inc:97
+#: ../inc/result.inc:138
 msgid "Error"
 msgstr "Ошибка"
 
-#: ../inc/result.inc:111 ../inc/result.inc:150
+#: ../inc/result.inc:111
+#: ../inc/result.inc:150
 msgid "Inactive"
 msgstr "Неактивен"
 
-#: ../inc/result.inc:112 ../inc/result.inc:151
+#: ../inc/result.inc:112
+#: ../inc/result.inc:151
 msgid "Unsent"
 msgstr "Неотправлен"
 
@@ -1207,12 +1360,14 @@ msgstr "Завершён, слишком поздно для проверки"
 msgid "Completed"
 msgstr "Завершён"
 
-#: ../inc/result.inc:126 ../inc/result.inc:162
+#: ../inc/result.inc:126
+#: ../inc/result.inc:162
 #, fuzzy
 msgid "Couldn't send"
 msgstr "Не удалось отправить"
 
-#: ../inc/result.inc:129 ../inc/result.inc:186
+#: ../inc/result.inc:129
+#: ../inc/result.inc:186
 msgid "Cancelled by server"
 msgstr "Отменён сервером"
 
@@ -1228,7 +1383,8 @@ msgstr "Ошибка при расчёте"
 msgid "Error while uploading"
 msgstr "Ошибка при отправке"
 
-#: ../inc/result.inc:136 ../inc/result.inc:188
+#: ../inc/result.inc:136
+#: ../inc/result.inc:188
 msgid "Aborted by user"
 msgstr "Прервано пользователем"
 
@@ -1237,22 +1393,26 @@ msgstr "Прервано пользователем"
 msgid "Timed out - no response"
 msgstr "Время истекло - нет ответа"
 
-#: ../inc/result.inc:140 ../inc/result.inc:169
+#: ../inc/result.inc:140
+#: ../inc/result.inc:169
 msgid "Didn't need"
 msgstr "Не нужно"
 
-#: ../inc/result.inc:141 ../inc/result.inc:170
+#: ../inc/result.inc:141
+#: ../inc/result.inc:170
 msgid "Validate error"
 msgstr "Ошибка проверки"
 
-#: ../inc/result.inc:142 ../inc/result.inc:171
+#: ../inc/result.inc:142
+#: ../inc/result.inc:171
 #, fuzzy
 msgid "Client detached"
 msgstr "Клиент отсоединён"
 
 #: ../inc/result.inc:153
+#, fuzzy
 msgid "Over"
-msgstr ""
+msgstr "Завершено"
 
 #: ../inc/result.inc:161
 #, fuzzy
@@ -1297,18 +1457,16 @@ msgid "Done"
 msgstr "Готово"
 
 #: ../inc/result.inc:194
-#, fuzzy
 msgid "Initial"
-msgstr "Исходный"
+msgstr "Первичный"
 
 #: ../inc/result.inc:200
 msgid "Not necessary"
 msgstr "Необязательно"
 
 #: ../inc/result.inc:201
-#, fuzzy
 msgid "Workunit error - check skipped"
-msgstr "Ошибка задания - проверка пропущена"
+msgstr "Ошибка задачи - проверка пропущена"
 
 #: ../inc/result.inc:202
 #, fuzzy
@@ -1316,9 +1474,8 @@ msgid "Checked, but no consensus yet"
 msgstr "Проверено, но пока нет согласия"
 
 #: ../inc/result.inc:203
-#, fuzzy
 msgid "Task was reported too late to validate"
-msgstr "Задача сообщена слишком поздно для проверки"
+msgstr "Задание возвращено слишком поздно для проверки"
 
 #: ../inc/result.inc:211
 #, fuzzy
@@ -1352,9 +1509,11 @@ msgstr "Нераспознанная ошибка: %1"
 
 #: ../inc/result.inc:257
 msgid "Task name"
-msgstr "Имя задачи"
+msgstr "Имя задания"
 
-#: ../inc/result.inc:257 ../inc/result.inc:262 ../inc/result.inc:265
+#: ../inc/result.inc:257
+#: ../inc/result.inc:262
+#: ../inc/result.inc:265
 #: ../inc/result.inc:268
 msgid "click for details"
 msgstr "щёлкните для деталей"
@@ -1369,17 +1528,18 @@ msgstr "Показать имена"
 
 #: ../inc/result.inc:265
 msgid "Task ID"
-msgstr "ID задачи"
+msgstr "ID задания"
 
 #: ../inc/result.inc:268
 msgid "Work unit ID"
-msgstr ""
+msgstr "ID задачи"
 
 #: ../inc/result.inc:271
 msgid "Computer"
 msgstr "Компьютер"
 
-#: ../inc/result.inc:274 ../inc/result.inc:378
+#: ../inc/result.inc:274
+#: ../inc/result.inc:378
 #, fuzzy
 msgid "Sent"
 msgstr "Отправлен"
@@ -1407,13 +1567,14 @@ msgstr "Время выполнения<br />(сек)"
 msgid "CPU time<br />(sec)"
 msgstr "Время ЦП<br />(сек)"
 
-#: ../inc/result.inc:281 ../inc/result.inc:390
+#: ../inc/result.inc:281
+#: ../inc/result.inc:390
 #, fuzzy
 msgid "Claimed credit"
 msgstr "Затребовано очков"
 
-#: ../inc/result.inc:282 ../inc/result.inc:391
-#, fuzzy
+#: ../inc/result.inc:282
+#: ../inc/result.inc:391
 msgid "Granted credit"
 msgstr "Дано очков"
 
@@ -1423,59 +1584,70 @@ msgstr "Приложение"
 
 #: ../inc/result.inc:376
 msgid "Workunit"
-msgstr ""
+msgstr "Задача"
 
 #: ../inc/result.inc:379
 msgid "Received"
-msgstr ""
+msgstr "Получен"
 
 #: ../inc/result.inc:380
+#, fuzzy
 msgid "Server state"
-msgstr ""
+msgstr "Состояние сервера"
 
 #: ../inc/result.inc:381
+#, fuzzy
 msgid "Outcome"
-msgstr ""
+msgstr "Результат"
 
 #: ../inc/result.inc:382
+#, fuzzy
 msgid "Client state"
-msgstr ""
+msgstr "Состояние клиента"
 
 #: ../inc/result.inc:383
+#, fuzzy
 msgid "Exit status"
-msgstr ""
+msgstr "Статус выхода"
 
 #: ../inc/result.inc:385
+#, fuzzy
 msgid "Report deadline"
-msgstr ""
+msgstr "Крайний срок отчёта"
 
 #: ../inc/result.inc:386
+#, fuzzy
 msgid "Run time"
-msgstr ""
+msgstr "Время выполнения"
 
 #: ../inc/result.inc:387
+#, fuzzy
 msgid "CPU time"
-msgstr ""
+msgstr "Время ЦП"
 
 #: ../inc/result.inc:388
+#, fuzzy
 msgid "stderr out"
-msgstr ""
+msgstr "вывод текста ошибки"
 
 #: ../inc/result.inc:389
+#, fuzzy
 msgid "Validate state"
-msgstr ""
+msgstr "Состояние проверки"
 
 #: ../inc/result.inc:392
 msgid "application version"
-msgstr ""
+msgstr "версия приложения"
 
 #: ../inc/result.inc:406
+#, fuzzy
 msgid "Previous"
-msgstr ""
+msgstr "Предыдущие"
 
 #: ../inc/result.inc:415
+#, fuzzy
 msgid "Next"
-msgstr ""
+msgstr "Следующие"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1489,17 +1661,27 @@ msgstr "Ключевые слова"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Найти команды с этими словами в их названиях или описаниях"
 
-#: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
-#: ../inc/team.inc:360 ../inc/team.inc:444 ../inc/user.inc:204
-#: ../inc/user.inc:310 ../user/account_finish.php:44
-#: ../user/create_account_form.php:94 ../user/edit_user_info_form.php:38
-#: ../user/team_email_list.php:61 ../user/team_search.php:69
-#: ../user/top_users.php:61 ../user/user_search.php:102
-#: ../user/user_search.php:119 ../user/user_search.php:158
+#: ../inc/team.inc:36
+#: ../inc/team.inc:114
+#: ../inc/team.inc:225
+#: ../inc/team.inc:360
+#: ../inc/team.inc:444
+#: ../inc/user.inc:204
+#: ../inc/user.inc:310
+#: ../user/account_finish.php:44
+#: ../user/create_account_form.php:94
+#: ../user/edit_user_info_form.php:38
+#: ../user/team_email_list.php:61
+#: ../user/team_search.php:69
+#: ../user/top_users.php:61
+#: ../user/user_search.php:102
+#: ../user/user_search.php:119
+#: ../user/user_search.php:158
 msgid "Country"
 msgstr "Страна"
 
-#: ../inc/team.inc:42 ../inc/team.inc:442
+#: ../inc/team.inc:42
+#: ../inc/team.inc:442
 msgid "Type of team"
 msgstr "Тип команды"
 
@@ -1507,7 +1689,9 @@ msgstr "Тип команды"
 msgid "Show only active teams"
 msgstr "Показать только активные команды"
 
-#: ../inc/team.inc:45 ../user/profile_menu.php:75 ../user/user_search.php:132
+#: ../inc/team.inc:45
+#: ../user/profile_menu.php:75
+#: ../user/user_search.php:132
 msgid "Search"
 msgstr "Найти"
 
@@ -1527,7 +1711,9 @@ msgstr "Запрошен Вами"
 msgid "founder response deadline is %1"
 msgstr "крайний срок ответа основателя %1"
 
-#: ../inc/team.inc:65 ../inc/user.inc:275 ../inc/user.inc:362
+#: ../inc/team.inc:65
+#: ../inc/user.inc:275
+#: ../inc/user.inc:362
 msgid "None"
 msgstr "Нет"
 
@@ -1543,7 +1729,9 @@ msgstr "Отклонен"
 msgid "Team info"
 msgstr "Информация о команде"
 
-#: ../inc/team.inc:82 ../user/team_forum.php:68 ../user/team_search.php:66
+#: ../inc/team.inc:82
+#: ../user/team_forum.php:68
+#: ../user/team_search.php:66
 msgid "Description"
 msgstr "Описание"
 
@@ -1555,15 +1743,20 @@ msgstr "Вебсайт"
 msgid "Cross-project stats"
 msgstr "Объединенная статистика по проектам"
 
-#: ../inc/team.inc:115 ../inc/team.inc:361 ../user/team_search.php:68
+#: ../inc/team.inc:115
+#: ../inc/team.inc:361
+#: ../user/team_search.php:68
 msgid "Type"
 msgstr "Тип"
 
-#: ../inc/team.inc:119 ../user/team_manage.php:61
+#: ../inc/team.inc:119
+#: ../user/team_manage.php:61
 msgid "Message board"
 msgstr "Доска сообщений"
 
-#: ../inc/team.inc:120 ../user/forum_forum.php:131 ../user/forum_index.php:93
+#: ../inc/team.inc:120
+#: ../user/forum_forum.php:131
+#: ../user/forum_index.php:93
 msgid "Threads"
 msgstr "Обсуждения"
 
@@ -1596,11 +1789,13 @@ msgstr "Ответить до %1"
 msgid "Team foundership change"
 msgstr "Смена основателя команды"
 
-#: ../inc/team.inc:148 ../inc/team.inc:346
+#: ../inc/team.inc:148
+#: ../inc/team.inc:346
 msgid "Members"
 msgstr "Участники"
 
-#: ../inc/team.inc:149 ../inc/team.inc:241
+#: ../inc/team.inc:149
+#: ../inc/team.inc:241
 msgid "Founder"
 msgstr "Основатель"
 
@@ -1616,7 +1811,9 @@ msgstr "Новые участники за последний день"
 msgid "Total members"
 msgstr "Всего участников"
 
-#: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
+#: ../inc/team.inc:177
+#: ../inc/team.inc:178
+#: ../inc/team.inc:179
 msgid "view"
 msgstr "просмотр"
 
@@ -1632,12 +1829,17 @@ msgstr "Участников с заработанными очками"
 msgid "Admin"
 msgstr "Администратор"
 
-#: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
+#: ../inc/team.inc:264
+#: ../user/top_hosts.php:91
+#: ../user/top_teams.php:119
 #: ../user/top_users.php:125
+#, fuzzy
 msgid "Previous %1"
-msgstr ""
+msgstr "Предыдущие %1"
 
-#: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
+#: ../inc/team.inc:268
+#: ../user/top_hosts.php:96
+#: ../user/top_teams.php:124
 #: ../user/top_users.php:130
 msgid "Next %1"
 msgstr "Следующие %1"
@@ -1655,10 +1857,14 @@ msgid "This operation requires team admin privileges"
 msgstr "Эта операция требует прав администратора команды"
 
 #: ../inc/team.inc:410
+#, fuzzy
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
+"ПРЕДУПРЕЖДЕНИЕ: это глобальная команда BOINC. Если Вы сделаете изменения "
+"здесь, то они будут скоро перезаписаны. Поэтому редактируйте %1глобальную "
+"команду BOINC%2."
 
 #: ../inc/team.inc:417
 msgid ""
@@ -1680,7 +1886,8 @@ msgstr "Не использовать тэги HTML."
 msgid "Team name, HTML version"
 msgstr "Название команды, HTML версия"
 
-#: ../inc/team.inc:427 ../inc/team.inc:437
+#: ../inc/team.inc:427
+#: ../inc/team.inc:437
 msgid "You may use %1limited HTML tags%2."
 msgstr "Вы можете использовать %1ограниченные тэги HTML%2."
 
@@ -1705,12 +1912,14 @@ msgid "Description of team"
 msgstr "Описание команды"
 
 #: ../inc/team.inc:451
+#, fuzzy
 msgid "Accept new members?"
-msgstr ""
+msgstr "Принимать новых участников?"
 
 #: ../inc/uotd.inc:27
+#, fuzzy
 msgid "User profile"
-msgstr ""
+msgstr "Профиль пользователя"
 
 #: ../inc/user.inc:112
 msgid "Projects in which you are participating"
@@ -1740,8 +1949,12 @@ msgstr "Вычисления и вознаграждение"
 msgid "Pending credit"
 msgstr "Очки, ожидающие подтверждения"
 
-#: ../inc/user.inc:146 ../inc/user.inc:148 ../inc/user.inc:149
-#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:393
+#: ../inc/user.inc:146
+#: ../inc/user.inc:148
+#: ../inc/user.inc:149
+#: ../inc/user.inc:237
+#: ../inc/user.inc:318
+#: ../inc/user.inc:393
 #: ../user/view_profile.php:54
 msgid "View"
 msgstr "Просмотр"
@@ -1762,8 +1975,12 @@ msgstr "Объединенная статистика по проектам"
 msgid "Account"
 msgstr "Учетная запись"
 
-#: ../inc/user.inc:162 ../inc/user.inc:275 ../inc/user.inc:360
-#: ../inc/user.inc:362 ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/user.inc:162
+#: ../inc/user.inc:275
+#: ../inc/user.inc:360
+#: ../inc/user.inc:362
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 msgid "Team"
 msgstr "Команда"
 
@@ -1784,12 +2001,14 @@ msgstr "Статистика на Вашем мобильном телефоне
 msgid "Account information"
 msgstr "Учетная информация"
 
-#: ../inc/user.inc:199 ../user/edit_passwd_form.php:46
+#: ../inc/user.inc:199
+#: ../user/edit_passwd_form.php:46
 #: ../user/team_email_list.php:61
 msgid "Email address"
 msgstr "Адрес email"
 
-#: ../inc/user.inc:202 ../inc/user.inc:312
+#: ../inc/user.inc:202
+#: ../inc/user.inc:312
 msgid "URL"
 msgstr "URL"
 
@@ -1797,7 +2016,8 @@ msgstr "URL"
 msgid "Postal code"
 msgstr "Почтовый индекс"
 
-#: ../inc/user.inc:206 ../inc/user.inc:309
+#: ../inc/user.inc:206
+#: ../inc/user.inc:309
 msgid "%1 member since"
 msgstr "Участник %1 с"
 
@@ -1837,7 +2057,8 @@ msgstr "Ключ учетной записи"
 msgid "Provides full access to your account"
 msgstr "Предоставляет полный доступ к Вашей учетной записи"
 
-#: ../inc/user.inc:213 ../user/weak_auth.php:25
+#: ../inc/user.inc:213
+#: ../user/weak_auth.php:25
 msgid "Weak account key"
 msgstr "Слабый ключ учетной записи"
 
@@ -1869,15 +2090,19 @@ msgstr "Настройки сообщества"
 msgid "Preferences for this project"
 msgstr "Настройки для этого проекта"
 
-#: ../inc/user.inc:228 ../user/prefs.php:33
+#: ../inc/user.inc:228
+#: ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "Настройки %1"
 
-#: ../inc/user.inc:234 ../user/sample_index.php:66
+#: ../inc/user.inc:234
+#: ../user/sample_index.php:66
 msgid "Community"
 msgstr "Сообщество"
 
-#: ../inc/user.inc:237 ../user/pm.php:103 ../user/pm.php:143
+#: ../inc/user.inc:237
+#: ../user/pm.php:103
+#: ../user/pm.php:143
 msgid "Delete"
 msgstr "Удалить"
 
@@ -1885,11 +2110,13 @@ msgstr "Удалить"
 msgid "Create"
 msgstr "Создать"
 
-#: ../inc/user.inc:241 ../inc/user.inc:393
+#: ../inc/user.inc:241
+#: ../inc/user.inc:393
 msgid "Profile"
 msgstr "Профиль"
 
-#: ../inc/user.inc:244 ../inc/user.inc:366
+#: ../inc/user.inc:244
+#: ../inc/user.inc:366
 msgid "%1 posts"
 msgstr "%1 сообщений"
 
@@ -1901,17 +2128,19 @@ msgstr "Уведомления"
 msgid "Quit team"
 msgstr "Выйти из команды"
 
-#: ../inc/user.inc:265 ../inc/user.inc:282
+#: ../inc/user.inc:265
+#: ../inc/user.inc:282
 msgid "Administer"
 msgstr "Управление"
 
-#: ../inc/user.inc:271 ../inc/user.inc:284
+#: ../inc/user.inc:271
+#: ../inc/user.inc:284
 msgid "(foundership change request pending)"
 msgstr "(запрос на смену основателя в ожидании)"
 
 #: ../inc/user.inc:273
 msgid "Member of team"
-msgstr "Член команды"
+msgstr "Участник команды"
 
 #: ../inc/user.inc:275
 msgid "find a team"
@@ -1925,12 +2154,16 @@ msgstr "Основатель, но не участник"
 msgid "Find friends"
 msgstr "Найти друзей"
 
-#: ../inc/user.inc:299 ../inc/user.inc:301 ../inc/user.inc:376
-#: ../inc/user.inc:378 ../inc/user.inc:387
+#: ../inc/user.inc:299
+#: ../inc/user.inc:301
+#: ../inc/user.inc:376
+#: ../inc/user.inc:378
+#: ../inc/user.inc:387
 msgid "Friends"
 msgstr "Друзья"
 
-#: ../inc/user.inc:318 ../inc/user.inc:320
+#: ../inc/user.inc:318
+#: ../inc/user.inc:320
 msgid "Computers"
 msgstr "Компьютеры"
 
@@ -1950,11 +2183,13 @@ msgstr "Контакт"
 msgid "This person is a friend"
 msgstr "Персона является другом"
 
-#: ../inc/user.inc:373 ../user/friend.php:224
+#: ../inc/user.inc:373
+#: ../user/friend.php:224
 msgid "Cancel friendship"
 msgstr "Прекратить дружбу"
 
-#: ../inc/user.inc:376 ../user/friend.php:35
+#: ../inc/user.inc:376
+#: ../user/friend.php:35
 msgid "Request pending"
 msgstr "Запрос в ожидании"
 
@@ -1964,7 +2199,7 @@ msgstr "Добавить друга"
 
 #: ../inc/util.inc:191
 msgid "Unable to handle request"
-msgstr ""
+msgstr "Невозможно обработать запрос"
 
 #: ../inc/util.inc:385
 msgid "Email address:"
@@ -2002,29 +2237,35 @@ msgstr "Пожалуйста авторизуйтесь"
 msgid "Use BBCode tags to format your text"
 msgstr "Используйте тэги BBCode для форматирования Вашего текста"
 
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/account_finish.php:40
+#: ../user/create_account_form.php:75
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
 "Идентифицирует Вас на нашем web-сайте. Введите Ваше настоящее имя или "
 "псевдоним."
 
-#: ../user/account_finish.php:44 ../user/create_account_form.php:94
+#: ../user/account_finish.php:44
+#: ../user/create_account_form.php:94
 msgid "Select the country you want to represent, if any."
 msgstr "Выберите страну, которую представляете, если хотите."
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:100
+#: ../user/account_finish.php:50
+#: ../user/create_account_form.php:100
 msgid "Postal or ZIP Code"
 msgstr "Почтовый индекс или ZIP-код"
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:100
+#: ../user/account_finish.php:50
+#: ../user/create_account_form.php:100
 msgid "Optional"
 msgstr "Необязательно"
 
 #: ../user/add_venue.php:86
+#, fuzzy
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Добавить настройки %1 для конфигурации %2"
 
-#: ../user/apps.php:31 ../user/sample_index.php:63
+#: ../user/apps.php:31
+#: ../user/sample_index.php:63
 msgid "Applications"
 msgstr "Приложения"
 
@@ -2072,8 +2313,8 @@ msgstr "Создание учетной записи запрещено"
 #: ../user/create_account_form.php:30
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
-"Создание учетной записи в данный момент запрещено. Пожалуйста, попытайтесь "
-"снова немного позднее."
+"Создание учетной записи в данный момент запрещено. Пожалуйста, попробуйте "
+"ещё раз немного позднее."
 
 #: ../user/create_account_form.php:41
 msgid ""
@@ -2110,7 +2351,8 @@ msgstr "Адрес электронной почты"
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Должен быть действительным адресом в форме 'имя@домен'."
 
-#: ../user/create_account_form.php:88 ../user/edit_email_form.php:46
+#: ../user/create_account_form.php:88
+#: ../user/edit_email_form.php:46
 msgid "Password"
 msgstr "Пароль"
 
@@ -2287,7 +2529,8 @@ msgstr "Инструкции по установке и запуску BOINC %1�
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Этот список ведется централизованно на %1web-сайте BOINC%2."
 
-#: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
+#: ../user/edit_email_form.php:26
+#: ../user/edit_email_form.php:50
 msgid "Change email address"
 msgstr "Поменять адрес email"
 
@@ -2307,7 +2550,8 @@ msgstr "Должен быть действительным адресом в ф�
 msgid "No password?"
 msgstr "Нет пароля?"
 
-#: ../user/edit_passwd_form.php:26 ../user/edit_passwd_form.php:56
+#: ../user/edit_passwd_form.php:26
+#: ../user/edit_passwd_form.php:56
 msgid "Change password"
 msgstr "Поменять пароль"
 
@@ -2345,48 +2589,53 @@ msgstr "Новый пароль, ещё раз"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "Тэги HTML недопустимы в Вашем имени."
 
 #: ../user/edit_user_info_action.php:32
+#, fuzzy
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Вы должны указать имя для вашей учётной информации."
 
-#: ../user/edit_user_info_action.php:41 ../user/team_edit_action.php:51
+#: ../user/edit_user_info_action.php:41
+#: ../user/team_edit_action.php:51
+#, fuzzy
 msgid "bad country"
-msgstr ""
+msgstr "неправильная страна"
 
 #: ../user/edit_user_info_action.php:57
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "Невозможно обновить информацию о пользователе."
 
 #: ../user/edit_user_info_form.php:27
-#, fuzzy
 msgid "Edit account information"
-msgstr "Учетная информация"
+msgstr "Редактировать учётную информацию"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Имя %1 настоящее имя или псевдоним%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "URL %1 вашей веб-страницы; необязательно%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Почтовый (ZIP) индекс %1 необязательно%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Обновить информацию"
 
-#: ../user/forum_edit.php:115 ../user/forum_edit.php:120
-#: ../user/forum_post.php:110 ../user/forum_post.php:112
+#: ../user/forum_edit.php:115
+#: ../user/forum_edit.php:120
+#: ../user/forum_post.php:110
+#: ../user/forum_post.php:112
 #: ../user/team_forum.php:67
 msgid "Title"
 msgstr "Тема"
 
-#: ../user/forum_edit.php:144 ../user/forum_post.php:128
+#: ../user/forum_edit.php:144
+#: ../user/forum_post.php:128
 msgid "Add my signature to this post"
 msgstr "Добавить мою подпись к этому сообщению"
 
@@ -2410,7 +2659,8 @@ msgstr "Тема"
 msgid "Create a new thread"
 msgstr "Создать новую тему"
 
-#: ../user/forum_reply.php:85 ../user/forum_thread.php:139
+#: ../user/forum_reply.php:85
+#: ../user/forum_thread.php:139
 #: ../user/forum_thread.php:194
 msgid "Post to thread"
 msgstr "Ответить на обсуждение"
@@ -2451,7 +2701,8 @@ msgstr ""
 msgid "I've also got this question"
 msgstr "У меня такой же вопрос"
 
-#: ../user/forum_thread.php:139 ../user/forum_thread.php:194
+#: ../user/forum_thread.php:139
+#: ../user/forum_thread.php:194
 msgid "Add a new message to this thread"
 msgstr "Добавить новое сообщение в это обсуждение"
 
@@ -2560,9 +2811,15 @@ msgstr "%1 не принимает запросы дружбы от Вас"
 msgid "You can't be friends with yourself"
 msgstr "Вы не можете дружить сами с собой"
 
-#: ../user/friend.php:62 ../user/friend.php:90 ../user/friend.php:123
-#: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
-#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
+#: ../user/friend.php:62
+#: ../user/friend.php:90
+#: ../user/friend.php:123
+#: ../user/friend.php:146
+#: ../user/friend.php:204
+#: ../user/friend.php:219
+#: ../user/friend.php:233
+#: ../user/pm.php:232
+#: ../user/view_profile.php:24
 msgid "No such user"
 msgstr "Нет такого пользователя"
 
@@ -2662,12 +2919,15 @@ msgstr "Прекратить дружбу?"
 msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr "Вы уверены, что хотите прекратить дружбу с %1?"
 
-#: ../user/friend.php:224 ../user/prefs_remove.php:53
-#: ../user/user_search.php:125 ../user/user_search.php:130
+#: ../user/friend.php:224
+#: ../user/prefs_remove.php:53
+#: ../user/user_search.php:125
+#: ../user/user_search.php:130
 msgid "Yes"
 msgstr "Да"
 
-#: ../user/friend.php:225 ../user/user_search.php:124
+#: ../user/friend.php:225
+#: ../user/user_search.php:124
 #: ../user/user_search.php:129
 msgid "No"
 msgstr "Нет"
@@ -2698,11 +2958,13 @@ msgstr ""
 "Для просмотра и редактирования настроек Вашей учетной записи используйте "
 "ссылки ниже."
 
-#: ../user/home.php:49 ../project.sample/project.inc:49
+#: ../user/home.php:49
+#: ../project.sample/project.inc:49
 msgid "Your account"
 msgstr "Ваша учетная запись"
 
-#: ../user/info.php:22 ../user/sample_index.php:47
+#: ../user/info.php:22
+#: ../user/sample_index.php:47
 msgid "Read our rules and policies"
 msgstr "Прочтите наши правила и политику"
 
@@ -2958,7 +3220,8 @@ msgstr "У Вас нет личных сообщений."
 msgid "Sender and date"
 msgstr "Отправитель и дата"
 
-#: ../user/pm.php:102 ../user/pm.php:142
+#: ../user/pm.php:102
+#: ../user/pm.php:142
 msgid "Reply"
 msgstr "Ответить"
 
@@ -3048,32 +3311,43 @@ msgid ""
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC client."
 msgstr ""
+"Ваши настройки обновлены. Настройки, связанные с клиентом,\n"
+"\t будут приняты, когда ваш компьютер свяжется с %1\n"
+"\t или Вы выполните команду %2Обновить%3 из клиента BOINC."
 
-#: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
+#: ../user/prefs_edit.php:72
+#: ../user/prefs_edit.php:101
+#, fuzzy
 msgid "%1 for %2"
-msgstr ""
+msgstr "%1 для конфигурации %2"
 
 #: ../user/prefs_edit.php:119
 msgid "Back to preferences"
-msgstr ""
+msgstr "Назад к настройкам"
 
 #: ../user/prefs_remove.php:46
+#, fuzzy
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "Подтверждение удаления настроек"
 
 #: ../user/prefs_remove.php:49
+#, fuzzy
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
+"Вы уверены, что хотите удалить ваши отдельные настройки %1 для конфигурации "
+"%2?"
 
 #: ../user/prefs_remove.php:53
+#, fuzzy
 msgid "Remove preferences"
-msgstr ""
+msgstr "Удалить настройки"
 
 #: ../user/prefs_remove.php:55
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
-#: ../user/profile_menu.php:33 ../user/sample_index.php:68
+#: ../user/profile_menu.php:33
+#: ../user/sample_index.php:68
 msgid "Profiles"
 msgstr "Профили"
 
@@ -3166,13 +3440,12 @@ msgid "Return to profile."
 msgstr "Вернуться к профилю."
 
 #: ../user/result.php:28
-#, fuzzy
 msgid "No such task"
-msgstr "Нет такой команды."
+msgstr "Нет такого задания"
 
 #: ../user/result.php:30
 msgid "Task %1"
-msgstr ""
+msgstr "Задание %1"
 
 #: ../user/results.php:27
 msgid "This feature is turned off temporarily"
@@ -3192,7 +3465,7 @@ msgstr "Отсутствует ID пользователя или ID компь�
 
 #: ../user/results.php:85
 msgid "No tasks to display"
-msgstr "Нет задач для показа"
+msgstr "Нет заданий для показа"
 
 #: ../user/sample_index.php:130
 msgid "User of the day"
@@ -3210,7 +3483,8 @@ msgstr "Статистика и лидеры"
 msgid "Statistics for %1"
 msgstr "Статистика %1"
 
-#: ../user/stats.php:29 ../user/top_users.php:114
+#: ../user/stats.php:29
+#: ../user/top_users.php:114
 msgid "Top participants"
 msgstr "Лучшие участники"
 
@@ -3218,7 +3492,8 @@ msgstr "Лучшие участники"
 msgid "Top computers"
 msgstr "Лучшие компьютеры"
 
-#: ../user/stats.php:31 ../user/team.php:43
+#: ../user/stats.php:31
+#: ../user/team.php:43
 msgid "Top teams"
 msgstr "Лучшие команды"
 
@@ -3283,7 +3558,8 @@ msgstr ""
 "Чтобы присоединиться к команде, посетите ее страницу и нажмите %"
 "1Присоединиться к этой команде%2."
 
-#: ../user/team.php:38 ../user/team_search.php:155
+#: ../user/team.php:38
+#: ../user/team_search.php:155
 msgid "Find a team"
 msgstr "Найти команду"
 
@@ -3307,170 +3583,221 @@ msgstr ""
 "команду%2."
 
 #: ../user/team_admins.php:32
+#, fuzzy
 msgid "Remove Team Admin status from this member"
-msgstr ""
+msgstr "Удалить статус Администратора команды с этого участника"
 
-#: ../user/team_admins.php:38 ../user/team_admins.php:49
+#: ../user/team_admins.php:38
+#: ../user/team_admins.php:49
+#, fuzzy
 msgid "Add or remove Team Admins"
-msgstr ""
+msgstr "Добавить или удалить Администраторов команды"
 
 #: ../user/team_admins.php:39
+#, fuzzy
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr ""
+"Вы можете выбрать участников команды в качестве 'Администраторов команды'. "
+"Администраторы команды могут:"
 
 #: ../user/team_admins.php:41
+#, fuzzy
 msgid "Edit team information (name, URL, description, country)"
-msgstr ""
+msgstr "Редактировать информацию о команде (название, URL, описание, страна)"
 
 #: ../user/team_admins.php:42
+#, fuzzy
 msgid "View the team's join/quit history"
-msgstr ""
+msgstr "Просматривать историю присоединения/выхода из команды"
 
 #: ../user/team_admins.php:43
+#, fuzzy
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
+"Модерировать форум команды, если есть (администраторы получают уведомления "
+"по электронной почте о событиях модерации и о красных X-сообщениях)"
 
 #: ../user/team_admins.php:45
+#, fuzzy
 msgid "Team Admins cannot:"
-msgstr ""
+msgstr "Администраторы команды не могут:"
 
 #: ../user/team_admins.php:47
+#, fuzzy
 msgid "Change the team founder"
-msgstr ""
+msgstr "Поменять основателя команды"
 
-#: ../user/team_admins.php:48 ../user/team_manage.php:52
+#: ../user/team_admins.php:48
+#: ../user/team_manage.php:52
+#, fuzzy
 msgid "Remove members"
-msgstr ""
+msgstr "Удалить участников"
 
 #: ../user/team_admins.php:51
+#, fuzzy
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr ""
+"Если Администратор команды покидает команду, он перестает быть "
+"Администратором."
 
 #: ../user/team_admins.php:52
+#, fuzzy
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr ""
+"Мы рекомендуем Вам выбирать в качестве Администраторов команды только людей, "
+"которых Вы знаете и которым доверяете."
 
 #: ../user/team_admins.php:57
+#, fuzzy
 msgid "There are currently no Team Admins"
-msgstr ""
+msgstr "В настоящее время у команды нет Администраторов"
 
 #: ../user/team_admins.php:59
+#, fuzzy
 msgid "Current Team Admins"
-msgstr ""
+msgstr "Текущие Администраторы команды"
 
 #: ../user/team_admins.php:60
+#, fuzzy
 msgid "Became Team Admin on"
-msgstr ""
+msgstr "Стал Администратором команды с"
 
 #: ../user/team_admins.php:75
+#, fuzzy
 msgid "Add Team Admin"
-msgstr ""
+msgstr "Добавление Администратора команды"
 
 #: ../user/team_admins.php:76
+#, fuzzy
 msgid "Email address of team member:"
-msgstr ""
+msgstr "Адрес email участника команды:"
 
 #: ../user/team_admins.php:88
+#, fuzzy
 msgid "failed to remove admin"
-msgstr ""
+msgstr "не удалось удалить администратора"
 
 #: ../user/team_admins.php:95
-#, fuzzy
 msgid "no such user"
-msgstr "Нет такого пользователя"
+msgstr "нет такого пользователя"
 
 #: ../user/team_admins.php:96
+#, fuzzy
 msgid "User is not member of team"
-msgstr ""
+msgstr "Пользователь не является участником команды"
 
 #: ../user/team_admins.php:98
+#, fuzzy
 msgid "%1 is already an admin of %2"
-msgstr ""
+msgstr "%1 уже администратор команды %2"
 
 #: ../user/team_admins.php:102
-msgid "Couldn't add admin"
-msgstr ""
-
-#: ../user/team_admins.php:108 ../user/team_quit_form.php:28
-#: ../user/team_remove_inactive_action.php:26
 #, fuzzy
+msgid "Couldn't add admin"
+msgstr "Невозможно добавить администратора"
+
+#: ../user/team_admins.php:108
+#: ../user/team_quit_form.php:28
+#: ../user/team_remove_inactive_action.php:26
 msgid "No such team"
-msgstr "Нет такой команды."
+msgstr "Нет такой команды"
 
 #: ../user/team_change_founder_action.php:28
-#: ../user/team_change_founder_form.php:31 ../user/team_display.php:67
-#: ../user/team_edit_action.php:28 ../user/team_edit_form.php:27
-#: ../user/team_email_list.php:52 ../user/team_forum.php:156
+#: ../user/team_change_founder_form.php:31
+#: ../user/team_display.php:67
+#: ../user/team_edit_action.php:28
+#: ../user/team_edit_form.php:27
+#: ../user/team_email_list.php:52
+#: ../user/team_forum.php:156
 #: ../user/team_manage.php:83
-#, fuzzy
 msgid "no such team"
-msgstr "Нет такой команды."
+msgstr "нет такой команды"
 
 #: ../user/team_change_founder_action.php:36
+#, fuzzy
 msgid "User is not a member of %1"
-msgstr ""
+msgstr "Пользователь не является участником команды %1"
 
 #: ../user/team_change_founder_action.php:39
+#, fuzzy
 msgid "Changing founder of %1"
-msgstr ""
+msgstr "Изменение основателя команды %1"
 
 #: ../user/team_change_founder_action.php:41
+#, fuzzy
 msgid "%1 is now founder of %2"
-msgstr ""
+msgstr "%1 теперь основатель команды %2"
 
 #: ../user/team_change_founder_form.php:35
+#, fuzzy
 msgid "Change founder of %1"
-msgstr ""
+msgstr "Изменение основателя команды %1"
 
 #: ../user/team_change_founder_form.php:41
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
+"Участник команды %1 запросил полномочия основателя этой команды %2, но "
+"покинул команду, таким образом отменив запрос."
 
 #: ../user/team_change_founder_form.php:47
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
+"Участник команды %1 запросил полномочия основателя этой команды. Это, "
+"возможно, произошло из-за того, что Вы покинули команду или не "
+"контактировали с командой в течение долгого времени."
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
-msgstr ""
+msgstr "отклонить запрос"
 
 #: ../user/team_change_founder_form.php:56
+#, fuzzy
 msgid ""
 "If you don't decline the request by %1, %2 will have the option of assuming "
 "team foundership.<br /><br />\n"
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
+"Если Вы не отмените запрос до %1, у участника %2 будет возможность принять "
+"полномочия основателя команды.<br /><br />\n"
+"                   Чтобы принять запрос, назначьте полномочия основателя "
+"участнику %3, используя форму ниже."
 
 #: ../user/team_change_founder_form.php:64
+#, fuzzy
 msgid "No transfer request is pending."
-msgstr ""
+msgstr "Запросов на смену основателя нет в ожидании."
 
 #: ../user/team_change_founder_form.php:67
+#, fuzzy
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
 msgstr ""
+"Чтобы назначить привилегии основателя этой команды другому участнику, "
+"отметьте участника и нажмите кнопку <strong>Поменять основателя</strong> "
+"внизу."
 
 #: ../user/team_change_founder_form.php:74
 msgid "New founder?"
-msgstr ""
+msgstr "Новый основатель?"
 
-#: ../user/team_change_founder_form.php:103 ../user/team_manage.php:54
+#: ../user/team_change_founder_form.php:103
+#: ../user/team_manage.php:54
 msgid "Change founder"
-msgstr ""
+msgstr "Поменять основателя"
 
 #: ../user/team_create_action.php:27
 msgid "You must choose a non-blank team name"
-msgstr "Вы должны выбрать непустое имя команды"
+msgstr "Вы должны выбрать непустое название команды"
 
 #: ../user/team_create_action.php:32
 msgid "A team named %1 already exists - try another name"
@@ -3480,7 +3807,8 @@ msgstr "Команда с названием %1 уже существует - п
 msgid "Could not create team - please try later."
 msgstr "Не удалось создать команду - пожалуйста попытайтесь позже."
 
-#: ../user/team_create_form.php:25 ../user/team_create_form.php:30
+#: ../user/team_create_form.php:25
+#: ../user/team_create_form.php:30
 msgid "Create a team"
 msgstr "Создать команду"
 
@@ -3493,124 +3821,133 @@ msgstr ""
 
 #: ../user/team_delta.php:64
 msgid "Not founder or admin"
-msgstr ""
+msgstr "Не основатель и не администратор"
 
 #: ../user/team_delta.php:71
 msgid "Team history for %1"
-msgstr ""
+msgstr "История команды %1"
 
 #: ../user/team_delta.php:74
 msgid "When"
-msgstr ""
+msgstr "Когда"
 
 #: ../user/team_delta.php:75
 msgid "User"
-msgstr ""
+msgstr "Участник"
 
 #: ../user/team_delta.php:76
 msgid "Action"
-msgstr ""
+msgstr "Действие"
 
 #: ../user/team_delta.php:77
 msgid "Total credit at time of action"
-msgstr ""
+msgstr "Всего очков на момент действия"
 
 #: ../user/team_edit_action.php:57
 msgid "The name '%1' is being used by another team."
-msgstr ""
+msgstr "Название '%1' уже используется другой командой."
 
 #: ../user/team_edit_action.php:60
 msgid "Must specify team name"
-msgstr ""
+msgstr "Необходимо указать название команды"
 
 #: ../user/team_edit_action.php:88
 #, fuzzy
 msgid "Could not update team - please try again later."
-msgstr "Не удалось создать команду - пожалуйста попытайтесь позже."
+msgstr "Не удалось обновить команду - пожалуйста, попробуйте ещё раз позже."
 
 #: ../user/team_edit_form.php:31
+#, fuzzy
 msgid "Edit %1"
-msgstr ""
+msgstr "Редактирование команды %1"
 
 #: ../user/team_edit_form.php:32
 msgid "Update team info"
-msgstr ""
+msgstr "Обновить информацию о команде"
 
 #: ../user/team_email_list.php:58
+#, fuzzy
 msgid "%1 Email List"
-msgstr ""
+msgstr "Список email-адресов команды %1"
 
 #: ../user/team_email_list.php:60
 msgid "Member list of %1"
-msgstr ""
+msgstr "Список участников команды %1"
 
 #: ../user/team_email_list.php:75
 msgid "Show as plain text"
-msgstr ""
+msgstr "Показать как простой текст"
 
-#: ../user/team_forum.php:26 ../user/team_forum.php:37
+#: ../user/team_forum.php:26
+#: ../user/team_forum.php:37
+#, fuzzy
 msgid "Create Message Board"
-msgstr ""
+msgstr "Создать доску сообщений"
 
 #: ../user/team_forum.php:27
+#, fuzzy
 msgid "You may create a message board for use by %1."
-msgstr ""
+msgstr "Вы можете создать доску сообщений для общения в команде %1."
 
 #: ../user/team_forum.php:29
+#, fuzzy
 msgid "Only team members will be able to post."
-msgstr ""
+msgstr "Только участники команды смогут оставлять сообщения."
 
 #: ../user/team_forum.php:30
+#, fuzzy
 msgid "At your option, only members will be able to read."
-msgstr ""
+msgstr "По вашему выбору, только участники смогут её читать."
 
 #: ../user/team_forum.php:31
+#, fuzzy
 msgid "You and your Team Admins will have moderator privileges."
-msgstr ""
+msgstr "У Вас и ваших Администраторов команды будут права модерирования."
 
 #: ../user/team_forum.php:38
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "Создать доску сообщений для команды %1"
 
 #: ../user/team_forum.php:46
 msgid "Team already has a message board"
-msgstr ""
+msgstr "У команды уже есть доска сообщений"
 
 #: ../user/team_forum.php:51
 msgid "couldn't create message board"
-msgstr ""
+msgstr "невозможно создать доску сообщений"
 
 #: ../user/team_forum.php:57
 msgid "Team Message Board"
-msgstr ""
+msgstr "Доска сообщений команды"
 
 #: ../user/team_forum.php:66
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "Обсуждение среди участников команды %1"
 
 #: ../user/team_forum.php:69
 msgid "Minimum time between posts (seconds)"
-msgstr ""
+msgstr "Минимальное время между сообщениями (секунды)"
 
 #: ../user/team_forum.php:72
 msgid "Minimum total credit to post"
-msgstr ""
+msgstr "Минимальное общее количество очков для написания сообщений"
 
 #: ../user/team_forum.php:75
 msgid "Minimum average credit to post"
-msgstr ""
+msgstr "Минимальное среднее количество очков для написания сообщений"
 
 #: ../user/team_forum.php:78
+#, fuzzy
 msgid "Submit"
-msgstr ""
+msgstr "Отправить"
 
 #: ../user/team_forum.php:87
 msgid "Remove your team's message board."
-msgstr ""
+msgstr "Удалить доску сообщений вашей команды."
 
 #: ../user/team_forum.php:95
 msgid "Really remove message board?"
-msgstr ""
+msgstr "Действительно удалить доску сообщений?"
 
 #: ../user/team_forum.php:96
 msgid ""
@@ -3618,59 +3955,68 @@ msgid ""
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
 msgstr ""
+"Вы уверены, что Вы хотите удалить доску сообщений вашей команды? Все "
+"обсуждения и сообщения будут безвозвратно удалены. (Вы сможете, однако, "
+"позже создать новую доску сообщений)."
 
 #: ../user/team_forum.php:98
 msgid "Yes - remove message board"
-msgstr ""
+msgstr "Да - удалить доску сообщений"
 
 #: ../user/team_forum.php:105
 msgid "message board not found"
-msgstr ""
+msgstr "доска сообщений не найдена"
 
 #: ../user/team_forum.php:119
 msgid "Message board removed"
-msgstr ""
+msgstr "Доска сообщений удалена"
 
 #: ../user/team_forum.php:120
 msgid ""
 "Your teams message board has been removed. You may now %1create a new one%2."
 msgstr ""
+"Доска сообщений вашей команды была удалена. Теперь Вы можете %1создать "
+"новую%2."
 
 #: ../user/team_forum.php:120
 msgid "<p>"
-msgstr ""
+msgstr "<p>"
 
 #: ../user/team_forum.php:135
+#, fuzzy
 msgid "Team Message Board Updated"
-msgstr ""
+msgstr "Доска сообщений команды обновлена"
 
 #: ../user/team_forum.php:136
+#, fuzzy
 msgid "Update successful"
-msgstr ""
+msgstr "Обновление завершено успешно"
 
 #: ../user/team_forum.php:139
+#, fuzzy
 msgid "Update failed"
-msgstr ""
+msgstr "Обновление не удалось"
 
 #: ../user/team_forum.php:146
 msgid "team has no forum"
-msgstr ""
+msgstr "у команды нет форума"
 
 #: ../user/team_forum.php:181
 msgid "no such forum"
-msgstr ""
+msgstr "нет такого форума"
 
 #: ../user/team_forum.php:192
 msgid "unknown command %1"
-msgstr ""
+msgstr "неизвестная команда %1"
 
 #: ../user/team_founder_transfer_action.php:34
 msgid "You must be a member of a team to access this page."
 msgstr ""
+"Вы должны быть участником команды, чтобы получить доступ к этой странице."
 
 #: ../user/team_founder_transfer_action.php:88
 msgid "Requesting foundership of %1"
-msgstr ""
+msgstr "Запрос полномочий основателя команды %1"
 
 #: ../user/team_founder_transfer_action.php:96
 msgid ""
@@ -3679,74 +4025,87 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
+"Текущий основатель был проинформирован о вашем запросе по электронной почте "
+"и личным сообщением.<br /><br />\n"
+"                       Если основатель не ответит в течение 60 дней, у Вас "
+"будет возможность стать новым основателем."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
 msgid "Foundership request not allowed now"
-msgstr ""
+msgstr "Запрос полномочий основателя в данный момент не разрешён"
 
 #: ../user/team_founder_transfer_action.php:107
 msgid "Assumed foundership of %1"
-msgstr ""
+msgstr "Принятие полномочий основателя команды %1"
 
 #: ../user/team_founder_transfer_action.php:109
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
+"Поздравляем, Вы теперь основатель команды %1. Перейдите на %2страницу вашей "
+"учетной записи%3, чтобы воспользоваться возможностями Администратора "
+"команды."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
-msgstr ""
+msgstr "Отмена запроса на смену основателя"
 
 #: ../user/team_founder_transfer_action.php:125
 msgid "The foundership request from %1 has been declined."
-msgstr ""
+msgstr "Запрос полномочий основателя от участника %1 был отменен."
 
 #: ../user/team_founder_transfer_action.php:128
 msgid "There were no foundership requests."
-msgstr ""
+msgstr "Не было запросов на смену основателя."
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
-msgstr ""
+msgstr "неизвестное действие %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
 msgid "Return to team page"
-msgstr ""
+msgstr "Вернуться на страницу команды"
 
 #: ../user/team_founder_transfer_form.php:26
 msgid "You need to be a member of a team to access this page."
 msgstr ""
+"Вы должны быть участником команды, чтобы получить доступ к этой странице."
 
 #: ../user/team_founder_transfer_form.php:29
 msgid "Request foundership of %1"
-msgstr ""
+msgstr "Запрос на смену основателя команды %1"
 
 #: ../user/team_founder_transfer_form.php:36
 msgid "You are now founder of team %1."
-msgstr ""
+msgstr "Вы теперь основатель команды %1."
 
 #: ../user/team_founder_transfer_form.php:42
+#, fuzzy
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "Вы запросили смену основателя команды %1 с %2."
 
 #: ../user/team_founder_transfer_form.php:45
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
+"60 дней прошли с момента подачи вашего запроса, а основатель так и не "
+"ответил. Вы можете теперь принять полномочия основателя, щёлкнув здесь:"
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
-msgstr ""
+msgstr "Принять полномочия основателя"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
+"Основатель был проинформирован о вашем запросе. Если он/она не ответит до "
+"%1, у Вас будет возможность стать основателем."
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
@@ -3757,81 +4116,101 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
+"Если основатель команды не активен, а Вы хотите принять роль основателя, "
+"нажмите на кнопку ниже. Текущему основателю будет отправлено электронное "
+"письмо с подробной информацией о вашем запросе, и у него будет возможность "
+"передать Вам полномочия основателя или отклонить ваш запрос. Если основатель "
+"не ответит в течение 60 дней, у Вас будет возможность стать основателем.<br "
+"/><br />\n"
+"                        Вы уверены, что хотите запросить полномочия "
+"основателя?"
 
 #: ../user/team_founder_transfer_form.php:63
 msgid "Request foundership"
-msgstr ""
+msgstr "Запросить смену основателя"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
-msgstr ""
+msgstr "%2 пользователем %1 уже была запрошена смена основателя."
 
 #: ../user/team_founder_transfer_form.php:75
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
 msgstr ""
+"Смена основателя была запрошена в течение последних 90 дней, поэтому новые "
+"запросы не разрешены. Пожалуйста, попробуйте ещё раз позже."
 
-#: ../user/team_join.php:30 ../user/team_join_action.php:30
+#: ../user/team_join.php:30
+#: ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
+#, fuzzy
 msgid "The team %1 is not joinable."
-msgstr ""
+msgstr "Команда %1 не допускает присоединений."
 
-#: ../user/team_join.php:33 ../user/team_join_action.php:33
+#: ../user/team_join.php:33
+#: ../user/team_join_action.php:33
 msgid "Already a member"
-msgstr ""
+msgstr "Уже участник команды"
 
-#: ../user/team_join.php:34 ../user/team_join_action.php:34
+#: ../user/team_join.php:34
+#: ../user/team_join_action.php:34
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "Вы уже участник команды %1."
 
-#: ../user/team_join.php:40 ../user/team_join_action.php:41
+#: ../user/team_join.php:40
+#: ../user/team_join_action.php:41
 msgid "Couldn't join team - please try again later."
 msgstr ""
+"Не удалось присоединиться к команде - пожалуйста, попробуйте ещё раз позже."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
-msgstr ""
+msgstr "Присоединение к команде %1."
 
 #: ../user/team_join_action.php:39
 msgid "You have joined %1."
-msgstr ""
+msgstr "Вы присоединились к команде %1."
 
 #: ../user/team_join_form.php:32
 msgid "Join %1"
-msgstr ""
+msgstr "Присоединение к команде %1."
 
 #: ../user/team_join_form.php:33
 msgid "Please note:"
-msgstr ""
+msgstr "Пожалуйста, примите во внимание:"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
 msgstr ""
+"Присоединение к команде дает доступ её основателю к вашему адресу "
+"электронной почты."
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
-msgstr ""
+msgstr "Присоединение к команде не повлияет на очки вашей учетной записи."
 
 #: ../user/team_join_form.php:43
 msgid "Join team"
-msgstr ""
+msgstr "Присоединиться к команде"
 
 #: ../user/team_lookup.php:62
 msgid "Search Results"
-msgstr ""
+msgstr "Результаты поиска"
 
 #: ../user/team_lookup.php:64
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Результаты поиска '%1'"
 
 #: ../user/team_lookup.php:66
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
+msgstr "Вы можете увидеть участников этих команд, статистику и информацию."
 
 #: ../user/team_lookup.php:75
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
+"Более 100 команд удовлетворяют условиям вашего поиска. Показаны первые 100 "
+"команд."
 
 #: ../user/team_lookup.php:79
 msgid ""
@@ -3839,128 +4218,140 @@ msgid ""
 "         If you cannot find the team you are looking for, you may %1create a "
 "team%2 by yourself."
 msgstr ""
+"Конец результатов<br>\n"
+"         Если Вы не смогли найти команду, которую ищете, Вы можете сами "
+"%1создать команду%2."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
-msgstr ""
+msgstr "Управление командой %1"
 
 #: ../user/team_manage.php:27
 msgid "Edit team info"
-msgstr ""
+msgstr "Редактировать информацию о команде"
 
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
-msgstr ""
+msgstr "Изменение названия команды, URL, описания, типа или страны"
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
-msgstr ""
+msgstr "Список участников:"
 
-#: ../user/team_manage.php:31 ../user/team_manage.php:35
+#: ../user/team_manage.php:31
+#: ../user/team_manage.php:35
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:32
 msgid "text"
-msgstr ""
+msgstr "текст"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "Просмотр имён участников и email-адресов"
 
 #: ../user/team_manage.php:34
 msgid "View change history:"
-msgstr ""
+msgstr "Просмотр истории изменений:"
 
 #: ../user/team_manage.php:36
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: ../user/team_manage.php:37
 msgid "See when members joined or quit this team"
-msgstr ""
+msgstr "Смотрите, когда участники присоединились или покинули эту команду"
 
 #: ../user/team_manage.php:48
 msgid "Respond to foundership request."
-msgstr ""
+msgstr "Ответить на запрос смены основателя."
 
 #: ../user/team_manage.php:48
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
 msgstr ""
+"Если Вы не ответите до %1, участник %2 сможет принять полномочия основателя "
+"этой команды."
 
 #: ../user/team_manage.php:53
 msgid "Remove inactive or unwanted members from this team"
-msgstr ""
+msgstr "Удаление неактивных или нежелательных участников этой команды"
 
 #: ../user/team_manage.php:55
 msgid "Transfer foundership to another member"
-msgstr ""
+msgstr "Передача полномочий основателя команды другому участнику"
 
 #: ../user/team_manage.php:56
 msgid "Add/remove Team Admins"
-msgstr ""
+msgstr "Добавить/удалить Администраторов команды"
 
 #: ../user/team_manage.php:57
 msgid "Give selected team members Team Admin privileges"
-msgstr ""
+msgstr "Дайте выбранным участникам команды привилегии Администратора команды "
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
-msgstr ""
+msgstr "Удалить команду"
 
 #: ../user/team_manage.php:60
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "Разрешено только если в команде нет участников"
 
 #: ../user/team_manage.php:62
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "Создание или управление доской сообщений команды"
 
 #: ../user/team_manage.php:69
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
+"Чтобы создать эту команду во всех проектах BOINC (текущих и будущих), Вы "
+"можете превратить ее в %1 глобальную команду BOINC%2."
 
 #: ../user/team_manage.php:71
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
+"Администраторы команды приглашаются присоединиться и участвовать в группе "
+"Google %1boinc-team-founders%2."
 
 #: ../user/team_manage.php:73
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
+"Администраторам команд BOINC доступны другие ресурсы на стороннем сайте, "
+"%1www.boincteams.com%2."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "Нельзя удалить непустую команду"
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "Команда %1 удалена"
 
 #: ../user/team_members.php:33
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr ""
+msgstr "Предел превышен: Можно показать только первые 1000 участников."
 
 #: ../user/team_members.php:43
 msgid "Members of %1"
-msgstr ""
+msgstr "Участники команды %1"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
-msgstr ""
+msgstr "Невозможно выйти из команды"
 
 #: ../user/team_quit_action.php:33
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "Команда не существует, или Вы не принадлежите ей."
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
-msgstr ""
+msgstr "Выход из команды %1"
 
 #: ../user/team_quit_form.php:32
 msgid ""
@@ -3972,6 +4363,12 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
+"<strong>Обратите внимание, прежде чем выйти из команды:</strong>\n"
+"         <ul>\n"
+"         <li>Если Вы выйдете из команды, Вы можете позже присоединиться к "
+"ней снова, или присоединиться к любой другой команде на свой выбор\n"
+"         <li>Выход из команды никак не повлияет на вашу личную статистику.\n"
+"         </ul>"
 
 #: ../user/team_quit_form.php:40
 #, fuzzy
@@ -3980,47 +4377,48 @@ msgstr "Выйти из команды"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Удаление пользователей из команды %1"
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "%1 не участник команды %2"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 был удален"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Удаление участников из команды %1"
 
 #: ../user/team_remove_inactive_form.php:37
 msgid "Remove?"
-msgstr ""
+msgstr "Удалить?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
-msgstr ""
+msgstr "Имя (ID)"
 
 #: ../user/team_remove_inactive_form.php:63
 msgid "No members are eligible for removal."
-msgstr ""
+msgstr "Нет подходящих участников для удаления."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
-msgstr ""
+msgstr "Удалить участников"
 
 #: ../user/team_search.php:65
 msgid "Team name"
-msgstr ""
+msgstr "Название команды"
 
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
 msgstr ""
+"Не найдено команд, удовлетворяющих вашим критериям. Попробуйте другой поиск."
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "Или Вы можете %1создать новую команду%2."
 
 #: ../user/team_search.php:133
 msgid ""
@@ -4028,10 +4426,15 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
+"Следующие команды удовлетворяют одному или нескольким критериям вашего "
+"поиска.\n"
+"            Чтобы присоединиться к команде, нажмите её название и перейдите "
+"на страницу команды,\n"
+"               затем нажмите %1Присоединиться к этой команде%2."
 
 #: ../user/team_search.php:140
 msgid "Change your search"
-msgstr ""
+msgstr "Измените ваш поиск"
 
 #: ../user/team_search.php:152
 #, fuzzy
@@ -4043,18 +4446,22 @@ msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr ""
+"Вы можете объединиться в команду с другими людьми с похожими интересами, или "
+"из одной страны, компании, или школы."
 
 #: ../user/team_search.php:158
 msgid "Use this form to find teams that might be right for you."
-msgstr ""
+msgstr "Используйте эту форму для поиска команд, которые могут Вам подойти."
 
 #: ../user/team_search.php:163
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr ""
+msgstr "%1Я не заинтересован%2 в присоединении к команде прямо сейчас."
 
-#: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
+#: ../user/top_hosts.php:65
+#: ../user/top_teams.php:98
+#: ../user/top_users.php:110
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr ""
+msgstr "Предел превышен - Извините, только первые %1 элементов"
 
 #: ../user/top_hosts.php:80
 msgid "Top hosts"
@@ -4062,11 +4469,11 @@ msgstr "Лучшие компьютеры"
 
 #: ../user/top_teams.php:103
 msgid "Top %1 teams"
-msgstr "Лучшие %1 команды"
+msgstr "Лучшие команды типа %1"
 
 #: ../user/top_teams.php:106
 msgid "There are no %1 teams"
-msgstr ""
+msgstr "Нет команд типа %1"
 
 #: ../user/top_users.php:62
 msgid "Participant since"
@@ -4074,13 +4481,14 @@ msgstr "Участвует с"
 
 #: ../user/uotd.php:27
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "Пользователь дня не был выбран."
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "Пользователь дня на %1: %2"
 
-#: ../user/user_search.php:102 ../user/user_search.php:158
+#: ../user/user_search.php:102
+#: ../user/user_search.php:158
 #, fuzzy
 msgid "Joined"
 msgstr "Присоединился"
@@ -4115,15 +4523,16 @@ msgstr "Фильтры"
 
 #: ../user/user_search.php:119
 msgid "Any"
-msgstr ""
+msgstr "Любая"
 
 #: ../user/user_search.php:122
 msgid "With profile?"
 msgstr "С профилем?"
 
-#: ../user/user_search.php:123 ../user/user_search.php:128
+#: ../user/user_search.php:123
+#: ../user/user_search.php:128
 msgid "Either"
-msgstr ""
+msgstr "Любой"
 
 #: ../user/user_search.php:127
 msgid "On a team?"
@@ -4144,7 +4553,7 @@ msgstr "Нет пользователей, удовлетворяющих ваш
 
 #: ../user/user_search.php:186
 msgid "missing search type"
-msgstr ""
+msgstr "отсутствует тип поиска"
 
 #: ../user/user_search.php:224
 msgid "User search results"
@@ -4152,69 +4561,72 @@ msgstr "Результаты поиска пользователей"
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "Пользователь не найден!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "Учетные данные<br/>для %1<br/>Время:"
 
 #: ../user/userw.php:46
-#, fuzzy
 msgid "Team:"
-msgstr "Команда"
+msgstr "Команда:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
-msgstr ""
+msgstr "Всего очков (команда):"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "В среднем (команда):"
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr ""
+msgstr "Команда: Нет"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "Проверка адреса электронной почты BOINC"
 
 #: ../user/validate_email_addr.php:31
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
 msgstr ""
+"Пожалуйста посетите следующую ссылку, чтобы подтвердить адрес электронной "
+"почты вашей учетной записи в %1:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "Письмо для проверки отправлено"
 
 #: ../user/validate_email_addr.php:35
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
 msgstr ""
+"Электронное письмо отправлено на адрес %1. Посетите ссылку, которую оно "
+"содержит, чтобы подтвердить ваш адрес электронной почты."
 
 #: ../user/validate_email_addr.php:44
-#, fuzzy
 msgid "No such user."
-msgstr "Нет такого пользователя"
+msgstr "Нет такого пользователя."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
-msgstr ""
+msgstr "Ошибка в данных URL - не удалось проверить адрес электронной почты"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
 msgstr ""
+"Неудача при обновлении базы данных - пожалуйста, попробуйте ещё раз позже."
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "Проверка адреса электронной почты"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "Адрес электронной почты вашей учётной записи был подтвержден."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4222,7 +4634,7 @@ msgstr "У этого пользователя нет профиля"
 
 #: ../user/view_profile.php:44
 msgid "Profile: %1"
-msgstr ""
+msgstr "Профиль: %1"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
@@ -4276,84 +4688,86 @@ msgstr ""
 
 #: ../user/workunit.php:30
 msgid "can't find workunit"
-msgstr ""
+msgstr "не удалось найти задачу"
 
 #: ../user/workunit.php:33
 msgid "Workunit %1"
-msgstr ""
+msgstr "Задача %1"
 
 #: ../user/workunit.php:37
-#, fuzzy
 msgid "name"
-msgstr "Имя"
+msgstr "имя"
 
 #: ../user/workunit.php:38
-#, fuzzy
 msgid "application"
-msgstr "Приложения"
+msgstr "приложение"
 
 #: ../user/workunit.php:39
-#, fuzzy
 msgid "created"
-msgstr "Создать"
+msgstr "создан"
 
 #: ../user/workunit.php:41
 msgid "canonical result"
-msgstr ""
+msgstr "канонический результат"
 
 #: ../user/workunit.php:44
 msgid "granted credit"
-msgstr ""
+msgstr "предоставлено очков"
 
 #: ../user/workunit.php:52
+#, fuzzy
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Задания обрабатываются"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
-msgstr ""
+msgstr "скрыто в ожидании завершения"
 
 #: ../user/workunit.php:55
 msgid "minimum quorum"
-msgstr ""
+msgstr "минимальный кворум"
 
 #: ../user/workunit.php:56
+#, fuzzy
 msgid "initial replication"
-msgstr ""
+msgstr "начальная репликация"
 
 #: ../user/workunit.php:57
+#, fuzzy
 msgid "max # of error/total/success tasks"
-msgstr ""
+msgstr "макс. # ошибок/всего/успешных заданий"
 
 #: ../user/workunit.php:61
 msgid "errors"
-msgstr ""
+msgstr "ошибки"
 
 #: ../user/workunit.php:64
 msgid "validation"
-msgstr ""
+msgstr "проверка"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
-msgstr ""
+msgstr "Авторские права"
 
 #: ../project.sample/project.inc:54
 msgid "Generated"
-msgstr ""
+msgstr "Сгенерирован"
 
 #: ../project.sample/project.inc:88
 msgid "Your personal background."
-msgstr ""
+msgstr "Ваша личная информация."
 
 #: ../project.sample/project.inc:92
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr ""
+"Расскажите нам о себе. Вы можете рассказать нам о том, откуда Вы, о своем "
+"возрасте, образовании, увлечениях, или ещё о чём-нибудь."
 
 #: ../project.sample/project.inc:96
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Ваше мнение о %1"
 
 #: ../project.sample/project.inc:100
 msgid ""
@@ -4363,28 +4777,35 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
+"Выскажите нам ваши мысли о %1<ol>\n"
+"    <li>Почему Вы запускаете %1?\n"
+"    <li> Каковы ваши взгляды о проекте?\n"
+"    <li> Какие-нибудь предложения?\n"
+"    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "Цветовая схема для графики"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "Макс. выделение ЦП для графики (%)%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Выполнять только выбранные приложения"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
 msgstr ""
+"Если для выбранных приложений нет никакой работы, принимать работу для "
+"других приложений?"
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(все приложения)"
 
 #, fuzzy
 #~ msgid "preferences"
@@ -4502,5 +4923,6 @@ msgstr ""
 #~ msgid "Account number"
 #~ msgstr "Номер учетной записи"
 
+# Кодовая страница для текста в этом файле (пожалуйста, используйте UTF-8 по возможности)
 #~ msgid "Used in URLs"
 #~ msgstr "Используется в ссылках URL"

@@ -2113,3 +2113,9 @@ David  25 Mar 2010
         user/
             forum_thread.php
             forum_forum.php
+
+David  28 Mar 2010
+    - user web: in above case, remove notifications as well
+
+    html/inc/
+        forum.inc
