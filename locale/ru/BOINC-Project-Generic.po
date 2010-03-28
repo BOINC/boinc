@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-28 23:48+0300\n"
+"PO-Revision-Date: 2010-03-28 13:05-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -412,7 +412,7 @@ msgstr "Средняя эффективность ЦП"
 
 #: ../inc/host.inc:189
 msgid "Task duration correction factor"
-msgstr "Фактор исправления продолжительности выполнения задачи"
+msgstr "Фактор исправления продолжительности выполнения задания"
 
 #: ../inc/host.inc:191
 #: ../inc/host.inc:614
@@ -737,9 +737,8 @@ msgstr ""
 "задания будут занимать место в виртуальной памяти)%2"
 
 #: ../inc/prefs.inc:112
-#, fuzzy
 msgid "Switch between tasks every %1(recommended: 60 minutes)%2"
-msgstr "Переключение между задачами каждые %1(рекомендуется: 60 минут)%2"
+msgstr "Переключение между заданиями каждые %1(рекомендуется: 60 минут)%2"
 
 #: ../inc/prefs.inc:119
 #, fuzzy
