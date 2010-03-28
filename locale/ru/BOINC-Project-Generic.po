@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-28 13:05-0700\n"
+"PO-Revision-Date: 2010-03-28 13:13-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -1250,9 +1250,8 @@ msgid "User is banished"
 msgstr "Пользователь заблокирован"
 
 #: ../inc/profile.inc:205
-#, fuzzy
 msgid "No profile exists for that user ID."
-msgstr "Профиль не существует для пользователя с этим ID"
+msgstr "Профиль не существует для пользователя с этим ID."
 
 #: ../inc/profile.inc:213
 #: ../user/create_profile.php:306
@@ -1458,18 +1457,16 @@ msgid "Done"
 msgstr "Готово"
 
 #: ../inc/result.inc:194
-#, fuzzy
 msgid "Initial"
-msgstr "Исходный"
+msgstr "Первичный"
 
 #: ../inc/result.inc:200
 msgid "Not necessary"
 msgstr "Необязательно"
 
 #: ../inc/result.inc:201
-#, fuzzy
 msgid "Workunit error - check skipped"
-msgstr "Ошибка задания - проверка пропущена"
+msgstr "Ошибка задачи - проверка пропущена"
 
 #: ../inc/result.inc:202
 #, fuzzy
@@ -1477,9 +1474,8 @@ msgid "Checked, but no consensus yet"
 msgstr "Проверено, но пока нет согласия"
 
 #: ../inc/result.inc:203
-#, fuzzy
 msgid "Task was reported too late to validate"
-msgstr "Задача сообщена слишком поздно для проверки"
+msgstr "Задание возвращено слишком поздно для проверки"
 
 #: ../inc/result.inc:211
 #, fuzzy
@@ -1513,7 +1509,7 @@ msgstr "Нераспознанная ошибка: %1"
 
 #: ../inc/result.inc:257
 msgid "Task name"
-msgstr "Имя задачи"
+msgstr "Имя задания"
 
 #: ../inc/result.inc:257
 #: ../inc/result.inc:262
@@ -1532,7 +1528,7 @@ msgstr "Показать имена"
 
 #: ../inc/result.inc:265
 msgid "Task ID"
-msgstr "ID задачи"
+msgstr "ID задания"
 
 #: ../inc/result.inc:268
 msgid "Work unit ID"
@@ -1579,7 +1575,6 @@ msgstr "Затребовано очков"
 
 #: ../inc/result.inc:282
 #: ../inc/result.inc:391
-#, fuzzy
 msgid "Granted credit"
 msgstr "Дано очков"
 
@@ -2145,7 +2140,7 @@ msgstr "(запрос на смену основателя в ожидании)"
 
 #: ../inc/user.inc:273
 msgid "Member of team"
-msgstr "Член команды"
+msgstr "Участник команды"
 
 #: ../inc/user.inc:275
 msgid "find a team"
@@ -2318,8 +2313,8 @@ msgstr "Создание учетной записи запрещено"
 #: ../user/create_account_form.php:30
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
-"Создание учетной записи в данный момент запрещено. Пожалуйста, попытайтесь "
-"снова немного позднее."
+"Создание учетной записи в данный момент запрещено. Пожалуйста, попробуйте "
+"ещё раз немного позднее."
 
 #: ../user/create_account_form.php:41
 msgid ""
@@ -2612,9 +2607,8 @@ msgid "Couldn't update user info."
 msgstr "Невозможно обновить информацию о пользователе."
 
 #: ../user/edit_user_info_form.php:27
-#, fuzzy
 msgid "Edit account information"
-msgstr "Учетная информация"
+msgstr "Редактировать учётную информацию"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
@@ -3446,9 +3440,8 @@ msgid "Return to profile."
 msgstr "Вернуться к профилю."
 
 #: ../user/result.php:28
-#, fuzzy
 msgid "No such task"
-msgstr "Нет такой команды."
+msgstr "Нет такого задания"
 
 #: ../user/result.php:30
 msgid "Task %1"
@@ -3472,7 +3465,7 @@ msgstr "Отсутствует ID пользователя или ID компь�
 
 #: ../user/results.php:85
 msgid "No tasks to display"
-msgstr "Нет задач для показа"
+msgstr "Нет заданий для показа"
 
 #: ../user/sample_index.php:130
 msgid "User of the day"
@@ -3689,9 +3682,8 @@ msgid "failed to remove admin"
 msgstr "не удалось удалить администратора"
 
 #: ../user/team_admins.php:95
-#, fuzzy
 msgid "no such user"
-msgstr "Нет такого пользователя"
+msgstr "нет такого пользователя"
 
 #: ../user/team_admins.php:96
 #, fuzzy
@@ -3711,9 +3703,8 @@ msgstr "Невозможно добавить администратора"
 #: ../user/team_admins.php:108
 #: ../user/team_quit_form.php:28
 #: ../user/team_remove_inactive_action.php:26
-#, fuzzy
 msgid "No such team"
-msgstr "Нет такой команды."
+msgstr "Нет такой команды"
 
 #: ../user/team_change_founder_action.php:28
 #: ../user/team_change_founder_form.php:31
@@ -3723,9 +3714,8 @@ msgstr "Нет такой команды."
 #: ../user/team_email_list.php:52
 #: ../user/team_forum.php:156
 #: ../user/team_manage.php:83
-#, fuzzy
 msgid "no such team"
-msgstr "Нет такой команды."
+msgstr "нет такой команды"
 
 #: ../user/team_change_founder_action.php:36
 #, fuzzy
@@ -3807,7 +3797,7 @@ msgstr "Поменять основателя"
 
 #: ../user/team_create_action.php:27
 msgid "You must choose a non-blank team name"
-msgstr "Вы должны выбрать непустое имя команды"
+msgstr "Вы должны выбрать непустое название команды"
 
 #: ../user/team_create_action.php:32
 msgid "A team named %1 already exists - try another name"
@@ -3864,7 +3854,7 @@ msgstr "Необходимо указать название команды"
 #: ../user/team_edit_action.php:88
 #, fuzzy
 msgid "Could not update team - please try again later."
-msgstr "Не удалось создать команду - пожалуйста попытайтесь позже."
+msgstr "Не удалось обновить команду - пожалуйста, попробуйте ещё раз позже."
 
 #: ../user/team_edit_form.php:31
 #, fuzzy
@@ -4479,7 +4469,7 @@ msgstr "Лучшие компьютеры"
 
 #: ../user/top_teams.php:103
 msgid "Top %1 teams"
-msgstr "Лучшие %1 команды"
+msgstr "Лучшие команды типа %1"
 
 #: ../user/top_teams.php:106
 msgid "There are no %1 teams"
@@ -4578,9 +4568,8 @@ msgid "Account Data<br/>for %1<br/>Time:"
 msgstr "Учетные данные<br/>для %1<br/>Время:"
 
 #: ../user/userw.php:46
-#, fuzzy
 msgid "Team:"
-msgstr "Команда"
+msgstr "Команда:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
@@ -4619,9 +4608,8 @@ msgstr ""
 "содержит, чтобы подтвердить ваш адрес электронной почты."
 
 #: ../user/validate_email_addr.php:44
-#, fuzzy
 msgid "No such user."
-msgstr "Нет такого пользователя"
+msgstr "Нет такого пользователя."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
@@ -4707,19 +4695,16 @@ msgid "Workunit %1"
 msgstr "Задача %1"
 
 #: ../user/workunit.php:37
-#, fuzzy
 msgid "name"
-msgstr "Имя"
+msgstr "имя"
 
 #: ../user/workunit.php:38
-#, fuzzy
 msgid "application"
-msgstr "Приложения"
+msgstr "приложение"
 
 #: ../user/workunit.php:39
-#, fuzzy
 msgid "created"
-msgstr "Создать"
+msgstr "создан"
 
 #: ../user/workunit.php:41
 msgid "canonical result"
