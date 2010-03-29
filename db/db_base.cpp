@@ -33,7 +33,7 @@
 // uncomment the following to print all queries.
 // Useful for low-level debugging
 
-#define SHOW_QUERIES
+//#define SHOW_QUERIES
 
 DB_CONN::DB_CONN() {
     mysql = 0;
