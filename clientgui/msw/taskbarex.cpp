@@ -304,7 +304,7 @@ bool wxTaskBarIconEx::IsBalloonsSupported()
     wxInt32 iMajor = 0, iMinor = 0;
     if ( wxWINDOWS_NT == wxGetOsVersion( &iMajor, &iMinor ) )
     {
-        if ( (5 >= iMajor) && (0 <= iMinor) )
+        if ( (6 >= iMajor) || ((5 >= iMajor) && (0 <= iMinor)) )
             return true;
     }
     return false;

@@ -43,7 +43,6 @@ public:
     void OnOpen(wxCommandEvent& event);
     void OnSuspendResume(wxCommandEvent& event);
     void OnSuspendResumeGPU(wxCommandEvent& event);
-    void OnTestNotification(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
 
@@ -66,10 +65,26 @@ public:
 #ifdef __WXMAC__
     wxMenu *CreatePopupMenu();
     bool SetIcon(const wxIcon& icon, const wxString& message = wxEmptyString);
-#endif
 
-#ifdef __WXMAC__
     inline bool IsBalloonsSupported() {
+        return false;
+    }
+
+    bool SetBalloon(
+        const wxIcon& icon, 
+        const wxString title = wxEmptyString,
+        const wxString message = wxEmptyString,
+        unsigned int iconballoon = BALLOONTYPE_INFO
+    ) {
+        return false;
+    }
+
+    bool QueueBalloon(
+        const wxIcon& icon, 
+        const wxString title = wxEmptyString,
+        const wxString message = wxEmptyString,
+        unsigned int iconballoon = BALLOONTYPE_INFO
+    ) {
         return false;
     }
 #endif
@@ -78,23 +93,21 @@ public:
     wxIcon     m_iconTaskBarDisconnected;
     wxIcon     m_iconTaskBarSnooze;
 
-    wxIcon     m_iconCurrentIcon;
-    wxString   m_strCurrentMessage;
-
-    wxString   m_strDefaultTitle;
     bool       m_bTaskbarInitiatedShutdown;
 
 private:
-    wxDateTime m_dtLastHoverDetected;
-
     bool       m_bMouseButtonPressed;
 
+    wxDateTime m_dtLastNotificationAlertExecuted;
+    int        m_iLastNotificationCount;
+
     void       ResetTaskBar();
-
     void       DisplayContextMenu();
-    
-    DECLARE_EVENT_TABLE()
 
+    void       UpdateTaskbarStatus();
+    void       UpdateNoticeStatus();
+
+    DECLARE_EVENT_TABLE()
 };
 
 

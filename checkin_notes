@@ -2125,3 +2125,13 @@ David  28 Mar 2010
 
 	lib/
 		gui_rpc_client_ops.cpp
+
+Rom    29 Mar 2010
+    - MGR: Display a balloon on Windows and Linux, while causing
+        the dock to bounce on the Mac whenever new notices arrive.
+    - MGR: More cleanup work for the task bar.
+    
+    clientgui/
+        BOINCTaskBar.cpp, .h
+    clientgui/msw/
+        taskbarex.cpp

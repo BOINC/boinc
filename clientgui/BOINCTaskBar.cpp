@@ -61,7 +61,6 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspendResume)
     EVT_MENU(ID_TB_SUSPEND_GPU, CTaskBarIcon::OnSuspendResumeGPU)
-    EVT_MENU(ID_TB_TEST_NOTIFICATION, CTaskBarIcon::OnTestNotification)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 
@@ -89,15 +88,12 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_iconTaskBarDisconnected = *iconDisconnected;
     m_iconTaskBarSnooze = *iconSnooze;
 
-    m_iconCurrentIcon = *icon;
-    m_strCurrentMessage = wxEmptyString;
-
-    m_strDefaultTitle = title;
     m_bTaskbarInitiatedShutdown = false;
 
-    m_dtLastHoverDetected = wxDateTime((time_t)0);
-
     m_bMouseButtonPressed = false;
+
+    m_dtLastNotificationAlertExecuted = wxDateTime((time_t)0);
+    m_iLastNotificationCount = 0;
 }
 
 
@@ -118,14 +114,13 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
     RemoveIcon();
     m_bTaskbarInitiatedShutdown = true;
 
-    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
-    if (eventLog) {
-        eventLog->Close();
+    CDlgEventLog* pEventLog = wxGetApp().GetEventLog();
+    if (pEventLog) {
+        pEventLog->Close();
     }
 
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame) {
-        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         pFrame->Close(true);
     }
 
@@ -138,81 +133,9 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
-    CMainDocument* pDoc                 = wxGetApp().GetDocument();
-    wxString       strMachineName       = wxEmptyString;
-    wxString       strMessage           = wxEmptyString;
-    wxString       strBuffer            = wxEmptyString;
-    wxIcon         iconCurrent;
-    CC_STATUS      status;
+    UpdateTaskbarStatus();
 
-    if (!pDoc) return;
-
-
-    pDoc->GetCoreClientStatus(status);
-    pDoc->GetConnectedComputerName(strMachineName);
-
-    if (!pDoc->IsComputerNameLocal(strMachineName)) {
-        strMessage += strMachineName;
-    }
-
-    if (pDoc->IsConnected()) {
-        iconCurrent = m_iconTaskBarNormal;
-        if (RUN_MODE_NEVER == status.task_mode) {
-            iconCurrent = m_iconTaskBarSnooze;
-        }
-        if (status.task_suspend_reason || status.network_suspend_reason) {
-            if (status.task_suspend_reason == SUSPEND_REASON_CPU_THROTTLE) {
-                strBuffer.Printf(
-                    _("Computation is suspended.")
-                );
-                if (strMessage.Length() > 0) strMessage += wxT("\n");
-                strMessage += strBuffer;
-            }
-
-            if (status.network_suspend_reason == SUSPEND_REASON_CPU_THROTTLE) {
-                strBuffer.Printf(
-                    _("Network activity is suspended.")
-                );
-                if (strMessage.Length() > 0) strMessage += wxT("\n");
-                strMessage += strBuffer;
-            }
-        } else {
-            strBuffer.Printf(
-                _("Client is processing results.")
-            );
-            if (strMessage.Length() > 0) strMessage += wxT("\n");
-            strMessage += strBuffer;
-        }
-    } else {
-        iconCurrent = m_iconTaskBarDisconnected;
-
-        if (pDoc->IsReconnecting()) {
-            strBuffer.Printf(
-                _("Reconnecting to client.")
-            );
-            if (strMessage.Length() > 0) strMessage += wxT("\n");
-            strMessage += strBuffer;
-        } else {
-            strBuffer.Printf(
-                _("Not connected to a client.")
-            );
-            if (strMessage.Length() > 0) strMessage += wxT("\n");
-            strMessage += strBuffer;
-        }
-    }
-
-
-    // Prevent flick on those platforms that do out of band
-    // updates to the UI.
-    if (!iconCurrent.IsSameAs(m_iconCurrentIcon) ||
-        (strMessage != m_strCurrentMessage))
-    {
-        m_iconCurrentIcon = iconCurrent;
-        m_strCurrentMessage = strMessage;
-        
-        SetIcon(m_iconCurrentIcon, m_strCurrentMessage);
-    }
-
+    UpdateNoticeStatus();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function End"));
 }
@@ -301,21 +224,6 @@ void CTaskBarIcon::OnSuspendResumeGPU(wxCommandEvent& WXUNUSED(event)) {
         pDoc->SetGPURunMode(RUN_MODE_NEVER, 3600);
     }
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspendResumeGPU - Function End"));
-}
-
-void CTaskBarIcon::OnTestNotification(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnTestNotification - Function Begin"));
-
-#ifndef __WXMAC__
-    QueueBalloon(
-        m_iconTaskBarNormal,
-        _("BOINC Notification"),
-        _("TEST: Fluffy@Home just found out that the Fluffy project has been published in Nature"),
-        BALLOONTYPE_INFO
-    );
-#endif
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnTestNotification - Function End"));
 }
 
 void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
@@ -559,11 +467,6 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     pMenu->AppendSeparator();
 
-    pMenu->Append(ID_TB_TEST_NOTIFICATION, _("Test Notification"), wxEmptyString);
-
-    pMenu->AppendSeparator();
-
-
     menuName.Printf(
         _("&About %s..."),
         pSkinAdvanced->GetApplicationName().c_str()
@@ -689,5 +592,120 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
             }
         }
     }
+}
+
+
+void CTaskBarIcon::UpdateTaskbarStatus() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::UpdateTaskbarStatus - Function Begin"));
+
+    CMainDocument* pDoc                 = wxGetApp().GetDocument();
+    wxString       strMachineName       = wxEmptyString;
+    wxString       strMessage           = wxEmptyString;
+    wxString       strBuffer            = wxEmptyString;
+    wxIcon         icnIcon;
+    CC_STATUS      status;
+
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+
+    pDoc->GetCoreClientStatus(status);
+    pDoc->GetConnectedComputerName(strMachineName);
+
+    if (!pDoc->IsComputerNameLocal(strMachineName)) {
+        strMessage += strMachineName;
+    }
+
+    if (pDoc->IsConnected()) {
+        icnIcon = m_iconTaskBarNormal;
+        if (RUN_MODE_NEVER == status.task_mode) {
+            icnIcon = m_iconTaskBarSnooze;
+        }
+        if (status.task_suspend_reason || status.network_suspend_reason) {
+            if (status.task_suspend_reason != SUSPEND_REASON_CPU_THROTTLE) {
+                strBuffer = _("Computation is suspended.");
+                if (strMessage.Length() > 0) strMessage += wxT("\n");
+                strMessage += strBuffer;
+            }
+            if (status.network_suspend_reason != SUSPEND_REASON_CPU_THROTTLE) {
+                strBuffer = _("Network activity is suspended.");
+                if (strMessage.Length() > 0) strMessage += wxT("\n");
+                strMessage += strBuffer;
+            }
+        } else {
+            strBuffer = _("Client is processing results.");
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strBuffer;
+        }
+    } else {
+        icnIcon = m_iconTaskBarDisconnected;
+        if (pDoc->IsReconnecting()) {
+            strBuffer = _("Reconnecting to client.");
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strBuffer;
+        } else {
+            strBuffer = _("Not connected to a client.");
+            if (strMessage.Length() > 0) strMessage += wxT("\n");
+            strMessage += strBuffer;
+        }
+    }
+
+    SetIcon(icnIcon, strMessage);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::UpdateTaskbarStatus - Function End"));
+}
+
+
+void CTaskBarIcon::UpdateNoticeStatus() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::UpdateNoticeStatus - Function Begin"));
+
+    CMainDocument*   pDoc = wxGetApp().GetDocument();
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    CSkinAdvanced*   pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxString         strTitle;
+    int              iNoticeCount = 0;
+
+
+    wxASSERT(pDoc);
+    wxASSERT(pFrame);
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+
+    wxTimeSpan tsLastNotificationDisplayed = wxDateTime::Now() - m_dtLastNotificationAlertExecuted;
+    if (tsLastNotificationDisplayed.GetMinutes() >= 60) {
+
+        iNoticeCount = pDoc->GetNoticeCount();
+        if (iNoticeCount > m_iLastNotificationCount) {
+
+            // Update cached info
+            m_iLastNotificationCount = iNoticeCount;
+            m_dtLastNotificationAlertExecuted = wxDateTime::Now();
+            
+            if (IsBalloonsSupported()) {
+                // Display balloon
+                strTitle.Printf(
+                    _("%s Notices"),
+                    pSkinAdvanced->GetApplicationName().c_str()
+                );
+                QueueBalloon(
+                    m_iconTaskBarNormal,
+                    strTitle,
+                    _("One or more notices are now available for viewing."),
+                    BALLOONTYPE_INFO
+                );
+            } else {
+                // For platforms that do not support balloons
+                if (pFrame) {
+                    pFrame->RequestUserAttention();
+                }
+            }
+        }
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::UpdateNoticeStatus - Function End"));
 }
 
