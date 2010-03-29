@@ -2119,3 +2119,9 @@ David  28 Mar 2010
 
     html/inc/
         forum.inc
+
+David  28 Mar 2010
+	- Manager: fix bug in task properties app name display
+
+	lib/
+		gui_rpc_client_ops.cpp
