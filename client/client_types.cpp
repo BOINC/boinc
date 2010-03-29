@@ -279,7 +279,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
 		"    <send_time_stats_log>%d</send_time_stats_log>\n"
 		"    <send_job_log>%d</send_job_log>\n"
-        "%s%s%s%s%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -312,6 +312,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		sched_rpc_pending,
         send_time_stats_log,
         send_job_log,
+        anonymous_platform?"    <anonymous_platform/>\n":"",
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",

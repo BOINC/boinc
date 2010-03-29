@@ -257,6 +257,7 @@ int PROJECT::parse(MIOFILE& in) {
         if (parse_double(buf, "<ati_backoff_time>", ati_backoff_time)) continue;
         if (parse_double(buf, "<ati_backoff_interval>", ati_backoff_interval)) continue;
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
+        if (parse_bool(buf, "anonymous_platform", anonymous_platform)) continue;
         if (parse_bool(buf, "master_url_fetch_pending", master_url_fetch_pending)) continue;
         if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
         if (parse_bool(buf, "non_cpu_intensive", non_cpu_intensive)) continue;
@@ -315,6 +316,7 @@ void PROJECT::clear() {
     ati_backoff_time = 0;
     ati_backoff_interval = 0;
     duration_correction_factor = 0;
+    anonymous_platform = false;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
     ended = false;

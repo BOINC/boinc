@@ -951,7 +951,8 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         }
 
         strBuffer.Printf(
-            wxT(" %s %d.%02d %s"), 
+            wxT(" %s%s %d.%02d %s"),
+            state_result->project->anonymous_platform?_("Local: "):_(""),
             strAppBuffer.c_str(),
             state_result->avp->version_num / 100,
             state_result->avp->version_num % 100,

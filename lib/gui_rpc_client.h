@@ -137,6 +137,7 @@ public:
     double ati_backoff_interval;
     double duration_correction_factor;
 
+    bool anonymous_platform;
     bool master_url_fetch_pending; // need to fetch and parse the master URL
     int sched_rpc_pending;      // need to contact scheduling server
     bool non_cpu_intensive;

@@ -1227,11 +1227,11 @@ David  16 Feb 2010
         cancel_wu_action.php
 
 David  16 Feb 2010
-	- screensaver: fix bug where sometimes no tasks are shown;
-		change font sizes for max of 2 sizes at a time
+    - screensaver: fix bug where sometimes no tasks are shown;
+        change font sizes for max of 2 sizes at a time
 
-	clientscr/
-		ss_app.cpp
+    clientscr/
+        ss_app.cpp
 
 Rom    16 Feb 2010
     - MGR: Fix icons for dialogs that display them.
@@ -1315,20 +1315,20 @@ David  18 Feb 2010
         gui_rpc_client_ops.cpp
 
 David  18 Feb 2010
-	- API: in txfRenderString, replace non-ASCII chars with ?.
-		Otherwise it calls abort()!
+    - API: in txfRenderString, replace non-ASCII chars with ?.
+        Otherwise it calls abort()!
 
-	api/
-		texfont.cpp
+    api/
+        texfont.cpp
 
 David  18 Feb 2010
-	- client: fix bug in "suspend if CPU load too high" feature.
-		Forgot to convert between fraction and percentage
+    - client: fix bug in "suspend if CPU load too high" feature.
+        Forgot to convert between fraction and percentage
 
-	client/
-		app.cpp
-		cs_prefs.cpp
-		log_flags.cpp
+    client/
+        app.cpp
+        cs_prefs.cpp
+        log_flags.cpp
 
 David  19 Feb 2010
     - web: translation stuff
@@ -1434,14 +1434,14 @@ David  26 Feb 2010
         sched_customize.cpp
 
 David  26 Feb 2010
-	- client: if suspend a file xfer, set upload_offset to -1;
-		that way it will query server for file length when it resumes,
-		rather than uploading from the beginning
-	- client: back out SEH handling for GPU detection
-	client/
-		coproc_detect.cpp
-		file_xfer.cpp
-		pers_file_xfer.cpp
+    - client: if suspend a file xfer, set upload_offset to -1;
+        that way it will query server for file length when it resumes,
+        rather than uploading from the beginning
+    - client: back out SEH handling for GPU detection
+    client/
+        coproc_detect.cpp
+        file_xfer.cpp
+        pers_file_xfer.cpp
 
 David  27 Feb 2010
     - client: if have coproc jobs but coproc is missing,
@@ -1483,13 +1483,13 @@ Rom    1 Mar 2010
         str_util.h
 
 David  1 Mar 2010
-	- client: if suspending apps because of CPU benchmarks,
-		leave them in memory
+    - client: if suspending apps because of CPU benchmarks,
+        leave them in memory
 
-	client/
-		app.h
-		app_control.cpp
-		cs_prefs.cpp
+    client/
+        app.h
+        app_control.cpp
+        cs_prefs.cpp
 
 Charlie  2 Mar 2010
     - MGR: Fix more Event Log bugs: Exit from taskbar closes Event Log just 
@@ -1537,22 +1537,22 @@ David  2 Mar 2010
     rboinc/*
 
 David  2 Mar 2010
-	- client: generalize the GUI RPC mechanism to access via HTTP.
-		The handler checks for POST headers,
-		and if present adds a reply header.
-		Also: remove the restriction that request messages
-		must be read in their entirety on the first recv().
+    - client: generalize the GUI RPC mechanism to access via HTTP.
+        The handler checks for POST headers,
+        and if present adds a reply header.
+        Also: remove the restriction that request messages
+        must be read in their entirety on the first recv().
 
-		I'm testing this using javascript's XMLHttpRequest.
-		It's not completely working;
-		the browser sends an OPTIONS request, then sends a POST.
-		The BOINC client parses and replies to these,
-		but for some reason the browser doesn't seem to be
-		parsing the POST reply.
+        I'm testing this using javascript's XMLHttpRequest.
+        It's not completely working;
+        the browser sends an OPTIONS request, then sends a POST.
+        The BOINC client parses and replies to these,
+        but for some reason the browser doesn't seem to be
+        parsing the POST reply.
 
-	client/
-		gui_rpc_server.cpp,h
-		gui_rpc_server_ops.cpp
+    client/
+        gui_rpc_server.cpp,h
+        gui_rpc_server_ops.cpp
 
 Charlie  2 Mar 2010
     - MGR: Save & restore size information of properties dialogs separately 
@@ -1858,15 +1858,15 @@ Charlie  11 Mar 2010
         DlgEventLogListCtrl.h
 
 David  11 Mar 2010
-	- Manager/client: show project name with notices
+    - Manager/client: show project name with notices
 
-	client/
-		client_msgs.cpp
-		cs_notice.cpp,h
-	clientgui/
-		ViewNotices.cpp
-	lib/
-		notice.cpp
+    client/
+        client_msgs.cpp
+        cs_notice.cpp,h
+    clientgui/
+        ViewNotices.cpp
+    lib/
+        notice.cpp
 
 Charlie  12 Mar 2010
     - MGR: Allow separate compile-time choice of rules and / or alternating gray 
@@ -2003,13 +2003,13 @@ Charlie  18 Mar 2010
         gui_rpc_client_ops.cpp
 
 David  18 Mar 2010
-	- client (and anything else using MFILE): Win efficiency fix.
-		Shockingly, realloc() wasn't doing exponential growth.
-		So create realloc_aux() that does.
+    - client (and anything else using MFILE): Win efficiency fix.
+        Shockingly, realloc() wasn't doing exponential growth.
+        So create realloc_aux() that does.
 
-	lib/
-		mfile.cpp
-		gui_rpc_client_ops.cpp
+    lib/
+        mfile.cpp
+        gui_rpc_client_ops.cpp
 
 Charlie  19 Mar 2010
     - MGR: Switch background color for the list view stripes back to 
@@ -2040,17 +2040,17 @@ Charlie  22 Mar 2010
         DlgEventLogListCtrl.cpp, .h
 
 David  22 Mar 2010
-	- client: fix bug where if anon platform file had bad platform name,
-		it would cause jobs to get discarded on client restart.
-	- manager: remove flicker-producing messages on status bar
+    - client: fix bug where if anon platform file had bad platform name,
+        it would cause jobs to get discarded on client restart.
+    - manager: remove flicker-producing messages on status bar
 
-	client/
-		cs_statefile.cpp
-	clientgui/
-		BOINCBaseFrame.cpp
-		BOINCBaseFrame.h
-	lib/
-		mfile.cpp
+    client/
+        cs_statefile.cpp
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCBaseFrame.h
+    lib/
+        mfile.cpp
 
 Charlie  23 Mar 2010
     - Mac SS: Fix build break due to RPC changes of std::string to char[n].
@@ -2121,10 +2121,10 @@ David  28 Mar 2010
         forum.inc
 
 David  28 Mar 2010
-	- Manager: fix bug in task properties app name display
+    - Manager: fix bug in task properties app name display
 
-	lib/
-		gui_rpc_client_ops.cpp
+    lib/
+        gui_rpc_client_ops.cpp
 
 Rom    29 Mar 2010
     - MGR: Display a balloon on Windows and Linux, while causing
@@ -2137,17 +2137,17 @@ Rom    29 Mar 2010
         taskbarex.cpp
 
 David  29 Mar 2010
-	- client/manager: show "No CPU prefs" etc. in project properties
+    - client/manager: show "No CPU prefs" etc. in project properties
 
-	client/
-		client_types.cpp
-	clientgui/
-		DlgItemProperties.cpp
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.cpp
+    client/
+        client_types.cpp
+    clientgui/
+        DlgItemProperties.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
 
-David  26 Mar 2010
+David  29 Mar 2010
     - server: various changes;
         see http://boinc.berkeley.edu/trac/wiki/CreditNew
 
@@ -2213,3 +2213,16 @@ David  26 Mar 2010
         validator.cpp
     tools/
         upgrade
+
+David  29 Mar 2010
+    - client/manager: prefix anonymous platform apps with "Local: "
+
+    client/
+        client_state.cpp
+        client_types.cpp
+    clientgui/
+        DlgItemProperties.cpp
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
