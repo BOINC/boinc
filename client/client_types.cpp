@@ -350,6 +350,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
                 upload_backoff.next_xfer_time - gstate.now
             );
         }
+        if (no_cpu_pref) out.printf("    <no_cpu_pref/>\n");
+        if (no_cuda_pref) out.printf("    <no_cuda_pref/>\n");
+        if (no_ati_pref) out.printf("    <no_ati_pref/>\n");
     } else {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
