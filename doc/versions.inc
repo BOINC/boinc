@@ -7,7 +7,7 @@ function show_linux_info() {
         <ul>
         <li> Fedora Core 7, 8, and 9
         <li> Debian 4.1
-        <li> Ubuntu 7.10, 8.04, and 8.10
+        <li> Ubuntu 7.10+
         <li> Mandriva, Sabayon, Mint, Gentoo, other Debian-based distributions
         </ul>
         <p>

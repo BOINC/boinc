@@ -48,8 +48,9 @@ using std::vector;
 //   result.validate_state == INIT
 //
 int check_set(
+    DB_APP& app, vector<DB_APP_VERSION>& app_versions,
     vector<RESULT>& results, WORKUNIT& wu,
-    int& canonicalid, double& credit, bool& retry
+    int& canonicalid, double&, bool& retry
 ) {
     vector<void*> data;
     vector<bool> had_error;
@@ -126,7 +127,6 @@ int check_set(
                 }
             }
             canonicalid = results[i].id;
-            credit = compute_granted_credit(wu, results);
             break;
         }
     }

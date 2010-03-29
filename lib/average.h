@@ -24,27 +24,55 @@ struct AVERAGE {
     double n;       // double to avoid integer overflow
     double avg;
 
-    double n_threshold;
-        // after this many samples, use exponential average
-    double sample_weight;
-        // new samples get this weight in exp avg
-    double sample_limit;
-        // truncate samples at avg*limit
+    // save original values here so you can update DB incrementally
+    double n_orig;
+    double avg_orig;
+
+    inline void clear() {
+        n = avg = 0;
+    }
+
+    inline void save_orig() {
+        n_orig = n;
+        avg_orig = avg;
+    }
+
+    inline bool changed() {
+        return (n_orig != n);
+    }
 
     // return true if sample exceeded limit and was truncated
     //
-    bool update(double);
+    inline bool update(
+        double sample,
+        double n_threshold,
+            // after this many samples, use exponential average
+        double sample_weight,
+            // new samples get this weight in exp avg
+        double sample_limit
+            // truncate samples at avg*limit
+    ) {
+        double delta, limit;
+        bool truncated = false;
+        if (sample < 0) return true;
+        if (n && avg) {
+            if (sample > avg*sample_limit) {
+                sample = avg*sample_limit;
+                truncated = true;
+            }
+        }
+        n++;
+        delta = sample - avg;
+        if (n < n_threshold) {
+            avg += delta/n;
+        } else {
+            avg += sample_weight*delta;
+        }
+        return truncated;
+    }
 
     inline double get_avg() {
         return avg;
-    }
-
-    inline void init(double n_thresh, double sample_w, double sample_lim) {
-        n = 0;
-        avg = 0;
-        n_threshold = n_thresh;
-        sample_weight = sample_w;
-        sample_limit = sample_lim;
     }
 };
 
@@ -54,13 +82,54 @@ struct AVERAGE_VAR : AVERAGE {
     double var;
     double q;
 
-    bool update_var(double);
+    double q_orig;
+    double var_orig;
+
+    inline void save_orig_var() {
+        n_orig = n;
+        avg_orig = avg;
+        q_orig = q;
+        var_orig = var;
+    }
+
+    inline bool update_var(
+        double sample,
+        double n_threshold,
+            // after this many samples, use exponential average
+        double sample_weight,
+            // new samples get this weight in exp avg
+        double sample_limit
+            // truncate samples at avg*limit
+    ) {
+        double delta, limit;
+        bool truncated = false;
+        if (sample < 0) return true;
+        if (n && avg) {
+            if (sample > avg*sample_limit) {
+                sample = avg*sample_limit;
+                truncated = true;
+            }
+        }
+        n++;
+        delta = sample - avg;
+        if (n < n_threshold) {
+            avg += delta/n;
+            q += delta*(sample - avg);
+            var = q/n;
+        } else {
+            avg += sample_weight*delta;
+            double vdelta = (delta*delta - var);
+            var += sample_weight*vdelta;
+        }
+        return truncated;
+    }
+
     inline double get_var() {
         return var;
     }
 
-    inline void init(double n, double w, double l) {
-        AVERAGE::init(n,w,l);
+    inline void clear() {
+        AVERAGE::clear();
         var = 0;
         q = 0;
     }

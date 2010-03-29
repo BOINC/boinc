@@ -16,7 +16,7 @@ $cogsci = array(
             "http://freehal.net/freehal_at_home/",
             "private",
             "Artificial intelligence",
-            "Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate a very close human behavior within conversations."
+            "Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate human behavior in conversations."
         ),
     ),
 );
@@ -129,7 +129,7 @@ $earth = array(
             "http://climateprediction.net/",
             "Oxford University",
             "Climate study",
-            "To investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios.",
+            "Investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios.",
             "cpn_logo_world_1.jpg",
             "http://climateapps2.oucs.ox.ac.uk/cpdnboinc/"
         ),
@@ -140,7 +140,7 @@ $astro_phys_chem = array(
     array(
         array(
             "Orbit@home",
-            "http://orbit.psi.edu/",
+            "http://orbit.psi.edu/oah/",
             "Planetary Science Institute",
             "Astronomy",
             "Monitor and study the hazard posed by near-Earth asteroids",
@@ -167,7 +167,7 @@ $astro_phys_chem = array(
             "http://boinc.gorlaeus.net/",
             "Leiden University, The Netherlands",
             "Chemistry",
-            "Surface science calculations using Classical Dynamics.  In contrast to other projects, Leiden Classical allows volunteers, students and other scientist to submit their personal calculations to the grid. Each user has his own personal queue for Classical Dynamics jobs. In this way students have used the grid to simulate liquid argon, or to test the validity of the ideal gas law by actually doing the simulations through the grid.",
+            "Surface science calculations using Classical Dynamics.  Leiden Classical allows volunteers, students and other scientist to submit their personal calculations to the grid. Each user has his own personal queue for Classical Dynamics jobs. In this way students have used the grid to simulate liquid argon, or to test the validity of the ideal gas law by actually doing the simulations through the grid.",
             "leiden_classical.png"
         ),
         array(
@@ -183,7 +183,7 @@ $astro_phys_chem = array(
             "http://einstein.phys.uwm.edu/",
             "Univ. of Wisconsin - Milwaukee, Max Planck Institute",
             "Astrophysics",
-            "Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors. Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations.",
+            "Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors, and from the Arecibo radio observatory.  Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations.",
             "einstein.jpg"
         ),
         array(

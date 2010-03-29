@@ -20,9 +20,16 @@
 
 #include <vector>
 
+#include "boinc_db.h"
+
 extern int init_result(RESULT&, void*&);
 extern int compare_results(RESULT &, void*, RESULT const&, void*, bool&);
 extern int cleanup_result(RESULT const&, void*);
 extern double compute_granted_credit(WORKUNIT&, std::vector<RESULT>& results);
-
+extern int check_set(
+    DB_APP& app, std::vector<DB_APP_VERSION>& app_versions,
+    std::vector<RESULT>& results, WORKUNIT& wu,
+    int& canonicalid, double& credit_deprecated, bool& retry
+);
+extern void check_pair(RESULT& r1, RESULT& r2, bool& retry);
 #endif

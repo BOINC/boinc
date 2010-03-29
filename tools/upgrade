@@ -65,7 +65,7 @@ if not tools.query_noyes("Overwrite files in "+INSTALL_DIR):
     raise SystemExit
 
 if not options.web_only:
-    if os.system(os.path.join(INSTALL_DIR,'bin/stop')):
+    if os.system('cd '+INSTALL_DIR+'; ./bin/stop'):
         raise SystemExit("Couldn't stop project!")
 
 print "Upgrading files... "

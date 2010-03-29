@@ -85,7 +85,8 @@ public:
     double next_rpc_delay;
     int sched_debug_level;
     int fuh_debug_level;
-    double reliable_max_error_rate;  // max error rate for a host to be declared reliable
+    double reliable_max_error_rate;
+        // max error rate for a host to be declared reliable
     int reliable_max_avg_turnaround;
         // max average turnaround for a host to be declared reliable
     int reliable_priority_on_over;
@@ -93,7 +94,7 @@ public:
         // is over will have their priority boosted by this amount    
     int reliable_priority_on_over_except_error;
         // additional results generated after at least one result is over
-        // (unless their is an error) will have their priority boosted
+        // (unless there is an error) will have their priority boosted
         // by this amount
     int reliable_on_priority;
         // results with a priority equal or greater than this value
@@ -149,6 +150,7 @@ public:
     bool debug_edf_sim_detail;      // show details of EDF sim
     bool debug_locality;            // locality scheduling
     bool debug_array;               // debug old-style array scheduling
+    bool debug_credit;
 
     int parse(FILE*);
     int parse_file(const char *dir = 0);

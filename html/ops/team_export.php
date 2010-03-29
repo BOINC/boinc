@@ -28,7 +28,7 @@ function handle_team($team, $f) {
     $user = BoincUser::lookup_id($team->userid);
     if (!$user) {
         echo "no user for team $team->id\n";
-        exit(1);
+        return;
     }
     if ($user->teamid != $team->id) {
         echo "Founder is not member of $team->name\n";
@@ -69,7 +69,9 @@ function main() {
     }
     fwrite($f, "</teams>\n");
     fclose($f);
-    rename("temp.xml", "/home/boincadm/boinc/doc/boinc_teams.xml");
+    if (!rename("temp.xml", "/home/boincadm/boinc/doc/boinc_teams.xml")) {
+        echo "Rename failed\n";
+    }
 }
 
 main();

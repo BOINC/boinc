@@ -123,3 +123,6 @@ alter table friend
 
 alter table notify
     add unique notify_un (userid, type, opaque);
+
+alter table host_app_version
+    add unique hap(host_id, app_version_id);

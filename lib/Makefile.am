@@ -34,7 +34,6 @@ libfcgi_sources = \
 
 generic_sources = \
     app_ipc.cpp \
-	average.cpp \
     base64.cpp \
     cert_sig.cpp \
     coproc.cpp \

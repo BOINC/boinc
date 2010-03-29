@@ -51,7 +51,7 @@ extern DB_CONN boinc_db;
 struct BEST_APP_VERSION;
 
 // A compilation target, i.e. a architecture/OS combination.
-// The core client will be given only applications with the same platform
+// Client will be sent applications only for platforms they support.
 //
 struct PLATFORM {
     int id;
@@ -76,8 +76,13 @@ struct APP {
                             // should come from this app
     bool beta;
     int target_nresults;
-
     double min_avg_pfc;
+    bool host_scale_check;
+        // use host scaling cautiously, to thwart cherry picking
+    int max_jobs_in_progress;
+    int max_gpu_jobs_in_progress;
+    int max_jobs_per_rpc;
+    int max_jobs_per_day_init;
 
     int write(FILE*);
     void clear();
@@ -114,12 +119,18 @@ struct APP_VERSION {
     int max_core_version;   // if <>0, max core version this will run with
     bool deprecated;
     char plan_class[256];
+    AVERAGE pfc;
+    double pfc_scale;
+    double expavg_credit;
+    double expavg_time;
 
     // the following used by scheduler, not in DB
     //
     BEST_APP_VERSION* bavp;
-    AVERAGE pfc;
-    double pfc_scale_factor;
+
+    // used by validator, not in DB
+    //
+    double expavg_credit_orig;
 
     int write(FILE*);
     void clear();
@@ -295,6 +306,7 @@ struct HOST {
     char host_cpid[256];    // host cross-project ID
     char external_ip_addr[256]; // IP address seen by scheduler
     int max_results_day;
+
         // MRD is dynamically adjusted to limit work sent to bad hosts.
         // The maximum # of results sent per day is
         // max_results_day * (NCPUS + NCUDA * cuda_multiplier).
@@ -464,6 +476,12 @@ struct CREDITED_JOB {
 #define ASSIGN_USER     2
 #define ASSIGN_TEAM     3
 
+// values for RESULT.app_version_id
+#define ANON_PLATFORM_UNKNOWN -1    // relic of old scheduler
+#define ANON_PLATFORM_CPU     -2
+#define ANON_PLATFORM_NVIDIA  -3
+#define ANON_PLATFORM_ATI     -4
+
 struct RESULT {
     int id;
     int create_time;
@@ -507,9 +525,8 @@ struct RESULT {
     int app_version_id;
         // ID of app version used to compute this
         // 0 if unknown (relic of old scheduler)
-        // -1 if anonymous platform CPU
-        // -2 if anonymous platform NVIDIA
-        // -3 if anonymous platform ATI
+        // -1 anon platform, unknown resource type (relic)
+        // -2/-3/-4 anonymous platform (see variants above)
 
     // the following used by the scheduler, but not stored in the DB
     //
@@ -587,9 +604,35 @@ struct TRANSITIONER_ITEM {
     int res_sent_time;
     int res_hostid;
     int res_received_time;
+    int res_app_version_id;
 
     void clear();
     void parse(MYSQL_ROW&);
+};
+
+struct HOST_APP_VERSION {
+    int host_id;
+    int app_version_id;
+        // or for anon platform:
+        // 1000000*appid + 2 (CPU)
+        // 1000000*appid + 3 (NVIDIA)
+        // 1000000*appid + 4 (ATI)
+    AVERAGE pfc;
+    AVERAGE_VAR et;
+    double host_scale_time;
+    bool scale_probation;
+    double error_rate;
+    int max_jobs_per_day;
+    int n_jobs_today;
+    AVERAGE_VAR turnaround;
+
+    void clear();
+};
+
+struct DB_HOST_APP_VERSION : public DB_BASE, public HOST_APP_VERSION {
+    DB_HOST_APP_VERSION(DB_CONN* p=0);
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
 };
 
 struct CREDIT_MULTIPLIER {
@@ -663,6 +706,7 @@ public:
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
+    void operator=(APP_VERSION& w) {APP_VERSION::operator=(w);}
 };
 
 class DB_USER : public DB_BASE, public USER {
@@ -686,7 +730,8 @@ class DB_HOST : public DB_BASE, public HOST {
 public:
     DB_HOST(DB_CONN* p=0);
     int get_id();
-    int update_diff(HOST&);
+    int update_diff_sched(HOST&);
+    int update_diff_validator(HOST&);
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(HOST& r) {HOST::operator=(r);}

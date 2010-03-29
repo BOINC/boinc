@@ -52,6 +52,7 @@
 #include "sched_msgs.h"
 #include "validator.h"
 #include "validate_util.h"
+#include "validate_util2.h"
 #ifdef GCL_SIMULATOR
 #include "gcl_simulator.h"
 #endif
@@ -71,14 +72,6 @@ typedef enum {
     NO_CHANGE
 } TRANSITION_TIME;
 
-extern int check_set(
-    vector<RESULT>&, WORKUNIT& wu, int& canonical, double& credit,
-    bool& retry
-);
-extern int check_pair(
-    RESULT & new_result, RESULT & canonical_result, bool& retry
-);
-
 char app_name[256];
 DB_APP app;
 int wu_id_modulus=0;
@@ -91,6 +84,8 @@ bool grant_claimed_credit = false;
 bool update_credited_job = false;
 bool credit_from_wu = false;
 WORKUNIT* g_wup;
+vector<DB_APP_VERSION> app_versions;
+    // cache of app_versions; used by v2 credit system
 
 bool is_unreplicated(WORKUNIT& wu) {
     return (wu.target_nresults == 1 && app.target_nresults > 1);
@@ -103,52 +98,32 @@ void update_error_rate(DB_HOST& host, bool valid) {
         host.error_rate += 0.1;
     }
     if (host.error_rate > 1) host.error_rate = 1;
-    if (host.error_rate <= 0) host.error_rate = 0.1;
+    if (host.error_rate <= 0) host.error_rate = ERROR_RATE_INIT;
 }
 
-// Here when a result has been validated and its granted_credit has been set.
-// Grant credit to host, user and team, and update host error rate.
+// Here when a result has been validated.
+// - update error rate
+// - udpdate turnaround stats
+// - insert credited_job record if needed
 //
-int is_valid(RESULT& result, WORKUNIT& wu) {
-    DB_HOST host;
+int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu) {
     DB_CREDITED_JOB credited_job;
     int retval;
     char buf[256];
 
-    retval = host.lookup_id(result.hostid);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] lookup of host %d failed %d\n",
-            result.id, result.hostid, retval
-        );
-        return retval;
-    }
-
-    grant_credit(host, result.sent_time, result.cpu_time, result.granted_credit);
-
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);
 
-    double old_error_rate = host.error_rate;
+    // lower error rate, but only if unreplicated
+    //
     if (!is_unreplicated(wu)) {
+        double old_error_rate = host.error_rate;
         update_error_rate(host, true);
-    }
-    sprintf(
-        buf,
-        "avg_turnaround=%f, error_rate=%f",
-        host.avg_turnaround, host.error_rate
-    );
-    retval = host.update_field(buf);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] update of host %d failed %d\n",
-            result.id, result.hostid, retval
+        log_messages.printf(MSG_DEBUG,
+            "[HOST#%d] error rate %f->%f\n",
+            host.id, old_error_rate, host.error_rate
         );
     }
-    log_messages.printf(MSG_DEBUG,
-        "[HOST#%d] error rate %f->%f\n",
-        host.id, old_error_rate, host.error_rate
-    );
 
     if (update_credited_job) {
         credited_job.userid = host.userid;
@@ -170,32 +145,12 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
     return 0;
 }
 
-int is_invalid(WORKUNIT& wu, RESULT& result) {
+int is_invalid(DB_HOST& host, WORKUNIT& wu, RESULT& result) {
     char buf[256];
     int retval;
-    DB_HOST host;
 
-    retval = host.lookup_id(result.hostid);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] lookup of host %d failed %d\n",
-            result.id, result.hostid, retval
-        );
-        return retval;
-    }
     double old_error_rate = host.error_rate;
-    if (!is_unreplicated(wu)) {
-        update_error_rate(host, false);
-    }
-    sprintf(buf, "error_rate=%f", host.error_rate);
-    retval = host.update_field(buf);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] update of host %d failed %d\n",
-            result.id, result.hostid, retval
-        );
-        return retval;
-    }
+    update_error_rate(host, false);
     log_messages.printf(MSG_DEBUG,
         "[HOST#%d] invalid result; error rate %f->%f\n",
         host.id, old_error_rate, host.error_rate
@@ -203,7 +158,7 @@ int is_invalid(WORKUNIT& wu, RESULT& result) {
     return 0;
 }
 
-// Return zero iff we resolved the WU
+// handle a workunit which has new results
 //
 int handle_wu(
     DB_VALIDATOR_ITEM_SET& validator, std::vector<VALIDATOR_ITEM>& items
@@ -272,31 +227,47 @@ int handle_wu(
                 update_result = true;
             }
 
-            // this might be last result, so let validator
+            // this might be last result, so let transitioner
             // trigger file delete etc. if needed
             //
             transition_time = IMMEDIATE;
 
+            DB_HOST host;
+            retval = host.lookup_id(result.hostid);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[RESULT#%d] lookup of host %d failed %d\n",
+                    result.id, result.hostid, retval
+                );
+                continue;
+            }
+
+            HOST host_initial = host;
+
+            vector<RESULT> rv;
             switch (result.validate_state) {
             case VALIDATE_STATE_VALID:
                 update_result = true;
-                if (result.granted_credit == 0) {
-                    result.granted_credit = grant_claimed_credit ? result.claimed_credit : wu.canonical_credit;
-                    if (max_granted_credit && result.granted_credit > max_granted_credit) {
-                        result.granted_credit = max_granted_credit;
-                    }
-                }
                 log_messages.printf(MSG_NORMAL,
-                    "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
-                    result.id, result.name, result.granted_credit
+                    "[RESULT#%d %s] pair_check() matched: setting result to valid\n",
+                    result.id, result.name
                 );
-                retval = is_valid(result, wu);
+                retval = is_valid(host, result, wu);
                 if (retval) {
                     log_messages.printf(MSG_NORMAL,
-                        "[RESULT#%d %s] Can't grant credit: %d\n",
+                        "[RESULT#%d %s] is_valid() error: %d\n",
                         result.id, result.name, retval
                     );
                 }
+                // do credit computation, but grant credit of canonical result
+                //
+                rv.push_back(result);
+                assign_credit_set(wu, rv, app, app_versions);
+                result.granted_credit = canonical_result.granted_credit;
+                grant_credit(
+                    host, result.sent_time, result.cpu_time,
+                    result.granted_credit
+                );
                 break;
             case VALIDATE_STATE_INVALID:
                 update_result = true;
@@ -304,8 +275,9 @@ int handle_wu(
                     "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
                     result.id, result.name
                 );
-                is_invalid(wu, result);
+                is_invalid(host, wu, result);
             }
+            host.update_diff_validator(host_initial);
             if (update_result) {
                 log_messages.printf(MSG_NORMAL,
                     "[RESULT#%d %s] granted_credit %f\n",
@@ -357,7 +329,10 @@ int handle_wu(
                 wu.id, wu.name
             );
 
-            retval = check_set(results, wu, canonicalid, credit, retry);
+            double dummy;
+            retval = check_set(
+                app, app_versions, results, wu, canonicalid, dummy, retry
+            );
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[WU#%d %s] check_set returned %d, exiting\n",
@@ -381,6 +356,10 @@ int handle_wu(
                 credit = max_granted_credit;
             }
 
+            if (canonicalid) {
+                assign_credit_set(wu, results, app, app_versions);
+            }
+
             // scan results.
             // update as needed, and count the # of results
             // that are still outcome=SUCCESS
@@ -397,37 +376,51 @@ int handle_wu(
                     nsuccess_results++;
                 }
 
+                DB_HOST host;
+                HOST host_initial;
                 switch (result.validate_state) {
                 case VALIDATE_STATE_VALID:
-                    // grant credit for valid results
-                    //
-                    update_result = true;
-                    if (result.granted_credit == 0) {
-                        result.granted_credit = grant_claimed_credit ? result.claimed_credit : credit;
-                        if (max_granted_credit && result.granted_credit > max_granted_credit) {
-                            result.granted_credit = max_granted_credit;
-                        }
+                case VALIDATE_STATE_INVALID:
+                    retval = host.lookup_id(result.hostid);
+                    if (retval) {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[RESULT#%d] lookup of host %d failed %d\n",
+                            result.id, result.hostid, retval
+                        );
+                        continue;
                     }
-                    retval = is_valid(result, wu);
+                    host_initial = host;
+                }
+
+                switch (result.validate_state) {
+                case VALIDATE_STATE_VALID:
+                    update_result = true;
+                    retval = is_valid(host, result, wu);
                     if (retval) {
                         log_messages.printf(MSG_DEBUG,
                             "[RESULT#%d %s] is_valid() failed: %d\n",
                             result.id, result.name, retval
                         );
                     }
+                    grant_credit(
+                        host, result.sent_time, result.cpu_time,
+                        result.granted_credit
+                    );
                     log_messages.printf(MSG_NORMAL,
                         "[RESULT#%d %s] Valid; granted %f credit [HOST#%d]\n",
                         result.id, result.name, result.granted_credit,
                         result.hostid
                     );
+                    host.update_diff_validator(host_initial);
                     break;
                 case VALIDATE_STATE_INVALID:
                     log_messages.printf(MSG_NORMAL,
                         "[RESULT#%d %s] Invalid [HOST#%d]\n",
                         result.id, result.name, result.hostid
                     );
-                    is_invalid(wu, result);
+                    is_invalid(host, wu, result);
                     update_result = true;
+                    host.update_diff_validator(host_initial);
                     break;
                 case VALIDATE_STATE_INIT:
                     log_messages.printf(MSG_NORMAL,
@@ -464,7 +457,7 @@ int handle_wu(
                 wu.canonical_credit = credit;
                 wu.assimilate_state = ASSIMILATE_READY;
 
-                // If found a canonical result, don't send any unsent results
+                // don't need to send any more results
                 //
                 for (i=0; i<items.size(); i++) {
                     RESULT& result = items[i].res;
@@ -567,6 +560,20 @@ bool do_validate_scan() {
     return found;
 }
 
+// reset app version records at start of scan
+//
+static void reset_app_versions() {
+    if (config.debug_credit) {
+        log_messages.printf(MSG_NORMAL, "Resetting app versions\n");
+    }
+    unsigned int i;
+    for (i=0; i<app_versions.size(); i++) {
+        DB_APP_VERSION& av = app_versions[i];
+        av.pfc.save_orig();
+        av.expavg_credit_orig = av.expavg_credit;
+    }
+}
+
 int main_loop() {
     int retval;
     bool did_something;
@@ -581,16 +588,23 @@ int main_loop() {
     }
 
     sprintf(buf, "where name='%s'", app_name);
-    retval = app.lookup(buf);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL, "can't find app %s\n", app_name);
-        exit(1);
-    }
 
+    reset_app_versions();
     while (1) {
         check_stop_daemons();
+
+        // look up app within the loop,
+        // in case its min_avg_pfc has been changed by the feeder
+        //
+        retval = app.lookup(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "can't find app %s\n", app_name);
+            exit(1);
+        }
         did_something = do_validate_scan();
         if (!did_something) {
+            write_modified_app_versions(app_versions);
+            reset_app_versions();
             if (one_pass) break;
 #ifdef GCL_SIMULATOR
             char nameforsim[64];
@@ -612,14 +626,6 @@ int boinc_validator_debuglevel=0;
 
 int main(int argc, char** argv) {
     int i, retval;
-
-#if 0
-    int mypid=getpid();
-    char debugcmd[512];
-    sprintf(debugcmd, "ddd %s %d &", argv[0], mypid);
-    system(debugcmd);
-    sleep(30);
-#endif
 
     const char *usage = 
       "\nUsage: %s -app <app-name> [OPTIONS]\n"

@@ -137,6 +137,7 @@ EXTRA_DIST = \
     start
 
 cgi_sources = \
+	credit.cpp \
     edf_sim.cpp \
     handle_request.cpp \
     hr.cpp \

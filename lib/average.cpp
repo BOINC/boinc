@@ -17,55 +17,12 @@
 
 #include "average.h"
 
-bool AVERAGE::update(double sample) {
-    double delta, limit;
-    bool truncated = false;
-    if (sample < 0) return true;
-    if (n) {
-        if (sample > avg*sample_limit) {
-            sample = avg*sample_limit;
-            truncated = true;
-        }
-    }
-    n++;
-    if (n < n_threshold) {
-        avg += (sample-avg)/n;
-    } else {
-        delta = sample - avg;
-        avg += sample_weight*delta;
-    }
-    return truncated;
-}
-
-bool AVERAGE_VAR::update_var(double sample) {
-    double delta, limit;
-    bool truncated = false;
-    if (sample < 0) return true;
-    if (n) {
-        if (sample > avg*sample_limit) {
-            sample = avg*sample_limit;
-            truncated = true;
-        }
-    }
-    n++;
-    if (n < n_threshold) {
-        q += (sample - avg ) * (n - 1) / n;
-        avg += (sample-avg)/n;
-        var = q/n;
-    } else {
-        delta = sample - avg;
-        avg += sample_weight*delta;
-        double vdelta = (delta*delta - var);
-        var += sample_weight*vdelta;
-    }
-    return truncated;
-}
-
 #if 0
 #include <stdio.h>
 #include "util.h"
 int main() {
     AVERAGE_VAR avg;
+    avg.clear();
     avg.init(100, .01, 10);
 
     for (int i=0; i<1000; i++) {

@@ -112,6 +112,7 @@ using std::vector;
 #include "str_util.h"
 #include "svn_version.h"
 
+#include "credit.h"
 #include "sched_config.h"
 #include "sched_shmem.h"
 #include "sched_util.h"
@@ -122,6 +123,7 @@ using std::vector;
 #endif
 
 #define DEFAULT_SLEEP_INTERVAL  5
+#define AV_UPDATE_PERIOD      10
 
 #define REREAD_DB_FILENAME      "reread_db"
 
@@ -150,6 +152,8 @@ int napps;
 HR_INFO hr_info;
 bool using_hr;
     // true iff any app is using HR
+bool is_main_feeder = true;
+    // false if using --mod or --wmod and this one isn't 0
 
 void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
@@ -382,7 +386,7 @@ void weighted_interleave(double* weights, int n, int k, int* v, int* count) {
 
 // update the job size statistics fields of array entries
 //
-static void update_stats() {
+static void update_job_stats() {
     int i, n=0;
     double sum=0, sum_sqr=0;
 
@@ -511,7 +515,10 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
 
 void feeder_loop() {
     vector<DB_WORK_ITEM> work_items;
+    double next_av_update_time=0;
     
+    // may need one enumeration per app; create vector
+    //
     for (int i=0; i<napps; i++) {
         DB_WORK_ITEM* wi = new DB_WORK_ITEM();
         work_items.push_back(*wi);
@@ -534,10 +541,21 @@ void feeder_loop() {
 #endif
         } else {
             if (config.job_size_matching) {
-                update_stats();
+                update_job_stats();
             }
         }
 
+        double now = dtime();
+        if (is_main_feeder && now > next_av_update_time) {
+            int retval = update_av_scales(ssp);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "update_av_scales failed: %d\n", retval
+                );
+                exit(1);
+            }
+            next_av_update_time = now + AV_UPDATE_PERIOD;
+        }
         fflush(stdout);
         check_stop_daemons();
         check_reread_trigger();
@@ -715,6 +733,7 @@ int main(int argc, char** argv) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
             sprintf(mod_select_clause, "and r1.id %% %d = %d ", n, j);
+            is_main_feeder = (j==0);
         } else if (!strcmp(argv[i], "-wmod")) {
             if(!argv[i+1] || !argv[i+2]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
@@ -724,6 +743,7 @@ int main(int argc, char** argv) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
             sprintf(mod_select_clause, "and workunit.id %% %d = %d ", n, j);
+            is_main_feeder = (j==0);
         } else if (!strcmp(argv[i], "-sleep_interval")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);

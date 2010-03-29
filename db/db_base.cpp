@@ -33,7 +33,7 @@
 // uncomment the following to print all queries.
 // Useful for low-level debugging
 
-//#define SHOW_QUERIES
+#define SHOW_QUERIES
 
 DB_CONN::DB_CONN() {
     mysql = 0;
@@ -178,7 +178,6 @@ DB_BASE::DB_BASE(const char *tn, DB_CONN* p) : db(p), table_name(tn) {
 
 int DB_BASE::get_id() { return 0;}
 void DB_BASE::db_print(char*) {}
-
 void DB_BASE::db_parse(MYSQL_ROW&) {}
 
 int DB_BASE::insert() {
@@ -196,6 +195,29 @@ int DB_BASE::insert_batch(std::string& values) {
 
 int DB_BASE::affected_rows() {
     return db->affected_rows();
+}
+
+//////////// FUNCTIONS FOR TABLES THAT HAVE AN ID FIELD ///////
+
+int DB_BASE::lookup_id(int id) {
+    char query[MAX_QUERY_LEN];
+    int retval;
+    MYSQL_ROW row;
+    MYSQL_RES* rp;
+
+    sprintf(query, "select * from %s where id=%d", table_name, id);
+
+    retval = db->do_query(query);
+    if (retval) return retval;
+    rp = mysql_store_result(db->mysql);
+    if (!rp) return -1;
+    row = mysql_fetch_row(rp);
+    if (row) db_parse(row);
+    mysql_free_result(rp);
+    if (row == 0) return ERR_DB_NOT_FOUND;
+
+    // don't bother checking for uniqueness here
+    return 0;
 }
 
 // update an entire record
@@ -270,6 +292,14 @@ int DB_BASE::get_field_str(const char* field, char* buf, int buflen) {
     return 0;
 }
 
+int DB_BASE::max_id(int& n, const char* clause) {
+    char query[MAX_QUERY_LEN];
+    sprintf(query, "select max(id) from %s %s", table_name, clause);
+    return get_integer(query, n);
+}
+
+/////////////// FUNCTIONS THAT DON'T REQUIRE AN ID FIELD ///////////////
+
 int DB_BASE::lookup(const char* clause) {
     char query[MAX_QUERY_LEN];
     int retval;
@@ -289,24 +319,15 @@ int DB_BASE::lookup(const char* clause) {
     return 0;
 }
 
-int DB_BASE::lookup_id(int id) {
+int DB_BASE::update_fields_noid(char* set_clause, char* where_clause) {
     char query[MAX_QUERY_LEN];
-    int retval;
-    MYSQL_ROW row;
-    MYSQL_RES* rp;
-
-    sprintf(query, "select * from %s where id=%d", table_name, id);
-
-    retval = db->do_query(query);
+    sprintf(query,
+        "update %s set %s where %s",
+        table_name, set_clause, where_clause
+    );
+    int retval = db->do_query(query);
     if (retval) return retval;
-    rp = mysql_store_result(db->mysql);
-    if (!rp) return -1;
-    row = mysql_fetch_row(rp);
-    if (row) db_parse(row);
-    mysql_free_result(rp);
-    if (row == 0) return ERR_DB_NOT_FOUND;
-
-    // don't bother checking for uniqueness here
+    if (db->affected_rows() != 1) return ERR_DB_NOT_FOUND;
     return 0;
 }
 
@@ -399,12 +420,6 @@ int DB_BASE::count(int& n, const char* clause) {
 
     sprintf(query, "select count(*) from %s %s", table_name, clause);
 
-    return get_integer(query, n);
-}
-
-int DB_BASE::max_id(int& n, const char* clause) {
-    char query[MAX_QUERY_LEN];
-    sprintf(query, "select max(id) from %s %s", table_name, clause);
     return get_integer(query, n);
 }
 

@@ -423,7 +423,7 @@ make_new_host:
         host.userid = g_reply->user.id;
         host.rpc_seqno = 0;
         host.expavg_time = time(0);
-        host.error_rate = 0.1;
+        host.error_rate = ERROR_RATE_INIT;
         strcpy(host.venue, g_reply->user.venue);
         host.fix_nans();
         retval = host.insert();
@@ -553,7 +553,7 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     if (p) {
         strlcpy(host.external_ip_addr, p, sizeof(host.external_ip_addr));
     }
-    retval = host.update_diff(initial_host);
+    retval = host.update_diff_sched(initial_host);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "host.update() failed: %d\n", retval);
     }

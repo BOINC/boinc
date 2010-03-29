@@ -67,7 +67,12 @@ class AppVersion(DatabaseObject):
                     'min_core_version',
                     'max_core_version',
                     'deprecated',
-                    'plan_class'
+                    'plan_class',
+                    'pfc_n',
+                    'pfc_avg',
+                    'pfc_scale',
+                    'expavg_credit',
+                    'expavg_time'
                     ])
 
 class User(DatabaseObject):

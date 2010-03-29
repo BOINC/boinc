@@ -129,19 +129,19 @@ function parseLanguage($file){
                 //If this is not the first, save the previous entry
                 $output[$current_token]=$current_token_text;
             }
-            $current_token = getPOLineContent($entry);
+            $current_token = getPOLineContent($entry, $file);
             $current_token_text="";
             $parsing_token = true;
             $parsing_text = false;
             $first_entry=false;
         } elseif (strpos($entry, "msgstr") !== false) {
-            $current_token_text = getPOLineContent($entry);
+            $current_token_text = getPOLineContent($entry, $file);
             $parsing_token = false;
             $parsing_text = true;
         } elseif ($parsing_token) {
-            $current_token .= getPOLineContent($entry);
+            $current_token .= getPOLineContent($entry, $file);
         } elseif ($parsing_text) {
-            $current_token_text.=getPOLineContent($entry);
+            $current_token_text.=getPOLineContent($entry, $file);
         }
     }
     
@@ -155,13 +155,13 @@ function parseLanguage($file){
 
 // Returns the contents of a line (ie removes "" from start and end)
 //
-function getPOLineContent($line){
+function getPOLineContent($line, $file){
     $start = strpos($line, '"')+1;
     $stop = strrpos($line, '"');
     $x =  substr($line, $start, $stop-$start);
     $n = ereg("[^\\]\"", $x);
     if ($n) {
-        echo "ERROR - MISMATCHED QUOTES IN $line\n";
+        echo "ERROR - MISMATCHED QUOTES IN $file: $line\n";
         return "";
     }
     return $x;

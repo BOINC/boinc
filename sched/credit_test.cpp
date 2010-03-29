@@ -25,13 +25,13 @@
     // don't update a version's scale unless it has this many samples,
     // and don't accumulate stats until this occurs
 
-struct HOST_APP_VERSION {
-    int host_id;
-    int app_version_id;     // 0 unknown, -1/-2/-3 anon platform
-    int app_id;     // if unknown or anon platform
-    AVERAGE pfc;
-    AVERAGE et;
-};
+#define HAV_AVG_THRESH  20
+#define HAV_AVG_WEIGHT  .01
+#define HAV_AVG_LIMIT   10
+
+#define AV_AVG_THRESH   50000
+#define AV_AVG_WEIGHT   .005
+#define AV_AVG_LIMIT    10
 
 double min_credit = 0;
 vector<APP_VERSION> app_versions;
@@ -50,11 +50,7 @@ void read_db() {
         apps.push_back(app);
     }
     while (!av.enumerate("where deprecated=0 order by id desc")) {
-        av.pfc.init(50000, .005, 10);
-        av.pfc_scale_factor = 1;
-        //if (strstr(av.plan_class, "cuda")) {
-        //    av.pfc_scale_factor = 0.15;
-        //}
+        av.pfc_scale= 1;
         app_versions.push_back(av);
     }
     DB_PLATFORM platform;
@@ -102,8 +98,6 @@ HOST_APP_VERSION& lookup_host_app_version(int hostid, int avid) {
     HOST_APP_VERSION h;
     h.host_id = hostid;
     h.app_version_id = avid;
-    h.pfc.init(500, .01, 10);
-    h.et.init(500, .01, 10);
     host_app_versions.push_back(h);
     return host_app_versions.back();
 }
@@ -121,7 +115,7 @@ void print_avs() {
         if (!av.pfc.n) continue;
         PLATFORM* p = lookup_platform(av.platformid);
         printf("app %d vers %d (%s %s)\n scale %f ",
-            av.appid, av.id, p->name, av.plan_class, av.pfc_scale_factor
+            av.appid, av.id, p->name, av.plan_class, av.pfc_scale
         );
         print_average(av.pfc);
         printf("\n");
@@ -137,6 +131,8 @@ void lookup_host(DB_HOST& h, int id) {
     }
 }
 
+// used in the computation of AV scale factors
+//
 struct RSC_INFO {
     double pfc_sum;
     double pfc_n;
@@ -168,13 +164,13 @@ void scale_versions(APP& app, double avg) {
         if (av.appid != app.id) continue;
         if (av.pfc.n < MIN_VERSION_SAMPLES) continue;
 
-        av.pfc_scale_factor = avg/av.pfc.get_avg();
+        av.pfc_scale= avg/av.pfc.get_avg();
         PLATFORM* p = lookup_platform(av.platformid);
         printf("updating scale factor for (%s %s)\n",
              p->name, av.plan_class
         );
         printf(" n: %f avg PFC: %f new scale: %f\n",
-            av.pfc.n, av.pfc.get_avg(), av.pfc_scale_factor
+            av.pfc.n, av.pfc.get_avg(), av.pfc_scale
         );
     }
     app.min_avg_pfc = avg;
@@ -256,7 +252,10 @@ bool get_pfc(RESULT& r, WORKUNIT& wu, double& pfc) {
 
     if (r.elapsed_time) {
         // new client
-        hav.et.update(r.elapsed_time/wu.rsc_fpops_est);
+        hav.et.update(
+            r.elapsed_time/wu.rsc_fpops_est,
+            HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
+        );
         if (r.app_version_id < 0) {
             // anon platform
             //
@@ -276,7 +275,10 @@ bool get_pfc(RESULT& r, WORKUNIT& wu, double& pfc) {
     } else {
         // old client
         //
-        hav.et.update(r.cpu_time/wu.rsc_fpops_est);
+        hav.et.update(
+            r.cpu_time/wu.rsc_fpops_est,
+            HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
+        );
         pfc = app.min_avg_pfc*wu.rsc_fpops_est;
         if (hav.et.n > MIN_HOST_SAMPLES) {
             double s = r.elapsed_time/hav.et.get_avg();
@@ -290,21 +292,27 @@ bool get_pfc(RESULT& r, WORKUNIT& wu, double& pfc) {
         return false;
     }
 
-    avp->pfc.update(pfc/wu.rsc_fpops_est);
+    avp->pfc.update(
+        pfc/wu.rsc_fpops_est,
+        AV_AVG_THRESH, AV_AVG_WEIGHT, AV_AVG_LIMIT
+    );
 
     // version normalization
 
-    double vnpfc = pfc * avp->pfc_scale_factor;
+    double vnpfc = pfc * avp->pfc_scale;
 
     PLATFORM* p = lookup_platform(avp->platformid);
     printf("  updated version PFC: %f\n", pfc/wu.rsc_fpops_est);
     printf("  version scale (%s %s): %f\n",
-        p->name, avp->plan_class, avp->pfc_scale_factor
+        p->name, avp->plan_class, avp->pfc_scale
     );
 
     // host normalization
 
-    hav.pfc.update(pfc/wu.rsc_fpops_est);
+    hav.pfc.update(
+        pfc/wu.rsc_fpops_est,
+        HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
+    );
 
     double host_scale = 1;
 

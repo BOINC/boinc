@@ -39,19 +39,22 @@ create table platform (
 ) engine=InnoDB;
 
 create table app (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    name                varchar(254) not null,
-    min_version         integer     not null default 0,
-    deprecated          smallint    not null default 0,
-    user_friendly_name  varchar(254) not null,
-    homogeneous_redundancy smallint not null default 0,
-    weight              double      not null default 1,
-    beta                smallint    not null default 0,
-    target_nresults     smallint    not null default 0,
-    vnpfc_n             double      not null,
-    vnpfc_sum           double      not null,
-    vnpfc_avg           double      not null,
+    id                      integer         not null auto_increment,
+    create_time             integer         not null,
+    name                    varchar(254)    not null,
+    min_version             integer         not null default 0,
+    deprecated              smallint        not null default 0,
+    user_friendly_name      varchar(254)    not null,
+    homogeneous_redundancy  smallint        not null default 0,
+    weight                  double          not null default 1,
+    beta                    smallint        not null default 0,
+    target_nresults         smallint        not null default 0,
+    min_avg_pfc             double          not null,
+    host_scale_check        tinyint         not null,
+    max_jobs_in_progress    integer         not null,
+    max_gpu_jobs_in_progress integer        not null,
+    max_jobs_per_rpc        integer         not null,
+    max_jobs_per_day_init   integer         not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -66,10 +69,11 @@ create table app_version (
     max_core_version    integer     not null default 0,
     deprecated          tinyint     not null default 0,
     plan_class          varchar(254) not null default '',
-    pfc_n               double      not null,
-    pfc_sum             double      not null,
-    pfc_avg             double      not null,
-    pfc_scale           double      not null,
+    pfc_n               double      not null default 0,
+    pfc_avg             double      not null default 0,
+    pfc_scale           double      not null default 0,
+    expavg_credit       double      not null default 0,
+    expavg_time         double      not null default 0,
     primary key (id)
 ) engine=InnoDB;
 
@@ -185,6 +189,27 @@ create table host (
     primary key (id)
 ) engine=InnoDB;
 
+-- see comments in boinc_db.h
+create table host_app_version (
+    host_id             integer     not null,
+    app_version_id      integer     not null,
+    pfc_n               double      not null,
+    pfc_avg             double      not null,
+    et_n                double      not null,
+    et_avg              double      not null,
+    et_var              double      not null,
+    et_q                double      not null,
+    host_scale_time     double      not null,
+    scale_probation     tinyint     not null,
+    error_rate          double      not null,
+    max_jobs_per_day    integer     not null,
+    n_jobs_today        integer     not null,
+    turnaround_n        double      not null,
+    turnaround_avg      double      not null,
+    turnaround_var      double      not null,
+    turnaround_q        double      not null
+) engine = InnoDB;
+
 /*
  * Only information needed by the server or other backend components
  * is broken out into separate fields.
@@ -299,6 +324,32 @@ create table assignment (
         -- if not multi, the result
     primary key (id)
 ) engine = InnoDB;
+
+-- credit multiplier.  Used by the scheduler and calculate_credit_multiplier
+-- script to automatically adjust granted credit.
+create table credit_multiplier (
+    id                  serial          primary key,
+    appid               integer         not null,
+    time                integer         not null,
+    multiplier          double          not null default 0
+) engine=MyISAM;
+
+-- the following not used for anything right now
+create table state_counts (
+    appid               integer     not null,
+    last_update_time    integer     not null,
+    result_server_state_2       integer not null,
+    result_server_state_4       integer not null,
+    result_file_delete_state_1  integer not null,
+    result_file_delete_state_2  integer not null,
+    result_server_state_5_and_file_delete_state_0       integer not null,
+    workunit_need_validate_1    integer not null,
+    workunit_assimilate_state_1 integer not null,
+    workunit_file_delete_state_1        integer not null,
+    workunit_file_delete_state_2        integer not null,
+    primary key (appid)
+) engine=MyISAM; 
+
 
 -- EVERYTHING FROM HERE ON IS USED ONLY FROM PHP,
 -- SO NOT IN BOINC_DB.H ETC.
@@ -598,43 +649,3 @@ create table notify (
     opaque              integer         not null
         -- some other ID, e.g. that of the thread, user or PM record
 );
-
--- credit multiplier.  Used by the scheduler and calculate_credit_multiplier
--- script to automatically adjust granted credit.
-create table credit_multiplier (
-    id                  serial          primary key,
-    appid               integer         not null,
-    time                integer         not null,
-    multiplier          double          not null default 0
-) engine=MyISAM;
-
-create table state_counts (
-    appid               integer     not null,
-    last_update_time    integer     not null,
-    result_server_state_2       integer not null,
-    result_server_state_4       integer not null,
-    result_file_delete_state_1  integer not null,
-    result_file_delete_state_2  integer not null,
-    result_server_state_5_and_file_delete_state_0       integer not null,
-    workunit_need_validate_1    integer not null,
-    workunit_assimilate_state_1 integer not null,
-    workunit_file_delete_state_1        integer not null,
-    workunit_file_delete_state_2        integer not null,
-    primary key (appid)
-) engine=MyISAM; 
-
-create table host_app_version (
-    host_id             integer     not null,
-    app_version_id      integer     not null,
-    pfc_n               double      not null,
-    pfc_avg             double      not null,
-    et_n                double      not null,
-    et_avg              double      not null,
-    et_var              double      not null,
-    et_q                double      not null,
-    host_scale_time     double      not null,
-    scale_probation     tinyint     not null,
-    error_rate          double      not null,
-    max_results_day     integer     not null,
-    app_id              integer     not null,
-) engine = InnoDB;

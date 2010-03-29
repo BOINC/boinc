@@ -45,6 +45,7 @@
 #include "svn_version.h"
 
 #include "sched_config.h"
+#include "credit.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
 #ifdef GCL_SIMULATOR
@@ -79,12 +80,12 @@ int result_suffix(char* name) {
 // A result just timed out.
 // Update the host's avg_turnaround and max_results_day.
 //
-int penalize_host(int hostid, double delay_bound) {
+static int penalize_host(int hostid, TRANSITIONER_ITEM& wu_item) {
     DB_HOST host;
     char buf[256];
     int retval = host.lookup_id(hostid);
     if (retval) return retval;
-    compute_avg_turnaround(host, delay_bound);
+    compute_avg_turnaround(host, (double)wu_item.delay_bound);
     if (host.max_results_day == 0 || host.max_results_day > config.daily_result_quota) {
         host.max_results_day = config.daily_result_quota;
     }
@@ -95,6 +96,11 @@ int penalize_host(int hostid, double delay_bound) {
     sprintf(buf,
         "avg_turnaround=%f, max_results_day=%d",
         host.avg_turnaround, host.max_results_day
+    );
+
+    retval = host_scale_probation(
+        host, wu_item.appid, wu_item.res_app_version_id,
+        wu_item.res_report_deadline - wu_item.res_sent_time
     );
     return host.update_field(buf);
 }
@@ -217,7 +223,13 @@ int handle_wu(
                         res_item.res_name, retval
                     );
                 }
-                penalize_host(res_item.res_hostid, (double)wu_item.delay_bound);
+                retval = penalize_host(res_item.res_hostid, wu_item);
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "penalize_host error %d\n", retval
+                    );
+                    exit(1);
+                }
                 nover++;
                 nno_reply++;
             } else {

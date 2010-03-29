@@ -84,9 +84,10 @@ function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
     }
     header ("Content-Type: application/xml");
 
+    $forum=BoincForum::lookup_id($forumid);
     // Create channel header and open XML content
     //
-    $description = PROJECT.": $forum->description";
+    $description = PROJECT.": $forum->title";
     if ($user) {
         $description .= " (posts by $user->name)";
     }
@@ -97,7 +98,6 @@ function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
         <channel>
         <title>".$description."</title>
         <link>".URL_BASE."</link>
-        <description>$description</description>
         <copyright>".COPYRIGHT_HOLDER."</copyright>
         <lastBuildDate>".$create_date."</lastBuildDate>
         <language>".$language."</language>

@@ -36,6 +36,7 @@
 #include "str_util.h"
 #include "synch.h"
 
+#include "credit.h"
 #include "sched_types.h"
 #include "sched_shmem.h"
 #include "sched_config.h"
@@ -295,6 +296,8 @@ static inline void get_dcf() {
             );
         }
         dcf = 10;
+    } else if (dcf == 0) {
+        dcf = 1;
     } else if (dcf < 0.1) {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
@@ -1027,6 +1030,21 @@ bool work_needed(bool locality_sched) {
     return false;
 }
 
+// return the app version ID, or -2/-3/-4 if anonymous platform
+//
+inline static int get_app_version_id(BEST_APP_VERSION* bavp) {
+    if (bavp->avp) {
+        return bavp->avp->id;
+    } else {
+        if (bavp->cavp->host_usage.ncudas) {
+            return ANON_PLATFORM_NVIDIA;
+        } else if (bavp->cavp->host_usage.natis) {
+            return ANON_PLATFORM_ATI;
+        }
+        return ANON_PLATFORM_CPU;
+    }
+}
+
 int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp,
     bool locality_scheduling
@@ -1054,11 +1072,7 @@ int add_result_to_reply(
     result.sent_time = time(0);
     result.report_deadline = result.sent_time + wu.delay_bound;
     result.flops_estimate = bavp->host_usage.flops;
-    if (bavp->avp) {
-        result.app_version_id = bavp->avp->id;
-    } else {
-        result.app_version_id = -1;
-    }
+    result.app_version_id = get_app_version_id(bavp);
     int old_server_state = result.server_state;
 
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
@@ -1545,6 +1559,8 @@ void send_work_setup() {
 }
 
 void send_work() {
+    int retval;
+
     if (!g_wreq->rsc_spec_request && g_wreq->seconds_to_fill == 0) {
         return;
     }
@@ -1609,6 +1625,12 @@ void send_work() {
         send_work_old();
     }
 
+    retval = update_host_scale_times(ssp, g_reply->results, g_reply->host.id);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "update_host_scale_times() failed: %d\n", retval
+        );
+    }
     explain_to_user();
 }
 

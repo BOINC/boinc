@@ -2146,3 +2146,70 @@ David  29 Mar 2010
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.cpp
+
+David  26 Mar 2010
+    - server: various changes;
+        see http://boinc.berkeley.edu/trac/wiki/CreditNew
+
+        Projects will need to update DB and recompile all back-end programs.
+
+        Summary:
+        - new way of computing credit
+        - "reliable host" mechanism is per app version
+        - "host punishment" mechanism is per app version
+        - adjustment of wu.rsc_fpops_est provides the
+            equivalent of per app version DCF
+        - max jobs in progress is now per app
+        - max jobs per RPC is now per app
+
+        TODO:
+        - reliable mechanism:
+            - populate and use host_app_version.error_rate
+            - populate host_app_version.turnaround
+        - host punishment:
+            - populate host_app_version.max_jobs_per_day
+            - populate host_app_version.n_jobs_today
+            - use app.max_jobs_per_day_init
+        - job limits:
+            - use app.max_jobs_in_progress, max_gpu_jobs_in_progress
+            - use app.max_jobs_per_rpc
+        - adjust wu.rsc_fpops_est
+        - remove old credit stuff
+            fpops_cumulative, credit_multiplier
+            credit computation in scheduler
+
+    - AVERAGE class: use the Knuth algorithm (Wikipedia)
+
+    db/
+        boinc_db.cpp,h
+        constraints.sql
+        db_base.cpp,h
+        schema.sql
+    html/
+        inc/
+            forum_rss.inc
+            translation.inc
+        ops/
+            db_update.php
+            team_export.php
+        user/
+            app_versions.php (new)
+            forum_moderate_thread.php
+    lib/
+        Makefile.am
+        average.cpp,h
+    py/Boinc/
+        database.py 
+    sched/
+        Makefile.am
+        credit.cpp,h
+        credit_test.cpp,h
+        feeder.cpp
+        handle_request.cpp
+        sched_config.cpp,h
+        sched_send.cpp
+        transitioner.cpp
+        validate_util2.cpp,h
+        validator.cpp
+    tools/
+        upgrade

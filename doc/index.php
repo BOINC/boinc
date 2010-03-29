@@ -222,7 +222,7 @@ function language_form() {
         //."<option value=lt>Lietuvių (Lithuanian)"
         ."<option value=nl>Nederlands (Dutch)"
         //."<option value=pl>Polski (Polish)"
-        ."<option value=pt>Portugu&ecirc;s (Portuguese)"
+        ."<option value=pt_PT>Portugu&ecirc;s (Portuguese)"
         //."<option value=pt_BR>Portugu&ecirc;s - Brasil (Portuguese - Brazil)"
         ."<option value=ru>Русский (Russian)"
         //."<option value=sk>Slovenčina (Slovakian)"
