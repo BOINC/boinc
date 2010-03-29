@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-26 16:13+0200\n"
+"PO-Revision-Date: 2010-03-29 02:47+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <weboglan@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -295,7 +295,7 @@ msgstr "Boş disk alanı"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr "Ölçülen kayar nokta hızı"
+msgstr "Ölçülen kayan nokta hızı"
 
 #: ../inc/host.inc:144
 #: ../inc/host.inc:147
@@ -379,7 +379,7 @@ msgstr "BOINC çalışırken, yeni işlerin kabul edildiği zaman yüzdesi"
 
 #: ../inc/host.inc:186
 msgid "Average CPU efficiency"
-msgstr "Ortalama CPU randımanı"
+msgstr "Ortalama CPU verimi"
 
 #: ../inc/host.inc:189
 msgid "Task duration correction factor"
@@ -538,7 +538,7 @@ msgstr "Bilgisayarları isme göre birleştir"
 
 #: ../inc/news.inc:40
 msgid "Comment"
-msgstr "Yorum"
+msgstr "Yorumlar"
 
 #: ../inc/news.inc:96
 #, php-format
@@ -612,7 +612,7 @@ msgstr "Mesajı yolla"
 
 #: ../inc/pm.inc:170
 msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
-msgstr "Çok sık şekilde özel mesaj gönderemezsiniz. Daha fazla mesaj göndermek için lütfen bir süre bekleyin."
+msgstr "Çok sık aralıklarla özel mesaj gönderemezsiniz. Yeni mesaj göndermek için lütfen bir süre bekleyin."
 
 #: ../inc/pm.inc:180
 msgid "unread"
@@ -640,7 +640,7 @@ msgstr "Bilgisayar kullanımda olduğunda GPU kullanımı duraklatılsın mı?%1
 
 #: ../inc/prefs.inc:86
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr "Bilgisayarı (fare ve klavyeyi) bu kadar süre kullanmadığımda hesaplama işi başlasın"
+msgstr "Bilgisayarı, yani fare ve klavyeyi bu kadar süre kullanmadığımda iş başlasın"
 
 #: ../inc/prefs.inc:89
 msgid "Suspend work if no mouse/keyboard activity in last %1(Needed to enter low-power mode on some computers)%2"
@@ -706,7 +706,7 @@ msgstr "En fazla"
 
 #: ../inc/prefs.inc:155
 msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
-msgstr "İşlemci zamanın en fazla %1 (CPU sıcaklığını azaltmak için kullanılabilir)%2"
+msgstr "İşlemci zamanının en fazla %1 (CPU sıcaklığını azaltmak için kullanılabilir)%2"
 
 #: ../inc/prefs.inc:161
 msgid "percent of CPU time"
@@ -727,7 +727,7 @@ msgstr "En az"
 #: ../inc/prefs.inc:166
 #, php-format
 msgid "(Values smaller than %s are ignored)"
-msgstr "(%s değerinden küçük değerler görmezden gelinecek)"
+msgstr "(%s'den küçük değerler görmezden gelinecek)"
 
 #: ../inc/prefs.inc:168
 #, php-format
@@ -964,7 +964,7 @@ msgstr "%1 için ayrı tercihler oluştur"
 #: ../inc/prefs.inc:968
 #: ../inc/prefs.inc:1015
 msgid "(Switch View)"
-msgstr "(Görünümü değiştir)"
+msgstr "(görünümü değiştir)"
 
 #: ../inc/prefs.inc:970
 #: ../inc/prefs.inc:1018
@@ -1361,7 +1361,7 @@ msgstr "Çalışma zamanı<br />(sn)"
 
 #: ../inc/result.inc:280
 msgid "CPU time<br />(sec)"
-msgstr "İşlemci zamanı<br />(sn)"
+msgstr "CPU zamanı<br />(sn)"
 
 #: ../inc/result.inc:281
 #: ../inc/result.inc:390
@@ -1435,7 +1435,7 @@ msgstr "Sonraki"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
-msgstr "Arama kriterleri (birini ya da daha fazlasını kullanın)"
+msgstr "Arama kriterleri (birini ya da birkaçını kullanabilirsiniz)"
 
 #: ../inc/team.inc:34
 msgid "Key words"
@@ -1550,7 +1550,7 @@ msgstr "Bu takıma katıl"
 
 #: ../inc/team.inc:129
 msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
-msgstr "Not: Eğer proje topluluk tercihlerinizde 'e-postayla uyarı' ayarlıysa, takıma katıldığınızda kurucusu e-posta adresinizi görebilecek."
+msgstr "Not: Eğer topluluk tercihlerinizde 'e-postayla uyarı' ayarlıysa, katıldığınızda takım kurucusu e-posta adresinizi görebilecek."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
@@ -1636,7 +1636,7 @@ msgstr "Bu işlem takım yöneticisi hakları gerektirir."
 
 #: ../inc/team.inc:410
 msgid "WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead."
-msgstr "UYARI: Bu bir BOINC-genişletilmiş takımıdır. Eğer burada değişiklikler yaparsanız, kısa süre sonra üzerine yazılabilir. Bunun yerine, %1BOINC-genişletilmiş takım%2ı düzenleyin."
+msgstr "UYARI: Bu bir BOINC genişletilmiş-takımıdır. Eğer burada değişiklikler yaparsanız, bir süre sonra üzerine yazılabilir. Bunun yerine, %1BOINC genişletilmiş-takım%2ı düzenleyin."
 
 #: ../inc/team.inc:417
 msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
@@ -1713,7 +1713,7 @@ msgstr "Hesaplama ve kredi"
 
 #: ../inc/user.inc:146
 msgid "Pending credit"
-msgstr "Beklenilen kredi"
+msgstr "Beklenen kredi"
 
 #: ../inc/user.inc:146
 #: ../inc/user.inc:148
@@ -1779,7 +1779,7 @@ msgstr "Site"
 
 #: ../inc/user.inc:205
 msgid "Postal code"
-msgstr "Posta Kodu"
+msgstr "Posta kodu"
 
 #: ../inc/user.inc:206
 #: ../inc/user.inc:309
@@ -1829,7 +1829,7 @@ msgstr "Zayıf hesap anahtarı"
 
 #: ../inc/user.inc:213
 msgid "Provides %1limited access%2 to your account"
-msgstr "Hesabınıza %1sınırlı erişimi%2 sağlar"
+msgstr "Hesabınıza %1sınırlı erişim%2i sağlar"
 
 #: ../inc/user.inc:216
 msgid "Preferences"
@@ -1887,7 +1887,7 @@ msgstr "%1 gönderi"
 
 #: ../inc/user.inc:256
 msgid "Notifications"
-msgstr " Uyarılar"
+msgstr "Uyarılar"
 
 #: ../inc/user.inc:263
 msgid "Quit team"
@@ -2061,7 +2061,7 @@ msgstr "Bir hesap oluştur"
 
 #: ../user/create_account_form.php:29
 msgid "Account creation is disabled"
-msgstr "Hesap oluşturma etkisizleştirildi"
+msgstr "Hesap oluşturma devre dışı"
 
 #: ../user/create_account_form.php:30
 msgid "Account creation is currently disabled. Please try again later."
@@ -3688,7 +3688,7 @@ msgstr "Takım mesaj panosu yarat ya da yönet"
 
 #: ../user/team_manage.php:69
 msgid "To have this team created on all BOINC projects (current and future) you can make it into a %1BOINC-wide team%2."
-msgstr "Mevcut tüm BOINC projelerinde bu takımın bulunmasını istiyorsanız (şu anda ve gelecekte) , %1BOINC-genişletilmiş takımı%2 yapabilirsiniz."
+msgstr "Mevcut tüm BOINC projelerinde bu takımın bulunmasını istiyorsanız (şu anda ve gelecekte) , %1BOINC genişletilmiş-takımı%2 yapabilirsiniz."
 
 #: ../user/team_manage.php:71
 msgid "Team admins are encouraged to join and participate in the Google %1boinc-team-founders%2 group."
@@ -4123,8 +4123,9 @@ msgstr "(tüm uygulamalar)"
 #, fuzzy
 #~ msgid "preferences"
 #~ msgstr "&Tercihler..."
+
 #~ msgid "Last %1"
 #~ msgstr "Son %1"
+
 #~ msgid "CHARSET"
 #~ msgstr "UTF-8"
-
