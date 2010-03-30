@@ -2240,6 +2240,15 @@ Charlie  29 Mar 2010
          tooltips (this code is not removed by compiler optimization.)
     
     clientgui/
-        BOINCTaskBar.ccp, .h
+        BOINCTaskBar.cpp, .h
         mac/
             MacSysMenu.cpp
+
+Charlie  30 Mar 2010
+    - MGR: If there are new notices on Mac:
+        - Request user attention if Manager is hidden, and
+        - Display an alert if Manager is open to a tab other than Notices
+          (If Manager is now hidden, alert will appear when Manager is shown.)
+    
+    clientgui/
+        BOINCTaskBar.cpp

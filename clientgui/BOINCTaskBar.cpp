@@ -697,23 +697,40 @@ void CTaskBarIcon::UpdateNoticeStatus() {
             // Update cached info
             m_iLastNotificationCount = iNoticeCount;
             m_dtLastNotificationAlertExecuted = wxDateTime::Now();
+
+            strTitle.Printf(
+                _("%s Notices"),
+                pSkinAdvanced->GetApplicationName().c_str()
+            );
+            wxString strMessage = _("One or more notices are now available for viewing.");
             
             if (IsBalloonsSupported()) {
                 // Display balloon
-                strTitle.Printf(
-                    _("%s Notices"),
-                    pSkinAdvanced->GetApplicationName().c_str()
-                );
                 QueueBalloon(
                     m_iconTaskBarNormal,
                     strTitle,
-                    _("One or more notices are now available for viewing."),
+                    strMessage,
                     BALLOONTYPE_INFO
                 );
             } else {
                 // For platforms that do not support balloons
                 if (pFrame) {
-                    pFrame->RequestUserAttention();
+                    // If Manager is hidden, request user attention.
+                    if (! (pFrame->IsShown())) {
+                        pFrame->RequestUserAttention();
+                    }
+                    // If Manager is open to a tab other than Notices, display an alert.
+                    // If Manager is now hidden, alert will appear when Manager is shown.
+                    int currentTabView = pFrame->GetCurrentViewPage();
+                    if (! (currentTabView & VW_NOTIF)) {
+                        // Do not use SafeMessageBox here because we want to continue 
+                        // doing periodic RPCs to get messages, get notices, etc.
+                        wxMessageDialog* pDlg = new wxMessageDialog(NULL, strMessage, strTitle, wxOK);
+                        pDlg->ShowModal();
+                        if (pDlg) {
+                            pDlg->Destroy();
+                        }
+                    }
                 }
             }
         }
