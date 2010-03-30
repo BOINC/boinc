@@ -2253,3 +2253,21 @@ Charlie  30 Mar 2010
     
     clientgui/
         BOINCTaskBar.cpp, .h
+
+David  30 Mar 2010
+    - client/manager/GUI RPC: project_info.xml file can contain <team_name>.
+        If present, and a new user account is created,
+        it will be made a member of that team if it exists.
+
+    clientgui/
+        AdvancedFrame.cpp
+        WizardAttachProject.cpp,h
+        ProjectProcessingPage.cpp
+        sg_BoincSimpleGUI.cpp
+    html/user;
+        create_account.php
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+    client/
+        acct_setup.cpp,h

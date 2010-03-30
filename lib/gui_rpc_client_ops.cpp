@@ -969,6 +969,7 @@ int PROJECT_INIT_STATUS::parse(MIOFILE& in) {
         if (match_tag(buf, "</get_project_init_status>")) return 0;
         if (parse_str(buf, "<url>", url)) continue;
         if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<team_name>", team_name)) continue;
         if (parse_bool(buf, "has_account_key", has_account_key)) continue;
     }
     return ERR_XML_PARSE;
@@ -1052,6 +1053,7 @@ void ACCOUNT_IN::clear() {
     email_addr.clear();
     user_name.clear();
     passwd.clear();
+    team_name.clear();
 }
 
 ACCOUNT_OUT::ACCOUNT_OUT() {
@@ -2080,11 +2082,13 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
         "   <email_addr>%s</email_addr>\n"
         "   <passwd_hash>%s</passwd_hash>\n"
         "   <user_name>%s</user_name>\n"
+        "   <team_name>%s</team_name>\n"
         "</create_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
         passwd_hash.c_str(),
-        ai.user_name.c_str()
+        ai.user_name.c_str(),
+        ai.team_name.c_str()
     );
 
     retval =  rpc.do_rpc(buf);

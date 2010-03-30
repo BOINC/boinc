@@ -75,7 +75,10 @@ public:
 ////@begin CWizardAttachProject member function declarations
 
     /// Runs the wizard.
-    bool Run( wxString& strName, wxString& strURL, bool bCredentialsCached = true );
+    bool Run(
+        wxString& strName, wxString& strURL, std::string& team_name,
+        bool bCredentialsCached = true
+    );
     
     // Synchronize to Account Manager
     bool SyncToAccountManager();
@@ -140,6 +143,7 @@ public:
     wxString m_strReturnURL;
     bool m_bCookieRequired;
     wxString m_strCookieFailureURL;
+    std::string team_name;
 };
 
 #endif // _WIZ_ATTACHPROJECT_H_

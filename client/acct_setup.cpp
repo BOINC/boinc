@@ -40,6 +40,7 @@ void PROJECT_INIT::clear() {
     strcpy(url, "");
     strcpy(name, "");
     strcpy(account_key, "");
+    strcpy(team_name, "");
 }
 
 PROJECT_INIT::PROJECT_INIT() {
@@ -58,6 +59,7 @@ int PROJECT_INIT::init() {
         while(mf.fgets(buf, sizeof(buf))) {
             if (match_tag(buf, "</project_init>")) break;
             else if (parse_str(buf, "<name>", name, 256)) continue;
+            else if (parse_str(buf, "<team_name>", team_name, 256)) continue;
             else if (parse_str(buf, "<url>", url, 256)) {
                 canonicalize_master_url(url);
                 continue;
@@ -85,6 +87,7 @@ void ACCOUNT_IN::parse(char* buf) {
     parse_str(buf, "<email_addr>", email_addr);
     parse_str(buf, "<passwd_hash>", passwd_hash);
     parse_str(buf, "<user_name>", user_name);
+    parse_str(buf, "<team_name>", team_name);
     canonicalize_master_url(url);
 }
 
@@ -176,6 +179,12 @@ int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     escape_url(parameter);
     url += parameter;
 
+    if (!ai.team_name.empty()) {
+        url += "&team_name=";
+        parameter = ai.team_name;
+        escape_url(parameter);
+        url += parameter;
+    }
     retval = gui_http->do_rpc(this, (char*)url.c_str(), CREATE_ACCOUNT_FILENAME);
     if (retval) {
         error_num = retval;
@@ -245,26 +254,25 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
     }
     gstate.new_version_check_time = gstate.now;
     FILE* f = boinc_fopen(GET_CURRENT_VERSION_FILENAME, "r");
-    if (f) {
-        while (fgets(buf, 256, f)) {
-            if (match_tag(buf, "<version>")) {
-                if (parse_version(f, new_version)) {
-                    msg_printf(0, MSG_USER_ALERT,
-                        "A new version of BOINC (%s) is available",
-                        new_version
-                    );
+    if (!f) return;
+    while (fgets(buf, 256, f)) {
+        if (match_tag(buf, "<version>")) {
+            if (parse_version(f, new_version)) {
+                msg_printf(0, MSG_USER_ALERT,
+                    "A new version of BOINC (%s) is available",
+                    new_version
+                );
 
-                    msg_printf(0, MSG_USER_ALERT,
-                        "Visit %s to download it",
-						config.client_download_url.c_str()
-                    );
-                    gstate.newer_version = string(new_version);
-                    break;
-                }
+                msg_printf(0, MSG_USER_ALERT,
+                    "Visit %s to download it",
+                    config.client_download_url.c_str()
+                );
+                gstate.newer_version = string(new_version);
+                break;
             }
         }
-        fclose(f);
     }
+    fclose(f);
 }
 
 #define NEW_VERSION_CHECK_PERIOD (14*86400)
