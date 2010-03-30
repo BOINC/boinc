@@ -69,6 +69,8 @@ public:
     inline bool IsBalloonsSupported() {
         return false;
     }
+    
+#define BALLOONTYPE_INFO 0
 
     bool SetBalloon(
         const wxIcon& icon, 
@@ -92,6 +94,8 @@ public:
     wxIcon     m_iconTaskBarNormal;
     wxIcon     m_iconTaskBarDisconnected;
     wxIcon     m_iconTaskBarSnooze;
+    
+    wxIcon     m_iconCurrentIcon;
 
     bool       m_bTaskbarInitiatedShutdown;
 

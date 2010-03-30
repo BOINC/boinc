@@ -165,11 +165,6 @@ CMacSystemMenu::~CMacSystemMenu() {
 bool CMacSystemMenu::SetIcon(const wxIcon& icon) {
     wxBitmap theBits;
 
-    if (&icon == currentIcon)
-        return true;
-    
-    currentIcon = &icon;
-
     theBits.CopyFromIcon(icon);
     CGImageRef imageRef = (CGImageRef)theBits.CGImageCreate();
     if ( (SetSystemMenuIcon != NULL ) && (imageRef != NULL) ) {
