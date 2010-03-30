@@ -2249,6 +2249,7 @@ Charlie  30 Mar 2010
         - Request user attention if Manager is hidden, and
         - Display an alert if Manager is open to a tab other than Notices
           (If Manager is now hidden, alert will appear when Manager is shown.)
+          Allow updates to continue behind the notification alert.
     
     clientgui/
-        BOINCTaskBar.cpp
+        BOINCTaskBar.cpp, .h
