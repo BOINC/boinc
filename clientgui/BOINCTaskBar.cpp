@@ -44,6 +44,7 @@
 
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN)
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_REFRESH)
+DEFINE_EVENT_TYPE(wxEVT_TASKBAR_NOTIFICATION_ALERT)
 
 BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 
@@ -51,6 +52,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_CLOSE(CTaskBarIcon::OnClose)
     EVT_TASKBAR_REFRESH(CTaskBarIcon::OnRefresh)
     EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
+    EVT_TASKBAR_NOTIFICATION_ALERT(CTaskBarIcon::OnNotificationAlert)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
 #ifndef __WXMAC__
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
@@ -313,6 +315,30 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
 #ifdef __WXMAC__
     wxGetApp().GetMacSystemMenu()->BuildMenu();
 #endif
+}
+
+
+void CTaskBarIcon::OnNotificationAlert(CTaskbarEvent& WXUNUSED(event)) {
+    CSkinAdvanced*   pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxString         strTitle;
+
+    strTitle.Printf(
+        _("%s Notices"),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    // Do not use SafeMessageBox here because we want to continue 
+    // doing periodic RPCs to get messages, get notices, etc.
+    wxMessageDialog* pDlg = new wxMessageDialog(
+        NULL, 
+        _("One or more notices are now available for viewing."), 
+        strTitle, 
+        wxOK
+    );
+    pDlg->ShowModal();
+    if (pDlg) {
+        pDlg->Destroy();
+    }
 }
 
 
@@ -698,18 +724,16 @@ void CTaskBarIcon::UpdateNoticeStatus() {
             m_iLastNotificationCount = iNoticeCount;
             m_dtLastNotificationAlertExecuted = wxDateTime::Now();
 
-            strTitle.Printf(
-                _("%s Notices"),
-                pSkinAdvanced->GetApplicationName().c_str()
-            );
-            wxString strMessage = _("One or more notices are now available for viewing.");
-            
             if (IsBalloonsSupported()) {
                 // Display balloon
+                strTitle.Printf(
+                    _("%s Notices"),
+                    pSkinAdvanced->GetApplicationName().c_str()
+                );
                 QueueBalloon(
                     m_iconTaskBarNormal,
                     strTitle,
-                    strMessage,
+                    _("One or more notices are now available for viewing."),
                     BALLOONTYPE_INFO
                 );
             } else {
@@ -723,13 +747,10 @@ void CTaskBarIcon::UpdateNoticeStatus() {
                     // If Manager is now hidden, alert will appear when Manager is shown.
                     int currentTabView = pFrame->GetCurrentViewPage();
                     if (! (currentTabView & VW_NOTIF)) {
-                        // Do not use SafeMessageBox here because we want to continue 
-                        // doing periodic RPCs to get messages, get notices, etc.
-                        wxMessageDialog* pDlg = new wxMessageDialog(NULL, strMessage, strTitle, wxOK);
-                        pDlg->ShowModal();
-                        if (pDlg) {
-                            pDlg->Destroy();
-                        }
+                        // Don't run the alert from within the taskbar Refresh event to 
+                        // allow updates to continue behind the notification alert
+                        CTaskbarEvent event(wxEVT_TASKBAR_NOTIFICATION_ALERT, this);
+                        AddPendingEvent(event);
                     }
                 }
             }
