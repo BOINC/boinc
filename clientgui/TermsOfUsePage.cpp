@@ -84,9 +84,10 @@ bool CTermsOfUsePage::Create( CBOINCBaseWizard* parent )
     m_pTermsOfUseCtrl = NULL;
     m_pAgreeCtrl = NULL;
     m_pDisagreeCtrl = NULL;
-    m_bUserAgrees = false;
 ////@end CTermsOfUsePage member initialisation
- 
+    m_bUserAgrees = false;
+    m_bCredentialsAlreadyAvailable = false;
+
 ////@begin CTermsOfUsePage creation
     wxWizardPageEx::Create( parent, ID_TERMSOFUSEPAGE );
 
@@ -290,7 +291,7 @@ void CTermsOfUsePage::OnTermsOfUseStatusChange( wxCommandEvent& event ) {
         SetUserAgrees(true);
     } else {
         wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - SetUserAgrees(false)"));
-        SetUserAgrees(true);
+        SetUserAgrees(false);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - Function End"));
