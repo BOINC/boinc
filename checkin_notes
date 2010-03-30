@@ -2226,3 +2226,10 @@ David  29 Mar 2010
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+Charlie  29 Mar 2010
+    - MGR: Call get_notices RPC once per minute when Notices tab is not open 
+        so we can notify the user when new notices become available.
+
+    clientgui/
+        MainDocument.cpp, .h

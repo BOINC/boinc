@@ -289,7 +289,7 @@ public:
     // Notices Tab
     //
 private:
-
+    wxDateTime                  m_dtNoticesTimeStamp;
 
 public:
     NOTICES                     notices;

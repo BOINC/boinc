@@ -54,7 +54,10 @@
 //m_dtCachedStateTimestamp
 #define STATERPC_INTERVAL 3600
 
-//m_dtProjecStatusTimestamp
+//m_dtNoticesTimeStamp
+#define NOTICESBACKGROUNDRPC_INTERVAL 60
+
+//m_dtProjectsStatusTimestamp
 #define PROJECTSTATUSRPC_INTERVAL 1
 
 //m_dtResultsTimestamp
@@ -397,6 +400,9 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
     m_iGet_status_rpc_result = 0;
     
+    m_dtNoticesTimeStamp = wxDateTime((time_t)0);;
+    m_iGet_notices_rpc_result = -1;
+    
     m_dtProjectsStatusTimestamp = wxDateTime((time_t)0);
     m_iGet_project_status1_rpc_result = -1;
     
@@ -408,7 +414,6 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_iGet_file_transfers_rpc_result = 0;
     
     m_iGet_messages_rpc_result = -1;
-    m_iGet_notices_rpc_result = -1;
     
     m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
     m_iGet_dsk_usage_rpc_result = -1;
@@ -792,7 +797,7 @@ void CMainDocument::RefreshRPCs() {
         m_dtProjectsStatusTimestamp = wxDateTime((time_t)1);
 //      m_iGet_project_status1_rpc_result = -1;
     }
-        
+    
     if (!m_dtResultsTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
         m_dtResultsTimestamp = wxDateTime((time_t)1);
 //      m_iGet_results_rpc_result = -1;
@@ -919,6 +924,27 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
    
     RequestRPC(request);
 
+    // *********** RPC_GET_NOTICES **************
+
+    // We must keep getting notices even if the Notices Tab is not open 
+    // so we can notify the user when new notices become available.
+    ts = dtNow - m_dtNoticesTimeStamp;
+    if ((currentTabView & VW_NOTIF) || 
+        (ts.GetSeconds() >= NOTICESBACKGROUNDRPC_INTERVAL)) {
+    
+        request.clear();
+        request.which_rpc = RPC_GET_NOTICES;
+        // m_iNoticeSequenceNumber could change between request and execution
+        // of RPC, so pass in a pointer rather than its value
+        request.arg1 = &m_iNoticeSequenceNumber;
+        request.arg2 = &notices;
+        request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
+        request.completionTime = &m_dtNoticesTimeStamp;
+        request.resultPtr = &m_iGet_notices_rpc_result;
+       
+        RequestRPC(request);
+    }
+    
     ts = dtNow - m_dtCachedStateTimestamp;
     if (ts.GetSeconds() >= STATERPC_INTERVAL) {
 
@@ -981,22 +1007,6 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
         }
     }
 
-    // *********** RPC_GET_NOTICES **************
-
-    if (currentTabView & VW_NOTIF) {
-        request.clear();
-        request.which_rpc = RPC_GET_NOTICES;
-        // m_iNoticeSequenceNumber could change between request and execution
-        // of RPC, so pass in a pointer rather than its value
-        request.arg1 = &m_iNoticeSequenceNumber;
-        request.arg2 = &notices;
-        request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
-        request.completionTime = NULL;
-        request.resultPtr = &m_iGet_notices_rpc_result;
-       
-        RequestRPC(request);
-    }
-    
     // *********** RPC_GET_RESULTS **************
 
     if (currentTabView & VW_TASK) {
