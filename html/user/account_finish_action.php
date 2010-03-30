@@ -50,8 +50,14 @@ if (!$retval) {
     error_page("database error");
 }
 
-Header("Location: team_search.php");
+// team may have already been joined in create_account RPC.
+// if so, skip team-finder
+//
+if ($user->teamid) {
+    Header("Location: home.php");
+} else {
+    Header("Location: team_search.php");
+}
 send_cookie('auth', $auth, true);
 send_cookie('init', "1", true);
-
 ?>

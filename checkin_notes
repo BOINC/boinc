@@ -2278,3 +2278,10 @@ Rom    30 Mar 2010
         
     clientgui/
         TermsOfUsePage.cpp
+
+David  30 Mar 2010
+    - finish up the auto-team feature
+
+    html/user/
+        account_finish_action.php
+        create_account.php
