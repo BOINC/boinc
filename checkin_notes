@@ -2235,9 +2235,11 @@ Charlie  29 Mar 2010
         MainDocument.cpp, .h
 
 Charlie  29 Mar 2010
-    - MGR: Mac fixes for recent task bar cleanup work.
+    - MGR: Mac fixes for recent task bar cleanup work.  Remove taskbar icon 
+         tooltip code on Mac since Mac Taskbar Icon does not support 
+         tooltips (this code is not removed by compiler optimization.)
     
     clientgui/
-        BOINCTaskBar.h
+        BOINCTaskBar.ccp, .h
         mac/
             MacSysMenu.cpp

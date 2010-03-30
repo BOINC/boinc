@@ -599,18 +599,30 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::UpdateTaskbarStatus - Function Begin"));
 
     CMainDocument* pDoc                 = wxGetApp().GetDocument();
-    wxString       strMachineName       = wxEmptyString;
-    wxString       strMessage           = wxEmptyString;
-    wxString       strBuffer            = wxEmptyString;
-    wxIcon         icnIcon;
     CC_STATUS      status;
-
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
     pDoc->GetCoreClientStatus(status);
+
+#ifdef __WXMAC__    // Mac Taskbar Icon does not support tooltips
+    // Which icon should be displayed?
+    if (!pDoc->IsConnected()) {
+        SetIcon(m_iconTaskBarDisconnected);
+    } else {
+        if (RUN_MODE_NEVER == status.task_mode) {
+            SetIcon(m_iconTaskBarSnooze);
+        } else {
+            SetIcon(m_iconTaskBarNormal);
+        }
+    }
+#else
+    wxString       strMachineName       = wxEmptyString;
+    wxString       strMessage           = wxEmptyString;
+    wxString       strBuffer            = wxEmptyString;
+    wxIcon         icnIcon;
+
     pDoc->GetConnectedComputerName(strMachineName);
 
     if (!pDoc->IsComputerNameLocal(strMachineName)) {
@@ -652,6 +664,7 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     }
 
     SetIcon(icnIcon, strMessage);
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::UpdateTaskbarStatus - Function End"));
 }
