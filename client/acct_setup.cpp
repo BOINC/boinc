@@ -68,6 +68,7 @@ int PROJECT_INIT::init() {
             }
         }
         fclose(p);
+        msg_printf(0, MSG_INFO, "Found project_info.xml for %s", url);
     }
     return 0;
 }

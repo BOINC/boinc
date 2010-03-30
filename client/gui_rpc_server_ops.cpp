@@ -619,10 +619,12 @@ static void handle_get_project_init_status(char*, MIOFILE& fout) {
         "<get_project_init_status>\n"
         "    <url>%s</url>\n"
         "    <name>%s</name>\n"
+        "    <team_name>%s</team_name>\n"
         "    %s\n"
         "</get_project_init_status>\n",
         gstate.project_init.url,
         gstate.project_init.name,
+        gstate.project_init.team_name,
         strlen(gstate.project_init.account_key)?"<has_account_key/>":""
     );
 }
@@ -1132,16 +1134,19 @@ int GUI_RPC_CONN::handle_rpc() {
     bool http_request;
     if (complete_post_request(request_msg)) {
         http_request = true;
-    } else if (p = strchr(request_msg, 3)) {
-        *p = 0;
-        http_request = false;
     } else {
-        if (log_flags.guirpc_debug) {
-            msg_printf(0, MSG_INFO,
-                "[guirpc_debug] partial GUI RPC Command = '%s'\n", request_msg
-            );
+        p = strchr(request_msg, 3);
+        if (p) {
+            *p = 0;
+            http_request = false;
+        } else {
+            if (log_flags.guirpc_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[guirpc_debug] partial GUI RPC Command = '%s'\n", request_msg
+                );
+            }
+            return 0;
         }
-        return 0;
     }
     request_nbytes = 0;
 
