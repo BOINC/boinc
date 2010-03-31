@@ -1019,3 +1019,13 @@ Rom    24 Mar 2010
     
     clientgui/
         AdvancedFrame.cpp
+
+Rom    31 Mar 2010
+    - MGR: Only execute a set mode when the menu item has been checked.
+        On Linux the act of checking and unchecking menu items
+        programatically causes events to be fired and processed just
+        like user input. This causes the menu items to flip flop
+        back and forth between different modes.
+        
+    clientgui/
+        AdvancedFrame.cpp

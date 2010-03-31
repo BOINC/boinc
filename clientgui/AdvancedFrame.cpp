@@ -1166,38 +1166,46 @@ void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    switch(event.GetId()) {
-    case ID_ADVACTIVITYRUNALWAYS:
-        pDoc->SetActivityRunMode(RUN_MODE_ALWAYS, 0);
-        break;
-    case ID_ADVACTIVITYSUSPEND:
-        pDoc->SetActivityRunMode(RUN_MODE_NEVER, 0);
-        break;
-    case ID_ADVACTIVITYRUNBASEDONPREPERENCES:
-        pDoc->SetActivityRunMode(RUN_MODE_AUTO, 0);
-        break;
+    if (event.IsChecked()) {
+        switch(event.GetId()) {
+        case ID_ADVACTIVITYRUNALWAYS:
+            pDoc->SetActivityRunMode(RUN_MODE_ALWAYS, 0);
+            break;
+        case ID_ADVACTIVITYSUSPEND:
+            pDoc->SetActivityRunMode(RUN_MODE_NEVER, 0);
+            break;
+        case ID_ADVACTIVITYRUNBASEDONPREPERENCES:
+            pDoc->SetActivityRunMode(RUN_MODE_AUTO, 0);
+            break;
+        }
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnActivitySelection - Function End"));
 }
 
 void CAdvancedFrame::OnGPUSelection(wxCommandEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnGPUSelection - Function Begin"));
+
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    switch(event.GetId()) {
-    case ID_ADVACTIVITYGPUALWAYS:
-        pDoc->SetGPURunMode(RUN_MODE_ALWAYS, 0);
-        break;
-    case ID_ADVACTIVITYGPUSUSPEND:
-        pDoc->SetGPURunMode(RUN_MODE_NEVER, 0);
-        break;
-    case ID_ADVACTIVITYGPUBASEDONPREPERENCES:
-        pDoc->SetGPURunMode(RUN_MODE_AUTO, 0);
-        break;
+    if (event.IsChecked()) {
+        switch(event.GetId()) {
+        case ID_ADVACTIVITYGPUALWAYS:
+            pDoc->SetGPURunMode(RUN_MODE_ALWAYS, 0);
+            break;
+        case ID_ADVACTIVITYGPUSUSPEND:
+            pDoc->SetGPURunMode(RUN_MODE_NEVER, 0);
+            break;
+        case ID_ADVACTIVITYGPUBASEDONPREPERENCES:
+            pDoc->SetGPURunMode(RUN_MODE_AUTO, 0);
+            break;
+        }
     }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnGPUSelection - Function End"));
 }
 
 
@@ -1209,17 +1217,18 @@ void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
-    switch(event.GetId()) {
-    case ID_ADVNETWORKRUNALWAYS:
-        pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS, 0);
-        break;
-    case ID_ADVNETWORKSUSPEND:
-        pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 0);
-        break;
-    case ID_ADVNETWORKRUNBASEDONPREPERENCES:
-        pDoc->SetNetworkRunMode(RUN_MODE_AUTO, 0);
-        break;
+    if (event.IsChecked()) {
+        switch(event.GetId()) {
+        case ID_ADVNETWORKRUNALWAYS:
+            pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS, 0);
+            break;
+        case ID_ADVNETWORKSUSPEND:
+            pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 0);
+            break;
+        case ID_ADVNETWORKRUNBASEDONPREPERENCES:
+            pDoc->SetNetworkRunMode(RUN_MODE_AUTO, 0);
+            break;
+        }
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNetworkSelection - Function End"));
