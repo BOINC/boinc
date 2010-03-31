@@ -2308,3 +2308,10 @@ David  31 Mar 2010
 
     lib/
         coproc.h
+
+Rom    31 Mar 2010
+    - MGR: Fix double inclusion problem with change in header layouts
+        on Linux.
+        
+    clientgui/gtk/
+        taskbarex.cpp

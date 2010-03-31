@@ -15,8 +15,13 @@
 
 #include "stdwx.h"
 
+#ifndef __GTK_H__
 #include <gtk/gtk.h>
+#endif
+
+#ifndef _LIBNOTIFY_NOTIFY_H_
 #include <libnotify/notify.h>
+#endif 
 
 #include "BOINCGUIApp.h"
 #include "gtk/taskbarex.h"
