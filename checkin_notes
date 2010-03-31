@@ -2292,3 +2292,13 @@ David  30 Mar 2010
 
     lib/
         coproc.h
+
+David  31 Mar 2010
+    - client: delete project_init.xml if attached to any project.
+    - manager: avoid divide by zero if the only project
+        has zero resource share
+
+    client/
+        gui_rpc_server_ops.cpp
+    clientgui/
+        MainDocument.cpp
