@@ -251,7 +251,7 @@ struct COPROC_CUDA : public COPROC {
         // each processor has 8 or 32 cores;
         // each core can do 2 ops per clock
         //
-        int cores_per_proc = (prop.major>=3)?32:8;
+        int cores_per_proc = (prop.major>=2)?32:8;
         double x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * 2.;
         return x?x:5e10;
     }

@@ -2302,3 +2302,9 @@ David  31 Mar 2010
         gui_rpc_server_ops.cpp
     clientgui/
         MainDocument.cpp
+
+David  31 Mar 2010
+    - client: Fermi compute capability is 2, not 3
+
+    lib/
+        coproc.h
