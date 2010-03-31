@@ -215,7 +215,7 @@ struct cudaDeviceProp {
   int    maxGridSize[3]; 
   int    clockRate;
   int totalConstMem; 
-  int    major;
+  int    major;     // compute capability
   int    minor;
   int textureAlignment;
   int    deviceOverlap;
@@ -248,10 +248,11 @@ struct COPROC_CUDA : public COPROC {
     //
     inline double peak_flops() {
         // clock rate is scaled down by 1000;
-        // each processor has 8 cores;
+        // each processor has 8 or 32 cores;
         // each core can do 2 ops per clock
         //
-        double x = (1000.*prop.clockRate) * prop.multiProcessorCount * 8. * 2.;
+        int cores_per_proc = (prop.major>=3)?32:8;
+        double x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * 2.;
         return x?x:5e10;
     }
     int available_ram(int dev, double&);

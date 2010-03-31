@@ -2285,3 +2285,10 @@ David  30 Mar 2010
     html/user/
         account_finish_action.php
         create_account.php
+
+David  30 Mar 2010
+    - client: NVIDIA peak FLOPS estimate was wrong for Fermi
+        (32 cores, not 8)
+
+    lib/
+        coproc.h
