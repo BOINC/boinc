@@ -165,7 +165,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer6->Add(m_LanguageSelectionCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText9 = new wxStaticText;
-    itemStaticText9->Create( itemPanel4, wxID_STATIC, _("Network or notices reminder interval:\n(minutes)"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    itemStaticText9->Create( itemPanel4, wxID_STATIC, _("Notice reminder interval:\n(minutes; 0 means no reminders)"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ReminderFrequencyCtrl = new wxSlider;

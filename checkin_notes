@@ -2386,3 +2386,9 @@ David  1 Apr 2010
 
     sched/
         sched_customize.cpp
+
+David  1 Apr 2010
+	- manager: change text for notice-frequency slider
+
+	clientgui/
+		DlgOptions.cpp
