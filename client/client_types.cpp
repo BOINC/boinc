@@ -984,19 +984,8 @@ const char* FILE_INFO::get_init_url() {
 
 // if a project supplies multiple URLs, try them in order
 // (e.g. in Einstein@home they're ordered by proximity to client).
-// The commented-out code tries them starting from random place.
-// This is appropriate if replication is for load-balancing.
-// TODO: add a flag saying which mode to use.
 //
-#if 1
     current_url = 0;
-#else
-    double temp;
-    temp = rand();
-    temp *= urls.size();
-    temp /= RAND_MAX;
-    current_url = (int)temp;
-#endif
     start_url = current_url;
     return urls[current_url].c_str();
 }

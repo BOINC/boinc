@@ -43,13 +43,13 @@ typedef int PROCESS_ID;
     // before sending to server,
     // to protect against apps that write unbounded amounts.
 
-/// Represents a job in progress.
+// Represents a job in progress.
 
-/// When an active task is created, it is assigned a "slot"
-/// which determines the directory it runs in.
-/// This doesn't change over the life of the active task;
-/// thus the task can use the slot directory for temp files
-/// that BOINC doesn't know about.
+// When an active task is created, it is assigned a "slot"
+// which determines the directory it runs in.
+// This doesn't change over the life of the active task;
+// thus the task can use the slot directory for temp files
+// that BOINC doesn't know about.
 
 struct ACTIVE_TASK {
 #ifdef _WIN32
@@ -63,73 +63,70 @@ struct ACTIVE_TASK {
     PROCESS_ID pid;
 	PROCINFO procinfo;
 
-    //// START OF ITEMS SAVED IN STATE FILE
+    // START OF ITEMS SAVED IN STATE FILE
     int _task_state;
-        /// subdirectory of slots/ where this runs
     int slot;
-        /// CPU at the last checkpoint
-        /// Note: "CPU time" refers to the sum over all episodes.
-        /// (not counting the "lost" time after the last checkpoint
-        /// in episodes before the current one)
-        /// TODO: debt should be based on FLOPs, not CPU time
-        /// CPU time at the start of current episode
+        // subdirectory of slots/ where this runs
     double checkpoint_cpu_time;
-        /// elapsed time at last checkpoint
+        // CPU at the last checkpoint
+        // Note: "CPU time" refers to the sum over all episodes.
+        // (not counting the "lost" time after the last checkpoint
+        // in episodes before the current one)
+        // TODO: debt should be based on FLOPs, not CPU time
+        // CPU time at the start of current episode
     double checkpoint_elapsed_time;
-        /// App's estimate of how much of the work unit is done.
-        /// Passed from the application via an API call;
-        /// will be zero if the app doesn't use this call
+        // elapsed time at last checkpoint
     double fraction_done;
-        /// most recent CPU time reported by app
+        // App's estimate of how much of the work unit is done.
+        // Passed from the application via an API call;
+        // will be zero if the app doesn't use this call
     double current_cpu_time;
+        // most recent CPU time reported by app
     bool once_ran_edf;
 
-    //// END OF ITEMS SAVED IN STATE FILE
+    // END OF ITEMS SAVED IN STATE FILE
 
     int scheduler_state;
     int next_scheduler_state; // temp
     int signal;
-        /// Wall time at the start of the current run interval
     double run_interval_start_wall_time;
-        /// wall time at the last checkpoint
+        // Wall time at the start of the current run interval
     double checkpoint_wall_time;
-        /// current total elapsed (running) time
+        // wall time at the last checkpoint
     double elapsed_time;
-        /// disk used by output files and temp files of this task
+        // current total elapsed (running) time
     int current_disk_usage(double&);
-        /// directory where process runs (relative)
+        // disk used by output files and temp files of this task
     char slot_dir[256];
-        /// same, absolute
-
-        /// This is used only to run graphics apps
-        /// (that way don't have to worry about top-level dirs
-        /// being non-readable, etc).
+        // directory where process runs (relative)
     char slot_path[512];
-        /// abort if elapsed time exceeds this
+        // same, absolute
+        // This is used only to run graphics apps
+        // (that way don't have to worry about top-level dirs
+        // being non-readable, etc).
     double max_elapsed_time;
-        /// abort if disk usage (in+out+temp) exceeds this
+        // abort if elapsed time exceeds this
     double max_disk_usage;
-        /// abort if memory usage exceeds this
+        // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;
+        // abort if memory usage exceeds this
     bool have_trickle_down;
     bool send_upload_file_status;
-        /// working set too large to run now
     bool too_large;
+        // working set too large to run now
     bool needs_shmem;               // waiting for a free shared memory segment
     int want_network;
-        /// This task wants to do network comm (for F@h)
-
-        /// this is passed via share-memory message (app_status channel)
+        // This task wants to do network comm (for F@h)
+        // this is passed via share-memory message (app_status channel)
     double abort_time;
-        /// when we sent an abort message to this app
-
-        /// kill it 5 seconds later if it doesn't exit
+        // when we sent an abort message to this app
+        // kill it 5 seconds later if it doesn't exit
     double quit_time;
-        /// when we sent a quit message; kill if still there after 10 sec
     int premature_exit_count;
+        // when we sent a quit message; kill if still there after 10 sec
 
-        /// core/app shared mem segment
     APP_CLIENT_SHM app_client_shm;
+        // core/app shared mem segment
     MSG_QUEUE graphics_request_queue;
     MSG_QUEUE process_control_queue;
 
@@ -140,10 +137,10 @@ struct ACTIVE_TASK {
 
     // info related to app's graphics mode (win, screensaver, etc.)
     //
-        /// mode acked by app
     int graphics_mode_acked;
-        /// mode before last screensaver request
+        // mode acked by app
     int graphics_mode_before_ss;
+        // mode before last screensaver request
     double graphics_mode_ack_timeout;
 
 #ifdef SIM
@@ -180,24 +177,24 @@ struct ACTIVE_TASK {
         // i.e. by sending a <quit> message
     int request_abort();                // send "abort" message
     bool process_exists();
-        /// Kill process forcibly,
 
-        /// Unix: send a SIGKILL signal, Windows: TerminateProcess()
-		/// if restart is true, arrange for resulted to get restarted;
-		/// otherwise it ends with an error
     int kill_task(bool restart);
-        /// tell a process to stop executing (but stay in mem)
+        // Kill process forcibly,
+		// otherwise it ends with an error
+        // Unix: send a SIGKILL signal, Windows: TerminateProcess()
+		// if restart is true, arrange for resulted to get restarted;
 
-        /// Done by sending it a <suspend> message
     int suspend();
-        /// Undo a suspend: send a <resume> message
+        // tell a process to stop executing (but stay in mem)
+        // Done by sending it a <suspend> message
     int unsuspend();
-        /// can be called whether or not process exists
+        // Undo a suspend: send a <resume> message
     int abort_task(int exit_status, const char*);
-        /// return true if this task has exited
+        // can be called whether or not process exists
     bool has_task_exited();
-        /// preempt (via suspend or quit) a running task
+        // return true if this task has exited
     int preempt(int preempt_type);
+        // preempt (via suspend or quit) a running task
     int resume_or_start(bool);
     void send_network_available();
 #ifdef _WIN32
@@ -229,7 +226,7 @@ struct ACTIVE_TASK {
     int parse(MIOFILE&);
 };
 
-/// Represents the set of all jobs in progress
+// Represents the set of all jobs in progress
 
 class ACTIVE_TASK_SET {
 public:

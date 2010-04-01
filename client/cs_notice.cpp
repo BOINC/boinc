@@ -583,6 +583,8 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     char filename[256];
     int nitems;
 
+    if (!rfp) return;   // op was canceled
+
     if (http_op_retval) {
         if (log_flags.notice_debug) {
             msg_printf(0, MSG_INFO,
@@ -700,7 +702,11 @@ void RSS_FEEDS::update_feed_list() {
         if (rf.found) {
             iter++;
         } else {
-            // TODO: check if fetch in progress!
+            // cancel op if active
+            //
+            if (rss_feed_op.rfp == &(*iter)) {
+                rss_feed_op.rfp = NULL;
+            }
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,
                     "[notice_debug] removing feed: %s",

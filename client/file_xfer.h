@@ -37,13 +37,13 @@ public:
     char header[4096];
     bool file_size_query;
     bool is_upload;
-        /// File size at start of transfer, used for:
-        /// 1) a "minimum download increment"
-        /// that rejects partial downloads of less than 5K,
-        /// since these may be error messages from proxies.
-        /// 2) lets us recover when server ignored Range request
-        /// and sent us whole file
     double starting_size;
+        // File size at start of transfer, used for:
+        // 1) a "minimum download increment"
+        // that rejects partial downloads of less than 5K,
+        // since these may be error messages from proxies.
+        // 2) lets us recover when server ignored Range request
+        // and sent us whole file
 
     FILE_XFER();
     ~FILE_XFER();
@@ -58,8 +58,8 @@ public:
 class FILE_XFER_SET {
     HTTP_OP_SET* http_ops;
 public:
-        /// has there been transfer activity since last call to check_active()?
     bool up_active, down_active;
+        // has there been transfer activity since last call to check_active()?
     std::vector<FILE_XFER*> file_xfers;
     FILE_XFER_SET(HTTP_OP_SET*);
     int insert(FILE_XFER*);

@@ -21,10 +21,10 @@
 struct RESULT;
 
 struct RR_SIM_PROJECT_STATUS {
-        /// jobs currently running (in simulation)
     std::vector<RESULT*>active;
-        /// CPU jobs runnable but not running yet
+        // jobs currently running (in simulation)
     std::vector<RESULT*>pending;
+        // CPU jobs runnable but not running yet
 
     inline void clear() {
         active.clear();

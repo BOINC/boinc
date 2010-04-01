@@ -30,7 +30,7 @@
 
 #include "log_flags.h"
 
-/// stores a message in memory, where it can be retrieved via RPC
+// stores a message in memory, where it can be retrieved via RPC
 
 struct MESSAGE_DESC {
     char project_name[256];
@@ -61,7 +61,7 @@ extern MESSAGE_DESCS message_descs;
 #define __attribute__(x) /*nothing*/
 #endif
 
-/// Show a message, preceded by timestamp and project name
+// Show a message, preceded by timestamp and project name
 
 extern void msg_printf(struct PROJECT *p, int priority, const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
 

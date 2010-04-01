@@ -27,78 +27,78 @@
 #define PERS_GIVEUP             (SECONDS_PER_DAY*90)
     // give up on xfer if this time elapses since last byte xferred
 
-/// PERS_FILE_XFER represents a "persistent file transfer",
-/// i.e. a long-term effort to upload or download a file.
-/// This may consist of several "episodes",
-/// which are HTTP operations to a particular server.
-/// PERS_FILE_XFER manages
-/// - the choice of data servers
-/// - the retry and giveup policies
-/// - restarting partial transfers
-///
-/// The FILE_INFO has a list of URLs.
-/// For download, the object attempts to download the file
-/// from any combination of the URLs.
-/// For upload, try to upload the file in its entirety to one of the URLs.
+// PERS_FILE_XFER represents a "persistent file transfer",
+// i.e. a long-term effort to upload or download a file.
+// This may consist of several "episodes",
+// which are HTTP operations to a particular server.
+// PERS_FILE_XFER manages
+// - the choice of data servers
+// - the retry and giveup policies
+// - restarting partial transfers
+//
+// The FILE_INFO has a list of URLs.
+// For download, the object attempts to download the file
+// from any combination of the URLs.
+// For upload, try to upload the file in its entirety to one of the URLs.
 
-/// a PERS_FILE_XFER is created and added to pers_file_xfer_set
-/// 1) when read from the client state file
-///   in (FILE_INFO::parse(), CLIENT_STATE::parse_state_file()
-/// 2) when a FILE_INFO is ready to transfer
-///   in CLIENT_STATE::handle_pers_file_xfers()
+// a PERS_FILE_XFER is created and added to pers_file_xfer_set
+// 1) when read from the client state file
+//   in (FILE_INFO::parse(), CLIENT_STATE::parse_state_file()
+// 2) when a FILE_INFO is ready to transfer
+//   in CLIENT_STATE::handle_pers_file_xfers()
 
-/// a PERS_FILE_XFER p is removed from pers_file_xfer_set and freed
-/// 1) when p->pers_xfer_done is true
-///   in CLIENT_STATE::handle_pers_file_xfers()
+// a PERS_FILE_XFER p is removed from pers_file_xfer_set and freed
+// 1) when p->pers_xfer_done is true
+//   in CLIENT_STATE::handle_pers_file_xfers()
 
-/// A FILE_XFER is created and added to file_xfer_set and linked from PFX
-/// 1) in PERS_FILE_XFER::start_xfer()
+// A FILE_XFER is created and added to file_xfer_set and linked from PFX
+// 1) in PERS_FILE_XFER::start_xfer()
 
-/// A FILE_XFER is erased from file_xfer_set, unlinked from PFX and freed
-/// 1) when the FILE_XFER is done, in
-///   PERS_FILE_XFER::poll()
-///   PERS_FILE_XFER::check_giveup()
-/// 2) user request, in
-///   PERS_FILE_XFER::abort()
-///   PERS_FILE_XFER::suspend()
-/// 3) if the FILE_XFER_SET::insert() fails
-///   PERS_FILE_XFER::start_xfer()
-/// NOTE: when this is done, pers_xfer_done is set
-///
-/// pointers:
-/// PERS_FILE_XFER -> FILE_XFER
-///   set in PERS_FILE_XFER::start_xfer()
-///    zeroed (see above)
-/// PERS_FILE_XFER -> FILE_INFO
-///   set in PERS_FILE_XFER::init()
-/// FILE_INFO -> PERS_FILE_XFER
-///   set in FILE_INFO::parse(), CLIENT_STATE::handle_pers_file_xfers()
-///   zeroed in PERS_FILE_XFER destructor
+// A FILE_XFER is erased from file_xfer_set, unlinked from PFX and freed
+// 1) when the FILE_XFER is done, in
+//   PERS_FILE_XFER::poll()
+//   PERS_FILE_XFER::check_giveup()
+// 2) user request, in
+//   PERS_FILE_XFER::abort()
+//   PERS_FILE_XFER::suspend()
+// 3) if the FILE_XFER_SET::insert() fails
+//   PERS_FILE_XFER::start_xfer()
+// NOTE: when this is done, pers_xfer_done is set
+//
+// pointers:
+// PERS_FILE_XFER -> FILE_XFER
+//   set in PERS_FILE_XFER::start_xfer()
+//    zeroed (see above)
+// PERS_FILE_XFER -> FILE_INFO
+//   set in PERS_FILE_XFER::init()
+// FILE_INFO -> PERS_FILE_XFER
+//   set in FILE_INFO::parse(), CLIENT_STATE::handle_pers_file_xfers()
+//   zeroed in PERS_FILE_XFER destructor
 
 class PERS_FILE_XFER {
-        /// # of retries so far
     int nretry;
-        /// time of first transfer request
+        // # of retries so far
     double first_request_time;
+        // time of first transfer request
     void do_backoff();
 
 public:
     bool is_upload;
-        /// time to next retry the file request
     double next_request_time;
-        /// Total time there's been an active FILE_XFER for this PFX
-        /// Currently not used for anything;  not meaningful for throughput
-        /// because could include repeated transfer
+        // time to next retry the file request
     double time_so_far;
-        /// when the above was last updated.
-        /// Defined only while a transfer is active
+        // Total time there's been an active FILE_XFER for this PFX
+        // Currently not used for anything;  not meaningful for throughput
+        // because could include repeated transfer
     double last_time;
-        /// Save how much is transferred when transfer isn't active, used
-        /// to display progress in GUI.
+        // when the above was last updated.
+        // Defined only while a transfer is active
     double last_bytes_xferred;
+        // Save how much is transferred when transfer isn't active, used
+        // to display progress in GUI.
     bool pers_xfer_done;
-        /// nonzero if file xfer in progress
     FILE_XFER* fxp;
+        // nonzero if file xfer in progress
     FILE_INFO* fip;
 
     PERS_FILE_XFER();

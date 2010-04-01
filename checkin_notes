@@ -2322,3 +2322,18 @@ David  31 Mar 2010
 
     client/
         work_fetch.cpp
+
+David  31 Mar 2010
+    - client: when looking for new file xfers to start,
+        favor those that are partially done
+    - client: fix crashing bug if a project is detached
+        while an RSS feed fetch for it is in progress
+    - code cleanup: switch from /// back to // for comments
+        (so much for doxygen)
+
+    client/
+        pers_file_xfer.cpp
+        file_xfer.cpp
+        client_types.cpp
+        cs_notices.cpp
+        *.h

@@ -21,7 +21,7 @@
 #include "gui_http.h"
 #include "error_numbers.h"
 
-/// represents the contents of project_info.xml
+// represents the contents of project_info.xml
 
 struct PROJECT_INIT {
     char url[256];
@@ -37,10 +37,10 @@ struct PROJECT_INIT {
 
 struct ACCOUNT_IN {
     std::string url;
-        /// the account identifier (user name or email addr)
     std::string email_addr;
-        /// the suggested friendly name for the user during account creation.
+        // the account identifier (user name or email addr)
     std::string user_name;
+        // the suggested friendly name for the user during account creation.
     std::string team_name;
     std::string passwd_hash;
 
