@@ -23,6 +23,9 @@ function app_version_string($id) {
     global $apps, $app_versions;
     if ($id == 0) return "";
     if ($id == -1) return tra("Anonymous platform");
+    if ($id == -2) return tra("Anonymous platform - CPU");
+    if ($id == -3) return tra("Anonymous platform - NVIDIA GPU");
+    if ($id == -4) return tra("Anonymous platform - ATI GPU");
     if (array_key_exists($id, $app_versions)) {
         $av = $app_versions[$id];
         $app = $apps[$av->appid];

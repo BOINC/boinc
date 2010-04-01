@@ -2355,3 +2355,9 @@ Charlie  1 Apr 2010
         DlgOptions.cpp
         MainDocument.cpp, .h
         MacSysMenu.cpp
+
+David  1 Apr 2010
+    - web: show anon platform correctly in task list
+
+    html/inc/
+        result.inc
