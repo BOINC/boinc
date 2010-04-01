@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-03-23 19:47-0000\n"
-"Last-Translator: DavidM <davidcomp at telefonica dot net>\n"
+"PO-Revision-Date: 2010-04-01 05:24-0700\n"
+"Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "Identify your account "
-msgstr "Identifique su cuenta  "
+msgstr "Identifique su cuenta "
 
 #: clientgui/AccountInfoPage.cpp:382
 msgid ""
@@ -37,11 +37,11 @@ msgid ""
 "You can attach only if you already have an account."
 msgstr ""
 "Este proyecto no acepta actualmente nuevas cuentas.\n"
-"Usted puede unirse sólo si ya tiene una cuenta."
+"Usted puede unirse sólo si tiene una cuenta creada anteriormente."
 
 #: clientgui/AccountInfoPage.cpp:390
 msgid "Are you already running this project?"
-msgstr "¿Ha ejecutando este proyecto antes?"
+msgstr "¿Ha ejecutando este proyecto anteriormente?"
 
 #: clientgui/AccountInfoPage.cpp:394
 msgid "&No, new user"
@@ -61,11 +61,11 @@ msgid ""
 "password fields."
 msgstr ""
 "No se ha podido establecer la información de su cuenta\n"
-"automáticamente.\n"
+"de forma automática.\n"
 "\n"
-"Por favor, pulse en el vínculo 'Buscar información de acceso'\n"
-"debajo para encontrar que poner en los campos\n"
-"dirección de correo y contraseña."
+"Por favor, pulse en el vínculo inferior 'Buscar información de acceso'\n"
+"para encontrar que poner en los campos dirección de correo y\n"
+"contraseña."
 
 #: clientgui/AccountInfoPage.cpp:405
 msgid "Find logon information"
@@ -88,15 +88,15 @@ msgstr "C&onfirmar clave:"
 #: clientgui/AccountInfoPage.cpp:442
 #, c-format
 msgid "Are you already running %s?"
-msgstr "¿Está usted ejecutando ya %s?"
+msgstr "¿Está usted ya ejecutando %s?"
 
 #: clientgui/AccountInfoPage.cpp:459
 msgid "&Username:"
-msgstr "&Nombre  de usuario:"
+msgstr "&Nombre de usuario:"
 
 #: clientgui/AccountInfoPage.cpp:473
 msgid "&Email address:"
-msgstr "&Dirección de correo:"
+msgstr "&Correo Electrónico:"
 
 #: clientgui/AccountInfoPage.cpp:481
 #, c-format
@@ -105,7 +105,7 @@ msgstr "longitud mínima %d"
 
 #: clientgui/AccountInfoPage.cpp:488
 msgid "Forgot your password?"
-msgstr "¿Olvidó su clave?"
+msgstr "¿Ha olvidado su clave?"
 
 #: clientgui/AccountInfoPage.cpp:495
 msgid ""
@@ -113,8 +113,8 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
-"Si no se ha registrado todavía con este administrador de cuentas,\n"
-"por favor, hágalo antes de continuar.  Pulse en el vínculo de debajo\n"
+"Si no se ha registrado todavía en este administrador de cuentas,\r\n"
+"por favor, hágalo antes de continuar.  Pulse en el vínculo inferior\r\n"
 "para registrarse o recuperar una contraseña olvidada."
 
 #: clientgui/AccountInfoPage.cpp:498
@@ -139,8 +139,8 @@ msgid ""
 "The minimum password length for this project is %d. Please enter a different "
 "password."
 msgstr ""
-"La longitud mínima de clave para este proyecto es %d. Por favor introduzca "
-"una clave diferente."
+"Para este proyecto, la clave debe tener una longitud mínima de %d "
+"caracteres. Por favor, introduzca una clave distinta."
 
 #: clientgui/AccountInfoPage.cpp:549
 #, c-format
@@ -148,15 +148,15 @@ msgid ""
 "The minimum password length for this account manager is %d. Please enter a "
 "different password."
 msgstr ""
-"La longitud mínima de clave para este administrador de cuentas es %d. Por "
-"favor introduzca una clave diferente."
+"Para este administrador de cuentas la longitud mínima de la clave es %d "
+"caracteres. Por favor, introduzca una clave distinta."
 
 #: clientgui/AccountInfoPage.cpp:560
 msgid ""
 "The password and confirmation password do not match. Please type them again."
 msgstr ""
-"La clave y la confirmación de clave no concuerdan. Por favor tecléelas de "
-"nuevo."
+"La clave y la confirmación de clave no concuerdan. Por favor, introdúzcalas "
+"de nuevo."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Choose an account manager"
@@ -178,21 +178,21 @@ msgstr "U&RL del Administrador de Cuentas:"
 #: clientgui/AccountManagerPropertiesPage.cpp:195
 #, c-format
 msgid "Communicating with %s."
-msgstr "Comunicándose con %s."
+msgstr "Comunicando con %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:196
 #: clientgui/AccountManagerPropertiesPage.cpp:202
 msgid "Communicating with server."
-msgstr "Comunicándose con el servidor."
+msgstr "Comunicando con el servidor."
 
 #: clientgui/AccountManagerProcessingPage.cpp:201
 #: clientgui/AccountManagerPropertiesPage.cpp:207
 msgid "Please wait..."
-msgstr "Por favor espere..."
+msgstr "Por favor, espere..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr "Ha ocurrido un error interno en el servidor.\n"
+msgstr "Se ha producido un error interno en el servidor.\n"
 
 #: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
@@ -205,7 +205,7 @@ msgstr "Desconectado"
 #: clientgui/AdvancedFrame.cpp:305
 #, c-format
 msgid "Close the %s window"
-msgstr "Cerrar la ventana %s"
+msgstr "Cerrar ventana %s"
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
@@ -239,7 +239,7 @@ msgstr "Visualizar las tareas"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "Trans&ferencias\tCtrl+Shift+X"
+msgstr "Trans&ferencias\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:346
 msgid "Display transfers"
@@ -343,28 +343,24 @@ msgid "Use GPU always"
 msgstr "Usar la GPU siempre"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Hace el trabajo sin tener en cuenta sus preferencias"
+msgstr "Permitir trabajar a la GPU sin tener en cuenta las preferencias"
 
 #: clientgui/AdvancedFrame.cpp:473
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Ejecutar según &preferencias"
+msgstr "Usar GPU según las &preferencias"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Hace el trabajo de acuerdo con sus preferencias"
+msgstr "Permitir el trabajo de la GPU de acuerdo con sus preferencias"
 
 #: clientgui/AdvancedFrame.cpp:478
 msgid "Use GPU never"
-msgstr "No usar nunca la GPU"
+msgstr "Nunca usar la GPU"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Detiene el trabajo sin tener en cuenta sus preferencias"
+msgstr "Detiene el trabajo de la GPU sin considerar sus preferencias"
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "&Network activity always available"
@@ -376,14 +372,13 @@ msgstr "Actividad de red sin tener en cuenta sus preferencias"
 
 #: clientgui/AdvancedFrame.cpp:508
 msgid "Network activity based on pre&ferences"
-msgstr "Actividad de red basada en sus pre&ferencias"
+msgstr "Actividad de red &basada en sus preferencias"
 
 #: clientgui/AdvancedFrame.cpp:509
 msgid "Allow network activity according to your preferences"
 msgstr "Actividad de red de acuerdo con sus preferencias"
 
 #: clientgui/AdvancedFrame.cpp:513
-#, fuzzy
 msgid "Network activity s&uspended"
 msgstr "Actividad de red &suspendida"
 
@@ -560,7 +555,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1473
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Shutdown the current client..."
 msgstr "%s - Cerrar el cliente actual..."
 
@@ -1063,12 +1058,11 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 Universidad de California, Berkeley.\n"
+"(C) 2003-2010 Universidad de California, Berkeley.\n"
 "Reservados Todos los Derechos."
 
 #: clientgui/DlgAbout.cpp:179
@@ -1190,17 +1184,16 @@ msgid "minutes"
 msgstr "minutos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "uso del procesador"
+msgstr "Mientras el uso del procesador sea menor del"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
+msgstr "suspender los trabajos si el uso del procesador excede este nivel"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "por ciento (0 significa sin limitación)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1276,9 +1269,8 @@ msgid "Other options"
 msgstr "Otras opciones"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
-#, fuzzy
 msgid "Switch between applications every"
-msgstr "Cambiar entre aplicaciones cada"
+msgstr "Cambio entre aplicaciones cada"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:289
 msgid "On multiprocessor systems, use at most"
@@ -1699,9 +1691,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervalo de búsqueda de trabajo para la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:255
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Planificación de CPU prioritaria"
+msgstr "Planificación de GPU ATI prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:256
 msgid "ATI GPU work fetch priority"
@@ -2381,7 +2372,6 @@ msgid "Network communication failure"
 msgstr "Fallo en comunicación de red"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2403,8 +2393,8 @@ msgstr ""
 "1) Problema de conexión.  Compruebe su conexión de red o módem\n"
 "y haga clic en Anterior para intentarlo de nuevo.\n"
 "\n"
-"2) Un cortafuegos personal está bloqueando el programa World Community Grid "
-"- BOINC.  Configure su cortafuegos personal para dejar\n"
+"2) Un cortafuegos personal está bloqueando el programa World Community\n"
+" Grid - BOINC.  Configure su cortafuegos personal para dejar\n"
 "que BOINC y el Admnistrador BOINC se comuniquen con el puerto 80 y el 443, \n"
 "entonces haga clic en Anterior para intentarlo de nuevo.\n"
 "\n"
@@ -3808,6 +3798,8 @@ msgid ""
 "for accessibility support, please select advanced from the view menu or type "
 "command shift a"
 msgstr ""
+"para soporte para accesibilidad, por favor seleccione avanzada en el menú "
+"ver o pulse ctrl shift a"
 
 #: clientgui/mac/MacAccessiblity.cpp:245
 msgid "This panel contains graphs showing user totals for projects"
