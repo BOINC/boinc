@@ -739,7 +739,7 @@ void CTaskBarIcon::UpdateNoticeStatus() {
                 );
             } else {
                 // For platforms that do not support balloons
-                // If Manager is hidden or in backgroound, request user attention.
+                // If Manager is hidden or in background, request user attention.
                 if (! (wxGetApp().IsActive())) {
 #ifdef __WXMAC__
                     MacRequestUserAttention();  // Bounce BOINC Dock icon
