@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-02-12 12:47-0700\n"
+"PO-Revision-Date: 2010-04-01 04:51-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -919,13 +919,15 @@ msgstr "(Definido por el Usuario)"
 
 #: clientgui/BOINCTaskBar.cpp:248
 msgid "BOINC Notification"
-msgstr ""
+msgstr "Notificación de BOINC"
 
 #: clientgui/BOINCTaskBar.cpp:249
 msgid ""
 "TEST: Fluffy@Home just found out that the Fluffy project has been published "
 "in Nature"
 msgstr ""
+"PRUEBA: Fluffy@Home ha encontrado que el proyecto Fluffy ha sido publicado "
+"en Nature"
 
 #: clientgui/BOINCTaskBar.cpp:350
 msgid "Computation is suspended."
@@ -973,7 +975,7 @@ msgstr "Dormitar la GPU"
 
 #: clientgui/BOINCTaskBar.cpp:624
 msgid "Test Notification"
-msgstr ""
+msgstr "Prueba de Notificación"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -3634,6 +3636,8 @@ msgid ""
 "for accessibility support, please select advanced from the view menu or type "
 "command shift a"
 msgstr ""
+"para soporte para accesibilidad, por favor seleccione avanzada en el menu "
+"ver o pulse ctrl shift a"
 
 #: clientgui/mac/MacAccessiblity.cpp:250
 msgid "This panel contains graphs showing user totals for projects"
