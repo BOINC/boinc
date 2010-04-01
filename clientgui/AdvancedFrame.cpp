@@ -1947,8 +1947,7 @@ void CAdvancedFrame::ResetReminderTimers() {
 
 
 void CAdvancedFrame::UpdateActivityModeControls( CC_STATUS& status ) {
-    wxMenuBar* pMenuBar      = GetMenuBar();
-
+    wxMenuBar* pMenuBar = GetMenuBar();
     wxASSERT(pMenuBar);
     wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
@@ -1957,24 +1956,42 @@ void CAdvancedFrame::UpdateActivityModeControls( CC_STATUS& status ) {
     if ((RUN_MODE_AUTO == status.task_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYRUNBASEDONPREPERENCES)) return;
 
     if (RUN_MODE_ALWAYS == status.task_mode) {
-        pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, true);
-        pMenuBar->Check(ID_ADVACTIVITYSUSPEND, false);
-        pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, false);
+        if (!pMenuBar->IsChecked(ID_ADVACTIVITYRUNALWAYS)) {
+            pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, true);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYSUSPEND)) {
+            pMenuBar->Check(ID_ADVACTIVITYSUSPEND, false);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYRUNBASEDONPREPERENCES)) {
+            pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, false);
+        }
     }
     if (RUN_MODE_NEVER == status.task_mode) {
-        pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, false);
-        pMenuBar->Check(ID_ADVACTIVITYSUSPEND, true);
-        pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, false);
+        if (!pMenuBar->IsChecked(ID_ADVACTIVITYSUSPEND)) {
+            pMenuBar->Check(ID_ADVACTIVITYSUSPEND, true);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYRUNALWAYS)) {
+            pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, false);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYRUNBASEDONPREPERENCES)) {
+            pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, false);
+        }
     }
     if (RUN_MODE_AUTO == status.task_mode) {
-        pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, false);
-        pMenuBar->Check(ID_ADVACTIVITYSUSPEND, false);
-        pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, true);
+        if (!pMenuBar->IsChecked(ID_ADVACTIVITYRUNBASEDONPREPERENCES)) {
+            pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, true);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYRUNALWAYS)) {
+            pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, false);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYSUSPEND)) {
+            pMenuBar->Check(ID_ADVACTIVITYSUSPEND, false);
+        }
     }
 }
 
 void CAdvancedFrame::UpdateGPUModeControls( CC_STATUS& status ) {
-    wxMenuBar* pMenuBar      = GetMenuBar();
+    wxMenuBar* pMenuBar = GetMenuBar();
     wxASSERT(pMenuBar);
     wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
@@ -1983,26 +2000,43 @@ void CAdvancedFrame::UpdateGPUModeControls( CC_STATUS& status ) {
     if ((RUN_MODE_AUTO == status.gpu_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYGPUBASEDONPREPERENCES)) return;
 
     if (RUN_MODE_ALWAYS == status.gpu_mode) {
-        pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, true);
-        pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, false);
-        pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, false);
+        if (!pMenuBar->IsChecked(ID_ADVACTIVITYGPUALWAYS)) {
+            pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, true);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYGPUSUSPEND)) {
+            pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, false);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYGPUBASEDONPREPERENCES)) {
+            pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, false);
+        }
     }
     if (RUN_MODE_NEVER == status.gpu_mode) {
-        pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, false);
-        pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, true);
-        pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, false);
+        if (!pMenuBar->IsChecked(ID_ADVACTIVITYGPUSUSPEND)) {
+            pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, true);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYGPUALWAYS)) {
+            pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, false);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYGPUBASEDONPREPERENCES)) {
+            pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, false);
+        }
     }
     if (RUN_MODE_AUTO == status.gpu_mode) {
-        pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, false);
-        pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, false);
-        pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, true);
+        if (!pMenuBar->IsChecked(ID_ADVACTIVITYGPUBASEDONPREPERENCES)) {
+            pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, true);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYGPUALWAYS)) {
+            pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, false);
+        }
+        if (pMenuBar->IsChecked(ID_ADVACTIVITYGPUSUSPEND)) {
+            pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, false);
+        }
     }
 }
 
 
 void CAdvancedFrame::UpdateNetworkModeControls( CC_STATUS& status ) {
-    wxMenuBar* pMenuBar      = GetMenuBar();
-
+    wxMenuBar* pMenuBar = GetMenuBar();
     wxASSERT(pMenuBar);
     wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
@@ -2011,19 +2045,37 @@ void CAdvancedFrame::UpdateNetworkModeControls( CC_STATUS& status ) {
     if ((RUN_MODE_AUTO == status.network_mode) && pMenuBar->IsChecked(ID_ADVNETWORKRUNBASEDONPREPERENCES)) return;
 
     if (RUN_MODE_ALWAYS == status.network_mode) {
-        pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, true);
-        pMenuBar->Check(ID_ADVNETWORKSUSPEND, false);
-        pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, false);
+        if (!pMenuBar->IsChecked(ID_ADVNETWORKRUNALWAYS)) {
+            pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, true);
+        }
+        if (pMenuBar->IsChecked(ID_ADVNETWORKSUSPEND)) {
+            pMenuBar->Check(ID_ADVNETWORKSUSPEND, false);
+        }
+        if (pMenuBar->IsChecked(ID_ADVNETWORKRUNBASEDONPREPERENCES)) {
+            pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, false);
+        }
     }
     if (RUN_MODE_NEVER == status.network_mode) {
-        pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, false);
-        pMenuBar->Check(ID_ADVNETWORKSUSPEND, true);
-        pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, false);
+        if (!pMenuBar->IsChecked(ID_ADVNETWORKSUSPEND)) {
+            pMenuBar->Check(ID_ADVNETWORKSUSPEND, true);
+        }
+        if (pMenuBar->IsChecked(ID_ADVNETWORKRUNALWAYS)) {
+            pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, false);
+        }
+        if (pMenuBar->IsChecked(ID_ADVNETWORKRUNBASEDONPREPERENCES)) {
+            pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, false);
+        }
     }
     if (RUN_MODE_AUTO == status.network_mode) {
-        pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, false);
-        pMenuBar->Check(ID_ADVNETWORKSUSPEND, false);
-        pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, true);
+        if (!pMenuBar->IsChecked(ID_ADVNETWORKRUNBASEDONPREPERENCES)) {
+            pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, true);
+        }
+        if (pMenuBar->IsChecked(ID_ADVNETWORKRUNALWAYS)) {
+            pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, false);
+        }
+        if (pMenuBar->IsChecked(ID_ADVNETWORKSUSPEND)) {
+            pMenuBar->Check(ID_ADVNETWORKSUSPEND, false);
+        }
     }
 }
 
