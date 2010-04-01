@@ -316,7 +316,7 @@ void CProjectsComponent::UpdateProjectArray() {
 					}
 				}
 				if ( !found ) {
-					StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
+					StatImageLoader *i_statW = new StatImageLoader(this, project->master_url);
 					i_statW->LoadImage();
 					m_statProjects.push_back(i_statW);
 					// recurse in case there is more then one change

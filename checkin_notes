@@ -2371,3 +2371,12 @@ Rom    1 Apr 2010
         
     clientgui/
         AdvancedFrame.cpp
+
+David  1 Apr 2010
+	- manager: fixed one last (hopefully) instance of == applied to
+		a char[] formerly std::string
+
+	clientgui/
+		AsyncRPC.cpp
+		sg_ProjectComponents.cpp
+		ViewStatisticts.cpp

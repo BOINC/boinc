@@ -1156,7 +1156,9 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 					s = m_HideProjectStatistic.find( wxString((*i)->master_url, wxConvUTF8) );
 					if (s != m_HideProjectStatistic.end()){
 						m_HideProjectStatistic.erase(s);
-					}else m_HideProjectStatistic.insert( wxString((*i)->master_url, wxConvUTF8) );
+                    } else {
+                        m_HideProjectStatistic.insert(wxString((*i)->master_url, wxConvUTF8));
+                    }
 					break;
 				}
 			}
@@ -1295,7 +1297,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 			CheckMinMaxD(min_val_x, max_val_x);
 			CheckMinMaxD(min_val_y, max_val_y);
 
-		//Draw heading
+		    // Draw heading
 			PROJECT* state_project = pDoc->state.lookup_project((*i)->master_url);
 			if (state_project) {
 				dc.SetFont(m_font_standart_italic);
@@ -1306,13 +1308,13 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 			m_Zoom_max_val_X = max_val_x;
 			m_Zoom_min_val_Y = min_val_y;
 			m_Zoom_max_val_Y = max_val_y;
-		//Draw axis
+		    // Draw axis
 			DrawAxis(dc, max_val_y, min_val_y, max_val_x, min_val_x, pen_AxisColour1, max_val_y, min_val_y);
-		//Draw graph
+		    // Draw graph
 			wxColour graphColour=wxColour(0,0,0);
 			getDrawColour(graphColour,m_SelectedStatistic);
 			DrawGraph(dc, i, graphColour, 0, m_SelectedStatistic);
-		//Draw marker
+		    // Draw marker
 			DrawMarker(dc);
 			break;
 		}
