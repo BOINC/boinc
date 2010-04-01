@@ -1029,3 +1029,9 @@ Rom    31 Mar 2010
         
     clientgui/
         AdvancedFrame.cpp
+
+Rom    1 Apr 2010
+    - MGR: Reduce generated events on Linux.
+        
+    clientgui/
+        AdvancedFrame.cpp

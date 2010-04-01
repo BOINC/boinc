@@ -1952,24 +1952,25 @@ void CAdvancedFrame::UpdateActivityModeControls( CC_STATUS& status ) {
     wxASSERT(pMenuBar);
     wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
-    // Skip if everything is already setup, Linux and possibly a few other platforms
-    //   will emulate a click event for a menu item even when the action of setting
-    //   a controls value wasn't initiated via user interaction. This in turn causes
-    //   the set_* RPC to be called which will cause the state file to become dirty.
     if ((RUN_MODE_ALWAYS == status.task_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYRUNALWAYS)) return;
     if ((RUN_MODE_NEVER == status.task_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYSUSPEND)) return;
     if ((RUN_MODE_AUTO == status.task_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYRUNBASEDONPREPERENCES)) return;
 
-    // Set things up.
-    pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, false);
-    pMenuBar->Check(ID_ADVACTIVITYSUSPEND, false);
-    pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, false);
-    if (RUN_MODE_ALWAYS == status.task_mode)
+    if (RUN_MODE_ALWAYS == status.task_mode) {
         pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, true);
-    if (RUN_MODE_NEVER == status.task_mode)
+        pMenuBar->Check(ID_ADVACTIVITYSUSPEND, false);
+        pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, false);
+    }
+    if (RUN_MODE_NEVER == status.task_mode) {
+        pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, false);
         pMenuBar->Check(ID_ADVACTIVITYSUSPEND, true);
-    if (RUN_MODE_AUTO == status.task_mode)
+        pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, false);
+    }
+    if (RUN_MODE_AUTO == status.task_mode) {
+        pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, false);
+        pMenuBar->Check(ID_ADVACTIVITYSUSPEND, false);
         pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, true);
+    }
 }
 
 void CAdvancedFrame::UpdateGPUModeControls( CC_STATUS& status ) {
@@ -1981,15 +1982,21 @@ void CAdvancedFrame::UpdateGPUModeControls( CC_STATUS& status ) {
     if ((RUN_MODE_NEVER == status.gpu_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYGPUSUSPEND)) return;
     if ((RUN_MODE_AUTO == status.gpu_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYGPUBASEDONPREPERENCES)) return;
 
-    pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, false);
-    pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, false);
-    pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, false);
-    if (RUN_MODE_ALWAYS == status.gpu_mode)
+    if (RUN_MODE_ALWAYS == status.gpu_mode) {
         pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, true);
-    if (RUN_MODE_NEVER == status.gpu_mode)
+        pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, false);
+        pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, false);
+    }
+    if (RUN_MODE_NEVER == status.gpu_mode) {
+        pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, false);
         pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, true);
-    if (RUN_MODE_AUTO == status.gpu_mode)
+        pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, false);
+    }
+    if (RUN_MODE_AUTO == status.gpu_mode) {
+        pMenuBar->Check(ID_ADVACTIVITYGPUALWAYS, false);
+        pMenuBar->Check(ID_ADVACTIVITYGPUSUSPEND, false);
         pMenuBar->Check(ID_ADVACTIVITYGPUBASEDONPREPERENCES, true);
+    }
 }
 
 
@@ -1999,24 +2006,25 @@ void CAdvancedFrame::UpdateNetworkModeControls( CC_STATUS& status ) {
     wxASSERT(pMenuBar);
     wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
-    // Skip if everything is already setup, Linux and possibly a few other platforms
-    //   will emulate a click event for a menu item even when the action of setting
-    //   a controls value wasn't initiated via user interaction. This in turn causes
-    //   the set_* RPC to be called which will cause the state file to become dirty.
     if ((RUN_MODE_ALWAYS == status.network_mode) && pMenuBar->IsChecked(ID_ADVNETWORKRUNALWAYS)) return;
     if ((RUN_MODE_NEVER == status.network_mode) && pMenuBar->IsChecked(ID_ADVNETWORKSUSPEND)) return;
     if ((RUN_MODE_AUTO == status.network_mode) && pMenuBar->IsChecked(ID_ADVNETWORKRUNBASEDONPREPERENCES)) return;
 
-    // Set things up.
-    pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, false);
-    pMenuBar->Check(ID_ADVNETWORKSUSPEND, false);
-    pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, false);
-    if (RUN_MODE_ALWAYS == status.network_mode)
+    if (RUN_MODE_ALWAYS == status.network_mode) {
         pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, true);
-    if (RUN_MODE_NEVER == status.network_mode)
+        pMenuBar->Check(ID_ADVNETWORKSUSPEND, false);
+        pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, false);
+    }
+    if (RUN_MODE_NEVER == status.network_mode) {
+        pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, false);
         pMenuBar->Check(ID_ADVNETWORKSUSPEND, true);
-    if (RUN_MODE_AUTO == status.network_mode)
+        pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, false);
+    }
+    if (RUN_MODE_AUTO == status.network_mode) {
+        pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, false);
+        pMenuBar->Check(ID_ADVNETWORKSUSPEND, false);
         pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, true);
+    }
 }
 
 
