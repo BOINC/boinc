@@ -230,7 +230,7 @@ struct WORK_REQ {
     int max_jobs_on_host_cpu;
     int max_jobs_on_host_gpu;
     void update_for_result(double seconds_filled);
-    void add_no_work_message(char*);
+    void add_no_work_message(const char*);
     void get_job_limits();
 };
 
@@ -465,7 +465,7 @@ extern SCHEDULER_REQUEST* g_request;
 extern SCHEDULER_REPLY* g_reply;
 extern WORK_REQ* g_wreq;
 
-static inline void add_no_work_message(char* m) {
+static inline void add_no_work_message(const char* m) {
     g_wreq->add_no_work_message(m);
 }
 

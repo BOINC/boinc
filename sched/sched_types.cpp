@@ -142,7 +142,7 @@ int CLIENT_PLATFORM::parse(FILE* fin) {
 }
 
 
-void WORK_REQ::add_no_work_message(char* message) {
+void WORK_REQ::add_no_work_message(const char* message) {
     for (unsigned int i=0; i<no_work_messages.size(); i++) {
         if (!strcmp(message, no_work_messages.at(i).message.c_str())){
             return;
