@@ -2315,3 +2315,10 @@ Rom    31 Mar 2010
         
     clientgui/gtk/
         taskbarex.cpp
+
+David  31 Mar 2010
+    - client: give dynamic estimate (based on fraction done)
+        a greater weight in time-to-completion estimate
+
+    client/
+        work_fetch.cpp

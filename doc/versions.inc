@@ -3,18 +3,17 @@
 function show_linux_info() {
     echo "
         <p>
-        The current release is known to work with these Linux versions:
+        ".tra("The current release is known to work with these Linux versions:")."
         <ul>
-        <li> Fedora Core 7, 8, and 9
-        <li> Debian 4.1
+        <li> Fedora Core 7+
+        <li> Debian 4.1+
         <li> Ubuntu 7.10+
         <li> Mandriva, Sabayon, Mint, Gentoo, other Debian-based distributions
         </ul>
         <p>
-        For other Linux versions,
-        check if a BOINC package is offered by your Linux distribution.
+        ".tra("For other Linux versions, check if a BOINC package is offered by your Linux distribution.")."
         <ul>
-        <li> Fedora 7 and higher: type
+        <li> Fedora 7+: type
           <pre>yum install boinc-client boinc-manager</pre> as root.
         <li> Debian and Ubuntu: package names <b>boinc-client</b>,
             <b>boinc-manager</b>
@@ -23,11 +22,11 @@ function show_linux_info() {
         <li> Gentoo: package name <b>sci-misc/boinc</b>
         </ul>
         <p>
-        Alternatively, download the
-        <a href=download_all.php>BOINC client for older Linux versions</a>.
-        This doesn't have a graphical interface,
-        but it should work on all Linux systems, both x86 and x64.
-    ";
+        ".tra("Alternatively, download the %1BOINC client for older Linux versions%2. This doesn't have a graphical interface, but it should work on all Linux systems, both x86 and x64.",
+            "<a href=http://boinc.berkeley.edu/download_all.php>",
+            "</a>"
+        )
+    ;
 }
 
 function type_text($type) {

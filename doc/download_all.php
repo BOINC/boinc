@@ -209,16 +209,21 @@ if ($xml) {
         show_linux_info();
     }
     echo "
+        <a name=dotsch>
         <h3>Ubuntu image for USB/diskless/CD-ROM install</h3>
         <a href=http://www.dotsch.de/boinc/Dotsch_UX.html>Dotsch/UX</a>
-        is an ISO-format Linux distribution, based on Ubuntu Linux,
-        with the 6.2.15 BOINC client pre-installed.
+        is an ISO-format Linux distribution, based on Ubuntu Linux.
         It lets you easily install and boot from a USB stick, hard disk and
         from diskless clients,
         and it also has some interfaces to set up the diskless server
         and the clients automatically.
-        <a href=http://boincdl3.ssl.berkeley.edu/mirror/dotsch_ux-10.iso>Download</a>
-        the image (515 MB).
+        The current version (1.2) has the 6.10.17 BOINC client pre-installed.
+
+        <ul>
+        <li> <a href=http://boincdl3.ssl.berkeley.edu/mirror/dotsch_ux-12_i386.iso>Dotsch/UX for x86 (32-bit)</a> (585 MB)
+        <li> <a href=http://boincdl3.ssl.berkeley.edu/mirror/dotsch_ux-12_x64.iso>Dotsch/UX for x64 (64-bit)</a> (655 MB)
+        <li> <a href=http://boincdl3.ssl.berkeley.edu/mirror/dotsch_ux-1.2_patch.run>1.1->1.2 upgrade script (32/64 bit)</a> (43 MB)
+        </ul>
 
         <h3>Customizing this page</h3>
         The information on this page can be
