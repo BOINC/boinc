@@ -349,7 +349,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 return false;
             }
             if (cp->cuda_version < 3000) {
-                add_no_work_message("CUDA version 2.3 needed");
+                add_no_work_message("CUDA version 3.0 needed");
                 return false;
             }
             min_ram = PLAN_CUDA23_MIN_RAM;
@@ -438,6 +438,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
 
         if (!strcmp(plan_class, "cuda23")) {
             hu.flops *= 1.01;
+        } else if (!strcmp(plan_class, "cuda_fermi")) {
+            hu.flops *= 1.02;
         }
 
         if (config.debug_version_select) {

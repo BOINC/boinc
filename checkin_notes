@@ -2380,3 +2380,9 @@ David  1 Apr 2010
 		AsyncRPC.cpp
 		sg_ProjectComponents.cpp
 		ViewStatisticts.cpp
+
+David  1 Apr 2010
+    - scheduler: choose cuda_fermi over other cuda plan classes
+
+    sched/
+        sched_customize.cpp
