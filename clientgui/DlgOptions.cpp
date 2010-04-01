@@ -165,7 +165,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer6->Add(m_LanguageSelectionCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText9 = new wxStaticText;
-    itemStaticText9->Create( itemPanel4, wxID_STATIC, _("Network reminder interval:\n(minutes)"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    itemStaticText9->Create( itemPanel4, wxID_STATIC, _("Network or notices reminder interval:\n(minutes)"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ReminderFrequencyCtrl = new wxSlider;
@@ -177,7 +177,7 @@ void CDlgOptions::CreateControls()
 #endif
                                      wxSL_HORIZONTAL|wxSL_LABELS);
     if (ShowToolTips())
-        m_ReminderFrequencyCtrl->SetToolTip(_("How often should the Manager remind you when a network connection is needed?"));
+        m_ReminderFrequencyCtrl->SetToolTip(_("How often should the Manager remind you when you have new notices or when a network connection is needed?"));
     itemFlexGridSizer6->Add(m_ReminderFrequencyCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #ifdef __WXMSW__

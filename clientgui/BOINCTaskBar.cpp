@@ -41,10 +41,11 @@
 #include "res/macbadgemask.xpm"
 #endif
 
+// How long to bounce Dock icon on Mac
+#define MAX_NOTIFICATION_DURATION 15
 
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN)
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_REFRESH)
-DEFINE_EVENT_TYPE(wxEVT_TASKBAR_NOTIFICATION_ALERT)
 
 BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 
@@ -52,7 +53,6 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_CLOSE(CTaskBarIcon::OnClose)
     EVT_TASKBAR_REFRESH(CTaskBarIcon::OnRefresh)
     EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
-    EVT_TASKBAR_NOTIFICATION_ALERT(CTaskBarIcon::OnNotificationAlert)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
 #ifndef __WXMAC__
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
@@ -80,7 +80,7 @@ END_EVENT_TABLE()
 
 
 CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze) : 
-#if   defined(__WXMAC__)
+#ifdef __WXMAC__
     wxTaskBarIcon(DOCK)
 #else 
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
@@ -95,7 +95,9 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_bMouseButtonPressed = false;
 
     m_dtLastNotificationAlertExecuted = wxDateTime((time_t)0);
-    m_iLastNotificationCount = 0;
+#ifdef __WXMAC__
+    m_pNotificationRequest = NULL;
+#endif
 }
 
 
@@ -318,30 +320,6 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
 }
 
 
-void CTaskBarIcon::OnNotificationAlert(CTaskbarEvent& WXUNUSED(event)) {
-    CSkinAdvanced*   pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    wxString         strTitle;
-
-    strTitle.Printf(
-        _("%s Notices"),
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
-
-    // Do not use SafeMessageBox here because we want to continue 
-    // doing periodic RPCs to get messages, get notices, etc.
-    wxMessageDialog* pDlg = new wxMessageDialog(
-        NULL, 
-        _("One or more notices are now available for viewing."), 
-        strTitle, 
-        wxOK
-    );
-    pDlg->ShowModal();
-    if (pDlg) {
-        pDlg->Destroy();
-    }
-}
-
-
 void CTaskBarIcon::FireReloadSkin() {
     CTaskbarEvent event(wxEVT_TASKBAR_RELOADSKIN, this);
     AddPendingEvent(event);
@@ -435,6 +413,27 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
         CGImageRelease(pImage);
 
     return result;
+}
+
+
+// wxTopLevel::RequestUserAttention() doesn't have an API to cancel 
+// after a timeout, so we must call Notification Manager directly on Mac
+void CTaskBarIcon::MacRequestUserAttention()
+{
+    m_pNotificationRequest = (NMRecPtr) NewPtrClear( sizeof( NMRec) ) ;
+    m_pNotificationRequest->qType = nmType ;
+    m_pNotificationRequest->nmMark = 1;
+
+    NMInstall(m_pNotificationRequest);
+}
+
+void CTaskBarIcon::MacCancelUserAttentionRequest()
+{
+    if (m_pNotificationRequest) {
+        NMRemove(m_pNotificationRequest);
+        DisposePtr((Ptr)m_pNotificationRequest);
+        m_pNotificationRequest = NULL;
+    }
 }
 
 #endif  // ! __WXMAC__
@@ -703,7 +702,6 @@ void CTaskBarIcon::UpdateNoticeStatus() {
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     CSkinAdvanced*   pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString         strTitle;
-    int              iNoticeCount = 0;
 
 
     wxASSERT(pDoc);
@@ -713,15 +711,18 @@ void CTaskBarIcon::UpdateNoticeStatus() {
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-
+    if (!pFrame) return;
+    
+    // Repeat notification for unread notices at user-selected reminder frequency
     wxTimeSpan tsLastNotificationDisplayed = wxDateTime::Now() - m_dtLastNotificationAlertExecuted;
-    if (tsLastNotificationDisplayed.GetMinutes() >= 60) {
+    if (
+        (tsLastNotificationDisplayed.GetMinutes() >= pFrame->GetReminderFrequency()) 
+        && (pFrame->GetReminderFrequency() != 0)
+    ) {
 
-        iNoticeCount = pDoc->GetNoticeCount();
-        if (iNoticeCount > m_iLastNotificationCount) {
+        if (pDoc->GetUnreadNoticeCount()) {
 
             // Update cached info
-            m_iLastNotificationCount = iNoticeCount;
             m_dtLastNotificationAlertExecuted = wxDateTime::Now();
 
             if (IsBalloonsSupported()) {
@@ -738,25 +739,28 @@ void CTaskBarIcon::UpdateNoticeStatus() {
                 );
             } else {
                 // For platforms that do not support balloons
-                if (pFrame) {
-                    // If Manager is hidden, request user attention.
-                    if (! (pFrame->IsShown())) {
-                        pFrame->RequestUserAttention();
-                    }
-                    // If Manager is open to a tab other than Notices, display an alert.
-                    // If Manager is now hidden, alert will appear when Manager is shown.
-                    int currentTabView = pFrame->GetCurrentViewPage();
-                    if (! (currentTabView & VW_NOTIF)) {
-                        // Don't run the alert from within the taskbar Refresh event to 
-                        // allow updates to continue behind the notification alert
-                        CTaskbarEvent event(wxEVT_TASKBAR_NOTIFICATION_ALERT, this);
-                        AddPendingEvent(event);
-                    }
+                // If Manager is hidden or in backgroound, request user attention.
+                if (! (wxGetApp().IsActive())) {
+#ifdef __WXMAC__
+                    MacRequestUserAttention();  // Bounce BOINC Dock icon
+#else
+                    pFrame->RequestUserAttention();
+#endif
                 }
             }
         }
+#ifdef __WXMAC__
+    } else {
+        // Stop bouncing BOINC Dock icon after MAX_NOTIFICATION_DURATION seconds
+        if (m_pNotificationRequest) {
+            if (wxGetApp().IsActive() || 
+                (tsLastNotificationDisplayed.GetSeconds() >= MAX_NOTIFICATION_DURATION) 
+            ) {
+                MacCancelUserAttentionRequest();
+            }
+        }
+#endif
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::UpdateNoticeStatus - Function End"));
 }
-

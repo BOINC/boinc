@@ -124,7 +124,7 @@ private:
     bool            RepopulateNotebook();
     bool            CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage );
     bool            DeleteNotebook();
-
+    void            UpdateNoticesTabText();
     bool            CreateStatusbar();
     bool            DeleteStatusbar();
 

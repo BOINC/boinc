@@ -63,7 +63,7 @@ public:
     virtual void        OnExit( wxCommandEvent& event );
 
     int                 GetCurrentViewPage();
-
+    virtual void        UpdateNoticesTabText();
     int                 GetReminderFrequency() { return m_iReminderFrequency; }
     wxString            GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
 
@@ -82,7 +82,7 @@ public:
     virtual void        StopTimers();
     virtual void        UpdateRefreshTimerInterval();
 
-    inline void                UpdateStatusText( const wxChar* ){}
+    inline void         UpdateStatusText( const wxChar* ){}
 
     void                ShowAlert( 
                             const wxString title,
@@ -116,6 +116,7 @@ protected:
     bool                m_bShowConnectionFailedAlert;
 
     virtual int         _GetCurrentViewPage();
+
 
     DECLARE_EVENT_TABLE()
 };

@@ -392,6 +392,8 @@ CMainDocument::CMainDocument() : rpc(this) {
 
     m_iMessageSequenceNumber = 0;
     m_iNoticeSequenceNumber = 0;
+    m_iLastReadNoticeSequenceNumber = 0;
+    m_iNumberUnreadNotices = 0;
 
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
     m_iGet_state_rpc_result = 0;
@@ -1872,6 +1874,21 @@ int CMainDocument::CachedNoticeUpdate() {
         }
         if (notices.notices.size() != 0) {
             m_iNoticeSequenceNumber = notices.notices[0]->seqno;
+        }
+
+        // Consider all notices as having been read if Notices tab is open
+        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+        if (!pFrame) goto done;
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+        
+        int currentTabView = pFrame->GetCurrentViewPage();
+        if ((currentTabView & VW_NOTIF) && wxGetApp().IsActive()) {
+            m_iLastReadNoticeSequenceNumber = m_iNoticeSequenceNumber;
+        }
+        int unread = m_iNoticeSequenceNumber - m_iLastReadNoticeSequenceNumber;
+        if (m_iNumberUnreadNotices != unread) {
+            m_iNumberUnreadNotices = unread;
+            pFrame->UpdateNoticesTabText();
         }
     }
 done:

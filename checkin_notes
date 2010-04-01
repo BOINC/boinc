@@ -2337,3 +2337,21 @@ David  31 Mar 2010
         client_types.cpp
         cs_notices.cpp
         *.h
+
+Charlie  1 Apr 2010
+    - MGR: Show number of unread notices in title of Notices tab (we consider 
+        all notices as having been read when Notices tab is showing and BOINC 
+        Manager is front process).  Notify (balloon on Window or Linux, bounce 
+        Dock icon on Mac for 15 seconds) repeatedly when there are unread 
+        messages, with notification frequency set by Options dialog reminder 
+        interval slider.
+        Note: Should there be 2 separate reminder frequency sliders for network 
+        connection and Unread notices?
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        BOINCTaskBar.cpp, .h
+        DlgOptions.cpp
+        MainDocument.cpp, .h
+        MacSysMenu.cpp

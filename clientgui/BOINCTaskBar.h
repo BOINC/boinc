@@ -50,7 +50,6 @@ public:
     void OnClose(wxCloseEvent& event);
     void OnRefresh(CTaskbarEvent& event);
     void OnReloadSkin(CTaskbarEvent& event);
-    void OnNotificationAlert(CTaskbarEvent& event);
 
     void OnNotificationClick(wxTaskBarIconExEvent& event);
     void OnShutdown(wxTaskBarIconExEvent& event);
@@ -64,6 +63,13 @@ public:
     void AdjustMenuItems(wxMenu* menu);
 
 #ifdef __WXMAC__
+private:
+    NMRecPtr   m_pNotificationRequest;
+
+    void MacRequestUserAttention();
+    void MacCancelUserAttentionRequest();
+    
+public:
     wxMenu *CreatePopupMenu();
     bool SetIcon(const wxIcon& icon, const wxString& message = wxEmptyString);
 
@@ -104,7 +110,6 @@ private:
     bool       m_bMouseButtonPressed;
 
     wxDateTime m_dtLastNotificationAlertExecuted;
-    int        m_iLastNotificationCount;
 
     void       ResetTaskBar();
     void       DisplayContextMenu();
@@ -140,12 +145,10 @@ public:
 BEGIN_DECLARE_EVENT_TYPES()
 DECLARE_EVENT_TYPE( wxEVT_TASKBAR_RELOADSKIN, 10100 )
 DECLARE_EVENT_TYPE( wxEVT_TASKBAR_REFRESH, 10101 )
-DECLARE_EVENT_TYPE( wxEVT_TASKBAR_NOTIFICATION_ALERT, 10102 )
 END_DECLARE_EVENT_TYPES()
 
 #define EVT_TASKBAR_RELOADSKIN(fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_RELOADSKIN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_TASKBAR_REFRESH(fn)  DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_REFRESH, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_NOTIFICATION_ALERT(fn)  DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_NOTIFICATION_ALERT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 #endif

@@ -37,8 +37,6 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     { kEventClassApplication, kEventAppShown},
                                     {kEventClassMenu, kEventMenuOpening} };
 
-static const wxIcon* currentIcon = NULL;
-
 
 #if wxCHECK_VERSION(2,8,0)
 
@@ -215,8 +213,6 @@ void CMacSystemMenu::BuildMenu() {
         themenu->SetEventHandler(this);
 
         SetUpSystemMenu((MenuRef)(themenu->GetHMenu()), imageRef);
-        
-        currentIcon = NULL;
     }
     if(imageRef != NULL) CGImageRelease( imageRef );
 }

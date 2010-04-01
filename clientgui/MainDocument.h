@@ -291,6 +291,10 @@ public:
 private:
     wxDateTime                  m_dtNoticesTimeStamp;
 
+    int                         m_iNoticeSequenceNumber;
+    int                         m_iLastReadNoticeSequenceNumber;
+    int                         m_iNumberUnreadNotices;
+
 public:
     NOTICES                     notices;
     NOTICES                     async_notices_buf;
@@ -300,10 +304,9 @@ public:
     int                         CachedNoticeUpdate();
 
     int                         GetNoticeCount();
+    int                         GetUnreadNoticeCount() { return m_iNumberUnreadNotices; };
 
     int                         ResetNoticeState();
-
-    int                         m_iNoticeSequenceNumber;
 
 
     //

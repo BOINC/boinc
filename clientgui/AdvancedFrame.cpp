@@ -736,6 +736,8 @@ bool CAdvancedFrame::RepopulateNotebook() {
     CreateNotebookPage(new CViewStatistics(m_pNotebook));
     CreateNotebookPage(new CViewResources(m_pNotebook));
 
+    UpdateNoticesTabText();
+    
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function End"));
     return true;
 }
@@ -764,6 +766,32 @@ bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebookPage - Function End"));
     return true;
+}
+
+
+void CAdvancedFrame::UpdateNoticesTabText() {
+    wxWindow*       pwndNotebookPage = NULL;
+    CBOINCBaseView* pView = NULL;
+    wxString strTabText;
+    CMainDocument*  pDoc   = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    wxASSERT(m_pNotebook);
+    pwndNotebookPage = m_pNotebook->GetPage(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
+    wxASSERT(pwndNotebookPage);
+    pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+    wxASSERT(pView);
+
+    int count = pDoc->GetUnreadNoticeCount();
+    if (count) {
+        strTabText.Printf(wxT("%s (%d)"), pView->GetViewDisplayName().c_str(), count);
+    } else {
+        strTabText = pView->GetViewDisplayName();
+    }
+
+    m_pNotebook->SetPageText(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE, strTabText);
 }
 
 
