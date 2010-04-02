@@ -2388,6 +2388,14 @@ David  1 Apr 2010
         sched_customize.cpp
 
 David  1 Apr 2010
+    - validator: improved log messages
+    - fix some compiler warnings
+
+    sched/
+        sched_types.cpp,h
+        credit.cpp
+
+David  1 Apr 2010
 	- manager: change text for notice-frequency slider
 
 	clientgui/
