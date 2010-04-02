@@ -130,7 +130,9 @@ struct APP_VERSION {
 
     // used by validator, not in DB
     //
-    double expavg_credit_orig;
+    std::vector<double>pfc_samples;
+    std::vector<double>credit_samples;
+    std::vector<double>credit_times;
 
     int write(FILE*);
     void clear();

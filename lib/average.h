@@ -24,21 +24,8 @@ struct AVERAGE {
     double n;       // double to avoid integer overflow
     double avg;
 
-    // save original values here so you can update DB incrementally
-    double n_orig;
-    double avg_orig;
-
     inline void clear() {
         n = avg = 0;
-    }
-
-    inline void save_orig() {
-        n_orig = n;
-        avg_orig = avg;
-    }
-
-    inline bool changed() {
-        return (n_orig != n);
     }
 
     // return true if sample exceeded limit and was truncated
@@ -81,16 +68,6 @@ struct AVERAGE {
 struct AVERAGE_VAR : AVERAGE {
     double var;
     double q;
-
-    double q_orig;
-    double var_orig;
-
-    inline void save_orig_var() {
-        n_orig = n;
-        avg_orig = avg;
-        q_orig = q;
-        var_orig = var;
-    }
 
     inline bool update_var(
         double sample,

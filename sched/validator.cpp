@@ -560,20 +560,6 @@ bool do_validate_scan() {
     return found;
 }
 
-// reset app version records at start of scan
-//
-static void reset_app_versions() {
-    if (config.debug_credit) {
-        log_messages.printf(MSG_NORMAL, "Resetting app versions\n");
-    }
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        DB_APP_VERSION& av = app_versions[i];
-        av.pfc.save_orig();
-        av.expavg_credit_orig = av.expavg_credit;
-    }
-}
-
 int main_loop() {
     int retval;
     bool did_something;
@@ -589,7 +575,6 @@ int main_loop() {
 
     sprintf(buf, "where name='%s'", app_name);
 
-    reset_app_versions();
     while (1) {
         check_stop_daemons();
 
@@ -604,7 +589,6 @@ int main_loop() {
         did_something = do_validate_scan();
         if (!did_something) {
             write_modified_app_versions(app_versions);
-            reset_app_versions();
             if (one_pass) break;
 #ifdef GCL_SIMULATOR
             char nameforsim[64];

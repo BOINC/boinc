@@ -2392,3 +2392,25 @@ David  1 Apr 2010
 
 	clientgui/
 		DlgOptions.cpp
+
+David  2 Apr 2010
+    - backend programs: change the way PFC and elapsed-time statistics
+        are written to the DB.
+        The incremental approach was bogus.
+        New approach:
+        host_app_version: write directly; R/W interval is tiny
+        app_version: maintain an explicit list of update samples
+            for both PFC and credit.
+            When the validator flushes its app_version cache,
+            do careful updates.
+        Note: when using double fields in careful updates,
+        you can't test for equality.  Use abs(new-old) < 1e-N
+
+    db/
+        boinc_db.h
+    sched/
+        start
+        credit.cpp
+        validator.cpp
+    lib/
+        average.h

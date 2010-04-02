@@ -579,35 +579,36 @@ DB_APP_VERSION* av_lookup(int id, vector<DB_APP_VERSION>& app_versions) {
     DB_APP_VERSION av;
     int retval = av.lookup_id(id);
     if (retval) return NULL;
-    av.pfc.save_orig();
-    av.expavg_credit_orig = av.expavg_credit;
     app_versions.push_back(av);
     return &(app_versions[app_versions.size()-1]);
 }
 
+// called from the validator (get_pfc()).
+// Do a non-careful update.
+//
 static int write_hav(DB_HOST_APP_VERSION& hav) {
     char set_clause[8192], where_clause[8192];
     sprintf(set_clause,
-        "pfc_n=pfc_n+%.15e, "
-        "pfc_avg=pfc_avg+%.15e, "
-        "et_n=et_n+%.15e, "
-        "et_avg=et_avg+%.15e, "
-        "et_q=et_q+%.15e, "
-        "et_var=et_var+%.15e, "
-        "turnaround_n=turnaround_n+%.15e, "
-        "turnaround_avg=turnaround_avg+%.15e, "
-        "turnaround_q=turnaround_q+%.15e, "
-        "turnaround_var=turnaround_var+%.15e",
-        hav.pfc.n - hav.pfc.n_orig,
-        hav.pfc.avg - hav.pfc.avg_orig,
-        hav.et.n - hav.et.n_orig,
-        hav.et.avg - hav.et.avg_orig,
-        hav.et.q - hav.et.q_orig,
-        hav.et.var - hav.et.var_orig,
-        hav.turnaround.n - hav.turnaround.n_orig,
-        hav.turnaround.avg - hav.turnaround.avg_orig,
-        hav.turnaround.q - hav.turnaround.q_orig,
-        hav.turnaround.var - hav.turnaround.var_orig
+        "pfc_n=%.15e, "
+        "pfc_avg=%.15e, "
+        "et_n=%.15e, "
+        "et_avg=%.15e, "
+        "et_q=%.15e, "
+        "et_var=%.15e, "
+        "turnaround_n=%.15e, "
+        "turnaround_avg=%.15e, "
+        "turnaround_q=%.15e, "
+        "turnaround_var=%.15e",
+        hav.pfc.n,
+        hav.pfc.avg,
+        hav.et.n,
+        hav.et.avg,
+        hav.et.q,
+        hav.et.var,
+        hav.turnaround.n,
+        hav.turnaround.avg,
+        hav.turnaround.q,
+        hav.turnaround.var
     );
     if (hav.host_scale_time < dtime()) {
         strcat (set_clause, ", scale_probation=0");
@@ -631,6 +632,7 @@ int get_pfc(
 ) {
     DB_HOST_APP_VERSION hav;
     DB_APP_VERSION* avp=0;
+    int retval;
 
     mode = PFC_MODE_APPROX;
 
@@ -649,11 +651,8 @@ int get_pfc(
     }
 
     int gavid = generalized_app_version_id(r.app_version_id, r.appid);
-    int retval = hav_lookup(hav, r.hostid, gavid);
+    retval = hav_lookup(hav, r.hostid, gavid);
     if (retval) return retval;
-    hav.pfc.save_orig();
-    hav.et.save_orig_var();
-    hav.turnaround.save_orig_var();
 
     // old clients report CPU time but not elapsed time.
     // Use HOST_APP_VERSION.et to track distribution of CPU time.
@@ -876,10 +875,7 @@ int get_pfc(
                 r.id, avp->id, pfc/wu.rsc_fpops_est, pfc, wu.rsc_fpops_est
             );
         }
-        avp->pfc.update(
-            raw_pfc/wu.rsc_fpops_est,
-            AV_AVG_THRESH, AV_AVG_WEIGHT, AV_AVG_LIMIT
-        );
+        avp->pfc_samples.push_back(raw_pfc/wu.rsc_fpops_est);
     }
 
     if (config.debug_credit) {
@@ -909,17 +905,8 @@ int get_pfc(
     // keep track of credit per app version
     //
     if (avp) {
-        double old_credit = avp->expavg_credit;
-        update_average(
-            r.sent_time, pfc*COBBLESTONE_SCALE, CREDIT_HALF_LIFE,
-            avp->expavg_credit, avp->expavg_time
-        );
-        if (config.debug_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] updating app version expavg_credit: %f->%f\n",
-                r.id, old_credit, avp->expavg_credit
-            );
-        }
+        avp->credit_samples.push_back(pfc*COBBLESTONE_SCALE);
+        avp->credit_times.push_back(r.sent_time);
     }
 
     return 0;
@@ -1077,56 +1064,79 @@ int host_scale_probation(
     return hav.update_fields_noid(query, clause);
 }
 
-// write any app_version records that have changed;
+// carefully write any app_version records that have changed;
 // done at the end of every validator scan.
 //
 int write_modified_app_versions(vector<DB_APP_VERSION>& app_versions) {
-    unsigned int i;
+    unsigned int i, j;
+    int retval = 0;
+
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
-            " Entering write_modified_app_versions\n"
+            "[credit] start write_modified_app_versions()\n"
         );
     }
     for (i=0; i<app_versions.size(); i++) {
         DB_APP_VERSION& av = app_versions[i];
-        if (av.pfc.n == av.pfc.n_orig
-            && av.expavg_credit == av.expavg_credit_orig
-        ) {
+        if (av.pfc_samples.empty() && av.credit_samples.empty()) {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    " skipping app version %d - no change\n", av.id
+                    "[credit] skipping app version %d - no change\n", av.id
                 );
             }
             continue;
         }
-        char query[512], clause[512];
-        sprintf(query, "pfc_n=pfc_n+%.15e, pfc_avg=pfc_avg+%.15e, expavg_credit=expavg_credit+%.15e, expavg_time=%f",
-            av.pfc.n - av.pfc.n_orig,
-            av.pfc.avg - av.pfc.avg_orig,
-            av.expavg_credit - av.expavg_credit_orig,
-            av.expavg_time
-        );
-        if (config.debug_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] updating app version %d:\n", av.id
-            );
-            log_messages.printf(MSG_NORMAL,
-                "[credit] pfc.n += %f, pfc.avg += %f, expavg_credit += %f, expavg_time=%f\n",
-                av.pfc.n - av.pfc.n_orig,
-                av.pfc.avg - av.pfc.avg_orig,
-                av.expavg_credit - av.expavg_credit_orig,
+        while (1) {
+            double pfc_n_orig = av.pfc.n;
+            double expavg_credit_orig = av.expavg_credit;
+
+            for (j=0; j<av.pfc_samples.size(); j++) {
+                av.pfc.update(
+                    av.pfc_samples[j],
+                    AV_AVG_THRESH, AV_AVG_WEIGHT, AV_AVG_LIMIT
+                );
+            }
+            for (j=0; j<av.credit_samples.size(); j++) {
+                update_average(
+                    av.credit_times[j], av.credit_samples[j], CREDIT_HALF_LIFE,
+                    av.expavg_credit, av.expavg_time
+                );
+            }
+            char query[512], clause[512];
+            sprintf(query,
+                "pfc_n=%.15e, pfc_avg=%.15e, expavg_credit=%.15e, expavg_time=%f",
+                av.pfc.n,
+                av.pfc.avg,
+                av.expavg_credit,
                 av.expavg_time
             );
+            if (config.debug_credit) {
+                log_messages.printf(MSG_NORMAL,
+                    "[credit] updating app version %d:\n", av.id
+                );
+                log_messages.printf(MSG_NORMAL,
+                    "[credit] pfc.n = %f, pfc.avg = %f, expavg_credit = %f, expavg_time=%f\n",
+                    av.pfc.n,
+                    av.pfc.avg,
+                    av.expavg_credit,
+                    av.expavg_time
+                );
+            }
+            // if pfc_scale has changed (from feeder) reread it
+            //
+            sprintf(clause,
+                "pfc_n=%.15e and abs(expavg_credit-%.15e)<1e4 and abs(pfc_scale-%.15e)<1e6",
+                pfc_n_orig, expavg_credit_orig, av.pfc_scale
+            );
+            retval = av.update_field(query, clause);
+            if (retval) break;
+            if (boinc_db.affected_rows() == 1) break;
+            retval = av.lookup_id(av.id);
+            if (retval) break;
         }
-        // if pfc_scale has changed (from feeder) reread it
-        //
-        sprintf(clause, "pfc_scale=%.15e", av.pfc_scale);
-        int retval = av.update_field(query, clause);
-        if (retval) return retval;
-        if (boinc_db.affected_rows() == 1) break;
-        retval = av.lookup_id(av.id);
-        if (retval) return retval;
-        retval = av.update_field(query);
+        av.pfc_samples.clear();
+        av.credit_samples.clear();
+        av.credit_times.clear();
         if (retval) return retval;
     }
     return 0;

@@ -456,7 +456,7 @@ def do_prune_run_states():
         return
     for run_state_task in run_state.tasks:
         if run_state_task.prunable:
-            print 'Deleting obsolete run_state task', run_state_task.cmd, '(last run %s)' %timestamp(float(run_state_task.last_run))
+            # print 'Deleting obsolete run_state task', run_state_task.cmd, '(last run %s)' %timestamp(float(run_state_task.last_run))
             run_state.tasks.remove_node(run_state_task)
 
 def stop_daemon(pid):
