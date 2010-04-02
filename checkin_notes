@@ -2422,3 +2422,9 @@ David  2 Apr 2010
         validator.cpp
     lib/
         average.h
+
+David  2 Apr 2010
+    - backend: improved messages for app version credit updates
+
+    sched/
+        credit.cpp

@@ -451,8 +451,8 @@ int scale_versions(APP& app, double avg, SCHED_SHMEM* ssp) {
         if (config.debug_credit) {
             PLATFORM* p = ssp->lookup_platform_id(av.platformid);
             log_messages.printf(MSG_NORMAL,
-                " updating scale factor for (%s %s)\n",
-                p->name, av.plan_class
+                " updating scale factor for %d (%s %s)\n",
+                av.id, p->name, av.plan_class
             );
             log_messages.printf(MSG_NORMAL,
                 "  n: %g avg PFC: %g new scale: %g\n",
@@ -493,19 +493,20 @@ int update_av_scales(SCHED_SHMEM* ssp) {
             DB_APP_VERSION av;
             retval = av.lookup_id(avr.id);
             if (retval) return retval;
+            avr = av;       // update shared mem array
             if (strstr(av.plan_class, "cuda") || strstr(av.plan_class, "ati")) {
                 if (config.debug_credit) {
                     log_messages.printf(MSG_NORMAL,
-                        "gpu update: %d %s %g\n",
-                        av.id, av.plan_class, av.pfc.get_avg()
+                        "add to gpu totals: (%d %s) %g %g\n",
+                        av.id, av.plan_class, av.pfc.n, av.pfc.get_avg()
                     );
                 }
                 gpu_info.update(av);
             } else {
                 if (config.debug_credit) {
                     log_messages.printf(MSG_NORMAL,
-                        "cpu update: %d %s %g\n",
-                        av.id, av.plan_class, av.pfc.get_avg()
+                        "add to cpu totals: (%d %s) %g %g\n",
+                        av.id, av.plan_class, av.pfc.n, av.pfc.get_avg()
                     );
                 }
                 cpu_info.update(av);
@@ -523,10 +524,8 @@ int update_av_scales(SCHED_SHMEM* ssp) {
                 if (cpu_info.nvers_thresh && gpu_info.nvers_thresh) {
                     if (config.debug_credit) {
                         log_messages.printf(MSG_NORMAL,
-                            "CPU avg: %g\n", cpu_info.avg()
-                        );
-                        log_messages.printf(MSG_NORMAL,
-                            "GPU avg: %g\n", gpu_info.avg()
+                            "CPU avg: %g; GPU avg: %g\n",
+                            cpu_info.avg(), gpu_info.avg()
                         );
                     }
                     scale_versions(app,
@@ -536,11 +535,17 @@ int update_av_scales(SCHED_SHMEM* ssp) {
                 }
             } else {
                 if (cpu_info.nvers_thresh > 1) {
+                    log_messages.printf(MSG_NORMAL,
+                        "CPU avg: %g\n", cpu_info.avg()
+                    );
                     scale_versions(app, cpu_info.avg(), ssp);
                 }
             }
         } else {
             if (gpu_info.nvers_thresh > 1) {
+                log_messages.printf(MSG_NORMAL,
+                    "GPU avg: %g\n", gpu_info.avg()
+                );
                 scale_versions(app, gpu_info.avg(), ssp);
             }
         }
