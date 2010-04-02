@@ -2428,3 +2428,11 @@ David  2 Apr 2010
 
     sched/
         credit.cpp
+
+David  2 Apr 2010
+    - backend: fix scaling problem that was producing xe15 size credits.
+        This had messed up the beta DB, which I had to clean up.
+        Added a cap (1e5) to prevent this in the future.
+
+    sched/
+        credit.cpp

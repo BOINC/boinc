@@ -694,12 +694,12 @@ int get_pfc(
             }
         }
         if (do_scale) {
-            double s = r.cpu_time/hav.et.get_avg();
+            double s = r.cpu_time/(hav.et.get_avg()*wu.rsc_fpops_est);
             pfc *= s;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] old client: scaling by %g (%g/%g), return %f\n",
-                    r.id, s, r.elapsed_time, hav.et.get_avg(), pfc
+                    "[credit] [RESULT#%d] old client: scaling (based on CPU time) by %g, return %f\n",
+                    r.id, s, pfc
                 );
             }
         }
@@ -939,10 +939,16 @@ int assign_credit_set(
         } else {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] get_pfc() returns pfc %g mode %s\n",
-                    r.id, pfc, (mode==PFC_MODE_NORMAL)?"normal":"approx"
+                    "[credit] [RESULT#%d] get_pfc() returns pfc %g (credit %g) mode %s\n",
+                    r.id, pfc, pfc*COBBLESTONE_SCALE, (mode==PFC_MODE_NORMAL)?"normal":"approx"
                 );
             }
+        }
+        if (pfc*COBBLESTONE_SCALE > 1e5) {
+            log_messages.printf(MSG_NORMAL,
+                "Credit too high: %f\n", pfc*COBBLESTONE_SCALE
+            );
+            exit(1);
         }
         if (mode == PFC_MODE_NORMAL) {
             sum_normal += pfc;
