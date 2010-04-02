@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-02-10 12:18-0700\n"
-"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
+"PO-Revision-Date: 2010-03-16 15:04-0700\n"
+"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -1158,17 +1158,17 @@ msgid "minutes"
 msgstr "minutes"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "utilisation du processeur"
+msgstr "Tant que l'utilisation du processeur est inférieure à"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
 msgstr ""
+"interrompre les calculs si l'utilisation du processeur dépasse ce niveau "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "pourcentage (0 signifie qu'il n'y a aucune restriction)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1243,7 +1243,6 @@ msgid "Other options"
 msgstr "Autres options"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
-#, fuzzy
 msgid "Switch between applications every"
 msgstr "Changer d'application toutes les"
 
@@ -2338,7 +2337,6 @@ msgid "Network communication failure"
 msgstr "Echec de la communication réseau"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"

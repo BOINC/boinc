@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-01-16 06:54-0700\n"
+"PO-Revision-Date: 2010-03-29 07:12-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -150,19 +150,19 @@ msgstr ""
 
 #: poll_data.inc:119
 msgid "Age"
-msgstr ""
+msgstr "Életkor"
 
 #: poll_data.inc:129
 msgid "Sex"
-msgstr ""
+msgstr "Nem"
 
 #: poll_data.inc:131
 msgid "Male"
-msgstr ""
+msgstr "Férfi"
 
 #: poll_data.inc:132
 msgid "Female"
-msgstr ""
+msgstr "Nő"
 
 #: poll_data.inc:137
 msgid "Your level of computer expertise"
@@ -170,23 +170,23 @@ msgstr ""
 
 #: poll_data.inc:139
 msgid "Beginner"
-msgstr ""
+msgstr "Kezdő"
 
 #: poll_data.inc:140
 msgid "Intermediate"
-msgstr ""
+msgstr "Haladó"
 
 #: poll_data.inc:141
 msgid "Advanced"
-msgstr ""
+msgstr "Profi"
 
 #: poll_data.inc:149
 msgid "Where did you learn about BOINC projects?"
-msgstr ""
+msgstr "Honnan értesült a BOINC projektről?"
 
 #: poll_data.inc:151
 msgid "TV/radio/newspaper"
-msgstr ""
+msgstr "TV/rádió/ujság"
 
 #: poll_data.inc:152
 msgid "From friends, relatives, or coworkers"
@@ -194,21 +194,22 @@ msgstr ""
 
 #: poll_data.inc:153
 msgid "Team message boards or web sites"
-msgstr ""
+msgstr "Csapat üzenőfal vagy weboldal"
 
 #: poll_data.inc:154 poll_data.inc:210
 msgid "The BOINC web site"
-msgstr ""
+msgstr "A BOINC weboldal"
 
 #: poll_data.inc:155
 msgid "Other web sites"
-msgstr ""
+msgstr "Más weboldalak"
 
 #: poll_data.inc:161
 msgid ""
 "Which are the most important factors when you decide whether to participate "
 "in a BOINC project?"
 msgstr ""
+"Mik azok a legfontosabb tényezők, ami miatt részt vesz a BOINC projektben?"
 
 #: poll_data.inc:163
 msgid "Nice-looking screensaver graphics"
@@ -260,15 +261,15 @@ msgstr ""
 
 #: poll_data.inc:190
 msgid "Do you run BOINC as a screensaver?"
-msgstr ""
+msgstr "A BOINCot képernyővédőként (is) használja?"
 
 #: poll_data.inc:192
 msgid "Yes"
-msgstr ""
+msgstr "Igen"
 
 #: poll_data.inc:193
 msgid "No"
-msgstr ""
+msgstr "Nem"
 
 #: poll_data.inc:198
 msgid "Your usage of project messages boards:"
@@ -291,18 +292,20 @@ msgid ""
 "Where do you get information to help resolve problems with BOINC and/or "
 "BOINC projects?"
 msgstr ""
+"Hol keres megoldást, ha problémája van a BOINC szoftverrel és/vagy a BOINC "
+"projektekkel?"
 
 #: poll_data.inc:208
 msgid "The project message boards"
-msgstr ""
+msgstr "A projekt üzenőfalán"
 
 #: poll_data.inc:209
 msgid "The BOINC message boards"
-msgstr ""
+msgstr "A BOINC üzenőfalon"
 
 #: poll_data.inc:211
 msgid "BOINC mailing lists"
-msgstr ""
+msgstr "A BOINC levelező listán"
 
 #: poll_data.inc:212
 msgid "The Unofficial BOINC Wiki"
@@ -310,11 +313,11 @@ msgstr ""
 
 #: poll_data.inc:213
 msgid "Team web sites"
-msgstr ""
+msgstr "Csapat weboldalakon"
 
 #: poll_data.inc:214
 msgid "Google or other search engines"
-msgstr ""
+msgstr "A Google-ön vagy más keresőkön"
 
 #: download.php:40
 msgid "Download BOINC"
@@ -421,11 +424,11 @@ msgstr ""
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Statisztikák"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "Aktív:"
 
 #: index.php:53
 msgid "volunteers,"
@@ -445,11 +448,11 @@ msgstr ""
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Hírek"
 
 #: index.php:72
 msgid "... more"
-msgstr ""
+msgstr "... tovább"
 
 #: index.php:76
 #, php-format
@@ -462,11 +465,11 @@ msgstr ""
 
 #: index.php:88
 msgid "Download"
-msgstr ""
+msgstr "Letöltés"
 
 #: index.php:90 index.php:125 index.php:163
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentáció"
 
 #: index.php:96
 #, php-format

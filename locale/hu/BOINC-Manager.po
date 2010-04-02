@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-03-08 09:54-0700\n"
+"PO-Revision-Date: 2010-03-29 07:12-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -3767,7 +3767,7 @@ msgstr ""
 #: clientgui/mac/MacAccessiblity.cpp:528
 #: clientgui/mac/MacAccessiblity.cpp:636
 msgid "blank"
-msgstr ""
+msgstr "üres"
 
 #: clientgui/mac/MacAccessiblity.cpp:530
 msgid "list of "
