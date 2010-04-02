@@ -1041,3 +1041,11 @@ Rom    1 Apr 2010
         
     clientgui/
         AdvancedFrame.cpp
+
+Rom    1 Apr 2010
+    - Tag for 6.10.44 release, all platforms
+      boinc_core_release_6_10_44
+
+    /
+        configure.ac
+        version.h
