@@ -161,7 +161,7 @@ void CDlgOptions::CreateControls()
     m_LanguageSelectionCtrl = new wxComboBox;
     m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_LanguageSelectionCtrlStrings, wxCB_READONLY );
     if (ShowToolTips())
-        m_LanguageSelectionCtrl->SetToolTip(_("What language should the manager use?"));
+        m_LanguageSelectionCtrl->SetToolTip(_("What language should BOINC use?"));
     itemFlexGridSizer6->Add(m_LanguageSelectionCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText9 = new wxStaticText;
@@ -177,7 +177,7 @@ void CDlgOptions::CreateControls()
 #endif
                                      wxSL_HORIZONTAL|wxSL_LABELS);
     if (ShowToolTips())
-        m_ReminderFrequencyCtrl->SetToolTip(_("How often should the Manager remind you when you have new notices or when a network connection is needed?"));
+        m_ReminderFrequencyCtrl->SetToolTip(_("How often should BOINC remind you of new notices?"));
     itemFlexGridSizer6->Add(m_ReminderFrequencyCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #ifdef __WXMSW__
