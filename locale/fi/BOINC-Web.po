@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-04-02 23:57-0700\n"
+"PO-Revision-Date: 2010-04-03 00:49-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -128,15 +128,15 @@ msgstr "Missä ne ovat?"
 
 #: poll_data.inc:87
 msgid "Home"
-msgstr ""
+msgstr "Koti"
 
 #: poll_data.inc:88
 msgid "Work"
-msgstr ""
+msgstr "Työ"
 
 #: poll_data.inc:89
 msgid "School"
-msgstr ""
+msgstr "Koulu"
 
 #: poll_data.inc:96
 msgid "How many computers?"
@@ -144,7 +144,7 @@ msgstr "Kuinka monta tietokonetta?"
 
 #: poll_data.inc:107
 msgid "On average, how many hours per day are they powered on?"
-msgstr "Kuinka monta tuntia päivässä keskimäärin ne ovat päällä?"
+msgstr "Kuinka monta tuntia päivässä ne ovat päällä keskimäärin?"
 
 #: poll_data.inc:119
 msgid "Age"
@@ -226,7 +226,7 @@ msgstr "Avulias ja ystävällinen viestialue"
 
 #: poll_data.inc:167
 msgid "Participation by project staff on the message boards"
-msgstr "Projektin henkilökunnan osallistuminen viestialueella"
+msgstr "Projektin henkilökunnan osallistuminen keskustelupalstalla"
 
 #: poll_data.inc:168
 msgid "Informative project web site"
@@ -270,15 +270,15 @@ msgstr "Ei"
 
 #: poll_data.inc:198
 msgid "Your usage of project messages boards:"
-msgstr "Projektin viestialueen käyttösi:"
+msgstr "Projektin keskustelupalstan käyttösi:"
 
 #: poll_data.inc:200
 msgid "to read information"
-msgstr ""
+msgstr "tietojen saaminen"
 
 #: poll_data.inc:201
 msgid "to read and post information"
-msgstr ""
+msgstr "tietojen saaminen ja jakaminen"
 
 #: poll_data.inc:202
 msgid "None"
@@ -289,34 +289,35 @@ msgid ""
 "Where do you get information to help resolve problems with BOINC and/or "
 "BOINC projects?"
 msgstr ""
+"Mistä saat tietoja ratkaistaksesi BOINCin ja/tai BOINC-projektin ongelmia?"
 
 #: poll_data.inc:208
 msgid "The project message boards"
-msgstr ""
+msgstr "Projektin keskustelupalsta"
 
 #: poll_data.inc:209
 msgid "The BOINC message boards"
-msgstr ""
+msgstr "BOINCin keskustelupalsta"
 
 #: poll_data.inc:211
 msgid "BOINC mailing lists"
-msgstr ""
+msgstr "BOINCin postituslista"
 
 #: poll_data.inc:212
 msgid "The Unofficial BOINC Wiki"
-msgstr ""
+msgstr "Epävirallinen BOINC Wiki"
 
 #: poll_data.inc:213
 msgid "Team web sites"
-msgstr ""
+msgstr "Ryhmän internetsivusto"
 
 #: poll_data.inc:214
 msgid "Google or other search engines"
-msgstr ""
+msgstr "Google tai muu hakukone"
 
 #: download.php:40
 msgid "Download BOINC"
-msgstr ""
+msgstr "Lataa BOINC"
 
 #: download.php:42
 #, php-format
@@ -330,6 +331,10 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
+"BOINC on ohjelma, jolla voit antaa tietokoneesi laskentatehoa tieteelliseen "
+"käyttöön sellaisissa projekteissa kuin SETI@Home, Climateprediction.net, "
+"Rosetta@home, World Comunity Grid ja moniin muihin. <p> Asennuksen jälkeen "
+"voit osallistua niin moneen projektiin kuin haluat."
 
 #: download.php:114
 #, php-format
@@ -340,7 +345,7 @@ msgstr ""
 
 #: download.php:120
 msgid "System requirements"
-msgstr ""
+msgstr "Järjestelmävaatimukset"
 
 #: download.php:121
 msgid "Release notes"
@@ -352,7 +357,7 @@ msgstr ""
 
 #: download.php:123
 msgid "All versions"
-msgstr ""
+msgstr "Kaikki versiot"
 
 #: download.php:141
 msgid "BOINC: compute for science"
@@ -434,7 +439,7 @@ msgstr ""
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "Vuorokauden keskiarvo:"
 
 #: index.php:54
 msgid "TeraFLOPS."
@@ -451,7 +456,7 @@ msgstr ""
 #: index.php:76
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Uutiset saatavana myös %sRSS-syötteenä%s"
 
 #: index.php:86
 msgid "Volunteer"
@@ -487,31 +492,31 @@ msgstr ""
 
 #: index.php:126
 msgid "Software updates"
-msgstr ""
+msgstr "Ohjelmistopäivitykset"
 
 #: index.php:153
 msgid "The BOINC project"
-msgstr ""
+msgstr "BOINC-projekti"
 
 #: index.php:158
 msgid "Help wanted!"
-msgstr ""
+msgstr "Apua kaivataan"
 
 #: index.php:160
 msgid "Programming"
-msgstr ""
+msgstr "Ohjelmointi"
 
 #: index.php:161
 msgid "Translation"
-msgstr ""
+msgstr "Käännös"
 
 #: index.php:162
 msgid "Testing"
-msgstr ""
+msgstr "Testaus"
 
 #: index.php:165
 msgid "Software development"
-msgstr ""
+msgstr "Ohjelmistokehitys"
 
 #: index.php:166
 msgid "APIs for add-on software"
@@ -523,7 +528,7 @@ msgstr ""
 
 #: index.php:168
 msgid "Message boards"
-msgstr ""
+msgstr "Keskustelupalstat"
 
 #: index.php:169
 msgid "Email lists"
@@ -557,7 +562,7 @@ msgstr ""
 
 #: poll.php:9
 msgid "BOINC user survey"
-msgstr ""
+msgstr "BOINC käyttäjäkysely"
 
 #: poll.php:19
 msgid ""
@@ -590,7 +595,7 @@ msgstr ""
 
 #: poll.php:39
 msgid "Nationality"
-msgstr ""
+msgstr "Kansalaisuus"
 
 #: poll.php:44
 msgid "Comments"
@@ -601,32 +606,35 @@ msgid ""
 "Please suggest ways that BOINC, and the projects that use it, could be "
 "improved:"
 msgstr ""
+"Ehdota tapoja, joilla BOINCia ja sen käyttämiä projekteja voitaisiin "
+"kehittää:"
 
 #: poll.php:50
 msgid "When done click:"
-msgstr ""
+msgstr "Lopuksi napsauta:"
 
 #: poll_action.php:9
 msgid "Error - results not recorded"
-msgstr ""
+msgstr "Virhe - vastauksia ei tallennettu"
 
 #: poll_action.php:10
 msgid ""
 "An internal error has prevented us from recording your survey response.  "
 "Please try again later."
 msgstr ""
+"Vastauksiasi ei voitu tallentaa virheen vuoksi. Yritä myöhemmin uudelleen."
 
 #: poll_action.php:32
 msgid "Survey response recorded"
-msgstr ""
+msgstr "Vastaukset tallennettu"
 
 #: poll_action.php:33
 msgid "Thank you for completing the BOINC user survey."
-msgstr ""
+msgstr "Kiitos BOINC-kyselyyn vastaamisesta"
 
 #: poll_results.php:195
 msgid "Survey results"
-msgstr ""
+msgstr "Kyselyn tulokset"
 
 #: poll_results.php:196
 msgid ""
