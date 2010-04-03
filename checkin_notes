@@ -1049,3 +1049,10 @@ Rom    1 Apr 2010
     /
         configure.ac
         version.h
+
+Charlie  1 Apr 2010
+    - Mac: Update build instructions to replace dead link for 
+        downloading JPEG 6b sources.
+    
+     mac_build/
+        HowToBuildBOINC_XCode.rtf
