@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-04-02 13:57-0700\n"
+"PO-Revision-Date: 2010-04-02 23:57-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -140,137 +140,137 @@ msgstr ""
 
 #: poll_data.inc:96
 msgid "How many computers?"
-msgstr ""
+msgstr "Kuinka monta tietokonetta?"
 
 #: poll_data.inc:107
 msgid "On average, how many hours per day are they powered on?"
-msgstr ""
+msgstr "Kuinka monta tuntia päivässä keskimäärin ne ovat päällä?"
 
 #: poll_data.inc:119
 msgid "Age"
-msgstr ""
+msgstr "Ikä"
 
 #: poll_data.inc:129
 msgid "Sex"
-msgstr ""
+msgstr "Sukupuoli"
 
 #: poll_data.inc:131
 msgid "Male"
-msgstr ""
+msgstr "Mies"
 
 #: poll_data.inc:132
 msgid "Female"
-msgstr ""
+msgstr "Nainen"
 
 #: poll_data.inc:137
 msgid "Your level of computer expertise"
-msgstr ""
+msgstr "Tietokoneen käyttötaitosi"
 
 #: poll_data.inc:139
 msgid "Beginner"
-msgstr ""
+msgstr "Aloittelija"
 
 #: poll_data.inc:140
 msgid "Intermediate"
-msgstr ""
+msgstr "Peruskäyttäjä"
 
 #: poll_data.inc:141
 msgid "Advanced"
-msgstr ""
+msgstr "Kokenut"
 
 #: poll_data.inc:149
 msgid "Where did you learn about BOINC projects?"
-msgstr ""
+msgstr "Mistä sait tiedon BOINC-projektista?"
 
 #: poll_data.inc:151
 msgid "TV/radio/newspaper"
-msgstr ""
+msgstr "TV/radio/sanomalehdet"
 
 #: poll_data.inc:152
 msgid "From friends, relatives, or coworkers"
-msgstr ""
+msgstr "Ystäviltä, sukulaisilta tai työkavereilta"
 
 #: poll_data.inc:153
 msgid "Team message boards or web sites"
-msgstr ""
+msgstr "Ryhmän ilmoitustaulu tai kotisivut"
 
 #: poll_data.inc:154 poll_data.inc:210
 msgid "The BOINC web site"
-msgstr ""
+msgstr "BOINCin kotisivut"
 
 #: poll_data.inc:155
 msgid "Other web sites"
-msgstr ""
+msgstr "Muu kotisivu"
 
 #: poll_data.inc:161
 msgid ""
 "Which are the most important factors when you decide whether to participate "
 "in a BOINC project?"
-msgstr ""
+msgstr "Mitkä ovat tärkeimmät syyt päättäessäsi osallistua BOINC-projektiin?"
 
 #: poll_data.inc:163
 msgid "Nice-looking screensaver graphics"
-msgstr ""
+msgstr "Hyvännäköinen näytönsäästäjän grafiikka"
 
 #: poll_data.inc:164
 msgid "Fair and quick granting of credit for work done"
-msgstr ""
+msgstr "Lasketuista työpaketeista saa nopeasti ja tasapuolisesti pisteitä"
 
 #: poll_data.inc:165
 msgid "Getting more credit from this project than from others"
-msgstr ""
+msgstr "Tästä projektista saa enemmän pisteitä kuin muista"
 
 #: poll_data.inc:166
 msgid "Helpful and friendly message boards"
-msgstr ""
+msgstr "Avulias ja ystävällinen viestialue"
 
 #: poll_data.inc:167
 msgid "Participation by project staff on the message boards"
-msgstr ""
+msgstr "Projektin henkilökunnan osallistuminen viestialueella"
 
 #: poll_data.inc:168
 msgid "Informative project web site"
-msgstr ""
+msgstr "Informatiivinen projektin internetsivusto"
 
 #: poll_data.inc:169
 msgid "The science is important and beneficial"
-msgstr ""
+msgstr "Tiede on tärkeää ja hyödyllistä."
 
 #: poll_data.inc:170
 msgid "Non-profit, and results are public"
-msgstr ""
+msgstr "Voiton tavoittelemattomuus ja tulokset ovat yleisiä."
 
 #: poll_data.inc:171
 msgid "Personal recognition if my computer finds something"
-msgstr ""
+msgstr "Henkilökohtainen huomionosoitus jos tietokoneeni löytää jotain."
 
 #: poll_data.inc:172
 msgid "Publication by the project in scientific journals"
-msgstr ""
+msgstr "Projektin julkaisut tieteellisissä aikakauslehdissä."
 
 #: poll_data.inc:173
 msgid "Periodic email newsletters from the project"
-msgstr ""
+msgstr "Projektin säännölliset sähköiset uutiskirjeet."
 
 #: poll_data.inc:180
 msgid "How many BOINC projects do you participate in?"
-msgstr ""
+msgstr "Kuinka moneen BOINC-projektiin osallistut?"
 
 #: poll_data.inc:190
 msgid "Do you run BOINC as a screensaver?"
-msgstr ""
+msgstr "Käytätkö BOINCin näytönsäästäjää?"
 
 #: poll_data.inc:192
 msgid "Yes"
-msgstr ""
+msgstr "Kyllä"
 
 #: poll_data.inc:193
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: poll_data.inc:198
 msgid "Your usage of project messages boards:"
-msgstr ""
+msgstr "Projektin viestialueen käyttösi:"
 
 #: poll_data.inc:200
 msgid "to read information"
