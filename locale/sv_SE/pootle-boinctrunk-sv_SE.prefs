@@ -5,3 +5,6 @@ rights:
   nobody = u'view, pocompile'
   romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  ersi = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  RobHol = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  Elgot = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
