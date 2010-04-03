@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-04-03 00:49-0700\n"
+"PO-Revision-Date: 2010-04-03 13:51+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -24,7 +24,7 @@ msgstr "[valitse kaikki ne jotka sopivat]"
 
 #: poll.inc:47
 msgid "Other:"
-msgstr ""
+msgstr "Muu:"
 
 #: poll_data.inc:19
 msgid "Yes - I have been running BOINC on my computer for..."
@@ -194,7 +194,8 @@ msgstr "Ystäviltä, sukulaisilta tai työkavereilta"
 msgid "Team message boards or web sites"
 msgstr "Ryhmän ilmoitustaulu tai kotisivut"
 
-#: poll_data.inc:154 poll_data.inc:210
+#: poll_data.inc:154
+#: poll_data.inc:210
 msgid "The BOINC web site"
 msgstr "BOINCin kotisivut"
 
@@ -282,7 +283,7 @@ msgstr "tietojen saaminen ja jakaminen"
 
 #: poll_data.inc:202
 msgid "None"
-msgstr ""
+msgstr "Ei mikään"
 
 #: poll_data.inc:206
 msgid ""
@@ -342,6 +343,8 @@ msgid ""
 "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
 "(GPU), you may be able to %suse it to compute faster%s"
 msgstr ""
+"Huom: jos tietokoneessasi on NVIDIAn näytönohjain (GPU), saattaa olla "
+"mahdollista käyttää sitä %slaskennan apuna%s"
 
 #: download.php:120
 msgid "System requirements"
@@ -351,7 +354,8 @@ msgstr "Järjestelmävaatimukset"
 msgid "Release notes"
 msgstr ""
 
-#: download.php:122 index.php:89
+#: download.php:122
+#: index.php:89
 msgid "Help"
 msgstr ""
 
@@ -415,27 +419,27 @@ msgstr ""
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "Laskentatehoa"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "Vapaaehtoisten TOP 100"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Tilastot"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "Aktiivisia"
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "vapaaehtoisia,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "tietokoneita.\n"
 
 #: index.php:54
 msgid "24-hour average:"
@@ -447,11 +451,11 @@ msgstr ""
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Uutiset"
 
 #: index.php:72
 msgid "... more"
-msgstr ""
+msgstr "...lisää"
 
 #: index.php:76
 #, php-format
@@ -466,7 +470,9 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: index.php:90 index.php:125 index.php:163
+#: index.php:90
+#: index.php:125
+#: index.php:163
 msgid "Documentation"
 msgstr ""
 
@@ -524,7 +530,7 @@ msgstr ""
 
 #: index.php:167
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "Henkilöstö ja avustajat"
 
 #: index.php:168
 msgid "Message boards"
@@ -532,11 +538,11 @@ msgstr "Keskustelupalstat"
 
 #: index.php:169
 msgid "Email lists"
-msgstr ""
+msgstr "Postituslistat"
 
 #: index.php:170
 msgid "Events"
-msgstr ""
+msgstr "Tapahtumat"
 
 #: index.php:171
 msgid "Conferences"
@@ -548,11 +554,11 @@ msgstr ""
 
 #: index.php:173
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Logot ja grafiikka"
 
 #: index.php:206
 msgid "Browser default"
-msgstr ""
+msgstr "Selainoletus"
 
 #: index.php:250
 #, php-format
@@ -576,6 +582,15 @@ msgid ""
 "will replace the old ones. <p> The current results of the survey are <a "
 "href=poll_results.php>here</a>. "
 msgstr ""
+"Useat tietokoneprojektit, kuten Climateprediction.net, Einstein@home ja "
+"SETI@home, käyttävät BOINC-nimistä ohjelmaa. Jos osallistut tämäntapaisiin "
+"projekteihin, pyytäisimme vastaustasi seuraaviin kysymyksiin. Tällä tavalla "
+"BOINC-perustaiset projektit saavat lisää osallistujia ja enemmän "
+"tieteellisiä tuloksia. <p>Vastaa niin moneen kysymykseen kuin haluat ja "
+"napsauta sivun lopussa olevaa OK:ta. Jos olet jo aiemmin täyttänyt kyselyn "
+"ja mielipiteesi on muuttunut, täytä kysely uudelleen. Uudet vastauksesi "
+"korvaavat vanhat. <p>Tämänhetkiset kyselytulokset löytyvät <a "
+"href=poll_results.php>täältä</a>."
 
 #: poll.php:25
 msgid "Do you run BOINC?"
@@ -641,3 +656,5 @@ msgid ""
 "These are the current results of the <a href=poll.php>BOINC user survey</"
 "a>.  This page is updated every hour."
 msgstr ""
+"Tämänhetkiset <a href=poll.php>BOINC käyttäjäkyselyn</a> tulokset. Sivu "
+"päivittyy kerran tunnissa."
