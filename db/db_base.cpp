@@ -30,10 +30,7 @@
 #include "fcgi_stdio.h"
 #endif
 
-// uncomment the following to print all queries.
-// Useful for low-level debugging
-
-//#define SHOW_QUERIES
+bool g_print_queries = false;
 
 DB_CONN::DB_CONN() {
     mysql = 0;
@@ -115,9 +112,9 @@ int DB_CONN::set_isolation_level(ISOLATION_LEVEL level) {
 
 int DB_CONN::do_query(const char* p) {
     int retval;
-#ifdef SHOW_QUERIES
-    fprintf(stderr, "query: %s\n", p);
-#endif
+    if (g_print_queries) {
+        fprintf(stderr, "query: %s\n", p);
+    }
     retval = mysql_query(mysql, p);
     if (retval) {
         fprintf(stderr, "Database error: %s\nquery=%s\n", error_string(), p);

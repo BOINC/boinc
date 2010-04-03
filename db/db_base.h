@@ -22,6 +22,8 @@
 #include <string>
 #include <mysql.h>
 
+extern bool g_print_queries;
+
 // if SQL columns are not 'not null', you must use these safe_atoi, safe_atof
 // instead of atoi, atof, since the strings returned by MySQL may be NULL.
 //

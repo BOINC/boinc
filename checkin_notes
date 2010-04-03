@@ -2436,3 +2436,10 @@ David  2 Apr 2010
 
     sched/
         credit.cpp
+
+David  2 Apr 2010
+    - backend: make "print queries" a runtime instead of compile-time
+        decision (bool g_print_queries)
+
+    db/
+        db_base.cpp,h
