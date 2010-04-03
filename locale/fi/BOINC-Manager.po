@@ -1,11 +1,12 @@
+# Niklas Laxström, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-04-03 08:32-0700\n"
-"Last-Translator: Niklas Laxström <niklas.laxstrom@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2010-04-03 19:51+0300\n"
+"Last-Translator: Niklas Laxström\n"
+"Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,7 +183,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
-msgstr ""
+msgstr "&Sulje hallintaohjelma"
 
 #: clientgui/AdvancedFrame.cpp:319
 #, c-format
@@ -192,15 +193,15 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:324
 #: clientgui/BOINCTaskBar.cpp:641
 msgid "E&xit"
-msgstr ""
+msgstr "&Lopeta"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "&Projects\tCtrl+Shift+P"
-msgstr ""
+msgstr "&Projektit\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:334
 msgid "Display projects"
-msgstr ""
+msgstr "Näytä projektit"
 
 #: clientgui/AdvancedFrame.cpp:339
 msgid "&Tasks\tCtrl+Shift+T"
@@ -220,11 +221,11 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:351
 msgid "&Messages\tCtrl+Shift+M"
-msgstr ""
+msgstr "&Viestit\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:352
 msgid "Display messages"
-msgstr ""
+msgstr "Näytä viestit"
 
 #: clientgui/AdvancedFrame.cpp:357
 msgid "&Statistics\tCtrl+Shift+S"
@@ -464,27 +465,27 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:641
 msgid "&File"
-msgstr ""
+msgstr "&Tiedosto"
 
 #: clientgui/AdvancedFrame.cpp:645
 msgid "&View"
-msgstr ""
+msgstr "&Näkymä"
 
 #: clientgui/AdvancedFrame.cpp:649
 msgid "&Tools"
-msgstr ""
+msgstr "T&yökalut"
 
 #: clientgui/AdvancedFrame.cpp:653
 msgid "&Activity"
-msgstr ""
+msgstr "&Laskenta"
 
 #: clientgui/AdvancedFrame.cpp:657
 msgid "A&dvanced"
-msgstr ""
+msgstr "&Asetukset"
 
 #: clientgui/AdvancedFrame.cpp:661
 msgid "&Help"
-msgstr ""
+msgstr "&Ohje"
 
 #: clientgui/AdvancedFrame.cpp:1028
 msgid "Attaching to project or account manager..."
@@ -554,11 +555,11 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:1871
 #, c-format
 msgid "Connected to %s (%s)"
-msgstr ""
+msgstr "Yhteydessä koneeseen %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:182
 msgid "Username already in use"
-msgstr ""
+msgstr "Käyttäjätunnus on jo käytössä"
 
 #: clientgui/AlreadyExistsPage.cpp:185
 msgid ""
@@ -669,7 +670,7 @@ msgstr ""
 
 #: clientgui/BOINCBaseView.cpp:723
 msgid "Web sites"
-msgstr ""
+msgstr "Verkkosivuja"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -762,7 +763,7 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:379
 msgid "BOINC Manager"
-msgstr ""
+msgstr "BOINC-hallintaohjelma"
 
 #: clientgui/BOINCGUIApp.cpp:526
 msgid "BOINC Manager was started by the operating system automatically"
@@ -1004,22 +1005,24 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings."
 msgstr ""
+"Nämä asetukset ovat koskevat vain tätä konetta.\n"
+"Voit palauttaa oletusasetukset verkosta valitsemalla Palauta."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:52
 msgid "Clear"
-msgstr ""
+msgstr "Palauta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:53
 msgid "clear all local preferences and close the dialog"
-msgstr ""
+msgstr "Kumoaa kaikki paikalliset asetukset ja sulkee ikkunan"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:76
 msgid "Computing allowed"
-msgstr ""
+msgstr "Laskenta on sallittua"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:80
 msgid " While computer is on batteries"
-msgstr ""
+msgstr "Kun tietokone toimii akkuvirralla"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid "check this if you want this computer to do work while it runs on batteries"
@@ -1027,7 +1030,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:89
 msgid " While computer is in use"
-msgstr ""
+msgstr "Kun tietokone on käytössä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:92
 msgid "check this if you want this computer to do work even when you're using it"
@@ -1035,7 +1038,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
-msgstr ""
+msgstr "Käytä GPU:ta tietokoneen ollessa käytössä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
@@ -1043,16 +1046,17 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:113
 msgid "Only after computer has been idle for"
-msgstr ""
+msgstr "Vain kun tietokone on ollut käyttämättä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:123
 msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
 
+# Needs to be split into two messages with different context
 #: clientgui/DlgAdvPreferencesBase.cpp:128
 #: clientgui/DlgAdvPreferencesBase.cpp:286
 msgid "minutes"
-msgstr ""
+msgstr "minuuttia"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
 msgid "While processor usage is less than"
@@ -1069,78 +1073,78 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
 msgid "Every day between hours of"
-msgstr ""
+msgstr "Joka päivä välillä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:181
 msgid "start work at this time"
-msgstr ""
+msgstr "Milloin laskenta alkaa"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:185
 #: clientgui/DlgAdvPreferencesBase.cpp:410
 msgid "and"
-msgstr ""
+msgstr "ja "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:189
 msgid "stop work at this time"
-msgstr ""
+msgstr "Milloin laskenta keskeytetään"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:193
 #: clientgui/DlgAdvPreferencesBase.cpp:418
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(ei rajoitusta jos ajat samat)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:198
 #: clientgui/DlgAdvPreferencesBase.cpp:423
 msgid "Day-of-week override:"
-msgstr ""
+msgstr "Viikonpäiväkohtaiset rajoitukset"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:203
 #: clientgui/DlgAdvPreferencesBase.cpp:428
 msgid "check box to specify hours for this day of week"
-msgstr ""
+msgstr "Valitse, jos haluat määritellä laskenta-ajan tälle viikonpäivälle"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:213
 #: clientgui/DlgAdvPreferencesBase.cpp:438
 msgid "Monday"
-msgstr ""
+msgstr "Maanantai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:220
 #: clientgui/DlgAdvPreferencesBase.cpp:445
 msgid "Tuesday"
-msgstr ""
+msgstr "Tiistai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:227
 #: clientgui/DlgAdvPreferencesBase.cpp:452
 msgid "Wednesday"
-msgstr ""
+msgstr "Keskiviikko"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:234
 #: clientgui/DlgAdvPreferencesBase.cpp:459
 msgid "Thursday"
-msgstr ""
+msgstr "Torstai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:241
 #: clientgui/DlgAdvPreferencesBase.cpp:466
 msgid "Friday"
-msgstr ""
+msgstr "Perjantai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:248
 #: clientgui/DlgAdvPreferencesBase.cpp:473
 msgid "Saturday"
-msgstr ""
+msgstr "Lauantai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:255
 #: clientgui/DlgAdvPreferencesBase.cpp:480
 msgid "Sunday"
-msgstr ""
+msgstr "Sunnuntai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:272
 msgid "Other options"
-msgstr ""
+msgstr "Muut asetukset"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
 msgid "Switch between applications every"
-msgstr ""
+msgstr "Vaihda sovellusten välillä joka"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:289
 msgid "On multiprocessor systems, use at most"
@@ -1158,37 +1162,37 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:581
 #: clientgui/DlgAdvPreferencesBase.cpp:591
 msgid "Use at most"
-msgstr ""
+msgstr "Käytä enintään"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:306
 #, no-c-format
 msgid "% CPU time"
-msgstr ""
+msgstr "% suoritinajasta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:316
 msgid "processor usage"
-msgstr ""
+msgstr "Suoritin"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:324
 msgid "General options"
-msgstr ""
+msgstr "Perusasetukset"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:331
 msgid "Maximum download rate"
-msgstr ""
+msgstr "Latausnopeus"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:337
 #: clientgui/DlgAdvPreferencesBase.cpp:346
 msgid "KBytes/sec."
-msgstr ""
+msgstr "KB/s"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:340
 msgid "Maximum upload rate"
-msgstr ""
+msgstr "Lähetysnopeus"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:349
 msgid "Connect about every"
-msgstr ""
+msgstr "Yhdistä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:353
 msgid ""
@@ -1198,7 +1202,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:357
 msgid "days"
-msgstr ""
+msgstr "päivän välein"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:360
 msgid "Additional work buffer"
@@ -1218,11 +1222,11 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:380
 msgid "Connect options"
-msgstr ""
+msgstr "Yhdistäminen"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:382
 msgid "Confirm before connecting to internet"
-msgstr ""
+msgstr "Kysy ennen Internetiin yhdistämistä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:384
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
@@ -1230,7 +1234,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:388
 msgid "Disconnect when done"
-msgstr ""
+msgstr "Katkaise yhteys käytön jälkeen"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:390
 msgid ""
@@ -1240,24 +1244,24 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:397
 msgid "Network usage allowed"
-msgstr ""
+msgstr "Verkon käyttö on sallittua"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:406
 msgid "network usage start hour"
-msgstr ""
+msgstr "Mistä lähtien verkkoa saa käyttää"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:414
 msgid "network usage stop hour"
-msgstr ""
+msgstr "Mihin asti verkkoa saa käyttää"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:499
 msgid "network usage"
-msgstr ""
+msgstr "Verkko"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:507
 #: clientgui/DlgItemProperties.cpp:213
 msgid "Disk usage"
-msgstr ""
+msgstr "Tilankäyttö"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:519
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
@@ -1265,11 +1269,11 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:523
 msgid "Gigabytes disk space"
-msgstr ""
+msgstr "GiB levytilaa"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:526
 msgid "Leave at least"
-msgstr ""
+msgstr "Jätä vähintään"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:530
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
@@ -1277,7 +1281,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:534
 msgid "Gigabytes disk space free"
-msgstr ""
+msgstr "GiB vapaata levytilaa"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:541
 msgid "BOINC uses at most this percentage of total disk space"
@@ -1286,38 +1290,38 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:546
 #, no-c-format
 msgid "% of total disk space"
-msgstr ""
+msgstr "% levyn koosta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:549
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Kirjaa edistyminen levylle enintään"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:555
 msgid "seconds"
-msgstr ""
+msgstr "sekunnin välein"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:565
 #, no-c-format
 msgid "% of page file (swap space)"
-msgstr ""
+msgstr "% levyvälimuistista (swap)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:573
 msgid "Memory usage"
-msgstr ""
+msgstr "Muistinkäyttö"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:588
 #, no-c-format
 msgid "% when computer is in use"
-msgstr ""
+msgstr "% kun tietokone on käytössä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:598
 #, no-c-format
 msgid "% when computer is idle"
-msgstr ""
+msgstr "% kun tietokone on käyttämättömänä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:603
 msgid " Leave applications in memory while suspended"
-msgstr ""
+msgstr "Jätä laskentaprosessit muistiin keskeytysten ajaksi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:605
 msgid "if checked, suspended work units are left in memory"
@@ -1325,30 +1329,30 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:614
 msgid "disk and memory usage"
-msgstr ""
+msgstr "Muisti ja levy"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:627
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:628
 msgid "save all values and close the dialog"
-msgstr ""
+msgstr "Tallenna muutokset ja sulje ikkuna"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:633
 msgid "close the dialog without saving"
-msgstr ""
+msgstr "Sulje tallentamatta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:637
 #: clientgui/Localization.cpp:35
 #: clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139
 msgid "Help"
-msgstr ""
+msgstr "Ohje"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:638
 msgid "shows the preferences web page"
-msgstr ""
+msgstr "Avaa ohjesivun verkosta"
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
@@ -1423,7 +1427,7 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Resource share"
-msgstr ""
+msgstr "Osuus"
 
 #: clientgui/DlgItemProperties.cpp:205
 msgid "Scheduler RPC deferred for"
@@ -1579,7 +1583,7 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:284
 msgid "Report deadline"
-msgstr ""
+msgstr "Raportin määräaika"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "Resources"
@@ -1740,7 +1744,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:157
 msgid "Language:"
-msgstr ""
+msgstr "Kieli:"
 
 #: clientgui/DlgOptions.cpp:164
 msgid "What language should the manager use?"
@@ -2002,7 +2006,7 @@ msgstr ""
 #: clientgui/Localization.cpp:115
 #: clientgui/Localization.cpp:133
 msgid "Team"
-msgstr ""
+msgstr "Joukkue"
 
 #: clientgui/Localization.cpp:117
 msgid "Info about your Team"
@@ -2299,20 +2303,20 @@ msgstr ""
 
 #: clientgui/sg_DlgMessages.cpp:107
 msgid "Project"
-msgstr ""
+msgstr "Projekti"
 
 #: clientgui/sg_DlgMessages.cpp:108
 msgid "Time"
-msgstr ""
+msgstr "Aika"
 
 #: clientgui/sg_DlgMessages.cpp:109
 msgid "Message"
-msgstr ""
+msgstr "Viesti"
 
 #: clientgui/sg_DlgMessages.cpp:177
 #: clientgui/sg_DlgMessages.cpp:181
 msgid "Copy all the messages to the clipboard."
-msgstr ""
+msgstr "Kopioi kaikki viestit leikepöydälle"
 
 #: clientgui/sg_DlgMessages.cpp:202
 #: clientgui/sg_DlgMessages.cpp:210
@@ -2336,111 +2340,111 @@ msgstr ""
 
 #: clientgui/sg_DlgPreferences.cpp:95
 msgid "100 MB"
-msgstr ""
+msgstr "100 MiB"
 
 #: clientgui/sg_DlgPreferences.cpp:96
 msgid "200 MB"
-msgstr ""
+msgstr "200 MiB"
 
 #: clientgui/sg_DlgPreferences.cpp:97
 msgid "500 MB"
-msgstr ""
+msgstr "500 MiB"
 
 #: clientgui/sg_DlgPreferences.cpp:98
 msgid "1 GB"
-msgstr ""
+msgstr "1 GiB"
 
 #: clientgui/sg_DlgPreferences.cpp:99
 msgid "2 GB"
-msgstr ""
+msgstr "2 GiB"
 
 #: clientgui/sg_DlgPreferences.cpp:100
 msgid "5 GB"
-msgstr ""
+msgstr "5 GiB"
 
 #: clientgui/sg_DlgPreferences.cpp:101
 msgid "10 GB"
-msgstr ""
+msgstr "10 GiB"
 
 #: clientgui/sg_DlgPreferences.cpp:102
 msgid "20 GB"
-msgstr ""
+msgstr "20 GiB"
 
 #: clientgui/sg_DlgPreferences.cpp:103
 msgid "50 GB"
-msgstr ""
+msgstr "50 GiB"
 
 #: clientgui/sg_DlgPreferences.cpp:104
 msgid "100 GB"
-msgstr ""
+msgstr "100 GiB"
 
 #: clientgui/sg_DlgPreferences.cpp:135
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: clientgui/sg_DlgPreferences.cpp:136
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: clientgui/sg_DlgPreferences.cpp:137
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: clientgui/sg_DlgPreferences.cpp:138
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: clientgui/sg_DlgPreferences.cpp:139
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: clientgui/sg_DlgPreferences.cpp:140
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: clientgui/sg_DlgPreferences.cpp:141
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: clientgui/sg_DlgPreferences.cpp:142
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: clientgui/sg_DlgPreferences.cpp:143
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: clientgui/sg_DlgPreferences.cpp:144
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: clientgui/sg_DlgPreferences.cpp:169
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: clientgui/sg_DlgPreferences.cpp:170
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: clientgui/sg_DlgPreferences.cpp:171
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: clientgui/sg_DlgPreferences.cpp:172
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #: clientgui/sg_DlgPreferences.cpp:173
 msgid "15"
-msgstr ""
+msgstr "15"
 
 #: clientgui/sg_DlgPreferences.cpp:174
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #: clientgui/sg_DlgPreferences.cpp:175
 msgid "60"
-msgstr ""
+msgstr "60"
 
 #: clientgui/sg_DlgPreferences.cpp:284
 msgid "Skin"
@@ -2750,7 +2754,7 @@ msgstr ""
 #: clientgui/ViewMessagesGrid.cpp:97
 #: clientgui/ViewProjects.cpp:169
 msgid "Commands"
-msgstr ""
+msgstr "Komennot"
 
 #: clientgui/ViewMessages.cpp:88
 #: clientgui/ViewMessagesGrid.cpp:101
@@ -2891,43 +2895,43 @@ msgstr ""
 
 #: clientgui/ViewProjects.cpp:208
 msgid "Properties"
-msgstr ""
+msgstr "Lisätiedot"
 
 #: clientgui/ViewProjects.cpp:209
 msgid "Show project details."
-msgstr ""
+msgstr "Näytä lisätietoja projektista."
 
 #: clientgui/ViewProjects.cpp:219
 msgid "Account"
-msgstr ""
+msgstr "Tunnus"
 
 #: clientgui/ViewProjects.cpp:221
 msgid "Work done"
-msgstr ""
+msgstr "Tehty"
 
 #: clientgui/ViewProjects.cpp:222
 msgid "Avg. work done"
-msgstr ""
+msgstr "Tehty keskim."
 
 #: clientgui/ViewProjects.cpp:224
 msgid "Status"
-msgstr ""
+msgstr "Tila"
 
 #: clientgui/ViewProjects.cpp:249
 msgid "Projects"
-msgstr ""
+msgstr "Projektit"
 
 #: clientgui/ViewProjects.cpp:296
 msgid "Updating project..."
-msgstr ""
+msgstr "Päivitetään projektia..."
 
 #: clientgui/ViewProjects.cpp:338
 msgid "Resuming project..."
-msgstr ""
+msgstr "Jatketaan projektia..."
 
 #: clientgui/ViewProjects.cpp:342
 msgid "Suspending project..."
-msgstr ""
+msgstr "Keskeytetään projektia..."
 
 #: clientgui/ViewProjects.cpp:379
 msgid "Telling project to allow additional task downloads..."
@@ -2939,7 +2943,7 @@ msgstr ""
 
 #: clientgui/ViewProjects.cpp:419
 msgid "Resetting project..."
-msgstr ""
+msgstr "Alustetaan projektia..."
 
 #: clientgui/ViewProjects.cpp:432
 #, c-format
@@ -2948,7 +2952,7 @@ msgstr ""
 
 #: clientgui/ViewProjects.cpp:438
 msgid "Reset Project"
-msgstr ""
+msgstr "Alusta"
 
 #: clientgui/ViewProjects.cpp:477
 msgid "Detaching from project..."
@@ -2960,7 +2964,7 @@ msgstr ""
 
 #: clientgui/ViewProjects.cpp:703
 msgid "Resume"
-msgstr ""
+msgstr "Jatka"
 
 #: clientgui/ViewProjects.cpp:703
 msgid "Resume tasks for this project."
@@ -2968,7 +2972,7 @@ msgstr ""
 
 #: clientgui/ViewProjects.cpp:722
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Salli uudet tehtävät"
 
 #: clientgui/ViewProjects.cpp:722
 msgid "Allow fetching new tasks for this project."
@@ -3016,11 +3020,11 @@ msgstr ""
 
 #: clientgui/ViewResources.cpp:82
 msgid "Disk usage by BOINC projects"
-msgstr ""
+msgstr "BOINC-projektien tilankäyttö"
 
 #: clientgui/ViewResources.cpp:117
 msgid "Disk"
-msgstr ""
+msgstr "Tilankäyttö"
 
 #: clientgui/ViewResources.cpp:223
 msgid "not attached to any BOINC project: 0 bytes"
@@ -3028,15 +3032,15 @@ msgstr ""
 
 #: clientgui/ViewResources.cpp:260
 msgid "used by BOINC: "
-msgstr ""
+msgstr "BOINC: "
 
 #: clientgui/ViewResources.cpp:270
 msgid "free, available to BOINC: "
-msgstr ""
+msgstr "vaapana BOINCin käytettävissä: "
 
 #: clientgui/ViewResources.cpp:280
 msgid "free, not available to BOINC: "
-msgstr ""
+msgstr "vapaana, mutta ei BOINCin käytössä: "
 
 #: clientgui/ViewResources.cpp:290
 msgid "free: "
@@ -3044,7 +3048,7 @@ msgstr ""
 
 #: clientgui/ViewResources.cpp:300
 msgid "used by other programs: "
-msgstr ""
+msgstr "muut ohjetlmat: "
 
 #: clientgui/ViewStatistics.cpp:1142
 msgid "User Total"
@@ -3101,7 +3105,7 @@ msgstr ""
 
 #: clientgui/ViewStatistics.cpp:1776
 msgid "< &Previous project"
-msgstr ""
+msgstr "< &Edellinen projekti"
 
 #: clientgui/ViewStatistics.cpp:1777
 msgid "Show chart for previous project"
@@ -3109,7 +3113,7 @@ msgstr ""
 
 #: clientgui/ViewStatistics.cpp:1782
 msgid "&Next project >"
-msgstr ""
+msgstr "&Seuraava projekti >"
 
 #: clientgui/ViewStatistics.cpp:1783
 msgid "Show chart for next project"
@@ -3117,35 +3121,35 @@ msgstr ""
 
 #: clientgui/ViewStatistics.cpp:1788
 msgid "Mode view"
-msgstr ""
+msgstr "Näkymä"
 
 #: clientgui/ViewStatistics.cpp:1791
 msgid "All projects"
-msgstr ""
+msgstr "Kaikki projektit"
 
 #: clientgui/ViewStatistics.cpp:1792
 msgid "Show all projects, one chart per project"
-msgstr ""
+msgstr "Näytä kaikki projektit erillisissä kaavioissa"
 
 #: clientgui/ViewStatistics.cpp:1798
 msgid "One project"
-msgstr ""
+msgstr "Yksi projekti"
 
 #: clientgui/ViewStatistics.cpp:1799
 msgid "Show one chart with selected project"
-msgstr ""
+msgstr "Näytä yksi projekti kerrallaan"
 
 #: clientgui/ViewStatistics.cpp:1805
 msgid "All projects(sum)"
-msgstr ""
+msgstr "Kaikki projektit yhdessä"
 
 #: clientgui/ViewStatistics.cpp:1806
 msgid "Show one chart with all projects"
-msgstr ""
+msgstr "Näytä kaikki projektit samassa kaaviossa"
 
 #: clientgui/ViewStatistics.cpp:1833
 msgid "Statistics"
-msgstr ""
+msgstr "Tilastot"
 
 #: clientgui/ViewStatistics.cpp:1853
 #: clientgui/ViewStatistics.cpp:1874
@@ -3157,7 +3161,7 @@ msgstr ""
 #: clientgui/ViewStatistics.cpp:2001
 #: clientgui/ViewStatistics.cpp:2024
 msgid "Updating charts..."
-msgstr ""
+msgstr "Päivitetään kaavioita..."
 
 #: clientgui/ViewTransfers.cpp:163
 #: clientgui/ViewTransfersGrid.cpp:106
@@ -3182,34 +3186,34 @@ msgstr ""
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
 msgid "File"
-msgstr ""
+msgstr "Tiedosto"
 
 #: clientgui/ViewTransfers.cpp:183
 #: clientgui/ViewTransfersGrid.cpp:129
 #: clientgui/ViewWork.cpp:226
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "Progress"
-msgstr ""
+msgstr "Edistyminen"
 
 #: clientgui/ViewTransfers.cpp:184
 #: clientgui/ViewTransfersGrid.cpp:129
 msgid "Size"
-msgstr ""
+msgstr "Koko"
 
 #: clientgui/ViewTransfers.cpp:185
 #: clientgui/ViewTransfersGrid.cpp:130
 msgid "Elapsed Time"
-msgstr ""
+msgstr "Kulunut aika"
 
 #: clientgui/ViewTransfers.cpp:186
 #: clientgui/ViewTransfersGrid.cpp:130
 msgid "Speed"
-msgstr ""
+msgstr "Nopeus"
 
 #: clientgui/ViewTransfers.cpp:212
 #: clientgui/ViewTransfersGrid.cpp:167
 msgid "Transfers"
-msgstr ""
+msgstr "Siirrot"
 
 #: clientgui/ViewTransfers.cpp:271
 #: clientgui/ViewTransfersGrid.cpp:190
@@ -3297,12 +3301,12 @@ msgstr ""
 #: clientgui/ViewWork.cpp:205
 #: clientgui/ViewWorkGrid.cpp:128
 msgid "Abort"
-msgstr ""
+msgstr "Hylkää"
 
 #: clientgui/ViewWork.cpp:206
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
+msgstr "Hylkää laskennan. Et saa siitä pisteitä."
 
 #: clientgui/ViewWork.cpp:213
 msgid "Show task details."
@@ -3311,36 +3315,36 @@ msgstr ""
 #: clientgui/ViewWork.cpp:224
 #: clientgui/ViewWorkGrid.cpp:146
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: clientgui/ViewWork.cpp:225
 msgid "Elapsed"
-msgstr ""
+msgstr "Kulunut"
 
 #: clientgui/ViewWork.cpp:227
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "To completion"
-msgstr ""
+msgstr "Jäljellä"
 
 #: clientgui/ViewWork.cpp:254
 #: clientgui/ViewWorkGrid.cpp:190
 msgid "Tasks"
-msgstr ""
+msgstr "Tehtävät"
 
 #: clientgui/ViewWork.cpp:342
 #: clientgui/ViewWorkGrid.cpp:220
 msgid "Resuming task..."
-msgstr ""
+msgstr "Jatketaan tehtävää..."
 
 #: clientgui/ViewWork.cpp:345
 #: clientgui/ViewWorkGrid.cpp:223
 msgid "Suspending task..."
-msgstr ""
+msgstr "Keskeytetään tehtävää..."
 
 #: clientgui/ViewWork.cpp:373
 #: clientgui/ViewWorkGrid.cpp:251
 msgid "Showing graphics for task..."
-msgstr ""
+msgstr "Näytetään tehtävät grafiikkaa..."
 
 #: clientgui/ViewWork.cpp:426
 #, c-format
@@ -3348,6 +3352,8 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr ""
+"Haluatko hylätä tehtävän %s?\n"
+"(Edistyminen: %s, Tila: %s)"
 
 #: clientgui/ViewWork.cpp:432
 #, c-format
@@ -3357,20 +3363,20 @@ msgstr ""
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
 msgid "Abort task"
-msgstr ""
+msgstr "Hylkää"
 
 #: clientgui/ViewWork.cpp:446
 #: clientgui/ViewWorkGrid.cpp:313
 msgid "Aborting result..."
-msgstr ""
+msgstr "Hylätään..."
 
 #: clientgui/ViewWork.cpp:703
 msgid "Show all tasks"
-msgstr ""
+msgstr "Näytä kaikki tehtävät"
 
 #: clientgui/ViewWork.cpp:704
 msgid "Show all tasks."
-msgstr ""
+msgstr "Näytä kaikki tehtävät."
 
 #: clientgui/ViewWork.cpp:728
 #: clientgui/ViewWorkGrid.cpp:445
@@ -3409,10 +3415,12 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s %%, Status: %s)"
 msgstr ""
+"Haluatko hylätä tehtävän %s?\n"
+"(Edistyminen: %s %%, Tila: %s)"
 
 #: clientgui/WelcomePage.cpp:256
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Yhdistä projektiin tai tunnustenhallintapalveluun"
 
 #: clientgui/WelcomePage.cpp:264
 #, c-format
