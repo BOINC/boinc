@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-04-03 13:51+0200\n"
+"PO-Revision-Date: 2010-04-03 22:56+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -352,12 +352,12 @@ msgstr "Järjestelmävaatimukset"
 
 #: download.php:121
 msgid "Release notes"
-msgstr ""
+msgstr "Versiotiedot"
 
 #: download.php:122
 #: index.php:89
 msgid "Help"
-msgstr ""
+msgstr "Apua"
 
 #: download.php:123
 msgid "All versions"
@@ -384,6 +384,10 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
+"BOINC Online apu perustuu %sSkypeen%s, Internet-pohjaiseen "
+"puhelinjärjestelmään. Skype on ilmainen (sekä ohjelmiston että puheluiden "
+"osalta). Jos sinulla ei vielä ole Skypeä, %slataa ja asenna se%s. Palaa sen "
+"jälkeen tälle sivulle."
 
 #: help.php:28
 msgid ""
@@ -447,7 +451,7 @@ msgstr "Vuorokauden keskiarvo:"
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TeraFLOPsit"
 
 #: index.php:66
 msgid "News"
@@ -484,6 +488,11 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
+"Käytä tietokoneesi joutoaikaa (Windows, Mac tai Linux) parantamaan "
+"sairauksia, tutkimaan ilmastonlämpenemistä, löytämään pulsareita ja tekemään "
+"monia muita tieteellisiä tutkimuksia. Se on turvallista, luotettavaa ja "
+"helppoa: %sValitse%s projektit %sLataa%s ja aja BOINC-ohjelmisto %sAnna%s "
+"sähköpostiosoite ja salasana."
 
 #: index.php:107
 #, php-format
@@ -526,7 +535,7 @@ msgstr "Ohjelmistokehitys"
 
 #: index.php:166
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "Ohjelmointirajapinnat ohjelmiston laajennoksille"
 
 #: index.php:167
 msgid "Personnel and contributors"
@@ -602,7 +611,7 @@ msgstr ""
 
 #: poll.php:32
 msgid "Your computers"
-msgstr ""
+msgstr "Tietokoneesi"
 
 #: poll.php:34
 msgid "You"
@@ -614,7 +623,7 @@ msgstr "Kansalaisuus"
 
 #: poll.php:44
 msgid "Comments"
-msgstr ""
+msgstr "Kommentit"
 
 #: poll.php:46
 msgid ""
