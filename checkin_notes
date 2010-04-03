@@ -2443,3 +2443,10 @@ David  2 Apr 2010
 
     db/
         db_base.cpp,h
+
+Charlie  1 Apr 2010
+    - Mac: Update build instructions to replace dead link for 
+        downloading JPEG 6b sources.
+    
+     mac_build/
+        HowToBuildBOINC_XCode.rtf
