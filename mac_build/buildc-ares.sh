@@ -18,14 +18,19 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh Universal Binary library of c-ares-1.7.0 for
+# Script to build Macintosh Universal Binary library of c-ares-1.6.0 for
 # use in building BOINC.
+#
+# Note: reverted to c-ares 1.6.0 from 1.7.0 because the newer c-ares has 
+# problems resolving host names on OS 10.6 with default settings when used 
+# with AT&T U-Verse 2Wire gateway routers and Airport.
 #
 # by Charlie Fenton 7/21/06
 # Updated 12/3/09 for OS 10.6 Snow Leopard and XCode 3.2.1
+# Updated 4/3/10
 #
-## In Terminal, CD to the c-ares-1.7.0 directory.
-##     cd [path]/c-ares-1.7.0/
+## In Terminal, CD to the c-ares-1.6.0 directory.
+##     cd [path]/c-ares-1.6.0/
 ## then run this script:
 ##     source [path]/buildc-ares.sh [ -clean ]
 ##
@@ -34,7 +39,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f .libs/libcares_ppc.a ] && [ -f .libs/libcares_i386.a ] && [ -f .libs/libcares_x86_64.a ] && [ -f .libs/libcares.a ]; then
-        echo "c-ares-1.7.0 already built"
+        echo "c-ares-1.6.0 already built"
         return 0
     fi
 fi

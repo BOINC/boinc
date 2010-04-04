@@ -3466,7 +3466,7 @@
 				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.0/.libs/libcares.a",
+					"../../c-ares-1.6.0/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -3491,7 +3491,7 @@
 				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.0/.libs/libcares.a",
+					"../../c-ares-1.6.0/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4090,7 +4090,7 @@
 				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.0/.libs/libcares.a",
+					"../../c-ares-1.6.0/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4420,7 +4420,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.0/.libs/libcares.a",
+					"../../c-ares-1.6.0/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4639,7 +4639,7 @@
 				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.0/.libs/libcares.a",
+					"../../c-ares-1.6.0/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4661,7 +4661,7 @@
 				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.0/.libs/libcares.a",
+					"../../c-ares-1.6.0/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",
@@ -4941,7 +4941,7 @@
 				HEADER_SEARCH_PATHS = "../../curl-7.19.7/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.7/lib/.libs/libcurl.a",
-					"../../c-ares-1.7.0/.libs/libcares.a",
+					"../../c-ares-1.6.0/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
 					"-lldap",

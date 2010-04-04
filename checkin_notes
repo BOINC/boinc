@@ -2450,3 +2450,16 @@ Charlie  1 Apr 2010
     
      mac_build/
         HowToBuildBOINC_XCode.rtf
+
+Charlie  3 Apr 2010
+    - Mac: Build with c-ares 1.6.0 instead of c-ares 1.7.0, because the newer 
+        c-ares has problems resolving host names on OS 10.6 with default 
+        settings when used with AT&T U-Verse 2Wire gateway routers and Airport.
+        
+     mac_build/
+        buildc-ares.sh
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBoinc.sh
+        boinc.xcodeproj/
+            project.pbxproj
