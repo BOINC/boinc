@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2010 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -19,10 +19,14 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.19.7 with c-ares-1.7.0, jpeg-6b and wxMac-2.8.10
+# curl-7.19.7 with c-ares-1.6.0, jpeg-6b and wxMac-2.8.10
+#
+# Note: reverted to c-ares 1.6.0 from 1.7.0 because the newer c-ares has 
+# problems resolving host names on OS 10.6 with default settings when used 
+# with AT&T U-Verse 2Wire gateway routers and Airport.
 #
 # by Charlie Fenton 7/21/06
-# Updated 12/3/09 for curl-7.19.7, c-ares-1.7.0 and wxMac-2.8.10 and Unicode
+# Updated 4/3/10 for curl-7.19.7, c-ares-1.6.0 and wxMac-2.8.10 and Unicode
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -48,11 +52,11 @@ SCRIPT_DIR=`pwd`
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD C-ARES-1.7.0 -------"
+echo "------- BUILD C-ARES-1.6.0 -------"
 echo "----------------------------------"
 echo ""
 
-cd ../../c-ares-1.7.0/
+cd ../../c-ares-1.6.0/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildc-ares.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
