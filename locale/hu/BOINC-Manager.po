@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-03-16 16:37-0700\n"
+"PO-Revision-Date: 2010-04-04 04:40-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -205,7 +205,7 @@ msgstr "%s ablak bezárása"
 
 #: clientgui/AdvancedFrame.cpp:307
 msgid "&Close Window"
-msgstr ""
+msgstr "&Ablak bezárása"
 
 #: clientgui/AdvancedFrame.cpp:318
 #, c-format
