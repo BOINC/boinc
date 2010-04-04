@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-04-03 22:56+0200\n"
+"PO-Revision-Date: 2010-04-04 22:41+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -375,6 +375,10 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
+"BOINC Online apu mahdollistaa puhumisen kokeneen BOINC-käyttäjän kanssa, "
+"joka %s osaa vastata kysymyksiin BOINCista ja laskennasta, %s auttaa  "
+"BOINCin asennuksessa ja käytössä, %s ratkaisee ongelmia joita sinulla "
+"saattaa olla."
 
 #: help.php:21
 #, php-format
@@ -396,16 +400,20 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
+"Paras tapa avun saamiseksi on puhuminen, johon tarvitset mikrofonin ja "
+"kaiuttimet tai kuulokkeet tietokoneeseesi. Voit myös käyttää Skypen "
+"tekstipohjaista chattia tai perinteistä sähköpostia (jos sinulla ei ole "
+"Skypea) avun saamiseksi."
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
-msgstr ""
+msgstr "Vapaaehtoisista löytyy useiden kielien taitajia. Valitse oma kielesi:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr ""
+msgstr "Ole vapaaehtoisavustaja"
 
 #: help.php:50
 #, php-format
@@ -414,12 +422,15 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
+"Jos olet kokenut BOINC-käyttäjä, tule %svapaaehtoiseksi avustajaksi%s.  Se "
+"on hieno tapa auttaa tieteellisessä tutkimuksessa ja laskennassa - lisäksi "
+"se on hauskaa!"
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr ""
+msgstr "Jos olet jo avustajana, voit muokata asetuksiasi %stästä%s."
 
 #: index.php:23
 msgid "Computing power"
@@ -500,6 +511,8 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
+"Jos ajat useampaa projektia, kokeile %stilihallitsinta%s kuten "
+"%sGridRepublic%s tai %sBAM!%s. "
 
 #: index.php:123
 msgid "Compute with BOINC"
@@ -555,7 +568,7 @@ msgstr "Tapahtumat"
 
 #: index.php:171
 msgid "Conferences"
-msgstr ""
+msgstr "Konferenssit"
 
 #: index.php:172
 msgid "Papers and talks"
@@ -603,11 +616,11 @@ msgstr ""
 
 #: poll.php:25
 msgid "Do you run BOINC?"
-msgstr ""
+msgstr "Käytätkö BOINCia?"
 
 #: poll.php:30
 msgid "Your participation"
-msgstr ""
+msgstr "Osallistumisesi"
 
 #: poll.php:32
 msgid "Your computers"
@@ -615,7 +628,7 @@ msgstr "Tietokoneesi"
 
 #: poll.php:34
 msgid "You"
-msgstr ""
+msgstr "Sinä"
 
 #: poll.php:39
 msgid "Nationality"
