@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 12/3/09\
+Last updated 4/3/10\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-This document applies to BOINC version 6.10.22 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 6.10.44 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 Note: the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -124,7 +124,7 @@ You also need to install Subversion itself.  One place to get it is:\
 
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 BOINC depends on four third-party libraries: wxMac-2.8.10, c-ares-1.7.0, curl-7.19.7, and jpeg-6b.  You can obtain these from the following URLs:\
+\cf0 BOINC depends on four third-party libraries: wxMac-2.8.10, c-ares-1.6.0, curl-7.19.7, and jpeg-6b.  You can obtain these from the following URLs:\
 \
 wxMac-2.8.10 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
@@ -144,11 +144,11 @@ curl-7.19.7:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\f0\fs24 \cf0 c-ares-1.7.0 (used by curl):\
+\f0\fs24 \cf0 c-ares-1.6.0 (used by curl):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/}}\
-	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/c-ares-1.7.0.tar.gz"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/c-ares-1.7.0.tar.gz}}\
+	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/c-ares-1.6.0.tar.gz"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/c-ares-1.6.0.tar.gz}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f0\fs24 \cf0 \
@@ -156,7 +156,7 @@ jpeg-6b (needed  only if you are building the BOINC libboinc_graphics_api.a libr
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.ijg.org"}}{\fldrslt http://www.ijg.org}}\
-	{\field{\*\fldinst{HYPERLINK "ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz"}}{\fldrslt ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz}}\
+	{\field{\*\fldinst{HYPERLINK "http://dir.filewatcher.com/d/GNU/Other/jpegsrc.v6b.tar.gz.613261.html"}}{\fldrslt http://dir.filewatcher.com/d/GNU/Other/jpegsrc.v6b.tar.gz.613261.html}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f0\fs24 \cf0 \
@@ -192,7 +192,7 @@ XCode installed these utilities in the
 \i0 \cf0 \
 \pard\pardeftab720\sa260\ql\qnatural
 \cf0 All BOINC software for Power PC Macs must be built using MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.9.\uc0\u8232 All 32-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.\u8232 All 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.5 SDK.\
-These are not done by either the XCode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.7.0, curl-7.19.7, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
+These are not done by either the XCode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.6.0, curl-7.19.7, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 Building BOINC and the library packages on which it depends requires OS 10.5 and XCode 3.0 (or greater).  \
 \
@@ -202,7 +202,7 @@ These are not done by either the XCode projects which come with wxMac-2.8.10, no
 [2] Put the following 3 directories inside the BOINC_dev folder (omit any you don't need):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\fs26 \cf0     c-ares-1.7.0\
+\f1\fs26 \cf0     c-ares-1.6.0\
     curl-7.19.7\
     jpeg-6b\
     wxMac-2.8.10\

@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2010 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -21,8 +21,12 @@
 # Script to build Macintosh Universal Binary library of curl-7.19.7 for
 # use in building BOINC.
 #
+# Note: reverted to c-ares 1.6.0 from 1.7.0 because the newer c-ares has 
+# problems resolving host names on OS 10.6 with default settings when used 
+# with AT&T U-Verse 2Wire gateway routers and Airport.
+#
 # by Charlie Fenton 7/21/06
-# Updated 12/3/09
+# Updated 4/3/10
 #
 ## In Terminal, CD to the curl-7.19.7 directory.
 ##     cd [path]/curl-7.19.7/
@@ -269,9 +273,9 @@ fi
 export PATH=/usr/local/bin:$PATH
 
 CURL_DIR=`pwd`
-# curl configure and make expect a path to _installed_ c-ares-1.7.0
+# curl configure and make expect a path to _installed_ c-ares-1.6.0
 # so temporarily install c-ares at a path that does not contain spaces.
-cd ../c-ares-1.7.0
+cd ../c-ares-1.6.0
 make install 
 cd "${CURL_DIR}"
 
@@ -306,7 +310,7 @@ export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
 fi
 
 # c-ares configure creates a different ares_build.h file for each architecture
-cp -f ../c-ares-1.7.0/ares_build_ppc.h /tmp/installed-c-ares/include/ares_build.h
+cp -f ../c-ares-1.6.0/ares_build_ppc.h /tmp/installed-c-ares/include/ares_build.h
 
 ./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=ppc
 
@@ -331,7 +335,7 @@ export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
 # c-ares configure creates a different ares_build.h file for each architecture
-cp -f ../c-ares-1.7.0/ares_build_i386.h /tmp/installed-c-ares/include/ares_build.h
+cp -f ../c-ares-1.6.0/ares_build_i386.h /tmp/installed-c-ares/include/ares_build.h
 
 ./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=i386
 if [  $? -ne 0 ]; then return 1; fi
@@ -371,7 +375,7 @@ export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.5
 
 # c-ares configure creates a different ares_build.h file for each architecture
-cp -f ../c-ares-1.7.0/ares_build_x86_64.h /tmp/installed-c-ares/include/ares_build.h
+cp -f ../c-ares-1.6.0/ares_build_x86_64.h /tmp/installed-c-ares/include/ares_build.h
 
 ./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=x86_64
 if [  $? -ne 0 ]; then return 1; fi
