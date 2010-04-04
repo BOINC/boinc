@@ -1065,6 +1065,7 @@ Charlie  3 Apr 2010
      mac_build/
         buildc-ares.sh
         buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
         setupForBoinc.sh
         boinc.xcodeproj/
             project.pbxproj
