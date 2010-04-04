@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: 2010-03-14 10:58-0700\n"
+"PO-Revision-Date: 2010-04-04 05:31-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -221,11 +221,12 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
-"Használja számítógépe (Windows, Linux, Mac) üresjárási processzoridejét "
+"Használja számítógépe (Windows, Linux, Mac) üresjárati processzoridejét "
 "arra, hogy betegségeket gyógyítson, tanulmányozza a globális felmelegedést, "
 "pulzárokat fedezzen fel, vagy számos különböző tudományos kutatásban vegyen "
-"részt. Ez biztonságos és egyszerű: %sVálasszon%s projekteket %sTöltse le%s "
-"és futtassa a BOINC szoftvert %sAdjon meg%s egy email címet és jelszót."
+"részt. Mindezt egyszerűen és biztonságosan: %sVálasszon%s projekteket "
+"%sTöltse le%s és futtassa a BOINC szoftvert %sAdjon meg%s egy email címet és "
+"jelszót."
 
 #: index.php:100
 #, php-format
@@ -233,7 +234,7 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"Ha számos projektben vesz részt, próbáljon ki egy %sfiókkezelőt%s, mint "
+"Ha több projektben is részt vesz, próbáljon ki egy %sfiókkezelőt%s, mint "
 "például a %sGridRepublic%s vagy a %sBAM!%s."
 
 #: index.php:116
@@ -250,8 +251,8 @@ msgid ""
 "you the computing power of thousands of CPUs."
 msgstr ""
 "%1Kutatók%2: Használjanak BOINC-ot egy olyan %3önkéntes számítási projekt%4 "
-"létrehozásához, amely több ezer processzor számítási teljesítményét "
-"biztosítja."
+"létrehozásához, amellyel több ezer processzor számítási teljesítményét "
+"használhatja fel."
 
 #: index.php:130
 msgid ""
@@ -264,7 +265,7 @@ msgstr ""
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr ""
-"%1Társaságok%2: Használjanak BOINC-ot %3asztali számítóhálózat%4 "
+"%1Vállalatok%2: Használjanak BOINC-ot %3asztali Grid számítások%4 "
 "létrehozásához."
 
 #: index.php:147
