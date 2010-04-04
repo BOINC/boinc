@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-01-21 00:33-0700\n"
+"PO-Revision-Date: 2010-04-04 04:53-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Bookmarks: 7,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
@@ -473,7 +473,7 @@ msgstr ""
 
 #: ../inc/host.inc:622
 msgid "BOINC<br>version"
-msgstr ""
+msgstr "BOINC<br>verzió"
 
 #: ../inc/host.inc:629
 msgid "Last contact"
@@ -586,6 +586,8 @@ msgid ""
 "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
 "version 6.10.30+%2"
 msgstr ""
+"Munka felfüggesztése, ha a CPU használat %1 fölött van, 0 esetén nincs "
+"korlátozás<br>Kényszerítve a 6.10.30+ verzióknál%2"
 
 #: ../inc/prefs.inc:101
 msgid "Do work only between the hours of"
@@ -1316,7 +1318,7 @@ msgstr ""
 
 #: ../inc/result.inc:392
 msgid "application version"
-msgstr ""
+msgstr "alkalmazás verziója"
 
 #: ../inc/result.inc:406
 msgid "Previous"

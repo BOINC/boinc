@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-24 13:18-0700\n"
+"PO-Revision-Date: 2010-03-29 01:24-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -4024,14 +4024,16 @@ msgstr ""
 #: ../user/team_search.php:158
 msgid "Use this form to find teams that might be right for you."
 msgstr ""
+"Utiliser ce formulaire pour trouver des équipes qui peuvent vous "
+"correspondre."
 
 #: ../user/team_search.php:163
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr ""
+msgstr "%1Je ne suis pas intéressé%2 pour rejoindre une équipe maintenant."
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr ""
+msgstr "Limite dépassée - Désolé, mais seulement les %1 items"
 
 #: ../user/top_hosts.php:80
 msgid "Top hosts"
@@ -4043,7 +4045,7 @@ msgstr "Top %1 des équipes"
 
 #: ../user/top_teams.php:106
 msgid "There are no %1 teams"
-msgstr ""
+msgstr "In n'y a pas %1 équipes"
 
 #: ../user/top_users.php:62
 msgid "Participant since"
@@ -4051,11 +4053,11 @@ msgstr "Participant depuis"
 
 #: ../user/uotd.php:27
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "Aucun 'utilisateur du jour' n'a été choisi."
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "Utilisateur du jour pour %1 : %2"
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Joined"
@@ -4087,7 +4089,7 @@ msgstr "Filtres"
 
 #: ../user/user_search.php:119
 msgid "Any"
-msgstr ""
+msgstr "N'importe"
 
 #: ../user/user_search.php:122
 msgid "With profile?"
@@ -4095,7 +4097,7 @@ msgstr "Avec un profil ?"
 
 #: ../user/user_search.php:123 ../user/user_search.php:128
 msgid "Either"
-msgstr ""
+msgstr "Soit"
 
 #: ../user/user_search.php:127
 msgid "On a team?"
@@ -4115,7 +4117,7 @@ msgstr "Aucun utilisateur ne correspond aux critères de recherche."
 
 #: ../user/user_search.php:186
 msgid "missing search type"
-msgstr ""
+msgstr "type de recherche manquant"
 
 #: ../user/user_search.php:224
 msgid "User search results"
@@ -4123,69 +4125,75 @@ msgstr "Résultats de la recherche d'utilisateur"
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "Utilisateur non trouvé !"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "Données de compte<br />pour %1<br />Date :"
 
 #: ../user/userw.php:46
 #, fuzzy
 msgid "Team:"
-msgstr "Equipe"
+msgstr "Équipe :"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
-msgstr ""
+msgstr "Crédit total de l'équipe :"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "Crédit moyen de l'équipe :"
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr ""
+msgstr "Équipe : aucune"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "Valider l'adresse e-mail BOINC"
 
 #: ../user/validate_email_addr.php:31
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
 msgstr ""
+"Veuillez visiter le lien suivant pour valider l'adresse e-mail pour votre "
+"compte %1 :"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "E-mail de validation envoyé"
 
 #: ../user/validate_email_addr.php:35
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
 msgstr ""
+"Un e-mail a été envoyé à %1. Visitez le lien qu'il contient pour valider "
+"votre adresse e-mail."
 
 #: ../user/validate_email_addr.php:44
-#, fuzzy
 msgid "No such user."
-msgstr "Utilisateur inexistant"
+msgstr "Utilisateur inexistant."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
 msgstr ""
+"Erreur dans les données de l'URL - impossible de valider l'adresse e-mail"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
 msgstr ""
+"Échec de la mise à jour de la base de données - veuillez réessayer "
+"ultérieurement."
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "Valider l'adresse e-mail"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "L'adresse e-mail de votre compte a été validée."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4193,7 +4201,7 @@ msgstr "Cet utilisateur n'a pas de profil"
 
 #: ../user/view_profile.php:44
 msgid "Profile: %1"
-msgstr ""
+msgstr "Profil : %1"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
@@ -4249,14 +4257,13 @@ msgstr ""
 
 #: ../user/workunit.php:30
 msgid "can't find workunit"
-msgstr ""
+msgstr "impossible de trouver l'unité de travail"
 
 #: ../user/workunit.php:33
 msgid "Workunit %1"
-msgstr ""
+msgstr "Unité de travail %1"
 
 #: ../user/workunit.php:37
-#, fuzzy
 msgid "name"
 msgstr "Nom"
 
@@ -4266,9 +4273,8 @@ msgid "application"
 msgstr "Applications"
 
 #: ../user/workunit.php:39
-#, fuzzy
 msgid "created"
-msgstr "Créer"
+msgstr "créé"
 
 #: ../user/workunit.php:41
 msgid "canonical result"
