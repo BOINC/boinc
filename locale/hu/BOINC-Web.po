@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-03-29 07:12-0700\n"
+"PO-Revision-Date: 2010-04-04 04:59-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -118,35 +118,35 @@ msgstr "nem volt jogosultságom ahhoz, hogy futassam a számítógépemen"
 
 #: poll_data.inc:64
 msgid "No version was available for my computer"
-msgstr ""
+msgstr "nem volt a számítógépemhez elérhető verzió"
 
 #: poll_data.inc:75
 msgid "What kind of computers do you have running BOINC?"
-msgstr ""
+msgstr "Milyen típusú számítógépeken futtatja a BOINCot?"
 
 #: poll_data.inc:85
 msgid "Where are they?"
-msgstr ""
+msgstr "Ezek hol találhatóak?"
 
 #: poll_data.inc:87
 msgid "Home"
-msgstr ""
+msgstr "Otthon"
 
 #: poll_data.inc:88
 msgid "Work"
-msgstr ""
+msgstr "Munkahelyen"
 
 #: poll_data.inc:89
 msgid "School"
-msgstr ""
+msgstr "Iskolában"
 
 #: poll_data.inc:96
 msgid "How many computers?"
-msgstr ""
+msgstr "Hány darab számítógépen futtatja a BOINCot?"
 
 #: poll_data.inc:107
 msgid "On average, how many hours per day are they powered on?"
-msgstr ""
+msgstr "Átlagosan hány órát vannak bekapcsolva naponta?"
 
 #: poll_data.inc:119
 msgid "Age"
@@ -166,7 +166,7 @@ msgstr "Nő"
 
 #: poll_data.inc:137
 msgid "Your level of computer expertise"
-msgstr ""
+msgstr "Számítógépes szaktudásának szintje"
 
 #: poll_data.inc:139
 msgid "Beginner"
@@ -190,7 +190,7 @@ msgstr "TV/rádió/ujság"
 
 #: poll_data.inc:152
 msgid "From friends, relatives, or coworkers"
-msgstr ""
+msgstr "Barátoktól, ismerősöktől, vagy munkatársaktól"
 
 #: poll_data.inc:153
 msgid "Team message boards or web sites"
@@ -213,19 +213,19 @@ msgstr ""
 
 #: poll_data.inc:163
 msgid "Nice-looking screensaver graphics"
-msgstr ""
+msgstr "Szép a képernyőkímélő-grafika"
 
 #: poll_data.inc:164
 msgid "Fair and quick granting of credit for work done"
-msgstr ""
+msgstr "Igazságos és gyors kreditszerzés az elkészült munkacsomagokért"
 
 #: poll_data.inc:165
 msgid "Getting more credit from this project than from others"
-msgstr ""
+msgstr "Ez a projekt több kreditet ad, mint a többi"
 
 #: poll_data.inc:166
 msgid "Helpful and friendly message boards"
-msgstr ""
+msgstr "Segítőkész és barátságos üzenőfalak"
 
 #: poll_data.inc:167
 msgid "Participation by project staff on the message boards"
