@@ -1134,3 +1134,20 @@ David  31 Mar 2010
 
     lib/
         coproc.h
+<<<<<<< .working
+=======
+
+Rom    31 Mar 2010
+    - MGR: Fix double inclusion problem with change in header layouts
+        on Linux.
+        
+    clientgui/gtk/
+        taskbarex.cpp
+
+David  31 Mar 2010
+    - client: give dynamic estimate (based on fraction done)
+        a greater weight in time-to-completion estimate
+
+    client/
+        work_fetch.cpp
+>>>>>>> .merge-right.r21040

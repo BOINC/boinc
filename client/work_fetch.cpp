@@ -1296,7 +1296,7 @@ double ACTIVE_TASK::est_dur(bool for_work_fetch) {
     if (wu_est < elapsed_time) wu_est = elapsed_time;
     double frac_est = elapsed_time / fraction_done;
     double fraction_left = 1-fraction_done;
-    double wu_weight = fraction_left * fraction_left;
+    double wu_weight = fraction_left * fraction_left * fraction_left;
     double fd_weight = 1 - wu_weight;
     double x = fd_weight*frac_est + wu_weight*wu_est;
 #if 1
