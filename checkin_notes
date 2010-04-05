@@ -1134,15 +1134,6 @@ David  31 Mar 2010
 
     lib/
         coproc.h
-<<<<<<< .working
-=======
-
-Rom    31 Mar 2010
-    - MGR: Fix double inclusion problem with change in header layouts
-        on Linux.
-        
-    clientgui/gtk/
-        taskbarex.cpp
 
 David  31 Mar 2010
     - client: give dynamic estimate (based on fraction done)
@@ -1150,4 +1141,10 @@ David  31 Mar 2010
 
     client/
         work_fetch.cpp
->>>>>>> .merge-right.r21040
+
+David  4 Apr 2010
+    - Client: fix bug that caused wrong jobs to be run EDF
+        (needed to initialize a var inside loop, not outside)
+
+    client/
+        cpu_sched.cpp
