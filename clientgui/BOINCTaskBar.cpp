@@ -754,8 +754,8 @@ void CTaskBarIcon::UpdateNoticeStatus() {
                     MacRequestUserAttention();  // Bounce BOINC Dock icon
 #else
                     pFrame->RequestUserAttention();
-#endif
                 }
+#endif
             }
         }
 #ifdef __WXMAC__
