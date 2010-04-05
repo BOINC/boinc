@@ -733,7 +733,7 @@ APP_VERSION* CC_STATE::lookup_app_version(
         if (app_versions[i]->project != project) continue;
         if (app_versions[i]->app != app) continue;
         if (app_versions[i]->version_num != version_num) continue;
-        if (app_versions[i]->plan_class != plan_class) continue;
+        if (strcmp(app_versions[i]->plan_class, plan_class)) continue;
         return app_versions[i];
     }
     return 0;

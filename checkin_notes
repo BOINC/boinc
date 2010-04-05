@@ -1069,3 +1069,9 @@ Charlie  3 Apr 2010
         setupForBoinc.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  28 Mar 2010
+	- Manager: fix bug in task properties app name display
+
+	lib/
+		gui_rpc_client_ops.cpp
