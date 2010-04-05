@@ -40,7 +40,8 @@ extern int grant_credit(
 
 extern int update_av_scales(struct SCHED_SHMEM*);
 extern int assign_credit_set(
-    WORKUNIT&, std::vector<RESULT>&, DB_APP&, std::vector<DB_APP_VERSION>&
+    WORKUNIT&, std::vector<RESULT>&, DB_APP&, std::vector<DB_APP_VERSION>&,
+    double max_granted_credit
 );
 
 extern int update_host_scale_times(
@@ -61,4 +62,6 @@ extern int host_scale_probation(
     DB_HOST& host, int appid, int app_version_id, double latency_bound
 );
 
-extern int write_modified_app_versions(std::vector<DB_APP_VERSION>& app_versions);
+extern int write_modified_app_versions(
+    std::vector<DB_APP_VERSION>& app_versions
+);

@@ -43,7 +43,7 @@
 bool hr_unknown_platform(HOST& host) {
     for (int i=0; i<ssp->napps; i++) {
         APP& app = ssp->apps[i];
-        if (!hr_unknown_platform_type(host, app_hr_type(app))) return false;
+        if (!hr_unknown_class(host, app_hr_type(app))) return false;
     }
     return true;
 }

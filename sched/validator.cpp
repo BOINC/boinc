@@ -16,21 +16,16 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // validator - check and validate results, and grant credit
-//  -app appname
-//  [-d debug_level]
-//  [-one_pass_N_WU N]      // Validate only N WU in one pass, then exit
-//  [-one_pass]             // make one pass through WU table, then exit
-//  [-mod n i]              // process only WUs with (id mod n) == i
-//  [-max_granted_credit X] // limit maximum granted credit to X
-//  [-max_claimed_credit Y] // invalid if claims more than Y
-//  [-grant_claimed_credit] // just grant whatever is claimed 
-//  [-update_credited_job]  // add userid/wuid pair to credited_job table
-//  [-credit_from_wu]       // get credit from WU XML
-//
-// This program must be linked with two project-specific functions:
-// check_set() and check_pair().
-// See doc/validate.php for a description.
-
+//  --app appname
+//  [-d N] [--debug_level N]    // log verbosity (1=least, 4=most)
+//  [--one_pass_N_WU N]         // Validate only N WU in one pass, then exit
+//  [--one_pass]                // make one pass through WU table, then exit
+//  [--mod n i]                 // process only WUs with (id mod n) == i
+//  [--max_granted_credit X]    // limit maximum granted credit to X
+//  [--max_claimed_credit Y]    // invalid if claims more than Y
+//  [--grant_claimed_credit]    // just grant whatever is claimed 
+//  [--update_credited_job]     // add userid/wuid pair to credited_job table
+//  [--credit_from_wu]          // get credit from WU XML
 
 #include "config.h"
 #include <unistd.h>
@@ -262,7 +257,9 @@ int handle_wu(
                 // do credit computation, but grant credit of canonical result
                 //
                 rv.push_back(result);
-                assign_credit_set(wu, rv, app, app_versions);
+                assign_credit_set(
+                    wu, rv, app, app_versions, max_granted_credit
+                );
                 result.granted_credit = canonical_result.granted_credit;
                 grant_credit(
                     host, result.sent_time, result.cpu_time,
@@ -357,7 +354,9 @@ int handle_wu(
             }
 
             if (canonicalid) {
-                assign_credit_set(wu, results, app, app_versions);
+                assign_credit_set(
+                    wu, results, app, app_versions, max_granted_credit
+                );
             }
 
             // scan results.
@@ -604,9 +603,9 @@ int main_loop() {
     return 0;
 }
 
-// For use by user routines check_set() and check_match() that link to
-// this code.
-int boinc_validator_debuglevel=0;
+// For use by project-supplied routines check_set() and check_match()
+//
+int debug_level=0;
 
 int main(int argc, char** argv) {
     int i, retval;
@@ -615,50 +614,51 @@ int main(int argc, char** argv) {
       "\nUsage: %s -app <app-name> [OPTIONS]\n"
       "Start validator for application <app-name>\n\n"
       "Optional arguments:\n"
-      "  -one_pass_N_WU N       Validate at most N WUs, then exit\n"
-      "  -one_pass              Make one pass through WU table, then exit\n"
-      "  -mod n i               Process only WUs with (id mod n) == i\n"
-      "  -max_claimed_credit X  If a result claims more credit than this, mark it as invalid\n"
-      "  -max_granted_credit X  Grant no more than this amount of credit to a result\n"
-      "  -grant_claimed_credit  Grant the claimed credit, regardless of what other results for this workunit claimed\n"
-      "  -update_credited_job   Add record to credited_job table after granting credit\n"
-      "  -credit_from_wu        Credit is specified in WU XML\n"
-      "  -sleep_interval n      Set sleep-interval to n\n"
-      "  -d level               Set debug-level\n\n";
+      "  --one_pass_N_WU N       Validate at most N WUs, then exit\n"
+      "  --one_pass              Make one pass through WU table, then exit\n"
+      "  --mod n i               Process only WUs with (id mod n) == i\n"
+      "  --max_claimed_credit X  If a result claims more credit than this, mark it as invalid\n"
+      "  --max_granted_credit X  Grant no more than this amount of credit to a result\n"
+      "  --grant_claimed_credit  Grant the claimed credit, regardless of what other results for this workunit claimed\n"
+      "  --update_credited_job   Add record to credited_job table after granting credit\n"
+      "  --credit_from_wu        Credit is specified in WU XML\n"
+      "  --sleep_interval n      Set sleep-interval to n\n"
+      "  -d n, --debug_level n   Set log verbosity level, 1-4\n\n";
 
     if ((argc > 1) && (!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help"))) {
-      printf (usage, argv[0] );
-      exit(1);
+        printf (usage, argv[0] );
+        exit(1);
     }
 
 
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-one_pass_N_WU")) {
+        if (!strcmp(argv[i], "--one_pass_N_WU")) {
             one_pass_N_WU = atoi(argv[++i]);
             one_pass = true;
-        } else if (!strcmp(argv[i], "-sleep_interval")) {
+        } else if (!strcmp(argv[i], "--sleep_interval")) {
             sleep_interval = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-one_pass")) {
+        } else if (!strcmp(argv[i], "--one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[i], "-app")) {
+        } else if (!strcmp(argv[i], "--app")) {
             strcpy(app_name, argv[++i]);
-        } else if (!strcmp(argv[i], "-d")) {
-            boinc_validator_debuglevel=atoi(argv[++i]);
-            log_messages.set_debug_level(boinc_validator_debuglevel);
-        } else if (!strcmp(argv[i], "-mod")) {
+        } else if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "--debug_level")) {
+            debug_level = atoi(argv[++i]);
+            log_messages.set_debug_level(debug_level);
+            if (debug_level == 4) g_print_queries = true;
+        } else if (!strcmp(argv[i], "--mod")) {
             wu_id_modulus = atoi(argv[++i]);
             wu_id_remainder = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-max_granted_credit")) {
+        } else if (!strcmp(argv[i], "--max_granted_credit")) {
             max_granted_credit = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-max_claimed_credit")) {
+        } else if (!strcmp(argv[i], "--max_claimed_credit")) {
             max_claimed_credit = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-grant_claimed_credit")) {
+        } else if (!strcmp(argv[i], "--grant_claimed_credit")) {
             grant_claimed_credit = true;
-        } else if (!strcmp(argv[i], "-update_credited_job")) {
+        } else if (!strcmp(argv[i], "--update_credited_job")) {
             update_credited_job = true;
-        } else if (!strcmp(argv[i], "-credit_from_wu")) {
+        } else if (!strcmp(argv[i], "--credit_from_wu")) {
             credit_from_wu = true;
         } else {
             fprintf(stderr,
@@ -670,10 +670,9 @@ int main(int argc, char** argv) {
         }
     }
 
-    // -app is required
     if (app_name[0] == 0) {
-        fprintf(stderr,
-            "\nERROR: use '-app' to specify the application to run the validator for.\n"
+        log_messages.printf(MSG_CRITICAL,
+            "must use '--app' to specify an application\n"
         );
         printf (usage, argv[0] );
         exit(1);      

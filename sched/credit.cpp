@@ -922,7 +922,8 @@ int get_pfc(
 //
 int assign_credit_set(
     WORKUNIT& wu, vector<RESULT>& results,
-    DB_APP& app, vector<DB_APP_VERSION>& app_versions
+    DB_APP& app, vector<DB_APP_VERSION>& app_versions,
+    double max_granted_credit
 ) {
     unsigned int i;
     int n_normal=0, n_total=0, mode, retval;
@@ -944,7 +945,7 @@ int assign_credit_set(
                 );
             }
         }
-        if (pfc*COBBLESTONE_SCALE > 1e5) {
+        if (max_granted_credit && pfc*COBBLESTONE_SCALE > max_granted_credit) {
             log_messages.printf(MSG_NORMAL,
                 "Credit too high: %f\n", pfc*COBBLESTONE_SCALE
             );

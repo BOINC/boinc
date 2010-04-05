@@ -104,7 +104,7 @@ void HR_INFO::scan_db() {
         }
         //printf("host %d: %s | %s | %s\n", host.id, host.os_name, host.p_vendor, host.p_model);
         for (i=1; i<HR_NTYPES; i++) {
-            if (hr_unknown_platform_type(host, i)) {
+            if (hr_unknown_class(host, i)) {
                 //printf("type %d: unknown\n", i);
                 continue;
             }

@@ -2483,3 +2483,18 @@ Charlie  5 Apr 2010
 
     clientgui/
         BOINCTaskBar.cpp
+
+David  5 Apr 2010
+    - validator: -d 4 means -d 3 plus print all DB queries
+        (todo: do this for all daemons)
+    - validator: change cmdline args from -foo to --foo
+        (todo: do this for all daemons)
+    - validator: pass max_granted_credit to assign_credit_set()
+
+    sched/
+        credit.cpp,h
+        hr.cpp,h
+        hr_info.cpp
+        sched_hr.cpp
+        sched_send.cpp
+        validator.cpp,h

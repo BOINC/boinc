@@ -18,11 +18,11 @@
 #include "sched_config.h"
 
 extern double max_granted_credit;
-    // the -max_granted_credit cmdline arg, or 0
+    // the --max_granted_credit cmdline arg, or 0
 extern double max_claimed_credit;
-    // the -max_claimed_credit cmdline arg, or 0
+    // the --max_claimed_credit cmdline arg, or 0
 extern bool grant_claimed_credit;
-    // the -grant_claimed_credit cmdline arg, or false
+    // the --grant_claimed_credit cmdline arg, or false
 
 extern WORKUNIT* g_wup;
     // A pointer to the WU currently being processed;

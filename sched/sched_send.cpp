@@ -718,10 +718,11 @@ int wu_is_infeasible_fast(
         return INFEASIBLE_CUSTOM;
     }
 
-    // homogeneous redundancy, quick check
+    // homogeneous redundancy: can't send if app uses HR and
+    // 1) host is of unknown HR class
     //
     if (app_hr_type(app)) {
-        if (hr_unknown_platform_type(g_reply->host, app_hr_type(app))) {
+        if (hr_unknown_class(g_reply->host, app_hr_type(app))) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
                     "[send] [HOST#%d] [WU#%d %s] host is of unknown class in HR type %d\n",

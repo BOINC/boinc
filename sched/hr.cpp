@@ -115,7 +115,7 @@ inline int cpu_fine(HOST& host){
     return nocpu;
 };
 
-// call this ONLY if hr_unknown_platform_type() returns false
+// call this ONLY if hr_unknown_class() returns false
 
 int hr_class(HOST& host, int hr_type) {
     switch (hr_type) {
@@ -133,7 +133,7 @@ int hr_class(HOST& host, int hr_type) {
     return 0;
 }
 
-bool hr_unknown_platform_type(HOST& host, int hr_type) {
+bool hr_unknown_class(HOST& host, int hr_type) {
     switch (hr_type) {
     case 1:
         if (os(host) == noos) return true;
