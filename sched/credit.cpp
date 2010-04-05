@@ -1034,7 +1034,7 @@ int update_host_scale_times(
                 hav.host_id, hav.app_version_id
             );
             retval = hav.update_fields_noid(query, clause);
-            if (retval) return retval;
+            // the above will fail if scale_probation is zero.  not an error
         } else {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,

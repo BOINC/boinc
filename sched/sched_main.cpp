@@ -421,7 +421,7 @@ int main(int argc, char** argv) {
 #else
         FCGI_FILE* f = FCGI::fopen(path, "a");
         if (f) {
-           log_messages.redirect(f);
+            log_messages.redirect(f);
         } else {
             char buf[256];
             fprintf(stderr, "Can't redirect FCGI log messages\n");

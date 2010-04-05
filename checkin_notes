@@ -2531,3 +2531,12 @@ David  5 Apr 2010
 
     lib/
         util.cpp
+
+David  5 Apr 2010
+    - server: make the -d 4 feature work with FCGI
+
+    db/
+        db_base.cpp
+    sched/
+        credit.cpp
+        sched_main.cpp

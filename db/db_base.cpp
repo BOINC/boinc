@@ -28,6 +28,7 @@
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
+#include "sched_msgs.h"
 #endif
 
 bool g_print_queries = false;
@@ -113,7 +114,11 @@ int DB_CONN::set_isolation_level(ISOLATION_LEVEL level) {
 int DB_CONN::do_query(const char* p) {
     int retval;
     if (g_print_queries) {
+#ifdef _USING_FCGI_
+        log_messages.printf(MSG_NORMAL, "query: %s\n", p);
+#else
         fprintf(stderr, "query: %s\n", p);
+#endif
     }
     retval = mysql_query(mysql, p);
     if (retval) {
