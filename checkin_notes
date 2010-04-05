@@ -2524,3 +2524,10 @@ David  5 Apr 2010
 
     sched/
         various.cpp
+
+David  5 Apr 2010
+    - client: read_file_malloc() must open file in binary mode,
+        else it won't get the right part of the file
+
+    lib/
+        util.cpp

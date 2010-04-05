@@ -322,10 +322,12 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
     retval = file_size(path, size);
     if (retval) return retval;
 
+    // Note: the fseek() below won't work unless we use binary mode in fopen
+
 #ifndef _USING_FCGI_
-    FILE *f = fopen(path, "r");
+    FILE *f = fopen(path, "rb");
 #else
-    FCGI_FILE *f = FCGI::fopen(path, "r");
+    FCGI_FILE *f = FCGI::fopen(path, "rb");
 #endif 
     if (!f) return ERR_FOPEN;
 
