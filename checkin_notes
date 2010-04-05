@@ -1075,3 +1075,14 @@ David  28 Mar 2010
 
 	lib/
 		gui_rpc_client_ops.cpp
+
+David  29 Mar 2010
+	- client/manager: show "No CPU prefs" etc. in project properties
+
+	client/
+		client_types.cpp
+	clientgui/
+		DlgItemProperties.cpp
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.cpp

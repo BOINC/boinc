@@ -151,6 +151,9 @@ public:
     double last_rpc_time;
         // when the last successful scheduler RPC finished
     std::vector<DAILY_STATS> statistics; // credit data over the last x days
+    bool no_cpu_pref;
+    bool no_cuda_pref;
+    bool no_ati_pref;
 
     // NOTE: if you add any data items above,
     // update parse(), and clear() to include them!!
