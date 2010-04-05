@@ -41,7 +41,7 @@ extern int grant_credit(
 extern int update_av_scales(struct SCHED_SHMEM*);
 extern int assign_credit_set(
     WORKUNIT&, std::vector<RESULT>&, DB_APP&, std::vector<DB_APP_VERSION>&,
-    double max_granted_credit
+    double max_granted_credit, double& credit
 );
 
 extern int update_host_scale_times(

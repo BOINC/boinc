@@ -35,6 +35,7 @@
 
 #include "credit.h"
 
+// TODO: delete
 double fpops_to_credit(double fpops, double intops) {
     // TODO: use fp_weight if specified in config file
     double fpc = (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
@@ -42,12 +43,14 @@ double fpops_to_credit(double fpops, double intops) {
     return std::max(fpc, intc);
 }
 
+// TODO: delete
 double credit_multiplier(int appid, time_t create_time) {
     DB_CREDIT_MULTIPLIER mult;
     mult.get_nearest(appid, create_time);
     return mult.multiplier;
 }
 
+// TODO: delete
 static void modify_credit_rating(HOST& host) {
     double new_claimed_credit = 0;
     double percent_difference = 0;
@@ -147,6 +150,7 @@ static void modify_credit_rating(HOST& host) {
     }
 }
 
+// TODO: delete
 // somewhat arbitrary formula for credit as a function of CPU time.
 // Could also include terms for RAM size, network speed etc.
 //
@@ -179,6 +183,7 @@ void compute_credit_rating(HOST& host) {
     }
 }
 
+// TODO: delete
 // This function should be called from the validator whenever credit
 // is granted to a host.  It's purpose is to track the average credit
 // per cpu time for that host.
@@ -305,17 +310,6 @@ int grant_credit(
         start_time, credit, CREDIT_HALF_LIFE,
         host.expavg_credit, host.expavg_time
     );
-    // compute new credit per CPU time
-    //
-    retval = update_credit_per_cpu_sec(
-        credit, cpu_time, host.credit_per_cpu_sec
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[HOST#%d] claimed too much credit (%f) in too little CPU time (%f)\n",
-            host.id, credit, cpu_time
-        );
-    }
 
     // then the user
 
@@ -919,11 +913,12 @@ int get_pfc(
 
 // Called by validator when canonical result has been selected.
 // Compute credit for valid instances, store in result.granted_credit
+// and return as credit
 //
 int assign_credit_set(
     WORKUNIT& wu, vector<RESULT>& results,
     DB_APP& app, vector<DB_APP_VERSION>& app_versions,
-    double max_granted_credit
+    double max_granted_credit, double& credit
 ) {
     unsigned int i;
     int n_normal=0, n_total=0, mode, retval;
@@ -981,6 +976,7 @@ int assign_credit_set(
         if (r.validate_state != VALIDATE_STATE_VALID) continue;
         r.granted_credit = x;
     }
+    credit = x;
     return 0;
 }
 

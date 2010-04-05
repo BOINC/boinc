@@ -115,7 +115,7 @@ int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu) {
         double old_error_rate = host.error_rate;
         update_error_rate(host, true);
         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] error rate %f->%f\n",
+            "[HOST#%d] error rate %g->%g\n",
             host.id, old_error_rate, host.error_rate
         );
     }
@@ -258,7 +258,7 @@ int handle_wu(
                 //
                 rv.push_back(result);
                 assign_credit_set(
-                    wu, rv, app, app_versions, max_granted_credit
+                    wu, rv, app, app_versions, max_granted_credit, credit
                 );
                 result.granted_credit = canonical_result.granted_credit;
                 grant_credit(
@@ -349,14 +349,22 @@ int handle_wu(
                     return retval;
                 }
             }
-            if (max_granted_credit && credit>max_granted_credit) {
-                credit = max_granted_credit;
-            }
 
             if (canonicalid) {
-                assign_credit_set(
-                    wu, results, app, app_versions, max_granted_credit
+                retval = assign_credit_set(
+                    wu, results, app, app_versions, max_granted_credit, credit
                 );
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "[WU#%d %s] assign_credit_set() returned %d\n",
+                        wu.id, wu.name, retval
+                    );
+                    return retval;
+                }
+            }
+
+            if (max_granted_credit && credit>max_granted_credit) {
+                credit = max_granted_credit;
             }
 
             // scan results.

@@ -2498,3 +2498,16 @@ David  5 Apr 2010
         sched_hr.cpp
         sched_send.cpp
         validator.cpp,h
+
+David  5 Apr 2010
+    - validator: remove update_credit_per_cpu_sec().  Irrelevant.
+        TODO: remove related code
+    - validator: update wu.canonical_credit correctly.
+        However, this field should be deprecated.
+    - validator: check for error return from assign_credit_set().
+
+    db/
+        boinc_db.h
+    sched/
+        credit.cpp,h
+        validator.cpp

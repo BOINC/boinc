@@ -299,8 +299,8 @@ struct HOST {
                             // file upload/download times, and may reflect
                             // factors other than network bandwidth
 
-    // The following is derived (by server) from other fields
     double credit_per_cpu_sec;
+        // deprecated
 
     char venue[256];        // home/work/school
     int nresults_today;     // results sent since midnight
@@ -388,6 +388,7 @@ struct WORKUNIT {
                                 // validate state = NEED_CHECK
     int canonical_resultid;     // ID of canonical result, or zero
     double canonical_credit;    // credit that all correct results get
+        // TODO: deprecate and remove code
     int transition_time;        // when should transition_handler
                                 // next check this WU?
                                 // MAXINT if no need to check
