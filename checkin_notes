@@ -2463,3 +2463,10 @@ Charlie  3 Apr 2010
         setupForBoinc.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  4 Apr 2010
+    - Client: fix bug that caused wrong jobs to be run EDF
+        (needed to initialize a var inside loop, not outside)
+
+    client/
+        cpu_sched.cpp

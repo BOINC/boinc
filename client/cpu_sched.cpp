@@ -392,7 +392,6 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
     RESULT *best_result = NULL;
     ACTIVE_TASK* best_atp = NULL;
     unsigned int i;
-    bool only_deadline_misses = true;
 
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
@@ -400,6 +399,8 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
         if (rp->already_selected) continue;
         PROJECT* p = rp->project;
         if (p->non_cpu_intensive) continue;
+
+        bool only_deadline_misses = true;
 
         // treat projects with DCF>90 as if they had deadline misses
         //
