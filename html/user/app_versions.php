@@ -21,36 +21,16 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
-function prune($avs) {
-    $out = array();
-    foreach($avs as $av) {
-        $found = false;
-        foreach ($out as $av2) {
-            if ($av->appid == $av2->appid
-                && $av->plan_class == $av2->plan_class
-                && $av->version_num > $av2->version_num
-            ) {
-                $found = true;
-                break;
-            }
-        }
-        if (!$found) {
-            $out[] = $av;
-        }
-    }
-    return $out;
-}
-
 BoincDb::get(true);
 xml_header();
 echo "<app_versions>\n";
-$app_versions = BoincAppVersion::enum("deprecated=0");
-$app_versions = prune($app_versions);
+$app_versions = BoincAppVersion::enum("deprecated=0 and pfc_n>0");
 foreach ($app_versions as $av) {
     $platform = BoincPlatform::lookup_id($av->platformid);
     $app = BoincApp::lookup_id($av->appid);
     echo "
     <app_version>
+        <id>$av->id</id>
         <create_time>$av->create_time</create_time>
         <platform>$platform->name</platform>
         <app_name>$app->name</app_name>

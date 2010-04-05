@@ -2373,13 +2373,13 @@ Rom    1 Apr 2010
         AdvancedFrame.cpp
 
 David  1 Apr 2010
-	- manager: fixed one last (hopefully) instance of == applied to
-		a char[] formerly std::string
+    - manager: fixed one last (hopefully) instance of == applied to
+        a char[] formerly std::string
 
-	clientgui/
-		AsyncRPC.cpp
-		sg_ProjectComponents.cpp
-		ViewStatisticts.cpp
+    clientgui/
+        AsyncRPC.cpp
+        sg_ProjectComponents.cpp
+        ViewStatisticts.cpp
 
 David  1 Apr 2010
     - scheduler: choose cuda_fermi over other cuda plan classes
@@ -2396,10 +2396,10 @@ David  1 Apr 2010
         credit.cpp
 
 David  1 Apr 2010
-	- manager: change text for notice-frequency slider
+    - manager: change text for notice-frequency slider
 
-	clientgui/
-		DlgOptions.cpp
+    clientgui/
+        DlgOptions.cpp
 
 David  2 Apr 2010
     - backend programs: change the way PFC and elapsed-time statistics
@@ -2511,3 +2511,9 @@ David  5 Apr 2010
     sched/
         credit.cpp,h
         validator.cpp
+
+David  5 Apr 2010
+    - server: fix messed-up app version stats export
+
+    html/user/
+        app_versions.php
