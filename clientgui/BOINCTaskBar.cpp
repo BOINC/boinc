@@ -39,6 +39,8 @@
 #include "res/macsnoozebadge.xpm"
 #include "res/macdisconnectbadge.xpm"
 #include "res/macbadgemask.xpm"
+
+#define MIN_IDLE_TIME_FOR_NOTIFICATION 45
 #endif
 
 // How long to bounce Dock icon on Mac
@@ -703,7 +705,6 @@ void CTaskBarIcon::UpdateNoticeStatus() {
     CSkinAdvanced*   pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString         strTitle;
 
-
     wxASSERT(pDoc);
     wxASSERT(pFrame);
     wxASSERT(pSkinAdvanced);
@@ -721,7 +722,15 @@ void CTaskBarIcon::UpdateNoticeStatus() {
     ) {
 
         if (pDoc->GetUnreadNoticeCount()) {
-
+  #ifdef __WXMAC__
+            // Delay notification while user is inactive
+            // NOTE: This API requires OS 10.4 or later
+            double idleTime = CGEventSourceSecondsSinceLastEventType (
+                                kCGEventSourceStateCombinedSessionState, 
+                                kCGAnyInputEventType
+                                );
+            if (idleTime > MIN_IDLE_TIME_FOR_NOTIFICATION) return;
+#endif
             // Update cached info
             m_dtLastNotificationAlertExecuted = wxDateTime::Now();
 
@@ -737,11 +746,11 @@ void CTaskBarIcon::UpdateNoticeStatus() {
                     _("One or more notices are now available for viewing."),
                     BALLOONTYPE_INFO
                 );
+#ifdef __WXMAC__
             } else {
                 // For platforms that do not support balloons
                 // If Manager is hidden or in background, request user attention.
                 if (! (wxGetApp().IsActive())) {
-#ifdef __WXMAC__
                     MacRequestUserAttention();  // Bounce BOINC Dock icon
 #else
                     pFrame->RequestUserAttention();
