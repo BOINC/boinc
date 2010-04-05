@@ -101,9 +101,9 @@ $w66x64 = array(
 );
 
 $m610 = array(
-	"num"=>"6.10.44",
+	"num"=>"6.10.43",
 	"status"=>"Recommended version (standard GUI)",
-	"file"=>"boinc_6.10.44_macOSX_universal.zip",
+	"file"=>"boinc_6.10.43_macOSX_universal.zip",
 	"date"=>"19 Mar 2010",
 	"type"=>"mac_advanced",
 );
@@ -117,9 +117,9 @@ $m66 = array(
 );
 
 $m610c = array(
-	"num"=>"6.10.44",
+	"num"=>"6.10.43",
 	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_6.10.44_universal-apple-darwin.zip",
+	"file"=>"boinc_6.10.43_universal-apple-darwin.zip",
 	"date"=>"19 Mar 2010",
 	"type"=>"bare_core",
 );
