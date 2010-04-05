@@ -752,9 +752,9 @@ void CTaskBarIcon::UpdateNoticeStatus() {
                 // If Manager is hidden or in background, request user attention.
                 if (! (wxGetApp().IsActive())) {
                     MacRequestUserAttention();  // Bounce BOINC Dock icon
-#else
-                    pFrame->RequestUserAttention();
                 }
+#else
+                pFrame->RequestUserAttention();
 #endif
             }
         }
