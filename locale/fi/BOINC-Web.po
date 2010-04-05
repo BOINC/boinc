@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-04-04 22:41+0200\n"
+"PO-Revision-Date: 2010-04-05 19:38+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -365,7 +365,7 @@ msgstr "Kaikki versiot"
 
 #: download.php:141
 msgid "BOINC: compute for science"
-msgstr ""
+msgstr "BOINC: laskentaa tieteen hyväksi"
 
 #: help.php:12
 #, php-format
@@ -483,7 +483,7 @@ msgstr ""
 
 #: index.php:88
 msgid "Download"
-msgstr ""
+msgstr "Lataa"
 
 #: index.php:90
 #: index.php:125
@@ -516,7 +516,7 @@ msgstr ""
 
 #: index.php:123
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "Laskentaa BOINCilla"
 
 #: index.php:126
 msgid "Software updates"
@@ -572,7 +572,7 @@ msgstr "Konferenssit"
 
 #: index.php:172
 msgid "Papers and talks"
-msgstr ""
+msgstr "Julkaisut ja puheet"
 
 #: index.php:173
 msgid "Logos and graphics"
