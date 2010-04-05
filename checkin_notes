@@ -1104,3 +1104,10 @@ David  30 Mar 2010
         gui_rpc_client_ops.cpp
     client/
         acct_setup.cpp,h
+
+Rom    30 Mar 2010
+    - MGR: Bad things happen when you don't initialize default values
+        for variables under wxWidgets.
+        
+    clientgui/
+        TermsOfUsePage.cpp
