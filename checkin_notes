@@ -2517,3 +2517,10 @@ David  5 Apr 2010
 
     html/user/
         app_versions.php
+
+David  5 Apr 2010
+    - server: change all backend programs so that -d 4 means
+        -d 3 plus print DB queries
+
+    sched/
+        various.cpp

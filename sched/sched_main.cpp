@@ -455,6 +455,7 @@ int main(int argc, char** argv) {
     }
 
     log_messages.set_debug_level(config.sched_debug_level);
+    if (config.sched_debug_level == 4) g_print_queries = true;
 
     gui_urls.init();
     project_files.init();

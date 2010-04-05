@@ -163,12 +163,14 @@ int main(int argc, char** argv) {
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-d")) {
-            if(!argv[++i]) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
-          log_messages.set_debug_level(atoi(argv[i]));
+            int dl = atoi(argv[i]);
+            log_messages.set_debug_level(dl);
+            if (dl == 4) g_print_queries = true;
         } else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
             usage(argv[0]);
             exit(0);

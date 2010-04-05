@@ -744,14 +744,16 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
-            if(!argv[++i]) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
-            log_messages.set_debug_level(atoi(argv[i]));
+            int dl = atoi(argv[i]);
+            log_messages.set_debug_level(dl);
+            if (dl == 4) g_print_queries = true;
         } else if (!strcmp(argv[i], "-mod")) {
-            if(!argv[i+1] || !argv[i+2]) {
+            if (!argv[i+1] || !argv[i+2]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
                 usage(argv[0]);
                 exit(1);
@@ -760,7 +762,7 @@ int main(int argc, char** argv) {
             mod_i = atoi(argv[++i]);
             do_mod = true;
         } else if (!strcmp(argv[i], "-sleep_interval")) {
-            if(!argv[++i]) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);

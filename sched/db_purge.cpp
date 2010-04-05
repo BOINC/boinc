@@ -589,7 +589,7 @@ void usage(char* name) {
     fprintf(stderr,
         "Purge workunit and result records that are no longer needed.\n\n"
         "Usage: %s [options]\n"
-        "    [-d N]                       Set verbosity level (1, 2, 3=most verbose)\n"
+        "    [-d N]                       Set verbosity level (1 to 4)\n"
         "    [-min_age_days N]            Purge Wus w/ mod time at least N days ago\n"
         "    [-max N]                     Purge at more N WUs\n"
         "    [-zip]                       Compuress output files using zip\n"
@@ -624,7 +624,9 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-            log_messages.set_debug_level(atoi(argv[i]));
+            int dl = atoi(argv[i]);
+            log_messages.set_debug_level(dl);
+            if (dl == 4) g_print_queries = true;
         } else if (!strcmp(argv[i], "-min_age_days")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);

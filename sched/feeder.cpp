@@ -704,7 +704,9 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-            log_messages.set_debug_level(atoi(argv[i]));
+            int dl = atoi(argv[i]);
+            log_messages.set_debug_level(dl);
+            if (dl == 4) g_print_queries = true;
         } else if (!strcmp(argv[i], "-random_order")) {
             order_clause = "order by r1.random ";
         } else if (!strcmp(argv[i], "-allapps")) {

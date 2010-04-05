@@ -745,7 +745,7 @@ void usage(char* name) {
         "Usage: %s [options]\n"
         "Options:\n"
         "    -dump_spec filename          Use the given config file (use ../db_dump_spec.xml)\n"
-        "    [-d N]                       Set verbosity level (1, 2, 3=most verbose)\n"
+        "    [-d N]                       Set verbosity level (1 to 4)\n"
         "    [-db_host H]                 Use the DB server on host H\n"
         "    [-h | -help | --help]        Show this\n"
         "    [-v | -version | --version]  Show version information\n",
@@ -779,7 +779,9 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-            log_messages.set_debug_level(atoi(argv[i]));
+            int dl = atoi(argv[i]);
+            log_messages.set_debug_level(dl);
+            if (dl == 4) g_print_queries = true;
         } else if (!strcmp(argv[i], "-db_host")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);

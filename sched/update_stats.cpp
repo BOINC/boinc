@@ -220,7 +220,9 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-            log_messages.set_debug_level(atoi(argv[i]));
+            int dl = atoi(argv[i]);
+            log_messages.set_debug_level(dl);
+            if (dl == 4) g_print_queries = true;
         } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);

@@ -67,7 +67,7 @@ void usage(char** argv) {
         "    [-mod N R]           Process jobs with mod(ID, N) == R\n"
         "    [-one_pass]          Do one DB enumeration, then exit\n"
         "    [-one_pass_N_WU N]   Process at most N jobs\n"
-        "    [-d N]               Set verbosity level (1, 2, 3=most verbose)\n"
+        "    [-d N]               Set verbosity level (1 to 4)\n"
         "    [-dont_update_db]    Don't update DB (for testing)\n"
         "    [-noinsert]          Don't insert records in app-specific DB\n",
         argv[0]
@@ -214,7 +214,9 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
+            int dl = atoi(argv[++i]);
+            log_messages.set_debug_level(dl);
+            if (dl ==4) g_print_queries = true;
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app.name, argv[++i]);
         } else if (!strcmp(argv[i], "-dont_update_db")) {

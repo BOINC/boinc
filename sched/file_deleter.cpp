@@ -97,7 +97,7 @@ void usage(char *name) {
         "   This deletes files uploaded by hosts after the WU was deleted.\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  -d N                           set debug output level (1/2/3)\n"
+        "  -d N                           set debug output level (1 to 4)\n"
         "  -mod M R                       handle only WUs with ID mod M == R\n"
         "  -appid ID                      handle only WUs of a particular app\n"
         "  -one_pass                      instead of sleeping in 2), exit\n"
@@ -655,7 +655,9 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-            log_messages.set_debug_level(atoi(argv[i]));
+            int dl = atoi(argv[i]);
+            log_messages.set_debug_level(dl);
+            if (dl == 4) g_print_queries = true;
         } else if (!strcmp(argv[i], "-mod")) {
             if(!argv[i+1] || !argv[i+2]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
