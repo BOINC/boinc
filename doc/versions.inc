@@ -60,19 +60,11 @@ function type_text($type) {
     }
 }
 
-$w610dev = array(
-	"num"=>"6.10.43",
-	"status"=>"Development version",
-	"file"=>"boinc_6.10.43_windows_intelx86.exe",
-	"date"=>"19 Mar 2010",
-	"type"=>"win_new",
-);
-
 $w610 = array(
-	"num"=>"6.10.18",
+	"num"=>"6.10.43",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.18_windows_intelx86.exe",
-	"date"=>"9 Nov 2009",
+	"file"=>"boinc_6.10.43_windows_intelx86.exe",
+	"date"=>"19 Mar 2009",
 	"type"=>"win_new",
 );
 
@@ -92,19 +84,11 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
-$w610x64dev = array(
-	"num"=>"6.10.43",
-	"status"=>"Development version",
-	"file"=>"boinc_6.10.43_windows_x86_64.exe",
-	"date"=>"19 Mar 2010",
-	"type"=>"win_new",
-);
-
 $w610x64 = array(
-	"num"=>"6.10.18",
+	"num"=>"6.10.43",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.18_windows_x86_64.exe",
-	"date"=>"9 Nov 2009",
+	"file"=>"boinc_6.10.43_windows_x86_64.exe",
+	"date"=>"19 Mar 2009",
 	"type"=>"win_new",
 );
 
@@ -116,19 +100,11 @@ $w66x64 = array(
     "type"=>"win_new",
 );
 
-$m610dev = array(
-	"num"=>"6.10.43",
-	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_6.10.43_macOSX_universal.zip",
-	"date"=>"19 Mar 2010",
-	"type"=>"mac_advanced",
-);
-
 $m610 = array(
-	"num"=>"6.10.21",
+	"num"=>"6.10.44",
 	"status"=>"Recommended version (standard GUI)",
-	"file"=>"boinc_6.10.21_macOSX_universal.zip",
-	"date"=>"1 Dec 2009",
+	"file"=>"boinc_6.10.44_macOSX_universal.zip",
+	"date"=>"19 Mar 2010",
 	"type"=>"mac_advanced",
 );
 
@@ -140,19 +116,11 @@ $m66 = array(
     "type"=>"mac_advanced",
 );
 
-$m610cdev = array(
-	"num"=>"6.10.43",
-	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_6.10.43_universal-apple-darwin.zip",
-	"date"=>"19 Mar 2010",
-	"type"=>"bare_core",
-);
-
 $m610c = array(
-	"num"=>"6.10.21",
+	"num"=>"6.10.44",
 	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_6.10.21_universal-apple-darwin.zip",
-	"date"=>"1 Dec 2009",
+	"file"=>"boinc_6.10.44_universal-apple-darwin.zip",
+	"date"=>"19 Mar 2010",
 	"type"=>"bare_core",
 );
 
@@ -180,19 +148,11 @@ $l64 = array(
     "type"=>"sea",
 );
 
-$l610ubuntudev = array(
-	"num"=>"6.10.43",
-	"status"=>"Development version",
-	"file"=>"boinc_6.10.43_i686-pc-linux-gnu.sh",
-	"date"=>"19 Mar 2010",
-	"type"=>"sea",
-);
-
 $l610ubuntu = array(
-	"num"=>"6.10.17",
+	"num"=>"6.10.44",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.17_i686-pc-linux-gnu.sh",
-	"date"=>"28 Oct 2009",
+	"file"=>"boinc_6.10.44_i686-pc-linux-gnu.sh",
+	"date"=>"19 Mar 2010",
 	"type"=>"sea",
 );
 
@@ -204,19 +164,11 @@ $l66ubuntu = array(
 	"type"=>"sea",
 );
 
-$l610ubuntux64dev = array(
-	"num"=>"6.10.43",
-	"status"=>"Development version",
-	"file"=>"boinc_6.10.43_x86_64-pc-linux-gnu.sh",
-	"date"=>"19 Mar 2010",
-	"type"=>"sea",
-);
-
 $l610ubuntux64 = array(
-	"num"=>"6.10.17",
+	"num"=>"6.10.44",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.17_x86_64-pc-linux-gnu.sh",
-	"date"=>"28 Oct 2009",
+	"file"=>"boinc_6.10.44_x86_64-pc-linux-gnu.sh",
+	"date"=>"19 Mar 2010",
 	"type"=>"sea",
 );
 
@@ -237,7 +189,6 @@ $windows = array(
     "description"=>"2000/XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-		$w610dev,
 		$w610,
 		$w66,
         $w5816,
@@ -249,7 +200,6 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-		$w610x64dev,
 		$w610x64,
 		$w66x64,
     )
@@ -260,9 +210,7 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-		$m610dev,
 		$m610,
-		$m610cdev,
 		$m610c,
 		$m66,
         $m66c,
@@ -284,7 +232,6 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-		$l610ubuntudev,
 		$l610ubuntu,
 		$l66ubuntu,
     )
@@ -295,7 +242,6 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-		$l610ubuntux64dev,
 		$l610ubuntux64,
 		$l66ubuntux64,
     )
