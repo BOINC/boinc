@@ -353,7 +353,11 @@ void CWizardAttachProject::CreateControls()
 /*!
  * Runs the wizard.
  */
-bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, bool bCredentialsCached ) {
+bool CWizardAttachProject::Run(
+    wxString& WXUNUSED(strName), wxString& strURL, std::string& _team_name,
+    bool bCredentialsCached
+) {
+    team_name = _team_name;
     if (strURL.Length()) {
         m_ProjectInfoPage->SetProjectURL( strURL );
         m_bCredentialsCached = bCredentialsCached;

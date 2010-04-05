@@ -488,6 +488,7 @@ struct ACCT_MGR_RPC_REPLY {
 struct PROJECT_INIT_STATUS {
     std::string url;
     std::string name;
+    std::string team_name;
     bool has_account_key;
 
     PROJECT_INIT_STATUS();
@@ -528,9 +529,10 @@ struct PROJECT_CONFIG {
 struct ACCOUNT_IN {
     std::string url;
     std::string email_addr;
-        // this is the account identifier (email address or user name)
+        // the account identifier (email address or user name)
     std::string user_name;
     std::string passwd;
+    std::string team_name;
 
     ACCOUNT_IN();
     ~ACCOUNT_IN();

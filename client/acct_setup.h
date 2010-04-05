@@ -27,6 +27,7 @@ struct PROJECT_INIT {
     char url[256];
     char name[256];
     char account_key[256];
+    char team_name[256];
 
     PROJECT_INIT();
     int init();
@@ -40,6 +41,7 @@ struct ACCOUNT_IN {
     std::string email_addr;
         /// the suggested friendly name for the user during account creation.
     std::string user_name;
+    std::string team_name;
     std::string passwd_hash;
 
     void parse(char*);

@@ -354,7 +354,8 @@ void CSimpleFrame::OnProjectsAttachToProject() {
 
         wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
-        pWizard->Run( strName, strURL, false );
+        std::string foo;
+        pWizard->Run( strName, strURL, foo, false );
 
         if (pWizard)
             pWizard->Destroy();
@@ -420,7 +421,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
 
-        pAPWizard->Run(strName, strURL, bCachedCredentials);
+        pAPWizard->Run(strName, strURL, pis.team_name, bCachedCredentials);
     }
 
  	if (pAPWizard){

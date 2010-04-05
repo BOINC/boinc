@@ -1034,7 +1034,8 @@ void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
 
         wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
-        pWizard->Run( strName, strURL, false );
+        std::string foo;
+        pWizard->Run( strName, strURL, foo, false );
 
         if (pWizard)
             pWizard->Destroy();
@@ -1765,7 +1766,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
 
-        if (pAPWizard->Run(strName, strURL, bCachedCredentials)) {
+        if (pAPWizard->Run(strName, strURL, pis.team_name, bCachedCredentials)) {
             // If successful, display the work tab
             m_pNotebook->SetSelection(ID_LIST_WORKVIEW - ID_LIST_BASE);
         } else {
