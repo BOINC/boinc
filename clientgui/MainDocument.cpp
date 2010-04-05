@@ -1208,6 +1208,7 @@ int CMainDocument::CachedProjectStatusUpdate(bool bForce) {
     for (i=0; i < (long)state.projects.size(); i++) {
         m_fProjectTotalResourceShare += state.projects.at(i)->resource_share;
     }
+    if (!m_fProjectTotalResourceShare) m_fProjectTotalResourceShare = 1;
 
     return m_iGet_project_status1_rpc_result;
 }
@@ -2154,6 +2155,7 @@ int CMainDocument::CachedSimpleGUIUpdate(bool bForce) {
     for (i=0; i < (long)state.projects.size(); i++) {
         m_fProjectTotalResourceShare += state.projects.at(i)->resource_share;
     }
+    if (!m_fProjectTotalResourceShare) m_fProjectTotalResourceShare = 1;
 
     return m_iGet_simple_gui2_rpc_result;
 }
