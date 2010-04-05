@@ -2470,3 +2470,9 @@ David  4 Apr 2010
 
     client/
         cpu_sched.cpp
+
+David  4 Apr 2010
+    - client: clean out project dir on reset.  fixes #978
+
+    client/
+        client_state.cpp
