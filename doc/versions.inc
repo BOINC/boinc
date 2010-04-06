@@ -60,6 +60,14 @@ function type_text($type) {
     }
 }
 
+$w610dev = array(
+	"num"=>"6.10.45",
+	"status"=>"Development version",
+	"file"=>"boinc_6.10.45_windows_intelx86.exe",
+	"date"=>"6 Apr 2009",
+	"type"=>"win_new",
+);
+
 $w610 = array(
 	"num"=>"6.10.43",
 	"status"=>"Recommended version",
@@ -82,6 +90,14 @@ $w5816 = array(
     "file"=>"boinc_5.8.16_windows_intelx86.exe",
     "date"=>"1 Mar 2007",
     "type"=>"win_new",
+);
+
+$w610x64dev = array(
+	"num"=>"6.10.45",
+	"status"=>"Development version",
+	"file"=>"boinc_6.10.45_windows_x86_64.exe",
+	"date"=>"6 Apr 2009",
+	"type"=>"win_new",
 );
 
 $w610x64 = array(
@@ -164,6 +180,14 @@ $l64 = array(
     "type"=>"sea",
 );
 
+$l610ubuntudev = array(
+	"num"=>"6.10.45",
+	"status"=>"Development version",
+	"file"=>"boinc_6.10.45_i686-pc-linux-gnu.sh",
+	"date"=>"6 Apr 2010",
+	"type"=>"sea",
+);
+
 $l610ubuntu = array(
 	"num"=>"6.10.44",
 	"status"=>"Recommended version",
@@ -177,6 +201,14 @@ $l66ubuntu = array(
 	"status"=>"Older version",
 	"file"=>"boinc_6.6.41_i686-pc-linux-gnu.sh",
 	"date"=>"22 Oct 2009",
+	"type"=>"sea",
+);
+
+$l610ubuntux64dev = array(
+	"num"=>"6.10.45",
+	"status"=>"Development version",
+	"file"=>"boinc_6.10.45_x86_64-pc-linux-gnu.sh",
+	"date"=>"6 Apr 2010",
 	"type"=>"sea",
 );
 
@@ -205,6 +237,7 @@ $windows = array(
     "description"=>"2000/XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+		$w610dev,
 		$w610,
 		$w66,
         $w5816,
@@ -216,6 +249,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+		$w610x64dev,
 		$w610x64,
 		$w66x64,
     )
@@ -250,6 +284,7 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
+		$l610ubuntudev,
 		$l610ubuntu,
 		$l66ubuntu,
     )
@@ -260,6 +295,7 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
+		$l610ubuntux64dev,
 		$l610ubuntux64,
 		$l66ubuntux64,
     )
