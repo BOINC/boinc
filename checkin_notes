@@ -2554,3 +2554,11 @@ David  6 Apr 2010
         sched_send.cpp
     client/
         cs_notices.cpp
+
+David  6 Apr 2010
+    - validator: detect jobs that used GPU app but fell back to CPU
+        (SETI@home does this if GPU initialization fails).
+        Treat these like CPU apps for credit purposes.
+
+    sched/
+        credit.cpp

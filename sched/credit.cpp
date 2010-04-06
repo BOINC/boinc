@@ -649,6 +649,20 @@ int get_pfc(
         return 0;
     }
 
+    // temporary kludge for SETI@home:
+    // if GPU initialization fails the app falls back to CPU.
+    //
+    if (strstr(r.stderr_out, "Device Emulation (CPU)")) {
+        if (config.debug_credit) {
+            log_messages.printf(MSG_NORMAL,
+                "[credit] [RESULT#%d] CUDA app fell back to CPU\n",
+                r.id
+            );
+        }
+        pfc = wu.rsc_fpops_est;
+        return 0;
+    }
+
     int gavid = generalized_app_version_id(r.app_version_id, r.appid);
     retval = hav_lookup(hav, r.hostid, gavid);
     if (retval) return retval;
