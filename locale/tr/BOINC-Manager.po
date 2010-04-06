@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-04-06 04:30+0200\n"
+"PO-Revision-Date: 2010-04-06 04:31+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Bookmarks: -1,772,-1,-1,-1,-1,-1,-1,-1,222\n"
+"X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,-1,-1,222\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
@@ -144,7 +144,7 @@ msgstr "Bu hesap yöneticisi için en az parola uzunluğu %d karakter. Lütfen f
 
 #: clientgui/AccountInfoPage.cpp:559
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr "Parola ve doğrulama parolası birbirini tutmuyor. Lütfen tekrar yazın."
+msgstr "Parola ve parola doğrulaması birbirini tutmuyor. Lütfen tekrar yazın."
 
 #: clientgui/AccountManagerInfoPage.cpp:248
 msgid "Choose an account manager"
@@ -154,7 +154,9 @@ msgstr "Bir hesap yöneticisi seçin"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "Bir proje seçmek için aşağıda ismine tıklayın ya da adresini girin."
+msgstr ""
+"Bir hesap yöneticisi seçmek için ismine tıklayın ya da\n"
+"aşağıya adresini girin."
 
 #: clientgui/AccountManagerInfoPage.cpp:254
 msgid "Account Manager &URL:"
@@ -279,7 +281,7 @@ msgstr "%s ile &eşitle"
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Güncel ayarları %s'den alır."
+msgstr "Güncel ayarları %s hesap yöneticisinden alır."
 
 #: clientgui/AdvancedFrame.cpp:409
 #, c-format
@@ -509,7 +511,7 @@ msgstr "&Yardım"
 
 #: clientgui/AdvancedFrame.cpp:1031
 msgid "Attaching to project or account manager..."
-msgstr "&Projeye bağlan ya da hesap yöneticisine katıl..."
+msgstr "Projeye katılıyor ya da hesap yöneticisine bağlanıyor..."
 
 #: clientgui/AdvancedFrame.cpp:1124
 #, c-format
@@ -559,7 +561,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1532
 msgid "Retrying communications."
-msgstr "Yeniden bağlantı kurulmaya çalışılıyor..."
+msgstr "Proje(ler) için yeniden bağlantı kurulmaya çalışılıyor..."
 
 #: clientgui/AdvancedFrame.cpp:1737
 #, c-format
@@ -721,7 +723,7 @@ msgid ""
 msgstr ""
 "%s şu anda bir %s istemcisine bağlı değil.\n"
 "Lütfen 'Gelişmiş\\Bilgisayar seç ve bağlan...' menüsünden bir %s istemcisine bağlanın.\n"
-"Kullandığınız bu bilgisayara bağlanmak için lütfen bigisayar adı olarak 'localhost' yazın."
+"Kendi bilgisayarınıza bağlanmak için lütfen bigisayar adı olarak 'localhost' yazın."
 
 #: clientgui/BOINCBaseView.cpp:756
 msgid "Web sites"
@@ -1145,7 +1147,7 @@ msgstr "Bilgisayar kullanımda olduğunda GPU kullanılsın"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr "bilgisayarınızı kullandığınız sırada ekran kartınızın (GPU) hesaplama için çalışmasını istiyorsanız bunu işaretleyin (bilgisayarı yavaşlatabilir)"
+msgstr "bilgisayarınızı kullandığınız sırada ekran kartınızın (GPU) hesaplama için çalışmasını istiyorsanız bunu işaretleyin (bazı bilgisayarlarda yavaşlama yaratabilir)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
@@ -1916,7 +1918,7 @@ msgid ""
 "Network reminder interval:\n"
 "(minutes)"
 msgstr ""
-"Ağ ihtiyacı hatırlatma sıklığı\n"
+"Ağ ihtiyacını hatırlatma sıklığı\n"
 "(dakika)"
 
 #: clientgui/DlgOptions.cpp:180
@@ -2318,7 +2320,7 @@ msgstr "Proje internet sitesi"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 msgid "Communicating with project."
-msgstr "Proje lie bağlantı kuruluyor."
+msgstr "Proje ile bağlantı kuruluyor."
 
 #: clientgui/ProjectProcessingPage.cpp:498
 msgid "Required files not found on the server."
@@ -3632,7 +3634,7 @@ msgstr "%d taneden %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
-msgstr "mevcut sıralama sütunu"
+msgstr "şu anki sıralama sütunu"
 
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " descending order "
@@ -3672,7 +3674,7 @@ msgstr "sütun"
 
 #: clientgui/mac/MacAccessiblity.cpp:1166
 msgid "list of projects or account managers"
-msgstr "proje veya hesap yöneticilerinin listesi"
+msgstr "projeler veya hesap yöneticilerinin listesi"
 
 #: clientgui/mac/MacAccessiblity.cpp:1208
 #, c-format
