@@ -1161,3 +1161,11 @@ David  5 Apr 2010
 
     lib/
         util.cpp
+
+Rom    6 Apr 2010
+    - Tag for 6.10.45 release, all platforms
+      boinc_core_release_6_10_45
+
+    /
+        configure.ac
+        version.h
