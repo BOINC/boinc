@@ -386,14 +386,14 @@ function show_result($result) {
     row2(tra("Exit status"), exit_status_string($result));
     row2(tra("Computer ID"), host_link($result->hostid));
     row2(tra("Report deadline"), time_str($result->report_deadline));
-    row2(tra("Run time"), $result->elapsed_time);
-    row2(tra("CPU time"), $result->cpu_time);
-    row2(tra("stderr out"), "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
+    row2(tra("Run time"), number_format($result->elapsed_time, 2));
+    row2(tra("CPU time"), number_format($result->cpu_time, 2));
     row2(tra("Validate state"), validate_state_str($result));
-    row2(tra("Claimed credit"), $result->claimed_credit);
-    row2(tra("Granted credit"), $result->granted_credit);
+    row2(tra("Claimed credit"), number_format($result->claimed_credit, 2));
+    row2(tra("Granted credit"), number_format($result->granted_credit, 2));
     row2(tra("application version"), app_version_string($result->app_version_id));
     end_table();
+    echo "<h3>Stderr output</h3> <pre>".htmlspecialchars($result->stderr_out)."</pre>";
 }
 
 function show_result_navigation($info) {

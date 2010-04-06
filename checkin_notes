@@ -2540,3 +2540,9 @@ David  5 Apr 2010
     sched/
         credit.cpp
         sched_main.cpp
+
+David  6 Apr 2010
+    - user web : improve result display
+
+    html/inc
+        result.inc
