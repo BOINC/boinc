@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-03-20 13:14+0200\n"
+"PO-Revision-Date: 2010-04-06 04:30+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -1406,12 +1406,12 @@ msgstr "Bellek kullanımı"
 #: clientgui/DlgAdvPreferencesBase.cpp:541
 #, no-c-format
 msgid "% when computer is in use"
-msgstr "% kadar bellek kullan (bilgisayar kullanımdayken)"
+msgstr "% kadar bellek kullanılsın (bilgisayar kullanımdayken)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:551
 #, no-c-format
 msgid "% when computer is idle"
-msgstr "% kadar bellek kullan (bilgisayar boştayken)"
+msgstr "% kadar bellek kullanılsın (bilgisayar boştayken)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:556
 msgid " Leave applications in memory while suspended"
@@ -2691,7 +2691,7 @@ msgstr "Durakladı: Başka iş çalışıyor"
 
 #: clientgui/sg_ImageButton.cpp:92
 msgid "Paused: User initiatied.  Click 'Resume' to continue"
-msgstr "Durakladı: Kullanıcı Durdurdu.  Devam etmek için 'Devam'a tıklayın"
+msgstr "Durakladı: Kullanıcı durdurdu.  Başlatmak için 'Devam'a tıklayın"
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
@@ -2736,7 +2736,7 @@ msgstr "BOINC faaliyet mesajları penceresini açar"
 
 #: clientgui/sg_ProjectsComponent.cpp:222
 msgid "Stop all activity"
-msgstr "Tüm çalışmayı durdurur"
+msgstr "Tüm çalışmayı duraklatır"
 
 #: clientgui/sg_ProjectsComponent.cpp:234
 msgid "Resume activity"
@@ -3689,6 +3689,6 @@ msgstr "ağ kullanım saatlerini SS:DD-SS:DD formatına göre belirleyin"
 
 #~ msgid "&Close Window\tCtrl+W"
 #~ msgstr "&Pencereyi Kapat\tCtrl+W"
+
 #~ msgid "%s - Can't find web browser"
 #~ msgstr "%s - İnternet tarayıcı bulunamadı"
-
