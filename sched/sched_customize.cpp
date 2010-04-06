@@ -119,8 +119,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.flops = sreq.host.p_fpops*hu.avg_ncpus;
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] Multi-thread app estimate %.2f GFLOPS\n",
-                hu.flops/1e9
+                "[version] %s Multi-thread app estimate %.2f GFLOPS\n",
+                plan_class, hu.flops/1e9
             );
         }
         return true;
@@ -292,7 +292,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
 
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] ATI app estimated %.2f GFLOPS\n", hu.flops/1e9
+                "[version] %s ATI app estimated %.2f GFLOPS\n",
+                plan_class, hu.flops/1e9
             );
         }
         return true;
@@ -303,7 +304,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         if (!cp) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] Host lacks CUDA coprocessor for plan class cuda\n"
+                    "[version] Host lacks CUDA coprocessor for plan class %s\n",
+                    plan_class
                 );
             }
             add_no_work_message("Your computer has no NVIDIA GPU");
@@ -444,8 +446,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
 
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] CUDA app estimated %.2f GFLOPS (clock %d count %d)\n",
-                hu.flops/1e9, cp->prop.clockRate,
+                "[version] %s app estimated %.2f GFLOPS (clock %d count %d)\n",
+                plan_class, hu.flops/1e9, cp->prop.clockRate,
                 cp->prop.multiProcessorCount
             );
         }

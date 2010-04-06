@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-29 02:47+0200\n"
+"PO-Revision-Date: 2010-04-06 13:50+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <weboglan@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Bookmarks: -1,334,393,487,-1,-1,-1,-1,-1,-1\n"
+"X-Poedit-Bookmarks: -1,334,318,-1,-1,-1,-1,-1,-1,-1\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Türkçe"
@@ -202,7 +202,7 @@ msgstr "Anonim"
 #: ../inc/host.inc:108
 #: ../inc/result.inc:377
 msgid "Created"
-msgstr "Oluşturma"
+msgstr "Oluşturulma"
 
 #: ../inc/host.inc:109
 #: ../inc/host.inc:217
@@ -1481,7 +1481,7 @@ msgstr "Ara"
 
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
-msgstr "Sizin tarafınızdan istendi ve kurucunun son yanıt tarihi geçti."
+msgstr "Değişim talep ettiniz ve kurucunun son yanıt tarihi geçti."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
@@ -1489,11 +1489,11 @@ msgstr "Kurucu değişimini tamamla"
 
 #: ../inc/team.inc:60
 msgid "Requested by you"
-msgstr "Sizin tarafınızdan istendi"
+msgstr "Değişim talep ettiniz"
 
 #: ../inc/team.inc:60
 msgid "founder response deadline is %1"
-msgstr "kurucu son yanıt tarihi %1"
+msgstr "kurucunun son yanıt tarihi %1."
 
 #: ../inc/team.inc:65
 #: ../inc/user.inc:275
@@ -1550,7 +1550,7 @@ msgstr "Bu takıma katıl"
 
 #: ../inc/team.inc:129
 msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
-msgstr "Not: Eğer topluluk tercihlerinizde 'e-postayla uyarı' ayarlıysa, katıldığınızda takım kurucusu e-posta adresinizi görebilecek."
+msgstr "Not: Topluluk tercihlerinizde 'e-postayla uyarı' aktifse, katıldığınızda takım kurucusu e-posta adresinizi görebilecek."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
@@ -1562,7 +1562,7 @@ msgstr "Kurucu değişimi talep edildi"
 
 #: ../inc/team.inc:140
 msgid "Respond by %1"
-msgstr "%1 tarafından yanıt"
+msgstr "%1 tarihine kadar yanıtlanmalı"
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
@@ -1598,11 +1598,11 @@ msgstr "bak"
 
 #: ../inc/team.inc:178
 msgid "Active members"
-msgstr "Aktif üyeler"
+msgstr "Aktif üye"
 
 #: ../inc/team.inc:179
 msgid "Members with credit"
-msgstr "Kredisi bulunan üyeler"
+msgstr "Kredisi bulunan üye"
 
 #: ../inc/team.inc:243
 msgid "Admin"
@@ -1665,7 +1665,7 @@ msgstr "HTML bilmiyorsanız, bu bölümü boş bırakın."
 
 #: ../inc/team.inc:431
 msgid "URL of team web page, if any"
-msgstr "Mevcutsa, takımın İnternet sitesi adresi"
+msgstr "Varsa, takımın İnternet sitesi adresi"
 
 #: ../inc/team.inc:431
 msgid "without \"http://\""
@@ -1685,7 +1685,7 @@ msgstr "Yeni üyeler kabul edilsin mi?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr "Kullancı profili"
+msgstr "Kullanıcı profili"
 
 #: ../inc/user.inc:112
 msgid "Projects in which you are participating"
@@ -1760,7 +1760,7 @@ msgstr "Sertifika"
 
 #: ../inc/user.inc:166
 msgid "Stats on your cell phone"
-msgstr "İstatistikler cep telefonuzda"
+msgstr "Cep telefonunuz için istatistik sayfanız"
 
 #: ../inc/user.inc:197
 msgid "Account information"
@@ -1829,7 +1829,7 @@ msgstr "Zayıf hesap anahtarı"
 
 #: ../inc/user.inc:213
 msgid "Provides %1limited access%2 to your account"
-msgstr "Hesabınıza %1sınırlı erişim%2i sağlar"
+msgstr "Hesabınıza %1sınırlı erişimi%2 sağlar"
 
 #: ../inc/user.inc:216
 msgid "Preferences"
@@ -1934,7 +1934,7 @@ msgstr "Bilgisayarlar"
 
 #: ../inc/user.inc:320
 msgid "hidden"
-msgstr "gizli"
+msgstr "Gizli"
 
 #: ../inc/user.inc:327
 msgid "Donor"
@@ -1964,7 +1964,7 @@ msgstr "Arkadaş olarak ekle"
 
 #: ../inc/util.inc:191
 msgid "Unable to handle request"
-msgstr "Talebin gerçekleştirilmesi mümkün değil"
+msgstr "Talep gerçekleştirilemedi"
 
 #: ../inc/util.inc:385
 msgid "Email address:"
@@ -1984,7 +1984,7 @@ msgstr "parolanızı mı unuttunuz?"
 
 #: ../inc/util.inc:390
 msgid "Stay logged in on this computer"
-msgstr "Oturumum bu bilgisayarda daima açık kalsın"
+msgstr "Bu bilgisayarda oturumumu açık tut"
 
 #: ../inc/util.inc:395
 msgid "Log in"
@@ -1992,7 +1992,7 @@ msgstr "Oturum aç"
 
 #: ../inc/util.inc:396
 msgid "or %1create an account%2."
-msgstr "ya da %1bir hesap yarat%2."
+msgstr "ya da %1bir hesap oluştur%2."
 
 #: ../inc/util.inc:416
 msgid "Please log in"
@@ -2005,7 +2005,7 @@ msgstr "Yazınızı biçimlendirmek için BBCode etiketleri kullanın"
 #: ../user/account_finish.php:40
 #: ../user/create_account_form.php:75
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "Sizi sitemizde tanıtır. Gerçek adınızı ya da takma adınızı kullanın."
+msgstr "Sitemizde bu isimle yer alacaksınız. Gerçek adınızı ya da takma adınızı kullanın."
 
 #: ../user/account_finish.php:44
 #: ../user/create_account_form.php:94
@@ -2033,7 +2033,7 @@ msgstr "Uygulamalar"
 
 #: ../user/apps.php:32
 msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
-msgstr "%1 şu anda aşağıdaki uygulamalara sahip. %1 projesine katıldığınızda, bu bir ya da daha fazla uygulamaya ait işler bilgisayarınıza gönderilecek. İşleri hesaplamak için gerekli uygulamanın son sürümü de bilgisayarınıza indirilecek. Bu otomatik olarak gerçekleşecek, herhangi bir şey yapmanız gerekmeyecek."
+msgstr "%1 şu anda aşağıdaki uygulamalara sahip. %1 projesine katıldığınızda, bu uygulamalardan bir ya da daha fazlasına ait işler bilgisayarınıza gönderilecek. İşleri hesaplamak için gerekli uygulamanın son sürümü de bilgisayarınıza indirilecek. Bu otomatik olarak gerçekleşecek, herhangi bir şey yapmanız gerekmeyecek."
 
 #: ../user/apps.php:48
 msgid "Platform"
@@ -2049,7 +2049,7 @@ msgstr "Yayınlanma tarihi"
 
 #: ../user/create_account_action.php:64
 msgid "You must supply an invitation code to create an account."
-msgstr "Bir hesap oluşturmak için bir davet kodu temin etmelisiniz."
+msgstr "Hesap oluşturmak için bir davet kodu temin etmelisiniz."
 
 #: ../user/create_account_action.php:67
 msgid "The invitation code you gave is not valid."
@@ -2069,7 +2069,7 @@ msgstr "Şu anda yeni hesap oluşturma seçeneği mevcut değil. Lütfen daha so
 
 #: ../user/create_account_form.php:41
 msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "NOT: Eğer BOINC'in 5.2+ sürümünü BOINC Manager ile kullanıyorsanız, bu formu kullanmayın. Yalnızca BOINC'i çalıştırın, Projeye katıl'ı seçin ve bir e-posta adresi ile parola girin."
+msgstr "NOT: Eğer BOINC'in 5.2 veya üzeri sürümünü BOINC Manager ile kullanıyorsanız, bu formu kullanmayın. Yalnızca BOINC'i çalıştırın, \"Projeye katıl\"ı seçin ve bir e-posta adresi ile parola girin."
 
 #: ../user/create_account_form.php:57
 msgid "This account will belong to the team %1 and will have the project preferences of its founder."
@@ -2081,7 +2081,7 @@ msgstr "Davet Kodu"
 
 #: ../user/create_account_form.php:69
 msgid "A valid invitation code is required to create an account."
-msgstr "Bir hesap oluşturmak için geçerli bir davet kodu gerekiyor."
+msgstr "Hesap oluşturmak için geçerli bir davet kodu gerekiyor."
 
 #: ../user/create_account_form.php:79
 msgid "Email Address"
@@ -2089,7 +2089,7 @@ msgstr "E-posta Adresi"
 
 #: ../user/create_account_form.php:79
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr "'isim@site' biçiminde geçerli bir adres olmalı"
+msgstr "'isim@site' biçiminde geçerli bir adres olmalı."
 
 #: ../user/create_account_form.php:88
 #: ../user/edit_email_form.php:46
@@ -2118,7 +2118,7 @@ msgstr "Resim"
 
 #: ../user/create_profile.php:65
 msgid "%1 Your profile picture is shown to the left."
-msgstr "%1 Profil fotoğrafınız solda gösterilecek."
+msgstr "%1 Profil fotoğrafınız solda gösteriliyor."
 
 #: ../user/create_profile.php:67
 msgid "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 or less)."
@@ -2158,7 +2158,7 @@ msgstr "Gönderdiğiniz resim formatı desteklenmiyor."
 
 #: ../user/create_profile.php:161
 msgid "Your %1profile%2 lets you share your opinions and background with the %3 community."
-msgstr "%1Profiliniz%2 fikirlerinizi ve özgeçmişinizi %3 topluluğuyla paylaşmanızı sağlar."
+msgstr "%1Profiliniz%2, fikirlerinizi ve özgeçmişinizi %3 topluluğuyla paylaşmanızı sağlar."
 
 #: ../user/create_profile.php:208
 msgid "Your ReCaptcha response was not correct.  Please try again."
@@ -2178,11 +2178,11 @@ msgstr "Gönderdiğiniz profil boş."
 
 #: ../user/create_profile.php:280
 msgid "Could not update the profile: database error"
-msgstr "Profil güncellenemedi: veritabanı hatası"
+msgstr "Profil güncellenemedi: Veritabanı hatası"
 
 #: ../user/create_profile.php:292
 msgid "Could not create the profile: database error"
-msgstr "Profil oluşturulamadı: veritabanı hatası"
+msgstr "Profil oluşturulamadı: Veritabanı hatası"
 
 #: ../user/create_profile.php:297
 msgid "Profile saved"
@@ -2206,7 +2206,7 @@ msgstr "Sitemize saldırıların önüne geçmek amacıyla, profil oluşturmak v
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
-msgstr "BOINC eklenti programlarını indir"
+msgstr "BOINC eklenti yazılımlarını indir"
 
 #: ../user/download_network.php:28
 msgid "You can download applications in several categories."
@@ -2262,7 +2262,7 @@ msgstr "Parolayı değiştir"
 
 #: ../user/edit_passwd_form.php:40
 msgid "You can identify yourself using either"
-msgstr "Kendinizi e-posta adresi ve parola bilgilerinizin"
+msgstr "Kendinizi, e-posta adresi ve eski parolanızın"
 
 #: ../user/edit_passwd_form.php:42
 msgid "your email address and old password"
@@ -2319,7 +2319,7 @@ msgstr "İsim %1 Gerçek ya da takma isim%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr "URL %1 Kendi web sitenizin; isteğe bağlı%2"
+msgstr "URL %1 Kişisel web sitenizin adresi; isteğe bağlı%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
@@ -2327,7 +2327,7 @@ msgstr "Posta (ZIP) kodu %1 İsteğe bağlı%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr "Bilgiyi güncelle"
+msgstr "Bilgileri güncelle"
 
 #: ../user/forum_edit.php:115
 #: ../user/forum_edit.php:120
@@ -2374,7 +2374,7 @@ msgstr "Forum arama sonuçları"
 
 #: ../user/forum_thread.php:45
 msgid "No thread with id %1. Please check the link and try again."
-msgstr "%1 NO'suyla bir konu başlığı mevcut değil. Lütfen bağlantıyı kontrol edip tekrar deneyin."
+msgstr "%1 nolu bir konu başlığı mevcut değil. Lütfen bağlantıyı kontrol edip tekrar deneyin."
 
 #: ../user/forum_thread.php:48
 msgid "This forum is not visible to you."
@@ -2390,7 +2390,7 @@ msgstr "Sorum yanıtlandı"
 
 #: ../user/forum_thread.php:113
 msgid "If your question has been adequately answered please click here to close it!"
-msgstr "Eğer sorunuz yeterli şekilde yanıtlandıysa, kapatmak için lütfen buraya tıklayın!"
+msgstr "Eğer sorunuz yeterli şekilde yanıtlandıysa, kapatmak için lütfen buraya tıklayın."
 
 #: ../user/forum_thread.php:120
 msgid "I've also got this question"
@@ -2523,7 +2523,7 @@ msgstr "Arkadaş ekle"
 
 #: ../user/friend.php:72
 msgid "You have asked to add %1 as a friend. We will notify %2 and will ask him/her to confirm that you are friends."
-msgstr "%1 kullanıcısını arkadaş olarak eklemek istediniz. %2 kullanıcısını uyaracağız ve arkadaşlığınızı onaylamasını isteyeceğiz."
+msgstr "%1 kullanıcısını arkadaş olarak eklemek istediniz. %2 kullanıcısını uyaracağız ve isteğinizi yanıtlamasını isteyeceğiz."
 
 #: ../user/friend.php:75
 msgid "Add an optional message here:"
@@ -2579,7 +2579,7 @@ msgstr "Arkadaşlık onaylandı"
 
 #: ../user/friend.php:175
 msgid "Your friendship with %1 has been confirmed."
-msgstr "%1 ile arkadaşlığınız onaylandı."
+msgstr "%1 ile arkadaşlık talebiniz onaylandı."
 
 #: ../user/friend.php:193
 msgid "Friendship declined"
@@ -2587,7 +2587,7 @@ msgstr "Arkadaşlık reddedildi"
 
 #: ../user/friend.php:194
 msgid "You have declined friendship with %1"
-msgstr "%1 ile arkadaşlığınız reddedildi"
+msgstr "%1 ile arkadaşlık talebiniz reddedildi."
 
 #: ../user/friend.php:209
 msgid "Notification not found"
@@ -2674,7 +2674,7 @@ msgstr "Bilgisayarınızda %1 çalıştırdığınızda, CPU (işlemci) gücü, 
 
 #: ../user/info.php:38
 msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr "Bilgisayarınız, gönderilen işleri %1 projesinin hedefleri doğrultusunda ve proje sitesinde tanımlandığı şekilde tamamlayacak. Bu kapsamda uygulama programları zaman zaman değişebilir."
+msgstr "Bilgisayarınız, gönderilen işleri %1 projesinin hedefleri doğrultusunda ve proje sitesinde tanımlandığı şekilde tamamlayacak. Bu kapsamda uygulama yazılımları zaman zaman değişebilir."
 
 #: ../user/info.php:40
 msgid "Privacy policy"
@@ -2686,7 +2686,7 @@ msgstr "%1 üzerindeki hesabınız, seçeceğiniz bir isimle birlikte tanınır.
 
 #: ../user/info.php:42
 msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr "Eğer %1 projesine katılırsanız, bilgisayarınız hakkında bilgi (örneğin işlemci tipi, bellek miktarı vb.) %1 tarafından kaydedilecek ve bilgisayarınıza ne tip iş gönderileceğinin belirlenmesinde kullanılacak. Bu bilgi %1 internet sitesinde de gösterilecek. Bilgisayarınızın konumuyla ilgili herhangi bir bilgi (örneğin etki alanı adı ya da ağ adresi) gösterilmeyecek."
+msgstr "Eğer %1 projesine katılırsanız, bilgisayarınız hakkında bilgi (örneğin işlemci tipi, bellek miktarı vb.) %1 tarafından kaydedilecek ve bilgisayarınıza ne tip iş gönderileceğinin belirlenmesinde kullanılacak. Bu bilgi %1 internet sitesinde de gösterilecek. Ancak, bilgisayarınızın konumuyla ilgili herhangi bir bilgi (örneğin etki alanı adı ya da ağ adresi) gösterilmeyecek."
 
 #: ../user/info.php:43
 msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
@@ -2706,7 +2706,7 @@ msgstr "%1 çalıştırmak güvenli midir?"
 
 #: ../user/info.php:47
 msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr "İnternetten herhangi bir zamanda bir program indirdiğinizde, bazı olasılıkları göze almaktasınız: programın tehlikeli hataları bulunabilir ya da indirme sunucusu hack'lenmiş olabilir. %1 bu riskleri en aza indirmeye gayret etmekte. Uygulamalarımızı dikkalice test etmekteyiz. Sunucularımız bir güvenlik duvarı arkasında bulunuyor ve yüksek güvenlik için yapılandırılıyor. İndirilen programların doğruluğunu sağlamak için, tüm çalıştırılabilir dosyalar internete bağlı olmayan güvenli bir bilgisayarda dijital olarak imzalanıyor."
+msgstr "İnternetten herhangi bir yazılım indirdiğinizde, bazı olasılıkları göze almaktasınız: Yazılımın tehlikeli hataları bulunabilir ya da indirme sunucusu hack'lenmiş olabilir. %1 bu riskleri en aza indirmeye gayret etmekte. Uygulamalarımızı dikkalice test etmekteyiz. Sunucularımız bir güvenlik duvarı arkasında bulunuyor ve yüksek güvenlik için yapılandırılıyor. İndirilen yazılımların doğruluğunu sağlamak için, tüm çalıştırılabilir dosyalar internete bağlı olmayan güvenli bir bilgisayarda dijital olarak imzalanıyor."
 
 #: ../user/info.php:48
 msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
@@ -3029,7 +3029,7 @@ msgstr "En iyi takımlar"
 
 #: ../user/stats.php:35
 msgid "More detailed statistics for %1 and other BOINC-based projects are available at several web sites:"
-msgstr "%1 ve çeşitli BOINC-tabanlı projeler için daha detaylı istatistikler, çeşitli internet sitelerinde mevcuttur:"
+msgstr "%1 ve diğer BOINC-tabanlı projeler için daha detaylı istatistikler, çeşitli internet sitelerinde mevcuttur:"
 
 #: ../user/stats.php:38
 msgid "You can also get your current statistics in the form of a \"signature image\":"
@@ -3065,7 +3065,7 @@ msgstr "Takımdan bir üyeyi çıkarma"
 
 #: ../user/team.php:34
 msgid "disband a team if it has no members"
-msgstr "Üyesi yoksa bir takımı kaldırma."
+msgstr "Üyesi yoksa takımı kaldırma."
 
 #: ../user/team.php:37
 msgid "To join a team, visit its team page and click %1Join this team%2."
@@ -3099,7 +3099,7 @@ msgstr "Bu kullanıcıyı Takım Yöneticiliğinden çıkar"
 #: ../user/team_admins.php:38
 #: ../user/team_admins.php:49
 msgid "Add or remove Team Admins"
-msgstr "Takım Yöneticileri eklemek ya da çıkarmak"
+msgstr "Takım Yöneticileri ekleme ya da çıkarma"
 
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
@@ -3107,15 +3107,15 @@ msgstr "Takımınızın üyelerini 'Takım Yöneticisi' yapabilirsiniz. Takım Y
 
 #: ../user/team_admins.php:41
 msgid "Edit team information (name, URL, description, country)"
-msgstr "Takım bilgisini düzenlemek (isim, URL, tanıtım, ülke)"
+msgstr "Takım bilgisini düzenleme (isim, URL, tanıtım, ülke)"
 
 #: ../user/team_admins.php:42
 msgid "View the team's join/quit history"
-msgstr "Takımın katılma/ayrılma geçmişini görüntülemek"
+msgstr "Takımın katılma/ayrılma geçmişini görüntüleme"
 
 #: ../user/team_admins.php:43
 msgid "Moderate the team forum, if any (admins get email notification of moderation events and red X reports)"
-msgstr "Eğer mevcutsa, takım forumunu yönetmek (yöneticiler, moderasyon olayları ve red X raporları hakkında uyarıları e-postaları alır)"
+msgstr "Eğer mevcutsa, takım forumunu yönetme (yöneticiler, moderasyon olayları ve red X raporları hakkında uyarı e-postaları alır)"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
@@ -3123,12 +3123,12 @@ msgstr "Takım Yöneticileri şunları yapamaz:"
 
 #: ../user/team_admins.php:47
 msgid "Change the team founder"
-msgstr "Takım kurucusunu değiştirmek"
+msgstr "Takım kurucusunu değiştirme"
 
 #: ../user/team_admins.php:48
 #: ../user/team_manage.php:52
 msgid "Remove members"
-msgstr "Üyeleri kaldırmak"
+msgstr "Üyeleri çıkartma"
 
 #: ../user/team_admins.php:51
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
@@ -3147,6 +3147,7 @@ msgid "Current Team Admins"
 msgstr "Mevcut Takım Yöneticileri"
 
 #: ../user/team_admins.php:60
+#, fuzzy
 msgid "Became Team Admin on"
 msgstr "Burada Takım Yöneticisi ol: "
 
@@ -3228,7 +3229,7 @@ msgid ""
 "If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />\n"
 "                  To accept the request, assign foundership to %3 using the form below."
 msgstr ""
-"%1 itibariyle talebi reddetmezseniz, %2 takımın yöneticisi olma seçeneğine sahip olacak.<br /><br />\n"
+"%1 tarihine kadar talebi reddetmezseniz, %2 takımın yöneticisi olma seçeneğine sahip olacak.<br /><br />\n"
 "                  Talebi kabul etmek için, aşağıdaki formu kullanarak %3 takımına kurucu olarak atayın."
 
 #: ../user/team_change_founder_form.php:64
@@ -3328,11 +3329,11 @@ msgstr "Salt metin olarak görüntüle"
 #: ../user/team_forum.php:26
 #: ../user/team_forum.php:37
 msgid "Create Message Board"
-msgstr "Mesaj panosu yarat"
+msgstr "Mesaj panosu oluştur"
 
 #: ../user/team_forum.php:27
 msgid "You may create a message board for use by %1."
-msgstr "%1 için kullanmak üzere bir mesaj panosu yaratabilirsiniz."
+msgstr "%1 için kullanmak üzere bir mesaj panosu oluşturabilirsiniz."
 
 #: ../user/team_forum.php:29
 msgid "Only team members will be able to post."
@@ -3348,7 +3349,7 @@ msgstr "Siz ve Takım Yöneticileri moderasyon izinlerine sahip olacak."
 
 #: ../user/team_forum.php:38
 msgid "Create a message board for %1"
-msgstr "%1 için bir mesaj panosu yarat"
+msgstr "%1 için bir mesaj panosu oluştur"
 
 #: ../user/team_forum.php:46
 msgid "Team already has a message board"
@@ -3356,7 +3357,7 @@ msgstr "Takım zaten bir mesaj panosuna sahip"
 
 #: ../user/team_forum.php:51
 msgid "couldn't create message board"
-msgstr "mesaj panosu yaratılamadı"
+msgstr "mesaj panosu oluşturulamadı"
 
 #: ../user/team_forum.php:57
 msgid "Team Message Board"
@@ -3392,7 +3393,7 @@ msgstr "Mesaj panosunu kaldırmak istediğinize emin misiniz?"
 
 #: ../user/team_forum.php:96
 msgid "Are you sure you want to remove your team's message board? All threads and posts will be permanently removed. (You may, however, create a new message board later)."
-msgstr "Takımınızın mesaj panosunu kaldırmak istediğinize emin misiniz? Tüm başlıklar ve gönderiler kalıcı olarak silinecek (Bununla birlikte, daha sonra yeni bir mesaj panosu yaratabilirsiniz)."
+msgstr "Takımınızın mesaj panosunu kaldırmak istediğinize emin misiniz? Tüm başlıklar ve gönderiler kalıcı olarak silinecek (Bununla birlikte, daha sonra yeni bir mesaj panosu oluşturabilirsiniz)."
 
 #: ../user/team_forum.php:98
 msgid "Yes - remove message board"
@@ -3408,7 +3409,7 @@ msgstr "Mesaj panosu kaldırıldı"
 
 #: ../user/team_forum.php:120
 msgid "Your teams message board has been removed. You may now %1create a new one%2."
-msgstr "Takımınızın mesaj panosu kaldırıldı. Yeni bir tane %1yaratabilirsiniz%2."
+msgstr "Takımınızın mesaj panosu kaldırıldı. Yeni bir tane %1oluşturabilirsiniz%2."
 
 #: ../user/team_forum.php:120
 msgid "<p>"
@@ -3452,7 +3453,7 @@ msgid ""
 "                       If the founder does not respond within 60 days you will be allowed to become the founder."
 msgstr ""
 "Mevcut kurucu, talebiniz hakkında e-posta ve özel mesaj yollarıyla uyarıldı.<br /><br />\n"
-"                       Eğer kurucu 60 gün içerisinde yanıt vermezse, yeni kurucu olabileceksiniz."
+"                       Kurucu 60 gün içerisinde yanıt vermezse, yeni kurucu olabileceksiniz."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
@@ -3502,7 +3503,7 @@ msgstr "%1 takımının kurucusu oldunuz."
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
-msgstr "%2 üzerinde %1 için kurucu olmayı talep ettiniz."
+msgstr "%2 tarihinde %1 için kurucu olmayı talep ettiniz."
 
 #: ../user/team_founder_transfer_form.php:45
 msgid "60 days have elapsed since your request, and the founder has not responded. You may now assume foundership by clicking here:"
@@ -3514,14 +3515,14 @@ msgstr "Kuruculuğu üstlenme"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid "The founder was notified of your request. If he/she does not respond by %1 you will be given an option to become founder."
-msgstr "Kurucu talebiniz hakkında uyarıldı. Eğer %1 tarihine kadar yanıt vermezse, kurucu olmak için seçeneğiniz olacak."
+msgstr "Kurucu, talebiniz hakkında uyarıldı. Eğer %1 tarihine kadar yanıt vermezse, kurucu olmak için seçeneğiniz olacak."
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
 "If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
-"Eğer bir takımın kurucusu aktif değilse ve kurucu olmak istiyorsanız, aşağıdaki butona tıklayın. Mevcut kurucuya isteğinizle ilgili detaylı bir e-posta gönderilecek ve kuruculuğu size devretme ya da talebi reddetme seçenekleri olacak. Eğer kurucu 60 gün içerisinde yanıt vermezse, kurucu olabileceksiniz.<br /><br />\n"
+"Eğer bir takımın kurucusu aktif değilse ve kuruculuğu üstlenmek istiyorsanız, aşağıdaki butona tıklayın. Mevcut kurucuya isteğinizle ilgili detaylı bir e-posta gönderilecek ve kuruculuğu size devretme ya da talebi reddetme seçenekleri olacak. Kurucu 60 gün içerisinde bir yanıt vermezse, kurucu olabileceksiniz.<br /><br />\n"
 "                       Kurucu olma talebi göndermek istediğinize emin misiniz?"
 
 #: ../user/team_founder_transfer_form.php:63
@@ -3530,11 +3531,11 @@ msgstr "Kurucu değişimi talebi"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
-msgstr "%2 üzerinde %1 için kurucu değişimi zaten talep edildi."
+msgstr "Kurucu değişimi, %1 tarafından %2 tarihinde zaten talep edildi."
 
 #: ../user/team_founder_transfer_form.php:75
 msgid "A foundership change was requested during the last 90 days, so new requests are not allowed. Please try again later."
-msgstr "90 gün içerisinde bir kurucu değişimi talebi zaten gerçekleşti, bu nedenle yeni talepler kabul edilmiyor. Lütfen daha sonra tekrar deneyin."
+msgstr "Son 90 gün içerisinde bir kurucu değişimi talebi yapıldı, bu nedenle yeni talepler kabul edilmiyor. Lütfen daha sonra tekrar deneyin."
 
 #: ../user/team_join.php:30
 #: ../user/team_join_action.php:30
@@ -3579,7 +3580,7 @@ msgstr "Bir takıma katıldığınızda, kurucusu e-posta adresinizi görebilir.
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
-msgstr "Bir takıma katılmak hesabınızdaki kredi miktarını etkilemez."
+msgstr "Bir takıma katılmak, hesabınızdaki kredi miktarını etkilemez."
 
 #: ../user/team_join_form.php:43
 msgid "Join team"
@@ -3607,7 +3608,7 @@ msgid ""
 "         If you cannot find the team you are looking for, you may %1create a team%2 by yourself."
 msgstr ""
 "Sonuçların sonu<br>\n"
-"         Eğer istediğiniz gibi bir takım bulamadıysanız, kendiniz %1bir takım yaratabilirsiniz%2."
+"         Eğer istediğiniz gibi bir takım bulamadıysanız, kendiniz %1bir takım oluşturabilirsiniz%2."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
@@ -3619,7 +3620,7 @@ msgstr "Takım bilgilerini düzenle"
 
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
-msgstr "Takım adı, URL'si, tanıtımı, tipi ya da ülkesini değiştir."
+msgstr "Takım adı, URL'si, tanıtımı, tipi ya da ülkesini değiştirin."
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
@@ -3636,7 +3637,7 @@ msgstr "salt metin"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
-msgstr "Takım üyelerinin isimlerini ve e-posta adreslerini gör"
+msgstr "Takım üyelerinin isimlerini ve e-posta adreslerini görün."
 
 #: ../user/team_manage.php:34
 msgid "View change history:"
@@ -3648,11 +3649,11 @@ msgstr "XML"
 
 #: ../user/team_manage.php:37
 msgid "See when members joined or quit this team"
-msgstr "Üyelerin takıma ne zaman katıldığını ya da ayrıldığını görün"
+msgstr "Üyelerin takıma ne zaman katıldığını ya da ayrıldığını görün."
 
 #: ../user/team_manage.php:48
 msgid "Respond to foundership request."
-msgstr "Kurucu değişimi talebine yanıt ver."
+msgstr "Kurucu değişimi talebine yanıt verin."
 
 #: ../user/team_manage.php:48
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
@@ -3660,11 +3661,11 @@ msgstr "Eğer %1 tarihine kadar yanıt vermezseniz, %2 bu takımın kuruculuğun
 
 #: ../user/team_manage.php:53
 msgid "Remove inactive or unwanted members from this team"
-msgstr "Aktif olmayan ya da istemediğiniz üyeleri takımdan çıkarın"
+msgstr "Aktif olmayan ya da istemediğiniz üyeleri takımdan çıkarın."
 
 #: ../user/team_manage.php:55
 msgid "Transfer foundership to another member"
-msgstr "Takım kuruculuğunu başka bir üyeye devret"
+msgstr "Takım kuruculuğunu başka bir üyeye devredin."
 
 #: ../user/team_manage.php:56
 msgid "Add/remove Team Admins"
@@ -3672,7 +3673,7 @@ msgstr "Takım Yöneticileri ekle/kaldır"
 
 #: ../user/team_manage.php:57
 msgid "Give selected team members Team Admin privileges"
-msgstr "Seçilen üyelere Takım Yöneticisi yetkileri ver"
+msgstr "Seçtiğiniz üyelere Takım Yöneticisi yetkileri verin."
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
@@ -3684,11 +3685,11 @@ msgstr "Yalnızca takımın üyesi yoksa gerçekleştirilebilir."
 
 #: ../user/team_manage.php:62
 msgid "Create or manage a team message board"
-msgstr "Takım mesaj panosu yarat ya da yönet"
+msgstr "Takım mesaj panosu oluşturun ya da yönetin."
 
 #: ../user/team_manage.php:69
 msgid "To have this team created on all BOINC projects (current and future) you can make it into a %1BOINC-wide team%2."
-msgstr "Mevcut tüm BOINC projelerinde bu takımın bulunmasını istiyorsanız (şu anda ve gelecekte) , %1BOINC genişletilmiş-takımı%2 yapabilirsiniz."
+msgstr "Mevcut tüm BOINC projelerinde bu takımın bulunmasını istiyorsanız (şu anda ve gelecekte), %1BOINC genişletilmiş-takımı%2 haline getirebilirsiniz."
 
 #: ../user/team_manage.php:71
 msgid "Team admins are encouraged to join and participate in the Google %1boinc-team-founders%2 group."
@@ -3700,7 +3701,7 @@ msgstr "BOINC takım yöneticileri için diğer kaynaklar, üçüncü parti bir 
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
-msgstr "Boş olmayan bir takım kaldırılamaz"
+msgstr "Boş olmayan bir takım kaldırılamaz."
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
@@ -3734,9 +3735,9 @@ msgid ""
 "         <li>Quitting a team does not affect your personal credit statistics in any way.\n"
 "         </ul>"
 msgstr ""
-"<strong>Lütfen takımdan ayrılmadan önce şunlara dikkat edin:</strong>\n"
+"<strong>Takımdan ayrılmadan önce lütfen şunlara dikkat edin:</strong>\n"
 "         <ul>\n"
-"         <li>Eğer takımdan ayrılırsanaz, daha sonra yeniden katılabilirsiniz ya da istediğiniz başka bir takıma katılabilirsiniz\n"
+"         <li>Takımdan ayrılırsanız, daha sonra yeniden katılabilirsiniz ya da istediğiniz başka bir takıma katılabilirsiniz\n"
 "         <li>Bir takımdan ayrılmak, kişisel kredi miktarlarınızı herhangi bir şekilde etkilemez.\n"
 "         </ul>"
 
@@ -3746,7 +3747,7 @@ msgstr "Takımdan ayrıl"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
-msgstr "%1 takımından üyeler kaldırılıyor"
+msgstr "%1 takımından üyeler çıkartılıyor"
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
@@ -3754,7 +3755,7 @@ msgstr "%1, %2 takımının bir üyesi değil"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr "%1 kaldırıldı"
+msgstr "%1 çıkartıldı"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
@@ -3762,7 +3763,7 @@ msgstr "%1 takımından üyeleri çıkart"
 
 #: ../user/team_remove_inactive_form.php:37
 msgid "Remove?"
-msgstr "Kaldırılsın mı?"
+msgstr "Çıkartılsın mı?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
@@ -3770,11 +3771,11 @@ msgstr "İsim (NO)"
 
 #: ../user/team_remove_inactive_form.php:63
 msgid "No members are eligible for removal."
-msgstr "Kaldırılabilecek üye mevcut değil."
+msgstr "Çıkartılabilecek üye mevcut değil."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
-msgstr "Üyeleri kaldır"
+msgstr "Üyeleri çıkart"
 
 #: ../user/team_search.php:65
 msgid "Team name"
@@ -3786,7 +3787,7 @@ msgstr "Arama kriterlerinize uygun takım bulunamadı. Lütfen arama kriterlerin
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
-msgstr "Ya da %1yeni bir takım yaratabilirsiniz%2."
+msgstr "Ya da %1yeni bir takım oluşturabilirsiniz%2."
 
 #: ../user/team_search.php:133
 msgid ""
@@ -3822,7 +3823,7 @@ msgstr "Şu anda bir takıma katılma konusuyla %1ilgilenmiyorum%2."
 #: ../user/top_teams.php:98
 #: ../user/top_users.php:110
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr "Limite ulaşıldı - Üzgünüz, yalnızda %1 öğe mümkün"
+msgstr "Limite ulaşıldı - Üzgünüz, yalnızca ilk %1 öğe"
 
 #: ../user/top_hosts.php:80
 msgid "Top hosts"
@@ -3838,11 +3839,11 @@ msgstr "%1 takımları yok"
 
 #: ../user/top_users.php:62
 msgid "Participant since"
-msgstr "Katılım tarihi"
+msgstr "Katılma tarihi"
 
 #: ../user/uotd.php:27
 msgid "No user of the day has been chosen."
-msgstr "Seçili herhangi bir 'günün kullanıcısı' yok."
+msgstr "\"Günün kullanıcısı\" seçilmedi."
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
@@ -3851,7 +3852,7 @@ msgstr "%1 için Günün Kullanıcısı: %2"
 #: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Joined"
-msgstr "Katılım"
+msgstr "Giriş"
 
 #: ../user/user_search.php:113
 msgid "Search type"
@@ -3896,7 +3897,7 @@ msgstr "Bir takımda yer alanlar?"
 
 #: ../user/user_search.php:146
 msgid "search string must be at least 3 characters"
-msgstr "arama değeri en az 3 karakter olmalı"
+msgstr "Arama değeri en az 3 karakter olmalı"
 
 #: ../user/user_search.php:156
 msgid "User names starting with"
@@ -3920,23 +3921,23 @@ msgstr "Kullanıcı bulunamadı!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr "%1 için<br/>Hesap Bilgisi<br/>Zaman:"
+msgstr "Hesap Bilgisi<br/>Kullanici: %1<br/>Zaman:"
 
 #: ../user/userw.php:46
 msgid "Team:"
-msgstr "Takım:"
+msgstr "Takim:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
-msgstr "Takım Topl.Kredi:"
+msgstr "Takim Topl.Kredi:"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr "Takım Ort.Kredi:"
+msgstr "Takim Ort.Kredi:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr "Takım: Yok"
+msgstr "Takim: Yok"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
@@ -4056,7 +4057,7 @@ msgstr ""
 
 #: ../user/workunit.php:57
 msgid "max # of error/total/success tasks"
-msgstr "en fazla sonuç sayıları (hatalı/toplam/başarılı)"
+msgstr "en fazla sonuç sayısı (hatalı/toplam/başarılı)"
 
 #: ../user/workunit.php:61
 msgid "errors"

@@ -553,6 +553,7 @@ RSS_FEED_OP::RSS_FEED_OP() {
 bool RSS_FEED_OP::poll() {
     unsigned int i;
     if (gstate.gui_http.is_busy()) return false;
+    if (gstate.network_suspended) return false;
     for (i=0; i<rss_feeds.feeds.size(); i++) {
         RSS_FEED& rf = rss_feeds.feeds[i];
         if (gstate.now > rf.next_poll_time) {

@@ -2546,3 +2546,11 @@ David  6 Apr 2010
 
     html/inc
         result.inc
+
+David  6 Apr 2010
+    - client: don't do RSS fetch if network suspended
+    sched/
+        sched_customize.cpp
+        sched_send.cpp
+    client/
+        cs_notices.cpp

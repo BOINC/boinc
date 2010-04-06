@@ -1604,19 +1604,31 @@ void send_work() {
 
     if (config.locality_scheduler_fraction > 0) {
         if (drand() < config.locality_scheduler_fraction) {
-           if (config.debug_locality)
-             log_messages.printf(MSG_NORMAL, "[mixed] sending locality work first\n");
-           send_work_locality();
-           if (config.debug_locality)
-             log_messages.printf(MSG_NORMAL, "[mixed] sending non-locality work second\n");
-           send_work_old();
+            if (config.debug_locality) {
+                log_messages.printf(MSG_NORMAL,
+                    "[mixed] sending locality work first\n"
+                );
+            }
+            send_work_locality();
+            if (config.debug_locality) {
+                log_messages.printf(MSG_NORMAL,
+                    "[mixed] sending non-locality work second\n"
+                );
+            }
+            send_work_old();
         } else {
-           if (config.debug_locality)
-             log_messages.printf(MSG_NORMAL, "[mixed] sending non-locality work first\n");
-           send_work_old();
-           if (config.debug_locality)
-             log_messages.printf(MSG_NORMAL, "[mixed] sending locality work second\n");
-           send_work_locality();
+            if (config.debug_locality) {
+                log_messages.printf(MSG_NORMAL,
+                    "[mixed] sending non-locality work first\n"
+                );
+            }
+            send_work_old();
+            if (config.debug_locality) {
+                log_messages.printf(MSG_NORMAL,
+                    "[mixed] sending locality work second\n"
+                );
+            }
+            send_work_locality();
         }
     } else if (config.locality_scheduling) {
         send_work_locality();
