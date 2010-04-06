@@ -259,11 +259,11 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<version>")) {
             if (parse_version(f, new_version)) {
-                msg_printf(0, MSG_USER_ALERT,
+                msg_printf(0, MSG_INFO,
                     "A new version of BOINC (%s) is available",
                     new_version
                 );
-                msg_printf(0, MSG_USER_ALERT,
+                msg_printf(0, MSG_INFO,
                     "Visit %s to download it",
                     config.client_download_url.c_str()
                 );
