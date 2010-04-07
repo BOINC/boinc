@@ -440,6 +440,7 @@ struct APP_VERSION {
     std::vector<FILE_REF> app_files;
     int ref_cnt;
     char graphics_exec_path[512];
+    char graphics_exec_file[256];
     double max_working_set_size;
         // max working set of tasks using this app version.
         // temp var used in schedule_cpus()

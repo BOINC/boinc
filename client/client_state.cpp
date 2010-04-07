@@ -834,7 +834,8 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         return ERR_NOT_UNIQUE;
     }
     
-    avp->graphics_exec_path[0] = 0;
+    strcpy(avp->graphics_exec_path, "");
+    strcpy(avp->graphics_exec_file, "");
 
     for (i=0; i<avp->app_files.size(); i++) {
         FILE_REF& file_ref = avp->app_files[i];
@@ -852,6 +853,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
             get_pathname(fip, relpath, sizeof(relpath));
             relative_to_absolute(relpath, path);
             strlcpy(avp->graphics_exec_path, path, sizeof(avp->graphics_exec_path));
+            strcpy(avp->graphics_exec_file, fip->name);
         }
 
         // any file associated with an app version must be signed

@@ -37,7 +37,7 @@ struct PROCINFO {
 
 extern int procinfo_setup(std::vector<PROCINFO>&);
 	// call this first to get data structure
-extern void procinfo_app(PROCINFO&, std::vector<PROCINFO>&);
+extern void procinfo_app(PROCINFO&, std::vector<PROCINFO>&, char* graphics_exec_file);
 	// call this to get mem usage for a given app
 	// (marks process as BOINC)
 extern void procinfo_other(PROCINFO&, std::vector<PROCINFO>&);
