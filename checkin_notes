@@ -1179,3 +1179,15 @@ David  6 Apr 2010
 	lib/
 		procinfo.h
 		procinfo_win.cpp
+
+Charlie  7 Apr 2010
+    - Mac SS: Optimize screensaver for OS 10.6.
+	- client: don't include graphics apps in non-BOINC CPU time (Mac).
+
+    clientscr/
+        Mac_Saver_ModuleView.m
+        screensaver.cpp
+	lib/
+		procinfo_mac.cpp
+    
+    

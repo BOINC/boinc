@@ -626,9 +626,11 @@ void *CScreensaver::DataManagementProc()
 
         // Core client suspended?
         if (suspend_reason && !(suspend_reason & SUSPEND_REASON_CPU_THROTTLE)) {
-            SetError(TRUE, m_hrError);          // No GFX App is running: show moving BOINC logo
-            if (m_bDefault_ss_exists && !m_bDefault_gfx_running) {
-                switch_to_default_gfx = true;
+            if (!m_bDefault_gfx_running) {
+                SetError(TRUE, m_hrError);          // No GFX App is running: show moving BOINC logo
+                if (m_bDefault_ss_exists) {
+                    switch_to_default_gfx = true;
+                }
             }
         }
         
@@ -660,7 +662,7 @@ void *CScreensaver::DataManagementProc()
                         if (ss_phase == SCIENCE_SS_PHASE) {
                             default_saver_start_time_in_science_phase = dtime();
                         }
-                        SetError(FALSE, m_hrError);          // A GFX App is running: hide moving BOINC logo
+                        SetError(FALSE, SCRAPPERR_BOINCSCREENSAVERLOADING);    // A GFX App is running: hide moving BOINC logo
                     }
                 }
             }
@@ -670,10 +672,12 @@ void *CScreensaver::DataManagementProc()
         
 #if SIMULATE_NO_GRAPHICS /* FOR TESTING */
 
-        SetError(TRUE, m_hrError);          // No GFX App is running: show moving BOINC logo
-        if (m_bDefault_ss_exists && !m_bDefault_gfx_running) {
-            switch_to_default_gfx = true;
-        }
+            if (!m_bDefault_gfx_running) {
+                SetError(TRUE, m_hrError);          // No GFX App is running: show moving BOINC logo
+                if (m_bDefault_ss_exists) {
+                    switch_to_default_gfx = true;
+                }
+            }
 
 #else                   /* NORMAL OPERATION */
 
@@ -758,7 +762,7 @@ void *CScreensaver::DataManagementProc()
                             graphics_app_result_ptr = NULL;
                             m_bScience_gfx_running = false;
                         } else {
-                            SetError(FALSE, m_hrError);          // A GFX App is running: hide moving BOINC logo
+                            SetError(FALSE, SCRAPPERR_BOINCSCREENSAVERLOADING);  // A GFX App is running: hide moving BOINC logo
                             last_change_time = dtime();
                             m_bScience_gfx_running = true;
                             // Make a local copy of current result, since original pointer 
@@ -772,10 +776,12 @@ void *CScreensaver::DataManagementProc()
                         }
                     }
                 } else {
-                    SetError(TRUE, m_hrError);          // No GFX App is running: show moving BOINC logo
-                    // We can't run a science graphics app, so run the default graphics if available
-                    if (m_bDefault_ss_exists && !m_bDefault_gfx_running) {
-                        switch_to_default_gfx = true;
+                    if (!m_bDefault_gfx_running) {
+                        // We can't run a science graphics app, so run the default graphics if available
+                        SetError(TRUE, m_hrError); 
+                        if (m_bDefault_ss_exists) {
+                            switch_to_default_gfx = true;
+                        }
                     }
 
                 }   // End if no science graphics available
@@ -796,7 +802,7 @@ void *CScreensaver::DataManagementProc()
                     } else {
                         m_bDefault_gfx_running = true;
                         default_saver_start_time_in_science_phase = dtime();
-                        SetError(FALSE, m_hrError);          // A GFX App is running: hide moving BOINC logo
+                        SetError(FALSE, SCRAPPERR_BOINCSCREENSAVERLOADING);    // Default GFX App is running: hide moving BOINC logo
                     }
                 }
             }
@@ -824,7 +830,7 @@ void *CScreensaver::DataManagementProc()
                     }
                     killing_default_gfx = false;
                 }
-                SetError(TRUE, m_hrError);      // No GFX App is running: show moving BOINC logo
+                SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING); // No GFX App is running: show moving BOINC logo
                 m_hGraphicsApplication = 0;
                 graphics_app_result_ptr = NULL;
                 m_bDefault_gfx_running = false;

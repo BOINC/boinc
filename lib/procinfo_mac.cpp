@@ -125,22 +125,22 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 // thru entire table as the entries aren't in order.  Recurse at
 // most 4 times to get additional child processes 
 //
-void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
+void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, char* graphics_exec_file, int start, int rlvl) {
     unsigned int i;
 
-    if (rlvl > 3) {
+    if (rlvl > 4) {
         return;
     }
     for (i=0; i<piv.size(); i++) {
         PROCINFO& p = piv[i];
-        if (p.parentid == pid) {
+		if (p.id == pid || p.parentid == pid) {
 //            pi.kernel_time += p.kernel_time;
             pi.user_time += p.user_time;
             pi.swap_size += p.swap_size;
             pi.working_set_size += p.working_set_size;
             p.is_boinc_app = true;
             // look for child process of this one
-            add_child_totals(pi, piv, p.id, rlvl+1); // recursion - woo hoo!
+			add_proc_totals(pi, piv, p.id, graphics_exec_file, i+1, rlvl+1);    // recursion - woo hoo!
         }
     }
 }
@@ -148,22 +148,8 @@ void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
 // fill in the given PROCINFO (which initially is zero except for id)
 // with totals from that process and all its descendants
 //
-void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
-    unsigned int i;
-
-    for (i=0; i<piv.size(); i++) {
-        PROCINFO& p = piv[i];
-        if (p.id == pi.id) {
-//            pi.kernel_time += p.kernel_time;
-            pi.user_time += p.user_time;
-            pi.swap_size += p.swap_size;
-            pi.working_set_size += p.working_set_size;
-            p.is_boinc_app = true;
-            // look for child processes
- 	    add_child_totals(pi, piv, pi.id, 0);
-            return;
-        }
-    }
+void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv, char* graphics_exec_file) {
+	add_proc_totals(pi, piv, pi.id, graphics_exec_file, 0, 0);
 }
 
 void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {

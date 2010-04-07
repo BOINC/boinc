@@ -252,6 +252,8 @@ int signof(float x) {
         // Hide window on second display to aid in debugging
 #ifdef _DEBUG
         [ myWindow setLevel:kCGMinimumWindowLevel ];
+        NSInteger alpha = 0;
+        [ myWindow setAlphaValue:alpha ];   // For OS 10.6
 #endif
         return;         // We draw only to main screen
     }
