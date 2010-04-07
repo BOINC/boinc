@@ -348,7 +348,7 @@ int boinc_main_loop() {
             break;
         }
         if (gstate.requested_exit) {
-            if (gstate.abort_jobs_on_exit) {
+            if (config.abort_jobs_on_exit) {
                 if (!gstate.in_abort_sequence) {
                     msg_printf(NULL, MSG_INFO,
                         "Exit requested; starting abort sequence"

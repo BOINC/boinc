@@ -236,7 +236,7 @@ int GUI_RPC_CONN_SET::init(bool last_time) {
 #ifdef __APPLE__
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
 #else
-    if (gstate.allow_remote_gui_rpc || remote_hosts_file_exists) {
+    if (config.allow_remote_gui_rpc || remote_hosts_file_exists) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
         if (log_flags.guirpc_debug) {
             msg_printf(NULL, MSG_INFO, "[guirpc_debug] Remote control allowed");
@@ -399,7 +399,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             allowed = check_allowed_list(peer_ip);
         }
 
-        if (!(gstate.allow_remote_gui_rpc) && !(allowed)) {
+        if (!(config.allow_remote_gui_rpc) && !(allowed)) {
             in_addr ia;
             ia.s_addr = htonl(peer_ip);
             show_connect_error(ia);

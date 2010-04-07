@@ -79,7 +79,6 @@ CLIENT_STATE::CLIENT_STATE():
     exit_before_start = false;
     exit_after_finish = false;
     check_all_logins = false;
-    allow_remote_gui_rpc = false;
     cmdline_gui_rpc_port = 0;
     run_cpu_benchmarks = false;
     skip_cpu_benchmarks = false;
@@ -144,7 +143,6 @@ CLIENT_STATE::CLIENT_STATE():
     launched_by_manager = false;
     initialized = false;
     last_wakeup_time = dtime();
-    abort_jobs_on_exit = false;
 }
 
 void CLIENT_STATE::show_host_info() {

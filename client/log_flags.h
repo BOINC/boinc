@@ -109,7 +109,9 @@ struct LOG_FLAGS {
 };
 
 struct CONFIG {
+    bool abort_jobs_on_exit;
     bool allow_multiple_clients;
+    bool allow_remote_gui_rpc;
     std::vector<std::string> alt_platforms;
     std::string client_version_check_url;
     std::string client_download_url;
