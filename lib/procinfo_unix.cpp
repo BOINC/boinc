@@ -282,7 +282,9 @@ void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
 // fill in the given PROCINFO (which initially is zero except for id)
 // with totals from that process and all its descendants
 //
-void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
+void procinfo_app(
+    PROCINFO& pi, vector<PROCINFO>& piv, char* graphics_exec_file
+) {
     unsigned int i;
 
     for (i=0; i<piv.size(); i++) {
@@ -298,6 +300,9 @@ void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
             //
             add_child_totals(pi, piv, pi.id, 0);
             return;
+        }
+        if (!strcmp(p.command, graphics_exec_file)) {
+            p.is_boinc_app = true;
         }
     }
 }
