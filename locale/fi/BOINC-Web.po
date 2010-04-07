@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-04-05 19:38+0200\n"
+"PO-Revision-Date: 2010-04-07 19:51+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -489,7 +489,7 @@ msgstr "Lataa"
 #: index.php:125
 #: index.php:163
 msgid "Documentation"
-msgstr ""
+msgstr "Aineisto"
 
 #: index.php:96
 #, php-format
