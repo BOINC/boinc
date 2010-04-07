@@ -2618,3 +2618,13 @@ David  7 Apr 2010
         log_flags.cpp,h
         main.cpp
         sim.h
+
+David  7 Apr 2010
+    - admin web: "User privileges" didn't work if the project
+        had set forum_preferences.special_user to "0000000",
+        as had been done in SETI@home for some reason.
+        Also, show user ID as well as name; name is not unique.
+
+    html/ops/
+        manage_special_users.php
+        profile_screen_form.php

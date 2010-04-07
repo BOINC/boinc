@@ -24,8 +24,6 @@ require_once("../project/project.inc");
 
 db_init();
 
-$logged_in_user = get_logged_in_user();
-
 function buttons($i) {
     echo "
         <input type=\"radio\" name=\"user$i\" value=\"0\"> skip <br>
