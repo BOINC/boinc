@@ -2589,3 +2589,9 @@ David  7 Apr 2010
 	lib/
 		procinfo_win.cpp
 		procinfo_unix.cpp
+
+David  7 Apr 2010
+    - client: allow zero resource shares from account managers
+
+    client/
+        acct_mgr.cpp
