@@ -368,4 +368,11 @@ class BoincPlatform {
     }
 }
 
+class BoincHostAppVersion {
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('host_app_version', 'BoincHostAppVersion', $clause);
+    }
+}
+
 ?>

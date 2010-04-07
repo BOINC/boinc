@@ -2595,3 +2595,10 @@ David  7 Apr 2010
 
     client/
         acct_mgr.cpp
+
+David  7 Apr 2010
+    - admin web: show more credit-related info
+
+    html/inc/
+        boinc_db.inc
+        db_ops.inc
