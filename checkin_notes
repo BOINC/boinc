@@ -2583,4 +2583,9 @@ Charlie  7 Apr 2010
 	lib/
 		procinfo_mac.cpp
     
-    
+David  7 Apr 2010
+	- client: don't include graphics apps in non-BOINC CPU time (Unix).
+
+	lib/
+		procinfo_win.cpp
+		procinfo_unix.cpp

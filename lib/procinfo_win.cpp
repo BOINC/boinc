@@ -137,7 +137,10 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 // scan the process table from the given point,
 // adding in CPU time and mem usage
 // 
-void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, char* graphics_exec_file, int start) {
+void add_proc_totals(
+    PROCINFO& pi, vector<PROCINFO>& piv, int pid,
+    char* graphics_exec_file, int start
+) {
 	unsigned int i;
 	for (i=start; i<piv.size(); i++) {
 		PROCINFO& p = piv[i];
