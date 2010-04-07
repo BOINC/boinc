@@ -2562,3 +2562,13 @@ David  6 Apr 2010
 
     sched/
         credit.cpp
+
+David  6 Apr 2010
+	- client: don't include graphics apps in non-BOINC CPU time
+
+	client/
+		app.cpp
+		client_state.cpp,h
+	lib/
+		procinfo.h
+		procinfo_win.cpp

@@ -137,7 +137,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 // scan the process table from the given point,
 // adding in CPU time and mem usage
 // 
-void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int start) {
+void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, char* graphics_exec_file, int start) {
 	unsigned int i;
 	for (i=start; i<piv.size(); i++) {
 		PROCINFO& p = piv[i];
@@ -148,9 +148,12 @@ void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int start) {
 			pi.working_set_size += p.working_set_size;
 			pi.page_fault_count += p.page_fault_count;
 			p.is_boinc_app = true;
-		} 
+		}
+        if (!strcmp(p.command, graphics_exec_file)) {
+            p.is_boinc_app = true;
+        }
 		if (p.parentid == pid) {
-			add_proc_totals(pi, piv, p.id, i+1);	// recursion - woo hoo!
+			add_proc_totals(pi, piv, p.id, graphics_exec_file, i+1);    // recursion - woo hoo!
 		}
 	}
 }
@@ -158,8 +161,8 @@ void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int start) {
 // fill in the given PROCINFO (which initially is zero except for id)
 // with totals from that process and all its descendants
 //
-void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
-	add_proc_totals(pi, piv, pi.id, 0);
+void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv, char* graphics_exec_file) {
+	add_proc_totals(pi, piv, pi.id, graphics_exec_file, 0);
 }
 
 // get totals of all non-BOINC processes
