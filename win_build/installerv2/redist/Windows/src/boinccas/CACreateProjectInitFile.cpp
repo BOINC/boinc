@@ -64,6 +64,7 @@ UINT CACreateProjectInitFile::OnExecution()
     tstring          strDataDirectory;
     tstring          strProjectInitUrl;
     tstring          strProjectInitAuthenticator;
+    tstring          strProjectInitTeamName;
     tstring          strProjectInitFile;
     UINT             uiReturnValue = -1;
 
@@ -75,6 +76,9 @@ UINT CACreateProjectInitFile::OnExecution()
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("PROJINIT_AUTH"), strProjectInitAuthenticator );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("PROJINIT_TEAMNAME"), strProjectInitTeamName );
     if ( uiReturnValue ) return uiReturnValue;
 
 
@@ -93,10 +97,12 @@ UINT CACreateProjectInitFile::OnExecution()
             _T("    <name>%s</name>\n")
             _T("    <url>%s</url>\n")
             _T("    <account_key>%s</account_key>\n")
+            _T("    <team_name>%s</team_name>\n")
             _T("</project_init>\n"),
             strProjectInitUrl.c_str(),
             strProjectInitUrl.c_str(),
-            !strProjectInitAuthenticator.empty() ? strProjectInitAuthenticator.c_str() : _T("")
+            !strProjectInitAuthenticator.empty() ? strProjectInitAuthenticator.c_str() : _T(""),
+            !strProjectInitTeamName.empty() ? strProjectInitTeamName.c_str() : _T("")
         );
 
         fclose(fProjectInitFile);

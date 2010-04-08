@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,150
- PRODUCTVERSION 1,0,0,150
+ FILEVERSION 1,0,0,155
+ PRODUCTVERSION 1,0,0,155
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -70,12 +70,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "BOINC Dynamic Link Library"
-            VALUE "FileVersion", "1.0.0.150"
+            VALUE "FileVersion", "1.0.0.155"
             VALUE "InternalName", "BOINC"
-            VALUE "LegalCopyright", "Copyright (C) 2005-2009"
+            VALUE "LegalCopyright", "Copyright (C) 2005-2010"
             VALUE "OriginalFilename", "BOINC.dll"
             VALUE "ProductName", " BOINC Dynamic Link Library"
-            VALUE "ProductVersion", "1.0.0.150"
+            VALUE "ProductVersion", "1.0.0.155"
         END
     END
     BLOCK "VarFileInfo"
