@@ -1202,3 +1202,19 @@ David  7 Apr 2010
 
     client/
         acct_mgr.cpp
+
+David  7 Apr 2010
+    - client: "allow_remote_gui_rpc" is available via cc_config.xml
+        as well as command-line.
+    - client: show allow_remote_gui_rpc option,
+        and contents of remote_host.cfg, in message log on startup
+    - client: code cleanup: move some options from
+        CLIENT_STATE to OPTIONS
+
+    client/
+        client_state.cpp,h
+        cs_cmdline.cpp
+        gui_rpc_server.cpp
+        log_flags.cpp,h
+        main.cpp
+        sim.h

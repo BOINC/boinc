@@ -108,6 +108,13 @@ struct LOG_FLAGS {
 };
 
 struct CONFIG {
+    bool abort_jobs_on_exit;
+    bool allow_multiple_clients;
+    bool allow_remote_gui_rpc;
+    std::vector<std::string> alt_platforms;
+    std::string client_version_check_url;
+    std::string client_download_url;
+    bool disallow_attach;
     bool dont_check_file_sizes;
     bool dont_contact_ref_site;
     std::vector<std::string> exclusive_apps;
@@ -120,25 +127,20 @@ struct CONFIG {
     std::vector<int> ignore_ati_dev;
     int max_file_xfers;
     int max_file_xfers_per_project;
-    bool disallow_attach;
     bool os_random_only;
     bool no_alt_platform;
     bool simple_gui_only;
-    std::vector<std::string> alt_platforms;
     int max_stdout_file_size;
     int max_stderr_file_size;
     bool report_results_immediately;
     double start_delay;
     bool run_apps_manually;
-    bool allow_multiple_clients;
     bool stderr_head;
     bool suppress_net_info;
     bool use_all_gpus;
     bool use_certs;
     bool use_certs_only;
         // overrides use_certs
-    std::string client_version_check_url;
-    std::string client_download_url;
     std::string network_test_url;
     bool no_gpus;
     bool zero_debts;

@@ -94,7 +94,6 @@ public:
     bool exit_after_finish;
     bool check_all_logins;
     bool user_active;       // there has been recent mouse/kbd input
-    bool allow_remote_gui_rpc;
     int cmdline_gui_rpc_port;
     bool show_projects;
     bool requested_exit;
@@ -234,7 +233,6 @@ public:
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*, bool detaching);
     bool no_gui_rpc;
-    bool abort_jobs_on_exit;
     void start_abort_sequence();
     bool abort_sequence_done();
     int quit_activities();
