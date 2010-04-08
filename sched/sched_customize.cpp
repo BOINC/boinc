@@ -99,24 +99,19 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     char buf[256];
     if (!strcmp(plan_class, "mt")) {
-        // the following is for an app that:
-        // - can use from 1 to 64 threads, and can control this exactly
-        // - if it uses N threads, will use .65N cores on average
-        // (hence on a uniprocessor we'll use a sequential app
-        // if one is available)
+        // the following is for an app that
+        // can use anywhere from 1 to 64 threads
         //
         double ncpus = g_wreq->effective_ncpus;
             // number of usable CPUs, taking user prefs into account
-        int nthreads = (int)(ncpus/.65);
-        if (!nthreads) {
-            add_no_work_message("Your computer has too few CPUs");
-            return false;
-        }
+        int nthreads = (int)ncpus;
         if (nthreads > 64) nthreads = 64;
-        hu.avg_ncpus = nthreads*.65;
+        hu.avg_ncpus = nthreads;
         hu.max_ncpus = nthreads;
         sprintf(hu.cmdline, "--nthreads %d", nthreads);
-        hu.flops = sreq.host.p_fpops*hu.avg_ncpus;
+        hu.flops = sreq.host.p_fpops*hu.avg_ncpus*.99;
+            // the .99 ensures that on uniprocessors a sequential app
+            // will be used in preferences to this
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] %s Multi-thread app estimate %.2f GFLOPS\n",
@@ -246,34 +241,21 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         }
         hu.gpu_ram = 200*MEGA;
 
-        double cpu_frac;    // the fraction of the app's FLOPS that are
-                            // performed by the CPU
-                            // (GPU is assumed to be idle then)
-        double gpu_effic;   // when the app is using the GPU,
-                            // fraction of GPU's peak FLOPS it gets
-
-#if 1
-        // the following for an app that runs 99% on the GPU
-        cpu_frac = .01;
-        gpu_effic = .25;
-#endif
-
-#if 0
-        // the following for SETI@home Astropulse
-        cpu_frac = .75;
-        gpu_effic = .25;
-#endif
-
-        double p = sreq.host.p_fpops;
-        double g = cp->peak_flops()/5;
-        hu.flops = p*g/(cpu_frac*g + (1-cpu_frac)*p);
-
-        double x = (cpu_frac*g)/(cpu_frac*g + (1-cpu_frac)*p);
-        hu.avg_ncpus = x;
-        hu.max_ncpus = x;
-
         hu.natis = 1;
         //hu.natis = .5;    // you can use a fractional GPU if you want
+
+        double cpu_frac;    // the fraction of the app's FLOPS that are
+                            // performed by the CPU
+
+        cpu_frac = .01;     // an app that runs 99% on the GPU
+        //cpu_frac = .75;   // for SETI@home Astropulse
+
+        double p = sreq.host.p_fpops;
+        double c = hu.natis*cp->peak_flops();
+        double x = (c*cpu_frac)/sreq.host.p_fpops;
+        hu.avg_ncpus = x;
+        hu.max_ncpus = x;
+        hu.flops = c*(1+cpu_frac);
 
         // determine priority among variants of ATI
         //   1. ati14
@@ -410,33 +392,22 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         }
         hu.gpu_ram = min_ram - 16*MEGA;
 
-        double cpu_frac;    // the fraction of the app's FLOPS that are
-                            // performed by the CPU
-                            // (GPU is assumed to be idle then)
-        double gpu_effic;   // when the app is using the GPU,
-                            // fraction of GPU's peak FLOPS it gets
-
-#if 1
-        // the following for an app that runs 99% on the GPU
-        cpu_frac = .01;
-        gpu_effic = .25;
-#endif
-
-#if 0
-        cpu_frac = .75;
-        gpu_effic = .25;
-#endif
-
-        double p = sreq.host.p_fpops;
-        double g = cp->peak_flops()/5;
-        hu.flops = p*g/(cpu_frac*g + (1-cpu_frac)*p);
-
-        double x = (cpu_frac*g)/(cpu_frac*g + (1-cpu_frac)*p);
-        hu.avg_ncpus = x;
-        hu.max_ncpus = x;
 
         hu.ncudas = 1;
         //hu.ncudas = .5;    // you can use a fractional GPU if you want
+
+        double cpu_frac;    // the fraction of the app's FLOPS that are
+                            // performed by the CPU
+
+        cpu_frac = .01;     // an app that runs 99% on the GPU
+        //cpu_frac = .75;   // for SETI@home Astropulse
+
+        double p = sreq.host.p_fpops;
+        double c = hu.natis*cp->peak_flops();
+        double x = (c*cpu_frac)/sreq.host.p_fpops;
+        hu.avg_ncpus = x;
+        hu.max_ncpus = x;
+        hu.flops = c*(1+cpu_frac);
 
         if (!strcmp(plan_class, "cuda23")) {
             hu.flops *= 1.01;

@@ -2650,3 +2650,14 @@ Rom    8 Apr 2010
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  7 Apr 2010
+    - scheduler: app_plan() no longer has to guess how efficiently
+        an app version will run on a particular host.
+    - scheduler: fix memory leak: BEST_APP_VERSIONs weren't being freed
+
+    sched/
+        sched_customize.cpp
+        sched_types.cpp
+        sched_version.cpp
+        sched_send.cpp

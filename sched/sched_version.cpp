@@ -123,24 +123,23 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
     bool found;
     unsigned int i;
     int retval, j;
-    BEST_APP_VERSION* bavp;
     char message[256], buf[256];
 
     // see if app is already in memoized array
     //
-    std::vector<BEST_APP_VERSION*>::iterator bavi;
+    std::vector<BEST_APP_VERSION>::iterator bavi;
     bavi = g_wreq->best_app_versions.begin();
     while (bavi != g_wreq->best_app_versions.end()) {
-        bavp = *bavi;
-        if (bavp->appid == wu.appid) {
-            if (!bavp->present) return NULL;
+        BEST_APP_VERSION& bav = *bavi;
+        if (bav.appid == wu.appid) {
+            if (!bav.present) return NULL;
 
             // if we previously chose a CUDA app but don't need more CUDA work,
             // delete record, fall through, and find another version
             //
             if (check_req
                 && g_wreq->rsc_spec_request
-                && bavp->host_usage.ncudas > 0
+                && bav.host_usage.ncudas > 0
                 && !g_wreq->need_cuda()
             ) {
                 if (config.debug_version_select) {
@@ -155,7 +154,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
             // same, ATI
             if (check_req
                 && g_wreq->rsc_spec_request
-                && bavp->host_usage.natis > 0
+                && bav.host_usage.natis > 0
                 && !g_wreq->need_ati()
             ) {
                 if (config.debug_version_select) {
@@ -171,8 +170,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
             //
             if (check_req
                 && g_wreq->rsc_spec_request
-                && !bavp->host_usage.ncudas
-                && !bavp->host_usage.natis
+                && !bav.host_usage.ncudas
+                && !bav.host_usage.natis
                 && !g_wreq->need_cpu()
             ) {
                 if (config.debug_version_select) {
@@ -184,7 +183,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                 break;
             }
 
-            return bavp;
+            return &bav;
         }
         bavi++;
     }
@@ -197,44 +196,44 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
         return NULL;
     }
 
-    bavp = new BEST_APP_VERSION;
-    bavp->appid = wu.appid;
+    BEST_APP_VERSION bav;
+    bav.appid = wu.appid;
     if (g_wreq->anonymous_platform) {
         CLIENT_APP_VERSION* cavp = get_app_version_anonymous(*app);
         if (!cavp) {
-            bavp->present = false;
+            bav.present = false;
         } else {
-            bavp->present = true;
+            bav.present = true;
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] Found anonymous platform app for %s: plan class %s\n",
                     app->name, cavp->plan_class
                 );
             }
-            bavp->host_usage = cavp->host_usage;
+            bav.host_usage = cavp->host_usage;
 
             // if client didn't tell us about the app version,
             // assume it uses 1 CPU
             //
-            if (bavp->host_usage.flops == 0) {
-                bavp->host_usage.flops = g_reply->host.p_fpops;
+            if (bav.host_usage.flops == 0) {
+                bav.host_usage.flops = g_reply->host.p_fpops;
             }
-            if (bavp->host_usage.avg_ncpus == 0 && bavp->host_usage.ncudas == 0 && bavp->host_usage.natis == 0) {
-                bavp->host_usage.avg_ncpus = 1;
+            if (bav.host_usage.avg_ncpus == 0 && bav.host_usage.ncudas == 0 && bav.host_usage.natis == 0) {
+                bav.host_usage.avg_ncpus = 1;
             }
-            bavp->cavp = cavp;
+            bav.cavp = cavp;
         }
-        g_wreq->best_app_versions.push_back(bavp);
-        if (!bavp->present) return NULL;
-        return bavp;
+        g_wreq->best_app_versions.push_back(bav);
+        if (!bav.present) return NULL;
+        return &(g_wreq->best_app_versions.back());
     }
 
     // Go through the client's platforms.
     // Scan the app versions for each platform.
     // Find the one with highest expected FLOPS
     //
-    bavp->host_usage.flops = 0;
-    bavp->avp = NULL;
+    bav.host_usage.flops = 0;
+    bav.avp = NULL;
     bool no_version_for_platform = true;
     for (i=0; i<g_request->platforms.list.size(); i++) {
         PLATFORM* p = g_request->platforms.list[i];
@@ -305,21 +304,21 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
 
             // pick the fastest version
             //
-            if (host_usage.flops > bavp->host_usage.flops) {
-                bavp->host_usage = host_usage;
-                bavp->avp = &av;
+            if (host_usage.flops > bav.host_usage.flops) {
+                bav.host_usage = host_usage;
+                bav.avp = &av;
             }
         }
     }
-    g_wreq->best_app_versions.push_back(bavp);
-    if (bavp->avp) {
+    g_wreq->best_app_versions.push_back(bav);
+    if (bav.avp) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] Best version of app %s is ID %d (%.2f GFLOPS)\n",
-                app->name, bavp->avp->id, bavp->host_usage.flops/1e9
+                app->name, bav.avp->id, bav.host_usage.flops/1e9
             );
         }
-        bavp->present = true;
+        bav.present = true;
     } else {
         // Here if there's no app version we can use.
         //
@@ -341,6 +340,6 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
         }
         return NULL;
     }
-    return bavp;
+    return &(g_wreq->best_app_versions.back());
 }
 

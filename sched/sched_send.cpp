@@ -85,7 +85,10 @@ const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 const int MAX_GPUS = 8;
     // don't believe clients who claim they have more GPUs than this
 
-// get limits on #jobs per day and per RPC, on in progress
+// get limits on:
+// # jobs per day
+// # jobs per RPC
+// # jobs in progress
 //
 void WORK_REQ::get_job_limits() {
     int n;
@@ -312,8 +315,7 @@ static inline void get_dcf() {
 // estimate the amount of real time to complete this WU,
 // taking into account active_frac etc.
 // Note: don't factor in resource_share_fraction.
-// The core client no longer necessarily does round-robin
-// across all projects.
+// The core client doesn't necessarily round-robin across all projects.
 //
 double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     double edu = estimate_duration_unscaled(wu, bav);
@@ -780,7 +782,7 @@ int wu_is_infeasible_fast(
 
 // insert "text" right after "after" in the given buffer
 //
-int insert_after(char* buffer, const char* after, const char* text) {
+static int insert_after(char* buffer, const char* after, const char* text) {
     char* p;
     char temp[BLOB_SIZE];
 
@@ -807,7 +809,7 @@ int insert_after(char* buffer, const char* after, const char* text) {
 // add elements to WU's xml_doc,
 // in preparation for sending it to a client
 //
-int insert_wu_tags(WORKUNIT& wu, APP& app) {
+static int insert_wu_tags(WORKUNIT& wu, APP& app) {
     char buf[BLOB_SIZE];
 
     sprintf(buf,
@@ -827,10 +829,9 @@ int insert_wu_tags(WORKUNIT& wu, APP& app) {
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
 
-// add the given workunit to a reply.
-// Add the app and app_version to the reply also.
+// Add the given workunit, app, and app version to a reply.
 //
-int add_wu_to_reply(
+static int add_wu_to_reply(
     WORKUNIT& wu, SCHEDULER_REPLY& reply, APP* app, BEST_APP_VERSION* bavp
 ) {
     int retval;
@@ -861,7 +862,7 @@ int add_wu_to_reply(
         }
     }
 
-    // add time estimate to reply
+    // modify the WU's xml_doc; add <name>, <rsc_*> etc.
     //
     wu2 = wu;       // make copy since we're going to modify its XML field
     retval = insert_wu_tags(wu2, *app);
@@ -881,7 +882,9 @@ int add_wu_to_reply(
     return 0;
 }
 
-int insert_name_tags(RESULT& result, WORKUNIT const& wu) {
+// add <name> tags to result's xml_doc_in
+//
+static int insert_name_tags(RESULT& result, WORKUNIT const& wu) {
     char buf[256];
     int retval;
 
@@ -894,7 +897,7 @@ int insert_name_tags(RESULT& result, WORKUNIT const& wu) {
     return 0;
 }
 
-int insert_deadline_tag(RESULT& result) {
+static int insert_deadline_tag(RESULT& result) {
     char buf[256];
     sprintf(buf, "<report_deadline>%d</report_deadline>\n", result.report_deadline);
     int retval = insert_after(result.xml_doc_in, "<result>\n", buf);
@@ -1586,7 +1589,7 @@ void send_work() {
                     "[assign] [HOST#%d] sent assigned jobs\n", g_reply->host.id
                 );
             }
-            return;
+            goto done;
         }
     }
 
@@ -1638,6 +1641,7 @@ void send_work() {
         send_work_old();
     }
 
+done:
     retval = update_host_scale_times(ssp, g_reply->results, g_reply->host.id);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,

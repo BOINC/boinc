@@ -193,7 +193,8 @@ struct WORK_REQ {
     RESOURCE bandwidth;
 
     std::vector<USER_MESSAGE> no_work_messages;
-    std::vector<BEST_APP_VERSION*> best_app_versions;
+    std::vector<BEST_APP_VERSION> best_app_versions;
+    std::vector<DB_HOST_APP_VERSION> host_app_versions;
 
     // various reasons for not sending jobs (used to explain why)
     //
@@ -266,15 +267,16 @@ struct BEST_APP_VERSION {
     int appid;
 
     bool present;
+        // false means there's no usable version for this app
 
-    // populated if anonymous platform:
     CLIENT_APP_VERSION* cavp;
+        // populated if anonymous platform
 
-    // populated otherwise:
     APP_VERSION* avp;
+        // populated otherwise
 
-    // populated in either case:
     HOST_USAGE host_usage;
+        // populated in either case
 
     BEST_APP_VERSION() {
         present = false;
