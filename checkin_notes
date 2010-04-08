@@ -1218,3 +1218,11 @@ David  7 Apr 2010
         log_flags.cpp,h
         main.cpp
         sim.h
+
+David  7 Apr 2010
+    - client: revert [21035]; remove project_init.xml only if
+        attached to the project it specifies
+        (requested by Kevin Reed)
+
+    client/
+        gui_rpc_server_ops.cpp

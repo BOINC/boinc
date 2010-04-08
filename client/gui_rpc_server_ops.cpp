@@ -641,11 +641,15 @@ static void handle_network_available(char*, MIOFILE& fout) {
 }
 
 static void handle_get_project_init_status(char*, MIOFILE& fout) {
-    // If we're already attached to a project, delete the file.
+    // If we're already attached to the project specified in the
+    // project init file, delete the file.
     //
-    if (gstate.projects.size()) {
-        gstate.project_init.remove();
-        msg_printf(0, MSG_INFO, "Already attached - deleting %s", PROJECT_INIT_FILENAME);
+    for (unsigned i=0; i<gstate.projects.size(); i++) { 
+        PROJECT* p = gstate.projects[i]; 
+        if (!strcmp(p->master_url, gstate.project_init.url)) { 
+            gstate.project_init.remove(); 
+            break; 
+        } 
     }
 
     fout.printf(
