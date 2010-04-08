@@ -50,6 +50,7 @@
 #include "sched_timezone.h"
 #include "sched_assign.h"
 #include "sched_customize.h"
+#include "sched_version.h"
 
 #include "sched_send.h"
 
@@ -274,7 +275,7 @@ static inline void get_running_frac() {
         rf = g_reply->host.active_frac * g_reply->host.on_frac;
     }
 
-    // clamp running_frac and DCF to a reasonable range
+    // clamp running_frac to a reasonable range
     //
     if (rf > 1) {
         if (config.debug_send) {
@@ -290,28 +291,6 @@ static inline void get_running_frac() {
     g_wreq->running_frac = rf;
 }
 
-static inline void get_dcf() {
-    double dcf = g_reply->host.duration_correction_factor;
-    if (dcf > 10) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] DCF=%f; setting to 10\n", dcf
-            );
-        }
-        dcf = 10;
-    } else if (dcf == 0) {
-        dcf = 1;
-    } else if (dcf < 0.1) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] DCF=%f; setting to 0.1\n", dcf
-            );
-        }
-        dcf = 0.1;
-    }
-    g_wreq->dcf = dcf;
-}
-
 // estimate the amount of real time to complete this WU,
 // taking into account active_frac etc.
 // Note: don't factor in resource_share_fraction.
@@ -320,9 +299,6 @@ static inline void get_dcf() {
 double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     double edu = estimate_duration_unscaled(wu, bav);
     double ed = edu/g_wreq->running_frac;
-    if (!config.ignore_dcf) {
-        ed *= g_wreq->dcf;
-    }
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
             "[send] est. duration for WU %d: unscaled %.2f scaled %.2f\n",
@@ -865,6 +841,13 @@ static int add_wu_to_reply(
     // modify the WU's xml_doc; add <name>, <rsc_*> etc.
     //
     wu2 = wu;       // make copy since we're going to modify its XML field
+
+    // adjust FPOPS figures for anonymous platform
+    //
+    if (bavp->cavp) {
+        wu2.rsc_fpops_est *= bavp->cavp->rsc_fpops_scale;
+        wu2.rsc_fpops_bound *= bavp->cavp->rsc_fpops_scale;
+    }
     retval = insert_wu_tags(wu2, *app);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "insert_wu_tags failed %d\n", retval);
@@ -1040,12 +1023,7 @@ inline static int get_app_version_id(BEST_APP_VERSION* bavp) {
     if (bavp->avp) {
         return bavp->avp->id;
     } else {
-        if (bavp->cavp->host_usage.ncudas) {
-            return ANON_PLATFORM_NVIDIA;
-        } else if (bavp->cavp->host_usage.natis) {
-            return ANON_PLATFORM_ATI;
-        }
-        return ANON_PLATFORM_CPU;
+        return bavp->cavp->host_usage.resource_type();
     }
 }
 
@@ -1477,7 +1455,6 @@ void send_work_setup() {
     g_wreq->disk_available = max_allowable_disk();
     get_mem_sizes();
     get_running_frac();
-    get_dcf();
     g_wreq->get_job_limits();
 
     g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
@@ -1542,10 +1519,9 @@ void send_work_setup() {
             (int)g_request->global_prefs.work_buf_min()
         );
         log_messages.printf(MSG_NORMAL,
-            "[send] active_frac %f on_frac %f DCF %f\n",
+            "[send] active_frac %f on_frac %f\n",
             g_reply->host.active_frac,
-            g_reply->host.on_frac,
-            g_reply->host.duration_correction_factor
+            g_reply->host.on_frac
         );
         if (g_wreq->anonymous_platform) {
             log_messages.printf(MSG_NORMAL,
@@ -1562,6 +1538,100 @@ void send_work_setup() {
     }
 }
 
+static void read_host_app_versions() {
+    DB_HOST_APP_VERSION hav;
+    char clause[256];
+
+    sprintf(clause, "where host_id=%d", g_reply->host.id);
+    while (!hav.enumerate(clause)) {
+        g_wreq->host_app_versions.push_back(hav);
+    }
+}
+
+// update the host_scale_time field of host_app_version records
+// for which we're sending jobs, and for which scale_probation is set.
+// If the record is not there, create it.
+//
+int update_host_scale_times(vector<RESULT>& results, int hostid) {
+    vector<DB_HOST_APP_VERSION> havs;
+    unsigned int i, j;
+    int retval;
+
+    // make a list of the host_app_versions and compute scale times
+    //
+    for (i=0; i<results.size(); i++) {
+        RESULT& r = results[i];
+        int gavid = generalized_app_version_id(r.app_version_id, r.appid);
+        bool found=false;
+        for (j=0; j<havs.size(); j++) {
+            DB_HOST_APP_VERSION& hav = havs[j];
+            if (hav.app_version_id == gavid) {
+                found = true;
+                if (r.report_deadline > hav.host_scale_time) {
+                    hav.host_scale_time = r.report_deadline;
+                }
+            }
+        }
+        if (!found) {
+            DB_HOST_APP_VERSION hav;
+            hav.host_id = hostid;
+            hav.app_version_id = gavid;
+            hav.host_scale_time = r.report_deadline;
+            havs.push_back(hav);
+        }
+    }
+
+    char query[256], clause[512];
+
+    // go through the list
+    //
+    for (i=0; i<havs.size(); i++) {
+        DB_HOST_APP_VERSION& hav = havs[i];
+
+        // does it already exist in the DB?
+        //
+        HOST_APP_VERSION* havp = get_host_app_version(hav.app_version_id);
+        if (havp) {
+            if (havp->scale_probation) {
+                sprintf(query, "host_scale_time=%f", hav.host_scale_time);
+                sprintf(clause,
+                    "host_id=%d and app_version_id=%d",
+                    hav.host_id, hav.app_version_id
+                );
+                retval = hav.update_fields_noid(query, clause);
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "hav.update_fields_noid(): %d\n", retval
+                    );
+                } else {
+                    if (config.debug_credit) {
+                        log_messages.printf(MSG_NORMAL,
+                            "[credit] updating host scale time for (%d, %d)\n",
+                            hav.host_id, hav.app_version_id
+                        );
+                    }
+                }
+            }
+        } else {
+            hav.scale_probation = true;
+            retval = hav.insert();
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "hav.insert(): %d\n", retval
+                );
+            } else {
+                if (config.debug_credit) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[credit] created host_app_version record (%d, %d)\n",
+                        hav.host_id, hav.app_version_id
+                    );
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 void send_work() {
     int retval;
 
@@ -1575,6 +1645,11 @@ void send_work() {
         );
         g_wreq->hr_reject_perm = true;
         return;
+    }
+
+    read_host_app_versions();
+    if (g_wreq->anonymous_platform) {
+        estimate_flops_anon_platform();
     }
 
     get_host_info();
@@ -1642,7 +1717,7 @@ void send_work() {
     }
 
 done:
-    retval = update_host_scale_times(ssp, g_reply->results, g_reply->host.id);
+    retval = update_host_scale_times(g_reply->results, g_reply->host.id);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "update_host_scale_times() failed: %d\n", retval

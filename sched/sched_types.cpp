@@ -61,7 +61,11 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
 
     memset(this, 0, sizeof(CLIENT_APP_VERSION));
     while (fgets(buf, sizeof(buf), f)) {
-        if (match_tag(buf, "</app_version>")) return 0;
+        if (match_tag(buf, "</app_version>")) {
+            app = ssp->lookup_app_name(app_name);
+            if (!app) return ERR_NOT_FOUND;
+            return 0;
+        }
         if (parse_str(buf, "<app_name>", app_name, 256)) continue;
         if (parse_str(buf, "<platform>", platform, 256)) continue;
         if (parse_str(buf, "<plan_class>", plan_class, 256)) continue;
@@ -232,8 +236,14 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
                 if (match_tag(buf, "</app_versions>")) break;
                 if (match_tag(buf, "<app_version>")) {
                     CLIENT_APP_VERSION cav;
-                    cav.parse(fin);
-                    client_app_versions.push_back(cav);
+                    retval = cav.parse(fin);
+                    if (retval) {
+                        g_reply->insert_message(
+                            "Invalid app version description", "high"
+                        );
+                    } else {
+                        client_app_versions.push_back(cav);
+                    }
                 }
             }
             continue;

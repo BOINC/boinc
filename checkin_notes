@@ -2661,3 +2661,14 @@ David  7 Apr 2010
         sched_types.cpp
         sched_version.cpp
         sched_send.cpp
+
+David  7 Apr 2010
+    - scheduler: sweeping changes to the way job runtimes are estimated:
+        see http://boinc.berkeley.edu/trac/wiki/RuntimeEstimation
+
+    sched/
+        credit.cpp,h
+        sched_send.cpp
+        sched_shmem.cpp,h
+        sched_types.cpp,h
+        sched_version.cpp,h

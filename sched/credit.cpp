@@ -388,13 +388,6 @@ int grant_credit(
 #define PFC_MODE_APPROX  1
     // PFC was crudely approximated
 
-#define MIN_HOST_SAMPLES  10
-    // use host scaling only if have this many samples for host
-#define MIN_VERSION_SAMPLES   100
-    // update a version's scale only if it has this many samples
-#define COBBLESTONE_SCALE 200/86400e9
-    // multiply normalized PFC by this to get Cobblestones
-
 // used in the computation of AV scale factors
 //
 struct RSC_INFO {
@@ -991,73 +984,6 @@ int assign_credit_set(
         r.granted_credit = x;
     }
     credit = x;
-    return 0;
-}
-
-// called from scheduler to update the host_scale_time field
-// of host_app_version records for which we're sending jobs,
-// and for which scale_probation is set.
-// If the record is not there, create it.
-//
-int update_host_scale_times(
-    SCHED_SHMEM* ssp, vector<RESULT>& results, int hostid
-) {
-    vector<DB_HOST_APP_VERSION> havs;
-    unsigned int i, j;
-    int retval;
-
-    for (i=0; i<results.size(); i++) {
-        RESULT& r = results[i];
-        int gavid = generalized_app_version_id(r.app_version_id, r.appid);
-        bool found=false;
-        for (j=0; j<havs.size(); j++) {
-            DB_HOST_APP_VERSION& hav = havs[j];
-            if (hav.app_version_id == gavid) {
-                found = true;
-                if (r.report_deadline > hav.host_scale_time) {
-                    hav.host_scale_time = r.report_deadline;
-                }
-            }
-        }
-        if (!found) {
-            DB_HOST_APP_VERSION hav;
-            hav.host_id = hostid;
-            hav.app_version_id = gavid;
-            hav.host_scale_time = r.report_deadline;
-            havs.push_back(hav);
-        }
-    }
-    for (i=0; i<havs.size(); i++) {
-        char query[256], clause[512];
-        DB_HOST_APP_VERSION& hav = havs[i];
-        hav.scale_probation = true;
-
-        // host_app_version record may not exist; try to create it first
-        //
-        int retval = hav.insert();
-        if (retval) {
-            if (config.debug_credit) {
-                log_messages.printf(MSG_NORMAL,
-                    "[credit] updating host scale time for (%d, %d)\n",
-                    hav.host_id, hav.app_version_id
-                );
-            }
-            sprintf(query, "host_scale_time=%f", hav.host_scale_time);
-            sprintf(clause,
-                "host_id=%d and app_version_id=%d and scale_probation<>0",
-                hav.host_id, hav.app_version_id
-            );
-            retval = hav.update_fields_noid(query, clause);
-            // the above will fail if scale_probation is zero.  not an error
-        } else {
-            if (config.debug_credit) {
-                log_messages.printf(MSG_NORMAL,
-                    "[credit] created host_app_version record (%d, %d)\n",
-                    hav.host_id, hav.app_version_id
-                );
-            }
-        }
-    }
     return 0;
 }
 

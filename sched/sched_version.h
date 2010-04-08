@@ -16,3 +16,5 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 extern BEST_APP_VERSION* get_app_version(WORKUNIT&, bool check_req=false);
+extern void estimate_flops_anon_platform();
+extern HOST_APP_VERSION* get_host_app_version(int avid);

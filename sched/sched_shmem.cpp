@@ -216,6 +216,13 @@ APP* SCHED_SHMEM::lookup_app(int id) {
     return 0;
 }
 
+APP* SCHED_SHMEM::lookup_app_name(char* name) {
+    for (int i=0; i<napps; i++) {
+        if (!strcmp(name, apps[i].name)) return &apps[i];
+    }
+    return 0;
+}
+
 // find an app version for a given platform
 //
 APP_VERSION* SCHED_SHMEM::lookup_app_version(int appid, int platformid) {

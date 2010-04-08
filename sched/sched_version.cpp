@@ -22,6 +22,7 @@
 #include "sched_config.h"
 #include "sched_customize.h"
 #include "sched_types.h"
+#include "credit.h"
 
 #include "sched_version.h"
 
@@ -80,7 +81,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
 
     for (i=0; i<g_request->client_app_versions.size(); i++) {
         CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
-        if (strcmp(cav.app_name, app.name)) {
+        if (cav.app->id = app.id) {
             continue;
         }
         if (cav.version_num < app.min_version) {
@@ -114,6 +115,69 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
         add_no_work_message(message);
     }
     return best;
+}
+
+HOST_APP_VERSION* get_host_app_version(int avid) {
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        if (hav.app_version_id == avid) return &hav;
+    }
+    return NULL;
+}
+
+// called at start of send_work().
+// Estimate FLOPS of anon platform versions,
+// and compute scaling factor for wu.rsc_fpops
+//
+void estimate_flops_anon_platform() {
+    unsigned int i;
+    for (i=0; i<g_request->client_app_versions.size(); i++) {
+        CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+
+        cav.rsc_fpops_scale = 1;
+
+        if (cav.host_usage.avg_ncpus == 0 && cav.host_usage.ncudas == 0 && cav.host_usage.natis == 0) {
+            cav.host_usage.avg_ncpus = 1;
+        }
+
+        // current clients fill in host_usage.flops with peak FLOPS
+        // if it's missing from app_info.xml;
+        // however, for older clients, we need to fill it in ourselves;
+        // assume it uses 1 CPU
+        //
+        if (cav.host_usage.flops == 0) {
+            cav.host_usage.flops = g_reply->host.p_fpops;
+        }
+
+        // At this point host_usage.flops is filled in with something.
+        // See if we have a better estimated based on history
+        //
+        HOST_APP_VERSION* havp = get_host_app_version(
+            generalized_app_version_id(
+                cav.host_usage.resource_type(), cav.app->id
+            )
+        );
+        if (havp && havp->et.n > MIN_HOST_SAMPLES) {
+            double new_flops = 1./havp->et.get_avg();
+            cav.rsc_fpops_scale = cav.host_usage.flops/new_flops;
+            cav.host_usage.flops = new_flops;
+        }
+    }
+}
+
+// if we have enough statistics to estimate the app version's
+// actual FLOPS on this host, do so.
+//
+void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
+    HOST_APP_VERSION* havp = get_host_app_version(av.id);
+    if (havp && havp->et.n > MIN_HOST_SAMPLES) {
+        double new_flops = 1./havp->et.get_avg();
+        hu.flops = new_flops;
+    } else {
+        if (av.pfc_scale) {
+            hu.flops *= av.pfc_scale;
+        }
+    }
 }
 
 // return BEST_APP_VERSION for the given host, or NULL if none
@@ -212,15 +276,6 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
             }
             bav.host_usage = cavp->host_usage;
 
-            // if client didn't tell us about the app version,
-            // assume it uses 1 CPU
-            //
-            if (bav.host_usage.flops == 0) {
-                bav.host_usage.flops = g_reply->host.p_fpops;
-            }
-            if (bav.host_usage.avg_ncpus == 0 && bav.host_usage.ncudas == 0 && bav.host_usage.natis == 0) {
-                bav.host_usage.avg_ncpus = 1;
-            }
             bav.cavp = cavp;
         }
         g_wreq->best_app_versions.push_back(bav);
@@ -301,6 +356,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                 }
                 continue;
             }
+
+            estimate_flops(host_usage, av);
 
             // pick the fastest version
             //

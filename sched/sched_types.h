@@ -88,7 +88,14 @@ struct HOST_USAGE {
         if (flops <= 0) flops = 1e9;
         strcpy(cmdline, "");
     }
-    ~HOST_USAGE(){}
+    inline int resource_type() {
+        if (ncudas) {
+            return ANON_PLATFORM_NVIDIA;
+        } else if (natis) {
+            return ANON_PLATFORM_ATI;
+        }
+        return ANON_PLATFORM_CPU;
+    }
 };
 
 // summary of a client's request for work, and our response to it
@@ -160,7 +167,6 @@ struct WORK_REQ {
     double disk_available;
     double ram, usable_ram;
     double running_frac;
-    double dcf;
     int njobs_sent;
 
     // The following keep track of the "easiest" job that was rejected
@@ -257,6 +263,12 @@ struct CLIENT_APP_VERSION {
     int version_num;
     char plan_class[256];
     HOST_USAGE host_usage;
+    double rsc_fpops_scale;
+        // multiply wu.rsc_fpops_est and rsc_fpops_limit
+        // by this amount when send to client,
+        // to reflect the discrepancy between how fast the client
+        // thinks the app is versus how fast we think it is
+    APP* app;
 
     int parse(FILE*);
 };

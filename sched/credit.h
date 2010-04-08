@@ -26,6 +26,13 @@
 #define ERROR_RATE_INIT 0.1
     // the initial error rate of a host or app version
 
+#define MIN_HOST_SAMPLES  10
+    // use host scaling only if have this many samples for host
+#define MIN_VERSION_SAMPLES   100
+    // update a version's scale only if it has this many samples
+#define COBBLESTONE_SCALE 200/86400e9
+    // multiply normalized PFC by this to get Cobblestones
+
 extern void compute_credit_rating(HOST&);
 extern double credit_multiplier(int, time_t);
 extern double fpops_to_credit(double fpops, double intops);
@@ -42,10 +49,6 @@ extern int update_av_scales(struct SCHED_SHMEM*);
 extern int assign_credit_set(
     WORKUNIT&, std::vector<RESULT>&, DB_APP&, std::vector<DB_APP_VERSION>&,
     double max_granted_credit, double& credit
-);
-
-extern int update_host_scale_times(
-    struct SCHED_SHMEM*, std::vector<RESULT>& results, int hostid
 );
 
 // if the result was anonymous platform,
