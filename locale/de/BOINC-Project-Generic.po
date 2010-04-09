@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-23 11:10-0700\n"
+"PO-Revision-Date: 2010-04-09 12:40-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -4057,7 +4057,7 @@ msgstr "Ergebnisse der Benutzersuche"
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "Benutzer nicht gefunden!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
@@ -4066,7 +4066,7 @@ msgstr ""
 #: ../user/userw.php:46
 #, fuzzy
 msgid "Team:"
-msgstr "Team"
+msgstr "Team:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
@@ -4078,17 +4078,19 @@ msgstr ""
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr ""
+msgstr "Team: Keins"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "Bestätige die BOINC E-Mail Adresse"
 
 #: ../user/validate_email_addr.php:31
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
 msgstr ""
+"Bitte besuchen Sie den folgenden Link um ihre E-Mail Adresse für Ihren %1 "
+"Account zu bestätigen:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
@@ -4202,9 +4204,8 @@ msgid "application"
 msgstr "Anwendungen"
 
 #: ../user/workunit.php:39
-#, fuzzy
 msgid "created"
-msgstr "Erstellen"
+msgstr "erstellt"
 
 #: ../user/workunit.php:41
 msgid "canonical result"
@@ -4216,7 +4217,7 @@ msgstr ""
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Aufgaben in Arbeit"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
@@ -4232,7 +4233,7 @@ msgstr ""
 
 #: ../user/workunit.php:57
 msgid "max # of error/total/success tasks"
-msgstr ""
+msgstr "max # von Fehler/Gesamt/Erfolg Aufgaben"
 
 #: ../user/workunit.php:61
 msgid "errors"
