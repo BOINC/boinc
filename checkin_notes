@@ -1247,4 +1247,9 @@ Charlie  9 Apr 2010
     
     clientscr/
         screensaver.cpp
-    
+
+Charlie  9 Apr 2010
+	- client: Fix bug in determining non-BOINC CPU time (Mac).
+
+	lib/
+		procinfo_mac.cpp

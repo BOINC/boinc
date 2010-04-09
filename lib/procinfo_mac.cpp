@@ -139,8 +139,13 @@ void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, char* graphic
             pi.swap_size += p.swap_size;
             pi.working_set_size += p.working_set_size;
             p.is_boinc_app = true;
+        }
+        if (!strcmp(p.command, graphics_exec_file)) {
+            p.is_boinc_app = true;
+        }
             // look for child process of this one
-			add_proc_totals(pi, piv, p.id, graphics_exec_file, i+1, rlvl+1);    // recursion - woo hoo!
+		if (p.parentid == pid) {
+			add_proc_totals(pi, piv, p.id, graphics_exec_file, i+1);    // recursion - woo hoo!
         }
     }
 }
