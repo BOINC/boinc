@@ -403,7 +403,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         //cpu_frac = .75;   // for SETI@home Astropulse
 
         double p = sreq.host.p_fpops;
-        double c = hu.natis*cp->peak_flops();
+        double c = hu.ncudas*cp->peak_flops();
         double x = (c*cpu_frac)/sreq.host.p_fpops;
         hu.avg_ncpus = x;
         hu.max_ncpus = x;
