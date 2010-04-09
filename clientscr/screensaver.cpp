@@ -631,7 +631,7 @@ void *CScreensaver::DataManagementProc()
         }
 
         // Core client suspended?
-        if (suspend_reason && !(suspend_reason & SUSPEND_REASON_CPU_THROTTLE)) {
+        if (suspend_reason && !(suspend_reason & (SUSPEND_REASON_CPU_THROTTLE | SUSPEND_REASON_CPU_USAGE))) {
             if (!m_bDefault_gfx_running) {
                 SetError(TRUE, m_hrError);          // No GFX App is running: show moving BOINC logo
                 if (m_bDefault_ss_exists) {

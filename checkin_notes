@@ -2685,3 +2685,11 @@ David  7 Apr 2010
         cpu_sched.cpp
     html/inc/
         forum.inc
+
+Charlie  7 Apr 2010
+    SS: Ignore SUSPEND_REASON_CPU_USAGE in SS coordinator, so it won't kill 
+        graphics apps for short-term CPU usage spikes (such as anti-virus.)
+    
+    clientscr/
+        screensaver.cpp
+    
