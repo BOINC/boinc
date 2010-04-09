@@ -2672,3 +2672,16 @@ David  7 Apr 2010
         sched_shmem.cpp,h
         sched_types.cpp,h
         sched_version.cpp,h
+
+David  7 Apr 2010
+    - client: attempt to fix bug where a GPU would be assigned
+        to multiple jobs at the same time.
+        I fixed one error (reference arg to assign_coprocs())
+        but I can't see why this would explain the problem.
+        I added a lot of extra <coproc_debug> log messages.
+    - user web: give scientists moderator privileges
+
+    client/
+        cpu_sched.cpp
+    html/inc/
+        forum.inc

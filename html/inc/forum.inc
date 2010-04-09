@@ -1086,6 +1086,7 @@ function is_moderator($user, $forum) {
         if ($user->prefs->privilege(S_MODERATOR)) return true;
         if ($user->prefs->privilege(S_ADMIN)) return true;
         if ($user->prefs->privilege(S_DEV)) return true;
+        if ($user->prefs->privilege(S_SCIENTIST)) return true;
         break;
     case 1:
         if ($user->prefs->privilege(S_ADMIN)) return true;

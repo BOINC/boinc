@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-04-06 13:50+0200\n"
+"PO-Revision-Date: 2010-04-07 23:49+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <weboglan@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Bookmarks: -1,334,318,-1,-1,-1,-1,-1,-1,-1\n"
+"X-Poedit-Bookmarks: -1,334,178,-1,-1,-1,-1,-1,-1,-1\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Türkçe"
@@ -3522,7 +3522,7 @@ msgid ""
 "If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
-"Eğer bir takımın kurucusu aktif değilse ve kuruculuğu üstlenmek istiyorsanız, aşağıdaki butona tıklayın. Mevcut kurucuya isteğinizle ilgili detaylı bir e-posta gönderilecek ve kuruculuğu size devretme ya da talebi reddetme seçenekleri olacak. Kurucu 60 gün içerisinde bir yanıt vermezse, kurucu olabileceksiniz.<br /><br />\n"
+"Eğer takım kurucusu aktif değilse ve kuruculuğu üstlenmek istiyorsanız, aşağıdaki butona tıklayın. Mevcut kurucuya isteğinizle ilgili detaylı bir e-posta gönderilecek ve kuruculuğu size devretme ya da talebi reddetme seçenekleri olacak. Kurucu 60 gün içerisinde bir yanıt vermezse, kurucu olabileceksiniz.<br /><br />\n"
 "                       Kurucu olma talebi göndermek istediğinize emin misiniz?"
 
 #: ../user/team_founder_transfer_form.php:63
@@ -3535,7 +3535,7 @@ msgstr "Kurucu değişimi, %1 tarafından %2 tarihinde zaten talep edildi."
 
 #: ../user/team_founder_transfer_form.php:75
 msgid "A foundership change was requested during the last 90 days, so new requests are not allowed. Please try again later."
-msgstr "Son 90 gün içerisinde bir kurucu değişimi talebi yapıldı, bu nedenle yeni talepler kabul edilmiyor. Lütfen daha sonra tekrar deneyin."
+msgstr "Son 90 gün içerisinde bir kurucu değişimi talebi oldu, bu nedenle yeni talepler kabul edilmiyor. Lütfen daha sonra tekrar deneyin."
 
 #: ../user/team_join.php:30
 #: ../user/team_join_action.php:30
