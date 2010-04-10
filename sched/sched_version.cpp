@@ -92,7 +92,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
             continue;
         }
         if (best) {
-            if (cav.host_usage.flops > best->host_usage.flops) {
+            if (cav.host_usage.projected_flops > best->host_usage.projected_flops) {
                 best = &cav;
             }
         } else {
@@ -145,11 +145,11 @@ void estimate_flops_anon_platform() {
         // however, for older clients, we need to fill it in ourselves;
         // assume it uses 1 CPU
         //
-        if (cav.host_usage.flops == 0) {
-            cav.host_usage.flops = g_reply->host.p_fpops;
+        if (cav.host_usage.projected_flops == 0) {
+            cav.host_usage.projected_flops = g_reply->host.p_fpops;
         }
 
-        // At this point host_usage.flops is filled in with something.
+        // At this point host_usage.projected_flops is filled in with something.
         // See if we have a better estimated based on history
         //
         HOST_APP_VERSION* havp = get_host_app_version(
@@ -159,8 +159,21 @@ void estimate_flops_anon_platform() {
         );
         if (havp && havp->et.n > MIN_HOST_SAMPLES) {
             double new_flops = 1./havp->et.get_avg();
-            cav.rsc_fpops_scale = cav.host_usage.flops/new_flops;
-            cav.host_usage.flops = new_flops;
+            cav.rsc_fpops_scale = cav.host_usage.projected_flops/new_flops;
+            cav.host_usage.projected_flops = new_flops;
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] %s (%s) setting projected flops to %fG based on ET\n",
+                    cav.app_name, cav.plan_class, new_flops
+                );
+            }
+        } else {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] %s (%s) using client-supplied flops %fG\n",
+                    cav.app_name, cav.plan_class, cav.host_usage.projected_flops
+                );
+            }
         }
     }
 }
@@ -172,10 +185,29 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
     HOST_APP_VERSION* havp = get_host_app_version(av.id);
     if (havp && havp->et.n > MIN_HOST_SAMPLES) {
         double new_flops = 1./havp->et.get_avg();
-        hu.flops = new_flops;
+        hu.projected_flops = new_flops;
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] [AV#%d] setting projected flops based on host elapsed time avg: %.2fG\n",
+                av.id, hu.projected_flops/1e9
+            );
+        }
     } else {
         if (av.pfc_scale) {
-            hu.flops *= av.pfc_scale;
+            hu.projected_flops *= av.pfc_scale;
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [AV#%d] adjusting projected flops based on PFC scale: %.2fG\n",
+                    av.id, hu.projected_flops/1e9
+                );
+            }
+        } else {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [AV#%d] using projected flops: %.2fG\n",
+                    av.id, hu.projected_flops/1e9
+                );
+            }
         }
     }
 }
@@ -287,7 +319,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
     // Scan the app versions for each platform.
     // Find the one with highest expected FLOPS
     //
-    bav.host_usage.flops = 0;
+    bav.host_usage.projected_flops = 0;
     bav.avp = NULL;
     bool no_version_for_platform = true;
     for (i=0; i<g_request->platforms.list.size(); i++) {
@@ -361,7 +393,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
 
             // pick the fastest version
             //
-            if (host_usage.flops > bav.host_usage.flops) {
+            if (host_usage.projected_flops > bav.host_usage.projected_flops) {
                 bav.host_usage = host_usage;
                 bav.avp = &av;
             }
@@ -372,7 +404,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] Best version of app %s is ID %d (%.2f GFLOPS)\n",
-                app->name, bav.avp->id, bav.host_usage.flops/1e9
+                app->name, bav.avp->id, bav.host_usage.projected_flops/1e9
             );
         }
         bav.present = true;

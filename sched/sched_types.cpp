@@ -70,7 +70,10 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
         if (parse_str(buf, "<platform>", platform, 256)) continue;
         if (parse_str(buf, "<plan_class>", plan_class, 256)) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
-        if (parse_double(buf, "<flops>", host_usage.flops)) continue;
+        if (parse_double(buf, "<flops>", host_usage.projected_flops)) {
+            host_usage.peak_flops = host_usage.projected_flops;
+            continue;
+        }
         if (match_tag(buf, "<coproc>")) {
             COPROC_REQ coproc_req;
             MIOFILE mf;
@@ -926,7 +929,7 @@ int APP_VERSION::write(FILE* fout) {
         "    <flops>%f</flops>\n",
         bavp->host_usage.avg_ncpus,
         bavp->host_usage.max_ncpus,
-        bavp->host_usage.flops
+        bavp->host_usage.projected_flops
     );
     if (strlen(bavp->host_usage.cmdline)) {
         fprintf(fout,

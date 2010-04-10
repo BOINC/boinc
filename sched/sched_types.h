@@ -66,7 +66,12 @@ struct HOST_USAGE {
     double gpu_ram;
     double avg_ncpus;
     double max_ncpus;
-    double flops;
+    double projected_flops;
+        // the scheduler's best estimate of wu.rsc_fpops_est/elapsed_time.
+        // Taken from host_app_version elapsed time statistics if available,
+        // else on estimate provided by app_plan()
+    double peak_flops;
+        // stored in result.estimated_flops, and used for credit calculations
     char cmdline[256];
 
     HOST_USAGE() {
@@ -75,7 +80,8 @@ struct HOST_USAGE {
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
-        flops = 0;
+        projected_flops = 0;
+        peak_flops = 0;
         strcpy(cmdline, "");
     }
     void sequential_app(double x) {
@@ -84,8 +90,9 @@ struct HOST_USAGE {
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
-        flops = x;
-        if (flops <= 0) flops = 1e9;
+        if (x <= 0) x = 1e9;
+        projected_flops = x;
+        peak_flops = x;
         strcpy(cmdline, "");
     }
     inline int resource_type() {

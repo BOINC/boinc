@@ -2698,3 +2698,33 @@ Charlie  9 Apr 2010
 
 	lib/
 		procinfo_mac.cpp
+
+David  9 Apr 2010
+    - scheduler and validator: distinguish between
+        1) peak FLOPS (based on benchmarks or GPU attributes).
+            This does not change over time.
+            It's not adjusted on the basis of statistics.
+            It's not affected by wu.rsc_fpops_est.
+            It can be compared across projects.
+        versus
+        2) projected FLOPS: the scheduler's best guess as to what will satisfy
+            X * elapsed_time = wu.rsc_fpops_est;
+            this is used to make server-side runtime estimates,
+            and it's sent to the client and used for its runtime estimates.
+            It may be based on the (host, app version) elapsed time average.
+        My checkin [21153] mistakently confounded these two.
+
+        Notes:
+        1) app_plan() now must return both peak and projected FLOPS.
+        2) result.flops_estimate stores peak FLOPS
+        3) the <flops> field in app_info.xml files should be
+            projected FLOPS.  But its accuracy is not important;
+            it's not used once the server has statistics
+            for the (host, app version)
+        
+    sched/
+        credit.cpp
+        sched_customize.cpp
+        sched_send.cpp
+        sched_types.cpp,h
+        sched_version.cpp

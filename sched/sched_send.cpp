@@ -264,7 +264,7 @@ double max_allowable_disk() {
 static double estimate_duration_unscaled(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     double rsc_fpops_est = wu.rsc_fpops_est;
     if (rsc_fpops_est <= 0) rsc_fpops_est = 1e12;
-    return rsc_fpops_est/bav.host_usage.flops;
+    return rsc_fpops_est/bav.host_usage.projected_flops;
 }
 
 static inline void get_running_frac() {
@@ -830,10 +830,10 @@ static int add_wu_to_reply(
         g_reply->insert_app_version_unique(*avp2);
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] Sending app_version %s %d %d %s; %.2f GFLOPS\n",
+                "[send] [HOST#%d] Sending app_version %s %d %d %s; projected %.2f GFLOPS\n",
                 g_reply->host.id, app->name,
                 avp2->platformid, avp2->version_num, avp2->plan_class,
-                bavp->host_usage.flops/1e9
+                bavp->host_usage.projected_flops/1e9
             );
         }
     }
@@ -1053,7 +1053,7 @@ int add_result_to_reply(
     result.userid = g_reply->user.id;
     result.sent_time = time(0);
     result.report_deadline = result.sent_time + wu.delay_bound;
-    result.flops_estimate = bavp->host_usage.flops;
+    result.flops_estimate = bavp->host_usage.peak_flops;
     result.app_version_id = get_app_version_id(bavp);
     int old_server_state = result.server_state;
 

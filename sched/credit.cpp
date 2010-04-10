@@ -797,8 +797,8 @@ int get_pfc(
         }
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] normal case. sec: %.0f GFLOPS: %.0f raw PFC: %f\n",
-                r.id, r.elapsed_time, r.flops_estimate/1e9, raw_pfc
+                "[credit] [RESULT#%d] normal case. sec: %.0f GFLOPS: %.0f raw PFC: %fG\n",
+                r.id, r.elapsed_time, r.flops_estimate/1e9, raw_pfc/1e9
             );
         }
 

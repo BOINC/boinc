@@ -91,6 +91,24 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     return false;
 }
 
+// Suppose we have a computation that uses two devices alternately.
+// The devices have speeds s1 and s2.
+// The fraction of work done on device 1 is frac.
+//
+// This function returns:
+// 1) the overall speed
+// 2) the utilization of device 1, which is always in (0, 1).
+//
+static inline void coproc_perf(
+    double s1, double s2, double frac,
+    double& speed, double& u1
+) {
+    double y = (frac*s2 + (1-frac)*s1);
+    speed = s1*s2/y;
+        // do the math
+    u1 = frac*s2/y;
+}
+
 #define PLAN_CUDA_MIN_DRIVER_VERSION        17700
 #define PLAN_CUDA23_MIN_DRIVER_VERSION        19038
 #define PLAN_CUDA_MIN_RAM                   (254.*1024*1024)
@@ -109,13 +127,14 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.avg_ncpus = nthreads;
         hu.max_ncpus = nthreads;
         sprintf(hu.cmdline, "--nthreads %d", nthreads);
-        hu.flops = sreq.host.p_fpops*hu.avg_ncpus*.99;
+        hu.projected_flops = sreq.host.p_fpops*hu.avg_ncpus*.99;
             // the .99 ensures that on uniprocessors a sequential app
             // will be used in preferences to this
+        hu.peak_flops = sreq.host.p_fpops*hu.avg_ncpus;
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] %s Multi-thread app estimate %.2f GFLOPS\n",
-                plan_class, hu.flops/1e9
+                "[version] %s Multi-thread app projected %.2fGS\n",
+                plan_class, hu.projected_flops/1e9
             );
         }
         return true;
@@ -244,18 +263,20 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.natis = 1;
         //hu.natis = .5;    // you can use a fractional GPU if you want
 
-        double cpu_frac;    // the fraction of the app's FLOPS that are
-                            // performed by the CPU
+        // the fraction of the app's FLOPS that are performed by the CPU
+        //
+        double cpu_frac = .01;     // an app that runs 99% on the GPU
+        //double cpu_frac = .75;   // for SETI@home Astropulse
 
-        cpu_frac = .01;     // an app that runs 99% on the GPU
-        //cpu_frac = .75;   // for SETI@home Astropulse
-
-        double p = sreq.host.p_fpops;
-        double c = hu.natis*cp->peak_flops();
-        double x = (c*cpu_frac)/sreq.host.p_fpops;
-        hu.avg_ncpus = x;
-        hu.max_ncpus = x;
-        hu.flops = c*(1+cpu_frac);
+        coproc_perf(
+            sreq.host.p_fpops,
+            hu.natis*cp->peak_flops(),
+            cpu_frac,
+            hu.projected_flops,
+            hu.avg_ncpus
+        );
+        hu.peak_flops = hu.natis*cp->peak_flops() + hu.avg_ncpus*sreq.host.p_fpops;
+        hu.max_ncpus = hu.avg_ncpus;
 
         // determine priority among variants of ATI
         //   1. ati14
@@ -263,19 +284,22 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         //   3. ati13amd
         //   4. ati
         if (!strcmp(plan_class, "ati13amd")) {
-            hu.flops *= 1.01;
+            hu.projected_flops *= 1.01;
         }
         if (!strcmp(plan_class, "ati13ati")) {
-            hu.flops *= 1.02;
+            hu.projected_flops *= 1.02;
         }
         if (!strcmp(plan_class, "ati14")) {
-            hu.flops *= 1.03;
+            hu.projected_flops *= 1.03;
         }
 
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] %s ATI app estimated %.2f GFLOPS\n",
-                plan_class, hu.flops/1e9
+                "[version] %s ATI app projected %.2fG peak %.2fG %.3f CPUs\n",
+                plan_class,
+                hu.projected_flops/1e9,
+                hu.peak_flops/1e9,
+                hu.avg_ncpus
             );
         }
         return true;
@@ -396,30 +420,34 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.ncudas = 1;
         //hu.ncudas = .5;    // you can use a fractional GPU if you want
 
-        double cpu_frac;    // the fraction of the app's FLOPS that are
-                            // performed by the CPU
+        // the fraction of the app's FLOPS that are performed by the CPU
+        //
+        double cpu_frac = .01;     // an app that runs 99% on the GPU
+        // double cpu_frac = .75;   // for SETI@home Astropulse
 
-        cpu_frac = .01;     // an app that runs 99% on the GPU
-        //cpu_frac = .75;   // for SETI@home Astropulse
-
-        double p = sreq.host.p_fpops;
-        double c = hu.ncudas*cp->peak_flops();
-        double x = (c*cpu_frac)/sreq.host.p_fpops;
-        hu.avg_ncpus = x;
-        hu.max_ncpus = x;
-        hu.flops = c*(1+cpu_frac);
+        coproc_perf(
+            sreq.host.p_fpops,
+            hu.ncudas*cp->peak_flops(),
+            cpu_frac,
+            hu.projected_flops,
+            hu.avg_ncpus
+        );
+        hu.peak_flops = hu.ncudas*cp->peak_flops() + hu.avg_ncpus*sreq.host.p_fpops;
+        hu.max_ncpus = hu.avg_ncpus;
 
         if (!strcmp(plan_class, "cuda23")) {
-            hu.flops *= 1.01;
+            hu.projected_flops *= 1.01;
         } else if (!strcmp(plan_class, "cuda_fermi")) {
-            hu.flops *= 1.02;
+            hu.projected_flops *= 1.02;
         }
 
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] %s app estimated %.2f GFLOPS (clock %d count %d)\n",
-                plan_class, hu.flops/1e9, cp->prop.clockRate,
-                cp->prop.multiProcessorCount
+                "[version] %s app projected %.2fG peak %.2fG %.3f CPUs\n",
+                plan_class,
+                hu.projected_flops/1e9,
+                hu.peak_flops/1e9,
+                hu.avg_ncpus
             );
         }
         return true;
@@ -430,9 +458,10 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         //
         hu.avg_ncpus = .01;
         hu.max_ncpus = .01;
-        hu.flops = sreq.host.p_fpops*1.01;
+        hu.projected_flops = sreq.host.p_fpops*1.01;
             // The *1.01 is needed to ensure that we'll send this app
             // version rather than a non-plan-class one
+        hu.peak_flops = sreq.host.p_fpops*.01;
         return true;
     } else if (!strcmp(plan_class, "sse3")) {
         // the following is for an app that requires a processor with SSE3,
@@ -445,7 +474,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         }
         hu.avg_ncpus = 1;
         hu.max_ncpus = 1;
-        hu.flops = 1.1*sreq.host.p_fpops;
+        hu.projected_flops = 1.1*sreq.host.p_fpops;
+        hu.peak_flops = sreq.host.p_fpops;
         return true;
     }
     log_messages.printf(MSG_CRITICAL,
@@ -551,7 +581,7 @@ bool JOB::get_score() {
 
     // Favor jobs that will run fast
     //
-    score += bavp->host_usage.flops/1e9;
+    score += bavp->host_usage.projected_flops/1e9;
 
     // match large jobs to fast hosts
     //
