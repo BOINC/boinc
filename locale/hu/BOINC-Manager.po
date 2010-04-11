@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-04-04 04:49-0700\n"
+"PO-Revision-Date: 2010-04-11 11:20-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -3786,39 +3786,40 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " descending order "
-msgstr ""
+msgstr "csökkenő sorrend"
 
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " ascending order "
-msgstr ""
+msgstr "növekvő sorrend"
 
 #: clientgui/mac/MacAccessiblity.cpp:611
 msgid "column "
-msgstr ""
+msgstr "oszlop"
 
 #: clientgui/mac/MacAccessiblity.cpp:618
 msgid "list is empty"
-msgstr ""
+msgstr "a lista üres"
 
 #: clientgui/mac/MacAccessiblity.cpp:621
 #: clientgui/mac/MacAccessiblity.cpp:1198
 msgid "selected "
-msgstr ""
+msgstr "kiválasztva"
 
 #: clientgui/mac/MacAccessiblity.cpp:626
 #, c-format
 msgid "row %d "
-msgstr ""
+msgstr "%d. sor"
 
 #: clientgui/mac/MacAccessiblity.cpp:629
 #, c-format
+#, fuzzy
 msgid "of %d; "
-msgstr ""
+msgstr "%d közül;"
 
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
 msgid "column %d; "
-msgstr ""
+msgstr "%d. oszlop;"
 
 #: clientgui/mac/MacAccessiblity.cpp:1160
 msgid "list of projects or account managers"
@@ -3826,8 +3827,9 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:1202
 #, c-format
+#, fuzzy
 msgid "row %d of %d; "
-msgstr ""
+msgstr "%d. sor %d közül;"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"

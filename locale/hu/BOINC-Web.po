@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-04-04 04:59-0700\n"
+"PO-Revision-Date: 2010-04-11 11:17-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -257,7 +257,7 @@ msgstr ""
 
 #: poll_data.inc:180
 msgid "How many BOINC projects do you participate in?"
-msgstr ""
+msgstr "Hány BOINC projektben vesz részt?"
 
 #: poll_data.inc:190
 msgid "Do you run BOINC as a screensaver?"
@@ -309,7 +309,7 @@ msgstr "A BOINC levelező listán"
 
 #: poll_data.inc:212
 msgid "The Unofficial BOINC Wiki"
-msgstr ""
+msgstr "A nem hivatalos BOINC Wiki"
 
 #: poll_data.inc:213
 msgid "Team web sites"
@@ -335,6 +335,11 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
+"A BOINC egy program, aminek segítségével megoszthatja a számítógépe "
+"kihasználatlan kapacitását olyan tudományos projektekkel, mint a SETI@home, "
+"a Climateprediction.net, a Rosetta@home, a World Community Grid stb. <p> "
+"Annyi projekthez csatlakozhat, amennyihez csak szeretne, miután "
+"feltelepítette a BOINCot a számítógépére."
 
 #: download.php:114
 #, php-format
