@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-04-11 06:59-0700\n"
+"PO-Revision-Date: 2010-04-11 07:27-0700\n"
 "Last-Translator: Erik Simmesgård <ersi@digitalfractions.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sv_SE\n"
@@ -162,7 +162,7 @@ msgstr ""
 #: clientgui/AccountManagerProcessingPage.cpp:201
 #: clientgui/AccountManagerPropertiesPage.cpp:207
 msgid "Please wait..."
-msgstr ""
+msgstr "Vänligen vänta..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
@@ -170,11 +170,11 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
-msgstr ""
+msgstr "Ansluten"
 
 #: clientgui/AdvancedFrame.cpp:101
 msgid "Disconnected"
-msgstr ""
+msgstr "Frånkopplad"
 
 #: clientgui/AdvancedFrame.cpp:305
 #, c-format
@@ -535,7 +535,7 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:1725
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1734
 #, c-format
@@ -545,17 +545,17 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:1865
 #, c-format
 msgid "%s - (%s)"
-msgstr ""
+msgstr "%s - (%s)"
 
 #: clientgui/AdvancedFrame.cpp:1868
 #, c-format
 msgid "Connecting to %s"
-msgstr ""
+msgstr "Ansluter till %s"
 
 #: clientgui/AdvancedFrame.cpp:1871
 #, c-format
 msgid "Connected to %s (%s)"
-msgstr ""
+msgstr "Ansluten till %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:182
 msgid "Username already in use"
@@ -597,7 +597,7 @@ msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1229
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: clientgui/BOINCBaseFrame.cpp:422
 #, c-format
@@ -628,7 +628,7 @@ msgstr ""
 #: clientgui/BOINCBaseFrame.cpp:489
 #, c-format
 msgid "%s - Connection Failed"
-msgstr ""
+msgstr "%s - Anslutning misslyckades"
 
 #: clientgui/BOINCBaseFrame.cpp:498
 #, c-format
@@ -846,7 +846,7 @@ msgstr ""
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "Open %s..."
-msgstr ""
+msgstr "Öppna %s..."
 
 #: clientgui/BOINCTaskBar.cpp:623
 msgid "Snooze"
@@ -924,7 +924,7 @@ msgstr ""
 #: clientgui/CompletionPage.cpp:271
 #, c-format
 msgid "Welcome to %s!"
-msgstr ""
+msgstr "Välkommen till %s!"
 
 #: clientgui/CompletionPage.cpp:285
 #, c-format
@@ -938,11 +938,11 @@ msgstr ""
 #: clientgui/DlgAbout.cpp:98
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "Om %s"
 
 #: clientgui/DlgAbout.cpp:155
 msgid "Version:"
-msgstr ""
+msgstr "Version:"
 
 #: clientgui/DlgAbout.cpp:163
 msgid "wxWidgets Version:"
@@ -1010,7 +1010,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:52
 msgid "Clear"
-msgstr ""
+msgstr "Rensa"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:53
 msgid "clear all local preferences and close the dialog"
@@ -1110,37 +1110,37 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:213
 #: clientgui/DlgAdvPreferencesBase.cpp:438
 msgid "Monday"
-msgstr ""
+msgstr "Måndag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:220
 #: clientgui/DlgAdvPreferencesBase.cpp:445
 msgid "Tuesday"
-msgstr ""
+msgstr "Tisdag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:227
 #: clientgui/DlgAdvPreferencesBase.cpp:452
 msgid "Wednesday"
-msgstr ""
+msgstr "Onsdag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:234
 #: clientgui/DlgAdvPreferencesBase.cpp:459
 msgid "Thursday"
-msgstr ""
+msgstr "Torsdag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:241
 #: clientgui/DlgAdvPreferencesBase.cpp:466
 msgid "Friday"
-msgstr ""
+msgstr "Fredag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:248
 #: clientgui/DlgAdvPreferencesBase.cpp:473
 msgid "Saturday"
-msgstr ""
+msgstr "Lördag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:255
 #: clientgui/DlgAdvPreferencesBase.cpp:480
 msgid "Sunday"
-msgstr ""
+msgstr "Söndag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:272
 msgid "Other options"
@@ -1206,7 +1206,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:357
 msgid "days"
-msgstr ""
+msgstr "dagar"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:360
 msgid "Additional work buffer"
@@ -1214,7 +1214,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:366
 msgid "days (max. 10)"
-msgstr ""
+msgstr "dagar (max. 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:369
 msgid " Skip image file verification"
@@ -1303,7 +1303,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:555
 msgid "seconds"
-msgstr ""
+msgstr "sekunder"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:565
 #, no-c-format
@@ -1312,7 +1312,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:573
 msgid "Memory usage"
-msgstr ""
+msgstr "Minnesanvändning"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:588
 #, no-c-format
@@ -1351,7 +1351,7 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:637 clientgui/Localization.cpp:35
 #: clientgui/Localization.cpp:121 clientgui/Localization.cpp:139
 msgid "Help"
-msgstr ""
+msgstr "Hjälp"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:638
 msgid "shows the preferences web page"
@@ -1419,11 +1419,11 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:201
 msgid "User name"
-msgstr ""
+msgstr "Användarnamn"
 
 #: clientgui/DlgItemProperties.cpp:202
 msgid "Team name"
-msgstr ""
+msgstr "Lagnamn"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Resource share"
@@ -1735,7 +1735,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:157
 msgid "Language:"
-msgstr ""
+msgstr "Språk:"
 
 #: clientgui/DlgOptions.cpp:164
 msgid "What language should the manager use?"
@@ -1802,7 +1802,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:275 clientgui/DlgOptions.cpp:339
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: clientgui/DlgOptions.cpp:283 clientgui/DlgOptions.cpp:347
 msgid "Don't use proxy for:"
@@ -1814,12 +1814,12 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:296 clientgui/DlgOptions.cpp:360
 msgid "User Name:"
-msgstr ""
+msgstr "Användarnamn:"
 
 #: clientgui/DlgOptions.cpp:304 clientgui/DlgOptions.cpp:368
 #: clientgui/DlgSelectComputer.cpp:136
 msgid "Password:"
-msgstr ""
+msgstr "Lösenord:"
 
 #: clientgui/DlgOptions.cpp:311
 msgid "HTTP Proxy"
@@ -1844,7 +1844,7 @@ msgstr ""
 
 #: clientgui/DlgSelectComputer.cpp:127
 msgid "Host name:"
-msgstr ""
+msgstr "Värdnamn:"
 
 #: clientgui/hyperlink.cpp:181
 #, c-format
@@ -1877,7 +1877,7 @@ msgstr ""
 #: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
 #: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
 msgid "Your account"
-msgstr ""
+msgstr "Ditt konto"
 
 #: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
@@ -1894,7 +1894,7 @@ msgstr ""
 
 #: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
 msgid "Your results"
-msgstr ""
+msgstr "Dina resultat"
 
 #: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
@@ -1910,7 +1910,7 @@ msgstr ""
 
 #: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
 msgid "Your team"
-msgstr ""
+msgstr "Ditt lag"
 
 #: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
 msgid "View information about your team"
@@ -1998,7 +1998,7 @@ msgstr ""
 
 #: clientgui/Localization.cpp:125
 msgid "News"
-msgstr ""
+msgstr "Nyheter"
 
 #: clientgui/Localization.cpp:127
 msgid "climateprediction.net News"
@@ -2093,7 +2093,7 @@ msgstr ""
 
 #: clientgui/NotFoundPage.cpp:181
 msgid "Login Failed."
-msgstr ""
+msgstr "Inloggning misslyckades."
 
 #: clientgui/NotFoundPage.cpp:185
 msgid "Check the username and password, and try again."
@@ -2228,7 +2228,7 @@ msgstr ""
 #: clientgui/sg_BoincSimpleGUI.cpp:146
 #, c-format
 msgid "&%s"
-msgstr ""
+msgstr "&%s"
 
 #: clientgui/sg_ClientStateIndicator.cpp:288
 msgid "Retrieving current status."
@@ -2293,7 +2293,7 @@ msgstr ""
 
 #: clientgui/sg_DlgMessages.cpp:109
 msgid "Message"
-msgstr ""
+msgstr "Meddelande"
 
 #: clientgui/sg_DlgMessages.cpp:177 clientgui/sg_DlgMessages.cpp:181
 msgid "Copy all the messages to the clipboard."
@@ -2362,71 +2362,71 @@ msgstr ""
 
 #: clientgui/sg_DlgPreferences.cpp:135
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: clientgui/sg_DlgPreferences.cpp:136
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: clientgui/sg_DlgPreferences.cpp:137
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: clientgui/sg_DlgPreferences.cpp:138
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: clientgui/sg_DlgPreferences.cpp:139
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: clientgui/sg_DlgPreferences.cpp:140
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: clientgui/sg_DlgPreferences.cpp:141
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: clientgui/sg_DlgPreferences.cpp:142
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: clientgui/sg_DlgPreferences.cpp:143
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: clientgui/sg_DlgPreferences.cpp:144
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: clientgui/sg_DlgPreferences.cpp:169
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: clientgui/sg_DlgPreferences.cpp:170
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: clientgui/sg_DlgPreferences.cpp:171
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: clientgui/sg_DlgPreferences.cpp:172
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #: clientgui/sg_DlgPreferences.cpp:173
 msgid "15"
-msgstr ""
+msgstr "15"
 
 #: clientgui/sg_DlgPreferences.cpp:174
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #: clientgui/sg_DlgPreferences.cpp:175
 msgid "60"
-msgstr ""
+msgstr "60"
 
 #: clientgui/sg_DlgPreferences.cpp:284
 msgid "Skin"
@@ -2574,7 +2574,7 @@ msgstr ""
 
 #: clientgui/sg_ProjectsComponent.cpp:296
 msgid "My Projects:"
-msgstr ""
+msgstr "Mina projekt:"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
@@ -2597,12 +2597,12 @@ msgstr ""
 #: clientgui/sg_ViewTabPage.cpp:138 clientgui/sg_ViewTabPage.cpp:278
 #, c-format
 msgid "%.1lf"
-msgstr ""
+msgstr "%.1lf"
 
 #: clientgui/sg_ViewTabPage.cpp:407
 #, c-format
 msgid "%d hr %d min %d sec"
-msgstr ""
+msgstr "%d tim %d min %d sek"
 
 #: clientgui/sg_ViewTabPage.cpp:421
 msgid "Are you sure you want to display graphics on a remote machine?"
@@ -2740,7 +2740,7 @@ msgstr ""
 
 #: clientgui/ViewMessages.cpp:164 clientgui/ViewMessagesGrid.cpp:157
 msgid "Messages"
-msgstr ""
+msgstr "Meddelanden"
 
 #: clientgui/ViewMessages.cpp:187 clientgui/ViewMessagesGrid.cpp:179
 msgid "Copying all messages to the clipboard..."
@@ -2752,15 +2752,15 @@ msgstr ""
 
 #: clientgui/ViewMessages.cpp:286
 msgid "Filtering messages..."
-msgstr ""
+msgstr "Filtrera meddelanden..."
 
 #: clientgui/ViewMessages.cpp:494
 msgid "Show all messages"
-msgstr ""
+msgstr "Visa alla meddelanden"
 
 #: clientgui/ViewMessages.cpp:495
 msgid "Show messages for all projects."
-msgstr ""
+msgstr "Visa meddelande för alla projekt."
 
 #: clientgui/ViewMessagesGrid.cpp:128
 msgid "ID"
@@ -2768,7 +2768,7 @@ msgstr ""
 
 #: clientgui/ViewMessagesGrid.cpp:128
 msgid "Priority"
-msgstr ""
+msgstr "Prioritet"
 
 #: clientgui/ViewMessagesGrid.cpp:151
 msgid "MessagesGrid"
@@ -2812,7 +2812,7 @@ msgstr ""
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
-msgstr ""
+msgstr "Uppdatera"
 
 #: clientgui/ViewProjects.cpp:174
 msgid ""
@@ -3112,7 +3112,7 @@ msgstr ""
 
 #: clientgui/ViewStatistics.cpp:1833
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: clientgui/ViewStatistics.cpp:1853 clientgui/ViewStatistics.cpp:1874
 #: clientgui/ViewStatistics.cpp:1895 clientgui/ViewStatistics.cpp:1917
@@ -3151,7 +3151,7 @@ msgstr ""
 
 #: clientgui/ViewTransfers.cpp:184 clientgui/ViewTransfersGrid.cpp:129
 msgid "Size"
-msgstr ""
+msgstr "Storlek"
 
 #: clientgui/ViewTransfers.cpp:185 clientgui/ViewTransfersGrid.cpp:130
 msgid "Elapsed Time"
@@ -3159,7 +3159,7 @@ msgstr ""
 
 #: clientgui/ViewTransfers.cpp:186 clientgui/ViewTransfersGrid.cpp:130
 msgid "Speed"
-msgstr ""
+msgstr "Hastighet"
 
 #: clientgui/ViewTransfers.cpp:212 clientgui/ViewTransfersGrid.cpp:167
 msgid "Transfers"
@@ -3242,7 +3242,7 @@ msgstr ""
 
 #: clientgui/ViewWork.cpp:205 clientgui/ViewWorkGrid.cpp:128
 msgid "Abort"
-msgstr ""
+msgstr "Avbryt"
 
 #: clientgui/ViewWork.cpp:206 clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
@@ -3456,7 +3456,7 @@ msgstr ""
 #: clientgui/mac/MacAccessiblity.cpp:605
 #, c-format
 msgid "%d of %d; "
-msgstr ""
+msgstr "%d av %d;"
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
