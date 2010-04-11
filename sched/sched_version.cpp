@@ -81,14 +81,26 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
 
     for (i=0; i<g_request->client_app_versions.size(); i++) {
         CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
-        if (cav.app->id = app.id) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] get_app_version_anonymous: %s %d\n",
+                cav.app_name, cav.version_num
+            );
+        }
+        if (cav.app->id != app.id) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] wrong app %d %d\n",
+                cav.app->id, app.id
+            );
             continue;
         }
         if (cav.version_num < app.min_version) {
+            log_messages.printf(MSG_NORMAL, "[version] bad version\n");
             continue;
         }
         found = true;
         if (!need_this_resource(cav.host_usage, NULL, &cav)) {
+            log_messages.printf(MSG_NORMAL, "[version] don't need resource\n");
             continue;
         }
         if (best) {
@@ -164,7 +176,7 @@ void estimate_flops_anon_platform() {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
                     "[send] %s (%s) setting projected flops to %fG based on ET\n",
-                    cav.app_name, cav.plan_class, new_flops
+                    cav.app_name, cav.plan_class, new_flops/1e9
                 );
             }
         } else {
@@ -228,7 +240,14 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
     while (bavi != g_wreq->best_app_versions.end()) {
         BEST_APP_VERSION& bav = *bavi;
         if (bav.appid == wu.appid) {
-            if (!bav.present) return NULL;
+            if (!bav.present) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] returning cached NULL\n"
+                    );
+                }
+                return NULL;
+            }
 
             // if we previously chose a CUDA app but don't need more CUDA work,
             // delete record, fall through, and find another version
@@ -279,11 +298,21 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                 break;
             }
 
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] returning cached version\n"
+                );
+            }
             return &bav;
         }
         bavi++;
     }
 
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] looking for version\n"
+        );
+    }
     APP* app = ssp->lookup_app(wu.appid);
     if (!app) {
         log_messages.printf(MSG_CRITICAL,
@@ -399,7 +428,6 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
             }
         }
     }
-    g_wreq->best_app_versions.push_back(bav);
     if (bav.avp) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
@@ -408,10 +436,14 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
             );
         }
         bav.present = true;
+        g_wreq->best_app_versions.push_back(bav);
     } else {
         // Here if there's no app version we can use.
         //
         if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] returning NULL; platforms:\n"
+            );
             for (i=0; i<g_request->platforms.list.size(); i++) {
                 PLATFORM* p = g_request->platforms.list[i];
                 log_messages.printf(MSG_NORMAL,
@@ -427,6 +459,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
             );
             add_no_work_message(message);
         }
+        g_wreq->best_app_versions.push_back(bav);
         return NULL;
     }
     return &(g_wreq->best_app_versions.back());

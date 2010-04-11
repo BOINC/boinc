@@ -2728,3 +2728,16 @@ David  9 Apr 2010
         sched_send.cpp
         sched_types.cpp,h
         sched_version.cpp
+
+David  10 Apr 2010
+    - scheduler: fix egregious bug which limited sending to 1 job per RPC
+    - scheduler: fix bug that broke anon platform
+
+    Note: Bruce Allen once advised me to take a few days and just
+    observe BOINC in action.
+    I should really do this more often; it always turns up bugs
+    and/or design flaws.
+
+    sched/
+        sched_version.cpp
+        sched_send.cpp

@@ -1530,8 +1530,13 @@ void send_work_setup() {
             for (i=0; i<g_request->client_app_versions.size(); i++) {
                 CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
                 log_messages.printf(MSG_NORMAL,
-                    "   app: %s ver: %d\n",
-                    cav.app_name, cav.version_num
+                    "   app: %s version %d cpus %.2f cudas %.2f atis %.2f flops %fG\n",
+                    cav.app_name,
+                    cav.version_num,
+                    cav.host_usage.avg_ncpus,
+                    cav.host_usage.ncudas,
+                    cav.host_usage.natis,
+                    cav.host_usage.projected_flops/1e9
                 );
             }
         }
