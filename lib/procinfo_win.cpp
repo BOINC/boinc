@@ -9,11 +9,6 @@
 
 using std::vector;
 
-// Possible values of iBrandId:
-#define BOINC_BRAND_ID 0
-#define GRIDREPUBLIC_BRAND_ID 1
-#define PROGRESSTHRUPROCESSORS_BRAND_ID 2
-
 // NtQuerySystemInformation
 typedef NTSTATUS (WINAPI *tNTQSI)(
     ULONG SystemInformationClass,
@@ -74,22 +69,10 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
     PVOID                   pBuffer = NULL;
     PSYSTEM_PROCESSES       pProcesses = NULL;
     static DWORD            pid = 0;
-    static long             iBrandID = -1;
 
     if (!pid) {
         pid = GetCurrentProcessId();
     }
-    
-    if (iBrandID < 0) {
-        iBrandID = BOINC_BRAND_ID;
-        if (boinc_file_exists("gridrepublic.exe")) {
-            iBrandID = GRIDREPUBLIC_BRAND_ID;
-        } else
-        if (boinc_file_exists("progressthruprocessors.exe")) {
-            iBrandID = PROGRESSTHRUPROCESSORS_BRAND_ID;
-        }
-    }
-    
 #if 0
 	printf("FILETIME: %d\n", sizeof(FILETIME));
 	printf("LARGE_INTEGER: %d\n", sizeof(LARGE_INTEGER));
@@ -122,19 +105,16 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
         );
 		p.is_boinc_app = (p.id == pid) || (strcasestr(p.command, "boinc") != NULL);
         
-        switch (iBrandID) {
-        case GRIDREPUBLIC_BRAND_ID:
-            if (strcasestr(p.command, "gridrepublic") != NULL) {
-                p.is_boinc_app = true;
-            }
-            break;
-        case PROGRESSTHRUPROCESSORS_BRAND_ID:
-            if (strcasestr(p.command, "progressthruprocessors") != NULL) {
-                p.is_boinc_app = true;
-            }
-            break;
+#ifdef _GRIDREPUBLIC
+        if (strcasestr(p.command, "gridrepublic") != NULL) {
+            p.is_boinc_app = true;
         }
-        
+#endif        
+ifdef _PROGRESSTHRUPROCESSORS
+        if (strcasestr(p.command, "progressthruprocessors") != NULL) {
+            p.is_boinc_app = true;
+        }
+#endif        
         pi.push_back(p);
         if (!pProcesses->NextEntryDelta) {
             break;
