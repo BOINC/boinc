@@ -110,7 +110,7 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
             p.is_boinc_app = true;
         }
 #endif        
-ifdef _PROGRESSTHRUPROCESSORS
+#ifdef _PROGRESSTHRUPROCESSORS
         if (strcasestr(p.command, "progressthruprocessors") != NULL) {
             p.is_boinc_app = true;
         }
