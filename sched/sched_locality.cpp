@@ -1174,17 +1174,24 @@ void send_work_locality() {
                 );
             }
 #ifdef EINSTEIN_AT_HOME
-            // For name matching pattern h1_XXXX.XX_S5R2
-            // generate corresponding l1_XXXX.XX_S5R2 pattern and delete it also
+            // For name matching pattern h1_XXXX.XX_S5R4
+            // generate corresponding l1_XXXX.XX_S5R4 and *_S5R7 patterns and delete it also
             //
             if (strlen(fi.name)==15 && !strncmp("h1_", fi.name, 3)) {
-                FILE_INFO fi_l = fi;
-                fi_l.name[0]='l';
-                g_reply->file_deletes.push_back(fi_l);
+	        FILE_INFO fil4,fil7,fih7;
+		fil4=fi;
+		fil4.name[0]='l';
+		fil7=fil4;
+		fil7.name[14]='7';
+		fih7=fi;
+		fih7.name[14]='7';
+                g_reply->file_deletes.push_back(fil4);
+                g_reply->file_deletes.push_back(fil7);
+                g_reply->file_deletes.push_back(fih7);
                 if (config.debug_locality) {
                     log_messages.printf(MSG_NORMAL,
-                        "[locality] [HOST#%d]: delete file %s (not needed)\n",
-                        g_reply->host.id, fi_l.name
+                        "[locality] [HOST#%d]: delete files %s,%s,%s (not needed)\n",
+                        g_reply->host.id, fil4.name,fil7.name,fih7.name
                     );
                 }
             }

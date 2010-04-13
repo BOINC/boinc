@@ -2749,3 +2749,11 @@ Charlie  13 Apr 2010
 	lib/
 		procinfo_mac.cpp
 		procinfo_win.cpp
+
+Bernd 13 Apr 2010
+        - scheduler: as db-driven client file management isn't ready yet,
+          adapt Einstein@home-specific file management hack to current run
+
+        sched/
+            sched_locality.cpp
+
