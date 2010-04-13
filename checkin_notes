@@ -2741,3 +2741,11 @@ David  10 Apr 2010
     sched/
         sched_version.cpp
         sched_send.cpp
+
+Charlie  13 Apr 2010
+	- client: Add code for determining non-BOINC CPU time for GridRepublic 
+        and Progress Thru Processors clients (Mac & Windows).
+
+	lib/
+		procinfo_mac.cpp
+		procinfo_win.cpp

@@ -34,6 +34,11 @@
 
 using std::vector;
 
+// Possible values of iBrandId:
+#define BOINC_BRAND_ID 0
+#define GRIDREPUBLIC_BRAND_ID 1
+#define PROGRESSTHRUPROCESSORS_BRAND_ID 2
+
 
 // build table of all processes in system
 //
@@ -43,6 +48,19 @@ int procinfo_setup(vector<PROCINFO>& pi) {
     PROCINFO p;
     int c, real_mem, virtual_mem, hours;
     char* lf;
+    static long iBrandID = -1;
+    
+    if (iBrandID < 0) {
+        iBrandID = BOINC_BRAND_ID;
+
+        // For GridRepublic or ProgressThruProcessors, the Mac 
+        // installer put a branding file in our data directory
+        FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
+        if (f) {
+            fscanf(f, "BrandId=%ld\n", &iBrandID);
+            fclose(f);
+        }
+    }
 
 #if SHOW_TIMING
     UnsignedWide start, end, elapsed;
@@ -107,6 +125,19 @@ int procinfo_setup(vector<PROCINFO>& pi) {
         p.swap_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
+
+        switch (iBrandID) {
+        case GRIDREPUBLIC_BRAND_ID:
+            if (strcasestr(p.command, "GridRepublic")) {
+                p.is_boinc_app = true;
+            }
+            break;
+        case PROGRESSTHRUPROCESSORS_BRAND_ID:
+            if (strcasestr(p.command, "Progress Thru Processors")) {
+                p.is_boinc_app = true;
+            }
+            break;
+        }
         pi.push_back(p);
     }
     
@@ -145,7 +176,7 @@ void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, char* graphic
         }
         // look for child process of this one
 		if (p.parentid == pid) {
-			add_proc_totals(pi, piv, p.id, graphics_exec_file, i+1);    // recursion - woo hoo!
+			add_proc_totals(pi, piv, p.id, graphics_exec_file, i+1, rlvl+1);    // recursion - woo hoo!
 		}
     }
 }
