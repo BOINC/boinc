@@ -169,6 +169,8 @@ bool CACCConfigMd5sum::CheckFile(char *contents)
 	bool match = false;
 	char *cc510="<cc_config><log_flags></log_flags><options><dont_contact_ref_site>1</dont_contact_ref_site></options></cc_config>";
 	if ( strstr(contents, cc510) ) match = true;
+	char *cc602="<cc_config><log_flags></log_flags><options><version_check_server>www.worldcommunitygrid.org</version_check_server><proxy_test_server>www.ibm.com</proxy_test_server><start_delay>120</start_delay></options></cc_config>";
+	if ( strstr(contents, cc602) ) match = true;
     return match; 
 }
 
