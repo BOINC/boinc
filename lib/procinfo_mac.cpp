@@ -128,12 +128,12 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 
         switch (iBrandID) {
         case GRIDREPUBLIC_BRAND_ID:
-            if (strcasestr(p.command, "GridRepublic")) {
+            if (!strcmp(p.command, "GridRepublic Desktop")) {
                 p.is_boinc_app = true;
             }
             break;
         case PROGRESSTHRUPROCESSORS_BRAND_ID:
-            if (strcasestr(p.command, "Progress Thru Processors")) {
+            if (!strcmp(p.command, "Progress Thru Processors Desktop")) {
                 p.is_boinc_app = true;
             }
             break;

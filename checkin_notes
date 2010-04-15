@@ -2826,3 +2826,11 @@ David  15 Apr 2010
 		gui_rpc_server_ops.cpp
 	lib/
 		proxy_info.cpp
+
+Charlie  13 Apr 2010
+	- client: Improve code for determining non-BOINC CPU time for branded
+        clients (Mac & Windows).
+
+	lib/
+		procinfo_mac.cpp
+		procinfo_win.cpp
