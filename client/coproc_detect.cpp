@@ -782,7 +782,7 @@ int COPROC_ATI::available_ram(int devnum, double& ar) {
 
     // avoid crash if faked GPU
     if (!__calInit) {
-        r = attribs.localRAM;
+        ar = attribs.localRAM;
         return 0;
     }
     retval = (*__calInit)();

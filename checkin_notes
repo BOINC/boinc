@@ -2827,10 +2827,16 @@ David  15 Apr 2010
 	lib/
 		proxy_info.cpp
 
-Charlie  13 Apr 2010
+Charlie  15 Apr 2010
 	- client: Improve code for determining non-BOINC CPU time for branded
         clients (Mac & Windows).
 
 	lib/
 		procinfo_mac.cpp
 		procinfo_win.cpp
+
+Charlie  15 Apr 2010
+    - client: fix build break.
+    
+        client/
+        coproc_detect.cpp
