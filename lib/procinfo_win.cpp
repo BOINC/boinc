@@ -106,12 +106,12 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
 		p.is_boinc_app = (p.id == pid) || (strcasestr(p.command, "boinc") != NULL);
         
 #ifdef _GRIDREPUBLIC
-        if (!strcmp(p.command, "gridrepublic.exe") {
+        if (!strcmp(p.command, "gridrepublic.exe")) {
             p.is_boinc_app = true;
         }
 #endif        
 #ifdef _PROGRESSTHRUPROCESSORS
-        if (!strcmp(p.command, "progressthruprocessors.exe") {
+        if (!strcmp(p.command, "progressthruprocessors.exe")) {
             p.is_boinc_app = true;
         }
 #endif        
