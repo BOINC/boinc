@@ -1585,6 +1585,7 @@ int update_host_app_versions(vector<RESULT>& results, int hostid) {
             }
             if (!found) {
                 DB_HOST_APP_VERSION hav;
+                hav.clear();
                 hav.host_id = hostid;
                 hav.app_version_id = gavid;
                 hav.host_scale_time = r.report_deadline;
@@ -1601,6 +1602,7 @@ int update_host_app_versions(vector<RESULT>& results, int hostid) {
         DB_HOST_APP_VERSION& hav = new_havs[i];
 
         hav.scale_probation = true;
+        hav.error_rate = ERROR_RATE_INIT;
         retval = hav.insert();
         if (retval) {
             log_messages.printf(MSG_CRITICAL,

@@ -395,7 +395,7 @@ void COPROC_CUDA::get(
 
 // fake a NVIDIA GPU (for debugging)
 //
-void fake_cuda(COPROCS& coprocs, int count) {
+void fake_cuda(COPROCS& coprocs, double ram, int count) {
    COPROC_CUDA* cc = new COPROC_CUDA;
    strcpy(cc->type, "CUDA");
    cc->count = count;
@@ -405,7 +405,7 @@ void fake_cuda(COPROCS& coprocs, int count) {
    cc->display_driver_version = 18000;
    cc->cuda_version = 2020;
    strcpy(cc->prop.name, "Fake NVIDIA GPU");
-   cc->prop.totalGlobalMem = 256*1024*1024;
+   cc->prop.totalGlobalMem = ram;
    cc->prop.sharedMemPerBlock = 100;
    cc->prop.regsPerBlock = 8;
    cc->prop.warpSize = 10;
@@ -431,7 +431,12 @@ int COPROC_CUDA::available_ram(int devnum, double& ar) {
     unsigned int memfree, memtotal;
     unsigned int ctx;
     
-    if (!__cuDeviceGet) return 0;       // avoid crash if faked GPU
+    // avoid crash if faked GPU
+    //
+    if (!__cuDeviceGet) {
+        ar = prop.totalGlobalMem;
+        return 0;
+    }
     int retval = (*__cuDeviceGet)(&device, devnum);
     if (retval) return retval;
     retval = (*__cuCtxCreate)(&ctx, 0, device);
@@ -750,7 +755,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
     retval = (*__calShutdown)();
 }
 
-void fake_ati(COPROCS& coprocs, int count) {
+void fake_ati(COPROCS& coprocs, double ram, int count) {
     COPROC_ATI* cc = new COPROC_ATI;
     strcpy(cc->type, "ATI");
     strcpy(cc->version, "1.4.3");
@@ -758,7 +763,7 @@ void fake_ati(COPROCS& coprocs, int count) {
     cc->count = count;
     memset(&cc->attribs, 0, sizeof(cc->attribs));
     memset(&cc->info, 0, sizeof(cc->info));
-    cc->attribs.localRAM = 1024;
+    cc->attribs.localRAM = (int)(ram/MEGA);
     cc->attribs.numberOfSIMD = 32;
     cc->attribs.wavefrontSize = 32;
     cc->attribs.engineClock = 50;
@@ -775,7 +780,11 @@ int COPROC_ATI::available_ram(int devnum, double& ar) {
 
     st.struct_size = sizeof(CALdevicestatus);
 
-    if (!__calInit) return 0;   // avoid crash if faked GPU
+    // avoid crash if faked GPU
+    if (!__calInit) {
+        r = attribs.localRAM;
+        return 0;
+    }
     retval = (*__calInit)();
     if (retval) return retval;
     retval = (*__calDeviceOpen)(&dev, devnum);

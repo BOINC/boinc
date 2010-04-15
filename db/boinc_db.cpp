@@ -1132,6 +1132,7 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         "turnaround_avg=%.15e, "
         "turnaround_q=%.15e, "
         "turnaround_var=%.15e, "
+        "error_rate=%.15e, "
         "host_scale_time=%.15e, "
         "scale_probation=%d",
         pfc.n,
@@ -1144,6 +1145,7 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         turnaround.avg,
         turnaround.q,
         turnaround.var,
+        error_rate,
         host_scale_time,
         scale_probation
     );

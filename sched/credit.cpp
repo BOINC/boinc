@@ -545,6 +545,7 @@ int hav_lookup(DB_HOST_APP_VERSION& hav, int hostid, int avid) {
         hav.clear();
         hav.host_id = hostid;
         hav.app_version_id = avid;
+        hav.error_rate = ERROR_RATE_INIT;
         retval = hav.insert();
         if (retval) return retval;
     }
@@ -967,7 +968,7 @@ int write_modified_app_versions(vector<DB_APP_VERSION>& app_versions) {
     unsigned int i, j;
     int retval = 0;
 
-    if (config.debug_credit) {
+    if (config.debug_credit && app_versions.size()) {
         log_messages.printf(MSG_NORMAL,
             "[credit] start write_modified_app_versions()\n"
         );
