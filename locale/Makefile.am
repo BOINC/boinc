@@ -10,11 +10,13 @@ locale_dirs = \
 	bg \
 	ca \
 	cs \
+	cy \
 	da \
 	de \
 	el \
 	es \
 	fa \
+	fi \
 	fr \
 	gl \
 	hr \
@@ -24,13 +26,16 @@ locale_dirs = \
 	ko \
 	lt \
 	lv \
+	nb \
 	nl \
+	nn \
 	pl \
-	pt \
 	pt_BR \
+	pt_PT \
 	ro \
 	ru \
 	sk \
+	sl \
 	sv_SE \
 	tr \
 	uk \
