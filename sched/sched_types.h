@@ -126,12 +126,9 @@ struct WORK_REQ {
 	bool allow_beta_work;
 	std::vector<APP_INFO> preferred_apps;
 
-	bool reliable;
-        // whether the host is classified as "reliable"
-        // (misnomer: means low turnaround time and low error rate
+    bool has_reliable_version;
+        // whether the host has a reliable app version
 
-    bool trust;
-        // whether to send unreplicated jobs
     int effective_ncpus;
     int effective_ngpus;
 
@@ -208,6 +205,7 @@ struct WORK_REQ {
     std::vector<USER_MESSAGE> no_work_messages;
     std::vector<BEST_APP_VERSION> best_app_versions;
     std::vector<DB_HOST_APP_VERSION> host_app_versions;
+    std::vector<DB_HOST_APP_VERSION> host_app_versions_orig;
 
     // various reasons for not sending jobs (used to explain why)
     //
@@ -219,13 +217,12 @@ struct WORK_REQ {
     bool no_cuda_prefs;
     bool no_ati_prefs;
     bool no_cpu_prefs;
-    bool daily_result_quota_exceeded;
     bool max_jobs_on_host_exceeded;
     bool max_jobs_on_host_cpu_exceeded;
     bool max_jobs_on_host_gpu_exceeded;
     bool no_jobs_available;     // project has no work right now
 
-    int max_jobs_per_day;
+    //int max_jobs_per_day;
         // host.max_results_day * (NCPUS + NGPUS*gpu_multiplier)
     int max_jobs_per_rpc;
     int njobs_on_host;
@@ -297,6 +294,12 @@ struct BEST_APP_VERSION {
     HOST_USAGE host_usage;
         // populated in either case
 
+    bool reliable;
+    bool trusted;
+
+    DB_HOST_APP_VERSION* host_app_version();
+        // get the HOST_APP_VERSION, if any
+        
     BEST_APP_VERSION() {
         present = false;
         cavp = NULL;
@@ -418,11 +421,13 @@ struct SCHEDULER_REQUEST {
     bool have_ip_results_list;
     bool have_time_stats_log;
     bool client_cap_plan_class;
-    int sandbox;    // -1 = don't know
-
+    int sandbox;
+        // whether client uses account-based sandbox.  -1 = don't know
     bool using_weak_auth;
         // Request uses weak authenticator.
         // Don't modify user prefs or CPID
+    int last_rpc_dayofyear;
+    int current_rpc_dayofyear;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();
@@ -492,5 +497,11 @@ static inline void add_no_work_message(const char* m) {
 
 extern void get_weak_auth(USER&, char*);
 extern void get_rss_auth(USER&, char*);
+extern void read_host_app_versions();
+extern DB_HOST_APP_VERSION* get_host_app_version(int gavid);
+extern void write_host_app_versions();
+
+extern DB_HOST_APP_VERSION* gavid_to_havp(int gavid);
+extern DB_HOST_APP_VERSION* quota_exceeded_version();
 
 #endif

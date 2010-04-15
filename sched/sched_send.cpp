@@ -128,15 +128,6 @@ void WORK_REQ::get_job_limits() {
         g_wreq->max_jobs_per_rpc = 999999;
     }
 
-    if (config.daily_result_quota) {
-        if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day>config.daily_result_quota) {
-            g_reply->host.max_results_day = config.daily_result_quota;
-        }
-        g_wreq->max_jobs_per_day = mult * g_reply->host.max_results_day;
-    } else {
-        g_wreq->max_jobs_per_day = 999999;
-    }
-
     if (config.max_wus_in_progress) {
         g_wreq->max_jobs_on_host_cpu = config.max_wus_in_progress * effective_ncpus;
         if (config.max_wus_in_progress_gpu) {
@@ -354,22 +345,110 @@ static void get_prefs_info() {
     }
 }
 
-// Find or compute various info about the host;
-// this info affects which jobs are sent to the host.
+// Decide whether or not this app version is 'reliable'
+// An app version is reliable if the following conditions are true
+// (for those that are set in the config file)
+// 1) The host average turnaround is less than a threshold
+// 2) The host error rate is less then a threshold
+// 3) The host results per day is equal to the max value
 //
-static void get_host_info() {
-    double expavg_credit = g_reply->host.expavg_credit;
-    double expavg_time = g_reply->host.expavg_time;
-    update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
+void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
+    if (hav.turnaround.n > MIN_HOST_SAMPLES && config.reliable_max_avg_turnaround) {
 
-    // Decide whether or not this computer is 'reliable'
-    // A computer is reliable if the following conditions are true
-    // (for those that are set in the config file)
-    // 1) The host average turnaround is less than the config
-    // max average turnaround
-    // 2) The host error rate is less then the config max error rate
-    // 3) The host results per day is equal to the config file value
+        if (hav.turnaround.get_avg() > config.reliable_max_avg_turnaround*multiplier) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] app version %d not reliable; avg turnaround: %.3f hrs\n",
+                    g_reply->host.id, hav.app_version_id,
+                    hav.turnaround.get_avg()/3600
+                );
+            }
+            hav.reliable = false;
+            return;
+        }
+    }
+    if (config.reliable_max_error_rate) {
+        if (hav.error_rate > config.reliable_max_error_rate*multiplier) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] app version %d not reliable; error rate: %.6f\n",
+                    g_reply->host.id, hav.app_version_id,
+                    hav.error_rate
+                );
+            }
+            hav.reliable = false;
+            return;
+        }
+    }
+    if (config.daily_result_quota) {
+        if (hav.max_jobs_per_day < config.daily_result_quota) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] app version %d not reliable; max_jobs_per_day %d\n",
+                    g_reply->host.id, hav.app_version_id,
+                    hav.max_jobs_per_day
+                );
+            }
+            hav.reliable = false;
+            return;
+        }
+    }
+    hav.reliable = true;
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[send] [HOST#%d] app version %d is reliable\n",
+            g_reply->host.id, hav.app_version_id
+        );
+    }
+    g_wreq->has_reliable_version = true;
+}
 
+#define ER_MAX  0.05
+// decide whether do unreplicated jobs with this app version
+//
+static void set_trust(DB_HOST_APP_VERSION& hav) {
+    hav.trusted = false;
+    if (hav.error_rate > ER_MAX) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] set_trust: error rate %f > %f, don't trust\n",
+                hav.error_rate, ER_MAX
+            );
+        }
+        return;
+    }
+    double x = sqrt(hav.error_rate/ER_MAX);
+    if (drand() > x) hav.trusted = true;
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[send] set_trust: random choice for error rate %f: %s\n",
+            hav.error_rate, hav.trusted?"yes":"no"
+        );
+    }
+}
+
+static void update_quota(DB_HOST_APP_VERSION& hav) {
+    if (config.daily_result_quota) {
+        if (hav.max_jobs_per_day == 0 || hav.max_jobs_per_day > config.daily_result_quota) {
+            hav.max_jobs_per_day = config.daily_result_quota;
+            log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] [HAV#%d] Initializing max_results_day to %d\n",
+                g_reply->host.id, hav.app_version_id,
+                config.daily_result_quota
+            );
+        }
+    }
+
+    if (g_request->last_rpc_dayofyear != g_request->current_rpc_dayofyear) {
+        log_messages.printf(MSG_DEBUG,
+            "[HOST#%d] [HAV#%d] Resetting njobs_today\n",
+            g_reply->host.id, hav.app_version_id
+        );
+        hav.n_jobs_today = 0;
+    }
+}
+
+static void get_reliability_and_trust() {
     // Platforms other than Windows, Linux and Intel Macs need a
     // larger set of computers to be marked reliable
     //
@@ -384,49 +463,11 @@ static void get_host_info() {
         multiplier = 1.8;
     }
 
-    if (g_reply->host.avg_turnaround > 0 && config.reliable_max_avg_turnaround) {
-
-        if (g_reply->host.avg_turnaround > config.reliable_max_avg_turnaround*multiplier) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] not reliable; avg_turn_hrs: %.3f\n",
-                    g_reply->host.id, g_reply->host.avg_turnaround/3600
-                );
-            }
-            g_wreq->reliable = false;
-            return;
-        }
-    }
-    if (config.reliable_max_error_rate) {
-        if (g_reply->host.error_rate > config.reliable_max_error_rate*multiplier) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] not reliable; error rate: %.6f\n",
-                    g_reply->host.id, g_reply->host.error_rate
-                );
-            }
-            g_wreq->reliable = false;
-            return;
-        }
-    }
-    if (config.daily_result_quota) {
-        if (g_reply->host.max_results_day < config.daily_result_quota) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] not reliable; max_result_day %d\n",
-                    g_reply->host.id, g_reply->host.max_results_day
-                );
-            }
-            g_wreq->reliable = false;
-            return;
-        }
-    }
-    g_wreq->reliable = true;
-    if (config.debug_send) {
-        log_messages.printf(MSG_NORMAL,
-            "[send] [HOST#%d] is reliable\n",
-            g_reply->host.id
-        );
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        get_reliability_version(hav, multiplier);
+        set_trust(hav);
+        update_quota(hav);
     }
 }
 
@@ -943,17 +984,6 @@ bool work_needed(bool locality_sched) {
         }
     }
 
-    if (g_reply->host.nresults_today >= g_wreq->max_jobs_per_day) {
-        g_wreq->daily_result_quota_exceeded = true;
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] stopping work search - daily quota exceeded (%d>=%d)\n",
-                g_reply->host.nresults_today, g_wreq->max_jobs_per_day
-            );
-        }
-        return false;
-    }
-
     if (g_wreq->njobs_on_host >= g_wreq->max_jobs_on_host) {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
@@ -1148,7 +1178,12 @@ int add_result_to_reply(
     } else {
         g_wreq->njobs_on_host_cpu++;
     }
-    if (!resent_result) g_reply->host.nresults_today++;
+    if (!resent_result) {
+        DB_HOST_APP_VERSION* havp = bavp->host_app_version();
+        if (havp) {
+            havp->n_jobs_today++;
+        }
+    }
 
     // add this result to workload for simulation
     //
@@ -1179,10 +1214,10 @@ int add_result_to_reply(
     // mark it as replicated
     //
     if (wu.target_nresults == 1 && app->target_nresults > 1) {
-        if (g_wreq->trust) {
+        if (bavp->trusted) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%d] sending to trusted host, not replicating\n", wu.id
+                    "[send] [WU#%d] using trusted app version, not replicating\n", wu.id
                 );
             }
         } else {
@@ -1355,17 +1390,18 @@ static void explain_to_user() {
                 "low"
             );
         }
-        if (g_wreq->daily_result_quota_exceeded) {
+        DB_HOST_APP_VERSION* havp = quota_exceeded_version();
+        if (havp) {
             struct tm *rpc_time_tm;
             int delay_time;
 
             sprintf(helpful, "(reached daily quota of %d tasks)",
-                g_wreq->max_jobs_per_day
+                havp->max_jobs_per_day
             );
             g_reply->insert_message(helpful, "high");
             log_messages.printf(MSG_NORMAL,
-                "Daily result quota %d exceeded for host %d\n",
-                g_wreq->max_jobs_per_day, g_reply->host.id
+                "Daily result quota %d exceeded for app version %d\n",
+                havp->max_jobs_per_day, havp->app_version_id
             );
 
             // set delay so host won't return until a random time in
@@ -1414,30 +1450,6 @@ static void explain_to_user() {
                 g_reply->host.id, g_wreq->njobs_on_host_gpu
             );
         }
-    }
-}
-
-#define ER_MAX  0.05
-// decide whether to unreplicated jobs to this host
-//
-void set_trust() {
-    g_wreq->trust = false;
-    if (g_reply->host.error_rate > ER_MAX) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] set_trust: error rate %f > %f, don't trust\n",
-                g_reply->host.error_rate, ER_MAX
-            );
-        }
-        return;
-    }
-    double x = sqrt(g_reply->host.error_rate/ER_MAX);
-    if (drand() > x) g_wreq->trust = true;
-    if (config.debug_send) {
-        log_messages.printf(MSG_NORMAL,
-            "[send] set_trust: random choice for error rate %f: %s\n",
-            g_reply->host.error_rate, g_wreq->trust?"yes":"no"
-        );
     }
 }
 
@@ -1543,94 +1555,63 @@ void send_work_setup() {
     }
 }
 
-static void read_host_app_versions() {
-    DB_HOST_APP_VERSION hav;
-    char clause[256];
-
-    sprintf(clause, "where host_id=%d", g_reply->host.id);
-    while (!hav.enumerate(clause)) {
-        g_wreq->host_app_versions.push_back(hav);
-    }
-}
-
-// update the host_scale_time field of host_app_version records
-// for which we're sending jobs, and for which scale_probation is set.
-// If the record is not there, create it.
+// Update host_scale_time of host_app_version records for which we send jobs,
+// and for which scale_probation is set.
+// If a record is not in DB, create it.
 //
-int update_host_scale_times(vector<RESULT>& results, int hostid) {
-    vector<DB_HOST_APP_VERSION> havs;
+int update_host_app_versions(vector<RESULT>& results, int hostid) {
+    vector<DB_HOST_APP_VERSION> new_havs;
     unsigned int i, j;
     int retval;
 
-    // make a list of the host_app_versions and compute scale times
-    //
     for (i=0; i<results.size(); i++) {
         RESULT& r = results[i];
         int gavid = generalized_app_version_id(r.app_version_id, r.appid);
-        bool found=false;
-        for (j=0; j<havs.size(); j++) {
-            DB_HOST_APP_VERSION& hav = havs[j];
-            if (hav.app_version_id == gavid) {
-                found = true;
-                if (r.report_deadline > hav.host_scale_time) {
-                    hav.host_scale_time = r.report_deadline;
+        DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
+        if (havp) {
+            if (havp->scale_probation && r.report_deadline > havp->host_scale_time) {
+                havp->host_scale_time = r.report_deadline;
+            }
+        } else {
+            bool found = false;
+            for (j=0; j<new_havs.size(); j++) {
+                DB_HOST_APP_VERSION& hav = new_havs[j];
+                if (hav.app_version_id == gavid) {
+                    found = true;
+                    if (r.report_deadline > hav.host_scale_time) {
+                        hav.host_scale_time = r.report_deadline;
+                    }
                 }
             }
-        }
-        if (!found) {
-            DB_HOST_APP_VERSION hav;
-            hav.host_id = hostid;
-            hav.app_version_id = gavid;
-            hav.host_scale_time = r.report_deadline;
-            havs.push_back(hav);
+            if (!found) {
+                DB_HOST_APP_VERSION hav;
+                hav.host_id = hostid;
+                hav.app_version_id = gavid;
+                hav.host_scale_time = r.report_deadline;
+                new_havs.push_back(hav);
+            }
         }
     }
 
     char query[256], clause[512];
 
-    // go through the list
+    // create new records
     //
-    for (i=0; i<havs.size(); i++) {
-        DB_HOST_APP_VERSION& hav = havs[i];
+    for (i=0; i<new_havs.size(); i++) {
+        DB_HOST_APP_VERSION& hav = new_havs[i];
 
-        // does it already exist in the DB?
-        //
-        HOST_APP_VERSION* havp = get_host_app_version(hav.app_version_id);
-        if (havp) {
-            if (havp->scale_probation) {
-                sprintf(query, "host_scale_time=%f", hav.host_scale_time);
-                sprintf(clause,
-                    "host_id=%d and app_version_id=%d",
+        hav.scale_probation = true;
+        retval = hav.insert();
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "hav.insert(): %d\n", retval
+            );
+        } else {
+            if (config.debug_credit) {
+                log_messages.printf(MSG_NORMAL,
+                    "[credit] created host_app_version record (%d, %d)\n",
                     hav.host_id, hav.app_version_id
                 );
-                retval = hav.update_fields_noid(query, clause);
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL,
-                        "hav.update_fields_noid(): %d\n", retval
-                    );
-                } else {
-                    if (config.debug_credit) {
-                        log_messages.printf(MSG_NORMAL,
-                            "[credit] updating host scale time for (%d, %d)\n",
-                            hav.host_id, hav.app_version_id
-                        );
-                    }
-                }
-            }
-        } else {
-            hav.scale_probation = true;
-            retval = hav.insert();
-            if (retval) {
-                log_messages.printf(MSG_CRITICAL,
-                    "hav.insert(): %d\n", retval
-                );
-            } else {
-                if (config.debug_credit) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[credit] created host_app_version record (%d, %d)\n",
-                        hav.host_id, hav.app_version_id
-                    );
-                }
             }
         }
     }
@@ -1652,15 +1633,15 @@ void send_work() {
         return;
     }
 
-    read_host_app_versions();
     if (g_wreq->anonymous_platform) {
         estimate_flops_anon_platform();
     }
 
-    get_host_info();
-    get_prefs_info();
+    // decide on attributes of HOST_APP_VERSIONS
+    //
+    get_reliability_and_trust();
 
-    set_trust();
+    get_prefs_info();
 
     if (config.enable_assignment) {
         if (send_assigned_jobs()) {
@@ -1722,10 +1703,10 @@ void send_work() {
     }
 
 done:
-    retval = update_host_scale_times(g_reply->results, g_reply->host.id);
+    retval = update_host_app_versions(g_reply->results, g_reply->host.id);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "update_host_scale_times() failed: %d\n", retval
+            "update_host_app_versions() failed: %d\n", retval
         );
     }
     explain_to_user();

@@ -34,8 +34,8 @@ void usage(char *name) {
         "Displays the work_item part of shared-memory structure.\n\n"
         "Usage: %s [OPTION]\n\n"
         "Options:\n"
-        "  [ -h | -help | --help ]        Show this help text.\n"
-        "  [ -v | -version | --version ]  Shows version information.\n",
+        "  [ -h | --help ]        Show this help text.\n"
+        "  [ -v | --version ]     Shows version information.\n",
         name
     );
 }
@@ -47,10 +47,10 @@ int main(int argc, char *argv[]) {
 
     for (int c = 1; c < argc; c++) {
         std::string option(argv[c]);
-        if(option == "-h" || option == "-help" || option == "--help") {
+        if(option == "-h" || option == "--help") {
             usage(argv[0]);
             exit(0);
-        } else if(option == "-v" || option == "-version" || option == "--version") {
+        } else if(option == "-v" || option == "--version") {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {

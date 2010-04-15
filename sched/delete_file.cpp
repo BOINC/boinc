@@ -45,10 +45,10 @@ void usage(char* name) {
         "Arrange to delete a file from a host.\n\n"
         "Usage: %s OPTION...\n\n"
         "Options:\n"
-        "  -file_name F                 Specify te file to delete.\n"
-        "  -host_id H                   Specify the coresponding host\n"
-        "  [-h | -help | --help]        Show this help text.\n"
-        "  [-v | -version | --version]  Show version information.\n",
+        "  --file_name F                 Specify te file to delete.\n"
+        "  --host_id H                   Specify the coresponding host\n"
+        "  [-h | --help]                 Show this help text.\n"
+        "  [-v | --version]              Show version information.\n",
         name
     );
 }
@@ -81,24 +81,24 @@ int main(int argc, char** argv) {
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-host_id")) {
-            if(!argv[++i]) {
+        if (is_arg(argv[i], "host_id")) {
+            if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             host_id = atoi(argv[i]);
-        } else if(!strcmp(argv[i], "-file_name")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "file_name")) {
+            if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             strcpy(file_name, argv[i]);
-        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "-h")) {
+        } else if (is_arg(argv[i], "help") || is_arg(argv[i], "h")) {
             usage(argv[0]);
             exit(0);
-        } else if (!strcmp(argv[i], "--version") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "-v")) {
+        } else if (is_arg(argv[i], "version") || is_arg(argv[i], "v")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {

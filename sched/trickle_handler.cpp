@@ -17,9 +17,9 @@
 //
 // trickle_handler - framework for trickle-up message handler
 //
-//  -variety variety
-//  [-d debug_level]
-//  [-one_pass]     // make one pass through table, then exit
+//  --variety variety
+//  [--d debug_level]
+//  [--one_pass]     // make one pass through table, then exit
 //
 // This program must be linked with an app-specific function:
 //
@@ -147,11 +147,11 @@ void usage(char *name) {
         "return nonzero on error\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  -variety X                     Set Variety to X\n"
-        "  [ -d X ]                       Set debug level to X\n"
-        "  [ -one_pass ]                  Make one pass through table, then exit\n"
-        "  [ -h | -help | --help ]        Show this help text\n"
-        "  [ -v | -version | --version ]  Shows version information\n",
+        "  --variety X                     Set Variety to X\n"
+        "  [ -d X ]                        Set debug level to X\n"
+        "  [ --one_pass ]                  Make one pass through table, then exit\n"
+        "  [ -h | --help ]                 Show this help text\n"
+        "  [ -v | --version ]              Shows version information\n",
         name
     );
 }
@@ -163,9 +163,9 @@ int main(int argc, char** argv) {
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-one_pass")) {
+        if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[i], "-variety")) {
+        } else if (is_arg(argv[i], "variety")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
@@ -181,10 +181,10 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
-        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage(argv[0]);
             exit(0);
         } else {

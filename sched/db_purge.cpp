@@ -109,23 +109,28 @@ void open_archive(const char* filename_prefix, FILE*& f){
     char path[256];
     char command[512];
 
-    if(daily_dir) {
-      time_t time_time = time_int;
-      char dirname[32];
-      strftime(dirname, sizeof(dirname), "%Y_%m_%d", gmtime(&time_time));
-      strcpy(path, config.project_path("archives/%s",dirname));
-      if(mkdir(path,0775))
-	if(errno!=EEXIST) {
-	  char errstr[256];
-	  sprintf(errstr, "could not create directory '%s': %s\n",
-		  path, strerror(errno));
-	  fail(errstr);
-	}
-      strcpy(path, config.project_path("archives/%s/%s_%d.xml",
-				       dirname, filename_prefix, time_int));
+    if (daily_dir) {
+        time_t time_time = time_int;
+        char dirname[32];
+        strftime(dirname, sizeof(dirname), "%Y_%m_%d", gmtime(&time_time));
+        strcpy(path, config.project_path("archives/%s",dirname));
+        if (mkdir(path,0775)) {
+            if(errno!=EEXIST) {
+                char errstr[256];
+                sprintf(errstr, "could not create directory '%s': %s\n",
+                path, strerror(errno));
+                fail(errstr);
+            }
+        }
+        strcpy(path,
+            config.project_path(
+                "archives/%s/%s_%d.xml", dirname, filename_prefix, time_int
+            )
+        );
     } else {
-      strcpy(path, config.project_path("archives/%s_%d.xml",
-				       filename_prefix, time_int));
+        strcpy(path,
+            config.project_path("archives/%s_%d.xml", filename_prefix, time_int)
+        );
     }
     // append appropriate suffix for file type
     strcat(path, suffix[compression_type]);
@@ -192,15 +197,19 @@ void close_archive(const char *filename, FILE*& fp){
     fp = NULL;
 
     // reconstruct the filename
-    if(daily_dir) {
-      time_t time_time = time_int;
-      char dirname[32];
-      strftime(dirname, sizeof(dirname), "%Y_%m_%d", gmtime(&time_time));
-      strcpy(path, config.project_path("archives/%s/%s_%d.xml",
-				       dirname, filename, time_int));
+    if (daily_dir) {
+        time_t time_time = time_int;
+        char dirname[32];
+        strftime(dirname, sizeof(dirname), "%Y_%m_%d", gmtime(&time_time));
+        strcpy(path,
+            config.project_path(
+                  "archives/%s/%s_%d.xml", dirname, filename, time_int
+            )
+        );
     } else {
-      strcpy(path, config.project_path("archives/%s_%d.xml",
-				       filename, time_int));
+        strcpy(path,
+            config.project_path("archives/%s_%d.xml", filename, time_int)
+        );
     }
     // append appropriate file type
     strcat(path, suffix[compression_type]);
@@ -443,9 +452,10 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
                 "Archived result [%d] to a file\n", result.id
             );
         }
-	if(!dont_delete)
-	  retval = result.delete_from_db();
-        if (retval) return retval;
+        if (!dont_delete) {
+            retval = result.delete_from_db();
+            if (retval) return retval;
+        }
         log_messages.printf(MSG_DEBUG,
             "Purged result [%d] from database\n", result.id
         );
@@ -530,13 +540,15 @@ bool do_pass() {
 
         // purge workunit from DB
         //
-	if(!dont_delete)
-	  retval= wu.delete_from_db();
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "Can't delete workunit [%d] from database:%d\n", wu.id, retval
-            );
-            exit(6);
+        if (!dont_delete) {
+            retval= wu.delete_from_db();
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "Can't delete workunit [%d] from database:%d\n",
+                    wu.id, retval
+                );
+                exit(6);
+            }
         }
         log_messages.printf(MSG_DEBUG,
             "Purged workunit [%d] from database\n", wu.id
@@ -589,19 +601,19 @@ void usage(char* name) {
     fprintf(stderr,
         "Purge workunit and result records that are no longer needed.\n\n"
         "Usage: %s [options]\n"
-        "    [-d N]                       Set verbosity level (1 to 4)\n"
-        "    [-min_age_days N]            Purge Wus w/ mod time at least N days ago\n"
-        "    [-max N]                     Purge at more N WUs\n"
-        "    [-zip]                       Compuress output files using zip\n"
-        "    [-gzip]                      uress output files using gzip\n"
-        "    [-no_archive]                Don't write output files, just purge\n"
-        "    [-daily_dir]                 Write archives in a new directory each day\n"
-        "    [-max_wu_per_file N]         Write at most N WUs per output file\n"
-        "    [-sleep N]                   Sleep N sec after DB scan\n"
-        "    [-one_pass]                  Make one DB scan, then exit\n"
-        "    [-dont_delete]               Don't actually delete anything from the DB (for testing only)\n"
-        "    [-h | -help | --help]        Show this help text\n"
-        "    [-v | -version | --version]  Show version information\n",
+        "    [-d N | --debug_level N]      Set verbosity level (1 to 4)\n"
+        "    [--min_age_days N]            Purge Wus w/ mod time at least N days ago\n"
+        "    [--max N]                     Purge at more N WUs\n"
+        "    [--zip]                       Compuress output files using zip\n"
+        "    [--gzip]                      uress output files using gzip\n"
+        "    [--no_archive]                Don't write output files, just purge\n"
+        "    [--daily_dir]                 Write archives in a new directory each day\n"
+        "    [--max_wu_per_file N]         Write at most N WUs per output file\n"
+        "    [--sleep N]                   Sleep N sec after DB scan\n"
+        "    [--one_pass]                  Make one DB scan, then exit\n"
+        "    [--dont_delete]               Don't actually delete anything from the DB (for testing only)\n"
+        "    [--h | --help]                Show this help text\n"
+        "    [--v | --version]             Show version information\n",
         name
     );
 }
@@ -614,12 +626,12 @@ int main(int argc, char** argv) {
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-one_pass")) {
+        if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[i], "-dont_delete")) {
+        } else if (is_arg(argv[i], "dont_delete")) {
             dont_delete = true;
-        } else if (!strcmp(argv[i], "-d")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
@@ -627,36 +639,36 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "-min_age_days")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "min_age_days")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             min_age_days = atof(argv[i]);
-        } else if (!strcmp(argv[i], "-max")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "max")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             max_number_workunits_to_purge= atoi(argv[i]);
-        } else if (!strcmp(argv[i], "-daily_dir")) {
-	  daily_dir=true;
-        } else if (!strcmp(argv[i], "-zip")) {
+        } else if (is_arg(argv[i], "daily_dir")) {
+            daily_dir=true;
+        } else if (is_arg(argv[i], "zip")) {
             compression_type=COMPRESSION_ZIP;
-        } else if (!strcmp(argv[i], "-gzip")) {
+        } else if (is_arg(argv[i], "gzip")) {
             compression_type=COMPRESSION_GZIP;
-        } else if (!strcmp(argv[i], "-max_wu_per_file")) {
+        } else if (is_arg(argv[i], "max_wu_per_file")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             max_wu_per_file = atoi(argv[i]);
-        } else if (!strcmp(argv[i], "-no_archive")) {
+        } else if (is_arg(argv[i], "no_archive")) {
             no_archive = true;
-        } else if (!strcmp(argv[i], "-sleep")) {
+        } else if (is_arg(argv[i], "-sleep")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
@@ -671,10 +683,10 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "-h")) {
+        } else if (is_arg(argv[i], "--help") || is_arg(argv[i], "-help") || is_arg(argv[i], "-h")) {
             usage(argv[0]);
             return 0;
-        } else if (!strcmp(argv[i], "--version") || !strcmp(argv[i], "-version")) {
+        } else if (is_arg(argv[i], "--version") || is_arg(argv[i], "-version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {
@@ -718,12 +730,12 @@ int main(int argc, char** argv) {
             break;
         }
         if (!do_pass() && !one_pass) {
-	  log_messages.printf(MSG_NORMAL, "Sleeping....\n");
-	  sleep(sleep_sec);
+            log_messages.printf(MSG_NORMAL, "Sleeping....\n");
+            sleep(sleep_sec);
         }
-	if (one_pass) {
-	  break;
-	}
+        if (one_pass) {
+            break;
+        }
     }
 
     // files and database are closed by exit handler

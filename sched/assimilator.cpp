@@ -62,14 +62,14 @@ void usage(char** argv) {
 
     fprintf(stderr, "usage: %s [options]\n"
         "    Options:\n"
-        "    -app name            Process jobs for the given application\n"
-        "    [-sleep_interval X]  Sleep X seconds if no jobs to process (default 10)\n"
-        "    [-mod N R]           Process jobs with mod(ID, N) == R\n"
-        "    [-one_pass]          Do one DB enumeration, then exit\n"
-        "    [-one_pass_N_WU N]   Process at most N jobs\n"
-        "    [-d N]               Set verbosity level (1 to 4)\n"
-        "    [-dont_update_db]    Don't update DB (for testing)\n"
-        "    [-noinsert]          Don't insert records in app-specific DB\n",
+        "    --app name            Process jobs for the given application\n"
+        "    [--sleep_interval X]  Sleep X seconds if no jobs to process (default 10)\n"
+        "    [--mod N R]           Process jobs with mod(ID, N) == R\n"
+        "    [--one_pass]          Do one DB enumeration, then exit\n"
+        "    [--one_pass_N_WU N]   Process at most N jobs\n"
+        "    [-d | --debug_level N]       Set verbosity level (1 to 4)\n"
+        "    [--dont_update_db]    Don't update DB (for testing)\n"
+        "    [--noinsert]          Don't insert records in app-specific DB\n",
         argv[0]
     );
     exit(0);
@@ -206,35 +206,35 @@ int main(int argc, char** argv) {
     g_argc = argc;
     g_argv = argv;
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-one_pass_N_WU")) {
+        if (is_arg(argv[i], "one_pass_N_WU")) {
             one_pass_N_WU = atoi(argv[++i]);
             one_pass = true;
-        } else if (!strcmp(argv[i], "-sleep_interval")) {
+        } else if (is_arg(argv[i], "sleep_interval")) {
             sleep_interval = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-one_pass")) {
+        } else if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[i], "-d")) {
+        } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             int dl = atoi(argv[++i]);
             log_messages.set_debug_level(dl);
             if (dl ==4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "-app")) {
+        } else if (is_arg(argv[i], "app")) {
             strcpy(app.name, argv[++i]);
-        } else if (!strcmp(argv[i], "-dont_update_db")) {
+        } else if (is_arg(argv[i], "dont_update_db")) {
             // This option is for testing your assimilator.  When set,
             // it ensures that the assimilator does not actually modify
             // the assimilate_state of the workunits, so you can run
             // your assimilator over and over again without affecting
             // your project.
             update_db = false;
-        } else if (!strcmp(argv[i], "-noinsert")) {
+        } else if (is_arg(argv[i], "noinsert")) {
             // This option is also for testing and is used to 
             // prevent the inserting of results into the *backend*
             // (as opposed to the boinc) DB.
             noinsert = true;
-        } else if (!strcmp(argv[i], "-mod")) {
+        } else if (is_arg(argv[i], "mod")) {
             wu_id_modulus   = atoi(argv[++i]);
             wu_id_remainder = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
+        } else if (is_arg(argv[i], "help") || is_arg(argv[i], "h")) {
             usage(argv);
         } else {
             log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);

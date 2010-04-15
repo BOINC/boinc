@@ -16,11 +16,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // make_work
-//      -wu_name name
-//      [ -wu_name name2 ... ]
-//      [ -cushion n ]      // make work if fewer than N unsent results
-//      [ -max_wus n ]      // don't make work if more than N total WUs
-//      [ -one_pass ]       // quit after one pass
+//      --wu_name name
+//      [ --wu_name name2 ... ]
+//      [ --cushion n ]      // make work if fewer than N unsent results
+//      [ --max_wus n ]      // don't make work if more than N total WUs
+//      [ --one_pass ]       // quit after one pass
 //
 // Create WU and result records as needed to maintain a pool of work
 // (for testing purposes).
@@ -70,13 +70,13 @@ void replace_file_name(char* xml_doc, char* filename, char* new_filename) {
     p = strtok(buf,"\n");
     while (p) {
         if (parse_str(p, "<name>", temp, sizeof(temp))) {
-            if(!strcmp(filename, temp)) {
+            if (!strcmp(filename, temp)) {
                 replace_element_contents(
                     xml_doc + (p - buf),"<name>","</name>", new_filename
                 );
             }
         } else if (parse_str(p, "<file_name>", temp, sizeof(temp))) {
-            if(!strcmp(filename, temp)) {
+            if (!strcmp(filename, temp)) {
                 replace_element_contents(
                     xml_doc+(p-buf), "<file_name>","</file_name>", new_filename
                 );
@@ -273,16 +273,14 @@ void usage(char *name) {
         "Clones the WU of the given name.\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  -wu_name name                  the name for the WU\n"
-        "                                 (can be repeated)\n"
-        "  [ -cushion N ]                 "
-        "make work if fewer than N unsent results\n"
-        "  [ -max_wus n ]                 "
-        "don't make work if more than N total WUs\n"
-        "  [ -one_pass ]                  quit after one pass\n"
-        "  [ -d X ]                       set debug level to X.\n"
-        "  [ -h | -help | --help ]        shows this help text.\n"
-        "  [ -v | -version | --version ]  shows version information\n",
+        "  --wu_name name                  the name for the WU\n"
+        "                                  (can be repeated)\n"
+        "  [ --cushion N ]                 make work if fewer than N unsent results\n"
+        "  [ --max_wus n ]                 don't make work if more than N total WUs\n"
+        "  [ --one_pass ]                  quit after one pass\n"
+        "  [ --d X ]                       set debug level to X.\n"
+        "  [ -h | --help ]                 shows this help text.\n"
+        "  [ -v | --version ]              shows version information\n",
         name
     );
 }
@@ -292,15 +290,15 @@ int main(int argc, char** argv) {
     vector<string> wu_names;
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-cushion")) {
-            if(!argv[++i]) {
+        if (is_arg(argv[i], "cushion")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             cushion = atoi(argv[i]);
-        } else if (!strcmp(argv[i], "-d")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "d")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
@@ -308,26 +306,26 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "-wu_name")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "wu_name")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             wu_names.push_back(string(argv[i]));
-        } else if (!strcmp(argv[i], "-max_wus")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "max_wus")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             max_wus = atoi(argv[i]);
-        } else if (!strcmp(argv[i], "-one_pass")) {
+        } else if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "-help") || !strcmp(argv[1], "--help")) {
+        } else if (is_arg(argv[1], "h") || is_arg(argv[1], "help")) {
             usage(argv[0]);
             exit(0);
-        } else if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "-version") || !strcmp(argv[1], "--version")) {
+        } else if (is_arg(argv[1], "v") || is_arg(argv[1], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {

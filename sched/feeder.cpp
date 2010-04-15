@@ -123,7 +123,7 @@ using std::vector;
 #endif
 
 #define DEFAULT_SLEEP_INTERVAL  5
-#define AV_UPDATE_PERIOD      10
+#define AV_UPDATE_PERIOD      600
 
 #define REREAD_DB_FILENAME      "reread_db"
 
@@ -659,34 +659,20 @@ void usage(char *name)
         "including an array of work items (results/workunits to send).\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  [ -d X ]                         "
-        "Set Debug level to X\n"
-        "  [ -allapps ]                     "
-        "Interleave results from all applications uniformly.\n"
-        "  [ -random_order ]                "
-        "order by \"random\" field of result\n"
-        "  [ -priority_order ]              "
-        "order by decreasing \"priority\" field of result\n"
-        "  [ -priority_order_create_time ]  "
-        "order by priority, then by increasing WU create time\n"
-        "  [ -purge_stale ]                 "
-        "remove work items from the shared memory segment\n"
-        "                                   "
-        "that have been there for longer then x minutes\n"
-        "                                   "
-        "but haven't been assigned\n"
-        "  [ -appids a1{,a2} ]              "
-        "get work only for appids a1,... (comma-separated list)\n"
-        "  [ -mod n i ]                     "
-        "handle only results with (id mod n) == i\n"
-        "  [ -wmod n i ]                    "
-        "handle only workunits with (id mod n) == i\n"
-        "  [ -sleep_interval x ]            "
-        "sleep x seconds if nothing to do\n"
-        "  [ -h | -help | --help ]          "
-        "Shows this help text.\n"
-        "  [ -v | -version | --verison ]    "
-        "Shows version information.\n",
+        "  [ -d X | --debug_level X]         Set Debug level to X\n"
+        "  [ --allapps ]                     Interleave results from all applications uniformly.\n"
+        "  [ --random_order ]                order by \"random\" field of result\n"
+        "  [ --priority_order ]              order by decreasing \"priority\" field of result\n"
+        "  [ --priority_order_create_time ]  order by priority, then by increasing WU create time\n"
+        "  [ --purge_stale ]                 remove work items from the shared memory segment\n"
+        "                                    that have been there for longer then x minutes\n"
+        "                                    but haven't been assigned\n"
+        "  [ --appids a1{,a2} ]              get work only for appids a1,... (comma-separated list)\n"
+        "  [ --mod n i ]                     handle only results with (id mod n) == i\n"
+        "  [ --wmod n i ]                    handle only workunits with (id mod n) == i\n"
+        "  [ --sleep_interval x ]            sleep x seconds if nothing to do\n"
+        "  [ -h | --help ]                   Shows this help text.\n"
+        "  [ -v | --version ]                Shows version information.\n",
         name, name
     );
 }
@@ -698,8 +684,8 @@ int main(int argc, char** argv) {
     char* appids=NULL;
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-d")) {
-            if(!argv[++i]) {
+        if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
@@ -707,18 +693,18 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "-random_order")) {
+        } else if (is_arg(argv[i], "random_order")) {
             order_clause = "order by r1.random ";
-        } else if (!strcmp(argv[i], "-allapps")) {
+        } else if (is_arg(argv[i], "allapps")) {
             all_apps = true;
-        } else if (!strcmp(argv[i], "-priority_order")) {
+        } else if (is_arg(argv[i], "priority_order")) {
             order_clause = "order by r1.priority desc ";
-        } else if (!strcmp(argv[i], "-priority_order_create_time")) {
+        } else if (is_arg(argv[i], "priority_order_create_time")) {
             order_clause = "order by r1.priority desc, r1.workunitid";
-        } else if (!strcmp(argv[i], "-purge_stale")) {
+        } else if (is_arg(argv[i], "purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
-        } else if (!strcmp(argv[i], "-appids")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "appids")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
@@ -726,8 +712,8 @@ int main(int argc, char** argv) {
             strcat(mod_select_clause, " and workunit.appid in (");
             strcat(mod_select_clause, argv[i]);
             strcat(mod_select_clause, ")");
-        } else if (!strcmp(argv[i], "-mod")) {
-            if(!argv[i+1] || !argv[i+2]) {
+        } else if (is_arg(argv[i], "mod")) {
+            if (!argv[i+1] || !argv[i+2]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
                 usage(argv[0]);
                 exit(1);
@@ -736,8 +722,8 @@ int main(int argc, char** argv) {
             int j = atoi(argv[++i]);
             sprintf(mod_select_clause, "and r1.id %% %d = %d ", n, j);
             is_main_feeder = (j==0);
-        } else if (!strcmp(argv[i], "-wmod")) {
-            if(!argv[i+1] || !argv[i+2]) {
+        } else if (is_arg(argv[i], "wmod")) {
+            if (!argv[i+1] || !argv[i+2]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
                 usage(argv[0]);
                 exit(1);
@@ -746,17 +732,17 @@ int main(int argc, char** argv) {
             int j = atoi(argv[++i]);
             sprintf(mod_select_clause, "and workunit.id %% %d = %d ", n, j);
             is_main_feeder = (j==0);
-        } else if (!strcmp(argv[i], "-sleep_interval")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "sleep_interval")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             sleep_interval = atof(argv[i]);
-        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             show_version();
             exit(0);
-        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage(argv[0]);
             exit(0);
         } else {

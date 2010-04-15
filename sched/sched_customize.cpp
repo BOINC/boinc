@@ -513,7 +513,7 @@ bool JOB::get_score() {
 
     // Find the best app version to use.
     //
-    bavp = get_app_version(wu, true);
+    bavp = get_app_version(wu, true, false);
     if (!bavp) return false;
 
     retval = wu_is_infeasible_fast(
@@ -568,7 +568,7 @@ bool JOB::get_score() {
             
     // if job needs to get done fast, send to fast/reliable host
     //
-    if (g_wreq->reliable && (wu_result.need_reliable)) {
+    if (bavp->reliable && (wu_result.need_reliable)) {
         score += 1;
     }
     

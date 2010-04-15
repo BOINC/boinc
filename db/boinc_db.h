@@ -307,8 +307,7 @@ struct HOST {
     double avg_turnaround;  // recent average result turnaround time
     char host_cpid[256];    // host cross-project ID
     char external_ip_addr[256]; // IP address seen by scheduler
-    int max_results_day;
-
+    int _max_results_day;
         // MRD is dynamically adjusted to limit work sent to bad hosts.
         // The maximum # of results sent per day is
         // max_results_day * (NCPUS + NCUDA * cuda_multiplier).
@@ -316,8 +315,11 @@ struct HOST {
         // -1 means this host is blacklisted - don't return results
         // or accept results or trickles; just send it an error message
         // Otherwise it lies in the range 0 .. config.daily_result_quota
-    double error_rate;      // dynamic estimate of fraction of results
-                            // that fail validation
+        // DEPRECATED: only use is -1 means host is blacklisted
+    double _error_rate;
+        // dynamic estimate of fraction of results
+        // that fail validation
+        // DEPRECATED
 
     // the following not stored in DB
     //
@@ -630,12 +632,19 @@ struct HOST_APP_VERSION {
     AVERAGE_VAR turnaround;
 
     void clear();
+
+    // not stored in the DB
+    bool reliable;
+    bool trusted;
+    bool daily_quota_exceeded;
 };
 
 struct DB_HOST_APP_VERSION : public DB_BASE, public HOST_APP_VERSION {
     DB_HOST_APP_VERSION(DB_CONN* p=0);
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
+    int update_scheduler(DB_HOST_APP_VERSION&);
+    int update_validator(DB_HOST_APP_VERSION&);
 };
 
 struct CREDIT_MULTIPLIER {
@@ -910,6 +919,7 @@ struct SCHED_RESULT_ITEM {
     int exit_status;
     int file_delete_state;
     double elapsed_time;
+    int app_version_id;
 
     void clear();
     void parse(MYSQL_ROW& row);

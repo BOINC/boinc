@@ -17,8 +17,8 @@
 
 //
 // message_handler - check and validate new messages
-//  [-d debug_level]
-//  [-one_pass]     // make one pass through table, then exit
+//  [--d debug_level]
+//  [--one_pass]     // make one pass through table, then exit
 //
 // int handle_message(MSG_FROM_HOST&)
 //    handle a message from the host
@@ -132,10 +132,9 @@ void usage(char *name) {
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
         "  [ -d X ]                        Set debug level to X\n"
-        "  [ -one_pass ]                   "
-        "make one pass through table, then exit\n"
-        "  [ -h | -help | --help ]         show this help text.\n"
-        "  [ -v |  -version | --version ]  show version informaation\n",
+        "  [ --one_pass ]                  make one pass through table, then exit\n"
+        "  [ -h --help ]                   show this help text.\n"
+        "  [ -v | --version ]              show version information\n",
         name
     );
 }
@@ -147,10 +146,10 @@ int main(int argc, char** argv) {
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-one_pass")) {
+        if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[i], "-d")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "d")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
@@ -158,10 +157,10 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage(argv[0]);
             exit(0);
-        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {

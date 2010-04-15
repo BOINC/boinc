@@ -370,18 +370,6 @@ int grant_credit(
 
 ///////////////////// V2 CREDIT STUFF STARTS HERE ///////////////////
 
-
-// parameters for maintaining averages.
-// per-host averages respond faster to change
-
-#define HAV_AVG_THRESH  20
-#define HAV_AVG_WEIGHT  .01
-#define HAV_AVG_LIMIT   10
-
-#define AV_AVG_THRESH   100
-#define AV_AVG_WEIGHT   .001
-#define AV_AVG_LIMIT    10
-
 #define PFC_MODE_NORMAL  0
     // PFC was computed in the "normal" way,
     // i.e. not anon platform, and reflects version scaling
@@ -545,7 +533,8 @@ int update_av_scales(SCHED_SHMEM* ssp) {
     return 0;
 }
 
-// look up or create a HOST_APP_VERSION record
+// look up HOST_APP_VERSION record; called from validator and transitioner.
+// Normally the record will exist; if not create it (transitional case)
 //
 int hav_lookup(DB_HOST_APP_VERSION& hav, int hostid, int avid) {
     int retval;
@@ -575,43 +564,6 @@ DB_APP_VERSION* av_lookup(int id, vector<DB_APP_VERSION>& app_versions) {
     return &(app_versions[app_versions.size()-1]);
 }
 
-// called from the validator (get_pfc()).
-// Do a non-careful update.
-//
-static int write_hav(DB_HOST_APP_VERSION& hav) {
-    char set_clause[8192], where_clause[8192];
-    sprintf(set_clause,
-        "pfc_n=%.15e, "
-        "pfc_avg=%.15e, "
-        "et_n=%.15e, "
-        "et_avg=%.15e, "
-        "et_q=%.15e, "
-        "et_var=%.15e, "
-        "turnaround_n=%.15e, "
-        "turnaround_avg=%.15e, "
-        "turnaround_q=%.15e, "
-        "turnaround_var=%.15e",
-        hav.pfc.n,
-        hav.pfc.avg,
-        hav.et.n,
-        hav.et.avg,
-        hav.et.q,
-        hav.et.var,
-        hav.turnaround.n,
-        hav.turnaround.avg,
-        hav.turnaround.q,
-        hav.turnaround.var
-    );
-    if (hav.host_scale_time < dtime()) {
-        strcat (set_clause, ", scale_probation=0");
-    }
-    sprintf(where_clause,
-        "host_id=%d and app_version_id=%d ",
-        hav.host_id, hav.app_version_id
-    );
-    return hav.update_fields_noid(set_clause, where_clause);
-}
-
 // Compute or estimate "claimed peak FLOP count".
 // Possibly update host_app_version records and write to DB.
 // Possibly update app_version records in memory and let caller write to DB,
@@ -620,9 +572,9 @@ static int write_hav(DB_HOST_APP_VERSION& hav) {
 int get_pfc(
     RESULT& r, WORKUNIT& wu, DB_APP& app,       // in
     vector<DB_APP_VERSION>&app_versions,        // in/out
+    DB_HOST_APP_VERSION& hav,                   // in/out
     double& pfc, int& mode                      // out
 ) {
-    DB_HOST_APP_VERSION hav;
     DB_APP_VERSION* avp=0;
     int retval;
 
@@ -657,8 +609,10 @@ int get_pfc(
     }
 
     int gavid = generalized_app_version_id(r.app_version_id, r.appid);
-    retval = hav_lookup(hav, r.hostid, gavid);
-    if (retval) return retval;
+
+    if (!hav.host_id) {
+        return ERR_NOT_FOUND;
+    }
 
     // old clients report CPU time but not elapsed time.
     // Use HOST_APP_VERSION.et to track distribution of CPU time.
@@ -704,7 +658,6 @@ int get_pfc(
                 );
             }
         }
-        write_hav(hav);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] [RESULT#%d] old client: returning PFC %f\n",
@@ -751,7 +704,7 @@ int get_pfc(
                     );
                 }
             }
-            if (do_scale && dtime() < hav.host_scale_time) {
+            if (do_scale && app.host_scale_check && dtime() < hav.host_scale_time) {
                 do_scale = false;
                 if (config.debug_credit) {
                     log_messages.printf(MSG_NORMAL,
@@ -804,7 +757,7 @@ int get_pfc(
 
         bool do_scale = true;
         double host_scale = 0;
-        if (dtime() < hav.host_scale_time) {
+        if (app.host_scale_check && dtime() < hav.host_scale_time) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
@@ -906,8 +859,6 @@ int get_pfc(
         HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
     );
 
-    write_hav(hav);
-
     // keep track of credit per app version
     //
     if (avp) {
@@ -924,7 +875,9 @@ int get_pfc(
 //
 int assign_credit_set(
     WORKUNIT& wu, vector<RESULT>& results,
-    DB_APP& app, vector<DB_APP_VERSION>& app_versions,
+    DB_APP& app,
+    vector<DB_APP_VERSION>& app_versions,
+    vector<DB_HOST_APP_VERSION>& host_app_versions,
     double max_granted_credit, double& credit
 ) {
     unsigned int i;
@@ -935,7 +888,8 @@ int assign_credit_set(
     for (i=0; i<results.size(); i++) {
         RESULT& r = results[i];
         if (r.validate_state != VALIDATE_STATE_VALID) continue;
-        retval= get_pfc(r, wu, app, app_versions, pfc, mode);
+        DB_HOST_APP_VERSION& hav = host_app_versions[i];
+        retval = get_pfc(r, wu, app, app_versions, hav, pfc, mode);
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "get_pfc() error: %d\n", retval);
             return retval;
@@ -987,29 +941,23 @@ int assign_credit_set(
     return 0;
 }
 
-// A job has errored or timed out; put (host/app_version) on probation
-// Called from transitioner
+// A job has:
+// - errored out (scheduler)
+// - timed out (transitioner)
+// - failed validation (validator).
+// Put (host/app_version) on "host scale probation",
+// so that we won't use host scaling for a while.
 //
-int host_scale_probation(
-    DB_HOST& host, int appid, int app_version_id, double latency_bound
+void host_scale_probation(
+    DB_HOST_APP_VERSION& hav, double latency_bound
 ) {
-    DB_HOST_APP_VERSION hav;
-    char query[256], clause[512];
-
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
-            "[credit] [HOST#%d] Imposing scale probation\n", host.id
+            "[credit] [HAV#%d] Imposing scale probation\n", hav.app_version_id
         );
     }
-    sprintf(query,
-        "scale_probation=1, pfc_n=0, pfc_avg=0, host_scale_time=%f",
-        dtime()+latency_bound
-    );
-    sprintf(clause,
-        "host_id=%d and app_version_id=%d",
-        host.id, generalized_app_version_id(appid, app_version_id)
-    );
-    return hav.update_fields_noid(query, clause);
+    hav.scale_probation = 1;
+    hav.host_scale_time = dtime()+latency_bound;
 }
 
 // carefully write any app_version records that have changed;

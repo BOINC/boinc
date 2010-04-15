@@ -17,9 +17,9 @@
 
 //------------------------------------
 //
-// send_file [-host_id host_id] [-file_name file_name]
-// -host_id            name of host to upload from
-// -file_name          name of specific file, dominates workunit
+// send_file [options]
+// --host_id N           ID of host to upload from
+// --file_name name      name of file
 //
 // Create a result entries, initialized to sent, and corresponding
 // messages to the get the files.
@@ -180,24 +180,24 @@ int main(int argc, char** argv) {
 
     // get arguments
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-host_id")) {
-            if(!argv[++i]) {
+        if (is_arg(argv[i], "host_id")) {
+            if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             host_id = atoi(argv[i]);
-        } else if (!strcmp(argv[i], "-file_name")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "file_name")) {
+            if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             strcpy(file_name, argv[i]);
-        } else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage(argv[0]);
             exit(0);
-        } else if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {

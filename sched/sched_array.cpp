@@ -114,7 +114,7 @@ static bool quick_check(
 
     // Find the app and best app_version for this host.
     //
-    bavp = get_app_version(wu, true);
+    bavp = get_app_version(wu, true, g_wreq->reliable_only);
     if (!bavp) {
         if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
@@ -354,11 +354,12 @@ void send_work_old() {
 
     // give top priority to results that require a 'reliable host'
     //
-    if (g_wreq->reliable) {
+    if (g_wreq->has_reliable_version) {
         g_wreq->reliable_only = true;
         if (scan_work_array()) return;
+        g_wreq->reliable_only = false;
+        g_wreq->best_app_versions.clear();
     }
-    g_wreq->reliable_only = false;
 
     // give 2nd priority to results for a beta app
     // (projects should load beta work with care,

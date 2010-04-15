@@ -24,7 +24,7 @@
 //
 // Also updates the nusers field of teams
 //
-// usage: update_stats [-update_teams] [-update_users] [-update_hosts]
+// usage: update_stats [--update_teams] [--update_users] [--update_hosts]
 #include "config.h"
 #include <cstdio>
 #include <cstring>
@@ -188,12 +188,12 @@ void usage(char *name) {
         "Also updates the nusers field of teams\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  [ -d X ]                       Set debug level to X\n"
-        "  [ -update_teams ]              Updates teams.\n"
-        "  [ -update_users ]              Updates users.\n"
-        "  [ -update_hosts ]              Updates hosts.\n"
-        "  [ -h | -help | --help ]        Shows this help text\n"
-        "  [ -v | -version | --version ]  Shows version information\n",
+        "  [ -d X ]                        Set debug level to X\n"
+        "  [ --update_teams ]              Updates teams.\n"
+        "  [ --update_users ]              Updates users.\n"
+        "  [ --update_hosts ]              Updates hosts.\n"
+        "  [ -h | --help ]                 Shows this help text\n"
+        "  [ -v | --version ]              Shows version information\n",
         name
     );
 }
@@ -208,11 +208,11 @@ int main(int argc, char** argv) {
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-update_teams")) {
+        if (is_arg(argv[i], "update_teams")) {
             do_update_teams = true;
-        } else if (!strcmp(argv[i], "-update_users")) {
+        } else if (is_arg(argv[i], "update_users")) {
             do_update_users = true;
-        } else if (!strcmp(argv[i], "-update_hosts")) {
+        } else if (is_arg(argv[i], "update_hosts")) {
             do_update_hosts = true;
         } else if (!strcmp(argv[i], "-d")) {
             if (!argv[++i]) {
@@ -223,10 +223,10 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
-        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage(argv[0]);
             exit(0);
         } else {

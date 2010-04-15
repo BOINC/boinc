@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// wu_check [-repair]
+// wu_check
 // look for results with missing input files
-// -repair      change them to server_state OVER, outcome COULDNT_SEND
+// --repair      change them to server_state OVER, outcome COULDNT_SEND
 //
 // NOTE 1: this assumes that jobs have a single input file.
 // NOTE 2: should rewrite to enumerate WUs, not results
@@ -105,10 +105,10 @@ void usage(char *name) {
         "Looks for results with missing input files\n\n"
         "Usage: %s [OPTION]\n\n"
         "Options:\n"
-        "  [ -repair ]                    change them to server_state OVER,\n"
+        "  [ --repair ]                    change them to server_state OVER,\n"
         "                                 outcome COULDNT_SEND\n"
-        "  [ -h | -help | --help ]        Shows this help text\n"
-        "  [ -v | -version | --version ]  Shows version information\n",
+        "  [ -h | --help ]                Shows this help text\n"
+        "  [ -v | --version ]             Shows version information\n",
         name
     );
 }
@@ -120,13 +120,13 @@ int main(int argc, char** argv) {
 
     for(int c = 1; c < argc; c++) {
         std::string option(argv[c]);
-        if(option == "-h" || option == "-help" || option == "--help") {
+        if(option == "-h" || option == "--help") {
             usage(argv[0]);
             exit(0);
-        } else if(option == "-v" || option == "-version" || option == "--version") {
+        } else if(option == "-v" || option == "--version") {
             printf("%s\n", SVN_VERSION);
             exit(0);
-        } else if (option == "-repair") {
+        } else if (option == "--repair") {
             repair = true;
         } else {
             fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);

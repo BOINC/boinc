@@ -143,7 +143,7 @@ bool resend_lost_work() {
             continue;
         }
 
-        bavp = get_app_version(wu);
+        bavp = get_app_version(wu, false, false);
         if (!bavp) {
             APP* app = ssp->lookup_app(wu.appid);
             log_messages.printf(MSG_CRITICAL,

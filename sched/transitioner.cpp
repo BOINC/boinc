@@ -21,10 +21,10 @@
 //    - assimilation is finished
 //
 // cmdline:
-//   [ -one_pass ]          do one pass, then exit
-//   [ -d x ]               debug level x
-//   [ -mod n i ]           process only WUs with (id mod n) == i
-//   [ -sleep_interval x ]  sleep x seconds if nothing to do
+//   [ --one_pass ]          do one pass, then exit
+//   [ --d x ]               debug level x
+//   [ --mod n i ]           process only WUs with (id mod n) == i
+//   [ --sleep_interval x ]  sleep x seconds if nothing to do
 
 #include "config.h"
 #include <vector>
@@ -68,7 +68,6 @@ int sleep_interval = DEFAULT_SLEEP_INTERVAL;
 
 void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
-    return;
 }
 
 int result_suffix(char* name) {
@@ -77,32 +76,56 @@ int result_suffix(char* name) {
     return 0;
 }
 
-// A result just timed out.
-// Update the host's avg_turnaround and max_results_day.
+// A result timed out; penalize the corresponding host_app_version
 //
-static int penalize_host(int hostid, TRANSITIONER_ITEM& wu_item) {
-    DB_HOST host;
-    char buf[256];
-    int retval = host.lookup_id(hostid);
-    if (retval) return retval;
-    compute_avg_turnaround(host, (double)wu_item.delay_bound);
-    if (host.max_results_day == 0 || host.max_results_day > config.daily_result_quota) {
-        host.max_results_day = config.daily_result_quota;
-    }
-    host.max_results_day -= 1;
-    if (host.max_results_day < 1) {
-        host.max_results_day = 1;
-    }
-    sprintf(buf,
-        "avg_turnaround=%f, max_results_day=%d",
-        host.avg_turnaround, host.max_results_day
-    );
+static int result_timed_out(
+    TRANSITIONER_ITEM res_item, TRANSITIONER_ITEM& wu_item
+) {
+    DB_HOST_APP_VERSION hav;
+    char query[512], clause[512];
 
-    retval = host_scale_probation(
-        host, wu_item.appid, wu_item.res_app_version_id,
-        wu_item.res_report_deadline - wu_item.res_sent_time
+    int gavid = generalized_app_version_id(
+        res_item.res_app_version_id, wu_item.appid
     );
-    return host.update_field(buf);
+    int retval = hav_lookup(hav, res_item.res_hostid, gavid);
+    if (retval) {
+        log_messages.printf(MSG_NORMAL,
+            "result_timed_out(): hav_lookup failed %d\n", retval
+        );
+        return retval;
+    }
+    hav.turnaround.update_var(
+        (double)wu_item.delay_bound,
+        HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
+    );
+    if (hav.max_jobs_per_day == 0 || hav.max_jobs_per_day > config.daily_result_quota) {
+        hav.max_jobs_per_day = config.daily_result_quota;
+    }
+    hav.max_jobs_per_day -= 1;
+    if (hav.max_jobs_per_day < 1) {
+        hav.max_jobs_per_day = 1;
+    }
+
+    host_scale_probation(hav, wu_item.delay_bound);
+
+    sprintf(query,
+        "turnaround_n=%.15e, turnaround_avg=%.15e, turnaround_var=%.15d, turnaround_q=%.15e, scale_probation=%d, host_scale_time=%.15e, max_jobs_per_day=%d",
+        hav.turnaround.n, hav.turnaround.avg,
+        hav.turnaround.var, hav.turnaround.q,
+        hav.scale_probation, hav.host_scale_time,
+        hav.max_jobs_per_day
+    );
+    sprintf(clause,
+        "host_id=%d and app_version_id=%d",
+        hav.host_id, hav.app_version_id
+    );
+    retval = hav.update_fields_noid(query, clause);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "CRITICAL result_timed_out(): hav updated failed: %d\n", retval
+        );
+    }
+    return 0;
 }
 
 int handle_wu(
@@ -223,10 +246,10 @@ int handle_wu(
                         res_item.res_name, retval
                     );
                 }
-                retval = penalize_host(res_item.res_hostid, wu_item);
+                retval = result_timed_out(res_item, wu_item);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "penalize_host error %d\n", retval
+                        "result_timed_out() error %d\n", retval
                     );
                     exit(1);
                 }
@@ -725,12 +748,12 @@ void usage(char *name) {
         " - assimilation is finished\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options: \n"
-        "  [ -one_pass ]                  do one pass, then exit\n"
-        "  [ -d x ]                       debug level x\n"
-        "  [ -mod n i ]                   process only WUs with (id mod n) == i\n"
-        "  [ -sleep_interval x ]          sleep x seconds if nothing to do\n"
-        "  [ -h | -help | --help ]        Show this help text.\n"
-        "  [ -v | -version | --version ]  Shows version information.\n",
+        "  [ --one_pass ]                  do one pass, then exit\n"
+        "  [ --d x ]                       debug level x\n"
+        "  [ --mod n i ]                   process only WUs with (id mod n) == i\n"
+        "  [ --sleep_interval x ]          sleep x seconds if nothing to do\n"
+        "  [ -h | --help ]                 Show this help text.\n"
+        "  [ -v | --version ]              Shows version information.\n",
         name
     );
 }
@@ -741,9 +764,9 @@ int main(int argc, char** argv) {
 
     startup_time = time(0);
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-one_pass")) {
+        if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[i], "-d")) {
+        } else if (is_arg(argv[i], "d")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
@@ -752,7 +775,7 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "-mod")) {
+        } else if (is_arg(argv[i], "mod")) {
             if (!argv[i+1] || !argv[i+2]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
                 usage(argv[0]);
@@ -761,17 +784,17 @@ int main(int argc, char** argv) {
             mod_n = atoi(argv[++i]);
             mod_i = atoi(argv[++i]);
             do_mod = true;
-        } else if (!strcmp(argv[i], "-sleep_interval")) {
+        } else if (is_arg(argv[i], "sleep_interval")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             sleep_interval = atoi(argv[i]);
-        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage(argv[0]);
             exit(0);
-        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {

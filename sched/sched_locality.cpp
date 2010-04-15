@@ -47,6 +47,17 @@
 
 #define VERBOSE_DEBUG
 
+// get filename from result name
+//
+
+static int extract_filename(char* in, char* out) {
+    strcpy(out, in);
+    char* p = strstr(out, "__");
+    if (!p) return -1;
+    *p = 0;
+    return 0;
+}
+
 // returns zero if there is a file we can delete.
 //
 int delete_file_from_host() {
@@ -276,7 +287,7 @@ static int possibly_send_result(DB_RESULT& result) {
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
-    bavp = get_app_version(wu, true);
+    bavp = get_app_version(wu, true, false);
 
     if (!bavp && anonymous(g_request->platforms.list[0])) {
         char help_msg_buf[512];

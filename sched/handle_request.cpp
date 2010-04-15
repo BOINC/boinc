@@ -423,7 +423,6 @@ make_new_host:
         host.userid = g_reply->user.id;
         host.rpc_seqno = 0;
         host.expavg_time = time(0);
-        host.error_rate = ERROR_RATE_INIT;
         strcpy(host.venue, g_reply->user.venue);
         host.fix_nans();
         retval = host.insert();
@@ -1067,8 +1066,6 @@ void process_request(char* code_sign_key) {
     int retval;
     double last_rpc_time;
     struct tm *rpc_time_tm;
-    int last_rpc_dayofyear;
-    int current_rpc_dayofyear;
     bool ok_to_send_work = true;
     bool have_no_work;
     char buf[256];
@@ -1158,7 +1155,7 @@ void process_request(char* code_sign_key) {
 
     // is host blacklisted?
     //
-    if (g_reply->host.max_results_day == -1) {
+    if (g_reply->host._max_results_day == -1) {
         send_error_message("Not accepting requests from this host", 86400);
         goto leave;
     }
@@ -1186,29 +1183,13 @@ void process_request(char* code_sign_key) {
     last_rpc_time = g_reply->host.rpc_time;
     t = g_reply->host.rpc_time;
     rpc_time_tm = localtime(&t);
-    last_rpc_dayofyear = rpc_time_tm->tm_yday;
+    g_request->last_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     t = time(0);
     g_reply->host.rpc_time = t;
     rpc_time_tm = localtime(&t);
-    current_rpc_dayofyear = rpc_time_tm->tm_yday;
+    g_request->current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
-    if (config.daily_result_quota) {
-        if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day > config.daily_result_quota) {
-            g_reply->host.max_results_day = config.daily_result_quota;
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] Initializing max_results_day to %d\n",
-                g_reply->host.id, config.daily_result_quota
-            );
-        }
-    }
-
-    if (last_rpc_dayofyear != current_rpc_dayofyear) {
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] Resetting nresults_today\n", g_reply->host.id
-        );
-        g_reply->host.nresults_today = 0;
-    }
     retval = modify_host_struct(g_reply->host);
 
     // write time stats to disk if present
@@ -1237,6 +1218,8 @@ void process_request(char* code_sign_key) {
     }
 
     handle_global_prefs();
+
+    read_host_app_versions();
 
     handle_results();
 
@@ -1311,6 +1294,7 @@ void process_request(char* code_sign_key) {
     }
 
     update_host_record(initial_host, g_reply->host, g_reply->user);
+    write_host_app_versions();
 
 leave:
     if (!have_no_work) {

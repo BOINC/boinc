@@ -151,9 +151,9 @@ void usage(char *name) {
         "  and sequence number, so that they're unique.\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  [ -d X ]                        Sets debug level to X.\n"
-        "  [ -h | -help | --help ]         Shows this help text.\n"
-        "  [ -v | --version | --version ]  Shows version information.\n",
+        "  [ -d X ]                    Sets debug level to X.\n"
+        "  [ -h | --help ]             Shows this help text.\n"
+        "  [ -v | --version ]          Shows version information.\n",
         name
     );
 }
@@ -162,7 +162,7 @@ int main(int argc, char** argv) {
     int i, retval;
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-d")) {
+        if (is_arg(argv[i], "d")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
@@ -171,10 +171,10 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
-        } else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage(argv[0]);
             exit(0);
-        } else if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {

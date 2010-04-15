@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// get_file [-host_id host_id] [-file_name file_name]
-// -host_id            name of host to upload from
-// -file_name          name of specific file, dominates workunit
+// get_file [options]
+// --host_id N              ID of host to upload from
+// --file_name name         name of specific file, dominates workunit
 //
 // Create a result entries, initialized to sent, and corresponding
 // messages to the host that is assumed to have the file.
@@ -63,7 +63,9 @@ void init_xfer_result(DB_RESULT& result) {
     result.appid = 0;
 }
 
-int create_upload_result(DB_RESULT& result, int host_id, const char * file_name) {
+int create_upload_result(
+    DB_RESULT& result, int host_id, const char * file_name
+) {
     int retval;
     char result_xml[BLOB_SIZE];
     sprintf(result_xml,
@@ -88,7 +90,9 @@ int create_upload_result(DB_RESULT& result, int host_id, const char * file_name)
     return 0;
 }
 
-int create_upload_message(DB_RESULT& result, int host_id, const char* file_name) {;
+int create_upload_message(
+    DB_RESULT& result, int host_id, const char* file_name
+) {;
     DB_MSG_TO_HOST mth;
     int retval;
     mth.clear();
@@ -141,18 +145,18 @@ int get_file(int host_id, const char* file_name) {
 }
 
 void usage(char *name) {
-    fprintf(stderr, "Gets a file to a specific host.\n"
+    fprintf(stderr, "Gets a file from a specific host.\n"
         "Creates a result entry, initialized to sent, and corresponding\n"
         "messages to the host that is assumed to have the file.\n"
         "Run from the project root dir.\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  -host_id id                    "
+        "  --host_id id                    "
         "Specify numerical id of host to upload from.\n"
-        "  -file_name name                "
-        "Specify name of specific file, dominates workunit.\n"
-        "  [ -v | -version | --version ]  Show version information.\n"
-        "  [ -h | -help | --help ]        Show this help text.\n",
+        "  --file_name name                "
+        "Specify name of file, dominates workunit.\n"
+        "  [ -v | --version ]     Show version information.\n"
+        "  [ -h | --help ]        Show this help text.\n",
         name
     );
 }
@@ -167,25 +171,25 @@ int main(int argc, char** argv) {
 
     check_stop_daemons();
 
-    for(i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-host_id")) {
-            if(!argv[++i]) {
+    for (i=1; i<argc; i++) {
+        if (is_arg(argv[i], "host_id")) {
+            if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             host_id = atoi(argv[i]);
-        } else if (!strcmp(argv[i], "-file_name")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "file_name")) {
+            if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             strcpy(file_name, argv[i]);
-        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage(argv[0]);
             exit(0);
-        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {

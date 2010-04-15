@@ -33,6 +33,17 @@
 #define COBBLESTONE_SCALE 200/86400e9
     // multiply normalized PFC by this to get Cobblestones
 
+// parameters for maintaining averages.
+// per-host averages respond faster to change
+
+#define HAV_AVG_THRESH  20
+#define HAV_AVG_WEIGHT  .01
+#define HAV_AVG_LIMIT   10
+
+#define AV_AVG_THRESH   100
+#define AV_AVG_WEIGHT   .001
+#define AV_AVG_LIMIT    10
+
 extern void compute_credit_rating(HOST&);
 extern double credit_multiplier(int, time_t);
 extern double fpops_to_credit(double fpops, double intops);
@@ -48,22 +59,15 @@ extern int grant_credit(
 extern int update_av_scales(struct SCHED_SHMEM*);
 extern int assign_credit_set(
     WORKUNIT&, std::vector<RESULT>&, DB_APP&, std::vector<DB_APP_VERSION>&,
+    std::vector<DB_HOST_APP_VERSION>&,
     double max_granted_credit, double& credit
 );
 
-// if the result was anonymous platform,
-// make a "pseudo ID" that combines the app ID and the resource type
-//
-inline int generalized_app_version_id(int avid, int appid) {
-    if (avid < 0) {
-        return appid*1000000 - avid;
-    }
-    return avid;
-}
-
-extern int host_scale_probation(
-    DB_HOST& host, int appid, int app_version_id, double latency_bound
+extern void host_scale_probation(
+    DB_HOST_APP_VERSION&, double latency_bound
 );
+
+extern int hav_lookup(DB_HOST_APP_VERSION& hav, int hostid, int avid);
 
 extern int write_modified_app_versions(
     std::vector<DB_APP_VERSION>& app_versions

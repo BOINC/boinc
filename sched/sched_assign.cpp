@@ -66,7 +66,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
         return retval;
     }
 
-    bavp = get_app_version(wu);
+    bavp = get_app_version(wu, false, false);
     if (!bavp) {
         log_messages.printf(MSG_CRITICAL,
             "App version for assigned WU not found\n"

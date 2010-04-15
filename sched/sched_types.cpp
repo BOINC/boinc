@@ -26,6 +26,7 @@
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"
+#include "boinc_db.h"
 
 #include "sched_main.h"
 #include "sched_util.h"
@@ -1256,6 +1257,59 @@ void get_rss_auth(USER& user, char* buf) {
     sprintf(buf2, "%s%s%s", user.authenticator, user.passwd_hash, "notify_rss");
     md5_block((unsigned char*)buf2, strlen(buf2), out);
     sprintf(buf, "%d_%s", user.id, out);
+}
+
+void read_host_app_versions() {
+    DB_HOST_APP_VERSION hav;
+    char clause[256];
+
+    sprintf(clause, "where host_id=%d", g_reply->host.id);
+    while (!hav.enumerate(clause)) {
+        g_wreq->host_app_versions.push_back(hav);
+    }
+    g_wreq->host_app_versions_orig = g_wreq->host_app_versions;
+}
+
+DB_HOST_APP_VERSION* gavid_to_havp(int gavid) {
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        if (hav.app_version_id == gavid) return &hav;
+    }
+    return NULL;
+}
+
+void write_host_app_versions() {
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        DB_HOST_APP_VERSION& hav_orig = g_wreq->host_app_versions_orig[i];
+
+        int retval = hav.update_scheduler(hav_orig);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "CRITICAL: hav.update_sched() returned %d\n", retval
+            );
+        }
+    }
+}
+
+DB_HOST_APP_VERSION* BEST_APP_VERSION::host_app_version() {
+    if (cavp) {
+        return gavid_to_havp(
+            generalized_app_version_id(host_usage.resource_type(), appid)
+        );
+    } else {
+        return gavid_to_havp(avp->id);
+    }
+}
+
+// return some HAV for which quota was exceeded
+//
+DB_HOST_APP_VERSION* quota_exceeded_version() {
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        if (hav.daily_quota_exceeded) return &hav;
+    }
+    return NULL;
 }
 
 const char *BOINC_RCSID_ea659117b3 = "$Id$";

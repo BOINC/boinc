@@ -52,15 +52,13 @@ int main(int argc, char** argv) {
     int retval;
     
     for (int i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
+        if (is_arg(argv[i], "help") || is_arg(argv[i], "h")) {
             usage(argv[0]);
             exit(0);
-        }
-        else if(!strcmp(argv[i], "--version") || !strcmp(argv[i], "-v")) {
+        } else if (is_arg(argv[i], "version") || is_arg(argv[i], "v")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
-        }
-        else {
+        } else {
             log_messages.printf(MSG_CRITICAL,
                 "unknown command line argument: %s\n\n", argv[i]
             );

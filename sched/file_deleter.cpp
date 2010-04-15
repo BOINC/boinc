@@ -97,24 +97,24 @@ void usage(char *name) {
         "   This deletes files uploaded by hosts after the WU was deleted.\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  -d N                           set debug output level (1 to 4)\n"
-        "  -mod M R                       handle only WUs with ID mod M == R\n"
-        "  -appid ID                      handle only WUs of a particular app\n"
-        "  -one_pass                      instead of sleeping in 2), exit\n"
-        "  -delete_antiques_now           do 5) immediately\n"
-        "  -dont_retry_error              don't do 4)\n"
-        "  -dont_delete_antiques          don't do 5)\n"
-	"  -delete_antiques_interval      change the interval between delete antique passes (in seconds, defaults to 24h)\n"
-	"  -delete_antiques_limit         change the maximum number of files deleted in one delete antique pass (defaults to 50000)\n"
-        "  -preserve_result_files         update the DB, but don't delete output files.\n"
+        "  -d N | --debug_level N          set debug output level (1 to 4)\n"
+        "  --mod M R                       handle only WUs with ID mod M == R\n"
+        "  --appid ID                      handle only WUs of a particular app\n"
+        "  --one_pass                      instead of sleeping in 2), exit\n"
+        "  --delete_antiques_now           do 5) immediately\n"
+        "  --dont_retry_error              don't do 4)\n"
+        "  --dont_delete_antiques          don't do 5)\n"
+        "  --delete_antiques_interval      change the interval between delete antique passes (in seconds, defaults to 24h)\n"
+        "  --delete_antiques_limit         change the maximum number of files deleted in one delete antique pass (defaults to 50000)\n"
+        "  --preserve_result_files         update the DB, but don't delete output files.\n"
+        "                                  For debugging.\n"
+        "  --preserve_wu_files             update the DB, but don't delete input files.\n"
         "                                 For debugging.\n"
-        "  -preserve_wu_files             update the DB, but don't delete input files.\n"
-        "                                 For debugging.\n"
-        "  -dont_delete_batches           don't delete anything with positive batch number\n"
-        "  -input_files_only              delete only input (download) files\n"
-        "  -output_files_only             delete only output (upload) files\n"
-        "  [ -h | -help | --help ]        shows this help text\n"
-        "  [ -v | -version | --version ]  shows version information\n",
+        "  --dont_delete_batches           don't delete anything with positive batch number\n"
+        "  --input_files_only              delete only input (download) files\n"
+        "  --output_files_only             delete only output (upload) files\n"
+        "  [ -h | --help ]                 shows this help text\n"
+        "  [ -v | --version ]              shows version information\n",
         name
     );
 }
@@ -632,25 +632,25 @@ int main(int argc, char** argv) {
 
     *app.name='\0';
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-one_pass")) {
+        if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[i], "-dont_retry_errors")) {
+        } else if (is_arg(argv[i], "dont_retry_errors")) {
             dont_retry_errors = true;
-        } else if (!strcmp(argv[i], "-preserve_wu_files")) {
+        } else if (is_arg(argv[i], "preserve_wu_files")) {
             preserve_wu_files = true;
-        } else if (!strcmp(argv[i], "-preserve_result_files")) {
+        } else if (is_arg(argv[i], "preserve_result_files")) {
             preserve_result_files = true;
-        } else if (!strcmp(argv[i], "-app")) {
+        } else if (is_arg(argv[i], "app")) {
             strcpy(app.name, argv[++i]);
-        } else if (!strcmp(argv[i], "-appid")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "appid")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             appid = atoi(argv[i]);
-        } else if (!strcmp(argv[i], "-d")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
@@ -658,40 +658,40 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "-mod")) {
-            if(!argv[i+1] || !argv[i+2]) {
+        } else if (is_arg(argv[i], "mod")) {
+            if (!argv[i+1] || !argv[i+2]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
                 usage(argv[0]);
                 exit(1);
             }
             id_modulus   = atoi(argv[++i]);
             id_remainder = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-dont_delete_antiques")) {
+        } else if (is_arg(argv[i], "dont_delete_antiques")) {
             dont_delete_antiques = true;
-        } else if (!strcmp(argv[i], "-delete_antiques_interval")) {
+        } else if (is_arg(argv[i], "delete_antiques_interval")) {
             antique_interval = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-delete_antiques_limit")) {
+        } else if (is_arg(argv[i], "delete_antiques_limit")) {
             antique_limit = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-dont_delete_batches")) {
+        } else if (is_arg(argv[i], "dont_delete_batches")) {
             dont_delete_batches = true;
-        } else if (!strcmp(argv[i], "-delete_antiques_now")) {
+        } else if (is_arg(argv[i], "delete_antiques_now")) {
             antique_delay = 0;
-        } else if (!strcmp(argv[i], "-input_files_only")) {
+        } else if (is_arg(argv[i], "input_files_only")) {
             do_output_files = false;
             dont_delete_antiques = true;
-        } else if (!strcmp(argv[i], "-output_files_only")) {
+        } else if (is_arg(argv[i], "output_files_only")) {
             do_input_files = false;
-        } else if (!strcmp(argv[i], "-sleep_interval")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "sleep_interval")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             sleep_interval = atoi(argv[i]);
-        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage(argv[0]);
             exit(0);
-        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {

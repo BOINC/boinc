@@ -492,8 +492,8 @@ void DB_HOST::db_print(char* buf){
         credit_per_cpu_sec,
         venue, nresults_today,
         avg_turnaround,
-        host_cpid, external_ip_addr, max_results_day,
-        error_rate
+        host_cpid, external_ip_addr, _max_results_day,
+        _error_rate
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -550,8 +550,8 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     avg_turnaround = atof(r[i++]);
     strcpy2(host_cpid, r[i++]);
     strcpy2(external_ip_addr, r[i++]);
-    max_results_day = atoi(r[i++]);
-    error_rate = atof(r[i++]);
+    _max_results_day = atoi(r[i++]);
+    _error_rate = atof(r[i++]);
 }
 
 int DB_HOST::update_diff_validator(HOST& h) {
@@ -561,10 +561,12 @@ int DB_HOST::update_diff_validator(HOST& h) {
         sprintf(buf, " avg_turnaround=%.15e,", avg_turnaround);
         strcat(updates, buf);
     }
+#if 0
     if (error_rate != h.error_rate) {
         sprintf(buf, " error_rate=%.15e,", error_rate);
         strcat(updates, buf);
     }
+#endif
     if (total_credit != h.total_credit) {
         sprintf(buf, " total_credit=total_credit+%.15e,",
             total_credit-h.total_credit
@@ -577,7 +579,7 @@ int DB_HOST::update_diff_validator(HOST& h) {
         );
         strcat(updates, buf);
     }
-    if (error_rate != h.expavg_time) {
+    if (expavg_time != h.expavg_time) {
         sprintf(buf, " expavg_time=%.15e,", expavg_time);
         strcat(updates, buf);
     }
@@ -759,10 +761,12 @@ int DB_HOST::update_diff_sched(HOST& h) {
         unescape_string(external_ip_addr, sizeof(external_ip_addr));
         strcat(updates, buf);
     }
+#if 0
     if (max_results_day != h.max_results_day) {
         sprintf(buf, " max_results_day=%d,", max_results_day);
         strcat(updates, buf);
     }
+#endif
 
     int n = strlen(updates);
     if (n == 0) return 0;
@@ -1072,6 +1076,82 @@ void DB_CREDIT_MULTIPLIER::db_parse(MYSQL_ROW& r) {
     appid = atoi(r[i++]);
     _time = atoi(r[i++]);
     multiplier = atof(r[i++]);
+}
+
+int DB_HOST_APP_VERSION::update_scheduler(DB_HOST_APP_VERSION& orig) {
+    char query[1024], clause[512];
+
+    if (host_scale_time == orig.host_scale_time
+        && error_rate == orig.error_rate
+        && max_jobs_per_day == orig.max_jobs_per_day
+        && n_jobs_today == orig.n_jobs_today
+    ) {
+        return 0;
+    }
+    sprintf(query,
+        "host_scale_time=%.15e, error_rate=%.15e, max_jobs_per_day=%d, n_jobs_today=%d",
+        host_scale_time,
+        error_rate,
+        max_jobs_per_day,
+        n_jobs_today
+    );
+    sprintf(clause, "host_id=%d and app_version_id=%d", host_id, app_version_id);
+    return update_fields_noid(query, clause);
+}
+
+int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
+    char query[1024], clause[512];
+
+    if (host_scale_time < dtime()) {
+        scale_probation = 0;
+    }
+    if (pfc.n == orig.pfc.n
+        && pfc.avg == orig.pfc.avg
+        && et.n == orig.et.n
+        && et.avg == orig.et.avg
+        && et.q == orig.et.q
+        && et.var == orig.et.var
+        && turnaround.n == orig.turnaround.n
+        && turnaround.avg == orig.turnaround.avg
+        && turnaround.q == orig.turnaround.q
+        && turnaround.var == orig.turnaround.var
+        && error_rate == orig.error_rate
+        && host_scale_time == orig.host_scale_time
+        && scale_probation == orig.scale_probation
+    ) {
+        return 0;
+    }
+    sprintf(query,
+        "pfc_n=%.15e, "
+        "pfc_avg=%.15e, "
+        "et_n=%.15e, "
+        "et_avg=%.15e, "
+        "et_q=%.15e, "
+        "et_var=%.15e, "
+        "turnaround_n=%.15e, "
+        "turnaround_avg=%.15e, "
+        "turnaround_q=%.15e, "
+        "turnaround_var=%.15e, "
+        "host_scale_time=%.15e, "
+        "scale_probation=%d",
+        pfc.n,
+        pfc.avg,
+        et.n,
+        et.avg,
+        et.q,
+        et.var,
+        turnaround.n,
+        turnaround.avg,
+        turnaround.q,
+        turnaround.var,
+        host_scale_time,
+        scale_probation
+    );
+    sprintf(clause,
+        "host_id=%d and app_version_id=%d ",
+        host_id, app_version_id
+    );
+    return update_fields_noid(query, clause);
 }
 
 void DB_HOST_APP_VERSION::db_print(char* buf) {
@@ -1813,6 +1893,7 @@ void SCHED_RESULT_ITEM::parse(MYSQL_ROW& r) {
     outcome = atoi(r[i++]);
     client_state = atoi(r[i++]);
     file_delete_state = atoi(r[i++]);
+    app_version_id = atoi(r[i++]);
 }
 
 int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
@@ -1846,7 +1927,8 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
         "   validate_state, "
         "   outcome, "
         "   client_state, "
-        "   file_delete_state "
+        "   file_delete_state, "
+        "   app_version_id "
         "FROM "
         "   result "
         "WHERE "

@@ -744,11 +744,11 @@ void usage(char* name) {
         "For more info, see http://boinc.berkeley.edu/trac/wiki/DbDump\n\n"
         "Usage: %s [options]\n"
         "Options:\n"
-        "    -dump_spec filename          Use the given config file (use ../db_dump_spec.xml)\n"
-        "    [-d N]                       Set verbosity level (1 to 4)\n"
-        "    [-db_host H]                 Use the DB server on host H\n"
-        "    [-h | -help | --help]        Show this\n"
-        "    [-v | -version | --version]  Show version information\n",
+        "    --dump_spec filename          Use the given config file (use ../db_dump_spec.xml)\n"
+        "    [-d N | --debug_level]        Set verbosity level (1 to 4)\n"
+        "    [--db_host H]                 Use the DB server on host H\n"
+        "    [-h | --help]                 Show this\n"
+        "    [-v | --version]              Show version information\n",
         name
     );
 }
@@ -766,15 +766,15 @@ int main(int argc, char** argv) {
     log_messages.printf(MSG_NORMAL, "db_dump starting\n");
     strcpy(spec_filename, "");
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-dump_spec")) {
-            if(!argv[++i]) {
+        if (is_arg(argv[i], "dump_spec")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             safe_strcpy(spec_filename, argv[i]);
-        } else if (!strcmp(argv[i], "-d")) {
-            if(!argv[++i]) {
+        } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
@@ -782,21 +782,23 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "-db_host")) {
+        } else if (is_arg(argv[i], "db_host")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             db_host = argv[i];
-        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage(argv[0]);
             exit(0);
-        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {
-            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            log_messages.printf(MSG_CRITICAL,
+                "unknown command line argument: %s\n\n", argv[i]
+            );
             usage(argv[0]);
             exit(1);
         }

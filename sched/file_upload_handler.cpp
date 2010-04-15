@@ -615,13 +615,14 @@ void installer() {
 
 void usage(char *name) {
     fprintf(stderr,
-        "This is the boinc file upload handler.\n"
+        "This is the BOINC file upload handler.\n"
         "It receives the results from the clients\n"
         "and puts them on the file server.\n\n"
+        "Normally this is run as a CGI program.\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  [ -h | -help | --help ]        Show this help text.\n"
-        "  [ -v | -version | --version ]  Show version information.\n",
+        "  [ -h | --help ]        Show this help text.\n"
+        "  [ -v | --version ]     Show version information.\n",
         name
     );
 }
@@ -636,10 +637,10 @@ int main(int argc, char *argv[]) {
 
     for(int c = 1; c < argc; c++) {
         std::string option(argv[c]);
-        if(option == "-v" || option == "-version" || option == "--version") {
+        if(option == "-v" || option == "--version") {
             printf("%s\n", SVN_VERSION);
             exit(0);
-        } else if(option == "-h" || option == "-help" || option == "--help") {
+        } else if(option == "-h" || option == "--help") {
             usage(argv[0]);
             exit(0);
         } else if (option.length()){

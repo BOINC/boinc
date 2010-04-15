@@ -86,14 +86,14 @@ bool is_unreplicated(WORKUNIT& wu) {
     return (wu.target_nresults == 1 && app.target_nresults > 1);
 }
 
-void update_error_rate(DB_HOST& host, bool valid) {
+void update_error_rate(DB_HOST_APP_VERSION& hav, bool valid) {
     if (valid) {
-        host.error_rate *= 0.95;
+        hav.error_rate *= 0.95;
     } else {
-        host.error_rate += 0.1;
+        hav.error_rate += 0.1;
     }
-    if (host.error_rate > 1) host.error_rate = 1;
-    if (host.error_rate <= 0) host.error_rate = ERROR_RATE_INIT;
+    if (hav.error_rate > 1) hav.error_rate = 1;
+    if (hav.error_rate <= 0) hav.error_rate = ERROR_RATE_INIT;
 }
 
 // Here when a result has been validated.
@@ -101,7 +101,7 @@ void update_error_rate(DB_HOST& host, bool valid) {
 // - udpdate turnaround stats
 // - insert credited_job record if needed
 //
-int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu) {
+int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu, DB_HOST_APP_VERSION& hav) {
     DB_CREDITED_JOB credited_job;
     int retval;
     char buf[256];
@@ -112,11 +112,11 @@ int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu) {
     // lower error rate, but only if unreplicated
     //
     if (!is_unreplicated(wu)) {
-        double old_error_rate = host.error_rate;
-        update_error_rate(host, true);
+        double old_error_rate = hav.error_rate;
+        update_error_rate(hav, true);
         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] error rate %g->%g\n",
-            host.id, old_error_rate, host.error_rate
+            "[HAV#%d] error rate %g->%g\n",
+            hav.app_version_id, old_error_rate, hav.error_rate
         );
     }
 
@@ -140,16 +140,17 @@ int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu) {
     return 0;
 }
 
-int is_invalid(DB_HOST& host, WORKUNIT& wu, RESULT& result) {
+int is_invalid(DB_HOST& host, WORKUNIT& wu, RESULT& result, DB_HOST_APP_VERSION& hav) {
     char buf[256];
     int retval;
 
-    double old_error_rate = host.error_rate;
-    update_error_rate(host, false);
+    double old_error_rate = hav.error_rate;
+    update_error_rate(hav, false);
     log_messages.printf(MSG_DEBUG,
-        "[HOST#%d] invalid result; error rate %f->%f\n",
-        host.id, old_error_rate, host.error_rate
+        "[HAV#%d] invalid result; error rate %f->%f\n",
+        hav.app_version_id, old_error_rate, hav.error_rate
     );
+    host_scale_probation(hav, (double)wu.delay_bound);
     return 0;
 }
 
@@ -236,18 +237,30 @@ int handle_wu(
                 );
                 continue;
             }
-
             HOST host_initial = host;
+
+            bool update_hav = false;
+            DB_HOST_APP_VERSION hav;
+            retval = hav_lookup(hav, result.hostid,
+                generalized_app_version_id(result.app_version_id, result.appid)
+            );
+            if (retval) {
+                hav.host_id = 0;
+            }
+            DB_HOST_APP_VERSION hav_orig = hav;
+            vector<DB_HOST_APP_VERSION> havv;
+            havv.push_back(hav);
 
             vector<RESULT> rv;
             switch (result.validate_state) {
             case VALIDATE_STATE_VALID:
                 update_result = true;
+                update_hav = true;
                 log_messages.printf(MSG_NORMAL,
                     "[RESULT#%d %s] pair_check() matched: setting result to valid\n",
                     result.id, result.name
                 );
-                retval = is_valid(host, result, wu);
+                retval = is_valid(host, result, wu, havv[0]);
                 if (retval) {
                     log_messages.printf(MSG_NORMAL,
                         "[RESULT#%d %s] is_valid() error: %d\n",
@@ -258,7 +271,7 @@ int handle_wu(
                 //
                 rv.push_back(result);
                 assign_credit_set(
-                    wu, rv, app, app_versions, max_granted_credit, credit
+                    wu, rv, app, app_versions, havv, max_granted_credit, credit
                 );
                 result.granted_credit = canonical_result.granted_credit;
                 grant_credit(
@@ -268,11 +281,15 @@ int handle_wu(
                 break;
             case VALIDATE_STATE_INVALID:
                 update_result = true;
+                update_hav = true;
                 log_messages.printf(MSG_NORMAL,
                     "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
                     result.id, result.name
                 );
-                is_invalid(host, wu, result);
+                is_invalid(host, wu, result, havv[0]);
+            }
+            if (hav.host_id && update_hav) {
+                havv[0].update_validator(hav_orig);
             }
             host.update_diff_validator(host_initial);
             if (update_result) {
@@ -292,6 +309,7 @@ int handle_wu(
         }
     } else {
         vector<RESULT> results;
+        vector<DB_HOST_APP_VERSION> host_app_versions, host_app_versions_orig;
         int nsuccess_results;
 
         // Here if WU doesn't have a canonical result yet.
@@ -303,7 +321,8 @@ int handle_wu(
         );
         ++log_messages;
 
-        // make a vector of only successful results
+        // make a vector of the successful results,
+        // and a parallel vector of host_app_versions
         //
         for (i=0; i<items.size(); i++) {
             RESULT& result = items[i].res;
@@ -312,8 +331,16 @@ int handle_wu(
                 (result.outcome == RESULT_OUTCOME_SUCCESS)
             ) {
                 results.push_back(result);
+                DB_HOST_APP_VERSION hav;
+                retval = hav_lookup(hav, result.hostid,
+                    generalized_app_version_id(result.app_version_id, result.appid)
+                );
+                if (retval) {
+                    hav.host_id=0;   // flag that it's missing
+                }
+                host_app_versions.push_back(hav);
+                host_app_versions_orig.push_back(hav);
             }
-
         }
 
         log_messages.printf(MSG_DEBUG,
@@ -352,7 +379,8 @@ int handle_wu(
 
             if (canonicalid) {
                 retval = assign_credit_set(
-                    wu, results, app, app_versions, max_granted_credit, credit
+                    wu, results, app, app_versions, host_app_versions,
+                    max_granted_credit, credit
                 );
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
@@ -374,8 +402,12 @@ int handle_wu(
             //
             nsuccess_results = 0;
             for (i=0; i<results.size(); i++) {
-                update_result = false;
                 RESULT& result = results[i];
+                DB_HOST_APP_VERSION& hav = host_app_versions[i];
+                DB_HOST_APP_VERSION& hav_orig = host_app_versions_orig[i];
+
+                update_result = false;
+                bool update_host = false;
                 if (result.outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
                     transition_time = IMMEDIATE;
                     update_result = true;
@@ -402,7 +434,8 @@ int handle_wu(
                 switch (result.validate_state) {
                 case VALIDATE_STATE_VALID:
                     update_result = true;
-                    retval = is_valid(host, result, wu);
+                    update_host = true;
+                    retval = is_valid(host, result, wu, host_app_versions[i]);
                     if (retval) {
                         log_messages.printf(MSG_DEBUG,
                             "[RESULT#%d %s] is_valid() failed: %d\n",
@@ -418,16 +451,15 @@ int handle_wu(
                         result.id, result.name, result.granted_credit,
                         result.hostid
                     );
-                    host.update_diff_validator(host_initial);
                     break;
                 case VALIDATE_STATE_INVALID:
+                    update_result = true;
+                    update_host = true;
                     log_messages.printf(MSG_NORMAL,
                         "[RESULT#%d %s] Invalid [HOST#%d]\n",
                         result.id, result.name, result.hostid
                     );
-                    is_invalid(host, wu, result);
-                    update_result = true;
-                    host.update_diff_validator(host_initial);
+                    is_invalid(host, wu, result, host_app_versions[i]);
                     break;
                 case VALIDATE_STATE_INIT:
                     log_messages.printf(MSG_NORMAL,
@@ -439,6 +471,12 @@ int handle_wu(
                     break;
                 }
 
+                if (hav.host_id) {
+                    retval = hav.update_validator(hav_orig);
+                }
+                if (update_host) {
+                    retval = host.update_diff_validator(host_initial);
+                }
                 if (update_result) {
                     retval = validator.update_result(result);
                     if (retval) {
@@ -642,31 +680,31 @@ int main(int argc, char** argv) {
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--one_pass_N_WU")) {
+        if (is_arg(argv[i], "one_pass_N_WU")) {
             one_pass_N_WU = atoi(argv[++i]);
             one_pass = true;
-        } else if (!strcmp(argv[i], "--sleep_interval")) {
+        } else if (is_arg(argv[i], "sleep_interval")) {
             sleep_interval = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "--one_pass")) {
+        } else if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[i], "--app")) {
+        } else if (is_arg(argv[i], "app")) {
             strcpy(app_name, argv[++i]);
-        } else if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "--debug_level")) {
+        } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             debug_level = atoi(argv[++i]);
             log_messages.set_debug_level(debug_level);
             if (debug_level == 4) g_print_queries = true;
-        } else if (!strcmp(argv[i], "--mod")) {
+        } else if (is_arg(argv[i], "mod")) {
             wu_id_modulus = atoi(argv[++i]);
             wu_id_remainder = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "--max_granted_credit")) {
+        } else if (is_arg(argv[i], "max_granted_credit")) {
             max_granted_credit = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "--max_claimed_credit")) {
+        } else if (is_arg(argv[i], "max_claimed_credit")) {
             max_claimed_credit = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "--grant_claimed_credit")) {
+        } else if (is_arg(argv[i], "grant_claimed_credit")) {
             grant_claimed_credit = true;
-        } else if (!strcmp(argv[i], "--update_credited_job")) {
+        } else if (is_arg(argv[i], "update_credited_job")) {
             update_credited_job = true;
-        } else if (!strcmp(argv[i], "--credit_from_wu")) {
+        } else if (is_arg(argv[i], "credit_from_wu")) {
             credit_from_wu = true;
         } else {
             fprintf(stderr,

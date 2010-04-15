@@ -137,8 +137,8 @@ void usage(char *name) {
         "Options: \n"
         "  --nrequests N                  Sets the total nukmer of requests to N\n"
         "  --reqs_per_second X            Sets the number of requests per second to X\n"
-        "  [ -h | -help | --help ]        Show this help text.\n"
-        "  [ -v | -version | --version ]  Show version information\n",
+        "  [ -h | --help ]                Show this help text.\n"
+        "  [ -v | --version ]             Show version information\n",
         name
     );
 }
@@ -149,7 +149,7 @@ int main(int argc, char** argv) {
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--nrequests")) {
-            if(!argv[++i]) {
+            if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
@@ -157,18 +157,18 @@ int main(int argc, char** argv) {
             nrequests = atoi(argv[i]);
         }
         else if (!strcmp(argv[i], "--reqs_per_second")) {
-            if(!argv[++i]) {
+            if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
             }
             reqs_per_second = atof(argv[i]);
         }
-        else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage(argv[0]);
             exit(0);
         }
-        else if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {

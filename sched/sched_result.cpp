@@ -28,18 +28,47 @@
 
 #include "sched_result.h"
 
-static inline void got_good_result() {
-    g_reply->host.max_results_day *= 2;
-    if (g_reply->host.max_results_day > config.daily_result_quota) {
-        g_reply->host.max_results_day = config.daily_result_quota;
+static inline void got_good_result(SCHED_RESULT_ITEM& sri) {
+    int gavid = generalized_app_version_id(sri.app_version_id, sri.appid);
+    DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
+    if (!havp) {
+        if (config.debug_handle_results) {
+            log_messages.printf(MSG_NORMAL,
+                "[handle] No app version for %d\n", gavid
+            );
+        }
+        return;
+    }
+    havp->max_jobs_per_day *= 2;
+    if (havp->max_jobs_per_day > config.daily_result_quota) {
+        havp->max_jobs_per_day = config.daily_result_quota;
     }
 }
 
-static inline void got_bad_result() {
-    g_reply->host.max_results_day -= 1;
-    if (g_reply->host.max_results_day < 1) {
-        g_reply->host.max_results_day = 1;
+static inline void got_bad_result(SCHED_RESULT_ITEM& sri, double delay_bound) {
+    int gavid = generalized_app_version_id(sri.app_version_id, sri.appid);
+    DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
+    if (!havp) {
+        if (config.debug_handle_results) {
+            log_messages.printf(MSG_NORMAL,
+                "[handle] No app version for %d\n", gavid
+            );
+        }
+        return;
     }
+
+    // if job was aborted (possibly by client scheduler) don't penalize
+    //
+    if (sri.client_state != RESULT_ABORTED) {
+        havp->max_jobs_per_day -= 1;
+        if (havp->max_jobs_per_day < 1) {
+            havp->max_jobs_per_day = 1;
+        }
+    }
+
+    // but put on host scale probation regardless
+    //
+    host_scale_probation(*havp, delay_bound);
 }
 
 // handle completed results
@@ -310,7 +339,7 @@ int handle_results() {
                     srip->id, srip->workunitid
                 );
             }
-            got_good_result();
+            got_good_result(*srip);
             
             if (config.dont_store_success_stderr) {
                 strcpy(srip->stderr_out, "");
@@ -325,11 +354,14 @@ int handle_results() {
             srip->outcome = RESULT_OUTCOME_CLIENT_ERROR;
             srip->validate_state = VALIDATE_STATE_INVALID;
 
-            // if the job was aborted (possibly by the scheduler)
-            // don't penalize result quota
+            // penalize result quota
             //
-            if (srip->client_state != RESULT_ABORTED) {
-                got_bad_result();
+            DB_WORKUNIT wu;
+            int delay_bound;
+            wu.id = srip->workunitid;
+            retval = wu.get_field_int("delay_bound", delay_bound);
+            if (!retval) {
+                got_bad_result(*srip, (double) delay_bound);
             }
         }
     } // loop over all incoming results

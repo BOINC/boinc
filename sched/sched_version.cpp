@@ -22,6 +22,7 @@
 #include "sched_config.h"
 #include "sched_customize.h"
 #include "sched_types.h"
+#include "sched_util.h"
 #include "credit.h"
 
 #include "sched_version.h"
@@ -71,9 +72,43 @@ bool need_this_resource(
     return true;
 }
 
+static DB_HOST_APP_VERSION* lookup_host_app_version(int gavid) {
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        if (hav.reliable) return &hav;
+    }
+    return NULL;
+}
+
+static inline bool app_version_is_trusted(int gavid) {
+    DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
+    if (!havp) return false;
+    return havp->trusted;
+}
+
+static inline bool app_version_is_reliable(int gavid) {
+    DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
+    if (!havp) return false;
+    return havp->reliable;
+}
+
+inline int host_usage_to_gavid(HOST_USAGE& hu, APP& app) {
+    return app.id*1000000 - hu.resource_type();
+}
+
+inline bool daily_quota_exceeded(int gavid) {
+    DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
+    if (!havp) return false;
+    if (havp->n_jobs_today >= havp->max_jobs_per_day) {
+        havp->daily_quota_exceeded = true;
+        return true;
+    }
+    return false;
+}
+
 // scan through client's anonymous apps and pick the best one
 //
-CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
+CLIENT_APP_VERSION* get_app_version_anonymous(APP& app, bool reliable_only) {
     unsigned int i;
     CLIENT_APP_VERSION* best = NULL;
     bool found = false;
@@ -88,10 +123,15 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
             );
         }
         if (cav.app->id != app.id) {
-            log_messages.printf(MSG_NORMAL,
-                "[version] wrong app %d %d\n",
-                cav.app->id, app.id
-            );
+            continue;
+        }
+        int gavid = host_usage_to_gavid(cav.host_usage, app);
+        if (reliable_only && !app_version_is_reliable(gavid)) {
+            log_messages.printf(MSG_NORMAL, "[version] not reliable\n");
+            continue;
+        }
+        if (daily_quota_exceeded(gavid)) {
+            log_messages.printf(MSG_NORMAL, "[version] daily quota exceeded\n");
             continue;
         }
         if (cav.version_num < app.min_version) {
@@ -129,14 +169,6 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
     return best;
 }
 
-HOST_APP_VERSION* get_host_app_version(int avid) {
-    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
-        HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
-        if (hav.app_version_id == avid) return &hav;
-    }
-    return NULL;
-}
-
 // called at start of send_work().
 // Estimate FLOPS of anon platform versions,
 // and compute scaling factor for wu.rsc_fpops
@@ -164,7 +196,7 @@ void estimate_flops_anon_platform() {
         // At this point host_usage.projected_flops is filled in with something.
         // See if we have a better estimated based on history
         //
-        HOST_APP_VERSION* havp = get_host_app_version(
+        DB_HOST_APP_VERSION* havp = gavid_to_havp(
             generalized_app_version_id(
                 cav.host_usage.resource_type(), cav.app->id
             )
@@ -194,7 +226,7 @@ void estimate_flops_anon_platform() {
 // actual FLOPS on this host, do so.
 //
 void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
-    HOST_APP_VERSION* havp = get_host_app_version(av.id);
+    DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
     if (havp && havp->et.n > MIN_HOST_SAMPLES) {
         double new_flops = 1./havp->et.get_avg();
         hu.projected_flops = new_flops;
@@ -226,8 +258,12 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
 
 // return BEST_APP_VERSION for the given host, or NULL if none
 //
+// check_req: check whether we still need work for the resource
+// reliable_only: use only versions for which this host is "reliable"
 //
-BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
+BEST_APP_VERSION* get_app_version(
+    WORKUNIT& wu, bool check_req, bool reliable_only
+) {
     bool found;
     unsigned int i;
     int retval, j;
@@ -324,7 +360,9 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
     BEST_APP_VERSION bav;
     bav.appid = wu.appid;
     if (g_wreq->anonymous_platform) {
-        CLIENT_APP_VERSION* cavp = get_app_version_anonymous(*app);
+        CLIENT_APP_VERSION* cavp = get_app_version_anonymous(
+            *app, reliable_only
+        );
         if (!cavp) {
             bav.present = false;
         } else {
@@ -338,6 +376,9 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
             bav.host_usage = cavp->host_usage;
 
             bav.cavp = cavp;
+            int gavid = host_usage_to_gavid(cavp->host_usage, *app);
+            bav.reliable = app_version_is_reliable(gavid);
+            bav.trusted = app_version_is_trusted(gavid);
         }
         g_wreq->best_app_versions.push_back(bav);
         if (!bav.present) return NULL;
@@ -359,6 +400,21 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
             no_version_for_platform = false;
+
+            if (daily_quota_exceeded(av.id)) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] daily quota exceeded\n"
+                    );
+                }
+            }
+            if (reliable_only && !app_version_is_reliable(av.id)) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL, "[version] not reliable\n");
+
+                }
+                continue;
+            }
             if (g_request->core_client_version < av.min_core_version) {
                 log_messages.printf(MSG_NORMAL,
                     "outdated client version %d < min core version %d\n",
@@ -425,6 +481,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
             if (host_usage.projected_flops > bav.host_usage.projected_flops) {
                 bav.host_usage = host_usage;
                 bav.avp = &av;
+                bav.reliable = app_version_is_reliable(av.id);
+                bav.trusted = app_version_is_trusted(av.id);
             }
         }
     }

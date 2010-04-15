@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// general back-end utility functions (not scheduler-specific)
+
 #ifndef SCHED_UTIL_H
 #define SCHED_UTIL_H
 
@@ -51,10 +53,6 @@ extern int dir_hier_url(
 	char* result
 );
 
-// extract filename from result name, needed for locality scheduling.
-//
-extern int extract_filename(char* in, char* out);
-
 extern void compute_avg_turnaround(HOST& host, double turnaround);
 
 // returns zero if we get lock on file with file descriptor fd.
@@ -65,6 +63,22 @@ extern int mylockf(int fd);
 
 extern int count_workunits(int&, const char* query);
 extern int count_unsent_results(int&, int appid);
+
+// Return a value for host_app_version.app_version_id.
+// if the app version is anonymous platform,
+// make a "pseudo ID" that combines the app ID and the resource type
+// else just used the app_version ID
+//
+inline int generalized_app_version_id(int avid, int appid) {
+    if (avid < 0) {
+        return appid*1000000 - avid;
+    }
+    return avid;
+}
+
+// return true if x is -y or --y (for argv processing)
+//
+extern bool is_arg(const char*, const char*);
 
 #ifdef GCL_SIMULATOR
 extern void simulator_signal_handler(int signum);

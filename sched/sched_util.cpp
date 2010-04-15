@@ -202,17 +202,6 @@ int dir_hier_url(
     return 0;
 }
 
-// Locality scheduling: get filename from result name
-//
-
-int extract_filename(char* in, char* out) {
-    strcpy(out, in);
-    char* p = strstr(out, "__");
-    if (!p) return -1;
-    *p = 0;
-    return 0;
-}
-
 void compute_avg_turnaround(HOST& host, double turnaround) {
     double new_avg;
     if (host.avg_turnaround == 0) {
@@ -268,6 +257,15 @@ int count_unsent_results(int& n, int appid) {
     }
     return count_results(buf, n);
 
+}
+
+bool is_arg(const char* x, const char* y) {
+    char buf[256];
+    strcpy(buf, "--");
+    strcat(buf, y);
+    if (!strcmp(buf, x)) return true;
+    if (!strcmp(buf+1, x)) return true;
+    return false;
 }
 
 #ifdef GCL_SIMULATOR

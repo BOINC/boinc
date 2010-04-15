@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// request_file_list [-host_id host_id]
-// -host_id            number of host to upload from
+// request_file_list [options]
+// --host_id            number of host to upload from
 //                     or 'all' if for all active hosts
 //
 // Create a msg_to_host_that requests the list of permanant files
@@ -74,16 +74,15 @@ int request_files_from_all() {
 
 void usage(char *name) {
     fprintf(stderr,
-        "Create a msg_to_host_that requests the list of permanant files\n"
+        "Create a msg_to_host_that requests the list of sticky files\n"
         "associated with the project\n"
         "Run this in the project root dir\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  -host_id                       number of host to upload from\n"
-        "                                 "
-        "or 'all' or '0' if for all active hosts\n"
-        "  [ -v | -version | --version ]  show version information\n"
-        "  [ -h | -help | --help ]        show this help text\n",
+        "  --host_id                       number of host to upload from\n"
+        "                                  or 'all' or '0' if for all active hosts\n"
+        "  [ -v | --version ]              show version information\n"
+        "  [ -h | --help ]                 show this help text\n",
         name
     );
 }
@@ -97,8 +96,8 @@ int main(int argc, char** argv) {
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-host_id")) {
-            if(!argv[++i]) {
+        if (is_arg(argv[i], "host_id")) {
+            if (!argv[++i]) {
                 fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
                 exit(1);
@@ -108,10 +107,10 @@ int main(int argc, char** argv) {
             } else {
                 host_id = atoi(argv[i]);
             }
-        } else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+        } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage(argv[0]);
             exit(0);
-        } else if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else {
