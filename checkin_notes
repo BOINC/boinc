@@ -2817,3 +2817,12 @@ David  13 Apr 2010
         boinc_db.cpp,h
     sched/
         most files
+
+David  15 Apr 2010
+	- client: get rid of spurious "Using proxy settings from GUI" message
+
+	client/
+		cs_prefs.cpp
+		gui_rpc_server_ops.cpp
+	lib/
+		proxy_info.cpp

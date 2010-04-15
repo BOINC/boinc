@@ -458,10 +458,7 @@ void CLIENT_STATE::read_global_prefs() {
     file_xfers->set_bandwidth_limits(true);
     file_xfers->set_bandwidth_limits(false);
     msg_printf(NULL, MSG_INFO,
-        "   (to change, visit the web site of an attached project,"
-    );
-    msg_printf(NULL, MSG_INFO,
-        "   or click on Preferences)"
+        "   (to change preferences, visit the web site of an attached project, or select Preferences in the Manager)"
     );
     request_schedule_cpus("Prefs update");
     request_work_fetch("Prefs update");

@@ -371,9 +371,6 @@ static void handle_set_proxy_settings(char* buf, MIOFILE& fout) {
     MIOFILE in;
     in.init_buf_read(buf);
     gui_proxy_info.parse(in);
-    if (!strlen(gui_proxy_info.http_server_name) && !strlen(gui_proxy_info.socks_server_name)) {
-        gui_proxy_info.present = false;
-    }
     gstate.set_client_state_dirty("Set proxy settings RPC");
     fout.printf("<success/>\n");
     select_proxy_info();
