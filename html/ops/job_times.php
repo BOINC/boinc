@@ -160,23 +160,14 @@ function analyze($appid, $platformid, $nresults) {
     case 3: $clause = " and locate('Linux', os_name)"; break;
     }
 
-    $query = "select server_state, outcome, cpu_time, p_fpops from result, host where server_state=5 and appid=$appid and host.id = result.hostid $clause limit $nresults";
+    $query = "select server_state, outcome, cpu_time, p_fpops from result, host where server_state=5 and appid=$appid and host.id = result.hostid and outcome=1 and validate_state=1 $clause limit $nresults";
+    echo $query;
     $r = mysql_query($query);
 
     $n = 0;
     while ($result = mysql_fetch_object($r)) {
-        switch ($result->outcome) {
-        case 1:     // success
-            handle_result($result);
-            $n++;
-            break;
-        case 2:     // couldn't send
-        case 3:     // client error
-        case 4:     // no reply
-        case 5:     // didn't need
-        case 6:     // validate error
-        case 7:     // client detached
-        }
+        handle_result($result);
+        $n++;
     }
 
     if (!$n) {
