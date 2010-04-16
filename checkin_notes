@@ -2852,6 +2852,7 @@ David  16 Apr 2010
         credit.cpp
         sched_main.cpp
 
+
 Rom    16 Apr 2010
     - MGR: Handle the Event Log's size better, pass in the correct dialog
         size to the dialog creation routines instead of setting the size
@@ -2865,3 +2866,11 @@ David  16 Apr 2010
     - admin web: use only valid results in FLOPS count graph
     html/ops/
         job_times.php
+
+David  16 Apr 2010
+    - back end: typo and tweaks
+
+    sched/
+        credit.cpp
+    html/inc/
+        db_ops.inc

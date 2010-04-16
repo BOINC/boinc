@@ -911,6 +911,7 @@ function app_version_string($avid) {
         $platform_name = $platform->user_friendly_name;
         $version_info = "$av->version_num $av->plan_class
             <br>PFC: $av->pfc_avg ($av->pfc_n)
+            <br>scale: $av->pfc_scale
         ";
     }
     $app = BoincApp::lookup_id($appid);
@@ -946,6 +947,7 @@ function show_host($host) {
     );
 
     row("Venue", $host->venue);
+    row("Info", $host->serialnum);
     row("Total credit", $host->total_credit);
     row("Average credit", $host->expavg_credit);
     row("Average update time", time_str($host->expavg_time));
@@ -957,8 +959,8 @@ function show_host($host) {
     row("Local Standard Time", "UTC $x hours");
     row("Number of CPUs", $host->p_ncpus);
     row("CPU", "$host->p_vendor $host->p_model");
-    row("FP ops/sec", $host->p_fpops);
-    row("Int ops/sec", $host->p_iops);
+    row("GFLOPS", number_format($host->p_fpops/1e9, 2));
+    row("GIOPS", number_format($host->p_iops/1e9, 2));
     row("memory bandwidth", $host->p_membw);
     row("Operating System", "$host->os_name $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
@@ -1251,6 +1253,7 @@ function show_result($result) {
     row("Application", "<a href=\"db_action.php?table=app&id=$result->appid\">".app_name_by_id($result->appid)."</a>");
     row("App version", "<a href=\"db_action.php?table=app_version&appid=$result->appid&clauses=version_num%3D$result->app_version_num\">".$result->app_version_num."</a>");
     row("App version ID", $result->app_version_id);
+    row("Estimated GFLOPS", number_format($result->flops_estimate/1e9, 2));
     row("Random",$result->random);
     row("Opaque",$result->opaque);
     row("Teamid",$result->teamid);

@@ -678,7 +678,7 @@ int get_pfc(
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
             "[credit] [RESULT#%d] raw credit: %.2f\n",
-            raw_pfc*COBBLESTONE_SCALE
+            r.id, raw_pfc*COBBLESTONE_SCALE
         );
     }
 
@@ -861,7 +861,7 @@ int get_pfc(
 
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
-            "[credit] [RESULT#%d] updating HAV PFC %.2f et %.2f turnaround %d\n",
+            "[credit] [RESULT#%d] updating HAV PFC %.2f et %f turnaround %d\n",
             r.id, raw_pfc/wu.rsc_fpops_est,
             r.elapsed_time/wu.rsc_fpops_est,
             (r.received_time - r.sent_time)
