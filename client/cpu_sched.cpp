@@ -1316,7 +1316,13 @@ bool CLIENT_STATE::enforce_schedule() {
         );
     }
 
-    // schedule all non CPU intensive tasks
+    for (i=0; i<projects.size(); i++) {
+        projects[i]->cuda_low_mem = false;
+        projects[i]->ati_low_mem = false;
+    }
+
+    // schedule non CPU intensive tasks,
+    // and look for backed-off GPU jobs
     //
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
@@ -1326,17 +1332,19 @@ bool CLIENT_STATE::enforce_schedule() {
             ram_left -= atp->procinfo.working_set_size_smoothed;
             swap_left -= atp->procinfo.swap_size;
         }
+        if (rp->schedule_backoff > gstate.now) {
+            if (rp->uses_cuda()) {
+                rp->project->cuda_low_mem = true;
+            } else if (rp->uses_ati()) {
+                rp->project->ati_low_mem = true;
+            }
+        }
     }
 
     // assign coprocessors to coproc jobs,
     // and prune those that can't be assigned
     //
     assign_coprocs(runnable_jobs);
-
-    for (i=0; i<projects.size(); i++) {
-        projects[i]->cuda_low_mem = false;
-        projects[i]->ati_low_mem = false;
-    }
 
     // prune jobs that don't fit in RAM or that exceed CPU usage limits.
     // Mark the rest as SCHEDULED

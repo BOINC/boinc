@@ -2874,3 +2874,12 @@ David  16 Apr 2010
         credit.cpp
     html/inc/
         db_ops.inc
+
+David  16 Apr 2010
+	- client: fix bug in mechanism that inhibits work fetch
+		for a GPU if it lacks available memory
+
+	client/
+		client_state.cpp
+		coproc_detect.cpp
+		cpu_sched.cpp
