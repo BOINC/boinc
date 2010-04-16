@@ -244,6 +244,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "debug_locality", debug_locality)) continue;
         if (xp.parse_bool(tag, "debug_array", debug_array)) continue;
         if (xp.parse_bool(tag, "debug_credit", debug_credit)) continue;
+        if (xp.parse_bool(tag, "debug_fcgi", debug_fcgi)) continue;
 
         // don't complain about unparsed XML;
         // there are lots of tags the scheduler doesn't know about

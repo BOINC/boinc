@@ -586,10 +586,12 @@ int main(int argc, char** argv) {
     }
 done:
 #ifdef _USING_FCGI_
-        log_messages.printf(MSG_DEBUG,
-            "FCGI: counter: %d\n", counter
-        );
-        log_messages.flush();
+        if (config.debug_fcgi) {
+            log_messages.printf(MSG_NORMAL,
+                "FCGI: counter: %d\n", counter
+            );
+            log_messages.flush();
+        }
     }   // do()
     if (counter == MAX_FCGI_COUNT) {
         fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");

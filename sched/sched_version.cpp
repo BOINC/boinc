@@ -207,15 +207,15 @@ void estimate_flops_anon_platform() {
             cav.host_usage.projected_flops = new_flops;
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] %s (%s) setting projected flops to %fG based on ET\n",
-                    cav.app_name, cav.plan_class, new_flops/1e9
+                    "[send] (%s) setting projected flops to %fG based on ET\n",
+                    cav.plan_class, new_flops/1e9
                 );
             }
         } else {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] %s (%s) using client-supplied flops %fG\n",
-                    cav.app_name, cav.plan_class, cav.host_usage.projected_flops
+                    "[send] (%s) using client-supplied flops %fG\n",
+                    cav.plan_class, cav.host_usage.projected_flops
                 );
             }
         }
@@ -232,8 +232,8 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
         hu.projected_flops = new_flops;
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [AV#%d] setting projected flops based on host elapsed time avg: %.2fG\n",
-                av.id, hu.projected_flops/1e9
+                "[send] [AV#%d] (%s) setting projected flops based on host elapsed time avg: %.2fG\n",
+                av.id, av.plan_class, hu.projected_flops/1e9
             );
         }
     } else {
@@ -241,15 +241,15 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
             hu.projected_flops *= av.pfc_scale;
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [AV#%d] adjusting projected flops based on PFC scale: %.2fG\n",
-                    av.id, hu.projected_flops/1e9
+                    "[send] [AV#%d] (%s) adjusting projected flops based on PFC scale: %.2fG\n",
+                    av.id, av.plan_class, hu.projected_flops/1e9
                 );
             }
         } else {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [AV#%d] using projected flops: %.2fG\n",
-                    av.id, hu.projected_flops/1e9
+                    "[send] [AV#%d] (%s) using unscaled projected flops: %.2fG\n",
+                    av.id, av.plan_class, hu.projected_flops/1e9
                 );
             }
         }
@@ -344,17 +344,18 @@ BEST_APP_VERSION* get_app_version(
         bavi++;
     }
 
-    if (config.debug_version_select) {
-        log_messages.printf(MSG_NORMAL,
-            "[version] looking for version\n"
-        );
-    }
     APP* app = ssp->lookup_app(wu.appid);
     if (!app) {
         log_messages.printf(MSG_CRITICAL,
             "WU refers to nonexistent app: %d\n", wu.appid
         );
         return NULL;
+    }
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] looking for version of %s\n",
+            app->name
+        );
     }
 
     BEST_APP_VERSION bav;
@@ -505,8 +506,8 @@ BEST_APP_VERSION* get_app_version(
             for (i=0; i<g_request->platforms.list.size(); i++) {
                 PLATFORM* p = g_request->platforms.list[i];
                 log_messages.printf(MSG_NORMAL,
-                    "[version] no app version available: APP#%d (%s) PLATFORM#%d (%s) min_version %d\n",
-                    app->id, app->name, p->id, p->name, app->min_version
+                    "[version] %s\n",
+                    p->name
                 );
             }
         }

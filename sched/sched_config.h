@@ -151,6 +151,7 @@ public:
     bool debug_locality;            // locality scheduling
     bool debug_array;               // debug old-style array scheduling
     bool debug_credit;
+    bool debug_fcgi;
 
     int parse(FILE*);
     int parse_file(const char *dir = 0);

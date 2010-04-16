@@ -358,9 +358,10 @@ void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
         if (hav.turnaround.get_avg() > config.reliable_max_avg_turnaround*multiplier) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] app version %d not reliable; avg turnaround: %.3f hrs\n",
-                    g_reply->host.id, hav.app_version_id,
-                    hav.turnaround.get_avg()/3600
+                    "[send] [AV#%d] not reliable; avg turnaround: %.3f > %.3f hrs\n",
+                    hav.app_version_id,
+                    hav.turnaround.get_avg()/3600,
+                    config.reliable_max_avg_turnaround*multiplier/3600
                 );
             }
             hav.reliable = false;
@@ -371,9 +372,10 @@ void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
         if (hav.error_rate > config.reliable_max_error_rate*multiplier) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] app version %d not reliable; error rate: %.6f\n",
-                    g_reply->host.id, hav.app_version_id,
-                    hav.error_rate
+                    "[send] [AV#%d] not reliable; error rate: %f > %f\n",
+                    hav.app_version_id,
+                    hav.error_rate,
+                    config.reliable_max_error_rate*multiplier
                 );
             }
             hav.reliable = false;
@@ -384,9 +386,10 @@ void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
         if (hav.max_jobs_per_day < config.daily_result_quota) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] app version %d not reliable; max_jobs_per_day %d\n",
-                    g_reply->host.id, hav.app_version_id,
-                    hav.max_jobs_per_day
+                    "[send] [AV#%d] not reliable; max_jobs_per_day %d>%d\n",
+                    hav.app_version_id,
+                    hav.max_jobs_per_day,
+                    config.daily_result_quota
                 );
             }
             hav.reliable = false;
@@ -431,11 +434,13 @@ static void update_quota(DB_HOST_APP_VERSION& hav) {
     if (config.daily_result_quota) {
         if (hav.max_jobs_per_day == 0 || hav.max_jobs_per_day > config.daily_result_quota) {
             hav.max_jobs_per_day = config.daily_result_quota;
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] [HAV#%d] Initializing max_results_day to %d\n",
-                g_reply->host.id, hav.app_version_id,
-                config.daily_result_quota
-            );
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HAV#%d] Initializing max_results_day to %d\n",
+                    hav.app_version_id,
+                    config.daily_result_quota
+                );
+            }
         }
     }
 
@@ -871,8 +876,8 @@ static int add_wu_to_reply(
         g_reply->insert_app_version_unique(*avp2);
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] Sending app_version %s %d %d %s; projected %.2f GFLOPS\n",
-                g_reply->host.id, app->name,
+                "[send] Sending app_version %s %d %d %s; projected %.2f GFLOPS\n",
+                app->name,
                 avp2->platformid, avp2->version_num, avp2->plan_class,
                 bavp->host_usage.projected_flops/1e9
             );

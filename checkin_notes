@@ -2838,5 +2838,16 @@ Charlie  15 Apr 2010
 Charlie  15 Apr 2010
     - client: fix build break.
     
-        client/
+    client/
         coproc_detect.cpp
+
+David  16 Apr 2010
+    - back end programs: improve log msgs
+    db/
+        boinc_db.h
+    sched
+        sched_config.cpp,h
+        sched_version.cpp
+        sched_send.cpp
+        credit.cpp
+        sched_main.cpp

@@ -77,6 +77,9 @@ struct APP {
     bool beta;
     int target_nresults;
     double min_avg_pfc;
+        // the weighted average of app_version.pfc.avg
+        // over GPU or CPU versions, whichever is less.
+        // Approximates (actual FLOPS)/wu.rsc_fpops_est
     bool host_scale_check;
         // use host scaling cautiously, to thwart cherry picking
     int max_jobs_in_progress;
@@ -120,7 +123,13 @@ struct APP_VERSION {
     bool deprecated;
     char plan_class[256];
     AVERAGE pfc;
+        // the stats of (claimed PFC)/wu.rsc_fpops_est
+        // If wu.rsc_fpops_est is accurate,
+        // this is the reciprocal of efficiency
     double pfc_scale;
+        // PFC scaling factor for this app (or 0 if not enough data)
+        // The reciprocal of this version's efficiency relative
+        // to that of the most efficient version
     double expavg_credit;
     double expavg_time;
 
@@ -623,13 +632,21 @@ struct HOST_APP_VERSION {
         // 1000000*appid + 3 (NVIDIA)
         // 1000000*appid + 4 (ATI)
     AVERAGE pfc;
+        // the statistics of (claimed peak FLOPS)/wu.rsc_fpops_est
+        // If wu.rsc_fpops_est is accurate,
+        // this is roughly the reciprocal of efficiency
     AVERAGE_VAR et;
+        // the statistics of (elapsed time)/wu.rsc_fpops_est
+        //
+        // for old clients (which don't report elapsed time)
+        // we use this for CPU time stats
     double host_scale_time;
     bool scale_probation;
     double error_rate;
     int max_jobs_per_day;
     int n_jobs_today;
     AVERAGE_VAR turnaround;
+        // the stats of turnaround time (received - sent)
 
     void clear();
 
