@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-03-29 01:24-0700\n"
+"PO-Revision-Date: 2010-04-16 06:25-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -438,11 +438,11 @@ msgstr "Impossible de mettre à jour les résultats"
 
 #: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "Impossible de retirer l'ancien ordinateur"
 
 #: ../inc/host.inc:574
 msgid "Retired old computer %1"
-msgstr ""
+msgstr "L'ancien ordinateur %1 a été retiré"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Show:"
@@ -634,7 +634,6 @@ msgstr ""
 "effectués pendant ce temps.)%3"
 
 #: ../inc/prefs.inc:140
-#, fuzzy
 msgid "Maintain enough work for an additional"
 msgstr "Maintenir suffisamment de travail pour un additionnel"
 
@@ -778,7 +777,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:277
 msgid "bad venue: %1"
-msgstr ""
+msgstr "mauvais lieu de rendez-vous : %1"
 
 #: ../inc/prefs.inc:283
 msgid "bad subset: %1"
@@ -1277,7 +1276,7 @@ msgstr "Envoyé"
 
 #: ../inc/result.inc:275
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Délai reporté<br />ou date limite"
 
 #: ../inc/result.inc:276
 msgid "explain"
@@ -1321,7 +1320,7 @@ msgstr "État du serveur"
 
 #: ../inc/result.inc:381
 msgid "Outcome"
-msgstr ""
+msgstr "Résultats"
 
 #: ../inc/result.inc:382
 msgid "Client state"
@@ -1333,7 +1332,7 @@ msgstr "État à la sortie"
 
 #: ../inc/result.inc:385
 msgid "Report deadline"
-msgstr ""
+msgstr "Date limite de rapport"
 
 #: ../inc/result.inc:386
 msgid "Run time"
@@ -4020,6 +4019,9 @@ msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr ""
+"Vous pouvez constituer une équipe avec d'autres personnes ayant des intérêts "
+"similaires, ou d'un même pays, d'une même compagnie, ou bien encore d'une "
+"même école."
 
 #: ../user/team_search.php:158
 msgid "Use this form to find teams that might be right for you."
@@ -4132,7 +4134,6 @@ msgid "Account Data<br/>for %1<br/>Time:"
 msgstr "Données de compte<br />pour %1<br />Date :"
 
 #: ../user/userw.php:46
-#, fuzzy
 msgid "Team:"
 msgstr "Équipe :"
 
@@ -4268,9 +4269,8 @@ msgid "name"
 msgstr "Nom"
 
 #: ../user/workunit.php:38
-#, fuzzy
 msgid "application"
-msgstr "Applications"
+msgstr "applications"
 
 #: ../user/workunit.php:39
 msgid "created"
@@ -4278,61 +4278,63 @@ msgstr "créé"
 
 #: ../user/workunit.php:41
 msgid "canonical result"
-msgstr ""
+msgstr "résultats canoniques"
 
 #: ../user/workunit.php:44
 msgid "granted credit"
-msgstr ""
+msgstr "crédit accordé"
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Tâches en cours"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
-msgstr ""
+msgstr "achèvement en attente supprimé"
 
 #: ../user/workunit.php:55
 msgid "minimum quorum"
-msgstr ""
+msgstr "quorum minimum"
 
 #: ../user/workunit.php:56
 msgid "initial replication"
-msgstr ""
+msgstr "réplication initiale"
 
 #: ../user/workunit.php:57
 msgid "max # of error/total/success tasks"
-msgstr ""
+msgstr "nombre maximum de tâches en erreur/totales/succès"
 
 #: ../user/workunit.php:61
 msgid "errors"
-msgstr ""
+msgstr "erreurs"
 
 #: ../user/workunit.php:64
 msgid "validation"
-msgstr ""
+msgstr "validation"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: ../project.sample/project.inc:54
 msgid "Generated"
-msgstr ""
+msgstr "Généré"
 
 #: ../project.sample/project.inc:88
 msgid "Your personal background."
-msgstr ""
+msgstr "Votre parcours personnel."
 
 #: ../project.sample/project.inc:92
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr ""
+"Parlez-nous de vous. Vous pouvez nous dire d'où vous venez, votre âge, vos "
+"occupations et loisirs, ou quoi que ce soit vous concernant."
 
 #: ../project.sample/project.inc:96
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Votre opinion concernant %1"
 
 #: ../project.sample/project.inc:100
 msgid ""
@@ -4342,28 +4344,33 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
+"Dites nous vos pensées à propos de %1<ol>    <li>Pourquoi utilisez vous %1? "
+"   <li>Quel est votre point de vue à propos du projet ?    <li>Des "
+"suggestions ?    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "Combinaison de couleurs des graphismes"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "Pourcentage maximal de CPU pour les graphiques %10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Utiliser uniquement les applications sélectionnées"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
 msgstr ""
+"Si aucun travail n'est disponible pour les applications sélectionnées, "
+"autoriser des travaux pour d'autres applications ? "
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(toutes les applications)"
 
 #, fuzzy
 #~ msgid "preferences"
