@@ -2851,3 +2851,12 @@ David  16 Apr 2010
         sched_send.cpp
         credit.cpp
         sched_main.cpp
+
+Rom    16 Apr 2010
+    - MGR: Handle the Event Log's size better, pass in the correct dialog
+        size to the dialog creation routines instead of setting the size
+        after dialog initialization.  Avoids artifacts and things having
+        to be tweaked later.
+        
+    clientgui/
+        DlgEventLog.cpp, .h

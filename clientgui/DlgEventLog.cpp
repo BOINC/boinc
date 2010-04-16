@@ -63,7 +63,6 @@ IMPLEMENT_DYNAMIC_CLASS( CDlgEventLog, wxDialog )
 
 BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
 ////@begin CDlgEventLog event table entries
-    EVT_SHOW(CDlgEventLog::OnShow)
     EVT_HELP(wxID_ANY, CDlgEventLog::OnHelp)
     EVT_BUTTON(wxID_OK, CDlgEventLog::OnOK)
     EVT_BUTTON(ID_COPYAll, CDlgEventLog::OnMessagesCopyAll)
@@ -91,8 +90,6 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
     
-    SaveState();    // Save state if close box on window frame clicked
-
     if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
         m_pMessageInfoAttr = NULL;
@@ -126,7 +123,7 @@ CDlgEventLog::~CDlgEventLog() {
  * CDlgEventLog creator
  */
 
-bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
 ////@begin CDlgEventLog member initialisation
     m_iPreviousRowCount = 0;
@@ -139,12 +136,48 @@ bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxSt
 ////@end CDlgEventLog member initialisation
 
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxPoint oTempPoint;
+    wxSize  oTempSize;
+
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
+    if ((pos == wxDefaultPosition) && (size == wxDefaultSize)) {
+        // Get size and position from the previous configuration
+        GetWindowDimensions( oTempPoint, oTempSize );
 
-    wxDialog::Create( NULL, id, caption, pos, size, style );
+#ifdef __WXMSW__
+        // Windows does some crazy things if the initial position is a negative
+        // value.
+        oTempPoint.x = wxDefaultCoord;
+        oTempPoint.y = wxDefaultCoord;
+#endif
+
+#ifdef __WXMAC__
+        // If the user has changed the arrangement of multiple 
+        // displays, make sure the window title bar is still on-screen.
+        Rect titleRect = {oTempPoint.y, oTempPoint.x, oTempPoint.y+22, oTempPoint.x+oTempSize.x };
+        InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
+        RgnHandle displayRgn = NewRgn();
+        CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
+        Rect menuRect = ((**GetMainDevice())).gdRect;
+        menuRect.bottom = GetMBarHeight() + menuRect.top;
+        RgnHandle menuRgn = NewRgn();
+        RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
+        DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
+        if (!RectInRgn(&titleRect, displayRgn))
+            oTempPoint.y = oTempPoint.x = 30;
+        DisposeRgn(menuRgn);
+        DisposeRgn(displayRgn);
+#endif  // ! __WXMAC__
+    } else {
+        oTempPoint = pos;
+        oTempSize = size;
+    }
+
+    wxDialog::Create( parent, id, caption, oTempPoint, oTempSize, style );
+
+    SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
 
     // Initialize Application Title
     wxString strCaption = caption;
@@ -188,12 +221,6 @@ bool CDlgEventLog::Create( wxWindow* WXUNUSED(parent), wxWindowID id, const wxSt
     m_pMessageErrorGrayAttr = new wxListItemAttr(*m_pMessageErrorAttr);
 #endif
 
-    GetSizer()->Fit(this);
-    GetSizer()->SetSizeHints(this);
-    Center();
-
-    // To work properly on Mac, RestoreState() must be called _after_ 
-    //  calling GetSizer()->Fit(), GetSizer()->SetSizeHints() and Center()
     RestoreState();
 
     return true;
@@ -278,33 +305,6 @@ void CDlgEventLog::CreateControls()
 
 
 /*!
- * wxEVT_SHOW event handler for ID_DLGMESSAGES
- */
-
-void CDlgEventLog::OnShow(wxShowEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnShow - Function Begin"));
-    static bool bAlreadyRunning = false;
-
-    if ((event.GetEventObject() == this) && !bAlreadyRunning) {
-        bAlreadyRunning = true;
-
-        wxLogTrace(wxT("Function Status"), wxT("CDlgEventLog::OnShow - Show/Hide Event for CAdvancedFrame detected"));
-        if (event.GetShow()) {
-            RestoreWindowDimensions();
-        } else {
-            SaveWindowDimensions();
-        }
-
-        bAlreadyRunning = false;
-    } else {
-        event.Skip();
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnShow - Function End"));
-}
-
-
-/*!
  * wxEVT_HELP event handler for ID_DLGMESSAGES
  */
 
@@ -333,7 +333,7 @@ void CDlgEventLog::OnHelp(wxHelpEvent& event) {
  */
 
 void CDlgEventLog::OnOK( wxCommandEvent& WXUNUSED(event) ) {
-    Destroy();
+    Close();
 }
 
 
@@ -342,6 +342,8 @@ void CDlgEventLog::OnOK( wxCommandEvent& WXUNUSED(event) ) {
  */
 
 void CDlgEventLog::OnClose(wxCloseEvent& WXUNUSED(event)) {
+    SaveState();
+    SetWindowDimensions();
     Destroy();
 }
 
@@ -511,7 +513,7 @@ void CDlgEventLog::OnRefresh() {
 bool CDlgEventLog::SaveState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::SaveState - Function Begin"));
 
-    wxString        strBaseConfigLocation = wxString(wxT("/Messages/"));
+    wxString        strBaseConfigLocation = wxString(wxT("/EventLog/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxListItem      liColumnInfo;
     wxInt32         iIndex = 0;
@@ -528,9 +530,6 @@ bool CDlgEventLog::SaveState() {
     //
     // Save Frame State
     //
-    // Reterieve and store the latest window dimensions.
-    SaveWindowDimensions();
-
     pConfig->SetPath(strBaseConfigLocation);
 
     // Convert to a zero based index
@@ -556,30 +555,10 @@ bool CDlgEventLog::SaveState() {
 }
 
 
-void CDlgEventLog::SaveWindowDimensions() {
-    wxString        strBaseConfigLocation = wxString(wxT("/EventLog"));
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-
-    wxASSERT(pConfig);
-
-    pConfig->SetPath(strBaseConfigLocation);
-
-    pConfig->Write(wxT("WindowIconized"), IsIconized());
-    pConfig->Write(wxT("WindowMaximized"), IsMaximized());
-    pConfig->Write(wxT("Width"), GetSize().GetWidth());
-    pConfig->Write(wxT("Height"), GetSize().GetHeight());
-
-#ifdef __WXMAC__
-    pConfig->Write(wxT("XPos"), GetPosition().x);
-    pConfig->Write(wxT("YPos"), GetPosition().y);
-#endif  // ! __WXMAC__
-}
-    
-
 bool CDlgEventLog::RestoreState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::RestoreState - Function Begin"));
 
-    wxString        strBaseConfigLocation = wxString(wxT("/Messages/"));
+    wxString        strBaseConfigLocation = wxString(wxT("/EventLog/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxListItem      liColumnInfo;
     wxInt32         iIndex = 0;
@@ -597,10 +576,6 @@ bool CDlgEventLog::RestoreState() {
     //
     // Restore Frame State
     //
-
-    // Restore the windows properties
-    RestoreWindowDimensions();
-
     pConfig->SetPath(strBaseConfigLocation);
 
     // Convert to a zero based index
@@ -634,15 +609,10 @@ bool CDlgEventLog::RestoreState() {
 }
 
 
-void CDlgEventLog::RestoreWindowDimensions() {
-    wxString        strBaseConfigLocation = wxString(wxT("/EventLog"));
+void CDlgEventLog::GetWindowDimensions( wxPoint& position, wxSize& size ) {
+    wxString        strBaseConfigLocation = wxString(wxT("/EventLog/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    bool            bWindowIconized = false;
-    bool            bWindowMaximized = false;
-    int             iHeight = 0;
-    int             iWidth = 0;
-    int             iTop = 0;
-    int             iLeft = 0;
+    int             iHeight = 0, iWidth = 0, iTop = 0, iLeft = 0;
 
     wxASSERT(pConfig);
 
@@ -652,39 +622,28 @@ void CDlgEventLog::RestoreWindowDimensions() {
     pConfig->Read(wxT("XPos"), &iLeft, 30);
     pConfig->Read(wxT("Width"), &iWidth, 640);
     pConfig->Read(wxT("Height"), &iHeight, 480);
-    pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
-    pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
 
-#ifndef __WXMAC__
-
-    Iconize(bWindowIconized);
-    Maximize(bWindowMaximized);
-    if (!IsIconized() && !IsMaximized()) {
-        SetSize(-1, -1, iWidth, iHeight);
-    }
-
-#else   // ! __WXMAC__
-
-    // If the user has changed the arrangement of multiple 
-    // displays, make sure the window title bar is still on-screen.
-    Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
-    InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
-    RgnHandle displayRgn = NewRgn();
-    CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
-    Rect menuRect = ((**GetMainDevice())).gdRect;
-    menuRect.bottom = GetMBarHeight() + menuRect.top;
-    RgnHandle menuRgn = NewRgn();
-    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
-    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
-    if (!RectInRgn(&titleRect, displayRgn))
-        iTop = iLeft = 30;
-    DisposeRgn(menuRgn);
-    DisposeRgn(displayRgn);
-
-    SetSize(iLeft, iTop, iWidth, iHeight);
-
-#endif  // ! __WXMAC__
+    position.y = iTop;
+    position.x = iLeft;
+    size.x = iWidth;
+    size.y = iHeight;
 }
+
+
+void CDlgEventLog::SetWindowDimensions() {
+    wxString        strBaseConfigLocation = wxString(wxT("/EventLog/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+
+    wxASSERT(pConfig);
+
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Write(wxT("XPos"), GetPosition().x);
+    pConfig->Write(wxT("YPos"), GetPosition().y);
+    pConfig->Write(wxT("Width"), GetSize().x);
+    pConfig->Write(wxT("Height"), GetSize().y);
+}
+    
 
 /*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYAll

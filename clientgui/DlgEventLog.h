@@ -85,7 +85,7 @@ public:
     ~CDlgEventLog();
     
     /// Creation
-    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGEVENTLOG_IDNAME, const wxString& caption = SYMBOL_CDLGEVENTLOG_TITLE, const wxPoint& pos = SYMBOL_CDLGEVENTLOG_POSITION, const wxSize& size = SYMBOL_CDLGEVENTLOG_SIZE, long style = SYMBOL_CDLGEVENTLOG_STYLE );
+    bool Create( wxWindow* parent = NULL, wxWindowID id = SYMBOL_CDLGEVENTLOG_IDNAME, const wxString& caption = SYMBOL_CDLGEVENTLOG_TITLE, const wxPoint& pos = SYMBOL_CDLGEVENTLOG_POSITION, const wxSize& size = SYMBOL_CDLGEVENTLOG_SIZE, long style = SYMBOL_CDLGEVENTLOG_STYLE );
 
     /// Creates the controls and sizers
     void CreateControls();
@@ -93,9 +93,6 @@ public:
 ////@begin CDlgEventLog event handler declarations
     /// wxEVT_HELP event handler for ID_DLGEVENTLOG
     void OnHelp( wxHelpEvent& event );
-
-    /// wxEVT_SHOW event handler for ID_DLGEVENTLOG
-    void OnShow( wxShowEvent& event );
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
@@ -159,9 +156,10 @@ private:
     bool                    m_bProcessingRefreshEvent;
 
     bool                    SaveState();
-    void                    SaveWindowDimensions();
     bool                    RestoreState();
-    void                    RestoreWindowDimensions();
+
+    void                    GetWindowDimensions( wxPoint& position, wxSize& size );
+    void                    SetWindowDimensions();
 
     void                    OnMouseUp(wxMouseEvent& event);
     
