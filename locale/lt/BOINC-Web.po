@@ -2,42 +2,44 @@
 # Copyright (C) 2008-2009 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-01-19 22:34 PST\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-04-17 08:48-0700\n"
+"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Paieška"
 
 #: docutil.php:101
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Grįžti į pagrindinį BOINC puslapį"
 
 #: docutil.php:112
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Šis puslapis %sgali būti išverstas%s."
 
 #: download.php:40
 msgid "Download BOINC"
-msgstr ""
+msgstr "Parsisiųsti BOINC"
 
 #: download.php:42
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr ""
+msgstr "%s, skirta %s (%s MB)"
 
 #: download.php:89
 msgid ""
@@ -46,12 +48,18 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
+"BOINC yra programinė įranga, kuri leidžia dovanoti laisvą kompiuterio laiką "
+"moksliniams projektams kaip SETI@home, Climateprediction.net, Rosetta@home, "
+"World Community Grid ir kitiems. <p> Įdiegę BOINC į savo kompiuterį, galite "
+"prisijungti prie tiek projektų, kiek tik panorėsite."
 
 #: download.php:91
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"Galite naudoti šią programinę įrangą tik jei esate kompiuterio savininkas ar "
+"turite leidimą iš jo savininko."
 
 #: download.php:116
 #, php-format
@@ -59,30 +67,32 @@ msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
+"Pastaba: jei jūsų kompiuteryje yra vaizdo procesorius, galite jį %snaudoti "
+"skaičiavimams paspartinti%s"
 
 #: download.php:122
 msgid "System requirements"
-msgstr ""
+msgstr "Reikalavimai sistemai"
 
 #: download.php:123
 msgid "Release notes"
-msgstr ""
+msgstr "Išleidimo pastabos"
 
 #: download.php:124 index.php:82
 msgid "Help"
-msgstr ""
+msgstr "Pagalba"
 
 #: download.php:125
 msgid "All versions"
-msgstr ""
+msgstr "Visos versijos"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "Versijų istorija"
 
 #: download.php:143
 msgid "BOINC: compute for science"
-msgstr ""
+msgstr "BOINC: skaičiavimai mokslui"
 
 #: help.php:12
 #, php-format
@@ -92,6 +102,10 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
+"BOINC pagalba leidžia asmeniškai pabendrauti su patyrusiais BOINC dalyviais, "
+"kurie gali: %s atsakyti klausimus apie BOINC ir savanoriškus skaičiavimus; "
+"%s padėti įdiegti ir naudoti BOINC; %s padėti spręsti problemas, su kuriomis "
+"galite susidurti."
 
 #: help.php:21
 #, php-format
@@ -101,6 +115,9 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
+"BOINC pagalba paremta %sSkype%s, internetinės telefonijos sistema. Skype yra "
+"nemokama (tiek programinė įranga, tiek skambučiai). Jei dar neturite Skype, "
+"%sparsisiųskite ir įsidiekite%s. Kai baigsite, grįžkite į šį puslapį."
 
 #: help.php:28
 msgid ""
@@ -109,16 +126,20 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
+"Geriausias būdas pagalbai gauti yra balsu. Tam reikalingas mikrofonas ir "
+"garsiakalbiai arba ausinės. Taip pat galite naudotis Skype tekstinių žinučių "
+"sistema arba įprastiniu elektroniniu paštu, jei neturite Skype."
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
 msgstr ""
+"Yra prieinamų savanorių, kalbančių įvairiomis kalbomis. Pasirinkite kalbą:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr ""
+msgstr "Tapti savanoriu pagalbininku"
 
 #: help.php:50
 #, php-format
@@ -127,60 +148,65 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
+"Jei esate patyręs BOINC dalyvis, siūlome %stapti pagalbininku%s. Tai yra "
+"geras būdas padėti moksliniams tyrimams ir savanoriškiems skaičiavimams - be "
+"to, tai yra smagu!"
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
+"Jei jau esate pagalbininku: norėdami pakeisti savo nustatymus, %sspauskite "
+"čia%s."
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "Skaičiavimai"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "100 geriausių dalyvių"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "Aktyvūs:"
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "dalyviai,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "kompiuteriai."
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "24 valandų vidurkis:"
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TeraFLOPS."
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Naujienos"
 
 #: index.php:79
 msgid "Volunteer"
-msgstr ""
+msgstr "Tapkite dalyviu"
 
 #: index.php:81
 msgid "Download"
-msgstr ""
+msgstr "Parsisiuntimas"
 
 #: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentacija"
 
 #: index.php:89
 #, php-format
@@ -197,20 +223,24 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
+"Arba, jei dalyvaujate kelete projektų, išbandykite %sabonemento valdiklį%s, "
+"tokį kaip %sGridRepublic%s arba %sBAM!%s."
 
 #: index.php:116
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "Skaičiuokite su BOINC"
 
 #: index.php:119
 msgid "Software updates"
-msgstr ""
+msgstr "Programinės įrangos atnaujinimai"
 
 #: index.php:126
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%1Mokslininkai%2: naudokite BOINC %3skaičiavimų projekto%4 sukūrimui, kuris "
+"suteiks jums tūkstančių procesorių resursus."
 
 #: index.php:130
 msgid ""
@@ -224,11 +254,11 @@ msgstr ""
 
 #: index.php:147
 msgid "The BOINC project"
-msgstr ""
+msgstr "BOINC projektas"
 
 #: index.php:153
 msgid "Message boards"
-msgstr ""
+msgstr "Forumai"
 
 #: index.php:154
 msgid "Email lists"
@@ -236,7 +266,7 @@ msgstr ""
 
 #: index.php:155
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "Personalas ir prisidėję asmenys"
 
 #: index.php:156
 msgid "Events"
@@ -248,54 +278,56 @@ msgstr ""
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Tyrimų projektai"
 
 #: index.php:159
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Logotipai ir grafika"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "ir"
 
 #: index.php:164
 msgid "Help wanted"
-msgstr ""
+msgstr "Reikia pagalbos"
 
 #: index.php:166
 msgid "Programming"
-msgstr ""
+msgstr "Programavimas"
 
 #: index.php:167
 msgid "Translation"
-msgstr ""
+msgstr "Vertimas"
 
 #: index.php:168
 msgid "Testing"
-msgstr ""
+msgstr "Testavimas"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "Viešinimas"
 
 #: index.php:172
 msgid "Software development"
-msgstr ""
+msgstr "Programinės įrangos kūrimas"
 
 #: index.php:173
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "API papildomai programinei įrangai"
 
 #: index.php:207
 msgid "Browser default"
-msgstr ""
+msgstr "Standartinė naršyklės"
 
 #: index.php:254
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
+"Atviro kodo programinė įranga %savanoriškiems skaičiavimams%s ir "
+"%sskaičiavimams tinkle%s."
 
 #: index.php:267
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC įsikūręs The University of California, Berkeley"
