@@ -90,6 +90,8 @@ int main(int argc, char *argv[])
     }
 
     for (index=2; index<argc; index++) {
+        // getpwnam works with either the full / login name (pw->pw_gecos) 
+        // or the short / Posix name (pw->pw_name)
         pw = getpwnam(argv[index]);
         if (pw == NULL) {
             printf("User %s not found.\n", argv[index]);
@@ -99,7 +101,7 @@ int main(int argc, char *argv[])
         isBMGroupMember = false;
         i = 0;
         while ((p = grpBOINC_master.gr_mem[i]) != NULL) {  // Step through all users in group boinc_master
-            if (strcmp(p, argv[index]) == 0) {
+            if (strcmp(p, pw->pw_name) == 0) {      // Only the short / Posix names are in the list
                 // User is a member of group boinc_master
                 isBMGroupMember = true;
                 break;
@@ -110,7 +112,7 @@ int main(int argc, char *argv[])
         isBPGroupMember = false;
         i = 0;
         while ((p = grpBOINC_project.gr_mem[i]) != NULL) {  // Step through all users in group boinc_project
-            if (strcmp(p, argv[index]) == 0) {
+            if (strcmp(p, pw->pw_name) == 0) {      // Only the short / Posix names are in the list
                 // User is a member of group boinc_master
                 isBPGroupMember = true;
                 break;
@@ -119,22 +121,22 @@ int main(int argc, char *argv[])
         }
 
         if ((!isBMGroupMember) && AddUsers) {
-            sprintf(s, "dscl . -merge /groups/boinc_master users %s", argv[index]);
+            sprintf(s, "dscl . -merge /groups/boinc_master users %s", pw->pw_name);
             system(s);
         }
         
         if ((!isBPGroupMember) && AddUsers) {
-            sprintf(s, "dscl . -merge /groups/boinc_project users %s", argv[index]);
+            sprintf(s, "dscl . -merge /groups/boinc_project users %s", pw->pw_name);
             system(s);
         }
         
         if (isBMGroupMember && (!AddUsers)) {
-            sprintf(s, "dscl . -delete /Groups/boinc_master GroupMembership %s", argv[index]);
+            sprintf(s, "dscl . -delete /Groups/boinc_master GroupMembership %s", pw->pw_name);
             system(s);
         }
 
         if (isBPGroupMember && (!AddUsers)) {
-            sprintf(s, "dscl . -delete /Groups/boinc_project GroupMembership %s", argv[index]);
+            sprintf(s, "dscl . -delete /Groups/boinc_project GroupMembership %s", pw->pw_name);
             system(s);
         }
 
@@ -145,10 +147,10 @@ int main(int argc, char *argv[])
 
         if (OSVersion < 0x1060) {
             sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleName", 
-                    argv[index]); 
+                    pw->pw_name); 
         } else {
             sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
-                    argv[index]); 
+                    pw->pw_name); 
         }
         f = popen(s, "r");
         
@@ -166,14 +168,14 @@ int main(int argc, char *argv[])
         if ((!saverIsSet) && SetSavers) {
             if (OSVersion < 0x1060) {
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleName BOINCSaver", 
-                    argv[index]); 
+                    pw->pw_name); 
                 system(s);
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver modulePath \"/Library/Screen Savers/BOINCSaver.saver\"", 
-                    argv[index]); 
+                    pw->pw_name); 
                 system(s);
             } else {
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName BOINCSaver path \"/Library/Screen Savers/BOINCSaver.saver\"", 
-                        argv[index]);
+                        pw->pw_name);
                 system(s);
             }
         }
@@ -181,14 +183,14 @@ int main(int argc, char *argv[])
         if (saverIsSet && (!AddUsers)) {
             if (OSVersion < 0x1060) {
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleName Flurry", 
-                    argv[index]); 
+                    pw->pw_name); 
                 system(s);
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver modulePath \"/System/Library/Screen Savers/Flurry.saver\"", 
-                    argv[index]); 
+                    pw->pw_name); 
                 system(s);
             } else {
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName Flurry path \"/System/Library/Screen Savers/Flurry.saver\"", 
-                        argv[index]);
+                        pw->pw_name);
                 system(s);
             }
         }
