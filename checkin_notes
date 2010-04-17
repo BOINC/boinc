@@ -2883,3 +2883,12 @@ David  16 Apr 2010
 		client_state.cpp
 		coproc_detect.cpp
 		cpu_sched.cpp
+
+Charlie  16 Apr 2010
+    - Mac Installer: Set uninstaller's writeable-by-user permission bit so 
+        3rd-party Unarchiver can inflate the Zip file (from Eric Myers).
+    
+    mac_installer/
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
+        release_boinc.sh
