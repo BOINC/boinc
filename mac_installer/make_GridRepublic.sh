@@ -19,7 +19,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to GridRepublic Desktop installer
-# updated 2/2/10 by Charlie Fenton
+# updated 4/16/10 by Charlie Fenton
 ##
 
 ## Usage:
@@ -247,7 +247,7 @@ sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Un
 sudo rm -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/Uninstall BOINC.rsrc"
 
 sudo chown -R root:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app"
-sudo chmod -R 555 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app"
+sudo chmod -R 755 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app"
 
 ## Fix up ownership and permissions
 sudo chown -R root:admin "${PR_PATH}"/*
