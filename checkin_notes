@@ -1262,3 +1262,10 @@ Charlie  16 Apr 2010
         make_GridRepublic.sh
         make_ProgThruProc.sh
         release_boinc.sh
+
+Charlie  17 Apr 2010
+    - Mac Installer: AddRemoveUser utility accepts both full / login user 
+        names and short / Posix user names.
+
+    mac_installer/
+        AddRemoveUser.cpp
