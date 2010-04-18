@@ -1269,3 +1269,9 @@ Charlie  17 Apr 2010
 
     mac_installer/
         AddRemoveUser.cpp
+
+Charlie  15 Apr 2010
+	- client: Fix compile break.
+
+	lib/
+		procinfo_mac.cpp

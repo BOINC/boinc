@@ -145,7 +145,7 @@ void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, char* graphic
         }
             // look for child process of this one
 		if (p.parentid == pid) {
-			add_proc_totals(pi, piv, p.id, graphics_exec_file, i+1);    // recursion - woo hoo!
+			add_proc_totals(pi, piv, p.id, graphics_exec_file, i+1, rlvl+1);    // recursion - woo hoo!
         }
     }
 }
