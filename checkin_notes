@@ -2899,3 +2899,20 @@ Charlie  17 Apr 2010
 
     mac_installer/
         AddRemoveUser.cpp
+
+David  17 Apr 2010
+    - client: improve GPU scheduling
+        old: assign GPUs, then check available RAM
+            Problem: may cause starvation on multi-GPU systems.
+        new: use available RAM info in the assignment process.
+            Prevents starvation, also reduces the number of driver calls.
+
+    client/
+        client_state.cpp
+        client_types.cpp,h
+        coproc_detect.cpp
+        cpu_sched.cpp
+    lib/
+        coproc.h
+    sched/
+        sched_customize.cpp

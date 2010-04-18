@@ -637,10 +637,9 @@ struct RESULT {
         // keep track of coprocessor reservations
     char resources[256];
         // textual description of resources used
-    bool insufficient_video_ram();
     double schedule_backoff;
         // don't try to schedule until this time
-        // (wait for free video RAM)
+        // (wait for free GPU RAM)
 };
 
 // represents an always/auto/never value, possibly temporarily overridden

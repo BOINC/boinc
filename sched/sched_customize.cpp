@@ -114,6 +114,9 @@ static inline void coproc_perf(
 #define PLAN_CUDA_MIN_RAM                   (254.*1024*1024)
 #define PLAN_CUDA23_MIN_RAM                   (384.*1024*1024)
 
+// app planning function.
+// See http://boinc.berkeley.edu/trac/wiki/AppPlan
+//
 bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     char buf[256];
     if (!strcmp(plan_class, "mt")) {
@@ -414,8 +417,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             add_no_work_message(buf);
             return false;
         }
-        hu.gpu_ram = min_ram - 16*MEGA;
-
+        hu.gpu_ram = 200*MEGA;
 
         hu.ncudas = 1;
         //hu.ncudas = .5;    // you can use a fractional GPU if you want
