@@ -395,7 +395,7 @@ void COPROC_CUDA::get(
 
 // fake a NVIDIA GPU (for debugging)
 //
-COPROC* fake_cuda(COPROCS& coprocs, double ram, int count) {
+COPROC_CUDA* fake_cuda(COPROCS& coprocs, double ram, int count) {
    COPROC_CUDA* cc = new COPROC_CUDA;
    strcpy(cc->type, "CUDA");
    cc->count = count;
@@ -435,6 +435,9 @@ int COPROC_CUDA::get_available_ram() {
     // avoid crash if faked GPU
     //
     if (!__cuDeviceGet) {
+        for (i=0; i<count; i++) {
+            available_ram[i] = available_ram_fake[i];
+        }
         return 0;
     }
     for (i=0; i<count; i++) {
@@ -761,7 +764,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
     retval = (*__calShutdown)();
 }
 
-COPROC* fake_ati(COPROCS& coprocs, double ram, int count) {
+COPROC_ATI* fake_ati(COPROCS& coprocs, double ram, int count) {
     COPROC_ATI* cc = new COPROC_ATI;
     strcpy(cc->type, "ATI");
     strcpy(cc->version, "1.4.3");
@@ -789,6 +792,9 @@ int COPROC_ATI::get_available_ram() {
 
     // avoid crash if faked GPU
     if (!__calInit) {
+        for (i=0; i<count; i++) {
+            available_ram[i] = available_ram_fake[i];
+        }
         return 0;
     }
     retval = (*__calInit)();

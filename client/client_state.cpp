@@ -265,17 +265,17 @@ int CLIENT_STATE::init() {
         if (host_info.coprocs.coprocs.size() == 0) {
             msg_printf(NULL, MSG_INFO, "No usable GPUs found");
         }
-#if 0
+#if 1
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
         coproc_cuda = fake_cuda(host_info.coprocs, 256*MEGA, 2);
-        coproc_cuda->available_ram[0] = 256*MEGA;
-        coproc_cuda->available_ram[1] = 192*MEGA;
+        coproc_cuda->available_ram_fake[0] = 256*MEGA;
+        coproc_cuda->available_ram_fake[1] = 192*MEGA;
 #endif
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
         coproc_ati = fake_ati(host_info.coprocs, 512*MEGA, 2);
-        coproc_ati->available_ram[0] = 256*MEGA;
-        coproc_ati->available_ram[1] = 192*MEGA;
+        coproc_ati->available_ram_fake[0] = 256*MEGA;
+        coproc_ati->available_ram_fake[1] = 192*MEGA;
 #endif
         coproc_cuda = (COPROC_CUDA*)host_info.coprocs.lookup("CUDA");
         coproc_ati = (COPROC_ATI*)host_info.coprocs.lookup("ATI");
