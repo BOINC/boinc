@@ -128,11 +128,11 @@ bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p, int rsc_type) {
         break;
     case RSC_TYPE_CUDA:
         if (p->no_cuda_pref) return false;
-        if (p->cuda_low_mem) return false;
+        if (p->cuda_defer_sched) return false;
         break;
     case RSC_TYPE_ATI:
         if (p->no_ati_pref) return false;
-        if (p->ati_low_mem) return false;
+        if (p->ati_defer_sched) return false;
         break;
     }
     return (backoff_time < gstate.now);

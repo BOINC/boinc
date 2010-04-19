@@ -26,6 +26,9 @@
 //
 // Then copy the ids into the array below and run this script
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
 $cli_only = true;
 require_once("../inc/util_ops.inc");
 
@@ -36,11 +39,30 @@ $ids = array(
         9031518,
 );
 
-foreach ($ids as $id) {
+function purge_user($id) {
     mysql_query("delete from user where id=$id");
     mysql_query("delete from profile where userid=$id");
     mysql_query("delete from thread where owner=$id");
     mysql_query("delete from post where user=$id");
 }
+
+function purge_users($ids) {
+    foreach ($ids as $id) {
+        purge_user($id);
+    }
+}
+
+// purge_users($ids);
+
+function profile_word($word) {
+    $q = "select userid from profile where response1 like '%$word%'";
+    echo "$q\n";
+    $r = mysql_query($q);
+    while ($x = mysql_fetch_object($r)) {
+        purge_user($x->userid);
+    }
+}
+
+//profile_word("viagra");
 
 ?>
