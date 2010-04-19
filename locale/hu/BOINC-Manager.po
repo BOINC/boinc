@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-04-11 11:20-0700\n"
+"PO-Revision-Date: 2010-04-19 08:42-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -3761,6 +3761,8 @@ msgstr ""
 #: clientgui/mac/MacAccessiblity.cpp:245
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
+"Ez a panel a felhasználó egyes projektekben elért összeredményeiről "
+"tartalmaz grafikonokat"
 
 #: clientgui/mac/MacAccessiblity.cpp:528
 #: clientgui/mac/MacAccessiblity.cpp:636
@@ -3769,16 +3771,16 @@ msgstr "üres"
 
 #: clientgui/mac/MacAccessiblity.cpp:530
 msgid "list of "
-msgstr ""
+msgstr "listája ennek:"
 
 #: clientgui/mac/MacAccessiblity.cpp:533
 msgid " is empty"
-msgstr ""
+msgstr "üres"
 
 #: clientgui/mac/MacAccessiblity.cpp:605
 #, c-format
 msgid "%d of %d; "
-msgstr ""
+msgstr "%d ebből: %d;"
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
