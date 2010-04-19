@@ -2960,3 +2960,10 @@ David  19 Apr 2010
 
     sched/
         credit.cpp
+
+Charlie  17 Apr 2010
+    - Mac Installer: PostInstall gets short / Posix user name from getpwnam(),
+        writes additional diagnostic information to installer log.
+
+    mac_installer/
+        PostInstall.cpp

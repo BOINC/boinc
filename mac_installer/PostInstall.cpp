@@ -939,31 +939,42 @@ OSErr UpdateAllVisibleUsers(long brandID)
 
     FindSkinName(skinName, sizeof(skinName));
 
+    // Step through all users
+    puts("Beginning first pass through all users\n");
+
     dirp = opendir("/Users");
     if (dirp == NULL) {      // Should never happen
-        puts("opendir(\"/Users\") failed\n");
+        puts("[1] opendir(\"/Users\") failed\n");
         return -1;
     }
     
-    // Step through all users
     while (true) {
         dp = readdir(dirp);
         if (dp == NULL)
             break;                  // End of list
+
+        printf("[1] Checking user %s\n", dp->d_name);
             
         if (dp->d_name[0] == '.')
             continue;               // Ignore names beginning with '.'
     
+        // getpwnam works with either the full / login name (pw->pw_gecos) 
+        // or the short / Posix name (pw->pw_name)
         pw = getpwnam(dp->d_name);
-        if (pw == NULL)             // "Deleted Users", "Shared", etc.
+        if (pw == NULL) {           // "Deleted Users", "Shared", etc.
+            printf("[1] %s not in getpwnam data base\n", dp->d_name);
             continue;
+        }
 
+        printf("[1] User %s: Posix name=%s, Full name=%s\n", dp->d_name, pw->pw_name, pw->pw_gecos);
+        
 #ifdef SANDBOX
         isGroupMember = false;
         i = 0;
         while ((p = grpAdmin.gr_mem[i]) != NULL) {  // Step through all users in group admin
-            if (strcmp(p, dp->d_name) == 0) {
+            if (strcmp(p, pw->pw_name) == 0) {
                 // User is a member of group admin, so add user to groups boinc_master and boinc_project
+                printf("[1] User %s is a member of group admin\n", pw->pw_name);
                 err = AddAdminUserToGroups(p);
                 if (err != noErr)
                     return err;
@@ -976,8 +987,9 @@ OSErr UpdateAllVisibleUsers(long brandID)
         if (!isGroupMember) {
             i = 0;
             while ((p = grpBOINC_master.gr_mem[i]) != NULL) {  // Step through all users in group boinc_master
-                if (strcmp(p, dp->d_name) == 0) {
+                if (strcmp(p, pw->pw_name) == 0) {
                     // User is a member of group boinc_master
+                    printf("[1] User %s is a member of group boinc_master\n", pw->pw_name);
                     isGroupMember = true;
                     break;
                 }
@@ -992,7 +1004,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
 #endif  // SANDBOX
 
         if (isGroupMember) {
-            if (strcmp(loginName, dp->d_name) == 0) {
+            if ((strcmp(loginName, dp->d_name) == 0) || (strcmp(loginName, pw->pw_name) == 0)) {
                 currentUserCanRunBOINC = true;
             }
             
@@ -1003,7 +1015,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
             } else {
                 sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
-                        dp->d_name); 
+                        pw->pw_name); 
                 f = popen(s, "r");
             }
             
@@ -1039,7 +1051,12 @@ OSErr UpdateAllVisibleUsers(long brandID)
             allowNonAdminUsersToRunBOINC = true;
             currentUserCanRunBOINC = true;
             saverAlreadySetForAll = false;
+            printf("[2] User answered Yes to allowing non-admin users to run %s\n", brandName[brandID]);
+        } else {
+            printf("[2] User answered No to allowing non-admin users to run %s\n", brandName[brandID]);
         }
+    } else {
+        puts("[2] All non-admin users are already members of group boinc_master\n");
     }
     
     if (! saverAlreadySetForAll) {
@@ -1049,9 +1066,11 @@ OSErr UpdateAllVisibleUsers(long brandID)
     }
 
     // Step through all users a second time, setting non-admin users and / or our screensaver
+    puts("Beginning second pass through all users\n");
+
     dirp = opendir("/Users");
     if (dirp == NULL) {      // Should never happen
-        puts("opendir(\"/Users\") failed\n");
+        puts("[2] opendir(\"/Users\") failed\n");
         return -1;
     }
     
@@ -1059,36 +1078,43 @@ OSErr UpdateAllVisibleUsers(long brandID)
         dp = readdir(dirp);
         if (dp == NULL)
             break;                  // End of list
+
+        printf("[2] Checking user %s\n", dp->d_name);
             
         if (dp->d_name[0] == '.')
             continue;               // Ignore names beginning with '.'
     
         pw = getpwnam(dp->d_name);
-        if (pw == NULL)             // "Deleted Users", "Shared", etc.
+        if (pw == NULL) {           // "Deleted Users", "Shared", etc.
+            printf("[2] %s not in getpwnam data base\n", dp->d_name);
             continue;
+        }
 
+        printf("[2] User %s: Posix name=%s, Full name=%s\n", dp->d_name, pw->pw_name, pw->pw_gecos);
+        
 #ifdef SANDBOX
         isGroupMember = false;
 
         i = 0;
         while ((p = grpAdmin.gr_mem[i]) != NULL) {  // Step through all users in group admin
-            if (strcmp(p, dp->d_name) == 0) {
+            if (strcmp(p, pw->pw_name) == 0) {
                 // User is a member of group admin
+                printf("[2] User %s is a member of group admin\n", pw->pw_name);
                 isGroupMember = true;
                 break;
             }
             ++i;
         }
 
-        // If allNonAdminUsersAreSet, some older versions added non-admin users only to 
-        // group boinc_master; make sure they are also members of group boinc_project
-        if (! isGroupMember) {
-            if (allowNonAdminUsersToRunBOINC || allNonAdminUsersAreSet) {
-                // Add to group boinc_master but not group boinc_project
-                err = AddAdminUserToGroups(dp->d_name);
-                isGroupMember = true;
-            }
+        // If allNonAdminUsersAreSet, some older versions added non-admin users only to group 
+        // boinc_master; ensure all permitted BOINC users are also members of group boinc_project
+        if (isGroupMember || allowNonAdminUsersToRunBOINC || allNonAdminUsersAreSet) {
+            // Add to group boinc_master but not group boinc_project
+            err = AddAdminUserToGroups(pw->pw_name);
+            printf("[2] Calling AddAdminUserToGroups(%s)\n", pw->pw_name);
+            isGroupMember = true;
         }
+        
 #else   // SANDBOX
         isGroupMember = true;
 #endif  // SANDBOX
@@ -1096,6 +1122,9 @@ OSErr UpdateAllVisibleUsers(long brandID)
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
         deleteLoginItem = CheckDeleteFile(dp->d_name);
+        if (CheckDeleteFile(pw->pw_name)) {
+            deleteLoginItem = true;
+        }
         if (!isGroupMember) {
             deleteLoginItem = true;
         }
@@ -1113,7 +1142,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
                                 saverNameEscaped[brandID]);
                 } else {
                     sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName %s path /Library/Screen\\ Savers/%s.saver", 
-                            dp->d_name, saverNameEscaped[brandID], saverNameEscaped[brandID]);
+                            pw->pw_name, saverNameEscaped[brandID], saverNameEscaped[brandID]);
                 }
                 system (s);
             }
