@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-04-04 04:53-0700\n"
+"PO-Revision-Date: 2010-04-19 08:35-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -21,12 +21,10 @@ msgstr ""
 "X-Poedit-Country: UNITED STATES\n"
 
 # The name of this language in this language
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "Hungarian"
+msgstr "Magyar"
 
 # The name of this language in an international language (English)
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Hungarian"
 
@@ -555,7 +553,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:68
 msgid "Processor usage"
-msgstr ""
+msgstr "Processzor használat"
 
 #: ../inc/prefs.inc:71
 msgid ""

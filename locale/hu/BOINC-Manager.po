@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-28 13:09-0500\n"
-"PO-Revision-Date: 2010-04-04 04:40-0700\n"
+"PO-Revision-Date: 2010-04-19 08:36-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1283,7 +1283,7 @@ msgstr "Processzor idő"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:269
 msgid "processor usage"
-msgstr ""
+msgstr "processzor használat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:277
 msgid "General options"
