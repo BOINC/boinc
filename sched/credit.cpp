@@ -310,6 +310,7 @@ int grant_credit(
         start_time, credit, CREDIT_HALF_LIFE,
         host.expavg_credit, host.expavg_time
     );
+    host.total_credit += credit;
 
     // then the user
 

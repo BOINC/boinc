@@ -574,19 +574,19 @@ int DB_HOST::update_diff_validator(HOST& h) {
         strcat(updates, buf);
     }
     if (expavg_credit != h.expavg_credit) {
-        sprintf(buf, " expavg_credit=expavg_credit+%.15e,",
-            expavg_credit-h.expavg_credit
-        );
+        sprintf(buf, " expavg_credit=%.15e,", expavg_credit);
         strcat(updates, buf);
     }
     if (expavg_time != h.expavg_time) {
         sprintf(buf, " expavg_time=%.15e,", expavg_time);
         strcat(updates, buf);
     }
+#if 0
     if (credit_per_cpu_sec != h.credit_per_cpu_sec) {
         sprintf(buf, " credit_per_cpu_sec=%.15e,", credit_per_cpu_sec);
         strcat(updates, buf);
     }
+#endif
     int n = strlen(updates);
     if (n == 0) return 0;
     updates[n-1] = 0;        // trim the final comma

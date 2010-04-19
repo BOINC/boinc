@@ -2946,3 +2946,11 @@ David  19 Apr 2010
         coproc.h
     html/ops/
         purge_profile.php
+
+David  19 Apr 2010
+    - validator: fix bug where host.total_credit not incremented
+
+    db/
+        boinc_db.cpp
+    sched/
+        credit.cpp
