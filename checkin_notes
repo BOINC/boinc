@@ -2954,3 +2954,9 @@ David  19 Apr 2010
         boinc_db.cpp
     sched/
         credit.cpp
+
+David  19 Apr 2010
+    - validator: message tweak
+
+    sched/
+        credit.cpp

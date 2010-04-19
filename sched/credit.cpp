@@ -634,7 +634,7 @@ int get_pfc(
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] [RESULT#%d] old client: raw credit %.2f\n",
-                pfc*COBBLESTONE_SCALE
+                r.id, pfc*COBBLESTONE_SCALE
             );
         }
         bool do_scale = true;
@@ -678,8 +678,8 @@ int get_pfc(
     double raw_pfc = (r.elapsed_time * r.flops_estimate);
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
-            "[credit] [RESULT#%d] raw credit: %.2f\n",
-            r.id, raw_pfc*COBBLESTONE_SCALE
+            "[credit] [RESULT#%d] raw credit: %.2f (%.2f sec, %.2f est GFLOPS)\n",
+            r.id, raw_pfc*COBBLESTONE_SCALE, r.elapsed_time, r.flops_estimate
         );
     }
 
