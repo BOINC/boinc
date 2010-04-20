@@ -1913,51 +1913,6 @@ void RESULT::abort_inactive(int status) {
     exit_status = status;
 }
 
-// return true if not enough video RAM on the allocated device.
-// This gets called only for coproc jobs without a process yet
-//
-bool RESULT::insufficient_video_ram() {
-    double available_ram;
-    int retval;
-
-    if (avp->ncudas) {
-        retval = coproc_cuda->available_ram(
-            coproc_cuda->device_nums[coproc_indices[0]],
-            available_ram
-        );
-    } else if (avp->natis) {
-        retval = coproc_ati->available_ram(
-            coproc_ati->device_nums[coproc_indices[0]],
-            available_ram
-        );
-    } else {
-        return false;
-    }
-    if (retval) {
-        msg_printf(project, MSG_INFO,
-            "Can't get available GPU RAM: %d", retval
-        );
-        return true;   // it can't get available RAM, driver must be wedged.
-            // Better not use it.
-    }
-    if (!avp->gpu_ram) {
-        // old schedulers don't report gpu RAM
-        return false;
-    }
-
-    if (available_ram < avp->gpu_ram) {
-        if (log_flags.cpu_sched_debug) {
-            msg_printf(project, MSG_INFO,
-                "[cpu_sched_debug] %s: insufficient GPU RAM (%.0fMB < %.0fMB)",
-                name,
-                available_ram/MEGA, avp->gpu_ram/MEGA
-            );
-        }
-        return true;
-    }
-    return false;
-}
-
 MODE::MODE() {
     perm_mode = 0;
     temp_mode = 0;

@@ -971,7 +971,7 @@ static inline void increment_pending_usage(
 }
 
 static inline bool current_assignment_ok(
-    RESULT* rp, double usage, COPROC* cp
+    RESULT* rp, double usage, COPROC* cp, bool& insuff_ram
 ) {
     double x = (usage<1)?usage:1;
     for (int i=0; i<usage; i++) {
@@ -983,6 +983,18 @@ static inline bool current_assignment_ok(
                     cp->type, i, rp->name
                 );
             }
+            insuff_ram = false;
+            return false;
+        }
+        double ar = cp->available_ram[j];
+        if (ar && rp->avp->gpu_ram > ar) {
+            if (log_flags.coproc_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[coproc_debug] %s current assignment lacks RAM",
+                    rp->name
+                );
+            }
+            insuff_ram = true;
             return false;
         }
     }
@@ -1003,13 +1015,17 @@ static inline void confirm_current_assignment(
                 cp->type, i, rp->name
             );
         }
+        if (cp->available_ram[j]) {
+            cp->available_ram[j] -= rp->avp->gpu_ram;
+        }
     }
 }
 
 static inline bool get_fractional_assignment(
-    RESULT* rp, double usage, COPROC* cp
+    RESULT* rp, double usage, COPROC* cp, bool& insuff_ram
 ) {
     int i;
+    insuff_ram = false;
 
     // try to assign an instance that's already fractionally assigned
     //
@@ -1017,8 +1033,14 @@ static inline bool get_fractional_assignment(
         if ((cp->usage[i] || cp->pending_usage[i])
             && (cp->usage[i] + cp->pending_usage[i] + usage <= 1)
         ) {
+            double ar = cp->available_ram[i];
+            if (ar && rp->avp->gpu_ram > ar) {
+                insuff_ram = true;
+                continue;
+            }
             rp->coproc_indices[0] = i;
             cp->usage[i] += usage;
+            if (ar) cp->available_ram[i] -= rp->avp->gpu_ram;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
                     "[coproc_debug] Assigning %f of %s instance %d to %s",
@@ -1033,8 +1055,14 @@ static inline bool get_fractional_assignment(
     //
     for (i=0; i<cp->count; i++) {
         if (!cp->usage[i]) {
+            double ar = cp->available_ram[i];
+            if (ar && rp->avp->gpu_ram > ar) {
+                insuff_ram = true;
+                continue;
+            }
             rp->coproc_indices[0] = i;
             cp->usage[i] += usage;
+            if (ar) cp->available_ram[i] -= rp->avp->gpu_ram;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
                     "[coproc_debug] Assigning %f of %s free instance %d to %s",
@@ -1053,15 +1081,21 @@ static inline bool get_fractional_assignment(
 }
 
 static inline bool get_integer_assignment(
-    RESULT* rp, double usage, COPROC* cp
+    RESULT* rp, double usage, COPROC* cp, bool& insuff_ram
 ) {
     int i;
+    insuff_ram = false;
 
     // make sure we have enough free instances
     //
     int nfree = 0;
     for (i=0; i<cp->count; i++) {
         if (!cp->usage[i]) {
+            double ar = cp->available_ram[i];
+            if (ar && rp->avp->gpu_ram > ar) {
+                insuff_ram = true;
+                continue;
+            };
             nfree++;
         }
     }
@@ -1080,8 +1114,13 @@ static inline bool get_integer_assignment(
     // assign non-pending instances first
 
     for (i=0; i<cp->count; i++) {
-        if (!cp->usage[i] && !cp->pending_usage) {
+        double ar = cp->available_ram[i];
+        if (!cp->usage[i]
+            && !cp->pending_usage
+            && (!ar || rp->avp->gpu_ram <= ar)
+        ) {
             cp->usage[i] = 1;
+            if (ar) cp->available_ram[i] -= rp->avp->gpu_ram;
             rp->coproc_indices[n++] = i;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
@@ -1096,8 +1135,12 @@ static inline bool get_integer_assignment(
     // if needed, assign pending instances
 
     for (i=0; i<cp->count; i++) {
-        if (!cp->usage[i]) {
+        double ar = cp->available_ram[i];
+        if (!cp->usage[i]
+            && (!ar || rp->avp->gpu_ram <= ar)
+        ) {
             cp->usage[i] = 1;
+            if (ar) cp->available_ram[i] -= rp->avp->gpu_ram;
             rp->coproc_indices[n++] = i;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
@@ -1117,12 +1160,28 @@ static inline bool get_integer_assignment(
     return false;
 }
 
+static inline void mark_as_low_mem(RESULT* rp) {
+    if (rp->uses_cuda()) {
+        rp->project->cuda_low_mem = true;
+    } else if (rp->uses_ati()) {
+        rp->project->ati_low_mem = true;
+    }
+    rp->schedule_backoff = gstate.now + 300; // try again in 5 minutes
+    gstate.request_schedule_cpus("insufficient GPU RAM");
+}
+
 static inline void assign_coprocs(vector<RESULT*>& jobs) {
     unsigned int i;
     COPROC* cp;
     double usage;
 
     gstate.host_info.coprocs.clear_usage();
+    if (coproc_cuda) {
+        coproc_cuda->get_available_ram();
+    }
+    if (coproc_ati) {
+        coproc_ati->get_available_ram();
+    }
 
     // fill in pending usage
     //
@@ -1161,24 +1220,34 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
         }
 
         ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
+        bool insuff_ram;
         if (atp && atp->task_state() == PROCESS_EXECUTING) {
-            if (current_assignment_ok(rp, usage, cp)) {
+            if (current_assignment_ok(rp, usage, cp, insuff_ram)) {
                 confirm_current_assignment(rp, usage, cp);
                 job_iter++;
             } else {
+                if (insuff_ram) {
+                    mark_as_low_mem(rp);
+                }
                 job_iter = jobs.erase(job_iter);
             }
         } else {
             if (usage < 1) {
-                if (get_fractional_assignment(rp, usage, cp)) {
+                if (get_fractional_assignment(rp, usage, cp, insuff_ram)) {
                     job_iter++;
                 } else {
+                    if (insuff_ram) {
+                        mark_as_low_mem(rp);
+                    }
                     job_iter = jobs.erase(job_iter);
                 }
             } else {
-                if (get_integer_assignment(rp, usage, cp)) {
+                if (get_integer_assignment(rp, usage, cp, insuff_ram)) {
                     job_iter++;
                 } else {
+                    if (insuff_ram) {
+                        mark_as_low_mem(rp);
+                    }
                     job_iter = jobs.erase(job_iter);
                 }
             }
@@ -1321,7 +1390,7 @@ bool CLIENT_STATE::enforce_schedule() {
         projects[i]->ati_low_mem = false;
     }
 
-    // schedule non CPU intensive tasks,
+    // schedule non-CPU-intensive tasks,
     // and look for backed-off GPU jobs
     //
     for (i=0; i<results.size(); i++) {
@@ -1355,25 +1424,7 @@ bool CLIENT_STATE::enforce_schedule() {
         RESULT* rp = runnable_jobs[i];
         atp = lookup_active_task_by_result(rp);
 
-        if (rp->uses_coprocs()) {
-#ifndef SIM
-            // for coproc jobs, make sure there's enough video RAM
-            // currently free on the assigned device
-            //
-            if (!atp || !atp->process_exists()) {
-                if (rp->insufficient_video_ram()) {
-                    if (rp->uses_cuda()) {
-                        rp->project->cuda_low_mem = true;
-                    } else {
-                        rp->project->ati_low_mem = true;
-                    }
-                    rp->schedule_backoff = now + 300; // try again in 5 minutes
-                    request_schedule_cpus("insufficient GPU RAM");
-                    continue;
-                }
-            }
-#endif
-        } else {
+        if (!rp->uses_coprocs()) {
             // see if we're already using too many CPUs to run this job
             //
             if (ncpus_used >= ncpus) {

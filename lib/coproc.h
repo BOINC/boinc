@@ -118,6 +118,7 @@ struct COPROC {
     int device_num;     // temp used in scan process
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
+    double available_ram[MAX_COPROC_INSTANCES];
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
@@ -255,13 +256,13 @@ struct COPROC_CUDA : public COPROC {
         double x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * 2.;
         return x?x:5e10;
     }
-    int available_ram(int dev, double&);
+    int get_available_ram();
 
     bool check_running_graphics_app();
 };
 
-void fake_cuda(COPROCS&, double, int);
-void fake_ati(COPROCS&, double, int);
+extern COPROC* fake_cuda(COPROCS&, double, int);
+extern COPROC* fake_ati(COPROCS&, double, int);
 
 enum CUdevice_attribute_enum {
   CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK = 1,
@@ -310,7 +311,7 @@ struct COPROC_ATI : public COPROC {
         // clock is in MHz
         return x?x:5e10;
     }
-    int available_ram(int dev, double&);
+    int get_available_ram();
 };
 
 #endif

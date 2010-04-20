@@ -395,7 +395,7 @@ void COPROC_CUDA::get(
 
 // fake a NVIDIA GPU (for debugging)
 //
-void fake_cuda(COPROCS& coprocs, double ram, int count) {
+COPROC* fake_cuda(COPROCS& coprocs, double ram, int count) {
    COPROC_CUDA* cc = new COPROC_CUDA;
    strcpy(cc->type, "CUDA");
    cc->count = count;
@@ -424,27 +424,33 @@ void fake_cuda(COPROCS& coprocs, double ram, int count) {
    cc->prop.textureAlignment = 1000;
    cc->prop.multiProcessorCount = 14;
    coprocs.coprocs.push_back(cc);
+   return cc;
 }
 
-int COPROC_CUDA::available_ram(int devnum, double& ar) {
-    int device;
+int COPROC_CUDA::get_available_ram() {
+    int device, i, retval;
     unsigned int memfree, memtotal;
     unsigned int ctx;
     
     // avoid crash if faked GPU
     //
     if (!__cuDeviceGet) {
-        ar = prop.totalGlobalMem*.75;    // 75% of fake RAM is free
         return 0;
     }
-    int retval = (*__cuDeviceGet)(&device, devnum);
-    if (retval) return retval;
-    retval = (*__cuCtxCreate)(&ctx, 0, device);
-    if (retval) return retval;
-    retval = (*__cuMemGetInfo)(&memfree, &memtotal);
-    if (retval) return retval;
-    retval = (*__cuCtxDestroy)(ctx);
-    ar = (double) memfree;
+    for (i=0; i<count; i++) {
+        available_ram[i] = 0;
+    }
+    for (i=0; i<count; i++) {
+        int devnum = device_nums[i];
+        retval = (*__cuDeviceGet)(&device, devnum);
+        if (retval) return retval;
+        retval = (*__cuCtxCreate)(&ctx, 0, device);
+        if (retval) return retval;
+        retval = (*__cuMemGetInfo)(&memfree, &memtotal);
+        if (!retval) retval = (*__cuCtxDestroy)(ctx);
+        if (retval) return retval;
+        available_ram[i] = (double) memfree;
+    }
     return 0;
 }
 
@@ -755,7 +761,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
     retval = (*__calShutdown)();
 }
 
-void fake_ati(COPROCS& coprocs, double ram, int count) {
+COPROC* fake_ati(COPROCS& coprocs, double ram, int count) {
     COPROC_ATI* cc = new COPROC_ATI;
     strcpy(cc->type, "ATI");
     strcpy(cc->version, "1.4.3");
@@ -771,35 +777,41 @@ void fake_ati(COPROCS& coprocs, double ram, int count) {
         cc->device_nums[i] = i;
     }
     coprocs.coprocs.push_back(cc);
+    return cc;
 }
 
-int COPROC_ATI::available_ram(int devnum, double& ar) {
+int COPROC_ATI::get_available_ram() {
     CALdevicestatus st;
     CALdevice dev;
-    int retval;
+    int i, retval;
 
     st.struct_size = sizeof(CALdevicestatus);
 
     // avoid crash if faked GPU
     if (!__calInit) {
-        ar = attribs.localRAM*.75;    // 75% of fake RAM is free
         return 0;
     }
     retval = (*__calInit)();
     if (retval) return retval;
-    retval = (*__calDeviceOpen)(&dev, devnum);
-    if (retval) {
-        (*__calShutdown)();
-        return retval;
+    for (i=0; i<count; i++) {
+        available_ram[i] = 0;
     }
-    retval = (*__calDeviceGetStatus)(&st, dev);
-    if (retval) {
+    for (i=0; i<count; i++) {
+        int devnum = device_nums[i];
+        retval = (*__calDeviceOpen)(&dev, devnum);
+        if (retval) {
+            (*__calShutdown)();
+            return retval;
+        }
+        retval = (*__calDeviceGetStatus)(&st, dev);
+        if (retval) {
+            (*__calDeviceClose)(dev);
+            (*__calShutdown)();
+            return retval;
+        }
+        available_ram[i] = st.availLocalRAM*MEGA;
         (*__calDeviceClose)(dev);
-        (*__calShutdown)();
-        return retval;
     }
-    ar = st.availLocalRAM*MEGA;
-    (*__calDeviceClose)(dev);
     (*__calShutdown)();
     return 0;
 }
