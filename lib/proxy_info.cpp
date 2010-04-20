@@ -33,7 +33,9 @@ int PROXY_INFO::parse(MIOFILE& in) {
     memset(this, 0, sizeof(PROXY_INFO));
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</proxy_info>")) {
-            present = true;
+            present = false;
+            if (strlen(http_server_name)) present = true;
+            if (strlen(socks_server_name)) present = true;
             return 0;
         }
         else if (parse_bool(buf, "use_http_proxy", use_http_proxy)) continue;
