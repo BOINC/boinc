@@ -260,8 +260,8 @@ struct COPROC_CUDA : public COPROC {
     bool check_running_graphics_app();
 };
 
-void fake_cuda(COPROCS&, int);
-void fake_ati(COPROCS&, int);
+void fake_cuda(COPROCS&, double, int);
+void fake_ati(COPROCS&, double, int);
 
 enum CUdevice_attribute_enum {
   CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK = 1,
