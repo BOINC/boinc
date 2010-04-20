@@ -18,16 +18,12 @@
 #ifndef CLIENT_MSG_LOG_H
 #define CLIENT_MSG_LOG_H
 
-// write messages ONLY as follows:
-// if (log_flags.X) {
-//     msg_printf();
-// }
-
 #include <algorithm>
 #include <deque>
 #include <string>
 #include <string.h>
 
+#include "common_defs.h"
 #include "log_flags.h"
 
 class PROJECT;

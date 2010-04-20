@@ -119,6 +119,8 @@ struct COPROC {
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
     double available_ram[MAX_COPROC_INSTANCES];
+    bool unusable[MAX_COPROC_INSTANCES];
+        // don't use this GPU, e.g. because couldn't get available RAM
     double available_ram_fake[MAX_COPROC_INSTANCES];
 
 #ifndef _USING_FCGI_
@@ -257,7 +259,7 @@ struct COPROC_CUDA : public COPROC {
         double x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * 2.;
         return x?x:5e10;
     }
-    int get_available_ram();
+    void get_available_ram();
 
     bool check_running_graphics_app();
 };
@@ -309,7 +311,7 @@ struct COPROC_ATI : public COPROC {
         // clock is in MHz
         return x?x:5e10;
     }
-    int get_available_ram();
+    void get_available_ram();
 };
 
 extern COPROC_CUDA* fake_cuda(COPROCS&, double, int);

@@ -1341,3 +1341,16 @@ David  17 Apr 2010
 		cpu_sched.cpp
 	lib/
 		coproc.h
+
+David  19 Apr 2010
+    - client: clean up logic related to GPU available memory.
+        If a driver call to get available mem fail, mark the GPU as unusable.
+
+    client/
+        client_msgs.h
+        client_types.cpp,h
+        coproc_detect.cpp
+        cpu_sched.cpp
+        work_fetch.cpp
+    lib/
+        coproc.h
