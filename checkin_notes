@@ -1326,3 +1326,18 @@ David  17 Apr 2010
         cpu_sched.cpp
     lib/
         coproc.h
+
+David  17 Apr 2010
+	- client: when a GPU job finishes, clear the "schedule backoff"
+		of other jobs of that type.
+		They're waiting for GPU RAM, which may now be available.
+	- client: bug fix in GPU RAM availability
+	- client: fix testing setup for GPU RAM availability
+
+	client/
+		app_control.cpp
+		client_state.cpp
+		coproc_detect.cpp
+		cpu_sched.cpp
+	lib/
+		coproc.h

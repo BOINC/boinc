@@ -1116,7 +1116,7 @@ static inline bool get_integer_assignment(
     for (i=0; i<cp->count; i++) {
         double ar = cp->available_ram[i];
         if (!cp->usage[i]
-            && !cp->pending_usage
+            && !cp->pending_usage[i]
             && (!ar || rp->avp->gpu_ram <= ar)
         ) {
             cp->usage[i] = 1;
