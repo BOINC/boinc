@@ -1354,3 +1354,11 @@ David  19 Apr 2010
         work_fetch.cpp
     lib/
         coproc.h
+
+Rom    20 Apr 2010
+    - Tag for 6.10.46 release, all platforms
+      boinc_core_release_6_10_46
+
+    /
+        configure.ac
+        version.h
