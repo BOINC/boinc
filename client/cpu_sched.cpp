@@ -913,6 +913,45 @@ void CLIENT_STATE::append_unfinished_time_slice(
     }
 }
 
+////////// Coprocessor scheduling ////////////////
+//
+// theory of operations:
+//
+// Jobs can use one or more integral instances, or a fractional instance
+//
+// RESULT::coproc_indices
+//    for a running job, the coprocessor instances it's using
+// COPROC::pending_usage[]: for each instance, its usage by running jobs
+// CORPOC::usage[]: for each instance, its usage
+//
+// enforce_schedule() calls assign_coprocs(),
+// which assigns coproc instances to scheduled jobs,
+// and prunes jobs for which we can't make an assignment
+// (the job list is in order of decreasing priority)
+//
+// assign_coprocs():
+//     clear usage and pending_usage of all instances
+//     for each running job J
+//         increment pending_usage for the instances assigned to J
+//     for each scheduled job J
+//         if J is running
+//             if J's assignment fits
+//                 confirm assignment: dev pending_usage, inc usage
+//             else
+//                 prune J
+//         else
+//             if J.usage is fractional
+//                look for an instance that's already fractionally assigned
+//                if that fails, look for a free instance
+//                if that fails, prune J
+//             else
+//                if there are enough instances with usage=0
+//                    assign instances with pending_usage = usage = 0
+//                        (avoid preempting running jobs)
+//                    if need more, assign instances with usage = 0
+//                else
+//                    prune J
+
 static inline void increment_pending_usage(
     RESULT* rp, double usage, COPROC* cp
 ) {
@@ -920,6 +959,14 @@ static inline void increment_pending_usage(
     for (int i=0; i<usage; i++) {
         int j = rp->coproc_indices[i];
         cp->pending_usage[j] += x;
+        if (cp->pending_usage[j] > 1) {
+            if (log_flags.coproc_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[coproc_debug] huh? %s %d %s pending usage > 1",
+                    cp->type, i, rp->name
+                );
+            }
+        }
     }
 }
 
@@ -929,7 +976,15 @@ static inline bool current_assignment_ok(
     double x = (usage<1)?usage:1;
     for (int i=0; i<usage; i++) {
         int j = rp->coproc_indices[i];
-        if (cp->usage[j] + x > 1) return false;
+        if (cp->usage[j] + x > 1) {
+            if (log_flags.coproc_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[coproc_debug] current assignment taken: %s instance %d task %s",
+                    cp->type, i, rp->name
+                );
+            }
+            return false;
+        }
     }
     return true;
 }
@@ -942,6 +997,12 @@ static inline void confirm_current_assignment(
         int j = rp->coproc_indices[i];
         cp->usage[j] +=x;
         cp->pending_usage[j] -=x;
+        if (log_flags.coproc_debug) {
+            msg_printf(rp->project, MSG_INFO,
+                "[coproc_debug] confirming current assignment: %s instance %d task %s",
+                cp->type, i, rp->name
+            );
+        }
     }
 }
 
@@ -976,7 +1037,7 @@ static inline bool get_fractional_assignment(
             cp->usage[i] += usage;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] Assigning %f of %s instance %d to %s",
+                    "[coproc_debug] Assigning %f of %s free instance %d to %s",
                     usage, cp->type, i, rp->name
                 );
             }
@@ -996,7 +1057,7 @@ static inline bool get_integer_assignment(
 ) {
     int i;
 
-    // make sure we have enough unreserved instances
+    // make sure we have enough free instances
     //
     int nfree = 0;
     for (i=0; i<cp->count; i++) {
@@ -1016,6 +1077,8 @@ static inline bool get_integer_assignment(
 
     int n = 0;
 
+    // assign non-pending instances first
+
     for (i=0; i<cp->count; i++) {
         if (!cp->usage[i] && !cp->pending_usage) {
             cp->usage[i] = 1;
@@ -1026,26 +1089,35 @@ static inline bool get_integer_assignment(
                     cp->type, i, rp->name
                 );
             }
-            if (n == usage) break;
+            if (n == usage) return true;
         }
     }
+
+    // if needed, assign pending instances
+
     for (i=0; i<cp->count; i++) {
         if (!cp->usage[i]) {
             cp->usage[i] = 1;
             rp->coproc_indices[n++] = i;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] Assigning %s instance %d to %s",
+                    "[coproc_debug] Assigning %s pending instance %d to %s",
                     cp->type, i, rp->name
                 );
             }
-            if (n == usage) break;
+            if (n == usage) return true;
         }
     }
-    return true;
+    if (log_flags.coproc_debug) {
+        msg_printf(rp->project, MSG_INFO,
+            "[coproc_debug] huh??? ran out of %s instances for %s",
+            cp->type, rp->name
+        );
+    }
+    return false;
 }
 
-static inline void assign_coprocs(vector<RESULT*> jobs) {
+static inline void assign_coprocs(vector<RESULT*>& jobs) {
     unsigned int i;
     COPROC* cp;
     double usage;
@@ -1071,6 +1143,7 @@ static inline void assign_coprocs(vector<RESULT*> jobs) {
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         increment_pending_usage(rp, usage, cp);
     }
+
     vector<RESULT*>::iterator job_iter;
     job_iter = jobs.begin();
     while (job_iter != jobs.end()) {

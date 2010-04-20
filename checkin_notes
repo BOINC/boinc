@@ -1283,3 +1283,13 @@ Charlie  19 Apr 2010
 
     mac_installer/
         PostInstall.cpp
+
+David  7 Apr 2010
+    - client: attempt to fix bug where a GPU would be assigned
+        to multiple jobs at the same time.
+        I fixed one error (reference arg to assign_coprocs())
+        but I can't see why this would explain the problem.
+        I added a lot of extra <coproc_debug> log messages.
+
+    client/
+        cpu_sched.cpp
