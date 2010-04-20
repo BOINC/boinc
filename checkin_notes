@@ -1291,48 +1291,8 @@ David  7 Apr 2010
         but I can't see why this would explain the problem.
         I added a lot of extra <coproc_debug> log messages.
 
-<<<<<<< .working
     client/
         cpu_sched.cpp
-=======
-    TODO:
-        - the values in the app table for limits on jobs in progress etc.
-            should override rather than config.xml.
-
-    Implementation notes:
-    scheduler:
-        process_request():
-            read all host_app_versions for host at start;
-            Compute "reliable" and "trusted" for each one.
-            write modified records at end
-        get_app_version():
-            add "reliable_only" arg; if set, use only reliable versions
-            skip over-quota versions
-        Multi-pass scheduling: if have at least one reliable version,
-            do a pass for jobs that need reliable,
-            and use only reliable versions.
-            Then clear best_app_versions cache.
-        Score-based scheduling: for need-reliable jobs,
-            it will pick the fastest version,
-            then give a score bonus if that version happens to be reliable.
-        When get back a successful result from client:
-            increase daily quota
-        When get back an error result from client:
-            impose scale probation
-            decrease daily quota if not aborted
-    Validator:
-        when handling a WU, create a vector of HOST_APP_VERSION
-            parallel to vector of RESULT.
-            Pass it to assign_credit_set().
-            Make copies of originals so we can update only modified ones
-        update HOST_APP_VERSION error rates
-    Transitioner:
-        decrease quota on timeout
-
-    db/
-        boinc_db.cpp,h
-    sched/
-        most files
 
 David  15 Apr 2010
 	- client: get rid of spurious "Using proxy settings from GUI" message
@@ -1342,4 +1302,12 @@ David  15 Apr 2010
 		gui_rpc_server_ops.cpp
 	lib/
 		proxy_info.cpp
->>>>>>> .merge-right.r21186
+
+David  16 Apr 2010
+	- client: fix bug in mechanism that inhibits work fetch
+		for a GPU if it lacks available memory
+
+	client/
+		client_state.cpp
+		coproc_detect.cpp
+		cpu_sched.cpp

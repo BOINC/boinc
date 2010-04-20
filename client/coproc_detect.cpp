@@ -434,7 +434,7 @@ int COPROC_CUDA::available_ram(int devnum, double& ar) {
     // avoid crash if faked GPU
     //
     if (!__cuDeviceGet) {
-        ar = prop.totalGlobalMem;
+        ar = prop.totalGlobalMem*.75;    // 75% of fake RAM is free
         return 0;
     }
     int retval = (*__cuDeviceGet)(&device, devnum);
@@ -782,7 +782,7 @@ int COPROC_ATI::available_ram(int devnum, double& ar) {
 
     // avoid crash if faked GPU
     if (!__calInit) {
-        r = attribs.localRAM;
+        ar = attribs.localRAM*.75;    // 75% of fake RAM is free
         return 0;
     }
     retval = (*__calInit)();
@@ -803,3 +803,4 @@ int COPROC_ATI::available_ram(int devnum, double& ar) {
     (*__calShutdown)();
     return 0;
 }
+
