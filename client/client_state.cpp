@@ -689,6 +689,7 @@ bool CLIENT_STATE::poll_slow_events() {
     if (!network_suspended && suspend_reason != SUSPEND_REASON_BENCHMARKS) {
         // don't initiate network activity if we're doing CPU benchmarks
         net_status.poll();
+        daily_xfer_history.poll();
         POLL_ACTION(acct_mgr               , acct_mgr_info.poll     );
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );

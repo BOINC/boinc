@@ -3018,3 +3018,12 @@ David  21 Apr 2010
         sched_shmem.cpp,h
         transitioner.cpp
         validator.cpp
+
+David  21 Apr 2010
+    - client: keep track of daily history of network transfers
+
+    client/
+        client_state.cpp,h
+        file_names.h
+        http_curl.cpp
+        net_stats.cpp,h

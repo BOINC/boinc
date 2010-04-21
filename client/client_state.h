@@ -536,6 +536,8 @@ extern void print_suspend_tasks_message(int);
 
 #define CONNECT_ERROR_PERIOD    600.0
 
+#define DAILY_XFER_HISTORY_PERIOD   60
+
 #define MAX_STD   (86400)
     // maximum short-term debt
 

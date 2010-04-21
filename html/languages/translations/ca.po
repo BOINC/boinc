@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2010-03-18 15:14-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -973,14 +973,16 @@ msgstr "Error en l'actualització:"
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
-msgstr "El seu perfil serà visible per als altres, tan aviat com sigui "
-"aprovat pel projecte. Això pot tardar alguns dies."
+msgstr ""
+"El seu perfil serà visible per als altres, tan aviat com sigui aprovat pel "
+"projecte. Això pot tardar alguns dies."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
-msgstr "El seu perfil ha estat marcat com a inacceptable. No és visible als altres. "
+msgstr ""
+"El seu perfil ha estat marcat com a inacceptable. No és visible als altres. "
 "Si us plau, canviï'l."
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
@@ -991,8 +993,10 @@ msgstr "Error de base de dades"
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
-msgstr "Per evitar el correu brossa, els perfils d'usuaris amb un crèdit mitjà de menys de %1 "
-"només es mostren als usuaris registrats. Demanem disculpes per aquest inconvenient."
+msgstr ""
+"Per evitar el correu brossa, els perfils d'usuaris amb un crèdit mitjà de "
+"menys de %1 només es mostren als usuaris registrats. Demanem disculpes per "
+"aquest inconvenient."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
@@ -1529,8 +1533,8 @@ msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
-"ADVERTÈNCIA: Aquest és un equip de BOINC general. Si vostè fa canvis aquí, aviat "
-"seran sobreescrits. Modificar %1l'equip BOINC general%2."
+"ADVERTÈNCIA: Aquest és un equip de BOINC general. Si vostè fa canvis aquí, "
+"aviat seran sobreescrits. Modificar %1l'equip BOINC general%2."
 
 #: ../inc/team.inc:417
 msgid ""
@@ -3178,7 +3182,9 @@ msgstr "Afegir o treure Administradors d'Equip"
 
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
-msgstr "Vostè pot seleccionar els membres de l'equip com a Equip d'Administradors '. L'Equip d'Administradors pot:"
+msgstr ""
+"Vostè pot seleccionar els membres de l'equip com a Equip d'Administradors '. "
+"L'Equip d'Administradors pot:"
 
 #: ../user/team_admins.php:41
 msgid "Edit team information (name, URL, description, country)"
@@ -3193,8 +3199,9 @@ msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
-"Moderar el fòrum d'equip, si és el cas (els administradors reben notificacions per de correu electrònic "
-"de la moderació i marca en vermell X informes)"
+"Moderar el fòrum d'equip, si és el cas (els administradors reben "
+"notificacions per de correu electrònic de la moderació i marca en vermell X "
+"informes)"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
@@ -3210,15 +3217,17 @@ msgstr "Eliminar membres"
 
 #: ../user/team_admins.php:51
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr "Si un administrador de l'equip deixa l'equip, deixerà de ser un administrador de l'equip."
+msgstr ""
+"Si un administrador de l'equip deixa l'equip, deixerà de ser un "
+"administrador de l'equip."
 
 #: ../user/team_admins.php:52
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr ""
-"Us recomanem que seleccioneu només les persones conegudes i de confieu molt bé com "
-"Administradors de l'Equip."
+"Us recomanem que seleccioneu només les persones conegudes i de confieu molt "
+"bé com Administradors de l'Equip."
 
 #: ../user/team_admins.php:57
 msgid "There are currently no Team Admins"
@@ -3294,16 +3303,17 @@ msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
-"El membre de l'equip %1, va fer una petició al fundador d'aquest equip el %2, però ha deixat l'equip. "
-"per tant es cancel.la la petició."
+"El membre de l'equip %1, va fer una petició al fundador d'aquest equip el %"
+"2, però ha deixat l'equip. per tant es cancel.la la petició."
 
 #: ../user/team_change_founder_form.php:47
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
-"El membre de l'equip %1 ha contactat el fundador d'aquest equip. Això pot ser degut a que "
-"que va deixar l'equip o no han tingut contacte amb l'equip durant molt de temps."
+"El membre de l'equip %1 ha contactat el fundador d'aquest equip. Això pot "
+"ser degut a que que va deixar l'equip o no han tingut contacte amb l'equip "
+"durant molt de temps."
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
@@ -3316,10 +3326,10 @@ msgid ""
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
-"Si no rebutja la petició de %1, %2 tindrà l'opció d'assumir "
-"la fundació de l'equip.<br><br>\n"
-"                  Per acceptar la petició, assignar el fundador a %3 a través del"
-"formulari de sota."
+"Si no rebutja la petició de %1, %2 tindrà l'opció d'assumir la fundació de "
+"l'equip.<br><br>\n"
+"                  Per acceptar la petició, assignar el fundador a %3 a "
+"través delformulari de sota."
 
 #: ../user/team_change_founder_form.php:64
 msgid "No transfer request is pending."
@@ -3330,8 +3340,9 @@ msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
 msgstr ""
-"Per assignar fundador d'aquest equip a un altre membre, marqui la casella al costat del "
-"nom d'usuari i a continuació faci clic a <strong>Canviar fundador</strong>."
+"Per assignar fundador d'aquest equip a un altre membre, marqui la casella al "
+"costat del nom d'usuari i a continuació faci clic a <strong>Canviar "
+"fundador</strong>."
 
 #: ../user/team_change_founder_form.php:74
 msgid "New founder?"
@@ -3438,7 +3449,8 @@ msgstr "En la seva opció, només els membres ho podran llegir."
 
 #: ../user/team_forum.php:31
 msgid "You and your Team Admins will have moderator privileges."
-msgstr "Vostè i el seus Administradors d'Equip tindran privilegis de moderador."
+msgstr ""
+"Vostè i el seus Administradors d'Equip tindran privilegis de moderador."
 
 #: ../user/team_forum.php:38
 msgid "Create a message board for %1"
@@ -3490,9 +3502,9 @@ msgid ""
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
 msgstr ""
-"Esteu segur que voleu eliminar tauler d'missatges del seu equip? Tots els fils i "
-"missatges s'eliminaràn definitivament. (Vostè podrà, però, crear més endavant un nou "
-"tauler d'missatges)."
+"Esteu segur que voleu eliminar tauler d'missatges del seu equip? Tots els "
+"fils i missatges s'eliminaràn definitivament. (Vostè podrà, però, crear més "
+"endavant un nou tauler d'missatges)."
 
 #: ../user/team_forum.php:98
 msgid "Yes - remove message board"
@@ -3509,7 +3521,9 @@ msgstr "Tauler de missatges eliminat"
 #: ../user/team_forum.php:120
 msgid ""
 "Your teams message board has been removed. You may now %1create a new one%2."
-msgstr "El tauler d'missatges del seu equip s'ha eliminat. Vostè ara pot %1crear-ne un de nou%2."
+msgstr ""
+"El tauler d'missatges del seu equip s'ha eliminat. Vostè ara pot %1crear-ne "
+"un de nou%2."
 
 #: ../user/team_forum.php:120
 msgid "<p>"
@@ -3554,10 +3568,10 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"El fundador actual ha estat notificat de la seva petició per correu electrònic i missatge "
-"privat.<br /><br />\n"
-"                       Si el fundador no respon dins de 60 dies vostè"
-"podrà convertir-se en el fundador."
+"El fundador actual ha estat notificat de la seva petició per correu "
+"electrònic i missatge privat.<br /><br />\n"
+"                       Si el fundador no respon dins de 60 dies vostèpodrà "
+"convertir-se en el fundador."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
@@ -3573,8 +3587,8 @@ msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
-"Felicitacions, vostè és ara el fundador de l'equip %1. Vagi a %2Pàgina del seu "
-"compte3% per a trobar les opcions d'administració de l'equip."
+"Felicitacions, vostè és ara el fundador de l'equip %1. Vagi a %2Pàgina del "
+"seu compte3% per a trobar les opcions d'administració de l'equip."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
@@ -3618,8 +3632,8 @@ msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
-"Han transcorregut 60 dies des de la seva petició, i el fundador no ha respost. "
-"Ara pot convertir-se en fundador fent clic aquí"
+"Han transcorregut 60 dies des de la seva petició, i el fundador no ha "
+"respost. Ara pot convertir-se en fundador fent clic aquí"
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
@@ -3630,8 +3644,8 @@ msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
-"El fundador va ser notificat de la seva petició. Si ell/ella no respon per %1 "
-"se li donarà l'opció de convertir-se en el fundador."
+"El fundador va ser notificat de la seva petició. Si ell/ella no respon per %"
+"1 se li donarà l'opció de convertir-se en el fundador."
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
@@ -3642,11 +3656,11 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
-"Si el fundador de l'equip no està actiu i vol assumir el paper de "
-"fundador, feu clic al botó de sota. Al fundador actual se li enviarà un correu electrònic"
-"detallant la seva petició, i podrà transferir-li la fundació a vostè o"
-"per rebutjar la seva petició. Si el fundador no respon en 60 dies, vostè"
-"podrà convertir-se en el fundador.<br /><br />\n"
+"Si el fundador de l'equip no està actiu i vol assumir el paper de fundador, "
+"feu clic al botó de sota. Al fundador actual se li enviarà un correu "
+"electrònicdetallant la seva petició, i podrà transferir-li la fundació a "
+"vostè oper rebutjar la seva petició. Si el fundador no respon en 60 dies, "
+"vostèpodrà convertir-se en el fundador.<br /><br />\n"
 "Esta segur que vol realitzar petició al fundador?"
 
 #: ../user/team_founder_transfer_form.php:63
@@ -3662,8 +3676,8 @@ msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
 msgstr ""
-"Una petició de canvi de fundador s0ha fet en els últims 90 dies, per tant no es permetent "
-"noves peticions. Torneu-ho a provar més tard."
+"Una petició de canvi de fundador s0ha fet en els últims 90 dies, per tant no "
+"es permetent noves peticions. Torneu-ho a provar més tard."
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
@@ -3700,7 +3714,9 @@ msgstr "Tingueu en compte:"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
-msgstr "Unir-se a un equip li dóna accés al seu fundador a la seva adreça de correu electrònic."
+msgstr ""
+"Unir-se a un equip li dóna accés al seu fundador a la seva adreça de correu "
+"electrònic."
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
@@ -3720,7 +3736,9 @@ msgstr "Resultats de la cerca per '%1'"
 
 #: ../user/team_lookup.php:66
 msgid "You may view these teams' members, statistics, and information."
-msgstr "Vostè pot veure els membres d'aquests equips, les estadístiques i la informació."
+msgstr ""
+"Vostè pot veure els membres d'aquests equips, les estadístiques i la "
+"informació."
 
 #: ../user/team_lookup.php:75
 msgid "More than 100 teams match your search. The first 100 are shown."
@@ -3733,8 +3751,8 @@ msgid ""
 "team%2 by yourself."
 msgstr ""
 "Fi dels resultats<br>\n"
-"         Si no pot trobar l'equip que està buscant, vostè mateix pot %1crear un "
-"equip%2."
+"         Si no pot trobar l'equip que està buscant, vostè mateix pot %1crear "
+"un equip%2."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
@@ -3817,24 +3835,24 @@ msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
-"Per que aquest equip es crei a tots els projectes BOINC (actuals i futurs) pot "
-"convertir-lo en un %1equip Boinc-gloval%2."
+"Per que aquest equip es crei a tots els projectes BOINC (actuals i futurs) "
+"pot convertir-lo en un %1equip Boinc-gloval%2."
 
 #: ../user/team_manage.php:71
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
-"Animem als administradors d'equip a unir-se i participar en el grup Google de "
-"%1fundadors-d'equips-boinc2%."
+"Animem als administradors d'equip a unir-se i participar en el grup Google "
+"de %1fundadors-d'equips-boinc2%."
 
 #: ../user/team_manage.php:73
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Altres recursos per a administradors d'equip BOINC estan disponibles en un lloc de tercers, "
-"%1www.boincteams.com%2."
+"Altres recursos per a administradors d'equip BOINC estan disponibles en un "
+"lloc de tercers, %1www.boincteams.com%2."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
@@ -3876,10 +3894,10 @@ msgid ""
 msgstr ""
 "<strong>Tingueu en compte abans de sortir d'un equip:<strong>\n"
 "         <ul>\n"
-"         <li>Si surt d'un equip, pot tornar-hi més tard, o unir-se a qualsevol altre "
-"equip que desitji\n"
-"         <li>Deixar un equip no afecta de cap manera en el seu crèdit estadístic "
-"personal.\n"
+"         <li>Si surt d'un equip, pot tornar-hi més tard, o unir-se a "
+"qualsevol altre equip que desitji\n"
+"         <li>Deixar un equip no afecta de cap manera en el seu crèdit "
+"estadístic personal.\n"
 
 #: ../user/team_quit_form.php:40
 msgid "Quit Team"
@@ -3923,7 +3941,8 @@ msgstr "Nom de l'equip"
 
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
-msgstr "No s'han trobat equips amb la seu criteri de selecció. Provi una altra cerca."
+msgstr ""
+"No s'han trobat equips amb la seu criteri de selecció. Provi una altra cerca."
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
@@ -3936,7 +3955,8 @@ msgid ""
 "               then click %1Join this team%2."
 msgstr ""
 "Els següents equips verifiquen un o més criteris de cerca.\n"
-"            Per a unir-se a un equip, feu clic en al seu nom per anar a la pàgina de l'equip,\n"
+"            Per a unir-se a un equip, feu clic en al seu nom per anar a la "
+"pàgina de l'equip,\n"
 "               després premi %1Unir-se a aquest equip %2"
 
 #: ../user/team_search.php:140
@@ -3952,12 +3972,14 @@ msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr ""
-"Vostè pot associar-se amb altres persones amb interessos similars, o del mateix "
-"país, empresa o escola."
+"Vostè pot associar-se amb altres persones amb interessos similars, o del "
+"mateix país, empresa o escola."
 
 #: ../user/team_search.php:158
 msgid "Use this form to find teams that might be right for you."
-msgstr "Utilitzi aquest formulari per buscar els equips que siguin més adequats per a vostè."
+msgstr ""
+"Utilitzi aquest formulari per buscar els equips que siguin més adequats per "
+"a vostè."
 
 #: ../user/team_search.php:163
 msgid "%1I'm not interested%2 in joining a team right now."
@@ -4088,8 +4110,8 @@ msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
 msgstr ""
-"Si us plau, visiti el següent enllaç per a validar l'adreça de correu electrònic del seu %1"
-"compte:"
+"Si us plau, visiti el següent enllaç per a validar l'adreça de correu "
+"electrònic del seu %1compte:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
@@ -4100,8 +4122,8 @@ msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
 msgstr ""
-"Un correu electrònic li ha estat enviat a %1. Visiti l'enllaç que conté per a validar la seva"
-"adreça de correu electrònic"
+"Un correu electrònic li ha estat enviat a %1. Visiti l'enllaç que conté per "
+"a validar la sevaadreça de correu electrònic"
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
@@ -4113,7 +4135,8 @@ msgstr "Error en la URL - no es pot validar l'adreça de correu electrònic"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
-msgstr "Error en l'actualització de base de dades - si us plau a provi-ho més tard."
+msgstr ""
+"Error en l'actualització de base de dades - si us plau a provi-ho més tard."
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
@@ -4293,8 +4316,8 @@ msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
 msgstr ""
-"Si no hi ha treball disponible per a les aplicacions seleccionades, acceptar feina d'altres "
-"aplicacions?"
+"Si no hi ha treball disponible per a les aplicacions seleccionades, acceptar "
+"feina d'altres aplicacions?"
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
