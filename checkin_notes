@@ -3034,3 +3034,15 @@ David  21 Apr 2010
 	client/
 		client_state.cpp
 		net_stats.cpp
+
+David  21 Apr 2010
+    - client: add preference for limiting network xfers in last N days
+        (no GUI yet)
+
+    lib/
+        prefs.cpp,h
+        common_defs.h
+    client/
+        client_stte.cpp
+        net_stats.cpp,h
+        cs_prefs.cpp

@@ -273,7 +273,7 @@ int DAILY_XFER::parse(XML_PARSER& xp) {
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!strcmp(tag, "/dx")) return 0;
-        if (xp.parse_double(tag, "when", when)) continue;
+        if (xp.parse_int(tag, "when", when)) continue;
         if (xp.parse_double(tag, "up", up)) continue;
         if (xp.parse_double(tag, "down", down)) continue;
     }
@@ -283,7 +283,7 @@ int DAILY_XFER::parse(XML_PARSER& xp) {
 void DAILY_XFER::write(FILE* f) {
     fprintf(f,
         "<dx>\n"
-        "   <when>%f</when>\n"
+        "   <when>%d</when>\n"
         "   <up>%f</up>\n"
         "   <down>%f</down>\n"
         "</dx>\n",
@@ -292,7 +292,7 @@ void DAILY_XFER::write(FILE* f) {
 }
 
 DAILY_XFER* DAILY_XFER_HISTORY::today() {
-    int d = (int)(dtime()/86400);
+    int d = (int)(gstate.now/86400);
     for (unsigned int i=0; i<daily_xfers.size(); i++) {
         DAILY_XFER& dx = daily_xfers[i];
         if (dx.when == d) {
@@ -324,7 +324,7 @@ void DAILY_XFER_HISTORY::init() {
     bool is_tag;
     char tag[256];
 
-    double now = dtime();
+    int d = (int)(gstate.now/86400);
 
     if (!xp.parse_start("daily_xfers")) {
         fclose(f);
@@ -335,7 +335,7 @@ void DAILY_XFER_HISTORY::init() {
         if (!strcmp(tag, "dx")) {
             DAILY_XFER dx;
             int retval = dx.parse(xp);
-            if (!retval && now - dx.when > 86400*365) {
+            if (!retval && d - dx.when < 365) {
                 // discard records after a year
                 daily_xfers.push_back(dx);
             }
@@ -364,4 +364,17 @@ void DAILY_XFER_HISTORY::poll() {
             dirty = false;
         }
     }
+}
+
+bool DAILY_XFER_HISTORY::over_quota(double quota, int ndays) {
+    int d = (int)(gstate.now/86400) - ndays;
+    double sum = 0;
+    for (unsigned int i=0; i<daily_xfers.size(); i++) {
+        DAILY_XFER& dx = daily_xfers[i];
+        if (dx.when < d) break;
+        sum += dx.up;
+        sum += dx.down;
+        if (sum > quota) return true;
+    }
+    return false;
 }

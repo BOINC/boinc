@@ -112,11 +112,12 @@ struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
 };
 
 struct DAILY_XFER {
-    double when;
+    int when;
     double up;
     double down;
     DAILY_XFER() {
-        when = up = down = 0;
+        when = 0;
+        up = down = 0;
     }
     int parse(XML_PARSER&);
     void write(FILE*);
@@ -130,6 +131,7 @@ struct DAILY_XFER_HISTORY {
     void add(size_t, bool upload);
     void init();
     void poll();
+    bool over_quota(double quota, int ndays);
     DAILY_XFER_HISTORY() {
         dirty = false;
     }

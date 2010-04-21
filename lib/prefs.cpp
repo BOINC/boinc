@@ -77,6 +77,8 @@ void GLOBAL_PREFS_MASK::set_all() {
     max_bytes_sec_up = true;
     max_bytes_sec_down = true;
     cpu_usage_limit = true;
+    daily_xfer_limit_mb = true;
+    daily_xfer_period = true;
 }
 
 bool GLOBAL_PREFS_MASK::are_prefs_set() {
@@ -110,6 +112,8 @@ bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (max_bytes_sec_up) return true;
     if (max_bytes_sec_down) return true;
     if (cpu_usage_limit) return true;
+    if (daily_xfer_limit_mb) return true;
+    if (daily_xfer_period) return true;
     return false;
 }
 
@@ -229,6 +233,8 @@ void GLOBAL_PREFS::defaults() {
     max_bytes_sec_up = 0;
     max_bytes_sec_down = 0;
     cpu_usage_limit = 100;
+    daily_xfer_limit_mb = 0;
+    daily_xfer_period = 0;
 
     // don't initialize source_project, source_scheduler,
     // mod_time, host_specific here
@@ -333,6 +339,7 @@ int GLOBAL_PREFS::parse_override(
     char tag[256], buf2[256], attrs[256];
     bool in_venue = false, in_correct_venue=false, is_tag;
     double dtemp;
+    int itemp;
 
     found_venue = false;
     mask.clear();
@@ -522,6 +529,18 @@ int GLOBAL_PREFS::parse_override(
             }
             continue;
         }
+        if (xp.parse_int(tag, "daily_xfer_limit_mb", itemp)) {
+            if (itemp >= 0) {
+                daily_xfer_limit_mb = itemp;
+                mask.daily_xfer_limit_mb = true;
+            }
+        }
+        if (xp.parse_int(tag, "daily_xfer_period", itemp)) {
+            if (itemp >= 0) {
+                daily_xfer_period = itemp;
+                mask.daily_xfer_period = true;
+            }
+        }
         if (xp.parse_bool(tag, "host_specific", host_specific)) {
             continue;
         }
@@ -594,7 +613,9 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <idle_time_to_run>%f</idle_time_to_run>\n"
         "   <max_bytes_sec_up>%f</max_bytes_sec_up>\n"
         "   <max_bytes_sec_down>%f</max_bytes_sec_down>\n"
-        "   <cpu_usage_limit>%f</cpu_usage_limit>\n",
+        "   <cpu_usage_limit>%f</cpu_usage_limit>\n"
+        "   <daily_xfer_limit_mb>%d</daily_xfer_limit_mb>\n"
+        "   <daily_xfer_period>%d</daily_xfer_period>\n",
         source_project,
         mod_time,
         run_on_batteries?1:0,
@@ -624,7 +645,9 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         idle_time_to_run,
         max_bytes_sec_up,
         max_bytes_sec_down,
-        cpu_usage_limit
+        cpu_usage_limit,
+        daily_xfer_limit_mb,
+        daily_xfer_period
     );
     if (max_ncpus) {
         f.printf("   <max_cpus>%d</max_cpus>\n", max_ncpus);
@@ -780,6 +803,12 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     }
     if (mask.cpu_usage_limit) {
         f.printf("   <cpu_usage_limit>%f</cpu_usage_limit>\n", cpu_usage_limit);
+    }
+    if (mask.daily_xfer_limit_mb) {
+        f.printf("   <daily_xfer_limit_mb>%f</daily_xfer_limit_mb>\n", daily_xfer_limit_mb);
+    }
+    if (mask.daily_xfer_period) {
+        f.printf("   <daily_xfer_period>%f</daily_xfer_period>\n", daily_xfer_period);
     }
 
     write_day_prefs(f);
