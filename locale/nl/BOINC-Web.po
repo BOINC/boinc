@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2009-07-29 12:05-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -333,10 +333,10 @@ msgid ""
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
 "BOINC is een programma dat jou ongebruikte computertijd aan "
-"wetenschappelijke projecten laat doneren zoals SETI@home, "
-"Climateprediction.net, Rosetta@home, World Community Grid, en vele andere. "
-"<p> Nadat BOINC is geïnstalleerd op je computer, is het mogelijk je aan te "
-"melden voor zo veel projecten als je wilt."
+"wetenschappelijke projecten laat doneren zoals SETI@home, Climateprediction."
+"net, Rosetta@home, World Community Grid, en vele andere. <p> Nadat BOINC is "
+"geïnstalleerd op je computer, is het mogelijk je aan te melden voor zo veel "
+"projecten als je wilt."
 
 #: download.php:114
 #, php-format
@@ -378,8 +378,9 @@ msgid ""
 msgstr ""
 "BOINC Online Hulp geeft je de mogelijkheid om direct te praten met ervaren "
 "BOINC gebruikers, die: %s je vragen kunnen beantwoorden over BOINC en "
-"\"volunteer computing\"; %s je stap voor stap kunnen helpen met de installatie "
-"en het gebruik van BOINC; %s je eventuele problemen kunnen oplossen."
+"\"volunteer computing\"; %s je stap voor stap kunnen helpen met de "
+"installatie en het gebruik van BOINC; %s je eventuele problemen kunnen "
+"oplossen."
 
 #: help.php:21
 #, php-format
@@ -424,8 +425,8 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
-"Indien je zelf een ervaren BOINC gebruiker bent, nodigen we je uit om een "
-"%sBOINC OnlineHulp vrijwilliger%s te worden.  Het is een fantastische manier "
+"Indien je zelf een ervaren BOINC gebruiker bent, nodigen we je uit om een %"
+"sBOINC OnlineHulp vrijwilliger%s te worden.  Het is een fantastische manier "
 "om andere bebruikers te helpen - en het is leuk!"
 
 #: help.php:56
@@ -504,8 +505,8 @@ msgstr ""
 " Gebruik de ongebruikte tijd van je computer (Windows, Mac, of Linux) om "
 "ziektes te genezen, de opwarming van de aarde te bestuderen, pulsars te "
 "ontdekken en vele andere vormen van onderzoek te doen.  Het is veilig, en "
-"makkelijk:  %sKies%s een project  %sDownload%s en gebruik BOINC software  "
-"%sVul%s een e-mailadres en wachtwoord in. "
+"makkelijk:  %sKies%s een project  %sDownload%s en gebruik BOINC software  %"
+"sVul%s een e-mailadres en wachtwoord in. "
 
 #: index.php:107
 #, php-format
@@ -513,8 +514,8 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"Of, als je meerdere projecten gebruikt, probeer dan eens een "
-"%saccountmanager%s zoals %sGridRepublic%s of %sBAM!%s. "
+"Of, als je meerdere projecten gebruikt, probeer dan eens een %saccountmanager"
+"%s zoals %sGridRepublic%s of %sBAM!%s. "
 
 #: index.php:123
 msgid "Compute with BOINC"
@@ -589,7 +590,8 @@ msgstr "Browser standaard"
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
-"Open-source software voor %s\"volunteer computing\"%s en %s\"grid computing\"%s."
+"Open-source software voor %s\"volunteer computing\"%s en %s\"grid computing"
+"\"%s."
 
 #: poll.php:9
 msgid "BOINC user survey"
@@ -614,8 +616,8 @@ msgstr ""
 "wetenschappelijke resultaten bereiken. <p> Beantwoord a.u.b de vragen zo "
 "veel mogelijk, ga daarna naar de onderkant van de pagina en klik op OK. Als "
 "je de enquete al een keer hebt ingevuld en je antwoorden zijn veranderd, vul "
-"hem dan opnieuw in - je nieuwe antwoorden zullen de oudere vervangen. <p> "
-"De huidige resultaten vind je <a href=poll_results.php>hier</a>. "
+"hem dan opnieuw in - je nieuwe antwoorden zullen de oudere vervangen. <p> De "
+"huidige resultaten vind je <a href=poll_results.php>hier</a>. "
 
 #: poll.php:25
 msgid "Do you run BOINC?"
@@ -682,8 +684,8 @@ msgid ""
 "These are the current results of the <a href=poll.php>BOINC user survey</"
 "a>.  This page is updated every hour."
 msgstr ""
-"Dit zijn de resultaten van de <a href=poll.php>BOINC gebruikers enquête</a>. "
-" De pagina wordt elk uur bijgewerkt."
+"Dit zijn de resultaten van de <a href=poll.php>BOINC gebruikers enquête</"
+"a>.  De pagina wordt elk uur bijgewerkt."
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)<br />
 # <br />

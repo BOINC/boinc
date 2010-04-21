@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-04-08 15:32+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -194,8 +194,7 @@ msgstr "Ystäviltä, sukulaisilta tai työkavereilta"
 msgid "Team message boards or web sites"
 msgstr "Ryhmän ilmoitustaulu tai kotisivut"
 
-#: poll_data.inc:154
-#: poll_data.inc:210
+#: poll_data.inc:154 poll_data.inc:210
 msgid "The BOINC web site"
 msgstr "BOINCin kotisivut"
 
@@ -354,8 +353,7 @@ msgstr "Järjestelmävaatimukset"
 msgid "Release notes"
 msgstr "Versiotiedot"
 
-#: download.php:122
-#: index.php:89
+#: download.php:122 index.php:89
 msgid "Help"
 msgstr "Apua"
 
@@ -485,9 +483,7 @@ msgstr "Vapaaehtoisuus"
 msgid "Download"
 msgstr "Lataa"
 
-#: index.php:90
-#: index.php:125
-#: index.php:163
+#: index.php:90 index.php:125 index.php:163
 msgid "Documentation"
 msgstr "Aineisto"
 
@@ -511,8 +507,8 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"Jos ajat useampaa projektia, kokeile %stilihallitsinta%s kuten "
-"%sGridRepublic%s tai %sBAM!%s. "
+"Jos ajat useampaa projektia, kokeile %stilihallitsinta%s kuten %sGridRepublic"
+"%s tai %sBAM!%s. "
 
 #: index.php:123
 msgid "Compute with BOINC"
