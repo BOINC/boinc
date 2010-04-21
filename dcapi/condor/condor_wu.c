@@ -232,7 +232,9 @@ static char *_DC_condor_submit_template=
 "# WU id: %i\n"
 "# WU workdir: %w\n"
 "# Client name: %c\n"
-"# Nr of args: %r\n"
+"# Number of args: %r\n"
+"# List of input files: \"%I\"\n"
+"# List of output files: \"%O\"\n"
 "\n"
 "Executable = %x\n"
 "arguments = %a\n"
@@ -249,6 +251,7 @@ _DC_wu_process_template(DC_Workunit *wu, char *tmpl, FILE *f)
 	char *cfgarch;
 	char *cfgexec, *cfglog;
 	char *c= tmpl;
+    GString *filelist;
 
 	cfgarch= _DC_acfg(cfg_architectures);
 	cfgexec= _DC_wu_cfg(wu, cfg_executable);
@@ -352,6 +355,27 @@ _DC_wu_process_template(DC_Workunit *wu, char *tmpl, FILE *f)
 			{
 				fprintf(f, "%s", cfglog);
 				break;
+			}
+            /* capital 'i' */
+			case 'I':
+			{
+                filelist = g_string_new(NULL);
+                g_list_foreach(wu->input_files, _DC_wu_input_list_foreach, filelist);
+                /* remove last comma from the string */
+                filelist = g_string_erase(filelist, filelist->len-1, -1);
+                fprintf(f, "%s", filelist->str);    
+                g_string_free(filelist, TRUE);
+                break;
+			}
+			case 'O':
+			{
+                filelist = g_string_new(NULL);
+                g_list_foreach(wu->output_files, _DC_wu_output_list_foreach, filelist);
+                /* remove last comma from the string */
+                filelist = g_string_erase(filelist, filelist->len-1, -1);
+                fprintf(f, "%s", filelist->str);    
+                g_string_free(filelist, TRUE);
+                break;
 			}
 			default:
 			{
@@ -560,6 +584,38 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 
 	g_string_free(s, TRUE);
 	return(e);
+}
+
+
+/* User function for g_list_foreach() in _DC_wu_process_template(): "%I"
+ *
+ * @data DC_PhysicalFile*
+ * @user_data GString
+ */
+void _DC_wu_input_list_foreach(gpointer data, gpointer user_data)
+{
+    if (data != NULL && ((DC_PhysicalFile*)data)->path != NULL) 
+    {
+        user_data = g_string_append((GString *)user_data, ((DC_PhysicalFile*)data)->path);
+        /* we want a comma separated list */
+        user_data = g_string_append((GString *)user_data, ",");
+    }
+}
+
+
+/* User function for g_list_foreach() in _DC_wu_process_template(): "%O"
+ *
+ * @data char* data to be appended 
+ * @user_data GString the string to append to
+ */
+void _DC_wu_output_list_foreach(gpointer data, gpointer user_data)
+{
+    if (data != NULL) 
+    {
+        user_data = g_string_append((GString *)user_data, (char*)data);    
+        /* we want a comma separated list */
+        user_data = g_string_append((GString *)user_data, ",");
+    }
 }
 
 

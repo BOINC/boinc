@@ -84,7 +84,7 @@ struct _DC_Workunit
 	/* The WU's ID in the Boinc database */
 	int			db_id;
 
-	/* Input file definitions. Elements are of type DC_LogicalFile */
+	/* Input file definitions. Elements are of type DC_PhysicalFile */
 	GList			*input_files;
 	int			num_inputs;
 
