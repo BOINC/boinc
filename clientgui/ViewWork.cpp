@@ -1179,6 +1179,9 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         } else {
             strBuffer += _("Ready to start");
         }
+        if (result->gpu_mem_wait) {
+            strBuffer += _(" (waiting for GPU memory)");
+        }
         break;
     case RESULT_COMPUTE_ERROR:
         strBuffer += _("Computation error");

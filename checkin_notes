@@ -1362,3 +1362,15 @@ Rom    20 Apr 2010
     /
         configure.ac
         version.h
+
+David  20 Apr 2010
+    - client: show "waiting for GPU memory" in task status
+
+	client/
+		client_types.cpp
+		cpu_sched.cpp
+	clientgui/
+		ViewWork.cpp
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.cpp

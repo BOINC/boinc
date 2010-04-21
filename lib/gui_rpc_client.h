@@ -242,6 +242,7 @@ public:
     bool suspended_via_gui;
     bool project_suspended_via_gui;
     bool coproc_missing;
+    bool gpu_mem_wait;
 
     // the following defined if active
     bool active_task;

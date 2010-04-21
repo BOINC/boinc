@@ -1114,9 +1114,14 @@ static inline bool get_integer_assignment(
     if (nfree < usage) {
         if (log_flags.coproc_debug) {
             msg_printf(rp->project, MSG_INFO,
-                "[coproc_debug] Insufficient %s for %s; %d < %d",
+                "[coproc_debug] Insufficient %s for %s; need %d, available %d",
                 cp->type, rp->name, nfree, (int)usage
             );
+            if (defer_sched) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[coproc_debug] some instances lack available memory"
+                );
+            }
         }
         return false;
     }

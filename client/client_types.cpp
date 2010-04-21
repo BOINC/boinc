@@ -1762,6 +1762,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (project->suspended_via_gui) out.printf("    <project_suspended_via_gui/>\n");
     if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
     if (coproc_missing) out.printf("    <coproc_missing/>\n");
+    if (schedule_backoff > gstate.now) out.printf("    <gpu_mem_wait/>\n");
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write_gui(out);
