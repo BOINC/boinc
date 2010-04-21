@@ -24,6 +24,7 @@
 #include "sched_types.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
+#include "sched_main.h"
 #include "sched_config.h"
 
 #include "sched_result.h"
@@ -45,7 +46,7 @@ static inline void got_good_result(SCHED_RESULT_ITEM& sri) {
     }
 }
 
-static inline void got_bad_result(SCHED_RESULT_ITEM& sri, double delay_bound) {
+static inline void got_bad_result(SCHED_RESULT_ITEM& sri) {
     int gavid = generalized_app_version_id(sri.app_version_id, sri.appid);
     DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
     if (!havp) {
@@ -66,9 +67,9 @@ static inline void got_bad_result(SCHED_RESULT_ITEM& sri, double delay_bound) {
         }
     }
 
-    // but put on host scale probation regardless
+    // but clear consecutive valid regardless
     //
-    host_scale_probation(*havp, delay_bound);
+    havp->consecutive_valid = 0;
 }
 
 // handle completed results
@@ -273,23 +274,39 @@ int handle_results() {
         srip->cpu_time = rp->cpu_time;
         srip->elapsed_time = rp->elapsed_time;
 
-        // check for impossible CPU time
+        // check for impossible elapsed time
         //
         double turnaround_time = srip->received_time - srip->sent_time;
         if (turnaround_time < 0) {
-            log_messages.printf(MSG_NORMAL,
-                "[HOST#%d] [RESULT#%d] [WU#%d] inconsistent sent/received times\n", srip->hostid, srip->id, srip->workunitid
+            log_messages.printf(MSG_CRITICAL,
+                "[HOST#%d] [RESULT#%d] [WU#%d] inconsistent sent/received times\n",
+                srip->hostid, srip->id, srip->workunitid
             );
         } else {
             if (srip->elapsed_time > turnaround_time) {
                 log_messages.printf(MSG_NORMAL,
-                    "[HOST#%d] [RESULT#%d] [WU#%d] excessive elapsed time: reported %f > elapsed %f%s\n",
+                    "[HOST#%d] [RESULT#%d] [WU#%d] impossible elapsed time: reported %f > turnaround %f\n",
                     srip->hostid, srip->id, srip->workunitid,
-                    srip->elapsed_time, turnaround_time,
-                    changed_host?" [OK: HOST changed]":""
+                    srip->elapsed_time, turnaround_time
                 );
+                srip->elapsed_time = turnaround_time;
             }
         }
+
+        // Some buggy clients sporadically report very low elapsed time
+        // but actual CPU time.
+        // Try to fix the elapsed time, since it's critical to credit
+        //
+        if (srip->elapsed_time < srip->cpu_time) {
+            int avid = srip->app_version_id;
+            if (avid > 0) {
+                APP_VERSION* avp = ssp->lookup_app_version(avid);
+                if (avp && !avp->is_multithread()) {
+                    srip->elapsed_time = srip->cpu_time;
+                }
+            }
+        }
+
 
         srip->exit_status = rp->exit_status;
         srip->app_version_num = rp->app_version_num;
@@ -354,15 +371,9 @@ int handle_results() {
             srip->outcome = RESULT_OUTCOME_CLIENT_ERROR;
             srip->validate_state = VALIDATE_STATE_INVALID;
 
-            // penalize result quota
+            // adjust quota and reset error rate
             //
-            DB_WORKUNIT wu;
-            int delay_bound;
-            wu.id = srip->workunitid;
-            retval = wu.get_field_int("delay_bound", delay_bound);
-            if (!retval) {
-                got_bad_result(*srip, (double) delay_bound);
-            }
+            got_bad_result(*srip);
         }
     } // loop over all incoming results
 

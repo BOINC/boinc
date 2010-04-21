@@ -63,9 +63,7 @@ extern int assign_credit_set(
     double max_granted_credit, double& credit
 );
 
-extern void host_scale_probation(
-    DB_HOST_APP_VERSION&, double latency_bound
-);
+extern void got_error(DB_HOST_APP_VERSION&);
 
 extern int hav_lookup(DB_HOST_APP_VERSION& hav, int hostid, int avid);
 

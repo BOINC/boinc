@@ -2979,3 +2979,42 @@ David  20 Apr 2010
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.cpp
+
+David  21 Apr 2010
+    - back end: new way of deciding:
+        - whether host is "reliable" for an app version
+        - whether host is eligible for single replication for an app version
+        - whether to use host scaling
+        In each case, the answer is yes if the number of
+        consecutive valid results is above a threshold.
+        This replaces existing "error rate" and "scale probation" mechanisms.
+
+        TODO: the # of consecutive valid results should also determine
+            a limit on jobs in progress for an app version.
+            Namely, if N is the threshold for host scaling, the limit should be
+                ndevices*(max(1, consecutive_valid - N))
+            The client currently doesn't supply enough
+            app version info to do this.
+            It could be approximated; that would give some protection
+            against cherry-picking.
+    - credit: more conservative formulas for combining claimed credit
+        among replicas.
+        If there are normal replicas, we use a "low average"
+        that weights each sample by the sum of the other samples.
+        Otherwise we use the min (not the average) of the approximate samples.
+
+    NOTE: a DB update is required
+
+    db/
+        boinc_db.cpp,h
+        schema.sql
+    html/ops/
+        db_update.php
+    sched/
+        credit.cpp,h
+        sched_config.h
+        sched_result.cpp
+        sched_send.cpp
+        sched_shmem.cpp,h
+        transitioner.cpp
+        validator.cpp

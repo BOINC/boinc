@@ -145,6 +145,10 @@ struct APP_VERSION {
 
     int write(FILE*);
     void clear();
+
+    inline bool is_multithread() {
+        return (strstr(plan_class, "mt") != NULL);
+    }
 };
 
 struct USER {
@@ -640,13 +644,13 @@ struct HOST_APP_VERSION {
         //
         // for old clients (which don't report elapsed time)
         // we use this for CPU time stats
-    double host_scale_time;
-    bool scale_probation;
-    double error_rate;
     int max_jobs_per_day;
     int n_jobs_today;
     AVERAGE_VAR turnaround;
         // the stats of turnaround time (received - sent)
+    int consecutive_valid;
+        // number of consecutive validated relicated results.
+        // reset to zero on timeouts, errors, invalid
 
     void clear();
 

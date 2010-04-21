@@ -199,41 +199,38 @@ PLATFORM* SCHED_SHMEM::lookup_platform(char* name) {
             return &platforms[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 PLATFORM* SCHED_SHMEM::lookup_platform_id(int id) {
     for (int i=0; i<nplatforms; i++) {
         if (platforms[i].id == id) return &platforms[i];
     }
-    return 0;
+    return NULL;
 }
 
 APP* SCHED_SHMEM::lookup_app(int id) {
     for (int i=0; i<napps; i++) {
         if (apps[i].id == id) return &apps[i];
     }
-    return 0;
+    return NULL;
 }
 
 APP* SCHED_SHMEM::lookup_app_name(char* name) {
     for (int i=0; i<napps; i++) {
         if (!strcmp(name, apps[i].name)) return &apps[i];
     }
-    return 0;
+    return NULL;
 }
 
-// find an app version for a given platform
-//
-APP_VERSION* SCHED_SHMEM::lookup_app_version(int appid, int platformid) {
+APP_VERSION* SCHED_SHMEM::lookup_app_version(int id) {
     APP_VERSION* avp;
     for (int i=0; i<napp_versions; i++) {
         avp = &app_versions[i];
-        if (avp->appid == appid && avp->platformid == platformid) {
+        if (avp->id == id) {
             return avp;
         }
     }
-
     return NULL;
 }
 

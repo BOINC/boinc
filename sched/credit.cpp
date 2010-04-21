@@ -371,11 +371,20 @@ int grant_credit(
 
 ///////////////////// V2 CREDIT STUFF STARTS HERE ///////////////////
 
+// levels of confidence in a credit value
+//
 #define PFC_MODE_NORMAL  0
-    // PFC was computed in the "normal" way,
-    // i.e. not anon platform, and reflects version scaling
+    // PFC was computed in the "normal" way, i.e.
+    // - claimed PFC
+    // - app version scaling (i.e. not anonymous platform)
+    // - host scaling
 #define PFC_MODE_APPROX  1
-    // PFC was crudely approximated
+    // PFC was approximated, but still (in the absence of cheating)
+    // reflects the size of the particular job
+#define PFC_MODE_WU_EST  2
+    // PFC was set to the WU estimate.
+    // If this doesn't reflect the WU size, neither does the PFC estimate 
+    // This is a last resort, and can be way off.
 
 // used in the computation of AV scale factors
 //
@@ -546,9 +555,7 @@ int hav_lookup(DB_HOST_APP_VERSION& hav, int hostid, int avid) {
         hav.clear();
         hav.host_id = hostid;
         hav.app_version_id = avid;
-        hav.error_rate = ERROR_RATE_INIT;
         retval = hav.insert();
-        if (retval) return retval;
     }
     return retval;
 }
@@ -592,6 +599,7 @@ int get_pfc(
                 r.id, r.app_version_id, wu.rsc_fpops_est*COBBLESTONE_SCALE
             );
         }
+        mode = PFC_MODE_WU_EST;
         pfc = wu.rsc_fpops_est;
         return 0;
     }
@@ -606,14 +614,19 @@ int get_pfc(
                 r.id, r.app_version_id, wu.rsc_fpops_est*COBBLESTONE_SCALE
             );
         }
+        mode = PFC_MODE_WU_EST;
         pfc = wu.rsc_fpops_est;
         return 0;
     }
 
     int gavid = generalized_app_version_id(r.app_version_id, r.appid);
 
+    // transition case
+    //
     if (!hav.host_id) {
-        return ERR_NOT_FOUND;
+        mode = PFC_MODE_WU_EST;
+        pfc = wu.rsc_fpops_est;
+        return 0;
     }
 
     // old clients report CPU time but not elapsed time.
@@ -647,12 +660,15 @@ int get_pfc(
                 );
             }
         }
-        if (do_scale && dtime() < hav.host_scale_time) {
+        if (do_scale
+            && app.host_scale_check
+            && hav.consecutive_valid < CONS_VALID_HOST_SCALE
+        ) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] old client: no host scaling - scale probation\n",
-                    r.id
+                    "[credit] [RESULT#%d] old client: no host scaling - cons valid %d\n",
+                    r.id, hav.consecutive_valid
                 );
             }
         }
@@ -699,7 +715,7 @@ int get_pfc(
                 wu.rsc_fpops_bound*COBBLESTONE_SCALE, pfc*COBBLESTONE_SCALE
             );
         }
-        sprintf(query, "scale_probation=1 and error_rate=%f", ERROR_RATE_INIT);
+        sprintf(query, "consecutive_valid=0");
         sprintf(clause, "host_id=%d and app_version_id=%d", r.hostid, gavid);
         retval = hav.update_fields_noid(query, clause);
         return retval;
@@ -719,12 +735,15 @@ int get_pfc(
                     );
                 }
             }
-            if (do_scale && app.host_scale_check && dtime() < hav.host_scale_time) {
+            if (do_scale
+                && app.host_scale_check
+                && hav.consecutive_valid < CONS_VALID_HOST_SCALE
+            ) {
                 do_scale = false;
                 if (config.debug_credit) {
                     log_messages.printf(MSG_NORMAL,
-                        "[credit] [RESULT#%d] anon platform, not scaling, host probation\n",
-                        r.id
+                        "[credit] [RESULT#%d] anon platform, not scaling, cons valid %d\n",
+                        r.id, hav.consecutive_valid
                     );
                 }
             }
@@ -780,12 +799,14 @@ int get_pfc(
 
         bool do_scale = true;
         double host_scale = 0;
-        if (app.host_scale_check && dtime() < hav.host_scale_time) {
+        if (app.host_scale_check
+            && hav.consecutive_valid < CONS_VALID_HOST_SCALE
+        ) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] not host scaling - host probation\n",
-                    r.id
+                    "[credit] [RESULT#%d] not host scaling - cons valid %d\n",
+                    r.id, hav.consecutive_valid
                 );
             }
         }
@@ -821,7 +842,7 @@ int get_pfc(
             if (host_scale > 10) host_scale = 10;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] host scale: %.2f (%.2f/%.2f)\n",
+                    "[credit] [RESULT#%d] host scale: %.2f (%f/%f)\n",
                     r.id, host_scale, avp->pfc.get_avg(), hav.pfc.get_avg()
                 );
             }
@@ -892,6 +913,33 @@ int get_pfc(
     return 0;
 }
 
+// compute the average of some numbers,
+// where each value is weighted by the sum of the other values.
+//
+double low_average(vector<double>& v) {
+    unsigned int i;
+    if (v.size() ==1) {
+        return v[0];
+    }
+    double sum=0;
+    for (i=0; i<v.size(); i++) {
+        sum += v[i];
+    }
+    double total=0;
+    for (i=0; i<v.size(); i++) {
+        total += v[i]*(sum-v[i]);
+    }
+    return total/sum;
+}
+
+double vec_min(vector<double>& v) {
+    double x = v[0];
+    for (unsigned int i=1; i<v.size(); i++) {
+        if (v[i] < x) x = v[i];
+    }
+    return x;
+}
+
 // Called by validator when canonical result has been selected.
 // Compute credit for valid instances, store in result.granted_credit
 // and return as credit
@@ -907,6 +955,8 @@ int assign_credit_set(
     int n_normal=0, n_total=0, mode, retval;
     double sum_normal=0, sum_total=0, pfc;
     char query[256];
+    vector<double> normal;
+    vector<double> approx;
 
     for (i=0; i<results.size(); i++) {
         RESULT& r = results[i];
@@ -931,22 +981,21 @@ int assign_credit_set(
             exit(1);
         }
         if (mode == PFC_MODE_NORMAL) {
-            sum_normal += pfc;
-            n_normal++;
+            normal.push_back(pfc);
+        } else {
+            approx.push_back(pfc);
         }
-        sum_total += pfc;
-        n_total++;
     }
 
     // averaging policy: if there is least one normal result,
-    // use the average of normal results.
-    // Otherwise use the average of all results
+    // use the "low average" of normal results.
+    // Otherwise use the min of all results
     //
     double x;
-    if (n_normal) {
-        x = sum_normal/n_normal;
+    if (normal.size()) {
+        x = low_average(normal);
     } else {
-        x = sum_total/n_total;
+        x = vec_min(approx);
     }
     x *= COBBLESTONE_SCALE;
     if (config.debug_credit) {
@@ -971,16 +1020,13 @@ int assign_credit_set(
 // Put (host/app_version) on "host scale probation",
 // so that we won't use host scaling for a while.
 //
-void host_scale_probation(
-    DB_HOST_APP_VERSION& hav, double latency_bound
-) {
+void got_error(DB_HOST_APP_VERSION& hav) {
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
-            "[credit] [HAV#%d] Imposing scale probation\n", hav.app_version_id
+            "[credit] [HAV#%d] got error, setting error rate to %f\n",
+            hav.app_version_id, ERROR_RATE_INIT
         );
     }
-    hav.scale_probation = 1;
-    hav.host_scale_time = dtime()+latency_bound;
 }
 
 // carefully write any app_version records that have changed;

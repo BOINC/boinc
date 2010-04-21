@@ -110,7 +110,7 @@ struct SCHED_SHMEM {
 
     APP* lookup_app(int);
     APP* lookup_app_name(char*);
-    APP_VERSION* lookup_app_version(int appid, int platform);
+    APP_VERSION* lookup_app_version(int);
     PLATFORM* lookup_platform_id(int);
     PLATFORM* lookup_platform(char*);
 };

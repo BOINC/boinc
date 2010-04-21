@@ -696,6 +696,16 @@ function update_3_17_2010() {
         add max_jobs_per_day_init integer not null
     ");
 }
+
+function update_4_21_2010() {
+    do_query("alter table host_app_version
+        drop column host_scale_time,
+        drop column scale_probation,
+        drop column error_rate,
+        add column consecutive_valid integer not null
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -711,6 +721,7 @@ $db_updates = array (
     array(19001, "update_9_3_2009"),
     array(20807, "update_3_5_2010"),
     array(20932, "update_3_17_2010"),
+    array(21226, "update_4_21_2010"),
 );
 
 ?>

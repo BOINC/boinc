@@ -349,7 +349,7 @@ static void get_prefs_info() {
 // An app version is reliable if the following conditions are true
 // (for those that are set in the config file)
 // 1) The host average turnaround is less than a threshold
-// 2) The host error rate is less then a threshold
+// 2) consecutive_valid is above a threshold
 // 3) The host results per day is equal to the max value
 //
 void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
@@ -368,19 +368,16 @@ void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
             return;
         }
     }
-    if (config.reliable_max_error_rate) {
-        if (hav.error_rate > config.reliable_max_error_rate*multiplier) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [AV#%d] not reliable; error rate: %f > %f\n",
-                    hav.app_version_id,
-                    hav.error_rate,
-                    config.reliable_max_error_rate*multiplier
-                );
-            }
-            hav.reliable = false;
-            return;
+    if (hav.consecutive_valid < CONS_VALID_RELIABLE) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] [AV#%d] not reliable; cons valid %d < %d\n",
+                hav.app_version_id,
+                hav.consecutive_valid, CONS_VALID_RELIABLE
+            );
         }
+        hav.reliable = false;
+        return;
     }
     if (config.daily_result_quota) {
         if (hav.max_jobs_per_day < config.daily_result_quota) {
@@ -406,26 +403,25 @@ void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
     g_wreq->has_reliable_version = true;
 }
 
-#define ER_MAX  0.05
 // decide whether do unreplicated jobs with this app version
 //
 static void set_trust(DB_HOST_APP_VERSION& hav) {
     hav.trusted = false;
-    if (hav.error_rate > ER_MAX) {
+    if (hav.consecutive_valid < CONS_VALID_UNREPLICATED) {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] set_trust: error rate %f > %f, don't trust\n",
-                hav.error_rate, ER_MAX
+                "[send] set_trust: cons valid %d < %d, don't use single replication\n",
+                hav.consecutive_valid, CONS_VALID_UNREPLICATED
             );
         }
         return;
     }
-    double x = sqrt(hav.error_rate/ER_MAX);
+    double x = 1 - (1./hav.consecutive_valid);
     if (drand() > x) hav.trusted = true;
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[send] set_trust: random choice for error rate %f: %s\n",
-            hav.error_rate, hav.trusted?"yes":"no"
+            "[send] set_trust: random choice for cons valid %d: %s\n",
+            hav.consecutive_valid, hav.trusted?"yes":"no"
         );
     }
 }
@@ -1560,8 +1556,6 @@ void send_work_setup() {
     }
 }
 
-// Update host_scale_time of host_app_version records for which we send jobs,
-// and for which scale_probation is set.
 // If a record is not in DB, create it.
 //
 int update_host_app_versions(vector<RESULT>& results, int hostid) {
@@ -1573,19 +1567,12 @@ int update_host_app_versions(vector<RESULT>& results, int hostid) {
         RESULT& r = results[i];
         int gavid = generalized_app_version_id(r.app_version_id, r.appid);
         DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
-        if (havp) {
-            if (havp->scale_probation && r.report_deadline > havp->host_scale_time) {
-                havp->host_scale_time = r.report_deadline;
-            }
-        } else {
+        if (!havp) {
             bool found = false;
             for (j=0; j<new_havs.size(); j++) {
                 DB_HOST_APP_VERSION& hav = new_havs[j];
                 if (hav.app_version_id == gavid) {
                     found = true;
-                    if (r.report_deadline > hav.host_scale_time) {
-                        hav.host_scale_time = r.report_deadline;
-                    }
                 }
             }
             if (!found) {
@@ -1593,7 +1580,6 @@ int update_host_app_versions(vector<RESULT>& results, int hostid) {
                 hav.clear();
                 hav.host_id = hostid;
                 hav.app_version_id = gavid;
-                hav.host_scale_time = r.report_deadline;
                 new_havs.push_back(hav);
             }
         }
@@ -1606,8 +1592,6 @@ int update_host_app_versions(vector<RESULT>& results, int hostid) {
     for (i=0; i<new_havs.size(); i++) {
         DB_HOST_APP_VERSION& hav = new_havs[i];
 
-        hav.scale_probation = true;
-        hav.error_rate = ERROR_RATE_INIT;
         retval = hav.insert();
         if (retval) {
             log_messages.printf(MSG_CRITICAL,

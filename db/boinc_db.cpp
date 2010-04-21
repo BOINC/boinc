@@ -1081,17 +1081,15 @@ void DB_CREDIT_MULTIPLIER::db_parse(MYSQL_ROW& r) {
 int DB_HOST_APP_VERSION::update_scheduler(DB_HOST_APP_VERSION& orig) {
     char query[1024], clause[512];
 
-    if (host_scale_time == orig.host_scale_time
-        && error_rate == orig.error_rate
+    if (consecutive_valid == orig.consecutive_valid
         && max_jobs_per_day == orig.max_jobs_per_day
         && n_jobs_today == orig.n_jobs_today
     ) {
         return 0;
     }
     sprintf(query,
-        "host_scale_time=%.15e, error_rate=%.15e, max_jobs_per_day=%d, n_jobs_today=%d",
-        host_scale_time,
-        error_rate,
+        "consecutive_valid=%d, max_jobs_per_day=%d, n_jobs_today=%d",
+        consecutive_valid,
         max_jobs_per_day,
         n_jobs_today
     );
@@ -1102,9 +1100,6 @@ int DB_HOST_APP_VERSION::update_scheduler(DB_HOST_APP_VERSION& orig) {
 int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
     char query[1024], clause[512];
 
-    if (host_scale_time < dtime()) {
-        scale_probation = 0;
-    }
     if (pfc.n == orig.pfc.n
         && pfc.avg == orig.pfc.avg
         && et.n == orig.et.n
@@ -1115,9 +1110,7 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         && turnaround.avg == orig.turnaround.avg
         && turnaround.q == orig.turnaround.q
         && turnaround.var == orig.turnaround.var
-        && error_rate == orig.error_rate
-        && host_scale_time == orig.host_scale_time
-        && scale_probation == orig.scale_probation
+        && consecutive_valid == orig.consecutive_valid
     ) {
         return 0;
     }
@@ -1132,9 +1125,7 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         "turnaround_avg=%.15e, "
         "turnaround_q=%.15e, "
         "turnaround_var=%.15e, "
-        "error_rate=%.15e, "
-        "host_scale_time=%.15e, "
-        "scale_probation=%d",
+        "consecutive_valid=%d ",
         pfc.n,
         pfc.avg,
         et.n,
@@ -1145,9 +1136,7 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         turnaround.avg,
         turnaround.q,
         turnaround.var,
-        error_rate,
-        host_scale_time,
-        scale_probation
+        consecutive_valid
     );
     sprintf(clause,
         "host_id=%d and app_version_id=%d ",
@@ -1166,15 +1155,13 @@ void DB_HOST_APP_VERSION::db_print(char* buf) {
         "et_avg=%.15e, "
         "et_var=%.15e, "
         "et_q=%.15e, "
-        "host_scale_time=%.15e, "
-        "scale_probation=%d, "
-        "error_rate=%.15e, "
         "max_jobs_per_day=%d, "
         "n_jobs_today=%d, "
         "turnaround_n=%.15e, "
         "turnaround_avg=%.15e, "
         "turnaround_var=%.15e, "
-        "turnaround_q=%.15e ",
+        "turnaround_q=%.15e, "
+        "consecutive_valid=%d ",
         host_id,
         app_version_id,
         pfc.n,
@@ -1183,15 +1170,13 @@ void DB_HOST_APP_VERSION::db_print(char* buf) {
         et.avg,
         et.var,
         et.q,
-        host_scale_time,
-        scale_probation?1:0,
-        error_rate,
         max_jobs_per_day,
         n_jobs_today,
         turnaround.n,
         turnaround.avg,
         turnaround.var,
-        turnaround.q
+        turnaround.q,
+        consecutive_valid
     );
 }
 
@@ -1206,15 +1191,13 @@ void DB_HOST_APP_VERSION::db_parse(MYSQL_ROW& r) {
     et.avg = atof(r[i++]);
     et.var = atof(r[i++]);
     et.q = atof(r[i++]);
-    host_scale_time = atof(r[i++]);
-    scale_probation = (atoi(r[i++]) != 0);
-    error_rate = atof(r[i++]);
     max_jobs_per_day = atoi(r[i++]);
     n_jobs_today = atoi(r[i++]);
     turnaround.n = atof(r[i++]);
     turnaround.avg = atof(r[i++]);
     turnaround.var = atof(r[i++]);
     turnaround.q = atof(r[i++]);
+    consecutive_valid = atoi(r[i++]);
 }
 
 void DB_STATE_COUNTS::db_print(char* buf) {

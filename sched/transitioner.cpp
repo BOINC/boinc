@@ -106,14 +106,14 @@ static int result_timed_out(
         hav.max_jobs_per_day = 1;
     }
 
-    host_scale_probation(hav, wu_item.delay_bound);
+    hav.consecutive_valid = 0;
 
     sprintf(query,
-        "turnaround_n=%.15e, turnaround_avg=%.15e, turnaround_var=%.15d, turnaround_q=%.15e, scale_probation=%d, host_scale_time=%.15e, max_jobs_per_day=%d",
+        "turnaround_n=%.15e, turnaround_avg=%.15e, turnaround_var=%.15d, turnaround_q=%.15e, max_jobs_per_day=%d, consecutive_valid=%d",
         hav.turnaround.n, hav.turnaround.avg,
         hav.turnaround.var, hav.turnaround.q,
-        hav.scale_probation, hav.host_scale_time,
-        hav.max_jobs_per_day
+        hav.max_jobs_per_day,
+        hav.consecutive_valid
     );
     sprintf(clause,
         "host_id=%d and app_version_id=%d",

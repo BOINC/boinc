@@ -199,15 +199,13 @@ create table host_app_version (
     et_avg              double      not null,
     et_var              double      not null,
     et_q                double      not null,
-    host_scale_time     double      not null,
-    scale_probation     tinyint     not null,
-    error_rate          double      not null,
     max_jobs_per_day    integer     not null,
     n_jobs_today        integer     not null,
     turnaround_n        double      not null,
     turnaround_avg      double      not null,
     turnaround_var      double      not null,
-    turnaround_q        double      not null
+    turnaround_q        double      not null,
+    consecutive_valid   integer     not null
 ) engine = InnoDB;
 
 /*

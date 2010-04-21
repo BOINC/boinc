@@ -86,18 +86,8 @@ bool is_unreplicated(WORKUNIT& wu) {
     return (wu.target_nresults == 1 && app.target_nresults > 1);
 }
 
-void update_error_rate(DB_HOST_APP_VERSION& hav, bool valid) {
-    if (valid) {
-        hav.error_rate *= 0.95;
-    } else {
-        hav.error_rate += 0.1;
-    }
-    if (hav.error_rate > 1) hav.error_rate = 1;
-    if (hav.error_rate <= 0) hav.error_rate = ERROR_RATE_INIT;
-}
-
 // Here when a result has been validated.
-// - update error rate
+// - update consecutive_valid
 // - udpdate turnaround stats
 // - insert credited_job record if needed
 //
@@ -109,14 +99,13 @@ int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu, DB_HOST_APP_VERSION& h
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);
 
-    // lower error rate, but only if unreplicated
+    // increment consecutive_valid, but only if unreplicated
     //
     if (!is_unreplicated(wu)) {
-        double old_error_rate = hav.error_rate;
-        update_error_rate(hav, true);
+        hav.consecutive_valid++;
         log_messages.printf(MSG_DEBUG,
-            "[HAV#%d] error rate %g->%g\n",
-            hav.app_version_id, old_error_rate, hav.error_rate
+            "[HAV#%d] consecutive valid now %d\n",
+            hav.app_version_id, hav.consecutive_valid
         );
     }
 
@@ -140,18 +129,8 @@ int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu, DB_HOST_APP_VERSION& h
     return 0;
 }
 
-int is_invalid(DB_HOST& host, WORKUNIT& wu, RESULT& result, DB_HOST_APP_VERSION& hav) {
-    char buf[256];
-    int retval;
-
-    double old_error_rate = hav.error_rate;
-    update_error_rate(hav, false);
-    log_messages.printf(MSG_DEBUG,
-        "[HAV#%d] invalid result; error rate %f->%f\n",
-        hav.app_version_id, old_error_rate, hav.error_rate
-    );
-    host_scale_probation(hav, (double)wu.delay_bound);
-    return 0;
+static inline void is_invalid(DB_HOST_APP_VERSION& hav) {
+    hav.consecutive_valid = 0;
 }
 
 // handle a workunit which has new results
@@ -286,7 +265,7 @@ int handle_wu(
                     "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
                     result.id, result.name
                 );
-                is_invalid(host, wu, result, havv[0]);
+                is_invalid(havv[0]);
             }
             if (hav.host_id && update_hav) {
                 havv[0].update_validator(hav_orig);
@@ -459,7 +438,7 @@ int handle_wu(
                         "[RESULT#%d %s] Invalid [HOST#%d]\n",
                         result.id, result.name, result.hostid
                     );
-                    is_invalid(host, wu, result, host_app_versions[i]);
+                    is_invalid(host_app_versions[i]);
                     break;
                 case VALIDATE_STATE_INIT:
                     log_messages.printf(MSG_NORMAL,

@@ -24,6 +24,16 @@
 
 using std::vector;
 
+// constants related to consecutive_valid.
+// These could be made configurable.
+
+#define CONS_VALID_RELIABLE 10
+    // host is eligible to be considered "reliable"
+#define CONS_VALID_HOST_SCALE 10
+    // host is eligible for host scaling of credit
+#define CONS_VALID_UNREPLICATED 10
+    // host is eligible for single replication
+
 // parsed version of server configuration file
 //
 class SCHED_CONFIG {
@@ -86,6 +96,7 @@ public:
     int sched_debug_level;
     int fuh_debug_level;
     double reliable_max_error_rate;
+        // DEPRECATED
         // max error rate for a host to be declared reliable
     int reliable_max_avg_turnaround;
         // max average turnaround for a host to be declared reliable
