@@ -1374,3 +1374,11 @@ David  20 Apr 2010
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.cpp
+
+Rom    21 Apr 2010
+    - Tag for 6.10.47 release, all platforms
+      boinc_core_release_6_10_47
+
+    /
+        configure.ac
+        version.h
