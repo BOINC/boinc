@@ -390,7 +390,7 @@
 	        <term>%I</term>
 	        <listitem>
 	          <para>
-		  Space separated list of input files (physical filenames with path). Capital 'i'.
+		  Comma separated list of input files (physical filenames with path). Capital 'i'.
 		  </para>
 	        </listitem>
 	      </varlistentry>
@@ -399,7 +399,7 @@
 	        <term>%O</term>
 	        <listitem>
 	          <para>
-		  Space separated list of output files.
+		  Comma separated list of output files.
 		  </para>
 	        </listitem>
 	      </varlistentry>
