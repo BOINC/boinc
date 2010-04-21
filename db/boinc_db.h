@@ -27,6 +27,7 @@
 
 #include <cstdio>
 #include <vector>
+#include <string.h>
 
 #include "db_base.h"
 #include "average.h"
