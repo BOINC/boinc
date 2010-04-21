@@ -3027,3 +3027,10 @@ David  21 Apr 2010
         file_names.h
         http_curl.cpp
         net_stats.cpp,h
+
+David  21 Apr 2010
+	- client: bug fixes for the above
+
+	client/
+		client_state.cpp
+		net_stats.cpp

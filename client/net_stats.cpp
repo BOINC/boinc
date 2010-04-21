@@ -302,6 +302,7 @@ DAILY_XFER* DAILY_XFER_HISTORY::today() {
     DAILY_XFER dx;
     dx.when = d;
     daily_xfers.push_front(dx);
+    return &(daily_xfers.front());
 }
 
 void DAILY_XFER_HISTORY::add(size_t x, bool upload) {
@@ -349,7 +350,7 @@ void DAILY_XFER_HISTORY::poll() {
     if (gstate.now - last_time < DAILY_XFER_HISTORY_PERIOD) return;
     last_time = gstate.now;
 
-    FILE* f = fopen(TEMP_FILE_NAME, "r");
+    FILE* f = fopen(TEMP_FILE_NAME, "w");
     fprintf(f, "<daily_xfers>\n");
     for (unsigned int i=0; i<daily_xfers.size(); i++) {
         DAILY_XFER& dx = daily_xfers[i];
