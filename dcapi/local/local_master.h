@@ -67,7 +67,7 @@ struct _DC_Workunit
 	char			*workdir;
 	pid_t			pid;
 
-	/* Input file definitions. Elements are of type DC_LogicalFile */
+	/* Input file definitions. Elements are of type DC_PhysicalFile */
 	GList			*input_files;
 	int			num_inputs;
 

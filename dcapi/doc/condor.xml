@@ -385,6 +385,24 @@
 		  </para>
 	        </listitem>
 	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%I</term>
+	        <listitem>
+	          <para>
+		  Space separated list of input files (physical filenames with path). Capital 'i'.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%O</term>
+	        <listitem>
+	          <para>
+		  Space separated list of output files.
+		  </para>
+	        </listitem>
+	      </varlistentry>
 	    </variablelist>
 
 	</para>
