@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-04-19 08:36-0700\n"
+"PO-Revision-Date: 2010-04-22 06:59-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -217,13 +217,12 @@ msgid "E&xit"
 msgstr "&Kilépés"
 
 #: clientgui/AdvancedFrame.cpp:332
-#, fuzzy
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Hírek\tCtrl+Shift+N"
+msgstr "&Értesítések\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "Display notices"
-msgstr ""
+msgstr "Értesítések megjelenítése"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "&Projects\tCtrl+Shift+P"
@@ -274,14 +273,12 @@ msgid "Display the simple graphical interface."
 msgstr "Az egyszerű grafikus felület megjelenítése."
 
 #: clientgui/AdvancedFrame.cpp:391
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "Csatlakozás &projekthez vagy fiókkezelőhöz..."
+msgstr "&Csatlakozás projekthez vagy fiókkezelőhöz..."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "Attach this computer to a project or account manager"
-msgstr "Csatlakozás &projekthez vagy fiókkezelőhöz..."
+msgstr "A számítógép csatlakoztatása egy projekthez vagy fiókkezelőhöz"
 
 #: clientgui/AdvancedFrame.cpp:396
 #, c-format
@@ -294,41 +291,37 @@ msgid "Get current settings from %s"
 msgstr "Aktuális beállítások betöltése innen: %s"
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "&Attach to project..."
-msgstr "Csatlakozás &projekthez..."
+msgstr "&Csatlakozás projekthez..."
 
 #: clientgui/AdvancedFrame.cpp:411
 msgid "Attach to a project"
 msgstr "Csatlakozás egy projekthez"
 
 #: clientgui/AdvancedFrame.cpp:414
-#, fuzzy, c-format
+#, c-format
 msgid "S&top using %s..."
 msgstr "%s használatának &befejezése..."
 
 #: clientgui/AdvancedFrame.cpp:420
-#, fuzzy
 msgid "Remove this computer from account manager control."
-msgstr "Kliens eltávolítása a fiókkezelő felügyelete alól."
+msgstr "Számítógép eltávolítása a fiókkezelő felügyelete alól."
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Display and network &options..."
-msgstr ""
+msgstr "Megjelenítési és hálózati &beállítások..."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Configure GUI options and proxy settings"
 msgstr "A grafikus felület és a proxy beállítása"
 
 #: clientgui/AdvancedFrame.cpp:430
-#, fuzzy
 msgid "Computing &preferences..."
-msgstr "&Beállítások..."
+msgstr "Számítási &beállítások..."
 
 #: clientgui/AdvancedFrame.cpp:431
-#, fuzzy
 msgid "Configure computing preferences"
-msgstr "Helyi beállítások módosítása"
+msgstr "Számítási beállítások konfigurálása"
 
 #: clientgui/AdvancedFrame.cpp:439
 msgid "&Run always"
@@ -343,7 +336,6 @@ msgid "Run based on &preferences"
 msgstr "&Beállítások szerint fut"
 
 #: clientgui/AdvancedFrame.cpp:445
-#, fuzzy
 msgid "Allow work according to preferences"
 msgstr "Munka engedélyezése a beállítások figyelembevételével"
 
@@ -357,12 +349,11 @@ msgstr "Beállítások figyelembe vétele nélkül leáll"
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Use GPU always"
-msgstr ""
+msgstr "GPU használata mindenképp"
 
 #: clientgui/AdvancedFrame.cpp:476
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Munka engedélyezése a beállítások figyelmen kívül hagyásával"
+msgstr "GPU munka engedélyezése a beállítások figyelmen kívül hagyásával"
 
 #: clientgui/AdvancedFrame.cpp:480
 #, fuzzy
