@@ -3086,3 +3086,10 @@ David  22 Apr 2010
     html/inc/
         prefs.inc
     lib/coproc.h
+
+David  22 Apr 2010
+    - user web: first whack at cleaning up the mess which is prefs.inc
+        (to be continued)
+
+    html/inc/
+        prefs.inc

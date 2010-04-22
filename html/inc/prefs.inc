@@ -59,61 +59,347 @@
 // Various functions are defined below for converting between these forms,
 // and also to/from HTML form elements
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
+
 include_once("../project/project_specific_prefs.inc");
 
 $app_types = get_app_types();
 
+$venues = array("home", "school", "work");
+
+abstract class PREF {
+    public $desc;
+    public $tag;    // the pref's primary XML tag
+    function __construct($desc, $tag) {
+        $this->desc = $desc;
+        $this->tag = $tag;
+    }
+
+    abstract function show_value($prefs);
+    abstract function show_form($prefs, $error);
+    abstract function parse_form(&$prefs, &$error);
+    abstract function xml_string($prefs);
+    abstract function xml_parse(&$prefs, $name, $text);
+    abstract function set_default(&$prefs);
+
+    // multi-column display (read only)
+    //
+    function show_cols($prefs) {
+        global $venues;
+        echo "<tr><td class=fieldname>$this->desc</td>";
+        $tag = $this->tag;
+        if (isset($prefs->$tag)) {
+            $this->show_value($prefs);
+        } else {
+            echo "<td>---</td>";
+        }
+        foreach ($venues as $v) {
+            if (isset($prefs->$v) && isset($prefs->$v->$tag)) {
+                $this->show_value($prefs->$v);
+            } else {
+                echo "<td>---</td>";
+            }
+        }
+        echo "</tr>\n";
+    }
+
+    // show read-only row
+    //
+    function show($prefs) {
+        echo "<tr><td class=fieldname>$this->desc</td>";
+        $tag = $this->tag;
+        if (isset($prefs->$tag)) {
+            $this->show_value($prefs);
+        } else {
+            echo "<td>---</td>";
+        }
+        echo "</tr>\n";
+    }
+
+    // show form row
+    //
+    function show_form_row($prefs, $error) {
+        $tag = $this->tag;
+        $class = isset($error->$tag)?"fieldname_error":"fieldname";
+        echo "<tr><td class=$class>$this->desc</td>";
+        $this->show_form($prefs, $error);
+        echo "</tr>\n";
+    }
+}
+
+class PREF_BOOL extends PREF {
+    public $default;
+    function __construct($desc, $tag, $default) {
+        $this->default = $default;
+        parent::__construct($desc, $tag);
+    }
+    function show_value($prefs) {
+        $tag = $this->tag;
+        $x = $prefs->$tag?tra("yes"):tra("no");
+        echo "<td>$x</td>";
+    }
+    function show_form($prefs, $error) {
+        $tag = $this->tag;
+        $yes = $prefs->$tag?true:false;
+        echo "<td class=fieldvalue>"
+            .tra("yes")
+            ." <input type=radio name=$this->tag value=yes "
+            .($yes?"checked":"")
+            ."> "
+            .tra("no")
+            ." <input type=radio name=$this->tag value=no "
+            .($yes?"":"checked")
+            ."></td>
+        ";
+    }
+    function parse_form(&$prefs, &$error) {
+        $tag = $this->tag;
+        $prefs->$tag = ($_GET[$tag] == 'yes');
+    }
+    function xml_string($prefs) {
+        $tag = $this->tag;
+        return "<$tag>"
+            .($prefs->$tag?"1":"0")
+            ."</$tag>
+        ";
+    }
+    function xml_parse(&$prefs, $name, $text) {
+        $tag = $this->tag;
+        if ($name != $tag) return false;
+        $val = (trim($text) != '0');
+        $prefs->$tag = $val;
+        return true;
+    }
+    function set_default(&$prefs) {
+        $tag = $this->tag;
+        $prefs->$tag = $this->default;
+    }
+}
+
+class PREF_NUM extends PREF {
+    public $suffix;
+    public $min;
+    public $max;
+    public $default;
+    function __construct($desc, $tag, $suffix, $min, $max, $default) {
+        $this->suffix = $suffix;
+        $this->min = $min;
+        $this->max = $max;
+        $this->default = $default;
+        parent::__construct($desc, $tag);
+    }
+    function show_value($prefs) {
+        $tag = $this->tag;
+        $v = $prefs->$tag;
+        if ($v == 0) $v = "---";
+        else $v .= " ".$this->suffix;
+        echo "<td>$v</td>";
+    }
+    function show_form($prefs, $error) {
+        $tag = $this->tag;
+        $class = isset($error->$tag)?"fieldvalue_error":"fieldvalue";
+        $v = $prefs->$tag;
+        if ($v == 0) $v = "";
+        echo "<td class=$class><input size=5 name=$tag value='$v'> $this->suffix</td>\n";
+    }
+    function parse_form(&$prefs, &$error) {
+        $tag = $this->tag;
+        $prefs->$tag = $_GET[$tag];
+        if ($prefs->$tag < $this->min || $prefs->$tag > $this->max) {
+            $error->$tag = true;
+        }
+    }
+    function xml_string($prefs) {
+        $tag = $this->tag;
+        $v = $prefs->$tag;
+        return "<$tag>$v</$tag>\n";
+    }
+    function xml_parse(&$prefs, $name, $text) {
+        $tag = $this->tag;
+        if ($name != $tag) return false;
+        $prefs->$tag = $text;
+        return true;
+    }
+    function set_default(&$prefs) {
+        $tag = $this->tag;
+        $prefs->$tag = $this->default;
+    }
+}
+
+class PREF_HOUR_RANGE extends PREF {
+    public $tag2;
+    function __construct($desc, $tag, $tag2) {
+        $this->tag2 = $tag2;
+        parent::__construct($desc, $tag);
+    }
+    function show_value($prefs) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $h1 = $prefs->$tag;
+        $h2 = $prefs->$tag2;
+        if ($h1 == $h2) {
+            $v = "---";
+        } else {
+            $v = hour_str($h1)." ".tra("and")." ".hour_str($h2);
+        }
+        echo "<td>$v</td>";
+    }
+    function show_form($prefs, $error) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        echo "<td class=fieldvalue>"
+            .hour_select($prefs->$tag, $tag)
+            ." "
+            .tra("and")
+            ." "
+            .hour_select($prefs->$tag2, $tag2)
+            ."
+        ";
+    }
+    function parse_form(&$prefs, &$error) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $prefs->$tag = $_GET[$tag];
+        $prefs->$tag2 = $_GET[$tag2];
+    }
+    function xml_string($prefs) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $h1 = $prefs->$tag;
+        $h2 = $prefs->$tag2;
+        if ($h1 == $h2) return "";
+        return "<$tag>$h1</$tag>\n<$tag2>$h2</$tag2>\n";
+    }
+    function xml_parse(&$prefs, $name, $text) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        if ($name == $tag) {
+            $prefs->$tag = $text;
+            return true;
+        } else if ($name == $tag2) {
+            $prefs->$tag2 = $text;
+            return true;
+        }
+        return false;
+    }
+    function set_default(&$prefs) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $prefs->$tag = 0;
+        $prefs->$tag2 = 0;
+    }
+}
+
+$cpu_prefs = array(
+    new PREF_BOOL(
+        tra(
+            "Suspend work while computer is on battery power? %1(matters only for portable computers)%2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "suspend_while_on_batteries",
+        true
+    ),
+    new PREF_BOOL(
+        tra("Suspend work while computer is in use?"),
+        "suspend_if_user_active",
+        false
+    ),
+    new PREF_BOOL(
+        tra(
+            "Suspend GPU work while computer is in use? %1Enforced by version 6.7+%2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "suspend_gpu_if_user_active",
+        true
+    ),
+    new PREF_NUM(
+        tra("'In use' means mouse/keyboard activity in last"),
+        "idle_time_to_run",
+        tra("minutes"),
+        1, 9999, 3
+    ),
+    new PREF_NUM(
+        tra(
+            "Suspend work if no mouse/keyboard activity in last %1(Needed to enter low-power mode on some computers)%2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "suspend_if_no_recent_input",
+        tra("minutes"),
+        0, 9999, 0
+    ),
+    new PREF_NUM(
+        tra(
+            "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+%2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "suspend_cpu_usage",
+        "%",
+        0, 100, 25
+    ),
+    new PREF_HOUR_RANGE(
+        tra("Do work only between the hours of")
+            ."<br><span class=note>"
+            .tra("(no restriction if equal)")
+            ."</span>"
+        ,
+        "start_hour", "end_hour"
+    ),
+    new PREF_BOOL(
+        tra(
+            "Leave tasks in memory while suspended? %1(suspended tasks will consume swap space if 'yes')%2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "leave_apps_in_memory",
+        false
+    ),
+    new PREF_NUM(
+        tra(
+            "Switch between tasks every %1(recommended: 60 minutes)%2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "cpu_scheduling_period_minutes",
+        tra("minutes"),
+        1, 9999, 60
+    ),
+    new PREF_NUM(
+        tra("On multiprocessors, use at most"),
+        "max_cpus",
+        tra("processors"),
+        0, 9999, 0
+    ),
+    new PREF_NUM(
+        tra(
+            "On multiprocessors, use at most %1 Enforced by version 6.1+%2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "max_ncpus_pct",
+        tra("% of the processors"),
+        0, 100, 100
+    ),
+    new PREF_NUM(
+        tra(
+            "Use at most %1 (Can be used to reduce CPU heat)%2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "cpu_usage_limit",
+        tra("% of CPU time"),
+        0, 100, 100
+    ),
+);
+
 // strings describing various preference fields
 //
 define("CPU_LIMIT_DESC", tra("Processor usage"));
-define("SUSPEND_WHILE_ON_BATTERIES_DESC",
-    tra(
-        "Suspend work while computer is on battery power? %1(matters only for portable computers)%2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
-define("RUN_IF_USER_ACTIVE_DESC",
-    tra("Suspend work while computer is in use?")
-);
-define("RUN_GPU_IF_USER_ACTIVE_DESC",
-    tra(
-        "Suspend GPU work while computer is in use? %1Enforced by version 6.7+%2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
-define("IDLE_TIME_TO_RUN_DESC", tra("'In use' means mouse/keyboard activity in last"));
-define("SUSPEND_IF_NO_RECENT_INPUT_DESC",
-    tra(
-        "Suspend work if no mouse/keyboard activity in last %1(Needed to enter low-power mode on some computers)%2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
-define("SUSPEND_CPU_USAGE_DESC",
-    tra(
-        "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+%2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
-define("START_END_DESC", tra("Do work only between the hours of"));
-define("START_END_DESC2", "<br><span class=note>".tra("(no restriction if equal)")."</span>");
-define("LEAVE_APPS_IN_MEMORY_DESC",
-    tra(
-        "Leave tasks in memory while suspended? %1(suspended tasks will consume swap space if 'yes')%2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
-define("CPU_SCHEDULING_DESC",
-    tra(
-        "Switch between tasks every %1(recommended: 60 minutes)%2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
 define("CONFIRM_BEFORE_CONNECTING_DESC",
     tra(
         "Confirm before connecting to Internet? %1(matters only if you have a modem, ISDN or VPN connection)%2",
@@ -139,26 +425,8 @@ define("WORK_BUF_MIN_DAYS_DESC",
 define("WORK_BUF_ADDITIONAL_DAYS_DESC",
     tra("Maintain enough work for an additional")
 );
-define("MAX_NCPUS_PCT_DESC",
-    tra(
-        "On multiprocessors, use at most %1 Enforced by version 6.1+%2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
-define("MAX_NCPUS_PCT_DESC2", tra("% of the processors"));
-define("MAX_CPUS_DESC", tra("On multiprocessors, use at most"));
-define("MAX_CPUS_DESC2", tra("processors"));
 define("USE_AT_MOST", tra("Use at most"));
-define("USE_AT_MOST2",
-    tra(
-        "Use at most %1 (Can be used to reduce CPU heat)%2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
 define("USE_AT_MOST3", tra("Use at most"));
-define("CPU_USAGE_LIMIT_DESC2", tra("percent of CPU time"));
 define("DISK_INTERVAL_DESC", tra("Tasks checkpoint to disk at most every"));
 define("DISK_LIMIT_DESC", tra("Disk and memory usage"));
 define("DISK_MIN_FREE_GB_DESC", tra("Leave at least"));
@@ -400,7 +668,13 @@ function element_end_global($parser, $name) {
     global $parse_result;
     global $top_parse_result;
     global $venue_name;
+    global $cpu_prefs;
 
+    foreach ($cpu_prefs as $p) {
+        if ($p->xml_parse($parse_result, $name, $text)) {
+            return;
+        }
+    }
     switch($name) {
     case "venue":
         $top_parse_result->$venue_name = $parse_result;
@@ -419,27 +693,6 @@ function element_end_global($parser, $name) {
     case "run_gpu_if_user_active":
         $parse_result->suspend_gpu_if_user_active = !get_bool();
         break;
-    case "idle_time_to_run":
-        $parse_result->idle_time_to_run = $text;
-        break;
-    case "suspend_if_no_recent_input":
-        $parse_result->suspend_if_no_recent_input = $text;
-        break;
-    case "suspend_cpu_usage":
-        $parse_result->suspend_cpu_usage = $text;
-        break;
-    case "start_hour":
-        $parse_result->start_hour = $text;
-        break;
-    case "end_hour":
-        $parse_result->end_hour = $text;
-        break;
-    case "leave_apps_in_memory":
-        $parse_result->leave_apps_in_memory = get_bool();
-        break;
-    case "cpu_scheduling_period_minutes":
-        $parse_result->cpu_scheduling_period_minutes = $text;
-        break;
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = get_bool();
         break;
@@ -451,16 +704,6 @@ function element_end_global($parser, $name) {
         break;
     case "work_buf_additional_days":
         $parse_result->work_buf_additional_days = $text;
-        break;
-    case "max_cpus":
-        $parse_result->max_cpus = $text;
-        break;
-    case "max_ncpus_pct":
-        $parse_result->max_ncpus_pct = $text;
-        break;
-    case "cpu_usage_limit":
-        if (!$text) $text=100;
-        $parse_result->cpu_usage_limit = $text;
         break;
     case "disk_interval":
         $parse_result->disk_interval = $text;
@@ -517,24 +760,19 @@ function char_handler($parser, $x) {
 // state of prefs before parsing; defines prefs for new users
 //
 function default_prefs_global() {
+    global $cpu_prefs;
     $p = null;
-    $p->suspend_while_on_batteries = true;
+
+    foreach ($cpu_prefs as $pref) {
+        $pref->set_default($p);
+    }
+    //$p->suspend_while_on_batteries = true;
     $p->suspend_if_user_active = false;
     $p->suspend_gpu_if_user_active = true;
-    $p->idle_time_to_run = 3;
-    $p->suspend_if_no_recent_input = 0;
-    $p->suspend_cpu_usage = 25;
-    $p->start_hour = 0;
-    $p->end_hour = 0;
-    $p->leave_apps_in_memory = false;
-    $p->cpu_scheduling_period_minutes = 60;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = false;
     $p->work_buf_min_days = 0;
     $p->work_buf_additional_days = 0.25;
-    $p->max_cpus = 16;
-    $p->max_ncpus_pct = 100;
-    $p->cpu_usage_limit = 100;
     $p->disk_interval = 60;
     $dp = get_disk_space_config();
     $p->disk_max_used_gb = $dp->disk_max_used_gb;
@@ -749,22 +987,11 @@ function row_links($subset, $prefs) {
 // Display all venues as columns next to descriptions
 //
 function prefs_show_columns_global($prefs) {
+    global $cpu_prefs;
     row_top(CPU_LIMIT_DESC);
-    row_defs(SUSPEND_WHILE_ON_BATTERIES_DESC, "suspend_while_on_batteries", "", "yesno", $prefs);
-    row_defs(RUN_IF_USER_ACTIVE_DESC, "suspend_if_user_active", "", "yesno", $prefs);
-    row_defs(RUN_GPU_IF_USER_ACTIVE_DESC, "suspend_gpu_if_user_active", "", "yesno", $prefs);
-    row_defs(IDLE_TIME_TO_RUN_DESC, "idle_time_to_run", tra("minutes"), "", $prefs);
-
-    row_defs(SUSPEND_IF_NO_RECENT_INPUT_DESC, "suspend_if_no_recent_input", tra("minutes"), "minutes", $prefs);
-    row_defs(SUSPEND_CPU_USAGE_DESC, "suspend_cpu_usage", "%", "", $prefs);
-
-    row_hours(START_END_DESC, "run", $prefs);
-
-    row_defs(LEAVE_APPS_IN_MEMORY_DESC, "leave_apps_in_memory", "", "yesno", $prefs);
-    row_defs(CPU_SCHEDULING_DESC, "cpu_scheduling_period_minutes", tra("minutes"), "", $prefs);
-    row_defs(MAX_CPUS_DESC, "max_cpus", MAX_CPUS_DESC2, "", $prefs);
-    row_defs(MAX_NCPUS_PCT_DESC, "max_ncpus_pct", MAX_NCPUS_PCT_DESC2, "", $prefs);
-    row_defs(USE_AT_MOST2, "cpu_usage_limit", CPU_USAGE_LIMIT_DESC2, "", $prefs);
+    foreach ($cpu_prefs as $p) {
+        $p->show_cols($prefs);
+    }
 
     row_top(DISK_LIMIT_DESC);
     row_defs(USE_AT_MOST, "disk_max_used_gb", tra("GB disk space"), "", $prefs);
@@ -794,32 +1021,12 @@ function show_double($x) {
 }
 
 function prefs_show_global($prefs) {
+    global $cpu_prefs;
     row1(CPU_LIMIT_DESC);
-    row2(SUSPEND_WHILE_ON_BATTERIES_DESC, $prefs->suspend_while_on_batteries?tra("yes"):tra("no"));
-    row2(RUN_IF_USER_ACTIVE_DESC, $prefs->suspend_if_user_active?tra("yes"):tra("no"));
-    row2(RUN_GPU_IF_USER_ACTIVE_DESC, $prefs->suspend_gpu_if_user_active?tra("yes"):tra("no"));
-    row2(IDLE_TIME_TO_RUN_DESC, tra("%1 minutes", $prefs->idle_time_to_run));
-
-    $x = show_double($prefs->suspend_if_no_recent_input);
-    row2(SUSPEND_IF_NO_RECENT_INPUT_DESC, tra("%1 minutes", $x));
-    $x = show_double($prefs->suspend_cpu_usage);
-    row2(SUSPEND_CPU_USAGE_DESC, "$x %");
-
-    if ($prefs->start_hour == $prefs->end_hour) {
-        $x = tra("(no restriction)");
-    } else {
-        $s = hour_str($prefs->start_hour);
-        $e = hour_str($prefs->end_hour);
-        $x = "$s ".tra("and")." $e";
+    foreach ($cpu_prefs as $p) {
+        $p->show($prefs);
     }
-    row2(START_END_DESC, $x);
-    row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?tra("yes"):tra("no"));
-    row2(CPU_SCHEDULING_DESC, tra("%1 minutes", $prefs->cpu_scheduling_period_minutes));
-    $x = $prefs->max_cpus?$prefs->max_cpus:'---';
-    row2(MAX_CPUS_DESC, "$x ".MAX_CPUS_DESC2);
-    $x = $prefs->max_ncpus_pct?$prefs->max_ncpus_pct:'---';
-    row2(MAX_NCPUS_PCT_DESC, "$x ".MAX_NCPUS_PCT_DESC2);
-    row2(USE_AT_MOST2, "$prefs->cpu_usage_limit ".CPU_USAGE_LIMIT_DESC2);
+
     row1(DISK_LIMIT_DESC);
     row2(USE_AT_MOST, tra("%1 GB disk space", $prefs->disk_max_used_gb));
 
@@ -1097,65 +1304,13 @@ function print_prefs_form(
 // Functions to display preference subsets as forms
 //
 function prefs_form_global($user, $prefs, $error=false) {
+    global $cpu_prefs;
 
     row1(CPU_LIMIT_DESC);
-    $y = prefs_form_radio_buttons("suspend_while_on_batteries", $prefs->suspend_while_on_batteries);
-    row2(SUSPEND_WHILE_ON_BATTERIES_DESC, $y);
 
-    $y = prefs_form_radio_buttons("suspend_if_user_active", $prefs->suspend_if_user_active);
-    row2(RUN_IF_USER_ACTIVE_DESC, $y);
-
-    $y = prefs_form_radio_buttons("suspend_gpu_if_user_active", $prefs->suspend_gpu_if_user_active);
-    row2(RUN_GPU_IF_USER_ACTIVE_DESC, $y);
-
-    $y = "<input size=5 name=idle_time_to_run value='$prefs->idle_time_to_run'> ".tra("minutes");
-    $show_error = false;
-    if (isset($error->idle_time_to_run)) $show_error= true;
-    row2(IDLE_TIME_TO_RUN_DESC, $y, $show_error);
-
-    $y = "<input size=5 name=suspend_if_no_recent_input value='$prefs->suspend_if_no_recent_input'> ".tra("minutes");
-    $show_error = false;
-    if (isset($error->suspend_if_no_recent_input)) $show_error= true;
-    row2(SUSPEND_IF_NO_RECENT_INPUT_DESC, $y, $show_error);
-
-    $y = "<input size=5 name=suspend_cpu_usage value='$prefs->suspend_cpu_usage'> % ";
-    $show_error = false;
-    if (isset($error->suspend_cpu_usage)) $show_error= true;
-    row2(SUSPEND_CPU_USAGE_DESC, $y, $show_error);
-
-    $x = START_END_DESC.START_END_DESC2;
-    $y = hour_select($prefs->start_hour, "start_hour").tra("and").hour_select($prefs->end_hour, "end_hour");
-    row2($x, $y);
-
-    $x = LEAVE_APPS_IN_MEMORY_DESC;
-    $y = prefs_form_radio_buttons("leave_apps_in_memory", $prefs->leave_apps_in_memory);
-    row2($x, $y);
-
-    $y = "<input size=5 name=cpu_scheduling_period_minutes value='$prefs->cpu_scheduling_period_minutes'> ".tra("minutes");
-    $show_error = false;
-    if (isset($error->cpu_scheduling_period_minutes)) $show_error= true;
-    row2(CPU_SCHEDULING_DESC, $y, $show_error);
-
-    $show_error = false;
-    if (isset($error->max_cpus)) $show_error= true;
-    row2(MAX_CPUS_DESC,
-        "<input size=4 name=max_cpus value=$prefs->max_cpus> ".MAX_CPUS_DESC2,
-        $show_error
-    );
-
-    $show_error = false;
-    if (isset($error->max_ncpus_pct)) $show_error= true;
-    row2(MAX_NCPUS_PCT_DESC,
-        "<input size=4 name=max_ncpus_pct value=$prefs->max_ncpus_pct> ".MAX_NCPUS_PCT_DESC2,
-        $show_error
-    );
-
-    $show_error = false;
-    if (isset($error->cpu_usage_limit)) $show_error= true;
-    row2(USE_AT_MOST2,
-        "<input size=4 name=cpu_usage_limit value=$prefs->cpu_usage_limit> ".CPU_USAGE_LIMIT_DESC2,
-        $show_error
-    );
+    foreach ($cpu_prefs as $p) {
+        $p->show_form_row($prefs, $error);
+    }
 
     row1(DISK_LIMIT_DESC);
 
@@ -1367,20 +1522,11 @@ function venue_update($user) {
 // returns an object with errorvalues or false in success case
 //
 function prefs_global_parse_form(&$prefs) {
+    global $cpu_prefs;
     $error = false;
-    $suspend_while_on_batteries = $_GET["suspend_while_on_batteries"];
-    $suspend_if_user_active = $_GET["suspend_if_user_active"];
-    $suspend_gpu_if_user_active = $_GET["suspend_gpu_if_user_active"];
-    $idle_time_to_run = $_GET["idle_time_to_run"];
-    $suspend_if_no_recent_input = $_GET["suspend_if_no_recent_input"];
-    $suspend_cpu_usage = $_GET["suspend_cpu_usage"];
-    $start_hour = $_GET["start_hour"];
-    $end_hour = $_GET["end_hour"];
-    $leave_apps_in_memory = $_GET["leave_apps_in_memory"];
-    $cpu_scheduling_period_minutes = $_GET["cpu_scheduling_period_minutes"];
-    $max_cpus = $_GET["max_cpus"];
-    $max_ncpus_pct = $_GET["max_ncpus_pct"];
-    $cpu_usage_limit = $_GET["cpu_usage_limit"];
+    foreach ($cpu_prefs as $p) {
+        $p->parse_form($prefs, $error);
+    }
     $disk_max_used_gb = $_GET["disk_max_used_gb"];
     $disk_min_free_gb = $_GET["disk_min_free_gb"];
     $disk_max_used_pct = $_GET["disk_max_used_pct"];
@@ -1398,15 +1544,6 @@ function prefs_global_parse_form(&$prefs) {
     $net_end_hour = $_GET["net_end_hour"];
     $dont_verify_images = $_GET["dont_verify_images"];
     // Verification of all user input values
-    if (!verify_numeric($idle_time_to_run, 1)) $error->idle_time_to_run = true;
-    if (!verify_numeric($suspend_if_no_recent_input, 0)) $error->suspend_if_no_recent_input = true;
-    if (!verify_numeric($suspend_cpu_usage, 0, 100)) $error->suspend_cpu_usage = true;
-    if (!verify_numeric($start_hour, 0)) $error->start_hour = true;
-    if (!verify_numeric($end_hour, 0)) $error->end_hour = true;
-    if (!verify_numeric($cpu_scheduling_period_minutes, 1)) $error->cpu_scheduling_period_minutes = true;;
-    if (!verify_numeric($max_cpus, 0)) $error->max_cpus = true;
-    if (!verify_numeric($max_ncpus_pct, 0, 100)) $error->max_ncpus_pct = true;
-    if (!verify_numeric($cpu_usage_limit, 0, 100)) $error->cpu_usage_limit = true;
     if (!verify_numeric($disk_max_used_gb, 0)) $error->disk_max_used_gb = true;
     if (!verify_numeric($disk_min_free_gb, 0.001)) $error->disk_min_free_gb = true;
     if (!verify_numeric($disk_max_used_pct, 0, 100)) $error->disk_max_used_pct = true;
@@ -1421,19 +1558,6 @@ function prefs_global_parse_form(&$prefs) {
     if (!verify_numeric($net_start_hour, 0)) $error->net_start_hour = true;
     if (!verify_numeric($net_end_hour, 0)) $error->net_end_hour = true;
     // Modify all values within the supplied Object
-    $prefs->suspend_while_on_batteries = ($suspend_while_on_batteries == "yes");
-    $prefs->suspend_if_user_active = ($suspend_if_user_active == "yes");
-    $prefs->suspend_gpu_if_user_active = ($suspend_gpu_if_user_active == "yes");
-    $prefs->idle_time_to_run = $idle_time_to_run;
-    $prefs->suspend_if_no_recent_input = $suspend_if_no_recent_input;
-    $prefs->suspend_cpu_usage = $suspend_cpu_usage;
-    $prefs->start_hour = $start_hour;
-    $prefs->end_hour = $end_hour;
-    $prefs->leave_apps_in_memory = ($leave_apps_in_memory == "yes");
-    $prefs->cpu_scheduling_period_minutes = $cpu_scheduling_period_minutes;
-    $prefs->max_cpus = $max_cpus;
-    $prefs->max_ncpus_pct = $max_ncpus_pct;
-    $prefs->cpu_usage_limit = $cpu_usage_limit;
     $prefs->disk_max_used_gb = $disk_max_used_gb;
     $prefs->disk_min_free_gb = $disk_min_free_gb;
     $prefs->disk_max_used_pct = $disk_max_used_pct;
@@ -1497,6 +1621,8 @@ function prefs_project_parse_form(&$prefs) {
 // convert prefs from structure to XML
 //
 function global_prefs_make_xml($prefs, $primary=true) {
+    global $cpu_prefs;
+
     // N.B.: each XML entry must end with \n due to the sloppy parsing by the
     // BOINC client!!
     $xml = "";
@@ -1506,27 +1632,10 @@ function global_prefs_make_xml($prefs, $primary=true) {
         $xml = $xml."<mod_time>$now</mod_time>\n";
     }
 
-    $x = $prefs->suspend_while_on_batteries?0:1;
-    $xml = $xml."<run_on_batteries>$x</run_on_batteries>\n";
-
-    $x = $prefs->suspend_if_user_active?0:1;
-    $xml = $xml."<run_if_user_active>$x</run_if_user_active>\n";
-
-    $x = $prefs->suspend_gpu_if_user_active?0:1;
-    $xml = $xml."<run_gpu_if_user_active>$x</run_gpu_if_user_active>\n";
-
-    $xml = $xml."<idle_time_to_run>$prefs->idle_time_to_run</idle_time_to_run>\n";
-    $xml = $xml."<suspend_if_no_recent_input>$prefs->suspend_if_no_recent_input</suspend_if_no_recent_input>\n";
-    $xml = $xml."<suspend_cpu_usage>$prefs->suspend_cpu_usage</suspend_cpu_usage>\n";
-
-    if ($prefs->start_hour != $prefs->end_hour) {
-        $xml = $xml."<start_hour>$prefs->start_hour</start_hour>\n"
-            ."<end_hour>$prefs->end_hour</end_hour>\n";
+    foreach ($cpu_prefs as $p) {
+        $xml .= $p->xml_string($prefs);
     }
-    if ($prefs->leave_apps_in_memory) {
-        $xml = $xml."<leave_apps_in_memory/>\n";
-    }
-    $xml = $xml."<cpu_scheduling_period_minutes>$prefs->cpu_scheduling_period_minutes</cpu_scheduling_period_minutes>\n";
+
     if ($prefs->confirm_before_connecting) {
         $xml = $xml."<confirm_before_connecting/>\n";
     }
@@ -1537,9 +1646,6 @@ function global_prefs_make_xml($prefs, $primary=true) {
     $xml = $xml
         ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"
         ."<work_buf_additional_days>$prefs->work_buf_additional_days</work_buf_additional_days>\n"
-        ."<max_cpus>$prefs->max_cpus</max_cpus>\n"
-        ."<max_ncpus_pct>$prefs->max_ncpus_pct</max_ncpus_pct>\n"
-        ."<cpu_usage_limit>$prefs->cpu_usage_limit</cpu_usage_limit>\n"
         ."<disk_interval>$prefs->disk_interval</disk_interval>\n";
     $xml = $xml
         ."<disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>\n"
