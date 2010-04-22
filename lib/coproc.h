@@ -119,8 +119,8 @@ struct COPROC {
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
     double available_ram[MAX_COPROC_INSTANCES];
-    bool unusable[MAX_COPROC_INSTANCES];
-        // don't use this GPU, e.g. because couldn't get available RAM
+    bool available_ram_unknown[MAX_COPROC_INSTANCES];
+        // couldn't get available RAM; don't start new apps on this instance
     double available_ram_fake[MAX_COPROC_INSTANCES];
 
 #ifndef _USING_FCGI_
@@ -148,6 +148,7 @@ struct COPROC {
     }
     virtual ~COPROC(){}
     int parse(MIOFILE&);
+    void print_available_ram();
 };
 
 struct COPROCS {

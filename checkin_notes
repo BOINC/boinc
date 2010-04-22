@@ -1405,3 +1405,24 @@ David  21 Apr 2010
         client_stte.cpp
         net_stats.cpp,h
         cs_prefs.cpp
+
+David  22 Apr 2010
+    - client: fix bug with NVIDIA GPUs.
+        Some of them allow only 1 CUDA context at a time.
+        You need to create a CUDA context to get available VRAM.
+        So the client would run a CUDA job, then immediately kill it.
+        Solution:
+        - If a GPU app is running,
+            let it keep running regardless of available VRAM
+            (if it's still running, it has enough VRAM).
+        - But don't start new apps if there's not enough available VRAM,
+            or it the amount is unknown
+            (if the client can't create a CUDA context,
+            the app won't be able to either)
+    - client: if <coproc_debug> is set, print available GPU RAM periodically
+
+    client/
+        coproc_detect.cpp
+        cpu_sched.cpp
+    lib/
+        coproc.h

@@ -56,6 +56,23 @@ void segv_handler(int) {
 }
 #endif
 
+void COPROC::print_available_ram() {
+    for (int i=0; i<count; i++) {
+        if (available_ram_unknown[i]) {
+            msg_printf(0, MSG_INFO,
+                "[coproc] %s device %d: available RAM unknown",
+                type, device_nums[i]
+            );
+        } else {
+            msg_printf(0, MSG_INFO,
+                "[coproc] %s device %d: available RAM %d MB",
+                type, device_nums[i],
+                (int)(available_ram[i]/MEGA)
+            );
+        }
+    }
+}
+
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
     vector<int>& ignore_cuda_dev,
@@ -430,7 +447,7 @@ COPROC_CUDA* fake_cuda(COPROCS& coprocs, double ram, int count) {
 }
 
 // See how much RAM is available on each GPU.
-// If this fails, set "unusable"
+// If this fails, set "available_ram_unknown"
 //
 void COPROC_CUDA::get_available_ram() {
     int device, i, retval;
@@ -442,14 +459,14 @@ void COPROC_CUDA::get_available_ram() {
     if (!__cuDeviceGet) {
         for (i=0; i<count; i++) {
             available_ram[i] = available_ram_fake[i];
-            unusable[i] = false;
+            available_ram_unknown[i] = false;
         }
         return;
     }
     for (i=0; i<count; i++) {
         int devnum = device_nums[i];
         available_ram[i] = 0;
-        unusable[i] = true;
+        available_ram_unknown[i] = true;
         retval = (*__cuDeviceGet)(&device, devnum);
         if (retval) {
             if (log_flags.coproc_debug) {
@@ -480,7 +497,7 @@ void COPROC_CUDA::get_available_ram() {
         }
         (*__cuCtxDestroy)(ctx);
         available_ram[i] = (double) memfree;
-        unusable[i] = false;
+        available_ram_unknown[i] = false;
     }
 }
 
@@ -821,13 +838,13 @@ void COPROC_ATI::get_available_ram() {
     if (!__calInit) {
         for (i=0; i<count; i++) {
             available_ram[i] = available_ram_fake[i];
-            unusable[i] = false;
+            available_ram_unknown[i] = false;
         }
         return;
     }
     for (i=0; i<count; i++) {
         available_ram[i] = 0;
-        unusable[i] = true;
+        available_ram_unknown[i] = true;
     }
     retval = (*__calInit)();
     if (retval) {
@@ -864,7 +881,7 @@ void COPROC_ATI::get_available_ram() {
             continue;
         }
         available_ram[i] = st.availLocalRAM*MEGA;
-        unusable[i] = false;
+        available_ram_unknown[i] = false;
         (*__calDeviceClose)(dev);
     }
     (*__calShutdown)();

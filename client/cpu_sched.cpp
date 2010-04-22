@@ -970,6 +970,11 @@ static inline void increment_pending_usage(
     }
 }
 
+// check the GPU assignment for a currently-running app.
+// Note: don't check available RAM.
+// It may not be known (e.g. NVIDIA) and in any case, 
+// if the app is still running, it has enough RAM
+//
 static inline bool current_assignment_ok(
     RESULT* rp, double usage, COPROC* cp, bool& defer_sched
 ) {
@@ -977,15 +982,6 @@ static inline bool current_assignment_ok(
     double x = (usage<1)?usage:1;
     for (int i=0; i<usage; i++) {
         int j = rp->coproc_indices[i];
-        if (cp->unusable[j]) {
-            if (log_flags.coproc_debug) {
-                msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] %s device %d unusable for %s",
-                    cp->type, j, rp->name
-                );
-            }
-            return false;
-        }
         if (cp->usage[j] + x > 1) {
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
@@ -993,16 +989,6 @@ static inline bool current_assignment_ok(
                     cp->type, j, rp->name
                 );
             }
-            return false;
-        }
-        if (rp->avp->gpu_ram > cp->available_ram[j]) {
-            if (log_flags.coproc_debug) {
-                msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] %s device %d lacks RAM for %s",
-                    cp->type, j, rp->name
-                );
-            }
-            defer_sched = true;
             return false;
         }
     }
@@ -1036,7 +1022,7 @@ static inline bool get_fractional_assignment(
     // try to assign an instance that's already fractionally assigned
     //
     for (i=0; i<cp->count; i++) {
-        if (cp->unusable[i]) {
+        if (cp->available_ram_unknown[i]) {
             continue;
         }
         if ((cp->usage[i] || cp->pending_usage[i])
@@ -1062,7 +1048,7 @@ static inline bool get_fractional_assignment(
     // failing that, assign an unreserved instance
     //
     for (i=0; i<cp->count; i++) {
-        if (cp->unusable[i]) {
+        if (cp->available_ram_unknown[i]) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -1100,7 +1086,7 @@ static inline bool get_integer_assignment(
     //
     int nfree = 0;
     for (i=0; i<cp->count; i++) {
-        if (cp->unusable[i]) {
+        if (cp->available_ram_unknown[i]) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -1115,7 +1101,7 @@ static inline bool get_integer_assignment(
         if (log_flags.coproc_debug) {
             msg_printf(rp->project, MSG_INFO,
                 "[coproc_debug] Insufficient %s for %s; need %d, available %d",
-                cp->type, rp->name, nfree, (int)usage
+                cp->type, rp->name, (int)usage, nfree
             );
             if (defer_sched) {
                 msg_printf(rp->project, MSG_INFO,
@@ -1131,7 +1117,7 @@ static inline bool get_integer_assignment(
     // assign non-pending instances first
 
     for (i=0; i<cp->count; i++) {
-        if (cp->unusable[i]) {
+        if (cp->available_ram_unknown[i]) {
             continue;
         }
         if (!cp->usage[i]
@@ -1154,7 +1140,7 @@ static inline bool get_integer_assignment(
     // if needed, assign pending instances
 
     for (i=0; i<cp->count; i++) {
-        if (cp->unusable[i]) {
+        if (cp->available_ram_unknown[i]) {
             continue;
         }
         if (!cp->usage[i]
@@ -1200,9 +1186,15 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
 #ifndef SIM
     if (coproc_cuda) {
         coproc_cuda->get_available_ram();
+        if (log_flags.coproc_debug) {
+            coproc_cuda->print_available_ram();
+        }
     }
     if (coproc_ati) {
         coproc_ati->get_available_ram();
+        if (log_flags.coproc_debug) {
+            coproc_ati->print_available_ram();
+        }
     }
 #endif
 
