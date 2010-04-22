@@ -177,7 +177,7 @@ define("DONT_VERIFY_IMAGES_DESC",
     tra(
         "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC.%3",
         "<br><span class=note>",
-        "<br>",
+        "",
         "</span>"
     )
 );
@@ -746,9 +746,7 @@ function row_links($subset, $prefs) {
     echo "<td><br></td></tr>\n";
 }
 
-
-//
-// prefs_show_columns_global - Display all venues as columns next to descriptions
+// Display all venues as columns next to descriptions
 //
 function prefs_show_columns_global($prefs) {
     row_top(CPU_LIMIT_DESC);
