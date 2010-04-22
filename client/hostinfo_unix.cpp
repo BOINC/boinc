@@ -829,6 +829,80 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 }
 #endif
 
+
+// Note: this may also work on other UNIX-like systems in addition to Macintosh
+#ifdef __APPLE__
+
+#include <net/if.h>
+#include <net/if_dl.h>
+#include <net/route.h>
+
+// detect the network usage totals for the host.
+//
+int get_network_usage_totals(unsigned int& total_received, unsigned int& total_sent) {
+	static size_t  sysctlBufferSize = 0;
+	static uint8_t *sysctlBuffer = NULL;
+
+	int	mib[] = { CTL_NET, PF_ROUTE, 0, 0, NET_RT_IFLIST, 0 };
+    struct if_msghdr *ifmsg;
+	size_t currentSize = 0;
+
+    total_received = 0;
+    total_sent = 0;
+    
+    if (sysctl(mib, 6, NULL, &currentSize, NULL, 0) != 0) return errno;
+    if (!sysctlBuffer || (currentSize > sysctlBufferSize)) {
+        if (sysctlBuffer) free(sysctlBuffer);
+        sysctlBufferSize = 0;
+        sysctlBuffer = (uint8_t*)malloc(currentSize);
+        if (!sysctlBuffer) return ERR_MALLOC;
+        sysctlBufferSize = currentSize;
+    }
+    
+    // Read in new data
+    if (sysctl(mib, 6, sysctlBuffer, &currentSize, NULL, 0) != 0) return errno;
+    
+    // Walk through the reply 
+    uint8_t *currentData = sysctlBuffer;
+    uint8_t *currentDataEnd = sysctlBuffer + currentSize;
+
+    while (currentData < currentDataEnd) {
+        // Expecting interface data
+        ifmsg = (struct if_msghdr *)currentData;
+        if (ifmsg->ifm_type != RTM_IFINFO) {
+            currentData += ifmsg->ifm_msglen;
+            continue;
+        }
+        // Must not be loopback
+        if (ifmsg->ifm_flags & IFF_LOOPBACK) {
+            currentData += ifmsg->ifm_msglen;
+            continue;
+        }
+        // Only look at link layer items
+        struct sockaddr_dl *sdl = (struct sockaddr_dl *)(ifmsg + 1);
+        if (sdl->sdl_family != AF_LINK) {
+            currentData += ifmsg->ifm_msglen;
+            continue;
+        }
+        
+#if 0   // Use this code if we want only Ethernet interface 0
+        if (!strcmp(sdl->sdl_data, "en0")) {
+            total_received = ifmsg->ifm_data.ifi_ibytes;
+            total_sent = ifmsg->ifm_data.ifi_obytes;
+            return 0;
+        }
+#else   // Use this code if we want total of all non-loopback interfaces
+        total_received += ifmsg->ifm_data.ifi_ibytes;
+        total_sent += ifmsg->ifm_data.ifi_obytes;
+#endif
+    }
+        
+    return 0;
+}
+    
+
+#endif  // __APPLE__
+
 // Rules:
 // - Keep code in the right place
 // - only one level of #if

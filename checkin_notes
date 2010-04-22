@@ -3055,3 +3055,12 @@ David  21 Apr 2010
 		net_stats.cpp
 	lib/
 		prefs.cpp
+
+Charlie  22 Apr 2010
+    - client: Add get_network_usage_totals() function to the Macintosh 
+        client to report the number of bytes sent and received across 
+        all non-loopback interfaces.  Note: this code may also work on 
+        onther UNIX-like systems in addition to Macintosh.
+        
+    client/
+        hostinfo_unix.cpp
