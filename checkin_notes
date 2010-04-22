@@ -3046,3 +3046,12 @@ David  21 Apr 2010
         client_stte.cpp
         net_stats.cpp,h
         cs_prefs.cpp
+
+David  21 Apr 2010
+	- client: bug fixes for the above
+	client/
+		cpu_sched.cpp
+		cs_prefs.cpp
+		net_stats.cpp
+	lib/
+		prefs.cpp

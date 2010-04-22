@@ -321,6 +321,7 @@ void DAILY_XFER_HISTORY::init() {
 
     MIOFILE mf;
     XML_PARSER xp(&mf);
+    mf.init_file(f);
     bool is_tag;
     char tag[256];
 
@@ -341,6 +342,7 @@ void DAILY_XFER_HISTORY::init() {
             }
         }
     }
+    fclose(f);
 }
 
 void DAILY_XFER_HISTORY::poll() {

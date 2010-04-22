@@ -534,12 +534,14 @@ int GLOBAL_PREFS::parse_override(
                 daily_xfer_limit_mb = itemp;
                 mask.daily_xfer_limit_mb = true;
             }
+            continue;
         }
         if (xp.parse_int(tag, "daily_xfer_period", itemp)) {
             if (itemp >= 0) {
                 daily_xfer_period = itemp;
                 mask.daily_xfer_period = true;
             }
+            continue;
         }
         if (xp.parse_bool(tag, "host_specific", host_specific)) {
             continue;

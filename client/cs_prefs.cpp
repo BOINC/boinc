@@ -189,6 +189,7 @@ static string reason_string(int reason) {
     case SUSPEND_REASON_INITIAL_DELAY: return " - initial delay";
     case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING: return " - an exclusive app is running";
     case SUSPEND_REASON_CPU_USAGE: return " - CPU usage is too high";
+    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return " - network bandwidth limit exceeded";
     }
     return "";
 }
