@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-04-19 08:35-0700\n"
+"PO-Revision-Date: 2010-04-22 07:52-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Bookmarks: 7,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
@@ -1154,9 +1154,8 @@ msgid "Uploading"
 msgstr ""
 
 #: ../inc/result.inc:183
-#, fuzzy
 msgid "Done"
-msgstr "Semmi"
+msgstr "Kész"
 
 #: ../inc/result.inc:194
 msgid "Initial"
@@ -1378,7 +1377,7 @@ msgstr ""
 
 #: ../inc/team.inc:65 ../inc/user.inc:275 ../inc/user.inc:362
 msgid "None"
-msgstr "Semmi"
+msgstr "Nincs"
 
 #: ../inc/team.inc:67
 msgid "Initiate request"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-04-22 06:59-0700\n"
+"PO-Revision-Date: 2010-04-22 07:10-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -356,46 +356,38 @@ msgid "Allow GPU work regardless of preferences"
 msgstr "GPU munka engedélyezése a beállítások figyelmen kívül hagyásával"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Use GPU based on preferences"
-msgstr "&Beállítások szerint fut"
+msgstr "A GPU beállítások szerinti használata"
 
 #: clientgui/AdvancedFrame.cpp:481
-#, fuzzy
 msgid "Allow GPU work according to preferences"
-msgstr "Munka engedélyezése a beállítások figyelembevételével"
+msgstr "GPU munka engedélyezése a beállítások figyelembevételével"
 
 #: clientgui/AdvancedFrame.cpp:485
-#, fuzzy
 msgid "Suspend GPU"
-msgstr "Felfüggesztés"
+msgstr "GPU felfüggesztése"
 
 #: clientgui/AdvancedFrame.cpp:486
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Beállítások figyelembe vétele nélkül leáll"
+msgstr "A GPU munka a beállítások figyelembe vétele nélkül leáll"
 
 #: clientgui/AdvancedFrame.cpp:510
-#, fuzzy
 msgid "Network activity always available"
-msgstr "&Hálózati forgalom mindig engedélyezve"
+msgstr "A hálózati forgalom mindig elérhető"
 
 #: clientgui/AdvancedFrame.cpp:511
 msgid "Allow network activity regardless of preferences"
 msgstr "Beállítások mellőzésével a hálózatra kapcsolódik"
 
 #: clientgui/AdvancedFrame.cpp:515
-#, fuzzy
 msgid "Network activity based on preferences"
 msgstr "Hálózati forgalom a beállítások alapján"
 
 #: clientgui/AdvancedFrame.cpp:516
-#, fuzzy
 msgid "Allow network activity according to preferences"
-msgstr "Beállítások szerint a hálózatra kapcsolódik"
+msgstr "Hálózati forgalom engedélyezése a beállítások szerint"
 
 #: clientgui/AdvancedFrame.cpp:520
-#, fuzzy
 msgid "Network activity suspended"
 msgstr "Hálózati forgalom felfüggesztve"
 
@@ -417,9 +409,8 @@ msgid "Shut down connected client..."
 msgstr "Kapcsolódott kliens leállítása..."
 
 #: clientgui/AdvancedFrame.cpp:542
-#, fuzzy
 msgid "Shut down the currently connected client"
-msgstr "Jelenleg kapcsolódott magkliens leállítása"
+msgstr "A jelenleg kapcsolódott kliens leállítása"
 
 #: clientgui/AdvancedFrame.cpp:546
 msgid "Run CPU &benchmarks"
@@ -430,23 +421,20 @@ msgid "Runs BOINC CPU benchmarks"
 msgstr "A BOINC processzor-sebesség mérésének futtatása "
 
 #: clientgui/AdvancedFrame.cpp:551
-#, fuzzy
 msgid "Do network communication"
-msgstr "Hálózati &kommunikáció létesítése"
+msgstr "Hálózati kommunikáció létesítése"
 
 #: clientgui/AdvancedFrame.cpp:552
-#, fuzzy
 msgid "Do all pending network communication"
-msgstr "Minden függőben lévő hálózati kommunikáció folytatása."
+msgstr "Minden függőben lévő hálózati kommunikáció folytatása"
 
 #: clientgui/AdvancedFrame.cpp:556
 msgid "Read config file"
 msgstr "Konfigurációs fájl beolvasása"
 
 #: clientgui/AdvancedFrame.cpp:557
-#, fuzzy
 msgid "Read configuration info from cc_config.xml"
-msgstr "Konfigurációs beállítások beolvasása a cc_config.xml fájlból."
+msgstr "Konfigurációs infók beolvasása a cc_config.xml fájlból"
 
 #: clientgui/AdvancedFrame.cpp:561
 msgid "Read local prefs file"
@@ -461,9 +449,8 @@ msgid "Event Log..."
 msgstr "Eseménynapló..."
 
 #: clientgui/AdvancedFrame.cpp:567
-#, fuzzy
 msgid "Display diagnostic messages."
-msgstr "Üzenetek mutatása"
+msgstr "Diagnosztikai üzenetek mutatása."
 
 #: clientgui/AdvancedFrame.cpp:577
 #, c-format
@@ -660,7 +647,7 @@ msgstr "%s &bezárása"
 #: clientgui/AsyncRPC.cpp:1230
 #, c-format
 msgid "%s - Communication"
-msgstr ""
+msgstr "%s - Kommunikáció"
 
 #: clientgui/AsyncRPC.cpp:1246
 msgid "Cancel"
@@ -868,40 +855,37 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:369
 msgid "BOINC Manager"
-msgstr "BOINC kezelő"
+msgstr "BOINC Kezelő"
 
 #: clientgui/BOINCGUIApp.cpp:519
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "A BOINC kezelőt az operációs rendszer automatikusan indította"
+msgstr "A BOINC Kezelőt az operációs rendszer automatikusan indította"
 
 #: clientgui/BOINCGUIApp.cpp:521
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr "BOINC indítása, így csak a tálcaikon látható."
+msgstr "A BOINC csak tálcaikonként történő indítása"
 
 #: clientgui/BOINCGUIApp.cpp:523
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "A futtatható BOINC Klienst tartalmazó könyvtár"
 
 #: clientgui/BOINCGUIApp.cpp:524
 msgid "BOINC data directory"
-msgstr ""
+msgstr "BOINC adatkönyvtár"
 
 #: clientgui/BOINCGUIApp.cpp:526
-#, fuzzy
 msgid "Startup BOINC with these optional arguments"
-msgstr "A BOINC indítása ezen opcionális lehetőségekkel"
+msgstr "A BOINC indítása a következő opcionális lehetőségekkel"
 
 #: clientgui/BOINCGUIApp.cpp:527
-#, fuzzy
 msgid "disable BOINC security users and permissions"
-msgstr "a BOINC biztonsági felhasználók és hozzáférések kikapcsolása"
+msgstr "BOINC biztonsági felhasználók és hozzáférések kikapcsolása"
 
 #: clientgui/BOINCGUIApp.cpp:528
-#, fuzzy
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "kinézet hibakereső mód beállítása, ezzel a kinézetkezelő hibaüzeneteinek "
-"megjelenítése"
+"engedélyezése"
 
 #: clientgui/BOINCGUIApp.cpp:718
 msgid "(Automatic Detection)"
@@ -916,9 +900,9 @@ msgid "(User Defined)"
 msgstr "(Felhasználó által megadott)"
 
 #: clientgui/BOINCTaskBar.cpp:476
-#, fuzzy, c-format
+#, c-format
 msgid "Open %s Web..."
-msgstr "%s Web megnyitása..."
+msgstr "%s megnyitása a Weben..."
 
 #: clientgui/BOINCTaskBar.cpp:483
 #, c-format
@@ -927,11 +911,11 @@ msgstr "%s megnyitása"
 
 #: clientgui/BOINCTaskBar.cpp:490
 msgid "Snooze"
-msgstr "Felfüggeszt"
+msgstr "Szundi"
 
 #: clientgui/BOINCTaskBar.cpp:492
 msgid "Snooze GPU"
-msgstr ""
+msgstr "GPU szundi"
 
 #: clientgui/BOINCTaskBar.cpp:666
 msgid "Computation is suspended."
@@ -943,7 +927,7 @@ msgstr "Hálózati aktivitás felfüggesztve."
 
 #: clientgui/BOINCTaskBar.cpp:676
 msgid "Client is processing results."
-msgstr ""
+msgstr "A Kliens eredményeket dolgoz fel."
 
 #: clientgui/BOINCTaskBar.cpp:683
 msgid "Reconnecting to client."
@@ -956,11 +940,11 @@ msgstr "Nincs kapcsolódva a klienshez."
 #: clientgui/BOINCTaskBar.cpp:740
 #, c-format
 msgid "%s Notices"
-msgstr ""
+msgstr "%s Megjegyzések"
 
 #: clientgui/BOINCTaskBar.cpp:746
 msgid "One or more notices are now available for viewing."
-msgstr ""
+msgstr "Egy vagy több megjegyzés megtekinthető."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
