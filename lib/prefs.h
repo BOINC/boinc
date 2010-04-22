@@ -64,6 +64,8 @@ struct GLOBAL_PREFS_MASK {
     bool max_bytes_sec_up;
     bool max_bytes_sec_down;
     bool cpu_usage_limit;
+    bool daily_xfer_limit_mb;
+    bool daily_xfer_period;
 
     GLOBAL_PREFS_MASK();
     void clear();
@@ -160,6 +162,8 @@ struct GLOBAL_PREFS {
     double max_bytes_sec_up;
     double max_bytes_sec_down;
     double cpu_usage_limit;
+    int daily_xfer_limit_mb;
+    int daily_xfer_period;
     char source_project[256];
     char source_scheduler[256];
     bool host_specific;

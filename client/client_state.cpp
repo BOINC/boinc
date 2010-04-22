@@ -191,6 +191,8 @@ int CLIENT_STATE::init() {
     client_start_time = now;
     scheduler_op->url_random = drand();
 
+    daily_xfer_history.init();
+    
     detect_platforms();
     time_stats.start();
 
@@ -261,7 +263,7 @@ int CLIENT_STATE::init() {
         if (host_info.coprocs.coprocs.size() == 0) {
             msg_printf(NULL, MSG_INFO, "No usable GPUs found");
         }
-#if 1
+#if 0
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
         coproc_cuda = fake_cuda(host_info.coprocs, 256*MEGA, 2);
         coproc_cuda->available_ram_fake[0] = 256*MEGA;

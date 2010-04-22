@@ -1197,12 +1197,14 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
     double usage;
 
     gstate.host_info.coprocs.clear_usage();
+#ifndef SIM
     if (coproc_cuda) {
         coproc_cuda->get_available_ram();
     }
     if (coproc_ati) {
         coproc_ati->get_available_ram();
     }
+#endif
 
     // fill in pending usage
     //

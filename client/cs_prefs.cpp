@@ -189,6 +189,7 @@ static string reason_string(int reason) {
     case SUSPEND_REASON_INITIAL_DELAY: return " - initial delay";
     case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING: return " - an exclusive app is running";
     case SUSPEND_REASON_CPU_USAGE: return " - CPU usage is too high";
+    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return " - network bandwidth limit exceeded";
     }
     return "";
 }
@@ -242,6 +243,14 @@ int CLIENT_STATE::check_suspend_network() {
     }
     if (exclusive_app_running) {
         return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
+    }
+    if (global_prefs.daily_xfer_limit_mb) {
+        if (daily_xfer_history.over_quota(
+            ((double)global_prefs.daily_xfer_limit_mb)*MEGA,
+            global_prefs.daily_xfer_period
+        )) {
+            return SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED;
+        }
     }
     return 0;
 }
