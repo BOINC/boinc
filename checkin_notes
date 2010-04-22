@@ -1426,3 +1426,11 @@ David  22 Apr 2010
         cpu_sched.cpp
     lib/
         coproc.h
+
+Rom    22 Apr 2010
+    - Tag for 6.10.48 release, all platforms
+      boinc_core_release_6_10_48
+
+    /
+        configure.ac
+        version.h
