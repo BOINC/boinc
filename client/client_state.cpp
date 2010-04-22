@@ -261,7 +261,7 @@ int CLIENT_STATE::init() {
         if (host_info.coprocs.coprocs.size() == 0) {
             msg_printf(NULL, MSG_INFO, "No usable GPUs found");
         }
-#if 0
+#if 1
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
         coproc_cuda = fake_cuda(host_info.coprocs, 256*MEGA, 2);
         coproc_cuda->available_ram_fake[0] = 256*MEGA;
@@ -684,6 +684,7 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(gui_rpc_http           , gui_rpcs.poll          );
     if (!network_suspended) {
         net_status.poll();
+        daily_xfer_history.poll();
         POLL_ACTION(acct_mgr               , acct_mgr_info.poll     );
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );

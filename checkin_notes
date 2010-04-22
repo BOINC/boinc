@@ -1382,3 +1382,13 @@ Rom    21 Apr 2010
     /
         configure.ac
         version.h
+
+David  21 Apr 2010
+    - client: keep track of daily history of network transfers
+	- client: bug fixes for the above
+
+    client/
+        client_state.cpp,h
+        file_names.h
+        http_curl.cpp
+        net_stats.cpp,h

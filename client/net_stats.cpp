@@ -36,6 +36,7 @@
 #include "str_util.h"
 #include "error_numbers.h"
 #include "util.h"
+#include "filesys.h"
 
 #include "client_msgs.h"
 #include "client_state.h"
@@ -46,6 +47,7 @@
 
 #define NET_RATE_HALF_LIFE  (7*86400)
 
+DAILY_XFER_HISTORY daily_xfer_history;
 NET_STATUS net_status;
 
 NET_STATS::NET_STATS() {
@@ -265,3 +267,101 @@ void NET_STATUS::poll() {
 	}
 }
 
+int DAILY_XFER::parse(XML_PARSER& xp) {
+    char tag[1024];
+    bool is_tag;
+
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!strcmp(tag, "/dx")) return 0;
+        if (xp.parse_double(tag, "when", when)) continue;
+        if (xp.parse_double(tag, "up", up)) continue;
+        if (xp.parse_double(tag, "down", down)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+void DAILY_XFER::write(FILE* f) {
+    fprintf(f,
+        "<dx>\n"
+        "   <when>%f</when>\n"
+        "   <up>%f</up>\n"
+        "   <down>%f</down>\n"
+        "</dx>\n",
+        when, up, down
+    );
+}
+
+DAILY_XFER* DAILY_XFER_HISTORY::today() {
+    int d = (int)(dtime()/86400);
+    for (unsigned int i=0; i<daily_xfers.size(); i++) {
+        DAILY_XFER& dx = daily_xfers[i];
+        if (dx.when == d) {
+            return &dx;
+        }
+    }
+    DAILY_XFER dx;
+    dx.when = d;
+    daily_xfers.push_front(dx);
+    return &(daily_xfers.front());
+}
+
+void DAILY_XFER_HISTORY::add(size_t x, bool upload) {
+    DAILY_XFER* dxp = today();
+    if (upload) {
+        dxp->up += x;
+    } else {
+        dxp->down += x;
+    }
+    dirty = true;
+}
+
+void DAILY_XFER_HISTORY::init() {
+    FILE* f = fopen(DAILY_XFER_HISTORY_FILENAME, "r");
+    if (!f) return;
+
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    bool is_tag;
+    char tag[256];
+
+    double now = dtime();
+
+    if (!xp.parse_start("daily_xfers")) {
+        fclose(f);
+        return;
+    }
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "dx")) {
+            DAILY_XFER dx;
+            int retval = dx.parse(xp);
+            if (!retval && now - dx.when > 86400*365) {
+                // discard records after a year
+                daily_xfers.push_back(dx);
+            }
+        }
+    }
+}
+
+void DAILY_XFER_HISTORY::poll() {
+    static double last_time= 0;
+
+    if (!dirty) return;
+    if (gstate.now - last_time < DAILY_XFER_HISTORY_PERIOD) return;
+    last_time = gstate.now;
+
+    FILE* f = fopen(TEMP_FILE_NAME, "w");
+    fprintf(f, "<daily_xfers>\n");
+    for (unsigned int i=0; i<daily_xfers.size(); i++) {
+        DAILY_XFER& dx = daily_xfers[i];
+        dx.write(f);
+    }
+    int n = fprintf(f, "</daily_xfers>\n");
+    fclose(f);
+    if (n > 0) {
+        int retval = boinc_rename(TEMP_FILE_NAME, DAILY_XFER_HISTORY_FILENAME);
+        if (!retval) {
+            dirty = false;
+        }
+    }
+}

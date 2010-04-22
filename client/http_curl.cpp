@@ -46,6 +46,7 @@
 #include "base64.h"
 #include "client_state.h"
 #include "cs_proxy.h"
+#include "net_stats.h"
 
 #include "http_curl.h"
 
@@ -78,6 +79,7 @@ size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     }
     phop->bytes_xferred += (double)(stWrite);
     phop->update_speed();  // this should update the transfer speed
+    daily_xfer_history.add(stWrite, false);
     return stWrite;
 }
 
@@ -121,6 +123,7 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
             // Don't count header in bytes transferred.
             // Otherwise the GUI will show e.g. "400 out of 300 bytes xferred"
             //phop->bytes_xferred += (double)(stRead);
+            daily_xfer_history.add(stRead, true);
 
             // see if we're done with headers
             if (phop->lSeek >= (long) strlen(phop->req1)) {
@@ -142,6 +145,7 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
         }
         phop->lSeek += (long) stRead;
         phop->bytes_xferred += (double)(stRead);
+        daily_xfer_history.add(stRead, true);
     }
     phop->update_speed();
     return stRead;
