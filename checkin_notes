@@ -3124,3 +3124,15 @@ David  23 Apr 2010
         prefs_util.inc (new)
     client/
         coproc_detect.cpp
+
+David  23 Apr 2010
+    - user web: add network quota pref (the goal that spurred all this cleanup)
+    - rename prefs.daily_xfer_period to daily_xfer_period_days
+
+    html/inc/
+        prefs.inc
+        prefs_util.inc
+    lib/
+        prefs.cpp,h
+    client/
+        cs_prefs.cpp

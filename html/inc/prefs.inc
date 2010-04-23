@@ -97,8 +97,7 @@ $cpu_prefs = array(
     new PREF_NUM(
         tra("'In use' means mouse/keyboard activity in last"),
         "idle_time_to_run",
-        tra("minutes"),
-        1, 9999, 3
+        new NUM_SPEC(tra("minutes"), 1, 9999, 3)
     ),
     new PREF_NUM(
         tra(
@@ -107,8 +106,7 @@ $cpu_prefs = array(
             "</span>"
         ),
         "suspend_if_no_recent_input",
-        tra("minutes"),
-        0, 9999, 0
+        new NUM_SPEC(tra("minutes"), 0, 9999, 0)
     ),
     new PREF_NUM(
         tra(
@@ -117,8 +115,7 @@ $cpu_prefs = array(
             "</span>"
         ),
         "suspend_cpu_usage",
-        "%",
-        0, 100, 25
+        new NUM_SPEC("%", 0, 100, 25)
     ),
     new PREF_HOUR_RANGE(
         tra("Do work only between the hours of %1 (no restriction if equal)%2",
@@ -143,14 +140,12 @@ $cpu_prefs = array(
             "</span>"
         ),
         "cpu_scheduling_period_minutes",
-        tra("minutes"),
-        1, 9999, 60
+        new NUM_SPEC(tra("minutes"), 1, 9999, 60)
     ),
     new PREF_NUM(
         tra("On multiprocessors, use at most"),
         "max_cpus",
-        tra("processors"),
-        0, 9999, 0
+        new NUM_SPEC(tra("processors"), 0, 9999, 0)
     ),
     new PREF_NUM(
         tra(
@@ -159,8 +154,7 @@ $cpu_prefs = array(
             "</span>"
         ),
         "max_ncpus_pct",
-        tra("% of the processors"),
-        0, 100, 100
+        new NUM_SPEC(tra("% of the processors"), 0, 100, 100)
     ),
     new PREF_NUM(
         tra(
@@ -169,8 +163,7 @@ $cpu_prefs = array(
             "</span>"
         ),
         "cpu_usage_limit",
-        tra("% of CPU time"),
-        0, 100, 100
+        new NUM_SPEC(tra("% of CPU time"), 0, 100, 100)
     ),
 );
 
@@ -180,8 +173,7 @@ $disk_prefs = array(
     new PREF_NUM(
         tra("Disk: use at most"),
         "disk_max_used_gb",
-        tra("GB"),
-        0, 9999999, $dp->disk_max_used_gb
+        new NUM_SPEC(tra("GB"), 0, 9999999, $dp->disk_max_used_gb)
     ),
     new PREF_NUM(
         tra("Disk: leave free at least %1(Values smaller than %2 are ignored)%3",
@@ -190,38 +182,32 @@ $disk_prefs = array(
             "</span>"
         ),
         "disk_min_free_gb",
-        tra("GB"),
-        0.001, 9999999, $dp->disk_min_free_gb
+        new NUM_SPEC(tra("GB"), 0.001, 9999999, $dp->disk_min_free_gb)
     ),
     new PREF_NUM(
         tra("Disk: use at most"),
         "disk_max_used_pct",
-        tra("% of total"),
-        0, 100, $dp->disk_max_used_pct
+        new NUM_SPEC(tra("% of total"), 0, 100, $dp->disk_max_used_pct)
     ),
     new PREF_NUM(
         tra("Tasks checkpoint to disk at most every"),
         "disk_interval",
-        tra("seconds"),
-        0, 9999999, 60
+        new NUM_SPEC(tra("seconds"), 0, 9999999, 60)
     ),
     new PREF_NUM(
         tra("Swap space: use at most"),
         "vm_max_used_pct",
-        tra("% of total"),
-        0, 100, 75
+        new NUM_SPEC(tra("% of total"), 0, 100, 75)
     ),
     new PREF_NUM(
         tra("Memory: when computer is in use, use at most"),
         "ram_max_used_busy_pct",
-        tra("% of total"),
-        0, 100, 50
+        new NUM_SPEC(tra("% of total"), 0, 100, 50)
     ),
     new PREF_NUM(
         tra("Memory: when computer is not in use, use at most"),
         "ram_max_used_idle_pct",
-        tra("% of total"),
-        0, 100, 90
+        new NUM_SPEC(tra("% of total"), 0, 100, 90)
     ),
 );
 
@@ -234,14 +220,12 @@ $net_prefs = array(
             "</span>"
         ),
         "work_buf_min_days",
-        tra("days"),
-        0, 10, 0
+        new NUM_SPEC(tra("days"), 0, 10, 0)
     ),
     new PREF_NUM(
         tra("Maintain enough work for an additional"),
         "work_buf_additional_days",
-        tra("days"),
-        0, 10, .25
+        new NUM_SPEC(tra("days"), 0, 10, .25)
     ),
     new PREF_BOOL(
         tra(
@@ -264,20 +248,23 @@ $net_prefs = array(
     new PREF_NUM(
         tra("Maximum download rate:"),
         "max_bytes_sec_down",
-        tra("Kbytes/sec"),
-        0, 9999999, 0,
-        1000
+        new NUM_SPEC(tra("Kbytes/sec"), 0, 9999999, 0, 1000)
     ),
     new PREF_NUM(
         tra("Maximum upload rate:"),
         "max_bytes_sec_up",
-        tra("Kbytes/sec"),
-        0, 9999999, 0,
-        1000
+        new NUM_SPEC(tra("Kbytes/sec"), 0, 9999999, 0, 1000)
     ),
     new PREF_HOUR_RANGE(
         tra("Use network only between the hours of"),
         "net_start_hour", "net_end_hour"
+    ),
+    new PREF_NUM2(
+        tra("Transfer at most"),
+        "daily_xfer_limit_mb",
+        "daily_xfer_period_days",
+        new NUM_SPEC(tra("Mbytes every"), 0, 9999999, 0),
+        new NUM_SPEC(tra("days"), 0, 9999999, 0)
     ),
     new PREF_BOOL(
         tra(

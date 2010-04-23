@@ -128,56 +128,78 @@ class PREF_BOOL extends PREF {
     }
 }
 
-class PREF_NUM extends PREF {
+class NUM_SPEC {
     public $suffix;
     public $min;
     public $max;
     public $default;
     public $scale;
-    function __construct($desc, $tag, $suffix, $min, $max, $default, $scale=1) {
-        $this->suffix = $suffix;
+
+    function __construct($suffix, $min, $max, $default, $scale=1) {
+        if (substr($suffix, 0, 1) == "%") {
+            $this->suffix = $suffix;
+        } else {
+            $this->suffix = " $suffix";
+        }
         $this->min = $min;
         $this->max = $max;
         $this->default = $default;
         $this->scale = $scale;
-        parent::__construct($desc, $tag);
     }
-    function show_value($prefs) {
-        $tag = $this->tag;
-        $v = $prefs->$tag/$this->scale;
-        if ($v == 0) $v = "---";
-        else {
-            if (substr($this->suffix, 0, 1) != "%") {
-                $v .= " ";
-            }
-            $v .= $this->suffix;
+    function value_str($v) {
+        $v /= $this->scale;
+        if ($v == 0) {
+            $v = "--- ";
         }
-        echo "<td>$v</td>";
+        $v .= "$this->suffix ";
+        return $v;
     }
-    function show_form($prefs, $error) {
-        $tag = $this->tag;
-        $class = isset($error->$tag)?"fieldvalue_error":"fieldvalue";
-        if (is_numeric($prefs->$tag)) {
-            $v = $prefs->$tag/$this->scale;
+    function form_str($tag, $v) {
+        if (is_numeric($v)) {
+            $v /= $this->scale;
             if ($v == 0) $v = "";
         } else {
             $v = $prefs->$tag;
         }
-        echo "<td class=$class><input size=5 name=$tag value='$v'> $this->suffix</td>\n";
+        return "<input size=5 name=$tag value='$v'> $this->suffix ";
+    }
+    function form_convert($in, &$out, &$error) {
+        $error = false;
+        if ($in == "") $in = 0;
+        if (!is_numeric($in)) {
+            $error = true;
+            $out = $x;
+            return;
+        }
+        $out = $in*$this->scale;
+        if ($out < $this->min || $out > $this->max) {
+            $error = true;
+        }
+    }
+}
+
+class PREF_NUM extends PREF {
+    public $num_spec;
+    function __construct($desc, $tag, $num_spec) {
+        $this->num_spec = $num_spec;
+        parent::__construct($desc, $tag);
+    }
+    function show_value($prefs) {
+        $tag = $this->tag;
+        echo "<td>".$this->num_spec->value_str($prefs->$tag)."</td>";
+    }
+    function show_form($prefs, $error) {
+        $tag = $this->tag;
+        $class = isset($error->$tag)?"fieldvalue_error":"fieldvalue";
+        echo "<td class=$class>"
+            .$this->num_spec->form_str($tag, $prefs->$tag)
+            ."</td>
+        ";
     }
     function parse_form(&$prefs, &$error) {
         $tag = $this->tag;
-        $x = $_GET[$tag];
-        if ($x == "") $x = 0;
-        if (!is_numeric($x)) {
-            $error->$tag = true;
-            $prefs->$tag = $x;
-            return;
-        }
-        $prefs->$tag = $x*$this->scale;
-        if ($prefs->$tag < $this->min || $prefs->$tag > $this->max) {
-            $error->$tag = true;
-        }
+        $this->num_spec->form_convert($_GET[$tag], $prefs->$tag, $e);
+        if ($e) $error->$tag = true;
     }
     function xml_string($prefs) {
         $tag = $this->tag;
@@ -192,7 +214,65 @@ class PREF_NUM extends PREF {
     }
     function set_default(&$prefs) {
         $tag = $this->tag;
-        $prefs->$tag = $this->default;
+        $prefs->$tag = $this->num_spec->default;
+    }
+}
+
+class PREF_NUM2 extends PREF {
+    public $tag2;
+    public $num_spec1, $num_spec2;
+    function __construct($desc, $tag1, $tag2, $num_spec1, $num_spec2) {
+        $this->tag2 = $tag2;
+        $this->num_spec1 = $num_spec1;
+        $this->num_spec2 = $num_spec2;
+        parent::__construct($desc, $tag1);
+    }
+    function show_value($prefs) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        echo "<td>"
+            .$this->num_spec1->value_str($prefs->$tag)
+            .$this->num_spec2->value_str($prefs->$tag2)
+            ."</td>";
+    }
+    function show_form($prefs, $error) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $class = (isset($error->$tag) || isset($error->$tag2))?"fieldvalue_error":"fieldvalue";
+        echo "<td class=$class>"
+            .$this->num_spec1->form_str($tag, $prefs->$tag)
+            .$this->num_spec2->form_str($tag2, $prefs->$tag2)
+            ."</td>
+        ";
+    }
+    function parse_form(&$prefs, &$error) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $this->num_spec1->form_convert($_GET[$tag], $prefs->$tag, $e);
+        if ($e) $error->$tag = true;
+        $this->num_spec2->form_convert($_GET[$tag2], $prefs->$tag2, $e);
+        if ($e) $error->$tag2 = $e;
+    }
+    function xml_string($prefs) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        return "<$tag>".$prefs->$tag."</$tag>\n<$tag2>".$prefs->$tag2."</$tag2>\n";
+    }
+    function xml_parse(&$prefs, $name, $text) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        if ($name == $tag) {
+            $prefs->$tag = $text;
+        } else if ($name == $tag2) {
+            $prefs->$tag2 = $text;
+        }
+        return false;
+    }
+    function set_default(&$prefs) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $prefs->$tag = $this->num_spec1->default;
+        $prefs->$tag2 = $this->num_spec2->default;
     }
 }
 
