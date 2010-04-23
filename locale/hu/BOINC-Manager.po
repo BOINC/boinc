@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-04-22 07:10-0700\n"
+"PO-Revision-Date: 2010-04-23 09:34-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -836,6 +836,14 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
+"Jelenleg nem jogosult a kliens kezelésére.\n"
+"\n"
+"A BOINC használata ezzel a felhasználóval:\n"
+"- telepítse újra a BOINCot és válaszoljon \"Igen\"-nel a\n"
+"nem adminisztratív felhasználóra vonatkozó kérdésre\n"
+"vagy\n"
+"- lépjen kapcsolatba a rendszergazdával és kérje meg, hogy adja hozzá a\n"
+"'boinc_master' felhasználói csoporthoz."
 
 #: clientgui/BOINCGUIApp.cpp:318
 #, c-format
@@ -844,6 +852,9 @@ msgid ""
 "BOINC.\n"
 "(Error code %d)"
 msgstr ""
+"A BOINC tulajdonosi és hozzáférési jogai nincsenek megfelelően beállítva; "
+"kérjük, telepítse újra a BOINCot.\n"
+"(Hibakód %d)"
 
 #: clientgui/BOINCGUIApp.cpp:368
 msgid ""
@@ -1002,16 +1013,16 @@ msgstr ""
 #: clientgui/CompletionPage.cpp:236
 #, c-format
 msgid "Update from %s completed."
-msgstr ""
+msgstr "A frissítés a(z) %s helyről elkészült."
 
 #: clientgui/CompletionPage.cpp:240
 msgid "Update completed."
-msgstr ""
+msgstr "Frissítés kész."
 
 #: clientgui/CompletionPage.cpp:257
 #, c-format
 msgid "Attached to %s"
-msgstr ""
+msgstr "Csatlakozott a(z) %s projekthez"
 
 #: clientgui/CompletionPage.cpp:261
 msgid "Attached to account manager"
@@ -1020,12 +1031,12 @@ msgstr "Csatlakozott a fiókkezelőhöz"
 #: clientgui/CompletionPage.cpp:271
 #, c-format
 msgid "Welcome to %s!"
-msgstr ""
+msgstr "Üdvözöljük a(z) %s projektben!"
 
 #: clientgui/CompletionPage.cpp:285
-#, fuzzy, c-format
+#, c-format
 msgid "You are now successfully attached to the %s system."
-msgstr "Ön most sikeresen csatlakozott ehhez a projekhez."
+msgstr "Ön most sikeresen csatlakozott a(z) %s rendszerhez."
 
 #: clientgui/CompletionPage.cpp:289
 msgid "You are now successfully attached to this account manager."
