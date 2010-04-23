@@ -53,7 +53,7 @@ typedef int PROCESS_ID;
 
 struct ACTIVE_TASK {
 #ifdef _WIN32
-    HANDLE pid_handle, shm_handle;
+    HANDLE process_handle, shm_handle;
     bool kill_all_children();
 #endif
     SHMEM_SEG_NAME shmem_seg_name;

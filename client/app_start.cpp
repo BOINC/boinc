@@ -533,7 +533,7 @@ int ACTIVE_TASK::start(bool first_time) {
         // fill in core client's PID so we won't think app has exited
         //
         pid = GetCurrentProcessId();
-        pid_handle = GetCurrentProcess();
+        process_handle = GetCurrentProcess();
         set_task_state(PROCESS_EXECUTING, "start");
         return 0;
     }
@@ -650,7 +650,7 @@ int ACTIVE_TASK::start(bool first_time) {
         goto error;
     }
     pid = process_info.dwProcessId;
-    pid_handle = process_info.hProcess;
+    process_handle = process_info.hProcess;
     CloseHandle(process_info.hThread);  // thread handle is not used
 #elif defined(__EMX__)
 

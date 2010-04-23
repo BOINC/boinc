@@ -2564,31 +2564,31 @@ David  6 Apr 2010
         credit.cpp
 
 David  6 Apr 2010
-	- client: don't include graphics apps in non-BOINC CPU time
+    - client: don't include graphics apps in non-BOINC CPU time
 
-	client/
-		app.cpp
-		client_state.cpp,h
-	lib/
-		procinfo.h
-		procinfo_win.cpp
+    client/
+        app.cpp
+        client_state.cpp,h
+    lib/
+        procinfo.h
+        procinfo_win.cpp
 
 Charlie  7 Apr 2010
     - Mac SS: Optimize screensaver for OS 10.6.
-	- client: don't include graphics apps in non-BOINC CPU time (Mac).
+    - client: don't include graphics apps in non-BOINC CPU time (Mac).
 
     clientscr/
         Mac_Saver_ModuleView.m
         screensaver.cpp
-	lib/
-		procinfo_mac.cpp
+    lib/
+        procinfo_mac.cpp
     
 David  7 Apr 2010
-	- client: don't include graphics apps in non-BOINC CPU time (Unix).
+    - client: don't include graphics apps in non-BOINC CPU time (Unix).
 
-	lib/
-		procinfo_win.cpp
-		procinfo_unix.cpp
+    lib/
+        procinfo_win.cpp
+        procinfo_unix.cpp
 
 David  7 Apr 2010
     - client: allow zero resource shares from account managers
@@ -2694,10 +2694,10 @@ Charlie  9 Apr 2010
         screensaver.cpp
 
 Charlie  9 Apr 2010
-	- client: Fix bug in determining non-BOINC CPU time (Mac).
+    - client: Fix bug in determining non-BOINC CPU time (Mac).
 
-	lib/
-		procinfo_mac.cpp
+    lib/
+        procinfo_mac.cpp
 
 David  9 Apr 2010
     - scheduler and validator: distinguish between
@@ -2743,12 +2743,12 @@ David  10 Apr 2010
         sched_send.cpp
 
 Charlie  13 Apr 2010
-	- client: Add code for determining non-BOINC CPU time for GridRepublic 
+    - client: Add code for determining non-BOINC CPU time for GridRepublic 
         and Progress Thru Processors clients (Mac & Windows).
 
-	lib/
-		procinfo_mac.cpp
-		procinfo_win.cpp
+    lib/
+        procinfo_mac.cpp
+        procinfo_win.cpp
 
 Bernd 13 Apr 2010
         - scheduler: as db-driven client file management isn't ready yet,
@@ -2819,21 +2819,21 @@ David  13 Apr 2010
         most files
 
 David  15 Apr 2010
-	- client: get rid of spurious "Using proxy settings from GUI" message
+    - client: get rid of spurious "Using proxy settings from GUI" message
 
-	client/
-		cs_prefs.cpp
-		gui_rpc_server_ops.cpp
-	lib/
-		proxy_info.cpp
+    client/
+        cs_prefs.cpp
+        gui_rpc_server_ops.cpp
+    lib/
+        proxy_info.cpp
 
 Charlie  15 Apr 2010
-	- client: Improve code for determining non-BOINC CPU time for branded
+    - client: Improve code for determining non-BOINC CPU time for branded
         clients (Mac & Windows).
 
-	lib/
-		procinfo_mac.cpp
-		procinfo_win.cpp
+    lib/
+        procinfo_mac.cpp
+        procinfo_win.cpp
 
 Charlie  15 Apr 2010
     - client: fix build break.
@@ -2876,13 +2876,13 @@ David  16 Apr 2010
         db_ops.inc
 
 David  16 Apr 2010
-	- client: fix bug in mechanism that inhibits work fetch
-		for a GPU if it lacks available memory
+    - client: fix bug in mechanism that inhibits work fetch
+        for a GPU if it lacks available memory
 
-	client/
-		client_state.cpp
-		coproc_detect.cpp
-		cpu_sched.cpp
+    client/
+        client_state.cpp
+        coproc_detect.cpp
+        cpu_sched.cpp
 
 Charlie  16 Apr 2010
     - Mac Installer: Set uninstaller's writeable-by-user permission bit so 
@@ -2918,19 +2918,19 @@ David  17 Apr 2010
         sched_customize.cpp
 
 David  17 Apr 2010
-	- client: when a GPU job finishes, clear the "schedule backoff"
-		of other jobs of that type.
-		They're waiting for GPU RAM, which may now be available.
-	- client: bug fix in GPU RAM availability
-	- client: fix testing setup for GPU RAM availability
+    - client: when a GPU job finishes, clear the "schedule backoff"
+        of other jobs of that type.
+        They're waiting for GPU RAM, which may now be available.
+    - client: bug fix in GPU RAM availability
+    - client: fix testing setup for GPU RAM availability
 
-	client/
-		app_control.cpp
-		client_state.cpp
-		coproc_detect.cpp
-		cpu_sched.cpp
-	lib/
-		coproc.h
+    client/
+        app_control.cpp
+        client_state.cpp
+        coproc_detect.cpp
+        cpu_sched.cpp
+    lib/
+        coproc.h
 
 David  19 Apr 2010
     - client: clean up logic related to GPU available memory.
@@ -2971,14 +2971,14 @@ Charlie  19 Apr 2010
 David  20 Apr 2010
     - client: show "waiting for GPU memory" in task status
 
-	client/
-		client_types.cpp
-		cpu_sched.cpp
-	clientgui/
-		ViewWork.cpp
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.cpp
+    client/
+        client_types.cpp
+        cpu_sched.cpp
+    clientgui/
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
 
 David  21 Apr 2010
     - back end: new way of deciding:
@@ -3029,11 +3029,11 @@ David  21 Apr 2010
         net_stats.cpp,h
 
 David  21 Apr 2010
-	- client: bug fixes for the above
+    - client: bug fixes for the above
 
-	client/
-		client_state.cpp
-		net_stats.cpp
+    client/
+        client_state.cpp
+        net_stats.cpp
 
 David  21 Apr 2010
     - client: add preference for limiting network xfers in last N days
@@ -3048,13 +3048,13 @@ David  21 Apr 2010
         cs_prefs.cpp
 
 David  21 Apr 2010
-	- client: bug fixes for the above
-	client/
-		cpu_sched.cpp
-		cs_prefs.cpp
-		net_stats.cpp
-	lib/
-		prefs.cpp
+    - client: bug fixes for the above
+    client/
+        cpu_sched.cpp
+        cs_prefs.cpp
+        net_stats.cpp
+    lib/
+        prefs.cpp
 
 Charlie  22 Apr 2010
     - client: Add get_network_usage_totals() function to the Macintosh 
@@ -3145,3 +3145,13 @@ David  23 Apr 2010
         DlgAdvPreferencesBase.cpp
         DlgAdvPreferencesBase.h
 
+David  23 Apr 2010
+    - client: Win: kill runaway apps using TerminateProcess()
+        rather than TerminateProcessById().
+        The latter doesn't work in protected mode.
+    - client: pid_handle => process_handle.  misnomer
+
+    client/
+        app.cpp,h
+        app_start.cpp
+        app_control.cpp

@@ -130,7 +130,7 @@ int ACTIVE_TASK::request_abort() {
 //
 int ACTIVE_TASK::kill_task(bool restart) {
 #ifdef _WIN32
-    TerminateProcessById(pid);
+    TerminateProcess(process_handle);
 #else
 #ifdef SANDBOX
     kill_via_switcher(pid);
@@ -162,7 +162,7 @@ bool ACTIVE_TASK::has_task_exited() {
 
 #ifdef _WIN32
     unsigned long exit_code;
-    if (GetExitCodeProcess(pid_handle, &exit_code)) {
+    if (GetExitCodeProcess(process_handle, &exit_code)) {
         if (exit_code != STILL_ACTIVE) {
             exited = true;
         }
@@ -517,7 +517,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
-        if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
+        if (GetExitCodeProcess(atp->process_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
                 found = true;
                 atp->handle_exited_app(exit_code);
