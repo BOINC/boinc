@@ -3103,3 +3103,15 @@ Rom    23 Apr 2010
         cpu_sched.cpp
     lib/
         coproc.h
+
+David  23 Apr 2010
+    - user web: more cleanup of prefs.inc
+    - client: code cleanup
+
+    html/inc/
+        prefs.inc
+    lib/
+        coproc.h
+    client/
+        coproc_detect.cpp
+        cpu_sched.cpp

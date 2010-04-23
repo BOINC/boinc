@@ -1186,11 +1186,15 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
 #ifndef SIM
     if (coproc_cuda) {
         coproc_cuda->get_available_ram();
-        coproc_cuda->print_available_ram();
+        if (log_flags.coproc_debug) {
+            coproc_cuda->print_available_ram();
+        }
     }
     if (coproc_ati) {
         coproc_ati->get_available_ram();
-        coproc_ati->print_available_ram();
+        if (log_flags.coproc_debug) {
+            coproc_ati->print_available_ram();
+        }
     }
 #endif
 

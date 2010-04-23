@@ -32,10 +32,12 @@
 #include <signal.h>
 #endif
 
-#include "client_msgs.h"
 #include "coproc.h"
 #include "str_util.h"
 #include "util.h"
+
+#include "client_state.h"
+#include "client_msgs.h"
 
 using std::string;
 using std::vector;
@@ -56,9 +58,10 @@ void segv_handler(int) {
 #endif
 
 void COPROC::print_available_ram() {
+    double last_time = 0;
 
-    if ((dtime() - last_available_memory_dump) < 60.0) return;
-    last_available_memory_dump = dtime();
+    if (gstate.now - last_time < 60) return;
+    last_time = gstate.now;
 
     for (int i=0; i<count; i++) {
         if (available_ram_unknown[i]) {

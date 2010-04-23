@@ -183,30 +183,37 @@ class PREF_NUM extends PREF {
     public $min;
     public $max;
     public $default;
-    function __construct($desc, $tag, $suffix, $min, $max, $default) {
+    public $scale;
+    function __construct($desc, $tag, $suffix, $min, $max, $default, $scale=1) {
         $this->suffix = $suffix;
         $this->min = $min;
         $this->max = $max;
         $this->default = $default;
+        $this->scale = $scale;
         parent::__construct($desc, $tag);
     }
     function show_value($prefs) {
         $tag = $this->tag;
-        $v = $prefs->$tag;
+        $v = $prefs->$tag/$this->scale;
         if ($v == 0) $v = "---";
-        else $v .= " ".$this->suffix;
+        else {
+            if (substr($this->suffix, 0, 1) != "%") {
+                $v .= " ";
+            }
+            $v .= $this->suffix;
+        }
         echo "<td>$v</td>";
     }
     function show_form($prefs, $error) {
         $tag = $this->tag;
         $class = isset($error->$tag)?"fieldvalue_error":"fieldvalue";
-        $v = $prefs->$tag;
+        $v = $prefs->$tag/$this->scale;
         if ($v == 0) $v = "";
         echo "<td class=$class><input size=5 name=$tag value='$v'> $this->suffix</td>\n";
     }
     function parse_form(&$prefs, &$error) {
         $tag = $this->tag;
-        $prefs->$tag = $_GET[$tag];
+        $prefs->$tag = $_GET[$tag]*$this->scale;
         if ($prefs->$tag < $this->min || $prefs->$tag > $this->max) {
             $error->$tag = true;
         }
@@ -397,58 +404,127 @@ $cpu_prefs = array(
     ),
 );
 
-// strings describing various preference fields
-//
-define("CPU_LIMIT_DESC", tra("Processor usage"));
-define("CONFIRM_BEFORE_CONNECTING_DESC",
-    tra(
-        "Confirm before connecting to Internet? %1(matters only if you have a modem, ISDN or VPN connection)%2",
-        "<br><span class=note>",
-        "</span>"
-    )
+$dp = get_disk_space_config();
+
+$disk_prefs = array(
+    new PREF_NUM(
+        tra("Disk: use at most"),
+        "disk_max_used_gb",
+        tra("GB"),
+        0, 9999999, $dp->disk_max_used_gb
+    ),
+    new PREF_NUM(
+        tra("Disk: leave free at least %1(Values smaller than %2 are ignored)%3",
+            "<br><span class=note>",
+            "0.001",
+            "</span>"
+        ),
+        "disk_min_free_gb",
+        tra("GB"),
+        0.001, 9999999, $dp->disk_min_free_gb
+    ),
+    new PREF_NUM(
+        tra("Disk: use at most"),
+        "disk_max_used_pct",
+        tra("% of total"),
+        0, 100, $dp->disk_max_used_pct
+    ),
+    new PREF_NUM(
+        tra("Tasks checkpoint to disk at most every"),
+        "disk_interval",
+        tra("seconds"),
+        0, 9999999, 60
+    ),
+    new PREF_NUM(
+        tra("Swap space: use at most"),
+        "vm_max_used_pct",
+        tra("% of total"),
+        0, 100, 75
+    ),
+    new PREF_NUM(
+        tra("Memory: when computer is in use, use at most"),
+        "ram_max_used_busy_pct",
+        tra("% of total"),
+        0, 100, 50
+    ),
+    new PREF_NUM(
+        tra("Memory: when computer is not in use, use at most"),
+        "ram_max_used_idle_pct",
+        tra("% of total"),
+        0, 100, 90
+    ),
 );
-define("HANGUP_IF_DIALED_DESC",
-    tra(
-        "Disconnect when done? %1(matters only if you have a modem, ISDN or VPN connection)%2",
-        "<br><span class=note>",
-        "</span>"
-    )
+
+$net_prefs = array(
+    new PREF_NUM(
+        tra(
+            "Computer is connected to the Internet about every %1(Leave blank or 0 if always connected.%2 BOINC will try to maintain at least this much work.)%3",
+            "<br><span class=note>",
+            "<br>",
+            "</span>"
+        ),
+        "work_buf_min_days",
+        tra("days"),
+        0, 10, 0
+    ),
+    new PREF_NUM(
+        tra("Maintain enough work for an additional"),
+        "work_buf_additional_days",
+        tra("days"),
+        0, 10, .25
+    ),
+    new PREF_BOOL(
+        tra(
+            "Confirm before connecting to Internet? %1(matters only if you have a modem, ISDN or VPN connection)%2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "confirm_before_connecting",
+        false
+    ),
+    new PREF_BOOL(
+        tra(
+            "Disconnect when done? %1(matters only if you have a modem, ISDN or VPN connection)%2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "hangup_if_dialed",
+        false
+    ),
+    new PREF_NUM(
+        tra("Maximum download rate:"),
+        "max_bytes_sec_down",
+        tra("Kbytes/sec"),
+        0, 9999999, 0,
+        1000
+    ),
+    new PREF_NUM(
+        tra("Maximum upload rate:"),
+        "max_bytes_sec_up",
+        tra("Kbytes/sec"),
+        0, 9999999, 0,
+        1000
+    ),
+    new PREF_HOUR_RANGE(
+        tra("Use network only between the hours of"),
+        "net_start_hour", "net_end_hour"
+    ),
+    new PREF_BOOL(
+        tra(
+            "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC.%3",
+            "<br><span class=note>",
+            "",
+            "</span>"
+        ),
+        "dont_verify_images",
+        false
+    ),
 );
-define("WORK_BUF_MIN_DAYS_DESC",
-    tra(
-        "Computer is connected to the Internet about every %1(Leave blank or 0 if always connected.%2 BOINC will try to maintain at least this much work.)%3",
-        "<br><span class=note>",
-        "<br>",
-        "</span>"
-    )
-);
-define("WORK_BUF_ADDITIONAL_DAYS_DESC",
-    tra("Maintain enough work for an additional")
-);
-define("USE_AT_MOST", tra("Use at most"));
-define("USE_AT_MOST3", tra("Use at most"));
-define("DISK_INTERVAL_DESC", tra("Tasks checkpoint to disk at most every"));
+
 define("DISK_LIMIT_DESC", tra("Disk and memory usage"));
-define("DISK_MIN_FREE_GB_DESC", tra("Leave at least"));
-define("DISK_SCHED_MIN_FREE_DESC",
-    "<br><span class=note>".tra("(Values smaller than %s are ignored)")."</span>"
-);
-define("DISK_MAX_USED_PCT_DESC2", tra("% of total disk space"));
-define("VM_MAX_USED_PCT_DESC2", tra("% of page file (swap space)"));
-define("RAM_MAX_USED_BUSY_PCT_DESC2", tra("% of memory when computer is in use"));
-define("RAM_MAX_USED_IDLE_PCT_DESC2", tra("% of memory when computer is not in use"));
+define("CPU_LIMIT_DESC", tra("Processor usage"));
 define("NETWORK_LIMIT_DESC", tra("Network usage"));
-define("MAX_BYTES_SEC_DOWN_DESC", tra("Maximum download rate:"));
-define("MAX_BYTES_SEC_UP_DESC", tra("Maximum upload rate:"));
-define("NET_START_END_DESC", tra("Use network only between the hours of"));
-define("DONT_VERIFY_IMAGES_DESC",
-    tra(
-        "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC.%3",
-        "<br><span class=note>",
-        "",
-        "</span>"
-    )
-);
+
 define('ATI_SELECT_DESC',
     tra(
         "Use ATI GPU if present %1(enforced by 6.10+ clients)%2",
@@ -471,10 +547,6 @@ define('CPU_SELECT_DESC',
     )
 );
 
-
-define("BYTE_CONVERSION", 1000.0);
-define("BYTE_UNITS", tra("Kbytes/sec"));
-define("BYTE_ABBR", tra("KB/s"));
 define("ALLOW_BETA_WORK",
     tra(
         "Run test applications? %1This helps us develop applications, but may cause jobs to fail on your computer%2",
@@ -499,8 +571,6 @@ global $parse_result;
 global $top_parse_result;
 global $in_project_specific;
 global $venue_name;
-global $disk_prefs;
-
 
 // get default settings for disk space usage so the default user
 // preferences match the settings used by the scheduler.
@@ -511,30 +581,26 @@ global $disk_prefs;
 // if running the old scheduler, set <scheduler_disk_space_check_hardcoded>
 // in config.xml so the right default is set for minimum free disk space
 // 
-$disk_prefs = null;
 function get_disk_space_config() {
-    global  $disk_prefs;
     global  $config;
-    if ($disk_prefs == null) {
-        $config = get_config();
-        $disk_prefs->disk_max_used_gb = parse_config($config, "<default_disk_max_used_gb>");
-        $disk_prefs->disk_max_used_pct = parse_config($config, "<default_disk_max_used_pct>");
-        $disk_prefs->disk_min_free_gb = parse_config($config, "<default_disk_min_free_gb>");
-        // set some defaults if not found
-        if (!$disk_prefs->disk_max_used_gb) $disk_prefs->disk_max_used_gb = 100;  // 100 gb
-        if (!$disk_prefs->disk_max_used_pct) $disk_prefs->disk_max_used_pct = 50; // 50 percent
-        if (!$disk_prefs->disk_min_free_gb) $disk_prefs->disk_min_free_gb=.001;   // 1 megabyte
-        // set mininimum free space scheduler allows 
-        // - depends on which scheduler is running
-        $disk_prefs->new_sched_flag = 1;
-        $disk_prefs->sched_disk_min_free_gb = $disk_prefs->disk_min_free_gb;
-        if (parse_config($config, "scheduler_disk_space_check_hardcoded>")) {
-            $disk_prefs->new_sched_flag = 0;
-            $disk_prefs->sched_disk_min_free_gb = 0;
-        }    
-    }
+    $config = get_config();
+    $dp->disk_max_used_gb = parse_config($config, "<default_disk_max_used_gb>");
+    $dp->disk_max_used_pct = parse_config($config, "<default_disk_max_used_pct>");
+    $dp->disk_min_free_gb = parse_config($config, "<default_disk_min_free_gb>");
+    // set some defaults if not found
+    if (!$dp->disk_max_used_gb) $dp->disk_max_used_gb = 100;  // 100 gb
+    if (!$dp->disk_max_used_pct) $dp->disk_max_used_pct = 50; // 50 percent
+    if (!$dp->disk_min_free_gb) $dp->disk_min_free_gb=.001;   // 1 megabyte
+    // set mininimum free space scheduler allows 
+    // - depends on which scheduler is running
+    $dp->new_sched_flag = 1;
+    $dp->sched_disk_min_free_gb = $dp->disk_min_free_gb;
+    if (parse_config($config, "scheduler_disk_space_check_hardcoded>")) {
+        $dp->new_sched_flag = 0;
+        $dp->sched_disk_min_free_gb = 0;
+    }    
        
-    return $disk_prefs;
+    return $dp;
 }
 
 
@@ -549,27 +615,6 @@ function check_subset($x) {
     if ($x == "global") return;
     if ($x == "project") return;
     error_page(tra("bad subset: %1", $x));
-}
-
-// functions to convert between max_bytes_sec_* as stored in the
-// database and max_bytes_sec_* as displayed/entered on the web
-// pages. Currently max_bytes_sec_* is stored in bytes and
-// displayed/entered in Kbytes.
-//
-function max_bytes_display_mode($db_bytes) {
-    $disp_bytes = 0;
-    if ($db_bytes) {
-        $disp_bytes = $db_bytes / BYTE_CONVERSION;
-    }
-    return $disp_bytes;
-}
-
-function max_bytes_db_mode($disp_bytes) {
-    $db_bytes = 0;
-    if ($disp_bytes) {
-        $db_bytes = $disp_bytes * BYTE_CONVERSION;
-    }
-    return $db_bytes;
 }
 
 // functions to parse preferences XML into a struct
@@ -658,19 +703,27 @@ function element_end_project($parser, $name) {
     }
 }
 
-function get_bool() {
-    global $text;
-    return (trim($text) != '0');
-}
-
 function element_end_global($parser, $name) {
     global $text;
     global $parse_result;
     global $top_parse_result;
     global $venue_name;
     global $cpu_prefs;
+    global $disk_prefs;
+    global $disk_prefs;
+    global $net_prefs;
 
     foreach ($cpu_prefs as $p) {
+        if ($p->xml_parse($parse_result, $name, $text)) {
+            return;
+        }
+    }
+    foreach ($disk_prefs as $p) {
+        if ($p->xml_parse($parse_result, $name, $text)) {
+            return;
+        }
+    }
+    foreach ($net_prefs as $p) {
         if ($p->xml_parse($parse_result, $name, $text)) {
             return;
         }
@@ -679,67 +732,6 @@ function element_end_global($parser, $name) {
     case "venue":
         $top_parse_result->$venue_name = $parse_result;
         $parse_result = $top_parse_result;
-        break;
-    case "run_on_batteries":
-        // deprecated, but parse anyway
-        $parse_result->suspend_while_on_batteries = !get_bool();
-        break;
-    case "suspend_while_on_batteries":
-        $parse_result->suspend_while_on_batteries = get_bool();
-        break;
-    case "run_if_user_active":
-        $parse_result->suspend_if_user_active = !get_bool();
-        break;
-    case "run_gpu_if_user_active":
-        $parse_result->suspend_gpu_if_user_active = !get_bool();
-        break;
-    case "confirm_before_connecting":
-        $parse_result->confirm_before_connecting = get_bool();
-        break;
-    case "hangup_if_dialed":
-        $parse_result->hangup_if_dialed = get_bool();
-        break;
-    case "work_buf_min_days":
-        $parse_result->work_buf_min_days = $text;
-        break;
-    case "work_buf_additional_days":
-        $parse_result->work_buf_additional_days = $text;
-        break;
-    case "disk_interval":
-        $parse_result->disk_interval = $text;
-        break;
-    case "disk_max_used_gb":
-        $parse_result->disk_max_used_gb = $text;
-        break;
-    case "disk_max_used_pct":
-        $parse_result->disk_max_used_pct = $text;
-        break;
-    case "disk_min_free_gb":
-        $parse_result->disk_min_free_gb = $text;
-        break;
-    case "vm_max_used_pct":
-        $parse_result->vm_max_used_pct = $text;
-        break;
-    case "ram_max_used_busy_pct":
-        $parse_result->ram_max_used_busy_pct = $text;
-        break;
-    case "ram_max_used_idle_pct":
-        $parse_result->ram_max_used_idle_pct = $text;
-        break;
-    case "max_bytes_sec_down":
-        $parse_result->max_bytes_sec_down = $text;
-        break;
-    case "max_bytes_sec_up":
-        $parse_result->max_bytes_sec_up = $text;
-        break;
-    case "net_start_hour":
-        $parse_result->net_start_hour = $text;
-        break;
-    case "net_end_hour":
-        $parse_result->net_end_hour = $text;
-        break;
-    case "dont_verify_images":
-        $parse_result->dont_verify_images = get_bool();
         break;
     case "mod_time":
         $parse_result->mod_time = $text;
@@ -761,31 +753,19 @@ function char_handler($parser, $x) {
 //
 function default_prefs_global() {
     global $cpu_prefs;
-    $p = null;
+    global $disk_prefs;
+    global $net_prefs;
 
+    $p = null;
     foreach ($cpu_prefs as $pref) {
         $pref->set_default($p);
     }
-    //$p->suspend_while_on_batteries = true;
-    $p->suspend_if_user_active = false;
-    $p->suspend_gpu_if_user_active = true;
-    $p->confirm_before_connecting = false;
-    $p->hangup_if_dialed = false;
-    $p->work_buf_min_days = 0;
-    $p->work_buf_additional_days = 0.25;
-    $p->disk_interval = 60;
-    $dp = get_disk_space_config();
-    $p->disk_max_used_gb = $dp->disk_max_used_gb;
-    $p->disk_max_used_pct = $dp->disk_max_used_pct;
-    $p->disk_min_free_gb = $dp->disk_min_free_gb;
-    $p->vm_max_used_pct = 75;
-    $p->ram_max_used_busy_pct = 50;
-    $p->ram_max_used_idle_pct = 90;
-    $p->max_bytes_sec_down = 0;
-    $p->max_bytes_sec_up = 0;
-    $p->net_start_hour = 0;
-    $p->net_end_hour = 0;
-    $p->dont_verify_images = false;
+    foreach ($disk_prefs as $pref) {
+        $pref->set_default($p);
+    }
+    foreach ($net_prefs as $pref) {
+        $pref->set_default($p);
+    }
     return $p;
 }
 
@@ -860,28 +840,6 @@ function row_top($x, $ncols=6, $class="heading") {
 }
 
 //
-// hour_range - Produce range string for given venue
-//
-function hour_range($venue, $type) {
-    if ($type == "run") {
-        $s_hour = $venue->start_hour;
-        $e_hour = $venue->end_hour;
-    }
-    if ($type == "net") {
-        $s_hour = $venue->net_start_hour;
-        $e_hour = $venue->net_end_hour;
-    }
-    if ($s_hour == $e_hour) {
-        $x = "--";
-    } else {
-        $s = hour_str($s_hour);
-        $e = hour_str($e_hour);
-        $x = "$s<br>to $e";
-    }
-    return $x;
-}
-
-//
 // row_defs - Display a value for all 4 venues in one row
 //
 function row_defs($pre, $item, $post, $type, $prefs) {
@@ -896,23 +854,6 @@ function row_defs($pre, $item, $post, $type, $prefs) {
     row_field($schl, $type);
     row_field($wrk,  $type);
     echo "<td align=left>$post</td></tr>\n";
-}
-
-//
-// row_hours - Display start & end hours for all venues in 1 row
-//
-function row_hours($pre, $type, $global_prefs) {
-    $gen = hour_range($global_prefs, $type);
-    $hom  = isset($global_prefs->home)   ? hour_range($global_prefs->home, $type)   : "--";
-    $schl = isset($global_prefs->school) ? hour_range($global_prefs->school, $type) : "--";
-    $wrk  = isset($global_prefs->work)   ? hour_range($global_prefs->work, $type)   : "--";
-
-    echo "<tr><td class=fieldname>$pre</td>";
-    row_field($gen, "");
-    row_field($hom, "");
-    row_field($schl, "");
-    row_field($wrk, "");
-    echo "<td class=f_val><br></td></tr>\n";
 }
 
 //
@@ -988,80 +929,41 @@ function row_links($subset, $prefs) {
 //
 function prefs_show_columns_global($prefs) {
     global $cpu_prefs;
+    global $disk_prefs;
+    global $net_prefs;
+
     row_top(CPU_LIMIT_DESC);
     foreach ($cpu_prefs as $p) {
         $p->show_cols($prefs);
     }
-
     row_top(DISK_LIMIT_DESC);
-    row_defs(USE_AT_MOST, "disk_max_used_gb", tra("GB disk space"), "", $prefs);
-    row_defs(DISK_MIN_FREE_GB_DESC, "disk_min_free_gb", tra("GB disk space free"), "", $prefs);
-    row_defs(USE_AT_MOST, "disk_max_used_pct", DISK_MAX_USED_PCT_DESC2, "", $prefs);
-    row_defs(DISK_INTERVAL_DESC, "disk_interval", tra("seconds"), "", $prefs);
-    row_defs(USE_AT_MOST, "vm_max_used_pct", VM_MAX_USED_PCT_DESC2, "", $prefs);
-    row_defs(USE_AT_MOST3, "ram_max_used_busy_pct", RAM_MAX_USED_BUSY_PCT_DESC2, "", $prefs);
-    row_defs(USE_AT_MOST3, "ram_max_used_idle_pct", RAM_MAX_USED_IDLE_PCT_DESC2, "", $prefs);
-
+    foreach ($disk_prefs as $p) {
+        $p->show_cols($prefs);
+    }
     row_top(NETWORK_LIMIT_DESC);
-    row_defs(WORK_BUF_MIN_DAYS_DESC, "work_buf_min_days", tra("days"), "", $prefs);
-    row_defs(WORK_BUF_ADDITIONAL_DAYS_DESC, "work_buf_additional_days", tra("days"), "", $prefs);
-    row_defs(CONFIRM_BEFORE_CONNECTING_DESC, "confirm_before_connecting", "", "yesno", $prefs);
-    row_defs(HANGUP_IF_DIALED_DESC, "hangup_if_dialed", "", "yesno", $prefs);
-    row_defs(MAX_BYTES_SEC_DOWN_DESC, "max_bytes_sec_down", "", "limit", $prefs);
-    row_defs(MAX_BYTES_SEC_UP_DESC, "max_bytes_sec_up", "", "limit", $prefs);
-    row_hours(NET_START_END_DESC, "net", $prefs);
-    row_defs(DONT_VERIFY_IMAGES_DESC, "dont_verify_images", "", "yesno", $prefs);
-
+    foreach ($net_prefs as $p) {
+        $p->show_cols($prefs);
+    }
     row_links("global", $prefs);
-}
-
-function show_double($x) {
-    if ($x) return $x;
-    return '---';
 }
 
 function prefs_show_global($prefs) {
     global $cpu_prefs;
+    global $disk_prefs;
+    global $net_prefs;
+
     row1(CPU_LIMIT_DESC);
     foreach ($cpu_prefs as $p) {
         $p->show($prefs);
     }
-
     row1(DISK_LIMIT_DESC);
-    row2(USE_AT_MOST, tra("%1 GB disk space", $prefs->disk_max_used_gb));
-
-    $dp = get_disk_space_config();
-
-    $msg = null;
-    if ($dp->new_sched_flag) {
-        $msg = sprintf(DISK_SCHED_MIN_FREE_DESC, $dp->sched_disk_min_free_gb);
+    foreach ($disk_prefs as $p) {
+        $p->show($prefs);
     }
-    row2(DISK_MIN_FREE_GB_DESC.$msg, tra("%1 GB disk space free", $prefs->disk_min_free_gb));
-    row2(USE_AT_MOST, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
-    row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
-    row2(USE_AT_MOST, "$prefs->vm_max_used_pct".VM_MAX_USED_PCT_DESC2);
-    row2(USE_AT_MOST3, "$prefs->ram_max_used_busy_pct".RAM_MAX_USED_BUSY_PCT_DESC2);
-    row2(USE_AT_MOST3, "$prefs->ram_max_used_idle_pct".RAM_MAX_USED_IDLE_PCT_DESC2);
     row1(NETWORK_LIMIT_DESC);
-    row2(WORK_BUF_MIN_DAYS_DESC, tra("%1 days", $prefs->work_buf_min_days));
-    row2(WORK_BUF_ADDITIONAL_DAYS_DESC, tra("%1 days", $prefs->work_buf_additional_days));
-    row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?tra("yes"):tra("no"));
-    row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?tra("yes"):tra("no"));
-    $x = max_bytes_display_mode($prefs->max_bytes_sec_down);
-    $y = "$x " . BYTE_ABBR;
-    row2(MAX_BYTES_SEC_DOWN_DESC, $x?"$y":tra("no limit"));
-    $x = max_bytes_display_mode($prefs->max_bytes_sec_up);
-    $y = "$x " . BYTE_ABBR;
-    row2(MAX_BYTES_SEC_UP_DESC, $x?"$y":tra("no limit"));
-    if ($prefs->net_start_hour == $prefs->net_end_hour) {
-        $x = tra("(no restriction)");
-    } else {
-        $s = hour_str($prefs->net_start_hour);
-        $e = hour_str($prefs->net_end_hour);
-        $x = "$s ".tra("and")." $e";
+    foreach ($net_prefs as $p) {
+        $p->show($prefs);
     }
-    row2(NET_START_END_DESC, $x);
-    row2(DONT_VERIFY_IMAGES_DESC, $prefs->dont_verify_images?tra("yes"):tra("no"));
 }
 
 function prefs_show_resource($prefs, $columns=false) {
@@ -1305,118 +1207,21 @@ function print_prefs_form(
 //
 function prefs_form_global($user, $prefs, $error=false) {
     global $cpu_prefs;
+    global $disk_prefs;
+    global $net_prefs;
 
     row1(CPU_LIMIT_DESC);
-
     foreach ($cpu_prefs as $p) {
         $p->show_form_row($prefs, $error);
     }
-
     row1(DISK_LIMIT_DESC);
-
-    $show_error = false;
-    if (isset($error->disk_max_used_gb)) $show_error= true;
-    row2(USE_AT_MOST,
-        "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> ".tra("Gbytes"),
-        $show_error
-    );
-
-    $dp = get_disk_space_config();
-
-    $msg=null;
-    if ($dp->new_sched_flag) {
-        $msg = sprintf(DISK_SCHED_MIN_FREE_DESC, $dp->sched_disk_min_free_gb);
-    } 
-
-    $show_error = false;
-    if (isset($error->disk_min_free_gb)) $show_error= true;
-    row2(DISK_MIN_FREE_GB_DESC.$msg,
-        "<input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> ".tra("Gbytes free"),
-        $show_error
-    );
-
-    $show_error = false;
-    if (isset($error->disk_max_used_pct)) $show_error= true;
-    row2(USE_AT_MOST,
-        "<input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> ".DISK_MAX_USED_PCT_DESC2,
-        $show_error
-    );
-
-    $show_error = false;
-    if (isset($error->disk_interval)) $show_error= true;
-    row2(DISK_INTERVAL_DESC,
-        "<input size=6 name=disk_interval value=$prefs->disk_interval> ".tra("seconds"),
-        $show_error
-    );
-
-    $show_error = false;
-    if (isset($error->vm_max_used_pct)) $show_error= true;
-    row2(USE_AT_MOST,
-        "<input size=5 name=vm_max_used_pct value='$prefs->vm_max_used_pct'> ".VM_MAX_USED_PCT_DESC2,
-        $show_error
-    );
-
-    $show_error = false;
-    if (isset($error->ram_max_used_busy_pct)) $show_error= true;
-    row2(USE_AT_MOST3,
-        "<input size=5 name=ram_max_used_busy_pct value='$prefs->ram_max_used_busy_pct'> ".RAM_MAX_USED_BUSY_PCT_DESC2,
-        $show_error
-    );
-
-    $show_error = false;
-    if (isset($error->ram_max_used_idle_pct)) $show_error= true;
-    row2(USE_AT_MOST3,
-        "<input size=5 name=ram_max_used_idle_pct value='$prefs->ram_max_used_idle_pct'> ".RAM_MAX_USED_IDLE_PCT_DESC2,
-        $show_error
-    );
-
+    foreach ($disk_prefs as $p) {
+        $p->show_form_row($prefs, $error);
+    }
     row1(NETWORK_LIMIT_DESC);
-    $x = WORK_BUF_MIN_DAYS_DESC;
-    $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'> ".tra("days");
-    $show_error = false;
-    if (isset($error->work_buf_min_days)) $show_error= true;
-    row2($x, $y, $show_error);
-
-    $x = WORK_BUF_ADDITIONAL_DAYS_DESC;
-    $y = "<input size=5 name=work_buf_additional_days value='$prefs->work_buf_additional_days'> ".tra("days");
-    $show_error = false;
-    if (isset($error->work_buf_additional_days)) $show_error= true;
-    row2($x, $y, $show_error);
-
-    $x = CONFIRM_BEFORE_CONNECTING_DESC;
-    $y = prefs_form_radio_buttons("confirm_before_connecting", $prefs->confirm_before_connecting);
-    row2($x, $y);
-
-    $x = HANGUP_IF_DIALED_DESC;
-    $y = prefs_form_radio_buttons("hangup_if_dialed", $prefs->hangup_if_dialed);
-    row2($x, $y);
-
-    $d = max_bytes_display_mode($prefs->max_bytes_sec_down);
-    $dt = $d?"$d":"";
-    $u = max_bytes_display_mode($prefs->max_bytes_sec_up);
-    $ut = $u?"$u":"";
-
-    $show_error = false;
-    if (isset($error->max_bytes_sec_down)) $show_error= true;
-    row2(MAX_BYTES_SEC_DOWN_DESC,
-        "<input size=7 name=max_bytes_sec_down value='$dt'> " . BYTE_UNITS,
-        $show_error
-    );
-
-    $show_error = false;
-    if (isset($error->max_bytes_sec_up)) $show_error= true;
-    row2(MAX_BYTES_SEC_UP_DESC,
-        "<input size=7 name=max_bytes_sec_up value='$ut'> " . BYTE_UNITS,
-        $show_error
-    );
-
-    $x = NET_START_END_DESC.START_END_DESC2;
-    $y = hour_select($prefs->net_start_hour, "net_start_hour").tra("and").hour_select($prefs->net_end_hour, "net_end_hour");
-    row2($x, $y);
-    $x = DONT_VERIFY_IMAGES_DESC;
-    $y = prefs_form_radio_buttons("dont_verify_images", $prefs->dont_verify_images);
-    row2($x, $y);
-
+    foreach ($net_prefs as $p) {
+        $p->show_form_row($prefs, $error);
+    }
 }
 
 function prefs_form_privacy($user) {
@@ -1523,58 +1328,19 @@ function venue_update($user) {
 //
 function prefs_global_parse_form(&$prefs) {
     global $cpu_prefs;
+    global $disk_prefs;
+    global $net_prefs;
+
     $error = false;
     foreach ($cpu_prefs as $p) {
         $p->parse_form($prefs, $error);
     }
-    $disk_max_used_gb = $_GET["disk_max_used_gb"];
-    $disk_min_free_gb = $_GET["disk_min_free_gb"];
-    $disk_max_used_pct = $_GET["disk_max_used_pct"];
-    $disk_interval = $_GET["disk_interval"];
-    $vm_max_used_pct = $_GET["vm_max_used_pct"];
-    $ram_max_used_busy_pct = $_GET["ram_max_used_busy_pct"];
-    $ram_max_used_idle_pct = $_GET["ram_max_used_idle_pct"];
-    $work_buf_min_days = $_GET["work_buf_min_days"];
-    $work_buf_additional_days = $_GET["work_buf_additional_days"];
-    $confirm_before_connecting = $_GET["confirm_before_connecting"];
-    $hangup_if_dialed = $_GET["hangup_if_dialed"];
-    $max_bytes_sec_down = $_GET["max_bytes_sec_down"];
-    $max_bytes_sec_up = $_GET["max_bytes_sec_up"];
-    $net_start_hour = $_GET["net_start_hour"];
-    $net_end_hour = $_GET["net_end_hour"];
-    $dont_verify_images = $_GET["dont_verify_images"];
-    // Verification of all user input values
-    if (!verify_numeric($disk_max_used_gb, 0)) $error->disk_max_used_gb = true;
-    if (!verify_numeric($disk_min_free_gb, 0.001)) $error->disk_min_free_gb = true;
-    if (!verify_numeric($disk_max_used_pct, 0, 100)) $error->disk_max_used_pct = true;
-    if (!verify_numeric($disk_interval, 0)) $error->disk_interval = true;
-    if (!verify_numeric($vm_max_used_pct, 0, 100)) $error->vm_max_used_pct = true;
-    if (!verify_numeric($ram_max_used_busy_pct, 0, 100)) $error->ram_max_used_busy_pct = true;
-    if (!verify_numeric($ram_max_used_idle_pct, 0, 100)) $error->ram_max_used_idle_pct = true;
-    if (!verify_numeric($work_buf_min_days, 0, 10)) $error->work_buf_min_days = true;
-    if (!verify_numeric($work_buf_additional_days, 0, 10)) $error->work_buf_additional_days = true;
-    if (!verify_numeric($max_bytes_sec_down, '')) $error->max_bytes_sec_down = true;
-    if (!verify_numeric($max_bytes_sec_up, '')) $error->max_bytes_sec_up = true;
-    if (!verify_numeric($net_start_hour, 0)) $error->net_start_hour = true;
-    if (!verify_numeric($net_end_hour, 0)) $error->net_end_hour = true;
-    // Modify all values within the supplied Object
-    $prefs->disk_max_used_gb = $disk_max_used_gb;
-    $prefs->disk_min_free_gb = $disk_min_free_gb;
-    $prefs->disk_max_used_pct = $disk_max_used_pct;
-    $prefs->disk_interval = $disk_interval;
-    $prefs->vm_max_used_pct = $vm_max_used_pct;
-    $prefs->ram_max_used_busy_pct = $ram_max_used_busy_pct;
-    $prefs->ram_max_used_idle_pct = $ram_max_used_idle_pct;
-    $prefs->work_buf_min_days = $work_buf_min_days;
-    $prefs->work_buf_additional_days = $work_buf_additional_days;
-    $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
-    $prefs->hangup_if_dialed = ($hangup_if_dialed == "yes");
-    $prefs->max_bytes_sec_down = max_bytes_db_mode($max_bytes_sec_down);
-    $prefs->max_bytes_sec_up = max_bytes_db_mode($max_bytes_sec_up);
-    $prefs->net_start_hour = $net_start_hour;
-    $prefs->net_end_hour = $net_end_hour;
-    $prefs->dont_verify_images = ($dont_verify_images == "yes");
-
+    foreach ($disk_prefs as $p) {
+        $p->parse_form($prefs, $error);
+    }
+    foreach ($net_prefs as $p) {
+        $p->parse_form($prefs, $error);
+    }
     return $error;
 }
 
@@ -1622,6 +1388,8 @@ function prefs_project_parse_form(&$prefs) {
 //
 function global_prefs_make_xml($prefs, $primary=true) {
     global $cpu_prefs;
+    global $disk_prefs;
+    global $net_prefs;
 
     // N.B.: each XML entry must end with \n due to the sloppy parsing by the
     // BOINC client!!
@@ -1635,34 +1403,12 @@ function global_prefs_make_xml($prefs, $primary=true) {
     foreach ($cpu_prefs as $p) {
         $xml .= $p->xml_string($prefs);
     }
-
-    if ($prefs->confirm_before_connecting) {
-        $xml = $xml."<confirm_before_connecting/>\n";
+    foreach ($disk_prefs as $p) {
+        $xml .= $p->xml_string($prefs);
     }
-
-    $x = $prefs->hangup_if_dialed?1:0;
-    $xml = $xml."<hangup_if_dialed>$x</hangup_if_dialed>\n";
-
-    $xml = $xml
-        ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"
-        ."<work_buf_additional_days>$prefs->work_buf_additional_days</work_buf_additional_days>\n"
-        ."<disk_interval>$prefs->disk_interval</disk_interval>\n";
-    $xml = $xml
-        ."<disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>\n"
-        ."<disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>\n"
-        ."<disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>\n"
-        ."<vm_max_used_pct>$prefs->vm_max_used_pct</vm_max_used_pct>\n"
-        ."<ram_max_used_busy_pct>$prefs->ram_max_used_busy_pct</ram_max_used_busy_pct>\n"
-        ."<ram_max_used_idle_pct>$prefs->ram_max_used_idle_pct</ram_max_used_idle_pct>\n"
-        ."<max_bytes_sec_down>$prefs->max_bytes_sec_down</max_bytes_sec_down>\n"
-        ."<max_bytes_sec_up>$prefs->max_bytes_sec_up</max_bytes_sec_up>\n";
-    if ($prefs->net_start_hour != $prefs->net_end_hour) {
-        $xml = $xml."<net_start_hour>$prefs->net_start_hour</net_start_hour>\n"
-            ."<net_end_hour>$prefs->net_end_hour</net_end_hour>\n";
+    foreach ($net_prefs as $p) {
+        $xml .= $p->xml_string($prefs);
     }
-
-    $x = $prefs->dont_verify_images?1:0;
-    $xml = $xml."<dont_verify_images>$x</dont_verify_images>\n";
 
     if (isset($prefs->home)) {
         $xml = $xml."<venue name=\"home\">\n".global_prefs_make_xml($prefs->home, false)."</venue>\n";
