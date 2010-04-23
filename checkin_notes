@@ -3136,3 +3136,12 @@ David  23 Apr 2010
         prefs.cpp,h
     client/
         cs_prefs.cpp
+        
+David  23 Apr 2010
+    - manager: add network quota to advanced prefs dialog
+
+    clientgui/
+        DlgAdvPreferences.cpp
+        DlgAdvPreferencesBase.cpp
+        DlgAdvPreferencesBase.h
+

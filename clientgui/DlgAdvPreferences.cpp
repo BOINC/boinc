@@ -101,6 +101,8 @@ void CDlgAdvPreferences::SetValidators() {
 	//net page
 	m_txtNetConnectInterval->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtNetDownloadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+	m_txt_daily_xfer_limit_mb->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+	m_txt_daily_xfer_period_days->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtNetUploadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtNetAdditionalDays->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	//disk and memory page
@@ -263,6 +265,12 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	// upload rate
 	buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_up / 1024);
 	*m_txtNetUploadRate << buffer;
+
+	buffer.Printf(wxT("%.2f"),prefs.daily_xfer_limit_mb);
+	*m_txt_daily_xfer_limit_mb << buffer;
+	buffer.Printf(wxT("%.2f"),prefs.daily_xfer_period_days );
+	*m_txt_daily_xfer_period_days << buffer;
+
 	//
 	buffer.Printf(wxT("%.2f"),prefs.work_buf_additional_days);
 	*m_txtNetAdditionalDays << buffer;
@@ -383,6 +391,13 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	td = td * 1024;
 	prefs.max_bytes_sec_up=td;
 	mask.max_bytes_sec_up=true;
+
+    m_txt_daily_xfer_limit_mb->GetValue().ToDouble(&td);
+	prefs.daily_xfer_limit_mb=td;
+	mask.daily_xfer_limit_mb=true;
+    m_txt_daily_xfer_period_days->GetValue().ToDouble(&td);
+	prefs.daily_xfer_period_days=(int)td;
+	mask.daily_xfer_period_days=true;
 	//
 	prefs.dont_verify_images=m_chkNetSkipImageVerification->GetValue();
 	mask.dont_verify_images=true;
