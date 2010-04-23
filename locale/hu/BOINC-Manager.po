@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:09-0500\n"
-"PO-Revision-Date: 2010-04-22 06:54-0700\n"
+"PO-Revision-Date: 2010-04-23 09:22-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -3713,6 +3713,8 @@ msgid ""
 "for accessibility support, please select advanced from the view menu or type "
 "command shift a"
 msgstr ""
+"hozzáférési támogatásért válassza a haladó-t a nézet menüből, vagy írja be a "
+"command shift a parancsot"
 
 #: clientgui/mac/MacAccessiblity.cpp:245
 msgid "This panel contains graphs showing user totals for projects"
@@ -3739,7 +3741,7 @@ msgstr "%d ebből: %d;"
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
-msgstr ""
+msgstr "aktuális rendezési oszlop"
 
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " descending order "
@@ -3768,7 +3770,7 @@ msgid "row %d "
 msgstr "%d. sor"
 
 #: clientgui/mac/MacAccessiblity.cpp:629
-#, fuzzy, c-format
+#, c-format
 msgid "of %d; "
 msgstr "%d közül;"
 
@@ -3779,10 +3781,10 @@ msgstr "%d. oszlop;"
 
 #: clientgui/mac/MacAccessiblity.cpp:1160
 msgid "list of projects or account managers"
-msgstr ""
+msgstr "projektek vagy fiókkezelők listája"
 
 #: clientgui/mac/MacAccessiblity.cpp:1202
-#, fuzzy, c-format
+#, c-format
 msgid "row %d of %d; "
 msgstr "%d. sor %d közül;"
 

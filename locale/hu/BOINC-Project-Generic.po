@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-04-22 07:51-0700\n"
+"PO-Revision-Date: 2010-04-23 09:26-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -165,7 +165,9 @@ msgstr "Keresés"
 # Nincs olyan szó a magyar nyelvben, hogy megigényelte! (Legjobb tudomásom szerint ez nyelvtanilag helytelen volt.)
 #, fuzzy
 msgid "Requested by you, and founder response deadline has passed."
-msgstr "Ön igényelte és az alapító válaszának határideje lejárt."
+msgstr ""
+"Ön igényelte, és alapító válaszának határideje lejárt, így Öné a csapat "
+"feletti adminisztrációs jog."
 
 msgid "Complete foundership transfer"
 msgstr "Teljes csapatalapítási jogátadás"
@@ -742,12 +744,11 @@ msgstr ""
 msgid "Instructions for installing and running BOINC are %1here%2."
 msgstr "A BOINC telepítéséhez és futtatásához utasítások %1itt%2 találhatóak."
 
-#, fuzzy
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr "Ez a lista központilag van kezelve a %1BOINC weboldalon%2"
+msgstr "Ezt a listát központilag kezelik a %1BOINC weboldalon%2."
 
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
 msgstr "Cím"
@@ -837,16 +838,16 @@ msgid "Hide this thread"
 msgstr "Téma elrejtése"
 
 msgid "Make unsticky"
-msgstr ""
+msgstr "Kitűzés eltávolítása"
 
 msgid "Make this thread not sticky"
-msgstr ""
+msgstr "Ez a téma ne legyen többé kitűzve"
 
 msgid "Make sticky"
-msgstr ""
+msgstr "Kitűzés"
 
 msgid "Make this thread sticky"
-msgstr ""
+msgstr "Tűzze ki ezt a témát"
 
 msgid "Unlock"
 msgstr "Feloldás"
