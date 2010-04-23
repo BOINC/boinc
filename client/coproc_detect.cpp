@@ -58,7 +58,7 @@ void segv_handler(int) {
 #endif
 
 void COPROC::print_available_ram() {
-    double last_time = 0;
+    static double last_time = 0;
 
     if (gstate.now - last_time < 60) return;
     last_time = gstate.now;

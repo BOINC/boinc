@@ -1,0 +1,263 @@
+<?php
+
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2010 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// classes for different kinds of preferences.  See prefs.inc
+
+abstract class PREF {
+    public $desc;
+    public $tag;    // the pref's primary XML tag
+    function __construct($desc, $tag) {
+        $this->desc = $desc;
+        $this->tag = $tag;
+    }
+
+    abstract function show_value($prefs);
+    abstract function show_form($prefs, $error);
+    abstract function parse_form(&$prefs, &$error);
+    abstract function xml_string($prefs);
+    abstract function xml_parse(&$prefs, $name, $text);
+    abstract function set_default(&$prefs);
+
+    // multi-column display (read only)
+    //
+    function show_cols($prefs) {
+        global $venues;
+        echo "<tr><td class=fieldname>$this->desc</td>";
+        $tag = $this->tag;
+        if (isset($prefs->$tag)) {
+            $this->show_value($prefs);
+        } else {
+            echo "<td>---</td>";
+        }
+        foreach ($venues as $v) {
+            if (isset($prefs->$v) && isset($prefs->$v->$tag)) {
+                $this->show_value($prefs->$v);
+            } else {
+                echo "<td>---</td>";
+            }
+        }
+        echo "</tr>\n";
+    }
+
+    // show read-only row
+    //
+    function show($prefs) {
+        echo "<tr><td class=fieldname>$this->desc</td>";
+        $tag = $this->tag;
+        if (isset($prefs->$tag)) {
+            $this->show_value($prefs);
+        } else {
+            echo "<td>---</td>";
+        }
+        echo "</tr>\n";
+    }
+
+    // show form row
+    //
+    function show_form_row($prefs, $error) {
+        $tag = $this->tag;
+        $class = isset($error->$tag)?"fieldname_error":"fieldname";
+        echo "<tr><td class=$class>$this->desc</td>";
+        $this->show_form($prefs, $error);
+        echo "</tr>\n";
+    }
+}
+
+class PREF_BOOL extends PREF {
+    public $default;
+    function __construct($desc, $tag, $default) {
+        $this->default = $default;
+        parent::__construct($desc, $tag);
+    }
+    function show_value($prefs) {
+        $tag = $this->tag;
+        $x = $prefs->$tag?tra("yes"):tra("no");
+        echo "<td>$x</td>";
+    }
+    function show_form($prefs, $error) {
+        $tag = $this->tag;
+        $yes = $prefs->$tag?true:false;
+        echo "<td class=fieldvalue>"
+            .tra("yes")
+            ." <input type=radio name=$this->tag value=yes "
+            .($yes?"checked":"")
+            ."> "
+            .tra("no")
+            ." <input type=radio name=$this->tag value=no "
+            .($yes?"":"checked")
+            ."></td>
+        ";
+    }
+    function parse_form(&$prefs, &$error) {
+        $tag = $this->tag;
+        $prefs->$tag = ($_GET[$tag] == 'yes');
+    }
+    function xml_string($prefs) {
+        $tag = $this->tag;
+        return "<$tag>"
+            .($prefs->$tag?"1":"0")
+            ."</$tag>
+        ";
+    }
+    function xml_parse(&$prefs, $name, $text) {
+        $tag = $this->tag;
+        if ($name != $tag) return false;
+        $val = (trim($text) != '0');
+        $prefs->$tag = $val;
+        return true;
+    }
+    function set_default(&$prefs) {
+        $tag = $this->tag;
+        $prefs->$tag = $this->default;
+    }
+}
+
+class PREF_NUM extends PREF {
+    public $suffix;
+    public $min;
+    public $max;
+    public $default;
+    public $scale;
+    function __construct($desc, $tag, $suffix, $min, $max, $default, $scale=1) {
+        $this->suffix = $suffix;
+        $this->min = $min;
+        $this->max = $max;
+        $this->default = $default;
+        $this->scale = $scale;
+        parent::__construct($desc, $tag);
+    }
+    function show_value($prefs) {
+        $tag = $this->tag;
+        $v = $prefs->$tag/$this->scale;
+        if ($v == 0) $v = "---";
+        else {
+            if (substr($this->suffix, 0, 1) != "%") {
+                $v .= " ";
+            }
+            $v .= $this->suffix;
+        }
+        echo "<td>$v</td>";
+    }
+    function show_form($prefs, $error) {
+        $tag = $this->tag;
+        $class = isset($error->$tag)?"fieldvalue_error":"fieldvalue";
+        if (is_numeric($prefs->$tag)) {
+            $v = $prefs->$tag/$this->scale;
+            if ($v == 0) $v = "";
+        } else {
+            $v = $prefs->$tag;
+        }
+        echo "<td class=$class><input size=5 name=$tag value='$v'> $this->suffix</td>\n";
+    }
+    function parse_form(&$prefs, &$error) {
+        $tag = $this->tag;
+        $x = $_GET[$tag];
+        if ($x == "") $x = 0;
+        if (!is_numeric($x)) {
+            $error->$tag = true;
+            $prefs->$tag = $x;
+            return;
+        }
+        $prefs->$tag = $x*$this->scale;
+        if ($prefs->$tag < $this->min || $prefs->$tag > $this->max) {
+            $error->$tag = true;
+        }
+    }
+    function xml_string($prefs) {
+        $tag = $this->tag;
+        $v = $prefs->$tag;
+        return "<$tag>$v</$tag>\n";
+    }
+    function xml_parse(&$prefs, $name, $text) {
+        $tag = $this->tag;
+        if ($name != $tag) return false;
+        $prefs->$tag = $text;
+        return true;
+    }
+    function set_default(&$prefs) {
+        $tag = $this->tag;
+        $prefs->$tag = $this->default;
+    }
+}
+
+class PREF_HOUR_RANGE extends PREF {
+    public $tag2;
+    function __construct($desc, $tag, $tag2) {
+        $this->tag2 = $tag2;
+        parent::__construct($desc, $tag);
+    }
+    function show_value($prefs) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $h1 = $prefs->$tag;
+        $h2 = $prefs->$tag2;
+        if ($h1 == $h2) {
+            $v = "---";
+        } else {
+            $v = hour_str($h1)." ".tra("and")." ".hour_str($h2);
+        }
+        echo "<td>$v</td>";
+    }
+    function show_form($prefs, $error) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        echo "<td class=fieldvalue>"
+            .hour_select($prefs->$tag, $tag)
+            ." "
+            .tra("and")
+            ." "
+            .hour_select($prefs->$tag2, $tag2)
+            ."
+        ";
+    }
+    function parse_form(&$prefs, &$error) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $prefs->$tag = $_GET[$tag];
+        $prefs->$tag2 = $_GET[$tag2];
+    }
+    function xml_string($prefs) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $h1 = $prefs->$tag;
+        $h2 = $prefs->$tag2;
+        if ($h1 == $h2) return "";
+        return "<$tag>$h1</$tag>\n<$tag2>$h2</$tag2>\n";
+    }
+    function xml_parse(&$prefs, $name, $text) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        if ($name == $tag) {
+            $prefs->$tag = $text;
+            return true;
+        } else if ($name == $tag2) {
+            $prefs->$tag2 = $text;
+            return true;
+        }
+        return false;
+    }
+    function set_default(&$prefs) {
+        $tag = $this->tag;
+        $tag2 = $this->tag2;
+        $prefs->$tag = 0;
+        $prefs->$tag2 = 0;
+    }
+}
+
+?>

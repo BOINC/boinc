@@ -3115,3 +3115,12 @@ David  23 Apr 2010
     client/
         coproc_detect.cpp
         cpu_sched.cpp
+
+David  23 Apr 2010
+    - user web: separate general stuff from prefs.inc
+
+    html/inc/
+        prefs.inc
+        prefs_util.inc (new)
+    client/
+        coproc_detect.cpp
