@@ -149,6 +149,7 @@ struct COPROC {
     virtual ~COPROC(){}
     int parse(MIOFILE&);
     void print_available_ram();
+    double last_available_memory_dump;
 };
 
 struct COPROCS {

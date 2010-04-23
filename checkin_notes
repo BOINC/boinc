@@ -3093,3 +3093,13 @@ David  22 Apr 2010
 
     html/inc/
         prefs.inc
+
+Rom    23 Apr 2010
+    - CC: Reduce how often the client reports the amount of available
+        VRAM to once every 60 seconds.
+
+    client/
+        coproc_detect.cpp
+        cpu_sched.cpp
+    lib/
+        coproc.h

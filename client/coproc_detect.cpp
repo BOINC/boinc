@@ -32,11 +32,10 @@
 #include <signal.h>
 #endif
 
-#include "str_util.h"
-
 #include "client_msgs.h"
-
 #include "coproc.h"
+#include "str_util.h"
+#include "util.h"
 
 using std::string;
 using std::vector;
@@ -57,18 +56,26 @@ void segv_handler(int) {
 #endif
 
 void COPROC::print_available_ram() {
+
+    if ((dtime() - last_available_memory_dump) < 60.0) return;
+    last_available_memory_dump = dtime();
+
     for (int i=0; i<count; i++) {
         if (available_ram_unknown[i]) {
-            msg_printf(0, MSG_INFO,
-                "[coproc] %s device %d: available RAM unknown",
-                type, device_nums[i]
-            );
+            if (log_flags.coproc_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[coproc_debug] %s device %d: available RAM unknown",
+                    type, device_nums[i]
+                );
+            }
         } else {
-            msg_printf(0, MSG_INFO,
-                "[coproc] %s device %d: available RAM %d MB",
-                type, device_nums[i],
-                (int)(available_ram[i]/MEGA)
-            );
+            if (log_flags.coproc_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[coproc_debug] %s device %d: available RAM %d MB",
+                    type, device_nums[i],
+                    (int)(available_ram[i]/MEGA)
+                );
+            }
         }
     }
 }
