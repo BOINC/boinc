@@ -130,7 +130,7 @@ int ACTIVE_TASK::request_abort() {
 //
 int ACTIVE_TASK::kill_task(bool restart) {
 #ifdef _WIN32
-    TerminateProcess(process_handle);
+    TerminateProcess(process_handle, 1);
 #else
 #ifdef SANDBOX
     kill_via_switcher(pid);
