@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:09-0500\n"
-"PO-Revision-Date: 2010-04-01 05:24-0700\n"
+"PO-Revision-Date: 2010-04-24 05:52-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -560,7 +560,7 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
-"%s cerrá el cliente actualmente conectado, y le pedirá\n"
+"%s cerrá el cliente actual y le pedirá\n"
 "otro ordenador al que conectarse (host).\n"
 
 #: clientgui/AdvancedFrame.cpp:1539
@@ -1638,14 +1638,12 @@ msgstr "Planificando"
 
 #: clientgui/DlgItemProperties.cpp:243 clientgui/DlgItemProperties.cpp:253
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Project preference"
-msgstr "Sus preferencias"
+msgstr "Preferencia del proyecto"
 
 #: clientgui/DlgItemProperties.cpp:243
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "No se descargarán nuevas tareas"
+msgstr "No buscar tareas para la CPU"
 
 #: clientgui/DlgItemProperties.cpp:245
 msgid "CPU scheduling priority"
@@ -1665,7 +1663,7 @@ msgstr "Intervalo de búsqueda de trabajo para la CPU"
 
 #: clientgui/DlgItemProperties.cpp:253
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "No buscar trabajo para la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:255
 msgid "NVIDIA GPU scheduling priority"
@@ -1684,9 +1682,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervalo de búsqueda de trabajo para la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "No se descargarán nuevas tareas"
+msgstr "No buscar trabajo para la GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "ATI GPU scheduling priority"
@@ -3579,9 +3576,8 @@ msgid " (non-CPU-intensive)"
 msgstr "(no-CPU-intensivo)"
 
 #: clientgui/ViewWork.cpp:1183
-#, fuzzy
 msgid " (waiting for GPU memory)"
-msgstr "Esperando memoria"
+msgstr " (esperando memoria de la GPU)"
 
 #: clientgui/ViewWork.cpp:1205
 msgid "Aborted: not started by deadline"
@@ -3730,7 +3726,7 @@ msgstr "en blanco"
 
 #: clientgui/mac/MacAccessiblity.cpp:530
 msgid "list of "
-msgstr "lista de  "
+msgstr "Lista de "
 
 #: clientgui/mac/MacAccessiblity.cpp:533
 msgid " is empty"
@@ -3743,7 +3739,7 @@ msgstr "%d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
-msgstr "columna de orden actual "
+msgstr "columna actual para ordenación "
 
 #: clientgui/mac/MacAccessiblity.cpp:609
 msgid " descending order "
@@ -3759,12 +3755,12 @@ msgstr "columna "
 
 #: clientgui/mac/MacAccessiblity.cpp:618
 msgid "list is empty"
-msgstr "la lista está vacía"
+msgstr "la lista se encuentra vacía"
 
 #: clientgui/mac/MacAccessiblity.cpp:621
 #: clientgui/mac/MacAccessiblity.cpp:1198
 msgid "selected "
-msgstr "seleccionada "
+msgstr "seleccionado "
 
 #: clientgui/mac/MacAccessiblity.cpp:626
 #, c-format
@@ -3793,7 +3789,8 @@ msgstr "fila %d de %d; "
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
 msgstr ""
-"especificar horas de comienzo y final del trabajo en el formato HH:MM-HH:MM"
+"especificar horas de inicio y finalización del trabajo en el formato HH:MM-"
+"HH:MM"
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
