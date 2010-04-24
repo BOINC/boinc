@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-02-03 10:35-0700\n"
+"PO-Revision-Date: 2010-04-24 14:42-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -1183,15 +1183,16 @@ msgstr "minut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
 msgid "While processor usage is less than"
-msgstr ""
+msgstr "kiedy wykorzystanie procesora jest mniejsze niż"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
 msgstr ""
+"wstrzymaj przetwarzanie gdy wykorzystanie procesora przekracza ten poziom"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "procent (0 oznacza brak ograniczeń)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1266,7 +1267,6 @@ msgid "Other options"
 msgstr "Inne opcje:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
-#, fuzzy
 msgid "Switch between applications every"
 msgstr "przełączaj się pomiędzy aplikacjami projektów co"
 
@@ -2360,7 +2360,6 @@ msgid "Network communication failure"
 msgstr "Błąd komunikacji sieciowej"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -3496,7 +3495,7 @@ msgstr "Kolejka pobierania"
 
 #: clientgui/ViewTransfers.cpp:770
 msgid " (project backoff: "
-msgstr "(dziwne jakieś ścierwo "
+msgstr "(oczekiwanie: "
 
 #: clientgui/ViewTransfers.cpp:770
 msgid ")"
@@ -3778,7 +3777,6 @@ msgid "Pie Ctrl"
 msgstr "Legenda"
 
 #: clientgui/mac/MacAccessiblity.cpp:184
-#, fuzzy
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
 "Aby skorzystać z ułatwień dostępu wybierz Zaawansowane z menu Widok albo "
