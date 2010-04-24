@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-04-23 09:34-0700\n"
+"PO-Revision-Date: 2010-04-24 03:31-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1045,7 +1045,7 @@ msgstr "Ön most sikeresen csatlakozott ehhez a fiókkezelőhöz."
 #: clientgui/DlgAbout.cpp:98
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "%s névjegye"
 
 #: clientgui/DlgAbout.cpp:155
 msgid "Version:"
@@ -1053,19 +1053,18 @@ msgstr "Verzió:"
 
 #: clientgui/DlgAbout.cpp:163
 msgid "wxWidgets Version:"
-msgstr ""
+msgstr "wxWidgets verzió:"
 
 #: clientgui/DlgAbout.cpp:171
 msgid "Copyright:"
 msgstr "Készítő:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2005 University of California at Berkeley.\n"
+"(C) 2003-2010 Kaliforniai Berkeley Egyetem.\n"
 "Minden jog fenntartva."
 
 #: clientgui/DlgAbout.cpp:179 clientgui/DlgAbout.cpp:183
@@ -1080,36 +1079,36 @@ msgstr "OK"
 
 #: clientgui/DlgAdvPreferences.cpp:484
 msgid "invalid float"
-msgstr ""
+msgstr "érvénytelen lebegőpontos"
 
 #: clientgui/DlgAdvPreferences.cpp:485
 msgid "invalid time, format is HH:MM"
-msgstr ""
+msgstr "érvénytelen idő, a helyes formátum: ÓÓ:PP"
 
 #: clientgui/DlgAdvPreferences.cpp:486
 msgid "invalid time interval, format is HH:MM-HH:MM"
-msgstr ""
+msgstr "érvénytelen időintervallum, a helyes formátum: ÓÓ:PP-ÓÓ:PP"
 
 #: clientgui/DlgAdvPreferences.cpp:600
 msgid "invalid input value detected"
-msgstr ""
+msgstr "érvénytelen bemeneti értéket észleltem"
 
 #: clientgui/DlgAdvPreferences.cpp:602
 msgid "Validation Error"
-msgstr ""
+msgstr "Érvényesítési hiba"
 
 #: clientgui/DlgAdvPreferences.cpp:746
 msgid "Do you really want to clear all local preferences ?"
-msgstr ""
+msgstr "Biztosan törölni akar minden helyi beállítást?"
 
 #: clientgui/DlgAdvPreferences.cpp:747
 msgid "Confirmation"
-msgstr ""
+msgstr "Megerősítés"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:31
 #, c-format
 msgid "%s - Preferences"
-msgstr ""
+msgstr "%s - Beállítások"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 msgid ""
@@ -1117,73 +1116,84 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings."
 msgstr ""
+"Ez a párbeszédpanel csak az ehhez a számítógéphez tartozó beállításokat "
+"kezeli.\n"
+"Kattintson az OK-ra a beállítások módosításához.\n"
+"Kattintson a Törlés-re a webes beállítások visszaállításához."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:52
 msgid "Clear"
-msgstr ""
+msgstr "Törlés"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:53
 msgid "clear all local preferences and close the dialog"
-msgstr ""
+msgstr "minden helyi beállítás törlése és a párbeszédpanel bezárása"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:76
 msgid "Computing allowed"
-msgstr ""
+msgstr "Számítás engedélyezve"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:80
 msgid " While computer is on batteries"
-msgstr ""
+msgstr "Amikor a számítógép akkumulátorról működik"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
+"jelölje be, ha azt szeretné, hogy a számítógépe akkor is (fel)dolgozzon, "
+"amikor akkumulátorról működik"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:89
 msgid " While computer is in use"
-msgstr ""
+msgstr "Ha a számítógép használatban van"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:92
 msgid ""
 "check this if you want this computer to do work even when you're using it"
 msgstr ""
+"jelölje be, ha azt szeretné, hogy a számítógépe akkor is (fel)dolgozzon, "
+"amikor Ön használja azt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
-msgstr ""
+msgstr "GPU használata, amikor a számítógép használatban van"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid ""
 "check this if you want your GPU to do work even when you're using the "
 "computer"
 msgstr ""
+"jelölje be, ha azt szeretné, hogy a GPU is (fel)dolgozzon, mialatt Ön a "
+"számítógépet használja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:113
 msgid "Only after computer has been idle for"
-msgstr ""
+msgstr "Csak miután a számítógép legalább ennyi ideje tétlen:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:123
 msgid ""
 "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
+"csak akkor kezdjen el dolgozni, miután Ön a számítógépet már ennyi perce nem "
+"használja:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:128
 #: clientgui/DlgAdvPreferencesBase.cpp:286
 msgid "minutes"
-msgstr ""
+msgstr "perc"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "processzor használat"
+msgstr "Ha a processzor használat kevesebb mint"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
+msgstr "munka felfüggesztése, ha a processzorhasználat meghaladja ezt a szintet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "százalék (0 esetén nincs korlátozás)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
