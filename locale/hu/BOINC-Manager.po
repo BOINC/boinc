@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:09-0500\n"
-"PO-Revision-Date: 2010-04-23 09:22-0700\n"
+"PO-Revision-Date: 2010-04-24 03:31-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1065,7 +1065,7 @@ msgstr "OK"
 
 #: clientgui/DlgAdvPreferences.cpp:485
 msgid "invalid float"
-msgstr "érvénytelen float"
+msgstr "érvénytelen lebegőpontos"
 
 #: clientgui/DlgAdvPreferences.cpp:486
 msgid "invalid time, format is HH:MM"
@@ -1171,7 +1171,7 @@ msgstr "perc"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
 msgid "While processor usage is less than"
-msgstr "Ha a processzor használat"
+msgstr "Ha a processzor használat kevesebb mint"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"

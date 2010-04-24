@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-04-23 09:26-0700\n"
+"PO-Revision-Date: 2010-04-24 03:22-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -163,11 +163,8 @@ msgid "Search"
 msgstr "Keresés"
 
 # Nincs olyan szó a magyar nyelvben, hogy megigényelte! (Legjobb tudomásom szerint ez nyelvtanilag helytelen volt.)
-#, fuzzy
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
-"Ön igényelte, és alapító válaszának határideje lejárt, így Öné a csapat "
-"feletti adminisztrációs jog."
+msgstr "Ön igényelte, és az alapító válaszának határideje lejárt."
 
 msgid "Complete foundership transfer"
 msgstr "Teljes csapatalapítási jogátadás"
@@ -879,9 +876,8 @@ msgstr "Rendezés"
 msgid "Already friends"
 msgstr "Már ismerős"
 
-#, fuzzy
 msgid "You requested friendship with %1 on %2."
-msgstr "Bejelölte %1 ismerősnek %2-nél"
+msgstr "Bejelölte %1 résztvevőt ismerősnek itt: %2"
 
 msgid "This request is still pending confirmation."
 msgstr "Ez a kérés még mindig megerősítésre vár."
@@ -1088,6 +1084,11 @@ msgid ""
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
+"A(z) %1 weboldalon küldött személyes üzeneteket csak a küldő és a címzett "
+"láthatja. %1 semmilyen módon nem ellenőrzi a személyes üzenetek tartalmát. "
+"Ha kéretlen személyes üzenetet kap egy másik %1 felhasználótól, hozzáadhatja "
+"az %2üzenetszűrőhöz%3. Így ennek a felhasználónak sem a személyes, sem a "
+"nyilvános üzeneteit nem fogja látni."
 
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
@@ -1095,6 +1096,11 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+"Weboldalunk fórumának használatakor kérjük kövesse a %2közzétételi "
+"irányelveket%3. A(z) %1 fórumain közzétett üzenetek nemcsak a tagok számára, "
+"hanem mindenki által láthatóak lesznek. A fórumokon való közzététellel "
+"visszavonhatatlanul feljogosít mindenkit üzenetei megtekintésére és "
+"másolására."
 
 msgid "Is it safe to run %1?"
 msgstr "Biztonságos a(z) %1 futtatása?"
@@ -1184,9 +1190,8 @@ msgstr "Küldő és dátum"
 msgid "Reply"
 msgstr "Válasz"
 
-#, fuzzy
 msgid "Delete selected messages"
-msgstr "Kiválasztott üzenetek megtekintése"
+msgstr "Kiválasztott üzenetek törlése"
 
 msgid "Sender"
 msgstr "Küldő"
@@ -1246,9 +1251,8 @@ msgstr ""
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "A feloldáshoz látogassa meg az %1üzenőfalbeállításokat%2"
 
-#, fuzzy
 msgid "Profiles"
-msgstr "Profil"
+msgstr "Profilok"
 
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
@@ -1413,9 +1417,8 @@ msgid "All teams"
 msgstr "Minden csapat"
 
 msgid "%1 teams"
-msgstr "%1 csapat"
+msgstr "%1 csapatok"
 
-#, fuzzy
 msgid "Create a new team"
 msgstr "Új csapat létrehozása"
 
@@ -1448,10 +1451,10 @@ msgid "Top %1 teams"
 msgstr "A legjobb %1 csapatok"
 
 msgid "Participant since"
-msgstr "Ennyi ideje tag:"
+msgstr "Tagságának kezdete:"
 
 msgid "This user has no profile"
-msgstr "Ez a felhasználó nem adott meg magáról semmit"
+msgstr "Ennek a felhasználónak nincs profilja"
 
 msgid "Account data"
 msgstr "Fiók adatok"
