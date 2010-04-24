@@ -3155,3 +3155,12 @@ David  23 Apr 2010
         app.cpp,h
         app_start.cpp
         app_control.cpp
+
+David  23 Apr 2010
+    - client: report daily xfer stats in scheduler request
+        (not used by scheduler, but maybe later)
+
+    client/
+        net_stats.cpp,h
+        cs_prefs.cpp
+        cs_scheduler.cpp

@@ -131,7 +131,8 @@ struct DAILY_XFER_HISTORY {
     void add(size_t, bool upload);
     void init();
     void poll();
-    bool over_quota(double quota, int ndays);
+    void totals(int ndays, double& up, double& down);
+    void write(MIOFILE&, int ndays);
     DAILY_XFER_HISTORY() {
         dirty = false;
     }

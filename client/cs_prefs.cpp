@@ -245,10 +245,11 @@ int CLIENT_STATE::check_suspend_network() {
         return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
     }
     if (global_prefs.daily_xfer_limit_mb) {
-        if (daily_xfer_history.over_quota(
-            global_prefs.daily_xfer_limit_mb*MEGA,
-            global_prefs.daily_xfer_period_days
-        )) {
+        double up, down;
+        daily_xfer_history.totals(
+            global_prefs.daily_xfer_period_days, up, down
+        );
+        if (up+down > global_prefs.daily_xfer_limit_mb*MEGA) {
             return SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED;
         }
     }
