@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-04-25 11:59-0700\n"
+"PO-Revision-Date: 2010-04-25 12:25-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -321,9 +321,8 @@ msgid "Computing &preferences..."
 msgstr "&Preferències de computació"
 
 #: clientgui/AdvancedFrame.cpp:431
-#, fuzzy
 msgid "Configure computing preferences"
-msgstr "Configurar les preferències locals"
+msgstr "Configurar les preferències de computació"
 
 #: clientgui/AdvancedFrame.cpp:439
 msgid "&Run always"
@@ -338,9 +337,8 @@ msgid "Run based on &preferences"
 msgstr "Executar segons les &preferències"
 
 #: clientgui/AdvancedFrame.cpp:445
-#, fuzzy
 msgid "Allow work according to preferences"
-msgstr "Permetre treballs segons les preferències"
+msgstr "Permetre treballs d'acord a les preferències"
 
 #: clientgui/AdvancedFrame.cpp:449
 msgid "&Suspend"
@@ -359,26 +357,22 @@ msgid "Allow GPU work regardless of preferences"
 msgstr "Permetre treballar la GPU tot i les preferències"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Use GPU based on preferences"
-msgstr "Utilitzar la GPU basant-se en les &preferències"
+msgstr "Utilitzar la GPU basant-se en les preferències"
 
 #: clientgui/AdvancedFrame.cpp:481
-#, fuzzy
 msgid "Allow GPU work according to preferences"
-msgstr "Permetre treballar la GPU segons les preferències"
+msgstr "Permetre treballar la GPU d'acord a les preferències"
 
 #: clientgui/AdvancedFrame.cpp:485
-#, fuzzy
 msgid "Suspend GPU"
-msgstr "Suspendre"
+msgstr "Suspendre la GPU"
 
 #: clientgui/AdvancedFrame.cpp:486
 msgid "Stop GPU work regardless of preferences"
 msgstr "Aturar les tasques de la GPU tot i les preferències"
 
 #: clientgui/AdvancedFrame.cpp:510
-#, fuzzy
 msgid "Network activity always available"
 msgstr "Accés a la xarxa sempre disponible"
 
@@ -387,19 +381,16 @@ msgid "Allow network activity regardless of preferences"
 msgstr "Permetre l'accés al xarxa tot i les preferències"
 
 #: clientgui/AdvancedFrame.cpp:515
-#, fuzzy
 msgid "Network activity based on preferences"
-msgstr "Accés a la xarxa basat en les &preferències"
+msgstr "Accés a la xarxa basat en les preferències"
 
 #: clientgui/AdvancedFrame.cpp:516
-#, fuzzy
 msgid "Allow network activity according to preferences"
-msgstr "Permetre l'accés a la xarxa segons les preferències"
+msgstr "Permetre l'accés a la xarxa d'acord a les preferències"
 
 #: clientgui/AdvancedFrame.cpp:520
-#, fuzzy
 msgid "Network activity suspended"
-msgstr "Suspès l'accés a la &xarxa"
+msgstr "Suspès l'accés a la xarxa"
 
 #: clientgui/AdvancedFrame.cpp:521
 msgid "Stop BOINC network activity"
@@ -419,9 +410,8 @@ msgid "Shut down connected client..."
 msgstr "Aturar el client connectat..."
 
 #: clientgui/AdvancedFrame.cpp:542
-#, fuzzy
 msgid "Shut down the currently connected client"
-msgstr "Aturar el client nucli actualment connectat"
+msgstr "Aturar el client actualment connectat"
 
 #: clientgui/AdvancedFrame.cpp:546
 msgid "Run CPU &benchmarks"
@@ -432,21 +422,18 @@ msgid "Runs BOINC CPU benchmarks"
 msgstr "Executa les proves de la CPU de BOINC"
 
 #: clientgui/AdvancedFrame.cpp:551
-#, fuzzy
 msgid "Do network communication"
 msgstr "Establir comunicació per xarxa"
 
 #: clientgui/AdvancedFrame.cpp:552
-#, fuzzy
 msgid "Do all pending network communication"
-msgstr "Executar les comunicacions per xarxa pendents."
+msgstr "Executar les comunicacions pendents per xarxa."
 
 #: clientgui/AdvancedFrame.cpp:556
 msgid "Read config file"
 msgstr "Llegir el fitxer de configuració"
 
 #: clientgui/AdvancedFrame.cpp:557
-#, fuzzy
 msgid "Read configuration info from cc_config.xml"
 msgstr "Llegir la informació de configuració des de cc_config.xml."
 
@@ -463,9 +450,8 @@ msgid "Event Log..."
 msgstr "Registre d'esdeveniments..."
 
 #: clientgui/AdvancedFrame.cpp:567
-#, fuzzy
 msgid "Display diagnostic messages."
-msgstr "Mostra missatges de diagnòstic del client"
+msgstr "Mostrar els missatges de diagnòstic."
 
 #: clientgui/AdvancedFrame.cpp:577
 #, c-format
@@ -956,7 +942,7 @@ msgstr "Activitat de xarxa suspesa."
 
 #: clientgui/BOINCTaskBar.cpp:676
 msgid "Client is processing results."
-msgstr ""
+msgstr "El client està processant els resultats."
 
 #: clientgui/BOINCTaskBar.cpp:683
 msgid "Reconnecting to client."
@@ -967,13 +953,13 @@ msgid "Not connected to a client."
 msgstr "No connectat a cap client."
 
 #: clientgui/BOINCTaskBar.cpp:740
-#, fuzzy, c-format
+#, c-format
 msgid "%s Notices"
-msgstr "Notícies"
+msgstr "%s Notícies"
 
 #: clientgui/BOINCTaskBar.cpp:746
 msgid "One or more notices are now available for viewing."
-msgstr ""
+msgstr "Un o més anuncis estan disponibles per a la seva visualització."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1201,17 +1187,16 @@ msgid "minutes"
 msgstr "minuts"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "utilització de processador"
+msgstr "Mentre la utilització del processador és inferior a"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
+msgstr "suspendre el treball si el processador excedeix aquest nivell"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "perntatge (0 significa sense restriccions)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1530,9 +1515,8 @@ msgstr "Mostrar només aquest projecte"
 
 #: clientgui/DlgEventLog.cpp:251 clientgui/DlgEventLog.cpp:365
 #: clientgui/DlgEventLog.cpp:367
-#, fuzzy
 msgid "Show only the messages for the selected project"
-msgstr "Mostrar només el missatges del projecte seleccionat."
+msgstr "Mostrar només el missatges del projecte seleccionat"
 
 #: clientgui/DlgEventLog.cpp:255
 msgid "Copy All"
@@ -1575,9 +1559,8 @@ msgid "Show all messages"
 msgstr "Mostrar tots els missatges"
 
 #: clientgui/DlgEventLog.cpp:378 clientgui/DlgEventLog.cpp:380
-#, fuzzy
 msgid "Show messages for all projects"
-msgstr "Mostrar els missatges de tots els projectes."
+msgstr "Mostrar els missatges de tots els projectes"
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
@@ -1738,14 +1721,12 @@ msgstr "Planificant"
 
 #: clientgui/DlgItemProperties.cpp:242 clientgui/DlgItemProperties.cpp:252
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Project preference"
-msgstr "Les seves preferències"
+msgstr "Projecte preferent"
 
 #: clientgui/DlgItemProperties.cpp:242
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "No es desitgen noves tasques"
+msgstr "No es desitgen noves tasques per la CPU"
 
 #: clientgui/DlgItemProperties.cpp:244
 msgid "CPU scheduling priority"
@@ -1765,7 +1746,7 @@ msgstr "Interval d'ajornament de la feina de la CPU"
 
 #: clientgui/DlgItemProperties.cpp:252
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "No es desitgen noves tasques per la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1784,9 +1765,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Interval d'ajornament de la feina a la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "No es desitgen noves tasques"
+msgstr "No es desitgen noves tasques per la GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:265
 msgid "ATI GPU scheduling priority"
@@ -1874,7 +1854,7 @@ msgstr "ID del procés"
 
 #: clientgui/DlgItemProperties.cpp:386
 msgid "Local: "
-msgstr ""
+msgstr "Local:"
 
 #: clientgui/DlgItemProperties.cpp:411
 msgid "New"
@@ -1995,24 +1975,20 @@ msgid "Language:"
 msgstr "Idioma:"
 
 #: clientgui/DlgOptions.cpp:164
-#, fuzzy
 msgid "What language should BOINC use?"
-msgstr "Quin idioma ha d'utilitzar l'administrador?"
+msgstr "Quin idioma ha d'utilitzar BOINC?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid ""
 "Notice reminder interval:\n"
 "(minutes; 0 means no reminders)"
 msgstr ""
 "Interval recordatori per a les connexions:\n"
-"(minuts)"
+"(minuts; 0 significa sense recordatoris)"
 
 #: clientgui/DlgOptions.cpp:180
-#, fuzzy
 msgid "How often should BOINC remind you of new notices?"
-msgstr ""
-"Quants cops ha de recordar-li l'administrador que necessita una connexió?"
+msgstr "Quants cops ha de recordar-li BOINC les notícies noves?"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2442,7 +2418,6 @@ msgid "Network communication failure"
 msgstr "Fallo en la comunicació per xarxa."
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2467,7 +2442,7 @@ msgstr ""
 "\n"
 "2) El programa tallafocs està bloquejant el programa The World Community\n"
 "Grid - BOINC.  Configureu el programa tallafocs per permetre que BOINC i "
-"BOINC-Manager comuniquin per els ports 80 i 443,\n"
+"BOINC-Manager comuniquin per el port 80 i el port 443,\n"
 "després premeu Enrere per intentar-ho de nou.\n"
 "\n"
 "3) Esteu fent servir un servidor proxy.\n"
