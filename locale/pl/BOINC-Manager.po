@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-04-25 03:58-0700\n"
+"PO-Revision-Date: 2010-04-25 04:02-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -273,7 +273,6 @@ msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Widok uproszczony...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:372
-#, fuzzy
 msgid "Display the simple graphical interface."
 msgstr "Przełączanie do widoku uproszczonego"
 
@@ -374,9 +373,8 @@ msgstr ""
 "Przetwarzanie danych zgodnie z ograniczeniami wynikającymi z preferencji."
 
 #: clientgui/AdvancedFrame.cpp:485
-#, fuzzy
 msgid "Suspend GPU"
-msgstr "Wstrzymaj"
+msgstr "Wstrzymaj używanie GPU"
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Stop GPU work regardless of preferences"
