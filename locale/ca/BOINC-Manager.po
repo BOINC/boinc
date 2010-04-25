@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-01-28 15:43-0700\n"
+"PO-Revision-Date: 2010-04-25 11:59-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -274,14 +274,12 @@ msgid "Display the simple graphical interface."
 msgstr "Mostrar la interfície gràfica senzilla."
 
 #: clientgui/AdvancedFrame.cpp:391
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "Adjuntar-se al projecte o administrador de comptes..."
+msgstr "&Adjuntar-se al projecte o administrador de comptes..."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "Attach this computer to a project or account manager"
-msgstr "Adjuntis al projecte o administrador de comptes"
+msgstr "Adjunti aquest ordinador al projecte o administrador de comptes"
 
 #: clientgui/AdvancedFrame.cpp:396
 #, c-format
@@ -294,37 +292,33 @@ msgid "Get current settings from %s"
 msgstr "Obtenir la configuració actual des de %s"
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "&Attach to project..."
-msgstr "Adjuntar-se al &projecte..."
+msgstr "&Adjuntar-se al &projecte..."
 
 #: clientgui/AdvancedFrame.cpp:411
-#, fuzzy
 msgid "Attach to a project"
-msgstr "Adjuntar-se al projecte"
+msgstr "Adjuntar-se a un projecte"
 
 #: clientgui/AdvancedFrame.cpp:414
-#, fuzzy, c-format
+#, c-format
 msgid "S&top using %s..."
-msgstr "&Aturar utilitzant %s..."
+msgstr "A&turar la utilització de %s..."
 
 #: clientgui/AdvancedFrame.cpp:420
-#, fuzzy
 msgid "Remove this computer from account manager control."
-msgstr "Eliminar el client del control del administrador de comptes."
+msgstr "Eliminar aquest ordinador del administrador de comptes."
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Display and network &options..."
-msgstr ""
+msgstr "&Opcions de visualització i xarxa"
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Configure GUI options and proxy settings"
 msgstr "Configurar les opcions de la interfície i els paràmetres del proxy"
 
 #: clientgui/AdvancedFrame.cpp:430
-#, fuzzy
 msgid "Computing &preferences..."
-msgstr "&Preferències"
+msgstr "&Preferències de computació"
 
 #: clientgui/AdvancedFrame.cpp:431
 #, fuzzy
