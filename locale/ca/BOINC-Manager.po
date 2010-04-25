@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:09-0500\n"
-"PO-Revision-Date: 2010-03-18 15:21-0700\n"
+"PO-Revision-Date: 2010-04-25 12:32-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -1628,14 +1628,12 @@ msgstr "Planificant"
 
 #: clientgui/DlgItemProperties.cpp:243 clientgui/DlgItemProperties.cpp:253
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Project preference"
-msgstr "Les seves preferències"
+msgstr "Projecte preferent"
 
 #: clientgui/DlgItemProperties.cpp:243
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "No es desitgen noves tasques"
+msgstr "No es desitgen noves tasques per a la CPU"
 
 #: clientgui/DlgItemProperties.cpp:245
 msgid "CPU scheduling priority"
@@ -1655,7 +1653,7 @@ msgstr "Interval d'ajornament de la feina de la CPU"
 
 #: clientgui/DlgItemProperties.cpp:253
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "No es desitgen noves tasques per a la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:255
 msgid "NVIDIA GPU scheduling priority"
@@ -1674,9 +1672,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Interval d'ajornament de la feina a la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "No es desitgen noves tasques"
+msgstr "No es desitgen noves tasques per a la GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "ATI GPU scheduling priority"
@@ -3572,9 +3569,8 @@ msgid " (non-CPU-intensive)"
 msgstr " (no-CPU-intensiva)"
 
 #: clientgui/ViewWork.cpp:1183
-#, fuzzy
 msgid " (waiting for GPU memory)"
-msgstr "Esperant memòria"
+msgstr " (esperant memòria de la GPU)"
 
 #: clientgui/ViewWork.cpp:1205
 msgid "Aborted: not started by deadline"
