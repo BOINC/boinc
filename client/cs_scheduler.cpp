@@ -203,11 +203,11 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         winner->cross_project_id
     );
 
-    retval = time_stats.write(mf, true);
-    //if (retval) return retval;
-    // can't return without closing file
-    retval = net_stats.write(mf);
-    //if (retval) return retval;
+    time_stats.write(mf, true);
+    net_stats.write(mf);
+    if (global_prefs.daily_xfer_period_days) {
+        daily_xfer_history.write(mf, global_prefs.daily_xfer_period_days);
+    }
 
     // update hardware info, and write host info
     //

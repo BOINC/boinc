@@ -368,15 +368,26 @@ void DAILY_XFER_HISTORY::poll() {
     }
 }
 
-bool DAILY_XFER_HISTORY::over_quota(double quota, int ndays) {
+void DAILY_XFER_HISTORY::totals(int ndays, double& up, double& down) {
     int d = (int)(gstate.now/86400) - ndays;
-    double sum = 0;
+    up = down = 0;
     for (unsigned int i=0; i<daily_xfers.size(); i++) {
         DAILY_XFER& dx = daily_xfers[i];
         if (dx.when < d) break;
-        sum += dx.up;
-        sum += dx.down;
-        if (sum > quota) return true;
+        up += dx.up;
+        down += dx.down;
     }
-    return false;
+}
+
+void DAILY_XFER_HISTORY::write(MIOFILE& mf, int ndays) {
+    double up, down;
+    totals(ndays, up, down);
+    mf.printf(
+        "<daily_xfer_history>\n"
+        "   <ndays>%d</ndays>\n"
+        "   <up>%f</up>\n"
+        "   <down>%f</down>\n"
+        "</daily_xfer_history>\n",
+        ndays, up, down
+    );
 }
