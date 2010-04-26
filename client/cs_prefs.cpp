@@ -246,8 +246,8 @@ int CLIENT_STATE::check_suspend_network() {
     }
     if (global_prefs.daily_xfer_limit_mb) {
         if (daily_xfer_history.over_quota(
-            ((double)global_prefs.daily_xfer_limit_mb)*MEGA,
-            global_prefs.daily_xfer_period
+            global_prefs.daily_xfer_limit_mb*MEGA,
+            global_prefs.daily_xfer_period_days
         )) {
             return SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED;
         }
