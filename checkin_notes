@@ -1480,3 +1480,12 @@ David  23 Apr 2010
         net_stats.cpp,h
         cs_prefs.cpp
         cs_scheduler.cpp
+
+Rom    22 Apr 2010
+    - Tag for 6.10.49 release, all platforms
+      boinc_core_release_6_10_49
+
+    /
+        configure.ac
+        version.h
+
