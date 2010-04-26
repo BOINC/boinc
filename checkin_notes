@@ -1460,3 +1460,14 @@ David  23 Apr 2010
         DlgAdvPreferences.cpp
         DlgAdvPreferencesBase.cpp
         DlgAdvPreferencesBase.h
+
+David  23 Apr 2010
+    - client: Win: kill runaway apps using TerminateProcess()
+        rather than TerminateProcessById().
+        The latter doesn't work in protected mode.
+    - client: pid_handle => process_handle.  misnomer
+
+    client/
+        app.cpp,h
+        app_start.cpp
+        app_control.cpp

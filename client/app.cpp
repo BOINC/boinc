@@ -177,8 +177,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     quit_time = 0;
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
-    pid_handle = 0;
-    shm_handle = 0;
+    process_handle = NULL;
+    shm_handle = NULL;
 #endif
     premature_exit_count = 0;
 }
@@ -213,9 +213,9 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
 //
 void ACTIVE_TASK::cleanup_task() {
 #ifdef _WIN32
-    if (pid_handle) {
-        CloseHandle(pid_handle);
-        pid_handle = NULL;
+    if (process_handle) {
+        CloseHandle(process_handle);
+        process_handle = NULL;
     }
     // detach from shared mem.
     // This will destroy shmem seg since we're the last attachment
