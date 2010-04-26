@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-04-25 01:43-0700\n"
+"PO-Revision-Date: 2010-04-26 12:01-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1221,47 +1221,49 @@ msgstr "óra között (ha megegyeznek, nincs korlátozva)"
 #: clientgui/DlgAdvPreferencesBase.cpp:198
 #: clientgui/DlgAdvPreferencesBase.cpp:423
 msgid "Day-of-week override:"
-msgstr ""
+msgstr "Felülírás a hét napjaira:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:203
 #: clientgui/DlgAdvPreferencesBase.cpp:428
 msgid "check box to specify hours for this day of week"
 msgstr ""
+"jelölje be a négyzetet, ha a hét ezen napjára külön szeretné beállítani az "
+"időtartamot"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:213
 #: clientgui/DlgAdvPreferencesBase.cpp:438
 msgid "Monday"
-msgstr ""
+msgstr "Hétfő"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:220
 #: clientgui/DlgAdvPreferencesBase.cpp:445
 msgid "Tuesday"
-msgstr ""
+msgstr "Kedd"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:227
 #: clientgui/DlgAdvPreferencesBase.cpp:452
 msgid "Wednesday"
-msgstr ""
+msgstr "Szerda"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:234
 #: clientgui/DlgAdvPreferencesBase.cpp:459
 msgid "Thursday"
-msgstr ""
+msgstr "Csütörtök"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:241
 #: clientgui/DlgAdvPreferencesBase.cpp:466
 msgid "Friday"
-msgstr ""
+msgstr "Péntek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:248
 #: clientgui/DlgAdvPreferencesBase.cpp:473
 msgid "Saturday"
-msgstr ""
+msgstr "Szombat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:255
 #: clientgui/DlgAdvPreferencesBase.cpp:480
 msgid "Sunday"
-msgstr ""
+msgstr "Vasárnap"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:272
 msgid "Other options"
