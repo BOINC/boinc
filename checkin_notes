@@ -3171,3 +3171,24 @@ David  25 Apr 2010
     html/inc/
         prefs.inc
         prefs_util.inc
+
+David  26 Apr 2010
+    - client: clean up network suspension logic.
+        There are now separate flags for
+        "file_xfers_suspended": don't do file transfers
+        "network_suspended": don't do any network comm
+            (scheduler RPCs, RSS fetch, master fetch, etc.)
+        The policy:
+        if preferences/settings say no network
+        (quota exceeded, no-network mode, user active, time, excl. app)
+        then:
+            file_xfers_suspended = true
+            if (no recent network-related RPC) network_suspended = true
+    - user web: code cleanup for project prefs
+
+    client/
+        client_state.cpp,h
+        cs_prefs.pp
+    html/inc/
+        prefs.inc
+        prefs_util.inc

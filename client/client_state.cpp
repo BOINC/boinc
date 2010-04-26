@@ -651,22 +651,33 @@ bool CLIENT_STATE::poll_slow_events() {
         cpu_benchmarks_poll();
     }
 
-    network_suspend_reason = check_suspend_network();
-
-    // if a recent GUI RPC needs network access, allow it
-    //
-    if (gui_rpcs.recent_rpc_needs_network(300)) {
-        network_suspend_reason = 0;
-    }
+    int old_network_suspend_reason = network_suspend_reason;
+    bool old_network_suspended = network_suspended;
+    check_suspend_network();
     if (network_suspend_reason) {
-        if (!network_suspended) {
-            suspend_network(network_suspend_reason);
-            network_suspended = true;
+        if (!old_network_suspend_reason) {
+            char buf[256];
+            if (network_suspended) {
+                sprintf(buf,
+                    "Suspending network activity - %s",
+                    suspend_reason_string(network_suspend_reason)
+                );
+            } else {
+                sprintf(buf,
+                    "Suspending file transfers - %s",
+                    suspend_reason_string(network_suspend_reason)
+                );
+            }
+            msg_printf(NULL, MSG_INFO, buf);
+            pers_file_xfers->suspend();
         }
     } else {
-        if (network_suspended) {
-            resume_network();
-            network_suspended = false;
+        if (old_network_suspend_reason) {
+            if (old_network_suspended) {
+                msg_printf(NULL, MSG_INFO, "Resuming network activity");
+            } else {
+                msg_printf(NULL, MSG_INFO, "Resuming file transfers");
+            }
         }
     }
 

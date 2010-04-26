@@ -81,26 +81,37 @@ abstract class PREF {
 
 class PREF_BOOL extends PREF {
     public $default;
-    function __construct($desc, $tag, $default) {
+    public $invert;     // show to user in opposite sense
+    function __construct($desc, $tag, $default, $invert=false) {
         $this->default = $default;
+        $this->invert = $invert;
         parent::__construct($desc, $tag);
     }
     function show_value($prefs) {
         $tag = $this->tag;
-        $x = $prefs->$tag?tra("yes"):tra("no");
+        $v = $this->invert?!$prefs->$tag:$prefs->$tag;
+        $x = $v?tra("yes"):tra("no");
         echo "<td>$x</td>";
     }
     function show_form($prefs, $error) {
         $tag = $this->tag;
-        $yes = $prefs->$tag?true:false;
+        if ($this->invert) {
+            $disp_yes = tra("no");
+            $disp_no = tra("yes");
+            $val = !$prefs->$tag;
+        } else {
+            $disp_yes = tra("yes");
+            $disp_no = tra("no");
+            $val = $prefs->$tag;
+        }
         echo "<td class=fieldvalue>"
             .tra("yes")
-            ." <input type=radio name=$this->tag value=yes "
-            .($yes?"checked":"")
+            ." <input type=radio name=$this->tag value=$disp_yes "
+            .($val?"checked":"")
             ."> "
             .tra("no")
-            ." <input type=radio name=$this->tag value=no "
-            .($yes?"":"checked")
+            ." <input type=radio name=$this->tag value=$disp_no "
+            .($val?"":"checked")
             ."></td>
         ";
     }

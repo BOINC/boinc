@@ -87,7 +87,7 @@ $cpu_prefs = array(
     ),
     new PREF_BOOL(
         tra(
-            "Suspend GPU work while computer is in use? %1 Enforced by version 6.7+ %2",
+            "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -281,39 +281,72 @@ $net_prefs = array(
     ),
 );
 
+$project_pref_descs = array(
+    new PREF_NUM(
+        $x = tra(
+            "Resource share %1 Determines the proportion of your computer's resources allocated to this project. Example: if you participate in two BOINC projects with resource shares of 100 and 200, the first will get 1/3 of your resources and the second will get 2/3. %2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "resource_share",
+        new NUM_SPEC("", 0, 9999999, 100)
+    ),
+);
+
+if ($app_types->count > 1) {
+    if ($app_types->cpu) {
+        $project_pref_descs[] = new PREF_BOOL (
+            tra(
+                "Use CPU %1 Enforced by version 6.10+ %2",
+                "<br><span class=note>",
+                "</span>"
+            ),
+            "no_cpu",
+            false,
+            true
+        );
+    }
+    if ($app_types->ati) {
+        $project_pref_descs[] = new PREF_BOOL (
+            tra(
+                "Use ATI GPU %1 Enforced by version 6.10+ %2",
+                "<br><span class=note>",
+                "</span>"
+            ),
+            "no_ati",
+            false,
+            true
+        );
+    }
+    if ($app_types->cuda) {
+        $project_pref_descs[] = new PREF_BOOL (
+            tra(
+                "Use NVIDIA GPU %1 Enforced by version 6.10+ %2",
+                "<br><span class=note>",
+                "</span>"
+            ),
+            "no_cuda",
+            false,
+            true
+        );
+    }
+}
+
+if ($project_has_beta) {
+    $project_pref_descs[] = new PREF_BOOL(
+        tra(
+            "Run test applications? %1 This helps us develop applications, but may cause jobs to fail on your computer %2",
+            "<br><span class=note>",
+            "</span>"
+        ),
+        "allow_beta_work",
+        false
+    );
+}
+
 define("DISK_LIMIT_DESC", tra("Disk and memory usage"));
 define("CPU_LIMIT_DESC", tra("Processor usage"));
 define("NETWORK_LIMIT_DESC", tra("Network usage"));
-
-define('ATI_SELECT_DESC',
-    tra(
-        "Use ATI GPU if present %1 Enforced by version 6.10+ %2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
-define('CUDA_SELECT_DESC',
-    tra(
-        "Use NVIDIA GPU if present %1 Enforced by version 6.10+ %2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
-define('CPU_SELECT_DESC',
-    tra(
-        "Use CPU %1 Enforced by version 6.10+ %2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
-
-define("ALLOW_BETA_WORK",
-    tra(
-        "Run test applications? %1 This helps us develop applications, but may cause jobs to fail on your computer %2",
-        "<br><span class=note>",
-        "</span>"
-    )
-);
 
 // These texts are used in multiple places in prefs_edit.php and add_venue.php
 define("PREFS_FORM_DESC1", tra("These preferences apply to all the BOINC projects in which you participate.")."<br><br>");
@@ -427,7 +460,13 @@ function element_end_project($parser, $name) {
     global $in_project_specific;
     global $top_parse_result;
     global $venue_name;
+    global $project_pref_descs;
 
+    foreach($project_pref_descs as $p) {
+        if ($p->xml_parse($parse_result, $name, $text)) {
+            return;
+        }
+    }
     switch($name) {
     case "venue":
         $top_parse_result->$venue_name = $parse_result;
@@ -436,21 +475,6 @@ function element_end_project($parser, $name) {
     case "project_specific":
         $parse_result->project_specific = $text;
         $in_project_specific = false;
-        break;
-    case "resource_share":
-        $parse_result->resource_share = $text;
-        break;
-    case "allow_beta_work":
-        $parse_result->allow_beta_work = $text;
-        break;
-    case "no_cpu":
-        $parse_result->no_cpu = $text;
-        break;
-    case "no_cuda":
-        $parse_result->no_cuda = $text;
-        break;
-    case "no_ati":
-        $parse_result->no_ati = $text;
         break;
     case "project_preferences":
         break;
@@ -530,12 +554,12 @@ function default_prefs_global() {
 }
 
 function default_prefs_project() {
+    global $project_pref_descs;
+
     $p = null;
-    $p->resource_share = 100;
-    $p->no_cpu = false;
-    $p->no_cuda = false;
-    $p->no_ati = false;
-    $p->allow_beta_work = false;
+    foreach($project_pref_descs as $pref) {
+        $pref->set_default($p);
+    }
     $p->project_specific = project_specific_prefs_default();
     return $p;
 }
@@ -556,17 +580,11 @@ function prefs_parse_project($prefs_xml) {
 function prefs_parse_global($prefs_xml) {
     global $parse_result;
     $parse_result = default_prefs_global();
-    //echo "AFTER INIT: <pre>";
-    //var_dump($parse_result);
-    //echo "</pre>";
     $xml_parser = xml_parser_create();
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
     xml_set_element_handler($xml_parser, "element_start_global", "element_end_global");
     xml_set_character_data_handler($xml_parser, "char_handler");
     xml_parse($xml_parser, $prefs_xml, 1);
-    //echo "AFTER PARSE: <pre>";
-    //var_dump($parse_result);
-    //echo "</pre>";
     return $parse_result;
 }
 
@@ -710,48 +728,16 @@ function prefs_show_global($prefs) {
     }
 }
 
-function prefs_show_resource($prefs, $columns=false) {
-    global $app_types;
-    $x = tra(
-        "Resource share %1 If you participate in multiple BOINC projects, this is the proportion of your resources used by %2 %3",
-         "<br><span class=note>",
-         PROJECT,
-         "</span>"
-    );
+function prefs_show_project($prefs, $columns=false) {
+    global $project_pref_descs;
     if ($columns) {
-        row_defs($x, "resource_share", "", "" ,$prefs);
-        if ($app_types->count > 1) {
-            if ($app_types->cpu) {
-                row_defs(CPU_SELECT_DESC, "no_cpu", "", "noyes", $prefs);
-            }
-            if ($app_types->cuda) {
-                row_defs(CUDA_SELECT_DESC, "no_cuda", "", "noyes", $prefs);
-            }
-            if ($app_types->ati) {
-                row_defs(ATI_SELECT_DESC, "no_ati", "", "noyes", $prefs);
-            }
+        foreach ($project_pref_descs as $p) {
+            $p->show_cols($prefs);
         }
     } else {
-        row2($x, $prefs->resource_share);
-        if ($app_types->count > 1) {
-            if ($app_types->cpu) {
-                row2(CPU_SELECT_DESC, $prefs->no_cpu?tra("no"):tra("yes"));
-            }
-            if ($app_types->cuda) {
-                row2(CUDA_SELECT_DESC, $prefs->no_cuda?tra("no"):tra("yes"));
-            }
-            if ($app_types->ati) {
-                row2(ATI_SELECT_DESC, $prefs->no_ati?tra("no"):tra("yes"));
-            }
+        foreach ($project_pref_descs as $p) {
+            $p->show($prefs);
         }
-    }
-}
-
-function prefs_show_beta($prefs, $columns=false) {
-    if ($columns) {
-        row_defs(ALLOW_BETA_WORK, "allow_beta_work", "", "yesno" ,$prefs);
-    } else {
-        row2(ALLOW_BETA_WORK, $prefs->allow_beta_work?tra("yes"):tra("no"));
     }
 }
 
@@ -768,7 +754,7 @@ function prefs_show_privacy($user) {
     row2(tra("Should %1 show your computers on its web site?", PROJECT), $user->show_hosts?tra("yes"):tra("no"));
 }
 
-function prefs_show_project($prefs, $columns=false) {
+function prefs_show_project_specific($prefs, $columns=false) {
     if ($columns) {
     $project_specific_prefs = project_specific_prefs_parse($prefs->project_specific);
         $project_specific_prefs->home = isset($prefs->home) ? project_specific_prefs_parse($prefs->home->project_specific) : "";
@@ -786,7 +772,6 @@ function subset_name($subset) {
 }
 
 function prefs_display_venue($prefs, $venue, $subset) {
-    global $project_has_beta;
     global $g_logged_in_user;
     $tokens = url_tokens($g_logged_in_user->authenticator);
     $x = false;
@@ -799,9 +784,8 @@ function prefs_display_venue($prefs, $venue, $subset) {
         if ($subset == "global") {
             prefs_show_global($x);
         } else {
-            prefs_show_resource($x);
-            if ($project_has_beta) prefs_show_beta($x);
             prefs_show_project($x);
+            prefs_show_project_specific($x);
         }
         row2("<br>", "<a href=prefs_edit.php?venue=$venue&amp;subset=$subset$tokens>".tra("Edit preferences")."</a> | <a href=prefs_remove.php?venue=$venue&amp;subset=$subset$tokens>".tra("Remove")."</a>");
         end_table();
@@ -812,7 +796,6 @@ function prefs_display_venue($prefs, $venue, $subset) {
 }
 
 function print_prefs_display_project($user, $columns=false) {
-    global $project_has_beta;
     $project_prefs = prefs_parse_project($user->project_prefs);
 
     start_table();
@@ -824,9 +807,8 @@ function print_prefs_display_project($user, $columns=false) {
         prefs_show_privacy($user);
         venue_show($user);
         row_top(tra("Project specific settings"));
-        prefs_show_resource($project_prefs, true);
-        if ($project_has_beta) prefs_show_beta($project_prefs, true);
         prefs_show_project($project_prefs, true);
+        prefs_show_project_specific($project_prefs, true);
         row_links("project", $project_prefs);
         end_table();
         echo "</td></tr>\n";
@@ -836,11 +818,10 @@ function print_prefs_display_project($user, $columns=false) {
         }
         echo "<tr><td colspan=2>";
         start_table();
-        prefs_show_resource($project_prefs, false);
-        if ($project_has_beta) prefs_show_beta($project_prefs, false);
+        prefs_show_project($project_prefs, false);
         prefs_show_privacy($user);
         venue_show($user);
-        prefs_show_project($project_prefs, false);
+        prefs_show_project_specific($project_prefs, false);
         $tokens = url_tokens($user->authenticator);
         row2("", "<a href=prefs_edit.php?subset=project$tokens>".tra("Edit %1 preferences", PROJECT)."</a>");
         end_table();
@@ -908,8 +889,6 @@ function print_prefs_form(
     $action, $subset, $venue, $user, $prefs, $cols, $error=false,
     $project_error=false
 ){
-    global $project_has_beta;
-
     if ($action == "add") {
         $script = "add_venue.php";
         $submit_value = tra("Add preferences");
@@ -931,13 +910,12 @@ function print_prefs_form(
     if ($subset == "global") {
         prefs_form_global($user, $prefs, $error);
     } else {
-        prefs_form_resource($prefs, $error);
-        if ($project_has_beta) prefs_form_beta($prefs, $error);
+        prefs_form_project($prefs, $error);
         if (!$venue) {
             prefs_form_privacy($user);
             venue_form($user);
         }
-        prefs_form_project($prefs->project_specific, $project_error);
+        prefs_form_project_specific($prefs->project_specific, $project_error);
     }
 
     row2("", "<input type=submit value=\"$submit_value\" name=\"action\">");
@@ -976,46 +954,16 @@ function prefs_form_privacy($user) {
     row2(tra("Should %1 show your computers on its web site?", PROJECT), $y);
 }
 
-function prefs_form_resource($prefs, $error=false) {
+function prefs_form_project($prefs, $error=false) {
+    global $project_pref_descs;
+
     global $app_types;
-    $show_error = false;
-    if (isset($error->resource_share)) $show_error= true;
-    row2(
-        "<strong>".tra("Resource share").":</strong>
-        <br><span class=note>".
-        tra("Determines the proportion of your computer's resources
-            allocated to this project. Example: if you participate in two
-            BOINC projects with resource shares of 100 and 200, the first
-            will get 1/3 of your resources and the second will get 2/3.").
-        "</span>",
-        "<input name=resource_share value='$prefs->resource_share'>",
-        $show_error
-    );
-    if ($app_types->count > 1) {
-        if ($app_types->cpu) {
-            $checked = $prefs->no_cpu?"":"checked";
-            $y = "<input type=checkbox name=use_cpu $checked>";
-            row2(CPU_SELECT_DESC, $y);
-        }
-        if ($app_types->cuda) {
-            $checked = $prefs->no_cuda?"":"checked";
-            $y = "<input type=checkbox name=use_cuda $checked>";
-            row2(CUDA_SELECT_DESC, $y);
-        }
-        if ($app_types->ati) {
-            $checked = $prefs->no_ati?"":"checked";
-            $y = "<input type=checkbox name=use_ati $checked>";
-            row2(ATI_SELECT_DESC, $y);
-        }
+    foreach ($project_pref_descs as $p) {
+        $p->show_form_row($prefs, $error);
     }
 }
 
-function prefs_form_beta($prefs, $error=false) {
-    $y = prefs_form_radio_buttons("allow_beta_work", $prefs->allow_beta_work);
-    row2(ALLOW_BETA_WORK, $y);
-}
-
-function prefs_form_project($prefs_xml, $error=false) {
+function prefs_form_project_specific($prefs_xml, $error=false) {
     $prefs = project_specific_prefs_parse($prefs_xml);
     project_specific_prefs_edit($prefs, $error);
 }
@@ -1088,26 +1036,13 @@ function prefs_global_parse_form(&$prefs) {
     return $error;
 }
 
-// This functions parses and verifies the resource value
-// @param object &$prefs reference to object that stores prefs
-// @return object an object with errorvalues or false in success case
 function prefs_resource_parse_form(&$prefs) {
-    global $app_types;
+    global $project_pref_descs;
     $error = false;
-    $resource_share = $_GET['resource_share'];
-    if (!verify_numeric($resource_share, 0)) $error->resource_share = true;
-    $prefs->resource_share = $resource_share;
-
-    if ($app_types->count > 1) {
-        if ($app_types->cpu) $prefs->no_cpu = ($_GET['use_cpu'])?0:1;
-        if ($app_types->cuda) $prefs->no_cuda = ($_GET['use_cuda'])?0:1;
-        if ($app_types->ati) $prefs->no_ati = ($_GET['use_ati'])?0:1;
+    foreach ($project_pref_descs as $p) {
+        $p->parse_form($prefs, $error);
     }
     return $error;
-}
-
-function prefs_beta_parse_form(&$prefs) {
-    $prefs->allow_beta_work = ($_GET['allow_beta_work'] == "yes")?1:0;
 }
 
 function prefs_privacy_parse_form(&$user) {
@@ -1117,8 +1052,7 @@ function prefs_privacy_parse_form(&$user) {
 
 // This function parses the project specific prefs form.
 // For details look into project/project_specific_prefs.inc
-// @param object &$prefs refernce to preference object
-// @return object an object with errorvalues or false in success case
+//
 function prefs_project_parse_form(&$prefs) {
     $error = false;
     $prefs->project_specific = project_specific_prefs_parse_form($error);
@@ -1172,22 +1106,13 @@ function global_prefs_make_xml($prefs, $primary=true) {
 // given a prefs structure, return the corresponding XML string
 //
 function project_prefs_make_xml($prefs, $primary=true) {
+    global $project_pref_descs;
     $xml = "";
     if ($primary) {
         $xml = "<project_preferences>\n";
     }
-    $xml = $xml ."<resource_share>$prefs->resource_share</resource_share>\n";
-    if ($prefs->allow_beta_work) {
-        $xml = $xml . "<allow_beta_work>1</allow_beta_work>\n";
-    }
-    if ($prefs->no_cpu) {
-        $xml = $xml . "<no_cpu>1</no_cpu>\n";
-    }
-    if ($prefs->no_cuda) {
-        $xml = $xml . "<no_cuda>1</no_cuda>\n";
-    }
-    if ($prefs->no_ati) {
-        $xml = $xml . "<no_ati>1</no_ati>\n";
+    foreach ($project_pref_descs as $p) {
+        $xml .= $p->xml_string($prefs);
     }
     if ($prefs->project_specific) {
         $x = trim($prefs->project_specific);
