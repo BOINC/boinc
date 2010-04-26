@@ -269,7 +269,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 
 	buffer.Printf(wxT("%.2f"),prefs.daily_xfer_limit_mb);
 	*m_txt_daily_xfer_limit_mb << buffer;
-	buffer.Printf(wxT("%.2f"),prefs.daily_xfer_period_days );
+	buffer.Printf(wxT("%d"),prefs.daily_xfer_period_days );
 	*m_txt_daily_xfer_period_days << buffer;
 
 	//

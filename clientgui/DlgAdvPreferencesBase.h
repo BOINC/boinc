@@ -148,8 +148,9 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxStaticText* m_staticText_daily_xfer1;
 		wxTextCtrl* m_txt_daily_xfer_limit_mb;
 		wxStaticText* m_staticText_daily_xfer2;
-		wxTextCtrl* m_txt_daily_xfer_period_days;
 		wxStaticText* m_staticText_daily_xfer3;
+		wxTextCtrl* m_txt_daily_xfer_period_days;
+		wxStaticText* m_staticText_daily_xfer4;
 
 		wxStaticText* m_staticText30;
 		wxTextCtrl* m_txtNetConnectInterval;

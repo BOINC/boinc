@@ -356,14 +356,17 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	m_txt_daily_xfer_limit_mb = new wxTextCtrl( m_panelNetwork, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
 	fgSizer7->Add( m_txt_daily_xfer_limit_mb, 0, wxALL, 1 );
 
-	m_staticText_daily_xfer2 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("Mbytes every"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_daily_xfer2 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("Mbytes"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer7->Add( m_staticText_daily_xfer2, 0, wxALL, 5 );
+
+    m_staticText_daily_xfer3 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("every"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer7->Add( m_staticText_daily_xfer3, 0, wxALIGN_RIGHT|wxALL, 5 );
 
 	m_txt_daily_xfer_period_days = new wxTextCtrl( m_panelNetwork, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
 	fgSizer7->Add( m_txt_daily_xfer_period_days, 0, wxALL, 1 );
 
-	m_staticText_daily_xfer3 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer7->Add( m_staticText_daily_xfer3, 0, wxALIGN_RIGHT|wxALL, 5 );
+	m_staticText_daily_xfer4 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer7->Add( m_staticText_daily_xfer4, 0, wxALL, 5 );
 
 
     // buffer sizes
