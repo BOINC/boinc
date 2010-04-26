@@ -328,6 +328,8 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	fgSizer7->SetFlexibleDirection( wxHORIZONTAL );
 	fgSizer7->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
+    // upload/download rates
+
 	m_staticText32 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("Maximum download rate"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer7->Add( m_staticText32, 0, wxALL, 5 );
 
@@ -345,6 +347,26 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
 	m_staticText35 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("KBytes/sec."), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer7->Add( m_staticText35, 0, wxALL, 5 );
+
+    // long-term quota
+
+	m_staticText_daily_xfer1 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("Transfer at most"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer7->Add( m_staticText_daily_xfer1, 0, wxALL, 5 );
+
+	m_txt_daily_xfer_limit_mb = new wxTextCtrl( m_panelNetwork, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
+	fgSizer7->Add( m_txt_daily_xfer_limit_mb, 0, wxALL, 1 );
+
+	m_staticText_daily_xfer2 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("Mbytes every"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer7->Add( m_staticText_daily_xfer2, 0, wxALL, 5 );
+
+	m_txt_daily_xfer_period_days = new wxTextCtrl( m_panelNetwork, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
+	fgSizer7->Add( m_txt_daily_xfer_period_days, 0, wxALL, 1 );
+
+	m_staticText_daily_xfer3 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer7->Add( m_staticText_daily_xfer3, 0, wxALIGN_RIGHT|wxALL, 5 );
+
+
+    // buffer sizes
 
 	m_staticText30 = new wxStaticText( m_panelNetwork, ID_DEFAULT, _("Connect about every"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer7->Add( m_staticText30, 0, wxALL, 5 );

@@ -85,6 +85,8 @@
 #define ID_TXTPROCWEDNESDAY 20055
 #define ID_CHKGPUPROCINUSE 20056
 #define ID_TXTMAXLOAD 20057
+#define ID_DAILY_XFER_LIMIT_MB  20058
+#define ID_DAILY_XFER_PERIOD_DAYS  20059
 
 /**
  * Class CDlgAdvPreferencesBase
@@ -142,6 +144,13 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxStaticText* m_staticText34;
 		wxTextCtrl* m_txtNetUploadRate;
 		wxStaticText* m_staticText35;
+
+		wxStaticText* m_staticText_daily_xfer1;
+		wxTextCtrl* m_txt_daily_xfer_limit_mb;
+		wxStaticText* m_staticText_daily_xfer2;
+		wxTextCtrl* m_txt_daily_xfer_period_days;
+		wxStaticText* m_staticText_daily_xfer3;
+
 		wxStaticText* m_staticText30;
 		wxTextCtrl* m_txtNetConnectInterval;
 		wxStaticText* m_staticText31;

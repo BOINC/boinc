@@ -1444,39 +1444,19 @@ Rom    23 Apr 2010
         cpu_sched.cpp
     lib/
         coproc.h
-<<<<<<< .working
-=======
 
 David  23 Apr 2010
-    - user web: more cleanup of prefs.inc
-    - client: code cleanup
-
-    html/inc/
-        prefs.inc
-    lib/
-        coproc.h
-    client/
-        coproc_detect.cpp
-        cpu_sched.cpp
-
-David  23 Apr 2010
-    - user web: separate general stuff from prefs.inc
-
-    html/inc/
-        prefs.inc
-        prefs_util.inc (new)
-    client/
-        coproc_detect.cpp
-
-David  23 Apr 2010
-    - user web: add network quota pref (the goal that spurred all this cleanup)
     - rename prefs.daily_xfer_period to daily_xfer_period_days
 
-    html/inc/
-        prefs.inc
-        prefs_util.inc
     lib/
         prefs.cpp,h
     client/
         cs_prefs.cpp
->>>>>>> .merge-right.r21269
+        
+David  23 Apr 2010
+    - manager: add network quota to advanced prefs dialog
+
+    clientgui/
+        DlgAdvPreferences.cpp
+        DlgAdvPreferencesBase.cpp
+        DlgAdvPreferencesBase.h
