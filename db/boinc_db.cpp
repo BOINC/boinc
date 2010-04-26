@@ -1098,7 +1098,7 @@ int DB_HOST_APP_VERSION::update_scheduler(DB_HOST_APP_VERSION& orig) {
 }
 
 int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
-    char query[1024], clause[512];
+    char query[8192], clause[512];
 
     if (pfc.n == orig.pfc.n
         && pfc.avg == orig.pfc.avg

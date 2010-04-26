@@ -3199,3 +3199,12 @@ David  26 Apr 2010
     html/inc/
         prefs.inc
         prefs_util.inc
+
+David  26 Apr 2010
+    - validator: bug fixes: bad formula for low_average();
+        failure to reread app_versions because of 1e6/1e-6 typo
+    
+    db/
+        boinc_db.h
+    sched/
+        credit.cpp

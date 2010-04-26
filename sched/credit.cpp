@@ -883,7 +883,7 @@ int get_pfc(
 
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
-            "[credit] [RESULT#%d] updating HAV PFC %.2f et %f turnaround %d\n",
+            "[credit] [RESULT#%d] updating HAV PFC %.2f et %g turnaround %d\n",
             r.id, raw_pfc/wu.rsc_fpops_est,
             r.elapsed_time/wu.rsc_fpops_est,
             (r.received_time - r.sent_time)
@@ -917,19 +917,20 @@ int get_pfc(
 // where each value is weighted by the sum of the other values.
 //
 double low_average(vector<double>& v) {
-    unsigned int i;
-    if (v.size() ==1) {
+    int i;
+    int n = v.size();
+    if (n == 1) {
         return v[0];
     }
     double sum=0;
-    for (i=0; i<v.size(); i++) {
+    for (i=0; i<n; i++) {
         sum += v[i];
     }
     double total=0;
-    for (i=0; i<v.size(); i++) {
+    for (i=0; i<n; i++) {
         total += v[i]*(sum-v[i]);
     }
-    return total/sum;
+    return total/((n-1)*sum);
 }
 
 double vec_min(vector<double>& v) {
@@ -1090,7 +1091,7 @@ int write_modified_app_versions(vector<DB_APP_VERSION>& app_versions) {
             // if pfc_scale has changed (from feeder) reread it
             //
             sprintf(clause,
-                "pfc_n=%.15e and abs(expavg_credit-%.15e)<1e4 and abs(pfc_scale-%.15e)<1e6",
+                "pfc_n=%.15e and abs(expavg_credit-%.15e)<1e-4 and abs(pfc_scale-%.15e)<1e-6",
                 pfc_n_orig, expavg_credit_orig, av.pfc_scale
             );
             retval = av.update_field(query, clause);
