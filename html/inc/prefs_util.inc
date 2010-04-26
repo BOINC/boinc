@@ -123,8 +123,7 @@ class PREF_BOOL extends PREF {
         $tag = $this->tag;
         return "<$tag>"
             .($prefs->$tag?"1":"0")
-            ."</$tag>
-        ";
+            ."</$tag>\n";
     }
     function xml_parse(&$prefs, $name, $text) {
         $tag = $this->tag;

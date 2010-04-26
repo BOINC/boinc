@@ -77,13 +77,13 @@ $cpu_prefs = array(
             "<br><span class=note>",
             "</span>"
         ),
-        "suspend_while_on_batteries",
-        true
+        "run_on_batteries",
+        false, true
     ),
     new PREF_BOOL(
         tra("Suspend work while computer is in use?"),
-        "suspend_if_user_active",
-        false
+        "run_if_user_active",
+        true, true
     ),
     new PREF_BOOL(
         tra(
@@ -91,8 +91,8 @@ $cpu_prefs = array(
             "<br><span class=note>",
             "</span>"
         ),
-        "suspend_gpu_if_user_active",
-        true
+        "run_gpu_if_user_active",
+        false, true
     ),
     new PREF_NUM(
         tra("'In use' means mouse/keyboard activity in last"),

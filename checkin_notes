@@ -3192,3 +3192,10 @@ David  26 Apr 2010
     html/inc/
         prefs.inc
         prefs_util.inc
+
+David  26 Apr 2010
+    - user web: bug fixes for prefs
+
+    html/inc/
+        prefs.inc
+        prefs_util.inc
