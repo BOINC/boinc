@@ -80,7 +80,8 @@ function copyright() {
     echo "
         Copyright &copy; $y University of California.
         Permission is granted to copy, distribute and/or modify this document
-        under the terms of the GNU Free Documentation License,
+        under the terms of the 
+        <a href=http://www.gnu.org/copyleft/fdl.html>GNU Free Documentation License</a>,
         Version 1.2 or any later version published by the Free Software Foundation.
     ";
 }

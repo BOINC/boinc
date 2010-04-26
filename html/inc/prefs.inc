@@ -73,7 +73,7 @@ $venues = array("home", "school", "work");
 $cpu_prefs = array(
     new PREF_BOOL(
         tra(
-            "Suspend work while computer is on battery power? %1(matters only for portable computers)%2",
+            "Suspend work while computer is on battery power? %1 Matters only for portable computers %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -87,7 +87,7 @@ $cpu_prefs = array(
     ),
     new PREF_BOOL(
         tra(
-            "Suspend GPU work while computer is in use? %1Enforced by version 6.7+%2",
+            "Suspend GPU work while computer is in use? %1 Enforced by version 6.7+ %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -101,7 +101,7 @@ $cpu_prefs = array(
     ),
     new PREF_NUM(
         tra(
-            "Suspend work if no mouse/keyboard activity in last %1(Needed to enter low-power mode on some computers)%2",
+            "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-power mode on some computers %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -110,7 +110,7 @@ $cpu_prefs = array(
     ),
     new PREF_NUM(
         tra(
-            "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+%2",
+            "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+ %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -118,7 +118,7 @@ $cpu_prefs = array(
         new NUM_SPEC("%", 0, 100, 25)
     ),
     new PREF_HOUR_RANGE(
-        tra("Do work only between the hours of %1 (no restriction if equal)%2",
+        tra("Do work only between the hours of %1 No restriction if equal %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -126,7 +126,7 @@ $cpu_prefs = array(
     ),
     new PREF_BOOL(
         tra(
-            "Leave tasks in memory while suspended? %1(suspended tasks will consume swap space if 'yes')%2",
+            "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap space if 'yes' %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -135,7 +135,7 @@ $cpu_prefs = array(
     ),
     new PREF_NUM(
         tra(
-            "Switch between tasks every %1(recommended: 60 minutes)%2",
+            "Switch between tasks every %1 Recommended: 60 minutes %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -149,7 +149,7 @@ $cpu_prefs = array(
     ),
     new PREF_NUM(
         tra(
-            "On multiprocessors, use at most %1 Enforced by version 6.1+%2",
+            "On multiprocessors, use at most %1 Enforced by version 6.1+ %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -158,7 +158,7 @@ $cpu_prefs = array(
     ),
     new PREF_NUM(
         tra(
-            "Use at most %1 (Can be used to reduce CPU heat)%2",
+            "Use at most %1 Can be used to reduce CPU heat %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -176,7 +176,7 @@ $disk_prefs = array(
         new NUM_SPEC(tra("GB"), 0, 9999999, $dp->disk_max_used_gb)
     ),
     new PREF_NUM(
-        tra("Disk: leave free at least %1(Values smaller than %2 are ignored)%3",
+        tra("Disk: leave free at least %1 Values smaller than %2 are ignored %3",
             "<br><span class=note>",
             "0.001",
             "</span>"
@@ -214,7 +214,7 @@ $disk_prefs = array(
 $net_prefs = array(
     new PREF_NUM(
         tra(
-            "Computer is connected to the Internet about every %1(Leave blank or 0 if always connected.%2 BOINC will try to maintain at least this much work.)%3",
+            "Computer is connected to the Internet about every %1 Leave blank or 0 if always connected. %2 BOINC will try to maintain at least this much work. %3",
             "<br><span class=note>",
             "<br>",
             "</span>"
@@ -229,7 +229,7 @@ $net_prefs = array(
     ),
     new PREF_BOOL(
         tra(
-            "Confirm before connecting to Internet? %1(matters only if you have a modem, ISDN or VPN connection)%2",
+            "Confirm before connecting to Internet? %1 Matters only if you have a modem, ISDN or VPN connection %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -238,7 +238,7 @@ $net_prefs = array(
     ),
     new PREF_BOOL(
         tra(
-            "Disconnect when done? %1(matters only if you have a modem, ISDN or VPN connection)%2",
+            "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN connection %2",
             "<br><span class=note>",
             "</span>"
         ),
@@ -260,7 +260,10 @@ $net_prefs = array(
         "net_start_hour", "net_end_hour"
     ),
     new PREF_NUM2(
-        tra("Transfer at most"),
+        tra("Transfer at most %1 Enforced by version 6.10.46+ %2",
+            "<br><span class=note>",
+            "</span>"
+        ),
         "daily_xfer_limit_mb",
         "daily_xfer_period_days",
         new NUM_SPEC(tra("Mbytes every"), 0, 9999999, 0),
@@ -268,7 +271,7 @@ $net_prefs = array(
     ),
     new PREF_BOOL(
         tra(
-            "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC.%3",
+            "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC. %3",
             "<br><span class=note>",
             "",
             "</span>"
@@ -284,21 +287,21 @@ define("NETWORK_LIMIT_DESC", tra("Network usage"));
 
 define('ATI_SELECT_DESC',
     tra(
-        "Use ATI GPU if present %1(enforced by 6.10+ clients)%2",
+        "Use ATI GPU if present %1 Enforced by version 6.10+ %2",
         "<br><span class=note>",
         "</span>"
     )
 );
 define('CUDA_SELECT_DESC',
     tra(
-        "Use NVIDIA GPU if present %1(enforced by 6.10+ clients)%2",
+        "Use NVIDIA GPU if present %1 Enforced by version 6.10+ %2",
         "<br><span class=note>",
         "</span>"
     )
 );
 define('CPU_SELECT_DESC',
     tra(
-        "Use CPU %1(enforced by 6.10+ clients)%2",
+        "Use CPU %1 Enforced by version 6.10+ %2",
         "<br><span class=note>",
         "</span>"
     )
@@ -306,7 +309,7 @@ define('CPU_SELECT_DESC',
 
 define("ALLOW_BETA_WORK",
     tra(
-        "Run test applications? %1This helps us develop applications, but may cause jobs to fail on your computer%2",
+        "Run test applications? %1 This helps us develop applications, but may cause jobs to fail on your computer %2",
         "<br><span class=note>",
         "</span>"
     )
@@ -567,22 +570,6 @@ function prefs_parse_global($prefs_xml) {
     return $parse_result;
 }
 
-function hour_str($x) {
-    return "$x:00";
-}
-
-function hour_select($x, $name) {
-    $s = "";
-    $s = $s. "<select name=$name>\n";
-    for ($i=0; $i<24; $i++) {
-        $y = hour_str($i);
-        $sel = ($x == $i)?"selected":"";
-        $s = $s."<option value=$i $sel> $y";
-    }
-    $s = $s."</select>\n";
-    return $s;
-}
-
 ////////////////////////////////////////////
 //
 // display preference subsets as Columns
@@ -726,7 +713,7 @@ function prefs_show_global($prefs) {
 function prefs_show_resource($prefs, $columns=false) {
     global $app_types;
     $x = tra(
-        "Resource share %1If you participate in multiple BOINC projects, this is the proportion of your resources used by %2%3",
+        "Resource share %1 If you participate in multiple BOINC projects, this is the proportion of your resources used by %2 %3",
          "<br><span class=note>",
          PROJECT,
          "</span>"

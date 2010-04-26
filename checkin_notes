@@ -3164,3 +3164,10 @@ David  23 Apr 2010
         net_stats.cpp,h
         cs_prefs.cpp
         cs_scheduler.cpp
+
+David  25 Apr 2010
+    - user web: message tweaks
+
+    html/inc/
+        prefs.inc
+        prefs_util.inc

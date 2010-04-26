@@ -276,6 +276,17 @@ class PREF_NUM2 extends PREF {
     }
 }
 
+function hour_select($x, $name) {
+    $s = "";
+    $s = $s. "<select name=$name>\n";
+    for ($i=0; $i<24; $i++) {
+        $sel = ($x == $i)?"selected":"";
+        $s = $s."<option value=$i $sel> $i:00";
+    }
+    $s = $s."</select>\n";
+    return $s;
+}
+
 class PREF_HOUR_RANGE extends PREF {
     public $tag2;
     function __construct($desc, $tag, $tag2) {
@@ -290,7 +301,7 @@ class PREF_HOUR_RANGE extends PREF {
         if ($h1 == $h2) {
             $v = "---";
         } else {
-            $v = hour_str($h1)." ".tra("and")." ".hour_str($h2);
+            $v = "$h1:00 ".tra("and")." $h2:00";
         }
         echo "<td>$v</td>";
     }
