@@ -14,7 +14,7 @@
 
 define ('COLOR_PREFS', false);
 define ('GFX_CPU_PREFS', true);
-define ('APP_SELECT_PREFS', false);
+define ('APP_SELECT_PREFS', true);
 $project_has_beta = false;
 
 // Project-specific prefs are represented in three ways:

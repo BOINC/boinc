@@ -351,8 +351,13 @@ void DAILY_XFER_HISTORY::poll() {
     if (!dirty) return;
     if (gstate.now - last_time < DAILY_XFER_HISTORY_PERIOD) return;
     last_time = gstate.now;
+    write_state();
+}
 
+
+void DAILY_XFER_HISTORY::write_state() {
     FILE* f = fopen(TEMP_FILE_NAME, "w");
+    if (!f) return;
     fprintf(f, "<daily_xfers>\n");
     for (unsigned int i=0; i<daily_xfers.size(); i++) {
         DAILY_XFER& dx = daily_xfers[i];
@@ -379,7 +384,7 @@ void DAILY_XFER_HISTORY::totals(int ndays, double& up, double& down) {
     }
 }
 
-void DAILY_XFER_HISTORY::write(MIOFILE& mf, int ndays) {
+void DAILY_XFER_HISTORY::write_scheduler_request(MIOFILE& mf, int ndays) {
     double up, down;
     totals(ndays, up, down);
     mf.printf(

@@ -875,7 +875,6 @@ void COPROC_ATI::get_available_ram() {
                     "[coproc] calDeviceOpen(%d) returned %d", devnum, retval
                 );
             }
-            (*__calShutdown)();
             continue;
         }
         retval = (*__calDeviceGetStatus)(&st, dev);
@@ -887,7 +886,6 @@ void COPROC_ATI::get_available_ram() {
                 );
             }
             (*__calDeviceClose)(dev);
-            (*__calShutdown)();
             continue;
         }
         available_ram[i] = st.availLocalRAM*MEGA;
