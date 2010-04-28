@@ -64,16 +64,14 @@ struct PROJECT_RESULTS {
     int nresults_missed_deadline;
 };
 
-class NORMAL_DIST {
-public:
+struct NORMAL_DIST {
     double mean;
     double stdev;
     int parse(XML_PARSER&, char* end_tag);
     double sample();
 };
 
-class UNIFORM_DIST {
-public:
+struct UNIFORM_DIST {
     double lo;
     double hi;
     int parse(XML_PARSER&, char* end_tag);
@@ -94,8 +92,7 @@ public:
     RANDOM_PROCESS();
 };
 
-class SIM_APP: public APP {
-public:
+struct SIM_APP: public APP {
     double latency_bound;
     double fpops_est;
     NORMAL_DIST fpops;
@@ -107,8 +104,7 @@ public:
     int parse(XML_PARSER&);
 };
 
-class SIM_PROJECT: public PROJECT {
-public:
+struct SIM_PROJECT: public PROJECT {
     RANDOM_PROCESS available;
     int index;
     int result_index;
@@ -131,8 +127,12 @@ public:
     void update_dcf_stats(RESULT*);
 };
 
-class SIM_HOST: public HOST_INFO {
-public:
+struct SIM_GPU : public COPROC {
+    double flops;
+    int parse(XML_PARSER&, const char*);
+};
+
+struct SIM_HOST: public HOST_INFO {
     RANDOM_PROCESS available;
     RANDOM_PROCESS idle;
     double connection_interval;

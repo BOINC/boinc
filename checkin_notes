@@ -3233,3 +3233,10 @@ Charlie  28 Apr 2010
     clientgui/
         DlgEventLog.cpp
         DlgEventLogListCtrl.cpp
+
+David  28 Apr 2010
+    - client: network bandwidth total was counting 1 day too many
+    - client simulator: start GPU support
+
+    client/
+        net_stats.cpp

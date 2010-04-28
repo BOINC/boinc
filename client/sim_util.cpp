@@ -502,6 +502,20 @@ int SIM_PROJECT::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+int SIM_GPU::parse(XML_PARSER& xp, const char* end_tag) {
+    char tag[256];
+    bool is_tag;
+    while(!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) return ERR_XML_PARSE;
+        if (!strcmp(tag, end_tag)) return 0;
+        else if (xp.parse_int(tag, "count", count)) continue;
+        else if (xp.parse_double(tag, "flops", flops)) continue;
+        else if (xp.parse_str(tag, "type", type, sizeof(type))) continue;
+        else return ERR_XML_PARSE;
+    }
+    return ERR_XML_PARSE;
+}
+
 int SIM_HOST::parse(XML_PARSER& xp) {
     char tag[256];
     bool is_tag;
@@ -524,6 +538,14 @@ int SIM_HOST::parse(XML_PARSER& xp) {
             retval = idle.parse(xp, "/idle");
             if (retval) return retval;
             idle.init(START_TIME);
+        } else if (!strcmp(tag, "gpu")) {
+            SIM_GPU* sgp = new SIM_GPU;
+            retval = sgp->parse(xp, "/gpu");
+            if (retval) {
+                delete sgp;
+                return retval;
+            }
+            coprocs.coprocs.push_back(sgp);
         } else {
             printf("unrecognized: %s\n", tag);
             return ERR_XML_PARSE;

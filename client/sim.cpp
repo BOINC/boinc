@@ -557,6 +557,49 @@ char* colors[] = {
 
 static int outfile_num=0;
 
+bool uses_coproc(RESULT* rp, COPROC* cp) {
+}
+
+bool using_instance(RESULT*, int) {
+}
+
+void gpu_header() {
+    for (unsigned int i=0; i<gstate.host_info.coprocs.coprocs.size(); i++) {
+        COPROC* cp = gstate.host_info.coprocs.coprocs[i];
+        for (int j=0; j<cp->count; j++) {
+            fprintf(gstate.html_out, "<th>%s %d</th>", cp->type, j);
+        }
+    }
+}
+void gpu_off() {
+    for (unsigned int i=0; i<gstate.host_info.coprocs.coprocs.size(); i++) {
+        COPROC* cp = gstate.host_info.coprocs.coprocs[i];
+        for (int j=0; j<cp->count; j++) {
+            fprintf(gstate.html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+        }
+    }
+}
+void gpu_on() {
+    for (unsigned int i=0; i<gstate.host_info.coprocs.coprocs.size(); i++) {
+        COPROC* cp = gstate.host_info.coprocs.coprocs[i];
+        for (int j=0; j<cp->count; j++) {
+            for (unsigned int k=0; k<gstate.active_tasks.active_tasks.size(); k++) {
+                ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[k];
+                RESULT* rp = atp->result;
+                if (!uses_coproc(rp, cp)) continue;
+                if (atp->task_state() != PROCESS_EXECUTING) continue;
+                if (!using_instance(rp, j)) continue;
+                SIM_PROJECT* p = (SIM_PROJECT*)rp->project;
+                fprintf(gstate.html_out, "<td bgcolor=%s>%s%s: %.2f</td>",
+                    colors[p->index],
+                    atp->result->rr_sim_misses_deadline?"*":"",
+                    atp->result->name, atp->cpu_time_left
+                );
+            }
+        }
+    }
+}
+
 void CLIENT_STATE::html_start(bool show_prev) {
     char buf[256];
 
@@ -583,6 +626,7 @@ void CLIENT_STATE::html_start(bool show_prev) {
             "<th>CPU %d<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>", i
         );
     }
+    gpu_header();
     fprintf(html_out, "<th>Notes</th></tr>\n");
 }
 
@@ -595,6 +639,7 @@ void CLIENT_STATE::html_rec() {
         for (int j=0; j<ncpus; j++) {
             fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
         }
+        gpu_off();
     } else {
         int n=0;
         for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
@@ -614,7 +659,9 @@ void CLIENT_STATE::html_rec() {
             n++;
         }
     }
-    fprintf(html_out, "<td><font size=-2>%s</font></td></tr>\n", html_msg.c_str());
+    fprintf(html_out,
+        "<td><font size=-2>%s</font></td></tr>\n", html_msg.c_str()
+    );
     html_msg = "";
 
     if (++line_num == line_limit) {
