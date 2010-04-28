@@ -1518,3 +1518,10 @@ David  27 Apr 2010
         net_status.cpp,h
         main.cpp
         cs_scheduler.cpp
+
+David  28 Apr 2010
+    - client: network bandwidth total was counting 1 day too many
+    - client simulator: start GPU support
+
+    client/
+        net_stats.cpp

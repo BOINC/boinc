@@ -27,5 +27,5 @@ OBJS = \
 
 all: sim
 
-sim: $(OBJS)
+sim: $(OBJS) sim.h
 	$(CXX) $(CXXFLAGS) $(OBJS) -o sim -ldl
