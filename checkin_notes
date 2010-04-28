@@ -1481,7 +1481,7 @@ David  23 Apr 2010
         cs_prefs.cpp
         cs_scheduler.cpp
 
-Rom    27 Apr 2010
+Rom    26 Apr 2010
     - Tag for 6.10.49 release, all platforms
       boinc_core_release_6_10_49
 
@@ -1489,3 +1489,21 @@ Rom    27 Apr 2010
         configure.ac
         version.h
 
+David  26 Apr 2010
+    - client: clean up network suspension logic.
+        There are now separate flags for
+        "file_xfers_suspended": don't do file transfers
+        "network_suspended": don't do any network comm
+            (scheduler RPCs, RSS fetch, master fetch, etc.)
+        The policy:
+        if preferences/settings say no network
+        (quota exceeded, no-network mode, user active, time, excl. app)
+        then:
+            file_xfers_suspended = true
+            if (no recent network-related RPC) network_suspended = true
+
+    client/
+        client_state.cpp,h
+        cs_files.cpp
+        cs_prefs.cpp
+        cs_scheduler.cpp

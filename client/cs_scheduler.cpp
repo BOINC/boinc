@@ -339,94 +339,85 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 //
 bool CLIENT_STATE::scheduler_rpc_poll() {
     PROJECT *p;
-    bool action=false;
     static double last_time=0;
     static double last_work_fetch_time = 0;
     double elapsed_time;
+
+    if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE) {
+        last_time = now;
+        scheduler_op->poll();
+        return (scheduler_op->state == SCHEDULER_OP_STATE_IDLE);
+    }
+
+    if (network_suspended) return false;
 
 	// check only every 5 sec
 	//
     if (now - last_time < SCHEDULER_RPC_POLL_PERIOD) return false;
     last_time = now;
 
-    switch(scheduler_op->state) {
-    case SCHEDULER_OP_STATE_IDLE:
-        if (scheduler_op->check_master_fetch_start()) {
-            action = true;
-            break;
-        }
-
-        // If we haven't run benchmarks yet, don't do a scheduler RPC.
-        // We need to know CPU speed to handle app versions
-        //
-        if (!host_info.p_calculated) return false;
-
-        // check for various reasons to contact particular projects.
-        // If we need to contact a project,
-        // see if we should ask it for work as well.
-        //
-        p = next_project_sched_rpc_pending();
-        if (p) {
-			// if the user requested the RPC,
-            // clear backoffs to allow work requests
-			//
-			if (p->sched_rpc_pending == RPC_REASON_USER_REQ) {
-				p->cpu_pwf.clear_backoff();
-				p->cuda_pwf.clear_backoff();
-				p->ati_pwf.clear_backoff();
-			}
-            work_fetch.compute_work_request(p);
-			scheduler_op->init_op_project(p, p->sched_rpc_pending);
-            action = true;
-            break;
-        }
-        if (network_suspended) break;
-        p = next_project_trickle_up_pending();
-        if (p) {
-            work_fetch.compute_work_request(p);
-            scheduler_op->init_op_project(p, RPC_REASON_TRICKLE_UP);
-            action = true;
-            break;
-        }
-        
-        // report overdue results
-        //
-        p = find_project_with_overdue_results();
-        if (p) {
-            work_fetch.compute_work_request(p);
-            scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
-            action = true;
-            break;
-        }
-
-        // should we check work fetch?  Do this at most once/minute
-
-        if (exit_when_idle && contacted_sched_server) break;
-        if (tasks_suspended) break;
-
-        if (must_check_work_fetch) {
-            last_work_fetch_time = 0;
-        }
-        elapsed_time = now - last_work_fetch_time;
-        if (elapsed_time < WORK_FETCH_PERIOD) return false;
-        must_check_work_fetch = false;
-        last_work_fetch_time = now;
-
-        p = work_fetch.choose_project();
-        if (p) {
-            scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
-            action = true;
-            break;
-        }
-        break;
-    default:
-        scheduler_op->poll();
-        if (scheduler_op->state == SCHEDULER_OP_STATE_IDLE) {
-            action = true;
-        }
-        break;
+    if (scheduler_op->check_master_fetch_start()) {
+        return true;
     }
-    return action;
+
+    // If we haven't run benchmarks yet, don't do a scheduler RPC.
+    // We need to know CPU speed to handle app versions
+    //
+    if (!host_info.p_calculated) return false;
+
+    // check for various reasons to contact particular projects.
+    // If we need to contact a project,
+    // see if we should ask it for work as well.
+    //
+    p = next_project_sched_rpc_pending();
+    if (p) {
+        // if the user requested the RPC,
+        // clear backoffs to allow work requests
+        //
+        if (p->sched_rpc_pending == RPC_REASON_USER_REQ) {
+            p->cpu_pwf.clear_backoff();
+            p->cuda_pwf.clear_backoff();
+            p->ati_pwf.clear_backoff();
+        }
+        work_fetch.compute_work_request(p);
+        scheduler_op->init_op_project(p, p->sched_rpc_pending);
+        return true;
+    }
+    p = next_project_trickle_up_pending();
+    if (p) {
+        work_fetch.compute_work_request(p);
+        scheduler_op->init_op_project(p, RPC_REASON_TRICKLE_UP);
+        return true;
+    }
+    
+    // report overdue results
+    //
+    p = find_project_with_overdue_results();
+    if (p) {
+        work_fetch.compute_work_request(p);
+        scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
+        return true;
+    }
+
+    // should we check work fetch?  Do this at most once/minute
+
+    if (exit_when_idle && contacted_sched_server) return false;
+    if (tasks_suspended) return false;
+
+    if (must_check_work_fetch) {
+        last_work_fetch_time = 0;
+    }
+    elapsed_time = now - last_work_fetch_time;
+    if (elapsed_time < WORK_FETCH_PERIOD) return false;
+    must_check_work_fetch = false;
+    last_work_fetch_time = now;
+
+    p = work_fetch.choose_project();
+    if (p) {
+        scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
+        return true;
+    }
+    return false;
 }
 
 // Handle the reply from a scheduler
