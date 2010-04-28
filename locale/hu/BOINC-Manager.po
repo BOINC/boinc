@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:09-0500\n"
-"PO-Revision-Date: 2010-04-24 03:31-0700\n"
+"PO-Revision-Date: 2010-04-26 12:00-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1185,7 +1185,7 @@ msgstr "százalék (0 esetén nincs korlátozás)"
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
 msgid "Every day between hours of"
-msgstr "Minden nap ezen időtartam alatt:"
+msgstr "Minden nap"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:181
 msgid "start work at this time"
@@ -1203,7 +1203,7 @@ msgstr "ekkor fejezze be a feldolgozást"
 #: clientgui/DlgAdvPreferencesBase.cpp:193
 #: clientgui/DlgAdvPreferencesBase.cpp:418
 msgid "(no restriction if equal)"
-msgstr "(ha megegyeznek, nincs korlátozva)"
+msgstr "óra között (ha megegyeznek, nincs korlátozva)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:198
 #: clientgui/DlgAdvPreferencesBase.cpp:423
@@ -1215,7 +1215,7 @@ msgstr "Felülírás a hét napjaira:"
 msgid "check box to specify hours for this day of week"
 msgstr ""
 "jelölje be a négyzetet, ha a hét ezen napjára külön szeretné beállítani az "
-"időtartományt"
+"időtartamot"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:213
 #: clientgui/DlgAdvPreferencesBase.cpp:438
@@ -1367,7 +1367,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:397
 msgid "Network usage allowed"
-msgstr "Hálózat használata engedélyezve"
+msgstr "Hálózathasználat engedélyezése"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:406
 msgid "network usage start hour"
