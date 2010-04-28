@@ -206,7 +206,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     time_stats.write(mf, true);
     net_stats.write(mf);
     if (global_prefs.daily_xfer_period_days) {
-        daily_xfer_history.write(mf, global_prefs.daily_xfer_period_days);
+        daily_xfer_history.write_scheduler_request(
+            mf, global_prefs.daily_xfer_period_days
+        );
     }
 
     // update hardware info, and write host info

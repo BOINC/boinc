@@ -133,7 +133,8 @@ struct DAILY_XFER_HISTORY {
     void init();
     void poll();
     void totals(int ndays, double& up, double& down);
-    void write(MIOFILE&, int ndays);
+    void write_state();
+    void write_scheduler_request(MIOFILE&, int ndays);
     DAILY_XFER_HISTORY() {
         dirty = false;
     }

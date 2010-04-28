@@ -1507,3 +1507,14 @@ David  26 Apr 2010
         cs_files.cpp
         cs_prefs.cpp
         cs_scheduler.cpp
+
+David  27 Apr 2010
+    - client: write daily net history on shutdown
+    - client: remove extraneous calls to calShutdown()
+        in ATIs available-RAM code.
+
+    client
+        coproc_detect.cpp
+        net_status.cpp,h
+        main.cpp
+        cs_scheduler.cpp

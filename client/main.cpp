@@ -413,6 +413,7 @@ int finalize() {
     if (finalized) return 0;
     finalized = true;
     gstate.quit_activities();
+    daily_xfer_history.write_state();
 
 #ifdef _WIN32
     if(g_hClientLibraryDll) {
