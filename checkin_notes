@@ -3222,3 +3222,14 @@ David  27 Apr 2010
     html/project.sample/
         project_specific_prefs.inc
 
+Charlie  28 Apr 2010
+    - MGR: more Event Log bug fixes: fix Copy Selected button when filtering 
+        by project; save window dimensions properly when exiting Manager with 
+        Event Log window open; add spaces around field delimiters when copying 
+        to clipboard for better readability; fix sizer problem on Mac (buttons 
+        disappeared if window height was too small) by initializing size of 
+        CDlgEventLogListCtrl to wxDefaultSize instead of 640X480.
+        
+    clientgui/
+        DlgEventLog.cpp
+        DlgEventLogListCtrl.cpp

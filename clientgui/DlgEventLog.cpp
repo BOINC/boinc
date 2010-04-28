@@ -90,6 +90,9 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
     
+    SaveState();
+    SetWindowDimensions();
+
     if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
         m_pMessageInfoAttr = NULL;
@@ -342,8 +345,6 @@ void CDlgEventLog::OnOK( wxCommandEvent& WXUNUSED(event) ) {
  */
 
 void CDlgEventLog::OnClose(wxCloseEvent& WXUNUSED(event)) {
-    SaveState();
-    SetWindowDimensions();
     Destroy();
 }
 
@@ -740,12 +741,13 @@ void CDlgEventLog::OnButtonHelp( wxCommandEvent& event ) {
 void CDlgEventLog::UpdateButtons() {
         bool enableFilterButton = m_bIsFiltered; 
         bool enableCopySelectedButon = false; 
-        if ((! m_bIsFiltered) && (m_iTotalDocCount > 0)) {
+        if (m_iTotalDocCount > 0) {
             int n = m_pList->GetSelectedItemCount();
             if (n > 0) {
                 enableCopySelectedButon = true;
             }
-            if (n == 1) {
+            
+            if ((n == 1) && (! m_bIsFiltered)) {
                 n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
                 MESSAGE* message = wxGetApp().GetDocument()->message(n);
                 if ((message->project).size() > 0) {
@@ -780,7 +782,8 @@ wxString CDlgEventLog::OnListGetItemText(long item, long column) const {
 
 wxListItemAttr* CDlgEventLog::OnListGetItemAttr(long item) const {
     wxListItemAttr* pAttribute  = NULL;
-    MESSAGE* message = wxGetApp().GetDocument()->message(item);
+    wxInt32         index       = GetFilteredMessageIndex(item);
+    MESSAGE*        message     = wxGetApp().GetDocument()->message(index);
 
     if (message) {
         switch(message->priority) {
@@ -868,6 +871,7 @@ bool CDlgEventLog::OpenClipboard( wxInt32 size ) {
 
 wxInt32 CDlgEventLog::CopyToClipboard(wxInt32 item) {
     wxInt32        iRetVal = -1;
+    wxInt32        index   = GetFilteredMessageIndex(item);
 
     if (m_bClipboardOpen) {
         wxString       strBuffer = wxEmptyString;
@@ -875,14 +879,14 @@ wxInt32 CDlgEventLog::CopyToClipboard(wxInt32 item) {
         wxString       strProject = wxEmptyString;
         wxString       strMessage = wxEmptyString;
 
-        FormatTime(item, strTimeStamp);
-        FormatProjectName(item, strProject);
-        FormatMessage(item, strMessage);
+        FormatTime(index, strTimeStamp);
+        FormatProjectName(index, strProject);
+        FormatMessage(index, strMessage);
 
 #ifdef __WXMSW__
-        strBuffer.Printf(wxT("%s|%s|%s\r\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
+        strBuffer.Printf(wxT("%s | %s | %s\r\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
 #else
-        strBuffer.Printf(wxT("%s|%s|%s\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
+        strBuffer.Printf(wxT("%s | %s | %s\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
 #endif
 
         m_strClipboardData += strBuffer;

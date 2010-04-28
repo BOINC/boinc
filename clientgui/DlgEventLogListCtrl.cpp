@@ -43,7 +43,7 @@ END_EVENT_TABLE()
 CDlgEventLogListCtrl::CDlgEventLogListCtrl() {}
 
 CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags)
-    : DLG_LISTCTRL_BASE(pView, iListWindowID, wxDefaultPosition, wxSize(640,480), iListWindowFlags) 
+    : DLG_LISTCTRL_BASE(pView, iListWindowID, wxDefaultPosition, wxDefaultSize, iListWindowFlags) 
 {
     m_pParentView = pView;
 
