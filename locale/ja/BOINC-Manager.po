@@ -3,19 +3,14 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-03-13 22:25+0900\n"
+"PO-Revision-Date: 2010-04-29 15:30+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 日本語\n"
-"X-Poedit-Country: JAPAN\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:375
 msgid "Identify your account "
@@ -116,11 +111,9 @@ msgstr ""
 msgid "Account manager website"
 msgstr "アカウント・マネージャのウェブサイト"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトに参加".
 #: clientgui/AccountInfoPage.cpp:529
-#, fuzzy
 msgid "Attach to project"
-msgstr "Attach to project"
+msgstr "プロジェクトに参加"
 
 #: clientgui/AccountInfoPage.cpp:531
 msgid "Update account manager"
@@ -171,31 +164,25 @@ msgstr ""
 msgid "Account Manager &URL:"
 msgstr "アカウント・マネージャ URL(&U)："
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "%s と通信中です。"
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:195
 #, c-format
 msgid "Communicating with %s."
-msgstr "Communicating with %s."
+msgstr "%s と通信中です。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "サーバと通信中です。"
 #: clientgui/AccountManagerProcessingPage.cpp:196
 #: clientgui/AccountManagerPropertiesPage.cpp:202
-#, fuzzy
 msgid "Communicating with server."
-msgstr "Communicating with server."
+msgstr "サーバと通信中です。"
 
 #: clientgui/AccountManagerProcessingPage.cpp:201
 #: clientgui/AccountManagerPropertiesPage.cpp:207
 msgid "Please wait..."
 msgstr "お待ち下さい..."
 
-# The dialog does not render this if translated as "サーバ内部で異常が発生しました。\n
-# "
 #: clientgui/AccountManagerProcessingPage.cpp:325
-#, fuzzy
 msgid "An internal server error has occurred.\n"
-msgstr "An internal server error has occurred.\n"
+msgstr "サーバ内部で異常が発生しました。\n"
 
 #: clientgui/AdvancedFrame.cpp:95
 msgid "Connected"
@@ -280,14 +267,12 @@ msgid "Display the simple graphical interface."
 msgstr "簡易グラフィックインタフェースで表示します"
 
 #: clientgui/AdvancedFrame.cpp:391
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "プロジェクト(&P)またはアカウント・マネージャに接続..."
+msgstr "プロジェクトまたはアカウント・マネージャに接続(&A)..."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "Attach this computer to a project or account manager"
-msgstr "プロジェクトあるいはアカウント・マネージャに接続"
+msgstr "このコンピュータをプロジェクトあるいはアカウント・マネージャに接続します"
 
 #: clientgui/AdvancedFrame.cpp:396
 #, c-format
@@ -300,43 +285,37 @@ msgid "Get current settings from %s"
 msgstr "%s から現在の設定を取り出します"
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "&Attach to project..."
-msgstr "プロジェクトに参加(&P)..."
+msgstr "プロジェクトに参加(&A)..."
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトに参加".
 #: clientgui/AdvancedFrame.cpp:411
-#, fuzzy
 msgid "Attach to a project"
-msgstr "Attach to project"
+msgstr "プロジェクトに参加させる"
 
 #: clientgui/AdvancedFrame.cpp:414
-#, fuzzy, c-format
+#, c-format
 msgid "S&top using %s..."
-msgstr "%s を使うのを止める(&S)..."
+msgstr "%s を使うのを止める(&T)..."
 
 #: clientgui/AdvancedFrame.cpp:420
-#, fuzzy
 msgid "Remove this computer from account manager control."
-msgstr "クライアントをアカウント・マネージャの制御からはずします"
+msgstr "このクライアントをアカウント・マネージャの制御からはずします"
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Display and network &options..."
-msgstr ""
+msgstr "表示とネットワークのオプション(&O)..."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Configure GUI options and proxy settings"
 msgstr "GUI オプションとプロキシの設定をします"
 
 #: clientgui/AdvancedFrame.cpp:430
-#, fuzzy
 msgid "Computing &preferences..."
-msgstr "プレファレンス(&P)..."
+msgstr "計算に関するプレファレンス(&P)..."
 
 #: clientgui/AdvancedFrame.cpp:431
-#, fuzzy
 msgid "Configure computing preferences"
-msgstr "マシン毎のプレファレンス (好みの設定)"
+msgstr "計算に関するプレファレンス (好みの設定)を指定する"
 
 #: clientgui/AdvancedFrame.cpp:439
 msgid "&Run always"
@@ -351,7 +330,6 @@ msgid "Run based on &preferences"
 msgstr "プレファレンスに従って稼働(&P)"
 
 #: clientgui/AdvancedFrame.cpp:445
-#, fuzzy
 msgid "Allow work according to preferences"
 msgstr "プレファレンス (好みの設定) に従って仕事をさせます"
 
@@ -372,47 +350,40 @@ msgid "Allow GPU work regardless of preferences"
 msgstr "プレファレンス (好みの設定) に関わらず GPU に仕事をさせます"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Use GPU based on preferences"
-msgstr "プレファレンスに従って GPUを使用(&P)"
+msgstr "プレファレンスに従って GPUを使用"
 
 #: clientgui/AdvancedFrame.cpp:481
-#, fuzzy
 msgid "Allow GPU work according to preferences"
 msgstr "プレファレンス (好みの設定) に従って GPU に仕事をさせます"
 
 #: clientgui/AdvancedFrame.cpp:485
-#, fuzzy
 msgid "Suspend GPU"
-msgstr "一時停止"
+msgstr "GPU の使用を一時停止"
 
 #: clientgui/AdvancedFrame.cpp:486
 msgid "Stop GPU work regardless of preferences"
 msgstr "プレファレンス (好みの設定) に関わらず GPU の仕事を停止します"
 
 #: clientgui/AdvancedFrame.cpp:510
-#, fuzzy
 msgid "Network activity always available"
-msgstr "ネットワークをいつでも使用(&N)"
+msgstr "ネットワークをいつでも使用"
 
 #: clientgui/AdvancedFrame.cpp:511
 msgid "Allow network activity regardless of preferences"
 msgstr "プレファレンス (好みの設定) に関わらずネットワークアクセスを許します"
 
 #: clientgui/AdvancedFrame.cpp:515
-#, fuzzy
 msgid "Network activity based on preferences"
-msgstr "プレファレンスに従ってネットワークを使用(&P)"
+msgstr "プレファレンスに従ってネットワークを使用"
 
 #: clientgui/AdvancedFrame.cpp:516
-#, fuzzy
 msgid "Allow network activity according to preferences"
 msgstr "プレファレンス (好みの設定) に従ってネットワークアクセスを許します"
 
 #: clientgui/AdvancedFrame.cpp:520
-#, fuzzy
 msgid "Network activity suspended"
-msgstr "ネットワークの使用を一時停止(&N)"
+msgstr "ネットワークの使用を一時停止"
 
 #: clientgui/AdvancedFrame.cpp:521
 msgid "Stop BOINC network activity"
@@ -431,10 +402,9 @@ msgstr "コンピュータの選択..."
 msgid "Shut down connected client..."
 msgstr "接続しているクライアントをシャットダウン..."
 
-#: clientgui/AdvancedFrame.cpp:542
-#, fuzzy
+#: clientgui/AdvancedFrame.cpp:542y
 msgid "Shut down the currently connected client"
-msgstr "現在接続しているコア・クライアントをシャットダウンさせます"
+msgstr "現在接続しているクライアントをシャットダウンさせます"
 
 #: clientgui/AdvancedFrame.cpp:546
 msgid "Run CPU &benchmarks"
@@ -445,12 +415,10 @@ msgid "Runs BOINC CPU benchmarks"
 msgstr "BOINC の CPU ベンチマークを実行します"
 
 #: clientgui/AdvancedFrame.cpp:551
-#, fuzzy
 msgid "Do network communication"
 msgstr "通信を今すぐ実施(&C)"
 
 #: clientgui/AdvancedFrame.cpp:552
-#, fuzzy
 msgid "Do all pending network communication"
 msgstr "保留されているネットワーク通信を実行します"
 
@@ -459,7 +427,6 @@ msgid "Read config file"
 msgstr "設定ファイルを読み込む"
 
 #: clientgui/AdvancedFrame.cpp:557
-#, fuzzy
 msgid "Read configuration info from cc_config.xml"
 msgstr "cc_config.xml から設定情報を読み込みます"
 
@@ -477,9 +444,8 @@ msgid "Event Log..."
 msgstr "イベント・ログ..."
 
 #: clientgui/AdvancedFrame.cpp:567
-#, fuzzy
 msgid "Display diagnostic messages."
-msgstr "クライアントからの診断メッセージを表示する"
+msgstr "診断メッセージを表示する"
 
 #: clientgui/AdvancedFrame.cpp:577
 #, c-format
@@ -627,11 +593,9 @@ msgstr "%s に接続処理中"
 msgid "Connected to %s (%s)"
 msgstr "%s (%s)に接続済み"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "指定した名前はすでに使われています"
 #: clientgui/AlreadyExistsPage.cpp:182
-#, fuzzy
 msgid "Username already in use"
-msgstr "Username already in use"
+msgstr "指定した名前はすでに使われています"
 
 #: clientgui/AlreadyExistsPage.cpp:185
 msgid ""
@@ -645,11 +609,9 @@ msgstr ""
 "\n"
 "プロジェクトのウェブサイトに行って、そこにある指示に従って下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "指定した電子メールアドレスはすでに使われています。"
 #: clientgui/AlreadyExistsPage.cpp:189
-#, fuzzy
 msgid "Email address already in use"
-msgstr "Email address already in use"
+msgstr "指定した電子メールアドレスはすでに使われています。"
 
 #: clientgui/AlreadyExistsPage.cpp:192
 msgid ""
@@ -976,7 +938,7 @@ msgstr "ネットワーク通信は一時停止しています。"
 
 #: clientgui/BOINCTaskBar.cpp:676
 msgid "Client is processing results."
-msgstr ""
+msgstr "クライアントはリザルトを計算中です。"
 
 #: clientgui/BOINCTaskBar.cpp:683
 msgid "Reconnecting to client."
@@ -987,37 +949,29 @@ msgid "Not connected to a client."
 msgstr "クライアントに接続されていません。"
 
 #: clientgui/BOINCTaskBar.cpp:740
-#, fuzzy, c-format
+#, c-format
 msgid "%s Notices"
-msgstr "お知らせ"
+msgstr "お知らせが %s個あります"
 
 #: clientgui/BOINCTaskBar.cpp:746
 msgid "One or more notices are now available for viewing."
-msgstr ""
+msgstr "見ていただきたいお知らせがいくつかあります。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "プロジェクト参加に失敗"
 #: clientgui/CompletionErrorPage.cpp:199
-#, fuzzy
 msgid "Failed to attach to project"
-msgstr "Failed to attach to project"
+msgstr "プロジェクト参加に失敗"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "アカウント･マネージャ更新に失敗"
 #: clientgui/CompletionErrorPage.cpp:204
-#, fuzzy
 msgid "Failed to update account manager"
-msgstr "Failed to update account manager"
+msgstr "アカウント･マネージャとの最新状況の更新に失敗"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "アカウント･マネージャ離脱に失敗"
 #: clientgui/CompletionErrorPage.cpp:208
-#, fuzzy
 msgid "Failed to remove account manager"
-msgstr "Failed to remove account manager"
+msgstr "アカウント･マネージャ離脱に失敗"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "アカウント･マネージャ参加に失敗"
 #: clientgui/CompletionErrorPage.cpp:212
-#, fuzzy
 msgid "Failed to attach to account manager"
-msgstr "Failed to attach to account manager"
+msgstr "アカウント･マネージャへの参加に失敗"
 
 #: clientgui/CompletionErrorPage.cpp:221
 msgid ""
@@ -1228,17 +1182,16 @@ msgid "minutes"
 msgstr "分"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "プロセッサ使用設定"
+msgstr "CPU使用率が右の値より低いときにだけ計算を実行します"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
+msgstr "プロセッサ使用率がこのレベルを超えると仕事を一時中断します"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "％（0を指定すれば制約なし)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1459,7 +1412,7 @@ msgstr "最低限の未使用領域"
 #: clientgui/DlgAdvPreferencesBase.cpp:530
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr ""
-"BOINC　は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギ"
+"BOINC は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギ"
 "ガバイト)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:534
@@ -1559,7 +1512,6 @@ msgstr "このプロジェクトだけを表示"
 
 #: clientgui/DlgEventLog.cpp:251 clientgui/DlgEventLog.cpp:365
 #: clientgui/DlgEventLog.cpp:367
-#, fuzzy
 msgid "Show only the messages for the selected project"
 msgstr "選択したプロジェクトのメッセージだけを表示"
 
@@ -1605,7 +1557,6 @@ msgid "Show all messages"
 msgstr "全メッセージを表示"
 
 #: clientgui/DlgEventLog.cpp:378 clientgui/DlgEventLog.cpp:380
-#, fuzzy
 msgid "Show messages for all projects"
 msgstr "すべてのプロジェクトのメッセージを表示"
 
@@ -1770,14 +1721,12 @@ msgstr "スケジューリング"
 
 #: clientgui/DlgItemProperties.cpp:242 clientgui/DlgItemProperties.cpp:252
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Project preference"
-msgstr "あなたのプレファレンス"
+msgstr "プロジェクトごとのプレファレンス"
 
 #: clientgui/DlgItemProperties.cpp:242
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "新しいタスクを取得しない"
+msgstr "CPU向けタスクを新たに取得しない"
 
 #: clientgui/DlgItemProperties.cpp:244
 msgid "CPU scheduling priority"
@@ -1797,7 +1746,7 @@ msgstr "CPU 向けの仕事を獲得する処理の保留間隔"
 
 #: clientgui/DlgItemProperties.cpp:252
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "NVIDIA GPU向けタスクを新たに取得しない"
 
 #: clientgui/DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1816,9 +1765,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "NVIDIA GPU 向けの仕事を獲得する処理の保留間隔"
 
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "新しいタスクを取得しない"
+msgstr "ATI GPU向けタスクを新たに取得しない"
 
 #: clientgui/DlgItemProperties.cpp:265
 msgid "ATI GPU scheduling priority"
@@ -1907,7 +1855,7 @@ msgstr "プロセスID"
 
 #: clientgui/DlgItemProperties.cpp:386
 msgid "Local: "
-msgstr ""
+msgstr "Local:"
 
 #: clientgui/DlgItemProperties.cpp:411
 msgid "New"
@@ -2028,25 +1976,21 @@ msgid "Language:"
 msgstr "言語："
 
 #: clientgui/DlgOptions.cpp:164
-#, fuzzy
 msgid "What language should BOINC use?"
-msgstr "マネージャ・プログラムはどの言語を使うべきか?"
+msgstr "BOINC が表示に使う言語を何にするか"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid ""
 "Notice reminder interval:\n"
 "(minutes; 0 means no reminders)"
 msgstr ""
-"ネットワーク・リマインダーの間隔:\n"
-"(分)"
+"お知らせの通知間隔:\n"
+"(単位は分。0を指定すると通知なし)"
 
 #: clientgui/DlgOptions.cpp:180
-#, fuzzy
 msgid "How often should BOINC remind you of new notices?"
 msgstr ""
-"ネットワーク接続が必要であることをどのような頻度でマネージャ・プログラムはあ"
-"なたに思い出させるべきか?"
+"新規のお知らせがあることを BOINC があなたに伝える頻度"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2345,21 +2289,17 @@ msgstr "システムの状態を読み出しています。お待ちください
 msgid "Retrieving host information; please wait..."
 msgstr "計算機 (ホスト) の情報を読み出しています。お待ちください..."
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "インターネット接続が見つかりません"
 #: clientgui/NoInternetConnectionPage.cpp:179
-#, fuzzy
 msgid "No Internet connection"
-msgstr "No Internet connection"
+msgstr "インターネット接続が見つかりません"
 
 #: clientgui/NoInternetConnectionPage.cpp:182
 msgid "Please connect to the Internet and try again."
 msgstr "インターネットへ接続してから、もう一度試して下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "プロジェクトが見つかりません"
 #: clientgui/NotDetectedPage.cpp:181
-#, fuzzy
 msgid "Project not found"
-msgstr "Project not found"
+msgstr "プロジェクトが見つかりません"
 
 #: clientgui/NotDetectedPage.cpp:184
 msgid ""
@@ -2371,11 +2311,9 @@ msgstr ""
 "\n"
 "URL を確認の上、もう一度試して下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "アカウント･マネージャが見つかりません"
 #: clientgui/NotDetectedPage.cpp:188
-#, fuzzy
 msgid "Account manager not found"
-msgstr "Account manager not found"
+msgstr "アカウント･マネージャが見つかりません"
 
 #: clientgui/NotDetectedPage.cpp:191
 msgid ""
@@ -2389,11 +2327,9 @@ msgstr ""
 "\n"
 "URL を確認の上、もう一度試して下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "ログイン失敗。"
 #: clientgui/NotFoundPage.cpp:181
-#, fuzzy
 msgid "Login Failed."
-msgstr "Login Failed."
+msgstr "ログイン失敗。"
 
 #: clientgui/NotFoundPage.cpp:185
 msgid "Check the username and password, and try again."
@@ -2425,11 +2361,9 @@ msgstr "ATI GPU サポート済み"
 msgid "Project Website"
 msgstr "プロジェクトのウェブサイト"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトを選んでください"
 #: clientgui/ProjectInfoPage.cpp:258
-#, fuzzy
 msgid "Choose a project"
-msgstr "Choose a project"
+msgstr "プロジェクトを選んでください"
 
 #: clientgui/ProjectInfoPage.cpp:261
 msgid "To choose a project, click its name or type its URL below."
@@ -2455,42 +2389,32 @@ msgid ""
 msgstr ""
 "すでに指定したプロジェクトには参加済みです。別のプロジェクトを選んで下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "サーバと通信中です。"
 #: clientgui/ProjectProcessingPage.cpp:322
-#, fuzzy
 msgid "Communicating with project."
-msgstr "Communicating with server."
+msgstr "サーバと通信中です。"
 
 #: clientgui/ProjectProcessingPage.cpp:499
 msgid "Required files not found on the server."
 msgstr "このサーバには必要なファイル群が見つかりません。"
 
-# The dialog does not render this if translated as "サーバ内部で異常が発生しました。"
 #: clientgui/ProjectProcessingPage.cpp:502
 #: clientgui/ProjectProcessingPage.cpp:564
-#, fuzzy
 msgid "An internal server error has occurred."
-msgstr "An internal server error has occurred."
+msgstr "サーバ内部で異常が発生しました。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトと通信中\n
-# お待ち下さい..."
 #: clientgui/ProjectPropertiesPage.cpp:335
-#, fuzzy
 msgid ""
 "Communicating with project\n"
 "Please wait..."
 msgstr ""
-"Communicating with project\n"
-"Please wait..."
+"プロジェクトと通信中\n"
+"お待ち下さい..."
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "ネットワーク通信失敗"
 #: clientgui/ProxyInfoPage.cpp:195
-#, fuzzy
 msgid "Network communication failure"
-msgstr "Network communication failure"
+msgstr "ネットワーク通信失敗"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2550,11 +2474,9 @@ msgstr ""
 "3) プロキシ・サーバを使っている場合。\n"
 "[次へ] をクリックして BOINC のプロキシ設定を行って下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロキシ設定"
 #: clientgui/ProxyPage.cpp:331
-#, fuzzy
 msgid "Proxy configuration"
-msgstr "Proxy configuration"
+msgstr "プロキシ設定"
 
 #: clientgui/ProxyPage.cpp:334
 msgid "HTTP proxy"
@@ -2950,11 +2872,9 @@ msgstr "Time Remaining: "
 msgid "Elapsed Time: "
 msgstr "経過時間："
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "使用条件"
 #: clientgui/TermsOfUsePage.cpp:219
-#, fuzzy
 msgid "Terms of Use"
-msgstr "Terms of Use"
+msgstr "使用規約"
 
 #: clientgui/TermsOfUsePage.cpp:223
 msgid "Please read the following terms of use:"
@@ -2968,11 +2888,9 @@ msgstr "使用条件に合意する。"
 msgid "I do not agree with the terms of use."
 msgstr "使用条件に合意しない。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトは一時的に利用できません"
 #: clientgui/UnavailablePage.cpp:183
-#, fuzzy
 msgid "Project temporarily unavailable"
-msgstr "Project temporarily unavailable"
+msgstr "プロジェクトは一時的に利用できません"
 
 #: clientgui/UnavailablePage.cpp:186
 msgid ""
@@ -2984,11 +2902,9 @@ msgstr ""
 "\n"
 "少し待ってからもう一度試して下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "アカウント・マネージャは一時的に利用できません"
 #: clientgui/UnavailablePage.cpp:190
-#, fuzzy
 msgid "Account manager temporarily unavailable"
-msgstr "Account manager temporarily unavailable"
+msgstr "アカウント・マネージャは一時的に利用できません"
 
 #: clientgui/UnavailablePage.cpp:193
 msgid ""
@@ -3857,38 +3773,15 @@ msgstr "処理をする時間帯を「HH:MM-HH:MM」の形式で指定して下�
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指定して下さい。"
 
-#~ msgid "Attach to a project or account manager to begin processing work"
-#~ msgstr ""
-#~ "仕事を処理し始めるためにプロジェクトまたはアカウント・マネージャへ接続しま"
-#~ "す"
+######################################### 
+#
+#: clientgui/AdvancedFrame.cpp:
+msgid "&Messages\tCtrl+Shift+M"
+msgstr "メッセージ(M)\tCtrl+Shift+M"
 
-#~ msgid "Attach to a project to begin processing work"
-#~ msgstr "計算処理を始めるためにプロジェクトに参加します"
+#: clientgui/AdvancedFrame.cpp:
+msgid "Attach to project or account manager..."
+msgstr "プロジェクトまたはアカウント・マネージャに接続..."
 
-#~ msgid "Use GPU never"
-#~ msgstr "GPU を使わない"
-
-#~ msgid "&Options..."
-#~ msgstr "オプション(&O)..."
-
-# This seems to be for test purpose only. Not translated.
-#~ msgid "BOINC Notification"
-#~ msgstr "BOINC Notification"
-
-# This seems to be for test purpose only. Not translated.
-#~ msgid ""
-#~ "TEST: Fluffy@Home just found out that the Fluffy project has been "
-#~ "published in Nature"
-#~ msgstr ""
-#~ "TEST: Fluffy@Home just found out that the Fluffy project has been "
-#~ "published in Nature"
-
-#~ msgid "%s: %.2f%% completed."
-#~ msgstr "%s: %.2f%% まで計算済み。"
-
-#~ msgid "%d tasks running."
-#~ msgstr "%d 個のタスクが実行中です。"
-
-# This seems to be for test purpose only. Not translated.
-#~ msgid "Test Notification"
-#~ msgstr "Test Notification"
+msgid "Options..."
+msgstr "オプション..."
