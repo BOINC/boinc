@@ -210,7 +210,7 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
     _task_state = val;
     if (log_flags.task_debug) {
         msg_printf(result->project, MSG_INFO,
-            "[task_debug] task_state=%s for %s from %s",
+            "[task] task_state=%s for %s from %s",
             task_state_name(val), result->name, where
         );
     }

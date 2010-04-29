@@ -85,7 +85,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     reason = r;
     if (log_flags.sched_op_debug) {
         msg_printf(p, MSG_INFO,
-            "[sched_op_debug] Starting scheduler request"
+            "[sched_op] Starting scheduler request"
         );
     }
 
@@ -251,18 +251,18 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     }
     if (log_flags.sched_op_debug) {
         msg_printf(p, MSG_INFO,
-            "[sched_op_debug] CPU work request: %.2f seconds; %.2f CPUs",
+            "[sched_op] CPU work request: %.2f seconds; %.2f CPUs",
             cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
         );
         if (coproc_cuda) {
             msg_printf(p, MSG_INFO,
-                "[sched_op_debug] NVIDIA GPU work request: %.2f seconds; %.2f GPUs",
+                "[sched_op] NVIDIA GPU work request: %.2f seconds; %.2f GPUs",
                 cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
             );
         }
         if (coproc_ati) {
             msg_printf(p, MSG_INFO,
-                "[sched_op_debug] ATI GPU work request: %.2f seconds; %.2f GPUs",
+                "[sched_op] ATI GPU work request: %.2f seconds; %.2f GPUs",
                 ati_work_fetch.req_secs, ati_work_fetch.req_instances
             );
         }
@@ -297,7 +297,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     get_master_filename(*p, master_filename, sizeof(master_filename));
 
     if (log_flags.sched_op_debug) {
-        msg_printf(p, MSG_INFO, "[sched_op_debug] Fetching master file");
+        msg_printf(p, MSG_INFO, "[sched_op] Fetching master file");
     }
     cur_proj = p;
     retval = http_op.init_get(p->master_url, master_filename, true);
@@ -362,7 +362,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     fclose(f);
     if (log_flags.sched_op_debug) {
         msg_printf(p, MSG_INFO,
-            "[sched_op_debug] Found %d scheduler URLs in master file\n",
+            "[sched_op] Found %d scheduler URLs in master file\n",
             (int)urls.size()
         );
     }
@@ -423,7 +423,7 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval == 0) {
                 if (log_flags.sched_op_debug) {
                     msg_printf(cur_proj, MSG_INFO,
-                        "[sched_op_debug] Got master file; parsing"
+                        "[sched_op] Got master file; parsing"
                     );
                 }
                 retval = parse_master_file(cur_proj, urls);

@@ -68,7 +68,7 @@ int parse_rss_feed_descs(MIOFILE& fin, vector<RSS_FEED>& feeds) {
             if (retval) {
                 if (log_flags.sched_op_debug) {
                     msg_printf(0, MSG_INFO,
-                        "[sched_op_debug] error in <rss_feed> element"
+                        "[sched_op] error in <rss_feed> element"
                      );
                 }
             } else {
@@ -308,7 +308,7 @@ bool NOTICES::append(NOTICE& n, bool keep_old) {
     }
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO,
-            "[notice_debug] appending notice %d: %s",
+            "[notice] appending notice %d: %s",
             n.seqno, n.title
         );
     }
@@ -332,7 +332,7 @@ int NOTICES::read_archive_file(const char* path, RSS_FEED* rfp) {
     if (!f) {
         if (log_flags.notice_debug) {
             msg_printf(0, MSG_INFO,
-                "[notice_debug] no archive file %s", path
+                "[notice] no archive file %s", path
             );
         }
         return 0;
@@ -352,7 +352,7 @@ int NOTICES::read_archive_file(const char* path, RSS_FEED* rfp) {
             if (retval) {
                 if (log_flags.notice_debug) {
                     msg_printf(0, MSG_INFO,
-                        "[notice_debug] archive item parse error: %d", retval
+                        "[notice] archive item parse error: %d", retval
                     );
                 }
             } else {
@@ -365,7 +365,7 @@ int NOTICES::read_archive_file(const char* path, RSS_FEED* rfp) {
         }
     }
     if (log_flags.notice_debug) {
-        msg_printf(0, MSG_INFO, "[notice_debug] archive parse error");
+        msg_printf(0, MSG_INFO, "[notice] archive parse error");
     }
     fclose(f);
     return ERR_XML_PARSE;
@@ -465,7 +465,7 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
             if (!poll_interval || !strlen(url)) {
                 if (log_flags.notice_debug) {
                     msg_printf(0, MSG_INFO,
-                        "[notice_debug] URL or poll interval missing in sched reply feed"
+                        "[notice] URL or poll interval missing in sched reply feed"
                     );
                 }
                 return ERR_XML_PARSE;
@@ -513,7 +513,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
         if (!strcmp(tag, "/rss")) {
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[notice_debug] parsed RSS feed: total %d error %d added %d",
+                    "[notice] parsed RSS feed: total %d error %d added %d",
                     ntotal, nerror, nitems
                 );
             }
@@ -563,7 +563,7 @@ bool RSS_FEED_OP::poll() {
             rfp = &rf;
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[notice_debug] start fetch from %s", rf.url
+                    "[notice] start fetch from %s", rf.url
                 );
             }
             char url[256];
@@ -589,7 +589,7 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     if (http_op_retval) {
         if (log_flags.notice_debug) {
             msg_printf(0, MSG_INFO,
-                "[notice_debug] fetch of %s failed: %d", rfp->url, http_op_retval
+                "[notice] fetch of %s failed: %d", rfp->url, http_op_retval
             );
         }
         return;
@@ -597,7 +597,7 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
 
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO,
-            "[notice_debug] handling reply from %s", rfp->url
+            "[notice] handling reply from %s", rfp->url
         );
     }
 
@@ -610,7 +610,7 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     if (retval) {
         if (log_flags.notice_debug) {
             msg_printf(0, MSG_INFO,
-                "[notice_debug] RSS parse error: %d", retval
+                "[notice] RSS parse error: %d", retval
             );
         }
     }
@@ -650,7 +650,7 @@ void RSS_FEEDS::init() {
         RSS_FEED& rf = feeds[i];
         if (log_flags.notice_debug) {
             msg_printf(0, MSG_INFO,
-                "[notice_debug] feed: %s, %.0f sec",
+                "[notice] feed: %s, %.0f sec",
                 rf.url, rf.poll_interval
             );
         }
@@ -690,7 +690,7 @@ void RSS_FEEDS::update_feed_list() {
                 feeds.push_back(rf);
                 if (log_flags.notice_debug) {
                     msg_printf(0, MSG_INFO,
-                        "[notice_debug] adding feed: %s, %.0f sec",
+                        "[notice] adding feed: %s, %.0f sec",
                         rf.url, rf.poll_interval
                     );
                 }
@@ -710,7 +710,7 @@ void RSS_FEEDS::update_feed_list() {
             }
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[notice_debug] removing feed: %s",
+                    "[notice] removing feed: %s",
                     rf.url
                 );
             }

@@ -195,7 +195,7 @@ void CLIENT_STATE::print_deadline_misses() {
         rp = results[i];
         if (rp->rr_sim_misses_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] Result %s projected to miss deadline.",
+                "[cpu_sched] Result %s projected to miss deadline.",
                 rp->name
             );
         }
@@ -204,19 +204,19 @@ void CLIENT_STATE::print_deadline_misses() {
         p = projects[i];
         if (p->cpu_pwf.deadlines_missed) {
             msg_printf(p, MSG_INFO,
-                "[cpu_sched_debug] Project has %d projected CPU deadline misses",
+                "[cpu_sched] Project has %d projected CPU deadline misses",
                 p->cpu_pwf.deadlines_missed
             );
         }
         if (p->cuda_pwf.deadlines_missed) {
             msg_printf(p, MSG_INFO,
-                "[cpu_sched_debug] Project has %d projected NVIDIA GPU deadline misses",
+                "[cpu_sched] Project has %d projected NVIDIA GPU deadline misses",
                 p->cuda_pwf.deadlines_missed
             );
         }
         if (p->ati_pwf.deadlines_missed) {
             msg_printf(p, MSG_INFO,
-                "[cpu_sched_debug] Project has %d projected ATI GPU deadline misses",
+                "[cpu_sched] Project has %d projected ATI GPU deadline misses",
                 p->ati_pwf.deadlines_missed
             );
         }

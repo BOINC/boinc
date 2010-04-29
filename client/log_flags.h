@@ -68,11 +68,9 @@ struct LOG_FLAGS {
         // show changes to duration correction factors
     bool debt_debug;
         // changes to long-term debt
-    bool std_debug;
-        // changes to short-term debt
     bool file_xfer_debug;
         // show completion of FILE_XFER
-    bool guirpc_debug;
+    bool gui_rpc_debug;
     bool http_debug;
     bool http_xfer_debug;
     bool mem_usage_debug;
@@ -93,6 +91,8 @@ struct LOG_FLAGS {
         // also show actions of garbage collector
     bool statefile_debug;
         // show when and why state file is written
+    bool std_debug;
+        // changes to short-term debt
     bool task_debug;
         // task start and control details, and when apps checkpoint
     bool time_debug;

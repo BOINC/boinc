@@ -101,7 +101,7 @@ static BOOL WINAPI console_control_handler( DWORD dwCtrlType ){
 // Detect any proxy configuration settings automatically.
 static void windows_detect_autoproxy_settings() {
     if (log_flags.proxy_debug) {
-        msg_printf(NULL, MSG_INFO, "[proxy_debug] automatic proxy check in progress");
+        msg_printf(NULL, MSG_INFO, "[proxy] automatic proxy check in progress");
     }
 
     HMODULE hModWinHttp = LoadLibrary("winhttp.dll");
@@ -154,7 +154,7 @@ static void windows_detect_autoproxy_settings() {
     if (pWinHttpGetProxyForUrl(hWinHttp, network_test_url.c_str(), &autoproxy_options, &proxy_info)) {
 
         if (log_flags.proxy_debug) {
-            msg_printf(NULL, MSG_INFO, "[proxy_debug] successfully executed proxy check", hWinHttp);
+            msg_printf(NULL, MSG_INFO, "[proxy] successfully executed proxy check", hWinHttp);
         }
 
         // Apparently there are some conditions where WinHttpGetProxyForUrl can return
@@ -167,7 +167,7 @@ static void windows_detect_autoproxy_settings() {
             std::string new_proxy;
 
             if (log_flags.proxy_debug) {
-                msg_printf(NULL, MSG_INFO, "[proxy_debug] proxy list '%s'", proxy.c_str());
+                msg_printf(NULL, MSG_INFO, "[proxy] proxy list '%s'", proxy.c_str());
             }
 
             if (!proxy.empty()) {
@@ -199,7 +199,7 @@ static void windows_detect_autoproxy_settings() {
 
                 if (log_flags.proxy_debug) {
                     msg_printf(NULL, MSG_INFO,
-                        "[proxy_debug] automatic proxy detected %s:%d",
+                        "[proxy] automatic proxy detected %s:%d",
                         purl.host, purl.port
                     );
                 }
@@ -216,13 +216,13 @@ static void windows_detect_autoproxy_settings() {
         strcpy(working_proxy_info.autodetect_server_name, "");
         working_proxy_info.autodetect_port = 0;
         if (log_flags.proxy_debug) {
-            msg_printf(NULL, MSG_INFO, "[proxy_debug] no automatic proxy detected");
+            msg_printf(NULL, MSG_INFO, "[proxy] no automatic proxy detected");
         }
     }
     if (hWinHttp) pWinHttpCloseHandle(hWinHttp);
     FreeLibrary(hModWinHttp);
     if (log_flags.proxy_debug) {
-        msg_printf(NULL, MSG_INFO, "[proxy_debug] automatic proxy check finished");
+        msg_printf(NULL, MSG_INFO, "[proxy] automatic proxy check finished");
     }
 }
 

@@ -1121,9 +1121,9 @@ int GUI_RPC_CONN::handle_rpc() {
         );
         send(sock, buf, strlen(buf), 0);
         request_nbytes = 0;
-        if (log_flags.guirpc_debug) {
+        if (log_flags.gui_rpc_debug) {
             msg_printf(0, MSG_INFO,
-                "[guirpc_debug] processed OPTIONS"
+                "[gui_rpc] processed OPTIONS"
             );
         }
         return 0;
@@ -1137,9 +1137,9 @@ int GUI_RPC_CONN::handle_rpc() {
             *p = 0;
             http_request = false;
         } else {
-            if (log_flags.guirpc_debug) {
+            if (log_flags.gui_rpc_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[guirpc_debug] partial GUI RPC Command = '%s'\n", request_msg
+                    "[gui_rpc] partial GUI RPC Command = '%s'\n", request_msg
                 );
             }
             return 0;
@@ -1147,9 +1147,9 @@ int GUI_RPC_CONN::handle_rpc() {
     }
     request_nbytes = 0;
 
-    if (log_flags.guirpc_debug) {
+    if (log_flags.gui_rpc_debug) {
         msg_printf(0, MSG_INFO,
-            "[guirpc_debug] GUI RPC Command = '%s'\n", request_msg
+            "[gui_rpc] GUI RPC Command = '%s'\n", request_msg
         );
     }
 
@@ -1370,10 +1370,10 @@ int GUI_RPC_CONN::handle_rpc() {
     if (p) {
         send(sock, p, n, 0);
         p[n-1]=0;   // replace 003 with NULL
-        if (log_flags.guirpc_debug) {
+        if (log_flags.gui_rpc_debug) {
             if (n > 50) p[50] = 0;
             msg_printf(0, MSG_INFO,
-                "[guirpc_debug] GUI RPC reply: '%s'\n", p
+                "[gui_rpc] GUI RPC reply: '%s'\n", p
             );
         }
         free(p);

@@ -492,7 +492,7 @@ void FILE_XFER_BACKOFF::file_xfer_failed(PROJECT* p) {
         );
         if (log_flags.file_xfer_debug) {
             msg_printf(p, MSG_INFO,
-                "[file_xfer_debug] project-wide xfer delay for %f sec",
+                "[file_xfer] project-wide xfer delay for %f sec",
                 backoff
             );
         }

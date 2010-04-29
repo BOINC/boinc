@@ -256,7 +256,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
     if (log_flags.task_debug) {
         msg_printf(result->project, MSG_INFO,
-            "[task_debug] Process for %s exited",
+            "[task] Process for %s exited",
             result->name
         );
     }
@@ -310,11 +310,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             );
             if (log_flags.task_debug) {
                 msg_printf(result->project, MSG_INFO,
-                    "[task_debug] Process for %s exited",
+                    "[task] Process for %s exited",
                     result->name
                 );
                 msg_printf(result->project, MSG_INFO,
-                    "[task_debug] exit code %d (0x%x): %s",
+                    "[task] exit code %d (0x%x): %s",
                     exit_code, exit_code,
                     windows_format_error_string(exit_code, szError, sizeof(szError))
                 );
@@ -342,7 +342,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             }
             if (log_flags.task_debug) {
                 msg_printf(result->project, MSG_INFO,
-                    "[task_debug] exit status %d\n",
+                    "[task] exit status %d\n",
                     result->exit_status
                 );
             }
@@ -351,7 +351,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
             if (log_flags.task_debug) {
                 msg_printf(result->project, MSG_INFO,
-                    "[task_debug] process got signal %d", signal
+                    "[task] process got signal %d", signal
                 );
             }
 
@@ -526,7 +526,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             if (log_flags.task_debug) {
                 char errmsg[1024];
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[task_debug] task %s GetExitCodeProcess() failed - %s GLE %d (0x%x)",
+                    "[task] task %s GetExitCodeProcess() failed - %s GLE %d (0x%x)",
                     atp->result->name,
                     windows_format_error_string(
                         GetLastError(), errmsg, sizeof(errmsg)
@@ -1079,12 +1079,12 @@ void ACTIVE_TASK_SET::get_msgs() {
                 atp->checkpoint_elapsed_time = atp->elapsed_time;
                 if (log_flags.task_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,
-                        "[task_debug] result %s checkpointed",
+                        "[task] result %s checkpointed",
                         atp->result->name
                     );
                 } else if (log_flags.checkpoint_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,
-                        "[checkpoint_debug] result %s checkpointed",
+                        "[checkpoint] result %s checkpointed",
                         atp->result->name
                     );
                 }

@@ -96,7 +96,7 @@ struct PROC_RESOURCES {
             } else {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
+                        "[cpu_sched] insufficient coprocessors for %s", rp->name
                     );
                 }
                 return false;
@@ -138,7 +138,7 @@ struct PROC_RESOURCES {
         if (cp2->used + x > cp2->count) {
             if (log_flag) {
                 msg_printf(NULL, MSG_INFO,
-                    "[cpu_sched_debug] insufficient coproc %s (%f + %f > %d)",
+                    "[cpu_sched] insufficient coproc %s (%f + %f > %d)",
                     cp2->type, cp2->used, x, cp2->count
                 );
             }
@@ -331,7 +331,7 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(best_project, MSG_INFO,
-            "[cpu_sched_debug] highest debt: %f %s",
+            "[cpu_sched] highest debt: %f %s",
             best_project->cpu_pwf.anticipated_debt,
             best_project->next_runnable_result->name
         );
@@ -471,7 +471,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(best_result->project, MSG_INFO,
-            "[cpu_sched_debug] earliest deadline: %.0f %s",
+            "[cpu_sched] earliest deadline: %.0f %s",
             best_result->report_deadline, best_result->name
         );
     }
@@ -514,7 +514,7 @@ void CLIENT_STATE::adjust_debts() {
     if (elapsed_time > 2*DEBT_ADJUST_PERIOD || elapsed_time < 0) {
         if (log_flags.debt_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[debt_debug] adjust_debt: elapsed time (%d) longer than sched enforce period(%d).  Ignoring this period.",
+                "[debt] adjust_debt: elapsed time (%d) longer than sched enforce period(%d).  Ignoring this period.",
                 (int)elapsed_time, (int)DEBT_ADJUST_PERIOD
             );
         }
@@ -596,7 +596,7 @@ static bool schedule_if_possible(
         if (atp->procinfo.working_set_size_smoothed > proc_rsc.ram_left) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug]  %s working set too large: %.2fMB",
+                    "[cpu_sched]  %s working set too large: %.2fMB",
                     rp->name, atp->procinfo.working_set_size_smoothed/MEGA
                 );
             }
@@ -609,7 +609,7 @@ static bool schedule_if_possible(
             if (atp->app_client_shm.shm == NULL) {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] waiting for shared mem: %s",
+                        "[cpu_sched] waiting for shared mem: %s",
                         rp->name
                     );
                 }
@@ -623,7 +623,7 @@ static bool schedule_if_possible(
         if (rp->avp->max_working_set_size > proc_rsc.ram_left) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug]  %s projected working set too large: %.2fMB",
+                    "[cpu_sched]  %s projected working set too large: %.2fMB",
                     rp->name, rp->avp->max_working_set_size/MEGA
                 );
             }
@@ -633,7 +633,7 @@ static bool schedule_if_possible(
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(rp->project, MSG_INFO,
-            "[cpu_sched_debug] scheduling %s (%s)", rp->name, description
+            "[cpu_sched] scheduling %s (%s)", rp->name, description
         );
     }
     proc_rsc.schedule(rp);
@@ -682,7 +682,7 @@ void CLIENT_STATE::schedule_cpus() {
     proc_rsc.coprocs.clone(host_info.coprocs, false);
 
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
+        msg_printf(0, MSG_INFO, "[cpu_sched] schedule_cpus(): start");
     }
 
     // do round-robin simulation to find what results miss deadline
@@ -882,7 +882,7 @@ static void print_job_list(vector<RESULT*>& jobs) {
     for (unsigned int i=0; i<jobs.size(); i++) {
         RESULT* rp = jobs[i];
         msg_printf(rp->project, MSG_INFO,
-            "[cpu_sched_debug] %d: %s (MD: %s; UTS: %s)",
+            "[cpu_sched] %d: %s (MD: %s; UTS: %s)",
             i, rp->name,
             rp->edf_scheduled?"yes":"no",
             rp->unfinished_time_slice?"yes":"no"
@@ -962,7 +962,7 @@ static inline void increment_pending_usage(
         if (cp->pending_usage[j] > 1) {
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] huh? %s %d %s pending usage > 1",
+                    "[coproc] huh? %s %d %s pending usage > 1",
                     cp->type, i, rp->name
                 );
             }
@@ -985,7 +985,7 @@ static inline bool current_assignment_ok(
         if (cp->usage[j] + x > 1) {
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] %s device %d already assigned: task %s",
+                    "[coproc] %s device %d already assigned: task %s",
                     cp->type, j, rp->name
                 );
             }
@@ -1005,7 +1005,7 @@ static inline void confirm_current_assignment(
         cp->pending_usage[j] -=x;
         if (log_flags.coproc_debug) {
             msg_printf(rp->project, MSG_INFO,
-                "[coproc_debug] %s instance %d: confirming for %s",
+                "[coproc] %s instance %d: confirming for %s",
                 cp->type, i, rp->name
             );
         }
@@ -1037,7 +1037,7 @@ static inline bool get_fractional_assignment(
             cp->available_ram[i] -= rp->avp->gpu_ram;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] Assigning %f of %s instance %d to %s",
+                    "[coproc] Assigning %f of %s instance %d to %s",
                     usage, cp->type, i, rp->name
                 );
             }
@@ -1061,7 +1061,7 @@ static inline bool get_fractional_assignment(
             cp->available_ram[i] -= rp->avp->gpu_ram;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] Assigning %f of %s free instance %d to %s",
+                    "[coproc] Assigning %f of %s free instance %d to %s",
                     usage, cp->type, i, rp->name
                 );
             }
@@ -1069,7 +1069,7 @@ static inline bool get_fractional_assignment(
         }
     }
     msg_printf(rp->project, MSG_INFO,
-        "[coproc_debug] Insufficient %s for %s: need %f",
+        "[coproc] Insufficient %s for %s: need %f",
         cp->type, rp->name, usage
     );
 
@@ -1100,12 +1100,12 @@ static inline bool get_integer_assignment(
     if (nfree < usage) {
         if (log_flags.coproc_debug) {
             msg_printf(rp->project, MSG_INFO,
-                "[coproc_debug] Insufficient %s for %s; need %d, available %d",
+                "[coproc] Insufficient %s for %s; need %d, available %d",
                 cp->type, rp->name, (int)usage, nfree
             );
             if (defer_sched) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] some instances lack available memory"
+                    "[coproc] some instances lack available memory"
                 );
             }
         }
@@ -1129,7 +1129,7 @@ static inline bool get_integer_assignment(
             rp->coproc_indices[n++] = i;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] Assigning %s instance %d to %s",
+                    "[coproc] Assigning %s instance %d to %s",
                     cp->type, i, rp->name
                 );
             }
@@ -1151,7 +1151,7 @@ static inline bool get_integer_assignment(
             rp->coproc_indices[n++] = i;
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[coproc_debug] Assigning %s pending instance %d to %s",
+                    "[coproc] Assigning %s pending instance %d to %s",
                     cp->type, i, rp->name
                 );
             }
@@ -1160,7 +1160,7 @@ static inline bool get_integer_assignment(
     }
     if (log_flags.coproc_debug) {
         msg_printf(rp->project, MSG_INFO,
-            "[coproc_debug] huh??? ran out of %s instances for %s",
+            "[coproc] huh??? ran out of %s instances for %s",
             cp->type, rp->name
         );
     }
@@ -1349,8 +1349,8 @@ bool CLIENT_STATE::enforce_schedule() {
 #endif
 
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] preliminary job list:");
+        msg_printf(0, MSG_INFO, "[cpu_sched] enforce_schedule(): start");
+        msg_printf(0, MSG_INFO, "[cpu_sched] preliminary job list:");
         print_job_list(ordered_scheduled_results);
     }
 
@@ -1386,7 +1386,7 @@ bool CLIENT_STATE::enforce_schedule() {
     promote_multi_thread_jobs(runnable_jobs);
 
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] final job list:");
+        msg_printf(0, MSG_INFO, "[cpu_sched] final job list:");
         print_job_list(runnable_jobs);
     }
 
@@ -1395,7 +1395,7 @@ bool CLIENT_STATE::enforce_schedule() {
 
     if (log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[mem_usage_debug] enforce: available RAM %.2fMB swap %.2fMB",
+            "[mem_usage] enforce: available RAM %.2fMB swap %.2fMB",
             ram_left/MEGA, swap_left/MEGA
         );
     }
@@ -1445,7 +1445,7 @@ bool CLIENT_STATE::enforce_schedule() {
             if (ncpus_used >= ncpus) {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] all CPUs used, skipping %s",
+                        "[cpu_sched] all CPUs used, skipping %s",
                         rp->name
                     );
                 }
@@ -1464,7 +1464,7 @@ bool CLIENT_STATE::enforce_schedule() {
 
                     if (log_flags.cpu_sched_debug) {
                         msg_printf(rp->project, MSG_INFO,
-                            "[cpu_sched_debug] not enough CPUs for multithread job, skipping %s",
+                            "[cpu_sched] not enough CPUs for multithread job, skipping %s",
                             rp->name
                         );
                     }
@@ -1480,7 +1480,7 @@ bool CLIENT_STATE::enforce_schedule() {
                     if (ncpus_used + 1 > ncpus) {
                         if (log_flags.cpu_sched_debug) {
                             msg_printf(rp->project, MSG_INFO,
-                                "[cpu_sched_debug] avoiding overcommit with multithread job, skipping %s",
+                                "[cpu_sched] avoiding overcommit with multithread job, skipping %s",
                                 rp->name
                             );
                         }
@@ -1496,7 +1496,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 atp->too_large = true;
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[mem_usage_debug] enforce: result %s can't run, too big %.2fMB > %.2fMB",
+                        "[mem_usage] enforce: result %s can't run, too big %.2fMB > %.2fMB",
                         rp->name,  atp->procinfo.working_set_size_smoothed/MEGA, ram_left/MEGA
                     );
                 }
@@ -1506,7 +1506,7 @@ bool CLIENT_STATE::enforce_schedule() {
 
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] scheduling %s", rp->name
+                "[cpu_sched] scheduling %s", rp->name
             );
         }
 
@@ -1521,7 +1521,7 @@ bool CLIENT_STATE::enforce_schedule() {
     }
 
     if (log_flags.cpu_sched_debug && ncpus_used < ncpus) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] using %.2f out of %d CPUs",
+        msg_printf(0, MSG_INFO, "[cpu_sched] using %.2f out of %d CPUs",
             ncpus_used, ncpus
         );
         if (ncpus_used < ncpus) {
@@ -1542,7 +1542,7 @@ bool CLIENT_STATE::enforce_schedule() {
         atp = active_tasks.active_tasks[i];
         if (log_flags.cpu_sched_debug) {
             msg_printf(atp->result->project, MSG_INFO,
-                "[cpu_sched_debug] %s sched state %d next %d task state %d",
+                "[cpu_sched] %s sched state %d next %d task state %d",
                 atp->result->name, atp->scheduler_state,
                 atp->next_scheduler_state, atp->task_state()
             );
@@ -1556,7 +1556,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 if (check_swap && swap_left < 0) {
                     if (log_flags.mem_usage_debug) {
                         msg_printf(atp->result->project, MSG_INFO,
-                            "[mem_usage_debug] out of swap space, will preempt by quit"
+                            "[mem_usage] out of swap space, will preempt by quit"
                         );
                     }
                     preempt_type = REMOVE_ALWAYS;
@@ -1564,7 +1564,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 if (atp->too_large) {
                     if (log_flags.mem_usage_debug) {
                         msg_printf(atp->result->project, MSG_INFO,
-                            "[mem_usage_debug] job using too much memory, will preempt by quit"
+                            "[mem_usage] job using too much memory, will preempt by quit"
                         );
                     }
                     preempt_type = REMOVE_ALWAYS;
@@ -1644,12 +1644,12 @@ bool CLIENT_STATE::enforce_schedule() {
         set_client_state_dirty("enforce_cpu_schedule");
     }
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule: end");
+        msg_printf(0, MSG_INFO, "[cpu_sched] enforce_schedule: end");
     }
     if (coproc_start_deferred) {
         if (log_flags.cpu_sched_debug) {
             msg_printf(0, MSG_INFO,
-                "[cpu_sched_debug] coproc quit pending, deferring start"
+                "[cpu_sched] coproc quit pending, deferring start"
             );
         }
         request_enforce_schedule(NULL, "coproc quit retry");
@@ -1663,7 +1663,7 @@ bool CLIENT_STATE::enforce_schedule() {
 //
 void CLIENT_STATE::request_enforce_schedule(PROJECT* p, const char* where) {
     if (log_flags.cpu_sched_debug) {
-        msg_printf(p, MSG_INFO, "[cpu_sched_debug] Request enforce CPU schedule: %s", where);
+        msg_printf(p, MSG_INFO, "[cpu_sched] Request enforce CPU schedule: %s", where);
     }
     must_enforce_cpu_schedule = true;
 }
@@ -1676,7 +1676,7 @@ void CLIENT_STATE::request_enforce_schedule(PROJECT* p, const char* where) {
 //
 void CLIENT_STATE::request_schedule_cpus(const char* where) {
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Request CPU reschedule: %s", where);
+        msg_printf(0, MSG_INFO, "[cpu_sched] Request CPU reschedule: %s", where);
     }
     must_schedule_cpus = true;
 }
@@ -1806,7 +1806,7 @@ void RESULT::set_state(int val, const char* where) {
     _state = val;
     if (log_flags.task_debug) {
         msg_printf(project, MSG_INFO,
-            "[task_debug] result state=%s for %s from %s",
+            "[task] result state=%s for %s from %s",
             result_state_name(val), name, where
         );
     }

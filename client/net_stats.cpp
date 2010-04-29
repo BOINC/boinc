@@ -153,7 +153,7 @@ int NET_STATUS::network_status() {
 		retval = NETWORK_STATUS_WANT_DISCONNECT;
 	}
 	if (log_flags.network_status_debug) {
-		msg_printf(NULL, MSG_INFO, "[network_status_debug] status: %s", network_status_string(retval));
+		msg_printf(NULL, MSG_INFO, "[network_status] status: %s", network_status_string(retval));
 	}
 	return retval;
 }
@@ -190,7 +190,7 @@ void NET_STATUS::got_http_error() {
 
     if (log_flags.network_status_debug) {
         msg_printf(0, MSG_INFO,
-            "[network_status_debug] got HTTP error - checking ref site"
+            "[network_status] got HTTP error - checking ref site"
         );
     }
     need_to_contact_reference_site = true;
@@ -200,7 +200,7 @@ void NET_STATUS::got_http_error() {
 void NET_STATUS::contact_reference_site() {
 	if (log_flags.network_status_debug) {
 		msg_printf(0, MSG_INFO,
-			"[network_status_debug] need_phys_conn %d; trying %s",
+			"[network_status] need_phys_conn %d; trying %s",
             need_physical_connection, config.network_test_url.c_str()
 		);
 	}

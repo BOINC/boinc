@@ -224,7 +224,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     if (skip_cpu_benchmarks) {
         if (log_flags.benchmark_debug) {
             msg_printf(0, MSG_INFO,
-                "[benchmark_debug] start_cpu_benchmarks(): Skipping CPU benchmarks"
+                "[benchmark] start_cpu_benchmarks(): Skipping CPU benchmarks"
             );
         }
 		cpu_benchmarks_set_defaults();
@@ -380,7 +380,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         if (now - cpu_benchmarks_start > FP_START) {
             if (log_flags.benchmark_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[benchmark_debug] Starting floating-point benchmark"
+                    "[benchmark] Starting floating-point benchmark"
                 );
             }
             make_benchmark_file(BM_TYPE_FP);
@@ -391,7 +391,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         if (now - cpu_benchmarks_start > FP_END) {
             if (log_flags.benchmark_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[benchmark_debug] Ended floating-point benchmark"
+                    "[benchmark] Ended floating-point benchmark"
                 );
             }
             remove_benchmark_file(BM_TYPE_FP);
@@ -402,7 +402,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         if (now - cpu_benchmarks_start > INT_START) {
             if (log_flags.benchmark_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[benchmark_debug] Starting integer benchmark"
+                    "[benchmark] Starting integer benchmark"
                 );
             }
             make_benchmark_file(BM_TYPE_INT);
@@ -413,7 +413,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         if (now - cpu_benchmarks_start > INT_END) {
             if (log_flags.benchmark_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[benchmark_debug] Ended integer benchmark"
+                    "[benchmark] Ended integer benchmark"
                 );
             }
             remove_benchmark_file(BM_TYPE_INT);
@@ -424,7 +424,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         if (now - cpu_benchmarks_start > OVERALL_END) {
             if (log_flags.benchmark_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[benchmark_debug] Ended benchmark"
+                    "[benchmark] Ended benchmark"
                 );
             }
             bm_state = BM_DONE;
@@ -453,7 +453,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         if (benchmark_descs[i].done) {
             if (log_flags.benchmark_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[benchmark_debug] CPU %d has finished", i
+                    "[benchmark] CPU %d has finished", i
                 );
             }
             ndone++;
@@ -465,7 +465,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     }
     if (log_flags.benchmark_debug) {
         msg_printf(0, MSG_INFO,
-            "[benchmark_debug] %d out of %d CPUs done", ndone, bm_ncpus
+            "[benchmark] %d out of %d CPUs done", ndone, bm_ncpus
         );
     }
     if (ndone == bm_ncpus) {
@@ -479,7 +479,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             for (i=0; i<bm_ncpus; i++) {
                 if (log_flags.benchmark_debug) {
                     msg_printf(0, MSG_INFO,
-                        "[benchmark_debug] CPU %d: fp %f int %f intloops %f inttime %f",
+                        "[benchmark] CPU %d: fp %f int %f intloops %f inttime %f",
                         i, benchmark_descs[i].host_info.p_fpops,
                         benchmark_descs[i].host_info.p_iops,
                         benchmark_descs[i].int_loops,

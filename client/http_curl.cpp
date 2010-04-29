@@ -78,7 +78,7 @@ size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     size_t stWrite = fwrite(ptr, size, nmemb, phop->fileOut);
     if (log_flags.http_xfer_debug) {
         msg_printf(NULL, MSG_INFO,
-            "[http_xfer_debug] [ID#%d] HTTP: wrote %d bytes", phop->trace_id, (int)stWrite
+            "[http_xfer] [ID#%d] HTTP: wrote %d bytes", phop->trace_id, (int)stWrite
         );
     }
     phop->bytes_xferred += (double)(stWrite);
@@ -188,7 +188,7 @@ void libcurl_logdebug(
     while(p) {
         if (log_flags.http_debug) {
             msg_printf(0, MSG_INFO,
-                "[http_debug] %s %s\n", hdr, p
+                "[http] %s %s\n", hdr, p
             );
         }
         p = strtok(NULL, "\n");
@@ -285,7 +285,7 @@ int HTTP_OP::init_get(
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
     if (log_flags.http_debug) {
-        msg_printf(0, MSG_INFO, "[http_debug] HTTP_OP::init_get(): %s", url);
+        msg_printf(0, MSG_INFO, "[http] HTTP_OP::init_get(): %s", url);
     }
     return HTTP_OP::libcurl_exec(url, NULL, out, off, false);
 }
@@ -313,7 +313,7 @@ int HTTP_OP::init_post(
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
     if (log_flags.http_debug) {
-        msg_printf(0, MSG_INFO, "[http_debug] HTTP_OP::init_post(): %s", url);
+        msg_printf(0, MSG_INFO, "[http] HTTP_OP::init_post(): %s", url);
     }
     return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);
 }
@@ -356,7 +356,7 @@ bool HTTP_OP::no_proxy_for_url(const char* url) {
     char noproxy[256];
 
     if (log_flags.proxy_debug) {
-        msg_printf(0, MSG_INFO, "[proxy_debug] HTTP_OP::no_proxy_for_url(): %s", url);
+        msg_printf(0, MSG_INFO, "[proxy] HTTP_OP::no_proxy_for_url(): %s", url);
     }
 
     parse_url(url, purl);
@@ -370,14 +370,14 @@ bool HTTP_OP::no_proxy_for_url(const char* url) {
         parse_url(token, purl2);
         if (!strcmp(purl.host, purl2.host)) {
             if (log_flags.proxy_debug) {
-                msg_printf(0, MSG_INFO, "[proxy_debug] disabling proxy for %s", url);
+                msg_printf(0, MSG_INFO, "[proxy] disabling proxy for %s", url);
             }
             return true;
         }
         token = strtok(NULL, ",");
     }
     if (log_flags.proxy_debug) {
-        msg_printf(0, MSG_INFO, "[proxy_debug] returning false");
+        msg_printf(0, MSG_INFO, "[proxy] returning false");
     }
     return false;
 }
@@ -480,7 +480,7 @@ int HTTP_OP::libcurl_exec(
                 msg_printf(
                     0,
                     MSG_INFO,
-                    "[http_debug] HTTP_OP::libcurl_exec(): ca-bundle '%s'",
+                    "[http] HTTP_OP::libcurl_exec(): ca-bundle '%s'",
                     m_curl_ca_bundle_location
                 );
             }
@@ -495,7 +495,7 @@ int HTTP_OP::libcurl_exec(
             msg_printf(
                 0,
                 MSG_INFO,
-                "[http_debug] HTTP_OP::libcurl_exec(): ca-bundle set"
+                "[http] HTTP_OP::libcurl_exec(): ca-bundle set"
             );
         }
     }
@@ -763,7 +763,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
     if (pi.use_http_proxy) {
         if (log_flags.proxy_debug) {
             msg_printf(
-                0, MSG_INFO, "[proxy_debug]: setting up proxy %s:%d",
+                0, MSG_INFO, "[proxy]: setting up proxy %s:%d",
                 pi.http_server_name, pi.http_server_port
             );
         }
@@ -808,7 +808,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
     } else if (pi.have_autodetect_proxy_settings && strlen(pi.autodetect_server_name)) {
         if (log_flags.proxy_debug) {
             msg_printf(0, MSG_INFO,
-                "[proxy_debug] HTTP_OP::setup_proxy_session(): setting up automatic proxy %s:%d",
+                "[proxy] HTTP_OP::setup_proxy_session(): setting up automatic proxy %s:%d",
                 pi.autodetect_server_name, pi.autodetect_port
             );
         }
@@ -994,7 +994,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
         net_status.got_http_error();
         if (log_flags.http_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[http_debug] HTTP error: %s", error_msg
+                "[http] HTTP error: %s", error_msg
             );
         }
     }
@@ -1009,7 +1009,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             // flag as a bad response for a possible retry later
             response = 1;
             msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "[http_debug] can't rewind post output file %s",
+                "[http] can't rewind post output file %s",
                 outfile
             );
         } else {
@@ -1021,7 +1021,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             if (nread != dSize) {
                 if (log_flags.http_debug) {
                     msg_printf(NULL, MSG_INFO,
-                        "[http_debug] post output file read failed %ld",
+                        "[http] post output file read failed %ld",
                         nread
                     );
                 }
@@ -1107,7 +1107,7 @@ void HTTP_OP::set_speed_limit(bool is_upload, double bytes_sec) {
     }
     if (cc && log_flags.http_debug) {
         msg_printf(NULL, MSG_INFO,
-            "[http_debug] Curl error in set_speed_limit(): %s",
+            "[http] Curl error in set_speed_limit(): %s",
             curl_easy_strerror(cc)
         );
     }

@@ -67,14 +67,14 @@ void COPROC::print_available_ram() {
         if (available_ram_unknown[i]) {
             if (log_flags.coproc_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[coproc_debug] %s device %d: available RAM unknown",
+                    "[coproc] %s device %d: available RAM unknown",
                     type, device_nums[i]
                 );
             }
         } else {
             if (log_flags.coproc_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[coproc_debug] %s device %d: available RAM %d MB",
+                    "[coproc] %s device %d: available RAM %d MB",
                     type, device_nums[i],
                     (int)(available_ram[i]/MEGA)
                 );

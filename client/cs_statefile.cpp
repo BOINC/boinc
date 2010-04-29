@@ -39,7 +39,7 @@
 
 void CLIENT_STATE::set_client_state_dirty(const char* source) {
     if (log_flags.statefile_debug) {
-        msg_printf(0, MSG_INFO, "[statefile_debug] set dirty: %s\n", source);
+        msg_printf(0, MSG_INFO, "[statefile] set dirty: %s\n", source);
     }
     client_state_dirty = true;
 }
@@ -101,7 +101,7 @@ int CLIENT_STATE::parse_state_file() {
     } else {
         if (log_flags.statefile_debug) {
             msg_printf(0, MSG_INFO,
-                "[statefile_debug] CLIENT_STATE::parse_state_file(): No state file; will create one"
+                "[statefile] CLIENT_STATE::parse_state_file(): No state file; will create one"
             );
         }
 
@@ -537,7 +537,7 @@ int CLIENT_STATE::write_state_file() {
             
         if (log_flags.statefile_debug) {
             msg_printf(0, MSG_INFO,
-                "[statefile_debug] Writing state file"
+                "[statefile] Writing state file"
             );
         }
 #ifdef _WIN32
@@ -618,7 +618,7 @@ int CLIENT_STATE::write_state_file() {
         retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
         if (log_flags.statefile_debug) {
             msg_printf(0, MSG_INFO,
-                "[statefile_debug] Done writing state file"
+                "[statefile] Done writing state file"
             );
         }
         if (!retval) break;     // Success!

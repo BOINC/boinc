@@ -458,7 +458,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     if (log_flags.sched_op_debug) {
         if (sr.scheduler_version) {
             msg_printf(project, MSG_INFO,
-                "[sched_op_debug] Server version %d",
+                "[sched_op] Server version %d",
                 sr.scheduler_version
             );
         }
@@ -841,18 +841,18 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     if (log_flags.sched_op_debug) {
         if (sr.results.size()) {
             msg_printf(project, MSG_INFO,
-                "[sched_op_debug] estimated total CPU task duration: %.0f seconds",
+                "[sched_op] estimated total CPU task duration: %.0f seconds",
                 est_cpu_duration
             );
             if (coproc_cuda) {
                 msg_printf(project, MSG_INFO,
-                    "[sched_op_debug] estimated total NVIDIA GPU task duration: %.0f seconds",
+                    "[sched_op] estimated total NVIDIA GPU task duration: %.0f seconds",
                     est_cuda_duration
                 );
             }
             if (coproc_ati) {
                 msg_printf(project, MSG_INFO,
-                    "[sched_op_debug] estimated total ATI GPU task duration: %.0f seconds",
+                    "[sched_op] estimated total ATI GPU task duration: %.0f seconds",
                     est_ati_duration
                 );
             }
@@ -864,7 +864,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     for (i=0; i<sr.result_acks.size(); i++) {
         if (log_flags.sched_op_debug) {
             msg_printf(project, MSG_INFO,
-                "[sched_op_debug] handle_scheduler_reply(): got ack for task %s\n",
+                "[sched_op] handle_scheduler_reply(): got ack for task %s\n",
                 sr.result_acks[i].name
             );
         }
@@ -955,7 +955,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
 
     if (log_flags.state_debug) {
         msg_printf(project, MSG_INFO,
-            "[state_debug] handle_scheduler_reply(): State after handle_scheduler_reply():"
+            "[state] handle_scheduler_reply(): State after handle_scheduler_reply():"
         );
         print_summary();
     }
@@ -1012,10 +1012,10 @@ void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
 	possibly_backed_off = true;
     if (log_flags.sched_op_debug) {
         msg_printf(this, MSG_INFO,
-            "[sched_op_debug] Deferring communication for %s",
+            "[sched_op] Deferring communication for %s",
             timediff_format(min_rpc_time - gstate.now).c_str()
         );
-        msg_printf(this, MSG_INFO, "[sched_op_debug] Reason: %s\n", reason);
+        msg_printf(this, MSG_INFO, "[sched_op] Reason: %s\n", reason);
     }
 }
 

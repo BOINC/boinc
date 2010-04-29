@@ -167,9 +167,9 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
     FILE* f = fopen(REMOTEHOST_FILE_NAME, "r");
     if (f) {
         remote_hosts_file_exists = true;
-        if (log_flags.guirpc_debug) {
+        if (log_flags.gui_rpc_debug) {
             msg_printf(0, MSG_INFO,
-                "[guirpc_debug] found allowed hosts list"
+                "[gui_rpc] found allowed hosts list"
             );
         }
  
@@ -238,13 +238,13 @@ int GUI_RPC_CONN_SET::init(bool last_time) {
 #else
     if (config.allow_remote_gui_rpc || remote_hosts_file_exists) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
-        if (log_flags.guirpc_debug) {
-            msg_printf(NULL, MSG_INFO, "[guirpc_debug] Remote control allowed");
+        if (log_flags.gui_rpc_debug) {
+            msg_printf(NULL, MSG_INFO, "[gui_rpc] Remote control allowed");
         }
     } else {
         addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-        if (log_flags.guirpc_debug) {
-            msg_printf(NULL, MSG_INFO, "[guirpc_debug] Local control only allowed");
+        if (log_flags.gui_rpc_debug) {
+            msg_printf(NULL, MSG_INFO, "[gui_rpc] Local control only allowed");
         }
     }
 #endif
@@ -266,8 +266,8 @@ int GUI_RPC_CONN_SET::init(bool last_time) {
         lsock = -1;
         return ERR_BIND;
     }
-    if (log_flags.guirpc_debug) {
-        msg_printf(NULL, MSG_INFO, "[guirpc_debug] Listening on port %d", htons(addr.sin_port));
+    if (log_flags.gui_rpc_debug) {
+        msg_printf(NULL, MSG_INFO, "[gui_rpc] Listening on port %d", htons(addr.sin_port));
     }
 
     retval = listen(lsock, 999);
@@ -410,9 +410,9 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
                 gr->auth_needed = true;
             }
             gr->is_local = is_local;
-            if (log_flags.guirpc_debug) {
+            if (log_flags.gui_rpc_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[guirpc_debug] got new GUI RPC connection"
+                    "[gui_rpc] got new GUI RPC connection"
                 );
             }
             insert(gr);
@@ -434,9 +434,9 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         if (FD_ISSET(gr->sock, &fg.read_fds)) {
             retval = gr->handle_rpc();
             if (retval) {
-                if (log_flags.guirpc_debug) {
+                if (log_flags.gui_rpc_debug) {
                     msg_printf(NULL, MSG_INFO,
-                        "[guirpc_debug] error %d from handler, closing socket\n",
+                        "[gui_rpc] error %d from handler, closing socket\n",
                         retval
                     );
                 }
@@ -450,9 +450,9 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
 }
 
 void GUI_RPC_CONN_SET::close() {
-    if (log_flags.guirpc_debug) {
+    if (log_flags.gui_rpc_debug) {
         msg_printf(NULL, MSG_INFO,
-            "[guirpc_debug] closing GUI RPC listening socket %d\n", lsock
+            "[gui_rpc] closing GUI RPC listening socket %d\n", lsock
         );
     }
     if (lsock >= 0) {

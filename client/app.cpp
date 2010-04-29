@@ -198,7 +198,7 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
     _task_state = val;
     if (log_flags.task_debug) {
         msg_printf(result->project, MSG_INFO,
-            "[task_debug] task_state=%s for %s from %s",
+            "[task] task_state=%s for %s from %s",
             task_state_name(val), result->name, where
         );
     }
@@ -319,7 +319,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 	if (retval) {
 		if (log_flags.mem_usage_debug) {
 			msg_printf(NULL, MSG_INTERNAL_ERROR,
-				"[mem_usage_debug] procinfo_setup() returned %d", retval
+				"[mem_usage] procinfo_setup() returned %d", retval
 			);
 		}
 		return;
@@ -338,7 +338,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             pi.page_fault_rate = pf/diff;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage_debug] %s: RAM %.2fMB, page %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s: RAM %.2fMB, page %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
                     atp->result->name,
                     pi.working_set_size/MEGA, pi.swap_size/MEGA,
                     pi.page_fault_rate,
@@ -378,7 +378,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     procinfo_other(pi, piv);
     if (log_flags.mem_usage_debug) {
         msg_printf(NULL, MSG_INFO,
-            "[mem_usage_debug] All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",
+            "[mem_usage] All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",
             pi.working_set_size/MEGA, pi.swap_size/MEGA,
             pi.user_time, pi.kernel_time
         );
@@ -393,7 +393,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
         if (log_flags.mem_usage_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[mem_usage_debug] non-BOINC CPU usage: %.2f%%", non_boinc_cpu_usage*100
+                "[mem_usage] non-BOINC CPU usage: %.2f%%", non_boinc_cpu_usage*100
             );
         }
     }

@@ -242,7 +242,7 @@ void TIME_STATS::update(int suspend_reason) {
         last_update = gstate.now;
         if (log_flags.time_debug) {
             msg_printf(0, MSG_INFO,
-                "[time_debug] dt %f w2 %f on %f; active %f; conn %f",
+                "[time] dt %f w2 %f on %f; active %f; conn %f",
                 dt, w2, on_frac, active_frac, connected_frac
             );
         }

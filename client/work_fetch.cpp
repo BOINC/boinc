@@ -200,7 +200,7 @@ void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, const char* name) {
     backoff_time = gstate.now + x;
     if (log_flags.work_fetch_debug) {
         msg_printf(p, MSG_INFO,
-            "[wfd] backing off %s %.0f sec", name, x
+            "[work_fetch] backing off %s %.0f sec", name, x
         );
     }
 }
@@ -341,7 +341,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     if (!req_secs && !req_instances) {
         if (log_flags.work_fetch_debug) {
             msg_printf(pbest, MSG_INFO,
-                "[wfd] error: project chosen but zero request"
+                "[work_fetch] error: project chosen but zero request"
             );
         }
         return 0;
@@ -349,7 +349,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
 
     if (log_flags.work_fetch_debug) {
         msg_printf(pbest, MSG_INFO,
-            "chosen: %s %s: %.2f inst, %.2f sec",
+            "[work_fetch] chosen: %s %s: %.2f inst, %.2f sec",
             criterion_name(criterion), rsc_name(rsc_type),
             req_instances, req_secs
         );
@@ -393,7 +393,7 @@ void RSC_WORK_FETCH::set_request(PROJECT* p, bool allow_overworked) {
 
 void RSC_WORK_FETCH::print_state(const char* name) {
     msg_printf(0, MSG_INFO,
-        "[wfd] %s: shortfall %.2f nidle %.2f saturated %.2f busy %.2f RS fetchable %.2f runnable %.2f",
+        "[work_fetch] %s: shortfall %.2f nidle %.2f saturated %.2f busy %.2f RS fetchable %.2f runnable %.2f",
         name,
         shortfall, nidle_now, saturated_time, busy_time_estimator.get_busy_time(),
         total_fetchable_share, total_runnable_share
@@ -416,7 +416,7 @@ void RSC_WORK_FETCH::print_state(const char* name) {
             break;
         }
         msg_printf(p, MSG_INFO,
-            "[wfd] %s: fetch share %.2f LTD %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
+            "[work_fetch] %s: fetch share %.2f LTD %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
             name,
             pwf.fetchable_share, pwf.long_term_debt, bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
@@ -580,7 +580,7 @@ void RSC_WORK_FETCH::update_short_term_debts() {
             delta /= ninstances;
             if (log_flags.std_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[std_debug] %s STD delta %.2f (%.2f*%.2f - %.2f)/%d",
+                    "[std] %s STD delta %.2f (%.2f*%.2f - %.2f)/%d",
                     rsc_name(rsc_type),
                     delta,
                     share_frac,
@@ -613,7 +613,7 @@ void RSC_WORK_FETCH::update_short_term_debts() {
             if (p->runnable(rsc_type)) {
                 if (log_flags.std_debug) {
                     msg_printf(p, MSG_INFO,
-                        "[std_debug] %s STD %.2f",
+                        "[std] %s STD %.2f",
                         rsc_name(rsc_type), rpwf.short_term_debt
                     );
                 }
@@ -725,8 +725,8 @@ void WORK_FETCH::zero_debts() {
 }
 
 void WORK_FETCH::print_state() {
-    msg_printf(0, MSG_INFO, "[wfd] ------- start work fetch state -------");
-    msg_printf(0, MSG_INFO, "[wfd] target work buffer: %.2f + %.2f sec",
+    msg_printf(0, MSG_INFO, "[work_fetch] ------- start work fetch state -------");
+    msg_printf(0, MSG_INFO, "[work_fetch] target work buffer: %.2f + %.2f sec",
         gstate.work_buf_min(), gstate.work_buf_additional()
     );
     cpu_work_fetch.print_state("CPU");
@@ -739,9 +739,9 @@ void WORK_FETCH::print_state() {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        msg_printf(p, MSG_INFO, "[wfd] overall LTD %.2f", p->pwf.overall_debt);
+        msg_printf(p, MSG_INFO, "[work_fetch] overall LTD %.2f", p->pwf.overall_debt);
     }
-    msg_printf(0, MSG_INFO, "[wfd] ------- end work fetch state -------");
+    msg_printf(0, MSG_INFO, "[work_fetch] ------- end work fetch state -------");
 }
 
 void WORK_FETCH::clear_request() {
@@ -814,7 +814,7 @@ PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p = 0;
 
     if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "[wfd]: work fetch start");
+        msg_printf(0, MSG_INFO, "[work_fetch]: work fetch start");
     }
 
     p = non_cpu_intensive_project_needing_work();
@@ -873,7 +873,7 @@ PROJECT* WORK_FETCH::choose_project() {
     if (log_flags.work_fetch_debug) {
         print_state();
         if (!p) {
-            msg_printf(0, MSG_INFO, "[wfd] No project chosen for work fetch");
+            msg_printf(0, MSG_INFO, "[work_fetch] No project chosen for work fetch");
         }
     }
 
@@ -943,7 +943,7 @@ void WORK_FETCH::compute_shares() {
             p->cpu_pwf.fetchable_share = cpu_work_fetch.total_fetchable_share?p->resource_share/cpu_work_fetch.total_fetchable_share:1;
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[wfd] FS: %f = %f/%f\n",
+                    "[work_fetch] FS: %f = %f/%f\n",
                     p->cpu_pwf.fetchable_share, p->resource_share,
                     cpu_work_fetch.total_fetchable_share
                 );
@@ -991,7 +991,7 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
     if (log_flags.work_fetch_debug) {
         char buf[256], buf2[256];
         sprintf(buf,
-            "[wfd] request: %.2f sec CPU (%.2f sec, %.2f)",
+            "[work_fetch] request: %.2f sec CPU (%.2f sec, %.2f)",
             work_req,
             cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
         );

@@ -107,11 +107,9 @@ typedef BOOL (WINAPI *tDEB)(LPVOID lpEnvironment);
 //
 #ifndef _WIN32
 static void debug_print_argv(char** argv) {
-    msg_printf(0, MSG_INFO, "[task_debug] Arguments:");
+    msg_printf(0, MSG_INFO, "[task] Arguments:");
     for (int i=0; argv[i]; i++) {
-        msg_printf(0, MSG_INFO,
-            "[task_debug]    argv[%d]: %s\n", i, argv[i]
-        );
+        msg_printf(0, MSG_INFO, "[task]    argv[%d]: %s\n", i, argv[i]);
     }
 }
 #endif
@@ -709,7 +707,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
-            "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
+            "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
 
@@ -920,7 +918,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
-            "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
+            "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
 
@@ -939,7 +937,7 @@ error:
     gstate.report_result_error(*result, buf);
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
-            "[task_debug] couldn't start app: %s", buf
+            "[task] couldn't start app: %s", buf
         );
     }
     set_task_state(PROCESS_COULDNT_START, "start");

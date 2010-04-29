@@ -3277,3 +3277,9 @@ David  29 Apr 2010
 
     html/inc
         text_transform.inc
+
+David  29 Apr 2010
+    - client: standardize debug messages.
+        Messages enabled by <foo_debug> are prefixed by "[foo]"
+    client/
+        (most).cpp

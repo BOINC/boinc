@@ -169,10 +169,10 @@ int FILE_XFER::parse_upload_response(double &nbytes) {
     }
     if (log_flags.file_xfer_debug) {
         msg_printf(fip->project, MSG_INFO,
-            "[file_xfer_debug] parsing upload response: %s", req1
+            "[file_xfer] parsing upload response: %s", req1
         );
         msg_printf(fip->project, MSG_INFO,
-            "[file_xfer_debug] parsing status: %d", status
+            "[file_xfer] parsing status: %d", status
         );
     }
 
@@ -241,7 +241,7 @@ bool FILE_XFER_SET::poll() {
         fxp->file_xfer_done = true;
         if (log_flags.file_xfer_debug) {
             msg_printf(fxp->fip->project, MSG_INFO,
-                "[file_xfer_debug] FILE_XFER_SET::poll(): http op done; retval %d\n",
+                "[file_xfer] FILE_XFER_SET::poll(): http op done; retval %d\n",
                 fxp->http_op_retval
             );
         }

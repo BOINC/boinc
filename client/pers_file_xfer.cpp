@@ -128,11 +128,11 @@ int PERS_FILE_XFER::create_xfer() {
     if (retval) {
         if (log_flags.http_debug) {
             msg_printf(
-                fip->project, MSG_INFO, "[file_xfer_debug] Couldn't start %s of %s",
+                fip->project, MSG_INFO, "[file_xfer] Couldn't start %s of %s",
                 (is_upload ? "upload" : "download"), fip->name
             );
             msg_printf(
-                fip->project, MSG_INFO, "[file_xfer_debug] URL %s: %s",
+                fip->project, MSG_INFO, "[file_xfer] URL %s: %s",
                 fip->get_current_url(), boincerror(retval)
             );
         }
@@ -151,7 +151,7 @@ int PERS_FILE_XFER::create_xfer() {
     }
     if (log_flags.file_xfer_debug) {
         msg_printf(fip->project, MSG_INFO,
-            "[file_xfer_debug] URL: %s\n",
+            "[file_xfer] URL: %s\n",
             fip->get_current_url()
         );
     }
@@ -181,7 +181,7 @@ bool PERS_FILE_XFER::poll() {
 #if 0
             if (log_flags.file_xfer_debug) {
                 msg_printf(fip->project, MSG_INFO,
-                    "[file_xfer_debug] delaying %s of %s: project-wide backoff %f sec",
+                    "[file_xfer] delaying %s of %s: project-wide backoff %f sec",
                     is_upload?"upload":"download", fip->name,
                     fxb.next_xfer_time - gstate.now
                 );
@@ -212,7 +212,7 @@ bool PERS_FILE_XFER::poll() {
     if (fxp->file_xfer_done) {
         if (log_flags.file_xfer_debug) {
             msg_printf(fip->project, MSG_INFO,
-                "[file_xfer_debug] file transfer status %d",
+                "[file_xfer] file transfer status %d",
                 fxp->file_xfer_retval
             );
         }
@@ -227,10 +227,10 @@ bool PERS_FILE_XFER::poll() {
             }
             if (log_flags.file_xfer_debug) {
                 if (fxp->xfer_speed < 0) {
-                    msg_printf(fip->project, MSG_INFO, "[file_xfer_debug] No data transferred");
+                    msg_printf(fip->project, MSG_INFO, "[file_xfer] No data transferred");
                 } else {
                     msg_printf(
-                        fip->project, MSG_INFO, "[file_xfer_debug] Throughput %d bytes/sec",
+                        fip->project, MSG_INFO, "[file_xfer] Throughput %d bytes/sec",
                         (int)fxp->xfer_speed
                     );
                 }
