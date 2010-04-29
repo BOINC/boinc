@@ -3,18 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:09-0500\n"
-"PO-Revision-Date: 2010-03-13 22:23+0900\n"
+"PO-Revision-Date: 2010-04-29 15:32+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 日本語\n"
-"X-Poedit-Country: JAPAN\n"
+
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "Identify your account "
@@ -115,11 +112,9 @@ msgstr ""
 msgid "Account manager website"
 msgstr "アカウント・マネージャのウェブサイト"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトに参加"
 #: clientgui/AccountInfoPage.cpp:530
-#, fuzzy
 msgid "Attach to project"
-msgstr "Attach to project"
+msgstr "プロジェクトに参加"
 
 #: clientgui/AccountInfoPage.cpp:532
 msgid "Update account manager"
@@ -170,31 +165,25 @@ msgstr ""
 msgid "Account Manager &URL:"
 msgstr "アカウント・マネージャ URL(&U)："
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "%s と通信中です。"
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:195
 #, c-format
 msgid "Communicating with %s."
-msgstr "Communicating with %s."
+msgstr "%s と通信中です。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "サーバと通信中です。"
 #: clientgui/AccountManagerProcessingPage.cpp:196
 #: clientgui/AccountManagerPropertiesPage.cpp:202
-#, fuzzy
 msgid "Communicating with server."
-msgstr "Communicating with server."
+msgstr "サーバと通信中です。"
 
 #: clientgui/AccountManagerProcessingPage.cpp:201
 #: clientgui/AccountManagerPropertiesPage.cpp:207
 msgid "Please wait..."
 msgstr "お待ち下さい..."
 
-# The dialog does not render this if translated as "サーバ内部で異常が発生しました。\n
-# "
 #: clientgui/AccountManagerProcessingPage.cpp:325
-#, fuzzy
 msgid "An internal server error has occurred.\n"
-msgstr "An internal server error has occurred.\n"
+msgstr "サーバ内部で異常が発生しました。\n"
 
 #: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
@@ -272,7 +261,7 @@ msgstr "ディスク使用量を表示"
 
 #: clientgui/AdvancedFrame.cpp:371
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "簡易表示(&V)...\tCTRL+SHIFT+S"
+msgstr "簡易表示(&V)...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:372
 msgid "Display the simple graphical interface."
@@ -598,11 +587,9 @@ msgstr "%s に接続処理中"
 msgid "Connected to %s (%s)"
 msgstr "%s (%s)に接続済み"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "指定した名前はすでに使われています"
 #: clientgui/AlreadyExistsPage.cpp:182
-#, fuzzy
 msgid "Username already in use"
-msgstr "Username already in use"
+msgstr "指定した名前はすでに使われています"
 
 #: clientgui/AlreadyExistsPage.cpp:185
 msgid ""
@@ -616,11 +603,9 @@ msgstr ""
 "\n"
 "プロジェクトのウェブサイトに行って、そこにある指示に従って下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "指定した電子メールアドレスはすでに使われています。"
 #: clientgui/AlreadyExistsPage.cpp:189
-#, fuzzy
 msgid "Email address already in use"
-msgstr "Email address already in use"
+msgstr "指定した電子メールアドレスはすでに使われています。"
 
 #: clientgui/AlreadyExistsPage.cpp:192
 msgid ""
@@ -958,29 +943,21 @@ msgstr "休止"
 msgid "Snooze GPU"
 msgstr "GPU を休止"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "プロジェクト参加に失敗"
 #: clientgui/CompletionErrorPage.cpp:199
-#, fuzzy
 msgid "Failed to attach to project"
-msgstr "Failed to attach to project"
+msgstr "プロジェクト参加に失敗"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "アカウント･マネージャ更新に失敗"
 #: clientgui/CompletionErrorPage.cpp:204
-#, fuzzy
 msgid "Failed to update account manager"
-msgstr "Failed to update account manager"
+msgstr "アカウント･マネージャとの最新状況の更新に失敗"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "アカウント･マネージャ離脱に失敗"
 #: clientgui/CompletionErrorPage.cpp:208
-#, fuzzy
 msgid "Failed to remove account manager"
-msgstr "Failed to remove account manager"
+msgstr "アカウント･マネージャ離脱に失敗"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "アカウント･マネージャ参加に失敗"
 #: clientgui/CompletionErrorPage.cpp:212
-#, fuzzy
 msgid "Failed to attach to account manager"
-msgstr "Failed to attach to account manager"
+msgstr "アカウント･マネージャへの参加に失敗"
 
 #: clientgui/CompletionErrorPage.cpp:221
 msgid ""
@@ -1087,7 +1064,7 @@ msgstr "OK(&O)"
 
 #: clientgui/DlgAdvPreferences.cpp:485
 msgid "invalid float"
-msgstr "浮動小数点形式の数値が正しくありません。"
+msgstr "浮動小数点形式の数値が正しくありません"
 
 #: clientgui/DlgAdvPreferences.cpp:486
 msgid "invalid time, format is HH:MM"
@@ -1151,7 +1128,7 @@ msgstr "バッテリ駆動時の稼動"
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
-msgstr "バッテリ稼動時にも計算を実行する場合はチェックしてください。"
+msgstr "バッテリ稼動時にも計算を実行する場合はチェックしてください"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:89
 msgid " While computer is in use"
@@ -1178,7 +1155,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:113
 msgid "Only after computer has been idle for"
-msgstr "アイドル時間が次の時間を超えた時のみ計算を実行します。"
+msgstr "アイドル時間が次の時間を超えた時のみ計算を実行します"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:123
 msgid ""
@@ -1191,17 +1168,16 @@ msgid "minutes"
 msgstr "分"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "プロセッサ使用設定"
+msgstr "CPU使用率が右の値より低いときにだけ計算を実行します"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr "CPU使用率がこのレベルを超えたら仕事を中断する"
+msgstr "プロセッサ使用率がこのレベルを超えると仕事を一時中断します"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr "％（０を指定すると制限無しの意）"
+msgstr "％（0を指定すれば制約なし）"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1234,7 +1210,7 @@ msgstr "曜日ごとの設定："
 #: clientgui/DlgAdvPreferencesBase.cpp:203
 #: clientgui/DlgAdvPreferencesBase.cpp:428
 msgid "check box to specify hours for this day of week"
-msgstr "この曜日で時間帯を指定するにはチェックを入れて下さい。"
+msgstr "この曜日で時間帯を指定するにはチェックを入れて下さい"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:213
 #: clientgui/DlgAdvPreferencesBase.cpp:438
@@ -1297,12 +1273,12 @@ msgstr "% まで"
 #: clientgui/DlgAdvPreferencesBase.cpp:581
 #: clientgui/DlgAdvPreferencesBase.cpp:591
 msgid "Use at most"
-msgstr "最大使用"
+msgstr "最大で"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:306
 #, no-c-format
 msgid "% CPU time"
-msgstr "% CPU 時間"
+msgstr "% のCPU 時間まで使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:316
 msgid "processor usage"
@@ -1335,7 +1311,7 @@ msgid ""
 "(0 if it's always connected)"
 msgstr ""
 "このコンピュータは、X 日毎にインターネットに接続します。\n"
-"(0だと常時接続します)"
+"(0は常時接続します)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:357
 msgid "days"
@@ -1422,7 +1398,7 @@ msgstr "最低限の未使用領域"
 #: clientgui/DlgAdvPreferencesBase.cpp:530
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr ""
-"BOINC　は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギ"
+"BOINC は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギ"
 "ガバイト)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:534
@@ -1471,7 +1447,7 @@ msgstr "一時停止時にアプリケーションをメモリ上に残す"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:605
 msgid "if checked, suspended work units are left in memory"
-msgstr "チェックをいれると、休止中のワークユニットはメモリに残ります。"
+msgstr "チェックをいれると、休止中のワークユニットはメモリに残ります"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:614
 msgid "disk and memory usage"
@@ -1659,14 +1635,12 @@ msgstr "スケジューリング"
 
 #: clientgui/DlgItemProperties.cpp:243 clientgui/DlgItemProperties.cpp:253
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Project preference"
-msgstr "あなたのプレファレンス"
+msgstr "プロジェクトごとのプレファレンス"
 
 #: clientgui/DlgItemProperties.cpp:243
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "新しいタスクを取得しない"
+msgstr "新しい CPU向けタスクを取得しない"
 
 #: clientgui/DlgItemProperties.cpp:245
 msgid "CPU scheduling priority"
@@ -1686,7 +1660,7 @@ msgstr "CPU 向けの仕事を獲得する処理の保留間隔"
 
 #: clientgui/DlgItemProperties.cpp:253
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "NVIDIA GPU向けタスクを新たに取得しない"
 
 #: clientgui/DlgItemProperties.cpp:255
 msgid "NVIDIA GPU scheduling priority"
@@ -1705,9 +1679,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "NVIDIA GPU 向けの仕事を獲得する処理の保留間隔"
 
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "新しいタスクを取得しない"
+msgstr "ATI GPU向けタスクを新たに取得しない"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "ATI GPU scheduling priority"
@@ -1914,7 +1887,7 @@ msgstr "言語："
 
 #: clientgui/DlgOptions.cpp:164
 msgid "What language should the manager use?"
-msgstr "マネージャ・プログラムはどの言語を使うべきか?"
+msgstr "マネージャ・プログラムが表示に使う言語を何にするか"
 
 #: clientgui/DlgOptions.cpp:168
 msgid ""
@@ -1928,8 +1901,7 @@ msgstr ""
 msgid ""
 "How often should the Manager remind you when a network connection is needed?"
 msgstr ""
-"ネットワーク接続が必要であることをどのような頻度でマネージャ・プログラムはあ"
-"なたに思い出させるべきか?"
+"マネージャ・プログラムがあなたに、ネットワーク接続が必要であることを伝える頻度"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2183,7 +2155,7 @@ msgstr "所属しているチームの情報"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
-msgstr "climateprediction.net について助けを求めます"
+msgstr "climateprediction.net について手助けを求める"
 
 #: clientgui/Localization.cpp:125
 msgid "News"
@@ -2249,21 +2221,17 @@ msgstr "システムの状態を読み出しています。お待ちください
 msgid "Retrieving host information; please wait..."
 msgstr "計算機 (ホスト) の情報を読み出しています。お待ちください..."
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "インターネット接続が見つかりません"
 #: clientgui/NoInternetConnectionPage.cpp:179
-#, fuzzy
 msgid "No Internet connection"
-msgstr "No Internet connection"
+msgstr "インターネット接続が見つかりません"
 
 #: clientgui/NoInternetConnectionPage.cpp:182
 msgid "Please connect to the Internet and try again."
 msgstr "インターネットへ接続してから、もう一度試して下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "プロジェクトが見つかりません"
 #: clientgui/NotDetectedPage.cpp:181
-#, fuzzy
 msgid "Project not found"
-msgstr "Project not found"
+msgstr "プロジェクトが見つかりません"
 
 #: clientgui/NotDetectedPage.cpp:184
 msgid ""
@@ -2275,11 +2243,9 @@ msgstr ""
 "\n"
 "URL を確認の上、もう一度試して下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "アカウント･マネージャが見つかりません"
 #: clientgui/NotDetectedPage.cpp:188
-#, fuzzy
 msgid "Account manager not found"
-msgstr "Account manager not found"
+msgstr "アカウント･マネージャが見つかりません"
 
 #: clientgui/NotDetectedPage.cpp:191
 msgid ""
@@ -2293,11 +2259,9 @@ msgstr ""
 "\n"
 "URL を確認の上、もう一度試して下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as "ログイン失敗。"
 #: clientgui/NotFoundPage.cpp:181
-#, fuzzy
 msgid "Login Failed."
-msgstr "Login Failed."
+msgstr "ログイン失敗。"
 
 #: clientgui/NotFoundPage.cpp:185
 msgid "Check the username and password, and try again."
@@ -2307,11 +2271,9 @@ msgstr "名前とパスワードを確認の上、もう一度試して下さい
 msgid "Check the email address and password, and try again."
 msgstr "電子メールアドレスとパスワードを確認の上、もう一度試して下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトを選んでください"
 #: clientgui/ProjectInfoPage.cpp:259
-#, fuzzy
 msgid "Choose a project"
-msgstr "Choose a project"
+msgstr "プロジェクトを選んでください"
 
 #: clientgui/ProjectInfoPage.cpp:262
 msgid "To choose a project, click its name or type its URL below."
@@ -2359,37 +2321,28 @@ msgstr "ATI GPU サポート済み"
 msgid "Project Website"
 msgstr "プロジェクトのウェブサイト"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトと通信中\n
-# お待ち下さい..."
 #: clientgui/ProjectProcessingPage.cpp:322
 #: clientgui/ProjectPropertiesPage.cpp:335
-#, fuzzy
 msgid ""
 "Communicating with project\n"
 "Please wait..."
 msgstr ""
-"Communicating with project\n"
-"Please wait..."
+"プロジェクトと通信中\n"
+"お待ち下さい..."
 
-# The dialog does not render this if translated as "対象のサーバに必要なファイルがありません。\n
-# (lookup_account.php/create_account.php)\n"
 #: clientgui/ProjectProcessingPage.cpp:499
-#, fuzzy
 msgid ""
 "Required wizard file(s) are missing from the target server.\n"
 "(lookup_account.php/create_account.php)\n"
 msgstr ""
-"Required wizard file(s) are missing from the target server.\n"
+"対象のサーバに必要なウィザード・ファイルがありません。\n"
 "(lookup_account.php/create_account.php)\n"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "ネットワーク通信失敗"
 #: clientgui/ProxyInfoPage.cpp:195
-#, fuzzy
 msgid "Network communication failure"
-msgstr "Network communication failure"
+msgstr "ネットワーク通信失敗"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2449,11 +2402,9 @@ msgstr ""
 "3) プロキシ・サーバを使っている場合。\n"
 "[次へ] をクリックして BOINC のプロキシ設定を行って下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロキシ設定"
 #: clientgui/ProxyPage.cpp:331
-#, fuzzy
 msgid "Proxy configuration"
-msgstr "Proxy configuration"
+msgstr "プロキシ設定"
 
 #: clientgui/ProxyPage.cpp:334
 msgid "HTTP proxy"
@@ -2473,7 +2424,7 @@ msgstr "SOCKS プロキシ"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:118
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "詳細表示\tCTRL+SHIFT+A"
+msgstr "詳細表示...\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:119
 msgid "Display the advanced (accessible) graphical interface."
@@ -2886,11 +2837,9 @@ msgstr "Time Remaining: "
 msgid "Elapsed Time: "
 msgstr "経過時間："
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "使用条件"
 #: clientgui/TermsOfUsePage.cpp:219
-#, fuzzy
 msgid "Terms of Use"
-msgstr "Terms of Use"
+msgstr "使用規約"
 
 #: clientgui/TermsOfUsePage.cpp:223
 msgid "Please read the following terms of use:"
@@ -2904,11 +2853,9 @@ msgstr "使用条件に合意する。"
 msgid "I do not agree with the terms of use."
 msgstr "使用条件に合意しない。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトは一時的に利用できません"
 #: clientgui/UnavailablePage.cpp:183
-#, fuzzy
 msgid "Project temporarily unavailable"
-msgstr "Project temporarily unavailable"
+msgstr "プロジェクトは一時的に利用できません"
 
 #: clientgui/UnavailablePage.cpp:186
 msgid ""
@@ -2920,11 +2867,9 @@ msgstr ""
 "\n"
 "少し待ってからもう一度試して下さい。"
 
-# This dialog title is rendered not correctly if it is translated into Japanese, as  "アカウント・マネージャは一時的に利用できません"
 #: clientgui/UnavailablePage.cpp:190
-#, fuzzy
 msgid "Account manager temporarily unavailable"
-msgstr "Account manager temporarily unavailable"
+msgstr "アカウント・マネージャは一時的に利用できません"
 
 #: clientgui/UnavailablePage.cpp:193
 msgid ""
@@ -3305,7 +3250,7 @@ msgstr "空き領域 ： "
 
 #: clientgui/ViewResources.cpp:300
 msgid "used by other programs: "
-msgstr "その他のプログラムによる使用領域 : "
+msgstr "その他のプログラムによる使用領域 :"
 
 #: clientgui/ViewStatistics.cpp:1142
 msgid "User Total"
@@ -3613,15 +3558,15 @@ msgstr "全てのタスクを表示"
 
 #: clientgui/ViewWork.cpp:704
 msgid "Show all tasks."
-msgstr "すべてのタスクを表示する。"
+msgstr "すべてのタスクを表示します"
 
 #: clientgui/ViewWork.cpp:728 clientgui/ViewWorkGrid.cpp:445
 msgid "Resume work for this task."
-msgstr "このタスクを再開します。"
+msgstr "このタスクを再開します"
 
 #: clientgui/ViewWork.cpp:734 clientgui/ViewWorkGrid.cpp:451
 msgid "Suspend work for this task."
-msgstr "このタスクに対する仕事を一時停止します。"
+msgstr "このタスクに対する仕事を一時停止します"
 
 #: clientgui/ViewWork.cpp:1108
 msgid "GPU missing, "
@@ -3636,9 +3581,8 @@ msgid " (non-CPU-intensive)"
 msgstr "（常時 CPU を使用するわけではありません）"
 
 #: clientgui/ViewWork.cpp:1183
-#, fuzzy
 msgid " (waiting for GPU memory)"
-msgstr "メモリ不足のため待機"
+msgstr "(GPU 用メモリを待っています)"
 
 #: clientgui/ViewWork.cpp:1205
 msgid "Aborted: not started by deadline"
@@ -3681,7 +3625,7 @@ msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
 msgstr ""
-"プロジェクトあるいはアカウント・マネージャに接続する手順を\n"
+"プロジェクトあるいはアカウント・マネージャに参加する手順を\n"
 "初めから終わりまでガイドします。"
 
 #: clientgui/WelcomePage.cpp:281
