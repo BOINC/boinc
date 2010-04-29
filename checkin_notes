@@ -3240,3 +3240,13 @@ David  28 Apr 2010
 
     client/
         net_stats.cpp
+
+Charlie  29 Apr 2010
+    - client: Add get_max_cpu_temperature to the Macintosh client to 
+        report the highest current CPU temperature as degrees Celsius.
+        This code is for Intel macs only.  Returns zero if it fails 
+        (or on a PowerPC Mac).  I do have code to do this on PowerPC 
+        Macs, but it is long and complex.
+        
+    client/
+        hostinfo_unix.cpp
