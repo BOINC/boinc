@@ -69,10 +69,10 @@ $w610dev = array(
 );
 
 $w610 = array(
-	"num"=>"6.10.43",
+	"num"=>"6.10.18",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.43_windows_intelx86.exe",
-	"date"=>"19 Mar 2009",
+	"file"=>"boinc_6.10.18_windows_intelx86.exe",
+	"date"=>"9 Nov 2009",
 	"type"=>"win_new",
 );
 
@@ -101,10 +101,10 @@ $w610x64dev = array(
 );
 
 $w610x64 = array(
-	"num"=>"6.10.43",
+	"num"=>"6.10.18",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.43_windows_x86_64.exe",
-	"date"=>"19 Mar 2009",
+	"file"=>"boinc_6.10.18_windows_x86_64.exe",
+	"date"=>"9 Nov 2009",
 	"type"=>"win_new",
 );
 
@@ -120,15 +120,15 @@ $m610dev = array(
 	"num"=>"6.10.50",
 	"status"=>"Development version (standard GUI)",
 	"file"=>"boinc_6.10.50_macOSX_universal.zip",
-	"date"=>"28 Apr 2010",
+	"date"=>"29 Apr 2010",
 	"type"=>"mac_advanced",
 );
 
 $m610 = array(
-	"num"=>"6.10.43",
+	"num"=>"6.10.21",
 	"status"=>"Recommended version (standard GUI)",
-	"file"=>"boinc_6.10.43_macOSX_universal.zip",
-	"date"=>"19 Mar 2010",
+	"file"=>"boinc_6.10.21_macOSX_universal.zip",
+	"date"=>"1 Dec 2009",
 	"type"=>"mac_advanced",
 );
 
@@ -144,15 +144,15 @@ $m610cdev = array(
 	"num"=>"6.10.50",
 	"status"=>"Development version (Unix command-line version)",
 	"file"=>"boinc_6.10.50_universal-apple-darwin.zip",
-	"date"=>"28 Apr 2010",
+	"date"=>"29 Apr 2010",
 	"type"=>"bare_core",
 );
 
 $m610c = array(
-	"num"=>"6.10.43",
+	"num"=>"6.10.21",
 	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_6.10.43_universal-apple-darwin.zip",
-	"date"=>"19 Mar 2010",
+	"file"=>"boinc_6.10.21_universal-apple-darwin.zip",
+	"date"=>"1 Dec 2009",
 	"type"=>"bare_core",
 );
 
@@ -189,10 +189,10 @@ $l610ubuntudev = array(
 );
 
 $l610ubuntu = array(
-	"num"=>"6.10.44",
+	"num"=>"6.10.17",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.44_i686-pc-linux-gnu.sh",
-	"date"=>"19 Mar 2010",
+	"file"=>"boinc_6.10.17_i686-pc-linux-gnu.sh",
+	"date"=>"28 Oct 2009",
 	"type"=>"sea",
 );
 
@@ -213,10 +213,10 @@ $l610ubuntux64dev = array(
 );
 
 $l610ubuntux64 = array(
-	"num"=>"6.10.44",
+	"num"=>"6.10.17",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.10.44_x86_64-pc-linux-gnu.sh",
-	"date"=>"19 Mar 2010",
+	"file"=>"boinc_6.10.17_x86_64-pc-linux-gnu.sh",
+	"date"=>"28 Oct 2009",
 	"type"=>"sea",
 );
 
