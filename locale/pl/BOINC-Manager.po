@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 17:53-0500\n"
-"PO-Revision-Date: 2010-04-24 14:42-0700\n"
+"PO-Revision-Date: 2010-04-29 09:28-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -1183,7 +1183,7 @@ msgstr "minut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
 msgid "While processor usage is less than"
-msgstr "kiedy wykorzystanie procesora jest mniejsze niż"
+msgstr "gdy wykorzystanie procesora jest mniejsze niż"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
