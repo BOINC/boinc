@@ -3283,3 +3283,9 @@ David  29 Apr 2010
         Messages enabled by <foo_debug> are prefixed by "[foo]"
     client/
         (most).cpp
+
+David  29 Apr 2010
+    - client: missed one
+
+    client/
+        cs_scheduler.cpp

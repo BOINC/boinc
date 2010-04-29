@@ -1153,7 +1153,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
 // 
 void CLIENT_STATE::request_work_fetch(const char* where) {
     if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "[wfd] Request work fetch: %s", where);
+        msg_printf(0, MSG_INFO, "[work_fetch] Request work fetch: %s", where);
     }
     must_check_work_fetch = true;
 }
