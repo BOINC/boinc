@@ -3268,3 +3268,12 @@ David  29 Apr 2010
             forum.inc
         user/
             pm.php
+
+David  29 Apr 2010
+    - user web: in BBCode->HTML conversion there was a limit of
+        20 tags converted.
+        I don't think a limit is needed.
+        In any case, I changed it to 1000
+
+    html/inc
+        text_transform.inc

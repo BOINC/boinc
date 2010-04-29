@@ -198,8 +198,8 @@ function bb2html($text, $export=false) {
     // Do the actual replacing - iterations for nested items
     $lasttext = "";
     $i = 0;
-    // $i<20 to prevent DoS
-    while ($text != $lasttext && $i<20) {
+    // $i<1000 to prevent DoS
+    while ($text != $lasttext && $i<1000) {
         $lasttext = $text;
         $text = preg_replace($bbtags,$htmltags,$text);
         $i = $i + 1;
