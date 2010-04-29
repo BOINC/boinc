@@ -3259,3 +3259,12 @@ David  29 Apr 2010
         work_fetch.cpp
     clientgui/
         ProxyInfoPage.cpp
+
+David  29 Apr 2010
+    - user web: no limit on PMs for moderators, admins etc.
+
+    html/
+        inc/
+            forum.inc
+        user/
+            pm.php

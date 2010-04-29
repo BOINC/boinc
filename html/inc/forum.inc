@@ -1081,7 +1081,8 @@ function check_reply_access($user, $forum, $thread) {
 
 function is_moderator($user, $forum) {
     if (!$user) return false;
-    switch ($forum->parent_type) {
+    $type = $forum?$forum->parent_type:0;
+    switch ($type) {
     case 0:
         if ($user->prefs->privilege(S_MODERATOR)) return true;
         if ($user->prefs->privilege(S_ADMIN)) return true;

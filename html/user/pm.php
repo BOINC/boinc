@@ -217,7 +217,9 @@ function do_send($logged_in_user) {
         }
         
         foreach ($userlist as $user) {
-            check_pm_count($logged_in_user->id);
+            if (!is_moderator($logged_in_user, null)) {
+                check_pm_count($logged_in_user->id);
+            }
             pm_send($user, $subject, $content, true);
         }
         
