@@ -196,7 +196,7 @@ void CErrProxyInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 #if defined (_WCG)
     m_pDescriptionStaticCtrl->SetLabel(
-        _("The World Community Grid - BOINC software failed to communicate\nover the Internet. The most likely reasons are:\n\n1) Connectivity problem.  Check your network or modem connection\nand then click Back to try again.\n\n2) Personal firewall software is blocking the World Community\nGrid - BOINC software.  Configure your personal firewall to let\nBOINC and BOINC Manager communicate on port 80 and port 443,\nhen click Back to try again.\n\n3) You are using a proxy server.\nClick Next to configure BOINC's proxy settings.")
+        _("The World Community Grid - BOINC software failed to communicate\nover the Internet. The most likely reasons are:\n\n1) Connectivity problem.  Check your network or modem connection\nand then click Back to try again.\n\n2) Personal firewall software is blocking the World Community\nGrid - BOINC software.  Configure your personal firewall to let\nBOINC and BOINC Manager communicate on port 80 and port 443,\nthen click Back to try again.\n\n3) You are using a proxy server.\nClick Next to configure BOINC's proxy settings.")
     );
 #else
     m_pDescriptionStaticCtrl->SetLabel(

@@ -3250,3 +3250,12 @@ Charlie  29 Apr 2010
         
     client/
         hostinfo_unix.cpp
+
+David  29 Apr 2010
+    - client: minor code cleanup
+    - manager: fix typo
+
+    client/
+        work_fetch.cpp
+    clientgui/
+        ProxyInfoPage.cpp

@@ -1227,6 +1227,8 @@ bool PROJECT::nearly_runnable() {
     return false;
 }
 
+// whether this task can be run right now
+//
 bool RESULT::runnable() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
@@ -1236,8 +1238,25 @@ bool RESULT::runnable() {
     return true;
 }
 
+// whether this task should be included in RR simulation
+// Like runnable, except downloading backoff is OK
+// Schedule-backoff is not OK;
+// we should be able to get GPU jobs from project A
+// even if project B based backed-off jobs.
+//
 bool RESULT::nearly_runnable() {
-    return runnable() || downloading();
+    if (suspended_via_gui) return false;
+    if (project->suspended_via_gui) return false;
+    switch (state()) {
+    case RESULT_FILES_DOWNLOADED:
+    case RESULT_FILES_DOWNLOADING:
+        break;
+    default:
+        return false;
+    }
+    if (coproc_missing) return false;
+    if (schedule_backoff > gstate.now) return false;
+    return true;
 }
 
 // Return true if the result is waiting for its files to download,
