@@ -242,6 +242,7 @@ void CLIENT_STATE::check_suspend_network() {
         network_suspended = true;
         file_xfers_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_REQ;
+        return;
     }
 
     // was there a recent GUI RPC that needs network?
@@ -249,6 +250,15 @@ void CLIENT_STATE::check_suspend_network() {
     bool recent_rpc = gui_rpcs.recent_rpc_needs_network(
         ALLOW_NETWORK_IF_RECENT_RPC_PERIOD
     );
+
+    switch(network_mode.get_current()) {
+    case RUN_MODE_ALWAYS: 
+        return;
+    case RUN_MODE_NEVER:
+        file_xfers_suspended = true;
+        if (!recent_rpc) network_suspended = true;
+        network_suspend_reason = SUSPEND_REASON_USER_REQ;
+    }
 
     if (global_prefs.daily_xfer_limit_mb) {
         double up, down;
@@ -262,12 +272,6 @@ void CLIENT_STATE::check_suspend_network() {
         }
     }
 
-
-    if (network_mode.get_current() == RUN_MODE_NEVER) {
-        file_xfers_suspended = true;
-        if (!recent_rpc) network_suspended = true;
-        network_suspend_reason = SUSPEND_REASON_USER_REQ;
-    }
     if (!global_prefs.run_if_user_active && user_active) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;

@@ -1533,3 +1533,9 @@ Rom    28 Apr 2010
     /
         configure.ac
         version.h
+
+Charlie  30 Apr 2010
+    - client: Restore RUN_MODE_ALWAYS functionality in network suspension 
+        logic which as lost in code cleanup of 26 Apr 2010.
+
+        cs_prefs.pp
