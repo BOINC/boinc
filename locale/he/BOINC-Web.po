@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-05-01 01:00-0700\n"
+"PO-Revision-Date: 2010-05-01 13:46-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -289,34 +289,35 @@ msgid ""
 "Where do you get information to help resolve problems with BOINC and/or "
 "BOINC projects?"
 msgstr ""
+"היכן הינך מקבל את המידע שיעזור לפתור בעיות עם BOINC ו/או פרוייקטי BOINC?"
 
 #: poll_data.inc:208
 msgid "The project message boards"
-msgstr ""
+msgstr "לוחות המודעות של הפרוייקט"
 
 #: poll_data.inc:209
 msgid "The BOINC message boards"
-msgstr ""
+msgstr "לוחות המודעות של BOINC"
 
 #: poll_data.inc:211
 msgid "BOINC mailing lists"
-msgstr ""
+msgstr "רשימות תפוצה של BOINC"
 
 #: poll_data.inc:212
 msgid "The Unofficial BOINC Wiki"
-msgstr ""
+msgstr "הויקיפדיה הלא-רשמית של BOINC"
 
 #: poll_data.inc:213
 msgid "Team web sites"
-msgstr ""
+msgstr "אתרי אינטרנט של קבוצות"
 
 #: poll_data.inc:214
 msgid "Google or other search engines"
-msgstr ""
+msgstr "Google או מנועי חיפוש אחרים"
 
 #: download.php:40
 msgid "Download BOINC"
-msgstr ""
+msgstr "הורד את BOINC"
 
 #: download.php:42
 #, php-format
