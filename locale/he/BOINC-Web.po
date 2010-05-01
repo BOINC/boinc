@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-05-01 00:59-0700\n"
+"PO-Revision-Date: 2010-05-01 01:00-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -282,7 +282,7 @@ msgstr "לקרוא ולפרסם מידע"
 
 #: poll_data.inc:202
 msgid "None"
-msgstr ""
+msgstr "כלל לא"
 
 #: poll_data.inc:206
 msgid ""
