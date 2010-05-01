@@ -1539,3 +1539,12 @@ Charlie  30 Apr 2010
         logic which as lost in code cleanup of 26 Apr 2010.
 
         cs_prefs.pp
+
+Charlie  30 Apr 2010
+
+    - Tag for 6.10.51 release, all platforms
+      boinc_core_release_6_10_51
+
+    /
+        configure.ac
+        version.h
