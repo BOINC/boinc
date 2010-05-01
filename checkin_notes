@@ -3289,3 +3289,9 @@ David  29 Apr 2010
 
     client/
         cs_scheduler.cpp
+
+Charlie  30 Apr 2010
+    - client: Restore RUN_MODE_ALWAYS functionality in network suspension 
+        logic which as lost in code cleanup of 26 Apr 2010.
+
+        cs_prefs.pp
