@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-05-02 05:52-0700\n"
+"PO-Revision-Date: 2010-05-02 08:03-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -350,19 +350,19 @@ msgstr "דרישות מערכת"
 
 #: download.php:121
 msgid "Release notes"
-msgstr ""
+msgstr "הערות"
 
 #: download.php:122 index.php:89
 msgid "Help"
-msgstr ""
+msgstr "עזרה"
 
 #: download.php:123
 msgid "All versions"
-msgstr ""
+msgstr "כל הגרסאות"
 
 #: download.php:141
 msgid "BOINC: compute for science"
-msgstr ""
+msgstr "BOINC: חישוב למען המדע"
 
 #: help.php:12
 #, php-format
