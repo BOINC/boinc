@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-05-02 09:58-0700\n"
+"PO-Revision-Date: 2010-05-02 10:39-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -535,49 +535,49 @@ msgstr "פיתוח תכנה"
 
 #: index.php:166
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "ממשקים לתכנות מחשבים עבור תוספים"
 
 #: index.php:167
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "סגל ותורמים"
 
 #: index.php:168
 msgid "Message boards"
-msgstr ""
+msgstr "לוחות מודעות"
 
 #: index.php:169
 msgid "Email lists"
-msgstr ""
+msgstr "רשימות תפוצה באימייל"
 
 #: index.php:170
 msgid "Events"
-msgstr ""
+msgstr "אירועים"
 
 #: index.php:171
 msgid "Conferences"
-msgstr ""
+msgstr "ועידות"
 
 #: index.php:172
 msgid "Papers and talks"
-msgstr ""
+msgstr "מסמכים ושיחות"
 
 #: index.php:173
 msgid "Logos and graphics"
-msgstr ""
+msgstr "סמלים וגרפיקה"
 
 #: index.php:206
 msgid "Browser default"
-msgstr ""
+msgstr "ברירת מחדל של הדפדפן"
 
 #: index.php:250
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr ""
+msgstr "תכנת קוד פתוח לחישוב התנדבותי וחישוב ברשת"
 
 #: poll.php:9
 msgid "BOINC user survey"
-msgstr ""
+msgstr "סקר משתמשי BOINC"
 
 #: poll.php:19
 msgid ""
@@ -594,41 +594,41 @@ msgstr ""
 
 #: poll.php:25
 msgid "Do you run BOINC?"
-msgstr ""
+msgstr "האם אתם מריצים את BOINC?"
 
 #: poll.php:30
 msgid "Your participation"
-msgstr ""
+msgstr "ההשתתפות שלכם"
 
 #: poll.php:32
 msgid "Your computers"
-msgstr ""
+msgstr "המחשבים שלכם"
 
 #: poll.php:34
 msgid "You"
-msgstr ""
+msgstr "אתם"
 
 #: poll.php:39
 msgid "Nationality"
-msgstr ""
+msgstr "לאום"
 
 #: poll.php:44
 msgid "Comments"
-msgstr ""
+msgstr "הערות"
 
 #: poll.php:46
 msgid ""
 "Please suggest ways that BOINC, and the projects that use it, could be "
 "improved:"
-msgstr ""
+msgstr "אנא הצע דרכים בהן BOINC, והפרוייקטים שעושים שימוש בתכנה, יכולים להשתפר:"
 
 #: poll.php:50
 msgid "When done click:"
-msgstr ""
+msgstr "כשתסיים, לחץ:"
 
 #: poll_action.php:9
 msgid "Error - results not recorded"
-msgstr ""
+msgstr "שגיאה - תוצאות לא נקלטו"
 
 #: poll_action.php:10
 msgid ""
