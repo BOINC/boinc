@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-05-01 13:46-0700\n"
+"PO-Revision-Date: 2010-05-02 05:52-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -331,6 +331,9 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
+"BOINC הינה תכנה המאפשרת לך לתרום זמן מחשב פנוי לביצוע פרוייקטים מדעעים כגון "
+"SETI@home, Climateprediction.net, Rosetta@home, World Community Grid ורבים "
+"אחרים. לאחר התקנת התכנה במחשבך, תוכל לחברה לכמה פרוייקטים שתרצה."
 
 #: download.php:114
 #, php-format
@@ -338,10 +341,12 @@ msgid ""
 "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
 "(GPU), you may be able to %suse it to compute faster%s"
 msgstr ""
+"הערה: אם מחשבך מצוייד ביחידת עיבוד גרפית (GPU) של NVIDIA, באפשרותך להשתמש בו "
+"%s בכדי לבצע חישובים מהירים יותר %s"
 
 #: download.php:120
 msgid "System requirements"
-msgstr ""
+msgstr "דרישות מערכת"
 
 #: download.php:121
 msgid "Release notes"
