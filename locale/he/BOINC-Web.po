@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-05-02 08:03-0700\n"
+"PO-Revision-Date: 2010-05-02 09:58-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -372,6 +372,9 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
+"עזרה מקוונת של BOINC מאפשרת לכם לשוחח אחד על אחד עם משתמשי BOINC מנוסים, "
+"שיכולים: לענות לשאלות בנוגע ל-BOINC ולחישוב התנדבותי, להדריך אתכם בתהליך "
+"ההתקנה והשימוש בתכנת BOINC, לעזור בפתרון בעיות בהן אתם עשויים להיתקל."
 
 #: help.php:21
 #, php-format
@@ -381,6 +384,9 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
+"העזרה המקוונת של BOINC מבוססת על Skype, מערכת טלפוניה מבוססת אינטרנט. Skype "
+"הינה מערכת ללא תשלום (הן המערכת והן השיחות). אם עדיין אין לכם את תכנת Skype, "
+"אנא הורידו והתקינו אותה כעת. כשתסיימו, חזרו לדף זה."
 
 #: help.php:28
 msgid ""
@@ -389,16 +395,19 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
+"הדרך הטובה ביותר לקבלת עזרה היא באמצעות דיבור, ולשם כך תזדקקו למיקרופון "
+"מובנה במחשבכם ורמקולים או למערכת ראש. כמו כן, תוכלו להשתמש במערכת ההודעות של "
+"Skype או אימייל (אם אין ברשותכם Skype) בכדי לתקשר עם מתנדבים עוזרים."
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
-msgstr ""
+msgstr "זמינים מתנדבים אשר מדברים מספר שפות. אנא בחרו שפה:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr ""
+msgstr "היה מתנדב עוזר"
 
 #: help.php:50
 #, php-format
@@ -407,69 +416,71 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
+"אם הינך משתמש BOINC מנוסה, אנו מעודדים אותך להפוף למתנדב עוזר. זוהי דרך "
+"נהדרת לקדם את מטרת המחקר המדעי והחישוב ההתנדבותי - וזה גם כיף!"
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr ""
+msgstr "אם הינך כבר מתנדב עוזר: בכדי לערוך את הגדרותייך, לחץ כאן"
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "כוח החישוב"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "100 המתנדבים הראשונים"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "סטטיסטיקה"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "פעילים:"
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "מתנדבים,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "מחשבים."
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "ממוצע ל-24 שעות:"
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "טרה פלופ"
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "חדשות"
 
 #: index.php:72
 msgid "... more"
-msgstr ""
+msgstr "עוד..."
 
 #: index.php:76
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "חדשות זמינות כ-RSS feed"
 
 #: index.php:86
 msgid "Volunteer"
-msgstr ""
+msgstr "מתנדב"
 
 #: index.php:88
 msgid "Download"
-msgstr ""
+msgstr "הורד"
 
 #: index.php:90 index.php:125 index.php:163
 msgid "Documentation"
-msgstr ""
+msgstr "תיעוד"
 
 #: index.php:96
 #, php-format
@@ -479,45 +490,48 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
+"השתמש בזמן הפנוי של מחשבך (Windows, Mac או Linux) לריפוי מחלות, חקר ההתחממות "
+"הגלובלית, גילוי פולסרים וביצוע סוגים רבים של מחקר מדעי. זה בטוח, מוגן "
+"ופשוט: בחר פרוייקטים, הורד והרץ את תכנת BOINC, הזן כתובת אימייל וסיסמא."
 
 #: index.php:107
 #, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
-msgstr ""
+msgstr "או, אם אתה מריץ מספר פרוייקטים,נסה מנהל חשבון כגון GridRepublic או BAM!"
 
 #: index.php:123
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "חשב עם BOINC"
 
 #: index.php:126
 msgid "Software updates"
-msgstr ""
+msgstr "עדכוני תכנה"
 
 #: index.php:153
 msgid "The BOINC project"
-msgstr ""
+msgstr "פרוייקט BOINC"
 
 #: index.php:158
 msgid "Help wanted!"
-msgstr ""
+msgstr "דרושה עזרה!"
 
 #: index.php:160
 msgid "Programming"
-msgstr ""
+msgstr "תכנות"
 
 #: index.php:161
 msgid "Translation"
-msgstr ""
+msgstr "תרגום"
 
 #: index.php:162
 msgid "Testing"
-msgstr ""
+msgstr "בדיקה"
 
 #: index.php:165
 msgid "Software development"
-msgstr ""
+msgstr "פיתוח תכנה"
 
 #: index.php:166
 msgid "APIs for add-on software"
