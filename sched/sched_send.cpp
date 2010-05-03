@@ -1333,14 +1333,14 @@ static void explain_to_user() {
             if (g_request->core_client_version>41900) {
                 sprintf(helpful,
                     "(won't finish in time) "
-                    "BOINC runs %.1f%% of time, computation enabled %.1f%% of that",
-                    100.0*g_reply->host.on_frac, 100.0*g_reply->host.active_frac
+                    "BOINC runs %.1f%% of the time; computation is enabled %.1f%% of that",
+                    100*g_reply->host.on_frac, 100*g_reply->host.active_frac
                 );
             } else {
                 sprintf(helpful,
                     "(won't finish in time) "
-                    "Computer available %.1f%% of time",
-                    100.0*g_reply->host.on_frac
+                    "Computer available %.1f%% of the time",
+                    100*g_reply->host.on_frac
                 );
             }
             g_reply->insert_message(helpful, "high");

@@ -3309,3 +3309,14 @@ David  30 Apr 2010
 	clientgui/
 		ViewTransfers.cpp
 		ViewWork.cpp
+
+David  3 May 2010
+    - client: day boundary for "transfer at most X in N days"
+        is midnight local time, not UTC
+    - update translation templates
+
+    sched/
+        sched_send.cpp
+    client/
+        sim.cpp
+        net_stats.cpp

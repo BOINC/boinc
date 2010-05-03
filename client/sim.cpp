@@ -558,9 +558,11 @@ char* colors[] = {
 static int outfile_num=0;
 
 bool uses_coproc(RESULT* rp, COPROC* cp) {
+    return false;
 }
 
 bool using_instance(RESULT*, int) {
+    return false;
 }
 
 void gpu_header() {
