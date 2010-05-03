@@ -2,67 +2,72 @@
 # Copyright (C) 2008 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-05-03 11:25-0700\n"
+"Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "Search for words in forum messages"
-msgstr ""
+msgstr "חיפוש מילים בהודעות פורום"
 
 msgid "Search forums"
-msgstr ""
+msgstr "חיפוש בפורומים"
 
 msgid "Advanced search"
-msgstr ""
+msgstr "חיפוש מתקדם"
 
 msgid "Private messages"
-msgstr ""
+msgstr "הודעות פרטיות"
 
 msgid "Questions and Answers"
-msgstr ""
+msgstr "שאלות ותשובות"
 
 msgid "Message boards"
-msgstr ""
+msgstr "לוחות מודעות"
 
 msgid "%1 message board"
-msgstr ""
+msgstr "לוח מודעות %1 "
 
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
+"בכדי ליצור אשכול חדש ב-%1, צריכה להיות ברשותכם כמות מסויימת של נקודות זכות. "
+"זאת על מנת למנוע ולהגן מפני ניצול לרעה של המערכת."
 
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
+"אין באפשרותכם ליצור כרגע אשכולים נוספים. אנא המתינו מעט לפני שתנסו שנית. "
+"עיכוב זה נועד להגן מפני ניצול לרעה של המערכת."
 
 msgid "Thread"
-msgstr ""
+msgstr "אשכול"
 
 msgid "Posts"
-msgstr ""
+msgstr "רשומות"
 
 msgid "Author"
-msgstr ""
+msgstr "מחבר"
 
 msgid "Views"
-msgstr ""
+msgstr "צפיות"
 
 msgid "Last post"
-msgstr ""
+msgstr "רשומה אחרונה"
 
 msgid "Mark all threads as read"
 msgstr ""
@@ -71,36 +76,38 @@ msgid "Mark all threads in all message boards as 'read'."
 msgstr ""
 
 msgid "Inbox"
-msgstr ""
+msgstr "דואר נכנס"
 
 msgid "Write"
-msgstr ""
+msgstr "כתבו"
 
 msgid "Send private message"
-msgstr ""
+msgstr "שלחו הודעה אישית"
 
 msgid "Preview"
-msgstr ""
+msgstr "תצוגה מקדימה"
 
 msgid "To"
-msgstr ""
+msgstr "עבור"
 
 msgid "User IDs or unique usernames, separated with commas"
-msgstr ""
+msgstr "זיהוי המשתמש או שמות משתמש מיוחדים, מופרדים באמצעות פסיק"
 
 msgid "Subject"
-msgstr ""
+msgstr "נושא"
 
 msgid "Message"
-msgstr ""
+msgstr "הודעה"
 
 msgid "Send message"
-msgstr ""
+msgstr "שלחו הודעה"
 
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
 msgstr ""
+"אינכם מורשים לשלוח הודעות פרטיות בתכיפות כה גדולה. אנא המתינו מעט בטרם תשלחו "
+"הודעות נוספות."
 
 msgid "unread"
 msgstr ""
