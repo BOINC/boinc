@@ -1548,3 +1548,10 @@ Charlie  30 Apr 2010
     /
         configure.ac
         version.h
+
+David  2 Mar 2010
+    - client: fix messages: asking for X instances doesn't mean
+        that X instances are idle
+
+    client/
+        scheduler_op.cpp
