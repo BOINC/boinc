@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-03 10:17 PDT\n"
-"PO-Revision-Date: 2010-05-03 11:59-0700\n"
+"PO-Revision-Date: 2010-05-03 12:26-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -343,14 +343,12 @@ msgid "Delete this computer"
 msgstr "deze computer te verwijderen"
 
 #: ../inc/host.inc:197
-#, fuzzy
 msgid "Merge duplicate records of this computer"
 msgstr "deze computer samen te voegen"
 
 #: ../inc/host.inc:197
-#, fuzzy
 msgid "Merge"
-msgstr "Bericht"
+msgstr "Samenvoegen"
 
 #: ../inc/host.inc:210
 msgid "Computer info"
@@ -541,7 +539,6 @@ msgid "For email notification, %1edit community prefs%2"
 msgstr "Voor een e-mail bevestiging, %1pas voorkeuren aan%1"
 
 #: ../inc/prefs.inc:76
-#, fuzzy
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
@@ -554,12 +551,11 @@ msgid "Suspend work while computer is in use?"
 msgstr "Werk onderbreken indien computer in gebruik is?"
 
 #: ../inc/prefs.inc:90
-#, fuzzy
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
-"Werk voor GPU onderbreken indien computer in gebruik is? %1instelbaar vanaf "
-"versie 6.7+"
+"Werk voor GPU onderbreken indien computer in gebruik is? %1 Instelbaar vanaf "
+"versie 6.6.21+ %2"
 
 #: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
@@ -570,41 +566,36 @@ msgid "minutes"
 msgstr "minuten"
 
 #: ../inc/prefs.inc:104
-#, fuzzy
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
 "Werk onderbreken indien er geen muis/toetsenbord gebruik is geweest in "
-"laatste %1(Nodig op sommige computers om sluimer-modus te activeren)%2"
+"laatste %1 Nodig op sommige computers om sluimer-modus te activeren %2"
 
 #: ../inc/prefs.inc:113
-#, fuzzy
 msgid ""
 "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
 "version 6.10.30+ %2"
 msgstr ""
 "Werk onderbreken indien CPU gebruik hoger is dan %1 0 betekent geen "
-"beperking<br>Instelbaar vanaf versie 6.10.30+%2"
+"beperking<br>Instelbaar vanaf versie 6.10.30+ %2"
 
 #: ../inc/prefs.inc:121
-#, fuzzy
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr "Alleen werk uitvoeren tussen"
+msgstr "Alleen werk uitvoeren tussen %1 Geen beperking indien gelijk %2"
 
 #: ../inc/prefs.inc:129
-#, fuzzy
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
 msgstr ""
-"Gepauzeerde taken in het geheugen houden? %1(kan ten kosten gaan van de "
-"hoeveelheid vrij geheugen)%2"
+"Gepauzeerde taken in het geheugen houden? %1 Kan ten kosten gaan van de "
+"hoeveelheid vrij geheugen %2"
 
 #: ../inc/prefs.inc:138
-#, fuzzy
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
-msgstr "Schakel tussen programma's elke %1(aanbevolen: 60 minuten)%2"
+msgstr "Schakel tussen programma's elke %1 Aanbevolen: 60 minuten %2"
 
 #: ../inc/prefs.inc:146
 msgid "On multiprocessors, use at most"
@@ -615,10 +606,10 @@ msgid "processors"
 msgstr "processoren"
 
 #: ../inc/prefs.inc:152
-#, fuzzy
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+%2"
+"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+ "
+"%2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -626,34 +617,32 @@ msgid "% of the processors"
 msgstr "% van de processoren"
 
 #: ../inc/prefs.inc:161
-#, fuzzy
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
-msgstr "Gebruik maximaal %1 (om CPU warmte te beperken)%2"
+msgstr "Gebruik maximaal %1 Om eventueel CPU warmte te beperken %2"
 
 #: ../inc/prefs.inc:166
-#, fuzzy, php-format
+#, php-format
 msgid "% of CPU time"
-msgstr "procent van de CPU tijd"
+msgstr "% van de CPU tijd"
 
 #: ../inc/prefs.inc:174 ../inc/prefs.inc:188
-#, fuzzy
 msgid "Disk: use at most"
-msgstr "Gebruik maximaal"
+msgstr "Schijf: gebruik maximaal"
 
 #: ../inc/prefs.inc:176 ../inc/prefs.inc:185
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: ../inc/prefs.inc:179
-#, fuzzy
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr "(Waarden kleiner dan %s worden genegeerd)"
+msgstr ""
+"Schijf: laat minstens vrij %1 Waarden kleiner dan %2 worden genegeerd %3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
-#, fuzzy, php-format
+#, php-format
 msgid "% of total"
-msgstr "% vrij van totale schijfgrootte"
+msgstr "% van totale schijf grootte"
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
@@ -664,29 +653,25 @@ msgid "seconds"
 msgstr "seconden"
 
 #: ../inc/prefs.inc:198
-#, fuzzy
 msgid "Swap space: use at most"
-msgstr "Virtueel geheugen"
+msgstr "Virtueel geheugen: gebruik maximaal"
 
 #: ../inc/prefs.inc:203
-#, fuzzy
 msgid "Memory: when computer is in use, use at most"
-msgstr "% vrij van het geheugen, als de computer in gebruik is"
+msgstr "Geheugen: terwijl de computer actief is, gebruik maximaal"
 
 #: ../inc/prefs.inc:208
-#, fuzzy
 msgid "Memory: when computer is not in use, use at most"
-msgstr "% vrij van het geheugen, als de computer niet in gebruik is"
+msgstr "Geheugen: terwijl de computer niet actief is, gebruik maximaal"
 
 #: ../inc/prefs.inc:217
-#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work. %3"
 msgstr ""
-"Computer is verbonden met het internet elke %1(laat leeg of vul 0 in indien "
-"altijd verbonden.%2 BOINC haalt minimaal de aangegeven hoeveelheid aan werk "
-"binnen)%3"
+"Computer is verbonden met het internet elke %1 Laat leeg of vul 0 in indien "
+"altijd verbonden. %2 BOINC haalt minimaal de aangegeven hoeveelheid aan werk "
+"binnen. %3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 msgid "days"
@@ -697,22 +682,20 @@ msgid "Maintain enough work for an additional"
 msgstr "Extra werk binnen halen voor tenminste"
 
 #: ../inc/prefs.inc:232
-#, fuzzy
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
-"Bevestiging bij het openen van de internet verbinding? %1(alleen van belang "
-"bij een modem, ISDN of VPN verbinding)%2"
+"Bevestiging bij het openen van de internet verbinding? %1 Alleen van belang "
+"bij een modem, ISDN of VPN verbinding %2"
 
 #: ../inc/prefs.inc:241
-#, fuzzy
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
 msgstr ""
-"Verbinding verbreken indien gereed? %1(alleen van belang bij een modem, ISDN "
-"of VPN verbinding)%2"
+"Verbinding verbreken indien gereed? %1 Alleen van belang bij een modem, ISDN "
+"of VPN verbinding %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
@@ -731,18 +714,14 @@ msgid "Use network only between the hours of"
 msgstr "Gebruik het netwerk alleen tussen"
 
 #: ../inc/prefs.inc:263
-#, fuzzy
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
-"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+%2"
+msgstr "Maximale overdracht %1 Instelbaar vanaf versie 6.10.46+ %2"
 
 #: ../inc/prefs.inc:269
-#, fuzzy
 msgid "Mbytes every"
-msgstr "Gbytes vrij"
+msgstr "Megabyte elke"
 
 #: ../inc/prefs.inc:274
-#, fuzzy
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
@@ -753,43 +732,36 @@ msgstr ""
 "overslaan verlaagt de veiligheid van BOINC.%3"
 
 #: ../inc/prefs.inc:287
-#, fuzzy
 msgid ""
 "Resource share %1 Determines the proportion of your computer's resources "
 "allocated to this project. Example: if you participate in two BOINC projects "
 "with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
 msgstr ""
-"Bepaalt de hoeveelheid gebruikte bronnen van computers\n"
-"            verbonden met dit project. Voorbeeld: Als je computer deelneemt "
-"aan 2\n"
-"            BOINC projecten met gedeelde bronnen van 100 en 200, zal het "
-"eerste project\n"
-"            1/3 en het tweede project 2/3 van de beschikbare bronnen krijgen."
+"Gedeelde bronnen %1 Bepaalt de hoeveelheid gedeelde bronnen van computers "
+"verbonden met dit project. Voorbeeld: Als je computer deelneemt aan 2 BOINC "
+"projecten met gedeelde bronnen van 100 en 200, zal het eerste project 1/3 en "
+"het tweede project 2/3 van de beschikbare bronnen krijgen."
 
 #: ../inc/prefs.inc:300
-#, fuzzy
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr "Gebruik CPU % 1(instelbaar vanaf 6.10+)%2"
+msgstr "Gebruik CPU %1 Instelbaar vanaf 6.10+ %2"
 
 #: ../inc/prefs.inc:312
-#, fuzzy
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr "Gebruik CPU % 1(instelbaar vanaf 6.10+)%2"
+msgstr "Gebruik ATI GPU %1 Instelbaar vanaf 6.10+ %2"
 
 #: ../inc/prefs.inc:324
-#, fuzzy
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr "Indien aanwezig gebruik NVIDIA GPU %1(instelbaar vanaf 6.10+)%2"
+msgstr "Gebruik NVIDIA GPU %1 Instelbaar vanaf 6.10+ %2"
 
 #: ../inc/prefs.inc:338
-#, fuzzy
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
-"Test applicaties uitvoeren? %1Dit helpt ons bij het ontwikkelen van "
-"applicaties, maar kan fouten veroorzaken tijdens het uitvoeren%2"
+"Test applicaties uitvoeren? %1 Dit helpt ons bij het ontwikkelen van "
+"applicaties, maar kan fouten veroorzaken tijdens het uitvoeren %2"
 
 #: ../inc/prefs.inc:347
 msgid "Disk and memory usage"
@@ -2228,15 +2200,15 @@ msgstr ""
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "URL %1 van uw webpagina; optioneel%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Postcode %1 Optioneel%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Update informatie"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
