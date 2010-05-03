@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-05-02 10:39-0700\n"
+"PO-Revision-Date: 2010-05-03 00:52-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -321,8 +321,9 @@ msgstr "הורד את BOINC"
 
 #: download.php:42
 #, php-format
+#, fuzzy
 msgid "%s for %s (%s MB)"
-msgstr ""
+msgstr "?? עבור ?? (?? MB)"
 
 #: download.php:89
 msgid ""
@@ -331,9 +332,9 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
-"BOINC הינה תכנה המאפשרת לך לתרום זמן מחשב פנוי לביצוע פרוייקטים מדעעים כגון "
-"SETI@home, Climateprediction.net, Rosetta@home, World Community Grid ורבים "
-"אחרים. לאחר התקנת התכנה במחשבך, תוכל לחברה לכמה פרוייקטים שתרצה."
+"BOINC הינה תכנה המאפשרת לכם לתרום זמן מחשב פנוי לביצוע פרוייקטים מדעיים "
+"כגוןSETI@home, Climateprediction.net, Rosetta@home, World Community Grid "
+"ורבים אחרים. לאחר התקנת התכנה במחשבכם, תוכלו לחברה לכמה פרוייקטים שתרצו."
 
 #: download.php:114
 #, php-format
@@ -341,8 +342,8 @@ msgid ""
 "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
 "(GPU), you may be able to %suse it to compute faster%s"
 msgstr ""
-"הערה: אם מחשבך מצוייד ביחידת עיבוד גרפית (GPU) של NVIDIA, באפשרותך להשתמש בו "
-"%s בכדי לבצע חישובים מהירים יותר %s"
+"הערה: אם מחשבכם מצוייד ביחידת עיבוד גרפית (GPU) של NVIDIA, באפשרותכם להשתמש "
+"בה %s בכדי לבצע חישובים מהירים יותר %s"
 
 #: download.php:120
 msgid "System requirements"
@@ -416,7 +417,7 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
-"אם הינך משתמש BOINC מנוסה, אנו מעודדים אותך להפוף למתנדב עוזר. זוהי דרך "
+"אם הינך משתמש BOINC מנוסה, אנו מעודדים אותך להפוך למתנדב עוזר. זוהי דרך "
 "נהדרת לקדם את מטרת המחקר המדעי והחישוב ההתנדבותי - וזה גם כיף!"
 
 #: help.php:56
@@ -490,20 +491,22 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
-"השתמש בזמן הפנוי של מחשבך (Windows, Mac או Linux) לריפוי מחלות, חקר ההתחממות "
-"הגלובלית, גילוי פולסרים וביצוע סוגים רבים של מחקר מדעי. זה בטוח, מוגן "
-"ופשוט: בחר פרוייקטים, הורד והרץ את תכנת BOINC, הזן כתובת אימייל וסיסמא."
+"השתמשו בזמן הפנוי של מחשבכם (Windows, Mac או Linux) לריפוי מחלות, חקר "
+"ההתחממות הגלובלית, גילוי פולסרים וביצוע סוגים רבים של מחקר מדעי. זה בטוח, "
+"מוגן ופשוט: בחרו פרוייקטים, הורידו והריצו את תכנת BOINC, הזינו כתובת אימייל "
+"וסיסמא."
 
 #: index.php:107
 #, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
-msgstr "או, אם אתה מריץ מספר פרוייקטים,נסה מנהל חשבון כגון GridRepublic או BAM!"
+msgstr ""
+"או, אם אתם מריצים מספר פרוייקטים, נסו מנהל חשבון כגון GridRepublic או BAM!"
 
 #: index.php:123
 msgid "Compute with BOINC"
-msgstr "חשב עם BOINC"
+msgstr "חישוב באמצעות BOINC"
 
 #: index.php:126
 msgid "Software updates"
@@ -591,6 +594,13 @@ msgid ""
 "will replace the old ones. <p> The current results of the survey are <a "
 "href=poll_results.php>here</a>. "
 msgstr ""
+"פרוייקטי חישוב התנדבותי מסויימים, כולל Climateprediction.net, Einstein@home "
+"ו-SETI@home, משתמשים בתכנה בשם BOINC. אם אתם משתתפים בפרוייקטים הנ\"ל, הנכם "
+"מתבקשים לענות השאלות הבאות. הדבר יעזור לפרוייקטים מבוססי BOINC להגדיל את "
+"ההשתתפות ולהשיג תוצאות מדעיות רבות יותר. אנא ענו על כמה שאלות שתרצו, ולאחר "
+"מכן גשו לתחתית הדף ולחצו על אישור. אם השלמתם את הסקר בעבר אך תשובותיכם "
+"השתנו, אנא השלימו את הסקר שוב - התוצאות החדשות יחליפו את הישנות. תוצאות הסקר "
+"הנוכחיות נמצאות כאן."
 
 #: poll.php:25
 msgid "Do you run BOINC?"
@@ -635,21 +645,22 @@ msgid ""
 "An internal error has prevented us from recording your survey response.  "
 "Please try again later."
 msgstr ""
+"שגיאה פנימית מנעה מאיתנו לקלוט את תגובתכם לסקר. אנא נסו שנית מאוחר יותר."
 
 #: poll_action.php:32
 msgid "Survey response recorded"
-msgstr ""
+msgstr "התגובה לסקר נקלטה"
 
 #: poll_action.php:33
 msgid "Thank you for completing the BOINC user survey."
-msgstr ""
+msgstr "אנו מודים לכם על השלמת סקר המשתמשים של BOINC."
 
 #: poll_results.php:195
 msgid "Survey results"
-msgstr ""
+msgstr "תוצאות הסקר"
 
 #: poll_results.php:196
 msgid ""
 "These are the current results of the <a href=poll.php>BOINC user survey</"
 "a>.  This page is updated every hour."
-msgstr ""
+msgstr "אלו הן התוצאות הנוכחיות של סקר המשתמשים של BOINC. דף מתעדכן כל שעה."
