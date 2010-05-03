@@ -378,7 +378,7 @@ void DAILY_XFER_HISTORY::write_state() {
 }
 
 void DAILY_XFER_HISTORY::totals(int ndays, double& up, double& down) {
-    int d = (current_day - ndays);
+    int d = (current_day() - ndays);
     up = down = 0;
     for (unsigned int i=0; i<daily_xfers.size(); i++) {
         DAILY_XFER& dx = daily_xfers[i];

@@ -3320,3 +3320,9 @@ David  3 May 2010
     client/
         sim.cpp
         net_stats.cpp
+
+Rom    3 May 2010
+    - client: fix build break
+    
+    client/
+        net_stats.cpp
