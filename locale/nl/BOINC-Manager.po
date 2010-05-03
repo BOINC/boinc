@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-05-03 11:11-0700\n"
+"PO-Revision-Date: 2010-05-03 11:38-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -303,27 +303,24 @@ msgid "S&top using %s..."
 msgstr "&Stop gebruik van %s..."
 
 #: clientgui/AdvancedFrame.cpp:420
-#, fuzzy
 msgid "Remove this computer from account manager control."
-msgstr "Stopt het beheer, van een project, door de accountmanager."
+msgstr "Stopt het beheer van deze computer m.b.v. een accountmanager."
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Display and network &options..."
-msgstr ""
+msgstr "Weergave en netwerk opties..."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Configure GUI options and proxy settings"
 msgstr "Configureer weergave opties en proxy instellingen"
 
 #: clientgui/AdvancedFrame.cpp:430
-#, fuzzy
 msgid "Computing &preferences..."
-msgstr "Lokale voorkeuren..."
+msgstr "Verwerkings voorkeuren..."
 
 #: clientgui/AdvancedFrame.cpp:431
-#, fuzzy
 msgid "Configure computing preferences"
-msgstr "Configureer de lokale voorkeuren"
+msgstr "Configureer de verwerkings voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:439
 msgid "&Run always"
@@ -338,7 +335,6 @@ msgid "Run based on &preferences"
 msgstr "Werk actief o&p basis van voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:445
-#, fuzzy
 msgid "Allow work according to preferences"
 msgstr "Werk actief op basis van de persoonlijke voorkeuren"
 
@@ -359,26 +355,22 @@ msgid "Allow GPU work regardless of preferences"
 msgstr "GPU actief ongeacht de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Use GPU based on preferences"
 msgstr "GPU actief o&p basis van voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:481
-#, fuzzy
 msgid "Allow GPU work according to preferences"
 msgstr "GPU actief op basis van de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:485
-#, fuzzy
 msgid "Suspend GPU"
-msgstr "Onderbreken"
+msgstr "Onderbreek GPU"
 
 #: clientgui/AdvancedFrame.cpp:486
 msgid "Stop GPU work regardless of preferences"
 msgstr "GPU inactief ongeacht de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:510
-#, fuzzy
 msgid "Network activity always available"
 msgstr "&Netwerkverbinding altijd beschikbaar"
 
@@ -387,17 +379,14 @@ msgid "Allow network activity regardless of preferences"
 msgstr "Netwerkverbinding actief ongeacht de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:515
-#, fuzzy
 msgid "Network activity based on preferences"
 msgstr "Netwerkverbinding &op basis van voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:516
-#, fuzzy
 msgid "Allow network activity according to preferences"
 msgstr "Netwerkverbinding actief op basis van de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:520
-#, fuzzy
 msgid "Network activity suspended"
 msgstr "Netwerkverbinding opgeschort"
 
@@ -420,9 +409,8 @@ msgid "Shut down connected client..."
 msgstr "Huidige client afsluiten..."
 
 #: clientgui/AdvancedFrame.cpp:542
-#, fuzzy
 msgid "Shut down the currently connected client"
-msgstr "Sluit de huidige client af"
+msgstr "Sluit de huidig verbonden client af"
 
 #: clientgui/AdvancedFrame.cpp:546
 msgid "Run CPU &benchmarks"
@@ -433,12 +421,10 @@ msgid "Runs BOINC CPU benchmarks"
 msgstr "Voert de BOINC processor benchmark uit"
 
 #: clientgui/AdvancedFrame.cpp:551
-#, fuzzy
 msgid "Do network communication"
 msgstr "Opnieuw verbinden"
 
 #: clientgui/AdvancedFrame.cpp:552
-#, fuzzy
 msgid "Do all pending network communication"
 msgstr "Werk de projecten bij, rapporteer gereed werk, etc..."
 
@@ -447,9 +433,8 @@ msgid "Read config file"
 msgstr "Configuratie inlezen"
 
 #: clientgui/AdvancedFrame.cpp:557
-#, fuzzy
 msgid "Read configuration info from cc_config.xml"
-msgstr "Configuratie inlezen vanuit cc-config.xml"
+msgstr "Configuratie inlezen vanuit cc_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:561
 msgid "Read local prefs file"
@@ -464,7 +449,6 @@ msgid "Event Log..."
 msgstr "Gebeurtenissen Logboek..."
 
 #: clientgui/AdvancedFrame.cpp:567
-#, fuzzy
 msgid "Display diagnostic messages."
 msgstr "Diagnostische berichten van de cliënt weergeven."
 
@@ -949,7 +933,7 @@ msgstr "Netwerk gebruik opgeschort."
 
 #: clientgui/BOINCTaskBar.cpp:676
 msgid "Client is processing results."
-msgstr ""
+msgstr "Resultaten worden door client verwerkt."
 
 #: clientgui/BOINCTaskBar.cpp:683
 msgid "Reconnecting to client."
@@ -960,13 +944,13 @@ msgid "Not connected to a client."
 msgstr "Niet verbonden met een client."
 
 #: clientgui/BOINCTaskBar.cpp:740
-#, fuzzy, c-format
+#, c-format
 msgid "%s Notices"
-msgstr "Berichten"
+msgstr "%s Berichten"
 
 #: clientgui/BOINCTaskBar.cpp:746
 msgid "One or more notices are now available for viewing."
-msgstr ""
+msgstr "Eén of meer berichten beschikbaar voor weergave."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1189,17 +1173,16 @@ msgid "minutes"
 msgstr "minuten"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "processorgebruik"
+msgstr "Als het processor gebruik minder is dan"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
+msgstr "onderbreek het werk als het processor gebruik boven deze waarde komt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "procent (geen beperking indien 0)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1514,9 +1497,8 @@ msgstr "Alleen dit project laten zien"
 
 #: clientgui/DlgEventLog.cpp:251 clientgui/DlgEventLog.cpp:365
 #: clientgui/DlgEventLog.cpp:367
-#, fuzzy
 msgid "Show only the messages for the selected project"
-msgstr "Laat alleen berichten zien van het gelecteerde project."
+msgstr "Laat alleen berichten zien van het geselecteerde project."
 
 #: clientgui/DlgEventLog.cpp:255
 msgid "Copy All"
@@ -1561,7 +1543,6 @@ msgid "Show all messages"
 msgstr "Toon alle berichten"
 
 #: clientgui/DlgEventLog.cpp:378 clientgui/DlgEventLog.cpp:380
-#, fuzzy
 msgid "Show messages for all projects"
 msgstr "Laat berichten zien van alle projecten."
 
@@ -1725,14 +1706,12 @@ msgstr "Taakverdeling"
 
 #: clientgui/DlgItemProperties.cpp:242 clientgui/DlgItemProperties.cpp:252
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Project preference"
-msgstr "Mijn voorkeuren"
+msgstr "Project voorkeuren"
 
 #: clientgui/DlgItemProperties.cpp:242
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "Geen nieuw werk gevraagd"
+msgstr "Vraag geen nieuwe CPU taken"
 
 #: clientgui/DlgItemProperties.cpp:244
 msgid "CPU scheduling priority"
@@ -1752,7 +1731,7 @@ msgstr "Interval voor CPU werkverzoek"
 
 #: clientgui/DlgItemProperties.cpp:252
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Vraag geen nieuwe NVIDIA GPU taken"
 
 #: clientgui/DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1771,9 +1750,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Interval voor NVIDIA GPU werkverzoek"
 
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "Geen nieuw werk gevraagd"
+msgstr "Vraag geen nieuwe ATI GPU taken"
 
 #: clientgui/DlgItemProperties.cpp:265
 msgid "ATI GPU scheduling priority"
@@ -1861,7 +1839,7 @@ msgstr "Proces ID"
 
 #: clientgui/DlgItemProperties.cpp:386
 msgid "Local: "
-msgstr ""
+msgstr "Lokaal: "
 
 #: clientgui/DlgItemProperties.cpp:411
 msgid "New"
@@ -1982,25 +1960,20 @@ msgid "Language:"
 msgstr "Taal:"
 
 #: clientgui/DlgOptions.cpp:164
-#, fuzzy
 msgid "What language should BOINC use?"
-msgstr "Welke taal moet de manager gebruiken?"
+msgstr "Welke taal moet BOINC gebruiken?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid ""
 "Notice reminder interval:\n"
 "(minutes; 0 means no reminders)"
 msgstr ""
-"Netwerk herinnerings interval:\n"
-"(minuten)"
+"Interval voor berichten:\n"
+"(minuten; 0 betekent geen berichten)"
 
 #: clientgui/DlgOptions.cpp:180
-#, fuzzy
 msgid "How often should BOINC remind you of new notices?"
-msgstr ""
-"Hoe vaak moet de manager een bericht laten zien als een netwerkverbinding "
-"nodig is?"
+msgstr "Hoe vaak moet BOINC een bericht weergeven?"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2419,7 +2392,6 @@ msgid "Network communication failure"
 msgstr "Netwerk communicatie fout"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
