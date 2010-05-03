@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2010-04-26 11:59-0700\n"
+"PO-Revision-Date: 2010-05-03 03:27-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -464,11 +464,11 @@ msgstr "számítógépek.\n"
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "24 órás átlag:"
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TeraFLOPS."
 
 #: index.php:66
 msgid "News"
@@ -481,11 +481,11 @@ msgstr "... tovább"
 #: index.php:76
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "A hírek %sRSS hírjelzőként%s is elérhetőek"
 
 #: index.php:86
 msgid "Volunteer"
-msgstr ""
+msgstr "Önkéntes"
 
 #: index.php:88
 msgid "Download"
@@ -503,6 +503,11 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
+"Windows-t, Mac-et, vagy Linux-ot futtató számítógépének üresjárati idejét  "
+"betegségek gyógyítására, a globális felmelegedés tanulmányozására, pulzárok "
+"felfedezésére és sok egyéb tudományos kutatás elvégzésére használja. Mindezt "
+"biztonságosan és egyszerűen: %sVálasszon%s projekt(ek)et %sTöltse le%s  és "
+"futtasssa a BOINC szoftvert %sAdjon meg%s egy emailcímet és egy jelszót."
 
 #: index.php:107
 #, php-format
@@ -510,6 +515,8 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
+"Vagy ha több projektet futtat, próbáljon ki egy %sfiókkezelőt%s, mint "
+"például a %sGridRepublic%s vagy a %sBAM!%s."
 
 #: index.php:123
 msgid "Compute with BOINC"
