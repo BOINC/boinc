@@ -205,7 +205,7 @@ $l66ubuntu = array(
 );
 
 $l610ubuntux64dev = array(
-	"num"=>"6.10.5",
+	"num"=>"6.10.51",
 	"status"=>"Development version",
 	"file"=>"boinc_6.10.51_x86_64-pc-linux-gnu.sh",
 	"date"=>"2 May 2010",
