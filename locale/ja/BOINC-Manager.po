@@ -272,7 +272,8 @@ msgstr "プロジェクトまたはアカウント・マネージャに接続(&A
 
 #: clientgui/AdvancedFrame.cpp:392
 msgid "Attach this computer to a project or account manager"
-msgstr "このコンピュータをプロジェクトあるいはアカウント・マネージャに接続します"
+msgstr ""
+"このコンピュータをプロジェクトあるいはアカウント・マネージャに接続します"
 
 #: clientgui/AdvancedFrame.cpp:396
 #, c-format
@@ -402,7 +403,7 @@ msgstr "コンピュータの選択..."
 msgid "Shut down connected client..."
 msgstr "接続しているクライアントをシャットダウン..."
 
-#: clientgui/AdvancedFrame.cpp:542y
+#: clientgui/AdvancedFrame.cpp:542
 msgid "Shut down the currently connected client"
 msgstr "現在接続しているクライアントをシャットダウンさせます"
 
@@ -1412,8 +1413,8 @@ msgstr "最低限の未使用領域"
 #: clientgui/DlgAdvPreferencesBase.cpp:530
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr ""
-"BOINC は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギ"
-"ガバイト)"
+"BOINC は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギガ"
+"バイト)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:534
 msgid "Gigabytes disk space free"
@@ -1989,8 +1990,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should BOINC remind you of new notices?"
-msgstr ""
-"新規のお知らせがあることを BOINC があなたに伝える頻度"
+msgstr "新規のお知らせがあることを BOINC があなたに伝える頻度"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -3773,15 +3773,13 @@ msgstr "処理をする時間帯を「HH:MM-HH:MM」の形式で指定して下�
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指定して下さい。"
 
-######################################### 
+# ######################################## 
 #
-#: clientgui/AdvancedFrame.cpp:
-msgid "&Messages\tCtrl+Shift+M"
-msgstr "メッセージ(M)\tCtrl+Shift+M"
+#~ msgid "&Messages\tCtrl+Shift+M"
+#~ msgstr "メッセージ(M)\tCtrl+Shift+M"
 
-#: clientgui/AdvancedFrame.cpp:
-msgid "Attach to project or account manager..."
-msgstr "プロジェクトまたはアカウント・マネージャに接続..."
+#~ msgid "Attach to project or account manager..."
+#~ msgstr "プロジェクトまたはアカウント・マネージャに接続..."
 
-msgid "Options..."
-msgstr "オプション..."
+#~ msgid "Options..."
+#~ msgstr "オプション..."

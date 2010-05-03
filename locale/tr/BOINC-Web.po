@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Web Site\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-19 22:34 PST\n"
+"POT-Creation-Date: 2010-05-03 10:16 PDT\n"
 "PO-Revision-Date: 2010-01-24 22:17+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
@@ -16,15 +16,32 @@ msgstr ""
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+#: versions.inc:6
+msgid "The current release is known to work with these Linux versions:"
+msgstr ""
+
+#: versions.inc:14
+msgid ""
+"For other Linux versions, check if a BOINC package is offered by your Linux "
+"distribution."
+msgstr ""
+
+#: versions.inc:25
+msgid ""
+"Alternatively, download the %1BOINC client for older Linux versions%2. This "
+"doesn't have a graphical interface, but it should work on all Linux systems, "
+"both x86 and x64."
+msgstr ""
+
 #: docutil.php:21
 msgid "Search"
 msgstr "Ara"
 
-#: docutil.php:101
+#: docutil.php:102
 msgid "Return to BOINC main page"
 msgstr "BOINC ana sayfasına dön"
 
-#: docutil.php:112
+#: docutil.php:113
 #, php-format
 msgid "This page is %stranslatable%s."
 msgstr "Bu safya %sçevrilebilir%s."
@@ -65,8 +82,7 @@ msgid ""
 "you may be able to %suse it to compute faster%s"
 msgstr ""
 "Not: Eğer bilgisayarınız bir ekran kartına (Graphics Processing Unit-GPU) "
-"sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da "
-"kullanabilirsiniz%s"
+"sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da kullanabilirsiniz%s"
 
 #: download.php:122
 msgid "System requirements"
@@ -326,15 +342,14 @@ msgstr "API'ler ve eklenti yazılımları"
 msgid "Browser default"
 msgstr "Tarayıcı varsayılanı"
 
-#: index.php:254
+#: index.php:258
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
-"Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s "
-"yazılımı."
+"Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s yazılımı."
 
-#: index.php:267
+#: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr "BOINC, Kalifornia Üniversitesi, Berkeley merkezlidir."
 

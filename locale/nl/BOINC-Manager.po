@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-02-18 09:53-0700\n"
+"PO-Revision-Date: 2010-05-03 11:11-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -272,12 +272,10 @@ msgid "Display the simple graphical interface."
 msgstr "Schakel over naar de eenvoudige BOINC weergave."
 
 #: clientgui/AdvancedFrame.cpp:391
-#, fuzzy
 msgid "&Attach to project or account manager..."
 msgstr "&Project of accountmanager toevoegen..."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "Attach this computer to a project or account manager"
 msgstr "Wat wil je toevoegen?"
 
@@ -292,18 +290,17 @@ msgid "Get current settings from %s"
 msgstr "Haal de huidige instellingen op van %s"
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "&Attach to project..."
-msgstr "Project toevoegen"
+msgstr "Project toevoegen..."
 
 #: clientgui/AdvancedFrame.cpp:411
 msgid "Attach to a project"
 msgstr "Een project toevoegen"
 
 #: clientgui/AdvancedFrame.cpp:414
-#, fuzzy, c-format
+#, c-format
 msgid "S&top using %s..."
-msgstr "&Stop gebruik van%s"
+msgstr "&Stop gebruik van %s..."
 
 #: clientgui/AdvancedFrame.cpp:420
 #, fuzzy

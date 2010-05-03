@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-19 22:34 PST\n"
+"POT-Creation-Date: 2010-05-03 10:16 PDT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,32 @@ msgstr ""
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
 
+#: versions.inc:6
+msgid "The current release is known to work with these Linux versions:"
+msgstr ""
+
+#: versions.inc:14
+msgid ""
+"For other Linux versions, check if a BOINC package is offered by your Linux "
+"distribution."
+msgstr ""
+
+#: versions.inc:25
+msgid ""
+"Alternatively, download the %1BOINC client for older Linux versions%2. This "
+"doesn't have a graphical interface, but it should work on all Linux systems, "
+"both x86 and x64."
+msgstr ""
+
 #: docutil.php:21
 msgid "Search"
 msgstr ""
 
-#: docutil.php:101
+#: docutil.php:102
 msgid "Return to BOINC main page"
 msgstr ""
 
-#: docutil.php:112
+#: docutil.php:113
 #, php-format
 msgid "This page is %stranslatable%s."
 msgstr ""
@@ -291,13 +308,13 @@ msgstr ""
 msgid "Browser default"
 msgstr ""
 
-#: index.php:254
+#: index.php:258
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
 
-#: index.php:267
+#: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr ""
 
@@ -313,16 +330,25 @@ msgstr ""
 #~ msgid "LANG_NAME_INTERNATIONAL"
 #~ msgstr "English"
 
-########################################
+# #######################################
 # poll-related stuff
-########################################
+# #######################################
 # poll-related stuff
-########################################
+# #######################################
 #~ msgid "POLL_TITLE"
 #~ msgstr "BOINC user survey"
 
 #~ msgid "POLL_INTRO"
-#~ msgstr "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC. If you participate in projects like this, we request that you answer the following questions. This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
+#~ msgstr ""
+#~ "Several volunteer computing projects, including Climateprediction.net, "
+#~ "Einstein@home, and SETI@home, use software called BOINC. If you "
+#~ "participate in projects like this, we request that you answer the "
+#~ "following questions. This will help BOINC-based projects increase "
+#~ "participation and achieve greater scientific results. <p> Please answer "
+#~ "as many questions as you want, then go to the bottom and click OK. If you "
+#~ "previously completed the survey but your answers have changed, please "
+#~ "complete it again - your new answers will replace the old ones. <p> The "
+#~ "current results of the survey are <a href=poll_results.php>here</a>. "
 
 #~ msgid "POLL_RUN"
 #~ msgstr "Do you run BOINC?"
@@ -343,7 +369,9 @@ msgstr ""
 #~ msgstr "Comments"
 
 #~ msgid "POLL_COMMENTS_QUESTION"
-#~ msgstr "Please suggest ways that BOINC, and the projects that use it, could be improved:"
+#~ msgstr ""
+#~ "Please suggest ways that BOINC, and the projects that use it, could be "
+#~ "improved:"
 
 #~ msgid "POLL_OTHER"
 #~ msgstr "Other:"
@@ -487,7 +515,9 @@ msgstr ""
 #~ msgstr "Other web sites"
 
 #~ msgid "POLL_FACTOR"
-#~ msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
+#~ msgstr ""
+#~ "Which are the most important factors when you decide whether to "
+#~ "participate in a BOINC project?"
 
 #~ msgid "POLL_GRAPHICS"
 #~ msgstr "Nice-looking screensaver graphics"
@@ -547,7 +577,9 @@ msgstr ""
 #~ msgstr "None"
 
 #~ msgid "POLL_HELP"
-#~ msgstr "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
+#~ msgstr ""
+#~ "Where do you get information to help resolve problems with BOINC and/or "
+#~ "BOINC projects?"
 
 #~ msgid "POLL_HELP_PMB"
 #~ msgstr "The project message boards"
@@ -574,7 +606,9 @@ msgstr ""
 #~ msgstr "Error - results not recorded"
 
 #~ msgid "POLL_ERROR_TEXT"
-#~ msgstr "An internal error has prevented us from recording your survey response.  Please try again later."
+#~ msgstr ""
+#~ "An internal error has prevented us from recording your survey response.  "
+#~ "Please try again later."
 
 #~ msgid "POLL_RECORDED"
 #~ msgstr "Survey response recorded"
@@ -586,14 +620,21 @@ msgstr ""
 #~ msgstr "Survey results"
 
 #~ msgid "POLL_RESULTS_TEXT"
-#~ msgstr "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
+#~ msgstr ""
+#~ "These are the current results of the <a href=poll.php>BOINC user survey</"
+#~ "a>.  This page is updated every hour."
 
 #~ msgid "DL_MIRRORS"
-#~ msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these institutions). The server is chosen randomly - if a download fails, reload this page and try again. "
+#~ msgstr ""
+#~ "Note: files are downloaded from mirror servers at boinc.berkeley.edu, "
+#~ "morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein."
+#~ "ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these "
+#~ "institutions). The server is chosen randomly - if a download fails, "
+#~ "reload this page and try again. "
 
-##############################################
+# #############################################
 # help.php
-##############################################
+# #############################################
 #~ msgid "HELP_TITLE"
 #~ msgstr "Getting help with BOINC"
 
@@ -601,16 +642,30 @@ msgstr ""
 #~ msgstr "Online Help"
 
 #~ msgid "HELP_P1_1"
-#~ msgstr "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have. "
+#~ msgstr ""
+#~ "BOINC Online Help lets you talk one-on-one with experienced BOINC users, "
+#~ "who can: %s answer questions about BOINC and volunteer computing; %s walk "
+#~ "you through the process of installing and using BOINC; %s troubleshoot "
+#~ "any problems you might have. "
 
 #~ msgid "HELP_P1_2"
-#~ msgstr "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls). If you don't already have Skype, please %sdownload and install it now%s. When you're finished, return to this page. "
+#~ msgstr ""
+#~ "BOINC Online Help is based on %sSkype%s, an Internet-based telephone "
+#~ "system. Skype is free (both the software and the calls). If you don't "
+#~ "already have Skype, please %sdownload and install it now%s. When you're "
+#~ "finished, return to this page. "
 
 #~ msgid "HELP_P1_3"
-#~ msgstr "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer. You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
+#~ msgstr ""
+#~ "The best way to get help is by voice, for which you need either built-in "
+#~ "microphone and speakers or an external headset for your computer. You can "
+#~ "also use Skype's text-based chat system or regular email (if you don't "
+#~ "have Skype) to communicate with Help Volunteers."
 
 #~ msgid "HELP_P1_4"
-#~ msgstr "Volunteers speaking several languages are available. Please select a language: "
+#~ msgstr ""
+#~ "Volunteers speaking several languages are available. Please select a "
+#~ "language: "
 
 #~ msgid "HELP_HEADING2"
 #~ msgstr "BOINC help on the web"
@@ -634,25 +689,39 @@ msgstr ""
 #~ msgstr "Be a Help Volunteer"
 
 #~ msgid "HELP_P3_1"
-#~ msgstr "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s. It's a great way to help the cause of scientific research and volunteer computing - and it's fun!  "
+#~ msgstr ""
+#~ "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+#~ "Volunteer%s. It's a great way to help the cause of scientific research "
+#~ "and volunteer computing - and it's fun!  "
 
 #~ msgid "HELP_P3_2"
-#~ msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%s. "
+#~ msgstr ""
+#~ "If you're already a Help Volunteer: to edit your settings, %sclick here%"
+#~ "s. "
 
-##############################################
+# #############################################
 # index.php
-##############################################
+# #############################################
 #~ msgid "HOME_HEADING1"
 #~ msgstr "Volunteer"
 
 #~ msgid "HOME_P1"
-#~ msgstr " Use the idle time on your computer  (Windows, Mac, or Linux)  to cure diseases, study global warming,  discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+#~ msgstr ""
+#~ " Use the idle time on your computer  (Windows, Mac, or Linux)  to cure "
+#~ "diseases, study global warming,  discover pulsars, and do many other "
+#~ "types of scientific research.  It's safe, secure, and easy:  %sChoose%s "
+#~ "projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
+#~ "and password. "
 
 #~ msgid "HOME_P2"
-#~ msgstr "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+#~ msgstr ""
+#~ "Or, if you run several projects, try an %saccount manager%s such as %"
+#~ "sGridRepublic%s or %sBAM!%s. "
 
 #~ msgid "HOME_P3"
-#~ msgstr "If you have any questions, or need help getting started, you can %stalk to a Volunteer Helper%s. "
+#~ msgstr ""
+#~ "If you have any questions, or need help getting started, you can %stalk "
+#~ "to a Volunteer Helper%s. "
 
 #~ msgid "HOME_DOWNLOAD"
 #~ msgstr "Download"
@@ -670,4 +739,5 @@ msgstr ""
 #~ msgstr "Berkeley Open Infrastructure for Network Computing"
 
 #~ msgid "HOME_BOINC_DESC"
-#~ msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s"
+#~ msgstr ""
+#~ "Open-source software for %svolunteer computing%s and %sgrid computing%s"

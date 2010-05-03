@@ -2,12 +2,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: boinc 1.10\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-19 22:34 PST\n"
+"POT-Creation-Date: 2010-05-03 10:16 PDT\n"
 "PO-Revision-Date: 2007-01-06 02:34+0100\n"
 "Last-Translator: marpes <marpes@zoznam.sk>\n"
 "Language-Team: boinc.sk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -18,15 +18,32 @@ msgstr ""
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
 
+#: versions.inc:6
+msgid "The current release is known to work with these Linux versions:"
+msgstr ""
+
+#: versions.inc:14
+msgid ""
+"For other Linux versions, check if a BOINC package is offered by your Linux "
+"distribution."
+msgstr ""
+
+#: versions.inc:25
+msgid ""
+"Alternatively, download the %1BOINC client for older Linux versions%2. This "
+"doesn't have a graphical interface, but it should work on all Linux systems, "
+"both x86 and x64."
+msgstr ""
+
 #: docutil.php:21
 msgid "Search"
 msgstr ""
 
-#: docutil.php:101
+#: docutil.php:102
 msgid "Return to BOINC main page"
 msgstr ""
 
-#: docutil.php:112
+#: docutil.php:113
 #, php-format
 msgid "This page is %stranslatable%s."
 msgstr ""
@@ -291,13 +308,13 @@ msgstr ""
 msgid "Browser default"
 msgstr ""
 
-#: index.php:254
+#: index.php:258
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
 
-#: index.php:267
+#: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr ""
 
@@ -324,11 +341,11 @@ msgstr ""
 #~ msgid "LANG_NAME_INTERNATIONAL"
 #~ msgstr "English"
 
-########################################
+# #######################################
 # poll-related stuff
-########################################
+# #######################################
 # poll-related stuff
-########################################
+# #######################################
 # ######################################
 # téma týkajúca sa jednotlivcov
 #, fuzzy
@@ -337,7 +354,16 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "POLL_INTRO"
-#~ msgstr "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC. If you participate in projects like this, we request that you answer the following questions. This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
+#~ msgstr ""
+#~ "Several volunteer computing projects, including Climateprediction.net, "
+#~ "Einstein@home, and SETI@home, use software called BOINC. If you "
+#~ "participate in projects like this, we request that you answer the "
+#~ "following questions. This will help BOINC-based projects increase "
+#~ "participation and achieve greater scientific results. <p> Please answer "
+#~ "as many questions as you want, then go to the bottom and click OK. If you "
+#~ "previously completed the survey but your answers have changed, please "
+#~ "complete it again - your new answers will replace the old ones. <p> The "
+#~ "current results of the survey are <a href=poll_results.php>here</a>. "
 
 #, fuzzy
 #~ msgid "POLL_RUN"
@@ -365,7 +391,9 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "POLL_COMMENTS_QUESTION"
-#~ msgstr "Please suggest ways that BOINC, and the projects that use it, could be improved:"
+#~ msgstr ""
+#~ "Please suggest ways that BOINC, and the projects that use it, could be "
+#~ "improved:"
 
 #, fuzzy
 #~ msgid "POLL_OTHER"
@@ -557,7 +585,9 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "POLL_FACTOR"
-#~ msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
+#~ msgstr ""
+#~ "Which are the most important factors when you decide whether to "
+#~ "participate in a BOINC project?"
 
 #, fuzzy
 #~ msgid "POLL_GRAPHICS"
@@ -637,7 +667,9 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "POLL_HELP"
-#~ msgstr "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
+#~ msgstr ""
+#~ "Where do you get information to help resolve problems with BOINC and/or "
+#~ "BOINC projects?"
 
 #, fuzzy
 #~ msgid "POLL_HELP_PMB"
@@ -673,7 +705,9 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "POLL_ERROR_TEXT"
-#~ msgstr "An internal error has prevented us from recording your survey response.  Please try again later."
+#~ msgstr ""
+#~ "An internal error has prevented us from recording your survey response.  "
+#~ "Please try again later."
 
 #, fuzzy
 #~ msgid "POLL_RECORDED"
@@ -689,14 +723,21 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "POLL_RESULTS_TEXT"
-#~ msgstr "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
+#~ msgstr ""
+#~ "These are the current results of the <a href=poll.php>BOINC user survey</"
+#~ "a>.  This page is updated every hour."
 
 #~ msgid "DL_MIRRORS"
-#~ msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these institutions). The server is chosen randomly - if a download fails, reload this page and try again. "
+#~ msgstr ""
+#~ "Note: files are downloaded from mirror servers at boinc.berkeley.edu, "
+#~ "morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein."
+#~ "ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these "
+#~ "institutions). The server is chosen randomly - if a download fails, "
+#~ "reload this page and try again. "
 
-##############################################
+# #############################################
 # help.php
-##############################################
+# #############################################
 # ############################################
 # help.php
 #, fuzzy
@@ -709,19 +750,33 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "HELP_P1_1"
-#~ msgstr "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have. "
+#~ msgstr ""
+#~ "BOINC Online Help lets you talk one-on-one with experienced BOINC users, "
+#~ "who can: %s answer questions about BOINC and volunteer computing; %s walk "
+#~ "you through the process of installing and using BOINC; %s troubleshoot "
+#~ "any problems you might have. "
 
 #, fuzzy
 #~ msgid "HELP_P1_2"
-#~ msgstr "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls). If you don't already have Skype, please %sdownload and install it now%s. When you're finished, return to this page. "
+#~ msgstr ""
+#~ "BOINC Online Help is based on %sSkype%s, an Internet-based telephone "
+#~ "system. Skype is free (both the software and the calls). If you don't "
+#~ "already have Skype, please %sdownload and install it now%s. When you're "
+#~ "finished, return to this page. "
 
 #, fuzzy
 #~ msgid "HELP_P1_3"
-#~ msgstr "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer. You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
+#~ msgstr ""
+#~ "The best way to get help is by voice, for which you need either built-in "
+#~ "microphone and speakers or an external headset for your computer. You can "
+#~ "also use Skype's text-based chat system or regular email (if you don't "
+#~ "have Skype) to communicate with Help Volunteers."
 
 #, fuzzy
 #~ msgid "HELP_P1_4"
-#~ msgstr "Volunteers speaking several languages are available. Please select a language: "
+#~ msgstr ""
+#~ "Volunteers speaking several languages are available. Please select a "
+#~ "language: "
 
 #, fuzzy
 #~ msgid "HELP_HEADING2"
@@ -748,15 +803,20 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "HELP_P3_1"
-#~ msgstr "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s. It's a great way to help the cause of scientific research and volunteer computing - and it's fun!  "
+#~ msgstr ""
+#~ "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+#~ "Volunteer%s. It's a great way to help the cause of scientific research "
+#~ "and volunteer computing - and it's fun!  "
 
 #, fuzzy
 #~ msgid "HELP_P3_2"
-#~ msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%s. "
+#~ msgstr ""
+#~ "If you're already a Help Volunteer: to edit your settings, %sclick here%"
+#~ "s. "
 
-##############################################
+# #############################################
 # index.php
-##############################################
+# #############################################
 # ############################################
 # index.php
 #, fuzzy
@@ -765,15 +825,24 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "HOME_P1"
-#~ msgstr " Use the idle time on your computer  (Windows, Mac, or Linux)  to cure diseases, study global warming,  discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+#~ msgstr ""
+#~ " Use the idle time on your computer  (Windows, Mac, or Linux)  to cure "
+#~ "diseases, study global warming,  discover pulsars, and do many other "
+#~ "types of scientific research.  It's safe, secure, and easy:  %sChoose%s "
+#~ "projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
+#~ "and password. "
 
 #, fuzzy
 #~ msgid "HOME_P2"
-#~ msgstr "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+#~ msgstr ""
+#~ "Or, if you run several projects, try an %saccount manager%s such as %"
+#~ "sGridRepublic%s or %sBAM!%s. "
 
 #, fuzzy
 #~ msgid "HOME_P3"
-#~ msgstr "If you have any questions, or need help getting started, you can %stalk to a Volunteer Helper%s. "
+#~ msgstr ""
+#~ "If you have any questions, or need help getting started, you can %stalk "
+#~ "to a Volunteer Helper%s. "
 
 #, fuzzy
 #~ msgid "HOME_DOWNLOAD"
@@ -795,7 +864,8 @@ msgstr ""
 #~ msgstr "Berkeley Open Infrastructure for Network Computing"
 
 #~ msgid "HOME_BOINC_DESC"
-#~ msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s"
+#~ msgstr ""
+#~ "Open-source software for %svolunteer computing%s and %sgrid computing%s"
 
 # ######################################
 # download.php 2006/08/03 by je2bwm
@@ -807,7 +877,12 @@ msgstr ""
 #~ msgstr "%s pre %s (%s MB)"
 
 #~ msgid "DL_WHATS_BOINC"
-#~ msgstr " BOINC je program, ktorý Vám dovoľuje venovať Váš nevyužitý počítačový čas vedeckým projektom podobným        SETI@home, Climateprediction.net, Rosetta@home,        World Community Grid, a mnohým iným.        <p>        Po inštalovaní BOINC do Vášho počítača        sa môžete pripojiť k viacerým z týchto projectov ak chcete.        <p>"
+#~ msgstr ""
+#~ " BOINC je program, ktorý Vám dovoľuje venovať Váš nevyužitý počítačový "
+#~ "čas vedeckým projektom podobným        SETI@home, Climateprediction.net, "
+#~ "Rosetta@home,        World Community Grid, a mnohým iným.        "
+#~ "<p>        Po inštalovaní BOINC do Vášho počítača        sa môžete "
+#~ "pripojiť k viacerým z týchto projectov ak chcete.        <p>"
 
 #~ msgid "DL_SYSTEMREQ"
 #~ msgstr "Systémové požiadavky"
@@ -828,7 +903,9 @@ msgstr ""
 #~ msgstr "%s vytvoriť svoj vlastný užívateľský softvér %s alebo"
 
 #~ msgid "DL_DL_FROM3RDP"
-#~ msgstr "%s stiahnuť vykonateľné súbory zo stránok tretích strán %s (dostupné pre Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, a FreeBSD, ako aj iné)."
+#~ msgstr ""
+#~ "%s stiahnuť vykonateľné súbory zo stránok tretích strán %s (dostupné pre "
+#~ "Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, a FreeBSD, ako aj iné)."
 
 #~ msgid "DL_DOWNLOAD_TITLE"
 #~ msgstr "BOINC: výpočty pre vedu"
@@ -840,7 +917,9 @@ msgstr ""
 #~ msgstr "Systemové požiadavky"
 
 #~ msgid "SRQ_INTRO"
-#~ msgstr "Váš počítač musí zabezpečovať nasledujúce požiadavky pre spustenie BOINC. Projekty pod BOINC môžu mať dodatočné požiadavky."
+#~ msgstr ""
+#~ "Váš počítač musí zabezpečovať nasledujúce požiadavky pre spustenie BOINC. "
+#~ "Projekty pod BOINC môžu mať dodatočné požiadavky."
 
 #~ msgid "SRQ_MSWIN"
 #~ msgstr "Windows"
@@ -870,7 +949,8 @@ msgstr ""
 #~ msgstr "Mac OS X 10.3 a neskorší"
 
 #~ msgid "SRQ_APPLMAC_REQ_CPU"
-#~ msgstr "Macintosh počítač s Intel x86 alebo PowerPC G3, G4, alebo G5 procesorom"
+#~ msgstr ""
+#~ "Macintosh počítač s Intel x86 alebo PowerPC G3, G4, alebo G5 procesorom"
 
 #~ msgid "SRQ_APPLMAC_REQ_RAM"
 #~ msgstr "128 MB RAM (Odporúčané: 256 MB RAM alebo väčšia)"
@@ -924,13 +1004,20 @@ msgstr ""
 #~ msgstr "Odstraňovanie porúch"
 
 #~ msgid "RLN_NEWF_5_4_AM"
-#~ msgstr "Podpora pre web stránky 'manažérov kont' - ktoré Vám dovolia prezerať si BOINC projekty, pripojiť/odpojiť, meniť podiel zdrojov a nastavenia, všetko prostým ukázaním a kliknutím. Manažér konta je tiež užitočný ak máte niekoľko počítačov - len musíte urobiť predtým zmeny."
+#~ msgstr ""
+#~ "Podpora pre web stránky 'manažérov kont' - ktoré Vám dovolia prezerať si "
+#~ "BOINC projekty, pripojiť/odpojiť, meniť podiel zdrojov a nastavenia, "
+#~ "všetko prostým ukázaním a kliknutím. Manažér konta je tiež užitočný ak "
+#~ "máte niekoľko počítačov - len musíte urobiť predtým zmeny."
 
 #~ msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
-#~ msgstr "Všeobecné preferencie môžu byť prepísané lokálnym súborom; podrobnosti sú %s tu %s."
+#~ msgstr ""
+#~ "Všeobecné preferencie môžu byť prepísané lokálnym súborom; podrobnosti sú "
+#~ "%s tu %s."
 
 #~ msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
-#~ msgstr "BOINC Vás teraz upozorňuje, keď potrebuje vytvoriť sieťové pripojenie."
+#~ msgstr ""
+#~ "BOINC Vás teraz upozorňuje, keď potrebuje vytvoriť sieťové pripojenie."
 
 #~ msgid "RLN_RECOMMEND_LATEST_VERSION"
 #~ msgstr "Odporúčame, aby všetci BOINC užívatelia aktualizovali na %s."
@@ -954,22 +1041,42 @@ msgstr ""
 #~ msgstr "Single-user (Jediný užívateľ) inštalácia"
 
 #~ msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
-#~ msgstr "Toto je odporúčaný režim. BOINC budete bežať pokiaľ Vy (inštalujúci používateľ) ste prihlásený. BOINC je uvedený v ponuke Štart pre Vás,ale nie pre iných užívateľov. Príkaz 'Show graphics' (Ukázať grafiku) v BOINC manažéri pracuje len pre Vás. BOINC šetrič obrazovky ukazuje aplikačné grafiky len pre vás (iní užívatelia môžu spustiť šetrič obrazovky ale uvidia  len textovú informáciu)."
+#~ msgstr ""
+#~ "Toto je odporúčaný režim. BOINC budete bežať pokiaľ Vy (inštalujúci "
+#~ "používateľ) ste prihlásený. BOINC je uvedený v ponuke Štart pre Vás,ale "
+#~ "nie pre iných užívateľov. Príkaz 'Show graphics' (Ukázať grafiku) v BOINC "
+#~ "manažéri pracuje len pre Vás. BOINC šetrič obrazovky ukazuje aplikačné "
+#~ "grafiky len pre vás (iní užívatelia môžu spustiť šetrič obrazovky ale "
+#~ "uvidia  len textovú informáciu)."
 
 #~ msgid "RLN_SHARED_INSTALL"
 #~ msgstr "Shared (Zdieľaná) inštalácia"
 
 #~ msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
-#~ msgstr "BOINC beží keď ktorýkoľvek užívateľ je prihlásený. BOINC je uvedený v ponuke Štart pre všetkých užívateľov. Pokiaľ BOINC je spustený, beží keď konkrétny užívateľ (buď prvý užívateľ pre prihlásenie, alebo prvý pre spustenie BOINC). Príkaz 'Show graphics' (Ukázať grafiku) v BOINC manažéri pracuje len pre tohoto užívateľa. BOINC šetrič obrazovky ukazuje aplikačnú grafiku len pre tohoto užívateľa (iní užívatelia môžu spustiť šetrič obrazovky ale uvidia  len textovú informáciu)."
+#~ msgstr ""
+#~ "BOINC beží keď ktorýkoľvek užívateľ je prihlásený. BOINC je uvedený v "
+#~ "ponuke Štart pre všetkých užívateľov. Pokiaľ BOINC je spustený, beží keď "
+#~ "konkrétny užívateľ (buď prvý užívateľ pre prihlásenie, alebo prvý pre "
+#~ "spustenie BOINC). Príkaz 'Show graphics' (Ukázať grafiku) v BOINC "
+#~ "manažéri pracuje len pre tohoto užívateľa. BOINC šetrič obrazovky ukazuje "
+#~ "aplikačnú grafiku len pre tohoto užívateľa (iní užívatelia môžu spustiť "
+#~ "šetrič obrazovky ale uvidia  len textovú informáciu)."
 
 #~ msgid "RLN_WIN_SERVICE_INSTALL"
 #~ msgstr "Service (Služba) inštalácia"
 
 #~ msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
-#~ msgstr "BOINC beží stále (dokonca i keď nikto nie je prihlásený). BOINC je uvedený v ponuke Štart inštalujúceho užívateľa, ale nie iných užívateľov. Príkaz 'Show graphics' (Ukázať grafiku) v BOINC manažéri nebude pracovať pre žiadneho užívateľa. "
+#~ msgstr ""
+#~ "BOINC beží stále (dokonca i keď nikto nie je prihlásený). BOINC je "
+#~ "uvedený v ponuke Štart inštalujúceho užívateľa, ale nie iných užívateľov. "
+#~ "Príkaz 'Show graphics' (Ukázať grafiku) v BOINC manažéri nebude pracovať "
+#~ "pre žiadneho užívateľa. "
 
 #~ msgid "RLN_LINUX_INSTALL_SEA_DESC"
-#~ msgstr "BOINC pre LINUX je distribuovaný ako samočinne rozbaľovací archív. Tento typ inštalácie vyžaduje aby ste boli oboznámený s UNIX rozhraním príkazového riadka."
+#~ msgstr ""
+#~ "BOINC pre LINUX je distribuovaný ako samočinne rozbaľovací archív. Tento "
+#~ "typ inštalácie vyžaduje aby ste boli oboznámený s UNIX rozhraním "
+#~ "príkazového riadka."
 
 #~ msgid "RLN_LINUX_DL_FILENAME"
 #~ msgstr "Súbory na stiahnutie majú pomenovania ako <code>%s</code>."
@@ -993,37 +1100,66 @@ msgstr ""
 #~ msgstr "Skript, ktorý zapisuje do BOINC adresára a spúšťa manažér."
 
 #~ msgid "RLN_LINUX_AUTOSTART"
-#~ msgstr "Môžete nastaviť %s automatické spustenie jadra klienta %s pri spúšťaní systému."
+#~ msgstr ""
+#~ "Môžete nastaviť %s automatické spustenie jadra klienta %s pri spúšťaní "
+#~ "systému."
 
 #~ msgid "RLN_MSWIN_UNINSTALL_DESC"
-#~ msgstr "V ponuke Štart, vybarte Programy / BOINC / Uninstall. Alebo v ponuke Štart, vyberte Ovládací panel (Nastavenia) / Pridať alebo odstrániť programy."
+#~ msgstr ""
+#~ "V ponuke Štart, vybarte Programy / BOINC / Uninstall. Alebo v ponuke "
+#~ "Štart, vyberte Ovládací panel (Nastavenia) / Pridať alebo odstrániť "
+#~ "programy."
 
 #~ msgid "RLN_ISSUE_PROXY_NTLMAUTH"
-#~ msgstr "Ak používate proxy server, prosím aktualizujte Boinc na najnovšiu verziu. Boli odstránené chyby v činnosti pre proxy používajúce NTLM autentikáciu."
+#~ msgstr ""
+#~ "Ak používate proxy server, prosím aktualizujte Boinc na najnovšiu verziu. "
+#~ "Boli odstránené chyby v činnosti pre proxy používajúce NTLM autentikáciu."
 
 #~ msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
-#~ msgstr "Ak BOINC aplikácie opakovane havarujú na Vašom počítači, je pravdepodobné, že potrebujete %s aktualizovať DirectX na poslednú verziu %s."
+#~ msgstr ""
+#~ "Ak BOINC aplikácie opakovane havarujú na Vašom počítači, je "
+#~ "pravdepodobné, že potrebujete %s aktualizovať DirectX na poslednú verziu %"
+#~ "s."
 
 #~ msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
-#~ msgstr "Ak BOINC beží v rovnakom čase, ako Windows XP 3D šetriče obrazoviek, systém sa stáva pomalý a neodpovedajúci."
+#~ msgstr ""
+#~ "Ak BOINC beží v rovnakom čase, ako Windows XP 3D šetriče obrazoviek, "
+#~ "systém sa stáva pomalý a neodpovedajúci."
 
 #~ msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
-#~ msgstr "Aplikácie ktoré boli postavené pred októbrom 2004 nezobrazia grafiku šetriča obrazovky pri Service alebo Shared type inštalácie, alebo Single-user typ inštalácie s voľbou ochrany zaheslovaním šetriča obrazovky na NT strojoch."
+#~ msgstr ""
+#~ "Aplikácie ktoré boli postavené pred októbrom 2004 nezobrazia grafiku "
+#~ "šetriča obrazovky pri Service alebo Shared type inštalácie, alebo Single-"
+#~ "user typ inštalácie s voľbou ochrany zaheslovaním šetriča obrazovky na NT "
+#~ "strojoch."
 
 #~ msgid "RLN_TROUBLESHOOT_INTRO"
-#~ msgstr "Ak máte problémy s BOINC, tu sú niektoré kroky, ktoré môžete podniknúť:"
+#~ msgstr ""
+#~ "Ak máte problémy s BOINC, tu sú niektoré kroky, ktoré môžete podniknúť:"
 
 #~ msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
-#~ msgstr "Ak problém je s určitým projektom, choďte do oblasti 'Questions and Answers' web stránky projektu. Môžete nájsť riešenie Vášho problému. Ak nie, oznámte ho tam, a dostanete pomoc od iných užívateľov."
+#~ msgstr ""
+#~ "Ak problém je s určitým projektom, choďte do oblasti 'Questions and "
+#~ "Answers' web stránky projektu. Môžete nájsť riešenie Vášho problému. Ak "
+#~ "nie, oznámte ho tam, a dostanete pomoc od iných užívateľov."
 
 #~ msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
-#~ msgstr "Ak špecifické problémy projektu zotrvávajú, použite BOINC Manager na 'reset' tohoto projektu. Toto vymaže všetky jeho úlohy a začne úplne od začiatku. Za žiadnu zo zrušených úloh nedostanete kredit, aj keď sú hotové, ale neodoslané."
+#~ msgstr ""
+#~ "Ak špecifické problémy projektu zotrvávajú, použite BOINC Manager na "
+#~ "'reset' tohoto projektu. Toto vymaže všetky jeho úlohy a začne úplne od "
+#~ "začiatku. Za žiadnu zo zrušených úloh nedostanete kredit, aj keď sú "
+#~ "hotové, ale neodoslané."
 
 #~ msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
-#~ msgstr "Ak máte problémy s BOINC samotným, získajte pomocou z %s BOINC oznamovacích panelov %s."
+#~ msgstr ""
+#~ "Ak máte problémy s BOINC samotným, získajte pomocou z %s BOINC "
+#~ "oznamovacích panelov %s."
 
 #~ msgid "HELP_P2_1"
-#~ msgstr "Informácie a rady môžete tiež dostať z: %s BOINC web stránky%s. %s BOINC príbuzných web stránok%s. %s BOINC oznamovacích panelov%s. %s Oznamovacích panelov v ktoromkoľvek projekte založenom pod BOINC. "
+#~ msgstr ""
+#~ "Informácie a rady môžete tiež dostať z: %s BOINC web stránky%s. %s BOINC "
+#~ "príbuzných web stránok%s. %s BOINC oznamovacích panelov%s. %s "
+#~ "Oznamovacích panelov v ktoromkoľvek projekte založenom pod BOINC. "
 
 #~ msgid "HOME_MORE_INFO"
 #~ msgstr "Ďalšie informácie"

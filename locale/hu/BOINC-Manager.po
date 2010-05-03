@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-04-26 12:01-0700\n"
+"PO-Revision-Date: 2010-05-03 03:29-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
-"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -1189,7 +1189,8 @@ msgstr "Ha a processzor használat kevesebb mint"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr "munka felfüggesztése, ha a processzorhasználat meghaladja ezt a szintet"
+msgstr ""
+"munka felfüggesztése, ha a processzorhasználat meghaladja ezt a szintet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
@@ -1267,20 +1268,20 @@ msgstr "Vasárnap"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:272
 msgid "Other options"
-msgstr ""
+msgstr "Egyéb beállítások"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
 msgid "Switch between applications every"
-msgstr ""
+msgstr "Váltás az alkalmazások között ilyen gyakorisággal:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:289
 msgid "On multiprocessor systems, use at most"
-msgstr ""
+msgstr "Többprocesszoros rendszereken legfeljebb"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:296
 #, no-c-format
 msgid "% of the processors"
-msgstr ""
+msgstr "%-át használja a processzoroknak"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:299
 #: clientgui/DlgAdvPreferencesBase.cpp:515
@@ -1289,12 +1290,12 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:581
 #: clientgui/DlgAdvPreferencesBase.cpp:591
 msgid "Use at most"
-msgstr ""
+msgstr "Legfeljebb"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:306
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% CPU time"
-msgstr "Processzor idő"
+msgstr "%-át használja a CPU időnek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:316
 msgid "processor usage"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2010-01-19 22:34 PST\n"
+"POT-Creation-Date: 2010-05-03 10:16 PDT\n"
 "PO-Revision-Date: 2010-02-28 22:40+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: Japanese <nobody@example.com>\n"
@@ -18,15 +18,32 @@ msgstr ""
 "X-Poedit-Country: JAPAN\n"
 "X-Poedit-KeywordsList: tra\n"
 
+#: versions.inc:6
+msgid "The current release is known to work with these Linux versions:"
+msgstr ""
+
+#: versions.inc:14
+msgid ""
+"For other Linux versions, check if a BOINC package is offered by your Linux "
+"distribution."
+msgstr ""
+
+#: versions.inc:25
+msgid ""
+"Alternatively, download the %1BOINC client for older Linux versions%2. This "
+"doesn't have a graphical interface, but it should work on all Linux systems, "
+"both x86 and x64."
+msgstr ""
+
 #: docutil.php:21
 msgid "Search"
 msgstr "検索"
 
-#: docutil.php:101
+#: docutil.php:102
 msgid "Return to BOINC main page"
 msgstr "BOINCホームページに戻る"
 
-#: docutil.php:112
+#: docutil.php:113
 #, php-format
 msgid "This page is %stranslatable%s."
 msgstr "このページは%s翻訳可能です%s"
@@ -57,10 +74,11 @@ msgstr ""
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
-msgstr "ご自身で所有しているコンピュータあるいは所有者に許可を得た場合のみそのコンピュータでこのソフトウェアを実行することを許します。"
+msgstr ""
+"ご自身で所有しているコンピュータあるいは所有者に許可を得た場合のみそのコン"
+"ピュータでこのソフトウェアを実行することを許します。"
 
 #: download.php:116
-#, php-format
 #, php-format
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
@@ -248,8 +266,8 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
-"%1科学者%2: は BOINC を使って%3ボランティア・コンピューティング・プロジェクト%4 "
-"を作成することで、何千ものCPUの計算能力を手に入れることができます。"
+"%1科学者%2: は BOINC を使って%3ボランティア・コンピューティング・プロジェク"
+"ト%4 を作成することで、何千ものCPUの計算能力を手に入れることができます。"
 
 #: index.php:130
 msgid ""
@@ -257,11 +275,13 @@ msgid ""
 "Center%4."
 msgstr ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
-"Center%4.%1大学%2: BOINC を使って%3仮想キャンパス・スーパーコンピューティング・センタ%4を作ることができます。"
+"Center%4.%1大学%2: BOINC を使って%3仮想キャンパス・スーパーコンピューティン"
+"グ・センタ%4を作ることができます。"
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1企業%2: BOINC を %3デスクトップ・グリッド・コンピューティング%4に使えます。"
+msgstr ""
+"%1企業%2: BOINC を %3デスクトップ・グリッド・コンピューティング%4に使えます。"
 
 #: index.php:147
 msgid "The BOINC project"
@@ -332,7 +352,7 @@ msgid "Browser default"
 msgstr "ブラウザのデフォルト"
 
 # %s アカウント・マネージャ%s (たとえば、%s GridRepublic %s や %s BAM! %s ) を試して下さい。"
-#: index.php:254
+#: index.php:258
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
@@ -340,7 +360,7 @@ msgstr ""
 "BOINC は %sボランティア・コンピューティング%s と %sグリッド・コンピューティン"
 "グ%sのためのオープンソース・ソフトウェアです。"
 
-#: index.php:267
+#: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr "BOINC の本拠地は、カリフォルニア大学バークレー校にあります"
 
