@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-04 04:46-0700\n"
+"PO-Revision-Date: 2010-05-04 05:54-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -155,7 +155,7 @@ msgid "Requested by you, and founder response deadline has passed."
 msgstr "התבקש על ידך, ומועד אחרון לתגובת מייסד עבר."
 
 msgid "Complete foundership transfer"
-msgstr "השלם העברת ייסוד"
+msgstr "השלם העברת מייסד"
 
 msgid "Requested by you"
 msgstr "התבקש על ידך"
@@ -219,7 +219,7 @@ msgid "Respond by %1"
 msgstr "הגב עד %1"
 
 msgid "Team foundership change"
-msgstr "שינוי מייסדר הקבוצה"
+msgstr "שינוי מייסד הקבוצה"
 
 msgid "Members"
 msgstr "חברים"
@@ -273,117 +273,121 @@ msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
 msgstr ""
+"%1הודעת פרטיות%2: אם תיצרו קבוצה, העדפות הפרוייקט שלכם (שיתוף משאבים, העדפות "
+"גרפיקה) יהיו גלויות לציבור."
 
 msgid "Team name, text version"
-msgstr ""
+msgstr "שם הקבוצה, גרסת הטקסט"
 
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "אל תשתמש בתוויות HTML"
 
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "שם הקבוצה, גרסת HTML"
 
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "באפשרותכם להשתמש ב%1כמות מוגבל של תוויות HTML%2"
 
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "אם אינכם מתמצאים ב-HTML, אל תסמנו אפשרות זו."
 
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "כתובת אתר האינטרנט של הקבוצה, באם קיים"
 
 msgid "without \"http://\""
-msgstr ""
+msgstr "ללא \"http://\""
 
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "קישור לכתובת האתר יתבצע מדף הקבוצה באתר זה."
 
 msgid "Description of team"
-msgstr ""
+msgstr "תיאור הקבוצה"
 
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "פרוייקטים בהם הנכם נוטלים חלק"
 
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "פרוייקטים בהם %1 נוטל חלק"
 
 msgid "Project"
-msgstr ""
+msgstr "פרוייקט"
 
 msgid "Click for user page"
-msgstr ""
+msgstr "לחצו לדף משתמש"
 
 msgid "Average credit"
-msgstr ""
+msgstr "ממוצע נקודות זכות"
 
 msgid "Since"
-msgstr ""
+msgstr "מאז"
 
 msgid "Computing and credit"
-msgstr ""
+msgstr "חישוב ונקודות זכות"
 
 msgid "Pending credit"
-msgstr ""
+msgstr "נקודות זכות ממתינות"
 
 msgid "View"
-msgstr ""
+msgstr "תצוגה"
 
 msgid "Computers on this account"
-msgstr ""
+msgstr "מחשבים בחשבון זה"
 
 msgid "Tasks"
-msgstr ""
+msgstr "משימות"
 
+#, fuzzy
 msgid "Cross-project ID"
-msgstr ""
+msgstr "זיהוי פרוייקט מוצלב"
 
+#, fuzzy
 msgid "Cross-project statistics"
-msgstr ""
+msgstr "נתוני פרוייקט מוצלב"
 
 msgid "Certificate"
-msgstr ""
+msgstr "אישור"
 
 msgid "Stats on your cell phone"
-msgstr ""
+msgstr "נתונים בטלפון הנייד"
 
 msgid "Account information"
-msgstr ""
+msgstr "מידע על החשבון"
 
 msgid "Email address"
-msgstr ""
+msgstr "כתובת אימייל"
 
 msgid "URL"
-msgstr ""
+msgstr "כתובת אינטרנט"
 
 msgid "Postal code"
-msgstr ""
+msgstr "מיקוד"
 
 msgid "%1 member since"
-msgstr ""
+msgstr "%1 חבר מאז"
 
 msgid "Change"
-msgstr ""
+msgstr "שינוי"
 
 msgid "email address"
-msgstr ""
+msgstr "כתובת אימייל"
 
 msgid "password"
-msgstr ""
+msgstr "סיסמא"
 
 msgid "other account info"
-msgstr ""
+msgstr "מידע נוסף על החשבון"
 
 msgid "Log out"
-msgstr ""
+msgstr "התנתק"
 
 msgid "User ID"
-msgstr ""
+msgstr "שם משתמש"
 
 msgid "Used in community functions"
-msgstr ""
+msgstr "נמצא בשימוש פונקציות קהילה"
 
 msgid "Account key"
-msgstr ""
+msgstr "מפתח חשבון"
 
 msgid "Provides full access to your account"
 msgstr ""
