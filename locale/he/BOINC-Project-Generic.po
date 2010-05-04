@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-04 03:58-0700\n"
+"PO-Revision-Date: 2010-05-04 04:46-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -188,84 +188,86 @@ msgid "Recent average credit"
 msgstr "ממוצע נקודות זכות אחרון"
 
 msgid "Cross-project stats"
-msgstr ""
+msgstr "נתוני הצלבות פרוייקטים"
 
 msgid "Type"
-msgstr ""
+msgstr "סוג"
 
 msgid "Message board"
-msgstr ""
+msgstr "לוח הודעות"
 
 msgid "Threads"
-msgstr ""
+msgstr "אשכולות"
 
 msgid "Join this team"
-msgstr ""
+msgstr "הצטרף לקבוצה זו"
 
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
+"הערה: אם אפשרות \"מאושר לאימייל\" מוגדרת בהעדפות הפרוייקט שלכם, הצטרפות לקבוצה "
+"מאפשרת גישה לכתובת האימייל שלכם למייסד הקבוצה."
 
 msgid "Not accepting new members"
-msgstr ""
+msgstr "לא מקבלים חברים חדשים"
 
 msgid "Foundership change requested"
-msgstr ""
+msgstr "הוגשה בקשה לשינוי מייסד"
 
 msgid "Respond by %1"
-msgstr ""
+msgstr "הגב עד %1"
 
 msgid "Team foundership change"
-msgstr ""
+msgstr "שינוי מייסדר הקבוצה"
 
 msgid "Members"
-msgstr ""
+msgstr "חברים"
 
 msgid "Founder"
-msgstr ""
+msgstr "מייסד"
 
 msgid "Admins"
-msgstr ""
+msgstr "מנהלים"
 
 msgid "New members in last day"
-msgstr ""
+msgstr "חברים חדשים ביום האחרון"
 
 msgid "Total members"
-msgstr ""
+msgstr "סה\"כ חברים"
 
 msgid "view"
-msgstr ""
+msgstr "תצוגה"
 
 msgid "Active members"
-msgstr ""
+msgstr "חברים פעילים"
 
 msgid "Members with credit"
-msgstr ""
+msgstr "חברים עם נקודות זכות"
 
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 msgid "Admin"
-msgstr ""
+msgstr "מנהל"
 
 msgid "Last %1"
-msgstr ""
+msgstr "אחרון %1"
 
 msgid "Next %1"
-msgstr ""
+msgstr "הבא %1"
 
 msgid "No such team."
-msgstr ""
+msgstr "קבוצה לא קיימת."
 
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "פעולה זו דורשת מייסד."
 
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "פעולה זו דורשת הרשאות מנהל קבוצה"
 
 msgid "Rank"
-msgstr ""
+msgstr "דרגה"
 
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
