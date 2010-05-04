@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-04 05:54-0700\n"
+"PO-Revision-Date: 2010-05-04 06:40-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -390,70 +390,70 @@ msgid "Account key"
 msgstr "מפתח חשבון"
 
 msgid "Provides full access to your account"
-msgstr ""
+msgstr "מספק גישה מלאה לחשבונכם"
 
 msgid "Weak account key"
-msgstr ""
+msgstr "מפתח חשבון חלש"
 
 msgid "Provides %1limited access%2 to your account"
-msgstr ""
+msgstr "מספק %1גישה מוגבלת%2 לחשבונכם"
 
 msgid "Preferences"
-msgstr ""
+msgstr "העדפות"
 
 msgid "When and how BOINC uses your computer"
-msgstr ""
+msgstr "מתי ואיזה שימוש עושה BOINC במחשבכם"
 
 msgid "Computing preferences"
-msgstr ""
+msgstr "העדפות חישוב"
 
 msgid "Message boards and private messages"
-msgstr ""
+msgstr "לוחות הודעות והודעות פרטיות"
 
 msgid "Community preferences"
-msgstr ""
+msgstr "העדפות קהילה"
 
 msgid "Resource share and graphics"
-msgstr ""
+msgstr "שיתוף משאבים וגרפיקה"
 
 msgid "%1 preferences"
-msgstr ""
+msgstr "העדפות %1"
 
 msgid "Community"
-msgstr ""
+msgstr "קהילה"
 
 msgid "Delete"
-msgstr ""
+msgstr "מחק"
 
 msgid "Create"
-msgstr ""
+msgstr "צור"
 
 msgid "Profile"
-msgstr ""
+msgstr "פרופיל"
 
 msgid "%1 posts"
-msgstr ""
+msgstr "הודעות %1"
 
 msgid "Notifications"
-msgstr ""
+msgstr "עדכונים"
 
 msgid "Quit team"
-msgstr ""
+msgstr "עזוב קבוצה"
 
 msgid "Administer"
-msgstr ""
+msgstr "ניהול"
 
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(בקשת שינוי מייסד ממתינה)"
 
 msgid "Member of team"
-msgstr ""
+msgstr "חבר בקבוצה"
 
 msgid "Team"
-msgstr ""
+msgstr "קבוצה"
 
 msgid "find a team"
-msgstr ""
+msgstr "מצא קבוצה"
 
 msgid "Founder but not member of"
 msgstr ""
