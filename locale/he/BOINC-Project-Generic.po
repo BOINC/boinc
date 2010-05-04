@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-04 02:58-0700\n"
+"PO-Revision-Date: 2010-05-04 03:58-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -73,7 +73,7 @@ msgid "Mark all threads as read"
 msgstr "סמן את כלל האשכולות כנקראו"
 
 msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
+msgstr "סמן את כלל האשכולות בכל לוחות ההודעות כנקראו"
 
 msgid "Inbox"
 msgstr "דואר נכנס"
@@ -82,7 +82,7 @@ msgid "Write"
 msgstr "כתבו"
 
 msgid "Send private message"
-msgstr "שלחו הודעה אישית"
+msgstr "שלחו הודעה פרטית"
 
 msgid "Preview"
 msgstr "תצוגה מקדימה"
@@ -110,82 +110,82 @@ msgstr ""
 "הודעות נוספות."
 
 msgid "unread"
-msgstr ""
+msgstr "לא נקרא"
 
 msgid "Edit your profile"
-msgstr ""
+msgstr "עריכת פרופיל"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "משוב על פרופיל זה"
 
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "המלץ על פרופיל זה כמשתמש היום:"
 
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "אני %1אוהב%2 פרופיל זה"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "התרע מנהלים מפני פרופיל מזיק:"
 
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "אני %1לא אוהב%1 פרופיל זה"
 
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "חפש קריטריון (בחר אחד או יותר)"
 
 msgid "Key words"
-msgstr ""
+msgstr "מילות מפתח"
 
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "מצא קבוצות עם מילים אלו בשם או בתיאור שלהן"
 
 msgid "Country"
-msgstr ""
+msgstr "מדינה"
 
 msgid "Type of team"
-msgstr ""
+msgstr "סוג קבוצה"
 
 msgid "Show only active teams"
-msgstr ""
+msgstr "הצג רק קבוצות פעילות"
 
 msgid "Search"
-msgstr ""
+msgstr "חיפוש"
 
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
+msgstr "התבקש על ידך, ומועד אחרון לתגובת מייסד עבר."
 
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "השלם העברת ייסוד"
 
 msgid "Requested by you"
-msgstr ""
+msgstr "התבקש על ידך"
 
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "מועד אחרון לתגובת מייסד הוא %1"
 
 msgid "None"
-msgstr ""
+msgstr "ללא"
 
 msgid "Initiate request"
-msgstr ""
+msgstr "החל בקשה"
 
 msgid "Deferred"
-msgstr ""
+msgstr "נדחה"
 
 msgid "Team info"
-msgstr ""
+msgstr "מידע אודות קבוצה"
 
 msgid "Description"
-msgstr ""
+msgstr "תיאור"
 
 msgid "Web site"
-msgstr ""
+msgstr "אתר אינטרנט"
 
 msgid "Total credit"
-msgstr ""
+msgstr "סה\"כ נקודות זכות"
 
 msgid "Recent average credit"
-msgstr ""
+msgstr "ממוצע נקודות זכות אחרון"
 
 msgid "Cross-project stats"
 msgstr ""
