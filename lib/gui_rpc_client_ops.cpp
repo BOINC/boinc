@@ -2112,7 +2112,7 @@ int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
     return retval;
 }
 
-int RPC_CLIENT::get_newer_version(std::string& version) {
+int RPC_CLIENT::get_newer_version(std::string& version, std::string& version_download_url) {
     int retval;
     SET_LOCALE sl;
     char buf[256];
@@ -2123,6 +2123,7 @@ int RPC_CLIENT::get_newer_version(std::string& version) {
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
             parse_str(buf, "<newer_version>", version);
+            parse_str(buf, "<download_url>", version_download_url);
         }
     }
     return retval;

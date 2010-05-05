@@ -608,7 +608,10 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_pDoc->rpcClient).acct_mgr_rpc_poll(*(ACCT_MGR_RPC_REPLY*)(current_request->arg1));
         break;
     case RPC_GET_NEWER_VERSION:
-        retval = (m_pDoc->rpcClient).get_newer_version(*(std::string*)(current_request->arg1));
+        retval = (m_pDoc->rpcClient).get_newer_version(
+            *(std::string*)(current_request->arg1),
+            *(std::string*)(current_request->arg2),
+        );
         break;
     case RPC_READ_GLOBAL_PREFS_OVERRIDE:
         retval = (m_pDoc->rpcClient).read_global_prefs_override();

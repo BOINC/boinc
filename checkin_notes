@@ -3333,3 +3333,15 @@ Rom    5 May 2010
         
     client/
         gui_rpc_server_ops.cpp
+
+Rom    5 May 2010
+    - lib: update client-side RPC files for configured
+        download url.
+    - manager: update get_newer_version async RPC for
+        configured download url.
+
+    clientgui/
+        AsyncRPC.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

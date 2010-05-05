@@ -314,8 +314,8 @@ public:
     int acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY& arg1)
             { return RPC_Wait(RPC_ACCT_MGR_RPC_POLL, (void*)&arg1); }
 
-    int get_newer_version(std::string& arg1)
-            { return RPC_Wait(RPC_GET_NEWER_VERSION, (void*)&arg1); }
+    int get_newer_version(std::string& version, std::string& version_download_url)
+            { return RPC_Wait(RPC_GET_NEWER_VERSION, (void*)&version, (void*)&version_download_url); }
     int read_global_prefs_override()
             { return RPC_Wait(RPC_READ_GLOBAL_PREFS_OVERRIDE); }
     int read_cc_config()
