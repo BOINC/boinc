@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-05 01:00-0700\n"
+"PO-Revision-Date: 2010-05-05 01:04-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -487,28 +487,29 @@ msgid "Request pending"
 msgstr "בקשה ממתינה"
 
 msgid "Add as friend"
-msgstr ""
+msgstr "הוסף כחבר"
 
+#, fuzzy
 msgid "CHARSET"
-msgstr ""
+msgstr "מבנה דמות"
 
 msgid "Use BBCode tags to format your text"
-msgstr ""
+msgstr "השתמש בתוויות BBCode לעריכת הטקסט"
 
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
+msgstr "מזהה אותך באתר שלנו. השתמש בשם אמיתי או כינוי."
 
 msgid "Select the country you want to represent, if any."
-msgstr ""
+msgstr "בחר את המדינה אותה ברצונך לייצג, אם בכלל."
 
 msgid "Postal or ZIP Code"
-msgstr ""
+msgstr "מיקוד או תיבת דואר"
 
 msgid "Optional"
-msgstr ""
+msgstr "אופציונלי"
 
 msgid "Applications"
-msgstr ""
+msgstr "יישומים"
 
 msgid ""
 "%1 currently has the following applications. When you participate in %1, "
