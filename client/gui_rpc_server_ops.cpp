@@ -848,8 +848,11 @@ static void handle_acct_mgr_rpc_poll(char*, MIOFILE& fout) {
 }
 
 static void handle_get_newer_version(MIOFILE& fout) {
-    fout.printf("<newer_version>%s</newer_version>\n",
-        gstate.newer_version.c_str()
+    fout.printf(
+        "<newer_version>%s</newer_version>\n"
+        "<download_url>%s</download_url>\n",
+        gstate.newer_version.c_str(),
+        config.client_download_url.c_str()
     );
 }
 

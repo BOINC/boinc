@@ -3326,3 +3326,10 @@ Rom    3 May 2010
     
     client/
         net_stats.cpp
+
+Rom    5 May 2010
+    - client: include the configured download url in the
+        get_newer_version RPC.
+        
+    client/
+        gui_rpc_server_ops.cpp
