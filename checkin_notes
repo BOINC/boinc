@@ -3345,3 +3345,9 @@ Rom    5 May 2010
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+Charlie  5 May 2010
+    - MGR: Fix build break.
+    
+    clientgui/
+        AsyncRPC.cpp, .h
