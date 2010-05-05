@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-04 06:40-0700\n"
+"PO-Revision-Date: 2010-05-05 01:00-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -34,10 +34,10 @@ msgid "Questions and Answers"
 msgstr "שאלות ותשובות"
 
 msgid "Message boards"
-msgstr "לוחות מודעות"
+msgstr "לוחות הודעות"
 
 msgid "%1 message board"
-msgstr "לוח מודעות %1 "
+msgstr "לוח הודעות %1 "
 
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
@@ -187,8 +187,9 @@ msgstr "סה\"כ נקודות זכות"
 msgid "Recent average credit"
 msgstr "ממוצע נקודות זכות אחרון"
 
+#, fuzzy
 msgid "Cross-project stats"
-msgstr "נתוני הצלבות פרוייקטים"
+msgstr "נתוני Cross-project"
 
 msgid "Type"
 msgstr "סוג"
@@ -207,7 +208,7 @@ msgid ""
 "gives its founder access to your email address."
 msgstr ""
 "הערה: אם אפשרות \"מאושר לאימייל\" מוגדרת בהעדפות הפרוייקט שלכם, הצטרפות לקבוצה "
-"מאפשרת גישה לכתובת האימייל שלכם למייסד הקבוצה."
+"מאשרת למייסד הקבוצה גישה לכתובת האימייל שלכם."
 
 msgid "Not accepting new members"
 msgstr "לא מקבלים חברים חדשים"
@@ -338,11 +339,11 @@ msgstr "משימות"
 
 #, fuzzy
 msgid "Cross-project ID"
-msgstr "זיהוי פרוייקט מוצלב"
+msgstr "זיהוי Cross-project"
 
 #, fuzzy
 msgid "Cross-project statistics"
-msgstr "נתוני פרוייקט מוצלב"
+msgstr "נתוני Cross-project"
 
 msgid "Certificate"
 msgstr "אישור"
@@ -456,34 +457,34 @@ msgid "find a team"
 msgstr "מצא קבוצה"
 
 msgid "Founder but not member of"
-msgstr ""
+msgstr "מייסד אך לא חבר ב"
 
 msgid "Find friends"
-msgstr ""
+msgstr "מצא חברים"
 
 msgid "Friends"
-msgstr ""
+msgstr "חברים"
 
 msgid "Computers"
-msgstr ""
+msgstr "מחשבים"
 
 msgid "hidden"
-msgstr ""
+msgstr "מוסתר"
 
 msgid "Donor"
-msgstr ""
+msgstr "תורם"
 
 msgid "Contact"
-msgstr ""
+msgstr "צור קשר"
 
 msgid "This person is a friend"
-msgstr ""
+msgstr "אדם זה הוא חבר"
 
 msgid "Cancel friendship"
-msgstr ""
+msgstr "ביטול חברות"
 
 msgid "Request pending"
-msgstr ""
+msgstr "בקשה ממתינה"
 
 msgid "Add as friend"
 msgstr ""
