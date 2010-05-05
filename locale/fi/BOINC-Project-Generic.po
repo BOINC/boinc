@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-05-03 22:12+0200\n"
+"PO-Revision-Date: 2010-05-05 22:36+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -218,7 +218,7 @@ msgstr "En %1pidä%2 tästä profiilista"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "Hakuehto (yksi tai useampi)"
 
 #: ../inc/team.inc:34
 msgid "Key words"
@@ -572,7 +572,7 @@ msgstr ""
 
 #: ../inc/user.inc:148
 msgid "Computers on this account"
-msgstr ""
+msgstr "Tämän tilin tietokoneet"
 
 #: ../inc/host.inc:174
 #: ../inc/host.inc:302
