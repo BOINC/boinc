@@ -55,6 +55,7 @@ DC_submitWU(DC_Workunit *wu)
 	/*GString *fn;*/
 	char *id;
     int tries;
+    int sleeptime;
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
@@ -77,16 +78,19 @@ DC_submitWU(DC_Workunit *wu)
 	/*fn= g_string_new(wu->workdir);*/
 	/*fn= g_string_append(fn, "/condor_submit.txt");*/
     tries=0;
+    sleeptime=2;
     do 
     {
     	ret= _DC_start_condor_job(wu);
         tries++;
         if (ret != 0)
         {
-            DC_log(LOG_INFO, "Failed to submit WU to Condor. Sleeping for a few seconds and retrying (%d of 3)", tries);
-            sleep(3);
+            DC_log(LOG_INFO, "Failed to submit WU to Condor. Sleeping for %d seconds and retrying (%d of 4)", 
+                sleeptime, tries);
+            sleep(sleeptime);
+            sleeptime*=2;
         }        
-    } while (tries < 3 && ret != 0);
+    } while (tries < 4 && ret != 0);
 	if (ret == 0)
 	{
 		/* Fix #1105 */
