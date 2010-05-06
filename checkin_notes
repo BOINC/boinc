@@ -3351,3 +3351,10 @@ Charlie  5 May 2010
     
     clientgui/
         AsyncRPC.cpp, .h
+
+David  6 May 2010
+	- manager: fix tooltip msgs
+
+	clientgui/
+		AdvancedFrame.cpp
+		sg_ProjectsComponent.cpp

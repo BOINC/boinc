@@ -102,7 +102,7 @@ void CProjectsComponent::CreateComponent()
 
 	//Static content in my Projects section
 	// add project button
-	wxToolTip *ttAddProject = new wxToolTip(_("Attach to an additional project"));
+	wxToolTip *ttAddProject = new wxToolTip(_("Volunteer for any or all of 30+ projects in many areas of science"));
 	btnAddProj=new wxBitmapButton(
         this,
         ID_WIZARDATTACH,

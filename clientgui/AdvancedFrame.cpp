@@ -389,7 +389,7 @@ bool CAdvancedFrame::CreateMenu() {
         menuTools->Append(
             ID_WIZARDATTACH, 
             _("&Attach to project or account manager..."),
-            _("Attach this computer to a project or account manager")
+            _("Volunteer for any or all of 30+ projects in many areas of science")
         );
     } else {
         strMenuName.Printf(
