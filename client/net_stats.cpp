@@ -291,8 +291,12 @@ void DAILY_XFER::write(FILE* f) {
     );
 }
 
+inline int current_day() {
+    return (int)((gstate.now-gstate.host_info.timezone)/86400);
+}
+
 DAILY_XFER* DAILY_XFER_HISTORY::today() {
-    int d = (int)(gstate.now/86400);
+    int d = current_day();
     for (unsigned int i=0; i<daily_xfers.size(); i++) {
         DAILY_XFER& dx = daily_xfers[i];
         if (dx.when == d) {
@@ -325,7 +329,7 @@ void DAILY_XFER_HISTORY::init() {
     bool is_tag;
     char tag[256];
 
-    int d = (int)(gstate.now/86400);
+    int d = current_day();
 
     if (!xp.parse_start("daily_xfers")) {
         fclose(f);
@@ -374,7 +378,7 @@ void DAILY_XFER_HISTORY::write_state() {
 }
 
 void DAILY_XFER_HISTORY::totals(int ndays, double& up, double& down) {
-    int d = (int)(gstate.now/86400) - ndays;
+    int d = (current_day - ndays);
     up = down = 0;
     for (unsigned int i=0; i<daily_xfers.size(); i++) {
         DAILY_XFER& dx = daily_xfers[i];
