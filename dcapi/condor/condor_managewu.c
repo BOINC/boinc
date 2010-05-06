@@ -85,12 +85,14 @@ DC_submitWU(DC_Workunit *wu)
         tries++;
         if (ret != 0)
         {
+            if (tries > 4)
+                break;
             DC_log(LOG_INFO, "Failed to submit WU to Condor. Sleeping for %d seconds and retrying (%d of 4)", 
                 sleeptime, tries);
             sleep(sleeptime);
             sleeptime*=2;
         }        
-    } while (tries < 4 && ret != 0);
+    } while (ret != 0);
 	if (ret == 0)
 	{
 		/* Fix #1105 */
