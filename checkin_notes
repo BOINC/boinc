@@ -1589,3 +1589,11 @@ David  6 May 2010
 	clientgui/
 		AdvancedFrame.cpp
 		sg_ProjectsComponent.cpp
+
+Rom    6 May 2010
+    - Tag for 6.10.52 release, all platforms
+      boinc_core_release_6_10_52
+
+    /
+        configure.ac
+        version.h
