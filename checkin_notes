@@ -1582,3 +1582,10 @@ Rom    3 May 2010
     
     client/
         net_stats.cpp
+
+David  6 May 2010
+	- manager: fix tooltip msgs
+
+	clientgui/
+		AdvancedFrame.cpp
+		sg_ProjectsComponent.cpp
