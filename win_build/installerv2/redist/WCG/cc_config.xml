@@ -2,8 +2,9 @@
     <log_flags>
     </log_flags>
     <options>
-        <client_version_check_url>www.worldcommunitygrid.org</client_version_check_url>
-        <network_test_url>www.ibm.com</network_test_url>
+        <client_version_check_url>http://www.worldcommunitygrid.org/download.php?xml=1</client_version_check_url>
+        <client_download_url>http://www.worldcommunitygrid.org/download.php</client_download_url>
+        <network_test_url>http://www.ibm.com/</network_test_url>
         <start_delay>120</start_delay>
     </options>
 </cc_config>
