@@ -268,6 +268,18 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pListPane);
 
+    CC_STATUS status;
+    pDoc->GetCoreClientStatus(status);
+    if (status.network_suspend_reason) {
+        wxGetApp().SafeMessageBox(
+            _("Network activity is suspended.\nYou can enable it using the Activity menu."),
+            _("BOINC"),
+            wxOK | wxICON_INFORMATION,
+            this
+        );
+        return;
+    }
+
     pFrame->UpdateStatusText(_("Retrying transfer now..."));
     row = -1;
     while (1) {
@@ -755,7 +767,10 @@ void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
             strBuffer = _("Upload failed");
         } else {
             if (status.network_suspend_reason) {
-                strBuffer = _("Suspended");
+                strBuffer = transfer->generated_locally
+                    ?_("Suspended upload")
+                    :_("Suspended download")
+                ;
             } else {
                 if (transfer->xfer_active) {
                     strBuffer = transfer->generated_locally? _("Uploading") : _("Downloading");

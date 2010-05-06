@@ -1118,6 +1118,9 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
             strBuffer += _("Download failed");
         } else {
             strBuffer += _("Downloading");
+            if (status.network_suspend_reason) {
+                strBuffer += _(" (suspended)");
+            }
         }
         break;
     case RESULT_FILES_DOWNLOADED:
@@ -1191,6 +1194,9 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
             strBuffer += _("Upload failed");
         } else {
             strBuffer += _("Uploading");
+            if (status.network_suspend_reason) {
+                strBuffer += _(" (suspended)");
+            }
         }
         break;
     case RESULT_ABORTED:

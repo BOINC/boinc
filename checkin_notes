@@ -1541,7 +1541,6 @@ Charlie  30 Apr 2010
         cs_prefs.pp
 
 Charlie  30 Apr 2010
-
     - Tag for 6.10.51 release, all platforms
       boinc_core_release_6_10_51
 
@@ -1555,3 +1554,17 @@ David  2 Mar 2010
 
     client/
         scheduler_op.cpp
+
+David  30 Apr 2010
+	- manager: if user clicks Retry in Transfer tab while network is suspended,
+		show an alert.
+	- manager: in transfers tab, show it if transfers are suspended
+		because network is suspended
+	- manager: in tasks tab, if a task is downloading or uploading
+		and network is suspended, show it
+
+	client/
+		work_fetch.cpp
+	clientgui/
+		ViewTransfers.cpp
+		ViewWork.cpp
