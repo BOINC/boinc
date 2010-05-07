@@ -403,7 +403,29 @@
 		  </para>
 	        </listitem>
 	      </varlistentry>
+          <varlistentry>
+            <term>SubmitRetry</term>
+          	<listitem>
+          	  <para>
+          	      If a job cannot be submitted, how many times should DC-API try before giving 
+          	      up and reporting it as failed. Default value is 5.
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>SubmitRetrySleepTime</term>
+          	<listitem>
+          	  <para>
+          	      Defines the start value for the sleep period between job submission retries. 
+          	      Default value is 2. It is multiplied by 2 after each retry, so 2 seconds sleep 
+          	      before the first retry, 4 seconds before the second, 8 second before the third 
+          	      and so on.
+              </para>
+            </listitem>
+          </varlistentry>
 	    </variablelist>
+
+
 
 	</para>
 	</listitem>
