@@ -128,8 +128,10 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
 // initialize the app diagnostic environment.
 //
 int boinc_init_diagnostics(int _flags) {
-    int modified_flags = BOINC_DIAG_BOINCAPPLICATION | _flags;
-    return diagnostics_init(modified_flags, BOINC_DIAG_STDOUT, BOINC_DIAG_STDERR);
+    return diagnostics_init(
+        BOINC_DIAG_BOINCAPPLICATION | _flags,
+        BOINC_DIAG_STDOUT, BOINC_DIAG_STDERR
+    );
 }
 
 

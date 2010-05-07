@@ -3412,3 +3412,9 @@ David  7 May 2010
             db_ops.inc
         ops/
             credit.php (new)
+
+Rom    7 May 2010
+    - DIAG: Make init functions consistant with one another.
+    
+    lib/
+        diagnostics.cpp
