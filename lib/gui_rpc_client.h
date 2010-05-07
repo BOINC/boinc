@@ -140,6 +140,7 @@ public:
     bool anonymous_platform;
     bool master_url_fetch_pending; // need to fetch and parse the master URL
     int sched_rpc_pending;      // need to contact scheduling server
+        // encodes the reason for the request
     bool non_cpu_intensive;
     bool suspended_via_gui;
     bool dont_request_more_work;
@@ -147,6 +148,7 @@ public:
     bool attached_via_acct_mgr;
     bool detach_when_done;
     bool ended;
+    bool trickle_up_pending;
     double project_files_downloaded_time;
         // when the last project file download was finished
         // (i.e. the time when ALL project files were finished downloading)

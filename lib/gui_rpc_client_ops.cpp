@@ -267,6 +267,7 @@ int PROJECT::parse(MIOFILE& in) {
         if (parse_bool(buf, "scheduler_rpc_in_progress", scheduler_rpc_in_progress)) continue;
         if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
         if (parse_bool(buf, "detach_when_done", detach_when_done)) continue;
+        if (parse_bool(buf, "trickle_up_pending", trickle_up_pending)) continue;
         if (match_tag(buf, "<gui_urls>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</gui_urls>")) break;
@@ -326,6 +327,7 @@ void PROJECT::clear() {
     scheduler_rpc_in_progress = false;
     attached_via_acct_mgr = false;
     detach_when_done = false;
+    trickle_up_pending = false;
     project_files_downloaded_time = 0;
     last_rpc_time = 0;
     gui_urls.clear();
