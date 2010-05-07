@@ -3400,3 +3400,15 @@ David  7 May 2010
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  7 May 2010
+    - user web: fix PHP warning
+    - admin web: add tool for debugging credit
+
+    html/
+        inc/
+            prefs.inc
+            boinc_db.inc
+            db_ops.inc
+        ops/
+            credit.php (new)

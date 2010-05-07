@@ -332,7 +332,7 @@ if ($app_types->count > 1) {
     }
 }
 
-if ($project_has_beta) {
+if (isset($project_has_beta) && $project_has_beta) {
     $project_pref_descs[] = new PREF_BOOL(
         tra(
             "Run test applications? %1 This helps us develop applications, but may cause jobs to fail on your computer %2",

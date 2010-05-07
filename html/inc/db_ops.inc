@@ -1323,7 +1323,7 @@ function show_result_short($result) {
     $host_user = host_user_link($result->hostid);
     $cpu_hours = sprintf("%.1f",$result->cpu_time / 3600);
     $claimed_credit = credit_str($result->claimed_credit);
-    $granted_credit = credit_str($result->granted_credit);
+    $granted_credit = "<a href=credit.php?resultid=$result->id>".credit_str($result->granted_credit)."</a>";
     $delete_state = file_delete_state_str($result->file_delete_state);
 
     echo "
