@@ -125,6 +125,7 @@ public:
     int remove(PERS_FILE_XFER*);
     bool poll();
     void suspend();
+    void add_random_delay(double);
 };
 
 #endif

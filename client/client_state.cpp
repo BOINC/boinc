@@ -679,6 +679,13 @@ bool CLIENT_STATE::poll_slow_events() {
                 msg_printf(NULL, MSG_INFO, "Resuming file transfers");
             }
         }
+
+        // if we're emerging from a bandwidth quota suspension,
+        // add a random delay to avoid DDOS effect
+        //
+        if (old_network_suspend_reason == SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED) {
+            pers_file_xfers->add_random_delay(3600);
+        }
     }
 
     // NOTE:

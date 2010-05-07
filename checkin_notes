@@ -3379,3 +3379,14 @@ David  7 May 2010
 		WelcomePage.cpp
 	lib/
 		str_util.cpp,h
+
+David  7 May 2010
+    - client: when emerge from bandwidth quota network suspension,
+        add 0..1hr random delay to existing transfers,
+        to avoid DDOS effect
+
+    db/
+        boinc_db.cpp
+    client/
+        client_state.cpp
+        pers_file_xfer.cpp,h

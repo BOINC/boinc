@@ -2042,7 +2042,7 @@ int DB_SCHED_RESULT_ITEM_SET::update_workunits() {
 
 void DB_FILE::db_print(char* buf){
     snprintf(buf, MAX_QUERY_LEN,
-        "name='%s', md5sum=%s, size=%.15e",
+        "name='%s', md5sum='%s', size=%.15e",
         name, md5sum, size
     );
 }
