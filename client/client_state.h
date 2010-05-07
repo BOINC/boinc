@@ -386,7 +386,6 @@ public:
     int save_global_prefs(char* prefs, char* url, char* sched);
     double available_ram();
     double max_available_ram();
-    const char* suspend_reason_string(int reason);
 private:
     int check_suspend_processing();
     void check_suspend_network();

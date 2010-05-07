@@ -112,7 +112,7 @@ void CWelcomePage::CreateControls()
     itemWizardPage2->SetSizer(itemBoxSizer3);
 
     m_pTitleStaticCtrl = new wxStaticText;
-    m_pTitleStaticCtrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxSize(355,24), 0 );
+    m_pTitleStaticCtrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_pTitleStaticCtrl->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer3->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
@@ -273,11 +273,15 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     } else {
         if (!is_wcg_client) {
             m_pDescriptionStaticCtrl->SetLabel(
-                _("We'll guide you through the process of attaching\nto a project or account manager.")
+                _("There are over 30 BOINC-based projects\n\
+doing research in many areas of science,\n\
+and you can volunteer for as many of them as you like.\n\
+You can attach to a project directly,\n\
+or use an 'Account Manager' web site to select projects.")
             );
         } else {
             m_pDescriptionStaticCtrl->SetLabel(
-                _("You have selected to attach to a new BOINC project.  Attaching to a new\nproject means that you will be connecting your computer to a new website\nand organization.  If this is what you wanted to do, then please click on\nthe 'Next' button below.\n\nSome projects like World Community Grid run multiple research applications.\nIf you want to change which research applications are sent to your computer\nto run, then you should visit the project's website and modify your\npreferences there.\n\nTo change which research applications are sent to you from\nWorld Community Grid then please click on the following button:")
+                _("You have chosen to attach to a new BOINC project.  Attaching to a new\nproject means that you will be connecting your computer to a new organization.\nIf this is what you wanted to do, please click on\nthe 'Next' button below.\n\nSome projects like World Community Grid run multiple research applications.\nIf you want to change which research applications are sent to your computer\nto run, visit the project's website and modify your\npreferences there.\n\nTo change which research applications are sent to you from\nWorld Community Grid then please click on the following button:")
             );
             m_pChangeApplicationsCtrl->SetLabel(
                 _("Change Research Applications at World Community Grid")

@@ -570,6 +570,23 @@ const char* rpc_reason_string(int reason) {
     }
 }
 
+const char* suspend_reason_string(int reason) {
+    switch (reason) {
+    case SUSPEND_REASON_BATTERIES: return "on batteries";
+    case SUSPEND_REASON_USER_ACTIVE: return "computer is in use";
+    case SUSPEND_REASON_USER_REQ: return "user request";
+    case SUSPEND_REASON_TIME_OF_DAY: return "time of day";
+    case SUSPEND_REASON_BENCHMARKS: return "CPU benchmarks in progress";
+    case SUSPEND_REASON_DISK_SIZE: return "need disk space - check preferences";
+    case SUSPEND_REASON_NO_RECENT_INPUT: return "no recent user activity";
+    case SUSPEND_REASON_INITIAL_DELAY: return "initial delay";
+    case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING: return "an exclusive app is running";
+    case SUSPEND_REASON_CPU_USAGE: return "CPU is busy";
+    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return "network bandwidth limit exceeded";
+    }
+    return "unknown reason";
+}
+
 #ifdef WIN32
 
 // get message for last error

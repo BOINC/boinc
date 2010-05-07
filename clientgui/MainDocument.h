@@ -414,6 +414,9 @@ public:
 
 #endif
 
+extern wxString suspend_reason_wxstring(int reason);
+extern wxString result_description(RESULT*);
+
 #ifdef SANDBOX
 #define BOINC_MASTER_GROUP_NAME "boinc_master"
 #endif

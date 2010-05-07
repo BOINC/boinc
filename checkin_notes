@@ -3358,3 +3358,24 @@ David  6 May 2010
 	clientgui/
 		AdvancedFrame.cpp
 		sg_ProjectsComponent.cpp
+
+David  7 May 2010
+	- manager: improve "suspended" messages for tasks and transfers
+	- manager: code reorg.  ViewTransfers and DlgItemProperties
+		both had a long member function to generate a string describing a task.
+		One of these was out of date.
+		Replaced these with a single non-member function.
+	- manager: fixed sizer problem in attach wizard that caused missing word
+	- client: minor code reorg
+
+	client/
+		client_state.h
+		cs_prefs.cpp
+	clientgui/
+		DltItemProperties.cpp,h
+		MainDocument.cpp,h
+		ViewTransfers.cpp
+		ViewWork.cpp,h
+		WelcomePage.cpp
+	lib/
+		str_util.cpp,h

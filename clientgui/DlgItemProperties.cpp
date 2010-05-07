@@ -285,7 +285,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 
 	addProperty(_("Application"), FormatApplicationName(result));
 	addProperty(_("Workunit name"),wxString(result->wu_name, wxConvUTF8));
-	addProperty(_("State"), FormatStatus(result));
+	addProperty(_("State"), result_description(result));
     if (result->received_time) {
         dt.Set((time_t)result->received_time);
 	    addProperty(_("Received"), dt.Format());
@@ -389,110 +389,6 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
             state_result->avp->version_num % 100,
             strClassBuffer.c_str()
         );
-    }
-    return strBuffer;
-}
-
-
-//
-wxString CDlgItemProperties::FormatStatus(RESULT* result) {
-	wxString strBuffer= wxEmptyString;
-    CMainDocument* doc = wxGetApp().GetDocument();    
-    CC_STATUS      status;
-
-    wxASSERT(doc);
-    wxASSERT(wxDynamicCast(doc, CMainDocument));
-
-    doc->GetCoreClientStatus(status);
-    
-	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
-    switch(result->state) {
-    case RESULT_NEW:
-        strBuffer = _("New"); 
-        break;
-    case RESULT_FILES_DOWNLOADING:
-        if (result->ready_to_report) {
-            strBuffer = _("Download failed");
-        } else {
-            strBuffer = _("Downloading");
-        }
-        break;
-    case RESULT_FILES_DOWNLOADED:
-        if (result->project_suspended_via_gui) {
-            strBuffer = _("Project suspended by user");
-        } else if (result->suspended_via_gui) {
-            strBuffer = _("Task suspended by user");
-        } else if (status.task_suspend_reason && !throttled) {
-            strBuffer = _("Suspended");
-            if (status.task_suspend_reason & SUSPEND_REASON_BATTERIES) {
-                strBuffer += _(" - on batteries");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_USER_ACTIVE) {
-                strBuffer += _(" - user active");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_USER_REQ) {
-                strBuffer += _(" - computation suspended");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_TIME_OF_DAY) {
-                strBuffer += _(" - time of day");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_BENCHMARKS) {
-                strBuffer += _(" - CPU benchmarks");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE) {
-                strBuffer += _(" - need disk space");
-            }
-        } else if (result->active_task) {
-            if (result->too_large) {
-                strBuffer = _("Waiting for memory");
-            } else if (result->needs_shmem) {
-                strBuffer = _("Waiting for shared memory");
-            } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
-                if (result->edf_scheduled) {
-                    strBuffer = _("Running, high priority");
-                } else {
-                    strBuffer = _("Running");
-                }
-            } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
-                strBuffer = _("Waiting to run");
-            } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
-                strBuffer = _("Ready to start");
-            }
-        } else {
-            strBuffer = _("Ready to start");
-        }
-        break;
-    case RESULT_COMPUTE_ERROR:
-        strBuffer = _("Computation error");
-        break;
-    case RESULT_FILES_UPLOADING:
-        if (result->ready_to_report) {
-            strBuffer = _("Upload failed");
-        } else {
-            strBuffer = _("Uploading");
-        }
-        break;
-    case RESULT_ABORTED:
-        switch(result->exit_status) {
-        case ERR_ABORTED_VIA_GUI:
-            strBuffer = _("Aborted by user");
-            break;
-        case ERR_ABORTED_BY_PROJECT:
-            strBuffer = _("Aborted by project");
-            break;
-        default:
-            strBuffer = _("Aborted");
-        }
-        break;
-    default:
-        if (result->got_server_ack) {
-            strBuffer = _("Acknowledged");
-        } else if (result->ready_to_report) {
-            strBuffer = _("Ready to report");
-        } else {
-            strBuffer.Format(_("Error: invalid state '%d'"), result->state);
-        }
-        break;
     }
     return strBuffer;
 }

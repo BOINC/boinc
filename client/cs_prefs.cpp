@@ -177,28 +177,11 @@ int CLIENT_STATE::check_suspend_processing() {
     return 0;
 }
 
-const char* CLIENT_STATE::suspend_reason_string(int reason) {
-    switch (reason) {
-    case SUSPEND_REASON_BATTERIES: return "on batteries";
-    case SUSPEND_REASON_USER_ACTIVE: return "user is active";
-    case SUSPEND_REASON_USER_REQ: return "user request";
-    case SUSPEND_REASON_TIME_OF_DAY: return "time of day";
-    case SUSPEND_REASON_BENCHMARKS: return "running CPU benchmarks";
-    case SUSPEND_REASON_DISK_SIZE: return "out of disk space - change global prefs";
-    case SUSPEND_REASON_NO_RECENT_INPUT: return "no recent user activity";
-    case SUSPEND_REASON_INITIAL_DELAY: return "initial delay";
-    case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING: return "an exclusive app is running";
-    case SUSPEND_REASON_CPU_USAGE: return "CPU usage is too high";
-    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return "network bandwidth limit exceeded";
-    }
-    return "unknown reason";
-}
-
 void print_suspend_tasks_message(int reason) {
     char buf[256];
     sprintf(buf,
         "Suspending computation - %s",
-        gstate.suspend_reason_string(reason)
+        suspend_reason_string(reason)
     );
     msg_printf(NULL, MSG_INFO, buf);
 }

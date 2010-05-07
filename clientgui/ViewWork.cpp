@@ -877,7 +877,9 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             }
             break;
         case COLUMN_STATUS:
-            GetDocStatus(m_iSortedIndexes[iRowIndex], strDocumentText);
+            int i = m_iSortedIndexes[iRowIndex];
+            RESULT* result = wxGetApp().GetDocument()->result(i);
+            strDocumentText = result_description(result);
             if (!strDocumentText.IsSameAs(work->m_strStatus)) {
                 work->m_strStatus = strDocumentText;
                 return true;
@@ -1095,142 +1097,6 @@ wxInt32 CViewWork::FormatReportDeadline(time_t deadline, wxString& strBuffer) co
 }
 
 
-void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* doc = wxGetApp().GetDocument();
-    RESULT*         result = wxGetApp().GetDocument()->result(item);
-    CC_STATUS       status;
-    int             retval;
-
-    wxASSERT(doc);
-    wxASSERT(wxDynamicCast(doc, CMainDocument));
-
-    strBuffer.Clear();
-    retval = doc->GetCoreClientStatus(status);
-    if (retval || !result) {
-        return;
-    }
-
-    if (result->coproc_missing) {
-        strBuffer += _("GPU missing, ");
-    }
-
-	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
-    switch(result->state) {
-    case RESULT_NEW:
-        strBuffer += _("New"); 
-        break;
-    case RESULT_FILES_DOWNLOADING:
-        if (result->ready_to_report) {
-            strBuffer += _("Download failed");
-        } else {
-            strBuffer += _("Downloading");
-            if (status.network_suspend_reason) {
-                strBuffer += _(" (suspended)");
-            }
-        }
-        break;
-    case RESULT_FILES_DOWNLOADED:
-        if (result->project_suspended_via_gui) {
-            strBuffer += _("Project suspended by user");
-        } else if (result->suspended_via_gui) {
-            strBuffer += _("Task suspended by user");
-        } else if (status.task_suspend_reason && !throttled) {
-            strBuffer += _("Suspended");
-            if (status.task_suspend_reason & SUSPEND_REASON_BATTERIES) {
-                strBuffer += _(" - on batteries");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_USER_ACTIVE) {
-                strBuffer += _(" - user active");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_USER_REQ) {
-                strBuffer += _(" - computation suspended");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_TIME_OF_DAY) {
-                strBuffer += _(" - time of day");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_BENCHMARKS) {
-                strBuffer += _(" - CPU benchmarks");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE) {
-                strBuffer += _(" - need disk space");
-            }
-            if (status.task_suspend_reason & SUSPEND_REASON_EXCLUSIVE_APP_RUNNING) {
-                strBuffer += _(" - an exclusive app is running");
-            }
-            if (strlen(result->resources)) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
-        } else if (result->active_task) {
-            if (result->too_large) {
-                strBuffer += _("Waiting for memory");
-            } else if (result->needs_shmem) {
-                strBuffer += _("Waiting for shared memory");
-            } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
-                if (result->edf_scheduled) {
-                    strBuffer += _("Running, high priority");
-                } else {
-                    strBuffer += _("Running");
-                }
-#if 0
-                // doesn't work - project pointer not there
-                if (result->project->non_cpu_intensive) {
-                    strBuffer += _(" (non-CPU-intensive)");
-                }
-#endif
-            } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
-                strBuffer += _("Waiting to run");
-            } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
-                strBuffer += _("Ready to start");
-            }
-            if (strlen(result->resources)) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
-        } else {
-            strBuffer += _("Ready to start");
-        }
-        if (result->gpu_mem_wait) {
-            strBuffer += _(" (waiting for GPU memory)");
-        }
-        break;
-    case RESULT_COMPUTE_ERROR:
-        strBuffer += _("Computation error");
-        break;
-    case RESULT_FILES_UPLOADING:
-        if (result->ready_to_report) {
-            strBuffer += _("Upload failed");
-        } else {
-            strBuffer += _("Uploading");
-            if (status.network_suspend_reason) {
-                strBuffer += _(" (suspended)");
-            }
-        }
-        break;
-    case RESULT_ABORTED:
-        switch(result->exit_status) {
-        case ERR_ABORTED_VIA_GUI:
-            strBuffer += _("Aborted by user");
-            break;
-        case ERR_ABORTED_BY_PROJECT:
-            strBuffer += _("Aborted by project");
-            break;
-        case ERR_UNSTARTED_LATE:
-            strBuffer += _("Aborted: not started by deadline");
-            break;
-        default:
-            strBuffer += _("Aborted");
-        }
-        break;
-    default:
-        if (result->got_server_ack) {
-            strBuffer += _("Acknowledged");
-        } else if (result->ready_to_report) {
-            strBuffer += _("Ready to report");
-        } else {
-            strBuffer.Format(_("Error: invalid state '%d'"), result->state);
-        }
-        break;
-    }
-}
 
 
 wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {

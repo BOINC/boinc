@@ -773,9 +773,10 @@ void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         } else {
             if (status.network_suspend_reason) {
                 strBuffer = transfer->generated_locally
-                    ?_("Suspended upload")
-                    :_("Suspended download")
+                    ?_("Upload suspended - ")
+                    :_("Download suspended - ")
                 ;
+                strBuffer += suspend_reason_wxstring(status.network_suspend_reason);
             } else {
                 if (transfer->xfer_active) {
                     strBuffer = transfer->generated_locally? _("Uploading") : _("Downloading");
