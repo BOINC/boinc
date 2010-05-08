@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-05-05 22:36+0200\n"
+"PO-Revision-Date: 2010-05-08 20:54+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr "Etsi sanoja foorumin viesteistä"
 
 #: ../inc/forum.inc:124
 msgid "Search forums"
-msgstr ""
+msgstr "Hae foorumeista"
 
 #: ../inc/forum.inc:125
 msgid "Advanced search"
@@ -124,7 +124,7 @@ msgstr "Saapuneet"
 #: ../inc/pm.inc:26
 #: ../inc/pm.inc:182
 msgid "Write"
-msgstr ""
+msgstr "Kirjoita"
 
 #: ../inc/pm.inc:33
 #: ../inc/user.inc:369
@@ -151,7 +151,7 @@ msgstr "Esikatselu"
 
 #: ../inc/pm.inc:85
 msgid "To"
-msgstr ""
+msgstr "Vastaanottaja"
 
 #: ../inc/pm.inc:85
 msgid "User IDs or unique usernames, separated with commas"
@@ -357,13 +357,13 @@ msgstr ""
 #: ../inc/team.inc:119
 #: ../user/team_manage.php:61
 msgid "Message board"
-msgstr ""
+msgstr "Keskustelupalsta"
 
 #: ../inc/team.inc:120
 #: ../user/forum_forum.php:131
 #: ../user/forum_index.php:93
 msgid "Threads"
-msgstr ""
+msgstr "Viestiketjut"
 
 #: ../inc/team.inc:128
 msgid "Join this team"
@@ -734,11 +734,11 @@ msgstr ""
 #: ../inc/user.inc:271
 #: ../inc/user.inc:284
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(perustajuuden vaihtopyyntö odottaa)"
 
 #: ../inc/user.inc:273
 msgid "Member of team"
-msgstr ""
+msgstr "Tiimin jäsen"
 
 #: ../inc/user.inc:162
 #: ../inc/user.inc:275
@@ -751,11 +751,11 @@ msgstr ""
 
 #: ../inc/user.inc:275
 msgid "find a team"
-msgstr ""
+msgstr "etsi tiimi"
 
 #: ../inc/user.inc:286
 msgid "Founder but not member of"
-msgstr ""
+msgstr "Perustaja mutta ei jäsen tiimissä"
 
 #: ../inc/user.inc:292
 msgid "Find friends"
@@ -772,11 +772,11 @@ msgstr "Ystävät"
 #: ../inc/user.inc:318
 #: ../inc/user.inc:320
 msgid "Computers"
-msgstr ""
+msgstr "Tietokoneet"
 
 #: ../inc/user.inc:320
 msgid "hidden"
-msgstr ""
+msgstr "piilotettu"
 
 #: ../inc/user.inc:327
 msgid "Donor"
@@ -798,7 +798,7 @@ msgstr "Peruuta ystävyys"
 #: ../inc/user.inc:376
 #: ../user/friend.php:35
 msgid "Request pending"
-msgstr ""
+msgstr "Pyyntö odottaa"
 
 #: ../inc/user.inc:378
 msgid "Add as friend"
@@ -953,7 +953,7 @@ msgstr "Vaihda kuva"
 
 #: ../user/create_profile.php:70
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "Poista se profiilistasi valitsemalla tämä kohta:"
 
 #: ../user/create_profile.php:78
 msgid ""
@@ -965,7 +965,7 @@ msgstr ""
 
 #: ../user/create_profile.php:87
 msgid "Language"
-msgstr ""
+msgstr "Kieli"
 
 #: ../user/create_profile.php:90
 msgid "Select the language in which your profile is written:"
@@ -1344,7 +1344,7 @@ msgstr "Napsauta kieltäydy jos %1 ei ole ystävä"
 
 #: ../user/friend.php:150
 msgid "No request"
-msgstr ""
+msgstr "Ei pyyntöä"
 
 #: ../user/friend.php:174
 msgid "Friendship confirmed"
@@ -1514,6 +1514,10 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+"Käyttäessäsi nettifoorumiamme, noudata viestien lähettämistä koskevaa "
+"%2ohjeistusta%3.  %1 -foorumiin lähetetyt viestit näkyvät kaikille, myös "
+"niille, jotka eivät ole jäseniä.  Lähettämällä viestin foorumiin myönnät "
+"kaikille oikeuden katsoa ja kopioida viestejäsi."
 
 #: ../user/info.php:46
 msgid "Is it safe to run %1?"
@@ -1542,6 +1546,9 @@ msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
+"Sovellukset, jota %1 käyttää, voivat aiheuttaa joidenkin tietokoneiden "
+"ylikuumenemista. Jos niin käy, lopeta %1 tai käytä %2ohjelmaa%3 joka "
+"rajoittaa keskusyksikön kuormitusta."
 
 #: ../user/info.php:49
 msgid ""
@@ -1654,7 +1661,7 @@ msgstr "Foorumin asetukset-sivulta voi poistaa aiemmin tehdyn käyttäjäeston."
 
 #: ../user/pm.php:243
 msgid "Add user to filter"
-msgstr ""
+msgstr "Lisää käyttäjä suodatettavaksi"
 
 #: ../user/pm.php:244
 msgid "No, cancel"
@@ -1778,7 +1785,7 @@ msgstr "Ei pääsyä"
 
 #: ../user/results.php:57
 msgid "Missing user ID or host ID"
-msgstr ""
+msgstr "Käyttäjä- tai konetunniste puuttuu"
 
 #: ../user/sample_index.php:130
 msgid "User of the day"
@@ -1799,16 +1806,16 @@ msgstr ""
 #: ../user/stats.php:29
 #: ../user/top_users.php:114
 msgid "Top participants"
-msgstr ""
+msgstr "Osallistujien kärki"
 
 #: ../user/stats.php:30
 msgid "Top computers"
-msgstr ""
+msgstr "Tietokoneiden kärki"
 
 #: ../user/stats.php:31
 #: ../user/team.php:43
 msgid "Top teams"
-msgstr ""
+msgstr "Tiimien kärki"
 
 #: ../user/stats.php:35
 msgid ""
@@ -1820,7 +1827,7 @@ msgstr ""
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
-msgstr ""
+msgstr "Voit saada nykyiset tilastosi \"sigu-kuvana\":"
 
 #: ../user/stats.php:41
 msgid ""
@@ -1830,7 +1837,7 @@ msgstr ""
 
 #: ../user/team.php:25
 msgid "%1 participants may form %2teams%3"
-msgstr ""
+msgstr "%1 -osallistujat voivat perustaa %2tiimejä%3"
 
 #: ../user/team.php:27
 msgid ""
@@ -1889,7 +1896,7 @@ msgstr "Jos et löydä itsellesi sopivaa tiimiä, %1voit luoda sen%2."
 
 #: ../user/team_create_action.php:27
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "Tiimille pitää valita jokin nimi"
 
 #: ../user/team_create_action.php:32
 msgid "A team named %1 already exists - try another name"
@@ -1913,11 +1920,11 @@ msgstr ""
 
 #: ../user/top_hosts.php:80
 msgid "Top hosts"
-msgstr ""
+msgstr "Koneiden kärki"
 
 #: ../user/top_teams.php:103
 msgid "Top %1 teams"
-msgstr ""
+msgstr "%1 -tiimien kärki"
 
 #: ../user/top_users.php:62
 msgid "Participant since"
@@ -2011,7 +2018,7 @@ msgstr "IP-osoite"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(sama viimeiset %1 kertaa)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
@@ -2093,7 +2100,7 @@ msgstr "%1 Kt"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr ""
+msgstr "Sivutustiedosto"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
@@ -2165,43 +2172,46 @@ msgstr "%1/päivä"
 
 #: ../inc/host.inc:178
 msgid "Number of times client has contacted server"
-msgstr ""
+msgstr "Ohjelman yhteydenottojen määrä palvelimeen"
 
 #: ../inc/host.inc:179
 msgid "Last time contacted server"
 msgstr "Viimeksi ollut yhteydessä palvelimeen"
 
+# Letter o after % sign is not needed in Finnish. For some reason Poedit claims there is an error if letter o is removed.
 #: ../inc/host.inc:180
 #, php-format
 msgid "% of time BOINC client is running"
-msgstr ""
+msgstr "% o  ajasta BOINC on käynnissä"
 
+# Letter o after % sign is not needed in Finnish. For some reason Poedit claims there is an error if letter o is removed.
 #: ../inc/host.inc:182
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
+msgstr "BOINCin ollessa käynnissä on internetyhteys käytössä % o  ajasta"
 
+# Letter o after % sign is not needed in Finnish. For some reason Poedit claims there is an error if letter o is removed.
 #: ../inc/host.inc:184
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "BOINCin ollessa käynnissä on laskenta sallittu % o ajasta"
 
 #: ../inc/host.inc:186
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "Keskimääräinen CPU:n tehokkuus"
 
 #: ../inc/host.inc:189
 msgid "Task duration correction factor"
-msgstr ""
+msgstr "Korjauskerroin tehtävän kestolle"
 
 #: ../inc/host.inc:191
 #: ../inc/host.inc:614
 msgid "Location"
-msgstr ""
+msgstr "Sijainti"
 
 #: ../inc/host.inc:193
 msgid "Delete this computer"
-msgstr ""
+msgstr "Poista tämä tietokone"
 
 #: ../inc/host.inc:197
 msgid "Click to"
@@ -2209,7 +2219,7 @@ msgstr ""
 
 #: ../inc/host.inc:197
 msgid "Merge this computer"
-msgstr ""
+msgstr "Sulauta tämä tietokone"
 
 #: ../inc/host.inc:211
 msgid "Computer info"
@@ -2222,7 +2232,7 @@ msgstr ""
 
 #: ../inc/host.inc:226
 msgid "BOINC version"
-msgstr ""
+msgstr "BOINC versio"
 
 #: ../inc/host.inc:227
 #: ../inc/host.inc:624
@@ -2256,27 +2266,28 @@ msgstr ""
 
 #: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
-msgstr ""
+msgstr "Koneella %1 ei ole yhteensopivaa käyttöjärjestelmää:"
 
 #: ../inc/host.inc:473
 msgid "Host %1 has an incompatible CPU:"
-msgstr ""
+msgstr "Koneella %1 ei ole yhteensopivaa suoritinta:"
 
 #: ../inc/host.inc:540
 msgid "same host"
-msgstr ""
+msgstr "sama kone"
 
 #: ../inc/host.inc:543
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr ""
+"Konetta %1 ei voi sulauttaa koneen %2 kanssa - ne eivät ole yhteensopivia"
 
 #: ../inc/host.inc:546
 msgid "Merging host %1 into host %2"
-msgstr ""
+msgstr "Sulautetaan konetta %1 koneen %2 kanssa"
 
 #: ../inc/host.inc:563
 msgid "Couldn't update credit of new computer"
-msgstr ""
+msgstr "Uuden koneen pisteitä ei voitu päivittää"
 
 #: ../inc/host.inc:567
 msgid "Couldn't update results"
@@ -2771,7 +2782,7 @@ msgstr "Tällä käyttäjätunnuksella ei ole profiilia."
 
 #: ../inc/result.inc:25
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Anonyymi"
 
 #: ../inc/result.inc:32
 msgid "Not in DB"
@@ -3494,7 +3505,7 @@ msgstr ""
 
 #: ../user/team_change_founder_form.php:64
 msgid "No transfer request is pending."
-msgstr ""
+msgstr "Siirtopyyntöä ei ole odottamassa."
 
 #: ../user/team_change_founder_form.php:67
 msgid "To assign foundership of this team to another member, check the box next to member name and click <strong>Change founder</strong> below."
@@ -3982,7 +3993,7 @@ msgstr ""
 
 #: ../user/team_quit_form.php:40
 msgid "Quit Team"
-msgstr ""
+msgstr "Eroa tiimistä"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
@@ -3994,7 +4005,7 @@ msgstr ""
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 on poistettu"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
@@ -4002,7 +4013,7 @@ msgstr ""
 
 #: ../user/team_remove_inactive_form.php:37
 msgid "Remove?"
-msgstr ""
+msgstr "Poista?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
@@ -4044,7 +4055,7 @@ msgstr ""
 
 #: ../user/team_search.php:152
 msgid "Team search results"
-msgstr ""
+msgstr "Tiimihaun tulokset"
 
 #: ../user/team_search.php:156
 msgid "You can team up with other people with similar interests, or from the same country, company, or school."
@@ -4066,7 +4077,7 @@ msgstr "Raja saavutettu - vain ensimmäiset %1 näytetään"
 
 #: ../user/top_teams.php:106
 msgid "There are no %1 teams"
-msgstr ""
+msgstr "%1 -tiimejä ei ole"
 
 #: ../user/uotd.php:27
 msgid "No user of the day has been chosen."
@@ -4083,7 +4094,7 @@ msgstr ""
 
 #: ../user/user_search.php:113
 msgid "Search type"
-msgstr ""
+msgstr "Hakutapa"
 
 #: ../user/user_search.php:114
 msgid "User name starts with"
@@ -4091,36 +4102,36 @@ msgstr "Käyttäjänimi alkaa"
 
 #: ../user/user_search.php:115
 msgid "Decreasing sign-up time"
-msgstr ""
+msgstr "Aleneva järjestys liittymisajan mukaan"
 
 #: ../user/user_search.php:116
 msgid "Decreasing average credit"
-msgstr ""
+msgstr "Aleneva järjestys keskimääräisten pisteiden mukaan"
 
 #: ../user/user_search.php:117
 msgid "Decreasing total credit"
-msgstr ""
+msgstr "Aleneva järjestys kokonaispisteiden mukaan"
 
 #: ../user/user_search.php:118
 msgid "Filters"
-msgstr ""
+msgstr "Suodattimet"
 
 #: ../user/user_search.php:119
 msgid "Any"
-msgstr ""
+msgstr "Mikä tahansa"
 
 #: ../user/user_search.php:122
 msgid "With profile?"
-msgstr ""
+msgstr "Profiililla?"
 
 #: ../user/user_search.php:123
 #: ../user/user_search.php:128
 msgid "Either"
-msgstr ""
+msgstr "Molemmat"
 
 #: ../user/user_search.php:127
 msgid "On a team?"
-msgstr ""
+msgstr "Tiimissä?"
 
 #: ../user/user_search.php:146
 msgid "search string must be at least 3 characters"
@@ -4152,15 +4163,15 @@ msgstr ""
 
 #: ../user/userw.php:46
 msgid "Team:"
-msgstr ""
+msgstr "Tiimi:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
-msgstr ""
+msgstr "Tiimin kok.pisteet:"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "Tiimin keskim.pisteet:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
@@ -4208,7 +4219,7 @@ msgstr "Profiili: %1"
 
 #: ../user/workunit.php:30
 msgid "can't find workunit"
-msgstr ""
+msgstr "työpakettia ei löydy"
 
 #: ../user/workunit.php:33
 msgid "Workunit %1"
@@ -4216,7 +4227,7 @@ msgstr ""
 
 #: ../user/workunit.php:37
 msgid "name"
-msgstr ""
+msgstr "nimi"
 
 #: ../user/workunit.php:38
 msgid "application"
