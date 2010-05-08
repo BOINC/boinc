@@ -3414,7 +3414,13 @@ David  7 May 2010
             credit.php (new)
 
 Rom    7 May 2010
-    - DIAG: Make init functions consistant with one another.
+    - DIAG: Make init functions consistent with one another.
     
     lib/
         diagnostics.cpp
+
+David  8 May 2010
+    - client: fix time-zone offset in net BW quota
+
+    client/
+        net_stats.cpp

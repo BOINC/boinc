@@ -292,7 +292,7 @@ void DAILY_XFER::write(FILE* f) {
 }
 
 inline int current_day() {
-    return (int)((gstate.now-gstate.host_info.timezone)/86400);
+    return (int)((gstate.now + gstate.host_info.timezone)/86400);
 }
 
 DAILY_XFER* DAILY_XFER_HISTORY::today() {
