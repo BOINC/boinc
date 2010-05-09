@@ -3424,3 +3424,9 @@ David  8 May 2010
 
     client/
         net_stats.cpp
+
+Rytis  9 May 2010
+    - user web: fix PHP warning when netsoft stats are down
+
+    html/inc/
+        user.inc

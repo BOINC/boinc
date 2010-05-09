@@ -76,7 +76,7 @@ function parse_user($f, $user) {
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
     $url = "http://boinc.netsoft-online.com/get_user.php?cpid=$cpid";
-    $f = fopen($url, "r");
+    $f = @fopen($url, "r");
     if (!$f) {
         return $user;
     }
