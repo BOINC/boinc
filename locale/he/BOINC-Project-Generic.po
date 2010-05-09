@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-09 04:57-0700\n"
+"PO-Revision-Date: 2010-05-09 05:59-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -537,54 +537,58 @@ msgid "Create an account"
 msgstr "צור חשבון"
 
 msgid "Account creation is disabled"
-msgstr ""
+msgstr "יצירת חשבון מבוטלת"
 
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
+msgstr "יצירת חשבון מבוטלת כרגע. אנא נסה שנית מאוחר יותר."
 
 msgid ""
 "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
 "form. Just run BOINC, select Attach Project, and enter an email address and "
 "password."
 msgstr ""
+"הערה: אם אתם משתמשים בגרסא 5.2 ומעלה של BOINC עם תכנת הניהול BOINC, אל "
+"תשתמשו במסמך זה. פשוט הריצו את BOINC, בחרו בקישור לפרוייקט והזינו כתובת "
+"אימייל וסיסמא."
 
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
-msgstr ""
+msgstr "החשבון ישתייך לקבוצה %1 ויהיה בעל העדפות הפרוייקט של מייסד הקבוצה."
 
 msgid "Invitation Code"
-msgstr ""
+msgstr "קוד הזמנה"
 
 msgid "A valid invitation code is required to create an account."
-msgstr ""
+msgstr "נדרש קוד הזמנה תקף ליצירת חשבון."
 
 msgid "Email Address"
-msgstr ""
+msgstr "כתובת אימייל"
 
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
+msgstr "חייבת להיות כתובת תקפה בתבנית \"שם@דומיין\"."
 
 msgid "Password"
-msgstr ""
+msgstr "סיסמא"
 
 msgid "Must be at least %1 characters"
-msgstr ""
+msgstr "חייב להיות בעל %1 תווים לפחות"
 
 msgid "Confirm password"
-msgstr ""
+msgstr "אישור סיסמא"
 
 msgid "Create account"
-msgstr ""
+msgstr "צור חשבון"
 
+#, fuzzy
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "שגיאה: %1 אינו קיים! לא ניתן ליצור תיבת שילוב. <br>"
 
 msgid "Picture"
-msgstr ""
+msgstr "תמונה"
 
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 תמונת הפרופיל שלכם מוצגת בצד שמאל."
 
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
