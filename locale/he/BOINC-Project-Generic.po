@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-09 06:59-0700\n"
+"PO-Revision-Date: 2010-05-09 07:42-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -702,97 +702,99 @@ msgid "Instructions for installing and running BOINC are %1here%2."
 msgstr "הוראות התקנה והרצה של BOINC נמצאות %1כאן%2"
 
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "רשימה זו מנוהלת בצורה מרכזית ב%1אתר BOINC%2."
 
+#, fuzzy
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
-msgstr ""
+msgstr "כותרת"
 
 msgid "Add my signature to this post"
-msgstr ""
+msgstr "הוסף את החתימה שלי לרשומה זו"
 
 msgid "%1 Message boards"
-msgstr ""
+msgstr "%1 לוחות הודעות"
 
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"אם נתקלתם בשאלה או בעיה, אנא השתמשו בחלק %1שאלות ותשובות%2 של לוחות ההודעות."
 
 msgid "Topic"
-msgstr ""
+msgstr "נושא"
 
 msgid "Create a new thread"
-msgstr ""
+msgstr "צור אשכול חדש"
 
 msgid "Post to thread"
-msgstr ""
+msgstr "פרסם באשכול"
 
 msgid "Forum search"
-msgstr ""
+msgstr "חיפוש בפורום"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "תוצאות חיפוש בפורום"
 
 msgid "No thread with id %1. Please check the link and try again."
-msgstr ""
+msgstr "לא קיים אשכול עם זיהוי %1. אנא בדקו את הלינק ונסו שנית."
 
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "פורום זה אינו נגיש לכם."
 
 msgid "This thread has been hidden for administrative purposes"
-msgstr ""
+msgstr "אשכול זה הוסתר מסיבות ניהוליות"
 
 msgid "My question was answered"
-msgstr ""
+msgstr "שאלתי נענתה"
 
 msgid ""
 "If your question has been adequately answered please click here to close it!"
-msgstr ""
+msgstr "אם שאלתכם נענתה בצורה מספקת, לחצו כאן כדי לסגור אותה!"
 
 msgid "I've also got this question"
-msgstr ""
+msgstr "אני מעוניין לשאול גם זאת"
 
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "הוסף הודעה חדשה לאשכול זה"
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "ביטול הרשמה"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
+msgstr "הנכם רשומים לאשכול זה. לחצו כאן לביטול הרשמה."
 
 msgid "Subscribe"
-msgstr ""
+msgstr "הרשמה"
 
 msgid "Click to get email when there are new posts in this thread"
-msgstr ""
+msgstr "לחצו בכדי לקבל אימייל כאשר ישנן הודעות חדשות באשכול זה"
 
 msgid "Unhide"
-msgstr ""
+msgstr "הצג"
 
 msgid "Unhide this thread"
-msgstr ""
+msgstr "הצג אשכול זה"
 
 msgid "Hide"
-msgstr ""
+msgstr "הסתר"
 
 msgid "Hide this thread"
-msgstr ""
+msgstr "הסתר אשכול זה"
 
 msgid "Make unsticky"
-msgstr ""
+msgstr "ביטול הדבקה"
 
 msgid "Make this thread not sticky"
-msgstr ""
+msgstr "בטל הדבקה של אשכול זה"
 
 msgid "Make sticky"
-msgstr ""
+msgstr "הדבק"
 
 msgid "Make this thread sticky"
-msgstr ""
+msgstr "הדבק אשכול זה"
 
 msgid "Unlock"
 msgstr ""
