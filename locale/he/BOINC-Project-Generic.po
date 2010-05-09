@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-05 01:04-0700\n"
+"PO-Revision-Date: 2010-05-09 04:57-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -519,22 +519,22 @@ msgid ""
 msgstr ""
 
 msgid "Platform"
-msgstr ""
+msgstr "פלטפורמה"
 
 msgid "Version"
-msgstr ""
+msgstr "גרסא"
 
 msgid "Installation time"
-msgstr ""
+msgstr "זמן התקנה"
 
 msgid "You must supply an invitation code to create an account."
-msgstr ""
+msgstr "עלייך לספק קוד הזמנה בכדי ליצור חשבון."
 
 msgid "The invitation code you gave is not valid."
-msgstr ""
+msgstr "קוד ההזמנה שהזנתם אינו תקף."
 
 msgid "Create an account"
-msgstr ""
+msgstr "צור חשבון"
 
 msgid "Account creation is disabled"
 msgstr ""
