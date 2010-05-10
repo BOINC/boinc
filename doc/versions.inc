@@ -117,19 +117,27 @@ $w66x64 = array(
 );
 
 $m610dev = array(
-	"num"=>"6.10.51",
+	"num"=>"6.10.53",
 	"status"=>"Development version (standard GUI)",
+	"file"=>"boinc_6.10.53_macOSX_universal.zip",
+	"date"=>"10 May 2010",
+	"type"=>"mac_advanced",
+);
+
+$m610 = array(
+	"num"=>"6.10.51",
+	"status"=>"Recommended version (standard GUI)",
 	"file"=>"boinc_6.10.51_macOSX_universal.zip",
 	"date"=>"30 Apr 2010",
 	"type"=>"mac_advanced",
 );
 
-$m610 = array(
-	"num"=>"6.10.21",
-	"status"=>"Recommended version (standard GUI)",
+$m610older = array(
+    "num"=>"6.10.21",
+    "status"=>"Older version (standard GUI)",
 	"file"=>"boinc_6.10.21_macOSX_universal.zip",
 	"date"=>"1 Dec 2009",
-	"type"=>"mac_advanced",
+    "type"=>"mac_advanced",
 );
 
 $m66 = array(
@@ -264,6 +272,7 @@ $mac = array(
 		$m610,
 		$m610cdev,
 		$m610c,
+                $m610older,
 		$m66,
         $m66c,
     )
