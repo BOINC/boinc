@@ -149,16 +149,24 @@ $m66 = array(
 );
 
 $m610cdev = array(
-	"num"=>"6.10.51",
+	"num"=>"6.10.53",
 	"status"=>"Development version (Unix command-line version)",
+	"file"=>"boinc_6.10.53_universal-apple-darwin.zip",
+	"date"=>"10 May 2010",
+	"type"=>"bare_core",
+);
+
+$m610c = array(
+	"num"=>"6.10.51",
+	"status"=>"Recommended version (Unix command-line version)",
 	"file"=>"boinc_6.10.51_universal-apple-darwin.zip",
 	"date"=>"30 Apr 2010",
 	"type"=>"bare_core",
 );
 
-$m610c = array(
+$m610colder = array(
 	"num"=>"6.10.21",
-	"status"=>"Recommended version (Unix command-line version)",
+	"status"=>"Older version (Unix command-line version)",
 	"file"=>"boinc_6.10.21_universal-apple-darwin.zip",
 	"date"=>"1 Dec 2009",
 	"type"=>"bare_core",
@@ -273,6 +281,7 @@ $mac = array(
 		$m610cdev,
 		$m610c,
                 $m610older,
+                $m610colder,
 		$m66,
         $m66c,
     )
