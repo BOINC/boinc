@@ -1622,3 +1622,11 @@ David  8 May 2010
 
     client/
         net_stats.cpp
+
+Rom    6 May 2010
+    - Tag for 6.10.53 release, all platforms
+      boinc_core_release_6_10_53
+
+    /
+        configure.ac
+        version.h
