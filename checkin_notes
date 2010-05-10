@@ -1606,3 +1606,13 @@ David  7 May 2010
     client/
         client_state.cpp
         pers_file_xfer.cpp,h
+
+David  7 May 2010
+    - manager: if a project has pending trickle up,
+        show it in the project status
+
+    clientgui/
+        ViewProjects.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

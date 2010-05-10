@@ -109,14 +109,14 @@ static bool CompareViewProjectsItems(int iRowIndex1, int iRowIndex2) {
     }
 
     switch (myCViewProjects->m_iSortColumn) {
-        case COLUMN_PROJECT:
-	result = project1->m_strProjectName.CmpNoCase(project2->m_strProjectName);
+    case COLUMN_PROJECT:
+        result = project1->m_strProjectName.CmpNoCase(project2->m_strProjectName);
         break;
     case COLUMN_ACCOUNTNAME:
-	result = project1->m_strAccountName.CmpNoCase(project2->m_strAccountName);
+        result = project1->m_strAccountName.CmpNoCase(project2->m_strAccountName);
         break;
     case COLUMN_TEAMNAME:
-	result = project1->m_strTeamName.CmpNoCase(project2->m_strTeamName);
+        result = project1->m_strTeamName.CmpNoCase(project2->m_strTeamName);
         break;
     case COLUMN_TOTALCREDIT:
         if (project1->m_fTotalCredit < project2->m_fTotalCredit) {
@@ -140,7 +140,7 @@ static bool CompareViewProjectsItems(int iRowIndex1, int iRowIndex2) {
         }
         break;
     case COLUMN_STATUS:
-	result = project1->m_strStatus.CmpNoCase(project2->m_strStatus);
+        result = project1->m_strStatus.CmpNoCase(project2->m_strStatus);
         break;
     }
 
@@ -156,8 +156,8 @@ CViewProjects::CViewProjects()
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_TASK_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
 {
-	CTaskItemGroup* pGroup = NULL;
-	CTaskItem*      pItem = NULL;
+    CTaskItemGroup* pGroup = NULL;
+    CTaskItem*      pItem = NULL;
 
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
@@ -166,45 +166,45 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     //
     // Setup View
     //
-	pGroup = new CTaskItemGroup( _("Commands") );
-	m_TaskGroups.push_back( pGroup );
+    pGroup = new CTaskItemGroup( _("Commands") );
+    m_TaskGroups.push_back( pGroup );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Update"),
         _("Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."),
         ID_TASK_PROJECT_UPDATE 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Suspend"),
         _("Suspend tasks for this project."),
         ID_TASK_PROJECT_SUSPEND 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("No new tasks"),
         _("Don't get new tasks for this project."),
         ID_TASK_PROJECT_NONEWWORK 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Reset project"),
         _("Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."),
         ID_TASK_PROJECT_RESET 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Detach"),
         _("Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."),
         ID_TASK_PROJECT_DETACH 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Properties"),
         _("Show project details."),
         ID_TASK_PROJECT_SHOW_PROPERTIES 
@@ -270,13 +270,13 @@ wxString CViewProjects::GetKeyValue1(int iRowIndex) {
 int CViewProjects::FindRowIndexByKeyValues(wxString& key1, wxString&) {
     CProject* project;
     unsigned int iRowIndex, n = GetCacheCount();
-	for(iRowIndex=0; iRowIndex < n; iRowIndex++) {
+    for(iRowIndex=0; iRowIndex < n; iRowIndex++) {
         if (GetProjectCacheAtIndex(project, m_iSortedIndexes[iRowIndex])) {
             continue;
         }
         if((project->m_strProjectURL).IsSameAs(key1)) return iRowIndex;
-	}
-	return -1;
+    }
+    return -1;
 }
 
 
@@ -1062,10 +1062,13 @@ void CViewProjects::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         }
         if (project->sched_rpc_pending) {
             append_to_status(strBuffer, _("Scheduler request pending"));
-			append_to_status(strBuffer, wxString(rpc_reason_string(project->sched_rpc_pending), wxConvUTF8));
+            append_to_status(strBuffer, wxString(rpc_reason_string(project->sched_rpc_pending), wxConvUTF8));
         }
         if (project->scheduler_rpc_in_progress) {
             append_to_status(strBuffer, _("Scheduler request in progress"));
+        }
+        if (project->trickle_up_pending) {
+            append_to_status(strBuffer, _("Trickle up message pending"));
         }
         wxDateTime dtNextRPC((time_t)project->min_rpc_time);
         wxDateTime dtNow(wxDateTime::Now());
