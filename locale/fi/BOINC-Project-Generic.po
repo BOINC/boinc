@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-05-08 11:07-0700\n"
+"PO-Revision-Date: 2010-05-10 21:46+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -536,11 +536,11 @@ msgstr "Projektit, joihin %1 osallistuu"
 
 #: ../inc/user.inc:118
 msgid "Project"
-msgstr ""
+msgstr "Projekti"
 
 #: ../inc/user.inc:118
 msgid "Click for user page"
-msgstr ""
+msgstr "Napsauta käyttäjän sivulle"
 
 #: ../inc/host.inc:110
 #: ../inc/user.inc:118
@@ -552,7 +552,7 @@ msgstr "Pisteet keskimäärin"
 
 #: ../inc/user.inc:118
 msgid "Since"
-msgstr ""
+msgstr "Mistä lähtien"
 
 #: ../inc/user.inc:142
 msgid "Computing and credit"
@@ -999,19 +999,23 @@ msgstr ""
 
 #: ../user/create_profile.php:208
 msgid "Your ReCaptcha response was not correct.  Please try again."
-msgstr ""
+msgstr "ReCaptcha -vastaus oli väärin.  Yritä uudelleen."
 
 #: ../user/create_profile.php:217
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Ensimmäinen kirjoituksesi merkittiin spämmiksi Akismet-"
+"spämminestojärjestelmän toimesta.  Muokkaa tekstiäsi ja yritä uudelleen."
 
 #: ../user/create_profile.php:225
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Toinen kirjoituksesi merkittiin spämmiksi Akismet-spämminestojärjestelmän "
+"toimesta.  Muokkaa tekstiäsi ja yritä uudelleen."
 
 #: ../user/create_profile.php:241
 msgid "Your profile submission was empty."
@@ -1433,7 +1437,7 @@ msgstr "Lue sääntömme ja periaatteemme"
 
 #: ../user/info.php:33
 msgid "Run %1 only on authorized computers"
-msgstr ""
+msgstr "Aja %1 vain koneella, johon sinulla on oikeus"
 
 #: ../user/info.php:34
 msgid ""
@@ -1447,7 +1451,7 @@ msgstr ""
 
 #: ../user/info.php:36
 msgid "How %1 will use your computer"
-msgstr ""
+msgstr "Kuinka %1 käyttää tietokonettasi"
 
 #: ../user/info.php:37
 msgid ""
@@ -1455,16 +1459,21 @@ msgid ""
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
 msgstr ""
+"Ajaessasi %1 -projektia koneellasi se käyttää tietokoneen keskusyksikön "
+"tehoa, levytilaa ja tietoliikenneyhteyttä. Voit vaikuttaa siihen, paljonko "
+"%1 käyttää näitä resursseja ja milloin."
 
 #: ../user/info.php:38
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
 msgstr ""
+"Tietokoneesi tekemä työ hyödyttää %1 -projektin tavoitteita siten kuin sen "
+"nettisivuilla on kerrottu. Sovellusohjelmat voivat vaihtua aika ajoin."
 
 #: ../user/info.php:40
 msgid "Privacy policy"
-msgstr ""
+msgstr "Tietosuojalausunto"
 
 #: ../user/info.php:41
 msgid ""
@@ -1473,6 +1482,10 @@ msgid ""
 "done for %1. If you want to be anonymous, choose a name that doesn't reveal "
 "your identity."
 msgstr ""
+"%1 -tilisi tunnistetaan valitsemallasi nimellä. Nimi saattaa näkyä %1 "
+"-projektin nettisivulla samoin kuin tietokoneesi suorittamat työt %1 "
+"-projektille. Jos haluat pysyä anonyyminä, valitse nimi joka ei paljasta "
+"identiteettiäsi."
 
 #: ../user/info.php:42
 msgid ""
@@ -1494,6 +1507,9 @@ msgid ""
 "address will not be shown on the %1 web site or shared with organizations. %"
 "1 may send you periodic newsletters; however, you can opt out at any time."
 msgstr ""
+"Osallistuessasi %1 -projektiin sinun tulee antaa toimiva sähköpostiosoite. "
+"Osoitetta ei näytetä %1 -nettisivulla eikä jaeta muille. %1 saattaa lähettää "
+"ajoittaisia uutiskirjeitä, jotka voit keskeyttää milloin vain."
 
 #: ../user/info.php:44
 msgid ""
@@ -1523,7 +1539,7 @@ msgstr ""
 
 #: ../user/info.php:46
 msgid "Is it safe to run %1?"
-msgstr ""
+msgstr "Onko %1 turvallinen ajaa?"
 
 #: ../user/info.php:47
 msgid ""
@@ -1555,11 +1571,11 @@ msgstr ""
 #: ../user/info.php:49
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
+msgstr "%1 kehitettiin %2 toimesta. BOINC kehitettiin Kalifornian yliopistolla."
 
 #: ../user/info.php:51
 msgid "Liability"
-msgstr ""
+msgstr "Vastuu"
 
 #: ../user/info.php:52
 msgid ""
@@ -1567,10 +1583,13 @@ msgid ""
 "any other event or condition that may occur as a result of participating in %"
 "1."
 msgstr ""
+"%1 ja %2 eivät ota mitään vastuuta tietokoneellesi aiheutuvasta vahingosta, "
+"tietojen häviämisestä tai mistään muusta tapahtumasta, joka on seurausta "
+"osallistumisesta %1 -projektiin."
 
 #: ../user/info.php:54
 msgid "Other BOINC projects"
-msgstr ""
+msgstr "Muita BOINC-projekteja"
 
 #: ../user/info.php:55
 msgid ""
@@ -1578,6 +1597,10 @@ msgid ""
 "participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
 msgstr ""
+"Muutkin projektit käyttävät samaa alustaa, BOINCia, kuten myös %1. Haluat "
+"ehkä osallistua yhteen tai useampaan näistä projekteista. Silloin "
+"tietokoneesi suorittaa hyödyllistä työtä silloinkin kun %1 -projektilla ei "
+"ole työtä."
 
 #: ../user/info.php:56
 msgid ""
@@ -1585,6 +1608,9 @@ msgid ""
 "their security practices or the nature of their research. Join them at your "
 "own risk."
 msgstr ""
+"Nämä muut projektit eivät ole missään yhteydessä %1 -projektiin emmekä voi "
+"taata heidän turvamenettelyjään tai tutkimusten luonnetta. Heidän "
+"projekteihinsa liittyminen tapahtuu omalla riskillä."
 
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "English"
@@ -1696,7 +1722,7 @@ msgstr ""
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
-msgstr ""
+msgstr "Tutustu muihin vapaaehtoisiin ja kerro omat ajatuksesi muille."
 
 #: ../user/profile_menu.php:38
 msgid ""
@@ -1824,6 +1850,8 @@ msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
+"Tarkemmat tilastot %1 -projektista ja muista BOINC-pohjaisista projekteista "
+"löytyvät useilta nettisivuilta:"
 
 #: ../user/stats.php:38
 msgid ""
@@ -1836,6 +1864,8 @@ msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
+"Lisäksi voit saada omat tilastosi summattuna kaikkien BOINC-projektien "
+"kesken useilta nettisivuilta. Katso tarkemmin %1omalta sivultasi%2."
 
 #: ../user/team.php:25
 msgid "%1 participants may form %2teams%3"
@@ -1967,6 +1997,9 @@ msgid ""
 "file' for this project. This file has a name of the form "
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
+"Käyttääksesi heikkoa tiliavainta tietokoneella, etsi tai luo \"tilitiedosto\" "
+"projektille. Tiedoston nimi on muotoa <b>account_PROJECT_URL.xml</b>. "
+"Tilitiedosto projektille %1 on <b>%2</b>."
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
@@ -3323,6 +3356,8 @@ msgstr "Käytä selaimen kieliasetusta"
 #: ../user/language_select.php:108
 msgid "Translations are done by volunteers.  If your native language is not here, %1you can provide a translation%2."
 msgstr ""
+"Käännökset tehdään vapaaehtoisvoimin.  Jos oma kielesi ei ole listalla, "
+"%voit tarjota käännöstä%2."
 
 #: ../user/prefs.php:36
 msgid ""
@@ -3490,6 +3525,8 @@ msgstr ""
 #: ../user/team_change_founder_form.php:41
 msgid "Team member %1 requested this team's foundership on %2, but left the team, thus canceling the request."
 msgstr ""
+"Tiimin jäsen %1 pyysi tämän tiimin perustajuutta %2, mutta erosi tiimistä "
+"samalla peruuttaen pyyntönsä."
 
 #: ../user/team_change_founder_form.php:47
 msgid "Team member %1 has requested this team's foundership. This may be because you left the team or haven't had contact with the team for a long time."
@@ -3497,7 +3534,7 @@ msgstr "Tiimin jäsen %1 on pyytänyt tiimin perustajuutta. Tämä johtunee siit
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
-msgstr ""
+msgstr "torju pyyntö"
 
 #: ../user/team_change_founder_form.php:56
 msgid ""
@@ -3524,7 +3561,7 @@ msgstr "Vaihda perustaja"
 
 #: ../user/team_delta.php:64
 msgid "Not founder or admin"
-msgstr ""
+msgstr "Ei perustaja tai ylläpitäjä"
 
 #: ../user/team_delta.php:71
 msgid "Team history for %1"
@@ -4303,6 +4340,11 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
+"Kerro, mitä mieltä olet %1<ol>\n"
+"    <li>Miksi ajat %1?\n"
+"    <li>Minkälaisia näkemyksiä sinulla on projektista?\n"
+"    <li>Ehdotuksia?\n"
+"    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
