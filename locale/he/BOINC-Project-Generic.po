@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-09 07:42-0700\n"
+"PO-Revision-Date: 2010-05-10 08:50-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -517,6 +517,9 @@ msgid ""
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
 msgstr ""
+"ל-%1 יש כרגע את היישומים הבאים. כאשר הנכם משתתפים ב-%1, עבודה עבור אחד יותר "
+"מיישומים אלו תוקצה למחשבכם. הגרסא הנוכחית של היישום תורד למחשבכם. הדבר קורה "
+"אוטומטית; אתם לא צריכים לעשות דבר."
 
 msgid "Platform"
 msgstr "פלטפורמה"
@@ -797,66 +800,67 @@ msgid "Make this thread sticky"
 msgstr "הדבק אשכול זה"
 
 msgid "Unlock"
-msgstr ""
+msgstr "שחרר"
 
 msgid "Unlock this thread"
-msgstr ""
+msgstr "שחרר אשכול"
 
 msgid "Lock"
-msgstr ""
+msgstr "נעל"
 
 msgid "Lock this thread"
-msgstr ""
+msgstr "נעל אשכול זה"
 
 msgid "Move"
-msgstr ""
+msgstr "הזז"
 
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "הזז אשכול זה לפורום אחר"
 
 msgid "Edit title"
-msgstr ""
+msgstr "ערוך כותרת"
 
 msgid "Edit thread title"
-msgstr ""
+msgstr "ערוך כותרת אשכול"
 
 msgid "Sort"
-msgstr ""
+msgstr "מיין"
 
 msgid "Already friends"
-msgstr ""
+msgstr "כבר חברים"
 
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "ביקשת להיות חבר של %1 בתאריך %2"
 
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "בקשה זו עדיין ממתינה לאישור."
 
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 אינו מקבל בקשות חברות מכם"
 
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "אינכם יכולים להיות חברים עם עצמכם"
 
 msgid "No such user"
-msgstr ""
+msgstr "משתמש לא קיים"
 
 msgid "Add friend"
-msgstr ""
+msgstr "הוסף חבר"
 
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
+"ביקשתם להוסיף את %1 כחבר. אנו נודיע ל%2 ונבקש ממנו/ממנה לאשר כי הנכם חברים."
 
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "הוסף הודעה אופציונלית כאן:"
 
 msgid "Database error"
-msgstr ""
+msgstr "שגיאת בסיס נתונים"
 
 msgid "Friend request sent"
-msgstr ""
+msgstr "בקשת חברות נשלחה"
 
 msgid "We have notified %1 of your request."
 msgstr ""
