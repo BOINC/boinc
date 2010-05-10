@@ -3430,3 +3430,13 @@ Rytis  9 May 2010
 
     html/inc/
         user.inc
+
+David  10 May 2010
+	- manager: in transfers tab, show reason why transfer is suspended
+	- manager: WTF?? master URL, not name, identifies projects.
+	- manager: got rid of a bunch of unused functions
+
+	clientgui/
+		DlgItemProperties.cpp
+		MainDocument.cpp,h
+		ViewTransfers.cpp

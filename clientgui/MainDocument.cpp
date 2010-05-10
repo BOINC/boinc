@@ -1279,13 +1279,10 @@ PROJECT* CMainDocument::project(unsigned int i) {
 }
 
 
-PROJECT* CMainDocument::project(const wxString& projectname) {
+PROJECT* CMainDocument::project(char* url) {
 	for (unsigned int i=0; i< state.projects.size(); i++) {
 		PROJECT* tp = state.projects[i];
-		wxString t1(tp->project_name.c_str(), wxConvUTF8);
-		if(t1.IsSameAs(projectname)) return tp;
-		wxString t2(tp->master_url, wxConvUTF8);
-		if(t2.IsSameAs(projectname)) return tp;
+		if (!strcmp(url, tp->master_url)) return tp;
 	}
     return NULL;
 }
@@ -1316,20 +1313,6 @@ int CMainDocument::ProjectDetach(int iIndex) {
     return iRetVal;
 }
 
-
-int CMainDocument::ProjectDetach(const wxString& projectname) {
-    PROJECT* pProject = NULL;
-    int iRetVal = -1;
-
-    pProject = project(projectname);
-
-    if (pProject)
-        iRetVal = rpc.project_op((*pProject), "detach");
-
-    return iRetVal;
-}
-
-
 int CMainDocument::ProjectUpdate(int iIndex) {
     PROJECT* pProject = NULL;
     int iRetVal = -1;
@@ -1341,19 +1324,6 @@ int CMainDocument::ProjectUpdate(int iIndex) {
 
     return iRetVal;
 }
-
-int CMainDocument::ProjectUpdate(const wxString& projectname) {
-    PROJECT* pProject = NULL;
-    int iRetVal = -1;
-
-    pProject = project(projectname);
-
-    if (pProject)
-        iRetVal = rpc.project_op((*pProject), "update");
-
-    return iRetVal;
-}
-
 
 int CMainDocument::ProjectReset(int iIndex) {
     PROJECT* pProject = NULL;
@@ -1367,36 +1337,11 @@ int CMainDocument::ProjectReset(int iIndex) {
     return iRetVal;
 }
 
-int CMainDocument::ProjectReset(const wxString& projectname) {
-    PROJECT* pProject = NULL;
-    int iRetVal = -1;
-
-    pProject = project(projectname);
-
-    if (pProject)
-        iRetVal = rpc.project_op((*pProject), "reset");
-
-    return iRetVal;
-}
-
-
 int CMainDocument::ProjectSuspend(int iIndex) {
     PROJECT* pProject = NULL;
     int iRetVal = -1;
 
     pProject = project(iIndex);
-
-    if (pProject)
-        iRetVal = rpc.project_op((*pProject), "suspend");
-
-    return iRetVal;
-}
-
-int CMainDocument::ProjectSuspend(const wxString& projectname) {
-    PROJECT* pProject = NULL;
-    int iRetVal = -1;
-
-    pProject = project(projectname);
 
     if (pProject)
         iRetVal = rpc.project_op((*pProject), "suspend");
@@ -1416,35 +1361,11 @@ int CMainDocument::ProjectResume(int iIndex) {
     return iRetVal;
 }
 
-int CMainDocument::ProjectResume(const wxString& projectname) {
-    PROJECT* pProject = NULL;
-    int iRetVal = -1;
-
-    pProject = project(projectname);
-
-    if (pProject)
-        iRetVal = rpc.project_op((*pProject), "resume");
-
-    return iRetVal;
-}
-
 int CMainDocument::ProjectNoMoreWork(int iIndex) {
     PROJECT* pProject = NULL;
     int iRetVal = -1;
 
     pProject = project(iIndex);
-
-    if (pProject)
-        iRetVal = rpc.project_op((*pProject), "nomorework");
-
-    return iRetVal;
-}
-
-int CMainDocument::ProjectNoMoreWork(const wxString& projectname) {
-    PROJECT* pProject = NULL;
-    int iRetVal = -1;
-
-    pProject = project(projectname);
 
     if (pProject)
         iRetVal = rpc.project_op((*pProject), "nomorework");
@@ -1463,19 +1384,6 @@ int CMainDocument::ProjectAllowMoreWork(int iIndex) {
 
     return iRetVal;
 }
-
-int CMainDocument::ProjectAllowMoreWork(const wxString& projectname) {
-    PROJECT* pProject = NULL;
-    int iRetVal = -1;
-
-    pProject = project(projectname);
-
-    if (pProject)
-        iRetVal = rpc.project_op((*pProject), "allowmorework");
-
-    return iRetVal;
-}
-
 
 int CMainDocument::CachedResultsStatusUpdate() {
     if (! IsConnected()) return -1;

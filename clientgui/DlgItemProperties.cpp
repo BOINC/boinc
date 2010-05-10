@@ -177,7 +177,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     
 	// CachedDiskUsageUpdate() may have invalidated our project 
 	// pointer, so get an updated pointer to this project
-	PROJECT* project = pDoc->project(wxString(projectname.c_str(),wxConvUTF8));
+	PROJECT* project = pDoc->project(project_in->master_url);
 	if(!project) return;     // TODO: display some sort of error alert?
 
 	std::vector<PROJECT*> dp = pDoc->disk_usage.projects;

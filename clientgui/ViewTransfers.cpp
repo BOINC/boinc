@@ -276,8 +276,11 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
     CC_STATUS status;
     pDoc->GetCoreClientStatus(status);
     if (status.network_suspend_reason) {
+        wxString msg = _("Network activity is suspended - ");
+        msg += suspend_reason_wxstring(status.network_suspend_reason);
+        msg += _(".\nYou can enable it using the Activity menu.");
         wxGetApp().SafeMessageBox(
-            _("Network activity is suspended.\nYou can enable it using the Activity menu."),
+            msg,
             _("BOINC"),
             wxOK | wxICON_INFORMATION,
             this
