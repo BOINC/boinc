@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-10 08:50-0700\n"
+"PO-Revision-Date: 2010-05-10 09:44-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -863,61 +863,61 @@ msgid "Friend request sent"
 msgstr "בקשת חברות נשלחה"
 
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "יידענו את %1 בעניין בקשתכם."
 
 msgid "Request not found"
-msgstr ""
+msgstr "בקשה לא נמצאה"
 
 msgid "Friend request"
-msgstr ""
+msgstr "בקשת חברות"
 
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 הוסיף אתכם כחבר."
 
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 אומר: %2"
 
 msgid "Accept friendship"
-msgstr ""
+msgstr "קבל הצעת חברות"
 
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "לחצו על קבל אם %1 אכן חבר"
 
 msgid "Decline"
-msgstr ""
+msgstr "סרב"
 
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "לחצו על סרב אם %1 אינו חבר"
 
 msgid "No request"
-msgstr ""
+msgstr "אין בקשה"
 
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "חברות אושרה"
 
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "חברותכם עם %1 אושרה."
 
 msgid "Friendship declined"
-msgstr ""
+msgstr "חברות סורבה"
 
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "סירבתם לחברות עם %1"
 
 msgid "Notification not found"
-msgstr ""
+msgstr "הודעה לא נמצאה"
 
 msgid "Friend confirmed"
-msgstr ""
+msgstr "חבר מאושר"
 
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "הנכם חברים כעת עם %1."
 
 msgid "Cancel friendship?"
-msgstr ""
+msgstr "ביטול חברות?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "האם אתם בטוחים כי ברצונכם לבטל את החברות עם %1?"
 
 msgid "Yes"
 msgstr ""
