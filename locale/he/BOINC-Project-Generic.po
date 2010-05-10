@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-10 09:44-0700\n"
+"PO-Revision-Date: 2010-05-10 10:08-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -920,25 +920,25 @@ msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr "האם אתם בטוחים כי ברצונכם לבטל את החברות עם %1?"
 
 msgid "Yes"
-msgstr ""
+msgstr "כן"
 
 msgid "No"
-msgstr ""
+msgstr "לא"
 
 msgid "Stay friends"
-msgstr ""
+msgstr "השארו חברים"
 
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "חברות בוטלה"
 
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "חברותכם עם %1 בוטלה."
 
 msgid "Unknown action"
-msgstr ""
+msgstr "פעולה לא ידועה"
 
 msgid "Welcome to %1"
-msgstr ""
+msgstr "ברוכים הבאים ל%1"
 
 msgid "View and edit your account preferences using the links below."
 msgstr ""
