@@ -1616,3 +1616,9 @@ David  7 May 2010
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  8 May 2010
+    - client: fix time-zone offset in net BW quota
+
+    client/
+        net_stats.cpp
