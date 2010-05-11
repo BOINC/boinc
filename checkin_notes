@@ -3465,3 +3465,21 @@ Rytis  11 May 2010
     html/inc/
         news.inc
 
+David  11 May 2010
+    - client: temporarily enable logic that deallocates memory on exit,
+        so that we can look for memory leaks.
+    - client: enable bandwidth quota limit only if both
+        #MB and #days are nonzero.
+    - scheduler: when resending work, don't send more than
+        client is requesting
+    - scheduler: restore Cobblestone factor to 100
+
+    sched/
+        sched_resend.cpp
+        credit.h
+    client/
+        dhrystone2.cpp
+        check_state.cpp
+        cs_prefs.cpp
+        main.cpp
+        app.cpp

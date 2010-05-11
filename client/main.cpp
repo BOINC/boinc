@@ -67,11 +67,6 @@
 
 #include "main.h"
 
-
-int initialize();
-int finalize();
-
-
 // Display a message to the user.
 // Depending on the priority, the message may be more or less obtrusive
 //
@@ -275,7 +270,7 @@ static void init_core_client(int argc, char** argv) {
 #endif
 }
 
-int initialize() {
+static int initialize() {
     int retval;
 
     if (!config.allow_multiple_clients) {
@@ -306,6 +301,35 @@ int initialize() {
     }
 #endif
 
+    return 0;
+}
+
+static int finalize() {
+    static bool finalized = false;
+    if (finalized) return 0;
+    finalized = true;
+    gstate.quit_activities();
+    daily_xfer_history.write_state();
+
+#ifdef _WIN32
+    shutdown_idle_monitor();
+
+#ifdef USE_WINSOCK
+    if (WinsockCleanup()) {
+        log_message_error("Failed to cleanup the Windows Sockets interface");
+        return ERR_IO;
+    }
+#endif
+
+    cleanup_system_monitor();
+
+#endif
+
+	curl_cleanup();
+
+    gstate.free_mem();
+
+    gstate.cleanup_completed = true;
     return 0;
 }
 
@@ -384,35 +408,6 @@ int boinc_main_loop() {
     }
 
     return finalize();
-}
-
-int finalize() {
-    static bool finalized = false;
-    if (finalized) return 0;
-    finalized = true;
-    gstate.quit_activities();
-    daily_xfer_history.write_state();
-
-#ifdef _WIN32
-    shutdown_idle_monitor();
-
-#ifdef USE_WINSOCK
-    if (WinsockCleanup()) {
-        log_message_error("Failed to cleanup the Windows Sockets interface");
-        return ERR_IO;
-    }
-#endif
-
-    cleanup_system_monitor();
-
-#endif
-
-	curl_cleanup();
-    gstate.cleanup_completed = true;
-
-    diagnostics_finish();
-
-    return 0;
 }
 
 int main(int argc, char** argv) {

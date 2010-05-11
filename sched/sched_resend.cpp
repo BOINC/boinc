@@ -115,6 +115,11 @@ bool resend_lost_work() {
         g_reply->host.id, RESULT_SERVER_STATE_IN_PROGRESS
     );
     while (!result.enumerate(buf)) {
+        if (!work_needed(false)) {
+            result.end_enumerate();
+            break;
+        }
+
         bool found = false;
         for (i=0; i<g_request->other_results.size(); i++) {
             OTHER_RESULT& orp = g_request->other_results[i];

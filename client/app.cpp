@@ -274,7 +274,6 @@ int ACTIVE_TASK::init(RESULT* rp) {
     return 0;
 }
 
-#if 0
 // Deallocate memory to prevent unneeded reporting of memory leaks
 //
 void ACTIVE_TASK_SET::free_mem() {
@@ -288,7 +287,6 @@ void ACTIVE_TASK_SET::free_mem() {
         delete at;
     }
 }
-#endif
 
 bool app_running(vector<PROCINFO>& piv, const char* p) {
     for (unsigned int i=0; i<piv.size(); i++) {

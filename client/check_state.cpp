@@ -173,7 +173,6 @@ void CLIENT_STATE::check_all() {
     }
 }
 
-#if 0
 // Deallocate memory.  Can be used to check for memory leaks.
 // Turned off for now.
 //
@@ -235,5 +234,3 @@ void CLIENT_STATE::free_mem() {
 
     active_tasks.free_mem();
 }
-#endif
-

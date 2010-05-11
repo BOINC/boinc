@@ -243,7 +243,7 @@ void CLIENT_STATE::check_suspend_network() {
         network_suspend_reason = SUSPEND_REASON_USER_REQ;
     }
 
-    if (global_prefs.daily_xfer_limit_mb) {
+    if (global_prefs.daily_xfer_limit_mb && global_prefs.daily_xfer_period_days) {
         double up, down;
         daily_xfer_history.totals(
             global_prefs.daily_xfer_period_days, up, down

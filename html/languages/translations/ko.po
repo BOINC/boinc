@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2010/02/19\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-02-19 09:49 PST\n"
+"POT-Creation-Date: 2010-05-03 10:17 PDT\n"
 "PO-Revision-Date: 2010-02-20 03:06-0700\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
@@ -44,12 +44,12 @@ msgstr "고급 검색"
 msgid "Private messages"
 msgstr "쪽지"
 
-#: ../inc/forum.inc:149 ../user/forum_forum.php:65 ../user/sample_index.php:71
+#: ../inc/forum.inc:149 ../user/forum_forum.php:69 ../user/sample_index.php:71
 msgid "Questions and Answers"
 msgstr "질문과 답변"
 
 #: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:244
-#: ../inc/user.inc:366 ../user/forum_forum.php:68 ../user/sample_index.php:70
+#: ../inc/user.inc:366 ../user/forum_forum.php:72 ../user/sample_index.php:70
 #: ../project.sample/project.inc:49
 msgid "Message boards"
 msgstr "게시판"
@@ -76,35 +76,35 @@ msgstr ""
 "다려주십시오. 이러한 지연은 시스템을 남용으로부터 보호하기 위해서 시행하고 있"
 "습니다."
 
-#: ../inc/forum.inc:1100
+#: ../inc/forum.inc:1102
 msgid "Thread"
 msgstr "스레드"
 
-#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1102 ../inc/team.inc:120 ../user/forum_forum.php:135
 #: ../user/forum_index.php:93
 msgid "Posts"
 msgstr "포스트"
 
-#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1102 ../user/forum_forum.php:135
 #: ../user/forum_reply.php:112 ../user/forum_report_post.php:80
-#: ../user/forum_thread.php:187
+#: ../user/forum_thread.php:193
 msgid "Author"
 msgstr "작성자"
 
-#: ../inc/forum.inc:1100 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1102 ../user/forum_forum.php:135
 msgid "Views"
 msgstr "보기"
 
-#: ../inc/forum.inc:1100 ../inc/team.inc:120 ../user/forum_forum.php:131
+#: ../inc/forum.inc:1102 ../inc/team.inc:120 ../user/forum_forum.php:135
 #: ../user/forum_index.php:93
 msgid "Last post"
 msgstr "마지막 포스트"
 
-#: ../inc/forum.inc:1172
+#: ../inc/forum.inc:1174
 msgid "Mark all threads as read"
 msgstr "모든 스레드를 읽은 것으로 표시"
 
-#: ../inc/forum.inc:1172
+#: ../inc/forum.inc:1174
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "모든 게시판 스레드를 읽은 것으로 표시"
 
@@ -116,15 +116,15 @@ msgstr "호스트 없음"
 msgid "Unavailable"
 msgstr "이용불가"
 
-#: ../inc/host.inc:55 ../inc/prefs.inc:1350 ../project.sample/project.inc:49
+#: ../inc/host.inc:55 ../inc/prefs.inc:1000 ../project.sample/project.inc:49
 msgid "Home"
 msgstr "집"
 
-#: ../inc/host.inc:56 ../inc/prefs.inc:1351
+#: ../inc/host.inc:56 ../inc/prefs.inc:1001
 msgid "Work"
 msgstr "직장"
 
-#: ../inc/host.inc:57 ../inc/prefs.inc:1352
+#: ../inc/host.inc:57 ../inc/prefs.inc:1002
 msgid "School"
 msgstr "학교"
 
@@ -164,7 +164,7 @@ msgstr "현지 표준 시간대"
 msgid "UTC %1 hours"
 msgstr "UTC %1 시간"
 
-#: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:375
+#: ../inc/host.inc:98 ../inc/host.inc:611 ../inc/result.inc:378
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
 #: ../user/account_finish.php:40 ../user/create_account_form.php:75
 #: ../user/team_admins.php:60 ../user/team_change_founder_form.php:75
@@ -173,20 +173,20 @@ msgstr "UTC %1 시간"
 msgid "Name"
 msgstr "이름"
 
-#: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
+#: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:212
 msgid "Owner"
 msgstr "소유자"
 
-#: ../inc/host.inc:104 ../inc/host.inc:318
+#: ../inc/host.inc:104 ../inc/host.inc:317
 msgid "Anonymous"
 msgstr "익명"
 
-#: ../inc/host.inc:108 ../inc/result.inc:377
+#: ../inc/host.inc:108 ../inc/result.inc:380
 msgid "Created"
 msgstr "생성 시각"
 
-#: ../inc/host.inc:109 ../inc/host.inc:217 ../inc/host.inc:222
-#: ../inc/host.inc:621 ../inc/team.inc:94 ../inc/team.inc:207
+#: ../inc/host.inc:109 ../inc/host.inc:216 ../inc/host.inc:221
+#: ../inc/host.inc:620 ../inc/team.inc:94 ../inc/team.inc:207
 #: ../inc/team.inc:212 ../inc/team.inc:214 ../inc/team.inc:351
 #: ../inc/team.inc:356 ../inc/user.inc:118 ../inc/user.inc:132
 #: ../user/team_change_founder_form.php:76 ../user/team_email_list.php:61
@@ -217,7 +217,7 @@ msgstr "프로세서 수"
 msgid "Coprocessors"
 msgstr "코프로세서"
 
-#: ../inc/host.inc:119 ../inc/host.inc:627
+#: ../inc/host.inc:119 ../inc/host.inc:626
 msgid "Operating System"
 msgstr "운영체제(OS)"
 
@@ -277,8 +277,8 @@ msgstr "평균 업로드 대역폭"
 msgid "%1 KB/sec"
 msgstr "%1 KB/초"
 
-#: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:145
-#: ../inc/result.inc:155 ../inc/result.inc:173 ../inc/result.inc:205
+#: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:148
+#: ../inc/result.inc:158 ../inc/result.inc:176 ../inc/result.inc:208
 msgid "Unknown"
 msgstr "불명"
 
@@ -290,7 +290,7 @@ msgstr "평균 다운로드 대역폭"
 msgid "Average turnaround time"
 msgstr "평균 반환 시간"
 
-#: ../inc/host.inc:163 ../inc/prefs.inc:841 ../inc/prefs.inc:842
+#: ../inc/host.inc:163
 msgid "%1 days"
 msgstr "%1 일"
 
@@ -302,7 +302,7 @@ msgstr "일일 최대 CPU 작업 유닛 할당량"
 msgid "%1/day"
 msgstr "%1/일"
 
-#: ../inc/host.inc:174 ../inc/host.inc:302 ../inc/user.inc:149
+#: ../inc/host.inc:174 ../inc/host.inc:301 ../inc/user.inc:149
 msgid "Tasks"
 msgstr "작업"
 
@@ -337,7 +337,7 @@ msgstr "평균 CPU 효율"
 msgid "Task duration correction factor"
 msgstr "작업 지연 보정값"
 
-#: ../inc/host.inc:191 ../inc/host.inc:614
+#: ../inc/host.inc:191 ../inc/host.inc:613
 msgid "Location"
 msgstr "위치"
 
@@ -346,27 +346,29 @@ msgid "Delete this computer"
 msgstr "이 컴퓨터 삭제"
 
 #: ../inc/host.inc:197
-msgid "Click to"
-msgstr "클릭 "
-
-#: ../inc/host.inc:197
-msgid "Merge this computer"
+#, fuzzy
+msgid "Merge duplicate records of this computer"
 msgstr "이 컴퓨터와 동기화"
 
-#: ../inc/host.inc:211
+#: ../inc/host.inc:197
+#, fuzzy
+msgid "Merge"
+msgstr "내용"
+
+#: ../inc/host.inc:210
 msgid "Computer info"
 msgstr "컴퓨터 정보"
 
-#: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:344
+#: ../inc/host.inc:211 ../inc/host.inc:615 ../inc/team.inc:344
 #: ../user/top_users.php:46
 msgid "Rank"
 msgstr "순위"
 
-#: ../inc/host.inc:216 ../inc/host.inc:619
+#: ../inc/host.inc:215 ../inc/host.inc:618
 msgid "Avg. credit"
 msgstr "평균 크레딧"
 
-#: ../inc/host.inc:221 ../inc/team.inc:95 ../inc/team.inc:208
+#: ../inc/host.inc:220 ../inc/team.inc:95 ../inc/team.inc:208
 #: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:350
 #: ../inc/team.inc:355 ../inc/user.inc:133
 #: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:61
@@ -375,99 +377,99 @@ msgstr "평균 크레딧"
 msgid "Recent average credit"
 msgstr "최근 평균 크레딧"
 
-#: ../inc/host.inc:226
+#: ../inc/host.inc:225
 msgid "BOINC version"
 msgstr "BOINC 버전"
 
-#: ../inc/host.inc:227 ../inc/host.inc:624
+#: ../inc/host.inc:226 ../inc/host.inc:623
 msgid "CPU"
 msgstr "CPU"
 
-#: ../inc/host.inc:228 ../inc/host.inc:625
+#: ../inc/host.inc:227 ../inc/host.inc:624
 msgid "GPU"
 msgstr "GPU"
 
-#: ../inc/host.inc:229
+#: ../inc/host.inc:228
 msgid "Operating system"
 msgstr "운영체제(OS)"
 
-#: ../inc/host.inc:281
+#: ../inc/host.inc:280
 msgid "(%1 processors)"
 msgstr "(%1 프로세서)"
 
-#: ../inc/host.inc:301
+#: ../inc/host.inc:300
 msgid "Details"
 msgstr "자세히"
 
-#: ../inc/host.inc:306
+#: ../inc/host.inc:305
 msgid "Cross-project stats:"
 msgstr "공유 프로젝트 통계:"
 
-#: ../inc/host.inc:460
+#: ../inc/host.inc:459
 msgid "Host %1 has overlapping lifetime:"
 msgstr "호스트 %1에서는 이미 실행되고 있습니다:"
 
-#: ../inc/host.inc:467
+#: ../inc/host.inc:466
 msgid "Host %1 has an incompatible OS:"
 msgstr "호스트 %1의 OS는 비호환됩니다:"
 
-#: ../inc/host.inc:473
+#: ../inc/host.inc:472
 msgid "Host %1 has an incompatible CPU:"
 msgstr "호스트 %1의 CPU는 비호환됩니다:"
 
-#: ../inc/host.inc:540
+#: ../inc/host.inc:539
 msgid "same host"
 msgstr "같은 호스트"
 
-#: ../inc/host.inc:543
+#: ../inc/host.inc:542
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr "호스트 %1과 %2는 동기화할 수 없습니다 - 호환되지 않습니다"
 
-#: ../inc/host.inc:546
+#: ../inc/host.inc:545
 msgid "Merging host %1 into host %2"
 msgstr "호스트 %1과 호스트 %2 동기화"
 
-#: ../inc/host.inc:563
+#: ../inc/host.inc:562
 msgid "Couldn't update credit of new computer"
 msgstr "새 컴퓨터의 크레딧을 업데이트 할 수 없습니다"
 
-#: ../inc/host.inc:567
+#: ../inc/host.inc:566
 msgid "Couldn't update results"
 msgstr "결과를 업데이트할 수 없습니다"
 
-#: ../inc/host.inc:572
+#: ../inc/host.inc:571
 msgid "Couldn't retire old computer"
 msgstr "옛 컴퓨터를 은퇴시킬 수 없습니다"
 
-#: ../inc/host.inc:574
+#: ../inc/host.inc:573
 msgid "Retired old computer %1"
 msgstr "옛 컴퓨터 %1이 은퇴했습니다"
 
-#: ../inc/host.inc:597 ../inc/host.inc:600
+#: ../inc/host.inc:596 ../inc/host.inc:599
 msgid "Show:"
 msgstr "보이기:"
 
-#: ../inc/host.inc:597 ../inc/host.inc:600
+#: ../inc/host.inc:596 ../inc/host.inc:599
 msgid "All computers"
 msgstr "모든 컴퓨터"
 
-#: ../inc/host.inc:597 ../inc/host.inc:600
+#: ../inc/host.inc:596 ../inc/host.inc:599
 msgid "Only computers active in past 30 days"
 msgstr "최근 30일동안 활동한 컴퓨터만 보기"
 
-#: ../inc/host.inc:609 ../inc/result.inc:384
+#: ../inc/host.inc:608 ../inc/result.inc:387
 msgid "Computer ID"
 msgstr "컴퓨터 ID"
 
-#: ../inc/host.inc:622
+#: ../inc/host.inc:621
 msgid "BOINC<br>version"
 msgstr "BOINC<br>버전"
 
-#: ../inc/host.inc:629
+#: ../inc/host.inc:628
 msgid "Last contact"
 msgstr "마지막 접촉"
 
-#: ../inc/host.inc:678
+#: ../inc/host.inc:677
 msgid "Merge computers by name"
 msgstr "이름순으로 컴퓨터 동기화"
 
@@ -516,7 +518,7 @@ msgstr "제목"
 
 #: ../inc/pm.inc:89 ../user/forum_edit.php:128 ../user/forum_edit.php:133
 #: ../user/forum_post.php:118 ../user/forum_reply.php:112
-#: ../user/forum_report_post.php:80 ../user/forum_thread.php:187
+#: ../user/forum_report_post.php:80 ../user/forum_thread.php:193
 #: ../user/pm.php:85 ../user/pm.php:140
 msgid "Message"
 msgstr "내용"
@@ -541,219 +543,267 @@ msgstr "읽지 않음"
 msgid "For email notification, %1edit community prefs%2"
 msgstr "email 알림을 받으시려면 %1커뮤니티 환경설정을 수정해 주세요%2"
 
-#: ../inc/prefs.inc:68
-msgid "Processor usage"
-msgstr "프로세서 사용량"
-
-#: ../inc/prefs.inc:71
+#: ../inc/prefs.inc:76
+#, fuzzy
 msgid ""
-"Suspend work while computer is on battery power? %1(matters only for "
-"portable computers)%2"
+"Suspend work while computer is on battery power? %1 Matters only for "
+"portable computers %2"
 msgstr ""
 "컴퓨터가 배터리로 돌아가는 동안 작업을 일시중지할까요? %1(이동 가능한 컴퓨터"
 "에만 해당됩니다)%2"
 
-#: ../inc/prefs.inc:77
+#: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
 msgstr "컴퓨터가 사용 중일 동안 작업을 일시중지할까요?"
 
-#: ../inc/prefs.inc:81
-msgid "Suspend GPU work while computer is in use? %1Enforced by version 6.7+%2"
+#: ../inc/prefs.inc:90
+#, fuzzy
+msgid ""
+"Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
 "컴퓨터가 사용 중일 동안 GPU 작업을 일시중지할까요? %16.7 이상 버전 필요%2"
 
-#: ../inc/prefs.inc:86
+#: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
 msgstr "'사용 중'은 마우스/키보드 입력 시간을 뜻합니다"
 
-#: ../inc/prefs.inc:89
+#: ../inc/prefs.inc:100 ../inc/prefs.inc:109 ../inc/prefs.inc:143
+msgid "minutes"
+msgstr "분"
+
+#: ../inc/prefs.inc:104
+#, fuzzy
 msgid ""
-"Suspend work if no mouse/keyboard activity in last %1(Needed to enter low-"
-"power mode on some computers)%2"
+"Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
+"power mode on some computers %2"
 msgstr ""
 "마우스/키보드 입력이 %1이후 없으면 작업 일시중지(특정 컴퓨터에서 저전력 모드"
 "로 들어가려면 필요합니다)%2"
 
-#: ../inc/prefs.inc:96
+#: ../inc/prefs.inc:113
+#, fuzzy
 msgid ""
 "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
-"version 6.10.30+%2"
+"version 6.10.30+ %2"
 msgstr ""
 "CPU 사용량이 %1보다 높으면 작업 일시중지 0은 무제한을 뜻합니다<br>6.10.30이"
 "상 버전 필요%2"
 
-#: ../inc/prefs.inc:101
-msgid "Do work only between the hours of"
+#: ../inc/prefs.inc:121
+#, fuzzy
+msgid "Do work only between the hours of %1 No restriction if equal %2"
 msgstr "이 시간 사이에만 작업 실행"
 
-#: ../inc/prefs.inc:102
-msgid "(no restriction if equal)"
-msgstr "(똑같으면 제한 없음)"
-
-#: ../inc/prefs.inc:105
+#: ../inc/prefs.inc:129
+#, fuzzy
 msgid ""
-"Leave tasks in memory while suspended? %1(suspended tasks will consume swap "
-"space if 'yes')%2"
+"Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
+"space if 'yes' %2"
 msgstr ""
 "일시중지 시에도 작업을 메모리에 남겨둘까요? %1('네'일 경우 일시중지된 작업은 "
 "스왑영역을 차지합니다)%2"
 
-#: ../inc/prefs.inc:112
-msgid "Switch between tasks every %1(recommended: 60 minutes)%2"
+#: ../inc/prefs.inc:138
+#, fuzzy
+msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
 msgstr "작업을 매 %1 마다 전환합니다(추천: 60 분)%2"
 
-#: ../inc/prefs.inc:119
-msgid ""
-"Confirm before connecting to Internet? %1(matters only if you have a modem, "
-"ISDN or VPN connection)%2"
+#: ../inc/prefs.inc:146
+msgid "On multiprocessors, use at most"
+msgstr "다중 프로세서일 경우 최대한"
+
+#: ../inc/prefs.inc:148
+msgid "processors"
+msgstr "프로세서"
+
+#: ../inc/prefs.inc:152
+#, fuzzy
+msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
+msgstr "다중 프로세서일 경우 최대한 %1 사용 6.1%2이사 버전에서 가능"
+
+#: ../inc/prefs.inc:157
+#, php-format
+msgid "% of the processors"
+msgstr "% 프로세서"
+
+#: ../inc/prefs.inc:161
+#, fuzzy
+msgid "Use at most %1 Can be used to reduce CPU heat %2"
+msgstr "최대한 %1 사용 (CPU 발열을 줄이기 위해 사용가능)%2"
+
+#: ../inc/prefs.inc:166
+#, fuzzy, php-format
+msgid "% of CPU time"
+msgstr "CPU 시간"
+
+#: ../inc/prefs.inc:174 ../inc/prefs.inc:188
+#, fuzzy
+msgid "Disk: use at most"
+msgstr "최대 사용량"
+
+#: ../inc/prefs.inc:176 ../inc/prefs.inc:185
+msgid "GB"
 msgstr ""
-"인터넷에 연결시 확인하시겠습니까? %1(모뎀, ISDN, VPN 연결에만 해당됩니다)%2"
 
-#: ../inc/prefs.inc:126
-msgid ""
-"Disconnect when done? %1(matters only if you have a modem, ISDN or VPN "
-"connection)%2"
-msgstr "완료시 접속을 끊을까요? %1(모뎀, ISDN, VPN 연결에만 해당됩니다)%2"
+#: ../inc/prefs.inc:179
+#, fuzzy
+msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
+msgstr "(%s보다 작은 값은 무시됩니다)"
 
-#: ../inc/prefs.inc:133
+#: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
+#: ../inc/prefs.inc:210
+#, fuzzy, php-format
+msgid "% of total"
+msgstr "% 전체 용량 중"
+
+#: ../inc/prefs.inc:193
+msgid "Tasks checkpoint to disk at most every"
+msgstr "작업 도중에 디스크에 기록하는 시간"
+
+#: ../inc/prefs.inc:195
+msgid "seconds"
+msgstr "초"
+
+#: ../inc/prefs.inc:198
+#, fuzzy
+msgid "Swap space: use at most"
+msgstr "스왑 영역"
+
+#: ../inc/prefs.inc:203
+#, fuzzy
+msgid "Memory: when computer is in use, use at most"
+msgstr "%의 메모리를 컴퓨터 사용시 사용합니다"
+
+#: ../inc/prefs.inc:208
+#, fuzzy
+msgid "Memory: when computer is not in use, use at most"
+msgstr "%의 메모리를 컴퓨터 미사용시 사용합니다"
+
+#: ../inc/prefs.inc:217
+#, fuzzy
 msgid ""
-"Computer is connected to the Internet about every %1(Leave blank or 0 if "
-"always connected.%2 BOINC will try to maintain at least this much work.)%3"
+"Computer is connected to the Internet about every %1 Leave blank or 0 if "
+"always connected. %2 BOINC will try to maintain at least this much work. %3"
 msgstr ""
 "컴퓨터는 이 시간동안 인터넷에 연결되어 있습니다 %1(항상 연결돼있으면 공백 또"
 "는 0을 입력하세요.%2 BOINC는 적어도 이 정도의 작업을 유지하려고 시도합니다.)%"
 "3"
 
-#: ../inc/prefs.inc:140
+#: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
+msgid "days"
+msgstr "일"
+
+#: ../inc/prefs.inc:226
 msgid "Maintain enough work for an additional"
 msgstr "충분한 작업 유지를 위한 부가 사항"
 
-#: ../inc/prefs.inc:144
-msgid "On multiprocessors, use at most %1 Enforced by version 6.1+%2"
-msgstr "다중 프로세서일 경우 최대한 %1 사용 6.1%2이사 버전에서 가능"
+#: ../inc/prefs.inc:232
+#, fuzzy
+msgid ""
+"Confirm before connecting to Internet? %1 Matters only if you have a modem, "
+"ISDN or VPN connection %2"
+msgstr ""
+"인터넷에 연결시 확인하시겠습니까? %1(모뎀, ISDN, VPN 연결에만 해당됩니다)%2"
 
-#: ../inc/prefs.inc:149
-#, php-format
-msgid "% of the processors"
-msgstr "% 프로세서"
+#: ../inc/prefs.inc:241
+#, fuzzy
+msgid ""
+"Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
+"connection %2"
+msgstr "완료시 접속을 끊을까요? %1(모뎀, ISDN, VPN 연결에만 해당됩니다)%2"
 
-#: ../inc/prefs.inc:150
-msgid "On multiprocessors, use at most"
-msgstr "다중 프로세서일 경우 최대한"
-
-#: ../inc/prefs.inc:151
-msgid "processors"
-msgstr "프로세서"
-
-#: ../inc/prefs.inc:152 ../inc/prefs.inc:160
-msgid "Use at most"
-msgstr "최대 사용량"
-
-#: ../inc/prefs.inc:155
-msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
-msgstr "최대한 %1 사용 (CPU 발열을 줄이기 위해 사용가능)%2"
-
-#: ../inc/prefs.inc:161
-msgid "percent of CPU time"
-msgstr "CPU 시간 중 퍼센트"
-
-#: ../inc/prefs.inc:162
-msgid "Tasks checkpoint to disk at most every"
-msgstr "작업 도중에 디스크에 기록하는 시간"
-
-#: ../inc/prefs.inc:163
-msgid "Disk and memory usage"
-msgstr "디스크와 메모리 사용량"
-
-#: ../inc/prefs.inc:164
-msgid "Leave at least"
-msgstr "최소한 적어도"
-
-#: ../inc/prefs.inc:166
-#, php-format
-msgid "(Values smaller than %s are ignored)"
-msgstr "(%s보다 작은 값은 무시됩니다)"
-
-#: ../inc/prefs.inc:168
-#, php-format
-msgid "% of total disk space"
-msgstr "% 전체 용량 중"
-
-#: ../inc/prefs.inc:169
-#, php-format
-msgid "% of page file (swap space)"
-msgstr "% 페이지 파일 (스왑 영역)"
-
-#: ../inc/prefs.inc:170
-#, php-format
-msgid "% of memory when computer is in use"
-msgstr "%의 메모리를 컴퓨터 사용시 사용합니다"
-
-#: ../inc/prefs.inc:171
-#, php-format
-msgid "% of memory when computer is not in use"
-msgstr "%의 메모리를 컴퓨터 미사용시 사용합니다"
-
-#: ../inc/prefs.inc:172
-msgid "Network usage"
-msgstr "네트워크 사용량"
-
-#: ../inc/prefs.inc:173
+#: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
 msgstr "최대 다운로드 대역폭:"
 
-#: ../inc/prefs.inc:174
+#: ../inc/prefs.inc:251 ../inc/prefs.inc:256
+msgid "Kbytes/sec"
+msgstr "KB/초"
+
+#: ../inc/prefs.inc:254
 msgid "Maximum upload rate:"
 msgstr "최대 업로드 대역폭:"
 
-#: ../inc/prefs.inc:175
+#: ../inc/prefs.inc:259
 msgid "Use network only between the hours of"
 msgstr "이 시간 사이에만 네트워크 사용"
 
-#: ../inc/prefs.inc:178
+#: ../inc/prefs.inc:263
+#, fuzzy
+msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
+msgstr "다중 프로세서일 경우 최대한 %1 사용 6.1%2이사 버전에서 가능"
+
+#: ../inc/prefs.inc:269
+#, fuzzy
+msgid "Mbytes every"
+msgstr "GB 사용가능"
+
+#: ../inc/prefs.inc:274
+#, fuzzy
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
-"reduces the security of BOINC.%3"
+"reduces the security of BOINC. %3"
 msgstr ""
 "이미지 파일 검증을 건너뛸까요? %1 인터넷 제공자가 이미지 파일을 변경할 경우에"
 "만 체크하세요 (대표적으로 UMTS). %2 검증을 건너뛰게 되면 BOINC의 보안이 감소"
 "하게 됩니다.%3"
 
-#: ../inc/prefs.inc:186
-msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr "ATI GPU 존재시 사용 %1(6.10 이상 클라이언트 필요)%2"
+#: ../inc/prefs.inc:287
+#, fuzzy
+msgid ""
+"Resource share %1 Determines the proportion of your computer's resources "
+"allocated to this project. Example: if you participate in two BOINC projects "
+"with resource shares of 100 and 200, the first will get 1/3 of your "
+"resources and the second will get 2/3. %2"
+msgstr ""
+"해당 프로젝트에서 사용할 컴퓨터 자원 비율을 결정하세요\n"
+"            예) 여러분이 각각 100과 200의 자원을 공유하기로한 BOINC\n"
+"            프로젝트에 참여하고 계시면 첫 번째는 1/3의 자원을 쓰게 되고\n"
+"            두 번째는 2/3를 쓰게 됩니다."
 
-#: ../inc/prefs.inc:193
-msgid "Use NVIDIA GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr "NVIDIA GPU 존재시 사용 %1(6.10 이상 클라이언트 필요)%2"
-
-#: ../inc/prefs.inc:200
-msgid "Use CPU %1(enforced by 6.10+ clients)%2"
+#: ../inc/prefs.inc:300
+#, fuzzy
+msgid "Use CPU %1 Enforced by version 6.10+ %2"
 msgstr "CPU %1 사용(6.10 이상 클라이언트 필요)%2"
 
-#: ../inc/prefs.inc:208
-msgid "Kbytes/sec"
-msgstr "KB/초"
+#: ../inc/prefs.inc:312
+#, fuzzy
+msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
+msgstr "CPU %1 사용(6.10 이상 클라이언트 필요)%2"
 
-#: ../inc/prefs.inc:209
-msgid "KB/s"
-msgstr "KB/s"
+#: ../inc/prefs.inc:324
+#, fuzzy
+msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
+msgstr "NVIDIA GPU 존재시 사용 %1(6.10 이상 클라이언트 필요)%2"
 
-#: ../inc/prefs.inc:212
+#: ../inc/prefs.inc:338
+#, fuzzy
 msgid ""
-"Run test applications? %1This helps us develop applications, but may cause "
-"jobs to fail on your computer%2"
+"Run test applications? %1 This helps us develop applications, but may cause "
+"jobs to fail on your computer %2"
 msgstr ""
 "테스트 프로그램을 실행할까요? %1이는 프로그램 개발에 도움을 주지만, 여러분의 "
 "컴퓨터%2에서 실행에 실패할 수도 있습니다"
 
-#: ../inc/prefs.inc:219
+#: ../inc/prefs.inc:347
+msgid "Disk and memory usage"
+msgstr "디스크와 메모리 사용량"
+
+#: ../inc/prefs.inc:348
+msgid "Processor usage"
+msgstr "프로세서 사용량"
+
+#: ../inc/prefs.inc:349
+msgid "Network usage"
+msgstr "네트워크 사용량"
+
+#: ../inc/prefs.inc:352
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr "이 환경 설정은 여러분이 참여하는 모든 BOINC 프로젝트에 적용됩니다."
 
-#: ../inc/prefs.inc:222
+#: ../inc/prefs.inc:355
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
@@ -761,152 +811,97 @@ msgstr ""
 "%1환경 설정을 업데이트할 수 없습니다.%2 빨간 색으로 표시된 곳이 범위를 넘어서"
 "거나 숫자가 아닙니다."
 
-#: ../inc/prefs.inc:277
+#: ../inc/prefs.inc:404
 msgid "bad venue: %1"
 msgstr "잘못된 위치: %1"
 
-#: ../inc/prefs.inc:283
+#: ../inc/prefs.inc:410
 msgid "bad subset: %1"
 msgstr "잘못된 서브셋: %1"
 
-#: ../inc/prefs.inc:688 ../inc/prefs.inc:691 ../inc/prefs.inc:800
-#: ../inc/prefs.inc:801 ../inc/prefs.inc:802 ../inc/prefs.inc:818
-#: ../inc/prefs.inc:843 ../inc/prefs.inc:844 ../inc/prefs.inc:859
-#: ../inc/prefs.inc:887 ../inc/prefs.inc:890 ../inc/prefs.inc:893
-#: ../inc/prefs.inc:903 ../inc/prefs.inc:915 ../inc/prefs.inc:917
-#: ../inc/prefs.inc:1327 ../project.sample/project_specific_prefs.inc:74
+#: ../inc/prefs.inc:629 ../inc/prefs.inc:632 ../inc/prefs.inc:752
+#: ../inc/prefs.inc:754 ../inc/prefs.inc:977 ../inc/prefs_util.inc:93
+#: ../inc/prefs_util.inc:100 ../inc/prefs_util.inc:103
+#: ../inc/prefs_util.inc:108 ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
 msgstr "네"
 
-#: ../inc/prefs.inc:688 ../inc/prefs.inc:691 ../inc/prefs.inc:800
-#: ../inc/prefs.inc:801 ../inc/prefs.inc:802 ../inc/prefs.inc:818
-#: ../inc/prefs.inc:843 ../inc/prefs.inc:844 ../inc/prefs.inc:859
-#: ../inc/prefs.inc:887 ../inc/prefs.inc:890 ../inc/prefs.inc:893
-#: ../inc/prefs.inc:903 ../inc/prefs.inc:915 ../inc/prefs.inc:917
-#: ../inc/prefs.inc:1329 ../project.sample/project_specific_prefs.inc:76
+#: ../inc/prefs.inc:629 ../inc/prefs.inc:632 ../inc/prefs.inc:752
+#: ../inc/prefs.inc:754 ../inc/prefs.inc:979 ../inc/prefs_util.inc:93
+#: ../inc/prefs_util.inc:99 ../inc/prefs_util.inc:104
+#: ../inc/prefs_util.inc:112 ../project.sample/project_specific_prefs.inc:76
 msgid "no"
 msgstr "없음"
 
-#: ../inc/prefs.inc:696 ../inc/prefs.inc:847 ../inc/prefs.inc:850
+#: ../inc/prefs.inc:637
 msgid "no limit"
 msgstr "제한 없음"
 
-#: ../inc/prefs.inc:721 ../user/team_admins.php:77
+#: ../inc/prefs.inc:662 ../user/team_admins.php:77
 msgid "Add"
 msgstr "추가"
 
-#: ../inc/prefs.inc:722 ../inc/prefs.inc:724
+#: ../inc/prefs.inc:663 ../inc/prefs.inc:665
 msgid "Edit"
 msgstr "수정"
 
-#: ../inc/prefs.inc:723 ../inc/prefs.inc:955 ../user/team_admins.php:32
+#: ../inc/prefs.inc:664 ../inc/prefs.inc:790 ../user/team_admins.php:32
 msgid "Remove"
 msgstr "제거"
 
-#: ../inc/prefs.inc:758 ../inc/prefs.inc:760 ../inc/prefs.inc:766
-#: ../inc/prefs.inc:1113 ../inc/prefs.inc:1118 ../inc/prefs.inc:1136
-msgid "minutes"
-msgstr "분"
-
-#: ../inc/prefs.inc:772
-msgid "GB disk space"
-msgstr "GB"
-
-#: ../inc/prefs.inc:773
-msgid "GB disk space free"
-msgstr "GB 사용가능"
-
-#: ../inc/prefs.inc:775 ../inc/prefs.inc:1195
-msgid "seconds"
-msgstr "초"
-
-#: ../inc/prefs.inc:781 ../inc/prefs.inc:782 ../inc/prefs.inc:1222
-#: ../inc/prefs.inc:1228
-msgid "days"
-msgstr "일"
-
-#: ../inc/prefs.inc:803 ../inc/prefs.inc:806 ../inc/prefs.inc:819
-msgid "%1 minutes"
-msgstr "%1 분"
-
-#: ../inc/prefs.inc:811 ../inc/prefs.inc:852
-msgid "(no restriction)"
-msgstr "(무제한)"
-
-#: ../inc/prefs.inc:815 ../inc/prefs.inc:856 ../inc/prefs.inc:1129
-#: ../inc/prefs.inc:1261
-msgid "and"
-msgstr "와"
-
-#: ../inc/prefs.inc:826
-msgid "%1 GB disk space"
-msgstr "%1 GB"
-
-#: ../inc/prefs.inc:834
-msgid "%1 GB disk space free"
-msgstr "%1 GB 사용가능"
-
-#: ../inc/prefs.inc:865
-msgid ""
-"Resource share %1If you participate in multiple BOINC projects, this is the "
-"proportion of your resources used by %2%3"
-msgstr ""
-"자원 공유 %1여러 BOINC 프로젝트에 참여하고 계신다면, 이 사항이 %2%3이 사용할 "
-"자원 비율입니다"
-
-#: ../inc/prefs.inc:911
+#: ../inc/prefs.inc:748
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
 "email은 %1에서 보냅니다. 여러분의 스팸 필터에서 이 주소를 허용해 주세요."
 
-#: ../inc/prefs.inc:914 ../inc/prefs.inc:1271
+#: ../inc/prefs.inc:751 ../inc/prefs.inc:951
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr "%1과 소속 팀(전부)에서 email을 받도록 허용하시겠습니까?"
 
-#: ../inc/prefs.inc:917 ../inc/prefs.inc:1274
+#: ../inc/prefs.inc:754 ../inc/prefs.inc:954
 msgid "Should %1 show your computers on its web site?"
 msgstr "%1이 여러분 컴퓨터를 웹 사이트에 공개하도록 하시겠습니까?"
 
-#: ../inc/prefs.inc:933
+#: ../inc/prefs.inc:770
 msgid "Computing"
 msgstr "컴퓨팅"
 
-#: ../inc/prefs.inc:945
+#: ../inc/prefs.inc:781
 msgid "Separate preferences for %1"
 msgstr "%1용 개별 환경 설정"
 
-#: ../inc/prefs.inc:955 ../inc/prefs.inc:1033
+#: ../inc/prefs.inc:790 ../inc/prefs.inc:865
 msgid "Edit preferences"
 msgstr "환경 설정 수정"
 
-#: ../inc/prefs.inc:959
+#: ../inc/prefs.inc:794
 msgid "Add separate preferences for %1"
 msgstr "%1용 개별 환경 설정 추가"
 
-#: ../inc/prefs.inc:968 ../inc/prefs.inc:1015
+#: ../inc/prefs.inc:802 ../inc/prefs.inc:847
 msgid "(Switch View)"
 msgstr "(보기 전환)"
 
-#: ../inc/prefs.inc:970 ../inc/prefs.inc:1018
+#: ../inc/prefs.inc:804 ../inc/prefs.inc:850
 msgid "Combined preferences"
 msgstr "통합 환경 설정"
 
-#: ../inc/prefs.inc:975
+#: ../inc/prefs.inc:809
 msgid "Project specific settings"
 msgstr "프로젝트 개별 설정"
 
-#: ../inc/prefs.inc:984 ../inc/prefs.inc:1027
+#: ../inc/prefs.inc:817 ../inc/prefs.inc:859
 msgid "Primary (default) preferences"
 msgstr "우선 적용 (기본) 환경 설정"
 
-#: ../inc/prefs.inc:994 ../user/add_venue.php:43 ../user/add_venue.php:68
+#: ../inc/prefs.inc:826 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
 msgid "Edit %1 preferences"
 msgstr "%1 환경 설정 수정"
 
-#: ../inc/prefs.inc:1008
+#: ../inc/prefs.inc:840
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers attached to multiple projects, the most recently "
@@ -916,49 +911,29 @@ msgstr ""
 "             여러 프로젝트에 연결된 컴퓨터는 가장 최근에 수정된 환경 설정을 "
 "사용합니다."
 
-#: ../inc/prefs.inc:1012
+#: ../inc/prefs.inc:844
 msgid "Preferences last modified:"
 msgstr "최근 수정된 환경 설정:"
 
-#: ../inc/prefs.inc:1064
+#: ../inc/prefs.inc:894
 msgid "Add preferences"
 msgstr "환경 설정 추가"
 
-#: ../inc/prefs.inc:1068
+#: ../inc/prefs.inc:898
 msgid "Update preferences"
 msgstr "환경 설정 업데이트"
 
-#: ../inc/prefs.inc:1167
-msgid "Gbytes"
-msgstr "GB"
-
-#: ../inc/prefs.inc:1181
-msgid "Gbytes free"
-msgstr "GB 사용가능"
-
-#: ../inc/prefs.inc:1282
-msgid "Resource share"
-msgstr "자원 공유"
-
-#: ../inc/prefs.inc:1284
-msgid ""
-"Determines the proportion of your computer's resources\n"
-"            allocated to this project. Example: if you participate in two\n"
-"            BOINC projects with resource shares of 100 and 200, the first\n"
-"            will get 1/3 of your resources and the second will get 2/3."
-msgstr ""
-"해당 프로젝트에서 사용할 컴퓨터 자원 비율을 결정하세요\n"
-"            예) 여러분이 각각 100과 200의 자원을 공유하기로한 BOINC\n"
-"            프로젝트에 참여하고 계시면 첫 번째는 1/3의 자원을 쓰게 되고\n"
-"            두 번째는 2/3를 쓰게 됩니다."
-
-#: ../inc/prefs.inc:1338 ../inc/prefs.inc:1347
+#: ../inc/prefs.inc:988 ../inc/prefs.inc:997
 msgid "Default computer location"
 msgstr "기본 컴퓨터 위치"
 
-#: ../inc/prefs.inc:1627
+#: ../inc/prefs.inc:1146
 msgid "Update failed: "
 msgstr "업데이트 실패: "
+
+#: ../inc/prefs_util.inc:314 ../inc/prefs_util.inc:324
+msgid "and"
+msgstr "와"
 
 #: ../inc/profile.inc:86
 msgid ""
@@ -1024,320 +999,331 @@ msgstr "이 프로필을 %1비추합니다%2"
 msgid "Anonymous platform"
 msgstr "불확실한 플랫폼"
 
-#: ../inc/result.inc:32
+#: ../inc/result.inc:26
+#, fuzzy
+msgid "Anonymous platform - CPU"
+msgstr "불확실한 플랫폼"
+
+#: ../inc/result.inc:27
+#, fuzzy
+msgid "Anonymous platform - NVIDIA GPU"
+msgstr "불확실한 플랫폼"
+
+#: ../inc/result.inc:28
+#, fuzzy
+msgid "Anonymous platform - ATI GPU"
+msgstr "불확실한 플랫폼"
+
+#: ../inc/result.inc:35
 msgid "Not in DB"
 msgstr "DB에 없습니다"
 
-#: ../inc/result.inc:70
+#: ../inc/result.inc:73
 msgid "pending"
 msgstr "지연됨"
 
-#: ../inc/result.inc:92
+#: ../inc/result.inc:95
 msgid "All"
 msgstr "모두"
 
-#: ../inc/result.inc:93 ../inc/result.inc:113 ../inc/result.inc:152
+#: ../inc/result.inc:96 ../inc/result.inc:116 ../inc/result.inc:155
 msgid "In progress"
 msgstr "진행 중"
 
-#: ../inc/result.inc:94 ../user/workunit.php:64
+#: ../inc/result.inc:97 ../user/workunit.php:64
 msgid "Pending"
 msgstr "대기 중"
 
-#: ../inc/result.inc:95 ../inc/result.inc:195
+#: ../inc/result.inc:98 ../inc/result.inc:198
 msgid "Valid"
 msgstr "유효"
 
-#: ../inc/result.inc:96 ../inc/result.inc:198
+#: ../inc/result.inc:99 ../inc/result.inc:201
 msgid "Invalid"
 msgstr "무효"
 
-#: ../inc/result.inc:97 ../inc/result.inc:138
+#: ../inc/result.inc:100 ../inc/result.inc:141
 msgid "Error"
 msgstr "오류"
 
-#: ../inc/result.inc:111 ../inc/result.inc:150
+#: ../inc/result.inc:114 ../inc/result.inc:153
 msgid "Inactive"
 msgstr "미활동"
 
-#: ../inc/result.inc:112 ../inc/result.inc:151
+#: ../inc/result.inc:115 ../inc/result.inc:154
 msgid "Unsent"
 msgstr "미전송"
 
-#: ../inc/result.inc:118
+#: ../inc/result.inc:121
 msgid "Completed, waiting for validation"
 msgstr "완료, 검증 대기 중"
 
-#: ../inc/result.inc:119
+#: ../inc/result.inc:122
 msgid "Completed and validated"
 msgstr "완료되고 검증됨"
 
-#: ../inc/result.inc:120
+#: ../inc/result.inc:123
 msgid "Completed, marked as invalid"
 msgstr "완료됬으나 유효하지 않은 것으로 판명"
 
-#: ../inc/result.inc:121
+#: ../inc/result.inc:124
 msgid "Completed, can't validate"
 msgstr "완료됬으나 검증불가"
 
-#: ../inc/result.inc:122
+#: ../inc/result.inc:125
 msgid "Completed, validation inconclusive"
 msgstr "완료됬으나 불확실한 검증"
 
-#: ../inc/result.inc:123
+#: ../inc/result.inc:126
 msgid "Completed, too late to validate"
 msgstr "완료됬으나 마감 기한 초과"
 
-#: ../inc/result.inc:125
+#: ../inc/result.inc:128
 msgid "Completed"
 msgstr "완료됨"
 
-#: ../inc/result.inc:126 ../inc/result.inc:162
+#: ../inc/result.inc:129 ../inc/result.inc:165
 msgid "Couldn't send"
 msgstr "미전송"
 
-#: ../inc/result.inc:129 ../inc/result.inc:186
+#: ../inc/result.inc:132 ../inc/result.inc:189
 msgid "Cancelled by server"
 msgstr "서버에서 취소됨"
 
-#: ../inc/result.inc:132
+#: ../inc/result.inc:135
 msgid "Error while downloading"
 msgstr "다운로드 중 오류 발생"
 
-#: ../inc/result.inc:134
+#: ../inc/result.inc:137
 msgid "Error while computing"
 msgstr "연산 중 오류 발생"
 
-#: ../inc/result.inc:135
+#: ../inc/result.inc:138
 msgid "Error while uploading"
 msgstr "업로드 중 오류 발생"
 
-#: ../inc/result.inc:136 ../inc/result.inc:188
+#: ../inc/result.inc:139 ../inc/result.inc:191
 msgid "Aborted by user"
 msgstr "사용자가 취소함"
 
-#: ../inc/result.inc:139
+#: ../inc/result.inc:142
 msgid "Timed out - no response"
 msgstr "시간 초과 - 응답 없음"
 
-#: ../inc/result.inc:140 ../inc/result.inc:169
+#: ../inc/result.inc:143 ../inc/result.inc:172
 msgid "Didn't need"
 msgstr "불필요"
 
-#: ../inc/result.inc:141 ../inc/result.inc:170
+#: ../inc/result.inc:144 ../inc/result.inc:173
 msgid "Validate error"
 msgstr "검증 오류"
 
-#: ../inc/result.inc:142 ../inc/result.inc:171
+#: ../inc/result.inc:145 ../inc/result.inc:174
 msgid "Client detached"
 msgstr "클라이언트 연결 해제됨"
 
-#: ../inc/result.inc:153
+#: ../inc/result.inc:156
 msgid "Over"
 msgstr "완료"
 
-#: ../inc/result.inc:161
+#: ../inc/result.inc:164
 msgid "Success"
 msgstr "성공"
 
-#: ../inc/result.inc:165
+#: ../inc/result.inc:168
 msgid "Client error"
 msgstr "클라이언트 오류"
 
-#: ../inc/result.inc:167
+#: ../inc/result.inc:170
 msgid "Redundant result"
 msgstr "중복된 결과"
 
-#: ../inc/result.inc:168
+#: ../inc/result.inc:171
 msgid "No reply"
 msgstr "응답 없음"
 
-#: ../inc/result.inc:178
+#: ../inc/result.inc:181
 msgid "New"
 msgstr "신규"
 
-#: ../inc/result.inc:179
+#: ../inc/result.inc:182
 msgid "Downloading"
 msgstr "내려받는 중"
 
-#: ../inc/result.inc:180
+#: ../inc/result.inc:183
 msgid "Processing"
 msgstr "진행 중"
 
-#: ../inc/result.inc:181
+#: ../inc/result.inc:184
 msgid "Compute error"
 msgstr "연산 오류"
 
-#: ../inc/result.inc:182
+#: ../inc/result.inc:185
 msgid "Uploading"
 msgstr "업로드 중"
 
-#: ../inc/result.inc:183
+#: ../inc/result.inc:186
 msgid "Done"
 msgstr "완료"
 
-#: ../inc/result.inc:194
+#: ../inc/result.inc:197
 msgid "Initial"
 msgstr "초기 상태"
 
-#: ../inc/result.inc:200
+#: ../inc/result.inc:203
 msgid "Not necessary"
 msgstr "불필요"
 
-#: ../inc/result.inc:201
+#: ../inc/result.inc:204
 msgid "Workunit error - check skipped"
 msgstr "작업 유닛 오류 - 검사 미실시"
 
-#: ../inc/result.inc:202
+#: ../inc/result.inc:205
 msgid "Checked, but no consensus yet"
 msgstr "검사됬으나 결과 정리는 되지 않음"
 
-#: ../inc/result.inc:203
+#: ../inc/result.inc:206
 msgid "Task was reported too late to validate"
 msgstr "작업이 인증되기에는 너무 늦게 보고되었습니다"
 
-#: ../inc/result.inc:211
+#: ../inc/result.inc:214
 msgid "Couldn't send result"
 msgstr "결과를 전송할 수 없습니다"
 
-#: ../inc/result.inc:215
+#: ../inc/result.inc:218
 msgid "Too many errors (may have bug)"
 msgstr "오류가 너무 많습니다 (버그가 있을 수 있습니다)"
 
-#: ../inc/result.inc:219
+#: ../inc/result.inc:222
 msgid "Too many results (may be nondeterministic)"
 msgstr "결과가 너무 많습니다 (아직 확정되지 않았을 수도 있습니다)"
 
-#: ../inc/result.inc:223
+#: ../inc/result.inc:226
 msgid "Too many total results"
 msgstr "전체 결과가 너무 많습니다"
 
-#: ../inc/result.inc:227
+#: ../inc/result.inc:230
 msgid "WU cancelled"
 msgstr "WU가 취소됨"
 
-#: ../inc/result.inc:231
+#: ../inc/result.inc:234
 msgid "Unrecognized Error: %1"
 msgstr "예기치 못한 오류: %1"
 
-#: ../inc/result.inc:257
+#: ../inc/result.inc:260
 msgid "Task name"
 msgstr "작업 이름"
 
-#: ../inc/result.inc:257 ../inc/result.inc:262 ../inc/result.inc:265
-#: ../inc/result.inc:268
+#: ../inc/result.inc:260 ../inc/result.inc:265 ../inc/result.inc:268
+#: ../inc/result.inc:271
 msgid "click for details"
 msgstr "상세정보"
 
-#: ../inc/result.inc:257
+#: ../inc/result.inc:260
 msgid "Show IDs"
 msgstr "ID 보이기"
 
-#: ../inc/result.inc:262
+#: ../inc/result.inc:265
 msgid "Show names"
 msgstr "이름 보이기"
 
-#: ../inc/result.inc:265
+#: ../inc/result.inc:268
 msgid "Task ID"
 msgstr "작업 ID"
 
-#: ../inc/result.inc:268
+#: ../inc/result.inc:271
 msgid "Work unit ID"
 msgstr "작업 유닛 ID"
 
-#: ../inc/result.inc:271
+#: ../inc/result.inc:274
 msgid "Computer"
 msgstr "컴퓨터"
 
-#: ../inc/result.inc:274 ../inc/result.inc:378
+#: ../inc/result.inc:277 ../inc/result.inc:381
 msgid "Sent"
 msgstr "전송 시각"
 
-#: ../inc/result.inc:275
+#: ../inc/result.inc:278
 msgid "Time reported<br />or deadline"
 msgstr "보고 시각<br />혹은 마감 기한"
 
-#: ../inc/result.inc:276
+#: ../inc/result.inc:279
 msgid "explain"
 msgstr "상세 정보"
 
-#: ../inc/result.inc:278
+#: ../inc/result.inc:281
 msgid "Status"
 msgstr "상태"
 
-#: ../inc/result.inc:279
+#: ../inc/result.inc:282
 msgid "Run time<br />(sec)"
 msgstr "실행 시간<br />(sec)"
 
-#: ../inc/result.inc:280
+#: ../inc/result.inc:283
 msgid "CPU time<br />(sec)"
 msgstr "CPU 시간<br />(초)"
 
-#: ../inc/result.inc:281 ../inc/result.inc:390
+#: ../inc/result.inc:284 ../inc/result.inc:392
 msgid "Claimed credit"
 msgstr "요청 크레딧"
 
-#: ../inc/result.inc:282 ../inc/result.inc:391
+#: ../inc/result.inc:285 ../inc/result.inc:393
 msgid "Granted credit"
 msgstr "획득 크레딧"
 
-#: ../inc/result.inc:283
+#: ../inc/result.inc:286
 msgid "Application"
 msgstr "응용 프로그램"
 
-#: ../inc/result.inc:376
+#: ../inc/result.inc:379
 msgid "Workunit"
 msgstr "작업 유닛"
 
-#: ../inc/result.inc:379
+#: ../inc/result.inc:382
 msgid "Received"
 msgstr "보고 시각"
 
-#: ../inc/result.inc:380
+#: ../inc/result.inc:383
 msgid "Server state"
 msgstr "서버 상태"
 
-#: ../inc/result.inc:381
+#: ../inc/result.inc:384
 msgid "Outcome"
 msgstr "결과"
 
-#: ../inc/result.inc:382
+#: ../inc/result.inc:385
 msgid "Client state"
 msgstr "클라이언트 상태"
 
-#: ../inc/result.inc:383
+#: ../inc/result.inc:386
 msgid "Exit status"
 msgstr "마감 결과"
 
-#: ../inc/result.inc:385
+#: ../inc/result.inc:388
 msgid "Report deadline"
 msgstr "보고서 마감 기한"
 
-#: ../inc/result.inc:386
+#: ../inc/result.inc:389
 msgid "Run time"
 msgstr "실행 시간"
 
-#: ../inc/result.inc:387
+#: ../inc/result.inc:390
 msgid "CPU time"
 msgstr "CPU 시간"
 
-#: ../inc/result.inc:388
-msgid "stderr out"
-msgstr "stderr 출력"
-
-#: ../inc/result.inc:389
+#: ../inc/result.inc:391
 msgid "Validate state"
 msgstr "인증 현황"
 
-#: ../inc/result.inc:392
+#: ../inc/result.inc:394
 msgid "application version"
 msgstr "응용 프로그램 버전"
 
-#: ../inc/result.inc:406
+#: ../inc/result.inc:409
 msgid "Previous"
 msgstr "이전"
 
-#: ../inc/result.inc:415
+#: ../inc/result.inc:418
 msgid "Next"
 msgstr "다음"
 
@@ -1427,7 +1413,7 @@ msgstr "종류"
 msgid "Message board"
 msgstr "게시판"
 
-#: ../inc/team.inc:120 ../user/forum_forum.php:131 ../user/forum_index.php:93
+#: ../inc/team.inc:120 ../user/forum_forum.php:135 ../user/forum_index.php:93
 msgid "Threads"
 msgstr "스레드"
 
@@ -2265,8 +2251,8 @@ msgstr "주제"
 msgid "Create a new thread"
 msgstr "새 스레드 만들기"
 
-#: ../user/forum_reply.php:85 ../user/forum_thread.php:139
-#: ../user/forum_thread.php:194
+#: ../user/forum_reply.php:85 ../user/forum_thread.php:145
+#: ../user/forum_thread.php:200
 msgid "Post to thread"
 msgstr "스레드 글쓰기"
 
@@ -2283,115 +2269,116 @@ msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
 "ID %1에 해당하는 스레드가 없습니다. 링크를 확인하고 다시 시도해 주세요."
 
-#: ../user/forum_thread.php:48
+#: ../user/forum_thread.php:51
 msgid "This forum is not visible to you."
 msgstr "이 포럼은 여러분이 볼 수 없습니다."
 
-#: ../user/forum_thread.php:54
-msgid "This thread has been hidden for administrative purposes"
+#: ../user/forum_thread.php:60
+#, fuzzy
+msgid "This thread has been hidden by moderators"
 msgstr "이 스레드는 관리 목적으로 열람할 수 없습니다"
 
-#: ../user/forum_thread.php:111
+#: ../user/forum_thread.php:117
 msgid "My question was answered"
 msgstr "질문에 답이 달렸습니다"
 
-#: ../user/forum_thread.php:113
+#: ../user/forum_thread.php:119
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
 "만약 여러분 질문에 충분한 답변이 달렸다면 여기를 눌러서 질문을 닫으세요!"
 
-#: ../user/forum_thread.php:120
+#: ../user/forum_thread.php:126
 msgid "I've also got this question"
 msgstr "이 질문에 답을 얻었습니다"
 
-#: ../user/forum_thread.php:139 ../user/forum_thread.php:194
+#: ../user/forum_thread.php:145 ../user/forum_thread.php:200
 msgid "Add a new message to this thread"
 msgstr "이 스레드에 새로운 내용을 추가하기"
 
-#: ../user/forum_thread.php:146
+#: ../user/forum_thread.php:152
 msgid "Unsubscribe"
 msgstr "구독 취소"
 
-#: ../user/forum_thread.php:146
+#: ../user/forum_thread.php:152
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr ""
 "여러분은 이 스레드를 구독하고 계십니다. 구독을 취소하려면 여기를 누르세요."
 
-#: ../user/forum_thread.php:149
+#: ../user/forum_thread.php:155
 msgid "Subscribe"
 msgstr "구독하기"
 
-#: ../user/forum_thread.php:149
+#: ../user/forum_thread.php:155
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
 "이 스레드에 새로운 포스트가 올라올 때 이메일로 보내주길 원하면 클릭하세요"
 
-#: ../user/forum_thread.php:156
+#: ../user/forum_thread.php:162
 msgid "Unhide"
 msgstr "숨김 해제"
 
-#: ../user/forum_thread.php:156
+#: ../user/forum_thread.php:162
 msgid "Unhide this thread"
 msgstr "이 스레드 숨김을 풉니다"
 
-#: ../user/forum_thread.php:158
+#: ../user/forum_thread.php:164
 msgid "Hide"
 msgstr "숨기기"
 
-#: ../user/forum_thread.php:158
+#: ../user/forum_thread.php:164
 msgid "Hide this thread"
 msgstr "이 스레드 숨기기"
 
-#: ../user/forum_thread.php:161
+#: ../user/forum_thread.php:167
 msgid "Make unsticky"
 msgstr "찐득이 떼기"
 
-#: ../user/forum_thread.php:161
+#: ../user/forum_thread.php:167
 msgid "Make this thread not sticky"
 msgstr "이 스레드에서 찐득이를 뗍니다"
 
-#: ../user/forum_thread.php:163
+#: ../user/forum_thread.php:169
 msgid "Make sticky"
 msgstr "찐득이 붙이기"
 
-#: ../user/forum_thread.php:163
+#: ../user/forum_thread.php:169
 msgid "Make this thread sticky"
 msgstr "이 스레드를 찐득이로 붙입니다"
 
-#: ../user/forum_thread.php:166
+#: ../user/forum_thread.php:172
 msgid "Unlock"
 msgstr "잠금 해제"
 
-#: ../user/forum_thread.php:166
+#: ../user/forum_thread.php:172
 msgid "Unlock this thread"
 msgstr "이 스레드 잠금 해제"
 
-#: ../user/forum_thread.php:168
+#: ../user/forum_thread.php:174
 msgid "Lock"
 msgstr "잠그기"
 
-#: ../user/forum_thread.php:168
+#: ../user/forum_thread.php:174
 msgid "Lock this thread"
 msgstr "이 스레드 잠구기"
 
-#: ../user/forum_thread.php:171
+#: ../user/forum_thread.php:177
 msgid "Move"
 msgstr "이동"
 
-#: ../user/forum_thread.php:171
+#: ../user/forum_thread.php:177
 msgid "Move this thread to a different forum"
 msgstr "이 스레드를 다른 포럼으로 이동시킵니다"
 
-#: ../user/forum_thread.php:173
+#: ../user/forum_thread.php:179
 msgid "Edit title"
 msgstr "제목 수정"
 
-#: ../user/forum_thread.php:173
+#: ../user/forum_thread.php:179
 msgid "Edit thread title"
 msgstr "스레드 제목 수정"
 
-#: ../user/forum_thread.php:180
+#: ../user/forum_thread.php:186
 msgid "Sort"
 msgstr "정렬"
 
@@ -2417,7 +2404,7 @@ msgstr "여러분 자신과는 친구가 될 수 없습니다"
 
 #: ../user/friend.php:62 ../user/friend.php:90 ../user/friend.php:123
 #: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
-#: ../user/friend.php:233 ../user/pm.php:232 ../user/view_profile.php:24
+#: ../user/friend.php:233 ../user/pm.php:234 ../user/view_profile.php:24
 msgid "No such user"
 msgstr "해당 사용자가 없습니다"
 
@@ -2836,44 +2823,44 @@ msgstr "%1은(는) 고유한 사용자 이름이 아닙니다; 사용자 ID를 �
 msgid "User %1 (ID: %2) is not accepting private messages from you."
 msgstr "사용자 %1 (ID: %2)는 여러분의 쪽지 수신을 허용하고 있지 않습니다."
 
-#: ../user/pm.php:234
+#: ../user/pm.php:236
 msgid "Really block %1?"
 msgstr "정말로 %1을 차단하시겠습니까?"
 
-#: ../user/pm.php:235
+#: ../user/pm.php:237
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
 msgstr "정말로 사용자 %1에게서 오는 쪽지를 차단하시겠습니까?"
 
-#: ../user/pm.php:236
+#: ../user/pm.php:238
 msgid "Please note that you can only block a limited amount of users."
 msgstr "제한된 숫자의 사용자를 차단할 수 있다는 걸 알아두세요."
 
-#: ../user/pm.php:237
+#: ../user/pm.php:239
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
 msgstr ""
 "사용자가 차단되었습니다. 포럼 환경 설정 페이지에서 차단을 해제할 수 있습니다."
 
-#: ../user/pm.php:243
+#: ../user/pm.php:245
 msgid "Add user to filter"
 msgstr "필터에 사용자 추가"
 
-#: ../user/pm.php:244
+#: ../user/pm.php:246
 msgid "No, cancel"
 msgstr "아니오, 취소합니다"
 
-#: ../user/pm.php:255
+#: ../user/pm.php:257
 msgid "User %1 blocked"
 msgstr "사용자 %1이 차단되었습니다"
 
-#: ../user/pm.php:257
+#: ../user/pm.php:259
 msgid "User %1 has been blocked from sending you private messages."
 msgstr "사용자 %1에게서 오는 쪽지가 차단되었습니다."
 
-#: ../user/pm.php:258
+#: ../user/pm.php:260
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "차단을 해제할려면, %1게시판 환경설정%2을 방문하세요"
 
@@ -3238,7 +3225,7 @@ msgstr "해당 팀이 없습니다."
 #: ../user/team_change_founder_action.php:28
 #: ../user/team_change_founder_form.php:31 ../user/team_display.php:67
 #: ../user/team_edit_action.php:28 ../user/team_edit_form.php:27
-#: ../user/team_email_list.php:52 ../user/team_forum.php:156
+#: ../user/team_email_list.php:52 ../user/team_forum.php:162
 #: ../user/team_manage.php:83
 msgid "no such team"
 msgstr "해당 팀이 없습니다."
@@ -3475,37 +3462,34 @@ msgstr "게시판을 찾을 수 없습니다"
 msgid "Message board removed"
 msgstr "게시판이 제거되었습니다"
 
-#: ../user/team_forum.php:120
+#: ../user/team_forum.php:122
+#, fuzzy
 msgid ""
-"Your teams message board has been removed. You may now %1create a new one%2."
+"Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
 "팀 게시판이 삭제되었습니다. 지금부터 %1새로운 게시판을 만들 수 있습니다%2."
 
-#: ../user/team_forum.php:120
-msgid "<p>"
-msgstr "<p>"
-
-#: ../user/team_forum.php:135
+#: ../user/team_forum.php:141
 msgid "Team Message Board Updated"
 msgstr "팀 게시판이 업데이트 되었습니다"
 
-#: ../user/team_forum.php:136
+#: ../user/team_forum.php:142
 msgid "Update successful"
 msgstr "성공적으로 업데이트됬습니다"
 
-#: ../user/team_forum.php:139
+#: ../user/team_forum.php:145
 msgid "Update failed"
 msgstr "업데이트 실패: "
 
-#: ../user/team_forum.php:146
+#: ../user/team_forum.php:152
 msgid "team has no forum"
 msgstr "팀 포럼이 없습니다"
 
-#: ../user/team_forum.php:181
+#: ../user/team_forum.php:187
 msgid "no such forum"
 msgstr "해당 포럼이 없습니다"
 
-#: ../user/team_forum.php:192
+#: ../user/team_forum.php:198
 msgid "unknown command %1"
 msgstr "알 수 없는 명령 %1"
 
@@ -3678,27 +3662,27 @@ msgstr "팀 가입은 여러분 계정의 크레딧에 어떤 영향도 끼치�
 msgid "Join team"
 msgstr "팀 가입"
 
-#: ../user/team_lookup.php:62
+#: ../user/team_lookup.php:82
 msgid "Search Results"
 msgstr "검색 결과"
 
-#: ../user/team_lookup.php:64
+#: ../user/team_lookup.php:84
 msgid "Search results for '%1'"
 msgstr "'%1' 검색 결과"
 
-#: ../user/team_lookup.php:66
+#: ../user/team_lookup.php:86
 msgid "You may view these teams' members, statistics, and information."
 msgstr "여러분은 이 팀의 회원, 통계, 정보를 볼 수 있습니다."
 
-#: ../user/team_lookup.php:75
+#: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr "100개 이상의 팀이 검색 조건을 만족합니다. 상위 100개만 표시됩니다."
 
-#: ../user/team_lookup.php:79
+#: ../user/team_lookup.php:102
+#, fuzzy
 msgid ""
-"End of results<br>\n"
-"         If you cannot find the team you are looking for, you may %1create a "
-"team%2 by yourself."
+"End of results. %1 If you cannot find the team you are looking for, you may %"
+"1create a team%2 yourself."
 msgstr ""
 "검색 결과<br>\n"
 "         만약 여러분에게 맞는 팀을 찾지 못하셨다면 여러분은 스스로 %1팀을 만"
@@ -4210,11 +4194,11 @@ msgstr "Copyright"
 msgid "Generated"
 msgstr "생성 시각"
 
-#: ../project.sample/project.inc:88
+#: ../project.sample/project.inc:85
 msgid "Your personal background."
 msgstr "자기 소개"
 
-#: ../project.sample/project.inc:92
+#: ../project.sample/project.inc:89
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
@@ -4222,11 +4206,11 @@ msgstr ""
 "당신에 대해 얘기해보세요. 당신이 어디에서 왔는지, 나이, 직업, 취미, 기타 당신"
 "에 관한 것들을 얘기할 수 있습니다."
 
-#: ../project.sample/project.inc:96
+#: ../project.sample/project.inc:93
 msgid "Your opinions about %1"
 msgstr "%1에 대한 의견"
 
-#: ../project.sample/project.inc:100
+#: ../project.sample/project.inc:97
 msgid ""
 "Tell us your thoughts about %1<ol>\n"
 "    <li>Why do you run %1?\n"
@@ -4263,6 +4247,64 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(모든 응용 프로그램)"
+
+#~ msgid "Click to"
+#~ msgstr "클릭 "
+
+#~ msgid "(no restriction if equal)"
+#~ msgstr "(똑같으면 제한 없음)"
+
+#~ msgid "percent of CPU time"
+#~ msgstr "CPU 시간 중 퍼센트"
+
+#~ msgid "Leave at least"
+#~ msgstr "최소한 적어도"
+
+#~ msgid "% of page file (swap space)"
+#~ msgstr "% 페이지 파일 (스왑 영역)"
+
+#~ msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
+#~ msgstr "ATI GPU 존재시 사용 %1(6.10 이상 클라이언트 필요)%2"
+
+#~ msgid "KB/s"
+#~ msgstr "KB/s"
+
+#~ msgid "GB disk space"
+#~ msgstr "GB"
+
+#~ msgid "GB disk space free"
+#~ msgstr "GB 사용가능"
+
+#~ msgid "%1 minutes"
+#~ msgstr "%1 분"
+
+#~ msgid "(no restriction)"
+#~ msgstr "(무제한)"
+
+#~ msgid "%1 GB disk space"
+#~ msgstr "%1 GB"
+
+#~ msgid "%1 GB disk space free"
+#~ msgstr "%1 GB 사용가능"
+
+#~ msgid ""
+#~ "Resource share %1If you participate in multiple BOINC projects, this is "
+#~ "the proportion of your resources used by %2%3"
+#~ msgstr ""
+#~ "자원 공유 %1여러 BOINC 프로젝트에 참여하고 계신다면, 이 사항이 %2%3이 사용"
+#~ "할 자원 비율입니다"
+
+#~ msgid "Gbytes"
+#~ msgstr "GB"
+
+#~ msgid "Resource share"
+#~ msgstr "자원 공유"
+
+#~ msgid "stderr out"
+#~ msgstr "stderr 출력"
+
+#~ msgid "<p>"
+#~ msgstr "<p>"
 
 #~ msgid "preferences"
 #~ msgstr "환경 설정"
