@@ -137,3 +137,9 @@ int MESSAGE_DESCS::highest_seqno() {
     return 0;
 }
 
+void MESSAGE_DESCS::cleanup() {
+    for (unsigned int i=0; i<msgs.size(); i++) {
+        delete msgs[i];
+    }
+    msgs.clear();
+}

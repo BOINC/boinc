@@ -3483,3 +3483,9 @@ David  11 May 2010
         cs_prefs.cpp
         main.cpp
         app.cpp
+
+David  11 May 2010
+    - client: delete messages on exit
+
+    client_msgs.cpp,h
+    check_state.cpp

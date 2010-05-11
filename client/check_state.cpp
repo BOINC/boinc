@@ -27,6 +27,7 @@
 #include <cassert>
 #endif
 
+#include "client_msgs.h"
 #include "client_state.h"
 
 void CLIENT_STATE::check_project_pointer(PROJECT* p) {
@@ -233,4 +234,6 @@ void CLIENT_STATE::free_mem() {
     }
 
     active_tasks.free_mem();
+
+    message_descs.cleanup();
 }

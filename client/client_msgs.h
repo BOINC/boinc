@@ -46,6 +46,7 @@ struct MESSAGE_DESCS {
     void insert(struct PROJECT *p, int priority, int now, char* msg);
     void write(int seqno, class MIOFILE&);
     int highest_seqno();
+    void cleanup();
 };
 
 extern MESSAGE_DESCS message_descs;
