@@ -3440,3 +3440,12 @@ David  10 May 2010
 		DlgItemProperties.cpp
 		MainDocument.cpp,h
 		ViewTransfers.cpp
+
+Rom    10 May 2010
+    - client & lib: bring header inclusion up-to-date for the CC to begin
+        hunting down a memory leak.
+        
+    client/
+        <Various Files>
+    lib/
+        <Various Files>

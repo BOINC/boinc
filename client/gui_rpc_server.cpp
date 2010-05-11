@@ -18,6 +18,8 @@
 // The plumbing of GUI RPC, server side
 // (but not the actual RPCs)
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else

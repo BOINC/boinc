@@ -15,26 +15,28 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
-#endif
-
-#ifndef _USING_FCGI_
+#elif defined(_WIN32) && defined(__STDWX_H__)
+#include "stdwx.h"
+#else
+#ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #else
 #include <cstdio>
 #endif
-
 #include <cstring>
 #include <cstdlib>
+#endif
+
+#ifdef _WIN32
+#include "win_util.h"
+#endif
 
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
 #include "str_util.h"
-#ifdef _WIN32
-#include "win_util.h"
-#endif
 
 #include "coproc.h"
 

@@ -38,12 +38,16 @@
 // - resource shortfalls (per-project and total)
 // - counts of resources idle now
 //
+
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
+#else
+#include "config.h"
 #endif
 
 #include "client_state.h"
-
 #include "coproc.h"
 #include "client_msgs.h"
 

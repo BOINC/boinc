@@ -19,6 +19,8 @@
 
 // This file contains no GUI-related code.
 
+#include "cpp.h"
+
 #ifdef WIN32
 #include "boinc_win.h"
 #include "sysmon_win.h"

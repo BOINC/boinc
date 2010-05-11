@@ -14,18 +14,24 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-#ifdef _WIN32
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
+
+#if   defined(_WIN32) && !defined(__STDWX_H__)
+#include "boinc_win.h"
+#elif defined(_WIN32) && defined(__STDWX_H__)
+#include "stdwx.h"
 #else
 #include "config.h"
-#endif
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #else
 #include <cstdio>
 #endif
+#endif
+
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "miofile.h"
 #include "error_numbers.h"
 #include "cert_sig.h"

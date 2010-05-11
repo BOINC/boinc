@@ -1,4 +1,12 @@
-#include <string.h>
+
+#include "cpp.h"
+
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
+#include "config.h"
+#endif
+
 #include "dhrystone.h"
 
 extern bool Func_3(Enumeration EnumParIn);

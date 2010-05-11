@@ -1,12 +1,9 @@
-#include "config.h"
-#include "mac_address.h"
-
-#include <string.h>
-
-#if defined(_WIN32)
-#include <windows.h>
-#include <Iphlpapi.h>
+#if   defined(_WIN32) && !defined(__STDWX_H__)
+#include "boinc_win.h"
+#elif defined(_WIN32) && defined(__STDWX_H__)
+#include "stdwx.h"
 #elif defined(__APPLE__)
+#include "config.h"
 #include <cstdio>
 #include <unistd.h>
 #include <fcntl.h>
@@ -14,7 +11,9 @@
 #include <paths.h>
 #include <sysexits.h>
 #include <sys/param.h>
+#include <string.h>
 #else  // used to be if defined(__linux__)
+#include "config.h"
 #include <cstdio>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -49,10 +48,11 @@
 #ifdef HAVE_NETINET_ETHER_H
 #include <netinet/ether.h>
 #endif
-
+#include <string.h>
 #include "unix_util.h"
-
 #endif
+
+#include "mac_address.h"
 
 using std::perror;
 

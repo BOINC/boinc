@@ -15,15 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
+#include <cstring>
 #endif
 
-#include <cstring>
 #include "client_state.h"
 #include "file_names.h"
 #include "parse.h"

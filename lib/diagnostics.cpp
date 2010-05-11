@@ -18,11 +18,13 @@
 // Stuff related to stderr/stdout direction and exception handling;
 // used by both core client and by apps
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
+#elif defined(_WIN32) && defined(__STDWX_H__)
+#include "stdwx.h"
 #endif
 
-#if defined(_WIN32) && !defined(__CYGWIN32__)
+#ifdef _MSC_VER
 #define snprintf    _snprintf
 #define strdate     _strdate
 #define strtime     _strtime

@@ -36,15 +36,16 @@
 // Slightly modified for BOINC.
 // e.g.: no global variables, since we run this multithreaded
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"
-#endif
-
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
+#endif
 
 #include "util.h"
 #include "cpu_benchmark.h"

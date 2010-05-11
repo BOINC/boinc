@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
+#elif defined(_WIN32) && defined(__STDWX_H__)
+#include "stdwx.h"
+#else
 #include "config.h"
 #ifdef HAVE_PROCFS_H
 // Can't use large file calls with solaris procfs.
@@ -34,10 +34,9 @@
 #include <cstring>
 #include <cstdlib>
 #include <unistd.h>
-#endif
-
 #ifdef HAVE_PROCFS_H
 #include <procfs.h> // definitions for solaris /proc structs
+#endif
 #endif
 
 using std::FILE;

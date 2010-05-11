@@ -15,15 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef _WIN32
+#if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define snprintf    _snprintf
-#define strdup      _strdup
-#endif
-#endif
-
-#ifndef _WIN32
+#elif defined(_WIN32) && defined(__STDWX_H__)
+#include "stdwx.h"
+#else
 #include "config.h"
 #include <cctype>
 #include <cstdio>
@@ -34,6 +30,11 @@
 #include <fcntl.h>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf    _snprintf
+#define strdup      _strdup
+#endif
+
 #include <openssl/ssl.h>
 #include <openssl/md5.h>
 #include <openssl/bio.h>
@@ -42,7 +43,6 @@
 #include <openssl/conf.h>
 #include <openssl/engine.h>
 #include <openssl/err.h>
-
 
 #include "md5_file.h"
 #include "cert_sig.h"

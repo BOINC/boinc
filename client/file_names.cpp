@@ -22,9 +22,7 @@
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #endif
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #include <cstdio>
 #include <sys/stat.h>

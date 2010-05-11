@@ -15,16 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
-#endif
-
-#ifdef _MSC_VER
-#define getcwd  _getcwd
+#elif defined(_WIN32) && defined(__STDWX_H__)
+#include "stdwx.h"
 #endif
 
 #if defined(MINGW_WIN32)
 #include <fcntl.h>
+#endif
+
+#ifdef _MSC_VER
+#define getcwd  _getcwd
 #endif
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)

@@ -17,6 +17,8 @@
 
 // command-line parsing, and handling of 1-time actions
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #ifdef _MSC_VER

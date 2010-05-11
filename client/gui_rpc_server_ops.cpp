@@ -17,15 +17,11 @@
 
 // GUI RPC server side (the actual RPCs)
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifdef __APPLE__
-#include <Carbon/Carbon.h>
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #include <cstdio>
 #ifdef HAVE_UNISTD_H
@@ -48,6 +44,10 @@
 #ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
+#endif
+
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
 #endif
 
 #include "str_util.h"

@@ -24,9 +24,7 @@
 #include "boinc_win.h"
 typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 LPFN_ISWOW64PROCESS fnIsWow64Process;
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #include <cstdio>
 #include <cstdlib>

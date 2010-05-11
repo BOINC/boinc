@@ -19,10 +19,9 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#endif
-
 #include <cstring>
 #include <errno.h>
+#endif
 
 #include "parse.h"
 #include "str_util.h"

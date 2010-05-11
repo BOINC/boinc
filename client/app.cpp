@@ -28,7 +28,6 @@
 #endif
 
 #ifndef _WIN32
-
 #include <unistd.h>
 #if HAVE_SYS_WAIT_H
 #include <sys/wait.h>
@@ -51,7 +50,6 @@
 #include <cstdio>
 #include <cmath>
 #include <cstdlib>
-
 #endif
 
 #include "client_state.h"

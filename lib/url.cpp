@@ -15,10 +15,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#if   defined(_WIN32) && !defined(__STDWX_H__)
+#include "boinc_win.h"
+#elif defined(_WIN32) && defined(__STDWX_H__)
+#include "stdwx.h"
+#else
+#include "config.h"
 #include <string>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#endif
 
 #include "str_util.h"
 #include "str_replace.h"

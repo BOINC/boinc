@@ -19,8 +19,6 @@
 
 #include "cpp.h"
 
-
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"

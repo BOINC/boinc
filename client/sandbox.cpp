@@ -15,8 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cpp.h"
 
-#ifndef _WIN32
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
+#include "config.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <grp.h>

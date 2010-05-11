@@ -18,7 +18,10 @@
 
 // client-specific GPU code.  Mostly GPU detection
 
+#include "cpp.h"
+
 #ifdef _WIN32
+#include "boinc_win.h"
 #ifndef SIM
 #include <nvapi.h>
 #endif
@@ -27,6 +30,7 @@
 // Suppress obsolete warning when building for OS 10.3.9
 #define DLOPEN_NO_WARN
 #endif
+#include "config.h"
 #include <dlfcn.h>
 #include <setjmp.h>
 #include <signal.h>

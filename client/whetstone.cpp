@@ -20,11 +20,11 @@
 // Modified a little to work with BOINC
 //
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #include <stdlib.h>
 #include <stdio.h>

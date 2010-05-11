@@ -15,22 +15,21 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #include <cstdio>
 #include <ctime>
 #include <cmath>
-#endif
-
+#include <cstring>
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
+#endif
 
-#include <cstring>
 #include "parse.h"
 #include "util.h"
 #include "filesys.h"
