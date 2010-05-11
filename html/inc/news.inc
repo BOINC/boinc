@@ -26,10 +26,10 @@ function news_item($date, $title, $post) {
     $d = time_str($date);
     if (is_string($post)) {
         $forum_link = false;
-        $text = bb2html($post);
+        $text = output_transform($post);
     } else {
         $forum_link = true;
-        $text = bb2html($post->content);
+        $text = output_transform($post->content);
     }
     echo "
         <span class=news_content>$text</span>
@@ -63,7 +63,13 @@ function show_news($start, $count) {
         ";
         return;
     }
-
+    
+    if (is_array($start)) {
+        echo "You have not changed show_news() to use 0 instead of
+            deprecated \$project_news as the first param.";
+        return;
+    }
+    
     $lim = "";
     if ($start) {
         if ($count) {

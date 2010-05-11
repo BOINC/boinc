@@ -3455,3 +3455,13 @@ Rom    10 May 2010
     
     client/
         main.cpp
+
+Rytis  11 May 2010
+    - user web: use full output transform for frontpage news posts (to handle
+        newlines and other related stuff).
+    - user web: add a warning in case admin hasn't changed show_news() call to
+        the new format.
+
+    html/inc/
+        news.inc
+
