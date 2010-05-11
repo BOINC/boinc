@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-03 10:17 PDT\n"
-"PO-Revision-Date: 2010-05-10 16:59-0700\n"
+"PO-Revision-Date: 2010-05-10 17:17-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -661,23 +661,20 @@ msgid "Swap space: use at most"
 msgstr "Espai d'intercanvi: utilitzar com a màxim"
 
 #: ../inc/prefs.inc:203
-#, fuzzy
 msgid "Memory: when computer is in use, use at most"
-msgstr "% de la memòria quan l'ordinador està en ús"
+msgstr "Memòria: quan l'ordinador està en ús, utilitzar com a màxim"
 
 #: ../inc/prefs.inc:208
-#, fuzzy
 msgid "Memory: when computer is not in use, use at most"
-msgstr "% de la memòria quan l'ordinador no està en ús"
+msgstr "Memòria: quan l'ordinador no està en ús, utilitzar com a màxim"
 
 #: ../inc/prefs.inc:217
-#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work. %3"
 msgstr ""
-"L'ordinador està connectat a Internet cada %1(Deixar en blanc o 0 si està "
-"sempre connectat.%2 BOINC tractarà de fer el màxim de feina.)%3"
+"L'ordinador està connectat a Internet cada %1 Deixar en blanc o 0 si està "
+"sempre connectat. %2 BOINC tractarà de fer el màxim de feina. %3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 msgid "days"
@@ -688,22 +685,20 @@ msgid "Maintain enough work for an additional"
 msgstr "Mantenir prou feina per un període addicional"
 
 #: ../inc/prefs.inc:232
-#, fuzzy
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
-"Confirmar abans de connectar-se a Internet? %1(Tan sols si teniu un mòdem, "
-"ISDN o una connexió VPN)% 2"
+"Confirmar abans de connectar-se a Internet? %1 Tan sols si teniu un mòdem, "
+"ISDN o una connexió VPN % 2"
 
 #: ../inc/prefs.inc:241
-#, fuzzy
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
 msgstr ""
-"Desconnectar quan es finalitzar? %1(Tan sols si teniu un mòdem, ISDN o una "
-"connexió VPN)%2"
+"Desconnectar quan es finalitza? %1 Tan sols si teniu un mòdem, ISDN o una "
+"connexió VPN %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
@@ -722,63 +717,54 @@ msgid "Use network only between the hours of"
 msgstr "Utilitzar la xarxa només entre les hores de"
 
 #: ../inc/prefs.inc:263
-#, fuzzy
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
-"Amb multiprocessadors, utilitzar com a màxim %1 Imposat per la versió 6.1+%2"
+msgstr "Tranferir com a màxim %1 Imposat per la versió 6.10.46+ %2"
 
 #: ../inc/prefs.inc:269
-#, fuzzy
 msgid "Mbytes every"
-msgstr "Gbytes lliures"
+msgstr "Mbytes lliures"
 
 #: ../inc/prefs.inc:274
-#, fuzzy
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
 "reduces the security of BOINC. %3"
 msgstr ""
-"Evitar la verificació de l'arxiu imatge? %1 Seleccioneu aquesta opció només "
+"Evitar la verificació de l'arxiu imatge? %1 Seleccioneu aquesta opció NOMÉS "
 "si el vostre proveïdor d'Internet modifica els arxius imatge (per exemple "
-"UMTS ho fa).%2 Ometre la comprovació redueix la seguretat de BOINC.%3"
+"UMTS ho fa). %2 Ometre la comprovació redueix la seguretat de BOINC. %3"
 
 #: ../inc/prefs.inc:287
-#, fuzzy
 msgid ""
 "Resource share %1 Determines the proportion of your computer's resources "
 "allocated to this project. Example: if you participate in two BOINC projects "
 "with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
 msgstr ""
-"Determina la proporció dels recursos de l'ordinador\n"
-"            assignats a aquest projecte. Exemple: si vostè participa en dos\n"
-"            projectes BOINC, amb quotes de recursos de 100 i 200, el primer\n"
-"            rebrà 1/3 dels seus recursos i el segon obtindrà 2/3."
+"Compartició de recursos %1 Determina la proporció dels recursos de "
+"l'ordinador assignats a aquest projecte. Exemple: si vostè participa a dos "
+"projectes BOINC, amb quotes de recursos de 100 i 200, el primer rebrà 1/3 "
+"dels seus recursos i el segon obtindrà 2/3. %2"
 
 #: ../inc/prefs.inc:300
-#, fuzzy
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr "Usar la CPU %1(imposada pels clients 6.10+)%2"
+msgstr "Usar la CPU %1 Imposat per la versió 6.10+ %2"
 
 #: ../inc/prefs.inc:312
-#, fuzzy
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr "Usar la CPU %1(imposada pels clients 6.10+)%2"
+msgstr "Usar la CPU ATI %1 Imposat per la versió 6.10+ %2"
 
 #: ../inc/prefs.inc:324
-#, fuzzy
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr "Usar la GPU NVIDIA si està present %1(imposada pels clients 6.10+)%2"
+msgstr "Usar la GPU NVIDIA %1 Imposat per la versió 6.10+ %2"
 
 #: ../inc/prefs.inc:338
-#, fuzzy
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
-"Executar les aplicacions de prova? %1Això ens ajuda a desenvolupar "
-"aplicacions, però pot causar errors en els treballs en el seu ordinador%2"
+"Executar les aplicacions de prova? %1 Això ens ajuda a desenvolupar "
+"aplicacions, però pot causar errors en els treballs en el seu ordinador %2"
 
 #: ../inc/prefs.inc:347
 msgid "Disk and memory usage"
@@ -998,19 +984,16 @@ msgid "Anonymous platform"
 msgstr "Plataforma anònima"
 
 #: ../inc/result.inc:26
-#, fuzzy
 msgid "Anonymous platform - CPU"
-msgstr "Plataforma anònima"
+msgstr "Plataforma anònima - CPU"
 
 #: ../inc/result.inc:27
-#, fuzzy
 msgid "Anonymous platform - NVIDIA GPU"
-msgstr "Plataforma anònima"
+msgstr "Plataforma anònima - GPU NVIDIA"
 
 #: ../inc/result.inc:28
-#, fuzzy
 msgid "Anonymous platform - ATI GPU"
-msgstr "Plataforma anònima"
+msgstr "Plataforma anònima - GPU ATI"
 
 #: ../inc/result.inc:35
 msgid "Not in DB"
@@ -2278,9 +2261,8 @@ msgid "This forum is not visible to you."
 msgstr "Aquest fòrum no està disponible per a vostè."
 
 #: ../user/forum_thread.php:60
-#, fuzzy
 msgid "This thread has been hidden by moderators"
-msgstr "Aquest fil ha estat ocultat amb propòsits administratius"
+msgstr "Aquest fil ha estat ocultat per els moderadors"
 
 #: ../user/forum_thread.php:117
 msgid "My question was answered"
@@ -3494,7 +3476,6 @@ msgid "Message board removed"
 msgstr "Tauler de missatges eliminat"
 
 #: ../user/team_forum.php:122
-#, fuzzy
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
@@ -3717,14 +3698,12 @@ msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr "Hi han més de 100 equips en la cerca. Es mostren els 100 primers."
 
 #: ../user/team_lookup.php:102
-#, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "1create a team%2 yourself."
 msgstr ""
-"Fi dels resultats<br>\n"
-"         Si no pot trobar l'equip que està buscant, vostè mateix pot %1crear "
-"un equip%2."
+"Fi dels resultats. %1 Si no pot trobar l'equip que està buscant, vostè "
+"mateix pot %1crear un equip%2."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
