@@ -3449,3 +3449,9 @@ Rom    10 May 2010
         <Various Files>
     lib/
         <Various Files>
+
+Rom    10 May 2010
+    - client: re-enable memory leak detection on Windows.
+    
+    client/
+        main.cpp

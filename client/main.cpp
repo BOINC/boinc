@@ -232,6 +232,9 @@ static void init_core_client(int argc, char** argv) {
 
     // Initialize the BOINC Diagnostics Framework
     int flags =
+#ifdef _DEBUG
+        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+#endif
         BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_TRACETOSTDOUT;
@@ -406,6 +409,9 @@ int finalize() {
 
 	curl_cleanup();
     gstate.cleanup_completed = true;
+
+    diagnostics_finish();
+
     return 0;
 }
 
