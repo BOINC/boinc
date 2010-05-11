@@ -3487,5 +3487,12 @@ David  11 May 2010
 David  11 May 2010
     - client: delete messages on exit
 
-    client_msgs.cpp,h
-    check_state.cpp
+    client/
+        client_msgs.cpp,h
+        check_state.cpp
+
+David  11 May 2010
+    - client: fix memory leak
+
+    lib/
+        coproc.h
