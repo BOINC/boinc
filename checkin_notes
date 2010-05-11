@@ -3292,7 +3292,7 @@ David  29 Apr 2010
 
 Charlie  30 Apr 2010
     - client: Restore RUN_MODE_ALWAYS functionality in network suspension 
-        logic which as lost in code cleanup of 26 Apr 2010.
+        logic which was lost in code cleanup of 26 Apr 2010.
 
         cs_prefs.pp
 
@@ -3503,3 +3503,10 @@ Rom    11 May 2010
         
     client/
         main.cpp
+
+Charlie  11 May 2010
+    - client: Fix build break on Mac.  Please be careful changing the order 
+        of #includes.
+    
+    client/
+        gui_rpc_server_ops.cpp

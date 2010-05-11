@@ -19,6 +19,10 @@
 
 #include "cpp.h"
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#endif
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -44,10 +48,6 @@
 #ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
-#endif
-
-#ifdef __APPLE__
-#include <Carbon/Carbon.h>
 #endif
 
 #include "str_util.h"
