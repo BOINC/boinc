@@ -3496,3 +3496,10 @@ David  11 May 2010
 
     lib/
         coproc.h
+
+Rom    11 May 2010
+    - client: leave template for causing the debugger to break on a
+        specific memory allocation.
+        
+    client/
+        main.cpp

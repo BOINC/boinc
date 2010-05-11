@@ -242,6 +242,18 @@ static void init_core_client(int argc, char** argv) {
 
     diagnostics_init(flags, "stdoutdae", "stderrdae");
 
+#ifdef _WIN32
+    // Specify which allocation will cause a debugger to break.  Use a previous
+    // memory leak detection report which looks like this:
+    //   {650} normal block at 0x000000000070A6F0, 24 bytes long.
+    //   Data: <  N     P p     > 80 1E 4E 00 00 00 00 00 50 AE 70 00 00 00 00 00
+    //_CrtSetBreakAlloc(650);
+    //_CrtSetBreakAlloc(651);
+    //_CrtSetBreakAlloc(652);
+    //_CrtSetBreakAlloc(653);
+    //_CrtSetBreakAlloc(654);
+#endif
+
     read_config_file(true);
 
     // Set the max file sizes of the logs based on user preferences.
