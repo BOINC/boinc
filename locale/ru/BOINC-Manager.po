@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:09-0500\n"
-"PO-Revision-Date: 2010-05-01 02:10-0700\n"
+"PO-Revision-Date: 2010-05-12 12:12-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -966,7 +966,6 @@ msgid "Snooze"
 msgstr "Пауза"
 
 #: clientgui/BOINCTaskBar.cpp:625
-#, fuzzy
 msgid "Snooze GPU"
 msgstr "Приостановить GPU"
 
@@ -3747,7 +3746,6 @@ msgid " (non-CPU-intensive)"
 msgstr " (без использования ЦП)"
 
 #: clientgui/ViewWork.cpp:1183
-#, fuzzy
 msgid " (waiting for GPU memory)"
 msgstr "(ожидание освобождения памяти GPU)"
 
