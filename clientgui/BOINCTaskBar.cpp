@@ -654,6 +654,7 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
 
     if (!pDoc->IsComputerNameLocal(strMachineName)) {
         strMessage += strMachineName;
+        strMessage += wxT("\n");
     }
 
     if (pDoc->IsConnected()) {
@@ -661,35 +662,50 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
         if (RUN_MODE_NEVER == status.task_mode) {
             icnIcon = m_iconTaskBarSnooze;
         }
-        if (status.task_suspend_reason || status.network_suspend_reason) {
-            if (status.task_suspend_reason != SUSPEND_REASON_CPU_THROTTLE) {
-                strBuffer = _("Computation is suspended.");
-                if (strMessage.Length() > 0) strMessage += wxT("\n");
-                strMessage += strBuffer;
-            }
-            if (status.network_suspend_reason != SUSPEND_REASON_CPU_THROTTLE) {
-                strBuffer = _("Network activity is suspended.");
-                if (strMessage.Length() > 0) strMessage += wxT("\n");
-                strMessage += strBuffer;
-            }
-        } else {
-            strBuffer = _("Client is processing results.");
-            if (strMessage.Length() > 0) strMessage += wxT("\n");
-            strMessage += strBuffer;
+        switch(status.task_suspend_reason) {
+        case SUSPEND_REASON_CPU_THROTTLE:
+        case 0:
+            strMessage += _("Computing is enabled");
+            break;
+        default:
+            strMessage += _("Computing is suspended -");
+            strMessage += suspend_reason_wxstring(status.task_suspend_reason);
+            break;
         }
+        strMessage += wxT(".\n");
+
+        if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+            switch(status.gpu_suspend_reason) {
+            case 0:
+                strMessage += _("GPU computing is enabled");
+                break;
+            default:
+                strMessage += _("GPU computing is suspended -");
+                strMessage += suspend_reason_wxstring(status.gpu_suspend_reason);
+                break;
+            }
+        }
+
+        switch(status.network_suspend_reason) {
+        case 0:
+            strMessage += _("Network is enabled");
+            break;
+        default:
+            strMessage += _("Network is suspended -");
+            strMessage += suspend_reason_wxstring(status.network_suspend_reason);
+            break;
+        }
+        strMessage += wxT(".\n");
     } else {
         icnIcon = m_iconTaskBarDisconnected;
         if (pDoc->IsReconnecting()) {
-            strBuffer = _("Reconnecting to client.");
-            if (strMessage.Length() > 0) strMessage += wxT("\n");
-            strMessage += strBuffer;
+            strMessage += _("Reconnecting to client.");
         } else {
-            strBuffer = _("Not connected to a client.");
-            if (strMessage.Length() > 0) strMessage += wxT("\n");
-            strMessage += strBuffer;
+            strMessage += _("Not connected to a client.");
         }
     }
 
+    strMessage.Trim();
     SetIcon(icnIcon, strMessage);
 #endif
 

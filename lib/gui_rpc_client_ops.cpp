@@ -1104,6 +1104,7 @@ int CC_STATUS::parse(MIOFILE& in) {
         if (parse_int(buf, "<task_mode>", task_mode)) continue;
         if (parse_int(buf, "<task_mode_perm>", task_mode_perm)) continue;
 		if (parse_double(buf, "<task_mode_delay>", task_mode_delay)) continue;
+        if (parse_int(buf, "<gpu_suspend_reason>", gpu_suspend_reason)) continue;
         if (parse_int(buf, "<gpu_mode>", gpu_mode)) continue;
         if (parse_int(buf, "<gpu_mode_perm>", gpu_mode_perm)) continue;
 		if (parse_double(buf, "<gpu_mode_delay>", gpu_mode_delay)) continue;
@@ -1122,13 +1123,17 @@ void CC_STATUS::clear() {
     ams_password_error = false;
     manager_must_quit = false;
     task_suspend_reason = -1;
-    network_suspend_reason = -1;
     task_mode = -1;
-    network_mode = -1;
     task_mode_perm = -1;
-    network_mode_perm = -1;
 	task_mode_delay = 0;
+    network_suspend_reason = -1;
+    network_mode = -1;
+    network_mode_perm = -1;
 	network_mode_delay = 0;
+    gpu_suspend_reason = -1;
+    gpu_mode = -1;
+    gpu_mode_perm = -1;
+	gpu_mode_delay = 0;
     disallow_attach = false;
     simple_gui_only = false;
 }

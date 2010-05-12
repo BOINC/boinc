@@ -556,13 +556,14 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         "   <network_status>%d</network_status>\n"
         "   <ams_password_error>%d</ams_password_error>\n"
         "   <task_suspend_reason>%d</task_suspend_reason>\n"
-        "   <network_suspend_reason>%d</network_suspend_reason>\n"
         "   <task_mode>%d</task_mode>\n"
         "   <task_mode_perm>%d</task_mode_perm>\n"
         "   <task_mode_delay>%f</task_mode_delay>\n"
+        "   <gpu_suspend_reason>%d</gpu_suspend_reason>\n"
         "   <gpu_mode>%d</gpu_mode>\n"
         "   <gpu_mode_perm>%d</gpu_mode_perm>\n"
         "   <gpu_mode_delay>%f</gpu_mode_delay>\n"
+        "   <network_suspend_reason>%d</network_suspend_reason>\n"
         "   <network_mode>%d</network_mode>\n"
         "   <network_mode_perm>%d</network_mode_perm>\n"
         "   <network_mode_delay>%f</network_mode_delay>\n"
@@ -571,13 +572,14 @@ static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,
-        gstate.network_suspend_reason,
         gstate.run_mode.get_current(),
         gstate.run_mode.get_perm(),
         gstate.run_mode.delay(),
+        gpu_suspend_reason,
         gstate.gpu_mode.get_current(),
         gstate.gpu_mode.get_perm(),
         gstate.gpu_mode.delay(),
+        gstate.network_suspend_reason,
         gstate.network_mode.get_current(),
         gstate.network_mode.get_perm(),
         gstate.network_mode.delay(),

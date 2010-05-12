@@ -147,29 +147,29 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
-    bool old_gpu_suspended = gpu_suspended;
-    gpu_suspended = false;
+    bool old_gpu_suspend_reason = gpu_suspend_reason;
+    gpu_suspend_reason = 0;
     switch (gpu_mode.get_current()) {
     case RUN_MODE_ALWAYS:
         break;
     case RUN_MODE_NEVER:
-        gpu_suspended = true;
+        gpu_suspend_reason = SUSPEND_REASON_USER_REQ;
         break;
     default:
         if (exclusive_gpu_app_running) {
-            gpu_suspended = true;
+            gpu_suspend_reason = SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
             break;
         }
         if (user_active && !global_prefs.run_gpu_if_user_active) {
-            gpu_suspended = true;
+            gpu_suspend_reason = SUSPEND_REASON_USER_ACTIVE;
             break;
         }
     }
 
     if (log_flags.cpu_sched) {
-        if (old_gpu_suspended && !gpu_suspended) {
+        if (old_gpu_suspend_reason && !gpu_suspend_reason) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched] resuming GPU activity");
-        } else if (!old_gpu_suspended && gpu_suspended) {
+        } else if (!old_gpu_suspend_reason && gpu_suspend_reason) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched] suspending GPU activity");
         }
     }

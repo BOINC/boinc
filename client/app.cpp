@@ -70,7 +70,7 @@ using std::min;
 
 bool exclusive_app_running;
 bool exclusive_gpu_app_running;
-bool gpu_suspended;
+int gpu_suspend_reason;
 double non_boinc_cpu_usage;
 
 #define ABORT_TIMEOUT   60

@@ -96,7 +96,7 @@ struct PROC_RESOURCES {
     //
     bool can_schedule(RESULT* rp) {
         if (rp->uses_coprocs()) {
-            if (gpu_suspended) return false;
+            if (gpu_suspend_reason) return false;
             if (sufficient_coprocs(
                 *rp->avp, log_flags.cpu_sched_debug)
             ) {

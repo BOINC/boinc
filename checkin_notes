@@ -3555,3 +3555,19 @@ David  12 May 2010
 
     html/user/
         team_lookup.php
+
+David  12 May 2010
+    - client/manager: keep track of "GPU suspended reason".
+        Report it to the manager
+        (it was already in CC_STATUS, but not populated)
+    - manager: fix system tray icon popup text
+
+    client/
+        app.cpp,h
+        cpu_sched.cpp
+        cs_prefs.cpp
+        gui_rpc_server_ops.cpp
+    clientgui/
+        BOINCTaskBar.cpp
+    lib/
+        gui_rpc_client_ops.cpp
