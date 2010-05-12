@@ -522,8 +522,8 @@ void PERS_FILE_XFER_SET::suspend() {
 //
 void PERS_FILE_XFER_SET::add_random_delay(double x) {
     unsigned int i;
+    double y = gstate.now + x*drand();
     for (i=0; i<pers_file_xfers.size(); i++) {
-        double y = gstate.now + x*drand();
         if (y > pers_file_xfers[i]->next_request_time) {
             pers_file_xfers[i]->next_request_time = y;
         }

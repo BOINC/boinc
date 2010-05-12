@@ -3510,3 +3510,15 @@ Charlie  11 May 2010
     
     client/
         gui_rpc_server_ops.cpp
+
+David  11 May 2010
+    - client: on resume from net bandwidth quota suspend,
+        apply same random backoff to all transfers.
+    - client: when changing ncpus via config file,
+        don't modify host_info.p_ncpus
+    - client: show effective #CPUs separately from physical #
+
+    client/
+        client_state.cpp,h
+        pers_file_xfer.cpp
+        cpu_sched.cpp
