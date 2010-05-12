@@ -3532,3 +3532,9 @@ David  11 May 2010
 
 	client/
 		log_flags.cpp
+
+Rytis  12 May 2010
+	- user web: use CDATA section for title in the RSS feed
+	
+	html/inc/
+		forum_rss.inc
