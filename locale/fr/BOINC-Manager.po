@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-05-12 14:00-0700\n"
+"PO-Revision-Date: 2010-05-12 14:11-0700\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -432,9 +432,8 @@ msgid "Read config file"
 msgstr "Lire le fichier de configuration"
 
 #: clientgui/AdvancedFrame.cpp:557
-#, fuzzy
 msgid "Read configuration info from cc_config.xml"
-msgstr "Lit les infos de configuration du fichier cc_config.xml."
+msgstr "Lire les infos de configuration du fichier cc_config.xml."
 
 #: clientgui/AdvancedFrame.cpp:561
 msgid "Read local prefs file"
@@ -450,9 +449,8 @@ msgid "Event Log..."
 msgstr "Journal des événements..."
 
 #: clientgui/AdvancedFrame.cpp:567
-#, fuzzy
 msgid "Display diagnostic messages."
-msgstr "Afficher les messages de diagnostique de clients."
+msgstr "Afficher les messages de diagnostique."
 
 #: clientgui/AdvancedFrame.cpp:577
 #, c-format
@@ -940,7 +938,7 @@ msgstr "Activité réseau suspendue."
 
 #: clientgui/BOINCTaskBar.cpp:676
 msgid "Client is processing results."
-msgstr ""
+msgstr "Le client calcule les résultats."
 
 #: clientgui/BOINCTaskBar.cpp:683
 msgid "Reconnecting to client."
@@ -951,13 +949,13 @@ msgid "Not connected to a client."
 msgstr "Aucune connexion à un client."
 
 #: clientgui/BOINCTaskBar.cpp:740
-#, fuzzy, c-format
+#, c-format
 msgid "%s Notices"
-msgstr "Remarques"
+msgstr "Notifications de %s"
 
 #: clientgui/BOINCTaskBar.cpp:746
 msgid "One or more notices are now available for viewing."
-msgstr ""
+msgstr "Une ou plusieurs notifications peuvent être consultées."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1184,17 +1182,16 @@ msgid "minutes"
 msgstr "minutes"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "utilisation du processeur"
+msgstr "Tant que l'utilisation du processeur est inférieure à"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
+msgstr "suspendre le travail si l'utilisation du processeur dépasse ce niveau"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "pour-cent (0 signifie pas de restriction)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:402
@@ -1511,9 +1508,8 @@ msgstr "Ne montrer que ce projet"
 
 #: clientgui/DlgEventLog.cpp:251 clientgui/DlgEventLog.cpp:365
 #: clientgui/DlgEventLog.cpp:367
-#, fuzzy
 msgid "Show only the messages for the selected project"
-msgstr "Ne montrer les messages que pour le projet sélectionné."
+msgstr "Ne montrer que les messages du projet sélectionné."
 
 #: clientgui/DlgEventLog.cpp:255
 msgid "Copy All"
@@ -1558,9 +1554,8 @@ msgid "Show all messages"
 msgstr "Montrer tous les messages"
 
 #: clientgui/DlgEventLog.cpp:378 clientgui/DlgEventLog.cpp:380
-#, fuzzy
 msgid "Show messages for all projects"
-msgstr "Montre les messages pour tous les projets."
+msgstr "Montrer les messages de tous les projets."
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
@@ -1723,14 +1718,12 @@ msgstr "Planification"
 
 #: clientgui/DlgItemProperties.cpp:242 clientgui/DlgItemProperties.cpp:252
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Project preference"
-msgstr "Vos préférences"
+msgstr "Préférences du projet"
 
 #: clientgui/DlgItemProperties.cpp:242
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "Pas de nouveau travail"
+msgstr "Ne pas charger de tâches CPU"
 
 #: clientgui/DlgItemProperties.cpp:244
 msgid "CPU scheduling priority"
@@ -1750,7 +1743,7 @@ msgstr "Intervalle d'ajournement de demande de travail CPU"
 
 #: clientgui/DlgItemProperties.cpp:252
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Ne pas charger de tâches GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1769,9 +1762,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervalle d'ajournement de demande de travail GPU NVidia"
 
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "Pas de nouveau travail"
+msgstr "Ne pas charger de tâches GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:265
 msgid "ATI GPU scheduling priority"
@@ -1859,7 +1851,7 @@ msgstr "ID du process"
 
 #: clientgui/DlgItemProperties.cpp:386
 msgid "Local: "
-msgstr ""
+msgstr "Local: "
 
 #: clientgui/DlgItemProperties.cpp:411
 msgid "New"
@@ -1980,25 +1972,22 @@ msgid "Language:"
 msgstr "Langue :"
 
 #: clientgui/DlgOptions.cpp:164
-#, fuzzy
 msgid "What language should BOINC use?"
-msgstr "Quel langue le manager doit-il utiliser ?"
+msgstr "Quelle langue BOINC doit-il utiliser ?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid ""
 "Notice reminder interval:\n"
 "(minutes; 0 means no reminders)"
 msgstr ""
-"Intervalle de rappel de connexion réseau:\n"
-"(minutes)"
+"Intervalle de rappel de notifications:\n"
+"(minutes; 0 signifie pas de notification)"
 
 #: clientgui/DlgOptions.cpp:180
-#, fuzzy
 msgid "How often should BOINC remind you of new notices?"
 msgstr ""
-"Tous les combien le Manager doit vous rappeler quand une connexion réseau "
-"est requise ?"
+"A quelle fréquence BOINC doit-il vous rappeler la présence de nouvelles "
+"notifications?"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2426,7 +2415,6 @@ msgid "Network communication failure"
 msgstr "Echec de la communication réseau"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-03 10:16 PDT\n"
-"PO-Revision-Date: 2010-05-12 12:25-0700\n"
+"PO-Revision-Date: 2010-05-12 14:23-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -27,17 +27,24 @@ msgid "The current release is known to work with these Linux versions:"
 msgstr "Текущая версия, как нам известно, работает с этими версиями Linux: "
 
 #: versions.inc:14
+#, fuzzy
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
 msgstr ""
+"Для других версий Linux проверьте, входит ли пакет BOINC в ваш дистрибутив "
+"Linux."
 
 #: versions.inc:25
+#, fuzzy
 msgid ""
 "Alternatively, download the %1BOINC client for older Linux versions%2. This "
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
+"Либо загрузите %1клиент BOINC для более старых версий Linux%2. В нем нет "
+"графического интерфейса, но он должен работать на всех системах Linux, как "
+"на x86, так и на x64."
 
 #: docutil.php:21
 msgid "Search"
