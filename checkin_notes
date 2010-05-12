@@ -1656,6 +1656,16 @@ David  11 May 2010
         pers_file_xfer.cpp
         cpu_sched.cpp
 
+David  11 May 2010
+	- client: clear config before rereading config file.
+		This means that, e.g. if you remove <ncpus>
+		it will revert to the actual number.
+		However, it also means that any config params
+		set via command line will be overridden.
+
+	client/
+		log_flags.cpp
+
 Rom    12 May 2010
     - Tag for 6.10.54 release, all platforms
       boinc_core_release_6_10_54
