@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2010/02/19\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-03 10:17 PDT\n"
+"POT-Creation-Date: 2010-05-12 10:08 PDT\n"
 "PO-Revision-Date: 2010-02-20 03:06-0700\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
@@ -477,7 +477,7 @@ msgstr "이름순으로 컴퓨터 동기화"
 msgid "Comment"
 msgstr "내용"
 
-#: ../inc/news.inc:96
+#: ../inc/news.inc:102
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "뉴스는 %sRSS 피드%s로도 제공됩니다"
@@ -3682,7 +3682,7 @@ msgstr "100개 이상의 팀이 검색 조건을 만족합니다. 상위 100개�
 #, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
-"1create a team%2 yourself."
+"2create a team%3 yourself."
 msgstr ""
 "검색 결과<br>\n"
 "         만약 여러분에게 맞는 팀을 찾지 못하셨다면 여러분은 스스로 %1팀을 만"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-03 10:17 PDT\n"
+"POT-Creation-Date: 2010-05-12 10:08 PDT\n"
 "PO-Revision-Date: 2010-04-07 23:49+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <weboglan@hotmail.com>\n"
@@ -477,7 +477,7 @@ msgstr "Bilgisayarları isme göre birleştir"
 msgid "Comment"
 msgstr "Yorumlar"
 
-#: ../inc/news.inc:96
+#: ../inc/news.inc:102
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "Haberler bir %sRSS beslemesi%s olarak da mevcuttur"
@@ -3737,7 +3737,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
-"1create a team%2 yourself."
+"2create a team%3 yourself."
 msgstr ""
 "Sonuçların sonu<br>\n"
 "         Eğer istediğiniz gibi bir takım bulamadıysanız, kendiniz %1bir "

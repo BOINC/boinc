@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-03 10:17 PDT\n"
+"POT-Creation-Date: 2010-05-12 10:08 PDT\n"
 "PO-Revision-Date: 2009-01-12 03:19-0700\n"
 "Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -484,7 +484,7 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: ../inc/news.inc:96
+#: ../inc/news.inc:102
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr ""
@@ -3599,7 +3599,7 @@ msgstr ""
 #: ../user/team_lookup.php:102
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
-"1create a team%2 yourself."
+"2create a team%3 yourself."
 msgstr ""
 
 #: ../user/team_manage.php:24
