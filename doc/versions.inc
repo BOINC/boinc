@@ -117,10 +117,10 @@ $w66x64 = array(
 );
 
 $m610dev = array(
-	"num"=>"6.10.53",
+	"num"=>"6.10.54",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_6.10.53_macOSX_universal.zip",
-	"date"=>"10 May 2010",
+	"file"=>"boinc_6.10.54_macOSX_universal.zip",
+	"date"=>"12 May 2010",
 	"type"=>"mac_advanced",
 );
 
@@ -149,10 +149,10 @@ $m66 = array(
 );
 
 $m610cdev = array(
-	"num"=>"6.10.53",
+	"num"=>"6.10.54",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_6.10.53_universal-apple-darwin.zip",
-	"date"=>"10 May 2010",
+	"file"=>"boinc_6.10.54_universal-apple-darwin.zip",
+	"date"=>"12 May 2010",
 	"type"=>"bare_core",
 );
 
