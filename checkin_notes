@@ -1643,3 +1643,11 @@ David  11 May 2010
 
     lib/
         coproc.h
+
+Rom    12 May 2010
+    - Tag for 6.10.54 release, all platforms
+      boinc_core_release_6_10_54
+
+    /
+        configure.ac
+        version.h
