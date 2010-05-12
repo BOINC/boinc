@@ -445,6 +445,7 @@ int read_config_file(bool init) {
 
     if (!init) {
         msg_printf(NULL, MSG_INFO, "Re-reading cc_config.xml");
+        config.clear();
     }
     f = boinc_fopen(CONFIG_FILE, "r");
     if (!f) return ERR_FOPEN;
