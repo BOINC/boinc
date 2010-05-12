@@ -3538,3 +3538,14 @@ Rytis  12 May 2010
 	
 	html/inc/
 		forum_rss.inc
+
+David  12 May 2010
+	- client: fix crashing bug.
+		Deleting records in ~COPROCS() was bad,
+		since we copy HOST_INFO to APP_INIT_DATA,
+		leading to a double deletion.
+
+	client/
+		cpu_sched.cpp
+	lib/
+		coproc.h
