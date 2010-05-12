@@ -1637,3 +1637,9 @@ David  11 May 2010
 
     client/
         cs_prefs.cpp
+
+David  11 May 2010
+    - client: fix memory leak
+
+    lib/
+        coproc.h

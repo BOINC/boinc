@@ -156,11 +156,11 @@ struct COPROCS {
         // so any structure that includes this needs to do it manually
 
     COPROCS(){}
-    ~COPROCS(){}
-    void delete_coprocs(){
+    ~COPROCS(){
         for (unsigned int i=0; i<coprocs.size(); i++) {
             delete coprocs[i];
         }
+        coprocs.clear();
     }
     void write_xml(MIOFILE& out);
     void get(
