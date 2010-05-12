@@ -203,7 +203,7 @@ struct WORK_REQ {
     RESOURCE bandwidth;
 
     std::vector<USER_MESSAGE> no_work_messages;
-    std::vector<BEST_APP_VERSION> best_app_versions;
+    std::vector<BEST_APP_VERSION*> best_app_versions;
     std::vector<DB_HOST_APP_VERSION> host_app_versions;
     std::vector<DB_HOST_APP_VERSION> host_app_versions_orig;
 

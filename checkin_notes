@@ -3571,3 +3571,14 @@ David  12 May 2010
         BOINCTaskBar.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+David  12 May 2010
+    - scheduler: changeset 21148 broke the scheduler.
+        We store pointers to BEST_APP_VERSION in both APP_VERSION and RESULT.
+        We can't then fiddle with the vector that these point into.
+        Switch back to using a vector of pointers.
+        This restores the memory leak, which I'll deal with later.
+
+    sched/
+        sched_types.h
+        sched_version.cpp

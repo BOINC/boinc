@@ -267,16 +267,17 @@ BEST_APP_VERSION* get_app_version(
     bool found;
     unsigned int i;
     int retval, j;
+    BEST_APP_VERSION* bavp;
     char message[256], buf[256];
 
     // see if app is already in memoized array
     //
-    std::vector<BEST_APP_VERSION>::iterator bavi;
+    std::vector<BEST_APP_VERSION*>::iterator bavi;
     bavi = g_wreq->best_app_versions.begin();
     while (bavi != g_wreq->best_app_versions.end()) {
-        BEST_APP_VERSION& bav = *bavi;
-        if (bav.appid == wu.appid) {
-            if (!bav.present) {
+        bavp = *bavi;
+        if (bavp->appid == wu.appid) {
+            if (!bavp->present) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] returning cached NULL\n"
@@ -290,7 +291,7 @@ BEST_APP_VERSION* get_app_version(
             //
             if (check_req
                 && g_wreq->rsc_spec_request
-                && bav.host_usage.ncudas > 0
+                && bavp->host_usage.ncudas > 0
                 && !g_wreq->need_cuda()
             ) {
                 if (config.debug_version_select) {
@@ -305,7 +306,7 @@ BEST_APP_VERSION* get_app_version(
             // same, ATI
             if (check_req
                 && g_wreq->rsc_spec_request
-                && bav.host_usage.natis > 0
+                && bavp->host_usage.natis > 0
                 && !g_wreq->need_ati()
             ) {
                 if (config.debug_version_select) {
@@ -321,8 +322,8 @@ BEST_APP_VERSION* get_app_version(
             //
             if (check_req
                 && g_wreq->rsc_spec_request
-                && !bav.host_usage.ncudas
-                && !bav.host_usage.natis
+                && !bavp->host_usage.ncudas
+                && !bavp->host_usage.natis
                 && !g_wreq->need_cpu()
             ) {
                 if (config.debug_version_select) {
@@ -339,7 +340,7 @@ BEST_APP_VERSION* get_app_version(
                     "[version] returning cached version\n"
                 );
             }
-            return &bav;
+            return bavp;
         }
         bavi++;
     }
@@ -358,40 +359,39 @@ BEST_APP_VERSION* get_app_version(
         );
     }
 
-    BEST_APP_VERSION bav;
-    bav.appid = wu.appid;
+    bavp = new BEST_APP_VERSION;
+    bavp->appid = wu.appid;
     if (g_wreq->anonymous_platform) {
         CLIENT_APP_VERSION* cavp = get_app_version_anonymous(
             *app, reliable_only
         );
         if (!cavp) {
-            bav.present = false;
+            bavp->present = false;
         } else {
-            bav.present = true;
+            bavp->present = true;
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] Found anonymous platform app for %s: plan class %s\n",
                     app->name, cavp->plan_class
                 );
             }
-            bav.host_usage = cavp->host_usage;
-
-            bav.cavp = cavp;
+            bavp->host_usage = cavp->host_usage;
+            bavp->cavp = cavp;
             int gavid = host_usage_to_gavid(cavp->host_usage, *app);
-            bav.reliable = app_version_is_reliable(gavid);
-            bav.trusted = app_version_is_trusted(gavid);
+            bavp->reliable = app_version_is_reliable(gavid);
+            bavp->trusted = app_version_is_trusted(gavid);
         }
-        g_wreq->best_app_versions.push_back(bav);
-        if (!bav.present) return NULL;
-        return &(g_wreq->best_app_versions.back());
+        g_wreq->best_app_versions.push_back(bavp);
+        if (!bavp->present) return NULL;
+        return bavp;
     }
 
     // Go through the client's platforms.
     // Scan the app versions for each platform.
     // Find the one with highest expected FLOPS
     //
-    bav.host_usage.projected_flops = 0;
-    bav.avp = NULL;
+    bavp->host_usage.projected_flops = 0;
+    bavp->avp = NULL;
     bool no_version_for_platform = true;
     for (i=0; i<g_request->platforms.list.size(); i++) {
         PLATFORM* p = g_request->platforms.list[i];
@@ -479,23 +479,23 @@ BEST_APP_VERSION* get_app_version(
 
             // pick the fastest version
             //
-            if (host_usage.projected_flops > bav.host_usage.projected_flops) {
-                bav.host_usage = host_usage;
-                bav.avp = &av;
-                bav.reliable = app_version_is_reliable(av.id);
-                bav.trusted = app_version_is_trusted(av.id);
+            if (host_usage.projected_flops > bavp->host_usage.projected_flops) {
+                bavp->host_usage = host_usage;
+                bavp->avp = &av;
+                bavp->reliable = app_version_is_reliable(av.id);
+                bavp->trusted = app_version_is_trusted(av.id);
             }
         }
     }
-    if (bav.avp) {
+    if (bavp->avp) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] Best version of app %s is ID %d (%.2f GFLOPS)\n",
-                app->name, bav.avp->id, bav.host_usage.projected_flops/1e9
+                app->name, bavp->avp->id, bavp->host_usage.projected_flops/1e9
             );
         }
-        bav.present = true;
-        g_wreq->best_app_versions.push_back(bav);
+        bavp->present = true;
+        g_wreq->best_app_versions.push_back(bavp);
     } else {
         // Here if there's no app version we can use.
         //
@@ -518,9 +518,9 @@ BEST_APP_VERSION* get_app_version(
             );
             add_no_work_message(message);
         }
-        g_wreq->best_app_versions.push_back(bav);
+        g_wreq->best_app_versions.push_back(bavp);
         return NULL;
     }
-    return &(g_wreq->best_app_versions.back());
+    return bavp;
 }
 
