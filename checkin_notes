@@ -1630,3 +1630,10 @@ Rom    6 May 2010
     /
         configure.ac
         version.h
+
+David  11 May 2010
+    - client: enable bandwidth quota limit only if both
+        #MB and #days are nonzero.
+
+    client/
+        cs_prefs.cpp
