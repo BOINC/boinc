@@ -1666,6 +1666,17 @@ David  11 May 2010
 	client/
 		log_flags.cpp
 
+David  12 May 2010
+	- client: fix crashing bug.
+		Deleting records in ~COPROCS() was bad,
+		since we copy HOST_INFO to APP_INIT_DATA,
+		leading to a double deletion.
+
+	client/
+		cpu_sched.cpp
+	lib/
+		coproc.h
+
 Rom    12 May 2010
     - Tag for 6.10.54 release, all platforms
       boinc_core_release_6_10_54

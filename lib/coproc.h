@@ -156,12 +156,7 @@ struct COPROCS {
         // so any structure that includes this needs to do it manually
 
     COPROCS(){}
-    ~COPROCS(){
-        for (unsigned int i=0; i<coprocs.size(); i++) {
-            delete coprocs[i];
-        }
-        coprocs.clear();
-    }
+    ~COPROCS(){}    // don't delete coprocs; else crash in APP_INIT_DATA logic
     void write_xml(MIOFILE& out);
     void get(
         bool use_all, std::vector<std::string> &descs,
@@ -200,6 +195,11 @@ struct COPROCS {
                 cp->usage[j] = 0;
                 cp->pending_usage[j] = 0;
             }
+        }
+    }
+    inline void delete_coprocs() {
+        for (unsigned int i=0; i<coprocs.size(); i++) {
+            delete coprocs[i];
         }
     }
 };

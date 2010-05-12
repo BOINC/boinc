@@ -74,6 +74,10 @@ struct PROC_RESOURCES {
     double ram_left;
     COPROCS coprocs;
 
+    ~PROC_RESOURCES() {
+        coprocs.delete_coprocs();
+    }
+
     // should we stop scanning jobs?
     //
     inline bool stop_scan_cpu() {
