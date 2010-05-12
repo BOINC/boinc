@@ -328,6 +328,11 @@ public:
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
         /// number of usable cpus
     int ncpus;
+        // Act like there are this many CPUs.
+        // By default this is the # of physical CPUs,
+        // but it can be changed in two ways:
+        // - type <ncpus>N</ncpus> in the config file
+        // - type the max_ncpus_pct pref
 private:
     int latest_version(APP*, char*);
     int app_finished(ACTIVE_TASK&);

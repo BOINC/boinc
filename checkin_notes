@@ -1644,6 +1644,18 @@ David  11 May 2010
     lib/
         coproc.h
 
+David  11 May 2010
+    - client: on resume from net bandwidth quota suspend,
+        apply same random backoff to all transfers.
+    - client: when changing ncpus via config file,
+        don't modify host_info.p_ncpus
+    - client: show effective #CPUs separately from physical #
+
+    client/
+        client_state.cpp,h
+        pers_file_xfer.cpp
+        cpu_sched.cpp
+
 Rom    12 May 2010
     - Tag for 6.10.54 release, all platforms
       boinc_core_release_6_10_54
