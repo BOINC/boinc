@@ -408,6 +408,7 @@ BEST_APP_VERSION* get_app_version(
                         "[version] daily quota exceeded\n"
                     );
                 }
+                continue;
             }
             if (reliable_only && !app_version_is_reliable(av.id)) {
                 if (config.debug_version_select) {

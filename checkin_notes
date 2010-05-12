@@ -3582,3 +3582,8 @@ David  12 May 2010
     sched/
         sched_types.h
         sched_version.cpp
+
+David  12 May 2010
+    - scheduler: fix for daily quota enforcement
+
+        sched_version.cpp
