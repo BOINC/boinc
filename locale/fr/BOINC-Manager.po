@@ -4,13 +4,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-02-10 12:48-0700\n"
-"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
+"PO-Revision-Date: 2010-05-12 14:00-0700\n"
+"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -271,14 +271,12 @@ msgid "Display the simple graphical interface."
 msgstr "Affiche l'interface graphique simplifiée"
 
 #: clientgui/AdvancedFrame.cpp:391
-#, fuzzy
 msgid "&Attach to project or account manager..."
 msgstr "Rejoindre un &projet ou un gestionnaire de compte..."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "Attach this computer to a project or account manager"
-msgstr "Rejoindre un projet ou un gestionnaire de compte"
+msgstr "Rejoindre un projet ou un gestionnaire de compte sur cet ordinateur"
 
 #: clientgui/AdvancedFrame.cpp:396
 #, c-format
@@ -291,43 +289,38 @@ msgid "Get current settings from %s"
 msgstr "Récupération des paramètres actuels de %s "
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "&Attach to project..."
 msgstr "Rejoindre un &projet..."
 
 #: clientgui/AdvancedFrame.cpp:411
-#, fuzzy
 msgid "Attach to a project"
 msgstr "Rejoindre un projet"
 
 # Is this a serious real message ???
 #: clientgui/AdvancedFrame.cpp:414
-#, fuzzy, c-format
+#, c-format
 msgid "S&top using %s..."
-msgstr "&Arrêter d'utiliser %s"
+msgstr "&Arrêter d'utiliser %s..."
 
 #: clientgui/AdvancedFrame.cpp:420
-#, fuzzy
 msgid "Remove this computer from account manager control."
-msgstr "Supprimer le client du contrôle du gestionnaire de compte."
+msgstr "Enlever cet ordinateur du contrôle du gestionnaire de compte."
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Display and network &options..."
-msgstr ""
+msgstr "&Options d'affichage et de réseau..."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Configure GUI options and proxy settings"
 msgstr "Configuration de l'interface graphique et des paramètres du proxy"
 
 #: clientgui/AdvancedFrame.cpp:430
-#, fuzzy
 msgid "Computing &preferences..."
-msgstr "&Préférences..."
+msgstr "&Préférences de calcul..."
 
 #: clientgui/AdvancedFrame.cpp:431
-#, fuzzy
 msgid "Configure computing preferences"
-msgstr "Configurer les préférences locales"
+msgstr "Configurer les préférences de calcul"
 
 #: clientgui/AdvancedFrame.cpp:439
 msgid "&Run always"
@@ -342,9 +335,8 @@ msgid "Run based on &preferences"
 msgstr "Calculer selon les &préférences"
 
 #: clientgui/AdvancedFrame.cpp:445
-#, fuzzy
 msgid "Allow work according to preferences"
-msgstr "Autorise le travail selon vos préférences"
+msgstr "Autorise le travail selon les préférences"
 
 #: clientgui/AdvancedFrame.cpp:449
 msgid "&Suspend"
@@ -360,50 +352,43 @@ msgstr "Toujours utiliser le GPU"
 
 #: clientgui/AdvancedFrame.cpp:476
 msgid "Allow GPU work regardless of preferences"
-msgstr "Autorise les calculs sur le GPU sans tenir compte des préférences"
+msgstr "Autorise le calcul GPU sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Use GPU based on preferences"
-msgstr "Utiliser le GPU selon les &préférences"
+msgstr "Utiliser le GPU selon les préférences"
 
 #: clientgui/AdvancedFrame.cpp:481
-#, fuzzy
 msgid "Allow GPU work according to preferences"
-msgstr "Autoriser les calculs sur le GPU selon vos préférences"
+msgstr "Autoriser le calcul GPU selon les préférences"
 
 #: clientgui/AdvancedFrame.cpp:485
-#, fuzzy
 msgid "Suspend GPU"
-msgstr "Suspendre"
+msgstr "Suspendre le GPU"
 
 #: clientgui/AdvancedFrame.cpp:486
 msgid "Stop GPU work regardless of preferences"
 msgstr "Arrête les calculs du GPU sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:510
-#, fuzzy
 msgid "Network activity always available"
-msgstr "&Activité réseau toujours disponible"
+msgstr "Activité réseau toujours disponible"
 
 #: clientgui/AdvancedFrame.cpp:511
 msgid "Allow network activity regardless of preferences"
 msgstr "Autoriser l'activité réseau sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:515
-#, fuzzy
 msgid "Network activity based on preferences"
-msgstr "Activité réseau selon les &préférences"
+msgstr "Activité réseau selon les préférences"
 
 #: clientgui/AdvancedFrame.cpp:516
-#, fuzzy
 msgid "Allow network activity according to preferences"
-msgstr "Autoriser l'activité réseau selon vos préférences"
+msgstr "Autoriser l'activité réseau selon les préférences"
 
 #: clientgui/AdvancedFrame.cpp:520
-#, fuzzy
 msgid "Network activity suspended"
-msgstr "&Activité réseau suspendue"
+msgstr "Activité réseau suspendue"
 
 #: clientgui/AdvancedFrame.cpp:521
 msgid "Stop BOINC network activity"
@@ -423,9 +408,8 @@ msgid "Shut down connected client..."
 msgstr "Arrêter le client connecté..."
 
 #: clientgui/AdvancedFrame.cpp:542
-#, fuzzy
 msgid "Shut down the currently connected client"
-msgstr "Arrêter le client qui est actuellement connecté"
+msgstr "Arrêter le client actuellement connecté"
 
 #: clientgui/AdvancedFrame.cpp:546
 msgid "Run CPU &benchmarks"
@@ -436,14 +420,12 @@ msgid "Runs BOINC CPU benchmarks"
 msgstr "Effectue les tests de puissance BOINC de votre CPU"
 
 #: clientgui/AdvancedFrame.cpp:551
-#, fuzzy
 msgid "Do network communication"
-msgstr "Lancer les &communications réseaux"
+msgstr "Relancer les communications réseaux"
 
 #: clientgui/AdvancedFrame.cpp:552
-#, fuzzy
 msgid "Do all pending network communication"
-msgstr "Lancer toutes les communications réseau en attente."
+msgstr "Relancer toutes les communications réseau en attente"
 
 #: clientgui/AdvancedFrame.cpp:556
 msgid "Read config file"
