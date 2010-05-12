@@ -668,7 +668,7 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
             strMessage += _("Computing is enabled");
             break;
         default:
-            strMessage += _("Computing is suspended -");
+            strMessage += _("Computing is suspended - ");
             strMessage += suspend_reason_wxstring(status.task_suspend_reason);
             break;
         }
@@ -680,10 +680,11 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
                 strMessage += _("GPU computing is enabled");
                 break;
             default:
-                strMessage += _("GPU computing is suspended -");
+                strMessage += _("GPU computing is suspended - ");
                 strMessage += suspend_reason_wxstring(status.gpu_suspend_reason);
                 break;
             }
+            strMessage += wxT(".\n");
         }
 
         switch(status.network_suspend_reason) {
@@ -691,7 +692,7 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
             strMessage += _("Network is enabled");
             break;
         default:
-            strMessage += _("Network is suspended -");
+            strMessage += _("Network is suspended - ");
             strMessage += suspend_reason_wxstring(status.network_suspend_reason);
             break;
         }
