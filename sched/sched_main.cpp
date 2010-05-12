@@ -482,7 +482,7 @@ int main(int argc, char** argv) {
         log_request_headers(length);
     }
 
-    if (check_stop_sched()) {
+    if (!debug_log && check_stop_sched()) {
         send_message("Project is temporarily shut down for maintenance", 3600);
         goto done;
     }
