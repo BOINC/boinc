@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-05-11 12:59-0700\n"
+"PO-Revision-Date: 2010-05-12 00:22-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -625,146 +625,159 @@ msgstr "Sähköpostitiedotteen saamiseksi, %1muokkaa yhteisöasetuksia%2"
 
 #: ../inc/prefs.inc:68
 msgid "Processor usage"
-msgstr ""
+msgstr "Prosessorin käyttö"
 
 #: ../inc/prefs.inc:71
 msgid "Suspend work while computer is on battery power? %1(matters only for portable computers)%2"
 msgstr ""
+"Hyllytä työ tietokoneen ollessa akkukäytöllä? %1(koskee vain kannettavia)%2"
 
 #: ../inc/prefs.inc:77
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "Hyllytä työ kun tietokone on käytössä?"
 
 #: ../inc/prefs.inc:81
 msgid "Suspend GPU work while computer is in use? %1Enforced by version 6.7+%2"
 msgstr ""
+"Hyllytä näytönohjaimen (GPU) työ kun tietokone on käytössä? %1versiosta "
+"6.7+%2"
 
 #: ../inc/prefs.inc:86
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
+msgstr "\"Käytössä\" tarkoittaa hiiren/näppäimistön käyttöä"
 
 #: ../inc/prefs.inc:89
 msgid "Suspend work if no mouse/keyboard activity in last %1(Needed to enter low-power mode on some computers)%2"
 msgstr ""
+"Hyllytä työ jos hiirtä/näppäimistöä  ei ole käytetty %1(tarvitaan joissakin "
+"tietokoneissa siirryttäessä virransäästötilaan)%2"
 
 #: ../inc/prefs.inc:96
 msgid "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+%2"
 msgstr ""
+"Hyllytä työ jos suorittimen käyttö on yli %1 0 tarkoittaa ei "
+"rajoitusta<br>versiosta 6.10.30+%2"
 
 #: ../inc/prefs.inc:101
 msgid "Do work only between the hours of"
-msgstr ""
+msgstr "Suorita vain tuntien aikana"
 
 #: ../inc/prefs.inc:102
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(ei rajoitusta jos ovat yhtä suuret)"
 
 #: ../inc/prefs.inc:105
 msgid "Leave tasks in memory while suspended? %1(suspended tasks will consume swap space if 'yes')%2"
 msgstr ""
+"Jätä tehtävät muistiin hyllytyksen ajaksi? %1(hyllytetyt työt vievät "
+"näennäismuistia jos valinta on \"kyllä\")%2"
 
 #: ../inc/prefs.inc:112
 msgid "Switch between tasks every %1(recommended: 60 minutes)%2"
-msgstr ""
+msgstr "Vaihda tehtävien välillä %1(suositus: 60 minuutin välein)%2"
 
 #: ../inc/prefs.inc:119
 msgid "Confirm before connecting to Internet? %1(matters only if you have a modem, ISDN or VPN connection)%2"
 msgstr ""
+"Vahvista ennen internetyhteyden avaamista? %1(vaikutusta jos on modeemi-, "
+"ISDN- tai VPN-yhteys)%2"
 
 #: ../inc/prefs.inc:126
 msgid "Disconnect when done? %1(matters only if you have a modem, ISDN or VPN connection)%2"
-msgstr ""
+msgstr "Lopeta yhteys? %1(vaikutusta jos on modeemi-, ISDN- tai VPN-yhteys)%2"
 
 #: ../inc/prefs.inc:133
 msgid "Computer is connected to the Internet about every %1(Leave blank or 0 if always connected.%2 BOINC will try to maintain at least this much work.)%3"
 msgstr ""
+"Kuinka usein tietokone on nettiyhteydessä %1(jätä tyhjäksi tai 0 jos yhteys "
+"on aina.%2 BOINC yrittää pitää vähintään tämän verran työtä.)%3"
 
 #: ../inc/prefs.inc:140
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "Pidä lisäksi työtä tämän verran"
 
 #: ../inc/prefs.inc:144
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+%2"
-msgstr ""
+msgstr "Monisuoritinkoneissa, käytä enintään %1 versiosta 6.1+%2"
 
 #: ../inc/prefs.inc:149
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% suorittimista"
 
 #: ../inc/prefs.inc:150
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "Monisuoritinkoneissa käytä enintään"
 
 #: ../inc/prefs.inc:151
 msgid "processors"
-msgstr ""
+msgstr "suorittimista"
 
 #: ../inc/prefs.inc:152
 #: ../inc/prefs.inc:160
 msgid "Use at most"
-msgstr ""
+msgstr "Käytä enintään"
 
 #: ../inc/prefs.inc:155
 msgid "Use at most %1 (Can be used to reduce CPU heat)%2"
-msgstr ""
+msgstr "Käytä enintään %1 (vähentää suorittimen lämpöä)%2"
 
 #: ../inc/prefs.inc:161
 msgid "percent of CPU time"
-msgstr ""
+msgstr "prosenttia suoritinajasta"
 
 #: ../inc/prefs.inc:162
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Aikaväli tarkistuspisteen kirjoittamiselle levylle"
 
 #: ../inc/prefs.inc:163
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "Levyn ja muistin käyttö"
 
 #: ../inc/prefs.inc:164
 msgid "Leave at least"
-msgstr ""
+msgstr "Jätä vähintään"
 
 #: ../inc/prefs.inc:166
 #, php-format
 msgid "(Values smaller than %s are ignored)"
-msgstr ""
+msgstr "(Arvoa %s pienempiä ei huomioida)"
 
 #: ../inc/prefs.inc:168
 #, php-format
 msgid "% of total disk space"
-msgstr ""
+msgstr "% levyn kokonaiskapasiteetistä"
 
 #: ../inc/prefs.inc:169
 #, php-format
 msgid "% of page file (swap space)"
-msgstr ""
+msgstr "% sivutustiedostosta (näennäismuistista)"
 
 #: ../inc/prefs.inc:170
 #, php-format
 msgid "% of memory when computer is in use"
-msgstr ""
+msgstr "% muistista tietokoneen ollessa käytössä"
 
 #: ../inc/prefs.inc:171
 #, php-format
 msgid "% of memory when computer is not in use"
-msgstr ""
+msgstr "% muistista tietokoneen ollessa jouten"
 
 #: ../inc/prefs.inc:172
 msgid "Network usage"
-msgstr ""
+msgstr "Verkon käyttö"
 
 #: ../inc/prefs.inc:173
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "Suurin latausnopeus:"
 
 #: ../inc/prefs.inc:174
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "Suurin lähetysnopeus:"
 
 #: ../inc/prefs.inc:175
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Verkkoyhteyttä käytetään vain tunteina"
 
 #: ../inc/prefs.inc:178
 msgid "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC.%3"
@@ -772,11 +785,11 @@ msgstr ""
 
 #: ../inc/prefs.inc:186
 msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Käytä ATI-näytönohjainta jos on %1(versiosta 6.10+)%2"
 
 #: ../inc/prefs.inc:193
 msgid "Use NVIDIA GPU if present %1(enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Käytä NVIDIA-näytönohjainta jos on %1(versiosta 6.10+)%2"
 
 #: ../inc/prefs.inc:200
 msgid "Use CPU %1(enforced by 6.10+ clients)%2"
@@ -797,6 +810,7 @@ msgstr ""
 #: ../inc/prefs.inc:219
 msgid "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
+"Nämä asetukset vaikuttavat kaikkiin BOINC-projekteihin, joihin osallistut."
 
 #: ../inc/prefs.inc:222
 msgid "%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric."
@@ -804,7 +818,7 @@ msgstr "%1Asetusten päivitys ei onnistunut.%2 Punaisella merkityt arvot ovat vi
 
 #: ../inc/prefs.inc:277
 msgid "bad venue: %1"
-msgstr ""
+msgstr "väärä paikka: %1"
 
 #: ../inc/prefs.inc:283
 msgid "bad subset: %1"
@@ -828,7 +842,7 @@ msgstr ""
 #: ../inc/prefs.inc:1327
 #: ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
-msgstr ""
+msgstr "kyllä"
 
 #: ../inc/prefs.inc:688
 #: ../inc/prefs.inc:691
@@ -848,29 +862,29 @@ msgstr ""
 #: ../inc/prefs.inc:1329
 #: ../project.sample/project_specific_prefs.inc:76
 msgid "no"
-msgstr ""
+msgstr "ei"
 
 #: ../inc/prefs.inc:696
 #: ../inc/prefs.inc:847
 #: ../inc/prefs.inc:850
 msgid "no limit"
-msgstr ""
+msgstr "ei rajoitusta"
 
 #: ../inc/prefs.inc:721
 #: ../user/team_admins.php:77
 msgid "Add"
-msgstr ""
+msgstr "Lisää"
 
 #: ../inc/prefs.inc:722
 #: ../inc/prefs.inc:724
 msgid "Edit"
-msgstr ""
+msgstr "Muokkaa"
 
 #: ../inc/prefs.inc:723
 #: ../inc/prefs.inc:955
 #: ../user/team_admins.php:32
 msgid "Remove"
-msgstr ""
+msgstr "Poista"
 
 #: ../inc/prefs.inc:758
 #: ../inc/prefs.inc:760
@@ -879,53 +893,53 @@ msgstr ""
 #: ../inc/prefs.inc:1118
 #: ../inc/prefs.inc:1136
 msgid "minutes"
-msgstr ""
+msgstr "minuuttia"
 
 #: ../inc/prefs.inc:772
 msgid "GB disk space"
-msgstr ""
+msgstr "Gt levytilaa"
 
 #: ../inc/prefs.inc:773
 msgid "GB disk space free"
-msgstr ""
+msgstr "Gt vapaata levytilaa"
 
 #: ../inc/prefs.inc:775
 #: ../inc/prefs.inc:1195
 msgid "seconds"
-msgstr ""
+msgstr "sekuntia"
 
 #: ../inc/prefs.inc:781
 #: ../inc/prefs.inc:782
 #: ../inc/prefs.inc:1222
 #: ../inc/prefs.inc:1228
 msgid "days"
-msgstr ""
+msgstr "päivää"
 
 #: ../inc/prefs.inc:803
 #: ../inc/prefs.inc:806
 #: ../inc/prefs.inc:819
 msgid "%1 minutes"
-msgstr ""
+msgstr "%1 minuuttia"
 
 #: ../inc/prefs.inc:811
 #: ../inc/prefs.inc:852
 msgid "(no restriction)"
-msgstr ""
+msgstr "(ei rajoituksia)"
 
 #: ../inc/prefs.inc:815
 #: ../inc/prefs.inc:856
 #: ../inc/prefs.inc:1129
 #: ../inc/prefs.inc:1261
 msgid "and"
-msgstr ""
+msgstr "ja"
 
 #: ../inc/prefs.inc:826
 msgid "%1 GB disk space"
-msgstr ""
+msgstr "%1 Gt levytilasta"
 
 #: ../inc/prefs.inc:834
 msgid "%1 GB disk space free"
-msgstr ""
+msgstr "%1 Gt vapaasta levytilasta"
 
 #: ../inc/prefs.inc:865
 msgid "Resource share %1If you participate in multiple BOINC projects, this is the proportion of your resources used by %2%3"
@@ -951,7 +965,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:945
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Erilliset asetukset paikalle %1"
 
 #: ../inc/prefs.inc:955
 #: ../inc/prefs.inc:1033
@@ -960,26 +974,26 @@ msgstr "Muokkaa asetuksia"
 
 #: ../inc/prefs.inc:959
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Lisää erilliset asetukset paikalle %1"
 
 #: ../inc/prefs.inc:968
 #: ../inc/prefs.inc:1015
 msgid "(Switch View)"
-msgstr ""
+msgstr "(vaihda näkymää)"
 
 #: ../inc/prefs.inc:970
 #: ../inc/prefs.inc:1018
 msgid "Combined preferences"
-msgstr ""
+msgstr "Yhdistetyt asetukset"
 
 #: ../inc/prefs.inc:975
 msgid "Project specific settings"
-msgstr ""
+msgstr "Projektikohtaiset asetukset"
 
 #: ../inc/prefs.inc:984
 #: ../inc/prefs.inc:1027
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Ensisijaiset (oletus) asetukset"
 
 #: ../inc/prefs.inc:994
 #: ../user/add_venue.php:43
@@ -988,13 +1002,16 @@ msgstr ""
 #: ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
 msgid "Edit %1 preferences"
-msgstr ""
+msgstr "Muokkaa %1 asetuksia"
 
 #: ../inc/prefs.inc:1008
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers attached to multiple projects, the most recently modified preferences will be used."
 msgstr ""
+"Nämä vaikuttavat kaikkiin BOINC-projekteihin, joihin osallistut.<br>\n"
+"             Tuoreimpia asetuksia käytetään tietokoneissa, jotka ovat "
+"useissa projekteissa."
 
 #: ../inc/prefs.inc:1012
 msgid "Preferences last modified:"
@@ -1704,11 +1721,11 @@ msgstr "Mistä lähtien"
 
 #: ../inc/user.inc:142
 msgid "Computing and credit"
-msgstr ""
+msgstr "Laskenta ja pisteet"
 
 #: ../inc/user.inc:146
 msgid "Pending credit"
-msgstr ""
+msgstr "Pisteitä odottavat"
 
 #: ../inc/user.inc:146
 #: ../inc/user.inc:148
@@ -1718,7 +1735,7 @@ msgstr ""
 #: ../inc/user.inc:393
 #: ../user/view_profile.php:54
 msgid "View"
-msgstr ""
+msgstr "Katso"
 
 #: ../inc/user.inc:148
 msgid "Computers on this account"
@@ -1759,7 +1776,7 @@ msgstr "Tilastot kännykkääsi"
 
 #: ../inc/user.inc:197
 msgid "Account information"
-msgstr ""
+msgstr "Tilin tiedot"
 
 #: ../inc/user.inc:199
 #: ../user/edit_passwd_form.php:46
@@ -1779,7 +1796,7 @@ msgstr "Postinumero"
 #: ../inc/user.inc:206
 #: ../inc/user.inc:309
 msgid "%1 member since"
-msgstr ""
+msgstr "%1 jäsen alkaen"
 
 #: ../inc/user.inc:208
 msgid "Change"
@@ -1807,7 +1824,7 @@ msgstr "Käyttäjä-ID"
 
 #: ../inc/user.inc:210
 msgid "Used in community functions"
-msgstr ""
+msgstr "Käytetään yhteisötoiminnoissa"
 
 #: ../inc/user.inc:212
 msgid "Account key"
@@ -1828,15 +1845,15 @@ msgstr "Sallii %1rajoitetun pääsyn%2 tiliisi"
 
 #: ../inc/user.inc:216
 msgid "Preferences"
-msgstr ""
+msgstr "Asetukset"
 
 #: ../inc/user.inc:219
 msgid "When and how BOINC uses your computer"
-msgstr ""
+msgstr "Milloin ja miten BOINC käyttää tietokonettasi"
 
 #: ../inc/user.inc:220
 msgid "Computing preferences"
-msgstr ""
+msgstr "Laskenta-asetukset"
 
 #: ../inc/user.inc:223
 msgid "Message boards and private messages"
@@ -1853,7 +1870,7 @@ msgstr "Tämän projektin asetukset"
 #: ../inc/user.inc:228
 #: ../user/prefs.php:33
 msgid "%1 preferences"
-msgstr ""
+msgstr "%1 asetukset"
 
 #: ../inc/user.inc:234
 #: ../user/sample_index.php:66
@@ -1882,7 +1899,7 @@ msgstr ""
 
 #: ../inc/user.inc:256
 msgid "Notifications"
-msgstr ""
+msgstr "Ilmoitukset"
 
 #: ../inc/user.inc:263
 msgid "Quit team"
