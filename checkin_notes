@@ -1696,3 +1696,11 @@ David  12 May 2010
         coproc_detect.cpp
     lib/
         coproc.h
+
+Rom    12 May 2010
+    - Tag for 6.10.55 release, all platforms
+      boinc_core_release_6_10_55
+
+    /
+        configure.ac
+        version.h
