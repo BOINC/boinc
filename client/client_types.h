@@ -301,6 +301,7 @@ struct PROJECT {
         // if nonzero, send time stats log from that point on
     int send_job_log;
         // if nonzero, send this project's job log from that point on
+    bool send_full_workload;
 
     bool suspended_via_gui;
     bool dont_request_more_work; 
@@ -451,8 +452,8 @@ struct APP_VERSION {
     char graphics_exec_file[256];
     double max_working_set_size;
         // max working set of tasks using this app version.
-        // temp var used in schedule_cpus()
-    //double temp_dcf;
+
+    int index;  // temp var for make_scheduler_request()
 
     APP_VERSION(){}
     ~APP_VERSION(){}

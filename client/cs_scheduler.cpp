@@ -291,7 +291,36 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f, "</job_log>\n");
     }
 
-    // send names of results in progress for this project
+    // send descriptions of app versions
+    //
+    fprintf(f, "<app_versions>\n");
+    for (i=0; i<app_versions.size(); i++) {
+        APP_VERSION* avp = app_versions[i];
+        fprintf(f,
+            "    <app_version>\n"
+            "        <app_name>%s</app_name>\n"
+            "        <version_num>%d</version_num>\n"
+            "        <platform>%s</platform>\n"
+            "        <plan_class>%s</plan_class>\n"
+            "        <avg_ncpus>%f</avg_ncpus>\n"
+            "        <ncudas>%f</ncudas>\n"
+            "        <natis>%f</natis>\n"
+            "        <flops>%f</flops>\n"
+            "    </app_version>\n",
+            avp->app->name,
+            avp->version_num,
+            avp->platform,
+            avp->plan_class,
+            avp->avg_ncpus,
+            avp->ncudas,
+            avp->natis,
+            avp->flops
+        );
+        avp->index = i;
+    }
+    fprintf(f, "</app_versions>\n");
+
+    // send descriptions of results in progress for this project
     //
     fprintf(f, "<other_results>\n");
     for (i=0; i<results.size(); i++) {
@@ -300,35 +329,54 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             fprintf(f,
                 "    <other_result>\n"
                 "        <name>%s</name>\n"
-                "        <plan_class>%s</plan_class>\n"
-                "    </other_result>\n",
+                "        <app_version>%d</app_version>\n",
                 rp->name,
-                rp->plan_class
+                rp->avp->index
+            );
+            // the following is for backwards compatibility w/ old schedulers
+            //
+            if (strlen(rp->avp->plan_class)) {
+                fprintf(f,
+                    "        <plan_class>%d</plan_class>\n",
+                    rp->avp->plan_class
+                );
+            }
+            fprintf(f,
+                "    </other_result>\n"
             );
         }
     }
     fprintf(f, "</other_results>\n");
 
-    // send summary of in-progress results
-    // to give scheduler info on our CPU commitment
+    // if requested by project, send summary of all in-progress results
+    // (for EDF simulation by scheduler)
     //
-    fprintf(f, "<in_progress_results>\n");
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
-        double x = rp->estimated_time_remaining(false);
-        if (x == 0) continue;
-        fprintf(f,
-            "    <ip_result>\n"
-            "        <name>%s</name>\n"
-            "        <report_deadline>%.0f</report_deadline>\n"
-            "        <cpu_time_remaining>%.2f</cpu_time_remaining>\n"
-            "    </ip_result>\n",
-            rp->name,
-            rp->report_deadline,
-            x
-        );
+    if (p->send_full_workload) {
+        fprintf(f, "<in_progress_results>\n");
+        for (i=0; i<results.size(); i++) {
+            rp = results[i];
+            double x = rp->estimated_time_remaining(false);
+            if (x == 0) continue;
+            fprintf(f,
+                "    <ip_result>\n"
+                "        <name>%s</name>\n"
+                "        <report_deadline>%.0f</report_deadline>\n"
+                "        <time_remaining>%.2f</time_remaining>\n"
+                "        <avg_ncpus>%f</avg_ncpus>\n"
+                "        <ncudas>%f</ncudas>\n"
+                "        <natis>%f</natis>\n"
+                "    </ip_result>\n",
+                rp->name,
+                rp->report_deadline,
+                x,
+                rp->avp->avg_ncpus,
+                rp->avp->ncudas,
+                rp->avp->natis
+            );
+        }
+        fprintf(f, "</in_progress_results>\n");
     }
-    fprintf(f, "</in_progress_results>\n");
+
     fprintf(f, "</scheduler_request>\n");
 
     fclose(f);
@@ -917,6 +965,9 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     }
     if (sr.send_file_list) {
         project->send_file_list = true;
+    }
+    if (sr.send_full_workload) {
+        project->send_full_workload = true;
     }
     project->send_time_stats_log = sr.send_time_stats_log;
     project->send_job_log = sr.send_job_log;

@@ -3608,3 +3608,34 @@ David  13 May 2010
 
     sched/
         sched_version.cpp
+
+David  13 May 2010
+    - client and scheduler RPC:
+        Add more info to "project in-progress job list".
+        Old: entries included only job name and app plan class;
+            this was used to resend lost jobs,
+            and to count the # of CPU and GPU jobs.
+            But it's not usable e.g. for per-app in-progress limits.
+        New: send the client's app versions (including usage info)
+            and for each in-progress job, which app version it uses.
+            (This reduces request-message size compared with sending
+            usage info and app name per job).
+    - client and scheduler RPC:
+        Add more info to "all in-progress job list", and make it optional.
+        This list is used by schedulers that do deadline checks
+        using EDF workload simulation.
+        Old: the list is always sent, and it contains no info
+            about job resource usage
+        New: the list is sent only if the scheduler asked for it
+            in a previous reply,
+            and each entry now contains resource usage (CPU, GPUs)
+        Note: the scheduler's EDF simulator is outdated;
+            it doesn't know about GPU jobs.
+            But we may as well get the info in place.
+
+    client/
+        client_types.cpp,h
+        cs_scheduler.cpp
+        scheduler_op.cpp
+    sched/
+        sched_config.h
