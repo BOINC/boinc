@@ -42,6 +42,8 @@
 using std::string;
 using std::vector;
 
+//#define MEASURE_AVAILABLE_RAM
+
 static bool in_vector(int n, vector<int>& v) {
     for (unsigned int i=0; i<v.size(); i++) {
         if (v[i] == n) return true;
@@ -58,10 +60,9 @@ void segv_handler(int) {
 #endif
 
 void COPROC::print_available_ram() {
-    static double last_time = 0;
-
-    if (gstate.now - last_time < 60) return;
-    last_time = gstate.now;
+#ifdef MEASURE_AVAILABLE_RAM
+    if (gstate.now - last_print_time < 60) return;
+    last_print_time = gstate.now;
 
     for (int i=0; i<count; i++) {
         if (available_ram_unknown[i]) {
@@ -81,6 +82,7 @@ void COPROC::print_available_ram() {
             }
         }
     }
+#endif
 }
 
 void COPROCS::get(
@@ -460,6 +462,7 @@ COPROC_CUDA* fake_cuda(COPROCS& coprocs, double ram, int count) {
 // If this fails, set "available_ram_unknown"
 //
 void COPROC_CUDA::get_available_ram() {
+#ifdef MEASURE_AVAILABLE_RAM
     int device, i, retval;
     unsigned int memfree, memtotal;
     unsigned int ctx;
@@ -509,6 +512,11 @@ void COPROC_CUDA::get_available_ram() {
         available_ram[i] = (double) memfree;
         available_ram_unknown[i] = false;
     }
+#else
+    for (int i=0; i<count; i++) {
+        available_ram[i] = prop.totalGlobalMem;
+    }
+#endif
 }
 
 // check whether each GPU is running a graphics app (assume yes)
@@ -838,6 +846,7 @@ COPROC_ATI* fake_ati(COPROCS& coprocs, double ram, int count) {
 }
 
 void COPROC_ATI::get_available_ram() {
+#ifdef MEASURE_AVAILABLE_RAM
     CALdevicestatus st;
     CALdevice dev;
     int i, retval;
@@ -893,4 +902,9 @@ void COPROC_ATI::get_available_ram() {
         (*__calDeviceClose)(dev);
     }
     (*__calShutdown)();
+#else
+    for (int i=0; i<count; i++) {
+        available_ram[i] = attribs.localRAM*MEGA;
+    }
+#endif
 }

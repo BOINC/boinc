@@ -123,6 +123,8 @@ struct COPROC {
         // couldn't get available RAM; don't start new apps on this instance
     double available_ram_fake[MAX_COPROC_INSTANCES];
 
+    double last_print_time;
+
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
 #endif
