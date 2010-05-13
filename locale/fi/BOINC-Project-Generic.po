@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-05-12 00:22-0700\n"
+"PO-Revision-Date: 2010-05-12 16:23+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -405,19 +405,19 @@ msgstr "Sulauta tämä tietokone"
 
 #: ../inc/host.inc:211
 msgid "Computer info"
-msgstr ""
+msgstr "Tietokoneen tiedot"
 
 #: ../inc/host.inc:212
 #: ../inc/host.inc:616
 #: ../inc/team.inc:344
 #: ../user/top_users.php:46
 msgid "Rank"
-msgstr ""
+msgstr "Sija"
 
 #: ../inc/host.inc:216
 #: ../inc/host.inc:619
 msgid "Avg. credit"
-msgstr ""
+msgstr "Keskim. pisteet"
 
 #: ../inc/host.inc:221
 #: ../inc/team.inc:95
@@ -433,7 +433,7 @@ msgstr ""
 #: ../user/top_users.php:51
 #: ../user/top_users.php:56
 msgid "Recent average credit"
-msgstr ""
+msgstr "Lähiajan keskimääräiset pisteet"
 
 #: ../inc/host.inc:226
 msgid "BOINC version"
@@ -442,24 +442,24 @@ msgstr "BOINC versio"
 #: ../inc/host.inc:227
 #: ../inc/host.inc:624
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: ../inc/host.inc:228
 #: ../inc/host.inc:625
 msgid "GPU"
-msgstr ""
+msgstr "GPU (näytönohjain)"
 
 #: ../inc/host.inc:229
 msgid "Operating system"
-msgstr ""
+msgstr "Käyttöjärjestelmä"
 
 #: ../inc/host.inc:281
 msgid "(%1 processors)"
-msgstr ""
+msgstr "(%1 prosessoria)"
 
 #: ../inc/host.inc:301
 msgid "Details"
-msgstr ""
+msgstr "Lisätiedot"
 
 #: ../inc/host.inc:306
 msgid "Cross-project stats:"
@@ -782,6 +782,9 @@ msgstr "Verkkoyhteyttä käytetään vain tunteina"
 #: ../inc/prefs.inc:178
 msgid "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC.%3"
 msgstr ""
+"Ohitetaanko kuvatiedoston verifiointi? %1 Merkitse tämä VAIN jos "
+"operaattorisi muokkaa kuvatiedostoja (kuten UMTS tekee). %2 BOINCin "
+"turvallisuus heikkenee jos verifiointi ohitetaan.%3"
 
 #: ../inc/prefs.inc:186
 msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
@@ -797,15 +800,17 @@ msgstr ""
 
 #: ../inc/prefs.inc:208
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "Kbittiä/sek"
 
 #: ../inc/prefs.inc:209
 msgid "KB/s"
-msgstr ""
+msgstr "Kt/s"
 
 #: ../inc/prefs.inc:212
 msgid "Run test applications? %1This helps us develop applications, but may cause jobs to fail on your computer%2"
 msgstr ""
+"Ajetaanko testisovellukset? %1Se helpottaa sovellusten kehittämistä, mutta "
+"voi aiheuttaa ongelmia töiden kanssa%2"
 
 #: ../inc/prefs.inc:219
 msgid "These preferences apply to all the BOINC projects in which you participate."
@@ -944,6 +949,8 @@ msgstr "%1 Gt vapaasta levytilasta"
 #: ../inc/prefs.inc:865
 msgid "Resource share %1If you participate in multiple BOINC projects, this is the proportion of your resources used by %2%3"
 msgstr ""
+"Resurssien jako %1Jos osallistut useampaan BOINC-projektiin, tämä on "
+"resurssimäärä, jonka %2 saa%3"
 
 #: ../inc/prefs.inc:911
 msgid "Emails will be sent from %1; make sure your spam filter accepts this address."
@@ -1027,7 +1034,7 @@ msgstr "Päivitä asetukset"
 
 #: ../inc/prefs.inc:1167
 msgid "Gbytes"
-msgstr ""
+msgstr "Gigatavua"
 
 #: ../inc/prefs.inc:1181
 msgid "Gbytes free"
@@ -1035,7 +1042,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:1282
 msgid "Resource share"
-msgstr ""
+msgstr "Resurssien jako"
 
 #: ../inc/prefs.inc:1284
 msgid ""
@@ -1044,6 +1051,10 @@ msgid ""
 "            BOINC projects with resource shares of 100 and 200, the first\n"
 "            will get 1/3 of your resources and the second will get 2/3."
 msgstr ""
+"Määrittää tietokoneesi resusrssit tälle projektille.\n"
+"            Esim. jos osallistut kahteen BOINC-projektiin\n"
+"            ja resurssit on jaettu suhteessa 100 ja 200, ensimmäinen\n"
+"            saa 1/3 ja toinen saa 2/3 resursseista."
 
 #: ../inc/prefs.inc:1338
 #: ../inc/prefs.inc:1347
@@ -1111,7 +1122,7 @@ msgstr "Anonyymi alusta"
 
 #: ../inc/result.inc:32
 msgid "Not in DB"
-msgstr ""
+msgstr "Ei tietokannassa"
 
 #: ../inc/result.inc:70
 msgid "pending"
@@ -1281,7 +1292,7 @@ msgstr ""
 
 #: ../inc/result.inc:200
 msgid "Not necessary"
-msgstr ""
+msgstr "Ei tarvita"
 
 #: ../inc/result.inc:201
 msgid "Workunit error - check skipped"
@@ -1313,7 +1324,7 @@ msgstr ""
 
 #: ../inc/result.inc:227
 msgid "WU cancelled"
-msgstr ""
+msgstr "Työpaketti peruttu"
 
 #: ../inc/result.inc:231
 msgid "Unrecognized Error: %1"
@@ -1439,11 +1450,11 @@ msgstr "sovellusversio"
 
 #: ../inc/result.inc:406
 msgid "Previous"
-msgstr ""
+msgstr "Edellinen"
 
 #: ../inc/result.inc:415
 msgid "Next"
-msgstr ""
+msgstr "Seuraava"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -2032,7 +2043,7 @@ msgstr "Postinumero"
 #: ../user/account_finish.php:50
 #: ../user/create_account_form.php:100
 msgid "Optional"
-msgstr ""
+msgstr "Valinnainen"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
@@ -2170,7 +2181,7 @@ msgstr "Lähettämäsi kuvatiedoston tyyppiä ei tueta."
 
 #: ../user/create_profile.php:161
 msgid "Your %1profile%2 lets you share your opinions and background with the %3 community."
-msgstr ""
+msgstr "%1Profiilisi%2 avulla voit jakaa mielipiteitäsi %3 -yhteisön kanssa."
 
 #: ../user/create_profile.php:208
 msgid "Your ReCaptcha response was not correct.  Please try again."
@@ -2222,7 +2233,7 @@ msgstr ""
 
 #: ../user/download_network.php:28
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Sovelluksia voi ladata useista kategorioista."
 
 #: ../user/download_network.php:31
 msgid "These applications are not endorsed by %1 and you use them at your own risk."
@@ -2928,7 +2939,7 @@ msgstr ""
 
 #: ../user/profile_menu.php:59
 msgid "View the %1User Picture Gallery%2."
-msgstr ""
+msgstr "Katso %1käyttäjän kuvagalleriaa%2."
 
 #: ../user/profile_menu.php:60
 msgid "Browse profiles %1by country%2."
@@ -4117,12 +4128,14 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Aja vain valittuja sovelluksia"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid "If no work for selected applications is available, accept work from other applications?"
 msgstr ""
+"Jos valitulle sovellukselle ei ole työtä, hyväksytäänkö työtä muille "
+"sovelluksille?"
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(kaikki sovellukset)"
