@@ -24,7 +24,7 @@
 #include "stdwx.h"
 #endif
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW32__)
 #define snprintf    _snprintf
 #define strdate     _strdate
 #define strtime     _strtime
