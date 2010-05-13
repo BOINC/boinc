@@ -75,7 +75,7 @@ bool need_this_resource(
 static DB_HOST_APP_VERSION* lookup_host_app_version(int gavid) {
     for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
         DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
-        if (hav.reliable) return &hav;
+        if (hav.app_version_id == gavid) return &hav;
     }
     return NULL;
 }

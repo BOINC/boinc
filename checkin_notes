@@ -3602,3 +3602,9 @@ David  12 May 2010
         coproc.h
     sched/
         sched_customize.cpp
+
+David  13 May 2010
+    - scheduler: fix bug in daily job quota check
+
+    sched/
+        sched_version.cpp
