@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-10 10:08-0700\n"
+"PO-Revision-Date: 2010-05-13 06:54-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -718,7 +718,7 @@ msgid "Add my signature to this post"
 msgstr "הוסף את החתימה שלי לרשומה זו"
 
 msgid "%1 Message boards"
-msgstr "%1 לוחות הודעות"
+msgstr "לוחות ההודעות של %1"
 
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
@@ -941,16 +941,16 @@ msgid "Welcome to %1"
 msgstr "ברוכים הבאים ל%1"
 
 msgid "View and edit your account preferences using the links below."
-msgstr ""
+msgstr "צפה וערוך את העדפות הפרופיל שלך בעזרת הקישורים הבאים."
 
 msgid "Your account"
-msgstr ""
+msgstr "החשבון שלך"
 
 msgid "Read our rules and policies"
-msgstr ""
+msgstr "קרא את החוקים והמדיניות שלנו"
 
 msgid "Run %1 only on authorized computers"
-msgstr ""
+msgstr "הרץ את %1 על מחשבים מורשים בלבד"
 
 msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
