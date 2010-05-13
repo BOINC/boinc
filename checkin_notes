@@ -3587,3 +3587,18 @@ David  12 May 2010
     - scheduler: fix for daily quota enforcement
 
         sched_version.cpp
+
+David  12 May 2010
+    - client: make GPU available RAM measurement #ifdef-selectable,
+        and default it to off
+    - client: if we print available GPU RAM (which we now don't)
+        have a separate timer per GPU type
+    - scheduler: add new plan classes cuda_opencl (sic) and ati_opencl
+
+    client/
+        client_state.cpp
+        coproc_detect.cpp
+    lib/
+        coproc.h
+    sched/
+        sched_customize.cpp

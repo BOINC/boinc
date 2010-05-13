@@ -109,376 +109,433 @@ static inline void coproc_perf(
     u1 = frac*s2/y;
 }
 
-#define PLAN_CUDA_MIN_DRIVER_VERSION        17700
-#define PLAN_CUDA23_MIN_DRIVER_VERSION        19038
-#define PLAN_CUDA_MIN_RAM                   (254.*1024*1024)
-#define PLAN_CUDA23_MIN_RAM                   (384.*1024*1024)
+// the following is for an app that can use anywhere from 1 to 64 threads
+//
+static inline bool app_plan_mt(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+) {
+    double ncpus = g_wreq->effective_ncpus;
+        // number of usable CPUs, taking user prefs into account
+    int nthreads = (int)ncpus;
+    if (nthreads > 64) nthreads = 64;
+    hu.avg_ncpus = nthreads;
+    hu.max_ncpus = nthreads;
+    sprintf(hu.cmdline, "--nthreads %d", nthreads);
+    hu.projected_flops = sreq.host.p_fpops*hu.avg_ncpus*.99;
+        // the .99 ensures that on uniprocessors a sequential app
+        // will be used in preferences to this
+    hu.peak_flops = sreq.host.p_fpops*hu.avg_ncpus;
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] %s Multi-thread app projected %.2fGS\n",
+            plan_class, hu.projected_flops/1e9
+        );
+    }
+    return true;
+}
+
+static inline bool app_plan_ati(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+) {
+    char buf[256];
+    COPROC_ATI* cp = (COPROC_ATI*)sreq.coprocs.lookup("ATI");
+    if (!cp) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] Host lacks ATI GPU for plan class ati\n"
+            );
+        }
+        add_no_work_message("Your computer has no ATI GPU");
+        return false;
+    }
+
+    int major, minor, release;
+    sscanf(cp->version, "%d.%d.%d", &major, &minor, &release);
+    int vers = major*1000000 + minor*1000 + release;
+
+    double min_ram = 250*MEGA;
+
+    if (!strcmp(plan_class, "ati")) {
+        if (vers < 1000000) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] host has CAL version %s, need 1.0+\n",
+                    cp->version
+                );
+            }
+            add_no_work_message("ATI Catalyst 8.12+ needed to use GPU");
+            return false;
+        }
+        if (!cp->amdrt_detected) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] ati libs found, need amd\n"
+                );
+            }
+            add_no_work_message("Need libraries named amd* to use ATI GPU");
+            return false;
+        }
+    }
+
+    if (!strcmp(plan_class, "ati13amd")) {
+        if (vers < 1003000) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] host has CAL version %s, need 1.3.0 to 1.3.186\n",
+                    cp->version
+                );
+            }
+            add_no_work_message("ATI Catalyst 9.1+ needed to use GPU");
+            return false;
+        }
+        if (!cp->amdrt_detected) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] ati libs found, need amd\n"
+                );
+            }
+            add_no_work_message("Need libraries named amd* to use ATI GPU");
+            return false;
+        }
+    }
+
+    if (!strcmp(plan_class, "ati13ati")) {
+        if (vers < 1003186) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] host has CAL version %s, need 1.3.186+\n",
+                    cp->version
+                );
+            }
+            add_no_work_message("ATI Catalyst 9.2+ needed to use GPU");
+            return false;
+        }
+        if (!cp->atirt_detected) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] amd libs found, need ati\n"
+                );
+            }
+            add_no_work_message("Need libraries named ati* to use ATI GPU");
+            return false;
+        }
+    }
+
+    if (!strcmp(plan_class, "ati14")) {
+        if (vers < 1004000) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] host has CAL version %s, need 1.4+\n",
+                    cp->version
+                );
+            }
+            add_no_work_message("ATI Catalyst 9.7+ needed to use GPU");
+            return false;
+        }
+        if (!cp->atirt_detected) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] amd libs found, need ati\n"
+                );
+            }
+            add_no_work_message("Need libraries named ati* to use ATI GPU");
+            return false;
+        }
+    }
+    if (!strcmp(plan_class, "ati_opencl")) {
+        // OpenCL not yet supported in standard ATI drivers
+        return false;
+    }
+
+    if (cp->attribs.localRAM*MEGA < min_ram) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] ATI mem %dMB < %d\n",
+                cp->attribs.localRAM, (int)(min_ram/MEGA)
+            );
+        }
+        sprintf(buf,
+            "Your ATI GPU has insufficient memory (need %.0fMB)",
+            min_ram/MEGA
+        );
+        add_no_work_message(buf);
+        return false;
+    }
+    hu.gpu_ram = 200*MEGA;
+
+    hu.natis = 1;
+    //hu.natis = .5;    // you can use a fractional GPU if you want
+
+    // the fraction of the app's FLOPS that are performed by the CPU
+    //
+    double cpu_frac = .01;     // an app that runs 99% on the GPU
+    //double cpu_frac = .75;   // for SETI@home Astropulse
+
+    coproc_perf(
+        sreq.host.p_fpops,
+        hu.natis*cp->peak_flops(),
+        cpu_frac,
+        hu.projected_flops,
+        hu.avg_ncpus
+    );
+    hu.peak_flops = hu.natis*cp->peak_flops() + hu.avg_ncpus*sreq.host.p_fpops;
+    hu.max_ncpus = hu.avg_ncpus;
+
+    // determine priority among variants of ATI
+    //   1. ati14
+    //   2. ati13ati
+    //   3. ati13amd
+    //   4. ati
+    if (!strcmp(plan_class, "ati13amd")) {
+        hu.projected_flops *= 1.01;
+    }
+    if (!strcmp(plan_class, "ati13ati")) {
+        hu.projected_flops *= 1.02;
+    }
+    if (!strcmp(plan_class, "ati14")) {
+        hu.projected_flops *= 1.03;
+    }
+
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] %s ATI app projected %.2fG peak %.2fG %.3f CPUs\n",
+            plan_class,
+            hu.projected_flops/1e9,
+            hu.peak_flops/1e9,
+            hu.avg_ncpus
+        );
+    }
+    return true;
+}
+
+#define CUDA_MIN_DRIVER_VERSION        17700
+#define CUDA23_MIN_DRIVER_VERSION        19038
+#define CUDA_OPENCL_MIN_DRIVER_VERSION        19713
+#define CUDA_MIN_RAM                   (254.*1024*1024)
+#define CUDA23_MIN_RAM                   (384.*1024*1024)
+
+// the following is for an app that uses an NVIDIA GPU
+//
+static inline bool app_plan_cuda(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+) {
+    char buf[256];
+    COPROC_CUDA* cp = (COPROC_CUDA*)sreq.coprocs.lookup("CUDA");
+    if (!cp) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] Host lacks CUDA coprocessor for plan class %s\n",
+                plan_class
+            );
+        }
+        add_no_work_message("Your computer has no NVIDIA GPU");
+        return false;
+    }
+
+    // Macs require 6.10.28
+    //
+    if (strstr(sreq.host.os_name, "Darwin")) {
+        if (sreq.core_client_version < 61028) {
+            add_no_work_message(
+                "CUDA apps require BOINC version 6.10.28 or greater on Mac"
+            );
+            return false;
+        }
+    }
+
+    // check compute capability
+    //
+    int v = (cp->prop.major)*100 + cp->prop.minor;
+    if (v < 100) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] Compute capability %d < 1.0\n", v
+            );
+        }
+        add_no_work_message(
+            "Your NVIDIA GPU lacks the needed compute capability"
+        );
+        return false;
+    } 
+
+    double min_ram;
+
+    // for CUDA 2.3, we need to check the CUDA RT version.
+    // Old BOINC clients report display driver version;
+    // newer ones report CUDA RT version
+    //
+    if (!strcmp(plan_class, "cuda_fermi")) {
+        int compute_capability = cp->prop.major*100 + cp->prop.minor;
+        if (compute_capability < 200) {
+            add_no_work_message("Fermi-class GPU needed");
+            return false;
+        }
+        if (cp->cuda_version < 3000) {
+            add_no_work_message("CUDA version 3.0 needed");
+            return false;
+        }
+        min_ram = CUDA23_MIN_RAM;
+    } else if (!strcmp(plan_class, "cuda23")) {
+        if (cp->cuda_version) {
+            if (cp->cuda_version < 2030) {
+                add_no_work_message("CUDA version 2.3 needed");
+                return false;
+            }
+        } else if (cp->display_driver_version) {
+            if (cp->display_driver_version < CUDA23_MIN_DRIVER_VERSION) {
+                sprintf(buf, "NVIDIA display driver %d or later needed",
+                    CUDA23_MIN_DRIVER_VERSION
+                );
+                add_no_work_message(buf);
+                return false;
+            }
+        } else {
+            // pre-6.10 Linux clients report neither CUDA nor driver
+            // version; they'll end up here
+            //
+            add_no_work_message("CUDA version 2.3 needed");
+            return false;
+        }
+        min_ram = CUDA23_MIN_RAM;
+    } else if (!strcmp(plan_class, "cuda_opencl")) {
+        if (!cp->display_driver_version
+            || cp->display_driver_version < CUDA23_MIN_DRIVER_VERSION
+        ) {
+            sprintf(buf, "NVIDIA display driver %d or later needed",
+                CUDA_OPENCL_MIN_DRIVER_VERSION
+            );
+            add_no_work_message(buf);
+            return false;
+        }
+    } else {
+        if (cp->display_driver_version && cp->display_driver_version < CUDA_MIN_DRIVER_VERSION) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] NVIDIA driver version %d < CUDA_MIN_DRIVER_VERSION\n",
+                    cp->display_driver_version
+                );
+            }
+            sprintf(buf, "NVIDIA driver version %d or later needed",
+                CUDA_MIN_DRIVER_VERSION
+            );
+            add_no_work_message(buf);
+            return false;
+        }
+        min_ram = CUDA_MIN_RAM;
+    }
+
+    if (cp->prop.dtotalGlobalMem < min_ram) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] CUDA mem %d < %d\n",
+                cp->prop.dtotalGlobalMem, min_ram
+            );
+        }
+        sprintf(buf,
+            "Your NVIDIA GPU has insufficient memory (need %.0fMB)",
+            min_ram/MEGA
+        );
+        add_no_work_message(buf);
+        return false;
+    }
+    hu.gpu_ram = 200*MEGA;
+
+    hu.ncudas = 1;
+    //hu.ncudas = .5;    // you can use a fractional GPU if you want
+
+    // the fraction of the app's FLOPS that are performed by the CPU
+    //
+    double cpu_frac = .01;     // an app that runs 99% on the GPU
+    // double cpu_frac = .75;   // for SETI@home Astropulse
+
+    coproc_perf(
+        sreq.host.p_fpops,
+        hu.ncudas*cp->peak_flops(),
+        cpu_frac,
+        hu.projected_flops,
+        hu.avg_ncpus
+    );
+    hu.peak_flops = hu.ncudas*cp->peak_flops() + hu.avg_ncpus*sreq.host.p_fpops;
+    hu.max_ncpus = hu.avg_ncpus;
+
+    if (!strcmp(plan_class, "cuda23")) {
+        hu.projected_flops *= 1.01;
+    } else if (!strcmp(plan_class, "cuda_fermi")) {
+        hu.projected_flops *= 1.02;
+    }
+
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] %s app projected %.2fG peak %.2fG %.3f CPUs\n",
+            plan_class,
+            hu.projected_flops/1e9,
+            hu.peak_flops/1e9,
+            hu.avg_ncpus
+        );
+    }
+    return true;
+}
+
+// The following is for a non-CPU-intensive application.
+// Say that we'll use 1% of a CPU.
+// This will cause the client (6.7+) to run it at non-idle priority
+//
+static inline bool app_plan_nci(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+) {
+    hu.avg_ncpus = .01;
+    hu.max_ncpus = .01;
+    hu.projected_flops = sreq.host.p_fpops*1.01;
+        // The *1.01 is needed to ensure that we'll send this app
+        // version rather than a non-plan-class one
+    hu.peak_flops = sreq.host.p_fpops*.01;
+    return true;
+}
+
+// the following is for an app that requires a processor with SSE3,
+// and will run 10% faster if so
+//
+static inline bool app_plan_sse3(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+) {
+    downcase_string(sreq.host.p_features);
+    if (!strstr(sreq.host.p_features, "sse3")) {
+        add_no_work_message("Your CPU lacks SSE3");
+        return false;
+    }
+    hu.avg_ncpus = 1;
+    hu.max_ncpus = 1;
+    hu.projected_flops = 1.1*sreq.host.p_fpops;
+    hu.peak_flops = sreq.host.p_fpops;
+    return true;
+}
+
+static inline bool app_plan_opencl_nvidia(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+) {
+    return false;
+}
+
+static inline bool app_plan_opencl_ati(
+    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+) {
+    return false;
+}
 
 // app planning function.
 // See http://boinc.berkeley.edu/trac/wiki/AppPlan
 //
 bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
-    char buf[256];
     if (!strcmp(plan_class, "mt")) {
-        // the following is for an app that
-        // can use anywhere from 1 to 64 threads
-        //
-        double ncpus = g_wreq->effective_ncpus;
-            // number of usable CPUs, taking user prefs into account
-        int nthreads = (int)ncpus;
-        if (nthreads > 64) nthreads = 64;
-        hu.avg_ncpus = nthreads;
-        hu.max_ncpus = nthreads;
-        sprintf(hu.cmdline, "--nthreads %d", nthreads);
-        hu.projected_flops = sreq.host.p_fpops*hu.avg_ncpus*.99;
-            // the .99 ensures that on uniprocessors a sequential app
-            // will be used in preferences to this
-        hu.peak_flops = sreq.host.p_fpops*hu.avg_ncpus;
-        if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,
-                "[version] %s Multi-thread app projected %.2fGS\n",
-                plan_class, hu.projected_flops/1e9
-            );
-        }
-        return true;
+        return app_plan_mt(sreq, plan_class, hu);
     } else if (strstr(plan_class, "ati")) {
-        COPROC_ATI* cp = (COPROC_ATI*)sreq.coprocs.lookup("ATI");
-        if (!cp) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] Host lacks ATI GPU for plan class ati\n"
-                );
-            }
-            add_no_work_message("Your computer has no ATI GPU");
-            return false;
-        }
-
-        int major, minor, release;
-        sscanf(cp->version, "%d.%d.%d", &major, &minor, &release);
-        int vers = major*1000000 + minor*1000 + release;
-
-        double min_ram = 250*MEGA;
-
-        if (!strcmp(plan_class, "ati")) {
-            if (vers < 1000000) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] host has CAL version %s, need 1.0+\n",
-                        cp->version
-                    );
-                }
-                add_no_work_message("ATI Catalyst 8.12+ needed to use GPU");
-                return false;
-            }
-            if (!cp->amdrt_detected) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] ati libs found, need amd\n"
-                    );
-                }
-                add_no_work_message("Need libraries named amd* to use ATI GPU");
-                return false;
-            }
-        }
-
-        if (!strcmp(plan_class, "ati13amd")) {
-            if (vers < 1003000) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] host has CAL version %s, need 1.3.0 to 1.3.186\n",
-                        cp->version
-                    );
-                }
-                add_no_work_message("ATI Catalyst 9.1+ needed to use GPU");
-                return false;
-            }
-            if (!cp->amdrt_detected) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] ati libs found, need amd\n"
-                    );
-                }
-                add_no_work_message("Need libraries named amd* to use ATI GPU");
-                return false;
-            }
-        }
-
-        if (!strcmp(plan_class, "ati13ati")) {
-            if (vers < 1003186) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] host has CAL version %s, need 1.3.186+\n",
-                        cp->version
-                    );
-                }
-                add_no_work_message("ATI Catalyst 9.2+ needed to use GPU");
-                return false;
-            }
-            if (!cp->atirt_detected) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] amd libs found, need ati\n"
-                    );
-                }
-                add_no_work_message("Need libraries named ati* to use ATI GPU");
-                return false;
-            }
-        }
-
-        if (!strcmp(plan_class, "ati14")) {
-            if (vers < 1004000) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] host has CAL version %s, need 1.4+\n",
-                        cp->version
-                    );
-                }
-                add_no_work_message("ATI Catalyst 9.7+ needed to use GPU");
-                return false;
-            }
-            if (!cp->atirt_detected) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] amd libs found, need ati\n"
-                    );
-                }
-                add_no_work_message("Need libraries named ati* to use ATI GPU");
-                return false;
-            }
-        }
-
-        if (cp->attribs.localRAM*MEGA < min_ram) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] ATI mem %dMB < %d\n",
-                    cp->attribs.localRAM, (int)(min_ram/MEGA)
-                );
-            }
-            sprintf(buf,
-                "Your ATI GPU has insufficient memory (need %.0fMB)",
-                min_ram/MEGA
-            );
-            add_no_work_message(buf);
-            return false;
-        }
-        hu.gpu_ram = 200*MEGA;
-
-        hu.natis = 1;
-        //hu.natis = .5;    // you can use a fractional GPU if you want
-
-        // the fraction of the app's FLOPS that are performed by the CPU
-        //
-        double cpu_frac = .01;     // an app that runs 99% on the GPU
-        //double cpu_frac = .75;   // for SETI@home Astropulse
-
-        coproc_perf(
-            sreq.host.p_fpops,
-            hu.natis*cp->peak_flops(),
-            cpu_frac,
-            hu.projected_flops,
-            hu.avg_ncpus
-        );
-        hu.peak_flops = hu.natis*cp->peak_flops() + hu.avg_ncpus*sreq.host.p_fpops;
-        hu.max_ncpus = hu.avg_ncpus;
-
-        // determine priority among variants of ATI
-        //   1. ati14
-        //   2. ati13ati
-        //   3. ati13amd
-        //   4. ati
-        if (!strcmp(plan_class, "ati13amd")) {
-            hu.projected_flops *= 1.01;
-        }
-        if (!strcmp(plan_class, "ati13ati")) {
-            hu.projected_flops *= 1.02;
-        }
-        if (!strcmp(plan_class, "ati14")) {
-            hu.projected_flops *= 1.03;
-        }
-
-        if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,
-                "[version] %s ATI app projected %.2fG peak %.2fG %.3f CPUs\n",
-                plan_class,
-                hu.projected_flops/1e9,
-                hu.peak_flops/1e9,
-                hu.avg_ncpus
-            );
-        }
-        return true;
+        return app_plan_ati(sreq, plan_class, hu);
     } else if (strstr(plan_class, "cuda")) {
-        // the following is for an app that uses an NVIDIA GPU
-        //
-        COPROC_CUDA* cp = (COPROC_CUDA*)sreq.coprocs.lookup("CUDA");
-        if (!cp) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] Host lacks CUDA coprocessor for plan class %s\n",
-                    plan_class
-                );
-            }
-            add_no_work_message("Your computer has no NVIDIA GPU");
-            return false;
-        }
-
-        // Macs require 6.10.28
-        //
-        if (strstr(sreq.host.os_name, "Darwin")) {
-            if (sreq.core_client_version < 61028) {
-                add_no_work_message(
-                    "CUDA apps require BOINC version 6.10.28 or greater on Mac"
-                );
-                return false;
-            }
-        }
-
-        // check compute capability
-        //
-        int v = (cp->prop.major)*100 + cp->prop.minor;
-        if (v < 100) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] Compute capability %d < 1.0\n", v
-                );
-            }
-            add_no_work_message(
-                "Your NVIDIA GPU lacks the needed compute capability"
-            );
-            return false;
-        } 
-
-        double min_ram;
-
-        // for CUDA 2.3, we need to check the CUDA RT version.
-        // Old BOINC clients report display driver version;
-        // newer ones report CUDA RT version
-        //
-        if (!strcmp(plan_class, "cuda_fermi")) {
-            int compute_capability = cp->prop.major*100 + cp->prop.minor;
-            if (compute_capability < 200) {
-                add_no_work_message("Fermi-class GPU needed");
-                return false;
-            }
-            if (cp->cuda_version < 3000) {
-                add_no_work_message("CUDA version 3.0 needed");
-                return false;
-            }
-            min_ram = PLAN_CUDA23_MIN_RAM;
-        } else if (!strcmp(plan_class, "cuda23")) {
-            if (cp->cuda_version) {
-                if (cp->cuda_version < 2030) {
-                    add_no_work_message("CUDA version 2.3 needed");
-                    return false;
-                }
-            } else if (cp->display_driver_version) {
-                if (cp->display_driver_version < PLAN_CUDA23_MIN_DRIVER_VERSION) {
-                    sprintf(buf, "NVIDIA display driver %d or later needed",
-                        PLAN_CUDA23_MIN_DRIVER_VERSION
-                    );
-                    add_no_work_message(buf);
-                    return false;
-                }
-            } else {
-                // pre-6.10 Linux clients report neither CUDA nor driver
-                // version; they'll end up here
-                //
-                add_no_work_message("CUDA version 2.3 needed");
-                return false;
-            }
-            min_ram = PLAN_CUDA23_MIN_RAM;
-        } else {
-            if (cp->display_driver_version && cp->display_driver_version < PLAN_CUDA_MIN_DRIVER_VERSION) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] NVIDIA driver version %d < PLAN_CUDA_MIN_DRIVER_VERSION\n",
-                        cp->display_driver_version
-                    );
-                }
-                sprintf(buf, "NVIDIA driver version %d or later needed",
-                    PLAN_CUDA_MIN_DRIVER_VERSION
-                );
-                add_no_work_message(buf);
-                return false;
-            }
-            min_ram = PLAN_CUDA_MIN_RAM;
-        }
-
-        if (cp->prop.dtotalGlobalMem < min_ram) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] CUDA mem %d < %d\n",
-                    cp->prop.dtotalGlobalMem, min_ram
-                );
-            }
-            sprintf(buf,
-                "Your NVIDIA GPU has insufficient memory (need %.0fMB)",
-                min_ram/MEGA
-            );
-            add_no_work_message(buf);
-            return false;
-        }
-        hu.gpu_ram = 200*MEGA;
-
-        hu.ncudas = 1;
-        //hu.ncudas = .5;    // you can use a fractional GPU if you want
-
-        // the fraction of the app's FLOPS that are performed by the CPU
-        //
-        double cpu_frac = .01;     // an app that runs 99% on the GPU
-        // double cpu_frac = .75;   // for SETI@home Astropulse
-
-        coproc_perf(
-            sreq.host.p_fpops,
-            hu.ncudas*cp->peak_flops(),
-            cpu_frac,
-            hu.projected_flops,
-            hu.avg_ncpus
-        );
-        hu.peak_flops = hu.ncudas*cp->peak_flops() + hu.avg_ncpus*sreq.host.p_fpops;
-        hu.max_ncpus = hu.avg_ncpus;
-
-        if (!strcmp(plan_class, "cuda23")) {
-            hu.projected_flops *= 1.01;
-        } else if (!strcmp(plan_class, "cuda_fermi")) {
-            hu.projected_flops *= 1.02;
-        }
-
-        if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,
-                "[version] %s app projected %.2fG peak %.2fG %.3f CPUs\n",
-                plan_class,
-                hu.projected_flops/1e9,
-                hu.peak_flops/1e9,
-                hu.avg_ncpus
-            );
-        }
-        return true;
+        return app_plan_cuda(sreq, plan_class, hu);
     } else if (!strcmp(plan_class, "nci")) {
-        // The following is for a non-CPU-intensive application.
-        // Say that we'll use 1% of a CPU.
-        // This will cause the client (6.7+) to run it at non-idle priority
-        //
-        hu.avg_ncpus = .01;
-        hu.max_ncpus = .01;
-        hu.projected_flops = sreq.host.p_fpops*1.01;
-            // The *1.01 is needed to ensure that we'll send this app
-            // version rather than a non-plan-class one
-        hu.peak_flops = sreq.host.p_fpops*.01;
-        return true;
+        return app_plan_nci(sreq, plan_class, hu);
     } else if (!strcmp(plan_class, "sse3")) {
-        // the following is for an app that requires a processor with SSE3,
-        // and will run 10% faster if so
-        //
-        downcase_string(sreq.host.p_features);
-        if (!strstr(sreq.host.p_features, "sse3")) {
-            add_no_work_message("Your CPU lacks SSE3");
-            return false;
-        }
-        hu.avg_ncpus = 1;
-        hu.max_ncpus = 1;
-        hu.projected_flops = 1.1*sreq.host.p_fpops;
-        hu.peak_flops = sreq.host.p_fpops;
-        return true;
+        return app_plan_sse3(sreq, plan_class, hu);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class

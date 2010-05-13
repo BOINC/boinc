@@ -686,7 +686,10 @@ bool CLIENT_STATE::poll_slow_events() {
         // if we're emerging from a bandwidth quota suspension,
         // add a random delay to avoid DDOS effect
         //
-        if (old_network_suspend_reason == SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED) {
+        if (
+            old_network_suspend_reason == SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED
+            && network_mode.get_current() == RUN_MODE_AUTO
+        ) {
             pers_file_xfers->add_random_delay(3600);
         }
     }
