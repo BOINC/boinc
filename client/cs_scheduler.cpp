@@ -337,7 +337,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             //
             if (strlen(rp->avp->plan_class)) {
                 fprintf(f,
-                    "        <plan_class>%d</plan_class>\n",
+                    "        <plan_class>%s</plan_class>\n",
                     rp->avp->plan_class
                 );
             }

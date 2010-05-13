@@ -800,10 +800,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             USER_MESSAGE um(msg_buf, pri_buf);
             messages.push_back(um);
             continue;
-        } else if (match_tag(buf, "<message_ack/>")) {
-            message_ack = true;
-        } else if (match_tag(buf, "<project_is_down/>")) {
-            project_is_down = true;
+        } else if (parse_bool(buf, "message_ack", message_ack)) {
+            continue;
+        } else if (parse_bool(buf, "project_is_down", project_is_down)) {
+            continue;
         } else if (parse_str(buf, "<email_hash>", project->email_hash, sizeof(project->email_hash))) {
             continue;
         } else if (parse_str(buf, "<cross_project_id>", project->cross_project_id, sizeof(project->cross_project_id))) {
@@ -822,10 +822,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (parse_bool(buf, "verify_files_on_app_start", project->verify_files_on_app_start)) {
             continue;
-        } else if (match_tag(buf, "<request_file_list/>")) {
-            send_file_list = true;
-        } else if (match_tag(buf, "<send_full_workload/>")) {
-            send_full_workload = true;
+        } else if (parse_bool(buf, "request_file_list", send_file_list)) {
+            continue;
+        } else if (parse_bool(buf, "send_full_workload", send_full_workload)) {
+            continue;
         } else if (parse_int(buf, "<send_time_stats_log>", send_time_stats_log)){
             continue;
         } else if (parse_int(buf, "<send_job_log>", send_job_log)) {
