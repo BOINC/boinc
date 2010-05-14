@@ -662,6 +662,7 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
         if (RUN_MODE_NEVER == status.task_mode) {
             icnIcon = m_iconTaskBarSnooze;
         }
+        bool comp_suspended = false;
         switch(status.task_suspend_reason) {
         case SUSPEND_REASON_CPU_THROTTLE:
         case 0:
@@ -670,11 +671,12 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
         default:
             strMessage += _("Computing is suspended - ");
             strMessage += suspend_reason_wxstring(status.task_suspend_reason);
+            comp_suspended = true;
             break;
         }
         strMessage += wxT(".\n");
 
-        if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+        if (!comp_suspended && (pDoc->state.have_cuda || pDoc->state.have_ati)) {
             switch(status.gpu_suspend_reason) {
             case 0:
                 strMessage += _("GPU computing is enabled");

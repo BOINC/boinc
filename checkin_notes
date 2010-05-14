@@ -3645,3 +3645,10 @@ David  13 May 2010
 
     client/
         cs_scheduler.cpp
+
+David  13 May 2010
+	- manager: in sys tray pop up, if computing is disabled,
+		don't say whether GPU is enabled (confusing).
+
+	clientgui/
+		BOINCTaskBar.cpp
