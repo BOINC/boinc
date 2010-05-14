@@ -514,6 +514,7 @@ void COPROC_CUDA::get_available_ram() {
     }
 #else
     for (int i=0; i<count; i++) {
+        available_ram_unknown[i] = false;
         available_ram[i] = prop.totalGlobalMem;
     }
 #endif
@@ -904,6 +905,7 @@ void COPROC_ATI::get_available_ram() {
     (*__calShutdown)();
 #else
     for (int i=0; i<count; i++) {
+        available_ram_unknown[i] = false;
         available_ram[i] = attribs.localRAM*MEGA;
     }
 #endif
