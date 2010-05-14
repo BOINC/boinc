@@ -3667,3 +3667,9 @@ David  14 May 2010
 
 	client/
 		cs_scheduler.cpp
+
+David  14 May 2010
+	- client: fix bug that randomly caused idle GPUs
+
+	client/
+		coproc_detect.cpp
