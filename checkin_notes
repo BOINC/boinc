@@ -3639,3 +3639,9 @@ David  13 May 2010
         scheduler_op.cpp
     sched/
         sched_config.h
+
+David  13 May 2010
+    - client: just send 1 copy of app versions
+
+    client/
+        cs_scheduler.cpp

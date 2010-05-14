@@ -419,6 +419,9 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     return "no end tag";
 }
 
+// I'm not real sure why this is here.
+// Why not copy the request message directly?
+//
 int SCHEDULER_REQUEST::write(FILE* fout) {
     unsigned int i;
 
@@ -664,6 +667,9 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     if (project_is_down) {
         fprintf(fout,"<project_is_down/>\n");
         goto end;
+    }
+    if (config.workload_sim) {
+        fprintf(fout, "<send_full_workload\n");
     }
 
     if (nucleus_only) goto end;

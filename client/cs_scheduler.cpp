@@ -142,17 +142,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     write_platforms(p, mf);
 
-    // send supported app_versions for anonymous platform clients
-    //
-    if (p->anonymous_platform) {
-        fprintf(f, "    <app_versions>\n");
-        for (i=0; i<app_versions.size(); i++) {
-            APP_VERSION* avp = app_versions[i];
-            if (avp->project != p) continue;
-            avp->write(mf, false);
-        }
-        fprintf(f, "    </app_versions>\n");
-    }
     if (strlen(p->code_sign_key)) {
         fprintf(f, "    <code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
     }
@@ -296,26 +285,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     fprintf(f, "<app_versions>\n");
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
-        fprintf(f,
-            "    <app_version>\n"
-            "        <app_name>%s</app_name>\n"
-            "        <version_num>%d</version_num>\n"
-            "        <platform>%s</platform>\n"
-            "        <plan_class>%s</plan_class>\n"
-            "        <avg_ncpus>%f</avg_ncpus>\n"
-            "        <ncudas>%f</ncudas>\n"
-            "        <natis>%f</natis>\n"
-            "        <flops>%f</flops>\n"
-            "    </app_version>\n",
-            avp->app->name,
-            avp->version_num,
-            avp->platform,
-            avp->plan_class,
-            avp->avg_ncpus,
-            avp->ncudas,
-            avp->natis,
-            avp->flops
-        );
+        avp->write(mf, false);
         avp->index = i;
     }
     fprintf(f, "</app_versions>\n");
