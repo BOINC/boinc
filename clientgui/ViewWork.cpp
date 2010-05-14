@@ -929,7 +929,6 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
             pDoc->ForceCacheUpdate();
             state_result = pDoc->state.lookup_result(result->project_url, result->name);
         }
-        wxASSERT(state_result);
 
         if (!state_result) return;
         WORKUNIT* wup = state_result->wup;
