@@ -3652,3 +3652,12 @@ David  13 May 2010
 
 	clientgui/
 		BOINCTaskBar.cpp
+
+David  14 May 2010
+    - API: compile fixes for MinGW
+
+    lib/
+        boinc_win.h
+        filesys.cpp
+    api/
+        Makefile.mingw

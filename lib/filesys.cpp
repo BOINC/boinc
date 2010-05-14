@@ -21,7 +21,7 @@
 #include "stdwx.h"
 #endif
 
-#if defined(MINGW_WIN32)
+#if defined(__MINGW32__)
 #include <fcntl.h>
 #endif
 
