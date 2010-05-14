@@ -1710,3 +1710,11 @@ David  14 May 2010
 
 	client/
 		coproc_detect.cpp
+
+Rom    14 May 2010
+    - Tag for 6.10.56 release, all platforms
+      boinc_core_release_6_10_56
+
+    /
+        configure.ac
+        version.h
