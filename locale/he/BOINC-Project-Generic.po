@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2010-05-14 02:57-0700\n"
+"PO-Revision-Date: 2010-05-14 03:55-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -1086,79 +1086,84 @@ msgid ""
 "participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
 msgstr ""
+"פרוייקטים אחרים משתמשים באותה הפלטפורמה, BOINC, כמו %1. כדאי לשקול להשתתף "
+"באחד או יותר מפרוייקטים אלו. כך, מחשבכם יבצע עבודה מועילה גם כאשר ל%1 אין "
+"עבודה זמינה."
 
 msgid ""
 "These other projects are not associated with %1, and we cannot vouch for "
 "their security practices or the nature of their research. Join them at your "
 "own risk."
 msgstr ""
+"פרוייקטים אלו אינם קשורים ל%1, ואין באפשרותינו לערוב לנהלי האבטחה או לטבעו "
+"של המחקר שלהם. ההצטרפות אליהם היא על אחריותכם בלבד."
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr ""
+msgstr "English"
 
 msgid "LANG_NAME_NATIVE"
-msgstr ""
+msgstr "Hebrew"
 
 msgid "Your message has been sent."
-msgstr ""
+msgstr "הודעתך נשלחה."
 
 msgid "You have no private messages."
-msgstr ""
+msgstr "אין לך הודעות פרטיות."
 
 msgid "Sender and date"
-msgstr ""
+msgstr "שולח ותאריך"
 
 msgid "Reply"
-msgstr ""
+msgstr "השב"
 
 msgid "Delete selected messages"
-msgstr ""
+msgstr "מחיקת הודעות נבחרות"
 
 msgid "Sender"
-msgstr ""
+msgstr "שולח"
 
 msgid "Date"
-msgstr ""
+msgstr "תאריך"
 
 msgid "You need to fill all fields to send a private message"
-msgstr ""
+msgstr "עלייך למלא את כל השדות בכדי לשלוח הודעה פרטית"
 
 msgid "Could not find user with id %1"
-msgstr ""
+msgstr "לא נמצא משתמש עם זיהוי %1"
 
 msgid "Could not find user with username %1"
-msgstr ""
+msgstr "לא נמצא משתמש עם שם משתמש %1"
 
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr ""
+msgstr "%1 אינו שם משתמש ייחודי; עלייך להשתמש בזיהוי המשתמש"
 
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr ""
+msgstr "משתמש %1 (זיהוי: %2) אינו מקבל הודעות פרטיות מכם."
 
 msgid "Really block %1?"
-msgstr ""
+msgstr "האם לחסום את %1?"
 
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
-msgstr ""
+msgstr "האם אתה בטוח כי ברצונך לחסום את המשתמש %1 לשליחת הודעות פרטיות?"
 
 msgid "Please note that you can only block a limited amount of users."
-msgstr ""
+msgstr "שימו לב כי באפשרותכם לחסום כמות מוגבלת של משתמשים."
 
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
-msgstr ""
+msgstr "ברגע שמשתמש נחסם, באפשרותכם להסיר את החסימה באמצעות דף העדפות הפורום."
 
 msgid "Add user to filter"
-msgstr ""
+msgstr "הוספת משתמש למסנן"
 
 msgid "No, cancel"
-msgstr ""
+msgstr "לא, ביטול"
 
 msgid "User %1 blocked"
-msgstr ""
+msgstr "משתמש %1 נחסם"
 
 msgid "User %1 has been blocked from sending you private messages."
 msgstr ""
