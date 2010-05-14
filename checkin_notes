@@ -3661,3 +3661,9 @@ David  14 May 2010
         filesys.cpp
     api/
         Makefile.mingw
+
+David  14 May 2010
+	- client: include app versions only of this project in sched req
+
+	client/
+		cs_scheduler.cpp

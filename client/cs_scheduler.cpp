@@ -285,6 +285,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     fprintf(f, "<app_versions>\n");
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
+        if (avp->project != p) continue;
         avp->write(mf, false);
         avp->index = i;
     }
