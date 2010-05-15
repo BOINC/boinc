@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-05-15 05:59-0700\n"
+"PO-Revision-Date: 2010-05-15 06:11-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -319,7 +319,7 @@ msgstr "Número de veces que el cliente ha contactado con el servidor"
 
 #: ../inc/host.inc:179
 msgid "Last time contacted server"
-msgstr "Ultima vez que el servidor fue contactado"
+msgstr "Ultima vez que contactó con el servidor"
 
 #: ../inc/host.inc:180
 #, php-format
@@ -330,6 +330,8 @@ msgstr ""
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr ""
+"Mientras se ejecuta BOINC, % de tiempo que el ordenador tiene una conexión a "
+"Internet"
 
 #: ../inc/host.inc:184
 #, php-format
@@ -338,7 +340,7 @@ msgstr ""
 
 #: ../inc/host.inc:186
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "Rendimiento promedio de la CPU"
 
 #: ../inc/host.inc:189
 msgid "Task duration correction factor"
@@ -346,11 +348,11 @@ msgstr ""
 
 #: ../inc/host.inc:191 ../inc/host.inc:613
 msgid "Location"
-msgstr ""
+msgstr "Localización"
 
 #: ../inc/host.inc:193
 msgid "Delete this computer"
-msgstr ""
+msgstr "Eliminar este ordenador"
 
 #: ../inc/host.inc:197
 msgid "Merge duplicate records of this computer"
@@ -363,7 +365,7 @@ msgstr "Mensaje"
 
 #: ../inc/host.inc:210
 msgid "Computer info"
-msgstr ""
+msgstr "Información del ordenador"
 
 #: ../inc/host.inc:211 ../inc/host.inc:615 ../inc/team.inc:344
 #: ../user/top_users.php:46
@@ -372,7 +374,7 @@ msgstr "Posición"
 
 #: ../inc/host.inc:215 ../inc/host.inc:618
 msgid "Avg. credit"
-msgstr ""
+msgstr "Crédito promedio"
 
 #: ../inc/host.inc:220 ../inc/team.inc:95 ../inc/team.inc:208
 #: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:350
@@ -385,27 +387,27 @@ msgstr "Promedio de créditos recientes"
 
 #: ../inc/host.inc:225
 msgid "BOINC version"
-msgstr ""
+msgstr "Versión de BOINC"
 
 #: ../inc/host.inc:226 ../inc/host.inc:623
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624
 msgid "GPU"
-msgstr ""
+msgstr "GPU"
 
 #: ../inc/host.inc:228
 msgid "Operating system"
-msgstr ""
+msgstr "Sistema operativo"
 
 #: ../inc/host.inc:280
 msgid "(%1 processors)"
-msgstr ""
+msgstr "(%1 procesadores)"
 
 #: ../inc/host.inc:300
 msgid "Details"
-msgstr ""
+msgstr "Detalles"
 
 #: ../inc/host.inc:305
 #, fuzzy
@@ -418,11 +420,11 @@ msgstr ""
 
 #: ../inc/host.inc:466
 msgid "Host %1 has an incompatible OS:"
-msgstr ""
+msgstr "El ordenador %1 tiene un SO incompatible:"
 
 #: ../inc/host.inc:472
 msgid "Host %1 has an incompatible CPU:"
-msgstr ""
+msgstr "El ordenador %1 tiene una CPU incompatible:"
 
 #: ../inc/host.inc:539
 msgid "same host"
@@ -442,11 +444,12 @@ msgstr ""
 
 #: ../inc/host.inc:566
 msgid "Couldn't update results"
-msgstr ""
+msgstr "No se ha podido actualizar los resultados"
 
 #: ../inc/host.inc:571
+#, fuzzy
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "No se pudo eliminar el viejo ordenador"
 
 #: ../inc/host.inc:573
 msgid "Retired old computer %1"
