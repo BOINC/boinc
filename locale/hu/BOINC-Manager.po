@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:09-0500\n"
-"PO-Revision-Date: 2010-04-26 12:00-0700\n"
+"PO-Revision-Date: 2010-05-15 00:21-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -3168,7 +3168,7 @@ msgstr "Böngésző indítása..."
 
 #: clientgui/ViewProjects.cpp:703
 msgid "Resume"
-msgstr "Folyatás"
+msgstr "Folytatás"
 
 #: clientgui/ViewProjects.cpp:703
 msgid "Resume tasks for this project."
