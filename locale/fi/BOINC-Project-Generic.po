@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-05-12 16:23+0200\n"
+"PO-Revision-Date: 2010-05-16 14:55+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1426,7 +1426,7 @@ msgstr ""
 
 #: ../inc/result.inc:385
 msgid "Report deadline"
-msgstr ""
+msgstr "Raportoinnin takaraja"
 
 #: ../inc/result.inc:386
 msgid "Run time"
@@ -1512,7 +1512,7 @@ msgstr ""
 
 #: ../inc/team.inc:60
 msgid "Requested by you"
-msgstr ""
+msgstr "Sinun pyytämäsi"
 
 #: ../inc/team.inc:60
 msgid "founder response deadline is %1"
@@ -1530,7 +1530,7 @@ msgstr ""
 
 #: ../inc/team.inc:70
 msgid "Deferred"
-msgstr ""
+msgstr "Lykätty"
 
 #: ../inc/team.inc:80
 msgid "Team info"
@@ -1762,7 +1762,7 @@ msgstr ""
 
 #: ../inc/user.inc:160
 msgid "Account"
-msgstr ""
+msgstr "Tili"
 
 #: ../inc/user.inc:162
 #: ../inc/user.inc:275
@@ -1771,7 +1771,7 @@ msgstr ""
 #: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Team"
-msgstr ""
+msgstr "Tiimi"
 
 #: ../inc/user.inc:164
 msgid "Cross-project"
@@ -1779,7 +1779,7 @@ msgstr ""
 
 #: ../inc/user.inc:165
 msgid "Certificate"
-msgstr ""
+msgstr "Todistus"
 
 #: ../inc/user.inc:166
 msgid "Stats on your cell phone"
@@ -1901,7 +1901,7 @@ msgstr "Luo"
 #: ../inc/user.inc:241
 #: ../inc/user.inc:393
 msgid "Profile"
-msgstr ""
+msgstr "Profiili"
 
 #: ../inc/user.inc:244
 #: ../inc/user.inc:366
@@ -1961,7 +1961,7 @@ msgstr "piilotettu"
 
 #: ../inc/user.inc:327
 msgid "Donor"
-msgstr ""
+msgstr "Lahjoittaja"
 
 #: ../inc/user.inc:369
 msgid "Contact"
@@ -2562,7 +2562,7 @@ msgstr "Olemme ilmoittaneet %1 pyynnöstäsi."
 
 #: ../user/friend.php:125
 msgid "Request not found"
-msgstr ""
+msgstr "Pyyntöä ei löydy"
 
 #: ../user/friend.php:126
 msgid "Friend request"
@@ -2659,7 +2659,7 @@ msgstr "Ystävyytesi %1 kanssa on peruttu."
 
 #: ../user/friend.php:274
 msgid "Unknown action"
-msgstr ""
+msgstr "Tuntematon toiminto"
 
 #: ../user/home.php:40
 msgid "Welcome to %1"
@@ -2838,7 +2838,7 @@ msgstr "Käyttäjänimeä %1 ei löytynyt"
 
 #: ../user/pm.php:206
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr ""
+msgstr "%1 ei ole kelvollinen käyttäjänimi; käytä käyttäjän ID:tä"
 
 #: ../user/pm.php:211
 msgid "User %1 (ID: %2) is not accepting private messages from you."
@@ -3221,15 +3221,15 @@ msgstr "Käyttäjä ei ole %1 jäsen"
 
 #: ../user/team_change_founder_action.php:39
 msgid "Changing founder of %1"
-msgstr ""
+msgstr "Vaihdetaan tiimin %1 perustajuutta"
 
 #: ../user/team_change_founder_action.php:41
 msgid "%1 is now founder of %2"
-msgstr ""
+msgstr "%1 on nyt tiimin %2 perustaja"
 
 #: ../user/team_change_founder_form.php:35
 msgid "Change founder of %1"
-msgstr ""
+msgstr "Vaihda tiimin %1 perustaja"
 
 #: ../user/team_change_founder_form.php:41
 msgid "Team member %1 requested this team's foundership on %2, but left the team, thus canceling the request."
@@ -3398,7 +3398,7 @@ msgstr "Viestin lähettämiseen vaadittava keskimääräinen pistemäärä"
 
 #: ../user/team_forum.php:78
 msgid "Submit"
-msgstr ""
+msgstr "Lähetä"
 
 #: ../user/team_forum.php:87
 msgid "Remove your team's message board."
@@ -3454,7 +3454,7 @@ msgstr "foorumia ei ole"
 
 #: ../user/team_forum.php:192
 msgid "unknown command %1"
-msgstr ""
+msgstr "tuntematon komento %1"
 
 #: ../user/team_founder_transfer_action.php:34
 msgid "You must be a member of a team to access this page."
@@ -3462,7 +3462,7 @@ msgstr "Nähdäksesi sivun sinun pitää olla tiimin jäsen."
 
 #: ../user/team_founder_transfer_action.php:88
 msgid "Requesting foundership of %1"
-msgstr ""
+msgstr "Pyydetään tiimin %1 perustajuutta"
 
 #: ../user/team_founder_transfer_action.php:96
 msgid ""
@@ -3499,7 +3499,7 @@ msgstr "Perustajuuspyyntöjä ei löytynyt."
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
-msgstr ""
+msgstr "määrittämätön toiminto %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
@@ -3512,7 +3512,7 @@ msgstr "Sinun pitää olla tiimin jäsen nähdäksesi tämän sivun."
 
 #: ../user/team_founder_transfer_form.php:29
 msgid "Request foundership of %1"
-msgstr ""
+msgstr "Pyydä tiimin %1 perustajuutta"
 
 #: ../user/team_founder_transfer_form.php:36
 msgid "You are now founder of team %1."
@@ -3528,7 +3528,7 @@ msgstr "60 päivää on kulunut pyynnöstäsi eikä perustaja ole vastannut. Voi
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
-msgstr ""
+msgstr "Ota omistajuus"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid "The founder was notified of your request. If he/she does not respond by %1 you will be given an option to become founder."
@@ -3605,7 +3605,7 @@ msgstr "Liity tiimiin"
 
 #: ../user/team_lookup.php:62
 msgid "Search Results"
-msgstr ""
+msgstr "Hakutulokset"
 
 #: ../user/team_lookup.php:64
 msgid "Search results for '%1'"
@@ -3702,7 +3702,7 @@ msgstr "Sallittu vain jos tiimillä ei ole jäseniä"
 
 #: ../user/team_manage.php:62
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "Luo tai hoida tiimin keskustelupalstaa"
 
 #: ../user/team_manage.php:69
 msgid "To have this team created on all BOINC projects (current and future) you can make it into a %1BOINC-wide team%2."
@@ -3818,7 +3818,7 @@ msgstr ""
 
 #: ../user/team_search.php:140
 msgid "Change your search"
-msgstr ""
+msgstr "Muuta hakua"
 
 #: ../user/team_search.php:152
 msgid "Team search results"
@@ -3934,7 +3934,7 @@ msgstr ""
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "Käyttäjää ei löytynyt!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
@@ -4094,7 +4094,7 @@ msgstr "Luotu"
 
 #: ../project.sample/project.inc:88
 msgid "Your personal background."
-msgstr ""
+msgstr "Taustatietoja itsestäsi"
 
 #: ../project.sample/project.inc:92
 msgid "Tell us about yourself. You could tell us where you're from, your age, occupation, hobbies, or anything else about yourself."
@@ -4102,7 +4102,7 @@ msgstr "Kerro itsestäsi. Voit kertoa mistä päin olet, ikäsi, ammattisi, harr
 
 #: ../project.sample/project.inc:96
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Mitä mieltä olet %1"
 
 #: ../project.sample/project.inc:100
 msgid ""
@@ -4120,7 +4120,7 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "Grafiikan värivalinta"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
