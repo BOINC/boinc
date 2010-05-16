@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2009-12-11 11:04-0700\n"
+"PO-Revision-Date: 2010-05-16 07:59-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
-"100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -197,7 +197,7 @@ msgstr "Uždaryti %s langą"
 
 #: clientgui/AdvancedFrame.cpp:307
 msgid "&Close Window"
-msgstr ""
+msgstr "&Uždaryti langą"
 
 #: clientgui/AdvancedFrame.cpp:318
 #, c-format
@@ -226,27 +226,27 @@ msgstr "Rodyti projektus"
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr ""
+msgstr "Užduo&tys\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Display tasks"
-msgstr ""
+msgstr "Rodyti užduotis"
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr ""
+msgstr "P&erdavimai\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:351
 msgid "Display transfers"
-msgstr ""
+msgstr "Rodyti perdavimus"
 
 #: clientgui/AdvancedFrame.cpp:356
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr ""
+msgstr "&Statistika\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:357
 msgid "Display statistics"
-msgstr ""
+msgstr "Rodyti statistiką"
 
 #: clientgui/AdvancedFrame.cpp:362
 msgid "&Disk usage\tCtrl+Shift+D"
@@ -257,24 +257,20 @@ msgid "Display disk usage"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:370
-#, fuzzy
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Supaprastinas režimas...\tCTRL+SHIFT+S"
+msgstr "S&upaprastintas režimas...\tCTRL+SHIFT+V"
 
 #: clientgui/AdvancedFrame.cpp:371
-#, fuzzy
 msgid "Display the simple graphical interface."
-msgstr "Parodyti supaprastintą BOINC vartotojo sąsają."
+msgstr "Rodyti supaprastintą vartotojo sąsają."
 
 #: clientgui/AdvancedFrame.cpp:391
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "Prisijungti prie &abonemento valdiklio..."
+msgstr "&Prisijungti prie projekto ar abonemento valdiklio..."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "Attach this computer to a project or account manager"
-msgstr "Prisijungti prie abonemento valdiklio"
+msgstr "Prijungti kompiuterį prie projekto ar abonemento valdiklio"
 
 #: clientgui/AdvancedFrame.cpp:396
 #, c-format
@@ -287,23 +283,21 @@ msgid "Get current settings from %s"
 msgstr "Gauti naujausius nustatymus iš %s"
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "&Attach to project..."
-msgstr "Prisijungti prie &projekto..."
+msgstr "&Prisijungti prie projekto..."
 
 #: clientgui/AdvancedFrame.cpp:411
 msgid "Attach to a project"
 msgstr "Prisijungti prie projekto"
 
 #: clientgui/AdvancedFrame.cpp:414
-#, fuzzy, c-format
+#, c-format
 msgid "S&top using %s..."
-msgstr "Nustoti naudoti %s..."
+msgstr "Nus&toti naudoti %s..."
 
 #: clientgui/AdvancedFrame.cpp:420
-#, fuzzy
 msgid "Remove this computer from account manager control."
-msgstr "Nebenaudoti abonemento valdiklio šiame kliente."
+msgstr "Nebenaudoti abonemento valdiklio šio kompiuterio valdymui."
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Display and network &options..."
@@ -314,14 +308,12 @@ msgid "Configure GUI options and proxy settings"
 msgstr "Vartotojo sąsajos ir tarpinio serverio nustatymai"
 
 #: clientgui/AdvancedFrame.cpp:430
-#, fuzzy
 msgid "Computing &preferences..."
-msgstr "&Vietiniai nustatymai..."
+msgstr "Skaičiavimų nustatymai..."
 
 #: clientgui/AdvancedFrame.cpp:431
-#, fuzzy
 msgid "Configure computing preferences"
-msgstr "Pakeisti vietinius nustatymus"
+msgstr "Pakeisti skaičiavimų nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:439
 msgid "&Run always"
@@ -338,7 +330,7 @@ msgstr "Veikti pagal nustatymus"
 #: clientgui/AdvancedFrame.cpp:445
 #, fuzzy
 msgid "Allow work according to preferences"
-msgstr "Darbas vykdomas pagal nustatymus"
+msgstr "Leisti veikti pagal nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:449
 msgid "&Suspend"
@@ -353,53 +345,44 @@ msgid "Use GPU always"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:476
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Darbas vykdomas nepaisant nustatymų"
+msgstr "Leisti GPU darbą nepaisant nustatymų"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Use GPU based on preferences"
-msgstr "Veikti pagal nustatymus"
+msgstr "Naudoti GPU pagal nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:481
-#, fuzzy
 msgid "Allow GPU work according to preferences"
-msgstr "Darbas vykdomas pagal nustatymus"
+msgstr "Leisti GPU darbą pagal nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:485
-#, fuzzy
 msgid "Suspend GPU"
-msgstr "Sustabdyti"
+msgstr "Sustabdyti GPU"
 
 #: clientgui/AdvancedFrame.cpp:486
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Darbas sustabdomas nepaisant nustatymų"
+msgstr "Sustabdyti GPU darbą nepaisant nustatymų"
 
 #: clientgui/AdvancedFrame.cpp:510
-#, fuzzy
 msgid "Network activity always available"
-msgstr "Veiksmai tinkle bet kada"
+msgstr "Veiksmai tinkle leidžiami bet kada"
 
 #: clientgui/AdvancedFrame.cpp:511
 msgid "Allow network activity regardless of preferences"
 msgstr "Veiksmai tinkle galimi nepaisant nustatymų"
 
 #: clientgui/AdvancedFrame.cpp:515
-#, fuzzy
 msgid "Network activity based on preferences"
 msgstr "Veiksmai tinkle pagal nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:516
-#, fuzzy
 msgid "Allow network activity according to preferences"
-msgstr "Veiksmai tinkle vykdomi pagal nustatymus"
+msgstr "Leisti veiksmus tinkle pagal nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:520
-#, fuzzy
 msgid "Network activity suspended"
-msgstr "Veiksmai tikle sustabdyti"
+msgstr "Veiksmai tinkle sustabdyti"
 
 #: clientgui/AdvancedFrame.cpp:521
 msgid "Stop BOINC network activity"
@@ -419,7 +402,6 @@ msgid "Shut down connected client..."
 msgstr "Išjungti prisijungusį klientą..."
 
 #: clientgui/AdvancedFrame.cpp:542
-#, fuzzy
 msgid "Shut down the currently connected client"
 msgstr "Išjungti šiuo metu prisijungusį pagrindinį klientą"
 
@@ -432,7 +414,6 @@ msgid "Runs BOINC CPU benchmarks"
 msgstr "Matuoja sistemos procesoraus darbo našumą"
 
 #: clientgui/AdvancedFrame.cpp:551
-#, fuzzy
 msgid "Do network communication"
 msgstr "Atlikti susijungimus tinkle"
 
@@ -464,7 +445,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:567
 msgid "Display diagnostic messages."
-msgstr ""
+msgstr "Rodyti diagnostikos žinutes."
 
 #: clientgui/AdvancedFrame.cpp:577
 #, c-format
@@ -519,7 +500,7 @@ msgstr "&Įrankiai"
 
 #: clientgui/AdvancedFrame.cpp:656
 msgid "&Activity"
-msgstr "&Veikla"
+msgstr "&Veikimas"
 
 #: clientgui/AdvancedFrame.cpp:660
 msgid "A&dvanced"
@@ -922,7 +903,7 @@ msgstr "Atidaryti %s..."
 
 #: clientgui/BOINCTaskBar.cpp:490
 msgid "Snooze"
-msgstr "Sustabdyti trumpam"
+msgstr "Laikinai sustabdyti"
 
 #: clientgui/BOINCTaskBar.cpp:492
 msgid "Snooze GPU"
@@ -1502,9 +1483,8 @@ msgstr ""
 
 #: clientgui/DlgEventLog.cpp:251 clientgui/DlgEventLog.cpp:365
 #: clientgui/DlgEventLog.cpp:367
-#, fuzzy
 msgid "Show only the messages for the selected project"
-msgstr "Kopijuoti visus pranešimus į atmintį."
+msgstr "Rodyti tik pasirinkto projekto žinutes"
 
 #: clientgui/DlgEventLog.cpp:255
 msgid "Copy All"
@@ -1512,31 +1492,31 @@ msgstr ""
 
 #: clientgui/DlgEventLog.cpp:257 clientgui/DlgEventLog.cpp:261
 msgid "Copy all the messages to the clipboard."
-msgstr "Kopijuoti visus pranešimus į atmintį."
+msgstr "Kopijuoti visas žinutes į laikinąją saugyklą."
 
 #: clientgui/DlgEventLog.cpp:266
 msgid "Copy Selected"
-msgstr ""
+msgstr "Kopijuoti pasirinktas"
 
 #: clientgui/DlgEventLog.cpp:269 clientgui/DlgEventLog.cpp:277
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
 msgstr ""
-"Kopijuoti pasirinktus pranešimus į atmintį. Keletą pranešimų galite pažymėti "
-"spausdami shift arba command klavišus žymėjimo metu."
+"Kopijuoti pasirinktas žinutes į laikinąją saugyklą. Keletą žinučių galite "
+"pažymėti spausdami Shift arba Command klavišus žymėjimo metu."
 
 #: clientgui/DlgEventLog.cpp:271 clientgui/DlgEventLog.cpp:279
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
 msgstr ""
-"Kopijuoti pasirinktus pranešimus į atmintį. Keletą pranešimų galite pažymėti "
-"spausdami shift arba control klavišus žymėjimo metu."
+"Kopijuoti pasirinktas žinutes į laikinąją saugyklą. Keletą žinučių galite "
+"pažymėti spausdami Shift arba Control klavišus žymėjimo metu."
 
 #: clientgui/DlgEventLog.cpp:286
 msgid "Close"
-msgstr ""
+msgstr "Uždaryti"
 
 #: clientgui/DlgEventLog.cpp:293 clientgui/DlgEventLog.cpp:296
 msgid "Get help with BOINC"
@@ -2730,23 +2710,24 @@ msgstr ""
 
 #: clientgui/sg_ImageButton.cpp:90
 msgid "Paused: Other work running"
-msgstr ""
+msgstr "Skaičiavimai sustabdyti: veikia kitos užduotys"
 
 #: clientgui/sg_ImageButton.cpp:92
 msgid "Paused: User initiatied.  Click 'Resume' to continue"
 msgstr ""
+"Skaičiavimai sustabdyti: vartotojo prašymas. Spauskite \"Tęsti\" pratęsimui"
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
-msgstr ""
+msgstr "Skaičiavimai sustabdyti: vartotojas aktyvus"
 
 #: clientgui/sg_ImageButton.cpp:96
 msgid "Paused: Computer on battery"
-msgstr ""
+msgstr "Skaičiavimai sustabdyti: kompiuteris veikia iš baterijų"
 
 #: clientgui/sg_ImageButton.cpp:98
 msgid "Paused: Time of Day"
-msgstr ""
+msgstr "Skaičiavimai sustabdyti: paros metas"
 
 #: clientgui/sg_ImageButton.cpp:100
 msgid "Paused: Benchmarks running"
@@ -2754,7 +2735,7 @@ msgstr ""
 
 #: clientgui/sg_ImageButton.cpp:102
 msgid "Paused"
-msgstr ""
+msgstr "Skaičiavimai sustabdyti"
 
 #: clientgui/sg_ImageButton.cpp:104
 msgid "Paused: Application start delayed"
@@ -2770,7 +2751,7 @@ msgstr "Prisijungti prie kito projekto"
 
 #: clientgui/sg_ProjectsComponent.cpp:122
 msgid "Synchronize projects with account manager system"
-msgstr ""
+msgstr "Sinchronizuoti projektus su abonento valdiklio sistema"
 
 #: clientgui/sg_ProjectsComponent.cpp:193
 #: clientgui/sg_ProjectsComponent.cpp:204
@@ -2795,12 +2776,12 @@ msgstr ""
 
 #: clientgui/sg_ProjectsComponent.cpp:295
 msgid "My Projects:"
-msgstr ""
+msgstr "Mano projektai:"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
 msgid "%s. Work done by %s: %0.2f"
-msgstr ""
+msgstr "%s. %s atliktas darbas: %0.2f"
 
 #: clientgui/sg_StatImageLoader.cpp:154
 msgid "Remove Project"
