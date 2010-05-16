@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-05-16 14:55+0200\n"
+"PO-Revision-Date: 2010-05-16 21:51+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1240,11 +1240,11 @@ msgstr "Vahvistusvirhe"
 #: ../inc/result.inc:142
 #: ../inc/result.inc:171
 msgid "Client detached"
-msgstr ""
+msgstr "Ohjelman lopettama"
 
 #: ../inc/result.inc:153
 msgid "Over"
-msgstr ""
+msgstr "Valmis"
 
 #: ../inc/result.inc:161
 msgid "Success"
@@ -1252,7 +1252,7 @@ msgstr "Onnistui"
 
 #: ../inc/result.inc:165
 msgid "Client error"
-msgstr ""
+msgstr "Ohjelman virhe"
 
 #: ../inc/result.inc:167
 msgid "Redundant result"
@@ -1284,7 +1284,7 @@ msgstr "Lähetetään"
 
 #: ../inc/result.inc:183
 msgid "Done"
-msgstr ""
+msgstr "Valmis"
 
 #: ../inc/result.inc:194
 msgid "Initial"
@@ -1296,7 +1296,7 @@ msgstr "Ei tarvita"
 
 #: ../inc/result.inc:201
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Työpakettivirhe - tarkistus ohitettu"
 
 #: ../inc/result.inc:202
 msgid "Checked, but no consensus yet"
@@ -1410,19 +1410,19 @@ msgstr "Vastaanotettu"
 
 #: ../inc/result.inc:380
 msgid "Server state"
-msgstr ""
+msgstr "Tila palvelimella"
 
 #: ../inc/result.inc:381
 msgid "Outcome"
-msgstr ""
+msgstr "Tulos"
 
 #: ../inc/result.inc:382
 msgid "Client state"
-msgstr ""
+msgstr "Tila ohjelmassa"
 
 #: ../inc/result.inc:383
 msgid "Exit status"
-msgstr ""
+msgstr "Exit status"
 
 #: ../inc/result.inc:385
 msgid "Report deadline"
@@ -1438,7 +1438,7 @@ msgstr "Suoritinaika"
 
 #: ../inc/result.inc:388
 msgid "stderr out"
-msgstr ""
+msgstr "stderr out"
 
 #: ../inc/result.inc:389
 msgid "Validate state"
