@@ -73,7 +73,9 @@ CBOINCListCtrl::~CBOINCListCtrl()
 {
     m_iRowsNeedingProgressBars.Clear();
 #ifdef __WXMAC__
+#if !USE_NATIVE_LISTCONTROL
     RemoveMacAccessibilitySupport();
+#endif
 #endif
 }
 

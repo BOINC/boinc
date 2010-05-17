@@ -37,6 +37,18 @@
 
 #define MAX_LIST_COL 100
 
+UInt64 makeElementIdentifier(SInt32 row, SInt32 col, Boolean isHeader) {
+    UInt64 id = (((row + 1) * MAX_LIST_COL) + (col + 1)) * 2;
+    if (isHeader) id |= 1;
+return id;
+}
+
+void parseElementIdentifier(UInt64 inIdentifier, SInt32& row, SInt32&col, Boolean& isHeader) {
+    isHeader = inIdentifier & 1;
+    row = (inIdentifier / (MAX_LIST_COL * 2)) - 1;
+    col = ((inIdentifier / 2) % MAX_LIST_COL) - 1;
+}
+
 void AccessibilityIgnoreAllChildren(HIViewRef parent, int recursionLevel) {
     HIViewRef       child;
     OSStatus        err;
@@ -55,18 +67,8 @@ void AccessibilityIgnoreAllChildren(HIViewRef parent, int recursionLevel) {
 }
 
 
-OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
-                                    EventRef inEvent, void* pData, Boolean isHeader);
-
-pascal OSStatus BOINCListHeaderAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
-                                    EventRef inEvent, void* pData) {
-    return BOINCListAccessibilityEventHandler(inHandlerCallRef, inEvent, pData, true);
-}
-
-pascal OSStatus BOINCListBodyAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
-                                    EventRef inEvent, void* pData) {
-    return BOINCListAccessibilityEventHandler(inHandlerCallRef, inEvent, pData, false);
-}
+pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+                                    EventRef inEvent, void* pData);
 
 pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData);
@@ -98,41 +100,45 @@ pascal OSStatus PieCtrlAccessibilityEventHandler( EventHandlerCallRef inHandlerC
 
 
 
-void CBOINCListCtrl::SetupMacAccessibilitySupport() {
 #if !USE_NATIVE_LISTCONTROL
+void CBOINCListCtrl::SetupMacAccessibilitySupport() {
     HIViewRef                       listControlView;
     HIViewRef                       headerView;
     HIViewRef                       bodyView;
+    SInt32                          response;
+    Boolean                         snowLeopard;
     OSErr                           err;
 
+    err = Gestalt(gestaltSystemVersion, &response);
+    snowLeopard = (err == noErr) && (response >= 0x1060);
+    
     listControlView = (HIViewRef)GetHandle();
     headerView = HIViewGetFirstSubview(listControlView);
     bodyView = HIViewGetNextView(headerView);
     err = HIViewSetEnabled(headerView, true);
-    
+
     accessibilityHandlerData.pList = (wxGenericListCtrl*)this;
     accessibilityHandlerData.pView = m_pParentView;
-    accessibilityHandlerData.headerView = headerView;
-    accessibilityHandlerData.bodyView = bodyView;
     accessibilityHandlerData.pEventLog = NULL;
+    accessibilityHandlerData.bodyView = bodyView;
+    accessibilityHandlerData.headerView = headerView;
+    accessibilityHandlerData.snowLeopard = snowLeopard;
     
-    err = InstallHIObjectEventHandler((HIObjectRef)headerView, NewEventHandlerUPP(BOINCListHeaderAccessibilityEventHandler), 
-                                sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
-                                                        &accessibilityHandlerData, &m_pHeaderAccessibilityEventHandlerRef);
-
-    err = InstallHIObjectEventHandler((HIObjectRef)bodyView, NewEventHandlerUPP(BOINCListBodyAccessibilityEventHandler), 
+    err = InstallHIObjectEventHandler((HIObjectRef)bodyView, NewEventHandlerUPP(BOINCListAccessibilityEventHandler), 
                                 sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
                                                         &accessibilityHandlerData, &m_pBodyAccessibilityEventHandlerRef); 
-#endif
+
+    err = InstallHIObjectEventHandler((HIObjectRef)headerView, NewEventHandlerUPP(BOINCListAccessibilityEventHandler), 
+                                sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
+                                                        &accessibilityHandlerData, &m_pHeaderAccessibilityEventHandlerRef); 
 }
 
 
 void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
-#if !USE_NATIVE_LISTCONTROL
-    ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
     ::RemoveEventHandler(m_pBodyAccessibilityEventHandlerRef);
-#endif
+    ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
 }
+#endif
 
 
 void CDlgEventLogListCtrl::SetupMacAccessibilitySupport() {
@@ -140,34 +146,40 @@ void CDlgEventLogListCtrl::SetupMacAccessibilitySupport() {
     HIViewRef                       listControlView;
     HIViewRef                       headerView;
     HIViewRef                       bodyView;
+    SInt32                          response;
+    Boolean                         snowLeopard;
     OSErr                           err;
 
+    err = Gestalt(gestaltSystemVersion, &response);
+    snowLeopard = (err == noErr) && (response >= 0x1060);
+
     listControlView = (HIViewRef)GetHandle();
-    headerView = HIViewGetFirstSubview(listControlView);
-    bodyView = HIViewGetNextView(headerView);
-    err = HIViewSetEnabled(headerView, true);
+     headerView = HIViewGetFirstSubview(listControlView);
+     bodyView = HIViewGetNextView(headerView);
+     err = HIViewSetEnabled(headerView, true);
     
     accessibilityHandlerData.pList = (wxGenericListCtrl*)this;
     accessibilityHandlerData.pView = NULL;
-    accessibilityHandlerData.headerView = headerView;
-    accessibilityHandlerData.bodyView = bodyView;
     accessibilityHandlerData.pEventLog = m_pParentView;
-    
-    err = InstallHIObjectEventHandler((HIObjectRef)headerView, NewEventHandlerUPP(BOINCListHeaderAccessibilityEventHandler), 
-                                sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
-                                                        &accessibilityHandlerData, &m_pHeaderAccessibilityEventHandlerRef);
+    accessibilityHandlerData.bodyView = bodyView;
+    accessibilityHandlerData.headerView = headerView;
+    accessibilityHandlerData.snowLeopard = snowLeopard;
 
-    err = InstallHIObjectEventHandler((HIObjectRef)bodyView, NewEventHandlerUPP(BOINCListBodyAccessibilityEventHandler), 
+    err = InstallHIObjectEventHandler((HIObjectRef)bodyView, NewEventHandlerUPP(BOINCListAccessibilityEventHandler), 
                                 sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
                                                         &accessibilityHandlerData, &m_pBodyAccessibilityEventHandlerRef); 
+
+    err = InstallHIObjectEventHandler((HIObjectRef)headerView, NewEventHandlerUPP(BOINCListAccessibilityEventHandler), 
+                                sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
+                                                        &accessibilityHandlerData, &m_pHeaderAccessibilityEventHandlerRef); 
 #endif
 }
 
 
 void CDlgEventLogListCtrl::RemoveMacAccessibilitySupport() {
 #if !USE_NATIVE_LISTCONTROL
-    ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
     ::RemoveEventHandler(m_pBodyAccessibilityEventHandlerRef);
+    ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
 #endif
 }
 
@@ -285,8 +297,8 @@ void wxPieCtrl::RemoveMacAccessibilitySupport() {
 }
 
 
-OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
-                                    EventRef inEvent, void* pData, Boolean isHeader) {
+pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+                                    EventRef inEvent, void* pData) {
     const UInt32        eventClass = GetEventClass(inEvent);
     const UInt32        eventKind = GetEventKind(inEvent);
     OSStatus            err;
@@ -295,16 +307,18 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
     HIViewRef           headerView = ((struct ListAccessData*)pData)->headerView;
     HIViewRef           bodyView = ((struct ListAccessData*)pData)->bodyView;
     CDlgEventLog*       pEventLog = ((struct ListAccessData*)pData)->pEventLog;
+    Boolean             snowLeopard = ((struct ListAccessData*)pData)->snowLeopard;
 
     if (eventClass != kEventClassAccessibility) {
         return eventNotHandledErr;
     }
 
-    AXUIElementRef		element;
-    UInt64				inIdentifier = 0;
+    AXUIElementRef	element;
+    UInt64		inIdentifier = 0;
     UInt64              outIdentifier = 0;
     SInt32              row = 0;
     SInt32              col = 0;
+    Boolean             isHeader;
     HIObjectRef         obj = NULL;
     
     err = GetEventParameter (inEvent, kEventParamAccessibleObject, 
@@ -313,15 +327,14 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
     
     AXUIElementGetIdentifier( element, &inIdentifier );
     obj = AXUIElementGetHIObject(element);
-     
-    if (inIdentifier) {
-        if (! isHeader) {
-            row = (inIdentifier / MAX_LIST_COL) - 1 + pList->GetTopItem();
-        }
-        col = (inIdentifier % MAX_LIST_COL) - 1;
+    
+    parseElementIdentifier(inIdentifier, row, col, isHeader);
+    if (obj == (HIObjectRef)headerView) {
+        isHeader = true;
     }
 
     switch (eventKind) {
+#pragma mark kEventAccessibleGetChildAtPoint
         case kEventAccessibleGetChildAtPoint:
         {
             CFTypeRef	child = NULL;
@@ -330,8 +343,8 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
             long        ignored;
             int         hitflags;
             
-            // Only the whole view can be tested since the parts don't have sub-parts.
-            if (inIdentifier != 0) {
+            // Only the whole view or rows can be tested since the cells don't have sub-parts.
+            if (col >= 0) {
                 return noErr;
             }
 
@@ -354,18 +367,21 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
             }
             
             if (isHeader) {
-                if ((p.y > 0) || (p.y < -pList->m_headerHeight)) {
-                    return noErr;
-                }
-                outIdentifier = col+1;
+                outIdentifier = makeElementIdentifier(-1, col, true);
             } else {
                 theRow = pList->HitTest(p, hitflags, &ignored);
                 if (theRow == wxNOT_FOUND) {
                     return noErr;
                 }
-                outIdentifier = ((theRow + 1 - pList->GetTopItem()) * MAX_LIST_COL) + col + 1;
+                // Child of body is a row
+                outIdentifier = (theRow + 1) * MAX_LIST_COL;
+                outIdentifier = makeElementIdentifier(theRow, -1, false);
+                if (row >= 0) {
+                    // Child of row is a cell
+                    outIdentifier = makeElementIdentifier(theRow, col, false);
+                }
            }
-            
+
             child = AXUIElementCreateWithHIObjectAndIdentifier(obj, outIdentifier );
             if (child == NULL) {
                 return eventNotHandledErr;
@@ -381,10 +397,12 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
         }
         break;
 
+#pragma mark kEventAccessibleGetFocusedChild
         case kEventAccessibleGetFocusedChild:
             return noErr;
         break;
 
+#pragma mark kEventAccessibleGetAllAttributeNames
         case kEventAccessibleGetAllAttributeNames:
         {
             CFMutableArrayRef	namesArray;
@@ -396,22 +414,57 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
 
             CallNextEventHandler( inHandlerCallRef, inEvent );
             
-            if ( inIdentifier == 0 )
-            {
-                // Identifier 0 means "the whole view".
+            if ( (row < 0) && (col < 0) ) { // the whole view
+                // col < 0 means an entire row.
                 // Let accessibility know that this view has children and can
                 // return a list of them.
                 CFArrayAppendValue( namesArray, kAXChildrenAttribute );
+                if (!isHeader) {
+                    if (snowLeopard) {
+                        CFArrayAppendValue( namesArray, kAXVisibleChildrenAttribute );
+                        CFArrayAppendValue( namesArray, kAXSelectedChildrenAttribute );
+                        CFArrayAppendValue( namesArray, kAXOrientationAttribute );
+                    } else {
+                        CFArrayAppendValue( namesArray, kAXVisibleRowsAttribute );
+                        CFArrayAppendValue( namesArray, kAXRowsAttribute );
+                        CFArrayAppendValue( namesArray, kAXSelectedRowsAttribute );
+                        CFArrayAppendValue( namesArray, kAXColumnsAttribute );
+                        CFArrayAppendValue( namesArray, kAXSelectedColumnsAttribute );
+                        CFArrayAppendValue( namesArray, kAXHeaderAttribute );
+                        CFArrayAppendValue( namesArray, kAXVisibleColumnsAttribute );
+                    }
+                }
             } else {
+                if (isHeader) {
+                    if (pView) {
+                        // Sortable list
+                        CFArrayAppendValue( namesArray, kAXSubroleAttribute );
+                        CFArrayAppendValue( namesArray, kAXTitleAttribute );
+                        if (snowLeopard) {
+                            CFArrayAppendValue( namesArray, kAXSortDirectionAttribute );
+                        }
+                    }else {
+                        // Event Log is not sortable
+                        CFArrayAppendValue( namesArray, kAXValueAttribute );
+                    }
+                 } else {
+                    if (col < 0) {
+                        // Row has children
+                        CFArrayAppendValue( namesArray, kAXChildrenAttribute );
+                        CFArrayAppendValue( namesArray, kAXSelectedAttribute );
+                        CFArrayAppendValue( namesArray, kAXIndexAttribute );
+                        CFArrayAppendValue( namesArray, kAXVisibleChildrenAttribute );
+                        CFArrayAppendValue( namesArray, kAXSubroleAttribute );
+                    } else {
+                        CFArrayAppendValue( namesArray, kAXValueAttribute );
+                    }
+                }
                 // Let accessibility know that this view's children can return description,
                 // size, position, parent window, top level element and isFocused attributes.
                 CFArrayAppendValue( namesArray, kAXWindowAttribute );
                 CFArrayAppendValue( namesArray, kAXTopLevelUIElementAttribute );
                 CFArrayAppendValue( namesArray, kAXSizeAttribute );
                 CFArrayAppendValue( namesArray, kAXPositionAttribute );
-                if (isHeader) {
-                    CFArrayAppendValue( namesArray, kAXTitleAttribute );
-                }
                 CFArrayAppendValue( namesArray, kAXEnabledAttribute );
             }
             
@@ -425,6 +478,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
         }
         break;
             
+#pragma mark kEventAccessibleGetAllParameterizedAttributeNames
         case kEventAccessibleGetAllParameterizedAttributeNames:
         {
             CFMutableArrayRef	namesArray;
@@ -437,6 +491,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
         }
         break;
             
+#pragma mark kEventAccessibleGetNamedAttribute (Entire list or entire header)
         case kEventAccessibleGetNamedAttribute:
         {
             CFStringRef			attribute;
@@ -447,14 +502,14 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
 
             if ( CFStringCompare( attribute, kAXFocusedAttribute, 0 ) == kCFCompareEqualTo ) {
                 // Return whether or not this part is focused.
-//TODO: Add kAXFocusedAttribute support?
+//TODO: Add real kAXFocusedAttribute support?
                 Boolean				focused = false;
                 
                 SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeBoolean, sizeof( focused ), &focused );
                 return noErr;
             }
 
-            if ( inIdentifier == 0 ) {
+            if ( (row < 0) && (col < 0) ) { // Entire list or entire header
                 // String compare the incoming attribute name and return the appropriate accessibility
                 // information as an event parameter.
             
@@ -462,32 +517,29 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     // Create and return an array of AXUIElements describing the children of this view.
                     CFMutableArrayRef	children;
                     AXUIElementRef		child;
-                    int                 c, n = pList->GetColumnCount();
 
                     if (isHeader) {
+                        int             c, n = pList->GetColumnCount();
                         children = CFArrayCreateMutable( kCFAllocatorDefault, n, &kCFTypeArrayCallBacks );
 
                         for ( c = 0; c < n; c++ ) {
                             // Header item for each column
-                            outIdentifier = c+1;
+                            outIdentifier = makeElementIdentifier(-1, c, true);
                             child = AXUIElementCreateWithHIObjectAndIdentifier( obj, outIdentifier );
                             CFArrayAppendValue( children, child );
                             CFRelease( child );
                         }
                     } else {        // ! isHeader
-                        int             r, m = pList->GetCountPerPage();
-                        
-                         children = CFArrayCreateMutable( kCFAllocatorDefault, (m + 1) * n, &kCFTypeArrayCallBacks );
+                        int             r, m = pList->GetItemCount();
+                        children = CFArrayCreateMutable( kCFAllocatorDefault, m, &kCFTypeArrayCallBacks );
 
+                        // Data rows are each children of entire list
                         for ( r = 0; r < m; r++ ) {
-                            // For each row
-                            for ( c = 0; c < n; c++ ) {
-                                // For each column
-                                outIdentifier = ((r + 1) * MAX_LIST_COL) + c + 1;
-                                child = AXUIElementCreateWithHIObjectAndIdentifier( obj, outIdentifier );
-                                CFArrayAppendValue( children, child );
-                                CFRelease( child );
-                            }
+                        // For each row
+                            outIdentifier = makeElementIdentifier(r, -1, false);
+                            child = AXUIElementCreateWithHIObjectAndIdentifier( obj, outIdentifier );
+                            CFArrayAppendValue( children, child );
+                            CFRelease( child );
                         }
                     }
                     
@@ -495,9 +547,111 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     CFRelease( children );
                     return noErr;
 
+                } else if ( CFStringCompare( attribute, kAXHeaderAttribute, 0 ) == kCFCompareEqualTo ) {
+                    AXUIElementRef		child;
+
+                    outIdentifier = makeElementIdentifier(-1, -1, true);
+                    child = AXUIElementCreateWithHIObjectAndIdentifier( (HIObjectRef)headerView, outIdentifier );
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( child ), &child );
+                    CFRelease( child );
+                    return noErr;
+ 
+                } else if ( CFStringCompare( attribute, kAXRowsAttribute, 0 ) == kCFCompareEqualTo ) {
+                    CFMutableArrayRef	children;
+                    AXUIElementRef		child;
+
+                    int             r, m = pList->GetItemCount();
+                    children = CFArrayCreateMutable( kCFAllocatorDefault, m, &kCFTypeArrayCallBacks );
+
+                    // Data rows are each children of entire list
+                    for ( r = 0; r < m; r++ ) {
+                    // For each row
+                        outIdentifier = makeElementIdentifier(r, -1, false);
+                        child = AXUIElementCreateWithHIObjectAndIdentifier( obj, outIdentifier );
+                        CFArrayAppendValue( children, child );
+                        CFRelease( child );
+                    }
+
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( children ), &children );
+                    CFRelease( children );
+                    return noErr; 
+
+                } else if (( CFStringCompare( attribute, kAXVisibleRowsAttribute, 0 ) == kCFCompareEqualTo ) 
+                            || ( CFStringCompare( attribute, kAXVisibleChildrenAttribute, 0 ) == kCFCompareEqualTo )) {
+                    CFMutableArrayRef	children;
+                    AXUIElementRef		child;
+                    int                 numItems, topItem, numVisibleItems, r;
+
+                    children = CFArrayCreateMutable( kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks );
+
+                    numItems = pList->GetItemCount();
+                    if (numItems) {
+                        topItem = pList->GetTopItem();     // Doesn't work properly for Mac Native control in wxMac-2.8.7
+
+                        numVisibleItems = pList->GetCountPerPage();
+                        ++numVisibleItems;
+
+                        if (numItems <= (topItem + numVisibleItems)) numVisibleItems = numItems - topItem;
+                        for ( r = 0; r < numVisibleItems; r++ ) {     // For each visible row
+                            outIdentifier = makeElementIdentifier(r, -1, false);
+                            child = AXUIElementCreateWithHIObjectAndIdentifier( obj, outIdentifier );
+                            CFArrayAppendValue( children, child );
+                            CFRelease( child );
+                        }
+                    }
+
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( children ), &children );
+                    CFRelease( children );
+                    return noErr;
+
+                } else if (( CFStringCompare( attribute, kAXSelectedChildrenAttribute, 0 ) == kCFCompareEqualTo ) 
+                			|| ( CFStringCompare( attribute, kAXSelectedRowsAttribute, 0 ) == kCFCompareEqualTo )) {
+                    CFMutableArrayRef	children;
+                    AXUIElementRef		child;
+                    int                 r;
+                    
+                    children = CFArrayCreateMutable( kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks );
+
+                    r = -1;
+                    while (1) {
+                        // Step through all selected items
+                        r = pList->GetNextItem(r, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+                        if (r < 0) break;
+                        outIdentifier = makeElementIdentifier(r, -1, false);
+                        child = AXUIElementCreateWithHIObjectAndIdentifier( obj, outIdentifier );
+                        CFArrayAppendValue( children, child );
+                        CFRelease( child );
+                    }
+             
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( children ), &children );
+                    CFRelease( children );
+                    return noErr;
+
+                } else if (( CFStringCompare( attribute, kAXColumnsAttribute, 0 ) == kCFCompareEqualTo )
+                            || ( CFStringCompare( attribute, kAXSelectedColumnsAttribute, 0 ) == kCFCompareEqualTo )
+                            || ( CFStringCompare( attribute, kAXVisibleColumnsAttribute, 0 ) == kCFCompareEqualTo )
+                            ) {
+                    CFMutableArrayRef	children;
+                    
+                    // Tell system we don't have any columns
+                    children = CFArrayCreateMutable( kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks );
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( children ), &children );
+                    CFRelease( children );
+                    return noErr;
+
+                } else if ( CFStringCompare( attribute, kAXOrientationAttribute, 0 ) == kCFCompareEqualTo ) {
+                    CFStringRef		orientation = kAXVerticalOrientationValue;
+                    
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( orientation ), &orientation );
+                    return noErr;
+
+
                 } else if ( CFStringCompare( attribute, kAXRoleAttribute, 0 ) == kCFCompareEqualTo ) {
                     // Return a string indicating the role of this view. Using the table role doesn't work.
-                    CFStringRef		role = isHeader? kAXColumnRole : kAXListRole;
+                    CFStringRef		role = kAXGroupRole;
+                    if (!isHeader) {
+                    	role = snowLeopard ? kAXListRole : kAXOutlineRole;
+                    }
                     
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( role ), &role );
                     return noErr;
@@ -505,28 +659,39 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                 } else if ( CFStringCompare( attribute, kAXRoleDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
                     // Return a string indicating the role of this part.
 
-                    CFStringRef		roleDesc = CFSTR("");
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
+                    CFStringRef		role = kAXGroupRole;
+                    if (!isHeader) {
+                    	role = snowLeopard ? kAXListRole : kAXOutlineRole;
+                    }
+                    CFStringRef roleDesc = HICopyAccessibilityRoleDescription( role, NULL );
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue , typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
                     CFRelease( roleDesc );
                     return noErr;
 
                 } else if ( CFStringCompare( attribute, kAXDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
                     // Return a string indicating the role of this part.
                     wxString        str;
+                    int             n = pList->GetItemCount();
 
                     if (isHeader) {
-                        str = _("blank");
+                        str = _("list headers");
                     } else {
-                        str = _("list of ");
                         if (pEventLog) {
-                            str += _("events");
+                            // To allow localization, we can't just append string 
+                            // " is empty" because that assumes English word order.
+                            if (n) {
+                                str = _("list of events");
+                            } else {
+                                str = _("list of events is empty");
+                            }
                         } else {
                             if (pView) {
-                                str += pView->GetViewDisplayName();
+                                if (n) {
+                                    str.Printf(_("list of %s"), pView->GetViewDisplayName().c_str());
+                                } else {
+                                    str.Printf(_("list of %s is empty"), pView->GetViewDisplayName().c_str());
+                                }
                             }
-                        }
-                        if (pList->GetItemCount() <= 0) {
-                            str += _(" is empty"); 
                         }
                     }
                     
@@ -538,8 +703,8 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                 } else if ( CFStringCompare( attribute, kAXParentAttribute, 0 ) == kCFCompareEqualTo ) {
                     AXUIElementRef		parent;
                     HIViewRef           parentView;
-
-                    parentView = HIViewGetSuperview(isHeader ? headerView : bodyView);
+                    
+                    parentView = (HIViewGetSuperview(isHeader ? headerView : bodyView));
                     parent = AXUIElementCreateWithHIObjectAndIdentifier((HIObjectRef)parentView, 0);
                     if (parent == NULL) {
                         return eventNotHandledErr;
@@ -550,9 +715,13 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                 
                 } else if ( CFStringCompare( attribute, kAXSizeAttribute, 0 ) == kCFCompareEqualTo ) {
                     HIRect          r;
+                    HISize          size;
                     
-                    err = HIViewGetBounds(isHeader ? headerView : bodyView, &r);
-                    HISize          size = r.size;
+                    err = HIViewGetBounds(isHeader ? headerView : bodyView, &r);                    
+                    size = r.size;
+                    if (!isHeader) {
+                        size.height += pList->m_headerHeight;
+                    }
                     
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeHISize, sizeof( HISize ), &size );
                     return noErr;
@@ -560,18 +729,16 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                 } else if ( CFStringCompare( attribute, kAXPositionAttribute, 0 ) == kCFCompareEqualTo ) {
                     HIRect          r;
                     HIPoint         pt;
-                    
+                    int             x, y;
+
                     err = HIViewGetBounds(isHeader ? headerView : bodyView, &r);
-                     int             x = r.origin.x, y = r.origin.y;
+                    x = r.origin.x;
+                    y = r.origin.y;
                     
                     // Now convert to global coordinates
                     pList->ClientToScreen(&x, &y);
                     pt.x = x;
-                    if (isHeader) {
-                        pt.y = y - pList->m_headerHeight;
-                    } else {
-                        pt.y = y;
-                    }
+                    pt.y = y - pList->m_headerHeight;
 
                     SetEventParameter(inEvent, kEventParamAccessibleAttributeValue, typeHIPoint, sizeof(HIPoint), &pt);
                     return noErr;
@@ -581,78 +748,122 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
 
                 }
                 
-            } else {        // End if ( inIdentifier == 0 )
+#pragma mark kEventAccessibleGetNamedAttribute (row or item)
+            } else {        // End if ( (row < 0) && (col < 0) )
             
-                if ( CFStringCompare( attribute, kAXDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
+                if ( CFStringCompare( attribute, kAXChildrenAttribute, 0 ) == kCFCompareEqualTo ) {
+                    if (col >= 0) {
+                        return eventNotHandledErr;
+                    }
+                    // Create and return an array of AXUIElements describing the children of this view.
+                    CFMutableArrayRef	children;
+                    AXUIElementRef		child;
+                    int                 c, n = pList->GetColumnCount();
+                    
+                    children = CFArrayCreateMutable( kCFAllocatorDefault, n, &kCFTypeArrayCallBacks );
+
+                    for ( c = 0; c < n; c++ ) {
+                        // For each column
+                        outIdentifier = makeElementIdentifier(row, c, isHeader);
+                        child = AXUIElementCreateWithHIObjectAndIdentifier( obj, outIdentifier );
+                        CFArrayAppendValue( children, child );
+                        CFRelease( child );
+                    }
+                    
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( children ), &children );
+                    CFRelease( children );
+                    return noErr;
+
+                } else if ( CFStringCompare( attribute, kAXDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
                     wxString        str, buf;
                     int             rowCount;
                     Boolean         isCurrentSortCol = false;
 
                     if (isHeader) {
                         wxListItem      headerItem;
+                        int             numCols = pList->GetColumnCount();
 
-                        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                        if (!pFrame) {
-                            return eventNotHandledErr;
-                        }
-                        
                         pList->GetColumn(col, headerItem);
-                        buf.Printf(_("%d of %d; "), col+1, pList->GetColumnCount());
                         if (pView) {
                             if (col == pView->m_iSortColumn) {
                                 isCurrentSortCol = true;
                             }
                         }
                         if (isCurrentSortCol) {
-                            str = _("current sort column ");
-                            str += buf;
-                            str += (pView->m_bReverseSort ? _(" descending order ") : _(" ascending order "));
+                            if (pView->m_bReverseSort) {
+                                buf.Printf(_("; current sort column %d of %d; descending order; "), col+1, numCols);
+                            } else {
+                                buf.Printf(_("; current sort column %d of %d; ascending order; "), col+1, numCols);
+                            }
                         } else {
-                            str = _("column ");
-                            str += buf;
+                            buf.Printf(_("; column %d of %d; "), col+1, numCols);
                         }
-                        str += headerItem.GetText();
+                        str = headerItem.GetText();
+                        str += buf;
                     } else {    // ! isHeader
                         rowCount = pList->GetItemCount();
                         if (rowCount <= 0) {
                             str = _("list is empty");                         
                         } else {
-                            if (pList->GetItemState(row, wxLIST_STATE_SELECTED) & wxLIST_STATE_SELECTED) {
-                               str = _("selected "); 
+                            if (col < 0) {
+                                str.Printf(_("; row %d; "), row+1);
                             } else {
-                               str = wxEmptyString; 
-                            }
+                                if (pList->GetItemState(row, wxLIST_STATE_SELECTED) & wxLIST_STATE_SELECTED) {
+                                    if (col == 0) {
+                                        buf.Printf(_("; selected row %d of %d; "), row+1, rowCount);
+                                    } else {
+                                        buf.Printf(_("; selected row %d ; "), row+1);
+                                    }
+                                } else {        // Row is not selected
+                                    if (col == 0) {
+                                        buf.Printf(_("; row %d of %d; "), row+1, rowCount);
+                                    } else {
+                                        buf.Printf(_("; row %d; "), row+1);
+                                    }
+                                }
 
-                            buf.Printf(_("row %d "), row+1);
-                            str += buf;
-                            if (col == 0) {
-                                buf.Printf(_("of %d; "), rowCount);
+                                if (pEventLog) {
+                                    str = pEventLog->OnListGetItemText(row, col);
+                                } else {
+                                    str = pView->FireOnListGetItemText(row, col);
+                                }
+
+                                if (str.IsEmpty()) {
+                                    str = _("blank");
+                                }
+                                
                                 str += buf;
                            }
-                            buf.Printf(_("column %d; "), col+1);
-                            str += buf;
-                            if (pEventLog) {
-                                buf = pEventLog->OnListGetItemText(row, col);
-                            } else {
-                                buf = pView->FireOnListGetItemText(row, col);
-                            }
-                            if (buf.IsEmpty()) {
-                                buf = _("blank");
-                            }
-                            str += buf;
                         }
                     }
+                    
                     CFStringRef		description = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( description ), &description );
                     CFRelease( description );
                     return noErr;
                     
+                } else if ( CFStringCompare( attribute, kAXValueAttribute, 0 ) == kCFCompareEqualTo ) {
+                    CFStringRef		value = CFSTR("");
+
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( value ), &value );
+                    CFRelease( value );
+                    return noErr;
+
                 } else if ( CFStringCompare( attribute, kAXParentAttribute, 0 ) == kCFCompareEqualTo ) {
                     AXUIElementRef		parent;
                     HIViewRef           parentView;
 
                     parentView = isHeader ? headerView : bodyView;
-                    parent = AXUIElementCreateWithHIObjectAndIdentifier((HIObjectRef)parentView, 0);
+                    if (isHeader) {
+                        outIdentifier = 0;      // Parent is entire list
+                    } else {            // ! isHeader
+                        if (col < 0) {  // Data row
+                            outIdentifier = 0;      // Parent is entire list
+                        } else {
+                            outIdentifier = makeElementIdentifier(row, -1, isHeader);   // Parent of cell is data row
+                        }
+                    }
+                    parent = AXUIElementCreateWithHIObjectAndIdentifier((HIObjectRef)parentView, outIdentifier);
                     if (parent == NULL) {
                         return eventNotHandledErr;
                     }
@@ -662,22 +873,19 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                 
                 } else if ( CFStringCompare( attribute, kAXSubroleAttribute, 0 ) == kCFCompareEqualTo ) {
                     CFStringRef		subRole;
-                    int             currentTabView;
                     
-                    if (! isHeader) {
-                        return eventNotHandledErr;
-                    }
-                    
-                    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                    if (!pFrame) {
-                        return eventNotHandledErr;
-                    }
-                    currentTabView = pFrame->GetCurrentViewPage();
-                    
-                    if (currentTabView & (VW_PROJ | VW_TASK |VW_XFER)) {
-                        subRole = kAXSortButtonSubrole;
-                    } else {
-                        return eventNotHandledErr;
+                    if (isHeader) {
+	                    if (pView) {
+                            subRole = kAXSortButtonSubrole;
+	                    } else {
+	                        return eventNotHandledErr;
+	                    }
+                    } else {    // ! isHeader
+                        if (col < 0) {
+                            subRole = kAXOutlineRowSubrole;     
+                        } else {
+                            return eventNotHandledErr;
+                        }
                     }
                     
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( subRole ), &subRole );
@@ -688,21 +896,16 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     // buttons, so use that system role.
 
                     CFStringRef		role;
-                    int             currentTabView;
 
                     if (isHeader) {
-                        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                        if (!pFrame) {
-                            return eventNotHandledErr;
-                        }
-                        currentTabView = pFrame->GetCurrentViewPage();
-                        
-                        if (currentTabView & (VW_PROJ | VW_TASK |VW_XFER)) {
+                        if (pView) {
                             role = kAXButtonRole;
                         } else {
-                            role = kAXColumnRole;
+                            role = kAXStaticTextRole;
                         }
-                    } else {    // ! isHeader
+                    } else if (col < 0) {
+                        role = kAXRowRole;
+                    } else {
                         role = kAXStaticTextRole;
                     }
 
@@ -712,26 +915,40 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                 } else if ( CFStringCompare( attribute, kAXRoleDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
                     // Return a string describing the role of this part. Use the system description.
                     CFStringRef		roleDesc;
-                    int             currentTabView;
                     
                     if (isHeader) {
-                        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                        if (!pFrame) {
-                            return eventNotHandledErr;
-                        }
-                        currentTabView = pFrame->GetCurrentViewPage();
-                        
-                        if (currentTabView & (VW_PROJ | VW_TASK |VW_XFER)) {
-                            roleDesc = HICopyAccessibilityRoleDescription( kAXButtonRole, kAXSortButtonSubrole );
+                        if (pView) {
+                                roleDesc = HICopyAccessibilityRoleDescription( kAXButtonRole, kAXSortButtonSubrole );
                         } else {
-                            roleDesc = CFStringCreateCopy(NULL, CFSTR(""));
+                            roleDesc = HICopyAccessibilityRoleDescription( kAXStaticTextRole, NULL );
                         }
                     } else {    // ! isHeader
-                        roleDesc = HICopyAccessibilityRoleDescription( kAXStaticTextRole, NULL );
+                        CFStringRef		role = kAXStaticTextRole;
+                        if (col < 0) {
+                            if (snowLeopard) {
+                                role = kAXRowRole;
+                            } else {
+                                role = kAXOutlineRowSubrole;
+                            }
+                        }
+                        roleDesc = HICopyAccessibilityRoleDescription( role, NULL );
                     }
 
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
                     CFRelease( roleDesc );
+                    return noErr;
+
+                } else if ( CFStringCompare( attribute, kAXSortDirectionAttribute, 0 ) == kCFCompareEqualTo ) {
+                    CFStringRef		sortDirection;
+
+                    if (col == pView->m_iSortColumn) {
+                        sortDirection = pView->m_bReverseSort ? kAXDescendingSortDirectionValue : kAXAscendingSortDirectionValue;
+                    } else {
+                        sortDirection = kAXUnknownSortDirectionValue;
+                    }
+
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( sortDirection ), &sortDirection );
+                    CFRelease( sortDirection );
                     return noErr;
 
                 } else if ( CFStringCompare( attribute, kAXSizeAttribute, 0 ) == kCFCompareEqualTo ) {
@@ -745,6 +962,9 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     } else {    // ! isHeader
                         pList->GetItemRect(row, r);
                         size.height = r.height;
+                        if (col < 0) {
+                            size.width = r.width;
+                        }
                     }
 
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeHISize, sizeof( HISize ), &size );
@@ -757,13 +977,16 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     
                     // Return the position of this part as an HIPoint.
                     // First get the position relative to the ListCtrl
-                    for (i=0; i< col; i++) {
+                    for (i=0; i<col; i++) {
                         x += pList->GetColumnWidth(i);
                     }
                     
                     if (!isHeader) {
                         pList->GetItemRect(row, r);
                         y = r.y - 1;
+                        if (col < 0) {
+                            x = r.x;
+                        }
                     }
                     // Now convert to global coordinates
                     pList->ClientToScreen(&x, &y);
@@ -779,6 +1002,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     AXUIElementRef		windOrTopUI;
 
                     WindowRef win = GetControlOwner(bodyView);
+ 
                     if (win == NULL) {
                         return eventNotHandledErr;
                     }
@@ -797,22 +1021,67 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeBoolean, sizeof( enabled ), &enabled );
                     return noErr;
                 
+//TODO: Add kAXFocusedAttribute support?
 #if 0
                 } else if ( CFStringCompare( attribute, kAXFocusedAttribute, 0 ) == kCFCompareEqualTo ) {
                     // Return whether or not this part is focused.
-//TODO: Add kAXFocusedAttribute support?
                     Boolean				focused = false;
                     
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeBoolean, sizeof( focused ), &focused );
                     return noErr;
 #endif
 
+                } else if ( CFStringCompare( attribute, kAXSelectedAttribute, 0 ) == kCFCompareEqualTo ) {
+                    if (col >= 0) {
+                        return eventNotHandledErr;
+                    }
+                    Boolean isSelected = pList->GetItemState(row, wxLIST_STATE_SELECTED) & wxLIST_STATE_SELECTED;
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeBoolean, sizeof( isSelected ), &isSelected );
+                    return noErr;
+
+                } else if ( CFStringCompare( attribute, kAXIndexAttribute, 0 ) == kCFCompareEqualTo ) {
+                    if (col >= 0) {
+                        return eventNotHandledErr;
+                    }
+                    int theRow = row + 1;
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeInteger, sizeof( theRow ), &theRow );
+                    return noErr;
+
+                } else if ( CFStringCompare( attribute, kAXVisibleChildrenAttribute, 0 ) == kCFCompareEqualTo ) {
+//TODO: Actually determine which columns are visible
+                    // Create and return an array of AXUIElements describing the children of this view.
+                    CFMutableArrayRef	children;
+                    AXUIElementRef	child;
+                    int                 c, n = pList->GetColumnCount();
+                    
+                    children = CFArrayCreateMutable( kCFAllocatorDefault, n, &kCFTypeArrayCallBacks );
+
+                    if (col >= 0) {
+                        return eventNotHandledErr;
+                    }
+
+                    for ( c = 0; c < n; c++ ) {
+                        // For each column
+                        outIdentifier = makeElementIdentifier(row, c, isHeader);
+                        child = AXUIElementCreateWithHIObjectAndIdentifier( obj, outIdentifier );
+                        CFArrayAppendValue( children, child );
+                        CFRelease( child );
+                    }
+                    
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( children ), &children );
+                    CFRelease( children );
+                    return noErr;
+                
                 } else if ( CFStringCompare( attribute, kAXTitleAttribute, 0 ) == kCFCompareEqualTo ) {
                     // Return the item's text
                     wxString        str;
                     wxListItem      headerItem;
 
-                    if (!isHeader) {
+                    if (pEventLog || !isHeader) {
+                        return eventNotHandledErr;
+                    }
+                    
+                    if (col < 0) {
                         return eventNotHandledErr;
                     }
                     
@@ -828,11 +1097,11 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     return eventNotHandledErr;
                 }
 
-            } // End if ( inIdentifier != 0 )
+            } // End // End if (!( (row < 0) && (col < 0) ))
         break;
         }       // End case kEventAccessibleGetNamedAttribute:
 
-        
+#pragma mark kEventAccessibleIsNamedAttributeSettable
         case kEventAccessibleIsNamedAttributeSettable:
         {
             CFStringRef			attribute;
@@ -844,7 +1113,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
 
             // The focused attribute is the only settable attribute for this view,
             // and it can only be set on part (or subelements), not the whole view.
-            if (inIdentifier != 0)
+            if ((row >= 0) || (col >= 0))
             {
                 if ( CFStringCompare( attribute, kAXFocusedAttribute, 0 ) == kCFCompareEqualTo )
                 {
@@ -856,12 +1125,14 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
         }
         break;
 
+#pragma mark kEventAccessibleSetNamedAttribute
         case kEventAccessibleSetNamedAttribute:
         {
             return eventNotHandledErr;
         }
         break;
 
+#pragma mark kEventAccessibleGetAllActionNames
         case kEventAccessibleGetAllActionNames:
         {
             CFMutableArrayRef	array;
@@ -870,20 +1141,26 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                         typeCFMutableArrayRef, NULL, sizeof(typeCFMutableArrayRef), NULL, &array);
             if (err) return err;
             
-            if (inIdentifier != 0) {
+            if (pEventLog && isHeader) {
+                return noErr;
+            } 
+            
+            if (isHeader && (col >= 0) ) {
+                // Sortable column header
                 CFArrayAppendValue( array, kAXPressAction );
             }
             return noErr;
         }
         break;
         
+#pragma mark kEventAccessibleGetNamedActionDescription
         case kEventAccessibleGetNamedActionDescription:
         {
             CFStringRef				action;
             CFMutableStringRef		desc;
             CFStringRef				selfDesc = NULL;
             
-            if (inIdentifier == 0) {
+            if ( (row < 0) && (col < 0) ) {
                 return eventNotHandledErr;
             }
             
@@ -903,12 +1180,13 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
         }
         break;
     
+#pragma mark kEventAccessiblePerformNamedAction
         case kEventAccessiblePerformNamedAction:
         {
             CFStringRef				action;
             wxWindowID              id = pList->GetId();
                 
-            if (inIdentifier == 0) {
+            if ( (row < 0) && (col < 0) ) {
                 return eventNotHandledErr;
             }
                 
@@ -977,6 +1255,7 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
     row = inIdentifier;
 
     switch (eventKind) {
+#pragma mark kEventAccessibleGetChildAtPoint
         case kEventAccessibleGetChildAtPoint:
         {
             CFTypeRef	child = NULL;
@@ -1002,8 +1281,6 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
             }
             
             if (hitRow >= 0) {
-    
-//TODO: Check with Rom why this starts at 0 not 1
                 outIdentifier = hitRow + 1;
                 child = AXUIElementCreateWithHIObjectAndIdentifier(obj, outIdentifier );
                 if (child == NULL) {
@@ -1021,10 +1298,12 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
         }
         break;
 
+#pragma mark kEventAccessibleGetFocusedChild
         case kEventAccessibleGetFocusedChild:
             return noErr;
         break;
 
+#pragma mark kEventAccessibleGetAllAttributeNames
         case kEventAccessibleGetAllAttributeNames:
         {
             CFMutableArrayRef	namesArray;
@@ -1063,6 +1342,7 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
         }
         break;
             
+#pragma mark kEventAccessibleGetAllParameterizedAttributeNames
         case kEventAccessibleGetAllParameterizedAttributeNames:
         {
             CFMutableArrayRef	namesArray;
@@ -1075,6 +1355,7 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
         }
         break;
             
+#pragma mark kEventAccessibleGetNamedAttribute
         case kEventAccessibleGetNamedAttribute:
         {
             CFStringRef			attribute;
@@ -1164,7 +1445,6 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     wxString        str;
 
                     str = _("list of projects or account managers");
-//                    str += pView->GetViewDisplayName();
                     CFStringRef		roleDesc = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
 
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
@@ -1201,12 +1481,10 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     }
 
                     if (pCtrl->IsSelected(row - 1)) {
-                        str = _("selected ");
+                        str.Printf(_("selected row %d of %d; "), row, n);
                     } else {
-                        str = wxEmptyString;
+                        str.Printf(_("row %d of %d; "), row, n);
                     }
-                    buf.Printf(_("row %d of %d; "), row, n);
-                    str += buf;
 
                     err = pAccessible->GetDescription(row, &buf);
                     if (err) {
@@ -1247,7 +1525,6 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                 } else if ( CFStringCompare( attribute, kAXRoleDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
                     // Return a string describing the role of this part. Use the system description.
                     CFStringRef		roleDesc = HICopyAccessibilityRoleDescription( kAXRowRole, NULL );
-//                    CFStringRef		roleDesc = HICopyAccessibilityRoleDescription( kAXStaticTextRole, NULL );
 
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
                     CFRelease( roleDesc );
@@ -1277,10 +1554,10 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeBoolean, sizeof( enabled ), &enabled );
                     return noErr;
                 
+//TODO: Add kAXFocusedAttribute support?
 #if 0
                 } else if ( CFStringCompare( attribute, kAXFocusedAttribute, 0 ) == kCFCompareEqualTo ) {
                     // Return whether or not this part is focused.
-//TODO: Add kAXFocusedAttribute support?
                     Boolean				focused = false;
                     
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeBoolean, sizeof( focused ), &focused );
@@ -1307,7 +1584,7 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
         break;
         }       // End case kEventAccessibleGetNamedAttribute:
 
-        
+#pragma mark kEventAccessibleIsNamedAttributeSettable
         case kEventAccessibleIsNamedAttributeSettable:
         {
             CFStringRef			attribute;
@@ -1331,12 +1608,14 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
         }
         break;
 
+#pragma mark kEventAccessibleSetNamedAttribute
         case kEventAccessibleSetNamedAttribute:
         {
             return eventNotHandledErr;
         }
         break;
 
+#pragma mark kEventAccessibleGetAllActionNames
         case kEventAccessibleGetAllActionNames:
         {
             CFMutableArrayRef	array;
@@ -1352,6 +1631,7 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
         }
         break;
         
+#pragma mark kEventAccessibleGetNamedActionDescription
         case kEventAccessibleGetNamedActionDescription:
         {
             CFStringRef				action;
@@ -1378,6 +1658,7 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
         }
         break;
     
+#pragma mark kEventAccessiblePerformNamedAction
         case kEventAccessiblePerformNamedAction:
         {
             CFStringRef				action;
@@ -1421,6 +1702,7 @@ pascal OSStatus SimpleAccessibilityEventHandler( EventHandlerCallRef inHandlerCa
 
     switch (eventKind) {
 
+#pragma mark kEventAccessibleGetNamedAttribute
         case kEventAccessibleGetNamedAttribute:
             CFStringRef			attribute;
 
@@ -1463,6 +1745,7 @@ pascal OSStatus PieCtrlAccessibilityEventHandler( EventHandlerCallRef inHandlerC
 
     switch (eventKind) {
 
+#pragma mark kEventAccessibleGetNamedAttribute
         case kEventAccessibleGetNamedAttribute:
             CFStringRef			attribute;
 

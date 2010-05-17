@@ -30,6 +30,7 @@ struct ListAccessData {
     CDlgEventLog*       pEventLog;
     HIViewRef           headerView;
     HIViewRef           bodyView;
+    Boolean             snowLeopard;
 };
 
 void AccessibilityIgnoreAllChildren(HIViewRef parent, int recursionLevel);
