@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-21 16:09-0500\n"
+"POT-Creation-Date: 2010-05-17 11:04-0500\n"
 "PO-Revision-Date: 2008-01-01 00:33+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -257,11 +257,12 @@ msgid "Display the simple graphical interface."
 msgstr "顯示精簡 BOINC 圖形介面。"
 
 #: clientgui/AdvancedFrame.cpp:392
-msgid "Attach to &project or account manager..."
-msgstr ""
+#, fuzzy
+msgid "&Attach to project or account manager..."
+msgstr "加入帳號管理(&A)..."
 
 #: clientgui/AdvancedFrame.cpp:393
-msgid "Attach to a project or account manager to begin processing work"
+msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:397
@@ -1018,31 +1019,31 @@ msgstr "柏克萊開放式網路運算平台"
 msgid "&OK"
 msgstr "確定(&O)"
 
-#: clientgui/DlgAdvPreferences.cpp:485
+#: clientgui/DlgAdvPreferences.cpp:500
 msgid "invalid float"
 msgstr "浮點數無效"
 
-#: clientgui/DlgAdvPreferences.cpp:486
+#: clientgui/DlgAdvPreferences.cpp:501
 msgid "invalid time, format is HH:MM"
 msgstr "時間無效，格式為 HH:MM"
 
-#: clientgui/DlgAdvPreferences.cpp:487
+#: clientgui/DlgAdvPreferences.cpp:502
 msgid "invalid time interval, format is HH:MM-HH:MM"
 msgstr "時間區間無效，格式為 HH:MM-HH:MM"
 
-#: clientgui/DlgAdvPreferences.cpp:601
+#: clientgui/DlgAdvPreferences.cpp:616
 msgid "invalid input value detected"
 msgstr "偵測到輸入值無效"
 
-#: clientgui/DlgAdvPreferences.cpp:603
+#: clientgui/DlgAdvPreferences.cpp:618
 msgid "Validation Error"
 msgstr "驗證錯誤"
 
-#: clientgui/DlgAdvPreferences.cpp:747
+#: clientgui/DlgAdvPreferences.cpp:762
 msgid "Do you really want to clear all local preferences ?"
 msgstr "您真的要清除所有本機偏好設定嗎？"
 
-#: clientgui/DlgAdvPreferences.cpp:748
+#: clientgui/DlgAdvPreferences.cpp:763
 msgid "Confirmation"
 msgstr "確認"
 
@@ -1129,7 +1130,7 @@ msgid "percent (0 means no restriction)"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
-#: clientgui/DlgAdvPreferencesBase.cpp:402
+#: clientgui/DlgAdvPreferencesBase.cpp:427
 msgid "Every day between hours of"
 msgstr "每天運行工作的時間: "
 
@@ -1138,7 +1139,7 @@ msgid "start work at this time"
 msgstr "開始運行工作的時間"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:185
-#: clientgui/DlgAdvPreferencesBase.cpp:410
+#: clientgui/DlgAdvPreferencesBase.cpp:435
 msgid "and"
 msgstr "到"
 
@@ -1147,52 +1148,52 @@ msgid "stop work at this time"
 msgstr "停止運行工作的時間"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:193
-#: clientgui/DlgAdvPreferencesBase.cpp:418
+#: clientgui/DlgAdvPreferencesBase.cpp:443
 msgid "(no restriction if equal)"
 msgstr "(兩欄都相等表示不設限)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:198
-#: clientgui/DlgAdvPreferencesBase.cpp:423
+#: clientgui/DlgAdvPreferencesBase.cpp:448
 msgid "Day-of-week override:"
 msgstr "每日分別設定:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:203
-#: clientgui/DlgAdvPreferencesBase.cpp:428
+#: clientgui/DlgAdvPreferencesBase.cpp:453
 msgid "check box to specify hours for this day of week"
 msgstr "打勾可設定該日要運行工作的時間"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:213
-#: clientgui/DlgAdvPreferencesBase.cpp:438
+#: clientgui/DlgAdvPreferencesBase.cpp:463
 msgid "Monday"
 msgstr "星期一"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:220
-#: clientgui/DlgAdvPreferencesBase.cpp:445
+#: clientgui/DlgAdvPreferencesBase.cpp:470
 msgid "Tuesday"
 msgstr "星期二"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:227
-#: clientgui/DlgAdvPreferencesBase.cpp:452
+#: clientgui/DlgAdvPreferencesBase.cpp:477
 msgid "Wednesday"
 msgstr "星期三"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:234
-#: clientgui/DlgAdvPreferencesBase.cpp:459
+#: clientgui/DlgAdvPreferencesBase.cpp:484
 msgid "Thursday"
 msgstr "星期四"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:241
-#: clientgui/DlgAdvPreferencesBase.cpp:466
+#: clientgui/DlgAdvPreferencesBase.cpp:491
 msgid "Friday"
 msgstr "星期五"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:248
-#: clientgui/DlgAdvPreferencesBase.cpp:473
+#: clientgui/DlgAdvPreferencesBase.cpp:498
 msgid "Saturday"
 msgstr "星期六"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:255
-#: clientgui/DlgAdvPreferencesBase.cpp:480
+#: clientgui/DlgAdvPreferencesBase.cpp:505
 msgid "Sunday"
 msgstr "星期日"
 
@@ -1215,11 +1216,11 @@ msgid "% of the processors"
 msgstr "／CPU 使用率"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:299
-#: clientgui/DlgAdvPreferencesBase.cpp:515
-#: clientgui/DlgAdvPreferencesBase.cpp:537
-#: clientgui/DlgAdvPreferencesBase.cpp:558
-#: clientgui/DlgAdvPreferencesBase.cpp:581
-#: clientgui/DlgAdvPreferencesBase.cpp:591
+#: clientgui/DlgAdvPreferencesBase.cpp:540
+#: clientgui/DlgAdvPreferencesBase.cpp:562
+#: clientgui/DlgAdvPreferencesBase.cpp:583
+#: clientgui/DlgAdvPreferencesBase.cpp:606
+#: clientgui/DlgAdvPreferencesBase.cpp:616
 msgid "Use at most"
 msgstr "最多只使用"
 
@@ -1236,24 +1237,43 @@ msgstr "處理器用量"
 msgid "General options"
 msgstr "一般選項"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:331
+#: clientgui/DlgAdvPreferencesBase.cpp:333
 msgid "Maximum download rate"
 msgstr "最大下載速率"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:337
-#: clientgui/DlgAdvPreferencesBase.cpp:346
+#: clientgui/DlgAdvPreferencesBase.cpp:339
+#: clientgui/DlgAdvPreferencesBase.cpp:348
 msgid "KBytes/sec."
 msgstr "KB/秒"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:340
+#: clientgui/DlgAdvPreferencesBase.cpp:342
 msgid "Maximum upload rate"
 msgstr "最大上傳速率"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:349
+#: clientgui/DlgAdvPreferencesBase.cpp:353
+#, fuzzy
+msgid "Transfer at most"
+msgstr "最多只使用"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:359
+msgid "Mbytes"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:362
+#, fuzzy
+msgid "every"
+msgstr "伺服器:"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:368
+#: clientgui/DlgAdvPreferencesBase.cpp:382
+msgid "days"
+msgstr "天"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:374
 msgid "Connect about every"
 msgstr "每幾天連線一次: "
 
-#: clientgui/DlgAdvPreferencesBase.cpp:353
+#: clientgui/DlgAdvPreferencesBase.cpp:378
 msgid ""
 "this computer is connected to the Internet about every X days\n"
 "(0 if it's always connected)"
@@ -1261,45 +1281,41 @@ msgstr ""
 "設定此電腦每 X 天連線網路\n"
 "(0 代表一直連線)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:357
-msgid "days"
-msgstr "天"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:360
+#: clientgui/DlgAdvPreferencesBase.cpp:385
 msgid "Additional work buffer"
 msgstr "取得額外工作的緩衝時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:366
+#: clientgui/DlgAdvPreferencesBase.cpp:391
 msgid "days (max. 10)"
 msgstr "天 (最多 10 天)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:369
+#: clientgui/DlgAdvPreferencesBase.cpp:394
 msgid " Skip image file verification"
 msgstr "略過映像檔驗證"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:371
+#: clientgui/DlgAdvPreferencesBase.cpp:396
 msgid "check this if your Internet provider modifies image files"
 msgstr "若你的 ISP 會修改映像檔就打勾"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:380
+#: clientgui/DlgAdvPreferencesBase.cpp:405
 msgid "Connect options"
 msgstr "連線選項"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:382
+#: clientgui/DlgAdvPreferencesBase.cpp:407
 msgid "Confirm before connecting to internet"
 msgstr "連線到網路前確認"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:384
+#: clientgui/DlgAdvPreferencesBase.cpp:409
 msgid ""
 "if checked, a confirmation dialog will be displayed before trying to connect "
 "to the Internet"
 msgstr "若勾選此方塊，當連線到網路前會先顯示確認視窗"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:388
+#: clientgui/DlgAdvPreferencesBase.cpp:413
 msgid "Disconnect when done"
 msgstr "完成後斷線"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:390
+#: clientgui/DlgAdvPreferencesBase.cpp:415
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
@@ -1307,113 +1323,113 @@ msgstr ""
 "若勾選此方塊，當網路使用結束後 BOINC 會中斷連線\n"
 "(只對撥接連線有效)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:397
+#: clientgui/DlgAdvPreferencesBase.cpp:422
 msgid "Network usage allowed"
 msgstr "選擇允許使用網路的情況"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:406
+#: clientgui/DlgAdvPreferencesBase.cpp:431
 msgid "network usage start hour"
 msgstr "網路使用開始時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:414
+#: clientgui/DlgAdvPreferencesBase.cpp:439
 msgid "network usage stop hour"
 msgstr "網路使用結束時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:499
+#: clientgui/DlgAdvPreferencesBase.cpp:524
 msgid "network usage"
 msgstr "網路用量"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:507 clientgui/DlgItemProperties.cpp:215
+#: clientgui/DlgAdvPreferencesBase.cpp:532 clientgui/DlgItemProperties.cpp:215
 msgid "Disk usage"
 msgstr "磁碟用量"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:519
+#: clientgui/DlgAdvPreferencesBase.cpp:544
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
 msgstr "BOINC 能使用的最大磁碟空間 (以 GB 計)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:523
+#: clientgui/DlgAdvPreferencesBase.cpp:548
 msgid "Gigabytes disk space"
 msgstr "GB 磁碟空間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:526
+#: clientgui/DlgAdvPreferencesBase.cpp:551
 msgid "Leave at least"
 msgstr "留下至少"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:530
+#: clientgui/DlgAdvPreferencesBase.cpp:555
 #, fuzzy
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr "BOINC 要留下多少的可用磁碟空間 (以 GB 計)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:534
+#: clientgui/DlgAdvPreferencesBase.cpp:559
 msgid "Gigabytes disk space free"
 msgstr "GB 可用磁碟空間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:541
+#: clientgui/DlgAdvPreferencesBase.cpp:566
 msgid "BOINC uses at most this percentage of total disk space"
 msgstr "BOINC 最多可使用的總磁碟空間百分比"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:546
+#: clientgui/DlgAdvPreferencesBase.cpp:571
 #, no-c-format
 msgid "% of total disk space"
 msgstr "% 總磁碟空間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:549
+#: clientgui/DlgAdvPreferencesBase.cpp:574
 msgid "Tasks checkpoint to disk at most every"
 msgstr ""
 
-#: clientgui/DlgAdvPreferencesBase.cpp:555
+#: clientgui/DlgAdvPreferencesBase.cpp:580
 msgid "seconds"
 msgstr "秒"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:565
+#: clientgui/DlgAdvPreferencesBase.cpp:590
 #, no-c-format
 msgid "% of page file (swap space)"
 msgstr "% 分頁檔大小 (交換空間)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:573
+#: clientgui/DlgAdvPreferencesBase.cpp:598
 msgid "Memory usage"
 msgstr "記憶體用量"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:588
+#: clientgui/DlgAdvPreferencesBase.cpp:613
 #, no-c-format
 msgid "% when computer is in use"
 msgstr "% 於電腦使用中"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:598
+#: clientgui/DlgAdvPreferencesBase.cpp:623
 #, no-c-format
 msgid "% when computer is idle"
 msgstr "% 於電腦閒置中"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:603
+#: clientgui/DlgAdvPreferencesBase.cpp:628
 msgid " Leave applications in memory while suspended"
 msgstr " 當暫止時保留應用程式於記憶體中"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:605
+#: clientgui/DlgAdvPreferencesBase.cpp:630
 msgid "if checked, suspended work units are left in memory"
 msgstr "若勾選此方塊，暫止的工作會留在記憶體中"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:614
+#: clientgui/DlgAdvPreferencesBase.cpp:639
 msgid "disk and memory usage"
 msgstr "磁碟及記憶體用量"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:627
+#: clientgui/DlgAdvPreferencesBase.cpp:652
 msgid "OK"
 msgstr "確定"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:628
+#: clientgui/DlgAdvPreferencesBase.cpp:653
 msgid "save all values and close the dialog"
 msgstr "儲存所有值並關閉視窗"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:633
+#: clientgui/DlgAdvPreferencesBase.cpp:658
 msgid "close the dialog without saving"
 msgstr "關閉視窗且不儲存"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:637 clientgui/Localization.cpp:35
+#: clientgui/DlgAdvPreferencesBase.cpp:662 clientgui/Localization.cpp:35
 #: clientgui/Localization.cpp:121 clientgui/Localization.cpp:139
 msgid "Help"
 msgstr "幫助"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:638
+#: clientgui/DlgAdvPreferencesBase.cpp:663
 msgid "shows the preferences web page"
 msgstr "顯示網頁上的偏好設定"
 
@@ -2671,10 +2687,6 @@ msgstr ""
 msgid "Click to show project graphics"
 msgstr "按一下顯示計畫圖形"
 
-#: clientgui/sg_ProjectsComponent.cpp:106
-msgid "Attach to an additional project"
-msgstr "加入其他計畫"
-
 #: clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
 msgstr "與帳號管理系統同步計畫"
@@ -3115,7 +3127,11 @@ msgstr "排程器請求中"
 msgid "Scheduler request in progress"
 msgstr "排程器請求進行中"
 
-#: clientgui/ViewProjects.cpp:1074
+#: clientgui/ViewProjects.cpp:1071
+msgid "Trickle up message pending"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
 msgstr "已擱置通訊 "
 
@@ -3318,15 +3334,21 @@ msgstr "速度"
 msgid "Transfers"
 msgstr "傳送"
 
-#: clientgui/ViewTransfers.cpp:271 clientgui/ViewTransfersGrid.cpp:190
+#: clientgui/ViewTransfers.cpp:275
+msgid ""
+"Network activity is suspended.\n"
+"You can enable it using the Activity menu."
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
 msgstr "立即重試檔案傳送..."
 
-#: clientgui/ViewTransfers.cpp:309
+#: clientgui/ViewTransfers.cpp:321
 msgid "Aborting transfer..."
 msgstr "中止檔案傳送中..."
 
-#: clientgui/ViewTransfers.cpp:322
+#: clientgui/ViewTransfers.cpp:334
 #, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
@@ -3336,27 +3358,37 @@ msgstr ""
 "您確定要中止「%s」 的檔案傳輸嗎？\n"
 "提示: 終止傳輸會使此工作無效且不會收到任何積分。"
 
-#: clientgui/ViewTransfers.cpp:328
+#: clientgui/ViewTransfers.cpp:340
 msgid "Abort File Transfer"
 msgstr "中止檔案傳送"
 
-#: clientgui/ViewTransfers.cpp:751 clientgui/ViewTransfersGrid.cpp:419
+#: clientgui/ViewTransfers.cpp:763 clientgui/ViewTransfersGrid.cpp:419
 msgid "Retry in "
 msgstr "重試於 "
 
-#: clientgui/ViewTransfers.cpp:763 clientgui/ViewTransfersGrid.cpp:431
+#: clientgui/ViewTransfers.cpp:771
+#, fuzzy
+msgid "Suspended upload"
+msgstr "已暫止"
+
+#: clientgui/ViewTransfers.cpp:772
+#, fuzzy
+msgid "Suspended download"
+msgstr "已暫止"
+
+#: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
 msgstr "上傳資料中"
 
-#: clientgui/ViewTransfers.cpp:763 clientgui/ViewTransfersGrid.cpp:431
+#: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Download pending"
 msgstr "下載資料中"
 
-#: clientgui/ViewTransfers.cpp:770
+#: clientgui/ViewTransfers.cpp:785
 msgid " (project backoff: "
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:770
+#: clientgui/ViewTransfers.cpp:785
 msgid ")"
 msgstr ""
 
@@ -3479,20 +3511,25 @@ msgstr "暫止這個工作的動作。"
 msgid "GPU missing, "
 msgstr ""
 
-#: clientgui/ViewWork.cpp:1149
+#: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
+#, fuzzy
+msgid " (suspended)"
+msgstr "已暫止"
+
+#: clientgui/ViewWork.cpp:1152
 msgid " - an exclusive app is running"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:1168 clientgui/ViewWorkGrid.cpp:822
+#: clientgui/ViewWork.cpp:1171 clientgui/ViewWorkGrid.cpp:822
 msgid " (non-CPU-intensive)"
 msgstr " (非 CPU 密集型)"
 
-#: clientgui/ViewWork.cpp:1183
+#: clientgui/ViewWork.cpp:1186
 #, fuzzy
 msgid " (waiting for GPU memory)"
 msgstr "等待記憶體釋放"
 
-#: clientgui/ViewWork.cpp:1205
+#: clientgui/ViewWork.cpp:1211
 msgid "Aborted: not started by deadline"
 msgstr ""
 
@@ -3600,78 +3637,83 @@ msgstr "OnDropTarget: index by HitTest = %i"
 msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
-#: clientgui/mac/MacAccessiblity.cpp:184
+#: clientgui/mac/MacAccessiblity.cpp:171
 msgid ""
 "for accessibility support, please select advanced from the view menu or type "
 "command shift a"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:245
+#: clientgui/mac/MacAccessiblity.cpp:216
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:528 clientgui/mac/MacAccessiblity.cpp:636
-msgid "blank"
+#: clientgui/mac/MacAccessiblity.cpp:635
+msgid "list headers"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:530
-msgid "list of "
-msgstr ""
-
-#: clientgui/mac/MacAccessiblity.cpp:533
-msgid " is empty"
-msgstr ""
-
-#: clientgui/mac/MacAccessiblity.cpp:605
+#: clientgui/mac/MacAccessiblity.cpp:639
 #, c-format
-msgid "%d of %d; "
+msgid "list of %s"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:607
-msgid "current sort column "
+#: clientgui/mac/MacAccessiblity.cpp:641
+#, c-format
+msgid "list of %s is empty"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:609
-msgid " descending order "
+#: clientgui/mac/MacAccessiblity.cpp:742
+#, c-format
+msgid "; current sort column %d of %d; descending order; "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:609
-msgid " ascending order "
+#: clientgui/mac/MacAccessiblity.cpp:744
+#, c-format
+msgid "; current sort column %d of %d; ascending order; "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:611
-msgid "column "
+#: clientgui/mac/MacAccessiblity.cpp:747
+#, c-format
+msgid "; column %d of %d; "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:618
+#: clientgui/mac/MacAccessiblity.cpp:754
 msgid "list is empty"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:621
-#: clientgui/mac/MacAccessiblity.cpp:1198
-msgid "selected "
-msgstr ""
-
-#: clientgui/mac/MacAccessiblity.cpp:626
+#: clientgui/mac/MacAccessiblity.cpp:757 clientgui/mac/MacAccessiblity.cpp:769
 #, c-format
-msgid "row %d "
+msgid "; row %d; "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:629
+#: clientgui/mac/MacAccessiblity.cpp:761
 #, c-format
-msgid "of %d; "
+msgid "; selected row %d of %d; "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:632
+#: clientgui/mac/MacAccessiblity.cpp:763
 #, c-format
-msgid "column %d; "
+msgid "; selected row %d ; "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:1160
+#: clientgui/mac/MacAccessiblity.cpp:767
+#, c-format
+msgid "; row %d of %d; "
+msgstr ""
+
+#: clientgui/mac/MacAccessiblity.cpp:775
+msgid "blank"
+msgstr ""
+
+#: clientgui/mac/MacAccessiblity.cpp:1411
 msgid "list of projects or account managers"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:1202
+#: clientgui/mac/MacAccessiblity.cpp:1448
+#, c-format
+msgid "selected row %d of %d; "
+msgstr ""
+
+#: clientgui/mac/MacAccessiblity.cpp:1450
 #, c-format
 msgid "row %d of %d; "
 msgstr ""
@@ -3683,6 +3725,9 @@ msgstr "用 HH:MM-HH:MM 的格式指定工作運行的開始及結束時間"
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
+
+#~ msgid "Attach to an additional project"
+#~ msgstr "加入其他計畫"
 
 #, fuzzy
 #~ msgid "&Close Window\tCtrl+W"
@@ -3711,9 +3756,6 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 
 #~ msgid "Attach to a project"
 #~ msgstr "加入計畫"
-
-#~ msgid "Attach to &account manager..."
-#~ msgstr "加入帳號管理(&A)..."
 
 #~ msgid "Attach to an account manager"
 #~ msgstr "加入帳號管理"

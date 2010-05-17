@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-21 16:09-0500\n"
+"POT-Creation-Date: 2010-05-17 11:04-0500\n"
 "PO-Revision-Date: 2010-05-16 10:43-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -272,12 +272,13 @@ msgid "Display the simple graphical interface."
 msgstr "Přepne BOINC do režimu zjednodušeného zobrazení"
 
 #: clientgui/AdvancedFrame.cpp:392
-msgid "Attach to &project or account manager..."
+#, fuzzy
+msgid "&Attach to project or account manager..."
 msgstr "Připojit k &projektu nebo správci účtu..."
 
 #: clientgui/AdvancedFrame.cpp:393
-msgid "Attach to a project or account manager to begin processing work"
-msgstr "Připojit k projektu nebo správci účtu a zahájit práci"
+msgid "Volunteer for any or all of 30+ projects in many areas of science"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -1058,35 +1059,35 @@ msgstr ""
 msgid "&OK"
 msgstr "&OK"
 
-#: clientgui/DlgAdvPreferences.cpp:485
+#: clientgui/DlgAdvPreferences.cpp:500
 msgid "invalid float"
 msgstr "Neplatý formát čísla. Použijte x,xx"
 
-#: clientgui/DlgAdvPreferences.cpp:486
+#: clientgui/DlgAdvPreferences.cpp:501
 msgid "invalid time, format is HH:MM"
 msgstr ""
 "Neplatný formát času. Použijte H:mm\n"
 "(H = 24hodinový formát)"
 
-#: clientgui/DlgAdvPreferences.cpp:487
+#: clientgui/DlgAdvPreferences.cpp:502
 msgid "invalid time interval, format is HH:MM-HH:MM"
 msgstr ""
 "Neplatný formát časového rozmezí. Použijte H:mm-H:mm\n"
 "(H = 24hodinový formát)"
 
-#: clientgui/DlgAdvPreferences.cpp:601
+#: clientgui/DlgAdvPreferences.cpp:616
 msgid "invalid input value detected"
 msgstr "Byla zadána neplatná hodnota"
 
-#: clientgui/DlgAdvPreferences.cpp:603
+#: clientgui/DlgAdvPreferences.cpp:618
 msgid "Validation Error"
 msgstr "Chyba při ověřování"
 
-#: clientgui/DlgAdvPreferences.cpp:747
+#: clientgui/DlgAdvPreferences.cpp:762
 msgid "Do you really want to clear all local preferences ?"
 msgstr "Opravdu chcete vymazat všechny lokální předvolby?"
 
-#: clientgui/DlgAdvPreferences.cpp:748
+#: clientgui/DlgAdvPreferences.cpp:763
 msgid "Confirmation"
 msgstr "Dotaz"
 
@@ -1177,7 +1178,7 @@ msgid "percent (0 means no restriction)"
 msgstr "procent (0 znamená bez omezení)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
-#: clientgui/DlgAdvPreferencesBase.cpp:402
+#: clientgui/DlgAdvPreferencesBase.cpp:427
 msgid "Every day between hours of"
 msgstr "Každý den mezi "
 
@@ -1186,7 +1187,7 @@ msgid "start work at this time"
 msgstr "Čas zahájení výpočtů"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:185
-#: clientgui/DlgAdvPreferencesBase.cpp:410
+#: clientgui/DlgAdvPreferencesBase.cpp:435
 msgid "and"
 msgstr "a"
 
@@ -1195,52 +1196,52 @@ msgid "stop work at this time"
 msgstr "Čas ukončení výpočtů"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:193
-#: clientgui/DlgAdvPreferencesBase.cpp:418
+#: clientgui/DlgAdvPreferencesBase.cpp:443
 msgid "(no restriction if equal)"
 msgstr "(bez omezení, pokud jsou časy shodné) "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:198
-#: clientgui/DlgAdvPreferencesBase.cpp:423
+#: clientgui/DlgAdvPreferencesBase.cpp:448
 msgid "Day-of-week override:"
 msgstr "Nastavení pro dny v týdnu:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:203
-#: clientgui/DlgAdvPreferencesBase.cpp:428
+#: clientgui/DlgAdvPreferencesBase.cpp:453
 msgid "check box to specify hours for this day of week"
 msgstr "Po zaškrtnutí lze nastavit hodiny individuálně pro daný den v týdnu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:213
-#: clientgui/DlgAdvPreferencesBase.cpp:438
+#: clientgui/DlgAdvPreferencesBase.cpp:463
 msgid "Monday"
 msgstr "Pondělí"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:220
-#: clientgui/DlgAdvPreferencesBase.cpp:445
+#: clientgui/DlgAdvPreferencesBase.cpp:470
 msgid "Tuesday"
 msgstr "Úterý"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:227
-#: clientgui/DlgAdvPreferencesBase.cpp:452
+#: clientgui/DlgAdvPreferencesBase.cpp:477
 msgid "Wednesday"
 msgstr "Středa"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:234
-#: clientgui/DlgAdvPreferencesBase.cpp:459
+#: clientgui/DlgAdvPreferencesBase.cpp:484
 msgid "Thursday"
 msgstr "Čtvrtek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:241
-#: clientgui/DlgAdvPreferencesBase.cpp:466
+#: clientgui/DlgAdvPreferencesBase.cpp:491
 msgid "Friday"
 msgstr "Pátek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:248
-#: clientgui/DlgAdvPreferencesBase.cpp:473
+#: clientgui/DlgAdvPreferencesBase.cpp:498
 msgid "Saturday"
 msgstr "Sobota"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:255
-#: clientgui/DlgAdvPreferencesBase.cpp:480
+#: clientgui/DlgAdvPreferencesBase.cpp:505
 msgid "Sunday"
 msgstr "Neděle"
 
@@ -1262,11 +1263,11 @@ msgid "% of the processors"
 msgstr "% procesorů"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:299
-#: clientgui/DlgAdvPreferencesBase.cpp:515
-#: clientgui/DlgAdvPreferencesBase.cpp:537
-#: clientgui/DlgAdvPreferencesBase.cpp:558
-#: clientgui/DlgAdvPreferencesBase.cpp:581
-#: clientgui/DlgAdvPreferencesBase.cpp:591
+#: clientgui/DlgAdvPreferencesBase.cpp:540
+#: clientgui/DlgAdvPreferencesBase.cpp:562
+#: clientgui/DlgAdvPreferencesBase.cpp:583
+#: clientgui/DlgAdvPreferencesBase.cpp:606
+#: clientgui/DlgAdvPreferencesBase.cpp:616
 msgid "Use at most"
 msgstr "Použít nejvýše"
 
@@ -1283,24 +1284,44 @@ msgstr "Využití procesoru"
 msgid "General options"
 msgstr "Obecné předvolby"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:331
+#: clientgui/DlgAdvPreferencesBase.cpp:333
 msgid "Maximum download rate"
 msgstr "Max. rychlost stahování"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:337
-#: clientgui/DlgAdvPreferencesBase.cpp:346
+#: clientgui/DlgAdvPreferencesBase.cpp:339
+#: clientgui/DlgAdvPreferencesBase.cpp:348
 msgid "KBytes/sec."
 msgstr "KB/s"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:340
+#: clientgui/DlgAdvPreferencesBase.cpp:342
 msgid "Maximum upload rate"
 msgstr "Max. rychlost odesílání"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:349
+#: clientgui/DlgAdvPreferencesBase.cpp:353
+#, fuzzy
+msgid "Transfer at most"
+msgstr "Použít nejvýše"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:359
+#, fuzzy
+msgid "Mbytes"
+msgstr "Ano"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:362
+#, fuzzy
+msgid "every"
+msgstr "Server:"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:368
+#: clientgui/DlgAdvPreferencesBase.cpp:382
+msgid "days"
+msgstr "dní"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:374
 msgid "Connect about every"
 msgstr "Připojit se přibližně každých"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:353
+#: clientgui/DlgAdvPreferencesBase.cpp:378
 msgid ""
 "this computer is connected to the Internet about every X days\n"
 "(0 if it's always connected)"
@@ -1308,38 +1329,34 @@ msgstr ""
 "Jak často (jednou za kolik dní) bývá tento počítač připojován k internetu.\n"
 "(Pokud je připojen trvale, zadejte 0)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:357
-msgid "days"
-msgstr "dní"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:360
+#: clientgui/DlgAdvPreferencesBase.cpp:385
 msgid "Additional work buffer"
 msgstr "Dodatečná zásoba jednotek"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:366
+#: clientgui/DlgAdvPreferencesBase.cpp:391
 msgid "days (max. 10)"
 msgstr "dní (max. 10)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:369
+#: clientgui/DlgAdvPreferencesBase.cpp:394
 msgid " Skip image file verification"
 msgstr "Nekontrolovat obrázky "
 
-#: clientgui/DlgAdvPreferencesBase.cpp:371
+#: clientgui/DlgAdvPreferencesBase.cpp:396
 msgid "check this if your Internet provider modifies image files"
 msgstr ""
 "Zaškrtněte, pokud váš poskytovatel připojení k internetu modifikuje soubory "
 "s obrázky.\n"
 "(Například GPRS připojení)."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:380
+#: clientgui/DlgAdvPreferencesBase.cpp:405
 msgid "Connect options"
 msgstr "Možnosti připojení"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:382
+#: clientgui/DlgAdvPreferencesBase.cpp:407
 msgid "Confirm before connecting to internet"
 msgstr "Zobrazit dotaz před připojením k internetu"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:384
+#: clientgui/DlgAdvPreferencesBase.cpp:409
 msgid ""
 "if checked, a confirmation dialog will be displayed before trying to connect "
 "to the Internet"
@@ -1347,11 +1364,11 @@ msgstr ""
 "Je-li zaškrtnuto, před každým pokusem o připojení k internetu je vyžadováno "
 "potvrzení."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:388
+#: clientgui/DlgAdvPreferencesBase.cpp:413
 msgid "Disconnect when done"
 msgstr "Odpojit po ukončení komunikace"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:390
+#: clientgui/DlgAdvPreferencesBase.cpp:415
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
@@ -1360,114 +1377,114 @@ msgstr ""
 "potřebných přenosů.\n"
 "Platí pouze pro vytáčená (dial-up) připojení."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:397
+#: clientgui/DlgAdvPreferencesBase.cpp:422
 msgid "Network usage allowed"
 msgstr "Povolit přístup k síti"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:406
+#: clientgui/DlgAdvPreferencesBase.cpp:431
 msgid "network usage start hour"
 msgstr "Čas otevření přístupu k síti"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:414
+#: clientgui/DlgAdvPreferencesBase.cpp:439
 msgid "network usage stop hour"
 msgstr "Čas ukončení přístupu k síti"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:499
+#: clientgui/DlgAdvPreferencesBase.cpp:524
 msgid "network usage"
 msgstr "Využití internetu"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:507 clientgui/DlgItemProperties.cpp:215
+#: clientgui/DlgAdvPreferencesBase.cpp:532 clientgui/DlgItemProperties.cpp:215
 msgid "Disk usage"
 msgstr "Využití disku"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:519
+#: clientgui/DlgAdvPreferencesBase.cpp:544
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
 msgstr "BOINC využije nejvýše tolik GB místa na disku."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:523
+#: clientgui/DlgAdvPreferencesBase.cpp:548
 msgid "Gigabytes disk space"
 msgstr "GB na disku"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:526
+#: clientgui/DlgAdvPreferencesBase.cpp:551
 msgid "Leave at least"
 msgstr "Ponechat aspoň"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:530
+#: clientgui/DlgAdvPreferencesBase.cpp:555
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr "BOINC ponechá nejméně tolik GB na disku volných"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:534
+#: clientgui/DlgAdvPreferencesBase.cpp:559
 msgid "Gigabytes disk space free"
 msgstr "GB na disku volných"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:541
+#: clientgui/DlgAdvPreferencesBase.cpp:566
 msgid "BOINC uses at most this percentage of total disk space"
 msgstr "BOINC využije nejvýše tolik procent z celkové kapacity disku."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:546
+#: clientgui/DlgAdvPreferencesBase.cpp:571
 #, no-c-format
 msgid "% of total disk space"
 msgstr "% celkového místa na disku"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:549
+#: clientgui/DlgAdvPreferencesBase.cpp:574
 msgid "Tasks checkpoint to disk at most every"
 msgstr "Ukládat kontrolní body úkolů na disk každých"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:555
+#: clientgui/DlgAdvPreferencesBase.cpp:580
 msgid "seconds"
 msgstr "vteřin"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:565
+#: clientgui/DlgAdvPreferencesBase.cpp:590
 #, no-c-format
 msgid "% of page file (swap space)"
 msgstr "% stránkovacího souboru"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:573
+#: clientgui/DlgAdvPreferencesBase.cpp:598
 msgid "Memory usage"
 msgstr "Využití paměti"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:588
+#: clientgui/DlgAdvPreferencesBase.cpp:613
 #, no-c-format
 msgid "% when computer is in use"
 msgstr "% je-li počítač používán"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:598
+#: clientgui/DlgAdvPreferencesBase.cpp:623
 #, no-c-format
 msgid "% when computer is idle"
 msgstr "% není-li počítač používán"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:603
+#: clientgui/DlgAdvPreferencesBase.cpp:628
 msgid " Leave applications in memory while suspended"
 msgstr "Při pozastavení výpočtů ponechat aplikaci v paměti"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:605
+#: clientgui/DlgAdvPreferencesBase.cpp:630
 msgid "if checked, suspended work units are left in memory"
 msgstr ""
 "Je-li zaškrtnuto, pak pokud z nějakého důvodu budou výpočty pozastaveny, \n"
 "úkoly které byly zpracovávány budou ponechány v paměti."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:614
+#: clientgui/DlgAdvPreferencesBase.cpp:639
 msgid "disk and memory usage"
 msgstr "Využití disku a paměti"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:627
+#: clientgui/DlgAdvPreferencesBase.cpp:652
 msgid "OK"
 msgstr "OK"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:628
+#: clientgui/DlgAdvPreferencesBase.cpp:653
 msgid "save all values and close the dialog"
 msgstr "Uložit všechny hodnoty a zavřít nabídku"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:633
+#: clientgui/DlgAdvPreferencesBase.cpp:658
 msgid "close the dialog without saving"
 msgstr "Zavřít nabídku bez uložení nových hodnot"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:637 clientgui/Localization.cpp:35
+#: clientgui/DlgAdvPreferencesBase.cpp:662 clientgui/Localization.cpp:35
 #: clientgui/Localization.cpp:121 clientgui/Localization.cpp:139
 msgid "Help"
 msgstr "Nápověda"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:638
+#: clientgui/DlgAdvPreferencesBase.cpp:663
 msgid "shows the preferences web page"
 msgstr "Zobrazit webovou stránku s předvolbami"
 
@@ -2755,10 +2772,6 @@ msgstr "Pozastaveno: Odložený start aplikace"
 msgid "Click to show project graphics"
 msgstr "Kliknutím zobrazíte grafické okno projektu"
 
-#: clientgui/sg_ProjectsComponent.cpp:106
-msgid "Attach to an additional project"
-msgstr "Umožní připojit se k dalšímu projektu"
-
 #: clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
 msgstr "Synchronizuje projekty se systémem Správce Účtu"
@@ -3205,7 +3218,11 @@ msgstr "Nevyřízený požadavek plánovače"
 msgid "Scheduler request in progress"
 msgstr "Zpracovávám požadavek plánovače"
 
-#: clientgui/ViewProjects.cpp:1074
+#: clientgui/ViewProjects.cpp:1071
+msgid "Trickle up message pending"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
 msgstr "Přenos odložen "
 
@@ -3403,15 +3420,21 @@ msgstr "Rychlost"
 msgid "Transfers"
 msgstr "Přenos"
 
-#: clientgui/ViewTransfers.cpp:271 clientgui/ViewTransfersGrid.cpp:190
+#: clientgui/ViewTransfers.cpp:275
+msgid ""
+"Network activity is suspended.\n"
+"You can enable it using the Activity menu."
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
 msgstr "Pokouším se obnovit přenos..."
 
-#: clientgui/ViewTransfers.cpp:309
+#: clientgui/ViewTransfers.cpp:321
 msgid "Aborting transfer..."
 msgstr "Ruším přenos..."
 
-#: clientgui/ViewTransfers.cpp:322
+#: clientgui/ViewTransfers.cpp:334
 #, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
@@ -3422,27 +3445,37 @@ msgstr ""
 "Pozn: Zrušením přenosu souboru zrušíte daný úkol\n"
 "a neobdržíte za něj kredity."
 
-#: clientgui/ViewTransfers.cpp:328
+#: clientgui/ViewTransfers.cpp:340
 msgid "Abort File Transfer"
 msgstr "Zrušit přenos souboru"
 
-#: clientgui/ViewTransfers.cpp:751 clientgui/ViewTransfersGrid.cpp:419
+#: clientgui/ViewTransfers.cpp:763 clientgui/ViewTransfersGrid.cpp:419
 msgid "Retry in "
 msgstr "Znovu zkusím za "
 
-#: clientgui/ViewTransfers.cpp:763 clientgui/ViewTransfersGrid.cpp:431
+#: clientgui/ViewTransfers.cpp:771
+#, fuzzy
+msgid "Suspended upload"
+msgstr "Pozastaveno"
+
+#: clientgui/ViewTransfers.cpp:772
+#, fuzzy
+msgid "Suspended download"
+msgstr "Pozastaveno"
+
+#: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
 msgstr "Připraveno k odeslání "
 
-#: clientgui/ViewTransfers.cpp:763 clientgui/ViewTransfersGrid.cpp:431
+#: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Download pending"
 msgstr "Nevyřízené stahování"
 
-#: clientgui/ViewTransfers.cpp:770
+#: clientgui/ViewTransfers.cpp:785
 msgid " (project backoff: "
 msgstr "(Odložení projektu: "
 
-#: clientgui/ViewTransfers.cpp:770
+#: clientgui/ViewTransfers.cpp:785
 msgid ")"
 msgstr ")"
 
@@ -3568,19 +3601,24 @@ msgstr "Pozastavit práci na tomto úkolu."
 msgid "GPU missing, "
 msgstr "Grafická karta nenalezena, "
 
-#: clientgui/ViewWork.cpp:1149
+#: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
+#, fuzzy
+msgid " (suspended)"
+msgstr "Pozastaveno"
+
+#: clientgui/ViewWork.cpp:1152
 msgid " - an exclusive app is running"
 msgstr " - běží důležitější aplikace"
 
-#: clientgui/ViewWork.cpp:1168 clientgui/ViewWorkGrid.cpp:822
+#: clientgui/ViewWork.cpp:1171 clientgui/ViewWorkGrid.cpp:822
 msgid " (non-CPU-intensive)"
 msgstr " (nenáročný na procesor)"
 
-#: clientgui/ViewWork.cpp:1183
+#: clientgui/ViewWork.cpp:1186
 msgid " (waiting for GPU memory)"
 msgstr " (čekám na uvolnění GPU paměti)"
 
-#: clientgui/ViewWork.cpp:1205
+#: clientgui/ViewWork.cpp:1211
 msgid "Aborted: not started by deadline"
 msgstr "Zrušeno: nestihlo se začít do stanovené lhůty"
 
@@ -3709,7 +3747,7 @@ msgstr "OnDropTarget: index by HitTest = %i"
 msgid "Pie Ctrl"
 msgstr "Legenda"
 
-#: clientgui/mac/MacAccessiblity.cpp:184
+#: clientgui/mac/MacAccessiblity.cpp:171
 msgid ""
 "for accessibility support, please select advanced from the view menu or type "
 "command shift a"
@@ -3717,72 +3755,77 @@ msgstr ""
 "pro usnadnění přístupu vyberte režim pokročilého zobrazení v menu, nebo "
 "použijte zkratku Shift + A"
 
-#: clientgui/mac/MacAccessiblity.cpp:245
+#: clientgui/mac/MacAccessiblity.cpp:216
 msgid "This panel contains graphs showing user totals for projects"
 msgstr "Tento panel obsahuje grafy ukazující výsledky uživatele v projektech"
 
-#: clientgui/mac/MacAccessiblity.cpp:528 clientgui/mac/MacAccessiblity.cpp:636
-msgid "blank"
-msgstr "prázdný"
+#: clientgui/mac/MacAccessiblity.cpp:635
+msgid "list headers"
+msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:530
-msgid "list of "
+#: clientgui/mac/MacAccessiblity.cpp:639
+#, fuzzy, c-format
+msgid "list of %s"
 msgstr "seznam "
 
-#: clientgui/mac/MacAccessiblity.cpp:533
-msgid " is empty"
-msgstr " je prázdný"
+#: clientgui/mac/MacAccessiblity.cpp:641
+#, fuzzy, c-format
+msgid "list of %s is empty"
+msgstr "seznam je prázdný"
 
-#: clientgui/mac/MacAccessiblity.cpp:605
+#: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
-msgid "%d of %d; "
-msgstr "%d %d;"
+msgid "; current sort column %d of %d; descending order; "
+msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:607
-msgid "current sort column "
-msgstr "sloupec, podle kterého se třídí "
+#: clientgui/mac/MacAccessiblity.cpp:744
+#, c-format
+msgid "; current sort column %d of %d; ascending order; "
+msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:609
-msgid " descending order "
-msgstr " sestupné pořadí "
+#: clientgui/mac/MacAccessiblity.cpp:747
+#, fuzzy, c-format
+msgid "; column %d of %d; "
+msgstr "sloupec %d; "
 
-#: clientgui/mac/MacAccessiblity.cpp:609
-msgid " ascending order "
-msgstr " vzestupné pořadí "
-
-#: clientgui/mac/MacAccessiblity.cpp:611
-msgid "column "
-msgstr "sloupec "
-
-#: clientgui/mac/MacAccessiblity.cpp:618
+#: clientgui/mac/MacAccessiblity.cpp:754
 msgid "list is empty"
 msgstr "seznam je prázdný"
 
-#: clientgui/mac/MacAccessiblity.cpp:621
-#: clientgui/mac/MacAccessiblity.cpp:1198
-msgid "selected "
-msgstr "vybrán "
-
-#: clientgui/mac/MacAccessiblity.cpp:626
-#, c-format
-msgid "row %d "
+#: clientgui/mac/MacAccessiblity.cpp:757 clientgui/mac/MacAccessiblity.cpp:769
+#, fuzzy, c-format
+msgid "; row %d; "
 msgstr "řádka %d "
 
-#: clientgui/mac/MacAccessiblity.cpp:629
-#, c-format
-msgid "of %d; "
-msgstr " %d; "
+#: clientgui/mac/MacAccessiblity.cpp:761
+#, fuzzy, c-format
+msgid "; selected row %d of %d; "
+msgstr "sloupec %d %d; "
 
-#: clientgui/mac/MacAccessiblity.cpp:632
-#, c-format
-msgid "column %d; "
-msgstr "sloupec %d; "
+#: clientgui/mac/MacAccessiblity.cpp:763
+#, fuzzy, c-format
+msgid "; selected row %d ; "
+msgstr "vybrán "
 
-#: clientgui/mac/MacAccessiblity.cpp:1160
+#: clientgui/mac/MacAccessiblity.cpp:767
+#, fuzzy, c-format
+msgid "; row %d of %d; "
+msgstr "sloupec %d %d; "
+
+#: clientgui/mac/MacAccessiblity.cpp:775
+msgid "blank"
+msgstr "prázdný"
+
+#: clientgui/mac/MacAccessiblity.cpp:1411
 msgid "list of projects or account managers"
 msgstr "seznam projektů nebo správců účtů"
 
-#: clientgui/mac/MacAccessiblity.cpp:1202
+#: clientgui/mac/MacAccessiblity.cpp:1448
+#, fuzzy, c-format
+msgid "selected row %d of %d; "
+msgstr "sloupec %d %d; "
+
+#: clientgui/mac/MacAccessiblity.cpp:1450
 #, c-format
 msgid "row %d of %d; "
 msgstr "sloupec %d %d; "
@@ -3794,6 +3837,33 @@ msgstr "Časové rozmezí, kdy je povoleno provádět výpočty (formát HH:MM-H
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "Časové rozmezí, kdy je povoleno využívat internet (formát HH:MM-HH:MM)"
+
+#~ msgid "Attach to a project or account manager to begin processing work"
+#~ msgstr "Připojit k projektu nebo správci účtu a zahájit práci"
+
+#~ msgid "Attach to an additional project"
+#~ msgstr "Umožní připojit se k dalšímu projektu"
+
+#~ msgid " is empty"
+#~ msgstr " je prázdný"
+
+#~ msgid "%d of %d; "
+#~ msgstr "%d %d;"
+
+#~ msgid "current sort column "
+#~ msgstr "sloupec, podle kterého se třídí "
+
+#~ msgid " descending order "
+#~ msgstr " sestupné pořadí "
+
+#~ msgid " ascending order "
+#~ msgstr " vzestupné pořadí "
+
+#~ msgid "column "
+#~ msgstr "sloupec "
+
+#~ msgid "of %d; "
+#~ msgstr " %d; "
 
 #~ msgid "&Close Window\tCtrl+W"
 #~ msgstr "Zavřít okno\tCTRL+W"

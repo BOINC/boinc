@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-21 16:09-0500\n"
+"POT-Creation-Date: 2010-05-17 11:04-0500\n"
 "PO-Revision-Date: 2010-04-29 15:32+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
@@ -11,7 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-BOINC-UTF8-Marker: 日本語\n"
-
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "Identify your account "
@@ -268,13 +267,13 @@ msgid "Display the simple graphical interface."
 msgstr "簡易グラフィックインタフェースで表示します"
 
 #: clientgui/AdvancedFrame.cpp:392
-msgid "Attach to &project or account manager..."
+#, fuzzy
+msgid "&Attach to project or account manager..."
 msgstr "プロジェクト(&P)またはアカウント・マネージャに接続..."
 
 #: clientgui/AdvancedFrame.cpp:393
-msgid "Attach to a project or account manager to begin processing work"
+msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
-"仕事を処理し始めるためにプロジェクトまたはアカウント・マネージャへ接続する"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -1062,32 +1061,32 @@ msgstr "Berkeley Open Infrastructure for Network Computing"
 msgid "&OK"
 msgstr "OK(&O)"
 
-#: clientgui/DlgAdvPreferences.cpp:485
+#: clientgui/DlgAdvPreferences.cpp:500
 msgid "invalid float"
 msgstr "浮動小数点形式の数値が正しくありません"
 
-#: clientgui/DlgAdvPreferences.cpp:486
+#: clientgui/DlgAdvPreferences.cpp:501
 msgid "invalid time, format is HH:MM"
 msgstr "時間が正しくありません。形式は「HH:MM」"
 
-#: clientgui/DlgAdvPreferences.cpp:487
+#: clientgui/DlgAdvPreferences.cpp:502
 msgid "invalid time interval, format is HH:MM-HH:MM"
 msgstr "時間帯が正しくありません。形式は「HH:MM-HH:MM」"
 
-#: clientgui/DlgAdvPreferences.cpp:601
+#: clientgui/DlgAdvPreferences.cpp:616
 msgid "invalid input value detected"
 msgstr "正しくない入力値があります"
 
-#: clientgui/DlgAdvPreferences.cpp:603
+#: clientgui/DlgAdvPreferences.cpp:618
 msgid "Validation Error"
 msgstr "検証エラー"
 
-#: clientgui/DlgAdvPreferences.cpp:747
+#: clientgui/DlgAdvPreferences.cpp:762
 msgid "Do you really want to clear all local preferences ?"
 msgstr ""
 "本当にローカルなプレファレンス (好みの設定) を全てクリアしてもよいですか？"
 
-#: clientgui/DlgAdvPreferences.cpp:748
+#: clientgui/DlgAdvPreferences.cpp:763
 msgid "Confirmation"
 msgstr "確認"
 
@@ -1180,7 +1179,7 @@ msgid "percent (0 means no restriction)"
 msgstr "％（0を指定すれば制約なし）"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
-#: clientgui/DlgAdvPreferencesBase.cpp:402
+#: clientgui/DlgAdvPreferencesBase.cpp:427
 msgid "Every day between hours of"
 msgstr "1日の動作時間帯"
 
@@ -1189,7 +1188,7 @@ msgid "start work at this time"
 msgstr "処理開始時刻"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:185
-#: clientgui/DlgAdvPreferencesBase.cpp:410
+#: clientgui/DlgAdvPreferencesBase.cpp:435
 msgid "and"
 msgstr "～"
 
@@ -1198,52 +1197,52 @@ msgid "stop work at this time"
 msgstr "処理終了時刻"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:193
-#: clientgui/DlgAdvPreferencesBase.cpp:418
+#: clientgui/DlgAdvPreferencesBase.cpp:443
 msgid "(no restriction if equal)"
 msgstr "(値が同じだと時間の制約なし)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:198
-#: clientgui/DlgAdvPreferencesBase.cpp:423
+#: clientgui/DlgAdvPreferencesBase.cpp:448
 msgid "Day-of-week override:"
 msgstr "曜日ごとの設定："
 
 #: clientgui/DlgAdvPreferencesBase.cpp:203
-#: clientgui/DlgAdvPreferencesBase.cpp:428
+#: clientgui/DlgAdvPreferencesBase.cpp:453
 msgid "check box to specify hours for this day of week"
 msgstr "この曜日で時間帯を指定するにはチェックを入れて下さい"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:213
-#: clientgui/DlgAdvPreferencesBase.cpp:438
+#: clientgui/DlgAdvPreferencesBase.cpp:463
 msgid "Monday"
 msgstr "月曜日"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:220
-#: clientgui/DlgAdvPreferencesBase.cpp:445
+#: clientgui/DlgAdvPreferencesBase.cpp:470
 msgid "Tuesday"
 msgstr "火曜日"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:227
-#: clientgui/DlgAdvPreferencesBase.cpp:452
+#: clientgui/DlgAdvPreferencesBase.cpp:477
 msgid "Wednesday"
 msgstr "水曜日"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:234
-#: clientgui/DlgAdvPreferencesBase.cpp:459
+#: clientgui/DlgAdvPreferencesBase.cpp:484
 msgid "Thursday"
 msgstr "木曜日"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:241
-#: clientgui/DlgAdvPreferencesBase.cpp:466
+#: clientgui/DlgAdvPreferencesBase.cpp:491
 msgid "Friday"
 msgstr "金曜日"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:248
-#: clientgui/DlgAdvPreferencesBase.cpp:473
+#: clientgui/DlgAdvPreferencesBase.cpp:498
 msgid "Saturday"
 msgstr "土曜日"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:255
-#: clientgui/DlgAdvPreferencesBase.cpp:480
+#: clientgui/DlgAdvPreferencesBase.cpp:505
 msgid "Sunday"
 msgstr "日曜日"
 
@@ -1267,11 +1266,11 @@ msgid "% of the processors"
 msgstr "% まで"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:299
-#: clientgui/DlgAdvPreferencesBase.cpp:515
-#: clientgui/DlgAdvPreferencesBase.cpp:537
-#: clientgui/DlgAdvPreferencesBase.cpp:558
-#: clientgui/DlgAdvPreferencesBase.cpp:581
-#: clientgui/DlgAdvPreferencesBase.cpp:591
+#: clientgui/DlgAdvPreferencesBase.cpp:540
+#: clientgui/DlgAdvPreferencesBase.cpp:562
+#: clientgui/DlgAdvPreferencesBase.cpp:583
+#: clientgui/DlgAdvPreferencesBase.cpp:606
+#: clientgui/DlgAdvPreferencesBase.cpp:616
 msgid "Use at most"
 msgstr "最大で"
 
@@ -1288,24 +1287,44 @@ msgstr "プロセッサ使用設定"
 msgid "General options"
 msgstr "一般的なオプション"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:331
+#: clientgui/DlgAdvPreferencesBase.cpp:333
 msgid "Maximum download rate"
 msgstr "最大ダウンロード速度"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:337
-#: clientgui/DlgAdvPreferencesBase.cpp:346
+#: clientgui/DlgAdvPreferencesBase.cpp:339
+#: clientgui/DlgAdvPreferencesBase.cpp:348
 msgid "KBytes/sec."
 msgstr "キロバイト/秒"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:340
+#: clientgui/DlgAdvPreferencesBase.cpp:342
 msgid "Maximum upload rate"
 msgstr "最大アップロード速度"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:349
+#: clientgui/DlgAdvPreferencesBase.cpp:353
+#, fuzzy
+msgid "Transfer at most"
+msgstr "最大で"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:359
+#, fuzzy
+msgid "Mbytes"
+msgstr "はい"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:362
+#, fuzzy
+msgid "every"
+msgstr "サーバ："
+
+#: clientgui/DlgAdvPreferencesBase.cpp:368
+#: clientgui/DlgAdvPreferencesBase.cpp:382
+msgid "days"
+msgstr "日"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:374
 msgid "Connect about every"
 msgstr "接続する間隔"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:353
+#: clientgui/DlgAdvPreferencesBase.cpp:378
 msgid ""
 "this computer is connected to the Internet about every X days\n"
 "(0 if it's always connected)"
@@ -1313,37 +1332,33 @@ msgstr ""
 "このコンピュータは、X 日毎にインターネットに接続します。\n"
 "(0は常時接続します)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:357
-msgid "days"
-msgstr "日"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:360
+#: clientgui/DlgAdvPreferencesBase.cpp:385
 msgid "Additional work buffer"
 msgstr "仕事の備蓄"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:366
+#: clientgui/DlgAdvPreferencesBase.cpp:391
 msgid "days (max. 10)"
 msgstr "日分(最大10日)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:369
+#: clientgui/DlgAdvPreferencesBase.cpp:394
 msgid " Skip image file verification"
 msgstr "イメージファイルの検証をスキップする"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:371
+#: clientgui/DlgAdvPreferencesBase.cpp:396
 msgid "check this if your Internet provider modifies image files"
 msgstr ""
 "インターネットプロバイダが画像ファイルを変更する場合はチェックを入れてくださ"
 "い。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:380
+#: clientgui/DlgAdvPreferencesBase.cpp:405
 msgid "Connect options"
 msgstr "接続オプション"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:382
+#: clientgui/DlgAdvPreferencesBase.cpp:407
 msgid "Confirm before connecting to internet"
 msgstr "インターネットに接続する前に確認する"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:384
+#: clientgui/DlgAdvPreferencesBase.cpp:409
 msgid ""
 "if checked, a confirmation dialog will be displayed before trying to connect "
 "to the Internet"
@@ -1351,11 +1366,11 @@ msgstr ""
 "チェックを入れると、インターネットに接続する前に確認ダイアログが表示されま"
 "す。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:388
+#: clientgui/DlgAdvPreferencesBase.cpp:413
 msgid "Disconnect when done"
 msgstr "終わったら切断"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:390
+#: clientgui/DlgAdvPreferencesBase.cpp:415
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
@@ -1363,114 +1378,114 @@ msgstr ""
 "チェックを入れると、ネットワーク使用終了時に BOINC が電話を切ります\n"
 "(ダイアルアップ接続の場合のみ有意)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:397
+#: clientgui/DlgAdvPreferencesBase.cpp:422
 msgid "Network usage allowed"
 msgstr "ネットワーク使用を許す時間帯"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:406
+#: clientgui/DlgAdvPreferencesBase.cpp:431
 msgid "network usage start hour"
 msgstr "ネットワーク使用開始時刻"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:414
+#: clientgui/DlgAdvPreferencesBase.cpp:439
 msgid "network usage stop hour"
 msgstr "ネットワーク使用終了時刻"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:499
+#: clientgui/DlgAdvPreferencesBase.cpp:524
 msgid "network usage"
 msgstr "ネットワーク使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:507 clientgui/DlgItemProperties.cpp:215
+#: clientgui/DlgAdvPreferencesBase.cpp:532 clientgui/DlgItemProperties.cpp:215
 msgid "Disk usage"
 msgstr "ディスク領域"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:519
+#: clientgui/DlgAdvPreferencesBase.cpp:544
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
 msgstr "BOINC使用最大ディスク使用量(ギガバイト)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:523
+#: clientgui/DlgAdvPreferencesBase.cpp:548
 msgid "Gigabytes disk space"
 msgstr "ギガバイトのディスク領域"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:526
+#: clientgui/DlgAdvPreferencesBase.cpp:551
 msgid "Leave at least"
 msgstr "最低限の未使用領域"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:530
+#: clientgui/DlgAdvPreferencesBase.cpp:555
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr ""
-"BOINC は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギ"
-"ガバイト)"
+"BOINC は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギガ"
+"バイト)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:534
+#: clientgui/DlgAdvPreferencesBase.cpp:559
 msgid "Gigabytes disk space free"
 msgstr "ギガバイト（空き）"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:541
+#: clientgui/DlgAdvPreferencesBase.cpp:566
 msgid "BOINC uses at most this percentage of total disk space"
 msgstr "BOINC使用最大ディスク使用率(パーセント)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:546
+#: clientgui/DlgAdvPreferencesBase.cpp:571
 #, no-c-format
 msgid "% of total disk space"
 msgstr "% (ディスク全体に対する使用率)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:549
+#: clientgui/DlgAdvPreferencesBase.cpp:574
 msgid "Tasks checkpoint to disk at most every"
 msgstr "タスクがチェックポイントでディスクに書く最小間隔"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:555
+#: clientgui/DlgAdvPreferencesBase.cpp:580
 msgid "seconds"
 msgstr "秒毎"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:565
+#: clientgui/DlgAdvPreferencesBase.cpp:590
 #, no-c-format
 msgid "% of page file (swap space)"
 msgstr "% (ページファイル/スワップ領域 の使用率)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:573
+#: clientgui/DlgAdvPreferencesBase.cpp:598
 msgid "Memory usage"
 msgstr "メモリ使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:588
+#: clientgui/DlgAdvPreferencesBase.cpp:613
 #, no-c-format
 msgid "% when computer is in use"
 msgstr "% (コンピュータ利用中)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:598
+#: clientgui/DlgAdvPreferencesBase.cpp:623
 #, no-c-format
 msgid "% when computer is idle"
 msgstr "% (コンピュータ・アイドル時)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:603
+#: clientgui/DlgAdvPreferencesBase.cpp:628
 msgid " Leave applications in memory while suspended"
 msgstr "一時停止時にアプリケーションをメモリ上に残す"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:605
+#: clientgui/DlgAdvPreferencesBase.cpp:630
 msgid "if checked, suspended work units are left in memory"
 msgstr "チェックをいれると、休止中のワークユニットはメモリに残ります"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:614
+#: clientgui/DlgAdvPreferencesBase.cpp:639
 msgid "disk and memory usage"
 msgstr "ディスクおよびメモリ使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:627
+#: clientgui/DlgAdvPreferencesBase.cpp:652
 msgid "OK"
 msgstr "OK"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:628
+#: clientgui/DlgAdvPreferencesBase.cpp:653
 msgid "save all values and close the dialog"
 msgstr "すべての値を保存して、ダイアログを終了します"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:633
+#: clientgui/DlgAdvPreferencesBase.cpp:658
 msgid "close the dialog without saving"
 msgstr "保存をしないでダイアログを終了します"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:637 clientgui/Localization.cpp:35
+#: clientgui/DlgAdvPreferencesBase.cpp:662 clientgui/Localization.cpp:35
 #: clientgui/Localization.cpp:121 clientgui/Localization.cpp:139
 msgid "Help"
 msgstr "ヘルプ"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:638
+#: clientgui/DlgAdvPreferencesBase.cpp:663
 msgid "shows the preferences web page"
 msgstr "プレファレンス（好みの設定）のウェブページを開きます。"
 
@@ -1901,7 +1916,8 @@ msgstr ""
 msgid ""
 "How often should the Manager remind you when a network connection is needed?"
 msgstr ""
-"マネージャ・プログラムがあなたに、ネットワーク接続が必要であることを伝える頻度"
+"マネージャ・プログラムがあなたに、ネットワーク接続が必要であることを伝える頻"
+"度"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2756,10 +2772,6 @@ msgstr "一時停止状態： アプリケーション開始が遅延"
 msgid "Click to show project graphics"
 msgstr "プロジェクトのグラフィクス表示はここをクリック"
 
-#: clientgui/sg_ProjectsComponent.cpp:106
-msgid "Attach to an additional project"
-msgstr "新しいプロジェクトに参加します"
-
 #: clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
 msgstr "アカウント・マネージャでプロジェクトに同期"
@@ -3208,7 +3220,11 @@ msgstr "スケジューラへの要求を保留"
 msgid "Scheduler request in progress"
 msgstr "スケジューラへ要求中"
 
-#: clientgui/ViewProjects.cpp:1074
+#: clientgui/ViewProjects.cpp:1071
+msgid "Trickle up message pending"
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
 msgstr "通信を延期"
 
@@ -3407,15 +3423,21 @@ msgstr "転送速度"
 msgid "Transfers"
 msgstr "ファイル転送"
 
-#: clientgui/ViewTransfers.cpp:271 clientgui/ViewTransfersGrid.cpp:190
+#: clientgui/ViewTransfers.cpp:275
+msgid ""
+"Network activity is suspended.\n"
+"You can enable it using the Activity menu."
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
 msgstr "現在、転送を再試行しています..."
 
-#: clientgui/ViewTransfers.cpp:309
+#: clientgui/ViewTransfers.cpp:321
 msgid "Aborting transfer..."
 msgstr "ファイル転送の中止処理をしています..."
 
-#: clientgui/ViewTransfers.cpp:322
+#: clientgui/ViewTransfers.cpp:334
 #, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
@@ -3426,27 +3448,37 @@ msgstr ""
 "注意： 転送を中止するとタスクはキャンセルされたことになり\n"
 "功績 (credit) は付与されなくなります。"
 
-#: clientgui/ViewTransfers.cpp:328
+#: clientgui/ViewTransfers.cpp:340
 msgid "Abort File Transfer"
 msgstr "ファイル転送を中止"
 
-#: clientgui/ViewTransfers.cpp:751 clientgui/ViewTransfersGrid.cpp:419
+#: clientgui/ViewTransfers.cpp:763 clientgui/ViewTransfersGrid.cpp:419
 msgid "Retry in "
 msgstr "右記の時間内に再試行："
 
-#: clientgui/ViewTransfers.cpp:763 clientgui/ViewTransfersGrid.cpp:431
+#: clientgui/ViewTransfers.cpp:771
+#, fuzzy
+msgid "Suspended upload"
+msgstr "一時停止中"
+
+#: clientgui/ViewTransfers.cpp:772
+#, fuzzy
+msgid "Suspended download"
+msgstr "一時停止中"
+
+#: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
 msgstr "アップロード保留中"
 
-#: clientgui/ViewTransfers.cpp:763 clientgui/ViewTransfersGrid.cpp:431
+#: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Download pending"
 msgstr "ダウンロード保留中"
 
-#: clientgui/ViewTransfers.cpp:770
+#: clientgui/ViewTransfers.cpp:785
 msgid " (project backoff: "
 msgstr " (プロジェクトとの通信待機: "
 
-#: clientgui/ViewTransfers.cpp:770
+#: clientgui/ViewTransfers.cpp:785
 msgid ")"
 msgstr ")"
 
@@ -3572,19 +3604,24 @@ msgstr "このタスクに対する仕事を一時停止します"
 msgid "GPU missing, "
 msgstr "GPU がありません、"
 
-#: clientgui/ViewWork.cpp:1149
+#: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
+#, fuzzy
+msgid " (suspended)"
+msgstr "一時停止中"
+
+#: clientgui/ViewWork.cpp:1152
 msgid " - an exclusive app is running"
 msgstr " - 排他的なアプリケーションを実行中"
 
-#: clientgui/ViewWork.cpp:1168 clientgui/ViewWorkGrid.cpp:822
+#: clientgui/ViewWork.cpp:1171 clientgui/ViewWorkGrid.cpp:822
 msgid " (non-CPU-intensive)"
 msgstr "（常時 CPU を使用するわけではありません）"
 
-#: clientgui/ViewWork.cpp:1183
+#: clientgui/ViewWork.cpp:1186
 msgid " (waiting for GPU memory)"
 msgstr "(GPU 用メモリを待っています)"
 
-#: clientgui/ViewWork.cpp:1205
+#: clientgui/ViewWork.cpp:1211
 msgid "Aborted: not started by deadline"
 msgstr "中止されました： 期限までに開始されませんでした"
 
@@ -3716,7 +3753,7 @@ msgstr "OnDropTarget: index by HitTest = %i"
 msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
-#: clientgui/mac/MacAccessiblity.cpp:184
+#: clientgui/mac/MacAccessiblity.cpp:171
 msgid ""
 "for accessibility support, please select advanced from the view menu or type "
 "command shift a"
@@ -3724,87 +3761,92 @@ msgstr ""
 "アクセシビリティを向上させるには、詳細表示を表示メニューから選ぶか、あるいは "
 "コマンドキー＋シフト＋A　を打ってください。"
 
-#: clientgui/mac/MacAccessiblity.cpp:245
+#: clientgui/mac/MacAccessiblity.cpp:216
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
 "このパネルには、参加者ごとにプロジェクト横断の合計値を表示するグラフがありま"
 "す"
 
-# This fragment of English is used in the English-dependent construction sequence.
-#: clientgui/mac/MacAccessiblity.cpp:528 clientgui/mac/MacAccessiblity.cpp:636
-#, fuzzy
-msgid "blank"
-msgstr "blank"
+#: clientgui/mac/MacAccessiblity.cpp:635
+msgid "list headers"
+msgstr ""
 
 # This fragment of English is used in the English-dependent construction sequence.
-#: clientgui/mac/MacAccessiblity.cpp:530
-#, fuzzy
-msgid "list of "
+#: clientgui/mac/MacAccessiblity.cpp:639
+#, fuzzy, c-format
+msgid "list of %s"
 msgstr "list of "
 
 # This fragment of English is used in the English-dependent construction sequence.
-#: clientgui/mac/MacAccessiblity.cpp:533
-#, fuzzy
-msgid " is empty"
-msgstr " is empty"
+#: clientgui/mac/MacAccessiblity.cpp:641
+#, fuzzy, c-format
+msgid "list of %s is empty"
+msgstr "list is empty"
 
-#: clientgui/mac/MacAccessiblity.cpp:605
+#: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
-msgid "%d of %d; "
-msgstr "%d (全部で %d) "
+msgid "; current sort column %d of %d; descending order; "
+msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:607
-msgid "current sort column "
-msgstr "現在の順序付けカラム"
+#: clientgui/mac/MacAccessiblity.cpp:744
+#, c-format
+msgid "; current sort column %d of %d; ascending order; "
+msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:609
-msgid " descending order "
-msgstr "降順"
-
-#: clientgui/mac/MacAccessiblity.cpp:609
-msgid " ascending order "
-msgstr "昇順"
-
-#: clientgui/mac/MacAccessiblity.cpp:611
-msgid "column "
-msgstr "カラム"
+# This fragment of English is used in the English-dependent sequence.
+#: clientgui/mac/MacAccessiblity.cpp:747
+#, fuzzy, c-format
+msgid "; column %d of %d; "
+msgstr "カラム %d "
 
 # This fragment of English is used in the English-dependent construction sequence.
-#: clientgui/mac/MacAccessiblity.cpp:618
+#: clientgui/mac/MacAccessiblity.cpp:754
 #, fuzzy
 msgid "list is empty"
 msgstr "list is empty"
 
 # This fragment of English is used in the English-dependent construction sequence.
-#: clientgui/mac/MacAccessiblity.cpp:621
-#: clientgui/mac/MacAccessiblity.cpp:1198
-msgid "selected "
-msgstr "選択中"
-
-# This fragment of English is used in the English-dependent construction sequence.
-#: clientgui/mac/MacAccessiblity.cpp:626
-#, c-format
-msgid "row %d "
+#: clientgui/mac/MacAccessiblity.cpp:757 clientgui/mac/MacAccessiblity.cpp:769
+#, fuzzy, c-format
+msgid "; row %d; "
 msgstr "行 %d"
 
+# This fragment of English is hard to be translated without knowing the context it is used.
+#: clientgui/mac/MacAccessiblity.cpp:761
+#, fuzzy, c-format
+msgid "; selected row %d of %d; "
+msgstr "行 %d （全体は %d 行)  "
+
 # This fragment of English is used in the English-dependent construction sequence.
-#: clientgui/mac/MacAccessiblity.cpp:629
-#, c-format
-msgid "of %d; "
-msgstr "（全部で %d）"
+#: clientgui/mac/MacAccessiblity.cpp:763
+#, fuzzy, c-format
+msgid "; selected row %d ; "
+msgstr "選択中"
 
-# This fragment of English is used in the English-dependent sequence.
-#: clientgui/mac/MacAccessiblity.cpp:632
-#, c-format
-msgid "column %d; "
-msgstr "カラム %d "
+# This fragment of English is hard to be translated without knowing the context it is used.
+#: clientgui/mac/MacAccessiblity.cpp:767
+#, fuzzy, c-format
+msgid "; row %d of %d; "
+msgstr "行 %d （全体は %d 行)  "
 
-#: clientgui/mac/MacAccessiblity.cpp:1160
+# This fragment of English is used in the English-dependent construction sequence.
+#: clientgui/mac/MacAccessiblity.cpp:775
+#, fuzzy
+msgid "blank"
+msgstr "blank"
+
+#: clientgui/mac/MacAccessiblity.cpp:1411
 msgid "list of projects or account managers"
 msgstr "プロジェクトまたはアカウント・マネージャの一覧"
 
 # This fragment of English is hard to be translated without knowing the context it is used.
-#: clientgui/mac/MacAccessiblity.cpp:1202
+#: clientgui/mac/MacAccessiblity.cpp:1448
+#, fuzzy, c-format
+msgid "selected row %d of %d; "
+msgstr "行 %d （全体は %d 行)  "
+
+# This fragment of English is hard to be translated without knowing the context it is used.
+#: clientgui/mac/MacAccessiblity.cpp:1450
 #, c-format
 msgid "row %d of %d; "
 msgstr "行 %d （全体は %d 行)  "
@@ -3816,3 +3858,34 @@ msgstr "処理をする時間帯を「HH:MM-HH:MM」の形式で指定して下�
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指定して下さい。"
+
+#~ msgid "Attach to a project or account manager to begin processing work"
+#~ msgstr ""
+#~ "仕事を処理し始めるためにプロジェクトまたはアカウント・マネージャへ接続する"
+
+#~ msgid "Attach to an additional project"
+#~ msgstr "新しいプロジェクトに参加します"
+
+# This fragment of English is used in the English-dependent construction sequence.
+#, fuzzy
+#~ msgid " is empty"
+#~ msgstr " is empty"
+
+#~ msgid "%d of %d; "
+#~ msgstr "%d (全部で %d) "
+
+#~ msgid "current sort column "
+#~ msgstr "現在の順序付けカラム"
+
+#~ msgid " descending order "
+#~ msgstr "降順"
+
+#~ msgid " ascending order "
+#~ msgstr "昇順"
+
+#~ msgid "column "
+#~ msgstr "カラム"
+
+# This fragment of English is used in the English-dependent construction sequence.
+#~ msgid "of %d; "
+#~ msgstr "（全部で %d）"
