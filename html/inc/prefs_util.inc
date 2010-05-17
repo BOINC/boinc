@@ -96,12 +96,12 @@ class PREF_BOOL extends PREF {
     function show_form($prefs, $error) {
         $tag = $this->tag;
         if ($this->invert) {
-            $disp_yes = tra("no");
-            $disp_no = tra("yes");
+            $disp_yes = "no";
+            $disp_no = "yes";
             $val = !$prefs->$tag;
         } else {
-            $disp_yes = tra("yes");
-            $disp_no = tra("no");
+            $disp_yes = "yes";
+            $disp_no = "no";
             $val = $prefs->$tag;
         }
         echo "<td class=fieldvalue>"

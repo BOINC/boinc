@@ -3681,3 +3681,10 @@ Charlie  17 May 2010
         BOINCListCtrl.cpp, .h
         mac/
             MacAccessiblity.cpp, .h
+
+Rytis  17 May 2010
+	- user web: fix boolean type preferences for non-english languages where
+		PREF_BOOL is used
+
+	html/inc/
+		prefs_util.inc
