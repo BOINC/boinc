@@ -1718,3 +1718,11 @@ Rom    14 May 2010
     /
         configure.ac
         version.h
+
+Charlie  17 May 2010
+    - MGR: Rework Mac accessibility for better compatibility with OS 10.6.
+
+    clientgui/
+        BOINCListCtrl.cpp, .h
+        mac/
+            MacAccessiblity.cpp, .h

@@ -17,5 +17,20 @@
 
 //  macAccessiblity.h
 
+#ifndef _MACACCESSIBILITY_H_ 
+#define _MACACCESSIBILITY_H_ 
+
+#include "BOINCBaseView.h"
+#include "wx/generic/listctrl.h"
+
+struct ListAccessData {
+    wxGenericListCtrl*  pList;
+    CBOINCBaseView*     pView;
+    HIViewRef           headerView;
+    HIViewRef           bodyView;
+    Boolean             snowLeopard;
+};
 
 void AccessibilityIgnoreAllChildren(HIViewRef parent, int recursionLevel);
+
+#endif

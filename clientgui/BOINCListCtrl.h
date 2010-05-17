@@ -42,6 +42,10 @@
 #include "wx/generic/listctrl.h"
 #endif
 
+#ifdef __WXMAC__
+#include "macAccessiblity.h"
+#endif
+
 class CBOINCBaseView;
 class CDrawProgressBarEvent;
 
@@ -101,6 +105,8 @@ private:
     HIViewRef               m_headerView;
     HIViewRef               m_bodyView;
 
+    struct ListAccessData   accessibilityHandlerData;
+    
     EventHandlerRef         m_pHeaderAccessibilityEventHandlerRef;
     EventHandlerRef         m_pBodyAccessibilityEventHandlerRef;
 #endif
