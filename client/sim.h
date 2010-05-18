@@ -127,11 +127,6 @@ struct SIM_PROJECT: public PROJECT {
     void update_dcf_stats(RESULT*);
 };
 
-struct SIM_GPU : public COPROC {
-    double flops;
-    int parse(XML_PARSER&, const char*);
-};
-
 struct SIM_HOST: public HOST_INFO {
     RANDOM_PROCESS available;
     RANDOM_PROCESS idle;

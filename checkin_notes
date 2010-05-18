@@ -3728,3 +3728,14 @@ David  18 May 2010
         sched_customize.cpp
         sched_send.cpp
         sched_types.cpp,h
+
+David  18 May 2010
+    - client simulator: fix build
+    - code cleanup: removed include of client/cpp.h from lib/msg_log.cpp.
+        Stuff in lib/ should NOT include stuff from client/.
+
+    lib/
+        msg_log.cpp
+    client/
+        sim.cpp,h
+        sim_util.cpp

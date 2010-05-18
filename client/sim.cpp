@@ -565,41 +565,48 @@ bool using_instance(RESULT*, int) {
     return false;
 }
 
-void gpu_header() {
-    for (unsigned int i=0; i<gstate.host_info.coprocs.coprocs.size(); i++) {
-        COPROC* cp = gstate.host_info.coprocs.coprocs[i];
-        for (int j=0; j<cp->count; j++) {
-            fprintf(gstate.html_out, "<th>%s %d</th>", cp->type, j);
-        }
+void gpu_header_aux(COPROC* cp) {
+    for (int i=0; i<cp->count; i++) {
+        fprintf(gstate.html_out, "<th>%s %d</th>", cp->type, i);
     }
 }
+
+void gpu_header() {
+    gpu_header_aux(&gstate.host_info.coprocs.cuda);
+    gpu_header_aux(&gstate.host_info.coprocs.ati);
+}
+
+void gpu_off_aux(COPROC* cp) {
+    for (int i=0; i<cp->count; i++) {
+        fprintf(gstate.html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+    }
+}
+
 void gpu_off() {
-    for (unsigned int i=0; i<gstate.host_info.coprocs.coprocs.size(); i++) {
-        COPROC* cp = gstate.host_info.coprocs.coprocs[i];
-        for (int j=0; j<cp->count; j++) {
-            fprintf(gstate.html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+    gpu_off_aux(&gstate.host_info.coprocs.cuda);
+    gpu_off_aux(&gstate.host_info.coprocs.ati);
+}
+
+void gpu_on_aux(COPROC* cp) {
+    for (int j=0; j<cp->count; j++) {
+        for (unsigned int k=0; k<gstate.active_tasks.active_tasks.size(); k++) {
+            ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[k];
+            RESULT* rp = atp->result;
+            if (!uses_coproc(rp, cp)) continue;
+            if (atp->task_state() != PROCESS_EXECUTING) continue;
+            if (!using_instance(rp, j)) continue;
+            SIM_PROJECT* p = (SIM_PROJECT*)rp->project;
+            fprintf(gstate.html_out, "<td bgcolor=%s>%s%s: %.2f</td>",
+                colors[p->index],
+                atp->result->rr_sim_misses_deadline?"*":"",
+                atp->result->name, atp->cpu_time_left
+            );
         }
     }
 }
 void gpu_on() {
-    for (unsigned int i=0; i<gstate.host_info.coprocs.coprocs.size(); i++) {
-        COPROC* cp = gstate.host_info.coprocs.coprocs[i];
-        for (int j=0; j<cp->count; j++) {
-            for (unsigned int k=0; k<gstate.active_tasks.active_tasks.size(); k++) {
-                ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[k];
-                RESULT* rp = atp->result;
-                if (!uses_coproc(rp, cp)) continue;
-                if (atp->task_state() != PROCESS_EXECUTING) continue;
-                if (!using_instance(rp, j)) continue;
-                SIM_PROJECT* p = (SIM_PROJECT*)rp->project;
-                fprintf(gstate.html_out, "<td bgcolor=%s>%s%s: %.2f</td>",
-                    colors[p->index],
-                    atp->result->rr_sim_misses_deadline?"*":"",
-                    atp->result->name, atp->cpu_time_left
-                );
-            }
-        }
-    }
+    gpu_on_aux(&gstate.host_info.coprocs.cuda);
+    gpu_on_aux(&gstate.host_info.coprocs.ati);
 }
 
 void CLIENT_STATE::html_start(bool show_prev) {
