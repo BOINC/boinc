@@ -993,8 +993,8 @@ static int send_old_work(int t_min, int t_max) {
     }
     else {
         sprintf(buf,
-            "INNER JOIN (SELECT id FROM result WHERE server_state=%d and %d<create_time and create_time<%d limit 1) AS single USING (id)",
-            RESULT_SERVER_STATE_UNSENT, t_min, t_max
+            "INNER JOIN (SELECT id FROM result WHERE server_state=%d and create_time<%d limit 1) AS single USING (id)",
+            RESULT_SERVER_STATE_UNSENT, t_max
         );
     }
 

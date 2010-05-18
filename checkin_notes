@@ -3688,3 +3688,10 @@ Rytis  17 May 2010
 
 	html/inc/
 		prefs_util.inc
+
+Bernd  18 May 2010
+    fix query in send_old_work()
+    from Oliver Bock
+
+    sched/
+        sched_locality.cpp
