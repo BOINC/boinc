@@ -147,7 +147,7 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
-    bool old_gpu_suspend_reason = gpu_suspend_reason;
+    int old_gpu_suspend_reason = gpu_suspend_reason;
     gpu_suspend_reason = 0;
     switch (gpu_mode.get_current()) {
     case RUN_MODE_ALWAYS:

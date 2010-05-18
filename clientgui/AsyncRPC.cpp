@@ -601,7 +601,7 @@ int RPCThread::ProcessRPCRequest() {
             (const char*)(current_request->arg1), 
             (const char*)(current_request->arg2), 
             (const char*)(current_request->arg3),
-            (bool)(current_request->arg4)
+            (bool)(current_request->arg4 != NULL)
         );
         break;
     case RPC_ACCT_MGR_RPC_POLL:
@@ -928,7 +928,7 @@ void CMainDocument::HandleCompletedRPC() {
     if (current_rpc_request.which_rpc == 0) return; // already handled by a call from RequestRPC
 
     // Find our completed request in the queue
-    n = RPC_requests.size();
+    n = (int) RPC_requests.size();
     for (i=0; i<n; ++i) {
         if (RPC_requests[i].isSameAs(current_rpc_request)) {
             requestIndex = i;

@@ -557,7 +557,8 @@ char* colors[] = {
 
 static int outfile_num=0;
 
-bool uses_coproc(RESULT* rp, COPROC* cp) {
+bool uses_coproc(RESULT*, COPROC*) {
+    // TODO
     return false;
 }
 

@@ -1287,7 +1287,7 @@ void CAdvancedFrame::OnOptions(wxCommandEvent& WXUNUSED(event)) {
 
     dlg.m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
     dlg.m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
-    dlg.m_EnableBOINCManagerExitMessageCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayExitMessage());
+    dlg.m_EnableBOINCManagerExitMessageCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayExitMessage() != 0);
 #ifdef __WXMSW__
     dlg.m_EnableBOINCManagerAutoStartCtrl->SetValue(!wxGetApp().GetBOINCMGRDisableAutoStart());
 

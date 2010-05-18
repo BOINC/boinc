@@ -103,7 +103,7 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
             sizeof(p.command),
             NULL, NULL
         );
-		p.is_boinc_app = (p.id == pid) || (strcasestr(p.command, "boinc") != NULL);
+		p.is_boinc_app = (p.id == (int)pid) || (strcasestr(p.command, "boinc") != NULL);
         
 #ifdef _GRIDREPUBLIC
         if (!strcmp(p.command, "gridrepublic.exe")) {
