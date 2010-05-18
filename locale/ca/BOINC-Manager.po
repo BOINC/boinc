@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-04-25 12:32-0700\n"
+"PO-Revision-Date: 2010-05-17 17:59-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -271,9 +271,8 @@ msgid "Display the simple graphical interface."
 msgstr "Mostrar la interfície gràfica senzilla."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "Adjuntar-se al projecte o administrador de comptes..."
+msgstr "&Adjuntar-se al projecte o administrador de comptes..."
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
