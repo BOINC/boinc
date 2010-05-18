@@ -3752,3 +3752,9 @@ David  18 May 2010
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  18 May 2010
+	- Manager: change order of columns in tasks tab
+
+	clientgui/
+		ViewWork.cpp
