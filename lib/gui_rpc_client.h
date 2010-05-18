@@ -371,6 +371,7 @@ public:
     bool executing_as_daemon;   // true if Client is running as a service / daemon
     bool have_cuda;
     bool have_ati;
+    HOST_INFO host_info;
 
     CC_STATE();
     ~CC_STATE();
@@ -385,6 +386,7 @@ public:
 
     void print();
     void clear();
+    int parse(MIOFILE&);
 };
 
 class PROJECTS {

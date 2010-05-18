@@ -3745,3 +3745,10 @@ David  18 May 2010
 
     client/
         cpu_sched.cpp
+
+David  18 May 2010
+    - GUI RPC: include HOST_INFO in CC_STATE
+
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

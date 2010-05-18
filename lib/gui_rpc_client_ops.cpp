@@ -703,6 +703,89 @@ CC_STATE::~CC_STATE() {
     clear();
 }
 
+int CC_STATE::parse(MIOFILE& fin) {
+    char buf[256];
+    string platform;
+    PROJECT* project = NULL;
+
+    while (fin.fgets(buf, 256)) {
+        if (match_tag(buf, "<unauthorized")) {
+            return ERR_AUTHENTICATOR;
+        }
+        if (match_tag(buf, "</client_state>")) break;
+
+        if (parse_bool(buf, "executing_as_daemon", executing_as_daemon)) continue;
+        if (parse_bool(buf, "have_cuda", have_cuda)) continue;
+        if (parse_bool(buf, "have_ati", have_ati)) continue;
+        if (match_tag(buf, "<project>")) {
+            project = new PROJECT();
+            project->parse(fin);
+            projects.push_back(project);
+            continue;
+        }
+        if (match_tag(buf, "<app>")) {
+            APP* app = new APP();
+            app->parse(fin);
+            app->project = project;
+            apps.push_back(app);
+            continue;
+        }
+        if (match_tag(buf, "<app_version>")) {
+            APP_VERSION* app_version = new APP_VERSION();
+            app_version->parse(fin);
+            app_version->project = project;
+            app_version->app = lookup_app(project, app_version->app_name);
+            app_versions.push_back(app_version);
+            continue;
+        }
+        if (match_tag(buf, "<workunit>")) {
+            WORKUNIT* wu = new WORKUNIT();
+            wu->parse(fin);
+            wu->project = project;
+            wu->app = lookup_app(project, wu->app_name);
+            wus.push_back(wu);
+            continue;
+        }
+        if (match_tag(buf, "<result>")) {
+            RESULT* result = new RESULT();
+            result->parse(fin);
+            result->project = project;
+            result->wup = lookup_wu(project, result->wu_name);
+            result->app = result->wup->app;
+            APP_VERSION* avp;
+            if (result->version_num) {
+                avp = lookup_app_version(
+                    project, result->app, result->version_num,
+                    result->plan_class
+                );
+            } else {
+                avp = lookup_app_version_old(
+                    project, result->app, result->wup->version_num
+                );
+            }
+            result->avp = avp;
+            results.push_back(result);
+            continue;
+        }
+        if (match_tag(buf, "<global_preferences>")) {
+            bool flag = false;
+            GLOBAL_PREFS_MASK mask;
+            XML_PARSER xp(&fin);
+            global_prefs.parse(xp, "", flag, mask);
+            continue;
+        }
+        if (parse_str(buf, "<platform>", platform)) {
+            platforms.push_back(platform);
+            continue;
+        }
+        if (match_tag(buf, "host_info")) {
+            host_info.parse(fin);
+            continue;
+        }
+    }
+    return 0;
+}
+
 void CC_STATE::clear() {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
@@ -1173,88 +1256,13 @@ int RPC_CLIENT::exchange_versions(VERSION_INFO& server) {
 int RPC_CLIENT::get_state(CC_STATE& state) {
     int retval;
     SET_LOCALE sl;
-    char buf[256];
-    PROJECT* project = NULL;
     RPC rpc(this);
-    string platform;
 
     state.clear();
 
     retval = rpc.do_rpc("<get_state/>\n");
-    if (!retval) {
-        while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "<unauthorized")) {
-                retval = ERR_AUTHENTICATOR;
-                break;
-            }
-            if (match_tag(buf, "</client_state>")) break;
-
-            if (parse_bool(buf, "executing_as_daemon", state.executing_as_daemon)) continue;
-            if (parse_bool(buf, "have_cuda", state.have_cuda)) continue;
-            if (parse_bool(buf, "have_ati", state.have_ati)) continue;
-            if (match_tag(buf, "<project>")) {
-                project = new PROJECT();
-                project->parse(rpc.fin);
-                state.projects.push_back(project);
-                continue;
-            }
-            if (match_tag(buf, "<app>")) {
-                APP* app = new APP();
-                app->parse(rpc.fin);
-                app->project = project;
-                state.apps.push_back(app);
-                continue;
-            }
-            if (match_tag(buf, "<app_version>")) {
-                APP_VERSION* app_version = new APP_VERSION();
-                app_version->parse(rpc.fin);
-                app_version->project = project;
-                app_version->app = state.lookup_app(project, app_version->app_name);
-                state.app_versions.push_back(app_version);
-                continue;
-            }
-            if (match_tag(buf, "<workunit>")) {
-                WORKUNIT* wu = new WORKUNIT();
-                wu->parse(rpc.fin);
-                wu->project = project;
-                wu->app = state.lookup_app(project, wu->app_name);
-                state.wus.push_back(wu);
-                continue;
-            }
-            if (match_tag(buf, "<result>")) {
-                RESULT* result = new RESULT();
-                result->parse(rpc.fin);
-                result->project = project;
-                result->wup = state.lookup_wu(project, result->wu_name);
-                result->app = result->wup->app;
-                APP_VERSION* avp;
-                if (result->version_num) {
-                    avp = state.lookup_app_version(
-                        project, result->app, result->version_num,
-                        result->plan_class
-                    );
-                } else {
-                    avp = state.lookup_app_version_old(
-                        project, result->app, result->wup->version_num
-                    );
-                }
-                result->avp = avp;
-                state.results.push_back(result);
-                continue;
-            }
-            if (match_tag(buf, "<global_preferences>")) {
-                bool flag = false;
-                GLOBAL_PREFS_MASK mask;
-                XML_PARSER xp(&rpc.fin);
-                state.global_prefs.parse(xp, "", flag, mask);
-                continue;
-            }
-            if (parse_str(buf, "<platform>", platform)) {
-                state.platforms.push_back(platform);
-            }
-        }
-    }
-    return retval;
+    if (retval) return retval;
+    return state.parse(rpc.fin);
 }
 
 int RPC_CLIENT::get_results(RESULTS& t, bool active_only) {
