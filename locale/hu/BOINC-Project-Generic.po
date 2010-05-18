@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-04-22 07:52-0700\n"
+"PO-Revision-Date: 2010-05-18 14:34-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Bookmarks: 7,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
@@ -2991,9 +2991,8 @@ msgid "Top computers"
 msgstr ""
 
 #: ../user/stats.php:31 ../user/team.php:43
-#, fuzzy
 msgid "Top teams"
-msgstr "A legjobb %1 csapatok"
+msgstr "A legjobb csapatok"
 
 #: ../user/stats.php:35
 msgid ""
