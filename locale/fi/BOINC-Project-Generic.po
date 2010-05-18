@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-05-17 21:04+0200\n"
+"PO-Revision-Date: 2010-05-18 22:09+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1061,7 +1061,7 @@ msgstr ""
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "Lataa BOINCin ohjelmistolaajennuksia"
 
 #: ../user/download_network.php:28
 msgid "You can download applications in several categories."
@@ -1725,6 +1725,8 @@ msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
 msgstr ""
+"%1Profiilien%2 avulla voi jakaa taustatietojaan ja mielipiteitään %3 "
+"-yhteisön kanssa."
 
 #: ../user/profile_menu.php:37
 msgid ""
@@ -3607,7 +3609,7 @@ msgstr ""
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Ei saatavissa"
 
 #: ../inc/host.inc:55
 #: ../inc/prefs.inc:1350
@@ -4449,7 +4451,7 @@ msgstr "Virheet"
 #: ../inc/result.inc:111
 #: ../inc/result.inc:150
 msgid "Inactive"
-msgstr ""
+msgstr "Ei-aktiivinen"
 
 #: ../inc/result.inc:112
 #: ../inc/result.inc:151
@@ -4952,6 +4954,9 @@ msgid ""
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC client."
 msgstr ""
+"Asetukset on päivitetty. Ohjelmaa koskevat asetukset\n"
+"\t      tulevat voimaan kun tietokoneesi on yhteydessä %1 kanssa\n"
+"\t      tai käyttäessäsi %2Päivitä%3 komentoa BOINCista."
 
 #: ../user/prefs_edit.php:72
 #: ../user/prefs_edit.php:101
