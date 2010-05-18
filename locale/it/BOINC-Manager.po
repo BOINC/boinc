@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-05-18 13:58-0700\n"
+"PO-Revision-Date: 2010-05-18 14:19-0700\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it\n"
@@ -277,7 +277,7 @@ msgstr "Connessione ad un &progetto o ad un account manager..."
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
+msgstr "Volontari di alcuni dei 30 e più progetti in molte aree di scienza"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -1311,19 +1311,16 @@ msgid "Maximum upload rate"
 msgstr "Velocità massima di invio"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:353
-#, fuzzy
 msgid "Transfer at most"
-msgstr "Usa al massimo"
+msgstr "Trasferisci al massimo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
-#, fuzzy
 msgid "Mbytes"
-msgstr "si"
+msgstr "Mbytes"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:362
-#, fuzzy
 msgid "every"
-msgstr "Server:"
+msgstr "ogni"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:368
 #: clientgui/DlgAdvPreferencesBase.cpp:382
@@ -3222,7 +3219,7 @@ msgstr "Richiesta allo scheduler in corso"
 
 #: clientgui/ViewProjects.cpp:1071
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Scorri i messaggi in attesa"
 
 #: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
@@ -3428,6 +3425,8 @@ msgid ""
 "Network activity is suspended.\n"
 "You can enable it using the Activity menu."
 msgstr ""
+"L'attività di rete è sospesa.\n"
+"Puoi riabilitarla usando il menu Attività."
 
 #: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
@@ -3457,14 +3456,12 @@ msgid "Retry in "
 msgstr "Riprova tra "
 
 #: clientgui/ViewTransfers.cpp:771
-#, fuzzy
 msgid "Suspended upload"
-msgstr "Sospesa"
+msgstr "Upload sospeso"
 
 #: clientgui/ViewTransfers.cpp:772
-#, fuzzy
 msgid "Suspended download"
-msgstr "Sospesa"
+msgstr "Download sospeso"
 
 #: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
@@ -3604,9 +3601,8 @@ msgid "GPU missing, "
 msgstr "Manca la GPU, "
 
 #: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
-#, fuzzy
 msgid " (suspended)"
-msgstr "Sospesa"
+msgstr " (sospesa)"
 
 #: clientgui/ViewWork.cpp:1152
 msgid " - an exclusive app is running"
@@ -3765,69 +3761,69 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:635
 msgid "list headers"
-msgstr ""
+msgstr "intestazioni lista"
 
 #: clientgui/mac/MacAccessiblity.cpp:639
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s"
-msgstr "lista di"
+msgstr "lista di %s"
 
 #: clientgui/mac/MacAccessiblity.cpp:641
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s is empty"
-msgstr "la lista è vuota"
+msgstr "la lista %s è vuota"
 
 #: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr "; ordinamento colonne corrente %d di %d; ordine decrescente; "
 
 #: clientgui/mac/MacAccessiblity.cpp:744
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr "; ordinamento colonne corrente %d di %d; ordine crescente; "
 
 #: clientgui/mac/MacAccessiblity.cpp:747
-#, fuzzy, c-format
+#, c-format
 msgid "; column %d of %d; "
-msgstr "colonna %d; "
+msgstr "; colonna %d di %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:754
 msgid "list is empty"
 msgstr "la lista è vuota"
 
 #: clientgui/mac/MacAccessiblity.cpp:757 clientgui/mac/MacAccessiblity.cpp:769
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d; "
-msgstr "riga %d "
+msgstr "; riga %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:761
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d of %d; "
-msgstr "riga %d di %d; "
+msgstr "; selezionata riga %d di %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:763
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d ; "
-msgstr "selezionata "
+msgstr "; selezionata riga %d ; "
 
 #: clientgui/mac/MacAccessiblity.cpp:767
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d of %d; "
-msgstr "riga %d di %d; "
+msgstr "; riga %d di %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:775
 msgid "blank"
-msgstr "nero"
+msgstr "vuoto"
 
 #: clientgui/mac/MacAccessiblity.cpp:1411
 msgid "list of projects or account managers"
 msgstr "lista dei progetti o degli account manager"
 
 #: clientgui/mac/MacAccessiblity.cpp:1448
-#, fuzzy, c-format
+#, c-format
 msgid "selected row %d of %d; "
-msgstr "riga %d di %d; "
+msgstr "selezionata riga %d di %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1450
 #, c-format
