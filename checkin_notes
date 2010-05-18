@@ -3739,3 +3739,9 @@ David  18 May 2010
     client/
         sim.cpp,h
         sim_util.cpp
+
+David  18 May 2010
+    - client: fix error in GPU confirm message (it always said 0)
+
+    client/
+        cpu_sched.cpp

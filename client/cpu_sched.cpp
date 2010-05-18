@@ -1012,7 +1012,7 @@ static inline void confirm_current_assignment(
         if (log_flags.coproc_debug) {
             msg_printf(rp->project, MSG_INFO,
                 "[coproc] %s instance %d: confirming for %s",
-                cp->type, i, rp->name
+                cp->type, j, rp->name
             );
         }
         cp->available_ram[j] -= rp->avp->gpu_ram;
