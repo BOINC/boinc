@@ -114,14 +114,14 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
     }
 
     switch (myCViewWork->m_iSortColumn) {
-        case COLUMN_PROJECT:
-	result = work1->m_strProjectName.CmpNoCase(work2->m_strProjectName);
+    case COLUMN_PROJECT:
+        result = work1->m_strProjectName.CmpNoCase(work2->m_strProjectName);
         break;
     case COLUMN_APPLICATION:
-	result = work1->m_strApplicationName.CmpNoCase(work2->m_strApplicationName);
+        result = work1->m_strApplicationName.CmpNoCase(work2->m_strApplicationName);
         break;
     case COLUMN_NAME:
-	result = work1->m_strName.CmpNoCase(work2->m_strName);
+        result = work1->m_strName.CmpNoCase(work2->m_strName);
         break;
     case COLUMN_CPUTIME:
         if (work1->m_fCPUTime < work2->m_fCPUTime) {
@@ -152,7 +152,7 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
         }
         break;
     case COLUMN_STATUS:
-	result = work1->m_strStatus.CmpNoCase(work2->m_strStatus);
+        result = work1->m_strStatus.CmpNoCase(work2->m_strStatus);
         break;
     }
 
@@ -168,8 +168,8 @@ CViewWork::CViewWork()
 CViewWork::CViewWork(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_TASK_WORKVIEW, DEFAULT_TASK_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
 {
-	CTaskItemGroup* pGroup = NULL;
-	CTaskItem*      pItem = NULL;
+    CTaskItemGroup* pGroup = NULL;
+    CTaskItem*      pItem = NULL;
 
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
@@ -177,38 +177,38 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     //
     // Setup View
     //
-	pGroup = new CTaskItemGroup( _("Commands") );
-	m_TaskGroups.push_back( pGroup );
+    pGroup = new CTaskItemGroup( _("Commands") );
+    m_TaskGroups.push_back( pGroup );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Show active tasks"),
         _("Show only active tasks."),
         ID_TASK_ACTIVE_ONLY 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Show graphics"),
         _("Show application graphics in a window."),
         ID_TASK_WORK_SHOWGRAPHICS 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Suspend"),
         _("Suspend work for this result."),
         ID_TASK_WORK_SUSPEND 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Abort"),
         _("Abandon work on the result. You will get no credit for it."),
         ID_TASK_WORK_ABORT 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Properties"),
         _("Show task details."),
         ID_TASK_SHOW_PROPERTIES 
@@ -291,14 +291,14 @@ wxString CViewWork::GetKeyValue2(int iRowIndex) {
 int CViewWork::FindRowIndexByKeyValues(wxString& key1, wxString& key2) {
     CWork* work;
     unsigned int iRowIndex, n = GetCacheCount();
-	for(iRowIndex=0; iRowIndex < n; iRowIndex++) {
+    for(iRowIndex=0; iRowIndex < n; iRowIndex++) {
         if (GetWorkCacheAtIndex(work, m_iSortedIndexes[iRowIndex])) {
             continue;
         }
         if(! (work->m_strName).IsSameAs(key1)) continue;
         if((work->m_strProjectURL).IsSameAs(key2)) return iRowIndex;
-	}
-	return -1;
+    }
+    return -1;
 }
 
 
@@ -504,8 +504,8 @@ bool CViewWork::OnSaveState(wxConfigBase* pConfig) {
 
     wxString    strBaseConfigLocation = wxEmptyString;
     strBaseConfigLocation = wxT("/Tasks");
-	pConfig->SetPath(strBaseConfigLocation);
-	pConfig->Write(wxT("ActiveTasksOnly"), (pDoc->m_ActiveTasksOnly ? 1 : 0));
+    pConfig->SetPath(strBaseConfigLocation);
+    pConfig->Write(wxT("ActiveTasksOnly"), (pDoc->m_ActiveTasksOnly ? 1 : 0));
 
     return bReturnValue;
 }
@@ -516,7 +516,7 @@ bool CViewWork::OnRestoreState(wxConfigBase* pConfig) {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-	wxASSERT(pConfig);
+    wxASSERT(pConfig);
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
@@ -530,8 +530,8 @@ bool CViewWork::OnRestoreState(wxConfigBase* pConfig) {
     int     iTempValue = 0;
     wxString    strBaseConfigLocation = wxEmptyString;
     strBaseConfigLocation = wxT("/Tasks");
-	pConfig->SetPath(strBaseConfigLocation);
-	pConfig->Read(wxT("ActiveTasksOnly"), &iTempValue, 0);
+    pConfig->SetPath(strBaseConfigLocation);
+    pConfig->Read(wxT("ActiveTasksOnly"), &iTempValue, 0);
     pDoc->m_ActiveTasksOnly = (iTempValue != 0);
 
     return true;

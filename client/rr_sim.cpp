@@ -227,26 +227,6 @@ void CLIENT_STATE::print_deadline_misses() {
     }
 }
 
-#if 0
-// compute a per-app-version "temporary DCF" based on the elapsed time
-// and fraction done of running jobs
-//
-void compute_temp_dcf() {
-    unsigned int i;
-    for (i=0; i<gstate.app_versions.size(); i++) {
-        gstate.app_versions[i]->temp_dcf = 1;
-    }
-    for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
-        double x = atp->est_dur(false) / atp->result->estimated_duration(false);
-        APP_VERSION* avp = atp->result->avp;
-        if (x < avp->temp_dcf) {
-            avp->temp_dcf = x;
-        }
-    }
-}
-#endif
-
 void CLIENT_STATE::rr_simulation() {
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
@@ -256,7 +236,6 @@ void CLIENT_STATE::rr_simulation() {
     double ar = available_ram();
 
     work_fetch.rr_init();
-    //compute_temp_dcf();
 
     if (log_flags.rr_simulation) {
         msg_printf(0, MSG_INFO,

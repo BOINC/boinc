@@ -406,7 +406,7 @@ static void set_trust(DB_HOST_APP_VERSION& hav) {
         }
         return;
     }
-    double x = 1 - (1./hav.consecutive_valid);
+    double x = 1./hav.consecutive_valid;
     if (drand() > x) hav.trusted = true;
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
