@@ -167,10 +167,22 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     //
     if (!boinc_file_exists(init_data_path)) {
         FILE* f = boinc_fopen(init_data_path, "w");
-        if (f) fclose(f);
+        if (f) {
+            fclose(f);
+        } else {
+            msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                "error: can't open file for shmem seg name"
+            );
+        }
     }
     shmem_seg_name = ftok(init_data_path, 1);
-    if (shmem_seg_name == -1) return ERR_SHMEM_NAME;
+    if (shmem_seg_name == -1) {
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
+            "error: can't open file for shmem seg name: %d", errno
+        );
+        perror("ftok");
+        return ERR_SHMEM_NAME;
+    }
 #endif
     return 0;
 }

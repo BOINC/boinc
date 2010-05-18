@@ -3690,8 +3690,14 @@ Rytis  17 May 2010
 		prefs_util.inc
 
 Bernd  18 May 2010
-    fix query in send_old_work()
+    - scheduler: fix query in send_old_work()
     from Oliver Bock
 
     sched/
         sched_locality.cpp
+
+David  18 May 2010
+    - client: don't promote multithread jobs ahead of EDF jobs
+
+    client/
+        cpu_sched.cpp
