@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-05-15 00:21-0700\n"
+"PO-Revision-Date: 2010-05-18 15:45-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -349,11 +349,11 @@ msgstr "Beállítások figyelembe vétele nélkül leáll"
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Use GPU always"
-msgstr "GPU használata mindenképp"
+msgstr "GPU használata mindig"
 
 #: clientgui/AdvancedFrame.cpp:476
 msgid "Allow GPU work regardless of preferences"
-msgstr "GPU munka engedélyezése a beállítások figyelmen kívül hagyásával"
+msgstr "GPU munka engedélyezése a beállításoktól függetlenül"
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Use GPU based on preferences"
@@ -369,7 +369,7 @@ msgstr "GPU felfüggesztése"
 
 #: clientgui/AdvancedFrame.cpp:486
 msgid "Stop GPU work regardless of preferences"
-msgstr "A GPU munka a beállítások figyelembe vétele nélkül leáll"
+msgstr "A GPU munka leállítása a beállításoktól függetlenül"
 
 #: clientgui/AdvancedFrame.cpp:510
 msgid "Network activity always available"
