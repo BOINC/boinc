@@ -97,22 +97,18 @@ void COPROCS::summary_string(char* buf, int len) {
     char bigbuf[8192], buf2[1024];
 
     strcpy(bigbuf, "");
-    for (unsigned int i=0; i<coprocs.size(); i++) {
-        COPROC* cp = coprocs[i];
-        if (!strcmp(cp->type, "CUDA")) {
-            COPROC_CUDA* cp2 = (COPROC_CUDA*) cp;
-            int mem = (int)(cp2->prop.dtotalGlobalMem/MEGA);
-            sprintf(buf2, "[CUDA|%s|%d|%dMB|%d]",
-                cp2->prop.name, cp2->count, mem, cp2->display_driver_version
-            );
-            strcat(bigbuf, buf2);
-        } else if (!strcmp(cp->type, "ATI")){
-            COPROC_ATI* cp2 =(COPROC_ATI*) cp;
-            sprintf(buf2,"[CAL|%s|%d|%dMB|%s]",
-                cp2->name, cp2->count, cp2->attribs.localRAM, cp2->version
-            );
-            strcat(bigbuf,buf2);
-        }
+    if (cuda.count) {
+        int mem = (int)(cuda.prop.dtotalGlobalMem/MEGA);
+        sprintf(buf2, "[CUDA|%s|%d|%dMB|%d]",
+            cuda.prop.name, cuda.count, mem, cuda.display_driver_version
+        );
+        strcat(bigbuf, buf2);
+    }
+    if (ati.count) {
+        sprintf(buf2,"[CAL|%s|%d|%dMB|%s]",
+            ati.name, ati.count, ati.attribs.localRAM, ati.version
+        );
+        strcat(bigbuf,buf2);
     }
     bigbuf[len-1] = 0;
     strcpy(buf, bigbuf);
@@ -120,23 +116,22 @@ void COPROCS::summary_string(char* buf, int len) {
 
 int COPROCS::parse(MIOFILE& fin) {
     char buf[1024];
+    int retval;
 
     while (fin.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</coprocs>")) {
             return 0;
         }
         if (strstr(buf, "<coproc_cuda>")) {
-            COPROC_CUDA* cc = new COPROC_CUDA;
-            int retval = cc->parse(fin);
-            if (!retval) {
-                coprocs.push_back(cc);
+            retval = cuda.parse(fin);
+            if (retval) {
+                cuda.clear();
             }
         }
         if (strstr(buf, "<coproc_ati>")) {
-            COPROC_ATI* cc = new COPROC_ATI;
-            int retval = cc->parse(fin);
-            if (!retval) {
-                coprocs.push_back(cc);
+            retval = ati.parse(fin);
+            if (retval) {
+                ati.clear();
             }
         }
     }
@@ -146,20 +141,14 @@ int COPROCS::parse(MIOFILE& fin) {
 void COPROCS::write_xml(MIOFILE& mf) {
 #ifndef _USING_FCGI_
     mf.printf("    <coprocs>\n");
-    for (unsigned i=0; i<coprocs.size(); i++) {
-        COPROC* c = coprocs[i];
-        c->write_xml(mf);
+    if (cuda.count) {
+        cuda.write_xml(mf);
+    }
+    if (ati.count) {
+        ati.write_xml(mf);
     }
     mf.printf("    </coprocs>\n");
 #endif
-}
-
-COPROC* COPROCS::lookup(const char* type) {
-    for (unsigned int i=0; i<coprocs.size(); i++) {
-        COPROC* cp = coprocs[i];
-        if (!strcmp(type, cp->type)) return cp;
-    }
-    return NULL;
 }
 
 #ifdef _WIN32

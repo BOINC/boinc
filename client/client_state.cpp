@@ -62,8 +62,6 @@
 using std::max;
 
 CLIENT_STATE gstate;
-COPROC_CUDA* coproc_cuda;
-COPROC_ATI* coproc_ati;
 
 CLIENT_STATE::CLIENT_STATE():
     lookup_website_op(&gui_http),
@@ -266,23 +264,21 @@ int CLIENT_STATE::init() {
                 msg_printf(NULL, MSG_INFO, warnings[i].c_str());
             }
         }
-        if (host_info.coprocs.coprocs.size() == 0) {
+        if (host_info.coprocs.none() ) {
             msg_printf(NULL, MSG_INFO, "No usable GPUs found");
         }
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
-        coproc_cuda = fake_cuda(host_info.coprocs, 256*MEGA, 2);
-        coproc_cuda->available_ram_fake[0] = 256*MEGA;
-        coproc_cuda->available_ram_fake[1] = 192*MEGA;
+        host_info.coprocs.cuda.fake(256*MEGA, 2);
+        host_info.coprocs.cuda.available_ram_fake[0] = 256*MEGA;
+        host_info.coprocs.cuda.available_ram_fake[1] = 192*MEGA;
 #endif
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
-        coproc_ati = fake_ati(host_info.coprocs, 512*MEGA, 2);
-        coproc_ati->available_ram_fake[0] = 256*MEGA;
-        coproc_ati->available_ram_fake[1] = 192*MEGA;
+        host_info.coprocs.ati.fake(512*MEGA, 2);
+        host_info.coprocs.ati.available_ram_fake[0] = 256*MEGA;
+        host_info.coprocs.ati.available_ram_fake[1] = 192*MEGA;
 #endif
-        coproc_cuda = (COPROC_CUDA*)host_info.coprocs.lookup("CUDA");
-        coproc_ati = (COPROC_ATI*)host_info.coprocs.lookup("ATI");
     }
 
     // check for app_info.xml file in project dirs.
@@ -597,8 +593,8 @@ bool CLIENT_STATE::poll_slow_events() {
     // NVIDIA provides an interface for finding if a GPU is
     // running a graphics app.  ATI doesn't as far as I know
     //
-    if (coproc_cuda && user_active && !global_prefs.run_gpu_if_user_active) {
-        if (coproc_cuda->check_running_graphics_app()) {
+    if (host_info.have_cuda() && user_active && !global_prefs.run_gpu_if_user_active) {
+        if (host_info.coprocs.cuda.check_running_graphics_app()) {
             request_schedule_cpus("GPU state change");
         }
     }

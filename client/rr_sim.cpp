@@ -290,19 +290,19 @@ void CLIENT_STATE::rr_simulation() {
         p = rp->project;
         p->pwf.has_runnable_jobs = true;
         p->cpu_pwf.nused_total += rp->avp->avg_ncpus;
-        if (rp->uses_cuda() && coproc_cuda) {
+        if (rp->uses_cuda() && host_info.have_cuda()) {
             p->cuda_pwf.nused_total += rp->avp->ncudas;
             p->cuda_pwf.has_runnable_jobs = true;
-            if (cuda_work_fetch.sim_nused < coproc_cuda->count) {
+            if (cuda_work_fetch.sim_nused < host_info.coprocs.cuda.count) {
                 sim_status.activate(rp, 0);
                 p->rr_sim_status.activate(rp);
             } else {
                 cuda_work_fetch.pending.push_back(rp);
             }
-        } else if (rp->uses_ati() && coproc_ati) {
+        } else if (rp->uses_ati() && host_info.have_ati()) {
             p->ati_pwf.nused_total += rp->avp->natis;
             p->ati_pwf.has_runnable_jobs = true;
-            if (ati_work_fetch.sim_nused < coproc_ati->count) {
+            if (ati_work_fetch.sim_nused < host_info.coprocs.ati.count) {
                 sim_status.activate(rp, 0);
                 p->rr_sim_status.activate(rp);
             } else {
@@ -323,12 +323,12 @@ void CLIENT_STATE::rr_simulation() {
     //
     cpu_work_fetch.nidle_now = ncpus - cpu_work_fetch.sim_nused;
     if (cpu_work_fetch.nidle_now < 0) cpu_work_fetch.nidle_now = 0;
-    if (coproc_cuda) {
-        cuda_work_fetch.nidle_now = coproc_cuda->count - cuda_work_fetch.sim_nused;
+    if (host_info.have_cuda()) {
+        cuda_work_fetch.nidle_now = host_info.coprocs.cuda.count - cuda_work_fetch.sim_nused;
         if (cuda_work_fetch.nidle_now < 0) cuda_work_fetch.nidle_now = 0;
     }
-    if (coproc_ati) {
-        ati_work_fetch.nidle_now = coproc_ati->count - ati_work_fetch.sim_nused;
+    if (host_info.have_ati()) {
+        ati_work_fetch.nidle_now = host_info.coprocs.ati.count - ati_work_fetch.sim_nused;
         if (ati_work_fetch.nidle_now < 0) ati_work_fetch.nidle_now = 0;
     }
 
@@ -402,10 +402,10 @@ void CLIENT_STATE::rr_simulation() {
         double end_time = sim_now + rpbest->rrsim_finish_delay;
         double x = end_time - gstate.now;
         cpu_work_fetch.update_saturated_time(x);
-        if (coproc_cuda) {
+        if (host_info.have_cuda()) {
             cuda_work_fetch.update_saturated_time(x);
         }
-        if (coproc_ati) {
+        if (host_info.have_ati()) {
             ati_work_fetch.update_saturated_time(x);
         }
 
@@ -430,10 +430,10 @@ void CLIENT_STATE::rr_simulation() {
 
             cpu_work_fetch.accumulate_shortfall(d_time);
 
-            if (coproc_cuda) {
+            if (host_info.have_cuda()) {
                 cuda_work_fetch.accumulate_shortfall(d_time);
             }
-            if (coproc_ati) {
+            if (host_info.have_ati()) {
                 ati_work_fetch.accumulate_shortfall(d_time);
             }
         }
@@ -448,7 +448,7 @@ void CLIENT_STATE::rr_simulation() {
         //
         if (rpbest->uses_cuda()) {
             while (1) {
-                if (cuda_work_fetch.sim_nused >= coproc_cuda->count) break;
+                if (cuda_work_fetch.sim_nused >= host_info.coprocs.cuda.count) break;
                 if (!cuda_work_fetch.pending.size()) break;
                 RESULT* rp = cuda_work_fetch.pending[0];
                 cuda_work_fetch.pending.erase(cuda_work_fetch.pending.begin());
@@ -457,7 +457,7 @@ void CLIENT_STATE::rr_simulation() {
             }
         } else if (rpbest->uses_ati()) {
             while (1) {
-                if (ati_work_fetch.sim_nused >= coproc_ati->count) break;
+                if (ati_work_fetch.sim_nused >= host_info.coprocs.ati.count) break;
                 if (!ati_work_fetch.pending.size()) break;
                 RESULT* rp = ati_work_fetch.pending[0];
                 ati_work_fetch.pending.erase(ati_work_fetch.pending.begin());
@@ -480,10 +480,10 @@ void CLIENT_STATE::rr_simulation() {
     if (sim_now < buf_end) {
         double d_time = buf_end - sim_now;
         cpu_work_fetch.accumulate_shortfall(d_time);
-        if (coproc_cuda) {
+        if (host_info.have_cuda()) {
             cuda_work_fetch.accumulate_shortfall(d_time);
         }
-        if (coproc_ati) {
+        if (host_info.have_ati()) {
             ati_work_fetch.accumulate_shortfall(d_time);
         }
     }

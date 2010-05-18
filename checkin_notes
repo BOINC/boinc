@@ -3701,3 +3701,30 @@ David  18 May 2010
 
     client/
         cpu_sched.cpp
+
+David  18 May 2010
+    - client/scheduler: in COPROCS, instead of having a vector of
+        pointers to dynamically allocated COPROC-derived objects,
+        just have the objects themselves.
+        Dynamic allocation should be avoided at all costs.
+
+    client/
+        app_start.cpp
+        client_state.cpp,h
+        client_types.cpp
+        coproc_detect.cpp
+        cpu_sched.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+        rr_sim.cpp
+        scheduler_op.cpp
+        wim.h
+        work_fetch.cpp
+    lib/
+        coproc.cpp,h
+        hostinfo.cpp,h
+    sched/
+        handle_request.cpp
+        sched_customize.cpp
+        sched_send.cpp
+        sched_types.cpp,h

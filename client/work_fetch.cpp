@@ -662,10 +662,10 @@ void WORK_FETCH::rr_init() {
         p->pwf.can_fetch_work = p->pwf.compute_can_fetch_work(p);
         p->pwf.has_runnable_jobs = false;
         p->cpu_pwf.rr_init(p, RSC_TYPE_CPU);
-        if (coproc_cuda) {
+        if (gstate.host_info.have_cuda()) {
             p->cuda_pwf.rr_init(p, RSC_TYPE_CUDA);
         }
-        if (coproc_ati) {
+        if (gstate.host_info.have_ati()) {
             p->ati_pwf.rr_init(p, RSC_TYPE_ATI);
         }
     }
@@ -673,10 +673,10 @@ void WORK_FETCH::rr_init() {
 
 void WORK_FETCH::set_all_requests(PROJECT* p) {
     cpu_work_fetch.set_request(p, false);
-    if (coproc_cuda && gpus_usable) {
+    if (gstate.host_info.have_cuda() && gpus_usable) {
         cuda_work_fetch.set_request(p, false);
     }
-    if (coproc_ati && gpus_usable) {
+    if (gstate.host_info.have_ati() && gpus_usable) {
         ati_work_fetch.set_request(p, false);
     }
 }
@@ -712,13 +712,13 @@ void WORK_FETCH::set_overall_debts() {
         p = gstate.projects[i];
         double queue_debt = p->cpu_pwf.queue_est/gstate.ncpus;
         p->pwf.overall_debt = p->cpu_pwf.long_term_debt - queue_debt;
-        if (coproc_cuda) {
+        if (gstate.host_info.have_cuda()) {
             p->pwf.overall_debt += cuda_work_fetch.relative_speed*
-                (p->cuda_pwf.long_term_debt - p->cuda_pwf.queue_est/coproc_cuda->count);
+                (p->cuda_pwf.long_term_debt - p->cuda_pwf.queue_est/gstate.host_info.coprocs.cuda.count);
         }
-        if (coproc_ati) {
+        if (gstate.host_info.have_ati()) {
             p->pwf.overall_debt += ati_work_fetch.relative_speed*
-                (p->ati_pwf.long_term_debt - p->ati_pwf.queue_est/coproc_ati->count);
+                (p->ati_pwf.long_term_debt - p->ati_pwf.queue_est/gstate.host_info.coprocs.ati.count);
         }
     }
 }
@@ -738,10 +738,10 @@ void WORK_FETCH::print_state() {
         gstate.work_buf_min(), gstate.work_buf_additional()
     );
     cpu_work_fetch.print_state("CPU");
-    if (coproc_cuda) {
+    if (gstate.host_info.have_cuda()) {
         cuda_work_fetch.print_state("NVIDIA GPU");
     }
-    if (coproc_ati) {
+    if (gstate.host_info.have_ati()) {
         ati_work_fetch.print_state("ATI GPU");
     }
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
@@ -833,8 +833,8 @@ PROJECT* WORK_FETCH::choose_project() {
     gstate.rr_simulation();
     set_overall_debts();
 
-    bool cuda_usable = coproc_cuda && gpus_usable;
-    bool ati_usable = coproc_ati && gpus_usable;
+    bool cuda_usable = gstate.host_info.have_cuda() && gpus_usable;
+    bool ati_usable = gstate.host_info.have_ati() && gpus_usable;
 
     if (cuda_usable) {
         p = cuda_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
@@ -894,12 +894,12 @@ void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
     double x = dt*avp->avg_ncpus;
     p->cpu_pwf.secs_this_debt_interval += x;
     cpu_work_fetch.secs_this_debt_interval += x;
-    if (coproc_cuda) {
+    if (gstate.host_info.have_cuda()) {
         x = dt*avp->ncudas;
         p->cuda_pwf.secs_this_debt_interval += x;
         cuda_work_fetch.secs_this_debt_interval += x;
     }
-    if (coproc_ati) {
+    if (gstate.host_info.have_ati()) {
         x = dt*avp->natis;
         p->ati_pwf.secs_this_debt_interval += x;
         ati_work_fetch.secs_this_debt_interval += x;
@@ -927,10 +927,10 @@ void WORK_FETCH::compute_shares() {
         if (p->cpu_pwf.may_have_work) {
             cpu_work_fetch.total_fetchable_share += p->resource_share;
         }
-        if (coproc_cuda && p->cuda_pwf.may_have_work) {
+        if (gstate.host_info.have_cuda() && p->cuda_pwf.may_have_work) {
             cuda_work_fetch.total_fetchable_share += p->resource_share;
         }
-        if (coproc_ati && p->ati_pwf.may_have_work) {
+        if (gstate.host_info.have_ati() && p->ati_pwf.may_have_work) {
             ati_work_fetch.total_fetchable_share += p->resource_share;
         }
     }
@@ -950,10 +950,10 @@ void WORK_FETCH::compute_shares() {
         if (p->cpu_pwf.may_have_work) {
             p->cpu_pwf.fetchable_share = cpu_work_fetch.total_fetchable_share?p->resource_share/cpu_work_fetch.total_fetchable_share:1;
         }
-        if (coproc_cuda && p->cuda_pwf.may_have_work) {
+        if (gstate.host_info.have_cuda() && p->cuda_pwf.may_have_work) {
             p->cuda_pwf.fetchable_share = cuda_work_fetch.total_fetchable_share?p->resource_share/cuda_work_fetch.total_fetchable_share:1;
         }
-        if (coproc_ati && p->ati_pwf.may_have_work) {
+        if (gstate.host_info.have_ati() && p->ati_pwf.may_have_work) {
             p->ati_pwf.fetchable_share = ati_work_fetch.total_fetchable_share?p->resource_share/ati_work_fetch.total_fetchable_share:1;
         }
     }
@@ -996,13 +996,13 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
             work_req,
             cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
         );
-        if (coproc_cuda) {
+        if (gstate.host_info.have_cuda()) {
             sprintf(buf2, " NVIDIA GPU (%.2f sec, %.2f)",
                 cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
             );
             strcat(buf, buf2);
         }
-        if (coproc_ati) {
+        if (gstate.host_info.have_ati()) {
             sprintf(buf2, " ATI GPU (%.2f sec, %.2f)",
                 ati_work_fetch.req_secs, ati_work_fetch.req_instances
             );
@@ -1041,10 +1041,10 @@ void WORK_FETCH::handle_reply(
             if (cpu_work_fetch.req_secs && !srp->cpu_backoff) {
                 p->cpu_pwf.backoff(p, "CPU");
             }
-            if (coproc_cuda && coproc_cuda->req_secs && !srp->cuda_backoff) {
+            if (gstate.host_info.have_cuda() && gstate.host_info.coprocs.cuda.req_secs && !srp->cuda_backoff) {
                 p->cuda_pwf.backoff(p, "NVIDIA GPU");
             }
-            if (coproc_ati && coproc_ati->req_secs && !srp->ati_backoff) {
+            if (gstate.host_info.have_ati() && gstate.host_info.coprocs.ati.req_secs && !srp->ati_backoff) {
                 p->ati_pwf.backoff(p, "ATI GPU");
             }
         }
@@ -1072,12 +1072,12 @@ void WORK_FETCH::set_initial_work_request() {
     cpu_work_fetch.req_secs = 1;
     cpu_work_fetch.req_instances = 0;
     cpu_work_fetch.busy_time_estimator.reset();
-    if (coproc_cuda) {
+    if (gstate.host_info.have_cuda()) {
         cuda_work_fetch.req_secs = 1;
         cuda_work_fetch.req_instances = 0;
         cuda_work_fetch.busy_time_estimator.reset();
     }
-    if (coproc_ati) {
+    if (gstate.host_info.have_ati()) {
         ati_work_fetch.req_secs = 1;
         ati_work_fetch.req_instances = 0;
         ati_work_fetch.busy_time_estimator.reset();
@@ -1092,17 +1092,17 @@ void WORK_FETCH::init() {
 
     // use 20% as a rough estimate of GPU efficiency
 
-    if (coproc_cuda) {
+    if (gstate.host_info.have_cuda()) {
         cuda_work_fetch.init(
-            RSC_TYPE_CUDA, coproc_cuda->count,
-            coproc_cuda->count*0.2*coproc_cuda->peak_flops()/cpu_flops
+            RSC_TYPE_CUDA, gstate.host_info.coprocs.cuda.count,
+            gstate.host_info.coprocs.cuda.count*0.2*gstate.host_info.coprocs.cuda.peak_flops()/cpu_flops
         );
     }
-    if (coproc_ati) {
+    if (gstate.host_info.have_ati()) {
         ati_work_fetch.init(
             RSC_TYPE_ATI,
-            coproc_ati->count,
-            coproc_ati->count*0.2*coproc_ati->peak_flops()/cpu_flops
+            gstate.host_info.coprocs.ati.count,
+            gstate.host_info.coprocs.ati.count*0.2*gstate.host_info.coprocs.ati.peak_flops()/cpu_flops
         );
     }
 
@@ -1149,11 +1149,11 @@ void CLIENT_STATE::compute_nuploading_results() {
         }
     }
     int n = gstate.ncpus;
-    if (coproc_cuda && coproc_cuda->count > n) {
-        n = coproc_cuda->count;
+    if (gstate.host_info.have_cuda() && gstate.host_info.coprocs.cuda.count > n) {
+        n = gstate.host_info.coprocs.cuda.count;
     }
-    if (coproc_ati && coproc_ati->count > n) {
-        n = coproc_ati->count;
+    if (gstate.host_info.have_ati() && gstate.host_info.coprocs.ati.count > n) {
+        n = gstate.host_info.coprocs.ati.count;
     }
     n *= 2;
     for (i=0; i<projects.size(); i++) {

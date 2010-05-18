@@ -220,18 +220,18 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     // copy request values from RSC_WORK_FETCH to COPROC
     //
-    if (coproc_cuda) {
-        coproc_cuda->req_secs = cuda_work_fetch.req_secs;
-        coproc_cuda->req_instances = cuda_work_fetch.req_instances;
-        coproc_cuda->estimated_delay = cuda_work_fetch.req_secs?cuda_work_fetch.busy_time_estimator.get_busy_time():0;
+    if (host_info.have_cuda()) {
+        host_info.coprocs.cuda.req_secs = cuda_work_fetch.req_secs;
+        host_info.coprocs.cuda.req_instances = cuda_work_fetch.req_instances;
+        host_info.coprocs.cuda.estimated_delay = cuda_work_fetch.req_secs?cuda_work_fetch.busy_time_estimator.get_busy_time():0;
     }
-    if (coproc_ati) {
-        coproc_ati->req_secs = ati_work_fetch.req_secs;
-        coproc_ati->req_instances = ati_work_fetch.req_instances;
-        coproc_ati->estimated_delay = ati_work_fetch.req_secs?ati_work_fetch.busy_time_estimator.get_busy_time():0;
+    if (host_info.have_ati()) {
+        host_info.coprocs.ati.req_secs = ati_work_fetch.req_secs;
+        host_info.coprocs.ati.req_instances = ati_work_fetch.req_instances;
+        host_info.coprocs.ati.estimated_delay = ati_work_fetch.req_secs?ati_work_fetch.busy_time_estimator.get_busy_time():0;
     }
 
-    if (host_info.coprocs.coprocs.size()) {
+    if (!host_info.coprocs.none()) {
         host_info.coprocs.write_xml(mf);
     }
 
@@ -823,8 +823,8 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         );
         if (!rp->avp) {
             msg_printf(project, MSG_INTERNAL_ERROR,
-                "No application found for task: %s %d %s; discarding",
-                rp->platform, rp->version_num, rp->plan_class
+                "No app version found for app %s platform %s ver %d class%s; discarding %s",
+                rp->wup->app->name, rp->platform, rp->version_num, rp->plan_class, rp->name
             );
             delete rp;
             continue;
@@ -861,13 +861,13 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
                 "[sched_op] estimated total CPU task duration: %.0f seconds",
                 est_cpu_duration
             );
-            if (coproc_cuda) {
+            if (host_info.have_cuda()) {
                 msg_printf(project, MSG_INFO,
                     "[sched_op] estimated total NVIDIA GPU task duration: %.0f seconds",
                     est_cuda_duration
                 );
             }
-            if (coproc_ati) {
+            if (host_info.have_ati()) {
                 msg_printf(project, MSG_INFO,
                     "[sched_op] estimated total ATI GPU task duration: %.0f seconds",
                     est_ati_duration

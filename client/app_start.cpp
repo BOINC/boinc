@@ -119,7 +119,10 @@ static void debug_print_argv(char** argv) {
 static void coproc_cmdline(
     int rsc_type, RESULT* rp, double ninstances, char* cmdline
 ) {
-    COPROC* coproc = (rsc_type==RSC_TYPE_CUDA)?(COPROC*)coproc_cuda:(COPROC*)coproc_ati;
+    COPROC* coproc = (rsc_type==RSC_TYPE_CUDA)
+        ?(COPROC*)&gstate.host_info.coprocs.cuda
+        :(COPROC*)&gstate.host_info.coprocs.ati
+    ;
     for (int j=0; j<ninstances; j++) {
         int k = rp->coproc_indices[j];
         // sanity check

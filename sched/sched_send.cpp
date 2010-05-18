@@ -101,18 +101,8 @@ void WORK_REQ::get_job_limits() {
     if (n < 1) n = 1;
     effective_ncpus = n;
 
-    n = 0;
-    COPROC* cp = g_request->coprocs.lookup("CUDA");
-    if (cp) {
-        n = cp->count;
-        if (n > MAX_GPUS) n = MAX_GPUS;
-    }
-    cp = g_request->coprocs.lookup("ATI");
-    if (cp) {
-        if (cp->count <= MAX_GPUS && cp->count > n) {
-            n = cp->count;
-        }
-    }
+    n = g_request->coprocs.cuda.count + g_request->coprocs.ati.count;
+    if (n > MAX_GPUS) n = MAX_GPUS;
     effective_ngpus = n;
 
     int mult = effective_ncpus + config.gpu_multiplier * effective_ngpus;
@@ -581,9 +571,9 @@ static inline bool hard_app(APP& app) {
 
 static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
     if (bav.host_usage.ncudas) {
-        return g_request->coproc_cuda->estimated_delay;
+        return g_request->coprocs.cuda.estimated_delay;
     } else if (bav.host_usage.natis) {
-        return g_request->coproc_ati->estimated_delay;
+        return g_request->coprocs.ati.estimated_delay;
     } else {
         return g_request->cpu_estimated_delay;
     }
@@ -591,9 +581,9 @@ static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
 
 static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
     if (bav.host_usage.ncudas) {
-        g_request->coproc_cuda->estimated_delay += dt;
+        g_request->coprocs.cuda.estimated_delay += dt;
     } else if (bav.host_usage.natis) {
-        g_request->coproc_ati->estimated_delay += dt;
+        g_request->coprocs.ati.estimated_delay += dt;
     } else {
         g_request->cpu_estimated_delay += dt;
     }
@@ -1475,18 +1465,18 @@ void send_work_setup() {
     g_wreq->cpu_req_instances = g_request->cpu_req_instances;
     g_wreq->anonymous_platform = anonymous(g_request->platforms.list[0]);
 
-    if (g_request->coproc_cuda) {
-        g_wreq->cuda_req_secs = clamp_req_sec(g_request->coproc_cuda->req_secs);
-        g_wreq->cuda_req_instances = g_request->coproc_cuda->req_instances;
-        if (g_request->coproc_cuda->estimated_delay < 0) {
-            g_request->coproc_cuda->estimated_delay = g_request->cpu_estimated_delay;
+    if (g_request->coprocs.cuda.count) {
+        g_wreq->cuda_req_secs = clamp_req_sec(g_request->coprocs.cuda.req_secs);
+        g_wreq->cuda_req_instances = g_request->coprocs.cuda.req_instances;
+        if (g_request->coprocs.cuda.estimated_delay < 0) {
+            g_request->coprocs.cuda.estimated_delay = g_request->cpu_estimated_delay;
         }
     }
-    if (g_request->coproc_ati) {
-        g_wreq->ati_req_secs = clamp_req_sec(g_request->coproc_ati->req_secs);
-        g_wreq->ati_req_instances = g_request->coproc_ati->req_instances;
-        if (g_request->coproc_ati->estimated_delay < 0) {
-            g_request->coproc_ati->estimated_delay = g_request->cpu_estimated_delay;
+    if (g_request->coprocs.ati.count) {
+        g_wreq->ati_req_secs = clamp_req_sec(g_request->coprocs.ati.req_secs);
+        g_wreq->ati_req_instances = g_request->coprocs.ati.req_instances;
+        if (g_request->coprocs.ati.estimated_delay < 0) {
+            g_request->coprocs.ati.estimated_delay = g_request->cpu_estimated_delay;
         }
     }
     if (g_wreq->cpu_req_secs || g_wreq->cuda_req_secs || g_wreq->ati_req_secs) {
@@ -1508,18 +1498,18 @@ void send_work_setup() {
             g_wreq->cpu_req_secs, g_wreq->cpu_req_instances,
             g_request->cpu_estimated_delay
         );
-        if (g_request->coproc_cuda) {
+        if (g_request->coprocs.cuda.count) {
             log_messages.printf(MSG_NORMAL,
                 "[send] CUDA: req %.2f sec, %.2f instances; est delay %.2f\n",
                 g_wreq->cuda_req_secs, g_wreq->cuda_req_instances,
-                g_request->coproc_cuda->estimated_delay
+                g_request->coprocs.cuda.estimated_delay
             );
         }
-        if (g_request->coproc_ati) {
+        if (g_request->coprocs.ati.count) {
             log_messages.printf(MSG_NORMAL,
                 "[send] ATI: req %.2f sec, %.2f instances; est delay %.2f\n",
                 g_wreq->ati_req_secs, g_wreq->ati_req_instances,
-                g_request->coproc_ati->estimated_delay
+                g_request->coprocs.ati.estimated_delay
             );
         }
         log_messages.printf(MSG_NORMAL,

@@ -64,6 +64,8 @@ void HOST_INFO::clear_host_info() {
 
     strcpy(os_name, "");
     strcpy(os_version, "");
+
+    coprocs.clear();
 }
 
 int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {

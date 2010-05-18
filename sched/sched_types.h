@@ -402,8 +402,6 @@ struct SCHEDULER_REQUEST {
     HOST host;      // request message is parsed into here.
                     // does NOT contain the full host record.
     COPROCS coprocs;
-    COPROC_CUDA* coproc_cuda;
-    COPROC_ATI* coproc_ati;
     std::vector<RESULT> results;
         // completed results being reported
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;

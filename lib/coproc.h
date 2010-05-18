@@ -144,6 +144,12 @@ struct COPROC {
             available_ram_unknown[i] = true;
         }
     }
+    inline void clear_usage() {
+        for (int i=0; i<count; i++) {
+            usage[i] = 0;
+            pending_usage[i] = 0;
+        }
+    }
     COPROC(const char* t){
         clear();
         strcpy(type, t);
@@ -154,59 +160,6 @@ struct COPROC {
     virtual ~COPROC(){}
     int parse(MIOFILE&);
     void print_available_ram();
-};
-
-struct COPROCS {
-    std::vector<COPROC*> coprocs;   // not deleted in destructor
-        // so any structure that includes this needs to do it manually
-
-    COPROCS(){}
-    ~COPROCS(){}    // don't delete coprocs; else crash in APP_INIT_DATA logic
-    void write_xml(MIOFILE& out);
-    void get(
-        bool use_all, std::vector<std::string> &descs,
-        std::vector<std::string> &warnings,
-        std::vector<int>& ignore_cuda_dev,
-        std::vector<int>& ignore_ati_dev
-    );
-    int parse(MIOFILE&);
-    void summary_string(char*, int);
-    COPROC* lookup(const char*);
-    bool fully_used() {
-        for (unsigned int i=0; i<coprocs.size(); i++) {
-            COPROC* cp = coprocs[i];
-            if (cp->used < cp->count) return false;
-        }
-        return true;
-    }
-
-    // Copy a coproc set, possibly setting usage to zero.
-    // used in round-robin simulator and CPU scheduler,
-    // to avoid messing w/ master copy
-    //
-    void clone(COPROCS& c, bool copy_used) {
-        for (unsigned int i=0; i<c.coprocs.size(); i++) {
-            COPROC* cp = c.coprocs[i];
-            COPROC* cp2 = new COPROC(cp->type);
-            cp2->count = cp->count;
-			if (copy_used) cp2->used = cp->used;
-            coprocs.push_back(cp2);
-        }
-    }
-    inline void clear_usage() {
-        for (unsigned int i=0; i<coprocs.size(); i++) {
-            COPROC* cp = coprocs[i];
-            for (int j=0; j<cp->count; j++) {
-                cp->usage[j] = 0;
-                cp->pending_usage[j] = 0;
-            }
-        }
-    }
-    inline void delete_coprocs() {
-        for (unsigned int i=0; i<coprocs.size(); i++) {
-            delete coprocs[i];
-        }
-    }
 };
 
 // the following copied from /usr/local/cuda/include/driver_types.h
@@ -243,8 +196,8 @@ struct COPROC_CUDA : public COPROC {
 #endif
     COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
-    static void get(
-        COPROCS&, bool use_all,
+    void get(
+        bool use_all,
         std::vector<std::string>&, std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );
@@ -268,6 +221,8 @@ struct COPROC_CUDA : public COPROC {
     void get_available_ram();
 
     bool check_running_graphics_app();
+    void fake(double, int);
+
 };
 
 enum CUdevice_attribute_enum {
@@ -305,7 +260,7 @@ struct COPROC_ATI : public COPROC {
 #endif
     COPROC_ATI(): COPROC("ATI"){}
     virtual ~COPROC_ATI(){}
-    static void get(COPROCS&,
+    void get(
         std::vector<std::string>&, std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );
@@ -318,9 +273,53 @@ struct COPROC_ATI : public COPROC {
         return x?x:5e10;
     }
     void get_available_ram();
+    void fake(double, int);
 };
 
-extern COPROC_CUDA* fake_cuda(COPROCS&, double, int);
-extern COPROC_ATI* fake_ati(COPROCS&, double, int);
+struct COPROCS {
+    COPROC_CUDA cuda;
+    COPROC_ATI ati;
+
+    COPROCS(){}
+    ~COPROCS(){}    // don't delete coprocs; else crash in APP_INIT_DATA logic
+    void write_xml(MIOFILE& out);
+    void get(
+        bool use_all, std::vector<std::string> &descs,
+        std::vector<std::string> &warnings,
+        std::vector<int>& ignore_cuda_dev,
+        std::vector<int>& ignore_ati_dev
+    );
+    int parse(MIOFILE&);
+    void summary_string(char*, int);
+    bool fully_used() {
+        if (cuda.used < cuda.count) return false;
+        if (ati.used < ati.count) return false;
+        return true;
+    }
+
+    // Copy a coproc set, possibly setting usage to zero.
+    // used in round-robin simulator and CPU scheduler,
+    // to avoid messing w/ master copy
+    //
+    void clone(COPROCS& c, bool copy_used) {
+        c.cuda = cuda;
+        c.ati = ati;
+        if (!copy_used) {
+            c.cuda.used = 0;
+            c.ati.used = 0;
+        }
+    }
+    inline void clear() {
+        cuda.count = 0;
+        ati.count = 0;
+    }
+    inline void clear_usage() {
+        cuda.clear_usage();
+        ati.clear_usage();
+    }
+    inline bool none() {
+        return (cuda.count==0) && (ati.count==0);
+    }
+};
 
 #endif

@@ -96,20 +96,20 @@ void COPROCS::get(
 ) {
 
 #ifdef _WIN32
-    COPROC_CUDA::get(*this, use_all, descs, warnings, ignore_cuda_dev);
-    COPROC_ATI::get(*this, descs, warnings, ignore_ati_dev);
+    cuda.get(use_all, descs, warnings, ignore_cuda_dev);
+    ati.get(descs, warnings, ignore_ati_dev);
 #else
     void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
     } else {
-        COPROC_CUDA::get(*this, use_all, descs, warnings, ignore_cuda_dev);
+        cuda.get(use_all, descs, warnings, ignore_cuda_dev);
     }
 #ifndef __APPLE__       // ATI does not yet support CAL on Macs
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     } else {
-        COPROC_ATI::get(*this, descs, warnings, ignore_ati_dev);
+        ati.get(descs, warnings, ignore_ati_dev);
     }
 #endif
     signal(SIGSEGV, old_sig);
@@ -189,7 +189,6 @@ int (*__cuMemGetInfo)(unsigned int*, unsigned int*);
 // http://developer.download.nvidia.com/compute/cuda/2_3/toolkit/docs/online/index.html
 
 void COPROC_CUDA::get(
-    COPROCS& coprocs,
     bool use_all,    // if false, use only those equivalent to most capable
     vector<string>& descs,
     vector<string>& warnings,
@@ -422,44 +421,39 @@ void COPROC_CUDA::get(
     }
 
     if (best.count) {
-        COPROC_CUDA* ccp = new COPROC_CUDA;
-        *ccp = best;
-        coprocs.coprocs.push_back(ccp);
+        *this = best;
     }
 }
 
 // fake a NVIDIA GPU (for debugging)
 //
-COPROC_CUDA* fake_cuda(COPROCS& coprocs, double ram, int count) {
-   COPROC_CUDA* cc = new COPROC_CUDA;
-   strcpy(cc->type, "CUDA");
-   cc->count = count;
+void COPROC_CUDA::fake(double ram, int count) {
+   strcpy(type, "CUDA");
+   count = count;
    for (int i=0; i<count; i++) {
-       cc->device_nums[i] = i;
+       device_nums[i] = i;
    }
-   cc->display_driver_version = 18000;
-   cc->cuda_version = 2020;
-   strcpy(cc->prop.name, "Fake NVIDIA GPU");
-   cc->prop.totalGlobalMem = (unsigned int)ram;
-   cc->prop.sharedMemPerBlock = 100;
-   cc->prop.regsPerBlock = 8;
-   cc->prop.warpSize = 10;
-   cc->prop.memPitch = 10;
-   cc->prop.maxThreadsPerBlock = 20;
-   cc->prop.maxThreadsDim[0] = 2;
-   cc->prop.maxThreadsDim[1] = 2;
-   cc->prop.maxThreadsDim[2] = 2;
-   cc->prop.maxGridSize[0] = 10;
-   cc->prop.maxGridSize[1] = 10;
-   cc->prop.maxGridSize[2] = 10;
-   cc->prop.totalConstMem = 10;
-   cc->prop.major = 1;
-   cc->prop.minor = 2;
-   cc->prop.clockRate = 1250000;
-   cc->prop.textureAlignment = 1000;
-   cc->prop.multiProcessorCount = 14;
-   coprocs.coprocs.push_back(cc);
-   return cc;
+   display_driver_version = 18000;
+   cuda_version = 2020;
+   strcpy(prop.name, "Fake NVIDIA GPU");
+   prop.totalGlobalMem = (unsigned int)ram;
+   prop.sharedMemPerBlock = 100;
+   prop.regsPerBlock = 8;
+   prop.warpSize = 10;
+   prop.memPitch = 10;
+   prop.maxThreadsPerBlock = 20;
+   prop.maxThreadsDim[0] = 2;
+   prop.maxThreadsDim[1] = 2;
+   prop.maxThreadsDim[2] = 2;
+   prop.maxGridSize[0] = 10;
+   prop.maxGridSize[1] = 10;
+   prop.maxGridSize[2] = 10;
+   prop.totalConstMem = 10;
+   prop.major = 1;
+   prop.minor = 2;
+   prop.clockRate = 1250000;
+   prop.textureAlignment = 1000;
+   prop.multiProcessorCount = 14;
 }
 
 // See how much RAM is available on each GPU.
@@ -589,7 +583,7 @@ int (*__calDeviceClose)(CALdevice);
 
 #endif
 
-void COPROC_ATI::get(COPROCS& coprocs,
+void COPROC_ATI::get(
     vector<string>& descs, vector<string>& warnings, vector<int>& ignore_devs
 ) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
@@ -821,33 +815,28 @@ void COPROC_ATI::get(COPROCS& coprocs,
         best.count++;
     }
 
-    COPROC_ATI* ccp = new COPROC_ATI;
-    *ccp = best;
-    strcpy(ccp->type, "ATI");
-    coprocs.coprocs.push_back(ccp);
+    *this = best;
+    strcpy(type, "ATI");
 
     // shut down, otherwise Lenovo won't be able to switch to low-power GPU
     //
     retval = (*__calShutdown)();
 }
 
-COPROC_ATI* fake_ati(COPROCS& coprocs, double ram, int count) {
-    COPROC_ATI* cc = new COPROC_ATI;
-    strcpy(cc->type, "ATI");
-    strcpy(cc->version, "1.4.3");
-    strcpy(cc->name, "foobar");
-    cc->count = count;
-    memset(&cc->attribs, 0, sizeof(cc->attribs));
-    memset(&cc->info, 0, sizeof(cc->info));
-    cc->attribs.localRAM = (int)(ram/MEGA);
-    cc->attribs.numberOfSIMD = 32;
-    cc->attribs.wavefrontSize = 32;
-    cc->attribs.engineClock = 50;
+void COPROC_ATI::fake(double ram, int count) {
+    strcpy(type, "ATI");
+    strcpy(version, "1.4.3");
+    strcpy(name, "foobar");
+    count = count;
+    memset(&attribs, 0, sizeof(attribs));
+    memset(&info, 0, sizeof(info));
+    attribs.localRAM = (int)(ram/MEGA);
+    attribs.numberOfSIMD = 32;
+    attribs.wavefrontSize = 32;
+    attribs.engineClock = 50;
     for (int i=0; i<count; i++) {
-        cc->device_nums[i] = i;
+        device_nums[i] = i;
     }
-    coprocs.coprocs.push_back(cc);
-    return cc;
 }
 
 void COPROC_ATI::get_available_ram() {

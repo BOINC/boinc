@@ -219,7 +219,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         );
         double gpu_req = cuda_work_fetch.req_secs + ati_work_fetch.req_secs;
         if (cpu_work_fetch.req_secs || gpu_req) {
-            if (coproc_cuda||coproc_ati) {
+            if (gstate.host_info.have_cuda()||gstate.host_info.have_ati()) {
                 if (cpu_work_fetch.req_secs && gpu_req) {
                     sprintf(buf, " for CPU and GPU");
                 } else if (cpu_work_fetch.req_secs) {
@@ -254,13 +254,13 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
             "[sched_op] CPU work request: %.2f seconds; %.2f CPUs",
             cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
         );
-        if (coproc_cuda) {
+        if (gstate.host_info.have_cuda()) {
             msg_printf(p, MSG_INFO,
                 "[sched_op] NVIDIA GPU work request: %.2f seconds; %.2f GPUs",
                 cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
             );
         }
-        if (coproc_ati) {
+        if (gstate.host_info.have_ati()) {
             msg_printf(p, MSG_INFO,
                 "[sched_op] ATI GPU work request: %.2f seconds; %.2f GPUs",
                 ati_work_fetch.req_secs, ati_work_fetch.req_instances

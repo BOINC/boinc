@@ -138,8 +138,8 @@ static inline bool app_plan_ati(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
     char buf[256];
-    COPROC_ATI* cp = (COPROC_ATI*)sreq.coprocs.lookup("ATI");
-    if (!cp) {
+    COPROC_ATI* cp = &sreq.coprocs.ati;
+    if (!cp->count) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] Host lacks ATI GPU for plan class ati\n"
@@ -320,8 +320,8 @@ static inline bool app_plan_cuda(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
     char buf[256];
-    COPROC_CUDA* cp = (COPROC_CUDA*)sreq.coprocs.lookup("CUDA");
-    if (!cp) {
+    COPROC_CUDA* cp = &sreq.coprocs.cuda;
+    if (!cp->count) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] Host lacks CUDA coprocessor for plan class %s\n",

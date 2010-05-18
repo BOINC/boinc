@@ -1264,10 +1264,10 @@ void APP_VERSION::get_file_errors(string& str) {
 }
 
 bool APP_VERSION::missing_coproc() {
-    if (ncudas && !coproc_cuda) {
+    if (ncudas && gstate.host_info.coprocs.cuda.count==0) {
         return true;
     }
-    if (natis && !coproc_ati) {
+    if (natis && gstate.host_info.coprocs.ati.count==0) {
         return true;
     }
     return false;
@@ -1790,9 +1790,9 @@ int RESULT::write_gui(MIOFILE& out) {
         char buf[256];
         strcpy(buf, "");
         if (atp && atp->task_state() == PROCESS_EXECUTING) {
-            if (avp->ncudas && coproc_cuda->count>1) {
+            if (avp->ncudas && gstate.host_info.coprocs.cuda.count>1) {
                 sprintf(buf, " (device %d)", coproc_indices[0]);
-            } else if (avp->natis && coproc_ati->count>1) {
+            } else if (avp->natis && gstate.host_info.coprocs.ati.count>1) {
                 sprintf(buf, " (device %d)", coproc_indices[0]);
             }
         }

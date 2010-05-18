@@ -198,8 +198,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     have_time_stats_log = false;
     client_cap_plan_class = false;
     sandbox = -1;
-    coproc_cuda = 0;
-    coproc_ati = 0;
+    coprocs.clear();
 
     fgets(buf, sizeof(buf), fin);
     if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
@@ -367,8 +366,6 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             MIOFILE mf;
             mf.init_file(fin);
             coprocs.parse(mf);
-            coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
-            coproc_ati = (COPROC_ATI*)coprocs.lookup("ATI");
             continue;
         }
         if (parse_bool(buf, "client_cap_plan_class", client_cap_plan_class)) continue;

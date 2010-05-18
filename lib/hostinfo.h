@@ -78,6 +78,12 @@ public:
     void clear_host_info();
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
+    inline bool have_cuda() {
+        return (coprocs.cuda.count > 0);
+    }
+    inline bool have_ati() {
+        return (coprocs.ati.count > 0);
+    }
 };
 
 #ifdef __APPLE__

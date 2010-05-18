@@ -78,10 +78,6 @@ struct PROC_RESOURCES {
     double ram_left;
     COPROCS coprocs;
 
-    ~PROC_RESOURCES() {
-        coprocs.delete_coprocs();
-    }
-
     // should we stop scanning jobs?
     //
     inline bool stop_scan_cpu() {
@@ -130,14 +126,14 @@ struct PROC_RESOURCES {
         COPROC* cp2;
         if (av.ncudas) {
             x = av.ncudas;
-            cp2 = coprocs.lookup("CUDA");
+            cp2 = &gstate.host_info.coprocs.cuda;
         } else if (av.natis) {
             x = av.natis;
-            cp2 = coprocs.lookup("ATI");
+            cp2 = &gstate.host_info.coprocs.ati;
         } else {
             return true;
         }
-        if (!cp2) {
+        if (!cp2->count) {
             msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Missing a %s coprocessor", cp2->type
             );
@@ -162,10 +158,10 @@ struct PROC_RESOURCES {
         COPROC* cp2;
         if (av.ncudas) {
             x = av.ncudas;
-            cp2 = coprocs.lookup("CUDA");
+            cp2 = &gstate.host_info.coprocs.cuda;
         } else if (av.natis) {
             x = av.natis;
-            cp2 = coprocs.lookup("ATI");
+            cp2 = &gstate.host_info.coprocs.ati;
         } else {
             return;
         }
@@ -492,18 +488,18 @@ void CLIENT_STATE::reset_debt_accounting() {
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         p->cpu_pwf.reset_debt_accounting();
-        if (coproc_cuda) {
+        if (host_info.have_cuda()) {
             p->cuda_pwf.reset_debt_accounting();
         }
-        if (coproc_ati) {
+        if (host_info.have_ati()) {
             p->ati_pwf.reset_debt_accounting();
         }
     }
     cpu_work_fetch.reset_debt_accounting();
-    if (coproc_cuda) {
+    if (host_info.have_cuda()) {
         cuda_work_fetch.reset_debt_accounting();
     }
-    if (coproc_ati) {
+    if (host_info.have_ati()) {
         ati_work_fetch.reset_debt_accounting();
     }
     debt_interval_start = now;
@@ -548,11 +544,11 @@ void CLIENT_STATE::adjust_debts() {
 
     cpu_work_fetch.update_long_term_debts();
     cpu_work_fetch.update_short_term_debts();
-    if (coproc_cuda) {
+    if (host_info.have_cuda()) {
         cuda_work_fetch.update_long_term_debts();
         cuda_work_fetch.update_short_term_debts();
     }
-    if (coproc_ati) {
+    if (host_info.have_ati()) {
         ati_work_fetch.update_long_term_debts();
         ati_work_fetch.update_short_term_debts();
     }
@@ -1194,16 +1190,16 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
 
     gstate.host_info.coprocs.clear_usage();
 #ifndef SIM
-    if (coproc_cuda) {
-        coproc_cuda->get_available_ram();
+    if (gstate.host_info.have_cuda()) {
+        gstate.host_info.coprocs.cuda.get_available_ram();
         if (log_flags.coproc_debug) {
-            coproc_cuda->print_available_ram();
+            gstate.host_info.coprocs.cuda.print_available_ram();
         }
     }
-    if (coproc_ati) {
-        coproc_ati->get_available_ram();
+    if (gstate.host_info.have_ati()) {
+        gstate.host_info.coprocs.ati.get_available_ram();
         if (log_flags.coproc_debug) {
-            coproc_ati->print_available_ram();
+            gstate.host_info.coprocs.ati.print_available_ram();
         }
     }
 #endif
@@ -1215,10 +1211,10 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
         APP_VERSION* avp = rp->avp;
         if (avp->ncudas) {
             usage = avp->ncudas;
-            cp = coproc_cuda;
+            cp = &gstate.host_info.coprocs.cuda;
         } else if (avp->natis) {
             usage = avp->natis;
-            cp = coproc_ati;
+            cp = &gstate.host_info.coprocs.ati;
         } else {
             continue;
         }
@@ -1235,10 +1231,10 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
         APP_VERSION* avp = rp->avp;
         if (avp->ncudas) {
             usage = avp->ncudas;
-            cp = coproc_cuda;
+            cp = &gstate.host_info.coprocs.cuda;
         } else if (avp->natis) {
             usage = avp->natis;
-            cp = coproc_ati;
+            cp = &gstate.host_info.coprocs.ati;
         } else {
             job_iter++;
             continue;

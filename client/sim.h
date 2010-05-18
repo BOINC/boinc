@@ -295,8 +295,6 @@ public:
 };
 
 extern CLIENT_STATE gstate;
-extern COPROC_CUDA* coproc_cuda;
-extern COPROC_ATI* coproc_ati;
 extern NET_STATUS net_status;
 extern FILE* logfile;
 extern bool user_active;
