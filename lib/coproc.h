@@ -302,11 +302,11 @@ struct COPROCS {
     // to avoid messing w/ master copy
     //
     void clone(COPROCS& c, bool copy_used) {
-        c.cuda = cuda;
-        c.ati = ati;
+        cuda = c.cuda;
+        ati = c.ati;
         if (!copy_used) {
-            c.cuda.used = 0;
-            c.ati.used = 0;
+            cuda.used = 0;
+            ati.used = 0;
         }
     }
     inline void clear() {

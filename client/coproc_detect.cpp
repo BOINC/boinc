@@ -427,9 +427,9 @@ void COPROC_CUDA::get(
 
 // fake a NVIDIA GPU (for debugging)
 //
-void COPROC_CUDA::fake(double ram, int count) {
+void COPROC_CUDA::fake(double ram, int n) {
    strcpy(type, "CUDA");
-   count = count;
+   count = n;
    for (int i=0; i<count; i++) {
        device_nums[i] = i;
    }
@@ -823,11 +823,11 @@ void COPROC_ATI::get(
     retval = (*__calShutdown)();
 }
 
-void COPROC_ATI::fake(double ram, int count) {
+void COPROC_ATI::fake(double ram, int n) {
     strcpy(type, "ATI");
     strcpy(version, "1.4.3");
     strcpy(name, "foobar");
-    count = count;
+    count = n;
     memset(&attribs, 0, sizeof(attribs));
     memset(&info, 0, sizeof(info));
     attribs.localRAM = (int)(ram/MEGA);

@@ -126,10 +126,10 @@ struct PROC_RESOURCES {
         COPROC* cp2;
         if (av.ncudas) {
             x = av.ncudas;
-            cp2 = &gstate.host_info.coprocs.cuda;
+            cp2 = &coprocs.cuda;
         } else if (av.natis) {
             x = av.natis;
-            cp2 = &gstate.host_info.coprocs.ati;
+            cp2 = &coprocs.ati;
         } else {
             return true;
         }
@@ -158,10 +158,10 @@ struct PROC_RESOURCES {
         COPROC* cp2;
         if (av.ncudas) {
             x = av.ncudas;
-            cp2 = &gstate.host_info.coprocs.cuda;
+            cp2 = &coprocs.cuda;
         } else if (av.natis) {
             x = av.natis;
-            cp2 = &gstate.host_info.coprocs.ati;
+            cp2 = &coprocs.ati;
         } else {
             return;
         }
