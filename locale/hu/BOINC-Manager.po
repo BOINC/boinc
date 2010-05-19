@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-05-18 15:45-0700\n"
+"PO-Revision-Date: 2010-05-18 16:59-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1075,7 +1075,7 @@ msgstr "Berkeley Nyílt Rendszer a Hálózati Számitásért (BOINC)"
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:383
 #: clientgui/DlgSelectComputer.cpp:147
 msgid "&OK"
-msgstr "OK"
+msgstr "&OK"
 
 #: clientgui/DlgAdvPreferences.cpp:484
 msgid "invalid float"
@@ -1303,20 +1303,20 @@ msgstr "processzor használat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:324
 msgid "General options"
-msgstr ""
+msgstr "Általános beállítások"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:331
 msgid "Maximum download rate"
-msgstr ""
+msgstr "Max letöltési sebesség"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:337
 #: clientgui/DlgAdvPreferencesBase.cpp:346
 msgid "KBytes/sec."
-msgstr ""
+msgstr "KByte/sec."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:340
 msgid "Maximum upload rate"
-msgstr ""
+msgstr "Max feltöltési sebesség"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:349
 msgid "Connect about every"
@@ -1327,18 +1327,20 @@ msgid ""
 "this computer is connected to the Internet about every X days\n"
 "(0 if it's always connected)"
 msgstr ""
+"ez a számítógép kb. X naponta kapcsolódik az internetre\n"
+"(0 ha mindig kapcsolódik)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:357
 msgid "days"
-msgstr ""
+msgstr "nap"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:360
 msgid "Additional work buffer"
-msgstr ""
+msgstr "További munka puffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:366
 msgid "days (max. 10)"
-msgstr ""
+msgstr "nap (max. 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:369
 msgid " Skip image file verification"
@@ -1350,17 +1352,18 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:380
 msgid "Connect options"
-msgstr ""
+msgstr "Csatlakozási opciók"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:382
 msgid "Confirm before connecting to internet"
-msgstr ""
+msgstr "Jóváhagyás internetre csatlakozás elött"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:384
 msgid ""
 "if checked, a confirmation dialog will be displayed before trying to connect "
 "to the Internet"
 msgstr ""
+"ha aktív, egy jóváhagyás kérés fog megjelenni internetre csatlakozás elött"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:388
 msgid "Disconnect when done"
