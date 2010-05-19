@@ -1927,14 +1927,21 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
 
 int RPC_CLIENT::get_host_info(HOST_INFO& h) {
     int retval;
+    char buf[256];
     SET_LOCALE sl;
     RPC rpc(this);
 
     retval = rpc.do_rpc("<get_host_info/>");
-    if (!retval) {
-        retval = h.parse(rpc.fin);
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "<host_info>")) {
+            return h.parse(rpc.fin);
+        }
+        if (match_tag(buf, "<unauthorized")) {
+            return ERR_AUTHENTICATOR;
+        }
     }
-    return retval;
+    return ERR_XML_PARSE;
 }
 
 

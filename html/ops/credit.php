@@ -8,9 +8,16 @@ require_once("../inc/boinc_db.inc");
 
 define('COBB_SCALE', 200/86400e9);
 
+function gavid($avid, $appid) {
+    if ($avid < 0) {
+        return $appid*1000000 - $avid;
+    }
+    return $avid;
+}
 
-function show_result($r) {
-    $hav = BoincHostAppVersion::lookup($r->hostid, $r->app_version_id);
+function show_result($r, $w) {
+    $gavid = gavid($r->app_version_id, $w->appid);
+    $hav = BoincHostAppVersion::lookup($r->hostid, $gavid);
     $av = BoincAppVersion::lookup_id($r->app_version_id);
     $raw_credit = $r->elapsed_time*$r->flops_estimate*COBB_SCALE;
     echo "<hr><pre>
@@ -62,7 +69,7 @@ function handle_result($resultid) {
     $rs = BoincResult::enum("workunitid=$r->workunitid and validate_state=1");
     $app_version_ids = array();
     foreach ($rs as $r) {
-        show_result($r);
+        show_result($r, $w);
         $app_version_ids[] = $r->app_version_id;
     }
     $app_version_ids = array_unique($app_version_ids);

@@ -3780,3 +3780,11 @@ David  19 May 2010
 
     client/
         boinc_cmd.cpp
+
+David  19 May 2010
+    - GUI RPC: improved error reporting
+
+    lib/
+        gui_rpc_client_ops.cpp
+    html/ops/
+        credit.php
