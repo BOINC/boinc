@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-05-18 16:59-0700\n"
+"PO-Revision-Date: 2010-05-18 17:20-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1367,13 +1367,15 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:388
 msgid "Disconnect when done"
-msgstr ""
+msgstr "Lecsatlakozik ha kész"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:390
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
 msgstr ""
+"ha aktív, a BOINC lecsatlakozik miután befejezte a hálózat használatát\n"
+"(csak betárcsázós kapcsolatnál számít)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:397
 msgid "Network usage allowed"
@@ -1381,19 +1383,19 @@ msgstr "Hálózathasználat engedélyezése"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:406
 msgid "network usage start hour"
-msgstr ""
+msgstr "hálózathasználat kezdeti ideje"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:414
 msgid "network usage stop hour"
-msgstr ""
+msgstr "hálózathasználat befejezési ideje"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:499
 msgid "network usage"
-msgstr ""
+msgstr "hálózathasználat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:507 clientgui/DlgItemProperties.cpp:214
 msgid "Disk usage"
-msgstr ""
+msgstr "lemezhasználat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:519
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
