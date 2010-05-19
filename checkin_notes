@@ -3297,18 +3297,18 @@ Charlie  30 Apr 2010
         cs_prefs.pp
 
 David  30 Apr 2010
-	- manager: if user clicks Retry in Transfer tab while network is suspended,
-		show an alert.
-	- manager: in transfers tab, show it if transfers are suspended
-		because network is suspended
-	- manager: in tasks tab, if a task is downloading or uploading
-		and network is suspended, show it
+    - manager: if user clicks Retry in Transfer tab while network is suspended,
+        show an alert.
+    - manager: in transfers tab, show it if transfers are suspended
+        because network is suspended
+    - manager: in tasks tab, if a task is downloading or uploading
+        and network is suspended, show it
 
-	client/
-		work_fetch.cpp
-	clientgui/
-		ViewTransfers.cpp
-		ViewWork.cpp
+    client/
+        work_fetch.cpp
+    clientgui/
+        ViewTransfers.cpp
+        ViewWork.cpp
 
 David  3 May 2010
     - client: day boundary for "transfer at most X in N days"
@@ -3353,32 +3353,32 @@ Charlie  5 May 2010
         AsyncRPC.cpp, .h
 
 David  6 May 2010
-	- manager: fix tooltip msgs
+    - manager: fix tooltip msgs
 
-	clientgui/
-		AdvancedFrame.cpp
-		sg_ProjectsComponent.cpp
+    clientgui/
+        AdvancedFrame.cpp
+        sg_ProjectsComponent.cpp
 
 David  7 May 2010
-	- manager: improve "suspended" messages for tasks and transfers
-	- manager: code reorg.  ViewTransfers and DlgItemProperties
-		both had a long member function to generate a string describing a task.
-		One of these was out of date.
-		Replaced these with a single non-member function.
-	- manager: fixed sizer problem in attach wizard that caused missing word
-	- client: minor code reorg
+    - manager: improve "suspended" messages for tasks and transfers
+    - manager: code reorg.  ViewTransfers and DlgItemProperties
+        both had a long member function to generate a string describing a task.
+        One of these was out of date.
+        Replaced these with a single non-member function.
+    - manager: fixed sizer problem in attach wizard that caused missing word
+    - client: minor code reorg
 
-	client/
-		client_state.h
-		cs_prefs.cpp
-	clientgui/
-		DltItemProperties.cpp,h
-		MainDocument.cpp,h
-		ViewTransfers.cpp
-		ViewWork.cpp,h
-		WelcomePage.cpp
-	lib/
-		str_util.cpp,h
+    client/
+        client_state.h
+        cs_prefs.cpp
+    clientgui/
+        DltItemProperties.cpp,h
+        MainDocument.cpp,h
+        ViewTransfers.cpp
+        ViewWork.cpp,h
+        WelcomePage.cpp
+    lib/
+        str_util.cpp,h
 
 David  7 May 2010
     - client: when emerge from bandwidth quota network suspension,
@@ -3432,14 +3432,14 @@ Rytis  9 May 2010
         user.inc
 
 David  10 May 2010
-	- manager: in transfers tab, show reason why transfer is suspended
-	- manager: WTF?? master URL, not name, identifies projects.
-	- manager: got rid of a bunch of unused functions
+    - manager: in transfers tab, show reason why transfer is suspended
+    - manager: WTF?? master URL, not name, identifies projects.
+    - manager: got rid of a bunch of unused functions
 
-	clientgui/
-		DlgItemProperties.cpp
-		MainDocument.cpp,h
-		ViewTransfers.cpp
+    clientgui/
+        DlgItemProperties.cpp
+        MainDocument.cpp,h
+        ViewTransfers.cpp
 
 Rom    10 May 2010
     - client & lib: bring header inclusion up-to-date for the CC to begin
@@ -3524,31 +3524,31 @@ David  11 May 2010
         cpu_sched.cpp
 
 David  11 May 2010
-	- client: clear config before rereading config file.
-		This means that, e.g. if you remove <ncpus>
-		it will revert to the actual number.
-		However, it also means that any config params
-		set via command line will be overridden.
+    - client: clear config before rereading config file.
+        This means that, e.g. if you remove <ncpus>
+        it will revert to the actual number.
+        However, it also means that any config params
+        set via command line will be overridden.
 
-	client/
-		log_flags.cpp
+    client/
+        log_flags.cpp
 
 Rytis  12 May 2010
-	- user web: use CDATA section for title in the RSS feed
-	
-	html/inc/
-		forum_rss.inc
+    - user web: use CDATA section for title in the RSS feed
+    
+    html/inc/
+        forum_rss.inc
 
 David  12 May 2010
-	- client: fix crashing bug.
-		Deleting records in ~COPROCS() was bad,
-		since we copy HOST_INFO to APP_INIT_DATA,
-		leading to a double deletion.
+    - client: fix crashing bug.
+        Deleting records in ~COPROCS() was bad,
+        since we copy HOST_INFO to APP_INIT_DATA,
+        leading to a double deletion.
 
-	client/
-		cpu_sched.cpp
-	lib/
-		coproc.h
+    client/
+        cpu_sched.cpp
+    lib/
+        coproc.h
 
 David  12 May 2010
     - web: string fix
@@ -3647,11 +3647,11 @@ David  13 May 2010
         cs_scheduler.cpp
 
 David  13 May 2010
-	- manager: in sys tray pop up, if computing is disabled,
-		don't say whether GPU is enabled (confusing).
+    - manager: in sys tray pop up, if computing is disabled,
+        don't say whether GPU is enabled (confusing).
 
-	clientgui/
-		BOINCTaskBar.cpp
+    clientgui/
+        BOINCTaskBar.cpp
 
 David  14 May 2010
     - API: compile fixes for MinGW
@@ -3663,16 +3663,16 @@ David  14 May 2010
         Makefile.mingw
 
 David  14 May 2010
-	- client: include app versions only of this project in sched req
+    - client: include app versions only of this project in sched req
 
-	client/
-		cs_scheduler.cpp
+    client/
+        cs_scheduler.cpp
 
 David  14 May 2010
-	- client: fix bug that randomly caused idle GPUs
+    - client: fix bug that randomly caused idle GPUs
 
-	client/
-		coproc_detect.cpp
+    client/
+        coproc_detect.cpp
 
 Charlie  17 May 2010
     - MGR: Rework Mac accessibility for better compatibility with OS 10.6.
@@ -3683,11 +3683,11 @@ Charlie  17 May 2010
             MacAccessiblity.cpp, .h
 
 Rytis  17 May 2010
-	- user web: fix boolean type preferences for non-english languages where
-		PREF_BOOL is used
+    - user web: fix boolean type preferences for non-english languages where
+        PREF_BOOL is used
 
-	html/inc/
-		prefs_util.inc
+    html/inc/
+        prefs_util.inc
 
 Bernd  18 May 2010
     - scheduler: fix query in send_old_work()
@@ -3754,10 +3754,10 @@ David  18 May 2010
         gui_rpc_client.h
 
 David  18 May 2010
-	- Manager: change order of columns in tasks tab
+    - Manager: change order of columns in tasks tab
 
-	clientgui/
-		ViewWork.cpp
+    clientgui/
+        ViewWork.cpp
 
 David  18 May 2010
     - scheduler: fix bug in single-replication decision (from Rytis)
@@ -3790,7 +3790,13 @@ David  19 May 2010
         credit.php
 
 David  19 May 2010
-	- manager: more column reorder in Tasks tab
+    - manager: more column reorder in Tasks tab
 
     clientgui/
         ViewWork.cpp
+
+David  19 May 2010
+    - client: message tweak
+
+    client/
+        app_control.cpp
