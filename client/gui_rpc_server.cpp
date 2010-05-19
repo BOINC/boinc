@@ -438,7 +438,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             if (retval) {
                 if (log_flags.gui_rpc_debug) {
                     msg_printf(NULL, MSG_INFO,
-                        "[gui_rpc] error %d from handler, closing socket\n",
+                        "[gui_rpc] handler returned %d, closing socket\n",
                         retval
                     );
                 }
