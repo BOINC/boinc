@@ -3774,3 +3774,9 @@ David  19 May 2010
 
     html/user/
         hosts_user.php
+
+David  19 May 2010
+    - boinccmd: don't authorize if no password found or given
+
+    client/
+        boinc_cmd.cpp
