@@ -22,7 +22,6 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/host.inc");
-require_once("../inc/cache.inc");
 
 $show_all = get_int("show_all", true);
 if ($show_all != 1) {
@@ -47,26 +46,18 @@ if ($userid) {
     if (!$user) {
         error_page("No such user");
     }
-    $caching = true;
 
-    // At this point, we know that $userid, $show_all and $sort all have
-    // valid values.
-    //
-    $cache_args="userid=$userid&amp;show_all=$show_all&amp;sort=$sort&amp;rev=$rev";
-    start_cache(USER_PAGE_TTL, $cache_args);
     if ($user->show_hosts) {
-        page_head("Computers belonging to $user->name");
+        page_head(tra("Computers belonging to %1", $user->name));
     } else {
         page_head("Computers hidden");
-        echo "This user has chosen not to show information about their computers.\n";
+        echo tra("This user has chosen not to show information about their computers.");
         page_tail();
-        end_cache(USER_PAGE_TTL, $cache_args);
         exit();
     }
     $private = false;
 } else {
     $user = get_logged_in_user();
-    $caching = false;
     $userid = $user->id;
     page_head("Your computers");
     $private = true;
@@ -74,11 +65,6 @@ if ($userid) {
 
 show_user_hosts($userid, $private, $show_all, $sort, $rev);
 
-if ($caching) {
-    page_tail(true);
-    end_cache(USER_PAGE_TTL, $cache_args);
-} else {
-    page_tail();
-}
+page_tail();
 
 ?>

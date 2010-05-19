@@ -3768,3 +3768,9 @@ David  18 May 2010
         sched_send.cpp
     client/
         rr_sim.cpp
+
+David  19 May 2010
+    - web: don't cache hosts page, and make it more translatable
+
+    html/user/
+        hosts_user.php
