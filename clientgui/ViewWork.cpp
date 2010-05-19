@@ -38,12 +38,12 @@
 
 #define COLUMN_PROJECT              0
 #define COLUMN_PROGRESS             1
-#define COLUMN_CPUTIME              2
-#define COLUMN_TOCOMPLETION         3
-#define COLUMN_REPORTDEADLINE       4
-#define COLUMN_APPLICATION          5
-#define COLUMN_NAME                 6
-#define COLUMN_STATUS               7
+#define COLUMN_STATUS               2
+#define COLUMN_CPUTIME              3
+#define COLUMN_TOCOMPLETION         4
+#define COLUMN_REPORTDEADLINE       5
+#define COLUMN_APPLICATION          6
+#define COLUMN_NAME                 7
 
 // groups that contain buttons
 #define GRP_TASKS    0
@@ -221,12 +221,12 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
     m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_RIGHT, 60);
+    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
     m_pListPane->InsertColumn(COLUMN_CPUTIME, _("Elapsed"), wxLIST_FORMAT_RIGHT, 80);
     m_pListPane->InsertColumn(COLUMN_TOCOMPLETION, _("Remaining"), wxLIST_FORMAT_RIGHT, 100);
     m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Deadline"), wxLIST_FORMAT_LEFT, 150);
     m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, 95);
     m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, 285);
-    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
 
     m_iProgressColumn = COLUMN_PROGRESS;
 

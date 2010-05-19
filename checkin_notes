@@ -3788,3 +3788,9 @@ David  19 May 2010
         gui_rpc_client_ops.cpp
     html/ops/
         credit.php
+
+David  19 May 2010
+	- manager: more column reorder in Tasks tab
+
+    clientgui/
+        ViewWork.cpp
