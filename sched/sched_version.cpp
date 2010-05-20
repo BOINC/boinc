@@ -114,33 +114,53 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app, bool reliable_only) {
     bool found = false;
     char message[256];
 
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] get_app_version_anonymous: app %s%s\n",
+            app.name, reliable_only?"(reliable):""
+        );
+    }
     for (i=0; i<g_request->client_app_versions.size(); i++) {
         CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[version] get_app_version_anonymous: %s %d\n",
-                cav.app_name, cav.version_num
-            );
-        }
         if (cav.app->id != app.id) {
             continue;
         }
         int gavid = host_usage_to_gavid(cav.host_usage, app);
         if (reliable_only && !app_version_is_reliable(gavid)) {
-            log_messages.printf(MSG_NORMAL, "[version] not reliable\n");
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] %d %s not reliable\n",
+                    cav.version_num, cav.plan_class
+                );
+            }
             continue;
         }
         if (daily_quota_exceeded(gavid)) {
-            log_messages.printf(MSG_NORMAL, "[version] daily quota exceeded\n");
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] %d %s daily quota exceeded\n",
+                    cav.version_num, cav.plan_class
+                );
+            }
             continue;
         }
         if (cav.version_num < app.min_version) {
-            log_messages.printf(MSG_NORMAL, "[version] bad version\n");
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] %d %s version < min version\n",
+                    cav.version_num, cav.plan_class
+                );
+            }
             continue;
         }
         found = true;
         if (!need_this_resource(cav.host_usage, NULL, &cav)) {
-            log_messages.printf(MSG_NORMAL, "[version] don't need resource\n");
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] %d %s don't need resource\n",
+                    cav.version_num, cav.plan_class
+                );
+            }
             continue;
         }
         if (best) {
@@ -152,16 +172,16 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app, bool reliable_only) {
         }
     }
     if (!best) {
-        if (config.debug_send) {
+        if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[send] Didn't find anonymous platform app for %s\n",
+                "[version] Didn't find anonymous platform app for %s\n",
                 app.name
             );
         }
     }
     if (!found) {
         sprintf(message,
-            "Your app_info.xml file doesn't have a version of %s.",
+            "Your app_info.xml file doesn't have a usable version of %s.",
             app.user_friendly_name
         );
         add_no_work_message(message);
@@ -205,16 +225,16 @@ void estimate_flops_anon_platform() {
             double new_flops = 1./havp->et.get_avg();
             cav.rsc_fpops_scale = cav.host_usage.projected_flops/new_flops;
             cav.host_usage.projected_flops = new_flops;
-            if (config.debug_send) {
+            if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] (%s) setting projected flops to %fG based on ET\n",
+                    "[version] (%s) setting projected flops to %fG based on ET\n",
                     cav.plan_class, new_flops/1e9
                 );
             }
         } else {
-            if (config.debug_send) {
+            if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] (%s) using client-supplied flops %fG\n",
+                    "[version] (%s) using client-supplied flops %fG\n",
                     cav.plan_class, cav.host_usage.projected_flops
                 );
             }
@@ -230,25 +250,25 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
     if (havp && havp->et.n > MIN_HOST_SAMPLES) {
         double new_flops = 1./havp->et.get_avg();
         hu.projected_flops = new_flops;
-        if (config.debug_send) {
+        if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [AV#%d] (%s) setting projected flops based on host elapsed time avg: %.2fG\n",
+                "[version] [AV#%d] (%s) setting projected flops based on host elapsed time avg: %.2fG\n",
                 av.id, av.plan_class, hu.projected_flops/1e9
             );
         }
     } else {
         if (av.pfc_scale) {
             hu.projected_flops *= av.pfc_scale;
-            if (config.debug_send) {
+            if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [AV#%d] (%s) adjusting projected flops based on PFC scale: %.2fG\n",
+                    "[version] [AV#%d] (%s) adjusting projected flops based on PFC scale: %.2fG\n",
                     av.id, av.plan_class, hu.projected_flops/1e9
                 );
             }
         } else {
-            if (config.debug_send) {
+            if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [AV#%d] (%s) using unscaled projected flops: %.2fG\n",
+                    "[version] [AV#%d] (%s) using unscaled projected flops: %.2fG\n",
                     av.id, av.plan_class, hu.projected_flops/1e9
                 );
             }
@@ -278,11 +298,13 @@ BEST_APP_VERSION* get_app_version(
         bavp = *bavi;
         if (bavp->appid == wu.appid) {
             if (!bavp->present) {
+#if 0
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] returning cached NULL\n"
                     );
                 }
+#endif
                 return NULL;
             }
 
@@ -304,6 +326,7 @@ BEST_APP_VERSION* get_app_version(
             }
 
             // same, ATI
+            //
             if (check_req
                 && g_wreq->rsc_spec_request
                 && bavp->host_usage.natis > 0
@@ -405,32 +428,38 @@ BEST_APP_VERSION* get_app_version(
             if (daily_quota_exceeded(av.id)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] daily quota exceeded\n"
+                        "[version] [AV#%d] daily quota exceeded\n", av.id
                     );
                 }
                 continue;
             }
             if (reliable_only && !app_version_is_reliable(av.id)) {
                 if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL, "[version] not reliable\n");
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] [AV#%d] not reliable\n", av.id
+                    );
 
                 }
                 continue;
             }
             if (g_request->core_client_version < av.min_core_version) {
-                log_messages.printf(MSG_NORMAL,
-                    "outdated client version %d < min core version %d\n",
-                    g_request->core_client_version, av.min_core_version
-                );
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] [AV#%d] client version %d < min core version %d\n",
+                        av.id, g_request->core_client_version, av.min_core_version
+                    );
+                }
                 g_wreq->outdated_client = true;
                 continue;
             }
             if (strlen(av.plan_class)) {
                 if (!g_request->client_cap_plan_class) {
-                    log_messages.printf(MSG_NORMAL,
-                        "client version %d lacks plan class capability\n",
-                        g_request->core_client_version
-                    );
+                    if (config.debug_version_select) {
+                        log_messages.printf(MSG_NORMAL,
+                            "[version] [AV#%d] client %d lacks plan class capability\n",
+                            av.id, g_request->core_client_version
+                        );
+                    }
                     continue;
                 }
                 if (!app_plan(*g_request, av.plan_class, host_usage)) {
@@ -451,7 +480,8 @@ BEST_APP_VERSION* get_app_version(
             if (host_usage.ncudas && g_wreq->no_cuda) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] Skipping CUDA version - user prefs say no CUDA\n"
+                        "[version] [AV#%d] Skipping CUDA version - user prefs say no CUDA\n",
+                        av.id
                     );
                     g_wreq->no_cuda_prefs = true;
                 }
@@ -460,7 +490,8 @@ BEST_APP_VERSION* get_app_version(
             if (host_usage.natis && g_wreq->no_ati) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] Skipping ATI version - user prefs say no ATI\n"
+                        "[version] [AV#%d] Skipping ATI version - user prefs say no ATI\n",
+                        av.id
                     );
                     g_wreq->no_ati_prefs = true;
                 }
@@ -469,7 +500,8 @@ BEST_APP_VERSION* get_app_version(
             if (!(host_usage.ncudas || host_usage.natis) && g_wreq->no_cpu) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] Skipping CPU version - user prefs say no CPUs\n"
+                        "[version] [AV#%d] Skipping CPU version - user prefs say no CPUs\n",
+                        av.id
                     );
                     g_wreq->no_cpu_prefs = true;
                 }
@@ -491,7 +523,7 @@ BEST_APP_VERSION* get_app_version(
     if (bavp->avp) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] Best version of app %s is ID %d (%.2f GFLOPS)\n",
+                "[version] Best version of app %s is [AV#%d] (%.2f GFLOPS)\n",
                 app->name, bavp->avp->id, bavp->host_usage.projected_flops/1e9
             );
         }

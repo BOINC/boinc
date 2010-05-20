@@ -189,6 +189,7 @@
 #define ERR_ABORTED_ON_EXIT -232
 #define ERR_UNSTARTED_LATE  -233
 #define ERR_MISSING_COPROC  -234
+#define ERR_PROC_PARSE      -235
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.cpp.

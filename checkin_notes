@@ -3807,3 +3807,17 @@ David  20 May 2010
     sched/
         sched_main.cpp
         sched_customize.cpp
+
+David  20 May 2010
+    - client, Unix: error checking in reading /proc entries.
+        Avoid garbage values e.g. of working_set_size
+    - scheduler: message tweaks
+
+    lib/
+        error_numbers.h
+        str_util.cpp
+        procinfo_unix.cpp
+    client/
+        app_control.cpp
+    schyed/
+        sched_version.cpp

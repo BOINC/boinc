@@ -49,7 +49,6 @@
 
 using std::vector;
 
-
 // see:
 // man 5 proc
 // /usr/src/linux/fs/proc/array.C
@@ -171,80 +170,81 @@ int procinfo_setup(vector<PROCINFO>& pi) {
     char pidpath[1024];
     char buf[1024];
     int pid = getpid();
+    int retval, final_retval = 0;
 
     dir = opendir("/proc");
     if (!dir) return 0;
 
     while (1) {
         piddir = readdir(dir);
-        if (piddir) {
-            if (isdigit(piddir->d_name[0])) {
+        if (!piddir) break;
+        if (!isdigit(piddir->d_name[0])) continue;
 
 #if defined(HAVE_PROCFS_H) && defined(HAVE__PROC_SELF_PSINFO)  // solaris
-                psinfo_t psinfo;
-                sprintf(pidpath, "/proc/%s/psinfo", piddir->d_name);
-                fd = fopen(pidpath, "r");
-                if (fd) {
-                    if (fread(&psinfo, sizeof(psinfo_t), 1, fd) == 1) {
-                        p.id = psinfo.pr_pid;
-                        p.parentid = psinfo.pr_ppid;
-                        p.swap_size = psinfo.pr_size*1024.;
-                        p.working_set_size = psinfo.pr_rssize * 1024.;
-                        strlcpy(p.command, psinfo.pr_fname, sizeof(p.command));
-                    }
-                    fclose(fd);
-                    sprintf(pidpath, "/proc/%s/usage", piddir->d_name);
-                    prusage_t prusage;
-                    fd = fopen(pidpath, "r");
-                    if (fd) {
-                        if (fread(&prusage, sizeof(prusage_t), 1, fd) == 1) {
-                            p.user_time = (float)prusage.pr_utime.tv_sec +
-                                ((float)prusage.pr_utime.tv_nsec)/1e+9;
-                            p.kernel_time = (float)prusage.pr_stime.tv_sec +
-                                ((float)prusage.pr_utime.tv_nsec)/1e+9;
-                            // page faults: I/O + non I/O
-                            p.page_fault_count = prusage.pr_majf + prusage.pr_minf;
-                        }
-                        fclose(fd);
-                        p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
-                        pi.push_back(p);
-                    }
-                }
-#else  // linux
-                sprintf(pidpath, "/proc/%s/stat", piddir->d_name);
-                fd = fopen(pidpath, "r");
-                if (fd) {
-                    fgets(buf, sizeof(buf), fd);
-                    ps.parse(buf);
-                    fclose(fd);
-
-                    p.id = ps.pid;
-                    p.parentid = ps.ppid;
-                    p.swap_size = ps.vsize;
-                    // rss = pages, need bytes
-                    // assumes page size = 4k
-                    p.working_set_size = ps.rss * (float)getpagesize();
-                    // page faults: I/O + non I/O
-                    p.page_fault_count = ps.majflt + ps.minflt;
-                    // times are in jiffies, need seconds
-                    // assumes 100 jiffies per second
-                    p.user_time = ps.utime / 100.;
-                    p.kernel_time = ps.stime / 100.;
-                    strlcpy(p.command, ps.comm, sizeof(p.command));
-                    p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
-                    pi.push_back(p);
-                }
-#endif
-
+        psinfo_t psinfo;
+        sprintf(pidpath, "/proc/%s/psinfo", piddir->d_name);
+        fd = fopen(pidpath, "r");
+        if (fd) {
+            memset(&p, 0, sizeof(p));
+            if (fread(&psinfo, sizeof(psinfo_t), 1, fd) == 1) {
+                p.id = psinfo.pr_pid;
+                p.parentid = psinfo.pr_ppid;
+                p.swap_size = psinfo.pr_size*1024.;
+                p.working_set_size = psinfo.pr_rssize * 1024.;
+                strlcpy(p.command, psinfo.pr_fname, sizeof(p.command));
             }
-        } else {
-            closedir(dir);
-            return 0;
+            fclose(fd);
+            sprintf(pidpath, "/proc/%s/usage", piddir->d_name);
+            prusage_t prusage;
+            fd = fopen(pidpath, "r");
+            if (fd) {
+                if (fread(&prusage, sizeof(prusage_t), 1, fd) == 1) {
+                    p.user_time = (float)prusage.pr_utime.tv_sec +
+                        ((float)prusage.pr_utime.tv_nsec)/1e+9;
+                    p.kernel_time = (float)prusage.pr_stime.tv_sec +
+                        ((float)prusage.pr_utime.tv_nsec)/1e+9;
+                    // page faults: I/O + non I/O
+                    p.page_fault_count = prusage.pr_majf + prusage.pr_minf;
+                }
+                fclose(fd);
+                p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
+                pi.push_back(p);
+            }
         }
-    }
+#else  // linux
+        sprintf(pidpath, "/proc/%s/stat", piddir->d_name);
+        fd = fopen(pidpath, "r");
+        if (fd) {
+            fgets(buf, sizeof(buf), fd);
+            retval = ps.parse(buf);
+            fclose(fd);
 
+            if (retval) {
+                final_retval = retval;
+            } else {
+                memset(&p, 0, sizeof(p));
+                p.id = ps.pid;
+                p.parentid = ps.ppid;
+                p.swap_size = ps.vsize;
+                // rss = pages, need bytes
+                // assumes page size = 4k
+                p.working_set_size = ps.rss * (float)getpagesize();
+                // page faults: I/O + non I/O
+                p.page_fault_count = ps.majflt + ps.minflt;
+                // times are in jiffies, need seconds
+                // assumes 100 jiffies per second
+                p.user_time = ps.utime / 100.;
+                p.kernel_time = ps.stime / 100.;
+                strlcpy(p.command, ps.comm, sizeof(p.command));
+                p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
+                pi.push_back(p);
+            }
+        }
 #endif
-    return 0;
+    }
+    closedir(dir);
+#endif
+    return final_retval;
 
 }
 

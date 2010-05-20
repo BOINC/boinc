@@ -74,13 +74,16 @@ using std::vector;
 
 #include "app.h"
 
+// deprecated; TerminateProcessById() doesn't work if
+// the process is running as a different user
+//
 #ifdef _WIN32
 bool ACTIVE_TASK::kill_all_children() {
 	unsigned int i,j;
     std::vector<PROCINFO> ps;
     std::vector<PROCINFO> tps;
 
-    procinfo_setup(ps);
+    int retval = procinfo_setup(ps);
 
     PROCINFO pi;
     pi.id = pid;
