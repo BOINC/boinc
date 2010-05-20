@@ -117,7 +117,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app, bool reliable_only) {
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
             "[version] get_app_version_anonymous: app %s%s\n",
-            app.name, reliable_only?"(reliable):""
+            app.name, reliable_only?" (reliable only)":""
         );
     }
     for (i=0; i<g_request->client_app_versions.size(); i++) {

@@ -3819,5 +3819,14 @@ David  20 May 2010
         procinfo_unix.cpp
     client/
         app_control.cpp
-    schyed/
+    sched/
+        sched_version.cpp
+
+David  20 May 2010
+    - scheduler: SETI@home's CUDA and CUDA 2.3 apps apparently don't
+        run on Fermi (compute capability 2) hardware.
+        Temporary solution: change app_plan() accordingly
+    - scheduler: message tweaks
+    sched/
+        sched_customize.cpp
         sched_version.cpp

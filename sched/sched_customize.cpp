@@ -337,7 +337,7 @@ static inline bool app_plan_cuda(
     if (strstr(sreq.host.os_name, "Darwin")) {
         if (sreq.core_client_version < 61028) {
             add_no_work_message(
-                "CUDA apps require BOINC version 6.10.28 or greater on Mac"
+                "NVIDIA GPU apps require BOINC version 6.10.28+"
             );
             return false;
         }
@@ -345,11 +345,11 @@ static inline bool app_plan_cuda(
 
     // check compute capability
     //
-    int v = (cp->prop.major)*100 + cp->prop.minor;
-    if (v < 100) {
+    int compute_capability = cp->prop.major*100 + cp->prop.minor;
+    if (compute_capability < 100) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] Compute capability %d < 1.0\n", v
+                "[version] Compute capability %d < 1.0\n", compute_capability
             );
         }
         add_no_work_message(
@@ -365,7 +365,6 @@ static inline bool app_plan_cuda(
     // newer ones report CUDA RT version
     //
     if (!strcmp(plan_class, "cuda_fermi")) {
-        int compute_capability = cp->prop.major*100 + cp->prop.minor;
         if (compute_capability < 200) {
             add_no_work_message("Fermi-class GPU needed");
             return false;
@@ -376,6 +375,9 @@ static inline bool app_plan_cuda(
         }
         min_ram = CUDA23_MIN_RAM;
     } else if (!strcmp(plan_class, "cuda23")) {
+        if (compute_capability >= 200) {    // temp
+            return false;
+        }
         if (cp->cuda_version) {
             if (cp->cuda_version < 2030) {
                 add_no_work_message("CUDA version 2.3 needed");
@@ -408,7 +410,10 @@ static inline bool app_plan_cuda(
             return false;
         }
         min_ram = CUDA23_MIN_RAM;
-    } else {
+    } else if (!strcmp(plan_class, "cuda")) {
+        if (compute_capability >= 200) {    // temp
+            return false;
+        }
         if (cp->display_driver_version && cp->display_driver_version < CUDA_MIN_DRIVER_VERSION) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
@@ -423,6 +428,11 @@ static inline bool app_plan_cuda(
             return false;
         }
         min_ram = CUDA_MIN_RAM;
+    } else {
+        log_messages.printf(MSG_CRITICAL,
+            "UNKNOWN PLAN CLASS %s\n", plan_class
+        );
+        return false;
     }
 
     if (cp->prop.dtotalGlobalMem < min_ram) {
