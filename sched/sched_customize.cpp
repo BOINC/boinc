@@ -407,6 +407,7 @@ static inline bool app_plan_cuda(
             add_no_work_message(buf);
             return false;
         }
+        min_ram = CUDA23_MIN_RAM;
     } else {
         if (cp->display_driver_version && cp->display_driver_version < CUDA_MIN_DRIVER_VERSION) {
             if (config.debug_version_select) {
@@ -427,8 +428,8 @@ static inline bool app_plan_cuda(
     if (cp->prop.dtotalGlobalMem < min_ram) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] CUDA mem %d < %d\n",
-                cp->prop.dtotalGlobalMem, min_ram
+                "[version] CUDA mem %.0fMB < %.0fMB\n",
+                cp->prop.dtotalGlobalMem/MEGA, min_ram/MEGA
             );
         }
         sprintf(buf,

@@ -3800,3 +3800,10 @@ David  19 May 2010
 
     client/
         app_control.cpp
+
+David  20 May 2010
+    - scheduler: message tweaks
+
+    sched/
+        sched_main.cpp
+        sched_customize.cpp

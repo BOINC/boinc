@@ -583,6 +583,7 @@ int main(int argc, char** argv) {
 #endif
     } else {
         handle_request(stdin, stdout, code_sign_key);
+        fflush(stderr);
     }
 done:
 #ifdef _USING_FCGI_
