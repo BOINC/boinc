@@ -3830,3 +3830,10 @@ David  20 May 2010
     sched/
         sched_customize.cpp
         sched_version.cpp
+
+David  20 May 2010
+    - scheduler: fix memory leak (free BEST_APP_VERSION objects)
+
+    sched/
+        sched_types.h
+        sched_version.cpp

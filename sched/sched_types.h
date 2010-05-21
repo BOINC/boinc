@@ -105,146 +105,6 @@ struct HOST_USAGE {
     }
 };
 
-// summary of a client's request for work, and our response to it
-// Note: this is zeroed out in SCHEDULER_REPLY constructor
-//
-struct WORK_REQ {
-    bool anonymous_platform;
-
-    // Flags used by old-style scheduling,
-    // while making multiple passes through the work array
-    bool infeasible_only;
-    bool reliable_only;
-    bool user_apps_only;
-    bool beta_only;
-
-    // user preferences
-    bool no_cuda;
-    bool no_ati;
-    bool no_cpu;
-	bool allow_non_preferred_apps;
-	bool allow_beta_work;
-	std::vector<APP_INFO> preferred_apps;
-
-    bool has_reliable_version;
-        // whether the host has a reliable app version
-
-    int effective_ncpus;
-    int effective_ngpus;
-
-    // 6.7+ clients send separate requests for different resource types:
-    //
-    double cpu_req_secs;        // instance-seconds requested
-    double cpu_req_instances;   // number of idle instances, use if possible
-    double cuda_req_secs;
-    double cuda_req_instances;
-    double ati_req_secs;
-    double ati_req_instances;
-    inline bool need_cpu() {
-        return (cpu_req_secs>0) || (cpu_req_instances>0);
-    }
-    inline bool need_cuda() {
-        return (cuda_req_secs>0) || (cuda_req_instances>0);
-    }
-    inline bool need_ati() {
-        return (ati_req_secs>0) || (ati_req_instances>0);
-    }
-    inline void clear_cpu_req() {
-        cpu_req_secs = 0;
-        cpu_req_instances = 0;
-    }
-    inline void clear_gpu_req() {
-        cuda_req_secs = 0;
-        cuda_req_instances = 0;
-        ati_req_secs = 0;
-        ati_req_instances = 0;
-    }
-
-    // older clients send send a single number, the requested duration of jobs
-    //
-    double seconds_to_fill;
-
-    // true if new-type request
-    //
-    bool rsc_spec_request;
-
-    double disk_available;
-    double ram, usable_ram;
-    double running_frac;
-    int njobs_sent;
-
-    // The following keep track of the "easiest" job that was rejected
-    // by EDF simulation.
-    // Any jobs harder than this can be rejected without doing the simulation.
-    //
-    double edf_reject_min_cpu;
-    int edf_reject_max_delay_bound;
-    bool have_edf_reject;
-    void edf_reject(double cpu, int delay_bound) {
-        if (have_edf_reject) {
-            if (cpu < edf_reject_min_cpu) edf_reject_min_cpu = cpu;
-            if (delay_bound> edf_reject_max_delay_bound) edf_reject_max_delay_bound = delay_bound;
-        } else {
-            edf_reject_min_cpu = cpu;
-            edf_reject_max_delay_bound = delay_bound;
-            have_edf_reject = true;
-        }
-    }
-    bool edf_reject_test(double cpu, int delay_bound) {
-        if (!have_edf_reject) return false;
-        if (cpu < edf_reject_min_cpu) return false;
-        if (delay_bound > edf_reject_max_delay_bound) return false;
-        return true;
-    }
-
-    RESOURCE disk;
-    RESOURCE mem;
-    RESOURCE speed;
-    RESOURCE bandwidth;
-
-    std::vector<USER_MESSAGE> no_work_messages;
-    std::vector<BEST_APP_VERSION*> best_app_versions;
-    std::vector<DB_HOST_APP_VERSION> host_app_versions;
-    std::vector<DB_HOST_APP_VERSION> host_app_versions_orig;
-
-    // various reasons for not sending jobs (used to explain why)
-    //
-    bool no_allowed_apps_available;
-    bool excessive_work_buf;
-    bool hr_reject_temp;
-    bool hr_reject_perm;
-    bool outdated_client;
-    bool no_cuda_prefs;
-    bool no_ati_prefs;
-    bool no_cpu_prefs;
-    bool max_jobs_on_host_exceeded;
-    bool max_jobs_on_host_cpu_exceeded;
-    bool max_jobs_on_host_gpu_exceeded;
-    bool no_jobs_available;     // project has no work right now
-
-    //int max_jobs_per_day;
-        // host.max_results_day * (NCPUS + NGPUS*gpu_multiplier)
-    int max_jobs_per_rpc;
-    int njobs_on_host;
-        // How many jobs from this project are in progress on the host.
-        // Initially this is the number of "other_results"
-        // reported in the request message.
-        // If the resend_lost_results option is used,
-        // it's set to the number of outstanding results taken from the DB
-        // (those that were lost are resent).
-        // As new results are sent, it's incremented.
-    int njobs_on_host_cpu;
-        // same, but just CPU jobs.
-    int njobs_on_host_gpu;
-        // same, but just GPU jobs.
-    int max_jobs_on_host;
-    int max_jobs_on_host_cpu;
-    int max_jobs_on_host_gpu;
-    void update_for_result(double seconds_filled);
-    void add_no_work_message(const char*);
-    void get_job_limits();
-};
-
 // a description of a sticky file on host.
 //
 struct FILE_INFO {
@@ -439,6 +299,153 @@ struct DISK_LIMITS {
     double max_used;
     double max_frac;
     double min_free;
+};
+
+// summary of a client's request for work, and our response to it
+// Note: this is zeroed out in SCHEDULER_REPLY constructor
+//
+struct WORK_REQ {
+    bool anonymous_platform;
+
+    // Flags used by old-style scheduling,
+    // while making multiple passes through the work array
+    bool infeasible_only;
+    bool reliable_only;
+    bool user_apps_only;
+    bool beta_only;
+
+    // user preferences
+    bool no_cuda;
+    bool no_ati;
+    bool no_cpu;
+	bool allow_non_preferred_apps;
+	bool allow_beta_work;
+	std::vector<APP_INFO> preferred_apps;
+
+    bool has_reliable_version;
+        // whether the host has a reliable app version
+
+    int effective_ncpus;
+    int effective_ngpus;
+
+    // 6.7+ clients send separate requests for different resource types:
+    //
+    double cpu_req_secs;        // instance-seconds requested
+    double cpu_req_instances;   // number of idle instances, use if possible
+    double cuda_req_secs;
+    double cuda_req_instances;
+    double ati_req_secs;
+    double ati_req_instances;
+    inline bool need_cpu() {
+        return (cpu_req_secs>0) || (cpu_req_instances>0);
+    }
+    inline bool need_cuda() {
+        return (cuda_req_secs>0) || (cuda_req_instances>0);
+    }
+    inline bool need_ati() {
+        return (ati_req_secs>0) || (ati_req_instances>0);
+    }
+    inline void clear_cpu_req() {
+        cpu_req_secs = 0;
+        cpu_req_instances = 0;
+    }
+    inline void clear_gpu_req() {
+        cuda_req_secs = 0;
+        cuda_req_instances = 0;
+        ati_req_secs = 0;
+        ati_req_instances = 0;
+    }
+
+    // older clients send send a single number, the requested duration of jobs
+    //
+    double seconds_to_fill;
+
+    // true if new-type request
+    //
+    bool rsc_spec_request;
+
+    double disk_available;
+    double ram, usable_ram;
+    double running_frac;
+    int njobs_sent;
+
+    // The following keep track of the "easiest" job that was rejected
+    // by EDF simulation.
+    // Any jobs harder than this can be rejected without doing the simulation.
+    //
+    double edf_reject_min_cpu;
+    int edf_reject_max_delay_bound;
+    bool have_edf_reject;
+    void edf_reject(double cpu, int delay_bound) {
+        if (have_edf_reject) {
+            if (cpu < edf_reject_min_cpu) edf_reject_min_cpu = cpu;
+            if (delay_bound> edf_reject_max_delay_bound) edf_reject_max_delay_bound = delay_bound;
+        } else {
+            edf_reject_min_cpu = cpu;
+            edf_reject_max_delay_bound = delay_bound;
+            have_edf_reject = true;
+        }
+    }
+    bool edf_reject_test(double cpu, int delay_bound) {
+        if (!have_edf_reject) return false;
+        if (cpu < edf_reject_min_cpu) return false;
+        if (delay_bound > edf_reject_max_delay_bound) return false;
+        return true;
+    }
+
+    RESOURCE disk;
+    RESOURCE mem;
+    RESOURCE speed;
+    RESOURCE bandwidth;
+
+    std::vector<USER_MESSAGE> no_work_messages;
+    std::vector<BEST_APP_VERSION*> best_app_versions;
+    std::vector<BEST_APP_VERSION*> all_best_app_versions;
+    std::vector<DB_HOST_APP_VERSION> host_app_versions;
+    std::vector<DB_HOST_APP_VERSION> host_app_versions_orig;
+
+    // various reasons for not sending jobs (used to explain why)
+    //
+    bool no_allowed_apps_available;
+    bool excessive_work_buf;
+    bool hr_reject_temp;
+    bool hr_reject_perm;
+    bool outdated_client;
+    bool no_cuda_prefs;
+    bool no_ati_prefs;
+    bool no_cpu_prefs;
+    bool max_jobs_on_host_exceeded;
+    bool max_jobs_on_host_cpu_exceeded;
+    bool max_jobs_on_host_gpu_exceeded;
+    bool no_jobs_available;     // project has no work right now
+
+    //int max_jobs_per_day;
+        // host.max_results_day * (NCPUS + NGPUS*gpu_multiplier)
+    int max_jobs_per_rpc;
+    int njobs_on_host;
+        // How many jobs from this project are in progress on the host.
+        // Initially this is the number of "other_results"
+        // reported in the request message.
+        // If the resend_lost_results option is used,
+        // it's set to the number of outstanding results taken from the DB
+        // (those that were lost are resent).
+        // As new results are sent, it's incremented.
+    int njobs_on_host_cpu;
+        // same, but just CPU jobs.
+    int njobs_on_host_gpu;
+        // same, but just GPU jobs.
+    int max_jobs_on_host;
+    int max_jobs_on_host_cpu;
+    int max_jobs_on_host_gpu;
+    void update_for_result(double seconds_filled);
+    void add_no_work_message(const char*);
+    void get_job_limits();
+
+    ~WORK_REQ() {
+        for (unsigned int i=0; i<all_best_app_versions.size(); i++) {
+            delete all_best_app_versions[i];
+        }
+    }
 };
 
 // NOTE: if any field requires initialization,

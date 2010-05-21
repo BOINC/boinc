@@ -405,6 +405,7 @@ BEST_APP_VERSION* get_app_version(
             bavp->trusted = app_version_is_trusted(gavid);
         }
         g_wreq->best_app_versions.push_back(bavp);
+        g_wreq->all_best_app_versions.push_back(bavp);
         if (!bavp->present) return NULL;
         return bavp;
     }
