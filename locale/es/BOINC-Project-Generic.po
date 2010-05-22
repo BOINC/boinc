@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-05-15 06:11-0700\n"
+"PO-Revision-Date: 2010-05-22 12:45-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -440,7 +440,7 @@ msgstr ""
 
 #: ../inc/host.inc:562
 msgid "Couldn't update credit of new computer"
-msgstr ""
+msgstr "No se pudo actualizar los creditos del nuevo ordenador"
 
 #: ../inc/host.inc:566
 msgid "Couldn't update results"
@@ -457,28 +457,27 @@ msgstr ""
 
 #: ../inc/host.inc:596 ../inc/host.inc:599
 msgid "Show:"
-msgstr ""
+msgstr "Mostrar:"
 
 #: ../inc/host.inc:596 ../inc/host.inc:599
-#, fuzzy
 msgid "All computers"
-msgstr "Top de computadoras"
+msgstr "Todos los ordenadores"
 
 #: ../inc/host.inc:596 ../inc/host.inc:599
 msgid "Only computers active in past 30 days"
-msgstr ""
+msgstr "Sólo ordenadores activos en los últimos 30 días"
 
 #: ../inc/host.inc:608 ../inc/result.inc:387
 msgid "Computer ID"
-msgstr ""
+msgstr "ID del ordenador"
 
 #: ../inc/host.inc:621
 msgid "BOINC<br>version"
-msgstr ""
+msgstr "Versión<br>BOINC"
 
 #: ../inc/host.inc:628
 msgid "Last contact"
-msgstr ""
+msgstr "Último contacto"
 
 #: ../inc/host.inc:677
 msgid "Merge computers by name"
@@ -486,7 +485,7 @@ msgstr ""
 
 #: ../inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Comentario"
 
 #: ../inc/news.inc:102
 #, php-format
@@ -564,7 +563,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "¿Suspender el trabajo mientras el ordenador está en uso?"
 
 #: ../inc/prefs.inc:90
 msgid ""
@@ -573,7 +572,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
+msgstr "'En uso' significa actividad del ratón/teclado en los últimos"
 
 #: ../inc/prefs.inc:100 ../inc/prefs.inc:109 ../inc/prefs.inc:143
 msgid "minutes"
@@ -758,7 +757,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:348
 msgid "Processor usage"
-msgstr ""
+msgstr "Uso del procesador"
 
 #: ../inc/prefs.inc:349
 msgid "Network usage"
@@ -4031,14 +4030,16 @@ msgstr ""
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
 msgstr ""
+"Ha fallado la actualización de la base de datos - por favor, inténtelo de "
+"nuevo más tarde."
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "Validar dirección de correo electrónico"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "La dirección de correo de tu cuenta ha sido validada."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4046,7 +4047,7 @@ msgstr "Este usuario no tiene perfil"
 
 #: ../user/view_profile.php:44
 msgid "Profile: %1"
-msgstr ""
+msgstr "Perfil: %1"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
@@ -4132,11 +4133,11 @@ msgstr ""
 
 #: ../user/workunit.php:44
 msgid "granted credit"
-msgstr ""
+msgstr "crédito concedido"
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Tareas en progreso"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
@@ -4156,19 +4157,19 @@ msgstr ""
 
 #: ../user/workunit.php:61
 msgid "errors"
-msgstr ""
+msgstr "errores"
 
 #: ../user/workunit.php:64
 msgid "validation"
-msgstr ""
+msgstr "validación"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: ../project.sample/project.inc:54
 msgid "Generated"
-msgstr ""
+msgstr "Generado"
 
 #: ../project.sample/project.inc:85
 msgid "Your personal background."
@@ -4182,7 +4183,7 @@ msgstr ""
 
 #: ../project.sample/project.inc:93
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Tus opiniones sobre %1"
 
 #: ../project.sample/project.inc:97
 msgid ""
@@ -4195,7 +4196,7 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "Esquema de color para gráficos"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
@@ -4203,7 +4204,7 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Ejecutar sólo las aplicaciones seleccionadas"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
@@ -4213,7 +4214,7 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(todas las aplicaciones)"
 
 #, fuzzy
 #~ msgid "preferences"
