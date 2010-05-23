@@ -36,12 +36,16 @@ $country = urlencode($user->country);
 $postal_code = urlencode($user->postal_code);
 $url = urlencode($user->url);
 $weak_auth = weak_auth($user);
+$cpid = md5($user->cross_project_id.$user->email_addr);
 
 $ret = "<id>$user->id</id>
 <name>$name</name>
 <country>$country</country>
 <weak_auth>$weak_auth</weak_auth>
 <postal_code>$postal_code</postal_code>
+<cpid>$cpid</cpid>
+<has_profile>$user->has_profile</has_profile>
+<create_time>$user->create_time</create_time>
 <global_prefs>
 $user->global_prefs
 </global_prefs>
