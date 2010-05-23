@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-05-15 00:21-0700\n"
+"PO-Revision-Date: 2010-05-23 03:26-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -273,13 +273,15 @@ msgid "Display the simple graphical interface."
 msgstr "Az egyszerű grafikus felület megjelenítése."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "Csatlakozás &projekthez vagy fiókkezelőhöz..."
+msgstr "&Csatlakozás projekthez vagy fiókkezelőhöz..."
 
 #: clientgui/AdvancedFrame.cpp:393
+#, fuzzy
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Válasszon néhányat, vagy vegyen részt akár egyszerre a több mint 30, a "
+"tudomány különböző területeivel foglalkozó projektben"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -1304,19 +1306,16 @@ msgid "Maximum upload rate"
 msgstr "Maximális feltöltési sebesség"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:353
-#, fuzzy
 msgid "Transfer at most"
-msgstr "Legfeljebb"
+msgstr "Átvitel legfeljebb"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
-#, fuzzy
 msgid "Mbytes"
-msgstr "igen"
+msgstr "Mbájt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:362
-#, fuzzy
 msgid "every"
-msgstr "Szerver:"
+msgstr "minden"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:368
 #: clientgui/DlgAdvPreferencesBase.cpp:382
@@ -3428,6 +3427,8 @@ msgid ""
 "Network activity is suspended.\n"
 "You can enable it using the Activity menu."
 msgstr ""
+"Hálózati forgalom felfüggesztve.\n"
+"Újra engedélyezheti az Aktivitás menüből."
 
 #: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
@@ -3457,14 +3458,12 @@ msgid "Retry in "
 msgstr "Újrapróbálás..."
 
 #: clientgui/ViewTransfers.cpp:771
-#, fuzzy
 msgid "Suspended upload"
-msgstr "Felfüggesztve"
+msgstr "Feltöltés felfüggesztve"
 
 #: clientgui/ViewTransfers.cpp:772
-#, fuzzy
 msgid "Suspended download"
-msgstr "Felfüggesztve"
+msgstr "Letöltés felfüggesztve"
 
 #: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
@@ -3603,9 +3602,8 @@ msgid "GPU missing, "
 msgstr "Grafikus processzor nincs"
 
 #: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
-#, fuzzy
 msgid " (suspended)"
-msgstr "Felfüggesztve"
+msgstr "(felfüggesztve)"
 
 #: clientgui/ViewWork.cpp:1152
 msgid " - an exclusive app is running"
