@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-05-18 17:20-0700\n"
+"PO-Revision-Date: 2010-05-23 03:32-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1320,7 +1320,7 @@ msgstr "Max feltöltési sebesség"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:349
 msgid "Connect about every"
-msgstr ""
+msgstr "Csatlakozás kb. ennyi időnként:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:353
 msgid ""
@@ -1336,7 +1336,7 @@ msgstr "nap"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:360
 msgid "Additional work buffer"
-msgstr "További munka puffer"
+msgstr "További munka buffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:366
 msgid "days (max. 10)"
@@ -1344,11 +1344,11 @@ msgstr "nap (max. 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:369
 msgid " Skip image file verification"
-msgstr ""
+msgstr "Képfájl ellenőrzés kihagyása"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:371
 msgid "check this if your Internet provider modifies image files"
-msgstr ""
+msgstr "jelölje be, ha az internetszolgáltatója módosítja a képfájlokat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:380
 msgid "Connect options"
@@ -1399,83 +1399,85 @@ msgstr "lemezhasználat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:519
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
-msgstr ""
+msgstr "a BOINC által maxmálisan használt lemezterület (Gigabájtban)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:523
 msgid "Gigabytes disk space"
-msgstr ""
+msgstr "Gigabájt lemezterület"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:526
 msgid "Leave at least"
-msgstr ""
+msgstr "Hagyjon legalább"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:530
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr ""
+msgstr "A BOINC legalább ennyi lemezterületet szabadon hagy (Gigabájtban)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:534
 msgid "Gigabytes disk space free"
-msgstr ""
+msgstr "Gigabájt szabad lemezterületet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:541
 msgid "BOINC uses at most this percentage of total disk space"
-msgstr ""
+msgstr "A BOINC legfeljebb a teljes lemezterület ekkora hányadát használja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:546
 #, no-c-format
 msgid "% of total disk space"
-msgstr ""
+msgstr "%-át használja a teljes lemezterületnek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:549
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Feladat állapotának lemezre írása legalább minden"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:555
 msgid "seconds"
-msgstr ""
+msgstr "másodpercben"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:565
 #, no-c-format
 msgid "% of page file (swap space)"
-msgstr ""
+msgstr "%-át használja a lapozófájlnak (swap terület)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:573
 msgid "Memory usage"
-msgstr ""
+msgstr "Memóriahasználat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:588
 #, no-c-format
 msgid "% when computer is in use"
-msgstr ""
+msgstr "% ha a számítógép használatban van"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:598
 #, no-c-format
 msgid "% when computer is idle"
-msgstr ""
+msgstr "% amikor a számítógép tétlen"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:603
 msgid " Leave applications in memory while suspended"
-msgstr ""
+msgstr "Hagyja az alkalmazásokat a memóriában a felfüggesztésük alatt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:605
 msgid "if checked, suspended work units are left in memory"
 msgstr ""
+"ha be van jelölve, akkor a felfüggesztett munkacsomagok a memóriában "
+"maradnak"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:614
 msgid "disk and memory usage"
-msgstr ""
+msgstr "lemez- és memóriahasználat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:627
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:628
 msgid "save all values and close the dialog"
-msgstr ""
+msgstr "mentse az összes értéket majd zárja be a párbeszédablakot"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:633
 msgid "close the dialog without saving"
-msgstr ""
+msgstr "zárja be a párbeszédablakot mentés nélkül"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:637 clientgui/DlgEventLog.cpp:291
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
