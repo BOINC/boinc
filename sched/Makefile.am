@@ -148,6 +148,7 @@ cgi_sources = \
     sched_customize.cpp \
     sched_hr.cpp \
     sched_resend.cpp \
+    sched_limit.cpp \
     sched_locality.cpp \
     sched_result.cpp \
     sched_score.cpp \

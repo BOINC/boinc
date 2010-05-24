@@ -3856,3 +3856,9 @@ Charlie  24 May 2010
     clientgui/
         AsyncRPC.cpp, .h
         MainDocument.cpp, .h
+
+David  24 May 2010
+    - scheduler: preliminary checkin of new limit code
+
+    sched/
+        sched_limit.cpp,h (new)

@@ -320,6 +320,9 @@ struct COPROCS {
     inline bool none() {
         return (cuda.count==0) && (ati.count==0);
     }
+    inline int ndevs() {
+        return cuda.count + ati.count;
+    }
 };
 
 #endif
