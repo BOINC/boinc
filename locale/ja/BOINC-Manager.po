@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-04-29 15:32+0900\n"
+"PO-Revision-Date: 2010-05-24 20:32+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -267,13 +267,14 @@ msgid "Display the simple graphical interface."
 msgstr "簡易グラフィックインタフェースで表示します"
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "プロジェクト(&P)またはアカウント・マネージャに接続..."
+msgstr "プロジェクトまたはアカウント・マネージャに接続(&A)..."
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"多数の科学分野の 30を超えるどのプロジェクトにもボランティアで"
+"いくらでも貢献できます"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -1301,19 +1302,16 @@ msgid "Maximum upload rate"
 msgstr "最大アップロード速度"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:353
-#, fuzzy
 msgid "Transfer at most"
-msgstr "最大で"
+msgstr "一定期間内の転送量上限："
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
-#, fuzzy
 msgid "Mbytes"
-msgstr "はい"
+msgstr "M バイトまでを"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:362
-#, fuzzy
 msgid "every"
-msgstr "サーバ："
+msgstr "右の期間内で許可"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:368
 #: clientgui/DlgAdvPreferencesBase.cpp:382
@@ -3222,7 +3220,7 @@ msgstr "スケジューラへ要求中"
 
 #: clientgui/ViewProjects.cpp:1071
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "保留中のメッセージをゆっくりアップロードする"
 
 #: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
@@ -3428,6 +3426,8 @@ msgid ""
 "Network activity is suspended.\n"
 "You can enable it using the Activity menu."
 msgstr ""
+"ネットワークを使う活動は一時停止されています。\n"
+"アクティビティ・メニューから再開させることができます。"
 
 #: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
@@ -3457,14 +3457,12 @@ msgid "Retry in "
 msgstr "右記の時間内に再試行："
 
 #: clientgui/ViewTransfers.cpp:771
-#, fuzzy
 msgid "Suspended upload"
-msgstr "一時停止中"
+msgstr "アップロード一時停止中"
 
 #: clientgui/ViewTransfers.cpp:772
-#, fuzzy
 msgid "Suspended download"
-msgstr "一時停止中"
+msgstr "ダウンロード一時停止中"
 
 #: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
@@ -3605,9 +3603,8 @@ msgid "GPU missing, "
 msgstr "GPU がありません、"
 
 #: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
-#, fuzzy
 msgid " (suspended)"
-msgstr "一時停止中"
+msgstr "(一時停止中)"
 
 #: clientgui/ViewWork.cpp:1152
 msgid " - an exclusive app is running"
@@ -3769,69 +3766,66 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:635
 msgid "list headers"
-msgstr ""
+msgstr "一覧の見出し"
 
-# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:639
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s"
-msgstr "list of "
+msgstr "%s の一覧"
 
-# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:641
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s is empty"
-msgstr "list is empty"
+msgstr "%s の一覧は中身がありません"
 
+# This fragment of English is hard to be translated without knowing the context it is used.
 #: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr "; 現在、カラム %d で降順にソート済み（全体は %d カラム); "
 
+# This fragment of English is hard to be translated without knowing the context it is used.
 #: clientgui/mac/MacAccessiblity.cpp:744
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr "; 現在、カラム %d で昇順にソート済み（全体は %d カラム); "
 
-# This fragment of English is used in the English-dependent sequence.
+# This fragment of English is hard to be translated without knowing the context it is used.
 #: clientgui/mac/MacAccessiblity.cpp:747
-#, fuzzy, c-format
+#, c-format
 msgid "; column %d of %d; "
-msgstr "カラム %d "
+msgstr "; カラム %d（全体は %d カラム); "
 
-# This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:754
-#, fuzzy
 msgid "list is empty"
-msgstr "list is empty"
+msgstr "一覧は中身がありません"
 
-# This fragment of English is used in the English-dependent construction sequence.
+# This fragment of English is hard to be translated without knowing the context it is used.
 #: clientgui/mac/MacAccessiblity.cpp:757 clientgui/mac/MacAccessiblity.cpp:769
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d; "
-msgstr "行 %d"
+msgstr "; 行 %d; "
 
 # This fragment of English is hard to be translated without knowing the context it is used.
 #: clientgui/mac/MacAccessiblity.cpp:761
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d of %d; "
-msgstr "行 %d （全体は %d 行)  "
+msgstr "; 行 %d を選択中（全体は %d 行); "
 
 # This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:763
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d ; "
-msgstr "選択中"
+msgstr "; 行 %d を選択中; "
 
 # This fragment of English is hard to be translated without knowing the context it is used.
 #: clientgui/mac/MacAccessiblity.cpp:767
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d of %d; "
-msgstr "行 %d （全体は %d 行)  "
+msgstr "; 行 %d（全体は %d 行); "
 
 # This fragment of English is used in the English-dependent construction sequence.
 #: clientgui/mac/MacAccessiblity.cpp:775
-#, fuzzy
 msgid "blank"
 msgstr "blank"
 
@@ -3841,9 +3835,8 @@ msgstr "プロジェクトまたはアカウント・マネージャの一覧"
 
 # This fragment of English is hard to be translated without knowing the context it is used.
 #: clientgui/mac/MacAccessiblity.cpp:1448
-#, fuzzy, c-format
 msgid "selected row %d of %d; "
-msgstr "行 %d （全体は %d 行)  "
+msgstr "行 %d を選択中（全体は %d 行); "
 
 # This fragment of English is hard to be translated without knowing the context it is used.
 #: clientgui/mac/MacAccessiblity.cpp:1450
@@ -3858,34 +3851,3 @@ msgstr "処理をする時間帯を「HH:MM-HH:MM」の形式で指定して下�
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指定して下さい。"
-
-#~ msgid "Attach to a project or account manager to begin processing work"
-#~ msgstr ""
-#~ "仕事を処理し始めるためにプロジェクトまたはアカウント・マネージャへ接続する"
-
-#~ msgid "Attach to an additional project"
-#~ msgstr "新しいプロジェクトに参加します"
-
-# This fragment of English is used in the English-dependent construction sequence.
-#, fuzzy
-#~ msgid " is empty"
-#~ msgstr " is empty"
-
-#~ msgid "%d of %d; "
-#~ msgstr "%d (全部で %d) "
-
-#~ msgid "current sort column "
-#~ msgstr "現在の順序付けカラム"
-
-#~ msgid " descending order "
-#~ msgstr "降順"
-
-#~ msgid " ascending order "
-#~ msgstr "昇順"
-
-#~ msgid "column "
-#~ msgstr "カラム"
-
-# This fragment of English is used in the English-dependent construction sequence.
-#~ msgid "of %d; "
-#~ msgstr "（全部で %d）"
