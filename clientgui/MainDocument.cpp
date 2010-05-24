@@ -798,6 +798,7 @@ void CMainDocument::RefreshRPCs() {
         m_dtResultsTimestamp = wxDateTime((time_t)1);
 //      m_iGet_results_rpc_result = -1;
     }
+    m_fResultsRPCExecutionTime = 0;
         
     if (!m_dtFileTransfersTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
         m_dtFileTransfersTimestamp = wxDateTime((time_t)1);
@@ -972,9 +973,7 @@ void CMainDocument::RunPeriodicRPCs() {
         wxTimeSpan ts = dtNow - m_dtResultsTimestamp;
         wxLongLong secondsSinceLastRPC = ts.GetSeconds();
         if (secondsSinceLastRPC >= RESULTSRPC_INTERVAL) {
-            if ((secondsSinceLastRPC >= (m_fResultsRPCExecutionTime * GET_RESULTS_FREQUENCY_FACTOR)) 
-                    // (m_dtResultsTimestamp < 2) means we need immediate refresh
-                    || m_dtResultsTimestamp.IsEarlierThan(wxDateTime((time_t)2))) {
+            if (secondsSinceLastRPC >= (m_fResultsRPCExecutionTime * GET_RESULTS_FREQUENCY_FACTOR)) {
 	            request.clear();
 	            request.which_rpc = RPC_GET_RESULTS;
 	            request.arg1 = &async_results_buf;
