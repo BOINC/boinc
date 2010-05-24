@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-04-29 15:30+0900\n"
+"PO-Revision-Date: 2010-05-24 23:10+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3712,7 +3712,7 @@ msgstr " is empty"
 #: clientgui/mac/MacAccessiblity.cpp:600
 #, c-format
 msgid "%d of %d; "
-msgstr "%d (全部で %d) "
+msgstr "%d (全部で %d); "
 
 #: clientgui/mac/MacAccessiblity.cpp:607
 msgid "current sort column "
@@ -3744,17 +3744,17 @@ msgstr "選択中"
 #: clientgui/mac/MacAccessiblity.cpp:626
 #, c-format
 msgid "row %d "
-msgstr "行 %d"
+msgstr "行 %d "
 
 #: clientgui/mac/MacAccessiblity.cpp:629
 #, c-format
 msgid "of %d; "
-msgstr "（全部で %d）"
+msgstr "(全部で %d); "
 
 #: clientgui/mac/MacAccessiblity.cpp:632
 #, c-format
 msgid "column %d; "
-msgstr "カラム %d "
+msgstr "カラム %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1166
 msgid "list of projects or account managers"
@@ -3763,7 +3763,7 @@ msgstr "プロジェクトまたはアカウント・マネージャの一覧"
 #: clientgui/mac/MacAccessiblity.cpp:1208
 #, c-format
 msgid "row %d of %d; "
-msgstr "行 %d （全体は %d 行) "
+msgstr "行 %d (全体は %d 行); "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
