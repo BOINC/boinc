@@ -273,6 +273,7 @@ void ASYNC_RPC_REQUEST::clear() {
     arg3 = NULL;
     arg4 = NULL;
     completionTime = NULL;
+    RPCExecutionTime = NULL;
     resultPtr = NULL;
     retval = 0;
     isActive = false;
@@ -318,6 +319,7 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
     } else {
         request.rpcType = RPC_TYPE_WAIT_FOR_COMPLETION;
     }
+    request.RPCExecutionTime = NULL;
     retval = m_pDoc->RequestRPC(request, hasPriority);
     return retval;
 }
@@ -340,6 +342,7 @@ void *RPCThread::Entry() {
     int retval = 0;
     CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
     ASYNC_RPC_REQUEST *current_request;
+    double startTime;
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     wxCondError condErr = wxCOND_NO_ERROR;
 
@@ -393,7 +396,13 @@ void *RPCThread::Entry() {
 
         if (!current_request->isActive)  continue;       // Should never happen
         
+        if (current_request->RPCExecutionTime) {
+            startTime = dtime();
+        }
         retval = ProcessRPCRequest();
+        if (current_request->RPCExecutionTime) {
+            *(current_request->RPCExecutionTime) = dtime() - startTime;
+        }
         
         current_request->retval = retval;
 
@@ -918,7 +927,7 @@ void CMainDocument::HandleCompletedRPC() {
     if (current_rpc_request.which_rpc == 0) return; // already handled by a call from RequestRPC
 
     // Find our completed request in the queue
-    n = RPC_requests.size();
+    n = (int) RPC_requests.size();
     for (i=0; i<n; ++i) {
         if (RPC_requests[i].isSameAs(current_rpc_request)) {
             requestIndex = i;

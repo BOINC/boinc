@@ -1726,3 +1726,15 @@ Charlie  17 May 2010
         BOINCListCtrl.cpp, .h
         mac/
             MacAccessiblity.cpp, .h
+
+Charlie  24 May 2010
+    - MGR: If get_results RPC takes x seconds, do it no more often than 
+        once every (x * GET_RESULTS_FREQUENCY_FACTOR) seconds.  
+        GET_RESULTS_FREQUENCY_FACTOR is currently defined as 10.
+        NOTE: we must measure the RPC time in the RPC thread, so this 
+        code assumes that dtime() is thread-safe, or at least that any 
+        error introduced due to thread preemption is small.
+
+    clientgui/
+        AsyncRPC.cpp, .h
+        MainDocument.cpp, .h
