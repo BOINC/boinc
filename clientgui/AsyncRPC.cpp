@@ -320,7 +320,7 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
     } else {
         request.rpcType = RPC_TYPE_WAIT_FOR_COMPLETION;
     }
-    request.RPCExecutionTime = 0;
+    request.RPCExecutionTime = NULL;
     retval = m_pDoc->RequestRPC(request, hasPriority);
     return retval;
 }
