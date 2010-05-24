@@ -343,7 +343,7 @@ void *RPCThread::Entry() {
     int retval = 0;
     CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
     ASYNC_RPC_REQUEST *current_request;
-    double startTime;
+    double startTime = 0;
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     wxCondError condErr = wxCOND_NO_ERROR;
 
