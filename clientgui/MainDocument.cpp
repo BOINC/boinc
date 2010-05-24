@@ -47,6 +47,10 @@
 
 #define USE_CACHE_TIMEOUTS 0
 
+// If get_results RPC takes x seconds, do it no more often than 
+// once every (x * GET_RESULTS_FREQUENCY_FACTOR) seconds
+#define GET_RESULTS_FREQUENCY_FACTOR 10
+
 // *** RPC update intervals in seconds ***
 // m_dtCachedCCStatusTimestamp
 #define CCSTATUS_RPC_INTERVAL 1
@@ -839,7 +843,7 @@ void CMainDocument::RefreshRPCs() {
 void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     ASYNC_RPC_REQUEST request;
     wxTimeSpan ts;
-
+    
     // Timer events are handled while the RPC Wait dialog is shown 
     // which may cause unintended recursion and repeatedly posting 
     // the same RPC requests from timer routines.
@@ -1013,17 +1017,21 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 
     if (currentTabView & VW_TASK) {
         ts = dtNow - m_dtResultsTimestamp;
-        if (ts.GetSeconds() >= RESULTSRPC_INTERVAL) {
-            request.clear();
-            request.which_rpc = RPC_GET_RESULTS;
-            request.arg1 = &async_results_buf;
-            request.arg2 = &m_ActiveTasksOnly;
-            request.exchangeBuf = &results;
-            request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
-            request.completionTime = &m_dtResultsTimestamp;
-            request.resultPtr = &m_iGet_results_rpc_result;
-           
-            RequestRPC(request);
+        wxLongLong secondsSinceLastRPC = ts.GetSeconds();
+        if (secondsSinceLastRPC >= RESULTSRPC_INTERVAL) {
+            if (secondsSinceLastRPC >= (m_fResultsRPCExecutionTime * GET_RESULTS_FREQUENCY_FACTOR)) {
+                request.clear();
+                request.which_rpc = RPC_GET_RESULTS;
+                request.arg1 = &async_results_buf;
+                request.arg2 = &m_ActiveTasksOnly;
+                request.exchangeBuf = &results;
+                request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
+                request.completionTime = &m_dtResultsTimestamp;
+                request.RPCExecutionTime = &m_fResultsRPCExecutionTime;
+                request.resultPtr = &m_iGet_results_rpc_result;
+               
+                RequestRPC(request);
+            }
         }
     }
     

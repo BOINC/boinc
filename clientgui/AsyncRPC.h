@@ -191,6 +191,7 @@ struct ASYNC_RPC_REQUEST {
     void *arg4;
     ASYNC_RPC_TYPE rpcType;
     wxDateTime *completionTime;
+    double *RPCExecutionTime;
     int *resultPtr;
     int retval;
     bool isActive;
