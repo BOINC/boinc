@@ -279,9 +279,9 @@ function is_dev($v) {
 }
 
 // note: rand() is inclusive
-switch(rand(0,3)) {
-//switch(0) {
-    //case 0: $url_base = "http://boinc.berkeley.edu/dl/"; break;
+//switch(rand(0,3)) {
+switch(0) {
+    case 0: $url_base = "http://boinc.berkeley.edu/dl/"; break;
     case 0: $url_base = "http://boincdl3.ssl.berkeley.edu/mirror/"; break;
     case 1: $url_base = "http://einstein.ligo.caltech.edu/download/boinc/dl/"; break;
     case 2: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;
