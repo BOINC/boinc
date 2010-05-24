@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-05-23 03:32-0700\n"
+"PO-Revision-Date: 2010-05-24 02:46-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1487,12 +1487,12 @@ msgstr "Súgó"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:638
 msgid "shows the preferences web page"
-msgstr ""
+msgstr "megmutatja a webes beállításokat"
 
 #: clientgui/DlgEventLog.cpp:185
 #, c-format
 msgid "%s - Event Log"
-msgstr ""
+msgstr "%s - Eseménynapló"
 
 #: clientgui/DlgEventLog.cpp:198
 msgid "Project"
@@ -1508,17 +1508,16 @@ msgstr "Üzenet"
 
 #: clientgui/DlgEventLog.cpp:248 clientgui/DlgEventLog.cpp:364
 msgid "Show only this project"
-msgstr ""
+msgstr "Csak ezt a projektet mutassa"
 
 #: clientgui/DlgEventLog.cpp:251 clientgui/DlgEventLog.cpp:365
 #: clientgui/DlgEventLog.cpp:367
-#, fuzzy
 msgid "Show only the messages for the selected project"
-msgstr "Minden üzenet másolása a vágólapra."
+msgstr "Csak a kiválasztott projekt üzeneteit mutassa"
 
 #: clientgui/DlgEventLog.cpp:255
 msgid "Copy All"
-msgstr ""
+msgstr "Mindent másol"
 
 #: clientgui/DlgEventLog.cpp:257 clientgui/DlgEventLog.cpp:261
 msgid "Copy all the messages to the clipboard."
@@ -1526,16 +1525,16 @@ msgstr "Minden üzenet másolása a vágólapra."
 
 #: clientgui/DlgEventLog.cpp:266
 msgid "Copy Selected"
-msgstr ""
+msgstr "Kiválasztottak másolása"
 
 #: clientgui/DlgEventLog.cpp:269 clientgui/DlgEventLog.cpp:277
-#, fuzzy
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
 msgstr ""
-"A kiválasztott üzenetek másolása a vágólapra. Több üzenetek is kiváaszthat a "
-"SHIFT vagy CTRL gombok lenyomásával, miközben az üzenetekre kattint."
+"A kiválasztott üzenetek másolása a vágólapra. Több üzenetet is kiválaszthat, "
+"ha az üzenetkre történő kattintás közben nyomva tartja a Shift, vagy a "
+"parancsbillentyűt."
 
 #: clientgui/DlgEventLog.cpp:271 clientgui/DlgEventLog.cpp:279
 msgid ""
@@ -1547,20 +1546,19 @@ msgstr ""
 
 #: clientgui/DlgEventLog.cpp:286
 msgid "Close"
-msgstr ""
+msgstr "Bezár"
 
 #: clientgui/DlgEventLog.cpp:293 clientgui/DlgEventLog.cpp:296
 msgid "Get help with BOINC"
-msgstr ""
+msgstr "Segítség kérése a BOINChoz"
 
 #: clientgui/DlgEventLog.cpp:377
-#, fuzzy
 msgid "Show all messages"
-msgstr "Minden üzenet másolása"
+msgstr "Minden üzenet mutatása"
 
 #: clientgui/DlgEventLog.cpp:378 clientgui/DlgEventLog.cpp:380
 msgid "Show messages for all projects"
-msgstr ""
+msgstr "Az összes projekt üzeneteinek mutatása."
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
