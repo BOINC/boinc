@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-05-23 03:26-0700\n"
+"PO-Revision-Date: 2010-05-24 02:38-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -277,11 +277,10 @@ msgid "&Attach to project or account manager..."
 msgstr "&Csatlakozás projekthez vagy fiókkezelőhöz..."
 
 #: clientgui/AdvancedFrame.cpp:393
-#, fuzzy
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
-"Válasszon néhányat, vagy vegyen részt akár egyszerre a több mint 30, a "
-"tudomány különböző területeivel foglalkozó projektben"
+"Válasszon néhányat a harmincnál is több, különböző tudományterületekkel "
+"foglalkozó projekt közül, vagy vegyen részt akár mindegyikben egyszerre"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -1487,7 +1486,7 @@ msgstr "Súgó"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:663
 msgid "shows the preferences web page"
-msgstr "mutatja a beállítási weboldalt"
+msgstr "megmutatja a webes beállításokat"
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
@@ -3761,14 +3760,14 @@ msgid "list headers"
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:639
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s"
-msgstr "listája ennek:"
+msgstr "%s listája"
 
 #: clientgui/mac/MacAccessiblity.cpp:641
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s is empty"
-msgstr "a lista üres"
+msgstr "%s listája üres"
 
 #: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
@@ -3781,18 +3780,18 @@ msgid "; current sort column %d of %d; ascending order; "
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:747
-#, fuzzy, c-format
+#, c-format
 msgid "; column %d of %d; "
-msgstr "%d. oszlop;"
+msgstr "; %d. oszlop ennyiből: %d;"
 
 #: clientgui/mac/MacAccessiblity.cpp:754
 msgid "list is empty"
 msgstr "a lista üres"
 
 #: clientgui/mac/MacAccessiblity.cpp:757 clientgui/mac/MacAccessiblity.cpp:769
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d; "
-msgstr "%d. sor"
+msgstr "; %d. sor;"
 
 #: clientgui/mac/MacAccessiblity.cpp:761
 #, fuzzy, c-format
