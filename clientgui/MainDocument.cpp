@@ -415,6 +415,8 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_dtResultsTimestamp = wxDateTime((time_t)0);
     m_iGet_results_rpc_result = -1;
     
+    m_fResultsRPCExecutionTime = 0;
+    
     m_dtKillInactiveGfxTimestamp = wxDateTime((time_t)0);
     m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
     m_iGet_file_transfers_rpc_result = 0;
