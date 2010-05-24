@@ -46,10 +46,6 @@
 
 #define USE_CACHE_TIMEOUTS 0
 
-// If get_results RPC takes x seconds, do it no more often than 
-// once every (x * GET_RESULTS_FREQUENCY_FACTOR) seconds
-#define GET_RESULTS_FREQUENCY_FACTOR 10
-
 // *** RPC update intervals in seconds ***
 // m_dtCachedCCStatusTimestamp
 #define CCSTATUS_RPC_INTERVAL 1
@@ -404,8 +400,6 @@ CMainDocument::CMainDocument() : rpc(this) {
     
     m_dtResultsTimestamp = wxDateTime((time_t)0);
     m_iGet_results_rpc_result = -1;
-    
-    m_fResultsRPCExecutionTime = 0;
     
     m_dtKillInactiveGfxTimestamp = wxDateTime((time_t)0);
     m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
@@ -798,7 +792,6 @@ void CMainDocument::RefreshRPCs() {
         m_dtResultsTimestamp = wxDateTime((time_t)1);
 //      m_iGet_results_rpc_result = -1;
     }
-    m_fResultsRPCExecutionTime = 0;
         
     if (!m_dtFileTransfersTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
         m_dtFileTransfersTimestamp = wxDateTime((time_t)1);
@@ -947,7 +940,6 @@ void CMainDocument::RunPeriodicRPCs() {
     }
      
     // TODO: modify SimpleGUI to not do direct RPC calls when hidden / minimized
-    // Don't do periodic RPC calls when hidden / minimized unless SimpleGui
     if (! ((currentTabView & VW_SGUI) || pFrame->IsShown()) ) return;
    
     // *********** RPC_GET_PROJECT_STATUS1 **************
@@ -970,10 +962,8 @@ void CMainDocument::RunPeriodicRPCs() {
     // *********** RPC_GET_RESULTS **************
 
     if (currentTabView & VW_TASK) {
-        wxTimeSpan ts = dtNow - m_dtResultsTimestamp;
-        wxLongLong secondsSinceLastRPC = ts.GetSeconds();
-        if (secondsSinceLastRPC >= RESULTSRPC_INTERVAL) {
-            if (secondsSinceLastRPC >= (m_fResultsRPCExecutionTime * GET_RESULTS_FREQUENCY_FACTOR)) {
+        wxTimeSpan ts(dtNow - m_dtResultsTimestamp);
+        if (ts.GetSeconds() >= RESULTSRPC_INTERVAL) {
 	            request.clear();
 	            request.which_rpc = RPC_GET_RESULTS;
 	            request.arg1 = &async_results_buf;
@@ -981,11 +971,9 @@ void CMainDocument::RunPeriodicRPCs() {
 	            request.exchangeBuf = &results;
 	            request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
 	            request.completionTime = &m_dtResultsTimestamp;
-	                request.RPCExecutionTime = &m_fResultsRPCExecutionTime;
 	            request.resultPtr = &m_iGet_results_rpc_result;
 	           
 	            RequestRPC(request);
-            }
         }
     }
     

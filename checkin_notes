@@ -1738,3 +1738,10 @@ Charlie  24 May 2010
     clientgui/
         AsyncRPC.cpp, .h
         MainDocument.cpp, .h
+
+Charlie  24 May 2010
+    - MGR: Temporarily back out my changes from earlier today.
+
+    clientgui/
+        AsyncRPC.cpp, .h
+        MainDocument.cpp, .h
