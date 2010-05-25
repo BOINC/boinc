@@ -1141,15 +1141,27 @@ void ACTIVE_TASK::read_task_state_file() {
     // sanity checks - project and result name must match
     //
     if (!parse_str(buf, "<project_master_url>", s, sizeof(s))) {
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
+            "no project URL in task state file"
+        );
         return;
     }
     if (strcmp(s, result->project->master_url)) {
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
+            "wrong project URL in task state file"
+        );
         return;
     }
     if (!parse_str(buf, "<result_name>", s, sizeof(s))) {
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
+            "no task name in task state file"
+        );
         return;
     }
     if (strcmp(s, result->name)) {
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
+            "wrong task name in task state file"
+        );
         return;
     }
     if (parse_double(buf, "<checkpoint_cpu_time>", x)) {

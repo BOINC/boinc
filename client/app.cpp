@@ -708,16 +708,10 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_str(buf, "<project_master_url>", project_master_url, sizeof(project_master_url))) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
         else if (parse_int(buf, "<active_task_state>", dummy)) continue;
-        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) {
-            current_cpu_time = checkpoint_cpu_time;
-            continue;
-        }
+        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_bool(buf, "once_ran_edf", once_ran_edf)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
-        else if (parse_double(buf, "<checkpoint_elapsed_time>", checkpoint_elapsed_time)) {
-            elapsed_time = checkpoint_elapsed_time;
-            continue;
-        }
+        else if (parse_double(buf, "<checkpoint_elapsed_time>", checkpoint_elapsed_time)) continue;
         else if (parse_int(buf, "<app_version_num>", n)) continue;
         else if (parse_double(buf, "<swap_size>", procinfo.swap_size)) continue;
         else if (parse_double(buf, "<working_set_size>", procinfo.working_set_size)) continue;
@@ -961,6 +955,8 @@ void ACTIVE_TASK_SET::init() {
         atp->init(atp->result);
         atp->scheduler_state = CPU_SCHED_PREEMPTED;
         atp->read_task_state_file();
+        atp->current_cpu_time = atp->checkpoint_cpu_time;
+        atp->elapsed_time = atp->checkpoint_elapsed_time;
     }
 }
 

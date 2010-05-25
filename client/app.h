@@ -72,8 +72,6 @@ struct ACTIVE_TASK {
         // Note: "CPU time" refers to the sum over all episodes.
         // (not counting the "lost" time after the last checkpoint
         // in episodes before the current one)
-        // TODO: debt should be based on FLOPs, not CPU time
-        // CPU time at the start of current episode
     double checkpoint_elapsed_time;
         // elapsed time at last checkpoint
     double fraction_done;

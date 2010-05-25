@@ -3862,3 +3862,10 @@ David  24 May 2010
 
     sched/
         sched_limit.cpp,h (new)
+
+David  25 May 2010
+    - client: fix bug in accounting of elapsed time and CPU time
+
+    client/
+        app.cpp,h
+        app_control.cpp
