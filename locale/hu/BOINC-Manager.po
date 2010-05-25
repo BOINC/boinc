@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-05-24 02:46-0700\n"
+"PO-Revision-Date: 2010-05-25 03:50-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1563,7 +1563,7 @@ msgstr "Az összes projekt üzeneteinek mutatása."
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
 msgid "%s - Exit Confirmation"
-msgstr ""
+msgstr "%s - Kilépés megerősítése"
 
 #: clientgui/DlgExitMessage.cpp:130
 #, c-format
