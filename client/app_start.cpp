@@ -28,7 +28,7 @@
 #endif
 #else
 #include "config.h"
-#ifdef HAVE_SCHED_SETSCHEDULER
+#if defined (HAVE_SCHED_SETSCHEDULER) && defined (__linux__)
 #include <sched.h>
 #endif
 #if HAVE_SYS_TIME_H
@@ -888,7 +888,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 perror("setpriority");
             }
 #endif
-#ifdef HAVE_SCHED_SETSCHEDULER
+#if defined (HAVE_SCHED_SETSCHEDULER) && defined (__linux__)
             if (!high_priority) {
                 struct sched_param p;
                 p.sched_priority = 0;

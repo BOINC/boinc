@@ -3878,3 +3878,10 @@ Rom    26 May 2010
         boinc_cli.vcproj
         boincmgr.vcproj
         buildenv.cmd
+
+David  26 May 2010
+    - client: fix build failure on FreeBSD (SCHED_BATCH doesn't exist there)
+        (from Rene Mayorga)
+
+    client/
+        app_start.cpp
