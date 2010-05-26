@@ -1,4 +1,5 @@
 @IF "%BUILDDBG%"=="TRUE" ( ECHO ON ) ELSE ( ECHO OFF )
+ECHO ON
 rem Berkeley Open Infrastructure for Network Computing
 rem http://boinc.berkeley.edu
 rem Copyright (C) 2009 University of California
@@ -71,8 +72,9 @@ rem
 :VALIDATEPARAMS
 rem A little bit of batchfile magic to remove double quotes
 rem   which would be sent from the automated build tools.
-FOR /F %%I IN ("%_ArgBuildType%") DO SET _ArgBuildType=%%~I
-FOR /F %%I IN ("%_ArgBuildPlatform%") DO SET _ArgBuildPlatform=%%~I
+FOR /F %%I IN ("%_ArgBuildDevEnvDir%") DO SET _ArgBuildDevEnvDir=%%~I
+FOR /F %%I IN ("%_ArgBuildType%")      DO SET _ArgBuildType=%%~I
+FOR /F %%I IN ("%_ArgBuildPlatform%")  DO SET _ArgBuildPlatform=%%~I
 
 IF /I "%_ArgBuildType%"==""            GOTO :USAGE
 IF /I "%_ArgBuildPlatform%"==""        GOTO :USAGE
