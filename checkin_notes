@@ -3869,3 +3869,12 @@ David  25 May 2010
     client/
         app.cpp,h
         app_control.cpp
+
+Rom    26 May 2010
+    - WINBUILD: Properly handle detection of Visual Studio when
+        somebody has all of them installed (2005/2008/2010).
+
+    win_build/
+        boinc_cli.vcproj
+        boincmgr.vcproj
+        buildenv.cmd

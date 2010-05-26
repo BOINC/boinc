@@ -123,7 +123,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -232,7 +232,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -342,7 +342,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -453,7 +453,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -562,7 +562,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -671,7 +671,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -781,7 +781,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -891,7 +891,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boinc.exe dependencies"
-				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 	</Configurations>

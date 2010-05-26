@@ -42,6 +42,7 @@ IF /I  "%1"=="/?"                   GOTO :USAGE
 IF /I  "%1"=="-?"                   GOTO :USAGE
 IF /I  "%1"=="/HELP"                GOTO :USAGE
 IF /I  "%1"=="-HELP"                GOTO :USAGE
+IF /I  "%1"=="DEVENVDIR"            GOTO :PARSEPARAM
 IF /I  "%1"=="TYPE"                 GOTO :PARSEPARAM
 IF /I  "%1"=="PLATFORM"             GOTO :PARSEPARAM
 IF /I  "%1"=="EXEC"                 GOTO :PARSEPARAM
@@ -51,6 +52,7 @@ IF     "%1"==""                     GOTO :VALIDATEPARAMS
 rem ***** Parse Parameters *****
 rem
 :PARSEPARAM
+IF /I "%1"=="DEVENVDIR"             SET _ArgBuildDevEnvDir=%2
 IF /I "%1"=="TYPE"                  SET _ArgBuildType=%2
 IF /I "%1"=="PLATFORM"              SET _ArgBuildPlatform=%2
 IF /I "%1"=="EXEC" (
@@ -80,19 +82,29 @@ IF /I "%_ArgBuildPlatform%" == "Win32" SET _ArgBuildPlatform=x86
 SET BUILDTYPE=%_ArgBuildType%
 SET BUILDPLATFORM=%_ArgBuildPlatform%
 
+rem ***** Visual Studio Hint Detection *****
+rem
+IF /I "%VS80COMNTOOLS%" == "%_ArgBuildDevEnvDir%Common7\Tools\"  GOTO :DETECTVS2005
+IF /I "%VS90COMNTOOLS%" == "%_ArgBuildDevEnvDir%Common7\Tools\"  GOTO :DETECTVS2008
+IF /I "%VS100COMNTOOLS%" == "%_ArgBuildDevEnvDir%Common7\Tools\" GOTO :DETECTVS2010
 
 rem ***** Software Detection *****
 rem
+:DETECTVS2005
 IF EXIST "%VS80COMNTOOLS%\vsvars32.bat" (
     CALL "%VS80COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
     SET BUILDCOMPILERDETECTED=vs2005
 	GOTO :SOFTDETECTIONCOMPLETE
 )
+
+:DETECTVS2008
 IF EXIST "%VS90COMNTOOLS%\vsvars32.bat" (
     CALL "%VS90COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
     SET BUILDCOMPILERDETECTED=vs2008
 	GOTO :SOFTDETECTIONCOMPLETE
 )
+
+:DETECTVS2010
 IF EXIST "%VS100COMNTOOLS%\vsvars32.bat" (
     CALL "%VS100COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
     SET BUILDCOMPILERDETECTED=vs2010
@@ -111,7 +123,6 @@ rem
 SET BUILDTOOLSNAME=boinc_depends_win_%BUILDCOMPILERDETECTED%
 SET BUILDTOOLSROOT=%BUILDROOT%\..\%BUILDTOOLSNAME%
 IF EXIST %BUILDTOOLSROOT%\win_build\subversion GOTO :BUILDTOOLSROOTVALIDATED
-
 
 rem We must be in a branch and we can't currently use subversion commands
 rem to determine where we are to find our build tools.  Use some batch
@@ -279,6 +290,7 @@ ECHO.
 ECHO Usage: buildenv.cmd TYPE ^<type^> PLATFORM ^<platform^> [Optional Commands]
 ECHO.
 ECHO   Commands:
+ECHO     DEVENVDIR:  Which build environment executed this batch file.
 ECHO     TYPE:  Which build environment are you building executables for.
 ECHO       Current Values: Release/Debug
 ECHO     PLATFORM: Which platform are you building for.
