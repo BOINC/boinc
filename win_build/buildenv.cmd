@@ -1,5 +1,4 @@
 @IF "%BUILDDBG%"=="TRUE" ( ECHO ON ) ELSE ( ECHO OFF )
-ECHO ON
 rem Berkeley Open Infrastructure for Network Computing
 rem http://boinc.berkeley.edu
 rem Copyright (C) 2009 University of California
