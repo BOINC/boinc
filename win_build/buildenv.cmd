@@ -1,4 +1,5 @@
 @IF "%BUILDDBG%"=="TRUE" ( ECHO ON ) ELSE ( ECHO OFF )
+ECHO ON
 rem Berkeley Open Infrastructure for Network Computing
 rem http://boinc.berkeley.edu
 rem Copyright (C) 2009 University of California
@@ -71,9 +72,15 @@ rem
 :VALIDATEPARAMS
 rem A little bit of batchfile magic to remove double quotes
 rem   which would be sent from the automated build tools.
-FOR /F %%I IN ("%_ArgBuildDevEnvDir%") DO SET _ArgBuildDevEnvDir=%%~I
-FOR /F %%I IN ("%_ArgBuildType%")      DO SET _ArgBuildType=%%~I
-FOR /F %%I IN ("%_ArgBuildPlatform%")  DO SET _ArgBuildPlatform=%%~I
+FOR /F "usebackq delims=" %%I IN ('%_ArgBuildDevEnvDir%') DO (
+    SET _ArgBuildDevEnvDir=%%~I
+)
+FOR /F "usebackq delims=" %%I IN ('%_ArgBuildType%')      DO (
+    SET _ArgBuildType=%%~I
+)
+FOR /F "usebackq delims=" %%I IN ('%_ArgBuildPlatform%')  DO (
+    SET _ArgBuildPlatform=%%~I
+)
 
 IF /I "%_ArgBuildType%"==""            GOTO :USAGE
 IF /I "%_ArgBuildPlatform%"==""        GOTO :USAGE
@@ -85,9 +92,14 @@ SET BUILDPLATFORM=%_ArgBuildPlatform%
 
 rem ***** Visual Studio Hint Detection *****
 rem
-IF /I "%VS80COMNTOOLS%" == "%_ArgBuildDevEnvDir%Common7\Tools\"  GOTO :DETECTVS2005
-IF /I "%VS90COMNTOOLS%" == "%_ArgBuildDevEnvDir%Common7\Tools\"  GOTO :DETECTVS2008
-IF /I "%VS100COMNTOOLS%" == "%_ArgBuildDevEnvDir%Common7\Tools\" GOTO :DETECTVS2010
+SET _ArgBuildDevEnvDir=%_ArgBuildDevEnvDir:IDE\=%
+SET _ArgVS80COMNTOOLS=%VS80COMNTOOLS:Tools\=%
+SET _ArgVS90COMNTOOLS=%VS90COMNTOOLS:Tools\=%
+SET _ArgVS100COMNTOOLS=%VS100COMNTOOLS:Tools\=%
+
+IF /I "%_ArgVS80COMNTOOLS%" == "%_ArgBuildDevEnvDir%"  GOTO :DETECTVS2005
+IF /I "%_ArgVS90COMNTOOLS%" == "%_ArgBuildDevEnvDir%"  GOTO :DETECTVS2008
+IF /I "%_ArgVS100COMNTOOLS%" == "%_ArgBuildDevEnvDir%" GOTO :DETECTVS2010
 
 rem ***** Software Detection *****
 rem
