@@ -205,7 +205,7 @@ int main(int argc, char** argv) {
     printf("connected\n");
 #endif
 
-    if (passwd) {
+    if (strlen(passwd)) {
         retval = rpc.authorize(passwd);
         if (retval) {
             fprintf(stderr, "Authorization failure: %d\n", retval);
