@@ -1770,3 +1770,11 @@ Rom    27 May 2010
     
     client/
         app_start.cpp
+
+Rom    27 May 2010
+    - Tag for 6.10.57 release, all platforms
+      boinc_core_release_6_10_57
+
+    /
+        configure.ac
+        version.h
