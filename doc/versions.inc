@@ -60,6 +60,14 @@ function type_text($type) {
     }
 }
 
+$w610dev = array(
+	"num"=>"6.10.57",
+	"status"=>"Development version",
+	"file"=>"boinc_6.10.57_windows_intelx86.exe",
+	"date"=>"27 May 2010",
+	"type"=>"win_new",
+);
+
 $w610 = array(
 	"num"=>"6.10.56",
 	"status"=>"Recommended version",
@@ -82,6 +90,14 @@ $w5816 = array(
     "file"=>"boinc_5.8.16_windows_intelx86.exe",
     "date"=>"1 Mar 2007",
     "type"=>"win_new",
+);
+
+$w610x64dev = array(
+	"num"=>"6.10.57",
+	"status"=>"Development version",
+	"file"=>"boinc_6.10.57_windows_x86_64.exe",
+	"date"=>"27 May 2010",
+	"type"=>"win_new",
 );
 
 $w610x64 = array(
