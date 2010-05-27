@@ -1757,3 +1757,9 @@ David  19 May 2010
 
     client/
         boinc_cmd.cpp
+
+David  18 May 2010
+    - client: don't promote multithread jobs ahead of EDF jobs
+
+    client/
+        cpu_sched.cpp

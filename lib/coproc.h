@@ -139,6 +139,9 @@ struct COPROC {
         for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
             device_nums[i] = 0;
             running_graphics_app[i] = true;
+            available_ram[i] = 0;
+            available_ram_fake[i] = 0;
+            available_ram_unknown[i] = true;
         }
     }
     COPROC(const char* t){

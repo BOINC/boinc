@@ -818,6 +818,7 @@ static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
 
 // scan the runnable list, keeping track of CPU usage X.
 // if find a MT job J, and X < ncpus, move J before all non-MT jobs
+// But don't promote a MT job ahead of a job in EDF
 //
 static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
     double cpus_used = 0;
@@ -827,6 +828,7 @@ static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
         if (cur == runnable_jobs.end()) break;
         if (cpus_used >= gstate.ncpus) break;
         RESULT* rp = *cur;
+        if (rp->rr_sim_misses_deadline) break;
         double nc = rp->avp->avg_ncpus;
         if (nc > 1) {
             if (first_non_mt != runnable_jobs.end()) {
