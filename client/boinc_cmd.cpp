@@ -80,6 +80,8 @@ Commands:\n\
    op = retry | abort\n\
  --set_run_mode mode duration       set run mode for given duration\n\
    mode = always | auto | never\n\
+ --set_gpu_mode mode duration       set GPU run mode for given duration\n\
+   mode = always | auto | never\n\
  --set_network_mode mode duration\n\
  --set_proxy_settings\n\
  --run_benchmarks\n\
@@ -323,6 +325,23 @@ int main(int argc, char** argv) {
             retval = rpc.set_run_mode(RUN_MODE_AUTO, duration);
         } else if (!strcmp(op, "never")) {
             retval = rpc.set_run_mode(RUN_MODE_NEVER, duration);
+        } else {
+            fprintf(stderr, "Unknown op %s\n", op);
+        }
+    } else if (!strcmp(cmd, "--set_gpu_mode")) {
+        char* op = next_arg(argc, argv, i);
+        double duration;
+        if (i >= argc || (argv[i][0] == '-')) {
+            duration = 0;
+        } else {
+            duration = atof(next_arg(argc, argv, i));
+        }
+        if (!strcmp(op, "always")) {
+            retval = rpc.set_gpu_mode(RUN_MODE_ALWAYS, duration);
+        } else if (!strcmp(op, "auto")) {
+            retval = rpc.set_gpu_mode(RUN_MODE_AUTO, duration);
+        } else if (!strcmp(op, "never")) {
+            retval = rpc.set_gpu_mode(RUN_MODE_NEVER, duration);
         } else {
             fprintf(stderr, "Unknown op %s\n", op);
         }
