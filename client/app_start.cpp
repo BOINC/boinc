@@ -420,6 +420,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     current_cpu_time = checkpoint_cpu_time;
+    elapsed_time = checkpoint_elapsed_time;
 
     graphics_request_queue.init(result->name);        // reset message queues
     process_control_queue.init(result->name);
