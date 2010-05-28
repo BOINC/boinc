@@ -37,6 +37,7 @@
 			/>
 			<Tool
 				Name="CUDA Build Rule"
+				Include=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -122,7 +123,7 @@
 			/>
 			<Tool
 				Name="CUDA Build Rule"
-				Include=""
+				Include=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -209,7 +210,7 @@
 			/>
 			<Tool
 				Name="CUDA Build Rule"
-				Include=""
+				Include=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -293,7 +294,7 @@
 			/>
 			<Tool
 				Name="CUDA Build Rule"
-				Include=""
+				Include=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -378,7 +379,7 @@
 			/>
 			<Tool
 				Name="CUDA Build Rule"
-				Include=""
+				Include=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -464,7 +465,7 @@
 			/>
 			<Tool
 				Name="CUDA Build Rule"
-				Include=""
+				Include=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -551,7 +552,7 @@
 			/>
 			<Tool
 				Name="CUDA Build Rule"
-				Include=""
+				Include=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -636,7 +637,7 @@
 			/>
 			<Tool
 				Name="CUDA Build Rule"
-				Include=""
+				Include=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
