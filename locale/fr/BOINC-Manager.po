@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-21 16:13-0500\n"
-"PO-Revision-Date: 2010-05-12 14:11-0700\n"
+"PO-Revision-Date: 2010-05-29 05:43-0700\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -3357,16 +3357,18 @@ msgid "Click 'Retry now' to transfer the file now"
 msgstr ""
 "Cliquez sur 'Réessayer maintenant' pour transférer le fichier maintenant"
 
+# erreur d'orthographe
 #: clientgui/ViewTransfers.cpp:170
 msgid "Abort Transfer"
-msgstr "Annuler le tranfert"
+msgstr "Annuler le transfert"
 
+# erreur d'orthographe
 #: clientgui/ViewTransfers.cpp:171
 msgid ""
 "Click 'Abort transfer' to delete the file from the transfer queue. This will "
 "prevent you from being granted credit for this result."
 msgstr ""
-"Cliquez sur 'Annuler le tranfert' pour supprimer le fichier de la file "
+"Cliquez sur 'Annuler le transfert' pour supprimer le fichier de la file "
 "d'attente de transfert. Vous ne recevrez pas de crédit pour cette unité."
 
 #: clientgui/ViewTransfers.cpp:182
