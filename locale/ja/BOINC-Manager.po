@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-05-24 20:32+0900\n"
+"PO-Revision-Date: 2010-05-30 16:53+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3220,7 +3220,7 @@ msgstr "スケジューラへ要求中"
 
 #: clientgui/ViewProjects.cpp:1071
 msgid "Trickle up message pending"
-msgstr "保留中のメッセージをゆっくりアップロードする"
+msgstr "トリクルメッセージの送信保留あり"
 
 #: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
