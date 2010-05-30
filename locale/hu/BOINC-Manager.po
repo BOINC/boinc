@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-05-24 02:38-0700\n"
+"PO-Revision-Date: 2010-05-30 10:33-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -855,11 +855,11 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:379
 msgid "BOINC Manager"
-msgstr "BOINC kezelő"
+msgstr "BOINC Kezelő"
 
 #: clientgui/BOINCGUIApp.cpp:526
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "A BOINC kezelőt az operációs rendszer automatikusan indította"
+msgstr "A BOINC Kezelőt az operációs rendszer automatikusan indította"
 
 #: clientgui/BOINCGUIApp.cpp:528
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -1507,8 +1507,8 @@ msgstr ""
 "amelyik lehetővé teszi tudományos alkalmazások futtatását és megtekintését a "
 "számítógépén.\n"
 "\n"
-"Amennyiben a tudományos alkalmazások futtatását is meg akarja állítani\n"
-"a Managerből való kilépéskor, akkor válasszon a következő lehetőségek közül:"
+"Amennyiben a tudományos alkalmazások futtatását is le akarja állítani\n"
+"a Kezelőből való kilépéskor, akkor válasszon a következő lehetőségek közül:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1520,17 +1520,16 @@ msgid ""
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
 msgstr ""
-"Ez leállítja a %st és feladatait teljesen, addig amíg az\n"
-"alkalmazás vagy a képernyővédő nem fut újra.\n"
+"Ezzel teljesen leállítja %st és feladatait addig, amíg a(z)\n"
+"%s alkalmazás vagy a(z) %s képernyővédő újra futni nem kezd.\n"
 "\n"
-"A legtöbb esetben jobb csak becsukni a %s ablakát\n"
-"mint kilépni az alkalmazásból; az megengedi a %st hogy futassa az\n"
-"feladatait azokban az időpontokban, amelyeket a beállításoknál kiválasztott."
+"A legtöbb esetben jobb csupán lecsukni a(z) %s ablakát\n"
+"mint kilépni az alkalmazásból; ezzel engedélyezi a(z) %snek, hogy futassa a\n"
+"feladatait a beállításoknál megadott időpontokban."
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
-msgstr ""
-"Állítsa le a futó tudományos alkalmazásokat a Managerből való kilépéskor"
+msgstr "Állítsa le a futó tudományos alkalmazásokat a Kezelőből való kilépéskor"
 
 #: clientgui/DlgExitMessage.cpp:164
 msgid "Remember this decision and do not show this dialog."
@@ -1901,7 +1900,7 @@ msgstr "Nyelv:"
 
 #: clientgui/DlgOptions.cpp:164
 msgid "What language should the manager use?"
-msgstr "Melyik nyelvet használja a manager?"
+msgstr "Milyen nyelvet használjon a Kezelő?"
 
 #: clientgui/DlgOptions.cpp:168
 msgid ""
@@ -3757,7 +3756,7 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:635
 msgid "list headers"
-msgstr ""
+msgstr "lista fejlécek"
 
 #: clientgui/mac/MacAccessiblity.cpp:639
 #, c-format
@@ -3772,12 +3771,12 @@ msgstr "%s listája üres"
 #: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr "; aktuális rendezési oszlop %d ennyiből: %d; csökkenő sorrend;"
 
 #: clientgui/mac/MacAccessiblity.cpp:744
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr "; aktuális rendezési oszlop %d ennyiből: %d; növekvő sorrend;"
 
 #: clientgui/mac/MacAccessiblity.cpp:747
 #, c-format
@@ -3794,19 +3793,19 @@ msgid "; row %d; "
 msgstr "; %d. sor;"
 
 #: clientgui/mac/MacAccessiblity.cpp:761
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d of %d; "
-msgstr "%d. sor %d közül;"
+msgstr "; kiválasztott sor %d, %d közül;"
 
 #: clientgui/mac/MacAccessiblity.cpp:763
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d ; "
-msgstr "kiválasztva"
+msgstr "; kiválasztott sor %d ;"
 
 #: clientgui/mac/MacAccessiblity.cpp:767
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d of %d; "
-msgstr "%d. sor %d közül;"
+msgstr "; %d. sor %d közül;"
 
 #: clientgui/mac/MacAccessiblity.cpp:775
 msgid "blank"
@@ -3817,9 +3816,9 @@ msgid "list of projects or account managers"
 msgstr "projektek vagy fiókkezelők listája"
 
 #: clientgui/mac/MacAccessiblity.cpp:1448
-#, fuzzy, c-format
+#, c-format
 msgid "selected row %d of %d; "
-msgstr "%d. sor %d közül;"
+msgstr "kiválasztott sor: %d, %d közül;"
 
 #: clientgui/mac/MacAccessiblity.cpp:1450
 #, c-format
