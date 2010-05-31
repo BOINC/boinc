@@ -90,8 +90,8 @@ const char* socket_error_str() {
         return "host not found or server failure";
 #ifdef NETDB_INTERNAL
     case NETDB_INTERNAL:
-		sprintf(buf,"network internal error %d",errno);
-		return buf;
+        sprintf(buf,"network internal error %d",errno);
+        return buf;
 #endif
     }
     sprintf(buf, "error %d", h_errno);
@@ -194,7 +194,7 @@ int get_socket_error(int fd) {
 
 int WinsockInitialize() {
     WSADATA wsdata;
-    return WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
+    return WSAStartup(MAKEWORD(2, 0), &wsdata);
 }
 
 int WinsockCleanup() {

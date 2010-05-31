@@ -3905,3 +3905,12 @@ Rom    28 May 2010
         boinc.sln
         cuda.rules
         cuda.vcproj
+
+David  31 May 2010
+    - GUI RPC client side: set up a 30 second receive timeout for
+        socket to client.  That way GUI won't hang if client does.
+        From Fred of BoincTasks
+
+    lib/
+        network.cpp
+        gui_rpc_client.cpp

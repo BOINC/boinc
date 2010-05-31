@@ -96,6 +96,15 @@ int RPC_CLIENT::init(const char* host, int port) {
         addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     }
     boinc_socket(sock);
+
+    // set up receive timeout; avoid hang if client doesn't respond
+    //
+    struct timeval tv;
+    tv.tv_sec = 30;
+    tv.tv_usec = 0;
+    if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,  sizeof tv)) {
+        // not fatal
+    } 
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
 #ifdef _WIN32
