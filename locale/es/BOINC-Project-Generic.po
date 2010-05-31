@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-05-22 12:45-0700\n"
+"PO-Revision-Date: 2010-05-31 04:30-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -324,7 +324,7 @@ msgstr "Ultima vez que contactó con el servidor"
 #: ../inc/host.inc:180
 #, php-format
 msgid "% of time BOINC client is running"
-msgstr ""
+msgstr "% del tiempo que el cliente BOINC se ejecuta"
 
 #: ../inc/host.inc:182
 #, php-format
@@ -336,7 +336,7 @@ msgstr ""
 #: ../inc/host.inc:184
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "Mientras se ejecuta BOINC, % del tiempo que se permite el trabajo"
 
 #: ../inc/host.inc:186
 msgid "Average CPU efficiency"
@@ -356,12 +356,11 @@ msgstr "Eliminar este ordenador"
 
 #: ../inc/host.inc:197
 msgid "Merge duplicate records of this computer"
-msgstr ""
+msgstr "Fusionar registros duplicados de este ordenador"
 
 #: ../inc/host.inc:197
-#, fuzzy
 msgid "Merge"
-msgstr "Mensaje"
+msgstr "Fusionar"
 
 #: ../inc/host.inc:210
 msgid "Computer info"
@@ -490,7 +489,7 @@ msgstr "Comentario"
 #: ../inc/news.inc:102
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Las noticias están disponibles en formato %sRSS feed%s"
 
 #: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
 msgid "Inbox"
@@ -560,6 +559,8 @@ msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
+"¿Suspender el trabajo mientras el ordenador está funcionando con baterías? "
+"%1 Sólo importa para ordenadores portátiles %2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
@@ -569,6 +570,8 @@ msgstr "¿Suspender el trabajo mientras el ordenador está en uso?"
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
+"¿Suspender el trabajo de la GPU mientras el ordenador está en uso? %1 Válido "
+"desde la versión 6.6.21+ %2"
 
 #: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
@@ -576,29 +579,36 @@ msgstr "'En uso' significa actividad del ratón/teclado en los últimos"
 
 #: ../inc/prefs.inc:100 ../inc/prefs.inc:109 ../inc/prefs.inc:143
 msgid "minutes"
-msgstr ""
+msgstr "minutos"
 
 #: ../inc/prefs.inc:104
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
+"Suspender el trabajo si no hay actividad del ratón/teclado en los últimos %1 "
+"Necesario para entrar en modo bajo consumo en algunos ordenadores %2"
 
 #: ../inc/prefs.inc:113
 msgid ""
 "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
 "version 6.10.30+ %2"
 msgstr ""
+"Suspender el trabajo de la CPU si su uso es superior al %1 0 significa sin "
+"restricciones<br>Válido desde la versión 6.10.30+ %2"
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
 msgstr ""
+"Hacer trabajo sólo entre las horas %1 Sin restricciones si son iguales %2"
 
 #: ../inc/prefs.inc:129
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
 msgstr ""
+"¿Dejar las tareas en memoria mientras están suspendidas? %1 Las tareas "
+"suspendidas consumirán espacio de intercambio si se selecciona 'sí' %2"
 
 #: ../inc/prefs.inc:138
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
