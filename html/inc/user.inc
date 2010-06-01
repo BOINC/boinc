@@ -79,9 +79,8 @@ function get_other_projects($user) {
     $timeout = 3;
     $old_timeout = ini_set('default_socket_timeout', $timeout);
     $url = "http://boinc.netsoft-online.com/get_user.php?cpid=$cpid";
-    ini_set('default_socket_timeout', $old_timeout);
-    
     $f = @fopen($url, "r");
+    ini_set('default_socket_timeout', $old_timeout);
     if (!$f) {
         return $user;
     }
