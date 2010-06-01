@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-05-30 10:33-0700\n"
+"PO-Revision-Date: 2010-06-01 01:47-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1533,8 +1533,7 @@ msgstr "Állítsa le a futó tudományos alkalmazásokat a Kezelőből való kil
 
 #: clientgui/DlgExitMessage.cpp:164
 msgid "Remember this decision and do not show this dialog."
-msgstr ""
-"Emlékezzen erre a választásra és ne mutassa többé ezt a párbeszédablakot."
+msgstr "Emlékezzen a döntésemre és ne mutassa többé ezt az ablakot."
 
 #: clientgui/DlgExitMessage.cpp:177 clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:388 clientgui/DlgSelectComputer.cpp:152
@@ -1543,7 +1542,7 @@ msgstr "Mégsem"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
-msgstr "Ne mutassa ezt a párbeszédablakot újra."
+msgstr "Ne mutassa újra ezt a párbeszédablakot."
 
 #: clientgui/DlgItemProperties.cpp:66
 msgid "&Close"
@@ -1559,11 +1558,11 @@ msgstr "Általános"
 
 #: clientgui/DlgItemProperties.cpp:202
 msgid "Master URL"
-msgstr "Master URL"
+msgstr "Mester URL"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "User name"
-msgstr "Felhasználónév:"
+msgstr "Felhasználónév"
 
 #: clientgui/DlgItemProperties.cpp:204
 msgid "Team name"
