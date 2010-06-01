@@ -3921,3 +3921,11 @@ David  31 May 2010
     sched/
         sched_types.h
         sched_config.cpp,h
+
+Rytis  1 Jun 2010
+    - user web: do not wait for cross-project stats for more than 3 seconds as
+        it slows down "Your account" page load in case stats server is slow to
+        respond.
+
+    html/inc/
+        user.inc
