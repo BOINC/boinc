@@ -1,47 +1,50 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-06-01 12:58-0700\n"
+"Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "Identify your account "
-msgstr ""
+msgstr "אמת את חשבונך"
 
 #: clientgui/AccountInfoPage.cpp:382
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr ""
+msgstr "הזן את פרטי החשבון שלך/n (ליצירת חשבון, בקר באתר הפרוייקט)"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
+"פרוייקט זה אינו מקבל חשבונות חדשים כרגע./n באפשרותך לקשר רק אם כבר יש ברשותך "
+"חשבון."
 
 #: clientgui/AccountInfoPage.cpp:390
 msgid "Are you already running this project?"
-msgstr ""
+msgstr "האם אתה מריץ כבר פרוייקט זה?"
 
 #: clientgui/AccountInfoPage.cpp:394
 msgid "&No, new user"
-msgstr ""
+msgstr "&לא, משתמש חדש"
 
 #: clientgui/AccountInfoPage.cpp:397
 msgid "&Yes, existing user"
-msgstr ""
+msgstr "&כן, משתמש קיים"
 
 #: clientgui/AccountInfoPage.cpp:402
 msgid ""
@@ -52,35 +55,41 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"אין באפשרותנו להגדיר את מידע החשבון שלך\n"
+"אוטומטית\n"
+". \n"
+"אנא לחץ על קישור 'מצא מידע התחברות'\n"
+" בתחתית בכדי למצוא מה להזין בשדות כתובת האימייל ו\n"
+"הסיסמא."
 
 #: clientgui/AccountInfoPage.cpp:405
 msgid "Find logon information"
-msgstr ""
+msgstr "מצא מידע התחברות"
 
 #: clientgui/AccountInfoPage.cpp:425 clientgui/AccountInfoPage.cpp:591
 msgid "&Password:"
-msgstr ""
+msgstr "&סיסמא:"
 
 #: clientgui/AccountInfoPage.cpp:432 clientgui/AccountInfoPage.cpp:606
 msgid "Choose a &password:"
-msgstr ""
+msgstr "בחר &סיסמא:"
 
 #: clientgui/AccountInfoPage.cpp:435
 msgid "C&onfirm password:"
-msgstr ""
+msgstr "&אימות סיסמא:"
 
 #: clientgui/AccountInfoPage.cpp:442
 #, c-format
 msgid "Are you already running %s?"
-msgstr ""
+msgstr "האם אתה כבר מריץ את %s?"
 
 #: clientgui/AccountInfoPage.cpp:459
 msgid "&Username:"
-msgstr ""
+msgstr "&שם משתמש:"
 
 #: clientgui/AccountInfoPage.cpp:473
 msgid "&Email address:"
-msgstr ""
+msgstr "&כתובת אימייל:"
 
 #: clientgui/AccountInfoPage.cpp:481
 #, c-format
