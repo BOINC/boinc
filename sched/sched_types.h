@@ -422,6 +422,7 @@ struct WORK_REQ {
     //int max_jobs_per_day;
         // host.max_results_day * (NCPUS + NGPUS*gpu_multiplier)
     int max_jobs_per_rpc;
+#if 1
     int njobs_on_host;
         // How many jobs from this project are in progress on the host.
         // Initially this is the number of "other_results"
@@ -437,6 +438,7 @@ struct WORK_REQ {
     int max_jobs_on_host;
     int max_jobs_on_host_cpu;
     int max_jobs_on_host_gpu;
+#endif
     void update_for_result(double seconds_filled);
     void add_no_work_message(const char*);
     void get_job_limits();

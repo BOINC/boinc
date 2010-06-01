@@ -3914,3 +3914,10 @@ David  31 May 2010
     lib/
         network.cpp
         gui_rpc_client.cpp
+
+David  31 May 2010
+    - server: code cleanup
+
+    sched/
+        sched_types.h
+        sched_config.cpp,h
