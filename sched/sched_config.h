@@ -116,7 +116,7 @@ struct SCHED_CONFIG {
     bool matchmaker;
     int max_ncpus;
     JOB_LIMITS max_jobs_in_progress;
-#if 1
+#if 0
     int max_wus_in_progress;
     int max_wus_in_progress_gpu;
 #endif

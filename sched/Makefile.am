@@ -13,6 +13,7 @@ libsched_sources = \
     sched_shmem.cpp \
     sched_util.cpp \
     sched_config.cpp \
+    sched_limit.cpp \
     sched_msgs.cpp \
     ../db/boinc_db.cpp \
     ../db/db_base.cpp \
@@ -267,7 +268,6 @@ cgi_PROGRAMS += fcgi \
 fcgi_SOURCES = $(cgi_sources)
 fcgi_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(SERVERLIBS_FCGI)
-
 
 fcgi_file_upload_handler_SOURCES = \
     file_upload_handler.cpp \

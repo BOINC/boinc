@@ -110,12 +110,14 @@ int OTHER_RESULT::parse(FILE* f) {
 
     strcpy(name, "");
     have_plan_class = false;
+    app_version = -1;
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</other_result>")) {
             if (name=="") return ERR_XML_PARSE;
             return 0;
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_int(buf, "<app_version>", app_version)) continue;
         if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) {
             have_plan_class = true;
             continue;

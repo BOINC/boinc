@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef _SCHED_LIMIT_
+#define _SCHED_LIMIT_
+
 #include <vector>
 
 #include "boinc_db.h"
@@ -61,10 +64,10 @@ struct JOB_LIMIT {
 
     int parse(XML_PARSER&, const char* end_tag);
 
-    inline void reset(HOST_INFO& h) {
+    inline void reset(HOST& h, COPROCS& c) {
         total.reset(1);
         cpu.reset(h.p_ncpus);
-        gpu.reset(h.coprocs.ndevs());
+        gpu.reset(c.ndevs());
     }
 
     inline bool exceeded(bool is_gpu) {
@@ -95,10 +98,10 @@ struct JOB_LIMITS {
 
     // called at start of each request
     //
-    inline void reset(HOST_INFO& h) {
-        project_limits.reset(h);
+    inline void reset(HOST& h, COPROCS& c) {
+        project_limits.reset(h, c);
         for (unsigned int i=0; i<app_limits.size(); i++) {
-            app_limits[i].reset(h);
+            app_limits[i].reset(h, c);
         }
     }
 
@@ -112,20 +115,26 @@ struct JOB_LIMITS {
         return NULL;
     }
 
-    inline bool exceeded(APP& app, bool is_gpu) {
+    inline bool exceeded(APP* app, bool is_gpu) {
         if (project_limits.exceeded(is_gpu)) return true;
-        JOB_LIMIT* jlp = lookup_app(app.name);
-        if (jlp) {
-            if (jlp->exceeded(is_gpu)) return true;
+        if (app) {
+            JOB_LIMIT* jlp = lookup_app(app->name);
+            if (jlp) {
+                if (jlp->exceeded(is_gpu)) return true;
+            }
         }
         return false;
     }
 
-    inline void register_job(APP& app, bool is_gpu) {
+    inline void register_job(APP* app, bool is_gpu) {
         project_limits.register_job(is_gpu);
-        JOB_LIMIT* jlp = lookup_app(app.name);
-        if (jlp) {
-            jlp->register_job(is_gpu);
+        if (app) {
+            JOB_LIMIT* jlp = lookup_app(app->name);
+            if (jlp) {
+                jlp->register_job(is_gpu);
+            }
         }
     }
 };
+
+#endif

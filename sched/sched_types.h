@@ -103,6 +103,11 @@ struct HOST_USAGE {
         }
         return ANON_PLATFORM_CPU;
     }
+    inline bool uses_gpu() {
+        if (ncudas) return true;
+        if (natis) return true;
+        return false;
+    }
 };
 
 // a description of a sticky file on host.
@@ -120,6 +125,7 @@ struct MSG_FROM_HOST_DESC {
 };
 
 // an app version from an anonymous-platform client
+// (starting with 6.11, ALL clients send these)
 //
 struct CLIENT_APP_VERSION {
     char app_name[256];
@@ -202,6 +208,7 @@ struct PROJECT_FILES {
 //
 struct OTHER_RESULT {
     char name[256];
+    int app_version;    // index into CLIENT_APP_VERSION array
     char plan_class[64];
     bool have_plan_class;
     bool abort;
@@ -422,7 +429,7 @@ struct WORK_REQ {
     //int max_jobs_per_day;
         // host.max_results_day * (NCPUS + NGPUS*gpu_multiplier)
     int max_jobs_per_rpc;
-#if 1
+#if 0
     int njobs_on_host;
         // How many jobs from this project are in progress on the host.
         // Initially this is the number of "other_results"

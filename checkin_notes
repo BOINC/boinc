@@ -3947,3 +3947,25 @@ David  1 Jun 2010
         sched_result.cpp
         sched_send.cpp
         handle_request.cpp
+
+David  1 Jun 2010
+    - scheduler: add fine-grained "max jobs in progress" control.
+        You can now specify limits for specific apps,
+        and/or for the project as a whole.
+        Within each of these, you can specify limits on
+        CPU jobs, GPU jobs, or total jobs.
+        In the case of CPU and GPU limits, you can specify
+        whether the limit should be scaled by the number of devices.
+
+        Note: the enforcement of this is done in get_app_version(),
+        since per-resource-type limits may dictate what app versions
+        we can use for a particular job.
+
+    sched/
+        Makefile.am
+        sched_config.cpp,h
+        sched_limit.h
+        sched_score.h
+        sched_send.cpp
+        sched_types.cpp,h
+        sched_version.cpp

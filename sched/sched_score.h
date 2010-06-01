@@ -42,10 +42,6 @@ struct JOB_SET {
         disk_usage = 0;
         disk_limit = g_wreq->disk_available;
         max_jobs = g_wreq->max_jobs_per_rpc;
-
-        int n = g_wreq->max_jobs_on_host - g_wreq->njobs_on_host;
-        if (n < 0) n = 0;
-        if (n < max_jobs) max_jobs = n;
     }
     void add_job(JOB&);
     double higher_score_disk_usage(double);

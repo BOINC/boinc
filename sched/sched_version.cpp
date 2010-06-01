@@ -276,9 +276,12 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
     }
 }
 
-// return BEST_APP_VERSION for the given host, or NULL if none
+// return BEST_APP_VERSION for the given job and host, or NULL if none
 //
 // check_req: check whether we still need work for the resource
+//  This check is not done for:
+//    - assigned jobs
+//    - resent jobs
 // reliable_only: use only versions for which this host is "reliable"
 //
 BEST_APP_VERSION* get_app_version(
@@ -289,6 +292,14 @@ BEST_APP_VERSION* get_app_version(
     int retval, j;
     BEST_APP_VERSION* bavp;
     char message[256], buf[256];
+
+    APP* app = ssp->lookup_app(wu.appid);
+    if (!app) {
+        log_messages.printf(MSG_CRITICAL,
+            "WU refers to nonexistent app: %d\n", wu.appid
+        );
+        return NULL;
+    }
 
     // see if app is already in memoized array
     //
@@ -306,6 +317,14 @@ BEST_APP_VERSION* get_app_version(
                 }
 #endif
                 return NULL;
+            }
+
+            // if we're at the jobs-in-progress limit for this
+            // app and resource type, fall through and find another version
+            //
+            if (config.max_jobs_in_progress.exceeded(app, bavp->host_usage.uses_gpu())) {
+                g_wreq->best_app_versions.erase(bavi);
+                break;
             }
 
             // if we previously chose a CUDA app but don't need more CUDA work,
@@ -368,13 +387,6 @@ BEST_APP_VERSION* get_app_version(
         bavi++;
     }
 
-    APP* app = ssp->lookup_app(wu.appid);
-    if (!app) {
-        log_messages.printf(MSG_CRITICAL,
-            "WU refers to nonexistent app: %d\n", wu.appid
-        );
-        return NULL;
-    }
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
             "[version] looking for version of %s\n",
@@ -470,6 +482,12 @@ BEST_APP_VERSION* get_app_version(
                 host_usage.sequential_app(g_reply->host.p_fpops);
             }
 
+            // skip versions for which we're at the jobs-in-progress limit
+            //
+            if (config.max_jobs_in_progress.exceeded(app, host_usage.uses_gpu())) {
+                continue;
+            }
+
             // skip versions for resources we don't need
             //
             if (!need_this_resource(host_usage, &av, NULL)) {
@@ -498,7 +516,7 @@ BEST_APP_VERSION* get_app_version(
                 }
                 continue;
             }
-            if (!(host_usage.ncudas || host_usage.natis) && g_wreq->no_cpu) {
+            if (!(host_usage.uses_gpu()) && g_wreq->no_cpu) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] [AV#%d] Skipping CPU version - user prefs say no CPUs\n",

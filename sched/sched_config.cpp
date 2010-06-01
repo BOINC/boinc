@@ -48,7 +48,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     bool is_tag;
     MIOFILE mf;
     XML_PARSER xp(&mf);
-    int retval;
+    int retval, itemp;
     regex_t re;
 
     mf.init_file(f);
@@ -180,13 +180,17 @@ int SCHED_CONFIG::parse(FILE* f) {
         }
         if (xp.parse_bool(tag, "matchmaker", matchmaker)) continue;
         if (xp.parse_int(tag, "max_ncpus", max_ncpus)) continue;
-#if 0
         if (!strcmp(tag, "max_jobs_in_progress")) {
             max_jobs_in_progress.parse(xp, "/max_jobs_in_progress");
         }
-#endif
-        //if (xp.parse_int(tag, "max_wus_in_progress", max_wus_in_progress)) continue;
-        //if (xp.parse_int(tag, "max_wus_in_progress_gpu", max_wus_in_progress_gpu)) continue;
+        if (xp.parse_int(tag, "max_wus_in_progress", itemp)) {
+            max_jobs_in_progress.project_limits.cpu.base_limit = itemp;
+            continue;
+        }
+        if (xp.parse_int(tag, "max_wus_in_progress_gpu", itemp)) {
+            max_jobs_in_progress.project_limits.gpu.base_limit = itemp;
+            continue;
+        }
         if (xp.parse_int(tag, "max_wus_to_send", max_wus_to_send)) continue;
         if (xp.parse_int(tag, "min_core_client_version", min_core_client_version)) {
             if (min_core_client_version && min_core_client_version < 10000) {

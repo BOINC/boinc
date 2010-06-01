@@ -118,35 +118,7 @@ void WORK_REQ::get_job_limits() {
         g_wreq->max_jobs_per_rpc = 999999;
     }
 
-    if (config.max_wus_in_progress) {
-        g_wreq->max_jobs_on_host_cpu = config.max_wus_in_progress * effective_ncpus;
-        if (config.max_wus_in_progress_gpu) {
-            g_wreq->max_jobs_on_host_gpu = config.max_wus_in_progress_gpu * effective_ngpus;
-            g_wreq->max_jobs_on_host = g_wreq->max_jobs_on_host_cpu + g_wreq->max_jobs_on_host_gpu;
-        } else {
-            g_wreq->max_jobs_on_host_gpu = 999999;
-            g_wreq->max_jobs_on_host = g_wreq->max_jobs_on_host_cpu;
-        }
-    } else {
-        g_wreq->max_jobs_on_host_cpu = 999999;
-        g_wreq->max_jobs_on_host = 999999;
-        if (config.max_wus_in_progress_gpu) {
-            g_wreq->max_jobs_on_host_gpu = config.max_wus_in_progress_gpu * effective_ngpus;
-        } else {
-            g_wreq->max_jobs_on_host_gpu = 999999;
-        }
-    }
-
-    if (config.debug_send) {
-        log_messages.printf(MSG_NORMAL,
-            "[send] effective_ncpus %d max_jobs_on_host_cpu %d max_jobs_on_host %d\n",
-            effective_ncpus, g_wreq->max_jobs_on_host_cpu, g_wreq->max_jobs_on_host
-        );
-        log_messages.printf(MSG_NORMAL,
-            "[send] effective_ngpus %d max_jobs_on_host_gpu %d\n",
-            effective_ngpus, g_wreq->max_jobs_on_host_gpu
-        );
-    }
+    config.max_jobs_in_progress.reset(g_reply->host, g_request->coprocs);
 }
 
 static const char* find_user_friendly_name(int appid) {
@@ -975,28 +947,35 @@ bool work_needed(bool locality_sched) {
         }
     }
 
-    if (g_wreq->njobs_on_host >= g_wreq->max_jobs_on_host) {
+    // see if we've reached limits on in-progress jobs
+    //
+    bool some_type_allowed = false;
+    if (config.max_jobs_in_progress.exceeded(NULL, true)) {
+        g_wreq->clear_gpu_req();
+        if (g_wreq->effective_ngpus) {
+            g_wreq->max_jobs_on_host_gpu_exceeded = true;
+        }
+    } else {
+        some_type_allowed = true;
+    }
+    if (config.max_jobs_in_progress.exceeded(NULL, false)) {
+        g_wreq->clear_cpu_req();
+        g_wreq->max_jobs_on_host_cpu_exceeded = true;
+    } else {
+        some_type_allowed = true;
+    }
+    if (!some_type_allowed) {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] in-progress job limit exceeded; %d >= %d\n",
-                g_wreq->njobs_on_host, g_wreq->max_jobs_on_host
+                "[send] in-progress job limit exceeded\n"
             );
         }
         g_wreq->max_jobs_on_host_exceeded = true;
         return false;
     }
 
-    if (g_wreq->njobs_on_host_cpu >= g_wreq->max_jobs_on_host_cpu) {
-        g_wreq->clear_cpu_req();
-        g_wreq->max_jobs_on_host_cpu_exceeded = true;
-    }
-    if (g_wreq->njobs_on_host_gpu >= g_wreq->max_jobs_on_host_gpu) {
-        g_wreq->clear_gpu_req();
-        if (g_wreq->effective_ngpus) {
-            g_wreq->max_jobs_on_host_gpu_exceeded = true;
-        }
-    }
-
+    // see if we've reached max jobs per RPC
+    //
     if (g_wreq->njobs_sent >= g_wreq->max_jobs_per_rpc) {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
@@ -1161,14 +1140,7 @@ int add_result_to_reply(
     }
     update_estimated_delay(*bavp, est_dur);
     g_wreq->njobs_sent++;
-    g_wreq->njobs_on_host++;
-    if (bavp->host_usage.ncudas > 0) {
-        g_wreq->njobs_on_host_gpu++;
-    } else if (bavp->host_usage.natis > 0) {
-        g_wreq->njobs_on_host_gpu++;
-    } else {
-        g_wreq->njobs_on_host_cpu++;
-    }
+    config.max_jobs_in_progress.register_job(app, bavp->host_usage.uses_gpu());
     if (!resent_result) {
         DB_HOST_APP_VERSION* havp = bavp->host_app_version();
         if (havp) {
@@ -1409,37 +1381,19 @@ static void explain_to_user() {
             g_reply->set_delay(delay_time);
         }
         if (g_wreq->max_jobs_on_host_exceeded) {
-            sprintf(helpful, "(reached limit of %d tasks in progress)",
-                g_wreq->max_jobs_on_host
-            );
+            sprintf(helpful, "(reached limit of tasks in progress)");
             g_reply->insert_message(helpful, "high");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
-            log_messages.printf(MSG_NORMAL,
-                "host %d already has %d job(s) in progress\n",
-                g_reply->host.id, g_wreq->njobs_on_host
-            );
         }
         if (g_wreq->max_jobs_on_host_cpu_exceeded) {
-            sprintf(helpful, "(reached limit of %d CPU tasks in progress)",
-                g_wreq->max_jobs_on_host_cpu
-            );
+            sprintf(helpful, "(reached limit of CPU tasks in progress)");
             g_reply->insert_message(helpful, "high");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
-            log_messages.printf(MSG_NORMAL,
-                "host %d already has %d CPU job(s) in progress\n",
-                g_reply->host.id, g_wreq->njobs_on_host_cpu
-            );
         }
         if (g_wreq->max_jobs_on_host_gpu_exceeded) {
-            sprintf(helpful, "(reached limit of %d GPU tasks in progress)",
-                g_wreq->max_jobs_on_host_gpu
-            );
+            sprintf(helpful, "(reached limit of GPU tasks in progress)");
             g_reply->insert_message(helpful, "high");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
-            log_messages.printf(MSG_NORMAL,
-                "host %d already has %d GPU job(s) in progress\n",
-                g_reply->host.id, g_wreq->njobs_on_host_gpu
-            );
         }
     }
 }
@@ -1490,16 +1444,20 @@ void send_work_setup() {
         g_wreq->rsc_spec_request = false;
     }
 
-    g_wreq->njobs_on_host = g_request->other_results.size();
     for (i=0; i<g_request->other_results.size(); i++) {
         OTHER_RESULT& r = g_request->other_results[i];
-        if (r.have_plan_class) {
-            if (app_plan_uses_gpu(r.plan_class)) {
-                g_wreq->njobs_on_host_gpu++;
-            } else {
-                g_wreq->njobs_on_host_cpu++;
+        APP* app = NULL;
+        bool uses_gpu = false;
+        if (r.app_version >= 0 && r.app_version<g_request->client_app_versions.size()) {
+            CLIENT_APP_VERSION& cav = g_request->client_app_versions[r.app_version];
+            app = cav.app;
+            uses_gpu = cav.host_usage.uses_gpu();
+        } else {
+            if (r.have_plan_class && app_plan_uses_gpu(r.plan_class)) {
+                uses_gpu = true;
             }
         }
+        config.max_jobs_in_progress.register_job(app, uses_gpu);
     }
 
     // print details of request to log
