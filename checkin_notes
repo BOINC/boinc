@@ -3939,3 +3939,11 @@ David  1 Jun 2010
     lib/
         coproc.h
 
+David  1 Jun 2010
+    - scheduler: fix bug that caused resent jobs with anonymous platform
+        to have zero FPOPS est and bound
+
+    sched/
+        sched_result.cpp
+        sched_send.cpp
+        handle_request.cpp

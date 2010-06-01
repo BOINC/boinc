@@ -159,23 +159,23 @@ int handle_results() {
         //   else ignore it
         //
         if (srip->server_state == RESULT_SERVER_STATE_OVER) {
-            const char *dont_replace_result = NULL;
+            const char *msg = NULL;
             switch (srip->outcome) {
                 case RESULT_OUTCOME_INIT:
                     // should never happen!
-                    dont_replace_result = "this result was never sent";
+                    msg = "this result was never sent";
                     break;
                 case RESULT_OUTCOME_SUCCESS:
                     // don't replace a successful result!
-                    dont_replace_result = "result already reported as success";
+                    msg = "result already reported as success";
                     break;
                 case RESULT_OUTCOME_COULDNT_SEND:
                     // should never happen!
-                    dont_replace_result = "this result couldn't be sent";
+                    msg = "this result couldn't be sent";
                     break;
                 case RESULT_OUTCOME_CLIENT_ERROR:
                     // should never happen!
-                    dont_replace_result = "result already reported as error";
+                    msg = "result already reported as error";
                     break;
                 case RESULT_OUTCOME_CLIENT_DETACHED:
                 case RESULT_OUTCOME_NO_REPLY:
@@ -183,26 +183,26 @@ int handle_results() {
                     break;
                 case RESULT_OUTCOME_DIDNT_NEED:
                     // should never happen
-                    dont_replace_result = "this result wasn't sent (not needed)";
+                    msg = "this result wasn't sent (not needed)";
                     break;
                 case RESULT_OUTCOME_VALIDATE_ERROR:
                     // we already passed through the validator, so
                     // don't keep the new result
-                    dont_replace_result = "result already reported, validate error";
+                    msg = "result already reported, validate error";
                     break;
                 default:
-                    dont_replace_result = "server logic bug; please alert BOINC developers";
+                    msg = "server logic bug; please alert BOINC developers";
                     break;
             }
-            if (dont_replace_result) {
+            if (msg) {
                 char buf[256];
-                log_messages.printf(MSG_CRITICAL,
-                    "[HOST#%d] [RESULT#%d] [WU#%d] result already over [outcome=%d validate_state=%d]: %s\n",
-                    g_reply->host.id, srip->id, srip->workunitid, srip->outcome,
-                    srip->validate_state, dont_replace_result
-                );
-                sprintf(buf, "Completed result %s refused: %s", srip->name, dont_replace_result);
-                g_reply->insert_message(buf, "high");
+                if (config.debug_handle_results) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[handle][HOST#%d][RESULT#%d][WU#%d] result already over [outcome=%d validate_state=%d]: %s\n",
+                        g_reply->host.id, srip->id, srip->workunitid,
+                        srip->outcome, srip->validate_state, msg
+                    );
+                }
                 srip->id = 0;
                 g_reply->result_acks.push_back(std::string(rp->name));
                 continue;

@@ -697,8 +697,8 @@ int handle_global_prefs() {
     }
 
     if (config.debug_prefs) {
-        log_messages.printf(MSG_DEBUG,
-            "have_master:%d have_working: %d have_db: %d\n",
+        log_messages.printf(MSG_NORMAL,
+            "[prefs] have_master:%d have_working: %d have_db: %d\n",
             have_master_prefs, have_working_prefs, have_db_prefs
         );
     }
@@ -709,31 +709,35 @@ int handle_global_prefs() {
     if (have_working_prefs) {
         g_request->global_prefs.parse(g_request->working_global_prefs_xml, "");
         if (config.debug_prefs) {
-            log_messages.printf(MSG_DEBUG, "using working prefs\n");
+            log_messages.printf(MSG_NORMAL, "[prefs] using working prefs\n");
         }
     } else {
         if (have_master_prefs) {
             if (have_db_prefs && db_mod_time > master_mod_time) {
                 g_request->global_prefs.parse(g_reply->user.global_prefs, g_reply->host.venue);
                 if (config.debug_prefs) {
-                    log_messages.printf(MSG_DEBUG, "using db prefs - more recent\n");
+                    log_messages.printf(MSG_NORMAL,
+                        "[prefs] using db prefs - more recent\n"
+                    );
                 }
             } else {
                 g_request->global_prefs.parse(g_request->global_prefs_xml, g_reply->host.venue);
                 if (config.debug_prefs) {
-                    log_messages.printf(MSG_DEBUG, "using master prefs\n");
+                    log_messages.printf(MSG_NORMAL,
+                        "[prefs] using master prefs\n"
+                    );
                 }
             }
         } else {
             if (have_db_prefs) {
                 g_request->global_prefs.parse(g_reply->user.global_prefs, g_reply->host.venue);
                 if (config.debug_prefs) {
-                    log_messages.printf(MSG_DEBUG, "using db prefs\n");
+                    log_messages.printf(MSG_NORMAL, "[prefs] using db prefs\n");
                 }
             } else {
                 g_request->global_prefs.defaults();
                 if (config.debug_prefs) {
-                    log_messages.printf(MSG_DEBUG, "using default prefs\n");
+                    log_messages.printf(MSG_NORMAL, "[prefs] using default prefs\n");
                 }
             }
         }
@@ -751,7 +755,9 @@ int handle_global_prefs() {
             if (same_account) update_user_record = true;
         }
         if (update_user_record) {
-            log_messages.printf(MSG_DEBUG, "updating db prefs\n");
+            if (config.debug_prefs) {
+                log_messages.printf(MSG_NORMAL, "[prefs] updating db prefs\n");
+            }
             strcpy(g_reply->user.global_prefs, g_request->global_prefs_xml);
             DB_USER user;
             user.id = g_reply->user.id;
@@ -770,14 +776,16 @@ int handle_global_prefs() {
     // decide whether to send DB prefs in reply msg
     //
     if (config.debug_prefs) {
-        log_messages.printf(MSG_DEBUG,
-            "have db %d; dbmod %f; global mod %f\n",
+        log_messages.printf(MSG_NORMAL,
+            "[prefs] have db %d; dbmod %f; global mod %f\n",
             have_db_prefs, db_mod_time, g_request->global_prefs.mod_time
         );
     }
     if (have_db_prefs && db_mod_time > master_mod_time) {
         if (config.debug_prefs) {
-            log_messages.printf(MSG_DEBUG, "sending db prefs in reply\n");
+            log_messages.printf(MSG_DEBUG,
+                "[prefs] sending db prefs in reply\n"
+            );
         }
         g_reply->send_global_prefs = true;
     }
@@ -1230,17 +1238,6 @@ void process_request(char* code_sign_key) {
     }
     send_work_setup();
 
-    g_wreq->njobs_on_host = g_request->other_results.size();
-    for (i=0; i<g_request->other_results.size(); i++) {
-        OTHER_RESULT& r = g_request->other_results[i];
-        if (r.have_plan_class) {
-            if (app_plan_uses_gpu(r.plan_class)) {
-                g_wreq->njobs_on_host_gpu++;
-            } else {
-                g_wreq->njobs_on_host_cpu++;
-            }
-        }
-    }
     if (g_request->have_other_results_list) {
         if (config.resend_lost_results && ok_to_send_work) {
             if (resend_lost_work()) {

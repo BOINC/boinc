@@ -1450,10 +1450,15 @@ static double clamp_req_sec(double x) {
     return x;
 }
 
+// prepare to send jobs, both resent and new;
 // decipher request type, fill in WORK_REQ
 //
 void send_work_setup() {
     unsigned int i;
+
+    if (g_wreq->anonymous_platform) {
+        estimate_flops_anon_platform();
+    }
 
     g_wreq->disk_available = max_allowable_disk();
     get_mem_sizes();
@@ -1483,6 +1488,18 @@ void send_work_setup() {
         g_wreq->rsc_spec_request = true;
     } else {
         g_wreq->rsc_spec_request = false;
+    }
+
+    g_wreq->njobs_on_host = g_request->other_results.size();
+    for (i=0; i<g_request->other_results.size(); i++) {
+        OTHER_RESULT& r = g_request->other_results[i];
+        if (r.have_plan_class) {
+            if (app_plan_uses_gpu(r.plan_class)) {
+                g_wreq->njobs_on_host_gpu++;
+            } else {
+                g_wreq->njobs_on_host_cpu++;
+            }
+        }
     }
 
     // print details of request to log
@@ -1612,10 +1629,6 @@ void send_work() {
         );
         g_wreq->hr_reject_perm = true;
         return;
-    }
-
-    if (g_wreq->anonymous_platform) {
-        estimate_flops_anon_platform();
     }
 
     // decide on attributes of HOST_APP_VERSIONS
