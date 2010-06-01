@@ -3929,3 +3929,13 @@ Rytis  1 Jun 2010
 
     html/inc/
         user.inc
+
+David  1 Jun 2010
+    - client/server/API: rename cudaDeviceProp to CUDA_DEVICE_PROP to
+        avoid conflict with nvidia's structure.
+        Note: these structures don't have to be the same,
+        since we populate our struct one item at a time.
+
+    lib/
+        coproc.h
+

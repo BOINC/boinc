@@ -162,9 +162,10 @@ struct COPROC {
     void print_available_ram();
 };
 
-// the following copied from /usr/local/cuda/include/driver_types.h
+// based on cudaDeviceProp from /usr/local/cuda/include/driver_types.h
+// doesn't have to match exactly since we get the attributes one at a time.
 //
-struct cudaDeviceProp {
+struct CUDA_DEVICE_PROP {
   char   name[256];
   unsigned int totalGlobalMem;
     // not used on the server; dtotalGlobalMem is used instead
@@ -189,7 +190,7 @@ struct cudaDeviceProp {
 struct COPROC_CUDA : public COPROC {
     int cuda_version;  // CUDA runtime version
     int display_driver_version;
-    cudaDeviceProp prop;
+    CUDA_DEVICE_PROP prop;
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
