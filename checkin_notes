@@ -4000,3 +4000,10 @@ David  1 Jun 2010
         sched_send.cpp
         transitioner.cpp
         validator.cpp
+
+David  1 Jun 2010
+    - manager: linux compile fix, from jochen
+
+    clientgui/gtk/
+        taskbarex.cpp
+

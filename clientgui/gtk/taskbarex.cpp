@@ -16,12 +16,17 @@
 #include "stdwx.h"
 
 #ifndef __GTK_H__
+#define GSocket GlibGSocket
 #include <gtk/gtk.h>
+#undef GSocket
 #endif
 
 #ifndef _LIBNOTIFY_NOTIFY_H_
 #include <libnotify/notify.h>
 #endif 
+
+#include <glib/gtypes.h>
+#include <glib-object.h>
 
 #include "BOINCGUIApp.h"
 #include "gtk/taskbarex.h"
