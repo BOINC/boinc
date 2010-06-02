@@ -4007,3 +4007,8 @@ David  1 Jun 2010
     clientgui/gtk/
         taskbarex.cpp
 
+David  1 Jun 2010
+    - user web: fix forum RSS feed
+
+    html/inc/
+        forum_rss.inc

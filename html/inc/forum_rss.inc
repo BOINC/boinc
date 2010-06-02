@@ -42,7 +42,7 @@ function show_forum_rss_item($thread, $userid, $threads_only, $truncate) {
     }
     //$t = htmlspecialchars($t);
     echo "<item>
-        <title><![CDATA[".strip_tags(bb2html($thread->title))."]]</title>
+        <title><![CDATA[".strip_tags(bb2html($thread->title))."]]></title>
         <link>$unique_url</link>
         <guid isPermaLink=\"true\">$unique_url</guid>
         <description><![CDATA[\n$t\n]]></description>
