@@ -1807,10 +1807,10 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
         if (pAPWizard->Run(strName, strURL, pis.team_name, bCachedCredentials)) {
             // If successful, display the work tab
-            m_pNotebook->SetSelection(ID_LIST_WORKVIEW - ID_LIST_BASE);
+            m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
         } else {
-            // If failure, display the messages tab
-            m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
+            // If failure, display the notices tab
+            m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
     }
 

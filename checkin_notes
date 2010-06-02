@@ -4064,3 +4064,10 @@ David  2 Jun 2010
         cs_prefs.cpp
         log_flags.cpp,h
         sim.h
+
+Rom    2 Jun 2010
+    - MGR: When starting up and attaching to a project for the first time,
+        show the correct tab if in the advanced view.
+        
+    clientgui/
+        AdvancedFrame.cpp
