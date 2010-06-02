@@ -4024,3 +4024,30 @@ Rom    2 Jun 2010
 
     clientgui/
         DlgAdvPreferencesBase.cpp, .h
+
+David  2 Jun 2010
+    - client: add --fetch_minimal_work option (cmdline and config file)
+        If set, then:
+            if there are any active jobs at startup, don't fetch more work
+            otherwise make exactly 1 scheduler RPC requesting work,
+            and request only enough jobs to fill all devices.
+    - client: --exit_when_idle: make it available in config file
+        and change semantics to:
+        If set: exit if
+            1) there are no tasks, and
+            2) either there was an active task on startup,
+                or we made a scheduler RPC requesting work
+        Note: if there are not active tasks on startup,
+            and the client makes a work request which doesn't return work,
+            it will exit.
+
+    When these flags are used together,
+    the client will do 1 job per device and exit.
+    This may be useful when running as grid backfill.
+
+    client/
+        client_state.cpp,h
+        cs_cmdline.cpp
+        cs_scheduler.cpp
+        log_flags.cpp,h
+        work_fetch.cpp

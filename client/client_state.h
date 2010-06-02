@@ -93,7 +93,6 @@ public:
     MODE gpu_mode;
     MODE network_mode;
     bool started_by_screensaver;
-    bool exit_when_idle;
     bool exit_before_start;
     bool exit_after_finish;
     bool check_all_logins;
@@ -414,13 +413,9 @@ public:
     PROJECT* next_project_sched_rpc_pending();
     PROJECT* next_project_trickle_up_pending();
     PROJECT* find_project_with_overdue_results();
+    bool had_or_requested_work;
 private:
-    bool contacted_sched_server;
-    int overall_work_fetch_urgency;
-
     bool scheduler_rpc_poll();
-    double avg_proc_rate();
-    bool should_get_work();
 
 // --------------- cs_statefile.cpp:
 public:

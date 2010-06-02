@@ -73,7 +73,6 @@ CLIENT_STATE::CLIENT_STATE():
     pers_file_xfers = new PERS_FILE_XFER_SET(file_xfers);
     scheduler_op = new SCHEDULER_OP(http_ops);
     client_state_dirty = false;
-    exit_when_idle = false;
     exit_before_start = false;
     exit_after_finish = false;
     check_all_logins = false;
@@ -81,7 +80,7 @@ CLIENT_STATE::CLIENT_STATE():
     run_cpu_benchmarks = false;
     skip_cpu_benchmarks = false;
     file_xfer_giveup_period = PERS_GIVEUP;
-    contacted_sched_server = false;
+    had_or_requested_work = false;
     tasks_suspended = false;
     network_suspended = false;
     suspend_reason = 0;
@@ -425,6 +424,7 @@ int CLIENT_STATE::init() {
     active_tasks.init();
     active_tasks.report_overdue();
     active_tasks.handle_upload_files();
+    had_or_requested_work = (active_tasks.active_tasks.size() > 0);
 
     // Just to be on the safe side; something may have been modified
     //
@@ -1387,8 +1387,7 @@ bool CLIENT_STATE::update_results() {
     return action;
 }
 
-// Returns true if client should exit because of debugging criteria
-// (timeout or idle)
+// Returns true if client should exit for various reasons
 //
 bool CLIENT_STATE::time_to_exit() {
     if (exit_after_app_start_secs
@@ -1396,11 +1395,15 @@ bool CLIENT_STATE::time_to_exit() {
         && ((now - app_started) >= exit_after_app_start_secs)
     ) {
         msg_printf(NULL, MSG_INFO,
-            "Exiting because time is up: %d", exit_after_app_start_secs
+            "Exiting because %d elapsed since started task",
+            exit_after_app_start_secs
         );
         return true;
     }
-    if (exit_when_idle && (results.size() == 0) && contacted_sched_server) {
+    if (config.exit_when_idle
+        && (results.size() == 0)
+        && had_or_requested_work
+    ) {
         msg_printf(NULL, MSG_INFO, "exiting because no more results");
         return true;
     }

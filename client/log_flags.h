@@ -120,6 +120,8 @@ struct CONFIG {
     bool dont_contact_ref_site;
     std::vector<std::string> exclusive_apps;
     std::vector<std::string> exclusive_gpu_apps;
+    bool exit_when_idle;
+    bool fetch_minimal_work;
     std::string force_auth;
     bool http_1_0;
     std::vector<int> ignore_cuda_dev;

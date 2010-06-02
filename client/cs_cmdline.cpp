@@ -62,6 +62,7 @@ static void print_options(char* prog) {
         "    --exit_before_start            exit right before starting a job\n"
         "    --exit_before_upload           exit right before starting an upload \n"
         "    --exit_when_idle               exit when there are no results\n"
+        "    --fetch_minimal_work           fetch only 1 job per device\n"
         "    --file_xfer_giveup_period N    give up on file xfers after N sec\n"
         "    --gui_rpc_port <port>          port for GUI RPCs\n"
         "    --help                         show options\n"
@@ -157,8 +158,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(exit_before_upload)) {
             exit_before_upload = true;
         } else if (ARG(exit_when_idle)) {
-            exit_when_idle = true;
+            config.exit_when_idle = true;
             config.report_results_immediately = true;
+        } else if (ARG(fetch_minimal_work)) {
+            config.fetch_minimal_work = true;
         } else if (ARG(file_xfer_giveup_period)) {
             if (i == argc-1) show_options = true;
             else file_xfer_giveup_period = atoi(argv[++i]);

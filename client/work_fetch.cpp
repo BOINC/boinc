@@ -370,6 +370,11 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
 // don't request anything if project is overworked or backed off.
 //
 void RSC_WORK_FETCH::set_request(PROJECT* p, bool allow_overworked) {
+    if (config.fetch_minimal_work) {
+        req_instances = ninstances;
+        req_secs = 1;
+        return;
+    }
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     if (!w.may_have_work) return;
     if (w.anon_skip) return;
@@ -763,6 +768,7 @@ void WORK_FETCH::clear_request() {
 //
 void WORK_FETCH::compute_work_request(PROJECT* p) {
     clear_request();
+    if (config.fetch_minimal_work && gstate.had_or_requested_work) return;
     if (p->dont_request_more_work) return;
     if (p->non_cpu_intensive) {
         if (!has_a_job(p)) {

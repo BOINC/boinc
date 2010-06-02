@@ -421,8 +421,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     // should we check work fetch?  Do this at most once/minute
 
-    if (exit_when_idle && contacted_sched_server) return false;
     if (tasks_suspended) return false;
+    if (config.fetch_minimal_work && had_or_requested_work) return false;
 
     if (must_check_work_fetch) {
         last_work_fetch_time = 0;
@@ -440,6 +440,10 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     return false;
 }
 
+static inline bool requested_work() {
+    return (cpu_work_fetch.req_secs || cuda_work_fetch.req_secs || ati_work_fetch.req_secs);
+}
+
 // Handle the reply from a scheduler
 //
 int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) {
@@ -453,8 +457,11 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     PROJECT* p2;
     vector<RESULT*>new_results;
 
-    contacted_sched_server = true;
     project->last_rpc_time = now;
+
+    if (requested_work()) {
+        had_or_requested_work = true;
+    }
 
     get_sched_reply_filename(*project, filename, sizeof(filename));
 
@@ -465,7 +472,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     if (retval) return retval;
 
     if (log_flags.sched_ops) {
-        if (cpu_work_fetch.req_secs || cuda_work_fetch.req_secs || ati_work_fetch.req_secs) {
+        if (requested_work()) {
             sprintf(buf, ": got %d new tasks", (int)sr.results.size());
         } else {
             strcpy(buf, "");

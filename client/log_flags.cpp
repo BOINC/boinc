@@ -197,6 +197,9 @@ void CONFIG::show() {
     if (zero_debts) {
         msg_printf(NULL, MSG_INFO, "Config: zero long-term debts on startup");
     }
+    if (fetch_minimal_work) {
+        msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
+    }
     show_gpu_ignore(ignore_cuda_dev, "NVIDIA");
     show_gpu_ignore(ignore_ati_dev, "ATI");
     for (i=0; i<exclusive_apps.size(); i++) {
@@ -252,6 +255,8 @@ void CONFIG::clear() {
     dont_contact_ref_site = false;
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
+    exit_when_idle = false;
+    fetch_minimal_work = false;
     force_auth = "default";
     http_1_0 = false;
     ignore_cuda_dev.clear();
@@ -339,6 +344,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             exclusive_gpu_apps.push_back(s);
             continue;
         }
+        if (xp.parse_bool(tag, "fetch_minimal_work", fetch_minimal_work)) continue;
         if (xp.parse_string(tag, "force_auth", force_auth)) {
             downcase_string(force_auth);
             continue;
