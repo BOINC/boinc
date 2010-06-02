@@ -289,7 +289,7 @@ void CONFIG::clear() {
 
 int CONFIG::parse_options(XML_PARSER& xp) {
     char tag[1024], path[256];
-    bool is_tag, btemp;
+    bool is_tag;
     string s;
     int n;
 

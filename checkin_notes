@@ -4071,3 +4071,9 @@ Rom    2 Jun 2010
         
     clientgui/
         AdvancedFrame.cpp
+
+Charlie  2 Jun 2010
+    - client: fix compiler warning (unused variable.)
+    
+    client/
+        log_flags.cpp
