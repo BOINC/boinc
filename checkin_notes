@@ -3969,3 +3969,34 @@ David  1 Jun 2010
         sched_send.cpp
         sched_types.cpp,h
         sched_version.cpp
+
+David  1 Jun 2010
+    - back end: change "daily result quota" mechanism.
+        Old: config.xml specifies an initial daily quota (say, 100).
+            Each host_app_version starts out with this quota.
+            On the return of a SUCCESS result,
+            the quota is doubled, up to the initial value.
+            On the return of an error result, or a timeout,
+            the quota is decremented down to 1.
+        Problem:
+            Doesn't accommodate hosts that can do more than 100 jobs/day.
+        New: similar, but
+            - on validation of a job, daily quota is incremented.
+            - on invalidation of a job, daily quota is decremented.
+            - on return of an error result, or a timeout,
+                daily quota is min'd with initial quota, then decremented.
+        Notes:
+            - This allows a host to have an unboundedly large quota
+                as long as it continues to return more valid
+                than invalid results.
+            - Even with this change, hosts that return SUCCESS but
+                invalid results will continue to get the initial daily quota.
+                It would be desirable to reduce their quota to 1.
+            
+    db/
+        boinc_db.cpp
+    sched/
+        sched_result.cpp
+        sched_send.cpp
+        transitioner.cpp
+        validator.cpp

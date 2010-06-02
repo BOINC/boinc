@@ -390,7 +390,7 @@ static void set_trust(DB_HOST_APP_VERSION& hav) {
 
 static void update_quota(DB_HOST_APP_VERSION& hav) {
     if (config.daily_result_quota) {
-        if (hav.max_jobs_per_day == 0 || hav.max_jobs_per_day > config.daily_result_quota) {
+        if (hav.max_jobs_per_day == 0) {
             hav.max_jobs_per_day = config.daily_result_quota;
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,

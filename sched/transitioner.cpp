@@ -98,7 +98,10 @@ static int result_timed_out(
         (double)wu_item.delay_bound,
         HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
     );
-    if (hav.max_jobs_per_day == 0 || hav.max_jobs_per_day > config.daily_result_quota) {
+    if (hav.max_jobs_per_day == 0) {
+        hav.max_jobs_per_day = config.daily_result_quota;
+    }
+    if (hav.max_jobs_per_day > config.daily_result_quota) {
         hav.max_jobs_per_day = config.daily_result_quota;
     }
     hav.max_jobs_per_day -= 1;

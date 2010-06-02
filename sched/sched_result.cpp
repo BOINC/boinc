@@ -29,6 +29,8 @@
 
 #include "sched_result.h"
 
+// got a SUCCESS result.  Doesn't mean it's valid!
+//
 static inline void got_good_result(SCHED_RESULT_ITEM& sri) {
     int gavid = generalized_app_version_id(sri.app_version_id, sri.appid);
     DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
@@ -40,9 +42,11 @@ static inline void got_good_result(SCHED_RESULT_ITEM& sri) {
         }
         return;
     }
-    havp->max_jobs_per_day *= 2;
-    if (havp->max_jobs_per_day > config.daily_result_quota) {
-        havp->max_jobs_per_day = config.daily_result_quota;
+    if (havp->max_jobs_per_day < config.daily_result_quota) {
+        havp->max_jobs_per_day *= 2;
+        if (havp->max_jobs_per_day > config.daily_result_quota) {
+            havp->max_jobs_per_day = config.daily_result_quota;
+        }
     }
 }
 
@@ -58,17 +62,14 @@ static inline void got_bad_result(SCHED_RESULT_ITEM& sri) {
         return;
     }
 
-    // if job was aborted (possibly by client scheduler) don't penalize
-    //
-    if (sri.client_state != RESULT_ABORTED) {
-        havp->max_jobs_per_day -= 1;
-        if (havp->max_jobs_per_day < 1) {
-            havp->max_jobs_per_day = 1;
-        }
+    if (havp->max_jobs_per_day > config.daily_result_quota) {
+        havp->max_jobs_per_day = config.daily_result_quota;
+    }
+    havp->max_jobs_per_day -= 1;
+    if (havp->max_jobs_per_day < 1) {
+        havp->max_jobs_per_day = 1;
     }
 
-    // but clear consecutive valid regardless
-    //
     havp->consecutive_valid = 0;
 }
 

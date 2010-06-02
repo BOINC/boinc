@@ -1111,6 +1111,7 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         && turnaround.q == orig.turnaround.q
         && turnaround.var == orig.turnaround.var
         && consecutive_valid == orig.consecutive_valid
+        && max_jobs_per_day == orig.max_jobs_per_day
     ) {
         return 0;
     }
@@ -1125,7 +1126,8 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         "turnaround_avg=%.15e, "
         "turnaround_q=%.15e, "
         "turnaround_var=%.15e, "
-        "consecutive_valid=%d ",
+        "consecutive_valid=%d, "
+        "max_jobs_per_day=%d ",
         pfc.n,
         pfc.avg,
         et.n,
@@ -1136,7 +1138,8 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         turnaround.avg,
         turnaround.q,
         turnaround.var,
-        consecutive_valid
+        consecutive_valid,
+        max_jobs_per_day
     );
     sprintf(clause,
         "host_id=%d and app_version_id=%d ",

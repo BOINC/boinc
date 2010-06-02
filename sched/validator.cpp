@@ -99,6 +99,10 @@ int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu, DB_HOST_APP_VERSION& h
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);
 
+    // increment daily quota
+    //
+    hav.max_jobs_per_day++;
+
     // increment consecutive_valid, but only if unreplicated
     //
     if (!is_unreplicated(wu)) {
@@ -131,6 +135,9 @@ int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu, DB_HOST_APP_VERSION& h
 
 static inline void is_invalid(DB_HOST_APP_VERSION& hav) {
     hav.consecutive_valid = 0;
+    if (hav.max_jobs_per_day > config.daily_result_quota) {
+        hav.max_jobs_per_day--;
+    }
 }
 
 // handle a workunit which has new results
