@@ -344,6 +344,10 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             exclusive_gpu_apps.push_back(s);
             continue;
         }
+        if (xp.parse_bool(tag, "exit_when_idle", exit_when_idle)) {
+            report_results_immediately = true;
+            continue;
+        }
         if (xp.parse_bool(tag, "fetch_minimal_work", fetch_minimal_work)) continue;
         if (xp.parse_string(tag, "force_auth", force_auth)) {
             downcase_string(force_auth);
