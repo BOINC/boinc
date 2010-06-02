@@ -257,7 +257,7 @@ void ACTIVE_TASK::cleanup_task() {
         result->project->cpu_pwf.clear_backoff();
     }
 
-    if (gstate.exit_after_finish) {
+    if (config.exit_after_finish) {
         exit(0);
     }
 }

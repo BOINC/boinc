@@ -152,7 +152,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             if (i == argc-1) show_options = true;
             else exit_after_app_start_secs = atoi(argv[++i]);
         } else if (ARG(exit_after_finish)) {
-            exit_after_finish = true;
+            config.exit_after_finish = true;
         } else if (ARG(exit_before_start)) {
             exit_before_start = true;
         } else if (ARG(exit_before_upload)) {
@@ -226,12 +226,12 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(show_projects)) {
             show_projects = true;
         } else if (ARG(skip_cpu_benchmarks)) {
-            skip_cpu_benchmarks = true;
+            config.skip_cpu_benchmarks = true;
         } else if (ARG(start_delay)) {
             if (i == argc-1) show_options = true;
             else config.start_delay = atof(argv[++i]);
         } else if (ARG(unsigned_apps_ok)) {
-            unsigned_apps_ok = true;
+            config.unsigned_apps_ok = true;
         } else if (ARG(update_prefs)) {
             if (i == argc-1) show_options = true;
             else safe_strcpy(update_prefs_url, argv[++i]);

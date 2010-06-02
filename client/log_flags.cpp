@@ -255,6 +255,7 @@ void CONFIG::clear() {
     dont_contact_ref_site = false;
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
+    exit_after_finish = false;
     exit_when_idle = false;
     fetch_minimal_work = false;
     force_auth = "default";
@@ -275,9 +276,11 @@ void CONFIG::clear() {
     run_apps_manually = false;
     save_stats_days = 30;
     simple_gui_only = false;
+    skip_cpu_benchmarks = false;
     start_delay = 0;
     stderr_head = false;
     suppress_net_info = false;
+    unsigned_apps_ok = false;
     use_all_gpus = false;
     use_certs = false;
     use_certs_only = false;
@@ -344,6 +347,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             exclusive_gpu_apps.push_back(s);
             continue;
         }
+        if (xp.parse_bool(tag, "exit_after_finish", exit_after_finish)) continue;
         if (xp.parse_bool(tag, "exit_when_idle", exit_when_idle)) {
             report_results_immediately = true;
             continue;
@@ -386,25 +390,15 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "run_apps_manually", run_apps_manually)) continue;
         if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
         if (xp.parse_bool(tag, "simple_gui_only", simple_gui_only)) continue;
+        if (xp.parse_bool(tag, "skip_cpu_benchmarks", skip_cpu_benchmarks)) continue;
         if (xp.parse_double(tag, "start_delay", start_delay)) continue;
         if (xp.parse_bool(tag, "stderr_head", stderr_head)) continue;
         if (xp.parse_bool(tag, "suppress_net_info", suppress_net_info)) continue;
+        if (xp.parse_bool(tag, "unsigned_apps_ok", unsigned_apps_ok)) continue;
         if (xp.parse_bool(tag, "use_all_gpus", use_all_gpus)) continue;
         if (xp.parse_bool(tag, "use_certs", use_certs)) continue;
         if (xp.parse_bool(tag, "use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool(tag, "zero_debts", zero_debts)) continue;
-        if (xp.parse_bool(tag, "skip_cpu_benchmarks", btemp)) {
-            gstate.skip_cpu_benchmarks = btemp;
-            continue;
-        }
-        if (xp.parse_bool(tag, "unsigned_apps_ok", btemp)) {
-            gstate.unsigned_apps_ok = btemp;
-            continue;
-        }
-        if (xp.parse_bool(tag, "exit_after_finish", btemp)) {
-            gstate.exit_after_finish = btemp;
-            continue;
-        }
 
         msg_printf(NULL, MSG_USER_ALERT, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag

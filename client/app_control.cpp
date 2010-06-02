@@ -392,7 +392,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
     cleanup_task();
 
-    if (gstate.exit_after_finish) {
+    if (config.exit_after_finish) {
         exit(0);
     }
 

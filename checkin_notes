@@ -4051,3 +4051,16 @@ David  2 Jun 2010
         cs_scheduler.cpp
         log_flags.cpp,h
         work_fetch.cpp
+
+David  2 Jun 2010
+    - client: code cleanup (move some config vars from CLIENT_STATE to CONFIG)
+
+    client/
+        app.cpp
+        app_control.cpp
+        client_state.cpp,h
+        cs_benchmark.cpp
+        cs_cmdline.cpp
+        cs_prefs.cpp
+        log_flags.cpp,h
+        sim.h

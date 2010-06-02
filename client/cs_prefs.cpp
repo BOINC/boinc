@@ -221,7 +221,7 @@ void CLIENT_STATE::check_suspend_network() {
 
     // no network traffic if we're allowing unsigned apps
     //
-    if (unsigned_apps_ok) {
+    if (config.unsigned_apps_ok) {
         network_suspended = true;
         file_xfers_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_REQ;

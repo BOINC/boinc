@@ -120,6 +120,7 @@ struct CONFIG {
     bool dont_contact_ref_site;
     std::vector<std::string> exclusive_apps;
     std::vector<std::string> exclusive_gpu_apps;
+    bool exit_after_finish;
     bool exit_when_idle;
     bool fetch_minimal_work;
     std::string force_auth;
@@ -139,10 +140,12 @@ struct CONFIG {
     bool report_results_immediately;
     bool run_apps_manually;
     int save_stats_days;
+    bool skip_cpu_benchmarks;
     bool simple_gui_only;
     double start_delay;
     bool stderr_head;
     bool suppress_net_info;
+    bool unsigned_apps_ok;
     bool use_all_gpus;
     bool use_certs;
     bool use_certs_only;

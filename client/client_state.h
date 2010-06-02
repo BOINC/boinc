@@ -94,7 +94,6 @@ public:
     MODE network_mode;
     bool started_by_screensaver;
     bool exit_before_start;
-    bool exit_after_finish;
     bool check_all_logins;
     bool user_active;       // there has been recent mouse/kbd input
     int cmdline_gui_rpc_port;
@@ -174,10 +173,6 @@ public:
         // In this case we continue to run for 1 minute,
         // handling GUI RPCs but doing nothing else,
         // so that the Manager can tell the user what the problem is
-    bool unsigned_apps_ok;
-        // accept unsigned app files (use for testing only!!)
-    bool skip_cpu_benchmarks;
-        // use hardwired numbers rather than running benchmarks
 private:
     bool client_state_dirty;
     int old_major_version;

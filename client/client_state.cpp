@@ -74,11 +74,9 @@ CLIENT_STATE::CLIENT_STATE():
     scheduler_op = new SCHEDULER_OP(http_ops);
     client_state_dirty = false;
     exit_before_start = false;
-    exit_after_finish = false;
     check_all_logins = false;
     cmdline_gui_rpc_port = 0;
     run_cpu_benchmarks = false;
-    skip_cpu_benchmarks = false;
     file_xfer_giveup_period = PERS_GIVEUP;
     had_or_requested_work = false;
     tasks_suspended = false;
@@ -124,7 +122,6 @@ CLIENT_STATE::CLIENT_STATE():
     disable_graphics = false;
     work_fetch_no_new_work = false;
     cant_write_state_file = false;
-    unsigned_apps_ok = false;
 
     debt_interval_start = 0;
     retry_shmem_time = 0;
@@ -888,7 +885,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 
         // any file associated with an app version must be signed
         //
-        if (!unsigned_apps_ok) {
+        if (!config.unsigned_apps_ok) {
             fip->signature_required = true;
         }
 
