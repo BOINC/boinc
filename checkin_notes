@@ -4012,3 +4012,15 @@ David  1 Jun 2010
 
     html/inc/
         forum_rss.inc
+
+Rom    2 Jun 2010
+    - MGR: Apply patches submitted by Nicolás Alvarez
+        * Convert tabs to spaces for consistency.
+        * Add BOINC copyright/license comment header.
+        * Rename the numbered sizer variables to something descriptive and useful.
+        * Remove useless sizers with only one element inside.
+        * Declare and assign sizers in the same statement.
+        * Split GUI creation into one method per tab.
+
+    clientgui/
+        DlgAdvPreferencesBase.cpp, .h

@@ -1,9 +1,24 @@
-///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct 13 2006)
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2010 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+
+// This code was initially generated with wxFormBuilder (version Oct 13 2006)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
-///////////////////////////////////////////////////////////////////////////
 
 #ifndef __DlgAdvPreferencesBase__
 #define __DlgAdvPreferencesBase__
@@ -93,127 +108,129 @@
  */
 class CDlgAdvPreferencesBase : public wxDialog 
 {
-	private:
-	
-	protected:
-		wxStaticBitmap* m_bmpWarning;
-		wxStaticText* m_staticText321;
-		wxButton* m_btnClear;
-		wxPanel* m_panelControls;
-		wxNotebook* m_Notebook;
-		wxPanel* m_panelProcessor;
-		wxCheckBox* m_chkProcOnBatteries;
-		wxCheckBox* m_chkProcInUse;
-		wxCheckBox* m_chkGPUProcInUse;
-		wxTextCtrl* m_txtProcIdleFor;
-		wxTextCtrl* m_txtMaxLoad;
-		wxStaticText* m_staticText28;
-		wxStaticText* m_staticText351;
-		wxTextCtrl* m_txtProcEveryDayStart;
-		wxStaticText* m_staticText25;
-		wxTextCtrl* m_txtProcEveryDayStop;
-		wxStaticText* m_staticText36;
-		wxPanel* m_panelProcSpecialTimes;
-		wxCheckBox* m_chkProcMonday;
-		wxTextCtrl* m_txtProcMonday;
-		wxCheckBox* m_chkProcTuesday;
-		wxTextCtrl* m_txtProcTuesday;
-		wxCheckBox* m_chkProcWednesday;
-		wxTextCtrl* m_txtProcWednesday;
-		wxCheckBox* m_chkProcThursday;
-		wxTextCtrl* m_txtProcThursday;
-		wxCheckBox* m_chkProcFriday;
-		wxTextCtrl* m_txtProcFriday;
-		wxCheckBox* m_chkProcSaturday;
-		wxTextCtrl* m_txtProcSaturday;
-		wxCheckBox* m_chkProcSunday;
-		wxTextCtrl* m_txtProcSunday;
-		wxStaticText* m_staticText18;
-		wxTextCtrl* m_txtProcSwitchEvery;
-		wxStaticText* m_staticText19;
-		wxStaticText* m_staticText20;
-		wxTextCtrl* m_txtProcUseProcessors;
-		wxStaticText* m_staticText21;
-		wxStaticText* m_staticText22;
-		wxTextCtrl* m_txtProcUseCPUTime;
-		wxStaticText* m_staticText23;
-		wxPanel* m_panelNetwork;
-		wxStaticText* m_staticText32;
-		wxTextCtrl* m_txtNetDownloadRate;
-		wxStaticText* m_staticText33;
-		wxStaticText* m_staticText34;
-		wxTextCtrl* m_txtNetUploadRate;
-		wxStaticText* m_staticText35;
+protected:
+    wxStaticBitmap* m_bmpWarning;
+    wxStaticText* m_staticText321;
+    wxButton* m_btnClear;
+    wxPanel* m_panelControls;
+    wxNotebook* m_Notebook;
+    wxPanel* m_panelProcessor;
+    wxCheckBox* m_chkProcOnBatteries;
+    wxCheckBox* m_chkProcInUse;
+    wxCheckBox* m_chkGPUProcInUse;
+    wxTextCtrl* m_txtProcIdleFor;
+    wxTextCtrl* m_txtMaxLoad;
+    wxStaticText* m_staticText28;
+    wxStaticText* m_staticText351;
+    wxTextCtrl* m_txtProcEveryDayStart;
+    wxStaticText* m_staticText25;
+    wxTextCtrl* m_txtProcEveryDayStop;
+    wxStaticText* m_staticText36;
+    wxPanel* m_panelProcSpecialTimes;
+    wxCheckBox* m_chkProcMonday;
+    wxTextCtrl* m_txtProcMonday;
+    wxCheckBox* m_chkProcTuesday;
+    wxTextCtrl* m_txtProcTuesday;
+    wxCheckBox* m_chkProcWednesday;
+    wxTextCtrl* m_txtProcWednesday;
+    wxCheckBox* m_chkProcThursday;
+    wxTextCtrl* m_txtProcThursday;
+    wxCheckBox* m_chkProcFriday;
+    wxTextCtrl* m_txtProcFriday;
+    wxCheckBox* m_chkProcSaturday;
+    wxTextCtrl* m_txtProcSaturday;
+    wxCheckBox* m_chkProcSunday;
+    wxTextCtrl* m_txtProcSunday;
+    wxStaticText* m_staticText18;
+    wxTextCtrl* m_txtProcSwitchEvery;
+    wxStaticText* m_staticText19;
+    wxStaticText* m_staticText20;
+    wxTextCtrl* m_txtProcUseProcessors;
+    wxStaticText* m_staticText21;
+    wxStaticText* m_staticText22;
+    wxTextCtrl* m_txtProcUseCPUTime;
+    wxStaticText* m_staticText23;
+    wxPanel* m_panelNetwork;
+    wxStaticText* m_staticText32;
+    wxTextCtrl* m_txtNetDownloadRate;
+    wxStaticText* m_staticText33;
+    wxStaticText* m_staticText34;
+    wxTextCtrl* m_txtNetUploadRate;
+    wxStaticText* m_staticText35;
 
-		wxStaticText* m_staticText_daily_xfer1;
-		wxTextCtrl* m_txt_daily_xfer_limit_mb;
-		wxStaticText* m_staticText_daily_xfer2;
-		wxStaticText* m_staticText_daily_xfer3;
-		wxTextCtrl* m_txt_daily_xfer_period_days;
-		wxStaticText* m_staticText_daily_xfer4;
+    wxStaticText* m_staticText_daily_xfer1;
+    wxTextCtrl* m_txt_daily_xfer_limit_mb;
+    wxStaticText* m_staticText_daily_xfer2;
+    wxStaticText* m_staticText_daily_xfer3;
+    wxTextCtrl* m_txt_daily_xfer_period_days;
+    wxStaticText* m_staticText_daily_xfer4;
 
-		wxStaticText* m_staticText30;
-		wxTextCtrl* m_txtNetConnectInterval;
-		wxStaticText* m_staticText31;
-		wxStaticText* m_staticText331;
-		wxTextCtrl* m_txtNetAdditionalDays;
-		wxStaticText* m_staticText341;
-		wxCheckBox* m_chkNetSkipImageVerification;
-		wxCheckBox* m_chkNetConfirmBeforeConnect;
-		wxCheckBox* m_chkNetDisconnectWhenDone;
-		wxStaticText* m_staticText38;
-		wxTextCtrl* m_txtNetEveryDayStart;
-		wxStaticText* m_staticText37;
-		wxTextCtrl* m_txtNetEveryDayStop;
-		wxStaticText* m_staticText39;
-		wxPanel* m_panelNetSpecialTimes;
-		wxCheckBox* m_chkNetMonday;
-		wxTextCtrl* m_txtNetMonday;
-		wxCheckBox* m_chkNetTuesday;
-		wxTextCtrl* m_txtNetTuesday;
-		wxCheckBox* m_chkNetWednesday;
-		wxTextCtrl* m_txtNetWednesday;
-		wxCheckBox* m_chkNetThursday;
-		wxTextCtrl* m_txtNetThursday;
-		wxCheckBox* m_chkNetFriday;
-		wxTextCtrl* m_txtNetFriday;
-		wxCheckBox* m_chkNetSaturday;
-		wxTextCtrl* m_txtNetSaturday;
-		wxCheckBox* m_chkNetSunday;
-		wxTextCtrl* m_txtNetSunday;
-		wxPanel* m_panelDiskAndMemory;
-		wxStaticText* m_staticText40;
-		wxTextCtrl* m_txtDiskMaxSpace;
-		wxStaticText* m_staticText41;
-		wxStaticText* m_staticText42;
-		wxTextCtrl* m_txtDiskLeastFree;
-		wxStaticText* m_staticText43;
-		wxStaticText* m_staticText44;
-		wxTextCtrl* m_txtDiskMaxOfTotal;
-		wxStaticText* m_staticText45;
-		wxStaticText* m_staticText46;
-		wxTextCtrl* m_txtDiskWriteToDisk;
-		wxStaticText* m_staticText47;
-		wxStaticText* m_staticText48;
-		wxTextCtrl* m_txtDiskMaxSwap;
-		wxStaticText* m_staticText49;
-		wxStaticText* m_staticText50;
-		wxTextCtrl* m_txtMemoryMaxInUse;
-		wxStaticText* m_staticText51;
-		wxStaticText* m_staticText52;
-		wxTextCtrl* m_txtMemoryMaxOnIdle;
-		wxStaticText* m_staticText53;
-		wxStaticText* m_staticText54;
-		wxStaticText* m_staticText55;
-		wxCheckBox* m_chkMemoryWhileSuspended;
-		wxPanel* m_panelButtons;
-		wxButton* m_btnOK;
-		wxButton* m_btnCancel;
-		wxButton* m_btnHelp;
-	
-	public:
-		CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxSize( 547,526 ), int style = wxDEFAULT_DIALOG_STYLE );
-	
+    wxStaticText* m_staticText30;
+    wxTextCtrl* m_txtNetConnectInterval;
+    wxStaticText* m_staticText31;
+    wxStaticText* m_staticText331;
+    wxTextCtrl* m_txtNetAdditionalDays;
+    wxStaticText* m_staticText341;
+    wxCheckBox* m_chkNetSkipImageVerification;
+    wxCheckBox* m_chkNetConfirmBeforeConnect;
+    wxCheckBox* m_chkNetDisconnectWhenDone;
+    wxStaticText* m_staticText38;
+    wxTextCtrl* m_txtNetEveryDayStart;
+    wxStaticText* m_staticText37;
+    wxTextCtrl* m_txtNetEveryDayStop;
+    wxStaticText* m_staticText39;
+    wxPanel* m_panelNetSpecialTimes;
+    wxCheckBox* m_chkNetMonday;
+    wxTextCtrl* m_txtNetMonday;
+    wxCheckBox* m_chkNetTuesday;
+    wxTextCtrl* m_txtNetTuesday;
+    wxCheckBox* m_chkNetWednesday;
+    wxTextCtrl* m_txtNetWednesday;
+    wxCheckBox* m_chkNetThursday;
+    wxTextCtrl* m_txtNetThursday;
+    wxCheckBox* m_chkNetFriday;
+    wxTextCtrl* m_txtNetFriday;
+    wxCheckBox* m_chkNetSaturday;
+    wxTextCtrl* m_txtNetSaturday;
+    wxCheckBox* m_chkNetSunday;
+    wxTextCtrl* m_txtNetSunday;
+    wxPanel* m_panelDiskAndMemory;
+    wxStaticText* m_staticText40;
+    wxTextCtrl* m_txtDiskMaxSpace;
+    wxStaticText* m_staticText41;
+    wxStaticText* m_staticText42;
+    wxTextCtrl* m_txtDiskLeastFree;
+    wxStaticText* m_staticText43;
+    wxStaticText* m_staticText44;
+    wxTextCtrl* m_txtDiskMaxOfTotal;
+    wxStaticText* m_staticText45;
+    wxStaticText* m_staticText46;
+    wxTextCtrl* m_txtDiskWriteToDisk;
+    wxStaticText* m_staticText47;
+    wxStaticText* m_staticText48;
+    wxTextCtrl* m_txtDiskMaxSwap;
+    wxStaticText* m_staticText49;
+    wxStaticText* m_staticText50;
+    wxTextCtrl* m_txtMemoryMaxInUse;
+    wxStaticText* m_staticText51;
+    wxStaticText* m_staticText52;
+    wxTextCtrl* m_txtMemoryMaxOnIdle;
+    wxStaticText* m_staticText53;
+    wxStaticText* m_staticText54;
+    wxStaticText* m_staticText55;
+    wxCheckBox* m_chkMemoryWhileSuspended;
+    wxPanel* m_panelButtons;
+    wxButton* m_btnOK;
+    wxButton* m_btnCancel;
+    wxButton* m_btnHelp;
+
+public:
+    CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxSize( 547,526 ), int style = wxDEFAULT_DIALOG_STYLE );
+
+private:
+    wxPanel* createProcessorTab(wxNotebook* notebook);
+    wxPanel* createNetworkTab(wxNotebook* notebook);
+    wxPanel* createDiskAndMemoryTab(wxNotebook* notebook);
 };
 
 #endif //__DlgAdvPreferencesBase__
