@@ -335,7 +335,10 @@ int handle_results() {
 
         if (config.debug_handle_results) {
             log_messages.printf(MSG_NORMAL,
-                "[handle] cpu time %f credit/sec %f, claimed credit %f\n", srip->cpu_time, g_reply->host.claimed_credit_per_cpu_sec, srip->claimed_credit
+                "[handle] [RESULT#%d] cpu time %f credit/sec %f, claimed credit %f\n",
+                srip->id, srip->cpu_time,
+                g_reply->host.claimed_credit_per_cpu_sec,
+                srip->claimed_credit
             );
         }
         srip->server_state = RESULT_SERVER_STATE_OVER;

@@ -4100,3 +4100,17 @@ David  3 Jun 2010
 
     sched/
         sched_send.cpp
+
+David  3 Jun 2010
+    - user web: add "Application info" link in host page,
+        linking to new page showing host_app_versions for this host
+    - scheduler: message tweaks
+
+    html/
+        inc/
+            host.inc
+        user/
+            host_app_versions.php
+    sched/
+        sched_version.cpp
+        sched_result.cpp

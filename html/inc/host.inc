@@ -161,8 +161,9 @@ function show_host($host, $user, $ipprivate) {
     }
     $x = $host->avg_turnaround/86400;
     row2(tra("Average turnaround time"), tra("%1 days", round($x, 2)));
-    $mrd= $host->max_results_day;
-    row2(tra("Maximum daily WU quota per CPU"), tra("%1/day", $mrd));
+    row2(tra("Application details"),
+        "<a href=host_app_versions.php?hostid=$host->id>".tra("Show")."</a>"
+    );
     $config = get_config();
     if (parse_bool($config, "show_results")) {
         $nresults = host_nresults($host);

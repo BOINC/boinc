@@ -34,8 +34,8 @@ inline void dont_need_message(
     if (avp) {
         APP* app = ssp->lookup_app(avp->appid);
         log_messages.printf(MSG_NORMAL,
-            "[version] Don't need %s jobs, skipping version %d for %s (%s)\n",
-            p, avp->version_num, app->name, avp->plan_class
+            "[version] [AV#%d] Don't need %s jobs, skipping\n",
+            avp->id, p
         );
     } else if (cavp) {
         log_messages.printf(MSG_NORMAL,
