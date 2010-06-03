@@ -1398,6 +1398,11 @@ static double clamp_req_sec(double x) {
 void send_work_setup() {
     unsigned int i;
 
+    g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
+    g_wreq->cpu_req_secs = clamp_req_sec(g_request->cpu_req_secs);
+    g_wreq->cpu_req_instances = g_request->cpu_req_instances;
+    g_wreq->anonymous_platform = anonymous(g_request->platforms.list[0]);
+
     if (g_wreq->anonymous_platform) {
         estimate_flops_anon_platform();
     }
@@ -1406,11 +1411,6 @@ void send_work_setup() {
     get_mem_sizes();
     get_running_frac();
     g_wreq->get_job_limits();
-
-    g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
-    g_wreq->cpu_req_secs = clamp_req_sec(g_request->cpu_req_secs);
-    g_wreq->cpu_req_instances = g_request->cpu_req_instances;
-    g_wreq->anonymous_platform = anonymous(g_request->platforms.list[0]);
 
     if (g_request->coprocs.cuda.count) {
         g_wreq->cuda_req_secs = clamp_req_sec(g_request->coprocs.cuda.req_secs);

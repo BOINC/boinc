@@ -4094,3 +4094,9 @@ David  2 Jun 2010
         sched_config.cpp,h
         sched_limit.cpp
         sched_send.cpp
+
+David  3 Jun 2010
+    - scheduler: fix anon platform bug that caused zero FPOPS est
+
+    sched/
+        sched_send.cpp
