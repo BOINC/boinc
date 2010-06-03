@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-05-03 11:07-0700\n"
+"PO-Revision-Date: 2010-06-03 11:30-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -272,13 +272,12 @@ msgid "Display the simple graphical interface."
 msgstr "Schakel over naar de eenvoudige BOINC weergave."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "&Attach to project or account manager..."
 msgstr "&Project of accountmanager toevoegen..."
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
+msgstr "Doe mee met één of meerdere verschillende wetenschappelijke projecten "
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -1290,19 +1289,16 @@ msgid "Maximum upload rate"
 msgstr "Maximale upload waarde"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:353
-#, fuzzy
 msgid "Transfer at most"
-msgstr "gebruik maximaal"
+msgstr "Maximale overdacht"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
-#, fuzzy
 msgid "Mbytes"
-msgstr "Ja"
+msgstr "Mbytes"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:362
-#, fuzzy
 msgid "every"
-msgstr "Server:"
+msgstr "elke"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:368
 #: clientgui/DlgAdvPreferencesBase.cpp:382
@@ -3192,8 +3188,9 @@ msgid "Scheduler request in progress"
 msgstr "Bijwerk verzoek wordt uitgevoerd"
 
 #: clientgui/ViewProjects.cpp:1071
+#, fuzzy
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Trickle up message pending"
 
 #: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
@@ -3394,10 +3391,13 @@ msgid "Transfers"
 msgstr "Overdracht"
 
 #: clientgui/ViewTransfers.cpp:275
+#, fuzzy
 msgid ""
 "Network activity is suspended.\n"
 "You can enable it using the Activity menu."
 msgstr ""
+"Network activity is suspended.\n"
+"You can enable it using the Activity menu."
 
 #: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
@@ -3427,14 +3427,12 @@ msgid "Retry in "
 msgstr "Opnieuw proberen over "
 
 #: clientgui/ViewTransfers.cpp:771
-#, fuzzy
 msgid "Suspended upload"
-msgstr "Opgeschort"
+msgstr "Uploaden opgeschort"
 
 #: clientgui/ViewTransfers.cpp:772
-#, fuzzy
 msgid "Suspended download"
-msgstr "Opgeschort"
+msgstr "Downloaden opgeschort"
 
 #: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
@@ -3574,9 +3572,8 @@ msgid "GPU missing, "
 msgstr "Ontbrekende GPU, "
 
 #: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
-#, fuzzy
 msgid " (suspended)"
-msgstr "Opgeschort"
+msgstr " (opgeschort)"
 
 #: clientgui/ViewWork.cpp:1152
 msgid " - an exclusive app is running"
@@ -3727,57 +3724,60 @@ msgid "This panel contains graphs showing user totals for projects"
 msgstr "Dit paneel bevat grafieken met gebruikers totalen per project"
 
 #: clientgui/mac/MacAccessiblity.cpp:635
+#, fuzzy
 msgid "list headers"
-msgstr ""
+msgstr "list headers"
 
 #: clientgui/mac/MacAccessiblity.cpp:639
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s"
-msgstr "lijst van "
+msgstr "lijst van %s"
 
 #: clientgui/mac/MacAccessiblity.cpp:641
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s is empty"
-msgstr "lijst is leeg"
+msgstr "lijst van %s is leeg"
 
 #: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
+#, fuzzy
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr "; current sort column %d of %d; descending order; "
 
 #: clientgui/mac/MacAccessiblity.cpp:744
 #, c-format
+#, fuzzy
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr "; current sort column %d of %d; ascending order; "
 
 #: clientgui/mac/MacAccessiblity.cpp:747
-#, fuzzy, c-format
+#, c-format
 msgid "; column %d of %d; "
-msgstr "kolom %d "
+msgstr "; kolom %d van %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:754
 msgid "list is empty"
 msgstr "lijst is leeg"
 
 #: clientgui/mac/MacAccessiblity.cpp:757 clientgui/mac/MacAccessiblity.cpp:769
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d; "
-msgstr "rij %d "
+msgstr "; rij %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:761
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d of %d; "
-msgstr "rij %d van %d; "
+msgstr "; geselecteerde rij %d van %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:763
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d ; "
-msgstr "geselecteerd "
+msgstr "; geselecteerde rij %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:767
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d of %d; "
-msgstr "rij %d van %d; "
+msgstr "; rij %d van %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:775
 msgid "blank"
@@ -3788,9 +3788,9 @@ msgid "list of projects or account managers"
 msgstr "lijst van projecten of account managers"
 
 #: clientgui/mac/MacAccessiblity.cpp:1448
-#, fuzzy, c-format
+#, c-format
 msgid "selected row %d of %d; "
-msgstr "rij %d van %d; "
+msgstr "geselecteerde rij %d van %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1450
 #, c-format
