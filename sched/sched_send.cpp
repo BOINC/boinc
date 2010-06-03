@@ -1366,19 +1366,7 @@ static void explain_to_user() {
                 "Daily result quota %d exceeded for app version %d\n",
                 havp->max_jobs_per_day, havp->app_version_id
             );
-
-            // set delay so host won't return until a random time in
-            // the first hour of the next day.
-            // This is to prevent a lot of hosts from flooding the scheduler
-            // with requests at the same time of day.
-            //
-            time_t t = g_reply->host.rpc_time;
-            rpc_time_tm = localtime(&t);
-            delay_time  = (23 - rpc_time_tm->tm_hour) * 3600
-                + (59 - rpc_time_tm->tm_min) * 60
-                + (60 - rpc_time_tm->tm_sec)
-                + (int)(3600*(double)rand()/(double)RAND_MAX);
-            g_reply->set_delay(delay_time);
+            g_reply->set_delay(DELAY_NO_WORK_CACHE);
         }
         if (g_wreq->max_jobs_on_host_exceeded) {
             sprintf(helpful, "(reached limit of tasks in progress)");

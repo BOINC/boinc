@@ -173,6 +173,7 @@ struct SCHED_CONFIG {
     bool debug_version_select;
 
     int parse(FILE*);
+    int parse_aux(FILE*);
     int parse_file(const char *dir = 0);
 
     int upload_path(const char*, char*);

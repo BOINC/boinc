@@ -36,12 +36,34 @@
 #include "sched_config.h"
 
 const char* CONFIG_FILE = "config.xml";
+const char* CONFIG_FILE_AUX = "config_aux.xml";
 
 SCHED_CONFIG config;
 
 const int MAX_NCPUS = 16;
     // max multiplier for daily_result_quota.
     // need to change as multicore processors expand
+
+int SCHED_CONFIG::parse_aux(FILE* f) {
+    char tag[1024], buf[256];
+    bool is_tag;
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(f);
+    if (!xp.parse_start("config")) return ERR_XML_PARSE;
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) {
+            fprintf(stderr, "SCHED_CONFIG::parse(): unexpected text %s\n", tag);
+            continue;
+        }
+        if (!strcmp(tag, "/config")) {
+            return 0;
+        }
+        if (!strcmp(tag, "max_jobs_in_progress")) {
+            max_jobs_in_progress.parse(xp, "/max_jobs_in_progress");
+        }
+    }
+}
 
 int SCHED_CONFIG::parse(FILE* f) {
     char tag[1024], buf[256];
@@ -180,9 +202,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         }
         if (xp.parse_bool(tag, "matchmaker", matchmaker)) continue;
         if (xp.parse_int(tag, "max_ncpus", max_ncpus)) continue;
-        if (!strcmp(tag, "max_jobs_in_progress")) {
-            max_jobs_in_progress.parse(xp, "/max_jobs_in_progress");
-        }
         if (xp.parse_int(tag, "max_wus_in_progress", itemp)) {
             max_jobs_in_progress.project_limits.cpu.base_limit = itemp;
             continue;
@@ -269,13 +288,15 @@ int SCHED_CONFIG::parse(FILE* f) {
 }
 
 int SCHED_CONFIG::parse_file(const char* dir) {
-    char path[256];
+    char path[256], path_aux[256];
     int retval;
 
-    if (dir && dir[0]) {
+    if (dir && strlen(dir)) {
         snprintf(path, sizeof(path), "%s/%s", dir, CONFIG_FILE);
+        snprintf(path_aux, sizeof(path_aux), "%s/%s", dir, CONFIG_FILE_AUX);
     } else {
         strcpy(path, project_path(CONFIG_FILE));
+        strcpy(path_aux, project_path(CONFIG_FILE_AUX));
     }
 #ifndef _USING_FCGI_
     FILE* f = fopen(path, "r");
@@ -285,6 +306,16 @@ int SCHED_CONFIG::parse_file(const char* dir) {
     if (!f) return ERR_FOPEN;
     retval = parse(f);
     fclose(f);
+    if (retval) return retval;
+
+#ifndef _USING_FCGI_
+    FILE* f_aux = fopen(path_aux, "r");
+#else
+    FCGI_FILE *f_aux = FCGI::fopen(path_aux, "r");
+#endif
+    if (!f_aux) return 0;
+    retval = parse_aux(f_aux);
+    fclose(f_aux);
     return retval;
 }
 

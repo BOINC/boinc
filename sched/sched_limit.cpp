@@ -32,7 +32,7 @@ int JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
         if (!strcmp(tag, end_tag)) {
             return 0;
         }
-        if (xp.parse_str(tag, "app", app_name, sizeof(app_name))) {
+        if (xp.parse_str(tag, "app_name", app_name, sizeof(app_name))) {
             continue;
         }
         if (!strcmp(tag, "total_limit")) {

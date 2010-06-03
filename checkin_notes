@@ -4077,3 +4077,20 @@ Charlie  2 Jun 2010
     
     client/
         log_flags.cpp
+
+David  2 Jun 2010
+    - scheduler: change backoff policy if a host has reached daily job quota.
+        Old: back off until random time in 1st hour of next day
+        New: no server-dictated backoff; rely on client backoff
+        This is needed to let hosts recover in a reasonable amount of time
+        after a burst of errors.
+    - scheduler config: it turns out we can't put arbitrary XML in config.xml;
+        The Python code is set up to parse only 1 level of tags (??),
+        and I'm not up to the task of changing this.
+        So the fine-grained job limit feature [21674] needs to use
+        a different file, namely config_aux.xml
+
+    sched/
+        sched_config.cpp,h
+        sched_limit.cpp
+        sched_send.cpp
