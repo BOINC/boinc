@@ -51,7 +51,7 @@ foreach ($havs as $hav) {
     if (!$hav->pfc_n) continue;
     show_hav($hav);
 }
-end_table;
+end_table();
 
-page_footer();
+page_tail();
 ?>
