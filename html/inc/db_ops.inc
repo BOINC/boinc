@@ -929,7 +929,7 @@ function show_host_app_versions($hostid) {
     foreach ($havs as $hav) {
         table_row(
             app_version_string($hav->app_version_id),
-            "$hav->pfc_avg ($hav->pfc_n)<br>scale probation: ".($hav->scale_probation?"yes":"no"),
+            "$hav->pfc_avg ($hav->pfc_n)",
             "$hav->et_avg ($hav->et_n)",
             days_string($hav->turnaround_avg)." ($hav->turnaround_n)"
         );

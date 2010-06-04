@@ -4126,3 +4126,13 @@ David  4 Jun 2010
         sched_config.cpp
     client/
         acct_mgr.cpp
+
+David  4 Jun 2010
+    - admin web: add start/end times to team import log output
+
+    html/
+        inc/
+            db_ops.inc
+        ops/
+            credit.php
+            team_import.php

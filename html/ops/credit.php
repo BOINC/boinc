@@ -6,7 +6,7 @@ ini_set('display_startup_errors', true);
 
 require_once("../inc/boinc_db.inc");
 
-define('COBB_SCALE', 200/86400e9);
+define('COBB_SCALE', 100/86400e9);
 
 function gavid($avid, $appid) {
     if ($avid < 0) {
@@ -45,8 +45,11 @@ Credit:
 
     echo "Host app version:
     PFC avg: $hav->pfc_avg
-    host scale: ".$av->pfc_avg/$hav->pfc_avg ."
 ";
+    if ($av) {
+        echo "host scale: ".$av->pfc_avg/$hav->pfc_avg ."
+";
+    }
 }
 
 function show_av($avid) {
@@ -95,9 +98,8 @@ function host_history($hostid, $avid) {
     echo "</pre>\n";
 }
 
-$resultid = $_GET['resultid'];
-
-if ($resultid) {
+if (array_key_exists('resultid', $_GET)) {
+    $resultid = $_GET['resultid'];
     handle_result($resultid);
     exit;
 }

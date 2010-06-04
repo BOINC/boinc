@@ -258,6 +258,7 @@ function handle_team($f) {
 }
 
 function main() {
+    echo "------------ Starting at ".time_str(time())."-------\n";
     $f = fopen("http://boinc.berkeley.edu/boinc_teams.xml", "r");
     if (!$f) {
         echo "Can't get times file\n";
@@ -268,6 +269,7 @@ function main() {
             handle_team($f);
         }
     }
+    echo "------------ Finished at ".time_str(time())."-------\n";
 }
 
 db_init();
