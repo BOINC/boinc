@@ -103,6 +103,14 @@ struct HOST_USAGE {
         }
         return ANON_PLATFORM_CPU;
     }
+    inline const char* resource_name() {
+        if (ncudas) {
+            return "nvidia GPU";
+        } else if (natis) {
+            return "ATI GPU";
+        }
+        return "CPU";
+    }
     inline bool uses_gpu() {
         if (ncudas) return true;
         if (natis) return true;

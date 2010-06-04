@@ -4114,3 +4114,15 @@ David  3 Jun 2010
     sched/
         sched_version.cpp
         sched_result.cpp
+
+David  4 Jun 2010
+    - scheduler: bug fixes for jobs-in-progress limits
+    - client: msg tweak
+
+    sched/
+        sched_types.h
+        sched_limit.cpp
+        sched_version.cpp
+        sched_config.cpp
+    client/
+        acct_mgr.cpp

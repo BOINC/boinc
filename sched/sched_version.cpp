@@ -276,6 +276,20 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
     }
 }
 
+// return a string describing an app version
+//
+static void app_version_desc(BEST_APP_VERSION& bav, char* buf) {
+    if (!bav.present) {
+        strcpy(buf, "none");
+        return;
+    }
+    if (bav.cavp) {
+        sprintf(buf, "anonymous platform (%s)", bav.host_usage.resource_name());
+    } else {
+        sprintf(buf, "[AV#%d]", bav.avp->id);
+    }
+}
+
 // return BEST_APP_VERSION for the given job and host, or NULL if none
 //
 // check_req: check whether we still need work for the resource
@@ -323,6 +337,12 @@ BEST_APP_VERSION* get_app_version(
             // app and resource type, fall through and find another version
             //
             if (config.max_jobs_in_progress.exceeded(app, bavp->host_usage.uses_gpu())) {
+                if (config.debug_version_select) {
+                    app_version_desc(*bavp, buf);
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] %s: max jobs in progress exceeded\n", buf
+                    );
+                }
                 g_wreq->best_app_versions.erase(bavi);
                 break;
             }
@@ -378,8 +398,9 @@ BEST_APP_VERSION* get_app_version(
             }
 
             if (config.debug_version_select) {
+                app_version_desc(*bavp, buf);
                 log_messages.printf(MSG_NORMAL,
-                    "[version] returning cached version\n"
+                    "[version] returning cached version: %s\n", buf
                 );
             }
             return bavp;
@@ -404,17 +425,15 @@ BEST_APP_VERSION* get_app_version(
             bavp->present = false;
         } else {
             bavp->present = true;
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] Found anonymous platform app for %s: plan class %s\n",
-                    app->name, cavp->plan_class
-                );
-            }
             bavp->host_usage = cavp->host_usage;
             bavp->cavp = cavp;
             int gavid = host_usage_to_gavid(cavp->host_usage, *app);
             bavp->reliable = app_version_is_reliable(gavid);
             bavp->trusted = app_version_is_trusted(gavid);
+            if (config.debug_version_select) {
+                app_version_desc(*bavp, buf);
+                log_messages.printf(MSG_NORMAL, "[version] using %s\n", buf);
+            }
         }
         g_wreq->best_app_versions.push_back(bavp);
         g_wreq->all_best_app_versions.push_back(bavp);

@@ -36,15 +36,15 @@ int JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
             continue;
         }
         if (!strcmp(tag, "total_limit")) {
-            total.parse(xp, "total_limit");
+            total.parse(xp, "/total_limit");
             continue;
         }
         if (!strcmp(tag, "cpu_limit")) {
-            cpu.parse(xp, "cpu_limit");
+            cpu.parse(xp, "/cpu_limit");
             continue;
         }
         if (!strcmp(tag, "gpu_limit")) {
-            gpu.parse(xp, "gpu_limit");
+            gpu.parse(xp, "/gpu_limit");
             continue;
         }
     }
@@ -77,4 +77,5 @@ int JOB_LIMITS::parse(XML_PARSER& xp, const char* end_tag) {
             continue;
         }
     }
+    return ERR_XML_PARSE;
 }

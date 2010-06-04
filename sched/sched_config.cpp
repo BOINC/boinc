@@ -63,6 +63,7 @@ int SCHED_CONFIG::parse_aux(FILE* f) {
             max_jobs_in_progress.parse(xp, "/max_jobs_in_progress");
         }
     }
+    return ERR_XML_PARSE;
 }
 
 int SCHED_CONFIG::parse(FILE* f) {
