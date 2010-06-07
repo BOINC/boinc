@@ -4136,3 +4136,9 @@ David  4 Jun 2010
         ops/
             credit.php
             team_import.php
+
+Charlie  7 Jun 2010
+    - client: Display Mac OS Version as well as Darwin version in Event Log.
+        
+    client/
+        client_state.cpp
