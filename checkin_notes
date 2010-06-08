@@ -4142,3 +4142,10 @@ Charlie  7 Jun 2010
         
     client/
         client_state.cpp
+
+Charlie  7 Jun 2010
+    - Mac: Don't generate xX86_64 client symbol table (was empty.)
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
