@@ -185,8 +185,10 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
                 retval = resolve_hostname(buf, ipaddr);
                 if (retval) {
                     msg_printf(0, MSG_USER_ALERT,
-                        "Can't resolve hostname %s in %s",
-                        buf, REMOTEHOST_FILE_NAME
+                        "%s %s: %s",
+                        _("Can't resolve hostname in"),
+                        REMOTEHOST_FILE_NAME,
+                        buf
                     );
                 } else {
                     allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
@@ -301,13 +303,13 @@ static void show_connect_error(in_addr ia) {
         last_time = gstate.now;
     }
     msg_printf(
-        NULL, MSG_USER_ALERT,
+        NULL, MSG_INFO,
         "GUI RPC request from non-allowed address %s",
         inet_ntoa(ia)
     );
     if (count > 1) {
         msg_printf(
-            NULL, MSG_USER_ALERT,
+            NULL, MSG_INFO,
             "%d connections rejected in last 10 minutes",
             count
         );

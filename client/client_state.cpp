@@ -339,7 +339,7 @@ int CLIENT_STATE::init() {
     retval = write_state_file();
     if (retval) {
         msg_printf(NULL, MSG_USER_ALERT,
-            "Couldn't write state file; make sure directory permissions are set correctly"
+            _("Couldn't write state file; check directory permissions")
         );
         cant_write_state_file = true;
     }

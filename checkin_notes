@@ -4172,3 +4172,20 @@ David  8 Jun 2010
     sched/
         sched_customize.cpp
         sched_send.cpp
+
+David  8 Jun 2010
+    - client: make all MSG_USER_ALERT messages (i.e., those shown as notices)
+        translatable (and change some MSG_USER_ALERT messages to MSG_INFO).
+
+    client/
+        acct_mgr.cpp
+        acct_setup.cpp
+        client_state.cpp
+        cs_account.cpp
+        cs_cmdline.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+        gui_rpc_server.cpp
+        hostinfo_unix.cpp
+        log_flags.cpp
+        net_stats.cpp

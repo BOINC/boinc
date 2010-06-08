@@ -503,7 +503,7 @@ int CLIENT_STATE::parse_state_file() {
             x += projects[i]->resource_share;
         }
         if (!x) {
-            msg_printf(NULL, MSG_USER_ALERT,
+            msg_printf(NULL, MSG_INFO,
                 "All projects have zero resource share; setting to 100"
             );
             for (i=0; i<projects.size(); i++) {
@@ -580,12 +580,12 @@ int CLIENT_STATE::write_state_file() {
                 if (retval) {
                     if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.statefile_debug) {
 #ifdef _WIN32
-                        msg_printf(0, MSG_USER_ALERT,
+                        msg_printf(0, MSG_INFO,
                             "Can't delete previous state file; %s",
                             windows_error_string(win_error_msg, sizeof(win_error_msg))
                         );
 #else
-                        msg_printf(0, MSG_USER_ALERT,
+                        msg_printf(0, MSG_INFO,
                             "Can't delete previous state file: %s",
                             strerror(errno)
                         );
@@ -599,12 +599,12 @@ int CLIENT_STATE::write_state_file() {
             if (retval) {
                 if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.statefile_debug) {
 #ifdef _WIN32
-                    msg_printf(0, MSG_USER_ALERT,
+                    msg_printf(0, MSG_INFO,
                         "Can't rename current state file to previous state file; %s",
                         windows_error_string(win_error_msg, sizeof(win_error_msg))
                     );
 #else
-                    msg_printf(0, MSG_USER_ALERT, 
+                    msg_printf(0, MSG_INFO, 
                         "Can't rename current state file to previous state file: %s", 
                         strerror(errno)
                     );
@@ -622,32 +622,16 @@ int CLIENT_STATE::write_state_file() {
         }
         if (!retval) break;     // Success!
         
-         if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.statefile_debug) {
+        if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.statefile_debug) {
 #ifdef _WIN32
-            if (retval == ERROR_ACCESS_DENIED) {
-                msg_printf(0, MSG_USER_ALERT,
-                    "Can't rename state file; access denied.  Check file and directory permissions"
-                );
-            } else {
-                msg_printf(0, MSG_USER_ALERT,
-                    "Can't rename state file; %s",
-                    windows_error_string(win_error_msg, sizeof(win_error_msg))
-                );
-            }
-#elif defined (__APPLE__)
-            msg_printf(0, MSG_USER_ALERT, 
-                "Can't rename %s to %s; check file and directory permissions\n"
-                "rename returned error %d: %s", 
-                STATE_FILE_NEXT, STATE_FILE_NAME, errno, strerror(errno)
+            msg_printf(0, MSG_INFO,
+                "rename error: %s",
+                windows_error_string(win_error_msg, sizeof(win_error_msg))
             );
+#elif defined (__APPLE__)
             if (log_flags.statefile_debug) {
                 system("ls -al /Library/Application\\ Support/BOINC\\ Data/client*.*");
             }
-#else
-        msg_printf(0, MSG_USER_ALERT,
-            "Can't rename %s to %s; check file and directory permissions",
-            STATE_FILE_NEXT, STATE_FILE_NAME
-        );
 #endif
         }
         if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
@@ -781,8 +765,9 @@ void CLIENT_STATE::check_anonymous() {
         retval = parse_app_info(p, f);
         if (retval) {
             msg_printf(p, MSG_USER_ALERT,
-                "Failed to parse app_info.xml for %s; check XML syntax",
-                p->project_name
+                "%s %s",
+                _("XML syntax error in"),
+                APP_INFO_FILE_NAME
             );
         }
         fclose(f);
@@ -806,9 +791,8 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 continue;
             }
             if (fip->urls.size()) {
-                msg_printf(p, MSG_USER_ALERT,
-                    "Can't specify URLs in app_info.xml for %s",
-                    p->project_name
+                msg_printf(p, MSG_INFO,
+                    "Can't specify URLs in app_info.xml"
                 );
                 delete fip;
                 continue;
@@ -852,9 +836,9 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
             continue;
         }
         if (log_flags.unparsed_xml) {
-            msg_printf(p, MSG_USER_ALERT,
-                "Unparsed line in app_info.xml for %s: %s",
-                p->project_name, buf
+            msg_printf(p, MSG_INFO,
+                "Unparsed line in app_info.xml: %s",
+                buf
             );
         }
     }

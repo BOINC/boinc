@@ -368,8 +368,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     //
     if (error_str.size()) {
         msg_printf(NULL, MSG_USER_ALERT,
-            "%s error: %s",
+            "%s %s: %s",
             gstate.acct_mgr_info.acct_mgr_name,
+            _("error"),
             error_str.c_str()
         );
         if (!error_num) {
@@ -377,8 +378,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         }
     } else if (error_num) {
         msg_printf(NULL, MSG_USER_ALERT,
-            "%s error: %s",
+            "%s %s: %s",
             gstate.acct_mgr_info.acct_mgr_name,
+            _("error"),
             boincerror(error_num)
         );
     }

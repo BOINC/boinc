@@ -277,7 +277,7 @@ void CLIENT_STATE::parse_env_vars() {
             break;
         default:
             msg_printf(0, MSG_USER_ALERT,
-                "The HTTP_PROXY environment variable must specify an HTTP proxy"
+                _("The HTTP_PROXY environment variable must specify an HTTP proxy")
             );
         }
     }
@@ -337,7 +337,7 @@ void CLIENT_STATE::do_cmdline_actions() {
             msg_printf(project, MSG_INFO, "detaching from %s\n", detach_project_url);
             detach_project(project);
         } else {
-            msg_printf(NULL, MSG_USER_ALERT, "project %s not found\n", detach_project_url);
+            msg_printf(NULL, MSG_INFO, "project %s not found\n", detach_project_url);
         }
         exit(0);
     }
@@ -349,7 +349,7 @@ void CLIENT_STATE::do_cmdline_actions() {
             reset_project(project, false);
             msg_printf(project, MSG_INFO, "Project %s has been reset", reset_project_url);
         } else {
-            msg_printf(NULL, MSG_USER_ALERT, "project %s not found\n", reset_project_url);
+            msg_printf(NULL, MSG_INFO, "project %s not found\n", reset_project_url);
         }
         exit(0);
     }
@@ -360,7 +360,7 @@ void CLIENT_STATE::do_cmdline_actions() {
         if (project) {
             project->sched_rpc_pending = RPC_REASON_USER_REQ;
         } else {
-            msg_printf(NULL, MSG_USER_ALERT, "project %s not found\n", update_prefs_url);
+            msg_printf(NULL, MSG_INFO, "project %s not found\n", update_prefs_url);
         }
     }
 

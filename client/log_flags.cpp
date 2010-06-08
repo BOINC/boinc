@@ -63,7 +63,10 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             msg_printf(NULL, MSG_USER_ALERT,
-               "Unexpected text %s in %s", tag, CONFIG_FILE
+                "%s %s: %s",
+                _("Unexpected text in"),
+                CONFIG_FILE,
+                tag
             );
             continue;
         }
@@ -103,8 +106,11 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "work_fetch_debug", work_fetch_debug)) continue;
         if (xp.parse_bool(tag, "notice_debug", notice_debug)) continue;
 
-        msg_printf(NULL, MSG_USER_ALERT, "Unrecognized tag in %s: <%s>\n",
-            CONFIG_FILE, tag
+        msg_printf(NULL, MSG_USER_ALERT,
+            "%s %s: <%s>"
+            _("Unrecognized tag in"),
+            CONFIG_FILE,
+            tag
         );
         xp.skip_unexpected(tag, true, "LOG_FLAGS::parse");
     }
@@ -307,7 +313,10 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             msg_printf(NULL, MSG_USER_ALERT,
-               "Unexpected text %s in %s", tag, CONFIG_FILE
+                "%s %s: %s",
+                _("Unexpected text in"),
+                CONFIG_FILE,
+                tag
             );
             continue;
         }
@@ -400,8 +409,11 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool(tag, "zero_debts", zero_debts)) continue;
 
-        msg_printf(NULL, MSG_USER_ALERT, "Unrecognized tag in %s: <%s>\n",
-            CONFIG_FILE, tag
+        msg_printf(NULL, MSG_USER_ALERT,
+            "%s %s: <%s>",
+            _("Unrecognized tag in"),
+            CONFIG_FILE,
+            tag
         );
         xp.skip_unexpected(tag, true, "CONFIG::parse_options");
     }
@@ -416,13 +428,20 @@ int CONFIG::parse(FILE* f) {
 
     mf.init_file(f);
     if (!xp.parse_start("cc_config")) {
-        msg_printf(NULL, MSG_USER_ALERT, "Missing start tag in %s", CONFIG_FILE);
+        msg_printf(NULL, MSG_USER_ALERT,
+            "%s %s",
+            _("Missing start tag in"),
+            CONFIG_FILE
+        );
         return ERR_XML_PARSE;
     }
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             msg_printf(NULL, MSG_USER_ALERT,
-               "Unexpected text %s in %s", tag, CONFIG_FILE
+                "%s %s: %s",
+                _("Unexpected text in"),
+                CONFIG_FILE,
+                tag
             );
             continue;
         }
@@ -435,12 +454,19 @@ int CONFIG::parse(FILE* f) {
             parse_options(xp);
             continue;
         }
-        msg_printf(NULL, MSG_USER_ALERT, "Unparsed tag in %s: <%s>\n",
-            CONFIG_FILE, tag
+        msg_printf(NULL, MSG_USER_ALERT,
+            "%s %s: <%s>",
+            _("Unparsed tag in"),
+            CONFIG_FILE,
+            tag
         );
         xp.skip_unexpected(tag, true, "CONFIG.parse");
     }
-    msg_printf(NULL, MSG_USER_ALERT, "Missing end tag in %s", CONFIG_FILE);
+    msg_printf(NULL, MSG_USER_ALERT,
+        "%s %s",
+        _("Missing end tag in"),
+        CONFIG_FILE
+    );
     return ERR_XML_PARSE;
 }
 

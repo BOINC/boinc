@@ -437,21 +437,21 @@ int CLIENT_STATE::add_project(
     strip_whitespace(canonical_master_url);
     canonicalize_master_url(canonical_master_url);
     if (!valid_master_url(canonical_master_url)) {
-        msg_printf(0, MSG_USER_ALERT, "Invalid URL: %s", canonical_master_url);
+        msg_printf(0, MSG_INFO, "Invalid URL: %s", canonical_master_url);
         return ERR_INVALID_URL;
     }
 
     safe_strcpy(auth, _auth);
     strip_whitespace(auth);
     if (!strlen(auth)) {
-        msg_printf(0, MSG_USER_ALERT, "Missing account key");
+        msg_printf(0, MSG_INFO, "Missing account key");
         return ERR_AUTHENTICATOR;
     }
 
     // check if we're already attached to this project
     //
     if (lookup_project(canonical_master_url)) {
-        msg_printf(0, MSG_USER_ALERT, "Already attached to %s", canonical_master_url);
+        msg_printf(0, MSG_INFO, "Already attached to %s", canonical_master_url);
         return ERR_ALREADY_ATTACHED;
     }
 

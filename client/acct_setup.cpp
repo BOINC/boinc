@@ -260,13 +260,10 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
         if (match_tag(buf, "<version>")) {
             if (parse_version(f, new_version)) {
                 msg_printf(0, MSG_USER_ALERT,
-                    "A new version of BOINC (%s) is available",
-                    new_version
-                );
-
-                msg_printf(0, MSG_USER_ALERT,
-                    "Visit %s to download it",
-                    config.client_download_url.c_str()
+                    "%s <a href=%s>%s</a>",
+                    _("A new version of BOINC is available."),
+                    config.client_download_url.c_str(),
+                    _("Download it.")
                 );
                 gstate.newer_version = string(new_version);
                 break;
