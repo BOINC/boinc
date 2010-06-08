@@ -4150,3 +4150,25 @@ Charlie  7 Jun 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  8 Jun 2010
+    - client: user-visible text (message body, notice title and description)
+        are now translatable,
+        using the convention that any substring enclosed in _(" ... ")
+        should be passed throughh wxGetTranslation() or the equivalent.
+    - client: when writing messages to stdout, strip out _(...)
+    - manager: translate strings from client
+    - scheduler: message tweaks
+
+    client/
+        client_msgs.cpp,h
+        main.pp
+    clientgui/
+        DlgEventLog.cpp
+        MainDocument.cpp,h
+        ViewMessages.cpp
+        ViewNotices.cpp
+        sg_DlgMessages.cpp
+    sched/
+        sched_customize.cpp
+        sched_send.cpp

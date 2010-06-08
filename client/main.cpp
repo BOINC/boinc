@@ -73,8 +73,7 @@
 void show_message(PROJECT *p, char* msg, int priority) {
     const char* x;
     char message[1024];
-    time_t now = time(0);
-    char* time_string = time_to_string((double)now);
+    char* time_string = time_to_string(gstate.now);
 
     // Cycle the log files if we need to
     diagnostics_cycle_logs();
@@ -98,7 +97,9 @@ void show_message(PROJECT *p, char* msg, int priority) {
         x = "---";
     }
 
-    message_descs.insert(p, priority, (int)now, message);
+    message_descs.insert(p, priority, (int)gstate.now, message);
+
+    strip_translation(message);
 
     printf("%s [%s] %s\n", time_string, x, message);
     if (gstate.executing_as_daemon) {

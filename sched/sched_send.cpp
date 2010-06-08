@@ -1211,7 +1211,7 @@ int add_result_to_reply(
 // send messages to user about why jobs were or weren't sent
 //
 static void explain_to_user() {
-    char helpful[512];
+    char buf[512];
     unsigned int i;
     int j;
 
@@ -1222,7 +1222,7 @@ static void explain_to_user() {
         if (g_wreq->njobs_sent && !g_wreq->user_apps_only) {
             g_reply->insert_message(
                 "No work can be sent for the applications you have selected",
-                "high"
+                "low"
             );
 
             // Inform the user about applications with no work
@@ -1238,7 +1238,7 @@ static void explain_to_user() {
                             "No work is available for %s",
                             find_user_friendly_name(g_wreq->preferred_apps[i].appid)
                         );
-                        g_reply->insert_message( explanation, "high");
+                        g_reply->insert_message( explanation, "low");
                     }
                 }
             }
@@ -1262,22 +1262,23 @@ static void explain_to_user() {
     //
     if (g_wreq->njobs_sent == 0) {
         g_reply->set_delay(DELAY_NO_WORK_TEMP);
-        g_reply->insert_message("No work sent", "high");
+        g_reply->insert_message("No work sent", "low");
 
         // Tell the user about applications with no work
         //
         for (i=0; i<g_wreq->preferred_apps.size(); i++) {
-             if (!g_wreq->preferred_apps[i].work_available) {
-                 APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
-                 // don't write message if the app is deprecated
-                 if (app != NULL) {
-                       char explanation[256];
-                       sprintf(explanation, "No work is available for %s",
-                        find_user_friendly_name(g_wreq->preferred_apps[i].appid)
+            if (!g_wreq->preferred_apps[i].work_available) {
+                APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
+                // don't write message if the app is deprecated
+                if (app != NULL) {
+                    sprintf(buf, "No work is available for %s",
+                        find_user_friendly_name(
+                            g_wreq->preferred_apps[i].appid
+                        )
                     );
-                       g_reply->insert_message(explanation, "high");
-                 }
-             }
+                    g_reply->insert_message(buf, "low");
+                }
+            }
         }
 
         // Tell the user about applications they didn't qualify for
@@ -1287,70 +1288,68 @@ static void explain_to_user() {
         }
         if (g_wreq->no_allowed_apps_available) {
             g_reply->insert_message(
-                "No work available for the applications you have selected.  Please check your preferences on the web site.",
+                "No work available for the applications you have selected.  Please check your project preferences on the web site.",
                 "high"
             );
         }
         if (g_wreq->speed.insufficient) {
             if (g_request->core_client_version>41900) {
-                sprintf(helpful,
-                    "(won't finish in time) "
-                    "BOINC runs %.1f%% of the time; computation is enabled %.1f%% of that",
+                sprintf(buf,
+                    "Jobs won't finish in time: BOINC runs %.1f%% of the time; computation is enabled %.1f%% of that",
                     100*g_reply->host.on_frac, 100*g_reply->host.active_frac
                 );
             } else {
-                sprintf(helpful,
-                    "(won't finish in time) "
-                    "Computer available %.1f%% of the time",
+                sprintf(buf,
+                    "Jobs won't finish in time: Computer available %.1f%% of the time",
                     100*g_reply->host.on_frac
                 );
             }
-            g_reply->insert_message(helpful, "high");
+            g_reply->insert_message(buf, "low");
         }
         if (g_wreq->hr_reject_temp) {
             g_reply->insert_message(
-                "(there was work but it was committed to other platforms)",
-                "high"
+                "Tasks are committed to other platforms",
+                "low"
             );
         }
         if (g_wreq->hr_reject_perm) {
             g_reply->insert_message(
-                "(your platform is not supported by this project)",
+                "Your computer type is not supported by this project",
                 "high"
             );
         }
         if (g_wreq->outdated_client) {
             g_reply->insert_message(
-                " (your BOINC client is old - please install current version)",
+                "Newer client version required; please install current version",
                 "high"
             );
             g_reply->set_delay(DELAY_NO_WORK_PERM);
             log_messages.printf(MSG_NORMAL,
-                "Not sending work because client is outdated\n"
+                "Not sending work because newer client version required\n"
             );
         }
         if (g_wreq->excessive_work_buf) {
             g_reply->insert_message(
-                "(Your network connection interval is longer than WU deadline)",
+                "Your network connection interval is too long",
                 "high"
             );
         }
         if (g_wreq->no_cuda_prefs) {
             g_reply->insert_message(
-                "Jobs for NVIDIA GPU are available, but your preferences are set to not accept them",
-                "low"
+                "Tasks for NVIDIA GPU are available, but your preferences are set to not accept them",
+                "high"
             );
         }
         if (g_wreq->no_ati_prefs) {
             g_reply->insert_message(
-                "Jobs for ATI GPU are available, but your preferences are set to not accept them",
-                "low"
+                "Tasks for ATI GPU are available, but your preferences are set to not accept them",
+                "high"
             );
         }
         if (g_wreq->no_cpu_prefs) {
             g_reply->insert_message(
-                "Jobs for CPU are available, but your preferences are set to not accept them",
-                "low"
+                "Tasks for CPU are available, but your preferences are set to not accept them",
+                "high"
             );
         }
         DB_HOST_APP_VERSION* havp = quota_exceeded_version();
@@ -1358,10 +1357,10 @@ static void explain_to_user() {
             struct tm *rpc_time_tm;
             int delay_time;
 
-            sprintf(helpful, "(reached daily quota of %d tasks)",
+            sprintf(buf, "(reached daily quota of %d tasks)",
                 havp->max_jobs_per_day
             );
-            g_reply->insert_message(helpful, "high");
+            g_reply->insert_message(buf, "low");
             log_messages.printf(MSG_NORMAL,
                 "Daily result quota %d exceeded for app version %d\n",
                 havp->max_jobs_per_day, havp->app_version_id
@@ -1369,18 +1368,18 @@ static void explain_to_user() {
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
         }
         if (g_wreq->max_jobs_on_host_exceeded) {
-            sprintf(helpful, "(reached limit of tasks in progress)");
-            g_reply->insert_message(helpful, "high");
+            sprintf(buf, "(reached limit of tasks in progress)");
+            g_reply->insert_message(buf, "low");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
         }
         if (g_wreq->max_jobs_on_host_cpu_exceeded) {
-            sprintf(helpful, "(reached limit of CPU tasks in progress)");
-            g_reply->insert_message(helpful, "high");
+            sprintf(buf, "(reached limit of CPU tasks in progress)");
+            g_reply->insert_message(buf, "low");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
         }
         if (g_wreq->max_jobs_on_host_gpu_exceeded) {
-            sprintf(helpful, "(reached limit of GPU tasks in progress)");
-            g_reply->insert_message(helpful, "high");
+            sprintf(buf, "(reached limit of GPU tasks in progress)");
+            g_reply->insert_message(buf, "low");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
         }
     }

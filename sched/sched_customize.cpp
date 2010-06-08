@@ -23,13 +23,20 @@
 // wu_is_infeasible_custom()
 //      Decide whether host can run a job using a particular app version.
 //      In addition it can:
-//      - set its resource usage and/or FLOPS estimate
+//      - set the app version's resource usage and/or FLOPS rate estimate
 //          (by assigning to bav.host_usage)
+//      - modify command-line args
+//          (by assigning to bav.host_usage.cmdline)
+//      - set the job's FLOPS count
+//          (by assigning to wu.rsc_fpops_est)
+//
 // app_plan()
 //      Decide whether host can use an app version,
 //      and if so what resources it will use
+//
 // app_plan_uses_gpu():
 //      Which plan classes use GPUs
+//
 // JOB::get_score():
 //      Determine the value of sending a particular job to host;
 //      (used only by "matchmaker" scheduling)

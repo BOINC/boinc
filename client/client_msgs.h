@@ -62,4 +62,6 @@ extern MESSAGE_DESCS message_descs;
 
 extern void msg_printf(struct PROJECT *p, int priority, const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
 
+extern void strip_translation(char*);
+
 #endif

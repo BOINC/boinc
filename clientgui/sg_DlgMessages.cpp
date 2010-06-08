@@ -627,7 +627,7 @@ wxInt32 CPanelMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
-        strBuffer = wxString(message->body.c_str(), wxConvUTF8);
+        strBuffer = process_client_message(message->body.c_str());
     }
 
     strBuffer.Replace(wxT("\n"), wxT(""), true);

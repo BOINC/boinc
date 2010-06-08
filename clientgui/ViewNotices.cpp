@@ -180,7 +180,7 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
                 strcat(tbuf, "<br>");
                 strItems += wxString(tbuf, wxConvUTF8);
             }
-            strItems += wxString(np->description.c_str(), wxConvUTF8);
+            strItems += process_client_message(np->description.c_str());
             strItems += wxT("<br><font size=-2 color=#8f8f8f>");
             dtBuffer.Set((time_t)np->arrival_time);
             strItems += dtBuffer.Format();
@@ -193,7 +193,6 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     }
     strHTML  = wxT("<html>\n<body>\n");
     strHTML += strItems;
-    //strHTML += wxT("<br><img src=http://boinc.berkeley.edu/logo/www_logo.gif>\n");
     strHTML += wxT("</body>\n</html>\n");
     m_pHtmlPane->SetFonts(wxT("Sans Serif"), wxT("Courier"), 0);
     m_pHtmlPane->SetPage(strHTML);
