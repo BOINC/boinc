@@ -4144,7 +4144,8 @@ Charlie  7 Jun 2010
         client_state.cpp
 
 Charlie  7 Jun 2010
-    - Mac: Don't generate xX86_64 client symbol table (was empty.)
+    - Mac: Don't generate xX86_64 client symbol table (was empty); fix 
+        generation of PowerPC symbol tables (thin to ppc7400 not ppc).
     
      mac_build/
         boinc.xcodeproj/
