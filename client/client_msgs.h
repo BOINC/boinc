@@ -64,4 +64,6 @@ extern void msg_printf(struct PROJECT *p, int priority, const char *fmt, ...) __
 
 extern void strip_translation(char*);
 
+#define _(x) "_(\""x"\")"
+
 #endif
