@@ -1784,3 +1784,12 @@ Charlie  7 Jun 2010
         
     client/
         client_state.cpp
+
+Charlie  7 Jun 2010
+    - Mac: Remove references to OS 10.3.9 SDK, fix script build phases in XCode 
+        project so it can be built using either XCode 3.2 under OS 10.6 or 
+        XCode 3.1 under OS 10.5.
+        
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
