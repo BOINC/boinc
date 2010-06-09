@@ -1793,3 +1793,10 @@ Charlie  7 Jun 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie  9 Jun 2010
+    - Mac installer: Create script to build installer for Campus Party (installs 
+        custom project_init.xml file.)
+    
+    mac_installer/
+        release_campus_party.sh
