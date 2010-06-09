@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="atiopencl"
-	ProjectGUID="{C41F5C14-772D-4B56-BAF3-0FE8BF6807D5}"
-	RootNamespace="atiopencl"
+	Name="nvopencl"
+	ProjectGUID="{BDC69EE0-033E-4AE1-B6AD-670E26FC117B}"
+	RootNamespace="nvopencl"
 	>
 	<Platforms>
 		<Platform
@@ -41,8 +41,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(ATISTREAMSDKROOT)\include"
-				PreprocessorDefinitions="ATI_OS_WIN"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH)"
+				PreprocessorDefinitions="NV_OS_WIN"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -56,7 +56,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="OpenCL.lib"
-				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86"
+				AdditionalLibraryDirectories="$(CUDA_LIB_PATH)\..\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -81,7 +81,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\samples\$(ProjectName)\$(ProjectName).cl &quot;$(OUTDIR)&quot;"
+				CommandLine="copy ..\samples\nvopencl\*.cl &quot;$(OUTDIR)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -109,8 +109,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(ATISTREAMSDKROOT)\include"
-				PreprocessorDefinitions="ATI_OS_WIN"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH)"
+				PreprocessorDefinitions="NV_OS_WIN"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -124,7 +124,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="OpenCL.lib"
-				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86_64"
+				AdditionalLibraryDirectories="$(CUDA_LIB_PATH)\..\lib64"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -149,7 +149,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\samples\$(ProjectName)\*.cl &quot;$(OUTDIR)&quot;"
+				CommandLine="copy ..\samples\nvopencl\*.cl &quot;$(OUTDIR)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -177,8 +177,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(ATISTREAMSDKROOT)\include"
-				PreprocessorDefinitions="ATI_OS_WIN"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH)"
+				PreprocessorDefinitions="NV_OS_WIN"
 				RuntimeLibrary="0"
 			/>
 			<Tool
@@ -193,7 +193,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="OpenCL.lib"
-				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86"
+				AdditionalLibraryDirectories="$(CUDA_LIB_PATH)\..\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -218,7 +218,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\samples\$(ProjectName)\$(ProjectName).cl &quot;$(OUTDIR)&quot;"
+				CommandLine="copy ..\samples\nvopencl\*.cl &quot;$(OUTDIR)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -247,8 +247,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(ATISTREAMSDKROOT)\include"
-				PreprocessorDefinitions="ATI_OS_WIN"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH)"
+				PreprocessorDefinitions="NV_OS_WIN"
 				RuntimeLibrary="0"
 			/>
 			<Tool
@@ -262,7 +262,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86_64"
+				AdditionalLibraryDirectories="$(CUDA_LIB_PATH)\..\lib64"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -287,7 +287,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\samples\$(ProjectName)\$(ProjectName).cl &quot;$(OUTDIR)&quot;"
+				CommandLine="copy ..\samples\nvopencl\*.cl &quot;$(OUTDIR)&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -300,7 +300,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\samples\atiopencl\atiopencl.cpp"
+				RelativePath="..\samples\nvopencl\nvopencl.cpp"
 				>
 			</File>
 		</Filter>
@@ -310,7 +310,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\samples\atiopencl\atiopencl.hpp"
+				RelativePath="..\samples\nvopencl\nvopencl.hpp"
 				>
 			</File>
 		</Filter>
