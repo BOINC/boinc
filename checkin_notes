@@ -4199,7 +4199,7 @@ David  8 Jun 2010
 
 Charlie  9 Jun 2010
     - Mac installer: Create script to build installer for Campus Party (installs 
-        custom project_inint.xml file.)
+        custom project_init.xml file.)
     
     mac_installer/
         release_campus_party.sh
