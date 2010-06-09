@@ -2,8 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="multi_thread"
+	Name="example_app_multi_thread"
 	ProjectGUID="{BFE833C6-840F-4F2E-A1FA-A4DE9B9277D6}"
+	RootNamespace="example_app_multi_thread"
 	>
 	<Platforms>
 		<Platform
