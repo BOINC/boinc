@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="nvopencl"
+	Name="example_app_nvopencl"
 	ProjectGUID="{BDC69EE0-033E-4AE1-B6AD-670E26FC117B}"
 	RootNamespace="nvopencl"
 	>

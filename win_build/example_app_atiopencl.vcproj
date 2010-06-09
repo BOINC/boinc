@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="atiopencl"
+	Name="example_app_atiopencl"
 	ProjectGUID="{C41F5C14-772D-4B56-BAF3-0FE8BF6807D5}"
 	RootNamespace="atiopencl"
 	>

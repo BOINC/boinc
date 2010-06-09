@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="nvcuda"
+	Name="example_app_nvcuda"
 	ProjectGUID="{55F71337-32A6-4C26-8CBA-A06A9183D6F2}"
 	RootNamespace="nvcuda"
 	Keyword="Win32Proj"
