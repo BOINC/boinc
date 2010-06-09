@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="cuda"
+	Name="nvcuda"
 	ProjectGUID="{55F71337-32A6-4C26-8CBA-A06A9183D6F2}"
-	RootNamespace="cuda"
+	RootNamespace="nvcuda"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -17,7 +17,7 @@
 	</Platforms>
 	<ToolFiles>
 		<ToolFile
-			RelativePath=".\cuda.rules"
+			RelativePath=".\nvcuda.rules"
 		/>
 	</ToolFiles>
 	<Configurations>
@@ -717,7 +717,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\samples\cuda\cuda.cu"
+				RelativePath="..\samples\nvcuda\cuda.cu"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -797,7 +797,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\samples\cuda\cuda_kernel.cu"
+				RelativePath="..\samples\nvcuda\cuda_kernel.cu"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

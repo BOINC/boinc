@@ -4203,3 +4203,13 @@ Charlie  9 Jun 2010
     
     mac_installer/
         release_campus_party.sh
+
+Rom    9 Jun 2010
+    - win_build: Commit project files to build sample applications for cuda 
+        and OpenCL (ATI & Nvidia)
+        
+    samples/
+        <Various Files>
+    win_build/
+        <various Files>
+        
