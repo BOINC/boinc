@@ -4189,3 +4189,10 @@ David  8 Jun 2010
         hostinfo_unix.cpp
         log_flags.cpp
         net_stats.cpp
+
+David  8 Jun 2010
+    - manager: add a script that generates a .pot for the manager
+        that includes the client source code as well
+
+    clientgui/
+        build_po
