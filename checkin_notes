@@ -1800,3 +1800,11 @@ Charlie  9 Jun 2010
     
     mac_installer/
         release_campus_party.sh
+
+David  30 Mar 2010
+    - finish up the auto-team feature
+
+    html/user/
+        account_finish_action.php
+        create_account.php
+
