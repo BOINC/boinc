@@ -1808,3 +1808,9 @@ David  30 Mar 2010
         account_finish_action.php
         create_account.php
 
+Charlie  9 Jun 2010
+    - Mac Installer: fix typos in installer build script.
+    
+    mac_installer/
+        release_boinc.sh
+
