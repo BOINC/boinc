@@ -30,7 +30,7 @@
     // use host scaling only if have this many samples for host
 #define MIN_VERSION_SAMPLES   100
     // update a version's scale only if it has this many samples
-#define COBBLESTONE_SCALE 100/86400e9
+#define COBBLESTONE_SCALE 200/86400e9
     // multiply normalized PFC by this to get Cobblestones
 
 // parameters for maintaining averages.

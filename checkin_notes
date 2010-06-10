@@ -4213,3 +4213,14 @@ Rom    9 Jun 2010
     win_build/
         <various Files>
         
+David  10 Jun 2010
+    - server: change credit constant from 100 to 200.
+        Data from S@h beta (running for a month or so)
+        suggests that this will almost exactly match the
+        average credit granted by S@h's old system
+        (which, in theory, is the reference for other projects)
+
+    sched/
+        credit.h
+    html/inc/
+        result.inc

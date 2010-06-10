@@ -30,7 +30,7 @@ function app_version_string($id) {
         $av = $app_versions[$id];
         $app = $apps[$av->appid];
     } else {
-        $av = BoincAppVersion::lookup("id=$id");
+        $av = BoincAppVersion::lookup_id($id);
         if (!$av) {
             return tra("Not in DB");
         }
@@ -391,7 +391,7 @@ function show_result($result) {
     row2(tra("Validate state"), validate_state_str($result));
     row2(tra("Claimed credit"), number_format($result->claimed_credit, 2));
     row2(tra("Granted credit"), number_format($result->granted_credit, 2));
-    row2(tra("application version"), app_version_string($result->app_version_id));
+    row2(tra("Application version"), app_version_string($result->app_version_id));
     end_table();
     echo "<h3>Stderr output</h3> <pre>".htmlspecialchars($result->stderr_out)."</pre>";
 }
