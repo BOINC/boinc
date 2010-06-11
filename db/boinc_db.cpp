@@ -195,11 +195,7 @@ void DB_APP::db_print(char* buf){
         "beta=%d, "
         "target_nresults=%d, "
         "min_avg_pfc=%.15e, "
-        "host_scale_check=%d, "
-        "max_jobs_in_progress=%d, "
-        "max_gpu_jobs_in_progress=%d, "
-        "max_jobs_per_rpc=%d, "
-        "max_jobs_per_day_init=%d ",
+        "host_scale_check=%d, ",
         create_time,
         name,
         min_version,
@@ -210,11 +206,7 @@ void DB_APP::db_print(char* buf){
         beta?1:0,
         target_nresults,
         min_avg_pfc,
-        host_scale_check?1:0,
-        max_jobs_in_progress,
-        max_gpu_jobs_in_progress,
-        max_jobs_per_rpc,
-        max_jobs_per_day_init
+        host_scale_check?1:0
     );
 }
 
@@ -233,10 +225,6 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     target_nresults = atoi(r[i++]);
     min_avg_pfc = atof(r[i++]);
     host_scale_check = (atoi(r[i++]) != 0);
-    max_jobs_in_progress = atoi(r[i++]);
-    max_gpu_jobs_in_progress = atoi(r[i++]);
-    max_jobs_per_rpc = atoi(r[i++]);
-    max_jobs_per_day_init = atoi(r[i++]);
 }
 
 void DB_APP_VERSION::db_print(char* buf){

@@ -51,10 +51,6 @@ create table app (
     target_nresults         smallint        not null default 0,
     min_avg_pfc             double          not null,
     host_scale_check        tinyint         not null,
-    max_jobs_in_progress    integer         not null,
-    max_gpu_jobs_in_progress integer        not null,
-    max_jobs_per_rpc        integer         not null,
-    max_jobs_per_day_init   integer         not null,
     primary key (id)
 ) engine=InnoDB;
 

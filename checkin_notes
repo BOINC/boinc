@@ -4224,3 +4224,12 @@ David  10 Jun 2010
         credit.h
     html/inc/
         result.inc
+
+David  10 Jun 2010
+    - database: remove unused fields from app table
+
+    db/
+        boinc_db.cpp,h
+        schema.sql
+    html/ops/
+        db_update.php

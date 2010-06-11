@@ -706,6 +706,15 @@ function update_4_21_2010() {
     ");
 }
 
+function update_6_10_2010() {
+    do_query("alter table app
+        drop column max_jobs_in_progress,
+        drop column max_gpu_jobs_in_progress,
+        drop column max_jobs_per_rpc,
+        drop column max_jobs_per_day_init
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -722,6 +731,7 @@ $db_updates = array (
     array(20807, "update_3_5_2010"),
     array(20932, "update_3_17_2010"),
     array(21226, "update_4_21_2010"),
+    array(21728, "update_6_10_2010"),
 );
 
 ?>

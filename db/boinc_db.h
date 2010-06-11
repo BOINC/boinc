@@ -83,10 +83,6 @@ struct APP {
         // Approximates (actual FLOPS)/wu.rsc_fpops_est
     bool host_scale_check;
         // use host scaling cautiously, to thwart cherry picking
-    int max_jobs_in_progress;
-    int max_gpu_jobs_in_progress;
-    int max_jobs_per_rpc;
-    int max_jobs_per_day_init;
 
     int write(FILE*);
     void clear();
