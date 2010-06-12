@@ -524,8 +524,6 @@ static int modify_host_struct(HOST& host) {
     }
     host.fix_nans();
 
-    compute_credit_rating(host);
-    g_request->host.claimed_credit_per_cpu_sec = host.claimed_credit_per_cpu_sec;
     return 0;
 }
 

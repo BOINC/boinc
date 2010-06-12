@@ -333,7 +333,6 @@ struct HOST {
 
     // the following not stored in DB
     //
-    double claimed_credit_per_cpu_sec;
     char p_features[256];
 
     int parse(FILE*);
@@ -665,23 +664,6 @@ struct DB_HOST_APP_VERSION : public DB_BASE, public HOST_APP_VERSION {
     int update_validator(DB_HOST_APP_VERSION&);
 };
 
-struct CREDIT_MULTIPLIER {
-    int id;
-    int appid;
-    int _time;
-    double multiplier;
-
-    void clear();
-};
-    
-struct DB_CREDIT_MULTIPLIER : public DB_BASE, public CREDIT_MULTIPLIER {
-    DB_CREDIT_MULTIPLIER(DB_CONN* p=0);
-    int get_id();
-    void db_print(char *);
-    void db_parse(MYSQL_ROW &row);
-    void get_nearest(int appid, int time);
-};
-
 struct STATE_COUNTS {
     int appid; 
     int last_update_time;   
@@ -712,7 +694,6 @@ struct VALIDATOR_ITEM {
     void clear();
     void parse(MYSQL_ROW&);
 };
-
 
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:

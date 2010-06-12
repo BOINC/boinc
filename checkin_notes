@@ -4233,3 +4233,25 @@ David  10 Jun 2010
         schema.sql
     html/ops/
         db_update.php
+
+David  10 Jun 2010
+    - server: delete old credit stuff
+    - user web: show host link in user result list.  Fixes #999
+
+    db/
+        boinc_db.cpp,h
+        schema.sql
+    html/
+        inc/
+            result.inc
+        user/
+            results.php
+    sched/
+        credit.cpp,h
+        handle_request.cpp
+        sample_bitwise_validator.cpp
+        sample_trivial_validator.cpp
+        sched_config.cpp,h
+        sched_locality.cpp
+        sched_result.cpp
+        validate_util.cpp,h

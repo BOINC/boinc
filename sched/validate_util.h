@@ -44,8 +44,5 @@ extern int get_logical_name(
     RESULT& result, std::string& path, std::string& name
 );
 
-extern double median_mean_credit(WORKUNIT&, std::vector<RESULT>& results);
 extern int get_credit_from_wu(WORKUNIT&, std::vector<RESULT>& results, double&);
-extern double stddev_credit(WORKUNIT&, std::vector<RESULT>& results);
-extern double two_credit(WORKUNIT&, std::vector<RESULT>& results);
 #endif

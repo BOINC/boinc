@@ -44,14 +44,9 @@
 #define AV_AVG_WEIGHT   .001
 #define AV_AVG_LIMIT    10
 
-extern void compute_credit_rating(HOST&);
-extern double credit_multiplier(int, time_t);
 extern double fpops_to_credit(double fpops, double intops);
     // credit that should be granted for a given number of
     // floating-point and integer ops
-extern int update_credit_per_cpu_sec(
-    double credit, double cpu_time, double& credit_per_cpu_sec
-);
 extern int grant_credit(
     DB_HOST& host, double start_time, double cpu_time, double credit
 );

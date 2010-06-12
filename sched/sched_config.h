@@ -150,7 +150,6 @@ struct SCHED_CONFIG {
     char sched_lockfile_dir[256];
     bool send_result_abort;
     char symstore[256];
-    bool use_credit_multiplier;
     bool workload_sim;
         // Do workload simulation in deciding whether to send a result
 

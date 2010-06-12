@@ -46,6 +46,7 @@ if ($hostid) {
     if (!$host) error_page(tra("No computer with ID %1 found", $hostid));
     $clause = "hostid=$hostid";
     page_head(tra("$s tasks for computer %1", $host->id));
+    $show_host_link = false;
 } else if ($userid){
     $user = get_logged_in_user();
     if ($userid != $user->id) {
@@ -53,6 +54,7 @@ if ($hostid) {
     }
     $clause = "userid=$userid";
     page_head(tra("$s tasks for $user->name"));
+    $show_host_link = true;
 } else {
     error_page(tra("Missing user ID or host ID"));
 }
@@ -72,11 +74,11 @@ $info->state = $state;
 
 if (count($results)) {
     echo show_result_navigation($info);
-    result_table_start(true, false, $info);
+    result_table_start(true, $show_host_link, $info);
     $i = 0;
     foreach ($results as $result) {
         if ($i >= $results_per_page) break;
-        show_result_row($result, true, false, $show_names, $i);
+        show_result_row($result, true, $show_host_link, $show_names, $i);
         $i++;
     }
     echo "</table>\n";

@@ -69,7 +69,6 @@ void TRANSITIONER_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void VALIDATOR_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void SCHED_RESULT_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void HOST_APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
-void CREDIT_MULTIPLIER::clear() {memset(this, 0, sizeof(*this));}
 void STATE_COUNTS::clear() {memset(this, 0, sizeof(*this));}
 void FILE_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void FILESET_ITEM::clear() {memset(this, 0, sizeof(*this));}
@@ -108,8 +107,6 @@ DB_MSG_TO_HOST::DB_MSG_TO_HOST(DB_CONN* dc) :
     DB_BASE("msg_to_host", dc?dc:&boinc_db){}
 DB_ASSIGNMENT::DB_ASSIGNMENT(DB_CONN* dc) :
     DB_BASE("assignment", dc?dc:&boinc_db){}
-DB_CREDIT_MULTIPLIER::DB_CREDIT_MULTIPLIER(DB_CONN* dc) :
-    DB_BASE("credit_multiplier", dc?dc:&boinc_db){}
 DB_HOST_APP_VERSION::DB_HOST_APP_VERSION(DB_CONN* dc) :
     DB_BASE("host_app_version", dc?dc:&boinc_db){}
 DB_STATE_COUNTS::DB_STATE_COUNTS(DB_CONN* dc) :
@@ -158,7 +155,6 @@ int DB_RESULT::get_id() {return id;}
 int DB_MSG_FROM_HOST::get_id() {return id;}
 int DB_MSG_TO_HOST::get_id() {return id;}
 int DB_ASSIGNMENT::get_id() {return id;}
-int DB_CREDIT_MULTIPLIER::get_id() {return id;}
 int DB_STATE_COUNTS::get_id() {return appid;}
 int DB_FILE::get_id() {return id;}
 int DB_FILESET::get_id() {return id;}
@@ -1046,26 +1042,6 @@ void DB_ASSIGNMENT::db_parse(MYSQL_ROW& r) {
     resultid = atoi(r[i++]);
 }
 
-void DB_CREDIT_MULTIPLIER::db_print(char* buf) {
-    sprintf(buf,
-        "appid=%d, "
-        "time=%d, "
-        "multiplier=%.15e ",
-        appid,
-        _time,
-        multiplier
-    );
-}
-
-void DB_CREDIT_MULTIPLIER::db_parse(MYSQL_ROW& r) {
-    int i=0;
-    clear();
-    id = atoi(r[i++]);
-    appid = atoi(r[i++]);
-    _time = atoi(r[i++]);
-    multiplier = atof(r[i++]);
-}
-
 int DB_HOST_APP_VERSION::update_scheduler(DB_HOST_APP_VERSION& orig) {
     char query[1024], clause[512];
 
@@ -1232,38 +1208,6 @@ void DB_STATE_COUNTS::db_parse(MYSQL_ROW& r) {
     workunit_assimilate_state_1 = atoi(r[i++]);
     workunit_file_delete_state_1 = atoi(r[i++]);       
     workunit_file_delete_state_2 = atoi(r[i++]);
-}
-
-
-void DB_CREDIT_MULTIPLIER::get_nearest(int _appid, int t) {
-    char query[MAX_QUERY_LEN];
-    MYSQL_ROW row;
-    MYSQL_RES *rp;
-
-    // set default values.
-    clear();
-    multiplier = 1;
-    _time = time(0);
-    appid = _appid;
-
-    snprintf(query,MAX_QUERY_LEN,
-        "select * from credit_multiplier where appid=%d and "
-        "abs(time-%d)=("
-        "select min(abs(time-%d)) from credit_multiplier where appid=%d"
-        ") limit 1",
-        appid, t, t, appid
-    );
-    if (db->do_query(query) != 0) return;
-    rp = mysql_store_result(db->mysql);
-    if (!rp) return;
-
-    row = mysql_fetch_row(rp);
-    if (!row) {
-        mysql_free_result(rp);
-    } else {
-        db_parse(row);
-    }
-    return;
 }
 
 void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {

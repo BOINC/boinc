@@ -262,13 +262,13 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
             $i2 = clone $info;
             $i2->show_names = 1;
             $url = result_page_url($i2);
-            echo "<th>Task ID<br><span class=\"smalltext\">".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></span></th>\n";
+            echo "<th>Task<br><span class=\"smalltext\">".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></span></th>\n";
         }
     } else {
-        echo "<th>".tra("Task ID")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
+        echo "<th>".tra("Task")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
     }
     if ($show_wu_link) {
-        echo "<th>".tra("Work unit ID")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
+        echo "<th>".tra("Work unit")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
     }
     if ($show_host_link) {
         echo "<th>".tra("Computer")."</th>\n";

@@ -322,25 +322,9 @@ int handle_results() {
                 rp->intops_per_cpu_sec*srip->cpu_time
             );
         } else {
-            srip->claimed_credit = srip->cpu_time * g_reply->host.claimed_credit_per_cpu_sec;
+            srip->claimed_credit = 0;
         }
 
-        if (config.use_credit_multiplier) {
-            // Regardless of the method of claiming credit,
-            // multiply by the application's credit multiplier
-            // at the time of result creation.
-            //
-            srip->claimed_credit *= credit_multiplier(srip->appid,srip->sent_time);
-        }
-
-        if (config.debug_handle_results) {
-            log_messages.printf(MSG_NORMAL,
-                "[handle] [RESULT#%d] cpu time %f credit/sec %f, claimed credit %f\n",
-                srip->id, srip->cpu_time,
-                g_reply->host.claimed_credit_per_cpu_sec,
-                srip->claimed_credit
-            );
-        }
         srip->server_state = RESULT_SERVER_STATE_OVER;
 
         strlcpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));

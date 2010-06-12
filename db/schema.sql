@@ -319,15 +319,6 @@ create table assignment (
     primary key (id)
 ) engine = InnoDB;
 
--- credit multiplier.  Used by the scheduler and calculate_credit_multiplier
--- script to automatically adjust granted credit.
-create table credit_multiplier (
-    id                  serial          primary key,
-    appid               integer         not null,
-    time                integer         not null,
-    multiplier          double          not null default 0
-) engine=MyISAM;
-
 -- the following not used for anything right now
 create table state_counts (
     appid               integer     not null,

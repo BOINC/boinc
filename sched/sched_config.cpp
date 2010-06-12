@@ -259,7 +259,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "send_result_abort", send_result_abort)) continue;
         if (xp.parse_str(tag, "symstore", symstore, sizeof(symstore))) continue;
 
-        if (xp.parse_bool(tag, "use_credit_multiplier", use_credit_multiplier)) continue;
         if (xp.parse_bool(tag, "workload_sim", workload_sim)) continue;
 
         //////////// SCHEDULER LOG FLAGS /////////

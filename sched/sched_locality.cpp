@@ -822,6 +822,7 @@ static int send_new_file_work_deterministic_seeded(
 
 
 static bool is_host_slow() {
+#if 0
     // 0.0013 defines about the slowest 20% of E@H hosts.
     // should make this a config parameter in the future,
     // if this idea works.
@@ -839,6 +840,7 @@ static bool is_host_slow() {
         }
     }
     if (hostspeed < 0.0013) return true;
+#endif
     return false;
 }
 
