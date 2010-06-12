@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-12 12:59-0700\n"
+"PO-Revision-Date: 2010-06-12 13:04-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
@@ -3788,24 +3788,24 @@ msgid "list is empty"
 msgstr "seznam je prázdný"
 
 #: clientgui/mac/MacAccessiblity.cpp:757 clientgui/mac/MacAccessiblity.cpp:769
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d; "
-msgstr "řádka %d "
+msgstr "; řádka %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:761
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d of %d; "
-msgstr "sloupec %d %d; "
+msgstr "; vybraná řádka %d z %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:763
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d ; "
-msgstr "vybrán "
+msgstr "; vybraná řádka %d ; "
 
 #: clientgui/mac/MacAccessiblity.cpp:767
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d of %d; "
-msgstr "sloupec %d %d; "
+msgstr "; řádka %d z %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:775
 msgid "blank"
@@ -3816,9 +3816,9 @@ msgid "list of projects or account managers"
 msgstr "seznam projektů nebo správců účtů"
 
 #: clientgui/mac/MacAccessiblity.cpp:1448
-#, fuzzy, c-format
+#, c-format
 msgid "selected row %d of %d; "
-msgstr "sloupec %d %d; "
+msgstr "vybraná řádka %d z %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1450
 #, c-format
