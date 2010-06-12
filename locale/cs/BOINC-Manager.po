@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-05-16 10:43-0700\n"
+"PO-Revision-Date: 2010-06-12 12:59-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -272,13 +272,14 @@ msgid "Display the simple graphical interface."
 msgstr "Přepne BOINC do režimu zjednodušeného zobrazení"
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "Připojit k &projektu nebo správci účtu..."
+msgstr "Připojit k projektu nebo správci účtu..."
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Staňte se dobrovolníkem v několika, nebo i všech z více než 30 projektů v "
+"mnoha oblastech vědy"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -1298,19 +1299,16 @@ msgid "Maximum upload rate"
 msgstr "Max. rychlost odesílání"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:353
-#, fuzzy
 msgid "Transfer at most"
-msgstr "Použít nejvýše"
+msgstr "Přenést nejvýše"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
-#, fuzzy
 msgid "Mbytes"
-msgstr "Ano"
+msgstr "Megabajtů"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:362
-#, fuzzy
 msgid "every"
-msgstr "Server:"
+msgstr "každých"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:368
 #: clientgui/DlgAdvPreferencesBase.cpp:382
@@ -3220,7 +3218,7 @@ msgstr "Zpracovávám požadavek plánovače"
 
 #: clientgui/ViewProjects.cpp:1071
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Nevyřízené odeslání zprávy o průběhu"
 
 #: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
@@ -3424,7 +3422,7 @@ msgstr "Přenos"
 msgid ""
 "Network activity is suspended.\n"
 "You can enable it using the Activity menu."
-msgstr ""
+msgstr "Přístup k Internetu byl pozastaven.Můžete ho obnovit v menu aplikace."
 
 #: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
@@ -3454,14 +3452,12 @@ msgid "Retry in "
 msgstr "Znovu zkusím za "
 
 #: clientgui/ViewTransfers.cpp:771
-#, fuzzy
 msgid "Suspended upload"
-msgstr "Pozastaveno"
+msgstr "Pozastaveno odesílání"
 
 #: clientgui/ViewTransfers.cpp:772
-#, fuzzy
 msgid "Suspended download"
-msgstr "Pozastaveno"
+msgstr "Pozastaveno stahování"
 
 #: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
@@ -3602,9 +3598,8 @@ msgid "GPU missing, "
 msgstr "Grafická karta nenalezena, "
 
 #: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
-#, fuzzy
 msgid " (suspended)"
-msgstr "Pozastaveno"
+msgstr " (pozastaveno)"
 
 #: clientgui/ViewWork.cpp:1152
 msgid " - an exclusive app is running"
@@ -3761,32 +3756,32 @@ msgstr "Tento panel obsahuje grafy ukazující výsledky uživatele v projektech
 
 #: clientgui/mac/MacAccessiblity.cpp:635
 msgid "list headers"
-msgstr ""
+msgstr "hlavičky seznamů"
 
 #: clientgui/mac/MacAccessiblity.cpp:639
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s"
-msgstr "seznam "
+msgstr "seznam %s"
 
 #: clientgui/mac/MacAccessiblity.cpp:641
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s is empty"
-msgstr "seznam je prázdný"
+msgstr "seznam %s je prázdný"
 
 #: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr "; tříděno podle sloupce %d z %d; sestupné pořadí; "
 
 #: clientgui/mac/MacAccessiblity.cpp:744
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr "; tříděno podle sloupce %d z %d; vzestupné pořadí; "
 
 #: clientgui/mac/MacAccessiblity.cpp:747
-#, fuzzy, c-format
+#, c-format
 msgid "; column %d of %d; "
-msgstr "sloupec %d; "
+msgstr "; sloupec %d z %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:754
 msgid "list is empty"
