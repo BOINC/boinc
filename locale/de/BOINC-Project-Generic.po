@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-04-09 12:40-0700\n"
+"PO-Revision-Date: 2010-06-12 02:26-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -62,7 +62,7 @@ msgstr "Diskussionsforen"
 # Forum sample index page
 #: ../inc/forum.inc:186 ../inc/forum.inc:194
 msgid "%1 message board"
-msgstr "%1-Diskussionsforum"
+msgstr "%1 Diskussionsforum"
 
 #: ../inc/forum.inc:1056
 msgid ""
@@ -222,9 +222,8 @@ msgid "Number of processors"
 msgstr "Anzahl der Prozessoren"
 
 #: ../inc/host.inc:117
-#, fuzzy
 msgid "Coprocessors"
-msgstr "Coprozessor"
+msgstr "Koprozessor"
 
 #: ../inc/host.inc:119 ../inc/host.inc:626
 msgid "Operating System"
@@ -252,7 +251,7 @@ msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr "Auslagerungsspeicher"
+msgstr "Auslagerungsdatei"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
@@ -267,18 +266,16 @@ msgid "Free Disk Space"
 msgstr "freier Festplattenspeicher"
 
 #: ../inc/host.inc:144
-#, fuzzy
 msgid "Measured floating point speed"
-msgstr "ermittelte Fließkommageschwindigkeit"
+msgstr "ermittelte Geschwindigkeit für Gleitkommazahlen"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
 msgstr "%1 Millionen Operationen/Sek"
 
 #: ../inc/host.inc:147
-#, fuzzy
 msgid "Measured integer speed"
-msgstr "ermittelte Ganzzahlgeschwindigkeit"
+msgstr "ermittelte Geschwindigkeit für ganze Zahlen"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
@@ -299,14 +296,13 @@ msgstr "mittlere Downloadgeschwindigkeit"
 
 #: ../inc/host.inc:163
 msgid "Average turnaround time"
-msgstr ""
+msgstr "mittlere Taskdauer"
 
 #: ../inc/host.inc:163
 msgid "%1 days"
 msgstr "%1 Tage"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Maximum daily WU quota per CPU"
 msgstr "maximale Anzahl Arbeitspakete pro CPU pro Tag"
 
@@ -327,12 +323,12 @@ msgid "Last time contacted server"
 msgstr "letztmaliger Kontakt mit Server"
 
 #: ../inc/host.inc:180
-#, fuzzy, php-format
+#, php-format
 msgid "% of time BOINC client is running"
-msgstr "% der Zeit in der der BOINC-Client läuft"
+msgstr "% der Zeit in der der BOINC-Client gestartet ist"
 
 #: ../inc/host.inc:182
-#, fuzzy, php-format
+#, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr "Während BOINC läuft, % der Zeit in der eine Internetverbindung besteht"
 
@@ -347,7 +343,7 @@ msgstr "mittlere CPU Effizienz"
 
 #: ../inc/host.inc:189
 msgid "Task duration correction factor"
-msgstr ""
+msgstr "Korrekturfaktor der Taskdauer"
 
 #: ../inc/host.inc:191 ../inc/host.inc:613
 msgid "Location"
@@ -358,14 +354,12 @@ msgid "Delete this computer"
 msgstr "Diesen Computer löschen"
 
 #: ../inc/host.inc:197
-#, fuzzy
 msgid "Merge duplicate records of this computer"
-msgstr "Diesen Computer zusammenführen"
+msgstr "Doppelte Einträge dieses Computer zusammenführen"
 
 #: ../inc/host.inc:197
-#, fuzzy
 msgid "Merge"
-msgstr "Nachricht"
+msgstr "Zusammenführen"
 
 #: ../inc/host.inc:210
 msgid "Computer info"
@@ -418,7 +412,6 @@ msgid "Cross-project stats:"
 msgstr "Projektübergreifende Statistiken:"
 
 #: ../inc/host.inc:459
-#, fuzzy
 msgid "Host %1 has overlapping lifetime:"
 msgstr "PC %1 hat eine überschneidende Nutzungszeit:"
 
@@ -431,7 +424,6 @@ msgid "Host %1 has an incompatible CPU:"
 msgstr "PC %1 hat keinen kompatiblen Prozessor:"
 
 #: ../inc/host.inc:539
-#, fuzzy
 msgid "same host"
 msgstr "gleicher Computer"
 
@@ -442,7 +434,6 @@ msgstr ""
 "inkompatibel."
 
 #: ../inc/host.inc:545
-#, fuzzy
 msgid "Merging host %1 into host %2"
 msgstr "Führe PC %1 mit %2 zusammen."
 
@@ -463,7 +454,6 @@ msgid "Retired old computer %1"
 msgstr "Setze Computer %1 zur Ruhe"
 
 #: ../inc/host.inc:596 ../inc/host.inc:599
-#, fuzzy
 msgid "Show:"
 msgstr "Zeige:"
 
@@ -481,7 +471,7 @@ msgstr "Computer ID"
 
 #: ../inc/host.inc:621
 msgid "BOINC<br>version"
-msgstr "BOINC<br />Version"
+msgstr "BOINC<br>Version"
 
 #: ../inc/host.inc:628
 msgid "Last contact"
@@ -563,7 +553,6 @@ msgstr ""
 "E-Mail Benachrichtigungen in den %1Communityeinstellungen%2 einrichten."
 
 #: ../inc/prefs.inc:76
-#, fuzzy
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
@@ -575,7 +564,6 @@ msgid "Suspend work while computer is in use?"
 msgstr "Ausführung anhalten wenn der Computer benutzt wird?"
 
 #: ../inc/prefs.inc:90
-#, fuzzy
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
@@ -591,7 +579,6 @@ msgid "minutes"
 msgstr "Minuten"
 
 #: ../inc/prefs.inc:104
-#, fuzzy
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
@@ -600,43 +587,44 @@ msgstr ""
 "Umschaltung in den Ruhemodus bei manchen PC)%2"
 
 #: ../inc/prefs.inc:113
-#, fuzzy
 msgid ""
 "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
 "version 6.10.30+ %2"
 msgstr ""
-"Ausführung auf Grafikkarte anhalten wenn der Computer benutzt wird? %"
-"1Unterstützt ab Version 6.7 aufwärts%2"
+"Ausführung anhalten wenn die CPU-Last größer als angegeben ist? %1 0 "
+"bedeutet keine Einschränkung<br>Unterstützt ab Version 6.10.30 aufwärts%2"
 
 #: ../inc/prefs.inc:121
-#, fuzzy
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr "Erlaube Arbeit nur in der Zeit zwischen"
+msgstr ""
+"Erlaube Arbeit nur in der Zeit zwischen %1Keine Einschränkung wenn gleich%2"
 
 #: ../inc/prefs.inc:129
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
 msgstr ""
+"Angehaltene Arbeitspakete im Speicher belassen? %1Benötigt viel "
+"Arbeitsspeicher wenn 'Ja'%2"
 
 #: ../inc/prefs.inc:138
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
-msgstr ""
+msgstr "Wechsle zwischen den Tasks alle %1Empfohlen: 60 Minuten%2"
 
 #: ../inc/prefs.inc:146
+#, fuzzy
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "Bei mehreren Prozessoren, nutze höchstens"
 
 #: ../inc/prefs.inc:148
 msgid "processors"
-msgstr ""
+msgstr "Prozessoren"
 
 #: ../inc/prefs.inc:152
-#, fuzzy
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Ausführung auf Grafikkarte anhalten wenn der Computer benutzt wird? %"
-"1Unterstützt ab Version 6.7 aufwärts%2"
+"Bei mehreren Prozessoren, nutze höchstens %1Unterstützt ab Version 6.1 "
+"aufwärts%2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -645,59 +633,63 @@ msgstr "% von den Prozessoren"
 
 #: ../inc/prefs.inc:161
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
-msgstr ""
+msgstr "Nutze höchstens %1Kann benutzt werden um Überhitzung zu vermeiden.%2"
 
 #: ../inc/prefs.inc:166
 #, php-format
+#, fuzzy
 msgid "% of CPU time"
-msgstr ""
+msgstr "% der Prozessorzeit"
 
 #: ../inc/prefs.inc:174 ../inc/prefs.inc:188
 msgid "Disk: use at most"
-msgstr ""
+msgstr "Festplatte: nutze höchstens"
 
 #: ../inc/prefs.inc:176 ../inc/prefs.inc:185
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
 msgstr ""
+"Festplatte: mindestens frei zulassen %1Werte kleiner als %2 werden "
+"ignoriert%3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
 #, php-format
 msgid "% of total"
-msgstr ""
+msgstr "% von Gesamt"
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Tasks sichern auf die Festplatte höchstens alle"
 
 #: ../inc/prefs.inc:195
 msgid "seconds"
 msgstr "Sekunden"
 
 #: ../inc/prefs.inc:198
-#, fuzzy
 msgid "Swap space: use at most"
-msgstr "Auslagerungsspeicher"
+msgstr "Auslagerungsspeicher: nutze höchstens"
 
 #: ../inc/prefs.inc:203
-#, fuzzy
 msgid "Memory: when computer is in use, use at most"
-msgstr "Ausführung anhalten wenn der Computer benutzt wird?"
+msgstr "Arbeitsspeicher: wenn Computer benutzt wird, nutze höchstens"
 
 #: ../inc/prefs.inc:208
-#, fuzzy
 msgid "Memory: when computer is not in use, use at most"
-msgstr "Ausführung anhalten wenn der Computer benutzt wird?"
+msgstr "Arbeitsspeicher: wenn Computer nicht genutzt wird, nutze höchstens"
 
 #: ../inc/prefs.inc:217
+#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work. %3"
 msgstr ""
+"Computer ist mit dem Internet circa alle X verbunden. %1Frei lassen oder 0 "
+"eintragen, bei dauerhafter Verbindung.%2BOINC versucht genug Aufgaben für "
+"diese Zeitdauer zu bekommen.%3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 msgid "days"
@@ -712,28 +704,31 @@ msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
+"Bestätigen vor Verbindungsaufbau zum Internet? %1 Nur für Modem, ISDN oder "
+"VPN nötig.%2"
 
 #: ../inc/prefs.inc:241
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
 msgstr ""
+"Trennen wenn Aufgabe/n erledigt? %1 Nur für Modem, ISDN oder VPN nötig. %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "Maximale Downloadrate:"
 
 #: ../inc/prefs.inc:251 ../inc/prefs.inc:256
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "kB/s"
 
 #: ../inc/prefs.inc:254
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "Maximale Uploadrate:"
 
 #: ../inc/prefs.inc:259
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Nutze das Netzwerk nur in der Zeit von/bis"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
@@ -749,6 +744,9 @@ msgid ""
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
 "reduces the security of BOINC. %3"
 msgstr ""
+"Bild-Dateien nicht prüfen? %1 Nur wählen, wenn der Internetanbieter "
+"Bilddateien verändert (z.B. bei UMTS). %2 Überspringen der Prüfung "
+"verringert die BOINC-Sicherheit. %3"
 
 #: ../inc/prefs.inc:287
 msgid ""
@@ -759,29 +757,28 @@ msgid ""
 msgstr ""
 
 #: ../inc/prefs.inc:300
-#, fuzzy
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr ""
-"Ausführung auf Grafikkarte anhalten wenn der Computer benutzt wird? %"
-"1Unterstützt ab Version 6.7 aufwärts%2"
+msgstr "Benutze CPU %1Unterstützt ab Version 6.10 aufwärts%2"
 
 #: ../inc/prefs.inc:312
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Benutze ATI GPU %1Unterstützt ab Version 6.10 aufwärts%2"
 
 #: ../inc/prefs.inc:324
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Benutze Nvidia GPU %1Unterstützt ab Version 6.10 aufwärts%2"
 
 #: ../inc/prefs.inc:338
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
+"Testanwendungen erlauben? %1 Dies hilft uns, Anwendungen zu verbessern, kann "
+"aber zu Fehlern/Abstürzen des Computers führen %2"
 
 #: ../inc/prefs.inc:347
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "Festplatten- und Speichernutzung"
 
 #: ../inc/prefs.inc:348
 msgid "Processor usage"
@@ -789,18 +786,22 @@ msgstr "Prozessornutzung"
 
 #: ../inc/prefs.inc:349
 msgid "Network usage"
-msgstr ""
+msgstr "Netzwerknutzung"
 
 #: ../inc/prefs.inc:352
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
+"Diese Einstellung werden für alle BOINC-Projekte an denen Du teilnimmst "
+"verwendet."
 
 #: ../inc/prefs.inc:355
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
+"%1 Einstellungen aktualisieren nicht möglich! %2 Die rot markierten Werte "
+"sind außerhalb zulässiger Werte oder nicht numerisch!"
 
 #: ../inc/prefs.inc:404
 msgid "bad venue: %1"
@@ -834,7 +835,7 @@ msgstr "Hinzufügen"
 
 #: ../inc/prefs.inc:663 ../inc/prefs.inc:665
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: ../inc/prefs.inc:664 ../inc/prefs.inc:790 ../user/team_admins.php:32
 msgid "Remove"
@@ -844,10 +845,14 @@ msgstr "Entfernen"
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
+"E-Mails werde gesendet von %1; Bitte sicher stellen, dass der Spamfilter "
+"diese Adresse akzeptiert."
 
 #: ../inc/prefs.inc:751 ../inc/prefs.inc:951
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr ""
+"Ist es OK für %1 und Dein Team (wenn beigetreten) Dich per E-Mail zu "
+"kontaktieren?"
 
 #: ../inc/prefs.inc:754 ../inc/prefs.inc:954
 msgid "Should %1 show your computers on its web site?"
@@ -859,40 +864,37 @@ msgstr ""
 
 #: ../inc/prefs.inc:781
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Separate Einstellungen für %1"
 
 #: ../inc/prefs.inc:790 ../inc/prefs.inc:865
-#, fuzzy
 msgid "Edit preferences"
-msgstr "%1-Einstellungen"
+msgstr "Einstellungen bearbeiten"
 
 #: ../inc/prefs.inc:794
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Separate Einstellungen für %1 hinzufügen"
 
 #: ../inc/prefs.inc:802 ../inc/prefs.inc:847
 msgid "(Switch View)"
-msgstr ""
+msgstr "(Ansicht wechseln)"
 
 #: ../inc/prefs.inc:804 ../inc/prefs.inc:850
-#, fuzzy
 msgid "Combined preferences"
-msgstr "Berechnungseinstellungen"
+msgstr "kombinierte Einstellungen"
 
 #: ../inc/prefs.inc:809
 msgid "Project specific settings"
-msgstr ""
+msgstr "Projektspezifische Einstellungen"
 
 #: ../inc/prefs.inc:817 ../inc/prefs.inc:859
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Primäreinstellungen (Standard)"
 
 #: ../inc/prefs.inc:826 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
-#, fuzzy
 msgid "Edit %1 preferences"
-msgstr "%1-Einstellungen"
+msgstr "%1 Einstellungen bearbeiten"
 
 #: ../inc/prefs.inc:840
 msgid ""
@@ -900,28 +902,31 @@ msgid ""
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
+"Diese Einstellungen gelten für alle BOINC-Projekte an denen du "
+"teilnimmst.<br>\n"
+"Auf Computern mit mehreren Projekten werden die aktuellsten Einstellungen "
+"verwendet."
 
 #: ../inc/prefs.inc:844
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Letzte Änderung:"
 
 #: ../inc/prefs.inc:894
-#, fuzzy
 msgid "Add preferences"
-msgstr "%1-Einstellungen"
+msgstr "Einstellungen hinzufügen"
 
 #: ../inc/prefs.inc:898
-#, fuzzy
 msgid "Update preferences"
-msgstr "%1-Einstellungen"
+msgstr "Einstellungen aktualisieren"
 
 #: ../inc/prefs.inc:988 ../inc/prefs.inc:997
+#, fuzzy
 msgid "Default computer location"
-msgstr ""
+msgstr "Standard Computerstandort"
 
 #: ../inc/prefs.inc:1146
 msgid "Update failed: "
-msgstr ""
+msgstr "Aktualisierung fehlgeschlagen: "
 
 #: ../inc/prefs_util.inc:314 ../inc/prefs_util.inc:324
 msgid "and"
@@ -948,14 +953,17 @@ msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
+"Um Spam zu vermeiden, werden Benutzer mit einem durchschnittlichen Guthaben "
+"unter %1 nur eingeloggten Benutzern angezeigt. Wir bitten, die "
+"Unannehmlichkeiten zu entschuldigen."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
-msgstr ""
+msgstr "Benutzer ist gesperrt"
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "Es existiert kein Profil für diese Benuzer-ID."
 
 #: ../inc/profile.inc:213 ../user/create_profile.php:306
 msgid "Edit your profile"
@@ -1003,103 +1011,103 @@ msgstr ""
 
 #: ../inc/result.inc:73
 msgid "pending"
-msgstr ""
+msgstr "ausstehend"
 
 #: ../inc/result.inc:95
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: ../inc/result.inc:96 ../inc/result.inc:116 ../inc/result.inc:155
 msgid "In progress"
-msgstr ""
+msgstr "In Bearbeitung"
 
 #: ../inc/result.inc:97 ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "Ausstehend"
 
 #: ../inc/result.inc:98 ../inc/result.inc:198
 msgid "Valid"
-msgstr ""
+msgstr "Gültig"
 
 #: ../inc/result.inc:99 ../inc/result.inc:201
 msgid "Invalid"
-msgstr ""
+msgstr "Ungültig"
 
 #: ../inc/result.inc:100 ../inc/result.inc:141
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: ../inc/result.inc:114 ../inc/result.inc:153
 msgid "Inactive"
-msgstr ""
+msgstr "Inaktiv"
 
 #: ../inc/result.inc:115 ../inc/result.inc:154
 msgid "Unsent"
-msgstr ""
+msgstr "Ungesendet"
 
 #: ../inc/result.inc:121
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Fertig, Warte auf Bestätigung"
 
 #: ../inc/result.inc:122
 msgid "Completed and validated"
-msgstr ""
+msgstr "Fertig und Bestätigt"
 
 #: ../inc/result.inc:123
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Fertig, als ungültig markiert"
 
 #: ../inc/result.inc:124
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Fertig, Bestätigung nicht möglich"
 
 #: ../inc/result.inc:125
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Fertig, Bestätigung nicht eindeutig"
 
 #: ../inc/result.inc:126
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Fertig, zu spät für Bestätigung"
 
 #: ../inc/result.inc:128
 msgid "Completed"
-msgstr ""
+msgstr "Fertig"
 
 #: ../inc/result.inc:129 ../inc/result.inc:165
 msgid "Couldn't send"
-msgstr ""
+msgstr "Konnte nicht gesendet werden"
 
 #: ../inc/result.inc:132 ../inc/result.inc:189
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Abgebrochen durch Server"
 
 #: ../inc/result.inc:135
 msgid "Error while downloading"
-msgstr ""
+msgstr "Fehler beim Download"
 
 #: ../inc/result.inc:137
 msgid "Error while computing"
-msgstr ""
+msgstr "Fehler beim Berechnen"
 
 #: ../inc/result.inc:138
 msgid "Error while uploading"
-msgstr ""
+msgstr "Fehler beim Hochladen"
 
 #: ../inc/result.inc:139 ../inc/result.inc:191
 msgid "Aborted by user"
-msgstr ""
+msgstr "Abbruch durch Benutzer"
 
 #: ../inc/result.inc:142
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Zeitüberschreitung - keine Antwort"
 
 #: ../inc/result.inc:143 ../inc/result.inc:172
 msgid "Didn't need"
-msgstr ""
+msgstr "Wurde nicht benötigt"
 
 #: ../inc/result.inc:144 ../inc/result.inc:173
 msgid "Validate error"
-msgstr ""
+msgstr "Bestätigungsfehler"
 
 #: ../inc/result.inc:145 ../inc/result.inc:174
 msgid "Client detached"
@@ -1111,11 +1119,11 @@ msgstr ""
 
 #: ../inc/result.inc:164
 msgid "Success"
-msgstr ""
+msgstr "Erfolgreich"
 
 #: ../inc/result.inc:168
 msgid "Client error"
-msgstr ""
+msgstr "Client-Fehler"
 
 #: ../inc/result.inc:170
 msgid "Redundant result"
@@ -1127,28 +1135,27 @@ msgstr ""
 
 #: ../inc/result.inc:181
 msgid "New"
-msgstr ""
+msgstr "Neu"
 
 #: ../inc/result.inc:182
 msgid "Downloading"
-msgstr ""
+msgstr "am herunterladen"
 
 #: ../inc/result.inc:183
 msgid "Processing"
-msgstr ""
+msgstr "in Bearbeitung"
 
 #: ../inc/result.inc:184
 msgid "Compute error"
-msgstr ""
+msgstr "Berechnungsfehler"
 
 #: ../inc/result.inc:185
 msgid "Uploading"
-msgstr ""
+msgstr "am Hochladen"
 
 #: ../inc/result.inc:186
-#, fuzzy
 msgid "Done"
-msgstr "Keines"
+msgstr "Fertig"
 
 #: ../inc/result.inc:197
 msgid "Initial"
@@ -1172,7 +1179,7 @@ msgstr ""
 
 #: ../inc/result.inc:214
 msgid "Couldn't send result"
-msgstr ""
+msgstr "Konnte Ergebnis nicht senden"
 
 #: ../inc/result.inc:218
 msgid "Too many errors (may have bug)"
@@ -1192,7 +1199,7 @@ msgstr ""
 
 #: ../inc/result.inc:234
 msgid "Unrecognized Error: %1"
-msgstr ""
+msgstr "Unbekannter Fehler: %1"
 
 #: ../inc/result.inc:260
 msgid "Task name"
@@ -1201,7 +1208,7 @@ msgstr ""
 #: ../inc/result.inc:260 ../inc/result.inc:265 ../inc/result.inc:268
 #: ../inc/result.inc:271
 msgid "click for details"
-msgstr ""
+msgstr "anklicken für Einzelheiten"
 
 #: ../inc/result.inc:260
 msgid "Show IDs"
@@ -3925,14 +3932,18 @@ msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr ""
+"Du kannst dich mit Leuten in Teams zusammenschließen, welche die ähnlichen "
+"Interessen haben oder aus dem selben Land, Unternehmen oder Schule kommen."
 
 #: ../user/team_search.php:158
 msgid "Use this form to find teams that might be right for you."
 msgstr ""
+"Benutze dieses Formular um Teams zu finden, die vielleicht die richtigen für "
+"dich sind."
 
 #: ../user/team_search.php:163
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr ""
+msgstr "%1Ich bin im Moment nicht daran interessiert%2 einem Team beizutreten."
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
 msgid "Limit exceeded - Sorry, first %1 items only"
@@ -3948,7 +3959,7 @@ msgstr "Die besten %1 Teams"
 
 #: ../user/top_teams.php:106
 msgid "There are no %1 teams"
-msgstr ""
+msgstr "Es gibt keine %1 Teams."
 
 #: ../user/top_users.php:62
 msgid "Participant since"
@@ -3993,7 +4004,7 @@ msgstr "Filterkriterien"
 
 #: ../user/user_search.php:119
 msgid "Any"
-msgstr ""
+msgstr "Jeder"
 
 #: ../user/user_search.php:122
 msgid "With profile?"
@@ -4001,7 +4012,7 @@ msgstr "Mit Profil?"
 
 #: ../user/user_search.php:123 ../user/user_search.php:128
 msgid "Either"
-msgstr ""
+msgstr "Entweder"
 
 #: ../user/user_search.php:127
 msgid "On a team?"
@@ -4214,7 +4225,7 @@ msgstr "Fehler"
 
 #: ../user/workunit.php:64
 msgid "validation"
-msgstr ""
+msgstr "Gültigkeit"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
@@ -4222,7 +4233,7 @@ msgstr "Copyright"
 
 #: ../project.sample/project.inc:54
 msgid "Generated"
-msgstr ""
+msgstr "Erstellt"
 
 #: ../project.sample/project.inc:85
 msgid "Your personal background."
@@ -4233,6 +4244,9 @@ msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr ""
+"Erzähl uns etwas über dich. Du könntest etwas darüber erzählen wo du "
+"herkommst, dein Alter, Beschäftigung, Hobbys, oder andere Sachen über dich "
+"selbst."
 
 #: ../project.sample/project.inc:93
 msgid "Your opinions about %1"
@@ -4249,7 +4263,7 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "Farbschema für Grafiken"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
@@ -4257,17 +4271,19 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Startet nur die ausgewählte Anwendung/en"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
 msgstr ""
+"Wenn keine Aufgaben für die ausgewählten Anwendungen vorhanden sind, "
+"Aufgaben von anderen Anwendungen akzeptieren?"
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(alle Anwendungen)"
 
 #~ msgid "(no restriction if equal)"
 #~ msgstr "(keine Einschränkung wenn gleich)"
