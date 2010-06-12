@@ -4,26 +4,28 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-03 10:16 PDT\n"
-"PO-Revision-Date: 2010-01-25 12:28-0700\n"
+"PO-Revision-Date: 2010-06-10 08:20-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
-msgstr ""
+msgstr "Das aktuelle Release arbeitet mit folgenden Linuxversionen zusammen:"
 
 #: versions.inc:14
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
 msgstr ""
+"Für andere Linuxversionen sollte geprüft werden, ob von der Distribution "
+"Pakete verfügbar sind."
 
 #: versions.inc:25
 msgid ""
@@ -31,6 +33,9 @@ msgid ""
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
+"Lade alternativ den %1BOINC-Client für ältere Linuxversionen%2 herunter. "
+"Diese besitzen zwar keine grafische Eingabe, sollten aber auf allen x86- und "
+"x64-Linuxsystemem funktionieren."
 
 #: docutil.php:21
 msgid "Search"
