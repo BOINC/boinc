@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-13 09:57-0700\n"
+"PO-Revision-Date: 2010-06-13 10:04-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -357,7 +357,7 @@ msgstr "GPU nach &Voreinstellungen nutzen"
 
 #: clientgui/AdvancedFrame.cpp:474
 msgid "Allow GPU work according to your preferences"
-msgstr "Erlaubt GPU-Arbeit entsprechend Voreinstellungen."
+msgstr "Erlaubt GPU-Arbeit entsprechend der Voreinstellungen."
 
 #: clientgui/AdvancedFrame.cpp:478
 msgid "Use GPU never"
