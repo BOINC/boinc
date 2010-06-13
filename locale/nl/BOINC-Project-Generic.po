@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-05-03 12:26-0700\n"
+"PO-Revision-Date: 2010-06-13 06:09-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -842,9 +842,8 @@ msgid "Should %1 show your computers on its web site?"
 msgstr "Wil je dat %1 jouw computers laat zien op de website?"
 
 #: ../inc/prefs.inc:770
-#, fuzzy
 msgid "Computing"
-msgstr "Computing"
+msgstr "Verwerken"
 
 #: ../inc/prefs.inc:781
 msgid "Separate preferences for %1"
@@ -979,19 +978,16 @@ msgid "Anonymous platform"
 msgstr "Anoniem platform"
 
 #: ../inc/result.inc:26
-#, fuzzy
 msgid "Anonymous platform - CPU"
-msgstr "Anoniem platform"
+msgstr "Anoniem platform - CPU"
 
 #: ../inc/result.inc:27
-#, fuzzy
 msgid "Anonymous platform - NVIDIA GPU"
-msgstr "Anoniem platform"
+msgstr "Anoniem platform - NVIDIA GPU"
 
 #: ../inc/result.inc:28
-#, fuzzy
 msgid "Anonymous platform - ATI GPU"
-msgstr "Anoniem platform"
+msgstr "Anoniem platform - ATI GPU"
 
 #: ../inc/result.inc:35
 msgid "Not in DB"
@@ -1099,11 +1095,11 @@ msgstr "Fout tijdens controle"
 
 #: ../inc/result.inc:145 ../inc/result.inc:174
 msgid "Client detached"
-msgstr ""
+msgstr "Client teruggetrokken"
 
 #: ../inc/result.inc:156
 msgid "Over"
-msgstr ""
+msgstr "Binnen"
 
 #: ../inc/result.inc:164
 msgid "Success"
@@ -1127,12 +1123,11 @@ msgstr "Nieuw"
 
 #: ../inc/result.inc:182
 msgid "Downloading"
-msgstr ""
+msgstr "Bezig met downloaden"
 
 #: ../inc/result.inc:183
-#, fuzzy
 msgid "Processing"
-msgstr "Processor gebruik"
+msgstr "Bezig met verwerken"
 
 #: ../inc/result.inc:184
 msgid "Compute error"
@@ -1140,7 +1135,7 @@ msgstr "Berekeningsfout"
 
 #: ../inc/result.inc:185
 msgid "Uploading"
-msgstr ""
+msgstr "Bezig met uploaden"
 
 #: ../inc/result.inc:186
 msgid "Done"
@@ -1156,7 +1151,7 @@ msgstr "Niet nodig"
 
 #: ../inc/result.inc:204
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Fout in WU - controle overgeslagen"
 
 #: ../inc/result.inc:205
 msgid "Checked, but no consensus yet"
@@ -1225,10 +1220,9 @@ msgstr "Verzonden"
 
 #: ../inc/result.inc:278
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Rapportage tijd<br />of deadline"
 
 #: ../inc/result.inc:279
-#, fuzzy
 msgid "explain"
 msgstr "verklaring"
 
@@ -1246,11 +1240,11 @@ msgstr "CPU tijd<br />(sec)"
 
 #: ../inc/result.inc:284 ../inc/result.inc:392
 msgid "Claimed credit"
-msgstr ""
+msgstr "Geclaimde punten"
 
 #: ../inc/result.inc:285 ../inc/result.inc:393
 msgid "Granted credit"
-msgstr ""
+msgstr "Toegekende punten"
 
 #: ../inc/result.inc:286
 msgid "Application"
@@ -1262,7 +1256,7 @@ msgstr "Werkeenheid"
 
 #: ../inc/result.inc:382
 msgid "Received"
-msgstr ""
+msgstr "Ontvangen"
 
 #: ../inc/result.inc:383
 msgid "Server state"
@@ -1278,11 +1272,11 @@ msgstr "Client status"
 
 #: ../inc/result.inc:386
 msgid "Exit status"
-msgstr ""
+msgstr "Afsluit status"
 
 #: ../inc/result.inc:388
 msgid "Report deadline"
-msgstr ""
+msgstr "Rapporteren voor"
 
 #: ../inc/result.inc:389
 msgid "Run time"
@@ -1290,7 +1284,7 @@ msgstr "Loop tijd"
 
 #: ../inc/result.inc:390
 msgid "CPU time"
-msgstr ""
+msgstr "CPU tijd"
 
 #: ../inc/result.inc:391
 msgid "Validate state"
@@ -1467,7 +1461,7 @@ msgstr "Administrator"
 #: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
 #: ../user/top_users.php:125
 msgid "Previous %1"
-msgstr ""
+msgstr "Vorige %1"
 
 #: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
 #: ../user/top_users.php:130
@@ -1487,10 +1481,13 @@ msgid "This operation requires team admin privileges"
 msgstr "Deze actie vereist administrator rechten "
 
 #: ../inc/team.inc:410
+#, fuzzy
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
+"WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
+"be overwritten. Edit the %1BOINC-wide team%2 instead."
 
 #: ../inc/team.inc:417
 msgid ""
@@ -1851,7 +1848,7 @@ msgstr "Optioneel"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Voeg voorkeuren %1 toe voor %2"
 
 #: ../user/apps.php:31 ../user/sample_index.php:63
 msgid "Applications"
@@ -2189,13 +2186,13 @@ msgid "Couldn't update user info."
 msgstr "Kon de gebruikersinformatie niet updaten."
 
 #: ../user/edit_user_info_form.php:27
-#, fuzzy
 msgid "Edit account information"
-msgstr "Bewerk accountinformatie"
+msgstr "Bewerk account informatie"
 
 #: ../user/edit_user_info_form.php:32
+#, fuzzy
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Naam %1 echte naam of nickname%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
@@ -2261,7 +2258,6 @@ msgid "This forum is not visible to you."
 msgstr "Dit forum is verborgen voor jou."
 
 #: ../user/forum_thread.php:60
-#, fuzzy
 msgid "This thread has been hidden by moderators"
 msgstr "Dit onderwerp is verborgen vanwege administratieve redenen"
 
@@ -2859,35 +2855,39 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Om te deblokkeren, ga naar %1forum voorkeuren%2"
 
 #: ../user/prefs.php:36
+#, fuzzy
 msgid ""
 "Your preferences have been updated. Client-related preferences\n"
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC client."
 msgstr ""
+"Your preferences have been updated. Client-related preferences\n"
+"\t will take effect when your computer communicates with %1\n"
+"\t or you issue the %2Update%3 command from the BOINC client."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
-msgstr ""
+msgstr "%1 voor %2"
 
 #: ../user/prefs_edit.php:119
 msgid "Back to preferences"
-msgstr ""
+msgstr "Terug naar voorkeuren"
 
 #: ../user/prefs_remove.php:46
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "Bevestig verwijderen van voorkeuren"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
+msgstr "Weet je zeker dat je de aparte %1 voorkeuren voor %2 wilt verwijderen?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
-msgstr ""
+msgstr "Verwijder voorkeuren"
 
 #: ../user/prefs_remove.php:55
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleer"
 
 #: ../user/profile_menu.php:33 ../user/sample_index.php:68
 msgid "Profiles"
@@ -2982,13 +2982,12 @@ msgid "Return to profile."
 msgstr "Terug gaan naar profiel."
 
 #: ../user/result.php:28
-#, fuzzy
 msgid "No such task"
-msgstr "Team niet gevonden."
+msgstr "Taak niet gevonden"
 
 #: ../user/result.php:30
 msgid "Task %1"
-msgstr ""
+msgstr "Taak %1"
 
 #: ../user/results.php:27
 msgid "This feature is turned off temporarily"
