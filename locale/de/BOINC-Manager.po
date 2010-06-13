@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-10 09:45-0700\n"
+"PO-Revision-Date: 2010-06-13 09:57-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -284,6 +284,8 @@ msgstr "Bei einem &Projekt oder einer Kontoverwaltung anmelden..."
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Nimm an einigen oder allen der über 30 Projekte aus verschiedenen Bereichen "
+"teil."
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -346,21 +348,16 @@ msgid "Use GPU always"
 msgstr "GPU immer nutzen"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr ""
-"BOINC arbeitet permanent. Andere Einstellungen, ausgenommen zum "
-"Netzwerkzugriff, werden übersteuert."
+msgstr "Erlaubt GPU-Arbeit ungeachtet der Voreinstellungen"
 
 #: clientgui/AdvancedFrame.cpp:473
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Ausführen nach &Voreinstellung"
+msgstr "GPU nach &Voreinstellungen nutzen"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "BOINC nutzt die GPU entsprechend der Einstellungen."
+msgstr "Erlaubt GPU-Arbeit entsprechend Voreinstellungen."
 
 #: clientgui/AdvancedFrame.cpp:478
 msgid "Use GPU never"
