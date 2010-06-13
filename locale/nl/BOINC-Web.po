@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-03 10:16 PDT\n"
-"PO-Revision-Date: 2010-01-21 11:12-0700\n"
+"PO-Revision-Date: 2010-06-13 06:14-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -22,13 +22,15 @@ msgstr ""
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
-msgstr ""
+msgstr "De huidige versie werkt met de volgende Linux versie:"
 
 #: versions.inc:14
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
 msgstr ""
+"Voor andere Linux versies; controleer of er een BOINC versie aangeboden "
+"wordt door de distributie zelf."
 
 #: versions.inc:25
 msgid ""
@@ -36,6 +38,9 @@ msgid ""
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
+"Alternatief; download de %1BOINC client voor oudere Linux versies%2. Deze "
+"heeft geen grafische interface, maar zou moeten werken met alle x86 en x64 "
+"Linux systemen."
 
 #: docutil.php:21
 msgid "Search"
