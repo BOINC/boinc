@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-03 11:30-0700\n"
+"PO-Revision-Date: 2010-06-13 03:18-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -265,7 +265,7 @@ msgstr "Schijfgebruik weergeven"
 
 #: clientgui/AdvancedFrame.cpp:371
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "Een&voudig...\tCtrl+Shift+V"
+msgstr "Eenvoudige &weergave...Ctrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:372
 msgid "Display the simple graphical interface."
@@ -3188,9 +3188,8 @@ msgid "Scheduler request in progress"
 msgstr "Bijwerk verzoek wordt uitgevoerd"
 
 #: clientgui/ViewProjects.cpp:1071
-#, fuzzy
 msgid "Trickle up message pending"
-msgstr "Trickle up message pending"
+msgstr "'Trickle up' bericht aan het afwachten"
 
 #: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
@@ -3391,13 +3390,12 @@ msgid "Transfers"
 msgstr "Overdracht"
 
 #: clientgui/ViewTransfers.cpp:275
-#, fuzzy
 msgid ""
 "Network activity is suspended.\n"
 "You can enable it using the Activity menu."
 msgstr ""
-"Network activity is suspended.\n"
-"You can enable it using the Activity menu."
+"Netwerk activiteit is opgeschort.\n"
+"Activeren is mogelijk via het \"Prestaties\" menu."
 
 #: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
@@ -3724,9 +3722,8 @@ msgid "This panel contains graphs showing user totals for projects"
 msgstr "Dit paneel bevat grafieken met gebruikers totalen per project"
 
 #: clientgui/mac/MacAccessiblity.cpp:635
-#, fuzzy
 msgid "list headers"
-msgstr "list headers"
+msgstr "lijst koppen"
 
 #: clientgui/mac/MacAccessiblity.cpp:639
 #, c-format
@@ -3740,15 +3737,13 @@ msgstr "lijst van %s is leeg"
 
 #: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
-#, fuzzy
 msgid "; current sort column %d of %d; descending order; "
-msgstr "; current sort column %d of %d; descending order; "
+msgstr "; huidig sortering kolom %d van %d; aflopende volgorde; "
 
 #: clientgui/mac/MacAccessiblity.cpp:744
 #, c-format
-#, fuzzy
 msgid "; current sort column %d of %d; ascending order; "
-msgstr "; current sort column %d of %d; ascending order; "
+msgstr "; huidig sortering kolom %d van %d; oplopende volgorde; "
 
 #: clientgui/mac/MacAccessiblity.cpp:747
 #, c-format
