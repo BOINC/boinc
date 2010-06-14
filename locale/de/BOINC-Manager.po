@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-14 10:58-0700\n"
+"PO-Revision-Date: 2010-06-14 11:57-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -1265,7 +1265,6 @@ msgid "Other options"
 msgstr "Andere Optionen"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
-#, fuzzy
 msgid "Switch between applications every"
 msgstr "Wechsel zwischen den Anwendungen alle"
 
@@ -1314,19 +1313,16 @@ msgid "Maximum upload rate"
 msgstr "Maximale Upload-Rate"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:353
-#, fuzzy
 msgid "Transfer at most"
-msgstr "Nutze höchstens"
+msgstr "Übertrage höchstens"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
-#, fuzzy
 msgid "Mbytes"
-msgstr "Ja"
+msgstr "MB"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:362
-#, fuzzy
 msgid "every"
-msgstr "Server:"
+msgstr "pro"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:368
 #: clientgui/DlgAdvPreferencesBase.cpp:382
@@ -1663,14 +1659,12 @@ msgstr "Planung"
 
 #: clientgui/DlgItemProperties.cpp:243 clientgui/DlgItemProperties.cpp:253
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Project preference"
-msgstr "Ihre Einstellungen"
+msgstr "Projekteinstellungen"
 
 #: clientgui/DlgItemProperties.cpp:243
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "Erhält keine neue Aufgaben"
+msgstr "Keine neuen CPU-Aufgaben holen"
 
 #: clientgui/DlgItemProperties.cpp:245
 msgid "CPU scheduling priority"
@@ -1690,12 +1684,11 @@ msgstr "Verzögerungsintervall für CPU Arbeitsabruf"
 
 #: clientgui/DlgItemProperties.cpp:253
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Keine NVidia GPU-Arbeit abrufen"
 
 #: clientgui/DlgItemProperties.cpp:255
-#, fuzzy
 msgid "NVIDIA GPU scheduling priority"
-msgstr "ATI GPU Zeitplanungspriorität"
+msgstr "NVIDIA GPU Zeitplanungspriorität"
 
 #: clientgui/DlgItemProperties.cpp:256
 msgid "NVIDIA GPU work fetch priority"
@@ -1710,9 +1703,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Verzögerungsintervall für NVIDIA GPU Arbeitsabruf"
 
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "Erhält keine neue Aufgaben"
+msgstr "Keine ATI GPU Aufgaben holen"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "ATI GPU scheduling priority"
@@ -2350,19 +2342,19 @@ msgstr "Klick"
 
 #: clientgui/ProjectListCtrl.cpp:503
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "Unterstützt Mehrkern-CPU"
 
 #: clientgui/ProjectListCtrl.cpp:505
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "Unterstützt Nvidia GPU"
 
 #: clientgui/ProjectListCtrl.cpp:507
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "Unterstützt ATI GPU"
 
 #: clientgui/ProjectListCtrl.cpp:509
 msgid "Project Website"
-msgstr ""
+msgstr "Projekt Webseite"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 #: clientgui/ProjectPropertiesPage.cpp:335
@@ -2386,7 +2378,6 @@ msgid "Network communication failure"
 msgstr "Netzwerkfehler"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -3260,8 +3251,9 @@ msgid "Scheduler request in progress"
 msgstr "Laufende Scheduleranfrage"
 
 #: clientgui/ViewProjects.cpp:1071
+#, fuzzy
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Zwischenmeldung ausstehend"
 
 #: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
@@ -3467,6 +3459,8 @@ msgid ""
 "Network activity is suspended.\n"
 "You can enable it using the Activity menu."
 msgstr ""
+"Netzwerkzugriff ist abgeschaltet.\n"
+"Aktivierung erfolgt über das Menü Steuerung."
 
 #: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
@@ -3496,14 +3490,12 @@ msgid "Retry in "
 msgstr "Wiederhole in"
 
 #: clientgui/ViewTransfers.cpp:771
-#, fuzzy
 msgid "Suspended upload"
-msgstr "Angehalten"
+msgstr "Hochladen anhalten"
 
 #: clientgui/ViewTransfers.cpp:772
-#, fuzzy
 msgid "Suspended download"
-msgstr "Angehalten"
+msgstr "Herunterladen angehalten"
 
 #: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
@@ -3647,9 +3639,8 @@ msgid "GPU missing, "
 msgstr "GPU fehlt,"
 
 #: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
-#, fuzzy
 msgid " (suspended)"
-msgstr "Angehalten"
+msgstr " (angehalten)"
 
 #: clientgui/ViewWork.cpp:1152
 msgid " - an exclusive app is running"
@@ -3660,13 +3651,12 @@ msgid " (non-CPU-intensive)"
 msgstr "(nicht CPU-intensiv)"
 
 #: clientgui/ViewWork.cpp:1186
-#, fuzzy
 msgid " (waiting for GPU memory)"
-msgstr "Warten auf Speicher"
+msgstr " (wartet auf GPU-Speicher)"
 
 #: clientgui/ViewWork.cpp:1211
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Abgebrochen: kein Start vor Stichtag möglich."
 
 #: clientgui/ViewWorkGrid.cpp:184
 msgid "TasksGrid"
@@ -3788,28 +3778,31 @@ msgid "Pie Ctrl"
 msgstr "Diagrammsteuerung"
 
 #: clientgui/mac/MacAccessiblity.cpp:171
+#, fuzzy
 msgid ""
 "for accessibility support, please select advanced from the view menu or type "
 "command shift a"
 msgstr ""
+"Für Barrierefreien Zugriff wählen Sie den Advanced View oder halten Strg, "
+"Umschalt und A gedrückt."
 
 #: clientgui/mac/MacAccessiblity.cpp:216
 msgid "This panel contains graphs showing user totals for projects"
-msgstr ""
+msgstr "Dieses Feld zeigt Grafiken der Gesamtpunkte des Teilnehmers pro Projekt"
 
 #: clientgui/mac/MacAccessiblity.cpp:635
 msgid "list headers"
-msgstr ""
+msgstr "Listenüberschriften"
 
 #: clientgui/mac/MacAccessiblity.cpp:639
 #, c-format
 msgid "list of %s"
-msgstr ""
+msgstr "%s Liste"
 
 #: clientgui/mac/MacAccessiblity.cpp:641
 #, c-format
 msgid "list of %s is empty"
-msgstr ""
+msgstr "%s Liste ist leer"
 
 #: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
