@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-14 12:59-0700\n"
+"PO-Revision-Date: 2010-06-14 13:25-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -1832,11 +1832,11 @@ msgstr " - Tageszeit"
 
 #: clientgui/DlgItemProperties.cpp:440
 msgid " - CPU benchmarks"
-msgstr "- CPU Benchmarks"
+msgstr " - CPU Benchmarks"
 
 #: clientgui/DlgItemProperties.cpp:443
 msgid " - need disk space"
-msgstr "- nicht genug Speicherplatz"
+msgstr " - nicht genug Speicherplatz"
 
 #: clientgui/DlgItemProperties.cpp:447
 msgid "Waiting for memory"
@@ -3491,7 +3491,7 @@ msgstr "Wiederhole in "
 
 #: clientgui/ViewTransfers.cpp:771
 msgid "Suspended upload"
-msgstr "Hochladen anhalten"
+msgstr "Hochladen angehalten"
 
 #: clientgui/ViewTransfers.cpp:772
 msgid "Suspended download"
@@ -3624,7 +3624,7 @@ msgstr "Zeige alle Aufgaben"
 
 #: clientgui/ViewWork.cpp:704
 msgid "Show all tasks."
-msgstr " Zeige alle Aufgaben."
+msgstr "Zeige alle Aufgaben."
 
 #: clientgui/ViewWork.cpp:728 clientgui/ViewWorkGrid.cpp:445
 msgid "Resume work for this task."
@@ -3648,7 +3648,7 @@ msgstr " - Eine Anwendung läuft exklusiv."
 
 #: clientgui/ViewWork.cpp:1171 clientgui/ViewWorkGrid.cpp:822
 msgid " (non-CPU-intensive)"
-msgstr "(nicht CPU-intensiv)"
+msgstr " (nicht CPU-intensiv)"
 
 #: clientgui/ViewWork.cpp:1186
 msgid " (waiting for GPU memory)"
