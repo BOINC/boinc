@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-13 10:04-0700\n"
+"PO-Revision-Date: 2010-06-14 10:58-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -277,7 +277,6 @@ msgid "Display the simple graphical interface."
 msgstr "Schaltet auf die vereinfachte BOINC-Grafikoberfläche um."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "&Attach to project or account manager..."
 msgstr "Bei einem &Projekt oder einer Kontoverwaltung anmelden..."
 
@@ -364,10 +363,8 @@ msgid "Use GPU never"
 msgstr "GPU nie nutzen"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr ""
-"BOINC unterbricht alle Arbeiten. Andere Einstellungen werden übersteuert."
+msgstr "Stoppt GPU-Arbeit ungeachtet der Voreinstellungen."
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "&Network activity always available"
@@ -956,7 +953,7 @@ msgstr "BOINC anhalten"
 
 #: clientgui/BOINCTaskBar.cpp:625
 msgid "Snooze GPU"
-msgstr ""
+msgstr "GPU pausieren"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1182,17 +1179,17 @@ msgid "minutes"
 msgstr "Minuten"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "Nutzung des Prozessors"
+msgstr "Wenn CPU-Auslastung geringer als"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
 msgstr ""
+"Unterbricht die Arbeit wenn die CPU-Auslastung diesen Wert überschreitet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "% (0 = keine Einschränkung)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:427
