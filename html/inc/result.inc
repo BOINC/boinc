@@ -49,21 +49,28 @@ function app_version_string($id) {
 }
 
 function result_claimed_credit_string($result, $string_to_show) {
+    if ($result->server_state == 4 && $result->claimed_credit > 0) {
+        return $string_to_show; 
+    }
     if ($result->server_state <> 5) return "---";
     switch($result->outcome) {
     case 3:
         if ($result->exit_status <> -221) {
-                return $string_to_show; //Client error
+            return $string_to_show; //Client error
         } 
+        return "---";
     default:
         if ($result->claimed_credit > 0) {
             return $string_to_show;
 	    }
-        return "---"; // no claimed credit 
+        return "---";
     }
 }
 
 function result_granted_credit_string($result, $string_to_show) {
+    if ($result->server_state == 4 && $result->granted_credit > 0) {
+        return $string_to_show; 
+    }
     if ($result->server_state <> 5) return "---";
     switch($result->outcome) {
     case 1:              //Success

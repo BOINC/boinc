@@ -1341,8 +1341,10 @@ static void parallel_master(int child_pid) {
                     kill(child_pid, SIGCONT);
                 } else if (match_tag(buf, "<quit/>")) {
                     kill(child_pid, SIGKILL);
+                    exit(0);
                 } else if (match_tag(buf, "<abort/>")) {
                     kill(child_pid, SIGKILL);
+                    exit(EXIT_ABORTED_BY_CLIENT);
                 }
             }
 

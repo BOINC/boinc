@@ -4234,7 +4234,7 @@ David  10 Jun 2010
     html/ops/
         db_update.php
 
-David  10 Jun 2010
+David  12 Jun 2010
     - server: delete old credit stuff
     - user web: show host link in user result list.  Fixes #999
 
@@ -4255,3 +4255,12 @@ David  10 Jun 2010
         sched_locality.cpp
         sched_result.cpp
         validate_util.cpp,h
+
+David  14 Jun 2010
+    - API: fix bug that caused parallel apps to get compute error
+        when they were suspended without "leave in memory" pref
+    - user web: if in-progress result has credit, show it; fixes #998
+
+    html/inc/
+        result.inc
+    api/boinc_api.cpp
