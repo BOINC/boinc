@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-14 11:57-0700\n"
+"PO-Revision-Date: 2010-06-14 12:59-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -183,7 +183,7 @@ msgstr "Kommunikation mit %s."
 #: clientgui/AccountManagerProcessingPage.cpp:196
 #: clientgui/AccountManagerPropertiesPage.cpp:202
 msgid "Communicating with server."
-msgstr "Kommunikation mit dem Server "
+msgstr "Kommunikation mit dem Server."
 
 #: clientgui/AccountManagerProcessingPage.cpp:201
 #: clientgui/AccountManagerPropertiesPage.cpp:207
@@ -568,8 +568,8 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
-"%s - beendet den aktuell verbundenen Client,und fragt nach einem anderen "
-"Rechner zum Verbinden."
+"%s - beendet den aktuell verbundenen Client, \n"
+"und fragt nach einem anderen Rechner zum Verbinden.\n"
 
 #: clientgui/AdvancedFrame.cpp:1539
 msgid "Retrying communications for project(s)..."
@@ -1351,7 +1351,7 @@ msgstr "Tage (max. 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:394
 msgid " Skip image file verification"
-msgstr "Image-Dateien nicht überprüfen"
+msgstr " Image-Dateien nicht überprüfen"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:396
 msgid "check this if your Internet provider modifies image files"
@@ -1561,7 +1561,7 @@ msgstr "Schließen"
 
 #: clientgui/DlgItemProperties.cpp:197
 msgid "Properties of project "
-msgstr "Projekteigenschaften"
+msgstr "Projekteigenschaften "
 
 #: clientgui/DlgItemProperties.cpp:201 clientgui/DlgOptions.cpp:205
 msgid "General"
@@ -1728,7 +1728,7 @@ msgstr "Duration correction factor"
 
 #: clientgui/DlgItemProperties.cpp:283
 msgid "Properties of task "
-msgstr "Eigenschaften der Aufgabe"
+msgstr "Eigenschaften der Aufgabe "
 
 #: clientgui/DlgItemProperties.cpp:287
 msgid "Application"
@@ -1816,19 +1816,19 @@ msgstr "Angehalten"
 
 #: clientgui/DlgItemProperties.cpp:428
 msgid " - on batteries"
-msgstr "- Batteriebetrieb"
+msgstr " - Batteriebetrieb"
 
 #: clientgui/DlgItemProperties.cpp:431
 msgid " - user active"
-msgstr "- Benutzer ist aktiv"
+msgstr " - Benutzer ist aktiv"
 
 #: clientgui/DlgItemProperties.cpp:434
 msgid " - computation suspended"
-msgstr "- Berechnung angehalten"
+msgstr " - Berechnung angehalten"
 
 #: clientgui/DlgItemProperties.cpp:437
 msgid " - time of day"
-msgstr "- Tageszeit"
+msgstr " - Tageszeit"
 
 #: clientgui/DlgItemProperties.cpp:440
 msgid " - CPU benchmarks"
@@ -2083,7 +2083,7 @@ msgstr "Ihre Resultate"
 #: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr ""
-"Anzeige der Ergebnisse und Berechnungen der letzten Woche (oder länger). "
+"Anzeige der Ergebnisse und Berechnungen der letzten Woche (oder länger)."
 
 #: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
 msgid "Your computers"
@@ -2864,15 +2864,15 @@ msgstr "Grafik anzeigen"
 
 #: clientgui/sg_ViewTabPage.cpp:444
 msgid "Application: "
-msgstr "Anwendung:"
+msgstr "Anwendung: "
 
 #: clientgui/sg_ViewTabPage.cpp:447 clientgui/sg_ViewTabPage.cpp:451
 msgid "Time Remaining: "
-msgstr "Verbleibende Zeit:"
+msgstr "Verbleibende Zeit: "
 
 #: clientgui/sg_ViewTabPage.cpp:450
 msgid "Elapsed Time: "
-msgstr "Vergangene Zeit:"
+msgstr "Vergangene Zeit: "
 
 #: clientgui/TermsOfUsePage.cpp:219
 msgid "Terms of Use"
@@ -3285,15 +3285,15 @@ msgstr "Von BOINC belegt: "
 
 #: clientgui/ViewResources.cpp:270
 msgid "free, available to BOINC: "
-msgstr "Frei, für BOINC verfügbar:"
+msgstr "Frei, für BOINC verfügbar: "
 
 #: clientgui/ViewResources.cpp:280
 msgid "free, not available to BOINC: "
-msgstr "Frei, nicht für BOINC verfügbar:"
+msgstr "Frei, nicht für BOINC verfügbar: "
 
 #: clientgui/ViewResources.cpp:290
 msgid "free: "
-msgstr "Frei:"
+msgstr "Frei: "
 
 #: clientgui/ViewResources.cpp:300
 msgid "used by other programs: "
@@ -3487,7 +3487,7 @@ msgstr "Dateiübertragug abbrechen"
 
 #: clientgui/ViewTransfers.cpp:763 clientgui/ViewTransfersGrid.cpp:419
 msgid "Retry in "
-msgstr "Wiederhole in"
+msgstr "Wiederhole in "
 
 #: clientgui/ViewTransfers.cpp:771
 msgid "Suspended upload"
@@ -3562,7 +3562,7 @@ msgid "Abandon work on the result. You will get no credit for it."
 msgstr ""
 "Bricht die Arbeit an der ausgewählten (markierten) Berechnung dauerhaft ab. "
 "Diese zählt dann auch nicht mehr für die Statistik. Das kann nicht "
-"rückgängig gemacht werden. "
+"rückgängig gemacht werden."
 
 #: clientgui/ViewWork.cpp:213
 msgid "Show task details."
@@ -3636,7 +3636,7 @@ msgstr "Unterbricht die Arbeit an der ausgewählten (markierte) Aufgabe."
 
 #: clientgui/ViewWork.cpp:1108
 msgid "GPU missing, "
-msgstr "GPU fehlt,"
+msgstr "GPU nicht gefunden, "
 
 #: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
 msgid " (suspended)"
@@ -3807,59 +3807,59 @@ msgstr "%s Liste ist leer"
 #: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr "; aktuell sortierte Spalte %d von %d; absteigende Folge; "
 
 #: clientgui/mac/MacAccessiblity.cpp:744
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr "; aktuell sortierte Spalte %d von %d; aufsteigende Folge; "
 
 #: clientgui/mac/MacAccessiblity.cpp:747
 #, c-format
 msgid "; column %d of %d; "
-msgstr ""
+msgstr "; Spalte %d von %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:754
 msgid "list is empty"
-msgstr ""
+msgstr "Liste ist leer"
 
 #: clientgui/mac/MacAccessiblity.cpp:757 clientgui/mac/MacAccessiblity.cpp:769
 #, c-format
 msgid "; row %d; "
-msgstr ""
+msgstr "; Zeile %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:761
 #, c-format
 msgid "; selected row %d of %d; "
-msgstr ""
+msgstr "; gewählte Zeile %d von %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:763
 #, c-format
 msgid "; selected row %d ; "
-msgstr ""
+msgstr "; gewählte Zeile %d ; "
 
 #: clientgui/mac/MacAccessiblity.cpp:767
 #, c-format
 msgid "; row %d of %d; "
-msgstr ""
+msgstr "; Zeile %d von %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:775
 msgid "blank"
-msgstr ""
+msgstr "leer"
 
 #: clientgui/mac/MacAccessiblity.cpp:1411
 msgid "list of projects or account managers"
-msgstr ""
+msgstr "Liste der Projekte oder Konto-Manager"
 
 #: clientgui/mac/MacAccessiblity.cpp:1448
 #, c-format
 msgid "selected row %d of %d; "
-msgstr ""
+msgstr "gewählte Zeile %d von %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1450
 #, c-format
 msgid "row %d of %d; "
-msgstr ""
+msgstr "Zeile %d von %d; "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
