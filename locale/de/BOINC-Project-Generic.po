@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-06-12 02:26-0700\n"
+"PO-Revision-Date: 2010-06-15 12:54-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -688,7 +688,7 @@ msgid ""
 "always connected. %2 BOINC will try to maintain at least this much work. %3"
 msgstr ""
 "Computer ist mit dem Internet circa alle X verbunden. %1Frei lassen oder 0 "
-"eintragen, bei dauerhafter Verbindung.%2BOINC versucht genug Aufgaben für "
+"eintragen, bei dauerhafter Verbindung. %2 BOINC versucht genug Aufgaben für "
 "diese Zeitdauer zu bekommen.%3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
@@ -697,14 +697,14 @@ msgstr "Tage"
 
 #: ../inc/prefs.inc:226
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "Fordere genug Arbeit für weitere"
 
 #: ../inc/prefs.inc:232
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
-"Bestätigen vor Verbindungsaufbau zum Internet? %1 Nur für Modem, ISDN oder "
+"Bestätigen vor Verbindungsaufbau zum Internet? %1Nur für Modem, ISDN oder "
 "VPN nötig.%2"
 
 #: ../inc/prefs.inc:241
@@ -712,7 +712,7 @@ msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
 msgstr ""
-"Trennen wenn Aufgabe/n erledigt? %1 Nur für Modem, ISDN oder VPN nötig. %2"
+"Trennen wenn Aufgabe/n erledigt? %1Nur für Modem, ISDN oder VPN nötig.%2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
@@ -732,11 +732,11 @@ msgstr "Nutze das Netzwerk nur in der Zeit von/bis"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
+msgstr "Übertrage höchstens %1 Unterstützt ab Version 6.10.46 aufwärts %2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
-msgstr ""
+msgstr "MB pro"
 
 #: ../inc/prefs.inc:274
 msgid ""
@@ -755,18 +755,22 @@ msgid ""
 "with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
 msgstr ""
+"Ressourcenverteilung %1 Bestimmt den Anteil an den Ressourcen des Computer "
+"die diesem Projekt zur Verfügung stehen. Beispiel: Bei einer Aufteilung "
+"zwischen zwei Projekten von 100 und 200 wird das erste 1/3 der Ressourcen "
+"bekommen und das andere 2/3. %2"
 
 #: ../inc/prefs.inc:300
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr "Benutze CPU %1Unterstützt ab Version 6.10 aufwärts%2"
+msgstr "Benutze CPU %1 Unterstützt ab Version 6.10 aufwärts% 2"
 
 #: ../inc/prefs.inc:312
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr "Benutze ATI GPU %1Unterstützt ab Version 6.10 aufwärts%2"
+msgstr "Benutze ATI GPU %1 Unterstützt ab Version 6.10 aufwärts %2"
 
 #: ../inc/prefs.inc:324
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr "Benutze Nvidia GPU %1Unterstützt ab Version 6.10 aufwärts%2"
+msgstr "Benutze Nvidia GPU %1 Unterstützt ab Version 6.10 aufwärts %2"
 
 #: ../inc/prefs.inc:338
 msgid ""
@@ -805,11 +809,11 @@ msgstr ""
 
 #: ../inc/prefs.inc:404
 msgid "bad venue: %1"
-msgstr ""
+msgstr "fehlerhafter Ort: %1"
 
 #: ../inc/prefs.inc:410
 msgid "bad subset: %1"
-msgstr ""
+msgstr "fehlerhafte Teilmenge: %1"
 
 #: ../inc/prefs.inc:629 ../inc/prefs.inc:632 ../inc/prefs.inc:752
 #: ../inc/prefs.inc:754 ../inc/prefs.inc:977 ../inc/prefs_util.inc:93
@@ -845,7 +849,7 @@ msgstr "Entfernen"
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
-"E-Mails werde gesendet von %1; Bitte sicher stellen, dass der Spamfilter "
+"E-Mails werden von %1 gesendet; Bitte sicher stellen, dass der Spamfilter "
 "diese Adresse akzeptiert."
 
 #: ../inc/prefs.inc:751 ../inc/prefs.inc:951
@@ -856,11 +860,12 @@ msgstr ""
 
 #: ../inc/prefs.inc:754 ../inc/prefs.inc:954
 msgid "Should %1 show your computers on its web site?"
-msgstr ""
+msgstr "Sollen deine Computer auf der %1 Webseite angezeigt werden?"
 
 #: ../inc/prefs.inc:770
+#, fuzzy
 msgid "Computing"
-msgstr ""
+msgstr "Berechnung"
 
 #: ../inc/prefs.inc:781
 msgid "Separate preferences for %1"
@@ -937,12 +942,16 @@ msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
 msgstr ""
+"Dein Profil wird den anderen Teilnehmern veröffentlicht sobald es vom "
+"Projekt geprüft wurde. Dies dauert eventuell ein paar Tage."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
 msgstr ""
+"Dein Profil wurde als unakzeptable markiert. Es ist für niemanden einsehbar. "
+"Bitte verändere es."
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
@@ -979,7 +988,7 @@ msgstr "Dieses Profil für den Benutzer des Tages vorschlagen:"
 
 #: ../inc/profile.inc:254
 msgid "I %1like%2 this profile"
-msgstr "Das Profil ist %1lesenswert%2"
+msgstr "Dieses Profil ist %1lesenswert%2"
 
 #: ../inc/profile.inc:257
 msgid "Alert administrators to an offensive profile:"
@@ -987,27 +996,27 @@ msgstr "Den Administrator auf ein fragwürdiges Profil hinweisen:"
 
 #: ../inc/profile.inc:258
 msgid "I %1do not like%2 this profile"
-msgstr "Das Profil ist %1nicht lesenswert%2"
+msgstr "Dieses Profil ist %1nicht lesenswert%2"
 
 #: ../inc/result.inc:25
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Anonyme Plattform"
 
 #: ../inc/result.inc:26
 msgid "Anonymous platform - CPU"
-msgstr ""
+msgstr "Anonyme Plattform - CPU"
 
 #: ../inc/result.inc:27
 msgid "Anonymous platform - NVIDIA GPU"
-msgstr ""
+msgstr "Anonyme Plattform - NVIDIA GPU"
 
 #: ../inc/result.inc:28
 msgid "Anonymous platform - ATI GPU"
-msgstr ""
+msgstr "Anonyme Plattform - ATI GPU"
 
 #: ../inc/result.inc:35
 msgid "Not in DB"
-msgstr ""
+msgstr "Nicht in der Datenbank"
 
 #: ../inc/result.inc:73
 msgid "pending"
@@ -1111,11 +1120,11 @@ msgstr "Bestätigungsfehler"
 
 #: ../inc/result.inc:145 ../inc/result.inc:174
 msgid "Client detached"
-msgstr ""
+msgstr "Client abgemeldet"
 
 #: ../inc/result.inc:156
 msgid "Over"
-msgstr ""
+msgstr "Abgeschloßen"
 
 #: ../inc/result.inc:164
 msgid "Success"
@@ -1126,12 +1135,13 @@ msgid "Client error"
 msgstr "Client-Fehler"
 
 #: ../inc/result.inc:170
+#, fuzzy
 msgid "Redundant result"
-msgstr ""
+msgstr "redundantes Ergebnis"
 
 #: ../inc/result.inc:171
 msgid "No reply"
-msgstr ""
+msgstr "keine Antwort"
 
 #: ../inc/result.inc:181
 msgid "New"
@@ -1158,44 +1168,47 @@ msgid "Done"
 msgstr "Fertig"
 
 #: ../inc/result.inc:197
+#, fuzzy
 msgid "Initial"
-msgstr ""
+msgstr "gestartet"
 
 #: ../inc/result.inc:203
 msgid "Not necessary"
-msgstr ""
+msgstr "nicht benötigt"
 
 #: ../inc/result.inc:204
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Arbeitspaket fehlerhaft - Prüfung übersprungen"
 
 #: ../inc/result.inc:205
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Überprüft, noch keine Übereinstimmung"
 
 #: ../inc/result.inc:206
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "Paket war zu spät für eine Überprüfung"
 
 #: ../inc/result.inc:214
 msgid "Couldn't send result"
 msgstr "Konnte Ergebnis nicht senden"
 
 #: ../inc/result.inc:218
+#, fuzzy
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Zu viele Fehler (mglw. Bug)"
 
 #: ../inc/result.inc:222
+#, fuzzy
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "Zu viele Ergebnisse (mglw. nichteindeutig)"
 
 #: ../inc/result.inc:226
 msgid "Too many total results"
-msgstr ""
+msgstr "Zu viele Ergebnisse insgesamt"
 
 #: ../inc/result.inc:230
 msgid "WU cancelled"
-msgstr ""
+msgstr "Paket abgebrochen"
 
 #: ../inc/result.inc:234
 msgid "Unrecognized Error: %1"
@@ -1203,7 +1216,7 @@ msgstr "Unbekannter Fehler: %1"
 
 #: ../inc/result.inc:260
 msgid "Task name"
-msgstr ""
+msgstr "Paketname"
 
 #: ../inc/result.inc:260 ../inc/result.inc:265 ../inc/result.inc:268
 #: ../inc/result.inc:271
@@ -1212,83 +1225,81 @@ msgstr "anklicken für Einzelheiten"
 
 #: ../inc/result.inc:260
 msgid "Show IDs"
-msgstr ""
+msgstr "Zeige IDs"
 
 #: ../inc/result.inc:265
 msgid "Show names"
-msgstr ""
+msgstr "Zeige Namen"
 
 #: ../inc/result.inc:268
 msgid "Task ID"
-msgstr ""
+msgstr "Paket ID"
 
 #: ../inc/result.inc:271
 msgid "Work unit ID"
-msgstr ""
+msgstr "Paket ID"
 
 #: ../inc/result.inc:274
-#, fuzzy
 msgid "Computer"
 msgstr "Computer"
 
 #: ../inc/result.inc:277 ../inc/result.inc:381
 msgid "Sent"
-msgstr ""
+msgstr "Gesendet"
 
 #: ../inc/result.inc:278
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Meldezeit<br />oder Ablaufdatum"
 
 #: ../inc/result.inc:279
 msgid "explain"
-msgstr ""
+msgstr "Erklärung"
 
 #: ../inc/result.inc:281
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: ../inc/result.inc:282
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Laufzeit<br />(sek)"
 
 #: ../inc/result.inc:283
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "CPU Zeit<br />(sek)"
 
 #: ../inc/result.inc:284 ../inc/result.inc:392
 msgid "Claimed credit"
-msgstr ""
+msgstr "geforderte Punkte"
 
 #: ../inc/result.inc:285 ../inc/result.inc:393
 msgid "Granted credit"
-msgstr ""
+msgstr "bewilligte Punkte"
 
-# ########################################
+# ########################################<br />
 # Apps page (apps.php)
 #: ../inc/result.inc:286
-#, fuzzy
 msgid "Application"
-msgstr "Anwendungen"
+msgstr "Anwendung"
 
 #: ../inc/result.inc:379
 msgid "Workunit"
-msgstr ""
+msgstr "Arbeitspaket"
 
 #: ../inc/result.inc:382
 msgid "Received"
-msgstr ""
+msgstr "Empfangen"
 
 #: ../inc/result.inc:383
 msgid "Server state"
-msgstr ""
+msgstr "Serverstatus"
 
 #: ../inc/result.inc:384
 msgid "Outcome"
-msgstr ""
+msgstr "Resultat"
 
 #: ../inc/result.inc:385
 msgid "Client state"
-msgstr ""
+msgstr "Clientstatus"
 
 #: ../inc/result.inc:386
 msgid "Exit status"
@@ -1296,31 +1307,31 @@ msgstr ""
 
 #: ../inc/result.inc:388
 msgid "Report deadline"
-msgstr ""
+msgstr "Ablaufdatum"
 
 #: ../inc/result.inc:389
 msgid "Run time"
-msgstr ""
+msgstr "Laufzeit"
 
 #: ../inc/result.inc:390
 msgid "CPU time"
-msgstr ""
+msgstr "CPU Zeit"
 
 #: ../inc/result.inc:391
 msgid "Validate state"
-msgstr ""
+msgstr "Prüfungsstatus"
 
 #: ../inc/result.inc:394
 msgid "application version"
-msgstr ""
+msgstr "Anwendungsversion"
 
 #: ../inc/result.inc:409
 msgid "Previous"
-msgstr ""
+msgstr "Vorherige"
 
 #: ../inc/result.inc:418
 msgid "Next"
-msgstr ""
+msgstr "Nächste"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1481,7 +1492,7 @@ msgstr "Admin"
 #: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
 #: ../user/top_users.php:125
 msgid "Previous %1"
-msgstr ""
+msgstr "Vorherige %1"
 
 #: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
 #: ../user/top_users.php:130
@@ -1505,13 +1516,16 @@ msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
+"WARNUNG: dies ist ein BOINC-weites Team. Hier vorgenommene Änderungen werden "
+"automatisch wieder überschrieben. Bearbeite das %1BOINC-weite Team%2 "
+"stattdessen."
 
 #: ../inc/team.inc:417
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
 msgstr ""
-"%1Datenschutzhinweis%2: Wenn Sie ein Team erstellen werden Ihre "
+"%1Datenschutzhinweis%2: Wenn Sie ein Team erstellen, werden Ihre "
 "Projekteinstellungen (Ressourcenverteilung, Grafikeinstellungen) für jeden "
 "sichtbar."
 
@@ -1553,11 +1567,11 @@ msgstr "Beschreibung des Teams"
 
 #: ../inc/team.inc:451
 msgid "Accept new members?"
-msgstr ""
+msgstr "Neue Mitglieder akzeptieren?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr ""
+msgstr "Teilnehmerprofil"
 
 #: ../inc/user.inc:112
 msgid "Projects in which you are participating"
@@ -1615,9 +1629,8 @@ msgid "Team"
 msgstr "Team"
 
 #: ../inc/user.inc:164
-#, fuzzy
 msgid "Cross-project"
-msgstr "Projektübergreifende ID"
+msgstr "Projektübergreifend"
 
 #: ../inc/user.inc:165
 msgid "Certificate"
@@ -1646,7 +1659,7 @@ msgstr "Postleitzahl"
 
 #: ../inc/user.inc:206 ../inc/user.inc:309
 msgid "%1 member since"
-msgstr "%1-Mitglied seit"
+msgstr "%1 Mitglied seit"
 
 #: ../inc/user.inc:208
 msgid "Change"
@@ -1718,7 +1731,7 @@ msgstr "Einstellungen für dieses Projekt"
 
 #: ../inc/user.inc:228 ../user/prefs.php:33
 msgid "%1 preferences"
-msgstr "%1-Einstellungen"
+msgstr "%1 Einstellungen"
 
 #: ../inc/user.inc:234 ../user/sample_index.php:66
 msgid "Community"
@@ -1811,7 +1824,7 @@ msgstr "als Freund hinzufügen"
 
 #: ../inc/util.inc:191
 msgid "Unable to handle request"
-msgstr ""
+msgstr "Verarbeitung der Anfrage nicht möglich"
 
 #: ../inc/util.inc:385
 msgid "Email address:"
@@ -1871,7 +1884,7 @@ msgstr "Freiwillig"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "%1 Einstellungen für %2 hinzufügen"
 
 # ########################################
 # Apps page (apps.php)
@@ -2049,7 +2062,7 @@ msgid ""
 "community."
 msgstr ""
 "Mit Ihrem %1Profil%2 können Sie Ihre Ansichten und Meinungen der %3 "
-"Community mitteilen."
+"Gemeinschaft mitteilen."
 
 #: ../user/create_profile.php:208
 msgid "Your ReCaptcha response was not correct.  Please try again."
@@ -2138,7 +2151,8 @@ msgstr ""
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
 msgstr ""
-"Anweisungen und Hilfe zur %1Installation von BOINC%2 sind jedoch erhältlich."
+"Anweisungen und Hilfe zur %1Installation von BOINC%2 sind ebenfalls "
+"erhältlich."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
@@ -2169,12 +2183,13 @@ msgid "Change password"
 msgstr "Passwort ändern"
 
 #: ../user/edit_passwd_form.php:40
+#, fuzzy
 msgid "You can identify yourself using either"
-msgstr ""
+msgstr "Du kannst dich identifizieren mit Hilfe von"
 
 #: ../user/edit_passwd_form.php:42
 msgid "your email address and old password"
-msgstr ""
+msgstr "deiner E-Mail Adresse und dem alten Passwort"
 
 #: ../user/edit_passwd_form.php:43
 msgid "your account key"
@@ -2202,40 +2217,39 @@ msgstr "Passwort bestätigen"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "HTML-Tags sind im Namen nicht erlaubt."
 
 #: ../user/edit_user_info_action.php:32
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Du musst einen Namen für das Konto eintragen."
 
 #: ../user/edit_user_info_action.php:41 ../user/team_edit_action.php:51
 msgid "bad country"
-msgstr ""
+msgstr "falsches Land"
 
 #: ../user/edit_user_info_action.php:57
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "Kontoinformationen konnten nicht aktualisiert werden."
 
 #: ../user/edit_user_info_form.php:27
-#, fuzzy
 msgid "Edit account information"
-msgstr "Kontoinformationen"
+msgstr "Kontoinformationen bearbeiten"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Name %1 Realname oder Spitzname %2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "URL %1 deiner Webseite; optional %2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Postleitzahl %1 optional %2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Aktualisieren"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
@@ -2294,12 +2308,11 @@ msgstr ""
 msgid "This forum is not visible to you."
 msgstr "Dieses Forum ist für Sie nicht verfügbar."
 
-# ########################################
+# ########################################<br />
 # Forum thread
 #: ../user/forum_thread.php:60
-#, fuzzy
 msgid "This thread has been hidden by moderators"
-msgstr "Dieses Thema wurde von einem Administrator ausgeblendet"
+msgstr "Dieses Thema wurde von einem Moderator ausgeblendet"
 
 #: ../user/forum_thread.php:117
 msgid "My question was answered"
@@ -2435,7 +2448,6 @@ msgid "No such user"
 msgstr "Benutzer nicht gefunden"
 
 #: ../user/friend.php:67
-#, fuzzy
 msgid "Add friend"
 msgstr "als Freund hinzufügen"
 
@@ -2777,7 +2789,6 @@ msgid "Language selection"
 msgstr "Sprachauswahl"
 
 #: ../user/language_select.php:68
-#, fuzzy
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
@@ -2933,30 +2944,33 @@ msgid ""
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC client."
 msgstr ""
+"Ihre Einstellungen wurden aktualisiert. Clienteinstellungen\n"
+"werden aktiviert wenn der Computer mit %1 kommuniziert\n"
+"oder die %2Aktualisierung%3 im Manager ausgelöst wurde."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
-msgstr ""
+msgstr "%1 für %2"
 
 #: ../user/prefs_edit.php:119
 msgid "Back to preferences"
-msgstr ""
+msgstr "Zurück zu den Einstellungen"
 
 #: ../user/prefs_remove.php:46
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "Löschen der Einstellungen bestätigen"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
+msgstr "Bist du sicher das die %1 Einstellungen für %2 gelöscht werden sollen?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
-msgstr ""
+msgstr "Einstellungen entfernen"
 
 #: ../user/prefs_remove.php:55
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: ../user/profile_menu.php:33 ../user/sample_index.php:68
 msgid "Profiles"
@@ -3051,13 +3065,12 @@ msgid "Return to profile."
 msgstr "Zum Profil zurückkehren."
 
 #: ../user/result.php:28
-#, fuzzy
 msgid "No such task"
-msgstr "Kein Team gefunden."
+msgstr "Keine Aufgabe gefunden"
 
 #: ../user/result.php:30
 msgid "Task %1"
-msgstr ""
+msgstr "Aufgabe %1"
 
 #: ../user/results.php:27
 msgid "This feature is turned off temporarily"
@@ -3196,12 +3209,13 @@ msgstr ""
 "erstellen%2."
 
 #: ../user/team_admins.php:32
+#, fuzzy
 msgid "Remove Team Admin status from this member"
-msgstr ""
+msgstr "Teamadmin-Status von diesem Mitglied entfernen"
 
 #: ../user/team_admins.php:38 ../user/team_admins.php:49
 msgid "Add or remove Team Admins"
-msgstr ""
+msgstr "Hinzufügen oder entfernen von Teamadmins"
 
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
