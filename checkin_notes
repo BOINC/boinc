@@ -4275,6 +4275,19 @@ David  14 Jun 2010
 
 David  15 Jun 2010
 	- client: call curl_global_cleanup() on exit
+        (minor memory leak)
 
 	client/
 		http_curl.cpp
+
+David  15 Jun 2010
+    - scheduler: restore scaling of daily quota by # processors
+        and/or config.gpu_multiplier
+    - client: msg tweak
+
+    db/
+        boinc_db.h
+    sched/
+        sched_version.cpp
+    client/
+        log_flags.cpp

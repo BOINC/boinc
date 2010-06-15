@@ -96,10 +96,36 @@ inline int host_usage_to_gavid(HOST_USAGE& hu, APP& app) {
     return app.id*1000000 - hu.resource_type();
 }
 
-inline bool daily_quota_exceeded(int gavid) {
+// scale daily quota by # processors and/or by config.gpu_multiplier
+//
+inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
+    int n = hav.max_jobs_per_day;
+    if (hu.ncudas) {
+        if (g_request->coprocs.cuda.count) {
+            n *= g_request->coprocs.cuda.count;
+        }
+        if (config.gpu_multiplier) {
+            n *= config.gpu_multiplier;
+        }
+    } else if (hu.natis) {
+        if (g_request->coprocs.ati.count) {
+            n *= g_request->coprocs.ati.count;
+        }
+        if (config.gpu_multiplier) {
+            n *= config.gpu_multiplier;
+        }
+    } else {
+        if (g_reply->host.p_ncpus) {
+            n *= g_reply->host.p_ncpus;
+        }
+    }
+    return n;
+}
+
+inline bool daily_quota_exceeded(int gavid, HOST_USAGE& hu) {
     DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
     if (!havp) return false;
-    if (havp->n_jobs_today >= havp->max_jobs_per_day) {
+    if (havp->n_jobs_today >= scaled_max_jobs_per_day(*havp, hu)) {
         havp->daily_quota_exceeded = true;
         return true;
     }
@@ -135,7 +161,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app, bool reliable_only) {
             }
             continue;
         }
-        if (daily_quota_exceeded(gavid)) {
+        if (daily_quota_exceeded(gavid, cav.host_usage)) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] %d %s daily quota exceeded\n",
@@ -457,14 +483,6 @@ BEST_APP_VERSION* get_app_version(
             if (av.platformid != p->id) continue;
             no_version_for_platform = false;
 
-            if (daily_quota_exceeded(av.id)) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] daily quota exceeded\n", av.id
-                    );
-                }
-                continue;
-            }
             if (reliable_only && !app_version_is_reliable(av.id)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
@@ -499,6 +517,17 @@ BEST_APP_VERSION* get_app_version(
                 }
             } else {
                 host_usage.sequential_app(g_reply->host.p_fpops);
+            }
+
+            // this must follow app_plan(), which populates host_usage
+            //
+            if (daily_quota_exceeded(av.id, host_usage)) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] [AV#%d] daily quota exceeded\n", av.id
+                    );
+                }
+                continue;
             }
 
             // skip versions for which we're at the jobs-in-progress limit

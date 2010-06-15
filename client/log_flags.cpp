@@ -107,7 +107,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "notice_debug", notice_debug)) continue;
 
         msg_printf(NULL, MSG_USER_ALERT,
-            "%s %s: <%s>"
+            "%s %s: <%s>",
             _("Unrecognized tag in"),
             CONFIG_FILE,
             tag

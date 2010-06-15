@@ -490,7 +490,7 @@ struct CREDITED_JOB {
 #define ASSIGN_USER     2
 #define ASSIGN_TEAM     3
 
-// values for RESULT.app_version_id
+// values for RESULT.app_version_id for anonymous platform
 #define ANON_PLATFORM_UNKNOWN -1    // relic of old scheduler
 #define ANON_PLATFORM_CPU     -2
 #define ANON_PLATFORM_NVIDIA  -3
@@ -641,6 +641,11 @@ struct HOST_APP_VERSION {
         // for old clients (which don't report elapsed time)
         // we use this for CPU time stats
     int max_jobs_per_day;
+        // the actual limit is:
+        // for GPU versions:
+        //   this times config.gpu_multiplier * #GPUs of this type
+        // for CPU versions:
+        //   this times #CPUs
     int n_jobs_today;
     AVERAGE_VAR turnaround;
         // the stats of turnaround time (received - sent)
