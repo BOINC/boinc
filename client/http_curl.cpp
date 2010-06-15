@@ -846,6 +846,7 @@ int curl_cleanup() {
     if (g_curlMulti) {
         curl_multi_cleanup(g_curlMulti);
     }
+    curl_global_cleanup();
     return 0;
 }
 
