@@ -654,7 +654,7 @@ int send_result_abort() {
             // send user message
             char buf[256];
             sprintf(buf, "Result %s is no longer usable", orp.name);
-            g_reply->insert_message(buf, "high");
+            g_reply->insert_message(buf, "low");
         } else if (orp.abort_if_not_started) {
             g_reply->result_abort_if_not_starteds.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
@@ -863,7 +863,7 @@ void warn_user_if_core_client_upgrade_scheduled() {
 
             sprintf(msg,
                 "In %d days and %d hours, this project will require a minimum "
-                "BOINC core client version of %d.%d.%d.  You are currently using "
+                "BOINC version of %d.%d.%d.  You are currently using "
                 "version %d.%d.%d; please upgrade before this time.",
                 days, hours,
                 config.min_core_client_version_announced / 10000,
@@ -910,7 +910,7 @@ bool unacceptable_os() {
             sprintf(buf, "This project doesn't support OS type %s %s",
                 g_request->host.os_name, g_request->host.os_version
             );
-            g_reply->insert_message(buf, "low");
+            g_reply->insert_message(buf, "high");
             g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
@@ -935,7 +935,7 @@ bool unacceptable_cpu() {
             sprintf(buf, "This project doesn't support CPU type %s %s",
                 g_request->host.p_vendor, g_request->host.p_model
             );
-            g_reply->insert_message(buf, "low");
+            g_reply->insert_message(buf, "high");
             g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
@@ -952,7 +952,7 @@ bool wrong_core_client_version() {
         return false;
     }
     sprintf(msg,
-        "Need version %d.%d.%d or higher of the BOINC client. You have %d.%d.%d.",
+        "Need BOINC version %d.%d.%d or higher. You have %d.%d.%d.",
         config.min_core_client_version / 10000,
         (config.min_core_client_version / 100)%100,
         config.min_core_client_version % 100,
@@ -965,7 +965,7 @@ bool wrong_core_client_version() {
         g_request->hostid,
         config.min_core_client_version, g_request->core_client_minor_version
     );
-    g_reply->insert_message(msg, "low");
+    g_reply->insert_message(msg, "high");
     g_reply->set_delay(DELAY_BAD_CLIENT_VERSION);
     return true;
 }
@@ -1214,7 +1214,7 @@ void process_request(char* code_sign_key) {
     }
     if (g_request->platforms.list.size() == 0) {
         sprintf(buf, "platform '%s' not found", g_request->platform.name);
-        g_reply->insert_message(buf, "low");
+        g_reply->insert_message(buf, "high");
         log_messages.printf(MSG_CRITICAL,
             "[HOST#%d] platform '%s' not found\n",
             g_reply->host.id, g_request->platform.name

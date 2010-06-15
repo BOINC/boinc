@@ -195,7 +195,7 @@ bool resend_lost_work() {
             sprintf(warning_msg,
                 "Didn't resend lost task %s (expired)", result.name
             );
-            g_reply->insert_message(warning_msg, "high");
+            g_reply->insert_message(warning_msg, "low");
         } else {
             retval = add_result_to_reply(result, wu, bavp, false);
             if (retval) {
@@ -206,7 +206,7 @@ bool resend_lost_work() {
                 continue;
             }
             sprintf(warning_msg, "Resent lost task %s", result.name);
-            g_reply->insert_message(warning_msg, "high");
+            g_reply->insert_message(warning_msg, "low");
             num_resent++;
             did_any = true;
 

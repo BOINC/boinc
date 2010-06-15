@@ -4264,3 +4264,11 @@ David  14 Jun 2010
     html/inc/
         result.inc
     api/boinc_api.cpp
+
+David  14 Jun 2010
+    - scheduler: tweaks to user messages
+
+    sched/
+        sched_customize.cpp
+        sched_resend.cpp
+        handle_request.cpp

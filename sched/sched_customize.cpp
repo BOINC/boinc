@@ -152,7 +152,7 @@ static inline bool app_plan_ati(
                 "[version] Host lacks ATI GPU for plan class ati\n"
             );
         }
-        add_no_work_message("Your computer has no ATI GPU");
+        //add_no_work_message("Your computer has no ATI GPU");
         return false;
     }
 
@@ -170,7 +170,7 @@ static inline bool app_plan_ati(
                     cp->version
                 );
             }
-            add_no_work_message("ATI Catalyst 8.12+ needed to use GPU");
+            //add_no_work_message("ATI Catalyst 8.12+ needed to use GPU");
             return false;
         }
         if (!cp->amdrt_detected) {
@@ -179,7 +179,7 @@ static inline bool app_plan_ati(
                     "[version] ati libs found, need amd\n"
                 );
             }
-            add_no_work_message("Need libraries named amd* to use ATI GPU");
+            //add_no_work_message("Need libraries named amd* to use ATI GPU");
             return false;
         }
     }
@@ -192,7 +192,7 @@ static inline bool app_plan_ati(
                     cp->version
                 );
             }
-            add_no_work_message("ATI Catalyst 9.1+ needed to use GPU");
+            //add_no_work_message("ATI Catalyst 9.1+ needed to use GPU");
             return false;
         }
         if (!cp->amdrt_detected) {
@@ -201,7 +201,7 @@ static inline bool app_plan_ati(
                     "[version] ati libs found, need amd\n"
                 );
             }
-            add_no_work_message("Need libraries named amd* to use ATI GPU");
+            //add_no_work_message("Need libraries named amd* to use ATI GPU");
             return false;
         }
     }
@@ -214,7 +214,7 @@ static inline bool app_plan_ati(
                     cp->version
                 );
             }
-            add_no_work_message("ATI Catalyst 9.2+ needed to use GPU");
+            //add_no_work_message("ATI Catalyst 9.2+ needed to use GPU");
             return false;
         }
         if (!cp->atirt_detected) {
@@ -223,7 +223,7 @@ static inline bool app_plan_ati(
                     "[version] amd libs found, need ati\n"
                 );
             }
-            add_no_work_message("Need libraries named ati* to use ATI GPU");
+            //add_no_work_message("Need libraries named ati* to use ATI GPU");
             return false;
         }
     }
@@ -236,7 +236,7 @@ static inline bool app_plan_ati(
                     cp->version
                 );
             }
-            add_no_work_message("ATI Catalyst 9.7+ needed to use GPU");
+            //add_no_work_message("ATI Catalyst 9.7+ needed to use GPU");
             return false;
         }
         if (!cp->atirt_detected) {
@@ -245,7 +245,7 @@ static inline bool app_plan_ati(
                     "[version] amd libs found, need ati\n"
                 );
             }
-            add_no_work_message("Need libraries named ati* to use ATI GPU");
+            //add_no_work_message("Need libraries named ati* to use ATI GPU");
             return false;
         }
     }
@@ -261,11 +261,13 @@ static inline bool app_plan_ati(
                 cp->attribs.localRAM, (int)(min_ram/MEGA)
             );
         }
+#if 0
         sprintf(buf,
             "Your ATI GPU has insufficient memory (need %.0fMB)",
             min_ram/MEGA
         );
         add_no_work_message(buf);
+#endif
         return false;
     }
     hu.gpu_ram = 200*MEGA;
@@ -335,7 +337,7 @@ static inline bool app_plan_cuda(
                 plan_class
             );
         }
-        add_no_work_message("Your computer has no NVIDIA GPU");
+        //add_no_work_message("Your computer has no NVIDIA GPU");
         return false;
     }
 
@@ -343,9 +345,11 @@ static inline bool app_plan_cuda(
     //
     if (strstr(sreq.host.os_name, "Darwin")) {
         if (sreq.core_client_version < 61028) {
+#if 0
             add_no_work_message(
                 "NVIDIA GPU apps require BOINC version 6.10.28+"
             );
+#endif
             return false;
         }
     }
@@ -359,9 +363,11 @@ static inline bool app_plan_cuda(
                 "[version] Compute capability %d < 1.0\n", compute_capability
             );
         }
+#if 0
         add_no_work_message(
             "Your NVIDIA GPU lacks the needed compute capability"
         );
+#endif
         return false;
     } 
 
@@ -373,11 +379,11 @@ static inline bool app_plan_cuda(
     //
     if (!strcmp(plan_class, "cuda_fermi")) {
         if (compute_capability < 200) {
-            add_no_work_message("Fermi-class GPU needed");
+            //add_no_work_message("Fermi-class GPU needed");
             return false;
         }
         if (cp->cuda_version < 3000) {
-            add_no_work_message("CUDA version 3.0 needed");
+            //add_no_work_message("CUDA version 3.0 needed");
             return false;
         }
         min_ram = CUDA23_MIN_RAM;
@@ -387,22 +393,24 @@ static inline bool app_plan_cuda(
         }
         if (cp->cuda_version) {
             if (cp->cuda_version < 2030) {
-                add_no_work_message("CUDA version 2.3 needed");
+                //add_no_work_message("CUDA version 2.3 needed");
                 return false;
             }
         } else if (cp->display_driver_version) {
             if (cp->display_driver_version < CUDA23_MIN_DRIVER_VERSION) {
+#if 0
                 sprintf(buf, "NVIDIA display driver %d or later needed",
                     CUDA23_MIN_DRIVER_VERSION
                 );
                 add_no_work_message(buf);
+#endif
                 return false;
             }
         } else {
             // pre-6.10 Linux clients report neither CUDA nor driver
             // version; they'll end up here
             //
-            add_no_work_message("CUDA version 2.3 needed");
+            //add_no_work_message("CUDA version 2.3 needed");
             return false;
         }
         min_ram = CUDA23_MIN_RAM;
@@ -410,10 +418,12 @@ static inline bool app_plan_cuda(
         if (!cp->display_driver_version
             || cp->display_driver_version < CUDA23_MIN_DRIVER_VERSION
         ) {
+#if 0
             sprintf(buf, "NVIDIA display driver %d or later needed",
                 CUDA_OPENCL_MIN_DRIVER_VERSION
             );
             add_no_work_message(buf);
+#endif
             return false;
         }
         min_ram = CUDA23_MIN_RAM;
@@ -428,10 +438,12 @@ static inline bool app_plan_cuda(
                     cp->display_driver_version
                 );
             }
+#if 0
             sprintf(buf, "NVIDIA driver version %d or later needed",
                 CUDA_MIN_DRIVER_VERSION
             );
             add_no_work_message(buf);
+#endif
             return false;
         }
         min_ram = CUDA_MIN_RAM;
@@ -449,11 +461,13 @@ static inline bool app_plan_cuda(
                 cp->prop.dtotalGlobalMem/MEGA, min_ram/MEGA
             );
         }
+#if 0
         sprintf(buf,
             "Your NVIDIA GPU has insufficient memory (need %.0fMB)",
             min_ram/MEGA
         );
         add_no_work_message(buf);
+#endif
         return false;
     }
     hu.gpu_ram = 200*MEGA;
@@ -518,7 +532,7 @@ static inline bool app_plan_sse3(
 ) {
     downcase_string(sreq.host.p_features);
     if (!strstr(sreq.host.p_features, "sse3")) {
-        add_no_work_message("Your CPU lacks SSE3");
+        //add_no_work_message("Your CPU lacks SSE3");
         return false;
     }
     hu.avg_ncpus = 1;
