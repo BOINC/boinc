@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-03 10:17 PDT\n"
-"PO-Revision-Date: 2009-12-11 11:06-0700\n"
+"POT-Creation-Date: 2010-05-12 10:08 PDT\n"
+"PO-Revision-Date: 2010-05-11 13:27-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -121,43 +121,43 @@ msgstr ""
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Neprieinamas"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:1000 ../project.sample/project.inc:49
 msgid "Home"
-msgstr ""
+msgstr "Namai"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:1001
 msgid "Work"
-msgstr ""
+msgstr "Darbas"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:1002
 msgid "School"
-msgstr ""
+msgstr "Mokykla"
 
 #: ../inc/host.inc:59
 msgid "Update"
-msgstr ""
+msgstr "Atnaujinti"
 
 #: ../inc/host.inc:83
 msgid "Computer information"
-msgstr ""
+msgstr "Kompiuterio informacija"
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "IP adresas"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(toks pats paskutinius %1 kartų)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr ""
+msgstr "Išorinis IP adresas"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "Rodyti IP adresą"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
@@ -182,16 +182,15 @@ msgstr "Vardas"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:212
 msgid "Owner"
-msgstr ""
+msgstr "Savininkas"
 
 #: ../inc/host.inc:104 ../inc/host.inc:317
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonimas"
 
 #: ../inc/host.inc:108 ../inc/result.inc:380
-#, fuzzy
 msgid "Created"
-msgstr "Sukurti"
+msgstr "Sukurtas"
 
 #: ../inc/host.inc:109 ../inc/host.inc:216 ../inc/host.inc:221
 #: ../inc/host.inc:620 ../inc/team.inc:94 ../inc/team.inc:207
@@ -215,31 +214,31 @@ msgstr ""
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "Centrinio procesoriaus tipas"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "Procesorių skaičius"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
-msgstr ""
+msgstr "Koprocesoriai"
 
 #: ../inc/host.inc:119 ../inc/host.inc:626
 msgid "Operating System"
-msgstr ""
+msgstr "Operacinė sistema"
 
 #: ../inc/host.inc:122
 msgid "BOINC client version"
-msgstr ""
+msgstr "BOINC kliento versija"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "Atmintis"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
@@ -247,7 +246,7 @@ msgstr ""
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
@@ -255,44 +254,44 @@ msgstr ""
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "Iš viso vietos diske"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Laisvos vietos diske"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "Išmatuota slankiojo kablelio operacijų sparta"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 milijonų op./s"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
-msgstr ""
+msgstr "Išmatuota sveikųjų skaičių operacijų sparta"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
-msgstr ""
+msgstr "Vidutinis išsiuntimo greitis"
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
-msgstr ""
+msgstr "%1 KB/s"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:148
 #: ../inc/result.inc:158 ../inc/result.inc:176 ../inc/result.inc:208
 msgid "Unknown"
-msgstr ""
+msgstr "Nežinomas"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
 msgid "Average download rate"
-msgstr ""
+msgstr "Vidutinis atsiuntimo greitis"
 
 #: ../inc/host.inc:163
 msgid "Average turnaround time"
@@ -300,7 +299,7 @@ msgstr ""
 
 #: ../inc/host.inc:163
 msgid "%1 days"
-msgstr ""
+msgstr "%1 dienų"
 
 #: ../inc/host.inc:165
 msgid "Maximum daily WU quota per CPU"
@@ -308,7 +307,7 @@ msgstr ""
 
 #: ../inc/host.inc:165
 msgid "%1/day"
-msgstr ""
+msgstr "%1 per dieną"
 
 #: ../inc/host.inc:174 ../inc/host.inc:301 ../inc/user.inc:149
 msgid "Tasks"
@@ -320,7 +319,7 @@ msgstr ""
 
 #: ../inc/host.inc:179
 msgid "Last time contacted server"
-msgstr ""
+msgstr "Paskutinis susisiekimas su serveriu"
 
 #: ../inc/host.inc:180
 #, php-format
@@ -358,9 +357,8 @@ msgid "Merge duplicate records of this computer"
 msgstr ""
 
 #: ../inc/host.inc:197
-#, fuzzy
 msgid "Merge"
-msgstr "Žinutė"
+msgstr "Sujungti"
 
 #: ../inc/host.inc:210
 msgid "Computer info"
@@ -409,7 +407,6 @@ msgid "Details"
 msgstr ""
 
 #: ../inc/host.inc:305
-#, fuzzy
 msgid "Cross-project stats:"
 msgstr "Tarpprojektinė statistika"
 
@@ -485,7 +482,7 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: ../inc/news.inc:96
+#: ../inc/news.inc:102
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr ""
@@ -832,9 +829,8 @@ msgid "Separate preferences for %1"
 msgstr ""
 
 #: ../inc/prefs.inc:790 ../inc/prefs.inc:865
-#, fuzzy
 msgid "Edit preferences"
-msgstr "%1 nustatymai"
+msgstr "Keisti nustatymus"
 
 #: ../inc/prefs.inc:794
 msgid "Add separate preferences for %1"
@@ -845,9 +841,8 @@ msgid "(Switch View)"
 msgstr ""
 
 #: ../inc/prefs.inc:804 ../inc/prefs.inc:850
-#, fuzzy
 msgid "Combined preferences"
-msgstr "Skaičiavimų nustatymai"
+msgstr "Bendrieji nustatymai"
 
 #: ../inc/prefs.inc:809
 msgid "Project specific settings"
@@ -860,9 +855,8 @@ msgstr ""
 #: ../inc/prefs.inc:826 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
-#, fuzzy
 msgid "Edit %1 preferences"
-msgstr "%1 nustatymai"
+msgstr "Keisti \"%1\" nustatymus"
 
 #: ../inc/prefs.inc:840
 msgid ""
@@ -876,14 +870,12 @@ msgid "Preferences last modified:"
 msgstr ""
 
 #: ../inc/prefs.inc:894
-#, fuzzy
 msgid "Add preferences"
-msgstr "%1 nustatymai"
+msgstr "Pridėti nustatymus"
 
 #: ../inc/prefs.inc:898
-#, fuzzy
 msgid "Update preferences"
-msgstr "%1 nustatymai"
+msgstr "Atnaujinti nustatymus"
 
 #: ../inc/prefs.inc:988 ../inc/prefs.inc:997
 msgid "Default computer location"
@@ -1116,9 +1108,8 @@ msgid "Uploading"
 msgstr ""
 
 #: ../inc/result.inc:186
-#, fuzzy
 msgid "Done"
-msgstr "Nėra"
+msgstr "Atlikta"
 
 #: ../inc/result.inc:197
 msgid "Initial"
@@ -1190,9 +1181,8 @@ msgid "Work unit ID"
 msgstr ""
 
 #: ../inc/result.inc:274
-#, fuzzy
 msgid "Computer"
-msgstr "Kompiuteriai"
+msgstr "Kompiuteris"
 
 #: ../inc/result.inc:277 ../inc/result.inc:381
 msgid "Sent"
@@ -1229,9 +1219,8 @@ msgstr ""
 # ########################################
 # Apps page (apps.php)
 #: ../inc/result.inc:286
-#, fuzzy
 msgid "Application"
-msgstr "Programos"
+msgstr "Programa"
 
 #: ../inc/result.inc:379
 msgid "Workunit"
@@ -1785,18 +1774,16 @@ msgid "Unable to handle request"
 msgstr ""
 
 #: ../inc/util.inc:385
-#, fuzzy
 msgid "Email address:"
-msgstr "El. pašto adresas"
+msgstr "El. pašto adresas:"
 
 #: ../inc/util.inc:385
 msgid "forgot email address?"
 msgstr ""
 
 #: ../inc/util.inc:387
-#, fuzzy
 msgid "Password:"
-msgstr "Slaptažodis"
+msgstr "Slaptažodis:"
 
 #: ../inc/util.inc:387
 msgid "forgot password?"
@@ -2102,15 +2089,13 @@ msgid "Change the email address of your account"
 msgstr ""
 
 #: ../user/edit_email_form.php:36
-#, fuzzy
 msgid "New email address"
-msgstr "el. pašto adresą"
+msgstr "Naujas el. pašto adresas"
 
 #: ../user/edit_email_form.php:37
-#, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr ""
-"Turi būti galiojantis elektroninio pašto adresas formoje \"vardas@domenas\"."
+"Turi būti galiojantis elektroninio pašto adresas formatu \"vardas@domenas\""
 
 #: ../user/edit_email_form.php:47
 msgid "No password?"
@@ -2131,9 +2116,8 @@ msgstr ""
 # ########################################
 # "Your account" page (home.php)
 #: ../user/edit_passwd_form.php:43
-#, fuzzy
 msgid "your account key"
-msgstr "Silpnas abonemento raktas"
+msgstr "jūsų abonemento raktas"
 
 #: ../user/edit_passwd_form.php:47
 msgid "Current password"
@@ -2172,9 +2156,8 @@ msgid "Couldn't update user info."
 msgstr ""
 
 #: ../user/edit_user_info_form.php:27
-#, fuzzy
 msgid "Edit account information"
-msgstr "Abonemento informacija"
+msgstr "Keisti abonemento informaciją"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
@@ -2241,12 +2224,11 @@ msgstr ""
 msgid "This forum is not visible to you."
 msgstr ""
 
-# ########################################
+# ########################################<br />
 # Forum thread
 #: ../user/forum_thread.php:60
-#, fuzzy
 msgid "This thread has been hidden by moderators"
-msgstr "Ši tema buvo paslėpta administratorių"
+msgstr "Ši tema buvo paslėpta moderatorių"
 
 #: ../user/forum_thread.php:117
 msgid "My question was answered"
@@ -2376,7 +2358,6 @@ msgid "No such user"
 msgstr "Vartotojas nerastas"
 
 #: ../user/friend.php:67
-#, fuzzy
 msgid "Add friend"
 msgstr "Pridėti draugą"
 
@@ -2463,9 +2444,8 @@ msgid "You are now friends with %1."
 msgstr ""
 
 #: ../user/friend.php:220
-#, fuzzy
 msgid "Cancel friendship?"
-msgstr "Nutraukti draugystę"
+msgstr "Nutraukti draugystę?"
 
 #: ../user/friend.php:221
 msgid "Are you sure you want to cancel your friendship with %1?"
@@ -2753,9 +2733,8 @@ msgid "Reply"
 msgstr "Atsakyti"
 
 #: ../user/pm.php:113
-#, fuzzy
 msgid "Delete selected messages"
-msgstr "Su pasirinktomis žinutėmis"
+msgstr "Ištrinti pasirinktas žinutes"
 
 #: ../user/pm.php:136
 msgid "Sender"
@@ -2946,9 +2925,8 @@ msgid "Return to profile."
 msgstr ""
 
 #: ../user/result.php:28
-#, fuzzy
 msgid "No such task"
-msgstr "Tokios komandos nėra."
+msgstr "Tokios užduoties nėra"
 
 #: ../user/result.php:30
 msgid "Task %1"
@@ -2975,7 +2953,6 @@ msgid "No tasks to display"
 msgstr ""
 
 #: ../user/sample_index.php:130
-#, fuzzy
 msgid "User of the day"
 msgstr "Dienos dalyvis"
 
@@ -3002,9 +2979,8 @@ msgid "Top computers"
 msgstr ""
 
 #: ../user/stats.php:31 ../user/team.php:43
-#, fuzzy
 msgid "Top teams"
-msgstr "Geriausios %1 komandos"
+msgstr "Geriausios komandos"
 
 #: ../user/stats.php:35
 msgid ""
@@ -3058,9 +3034,8 @@ msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
 
 #: ../user/team.php:38 ../user/team_search.php:155
-#, fuzzy
 msgid "Find a team"
-msgstr "raskite komandą"
+msgstr "Raskite komandą"
 
 #: ../user/team.php:45
 msgid "All teams"
@@ -3071,9 +3046,8 @@ msgid "%1 teams"
 msgstr ""
 
 #: ../user/team.php:55
-#, fuzzy
 msgid "Create a new team"
-msgstr "Sukurti naują temą"
+msgstr "Sukurti naują komandą"
 
 #: ../user/team.php:56
 msgid ""
@@ -3153,9 +3127,8 @@ msgid "failed to remove admin"
 msgstr ""
 
 #: ../user/team_admins.php:95
-#, fuzzy
 msgid "no such user"
-msgstr "Vartotojas nerastas"
+msgstr "tokio vartotojo nėra"
 
 #: ../user/team_admins.php:96
 msgid "User is not member of team"
@@ -3171,18 +3144,16 @@ msgstr ""
 
 #: ../user/team_admins.php:108 ../user/team_quit_form.php:28
 #: ../user/team_remove_inactive_action.php:26
-#, fuzzy
 msgid "No such team"
-msgstr "Tokios komandos nėra."
+msgstr "Tokios komandos nėra"
 
 #: ../user/team_change_founder_action.php:28
 #: ../user/team_change_founder_form.php:31 ../user/team_display.php:67
 #: ../user/team_edit_action.php:28 ../user/team_edit_form.php:27
 #: ../user/team_email_list.php:52 ../user/team_forum.php:162
 #: ../user/team_manage.php:83
-#, fuzzy
 msgid "no such team"
-msgstr "Tokios komandos nėra."
+msgstr "tokios komandos nėra"
 
 #: ../user/team_change_founder_action.php:36
 msgid "User is not a member of %1"
@@ -3255,9 +3226,8 @@ msgid "Could not create team - please try later."
 msgstr ""
 
 #: ../user/team_create_form.php:25 ../user/team_create_form.php:30
-#, fuzzy
 msgid "Create a team"
-msgstr "Sukurti naują temą"
+msgstr "Sukurti naują komandą"
 
 #: ../user/team_create_form.php:28
 msgid ""
@@ -3604,7 +3574,7 @@ msgstr ""
 #: ../user/team_lookup.php:102
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
-"1create a team%2 yourself."
+"2create a team%3 yourself."
 msgstr ""
 
 #: ../user/team_manage.php:24
@@ -3741,7 +3711,6 @@ msgid ""
 msgstr ""
 
 #: ../user/team_quit_form.php:40
-#, fuzzy
 msgid "Quit Team"
 msgstr "Palikti komandą"
 
@@ -3801,9 +3770,8 @@ msgid "Change your search"
 msgstr ""
 
 #: ../user/team_search.php:152
-#, fuzzy
 msgid "Team search results"
-msgstr "Paieškos forume rezultatai"
+msgstr "Komandų paieškos rezultatai"
 
 #: ../user/team_search.php:156
 msgid ""
@@ -3864,14 +3832,12 @@ msgid "Decreasing sign-up time"
 msgstr ""
 
 #: ../user/user_search.php:116
-#, fuzzy
 msgid "Decreasing average credit"
-msgstr "Vidutinis kreditas"
+msgstr "Mažėjantis vidutinis kreditas"
 
 #: ../user/user_search.php:117
-#, fuzzy
 msgid "Decreasing total credit"
-msgstr "Vidutinis kreditas"
+msgstr "Mažėjantis bendras kreditų skaičius"
 
 #: ../user/user_search.php:118
 msgid "Filters"
@@ -3910,9 +3876,8 @@ msgid "missing search type"
 msgstr ""
 
 #: ../user/user_search.php:224
-#, fuzzy
 msgid "User search results"
-msgstr "Paieškos forume rezultatai"
+msgstr "Dalyvių paieškos rezultatai"
 
 #: ../user/userw.php:35
 msgid "User not found!"
@@ -3923,9 +3888,8 @@ msgid "Account Data<br/>for %1<br/>Time:"
 msgstr ""
 
 #: ../user/userw.php:46
-#, fuzzy
 msgid "Team:"
-msgstr "Komanda"
+msgstr "Komanda:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
@@ -3960,9 +3924,8 @@ msgid ""
 msgstr ""
 
 #: ../user/validate_email_addr.php:44
-#, fuzzy
 msgid "No such user."
-msgstr "Vartotojas nerastas"
+msgstr "Tokio vartotojo nėra."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
@@ -4050,21 +4013,18 @@ msgid "Workunit %1"
 msgstr ""
 
 #: ../user/workunit.php:37
-#, fuzzy
 msgid "name"
-msgstr "Vardas"
+msgstr "vardas"
 
 # ########################################
 # Apps page (apps.php)
 #: ../user/workunit.php:38
-#, fuzzy
 msgid "application"
-msgstr "Programos"
+msgstr "programa"
 
 #: ../user/workunit.php:39
-#, fuzzy
 msgid "created"
-msgstr "Sukurti"
+msgstr "sukurtas"
 
 #: ../user/workunit.php:41
 msgid "canonical result"

@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-03 10:17 PDT\n"
-"PO-Revision-Date: 2010-04-22 07:52-0700\n"
+"POT-Creation-Date: 2010-05-12 10:08 PDT\n"
+"PO-Revision-Date: 2010-05-18 14:34-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Bookmarks: 7,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
@@ -486,7 +486,7 @@ msgstr ""
 msgid "Comment"
 msgstr "Hozzászólás"
 
-#: ../inc/news.inc:96
+#: ../inc/news.inc:102
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "A hírek elérhetőak %sRSS feed%s formában"
@@ -2991,9 +2991,8 @@ msgid "Top computers"
 msgstr ""
 
 #: ../user/stats.php:31 ../user/team.php:43
-#, fuzzy
 msgid "Top teams"
-msgstr "A legjobb %1 csapatok"
+msgstr "A legjobb csapatok"
 
 #: ../user/stats.php:35
 msgid ""
@@ -3591,7 +3590,7 @@ msgstr ""
 #: ../user/team_lookup.php:102
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
-"1create a team%2 yourself."
+"2create a team%3 yourself."
 msgstr ""
 
 #: ../user/team_manage.php:24

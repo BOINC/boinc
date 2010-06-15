@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-03 10:17 PDT\n"
-"PO-Revision-Date: 2010-04-24 05:58-0700\n"
+"POT-Creation-Date: 2010-05-12 10:08 PDT\n"
+"PO-Revision-Date: 2010-05-31 04:30-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -149,7 +149,7 @@ msgstr "Direccion IP"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(igual las últimas %1 veces)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
@@ -165,7 +165,7 @@ msgstr "Nombre de dominio"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
-msgstr ""
+msgstr "Zona horaria"
 
 #: ../inc/host.inc:97
 msgid "UTC %1 hours"
@@ -182,16 +182,15 @@ msgstr "Nombre"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:212
 msgid "Owner"
-msgstr ""
+msgstr "Propietario"
 
 #: ../inc/host.inc:104 ../inc/host.inc:317
 msgid "Anonymous"
-msgstr ""
+msgstr "Anónimo"
 
 #: ../inc/host.inc:108 ../inc/result.inc:380
-#, fuzzy
 msgid "Created"
-msgstr "Crear"
+msgstr "Creado"
 
 #: ../inc/host.inc:109 ../inc/host.inc:216 ../inc/host.inc:221
 #: ../inc/host.inc:620 ../inc/team.inc:94 ../inc/team.inc:207
@@ -211,35 +210,35 @@ msgstr "Crédito promedio"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr ""
+msgstr "Crédito de los proyectos"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "Tipo de CPU"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "Número de procesadores"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
-msgstr ""
+msgstr "Coprocesadores"
 
 #: ../inc/host.inc:119 ../inc/host.inc:626
 msgid "Operating System"
-msgstr ""
+msgstr "Sistema Operativo"
 
 #: ../inc/host.inc:122
 msgid "BOINC client version"
-msgstr ""
+msgstr "Versión del cliente BOINC"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "Memoria"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
@@ -247,7 +246,7 @@ msgstr ""
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
@@ -255,19 +254,19 @@ msgstr ""
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "Espacio total en disco"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Espacio Libre en Disco"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "Velocidad de punto flotante calculada"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
@@ -275,24 +274,24 @@ msgstr ""
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
-msgstr ""
+msgstr "Velocidad de entero calculada"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
-msgstr ""
+msgstr "Velocidad promedio de envío"
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
-msgstr ""
+msgstr "%1 KB/seg"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:148
 #: ../inc/result.inc:158 ../inc/result.inc:176 ../inc/result.inc:208
 msgid "Unknown"
-msgstr ""
+msgstr "Desconocido"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
 msgid "Average download rate"
-msgstr ""
+msgstr "Velocidad promedio de descarga"
 
 #: ../inc/host.inc:163
 msgid "Average turnaround time"
@@ -300,7 +299,7 @@ msgstr ""
 
 #: ../inc/host.inc:163
 msgid "%1 days"
-msgstr ""
+msgstr "%1 días"
 
 #: ../inc/host.inc:165
 msgid "Maximum daily WU quota per CPU"
@@ -308,7 +307,7 @@ msgstr ""
 
 #: ../inc/host.inc:165
 msgid "%1/day"
-msgstr ""
+msgstr "%1/día"
 
 #: ../inc/host.inc:174 ../inc/host.inc:301 ../inc/user.inc:149
 msgid "Tasks"
@@ -316,30 +315,32 @@ msgstr "Tareas"
 
 #: ../inc/host.inc:178
 msgid "Number of times client has contacted server"
-msgstr ""
+msgstr "Número de veces que el cliente ha contactado con el servidor"
 
 #: ../inc/host.inc:179
 msgid "Last time contacted server"
-msgstr ""
+msgstr "Ultima vez que contactó con el servidor"
 
 #: ../inc/host.inc:180
 #, php-format
 msgid "% of time BOINC client is running"
-msgstr ""
+msgstr "% del tiempo que el cliente BOINC se ejecuta"
 
 #: ../inc/host.inc:182
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr ""
+"Mientras se ejecuta BOINC, % de tiempo que el ordenador tiene una conexión a "
+"Internet"
 
 #: ../inc/host.inc:184
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "Mientras se ejecuta BOINC, % del tiempo que se permite el trabajo"
 
 #: ../inc/host.inc:186
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "Rendimiento promedio de la CPU"
 
 #: ../inc/host.inc:189
 msgid "Task duration correction factor"
@@ -347,24 +348,23 @@ msgstr ""
 
 #: ../inc/host.inc:191 ../inc/host.inc:613
 msgid "Location"
-msgstr ""
+msgstr "Localización"
 
 #: ../inc/host.inc:193
 msgid "Delete this computer"
-msgstr ""
+msgstr "Eliminar este ordenador"
 
 #: ../inc/host.inc:197
 msgid "Merge duplicate records of this computer"
-msgstr ""
+msgstr "Fusionar registros duplicados de este ordenador"
 
 #: ../inc/host.inc:197
-#, fuzzy
 msgid "Merge"
-msgstr "Mensaje"
+msgstr "Fusionar"
 
 #: ../inc/host.inc:210
 msgid "Computer info"
-msgstr ""
+msgstr "Información del ordenador"
 
 #: ../inc/host.inc:211 ../inc/host.inc:615 ../inc/team.inc:344
 #: ../user/top_users.php:46
@@ -373,7 +373,7 @@ msgstr "Posición"
 
 #: ../inc/host.inc:215 ../inc/host.inc:618
 msgid "Avg. credit"
-msgstr ""
+msgstr "Crédito promedio"
 
 #: ../inc/host.inc:220 ../inc/team.inc:95 ../inc/team.inc:208
 #: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:350
@@ -386,27 +386,27 @@ msgstr "Promedio de créditos recientes"
 
 #: ../inc/host.inc:225
 msgid "BOINC version"
-msgstr ""
+msgstr "Versión de BOINC"
 
 #: ../inc/host.inc:226 ../inc/host.inc:623
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624
 msgid "GPU"
-msgstr ""
+msgstr "GPU"
 
 #: ../inc/host.inc:228
 msgid "Operating system"
-msgstr ""
+msgstr "Sistema operativo"
 
 #: ../inc/host.inc:280
 msgid "(%1 processors)"
-msgstr ""
+msgstr "(%1 procesadores)"
 
 #: ../inc/host.inc:300
 msgid "Details"
-msgstr ""
+msgstr "Detalles"
 
 #: ../inc/host.inc:305
 #, fuzzy
@@ -419,11 +419,11 @@ msgstr ""
 
 #: ../inc/host.inc:466
 msgid "Host %1 has an incompatible OS:"
-msgstr ""
+msgstr "El ordenador %1 tiene un SO incompatible:"
 
 #: ../inc/host.inc:472
 msgid "Host %1 has an incompatible CPU:"
-msgstr ""
+msgstr "El ordenador %1 tiene una CPU incompatible:"
 
 #: ../inc/host.inc:539
 msgid "same host"
@@ -439,15 +439,16 @@ msgstr ""
 
 #: ../inc/host.inc:562
 msgid "Couldn't update credit of new computer"
-msgstr ""
+msgstr "No se pudo actualizar los creditos del nuevo ordenador"
 
 #: ../inc/host.inc:566
 msgid "Couldn't update results"
-msgstr ""
+msgstr "No se ha podido actualizar los resultados"
 
 #: ../inc/host.inc:571
+#, fuzzy
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "No se pudo eliminar el viejo ordenador"
 
 #: ../inc/host.inc:573
 msgid "Retired old computer %1"
@@ -455,28 +456,27 @@ msgstr ""
 
 #: ../inc/host.inc:596 ../inc/host.inc:599
 msgid "Show:"
-msgstr ""
+msgstr "Mostrar:"
 
 #: ../inc/host.inc:596 ../inc/host.inc:599
-#, fuzzy
 msgid "All computers"
-msgstr "Top de computadoras"
+msgstr "Todos los ordenadores"
 
 #: ../inc/host.inc:596 ../inc/host.inc:599
 msgid "Only computers active in past 30 days"
-msgstr ""
+msgstr "Sólo ordenadores activos en los últimos 30 días"
 
 #: ../inc/host.inc:608 ../inc/result.inc:387
 msgid "Computer ID"
-msgstr ""
+msgstr "ID del ordenador"
 
 #: ../inc/host.inc:621
 msgid "BOINC<br>version"
-msgstr ""
+msgstr "Versión<br>BOINC"
 
 #: ../inc/host.inc:628
 msgid "Last contact"
-msgstr ""
+msgstr "Último contacto"
 
 #: ../inc/host.inc:677
 msgid "Merge computers by name"
@@ -484,12 +484,12 @@ msgstr ""
 
 #: ../inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Comentario"
 
-#: ../inc/news.inc:96
+#: ../inc/news.inc:102
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Las noticias están disponibles en formato %sRSS feed%s"
 
 #: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
 msgid "Inbox"
@@ -559,45 +559,56 @@ msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
+"¿Suspender el trabajo mientras el ordenador está funcionando con baterías? "
+"%1 Sólo importa para ordenadores portátiles %2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "¿Suspender el trabajo mientras el ordenador está en uso?"
 
 #: ../inc/prefs.inc:90
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
+"¿Suspender el trabajo de la GPU mientras el ordenador está en uso? %1 Válido "
+"desde la versión 6.6.21+ %2"
 
 #: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr ""
+msgstr "'En uso' significa actividad del ratón/teclado en los últimos"
 
 #: ../inc/prefs.inc:100 ../inc/prefs.inc:109 ../inc/prefs.inc:143
 msgid "minutes"
-msgstr ""
+msgstr "minutos"
 
 #: ../inc/prefs.inc:104
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
+"Suspender el trabajo si no hay actividad del ratón/teclado en los últimos %1 "
+"Necesario para entrar en modo bajo consumo en algunos ordenadores %2"
 
 #: ../inc/prefs.inc:113
 msgid ""
 "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
 "version 6.10.30+ %2"
 msgstr ""
+"Suspender el trabajo de la CPU si su uso es superior al %1 0 significa sin "
+"restricciones<br>Válido desde la versión 6.10.30+ %2"
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
 msgstr ""
+"Hacer trabajo sólo entre las horas %1 Sin restricciones si son iguales %2"
 
 #: ../inc/prefs.inc:129
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
 msgstr ""
+"¿Dejar las tareas en memoria mientras están suspendidas? %1 Las tareas "
+"suspendidas consumirán espacio de intercambio si se selecciona 'sí' %2"
 
 #: ../inc/prefs.inc:138
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
@@ -756,7 +767,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:348
 msgid "Processor usage"
-msgstr ""
+msgstr "Uso del procesador"
 
 #: ../inc/prefs.inc:349
 msgid "Network usage"
@@ -3660,7 +3671,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
-"1create a team%2 yourself."
+"2create a team%3 yourself."
 msgstr ""
 "Si no encuentras un equipo que sea el indicado para ti, puedes %1crear un "
 "equipo%2."
@@ -4029,14 +4040,16 @@ msgstr ""
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
 msgstr ""
+"Ha fallado la actualización de la base de datos - por favor, inténtelo de "
+"nuevo más tarde."
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "Validar dirección de correo electrónico"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "La dirección de correo de tu cuenta ha sido validada."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4044,7 +4057,7 @@ msgstr "Este usuario no tiene perfil"
 
 #: ../user/view_profile.php:44
 msgid "Profile: %1"
-msgstr ""
+msgstr "Perfil: %1"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
@@ -4130,11 +4143,11 @@ msgstr ""
 
 #: ../user/workunit.php:44
 msgid "granted credit"
-msgstr ""
+msgstr "crédito concedido"
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Tareas en progreso"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
@@ -4154,19 +4167,19 @@ msgstr ""
 
 #: ../user/workunit.php:61
 msgid "errors"
-msgstr ""
+msgstr "errores"
 
 #: ../user/workunit.php:64
 msgid "validation"
-msgstr ""
+msgstr "validación"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: ../project.sample/project.inc:54
 msgid "Generated"
-msgstr ""
+msgstr "Generado"
 
 #: ../project.sample/project.inc:85
 msgid "Your personal background."
@@ -4180,7 +4193,7 @@ msgstr ""
 
 #: ../project.sample/project.inc:93
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Tus opiniones sobre %1"
 
 #: ../project.sample/project.inc:97
 msgid ""
@@ -4193,7 +4206,7 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "Esquema de color para gráficos"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
@@ -4201,7 +4214,7 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Ejecutar sólo las aplicaciones seleccionadas"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
@@ -4211,7 +4224,7 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(todas las aplicaciones)"
 
 #, fuzzy
 #~ msgid "preferences"
