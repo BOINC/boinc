@@ -274,7 +274,7 @@ int CLIENT_STATE::init() {
         }
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
-        host_info.coprocs.cuda.fake(256*MEGA, 2);
+        host_info.coprocs.cuda.fake(18000, 256*MEGA, 2);
         host_info.coprocs.cuda.available_ram_fake[0] = 256*MEGA;
         host_info.coprocs.cuda.available_ram_fake[1] = 192*MEGA;
 #endif

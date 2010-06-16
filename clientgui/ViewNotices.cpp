@@ -172,16 +172,16 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
                 sprintf(tbuf, "<b>%s</b>", np->title);
 
             }
-            if (strlen(np->project_name)) {
-                sprintf(buf, " from %s", np->project_name);
-                strcat(tbuf, buf);
-            }
             if (strlen(tbuf)) {
                 strcat(tbuf, "<br>");
                 strItems += wxString(tbuf, wxConvUTF8);
             }
             strItems += process_client_message(np->description.c_str());
             strItems += wxT("<br><font size=-2 color=#8f8f8f>");
+            if (strlen(np->project_name)) {
+                sprintf(buf, "From %s<br>", np->project_name);
+                strItems += wxString(buf, wxConvUTF8);
+            }
             dtBuffer.Set((time_t)np->arrival_time);
             strItems += dtBuffer.Format();
             if (strlen(np->link)) {

@@ -4297,3 +4297,18 @@ Charlie  15 Jun 2010
 
     lib/
         procinfo_mac.cpp
+
+David  16 Jun 2010
+	- client: let fake CUDA specify driver version
+	- client: restore call to diagnostics_finish() on exit.
+		(should print mem info, but doesn't)
+	- manager: notices display tweak 
+
+	client/
+		client_state.cpp
+		coproc_detect.cpp
+		main.cpp
+	clientgui/
+		ViewNotices.cpp
+	lib/
+		coproc.h

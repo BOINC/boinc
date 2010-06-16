@@ -222,7 +222,7 @@ struct COPROC_CUDA : public COPROC {
     void get_available_ram();
 
     bool check_running_graphics_app();
-    void fake(double, int);
+    void fake(int driver_version, double ram, int count);
 
 };
 

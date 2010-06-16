@@ -427,13 +427,13 @@ void COPROC_CUDA::get(
 
 // fake a NVIDIA GPU (for debugging)
 //
-void COPROC_CUDA::fake(double ram, int n) {
+void COPROC_CUDA::fake(int driver_version, double ram, int n) {
    strcpy(type, "CUDA");
    count = n;
    for (int i=0; i<count; i++) {
        device_nums[i] = i;
    }
-   display_driver_version = 18000;
+   display_driver_version = driver_version;
    cuda_version = 2020;
    strcpy(prop.name, "Fake NVIDIA GPU");
    prop.totalGlobalMem = (unsigned int)ram;

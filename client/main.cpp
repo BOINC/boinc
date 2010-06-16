@@ -342,6 +342,7 @@ static int finalize() {
 
     gstate.free_mem();
 
+    diagnostics_finish();
     gstate.cleanup_completed = true;
     return 0;
 }
