@@ -48,25 +48,6 @@ function app_version_string($id) {
     return "$n v$v $c";
 }
 
-function result_claimed_credit_string($result, $string_to_show) {
-    if ($result->server_state == 4 && $result->claimed_credit > 0) {
-        return $string_to_show; 
-    }
-    if ($result->server_state <> 5) return "---";
-    switch($result->outcome) {
-    case 3:
-        if ($result->exit_status <> -221) {
-            return $string_to_show; //Client error
-        } 
-        return "---";
-    default:
-        if ($result->claimed_credit > 0) {
-            return $string_to_show;
-	    }
-        return "---";
-    }
-}
-
 function result_granted_credit_string($result, $string_to_show) {
     if ($result->server_state == 4 && $result->granted_credit > 0) {
         return $string_to_show; 
@@ -84,7 +65,7 @@ function result_granted_credit_string($result, $string_to_show) {
         if ($result->granted_credit > 0) {
             return $string_to_show;
 	    }
-        return "---"; // no claimed credit 
+        return "---";
     }
 } 
 
@@ -288,8 +269,7 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
         <th>".tra("Status")."</th>
         <th>".tra("Run time<br />(sec)")."</th>
         <th>".tra("CPU time<br />(sec)")."</th>
-        <th>".tra("Claimed credit")."</th>
-        <th>".tra("Granted credit")."</th>
+        <th>".tra("Credit")."</th>
         <th>".tra("Application")."</th>
         </tr>
     ";
@@ -323,9 +303,7 @@ function show_result_row(
         $r = "---";
     }
     $ss = state_string($result);
-    $result_claimed_credit = format_credit($result->claimed_credit);
     $result_granted_credit = format_credit($result->granted_credit);
-    $result_claimed_credit = result_claimed_credit_string($result, $result_claimed_credit);
     $result_granted_credit = result_granted_credit_string($result, $result_granted_credit); 
     $j = $i % 2;
     echo "<tr class=row$j>";
@@ -355,7 +333,6 @@ function show_result_row(
         <td>$ss</td>
         <td align=right>$elapsed_time</td>
         <td align=right>$cpu_time</td>
-        <td align=right>$result_claimed_credit</td>
         <td align=right>$result_granted_credit</td>
         <td>$v</td>
         </tr>
@@ -396,8 +373,7 @@ function show_result($result) {
     row2(tra("Run time"), number_format($result->elapsed_time, 2));
     row2(tra("CPU time"), number_format($result->cpu_time, 2));
     row2(tra("Validate state"), validate_state_str($result));
-    row2(tra("Claimed credit"), number_format($result->claimed_credit, 2));
-    row2(tra("Granted credit"), number_format($result->granted_credit, 2));
+    row2(tra("Credit"), number_format($result->granted_credit, 2));
     row2(tra("Application version"), app_version_string($result->app_version_id));
     end_table();
     echo "<h3>Stderr output</h3> <pre>".htmlspecialchars($result->stderr_out)."</pre>";

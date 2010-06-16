@@ -4337,3 +4337,9 @@ David  16 Jun 2010
         sched_array.cpp
         sched_customize.cpp,h
         sched_send.cpp
+
+David  16 Jun 2010
+    - user web: don't show claimed credit
+
+    html/inc/
+        result.inc
