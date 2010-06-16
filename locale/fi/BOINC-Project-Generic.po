@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-05-18 22:09+0200\n"
+"PO-Revision-Date: 2010-06-16 19:59+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -450,7 +450,7 @@ msgstr "Nimi"
 
 #: ../inc/team.inc:243
 msgid "Admin"
-msgstr ""
+msgstr "Ylläpitäjä"
 
 #, fuzzy
 msgid "Last %1"
@@ -1143,7 +1143,7 @@ msgstr "Haku foorumilta"
 
 #: ../user/forum_search_action.php:139
 msgid "Forum search results"
-msgstr ""
+msgstr "Foorumihaun tulokset"
 
 #: ../user/forum_thread.php:45
 msgid "No thread with id %1. Please check the link and try again."
@@ -1796,7 +1796,7 @@ msgstr "Kiitos"
 
 #: ../user/profile_rate.php:39
 msgid "Your recommendation has been recorded."
-msgstr ""
+msgstr "Ehdotuksesi tallennettiin."
 
 #: ../user/profile_rate.php:41
 msgid "Your vote to reject this profile has been recorded."
@@ -1804,7 +1804,7 @@ msgstr ""
 
 #: ../user/profile_rate.php:44
 msgid "Return to profile."
-msgstr ""
+msgstr "Takaisin profiiliin."
 
 #: ../user/results.php:27
 msgid "This feature is turned off temporarily"
@@ -1979,7 +1979,7 @@ msgstr "Tällä käyttäjällä ei ole profiilia"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
-msgstr ""
+msgstr "Tilitiedot"
 
 #: ../user/weak_auth.php:47
 msgid ""
@@ -3955,7 +3955,7 @@ msgstr ""
 
 #: ../inc/news.inc:40
 msgid "Comment"
-msgstr ""
+msgstr "Kommentti"
 
 #: ../inc/news.inc:96
 #, php-format
@@ -4910,7 +4910,7 @@ msgstr "Postinumero %1 Valinnainen%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Päivitä tiedot"
 
 #: ../user/language_select.php:41
 msgid "Language selection"
@@ -4981,7 +4981,7 @@ msgstr "Poista asetukset"
 
 #: ../user/prefs_remove.php:55
 msgid "Cancel"
-msgstr ""
+msgstr "Peruuta"
 
 #: ../user/result.php:28
 msgid "No such task"
@@ -5163,15 +5163,15 @@ msgstr ""
 
 #: ../user/team_delta.php:75
 msgid "User"
-msgstr ""
+msgstr "Käyttäjä"
 
 #: ../user/team_delta.php:76
 msgid "Action"
-msgstr ""
+msgstr "Toiminto"
 
 #: ../user/team_delta.php:77
 msgid "Total credit at time of action"
-msgstr ""
+msgstr "Kokonaispisteet toiminnon tapahtuessa"
 
 #: ../user/team_edit_action.php:57
 msgid "The name '%1' is being used by another team."
@@ -5187,7 +5187,7 @@ msgstr "Tiimin päivitys ei onnistunut - yritä myöhemmin uudelleen."
 
 #: ../user/team_edit_form.php:31
 msgid "Edit %1"
-msgstr ""
+msgstr "Muokkaa %1"
 
 #: ../user/team_edit_form.php:32
 msgid "Update team info"
@@ -5654,7 +5654,7 @@ msgstr "Poistettavia jäseniä ei ole."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
-msgstr ""
+msgstr "Poista käyttäjiä"
 
 #: ../user/team_search.php:65
 msgid "Team name"
@@ -5776,7 +5776,7 @@ msgstr "Hakuehdoilla ei löytynyt käyttäjiä."
 
 #: ../user/user_search.php:186
 msgid "missing search type"
-msgstr ""
+msgstr "hakutapa puuttuu"
 
 #: ../user/user_search.php:224
 msgid "User search results"
@@ -5804,11 +5804,11 @@ msgstr "Tiimin keskim.pisteet:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr ""
+msgstr "Tiimi: Ei mikään"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "Vahvista BOINC-sähköpostiosoite"
 
 #: ../user/validate_email_addr.php:31
 msgid "Please visit the following link to validate the email address of your %1 account:"
@@ -5852,7 +5852,7 @@ msgstr "työpakettia ei löydy"
 
 #: ../user/workunit.php:33
 msgid "Workunit %1"
-msgstr ""
+msgstr "Työpaketti %1"
 
 #: ../user/workunit.php:37
 msgid "name"
