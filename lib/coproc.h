@@ -252,6 +252,7 @@ enum CUdevice_attribute_enum {
 struct COPROC_ATI : public COPROC {
     char name[256];
     char version[50];
+    int version_num;
     bool atirt_detected;
     bool amdrt_detected;
     CALdeviceattribs attribs; 

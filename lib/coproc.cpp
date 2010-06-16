@@ -397,7 +397,12 @@ int COPROC_ATI::parse(MIOFILE& fin) {
     clear();
 
     while (fin.fgets(buf, sizeof(buf))) {
-        if (strstr(buf, "</coproc_ati>")) return 0;
+        if (strstr(buf, "</coproc_ati>")) {
+            int major, minor, release;
+            sscanf(version, "%d.%d.%d", &major, &minor, &release);
+            version_num = major*1000000 + minor*1000 + release;
+            return 0;
+        }
         if (parse_int(buf, "<count>", count)) continue;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_double(buf, "<req_secs>", req_secs)) continue;

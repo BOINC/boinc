@@ -1278,7 +1278,7 @@ void process_request(char* code_sign_key) {
             }
         }
         if (g_wreq->no_jobs_available) {
-            g_reply->insert_message("Project has no jobs available", "low");
+            g_reply->insert_message("Project has no tasks available", "low");
         }
     }
 

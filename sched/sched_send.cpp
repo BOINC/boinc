@@ -1208,12 +1208,103 @@ int add_result_to_reply(
     return 0;
 }
 
-// send messages to user about why jobs were or weren't sent
+// Send high-priority messages about things the user can change easily
+// (namely the driver version)
+// and low-priority messages about things that can't easily be changed,
+// but which may be interfering with getting tasks or latest apps
 //
-static void explain_to_user() {
+static void send_gpu_messages(
+    GPU_REQUIREMENTS& req, double ram, int version, char* rsc_name
+) {
+    char buf[256];
+    if (ram < req.min_ram) {
+        sprintf(buf,
+            "A minimum of %d MB (preferably %d MB) of video RAM is needed to process tasks using your computer's %s",
+            (int) (req.min_ram/MEGA),
+            (int) (req.opt_ram/MEGA),
+            rsc_name
+        );
+        g_reply->insert_message(buf, "low");
+    } else {
+        if (version) {
+            if (version < req.min_driver_version) {
+                sprintf(buf,
+                    "Upgrade to the latest %s driver to process tasks using your computer's %s",
+                    rsc_name, rsc_name
+                );
+                g_reply->insert_message(buf, "high");
+            } else if (version < req.opt_driver_version) {
+                sprintf(buf,
+                    "Upgrade to the latest %s driver to use all of this project's GPU applications",
+                    rsc_name
+                );
+                g_reply->insert_message(buf, "low");
+            }
+        }
+    }
+}
+
+// send messages to user about why jobs were or weren't sent,
+// recommendations for GPU driver upgrades, etc.
+//
+static void send_user_messages() {
     char buf[512];
     unsigned int i;
     int j;
+
+    // Mac client with GPU but too-old client
+    //
+    if (g_request->coprocs.cuda.count
+        && ssp->have_cuda_apps
+        && strstr(g_request->host.os_name, "Darwin")
+        && g_request->core_client_version < 61028
+    ) {
+        g_reply->insert_message(
+            "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to the current version",
+            "high"
+        );
+    }
+
+    // GPU-only project, client lacks GPU
+    //
+    bool usable_gpu = (ssp->have_cuda_apps && g_request->coprocs.cuda.count)
+        || (ssp->have_ati_apps && g_request->coprocs.ati.count);
+    if (!ssp->have_cpu_apps && !usable_gpu) {
+        if (ssp->have_cuda_apps) {
+            if (ssp->have_ati_apps) {
+                g_reply->insert_message(
+                    "An NVIDIA or ATI GPU is required to run tasks for this project",
+                    "high"
+                );
+            } else {
+                g_reply->insert_message(
+                    "An NVIDIA GPU is required to run tasks for this project",
+                    "high"
+                );
+            }
+        } else if (ssp->have_ati_apps) {
+            g_reply->insert_message(
+                "An ATI GPU is required to run tasks for this project",
+                "high"
+            );
+        }
+    }
+
+    if (g_request->coprocs.cuda.count && ssp->have_cuda_apps) {
+        send_gpu_messages(cuda_requirements,
+            g_request->coprocs.cuda.prop.dtotalGlobalMem,
+            g_request->coprocs.cuda.display_driver_version,
+            "NVIDIA GPU"
+        );
+    }
+    if (g_request->coprocs.ati.count && ssp->have_ati_apps) {
+        send_gpu_messages(ati_requirements,
+            g_request->coprocs.ati.attribs.localRAM*MEGA,
+            g_request->coprocs.ati.version_num,
+            "ATI GPU"
+        );
+    }
+
 
     // If work was sent from apps the user did not select, explain.
     // NOTE: this will have to be done differently with matchmaker scheduling
@@ -1295,12 +1386,12 @@ static void explain_to_user() {
         if (g_wreq->speed.insufficient) {
             if (g_request->core_client_version>41900) {
                 sprintf(buf,
-                    "Jobs won't finish in time: BOINC runs %.1f%% of the time; computation is enabled %.1f%% of that",
+                    "Tasks won't finish in time: BOINC runs %.1f%% of the time; computation is enabled %.1f%% of that",
                     100*g_reply->host.on_frac, 100*g_reply->host.active_frac
                 );
             } else {
                 sprintf(buf,
-                    "Jobs won't finish in time: Computer available %.1f%% of the time",
+                    "Tasks won't finish in time: Computer available %.1f%% of the time",
                     100*g_reply->host.on_frac
                 );
             }
@@ -1320,7 +1411,7 @@ static void explain_to_user() {
         }
         if (g_wreq->outdated_client) {
             g_reply->insert_message(
-                "Newer client version required; please install current version",
+                "Newer BOINC version required; please install current version",
                 "high"
             );
             g_reply->set_delay(DELAY_NO_WORK_PERM);
@@ -1357,7 +1448,7 @@ static void explain_to_user() {
             struct tm *rpc_time_tm;
             int delay_time;
 
-            sprintf(buf, "(reached daily quota of %d tasks)",
+            sprintf(buf, "This computer has finished a daily quota of %d tasks)",
                 havp->max_jobs_per_day
             );
             g_reply->insert_message(buf, "low");
@@ -1367,18 +1458,11 @@ static void explain_to_user() {
             );
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
         }
-        if (g_wreq->max_jobs_on_host_exceeded) {
-            sprintf(buf, "(reached limit of tasks in progress)");
-            g_reply->insert_message(buf, "low");
-            g_reply->set_delay(DELAY_NO_WORK_CACHE);
-        }
-        if (g_wreq->max_jobs_on_host_cpu_exceeded) {
-            sprintf(buf, "(reached limit of CPU tasks in progress)");
-            g_reply->insert_message(buf, "low");
-            g_reply->set_delay(DELAY_NO_WORK_CACHE);
-        }
-        if (g_wreq->max_jobs_on_host_gpu_exceeded) {
-            sprintf(buf, "(reached limit of GPU tasks in progress)");
+        if (g_wreq->max_jobs_on_host_exceeded
+            || g_wreq->max_jobs_on_host_cpu_exceeded
+            || g_wreq->max_jobs_on_host_gpu_exceeded
+        ) {
+            sprintf(buf, "This computer has reached a limit on tasks in progress");
             g_reply->insert_message(buf, "low");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
         }
@@ -1405,6 +1489,8 @@ void send_work_setup() {
     if (g_wreq->anonymous_platform) {
         estimate_flops_anon_platform();
     }
+    cuda_requirements.clear();
+    ati_requirements.clear();
 
     g_wreq->disk_available = max_allowable_disk();
     get_mem_sizes();
@@ -1564,6 +1650,12 @@ int update_host_app_versions(vector<RESULT>& results, int hostid) {
 void send_work() {
     int retval;
 
+    if (!work_needed(false)) {
+        send_user_messages();
+        return;
+    }
+    g_wreq->no_jobs_available = true;
+
     if (!g_wreq->rsc_spec_request && g_wreq->seconds_to_fill == 0) {
         return;
     }
@@ -1599,11 +1691,6 @@ void send_work() {
             g_wreq->effective_ncpus, g_request->ip_results
         );
     }
-
-    // assume no jobs are available to send;
-    // if this turns out not to be the case, clear this flag
-    //
-    g_wreq->no_jobs_available = true;
 
     if (config.locality_scheduler_fraction > 0) {
         if (drand() < config.locality_scheduler_fraction) {
@@ -1648,7 +1735,7 @@ done:
             "update_host_app_versions() failed: %d\n", retval
         );
     }
-    explain_to_user();
+    send_user_messages();
 }
 
 const char *BOINC_RCSID_32dcd335e7 = "$Id$";

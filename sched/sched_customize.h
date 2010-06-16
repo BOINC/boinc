@@ -18,6 +18,43 @@
 #include "boinc_db.h"
 #include "sched_types.h"
 
+struct GPU_REQUIREMENTS {
+    double min_ram;
+    double opt_ram;
+    int min_driver_version;
+    int opt_driver_version;
+
+    void clear() {
+        min_ram = opt_ram = 0;
+        min_driver_version = opt_driver_version = 0;
+    }
+    void update(int version, double ram) {
+        if (min_driver_version) {
+            if (version < min_driver_version) {
+                min_driver_version = version;
+            }
+        } else {
+            min_driver_version = version;
+        }
+        if (version > opt_driver_version) {
+            opt_driver_version = version;
+        }
+        if (min_ram) {
+            if (ram < min_ram) {
+                min_ram = ram;
+            }
+        } else {
+            min_ram = ram;
+        }
+        if (ram > opt_ram) {
+            opt_ram = ram;
+        }
+    }
+};
+
+extern GPU_REQUIREMENTS cuda_requirements;
+extern GPU_REQUIREMENTS ati_requirements;
+
 extern bool wu_is_infeasible_custom(WORKUNIT&, APP&, BEST_APP_VERSION&);
 extern bool app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);
 extern bool app_plan_uses_gpu(const char* plan_class);

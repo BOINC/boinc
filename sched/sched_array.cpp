@@ -49,10 +49,13 @@ static bool quick_check(
     if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
         return false;
     }
+    
     app = ssp->lookup_app(wu_result.workunit.appid);
     if (app == NULL) {
         return false; // this should never happen
     }
+
+    g_wreq->no_jobs_available = false;
 
     // If we're looking for beta jobs and this isn't one, skip it
     //
@@ -71,8 +74,6 @@ static bool quick_check(
             return false;
         }
     }
-    
-    g_wreq->no_jobs_available = false;
     
     // If this is a reliable host and we are checking for results that
     // need a reliable host, then continue if the result is a normal result
@@ -347,7 +348,6 @@ static bool scan_work_array() {
 // This has been superceded by send_work_matchmaker()
 //
 void send_work_old() {
-    if (!work_needed(false)) return;
     g_wreq->beta_only = false;
     g_wreq->user_apps_only = true;
     g_wreq->infeasible_only = false;

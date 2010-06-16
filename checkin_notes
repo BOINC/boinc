@@ -4274,11 +4274,11 @@ David  14 Jun 2010
         handle_request.cpp
 
 David  15 Jun 2010
-	- client: call curl_global_cleanup() on exit
+    - client: call curl_global_cleanup() on exit
         (minor memory leak)
 
-	client/
-		http_curl.cpp
+    client/
+        http_curl.cpp
 
 David  15 Jun 2010
     - scheduler: restore scaling of daily quota by # processors
@@ -4299,16 +4299,41 @@ Charlie  15 Jun 2010
         procinfo_mac.cpp
 
 David  16 Jun 2010
-	- client: let fake CUDA specify driver version
-	- client: restore call to diagnostics_finish() on exit.
-		(should print mem info, but doesn't)
-	- manager: notices display tweak 
+    - client: let fake CUDA specify driver version
+    - client: restore call to diagnostics_finish() on exit.
+        (should print mem info, but doesn't)
+    - manager: notices display tweak 
 
-	client/
-		client_state.cpp
-		coproc_detect.cpp
-		main.cpp
-	clientgui/
-		ViewNotices.cpp
-	lib/
-		coproc.h
+    client/
+        client_state.cpp
+        coproc_detect.cpp
+        main.cpp
+    clientgui/
+        ViewNotices.cpp
+    lib/
+        coproc.h
+
+David  16 Jun 2010
+    - scheduler: fix structural problems with sending user messages.
+        Old: various redundant and/or misleading messages were sent.
+        New:
+            - if host w/ no GPU contacts a GPU-only project,
+                send high-pri message saying they need a GPU
+            - if host w/ GPU has driver too old for all versions,
+                send high-pri message saying to update driver
+            - if host w/ GPU has driver too old for some versions,
+                send low-pri message saying to update driver
+            - if host has GPU but too little RAM for any app,
+                send low-pri message saying so
+    - scheduler: revamp GPU plan class functions
+
+    client/
+        cs_notices.h
+    lib/
+        coproc.cpp,h
+        notice.cpp
+    sched/
+        handle_request.cpp
+        sched_array.cpp
+        sched_customize.cpp,h
+        sched_send.cpp

@@ -51,10 +51,11 @@
 // There's also a merged list "rss_feeds" where seqno is stored.
 //
 // files:
-// notices/feeds.xml              feed list
-// notices/feeds_PROJ_URL.xml     list of project feeds
-// notices/archive_RSS_URL.xml    item archive for a feed
-// notices/out_RSS_URL.xml        result of last fetch for a feed
+// notices/feeds.xml                feed list
+// notices/feeds_PROJ_URL.xml       list of project feeds
+// notices/archive_RSS_URL.xml      item archive for a feed
+// notices/out_RSS_URL.xml          result of last fetch for a feed
+// notices/archive.xml              non-RSS messages
 
 #include <deque>
 #include <vector>
