@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-04-25 12:25-0700\n"
+"PO-Revision-Date: 2010-06-16 13:31-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -277,6 +277,8 @@ msgstr "&Adjuntar-se al projecte o administrador de comptes..."
 #: AdvancedFrame.cpp:392 sg_ProjectsComponent.cpp:105
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Voluntariat per a tots o algun dels més de 30 projectes en moltes àrees de "
+"la ciència"
 
 #: AdvancedFrame.cpp:396
 #, c-format
@@ -931,34 +933,28 @@ msgid "Snooze GPU"
 msgstr "Becaina de la GPU"
 
 #: BOINCTaskBar.cpp:669
-#, fuzzy
 msgid "Computing is enabled"
-msgstr "Computació disponible"
+msgstr "La computació està habilitada"
 
 #: BOINCTaskBar.cpp:672
-#, fuzzy
 msgid "Computing is suspended - "
-msgstr "Computació suspesa."
+msgstr "La computació està suspesa - "
 
 #: BOINCTaskBar.cpp:682
-#, fuzzy
 msgid "GPU computing is enabled"
-msgstr "Computació disponible"
+msgstr "La computació de la GPU està disponible"
 
 #: BOINCTaskBar.cpp:685
-#, fuzzy
 msgid "GPU computing is suspended - "
-msgstr "Computació suspesa."
+msgstr "La computació de la GPU està suspesa - "
 
 #: BOINCTaskBar.cpp:694
-#, fuzzy
 msgid "Network is enabled"
-msgstr "Es permet la utilització de la xarxa"
+msgstr "La xarxa està activada"
 
 #: BOINCTaskBar.cpp:697
-#, fuzzy
 msgid "Network is suspended - "
-msgstr "Suspès l'accés a la xarxa"
+msgstr "La xarxa està suspesa - "
 
 #: BOINCTaskBar.cpp:705
 msgid "Reconnecting to client."
@@ -1185,9 +1181,8 @@ msgid "Computing allowed"
 msgstr "Computació disponible"
 
 #: DlgAdvPreferencesBase.cpp:135
-#, fuzzy
 msgid "While computer is on batteries"
-msgstr " Mentre l'ordinador utilitza bateries"
+msgstr " Mentre l'ordinador utilitza les bateries"
 
 #: DlgAdvPreferencesBase.cpp:138
 msgid ""
@@ -1197,7 +1192,6 @@ msgstr ""
 "bateries"
 
 #: DlgAdvPreferencesBase.cpp:144
-#, fuzzy
 msgid "While computer is in use"
 msgstr " Mentre l'ordinador està en us"
 
@@ -1209,9 +1203,8 @@ msgstr ""
 "utilitzant"
 
 #: DlgAdvPreferencesBase.cpp:153
-#, fuzzy
 msgid "Use GPU while computer is in use"
-msgstr "Utilitzar la GPU al mateix temps que l'ordinador s'està fent servir"
+msgstr "Utilitzar la GPU mentre l'ordinador està en us"
 
 #: DlgAdvPreferencesBase.cpp:156
 msgid ""
@@ -1354,19 +1347,16 @@ msgid "Maximum upload rate"
 msgstr "Màxima taxa de càrrega"
 
 #: DlgAdvPreferencesBase.cpp:400
-#, fuzzy
 msgid "Transfer at most"
-msgstr "Utilitzar com a màxim"
+msgstr "Transferir com a molt"
 
 #: DlgAdvPreferencesBase.cpp:406
-#, fuzzy
 msgid "Mbytes"
-msgstr "si"
+msgstr "Mbytes"
 
 #: DlgAdvPreferencesBase.cpp:409
-#, fuzzy
 msgid "every"
-msgstr "Servidor:"
+msgstr "cada"
 
 #: DlgAdvPreferencesBase.cpp:415 DlgAdvPreferencesBase.cpp:429
 msgid "days"
@@ -1393,7 +1383,6 @@ msgid "days (max. 10)"
 msgstr "dies (màx. 10)"
 
 #: DlgAdvPreferencesBase.cpp:441
-#, fuzzy
 msgid "Skip image file verification"
 msgstr " Ometre la verificació del fitxer"
 
@@ -1503,7 +1492,6 @@ msgid "% when computer is idle"
 msgstr "% quan l'ordinador està en repòs"
 
 #: DlgAdvPreferencesBase.cpp:665
-#, fuzzy
 msgid "Leave applications in memory while suspended"
 msgstr " Deixar les aplicacions en memòria mentre estan en suspens"
 
@@ -2210,49 +2198,44 @@ msgid "Retrieving host information; please wait..."
 msgstr "Recuperant informació de l'ordinador; esperi si is plau..."
 
 #: MainDocument.cpp:2240
-#, fuzzy
 msgid "on batteries"
-msgstr " - en bateries"
+msgstr "en bateries"
 
 #: MainDocument.cpp:2241
-#, fuzzy
 msgid "computer is in use"
-msgstr " Mentre l'ordinador està en us"
+msgstr "l'ordinador està en us"
 
 #: MainDocument.cpp:2242
 msgid "user request"
-msgstr ""
+msgstr "sol.licitud de l'usuari"
 
 #: MainDocument.cpp:2243
-#, fuzzy
 msgid "time of day"
-msgstr " - en aquest moment"
+msgstr "hora del dia"
 
 #: MainDocument.cpp:2244
-#, fuzzy
 msgid "CPU benchmarks in progress"
-msgstr " - test de CPU"
+msgstr "Test de la CPU en progrés"
 
 #: MainDocument.cpp:2245
 msgid "need disk space - check preferences"
-msgstr ""
+msgstr "necessitat d'espai en disc - comprovar les preferències"
 
 #: MainDocument.cpp:2246
-#, fuzzy
 msgid "an exclusive app is running"
-msgstr " - s'està executant una aplicació amb exclusivitat"
+msgstr "s'està executant una aplicació amb exclusivitat"
 
 #: MainDocument.cpp:2247
 msgid "CPU is busy"
-msgstr ""
+msgstr "La CPU està ocupada"
 
 #: MainDocument.cpp:2248
 msgid "network bandwidth limit exceeded"
-msgstr ""
+msgstr "s'ha superat el límit d'ample de banda"
 
 #: MainDocument.cpp:2250
 msgid "unknown reason"
-msgstr ""
+msgstr "raó desconeguda"
 
 #: MainDocument.cpp:2266
 msgid "GPU missing, "
@@ -2271,9 +2254,8 @@ msgid "Downloading"
 msgstr "Descarregant"
 
 #: MainDocument.cpp:2280 MainDocument.cpp:2338
-#, fuzzy
 msgid " (suspended - "
-msgstr "Suspès"
+msgstr " (suspès - "
 
 #: MainDocument.cpp:2282 MainDocument.cpp:2340 ViewTransfers.cpp:794
 msgid ")"
@@ -2288,9 +2270,8 @@ msgid "Task suspended by user"
 msgstr "Tasca suspesa per l'usuari"
 
 #: MainDocument.cpp:2292
-#, fuzzy
 msgid "Suspended - "
-msgstr "Suspès"
+msgstr "Suspès - "
 
 #: MainDocument.cpp:2299
 msgid "Waiting for memory"
@@ -2321,9 +2302,8 @@ msgid "Ready to start"
 msgstr "A punt per començar"
 
 #: MainDocument.cpp:2326
-#, fuzzy
 msgid " (waiting for GPU memory)"
-msgstr "Esperant memòria"
+msgstr " (esperant memòria per a la GPU)"
 
 #: MainDocument.cpp:2330
 msgid "Computation error"
@@ -2490,7 +2470,6 @@ msgid "Network communication failure"
 msgstr "Fallo en la comunicació per xarxa."
 
 #: ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2509,13 +2488,13 @@ msgstr ""
 "The World Community Grid - BOINC no ha pogut establir comunicació\n"
 "per Internet. Les raons més probables son:\n"
 "\n"
-"1) Problema de connectivitat. Verifiqueu la vostra xarxa o la connexió per "
+"1) Problema de connectivitat.  Verifiqueu la vostra xarxa o la connexió per "
 "mòdem\n"
 "i després premeu Enrere per intentar-ho de nou.\n"
 "\n"
 "2) El programa tallafocs està bloquejant el programa The World Community\n"
-"Grid - BOINC.  Configureu el programa tallafocs per permetre que BOINC i "
-"BOINC-Manager comuniquin per el port 80 i el port 443,\n"
+"Grid - BOINC.  Configureu el programa tallafocs per permetre\n"
+"que BOINC i BOINC-Manager comuniquin per el port 80 i el port 443,\n"
 "després premeu Enrere per intentar-ho de nou.\n"
 "\n"
 "3) Esteu fent servir un servidor proxy.\n"
@@ -2910,7 +2889,7 @@ msgstr "Petició programada en execució"
 
 #: ViewProjects.cpp:1076
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Degoteig de missatges pendent"
 
 #: ViewProjects.cpp:1082
 msgid "Communication deferred "
@@ -3104,15 +3083,16 @@ msgid "Transfers"
 msgstr "Lliuraments"
 
 #: ViewTransfers.cpp:279
-#, fuzzy
 msgid "Network activity is suspended - "
-msgstr "Activitat de xarxa suspesa."
+msgstr "Activitat de xarxa suspesa - "
 
 #: ViewTransfers.cpp:281
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
 msgstr ""
+".\n"
+"Pot activar-la utilitzant el menú Activitat."
 
 #: ViewTransfers.cpp:291
 msgid "Retrying transfer now..."
@@ -3142,14 +3122,12 @@ msgid "Retry in "
 msgstr "Re-intentar en "
 
 #: ViewTransfers.cpp:779
-#, fuzzy
 msgid "Upload suspended - "
-msgstr "Càrrega pendent"
+msgstr "Càrrega pendent - "
 
 #: ViewTransfers.cpp:780
-#, fuzzy
 msgid "Download suspended - "
-msgstr "Descàrrega pendent"
+msgstr "Descàrrega pendent - "
 
 #: ViewTransfers.cpp:787
 msgid "Upload pending"
@@ -3200,14 +3178,12 @@ msgid "Elapsed"
 msgstr "Transcorregut"
 
 #: ViewWork.cpp:226
-#, fuzzy
 msgid "Remaining"
-msgstr "Temps per Finalitzar: "
+msgstr "Resta"
 
 #: ViewWork.cpp:227
-#, fuzzy
 msgid "Deadline"
-msgstr "Data límit per informar"
+msgstr "Temps límit"
 
 #: ViewWork.cpp:229
 msgid "Name"
@@ -3294,9 +3270,14 @@ msgid ""
 "You can attach to a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
 msgstr ""
+"Hi ha més de 30 projectes basats en BOINC\n"
+"fent la recerca en moltes àrees de la ciència,\n"
+"i pot ser voluntari per a tants d'ells com vulgui.\n"
+"Pot unir-se directament a un projecte,\n"
+"o utilitzar un lloc web 'Administrador de comptes' per seleccionar els "
+"projectes."
 
 #: WelcomePage.cpp:284
-#, fuzzy
 msgid ""
 "You have chosen to attach to a new BOINC project.  Attaching to a new\n"
 "project means that you will be connecting your computer to a new "
@@ -3312,14 +3293,18 @@ msgid ""
 "To change which research applications are sent to you from\n"
 "World Community Grid then please click on the following button:"
 msgstr ""
-"Ha seleccionat adjuntar-se a un nou projecte BOINC.  Adjuntar-se a un nou "
-"projecte significa que el seu ordinador es connectarà a un nou lloc web "
-"organització.  Si es això el que desitja, si us plau premi el botó Següent "
-"abaix. Alguns projectes com World Community Grid executen diverses "
-"aplicacions. Si desitja les aplicacions que li son lliurades per executar-"
-"les en el seu ordinador, visiti el lloc web del projecte i modifiqui les "
-"seves preferències. Per canviar les aplicacions de recerca que li son "
-"lliurades des de World Community Grid premi en el següent botó:"
+"Ha seleccionat adjuntar-se a un nou projecte BOINC.  Adjuntant-se a un nou\n"
+"projecte significa que connectarà el seu ordinador a una nova organització.\n"
+"Si es això el que desitja, si us plau premi\n"
+"el botó Següent abaix.\n"
+"\n"
+"Alguns projectes com World Community Grid executen diverses aplicacions.\n"
+"Si desitja escollir les aplicacions que li son lliurades per executar-les\n"
+"en el seu ordinador, visiti el lloc web del projecte i modifiqui les seves "
+"preferències.\n"
+"\n"
+"Per canviar les aplicacions de recerca que li son lliurades des de World "
+"Community Grid premi en el següent botó:"
 
 #: WelcomePage.cpp:287
 msgid "Change Research Applications at World Community Grid"
@@ -3709,64 +3694,66 @@ msgstr "&Finalitzar"
 
 #: ../client/acct_mgr.cpp:373 ../client/acct_mgr.cpp:383
 msgid "error"
-msgstr ""
+msgstr "error"
 
 #: ../client/acct_setup.cpp:264
 msgid "A new version of BOINC is available."
-msgstr ""
+msgstr "Una nova versió de BOINC està disponible."
 
 #: ../client/acct_setup.cpp:266
-#, fuzzy
 msgid "Download it."
-msgstr "Descarregant"
+msgstr "Descarregar-la."
 
 #: ../client/client_state.cpp:342
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
+"No s'ha pogut guardar el fitxer d'estat, comproveu els permisos del "
+"directori"
 
 #: ../client/cs_cmdline.cpp:280
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "La variable d'entorn HTTP_PROXY ha d'especificar un proxy HTTP"
 
 #: ../client/cs_scheduler.cpp:554
-#, fuzzy
 msgid "Message from project server:"
-msgstr "Missatges del servidor:"
+msgstr "Missatge del servidor:"
 
 #: ../client/cs_statefile.cpp:769
 msgid "XML syntax error in"
-msgstr ""
+msgstr "Error de sintaxi XML"
 
 #: ../client/gui_rpc_server.cpp:189
 msgid "Can't resolve hostname in"
-msgstr ""
+msgstr "No es pot resoldre nom de host a"
 
 #: ../client/log_flags.cpp:67 ../client/log_flags.cpp:317
 #: ../client/log_flags.cpp:442
 msgid "Unexpected text in"
-msgstr ""
+msgstr "Text inesperat a"
 
 #: ../client/log_flags.cpp:111 ../client/log_flags.cpp:414
 msgid "Unrecognized tag in"
-msgstr ""
+msgstr "Etiqueta no reconeguda a"
 
 #: ../client/log_flags.cpp:433
 msgid "Missing start tag in"
-msgstr ""
+msgstr "Falta el codi d'inici a"
 
 #: ../client/log_flags.cpp:459
 msgid "Unparsed tag in"
-msgstr ""
+msgstr "Etiqueta sense analitzar a"
 
 #: ../client/log_flags.cpp:467
 msgid "Missing end tag in"
-msgstr ""
+msgstr "Falta el codi final a"
 
 #: ../client/net_stats.cpp:213
 msgid ""
 "BOINC can't access Internet - check network connection or proxy "
 "configuration."
 msgstr ""
+"BOINC no te accés a Internet - comprovar la connexió de xarxa o configuració "
+"de proxy."
 
 #~ msgid "Attach this computer to a project or account manager"
 #~ msgstr "Adjunti aquest ordinador al projecte o administrador de comptes"
