@@ -4291,3 +4291,9 @@ David  15 Jun 2010
         sched_version.cpp
     client/
         log_flags.cpp
+
+Charlie  15 Jun 2010
+    Mac: fix compiler warning.
+
+    lib/
+        procinfo_mac.cpp

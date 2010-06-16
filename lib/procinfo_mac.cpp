@@ -26,10 +26,10 @@
 
 #if SHOW_TIMING
 #include <Carbon/Carbon.h>
+#include "client_msgs.h"
 #endif
 
 #include "procinfo.h"
-#include "client_msgs.h"
 #include "client_state.h"
 
 using std::vector;
