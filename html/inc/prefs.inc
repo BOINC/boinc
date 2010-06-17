@@ -343,6 +343,26 @@ if (isset($project_has_beta) && $project_has_beta) {
         false
     );
 }
+if (defined("EMAIL_FROM")) {
+    $x = "<br><span class=note>".tra("Emails will be sent from %1; make sure your spam filter accepts this address.", EMAIL_FROM)."</span>";
+} else {
+    $x = "";
+}
+
+$privacy_pref_descs = array (
+    new PREF_BOOL(
+        tra("Is it OK for %1 and your team (if any) to email you?", PROJECT).$x,
+        "send_email",
+        true,
+        false
+    ),
+    new PREF_BOOL(
+        tra("Should %1 show your computers on its web site?", PROJECT),
+        "show_hosts",
+        true,
+        false
+    ),
+);
 
 define("DISK_LIMIT_DESC", tra("Disk and memory usage"));
 define("CPU_LIMIT_DESC", tra("Processor usage"));
@@ -741,17 +761,17 @@ function prefs_show_project($prefs, $columns=false) {
     }
 }
 
-function prefs_show_privacy($user) {
-    $x = "";
-    if (defined('EMAIL_FROM')) {
-        $x = "<br><span class=note>".
-            tra("Emails will be sent from %1; make sure your spam filter accepts this address.", EMAIL_FROM).
-            "</span>";
+function prefs_show_privacy($user, $columns) {
+    global $privacy_pref_descs;
+    if ($columns) {
+        foreach ($privacy_pref_descs as $p) {
+            $p->show_cols($user);
+        }
+    } else {
+        foreach ($privacy_pref_descs as $p) {
+            $p->show($user);
+        }
     }
-    row2(tra("Is it OK for %1 and your team (if any) to email you?", PROJECT)." $x",
-        $user->send_email?tra("yes"):tra("no")
-    );
-    row2(tra("Should %1 show your computers on its web site?", PROJECT), $user->show_hosts?tra("yes"):tra("no"));
 }
 
 function prefs_show_project_specific($prefs, $columns=false) {
@@ -804,7 +824,7 @@ function print_prefs_display_project($user, $columns=false) {
         row1(tra("Combined preferences").$switch_link, 2, "heading");
         echo "<tr><td colspan=2>";
         start_table();
-        prefs_show_privacy($user);
+        prefs_show_privacy($user, true);
         venue_show($user);
         row_top(tra("Project specific settings"));
         prefs_show_project($project_prefs, true);
@@ -819,7 +839,7 @@ function print_prefs_display_project($user, $columns=false) {
         echo "<tr><td colspan=2>";
         start_table();
         prefs_show_project($project_prefs, false);
-        prefs_show_privacy($user);
+        prefs_show_privacy($user, false);
         venue_show($user);
         prefs_show_project_specific($project_prefs, false);
         $tokens = url_tokens($user->authenticator);
@@ -947,17 +967,14 @@ function prefs_form_global($user, $prefs, $error=false) {
 }
 
 function prefs_form_privacy($user) {
-    $y = prefs_form_radio_buttons("send_email", $user->send_email);
-    row2(tra("Is it OK for %1 and your team (if any) to email you?", PROJECT), $y);
-
-    $y = prefs_form_radio_buttons("show_hosts", $user->show_hosts);
-    row2(tra("Should %1 show your computers on its web site?", PROJECT), $y);
+    global $privacy_pref_descs;
+    foreach ($privacy_pref_descs as $p) {
+        $p->show_form_row($user, false);
+    }
 }
 
 function prefs_form_project($prefs, $error=false) {
     global $project_pref_descs;
-
-    global $app_types;
     foreach ($project_pref_descs as $p) {
         $p->show_form_row($prefs, $error);
     }
@@ -973,6 +990,7 @@ function prefs_form_project_specific($prefs_xml, $error=false) {
 //
 // @param string $name name of the radio buttons
 // @param bool $yesno toggles the preset of the buttons; true=yes, false=no
+//
 function prefs_form_radio_buttons($name, $yesno) {
     $rb = tra("yes")." <input type=radio name=$name value=yes "
         .($yesno?"checked":"")
@@ -1046,12 +1064,16 @@ function prefs_resource_parse_form(&$prefs) {
 }
 
 function prefs_privacy_parse_form(&$user) {
-    $user->send_email = ($_GET['send_email'] == "yes")?1:0;
-    $user->show_hosts = ($_GET['show_hosts'] == "yes")?1:0;
+    global $privacy_pref_descs;
+    $error = false;
+    foreach ($privacy_pref_descs as $p) {
+        $p->parse_form($user, $error);
+    }
+    return $error;
 }
 
-// This function parses the project specific prefs form.
-// For details look into project/project_specific_prefs.inc
+// Parse the project specific prefs form.
+// For details see project/project_specific_prefs.inc
 //
 function prefs_project_parse_form(&$prefs) {
     $error = false;
@@ -1069,8 +1091,6 @@ function global_prefs_make_xml($prefs, $primary=true) {
     global $disk_prefs;
     global $net_prefs;
 
-    // N.B.: each XML entry must end with \n due to the sloppy parsing by the
-    // BOINC client!!
     $xml = "";
     if ($primary) {
         $xml = "<global_preferences>\n";
@@ -1153,7 +1173,10 @@ function global_prefs_update(&$user, $prefs) {
 
 function project_prefs_update(&$user, $prefs) {
     $prefs_xml = mysql_real_escape_string(project_prefs_make_xml($prefs));
-    $retval = mysql_query("update user set project_prefs='$prefs_xml', send_email=$user->send_email, show_hosts=$user->show_hosts where id=$user->id");
+    $send_email = $user->send_email?1:0;
+    $show_hosts = $user->show_hosts?1:0;
+    $query = "update user set project_prefs='$prefs_xml', send_email=$send_email, show_hosts=$show_hosts where id=$user->id";
+    $retval = mysql_query($query);
     $user->project_prefs = $prefs_xml;
     return $retval;
 }

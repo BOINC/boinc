@@ -4357,3 +4357,9 @@ David  17 Jun 2010
 
     api/
         boinc_api.cpp
+
+David  17 Jun 2010
+    - user web: code cleanup in prefs.inc
+
+    html/inc/
+        prefs.inc
