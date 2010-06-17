@@ -4343,3 +4343,11 @@ David  16 Jun 2010
 
     html/inc/
         result.inc
+
+David  16 Jun 2010
+    - database: app.min_avg_pfc should default to 1, not 0
+
+    db/
+        schema.sql
+    html/ops/
+        db_update.php

@@ -688,7 +688,7 @@ function update_3_17_2010() {
         add expavg_time double not null default 0
     ");
     do_query("alter table app
-        add min_avg_pfc double not null,
+        add min_avg_pfc double not null default 1,
         add host_scale_check tinyint not null,
         add max_jobs_in_progress integer not null,
         add max_gpu_jobs_in_progress integer not null,

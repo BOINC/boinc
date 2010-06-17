@@ -49,7 +49,7 @@ create table app (
     weight                  double          not null default 1,
     beta                    smallint        not null default 0,
     target_nresults         smallint        not null default 0,
-    min_avg_pfc             double          not null,
+    min_avg_pfc             double          not null default 1,
     host_scale_check        tinyint         not null,
     primary key (id)
 ) engine=InnoDB;
