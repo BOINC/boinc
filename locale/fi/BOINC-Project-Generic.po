@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-06-16 19:59+0200\n"
+"PO-Revision-Date: 2010-06-18 02:30-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -354,7 +354,7 @@ msgstr ""
 #: ../inc/team.inc:361
 #: ../user/team_search.php:68
 msgid "Type"
-msgstr ""
+msgstr "Tyyppi"
 
 #: ../inc/team.inc:119
 #: ../user/team_manage.php:61
@@ -688,9 +688,8 @@ msgstr "Keskustelupalsta ja yksityisviestit"
 msgid "Community preferences"
 msgstr "Yhteisöasetukset"
 
-#, fuzzy
 msgid "Resource share and graphics"
-msgstr "Resurssien jako"
+msgstr "Resurssien jako ja grafiikat"
 
 #: ../inc/user.inc:228
 #: ../user/prefs.php:33
@@ -809,7 +808,7 @@ msgid "Add as friend"
 msgstr "Lisää ystäväksi"
 
 msgid "CHARSET"
-msgstr ""
+msgstr "MERKISTÖ"
 
 #: ../inc/util.inc:542
 msgid "Use BBCode tags to format your text"
@@ -1377,7 +1376,7 @@ msgstr "Torjuit ystävyyden %1 kanssa"
 
 #: ../user/friend.php:209
 msgid "Notification not found"
-msgstr ""
+msgstr "Ilmoitusta ei löydy"
 
 #: ../user/friend.php:211
 msgid "Friend confirmed"
