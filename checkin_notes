@@ -4404,3 +4404,11 @@ David  18 Jun 2010
         sched_types.cpp
     client/
         check_state.cpp
+
+David  18 Jun 2010
+    - validator: because of the above problem,
+        some results have flops_estimate == 0, which causes divide by zero.
+        Check for this and use 1e10.
+
+    sched/
+        credit.cpp
