@@ -209,9 +209,7 @@ void NET_STATUS::contact_reference_site() {
 }
 
 static void show_fail_msg() {
-    msg_printf(0, MSG_USER_ALERT,
-        _("BOINC can't access Internet - check network connection or proxy configuration.")
-    );
+    msg_printf(0, MSG_USER_ALERT, NEED_NETWORK_MSG);
 }
 
 int LOOKUP_WEBSITE_OP::do_rpc(string& url) {

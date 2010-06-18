@@ -47,8 +47,8 @@ RSS_FEED_OP rss_feed_op;
 ////////////// UTILITY FUNCTIONS ///////////////
 
 static bool cmp(NOTICE n1, NOTICE n2) {
-    if (n1.arrival_time < n2.arrival_time) return true;
-    if (n1.arrival_time > n2.arrival_time) return false;
+    if (n1.arrival_time > n2.arrival_time) return true;
+    if (n1.arrival_time < n2.arrival_time) return false;
     return (strcmp(n1.guid, n2.guid) > 0);
 }
 
@@ -233,6 +233,8 @@ int NOTICE::parse_rss(XML_PARSER& xp) {
 
 ///////////// NOTICES ////////////////
 
+// called at the start of client initialization
+//
 void NOTICES::init() {
     read_archive_file(NOTICES_DIR"/archive.xml", NULL);
     if (log_flags.notice_debug) {
@@ -241,6 +243,8 @@ void NOTICES::init() {
     write_archive(NULL);
 }
 
+// called at the end of client initialization
+//
 void NOTICES::init_rss() {
     rss_feeds.init();
     if (log_flags.notice_debug) {
@@ -408,11 +412,29 @@ void NOTICES::write_archive(RSS_FEED* rfp) {
     fclose(f);
 }
 
+// Remove "need network access" notices
+//
+void NOTICES::remove_network_msg() {
+    deque<NOTICE>::iterator i = notices.begin();
+    while (i != notices.end()) {
+        NOTICE& n = *i;
+        if (!strcmp(n.description.c_str(), NEED_NETWORK_MSG)) {
+            i = notices.erase(i);
+        } else {
+            ++i;
+        }
+    }
+}
+
 // write notices newer than seqno as XML (for GUI RPC).
 // Write them in order of increasing seqno
 //
 void NOTICES::write(int seqno, MIOFILE& fout, bool public_only, bool notice_refresh) {
     unsigned int i;
+
+    if (net_status.network_status() != NETWORK_STATUS_WANT_CONNECTION) {
+        remove_network_msg();
+    }
     fout.printf("<notices>\n");
     if (notice_refresh) {
         NOTICE n;

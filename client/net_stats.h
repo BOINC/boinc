@@ -31,6 +31,8 @@ using std::deque;
 
 #include "miofile.h"
 
+#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
+
 class FILE_XFER_SET;
 class HTTP_OP_SET;
 

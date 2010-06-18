@@ -76,6 +76,7 @@ struct NOTICES {
     int read_archive_file(const char* file, struct RSS_FEED*);
     void write_archive(struct RSS_FEED*);
     bool remove_dups(NOTICE&, bool keep_old);
+    void remove_network_msg();
 };
 
 extern NOTICES notices;
