@@ -295,7 +295,7 @@ public:
     int                         m_iGet_notices_rpc_result;
     
     NOTICE*                     notice(unsigned int);
-    NOTICE*                     NoticeWithSeqNo(int);
+    NOTICE*                     NoticeWithSeqNumLEThan(int);
     int                         CachedNoticeUpdate();
     void                        SaveUnreadNoticeInfo();
     void                        RestoreUnreadNoticeInfo();

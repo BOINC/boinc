@@ -1778,6 +1778,8 @@ int CMainDocument::WorkAbort(char* url, char* name) {
 
 // Call this only when notice buffer is stable
 // Note: This must not call any rpcs.
+// This is now called after each get_notices RPC from 
+//   CMainDocument::HandleCompletedRPC() .
 int CMainDocument::CachedNoticeUpdate() {
     static bool in_this_func = false;
     NOTICE*     pNotice = NULL;
@@ -1801,7 +1803,10 @@ int CMainDocument::CachedNoticeUpdate() {
             }
 
             if (m_iLastReadNoticeSequenceNumber) {
-                pNotice = NoticeWithSeqNo(m_iLastReadNoticeSequenceNumber);
+                pNotice = NoticeWithSeqNumLEThan(m_iLastReadNoticeSequenceNumber);
+                if (pNotice) {
+                    m_iLastReadNoticeSequenceNumber = pNotice->seqno;
+                }
             }
             
             // Consider all notices as having been read if Notices tab is open
@@ -1822,12 +1827,26 @@ int CMainDocument::CachedNoticeUpdate() {
 
             // Repeated / duplicate notices are replaced with same
             // sequence number but have newer arrival times
-            if (pNotice->arrival_time != m_iLastReadNoticeArrivalTime) {
-                m_iLastReadNoticeArrivalTime = pNotice->arrival_time;
-                SaveUnreadNoticeInfo();
+            if (pNotice) {
+                if (pNotice->arrival_time != m_iLastReadNoticeArrivalTime) {
+                    m_iLastReadNoticeArrivalTime = pNotice->arrival_time;
+                    SaveUnreadNoticeInfo();
+                }
             }
 
-            int unread = m_iNoticeSequenceNumber - m_iLastReadNoticeSequenceNumber;
+            // There may be gaps in the sequence numbers because some 
+            // notices may have been deleted, so we need to count.
+            int unread = 0;
+            int i, n = GetNoticeCount();
+
+             for (i=0; i<n; ++i) {
+                if (notices.notices[i]->seqno <= m_iLastReadNoticeSequenceNumber) {
+                    break;
+                } else {
+                    ++unread;
+                }
+            }
+            
             if (m_iNumberUnreadNotices != unread) {
                 m_iNumberUnreadNotices = unread;
                 pFrame->UpdateNoticesTabText();
@@ -1848,7 +1867,7 @@ void CMainDocument::SaveUnreadNoticeInfo() {
     NOTICE*         pNotice = NULL;
     
     pConfig->SetPath(strBaseConfigLocation + strHostCPID);
-    pNotice = NoticeWithSeqNo(m_iLastReadNoticeSequenceNumber);
+    pNotice = NoticeWithSeqNumLEThan(m_iLastReadNoticeSequenceNumber);
     if (pNotice) {
         arrivalTime.Printf(wxT("%f"), pNotice->arrival_time);
         pConfig->Write(wxT("lastReadNoticeTime"), arrivalTime);
@@ -1893,22 +1912,17 @@ NOTICE* CMainDocument::notice(unsigned int i) {
 }
 
 
-NOTICE* CMainDocument::NoticeWithSeqNo(int seqno) {
+// If the notice with the given sequence number has been  
+// deleted, get the next lower one.
+NOTICE* CMainDocument::NoticeWithSeqNumLEThan(int seqno) {
     NOTICE* pNotice = NULL;
     int     i, n = GetNoticeCount();
 
-    try {
-        if (!notices.notices.empty()) {
-            for (i=0; i<n; ++i) {
-                if (notices.notices[i]->seqno == seqno) {
-                    pNotice = notices.notices.at(i);
-                    break;
-                }
-            }
+    for (i=0; i<n; ++i) {
+        if (notices.notices[i]->seqno <= seqno) {
+            pNotice = notices.notices.at(i);
+            break;
         }
-    }
-    catch (std::out_of_range e) {
-        pNotice = NULL;
     }
 
     return pNotice;
@@ -1939,6 +1953,8 @@ int CMainDocument::ResetNoticeState() {
 
 // Call this only when message buffer is stable
 // Note: This must not call any rpcs.
+// This is now called after each get_messages RPC from 
+//   CMainDocument::HandleCompletedRPC() .
 int CMainDocument::CachedMessageUpdate() {
     static bool in_this_func = false;
 

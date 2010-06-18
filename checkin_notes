@@ -4412,3 +4412,10 @@ David  18 Jun 2010
 
     sched/
         credit.cpp
+
+Charlie  18 Jun 2010
+    MGR: Take into account that there may be gaps in the sequence numbers 
+        because some notices may have been deleted.
+        
+    clientgui/
+        MainDocument.cpp, .h
