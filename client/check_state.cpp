@@ -236,4 +236,8 @@ void CLIENT_STATE::free_mem() {
     active_tasks.free_mem();
 
     message_descs.cleanup();
+    delete http_ops;
+    delete file_xfers;
+    delete pers_file_xfers;
+    delete scheduler_op;
 }

@@ -4392,3 +4392,15 @@ David  18 Jun 2010
     api/
         boinc_api.cpp,h
         graphics2_unix.cpp
+
+David  18 Jun 2010
+    - scheduler: estimate peak FLOPS of anon platform app versions
+        based on CPU and GPU usage (or, if missing, 1 CPU).
+        Previously we were using the user-supplied <flops> element,
+        and if it was missing all hell broke loose.
+    - client: free malloced items on exit
+
+    sched/
+        sched_types.cpp
+    client/
+        check_state.cpp

@@ -59,20 +59,32 @@ void remove_quotes(char* p) {
 
 int CLIENT_APP_VERSION::parse(FILE* f) {
     char buf[256];
+    double x;
 
     memset(this, 0, sizeof(CLIENT_APP_VERSION));
+    host_usage.avg_ncpus = 1;
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</app_version>")) {
             app = ssp->lookup_app_name(app_name);
             if (!app) return ERR_NOT_FOUND;
+
+            double f = host_usage.avg_ncpus * g_reply->host.p_fpops;
+            if (host_usage.ncudas && g_request->coprocs.cuda.count) {
+                f += host_usage.ncudas*g_request->coprocs.cuda.peak_flops();
+            }
+            if (host_usage.natis && g_request->coprocs.ati.count) {
+                f += host_usage.natis*g_request->coprocs.ati.peak_flops();
+            }
+            host_usage.projected_flops = f;
+            host_usage.peak_flops = f;
             return 0;
         }
         if (parse_str(buf, "<app_name>", app_name, 256)) continue;
         if (parse_str(buf, "<platform>", platform, 256)) continue;
         if (parse_str(buf, "<plan_class>", plan_class, 256)) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
-        if (parse_double(buf, "<flops>", host_usage.projected_flops)) {
-            host_usage.peak_flops = host_usage.projected_flops;
+        if (parse_double(buf, "<avg_ncpus>", x)) {
+            if (x>0) host_usage.avg_ncpus = x;
             continue;
         }
         if (match_tag(buf, "<coproc>")) {
