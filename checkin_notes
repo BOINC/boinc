@@ -1814,3 +1814,12 @@ Charlie  9 Jun 2010
     mac_installer/
         release_boinc.sh
 
+Charlie  18 Jun 2010
+    - lib: Fix the value returned from get_mac_addresses() on Macintosh 
+        computers.  It has returned the value of kernResult, which is 0
+        on success, instead of true for success, since the routine was 
+        first written in November 2008.  This causes the client to 
+        generate a new random CPID every time the client is launched.
+    
+    lib/
+        mac_address.cpp
