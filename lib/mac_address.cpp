@@ -184,7 +184,7 @@ get_mac_addresses(char* addresses) {
     }
     IOObjectRelease(intfIterator);
 
-	return kernResult;
+	return (kernResult == KERN_SUCCESS);
 
 #elif defined(SIOCGIFCONF) || defined(SIOCGLIFCONF)
     char          buf[1024];
