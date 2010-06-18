@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
     int i;
     int c, nchars = 0, retval, n;
     double fsize, fd;
-    char input_path[512], output_path[512], chkpt_path[512];
+    char input_path[512], output_path[512], chkpt_path[512], buf[256];
     MFILE out;
     FILE* state, *infile;
 
@@ -151,7 +151,7 @@ int main(int argc, char **argv) {
     retval = boinc_init();
     if (retval) {
         fprintf(stderr, "%s boinc_init returned %d\n",
-            boinc_msg_prefix(), retval
+            boinc_msg_prefix(buf), retval
         );
         exit(retval);
     }
@@ -163,7 +163,7 @@ int main(int argc, char **argv) {
     if (!infile) {
         fprintf(stderr,
             "%s Couldn't find input file, resolved name %s.\n",
-            boinc_msg_prefix(), input_path
+            boinc_msg_prefix(buf), input_path
         );
         exit(-1);
     }
@@ -192,10 +192,10 @@ int main(int argc, char **argv) {
     }
     if (retval) {
         fprintf(stderr, "%s APP: upper_case output open failed:\n",
-            boinc_msg_prefix()
+            boinc_msg_prefix(buf)
         );
         fprintf(stderr, "%s resolved name %s, retval %d\n",
-            boinc_msg_prefix(), output_path, retval
+            boinc_msg_prefix(buf), output_path, retval
         );
         perror("open");
         exit(1);
@@ -207,7 +207,7 @@ int main(int argc, char **argv) {
     shmem = (UC_SHMEM*)boinc_graphics_make_shmem("uppercase", sizeof(UC_SHMEM));
     if (!shmem) {
         fprintf(stderr, "%s failed to create shared mem segment\n",
-            boinc_msg_prefix()
+            boinc_msg_prefix(buf)
         );
     }
     update_shmem();
@@ -243,7 +243,7 @@ int main(int argc, char **argv) {
             retval = do_checkpoint(out, nchars);
             if (retval) {
                 fprintf(stderr, "%s APP: upper_case checkpoint failed %d\n",
-                    boinc_msg_prefix(), retval
+                    boinc_msg_prefix(buf), retval
                 );
                 exit(retval);
             }
@@ -258,7 +258,7 @@ int main(int argc, char **argv) {
     retval = out.flush();
     if (retval) {
         fprintf(stderr, "%s APP: upper_case flush failed %d\n",
-            boinc_msg_prefix(), retval
+            boinc_msg_prefix(buf), retval
         );
         exit(1);
     }
@@ -277,7 +277,7 @@ int main(int argc, char **argv) {
                 retval = do_checkpoint(out, nchars);
                 if (retval) {
                     fprintf(stderr, "%s APP: upper_case checkpoint failed %d\n",
-                        boinc_msg_prefix(), retval
+                        boinc_msg_prefix(buf), retval
                     );
                     exit(1);
                 }

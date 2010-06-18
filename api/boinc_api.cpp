@@ -193,7 +193,7 @@ static void graphics_cleanup();
 static void block_sigalrm();
 static int start_worker_signals();
 
-static char* boinc_msg_prefix(char* sbuf) {
+char* boinc_msg_prefix(char* sbuf) {
     char buf[256];
 
     time_t x = time(0);

@@ -4381,3 +4381,14 @@ Charlie  18 Jun 2010
         
     clientgui/
         MainDocument.cpp, .h
+
+David  18 Jun 2010
+    - sample apps: compile fixes
+
+    apps/
+        upper_case.cpp
+    samples/example_app/
+        uc2.cpp
+    api/
+        boinc_api.cpp,h
+        graphics2_unix.cpp

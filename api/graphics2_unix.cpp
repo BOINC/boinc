@@ -53,7 +53,8 @@ static bool need_show = false;
 bool fullscreen;
 
 void boinc_close_window_and_quit(const char* p) {
-    fprintf(stderr, "%s Quitting: %s\n", boinc_msg_prefix(), p);
+    char buf[256];
+    fprintf(stderr, "%s Quitting: %s\n", boinc_msg_prefix(buf), p);
     exit(0);
 }
 
