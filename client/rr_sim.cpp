@@ -38,6 +38,9 @@
 // - resource shortfalls (per-project and total)
 // - counts of resources idle now
 //
+
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif

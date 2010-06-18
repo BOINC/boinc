@@ -42,6 +42,7 @@ struct MESSAGE_DESC {
 extern std::deque<MESSAGE_DESC*> message_descs;
 extern void record_message(class PROJECT *p, int priority, int now, char* msg);
 extern void show_message(class PROJECT *p, char* message, int priority);
+extern void cleanup_messages();
 
 // the __attribute((format...)) tags are GCC extensions that let the compiler
 // do like-checking on printf-like arguments

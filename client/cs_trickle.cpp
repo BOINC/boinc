@@ -16,13 +16,17 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"
 #endif
 
+#ifndef _WIN32
 #include <cstring>
+#endif
+
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"

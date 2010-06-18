@@ -15,23 +15,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
+#else
+#include "config.h"
 #endif
 
 #ifndef _WIN32
-#include "config.h"
 #include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cassert>
+#include <cstring>
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
 #endif
 
-#include <algorithm>
-#include <cstring>
 #include "filesys.h"
 #include "parse.h"
 #include "str_util.h"

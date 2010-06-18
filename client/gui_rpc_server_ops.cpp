@@ -17,16 +17,19 @@
 
 // GUI RPC server side (the actual RPCs)
 
-#ifdef _WIN32
-#include "boinc_win.h"
-#endif
+#include "cpp.h"
 
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 #endif
 
-#ifndef _WIN32
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <cstdio>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>

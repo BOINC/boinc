@@ -17,10 +17,15 @@
 
 // command-line parsing, and handling of 1-time actions
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <cstdio>
 #include <unistd.h>
 #endif

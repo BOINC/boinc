@@ -34,6 +34,12 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
+#endif
+
+#ifndef _WIN32
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 #include <string>
 #if HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -49,10 +55,6 @@
 #include <sys/signal.h>
 #endif
 #include <unistd.h>
-
-#include <cstdio>
-#include <cstdlib>
-#include <ctime>
 #endif
 
 #include "error_numbers.h"

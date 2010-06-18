@@ -15,37 +15,38 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
+#else
+#include "config.h"
 #endif
 
 #ifndef _WIN32
-#include "config.h"
 #include <cstdio>
 #include <ctime>
 #include <cmath>
-#endif
-
+#include <cstring>
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
+#endif
 
-#include <cstring>
 #include "parse.h"
 #include "util.h"
 #include "filesys.h"
 #include "error_numbers.h"
 #include "client_msgs.h"
 #include "file_names.h"
+#include "network.h"
+#include "log_flags.h"
+#include "time_stats.h"
 #ifdef SIM
 #include "sim.h"
 #else
 #include "client_state.h"
 #endif
-#include "network.h"
-#include "log_flags.h"
-
-#include "time_stats.h"
 
 #define CONNECTED_STATE_UNINITIALIZED   -1
 #define CONNECTED_STATE_NOT_CONNECTED   0
@@ -55,13 +56,11 @@
 #ifndef SIM
 #ifdef _WIN32
 #include <sensapi.h>
-
 int get_connected_state() {
     DWORD flags;
     return IsNetworkAlive(&flags)?CONNECTED_STATE_CONNECTED:CONNECTED_STATE_NOT_CONNECTED;
 }
 #else
-
 // anyone know how to see if this host has physical network connection?
 //
 int get_connected_state() {

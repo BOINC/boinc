@@ -19,12 +19,15 @@
 // when to compute, how much disk to use, etc.
 //
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
+#else
+#include "config.h"
 #endif
 
 #ifndef _WIN32
-#include "config.h"
 #if HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif

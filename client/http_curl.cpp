@@ -15,10 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <cstring>
 #include <sstream>
 #include <algorithm>
@@ -30,7 +35,6 @@
 #endif
 #endif
 
-#include "cpp.h"
 #include "error_numbers.h"
 #include "filesys.h"
 #include "client_msgs.h"
@@ -841,6 +845,7 @@ int curl_cleanup() {
     if (g_curlMulti) {
         curl_multi_cleanup(g_curlMulti);
     }
+    curl_global_cleanup();
     return 0;
 }
 

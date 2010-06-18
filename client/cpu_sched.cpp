@@ -35,14 +35,20 @@
 // If an app is running (not suspended), the interval
 // during which it's been running.
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#else
+#include "config.h"
 #endif
 
+#ifndef _WIN32
 #include <string>
 #include <cstring>
 #include <list>
+#endif
 
 #include "str_util.h"
 #include "util.h"

@@ -19,6 +19,8 @@
 
 // This file contains no GUI-related code.
 
+#include "cpp.h"
+
 #ifdef WIN32
 #include "boinc_win.h"
 #include "sysmon_win.h"
@@ -232,6 +234,9 @@ static void init_core_client(int argc, char** argv) {
 
     // Initialize the BOINC Diagnostics Framework
     int flags =
+#ifdef _DEBUG
+        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+#endif
         BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_TRACETOSTDOUT;
@@ -331,6 +336,54 @@ int initialize() {
     return 0;
 }
 
+int finalize() {
+    static bool finalized = false;
+    if (finalized) return 0;
+    finalized = true;
+    gstate.quit_activities();
+    daily_xfer_history.write_state();
+
+#ifdef _WIN32
+    if(g_hClientLibraryDll) {
+        IdleTrackerShutdown fnIdleTrackerShutdown;
+        ClientLibraryShutdown fnClientLibraryShutdown;
+
+        fnIdleTrackerShutdown = (IdleTrackerShutdown)GetProcAddress(g_hClientLibraryDll, "IdleTrackerShutdown");
+        if(fnIdleTrackerShutdown) {
+            fnIdleTrackerShutdown();
+        }
+
+        fnClientLibraryShutdown = (ClientLibraryShutdown)GetProcAddress(g_hClientLibraryDll, "ClientLibraryShutdown");
+        if(fnClientLibraryShutdown) {
+            fnClientLibraryShutdown();
+        }
+
+        if(!FreeLibrary(g_hClientLibraryDll)) {
+            log_message_error("Failed to cleanup the BOINC Idle Detection Interface");
+        }
+
+        g_hClientLibraryDll = NULL;
+    }
+
+#ifdef USE_WINSOCK
+    if (WinsockCleanup()) {
+        log_message_error("Failed to cleanup the Windows Sockets interface");
+        return ERR_IO;
+    }
+#endif
+
+    cleanup_system_monitor();
+
+#endif
+
+	curl_cleanup();
+
+    gstate.free_mem();
+
+    gstate.cleanup_completed = true;
+    return 0;
+}
+
 int boinc_main_loop() {
     int retval;
     
@@ -406,51 +459,6 @@ int boinc_main_loop() {
     }
 
     return finalize();
-}
-
-int finalize() {
-    static bool finalized = false;
-    if (finalized) return 0;
-    finalized = true;
-    gstate.quit_activities();
-    daily_xfer_history.write_state();
-
-#ifdef _WIN32
-    if(g_hClientLibraryDll) {
-        IdleTrackerShutdown fnIdleTrackerShutdown;
-        ClientLibraryShutdown fnClientLibraryShutdown;
-
-        fnIdleTrackerShutdown = (IdleTrackerShutdown)GetProcAddress(g_hClientLibraryDll, "IdleTrackerShutdown");
-        if(fnIdleTrackerShutdown) {
-            fnIdleTrackerShutdown();
-        }
-
-        fnClientLibraryShutdown = (ClientLibraryShutdown)GetProcAddress(g_hClientLibraryDll, "ClientLibraryShutdown");
-        if(fnClientLibraryShutdown) {
-            fnClientLibraryShutdown();
-        }
-
-        if(!FreeLibrary(g_hClientLibraryDll)) {
-            log_message_error("Failed to cleanup the BOINC Idle Detection Interface");
-        }
-
-        g_hClientLibraryDll = NULL;
-    }
-
-#ifdef USE_WINSOCK
-    if (WinsockCleanup()) {
-        log_message_error("Failed to cleanup the Windows Sockets interface");
-        return ERR_IO;
-    }
-#endif
-
-    cleanup_system_monitor();
-
-#endif
-
-	curl_cleanup();
-    gstate.cleanup_completed = true;
-    return 0;
 }
 
 int main(int argc, char** argv) {

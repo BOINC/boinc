@@ -15,15 +15,21 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cpp.h"
+
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#endif
+
 #ifdef _WIN32
 #include "boinc_win.h"
-
 #else 
-
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <cstdio>
 #include <cstring>
-
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -39,10 +45,6 @@
 #if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
-#endif
-
-#ifdef __APPLE__
-#include <Carbon/Carbon.h>
 #endif
 
 #include "str_util.h"

@@ -15,22 +15,27 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <cstdarg>
 #include <cstring>
 #include <deque>
 #endif
+
 #include "str_util.h"
-
-using std::deque;
-
 #include "log_flags.h"
 #include "str_replace.h"
 #include "client_types.h"
 #include "client_msgs.h"
+
+using std::deque;
 
 #define MAX_SAVED_MESSAGES 2000
 
@@ -77,5 +82,13 @@ void record_message(PROJECT* p, int priority, int now, char* message) {
         message_descs.pop_back();
     }
     message_descs.push_front(mdp);
+}
+
+
+void cleanup_messages() {
+    for (unsigned int i=0; i<message_descs.size(); i++) {
+        delete message_descs[i];
+    }
+    message_descs.clear();
 }
 

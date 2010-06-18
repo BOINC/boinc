@@ -15,18 +15,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "util.h"
+#include "cpp.h"
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
+#include "config.h"
+#endif
+
+#include "util.h"
 #include "client_types.h"
 #include "client_msgs.h"
+#include "scheduler_op.h"
+#include "work_fetch.h"
 #ifdef SIM
 #include "sim.h"
 #else
 #include "client_state.h"
 #endif
-
-#include "scheduler_op.h"
-#include "work_fetch.h"
 
 using std::vector;
 

@@ -21,6 +21,7 @@
 // NET_STATUS keeps track of whether we have a physical connection,
 // and whether we need one
 
+#include "cpp.h"
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -30,7 +31,6 @@
 #include <cmath>
 #endif
 
-#include "cpp.h"
 #include "parse.h"
 #include "time.h"
 #include "str_util.h"

@@ -15,10 +15,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+
+#include "cpp.h"
+
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
+#include "config.h"
+#endif
+
 #include "common_defs.h"
-
 #include "client_msgs.h"
-
 #include "cs_proxy.h"
 
 PROXY_INFO gui_proxy_info;

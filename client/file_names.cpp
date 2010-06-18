@@ -19,10 +19,11 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#else
+#include "config.h"
 #endif
 
 #ifndef _WIN32
-#include "config.h"
 #include <cstdio>
 #include <sys/stat.h>
 #include <cctype>

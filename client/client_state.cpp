@@ -15,10 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "cpp.h"
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"
+#endif
+
+#ifndef _WIN32
 #include <unistd.h>
 #include <csignal>
 #include <cstdio>
@@ -36,17 +41,12 @@
 #include <os2.h>
 #endif
 
-#include "cpp.h"
 #include "parse.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "filesys.h"
-#ifdef _WIN32
-#include "proc_control.h"
-#endif
-
 #include "file_names.h"
 #include "hostinfo.h"
 #include "hostinfo_network.h"
@@ -56,6 +56,9 @@
 #include "shmem.h"
 #include "sandbox.h"
 #include "client_state.h"
+#ifdef _WIN32
+#include "proc_control.h"
+#endif
 
 using std::max;
 
@@ -1833,3 +1836,63 @@ bool CLIENT_STATE::abort_sequence_done() {
     return true;
 }
 
+void CLIENT_STATE::free_mem() {
+    vector<PROJECT*>::iterator proj_iter;
+    vector<APP*>::iterator app_iter;
+    vector<FILE_INFO*>::iterator fi_iter;
+    vector<APP_VERSION*>::iterator av_iter;
+    vector<WORKUNIT*>::iterator wu_iter;
+    vector<RESULT*>::iterator res_iter;
+    PROJECT *proj;
+    APP *app;
+    FILE_INFO *fi;
+    APP_VERSION *av;
+    WORKUNIT *wu;
+    RESULT *res;
+
+    proj_iter = projects.begin();
+    while (proj_iter != projects.end()) {
+        proj = projects[0];
+        proj_iter = projects.erase(proj_iter);
+        delete proj;
+    }
+
+    app_iter = apps.begin();
+    while (app_iter != apps.end()) {
+        app = apps[0];
+        app_iter = apps.erase(app_iter);
+        delete app;
+    }
+
+    fi_iter = file_infos.begin();
+    while (fi_iter != file_infos.end()) {
+        fi = file_infos[0];
+        fi_iter = file_infos.erase(fi_iter);
+        delete fi;
+    }
+
+    av_iter = app_versions.begin();
+    while (av_iter != app_versions.end()) {
+        av = app_versions[0];
+        av_iter = app_versions.erase(av_iter);
+        delete av;
+    }
+
+    wu_iter = workunits.begin();
+    while (wu_iter != workunits.end()) {
+        wu = workunits[0];
+        wu_iter = workunits.erase(wu_iter);
+        delete wu;
+    }
+
+    res_iter = results.begin();
+    while (res_iter != results.end()) {
+        res = results[0];
+        res_iter = results.erase(res_iter);
+        delete res;
+    }
+
+    active_tasks.free_mem();
+
+    cleanup_messages();
+}

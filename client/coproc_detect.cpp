@@ -18,11 +18,18 @@
 
 // client-specific GPU code.  Mostly GPU detection
 
+#include "cpp.h"
+
 #ifdef _WIN32
+#include "boinc_win.h"
 #ifndef SIM
 #include <nvapi.h>
 #endif
 #else
+#include "config.h"
+#endif
+
+#ifndef _WIN32
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
 #define DLOPEN_NO_WARN

@@ -1823,3 +1823,8 @@ Charlie  18 Jun 2010
     
     lib/
         mac_address.cpp
+
+Rom    18 Jun 2010
+    - Re-enable the memory leak detection code for the 6.10 branch.
+    
+    <Various Files>
