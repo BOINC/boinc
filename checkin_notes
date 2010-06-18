@@ -4373,3 +4373,11 @@ Charlie  18 Jun 2010
     
     lib/
         mac_address.cpp
+
+Charlie  18 Jun 2010
+    MGR: save last notice which has been read in persistent storage, by 
+        saving its arrival time.  Store a separate entry for each CPID 
+        so it will work for Managers managing multiple remote clients.
+        
+    clientgui/
+        MainDocument.cpp, .h

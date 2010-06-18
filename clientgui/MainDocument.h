@@ -286,6 +286,7 @@ private:
 
     int                         m_iNoticeSequenceNumber;
     int                         m_iLastReadNoticeSequenceNumber;
+    double                      m_iLastReadNoticeArrivalTime;
     int                         m_iNumberUnreadNotices;
 
 public:
@@ -294,8 +295,10 @@ public:
     int                         m_iGet_notices_rpc_result;
     
     NOTICE*                     notice(unsigned int);
+    NOTICE*                     NoticeWithSeqNo(int);
     int                         CachedNoticeUpdate();
-
+    void                        SaveUnreadNoticeInfo();
+    void                        RestoreUnreadNoticeInfo();
     int                         GetNoticeCount();
     int                         GetUnreadNoticeCount() { return m_iNumberUnreadNotices; };
 
