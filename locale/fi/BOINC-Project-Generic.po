@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-06-18 02:30-0700\n"
+"PO-Revision-Date: 2010-06-19 23:59-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1813,9 +1813,8 @@ msgstr "Tämä toiminto on tilapäisesti kytketty pois päältä"
 msgid "No computer with ID %1 found"
 msgstr "Tietokonetta tunnisteella %1 ei löydy"
 
-#, fuzzy
 msgid "Tasks for computer %1"
-msgstr "Tietokoneiden kärki"
+msgstr "Tietokoneen %1 tehtävät"
 
 #: ../user/results.php:52
 msgid "No access"
@@ -1925,7 +1924,7 @@ msgstr "Kaikki tiimit"
 
 #: ../user/team.php:49
 msgid "%1 teams"
-msgstr ""
+msgstr "%1 tiimit"
 
 #: ../user/team.php:55
 msgid "Create a new team"
