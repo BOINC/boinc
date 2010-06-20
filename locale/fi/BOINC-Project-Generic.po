@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-06-19 23:59-0700\n"
+"PO-Revision-Date: 2010-06-20 00:29-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -3603,7 +3603,7 @@ msgstr ""
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "Ei konetta"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
@@ -4345,7 +4345,7 @@ msgstr "Asetuksia muokattu viimeksi:"
 
 #: ../inc/prefs.inc:1064
 msgid "Add preferences"
-msgstr ""
+msgstr "Lisää asetukset"
 
 #: ../inc/prefs.inc:1068
 msgid "Update preferences"
@@ -4357,7 +4357,7 @@ msgstr "Gigatavua"
 
 #: ../inc/prefs.inc:1181
 msgid "Gbytes free"
-msgstr ""
+msgstr "Gigatavua vapaana"
 
 #: ../inc/prefs.inc:1282
 msgid "Resource share"
@@ -4971,7 +4971,7 @@ msgstr "Vahvista asetusten poisto"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
+msgstr "Haluatko poistaa erilliset %1 -asetukset paikalle %2?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
@@ -4983,7 +4983,7 @@ msgstr "Peruuta"
 
 #: ../user/result.php:28
 msgid "No such task"
-msgstr ""
+msgstr "Tehtävää ei ole"
 
 #: ../user/result.php:30
 msgid "Task %1"
@@ -5004,7 +5004,7 @@ msgstr "Lisää tai poista tiimin ylläpitäjä"
 
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
-msgstr "Voi valita tiimin jäsenen tiimin ylläpitäjäksi. Ylläpitäjä voi:"
+msgstr "Voit valita tiimin jäsenen tiimin ylläpitäjäksi. Ylläpitäjä voi:"
 
 #: ../user/team_admins.php:41
 msgid "Edit team information (name, URL, description, country)"
@@ -5339,7 +5339,7 @@ msgstr "Perustajuutta ei voi nyt pyytää"
 
 #: ../user/team_founder_transfer_action.php:107
 msgid "Assumed foundership of %1"
-msgstr ""
+msgstr "Otettiin tiimin %1 perustajuus"
 
 #: ../user/team_founder_transfer_action.php:109
 msgid "Congratulations, you are now the founder of team %1. Go to %2Your Account page%3 to find the Team Admin options."
@@ -5388,7 +5388,7 @@ msgstr "60 päivää on kulunut pyynnöstäsi eikä perustaja ole vastannut. Voi
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
-msgstr "Ota omistajuus"
+msgstr "Ota perustajuus"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid "The founder was notified of your request. If he/she does not respond by %1 you will be given an option to become founder."
@@ -5489,7 +5489,7 @@ msgstr ""
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
-msgstr ""
+msgstr "Tiimin %1 ylläpito"
 
 #: ../user/team_manage.php:27
 msgid "Edit team info"
