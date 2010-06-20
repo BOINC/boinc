@@ -4419,3 +4419,13 @@ Charlie  18 Jun 2010
         
     clientgui/
         MainDocument.cpp, .h
+
+Rytis  20 Jun 2010
+    - user web: flag to send less information on team member XML requests
+        (from Willy de Zutter).
+
+    html/
+        inc/
+            xml.inc
+        user/
+            team_email_list.php

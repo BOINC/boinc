@@ -23,6 +23,7 @@ require_once("../inc/team.inc");
 
 $xml = get_int('xml', true);
 if ($xml) {
+    $creditonly = get_int('creditonly', true);
     require_once("../inc/xml.inc");
     xml_header();
     $retval = db_init_xml();
@@ -39,7 +40,7 @@ if ($xml) {
     $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
     //$users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {
-        show_team_member($user, $show_email);
+        show_team_member($user, $show_email, $creditonly);
     } 
     echo "</users>\n";
     exit();
