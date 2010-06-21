@@ -219,7 +219,6 @@ static int setup_shared_mem() {
     app_client_shm = new APP_CLIENT_SHM;
 
 #ifdef _WIN32
-    char buf[256];
     sprintf(buf, "%s%s", SHM_PREFIX, aid.shmem_seg_name);
     hSharedMem = attach_shmem(buf, (void**)&app_client_shm->shm);
     if (hSharedMem == NULL) {
@@ -501,7 +500,6 @@ int boinc_temporary_exit(int delay) {
 //
 void boinc_exit(int status) {
     int retval;
-    char buf[256];
 
     if (options.backwards_compatible_graphics) {
         graphics_cleanup();
@@ -774,9 +772,10 @@ static void handle_trickle_down_msg() {
 // runs in timer thread
 //
 static void handle_process_control_msg() {
-    char buf[MSG_CHANNEL_SIZE], log_buf[256];
+    char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
 #ifdef DEBUG_BOINC_API
+        char log_buf[256]
         fprintf(stderr, "%s got process control msg %s\n",
             boinc_msg_prefix(log_buf), buf
         );

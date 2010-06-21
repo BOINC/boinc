@@ -50,8 +50,9 @@ static UINT_PTR gfx_timer_id = 0;
 static bool fullscreen;
 
 void boinc_close_window_and_quit(const char* p) {
+    char buf[256];
     fprintf(stderr, "%s Close event (%s) detected, shutting down.\n",
-        boinc_msg_prefix(), p
+        boinc_msg_prefix(buf), p
     );
 
     window_ready = false;
@@ -72,6 +73,7 @@ void boinc_close_window_and_quit(const char* p) {
 
 void SetupPixelFormat(HDC win_dc) {
     int nPixelFormat;
+    char buf[256];
 
     static PIXELFORMATDESCRIPTOR pfd = {
         sizeof(PIXELFORMATDESCRIPTOR),   // size of structure.
@@ -103,7 +105,7 @@ void SetupPixelFormat(HDC win_dc) {
     if (!SetPixelFormat(win_dc, nPixelFormat, &pfd)) {
         fprintf(stderr,
             "%s ERROR: Couldn't set pixel format for device context (0x%x).\n",
-            boinc_msg_prefix(), GetLastError()
+            boinc_msg_prefix(buf), GetLastError()
         );
     }
 }
@@ -113,6 +115,7 @@ static void make_window(const char* title) {
     int width, height;
     DWORD dwExStyle;
     DWORD dwStyle;
+    char buf[256];
 
     if (fullscreen) {
         HDC screenDC=GetDC(NULL);
@@ -165,14 +168,14 @@ static void make_window(const char* title) {
     if (!SetForegroundWindow(window)) {
         fprintf(stderr,
             "%s ERROR: SetForegroundWindow() failed (0x%x).\n",
-            boinc_msg_prefix(), GetLastError()
+            boinc_msg_prefix(buf), GetLastError()
         );
     }
 
     if (!GetCursorPos(&mousePos)) {
         fprintf(stderr,
             "%s ERROR: GetCursorPos() failed (0x%x).\n",
-            boinc_msg_prefix(), GetLastError()
+            boinc_msg_prefix(buf), GetLastError()
         );
     }
 
@@ -180,7 +183,7 @@ static void make_window(const char* title) {
     if (!win_dc) {
         fprintf(stderr,
             "%s ERROR: GetDC() failed (0x%x).\n",
-            boinc_msg_prefix(), GetLastError()
+            boinc_msg_prefix(buf), GetLastError()
         );
     }
     SetupPixelFormat(win_dc);
@@ -189,7 +192,7 @@ static void make_window(const char* title) {
     if (!gl_dc) {
         fprintf(stderr,
             "%s ERROR: wglCreateContext() failed (0x%x).\n",
-            boinc_msg_prefix(), GetLastError()
+            boinc_msg_prefix(buf), GetLastError()
         );
         ReleaseDC(window, win_dc);
         return;
@@ -198,7 +201,7 @@ static void make_window(const char* title) {
     if(!wglMakeCurrent(win_dc, gl_dc)) {
         fprintf(stderr,
             "%s ERROR: wglMakeCurrent() failed (0x%x).\n",
-            boinc_msg_prefix(), GetLastError()
+            boinc_msg_prefix(buf), GetLastError()
         );
         ReleaseDC(window, win_dc);
         wglDeleteContext(gl_dc);
@@ -408,17 +411,18 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
 }
 
 void boinc_graphics_loop(int argc, char** argv, const char* title) {
+    char buf[256];
     if (!diagnostics_is_initialized()) {
         boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
     }
 
-    fprintf(stderr, "%s Starting graphics application.\n", boinc_msg_prefix());
+    fprintf(stderr, "%s Starting graphics application.\n", boinc_msg_prefix(buf));
 
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--fullscreen")) {
             fullscreen = true;
             fprintf(stderr, "%s fullscreen mode requested.\n",
-                boinc_msg_prefix()
+                boinc_msg_prefix(buf)
             );
         }
     }
@@ -446,7 +450,7 @@ void boinc_graphics_loop(int argc, char** argv, const char* title) {
     unreg_win_class();
 
     fprintf(stderr, "%s Shutting down graphics application.\n",
-        boinc_msg_prefix()
+        boinc_msg_prefix(buf)
     );
 }
 
