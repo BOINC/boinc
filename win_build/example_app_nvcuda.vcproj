@@ -865,6 +865,14 @@
 				</FileConfiguration>
 			</File>
 		</Filter>
+		<Filter
+			Name="Header Files"
+			>
+			<File
+				RelativePath="..\samples\nvcuda\cuda_config.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
