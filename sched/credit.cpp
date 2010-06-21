@@ -455,7 +455,8 @@ int get_pfc(
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
             "[credit] [RESULT#%d] raw credit: %.2f (%.2f sec, %.2f est GFLOPS)\n",
-            r.id, raw_pfc*COBBLESTONE_SCALE, r.elapsed_time, r.flops_estimate
+            r.id, raw_pfc*COBBLESTONE_SCALE, r.elapsed_time,
+            r.flops_estimate/1e9
         );
     }
 
@@ -486,11 +487,11 @@ int get_pfc(
         //
         if (app.min_avg_pfc) {
             bool do_scale = true;
-            if (hav.pfc.n < MIN_HOST_SAMPLES) {
+            if (hav.pfc.n < MIN_HOST_SAMPLES || hav.pfc.get_avg()==0) {
                 do_scale = false;
                 if (config.debug_credit) {
                     log_messages.printf(MSG_NORMAL,
-                        "[credit] [RESULT#%d] anon platform, not scaling, too few samples %.0f\n",
+                        "[credit] [RESULT#%d] anon platform, not scaling, PFC avg zero or too few samples %.0f\n",
                         r.id, hav.pfc.n
                     );
                 }
@@ -570,11 +571,11 @@ int get_pfc(
                 );
             }
         }
-        if (do_scale && hav.pfc.n < MIN_HOST_SAMPLES) {
+        if (do_scale && hav.pfc.n < MIN_HOST_SAMPLES || hav.pfc.get_avg()==0) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] not host scaling - HAV PFC too few samples %.0f\n",
+                    "[credit] [RESULT#%d] not host scaling - HAV PFC zero or too few samples %.0f\n",
                     r.id, hav.pfc.n
                 );
             }
@@ -598,7 +599,7 @@ int get_pfc(
             }
         }
         if (do_scale) {
-            host_scale = avp->pfc.get_avg()/hav.pfc.get_avg();
+            host_scale = avp->pfc.get_avg() / hav.pfc.get_avg();
             if (host_scale > 10) host_scale = 10;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
@@ -644,18 +645,18 @@ int get_pfc(
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
             "[credit] [RESULT#%d] updating HAV PFC %.2f et %g turnaround %d\n",
-            r.id, raw_pfc/wu.rsc_fpops_est,
-            r.elapsed_time/wu.rsc_fpops_est,
+            r.id, raw_pfc / wu.rsc_fpops_est,
+            r.elapsed_time / wu.rsc_fpops_est,
             (r.received_time - r.sent_time)
         );
     }
                 
     hav.pfc.update(
-        raw_pfc/wu.rsc_fpops_est,
+        raw_pfc / wu.rsc_fpops_est,
         HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
     );
     hav.et.update_var(
-        r.elapsed_time/wu.rsc_fpops_est,
+        r.elapsed_time / wu.rsc_fpops_est,
         HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
     );
     hav.turnaround.update_var(
@@ -737,9 +738,15 @@ int assign_credit_set(
         }
         if (max_granted_credit && pfc*COBBLESTONE_SCALE > max_granted_credit) {
             log_messages.printf(MSG_NORMAL,
-                "Credit too high: %f\n", pfc*COBBLESTONE_SCALE
+                "[credit] Credit too high: %f\n", pfc*COBBLESTONE_SCALE
             );
-            exit(1);
+            pfc = app.min_avg_pfc * wu.rsc_fpops_est;
+        }
+        if (pfc > wu.rsc_fpops_bound) {
+            log_messages.printf(MSG_NORMAL,
+                "[credit] PFC too high: %f\n", pfc*COBBLESTONE_SCALE
+            );
+            pfc = app.min_avg_pfc * wu.rsc_fpops_est;
         }
         if (mode == PFC_MODE_NORMAL) {
             normal.push_back(pfc);

@@ -4429,3 +4429,11 @@ Rytis  20 Jun 2010
             xml.inc
         user/
             team_email_list.php
+
+David  21 June 2010
+    - validator: fix possible divide-by-zero
+    - validator: when claimed credit is too high,
+        assign standard credit rather than exiting.
+
+    sched/
+        credit.cpp
