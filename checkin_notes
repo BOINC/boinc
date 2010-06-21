@@ -4451,3 +4451,12 @@ David  21 June 2010
         graphics2_win.cpp
     sched/
         sched_config.cpp
+
+David  21 June 2010
+    - apps: compile fix
+
+    samples/
+        wrapper/
+            wrapper.cpp
+        multi_thread/
+            multi_thread.cpp

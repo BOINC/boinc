@@ -68,6 +68,8 @@ struct THREAD {
     int units_done;
 
     THREAD(THREAD_FUNC func, int i) {
+        char buf[256];
+
         index = i;
         units_done = 0;
 #ifdef _WIN32
@@ -80,14 +82,14 @@ struct THREAD {
             NULL
         );
         if (!id) {
-            fprintf(stderr, "%s Can't start thread\n", boinc_msg_prefix());
+            fprintf(stderr, "%s Can't start thread\n", boinc_msg_prefix(buf));
             exit(1);
         }
 #else
         int retval;
         retval = pthread_create(&id, 0, func, (void*)this);
         if (retval) {
-            fprintf(stderr, "%s can't start thread\n", boinc_msg_prefix());
+            fprintf(stderr, "%s can't start thread\n", boinc_msg_prefix(buf));
             exit(1);
         }
 #endif
@@ -131,12 +133,13 @@ UINT WINAPI worker(void* p) {
 #else
 void* worker(void* p) {
 #endif
+    char buf[256];
     THREAD* t = (THREAD*)p;
     for (int i=0; i<units_per_thread; i++) {
         double x = do_a_giga_flop(i);
         t->units_done++;
         fprintf(stderr, "%s thread %d finished %d: %f\n",
-            boinc_msg_prefix(), t->index, i, x
+            boinc_msg_prefix(buf), t->index, i, x
         );
     }
     t->id = THREAD_ID_NULL;
@@ -148,6 +151,7 @@ void* worker(void* p) {
 int main(int argc, char** argv) {
     int i, nthreads = DEFAULT_NTHREADS;
     double start_time = dtime();
+    char buf[256];
 
     boinc_init_parallel();
 
@@ -156,7 +160,7 @@ int main(int argc, char** argv) {
             nthreads = atoi(argv[++i]);
         } else {
             fprintf(stderr, "%s unrecognized arg: %s\n",
-                boinc_msg_prefix(), argv[i]
+                boinc_msg_prefix(buf), argv[i]
             );
         }
     }
@@ -177,7 +181,7 @@ int main(int argc, char** argv) {
     double elapsed_time = dtime()-start_time;
     fprintf(stderr,
         "%s All done.  Used %d threads.  Elapsed time %f\n",
-        boinc_msg_prefix(), nthreads, elapsed_time
+        boinc_msg_prefix(buf), nthreads, elapsed_time
     );
     boinc_finish(0);
 }
