@@ -1,5 +1,0 @@
-# uncomment the following for Solaris
-#LIBS = -lnsl -lsocket
-
-gui_test: gui_test.C gui_rpc_client.C gui_rpc_client.h
-	g++ -g -I.. -I../lib -o gui_test $(LIBS) gui_test.C gui_rpc_client.C ../lib/libboinc.a
