@@ -4437,3 +4437,17 @@ David  21 June 2010
 
     sched/
         credit.cpp
+
+David  21 June 2010
+    - API: add BOINC copyright notice to graphics2_win.cpp.
+        This file originally used code from the following tutorial,
+        which shows how to open a window using GLUT:
+        http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=01
+        The code has now been completely rewritten;
+        in particular, it doesn't use GLUT anymore.
+    - scheduler: change default limit on #CPUs from 16 to 64
+
+    api/
+        graphics2_win.cpp
+    sched/
+        sched_config.cpp

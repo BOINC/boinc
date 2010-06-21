@@ -1,15 +1,25 @@
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2010 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 // Event loop and support functions for Windows versions
 // of BOINC applications w/ graphics.
 // Platform-independent code should NOT be here.
 //
 
-/* This Code Was Created By Jeff Molofee 2000.
- * A HUGE thanks to fredric echols for cleaning up
- * and optimizing this code, making it more flexible!
- * If you've found this code useful, please let me know.
- * Visit My Site At nehe.gamedev.net
- * Adapted to BOINC by Eric Heien
- */
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #else
@@ -27,15 +37,15 @@
 #define BOINC_WINDOW_CLASS_NAME     "BOINC_app"
 #define WM_SHUTDOWNGFX              WM_USER+1
 
-static HDC hDC = NULL;
-static HGLRC hRC = NULL;
-static HWND hWnd = NULL;        // Holds Our Window Handle
-static HINSTANCE hInstance;     // Holds The Instance Of The Application
+static HDC win_dc = NULL;
+static HGLRC gl_dc = NULL;
+static HWND window = NULL;
+static HINSTANCE instance;
 static RECT rect = {50, 50, 50+640, 50+480};
 static int current_graphics_mode = MODE_HIDE_GRAPHICS;
 static POINT mousePos;
 static bool visible = true;
-static bool window_ready=false;
+static bool window_ready = false;
 static UINT_PTR gfx_timer_id = 0;
 static bool fullscreen;
 
@@ -44,55 +54,58 @@ void boinc_close_window_and_quit(const char* p) {
         boinc_msg_prefix(), p
     );
 
-    window_ready=false;
-    wglMakeCurrent(NULL,NULL);  // release GL rendering context
-    if (hRC) {
-        wglDeleteContext(hRC);
+    window_ready = false;
+    wglMakeCurrent(NULL, NULL);  // release GL rendering context, if any
+    if (gl_dc) {
+        wglDeleteContext(gl_dc);
     }
 
-    if (hWnd && hDC) {
-        ReleaseDC(hWnd,hDC);
+    if (window && win_dc) {
+        ReleaseDC(window, win_dc);
     }
 
-    if (hWnd) {
-        DestroyWindow(hWnd);
+    if (window) {
+        DestroyWindow(window);
     }
-    SendMessage(hWnd, WM_QUIT, 0, 0);
+    SendMessage(window, WM_QUIT, 0, 0);
 }
 
-void SetupPixelFormat(HDC hDC) {
-   int nPixelFormat;
+void SetupPixelFormat(HDC win_dc) {
+    int nPixelFormat;
 
-   static PIXELFORMATDESCRIPTOR pfd = {
-         sizeof(PIXELFORMATDESCRIPTOR),   // size of structure.
-         1,                               // always 1.
-         PFD_DRAW_TO_WINDOW |             // support window
-         PFD_SUPPORT_OPENGL |             // support OpenGl
-         PFD_DOUBLEBUFFER,                // support double buffering
-         PFD_TYPE_RGBA,                   // support RGBA
-         32,                              // 32 bit color mode
-         0, 0, 0, 0, 0, 0,                // ignore color bits
-         0,                               // no alpha buffer
-         0,                               // ignore shift bit
-         0,                               // no accumulation buffer
-         0, 0, 0, 0,                      // ignore accumulation bits.
-         16,                              // number of depth buffer bits.
-         0,                               // number of stencil buffer bits.
-         0,                               // 0 means no auxiliary buffer
-         PFD_MAIN_PLANE,                  // The main drawing plane
-         0,                               // this is reserved
-         0, 0, 0 };                       // layer masks ignored.
+    static PIXELFORMATDESCRIPTOR pfd = {
+        sizeof(PIXELFORMATDESCRIPTOR),   // size of structure.
+        1,                               // always 1.
+        PFD_DRAW_TO_WINDOW |             // support window
+        PFD_SUPPORT_OPENGL |             // support OpenGl
+        PFD_DOUBLEBUFFER,                // support double buffering
+        PFD_TYPE_RGBA,                   // support RGBA
+        32,                              // 32 bit color mode
+        0, 0, 0, 0, 0, 0,                // ignore color bits
+        0,                               // no alpha buffer
+        0,                               // ignore shift bit
+        0,                               // no accumulation buffer
+        0, 0, 0, 0,                      // ignore accumulation bits.
+        16,                              // number of depth buffer bits.
+        0,                               // number of stencil buffer bits.
+        0,                               // 0 means no auxiliary buffer
+        PFD_MAIN_PLANE,                  // The main drawing plane
+        0,                               // this is reserved
+        0, 0, 0                          // layer masks ignored.
+    };
 
-   // this chooses the best pixel format and returns index.
-   nPixelFormat = ChoosePixelFormat(hDC, &pfd);
+    // chooses the best pixel format
+    //
+    nPixelFormat = ChoosePixelFormat(win_dc, &pfd);
 
-   // This set pixel format to device context.
-   if (!SetPixelFormat(hDC, nPixelFormat, &pfd)) {
-       fprintf(stderr,
+    // set pixel format to device context.
+    //
+    if (!SetPixelFormat(win_dc, nPixelFormat, &pfd)) {
+        fprintf(stderr,
             "%s ERROR: Couldn't set pixel format for device context (0x%x).\n",
             boinc_msg_prefix(), GetLastError()
         );
-   }
+    }
 }
 
 static void make_window(const char* title) {
@@ -111,13 +124,18 @@ static void make_window(const char* title) {
         dwStyle=WS_POPUP;
         while(ShowCursor(false) >= 0);
     } else {
-        // Version 5 screensaver logic kills all MODE_WINDOW graphics before starting one
-        // in fullscreen mode, then restarts the ones it killed when screensaver stops.
-        // To be compatible with V5, we remember and restore the MODE_WINDOW dimensions.
+        // Version 5 screensaver logic kills all MODE_WINDOW graphics
+        // before starting one in fullscreen mode,
+        // then restarts the ones it killed when screensaver stops.
+        // To be compatible with V5,
+        // we remember and restore the MODE_WINDOW dimensions.
+        //
         FILE *f = boinc_fopen("gfx_info", "r");
         if (f) {
             // ToDo: change this to XML parsing
-            fscanf(f, "%d %d %d %d\n", &rect.left, &rect.top, &rect.right, &rect.bottom);
+            fscanf(f, "%d %d %d %d\n",
+                &rect.left, &rect.top, &rect.right, &rect.bottom
+            );
             fclose(f);
         }
         WindowRect = rect;
@@ -138,65 +156,65 @@ static void make_window(const char* title) {
 
     //fprintf(stderr, "Setting window title to '%s'.\n", window_title);
 
-    hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, window_title,
+    window = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, window_title,
         dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
         WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
-        NULL, NULL, hInstance, NULL
+        NULL, NULL, instance, NULL
     );
 
-    if (!SetForegroundWindow(hWnd)) {
+    if (!SetForegroundWindow(window)) {
         fprintf(stderr,
-            "%s ERROR: Unable to set foreground window (0x%x).\n",
+            "%s ERROR: SetForegroundWindow() failed (0x%x).\n",
             boinc_msg_prefix(), GetLastError()
         );
     }
 
     if (!GetCursorPos(&mousePos)) {
         fprintf(stderr,
-            "%s ERROR: Unable to get mouse cursor position (0x%x).\n",
+            "%s ERROR: GetCursorPos() failed (0x%x).\n",
             boinc_msg_prefix(), GetLastError()
         );
     }
 
-    hDC = GetDC(hWnd);
-    if (!hDC) {
+    win_dc = GetDC(window);
+    if (!win_dc) {
         fprintf(stderr,
-            "%s ERROR: Couldn't get a device context for the window (0x%x).\n",
+            "%s ERROR: GetDC() failed (0x%x).\n",
             boinc_msg_prefix(), GetLastError()
         );
     }
-    SetupPixelFormat(hDC);
+    SetupPixelFormat(win_dc);
 
-    hRC = wglCreateContext(hDC);
-    if (!hRC) {
+    gl_dc = wglCreateContext(win_dc);
+    if (!gl_dc) {
         fprintf(stderr,
-            "%s ERROR: Unable to create OpenGL context (0x%x).\n",
+            "%s ERROR: wglCreateContext() failed (0x%x).\n",
             boinc_msg_prefix(), GetLastError()
         );
-        ReleaseDC(hWnd, hDC);
+        ReleaseDC(window, win_dc);
         return;
     }
 
-    if(!wglMakeCurrent(hDC, hRC)) {
+    if(!wglMakeCurrent(win_dc, gl_dc)) {
         fprintf(stderr,
-            "%s ERROR: Unable to make OpenGL context current (0x%x).\n",
+            "%s ERROR: wglMakeCurrent() failed (0x%x).\n",
             boinc_msg_prefix(), GetLastError()
         );
-        ReleaseDC(hWnd, hDC);
-        wglDeleteContext(hRC);
+        ReleaseDC(window, win_dc);
+        wglDeleteContext(gl_dc);
         return;
     }
 
     // use client area for resize when not fullscreen
     if (current_graphics_mode != MODE_FULLSCREEN) {
-        GetClientRect(hWnd, &WindowRect);
+        GetClientRect(window, &WindowRect);
 	}
 
     width = WindowRect.right-WindowRect.left;
     height = WindowRect.bottom-WindowRect.top;
 
-    ShowWindow(hWnd, SW_SHOW);
-    SetFocus(hWnd);
+    ShowWindow(window, SW_SHOW);
+    SetFocus(window);
 
     app_graphics_init();
     app_graphics_resize(width, height);
@@ -218,14 +236,14 @@ void parse_mouse_event(UINT uMsg, int& which, bool& down) {
 // message handler (includes timer, Windows msgs)
 //
 LRESULT CALLBACK WndProc(
-    HWND    hWnd,            // Handle For This Window
-    UINT    uMsg,            // Message For This Window
-    WPARAM    wParam,            // Additional Message Information
-    LPARAM    lParam            // Additional Message Information
+    HWND    hWnd,
+    UINT    uMsg,
+    WPARAM    wParam,
+    LPARAM    lParam
 ) {
     switch(uMsg) {
-    case WM_ERASEBKGND:        // Check To See If Windows Is Trying To Erase The Background
-            return 0;
+    case WM_ERASEBKGND:
+        return 0;
     case WM_KEYDOWN:
         if(!window_ready) return 0;    
         if (fullscreen) {
@@ -306,48 +324,41 @@ LRESULT CALLBACK WndProc(
         return 0;
     }
 
-    // Pass All Unhandled Messages To DefWindowProc
-    return DefWindowProc(hWnd,uMsg,wParam,lParam);
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
 BOOL reg_win_class() {
-    WNDCLASS    wc;                                 // Windows Class Structure
+    WNDCLASS    wc;
 
-    wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;  // Redraw On Size, And Own DC For Window.
-    wc.lpfnWndProc = (WNDPROC) WndProc;             // WndProc Handles Messages
-    wc.cbClsExtra = 0;                              // No Extra Window Data
-    wc.cbWndExtra = 0;                              // No Extra Window Data
-    wc.hInstance = hInstance;                       // Set The Instance
-    wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);         // Load The Default Icon
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);       // Load The Arrow Pointer
-    wc.hbrBackground = NULL;                        // No Background Required For GL
-    wc.lpszMenuName = NULL;                         // We Don't Want A Menu
-    wc.lpszClassName = BOINC_WINDOW_CLASS_NAME;     // Set The Class Name
+    wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    wc.lpfnWndProc = (WNDPROC) WndProc;
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hInstance = instance;
+    wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground = NULL;
+    wc.lpszMenuName = NULL;
+    wc.lpszClassName = BOINC_WINDOW_CLASS_NAME;
 
-    // Attempt To Register The Window Class
     if (!RegisterClass(&wc)) {
         MessageBox(
-            NULL,
-            "Failed To Register The Window Class.",
-            "ERROR",
+            NULL, "RegisterClass() failed.", "Error",
             MB_OK|MB_ICONEXCLAMATION
         );
-        return FALSE;                                            // Return FALSE
+        return FALSE;
     }
 
     return TRUE;
 }
 
 BOOL unreg_win_class() {
-
-    if (!UnregisterClass(BOINC_WINDOW_CLASS_NAME, hInstance)) {
+    if (!UnregisterClass(BOINC_WINDOW_CLASS_NAME, instance)) {
         MessageBox(
-            NULL,
-            "Could Not Unregister Class.",
-            "ERROR",
+            NULL, "UnregisterClass() failed.", "ERROR",
             MB_OK|MB_ICONINFORMATION
         );
-        hInstance=NULL;
+        instance = NULL;
     }
 
     return TRUE;
@@ -358,19 +369,20 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
     int width, height;
     static int size_changed = 0;
 
-    GetWindowRect(hWnd, &rt);
+    GetWindowRect(window, &rt);
     width = rt.right-rt.left;
     height = rt.bottom-rt.top;
 
     if (throttled_app_render(width, height, dtime())) {
-        SwapBuffers(hDC);
-        if (! fullscreen) {
+        SwapBuffers(win_dc);
+        if (!fullscreen) {
             // If user has changed window size, wait until it stops 
             // changing and then write the new dimensions to file
+            //
             if ((rt.left != rect.left) || (rt.top != rect.top) || 
                 (rt.right != rect.right) || (rt.bottom != rect.bottom)
             ) {
-				if (IsZoomed(hWnd)) return;
+				if (IsZoomed(window)) return;
 				if ((rt.left < 0) && (rt.right < 0)) return;
 				if ((rt.top < 0) && (rt.bottom < 0)) return;
                 size_changed = 1;
@@ -384,7 +396,9 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
                     FILE *f = boinc_fopen("gfx_info", "w");
                     if (f) {
                         // ToDo: change this to XML
-                        fprintf(f, "%d %d %d %d\n", rect.left, rect.top, rect.right, rect.bottom);
+                        fprintf(f, "%d %d %d %d\n",
+                            rect.left, rect.top, rect.right, rect.bottom
+                        );
                         fclose(f);
                     }
                 }
@@ -445,14 +459,14 @@ void boinc_set_windows_icon(const char* icon16, const char* icon48) {
     LONGLONG ic;
     HWND hWnd = FindWindow("BOINC_app",NULL);
 
-    if (ic = (LONGLONG)LoadIcon(hInstance, icon48)) {
+    if (ic = (LONGLONG)LoadIcon(instance, icon48)) {
 #ifdef _WIN64
         SetClassLongPtr(hWnd, GCLP_HICON, (LONG_PTR)ic);
 #else
         SetClassLongPtr(hWnd, GCLP_HICON, (LONG)ic);
 #endif
     }
-    if (ic = (LONGLONG)LoadImage(hInstance, icon16, IMAGE_ICON, 16, 16, 0)) {
+    if (ic = (LONGLONG)LoadImage(instance, icon16, IMAGE_ICON, 16, 16, 0)) {
 #ifdef _WIN64
         SetClassLongPtr(hWnd, GCLP_HICONSM, (LONG_PTR)ic);
 #else
@@ -461,12 +475,12 @@ void boinc_set_windows_icon(const char* icon16, const char* icon48) {
     }
 }
 
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPSTR, int) {
     LPSTR command_line;
     char* argv[100];
     int argc;
 
-    hInstance = hInst;
+    instance = inst;
     command_line = GetCommandLine();
     argc = parse_command_line(command_line, argv);
     main(argc, argv);
