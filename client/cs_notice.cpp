@@ -320,7 +320,7 @@ bool NOTICES::append(NOTICE& n, bool keep_old) {
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO,
             "[notice] appending notice %d: %s",
-            n.seqno, n.title
+            n.seqno, strlen(n.title)?n.title:n.description.c_str()
         );
     }
     notices.push_front(n);
