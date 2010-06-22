@@ -482,7 +482,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     }
                 }
             } else {
-                if (!acct.detach) {
+                // here we don't already have the project.
+                // Attach to it, unless the acct mgr is telling us to detach
+                //
+                if (!acct.detach && !(acct.detach_when_done.present && acct.detach_when_done.value)) {
                     msg_printf(NULL, MSG_INFO,
                         "Attaching to %s", acct.url.c_str()
                     );

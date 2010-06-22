@@ -4474,3 +4474,10 @@ David  22 June 2010
 
     sched/
         credit.cpp
+
+David  22 June 2010
+	- client: don't attach to a project if the account manager
+		has set the "detach when done" flag.
+
+	client/
+		acct_mgr.cpp
