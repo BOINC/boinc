@@ -490,7 +490,15 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                         acct.url.c_str(), acct.authenticator.c_str(), "", true
                     );
                     if (acct.dont_request_more_work.present) {
-                        pp->dont_request_more_work = acct.dont_request_more_work.value;
+                        pp = gstate.lookup_project(acct.url.c_str());
+                        if (pp) {
+                            pp->dont_request_more_work = acct.dont_request_more_work.value;
+                        } else {
+                            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                                "Project not found: %s",
+                                acct.url.c_str()
+                            );
+                        }
                     }
                 }
             }

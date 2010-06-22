@@ -4460,3 +4460,10 @@ David  21 June 2010
             wrapper.cpp
         multi_thread/
             multi_thread.cpp
+
+David  22 June 2010
+	- client: fix crashing bug when account manager returns
+		new project w/ "no more work" flag set
+
+	client/
+		acct_mgr.cpp
