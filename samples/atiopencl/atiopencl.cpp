@@ -6,6 +6,7 @@
  * Author: Tuan Le
  * Date: 06/14/2010
  * University of California, Berkeley
+ * Berkeley Space Sciences Lab
  * tuanle86@berkeley.edu
  */
 
@@ -19,7 +20,7 @@ using std::string;
 int main(int argc, char * argv[]) {
 	int i, retval, lastInversion=0, checkpointExists=0, matrixSize=0;
     double fd;
-    char input_path[512], output_path[512], chkpt_path[512];
+    char input_path[512], output_path[512], chkpt_path[512], buf[256];
     unsigned int mem_size;
     MFILE out;
     FILE* state, *infile;
@@ -39,7 +40,7 @@ int main(int argc, char * argv[]) {
 	retval = boinc_init();
     if (retval) {
         fprintf(stderr, "%s boinc_init returned %d\n",
-            boinc_msg_prefix(), retval
+            boinc_msg_prefix(buf), retval
         );
         exit(retval);
     }
@@ -51,7 +52,7 @@ int main(int argc, char * argv[]) {
     if (!infile) {
         fprintf(stderr,
             "%s Couldn't find input file in boinc\\win_build, resolved name %s.\n",
-            boinc_msg_prefix(), input_path
+            boinc_msg_prefix(buf), input_path
         );
         getchar();
         exit(-1);
@@ -84,10 +85,10 @@ int main(int argc, char * argv[]) {
     
     if (retval) {
         fprintf(stderr, "%s APP: matrix_inversion output open failed:\n",
-            boinc_msg_prefix()
+            boinc_msg_prefix(buf)
         );
         fprintf(stderr, "%s resolved name %s, retval %d\n",
-            boinc_msg_prefix(), output_path, retval
+            boinc_msg_prefix(buf), output_path, retval
         );
         perror("open");
         exit(1);
@@ -96,10 +97,10 @@ int main(int argc, char * argv[]) {
 #ifdef APP_GRAPHICS
     // create shared mem segment for graphics, and arrange to update it
     //
-    shmem = (UC_SHMEM*)boinc_graphics_make_shmem("uppercase", sizeof(UC_SHMEM));
+    shmem = (UC_SHMEM*)boinc_graphics_make_shmem("matrix_inversion", sizeof(UC_SHMEM));
     if (!shmem) {
         fprintf(stderr, "%s failed to create shared mem segment\n",
-            boinc_msg_prefix()
+            boinc_msg_prefix(buf)
         );
     }
     update_shmem();
@@ -108,7 +109,7 @@ int main(int argc, char * argv[]) {
 
     if (checkpointExists != 1) { //checkpoint file is not found.
 		matrixSize=getMatrixSize(infile);
-		printf("Matrix matrixSize: %d\n",matrixSize);
+		printf("Matrix Size: width = height = %d\n",matrixSize);
 		width=height=matrixSize;
 
 		// Initialize Host application
@@ -156,15 +157,14 @@ int main(int argc, char * argv[]) {
             while (1) boinc_sleep(1);
         }
 		
-		//if (boinc_time_to_checkpoint()) {
-		if (i==7) {
+		if (boinc_time_to_checkpoint()) {
 			printf("Perform checkpointing at inversion # %d\n",i);
 			
 			//we'll need to write the current matrix to the state file.
 			retval = do_checkpoint(out, i, input, matrixSize); 
             if (retval) {
                 fprintf(stderr, "%s APP: matrix_inversion checkpoint failed %d\n",
-                    boinc_msg_prefix(), retval
+                    boinc_msg_prefix(buf), retval
                 );
                 exit(retval);
             }
@@ -182,7 +182,7 @@ int main(int argc, char * argv[]) {
     retval = out.flush(); //force the output file to be closed.
     if (retval) {
         fprintf(stderr, "%s APP: matrix_inversion flush failed %d\n",
-            boinc_msg_prefix(), retval
+            boinc_msg_prefix(buf), retval
         );
         exit(1);
     }
@@ -210,7 +210,7 @@ int main(int argc, char * argv[]) {
                 retval = do_checkpoint(out, NUM_ITERATIONS, input, matrixSize);
                 if (retval) {
                     fprintf(stderr, "%s APP: maxtrix_inversion checkpoint failed %d\n",
-                        boinc_msg_prefix(), retval
+                        boinc_msg_prefix(buf), retval
                     );
                     exit(1);
                 }
@@ -470,7 +470,7 @@ int initializeCL(void) {
     cl_platform_id platform = NULL;
     status = clGetPlatformIDs(0, NULL, &numPlatforms);
     if(status != CL_SUCCESS) {
-        printf("Error: Getting Platforms. (clGetPlatformsIDs)\n");
+        printf("Error1: Getting Platforms. (clGetPlatformsIDs)\n");
         return 1;
     }
     

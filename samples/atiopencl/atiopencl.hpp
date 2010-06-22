@@ -3,6 +3,7 @@
  * Author: Tuan Le
  * Date: 06/14/2010
  * University of California, Berkeley
+ * Berkeley Space Sciences Lab
  * tuanle86@berkeley.edu
  */
 
@@ -24,7 +25,7 @@
 #define KERNELS_FILEPATH "../samples/atiopencl/atiopencl_kernels.cl"
 #define CHECKPOINT_FILE "matrix_inversion_state"
 #define MATRIX_SIZE 20
-#define NUM_ITERATIONS 50 // execute the kernel NUM_ITERATIONS times
+#define NUM_ITERATIONS 51 // execute the kernel NUM_ITERATIONS times
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -49,8 +50,18 @@
 #include "mfile.h"
 #include "graphics2.h"
 
+struct UC_SHMEM {
+    double update_time;
+    double fraction_done;
+    double cpu_time;
+    BOINC_STATUS status;
+    int countdown;
+        // graphics app sets this to 5 repeatedly,
+        // main program decrements it once/sec.
+        // If it's zero, don't bother updating shmem
+};
+
 #ifdef APP_GRAPHICS
-#include "uc2.h"
 UC_SHMEM* shmem;
 #endif
 

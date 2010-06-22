@@ -3,6 +3,7 @@
  * Author: Tuan Le
  * Date: 06/14/2010
  * University of California, Berkeley
+ * Berkeley Space Sciences Lab
  * tuanle86@berkeley.edu
  */
 
