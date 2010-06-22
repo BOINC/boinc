@@ -4467,3 +4467,10 @@ David  22 June 2010
 
 	client/
 		acct_mgr.cpp
+
+David  22 June 2010
+    - validator: fix a divide by zero (happens w/ old clients
+        that don't report elapsed time)
+
+    sched/
+        credit.cpp

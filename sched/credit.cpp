@@ -403,11 +403,11 @@ int get_pfc(
             );
         }
         bool do_scale = true;
-        if (hav.et.n < MIN_HOST_SAMPLES) {
+        if (hav.et.n < MIN_HOST_SAMPLES || (hav.et.get_avg() <= 0)) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] old client: no host scaling - too few samples %f\n",
+                    "[credit] [RESULT#%d] old client: no host scaling - zero or too few samples %f\n",
                     r.id, hav.et.n
                 );
             }
@@ -425,7 +425,7 @@ int get_pfc(
             }
         }
         if (do_scale) {
-            double s = r.cpu_time/(hav.et.get_avg()*wu.rsc_fpops_est);
+            double s = r.cpu_time / (hav.et.get_avg()*wu.rsc_fpops_est);
             pfc *= s;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
@@ -487,7 +487,7 @@ int get_pfc(
         //
         if (app.min_avg_pfc) {
             bool do_scale = true;
-            if (hav.pfc.n < MIN_HOST_SAMPLES || hav.pfc.get_avg()==0) {
+            if (hav.pfc.n < MIN_HOST_SAMPLES || hav.pfc.get_avg()<=0) {
                 do_scale = false;
                 if (config.debug_credit) {
                     log_messages.printf(MSG_NORMAL,
@@ -589,7 +589,7 @@ int get_pfc(
                 );
             }
         }
-        if (do_scale && hav.pfc.get_avg() == 0) {
+        if (do_scale && hav.pfc.get_avg() <= 0) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
@@ -676,6 +676,7 @@ int get_pfc(
 
 // compute the average of some numbers,
 // where each value is weighted by the sum of the other values.
+// (reduces the weight of large outliers)
 //
 double low_average(vector<double>& v) {
     int i;
