@@ -26,6 +26,7 @@
 #include "AdvancedFrame.h"
 #include "BOINCTaskCtrl.h"
 #include "ViewNotices.h"
+#include "NoticeListCtrl.h"
 #include "Events.h"
 #include "error_numbers.h"
 
@@ -62,7 +63,7 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_NOTIFICATIONSVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
 
-	m_pHtmlPane = new wxHtmlWindow(this, ID_HTML_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL);
+	m_pHtmlPane = new wxHtmlWindow(this, ID_LIST_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL);
 	wxASSERT(m_pHtmlPane);
 
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
