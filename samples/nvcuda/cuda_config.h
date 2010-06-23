@@ -1,3 +1,9 @@
+/*
+ * Tuan Le
+ * University of California, Berkeley
+ * Berkeley Space Sciences Lab
+ * tuanle86@berkeley.edu
+ */
 
 #ifdef DOUBLE_PRECISION
 #define REAL            double
@@ -8,8 +14,6 @@
 #define jREAL           jfloat
 #define jREALArray           jfloatArray
 #endif
-
-
 
 inline void __cudaSafeCall( int err, const char *file, const int line )
 {

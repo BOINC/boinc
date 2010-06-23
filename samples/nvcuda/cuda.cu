@@ -1,22 +1,7 @@
 /*
- *    This program is free software; you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation; either version 2 of the License, or
- *    (at your option) any later version.
- *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
- *
- *    You should have received a copy of the GNU General Public License
- *    along with this program; if not, write to the Free Software
- *    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
-
-/*
- * cuda.cu
- * Copyright (C) 2010 Tuan Le
+ * Tuan Le
+ * University of California, Berkeley
+ * Berkeley Space Sciences Lab
  * tuanle86@berkeley.edu
  */
 
@@ -45,6 +30,17 @@
 #include "mfile.h"
 #include "graphics2.h"
 
+struct UC_SHMEM {
+    double update_time;
+    double fraction_done;
+    double cpu_time;
+    BOINC_STATUS status;
+    int countdown;
+        // graphics app sets this to 5 repeatedly,
+        // main program decrements it once/sec.
+        // If it's zero, don't bother updating shmem
+};
+
 #ifdef APP_GRAPHICS
 #include "uc2.h"
 UC_SHMEM* shmem;
@@ -59,7 +55,7 @@ using std::string;
 
 
 // execute the kernel NUM_ITERATIONS times
-#define NUM_ITERATIONS 19
+#define NUM_ITERATIONS 51
 
 bool run_slow = false;
 bool early_exit = false;
@@ -143,13 +139,13 @@ int main(int argc, char** argv)
 {   
     int i, retval, lastInversion=0, checkpointExists=0, dimension=0;
     double fd;
-    char input_path[512], output_path[512], chkpt_path[512];
+    char input_path[512], output_path[512], chkpt_path[512], buf[256];
     REAL* h_idata;
     unsigned int mem_size;
     MFILE out;
     FILE* state, *infile;
     
-    //generateRandomInputFile(MATRIX_SIZE); //call this if you don't want to construct the input file manually
+    generateRandomInputFile(MATRIX_SIZE); //call this if you don't want to construct the input file manually
 
     for (i=0; i<argc; i++) {
         if (!strcmp(argv[i], "-early_exit")) early_exit = true;
@@ -164,7 +160,7 @@ int main(int argc, char** argv)
 	retval = boinc_init();
     if (retval) {
         fprintf(stderr, "%s boinc_init returned %d\n",
-            boinc_msg_prefix(), retval
+            boinc_msg_prefix(buf), retval
         );
         exit(retval);
     }
@@ -176,7 +172,7 @@ int main(int argc, char** argv)
     if (!infile) {
         fprintf(stderr,
             "%s Couldn't find input file, resolved name %s.\n",
-            boinc_msg_prefix(), input_path
+            boinc_msg_prefix(buf), input_path
         );
         getchar();
         exit(-1);
@@ -210,10 +206,10 @@ int main(int argc, char** argv)
     
     if (retval) {
         fprintf(stderr, "%s APP: matrix_inversion output open failed:\n",
-            boinc_msg_prefix()
+            boinc_msg_prefix(buf)
         );
         fprintf(stderr, "%s resolved name %s, retval %d\n",
-            boinc_msg_prefix(), output_path, retval
+            boinc_msg_prefix(buf), output_path, retval
         );
         perror("open");
         exit(1);
@@ -222,10 +218,10 @@ int main(int argc, char** argv)
 #ifdef APP_GRAPHICS
     // create shared mem segment for graphics, and arrange to update it
     //
-    shmem = (UC_SHMEM*)boinc_graphics_make_shmem("uppercase", sizeof(UC_SHMEM));
+    shmem = (UC_SHMEM*)boinc_graphics_make_shmem("matrix_inversion", sizeof(UC_SHMEM));
     if (!shmem) {
         fprintf(stderr, "%s failed to create shared mem segment\n",
-            boinc_msg_prefix()
+            boinc_msg_prefix(buf)
         );
     }
     update_shmem();
@@ -276,7 +272,7 @@ int main(int argc, char** argv)
 			retval = do_checkpoint(out, i, h_idata, dimension); 
             if (retval) {
                 fprintf(stderr, "%s APP: matrix_inversion checkpoint failed %d\n",
-                    boinc_msg_prefix(), retval
+                    boinc_msg_prefix(buf), retval
                 );
                 exit(retval);
             }
@@ -296,7 +292,7 @@ int main(int argc, char** argv)
     retval = out.flush(); //force the output file to be closed.
     if (retval) {
         fprintf(stderr, "%s APP: matrix_inversion flush failed %d\n",
-            boinc_msg_prefix(), retval
+            boinc_msg_prefix(buf), retval
         );
         exit(1);
     }
@@ -315,7 +311,7 @@ int main(int argc, char** argv)
                 retval = do_checkpoint(out, NUM_ITERATIONS, h_idata, dimension);
                 if (retval) {
                     fprintf(stderr, "%s APP: maxtrix_inversion checkpoint failed %d\n",
-                        boinc_msg_prefix(), retval
+                        boinc_msg_prefix(buf), retval
                     );
                     exit(1);
                 }

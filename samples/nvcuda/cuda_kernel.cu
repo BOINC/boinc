@@ -1,3 +1,9 @@
+/*
+ * Tuan Le
+ * University of California, Berkeley
+ * Berkeley Space Sciences Lab
+ * tuanle86@berkeley.edu
+ */
 
 // When VERIFY is defined, the sum of squared errors is calculated between the
 // identity matrix and the product A * incerse(A). For debugging...
@@ -21,7 +27,7 @@ void mathdispAI(const REAL *mat, int lda, int MAT_SIZE_h) {
 } // mathdisp2
 
 void mathdispAId(const REAL * AId, int lda, int n) {
-	REAL * AI = new REAL[n*lda*2];
+	REAL * AI = (REAL *)malloc(sizeof(REAL)*(n*lda*2));
 	cudaMemcpy(AI,AId,sizeof(REAL)*n*lda*2,cudaMemcpyDeviceToHost);
 	mathdispAI(AI, lda, n);
 	delete [] AI;
@@ -90,7 +96,7 @@ fprintf(stderr,"starting inversion n = %d ", n);
 
     int lda = ((n+15)&~15|16);
 //lda=n;
-	REAL * AI = new REAL[n*lda*2];
+	REAL * AI = (REAL *)malloc(sizeof(REAL)*(n*lda*2));
 	memset(AI,0,sizeof(REAL)*n*lda*2);
 	for (int i = 0; i < n; i++) {
 		memcpy(&AI[lda*i*2], &A[n*i], sizeof(REAL)*n);
