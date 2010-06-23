@@ -4513,5 +4513,4 @@ Rom    23 June 2010
     clientgui/
         NoticeListCtrl.cpp, .h
         ProjectListCtrl.cpp
-    clientgui/
         ViewNotices.cpp, .h
