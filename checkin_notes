@@ -4514,3 +4514,12 @@ Rom    23 June 2010
         NoticeListCtrl.cpp, .h
         ProjectListCtrl.cpp
         ViewNotices.cpp, .h
+
+Charlie 23 Jun 2010
+    - MGR: Fix order of items displayed by NoticeListCtrl (newest first.)
+    - MGR: Update Mac accessibility for new NoticeListCtrl.
+
+    clientgui/
+        NoticeListCtrl.cpp
+        mac/
+            MacAccessiblity.cpp, .h

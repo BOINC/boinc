@@ -541,7 +541,7 @@ bool CNoticeListCtrl::Add(
     pItem->SetCategory( strCategory );
     pItem->SetArrivalTime( strArrivalTime );
 
-    m_Items.insert(m_Items.begin(), pItem);
+    m_Items.push_back(pItem);
     SetItemCount(m_Items.size());
 
     return true;

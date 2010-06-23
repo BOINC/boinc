@@ -29,6 +29,7 @@
 #include "BOINCListCtrl.h"
 #include "DlgEventLogListCtrl.h"
 #include "ProjectListCtrl.h"
+#include "NoticeListCtrl.h"
 #include "ViewStatistics.h"
 #include "wxPieCtrl.h"
 #include "sg_BoincSimpleGUI.h"
@@ -205,6 +206,34 @@ void CProjectListCtrlAccessible::SetupMacAccessibilitySupport() {
 
 
 void CProjectListCtrlAccessible::RemoveMacAccessibilitySupport() {
+    if (m_plistAccessibilityEventHandlerRef) {
+        ::RemoveEventHandler(m_plistAccessibilityEventHandlerRef);
+        m_plistAccessibilityEventHandlerRef = NULL;
+   }
+}
+
+
+void CNoticeListCtrlAccessible::SetupMacAccessibilitySupport() {
+    OSErr       err;
+
+    CNoticeListCtrl* pCtrl = wxDynamicCast(mp_win, CNoticeListCtrl);
+    wxASSERT(pCtrl);
+    
+    if (pCtrl)
+    {
+        m_listView = (HIViewRef)pCtrl->GetHandle();
+        err = HIViewSetEnabled(m_listView, true);
+    
+        err = InstallHIObjectEventHandler((HIObjectRef)m_listView, NewEventHandlerUPP(AttachListAccessibilityEventHandler), 
+                                sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
+                                                        this, &m_plistAccessibilityEventHandlerRef);
+    } else {
+        m_plistAccessibilityEventHandlerRef =  NULL;
+    }
+}
+
+
+void CNoticeListCtrlAccessible::RemoveMacAccessibilitySupport() {
     if (m_plistAccessibilityEventHandlerRef) {
         ::RemoveEventHandler(m_plistAccessibilityEventHandlerRef);
         m_plistAccessibilityEventHandlerRef = NULL;
