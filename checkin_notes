@@ -4481,3 +4481,11 @@ David  22 June 2010
 
 	client/
 		acct_mgr.cpp
+
+Charlie 21 Jun 2010
+    MGR: save host name (from host.domain_name) instead of CPID when 
+        saving arrival time of last read notice; wait until we have 
+        host.domain_name before checking for unread messages. 
+                
+    clientgui/
+        MainDocument.cpp

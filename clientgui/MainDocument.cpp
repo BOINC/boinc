@@ -396,7 +396,7 @@ CMainDocument::CMainDocument() : rpc(this) {
 
     m_iMessageSequenceNumber = 0;
     m_iNoticeSequenceNumber = 0;
-    m_iLastReadNoticeSequenceNumber = 0;
+    m_iLastReadNoticeSequenceNumber = -1;
     m_iLastReadNoticeArrivalTime = 0.0;
     m_iNumberUnreadNotices = 0;
 
@@ -1788,6 +1788,11 @@ int CMainDocument::CachedNoticeUpdate() {
     in_this_func = true;
 
     if (IsConnected()) {
+        // Can't look up previous last read message until we know machine name
+        if (!strlen(host.domain_name)) {
+            goto done;
+        }
+        
         // rpc.get_messages is now called from RunPeriodicRPCs()
         if (m_iGet_notices_rpc_result) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedNoticeUpdate - Get Notices Failed '%d'"), m_iGet_notices_rpc_result);
@@ -1798,11 +1803,12 @@ int CMainDocument::CachedNoticeUpdate() {
         if (n > 0) {
             m_iNoticeSequenceNumber = notices.notices[0]->seqno;
             
-            if (m_iLastReadNoticeSequenceNumber == 0) {
+            if (m_iLastReadNoticeSequenceNumber < 0) {
+                m_iLastReadNoticeSequenceNumber = 0;    // Do this only once
                 RestoreUnreadNoticeInfo();
             }
 
-            if (m_iLastReadNoticeSequenceNumber) {
+            if (m_iLastReadNoticeSequenceNumber > 0) {
                 pNotice = NoticeWithSeqNumLEThan(m_iLastReadNoticeSequenceNumber);
                 if (pNotice) {
                     m_iLastReadNoticeSequenceNumber = pNotice->seqno;
@@ -1862,11 +1868,12 @@ done:
 void CMainDocument::SaveUnreadNoticeInfo() {
     wxString        strBaseConfigLocation = wxString(wxT("/Notices/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxString        strHostCPID = wxString(host.host_cpid, wxConvUTF8, strlen(host.host_cpid));
+    wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
+    wxString        strHostName = strDomainName.AfterLast(wxFileName::GetPathSeparator());
     wxString        arrivalTime;
     NOTICE*         pNotice = NULL;
     
-    pConfig->SetPath(strBaseConfigLocation + strHostCPID);
+    pConfig->SetPath(strBaseConfigLocation + strHostName);
     pNotice = NoticeWithSeqNumLEThan(m_iLastReadNoticeSequenceNumber);
     if (pNotice) {
         arrivalTime.Printf(wxT("%f"), pNotice->arrival_time);
@@ -1879,11 +1886,12 @@ void CMainDocument::RestoreUnreadNoticeInfo() {
     wxString        strBaseConfigLocation = wxString(wxT("/Notices/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxString        arrivalTime = wxEmptyString;
-    wxString        strHostCPID = wxString(host.host_cpid, wxConvUTF8, strlen(host.host_cpid));
+    wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
+    wxString        strHostName = strDomainName.AfterLast(wxFileName::GetPathSeparator());
     double          lastReadNoticeTime;
     int             i, n = GetNoticeCount();
     
-    pConfig->SetPath(strBaseConfigLocation + strHostCPID);
+    pConfig->SetPath(strBaseConfigLocation + strHostName);
     if (pConfig->Read(wxT("lastReadNoticeTime"), &arrivalTime)) {
         arrivalTime.ToDouble(&lastReadNoticeTime);
         for (i=0; i<n; ++i) {
@@ -1947,6 +1955,10 @@ int CMainDocument::GetNoticeCount() {
 int CMainDocument::ResetNoticeState() {
     notices.clear();
     m_iNoticeSequenceNumber = 0;
+    m_iLastReadNoticeSequenceNumber = -1;
+    m_iLastReadNoticeArrivalTime = 0.0;
+    m_iNumberUnreadNotices = 0;
+
     return 0;
 }
 
