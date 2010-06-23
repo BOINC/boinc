@@ -4518,8 +4518,13 @@ Rom    23 June 2010
 Charlie 23 Jun 2010
     - MGR: Fix order of items displayed by NoticeListCtrl (newest first.)
     - MGR: Update Mac accessibility for new NoticeListCtrl.
+    - Mac: Update XCode project for new source file NoticeListCtrl.cpp.
+
 
     clientgui/
         NoticeListCtrl.cpp
         mac/
             MacAccessiblity.cpp, .h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

@@ -295,6 +295,7 @@
 		DDB873F70C850BC800E0DE1F /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DDB874470C850D3000E0DE1F /* graphics2_unix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB874450C850D3000E0DE1F /* graphics2_unix.cpp */; };
 		DDB874480C850D3000E0DE1F /* graphics2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB874460C850D3000E0DE1F /* graphics2.cpp */; };
+		DDBB7E7611D2BCD400598DC1 /* NoticeListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBB7E7511D2BCD400598DC1 /* NoticeListCtrl.cpp */; };
 		DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */; };
 		DDBD51760C169B770074905B /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
@@ -913,6 +914,8 @@
 		DDB874450C850D3000E0DE1F /* graphics2_unix.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = graphics2_unix.cpp; sourceTree = "<group>"; };
 		DDB874460C850D3000E0DE1F /* graphics2.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = graphics2.cpp; sourceTree = "<group>"; };
 		DDB8D5A5081FC8C700A5A1E8 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postinstall; path = ../mac_installer/postinstall; sourceTree = SOURCE_ROOT; };
+		DDBB7E7511D2BCD400598DC1 /* NoticeListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NoticeListCtrl.cpp; path = ../clientgui/NoticeListCtrl.cpp; sourceTree = SOURCE_ROOT; };
+		DDBB7E7711D2BCF100598DC1 /* NoticeListCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoticeListCtrl.h; path = ../clientgui/NoticeListCtrl.h; sourceTree = SOURCE_ROOT; };
 		DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = boinc_ss_logo.png; path = ../clientscr/res/boinc_ss_logo.png; sourceTree = SOURCE_ROOT; };
 		DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateEmailAddress.cpp; path = ../clientgui/ValidateEmailAddress.cpp; sourceTree = SOURCE_ROOT; };
 		DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateEmailAddress.h; path = ../clientgui/ValidateEmailAddress.h; sourceTree = SOURCE_ROOT; };
@@ -1383,6 +1386,8 @@
 				DD58C44908F334B500C1DF66 /* NotDetectedPage.h */,
 				DD58C44A08F334B500C1DF66 /* NotFoundPage.cpp */,
 				DD58C44B08F334B500C1DF66 /* NotFoundPage.h */,
+				DDBB7E7511D2BCD400598DC1 /* NoticeListCtrl.cpp */,
+				DDBB7E7711D2BCF100598DC1 /* NoticeListCtrl.h */,
 				DD58C44C08F334B500C1DF66 /* ProjectInfoPage.cpp */,
 				DD58C44D08F334B500C1DF66 /* ProjectInfoPage.h */,
 				DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */,
@@ -2569,6 +2574,7 @@
 				DDE1374210DC60E200161D6B /* DlgEventLog.cpp in Sources */,
 				DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */,
 				DD867B7510DCE77700128AB4 /* notice.cpp in Sources */,
+				DDBB7E7611D2BCD400598DC1 /* NoticeListCtrl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
