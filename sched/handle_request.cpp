@@ -1213,7 +1213,10 @@ void process_request(char* code_sign_key) {
         if (platform) g_request->platforms.list.push_back(platform);
     }
     if (g_request->platforms.list.size() == 0) {
-        sprintf(buf, "platform '%s' not found", g_request->platform.name);
+        sprintf(buf, "%s %s",
+            _("This project doesn't support computers of type"),
+            g_request->platform.name
+        );
         g_reply->insert_message(buf, "high");
         log_messages.printf(MSG_CRITICAL,
             "[HOST#%d] platform '%s' not found\n",

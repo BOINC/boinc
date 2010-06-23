@@ -263,6 +263,7 @@ struct COPROC_ATI : public COPROC {
     COPROC_ATI(): COPROC("ATI"){}
     virtual ~COPROC_ATI(){}
     void get(
+        bool use_all,
         std::vector<std::string>&, std::vector<std::string>&,
         std::vector<int>& ignore_devs
     );

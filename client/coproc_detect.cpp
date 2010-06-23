@@ -97,7 +97,7 @@ void COPROCS::get(
 
 #ifdef _WIN32
     cuda.get(use_all, descs, warnings, ignore_cuda_dev);
-    ati.get(descs, warnings, ignore_ati_dev);
+    ati.get(use_all, descs, warnings, ignore_ati_dev);
 #else
     void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
@@ -109,7 +109,7 @@ void COPROCS::get(
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     } else {
-        ati.get(descs, warnings, ignore_ati_dev);
+        ati.get(use_all, descs, warnings, ignore_ati_dev);
     }
 #endif
     signal(SIGSEGV, old_sig);
@@ -117,6 +117,12 @@ void COPROCS::get(
 }
 
 // return 1/-1/0 if device 1 is more/less/same capable than device 2.
+// factors (decreasing priority):
+// - compute capability
+// - software version
+// - memory
+// - speed
+//
 // If "loose", ignore FLOPS and tolerate small memory diff
 //
 int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool loose) {
@@ -548,6 +554,29 @@ bool COPROC_CUDA::check_running_graphics_app() {
 // http://developer.amd.com/gpu_assets/Stream_Computing_User_Guide.pdf
 // ?? why don't they have HTML docs??
 
+// criteria:
+//
+// - double precision support
+// - local RAM
+// - speed
+//
+int ati_compare(COPROC_ATI& c1, COPROC_ATI& c2, bool loose) {
+    if (c1.attribs.doublePrecision && !c2.attribs.doublePrecision) return 1;
+    if (!c1.attribs.doublePrecision && c2.attribs.doublePrecision) return -1;
+    if (loose) {
+        if (c1.attribs.localRAM> 1.4*c2.attribs.localRAM) return 1;
+        if (c1.attribs.localRAM< .7* c2.attribs.localRAM) return -1;
+        return 0;
+    }
+    if (c1.attribs.localRAM > c2.attribs.localRAM) return 1;
+    if (c1.attribs.localRAM < c2.attribs.localRAM) return -1;
+    double s1 = c1.peak_flops();
+    double s2 = c2.peak_flops();
+    if (s1 > s2) return 1;
+    if (s1 < s2) return -1;
+    return 0;
+}
+
 #ifdef _WIN32
 typedef int (__stdcall *ATI_ATTRIBS) (CALdeviceattribs *attribs, CALuint ordinal);
 typedef int (__stdcall *ATI_CLOSE)(void);
@@ -584,6 +613,7 @@ int (*__calDeviceClose)(CALdevice);
 #endif
 
 void COPROC_ATI::get(
+    bool use_all,
     vector<string>& descs, vector<string>& warnings, vector<int>& ignore_devs
 ) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
@@ -594,6 +624,7 @@ void COPROC_ATI::get(
     bool amdrt_detected = false;
     bool atirt_detected = false;
     int retval;
+    unsigned int i;
 
     attribs.struct_size = sizeof(CALdeviceattribs);
     device = 0;
@@ -787,40 +818,46 @@ void COPROC_ATI::get(
         gpus.push_back(cc);
     }
 
-    // TODO: count only GPUs with as much memory as fastest one,
-    // same as for NVIDIA
+    // shut down, otherwise Lenovo won't be able to switch to low-power GPU
+    //
+    retval = (*__calShutdown)();
+
+    if (!gpus.size()) {
+        warnings.push_back("No ATI GPUs found");
+        return;
+    }
 
     COPROC_ATI best;
     bool first = true;
-    for (unsigned int i=0; i<gpus.size(); i++) {
+    for (i=0; i<gpus.size(); i++) {
+        if (in_vector(gpus[i].device_num, ignore_devs)) continue;
+        if (first) {
+            best = gpus[i];
+            first = false;
+        } else if (ati_compare(gpus[i], best, false) > 0) {
+            best = gpus[i];
+        }
+    }
+
+    best.count = 0;
+    for (i=0; i<gpus.size(); i++) {
         char buf[256], buf2[256];
         gpus[i].description(buf);
         if (in_vector(gpus[i].device_num, ignore_devs)) {
             sprintf(buf2, "ATI GPU %d (ignored by config): %s", gpus[i].device_num, buf);
-        } else {
-            if (first) {
-                best = gpus[i];
-                first = false;
-            } else if (gpus[i].peak_flops() > best.peak_flops()) {
-                best = gpus[i];
-            }
+        } else if (use_all || !ati_compare(gpus[i], best, true)) {
+            best.device_nums[best.count] = gpus[i].device_num;
+            best.count++;
             sprintf(buf2, "ATI GPU %d: %s", gpus[i].device_num, buf);
+        } else {
+            sprintf(buf2, "ATI GPU %d: (not used) %s", gpus[i].device_num, buf);
         }
-        descs.push_back(buf2);
-    }
-    best.count = 0;
-    for (unsigned int i=0; i<gpus.size(); i++) {
-        if (in_vector(gpus[i].device_num, ignore_devs)) continue;
-        best.device_nums[best.count] = i;
-        best.count++;
+        descs.push_back(string(buf2));
     }
 
-    *this = best;
-    strcpy(type, "ATI");
-
-    // shut down, otherwise Lenovo won't be able to switch to low-power GPU
-    //
-    retval = (*__calShutdown)();
+    if (best.count) {
+        *this = best;
+    }
 }
 
 void COPROC_ATI::fake(double ram, int n) {

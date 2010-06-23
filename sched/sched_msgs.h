@@ -43,5 +43,7 @@ public:
 #endif
 };
 
+#define _(x) "_(\""x"\")"
+
 extern SCHED_MSG_LOG log_messages;
 #endif
