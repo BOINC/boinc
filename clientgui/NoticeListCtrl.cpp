@@ -16,31 +16,27 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ProjectListCtrl.h"
+#pragma implementation "NoticeListCtrl.h"
 #endif
 
 #include "stdwx.h"
+#include "Events.h"
 #include "BOINCGUIApp.h"
-#include "BOINCWizards.h"
-#include "ProjectListCtrl.h"
+#include "NoticeListCtrl.h"
 
 ////@begin XPM images
-#include "res/externalweblink.xpm"
-#include "res/nvidiaicon.xpm"
-#include "res/atiicon.xpm"
-#include "res/multicore.xpm"
 ////@end XPM images
 
 
 #ifdef __WXMAC__
 
-CProjectListCtrlAccessible::CProjectListCtrlAccessible(wxWindow* win) {
+CNoticeListCtrlAccessible::CNoticeListCtrlAccessible(wxWindow* win) {
     mp_win = win;
     SetupMacAccessibilitySupport();
 }
 
 
-CProjectListCtrlAccessible::~CProjectListCtrlAccessible() {
+CNoticeListCtrlAccessible::~CNoticeListCtrlAccessible() {
     RemoveMacAccessibilitySupport();
 }
 
@@ -49,15 +45,15 @@ CProjectListCtrlAccessible::~CProjectListCtrlAccessible() {
 #if wxUSE_ACCESSIBILITY || defined(__WXMAC__)
 
 // Gets the name of the specified object.
-wxAccStatus CProjectListCtrlAccessible::GetName(int childId, wxString* name)
+wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name)
 {
     if (childId == wxACC_SELF)
     {
-        *name = wxT("Project List");
+        *name = wxT("Notice List");
     }
     else
     {
-        CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+        CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
         if (pCtrl)
         {
             *name = pCtrl->GetItem(childId - 1)->GetTitle().c_str();
@@ -69,9 +65,9 @@ wxAccStatus CProjectListCtrlAccessible::GetName(int childId, wxString* name)
 
 // Can return either a child object, or an integer
 // representing the child element, starting from 1.
-wxAccStatus CProjectListCtrlAccessible::HitTest(const wxPoint& pt, int* childId, wxAccessible** /*childObject*/)
+wxAccStatus CNoticeListCtrlAccessible::HitTest(const wxPoint& pt, int* childId, wxAccessible** /*childObject*/)
 {
-    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
     if (pCtrl)
     {
         *childId = pCtrl->HitTest(pt);
@@ -83,9 +79,9 @@ wxAccStatus CProjectListCtrlAccessible::HitTest(const wxPoint& pt, int* childId,
 
 
 // Returns the rectangle for this object (id = 0) or a child element (id > 0).
-wxAccStatus CProjectListCtrlAccessible::GetLocation(wxRect& rect, int elementId)
+wxAccStatus CNoticeListCtrlAccessible::GetLocation(wxRect& rect, int elementId)
 {
-    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
     if (pCtrl && (0 == elementId))
     {
         // List control
@@ -125,9 +121,9 @@ wxAccStatus CProjectListCtrlAccessible::GetLocation(wxRect& rect, int elementId)
 
 
 // Gets the number of children.
-wxAccStatus CProjectListCtrlAccessible::GetChildCount(int* childCount)
+wxAccStatus CNoticeListCtrlAccessible::GetChildCount(int* childCount)
 {
-    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
     if (pCtrl)
     {
         *childCount = (int)pCtrl->GetItemCount();
@@ -142,9 +138,9 @@ wxAccStatus CProjectListCtrlAccessible::GetChildCount(int* childCount)
 // or > 0 (the action for a child).
 // Return wxACC_NOT_SUPPORTED if there is no default action for this
 // window (e.g. an edit control).
-wxAccStatus CProjectListCtrlAccessible::DoDefaultAction(int childId)
+wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId)
 {
-    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
     if (pCtrl && (childId != wxACC_SELF))
     {
         // Zero-based array index
@@ -153,11 +149,10 @@ wxAccStatus CProjectListCtrlAccessible::DoDefaultAction(int childId)
         pCtrl->SetSelection(iRealChildId);
 
         // Fire Event 
-        ProjectListCtrlEvent evt( 
-            wxEVT_PROJECTLIST_ITEM_CHANGE, 
-            pCtrl->GetItem(iRealChildId)->GetTitle(),  
-            pCtrl->GetItem(iRealChildId)->GetURL(), 
-            true 
+        NoticeListCtrlEvent evt( 
+            wxEVT_NOTICELIST_ITEM_CHANGE, 
+            pCtrl->GetItem(iRealChildId)->GetSeqNo(),  
+            pCtrl->GetItem(iRealChildId)->GetURL() 
         ); 
 #ifdef __WXMAC__
         evt.SetEventObject(pCtrl); 
@@ -169,15 +164,16 @@ wxAccStatus CProjectListCtrlAccessible::DoDefaultAction(int childId)
 
         return wxACC_OK;
     }
+
     // Let the framework handle the other cases.
     return wxACC_NOT_IMPLEMENTED;
 }
 
 
 // Returns the description for this object or a child.
-wxAccStatus CProjectListCtrlAccessible::GetDescription(int childId, wxString* description)
+wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* description)
 {
-    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
     if (pCtrl && (childId != wxACC_SELF))
     {
         *description = pCtrl->GetItem(childId - 1)->GetDescription().c_str();
@@ -191,11 +187,11 @@ wxAccStatus CProjectListCtrlAccessible::GetDescription(int childId, wxString* de
 #ifndef __WXMAC__
 
 // Navigates from fromId to toId/toObject.
-wxAccStatus CProjectListCtrlAccessible::Navigate(
+wxAccStatus CNoticeListCtrlAccessible::Navigate(
     wxNavDir navDir, int fromId, int* toId, wxAccessible** toObject
 ) {
 
-    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
     *toObject = NULL;
 
     if (0 != fromId)
@@ -268,9 +264,9 @@ wxAccStatus CProjectListCtrlAccessible::Navigate(
 // The retrieved string describes the action that is performed on an object,
 // not what the object does as a result. For example, a toolbar button that prints
 // a document has a default action of "Press" rather than "Prints the current document."
-wxAccStatus CProjectListCtrlAccessible::GetDefaultAction(int childId, wxString* actionName)
+wxAccStatus CNoticeListCtrlAccessible::GetDefaultAction(int childId, wxString* actionName)
 {
-    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
     if (pCtrl && (childId != wxACC_SELF))
     {
         *actionName = _("Click");
@@ -282,7 +278,7 @@ wxAccStatus CProjectListCtrlAccessible::GetDefaultAction(int childId, wxString* 
 
 
 // Returns a role constant.
-wxAccStatus CProjectListCtrlAccessible::GetRole(int childId, wxAccRole* role)
+wxAccStatus CNoticeListCtrlAccessible::GetRole(int childId, wxAccRole* role)
 {
     if (childId == wxACC_SELF)
     {
@@ -297,7 +293,7 @@ wxAccStatus CProjectListCtrlAccessible::GetRole(int childId, wxAccRole* role)
 
 
 // Returns a role constant.
-wxAccStatus CProjectListCtrlAccessible::GetState(int childId, long* state)
+wxAccStatus CNoticeListCtrlAccessible::GetState(int childId, long* state)
 {
     if (childId == wxACC_SELF)
     {
@@ -305,7 +301,7 @@ wxAccStatus CProjectListCtrlAccessible::GetState(int childId, long* state)
     }
     else
     {
-        CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+        CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
         if (pCtrl && (pCtrl->IsSelected(childId - 1)))
         {
             *state = wxACC_STATE_SYSTEM_SELECTABLE |
@@ -331,7 +327,7 @@ wxAccStatus CProjectListCtrlAccessible::GetState(int childId, long* state)
 
 
 // Selects the object or child.
-wxAccStatus CProjectListCtrlAccessible::Select(int , wxAccSelectionFlags )
+wxAccStatus CNoticeListCtrlAccessible::Select(int , wxAccSelectionFlags )
 {
     // Let the framework handle the other cases.
     return wxACC_NOT_IMPLEMENTED;
@@ -346,7 +342,7 @@ wxAccStatus CProjectListCtrlAccessible::Select(int , wxAccSelectionFlags )
 // - an integer representing the selected child element,
 //   or 0 if this object is selected (GetType() == wxT("long"))
 // - a "void*" pointer to a wxAccessible child object
-wxAccStatus CProjectListCtrlAccessible::GetSelections(wxVariant* )
+wxAccStatus CNoticeListCtrlAccessible::GetSelections(wxVariant* )
 {
     // Let the framework handle the other cases.
     return wxACC_NOT_IMPLEMENTED;
@@ -356,57 +352,56 @@ wxAccStatus CProjectListCtrlAccessible::GetSelections(wxVariant* )
 
 
 /*!
- * CProjectListItem type definition
+ * CNoticeListItem type definition
  */
-IMPLEMENT_DYNAMIC_CLASS( CProjectListItem, wxObject )
+IMPLEMENT_DYNAMIC_CLASS( CNoticeListItem, wxObject )
 
 
 /*!
- * CProjectListCtrl event definitions
+ * CNoticeListCtrl event definitions
  */
-DEFINE_EVENT_TYPE( wxEVT_PROJECTLIST_ITEM_CHANGE )
-DEFINE_EVENT_TYPE( wxEVT_PROJECTLIST_ITEM_DISPLAY )
+DEFINE_EVENT_TYPE( wxEVT_NOTICELIST_ITEM_CHANGE )
+DEFINE_EVENT_TYPE( wxEVT_NOTICELIST_ITEM_DISPLAY )
 
 
 /*!
- * CProjectListCtrl type definition
+ * CNoticeListCtrl type definition
  */
-IMPLEMENT_DYNAMIC_CLASS( CProjectListCtrl, wxHtmlListBox )
-IMPLEMENT_DYNAMIC_CLASS( ProjectListCtrlEvent, wxNotifyEvent )
+IMPLEMENT_DYNAMIC_CLASS( CNoticeListCtrl, wxHtmlListBox )
+IMPLEMENT_DYNAMIC_CLASS( NoticeListCtrlEvent, wxNotifyEvent )
 
 
 /*!
- * CProjectListCtrl event table definition
+ * CNoticeListCtrl event table definition
  */
  
-BEGIN_EVENT_TABLE( CProjectListCtrl, wxHtmlListBox )
+BEGIN_EVENT_TABLE( CNoticeListCtrl, wxHtmlListBox )
 
-////@begin CProjectListCtrl event table entries
-    EVT_LISTBOX(ID_PROJECTLISTCTRL, CProjectListCtrl::OnSelected)
-    EVT_HTML_CELL_CLICKED( ID_PROJECTLISTCTRL, CProjectListCtrl::OnClicked )
-    EVT_LISTBOX_DCLICK(ID_PROJECTLISTCTRL, CProjectListCtrl::OnDClicked)
-    EVT_HTML_LINK_CLICKED( ID_PROJECTLISTCTRL, CProjectListCtrl::OnLinkClicked )
-    EVT_HTML_CELL_HOVER( ID_PROJECTLISTCTRL, CProjectListCtrl::OnHover )
-////@end CProjectListCtrl event table entries
+////@begin CNoticeListCtrl event table entries
+    EVT_LISTBOX(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnSelected)
+    EVT_LISTBOX_DCLICK(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnDClicked)
+    EVT_HTML_CELL_CLICKED(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnClicked)
+    EVT_HTML_LINK_CLICKED(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnLinkClicked)
+////@end CNoticeListCtrl event table entries
  
 END_EVENT_TABLE()
  
 /*!
- * CProjectListCtrl constructors
+ * CNoticeListCtrl constructors
  */
  
-CProjectListCtrl::CProjectListCtrl( )
+CNoticeListCtrl::CNoticeListCtrl( )
 {
 }
  
-CProjectListCtrl::CProjectListCtrl( wxWindow* parent )
+CNoticeListCtrl::CNoticeListCtrl( wxWindow* parent )
 {
     Create( parent );
 }
  
  
  #ifdef __WXMAC__
-CProjectListCtrl::~CProjectListCtrl( )
+CNoticeListCtrl::~CNoticeListCtrl( )
 {
     if (m_accessible) {
         delete m_accessible;
@@ -415,43 +410,37 @@ CProjectListCtrl::~CProjectListCtrl( )
 #endif
 
 /*!
- * CProjectList creator
+ * CNoticeListCtrl creator
  */
  
-bool CProjectListCtrl::Create( wxWindow* parent )
+bool CNoticeListCtrl::Create( wxWindow* parent )
 {
-////@begin CProjectListCtrl member initialisation
-////@end CProjectListCtrl member initialisation
+////@begin CNoticeListCtrl member initialisation
+////@end CNoticeListCtrl member initialisation
 
-////@begin CProjectListCtrl creation
-    wxHtmlListBox::Create( parent, ID_PROJECTLISTCTRL, wxDefaultPosition, wxDefaultSize,
+////@begin CNoticeListCtrl creation
+    wxHtmlListBox::Create( parent, ID_LIST_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize,
         wxSUNKEN_BORDER | wxTAB_TRAVERSAL );
 
 #if wxUSE_ACCESSIBILITY
-    SetAccessible(new CProjectListCtrlAccessible(this));
+    SetAccessible(new CNoticeListCtrlAccessible(this));
 #endif
 #ifdef __WXMAC__
-    m_accessible = new CProjectListCtrlAccessible(this);
+    m_accessible = new CNoticeListCtrlAccessible(this);
 #endif
-
-    wxMemoryFSHandler::AddFile(wxT("webexternallink.xpm"), wxBitmap(externalweblink_xpm), wxBITMAP_TYPE_XPM);
-    wxMemoryFSHandler::AddFile(wxT("nvidiaicon.xpm"), wxBitmap(nvidiaicon_xpm), wxBITMAP_TYPE_XPM);
-    wxMemoryFSHandler::AddFile(wxT("atiicon.xpm"), wxBitmap(atiicon_xpm), wxBITMAP_TYPE_XPM);
-    wxMemoryFSHandler::AddFile(wxT("multicore.xpm"), wxBitmap(multicore_xpm), wxBITMAP_TYPE_XPM);
-////@end CProjectListCtrl creation
+////@end CNoticeListCtrl creation
 
     return TRUE;
 }
 
 
-void CProjectListCtrl::OnSelected( wxCommandEvent& event )
+void CNoticeListCtrl::OnSelected( wxCommandEvent& event )
 {
     // Fire Event 
-    ProjectListCtrlEvent evt( 
-        wxEVT_PROJECTLIST_ITEM_CHANGE, 
-        m_Items[event.GetInt()]->GetTitle(),  
-        m_Items[event.GetInt()]->GetURL(), 
-        m_Items[event.GetInt()]->IsPlatformSupported() 
+    NoticeListCtrlEvent evt( 
+        wxEVT_NOTICELIST_ITEM_CHANGE, 
+        event.GetInt(),  
+        m_Items[event.GetInt()]->GetURL() 
     ); 
     evt.SetEventObject(this); 
 
@@ -459,26 +448,25 @@ void CProjectListCtrl::OnSelected( wxCommandEvent& event )
 }
 
 
-void CProjectListCtrl::OnClicked( wxHtmlCellEvent& event )
+void CNoticeListCtrl::OnClicked( wxHtmlCellEvent& event )
 {
     event.Skip();
 }
 
 
-void CProjectListCtrl::OnDClicked( wxCommandEvent& event )
+void CNoticeListCtrl::OnDClicked( wxCommandEvent& event )
 {
     event.Skip();
 }
 
 
-void CProjectListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
+void CNoticeListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
 {
     // Fire Event 
-    ProjectListCtrlEvent evt( 
-        wxEVT_PROJECTLIST_ITEM_DISPLAY, 
-        wxEmptyString,  
-        event.GetLinkInfo().GetHref(), 
-        true 
+    NoticeListCtrlEvent evt( 
+        wxEVT_NOTICELIST_ITEM_DISPLAY, 
+        event.GetInt(),  
+        m_Items[event.GetInt()]->GetURL() 
     ); 
     evt.SetEventObject(this); 
 
@@ -486,80 +474,44 @@ void CProjectListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
 }
 
 
-void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
+wxString CNoticeListCtrl::OnGetItem(size_t i) const
 {
-    long i = 0;
-    wxHtmlCell* pCell = event.GetCell();
-    wxHtmlCell* pRootCell = pCell->GetRootCell();
-    wxString strMulticoreIcon = wxT("multicore");
-    wxString strNvidiaIcon = wxT("nvidiaicon");
-    wxString strATIIcon = wxT("atiicon");
-    wxString strWebsiteIcon = wxT("website");
-    wxString strTooltip = wxEmptyString;
-
-    wxHtmlCell* pAnchor = pCell->GetParent()->GetFirstChild();
-
-    if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strMulticoreIcon)) {
-        strTooltip = _("Multicore CPU Supported");
-    } else if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strNvidiaIcon)) {
-        strTooltip = _("Nvidia GPU Supported");
-    } else if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strATIIcon)) {
-        strTooltip = _("ATI GPU Supported");
-    } else if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strWebsiteIcon)) {
-        strTooltip = _("Project Website");
-    } else {
-        // Convert current HTML cell into an array index
-        pRootCell->GetId().ToLong(&i);
-
-        strTooltip = m_Items[i]->GetDescription();
-    }
-
-    // Set Tooltip to the item currently being hovered over
-    SetToolTip(strTooltip);
-}
-
-
-wxString CProjectListCtrl::OnGetItem(size_t i) const
-{
-    wxString strTopRow = wxEmptyString;
     wxString strBuffer = wxEmptyString;
+    wxString strTemp = wxEmptyString;
 
+    if (!m_Items[i]->GetTitle().IsEmpty()) {
+        strTemp.Printf(
+            wxT("<b>%s</b><br>"),
+            m_Items[i]->GetTitle().c_str()
+        );
+        strBuffer += strTemp;
+    }
 
-    //
-    // Top Row
-    // 
-    strTopRow += wxT("<table cellpadding=0 cellspacing=1>");
+    strBuffer += m_Items[i]->GetDescription();
 
-    strTopRow += wxT("<tr>");
+    strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
 
-    strBuffer.Printf(
-        wxT("<td width=100%%>%s</td>"),
-        m_Items[i]->GetTitle().c_str()
-    );
-    strTopRow += strBuffer;
+    if (!m_Items[i]->GetProjectName().IsEmpty()) {
+        strTemp.Printf(
+            wxT("From %s<br>"),
+            m_Items[i]->GetProjectName().c_str()
+        );
+        strBuffer += strTemp;
+    }
+
+    strBuffer += m_Items[i]->GetArrivalTime().Format();
+
+    if (!m_Items[i]->GetURL().IsEmpty()) {
+        strTemp.Printf(
+            wxT(" &middot; <a target=_new href=%s>more...</a> "),
+            m_Items[i]->GetURL().c_str()
+        );
+        strBuffer += strTemp;
+    }
+
+    strBuffer += wxT("</font><hr>\n");
     
-    if (m_Items[i]->IsMulticoreSupported()) {
-        strTopRow += wxT("<td><a name=\"multicore\"><img height=16 width=16 src=\"memory:multicore.xpm\"></a></td>");
-    }
-
-    if (m_Items[i]->IsNvidiaGPUSupported()) {
-        strTopRow += wxT("<td><a name=\"nvidiaicon\"><img height=16 width=16 src=\"memory:nvidiaicon.xpm\"></a></td>");
-    }
-
-    if (m_Items[i]->IsATIGPUSupported()) {
-        strTopRow += wxT("<td><a name=\"atiicon\"><img height=16 width=16 src=\"memory:atiicon.xpm\"></a></td>");
-    }
-
-    strBuffer.Printf(
-        wxT("<td><a name=\"website\"href=\"%s\"><img height=16 width=16 src=\"memory:webexternallink.xpm\"></a></td>"),
-        m_Items[i]->GetURL().c_str()
-    );
-    strTopRow += strBuffer;
-
-    strTopRow += wxT("</tr>");
-    strTopRow += wxT("</table>");
-
-    return strTopRow;
+    return strBuffer;
 }
 
 
@@ -567,31 +519,9 @@ wxString CProjectListCtrl::OnGetItem(size_t i) const
  * Append a new entry to the project list.
  */
  
-bool CProjectListCtrl::Append(
-    wxString strURL,
-    wxString strTitle,
-    wxString strImage,
-    wxString strDescription,
-    bool bNvidiaGPUSupported,
-    bool bATIGPUSupported,
-    bool bMulticoreSupported,
-    bool bSupported
+bool CNoticeListCtrl::Add(
 )
 {
-    CProjectListItem* pItem = new CProjectListItem();
-
-    pItem->SetURL( strURL );
-    pItem->SetTitle( strTitle );
-    pItem->SetImage( strImage );
-    pItem->SetDescription( strDescription );
-    pItem->SetNvidiaGPUSupported( bNvidiaGPUSupported );
-    pItem->SetATIGPUSupported( bATIGPUSupported );
-    pItem->SetMulticoreSupported( bMulticoreSupported );
-    pItem->SetPlatformSupported( bSupported );
-
-    m_Items.push_back(pItem);
-    SetItemCount(m_Items.size());
-
     return true;
 }
 
@@ -600,7 +530,7 @@ bool CProjectListCtrl::Append(
  * Return the project list entry at a given index.
  */
  
-CProjectListItem* CProjectListCtrl::GetItem( 
+CNoticeListItem* CNoticeListCtrl::GetItem( 
     int iIndex
 )
 {
@@ -612,7 +542,7 @@ CProjectListItem* CProjectListCtrl::GetItem(
  * Return the total height of all the client items.
  */
  
-wxCoord CProjectListCtrl::GetTotalClientHeight()
+wxCoord CNoticeListCtrl::GetTotalClientHeight()
 {
     return EstimateTotalHeight();
 }

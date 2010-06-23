@@ -101,7 +101,7 @@
 #define ID_PIECTRL_RESOURCEUTILIZATIONVIEW      7004
 #define ID_PIECTRL_RESOURCEUTILIZATIONVIEWTOTAL	7005
 #define ID_LIST_STATISTICSVIEW                  7006
-#define ID_HTML_NOTIFICATIONSVIEW               7007
+#define ID_LIST_NOTIFICATIONSVIEW               7007
 #define ID_TASK_BASE                            8000
 #define ID_TASK_NOTIFICATIONSVIEW               8000
 #define ID_TASK_PROJECTSVIEW                    8001

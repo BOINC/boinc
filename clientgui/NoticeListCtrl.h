@@ -23,6 +23,16 @@
 #endif
 
 
+#ifdef __WXMAC__
+#define wxACC_SELF              0
+#define wxACC_OK                noErr
+#define wxAccStatus             OSStatus
+#define wxACC_NOT_IMPLEMENTED   eventNotHandledErr
+#define wxACC_FALSE             eventNotHandledErr
+#define wxAccessible            wxObject
+#endif
+
+
 /*!
  * CNoticeListItem class declaration
  */
@@ -31,32 +41,52 @@ class CNoticeListItem: public wxObject
 {    
     DECLARE_DYNAMIC_CLASS( CNoticeListItem )
 public:
+
+    int GetSeqNo() const { return m_iSeqNo ; }
+    void SetSeqNo(int value) { m_iSeqNo = value ; }
+
+    wxString GetURL() const { return m_strURL ; }
+    void SetURL(wxString value) { m_strURL = value ; }
+
+    wxString GetTitle() const { return m_strTitle ; }
+    void SetTitle(wxString value) { m_strTitle = value ; }
+
+    wxString GetDescription() const { return m_strDescription ; }
+    void SetDescription(wxString value) { m_strDescription = value ; }
+
+    wxString GetCategory() const { return m_strCategory ; }
+    void SetCategory(wxString value) { m_strCategory = value ; }
+
+    wxString GetProjectName() const { return m_strProjectName ; }
+    void SetProjectName(wxString value) { m_strProjectName = value ; }
+
+    wxDateTime GetArrivalTime() const { return m_dtArrivalTime ; }
+    void SetArrivalTime(wxDateTime value) { m_dtArrivalTime = value ; }
+
 private:
+    int m_iSeqNo;
+    wxString m_strURL;
+    wxString m_strTitle;
+    wxString m_strDescription;
+    wxString m_strCategory;
+    wxString m_strProjectName;
+    wxDateTime m_dtArrivalTime;
 };
 
-#if wxUSE_ACCESSIBILITY || defined(__WXMAC__)
 
-#ifdef __WXMAC__
-
-#define wxACC_SELF              0
-#define wxACC_OK                noErr
-#define wxAccStatus             OSStatus
-#define wxACC_NOT_IMPLEMENTED   eventNotHandledErr
-#define wxACC_FALSE             eventNotHandledErr
-#define wxAccessible            wxObject
-
-class CProjectListCtrlAccessible
+#ifndef __WXMAC__
+class CNoticeListCtrlAccessible : public wxWindowAccessible
 #else
-class CProjectListCtrlAccessible: public wxWindowAccessible
+class CNoticeListCtrlAccessible
 #endif
 {
 public:
 
-#ifdef __WXMAC__
-    CProjectListCtrlAccessible(wxWindow* win);
-    virtual ~CProjectListCtrlAccessible();
+#ifndef __WXMAC__
+    CNoticeListCtrlAccessible(wxWindow* win): wxWindowAccessible(win) {}
 #else
-    CProjectListCtrlAccessible(wxWindow* win): wxWindowAccessible(win) {}
+    CNoticeListCtrlAccessible(wxWindow* win);
+    virtual ~CNoticeListCtrlAccessible();
 #endif
 
     virtual wxAccStatus GetName(int childId, wxString* name);
@@ -85,96 +115,81 @@ public:
 #endif
 };
 
-#endif
-
 
 /*!
- * CProjectListCtrl class declaration
+ * CNoticeListCtrl class declaration
  */
 
-class CProjectListCtrl: public wxHtmlListBox
+class CNoticeListCtrl: public wxHtmlListBox
 {    
-    DECLARE_DYNAMIC_CLASS( CProjectListCtrl )
+    DECLARE_DYNAMIC_CLASS( CNoticeListCtrl )
     DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CProjectListCtrl( );
-
-    CProjectListCtrl( wxWindow* parent );
+    CNoticeListCtrl( );
+    CNoticeListCtrl( wxWindow* parent );
 #ifdef __WXMAC__
-    ~CProjectListCtrl();
+    ~CNoticeListCtrl();
 #endif
 
     /// Creation
     bool Create( wxWindow* parent );
 
-////@begin CProjectListCtrl event handler declarations
+////@begin CNoticeListCtrl event handler declarations
 
     void OnSelected( wxCommandEvent& event );
-    void OnClicked( wxHtmlCellEvent& event );
     void OnDClicked( wxCommandEvent& event );
+    void OnClicked( wxHtmlCellEvent& event );
     void OnLinkClicked( wxHtmlLinkEvent& event );
-    void OnHover( wxHtmlCellEvent& event );
 
-////@end CProjectListCtrl event handler declarations
+////@end CNoticeListCtrl event handler declarations
 
     virtual wxString OnGetItem(size_t i) const;
 
     /// Methods
-    bool Append(
-        wxString strURL,
-        wxString strTitle,
-        wxString strImage,
-        wxString strDescription,
-        bool bNvidiaGPUSupported,
-        bool bATIGPUSupported,
-        bool bMulticoreSupported,
-        bool bSupported
+    bool Add(
     );
 
-    CProjectListItem* GetItem( 
+    CNoticeListItem* GetItem( 
         int iIndex
     );
 
     wxCoord GetTotalClientHeight();
 
 private:
-    std::vector<CProjectListItem*> m_Items;
+    std::vector<CNoticeListItem*> m_Items;
 
 #ifdef __WXMAC__
-    CProjectListCtrlAccessible*    m_accessible;
+    CNoticeListCtrlAccessible*    m_accessible;
 #endif
 };
 
 
 /*!
- * ProjectListCtrlEvent class declaration
+ * NoticeListCtrlEvent class declaration
  */
 
-class ProjectListCtrlEvent : public wxNotifyEvent
+class NoticeListCtrlEvent : public wxNotifyEvent
 {
 public:
-    ProjectListCtrlEvent( wxEventType evtType = wxEVT_NULL, wxString strName = wxEmptyString, wxString strURL = wxEmptyString, bool bSupported = false ) :
+    NoticeListCtrlEvent( wxEventType evtType = wxEVT_NULL, int iSeqNo = 0, wxString strURL = wxEmptyString ) :
       wxNotifyEvent( evtType, wxID_ANY )
     {
-        m_strName = strName;
+        m_iSeqNo = iSeqNo;
         m_strURL = strURL;
-        m_bSupported = bSupported;
     } 
 
-    wxString GetName() { return m_strName; };
+    int GetSeqNo() { return m_iSeqNo; };
     wxString GetURL() { return m_strURL; };
-    bool IsSupported() { return m_bSupported; };
 
-    virtual wxNotifyEvent* Clone() const { return new ProjectListCtrlEvent(*this); }
+    virtual wxNotifyEvent* Clone() const { return new NoticeListCtrlEvent(*this); }
 
 private:
-    wxString m_strName;
+    int      m_iSeqNo;
     wxString m_strURL;
-    bool m_bSupported;
 
-    DECLARE_DYNAMIC_CLASS(ProjectListCtrlEvent)
+    DECLARE_DYNAMIC_CLASS(NoticeListCtrlEvent)
 };
 
 // ----------------------------------------------------------------------------
@@ -182,20 +197,20 @@ private:
 // ----------------------------------------------------------------------------
 
 BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EVENT_TYPE( wxEVT_PROJECTLIST_ITEM_CHANGE, 100000 )
-    DECLARE_EVENT_TYPE( wxEVT_PROJECTLIST_ITEM_DISPLAY, 100001 )
+    DECLARE_EVENT_TYPE( wxEVT_NOTICELIST_ITEM_CHANGE, 100000 )
+    DECLARE_EVENT_TYPE( wxEVT_NOTICELIST_ITEM_DISPLAY, 100001 )
 END_DECLARE_EVENT_TYPES()
 
-typedef void (wxEvtHandler::*ProjectListCtrlEventFunction)(ProjectListCtrlEvent&);
+typedef void (wxEvtHandler::*NoticeListCtrlEventFunction)(NoticeListCtrlEvent&);
 
-#define ProjectListCtrlEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(ProjectListCtrlEventFunction, &func)
+#define NoticeListCtrlEventHandler(func) \
+    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(NoticeListCtrlEventFunction, &func)
 
-#define wx__DECLARE_PROJECTLISTEVT(evt, fn) \
-    wx__DECLARE_EVT0(wxEVT_PROJECTLIST_ ## evt, ProjectListCtrlEventHandler(fn))
+#define wx__DECLARE_NOTICELISTEVT(evt, fn) \
+    wx__DECLARE_EVT0(wxEVT_NOTICELIST_ ## evt, NoticeListCtrlEventHandler(fn))
 
-#define EVT_PROJECTLIST_ITEM_CHANGE(fn) wx__DECLARE_PROJECTLISTEVT(ITEM_CHANGE, fn)
-#define EVT_PROJECTLIST_ITEM_DISPLAY(fn) wx__DECLARE_PROJECTLISTEVT(ITEM_DISPLAY, fn)
+#define EVT_NOTICELIST_ITEM_CHANGE(fn) wx__DECLARE_NOTICELISTEVT(ITEM_CHANGE, fn)
+#define EVT_NOTICELIST_ITEM_DISPLAY(fn) wx__DECLARE_NOTICELISTEVT(ITEM_DISPLAY, fn)
 
 
 #endif // _NOTICELISTCTRL_H_

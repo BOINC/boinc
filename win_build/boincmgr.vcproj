@@ -1792,6 +1792,14 @@
 				Name="Views"
 				>
 				<File
+					RelativePath="..\clientgui\BOINCBaseView.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCBaseView.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\BOINCListCtrl.cpp"
 					>
 				</File>
@@ -1860,14 +1868,6 @@
 				Name="Support"
 				>
 				<File
-					RelativePath="..\clientgui\BOINCBaseView.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\BOINCBaseView.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\DlgAdvPreferences.cpp"
 					>
 				</File>
@@ -1905,6 +1905,14 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\DlgSelectComputer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\NoticeListCtrl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\NoticeListCtrl.h"
 					>
 				</File>
 				<File

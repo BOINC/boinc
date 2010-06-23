@@ -36,7 +36,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CViewNotices, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewNotices, CBOINCBaseView)
-    EVT_HTML_LINK_CLICKED(ID_HTML_NOTIFICATIONSVIEW, CViewNotices::OnLinkClicked)
+    EVT_HTML_LINK_CLICKED(ID_LIST_NOTIFICATIONSVIEW, CViewNotices::OnLinkClicked)
 END_EVENT_TABLE ()
 
 
@@ -170,7 +170,6 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
             strcpy(tbuf, "");
             if (strlen(np->title)) {
                 sprintf(tbuf, "<b>%s</b>", np->title);
-
             }
             if (strlen(tbuf)) {
                 strcat(tbuf, "<br>");
