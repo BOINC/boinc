@@ -60,8 +60,8 @@ public:
     wxString GetProjectName() const { return m_strProjectName ; }
     void SetProjectName(wxString value) { m_strProjectName = value ; }
 
-    wxDateTime GetArrivalTime() const { return m_dtArrivalTime ; }
-    void SetArrivalTime(wxDateTime value) { m_dtArrivalTime = value ; }
+    wxString GetArrivalTime() const { return m_strArrivalTime ; }
+    void SetArrivalTime(wxString value) { m_strArrivalTime = value ; }
 
 private:
     int m_iSeqNo;
@@ -70,7 +70,7 @@ private:
     wxString m_strDescription;
     wxString m_strCategory;
     wxString m_strProjectName;
-    wxDateTime m_dtArrivalTime;
+    wxString m_strArrivalTime;
 };
 
 
@@ -149,7 +149,17 @@ public:
 
     /// Methods
     bool Add(
+        int iSeqNo,
+        wxString strProjectName,
+        wxString strURL, 
+        wxString strTitle,
+        wxString strDescription,
+        wxString strCategory,
+        wxString strArrivalTime
     );
+
+    bool IsSeqNoValid( int iSeqNo );
+
 
     CNoticeListItem* GetItem( 
         int iIndex

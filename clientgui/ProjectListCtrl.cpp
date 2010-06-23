@@ -53,7 +53,7 @@ wxAccStatus CProjectListCtrlAccessible::GetName(int childId, wxString* name)
 {
     if (childId == wxACC_SELF)
     {
-        *name = wxT("Project List");
+        *name = _("Project List");
     }
     else
     {

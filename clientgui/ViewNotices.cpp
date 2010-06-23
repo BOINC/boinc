@@ -37,7 +37,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CViewNotices, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewNotices, CBOINCBaseView)
-    EVT_HTML_LINK_CLICKED(ID_LIST_NOTIFICATIONSVIEW, CViewNotices::OnLinkClicked)
+    EVT_NOTICELIST_ITEM_DISPLAY(CViewNotices::OnLinkClicked)
 END_EVENT_TABLE ()
 
 
@@ -63,17 +63,15 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_NOTIFICATIONSVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
 
-	m_pHtmlPane = new wxHtmlWindow(this, ID_LIST_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL);
-	wxASSERT(m_pHtmlPane);
+	m_pHtmlListPane = new CNoticeListCtrl(this);
+	wxASSERT(m_pHtmlListPane);
 
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
-    itemFlexGridSizer->Add(m_pHtmlPane, 1, wxGROW|wxALL, 1);
+    itemFlexGridSizer->Add(m_pHtmlListPane, 1, wxGROW|wxALL, 1);
 
     SetSizer(itemFlexGridSizer);
 
     Layout();
-
-    m_iOldNoticeCount = 0;
 
     pGroup = new CTaskItemGroup(_("News Feeds"));
     m_TaskGroups.push_back(pGroup);
@@ -136,9 +134,12 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotices::OnListRender - Function Begin"));
 
     CMainDocument*  pDoc   = wxGetApp().GetDocument();
-    wxString strHTML;
-    wxString strItems;
-    wxString strTemp;
+    wxString strTitle;
+    wxString strDescription;
+    wxString strCategory;
+    wxString strProjectName;
+    wxString strURL;
+    wxString strArrivalTime;
     wxDateTime dtBuffer;
     int n = 0;
     unsigned int i = 0;
@@ -146,68 +147,55 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-	wxASSERT(m_pHtmlPane);
+	wxASSERT(m_pHtmlListPane);
 
     if (s_bInProgress) return;
     s_bInProgress = true;
 
     n = pDoc->GetNoticeCount();
-    if (n == -1) {
-        strItems +=   _("Retrieving notices...");
-    } else {
-        // Update display only if there is something new
-        if (n == m_iOldNoticeCount) {
-            goto done;
-        }
-        m_iOldNoticeCount = n;
-
-        // Pre-allocate buffer size so string concat is much faster
-        strItems.Alloc(4096*n);
-
-        for (i=0; i < (unsigned int)n; i++) {
+    if (n != -1) {
+        for (i = 0; i < (unsigned int)n; i++) {
             NOTICE* np = pDoc->notice(i);
+
             if (!np) continue;
-            char tbuf[512], buf[256];
-            strcpy(tbuf, "");
-            if (strlen(np->title)) {
-                sprintf(tbuf, "<b>%s</b>", np->title);
+
+            m_pHtmlListPane->Freeze();
+
+            if (!m_pHtmlListPane->IsSeqNoValid(np->seqno)) {
+
+                strProjectName = wxString(np->project_name, wxConvUTF8);
+                strURL = wxString(np->link, wxConvUTF8);
+                strTitle = wxString(process_client_message(np->title), wxConvUTF8);
+                strDescription = wxString(process_client_message(np->description.c_str()), wxConvUTF8);
+                strCategory = wxString(np->category, wxConvUTF8);
+
+                dtBuffer.Set((time_t)np->arrival_time);
+                strArrivalTime = dtBuffer.Format();
+
+                m_pHtmlListPane->Add(
+                    np->seqno,
+                    strProjectName,
+                    strURL, 
+                    strTitle,
+                    strDescription,
+                    strCategory,
+                    strArrivalTime
+                );
             }
-            if (strlen(tbuf)) {
-                strcat(tbuf, "<br>");
-                strItems += wxString(tbuf, wxConvUTF8);
-            }
-            strItems += process_client_message(np->description.c_str());
-            strItems += wxT("<br><font size=-2 color=#8f8f8f>");
-            if (strlen(np->project_name)) {
-                sprintf(buf, "From %s<br>", np->project_name);
-                strItems += wxString(buf, wxConvUTF8);
-            }
-            dtBuffer.Set((time_t)np->arrival_time);
-            strItems += dtBuffer.Format();
-            if (strlen(np->link)) {
-                sprintf(tbuf, " &middot; <a target=_new href=%s>more...</a> ", np->link);
-                strItems += wxString(tbuf, wxConvUTF8);
-            }
-            strItems += wxT("</font><hr>\n");
+
+            m_pHtmlListPane->Thaw();
         }
     }
-    strHTML  = wxT("<html>\n<body>\n");
-    strHTML += strItems;
-    strHTML += wxT("</body>\n</html>\n");
-    m_pHtmlPane->SetFonts(wxT("Sans Serif"), wxT("Courier"), 0);
-    m_pHtmlPane->SetPage(strHTML);
 
-done:
     s_bInProgress = false;
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotices::OnListRender - Function End"));
 }
 
 
-void CViewNotices::OnLinkClicked( wxHtmlLinkEvent& event ) {
-    wxHtmlLinkInfo link = event.GetLinkInfo();
-    if (link.GetHref().StartsWith(wxT("http://"))) {
-		wxLaunchDefaultBrowser(link.GetHref());
+void CViewNotices::OnLinkClicked( NoticeListCtrlEvent& event ) {
+    if (event.GetURL().StartsWith(wxT("http://"))) {
+		wxLaunchDefaultBrowser(event.GetURL());
     }
 }
 

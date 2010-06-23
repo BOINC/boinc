@@ -26,6 +26,10 @@
 #include "BOINCBaseView.h"
 
 
+class CNoticeListCtrl;
+class NoticeListCtrlEvent;
+
+
 class CViewNotices : public CBOINCBaseView {
     DECLARE_DYNAMIC_CLASS( CViewNotices )
 
@@ -42,14 +46,13 @@ public:
     virtual const int       GetViewCurrentViewPage();
 
 protected:
-	wxHtmlWindow*           m_pHtmlPane;
-    int                     m_iOldNoticeCount;
+	CNoticeListCtrl*        m_pHtmlListPane;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
     virtual void            OnListRender( wxTimerEvent& event );
-    void                    OnLinkClicked( wxHtmlLinkEvent& event );
+    void                    OnLinkClicked( NoticeListCtrlEvent& event );
 
     DECLARE_EVENT_TABLE()
 };

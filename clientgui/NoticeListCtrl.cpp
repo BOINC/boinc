@@ -49,7 +49,7 @@ wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name)
 {
     if (childId == wxACC_SELF)
     {
-        *name = wxT("Notice List");
+        *name = _("Notice List");
     }
     else
     {
@@ -493,18 +493,20 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
 
     if (!m_Items[i]->GetProjectName().IsEmpty()) {
         strTemp.Printf(
-            wxT("From %s<br>"),
+            wxT("%s %s<br>"),
+            _("From"),
             m_Items[i]->GetProjectName().c_str()
         );
         strBuffer += strTemp;
     }
 
-    strBuffer += m_Items[i]->GetArrivalTime().Format();
+    strBuffer += m_Items[i]->GetArrivalTime();
 
     if (!m_Items[i]->GetURL().IsEmpty()) {
         strTemp.Printf(
-            wxT(" &middot; <a target=_new href=%s>more...</a> "),
-            m_Items[i]->GetURL().c_str()
+            wxT(" &middot; <a target=_new href=%s>%s</a> "),
+            m_Items[i]->GetURL().c_str(),
+            _("more...")
         );
         strBuffer += strTemp;
     }
@@ -520,9 +522,48 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
  */
  
 bool CNoticeListCtrl::Add(
+    int iSeqNo,
+    wxString strProjectName,
+    wxString strURL, 
+    wxString strTitle,
+    wxString strDescription,
+    wxString strCategory,
+    wxString strArrivalTime
 )
 {
+    CNoticeListItem* pItem = new CNoticeListItem();
+
+    pItem->SetSeqNo( iSeqNo );
+    pItem->SetProjectName( strProjectName );
+    pItem->SetURL( strURL );
+    pItem->SetTitle( strTitle );
+    pItem->SetDescription( strDescription );
+    pItem->SetCategory( strCategory );
+    pItem->SetArrivalTime( strArrivalTime );
+
+    m_Items.insert(m_Items.begin(), pItem);
+    SetItemCount(m_Items.size());
+
     return true;
+}
+
+
+/*!
+ * Check to see if the requested entry is already in the control.
+ */
+ 
+bool CNoticeListCtrl::IsSeqNoValid( int iSeqNo )
+{
+    bool bRetVal = false;
+
+    unsigned int n = (unsigned int)m_Items.size();
+    for (unsigned int i = 0; i < n; i++) {
+        if (iSeqNo == m_Items[i]->GetSeqNo()) {
+            bRetVal = true;
+        }
+    }
+
+    return bRetVal;
 }
 
 

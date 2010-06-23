@@ -4490,7 +4490,7 @@ Charlie 22 Jun 2010
     clientgui/
         MainDocument.cpp
 
-David  22 June 2010
+David  23 June 2010
     - client: when selecting the "best" ATI GPU, factors are:
         1) double precision support
         2) memory size
@@ -4499,3 +4499,19 @@ David  22 June 2010
 
     client/
         coproc_detect.cpp
+
+Rom    23 June 2010
+    - MGR: Hook up new NoticeListCtrl.
+        TODO: pre-stage the download of images instead of relying
+        on wxWidgets to do it out of band.  It gets stuck in a
+        recursive loop and eventually blows up if it has to go
+        out to the Internet to find image files it has already
+        downloaded once after selecting the item.  I presume it
+        decides it needs to re-download the image becuase the
+        background color for the whole line changes.
+        
+    clientgui/
+        NoticeListCtrl.cpp, .h
+        ProjectListCtrl.cpp
+    clientgui/
+        ViewNotices.cpp, .h
