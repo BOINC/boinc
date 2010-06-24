@@ -256,12 +256,16 @@ void estimate_flops_anon_platform() {
                     "[version] (%s) setting projected flops to %fG based on ET\n",
                     cav.plan_class, new_flops/1e9
                 );
+                log_messages.printf(MSG_NORMAL,
+                    "[version] setting rsc_fpops_scale to %g\n",
+                    cav.rsc_fpops_scale
+                );
             }
         } else {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] (%s) using client-supplied flops %fG\n",
-                    cav.plan_class, cav.host_usage.projected_flops
+                    cav.plan_class, cav.host_usage.projected_flops/1e9
                 );
             }
         }

@@ -1214,7 +1214,7 @@ int add_result_to_reply(
 // but which may be interfering with getting tasks or latest apps
 //
 static void send_gpu_messages(
-    GPU_REQUIREMENTS& req, double ram, int version, char* rsc_name
+    GPU_REQUIREMENTS& req, double ram, int version, const char* rsc_name
 ) {
     char buf[256];
     if (ram < req.min_ram) {
