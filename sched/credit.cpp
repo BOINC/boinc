@@ -325,6 +325,15 @@ DB_APP_VERSION* av_lookup(int id, vector<DB_APP_VERSION>& app_versions) {
     return &(app_versions[app_versions.size()-1]);
 }
 
+// the estimated PFC for a given WU, in the absence of any other info
+//
+inline double wu_estimated_pfc(WORKUNIT& wu, DB_APP& app) {
+    return wu.rsc_fpops_est*app.min_avg_pfc;
+}
+inline double wu_estimated_credit(WORKUNIT& wu, DB_APP& app) {
+    return wu_estimated_pfc(wu, app)*COBBLESTONE_SCALE;
+}
+
 // Compute or estimate "claimed peak FLOP count".
 // Possibly update host_app_version records and write to DB.
 // Possibly update app_version records in memory and let caller write to DB,
@@ -348,11 +357,11 @@ int get_pfc(
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] [RESULT#%d] missing app_version_id (%d): returning WU default %.2f\n",
-                r.id, r.app_version_id, wu.rsc_fpops_est*COBBLESTONE_SCALE
+                r.id, r.app_version_id, wu_estimated_credit(wu, app)
             );
         }
         mode = PFC_MODE_WU_EST;
-        pfc = wu.rsc_fpops_est;
+        pfc = wu_estimated_pfc(wu, app);
         return 0;
     }
 
@@ -367,7 +376,7 @@ int get_pfc(
             );
         }
         mode = PFC_MODE_WU_EST;
-        pfc = wu.rsc_fpops_est;
+        pfc = wu_estimated_pfc(wu, app);
         return 0;
     }
 
@@ -377,7 +386,7 @@ int get_pfc(
     //
     if (!hav.host_id) {
         mode = PFC_MODE_WU_EST;
-        pfc = wu.rsc_fpops_est;
+        pfc = wu_estimated_pfc(wu, app);
         return 0;
     }
 
@@ -395,7 +404,7 @@ int get_pfc(
             r.cpu_time/wu.rsc_fpops_est,
             HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
         );
-        pfc = app.min_avg_pfc*wu.rsc_fpops_est;
+        pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] [RESULT#%d] old client: raw credit %.2f\n",
@@ -464,11 +473,7 @@ int get_pfc(
     //
     if (raw_pfc > wu.rsc_fpops_bound) {
         char query[256], clause[256];
-        if (app.min_avg_pfc) {
-            pfc = app.min_avg_pfc * wu.rsc_fpops_est;
-        } else {
-            pfc = wu.rsc_fpops_est;
-        }
+        pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] [RESULT#%d] sanity check failed: %.2f>%.2f, return %.2f\n",
@@ -485,62 +490,51 @@ int get_pfc(
     if (r.app_version_id < 0) {
         // anon platform
         //
-        if (app.min_avg_pfc) {
-            bool do_scale = true;
-            if (hav.pfc.n < MIN_HOST_SAMPLES || hav.pfc.get_avg()<=0) {
-                do_scale = false;
-                if (config.debug_credit) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[credit] [RESULT#%d] anon platform, not scaling, PFC avg zero or too few samples %.0f\n",
-                        r.id, hav.pfc.n
-                    );
-                }
-            }
-            if (do_scale
-                && app.host_scale_check
-                && hav.consecutive_valid < CONS_VALID_HOST_SCALE
-            ) {
-                do_scale = false;
-                if (config.debug_credit) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[credit] [RESULT#%d] anon platform, not scaling, cons valid %d\n",
-                        r.id, hav.consecutive_valid
-                    );
-                }
-            }
-            if (do_scale) {
-                double scale = app.min_avg_pfc / hav.pfc.get_avg();
-                pfc = raw_pfc * scale;
-                if (config.debug_credit) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[credit] [RESULT#%d] anon platform, scaling by %g (%.2f/%.2f)\n",
-                        r.id, scale, app.min_avg_pfc*COBBLESTONE_SCALE,
-                        hav.pfc.get_avg()*COBBLESTONE_SCALE
-                    );
-                }
-            } else {
-                pfc = app.min_avg_pfc * wu.rsc_fpops_est;
-                if (config.debug_credit) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[credit] [RESULT#%d] not scaling, using app avg %.2f\n",
-                        pfc*COBBLESTONE_SCALE
-                    );
-                }
-            }
+        bool do_scale = true;
+        if (hav.pfc.n < MIN_HOST_SAMPLES || hav.pfc.get_avg()<=0) {
+            do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] anon platform, returning %.2f\n",
-                    r.id, pfc*COBBLESTONE_SCALE
+                    "[credit] [RESULT#%d] anon platform, not scaling, PFC avg zero or too few samples %.0f\n",
+                    r.id, hav.pfc.n
+                );
+            }
+        }
+        if (do_scale
+            && app.host_scale_check
+            && hav.consecutive_valid < CONS_VALID_HOST_SCALE
+        ) {
+            do_scale = false;
+            if (config.debug_credit) {
+                log_messages.printf(MSG_NORMAL,
+                    "[credit] [RESULT#%d] anon platform, not scaling, cons valid %d\n",
+                    r.id, hav.consecutive_valid
+                );
+            }
+        }
+        if (do_scale) {
+            double scale = app.min_avg_pfc / hav.pfc.get_avg();
+            pfc = raw_pfc * scale;
+            if (config.debug_credit) {
+                log_messages.printf(MSG_NORMAL,
+                    "[credit] [RESULT#%d] anon platform, scaling by %g (%.2f/%.2f)\n",
+                    r.id, scale, app.min_avg_pfc, hav.pfc.get_avg()
                 );
             }
         } else {
-            pfc = wu.rsc_fpops_est;
+            pfc = wu_estimated_pfc(wu, app);
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] get_pfc: anon platform, no app.min_avg_pfc; returning WU estimate %.2f\n",
-                    r.id, pfc*COBBLESTONE_SCALE
+                    "[credit] [RESULT#%d] not scaling, using app avg %.2f\n",
+                    pfc*COBBLESTONE_SCALE
                 );
             }
+        }
+        if (config.debug_credit) {
+            log_messages.printf(MSG_NORMAL,
+                "[credit] [RESULT#%d] anon platform, returning %.2f\n",
+                r.id, pfc*COBBLESTONE_SCALE
+            );
         }
     } else {
         avp = av_lookup(r.app_version_id, app_versions);
@@ -636,7 +630,9 @@ int get_pfc(
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] [RESULT#%d] [AV#%d] PFC avgs with %g (%g/%g)\n",
-                r.id, avp->id, pfc/wu.rsc_fpops_est, pfc, wu.rsc_fpops_est
+                r.id, avp->id,
+                raw_pfc/wu.rsc_fpops_est,
+                raw_pfc, wu.rsc_fpops_est
             );
         }
         avp->pfc_samples.push_back(raw_pfc/wu.rsc_fpops_est);
@@ -741,13 +737,13 @@ int assign_credit_set(
             log_messages.printf(MSG_NORMAL,
                 "[credit] Credit too high: %f\n", pfc*COBBLESTONE_SCALE
             );
-            pfc = app.min_avg_pfc * wu.rsc_fpops_est;
+            pfc = wu_estimated_pfc(wu, app);
         }
         if (pfc > wu.rsc_fpops_bound) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] PFC too high: %f\n", pfc*COBBLESTONE_SCALE
             );
-            pfc = app.min_avg_pfc * wu.rsc_fpops_est;
+            pfc = wu_estimated_pfc(wu, app);
         }
         if (mode == PFC_MODE_NORMAL) {
             normal.push_back(pfc);

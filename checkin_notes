@@ -4541,3 +4541,12 @@ Charlie 23 Jun 2010
     clientgui/
         ViewNotices.cpp
         NoticeListCtrl.cpp
+
+David  23 Jun 2010
+    - validator: there were a couple of places where we needed to
+        scale wu.rsc_fpops_est by app.min_avg_pfc.
+    - validator: assume that app.min_avg_pfc is nonzero;
+        it will be, since the DB default is now 1.
+
+    sched/
+        credit.cpp
