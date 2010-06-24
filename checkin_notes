@@ -4553,6 +4553,15 @@ David  23 Jun 2010
 
 David  23 Jun 2010
     - scheduler: msg tweaks
+
     sched/
         sched_send.cpp
         sched_version.cpp
+
+David  23 Jun 2010
+    - scheduler: the way rsc_fpops_est and rsc_fpops_bound were
+        being scaled for anon platform was messed up.
+        Turn off this scaling until I can figure out the problem.
+
+    sched/
+        sched_send.cpp
