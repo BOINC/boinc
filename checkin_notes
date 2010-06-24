@@ -4528,3 +4528,9 @@ Charlie 23 Jun 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  23 Jun 2010
+    - API: compile fix
+
+    api/
+        boinc_api.cpp

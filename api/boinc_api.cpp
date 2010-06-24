@@ -500,6 +500,7 @@ int boinc_temporary_exit(int delay) {
 //
 void boinc_exit(int status) {
     int retval;
+    char buf[256];
 
     if (options.backwards_compatible_graphics) {
         graphics_cleanup();
@@ -509,7 +510,6 @@ void boinc_exit(int status) {
         retval = file_lock.unlock(LOCKFILE);
         if (retval) {
 #ifdef _WIN32
-            char buf[256];
             windows_error_string(buf, 256);
             fprintf(stderr,
                 "%s Can't unlock lockfile (%d): %s\n",
