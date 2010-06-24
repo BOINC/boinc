@@ -4534,3 +4534,10 @@ David  23 Jun 2010
 
     api/
         boinc_api.cpp
+
+Charlie 23 Jun 2010
+    - MGR: Fix order of items displayed in Notices tab correctly this time.
+    
+    clientgui/
+        ViewNotices.cpp
+        NoticeListCtrl.cpp

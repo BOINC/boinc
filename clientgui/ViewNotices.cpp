@@ -154,8 +154,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
     n = pDoc->GetNoticeCount();
     if (n != -1) {
-        for (i = 0; i < (unsigned int)n; i++) {
-            NOTICE* np = pDoc->notice(i);
+        for (i = (unsigned int)n; i > 0; i--) {
+            NOTICE* np = pDoc->notice(i-1);
 
             if (!np) continue;
 
