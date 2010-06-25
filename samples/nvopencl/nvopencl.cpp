@@ -4,7 +4,7 @@
  *           matrix NUM_ITERATIONS times. Call generateRandomInputFile if no input file
  *           exists. The result is written to output file.
  * Author: Tuan Le
- * Date: 06/14/2010
+ * Date: 06/24/2010
  * University of California, Berkeley
  * Berkeley Space Sciences Lab
  * tuanle86@berkeley.edu
@@ -21,7 +21,6 @@ int main(int argc, char * argv[]) {
 	int i, retval, lastInversion=0, checkpointExists=0, matrixSize=0;
     double fd;
     char input_path[512], output_path[512], chkpt_path[512], buf[256];
-    unsigned int mem_size;
     MFILE out;
     FILE* state, *infile;
     
@@ -470,12 +469,12 @@ int initializeCL(void) {
     cl_platform_id platform = NULL;
     status = clGetPlatformIDs(0, NULL, &numPlatforms);
     if(status != CL_SUCCESS) {
-        printf("Error1: Getting Platforms. (clGetPlatformsIDs)\n");
+        printf("Error: Getting Platforms. (clGetPlatformsIDs)\n");
         return 1;
     }
     
     if (numPlatforms > 0) {
-        cl_platform_id* platforms = new cl_platform_id[numPlatforms];
+        cl_platform_id* platforms = (cl_platform_id *) malloc(sizeof(cl_platform_id)*numPlatforms);
         status = clGetPlatformIDs(numPlatforms, platforms, NULL);
         if (status != CL_SUCCESS) {
             printf("Error: Getting Platform Ids. (clGetPlatformsIDs)\n");
