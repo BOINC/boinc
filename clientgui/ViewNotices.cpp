@@ -154,14 +154,15 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
     n = pDoc->GetNoticeCount();
     if (n != -1) {
-        for (i = (unsigned int)n; i > 0; i--) {
-            NOTICE* np = pDoc->notice(i-1);
+
+        m_pHtmlListPane->Freeze();
+
+        for (i = 0; i < (unsigned int)n; i++) {
+            NOTICE* np = pDoc->notice(i);
 
             if (!np) continue;
 
-            m_pHtmlListPane->Freeze();
-
-            if (!m_pHtmlListPane->IsSeqNoValid(np->seqno)) {
+            if (!m_pHtmlListPane->Exists(np->seqno)) {
 
                 strProjectName = wxString(np->project_name, wxConvUTF8);
                 strURL = wxString(np->link, wxConvUTF8);
@@ -181,10 +182,23 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
                     strCategory,
                     strArrivalTime
                 );
-            }
 
-            m_pHtmlListPane->Thaw();
+            } else {
+
+                dtBuffer.Set((time_t)np->arrival_time);
+                strArrivalTime = dtBuffer.Format();
+
+                m_pHtmlListPane->Update(
+                    np->seqno,
+                    strArrivalTime
+                );
+
+            }
         }
+
+        m_pHtmlListPane->Sort();
+
+        m_pHtmlListPane->Thaw();
     }
 
     s_bInProgress = false;

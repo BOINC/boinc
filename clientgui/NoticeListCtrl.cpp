@@ -549,10 +549,35 @@ bool CNoticeListCtrl::Add(
 
 
 /*!
+ * Update an existing entry in the project list.
+ */
+ 
+bool CNoticeListCtrl::Update(
+    int iSeqNo,
+    wxString strArrivalTime
+)
+{
+    bool bRetVal = false;
+
+    unsigned int n = (unsigned int)m_Items.size();
+    for (unsigned int i = 0; i < n; i++) {
+        if (iSeqNo == m_Items[i]->GetSeqNo()) {
+            m_Items[i]->SetArrivalTime( strArrivalTime );
+            bRetVal = true;
+        }
+    }
+
+    SetItemCount(m_Items.size());
+
+    return bRetVal;
+}
+
+
+/*!
  * Check to see if the requested entry is already in the control.
  */
  
-bool CNoticeListCtrl::IsSeqNoValid( int iSeqNo )
+bool CNoticeListCtrl::Exists( int iSeqNo )
 {
     bool bRetVal = false;
 
@@ -564,6 +589,22 @@ bool CNoticeListCtrl::IsSeqNoValid( int iSeqNo )
     }
 
     return bRetVal;
+}
+
+
+/*!
+ * Sort entries in the control.
+ */
+
+bool compare_notice_list_entry(const CNoticeListItem* a, const CNoticeListItem* b) 
+{
+    return a->GetArrivalTime() < b->GetArrivalTime();
+}
+
+bool CNoticeListCtrl::Sort()
+{
+    sort(m_Items.begin(), m_Items.end(), compare_notice_list_entry);
+    return true;
 }
 
 

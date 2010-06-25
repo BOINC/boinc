@@ -4565,3 +4565,10 @@ David  23 Jun 2010
 
     sched/
         sched_send.cpp
+
+Rom    25 Jun 2010
+    - MGR: Handle sorting the notices control a different way.
+    
+    clientgui/
+        ViewNotices.cpp
+        NoticeListCtrl.cpp, .h

@@ -158,8 +158,14 @@ public:
         wxString strArrivalTime
     );
 
-    bool IsSeqNoValid( int iSeqNo );
+    bool Update(
+        int iSeqNo,
+        wxString strArrivalTime
+    );
 
+    bool Exists( int iSeqNo );
+
+    bool Sort();
 
     CNoticeListItem* GetItem( 
         int iIndex
