@@ -23,9 +23,7 @@ Error: make: /usr/bin/ld: cannot find -lOpenCL
 Cause: file "libOpenCL.so" is missing
 Solution: It appears that NVIDIA SDK 3.0 misses this library file. You can instead download
           the ati-stream-sdk-v2.1-lnx32 and copy file libOpenCL.so from /ati-stream-sdk-v2.1-lnx32/lib/x86/
-          to NVIDIA_GPU_Computing_SDK/OpenCL/shared/lib/ . For your convenience, I have put a copy of
-          libOpenCL.so in boinc/samples/nvopencl/. You can use this file instead and follow the previous step.
-
+          to NVIDIA_GPU_Computing_SDK/OpenCL/shared/lib/ .
 Error: ./example_app_nvopencl -> error while loading shared libraries: libOpenCL.so: cannot open shared object file: No such file
 or director
 Solution: export LD_LIBRARY_PATH=/home/tuanle/NVIDIA_GPU_Computing_SDK/OpenCL/shared/lib:$LD_LIBRARY_PATH
