@@ -4648,3 +4648,13 @@ David  25 Jun 2010
 
     sched/
         handle_request.cpp
+
+David  25 Jun 2010
+    - scheduler: host_app_version.n_jobs_today was being cleared
+        only if the previous request was on a different day
+        AND the current request asks for work.
+        Sometimes it wasn't getting cleared when it should have.
+
+    sched/
+        sched_send.cpp,h
+        handle_request.cpp

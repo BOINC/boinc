@@ -1229,6 +1229,7 @@ void process_request(char* code_sign_key) {
     handle_global_prefs();
 
     read_host_app_versions();
+    update_n_jobs_today();
 
     handle_results();
 

@@ -409,11 +409,20 @@ static void update_quota(DB_HOST_APP_VERSION& hav) {
     }
 
     if (g_request->last_rpc_dayofyear != g_request->current_rpc_dayofyear) {
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] [HAV#%d] Resetting njobs_today\n",
-            g_reply->host.id, hav.app_version_id
-        );
+        if (config.debug_quota) {
+            log_messages.printf(MSG_INFO,
+                "[quota] [HOST#%d] [HAV#%d] Resetting n_jobs_today\n",
+                g_reply->host.id, hav.app_version_id
+            );
+        }
         hav.n_jobs_today = 0;
+    }
+}
+
+void update_n_jobs_today() {
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        update_quota(hav);
     }
 }
 
@@ -436,7 +445,6 @@ static void get_reliability_and_trust() {
         DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
         get_reliability_version(hav, multiplier);
         set_trust(hav);
-        update_quota(hav);
     }
 }
 

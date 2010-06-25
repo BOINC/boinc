@@ -71,5 +71,6 @@ extern bool work_needed(bool);
 extern void send_work_setup();
 extern int effective_ncpus();
 extern int preferred_app_message_index;
+extern void update_n_jobs_today();
 
 #endif
