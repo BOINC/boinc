@@ -94,7 +94,6 @@ bool is_unreplicated(WORKUNIT& wu) {
 int is_valid(DB_HOST& host, RESULT& result, WORKUNIT& wu, DB_HOST_APP_VERSION& hav) {
     DB_CREDITED_JOB credited_job;
     int retval;
-    char buf[256];
 
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);

@@ -20,6 +20,12 @@ AC_ARG_ENABLE(generic-processor,
     [enable_generic_processor="$enableval"],
     [])
 
+dnl enable compiler warnings
+if test x${ac_cv_c_compiler_gnu} = xyes ; then
+    BOINC_CHECK_CFLAG(-Wall)
+    BOINC_CHECK_CXXFLAG(-Wall)
+    BOINC_CHECK_FFLAG(-Wall)
+fi
 
 dnl enable debug mode on all components using standard debug flags
 

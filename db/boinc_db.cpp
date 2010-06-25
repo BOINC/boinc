@@ -2049,7 +2049,7 @@ int DB_SCHED_TRIGGER::select_unique_by_fileset_name(const char* fileset_name) {
     MYSQL_RES* recordset;
     MYSQL_ROW row;
 
-    if (!cursor.active) {
+    //if (!cursor.active) {
         // prepare statement
         snprintf(query, MAX_QUERY_LEN,
             "SELECT"
@@ -2072,7 +2072,7 @@ int DB_SCHED_TRIGGER::select_unique_by_fileset_name(const char* fileset_name) {
 
         recordset = mysql_store_result(db->mysql);
         if (!recordset) return mysql_errno(db->mysql);
-    }
+    //}
 
     // determine number of records, fetch first
     count = mysql_num_rows(recordset);
@@ -2249,7 +2249,7 @@ int DB_FILESET_SCHED_TRIGGER_ITEM_SET::select_by_name_state(
 
 int DB_FILESET_SCHED_TRIGGER_ITEM_SET::contains_trigger(const char* fileset_name) {
     // iterate over item vector
-    for(int i = 0; i < items.size(); ++i) {
+    for(unsigned int i=0; i<items.size(); ++i) {
         if(strcmp(items[i].fileset.name, fileset_name) == 0) {
             // return 1-indexed position for boolean tests
             return i+1;

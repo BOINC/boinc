@@ -168,6 +168,7 @@ int PERF_INFO::read_file() {
     if (!f) return ERR_FOPEN;
     int n = fscanf(f, "%lf %lf", &host_fpops_mean, &host_fpops_stdev);
     fclose(f);
+    if (n != 2) return -1;
     return 0;
 }
 
@@ -681,7 +682,6 @@ int main(int argc, char** argv) {
     int i, retval;
     void* p;
     char path[256];
-    char* appids=NULL;
 
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {

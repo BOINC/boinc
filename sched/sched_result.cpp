@@ -43,10 +43,17 @@ static inline void got_good_result(SCHED_RESULT_ITEM& sri) {
         return;
     }
     if (havp->max_jobs_per_day < config.daily_result_quota) {
-        havp->max_jobs_per_day *= 2;
-        if (havp->max_jobs_per_day > config.daily_result_quota) {
-            havp->max_jobs_per_day = config.daily_result_quota;
+        int n = havp->max_jobs_per_day*2;
+        if (n > config.daily_result_quota) {
+            n = config.daily_result_quota;
         }
+        if (config.debug_quota) {
+            log_messages.printf(MSG_NORMAL,
+                "[quota] increasing max_jobs_per_day for %d: %d->%d\n",
+                gavid, havp->max_jobs_per_day, n
+            );
+        }
+        havp->max_jobs_per_day = n;
     }
 }
 
@@ -62,13 +69,21 @@ static inline void got_bad_result(SCHED_RESULT_ITEM& sri) {
         return;
     }
 
-    if (havp->max_jobs_per_day > config.daily_result_quota) {
-        havp->max_jobs_per_day = config.daily_result_quota;
+    int n = havp->max_jobs_per_day;
+    if (n > config.daily_result_quota) {
+        n = config.daily_result_quota;
     }
-    havp->max_jobs_per_day -= 1;
-    if (havp->max_jobs_per_day < 1) {
-        havp->max_jobs_per_day = 1;
+    n -= 1;
+    if (n < 1) {
+        n = 1;
     }
+    if (config.debug_quota) {
+        log_messages.printf(MSG_NORMAL,
+            "[quota] decreasing max_jobs_per_day for %d: %d->%d\n",
+            gavid, havp->max_jobs_per_day, n
+        );
+    }
+    havp->max_jobs_per_day = n;
 
     havp->consecutive_valid = 0;
 }
@@ -88,7 +103,9 @@ int handle_results() {
     // allow projects to limit the # of results handled
     // (in case of server memory limits)
     //
-    if (config.report_max && g_request->results.size() > config.report_max) {
+    if (config.report_max
+        && (int)g_request->results.size() > config.report_max
+    ) {
         g_request->results.resize(config.report_max);
     }
 
@@ -196,7 +213,6 @@ int handle_results() {
                     break;
             }
             if (msg) {
-                char buf[256];
                 if (config.debug_handle_results) {
                     log_messages.printf(MSG_NORMAL,
                         "[handle][HOST#%d][RESULT#%d][WU#%d] result already over [outcome=%d validate_state=%d]: %s\n",

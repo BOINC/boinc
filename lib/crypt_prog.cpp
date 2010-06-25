@@ -103,13 +103,11 @@ int main(int argc, char** argv) {
     char cbuf[256];
     RSA rsa_key;
     RSA *rsa_key_;
-	const EVP_CIPHER *enc=NULL;
 	BIO *bio_out=NULL;
     BIO *bio_err=NULL;
     char *certpath;
-    bool b2o; // boinc key to openssl key ?
-    bool kpriv; // private key ?
-    const char *passout=NULL;
+    bool b2o=false; // boinc key to openssl key ?
+    bool kpriv=false; // private key ?
 
     if (argc == 1) {
         printf("missing command\n");

@@ -39,7 +39,7 @@ struct AVERAGE {
         double sample_limit
             // truncate samples at avg*limit
     ) {
-        double delta, limit;
+        double delta;
         bool truncated = false;
         if (sample < 0) return true;
         if (n && avg) {
@@ -78,7 +78,7 @@ struct AVERAGE_VAR : AVERAGE {
         double sample_limit
             // truncate samples at avg*limit
     ) {
-        double delta, limit;
+        double delta;
         bool truncated = false;
         if (sample < 0) return true;
         if (n && avg) {

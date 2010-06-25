@@ -88,7 +88,7 @@ int main(int argc, const char** argv) {
     bool assign_flag = false;
     bool assign_multi = false;
     int assign_id = 0;
-    int assign_type;
+    int assign_type = ASSIGN_NONE;
 
     strcpy(result_template_file, "");
     strcpy(app.name, "");

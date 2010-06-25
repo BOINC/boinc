@@ -85,6 +85,8 @@ APP& lookup_app(int id) {
         if (app.id == id) return app;
     }
     printf("missing app: %d\n", id);
+    exit(1);
+    return apps[0];
 }
 
 HOST_APP_VERSION& lookup_host_app_version(int hostid, int avid) {
@@ -243,7 +245,6 @@ void update_av_scales() {
 bool get_pfc(RESULT& r, WORKUNIT& wu, double& pfc) {
     APP_VERSION* avp = NULL;
     DB_HOST host;
-    int rsc_type;
 
     APP& app = lookup_app(r.appid);
     HOST_APP_VERSION& hav = lookup_host_app_version(
@@ -332,7 +333,6 @@ int main(int argc, char** argv) {
     RESULT r;
     WORKUNIT wu;
     int retval;
-    int appid=0;
     FILE* f = fopen("credit_test_unsorted", "w");
 
     if (argc > 1) {

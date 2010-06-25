@@ -189,7 +189,6 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
 static inline bool app_plan_ati(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
-    char buf[256];
     COPROC_ATI& c = sreq.coprocs.ati;
     if (!c.count) {
         return false;
@@ -324,7 +323,6 @@ static bool cuda_check(COPROC_CUDA& c, HOST_USAGE& hu,
 static inline bool app_plan_cuda(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
-    char buf[256];
     COPROC_CUDA& c = sreq.coprocs.cuda;
     if (!c.count) {
         return false;
@@ -335,8 +333,6 @@ static inline bool app_plan_cuda(
     if (strstr(sreq.host.os_name, "Darwin") && (sreq.core_client_version < 61028)) {
         return false;
     }
-
-    double min_ram;
 
     // for CUDA 2.3, we need to check the CUDA RT version.
     // Old BOINC clients report display driver version;

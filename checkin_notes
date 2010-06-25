@@ -4579,3 +4579,54 @@ Rom    25 Jun 2010
     clientgui/
         ViewNotices.cpp
         NoticeListCtrl.cpp, .h
+
+David  25 Jun 2010
+    - transitioner: the format string for a DB query had %.15d instead of %.15e.
+        That produced a messed-up query that assigned garbage values to:
+            host_app_version.turnaround_var
+            host_app_version.turnaround_q
+            host_app_version.max_jobs_per_day
+            host_app_version.consecutive_valid
+        To repair these:
+            - set turnaround_var and turnaround_q to zero
+            - if max_jobs_per_day is outside of
+                (0..config.daily_result_quota)
+                set it to config.daily_result_quota
+            - if consecutive_valid is outside (0..1000), set it to zero
+        I added a script, html/ops/repair_21812.php, that does this;
+        if you ran server code between [21181] and [21812], run this script.
+    - scheduler/transitioner: add <debug_quota> log flag
+    - changed the build system to always use -Wall
+        (if we'd done this before, this bug wouldn't have happened)
+    - fixed a bunch of other compile warnings
+
+    client/
+        hostinfo_unix.cpp
+    db/
+        boinc_db.cpp
+    lib/
+        average.h
+        cert_sig.cpp
+        crypt_prog.cpp
+    m4/
+        boinc_set_compile_flags.m4
+    sched/
+        credit.cpp
+        credit_test.cpp
+        feeder.cpp
+        handle_request.cpp
+        sched_config.cpp,h
+        sched_customize.cpp
+        sched_limit.cpp
+        sched_main.cpp
+        sched_result.cpp
+        sched_score.cpp
+        sched_send.cpp
+        sched_shmem.cpp
+        sched_types.cpp
+        sched_version.cpp
+        sched_send.cpp
+        transitioner.cpp
+        validator.cpp
+    tools/
+        create_work.cpp

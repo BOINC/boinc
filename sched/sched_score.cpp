@@ -171,7 +171,7 @@ void JOB_SET::add_job(JOB& job) {
         }
     }
 
-    if (jobs.size() == max_jobs) {
+    if ((int)jobs.size() == max_jobs) {
         JOB& worst_job = jobs.back();
         jobs.pop_back();
         ssp->wu_results[worst_job.index].state = WR_STATE_PRESENT;

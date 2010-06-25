@@ -32,7 +32,6 @@ inline void dont_need_message(
 ) {
     if (!config.debug_version_select) return;
     if (avp) {
-        APP* app = ssp->lookup_app(avp->appid);
         log_messages.printf(MSG_NORMAL,
             "[version] [AV#%d] Don't need %s jobs, skipping\n",
             avp->id, p
@@ -119,13 +118,25 @@ inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
             n *= g_reply->host.p_ncpus;
         }
     }
+    if (config.debug_quota) {
+        log_messages.printf(MSG_INFO,
+            "[quota] scaled max jobs per day: %d\n", n
+        );
+    }
     return n;
 }
 
 inline bool daily_quota_exceeded(int gavid, HOST_USAGE& hu) {
     DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
     if (!havp) return false;
-    if (havp->n_jobs_today >= scaled_max_jobs_per_day(*havp, hu)) {
+    int q = scaled_max_jobs_per_day(*havp, hu);
+    if (havp->n_jobs_today >= q) {
+        if (config.debug_quota) {
+            log_messages.printf(MSG_INFO,
+                "[quota] daily quota exceeded: %d >= %d\n",
+                havp->n_jobs_today, q
+            );
+        }
         havp->daily_quota_exceeded = true;
         return true;
     }
@@ -331,9 +342,8 @@ static void app_version_desc(BEST_APP_VERSION& bav, char* buf) {
 BEST_APP_VERSION* get_app_version(
     WORKUNIT& wu, bool check_req, bool reliable_only
 ) {
-    bool found;
     unsigned int i;
-    int retval, j;
+    int j;
     BEST_APP_VERSION* bavp;
     char message[256], buf[256];
 

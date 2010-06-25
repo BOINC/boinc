@@ -164,6 +164,7 @@ struct SCHED_CONFIG {
     bool debug_handle_results;
     bool debug_locality;            // locality scheduling
     bool debug_prefs;
+    bool debug_quota;
     bool debug_request_details;
     bool debug_request_headers;
     bool debug_resend;

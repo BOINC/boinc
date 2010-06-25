@@ -401,7 +401,6 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     char buf[256], features[1024], model_buf[1024];
     bool vendor_found=false, model_found=false;
     bool cache_found=false, features_found=false;
-    bool icache_found=false,dcache_found=false;
     bool model_hack=false, vendor_hack=false;
     int n;
     int family=-1, model=-1, stepping=-1;
@@ -516,6 +515,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             stepping = atoi(buf+strlen("stepping\t: "));
         }
 #ifdef __hppa__
+        bool icache_found=false,dcache_found=false;
         if (!icache_found && strstr(buf, "I-cache\t\t: ")) {
             icache_found = true;
             sscanf(buf, "I-cache\t\t: %d", &n);

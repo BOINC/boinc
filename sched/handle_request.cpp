@@ -1073,7 +1073,7 @@ void process_request(char* code_sign_key) {
     double last_rpc_time;
     struct tm *rpc_time_tm;
     bool ok_to_send_work = true;
-    bool have_no_work;
+    bool have_no_work = false;
     char buf[256];
     HOST initial_host;
     unsigned int i;

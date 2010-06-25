@@ -45,7 +45,7 @@ const int MAX_NCPUS = 64;
     // need to change as multicore processors expand
 
 int SCHED_CONFIG::parse_aux(FILE* f) {
-    char tag[1024], buf[256];
+    char tag[1024];
     bool is_tag;
     MIOFILE mf;
     XML_PARSER xp(&mf);
@@ -272,6 +272,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "debug_handle_results", debug_handle_results)) continue;
         if (xp.parse_bool(tag, "debug_locality", debug_locality)) continue;
         if (xp.parse_bool(tag, "debug_prefs", debug_prefs)) continue;
+        if (xp.parse_bool(tag, "debug_quota", debug_quota)) continue;
         if (xp.parse_bool(tag, "debug_request_details", debug_request_details)) continue;
         if (xp.parse_bool(tag, "debug_request_headers", debug_request_headers)) continue;
         if (xp.parse_bool(tag, "debug_resend", debug_resend)) continue;

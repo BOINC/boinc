@@ -92,7 +92,7 @@ int SCHED_SHMEM::scan_tables() {
     DB_APP app;
     DB_APP_VERSION app_version;
     DB_ASSIGNMENT assignment;
-    int i, j, n, retval;
+    int i, j, n;
 
     n = 0;
     while (!platform.enumerate()) {

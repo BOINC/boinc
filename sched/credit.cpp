@@ -526,7 +526,7 @@ int get_pfc(
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
                     "[credit] [RESULT#%d] not scaling, using app avg %.2f\n",
-                    pfc*COBBLESTONE_SCALE
+                    r.id, pfc*COBBLESTONE_SCALE
                 );
             }
         }
@@ -711,9 +711,8 @@ int assign_credit_set(
     double max_granted_credit, double& credit
 ) {
     unsigned int i;
-    int n_normal=0, n_total=0, mode, retval;
-    double sum_normal=0, sum_total=0, pfc;
-    char query[256];
+    int mode, retval;
+    double pfc;
     vector<double> normal;
     vector<double> approx;
 

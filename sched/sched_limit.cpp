@@ -1,7 +1,7 @@
 #include "sched_limit.h"
 
 int RSC_JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
-    char tag[1024], buf[256];
+    char tag[1024];
     bool is_tag;
     
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -22,7 +22,7 @@ int RSC_JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
 }
 
 int JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
-    char tag[1024], buf[256];
+    char tag[1024];
     bool is_tag;
     
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -52,7 +52,7 @@ int JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
 }
 
 int JOB_LIMITS::parse(XML_PARSER& xp, const char* end_tag) {
-    char tag[1024], buf[256];
+    char tag[1024];
     bool is_tag;
     
     while (!xp.get(tag, sizeof(tag), is_tag)) {

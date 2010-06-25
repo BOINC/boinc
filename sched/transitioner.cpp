@@ -98,23 +98,33 @@ static int result_timed_out(
         (double)wu_item.delay_bound,
         HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
     );
-    if (hav.max_jobs_per_day == 0) {
-        hav.max_jobs_per_day = config.daily_result_quota;
+    int n = hav.max_jobs_per_day;
+    if (n == 0) {
+        n = config.daily_result_quota;
     }
-    if (hav.max_jobs_per_day > config.daily_result_quota) {
-        hav.max_jobs_per_day = config.daily_result_quota;
+    if (n > config.daily_result_quota) {
+        n = config.daily_result_quota;
     }
-    hav.max_jobs_per_day -= 1;
-    if (hav.max_jobs_per_day < 1) {
-        hav.max_jobs_per_day = 1;
+    n -= 1;
+    if (n < 1) {
+        n = 1;
     }
+    if (config.debug_quota) {
+        log_messages.printf(MSG_INFO,
+            "[quota] max_jobs_per_day for %d; %d->%d\n",
+            gavid, hav.max_jobs_per_day, n
+        );
+    }
+    hav.max_jobs_per_day = n;
 
     hav.consecutive_valid = 0;
 
     sprintf(query,
-        "turnaround_n=%.15e, turnaround_avg=%.15e, turnaround_var=%.15d, turnaround_q=%.15e, max_jobs_per_day=%d, consecutive_valid=%d",
-        hav.turnaround.n, hav.turnaround.avg,
-        hav.turnaround.var, hav.turnaround.q,
+        "turnaround_n=%.15e, turnaround_avg=%.15e, turnaround_var=%.15e, turnaround_q=%.15e, max_jobs_per_day=%d, consecutive_valid=%d",
+        hav.turnaround.n,
+        hav.turnaround.avg,
+        hav.turnaround.var,
+        hav.turnaround.q,
         hav.max_jobs_per_day,
         hav.consecutive_valid
     );
@@ -569,7 +579,7 @@ int handle_wu(
         }
     } else if (wu_item.assimilate_state == ASSIMILATE_DONE) {
         log_messages.printf(MSG_DEBUG,
-            "[WU#%d %s] not checking for results ready for delete because deferred delete time has not expired.  That will occur in %d seconds\n",
+            "[WU#%d %s] not checking for results ready for delete because deferred delete time has not expired.  That will occur in %.0f seconds\n",
             wu_item.id,
             wu_item.name,
             most_recently_returned + config.delete_delay_hours*3600-now

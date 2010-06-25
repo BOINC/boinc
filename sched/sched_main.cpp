@@ -400,9 +400,10 @@ int main(int argc, char** argv) {
     if (debug_log) {
         freopen("debug_log", "w", stderr);
     } else {
-        char *stderr_buffer, buf[256];
+        char *stderr_buffer;
         get_log_path(path, "scheduler.log");
 #ifndef _USING_FCGI_
+        char buf[256];
         if (!freopen(path, "a", stderr)) {
             fprintf(stderr, "Can't redirect stderr\n");
             sprintf(buf, "Server can't open log file (%s)", path);

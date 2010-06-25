@@ -117,6 +117,12 @@ void WORK_REQ::get_job_limits() {
     } else {
         g_wreq->max_jobs_per_rpc = 999999;
     }
+    if (config.debug_quota) {
+        log_messages.printf(MSG_INFO,
+            "[quota] max jobs per RPC: %d\n",
+            g_wreq->max_jobs_per_rpc
+        );
+    }
 
     config.max_jobs_in_progress.reset(g_reply->host, g_request->coprocs);
 }
@@ -265,7 +271,7 @@ static void get_prefs_info() {
     char buf[8096];
     std::string str;
     unsigned int pos = 0;
-    int temp_int;
+    int temp_int=0;
     bool flag;
 
     extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf);
@@ -392,9 +398,9 @@ static void update_quota(DB_HOST_APP_VERSION& hav) {
     if (config.daily_result_quota) {
         if (hav.max_jobs_per_day == 0) {
             hav.max_jobs_per_day = config.daily_result_quota;
-            if (config.debug_send) {
+            if (config.debug_quota) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [HAV#%d] Initializing max_results_day to %d\n",
+                    "[quota] [HAV#%d] Initializing max_results_day to %d\n",
                     hav.app_version_id,
                     config.daily_result_quota
                 );
@@ -979,9 +985,9 @@ bool work_needed(bool locality_sched) {
     // see if we've reached max jobs per RPC
     //
     if (g_wreq->njobs_sent >= g_wreq->max_jobs_per_rpc) {
-        if (config.debug_send) {
+        if (config.debug_quota) {
             log_messages.printf(MSG_NORMAL,
-                "[send] stopping work search - njobs %d >= max_jobs_per_rpc %d\n",
+                "[quota] stopping work search - njobs %d >= max_jobs_per_rpc %d\n",
                 g_wreq->njobs_sent, g_wreq->max_jobs_per_rpc
             );
         }
@@ -1447,17 +1453,16 @@ static void send_user_messages() {
         }
         DB_HOST_APP_VERSION* havp = quota_exceeded_version();
         if (havp) {
-            struct tm *rpc_time_tm;
-            int delay_time;
-
             sprintf(buf, "This computer has finished a daily quota of %d tasks)",
                 havp->max_jobs_per_day
             );
             g_reply->insert_message(buf, "low");
-            log_messages.printf(MSG_NORMAL,
-                "Daily result quota %d exceeded for app version %d\n",
-                havp->max_jobs_per_day, havp->app_version_id
-            );
+            if (config.debug_quota) {
+                log_messages.printf(MSG_NORMAL,
+                    "[quota] Daily quota %d exceeded for app version %d\n",
+                    havp->max_jobs_per_day, havp->app_version_id
+                );
+            }
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
         }
         if (g_wreq->max_jobs_on_host_exceeded
@@ -1523,7 +1528,9 @@ void send_work_setup() {
         OTHER_RESULT& r = g_request->other_results[i];
         APP* app = NULL;
         bool uses_gpu = false;
-        if (r.app_version >= 0 && r.app_version<g_request->client_app_versions.size()) {
+        if (r.app_version >= 0
+            && r.app_version < (int)g_request->client_app_versions.size()
+        ) {
             CLIENT_APP_VERSION& cav = g_request->client_app_versions[r.app_version];
             app = cav.app;
             uses_gpu = cav.host_usage.uses_gpu();
@@ -1624,8 +1631,6 @@ int update_host_app_versions(vector<RESULT>& results, int hostid) {
             }
         }
     }
-
-    char query[256], clause[512];
 
     // create new records
     //
