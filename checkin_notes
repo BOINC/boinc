@@ -4572,3 +4572,10 @@ Rom    25 Jun 2010
     clientgui/
         ViewNotices.cpp
         NoticeListCtrl.cpp, .h
+
+Rom    25 Jun 2010
+    - MGR: Bug fixes to previous commit.
+
+    clientgui/
+        ViewNotices.cpp
+        NoticeListCtrl.cpp, .h

@@ -541,9 +541,7 @@ bool CNoticeListCtrl::Add(
     pItem->SetCategory( strCategory );
     pItem->SetArrivalTime( strArrivalTime );
 
-    m_Items.insert(m_Items.begin(), pItem);
-    SetItemCount(m_Items.size());
-
+    m_Items.push_back(pItem);
     return true;
 }
 
@@ -567,9 +565,18 @@ bool CNoticeListCtrl::Update(
         }
     }
 
-    SetItemCount(m_Items.size());
-
     return bRetVal;
+}
+
+
+/*!
+ * Update the UI.
+ */
+ 
+bool CNoticeListCtrl::UpdateUI()
+{
+    SetItemCount(m_Items.size());
+    return true;
 }
 
 

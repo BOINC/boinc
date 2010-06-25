@@ -163,6 +163,8 @@ public:
         wxString strArrivalTime
     );
 
+    bool UpdateUI();
+
     bool Exists( int iSeqNo );
 
     bool Sort();

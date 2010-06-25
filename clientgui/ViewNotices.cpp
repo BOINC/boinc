@@ -197,6 +197,7 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
         }
 
         m_pHtmlListPane->Sort();
+        m_pHtmlListPane->UpdateUI();
 
         m_pHtmlListPane->Thaw();
     }
