@@ -55,7 +55,7 @@ Credit:
 function show_av($avid) {
     $av = BoincAppVersion::lookup_id($avid);
     if (!$av) {
-        echo "not found";
+        echo "app version $avid not found";
         return;
     }
     echo "<hr>
