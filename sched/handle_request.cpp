@@ -1237,6 +1237,9 @@ void process_request(char* code_sign_key) {
     if (bad_install_type()) {
         ok_to_send_work = false;
     }
+    if (!requesting_work()) {
+        ok_to_send_work = false;
+    }
     send_work_setup();
 
     if (g_request->have_other_results_list) {

@@ -1073,7 +1073,7 @@ void CViewProjects::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
             append_to_status(strBuffer, _("Scheduler request in progress"));
         }
         if (project->trickle_up_pending) {
-            append_to_status(strBuffer, _("Task progress message pending"));
+            append_to_status(strBuffer, _("Trickle up message pending"));
         }
         wxDateTime dtNextRPC((time_t)project->min_rpc_time);
         wxDateTime dtNow(wxDateTime::Now());

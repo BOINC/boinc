@@ -4642,3 +4642,9 @@ David  25 Jun 2010
 
     sched/
         credit.cpp
+
+David  25 Jun 2010
+    - scheduler: don't resend work if client isn't requesting work
+
+    sched/
+        handle_request.cpp
