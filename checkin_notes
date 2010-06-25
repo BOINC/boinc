@@ -4630,3 +4630,9 @@ David  25 Jun 2010
         validator.cpp
     tools/
         create_work.cpp
+
+David  25 Jun 2010
+    - manager: message tweak
+
+    clientgui/
+        ViewProjects.cpp
