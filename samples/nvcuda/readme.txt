@@ -3,6 +3,10 @@ University of California, Berkeley
 Berkeley Space Sciences Lab
 tuanle86@berkeley.edu
 
+----------------------- Compiler ----------------------------
+
+You will need to install gcc 4.3 and g++ 4.3. It appears that Cuda 3.0 SDK has not yet worked
+with gcc 4.4 and g++ 4.4
 
 ----------------------- Linux Makefile ----------------------
 
@@ -11,16 +15,9 @@ Makefile needs to be edited on your machine before running. Please follow these 
 1) Open "boinc/samples/nvcuda/common.mk" with gedit
 2) Ctrl+f and search for "tuanle". You will find the following:
 
-LIBDIR     := /home/tuanle/NVIDIA_GPU_Computing_SDK/C/lib
+ROOTDIR  ?= /home/tuanle/NVIDIA_GPU_Computing_SDK
 
-COMMONDIR  := /home/tuanle/NVIDIA_GPU_Computing_SDK/C/common
-
-SHAREDDIR  := /home/tuanle/NVIDIA_GPU_Computing_SDK/shared
-...
-...
-NVCUVIDLIB := -L/home/tuanle/NVIDIA_GPU_Computing_SDK/C/common/lib/darwin -lnvcuvid
-
-3) Replace these above paths by appropriate paths on your machine.
+3) Replace this path by appropriate path on your machine.
 4) Done!
 
 

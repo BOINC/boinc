@@ -141,7 +141,6 @@ int main(int argc, char** argv)
     double fd;
     char input_path[512], output_path[512], chkpt_path[512], buf[256];
     REAL* h_idata;
-    unsigned int mem_size;
     MFILE out;
     FILE* state, *infile;
     

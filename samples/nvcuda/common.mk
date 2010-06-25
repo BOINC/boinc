@@ -31,7 +31,7 @@ OSARCH= $(shell uname -m)
 # Basic directory setup for SDK
 # (override directories only if they are not already defined)
 SRCDIR     ?= 
-ROOTDIR    ?= ..
+ROOTDIR    ?= /home/tuanle/NVIDIA_GPU_Computing_SDK
 
 # ROOTDIR/bin is the directory where executable file will be put in
 
@@ -45,9 +45,9 @@ BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 
 # Directory for cutil_i386 as well as other utils while linking (-lcutil_i386)
-LIBDIR     := /home/tuanle/NVIDIA_GPU_Computing_SDK/C/lib             
-COMMONDIR  := /home/tuanle/NVIDIA_GPU_Computing_SDK/C/common
-SHAREDDIR  := /home/tuanle/NVIDIA_GPU_Computing_SDK/shared
+LIBDIR     := $(ROOTDIR)/C/lib             
+COMMONDIR  := $(ROOTDIR)/C/common
+SHAREDDIR  := $(ROOTDIR)/shared
 
 # Compilers
 NVCC       := $(CUDA_INSTALL_PATH)/bin/nvcc 
@@ -238,7 +238,7 @@ endif
 
 ifeq ($(USENVCUVID), 1)
      ifneq ($(DARWIN),)
-         NVCUVIDLIB := -L/home/tuanle/NVIDIA_GPU_Computing_SDK/C/common/lib/darwin -lnvcuvid
+         NVCUVIDLIB := -L$(ROOTDIR)/C/common/lib/darwin -lnvcuvid
      endif
 endif
 
