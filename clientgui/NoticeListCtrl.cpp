@@ -528,7 +528,8 @@ bool CNoticeListCtrl::Add(
     wxString strTitle,
     wxString strDescription,
     wxString strCategory,
-    wxString strArrivalTime
+    wxString strArrivalTime,
+    double dArrivalTime
 )
 {
     CNoticeListItem* pItem = new CNoticeListItem();
@@ -540,6 +541,7 @@ bool CNoticeListCtrl::Add(
     pItem->SetDescription( strDescription );
     pItem->SetCategory( strCategory );
     pItem->SetArrivalTime( strArrivalTime );
+    pItem->SetArrivalTimeD( dArrivalTime );
 
     m_Items.push_back(pItem);
     return true;
@@ -552,7 +554,8 @@ bool CNoticeListCtrl::Add(
  
 bool CNoticeListCtrl::Update(
     int iSeqNo,
-    wxString strArrivalTime
+    wxString strArrivalTime,
+    double dArrivalTime
 )
 {
     bool bRetVal = false;
@@ -561,6 +564,7 @@ bool CNoticeListCtrl::Update(
     for (unsigned int i = 0; i < n; i++) {
         if (iSeqNo == m_Items[i]->GetSeqNo()) {
             m_Items[i]->SetArrivalTime( strArrivalTime );
+            m_Items[i]->SetArrivalTimeD( dArrivalTime );
             bRetVal = true;
         }
     }
@@ -605,7 +609,7 @@ bool CNoticeListCtrl::Exists( int iSeqNo )
 
 bool compare_notice_list_entry(const CNoticeListItem* a, const CNoticeListItem* b) 
 {
-    return a->GetArrivalTime() > b->GetArrivalTime();
+    return a->GetArrivalTimeD() > b->GetArrivalTimeD();
 }
 
 bool CNoticeListCtrl::Sort()

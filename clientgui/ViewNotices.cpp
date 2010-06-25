@@ -180,7 +180,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
                     strTitle,
                     strDescription,
                     strCategory,
-                    strArrivalTime
+                    strArrivalTime,
+                    np->arrival_time
                 );
 
             } else {
@@ -190,7 +191,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
                 m_pHtmlListPane->Update(
                     np->seqno,
-                    strArrivalTime
+                    strArrivalTime,
+                    np->arrival_time
                 );
 
             }

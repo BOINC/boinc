@@ -63,6 +63,9 @@ public:
     wxString GetArrivalTime() const { return m_strArrivalTime ; }
     void SetArrivalTime(wxString value) { m_strArrivalTime = value ; }
 
+    double GetArrivalTimeD() const { return m_dArrivalTime ; }
+    void SetArrivalTimeD(double value) { m_dArrivalTime = value ; }
+
 private:
     int m_iSeqNo;
     wxString m_strURL;
@@ -71,6 +74,7 @@ private:
     wxString m_strCategory;
     wxString m_strProjectName;
     wxString m_strArrivalTime;
+    double m_dArrivalTime;
 };
 
 
@@ -155,12 +159,14 @@ public:
         wxString strTitle,
         wxString strDescription,
         wxString strCategory,
-        wxString strArrivalTime
+        wxString strArrivalTime,
+        double dArrivalTime
     );
 
     bool Update(
         int iSeqNo,
-        wxString strArrivalTime
+        wxString strArrivalTime,
+        double dArrivalTime
     );
 
     bool UpdateUI();

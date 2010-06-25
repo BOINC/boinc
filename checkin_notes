@@ -4658,3 +4658,10 @@ David  25 Jun 2010
     sched/
         sched_send.cpp,h
         handle_request.cpp
+
+Rom    25 Jun 2010
+    - MGR: Sort notices by dtime()
+    
+    clientgui/
+        ViewNotices.cpp
+        NoticeListCtrl.cpp, .h
