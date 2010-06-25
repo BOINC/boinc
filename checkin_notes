@@ -4636,3 +4636,9 @@ David  25 Jun 2010
 
     clientgui/
         ViewProjects.cpp
+
+David  25 Jun 2010
+    - validator: need parens in boolean expression
+
+    sched/
+        credit.cpp

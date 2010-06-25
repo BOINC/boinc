@@ -565,7 +565,7 @@ int get_pfc(
                 );
             }
         }
-        if (do_scale && hav.pfc.n < MIN_HOST_SAMPLES || hav.pfc.get_avg()==0) {
+        if (do_scale && (hav.pfc.n < MIN_HOST_SAMPLES || hav.pfc.get_avg()==0)) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
