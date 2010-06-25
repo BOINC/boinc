@@ -7,7 +7,7 @@ $cli_only = true;
 require_once("../inc/db.inc");
 
 set_time_limit(0);
-db_init();
+db_init_aux();
 
 $config = get_config();
 $mjd = parse_element($config, "daily_result_quota");
