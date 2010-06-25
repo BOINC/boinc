@@ -10,7 +10,7 @@
 #ifndef ATIOPENCL_H_
 #define ATIOPENCL_H_
 
-#include <CL/cl.h>
+#include <CL/opencl.h>
 #include <string.h>
 #include <math.h>
 #include <time.h>
