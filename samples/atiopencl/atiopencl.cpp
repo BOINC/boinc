@@ -225,7 +225,7 @@ int main(int argc, char * argv[]) {
     update_shmem();
 #endif
 
-	printf("\nDone! Output is written to file \"%s\" in boinc\\win_build\\Build\\Win32\\Release directory\n",OUTPUT_FILENAME);
+	printf("\nDone!\n");
 	getchar();
     boinc_finish(0);
 }
