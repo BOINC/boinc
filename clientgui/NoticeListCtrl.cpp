@@ -598,7 +598,7 @@ bool CNoticeListCtrl::Exists( int iSeqNo )
 
 bool compare_notice_list_entry(const CNoticeListItem* a, const CNoticeListItem* b) 
 {
-    return a->GetArrivalTime() < b->GetArrivalTime();
+    return a->GetArrivalTime() > b->GetArrivalTime();
 }
 
 bool CNoticeListCtrl::Sort()
