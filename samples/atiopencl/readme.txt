@@ -31,7 +31,7 @@ found in ATI_Stream_SDK_Installation_Notes.pdf section 2.2
    shared object file: No such file or directory
    
    Solution: Set the environment variable ATISTREAMSDKROOT
-                  -> export ATISTREAMSDK=<location where Stream SDK is extracted>
+                  -> export ATISTREAMSDKROOT=<location where Stream SDK is extracted>
 
              Set the library path LD_LIBRARY_PATH
              - For 32-bit systems:
