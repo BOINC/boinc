@@ -49,7 +49,7 @@ function notices_rss_end() {
 
 $userid = get_int('userid');
 $auth = get_str('auth');
-$seqno = get_int('auth', true);
+$seqno = get_int('seqno', true);
 
 $user = BoincUser::lookup_id($userid);
 if (!$user) xml_error();

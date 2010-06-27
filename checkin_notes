@@ -4665,3 +4665,9 @@ Rom    25 Jun 2010
     clientgui/
         ViewNotices.cpp
         NoticeListCtrl.cpp, .h
+
+David  26 Jun 2010
+    - user web: notices fix
+
+    html/user/
+        notices.php
