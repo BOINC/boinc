@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-01 13:26-0700\n"
+"PO-Revision-Date: 2010-06-28 05:39-0700\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -98,7 +98,7 @@ msgstr "אורך מינימלי %d"
 
 #: clientgui/AccountInfoPage.cpp:488
 msgid "Forgot your password?"
-msgstr ""
+msgstr "שכחת את סיסמתך?"
 
 #: clientgui/AccountInfoPage.cpp:495
 msgid ""
@@ -106,10 +106,12 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"אם טרם נרשמת עם מנהל חשבון זה, /n אנא עשה זאת בטרם תמשיך. לחץ על הקישור "
+"למטה/n בכדי להירשם או לשחזר סיסמא שנשכחה."
 
 #: clientgui/AccountInfoPage.cpp:498
 msgid "Account manager website"
-msgstr ""
+msgstr "אתר מנהל החשבון"
 
 #: clientgui/AccountInfoPage.cpp:530
 msgid "Attach to project"
