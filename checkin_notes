@@ -4692,3 +4692,9 @@ Rom    28 Jun 2010
     
     client/
         cs_notice.cpp
+
+David
+    - scheduler: message tweak
+
+    sched/
+        handle_request.cpp

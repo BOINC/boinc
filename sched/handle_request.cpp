@@ -1106,7 +1106,11 @@ void process_request(char* code_sign_key) {
             have_no_work = ssp->no_work(g_pid);
             if (have_no_work) {
                 g_wreq->no_jobs_available = true;
-                log_messages.printf(MSG_NORMAL, "No jobs in shmem\n");
+                if (config.debug_send) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] No jobs in shmem\n"
+                    );
+                }
             }
             unlock_sema();
         }
@@ -1325,8 +1329,8 @@ static void log_incomplete_request() {
 static void log_user_messages() {
     for (unsigned int i=0; i<g_reply->messages.size(); i++) {
         USER_MESSAGE um = g_reply->messages[i];
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] MSG(%4s) %s\n",
+        log_messages.printf(MSG_INFO,
+            "[user_messages] [HOST#%d] MSG(%s) %s\n",
             g_reply->host.id, um.priority.c_str(), um.message.c_str()
         );
     }
