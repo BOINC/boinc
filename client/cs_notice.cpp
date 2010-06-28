@@ -175,7 +175,7 @@ static int month_index(char* x) {
     if (strstr(x, "Sep")) return 8;
     if (strstr(x, "Oct")) return 9;
     if (strstr(x, "Nov")) return 10;
-    if (strstr(x, "Dev")) return 11;
+    if (strstr(x, "Dec")) return 11;
     return 0;
 }
 

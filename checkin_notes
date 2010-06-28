@@ -4686,3 +4686,9 @@ Charlie 28 Jun 2010
 
     clientgui/
         ViewNotices.cpp
+
+Rom    28 Jun 2010
+    - CC: Fix typo
+    
+    client/
+        cs_notice.cpp
