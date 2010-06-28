@@ -4693,8 +4693,23 @@ Rom    28 Jun 2010
     client/
         cs_notice.cpp
 
-David
+David  28 Jun 2010
     - scheduler: message tweak
 
     sched/
         handle_request.cpp
+
+Rom    28 Jun 2010
+    - MGR: Introduce the notion of a cached internet filesystem in the
+        manager, right now it stores everything in memory but will be extended
+        in the future.
+    - MGR: Clean up notice memory on shutdown
+
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCInternetFSHandler.cpp, .h
+        NoticeListCtrl.cpp, .h
+        stdwx.h
+        ViewNotices.cpp
+    win_build/
+        boincmgr.vcproj

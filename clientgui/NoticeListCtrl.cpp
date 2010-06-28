@@ -400,14 +400,24 @@ CNoticeListCtrl::CNoticeListCtrl( wxWindow* parent )
 }
  
  
- #ifdef __WXMAC__
 CNoticeListCtrl::~CNoticeListCtrl( )
 {
+    std::vector<CNoticeListItem*>::iterator iter;
+    CNoticeListItem* pItem = NULL;
+
+    iter = m_Items.begin();
+    while (iter != m_Items.end()) {
+        pItem = *iter;
+        iter = m_Items.erase(iter);
+        delete pItem;
+    }
+
+#ifdef __WXMAC__
     if (m_accessible) {
         delete m_accessible;
     }
-}
 #endif
+}
 
 /*!
  * CNoticeListCtrl creator
@@ -416,6 +426,7 @@ CNoticeListCtrl::~CNoticeListCtrl( )
 bool CNoticeListCtrl::Create( wxWindow* parent )
 {
 ////@begin CNoticeListCtrl member initialisation
+    m_bNeedsRefresh = false;
 ////@end CNoticeListCtrl member initialisation
 
 ////@begin CNoticeListCtrl creation
@@ -542,6 +553,8 @@ bool CNoticeListCtrl::Add(
     pItem->SetArrivalTime( strArrivalTime );
     pItem->SetDeletionFlag( false );
 
+    m_bNeedsRefresh = true;
+
     m_Items.insert(m_Items.begin(), pItem);
     return true;
 }
@@ -552,8 +565,7 @@ bool CNoticeListCtrl::Add(
  */
  
 bool CNoticeListCtrl::Update(
-    int iSeqNo,
-    wxString strArrivalTime
+    int iSeqNo
 )
 {
     bool bRetVal = false;
@@ -561,7 +573,6 @@ bool CNoticeListCtrl::Update(
     unsigned int n = (unsigned int)m_Items.size();
     for (unsigned int i = 0; i < n; i++) {
         if (iSeqNo == m_Items[i]->GetSeqNo()) {
-            m_Items[i]->SetArrivalTime( strArrivalTime );
             m_Items[i]->SetDeletionFlag( false );
             bRetVal = true;
         }
@@ -616,14 +627,20 @@ void CNoticeListCtrl::DeleteAllFlagedItems()
     while (iter != m_Items.end()) {
         pItem = *iter;
         if (pItem->GetDeletionFlag()) {
+
             iter = m_Items.erase(iter);
             delete pItem;
+
+            m_bNeedsRefresh = true;
+
         } else {
             iter++;
         }
     }
 
-    UpdateUI();
+    if (m_bNeedsRefresh) {
+        UpdateUI();
+    }
 }
 
 

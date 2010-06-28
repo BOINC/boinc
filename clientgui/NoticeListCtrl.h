@@ -133,9 +133,7 @@ public:
     /// Constructors
     CNoticeListCtrl( );
     CNoticeListCtrl( wxWindow* parent );
-#ifdef __WXMAC__
     ~CNoticeListCtrl();
-#endif
 
     /// Creation
     bool Create( wxWindow* parent );
@@ -163,8 +161,7 @@ public:
     );
 
     bool Update(
-        int iSeqNo,
-        wxString strArrivalTime
+        int iSeqNo
     );
 
     bool Exists( int iSeqNo );
@@ -182,6 +179,7 @@ public:
 
 private:
     std::vector<CNoticeListItem*> m_Items;
+    bool m_bNeedsRefresh;
 
 #ifdef __WXMAC__
     CNoticeListCtrlAccessible*    m_accessible;

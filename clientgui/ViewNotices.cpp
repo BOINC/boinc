@@ -190,8 +190,7 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
                 strArrivalTime = dtBuffer.Format();
 
                 m_pHtmlListPane->Update(
-                    np->seqno,
-                    strArrivalTime
+                    np->seqno
                 );
 
             }

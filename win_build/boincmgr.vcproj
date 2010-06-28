@@ -1661,6 +1661,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientgui\BOINCInternetFSHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\BOINCInternetFSHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\browser.cpp"
 				>
 			</File>
