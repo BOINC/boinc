@@ -528,8 +528,7 @@ bool CNoticeListCtrl::Add(
     wxString strTitle,
     wxString strDescription,
     wxString strCategory,
-    wxString strArrivalTime,
-    double dArrivalTime
+    wxString strArrivalTime
 )
 {
     CNoticeListItem* pItem = new CNoticeListItem();
@@ -541,9 +540,9 @@ bool CNoticeListCtrl::Add(
     pItem->SetDescription( strDescription );
     pItem->SetCategory( strCategory );
     pItem->SetArrivalTime( strArrivalTime );
-    pItem->SetArrivalTimeD( dArrivalTime );
+    pItem->SetDeletionFlag( false );
 
-    m_Items.push_back(pItem);
+    m_Items.insert(m_Items.begin(), pItem);
     return true;
 }
 
@@ -554,8 +553,7 @@ bool CNoticeListCtrl::Add(
  
 bool CNoticeListCtrl::Update(
     int iSeqNo,
-    wxString strArrivalTime,
-    double dArrivalTime
+    wxString strArrivalTime
 )
 {
     bool bRetVal = false;
@@ -564,23 +562,12 @@ bool CNoticeListCtrl::Update(
     for (unsigned int i = 0; i < n; i++) {
         if (iSeqNo == m_Items[i]->GetSeqNo()) {
             m_Items[i]->SetArrivalTime( strArrivalTime );
-            m_Items[i]->SetArrivalTimeD( dArrivalTime );
+            m_Items[i]->SetDeletionFlag( false );
             bRetVal = true;
         }
     }
 
     return bRetVal;
-}
-
-
-/*!
- * Update the UI.
- */
- 
-bool CNoticeListCtrl::UpdateUI()
-{
-    SetItemCount(m_Items.size());
-    return true;
 }
 
 
@@ -604,17 +591,49 @@ bool CNoticeListCtrl::Exists( int iSeqNo )
 
 
 /*!
- * Sort entries in the control.
+ * Flag all entries for delete.
  */
-
-bool compare_notice_list_entry(const CNoticeListItem* a, const CNoticeListItem* b) 
+ 
+void CNoticeListCtrl::FlagAllItemsForDelete()
 {
-    return a->GetArrivalTimeD() > b->GetArrivalTimeD();
+    unsigned int n = (unsigned int)m_Items.size();
+    for (unsigned int i = 0; i < n; i++) {
+        m_Items[i]->SetDeletionFlag(true);
+    }
 }
 
-bool CNoticeListCtrl::Sort()
+
+/*!
+ * Purge deleted items.
+ */
+ 
+void CNoticeListCtrl::DeleteAllFlagedItems()
 {
-    sort(m_Items.begin(), m_Items.end(), compare_notice_list_entry);
+    std::vector<CNoticeListItem*>::iterator iter;
+    CNoticeListItem* pItem = NULL;
+
+    iter = m_Items.begin();
+    while (iter != m_Items.end()) {
+        pItem = *iter;
+        if (pItem->GetDeletionFlag()) {
+            iter = m_Items.erase(iter);
+            delete pItem;
+        } else {
+            iter++;
+        }
+    }
+
+    UpdateUI();
+}
+
+
+/*!
+ * Update the UI.
+ */
+ 
+bool CNoticeListCtrl::UpdateUI()
+{
+    SetItemCount(m_Items.size());
     return true;
 }
 

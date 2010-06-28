@@ -156,8 +156,9 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     if (n != -1) {
 
         m_pHtmlListPane->Freeze();
+        m_pHtmlListPane->FlagAllItemsForDelete();
 
-        for (i = 0; i < (unsigned int)n; i++) {
+        for (i = n; i != 0; i--) {
             NOTICE* np = pDoc->notice(i);
 
             if (!np) continue;
@@ -180,8 +181,7 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
                     strTitle,
                     strDescription,
                     strCategory,
-                    strArrivalTime,
-                    np->arrival_time
+                    strArrivalTime
                 );
 
             } else {
@@ -191,16 +191,13 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
                 m_pHtmlListPane->Update(
                     np->seqno,
-                    strArrivalTime,
-                    np->arrival_time
+                    strArrivalTime
                 );
 
             }
         }
 
-        m_pHtmlListPane->Sort();
-        m_pHtmlListPane->UpdateUI();
-
+        m_pHtmlListPane->DeleteAllFlagedItems();
         m_pHtmlListPane->Thaw();
     }
 

@@ -63,8 +63,8 @@ public:
     wxString GetArrivalTime() const { return m_strArrivalTime ; }
     void SetArrivalTime(wxString value) { m_strArrivalTime = value ; }
 
-    double GetArrivalTimeD() const { return m_dArrivalTime ; }
-    void SetArrivalTimeD(double value) { m_dArrivalTime = value ; }
+    bool GetDeletionFlag() const { return m_bDeletionFlag ; }
+    void SetDeletionFlag(bool value) { m_bDeletionFlag = value ; }
 
 private:
     int m_iSeqNo;
@@ -74,7 +74,7 @@ private:
     wxString m_strCategory;
     wxString m_strProjectName;
     wxString m_strArrivalTime;
-    double m_dArrivalTime;
+    bool m_bDeletionFlag;
 };
 
 
@@ -159,21 +159,20 @@ public:
         wxString strTitle,
         wxString strDescription,
         wxString strCategory,
-        wxString strArrivalTime,
-        double dArrivalTime
+        wxString strArrivalTime
     );
 
     bool Update(
         int iSeqNo,
-        wxString strArrivalTime,
-        double dArrivalTime
+        wxString strArrivalTime
     );
-
-    bool UpdateUI();
 
     bool Exists( int iSeqNo );
 
-    bool Sort();
+    void FlagAllItemsForDelete();
+    void DeleteAllFlagedItems();
+
+    bool UpdateUI();
 
     CNoticeListItem* GetItem( 
         int iIndex

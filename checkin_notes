@@ -4671,3 +4671,12 @@ David  26 Jun 2010
 
     html/user/
         notices.php
+
+Rom    27 Jun 2010
+    - MGR: Delete expired entries from the notices control
+    - MGR: Remove sort code.  Entries in the pDoc notices
+        structure is already sorted.
+        
+    clientgui/
+        NoticeListCtrl.cpp, .h
+        ViewNotices.cpp
