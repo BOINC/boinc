@@ -159,7 +159,7 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
         m_pHtmlListPane->FlagAllItemsForDelete();
 
         for (i = n; i != 0; i--) {
-            NOTICE* np = pDoc->notice(i);
+            NOTICE* np = pDoc->notice(i-1);
 
             if (!np) continue;
 
