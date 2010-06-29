@@ -4827,3 +4827,11 @@ David  29 Jun 2010
 	client/
 		client_msgs.cpp
 		cs_notice.cpp,h
+
+David  29 Jun 2010
+    - GUI RPC: add NOTICES::complete, so caller knows whether
+        what's being returned is new notices or all notices.
+
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

@@ -2352,6 +2352,7 @@ static int parse_notices(MIOFILE& fin, NOTICES& notices) {
     bool is_tag;
     int retval;
 
+    notices.complete = false;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "notice")) {
@@ -2360,6 +2361,7 @@ static int parse_notices(MIOFILE& fin, NOTICES& notices) {
             if (!retval) {
                 if (np->seqno == -1) {
                     notices.notices.clear();
+                    notices.complete = true;
                 } else {
                     notices.notices.insert(notices.notices.begin(), np);
                 }

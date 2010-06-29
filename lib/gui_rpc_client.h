@@ -449,6 +449,8 @@ public:
 
 class NOTICES {
 public:
+    bool complete;
+        // whether vector contains all notices, or just new ones
     std::vector<NOTICE*> notices;
 
     NOTICES();
