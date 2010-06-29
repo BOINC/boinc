@@ -441,6 +441,7 @@ void NOTICES::write(int seqno, MIOFILE& fout, bool public_only, bool notice_refr
         n.seqno = -1;
         seqno = -1;
         i = notices.size();
+        n.write(fout, true);
     } else {
         for (i=0; i<notices.size(); i++) {
             NOTICE& n = notices[i];
@@ -557,7 +558,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
             } else {
                 n.arrival_time = gstate.now;
                 strcpy(n.feed_url, url);
-                if (notices.append(n, true)) {
+                if (notices.append(n, false)) {
                     nitems++;
                 }
             }

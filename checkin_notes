@@ -4747,3 +4747,17 @@ David  28 Jun 2010
         sched_send.cpp
         handle_request.cpp
         sched_types.cpp
+
+Charlie 29 Jun 2010
+    - client: Fix 2 bugs in handling of notices:
+        - When client sends all notices instead of starting with the requested 
+            sequence number (e.g., due to having removed a notice), it must 
+            prefix the notices with a dummy notice with sequence number -1 to 
+            tell the manager to clear the notices vector.  
+        - When parsing RSS feeds, call notices.append() with keep_old false.  
+            It was passing true, so notices of new posts to threads were not 
+            having their arrival times updated when additional posts to the 
+            same thread were reported.
+
+    client/
+        cs_notices.cpp
