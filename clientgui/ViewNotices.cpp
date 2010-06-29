@@ -163,6 +163,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
             if (!np) continue;
 
+            // New and updated items have their flagged for delete flag
+            // turned off.
             if (!m_pHtmlListPane->Exists(np->seqno)) {
 
                 strProjectName = wxString(np->project_name, wxConvUTF8);
@@ -198,6 +200,7 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
         m_pHtmlListPane->DeleteAllFlagedItems();
         m_pHtmlListPane->Thaw();
+
     }
 
     s_bInProgress = false;
