@@ -104,6 +104,7 @@ rem ***** Software Detection *****
 rem
 :DETECTVS2005
 IF EXIST "%VS80COMNTOOLS%\vsvars32.bat" (
+    ECHO Software Platform Detected: Visual Studio 2005
     CALL "%VS80COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
     SET BUILDCOMPILERDETECTED=vs2005
 	GOTO :SOFTDETECTIONCOMPLETE
@@ -111,6 +112,7 @@ IF EXIST "%VS80COMNTOOLS%\vsvars32.bat" (
 
 :DETECTVS2008
 IF EXIST "%VS90COMNTOOLS%\vsvars32.bat" (
+    ECHO Software Platform Detected: Visual Studio 2008
     CALL "%VS90COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
     SET BUILDCOMPILERDETECTED=vs2008
 	GOTO :SOFTDETECTIONCOMPLETE
@@ -118,6 +120,7 @@ IF EXIST "%VS90COMNTOOLS%\vsvars32.bat" (
 
 :DETECTVS2010
 IF EXIST "%VS100COMNTOOLS%\vsvars32.bat" (
+    ECHO Software Platform Detected: Visual Studio 2010
     CALL "%VS100COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
     SET BUILDCOMPILERDETECTED=vs2010
 	GOTO :SOFTDETECTIONCOMPLETE
@@ -125,7 +128,7 @@ IF EXIST "%VS100COMNTOOLS%\vsvars32.bat" (
 
 :SOFTDETECTIONCOMPLETE
 IF "%VCINSTALLDIR%"=="" (
-	ECHO Software NOT Detected: Microsoft Visual Studio 2005/2008/2010...
+	ECHO Software Platform NOT Detected: Microsoft Visual Studio 2005/2008/2010...
     EXIT /B 1
 )
 
