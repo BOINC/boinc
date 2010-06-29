@@ -4713,3 +4713,10 @@ Rom    28 Jun 2010
         ViewNotices.cpp
     win_build/
         boincmgr.vcproj
+
+Charlie 28 Jun 2010
+    - Mac: Update XCode project for new source files BOINCInternetFSHandler.cpp,.h.
+        
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
