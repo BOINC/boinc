@@ -110,7 +110,7 @@ static int result_timed_out(
         n = 1;
     }
     if (config.debug_quota) {
-        log_messages.printf(MSG_INFO,
+        log_messages.printf(MSG_NORMAL,
             "[quota] max_jobs_per_day for %d; %d->%d\n",
             gavid, hav.max_jobs_per_day, n
         );

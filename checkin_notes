@@ -4720,3 +4720,14 @@ Charlie 28 Jun 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  28 Jun 2010
+    - scheduler and back end: message tweaks and fixes
+
+    sched/
+        sched_version.cpp
+        sched_send.cpp
+        handle_request.cpp
+        transitioner.cpp
+        sched_main.cpp
+        sched_types.cpp

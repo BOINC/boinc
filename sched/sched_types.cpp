@@ -125,7 +125,7 @@ int OTHER_RESULT::parse(FILE* f) {
     app_version = -1;
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</other_result>")) {
-            if (name=="") return ERR_XML_PARSE;
+            if (!strcmp(name, "")) return ERR_XML_PARSE;
             return 0;
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
@@ -214,7 +214,9 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     sandbox = -1;
     coprocs.clear();
 
-    fgets(buf, sizeof(buf), fin);
+    if (!fgets(buf, sizeof(buf), fin)) {
+        return "fgets() failed";
+    }
     if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
     while (fgets(buf, sizeof(buf), fin)) {
         // If a line is too long, ignore it.

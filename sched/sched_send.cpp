@@ -118,7 +118,7 @@ void WORK_REQ::get_job_limits() {
         g_wreq->max_jobs_per_rpc = 999999;
     }
     if (config.debug_quota) {
-        log_messages.printf(MSG_INFO,
+        log_messages.printf(MSG_NORMAL,
             "[quota] max jobs per RPC: %d\n",
             g_wreq->max_jobs_per_rpc
         );
@@ -238,12 +238,12 @@ static inline void get_running_frac() {
     //
     if (rf > 1) {
         if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 1\n", rf);
+            log_messages.printf(MSG_NORMAL, "[send] running_frac=%f; setting to 1\n", rf);
         }
         rf = 1;
     } else if (rf < .1) {
         if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 0.1\n", rf);
+            log_messages.printf(MSG_NORMAL, "[send] running_frac=%f; setting to 0.1\n", rf);
         }
         rf = .1;
     }
@@ -410,7 +410,7 @@ static void update_quota(DB_HOST_APP_VERSION& hav) {
 
     if (g_request->last_rpc_dayofyear != g_request->current_rpc_dayofyear) {
         if (config.debug_quota) {
-            log_messages.printf(MSG_INFO,
+            log_messages.printf(MSG_NORMAL,
                 "[quota] [HOST#%d] [HAV#%d] Resetting n_jobs_today\n",
                 g_reply->host.id, hav.app_version_id
             );

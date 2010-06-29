@@ -1329,7 +1329,7 @@ static void log_incomplete_request() {
 static void log_user_messages() {
     for (unsigned int i=0; i<g_reply->messages.size(); i++) {
         USER_MESSAGE um = g_reply->messages[i];
-        log_messages.printf(MSG_INFO,
+        log_messages.printf(MSG_NORMAL,
             "[user_messages] [HOST#%d] MSG(%s) %s\n",
             g_reply->host.id, um.priority.c_str(), um.message.c_str()
         );
