@@ -70,12 +70,12 @@ struct NOTICES {
     std::deque<NOTICE> notices;
         // stored newest (i.e. highest seqno) message first
     void write(int seqno, MIOFILE&, bool public_only, bool notice_refresh);
-    bool append(NOTICE&, bool keep_old);
+    bool append(NOTICE&);
     void init();
     void init_rss();
     int read_archive_file(const char* file, struct RSS_FEED*);
     void write_archive(struct RSS_FEED*);
-    bool remove_dups(NOTICE&, bool keep_old);
+    bool remove_dups(NOTICE&);
     void remove_network_msg();
 };
 

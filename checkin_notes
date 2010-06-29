@@ -4771,7 +4771,7 @@ Charlie 29 Jun 2010
     client/
         cs_notices.cpp
 
-David  28 Jun 2010
+David  29 Jun 2010
     - scheduler and client: fix the "allow multiple clients" feature.
         This feature lets you run the BOINC client as a job on grid systems
         that handle only 1-CPU jobs;
@@ -4820,3 +4820,10 @@ David  28 Jun 2010
         sched_types.cpp,h
         sched_config.cpp,h
         handle_request.cpp
+
+David  29 Jun 2010
+	- client: improve (or at least change) logic related to duplicate notices
+
+	client/
+		client_msgs.cpp
+		cs_notice.cpp,h

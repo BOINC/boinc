@@ -179,6 +179,8 @@ static int month_index(char* x) {
     return 0;
 }
 
+// convert a date-time string (assumed GMT) to Unix time
+
 static int parse_rss_time(char* buf) {
     char day_name[64], month_name[64];
     int day_num, year, h, m, s;
@@ -197,9 +199,7 @@ static int parse_rss_time(char* buf) {
     tm.tm_yday = 0;
     tm.tm_isdst = 0;
 
-    int t = (int)mktime(&tm);
-    t -= gstate.host_info.timezone;
-    return t;
+    return (int)mktime(&tm);
 }
 #endif
 
@@ -260,20 +260,21 @@ void NOTICES::init_rss() {
     }
 }
 
-static inline bool equivalent(NOTICE& n1, NOTICE& n2) {
+static inline bool same_text(NOTICE& n1, NOTICE& n2) {
     if (strcmp(n1.title, n2.title)) return false;
     if (n1.description != n2.description) return false;
     return true;
 }
 
 // we're considering adding a notice n.
-// See if an equivalent notice n2 is already there; if so:
-// keep_old: return false
-// !keep_old: delete n2
+// If there's already an identical message n2
+//     return false (don't add n)
+// If there's a message n2 with same title and text but different create_time,
+//     delete n2
 //
 // Also remove notices older than 30 days
 //
-bool NOTICES::remove_dups(NOTICE& n, bool keep_old) {
+bool NOTICES::remove_dups(NOTICE& n) {
     deque<NOTICE>::iterator i = notices.begin();
     bool removed_something = false;
     bool retval = true;
@@ -282,13 +283,13 @@ bool NOTICES::remove_dups(NOTICE& n, bool keep_old) {
         if (n2.arrival_time < gstate.now - 30*86400) {
             i = notices.erase(i);
             removed_something = true;
-        } else if (equivalent(n, n2)) {
-            if (keep_old) {
-                retval = false;
-                ++i;
-            } else {
+        } else if (same_text(n, n2)) {
+            if (n.create_time > n2.create_time) {
                 i = notices.erase(i);
                 removed_something = true;
+            } else {
+                retval = false;
+                ++i;
             }
         } else {
             ++i;
@@ -301,15 +302,9 @@ bool NOTICES::remove_dups(NOTICE& n, bool keep_old) {
 }
 
 // add a notice.
-// If an identical notice is already there:
-// - if keep_old is set, use the existing one unless it's really old
-//   otherwise delete the old one and add the new one
-//
-// This is called from various places:
-//  client_msgs.cpp:
 // 
-bool NOTICES::append(NOTICE& n, bool keep_old) {
-    if (!remove_dups(n, keep_old)) {
+bool NOTICES::append(NOTICE& n) {
+    if (!remove_dups(n)) {
         return false;
     }
     if (notices.empty()) {
@@ -371,7 +366,7 @@ int NOTICES::read_archive_file(const char* path, RSS_FEED* rfp) {
                     strcpy(n.feed_url, rfp->url);
                     strcpy(n.project_name, rfp->project_name);
                 }
-                append(n, false);
+                append(n);
             }
         }
     }
@@ -558,7 +553,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
             } else {
                 n.arrival_time = gstate.now;
                 strcpy(n.feed_url, url);
-                if (notices.append(n, true)) {
+                if (notices.append(n)) {
                     nitems++;
                 }
             }
