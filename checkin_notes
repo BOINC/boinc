@@ -4761,3 +4761,12 @@ Charlie 29 Jun 2010
 
     client/
         cs_notices.cpp
+
+Charlie 29 Jun 2010
+    - client: revert my recent change to keep_old argument above.  It caused all 
+        RSS feeds to be updated repeatedly.  We need to somehow differentiate 
+        between old news items and notices that are new but identical to previous 
+        ones.  Should we use the pubDate for that?
+        
+    client/
+        cs_notices.cpp
