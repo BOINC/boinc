@@ -212,6 +212,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     have_time_stats_log = false;
     client_cap_plan_class = false;
     sandbox = -1;
+    allow_multiple_clients = -1;
     coprocs.clear();
 
     if (!fgets(buf, sizeof(buf), fin)) {
@@ -387,6 +388,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         if (parse_bool(buf, "client_cap_plan_class", client_cap_plan_class)) continue;
         if (parse_int(buf, "<sandbox>", sandbox)) continue;
+        if (parse_int(buf, "<allow_multiple_clients>", allow_multiple_clients)) continue;
 
         if (match_tag(buf, "<active_task_set>")) continue;
         if (match_tag(buf, "<app>")) continue;

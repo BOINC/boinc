@@ -4770,3 +4770,53 @@ Charlie 29 Jun 2010
         
     client/
         cs_notices.cpp
+
+David  28 Jun 2010
+    - scheduler and client: fix the "allow multiple clients" feature.
+        This feature lets you run the BOINC client as a job on grid systems
+        that handle only 1-CPU jobs;
+        it disables various mechanisms that prevent multiple clients per host
+        (which is normally a bad thing).
+        Old:
+            - Run the client with a --allow_multiple_clients flag.
+                This tells it not to use a mutex that prevents
+                multiple clients per host.
+            - Run the project with the <multiple_clients_per_host> config flag.
+                This suppresses two mechanisms:
+                - (avoid duplicate host records)
+                    on a scheduler request with no host ID,
+                    looks for a host with same domain name, OS type,
+                    and mem size, and assumes the request is from that host
+                - (job retry)
+                    If we get a request that doesn't have a host ID
+                    but does have a host CPID,
+                    mark its in-progress results as over
+                    NOTE: I CAN'T REMEMBER WHY WE SUPPRESS THIS;
+                    MARK S, DO YOU REMEMBER?
+
+        Problem:
+            if the grid clients attach to a project that
+            doesn't use <multiple_clients_per_host>, bad things happen.
+            E.g., if there are several requests at about the same time,
+            most of them will fail with
+            "another RPC already in progress" errors.
+            If a project does include this flag,
+            it loses protection from duplicate host records.
+
+        New:
+            - If the client is run with --allow_multiple_clients flag,
+                it passes a <allow_multiple_clients> element
+                in scheduler requests.
+            - The scheduler skips the duplicate-host check on
+                requests that include this flag.
+            - There is no more <multiple_clients_per_host> scheduler option.
+
+        Note: if a project using the old mechanism upgrades to this change,
+        it will need to use new clients for its grid deployment.
+
+    client/
+        cs_scheduler.cpp
+    sched/
+        sched_types.cpp,h
+        sched_config.cpp,h
+        handle_request.cpp

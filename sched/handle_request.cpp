@@ -382,7 +382,7 @@ lookup_user_and_make_new_host:
                     "[HOST#%d] [USER#%d] User has another host with same CPID.\n",
                     host.id, host.userid
                 );
-                if (!config.multiple_clients_per_host
+                if ((g_request->allow_multiple_clients != 1)
                     && (g_request->other_results.size() == 0)
                 ) {
                     mark_results_over(host);
@@ -399,10 +399,11 @@ make_new_host:
         // If found, use the existing host record,
         // and mark in-progress results as over.
         //
-        // NOTE: if the project allows multiple clients per host
-        // (e.g. those that run on grids), skip this.
+        // NOTE: If the client was run with --allow_multiple_clients, skip this.
         //
-        if (!config.multiple_clients_per_host && find_host_by_other(user, g_request->host, host)) {
+        if ((g_request->allow_multiple_clients==1)
+            && find_host_by_other(user, g_request->host, host)
+        ) {
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d] [USER#%d] Found similar existing host for this user - assigned.\n",
                 host.id, host.userid
@@ -1042,11 +1043,7 @@ bool bad_install_type() {
                     "Vista secure install - not sending work\n"
                 );
                 g_reply->insert_message(
-                    "Unable to send work to Vista with BOINC installed in protected mode",
-                    "notice"
-                );
-                g_reply->insert_message(
-                    "Please reinstall BOINC and uncheck 'Protected application execution'",
+                    "Unable to send work to Vista with BOINC installed in protected mode.  Please reinstall BOINC and uncheck 'Protected application execution'",
                     "notice"
                 );
             }

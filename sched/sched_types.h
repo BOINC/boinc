@@ -296,6 +296,8 @@ struct SCHEDULER_REQUEST {
     bool client_cap_plan_class;
     int sandbox;
         // whether client uses account-based sandbox.  -1 = don't know
+    int allow_multiple_clients;
+        // whether client allows multiple clients per host, -1 don't know
     bool using_weak_auth;
         // Request uses weak authenticator.
         // Don't modify user prefs or CPID

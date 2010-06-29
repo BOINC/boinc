@@ -127,7 +127,6 @@ struct SCHED_CONFIG {
     int min_sendwork_interval;
     int mm_min_slots;
     int mm_max_slots;
-    bool multiple_clients_per_host;
     double next_rpc_delay;
     bool no_amd_k6;
         // don't allow AMD K6 CPUs

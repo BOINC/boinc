@@ -234,7 +234,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int(tag, "min_sendwork_interval", min_sendwork_interval)) continue;
         if (xp.parse_int(tag, "mm_min_slots", mm_min_slots)) continue;
         if (xp.parse_int(tag, "mm_max_slots", mm_max_slots)) continue;
-        if (xp.parse_bool(tag, "multiple_clients_per_host", multiple_clients_per_host)) continue;
         if (xp.parse_double(tag, "next_rpc_delay", next_rpc_delay)) continue;
         if (xp.parse_bool(tag, "no_amd_k6", no_amd_k6)) {
             if (no_amd_k6) {
