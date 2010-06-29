@@ -170,7 +170,7 @@ void WORK_REQ::add_no_work_message(const char* message) {
             return;
         }
     }
-    no_work_messages.push_back(USER_MESSAGE(message, "high"));
+    no_work_messages.push_back(USER_MESSAGE(message, "notice"));
 }
 
 
@@ -258,7 +258,8 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
                     retval = cav.parse(fin);
                     if (retval) {
                         g_reply->insert_message(
-                            "Invalid app version description", "high"
+                            "Invalid app version description in app_info.xml",
+                            "notice"
                         );
                     } else {
                         client_app_versions.push_back(cav);
@@ -638,8 +639,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         for (i=0; i<messages.size(); i++) {
             USER_MESSAGE& um = messages[i];
             msg += um.message + std::string(" ");
-            if (um.priority == "high") {
-                pri = "high";
+            if (um.priority == "notice") {
+                pri = "notice";
             }
         }
         if (messages.size()>0) {

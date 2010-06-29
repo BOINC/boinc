@@ -4731,3 +4731,19 @@ David  28 Jun 2010
         transitioner.cpp
         sched_main.cpp
         sched_types.cpp
+
+David  28 Jun 2010
+    - scheduler and client: use "notice" rather than "high" priority
+        for messages intended as notices.
+        This will avoid showing lots of obscure stuff as notices
+        for projects with old server code.
+
+    client/
+        boinc_cmd.cpp
+        boinc_log.cpp
+        cs_scheduler.cpp
+    sched/
+        sched_locality.cpp
+        sched_send.cpp
+        handle_request.cpp
+        sched_types.cpp

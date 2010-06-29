@@ -291,7 +291,7 @@ int authenticate_user() {
                 if (retval) {
                     g_reply->insert_message(
                         "Invalid or missing account key.  To fix, detach and reattach to this project.",
-                        "high"
+                        "notice"
                     );
                     g_reply->set_delay(DELAY_MISSING_KEY);
                     g_reply->nucleus_only = true;
@@ -810,10 +810,8 @@ bool send_code_sign_key(char* code_sign_key) {
                 retval = read_file_malloc(path, oldkey);
                 if (retval) {
                     g_reply->insert_message(
-                       "You may have an outdated code signing key.  "
-                       "This may prevent you from accepting new executables.  "
-                       "If the problem persists, detach/attach the project. ",
-                       "high"
+                       "You may have an outdated code signing key.  Try attaching an reattaching this project.",
+                       "notice"
                     );
                     return false;
                 }
@@ -822,10 +820,8 @@ bool send_code_sign_key(char* code_sign_key) {
                     retval = read_file_malloc(path, signature);
                     if (retval) {
                         g_reply->insert_message(
-                           "You may have an outdated code signing key.  "
-                           "This may prevent you from accepting new executables.  "
-                           "If the problem persists, detach/attach the project. ",
-                           "high"
+                           "You may have an outdated code signing key.  Try attaching an reattaching this project.",
+                           "notice"
                         );
                     } else {
                         safe_strcpy(g_reply->code_sign_key, code_sign_key);
@@ -877,7 +873,7 @@ void warn_user_if_core_client_upgrade_scheduled() {
             // bump to high.
             //
             if (days<3) {
-                g_reply->insert_message(msg, "high");
+                g_reply->insert_message(msg, "notice");
             } else {
                 g_reply->insert_message(msg, "low");
             }
@@ -910,7 +906,7 @@ bool unacceptable_os() {
             sprintf(buf, "This project doesn't support OS type %s %s",
                 g_request->host.os_name, g_request->host.os_version
             );
-            g_reply->insert_message(buf, "high");
+            g_reply->insert_message(buf, "notice");
             g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
@@ -935,7 +931,7 @@ bool unacceptable_cpu() {
             sprintf(buf, "This project doesn't support CPU type %s %s",
                 g_request->host.p_vendor, g_request->host.p_model
             );
-            g_reply->insert_message(buf, "high");
+            g_reply->insert_message(buf, "notice");
             g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
@@ -965,7 +961,7 @@ bool wrong_core_client_version() {
         g_request->hostid,
         config.min_core_client_version, g_request->core_client_minor_version
     );
-    g_reply->insert_message(msg, "high");
+    g_reply->insert_message(msg, "notice");
     g_reply->set_delay(DELAY_BAD_CLIENT_VERSION);
     return true;
 }
@@ -1047,11 +1043,11 @@ bool bad_install_type() {
                 );
                 g_reply->insert_message(
                     "Unable to send work to Vista with BOINC installed in protected mode",
-                    "high"
+                    "notice"
                 );
                 g_reply->insert_message(
                     "Please reinstall BOINC and uncheck 'Protected application execution'",
-                    "high"
+                    "notice"
                 );
             }
         }
@@ -1221,7 +1217,7 @@ void process_request(char* code_sign_key) {
             _("This project doesn't support computers of type"),
             g_request->platform.name
         );
-        g_reply->insert_message(buf, "high");
+        g_reply->insert_message(buf, "notice");
         log_messages.printf(MSG_CRITICAL,
             "[HOST#%d] platform '%s' not found\n",
             g_reply->host.id, g_request->platform.name

@@ -63,12 +63,10 @@ using std::string;
 char  g_log_filename[256];
 int   g_message_sequence;
 
-
 void version(){
     printf("boinclog,  built from %s \n", PACKAGE_STRING );
     exit(0);
 }
-
 
 void usage() {
     fprintf(stderr, "\n\
@@ -81,17 +79,15 @@ Commands:\n\
     exit(1);
 }
 
-
 void show_error(int retval) {
     fprintf(stderr, "Error %d: %s\n", retval, boincerror(retval));
 }
 
-
 const char* prio_name(int prio) {
     switch (prio) {
     case MSG_INFO: return "low";
-    case MSG_USER_ALERT: return "medium";
-    case MSG_INTERNAL_ERROR: return "high";
+    case MSG_USER_ALERT: return "user notification";
+    case MSG_INTERNAL_ERROR: return "internal error";
     }
     return "unknown";
 }

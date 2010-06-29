@@ -1248,7 +1248,7 @@ static void send_gpu_messages(
                     "Upgrade to the latest %s driver to process tasks using your computer's %s",
                     rsc_name, rsc_name
                 );
-                g_reply->insert_message(buf, "high");
+                g_reply->insert_message(buf, "notice");
             } else if (version < req.opt_driver_version) {
                 sprintf(buf,
                     "Upgrade to the latest %s driver to use all of this project's GPU applications",
@@ -1277,7 +1277,7 @@ static void send_user_messages() {
     ) {
         g_reply->insert_message(
             "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to the current version",
-            "high"
+            "notice"
         );
     }
 
@@ -1290,18 +1290,18 @@ static void send_user_messages() {
             if (ssp->have_ati_apps) {
                 g_reply->insert_message(
                     "An NVIDIA or ATI GPU is required to run tasks for this project",
-                    "high"
+                    "notice"
                 );
             } else {
                 g_reply->insert_message(
                     "An NVIDIA GPU is required to run tasks for this project",
-                    "high"
+                    "notice"
                 );
             }
         } else if (ssp->have_ati_apps) {
             g_reply->insert_message(
                 "An ATI GPU is required to run tasks for this project",
-                "high"
+                "notice"
             );
         }
     }
@@ -1396,7 +1396,7 @@ static void send_user_messages() {
         if (g_wreq->no_allowed_apps_available) {
             g_reply->insert_message(
                 "No work available for the applications you have selected.  Please check your project preferences on the web site.",
-                "high"
+                "notice"
             );
         }
         if (g_wreq->speed.insufficient) {
@@ -1422,13 +1422,13 @@ static void send_user_messages() {
         if (g_wreq->hr_reject_perm) {
             g_reply->insert_message(
                 "Your computer type is not supported by this project",
-                "high"
+                "notice"
             );
         }
         if (g_wreq->outdated_client) {
             g_reply->insert_message(
                 "Newer BOINC version required; please install current version",
-                "high"
+                "notice"
             );
             g_reply->set_delay(DELAY_NO_WORK_PERM);
             log_messages.printf(MSG_NORMAL,
@@ -1438,25 +1438,25 @@ static void send_user_messages() {
         if (g_wreq->excessive_work_buf) {
             g_reply->insert_message(
                 "Your network connection interval is too long",
-                "high"
+                "notice"
             );
         }
         if (g_wreq->no_cuda_prefs) {
             g_reply->insert_message(
                 "Tasks for NVIDIA GPU are available, but your preferences are set to not accept them",
-                "high"
+                "notice"
             );
         }
         if (g_wreq->no_ati_prefs) {
             g_reply->insert_message(
                 "Tasks for ATI GPU are available, but your preferences are set to not accept them",
-                "high"
+                "notice"
             );
         }
         if (g_wreq->no_cpu_prefs) {
             g_reply->insert_message(
                 "Tasks for CPU are available, but your preferences are set to not accept them",
-                "high"
+                "notice"
             );
         }
         DB_HOST_APP_VERSION* havp = quota_exceeded_version();
