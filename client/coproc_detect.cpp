@@ -96,8 +96,18 @@ void COPROCS::get(
 ) {
 
 #ifdef _WIN32
-    cuda.get(use_all, descs, warnings, ignore_cuda_dev);
-    ati.get(use_all, descs, warnings, ignore_ati_dev);
+    try {
+        cuda.get(use_all, descs, warnings, ignore_cuda_dev);
+    }
+    catch (...) {
+        warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
+    }
+    try {
+        ati.get(use_all, descs, warnings, ignore_ati_dev);
+    } 
+    catch (...) {
+        warnings.push_back("Caught SIGSEGV in ATI GPU detection");
+    }
 #else
     void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {

@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "boinc_cli.vcproj",
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "boinc_ss.vcproj", "{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_os_ss", "boinc_os_ss.vcproj", "{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -38,15 +38,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "libboinc.vcproj
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincupdater", "updater.vcproj", "{B865A797-36AF-4059-9D52-8FF4F9B132D5}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsim", "sim.vcproj", "{B950E31B-C075-4F6D-8A2B-25EAE9D46C93}"
@@ -162,7 +153,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsvcctrl", "boincsvcctr
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ss_app", "ss_app.vcproj", "{C3163ACA-C2E6-49D2-AA21-B8B953331EF7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "boinc_ss.vcproj", "{C3163ACA-C2E6-49D2-AA21-B8B953331EF7}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -365,30 +356,6 @@ Global
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}.Samples - Release|Win32.Build.0 = Samples - Release|Win32
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}.Samples - Release|x64.ActiveCfg = Samples - Release|x64
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}.Samples - Release|x64.Build.0 = Samples - Release|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Debug|Win32.Build.0 = Debug|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Debug|x64.ActiveCfg = Debug|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Debug|x64.Build.0 = Debug|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.EmuDebug|Win32.ActiveCfg = Debug|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.EmuDebug|Win32.Build.0 = Debug|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.EmuDebug|x64.ActiveCfg = Debug|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.EmuDebug|x64.Build.0 = Debug|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.EmuRelease|Win32.ActiveCfg = Release|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.EmuRelease|Win32.Build.0 = Release|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.EmuRelease|x64.ActiveCfg = Release|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.EmuRelease|x64.Build.0 = Release|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Release|Win32.ActiveCfg = Release|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Release|Win32.Build.0 = Release|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Release|x64.ActiveCfg = Release|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Release|x64.Build.0 = Release|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Samples - Debug|Win32.ActiveCfg = Samples - Debug|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Samples - Debug|Win32.Build.0 = Samples - Debug|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Samples - Debug|x64.ActiveCfg = Samples - Debug|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Samples - Debug|x64.Build.0 = Samples - Debug|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Samples - Release|Win32.ActiveCfg = Samples - Release|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Samples - Release|Win32.Build.0 = Samples - Release|Win32
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Samples - Release|x64.ActiveCfg = Samples - Release|x64
-		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Samples - Release|x64.Build.0 = Samples - Release|x64
 		{B950E31B-C075-4F6D-8A2B-25EAE9D46C93}.Debug|Win32.ActiveCfg = Debug|Win32
 		{B950E31B-C075-4F6D-8A2B-25EAE9D46C93}.Debug|Win32.Build.0 = Debug|Win32
 		{B950E31B-C075-4F6D-8A2B-25EAE9D46C93}.Debug|x64.ActiveCfg = Debug|x64

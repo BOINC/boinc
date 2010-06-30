@@ -4858,9 +4858,31 @@ David  30 Jun 2010
     html/inc/
         result.inc
 
+Rom    30 Jun 2010
+    - MGR: Rework the notices view to simplify the rendering logic even at the
+        cost of repeated string conversions (it doesn't appear to mess with
+        the messages tab performance too much). Inspired by Charlie.
+
+    clientgui/
+        NoticeListCtrl.cpp, .h
+        ViewNotices.cpp
+
 David  30 Jun 2010
     - admin web: tweaks
 
     html/ops/
         index.php
         credit.php
+
+Rom    30 Jun 2010
+    - WIN: Treat Windows SEH exceptions as C++ exceptions so they can be trapped
+        using the standard try/catch handlers.
+    - WIN: Wrap the coproc detection stuff in C++ exception handlers. If for some
+        reason the Nvidia or ATI APIs cause an exception don't use the GPUs and
+        don't crash BOINC.
+    - WIN: rename boinc_ss to boinc_os_ss and ss_app to boinc_ss.
+        
+    client/
+        coproc_detect.cpp
+    win_build/
+        *.vcproj
