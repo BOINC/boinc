@@ -4896,8 +4896,14 @@ Rom    30 Jun 2010
         NoticeListCtrl.cpp, .h
 
 Rom    30 Jun 2010
-    - LIB: Reset the completed flag to false at the begining of the get_notices rpc
-        just in case the notices buffer is being reused.
+    - LIB: Reset the completed flag to false at the beginning of the
+        get_notices RPC in case the notices buffer is being reused.
         
     lib/
         gui_rpc_client_ops.cpp
+
+David  30 Jun 2010
+    - client: free GUI_RPC_CONN objects at shutdown
+
+    client/
+        gui_rpc_server.cpp

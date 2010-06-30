@@ -422,6 +422,9 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             insert(gr);
         }
     }
+
+    // delete connections with failed sockets
+    //
     iter = gui_rpcs.begin();
     while (iter != gui_rpcs.end()) {
         gr = *iter;
@@ -432,6 +435,9 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         }
         iter++;
     }
+
+    // handle RPCs on connections with pending requests
+    //
     iter = gui_rpcs.begin();
     while (iter != gui_rpcs.end()) {
         gr = *iter;
@@ -453,6 +459,8 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     }
 }
 
+// called when client is shutting down
+//
 void GUI_RPC_CONN_SET::close() {
     if (log_flags.gui_rpc_debug) {
         msg_printf(NULL, MSG_INFO,
@@ -463,6 +471,10 @@ void GUI_RPC_CONN_SET::close() {
         boinc_close_socket(lsock);
         lsock = -1;
     }
+    for (unsigned int i=0; i<gui_rpcs.size(); i++) {
+        delete gui_rpcs[i];
+    }
+    gui_rpcs.clear();
 }
 
 // this is called when we're ready to auto-update;
