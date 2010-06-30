@@ -560,7 +560,10 @@ bool CNoticeListCtrl::UpdateUI()
 
     if (pDoc->GetNoticeCount() < 0) return true;
 
-    if (GetItemCount() != pDoc->GetNoticeCount()) {
+    if (
+        (GetItemCount() != pDoc->GetNoticeCount()) ||
+        pDoc->notices.complete
+    ) {
         SetItemCount(pDoc->GetNoticeCount());
     }
     return true;

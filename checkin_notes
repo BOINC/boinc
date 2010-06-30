@@ -4886,3 +4886,11 @@ Rom    30 Jun 2010
         coproc_detect.cpp
     win_build/
         *.vcproj
+
+Rom    30 Jun 2010
+    - MGR: Fix a bug in the notices code.  Refresh the UI if the complete notices
+        list has been downloaded regardless of whether or not the item counts are
+        the same.
+        
+    clientgui/
+        NoticeListCtrl.cpp, .h
