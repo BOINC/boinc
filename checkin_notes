@@ -4914,3 +4914,12 @@ Charlie 30 Jun 2010
 
     clientgui/
         MainDocument.cpp, .h
+
+Charlie 30 Jun 2010
+    - MGR: after GUI RPC sets NOTICES::complete, only NoticeListCtrl clears it.
+    - MGR: fix compile warning.
+
+    clientgui/
+        NoticeListCtrl.cpp
+    lib/
+        gui_rpc_client_ops.cpp

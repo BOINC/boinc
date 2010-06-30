@@ -2353,8 +2353,6 @@ static int parse_notices(MIOFILE& fin, NOTICES& notices) {
     bool is_tag;
     int retval;
 
-    notices.complete = false;
-
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "notice")) {
