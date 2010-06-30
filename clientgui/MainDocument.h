@@ -291,7 +291,6 @@ private:
 
 public:
     NOTICES                     notices;
-    NOTICES                     async_notices_buf;
     int                         m_iGet_notices_rpc_result;
     
     NOTICE*                     notice(unsigned int);
@@ -312,7 +311,6 @@ private:
 
 public:
     MESSAGES                    messages;
-    MESSAGES                    async_messages_buf;
     int                         m_iGet_messages_rpc_result;
     
     MESSAGE*                    message(unsigned int);

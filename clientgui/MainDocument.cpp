@@ -925,8 +925,6 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     // of RPC, so pass in a pointer rather than its value
     request.arg1 = &m_iMessageSequenceNumber;
     request.arg2 = &messages;
-//        request.arg2 = &async_messages_buf;
-//        request.exchangeBuf = &messages;
     request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_EVENT_LOG_AFTER;
     request.completionTime = NULL;
     request.resultPtr = &m_iGet_messages_rpc_result;

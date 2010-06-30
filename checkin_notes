@@ -4907,3 +4907,10 @@ David  30 Jun 2010
 
     client/
         gui_rpc_server.cpp
+
+Charlie 30 Jun 2010
+    - MGR: get_messages and get_notices RPCs don't alternate buffers, so 
+        remove the unused buffers from CMainDocument class.
+
+    clientgui/
+        MainDocument.cpp, .h
