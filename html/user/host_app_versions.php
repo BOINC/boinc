@@ -48,7 +48,7 @@ $havs = BoincHostAppVersion::enum("host_id=$hostid");
 page_head("Application info for host $hostid");
 start_table();
 foreach ($havs as $hav) {
-    if (!$hav->pfc_n) continue;
+    //if (!$hav->pfc_n) continue;
     show_hav($hav);
 }
 end_table();
