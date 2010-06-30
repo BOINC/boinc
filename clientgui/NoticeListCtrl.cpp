@@ -402,6 +402,22 @@ CNoticeListCtrl::CNoticeListCtrl( wxWindow* parent )
  
 CNoticeListCtrl::~CNoticeListCtrl( )
 {
+    Clear();
+
+#ifdef __WXMAC__
+    if (m_accessible) {
+        delete m_accessible;
+    }
+#endif
+}
+
+
+/*!
+ * Remove all entries from the project list.
+ */
+ 
+void CNoticeListCtrl::Clear()
+{
     std::vector<CNoticeListItem*>::iterator iter;
     CNoticeListItem* pItem = NULL;
 
@@ -411,12 +427,6 @@ CNoticeListCtrl::~CNoticeListCtrl( )
         iter = m_Items.erase(iter);
         delete pItem;
     }
-
-#ifdef __WXMAC__
-    if (m_accessible) {
-        delete m_accessible;
-    }
-#endif
 }
 
 /*!
@@ -640,6 +650,7 @@ void CNoticeListCtrl::DeleteAllFlagedItems()
 
     if (m_bNeedsRefresh) {
         UpdateUI();
+        m_bNeedsRefresh = false;
     }
 }
 

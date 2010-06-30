@@ -1782,7 +1782,9 @@ int CMainDocument::WorkAbort(char* url, char* name) {
 //   CMainDocument::HandleCompletedRPC() .
 int CMainDocument::CachedNoticeUpdate() {
     static bool in_this_func = false;
-    NOTICE*     pNotice = NULL;
+    int unread = 0;
+    double lastReadArrivalTime = 0.0;
+    int i, n = GetNoticeCount();
 
     if (in_this_func) return 0;
     in_this_func = true;
@@ -1793,14 +1795,14 @@ int CMainDocument::CachedNoticeUpdate() {
             goto done;
         }
         
-        // rpc.get_messages is now called from RunPeriodicRPCs()
+        // rpc.get_notices is now called from RunPeriodicRPCs()
         if (m_iGet_notices_rpc_result) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedNoticeUpdate - Get Notices Failed '%d'"), m_iGet_notices_rpc_result);
             m_pNetworkConnection->SetStateDisconnected();
             goto done;
         }
-        int n = (int)notices.notices.size();
-        if (n > 0) {
+        
+        if (GetNoticeCount() > 0) {
             m_iNoticeSequenceNumber = notices.notices[0]->seqno;
             
             if (m_iLastReadNoticeSequenceNumber < 0) {
@@ -1808,48 +1810,38 @@ int CMainDocument::CachedNoticeUpdate() {
                 RestoreUnreadNoticeInfo();
             }
 
-            if (m_iLastReadNoticeSequenceNumber > 0) {
-                pNotice = NoticeWithSeqNumLEThan(m_iLastReadNoticeSequenceNumber);
-                if (pNotice) {
-                    m_iLastReadNoticeSequenceNumber = pNotice->seqno;
-                }
-            }
-            
-            // Consider all notices as having been read if Notices tab is open
             CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
             if (!pFrame) goto done;
             wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
             
             int currentTabView = pFrame->GetCurrentViewPage();
+            // Consider all notices as having been read if Notices tab is open
             if ((currentTabView & VW_NOTIF) && wxGetApp().IsActive()) {
                 if (m_iLastReadNoticeSequenceNumber != m_iNoticeSequenceNumber) {
                     m_iLastReadNoticeSequenceNumber = m_iNoticeSequenceNumber;
-                    if (pNotice) {
-                        m_iLastReadNoticeArrivalTime = pNotice->arrival_time;
-                        SaveUnreadNoticeInfo();
-                    }
-                }
-            }
-
-            // Repeated / duplicate notices are replaced with same
-            // sequence number but have newer arrival times
-            if (pNotice) {
-                if (pNotice->arrival_time != m_iLastReadNoticeArrivalTime) {
-                    m_iLastReadNoticeArrivalTime = pNotice->arrival_time;
+                    m_iLastReadNoticeArrivalTime = notices.notices[0]->arrival_time;
                     SaveUnreadNoticeInfo();
                 }
-            }
+            
+            } else {    // Notices tab is not currently open
 
-            // There may be gaps in the sequence numbers because some 
-            // notices may have been deleted, so we need to count.
-            int unread = 0;
-            int i, n = GetNoticeCount();
-
-             for (i=0; i<n; ++i) {
-                if (notices.notices[i]->seqno <= m_iLastReadNoticeSequenceNumber) {
-                    break;
-                } else {
-                    ++unread;
+                // Repeated / duplicate notices may be replaced with same sequence 
+                // number, or they may be deleted and replaced with a higher 
+                // sequence number.  But they always have newer arrival times.
+                // Vector is in descending order of arrival times and sequence numbers. 
+                for (i=0; i<n; ++i) {
+                    if (notices.notices[i]->arrival_time <= m_iLastReadNoticeArrivalTime) {
+                        m_iLastReadNoticeSequenceNumber = notices.notices[i]->seqno;
+                        lastReadArrivalTime = notices.notices[i]->arrival_time;
+                        break;
+                    } else {
+                        ++unread;
+                    }
+                }
+                
+                if (lastReadArrivalTime != m_iLastReadNoticeArrivalTime) {
+                    m_iLastReadNoticeArrivalTime = lastReadArrivalTime;
+                    SaveUnreadNoticeInfo();
                 }
             }
             
@@ -1871,14 +1863,10 @@ void CMainDocument::SaveUnreadNoticeInfo() {
     wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
     wxString        strHostName = strDomainName.AfterLast(wxFileName::GetPathSeparator());
     wxString        arrivalTime;
-    NOTICE*         pNotice = NULL;
     
     pConfig->SetPath(strBaseConfigLocation + strHostName);
-    pNotice = NoticeWithSeqNumLEThan(m_iLastReadNoticeSequenceNumber);
-    if (pNotice) {
-        arrivalTime.Printf(wxT("%f"), pNotice->arrival_time);
-        pConfig->Write(wxT("lastReadNoticeTime"), arrivalTime);
-    }
+    arrivalTime.Printf(wxT("%f"), m_iLastReadNoticeArrivalTime);
+    pConfig->Write(wxT("lastReadNoticeTime"), arrivalTime);
 }
 
 
@@ -1914,23 +1902,6 @@ NOTICE* CMainDocument::notice(unsigned int i) {
     }
     catch (std::out_of_range e) {
         pNotice = NULL;
-    }
-
-    return pNotice;
-}
-
-
-// If the notice with the given sequence number has been  
-// deleted, get the next lower one.
-NOTICE* CMainDocument::NoticeWithSeqNumLEThan(int seqno) {
-    NOTICE* pNotice = NULL;
-    int     i, n = GetNoticeCount();
-
-    for (i=0; i<n; ++i) {
-        if (notices.notices[i]->seqno <= seqno) {
-            pNotice = notices.notices.at(i);
-            break;
-        }
     }
 
     return pNotice;

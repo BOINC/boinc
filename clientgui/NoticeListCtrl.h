@@ -160,6 +160,8 @@ public:
         wxString strArrivalTime
     );
 
+    void Clear();
+    
     bool Update(
         int iSeqNo
     );

@@ -4835,3 +4835,19 @@ David  29 Jun 2010
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+Charlie 30 Jun 2010
+    - MGR: logic changes & fixes to Notices display for new NOTICES::complete 
+        flag:
+        - ViewNotices clears NoticeListCtrl if NOTICES::complete is set. 
+        - after GUI RPC sets NOTICES::complete, only ViewNotices clears it.
+        - unread / read notices logic checks arrival times, not sequence nos.
+        - NoticeListCtrl clears NeedsRefresh flag agfter refresh.
+    NOTE: Considerably more cleanup and code simplification is needed.
+
+    clientgui/
+        MainDocument.cpp, .h
+        NoticeListCtrl.cpp, .h
+        ViewNotices.cpp
+    lib/
+        gui_rpc_client_ops.cpp

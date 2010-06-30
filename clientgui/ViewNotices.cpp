@@ -157,6 +157,11 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
         m_pHtmlListPane->Freeze();
         m_pHtmlListPane->FlagAllItemsForDelete();
+        
+        if (pDoc->notices.complete) {
+            m_pHtmlListPane->Clear();
+            pDoc->notices.complete = false;
+        }
 
         for (i = n; i != 0; i--) {
             NOTICE* np = pDoc->notice(i-1);
@@ -200,7 +205,6 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
         m_pHtmlListPane->DeleteAllFlagedItems();
         m_pHtmlListPane->Thaw();
-
     }
 
     s_bInProgress = false;
