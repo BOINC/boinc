@@ -110,14 +110,14 @@ echo "
     <table border=\"0\"><tr valign=\"top\">
     <td><b>Browse database:</b>
     <ul> 
-        <li><a href=\"db_action.php?table=platform\">Platforms</a></li>
-        <li><a href=\"db_action.php?table=app\">Applications</a></li>
-        <li><a href=\"db_form.php?table=app_version\">Application versions</a></li>
+        <li><a href=\"db_form.php?table=result&amp;detail=low\">Results</a></li>
+        <li><a href=\"db_form.php?table=workunit\">Workunits</a></li>
+        <li><a href=\"db_form.php?table=host&amp;detail=low\">Hosts</a></li>
         <li><a href=\"db_form.php?table=user\">Users</a> (<a href=\"list_new_users.php\">recently registered</a>)</li>
         <li><a href=\"db_form.php?table=team\">Teams</a></li>
-        <li><a href=\"db_form.php?table=host&amp;detail=low\">Hosts</a></li>
-        <li><a href=\"db_form.php?table=workunit\">Workunits</a></li>
-        <li><a href=\"db_form.php?table=result&amp;detail=low\">Results</a></li>
+        <li><a href=\"db_action.php?table=app\">Applications</a></li>
+        <li><a href=\"db_form.php?table=app_version\">Application versions</a></li>
+        <li><a href=\"db_action.php?table=platform\">Platforms</a></li>
         <li><a href=dbinfo.php>DB row counts and disk usage</a>
         <li><a href=\"show_log.php?f=mysql*.log&amp;l=-20\">Tail MySQL logs</a>
     </ul>

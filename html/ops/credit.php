@@ -46,9 +46,6 @@ Credit:
     echo "Host app version:
     PFC avg: $hav->pfc_avg
 ";
-    if ($av) {
-        echo "host scale: ".$av->pfc_avg/$hav->pfc_avg ."
-";
     }
 }
 

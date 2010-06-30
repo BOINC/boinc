@@ -4857,3 +4857,10 @@ David  30 Jun 2010
 
     html/inc/
         result.inc
+
+David  30 Jun 2010
+    - admin web: tweaks
+
+    html/ops/
+        index.php
+        credit.php
