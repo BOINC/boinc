@@ -133,79 +133,16 @@ bool CViewNotices::OnRestoreState(wxConfigBase* WXUNUSED(pConfig)) {
 void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotices::OnListRender - Function Begin"));
 
-    CMainDocument*  pDoc   = wxGetApp().GetDocument();
-    wxString strTitle;
-    wxString strDescription;
-    wxString strCategory;
-    wxString strProjectName;
-    wxString strURL;
-    wxString strArrivalTime;
-    wxDateTime dtBuffer;
-    int n = 0;
-    unsigned int i = 0;
     static bool s_bInProgress = false;
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 	wxASSERT(m_pHtmlListPane);
 
     if (s_bInProgress) return;
     s_bInProgress = true;
 
-    n = pDoc->GetNoticeCount();
-    if (n != -1) {
-
-        m_pHtmlListPane->Freeze();
-        m_pHtmlListPane->FlagAllItemsForDelete();
-        
-        if (pDoc->notices.complete) {
-            m_pHtmlListPane->Clear();
-            pDoc->notices.complete = false;
-        }
-
-        for (i = n; i != 0; i--) {
-            NOTICE* np = pDoc->notice(i-1);
-
-            if (!np) continue;
-
-            // New and updated items have their flagged for delete flag
-            // turned off.
-            if (!m_pHtmlListPane->Exists(np->seqno)) {
-
-                strProjectName = wxString(np->project_name, wxConvUTF8);
-                strURL = wxString(np->link, wxConvUTF8);
-                strTitle = wxString(process_client_message(np->title), wxConvUTF8);
-                strDescription = wxString(process_client_message(np->description.c_str()), wxConvUTF8);
-                strCategory = wxString(np->category, wxConvUTF8);
-
-                dtBuffer.Set((time_t)np->arrival_time);
-                strArrivalTime = dtBuffer.Format();
-
-                m_pHtmlListPane->Add(
-                    np->seqno,
-                    strProjectName,
-                    strURL, 
-                    strTitle,
-                    strDescription,
-                    strCategory,
-                    strArrivalTime
-                );
-
-            } else {
-
-                dtBuffer.Set((time_t)np->arrival_time);
-                strArrivalTime = dtBuffer.Format();
-
-                m_pHtmlListPane->Update(
-                    np->seqno
-                );
-
-            }
-        }
-
-        m_pHtmlListPane->DeleteAllFlagedItems();
-        m_pHtmlListPane->Thaw();
-    }
+    m_pHtmlListPane->Freeze();
+    m_pHtmlListPane->UpdateUI();
+    m_pHtmlListPane->Thaw();
 
     s_bInProgress = false;
 

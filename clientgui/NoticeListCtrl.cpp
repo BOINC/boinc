@@ -22,6 +22,7 @@
 #include "stdwx.h"
 #include "Events.h"
 #include "BOINCGUIApp.h"
+#include "MainDocument.h"
 #include "NoticeListCtrl.h"
 
 ////@begin XPM images
@@ -47,16 +48,21 @@ CNoticeListCtrlAccessible::~CNoticeListCtrlAccessible() {
 // Gets the name of the specified object.
 wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name)
 {
+    static wxString strBuffer;
+
     if (childId == wxACC_SELF)
     {
         *name = _("Notice List");
     }
     else
     {
-        CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-        if (pCtrl)
+        CMainDocument* pDoc = wxDynamicCast(wxGetApp().GetDocument(), CMainDocument);
+        strBuffer = wxEmptyString;
+
+        if (pDoc)
         {
-            *name = pCtrl->GetItem(childId - 1)->GetTitle().c_str();
+            strBuffer = wxString(process_client_message(pDoc->notice(childId-1)->title), wxConvUTF8); 
+            *name = strBuffer.c_str();
         }
     }
     return wxACC_OK;
@@ -141,6 +147,7 @@ wxAccStatus CNoticeListCtrlAccessible::GetChildCount(int* childCount)
 wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId)
 {
     CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
+    CMainDocument* pDoc = wxDynamicCast(wxGetApp().GetDocument(), CMainDocument);
     if (pCtrl && (childId != wxACC_SELF))
     {
         // Zero-based array index
@@ -151,8 +158,8 @@ wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId)
         // Fire Event 
         NoticeListCtrlEvent evt( 
             wxEVT_NOTICELIST_ITEM_CHANGE, 
-            pCtrl->GetItem(iRealChildId)->GetSeqNo(),  
-            pCtrl->GetItem(iRealChildId)->GetURL() 
+            pDoc->notice(iRealChildId)->seqno,  
+            wxString(pDoc->notice(iRealChildId)->link, wxConvUTF8)
         ); 
 #ifdef __WXMAC__
         evt.SetEventObject(pCtrl); 
@@ -173,12 +180,20 @@ wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId)
 // Returns the description for this object or a child.
 wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* description)
 {
-    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    if (pCtrl && (childId != wxACC_SELF))
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    static wxString strBuffer;
+
+    if (pDoc && (childId != wxACC_SELF))
     {
-        *description = pCtrl->GetItem(childId - 1)->GetDescription().c_str();
-        return wxACC_OK;
+        strBuffer = wxEmptyString;
+        if (pDoc)
+        {
+            strBuffer = wxString(process_client_message(pDoc->notice(childId-1)->description.c_str()), wxConvUTF8); 
+            *description = strBuffer.c_str();
+            return wxACC_OK;
+        }
     }
+
     // Let the framework handle the other cases.
     return wxACC_NOT_IMPLEMENTED;
 }
@@ -352,12 +367,6 @@ wxAccStatus CNoticeListCtrlAccessible::GetSelections(wxVariant* )
 
 
 /*!
- * CNoticeListItem type definition
- */
-IMPLEMENT_DYNAMIC_CLASS( CNoticeListItem, wxObject )
-
-
-/*!
  * CNoticeListCtrl event definitions
  */
 DEFINE_EVENT_TYPE( wxEVT_NOTICELIST_ITEM_CHANGE )
@@ -402,8 +411,6 @@ CNoticeListCtrl::CNoticeListCtrl( wxWindow* parent )
  
 CNoticeListCtrl::~CNoticeListCtrl( )
 {
-    Clear();
-
 #ifdef __WXMAC__
     if (m_accessible) {
         delete m_accessible;
@@ -413,30 +420,12 @@ CNoticeListCtrl::~CNoticeListCtrl( )
 
 
 /*!
- * Remove all entries from the project list.
- */
- 
-void CNoticeListCtrl::Clear()
-{
-    std::vector<CNoticeListItem*>::iterator iter;
-    CNoticeListItem* pItem = NULL;
-
-    iter = m_Items.begin();
-    while (iter != m_Items.end()) {
-        pItem = *iter;
-        iter = m_Items.erase(iter);
-        delete pItem;
-    }
-}
-
-/*!
  * CNoticeListCtrl creator
  */
  
 bool CNoticeListCtrl::Create( wxWindow* parent )
 {
 ////@begin CNoticeListCtrl member initialisation
-    m_bNeedsRefresh = false;
 ////@end CNoticeListCtrl member initialisation
 
 ////@begin CNoticeListCtrl creation
@@ -460,8 +449,8 @@ void CNoticeListCtrl::OnSelected( wxCommandEvent& event )
     // Fire Event 
     NoticeListCtrlEvent evt( 
         wxEVT_NOTICELIST_ITEM_CHANGE, 
-        event.GetInt(),  
-        m_Items[event.GetInt()]->GetURL() 
+        event.GetInt(),
+        wxEmptyString
     ); 
     evt.SetEventObject(this); 
 
@@ -486,8 +475,8 @@ void CNoticeListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
     // Fire Event 
     NoticeListCtrlEvent evt( 
         wxEVT_NOTICELIST_ITEM_DISPLAY, 
-        event.GetInt(),  
-        m_Items[event.GetInt()]->GetURL() 
+        event.GetInt(),
+        event.GetLinkInfo().GetHref()
     ); 
     evt.SetEventObject(this); 
 
@@ -497,36 +486,56 @@ void CNoticeListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
 
 wxString CNoticeListCtrl::OnGetItem(size_t i) const
 {
+    CMainDocument*  pDoc   = wxGetApp().GetDocument();
+    wxString strTitle = wxEmptyString;
+    wxString strDescription = wxEmptyString;
+    wxString strProjectName = wxEmptyString;
+    wxString strURL = wxEmptyString;
+    wxString strArrivalTime = wxEmptyString;
     wxString strBuffer = wxEmptyString;
     wxString strTemp = wxEmptyString;
+    wxDateTime dtBuffer;
 
-    if (!m_Items[i]->GetTitle().IsEmpty()) {
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    NOTICE* np = pDoc->notice((unsigned int)i);
+
+    strProjectName = wxString(np->project_name, wxConvUTF8);
+    strURL = wxString(np->link, wxConvUTF8);
+    strTitle = wxString(process_client_message(np->title), wxConvUTF8);
+    strDescription = wxString(process_client_message(np->description.c_str()), wxConvUTF8);
+
+    dtBuffer.Set((time_t)np->arrival_time);
+    strArrivalTime = dtBuffer.Format();
+
+    if (!strTitle.IsEmpty()) {
         strTemp.Printf(
             wxT("<b>%s</b><br>"),
-            m_Items[i]->GetTitle().c_str()
+            strTitle.c_str()
         );
         strBuffer += strTemp;
     }
 
-    strBuffer += m_Items[i]->GetDescription();
+    strBuffer += strDescription;
 
     strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
 
-    if (!m_Items[i]->GetProjectName().IsEmpty()) {
+    if (!strProjectName.IsEmpty()) {
         strTemp.Printf(
             wxT("%s %s<br>"),
             _("From"),
-            m_Items[i]->GetProjectName().c_str()
+            strProjectName.c_str()
         );
         strBuffer += strTemp;
     }
 
-    strBuffer += m_Items[i]->GetArrivalTime();
+    strBuffer += strArrivalTime;
 
-    if (!m_Items[i]->GetURL().IsEmpty()) {
+    if (!strURL.IsEmpty()) {
         strTemp.Printf(
             wxT(" &middot; <a target=_new href=%s>%s</a> "),
-            m_Items[i]->GetURL().c_str(),
+            strURL.c_str(),
             _("more...")
         );
         strBuffer += strTemp;
@@ -539,142 +548,22 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
 
 
 /*!
- * Append a new entry to the project list.
- */
- 
-bool CNoticeListCtrl::Add(
-    int iSeqNo,
-    wxString strProjectName,
-    wxString strURL, 
-    wxString strTitle,
-    wxString strDescription,
-    wxString strCategory,
-    wxString strArrivalTime
-)
-{
-    CNoticeListItem* pItem = new CNoticeListItem();
-
-    pItem->SetSeqNo( iSeqNo );
-    pItem->SetProjectName( strProjectName );
-    pItem->SetURL( strURL );
-    pItem->SetTitle( strTitle );
-    pItem->SetDescription( strDescription );
-    pItem->SetCategory( strCategory );
-    pItem->SetArrivalTime( strArrivalTime );
-    pItem->SetDeletionFlag( false );
-
-    m_bNeedsRefresh = true;
-
-    m_Items.insert(m_Items.begin(), pItem);
-    return true;
-}
-
-
-/*!
- * Update an existing entry in the project list.
- */
- 
-bool CNoticeListCtrl::Update(
-    int iSeqNo
-)
-{
-    bool bRetVal = false;
-
-    unsigned int n = (unsigned int)m_Items.size();
-    for (unsigned int i = 0; i < n; i++) {
-        if (iSeqNo == m_Items[i]->GetSeqNo()) {
-            m_Items[i]->SetDeletionFlag( false );
-            bRetVal = true;
-        }
-    }
-
-    return bRetVal;
-}
-
-
-/*!
- * Check to see if the requested entry is already in the control.
- */
- 
-bool CNoticeListCtrl::Exists( int iSeqNo )
-{
-    bool bRetVal = false;
-
-    unsigned int n = (unsigned int)m_Items.size();
-    for (unsigned int i = 0; i < n; i++) {
-        if (iSeqNo == m_Items[i]->GetSeqNo()) {
-            bRetVal = true;
-        }
-    }
-
-    return bRetVal;
-}
-
-
-/*!
- * Flag all entries for delete.
- */
- 
-void CNoticeListCtrl::FlagAllItemsForDelete()
-{
-    unsigned int n = (unsigned int)m_Items.size();
-    for (unsigned int i = 0; i < n; i++) {
-        m_Items[i]->SetDeletionFlag(true);
-    }
-}
-
-
-/*!
- * Purge deleted items.
- */
- 
-void CNoticeListCtrl::DeleteAllFlagedItems()
-{
-    std::vector<CNoticeListItem*>::iterator iter;
-    CNoticeListItem* pItem = NULL;
-
-    iter = m_Items.begin();
-    while (iter != m_Items.end()) {
-        pItem = *iter;
-        if (pItem->GetDeletionFlag()) {
-
-            iter = m_Items.erase(iter);
-            delete pItem;
-
-            m_bNeedsRefresh = true;
-
-        } else {
-            iter++;
-        }
-    }
-
-    if (m_bNeedsRefresh) {
-        UpdateUI();
-        m_bNeedsRefresh = false;
-    }
-}
-
-
-/*!
  * Update the UI.
  */
  
 bool CNoticeListCtrl::UpdateUI()
 {
-    SetItemCount(m_Items.size());
+    CMainDocument*  pDoc   = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (pDoc->GetNoticeCount() < 0) return true;
+
+    if (GetItemCount() != pDoc->GetNoticeCount()) {
+        SetItemCount(pDoc->GetNoticeCount());
+    }
     return true;
-}
-
-
-/*!
- * Return the project list entry at a given index.
- */
- 
-CNoticeListItem* CNoticeListCtrl::GetItem( 
-    int iIndex
-)
-{
-    return m_Items[iIndex];
 }
 
 

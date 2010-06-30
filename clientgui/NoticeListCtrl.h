@@ -33,51 +33,6 @@
 #endif
 
 
-/*!
- * CNoticeListItem class declaration
- */
-
-class CNoticeListItem: public wxObject
-{    
-    DECLARE_DYNAMIC_CLASS( CNoticeListItem )
-public:
-
-    int GetSeqNo() const { return m_iSeqNo ; }
-    void SetSeqNo(int value) { m_iSeqNo = value ; }
-
-    wxString GetURL() const { return m_strURL ; }
-    void SetURL(wxString value) { m_strURL = value ; }
-
-    wxString GetTitle() const { return m_strTitle ; }
-    void SetTitle(wxString value) { m_strTitle = value ; }
-
-    wxString GetDescription() const { return m_strDescription ; }
-    void SetDescription(wxString value) { m_strDescription = value ; }
-
-    wxString GetCategory() const { return m_strCategory ; }
-    void SetCategory(wxString value) { m_strCategory = value ; }
-
-    wxString GetProjectName() const { return m_strProjectName ; }
-    void SetProjectName(wxString value) { m_strProjectName = value ; }
-
-    wxString GetArrivalTime() const { return m_strArrivalTime ; }
-    void SetArrivalTime(wxString value) { m_strArrivalTime = value ; }
-
-    bool GetDeletionFlag() const { return m_bDeletionFlag ; }
-    void SetDeletionFlag(bool value) { m_bDeletionFlag = value ; }
-
-private:
-    int m_iSeqNo;
-    wxString m_strURL;
-    wxString m_strTitle;
-    wxString m_strDescription;
-    wxString m_strCategory;
-    wxString m_strProjectName;
-    wxString m_strArrivalTime;
-    bool m_bDeletionFlag;
-};
-
-
 #ifndef __WXMAC__
 class CNoticeListCtrlAccessible : public wxWindowAccessible
 #else
@@ -149,40 +104,11 @@ public:
 
     virtual wxString OnGetItem(size_t i) const;
 
-    /// Methods
-    bool Add(
-        int iSeqNo,
-        wxString strProjectName,
-        wxString strURL, 
-        wxString strTitle,
-        wxString strDescription,
-        wxString strCategory,
-        wxString strArrivalTime
-    );
-
-    void Clear();
-    
-    bool Update(
-        int iSeqNo
-    );
-
-    bool Exists( int iSeqNo );
-
-    void FlagAllItemsForDelete();
-    void DeleteAllFlagedItems();
-
     bool UpdateUI();
-
-    CNoticeListItem* GetItem( 
-        int iIndex
-    );
 
     wxCoord GetTotalClientHeight();
 
 private:
-    std::vector<CNoticeListItem*> m_Items;
-    bool m_bNeedsRefresh;
-
 #ifdef __WXMAC__
     CNoticeListCtrlAccessible*    m_accessible;
 #endif
