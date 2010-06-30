@@ -4851,3 +4851,9 @@ Charlie 30 Jun 2010
         ViewNotices.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+David  30 Jun 2010
+    - user web: show app name in anonymous platform case on task list
+
+    html/inc/
+        result.inc

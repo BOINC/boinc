@@ -19,13 +19,29 @@
 $apps = array();
 $app_versions = array();
 
-function app_version_string($id) {
+function anon_platform_string($result, $rsc_name=null) {
+    global $apps;
+    if (!array_key_exists($result->appid, $apps)) {
+        $app = BoincApp::lookup_id($result->appid);
+        $apps[$result->appid] = $app;
+    }
+    $app = $apps[$result->appid];
+    $n = $app->user_friendly_name."<br>".  tra("Anonymous platform");
+    if ($rsc_name) {
+        $n .= " ($rsc_name)";
+    }
+    return $n;
+}
+
+function app_version_string($result) {
     global $apps, $app_versions;
+
+    $id = $result->app_version_id;
     if ($id == 0) return "";
-    if ($id == -1) return tra("Anonymous platform");
-    if ($id == -2) return tra("Anonymous platform - CPU");
-    if ($id == -3) return tra("Anonymous platform - NVIDIA GPU");
-    if ($id == -4) return tra("Anonymous platform - ATI GPU");
+    if ($id == -1) return anon_platform_string($result);
+    if ($id == -2) return anon_platform_string($result, tra("CPU"));
+    if ($id == -3) return anon_platform_string($result, tra("NVIDIA GPU"));
+    if ($id == -4) return anon_platform_string($result, tra("ATI GPU"));
     if (array_key_exists($id, $app_versions)) {
         $av = $app_versions[$id];
         $app = $apps[$av->appid];
@@ -326,7 +342,7 @@ function show_result_row(
         $cpu_time = number_format($result->cpu_time, 2);
         $elapsed_time = number_format($result->elapsed_time, 2);
     }
-    $v = app_version_string($result->app_version_id);
+    $v = app_version_string($result);
     echo "
         <td>$s</td>
         <td>$r</td>
@@ -374,7 +390,7 @@ function show_result($result) {
     row2(tra("CPU time"), number_format($result->cpu_time, 2));
     row2(tra("Validate state"), validate_state_str($result));
     row2(tra("Credit"), number_format($result->granted_credit, 2));
-    row2(tra("Application version"), app_version_string($result->app_version_id));
+    row2(tra("Application version"), app_version_string($result));
     end_table();
     echo "<h3>Stderr output</h3> <pre>".htmlspecialchars($result->stderr_out)."</pre>";
 }
