@@ -1828,3 +1828,15 @@ Rom    18 Jun 2010
     - Re-enable the memory leak detection code for the 6.10 branch.
     
     <Various Files>
+
+Rom    30 Jun 2010
+    - WIN: Treat Windows SEH exceptions as C++ exceptions so they can be trapped
+        using the standard try/catch handlers.
+    - WIN: Wrap the coproc detection stuff in C++ exception handlers. If for some
+        reason the Nvidia or ATI APIs cause an exception don't use the GPUs and
+        don't crash BOINC.
+        
+    client/
+        coproc_detect.cpp
+    win_build/
+        *.vcproj
