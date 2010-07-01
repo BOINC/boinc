@@ -456,13 +456,13 @@ void NOTICES::write(int seqno, MIOFILE& fout, bool public_only, bool notice_refr
 void RSS_FEED::feed_file_name(char* path) {
     char buf[256];
     escape_project_url(url_base, buf);
-    sprintf(path, NOTICES_DIR"/%s", buf);
+    sprintf(path, NOTICES_DIR"/%s.xml", buf);
 }
 
 void RSS_FEED::archive_file_name(char* path) {
     char buf[256];
     escape_project_url(url_base, buf);
-    sprintf(path, NOTICES_DIR"/archive_%s", buf);
+    sprintf(path, NOTICES_DIR"/archive_%s.xml", buf);
 }
 
 // read and parse the contents of the archive file;

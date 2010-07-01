@@ -4923,3 +4923,13 @@ Charlie 30 Jun 2010
         NoticeListCtrl.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+David  30 Jun 2010
+    - client: add ".xml" to notice file names
+
+    client/
+        sandbox.cpp
+        cs_proxy.cpp
+        boinc_log.cpp
+        cs_notice.cpp
+        http_curl_win.h (removed)
