@@ -8,7 +8,7 @@ By default, the NVIDIA Cuda SDK for MacOS is installed at $ROOT/Developer/ under
 If it is installed somewhere else, then common_mac.mk file needs to be edited by the following steps:
 
 1) Open "boinc/samples/nvcuda/common_mac.mk"
-2) Look for "ROOTDIR  ?= /DeveloperGPU\ Computing
+2) Look for "ROOTDIR  ?= /DeveloperGPU\ Computing"
 3) Replace this path by appropriate path on your machine.
 4) Done!
 
