@@ -1840,3 +1840,11 @@ Rom    30 Jun 2010
         coproc_detect.cpp
     win_build/
         *.vcproj
+
+Rom    1 July 2010
+    - Tag for 6.10.58 release, all platforms
+      boinc_core_release_6_10_58
+
+    /
+        configure.ac
+        version.h
