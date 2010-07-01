@@ -9,7 +9,7 @@ If it is installed somewhere else, then common_mac.mk file needs to be edited by
 
 1) Open "boinc/samples/nvcuda/common_mac.mk"
 2) Look for "ROOTDIR  ?= /DeveloperGPU\ Computing"
-3) Replace this path by appropriate path on your machine.
+3) Replace this path with an appropriate path on your machine.
 4) Done!
 
 ----------------------- Mac Troubleshooting ----------------

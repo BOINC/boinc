@@ -27,7 +27,7 @@ common.mk file needs to be edited on your machine before running. Please follow 
 
 ROOTDIR  ?= /home/tuanle/NVIDIA_GPU_Computing_SDK
 
-3) Replace this path by appropriate path on your machine.
+3) Replace this path with an appropriate path on your machine.
 4) Done!
 
 
