@@ -6,11 +6,21 @@ tuanle86@berkeley.edu
 ----------------------- Compiler ----------------------------
 
 You will need to install gcc 4.3 and g++ 4.3. It appears that Cuda 3.0 SDK has not yet worked
-with gcc 4.4 and g++ 4.4
+with gcc 4.4 and g++ 4.4. Please follow these steps:
+
+sudo aptitude install gcc-4.3 g++-4.3
+cd ~/NVIDIA_GPU_Computing_SDK/C (go to SDK source dir. You should find the right path on your machine)
+mkdir mygcc
+cd mygcc
+ln -s $(which g++-4.3) g++
+ln -s $(which gcc-4.3) gcc
+
+Note: mygcc directory must be created since I have made symlinks to the 4.3 compiler to mygcc directory
+in my current Makefile.
 
 ----------------------- Linux Makefile ----------------------
 
-Makefile needs to be edited on your machine before running. Please follow these steps:
+common.mk file needs to be edited on your machine before running. Please follow these steps:
 
 1) Open "boinc/samples/nvcuda/common.mk" with gedit
 2) Ctrl+f and search for "tuanle". You will find the following:
