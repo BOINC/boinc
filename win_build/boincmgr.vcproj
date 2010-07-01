@@ -1596,11 +1596,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\WizardAttach.cpp"
+				RelativePath="..\clientgui\WizardAttachProject.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\WizardAttach.h"
+				RelativePath="..\clientgui\WizardAttachProject.h"
 				>
 			</File>
 			<Filter
