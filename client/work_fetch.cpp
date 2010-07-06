@@ -1273,6 +1273,7 @@ bool RESULT::downloading() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
     if (state() > RESULT_FILES_DOWNLOADING) return false;
+    if (some_download_stalled()) return false;
     return true;
 }
 

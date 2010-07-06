@@ -4939,3 +4939,13 @@ Rom    6 July 2010
     
     clientgui/
         NoticeListCtrl.cpp, .h
+
+David  6 Jul 2010
+    - client: don't consider a result "nearly runnable"
+        if one of its downloads is stalled.
+        This fixes a situation that can cause processor or GPU
+        idleness when download servers are down for a while
+
+    client/
+        work_fetch.cpp
+
