@@ -159,7 +159,7 @@ function getPOLineContent($line, $file){
     $start = strpos($line, '"')+1;
     $stop = strrpos($line, '"');
     $x =  substr($line, $start, $stop-$start);
-    $n = ereg("[^\\]\"", $x);
+    $n = preg_match("/[^\\\\]\"/", $x);
     if ($n) {
         echo "ERROR - MISMATCHED QUOTES IN $file: $line\n";
         return "";

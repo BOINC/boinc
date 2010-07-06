@@ -4949,3 +4949,8 @@ David  6 Jul 2010
     client/
         work_fetch.cpp
 
+David  6 Jul 2010
+    - user web: PHP 5.3 compatibility fix, from Nicolas.  Fixes #787
+
+    html/inc/
+        translation.inc

@@ -120,7 +120,9 @@ inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     }
     if (config.debug_quota) {
         log_messages.printf(MSG_NORMAL,
-            "[quota] scaled max jobs per day: %d\n", n
+            "[quota] [AV#%d] scaled max jobs per day: %d\n",
+            hav.app_version_id,
+            n
         );
     }
     return n;
@@ -133,8 +135,8 @@ inline bool daily_quota_exceeded(int gavid, HOST_USAGE& hu) {
     if (havp->n_jobs_today >= q) {
         if (config.debug_quota) {
             log_messages.printf(MSG_NORMAL,
-                "[quota] daily quota exceeded: %d >= %d\n",
-                havp->n_jobs_today, q
+                "[quota] [AV#%d] daily quota exceeded: %d >= %d\n",
+                gavid, havp->n_jobs_today, q
             );
         }
         havp->daily_quota_exceeded = true;
