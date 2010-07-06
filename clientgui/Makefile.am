@@ -49,6 +49,7 @@ boincmgr_SOURCES = \
     BOINCClientManager.cpp \
     BOINCDialupManager.cpp \
     BOINCGUIApp.cpp \
+    BOINCInternetFSHandler.cpp \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
@@ -73,6 +74,7 @@ boincmgr_SOURCES = \
     NoInternetConnectionPage.cpp \
     NotDetectedPage.cpp \
     NotFoundPage.cpp \
+    NoticeListCtrl.cpp \
     ProjectInfoPage.cpp \
     ProjectListCtrl.cpp \
     ProjectProcessingPage.cpp \
