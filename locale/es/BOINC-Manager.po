@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-06-12 10:12-0700\n"
+"PO-Revision-Date: 2010-07-06 13:19-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -1742,9 +1742,8 @@ msgid "Project preference"
 msgstr "Preferencia del proyecto"
 
 #: DlgItemProperties.cpp:242
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "No se descargarán nuevas tareas"
+msgstr "No buscar tareas para la CPU"
 
 #: DlgItemProperties.cpp:244
 msgid "CPU scheduling priority"
@@ -1764,7 +1763,7 @@ msgstr "Intervalo de búsqueda de trabajo para la CPU"
 
 #: DlgItemProperties.cpp:252
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "No buscar tareas para la GPU NVIDIA"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1783,9 +1782,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervalo de búsqueda de trabajo para la GPU NVIDIA"
 
 #: DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "No se descargarán nuevas tareas"
+msgstr "No buscar tareas para la GPU ATI"
 
 #: DlgItemProperties.cpp:265
 msgid "ATI GPU scheduling priority"
@@ -2306,9 +2304,8 @@ msgid "Ready to start"
 msgstr "Listo para comenzar"
 
 #: MainDocument.cpp:2326
-#, fuzzy
 msgid " (waiting for GPU memory)"
-msgstr "Esperando memoria"
+msgstr " (esperando por memoria de la GPU)"
 
 #: MainDocument.cpp:2330
 msgid "Computation error"
@@ -3084,15 +3081,16 @@ msgid "Transfers"
 msgstr "Transferencias"
 
 #: ViewTransfers.cpp:279
-#, fuzzy
 msgid "Network activity is suspended - "
-msgstr "Actividad de red suspendida."
+msgstr "La actividad de red está suspendida - "
 
 #: ViewTransfers.cpp:281
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
 msgstr ""
+".\n"
+"Usted puede habilitarlo usando el menú Actividad."
 
 #: ViewTransfers.cpp:291
 msgid "Retrying transfer now..."
@@ -3122,14 +3120,12 @@ msgid "Retry in "
 msgstr "Reintentar en "
 
 #: ViewTransfers.cpp:779
-#, fuzzy
 msgid "Upload suspended - "
-msgstr "Envío pendiente"
+msgstr "Envío suspendido - "
 
 #: ViewTransfers.cpp:780
-#, fuzzy
 msgid "Download suspended - "
-msgstr "Descarga pendiente"
+msgstr "Descarga suspendida - "
 
 #: ViewTransfers.cpp:787
 msgid "Upload pending"
@@ -3180,12 +3176,10 @@ msgid "Elapsed"
 msgstr "Transcurrido"
 
 #: ViewWork.cpp:226
-#, fuzzy
 msgid "Remaining"
-msgstr "Tiempo Restante:"
+msgstr "Restante"
 
 #: ViewWork.cpp:227
-#, fuzzy
 msgid "Deadline"
 msgstr "Límite para informar"
 
@@ -3693,52 +3687,50 @@ msgid "&Finish"
 msgstr "&Finalizar"
 
 #: ../client/acct_mgr.cpp:373 ../client/acct_mgr.cpp:383
-#, fuzzy
 msgid "error"
-msgstr "Error"
+msgstr "error"
 
 #: ../client/acct_setup.cpp:264
 msgid "A new version of BOINC is available."
-msgstr ""
+msgstr "Hay diponible una nueva versión de BOINC."
 
 #: ../client/acct_setup.cpp:266
-#, fuzzy
 msgid "Download it."
-msgstr "Descargando"
+msgstr "Descárgalo."
 
 #: ../client/client_state.cpp:342
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
+"No se pudo escribir en el archivo state; compuebe los permisos de la carpeta"
 
 #: ../client/cs_cmdline.cpp:280
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "La variable de entorno HTTP_PROXY debe especificar un proxy HTTP"
 
 #: ../client/cs_scheduler.cpp:554
-#, fuzzy
 msgid "Message from project server:"
-msgstr "Mensajes del servidor:"
+msgstr "Mensaje del servidor del proyecto:"
 
 #: ../client/cs_statefile.cpp:769
 msgid "XML syntax error in"
-msgstr ""
+msgstr "Error de sintaxis XML en"
 
 #: ../client/gui_rpc_server.cpp:189
 msgid "Can't resolve hostname in"
-msgstr ""
+msgstr "No se puede resolver el nombre del host en"
 
 #: ../client/log_flags.cpp:67 ../client/log_flags.cpp:317
 #: ../client/log_flags.cpp:442
 msgid "Unexpected text in"
-msgstr ""
+msgstr "Texto inesperado en"
 
 #: ../client/log_flags.cpp:111 ../client/log_flags.cpp:414
 msgid "Unrecognized tag in"
-msgstr ""
+msgstr "Etiqueta no reconocida en"
 
 #: ../client/log_flags.cpp:433
 msgid "Missing start tag in"
-msgstr ""
+msgstr "Etiqueta de inicio perdida en"
 
 #: ../client/log_flags.cpp:459
 msgid "Unparsed tag in"
@@ -3746,13 +3738,15 @@ msgstr ""
 
 #: ../client/log_flags.cpp:467
 msgid "Missing end tag in"
-msgstr ""
+msgstr "Etiqueta de final perdida en"
 
 #: ../client/net_stats.cpp:213
 msgid ""
 "BOINC can't access Internet - check network connection or proxy "
 "configuration."
 msgstr ""
+"BOINC no puede acceder a Internet - compruebe la conexión a la red o la "
+"configuración proxy."
 
 #~ msgid "Attach this computer to a project or account manager"
 #~ msgstr "Unir este ordenador a un proyecto o administrador de cuentas"
