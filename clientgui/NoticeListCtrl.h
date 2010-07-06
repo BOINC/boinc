@@ -23,6 +23,8 @@
 #endif
 
 
+#if wxUSE_ACCESSIBILITY || defined(__WXMAC__)
+
 #ifdef __WXMAC__
 #define wxACC_SELF              0
 #define wxACC_OK                noErr
@@ -73,6 +75,8 @@ public:
     void RemoveMacAccessibilitySupport();
 #endif
 };
+
+#endif
 
 
 /*!

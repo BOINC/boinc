@@ -28,7 +28,6 @@
 ////@begin XPM images
 ////@end XPM images
 
-
 #ifdef __WXMAC__
 
 CNoticeListCtrlAccessible::CNoticeListCtrlAccessible(wxWindow* win) {
@@ -363,6 +362,7 @@ wxAccStatus CNoticeListCtrlAccessible::GetSelections(wxVariant* )
     return wxACC_NOT_IMPLEMENTED;
 }
 #endif      // ifndef __WXMAC__
+
 #endif      // wxUSE_ACCESSIBILITY || defined(__WXMAC__)
 
 

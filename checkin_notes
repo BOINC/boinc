@@ -4933,3 +4933,9 @@ David  30 Jun 2010
         boinc_log.cpp
         cs_notice.cpp
         http_curl_win.h (removed)
+
+Rom    6 July 2010
+    - MGR: Fix Linux build break.
+    
+    clientgui/
+        NoticeListCtrl.cpp, .h
