@@ -64,7 +64,7 @@ $w610dev = array(
 	"num"=>"6.10.58",
 	"status"=>"Development version",
 	"file"=>"boinc_6.10.58_windows_intelx86.exe",
-	"date"=>"6 May 2010",
+	"date"=>"6 July 2010",
 	"type"=>"win_new",
 );
 
