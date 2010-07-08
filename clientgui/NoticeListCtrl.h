@@ -56,6 +56,8 @@ public:
     virtual wxAccStatus GetChildCount(int* childCount);
     virtual wxAccStatus DoDefaultAction(int childId);
     virtual wxAccStatus GetDescription(int childId, wxString* description);
+    wxString StripHTMLTags(wxString inBuf);
+
 #ifndef __WXMAC__
     virtual wxAccStatus Navigate(wxNavDir navDir, int fromId, int* toId, wxAccessible** toObject);
     virtual wxAccStatus GetDefaultAction(int childId, wxString* actionName);
@@ -110,7 +112,7 @@ public:
 
     bool UpdateUI();
 
-    wxCoord GetTotalClientHeight();
+    int GetItemHeight(size_t i) { return (int)OnMeasureItem(i); }
 
 private:
 #ifdef __WXMAC__

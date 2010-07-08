@@ -4954,3 +4954,11 @@ David  6 Jul 2010
 
     html/inc/
         translation.inc
+
+Charlie 8 Jul 2010
+    - MGR: Fix bugs in accessibility code for Notices tab.
+    
+    clientgui/
+        NoticeListCtrl.cpp, .h
+        mac/
+            MacAccessiblity.cpp

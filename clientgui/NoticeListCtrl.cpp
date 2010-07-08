@@ -60,7 +60,8 @@ wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name)
 
         if (pDoc)
         {
-            strBuffer = wxString(process_client_message(pDoc->notice(childId-1)->title), wxConvUTF8); 
+            strBuffer = wxString(process_client_message(pDoc->notice(childId-1)->title), wxConvUTF8);
+            strBuffer = StripHTMLTags(strBuffer);
             *name = strBuffer.c_str();
         }
     }
@@ -99,25 +100,21 @@ wxAccStatus CNoticeListCtrlAccessible::GetLocation(wxRect& rect, int elementId)
     {
         // List item
         wxSize cCtrlSize = pCtrl->GetClientSize();
-        int    iItemWidth = cCtrlSize.GetWidth();
-        int    iItemHeight = pCtrl->GetTotalClientHeight() / (int)pCtrl->GetItemCount();
 
         // Set the initial control postition to the absolute coords of the upper
         //   left hand position of the control
         rect.SetPosition(pCtrl->GetScreenPosition());
-        rect.width = iItemWidth - 1;
-        rect.height = iItemHeight - 1;
+        rect.width = cCtrlSize.GetWidth() - 1;
+        rect.height = pCtrl->GetItemHeight(elementId - 1) - 1;
 
-        if (1 == elementId)
-        {
-            // First child
+        // Items can have different heights
+        int    firstVisibleItem = (int)pCtrl->GetFirstVisibleLine();
+        int    yOffset = 0;
+        for (int i=firstVisibleItem; i<(elementId - 1); ++i) {
+            yOffset += pCtrl->GetItemHeight((size_t)i);
         }
-        else
-        {
-            // Other children
-            rect.SetTop(rect.GetTop() + ((elementId - 1) * iItemHeight) + 1);
-            rect.height -= 1;
-        }
+        rect.SetTop(rect.GetTop() + yOffset);
+        rect.height -= 1;
         return wxACC_OK;
     }
     // Let the framework handle the other cases.
@@ -181,14 +178,29 @@ wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* des
 {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     static wxString strBuffer;
+    wxDateTime dtBuffer;
+    wxString strDescription;
+    wxString strProjectName = wxEmptyString;
+    wxString strArrivalTime = wxEmptyString;
 
     if (pDoc && (childId != wxACC_SELF))
     {
         strBuffer = wxEmptyString;
         if (pDoc)
         {
-            strBuffer = wxString(process_client_message(pDoc->notice(childId-1)->description.c_str()), wxConvUTF8); 
+            strDescription = wxString(process_client_message(pDoc->notice(childId-1)->description.c_str()), wxConvUTF8); 
+            strProjectName = wxString(pDoc->notice(childId-1)->project_name, wxConvUTF8);
+            dtBuffer.Set((time_t)pDoc->notice(childId-1)->arrival_time);
+            strArrivalTime = dtBuffer.Format();
+            if (strProjectName.IsEmpty()) {
+                strBuffer.Printf(_("%s; received on %s"), strDescription.c_str(), strArrivalTime.c_str());
+            } else {
+                strBuffer.Printf(_("%s; received from %s; on %s"), strDescription.c_str(), strProjectName.c_str(), strArrivalTime.c_str());
+            }
+
+            strBuffer = StripHTMLTags(strBuffer);
             *description = strBuffer.c_str();
+            
             return wxACC_OK;
         }
     }
@@ -197,6 +209,20 @@ wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* des
     return wxACC_NOT_IMPLEMENTED;
 }
 
+
+wxString CNoticeListCtrlAccessible::StripHTMLTags(wxString inBuf) {
+    wxString outBuf = wxEmptyString;
+    wxString tempBuf = inBuf;
+
+    while (!tempBuf.IsEmpty()) {
+        outBuf += tempBuf.BeforeFirst(wxT('<'));
+        tempBuf = tempBuf.AfterFirst(wxT('<'));
+        if (tempBuf.IsEmpty()) break;
+        tempBuf = tempBuf.AfterFirst(wxT('>'));
+    }
+
+    return outBuf;
+}
 
 #ifndef __WXMAC__
 
@@ -569,14 +595,3 @@ bool CNoticeListCtrl::UpdateUI()
     }
     return true;
 }
-
-
-/*!
- * Return the total height of all the client items.
- */
- 
-wxCoord CNoticeListCtrl::GetTotalClientHeight()
-{
-    return EstimateTotalHeight();
-}
-
