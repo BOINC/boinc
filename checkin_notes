@@ -4973,3 +4973,11 @@ David  8 Jul 2010
         sched_send.cpp
     tools/
         backend_lib.cpp
+
+David  8 Jul 2010
+	- win build: don't build CUDA/OpenCL apps by default
+
+	client/
+		client_msgs.cpp
+	win_build/
+		boinc.sln

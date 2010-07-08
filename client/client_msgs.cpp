@@ -145,7 +145,7 @@ void MESSAGE_DESCS::cleanup() {
 }
 
 inline void remove_str(char* p, const char* str) {
-    int n= strlen(str);
+    size_t n = strlen(str);
     while (1) {
         p = strstr(p, str);
         if (!p) break;
