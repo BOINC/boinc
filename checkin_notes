@@ -4962,3 +4962,14 @@ Charlie 8 Jul 2010
         NoticeListCtrl.cpp, .h
         mac/
             MacAccessiblity.cpp
+
+David  8 Jul 2010
+    - fix gcc 4 compiler warnings
+
+    sched/   
+        file_deleter.cpp
+        single_job_assimilator.cpp
+        sched_locality.cpp
+        sched_send.cpp
+    tools/
+        backend_lib.cpp

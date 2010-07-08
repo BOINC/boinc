@@ -59,7 +59,11 @@ int assimilate_handler(
         log_messages.printf(MSG_CRITICAL, "Can't open job file %s\n", buf);
         return 0;
     }
-    fgets(buf, 1024, f);
+    if (!fgets(buf, 1024, f)) {
+        log_messages.printf(MSG_CRITICAL, "Can't read job file %s\n", buf);
+        fclose(f);
+        return 0;
+    }
     fclose(f);
     unlink(job_dir_file);
 

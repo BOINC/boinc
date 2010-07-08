@@ -421,7 +421,8 @@ int delete_antique_files() {
     int nfiles=0;
 
     log_messages.printf(MSG_DEBUG,
-        "delete_antique_files(): start (%d files)\n", files_to_delete.size()
+        "delete_antique_files(): start (%d files)\n",
+        (int)files_to_delete.size()
     );
     while (!files_to_delete.empty()) {
         char timestamp[128];

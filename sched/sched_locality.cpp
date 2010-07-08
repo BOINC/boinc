@@ -440,7 +440,7 @@ static void build_working_set_namelist(bool slowhost) {
         if (config.debug_locality) {
             log_messages.printf(MSG_NORMAL,
                 "[locality] build_working_set_namelist(%s): pattern %s has %d matches\n",
-                hosttype, pattern, filesets.items.size()
+                hosttype, pattern, (int)filesets.items.size()
             );
         }
         return;

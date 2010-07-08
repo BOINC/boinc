@@ -782,7 +782,9 @@ static int insert_after(char* buffer, const char* after, const char* text) {
 
     if (strlen(buffer) + strlen(text) > BLOB_SIZE-1) {
         log_messages.printf(MSG_CRITICAL,
-            "insert_after: overflow: %d %d\n", strlen(buffer), strlen(text)
+            "insert_after: overflow: %d %d\n",
+            (int)strlen(buffer),
+            (int)strlen(text)
         );
         return ERR_BUFFER_OVERFLOW;
     }

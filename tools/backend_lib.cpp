@@ -377,7 +377,7 @@ static int process_wu_template(
     if (out.size() > sizeof(wu.xml_doc)-1) {
         fprintf(stderr,
             "create_work: WU XML field is too long (%d bytes; max is %d)\n",
-            out.size(), sizeof(wu.xml_doc)-1
+            (int)out.size(), (int)sizeof(wu.xml_doc)-1
         );
         return ERR_BUFFER_OVERFLOW;
     }
@@ -483,7 +483,7 @@ int create_result(
     if (strlen(result_template) > sizeof(result.xml_doc_in)-1) {
         fprintf(stderr,
             "result XML doc is too long: %d bytes, max is %d\n",
-            strlen(result_template), sizeof(result.xml_doc_in)-1
+            (int)strlen(result_template), (int)sizeof(result.xml_doc_in)-1
         );
         return ERR_BUFFER_OVERFLOW;
     }
@@ -514,9 +514,9 @@ int check_files(char** infiles, int ninfiles, SCHED_CONFIG& config_loc) {
         dir_hier_path(
             infiles[i], config_loc.download_dir, config_loc.uldl_dir_fanout, path
         );
-		if (!boinc_file_exists(path)) {
-			return 1;
-		}
+        if (!boinc_file_exists(path)) {
+            return 1;
+        }
 
     }
     return 0;
@@ -564,8 +564,10 @@ int create_work(
     }
 
     if (strlen(result_template_filename) > sizeof(wu.result_template_file)-1) {
-        fprintf(stderr, "result template filename is too big: %d bytes, max is %d\n",
-            strlen(result_template_filename), sizeof(wu.result_template_file)-1
+        fprintf(stderr,
+            "result template filename is too big: %d bytes, max is %d\n",
+            (int)strlen(result_template_filename),
+            (int)sizeof(wu.result_template_file)-1
         );
         return ERR_BUFFER_OVERFLOW;
     }
