@@ -71,10 +71,7 @@ void AccessibilityIgnoreAllChildren(HIViewRef parent, int recursionLevel) {
 pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData);
 
-pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
-                                    EventRef inEvent, void* pData);
-
-pascal OSStatus NoticeListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+pascal OSStatus HTMLListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData);
 
     static EventTypeSpec myAccessibilityEvents[] = {
@@ -198,7 +195,7 @@ void CProjectListCtrlAccessible::SetupMacAccessibilitySupport() {
         m_listView = (HIViewRef)pCtrl->GetHandle();
         err = HIViewSetEnabled(m_listView, true);
     
-        err = InstallHIObjectEventHandler((HIObjectRef)m_listView, NewEventHandlerUPP(AttachListAccessibilityEventHandler), 
+        err = InstallHIObjectEventHandler((HIObjectRef)m_listView, NewEventHandlerUPP(HTMLListAccessibilityEventHandler), 
                                 sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
                                                         this, &m_plistAccessibilityEventHandlerRef);
     } else {
@@ -226,7 +223,7 @@ void CNoticeListCtrlAccessible::SetupMacAccessibilitySupport() {
         m_listView = (HIViewRef)pCtrl->GetHandle();
         err = HIViewSetEnabled(m_listView, true);
     
-        err = InstallHIObjectEventHandler((HIObjectRef)m_listView, NewEventHandlerUPP(NoticeListAccessibilityEventHandler), 
+        err = InstallHIObjectEventHandler((HIObjectRef)m_listView, NewEventHandlerUPP(HTMLListAccessibilityEventHandler), 
                                 sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
                                                         this, &m_plistAccessibilityEventHandlerRef);
     } else {
@@ -1250,22 +1247,33 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
 }
 
 
-pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+pascal OSStatus HTMLListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData) {
     const UInt32                eventClass = GetEventClass(inEvent);
     const UInt32                eventKind = GetEventKind(inEvent);
+    CProjectListCtrlAccessible* pProjectListCtrlAccessible = NULL;
+    CProjectListCtrl*           pProjectListCtrl = NULL;
+    CNoticeListCtrlAccessible*  pNoticeListCtrlAccessible = NULL;
+    CNoticeListCtrl*            pNoticeListCtrl = NULL;
     OSStatus                    err;
     
-    CProjectListCtrlAccessible* pAccessible = (CProjectListCtrlAccessible*)pData;
-    if (pAccessible == NULL) {
-        return eventNotHandledErr;
+    pProjectListCtrlAccessible = wxDynamicCast(pData, CProjectListCtrlAccessible);
+    if (pProjectListCtrlAccessible != NULL) {
+        pProjectListCtrl = wxDynamicCast(pProjectListCtrlAccessible->GetWindow(), CProjectListCtrl);
+        if (pProjectListCtrl == NULL) {
+            return eventNotHandledErr;
+        }
+    } else {
+        pNoticeListCtrlAccessible = wxDynamicCast(pData, CNoticeListCtrlAccessible);
+        if (pNoticeListCtrlAccessible == NULL) {
+            return eventNotHandledErr;
+        }
+        pNoticeListCtrl = wxDynamicCast(pNoticeListCtrlAccessible->GetWindow(), CNoticeListCtrl);
+        if (pNoticeListCtrl == NULL) {
+            return eventNotHandledErr;
+        }
     }
     
-    CProjectListCtrl*           pCtrl = wxDynamicCast(pAccessible->GetWindow(), CProjectListCtrl);
-    if (pCtrl == NULL) {
-        return eventNotHandledErr;
-    }
-
     if (eventClass != kEventClassAccessibility) {
         return eventNotHandledErr;
     }
@@ -1303,9 +1311,13 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
             if (err) return err;
 
             wxPoint     p((int)where.x, (int)where.y);
-            pCtrl->ScreenToClient(&p.x, &p.y);
-            
-            err = pAccessible->HitTest(p, &hitRow, NULL);
+            if (pProjectListCtrlAccessible) {
+                pProjectListCtrl->ScreenToClient(&p.x, &p.y);
+                err = pProjectListCtrlAccessible->HitTest(p, &hitRow, NULL);
+            } else {
+                pNoticeListCtrl->ScreenToClient(&p.x, &p.y);
+                err = pNoticeListCtrlAccessible->HitTest(p, &hitRow, NULL);
+            }
             
             if (err) {
                 return eventNotHandledErr;
@@ -1406,7 +1418,11 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     wxRect          r;
                     HISize          theSize;
                     
-                    err = pAccessible->GetLocation(r, row);
+                    if (pProjectListCtrlAccessible) {
+                        err = pProjectListCtrlAccessible->GetLocation(r, row);
+                    } else {
+                        err = pNoticeListCtrlAccessible->GetLocation(r, row);
+                    }
                     if (err) {
                         return eventNotHandledErr;
                     }
@@ -1420,20 +1436,18 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                 } else if ( CFStringCompare( attribute, kAXPositionAttribute, 0 ) == kCFCompareEqualTo ) {
                     wxRect          r;
                     HIPoint         pt;
-                    int             x, y;
                     
-                    err = pAccessible->GetLocation(r, row);
+                    if (pProjectListCtrlAccessible) {
+                        err = pProjectListCtrlAccessible->GetLocation(r, row);
+                    } else {
+                        err = pNoticeListCtrlAccessible->GetLocation(r, row);
+                    }
                     if (err) {
                         return eventNotHandledErr;
                     }
                     
-                    x = r.x;
-                    y = r.y;
-                    
-                    // Now convert to global coordinates
-                    pCtrl->ClientToScreen(&x, &y);
-                    pt.x = x;
-                    pt.y = y;
+                    pt.x = r.x;
+                    pt.y = r.y;
 
                     SetEventParameter(inEvent, kEventParamAccessibleAttributeValue, typeHIPoint, sizeof(HIPoint), &pt);
                     return noErr;
@@ -1449,7 +1463,11 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     AXUIElementRef		child;
                     int                 i, n;
 
-                    err = pAccessible->GetChildCount(&n);
+                    if (pProjectListCtrlAccessible) {
+                        err = pProjectListCtrlAccessible->GetChildCount(&n);
+                    } else {
+                        err = pNoticeListCtrlAccessible->GetChildCount(&n);
+                    }
                     children = CFArrayCreateMutable( kCFAllocatorDefault, n, &kCFTypeArrayCallBacks );
 
                     for ( i = 0; i < n; i++ ) {
@@ -1486,7 +1504,11 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     AXUIElementRef		parent;
                     HIViewRef           parentView;
 
-                    parentView = HIViewGetSuperview(pAccessible->m_listView);
+                    if (pProjectListCtrlAccessible) {
+                        parentView = HIViewGetSuperview(pProjectListCtrlAccessible->m_listView);
+                    } else {
+                        parentView = HIViewGetSuperview(pNoticeListCtrlAccessible->m_listView);
+                    }
                     parent = AXUIElementCreateWithHIObjectAndIdentifier((HIObjectRef)parentView, 0);
                     if (parent == NULL) {
                         return eventNotHandledErr;
@@ -1505,19 +1527,34 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                 if ( CFStringCompare( attribute, kAXDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
                     wxString        str, buf;
                     int             n;
+                    Boolean         selected = false;
 
-                    err = pAccessible->GetChildCount(&n);
+                    if (pProjectListCtrlAccessible) {
+                        err = pProjectListCtrlAccessible->GetChildCount(&n);
+                    } else {
+                        err = pNoticeListCtrlAccessible->GetChildCount(&n);
+                    }
                     if (err) {
                         return eventNotHandledErr;
                     }
 
-                    if (pCtrl->IsSelected(row - 1)) {
+                    if (pProjectListCtrl) {
+                        selected = pProjectListCtrl->IsSelected(row - 1);
+                    } else {
+                        selected = pNoticeListCtrl->IsSelected(row - 1);
+                    }
+
+                    if (selected) {
                         str.Printf(_("selected row %d of %d; "), row, n);
                     } else {
                         str.Printf(_("row %d of %d; "), row, n);
                     }
 
-                    err = pAccessible->GetDescription(row, &buf);
+                    if (pProjectListCtrlAccessible) {
+                        err = pProjectListCtrlAccessible->GetDescription(row, &buf);
+                    } else {
+                        err = pNoticeListCtrlAccessible->GetDescription(row, &buf);
+                    }
                     if (err) {
                         return eventNotHandledErr;
                     }
@@ -1532,7 +1569,11 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     AXUIElementRef		parent;
                     HIViewRef           parentView;
 
-                    parentView = pAccessible->m_listView;
+                    if (pProjectListCtrlAccessible) {
+                        parentView = pProjectListCtrlAccessible->m_listView;
+                    } else {
+                        parentView = pNoticeListCtrlAccessible->m_listView;
+                    }
                     parent = AXUIElementCreateWithHIObjectAndIdentifier((HIObjectRef)parentView, 0);
                     if (parent == NULL) {
                         return eventNotHandledErr;
@@ -1600,7 +1641,11 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     wxString        str;
                     wxListItem      headerItem;
 
-                    pAccessible->GetName(row, &str);
+                    if (pProjectListCtrlAccessible) {
+                        pProjectListCtrlAccessible->GetName(row, &str);
+                    } else {
+                        pNoticeListCtrlAccessible->GetName(row, &str);
+                    }
                     
                     CFStringRef		title = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( title ), &title );
@@ -1705,479 +1750,11 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
             if ( CFStringCompare( action, kAXPressAction, 0 ) != kCFCompareEqualTo ) {
                 return eventNotHandledErr;
             }
-            err = pAccessible->DoDefaultAction(inIdentifier);
-            if (err) {
-                return eventNotHandledErr;
-            }
-            
-            return noErr;
-        }
-        break;
-        
-        default:
-            return eventNotHandledErr;
-    }   // End switch(eventKind)
-    
-    return eventNotHandledErr;
-}
-
-
-pascal OSStatus NoticeListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
-                                    EventRef inEvent, void* pData) {
-    const UInt32                eventClass = GetEventClass(inEvent);
-    const UInt32                eventKind = GetEventKind(inEvent);
-    OSStatus                    err;
-    
-    CProjectListCtrlAccessible* pAccessible = (CProjectListCtrlAccessible*)pData;
-    if (pAccessible == NULL) {
-        return eventNotHandledErr;
-    }
-    
-    CNoticeListCtrl*            pCtrl = wxDynamicCast(pAccessible->GetWindow(), CNoticeListCtrl);
-    if (pCtrl == NULL) {
-        return eventNotHandledErr;
-    }
-
-    if (eventClass != kEventClassAccessibility) {
-        return eventNotHandledErr;
-    }
-
-    AXUIElementRef		element;
-    UInt64				inIdentifier = 0;
-    UInt64              outIdentifier = 0;
-    SInt32              row = 0;
-    HIObjectRef         obj = NULL;
-    
-    err = GetEventParameter (inEvent, kEventParamAccessibleObject, 
-                typeCFTypeRef, NULL, sizeof(typeCFTypeRef), NULL, &element);
-    if (err) return err;
-    
-    AXUIElementGetIdentifier( element, &inIdentifier );
-    obj = AXUIElementGetHIObject(element);
-     
-    row = inIdentifier;
-
-    switch (eventKind) {
-#pragma mark kEventAccessibleGetChildAtPoint
-        case kEventAccessibleGetChildAtPoint:
-        {
-            CFTypeRef	child = NULL;
-            HIPoint		where;
-            int         hitRow;
-            
-            // Only the whole view can be tested since the parts don't have sub-parts.
-            if (inIdentifier != 0) {
-                return noErr;
-            }
-
-            err = GetEventParameter (inEvent, kEventParamMouseLocation, 
-                        typeHIPoint, NULL, sizeof(HIPoint), NULL, &where);
-            if (err) return err;
-
-            wxPoint     p((int)where.x, (int)where.y);
-            pCtrl->ScreenToClient(&p.x, &p.y);
-            
-            err = pAccessible->HitTest(p, &hitRow, NULL);
-            
-            if (err) {
-                return eventNotHandledErr;
-            }
-            
-            if (hitRow >= 0) {
-                outIdentifier = hitRow + 1;
-                child = AXUIElementCreateWithHIObjectAndIdentifier(obj, outIdentifier );
-                if (child == NULL) {
-                    return eventNotHandledErr;
-                }
-                
-                err = SetEventParameter (inEvent, kEventParamAccessibleChild, typeCFTypeRef, 
-                                            sizeof(typeCFTypeRef), &child);
-                if (err) {
-                    return eventNotHandledErr;
-                }
-            }
-            
-            return noErr;
-        }
-        break;
-
-#pragma mark kEventAccessibleGetFocusedChild
-        case kEventAccessibleGetFocusedChild:
-            return noErr;
-        break;
-
-#pragma mark kEventAccessibleGetAllAttributeNames
-        case kEventAccessibleGetAllAttributeNames:
-        {
-            CFMutableArrayRef	namesArray;
-
-            err = GetEventParameter (inEvent, kEventParamAccessibleAttributeNames, 
-                    typeCFMutableArrayRef, NULL, sizeof(typeCFMutableArrayRef), NULL, &namesArray);
-            if (err) 
-                return err;
-
-            CallNextEventHandler( inHandlerCallRef, inEvent );
-            
-            if ( inIdentifier == 0 )
-            {
-                // Identifier 0 means "the whole view".
-                // Let accessibility know that this view has children and can
-                // return a list of them.
-                CFArrayAppendValue( namesArray, kAXChildrenAttribute );
+            if (pProjectListCtrlAccessible) {
+                err = pProjectListCtrlAccessible->DoDefaultAction(inIdentifier);
             } else {
-                // Let accessibility know that this view's children can return description,
-                // size, position, parent window, top level element and isFocused attributes.
-                CFArrayAppendValue( namesArray, kAXWindowAttribute );
-                CFArrayAppendValue( namesArray, kAXTopLevelUIElementAttribute );
-                CFArrayAppendValue( namesArray, kAXDescriptionAttribute );
-                CFArrayAppendValue( namesArray, kAXSizeAttribute );
-                CFArrayAppendValue( namesArray, kAXPositionAttribute );
-                CFArrayAppendValue( namesArray, kAXTitleAttribute );
-                CFArrayAppendValue( namesArray, kAXEnabledAttribute );
+                err = pNoticeListCtrlAccessible->DoDefaultAction(inIdentifier);
             }
-            
-            CFArrayAppendValue( namesArray, kAXFocusedAttribute );
-            CFArrayAppendValue( namesArray, kAXRoleAttribute );
-            CFArrayAppendValue( namesArray, kAXRoleDescriptionAttribute );
-            CFArrayAppendValue( namesArray, kAXParentAttribute );
-
-            return noErr;
-        }
-        break;
-            
-#pragma mark kEventAccessibleGetAllParameterizedAttributeNames
-        case kEventAccessibleGetAllParameterizedAttributeNames:
-        {
-            CFMutableArrayRef	namesArray;
-
-            err = GetEventParameter (inEvent, kEventParamAccessibleAttributeNames, 
-                    typeCFMutableArrayRef, NULL, sizeof(typeCFMutableArrayRef), NULL, &namesArray);
-            if (err) return err;
-
-            return noErr;
-        }
-        break;
-            
-#pragma mark kEventAccessibleGetNamedAttribute
-        case kEventAccessibleGetNamedAttribute:
-        {
-            CFStringRef			attribute;
-
-            err = GetEventParameter (inEvent, kEventParamAccessibleAttributeName, 
-                        typeCFStringRef, NULL, sizeof(typeCFStringRef), NULL, &attribute);
-            if (err) return err;
-
-            if ( CFStringCompare( attribute, kAXFocusedAttribute, 0 ) == kCFCompareEqualTo ) {
-                // Return whether or not this part is focused.
-//TODO: Add kAXFocusedAttribute support?
-                Boolean				focused = false;
-                
-                SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeBoolean, sizeof( focused ), &focused );
-                return noErr;
-                } else if ( CFStringCompare( attribute, kAXSizeAttribute, 0 ) == kCFCompareEqualTo ) {
-                    wxRect          r;
-                    HISize          theSize;
-                    
-                    err = pAccessible->GetLocation(r, row);
-                    if (err) {
-                        return eventNotHandledErr;
-                    }
-
-                    theSize.width = r.width;
-                    theSize.height = r.height;
-                    
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeHISize, sizeof( HISize ), &theSize );
-                    return noErr;
-
-                } else if ( CFStringCompare( attribute, kAXPositionAttribute, 0 ) == kCFCompareEqualTo ) {
-                    wxRect          r;
-                    HIPoint         pt;
-                    int             x, y;
-                    
-                    err = pAccessible->GetLocation(r, row);
-                    if (err) {
-                        return eventNotHandledErr;
-                    }
-                    
-                    x = r.x;
-                    y = r.y;
-                    
-                    // Now convert to global coordinates
-//                    pCtrl->ClientToScreen(&x, &y);
-                    pt.x = x;
-                    pt.y = y;
-
-                    SetEventParameter(inEvent, kEventParamAccessibleAttributeValue, typeHIPoint, sizeof(HIPoint), &pt);
-                    return noErr;
-            }
-
-            if ( inIdentifier == 0 ) {
-                // String compare the incoming attribute name and return the appropriate accessibility
-                // information as an event parameter.
-            
-                if ( CFStringCompare( attribute, kAXChildrenAttribute, 0 ) == kCFCompareEqualTo ) {
-                    // Create and return an array of AXUIElements describing the children of this view.
-                    CFMutableArrayRef	children;
-                    AXUIElementRef		child;
-                    int                 i, n;
-
-                    err = pAccessible->GetChildCount(&n);
-                    children = CFArrayCreateMutable( kCFAllocatorDefault, n, &kCFTypeArrayCallBacks );
-
-                    for ( i = 0; i < n; i++ ) {
-                        outIdentifier = i+1;
-                        child = AXUIElementCreateWithHIObjectAndIdentifier( obj, outIdentifier );
-                        CFArrayAppendValue( children, child );
-                        CFRelease( child );
-                    }
-                    
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( children ), &children );
-                    CFRelease( children );
-                    return noErr;
-
-                } else if ( CFStringCompare( attribute, kAXRoleAttribute, 0 ) == kCFCompareEqualTo ) {
-                    // Return a string indicating the role of this view. Using the table role doesn't work.
-                    CFStringRef		role = kAXListRole;
-                    
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( role ), &role );
-                    return noErr;
-
-                } else if ( CFStringCompare( attribute, kAXRoleDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
-                    // Return a string indicating the role of this part.
-//TODO: specify whether projects or account managers
-                    wxString        str;
-
-                    str = _("list of projects or account managers");
-                    CFStringRef		roleDesc = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
-
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
-                    CFRelease( roleDesc );
-                    return noErr;
-
-                } else if ( CFStringCompare( attribute, kAXParentAttribute, 0 ) == kCFCompareEqualTo ) {
-                    AXUIElementRef		parent;
-                    HIViewRef           parentView;
-
-                    parentView = HIViewGetSuperview(pAccessible->m_listView);
-                    parent = AXUIElementCreateWithHIObjectAndIdentifier((HIObjectRef)parentView, 0);
-                    if (parent == NULL) {
-                        return eventNotHandledErr;
-                    }
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( parent ), &parent );
-                    CFRelease( parent );
-                    return noErr;
-                
-                } else {
-                    return CallNextEventHandler( inHandlerCallRef, inEvent );
-
-                }
-                
-            } else {        // End if ( inIdentifier == 0 )
-            
-                if ( CFStringCompare( attribute, kAXDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
-                    wxString        str, buf;
-                    int             n;
-
-                    err = pAccessible->GetChildCount(&n);
-                    if (err) {
-                        return eventNotHandledErr;
-                    }
-
-                    if (pCtrl->IsSelected(row - 1)) {
-                        str.Printf(_("selected row %d of %d; "), row, n);
-                    } else {
-                        str.Printf(_("row %d of %d; "), row, n);
-                    }
-
-                    err = pAccessible->GetDescription(row, &buf);
-                    if (err) {
-                        return eventNotHandledErr;
-                    }
-                    str += buf;
-                    
-                    CFStringRef		description = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( description ), &description );
-                    CFRelease( description );
-                    return noErr;
-                    
-                } else if ( CFStringCompare( attribute, kAXParentAttribute, 0 ) == kCFCompareEqualTo ) {
-                    AXUIElementRef		parent;
-                    HIViewRef           parentView;
-
-                    parentView = pAccessible->m_listView;
-                    parent = AXUIElementCreateWithHIObjectAndIdentifier((HIObjectRef)parentView, 0);
-                    if (parent == NULL) {
-                        return eventNotHandledErr;
-                    }
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( parent ), &parent );
-                    CFRelease( parent );
-                    return noErr;
-                
-                } else if ( CFStringCompare( attribute, kAXSubroleAttribute, 0 ) == kCFCompareEqualTo ) {
-                    return eventNotHandledErr;
-
-                } else if ( CFStringCompare( attribute, kAXRoleAttribute, 0 ) == kCFCompareEqualTo ) {
-                    // Return a string indicating the role of this part. The parts of the view behave like
-                    // buttons, so use that system role.
-
-                    CFStringRef		role = kAXStaticTextRole;       // kAXRowRole;
-
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( role ), &role );
-                    return noErr;
-
-                } else if ( CFStringCompare( attribute, kAXRoleDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
-                    // Return a string describing the role of this part. Use the system description.
-                    CFStringRef		roleDesc = HICopyAccessibilityRoleDescription( kAXRowRole, NULL );
-
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
-                    CFRelease( roleDesc );
-                    return noErr;
-
-                } else if ( CFStringCompare( attribute, kAXWindowAttribute, 0 ) == kCFCompareEqualTo
-                        || CFStringCompare( attribute, kAXTopLevelUIElementAttribute, 0 ) == kCFCompareEqualTo ) {
-                    // Return the window or top level ui element for this part. They are both the same so re-use the code.
-                    AXUIElementRef		windOrTopUI;
-
-                    WindowRef win = GetControlOwner((HIViewRef)obj);
-                    if (win == NULL) {
-                        return eventNotHandledErr;
-                    }
-                    
-                    windOrTopUI = AXUIElementCreateWithHIObjectAndIdentifier( (HIObjectRef)win, 0 );
-                    if (windOrTopUI == NULL) {
-                        return eventNotHandledErr;
-                    }
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( windOrTopUI ), &windOrTopUI );
-                    CFRelease( windOrTopUI );
-                    return noErr;
-
-                } else if ( CFStringCompare( attribute, kAXEnabledAttribute, 0 ) == kCFCompareEqualTo ) {
-                    Boolean				enabled = true;
-                    
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeBoolean, sizeof( enabled ), &enabled );
-                    return noErr;
-                
-//TODO: Add kAXFocusedAttribute support?
-#if 0
-                } else if ( CFStringCompare( attribute, kAXFocusedAttribute, 0 ) == kCFCompareEqualTo ) {
-                    // Return whether or not this part is focused.
-                    Boolean				focused = false;
-                    
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeBoolean, sizeof( focused ), &focused );
-                    return noErr;
-#endif
-
-                } else if ( CFStringCompare( attribute, kAXTitleAttribute, 0 ) == kCFCompareEqualTo ) {
-                    // Return the item's text
-                    wxString        str;
-                    wxListItem      headerItem;
-
-                    pAccessible->GetName(row, &str);
-                    
-                    CFStringRef		title = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
-                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( title ), &title );
-                    CFRelease( title );
-                    return noErr;
-
-                } else {
-                    return eventNotHandledErr;
-                }
-
-            } // End if ( inIdentifier != 0 )
-        break;
-        }       // End case kEventAccessibleGetNamedAttribute:
-
-#pragma mark kEventAccessibleIsNamedAttributeSettable
-        case kEventAccessibleIsNamedAttributeSettable:
-        {
-            CFStringRef			attribute;
-            Boolean				isSettable = false;
-
-            err = GetEventParameter (inEvent, kEventParamAccessibleAttributeName, 
-                        typeCFStringRef, NULL, sizeof(typeCFStringRef), NULL, &attribute);
-            if (err) return err;
-
-            // The focused attribute is the only settable attribute for this view,
-            // and it can only be set on part (or subelements), not the whole view.
-            if (inIdentifier != 0)
-            {
-                if ( CFStringCompare( attribute, kAXFocusedAttribute, 0 ) == kCFCompareEqualTo )
-                {
-                    isSettable = true;
-                }
-            }
-            SetEventParameter( inEvent, kEventParamAccessibleAttributeSettable, typeBoolean, sizeof( Boolean ), &isSettable );
-            return noErr;
-        }
-        break;
-
-#pragma mark kEventAccessibleSetNamedAttribute
-        case kEventAccessibleSetNamedAttribute:
-        {
-            return eventNotHandledErr;
-        }
-        break;
-
-#pragma mark kEventAccessibleGetAllActionNames
-        case kEventAccessibleGetAllActionNames:
-        {
-            CFMutableArrayRef	array;
-
-            err = GetEventParameter (inEvent, kEventParamAccessibleActionNames, 
-                        typeCFMutableArrayRef, NULL, sizeof(typeCFMutableArrayRef), NULL, &array);
-            if (err) return err;
-            
-            if (inIdentifier != 0) {
-                CFArrayAppendValue( array, kAXPressAction );
-            }
-            return noErr;
-        }
-        break;
-        
-#pragma mark kEventAccessibleGetNamedActionDescription
-        case kEventAccessibleGetNamedActionDescription:
-        {
-            CFStringRef				action;
-            CFMutableStringRef		desc;
-            CFStringRef				selfDesc = NULL;
-            
-            if (inIdentifier == 0) {
-                return eventNotHandledErr;
-            }
-            
-            err = GetEventParameter (inEvent, kEventParamAccessibleActionName, 
-                        typeCFStringRef, NULL, sizeof(typeCFStringRef), NULL, &action);
-            if (err) return err;
-
-            err = GetEventParameter (inEvent, kEventParamAccessibleActionDescription, 
-                        typeCFMutableStringRef, NULL, sizeof(typeCFMutableStringRef), NULL, &desc);
-            if (err) return err;
-
-             selfDesc = HICopyAccessibilityActionDescription( action );
-
-            CFStringReplaceAll( desc, selfDesc );
-            CFRelease( selfDesc );
-            return noErr;
-        }
-        break;
-    
-#pragma mark kEventAccessiblePerformNamedAction
-        case kEventAccessiblePerformNamedAction:
-        {
-            CFStringRef				action;
-                
-            if (inIdentifier == 0) {
-                return eventNotHandledErr;
-            }
-                
-            err = GetEventParameter (inEvent, kEventParamAccessibleActionName, 
-                        typeCFStringRef, NULL, sizeof(typeCFStringRef), NULL, &action);
-            if (err) return err;
-            
-            if ( CFStringCompare( action, kAXPressAction, 0 ) != kCFCompareEqualTo ) {
-                return eventNotHandledErr;
-            }
-            err = pAccessible->DoDefaultAction(inIdentifier);
             if (err) {
                 return eventNotHandledErr;
             }
@@ -2192,6 +1769,7 @@ pascal OSStatus NoticeListAccessibilityEventHandler( EventHandlerCallRef inHandl
     
     return eventNotHandledErr;
 }
+
 
 
 pascal OSStatus SimpleAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,

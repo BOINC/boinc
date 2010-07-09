@@ -28,7 +28,11 @@
 ////@begin XPM images
 ////@end XPM images
 
+#if wxUSE_ACCESSIBILITY || defined(__WXMAC__)
+
 #ifdef __WXMAC__
+
+IMPLEMENT_CLASS( CNoticeListCtrlAccessible, wxObject )
 
 CNoticeListCtrlAccessible::CNoticeListCtrlAccessible(wxWindow* win) {
     mp_win = win;
@@ -41,8 +45,6 @@ CNoticeListCtrlAccessible::~CNoticeListCtrlAccessible() {
 }
 
 #endif
-
-#if wxUSE_ACCESSIBILITY || defined(__WXMAC__)
 
 // Gets the name of the specified object.
 wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name)

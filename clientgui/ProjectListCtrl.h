@@ -94,6 +94,8 @@ class CProjectListCtrlAccessible: public wxWindowAccessible
 public:
 
 #ifdef __WXMAC__
+    DECLARE_CLASS( CProjectListCtrlAccessible )
+
     CProjectListCtrlAccessible(wxWindow* win);
     virtual ~CProjectListCtrlAccessible();
 #else
@@ -162,6 +164,8 @@ public:
 
     virtual wxString OnGetItem(size_t i) const;
 
+    int GetItemHeight(size_t i) { return (int)OnMeasureItem(i); }
+
     /// Methods
     bool Append(
         wxString strURL,
@@ -177,8 +181,6 @@ public:
     CProjectListItem* GetItem( 
         int iIndex
     );
-
-    wxCoord GetTotalClientHeight();
 
 private:
     std::vector<CProjectListItem*> m_Items;

@@ -4981,3 +4981,13 @@ David  8 Jul 2010
 		client_msgs.cpp
 	win_build/
 		boinc.sln
+
+Charlie 9 Jul 2010
+    - MGR: Fix accessibility code bug in Attach Wizard's ProjectListCtrl, 
+        consolidate and clean up Mac accessibility code.
+    
+    clientgui/
+        NoticeListCtrl.cpp, .h
+        ProjectListCtrl.cpp, .h
+        mac/
+            MacAccessiblity.cpp

@@ -46,6 +46,8 @@ public:
 #ifndef __WXMAC__
     CNoticeListCtrlAccessible(wxWindow* win): wxWindowAccessible(win) {}
 #else
+    DECLARE_CLASS( CNoticeListCtrlAccessible )
+
     CNoticeListCtrlAccessible(wxWindow* win);
     virtual ~CNoticeListCtrlAccessible();
 #endif
