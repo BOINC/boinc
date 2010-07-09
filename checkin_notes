@@ -4991,3 +4991,20 @@ Charlie 9 Jul 2010
         ProjectListCtrl.cpp, .h
         mac/
             MacAccessiblity.cpp
+
+David  9 Jul 2010
+    - client: change the calculation of exponential backoff used for 
+        1) individual file transfers
+        2) project-level file transfer backoff
+        3) scheduler operations
+        Old: scale by e.
+            Use random backoff in the range min..x
+        New: scale by 2.
+            Use random backoff in the rand x/2..x
+    - client: for file transfers, use backoff range of 10 min .. 12 hrs
+        rather than 1 min .. 4 hrs
+
+    client/
+        client_state.cpp,h
+        work_fetch.cpp
+        pers_file_xfer.h

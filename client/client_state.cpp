@@ -1747,20 +1747,15 @@ int CLIENT_STATE::quit_activities() {
     return 0;
 }
 
-// return a random double in the range [rmin,rmax)
-static inline double rand_range(double rmin, double rmax) {
-    if (rmin < rmax) {
-        return drand() * (rmax-rmin) + rmin;
-    } else {
-        return rmin;
-    }
-}
-
-// return a random double in the range [MIN,min(e^n,MAX))
+// Sometime has failed N times.
+// Calculate an exponential backoff between MIN and MAX
 //
-double calculate_exponential_backoff( int n, double MIN, double MAX) {
-    double rmax = std::min(MAX, exp((double)n));
-    return rand_range(MIN, rmax);
+double calculate_exponential_backoff(int n, double MIN, double MAX) {
+    double x = pow(2, (double)n);
+    x *= MIN;
+    if (x > MAX) x = MAX;
+    x *= (.5 + .5*drand());
+    return x;
 }
 
 // See if a timestamp in the client state file

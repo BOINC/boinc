@@ -21,9 +21,11 @@
 #include "client_types.h"
 #include "file_xfer.h"
 
-// Default values for exponential backoff
-#define PERS_RETRY_DELAY_MIN    60                // 1 minute
-#define PERS_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
+// min and max for exponential backoff
+// these are multiplied by a random factor .5 .. 1
+//
+#define PERS_RETRY_DELAY_MIN    600
+#define PERS_RETRY_DELAY_MAX    (3600*12)
 #define PERS_GIVEUP             (SECONDS_PER_DAY*90)
     // give up on xfer if this time elapses since last byte xferred
 

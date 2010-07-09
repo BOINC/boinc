@@ -488,24 +488,14 @@ extern double calculate_exponential_backoff(
 
 extern void print_suspend_tasks_message(int);
 
+//////// TIME-RELATED CONSTANTS ////////////
+
+//////// CLIENT INTERNAL
+
 #define POLL_INTERVAL   1.0
     // the client will handle I/O (including GUI RPCs)
     // for up to POLL_INTERVAL seconds before calling poll_slow_events()
     // to call the polling functions
-
-#define CPU_PESSIMISM_FACTOR 0.9
-    // assume actual CPU utilization will be this multiple
-    // of what we've actually measured recently
-
-#define WORK_FETCH_PERIOD   60
-    // see if we need to fetch work at least this often
-
-#define CPU_SCHED_ENFORCE_PERIOD    60
-    // enforce CPU schedule at least this often
-
-#define DEBT_ADJUST_PERIOD CPU_SCHED_ENFORCE_PERIOD
-    // debt is adjusted at least this often,
-    // since adjust_debts() is called from enforce_schedule()
 
 #define GARBAGE_COLLECT_PERIOD  10
     // how often to garbage collect
@@ -527,12 +517,38 @@ extern void print_suspend_tasks_message(int);
 
 #define GUI_HTTP_POLL_PERIOD    1.0
 
+//////// WORK FETCH
+
+#define WORK_FETCH_PERIOD   60
+    // see if we need to fetch work at least this often
+#define WF_MIN_BACKOFF_INTERVAL    60
+#define WF_MAX_BACKOFF_INTERVAL    86400
+    // if we ask a project for work for a resource and don't get it,
+    // we do exponential backoff.
+    // This constant is an upper bound for this.
+    // E.g., if we need GPU work, we'll end up asking once a day,
+    // so if the project develops a GPU app,
+    // we'll find out about it within a day.
+
+//////// CPU SCHEDULING
+
+#define CPU_SCHED_ENFORCE_PERIOD    60
+    // enforce CPU schedule at least this often
+
+#define DEBT_ADJUST_PERIOD CPU_SCHED_ENFORCE_PERIOD
+    // debt is adjusted at least this often,
+    // since adjust_debts() is called from enforce_schedule()
+
+//////// NETWORK
+
 #define CONNECT_ERROR_PERIOD    600.0
 
 #define ALLOW_NETWORK_IF_RECENT_RPC_PERIOD  300
     // if there has been a GUI RPC within this period
     // that requires network access (e.g. attach to project)
     // allow it even if setting is "no access"
+
+//////// MISC
 
 #define DAILY_XFER_HISTORY_PERIOD   60
 

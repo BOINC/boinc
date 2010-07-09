@@ -38,15 +38,6 @@ RSC_WORK_FETCH ati_work_fetch;
 RSC_WORK_FETCH cpu_work_fetch;
 WORK_FETCH work_fetch;
 
-#define MIN_BACKOFF_INTERVAL    60
-#define MAX_BACKOFF_INTERVAL    86400
-    // if we ask a project for work for a resource and don't get it,
-    // we do exponential backoff.
-    // This constant is an upper bound for this.
-    // E.g., if we need GPU work, we'll end up asking once a day,
-    // so if the project develops a GPU app,
-    // we'll find out about it within a day.
-
 #define FETCH_IF_IDLE_INSTANCE          0
     // If resource has an idle instance,
     // get work for it from the project with greatest LTD,
@@ -188,7 +179,7 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
     // but it's been a while since we asked.
     // In this case, accumulate debt until we reach (around) zero, then stop.
     //
-    if (backoff_interval == MAX_BACKOFF_INTERVAL) {
+    if (backoff_interval == WF_MAX_BACKOFF_INTERVAL) {
         if (long_term_debt > -DEBT_ADJUST_PERIOD) {
             return false;
         }
@@ -200,9 +191,9 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
 void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, const char* name) {
     if (backoff_interval) {
         backoff_interval *= 2;
-        if (backoff_interval > MAX_BACKOFF_INTERVAL) backoff_interval = MAX_BACKOFF_INTERVAL;
+        if (backoff_interval > WF_MAX_BACKOFF_INTERVAL) backoff_interval = WF_MAX_BACKOFF_INTERVAL;
     } else {
-        backoff_interval = MIN_BACKOFF_INTERVAL;
+        backoff_interval = WF_MIN_BACKOFF_INTERVAL;
     }
     double x = drand()*backoff_interval;
     backoff_time = gstate.now + x;
