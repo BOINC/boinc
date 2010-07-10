@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-05-31 04:30-0700\n"
+"PO-Revision-Date: 2010-07-10 05:23-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -242,7 +242,7 @@ msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
@@ -250,7 +250,7 @@ msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr ""
+msgstr "Espacio de intercambio"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
@@ -270,7 +270,7 @@ msgstr "Velocidad de punto flotante calculada"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 millones de operaciones/seg"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
@@ -303,7 +303,7 @@ msgstr "%1 días"
 
 #: ../inc/host.inc:165
 msgid "Maximum daily WU quota per CPU"
-msgstr ""
+msgstr "Cuota diaria máxima de unidad de trabajo por CPU"
 
 #: ../inc/host.inc:165
 msgid "%1/day"
@@ -344,7 +344,7 @@ msgstr "Rendimiento promedio de la CPU"
 
 #: ../inc/host.inc:189
 msgid "Task duration correction factor"
-msgstr ""
+msgstr "Factor de corrección de la duración de la tarea"
 
 #: ../inc/host.inc:191 ../inc/host.inc:613
 msgid "Location"
@@ -409,9 +409,8 @@ msgid "Details"
 msgstr "Detalles"
 
 #: ../inc/host.inc:305
-#, fuzzy
 msgid "Cross-project stats:"
-msgstr "Estadísticas entre proyectos"
+msgstr "Estadísticas entre proyectos:"
 
 #: ../inc/host.inc:459
 msgid "Host %1 has overlapping lifetime:"
@@ -446,13 +445,12 @@ msgid "Couldn't update results"
 msgstr "No se ha podido actualizar los resultados"
 
 #: ../inc/host.inc:571
-#, fuzzy
 msgid "Couldn't retire old computer"
-msgstr "No se pudo eliminar el viejo ordenador"
+msgstr "No se pudo eliminar el antiguo ordenador"
 
 #: ../inc/host.inc:573
 msgid "Retired old computer %1"
-msgstr ""
+msgstr "Eliminado el antiguo ordenador %1"
 
 #: ../inc/host.inc:596 ../inc/host.inc:599
 msgid "Show:"
@@ -480,7 +478,7 @@ msgstr "Último contacto"
 
 #: ../inc/host.inc:677
 msgid "Merge computers by name"
-msgstr ""
+msgstr "Unir ordenadores por nombre"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -552,15 +550,15 @@ msgstr "no leído"
 
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
+msgstr "Para notificaciones por email, %1editar las preferencias comunitarias%2"
 
 #: ../inc/prefs.inc:76
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
-"¿Suspender el trabajo mientras el ordenador está funcionando con baterías? "
-"%1 Sólo importa para ordenadores portátiles %2"
+"¿Suspender el trabajo mientras el ordenador está funcionando con baterías? %"
+"1 Sólo importa para ordenadores portátiles %2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
@@ -612,41 +610,44 @@ msgstr ""
 
 #: ../inc/prefs.inc:138
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
-msgstr ""
+msgstr "Cambiar entre tareas cada %1 Recomendado: 60 minutos %2"
 
 #: ../inc/prefs.inc:146
 msgid "On multiprocessors, use at most"
-msgstr ""
+msgstr "En sistemas multiprocesador, usar como máximo"
 
 #: ../inc/prefs.inc:148
 msgid "processors"
-msgstr ""
+msgstr "procesadores"
 
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
+"En sistemas multiprocesador, usar como máximo %1 Obligatorio a partir de la "
+"versión 6.1+ %2"
 
 #: ../inc/prefs.inc:157
 #, php-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% de los procesadores"
 
 #: ../inc/prefs.inc:161
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr ""
+"Usar como máximo %1 Puede usarse para reducir la temperatura de la CPU %2"
 
 #: ../inc/prefs.inc:166
 #, php-format
 msgid "% of CPU time"
-msgstr ""
+msgstr "% del tiempo de la CPU"
 
 #: ../inc/prefs.inc:174 ../inc/prefs.inc:188
 msgid "Disk: use at most"
-msgstr ""
+msgstr "Disco: usar como máximo"
 
 #: ../inc/prefs.inc:176 ../inc/prefs.inc:185
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
