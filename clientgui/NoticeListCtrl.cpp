@@ -32,8 +32,6 @@
 
 #ifdef __WXMAC__
 
-IMPLEMENT_CLASS( CNoticeListCtrlAccessible, wxObject )
-
 CNoticeListCtrlAccessible::CNoticeListCtrlAccessible(wxWindow* win) {
     mp_win = win;
     SetupMacAccessibilitySupport();
@@ -464,7 +462,7 @@ bool CNoticeListCtrl::Create( wxWindow* parent )
     SetAccessible(new CNoticeListCtrlAccessible(this));
 #endif
 #ifdef __WXMAC__
-    m_accessible = new CNoticeListCtrlAccessible(this);
+    m_accessible = NULL;
 #endif
 ////@end CNoticeListCtrl creation
 
@@ -595,5 +593,11 @@ bool CNoticeListCtrl::UpdateUI()
         SetItemCount(pDoc->GetNoticeCount());
         pDoc->notices.complete = false;
     }
+#ifdef __WXMAC__
+    if (m_accessible == NULL) {
+        m_accessible = new CNoticeListCtrlAccessible(this);
+    }
+#endif
+    
     return true;
 }

@@ -94,8 +94,6 @@ class CProjectListCtrlAccessible: public wxWindowAccessible
 public:
 
 #ifdef __WXMAC__
-    DECLARE_CLASS( CProjectListCtrlAccessible )
-
     CProjectListCtrlAccessible(wxWindow* win);
     virtual ~CProjectListCtrlAccessible();
 #else

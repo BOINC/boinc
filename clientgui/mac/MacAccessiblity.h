@@ -24,14 +24,14 @@
 #include "DlgEventLog.h"
 #include "wx/generic/listctrl.h"
 
-struct ListAccessData {
+typedef struct {
     wxGenericListCtrl*  pList;
     CBOINCBaseView*     pView;
     CDlgEventLog*       pEventLog;
     HIViewRef           headerView;
     HIViewRef           bodyView;
     Boolean             snowLeopard;
-};
+} ListAccessData;
 
 void AccessibilityIgnoreAllChildren(HIViewRef parent, int recursionLevel);
 

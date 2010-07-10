@@ -184,7 +184,14 @@ void CDlgEventLogListCtrl::RemoveMacAccessibilitySupport() {
 }
 
 
+typedef struct {
+    CProjectListCtrlAccessible* pProjectListCtrlAccessible;
+    CNoticeListCtrlAccessible*  pNoticeListCtrlAccessible;
+} HTMLListAccessibilityHandlerData;
+
+
 void CProjectListCtrlAccessible::SetupMacAccessibilitySupport() {
+    static      HTMLListAccessibilityHandlerData userData;
     OSErr       err;
 
     CProjectListCtrl* pCtrl = wxDynamicCast(mp_win, CProjectListCtrl);
@@ -194,10 +201,12 @@ void CProjectListCtrlAccessible::SetupMacAccessibilitySupport() {
     {
         m_listView = (HIViewRef)pCtrl->GetHandle();
         err = HIViewSetEnabled(m_listView, true);
+        userData.pProjectListCtrlAccessible = this;
+        userData.pNoticeListCtrlAccessible = NULL;
     
         err = InstallHIObjectEventHandler((HIObjectRef)m_listView, NewEventHandlerUPP(HTMLListAccessibilityEventHandler), 
                                 sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
-                                                        this, &m_plistAccessibilityEventHandlerRef);
+                                                        &userData, &m_plistAccessibilityEventHandlerRef);
     } else {
         m_plistAccessibilityEventHandlerRef =  NULL;
     }
@@ -213,6 +222,7 @@ void CProjectListCtrlAccessible::RemoveMacAccessibilitySupport() {
 
 
 void CNoticeListCtrlAccessible::SetupMacAccessibilitySupport() {
+    static      HTMLListAccessibilityHandlerData userData;
     OSErr       err;
 
     CNoticeListCtrl* pCtrl = wxDynamicCast(mp_win, CNoticeListCtrl);
@@ -222,10 +232,12 @@ void CNoticeListCtrlAccessible::SetupMacAccessibilitySupport() {
     {
         m_listView = (HIViewRef)pCtrl->GetHandle();
         err = HIViewSetEnabled(m_listView, true);
+        userData.pProjectListCtrlAccessible = NULL;
+        userData.pNoticeListCtrlAccessible = this;
     
         err = InstallHIObjectEventHandler((HIObjectRef)m_listView, NewEventHandlerUPP(HTMLListAccessibilityEventHandler), 
                                 sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
-                                                        this, &m_plistAccessibilityEventHandlerRef);
+                                                        &userData, &m_plistAccessibilityEventHandlerRef);
     } else {
         m_plistAccessibilityEventHandlerRef =  NULL;
     }
@@ -330,12 +342,12 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
     const UInt32        eventClass = GetEventClass(inEvent);
     const UInt32        eventKind = GetEventKind(inEvent);
     OSStatus            err;
-    wxGenericListCtrl*  pList = ((struct ListAccessData*)pData)->pList;
-    CBOINCBaseView*     pView = ((struct ListAccessData*)pData)->pView;
-    HIViewRef           headerView = ((struct ListAccessData*)pData)->headerView;
-    HIViewRef           bodyView = ((struct ListAccessData*)pData)->bodyView;
-    CDlgEventLog*       pEventLog = ((struct ListAccessData*)pData)->pEventLog;
-    Boolean             snowLeopard = ((struct ListAccessData*)pData)->snowLeopard;
+    wxGenericListCtrl*  pList = ((ListAccessData*)pData)->pList;
+    CBOINCBaseView*     pView = ((ListAccessData*)pData)->pView;
+    HIViewRef           headerView = ((ListAccessData*)pData)->headerView;
+    HIViewRef           bodyView = ((ListAccessData*)pData)->bodyView;
+    CDlgEventLog*       pEventLog = ((ListAccessData*)pData)->pEventLog;
+    Boolean             snowLeopard = ((ListAccessData*)pData)->snowLeopard;
 
     if (eventClass != kEventClassAccessibility) {
         return eventNotHandledErr;
@@ -370,6 +382,7 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
             long        theRow = wxNOT_FOUND;
             long        ignored;
             int         hitflags;
+            int         x = 0;
             
             // Only the whole view or rows can be tested since the cells don't have sub-parts.
             if (col >= 0) {
@@ -383,8 +396,16 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
             wxPoint     p((int)where.x, (int)where.y);
             pList->ScreenToClient(&p.x, &p.y);
 
+            int xoff = pList->GetScrollPos(wxHORIZONTAL);
+            if (xoff) {
+                int ppux, ppuy;
+                wxScrolledWindow * win = ((CBOINCListCtrl*)pList)->GetMainWin();
+                win->GetScrollPixelsPerUnit(&ppux, &ppuy);
+                x -= (xoff * ppux);
+            }
+
             // HitTest returns the column only on wxMSW
-            int x = 0, n = pList->GetColumnCount();
+            int n = pList->GetColumnCount();
             for (col=0; col<n; col++) {
                 x += pList->GetColumnWidth(col);
                 if (p.x < x) break;
@@ -1001,7 +1022,7 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
                 } else if ( CFStringCompare( attribute, kAXPositionAttribute, 0 ) == kCFCompareEqualTo ) {
                     HIPoint         pt;
                     wxRect          r;
-                    int             i, x = 0, y = 0;
+                    int             i, x = 0, y = 0, xoff = 0, ppux, ppuy;
                     
                     // Return the position of this part as an HIPoint.
                     // First get the position relative to the ListCtrl
@@ -1015,6 +1036,12 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
                         if (col < 0) {
                             x = r.x;
                         }
+                    }
+                    xoff = pList->GetScrollPos(wxHORIZONTAL);
+                    if (xoff) {
+                        wxScrolledWindow * win = ((CBOINCListCtrl*)pList)->GetMainWin();
+                        win->GetScrollPixelsPerUnit(&ppux, &ppuy);
+                        x -= (xoff * ppux);
                     }
                     // Now convert to global coordinates
                     pList->ClientToScreen(&x, &y);
@@ -1257,14 +1284,14 @@ pascal OSStatus HTMLListAccessibilityEventHandler( EventHandlerCallRef inHandler
     CNoticeListCtrl*            pNoticeListCtrl = NULL;
     OSStatus                    err;
     
-    pProjectListCtrlAccessible = wxDynamicCast(pData, CProjectListCtrlAccessible);
+    pProjectListCtrlAccessible = ((HTMLListAccessibilityHandlerData*)pData)->pProjectListCtrlAccessible;
+    pNoticeListCtrlAccessible = ((HTMLListAccessibilityHandlerData*)pData)->pNoticeListCtrlAccessible;
     if (pProjectListCtrlAccessible != NULL) {
         pProjectListCtrl = wxDynamicCast(pProjectListCtrlAccessible->GetWindow(), CProjectListCtrl);
         if (pProjectListCtrl == NULL) {
             return eventNotHandledErr;
         }
     } else {
-        pNoticeListCtrlAccessible = wxDynamicCast(pData, CNoticeListCtrlAccessible);
         if (pNoticeListCtrlAccessible == NULL) {
             return eventNotHandledErr;
         }

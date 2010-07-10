@@ -36,8 +36,6 @@
 
 #ifdef __WXMAC__
 
-IMPLEMENT_CLASS( CProjectListCtrlAccessible, wxObject )
-
 CProjectListCtrlAccessible::CProjectListCtrlAccessible(wxWindow* win) {
     mp_win = win;
     SetupMacAccessibilitySupport();

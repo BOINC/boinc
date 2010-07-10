@@ -61,7 +61,7 @@ private:
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
 
-    struct ListAccessData   accessibilityHandlerData;
+    ListAccessData   accessibilityHandlerData;
     
     EventHandlerRef         m_pHeaderAccessibilityEventHandlerRef;
     EventHandlerRef         m_pBodyAccessibilityEventHandlerRef;
