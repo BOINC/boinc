@@ -462,6 +462,8 @@ bool CNoticeListCtrl::Create( wxWindow* parent )
     SetAccessible(new CNoticeListCtrlAccessible(this));
 #endif
 #ifdef __WXMAC__
+    // Enable accessibility only after drawing the page 
+    // to avoid a mysterious crash bug
     m_accessible = NULL;
 #endif
 ////@end CNoticeListCtrl creation
@@ -594,6 +596,8 @@ bool CNoticeListCtrl::UpdateUI()
         pDoc->notices.complete = false;
     }
 #ifdef __WXMAC__
+    // Enable accessibility only after drawing the page 
+    // to avoid a mysterious crash bug
     if (m_accessible == NULL) {
         m_accessible = new CNoticeListCtrlAccessible(this);
     }
