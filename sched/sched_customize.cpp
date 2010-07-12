@@ -84,14 +84,11 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     }
 #endif
 #if 0
-    // example: if CUDA app and WU name contains "slow",
-    // cut performance estimate in half
+    // example: if CUDA app and WU name contains ".vlar", don't send
     //
     if (bav.host_usage.ncudas) {
-        if (!strstr(wu.name, "slow")) {
-            bav.host_usage.flops = g_request->coproc_cuda->peak_flops()/10;
-        } else {
-            bav.host_usage.flops = g_request->coproc_cuda->peak_flops()/5;
+        if (strstr(wu.name, ".vlar")) {
+            return true;
         }
     }
 #endif

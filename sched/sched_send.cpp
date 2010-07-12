@@ -1247,13 +1247,13 @@ static void send_gpu_messages(
         if (version) {
             if (version < req.min_driver_version) {
                 sprintf(buf,
-                    "Upgrade to the latest %s driver to process tasks using your computer's %s",
-                    rsc_name, rsc_name
+                    "%s: _(Upgrade to the latest driver to process tasks using your computer's GPU)",
+                    rsc_name
                 );
                 g_reply->insert_message(buf, "notice");
             } else if (version < req.opt_driver_version) {
                 sprintf(buf,
-                    "Upgrade to the latest %s driver to use all of this project's GPU applications",
+                    "%s: _(Upgrade to the latest driver to use all of this project's GPU applications)",
                     rsc_name
                 );
                 g_reply->insert_message(buf, "low");
@@ -1278,7 +1278,7 @@ static void send_user_messages() {
         && g_request->core_client_version < 61028
     ) {
         g_reply->insert_message(
-            "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to the current version",
+            "_(A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to the current version)",
             "notice"
         );
     }
@@ -1291,18 +1291,18 @@ static void send_user_messages() {
         if (ssp->have_cuda_apps) {
             if (ssp->have_ati_apps) {
                 g_reply->insert_message(
-                    "An NVIDIA or ATI GPU is required to run tasks for this project",
+                    "_(An NVIDIA or ATI GPU is required to run tasks for this project)",
                     "notice"
                 );
             } else {
                 g_reply->insert_message(
-                    "An NVIDIA GPU is required to run tasks for this project",
+                    "_(An NVIDIA GPU is required to run tasks for this project)",
                     "notice"
                 );
             }
         } else if (ssp->have_ati_apps) {
             g_reply->insert_message(
-                "An ATI GPU is required to run tasks for this project",
+                "_(An ATI GPU is required to run tasks for this project)",
                 "notice"
             );
         }
@@ -1397,7 +1397,7 @@ static void send_user_messages() {
         }
         if (g_wreq->no_allowed_apps_available) {
             g_reply->insert_message(
-                "No work available for the applications you have selected.  Please check your project preferences on the web site.",
+                "_(No work available for the applications you have selected.  Please check your project preferences on the web site.)",
                 "notice"
             );
         }
@@ -1423,13 +1423,13 @@ static void send_user_messages() {
         }
         if (g_wreq->hr_reject_perm) {
             g_reply->insert_message(
-                "Your computer type is not supported by this project",
+                "_(Your computer type is not supported by this project)",
                 "notice"
             );
         }
         if (g_wreq->outdated_client) {
             g_reply->insert_message(
-                "Newer BOINC version required; please install current version",
+                "_(Newer BOINC version required; please install current version)",
                 "notice"
             );
             g_reply->set_delay(DELAY_NO_WORK_PERM);
@@ -1439,25 +1439,25 @@ static void send_user_messages() {
         }
         if (g_wreq->excessive_work_buf) {
             g_reply->insert_message(
-                "Your network connection interval is too long",
+                "_(Your preference for network connection interval is too high for this project)",
                 "notice"
             );
         }
         if (g_wreq->no_cuda_prefs) {
             g_reply->insert_message(
-                "Tasks for NVIDIA GPU are available, but your preferences are set to not accept them",
+                "_(Tasks for NVIDIA GPU are available, but your preferences are set to not accept them)",
                 "notice"
             );
         }
         if (g_wreq->no_ati_prefs) {
             g_reply->insert_message(
-                "Tasks for ATI GPU are available, but your preferences are set to not accept them",
+                "_(Tasks for ATI GPU are available, but your preferences are set to not accept them)",
                 "notice"
             );
         }
         if (g_wreq->no_cpu_prefs) {
             g_reply->insert_message(
-                "Tasks for CPU are available, but your preferences are set to not accept them",
+                "_(Tasks for CPU are available, but your preferences are set to not accept them)",
                 "notice"
             );
         }

@@ -5032,3 +5032,24 @@ David  12 Jul 2010
         validate_util2.cpp,h
         validator.cpp
         Makefile.am
+
+David  12 Jul 2010
+    - scheduler: make some "notice"-priority messages translatable
+    - scheduler: add a clause to wu_is_infeasible_custom() for SETI@home:
+        don't process VLAR jobs using CUDA apps.
+        Note: this is implemented in a slightly non-optimal way.
+        If the request asks for both GPU and CPU jobs,
+        the scheduler will first decide to use the GPU version.
+        It will scan jobs, skipping over VLAR jobs.
+        When the GPU request is satisfied, it will switch to the CPU version
+        and continue scanning, accepting VLAR jobs.
+        But the jobs that were skipped initially won't be rescanned.
+        Also, it would be slightly nice to preferentially send
+        VLAR jobs to hosts asking for CPU work.
+        (This could be done in the scoring function).
+
+    sched/
+        sched_customize.cpp
+        sched_version.cpp
+        sched_send.cpp
+        handle_request.cpp

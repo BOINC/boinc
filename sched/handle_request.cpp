@@ -290,7 +290,7 @@ int authenticate_user() {
                 retval = user.lookup(buf);
                 if (retval) {
                     g_reply->insert_message(
-                        "Invalid or missing account key.  To fix, detach and reattach to this project.",
+                        "_(Invalid or missing account key.  To fix, detach and reattach to this project.)",
                         "notice"
                     );
                     g_reply->set_delay(DELAY_MISSING_KEY);
@@ -811,7 +811,7 @@ bool send_code_sign_key(char* code_sign_key) {
                 retval = read_file_malloc(path, oldkey);
                 if (retval) {
                     g_reply->insert_message(
-                       "You may have an outdated code signing key.  Try attaching an reattaching this project.",
+                       "_(You may have an outdated code signing key.  Try attaching and reattaching this project.)",
                        "notice"
                     );
                     return false;
@@ -821,7 +821,7 @@ bool send_code_sign_key(char* code_sign_key) {
                     retval = read_file_malloc(path, signature);
                     if (retval) {
                         g_reply->insert_message(
-                           "You may have an outdated code signing key.  Try attaching an reattaching this project.",
+                           "_(You may have an outdated code signing key.  Try attaching and reattaching this project.)",
                            "notice"
                         );
                     } else {
@@ -904,7 +904,7 @@ bool unacceptable_os() {
                 "Unacceptable OS %s %s\n",
                 g_request->host.os_name, g_request->host.os_version
             );
-            sprintf(buf, "This project doesn't support OS type %s %s",
+            sprintf(buf, "_(This project doesn't support operating system) %s %s",
                 g_request->host.os_name, g_request->host.os_version
             );
             g_reply->insert_message(buf, "notice");
@@ -929,7 +929,7 @@ bool unacceptable_cpu() {
                 "Unacceptable CPU %s %s\n",
                 g_request->host.p_vendor, g_request->host.p_model
             );
-            sprintf(buf, "This project doesn't support CPU type %s %s",
+            sprintf(buf, "_(This project doesn't support CPU type) %s %s",
                 g_request->host.p_vendor, g_request->host.p_model
             );
             g_reply->insert_message(buf, "notice");
