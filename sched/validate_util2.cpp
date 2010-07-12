@@ -48,7 +48,6 @@ using std::vector;
 //   result.validate_state == INIT
 //
 int check_set(
-    DB_APP& app, vector<DB_APP_VERSION>& app_versions,
     vector<RESULT>& results, WORKUNIT& wu,
     int& canonicalid, double&, bool& retry
 ) {

@@ -5022,3 +5022,13 @@ Charlie 10 Jul 2010
         ProjectListCtrl.cpp, .h
         mac/
             MacAccessiblity.cpp, .h
+
+David  12 Jul 2010
+    - validator: remove app and app_versions arguments from check_set().
+        These weren't used, and I'm not sure why they were added.
+    - include sched_limit.h in "make install" list
+
+    sched/
+        validate_util2.cpp,h
+        validator.cpp
+        Makefile.am

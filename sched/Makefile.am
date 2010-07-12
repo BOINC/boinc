@@ -32,6 +32,7 @@ if INSTALL_HEADERS
 pkginclude_HEADERS = \
 	credit.h \
 	sched_config.h \
+	sched_limit.h \
 	sched_msgs.h \
 	sched_util.h \
 	../tools/backend_lib.h \

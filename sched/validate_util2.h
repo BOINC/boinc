@@ -27,7 +27,6 @@ extern int compare_results(RESULT &, void*, RESULT const&, void*, bool&);
 extern int cleanup_result(RESULT const&, void*);
 extern double compute_granted_credit(WORKUNIT&, std::vector<RESULT>& results);
 extern int check_set(
-    DB_APP& app, std::vector<DB_APP_VERSION>& app_versions,
     std::vector<RESULT>& results, WORKUNIT& wu,
     int& canonicalid, double& credit_deprecated, bool& retry
 );

@@ -340,7 +340,7 @@ int handle_wu(
 
             double dummy;
             retval = check_set(
-                app, app_versions, results, wu, canonicalid, dummy, retry
+                results, wu, canonicalid, dummy, retry
             );
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
