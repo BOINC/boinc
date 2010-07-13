@@ -12,5 +12,11 @@ for file in `find ${srcdir} -name 'BOINC-Manager.mo'` ; do
   mkdir BOINC/locale/${locale}
   cp -f $file BOINC/locale/${locale}
 done  
+for file in `find ${srcdir} -name 'BOINC-Client.mo'` ; do
+  dir=`dirname $file`
+  locale=`basename $dir`
+  mkdir BOINC/locale/${locale}
+  cp -f $file BOINC/locale/${locale}
+done  
 tar cvf sea.tar BOINC
 exit 0
