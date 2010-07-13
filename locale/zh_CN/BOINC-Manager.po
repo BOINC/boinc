@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2009-05-07 20:03-0700\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -286,6 +286,7 @@ msgid "Attach to a project"
 msgstr "加入一个项目"
 
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "停止使用 %s(&S)"
@@ -521,8 +522,9 @@ msgid "&Help"
 msgstr "帮助(&H)"
 
 #: AdvancedFrame.cpp:1058
+#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "加入帐户管理器(&A)..."
 
 #: AdvancedFrame.cpp:1152
 #, c-format
@@ -557,11 +559,13 @@ msgid ""
 msgstr "%s 的缺省语言已被修改，且必须重启 %s 才能生效。"
 
 #: AdvancedFrame.cpp:1513
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - 关闭当前连接的客户端..."
 
 #: AdvancedFrame.cpp:1522
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -785,8 +789,7 @@ msgid ""
 "using Advanced/Options/Connections."
 msgstr ""
 "%s 无法在互联网上进行通讯，也没有设定缺省连接。\n"
-"请连接至互联网或者从菜单中选择'高级->选项'然后切换到连接页面以设定一个缺省连"
-"接。"
+"请连接至互联网或者从菜单中选择'高级->选项'然后切换到连接页面以设定一个缺省连接。"
 
 #: BOINCDialupManager.cpp:386
 #, c-format
@@ -1003,9 +1006,7 @@ msgstr "您已经成功加入到这个项目。"
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr ""
-"点击完成，您的浏览器将打开一个网页，您可在网页上设置您的帐户用户名及项目参"
-"数。"
+msgstr "点击完成，您的浏览器将打开一个网页，您可在网页上设置您的帐户用户名及项目参数。"
 
 #: CompletionPage.cpp:236
 #, c-format
@@ -1524,18 +1525,14 @@ msgstr ""
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Commandl键来选取多"
-"条消息。"
+msgstr "复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Commandl键来选取多条消息。"
 
 #: DlgEventLog.cpp:274 DlgEventLog.cpp:282 ViewMessages.cpp:99
 #: sg_DlgMessages.cpp:203 sg_DlgMessages.cpp:211
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Ctrl键来选取多条消"
-"息。"
+msgstr "复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Ctrl键来选取多条消息。"
 
 #: DlgEventLog.cpp:289
 #, fuzzy
@@ -1589,8 +1586,7 @@ msgid ""
 msgstr ""
 "本操作将会退出 %s 及其所有任务直到重新运行 %s 或是重新启动 %s 屏保。\n"
 "\n"
-"一般情况下，建议只关闭 %s 的窗口而不是退出应用程序，这样 %s 将会在您设定的时"
-"间段内进行工作。"
+"一般情况下，建议只关闭 %s 的窗口而不是退出应用程序，这样 %s 将会在您设定的时间段内进行工作。"
 
 #: DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
@@ -1739,8 +1735,9 @@ msgid "CPU work fetch deferral interval"
 msgstr "CPU 任务获取延迟间隔"
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "禁止下载新任务"
 
 #: DlgItemProperties.cpp:254
 #, fuzzy
@@ -2472,8 +2469,7 @@ msgstr ""
 "\n"
 "1) 连接问题。请检查您的网络或拨号连接并点击上一步以重试。\n"
 "\n"
-"2) 被个人防火墙阻挡，您必须配置您的防火墙以允许 BOINC 在 80 端口和 443 端口的"
-"通讯。\n"
+"2) 被个人防火墙阻挡，您必须配置您的防火墙以允许 BOINC 在 80 端口和 443 端口的通讯。\n"
 "配置完成后，请点击上一步进行重试。\n"
 "\n"
 "3) 您正在通过代理服务器接入互联网。\n"
@@ -2719,9 +2715,7 @@ msgstr "重置项目"
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks.  "
 "You can update the project first to report any completed tasks."
-msgstr ""
-"删除并重新下载当前项目所有相关文件。您可以先更新当前项目以上传所有已经完成的"
-"任务。"
+msgstr "删除并重新下载当前项目所有相关文件。您可以先更新当前项目以上传所有已经完成的任务。"
 
 #: ViewProjects.cpp:201
 msgid "Detach"
@@ -2731,9 +2725,7 @@ msgstr "退出"
 msgid ""
 "Detach computer from this project.  Tasks in progress will be lost (use "
 "'Update' first to report any completed tasks)."
-msgstr ""
-"在本计算机上退出当前项目。该项目所有正在计算的任务将丢失，您可以先点击“更"
-"新”按钮以上报所有已经完成的任务。"
+msgstr "在本计算机上退出当前项目。该项目所有正在计算的任务将丢失，您可以先点击“更新”按钮以上报所有已经完成的任务。"
 
 #: ViewProjects.cpp:208 ViewWork.cpp:212
 msgid "Properties"
@@ -3024,8 +3016,7 @@ msgstr "中断传输"
 msgid ""
 "Click 'Abort transfer' to delete the file from the transfer queue. This will "
 "prevent you from being granted credit for this result."
-msgstr ""
-"点击“中断传输”以从传输队列中删除该文件，这将导致您无法从该结果获得积分。"
+msgstr "点击“中断传输”以从传输队列中删除该文件，这将导致您无法从该结果获得积分。"
 
 #: ViewTransfers.cpp:182
 msgid "File"
@@ -3215,8 +3206,9 @@ msgid "Suspend work for this task."
 msgstr "暂停计算当前任务。"
 
 #: WelcomePage.cpp:255
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "加入帐户管理器(&A)..."
 
 #: WelcomePage.cpp:263
 #, c-format

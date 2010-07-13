@@ -710,9 +710,9 @@ msgid ""
 "Please launch the Control Panel->Administative Tools->Services applet and "
 "start the BOINC service."
 msgstr ""
-"%s ne peut pas démarrer un client %s.Merci d'ouvrir le Panneau de Contrôle-"
-">Outils d'Administration->Gestionnaire de Services et démarrez le service "
-"BOINC."
+"%s ne peut pas démarrer un client %s.Merci d'ouvrir le Panneau de "
+"Contrôle->Outils d'Administration->Gestionnaire de Services et démarrez le "
+"service BOINC."
 
 #: BOINCBaseFrame.cpp:554
 #, c-format
@@ -737,8 +737,9 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "Le %s n'est actuellement pas connecté à un client %s.\n"
-"Veuillez utiliser l'option du menu 'Avancé\\SÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©lectionner un "
-"ordinateur...' pour vous connecter à un client %s.\n"
+"Veuillez utiliser l'option du menu "
+"'Avancé\\SÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©lectionner un ordinateur...' pour "
+"vous connecter à un client %s.\n"
 "Pour vous connecter à votre ordinateur local, veuillez utiliser 'localhost' "
 "comme nom d'hôte."
 
@@ -1187,7 +1188,8 @@ msgstr " Lorsque l'ordinateur est sur batterie"
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
-"cocher si vous voulez que cet ordinateur calcule alors qu'il est sur batterie"
+"cocher si vous voulez que cet ordinateur calcule alors qu'il est sur "
+"batterie"
 
 #: DlgAdvPreferencesBase.cpp:144
 msgid "While computer is in use"
@@ -1384,8 +1386,7 @@ msgstr " Ignorer la vérification du fichier image"
 
 #: DlgAdvPreferencesBase.cpp:443
 msgid "check this if your Internet provider modifies image files"
-msgstr ""
-"cocher si votre fournisseur d'accès internet modifie les fichiers image"
+msgstr "cocher si votre fournisseur d'accès internet modifie les fichiers image"
 
 #: DlgAdvPreferencesBase.cpp:451
 msgid "Connect options"
@@ -1593,8 +1594,8 @@ msgstr ""
 "qui vous permet de voir et gérer\n"
 "les applications scientifiques sur votre ordinateur.\n"
 "\n"
-"Si vous voulez également arrêter les applications scientifiques quand vous"
-"\\fermez le Manager, choisissez parmi les options suivantes:"
+"Si vous voulez également arrêter les applications scientifiques quand "
+"vous\\fermez le Manager, choisissez parmi les options suivantes:"
 
 #: DlgExitMessage.cpp:135
 #, c-format
@@ -2018,8 +2019,7 @@ msgstr "Vos préférences"
 
 #: Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr ""
-"Voir et modifier les préférences et le profil de votre compte SETI@home"
+msgstr "Voir et modifier les préférences et le profil de votre compte SETI@home"
 
 #: Localization.cpp:47 Localization.cpp:89
 msgid "Your results"
@@ -2398,8 +2398,7 @@ msgstr "L'identification a échoué."
 
 #: NotFoundPage.cpp:185
 msgid "Check the username and password, and try again."
-msgstr ""
-"Vérifiez le nom d'utilisateur et le mot de passe, et essayez à nouveau."
+msgstr "Vérifiez le nom d'utilisateur et le mot de passe, et essayez à nouveau."
 
 #: NotFoundPage.cpp:189
 msgid "Check the email address and password, and try again."
@@ -2449,8 +2448,7 @@ msgstr ""
 #: ProjectInfoPage.cpp:416
 msgid ""
 "You are already attached to this project. Please choose a different project."
-msgstr ""
-"Vous avez déjà rejoint ce projet. Merci de choisir un projet différent."
+msgstr "Vous avez déjà rejoint ce projet. Merci de choisir un projet différent."
 
 #: ProjectProcessingPage.cpp:322
 msgid "Communicating with project."
@@ -2529,9 +2527,9 @@ msgstr ""
 "probables sont:1) Un problème de connexion. Veuillez vérifier votre "
 "connexion au réseau ou à votre modemet pressez le bouton Retour pour essayer "
 "à nouveau.2) Un pare-feu personnel bloque BOINC. Vous devez configurervotre "
-"pare-feu personnel afin de laisser BOINC communiquerpar le port 80. Une fois "
-"cela réglé, cliquez sur Retour pouressayer à nouveau.3) Vous utilisez un "
-"serveur proxy.Cliquez sur Suivant pour configurer les paramètres proxy de "
+"pare-feu personnel afin de laisser BOINC communiquerpar le port 80. Une "
+"fois cela réglé, cliquez sur Retour pouressayer à nouveau.3) Vous utilisez "
+"un serveur proxy.Cliquez sur Suivant pour configurer les paramètres proxy de "
 "BOINC"
 
 #: ProxyPage.cpp:331
@@ -3310,8 +3308,7 @@ msgid ""
 msgstr ""
 "Vous avez demandé à vous attacher à un nouveau projet BOINC.  Cela implique\n"
 "que votre ordinateur se connectera à un nouveau site internet.\n"
-"Si c'est ce que vous souhaitez faire, alors cliquez sur le bouton "
-"'Suivant'.\n"
+"Si c'est ce que vous souhaitez faire, alors cliquez sur le bouton 'Suivant'.\n"
 "\n"
 "Les projets tels World Community Grid hébergent diverses applications de "
 "recherche.\n"

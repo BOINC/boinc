@@ -121,6 +121,7 @@ msgid "Attach to account manager"
 msgstr ""
 
 #: AccountInfoPage.cpp:542
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "The minimum password length for this project is %d. Please enter a different "
@@ -129,6 +130,7 @@ msgstr ""
 "Lungimea minimă pentru parolă este '%d'. Va rugăm alegeţi o alta parolă."
 
 #: AccountInfoPage.cpp:548
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "The minimum password length for this account manager is %d. Please enter a "
@@ -140,7 +142,8 @@ msgstr ""
 msgid ""
 "The password and confirmation password do not match. Please type them again."
 msgstr ""
-"Parola si confirmarea parolei nu sunt identice. Vă rugăm să le reintroduceţi."
+"Parola si confirmarea parolei nu sunt identice. Vă rugăm să le "
+"reintroduceţi."
 
 #: AccountManagerInfoPage.cpp:248
 msgid "Choose an account manager"
@@ -286,6 +289,7 @@ msgid "Attach to a project"
 msgstr "Ataşare la proiect"
 
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "Suspendare rezultat..."
@@ -399,6 +403,7 @@ msgid "Stop BOINC network activity"
 msgstr "Suspendă activitatea de reţea BOINC"
 
 #: AdvancedFrame.cpp:531
+#, c-format
 #, fuzzy, c-format
 msgid "Connect to another computer running %s"
 msgstr "Conectare la alt computer care rulează BOINC"
@@ -484,6 +489,7 @@ msgid "%s &website"
 msgstr ""
 
 #: AdvancedFrame.cpp:619 sg_BoincSimpleGUI.cpp:171
+#, c-format
 #, fuzzy, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Afisează informaţii despre BOINC Manager"
@@ -523,8 +529,9 @@ msgid "&Help"
 msgstr "Ajutor"
 
 #: AdvancedFrame.cpp:1058
+#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Ataşare la proiect..."
 
 #: AdvancedFrame.cpp:1152
 #, c-format
@@ -547,6 +554,7 @@ msgid "%s - Language Selection"
 msgstr ""
 
 #: AdvancedFrame.cpp:1350
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "The %s's default language has been changed, in order for this change to take "
@@ -592,6 +600,7 @@ msgid "Connecting to %s"
 msgstr "In curs de conectare la %s"
 
 #: AdvancedFrame.cpp:1929
+#, c-format
 #, fuzzy, c-format
 msgid "Connected to %s (%s)"
 msgstr "Conectat la %s"
@@ -749,6 +758,7 @@ msgid ""
 msgstr ""
 
 #: BOINCDialupManager.cpp:310
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -758,6 +768,7 @@ msgstr ""
 "Poate face asta acum?"
 
 #: BOINCDialupManager.cpp:323
+#, c-format
 #, fuzzy, c-format
 msgid "%s is connecting to the Internet."
 msgstr "BOINC se conectează la Internet."
@@ -772,16 +783,19 @@ msgid ""
 msgstr ""
 
 #: BOINCDialupManager.cpp:386
+#, c-format
 #, fuzzy, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "Conectarea BOINC la Internet s-a încheiat cu succes."
 
 #: BOINCDialupManager.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "Conectarea BOINC la Internet a eşuat."
 
 #: BOINCDialupManager.cpp:455
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -791,11 +805,13 @@ msgstr ""
 "reinitializează toate transferurile."
 
 #: BOINCDialupManager.cpp:500
+#, c-format
 #, fuzzy, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "Deconectarea BOINC de la Internet s-a încheiat cu succes."
 
 #: BOINCDialupManager.cpp:516
+#, c-format
 #, fuzzy, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "Deconectarea BOINC de la Internet a eşuat."
@@ -1006,6 +1022,7 @@ msgid "Welcome to %s!"
 msgstr ""
 
 #: CompletionPage.cpp:285
+#, c-format
 #, fuzzy, c-format
 msgid "You are now successfully attached to the %s system."
 msgstr "Ataşarea la proiect s-a incheiat cu succes."
@@ -1270,6 +1287,7 @@ msgid "Use at most"
 msgstr ""
 
 #: DlgAdvPreferencesBase.cpp:352
+#, no-c-format
 #, fuzzy, no-c-format
 msgid "% CPU time"
 msgstr "Timp CPU"
@@ -1694,8 +1712,9 @@ msgid "CPU work fetch deferral interval"
 msgstr ""
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Nu vor fi luate sarcini noi"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1916,6 +1935,7 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS Proxy"
 
 #: DlgSelectComputer.cpp:90
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Select Computer"
 msgstr "Selectează computer"
@@ -1960,8 +1980,7 @@ msgstr "Rezultatele dumneavoastră"
 
 #: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr ""
-"Vizualizaţii rezultatele procesării din ultima saptamană (sau mai mult)"
+msgstr "Vizualizaţii rezultatele procesării din ultima saptamană (sau mai mult)"
 
 #: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
@@ -2496,8 +2515,7 @@ msgstr "Vă rugăm specificaţi un cheie de cont pentru a continua."
 
 #: ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr ""
-"Cheie de cont nevalidă; va rugăm să introduceţi o cheie de cont validă."
+msgstr "Cheie de cont nevalidă; va rugăm să introduceţi o cheie de cont validă."
 
 #: ValidateAccountKey.cpp:82 ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
@@ -2565,8 +2583,9 @@ msgid "Copy selected messages"
 msgstr "Copiază mesajele selectate"
 
 #: ViewMessages.cpp:107 ViewMessages.cpp:503
+#, fuzzy
 msgid "Show only the messages for the selected project."
-msgstr ""
+msgstr "Copiază toate mesajele in clipboard."
 
 #: ViewMessages.cpp:164
 msgid "Messages"
@@ -2709,8 +2728,7 @@ msgstr "Suspendare proiect..."
 #: ViewProjects.cpp:384
 #, fuzzy
 msgid "Telling project to allow additional task downloads..."
-msgstr ""
-"Informare proiect pentru a accepta download-ul de sarcini adiţionale..."
+msgstr "Informare proiect pentru a accepta download-ul de sarcini adiţionale..."
 
 #: ViewProjects.cpp:388
 #, fuzzy
@@ -3027,8 +3045,9 @@ msgid "Retry in "
 msgstr "Reincearcă în"
 
 #: ViewTransfers.cpp:779
+#, fuzzy
 msgid "Upload suspended - "
-msgstr ""
+msgstr "Download-ul a eşuat"
 
 #: ViewTransfers.cpp:780
 #, fuzzy
@@ -3123,6 +3142,7 @@ msgid ""
 msgstr ""
 
 #: ViewWork.cpp:437
+#, c-format
 #, fuzzy, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Sunteţi sigur că doriţi să renunţaţi la acest rezultat '%s'?"
@@ -3154,8 +3174,9 @@ msgid "Suspend work for this task."
 msgstr "Suspendare lucru pentru acest rezultat."
 
 #: WelcomePage.cpp:255
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Ataşare la proiect..."
 
 #: WelcomePage.cpp:263
 #, c-format

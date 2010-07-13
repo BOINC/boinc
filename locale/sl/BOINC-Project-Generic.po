@@ -10,12 +10,12 @@ msgstr ""
 "PO-Revision-Date: 2010-01-21 08:06-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -1864,8 +1864,7 @@ msgstr "Ustvarjanje računov je onemogočeno"
 
 #: ../user/create_account_form.php:30
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
-"Ustvarjanje računov je trenutno onemogočeno. Prosim, poskusite kasneje."
+msgstr "Ustvarjanje računov je trenutno onemogočeno. Prosim, poskusite kasneje."
 
 #: ../user/create_account_form.php:41
 msgid ""
@@ -1874,8 +1873,8 @@ msgid ""
 "password."
 msgstr ""
 "OPOMBA: Če uporabljate BOINC različico 5.2 ali novejšo z BOINC Upraviteljem, "
-"ne uporabljajte tega obrazca. Samo poženite BOINC, izberite Pripni projet in "
-"vnesi naslov elektronske pošte in geslo."
+"ne uporabljajte tega obrazca. Samo poženite BOINC, izberite Pripni projet "
+"in vnesi naslov elektronske pošte in geslo."
 
 #: ../user/create_account_form.php:57
 msgid ""
@@ -1965,8 +1964,7 @@ msgstr "Vnesi profil"
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
-"Za zaščito spletne strani projekta pred smetjem, vas vljudno prosimo, da "
+msgstr "Za zaščito spletne strani projekta pred smetjem, vas vljudno prosimo, da "
 "napišete besedi, prikazani na sliki:<br>\n"
 
 #: ../user/create_profile.php:110
@@ -1987,8 +1985,8 @@ msgstr ""
 #: ../user/create_profile.php:208
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
-"Vaš \"Recaptcha\" odgovor na vsebino slike ni bil pravilen.  Prosim, "
-"poskusite znova."
+"Vaš \"Recaptcha\" odgovor na vsebino slike ni bil pravilen.  Prosim, poskusite "
+"znova."
 
 #: ../user/create_profile.php:217
 msgid ""
@@ -2054,8 +2052,7 @@ msgstr "Naložite lahko aplikacije iz večih kategorij."
 #: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr ""
-"Te aplikacije %1 ne podpira. Lahko jo uporabljate na lastno odgvornost."
+msgstr "Te aplikacije %1 ne podpira. Lahko jo uporabljate na lastno odgvornost."
 
 #: ../user/download_network.php:33
 msgid ""
@@ -2646,8 +2643,8 @@ msgid ""
 "1."
 msgstr ""
 "%1 ne prevzema nikakeršne pravne odgovornosti za škodo na vašem računalniku, "
-"izgubo podatkov ali kateregakoli dogodka ali stanja, ki se lahko pripeti kot "
-"rezultat sodelovanja v %1."
+"izgubo podatkov ali kateregakoli dogodka ali stanja, ki se lahko pripeti "
+"kot rezultat sodelovanja v %1."
 
 #: ../user/info.php:54
 msgid "Other BOINC projects"
@@ -2671,7 +2668,8 @@ msgid ""
 "own risk."
 msgstr ""
 "Ti projekti niso povezani s/z %1 in ne moremo jamčiti za njihovo varnostno "
-"prakso ali narave njihovih raziskav.  Uporabljajte jih na lastno odgovornost."
+"prakso ali narave njihovih raziskav.  Uporabljajte jih na lastno "
+"odgovornost."
 
 #: ../user/language_select.php:41
 msgid "Language selection"
@@ -3011,8 +3009,7 @@ msgstr ""
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
-msgstr ""
-"Vaše trenutne statistike lahko dobite tudi v obliki \"slikovni podpis\":"
+msgstr "Vaše trenutne statistike lahko dobite tudi v obliki \"slikovni podpis\":"
 
 #: ../user/stats.php:41
 msgid ""
@@ -3554,8 +3551,9 @@ msgid "You are already a member of %1."
 msgstr ""
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
+#, fuzzy
 msgid "Couldn't join team - please try again later."
-msgstr ""
+msgstr "Ekipe ni možno ustvariti - prosim, poskusite kasneje."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"

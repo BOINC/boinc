@@ -284,6 +284,7 @@ msgid "Attach to a project"
 msgstr "اشبك بمشروع"
 
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "أو&قف استخدام %s…"
@@ -519,8 +520,9 @@ msgid "&Help"
 msgstr "م&ساعدة"
 
 #: AdvancedFrame.cpp:1058
+#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "اشبك بمدير &حسابات"
 
 #: AdvancedFrame.cpp:1152
 #, c-format
@@ -554,6 +556,7 @@ msgid ""
 msgstr "لغة %s المبدئية تغيرت. لكي تسري التغييرات عليك إعادة تشغيل %s"
 
 #: AdvancedFrame.cpp:1513
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Shut down the current client..."
 msgstr "‮‪%s‬ - أطفئ العميل الحالي…"
@@ -820,6 +823,7 @@ msgid ""
 msgstr ""
 
 #: BOINCGUIApp.cpp:318
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall "
@@ -1193,7 +1197,8 @@ msgstr "فقط عندما يكون الحاسوب ساكنا لمدة"
 msgid ""
 "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
-"يشتغل فقط بعد أن تمر مدة لا تستخدم أثناءها الحاسوب قدرها هذا العدد من الدقائق"
+"يشتغل فقط بعد أن تمر مدة لا تستخدم أثناءها الحاسوب قدرها هذا العدد من "
+"الدقائق"
 
 #: DlgAdvPreferencesBase.cpp:183 DlgAdvPreferencesBase.cpp:332
 #: sg_DlgPreferences.cpp:452
@@ -1284,6 +1289,7 @@ msgid "On multiprocessor systems, use at most"
 msgstr "في النظم عديدة المعالجات الميكروية، استغل بحد أقصى"
 
 #: DlgAdvPreferencesBase.cpp:342
+#, no-c-format
 #, fuzzy, no-c-format
 msgid "% of the processors"
 msgstr "من المعالج"
@@ -1733,8 +1739,9 @@ msgid "CPU work fetch deferral interval"
 msgstr ""
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "لن يجلب مهام جديدة"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -2629,8 +2636,9 @@ msgid "Copy selected messages"
 msgstr "انسخ الرسائل المختارة"
 
 #: ViewMessages.cpp:107 ViewMessages.cpp:503
+#, fuzzy
 msgid "Show only the messages for the selected project."
-msgstr ""
+msgstr "يعرض مخططا واحدا للمشروع المختار"
 
 #: ViewMessages.cpp:164
 msgid "Messages"
@@ -2650,8 +2658,9 @@ msgid "Filtering messages..."
 msgstr ""
 
 #: ViewMessages.cpp:495
+#, fuzzy
 msgid "Show messages for all projects."
-msgstr ""
+msgstr "يعرض مخططا واحدا لكل المشروعات"
 
 #: ViewNotices.cpp:77
 msgid "News Feeds"
@@ -3211,8 +3220,9 @@ msgid "Suspend work for this task."
 msgstr "علِّق تشغيل هذه المهمة."
 
 #: WelcomePage.cpp:255
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "اشبك بمدير &حسابات"
 
 #: WelcomePage.cpp:263
 #, c-format

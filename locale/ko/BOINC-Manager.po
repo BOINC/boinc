@@ -6,18 +6,18 @@ msgstr ""
 "PO-Revision-Date: 2010-06-18 15:14+0900\n"
 "Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: KOREA, REPUBLIC OF\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 
 #: AccountInfoPage.cpp:375
 msgid "Identify your account "
@@ -71,13 +71,11 @@ msgstr ""
 msgid "Find logon information"
 msgstr "로그인 정보 찾기"
 
-#: AccountInfoPage.cpp:424
-#: AccountInfoPage.cpp:590
+#: AccountInfoPage.cpp:424 AccountInfoPage.cpp:590
 msgid "&Password:"
 msgstr "비밀번호:"
 
-#: AccountInfoPage.cpp:431
-#: AccountInfoPage.cpp:605
+#: AccountInfoPage.cpp:431 AccountInfoPage.cpp:605
 msgid "Choose a &password:"
 msgstr "비밀번호를 입력하세요:"
 
@@ -121,8 +119,7 @@ msgstr ""
 msgid "Account manager website"
 msgstr "계정 관리자 웹사이트"
 
-#: AccountInfoPage.cpp:529
-#: WelcomePage.cpp:295
+#: AccountInfoPage.cpp:529 WelcomePage.cpp:295
 msgid "Attach to project"
 msgstr "프로젝트 연결"
 
@@ -130,23 +127,27 @@ msgstr "프로젝트 연결"
 msgid "Update account manager"
 msgstr "계정 관리자 업데이트"
 
-#: AccountInfoPage.cpp:533
-#: WelcomePage.cpp:299
+#: AccountInfoPage.cpp:533 WelcomePage.cpp:299
 msgid "Attach to account manager"
 msgstr "계정 관리자 연결"
 
 #: AccountInfoPage.cpp:542
 #, c-format
-msgid "The minimum password length for this project is %d. Please enter a different password."
+msgid ""
+"The minimum password length for this project is %d. Please enter a different "
+"password."
 msgstr "이 프로젝트는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 입력해 주세요."
 
 #: AccountInfoPage.cpp:548
 #, c-format
-msgid "The minimum password length for this account manager is %d. Please enter a different password."
+msgid ""
+"The minimum password length for this account manager is %d. Please enter a "
+"different password."
 msgstr "이 계정 관리자는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 입력해 주세요."
 
 #: AccountInfoPage.cpp:559
-msgid "The password and confirmation password do not match. Please type them again."
+msgid ""
+"The password and confirmation password do not match. Please type them again."
 msgstr "처음 비밀번호와 재입력한 비밀번호가 일치하지 않습니다. 다시 입력해주세요."
 
 #: AccountManagerInfoPage.cpp:248
@@ -165,19 +166,16 @@ msgstr ""
 msgid "Account Manager &URL:"
 msgstr "계정 관리자 &URL:"
 
-#: AccountManagerProcessingPage.cpp:189
-#: AccountManagerPropertiesPage.cpp:195
+#: AccountManagerProcessingPage.cpp:189 AccountManagerPropertiesPage.cpp:195
 #, c-format
 msgid "Communicating with %s."
 msgstr "%s와(과) 통신 중"
 
-#: AccountManagerProcessingPage.cpp:196
-#: AccountManagerPropertiesPage.cpp:202
+#: AccountManagerProcessingPage.cpp:196 AccountManagerPropertiesPage.cpp:202
 msgid "Communicating with server."
 msgstr "서버와 통신 중"
 
-#: AccountManagerProcessingPage.cpp:201
-#: AccountManagerPropertiesPage.cpp:207
+#: AccountManagerProcessingPage.cpp:201 AccountManagerPropertiesPage.cpp:207
 msgid "Please wait..."
 msgstr "잠시 기다려 주세요..."
 
@@ -193,14 +191,12 @@ msgstr "접속됨"
 msgid "Disconnected"
 msgstr "접속해제됨"
 
-#: AdvancedFrame.cpp:304
-#: sg_BoincSimpleGUI.cpp:103
+#: AdvancedFrame.cpp:304 sg_BoincSimpleGUI.cpp:103
 #, c-format
 msgid "Close the %s window"
 msgstr "%s 창 닫기"
 
-#: AdvancedFrame.cpp:307
-#: sg_BoincSimpleGUI.cpp:106
+#: AdvancedFrame.cpp:307 sg_BoincSimpleGUI.cpp:106
 msgid "&Close Window"
 msgstr "창 닫기(&C)"
 
@@ -209,8 +205,7 @@ msgstr "창 닫기(&C)"
 msgid "Exit %s"
 msgstr "%s 종료(&E) "
 
-#: AdvancedFrame.cpp:323
-#: BOINCTaskBar.cpp:508
+#: AdvancedFrame.cpp:323 BOINCTaskBar.cpp:508
 msgid "E&xit"
 msgstr "종료(&X)"
 
@@ -274,8 +269,7 @@ msgstr "간단한 형태의 그래픽 인터페이스로 표시합니다."
 msgid "&Attach to project or account manager..."
 msgstr "프로젝트 혹은 계정 관리자 연결(&P)..."
 
-#: AdvancedFrame.cpp:392
-#: sg_ProjectsComponent.cpp:105
+#: AdvancedFrame.cpp:392 sg_ProjectsComponent.cpp:105
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr "다양한 과학 분야 중 하나 혹은 30개 이상의 프로젝트 기여자들"
 
@@ -451,14 +445,12 @@ msgstr "이벤트 기록"
 msgid "Display diagnostic messages."
 msgstr "진단 메세지를 표시합니다."
 
-#: AdvancedFrame.cpp:577
-#: sg_BoincSimpleGUI.cpp:129
+#: AdvancedFrame.cpp:577 sg_BoincSimpleGUI.cpp:129
 #, c-format
 msgid "%s &help"
 msgstr "%s 도움말(&H)"
 
-#: AdvancedFrame.cpp:583
-#: sg_BoincSimpleGUI.cpp:135
+#: AdvancedFrame.cpp:583 sg_BoincSimpleGUI.cpp:135
 #, c-format
 msgid "Show information about %s"
 msgstr "%s에 대한 정보 보여주기"
@@ -468,26 +460,22 @@ msgstr "%s에 대한 정보 보여주기"
 msgid "&%s help"
 msgstr "&%s 도움말"
 
-#: AdvancedFrame.cpp:601
-#: sg_BoincSimpleGUI.cpp:153
+#: AdvancedFrame.cpp:601 sg_BoincSimpleGUI.cpp:153
 #, c-format
 msgid "Show information about the %s"
 msgstr "%s에 대한 정보 보여주기"
 
-#: AdvancedFrame.cpp:613
-#: sg_BoincSimpleGUI.cpp:165
+#: AdvancedFrame.cpp:613 sg_BoincSimpleGUI.cpp:165
 #, c-format
 msgid "%s &website"
 msgstr "%s 웹 사이트(&W)"
 
-#: AdvancedFrame.cpp:619
-#: sg_BoincSimpleGUI.cpp:171
+#: AdvancedFrame.cpp:619 sg_BoincSimpleGUI.cpp:171
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "BOINC와 %s에 대한 정보 보여주기"
 
-#: AdvancedFrame.cpp:631
-#: BOINCTaskBar.cpp:498
+#: AdvancedFrame.cpp:631 BOINCTaskBar.cpp:498
 #, c-format
 msgid "&About %s..."
 msgstr "%s 정보(&A)..."
@@ -496,13 +484,11 @@ msgstr "%s 정보(&A)..."
 msgid "Licensing and copyright information."
 msgstr "라이센스와 저작권 정보"
 
-#: AdvancedFrame.cpp:644
-#: sg_BoincSimpleGUI.cpp:194
+#: AdvancedFrame.cpp:644 sg_BoincSimpleGUI.cpp:194
 msgid "&File"
 msgstr "파일(&F)"
 
-#: AdvancedFrame.cpp:648
-#: sg_BoincSimpleGUI.cpp:199
+#: AdvancedFrame.cpp:648 sg_BoincSimpleGUI.cpp:199
 msgid "&View"
 msgstr "보기(&V)"
 
@@ -518,9 +504,7 @@ msgstr "활동(&A)"
 msgid "A&dvanced"
 msgstr "고급(&A)"
 
-#: AdvancedFrame.cpp:664
-#: sg_BoincSimpleGUI.cpp:184
-#: wizardex.cpp:374
+#: AdvancedFrame.cpp:664 sg_BoincSimpleGUI.cpp:184 wizardex.cpp:374
 #: wizardex.cpp:381
 msgid "&Help"
 msgstr "도움말(&H)"
@@ -556,7 +540,9 @@ msgstr "%s - 언어 선택"
 
 #: AdvancedFrame.cpp:1350
 #, c-format
-msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
+msgid ""
+"The %s's default language has been changed, in order for this change to take "
+"affect you must restart the %s."
 msgstr "%s가 기본 언어로 설정되었습니다. 이 설정은 %s을(를) 재시작해야 적용됩니다."
 
 #: AdvancedFrame.cpp:1513
@@ -577,8 +563,7 @@ msgstr ""
 msgid "Retrying communications."
 msgstr "프로젝트와의 통신 재시도 중."
 
-#: AdvancedFrame.cpp:1774
-#: DlgAbout.cpp:104
+#: AdvancedFrame.cpp:1774 DlgAbout.cpp:104
 #, c-format
 msgid "%s"
 msgstr "%s"
@@ -654,8 +639,7 @@ msgstr "%s 종료(&X) "
 msgid "%s - Communication"
 msgstr "%s - 통신"
 
-#: AsyncRPC.cpp:1258
-#: DlgAdvPreferencesBase.cpp:103
+#: AsyncRPC.cpp:1258 DlgAdvPreferencesBase.cpp:103
 msgid "Cancel"
 msgstr "취소"
 
@@ -667,7 +651,8 @@ msgstr "%s - 접속 오류"
 #: BOINCBaseFrame.cpp:435
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user group."
+"Please contact your administrator to add you to the 'boinc_users' local user "
+"group."
 msgstr ""
 "현재 클라이언트 관리를 승인받지 못했습니다.\n"
 "관리자에게 문의해서 여러분을 'boinc_users' 로컬 사용자 그룹에 추가하십시오."
@@ -711,7 +696,8 @@ msgstr "%s - 데몬 시작 실패"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+"Please launch the Control Panel->Administative Tools->Services applet and "
+"start the BOINC service."
 msgstr ""
 "%s는 %s 클라이언트를 시작할 수 없습니다.\n"
 "제어판→관리 도구→서비스를 실행해서 BOINC 서비스를 시작하세요."
@@ -734,7 +720,8 @@ msgstr "%s - 접속 상태"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
+"%s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s는 현재 %s 클라이언트에 연결되어 있지 않습니다.\n"
@@ -758,8 +745,10 @@ msgstr "%s는 인터넷 연결이 필요합니다. %s 열기를 클릭하십시�
 #: BOINCDialupManager.cpp:263
 #, c-format
 msgid ""
-"%s is unable to communicate with a project and needs an Internet connection.\n"
-"Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
+"%s is unable to communicate with a project and needs an Internet "
+"connection.\n"
+"Please connect to the Internet, then select the 'Do network communications' "
+"item from the Advanced menu."
 msgstr ""
 "%s는 프로젝트 서버와 통신이 불가능하며, 인터넷 연결이 필요합니다.\n"
 "인터넷에 접속한 다음 고급 메뉴의 '네트워크 통신 실행' 항목을 선택하십시오."
@@ -781,7 +770,8 @@ msgstr "%s가(이) 인터넷에 접속하고 있습니다."
 #: BOINCDialupManager.cpp:354
 #, c-format
 msgid ""
-"%s couldn't do Internet communication, and no default connection is selected.\n"
+"%s couldn't do Internet communication, and no default connection is "
+"selected.\n"
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
@@ -841,7 +831,8 @@ msgstr ""
 #: BOINCGUIApp.cpp:318
 #, c-format
 msgid ""
-"BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
+"BOINC ownership or permissions are not set properly; please reinstall "
+"BOINC.\n"
 "(Error code %d)"
 msgstr ""
 "BOINC 소유권이나 권한이 적절히 설정되지 않았습니다. BOINC를 다시 설치해주세요.\n"
@@ -855,8 +846,7 @@ msgstr ""
 "BOINC를 정상적으로 실행하려면 재부팅이 필요합니다.\n"
 "컴퓨터를 다시 시작하고 재시도해 주세요."
 
-#: BOINCGUIApp.cpp:369
-#: DlgAbout.cpp:136
+#: BOINCGUIApp.cpp:369 DlgAbout.cpp:136
 msgid "BOINC Manager"
 msgstr "BOINC 관리자"
 
@@ -987,9 +977,7 @@ msgstr ""
 "\n"
 "닫을려면 완료를 누르세요."
 
-#: CompletionErrorPage.cpp:225
-#: CompletionPage.cpp:223
-#: CompletionPage.cpp:246
+#: CompletionErrorPage.cpp:225 CompletionPage.cpp:223 CompletionPage.cpp:246
 #: CompletionPage.cpp:295
 msgid "Click Finish to close."
 msgstr "닫으려면 완료를 클릭하세요."
@@ -1071,16 +1059,12 @@ msgstr ""
 "(C) 2003-2008 University of California, Berkeley.\n"
 "All Rights Reserved."
 
-#: DlgAbout.cpp:179
-#: DlgAbout.cpp:183
+#: DlgAbout.cpp:179 DlgAbout.cpp:183
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "네트워크 컴퓨팅을 위한 Berkeley 개방형 하부구조체"
 
-#: DlgAbout.cpp:195
-#: DlgExitMessage.cpp:172
-#: DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:383
-#: DlgSelectComputer.cpp:147
+#: DlgAbout.cpp:195 DlgExitMessage.cpp:172 DlgGenericMessage.cpp:120
+#: DlgOptions.cpp:383 DlgSelectComputer.cpp:147
 msgid "&OK"
 msgstr "확인"
 
@@ -1112,8 +1096,7 @@ msgstr "정말로 모든 로컬 환경설정을 지우겠습니까?"
 msgid "Confirmation"
 msgstr "확인됨"
 
-#: DlgAdvPreferencesBase.cpp:45
-#: sg_DlgPreferences.cpp:1041
+#: DlgAdvPreferencesBase.cpp:45 sg_DlgPreferences.cpp:1041
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - 환경 설정"
@@ -1160,11 +1143,8 @@ msgstr "모든 값을 저장하고 창을 닫습니다"
 msgid "close the dialog without saving"
 msgstr "저장하지 않고 창을 닫습니다"
 
-#: DlgAdvPreferencesBase.cpp:108
-#: DlgEventLog.cpp:294
-#: Localization.cpp:35
-#: Localization.cpp:121
-#: Localization.cpp:139
+#: DlgAdvPreferencesBase.cpp:108 DlgEventLog.cpp:294 Localization.cpp:35
+#: Localization.cpp:121 Localization.cpp:139
 msgid "Help"
 msgstr "도움말"
 
@@ -1181,7 +1161,8 @@ msgid "While computer is on batteries"
 msgstr "배터리로 가동하는 동안에도 실행"
 
 #: DlgAdvPreferencesBase.cpp:138
-msgid "check this if you want this computer to do work while it runs on batteries"
+msgid ""
+"check this if you want this computer to do work while it runs on batteries"
 msgstr "배터리가 남은 동안 작업을 수행하려면 체크하시십시오"
 
 #: DlgAdvPreferencesBase.cpp:144
@@ -1189,7 +1170,8 @@ msgid "While computer is in use"
 msgstr "컴퓨터가 사용중이어도 작업함"
 
 #: DlgAdvPreferencesBase.cpp:147
-msgid "check this if you want this computer to do work even when you're using it"
+msgid ""
+"check this if you want this computer to do work even when you're using it"
 msgstr "컴퓨터가 사용중이어도 작업을 수행하려면 체크하십시오"
 
 #: DlgAdvPreferencesBase.cpp:153
@@ -1197,7 +1179,9 @@ msgid "Use GPU while computer is in use"
 msgstr "컴퓨터를 사용하는 동안에도 GPU 사용"
 
 #: DlgAdvPreferencesBase.cpp:156
-msgid "check this if you want your GPU to do work even when you're using the computer"
+msgid ""
+"check this if you want your GPU to do work even when you're using the "
+"computer"
 msgstr "컴퓨터가 사용중이어도 GPU로 작업을 수행하려면 체크하십시오"
 
 #: DlgAdvPreferencesBase.cpp:168
@@ -1205,11 +1189,11 @@ msgid "Only after computer has been idle for"
 msgstr "컴퓨터 대기 시간 설정"
 
 #: DlgAdvPreferencesBase.cpp:178
-msgid "do work only after you haven't used the computer for this number of minutes"
+msgid ""
+"do work only after you haven't used the computer for this number of minutes"
 msgstr "이 시간(분) 이후로 컴퓨터를 사용하지 않을 때 작업을 수행합니다"
 
-#: DlgAdvPreferencesBase.cpp:183
-#: DlgAdvPreferencesBase.cpp:332
+#: DlgAdvPreferencesBase.cpp:183 DlgAdvPreferencesBase.cpp:332
 #: sg_DlgPreferences.cpp:452
 msgid "minutes"
 msgstr "분"
@@ -1226,8 +1210,7 @@ msgstr "프로세서 사용량이 설정량 초과시 작업 일시 중지"
 msgid "percent (0 means no restriction)"
 msgstr "퍼센트 (0은 제한 없음)"
 
-#: DlgAdvPreferencesBase.cpp:231
-#: DlgAdvPreferencesBase.cpp:471
+#: DlgAdvPreferencesBase.cpp:231 DlgAdvPreferencesBase.cpp:471
 msgid "Every day between hours of"
 msgstr "매일 이 시간 사이"
 
@@ -1235,10 +1218,8 @@ msgstr "매일 이 시간 사이"
 msgid "start work at this time"
 msgstr "이 시간에 작업을 시작"
 
-#: DlgAdvPreferencesBase.cpp:239
-#: DlgAdvPreferencesBase.cpp:479
-#: sg_DlgPreferences.cpp:361
-#: sg_DlgPreferences.cpp:383
+#: DlgAdvPreferencesBase.cpp:239 DlgAdvPreferencesBase.cpp:479
+#: sg_DlgPreferences.cpp:361 sg_DlgPreferences.cpp:383
 msgid "and"
 msgstr "부터"
 
@@ -1246,53 +1227,43 @@ msgstr "부터"
 msgid "stop work at this time"
 msgstr "이 시간에 작업을 중지"
 
-#: DlgAdvPreferencesBase.cpp:247
-#: DlgAdvPreferencesBase.cpp:487
+#: DlgAdvPreferencesBase.cpp:247 DlgAdvPreferencesBase.cpp:487
 msgid "(no restriction if equal)"
 msgstr "(똑같으면 제한이 없음)"
 
-#: DlgAdvPreferencesBase.cpp:252
-#: DlgAdvPreferencesBase.cpp:492
+#: DlgAdvPreferencesBase.cpp:252 DlgAdvPreferencesBase.cpp:492
 msgid "Day-of-week override:"
 msgstr "일주일 중 작업할 날:"
 
-#: DlgAdvPreferencesBase.cpp:257
-#: DlgAdvPreferencesBase.cpp:497
+#: DlgAdvPreferencesBase.cpp:257 DlgAdvPreferencesBase.cpp:497
 msgid "check box to specify hours for this day of week"
 msgstr "일주일 중 작업 일과 시간을 체크"
 
-#: DlgAdvPreferencesBase.cpp:263
-#: DlgAdvPreferencesBase.cpp:503
+#: DlgAdvPreferencesBase.cpp:263 DlgAdvPreferencesBase.cpp:503
 msgid "Monday"
 msgstr "월요일"
 
-#: DlgAdvPreferencesBase.cpp:270
-#: DlgAdvPreferencesBase.cpp:510
+#: DlgAdvPreferencesBase.cpp:270 DlgAdvPreferencesBase.cpp:510
 msgid "Tuesday"
 msgstr "화요일"
 
-#: DlgAdvPreferencesBase.cpp:277
-#: DlgAdvPreferencesBase.cpp:517
+#: DlgAdvPreferencesBase.cpp:277 DlgAdvPreferencesBase.cpp:517
 msgid "Wednesday"
 msgstr "수요일"
 
-#: DlgAdvPreferencesBase.cpp:284
-#: DlgAdvPreferencesBase.cpp:524
+#: DlgAdvPreferencesBase.cpp:284 DlgAdvPreferencesBase.cpp:524
 msgid "Thursday"
 msgstr "목요일"
 
-#: DlgAdvPreferencesBase.cpp:291
-#: DlgAdvPreferencesBase.cpp:531
+#: DlgAdvPreferencesBase.cpp:291 DlgAdvPreferencesBase.cpp:531
 msgid "Friday"
 msgstr "금요일"
 
-#: DlgAdvPreferencesBase.cpp:298
-#: DlgAdvPreferencesBase.cpp:538
+#: DlgAdvPreferencesBase.cpp:298 DlgAdvPreferencesBase.cpp:538
 msgid "Saturday"
 msgstr "토요일"
 
-#: DlgAdvPreferencesBase.cpp:305
-#: DlgAdvPreferencesBase.cpp:545
+#: DlgAdvPreferencesBase.cpp:305 DlgAdvPreferencesBase.cpp:545
 msgid "Sunday"
 msgstr "일요일"
 
@@ -1313,12 +1284,9 @@ msgstr "다중 프로세서 시스템일 때 최대 사용량"
 msgid "% of the processors"
 msgstr "% (프로세서 중)"
 
-#: DlgAdvPreferencesBase.cpp:345
-#: DlgAdvPreferencesBase.cpp:579
-#: DlgAdvPreferencesBase.cpp:601
-#: DlgAdvPreferencesBase.cpp:622
-#: DlgAdvPreferencesBase.cpp:643
-#: DlgAdvPreferencesBase.cpp:653
+#: DlgAdvPreferencesBase.cpp:345 DlgAdvPreferencesBase.cpp:579
+#: DlgAdvPreferencesBase.cpp:601 DlgAdvPreferencesBase.cpp:622
+#: DlgAdvPreferencesBase.cpp:643 DlgAdvPreferencesBase.cpp:653
 msgid "Use at most"
 msgstr "최대 사용량"
 
@@ -1335,8 +1303,7 @@ msgstr "일반적인 선택 사항"
 msgid "Maximum download rate"
 msgstr "최대 다운로드 속도"
 
-#: DlgAdvPreferencesBase.cpp:386
-#: DlgAdvPreferencesBase.cpp:395
+#: DlgAdvPreferencesBase.cpp:386 DlgAdvPreferencesBase.cpp:395
 msgid "KBytes/sec."
 msgstr "KB/s."
 
@@ -1356,8 +1323,7 @@ msgstr "MB"
 msgid "every"
 msgstr "매"
 
-#: DlgAdvPreferencesBase.cpp:415
-#: DlgAdvPreferencesBase.cpp:429
+#: DlgAdvPreferencesBase.cpp:415 DlgAdvPreferencesBase.cpp:429
 msgid "days"
 msgstr "일"
 
@@ -1398,7 +1364,9 @@ msgid "Confirm before connecting to internet"
 msgstr "인터넷 접속 전에 확인"
 
 #: DlgAdvPreferencesBase.cpp:455
-msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
+msgid ""
+"if checked, a confirmation dialog will be displayed before trying to connect "
+"to the Internet"
 msgstr "체크되면, 인터넷 접속 시도 전에 확인 다이얼로그가 표시됩니다"
 
 #: DlgAdvPreferencesBase.cpp:459
@@ -1425,8 +1393,7 @@ msgstr "네트워크 사용 시작 시간"
 msgid "network usage stop hour"
 msgstr "네트워크 사용 중단 시간"
 
-#: DlgAdvPreferencesBase.cpp:572
-#: DlgItemProperties.cpp:214
+#: DlgAdvPreferencesBase.cpp:572 DlgItemProperties.cpp:214
 msgid "Disk usage"
 msgstr "디스크 사용량"
 
@@ -1499,39 +1466,26 @@ msgstr "체크되면 일시 정지시 작업 유닛을 메모리에서 비웁니
 msgid "%s - Event Log"
 msgstr "%s - 이벤트 기록"
 
-#: DlgEventLog.cpp:201
-#: ViewMessages.cpp:117
-#: ViewProjects.cpp:218
-#: ViewStatistics.cpp:381
-#: ViewStatistics.cpp:1769
-#: ViewTransfers.cpp:181
-#: ViewWork.cpp:222
-#: sg_DlgMessages.cpp:106
+#: DlgEventLog.cpp:201 ViewMessages.cpp:117 ViewProjects.cpp:218
+#: ViewStatistics.cpp:381 ViewStatistics.cpp:1769 ViewTransfers.cpp:181
+#: ViewWork.cpp:222 sg_DlgMessages.cpp:106
 msgid "Project"
 msgstr "프로젝트"
 
-#: DlgEventLog.cpp:202
-#: ViewMessages.cpp:118
-#: sg_DlgMessages.cpp:107
+#: DlgEventLog.cpp:202 ViewMessages.cpp:118 sg_DlgMessages.cpp:107
 msgid "Time"
 msgstr "시간"
 
-#: DlgEventLog.cpp:203
-#: ViewMessages.cpp:119
-#: sg_DlgMessages.cpp:108
+#: DlgEventLog.cpp:203 ViewMessages.cpp:119 sg_DlgMessages.cpp:108
 msgid "Message"
 msgstr "메시지"
 
-#: DlgEventLog.cpp:251
-#: DlgEventLog.cpp:365
-#: ViewMessages.cpp:106
+#: DlgEventLog.cpp:251 DlgEventLog.cpp:365 ViewMessages.cpp:106
 #: ViewMessages.cpp:502
 msgid "Show only this project"
 msgstr "이 프로젝트만 보여주기"
 
-#: DlgEventLog.cpp:254
-#: DlgEventLog.cpp:366
-#: DlgEventLog.cpp:368
+#: DlgEventLog.cpp:254 DlgEventLog.cpp:366 DlgEventLog.cpp:368
 msgid "Show only the messages for the selected project"
 msgstr "선택한 프로젝트의 메세지만 보여줍니다."
 
@@ -1539,11 +1493,8 @@ msgstr "선택한 프로젝트의 메세지만 보여줍니다."
 msgid "Copy All"
 msgstr "모두 복사"
 
-#: DlgEventLog.cpp:260
-#: DlgEventLog.cpp:264
-#: ViewMessages.cpp:89
-#: sg_DlgMessages.cpp:176
-#: sg_DlgMessages.cpp:180
+#: DlgEventLog.cpp:260 DlgEventLog.cpp:264 ViewMessages.cpp:89
+#: sg_DlgMessages.cpp:176 sg_DlgMessages.cpp:180
 msgid "Copy all the messages to the clipboard."
 msgstr "모든 메시지를 클립보드에 복사"
 
@@ -1551,41 +1502,37 @@ msgstr "모든 메시지를 클립보드에 복사"
 msgid "Copy Selected"
 msgstr "선택 항목 복사"
 
-#: DlgEventLog.cpp:272
-#: DlgEventLog.cpp:280
-#: ViewMessages.cpp:97
-#: sg_DlgMessages.cpp:201
-#: sg_DlgMessages.cpp:209
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr "선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
+#: DlgEventLog.cpp:272 DlgEventLog.cpp:280 ViewMessages.cpp:97
+#: sg_DlgMessages.cpp:201 sg_DlgMessages.cpp:209
+msgid ""
+"Copy the selected messages to the clipboard. You can select multiple "
+"messages by holding down the shift or command key while clicking on messages."
+msgstr ""
+"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
 
-#: DlgEventLog.cpp:274
-#: DlgEventLog.cpp:282
-#: ViewMessages.cpp:99
-#: sg_DlgMessages.cpp:203
-#: sg_DlgMessages.cpp:211
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
+#: DlgEventLog.cpp:274 DlgEventLog.cpp:282 ViewMessages.cpp:99
+#: sg_DlgMessages.cpp:203 sg_DlgMessages.cpp:211
+msgid ""
+"Copy the selected messages to the clipboard. You can select multiple "
+"messages by holding down the shift or control key while clicking on messages."
+msgstr ""
+"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
+"있습니다."
 
 #: DlgEventLog.cpp:289
 msgid "Close"
 msgstr "닫기"
 
-#: DlgEventLog.cpp:296
-#: DlgEventLog.cpp:299
-#: sg_DlgMessages.cpp:251
-#: sg_DlgPreferences.cpp:508
-#: sg_ProjectsComponent.cpp:140
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:299 sg_DlgMessages.cpp:251
+#: sg_DlgPreferences.cpp:508 sg_ProjectsComponent.cpp:140
 msgid "Get help with BOINC"
 msgstr "BOINC 도움말을 얻으세요"
 
-#: DlgEventLog.cpp:378
-#: ViewMessages.cpp:494
+#: DlgEventLog.cpp:378 ViewMessages.cpp:494
 msgid "Show all messages"
 msgstr "모든 메시지 보여주기"
 
-#: DlgEventLog.cpp:379
-#: DlgEventLog.cpp:381
+#: DlgEventLog.cpp:379 DlgEventLog.cpp:381
 msgid "Show messages for all projects"
 msgstr "모든 프로젝트의 메세지를 보여줍니다."
 
@@ -1636,11 +1583,8 @@ msgstr "관리자 종료시 과학 응용 프로그램 실행 정지"
 msgid "Remember this decision and do not show this dialog."
 msgstr "이 설정을 기억하고 이 창을 다시 보여주지 않습니다."
 
-#: DlgExitMessage.cpp:177
-#: DlgGenericMessage.cpp:125
-#: DlgOptions.cpp:388
-#: DlgSelectComputer.cpp:152
-#: wizardex.cpp:378
+#: DlgExitMessage.cpp:177 DlgGenericMessage.cpp:125 DlgOptions.cpp:388
+#: DlgSelectComputer.cpp:152 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "취소(&C)"
 
@@ -1656,8 +1600,7 @@ msgstr "닫기"
 msgid "Properties of project "
 msgstr "프로젝트 속성"
 
-#: DlgItemProperties.cpp:200
-#: DlgOptions.cpp:205
+#: DlgItemProperties.cpp:200 DlgOptions.cpp:205
 msgid "General"
 msgstr "일반"
 
@@ -1673,8 +1616,7 @@ msgstr "사용자 이름"
 msgid "Team name"
 msgstr "팀 이름"
 
-#: DlgItemProperties.cpp:204
-#: ViewProjects.cpp:223
+#: DlgItemProperties.cpp:204 ViewProjects.cpp:223
 msgid "Resource share"
 msgstr "자원 공유"
 
@@ -1698,22 +1640,16 @@ msgstr "컴퓨터 ID"
 msgid "Non CPU intensive"
 msgstr "CPU 비 집약적"
 
-#: DlgItemProperties.cpp:216
-#: DlgItemProperties.cpp:217
-#: DlgItemProperties.cpp:218
-#: DlgItemProperties.cpp:219
-#: DlgItemProperties.cpp:220
-#: DlgItemProperties.cpp:221
+#: DlgItemProperties.cpp:216 DlgItemProperties.cpp:217
+#: DlgItemProperties.cpp:218 DlgItemProperties.cpp:219
+#: DlgItemProperties.cpp:220 DlgItemProperties.cpp:221
 #: DlgItemProperties.cpp:222
 msgid "yes"
 msgstr "예"
 
-#: DlgItemProperties.cpp:216
-#: DlgItemProperties.cpp:217
-#: DlgItemProperties.cpp:218
-#: DlgItemProperties.cpp:219
-#: DlgItemProperties.cpp:220
-#: DlgItemProperties.cpp:221
+#: DlgItemProperties.cpp:216 DlgItemProperties.cpp:217
+#: DlgItemProperties.cpp:218 DlgItemProperties.cpp:219
+#: DlgItemProperties.cpp:220 DlgItemProperties.cpp:221
 #: DlgItemProperties.cpp:222
 msgid "no"
 msgstr "아니오"
@@ -1758,8 +1694,7 @@ msgstr "호스트"
 msgid "Scheduling"
 msgstr "스케쥴 조정"
 
-#: DlgItemProperties.cpp:242
-#: DlgItemProperties.cpp:252
+#: DlgItemProperties.cpp:242 DlgItemProperties.cpp:252
 #: DlgItemProperties.cpp:263
 msgid "Project preference"
 msgstr "프로젝트 환경 설정"
@@ -1832,8 +1767,7 @@ msgstr "지연 정정 값"
 msgid "Properties of task "
 msgstr "작업 속성"
 
-#: DlgItemProperties.cpp:286
-#: ViewWork.cpp:228
+#: DlgItemProperties.cpp:286 ViewWork.cpp:228
 msgid "Application"
 msgstr "애플리케이션"
 
@@ -1861,13 +1795,11 @@ msgstr "자원"
 msgid "CPU time at last checkpoint"
 msgstr "마지막 기록 지점의 CPU 시간"
 
-#: DlgItemProperties.cpp:300
-#: DlgItemProperties.cpp:315
+#: DlgItemProperties.cpp:300 DlgItemProperties.cpp:315
 msgid "CPU time"
 msgstr "CPU 시간"
 
-#: DlgItemProperties.cpp:302
-#: DlgItemProperties.cpp:316
+#: DlgItemProperties.cpp:302 DlgItemProperties.cpp:316
 msgid "Elapsed time"
 msgstr "지난 시간"
 
@@ -1895,8 +1827,7 @@ msgstr "디렉토리"
 msgid "Process ID"
 msgstr "프로세스 ID"
 
-#: DlgItemProperties.cpp:386
-#: ViewWork.cpp:956
+#: DlgItemProperties.cpp:386 ViewWork.cpp:956
 msgid "Local: "
 msgstr "로컬:"
 
@@ -1969,40 +1900,28 @@ msgstr "HTTP 프록시 서버를 통해 접속"
 msgid "HTTP Proxy Server Configuration"
 msgstr "HTTP 프록시 서버 설정"
 
-#: DlgOptions.cpp:267
-#: DlgOptions.cpp:331
+#: DlgOptions.cpp:267 DlgOptions.cpp:331
 msgid "Address:"
 msgstr "주소:"
 
-#: DlgOptions.cpp:275
-#: DlgOptions.cpp:339
-#: ProxyPage.cpp:340
-#: ProxyPage.cpp:360
+#: DlgOptions.cpp:275 DlgOptions.cpp:339 ProxyPage.cpp:340 ProxyPage.cpp:360
 msgid "Port:"
 msgstr "포트:"
 
-#: DlgOptions.cpp:283
-#: DlgOptions.cpp:347
+#: DlgOptions.cpp:283 DlgOptions.cpp:347
 msgid "Don't use proxy for:"
 msgstr "다음 경우 프록시를 사용 안 함:"
 
-#: DlgOptions.cpp:290
-#: DlgOptions.cpp:354
+#: DlgOptions.cpp:290 DlgOptions.cpp:354
 msgid "Leave these blank if not needed"
 msgstr "필요없으면 빈 칸으로 남겨두세요"
 
-#: DlgOptions.cpp:296
-#: DlgOptions.cpp:360
-#: ProxyPage.cpp:343
-#: ProxyPage.cpp:363
+#: DlgOptions.cpp:296 DlgOptions.cpp:360 ProxyPage.cpp:343 ProxyPage.cpp:363
 msgid "User Name:"
 msgstr "사용자 이름:"
 
-#: DlgOptions.cpp:304
-#: DlgOptions.cpp:368
-#: DlgSelectComputer.cpp:136
-#: ProxyPage.cpp:346
-#: ProxyPage.cpp:366
+#: DlgOptions.cpp:304 DlgOptions.cpp:368 DlgSelectComputer.cpp:136
+#: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "암호:"
 
@@ -2031,8 +1950,7 @@ msgstr "%s - 컴퓨터 선택"
 msgid "Host name:"
 msgstr "호스트 이름:"
 
-#: Localization.cpp:31
-#: Localization.cpp:69
+#: Localization.cpp:31 Localization.cpp:69
 msgid "Message boards"
 msgstr "게시판"
 
@@ -2044,16 +1962,12 @@ msgstr "SETI@home상의 다른 사용자와 게시판에서 이야기를 주고 
 msgid "Ask questions and report problems"
 msgstr "질문하기와 문제 보고"
 
-#: Localization.cpp:39
-#: Localization.cpp:81
-#: Localization.cpp:111
+#: Localization.cpp:39 Localization.cpp:81 Localization.cpp:111
 #: Localization.cpp:129
 msgid "Your account"
 msgstr "계정"
 
-#: Localization.cpp:41
-#: Localization.cpp:87
-#: Localization.cpp:113
+#: Localization.cpp:41 Localization.cpp:87 Localization.cpp:113
 msgid "View your account information and credit totals"
 msgstr "계정 정보와 모든 크레딧을 볼 수 있습니다"
 
@@ -2065,18 +1979,15 @@ msgstr "설정"
 msgid "View and modify your SETI@home account profile and preferences"
 msgstr "SETI@home 계정 프로필과 환경 설정을 보고 수정할 수 있습니다"
 
-#: Localization.cpp:47
-#: Localization.cpp:89
+#: Localization.cpp:47 Localization.cpp:89
 msgid "Your results"
 msgstr "결과"
 
-#: Localization.cpp:49
-#: Localization.cpp:91
+#: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr "지난 주 (혹은 그 이전)의 계산 결과 및 작업을 볼 수 있습니다"
 
-#: Localization.cpp:51
-#: Localization.cpp:93
+#: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
 msgstr "컴퓨터"
 
@@ -2084,13 +1995,11 @@ msgstr "컴퓨터"
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "SETI@Home을 수행 중인 모든 컴퓨터 목록을 보여줍니다"
 
-#: Localization.cpp:55
-#: Localization.cpp:97
+#: Localization.cpp:55 Localization.cpp:97
 msgid "Your team"
 msgstr "팀"
 
-#: Localization.cpp:57
-#: Localization.cpp:99
+#: Localization.cpp:57 Localization.cpp:99
 msgid "View information about your team"
 msgstr "여러분이 속한 팀 정보를 보여줍니다"
 
@@ -2111,7 +2020,8 @@ msgid "Read a detailed description of the Einstein@Home screensaver"
 msgstr "Einstein@Home 화면보호기에 대해서 보다 자세한 정보를 읽어봅니다"
 
 #: Localization.cpp:71
-msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgid ""
+"Correspond with admins and other users on the Einstein@Home message boards"
 msgstr "Einstein@Home 게시판에서 운영자 및 다른 사용자와 이야기를 주고 받으세요"
 
 #: Localization.cpp:73
@@ -2139,7 +2049,8 @@ msgid "Account summary"
 msgstr "계정 요약"
 
 #: Localization.cpp:95
-msgid "View a listing of all the computers on which you are running Einstein@Home"
+msgid ""
+"View a listing of all the computers on which you are running Einstein@Home"
 msgstr "Einstein@Home을 수행 중인 모든 컴퓨터 목록을 보여줍니다"
 
 #: Localization.cpp:101
@@ -2147,7 +2058,9 @@ msgid "LIGO project"
 msgstr "LIGO 프로젝트"
 
 #: Localization.cpp:103
-msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
+msgid ""
+"The home page of the Laser Interferometer Gravitational-wave Observatory "
+"(LIGO) project"
 msgstr "레이저 간섭계 중력파 관측소 (LIGO) 프로젝트 홈 페이지"
 
 #: Localization.cpp:105
@@ -2158,9 +2071,7 @@ msgstr "GEO-600 프로젝트"
 msgid "The home page of the GEO-600 project"
 msgstr "GEO-600 프로젝트의 홈 페이지"
 
-#: Localization.cpp:115
-#: Localization.cpp:133
-#: ViewProjects.cpp:220
+#: Localization.cpp:115 Localization.cpp:133 ViewProjects.cpp:220
 #: ViewStatistics.cpp:411
 msgid "Team"
 msgstr "팀"
@@ -2285,24 +2196,19 @@ msgstr "GPU 탐지 실패,"
 msgid "New"
 msgstr "새로 만들기"
 
-#: MainDocument.cpp:2276
-#: ViewTransfers.cpp:773
+#: MainDocument.cpp:2276 ViewTransfers.cpp:773
 msgid "Download failed"
 msgstr "다운로드 실패"
 
-#: MainDocument.cpp:2278
-#: ViewTransfers.cpp:785
+#: MainDocument.cpp:2278 ViewTransfers.cpp:785
 msgid "Downloading"
 msgstr "다운로드 중"
 
-#: MainDocument.cpp:2280
-#: MainDocument.cpp:2338
+#: MainDocument.cpp:2280 MainDocument.cpp:2338
 msgid " (suspended - "
 msgstr " (일시 정지됨 - "
 
-#: MainDocument.cpp:2282
-#: MainDocument.cpp:2340
-#: ViewTransfers.cpp:794
+#: MainDocument.cpp:2282 MainDocument.cpp:2340 ViewTransfers.cpp:794
 msgid ")"
 msgstr ")"
 
@@ -2330,8 +2236,7 @@ msgstr "공유된 메모리가 비길 기다리고 있습니다"
 msgid "Running, high priority"
 msgstr "높은 우선 순위로 실행 중"
 
-#: MainDocument.cpp:2306
-#: sg_ImageButton.cpp:88
+#: MainDocument.cpp:2306 sg_ImageButton.cpp:88
 msgid "Running"
 msgstr "실행 중"
 
@@ -2343,8 +2248,7 @@ msgstr "(CPU 비 집약적)"
 msgid "Waiting to run"
 msgstr "실행 대기 중"
 
-#: MainDocument.cpp:2317
-#: MainDocument.cpp:2323
+#: MainDocument.cpp:2317 MainDocument.cpp:2323
 msgid "Ready to start"
 msgstr "시작 대기"
 
@@ -2356,13 +2260,11 @@ msgstr " (GPU 메모리가 비길 기다리는 중)"
 msgid "Computation error"
 msgstr "계산 오류"
 
-#: MainDocument.cpp:2334
-#: ViewTransfers.cpp:775
+#: MainDocument.cpp:2334 ViewTransfers.cpp:775
 msgid "Upload failed"
 msgstr "업로드 실패"
 
-#: MainDocument.cpp:2336
-#: ViewTransfers.cpp:785
+#: MainDocument.cpp:2336 ViewTransfers.cpp:785
 msgid "Uploading"
 msgstr "업로드 중"
 
@@ -2444,28 +2346,23 @@ msgstr "사용자 이름과 비밀번호를 확인하시고 다시 시도해 주
 msgid "Check the email address and password, and try again."
 msgstr "Email 주소와 비밀번호를 확인하시고, 다시 시도해 주세요."
 
-#: NoticeListCtrl.cpp:276
-#: ProjectListCtrl.cpp:276
+#: NoticeListCtrl.cpp:276 ProjectListCtrl.cpp:276
 msgid "Click"
 msgstr "Click"
 
-#: NoticeListCtrl.cpp:503
-#: ProjectListCtrl.cpp:503
+#: NoticeListCtrl.cpp:503 ProjectListCtrl.cpp:503
 msgid "Multicore CPU Supported"
 msgstr "멀티코어 CPU 지원됨"
 
-#: NoticeListCtrl.cpp:505
-#: ProjectListCtrl.cpp:505
+#: NoticeListCtrl.cpp:505 ProjectListCtrl.cpp:505
 msgid "Nvidia GPU Supported"
 msgstr "Nvidia GPU 지원됨"
 
-#: NoticeListCtrl.cpp:507
-#: ProjectListCtrl.cpp:507
+#: NoticeListCtrl.cpp:507 ProjectListCtrl.cpp:507
 msgid "ATI GPU Supported"
 msgstr "ATI GPU 지원됨"
 
-#: NoticeListCtrl.cpp:509
-#: ProjectListCtrl.cpp:509
+#: NoticeListCtrl.cpp:509 ProjectListCtrl.cpp:509
 msgid "Project Website"
 msgstr "프로젝트 웹사이트"
 
@@ -2482,11 +2379,14 @@ msgid "Project &URL:"
 msgstr "프로젝트 &URL:"
 
 #: ProjectInfoPage.cpp:392
-msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
+msgid ""
+"This project may not have work for your type of computer. Are you sure you "
+"wish to continue?"
 msgstr "이 프로젝트는 해당 컴퓨터에서 동작하지 않을 수도 있습니다. 계속하시겠습니까?"
 
 #: ProjectInfoPage.cpp:416
-msgid "You are already attached to this project. Please choose a different project."
+msgid ""
+"You are already attached to this project. Please choose a different project."
 msgstr "이미 이 프로젝트에 연결되어 있습니다. 다른 프로젝트를 선택해주세요."
 
 #: ProjectProcessingPage.cpp:322
@@ -2497,8 +2397,7 @@ msgstr "서버와 통신 중"
 msgid "Required files not found on the server."
 msgstr "서버에서 필요한 파일을 찾지 못했습니다."
 
-#: ProjectProcessingPage.cpp:502
-#: ProjectProcessingPage.cpp:564
+#: ProjectProcessingPage.cpp:502 ProjectProcessingPage.cpp:564
 msgid "An internal server error has occurred."
 msgstr "내부 서버 오류가 발생했습니다."
 
@@ -2580,8 +2479,7 @@ msgstr "프록시 설정"
 msgid "HTTP proxy"
 msgstr "HTTP 프록시"
 
-#: ProxyPage.cpp:337
-#: ProxyPage.cpp:357
+#: ProxyPage.cpp:337 ProxyPage.cpp:357
 msgid "Server:"
 msgstr "서버:"
 
@@ -2645,8 +2543,7 @@ msgstr "계속하려면 계정 키를 정의해 주세요."
 msgid "Invalid Account Key; please enter a valid Account Key"
 msgstr "잘못된 계정 키; 올바른 계정 키를 입력하세요"
 
-#: ValidateAccountKey.cpp:82
-#: ValidateEmailAddress.cpp:86
+#: ValidateAccountKey.cpp:82 ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
 msgstr "확인 충돌"
 
@@ -2672,18 +2569,12 @@ msgstr ""
 "예를 들어:\n"
 "http://www.example.com/"
 
-#: ValidateURL.cpp:83
-#: ValidateURL.cpp:87
-#: ValidateURL.cpp:91
-#: ValidateURL.cpp:103
-#: ValidateURL.cpp:107
-#: ValidateURL.cpp:110
+#: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
+#: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
 msgid "Invalid URL"
 msgstr "잘못된 URL"
 
-#: ValidateURL.cpp:84
-#: ValidateURL.cpp:88
-#: ValidateURL.cpp:92
+#: ValidateURL.cpp:84 ValidateURL.cpp:88 ValidateURL.cpp:92
 msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
@@ -2693,8 +2584,7 @@ msgstr ""
 "예를 들어:\n"
 "http://boincproject.example.com"
 
-#: ValidateURL.cpp:104
-#: ValidateURL.cpp:108
+#: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s'은(는) 유효한 호스트 이름을 포함하고 있지 않습니다."
@@ -2704,11 +2594,8 @@ msgstr "'%s'은(는) 유효한 호스트 이름을 포함하고 있지 않습니
 msgid "'%s' does not contain a valid path."
 msgstr "'%s'은(는) 유효한 경로를 포함하고 있지 않습니다."
 
-#: ViewMessages.cpp:84
-#: ViewProjects.cpp:169
-#: ViewStatistics.cpp:1738
-#: ViewTransfers.cpp:159
-#: ViewWork.cpp:180
+#: ViewMessages.cpp:84 ViewProjects.cpp:169 ViewStatistics.cpp:1738
+#: ViewTransfers.cpp:159 ViewWork.cpp:180
 msgid "Commands"
 msgstr "명령"
 
@@ -2720,8 +2607,7 @@ msgstr "모든 메시지 복사"
 msgid "Copy selected messages"
 msgstr "선택한 메시지 복사"
 
-#: ViewMessages.cpp:107
-#: ViewMessages.cpp:503
+#: ViewMessages.cpp:107 ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
 msgstr "선택한 프로젝의 메세지만 보여줍니다."
 
@@ -2749,8 +2635,7 @@ msgstr "모든 프로젝트의 메세지를 보여줍니다."
 msgid "News Feeds"
 msgstr "뉴스 피드"
 
-#: ViewNotices.cpp:81
-#: ViewTransfers.cpp:284
+#: ViewNotices.cpp:81 ViewTransfers.cpp:284
 msgid "BOINC"
 msgstr "BOINC"
 
@@ -2771,23 +2656,20 @@ msgid "Update"
 msgstr "업데이트"
 
 #: ViewProjects.cpp:174
-msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
+msgid ""
+"Report all completed tasks, get latest credit, get latest preferences, and "
+"possibly get more tasks."
 msgstr "모든 완료된 작업을 보고하고 마지막 크레딧과 환경 설정을 받아오며 가능하면 추가 작업을 받아옵니다."
 
-#: ViewProjects.cpp:180
-#: ViewProjects.cpp:712
-#: ViewWork.cpp:198
-#: ViewWork.cpp:738
+#: ViewProjects.cpp:180 ViewProjects.cpp:712 ViewWork.cpp:198 ViewWork.cpp:738
 msgid "Suspend"
 msgstr "일시 정지"
 
-#: ViewProjects.cpp:181
-#: ViewProjects.cpp:712
+#: ViewProjects.cpp:181 ViewProjects.cpp:712
 msgid "Suspend tasks for this project."
 msgstr "이 프로젝트 작업을 일시 정지 합니다."
 
-#: ViewProjects.cpp:187
-#: ViewProjects.cpp:731
+#: ViewProjects.cpp:187 ViewProjects.cpp:731
 msgid "No new tasks"
 msgstr "새 작업 금지"
 
@@ -2800,19 +2682,24 @@ msgid "Reset project"
 msgstr "프로젝트 다시 설정"
 
 #: ViewProjects.cpp:195
-msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr "이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 있습니다."
+msgid ""
+"Delete all files and tasks associated with this project, and get new tasks.  "
+"You can update the project first to report any completed tasks."
+msgstr ""
+"이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 "
+"있습니다."
 
 #: ViewProjects.cpp:201
 msgid "Detach"
 msgstr "분리하기"
 
 #: ViewProjects.cpp:202
-msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
+msgid ""
+"Detach computer from this project.  Tasks in progress will be lost (use "
+"'Update' first to report any completed tasks)."
 msgstr "이 프로젝트를 컴퓨터로부터 분리합니다. 진행 중인 작업은 소실됩니다. (완료된 작업을 보고하려면 '업데이트'를 이용해 주세요)"
 
-#: ViewProjects.cpp:208
-#: ViewWork.cpp:212
+#: ViewProjects.cpp:208 ViewWork.cpp:212
 msgid "Properties"
 msgstr "속성"
 
@@ -2820,8 +2707,7 @@ msgstr "속성"
 msgid "Show project details."
 msgstr "자세한 프로젝트 정보를 보여줍니다."
 
-#: ViewProjects.cpp:219
-#: ViewStatistics.cpp:396
+#: ViewProjects.cpp:219 ViewStatistics.cpp:396
 msgid "Account"
 msgstr "계정"
 
@@ -2833,9 +2719,7 @@ msgstr "완료된 작업"
 msgid "Avg. work done"
 msgstr "평균 완료된 작업"
 
-#: ViewProjects.cpp:224
-#: ViewTransfers.cpp:187
-#: ViewWork.cpp:224
+#: ViewProjects.cpp:224 ViewTransfers.cpp:187 ViewWork.cpp:224
 msgid "Status"
 msgstr "상태"
 
@@ -2880,24 +2764,20 @@ msgstr "프로젝트 다시 설정"
 msgid "Detaching from project..."
 msgstr "프로젝트에서 분리하는 중..."
 
-#: ViewProjects.cpp:495
-#: sg_StatImageLoader.cpp:211
+#: ViewProjects.cpp:495 sg_StatImageLoader.cpp:211
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "정말로 프로젝트 '%s' 분리를 원하십니까?"
 
-#: ViewProjects.cpp:501
-#: sg_StatImageLoader.cpp:217
+#: ViewProjects.cpp:501 sg_StatImageLoader.cpp:217
 msgid "Detach from Project"
 msgstr "프로젝트에서 분리하기"
 
-#: ViewProjects.cpp:542
-#: ViewWork.cpp:551
+#: ViewProjects.cpp:542 ViewWork.cpp:551
 msgid "Launching browser..."
 msgstr "브라우저 시작 중..."
 
-#: ViewProjects.cpp:708
-#: ViewWork.cpp:732
+#: ViewProjects.cpp:708 ViewWork.cpp:732
 msgid "Resume"
 msgstr "다시 시작"
 
@@ -3086,15 +2966,9 @@ msgstr "모든 프로젝트를 하나의 차트로 보여줍니다"
 msgid "Statistics"
 msgstr "통계"
 
-#: ViewStatistics.cpp:1854
-#: ViewStatistics.cpp:1875
-#: ViewStatistics.cpp:1896
-#: ViewStatistics.cpp:1918
-#: ViewStatistics.cpp:1939
-#: ViewStatistics.cpp:1960
-#: ViewStatistics.cpp:1981
-#: ViewStatistics.cpp:2002
-#: ViewStatistics.cpp:2025
+#: ViewStatistics.cpp:1854 ViewStatistics.cpp:1875 ViewStatistics.cpp:1896
+#: ViewStatistics.cpp:1918 ViewStatistics.cpp:1939 ViewStatistics.cpp:1960
+#: ViewStatistics.cpp:1981 ViewStatistics.cpp:2002 ViewStatistics.cpp:2025
 msgid "Updating charts..."
 msgstr "차트 업데이트 중..."
 
@@ -3111,15 +2985,16 @@ msgid "Abort Transfer"
 msgstr "전송 취소"
 
 #: ViewTransfers.cpp:171
-msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgid ""
+"Click 'Abort transfer' to delete the file from the transfer queue. This will "
+"prevent you from being granted credit for this result."
 msgstr "전송 큐에서 파일을 삭제하려면 '전송 중지'을 클릭하세요. 이것은 이 결과로 크레디트가 주어지는 것을 무효로 할 수 있습니다."
 
 #: ViewTransfers.cpp:182
 msgid "File"
 msgstr "파일"
 
-#: ViewTransfers.cpp:183
-#: ViewWork.cpp:223
+#: ViewTransfers.cpp:183 ViewWork.cpp:223
 msgid "Progress"
 msgstr "진행"
 
@@ -3198,18 +3073,15 @@ msgstr "다운로드를 기다리고 있는 중"
 msgid " (project backoff: "
 msgstr " (프로젝트 전송 지연: "
 
-#: ViewWork.cpp:184
-#: ViewWork.cpp:714
+#: ViewWork.cpp:184 ViewWork.cpp:714
 msgid "Show active tasks"
 msgstr "활동 중인 테스크 보여주기"
 
-#: ViewWork.cpp:185
-#: ViewWork.cpp:715
+#: ViewWork.cpp:185 ViewWork.cpp:715
 msgid "Show only active tasks."
 msgstr "활동 중인 테스크만 보여줍니다."
 
-#: ViewWork.cpp:191
-#: sg_ViewTabPage.cpp:424
+#: ViewWork.cpp:191 sg_ViewTabPage.cpp:424
 msgid "Show graphics"
 msgstr "그래픽 보여주기"
 
@@ -3339,7 +3211,8 @@ msgstr ""
 #: WelcomePage.cpp:284
 msgid ""
 "You have chosen to attach to a new BOINC project.  Attaching to a new\n"
-"project means that you will be connecting your computer to a new organization.\n"
+"project means that you will be connecting your computer to a new "
+"organization.\n"
 "If this is what you wanted to do, please click on\n"
 "the 'Next' button below.\n"
 "\n"
@@ -3433,8 +3306,7 @@ msgstr "작업이 일시 정지되었습니다."
 msgid "Waiting to contact project servers."
 msgstr "프로젝트 서버 접속을 기다리고 있습니다."
 
-#: sg_ClientStateIndicator.cpp:317
-#: sg_ClientStateIndicator.cpp:325
+#: sg_ClientStateIndicator.cpp:317 sg_ClientStateIndicator.cpp:325
 msgid "Retrieving current status"
 msgstr "현재 상태 복구중"
 
@@ -3587,8 +3459,7 @@ msgstr "이 시간 사이에만 작업:"
 msgid "Connect to internet only between:"
 msgstr "이 시간 사이에만 인터넷이 접속:"
 
-#: sg_DlgPreferences.cpp:392
-#: sg_DlgPreferences.cpp:409
+#: sg_DlgPreferences.cpp:392 sg_DlgPreferences.cpp:409
 msgid "Use no more than:"
 msgstr "최대 사용 한도:"
 
@@ -3608,14 +3479,10 @@ msgstr "배터리 가동 중에도 작업하시겠습니까?"
 msgid "Do work after idle for:"
 msgstr "이 시간 이상 대기 후 작업:"
 
-#: sg_DlgPreferences.cpp:677
-#: sg_DlgPreferences.cpp:680
-#: sg_DlgPreferences.cpp:748
-#: sg_DlgPreferences.cpp:752
-#: sg_DlgPreferences.cpp:764
-#: sg_DlgPreferences.cpp:768
-#: sg_DlgPreferences.cpp:926
-#: sg_DlgPreferences.cpp:937
+#: sg_DlgPreferences.cpp:677 sg_DlgPreferences.cpp:680
+#: sg_DlgPreferences.cpp:748 sg_DlgPreferences.cpp:752
+#: sg_DlgPreferences.cpp:764 sg_DlgPreferences.cpp:768
+#: sg_DlgPreferences.cpp:926 sg_DlgPreferences.cpp:937
 msgid "Anytime"
 msgstr "언제든"
 
@@ -3683,8 +3550,7 @@ msgstr "클릭하면 프로젝트 그래픽을 보여줍니다"
 msgid "Synchronize projects with account manager system"
 msgstr "계정 관리자 시스템과 프로젝트를 동기화"
 
-#: sg_ProjectsComponent.cpp:193
-#: sg_ProjectsComponent.cpp:204
+#: sg_ProjectsComponent.cpp:193 sg_ProjectsComponent.cpp:204
 msgid "Open a window to view messages"
 msgstr "메세지 창 열기"
 
@@ -3717,8 +3583,7 @@ msgstr "%s. 작업 완료 %s: %0.2f"
 msgid "Remove Project"
 msgstr "프로젝트 제거"
 
-#: sg_ViewTabPage.cpp:140
-#: sg_ViewTabPage.cpp:280
+#: sg_ViewTabPage.cpp:140 sg_ViewTabPage.cpp:280
 #, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
@@ -3736,8 +3601,7 @@ msgstr "정말로 원격 컴퓨터에서 그래픽 표시를 원하십니까?"
 msgid "Application: "
 msgstr "응용 프로그램"
 
-#: sg_ViewTabPage.cpp:449
-#: sg_ViewTabPage.cpp:453
+#: sg_ViewTabPage.cpp:449 sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
 msgstr "남은 시간:"
 
@@ -3745,8 +3609,7 @@ msgstr "남은 시간:"
 msgid "Elapsed Time: "
 msgstr "지난 시간:"
 
-#: wizardex.cpp:377
-#: wizardex.cpp:553
+#: wizardex.cpp:377 wizardex.cpp:553
 msgid "&Next >"
 msgstr "다음 >"
 
@@ -3758,8 +3621,7 @@ msgstr "< 뒤로"
 msgid "&Finish"
 msgstr "완료"
 
-#: ../client/acct_mgr.cpp:373
-#: ../client/acct_mgr.cpp:383
+#: ../client/acct_mgr.cpp:373 ../client/acct_mgr.cpp:383
 msgid "error"
 msgstr "오류"
 
@@ -3791,14 +3653,12 @@ msgstr "XML syntax 오류: "
 msgid "Can't resolve hostname in"
 msgstr "호스트 이름을 역해석하지 못함: "
 
-#: ../client/log_flags.cpp:67
-#: ../client/log_flags.cpp:317
+#: ../client/log_flags.cpp:67 ../client/log_flags.cpp:317
 #: ../client/log_flags.cpp:442
 msgid "Unexpected text in"
 msgstr "예상치 못한 텍스트: "
 
-#: ../client/log_flags.cpp:111
-#: ../client/log_flags.cpp:414
+#: ../client/log_flags.cpp:111 ../client/log_flags.cpp:414
 msgid "Unrecognized tag in"
 msgstr "유효하지 않은 태그: "
 
@@ -3815,83 +3675,10 @@ msgid "Missing end tag in"
 msgstr "마침 태그가 빠짐: "
 
 #: ../client/net_stats.cpp:213
-msgid "BOINC can't access Internet - check network connection or proxy configuration."
+msgid ""
+"BOINC can't access Internet - check network connection or proxy "
+"configuration."
 msgstr "BOINC가 인터넷에 엑세스할 수 없습니다 - 네트워크 연결이나 프록시 설정을 확인하세요."
 
 #~ msgid "Attach this computer to a project or account manager"
 #~ msgstr "이 컴퓨터를 계정 관리자 혹은 프로젝트에 연결합니다"
-#~ msgid "Client is processing results."
-#~ msgstr "클라이언트가 결과물을 처리하고 있습니다."
-#~ msgid " - user active"
-#~ msgstr " - 사용자가 활동합니다"
-#~ msgid " - computation suspended"
-#~ msgstr " - 계산이 일시 정지되었습니다"
-#~ msgid " - need disk space"
-#~ msgstr " - 디스크 공간이 부족합니다"
-#~ msgid "Attach to an additional project"
-#~ msgstr "부가적인 프로젝트를 연결"
-#~ msgid "To completion"
-#~ msgstr "완료까지"
-#~ msgid ""
-#~ "We'll guide you through the process of attaching\n"
-#~ "to a project or account manager."
-#~ msgstr ""
-#~ "지금부터 프로젝트 혹은 계정 관리자에 연결하는 방법을\n"
-#~ "진행하면서 알려드리겠습니다."
-#~ msgid "New page inserted. Index = %i"
-#~ msgstr "새 페이지 삽입됨. Index = %i"
-#~ msgid "New page appended. Index = %i"
-#~ msgstr "새 페이지 첨부됨. Index = %i"
-#~ msgid "Old Page Index = %i"
-#~ msgstr "Old Page Index = %i"
-#~ msgid "OnDropTarget: index by HitTest = %i"
-#~ msgstr "OnDropTarget: index by HitTest = %i"
-#~ msgid "Pie Ctrl"
-#~ msgstr "Pie Ctrl"
-#~ msgid ""
-#~ "for accessibility support, please select advanced from the view menu or "
-#~ "type command shift a"
-#~ msgstr ""
-#~ "장애인 지원을 위해서는 보기 메뉴에서 고급 보기를 선택하거나 shift a를 입력"
-#~ "하세요"
-#~ msgid "This panel contains graphs showing user totals for projects"
-#~ msgstr ""
-#~ "이 패널은 해당 프로젝트의 전체 사용자를 보여주는 그래프를 포함합니다"
-#~ msgid "blank"
-#~ msgstr "공백"
-#~ msgid "list of "
-#~ msgstr "목록"
-#~ msgid "events"
-#~ msgstr "이벤트"
-#~ msgid " is empty"
-#~ msgstr " 이 없습니다"
-#~ msgid "%d of %d; "
-#~ msgstr "%d %d "
-#~ msgid "current sort column "
-#~ msgstr "현재 분류된 컬럼"
-#~ msgid " descending order "
-#~ msgstr " 내림차순 정렬"
-#~ msgid " ascending order "
-#~ msgstr " 오름차순 정렬"
-#~ msgid "column "
-#~ msgstr "컬럼"
-#~ msgid "list is empty"
-#~ msgstr "목록이 비었습니다"
-#~ msgid "selected "
-#~ msgstr "선택됨"
-#~ msgid "row %d "
-#~ msgstr "행 %d"
-#~ msgid "of %d; "
-#~ msgstr "%d로"
-#~ msgid "column %d; "
-#~ msgstr "컬럼 %d"
-#~ msgid "list of projects or account managers"
-#~ msgstr "계정 관리자 또는 프로젝트 목록"
-#~ msgid "row %d of %d; "
-#~ msgstr "줄%d %d용"
-#~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "작업 시작 및 중지 시간을 HH:MM-HH:MM 형식대로 입력해 주세요"
-#~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-#~ msgstr ""
-#~ "네트워크 사용 시작 및 중지 시간을 HH:MM-HH:MM 형식대로 입력해 주세요"
-

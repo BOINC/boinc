@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2010-06-07 05:22-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -736,8 +736,8 @@ msgid ""
 "%s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
-"%s jelenleg nem kapcsolódik egy %s klienshez sem.Kérjük, használja a 'Haladó"
-"\\Számítógép kiválasztása...' menüpontot egy %s klienshez való "
+"%s jelenleg nem kapcsolódik egy %s klienshez sem.Kérjük, használja a "
+"'Haladó\\Számítógép kiválasztása...' menüpontot egy %s klienshez való "
 "csatlakozáshoz.A helyi számítógép csatlakoztatásához a számítógépnév "
 "megadásánál használja a 'localhost' kifejezést."
 
@@ -764,9 +764,9 @@ msgid ""
 "Please connect to the Internet, then select the 'Do network communications' "
 "item from the Advanced menu."
 msgstr ""
-"%s nem képes kommunikálni egy projekttel és internetkapcsolatra van szüksége."
-"Kérjük, csatlakozzon az Internetre, majd válassza a 'Hálózati kommunikáció "
-"létesítése' pontot a Haladó menüben."
+"%s nem képes kommunikálni egy projekttel és internetkapcsolatra van "
+"szüksége.Kérjük, csatlakozzon az Internetre, majd válassza a 'Hálózati "
+"kommunikáció létesítése' pontot a Haladó menüben."
 
 #: BOINCDialupManager.cpp:310
 #, c-format
@@ -792,7 +792,8 @@ msgid ""
 msgstr ""
 "%s nem képes internetkapcsolatot létesíteni, és nincs kijelölve "
 "alapértelmezett kapcsolat. Kérjük, csatlakozzon az Internetre, vagy "
-"válasszon alapértelmezett kapcsolatota Haladó/Opciók/Kapcsolatok menüpontban."
+"válasszon alapértelmezett kapcsolatota Haladó/Opciók/Kapcsolatok "
+"menüpontban."
 
 #: BOINCDialupManager.cpp:386
 #, c-format
@@ -1240,8 +1241,7 @@ msgstr "Ha a processzor használat kevesebb mint"
 
 #: DlgAdvPreferencesBase.cpp:212
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
-"munka felfüggesztése, ha a processzorhasználat meghaladja ezt a szintet"
+msgstr "munka felfüggesztése, ha a processzorhasználat meghaladja ezt a szintet"
 
 #: DlgAdvPreferencesBase.cpp:217
 msgid "percent (0 means no restriction)"
@@ -1505,7 +1505,8 @@ msgstr "Hagyja az alkalmazásokat a memóriában a felfüggesztésük alatt"
 #: DlgAdvPreferencesBase.cpp:667
 msgid "if checked, suspended work units are left in memory"
 msgstr ""
-"ha be van jelölve, akkor a felfüggesztett munkacsomagok a memóriában maradnak"
+"ha be van jelölve, akkor a felfüggesztett munkacsomagok a memóriában "
+"maradnak"
 
 #: DlgEventLog.cpp:188
 #, c-format
@@ -1625,8 +1626,7 @@ msgstr ""
 
 #: DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
-msgstr ""
-"Állítsa le a futó tudományos alkalmazásokat a Kezelőből való kilépéskor"
+msgstr "Állítsa le a futó tudományos alkalmazásokat a Kezelőből való kilépéskor"
 
 #: DlgExitMessage.cpp:164
 msgid "Remember this decision and do not show this dialog."
@@ -1772,8 +1772,9 @@ msgid "CPU work fetch deferral interval"
 msgstr ""
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Nem tölt le új munkát"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1994,6 +1995,7 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS proxy"
 
 #: DlgSelectComputer.cpp:90
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Select Computer"
 msgstr "Számítógép kiválasztása"
@@ -2651,8 +2653,9 @@ msgid "Copy selected messages"
 msgstr "Kijelölt üzenetek másolása"
 
 #: ViewMessages.cpp:107 ViewMessages.cpp:503
+#, fuzzy
 msgid "Show only the messages for the selected project."
-msgstr ""
+msgstr "Csak a kiválasztott projekt üzeneteit mutassa"
 
 #: ViewMessages.cpp:164
 msgid "Messages"
@@ -2672,8 +2675,9 @@ msgid "Filtering messages..."
 msgstr ""
 
 #: ViewMessages.cpp:495
+#, fuzzy
 msgid "Show messages for all projects."
-msgstr ""
+msgstr "Az összes projekt üzeneteinek mutatása."
 
 #: ViewNotices.cpp:77
 msgid "News Feeds"
@@ -3049,8 +3053,8 @@ msgid ""
 "Click 'Abort transfer' to delete the file from the transfer queue. This will "
 "prevent you from being granted credit for this result."
 msgstr ""
-"Kattintson a \"Átvitel megszakítása\" gombra, hogy törölje a fájlt az "
-"átviteli sorból. Ez megakadályozza, hogy a munkáért kreditet kapjon."
+"Kattintson a \"Átvitel megszakítása\" gombra, hogy törölje a fájlt az átviteli "
+"sorból. Ez megakadályozza, hogy a munkáért kreditet kapjon."
 
 #: ViewTransfers.cpp:182
 msgid "File"
@@ -3112,8 +3116,9 @@ msgid "Retry in "
 msgstr "Újrapróbálás..."
 
 #: ViewTransfers.cpp:779
+#, fuzzy
 msgid "Upload suspended - "
-msgstr ""
+msgstr "Sikertelen letöltés"
 
 #: ViewTransfers.cpp:780
 #, fuzzy
@@ -3208,6 +3213,7 @@ msgid ""
 msgstr ""
 
 #: ViewWork.cpp:437
+#, c-format
 #, fuzzy, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Biztosan eldobja a(z) \"%s\" csomagot?"
@@ -3511,8 +3517,9 @@ msgid "of disk space"
 msgstr ""
 
 #: sg_DlgPreferences.cpp:422
+#, fuzzy
 msgid "of the processor"
-msgstr ""
+msgstr "%-át használja a processzoroknak"
 
 #: sg_DlgPreferences.cpp:426
 msgid "Do work while on battery?"

@@ -118,6 +118,7 @@ msgid "Attach to account manager"
 msgstr "Pievienoties konta menedžerim"
 
 #: AccountInfoPage.cpp:542
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "The minimum password length for this project is %d. Please enter a different "
@@ -127,6 +128,7 @@ msgstr ""
 "paroli."
 
 #: AccountInfoPage.cpp:548
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "The minimum password length for this account manager is %d. Please enter a "
@@ -283,6 +285,7 @@ msgid "Attach to a project"
 msgstr "Pievienoties projektam"
 
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "Atliek šī uzdevuma izpildi..."
@@ -397,6 +400,7 @@ msgid "Stop BOINC network activity"
 msgstr "BOINC nepieslēgsies tīklam"
 
 #: AdvancedFrame.cpp:531
+#, c-format
 #, fuzzy, c-format
 msgid "Connect to another computer running %s"
 msgstr "Pieslēgties pie cita datora uz kura izpildās BOINC"
@@ -483,6 +487,7 @@ msgid "%s &website"
 msgstr ""
 
 #: AdvancedFrame.cpp:619 sg_BoincSimpleGUI.cpp:171
+#, c-format
 #, fuzzy, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Parādīt informāciju par BOINC menedžeri"
@@ -522,8 +527,9 @@ msgid "&Help"
 msgstr "P&alīdzība"
 
 #: AdvancedFrame.cpp:1058
+#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Pievienoties konta menedžerim"
 
 #: AdvancedFrame.cpp:1152
 #, c-format
@@ -546,6 +552,7 @@ msgid "%s - Language Selection"
 msgstr ""
 
 #: AdvancedFrame.cpp:1350
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "The %s's default language has been changed, in order for this change to take "
@@ -592,6 +599,7 @@ msgid "Connecting to %s"
 msgstr "Pieslēdzas pie %s"
 
 #: AdvancedFrame.cpp:1929
+#, c-format
 #, fuzzy, c-format
 msgid "Connected to %s (%s)"
 msgstr "Pieslēdzās pie %s"
@@ -687,6 +695,7 @@ msgid "%s - Connection Failed"
 msgstr ""
 
 #: BOINCBaseFrame.cpp:502
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -721,6 +730,7 @@ msgid "%s - Connection Status"
 msgstr ""
 
 #: BOINCBaseFrame.cpp:611
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -757,6 +767,7 @@ msgid ""
 msgstr ""
 
 #: BOINCDialupManager.cpp:310
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -766,6 +777,7 @@ msgstr ""
 "Vai drīkst to darīt tagad?"
 
 #: BOINCDialupManager.cpp:323
+#, c-format
 #, fuzzy, c-format
 msgid "%s is connecting to the Internet."
 msgstr "BOINC pieslēdzas pie Interneta."
@@ -780,16 +792,19 @@ msgid ""
 msgstr ""
 
 #: BOINCDialupManager.cpp:386
+#, c-format
 #, fuzzy, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "BOINC veiksmīgi pieslēdzās pie Interneta."
 
 #: BOINCDialupManager.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "BOINC neizdevās pieslēgties pie Interneta."
 
 #: BOINCDialupManager.cpp:455
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -799,11 +814,13 @@ msgstr ""
 "projektus un atjauno datu pārsūtīšanu."
 
 #: BOINCDialupManager.cpp:500
+#, c-format
 #, fuzzy, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "BOINC veiksmīgi atvienojās no Interneta."
 
 #: BOINCDialupManager.cpp:516
+#, c-format
 #, fuzzy, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "BOINC neizdevās atvienoties no Interneta."
@@ -1017,6 +1034,7 @@ msgid "Welcome to %s!"
 msgstr ""
 
 #: CompletionPage.cpp:285
+#, c-format
 #, fuzzy, c-format
 msgid "You are now successfully attached to the %s system."
 msgstr "Jūs veiksmīgi pieslēdzāties projektam."
@@ -1282,6 +1300,7 @@ msgid "Use at most"
 msgstr ""
 
 #: DlgAdvPreferencesBase.cpp:352
+#, no-c-format
 #, fuzzy, no-c-format
 msgid "% CPU time"
 msgstr "CPU laiks"
@@ -1705,8 +1724,9 @@ msgid "CPU work fetch deferral interval"
 msgstr ""
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Nesaņems jaunus uzdevumus"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1927,6 +1947,7 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS proxy"
 
 #: DlgSelectComputer.cpp:90
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Select Computer"
 msgstr "Izvēlieties datoru"
@@ -2432,6 +2453,7 @@ msgstr ""
 "Noklikšķiniet uz Nākamais, lai konfigurētu BOINC proxy parametrus.\n"
 
 #: ProxyInfoPage.cpp:203
+#, fuzzy
 msgid ""
 "BOINC failed to communicate on the Internet.\n"
 "The most likely reasons are:\n"
@@ -2447,6 +2469,17 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
+"BOINC neizdevās komunicēties Internetā. Iespējams, ka tam\n"
+"par iemeslu ir:\n"
+"\n"
+"1) Jūsu ugunsmūra programmatūra bloķē BOINC. Jums vajag\n"
+"nokonfigurēt ugunsmūri, lai tas ļauj BOINC komunicēties caur\n"
+"80. portu. Tiklīdz tas ir darīts, noklikšķiniet Atpakaļ, lai mēģinātu\n"
+"vēlreiz.\n"
+"\n"
+"2) Jūs lietojat proxy serveri un BOINC ir nepieciešams par to zināt.\n"
+"\n"
+"Noklikšķiniet uz Nākamais, lai konfigurētu BOINC proxy parametrus.\n"
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2586,8 +2619,9 @@ msgid "Copy selected messages"
 msgstr "Kopēt atzīmētos ziņojumus"
 
 #: ViewMessages.cpp:107 ViewMessages.cpp:503
+#, fuzzy
 msgid "Show only the messages for the selected project."
-msgstr ""
+msgstr "Kopēt visus ziņojumus starpliktuvē"
 
 #: ViewMessages.cpp:164
 msgid "Messages"
@@ -3049,8 +3083,9 @@ msgid "Retry in "
 msgstr "Atkārtos pēc "
 
 #: ViewTransfers.cpp:779
+#, fuzzy
 msgid "Upload suspended - "
-msgstr ""
+msgstr "Lejupielāde neizdevās"
 
 #: ViewTransfers.cpp:780
 #, fuzzy
@@ -3147,6 +3182,7 @@ msgid ""
 msgstr ""
 
 #: ViewWork.cpp:437
+#, c-format
 #, fuzzy, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Vai tiešām vēlaties pārtaukt apstrādāt šo uzdevumu '%s'?"
@@ -3178,8 +3214,9 @@ msgid "Suspend work for this task."
 msgstr "Atlikt šī uzdevuma izpildi"
 
 #: WelcomePage.cpp:255
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Pievienoties konta menedžerim"
 
 #: WelcomePage.cpp:263
 #, c-format

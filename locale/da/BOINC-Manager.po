@@ -291,6 +291,7 @@ msgid "Attach to a project"
 msgstr "Tilmeld et projekt"
 
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "&Stop med at bruge %s..."
@@ -467,6 +468,7 @@ msgid "%s &help"
 msgstr "%s &Hjælp"
 
 #: AdvancedFrame.cpp:583 sg_BoincSimpleGUI.cpp:135
+#, c-format
 #, fuzzy, c-format
 msgid "Show information about %s"
 msgstr "Vis information om %s"
@@ -526,8 +528,9 @@ msgid "&Help"
 msgstr "&Hjælp"
 
 #: AdvancedFrame.cpp:1058
+#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Tilmeld konto-manager"
 
 #: AdvancedFrame.cpp:1152
 #, c-format
@@ -563,11 +566,13 @@ msgstr ""
 "%s's sprog er ændret. For at dette kan træde i kraft skal du genstarte %s."
 
 #: AdvancedFrame.cpp:1513
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Stop den nuværende klient..."
 
 #: AdvancedFrame.cpp:1522
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -1118,8 +1123,7 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings."
 msgstr ""
-"Denne dialogboks styrer indstillinger der udelukkende gælder denne "
-"computer.\n"
+"Denne dialogboks styrer indstillinger der udelukkende gælder denne computer.\n"
 "Klik OK for at sætte indstillingerne.\n"
 "Klik på Nulstil for at genskabe de web-baserede indstillinger."
 
@@ -1737,8 +1741,9 @@ msgid "CPU work fetch deferral interval"
 msgstr ""
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Henter ikke nye opgaver"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -2477,6 +2482,7 @@ msgstr ""
 "3) Du bruger en Proxy-server, og BOINC skal indstilles til at benytte den."
 
 #: ProxyInfoPage.cpp:203
+#, fuzzy
 msgid ""
 "BOINC failed to communicate on the Internet.\n"
 "The most likely reasons are:\n"
@@ -2492,6 +2498,16 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
+"BOINC kunne ikke kommunikere via internettet. De mest\n"
+"almindelige grunde er:\n"
+"\n"
+"1)Forbindelsesproblem. Check dit modem eller netværk og klik\n"
+"på Tilbage-knappen for at forsøge den forrige operation igen.\n"
+"2) Din personlige firewall blokerer BOINC. Du skal\n"
+"konfigurere din personlige firewall til at lade BOINC kommunikere\n"
+"på port 80. Når dette er gjort, klik på Tilbage for at prøve igen.\n"
+"\n"
+"3) Du bruger en Proxy-server, og BOINC skal indstilles til at benytte den."
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -3210,8 +3226,9 @@ msgid "Suspend work for this task."
 msgstr "Suspender arbejde for denne opgave."
 
 #: WelcomePage.cpp:255
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Tilmeld konto-manager"
 
 #: WelcomePage.cpp:263
 #, c-format

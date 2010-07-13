@@ -139,8 +139,8 @@ msgid ""
 msgstr ""
 "Die BOINC Online-Hilfe nutzt %sSkype%s, ein Internet-basierter "
 "Telefoniedienst. Skype ist kostenlos (die Software und die Anrufe). Wenn Sie "
-"nicht bereits Skype installiert haben, dann laden Sie es bitte herunter (%"
-"sSkype herunterladen%s) und kommen dann wieder zu dieser Seite zurück."
+"nicht bereits Skype installiert haben, dann laden Sie es bitte herunter "
+"(%sSkype herunterladen%s) und kommen dann wieder zu dieser Seite zurück."
 
 #: help.php:28
 msgid ""
@@ -183,8 +183,8 @@ msgstr ""
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
-"Wenn sie bereits ein freiwilliger Helfer sind, können Sie hier Ihre %"
-"sEinstellungen ändern%s."
+"Wenn sie bereits ein freiwilliger Helfer sind, können Sie hier Ihre "
+"%sEinstellungen ändern%s."
 
 #: index.php:23
 msgid "Computing power"
@@ -245,8 +245,8 @@ msgstr ""
 "Nutzen sie die Leerlaufzeit ihres Computers (Windows, Mac oder Linux) um "
 "Krankheiten zu heilen, globale Erwärmung zu untersuchen, Pulsare zu "
 "erforschen und vielen andere Arten der wissenschaftlichen Forschung "
-"nachzugehen. Es ist gefahrlos, sicher und einfach: %sProjekt wählen%s %"
-"sBOINC Software herunterladen%s und ausführen. %sEintragen von%s E-Mail-"
+"nachzugehen. Es ist gefahrlos, sicher und einfach: %sProjekt wählen%s "
+"%sBOINC Software herunterladen%s und ausführen. %sEintragen von%s E-Mail-"
 "Adresse und Passwort."
 
 #: index.php:100
@@ -255,8 +255,8 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"Oder, wenn sie an verschiedenen Projekte teilnehmen, probieren sie einen %"
-"sKontomanager%s wie z.B. %sGridrepublic%s oder %sBAM!%s."
+"Oder, wenn sie an verschiedenen Projekte teilnehmen, probieren sie einen "
+"%sKontomanager%s wie z.B. %sGridrepublic%s oder %sBAM!%s."
 
 #: index.php:116
 msgid "Compute with BOINC"

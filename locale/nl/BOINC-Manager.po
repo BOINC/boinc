@@ -143,15 +143,15 @@ msgid ""
 "The minimum password length for this account manager is %d. Please enter a "
 "different password."
 msgstr ""
-"De minimum lengte van het wachtwoord voor deze accountmanager is %d. Kies a."
-"u.b. een ander wachtwoord."
+"De minimum lengte van het wachtwoord voor deze accountmanager is %d. Kies "
+"a.u.b. een ander wachtwoord."
 
 #: AccountInfoPage.cpp:559
 msgid ""
 "The password and confirmation password do not match. Please type them again."
 msgstr ""
-"Het wachtwoord en het bevestigde wachtwoord komen niet overeen. Vul ze a.u."
-"b. opnieuw in."
+"Het wachtwoord en het bevestigde wachtwoord komen niet overeen. Vul ze "
+"a.u.b. opnieuw in."
 
 #: AccountManagerInfoPage.cpp:248
 msgid "Choose an account manager"
@@ -389,8 +389,7 @@ msgstr "Netwerkverbinding opgeschort"
 
 #: AdvancedFrame.cpp:521
 msgid "Stop BOINC network activity"
-msgstr ""
-"Stop de netwerk activiteiten van BOINC  (de manager zelf blijft actief)"
+msgstr "Stop de netwerk activiteiten van BOINC  (de manager zelf blijft actief)"
 
 #: AdvancedFrame.cpp:531
 #, c-format
@@ -705,8 +704,8 @@ msgid ""
 "Please launch the Control Panel->Administative Tools->Services applet and "
 "start the BOINC service."
 msgstr ""
-"%s kan de %s client niet opstarten.Ga a.u.b. naar het Configuratiescherm -"
-">Systeembeheer->Services en start hier de BOINC service."
+"%s kan de %s client niet opstarten.Ga a.u.b. naar het Configuratiescherm "
+"->Systeembeheer->Services en start hier de BOINC service."
 
 #: BOINCBaseFrame.cpp:554
 #, c-format
@@ -1177,7 +1176,8 @@ msgstr "terwijl de computer op een accu werkt"
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
-"vink dit aan als werk uitgevoerd mag worden als de computer op een accu werkt"
+"vink dit aan als werk uitgevoerd mag worden als de computer op een accu "
+"werkt"
 
 #: DlgAdvPreferencesBase.cpp:144
 msgid "While computer is in use"

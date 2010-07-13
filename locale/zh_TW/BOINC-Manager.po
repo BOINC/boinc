@@ -282,6 +282,7 @@ msgid "Attach to a project"
 msgstr "加入計畫"
 
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "停止使用 %s(&S)..."
@@ -517,8 +518,9 @@ msgid "&Help"
 msgstr "說明(&H)"
 
 #: AdvancedFrame.cpp:1058
+#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "加入帳號管理(&A)..."
 
 #: AdvancedFrame.cpp:1152
 #, c-format
@@ -552,6 +554,7 @@ msgid ""
 msgstr "%s 預設的語言已改變。為了使變更生效， 您必須重新啟動 %s。"
 
 #: AdvancedFrame.cpp:1513
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - 關閉目前用戶端..."
@@ -816,6 +819,7 @@ msgid ""
 msgstr ""
 
 #: BOINCGUIApp.cpp:318
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall "
@@ -1277,6 +1281,7 @@ msgid "On multiprocessor systems, use at most"
 msgstr "多處理器系統中最多只使用"
 
 #: DlgAdvPreferencesBase.cpp:342
+#, no-c-format
 #, fuzzy, no-c-format
 msgid "% of the processors"
 msgstr "／CPU 使用率"
@@ -1510,18 +1515,14 @@ msgstr ""
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"只複製已選取的訊息到剪貼簿，您可以在選取訊息時按住 Shift 或 Command 鍵以同時"
-"選取多個訊息。"
+msgstr "只複製已選取的訊息到剪貼簿，您可以在選取訊息時按住 Shift 或 Command 鍵以同時選取多個訊息。"
 
 #: DlgEventLog.cpp:274 DlgEventLog.cpp:282 ViewMessages.cpp:99
 #: sg_DlgMessages.cpp:203 sg_DlgMessages.cpp:211
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"只複製已選取的訊息到剪貼簿， 您可以在選取訊息時按住 Shift 或 Ctrl 鍵以同時選"
-"取多個訊息。"
+msgstr "只複製已選取的訊息到剪貼簿， 您可以在選取訊息時按住 Shift 或 Ctrl 鍵以同時選取多個訊息。"
 
 #: DlgEventLog.cpp:289
 msgid "Close"
@@ -1724,8 +1725,9 @@ msgid "CPU work fetch deferral interval"
 msgstr ""
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "無法取得新工作"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -2618,8 +2620,9 @@ msgid "Copy selected messages"
 msgstr "複製選取的訊息"
 
 #: ViewMessages.cpp:107 ViewMessages.cpp:503
+#, fuzzy
 msgid "Show only the messages for the selected project."
-msgstr ""
+msgstr "顯示所選計畫於同一統計圖"
 
 #: ViewMessages.cpp:164
 msgid "Messages"
@@ -2639,8 +2642,9 @@ msgid "Filtering messages..."
 msgstr ""
 
 #: ViewMessages.cpp:495
+#, fuzzy
 msgid "Show messages for all projects."
-msgstr ""
+msgstr "顯示所有計畫於同一統計圖"
 
 #: ViewNotices.cpp:77
 msgid "News Feeds"
@@ -2696,9 +2700,7 @@ msgstr "重新開始計畫"
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks.  "
 "You can update the project first to report any completed tasks."
-msgstr ""
-"刪除所有和此計畫相關的檔案和工作後取得新的工作。 在重新開始之前您可以先更新計"
-"畫來回報已完成的工作。"
+msgstr "刪除所有和此計畫相關的檔案和工作後取得新的工作。 在重新開始之前您可以先更新計畫來回報已完成的工作。"
 
 #: ViewProjects.cpp:201
 msgid "Detach"
@@ -2708,9 +2710,7 @@ msgstr "退出"
 msgid ""
 "Detach computer from this project.  Tasks in progress will be lost (use "
 "'Update' first to report any completed tasks)."
-msgstr ""
-"從計畫中退出這台電腦。進行中的工作將會遺失。(在退出之前您可以先按一下「更新」"
-"來回報已完成的工作。)"
+msgstr "從計畫中退出這台電腦。進行中的工作將會遺失。(在退出之前您可以先按一下「更新」來回報已完成的工作。)"
 
 #: ViewProjects.cpp:208 ViewWork.cpp:212
 msgid "Properties"
@@ -3006,9 +3006,7 @@ msgstr "中止檔案傳送"
 msgid ""
 "Click 'Abort transfer' to delete the file from the transfer queue. This will "
 "prevent you from being granted credit for this result."
-msgstr ""
-"按一下「中止傳送」可以從上傳佇列中刪除這個檔案。 這個動作會使您無法從這個運算"
-"結果中獲取積分。"
+msgstr "按一下「中止傳送」可以從上傳佇列中刪除這個檔案。 這個動作會使您無法從這個運算結果中獲取積分。"
 
 #: ViewTransfers.cpp:182
 msgid "File"
@@ -3198,8 +3196,9 @@ msgid "Suspend work for this task."
 msgstr "暫止這個工作的動作。"
 
 #: WelcomePage.cpp:255
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "加入帳號管理(&A)..."
 
 #: WelcomePage.cpp:263
 #, c-format

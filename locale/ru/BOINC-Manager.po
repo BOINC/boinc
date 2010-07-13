@@ -6,12 +6,12 @@ msgstr ""
 "PO-Revision-Date: 2010-01-28 14:01-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -308,6 +308,7 @@ msgstr "Подключиться к ещё одному проекту расп�
 
 # ???
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "Отсоединиться от %s..."
@@ -592,11 +593,13 @@ msgstr ""
 "для вступления в силу изменений требуется перезапустить программу %s."
 
 #: AdvancedFrame.cpp:1513
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Завершение работы текущего BOINC клиента..."
 
 #: AdvancedFrame.cpp:1522
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -683,6 +686,7 @@ msgid "E&xit %s"
 msgstr "Выйти из %s"
 
 #: AsyncRPC.cpp:1242
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Communication"
 msgstr "%s - Обмен данными"
@@ -755,8 +759,8 @@ msgid ""
 "start the BOINC service."
 msgstr ""
 "%s не может запустить клиента %s.\n"
-"Попробуйте запустить службу BOINC ещё раз из 'Панель управления/"
-"Администрирование/Службы'."
+"Попробуйте запустить службу BOINC ещё раз из 'Панель "
+"управления/Администрирование/Службы'."
 
 # чё-то муть какая-то, зачем и что повторить-то.
 #: BOINCBaseFrame.cpp:554
@@ -1017,6 +1021,7 @@ msgid "Not connected to a client."
 msgstr "Не подключен к клиенту."
 
 #: BOINCTaskBar.cpp:759
+#, c-format
 #, fuzzy, c-format
 msgid "%s Notices"
 msgstr "Уведомления"
@@ -1475,7 +1480,8 @@ msgstr " Не проверять загружаемые файлы"
 #: DlgAdvPreferencesBase.cpp:443
 msgid "check this if your Internet provider modifies image files"
 msgstr ""
-"выберите данный пункт если ваш интернет провайдер изменяет передаваемые файлы"
+"выберите данный пункт если ваш интернет провайдер изменяет передаваемые "
+"файлы"
 
 #: DlgAdvPreferencesBase.cpp:451
 msgid "Connect options"
@@ -1595,6 +1601,7 @@ msgid "if checked, suspended work units are left in memory"
 msgstr "оставлять приложение в памяти на время приостановки обработки задания"
 
 #: DlgEventLog.cpp:188
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Event Log"
 msgstr "%s - Просмотр событий"
@@ -1864,9 +1871,11 @@ msgstr "Запрос заданий для ЦП отложен на"
 msgid "CPU work fetch deferral interval"
 msgstr "Интервал задержки запроса заданий для ЦП"
 
+# ???
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Не запрашивать новые задания"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -2143,8 +2152,7 @@ msgstr "Ваши результаты"
 
 #: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr ""
-"Просмотр информации о выданных заданиях (за последние несколько недель)"
+msgstr "Просмотр информации о выданных заданиях (за последние несколько недель)"
 
 #: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
@@ -2210,7 +2218,8 @@ msgstr "Проблемы и ошибки"
 #: Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
 msgstr ""
-"Форум для обсуждения проблем и ошибок в работе программ проекта Einstein@Home"
+"Форум для обсуждения проблем и ошибок в работе программ проекта "
+"Einstein@Home"
 
 # einstein
 #: Localization.cpp:83

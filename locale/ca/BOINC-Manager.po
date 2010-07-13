@@ -1456,8 +1456,7 @@ msgstr "Gigabytes d'espai en disc lliure"
 
 #: DlgAdvPreferencesBase.cpp:605
 msgid "BOINC uses at most this percentage of total disk space"
-msgstr ""
-"BOINC utilitza com a mínim aquest percentatge del total d'espai en disc"
+msgstr "BOINC utilitza com a mínim aquest percentatge del total d'espai en disc"
 
 #: DlgAdvPreferencesBase.cpp:610
 #, no-c-format
@@ -3618,8 +3617,7 @@ msgstr "Prémer per mostrar els gràfics del projecte"
 
 #: sg_ProjectsComponent.cpp:122
 msgid "Synchronize projects with account manager system"
-msgstr ""
-"Sincronitzar els projectes amb el sistema de l'administrador de comptes"
+msgstr "Sincronitzar els projectes amb el sistema de l'administrador de comptes"
 
 #: sg_ProjectsComponent.cpp:193 sg_ProjectsComponent.cpp:204
 msgid "Open a window to view messages"

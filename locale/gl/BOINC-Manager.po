@@ -286,6 +286,7 @@ msgid "Attach to a project"
 msgstr "Unirse a un proxecto"
 
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "Deixar de u&sar %s..."
@@ -521,8 +522,9 @@ msgid "&Help"
 msgstr "A&xuda"
 
 #: AdvancedFrame.cpp:1058
+#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Unirse ao xestor de cont&as..."
 
 #: AdvancedFrame.cpp:1152
 #, c-format
@@ -559,11 +561,13 @@ msgstr ""
 "reiniciar o %s."
 
 #: AdvancedFrame.cpp:1513
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Apagar o cliente actual..."
 
 #: AdvancedFrame.cpp:1522
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -767,8 +771,7 @@ msgid ""
 "Please connect to the Internet, then select the 'Do network communications' "
 "item from the Advanced menu."
 msgstr ""
-"%s non é quen de comunicar cun proxecto e precisa unha conexión de "
-"Internet.\n"
+"%s non é quen de comunicar cun proxecto e precisa unha conexión de Internet.\n"
 "Conéctese á Internet e escolla o elemento 'Realizar conexións de rede' no "
 "menú Avanzado."
 
@@ -1379,8 +1382,7 @@ msgstr " Non verificar arquivo de imaxe"
 
 #: DlgAdvPreferencesBase.cpp:443
 msgid "check this if your Internet provider modifies image files"
-msgstr ""
-"marque isto se o seu provedor de Internet modifica os arquivos de imaxe"
+msgstr "marque isto se o seu provedor de Internet modifica os arquivos de imaxe"
 
 #: DlgAdvPreferencesBase.cpp:451
 msgid "Connect options"
@@ -1756,8 +1758,9 @@ msgid "CPU work fetch deferral interval"
 msgstr ""
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Sen novas tarefas"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -3247,8 +3250,9 @@ msgid "Suspend work for this task."
 msgstr "Suspender traballo para esta tarefa."
 
 #: WelcomePage.cpp:255
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Unirse ao xestor de cont&as..."
 
 #: WelcomePage.cpp:263
 #, c-format

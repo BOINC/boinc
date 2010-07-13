@@ -573,8 +573,8 @@ msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
-"Suspender trabalho se não houver actividade do rato/teclado na ultima %1"
-"(Necessário definir baixo consumo  em alguns computadores)%2"
+"Suspender trabalho se não houver actividade do rato/teclado na ultima "
+"%1(Necessário definir baixo consumo  em alguns computadores)%2"
 
 #: ../inc/prefs.inc:113
 #, fuzzy
@@ -628,6 +628,7 @@ msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr "Usar no máximo %1 (Pode ser usado para reduzir aquecimento do CPU)%2"
 
 #: ../inc/prefs.inc:166
+#, php-format
 #, fuzzy, php-format
 msgid "% of CPU time"
 msgstr "Tempo de CPU"
@@ -648,6 +649,7 @@ msgstr "(Valores mais pequenos que %s são ignorados)"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
+#, php-format
 #, fuzzy, php-format
 msgid "% of total"
 msgstr "% do total de espaço em disco"
@@ -1523,7 +1525,8 @@ msgid ""
 "share, graphics preferences) will be visible to the public."
 msgstr ""
 "%1Note privada%2: se criar uma equipa, as preferênciass do projecto "
-"(partilha de recursosm preferências de gráficos) ficarão visíveis ao publico."
+"(partilha de recursosm preferências de gráficos) ficarão visíveis ao "
+"publico."
 
 #: ../inc/team.inc:421
 msgid "Team name, text version"
@@ -1925,7 +1928,8 @@ msgstr "A criação de conta está desabilitada"
 #: ../user/create_account_form.php:30
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
-"A criação de conta está actualmente desabilitada. Por favor, tente mais tarde"
+"A criação de conta está actualmente desabilitada. Por favor, tente mais "
+"tarde"
 
 #: ../user/create_account_form.php:41
 msgid ""
@@ -1994,8 +1998,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Para a substituir, carregue no botão \"Procurar em\" e seleccione um "
-"ficheiro JPEG ou PNG (%1 ou menos)."
+"Para a substituir, carregue no botão \"Procurar em\" e seleccione um ficheiro "
+"JPEG ou PNG (%1 ou menos)."
 
 #: ../user/create_profile.php:70
 msgid "To remove it from your profile, check this box:"
@@ -2023,8 +2027,7 @@ msgstr "Submeter perfil"
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
-"Para proteger as páginas web de spam, pedimos-lhe que tenha a amabilidade de "
+msgstr "Para proteger as páginas web de spam, pedimos-lhe que tenha a amabilidade de "
 "escrever as duas palavras escritas na imagem:<br>\n"
 
 #: ../user/create_profile.php:110
@@ -2083,8 +2086,7 @@ msgstr "Perfil salvo"
 #: ../user/create_profile.php:299
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
-"Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
+msgstr "Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
 
 #: ../user/create_profile.php:300
 msgid "%1View your profile%2"
@@ -2655,10 +2657,10 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
-"Se usa o nosso fórum na web, tem que seguir as %2instruções para fazer posts%"
-"3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo não-"
-"membros. Ao postar nos fóruns, está a garantir licença irrevogável para que "
-"qualquer pessoa possa ver e copiar os seus posts."
+"Se usa o nosso fórum na web, tem que seguir as %2instruções para fazer "
+"posts%3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo "
+"não-membros. Ao postar nos fóruns, está a garantir licença irrevogável para "
+"que qualquer pessoa possa ver e copiar os seus posts."
 
 #: ../user/info.php:46
 msgid "Is it safe to run %1?"
@@ -2680,8 +2682,8 @@ msgstr ""
 "riscos. Testamos as nossas aplicações com todos o cuidado. os nossos "
 "servidores estão por trás de uma firewall e configurados para alta "
 "segurança. Para garantir a integridade dos downloads dos programas, todos os "
-"executáveis estão assinados digitalmente num computador seguro não conectado "
-"à Internet."
+"executáveis estão assinados digitalmente num computador seguro não "
+"conectado à Internet."
 
 #: ../user/info.php:48
 msgid ""
@@ -2689,8 +2691,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "As aplicações executadas pelo %1 podem causar em alguns computadores "
-"sobreaquecimento. Se isto acontecer, para de executar %1 ou uso um %"
-"aplicativo%3 que limite o uso do CPU."
+"sobreaquecimento. Se isto acontecer, para de executar %1 ou uso um "
+"%aplicativo%3 que limite o uso do CPU."
 
 #: ../user/info.php:49
 msgid ""
@@ -2909,8 +2911,7 @@ msgstr "Confirmar apagar preferências"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
-"Tem a certeza que quer apagar as suas %1preferências separadas para %2?"
+msgstr "Tem a certeza que quer apagar as suas %1preferências separadas para %2?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
@@ -3090,8 +3091,8 @@ msgid ""
 "projects from several sites; see your %1home page%2."
 msgstr ""
 "Adicionalmente pode obter as suas estatísticas individuais resumidas através "
-"de todos os projectos BOINC de vários sitios; veja a sua %1pagina principal%"
-"2."
+"de todos os projectos BOINC de vários sitios; veja a sua %1pagina "
+"principal%2."
 
 #: ../user/team.php:25
 msgid "%1 participants may form %2teams%3"
@@ -3148,8 +3149,8 @@ msgstr "Criar uma nova equipa"
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
-"Se não encontrar uma equipa que seja adequada a si, pode %1criar uma equipa%"
-"2."
+"Se não encontrar uma equipa que seja adequada a si, pode %1criar uma "
+"equipa%2."
 
 #: ../user/team_admins.php:32
 msgid "Remove Team Admin status from this member"
@@ -3608,8 +3609,8 @@ msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
-"O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 ser-"
-"lhe-á dada a opção de se tornar fundador."
+"O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 "
+"ser-lhe-á dada a opção de se tornar fundador."
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
@@ -3805,8 +3806,8 @@ msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
-"Administradores de Equipa são encorajados a juntar-se e participar no grupo %"
-"1fundadores de equipas do boinc%2 no Google."
+"Administradores de Equipa são encorajados a juntar-se e participar no grupo "
+"%1fundadores de equipas do boinc%2 no Google."
 
 #: ../user/team_manage.php:73
 msgid ""

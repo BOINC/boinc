@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2009-11-29 09:58+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -3453,8 +3453,9 @@ msgid "You are already a member of %1."
 msgstr ""
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
+#, fuzzy
 msgid "Couldn't join team - please try again later."
-msgstr ""
+msgstr "Kunne ikke lage team - vennligst prøv igjen senere"
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"

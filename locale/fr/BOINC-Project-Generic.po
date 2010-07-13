@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-05-31 03:41-0700\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -618,8 +618,8 @@ msgstr "processeurs"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Sur les multiprocesseurs, utiliser au plus %1 Applicable à une version 6.1+ %"
-"2"
+"Sur les multiprocesseurs, utiliser au plus %1 Applicable à une version 6.1+ "
+"%2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -774,8 +774,8 @@ msgid ""
 "jobs to fail on your computer %2"
 msgstr ""
 "Lancer les applications de test ? %1Ceci nous aide à développer les "
-"applications, mais peut engendrer des échecs de calculs sur votre ordinateur%"
-"2"
+"applications, mais peut engendrer des échecs de calculs sur votre "
+"ordinateur%2"
 
 #: ../inc/prefs.inc:347
 msgid "Disk and memory usage"
@@ -903,9 +903,9 @@ msgid ""
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
-"Celles-ci s'appliquent à tous les projets BOINC auxquels vous participez."
-"<br>           Sur les ordinateurs rattachés à plusieurs projets, les "
-"préférences les plus récemment modifiées seront utilisées."
+"Celles-ci s'appliquent à tous les projets BOINC auxquels vous "
+"participez.<br>           Sur les ordinateurs rattachés à plusieurs projets, "
+"les préférences les plus récemment modifiées seront utilisées."
 
 #: ../inc/prefs.inc:844
 msgid "Preferences last modified:"
@@ -957,8 +957,8 @@ msgid ""
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
 "Pour se prémunir du spam, les profils des utilisateurs ayant un crédit moyen "
-"inférieur à %1 sont affichés uniquement aux utilisateurs connectés. Veuillez "
-"nous excuser de cet inconvénient."
+"inférieur à %1 sont affichés uniquement aux utilisateurs connectés. "
+"Veuillez nous excuser de cet inconvénient."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
@@ -1426,7 +1426,8 @@ msgid ""
 "gives its founder access to your email address."
 msgstr ""
 "Note : si 'OK to email' est choisi dans vos préférences de projets, le fait "
-"de rejoindre une équipe, donnera accès à votre adresse email à son fondateur."
+"de rejoindre une équipe, donnera accès à votre adresse email à son "
+"fondateur."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
@@ -1509,8 +1510,8 @@ msgid ""
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
 "ATTENTION : ceci est une équipe regroupant tout BOINC. Si vous faites des "
-"modifications ici, elles seront écrasées rapidement. A la place, éditez %"
-"1l'équipe globale BOINC%2."
+"modifications ici, elles seront écrasées rapidement. A la place, éditez "
+"%1l'équipe globale BOINC%2."
 
 #: ../inc/team.inc:417
 msgid ""
@@ -2005,8 +2006,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Pour inclure une image, cliquez sur le bouton \"Parcourir\" et sélectionnez "
-"un fichier JPEG ou PNG. Veuillez choisir une image de %1 ou moins."
+"Pour inclure une image, cliquez sur le bouton \"Parcourir\" et sélectionnez un "
+"fichier JPEG ou PNG. Veuillez choisir une image de %1 ou moins."
 
 #: ../user/create_profile.php:87
 msgid "Language"
@@ -2024,8 +2025,7 @@ msgstr "Soumettre le profil"
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
-"Afin de protéger les pages web du projet contre les attaques de spammeurs "
+msgstr "Afin de protéger les pages web du projet contre les attaques de spammeurs "
 "nous vous demandons de bien vouloir saisir les deux mots de l'image :<br>\n"
 
 #: ../user/create_profile.php:110
@@ -2133,8 +2133,7 @@ msgstr ""
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
-"Instructions pour l'installation et le fonctionnement de BOINC %1ici%2."
+msgstr "Instructions pour l'installation et le fonctionnement de BOINC %1ici%2."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
@@ -2252,8 +2251,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
-"Si vous avez une question ou un problème, veuillez utiliser la section %"
-"1Questions & Réponses%2 des forums."
+"Si vous avez une question ou un problème, veuillez utiliser la section "
+"%1Questions & Réponses%2 des forums."
 
 #: ../user/forum_index.php:93
 msgid "Topic"
@@ -2697,8 +2696,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "Les applications lancées par %1 peuvent engendrer une surchauffe sur "
-"certains ordinateurs. Si cela se produit, arrêter %1 ou utiliser un %"
-"2programme utilitaire%3 pour limiter l'utilisation du CPU."
+"certains ordinateurs. Si cela se produit, arrêter %1 ou utiliser un "
+"%2programme utilitaire%3 pour limiter l'utilisation du CPU."
 
 #: ../user/info.php:49
 msgid ""
@@ -2865,7 +2864,8 @@ msgstr ""
 #: ../user/pm.php:238
 msgid "Please note that you can only block a limited amount of users."
 msgstr ""
-"Veuillez noter que vous ne pouvez bloquer qu'un nombre limité d'utilisateurs."
+"Veuillez noter que vous ne pouvez bloquer qu'un nombre limité "
+"d'utilisateurs."
 
 #: ../user/pm.php:239
 msgid ""
@@ -2904,8 +2904,7 @@ msgid ""
 "\t      or you issue the %2Update%3 command from the BOINC client."
 msgstr ""
 "Vos préférences ont été mises à jour. Les préférences du client\n"
-"\t      seront prises en compte lorsque votre ordinateur communiquera avec %"
-"1\n"
+"\t      seront prises en compte lorsque votre ordinateur communiquera avec %1\n"
 "\t      ou si vous utilisez la commande %2Mise à jour%2 depuis le client "
 "BOINC."
 
@@ -2923,8 +2922,7 @@ msgstr "Confirmer la suppression des préférences"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
-"Voulez-vous vraiment supprimer vos préférences séparées de %1 pour %2 ?"
+msgstr "Voulez-vous vraiment supprimer vos préférences séparées de %1 pour %2 ?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
@@ -2983,8 +2981,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Parcourir les profils %1aléatoirement%2, %3aléatoirement avec photos%2, ou %"
-"4aléatoirement sans photos%2."
+"Parcourir les profils %1aléatoirement%2, %3aléatoirement avec photos%2, ou "
+"%4aléatoirement sans photos%2."
 
 #: ../user/profile_menu.php:65
 msgid "Alphabetical profile listings:"
@@ -3141,8 +3139,8 @@ msgstr "supprimer l'équipe si elle n'a aucun membre"
 #: ../user/team.php:37
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Pour rejoindre une équipe, visitez la page de cette équipe et cliquez sur %"
-"Rejoindre cette équipe%2."
+"Pour rejoindre une équipe, visitez la page de cette équipe et cliquez sur "
+"%Rejoindre cette équipe%2."
 
 #: ../user/team.php:38 ../user/team_search.php:155
 msgid "Find a team"
@@ -3196,8 +3194,8 @@ msgid ""
 "events and red X reports)"
 msgstr ""
 "Modérer le forum de l'équipe, s'il existe (les administrateurs reçoivent des "
-"notification par e-mail des événements de modération et des rapports 'rouges "
-"X')"
+"notification par e-mail des événements de modération et des rapports "
+"'rouges X')"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
@@ -3520,8 +3518,8 @@ msgstr "Le forum a été supprimé"
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
-"Le forum de votre équipe a été supprimé. Vous pouvez éventuellement en %"
-"1créer un nouveau%2."
+"Le forum de votre équipe a été supprimé. Vous pouvez éventuellement en "
+"%1créer un nouveau%2."
 
 #: ../user/team_forum.php:141
 msgid "Team Message Board Updated"
@@ -3582,8 +3580,8 @@ msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
-"Félicitations ! Vous êtes maintenant le fondateur de l'équipe %1. Allez sur %"
-"2la page de votre compte%3 pour y trouver les options d'administration."
+"Félicitations ! Vous êtes maintenant le fondateur de l'équipe %1. Allez sur "
+"%2la page de votre compte%3 pour y trouver les options d'administration."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
@@ -3656,8 +3654,8 @@ msgstr ""
 "rôle, cliquer sur le bouton ci-dessous. Un e-mail sera envoyé au fondateur "
 "actuel pour détailler votre requête. Il pourra alors vous transférer le "
 "titre de fondateur ou refuser votre requête. Si le fondateur ne répond pas "
-"dans les 60 jours, vous serez alors autorisé à devenir fondateur.<br /><br /"
-">\n"
+"dans les 60 jours, vous serez alors autorisé à devenir fondateur.<br /><br "
+"/>\n"
 "                       Voulez-vous vraiment demander le titre de fondateur ?"
 
 #: ../user/team_founder_transfer_form.php:63
@@ -4197,8 +4195,8 @@ msgid ""
 msgstr ""
 "Pour utiliser votre clef de compte simplifiée sur un hôte donné, rechercher "
 "ou créer le 'fichier de compte' pour ce projet. Ce fichier a un nom de la "
-"forme <b>compte_PROJET_URL.xml</b>. Le fichier de compte pour %1 est <b>%2</"
-"b>."
+"forme <b>compte_PROJET_URL.xml</b>. Le fichier de compte pour %1 est "
+"<b>%2</b>."
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
@@ -4302,8 +4300,8 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
-"Dites nous vos pensées à propos de %1<ol>    <li>Pourquoi utilisez vous %"
-"1?    <li>Quel est votre point de vue à propos du projet ?    <li>Des "
+"Dites nous vos pensées à propos de %1<ol>    <li>Pourquoi utilisez vous %1? "
+"   <li>Quel est votre point de vue à propos du projet ?    <li>Des "
 "suggestions ?    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47

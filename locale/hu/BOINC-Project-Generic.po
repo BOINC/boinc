@@ -386,8 +386,9 @@ msgid "Recent average credit"
 msgstr "Átlagos kredit a közelmúltban"
 
 #: ../inc/host.inc:225
+#, fuzzy
 msgid "BOINC version"
-msgstr ""
+msgstr "BOINC<br>verzió"
 
 #: ../inc/host.inc:226 ../inc/host.inc:623
 msgid "CPU"
@@ -398,8 +399,9 @@ msgid "GPU"
 msgstr ""
 
 #: ../inc/host.inc:228
+#, fuzzy
 msgid "Operating system"
-msgstr ""
+msgstr "Operációs rendszer"
 
 #: ../inc/host.inc:280
 msgid "(%1 processors)"
@@ -612,8 +614,9 @@ msgid "On multiprocessors, use at most"
 msgstr ""
 
 #: ../inc/prefs.inc:148
+#, fuzzy
 msgid "processors"
-msgstr ""
+msgstr "Társprocesszorok"
 
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
@@ -1269,8 +1272,9 @@ msgid "Run time"
 msgstr ""
 
 #: ../inc/result.inc:390
+#, fuzzy
 msgid "CPU time"
-msgstr ""
+msgstr "Processzor típus"
 
 #: ../inc/result.inc:391
 msgid "Validate state"
@@ -2631,14 +2635,15 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "A(z) %1 által futtatott alkalmazások a számítógép túlmelegedését okozhatják. "
-"Ha ez megtörténik, ne futtassa tovább a(z) %1 projektet, vagy használjon egy "
-"%2segédprogramot%3, mely limitálja a CPU-használatot."
+"Ha ez megtörténik, ne futtassa tovább a(z) %1 projektet, vagy használjon "
+"egy %2segédprogramot%3, mely limitálja a CPU-használatot."
 
 #: ../user/info.php:49
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
-"A(z) %1 %2 által fejlesztve. A BOINCot a Kaliforniai Egyetemen fejlesztették."
+"A(z) %1 %2 által fejlesztve. A BOINCot a Kaliforniai Egyetemen "
+"fejlesztették."
 
 # Vagy kötelezettség, még meg kéne nézni!!!
 #: ../user/info.php:51
@@ -2665,8 +2670,8 @@ msgid ""
 "participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
 msgstr ""
-"Más projektek is használják ugyanazt a platformot - a BOINCot -, amit a(z) %"
-"1 is. Fontolja meg részvételét egy vagy több ilyen projektben. Ha Ön így "
+"Más projektek is használják ugyanazt a platformot - a BOINCot -, amit a(z) "
+"%1 is. Fontolja meg részvételét egy vagy több ilyen projektben. Ha Ön így "
 "tesz, számítógépe hasznos munkát végezhet akkor is, amikor a(z) %1 "
 "projektnek nincs elérhető munkacsomagja."
 
@@ -2772,8 +2777,7 @@ msgstr "%1 nevű felhasználóból több is van. Használja a felhasználó ID-j
 
 #: ../user/pm.php:211
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr ""
-"A %1 nevű felhasználó (ID-je: %2) nem fogad Öntől személyes üzeneteket."
+msgstr "A %1 nevű felhasználó (ID-je: %2) nem fogad Öntől személyes üzeneteket."
 
 #: ../user/pm.php:236
 msgid "Really block %1?"
@@ -2813,7 +2817,8 @@ msgstr "A(z) %1 nevű felhasználó blokkolva"
 #: ../user/pm.php:259
 msgid "User %1 has been blocked from sending you private messages."
 msgstr ""
-"A(z) %1 nevű felhasználót blokkolta, így Ő nem küldhet Önnek privát üzenetet."
+"A(z) %1 nevű felhasználót blokkolta, így Ő nem küldhet Önnek privát "
+"üzenetet."
 
 # Ez sem biztos, hogy jó, ellenőrizni kell!!!
 #: ../user/pm.php:260

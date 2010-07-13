@@ -135,8 +135,8 @@ msgid ""
 msgstr ""
 "La ayuda Online de BOINC le permite hablar directamente con usuarios BOINC "
 "con experiencia, que pueden: %s contestar preguntas sobre BOINC y "
-"computación voluntaria; %s guiarle en el proceso de instalar y usar BOINC; %"
-"s resolver cualquier problema que pudiera tener."
+"computación voluntaria; %s guiarle en el proceso de instalar y usar BOINC; "
+"%s resolver cualquier problema que pudiera tener."
 
 #: help.php:21
 #, php-format
@@ -191,8 +191,8 @@ msgstr ""
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
-"Si usted es ya un Voluntario para Ayuda: para editar sus preferencias, %"
-"spulse aquí%s. "
+"Si usted es ya un Voluntario para Ayuda: para editar sus preferencias, "
+"%spulse aquí%s. "
 
 #: index.php:23
 msgid "Computing power"
@@ -260,8 +260,8 @@ msgstr ""
 " Use el tiempo de inactividad de su ordenador (Windows, Mac, o Linux) para "
 "curar enfermedades, estudiar el calentamiento global, descubrir pulsares, y "
 "haga muchos otros tipos de investigación científica. Es seguro, estable, y "
-"fácil: %sElija%s proyectos %sDescargue%s y ejecute el programa BOINC %"
-"sIntroduzca%s una dirección de correo electrónico y una contraseña."
+"fácil: %sElija%s proyectos %sDescargue%s y ejecute el programa BOINC "
+"%sIntroduzca%s una dirección de correo electrónico y una contraseña."
 
 #: index.php:100
 #, php-format
@@ -285,8 +285,8 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
-"%1Científicos%2: usa BOINC para crear un %3proyecto de computación voluntaria"
-"%4 obteniendo la potencia de procesamiento de miles de CPUs."
+"%1Científicos%2: usa BOINC para crear un %3proyecto de computación "
+"voluntaria%4 obteniendo la potencia de procesamiento de miles de CPUs."
 
 #: index.php:130
 msgid ""
@@ -299,8 +299,8 @@ msgstr ""
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr ""
-"%1Empresas%2: usa BOINC para %3computación en Red con ordenadores personales%"
-"4"
+"%1Empresas%2: usa BOINC para %3computación en Red con ordenadores "
+"personales%4"
 
 #: index.php:147
 msgid "The BOINC project"

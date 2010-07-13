@@ -6,12 +6,12 @@ msgstr ""
 "PO-Revision-Date: 2010-02-02 11:05-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -296,6 +296,7 @@ msgid "Attach to a project"
 msgstr "Priklopite se k projektu"
 
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "&Nehajte uporabljati %s..."
@@ -883,8 +884,7 @@ msgstr "BOINC Upravitelj"
 
 #: BOINCGUIApp.cpp:519
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr ""
-"BOINC Upravitelj je bil samodejno pognan s strani operacijskega sistema"
+msgstr "BOINC Upravitelj je bil samodejno pognan s strani operacijskega sistema"
 
 #: BOINCGUIApp.cpp:521
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -982,6 +982,7 @@ msgid "Not connected to a client."
 msgstr "Nisem povezan na odjemalca."
 
 #: BOINCTaskBar.cpp:759
+#, c-format
 #, fuzzy, c-format
 msgid "%s Notices"
 msgstr "Obvestila"
@@ -1242,8 +1243,7 @@ msgstr "Samo, ko je računalnik bil nedejeven že"
 #: DlgAdvPreferencesBase.cpp:178
 msgid ""
 "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"opravljaj delo samo, kadar niste uporabljali računalnik že toliko minut"
+msgstr "opravljaj delo samo, kadar niste uporabljali računalnik že toliko minut"
 
 #: DlgAdvPreferencesBase.cpp:183 DlgAdvPreferencesBase.cpp:332
 #: sg_DlgPreferences.cpp:452
@@ -1786,8 +1786,9 @@ msgid "CPU work fetch deferral interval"
 msgstr "Odložitveni interval prevzemanja dela za procesor"
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Ne bom pridobil novih opravil"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -2133,8 +2134,7 @@ msgstr "Projekt LIGO"
 msgid ""
 "The home page of the Laser Interferometer Gravitational-wave Observatory "
 "(LIGO) project"
-msgstr ""
-"Domača stran Laser Interferometer Gravitational-wave Observatory (LIGO)"
+msgstr "Domača stran Laser Interferometer Gravitational-wave Observatory (LIGO)"
 
 #: Localization.cpp:105
 msgid "GEO-600 project"
@@ -3327,8 +3327,7 @@ msgstr ""
 "Nekateri projekti kot naprimer World Community Grid poganjanjo več\n"
 "raziskovalnih aplikacij. Če želite spremeniti katere raziskovalne aplikacije "
 "so\n"
-"poslane na vaš računalnik v izvajanje, morate obiskat spletno stran "
-"projekta\n"
+"poslane na vaš računalnik v izvajanje, morate obiskat spletno stran projekta\n"
 "in tam spremeniti vaše nastavitve.\n"
 "Da spremenite katere raziskovalne aplikacije so poslane vam iz\n"
 "World Community Grid, prosim kliknite sledeči gumb:"

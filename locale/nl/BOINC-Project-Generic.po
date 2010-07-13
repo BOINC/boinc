@@ -70,8 +70,8 @@ msgid ""
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
-"Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later a.u."
-"b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen"
+"Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later "
+"a.u.b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen"
 
 #: ../inc/forum.inc:1102
 msgid "Thread"
@@ -608,7 +608,8 @@ msgstr "processoren"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+ %2"
+"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+ "
+"%2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -938,8 +939,8 @@ msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
-"Om spam te voorkomen, worden profielen met een gemiddeld aantal punten van %"
-"1 alleen getoond aan ingelogde gebruikers.  Onze excuses voor dit ongemak."
+"Om spam te voorkomen, worden profielen met een gemiddeld aantal punten van "
+"%1 alleen getoond aan ingelogde gebruikers.  Onze excuses voor dit ongemak."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
@@ -1338,8 +1339,7 @@ msgstr "Zoek"
 
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
-"Op eigen verzoek, deadline voor de oprichter om te reageren is verlopen"
+msgstr "Op eigen verzoek, deadline voor de oprichter om te reageren is verlopen"
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
@@ -1402,8 +1402,8 @@ msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
-"NB: als je \"email toestaan\" hebt ingevuld bij je project voorkeuren, zal "
-"je email adres bekend worden bij de team oprichter, indien je jezelf bij een "
+"NB: als je \"email toestaan\" hebt ingevuld bij je project voorkeuren, zal je "
+"email adres bekend worden bij de team oprichter, indien je jezelf bij een "
 "team opgeeft."
 
 #: ../inc/team.inc:132
@@ -1980,9 +1980,9 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Als je een afbeelding wilt toevoegen aan je profiel, klik dan op \"Bladeren"
-"\" en selecteer een JPEG of PNG afbeelding. Kies a.u.b. afbeeldingen van %1 "
-"of minder."
+"Als je een afbeelding wilt toevoegen aan je profiel, klik dan op \"Bladeren\" "
+"en selecteer een JPEG of PNG afbeelding. Kies a.u.b. afbeeldingen van %1 of "
+"minder."
 
 #: ../user/create_profile.php:87
 msgid "Language"
@@ -2000,8 +2000,7 @@ msgstr "Profiel toevoegen"
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
-"Om de website van dit project tegen spam te beschermen, vragen we je "
+msgstr "Om de website van dit project tegen spam te beschermen, vragen we je "
 "vriendelijk om de twee getoonde worden in de afbeelding in te typen:<br>\n"
 
 #: ../user/create_profile.php:110
@@ -2029,16 +2028,16 @@ msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Je eerste reactie wordt gezien als spam door het Akismet anti-spam systeem.  "
-"Pas a.u.b. je tekst aan en probeer het opnieuw."
+"Je eerste reactie wordt gezien als spam door het Akismet anti-spam systeem. "
+" Pas a.u.b. je tekst aan en probeer het opnieuw."
 
 #: ../user/create_profile.php:225
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Je tweede reactie wordt gezien als spam door het Akismet anti-spam systeem.  "
-"Pas a.u.b. je tekst aan en probeer het opnieuw."
+"Je tweede reactie wordt gezien als spam door het Akismet anti-spam systeem. "
+" Pas a.u.b. je tekst aan en probeer het opnieuw."
 
 #: ../user/create_profile.php:241
 msgid "Your profile submission was empty."
@@ -2225,8 +2224,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
-"Als je een vraag of probleem hebt, gebruik dan a.u.b. de %1Vraag en Antwoord%"
-"2 sectie van het forum."
+"Als je een vraag of probleem hebt, gebruik dan a.u.b. de %1Vraag en "
+"Antwoord%2 sectie van het forum."
 
 #: ../user/forum_index.php:93
 msgid "Topic"
@@ -2592,8 +2591,8 @@ msgstr ""
 "Wanneer je deelneemt aan %1, wordt er informatie over je computer (type "
 "processor, hoeveelheid geheugen, etc.) opgeslagen door %1 en gebruikt om te "
 "kunnen bepalen welk soort werk er aan je computer wordt verzonden. Deze "
-"informatie wordt ook getoond op de website van %1. Je werkelijke locatie (b."
-"v. je IP-adres) blijft verborgen."
+"informatie wordt ook getoond op de website van %1. Je werkelijke locatie "
+"(b.v. je IP-adres) blijft verborgen."
 
 #: ../user/info.php:43
 msgid ""
@@ -2617,8 +2616,8 @@ msgstr ""
 "Privé berichten die verzonden zijn op de website van %1 zijn alleen "
 "zichtbaar voor de afzender en ontvanger.  %1 bekijkt en veranderd de inhoud "
 "niet.  Als je een ongewenst bericht ontvangt van een andere %1 gebruiker, is "
-"het mogelijk deze toe te voegen aan een %2berichten filter%3.  Dit blokkeert "
-"zowel privé als forum berichten van deze gebruiker."
+"het mogelijk deze toe te voegen aan een %2berichten filter%3.  Dit "
+"blokkeert zowel privé als forum berichten van deze gebruiker."
 
 #: ../user/info.php:45
 msgid ""
@@ -2647,8 +2646,8 @@ msgid ""
 "to the Internet."
 msgstr ""
 "Elke keer als je een programma via het internet download neem je een risico; "
-"het programma kan fatale fouten hebben, of de download server is niet veilig "
-"genoeg. %1 heeft zijn best gedaan om deze risico's tot een minimum te "
+"het programma kan fatale fouten hebben, of de download server is niet "
+"veilig genoeg. %1 heeft zijn best gedaan om deze risico's tot een minimum te "
 "beperken. Ons programma is uitvoerig getest. Onze servers zijn zo veel als "
 "mogelijk is beveiligd tegen misbruik. Om de integriteit van de programma's "
 "te garanderen zijn ze digitaal ondertekend op een computer die niet met het "
@@ -2660,8 +2659,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "De door %1 gebruikte applicaties kunnen een verhoging opleveren van de "
-"temperatuur van de processor. Als dit aan de orde is gebruik dan een %"
-"2programma%3 om het gebruik van de processor te regelen."
+"temperatuur van de processor. Als dit aan de orde is gebruik dan een "
+"%2programma%3 om het gebruik van de processor te regelen."
 
 #: ../user/info.php:49
 msgid ""
@@ -2938,8 +2937,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Doorzoek profielen; %1willekeurig%2, %3willekeurig met foto%2 of %"
-"4willekeurig zonder foto%2."
+"Doorzoek profielen; %1willekeurig%2, %3willekeurig met foto%2 of "
+"%4willekeurig zonder foto%2."
 
 #: ../user/profile_menu.php:65
 msgid "Alphabetical profile listings:"
@@ -3118,8 +3117,8 @@ msgstr "Start nieuw team"
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
-"Als je geen team vinden kan die voldoet aan jou eisen, kan je ook je eigen %"
-"1team maken%2."
+"Als je geen team vinden kan die voldoet aan jou eisen, kan je ook je eigen "
+"%1team maken%2."
 
 #: ../user/team_admins.php:32
 msgid "Remove Team Admin status from this member"
@@ -3460,8 +3459,9 @@ msgid "Update successful"
 msgstr ""
 
 #: ../user/team_forum.php:145
+#, fuzzy
 msgid "Update failed"
-msgstr ""
+msgstr "Bijwerken mislukt: "
 
 #: ../user/team_forum.php:152
 msgid "team has no forum"
@@ -3597,8 +3597,9 @@ msgid "You are already a member of %1."
 msgstr ""
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
+#, fuzzy
 msgid "Couldn't join team - please try again later."
-msgstr ""
+msgstr "Team kon niet worden aangemaakt - probeer het a.u.b. later nogmaals."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
@@ -3650,8 +3651,8 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"Als je geen team vinden kan die voldoet aan jou eisen, kan je ook je eigen %"
-"1team maken%2."
+"Als je geen team vinden kan die voldoet aan jou eisen, kan je ook je eigen "
+"%1team maken%2."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
@@ -3674,8 +3675,9 @@ msgid "HTML"
 msgstr ""
 
 #: ../user/team_manage.php:32
+#, fuzzy
 msgid "text"
-msgstr ""
+msgstr "Volgende"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
@@ -4066,8 +4068,8 @@ msgid ""
 msgstr ""
 "Om je 'beperkte account key' te kunnen gebruiken, zoek je naar (of maak je) "
 "een 'account bestand' op de bedoelde computer. Dit bestand heeft de "
-"bestandsopbouw; <b>account_PROJECT_URL.xml</b>. Het bestand voor %1 is <b>%"
-"2</b>."
+"bestandsopbouw; <b>account_PROJECT_URL.xml</b>. Het bestand voor %1 is "
+"<b>%2</b>."
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
@@ -4088,8 +4090,9 @@ msgid "can't find workunit"
 msgstr ""
 
 #: ../user/workunit.php:33
+#, fuzzy
 msgid "Workunit %1"
-msgstr ""
+msgstr "Werkeenheid ID"
 
 #: ../user/workunit.php:37
 #, fuzzy
@@ -4111,8 +4114,9 @@ msgid "canonical result"
 msgstr ""
 
 #: ../user/workunit.php:44
+#, fuzzy
 msgid "granted credit"
-msgstr ""
+msgstr "Toegekende punten"
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"

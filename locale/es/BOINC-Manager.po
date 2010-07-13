@@ -682,8 +682,7 @@ msgstr "Falló la autorización la conectar a cliente en ejecución."
 
 #: BOINCBaseFrame.cpp:454
 msgid "The password you have provided is incorrect, please try again."
-msgstr ""
-"La clave que ha introducido no es válida, por favor inténtelo de nuevo."
+msgstr "La clave que ha introducido no es válida, por favor inténtelo de nuevo."
 
 #: BOINCBaseFrame.cpp:493
 #, c-format
@@ -1447,7 +1446,8 @@ msgstr "Dejar como mínimo"
 #: DlgAdvPreferencesBase.cpp:594
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr ""
-"BOINC deja como mínimo esta cantidad de espacio de disco libre (en gigabytes)"
+"BOINC deja como mínimo esta cantidad de espacio de disco libre (en "
+"gigabytes)"
 
 #: DlgAdvPreferencesBase.cpp:598
 msgid "Gigabytes disk space free"
@@ -2084,8 +2084,7 @@ msgstr "Informe de problemas"
 
 #: Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr ""
-"Un enlace a los foros de informe de problemas y fallos en Einstein@Home"
+msgstr "Un enlace a los foros de informe de problemas y fallos en Einstein@Home"
 
 #: Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
@@ -2610,8 +2609,7 @@ msgstr "Por favor especifique una dirección de correo"
 
 #: ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr ""
-"Dirección de correo inválida; por favor introduzca una dirección válida"
+msgstr "Dirección de correo inválida; por favor introduzca una dirección válida"
 
 #: ValidateURL.cpp:69
 msgid "Missing URL"

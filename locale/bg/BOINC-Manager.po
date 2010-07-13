@@ -117,6 +117,7 @@ msgid "Attach to account manager"
 msgstr "Прикрепи Акаунт Менажера"
 
 #: AccountInfoPage.cpp:542
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "The minimum password length for this project is %d. Please enter a different "
@@ -126,6 +127,7 @@ msgstr ""
 "парола."
 
 #: AccountInfoPage.cpp:548
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "The minimum password length for this account manager is %d. Please enter a "
@@ -281,6 +283,7 @@ msgid "Attach to a project"
 msgstr "Влез в проект"
 
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "Временно прекратяване на задачата..."
@@ -456,6 +459,7 @@ msgid "%s &help"
 msgstr ""
 
 #: AdvancedFrame.cpp:583 sg_BoincSimpleGUI.cpp:135
+#, c-format
 #, fuzzy, c-format
 msgid "Show information about %s"
 msgstr "Показва информация за %s."
@@ -515,8 +519,9 @@ msgid "&Help"
 msgstr "&Помощ"
 
 #: AdvancedFrame.cpp:1058
+#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Прикрепи Акаунт Менажера"
 
 #: AdvancedFrame.cpp:1152
 #, c-format
@@ -524,6 +529,7 @@ msgid "%s - Detach from %s"
 msgstr ""
 
 #: AdvancedFrame.cpp:1157
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -590,6 +596,7 @@ msgid "Connecting to %s"
 msgstr "Свързване към %s"
 
 #: AdvancedFrame.cpp:1929
+#, c-format
 #, fuzzy, c-format
 msgid "Connected to %s (%s)"
 msgstr "Свързан към %s"
@@ -716,6 +723,7 @@ msgid "%s - Connection Status"
 msgstr "%s - Статус на връзката"
 
 #: BOINCBaseFrame.cpp:611
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -785,6 +793,7 @@ msgid "%s failed to connect to the Internet."
 msgstr "%s не успя да се свърже към Интернет."
 
 #: BOINCDialupManager.cpp:455
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -1009,6 +1018,7 @@ msgid "Welcome to %s!"
 msgstr "Добре дошъл в %s!"
 
 #: CompletionPage.cpp:285
+#, c-format
 #, fuzzy, c-format
 msgid "You are now successfully attached to the %s system."
 msgstr ""
@@ -1274,6 +1284,7 @@ msgid "Use at most"
 msgstr ""
 
 #: DlgAdvPreferencesBase.cpp:352
+#, no-c-format
 #, fuzzy, no-c-format
 msgid "% CPU time"
 msgstr "CPU време"
@@ -1697,8 +1708,9 @@ msgid "CPU work fetch deferral interval"
 msgstr ""
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Няма да взима нови задачи"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1986,8 +1998,7 @@ msgstr "Често задавани въпроси"
 
 #: Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr ""
-"Прочети списъка с често задаваните въпроси (FAQ) относно Einstein@Home "
+msgstr "Прочети списъка с често задаваните въпроси (FAQ) относно Einstein@Home "
 
 #: Localization.cpp:65
 msgid "Screensaver info"
@@ -2427,6 +2438,7 @@ msgstr ""
 "2)Изполваш прокси сървър и BOINC трябва да знае за него"
 
 #: ProxyInfoPage.cpp:203
+#, fuzzy
 msgid ""
 "BOINC failed to communicate on the Internet.\n"
 "The most likely reasons are:\n"
@@ -2442,6 +2454,15 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
+"BOINC ен успя да се свърже с Интернет. Най-честите причини\n"
+"за това са:\n"
+"\n"
+"1)Личната ти защитна стена блокира BOINC. Ти трябва да\n"
+"настроиш ли4ната ти защитна стена да позволява на BOINC \n"
+"да комуникира на порт 80. Когато това е направено, натисни\n"
+"Назад и опитай отново. \n"
+"\n"
+"2)Изполваш прокси сървър и BOINC трябва да знае за него"
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2580,8 +2601,9 @@ msgid "Copy selected messages"
 msgstr "Копирай избраните съобщения"
 
 #: ViewMessages.cpp:107 ViewMessages.cpp:503
+#, fuzzy
 msgid "Show only the messages for the selected project."
-msgstr ""
+msgstr "Копира всички съобщения в clipboard."
 
 #: ViewMessages.cpp:164
 msgid "Messages"
@@ -3158,8 +3180,9 @@ msgid "Suspend work for this task."
 msgstr "Временно прекратява работата по тази задача. "
 
 #: WelcomePage.cpp:255
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Прикрепи Акаунт Менажера"
 
 #: WelcomePage.cpp:263
 #, c-format

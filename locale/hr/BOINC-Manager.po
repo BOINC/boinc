@@ -282,6 +282,7 @@ msgid "Attach to a project"
 msgstr "Priključi se"
 
 #: AdvancedFrame.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "Zaustavljam rezultat..."
@@ -394,6 +395,7 @@ msgid "Stop BOINC network activity"
 msgstr "Zaustavlja mrežnu aktivnost BOINC-a"
 
 #: AdvancedFrame.cpp:531
+#, c-format
 #, fuzzy, c-format
 msgid "Connect to another computer running %s"
 msgstr "Spojite se na drugo računolo koje ima BOINC"
@@ -477,6 +479,7 @@ msgid "%s &website"
 msgstr ""
 
 #: AdvancedFrame.cpp:619 sg_BoincSimpleGUI.cpp:171
+#, c-format
 #, fuzzy, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Pokazuje informacije o BOINC menadžeru"
@@ -516,8 +519,9 @@ msgid "&Help"
 msgstr "&Pomoć"
 
 #: AdvancedFrame.cpp:1058
+#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Uključujem se u projekt..."
 
 #: AdvancedFrame.cpp:1152
 #, c-format
@@ -540,6 +544,7 @@ msgid "%s - Language Selection"
 msgstr ""
 
 #: AdvancedFrame.cpp:1350
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "The %s's default language has been changed, in order for this change to take "
@@ -585,6 +590,7 @@ msgid "Connecting to %s"
 msgstr "Spajam se na %s"
 
 #: AdvancedFrame.cpp:1929
+#, c-format
 #, fuzzy, c-format
 msgid "Connected to %s (%s)"
 msgstr "Spojeno na %s"
@@ -733,6 +739,7 @@ msgid ""
 msgstr ""
 
 #: BOINCDialupManager.cpp:310
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -742,6 +749,7 @@ msgstr ""
 "Može li to učiniti sada"
 
 #: BOINCDialupManager.cpp:323
+#, c-format
 #, fuzzy, c-format
 msgid "%s is connecting to the Internet."
 msgstr "BOINC se spaja na internet."
@@ -756,16 +764,19 @@ msgid ""
 msgstr ""
 
 #: BOINCDialupManager.cpp:386
+#, c-format
 #, fuzzy, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "BOINC se uspješno odpojio s interneta."
 
 #: BOINCDialupManager.cpp:414
+#, c-format
 #, fuzzy, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "BOINC se nije uspio spojiti na internet."
 
 #: BOINCDialupManager.cpp:455
+#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -775,11 +786,13 @@ msgstr ""
 "sve prijenose."
 
 #: BOINCDialupManager.cpp:500
+#, c-format
 #, fuzzy, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "BOINC se uspješno odpojio s interneta."
 
 #: BOINCDialupManager.cpp:516
+#, c-format
 #, fuzzy, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "BOINC se nije uspio odpojiti s interneta."
@@ -886,8 +899,9 @@ msgid "GPU computing is enabled"
 msgstr ""
 
 #: BOINCTaskBar.cpp:685
+#, fuzzy
 msgid "GPU computing is suspended - "
-msgstr ""
+msgstr "Aktivnosti zaustavljene od korisnika"
 
 #: BOINCTaskBar.cpp:694
 #, fuzzy
@@ -1252,6 +1266,7 @@ msgid "Use at most"
 msgstr ""
 
 #: DlgAdvPreferencesBase.cpp:352
+#, no-c-format
 #, fuzzy, no-c-format
 msgid "% CPU time"
 msgstr "Procesorsko vrijeme"
@@ -1674,8 +1689,9 @@ msgid "CPU work fetch deferral interval"
 msgstr ""
 
 #: DlgItemProperties.cpp:252
+#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Neće dobiti novi posao"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1896,6 +1912,7 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS Proxy"
 
 #: DlgSelectComputer.cpp:90
+#, c-format
 #, fuzzy, c-format
 msgid "%s - Select Computer"
 msgstr "Odaberi računalo"
@@ -2463,7 +2480,8 @@ msgstr ""
 #: ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
 msgstr ""
-"Neispravan identifikator računa; molimo unesite valjani identifikator računa."
+"Neispravan identifikator računa; molimo unesite valjani identifikator "
+"računa."
 
 #: ValidateAccountKey.cpp:82 ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
@@ -2524,8 +2542,9 @@ msgid "Copy selected messages"
 msgstr "Kopiraj oznčene poruke"
 
 #: ViewMessages.cpp:107 ViewMessages.cpp:503
+#, fuzzy
 msgid "Show only the messages for the selected project."
-msgstr ""
+msgstr "Kopiraj sve poruke u memoriju"
 
 #: ViewMessages.cpp:164
 msgid "Messages"
@@ -2981,8 +3000,9 @@ msgid "Retry in "
 msgstr "Ponovi za"
 
 #: ViewTransfers.cpp:779
+#, fuzzy
 msgid "Upload suspended - "
-msgstr ""
+msgstr "Skidanje neuspjelo"
 
 #: ViewTransfers.cpp:780
 #, fuzzy
@@ -3077,6 +3097,7 @@ msgid ""
 msgstr ""
 
 #: ViewWork.cpp:437
+#, c-format
 #, fuzzy, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Jeste li sigurni da želite obrisati rezultat '%s'?"
@@ -3108,8 +3129,9 @@ msgid "Suspend work for this task."
 msgstr "Zausavi posao za ovaj rezultat."
 
 #: WelcomePage.cpp:255
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Uključujem se u projekt..."
 
 #: WelcomePage.cpp:263
 #, c-format
