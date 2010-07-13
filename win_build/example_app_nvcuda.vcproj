@@ -806,6 +806,10 @@
 				RelativePath="..\samples\nvcuda\cuda.h"
 				>
 			</File>
+			<File
+				RelativePath="..\samples\nvcuda\cuda_config.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
