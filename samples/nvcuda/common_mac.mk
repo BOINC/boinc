@@ -1,8 +1,3 @@
-# Tuan Le
-# University of California, Berkeley
-# Berkeley Space Sciences Lab
-# tuanle86@berkeley.edu
-
 .SUFFIXES : .cu .cu_dbg.o .c_dbg.o .cpp_dbg.o .cu_rel.o .c_rel.o .cpp_rel.o .cubin .ptx
 
 # Add new SM Versions here as devices with new Compute Capability are released
@@ -55,7 +50,7 @@ INCLUDES  += -I. -I$(CUDA_INSTALL_PATH)/include -I$(COMMONDIR)/inc -I$(SHAREDDIR
 NVCC       := $(CUDA_INSTALL_PATH)/bin/nvcc
 CXX        := g++ 
 CC         := gcc
-#Tuan edits LINK to have #(INCLUDES)
+# MODIFIED - edits LINK to have #(INCLUDES)
 LINK       := g++ -fPIC $(INCLUDES)
 
 # Warning flags
@@ -313,7 +308,7 @@ ifneq ($(STATIC_LIB),)
 else
 	ifneq ($(OMIT_CUTIL_LIB),1)
 
-#TUAN add - lboinc and -lboinc_api below
+#MODIFIED - add - lboinc and -lboinc_api below
 		LIB += -lcutil_$(LIB_ARCH)$(LIBSUFFIX) -lshrutil_$(LIB_ARCH)$(LIBSUFFIX) -lboinc_api -L$(BOINC_BUILD_DIR) -lboinc -L$(BOINC_BUILD_DIR)
 	endif
 	# Device emulation configuration
@@ -443,8 +438,6 @@ endef
 # function interprets it as make commands.
 $(foreach smver,$(SM_VERSIONS),$(eval $(call SMVERSION_template,$(smver))))
 
-###### TUAN This below line causes mmintrin.h and xmmintrin.h error.
-
 $(TARGET): makedirectories $(OBJS) $(CUBINS) $(PTXBINS) Makefile_mac
 	$(VERBOSE)$(LINKLINE)
 
@@ -465,7 +458,7 @@ tidy :
 	$(VERBOSE)find . | egrep "\~" | xargs rm -f
 
 clean : tidy
-#TUAN	$(VERBOSE)rm -f $(OBJS)
+#MODIFIED	$(VERBOSE)rm -f $(OBJS)
 	$(VERBOSE)rm -f $(CUBINS)
 	$(VERBOSE)rm -f $(PTXBINS)
 	$(VERBOSE)rm -f $(TARGET)
