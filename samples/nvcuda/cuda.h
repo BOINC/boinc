@@ -34,31 +34,19 @@
 #include <unistd.h>
 #endif
 
-#include <cuda_runtime.h>
-#include <cublas.h>
-
 #include "str_util.h"
 #include "util.h"
 #include "filesys.h"
 #include "boinc_api.h"
 #include "mfile.h"
 #include "graphics2.h"
+#include "cuda_config.h"
 
 #define CHECKPOINT_FILE "matrix_inversion_state"
 #define INPUT_FILENAME "input"
 #define OUTPUT_FILENAME "output"
 #define MATRIX_SIZE 10
 #define NUM_ITERATIONS 501 // execute the kernel NUM_ITERATIONS times
-
-#ifdef DOUBLE_PRECISION
-#define REAL            double
-#define jREAL           jdouble
-#define jREALArray           jdoubleArray
-#else
-#define REAL            float
-#define jREAL           jfloat
-#define jREALArray           jfloatArray
-#endif
 
 struct UC_SHMEM {
     double update_time;
@@ -70,20 +58,6 @@ struct UC_SHMEM {
     // main program decrements it once/sec.
     // If it's zero, don't bother updating shmem
 };
-
-/*** CUDA UTILITIES ***/
-inline void __cudaSafeCall( int err, const char *file, const int line ) {
-    do {
-        if( err != 0) {
-            fprintf(stderr, "cudaSafeCall() Runtime API error in file <%s>, line %i : %s.\n",
-                    file, line, cudaGetErrorString((cudaError_t) err) );
-            exit(-1);
-        }
-    } while (0);
-}
-
-#define SAFECALL(err) __cudaSafeCall(err, __FILE__, __LINE__)
-#define CUDACHECK {cudaError_t error = cudaGetLastError();if(error != 0){fprintf(stderr, "Error code %d: %s file %s line %i.\n",error,cudaGetErrorString(error),__FILE__,__LINE__);}}
 
 /*** BOINC FUNCTION DECLARATIONS  ***/
 

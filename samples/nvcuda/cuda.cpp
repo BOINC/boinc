@@ -33,6 +33,7 @@
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 
 #include "cuda.h"
+#include "cuda_config.h"
 
 using std::string;
 
@@ -53,7 +54,7 @@ int main(int argc, char** argv)
     FILE* state, *infile;
     
     generate_random_input_file(MATRIX_SIZE); //call this if you don't want to
-	                                         //construct the input file manually
+                                             //construct the input file manually
 	
     for (i=0; i<argc; i++) {
         if (!strcmp(argv[i], "-early_exit")) early_exit = true;

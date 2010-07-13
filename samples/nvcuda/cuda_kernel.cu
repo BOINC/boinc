@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
-#include "cuda.h"
+#include "cuda_config.h"
 
 __global__ void GEStep1A(REAL * AI, int i, int n2, int lda2) {
     int k = blockIdx.x * blockDim.x + threadIdx.x;
