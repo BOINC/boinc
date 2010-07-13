@@ -4298,5 +4298,13 @@ msgstr "(todas las aplicaciones)"
 
 # ########################################
 # "Your account" page (home.php)
+# #########################################
+# Language: Spanish (Spain)
+# FileID  : $Id: es.po 16499 2008-11-17 06:28:03Z JensSeidler $
+# Author  : Janus Kristensen (Translator: Alejandro Martín Covarrubias)
+# Email   : jbk@visualgroup.dk (alex.covarrubias@gmail.com)
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 #~ msgid "No such message."
 #~ msgstr "No existe dicho mensaje."

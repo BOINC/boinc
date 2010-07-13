@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-06-15 12:54-0700\n"
+"PO-Revision-Date: 2010-06-18 07:59-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -2540,9 +2540,8 @@ msgid "Cancel friendship?"
 msgstr "Freundschaft aufheben"
 
 #: ../user/friend.php:221
-#, fuzzy
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr "Sind Sie sicher die Freundschaft mit %1 aufzuheben?"
+msgstr "Bist Du sicher die Freundschaft mit %1 aufzuheben?"
 
 #: ../user/friend.php:224 ../user/prefs_remove.php:53
 #: ../user/user_search.php:125 ../user/user_search.php:130
@@ -3219,131 +3218,139 @@ msgstr "Hinzufügen oder entfernen von Teamadmins"
 
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
-msgstr ""
+msgstr "Sie können Mitglieder zu Team-Administratoren machen. Diese können:"
 
 #: ../user/team_admins.php:41
 msgid "Edit team information (name, URL, description, country)"
-msgstr ""
+msgstr "Teameinstellungen ändern (Name, URL, Beschreibung, Land)"
 
 #: ../user/team_admins.php:42
 msgid "View the team's join/quit history"
-msgstr ""
+msgstr "die Beitritts-/Austrittshistorie ansehen"
 
 #: ../user/team_admins.php:43
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
+"das Teamforum moderieren, wenn vorhanden (Admins bekommen bei Vorkommnissen "
+"eine Nachricht per E-Mail)"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
-msgstr ""
+msgstr "Team-Administratoren können nicht:"
 
 #: ../user/team_admins.php:47
 msgid "Change the team founder"
-msgstr ""
+msgstr "den Team-Gründer ändern"
 
 #: ../user/team_admins.php:48 ../user/team_manage.php:52
 msgid "Remove members"
-msgstr ""
+msgstr "Mitglieder entfernen"
 
 #: ../user/team_admins.php:51
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr ""
+"Wenn ein Administrator das Team verlässt ist er nicht mehr länger Team-"
+"Administrator."
 
 #: ../user/team_admins.php:52
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr ""
+"Wir empfehlen das Sie nur Mitglieder zu Administratoren machen die Sie "
+"kennen und dievertrauenswürdig sind."
 
 #: ../user/team_admins.php:57
 msgid "There are currently no Team Admins"
-msgstr ""
+msgstr "Es gibt zur Zeit keine Team-Administratoren."
 
 #: ../user/team_admins.php:59
 msgid "Current Team Admins"
-msgstr ""
+msgstr "Aktuelle Team-Administratoren"
 
 #: ../user/team_admins.php:60
 msgid "Became Team Admin on"
-msgstr ""
+msgstr "Administrator seit"
 
 #: ../user/team_admins.php:75
 msgid "Add Team Admin"
-msgstr ""
+msgstr "Team-Administrator hinzufügen"
 
 #: ../user/team_admins.php:76
 msgid "Email address of team member:"
-msgstr ""
+msgstr "E-Mail-Adresse des Teammitglieds:"
 
 #: ../user/team_admins.php:88
 msgid "failed to remove admin"
-msgstr ""
+msgstr "Entfernen des Admins fehlgeschlagen"
 
 #: ../user/team_admins.php:95
-#, fuzzy
 msgid "no such user"
 msgstr "Benutzer nicht gefunden"
 
 #: ../user/team_admins.php:96
 msgid "User is not member of team"
-msgstr ""
+msgstr "Benutzer ist nicht Mitglied eines Teams"
 
 #: ../user/team_admins.php:98
 msgid "%1 is already an admin of %2"
-msgstr ""
+msgstr "%1 ist bereits Admin von %2"
 
 #: ../user/team_admins.php:102
 msgid "Couldn't add admin"
-msgstr ""
+msgstr "Admin konnte nicht hinzugefügt werden"
 
 #: ../user/team_admins.php:108 ../user/team_quit_form.php:28
 #: ../user/team_remove_inactive_action.php:26
-#, fuzzy
 msgid "No such team"
-msgstr "Kein Team gefunden."
+msgstr "Kein Team gefunden"
 
 #: ../user/team_change_founder_action.php:28
 #: ../user/team_change_founder_form.php:31 ../user/team_display.php:67
 #: ../user/team_edit_action.php:28 ../user/team_edit_form.php:27
 #: ../user/team_email_list.php:52 ../user/team_forum.php:162
 #: ../user/team_manage.php:83
-#, fuzzy
 msgid "no such team"
-msgstr "Kein Team gefunden."
+msgstr "Kein Team gefunden"
 
 #: ../user/team_change_founder_action.php:36
 msgid "User is not a member of %1"
-msgstr ""
+msgstr "Benutzer ist nicht Mitglied von %1"
 
 #: ../user/team_change_founder_action.php:39
 msgid "Changing founder of %1"
-msgstr ""
+msgstr "Gründer von %1 ändern"
 
 #: ../user/team_change_founder_action.php:41
 msgid "%1 is now founder of %2"
-msgstr ""
+msgstr "%1 ist jetzt der Gründer von %2"
 
 #: ../user/team_change_founder_form.php:35
 msgid "Change founder of %1"
-msgstr ""
+msgstr "Gründer von %1 ändern"
 
 #: ../user/team_change_founder_form.php:41
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
+"Das Mitglied %1 wollte Gründer von %2 werden, hat das Team aber "
+"zwischenzeitlich verlassen. Daher wurde die Anfrage abgebrochen."
 
 #: ../user/team_change_founder_form.php:47
+#, fuzzy
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
+"Das Mitglied %1 hat den Gründerstatus angefordert. Entweder haben Sie das "
+"Team verlassen oder schon lange keinen Kontakt mehr gesucht."
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
-msgstr ""
+msgstr "Anforderung ablehnen"
 
 #: ../user/team_change_founder_form.php:56
 msgid ""
@@ -3352,10 +3359,13 @@ msgid ""
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
+"Wenn Sie die Anfrage nicht bis %1 beantworten, wird %2 die Möglichkeit "
+"bekommen den Gründerstatus zu übernehmen.<br /><br />\n"
+"Um die Anfrage von %3 zu akzeptieren, benutze das untere Formular"
 
 #: ../user/team_change_founder_form.php:64
 msgid "No transfer request is pending."
-msgstr ""
+msgstr "Keine laufende Übernahmeanfrage."
 
 #: ../user/team_change_founder_form.php:67
 msgid ""
@@ -4425,5 +4435,6 @@ msgstr "(alle Anwendungen)"
 #~ msgid "Account number"
 #~ msgstr "Kontonummer"
 
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 #~ msgid "Used in URLs"
 #~ msgstr "Wird in URLs verwendet"

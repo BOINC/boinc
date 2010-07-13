@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2010-05-14 19:32-0700\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
-"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
@@ -28,7 +28,9 @@ msgstr "해당 리눅스 버전에서 동작하는 최신 릴리즈 버전:"
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
-msgstr "다른 리눅스 버전이시면 여러분의 리눅스 배포판에서 BOINC 패키지를 제공하는지 확인하세요."
+msgstr ""
+"다른 리눅스 버전이시면 여러분의 리눅스 배포판에서 BOINC 패키지를 제공하는지 "
+"확인하세요."
 
 #: versions.inc:25
 msgid ""
@@ -36,8 +38,9 @@ msgid ""
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
-"대안으로서 %1구 리눅스 버전용 BOINC 클라이언트%2를 다운로드하세요. 그래픽 인터페이스는 제공하지 않지만 x86과 x64를 포함한 "
-"모든 리눅스 시스템에서 동작합니다."
+"대안으로서 %1구 리눅스 버전용 BOINC 클라이언트%2를 다운로드하세요. 그래픽 인"
+"터페이스는 제공하지 않지만 x86과 x64를 포함한 모든 리눅스 시스템에서 동작합니"
+"다."
 
 #: docutil.php:21
 msgid "Search"
@@ -88,7 +91,9 @@ msgstr ""
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
-msgstr "참고: 만약 여러분 컴퓨터에 그래픽 처리 유닛(GPU)이 장착되어 있으면 %s연산을 더 빠르게 할 수 있습니다%s"
+msgstr ""
+"참고: 만약 여러분 컴퓨터에 그래픽 처리 유닛(GPU)이 장착되어 있으면 %s연산을 "
+"더 빠르게 할 수 있습니다%s"
 
 #: download.php:122
 msgid "System requirements"
@@ -98,8 +103,7 @@ msgstr "시스템 요구 사항"
 msgid "Release notes"
 msgstr "릴리즈 노트"
 
-#: download.php:124
-#: index.php:82
+#: download.php:124 index.php:82
 msgid "Help"
 msgstr "도움말"
 
@@ -225,9 +229,7 @@ msgstr "기여자"
 msgid "Download"
 msgstr "다운로드"
 
-#: index.php:83
-#: index.php:118
-#: index.php:169
+#: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
 msgstr "문서"
 

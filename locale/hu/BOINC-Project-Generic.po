@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-05-18 14:34-0700\n"
+"PO-Revision-Date: 2010-06-25 00:38-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -122,55 +122,55 @@ msgstr ""
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Nem elérhető"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:1000 ../project.sample/project.inc:49
 msgid "Home"
-msgstr ""
+msgstr "Otthon"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:1001
 msgid "Work"
-msgstr ""
+msgstr "Munka"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:1002
 msgid "School"
-msgstr ""
+msgstr "Iskola"
 
 #: ../inc/host.inc:59
 msgid "Update"
-msgstr ""
+msgstr "Frissítés"
 
 #: ../inc/host.inc:83
 msgid "Computer information"
-msgstr ""
+msgstr "Számítógép infó..."
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "IP cím"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(ugyanez a legutóbbi %1 alkalommal)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr ""
+msgstr "Külső IP cím"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "Mutasd az IP címet"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
-msgstr ""
+msgstr "Domain név"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
-msgstr ""
+msgstr "Standard helyi idő"
 
 #: ../inc/host.inc:97
 msgid "UTC %1 hours"
-msgstr ""
+msgstr "UTC %1 óra"
 
 #: ../inc/host.inc:98 ../inc/host.inc:611 ../inc/result.inc:378
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
@@ -183,16 +183,15 @@ msgstr "Név"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:212
 msgid "Owner"
-msgstr ""
+msgstr "Tulajdonos"
 
 #: ../inc/host.inc:104 ../inc/host.inc:317
 msgid "Anonymous"
-msgstr ""
+msgstr "Névtelen"
 
 #: ../inc/host.inc:108 ../inc/result.inc:380
-#, fuzzy
 msgid "Created"
-msgstr "Létrehoz"
+msgstr "Létrehozva"
 
 #: ../inc/host.inc:109 ../inc/host.inc:216 ../inc/host.inc:221
 #: ../inc/host.inc:620 ../inc/team.inc:94 ../inc/team.inc:207
@@ -208,100 +207,101 @@ msgstr "Összes kredit"
 #: ../inc/host.inc:110 ../inc/user.inc:118 ../user/team_search.php:67
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Average credit"
-msgstr ""
+msgstr "Átlag kredit"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr ""
+msgstr "Kereszt project kredit"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "Processzor típus"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "processzorok száma"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
-msgstr ""
+msgstr "Társprocesszorok"
 
 #: ../inc/host.inc:119 ../inc/host.inc:626
 msgid "Operating System"
-msgstr ""
+msgstr "Operációs rendszer"
 
 #: ../inc/host.inc:122
 msgid "BOINC client version"
-msgstr ""
+msgstr "BOINC kliens verzió"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "Memória"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr ""
+msgstr "Swap tárhely"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "Teljes lemezterület"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Szabad lemezterület"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "Mért lebegőpontos-sebesség"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 millió művelet/sec"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
-msgstr ""
+msgstr "Mért fixpontos-sebesség"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
-msgstr ""
+msgstr "Átlagos feltöltési sebesség"
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
-msgstr ""
+msgstr "%1 KB/sec"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:148
 #: ../inc/result.inc:158 ../inc/result.inc:176 ../inc/result.inc:208
 msgid "Unknown"
-msgstr ""
+msgstr "Ismeretlen"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
 msgid "Average download rate"
-msgstr ""
+msgstr "Átlagos letöltési sebesség"
 
 #: ../inc/host.inc:163
+#, fuzzy
 msgid "Average turnaround time"
-msgstr ""
+msgstr "Átlagos fordulási idő"
 
 #: ../inc/host.inc:163
 msgid "%1 days"
-msgstr ""
+msgstr "%1 nap"
 
 #: ../inc/host.inc:165
 msgid "Maximum daily WU quota per CPU"
@@ -2198,7 +2198,7 @@ msgstr ""
 
 #: ../user/forum_index.php:93
 msgid "Topic"
-msgstr "Téma"
+msgstr "Tárgy"
 
 #: ../user/forum_post.php:101
 msgid "Create a new thread"
