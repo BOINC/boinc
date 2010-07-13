@@ -49,5 +49,8 @@ install-exec-hook:
 	  if [ -f $$ldir/BOINC-Manager.mo ] ; then \
 	    $(INSTALL) $$ldir/BOINC-Manager.mo $$mydir/$$ldir/BOINC-Manager.mo ; \
 	  fi ;\
+	  if [ -f $$ldir/BOINC-Client.mo ] ; then \
+	    $(INSTALL) $$ldir/BOINC-Client.mo $$mydir/$$ldir/BOINC-Client.mo ; \
+	  fi ;\
 	done
 
