@@ -22,8 +22,6 @@ for file in `find -name 'BOINC-Manager.po'` ; do
  
   # Add any missing PO files to SVN
   svn add ${template_name}.po > /dev/null 2> /dev/null
-
-  fi  
 done
 
 
@@ -36,8 +34,6 @@ for file in `find -name 'BOINC-Client.po'` ; do
  
   # Add any missing PO files to SVN
   svn add ${template_name}.po > /dev/null 2> /dev/null
-
-  fi  
 done
 
 
