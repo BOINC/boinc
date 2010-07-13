@@ -202,6 +202,7 @@ int main(int argc, char** argv)
     // burn up some CPU time if needed
     //
     if (cpu_time) {
+        printf("\nBurning up some CPU time ... \n");
         double start = dtime();
         for (int i=0; ; i++) {
             double e = dtime()-start;
@@ -227,7 +228,7 @@ int main(int argc, char** argv)
     update_shmem();
 #endif
 
-    printf("Done!");
+    printf("\nDone! Please press ENTER to exit. ");
     getchar();
     boinc_finish(0);
 }
