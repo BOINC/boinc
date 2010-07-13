@@ -220,7 +220,8 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app, bool reliable_only) {
     }
     if (!found) {
         sprintf(message,
-            "_(Your app_info.xml file doesn't have a usable version of) %s.",
+            "%s %s.",
+            _("Your app_info.xml file doesn't have a usable version of"),
             app.user_friendly_name
         );
         add_no_work_message(message);
@@ -629,8 +630,9 @@ BEST_APP_VERSION* get_app_version(
         }
         if (no_version_for_platform) {
             sprintf(message,
-                "%s _(is not available for your type of computer).",
-                app->user_friendly_name
+                "%s %s.",
+                app->user_friendly_name,
+                _("is not available for your type of computer")
             );
             add_no_work_message(message);
         }

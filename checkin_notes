@@ -5053,3 +5053,16 @@ David  12 Jul 2010
         sched_version.cpp
         sched_send.cpp
         handle_request.cpp
+
+David  12 Jul 2010
+    - scheduler: make messages translatable
+
+    sched/
+        sched_version.cpp
+        sched_send.cpp
+        handle_request.cpp
+        sched_types.cpp
+    locale/templates/
+        BOINC-Client.pot (new)
+    client/
+        build_po (new)

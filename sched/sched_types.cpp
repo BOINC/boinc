@@ -659,6 +659,20 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
                 pri.c_str(), msg.c_str()
             );
         }
+    } else if (sreq.core_client_version <= 61100) {
+        char prio[256];
+        for (i=0; i<messages.size(); i++) {
+            USER_MESSAGE& um = messages[i];
+            strcpy(prio, um.priority.c_str());
+            if (!strcmp(prio, "notice")) {
+                strcpy(prio, "high");
+            }
+            fprintf(fout,
+                "<message priority=\"%s\">%s</message>\n",
+                prio,
+                um.message.c_str()
+            );
+        }
     } else {
         for (i=0; i<messages.size(); i++) {
             USER_MESSAGE& um = messages[i];
