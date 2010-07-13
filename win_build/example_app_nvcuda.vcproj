@@ -52,7 +52,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(CUDA_INC_PATH);"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH);"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -138,7 +138,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH);"
 				PreprocessorDefinitions="WIN32;_CONSOLE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -308,7 +308,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH);"
 				PreprocessorDefinitions="WIN32;_CONSOLE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -803,7 +803,7 @@
 			Name="Header Files"
 			>
 			<File
-				RelativePath="..\samples\nvcuda\cuda_config.h"
+				RelativePath="..\samples\nvcuda\cuda.h"
 				>
 			</File>
 		</Filter>
