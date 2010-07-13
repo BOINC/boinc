@@ -13,6 +13,34 @@ cd $projdir
 svn update
 
 
+# Iterrate through the various PO files looking for those that need to be added to SVN.
+#
+for file in `find -name 'BOINC-Manager.po'` ; do
+  dir=`dirname $file`
+  locale=`basename $dir`
+  template_name=${projdir}/${locale}/BOINC-Manager
+ 
+  # Add any missing PO files to SVN
+  svn add ${template_name}.po > /dev/null 2> /dev/null
+
+  fi  
+done
+
+
+# Iterrate through the various PO files looking for those that need to be added to SVN.
+#
+for file in `find -name 'BOINC-Client.po'` ; do
+  dir=`dirname $file`
+  locale=`basename $dir`
+  template_name=${projdir}/${locale}/BOINC-Client
+ 
+  # Add any missing PO files to SVN
+  svn add ${template_name}.po > /dev/null 2> /dev/null
+
+  fi  
+done
+
+
 # Iterrate through the various PO files looking for those that need to be compiled.
 #
 for file in `find -name 'BOINC-Manager.po'` ; do
