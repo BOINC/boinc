@@ -22,6 +22,7 @@ for file in `find -name 'BOINC-Manager.po'` ; do
  
   # Add any missing PO files to SVN
   svn add ${template_name}.po > /dev/null 2> /dev/null
+  svn propset svn:mime-type 'text/plain;charset=UTF-8' ${template_name}.po > /dev/null 2> /dev/null
 done
 
 
@@ -34,6 +35,7 @@ for file in `find -name 'BOINC-Client.po'` ; do
  
   # Add any missing PO files to SVN
   svn add ${template_name}.po > /dev/null 2> /dev/null
+  svn propset svn:mime-type 'text/plain;charset=UTF-8' ${template_name}.po > /dev/null 2> /dev/null
 done
 
 
