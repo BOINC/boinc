@@ -6,9 +6,9 @@
 # Add source files here
 EXECUTABLE	:= example_app_nvcuda_mac
 # Cuda source files (compiled with cudacc)
-CUFILES		:= cuda_kernel_mac.cu
+CUFILES		:= cuda_kernel.cu
 # C/C++ source files (compiled with gcc / c++)
-CCFILES		:= cuda_mac.c \
+CCFILES		:= cuda.cpp \
 
 ################################################################################
 # Rules and targets

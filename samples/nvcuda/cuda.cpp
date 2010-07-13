@@ -32,134 +32,16 @@
 // See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 
-#ifdef _WIN32
-#include "boinc_win.h"
-#else
-#include "config.h"
-#include <cstdio>
-#include <cctype>
-#include <ctime>
-#include <cstring>
-#include <cstdlib>
-#include <csignal>
-#include <unistd.h>
-#endif
-
-#include <cuda_runtime.h>
-#include <cublas.h>
-#include "cuda_config.h"
-
-#include "str_util.h"
-#include "util.h"
-#include "filesys.h"
-#include "boinc_api.h"
-#include "mfile.h"
-#include "graphics2.h"
-
-struct UC_SHMEM {
-    double update_time;
-    double fraction_done;
-    double cpu_time;
-    BOINC_STATUS status;
-    int countdown;
-    // graphics app sets this to 5 repeatedly,
-    // main program decrements it once/sec.
-    // If it's zero, don't bother updating shmem
-};
+#include "cuda.h"
 
 using std::string;
 
-#define CHECKPOINT_FILE "matrix_inversion_state"
-#define INPUT_FILENAME "input"
-#define OUTPUT_FILENAME "output"
-#define MATRIX_SIZE 10
-
-// execute the kernel NUM_ITERATIONS times
-#define NUM_ITERATIONS 51
-
+/*** GLOBALS ***/
 bool run_slow = false;
 bool early_exit = false;
 bool early_crash = false;
 bool early_sleep = false;
 double cpu_time = 20, comp_result;
-
-// do a billion floating-point ops
-// (note: I needed to add an arg to this;
-// otherwise the MS C++ compiler optimizes away
-// all but the first call to it!)
-//
-static double do_a_giga_flop(int foo) {
-    double x = 3.14159*foo;
-    int i;
-    for (i=0; i<500000000; i++) {
-        x += 5.12313123;
-        x *= 0.5398394834;
-    }
-    return x;
-}
-
-int do_checkpoint(MFILE& mf, int n, REAL *h_idata, int dimension) {
-    int retval;
-    string resolved_name;
-	
-    FILE* f = fopen("temp", "w");
-	if (!f) {
-        return 1;
-    }
-    fprintf(f, "%d", n); //write inversion number
-    fprintf(f, " ");
-    fprintf(f, "%d", dimension); //write dimension
-    fprintf(f, " ");
-    for (int i=0;i<dimension*dimension;++i) {
-        fprintf(f, " ");
-        fprintf(f, "%f", h_idata[i]);
-    }
-    fclose(f);
-    retval = mf.flush();
-	if (retval) {
-        return retval;
-	}
-    boinc_resolve_filename_s(CHECKPOINT_FILE, resolved_name); //resolved_name is a string object
-    retval = boinc_rename("temp", resolved_name.c_str()); //c_str() will convert a string object
-	                       //to a char string with null terminator equivalent. Because we do rename,
-	                       //temp does not appear, but the CHECKPOINT_FILE appears instead on the disk.
-    
-	if (retval) {
-        return retval;
-    }
-    return 0; //return 0 to indicate success.
-}
-
-#ifdef APP_GRAPHICS
-void update_shmem() {
-    if (!shmem) return;
-	
-    // always do this; otherwise a graphics app will immediately
-    // assume we're not alive
-    shmem->update_time = dtime();
-	
-    // Check whether a graphics app is running,
-    // and don't bother updating shmem if so.
-    // This doesn't matter here,
-    // but may be worth doing if updating shmem is expensive.
-    //
-    if (shmem->countdown > 0) {
-        // the graphics app sets this to 5 every time it renders a frame
-        shmem->countdown--;
-    } else {
-        return;
-    }
-    shmem->fraction_done = boinc_get_fraction_done();
-    shmem->cpu_time = boinc_worker_thread_cpu_time();;
-    boinc_get_status(&shmem->status);
-}
-#endif
-
-void generate_random_input_file(int n);
-int get_matrix_dimension(FILE *infile);
-void fetch_elements_into_host_memory(FILE *infile, REAL *h_idata);
-void print_to_file(MFILE *out, float *h_odata, int dimension);
-extern void invert(REAL * A, int n);
 
 int main(int argc, char** argv)
 {
@@ -259,13 +141,13 @@ int main(int argc, char** argv)
         cudaMallocHost((void **)&h_idata,dimension*dimension*sizeof(REAL));
         fetch_elements_into_host_memory(infile,h_idata);
         out.printf("\n----------------- Before being inversed ----------------\n\n");
-        printf("Computation is running ... Inverse the matrix %d \
-			   times. Start at inversion #1\n",NUM_ITERATIONS);
+        printf("Computation is running ... Inverse the matrix %d times. Start at inversion #1\n",
+			   NUM_ITERATIONS);
     } else {
-        out.printf("\n----------------- Last checkpointed \
-				   inversion #%d ----------------\n\n",lastInversion);
-        printf("Computation is resumed ... Inverse the matrix %d more times.\
-			   Start at inversion #%d\n",NUM_ITERATIONS-lastInversion,lastInversion+1);
+        out.printf("\n----------------- Last checkpointed inversion #%d ----------------\n\n",
+			       lastInversion);
+        printf("Computation is resumed ... Inverse the matrix %d more times. Start at inversion #%d\n",
+			   NUM_ITERATIONS-lastInversion,lastInversion+1);
     }
     print_to_file(&out,h_idata,dimension);
 
@@ -305,8 +187,8 @@ int main(int argc, char** argv)
         boinc_fraction_done(fd);
     }
 
-    out.printf("\n\n----------------- Final inversion \
-			   #%d----------------\n\n",NUM_ITERATIONS);
+    out.printf("\n\n----------------- Final inversion #%d----------------\n\n",
+		       NUM_ITERATIONS);
     print_to_file(&out,h_idata,dimension);
     cudaFreeHost( h_idata );
     retval = out.flush(); //force the output file to be closed.
@@ -362,7 +244,53 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
 }
 #endif
 
-// nxn matrix
+/*** BOINC FUNCTION DEFINITIONS ***/
+
+/* Do a billion floating-point ops */
+static double do_a_giga_flop(int foo) {
+    double x = 3.14159*foo;
+    int i;
+    for (i=0; i<500000000; i++) {
+        x += 5.12313123;
+        x *= 0.5398394834;
+    }
+    return x;
+}
+
+/* Save the computation state into checkpoint file */
+int do_checkpoint(MFILE& mf, int n, REAL *h_idata, int dimension) {
+    int retval;
+    string resolved_name;
+	
+    FILE* f = fopen("temp", "w");
+	if (!f) {
+        return 1;
+    }
+    fprintf(f, "%d", n); //write inversion number
+    fprintf(f, " ");
+    fprintf(f, "%d", dimension); //write dimension
+    fprintf(f, " ");
+    for (int i=0;i<dimension*dimension;++i) {
+        fprintf(f, " ");
+        fprintf(f, "%f", h_idata[i]);
+    }
+    fclose(f);
+    retval = mf.flush();
+	if (retval) {
+        return retval;
+	}
+    boinc_resolve_filename_s(CHECKPOINT_FILE, resolved_name);
+    retval = boinc_rename("temp", resolved_name.c_str());
+    
+	if (retval) {
+        return retval;
+    }
+    return 0; //return 0 to indicate success.
+}
+
+/*** FUNCTION DEFINITIONS ***/
+
+/* Create an input file filled with random data of type cl_float. */
 void generate_random_input_file(int n) {
     FILE *infile;
     infile=fopen(INPUT_FILENAME,"w");
@@ -387,6 +315,11 @@ void generate_random_input_file(int n) {
     fclose(infile);
 }
 
+/*
+ * Parse the input file and determine the size of the matrix.
+ * This is an nxn matrix. Note: if width <> height, the matrix is
+ * non-invertible.
+ */
 int get_matrix_dimension(FILE *infile) {
     int w=0;
     char c;
@@ -419,6 +352,7 @@ int get_matrix_dimension(FILE *infile) {
     return w;
 }
 
+/* Read the REAL values from input file into host array. */
 void fetch_elements_into_host_memory(FILE *infile, REAL *h_idata) {
     float num=0;
     int i=0;
@@ -429,6 +363,7 @@ void fetch_elements_into_host_memory(FILE *infile, REAL *h_idata) {
     }
 }
 
+/* Write the result to output file */
 void print_to_file(MFILE *out, float *h_odata, int dimension) {
     int count=0;
     int move=0;
