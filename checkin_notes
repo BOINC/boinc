@@ -5066,3 +5066,9 @@ David  12 Jul 2010
         BOINC-Client.pot (new)
     client/
         build_po (new)
+
+Rom    13 July 2010
+    - MGR: Load up the new BOINC-Client catalog if it exists.
+    
+    clientgui/
+        BOINCGUIApp.cpp

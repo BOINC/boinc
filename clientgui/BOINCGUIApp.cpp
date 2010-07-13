@@ -284,6 +284,7 @@ bool CBOINCGUIApp::OnInit() {
     }
     m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
     m_pLocale->AddCatalog(wxT("BOINC-Manager"));
+    m_pLocale->AddCatalog(wxT("BOINC-Client"));
 
     InitSupportedLanguages();
 
@@ -396,17 +397,6 @@ bool CBOINCGUIApp::OnInit() {
         }
     }
 
-#ifdef __WXMAC__
-#if 0
-    // We may still need this code; don't remove it yet -- CAF 1/30/08
-    // When running BOINC Client as a daemon / service, the menubar icon is sometimes 
-    // unresponsive to mouse clicks if we create it before connecting to the Client.
-    CBOINCClientManager* pcm = m_pDocument->m_pClientManager;
-    if (pcm->IsSystemBooting() && pcm->IsBOINCConfiguredAsDaemon()) {
-        pcm->StartupBOINCCore();
-    }
-#endif
-#endif
 
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
