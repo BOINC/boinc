@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-06-20 00:29-0700\n"
+"PO-Revision-Date: 2010-07-13 23:58-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -452,9 +452,8 @@ msgstr "Nimi"
 msgid "Admin"
 msgstr "Ylläpitäjä"
 
-#, fuzzy
 msgid "Last %1"
-msgstr "Viimeisin viesti"
+msgstr "Edelliset %1"
 
 #: ../inc/team.inc:268
 #: ../user/top_hosts.php:96
@@ -732,7 +731,7 @@ msgstr "Irrottaudu tiimistä"
 #: ../inc/user.inc:265
 #: ../inc/user.inc:282
 msgid "Administer"
-msgstr ""
+msgstr "Ylläpitäjä"
 
 #: ../inc/user.inc:271
 #: ../inc/user.inc:284
@@ -787,7 +786,7 @@ msgstr "Lahjoittaja"
 
 #: ../inc/user.inc:369
 msgid "Contact"
-msgstr ""
+msgstr "Yhteydenotto"
 
 #: ../inc/user.inc:372
 msgid "This person is a friend"
