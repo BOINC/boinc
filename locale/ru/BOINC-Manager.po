@@ -3,14 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-05-17 23:31+0300\n"
+"PO-Revision-Date: 2010-07-14 12:40-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -85,7 +86,7 @@ msgstr "Введите пароль:"
 
 #: clientgui/AccountInfoPage.cpp:435
 msgid "C&onfirm password:"
-msgstr "Повторный ввод пароля:"
+msgstr "Подтвердите пароль:"
 
 #: clientgui/AccountInfoPage.cpp:442
 #, c-format
@@ -3900,9 +3901,10 @@ msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:171
-#, fuzzy
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
-msgstr "для поддержки специальных возможностей, пожалуйста выберите меню 'Расширенный вид' или введите команду shift a"
+msgstr ""
+"для поддержки специальных возможностей, пожалуйста выберите меню "
+"'Расширенный вид' или нажмите Shift+A"
 
 #: clientgui/mac/MacAccessiblity.cpp:216
 #, fuzzy
@@ -3971,9 +3973,8 @@ msgid "blank"
 msgstr "пусто"
 
 #: clientgui/mac/MacAccessiblity.cpp:1411
-#, fuzzy
 msgid "list of projects or account managers"
-msgstr "список проектов и менеджеров проектов"
+msgstr "список проектов или менеджеров проектов"
 
 #: clientgui/mac/MacAccessiblity.cpp:1448
 #, fuzzy, c-format
@@ -3997,209 +3998,53 @@ msgstr "задайте время, когда клиенту разрешено 
 #~ msgstr ""
 #~ "Чтобы начать обработку заданий, необходимо подключиться к проекту или "
 #~ "менеджеру проектов"
-#~ msgid "Attach to an additional project"
+
+#~ msgid ""
 #~ msgstr "Подключиться к ещё одному проекту распределённых вычислений"
 
-#, fuzzy
+#~ "
+
 #~ msgid " is empty"
 #~ msgstr "пуст"
 
-#, fuzzy
+#~ "
+
 #~ msgid "%d of %d; "
 #~ msgstr "%d из %d; "
 
-#, fuzzy
+#~ "
+
 #~ msgid "current sort column "
 #~ msgstr "текущий столбец сортировки "
 
-#, fuzzy
+#~ "
+
 #~ msgid " descending order "
 #~ msgstr "порядок убывания "
 
-#, fuzzy
+#~ "
+
 #~ msgid " ascending order "
 #~ msgstr "порядок возрастания "
 
-#, fuzzy
+#~ "
+
 #~ msgid "column "
 #~ msgstr "столбец "
 
-#, fuzzy
+#~ "
+
 #~ msgid "of %d; "
 #~ msgstr "из %d; "
-#~ msgid "&Close Window\tCtrl+W"
+
+#~ msgid ""
 #~ msgstr "Закрыть окно\tCtrl+W"
-#~ msgid "&News\tCtrl+Shift+N"
+
+#~ msgid ""
 #~ msgstr "Новости\tCtrl+Shift+N"
-#~ msgid "Display news"
+
+#~ msgid ""
 #~ msgstr "Показать новости"
-#~ msgid "&Projects\tCTRL+SHIFT+P"
+
+#~ msgid ""
 #~ msgstr "Проекты\tCTRL+SHIFT+P"
-#~ msgid "&Tasks\tCTRL+SHIFT+T"
-#~ msgstr "Задания\tCTRL+SHIFT+T"
-#~ msgid "Trans&fers\tCTRL+SHIFT+X"
-#~ msgstr "Передача\tCTRL+SHIFT+X"
-#~ msgid "&Messages\tCTRL+SHIFT+M"
-#~ msgstr "Сообщения\tCTRL+SHIFT+M"
-#~ msgid "&Statistics\tCTRL+SHIFT+S"
-#~ msgstr "Статистика\tCTRL+SHIFT+S"
-#~ msgid "&Disk usage\tCTRL+SHIFT+D"
-#~ msgstr "Диск\tCTRL+SHIFT+D"
-#~ msgid "&News\tCTRL+SHIFT+N"
-#~ msgstr "Новости\tCTRL+SHIFT+N"
-
-# Пью пиво,&lt;br /&gt;<br />
-# меняю пароли.
-#, fuzzy
-#~ msgid ""
-#~ "You currently are not authorized to manage the client.\n"
-#~ "Please contact your administrator to add you to the 'boinc_master' user "
-#~ "group."
-#~ msgstr ""
-#~ "У Вас недостаточно прав для управления BOINC клиентом.\n"
-#~ "Управление станет возможно после добавления Вас в группу 'boinc_master' "
-#~ "Администратором компьютера."
-#~ msgid "User information"
-#~ msgstr "Информация об участнике"
-#~ msgid "Account Manager URL"
-#~ msgstr "Адрес менеджера проектов"
-#~ msgid "Enter the URL of the account manager's web site."
-#~ msgstr "Введите адрес выбранного менеджера проектов."
-#~ msgid "Close BOINC Manager Window."
-#~ msgstr "Закрыть окно BOINC менеджера."
-
-# ?
-#~ msgid "Exit the %s"
-#~ msgstr "Завершить работу программы %s"
-#~ msgid ""
-#~ "Advanced views allow you to sort various columns and displays graphical "
-#~ "progress bars."
-#~ msgstr ""
-#~ "Продвинутый вид таблиц с возможностью сортировки по столбцам и "
-#~ "графическим индикатором прогресса."
-# дубль (перевода)
-#~ msgid "Attach to a project"
-#~ msgstr "Подключиться к ещё одному проекту распределённых вычислений"
-#~ msgid "Attach to &account manager..."
-#~ msgstr "Соединиться с менеджером проектов..."
-#~ msgid "Attach to an account manager"
-#~ msgstr "Соединиться с менеджером проектов"
-#~ msgid "Attach to &project"
-#~ msgstr "Добавить проект"
-#~ msgid "Attaching to project..."
-#~ msgstr "Подключение к проекту..."
-# есть некоторые сомнения в правильности перевода :)
-#~ msgid "Removal from %s completed."
-#~ msgstr "Удаление %s завершено."
-# Goblin forever
-#~ msgid "Removal succeeded!"
-#~ msgstr "Удаление завершено!"
-#~ msgid "Write to disk at most every"
-#~ msgstr "Период сохранения на диск"
-#~ msgid "Slot"
-#~ msgstr "Слот"
-#~ msgid "Already Attached to Project"
-#~ msgstr "Проект уже подключен"
-#~ msgid "This project may not have work for your type of computer."
-#~ msgstr ""
-#~ "Возможно, что данный проект не поддерживает тип вашего компьютера или "
-#~ "операционную систему."
-#~ msgid "Click here to go to %s's website."
-#~ msgstr "Посетить сайт проекта - %s."
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to a project."
-#~ msgstr ""
-#~ "Данный мастер поможет вам подключиться\n"
-#~ "к проекту распределённых вычислений."
-#~ msgid "&Stop using%s"
-#~ msgstr "Отсоединение от %s"
-# Компьютер отключен от %s. Теперь только вы\n<br />
-# сами отвечаете за управление BOINC клиентом\n
-#~ msgid ""
-#~ "We'll now remove this computer from %s.  From now on,\n"
-#~ "attach and detach projects directly from this computer.\n"
-#~ msgstr ""
-#~ "Компьютер отключен от %s.  Теперь проекты можно\n"
-#~ "добавлять или удалять только на данном компьютере.\n"
-#~ msgid "Account manager"
-#~ msgstr "Менеджер проектов"
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to an account manager.\n"
-#~ "\n"
-#~ "If you want to attach to a single project, click Cancel,\n"
-#~ "then select the 'Attach to project' menu item instead."
-#~ msgstr ""
-#~ "Данный мастер поможет вам подключиться\n"
-#~ "к менеджеру проектов.\n"
-#~ "\n"
-#~ "Если вы хотите подключиться к проекту, нажмите 'Отмена'\n"
-#~ "и выберите меню 'Дополнительно/Добавить проект'."
-# if defined(__WXDEBUG__)
-#~ msgid "Debug Flags"
-#~ msgstr "Отладочные флаги"
-# if defined(__WXDEBUG__)
-#~ msgid "Project Properties Failure"
-#~ msgstr "Неудача при проверке информации о проекте"
-# Неудача при попытке установить соединение
-#~ msgid "Project Communication Failure"
-#~ msgstr "Неудача при установлении соединения"
-# if defined(__WXDEBUG__)
-#~ msgid "Project Properties URL Failure"
-#~ msgstr "Неудача при проверке адреса (URL) свойств проекта"
-# if defined(__WXDEBUG__)
-#~ msgid "Account Creation Disabled"
-#~ msgstr "Создание учётной записи запрещено"
-# if defined(__WXDEBUG__)
-#~ msgid "Client Account Creation Disabled"
-#~ msgstr "Создание клиентской учётной записи запрещено"
-# if defined(__WXDEBUG__)
-#~ msgid "Account Already Exists"
-#~ msgstr "Учётная запись уже существует"
-# if defined(__WXDEBUG__)
-#~ msgid "Project Already Attached"
-#~ msgstr "Проект уже подключен"
-# if defined(__WXDEBUG__)
-#~ msgid "Project Attach Failure"
-#~ msgstr "Неудача при подключении проекта"
-# ???
-#~ msgid "Failure Communicating with Reference Site"
-#~ msgstr "Неудача при установке связи с сервером"
-# if defined(__WXDEBUG__)
-#~ msgid "Net Detection Failure"
-#~ msgstr "Неудача при поиске сети"
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr ""
-#~ "Можно скопировать данный адрес\n"
-#~ "из адресной строки браузера."
-#~ msgid "For a list of account managers go to:"
-#~ msgstr ""
-#~ "Для просмотра списка доступных менеджеров\n"
-#~ "проектов на базе BOINC посетите страницу:"
-#~ msgid "&Advanced View"
-#~ msgstr "Полный вид"
-#~ msgid "&Simple View..."
-#~ msgstr "Сокращённый вид..."
-#~ msgid "You are already attached to this project."
-#~ msgstr "Запущенный BOINC клиент уже подключен к данному проекту"
-# ипользуется внутри программы
-#~ msgid "Static text"
-#~ msgstr "Static text"
-# ипользуется внутри программы
-#~ msgid "Radiobutton"
-#~ msgstr "Radiobutton"
-# ?
-#, fuzzy
-#~ msgid "Short term debt"
-#~ msgstr "Краткосрочный долг"
-
-# ?
-#, fuzzy
-#~ msgid "Long term debt"
-#~ msgstr "Долгосрочный долг"
-#~ msgid "Enter account key"
-#~ msgstr "Введите код доступа"
-
