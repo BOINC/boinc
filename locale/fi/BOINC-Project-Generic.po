@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-07-13 23:58-0700\n"
+"PO-Revision-Date: 2010-07-14 00:05-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1022,7 +1022,7 @@ msgstr ""
 
 #: ../user/create_profile.php:241
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "Jättämäsi profiili on tyhjä."
 
 #: ../user/create_profile.php:280
 msgid "Could not update the profile: database error"
@@ -1092,9 +1092,8 @@ msgstr "Ohjeet BOINCin asennukseen ja käyttöön löytyvät %1täältä%2."
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "Tätä listaa hoidetaan keskitetysti %1the BOINC-nettisivulla%2."
 
-#, fuzzy
 msgid "fll"
-msgstr "Kaikki"
+msgstr ""
 
 #: ../user/forum_edit.php:115
 #: ../user/forum_edit.php:120
@@ -4120,7 +4119,7 @@ msgstr "Käytä NVIDIA-näytönohjainta jos on %1(versiosta 6.10+)%2"
 
 #: ../inc/prefs.inc:200
 msgid "Use CPU %1(enforced by 6.10+ clients)%2"
-msgstr ""
+msgstr "Käytä keskusyksikköä %1(versiosta 6.10+)%2"
 
 #: ../inc/prefs.inc:208
 msgid "Kbytes/sec"
