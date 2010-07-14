@@ -43,6 +43,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH)"
 				PreprocessorDefinitions="NV_OS_WIN"
+				RuntimeLibrary="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -111,6 +112,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH)"
 				PreprocessorDefinitions="NV_OS_WIN"
+				RuntimeLibrary="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

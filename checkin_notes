@@ -5099,3 +5099,12 @@ David  14 Jul 2010
             project.inc
         inc/
             prefs.inc
+
+Rom    14 Jul 2010
+    - WINBUILD: Fix project files so that there isn't any C Runtime Library
+        collisions between types.
+    - WINBUILD: Remove old cruft.
+
+    win_build/
+        *.sln
+        *.vcproj
