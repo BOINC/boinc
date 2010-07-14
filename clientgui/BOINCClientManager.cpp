@@ -541,7 +541,7 @@ ClientCrashDlg::ClientCrashDlg(double timeDiff) : wxDialog( NULL, wxID_ANY, wxT(
     // 2st %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
-        _("The %s client has exited unexpectedly 3 times within the last %d minutes.\nWould you like to try to restart it again?"),
+        _("The %s client has exited unexpectedly 3 times within the last %d minutes.\nWould you like to restart it again?"),
         pSkinAdvanced->GetApplicationShortName().c_str(),
         minutes        
     );

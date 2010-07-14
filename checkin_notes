@@ -5130,3 +5130,9 @@ David  14 Jul 2010
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+Charlie 14 Jul 2010
+    - MGR: Tweak text in crash alert.
+    
+    clientgui/
+        BOINCClientManager.cpp
