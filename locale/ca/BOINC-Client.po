@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-07-14 14:00-0700\n"
+"PO-Revision-Date: 2010-07-14 14:22-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ca\n"
@@ -122,55 +122,68 @@ msgstr ""
 #: ../sched/sched_send.cpp:1296
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr ""
+"Una GPU NVIDIA o ATI és necessaria per a executar tasques d'aquest projecte"
 
 #: ../sched/sched_send.cpp:1301
 msgid "An NVIDIA GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Una GPU NVIDIA és necessaria per a executar tasques d'aquest projecte"
 
 #: ../sched/sched_send.cpp:1307
 msgid "An ATI GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Una GPU ATI és necessaria per executar tasques d'aquest projecte"
 
 #: ../sched/sched_send.cpp:1402
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
+"No hi ha feina disponible per a les aplicacions que heu seleccionat.  Si us "
+"plau, comprovi les seves preferències en el lloc web del projecte."
 
 #: ../sched/sched_send.cpp:1428
 msgid "Your computer type is not supported by this project"
-msgstr ""
+msgstr "El seu equip no és compatible amb aquest projecte"
 
 #: ../sched/sched_send.cpp:1434
 msgid "Newer BOINC version required; please install current version"
 msgstr ""
+"Es requereix una versió més actualitzada de BOINC; si us plau, instal·la "
+"versió actual"
 
 #: ../sched/sched_send.cpp:1444
 msgid ""
 "Your preference for network connection interval is too high for this project"
 msgstr ""
+"La seva preferència per l'interval de connexió a la xarxa és massa alt per a "
+"aquest projecte"
 
 #: ../sched/sched_send.cpp:1450
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
+"Hi ha disponibles tasques per a la GPU NVIDIA, però les seves preferències "
+"estan configurades per a no acceptar-les"
 
 #: ../sched/sched_send.cpp:1456
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
+"Hi ha disponibles tasques per a la GPU ATI, però les seves preferències "
+"estan configurades per a no acceptar-les"
 
 #: ../sched/sched_send.cpp:1462
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
+"Hi ha disponibles tasques per a la CPU, però les seves preferències estan "
+"configurades per a no acceptar-les"
 
 #: ../sched/sched_version.cpp:224
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "El seu arxiu app_info.xml encara no té una versió usable del"
 
 #: ../sched/sched_version.cpp:635
 msgid "is not available for your type of computer"
-msgstr ""
+msgstr "no està disponible per al seu tipus d'equip"
