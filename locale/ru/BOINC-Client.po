@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-07-14 10:57-0700\n"
+"PO-Revision-Date: 2010-07-14 11:05-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -179,5 +179,6 @@ msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Ваш файл app_info.xml не имеет годной версии"
 
 #: ../sched/sched_version.cpp:635
+#, fuzzy
 msgid "is not available for your type of computer"
-msgstr ""
+msgstr "не доступно для вашего типа компьютера"
