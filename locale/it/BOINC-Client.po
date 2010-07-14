@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-07-14 02:46-0700\n"
+"PO-Revision-Date: 2010-07-14 03:54-0700\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: it\n"
@@ -82,27 +82,33 @@ msgid ""
 "You may have an outdated code signing key.  Try attaching and reattaching "
 "this project."
 msgstr ""
+"Potresti avere una chiave di autenticazione obsoleta.  Per risolvere, "
+"disconnetti e riconnetti questo progetto."
 
 #: ../sched/handle_request.cpp:908
 msgid "This project doesn't support operating system"
-msgstr ""
+msgstr "Il progetto non supporta questo sistema operativo"
 
 #: ../sched/handle_request.cpp:934
 msgid "This project doesn't support CPU type"
-msgstr ""
+msgstr "Il progetto non supporta questo tipo di CPU"
 
 #: ../sched/handle_request.cpp:1216
 msgid "This project doesn't support computers of type"
-msgstr ""
+msgstr "Il progetto non supporta questo tipo di computer"
 
 #: ../sched/sched_send.cpp:1252
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
+"Aggiorna i driver all'ultima versione per eseguire i lavori che utilizzano "
+"la GPU del tuo computer"
 
 #: ../sched/sched_send.cpp:1259
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
+"Aggiorna i driver all'ultima versione per eseguire le applicazioni di questo "
+"progetto che utilizzano la GPU"
 
 #: ../sched/sched_send.cpp:1283
 msgid ""
@@ -110,61 +116,73 @@ msgid ""
 "the current version"
 msgstr ""
 "Una nuova versione di BOINC è necessaria per usare la tua GPU NVIDIA; per "
-"favore aggiona alla versione corrente"
+"favore aggiorna alla versione corrente"
 
 #: ../sched/sched_send.cpp:1296
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr ""
-"Una GPU ATI o NVIDIA è richiesta per avviare i lavori per questo progetto"
+"Una GPU ATI o NVIDIA è richiesta per eseguire i lavori di questo progetto"
 
 #: ../sched/sched_send.cpp:1301
 msgid "An NVIDIA GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Una GPU NVIDIA è richiesta per eseguire i lavori di questo progetto"
 
 #: ../sched/sched_send.cpp:1307
 msgid "An ATI GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Una GPU ATI è richiesta per eseguire i lavori di questo progetto"
 
 #: ../sched/sched_send.cpp:1402
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
+"Nessun lavoro è disponibile per le applicazioni selezionate.  Per favore "
+"controlla le preferenze del progetto sul sito web"
 
 #: ../sched/sched_send.cpp:1428
 msgid "Your computer type is not supported by this project"
-msgstr ""
+msgstr "Il tuo tipo di computer non è supportato per questo progetto"
 
 #: ../sched/sched_send.cpp:1434
 msgid "Newer BOINC version required; please install current version"
 msgstr ""
+"Una versione di BOINC più recente è richiesta; per favore installa la "
+"versione corrente"
 
 #: ../sched/sched_send.cpp:1444
 msgid ""
 "Your preference for network connection interval is too high for this project"
 msgstr ""
+"Le tue preferenze di intervallo tra le connessioni di rete sono troppo alte "
+"per questo progetto"
 
 #: ../sched/sched_send.cpp:1450
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
+"Lavori per una GPU NVIDIA sono disponibili, ma le tue preferenze sono "
+"settate per non accettarli"
 
 #: ../sched/sched_send.cpp:1456
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
+"Lavori per una GPU ATI sono disponibili, ma le tue preferenze sono settate "
+"per non accettarli"
 
 #: ../sched/sched_send.cpp:1462
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
+"Lavori per la CPU sono disponibili, ma le tue preferenze sono settate per "
+"non accettarli"
 
 #: ../sched/sched_version.cpp:224
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Il tuo file app_info.xml non ha una versione utilizzabile di"
 
 #: ../sched/sched_version.cpp:635
 msgid "is not available for your type of computer"
-msgstr ""
+msgstr "non è disponibile per il tuo tipo di computer"
