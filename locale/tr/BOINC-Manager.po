@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2010-06-06 11:17+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
-"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,-1,-1,222\n"
@@ -1247,7 +1247,8 @@ msgstr "İşlemci kullanımı bu orandan azsa:"
 
 #: DlgAdvPreferencesBase.cpp:212
 msgid "suspend work if processor usage exceeds this level"
-msgstr "BOINC dışı işlemci kullanımı bu seviyeyi aşarsa, hesaplama duraklatılır"
+msgstr ""
+"BOINC dışı işlemci kullanımı bu seviyeyi aşarsa, hesaplama duraklatılır"
 
 #: DlgAdvPreferencesBase.cpp:217
 msgid "percent (0 means no restriction)"
@@ -1402,7 +1403,8 @@ msgstr "Resim dosyasıyla doğrulamayı atla"
 
 #: DlgAdvPreferencesBase.cpp:443
 msgid "check this if your Internet provider modifies image files"
-msgstr "internet sağlayıcınız resim dosyalarını değiştiriyorsa bunu işaretleyin"
+msgstr ""
+"internet sağlayıcınız resim dosyalarını değiştiriyorsa bunu işaretleyin"
 
 #: DlgAdvPreferencesBase.cpp:451
 msgid "Connect options"
@@ -3322,7 +3324,8 @@ msgstr ""
 "internet sitesine ve organizasyonuna bağlanacak. Eğer istediğiniz buysa,\n"
 "aşağıdaki 'İleri' butonuna basın.\n"
 "\n"
-"World Community Grid gibi bazı projeler, birden fazla araştırma uygulamasına\n"
+"World Community Grid gibi bazı projeler, birden fazla araştırma "
+"uygulamasına\n"
 "sahiptir. Eğer bilgisayarınıza gönderilen uygulamaları değiştirmek "
 "isterseniz,\n"
 "projenin İnternet sitesini ziyaret etmeli ve buradaki tercihlerinizi "

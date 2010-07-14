@@ -3,22 +3,22 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-01-28 14:01-0700\n"
+"PO-Revision-Date: 2010-05-17 23:31+0300\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
-"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Russian\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: AccountInfoPage.cpp:375
 msgid "Identify your account "
@@ -221,12 +221,14 @@ msgid "E&xit"
 msgstr "Выход"
 
 #: AdvancedFrame.cpp:332
+#, fuzzy
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "Уведомления\tCtrl+Shift+N"
+msgstr "Новости\tCtrl+Shift+N"
 
 #: AdvancedFrame.cpp:333
+#, fuzzy
 msgid "Display notices"
-msgstr "Показать уведомления"
+msgstr "Показать новости"
 
 #: AdvancedFrame.cpp:338
 msgid "&Projects\tCtrl+Shift+P"
@@ -277,13 +279,13 @@ msgid "Display the simple graphical interface."
 msgstr "Изменить внешний вид на более простой и понятный."
 
 #: AdvancedFrame.cpp:391
-#, fuzzy
 msgid "&Attach to project or account manager..."
 msgstr "Подключиться к проекту или менеджеру проектов..."
 
 #: AdvancedFrame.cpp:392 sg_ProjectsComponent.cpp:105
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Стать участником в любом или во всех 30+ проектах во многих областях науки"
 
 # обновить данные
 #: AdvancedFrame.cpp:396
@@ -308,7 +310,6 @@ msgstr "Подключиться к ещё одному проекту расп�
 
 # ???
 #: AdvancedFrame.cpp:414
-#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "Отсоединиться от %s..."
@@ -362,12 +363,10 @@ msgid "Stop work regardless of preferences"
 msgstr "Приостанавливается обработка всех заданий во всех проектах"
 
 #: AdvancedFrame.cpp:475
-#, fuzzy
 msgid "Use GPU always"
 msgstr "Постоянная обработка на GPU"
 
 #: AdvancedFrame.cpp:476
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
 msgstr "Обработка заданий на GPU запущена всегда"
 
@@ -388,7 +387,6 @@ msgid "Suspend GPU"
 msgstr "Приостановить"
 
 #: AdvancedFrame.cpp:486
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
 msgstr "Приостанавливается обработка на GPU всех заданий во всех проектах"
 
@@ -480,14 +478,13 @@ msgid "Read preferences from global_prefs_override.xml."
 msgstr "Перезагрузить локальный файл общих настроек global_prefs_override.xml."
 
 #: AdvancedFrame.cpp:566
-#, fuzzy
 msgid "Event Log..."
-msgstr "Просмотр событий..."
+msgstr ""
 
 #: AdvancedFrame.cpp:567
 #, fuzzy
 msgid "Display diagnostic messages."
-msgstr "Показать диагностические сообщения клиента."
+msgstr "Показать сообщения"
 
 #: AdvancedFrame.cpp:577 sg_BoincSimpleGUI.cpp:129
 #, c-format
@@ -593,13 +590,11 @@ msgstr ""
 "для вступления в силу изменений требуется перезапустить программу %s."
 
 #: AdvancedFrame.cpp:1513
-#, c-format
 #, fuzzy, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Завершение работы текущего BOINC клиента..."
 
 #: AdvancedFrame.cpp:1522
-#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -611,7 +606,7 @@ msgstr ""
 #: AdvancedFrame.cpp:1569
 #, fuzzy
 msgid "Retrying communications."
-msgstr "Повторный обмен данными."
+msgstr "Повторный обмен данными для всех подключенных проектов..."
 
 #: AdvancedFrame.cpp:1774 DlgAbout.cpp:104
 #, c-format
@@ -686,10 +681,9 @@ msgid "E&xit %s"
 msgstr "Выйти из %s"
 
 #: AsyncRPC.cpp:1242
-#, c-format
 #, fuzzy, c-format
 msgid "%s - Communication"
-msgstr "%s - Обмен данными"
+msgstr "%s - Подтверждение выхода"
 
 #: AsyncRPC.cpp:1258 DlgAdvPreferencesBase.cpp:103
 msgid "Cancel"
@@ -759,8 +753,8 @@ msgid ""
 "start the BOINC service."
 msgstr ""
 "%s не может запустить клиента %s.\n"
-"Попробуйте запустить службу BOINC ещё раз из 'Панель "
-"управления/Администрирование/Службы'."
+"Попробуйте запустить службу BOINC ещё раз из 'Панель управления/"
+"Администрирование/Службы'."
 
 # чё-то муть какая-то, зачем и что повторить-то.
 #: BOINCBaseFrame.cpp:554
@@ -974,7 +968,6 @@ msgid "Snooze"
 msgstr "Пауза"
 
 #: BOINCTaskBar.cpp:492
-#, fuzzy
 msgid "Snooze GPU"
 msgstr "Приостановить GPU"
 
@@ -1022,9 +1015,8 @@ msgstr "Не подключен к клиенту."
 
 #: BOINCTaskBar.cpp:759
 #, c-format
-#, fuzzy, c-format
 msgid "%s Notices"
-msgstr "Уведомления"
+msgstr ""
 
 #: BOINCTaskBar.cpp:765
 msgid "One or more notices are now available for viewing."
@@ -1315,17 +1307,17 @@ msgid "minutes"
 msgstr "минут"
 
 #: DlgAdvPreferencesBase.cpp:202
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "процессор"
+msgstr "При использовании процессора менее"
 
 #: DlgAdvPreferencesBase.cpp:212
 msgid "suspend work if processor usage exceeds this level"
 msgstr ""
+"остановить обработку, если использование процессора превысит этот уровень"
 
 #: DlgAdvPreferencesBase.cpp:217
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "процентов (0 - нет ограничений)"
 
 #: DlgAdvPreferencesBase.cpp:231 DlgAdvPreferencesBase.cpp:471
 msgid "Every day between hours of"
@@ -1392,7 +1384,7 @@ msgstr "Другие параметры"
 # поправить
 #: DlgAdvPreferencesBase.cpp:326
 msgid "Switch between applications every"
-msgstr "Переключение между проектами каждые"
+msgstr "Переключение между приложениями каждые"
 
 #: DlgAdvPreferencesBase.cpp:335
 msgid "On multiprocessor systems, use at most"
@@ -1433,19 +1425,16 @@ msgid "Maximum upload rate"
 msgstr "Ограничить скорость отправки"
 
 #: DlgAdvPreferencesBase.cpp:400
-#, fuzzy
 msgid "Transfer at most"
-msgstr "Использовать не более"
+msgstr "Передавать не более"
 
 #: DlgAdvPreferencesBase.cpp:406
-#, fuzzy
 msgid "Mbytes"
-msgstr "да"
+msgstr "Мбайт"
 
 #: DlgAdvPreferencesBase.cpp:409
-#, fuzzy
 msgid "every"
-msgstr "Сервер:"
+msgstr "каждые"
 
 #: DlgAdvPreferencesBase.cpp:415 DlgAdvPreferencesBase.cpp:429
 msgid "days"
@@ -1480,8 +1469,7 @@ msgstr " Не проверять загружаемые файлы"
 #: DlgAdvPreferencesBase.cpp:443
 msgid "check this if your Internet provider modifies image files"
 msgstr ""
-"выберите данный пункт если ваш интернет провайдер изменяет передаваемые "
-"файлы"
+"выберите данный пункт если ваш интернет провайдер изменяет передаваемые файлы"
 
 #: DlgAdvPreferencesBase.cpp:451
 msgid "Connect options"
@@ -1602,9 +1590,8 @@ msgstr "оставлять приложение в памяти на время 
 
 #: DlgEventLog.cpp:188
 #, c-format
-#, fuzzy, c-format
 msgid "%s - Event Log"
-msgstr "%s - Просмотр событий"
+msgstr ""
 
 #: DlgEventLog.cpp:201 ViewMessages.cpp:117 ViewProjects.cpp:218
 #: ViewStatistics.cpp:381 ViewStatistics.cpp:1769 ViewTransfers.cpp:181
@@ -1632,7 +1619,7 @@ msgstr "Показать сообщения только от выбранног
 
 #: DlgEventLog.cpp:258
 msgid "Copy All"
-msgstr "Копировать всё"
+msgstr ""
 
 #: DlgEventLog.cpp:260 DlgEventLog.cpp:264 ViewMessages.cpp:89
 #: sg_DlgMessages.cpp:176 sg_DlgMessages.cpp:180
@@ -1640,6 +1627,7 @@ msgid "Copy all the messages to the clipboard."
 msgstr "Копировать все сообщения в буфер обмена."
 
 #: DlgEventLog.cpp:269
+#, fuzzy
 msgid "Copy Selected"
 msgstr "Копировать выделенное"
 
@@ -1845,15 +1833,14 @@ msgstr "Планировщик"
 
 #: DlgItemProperties.cpp:242 DlgItemProperties.cpp:252
 #: DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Project preference"
-msgstr "Ваши настройки"
+msgstr "Настройка проекта"
 
 # ???
 #: DlgItemProperties.cpp:242
 #, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "Не запрашивать новые задания"
+msgstr "Не запрашивать задания для ЦП"
 
 #: DlgItemProperties.cpp:244
 msgid "CPU scheduling priority"
@@ -1871,11 +1858,10 @@ msgstr "Запрос заданий для ЦП отложен на"
 msgid "CPU work fetch deferral interval"
 msgstr "Интервал задержки запроса заданий для ЦП"
 
-# ???
 #: DlgItemProperties.cpp:252
 #, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr "Не запрашивать новые задания"
+msgstr "Не запрашивать задания для GPU NVIDIA"
 
 #: DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1897,7 +1883,7 @@ msgstr "Интервал задержки запроса заданий для G
 #: DlgItemProperties.cpp:263
 #, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "Не запрашивать новые задания"
+msgstr "Не запрашивать задания для GPU ATI"
 
 #: DlgItemProperties.cpp:265
 msgid "ATI GPU scheduling priority"
@@ -2152,7 +2138,8 @@ msgstr "Ваши результаты"
 
 #: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr "Просмотр информации о выданных заданиях (за последние несколько недель)"
+msgstr ""
+"Просмотр информации о выданных заданиях (за последние несколько недель)"
 
 #: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
@@ -2218,8 +2205,7 @@ msgstr "Проблемы и ошибки"
 #: Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
 msgstr ""
-"Форум для обсуждения проблем и ошибок в работе программ проекта "
-"Einstein@Home"
+"Форум для обсуждения проблем и ошибок в работе программ проекта Einstein@Home"
 
 # einstein
 #: Localization.cpp:83
@@ -2342,10 +2328,11 @@ msgstr "Описания проектов"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Подробные описания проектов запущенных в рамках WCG"
 
+# ипользуется внутри программы
 #: MainDocument.cpp:553
 #, fuzzy
 msgid "Starting client"
-msgstr "Попытка запустить службу; пожалуйста подождите..."
+msgstr "Static text"
 
 #: MainDocument.cpp:1154
 msgid "Retrieving system state; please wait..."
@@ -2419,7 +2406,7 @@ msgstr "Загрузка данных"
 #: MainDocument.cpp:2280 MainDocument.cpp:2338
 #, fuzzy
 msgid " (suspended - "
-msgstr "Приостановлена"
+msgstr "(приостановлено)"
 
 #: MainDocument.cpp:2282 MainDocument.cpp:2340 ViewTransfers.cpp:794
 msgid ")"
@@ -2470,9 +2457,8 @@ msgid "Ready to start"
 msgstr "Готово к запуску"
 
 #: MainDocument.cpp:2326
-#, fuzzy
 msgid " (waiting for GPU memory)"
-msgstr "Ожидание освобождения оперативной памяти"
+msgstr "(ожидание освобождения памяти GPU)"
 
 #: MainDocument.cpp:2330
 msgid "Computation error"
@@ -2630,14 +2616,14 @@ msgid "Communicating with project."
 msgstr "Установка связи с сервером."
 
 #: ProjectProcessingPage.cpp:499
-#, fuzzy
 msgid "Required files not found on the server."
-msgstr "Необходимые файлы не найдены на сервере."
+msgstr ""
 
 # что бы это значило???
 #: ProjectProcessingPage.cpp:502 ProjectProcessingPage.cpp:564
+#, fuzzy
 msgid "An internal server error has occurred."
-msgstr "Произошла внутренняя ошибка сервера."
+msgstr "Произошла внутренняя ошибка сервера.\n"
 
 #: ProjectPropertiesPage.cpp:335
 msgid ""
@@ -2894,14 +2880,14 @@ msgid "Display the latest news about BOINC"
 msgstr "Показать последние новости BOINC"
 
 #: ViewNotices.cpp:105
-#, fuzzy
 msgid "Notices"
-msgstr "Уведомления"
+msgstr ""
 
+# ?????? это о чём
 #: ViewNotices.cpp:155
 #, fuzzy
 msgid "Retrieving notices..."
-msgstr "Получение уведомлений..."
+msgstr "Проверка текущего состояния."
 
 #: ViewProjects.cpp:173
 msgid "Update"
@@ -3092,8 +3078,9 @@ msgid "Scheduler request in progress"
 msgstr "Производится запрос информации у планировщика"
 
 #: ViewProjects.cpp:1076
+#, fuzzy
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Ожидание отправки промежуточного сообщения"
 
 #: ViewProjects.cpp:1082
 msgid "Communication deferred "
@@ -3296,10 +3283,13 @@ msgid "Network activity is suspended - "
 msgstr "Автономная работа."
 
 #: ViewTransfers.cpp:281
+#, fuzzy
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
 msgstr ""
+"Доступ в интернет приостановлен.\n"
+" Вы можете разрешить его через меню 'Управление'."
 
 #: ViewTransfers.cpp:291
 msgid "Retrying transfer now..."
@@ -3981,9 +3971,25 @@ msgid ""
 "configuration."
 msgstr ""
 
-#, fuzzy
-#~ msgid "Attach this computer to a project or account manager"
-#~ msgstr "Выбор проекта или менеджера проектов"
+#~ msgid "&Messages\tCtrl+Shift+M"
+#~ msgstr "Сообщения\tCtrl+Shift+M"
+
+#~ msgid "Attach to a project to begin processing work"
+#~ msgstr ""
+#~ "Чтобы начать обработку заданий необходимо подключиться к проекту "
+#~ "распределённых вычислений"
+
+#~ msgid "Use GPU never"
+#~ msgstr "Не использовать GPU"
+
+#~ msgid "&Options..."
+#~ msgstr "Настройки программы..."
+
+#~ msgid "%s: %.2f%% completed."
+#~ msgstr "%s: прогресс %.2f%%."
+
+#~ msgid "%d tasks running."
+#~ msgstr "обрабатывается заданий: %d."
 
 #~ msgid " - user active"
 #~ msgstr " - пользователь работает"
@@ -3994,173 +4000,6 @@ msgstr ""
 
 #~ msgid " - need disk space"
 #~ msgstr " - не хватает места на диске"
-
-#~ msgid "Attach to an additional project"
-#~ msgstr "Подключиться к ещё одному проекту распределённых вычислений"
-
-#~ msgid "To completion"
-#~ msgstr "Осталось"
-
-#~ msgid ""
-#~ "We'll guide you through the process of attaching\n"
-#~ "to a project or account manager."
-#~ msgstr ""
-#~ "Данный мастер поможет вам подключиться\n"
-#~ "к проекту распределённых вычислений или менеджеру проектов."
-
-#~ msgid "New page inserted. Index = %i"
-#~ msgstr "Новая страница вставлена. Индекс = %i"
-
-#~ msgid "New page appended. Index = %i"
-#~ msgstr "Новая страница добавлена. Индекс = %i"
-
-#~ msgid "Old Page Index = %i"
-#~ msgstr "Индекс старой страницы = %i"
-
-#~ msgid "OnDropTarget: index by HitTest = %i"
-#~ msgstr "OnDropTarget: индекс по HitTest = %i"
-
-#~ msgid "Pie Ctrl"
-#~ msgstr "Pie Ctrl"
-
-#, fuzzy
-#~ msgid ""
-#~ "for accessibility support, please select advanced from the view menu or "
-#~ "type command shift a"
-#~ msgstr ""
-#~ "для поддержки доступности, пожалуйста выберите меню Расширенный вид или "
-#~ "введите команду Shift a"
-
-#, fuzzy
-#~ msgid "This panel contains graphs showing user totals for projects"
-#~ msgstr ""
-#~ "Эта панель содержит графики, показывающие пользовательские достижения в "
-#~ "проектах"
-
-#, fuzzy
-#~ msgid "blank"
-#~ msgstr "пусто"
-
-#, fuzzy
-#~ msgid "list of "
-#~ msgstr "список "
-
-#, fuzzy
-#~ msgid "events"
-#~ msgstr "события"
-
-#, fuzzy
-#~ msgid " is empty"
-#~ msgstr "пуст"
-
-#, fuzzy
-#~ msgid "%d of %d; "
-#~ msgstr "%d из %d; "
-
-#, fuzzy
-#~ msgid "current sort column "
-#~ msgstr "текущий столбец сортировки "
-
-#, fuzzy
-#~ msgid " descending order "
-#~ msgstr "порядок убывания "
-
-#, fuzzy
-#~ msgid " ascending order "
-#~ msgstr "порядок возрастания "
-
-#, fuzzy
-#~ msgid "column "
-#~ msgstr "столбец "
-
-#, fuzzy
-#~ msgid "list is empty"
-#~ msgstr "список пуст"
-
-#, fuzzy
-#~ msgid "selected "
-#~ msgstr "выбран "
-
-#, fuzzy
-#~ msgid "row %d "
-#~ msgstr "строка %d "
-
-#, fuzzy
-#~ msgid "of %d; "
-#~ msgstr "из %d; "
-
-#, fuzzy
-#~ msgid "column %d; "
-#~ msgstr "столбец %d; "
-
-#, fuzzy
-#~ msgid "list of projects or account managers"
-#~ msgstr "список проектов и менеджеров проектов"
-
-#, fuzzy
-#~ msgid "row %d of %d; "
-#~ msgstr "строка %d из %d; "
-
-#~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
-#~ msgstr ""
-#~ "задайте время, когда разрешено обрабатывать задания, в формате ЧЧ:мм-ЧЧ:мм"
-
-#~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-#~ msgstr ""
-#~ "задайте время, когда клиенту разрешено подключаться к интернету, в "
-#~ "формате ЧЧ:мм-ЧЧ:мм"
-
-#~ msgid "Attach to a project or account manager to begin processing work"
-#~ msgstr ""
-#~ "Чтобы начать обработку заданий, необходимо подключиться к проекту или "
-#~ "менеджеру проектов"
-
-#~ msgid "Attach to a project to begin processing work"
-#~ msgstr ""
-#~ "Чтобы начать обработку заданий необходимо подключиться к проекту "
-#~ "распределённых вычислений"
-
-#, fuzzy
-#~ msgid "Use GPU never"
-#~ msgstr "Не использовать GPU"
-
-#~ msgid "&Options..."
-#~ msgstr "Настройки программы..."
-
-#, fuzzy
-#~ msgid "BOINC Notification"
-#~ msgstr "Уведомления BOINC"
-
-#, fuzzy
-#~ msgid ""
-#~ "TEST: Fluffy@Home just found out that the Fluffy project has been "
-#~ "published in Nature"
-#~ msgstr ""
-#~ "TEST: Fluffy@Home just found out that the Fluffy project has been "
-#~ "published in Nature"
-
-#~ msgid "%s: %.2f%% completed."
-#~ msgstr "%s: прогресс %.2f%%."
-
-#~ msgid "%d tasks running."
-#~ msgstr "обрабатывается заданий: %d."
-
-# ?
-#, fuzzy
-#~ msgid "Test Notification"
-#~ msgstr "Проверить уведомление"
-
-#~ msgid "&Close Window\tCtrl+W"
-#~ msgstr "Закрыть окно\tCtrl+W"
-
-#~ msgid "&Messages\tCtrl+Shift+M"
-#~ msgstr "Сообщения\tCtrl+Shift+M"
-
-#~ msgid "Display messages"
-#~ msgstr "Показать сообщения"
-
-#~ msgid "Display news"
-#~ msgstr "Показать новости"
 
 #~ msgid "%s - Can't find web browser"
 #~ msgstr "%s - не найден веб-браузер"
@@ -4185,16 +4024,6 @@ msgstr ""
 
 #~ msgid "Starting client services; please wait..."
 #~ msgstr "Попытка запустить службу; пожалуйста подождите..."
-
-#~ msgid "BOINC Website"
-#~ msgstr "Домашняя страница BOINC"
-
-# долго думал
-#~ msgid "Display the latest news about BOINC from the BOINC website"
-#~ msgstr "Показать последние новости BOINC с домашней страницы BOINC"
-
-#~ msgid "Retrying communications for project(s)..."
-#~ msgstr "Повторный обмен данными для всех подключенных проектов..."
 
 # искусственный интеллект какой-то
 #~ msgid ""
@@ -4223,9 +4052,24 @@ msgstr ""
 #~ msgid "Warning"
 #~ msgstr "Предупреждение"
 
+#~ msgid "BOINC Website"
+#~ msgstr "Домашняя страница BOINC"
+
+# долго думал
+#~ msgid "Display the latest news about BOINC from the BOINC website"
+#~ msgstr "Показать последние новости BOINC с домашней страницы BOINC"
+
 # ипользуется внутри программы
 #~ msgid "ProjectsGrid"
 #~ msgstr "ProjectsGrid"
+
+#, fuzzy
+#~ msgid "Suspended upload"
+#~ msgstr "Отправка данных приостановлена"
+
+#, fuzzy
+#~ msgid "Suspended download"
+#~ msgstr "Загрузка данных приостановлена"
 
 # ипользуется внутри программы
 #~ msgid "TransfersGrid"
@@ -4249,6 +4093,9 @@ msgstr ""
 #~ msgid "Abort File Transfer(s)"
 #~ msgstr "Прерывание передачи файла(ов)"
 
+#~ msgid "To completion"
+#~ msgstr "Осталось"
+
 # ипользуется внутри программы
 #~ msgid "TasksGrid"
 #~ msgstr "TasksGrid"
@@ -4259,6 +4106,148 @@ msgstr ""
 #~ msgstr ""
 #~ "Вы уверены, что хотите прервать обработку выделенного задания '%s'?\n"
 #~ "(Прогресс: %s %%, Состояние: %s)"
+
+#~ msgid ""
+#~ "We'll guide you through the process of attaching\n"
+#~ "to a project or account manager."
+#~ msgstr ""
+#~ "Данный мастер поможет вам подключиться\n"
+#~ "к проекту распределённых вычислений или менеджеру проектов."
+
+#~ msgid "New page inserted. Index = %i"
+#~ msgstr "Новая страница вставлена. Индекс = %i"
+
+#~ msgid "New page appended. Index = %i"
+#~ msgstr "Новая страница добавлена. Индекс = %i"
+
+#~ msgid "Old Page Index = %i"
+#~ msgstr "Индекс старой страницы = %i"
+
+#~ msgid "OnDropTarget: index by HitTest = %i"
+#~ msgstr "OnDropTarget: индекс по HitTest = %i"
+
+#~ msgid "Pie Ctrl"
+#~ msgstr "Pie Ctrl"
+
+#, fuzzy
+#~ msgid ""
+#~ "for accessibility support, please select advanced from the view menu or "
+#~ "type command shift a"
+#~ msgstr ""
+#~ "для поддержки специальных возможностей, пожалуйста выберите меню "
+#~ "'Расширенный вид' или введите команду shift a"
+
+#, fuzzy
+#~ msgid "This panel contains graphs showing user totals for projects"
+#~ msgstr ""
+#~ "Эта панель содержит графики, показывающие пользовательские достижения в "
+#~ "проектах"
+
+#, fuzzy
+#~ msgid "list headers"
+#~ msgstr "заголовки списка"
+
+#, fuzzy
+#~ msgid "list of %s"
+#~ msgstr "список %s"
+
+#, fuzzy
+#~ msgid "list of %s is empty"
+#~ msgstr "список %s пуст"
+
+#~ msgid "; current sort column %d of %d; descending order; "
+#~ msgstr "; текущий столбец сортировки %d из %d; в убывающем порядке; "
+
+#~ msgid "; current sort column %d of %d; ascending order; "
+#~ msgstr "; текущий столбец сортировки %d из %d; в возрастающем порядке; "
+
+#, fuzzy
+#~ msgid "; column %d of %d; "
+#~ msgstr "; столбец %d из %d; "
+
+#, fuzzy
+#~ msgid "list is empty"
+#~ msgstr "список пуст"
+
+#, fuzzy
+#~ msgid "; row %d; "
+#~ msgstr "; строка %d; "
+
+#, fuzzy
+#~ msgid "; selected row %d of %d; "
+#~ msgstr "; выбранная строка %d из %d; "
+
+#, fuzzy
+#~ msgid "; selected row %d ; "
+#~ msgstr "; выбранная строка %d ; "
+
+#, fuzzy
+#~ msgid "; row %d of %d; "
+#~ msgstr "; строка %d из %d; "
+
+#, fuzzy
+#~ msgid "blank"
+#~ msgstr "пусто"
+
+#, fuzzy
+#~ msgid "list of projects or account managers"
+#~ msgstr "список проектов и менеджеров проектов"
+
+#, fuzzy
+#~ msgid "selected row %d of %d; "
+#~ msgstr "выбранная строка %d из %d; "
+
+#, fuzzy
+#~ msgid "row %d of %d; "
+#~ msgstr "строка %d из %d; "
+
+#~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
+#~ msgstr ""
+#~ "задайте время, когда разрешено обрабатывать задания, в формате ЧЧ:мм-ЧЧ:мм"
+
+#~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
+#~ msgstr ""
+#~ "задайте время, когда клиенту разрешено подключаться к интернету, в "
+#~ "формате ЧЧ:мм-ЧЧ:мм"
+
+#~ msgid "Attach to a project or account manager to begin processing work"
+#~ msgstr ""
+#~ "Чтобы начать обработку заданий, необходимо подключиться к проекту или "
+#~ "менеджеру проектов"
+
+#~ msgid "Attach to an additional project"
+#~ msgstr "Подключиться к ещё одному проекту распределённых вычислений"
+
+#, fuzzy
+#~ msgid " is empty"
+#~ msgstr "пуст"
+
+#, fuzzy
+#~ msgid "%d of %d; "
+#~ msgstr "%d из %d; "
+
+#, fuzzy
+#~ msgid "current sort column "
+#~ msgstr "текущий столбец сортировки "
+
+#, fuzzy
+#~ msgid " descending order "
+#~ msgstr "порядок убывания "
+
+#, fuzzy
+#~ msgid " ascending order "
+#~ msgstr "порядок возрастания "
+
+#, fuzzy
+#~ msgid "column "
+#~ msgstr "столбец "
+
+#, fuzzy
+#~ msgid "of %d; "
+#~ msgstr "из %d; "
+
+#~ msgid "&Close Window\tCtrl+W"
+#~ msgstr "Закрыть окно\tCtrl+W"
 
 #~ msgid "&Projects\tCTRL+SHIFT+P"
 #~ msgstr "Проекты\tCTRL+SHIFT+P"
@@ -4454,10 +4443,6 @@ msgstr ""
 #~ msgstr "Запущенный BOINC клиент уже подключен к данному проекту"
 
 # ипользуется внутри программы
-#~ msgid "Static text"
-#~ msgstr "Static text"
-
-# ипользуется внутри программы
 #~ msgid "Radiobutton"
 #~ msgstr "Radiobutton"
 
@@ -4471,19 +4456,5 @@ msgstr ""
 #~ msgid "Long term debt"
 #~ msgstr "Долгосрочный долг"
 
-# Пью пиво,&lt;br /&gt;<br />
-# меняю пароли.
-# ?
-# дубль (перевода)
-# есть некоторые сомнения в правильности перевода :)
-# Goblin forever
-# Компьютер отключен от %s. Теперь только вы\n<br />
-# сами отвечаете за управление BOINC клиентом\n
-# if defined(__WXDEBUG__)
-# Неудача при попытке установить соединение
-# ???
-# ипользуется внутри программы
-# ?
-# ?
 #~ msgid "Enter account key"
 #~ msgstr "Введите код доступа"

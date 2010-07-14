@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2009-12-14 18:30-0700\n"
 "Last-Translator: Nick Liolios <anarchist_jesus@hotmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
-"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -29,8 +29,7 @@ msgid ""
 "(to create an account, visit the project's web site)"
 msgstr ""
 "Παρακαλούμε εισάγετε τις πληροφορίες του λογαριασμού σας\n"
-"(για να δημιουργήσετε έναν λογαριασμό, επισκεφθείτε την ιστοσελίδα του "
-"έργου)"
+"(για να δημιουργήσετε έναν λογαριασμό, επισκεφθείτε την ιστοσελίδα του έργου)"
 
 #: AccountInfoPage.cpp:385
 msgid ""
@@ -190,7 +189,8 @@ msgstr "Παρακαλούμε περιμένετε..."
 
 #: AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr "Προέκυψε ένα εσωτερικό σφάλμα στον εξυπηρετητή (internal server error).\n"
+msgstr ""
+"Προέκυψε ένα εσωτερικό σφάλμα στον εξυπηρετητή (internal server error).\n"
 
 #: AdvancedFrame.cpp:95
 msgid "Connected"
@@ -305,7 +305,6 @@ msgid "Attach to a project"
 msgstr "Σύνδεση σε πρόγραμμα"
 
 #: AdvancedFrame.cpp:414
-#, c-format
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "&Παύση χρήσης του %s..."
@@ -567,7 +566,6 @@ msgid "%s - Language Selection"
 msgstr ""
 
 #: AdvancedFrame.cpp:1350
-#, c-format
 #, fuzzy, c-format
 msgid ""
 "The %s's default language has been changed, in order for this change to take "
@@ -614,7 +612,6 @@ msgid "Connecting to %s"
 msgstr "Σύνδεση στο %s"
 
 #: AdvancedFrame.cpp:1929
-#, c-format
 #, fuzzy, c-format
 msgid "Connected to %s (%s)"
 msgstr "Συνδέθηκε στο %s"
@@ -664,7 +661,6 @@ msgid "&Quit %s"
 msgstr ""
 
 #: AsyncRPC.cpp:1238
-#, c-format
 #, fuzzy, c-format
 msgid "E&xit %s"
 msgstr "Έξοδος %s"
@@ -775,7 +771,6 @@ msgid ""
 msgstr ""
 
 #: BOINCDialupManager.cpp:310
-#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -785,7 +780,6 @@ msgstr ""
 "Να το επιχειρήσει τώρα;"
 
 #: BOINCDialupManager.cpp:323
-#, c-format
 #, fuzzy, c-format
 msgid "%s is connecting to the Internet."
 msgstr "Το BOINC συνδέεται στο διαδίκτυο."
@@ -800,19 +794,16 @@ msgid ""
 msgstr ""
 
 #: BOINCDialupManager.cpp:386
-#, c-format
 #, fuzzy, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "Το BOINC συνθέθηκε επιτυχώς στο διαδίκτυο"
 
 #: BOINCDialupManager.cpp:414
-#, c-format
 #, fuzzy, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "Το BOINC απέτυχε να συνδεθεί στο διαδίκτυο."
 
 #: BOINCDialupManager.cpp:455
-#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -822,13 +813,11 @@ msgstr ""
 "προγραμμάτων και επανάληψη όλων των μεταφορών."
 
 #: BOINCDialupManager.cpp:500
-#, c-format
 #, fuzzy, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "Το BOINC αποσυνδέθηκε επιτυχώς από το διαδίκτυο."
 
 #: BOINCDialupManager.cpp:516
-#, c-format
 #, fuzzy, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "Το BOINC απέτυχε να αποσυνδεθεί από το διαδίκτυο."
@@ -1043,7 +1032,6 @@ msgid "Welcome to %s!"
 msgstr ""
 
 #: CompletionPage.cpp:285
-#, c-format
 #, fuzzy, c-format
 msgid "You are now successfully attached to the %s system."
 msgstr "Επιτυχημένη σύνδεση στο πρόγραμμα."
@@ -1307,7 +1295,6 @@ msgid "Use at most"
 msgstr ""
 
 #: DlgAdvPreferencesBase.cpp:352
-#, no-c-format
 #, fuzzy, no-c-format
 msgid "% CPU time"
 msgstr "Χρόνος Επεξεργαστή"
@@ -1956,7 +1943,6 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS Proxy"
 
 #: DlgSelectComputer.cpp:90
-#, c-format
 #, fuzzy, c-format
 msgid "%s - Select Computer"
 msgstr "Επιλογή Υπολογιστή"
@@ -2005,8 +1991,7 @@ msgstr "Τα Αποτελέσματά σας"
 #: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr ""
-"Εμφάνιση των αποτελεσμάτων και εργασιών της τελευταιας εβδομάδας (ή "
-"παραπάνω)"
+"Εμφάνιση των αποτελεσμάτων και εργασιών της τελευταιας εβδομάδας (ή παραπάνω)"
 
 #: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
@@ -2432,7 +2417,8 @@ msgstr ""
 #: ProjectProcessingPage.cpp:502 ProjectProcessingPage.cpp:564
 #, fuzzy
 msgid "An internal server error has occurred."
-msgstr "Προέκυψε ένα εσωτερικό σφάλμα στον εξυπηρετητή (internal server error).\n"
+msgstr ""
+"Προέκυψε ένα εσωτερικό σφάλμα στον εξυπηρετητή (internal server error).\n"
 
 #: ProjectPropertiesPage.cpp:335
 #, fuzzy
@@ -3184,7 +3170,6 @@ msgid ""
 msgstr ""
 
 #: ViewWork.cpp:437
-#, c-format
 #, fuzzy, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Είστε σίγουρος ότι θέλετε να εγκαταλείψετε το αποτέλεσμα '%s';"

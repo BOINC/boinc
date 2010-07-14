@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-12 10:08 PDT\n"
+"POT-Creation-Date: 2010-07-14 12:19 PDT\n"
 "PO-Revision-Date: 2010-07-10 05:23-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -39,7 +39,7 @@ msgstr "Búsqueda avanzada"
 
 # ########################################
 # Private messages
-#: ../inc/forum.inc:131 ../inc/user.inc:247 ../user/pm.php:64
+#: ../inc/forum.inc:131 ../inc/user.inc:251 ../user/pm.php:64
 #: ../user/pm.php:129
 msgid "Private messages"
 msgstr "Mensajes privados"
@@ -50,8 +50,8 @@ msgstr "Mensajes privados"
 msgid "Questions and Answers"
 msgstr "Preguntas y Respuestas"
 
-#: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:244
-#: ../inc/user.inc:366 ../user/forum_forum.php:72 ../user/sample_index.php:70
+#: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:248
+#: ../inc/user.inc:370 ../user/forum_forum.php:72 ../user/sample_index.php:70
 #: ../project.sample/project.inc:49
 msgid "Message boards"
 msgstr "Foros"
@@ -123,15 +123,15 @@ msgstr "Sin servidor"
 msgid "Unavailable"
 msgstr "No disponible"
 
-#: ../inc/host.inc:55 ../inc/prefs.inc:1000 ../project.sample/project.inc:49
+#: ../inc/host.inc:55 ../inc/prefs.inc:618 ../inc/prefs.inc:1018
 msgid "Home"
 msgstr "Inicio"
 
-#: ../inc/host.inc:56 ../inc/prefs.inc:1001
+#: ../inc/host.inc:56 ../inc/prefs.inc:620 ../inc/prefs.inc:1019
 msgid "Work"
 msgstr "Trabajo"
 
-#: ../inc/host.inc:57 ../inc/prefs.inc:1002
+#: ../inc/host.inc:57 ../inc/prefs.inc:619 ../inc/prefs.inc:1020
 msgid "School"
 msgstr "Escuela"
 
@@ -171,20 +171,20 @@ msgstr "Zona horaria"
 msgid "UTC %1 hours"
 msgstr ""
 
-#: ../inc/host.inc:98 ../inc/host.inc:611 ../inc/result.inc:378
-#: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:198
+#: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:378
+#: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:202
 #: ../user/account_finish.php:40 ../user/create_account_form.php:75
 #: ../user/team_admins.php:60 ../user/team_change_founder_form.php:75
-#: ../user/team_email_list.php:61 ../user/top_users.php:47
+#: ../user/team_email_list.php:62 ../user/top_users.php:47
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Name"
 msgstr "Nombre"
 
-#: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:212
+#: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
 msgid "Owner"
 msgstr "Propietario"
 
-#: ../inc/host.inc:104 ../inc/host.inc:317
+#: ../inc/host.inc:104 ../inc/host.inc:318
 msgid "Anonymous"
 msgstr "Anónimo"
 
@@ -192,18 +192,18 @@ msgstr "Anónimo"
 msgid "Created"
 msgstr "Creado"
 
-#: ../inc/host.inc:109 ../inc/host.inc:216 ../inc/host.inc:221
-#: ../inc/host.inc:620 ../inc/team.inc:94 ../inc/team.inc:207
+#: ../inc/host.inc:109 ../inc/host.inc:217 ../inc/host.inc:222
+#: ../inc/host.inc:621 ../inc/team.inc:94 ../inc/team.inc:207
 #: ../inc/team.inc:212 ../inc/team.inc:214 ../inc/team.inc:351
-#: ../inc/team.inc:356 ../inc/user.inc:118 ../inc/user.inc:132
-#: ../user/team_change_founder_form.php:76 ../user/team_email_list.php:61
+#: ../inc/team.inc:356 ../inc/user.inc:122 ../inc/user.inc:136
+#: ../user/team_change_founder_form.php:76 ../user/team_email_list.php:62
 #: ../user/team_remove_inactive_form.php:39 ../user/top_users.php:52
 #: ../user/top_users.php:57 ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Total credit"
 msgstr "Crédito total"
 
-#: ../inc/host.inc:110 ../inc/user.inc:118 ../user/team_search.php:67
+#: ../inc/host.inc:110 ../inc/user.inc:122 ../user/team_search.php:67
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Average credit"
 msgstr "Crédito promedio"
@@ -224,7 +224,7 @@ msgstr "Número de procesadores"
 msgid "Coprocessors"
 msgstr "Coprocesadores"
 
-#: ../inc/host.inc:119 ../inc/host.inc:626
+#: ../inc/host.inc:119 ../inc/host.inc:627
 msgid "Operating System"
 msgstr "Sistema Operativo"
 
@@ -284,8 +284,8 @@ msgstr "Velocidad promedio de envío"
 msgid "%1 KB/sec"
 msgstr "%1 KB/seg"
 
-#: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:148
-#: ../inc/result.inc:158 ../inc/result.inc:176 ../inc/result.inc:208
+#: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:152
+#: ../inc/result.inc:162 ../inc/result.inc:180 ../inc/result.inc:212
 msgid "Unknown"
 msgstr "Desconocido"
 
@@ -301,182 +301,186 @@ msgstr ""
 msgid "%1 days"
 msgstr "%1 días"
 
-#: ../inc/host.inc:165
-msgid "Maximum daily WU quota per CPU"
-msgstr "Cuota diaria máxima de unidad de trabajo por CPU"
+# ########################################
+# Apps page (apps.php)
+#: ../inc/host.inc:164
+#, fuzzy
+msgid "Application details"
+msgstr "Programas"
 
 #: ../inc/host.inc:165
-msgid "%1/day"
-msgstr "%1/día"
+#, fuzzy
+msgid "Show"
+msgstr "Mostrar:"
 
-#: ../inc/host.inc:174 ../inc/host.inc:301 ../inc/user.inc:149
+#: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
 msgstr "Tareas"
 
-#: ../inc/host.inc:178
+#: ../inc/host.inc:179
 msgid "Number of times client has contacted server"
 msgstr "Número de veces que el cliente ha contactado con el servidor"
 
-#: ../inc/host.inc:179
+#: ../inc/host.inc:180
 msgid "Last time contacted server"
 msgstr "Ultima vez que contactó con el servidor"
 
-#: ../inc/host.inc:180
+#: ../inc/host.inc:181
 #, php-format
 msgid "% of time BOINC client is running"
 msgstr "% del tiempo que el cliente BOINC se ejecuta"
 
-#: ../inc/host.inc:182
+#: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr ""
 "Mientras se ejecuta BOINC, % de tiempo que el ordenador tiene una conexión a "
 "Internet"
 
-#: ../inc/host.inc:184
+#: ../inc/host.inc:185
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
 msgstr "Mientras se ejecuta BOINC, % del tiempo que se permite el trabajo"
 
-#: ../inc/host.inc:186
+#: ../inc/host.inc:187
 msgid "Average CPU efficiency"
 msgstr "Rendimiento promedio de la CPU"
 
-#: ../inc/host.inc:189
+#: ../inc/host.inc:190
 msgid "Task duration correction factor"
 msgstr "Factor de corrección de la duración de la tarea"
 
-#: ../inc/host.inc:191 ../inc/host.inc:613
+#: ../inc/host.inc:192 ../inc/host.inc:614
 msgid "Location"
 msgstr "Localización"
 
-#: ../inc/host.inc:193
+#: ../inc/host.inc:194
 msgid "Delete this computer"
 msgstr "Eliminar este ordenador"
 
-#: ../inc/host.inc:197
+#: ../inc/host.inc:198
 msgid "Merge duplicate records of this computer"
 msgstr "Fusionar registros duplicados de este ordenador"
 
-#: ../inc/host.inc:197
+#: ../inc/host.inc:198
 msgid "Merge"
 msgstr "Fusionar"
 
-#: ../inc/host.inc:210
+#: ../inc/host.inc:211
 msgid "Computer info"
 msgstr "Información del ordenador"
 
-#: ../inc/host.inc:211 ../inc/host.inc:615 ../inc/team.inc:344
+#: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:344
 #: ../user/top_users.php:46
 msgid "Rank"
 msgstr "Posición"
 
-#: ../inc/host.inc:215 ../inc/host.inc:618
+#: ../inc/host.inc:216 ../inc/host.inc:619
 msgid "Avg. credit"
 msgstr "Crédito promedio"
 
-#: ../inc/host.inc:220 ../inc/team.inc:95 ../inc/team.inc:208
+#: ../inc/host.inc:221 ../inc/team.inc:95 ../inc/team.inc:208
 #: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:350
-#: ../inc/team.inc:355 ../inc/user.inc:133
-#: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:61
+#: ../inc/team.inc:355 ../inc/user.inc:137
+#: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:62
 #: ../user/team_remove_inactive_form.php:40 ../user/top_users.php:51
 #: ../user/top_users.php:56
 msgid "Recent average credit"
 msgstr "Promedio de créditos recientes"
 
-#: ../inc/host.inc:225
+#: ../inc/host.inc:226
 msgid "BOINC version"
 msgstr "Versión de BOINC"
 
-#: ../inc/host.inc:226 ../inc/host.inc:623
+#: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
 msgstr "CPU"
 
-#: ../inc/host.inc:227 ../inc/host.inc:624
+#: ../inc/host.inc:228 ../inc/host.inc:625
 msgid "GPU"
 msgstr "GPU"
 
-#: ../inc/host.inc:228
+#: ../inc/host.inc:229
 msgid "Operating system"
 msgstr "Sistema operativo"
 
-#: ../inc/host.inc:280
+#: ../inc/host.inc:281
 msgid "(%1 processors)"
 msgstr "(%1 procesadores)"
 
-#: ../inc/host.inc:300
+#: ../inc/host.inc:301
 msgid "Details"
 msgstr "Detalles"
 
-#: ../inc/host.inc:305
+#: ../inc/host.inc:306
 msgid "Cross-project stats:"
 msgstr "Estadísticas entre proyectos:"
 
-#: ../inc/host.inc:459
+#: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
 msgstr ""
 
-#: ../inc/host.inc:466
+#: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
 msgstr "El ordenador %1 tiene un SO incompatible:"
 
-#: ../inc/host.inc:472
+#: ../inc/host.inc:473
 msgid "Host %1 has an incompatible CPU:"
 msgstr "El ordenador %1 tiene una CPU incompatible:"
 
-#: ../inc/host.inc:539
+#: ../inc/host.inc:540
 msgid "same host"
 msgstr ""
 
-#: ../inc/host.inc:542
+#: ../inc/host.inc:543
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr ""
 
-#: ../inc/host.inc:545
+#: ../inc/host.inc:546
 msgid "Merging host %1 into host %2"
 msgstr ""
 
-#: ../inc/host.inc:562
+#: ../inc/host.inc:563
 msgid "Couldn't update credit of new computer"
 msgstr "No se pudo actualizar los creditos del nuevo ordenador"
 
-#: ../inc/host.inc:566
+#: ../inc/host.inc:567
 msgid "Couldn't update results"
 msgstr "No se ha podido actualizar los resultados"
 
-#: ../inc/host.inc:571
+#: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
 msgstr "No se pudo eliminar el antiguo ordenador"
 
-#: ../inc/host.inc:573
+#: ../inc/host.inc:574
 msgid "Retired old computer %1"
 msgstr "Eliminado el antiguo ordenador %1"
 
-#: ../inc/host.inc:596 ../inc/host.inc:599
+#: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Show:"
 msgstr "Mostrar:"
 
-#: ../inc/host.inc:596 ../inc/host.inc:599
+#: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "All computers"
 msgstr "Todos los ordenadores"
 
-#: ../inc/host.inc:596 ../inc/host.inc:599
+#: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
 msgstr "Sólo ordenadores activos en los últimos 30 días"
 
-#: ../inc/host.inc:608 ../inc/result.inc:387
+#: ../inc/host.inc:609 ../inc/result.inc:387
 msgid "Computer ID"
 msgstr "ID del ordenador"
 
-#: ../inc/host.inc:621
+#: ../inc/host.inc:622
 msgid "BOINC<br>version"
 msgstr "Versión<br>BOINC"
 
-#: ../inc/host.inc:628
+#: ../inc/host.inc:629
 msgid "Last contact"
 msgstr "Último contacto"
 
-#: ../inc/host.inc:677
+#: ../inc/host.inc:678
 msgid "Merge computers by name"
 msgstr "Unir ordenadores por nombre"
 
@@ -499,7 +503,7 @@ msgstr "Escribir"
 
 # ########################################
 # Private messages
-#: ../inc/pm.inc:33 ../inc/user.inc:369
+#: ../inc/pm.inc:33 ../inc/user.inc:373
 msgid "Send private message"
 msgstr "Enviar mensaje privado"
 
@@ -550,15 +554,16 @@ msgstr "no leído"
 
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
-msgstr "Para notificaciones por email, %1editar las preferencias comunitarias%2"
+msgstr ""
+"Para notificaciones por email, %1editar las preferencias comunitarias%2"
 
 #: ../inc/prefs.inc:76
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
-"¿Suspender el trabajo mientras el ordenador está funcionando con baterías? "
-"%1 Sólo importa para ordenadores portátiles %2"
+"¿Suspender el trabajo mientras el ordenador está funcionando con baterías? %"
+"1 Sólo importa para ordenadores portátiles %2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
@@ -763,146 +768,149 @@ msgid ""
 msgstr ""
 
 #: ../inc/prefs.inc:347
+msgid ""
+"Emails will be sent from %1; make sure your spam filter accepts this address."
+msgstr ""
+
+#: ../inc/prefs.inc:354
+msgid "Is it OK for %1 and your team (if any) to email you?"
+msgstr ""
+
+#: ../inc/prefs.inc:360
+msgid "Should %1 show your computers on its web site?"
+msgstr ""
+
+#: ../inc/prefs.inc:367
 msgid "Disk and memory usage"
 msgstr ""
 
-#: ../inc/prefs.inc:348
+#: ../inc/prefs.inc:368
 msgid "Processor usage"
 msgstr "Uso del procesador"
 
-#: ../inc/prefs.inc:349
+#: ../inc/prefs.inc:369
 msgid "Network usage"
 msgstr ""
 
-#: ../inc/prefs.inc:352
+#: ../inc/prefs.inc:372
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
 
-#: ../inc/prefs.inc:355
+#: ../inc/prefs.inc:375
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
 
-#: ../inc/prefs.inc:404
+#: ../inc/prefs.inc:424
 msgid "bad venue: %1"
 msgstr ""
 
-#: ../inc/prefs.inc:410
+#: ../inc/prefs.inc:430
 msgid "bad subset: %1"
 msgstr ""
 
-#: ../inc/prefs.inc:629 ../inc/prefs.inc:632 ../inc/prefs.inc:752
-#: ../inc/prefs.inc:754 ../inc/prefs.inc:977 ../inc/prefs_util.inc:93
-#: ../inc/prefs_util.inc:100 ../inc/prefs_util.inc:103
-#: ../inc/prefs_util.inc:108 ../project.sample/project_specific_prefs.inc:74
+#: ../inc/prefs.inc:617
+#, fuzzy
+msgid "Default"
+msgstr "Borrar"
+
+#: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:995
+#: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:108
+#: ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
 msgstr ""
 
-#: ../inc/prefs.inc:629 ../inc/prefs.inc:632 ../inc/prefs.inc:752
-#: ../inc/prefs.inc:754 ../inc/prefs.inc:979 ../inc/prefs_util.inc:93
-#: ../inc/prefs_util.inc:99 ../inc/prefs_util.inc:104
-#: ../inc/prefs_util.inc:112 ../project.sample/project_specific_prefs.inc:76
+#: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:997
+#: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:112
+#: ../project.sample/project_specific_prefs.inc:76
 msgid "no"
 msgstr ""
 
-#: ../inc/prefs.inc:637
+#: ../inc/prefs.inc:657
 msgid "no limit"
 msgstr ""
 
-#: ../inc/prefs.inc:662 ../user/team_admins.php:77
+#: ../inc/prefs.inc:682 ../user/team_admins.php:77
 msgid "Add"
 msgstr ""
 
-#: ../inc/prefs.inc:663 ../inc/prefs.inc:665
+#: ../inc/prefs.inc:683 ../inc/prefs.inc:685
 msgid "Edit"
 msgstr ""
 
-#: ../inc/prefs.inc:664 ../inc/prefs.inc:790 ../user/team_admins.php:32
+#: ../inc/prefs.inc:684 ../inc/prefs.inc:810 ../user/team_admins.php:32
 msgid "Remove"
 msgstr ""
 
-#: ../inc/prefs.inc:748
-msgid ""
-"Emails will be sent from %1; make sure your spam filter accepts this address."
-msgstr ""
-
-#: ../inc/prefs.inc:751 ../inc/prefs.inc:951
-msgid "Is it OK for %1 and your team (if any) to email you?"
-msgstr ""
-
-#: ../inc/prefs.inc:754 ../inc/prefs.inc:954
-msgid "Should %1 show your computers on its web site?"
-msgstr ""
-
-#: ../inc/prefs.inc:770
+#: ../inc/prefs.inc:790
 msgid "Computing"
 msgstr ""
 
-#: ../inc/prefs.inc:781
+#: ../inc/prefs.inc:801
 msgid "Separate preferences for %1"
 msgstr ""
 
-#: ../inc/prefs.inc:790 ../inc/prefs.inc:865
+#: ../inc/prefs.inc:810 ../inc/prefs.inc:885
 #, fuzzy
 msgid "Edit preferences"
 msgstr "Preferencias de %1"
 
-#: ../inc/prefs.inc:794
+#: ../inc/prefs.inc:814
 msgid "Add separate preferences for %1"
 msgstr ""
 
-#: ../inc/prefs.inc:802 ../inc/prefs.inc:847
+#: ../inc/prefs.inc:822 ../inc/prefs.inc:867
 msgid "(Switch View)"
 msgstr ""
 
-#: ../inc/prefs.inc:804 ../inc/prefs.inc:850
+#: ../inc/prefs.inc:824 ../inc/prefs.inc:870
 #, fuzzy
 msgid "Combined preferences"
 msgstr "Preferencias de cálculo computacional"
 
-#: ../inc/prefs.inc:809
+#: ../inc/prefs.inc:829
 msgid "Project specific settings"
 msgstr ""
 
-#: ../inc/prefs.inc:817 ../inc/prefs.inc:859
+#: ../inc/prefs.inc:837 ../inc/prefs.inc:879
 msgid "Primary (default) preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:826 ../user/add_venue.php:43 ../user/add_venue.php:68
+#: ../inc/prefs.inc:846 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
 #, fuzzy
 msgid "Edit %1 preferences"
 msgstr "Preferencias de %1"
 
-#: ../inc/prefs.inc:840
+#: ../inc/prefs.inc:860
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
 
-#: ../inc/prefs.inc:844
+#: ../inc/prefs.inc:864
 msgid "Preferences last modified:"
 msgstr ""
 
-#: ../inc/prefs.inc:894
+#: ../inc/prefs.inc:914
 #, fuzzy
 msgid "Add preferences"
 msgstr "Preferencias de %1"
 
-#: ../inc/prefs.inc:898
+#: ../inc/prefs.inc:918
 #, fuzzy
 msgid "Update preferences"
 msgstr "Preferencias de %1"
 
-#: ../inc/prefs.inc:988 ../inc/prefs.inc:997
+#: ../inc/prefs.inc:1006 ../inc/prefs.inc:1015
 msgid "Default computer location"
 msgstr ""
 
-#: ../inc/prefs.inc:1146
+#: ../inc/prefs.inc:1166
 msgid "Update failed: "
 msgstr ""
 
@@ -964,285 +972,280 @@ msgstr "Alerte a los administradores de un perfil ofensivo:"
 msgid "I %1do not like%2 this profile"
 msgstr "%1No me gusta%2 este perfil"
 
-#: ../inc/result.inc:25
+#: ../inc/result.inc:29
 msgid "Anonymous platform"
 msgstr ""
 
-#: ../inc/result.inc:26
-msgid "Anonymous platform - CPU"
+#: ../inc/result.inc:43
+msgid "NVIDIA GPU"
 msgstr ""
 
-#: ../inc/result.inc:27
-msgid "Anonymous platform - NVIDIA GPU"
-msgstr ""
+#: ../inc/result.inc:44
+#, fuzzy
+msgid "ATI GPU"
+msgstr "GPU"
 
-#: ../inc/result.inc:28
-msgid "Anonymous platform - ATI GPU"
-msgstr ""
-
-#: ../inc/result.inc:35
+#: ../inc/result.inc:51
 msgid "Not in DB"
 msgstr ""
 
-#: ../inc/result.inc:73
+#: ../inc/result.inc:77
 msgid "pending"
 msgstr ""
 
-#: ../inc/result.inc:95
+#: ../inc/result.inc:99
 msgid "All"
 msgstr ""
 
-#: ../inc/result.inc:96 ../inc/result.inc:116 ../inc/result.inc:155
+#: ../inc/result.inc:100 ../inc/result.inc:120 ../inc/result.inc:159
 msgid "In progress"
 msgstr ""
 
-#: ../inc/result.inc:97 ../user/workunit.php:64
+#: ../inc/result.inc:101 ../user/workunit.php:64
 msgid "Pending"
 msgstr ""
 
-#: ../inc/result.inc:98 ../inc/result.inc:198
+#: ../inc/result.inc:102 ../inc/result.inc:202
 msgid "Valid"
 msgstr ""
 
-#: ../inc/result.inc:99 ../inc/result.inc:201
+#: ../inc/result.inc:103 ../inc/result.inc:205
 msgid "Invalid"
 msgstr ""
 
-#: ../inc/result.inc:100 ../inc/result.inc:141
+#: ../inc/result.inc:104 ../inc/result.inc:145
 msgid "Error"
 msgstr ""
 
-#: ../inc/result.inc:114 ../inc/result.inc:153
+#: ../inc/result.inc:118 ../inc/result.inc:157
 msgid "Inactive"
 msgstr ""
 
-#: ../inc/result.inc:115 ../inc/result.inc:154
+#: ../inc/result.inc:119 ../inc/result.inc:158
 msgid "Unsent"
 msgstr ""
 
-#: ../inc/result.inc:121
+#: ../inc/result.inc:125
 msgid "Completed, waiting for validation"
 msgstr ""
 
-#: ../inc/result.inc:122
+#: ../inc/result.inc:126
 msgid "Completed and validated"
 msgstr ""
 
-#: ../inc/result.inc:123
+#: ../inc/result.inc:127
 msgid "Completed, marked as invalid"
 msgstr ""
 
-#: ../inc/result.inc:124
+#: ../inc/result.inc:128
 msgid "Completed, can't validate"
 msgstr ""
 
-#: ../inc/result.inc:125
+#: ../inc/result.inc:129
 msgid "Completed, validation inconclusive"
 msgstr ""
 
-#: ../inc/result.inc:126
+#: ../inc/result.inc:130
 msgid "Completed, too late to validate"
 msgstr ""
 
-#: ../inc/result.inc:128
+#: ../inc/result.inc:132
 msgid "Completed"
 msgstr ""
 
-#: ../inc/result.inc:129 ../inc/result.inc:165
+#: ../inc/result.inc:133 ../inc/result.inc:169
 msgid "Couldn't send"
 msgstr ""
 
-#: ../inc/result.inc:132 ../inc/result.inc:189
+#: ../inc/result.inc:136 ../inc/result.inc:193
 msgid "Cancelled by server"
 msgstr ""
 
-#: ../inc/result.inc:135
+#: ../inc/result.inc:139
 msgid "Error while downloading"
 msgstr ""
 
-#: ../inc/result.inc:137
+#: ../inc/result.inc:141
 msgid "Error while computing"
 msgstr ""
 
-#: ../inc/result.inc:138
+#: ../inc/result.inc:142
 msgid "Error while uploading"
 msgstr ""
 
-#: ../inc/result.inc:139 ../inc/result.inc:191
+#: ../inc/result.inc:143 ../inc/result.inc:195
 msgid "Aborted by user"
 msgstr ""
 
-#: ../inc/result.inc:142
+#: ../inc/result.inc:146
 msgid "Timed out - no response"
 msgstr ""
 
-#: ../inc/result.inc:143 ../inc/result.inc:172
+#: ../inc/result.inc:147 ../inc/result.inc:176
 msgid "Didn't need"
 msgstr ""
 
-#: ../inc/result.inc:144 ../inc/result.inc:173
+#: ../inc/result.inc:148 ../inc/result.inc:177
 msgid "Validate error"
 msgstr ""
 
-#: ../inc/result.inc:145 ../inc/result.inc:174
+#: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Client detached"
 msgstr ""
 
-#: ../inc/result.inc:156
+#: ../inc/result.inc:160
 msgid "Over"
 msgstr ""
 
-#: ../inc/result.inc:164
+#: ../inc/result.inc:168
 msgid "Success"
 msgstr ""
 
-#: ../inc/result.inc:168
+#: ../inc/result.inc:172
 msgid "Client error"
 msgstr ""
 
-#: ../inc/result.inc:170
+#: ../inc/result.inc:174
 msgid "Redundant result"
 msgstr ""
 
-#: ../inc/result.inc:171
+#: ../inc/result.inc:175
 msgid "No reply"
 msgstr ""
 
-#: ../inc/result.inc:181
+#: ../inc/result.inc:185
 msgid "New"
 msgstr ""
 
-#: ../inc/result.inc:182
+#: ../inc/result.inc:186
 msgid "Downloading"
 msgstr ""
 
-#: ../inc/result.inc:183
+#: ../inc/result.inc:187
 msgid "Processing"
 msgstr ""
 
-#: ../inc/result.inc:184
+#: ../inc/result.inc:188
 msgid "Compute error"
 msgstr ""
 
-#: ../inc/result.inc:185
+#: ../inc/result.inc:189
 msgid "Uploading"
 msgstr ""
 
-#: ../inc/result.inc:186
+#: ../inc/result.inc:190
 #, fuzzy
 msgid "Done"
 msgstr "Ninguno"
 
-#: ../inc/result.inc:197
+#: ../inc/result.inc:201
 msgid "Initial"
 msgstr ""
 
-#: ../inc/result.inc:203
+#: ../inc/result.inc:207
 msgid "Not necessary"
 msgstr ""
 
-#: ../inc/result.inc:204
+#: ../inc/result.inc:208
 msgid "Workunit error - check skipped"
 msgstr ""
 
-#: ../inc/result.inc:205
+#: ../inc/result.inc:209
 msgid "Checked, but no consensus yet"
 msgstr ""
 
-#: ../inc/result.inc:206
+#: ../inc/result.inc:210
 msgid "Task was reported too late to validate"
 msgstr ""
 
-#: ../inc/result.inc:214
+#: ../inc/result.inc:218
 msgid "Couldn't send result"
 msgstr ""
 
-#: ../inc/result.inc:218
+#: ../inc/result.inc:222
 msgid "Too many errors (may have bug)"
 msgstr ""
 
-#: ../inc/result.inc:222
+#: ../inc/result.inc:226
 msgid "Too many results (may be nondeterministic)"
 msgstr ""
 
-#: ../inc/result.inc:226
+#: ../inc/result.inc:230
 msgid "Too many total results"
 msgstr ""
 
-#: ../inc/result.inc:230
+#: ../inc/result.inc:234
 msgid "WU cancelled"
 msgstr ""
 
-#: ../inc/result.inc:234
+#: ../inc/result.inc:238
 msgid "Unrecognized Error: %1"
 msgstr ""
 
-#: ../inc/result.inc:260
+#: ../inc/result.inc:264
 msgid "Task name"
 msgstr ""
 
-#: ../inc/result.inc:260 ../inc/result.inc:265 ../inc/result.inc:268
-#: ../inc/result.inc:271
+#: ../inc/result.inc:264 ../inc/result.inc:269 ../inc/result.inc:272
+#: ../inc/result.inc:275
 msgid "click for details"
 msgstr ""
 
-#: ../inc/result.inc:260
+#: ../inc/result.inc:264
 msgid "Show IDs"
 msgstr ""
 
-#: ../inc/result.inc:265
+#: ../inc/result.inc:269
 msgid "Show names"
 msgstr ""
 
-#: ../inc/result.inc:268
-msgid "Task ID"
-msgstr ""
+#: ../inc/result.inc:272
+#, fuzzy
+msgid "Task"
+msgstr "Tareas"
 
-#: ../inc/result.inc:271
-msgid "Work unit ID"
-msgstr ""
+#: ../inc/result.inc:275
+#, fuzzy
+msgid "Work unit"
+msgstr "Trabajo"
 
-#: ../inc/result.inc:274
+#: ../inc/result.inc:278
 #, fuzzy
 msgid "Computer"
 msgstr "Ordenadores"
 
-#: ../inc/result.inc:277 ../inc/result.inc:381
+#: ../inc/result.inc:281 ../inc/result.inc:381
 msgid "Sent"
 msgstr ""
 
-#: ../inc/result.inc:278
+#: ../inc/result.inc:282
 msgid "Time reported<br />or deadline"
 msgstr ""
 
-#: ../inc/result.inc:279
+#: ../inc/result.inc:283
 msgid "explain"
 msgstr ""
 
-#: ../inc/result.inc:281
+#: ../inc/result.inc:285
 msgid "Status"
 msgstr ""
 
-#: ../inc/result.inc:282
+#: ../inc/result.inc:286
 msgid "Run time<br />(sec)"
 msgstr ""
 
-#: ../inc/result.inc:283
+#: ../inc/result.inc:287
 msgid "CPU time<br />(sec)"
 msgstr ""
 
-#: ../inc/result.inc:284 ../inc/result.inc:392
-msgid "Claimed credit"
-msgstr ""
-
-#: ../inc/result.inc:285 ../inc/result.inc:393
+#: ../inc/result.inc:288 ../inc/result.inc:392
 #, fuzzy
-msgid "Granted credit"
-msgstr "crédito concedido"
+msgid "Credit"
+msgstr "Crear"
 
 # ########################################
 # Apps page (apps.php)
-#: ../inc/result.inc:286
+#: ../inc/result.inc:289
 #, fuzzy
 msgid "Application"
 msgstr "Programas"
@@ -1288,15 +1291,18 @@ msgstr "Tipo de CPU"
 msgid "Validate state"
 msgstr ""
 
-#: ../inc/result.inc:394
-msgid "application version"
-msgstr ""
+# ########################################
+# Apps page (apps.php)
+#: ../inc/result.inc:393
+#, fuzzy
+msgid "Application version"
+msgstr "Programas"
 
-#: ../inc/result.inc:409
+#: ../inc/result.inc:408
 msgid "Previous"
 msgstr ""
 
-#: ../inc/result.inc:418
+#: ../inc/result.inc:417
 msgid "Next"
 msgstr ""
 
@@ -1313,10 +1319,10 @@ msgid "Find teams with these words in their names or descriptions"
 msgstr "Buscar equipos con estas palabras en sus nombres o descripciones"
 
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
-#: ../inc/team.inc:360 ../inc/team.inc:444 ../inc/user.inc:204
-#: ../inc/user.inc:310 ../user/account_finish.php:44
+#: ../inc/team.inc:360 ../inc/team.inc:444 ../inc/user.inc:208
+#: ../inc/user.inc:314 ../user/account_finish.php:44
 #: ../user/create_account_form.php:94 ../user/edit_user_info_form.php:38
-#: ../user/team_email_list.php:61 ../user/team_search.php:69
+#: ../user/team_email_list.php:62 ../user/team_search.php:69
 #: ../user/top_users.php:61 ../user/user_search.php:102
 #: ../user/user_search.php:119 ../user/user_search.php:158
 msgid "Country"
@@ -1337,8 +1343,7 @@ msgstr "Buscar"
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
 msgstr ""
-"Solicitado por usted, y el tiempo límite de repuesta del fundador ha "
-"acabado."
+"Solicitado por usted, y el tiempo límite de repuesta del fundador ha acabado."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
@@ -1352,7 +1357,7 @@ msgstr "Solicitado por usted"
 msgid "founder response deadline is %1"
 msgstr "el tiempo límite para que el fundador responda es %1"
 
-#: ../inc/team.inc:65 ../inc/user.inc:275 ../inc/user.inc:362
+#: ../inc/team.inc:65 ../inc/user.inc:279 ../inc/user.inc:366
 msgid "None"
 msgstr "Ninguno"
 
@@ -1541,257 +1546,257 @@ msgstr ""
 
 # ########################################
 # Public user page (show_user.php)
-#: ../inc/user.inc:112
+#: ../inc/user.inc:116
 msgid "Projects in which you are participating"
 msgstr "Proyectos en los que está usted participando"
 
-#: ../inc/user.inc:114
+#: ../inc/user.inc:118
 msgid "Projects in which %1 is participating"
 msgstr "Proyectos en los que %1 está participando"
 
-#: ../inc/user.inc:118
+#: ../inc/user.inc:122
 msgid "Project"
 msgstr "Proyecto"
 
-#: ../inc/user.inc:118
+#: ../inc/user.inc:122
 msgid "Click for user page"
 msgstr "Pulse para ver la página de usuario"
 
-#: ../inc/user.inc:118
+#: ../inc/user.inc:122
 msgid "Since"
 msgstr "Desde"
 
-#: ../inc/user.inc:142
+#: ../inc/user.inc:146
 msgid "Computing and credit"
 msgstr "Trabajo  computacional y crédito"
 
-#: ../inc/user.inc:146
+#: ../inc/user.inc:150
 msgid "Pending credit"
 msgstr "Crédito pendiente"
 
-#: ../inc/user.inc:146 ../inc/user.inc:148 ../inc/user.inc:149
-#: ../inc/user.inc:237 ../inc/user.inc:318 ../inc/user.inc:393
+#: ../inc/user.inc:150 ../inc/user.inc:152 ../inc/user.inc:153
+#: ../inc/user.inc:241 ../inc/user.inc:322 ../inc/user.inc:397
 #: ../user/view_profile.php:54
 msgid "View"
 msgstr "Ver"
 
-#: ../inc/user.inc:148
+#: ../inc/user.inc:152
 msgid "Computers on this account"
 msgstr "Ordenadores en esta cuenta"
 
-#: ../inc/user.inc:158
+#: ../inc/user.inc:162
 msgid "Cross-project ID"
 msgstr "ID interproyectos"
 
-#: ../inc/user.inc:159
+#: ../inc/user.inc:163
 msgid "Cross-project statistics"
 msgstr "Estadísticas interproyectos"
 
-#: ../inc/user.inc:160
+#: ../inc/user.inc:164
 msgid "Account"
 msgstr ""
 
-#: ../inc/user.inc:162 ../inc/user.inc:275 ../inc/user.inc:360
-#: ../inc/user.inc:362 ../user/user_search.php:102 ../user/user_search.php:158
+#: ../inc/user.inc:166 ../inc/user.inc:279 ../inc/user.inc:364
+#: ../inc/user.inc:366 ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Team"
 msgstr "Equipo"
 
-#: ../inc/user.inc:164
+#: ../inc/user.inc:168
 #, fuzzy
 msgid "Cross-project"
 msgstr "ID interproyectos"
 
-#: ../inc/user.inc:165
+#: ../inc/user.inc:169
 msgid "Certificate"
 msgstr "Certificado"
 
-#: ../inc/user.inc:166
+#: ../inc/user.inc:170
 msgid "Stats on your cell phone"
 msgstr "Estadísticas en su teléfono móvil"
 
-#: ../inc/user.inc:197
+#: ../inc/user.inc:201
 msgid "Account information"
 msgstr "Información de la cuenta"
 
-#: ../inc/user.inc:199 ../user/edit_passwd_form.php:46
-#: ../user/team_email_list.php:61
+#: ../inc/user.inc:203 ../user/edit_passwd_form.php:46
+#: ../user/team_email_list.php:62
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
-#: ../inc/user.inc:202 ../inc/user.inc:312
+#: ../inc/user.inc:206 ../inc/user.inc:316
 msgid "URL"
 msgstr "URL"
 
-#: ../inc/user.inc:205
+#: ../inc/user.inc:209
 msgid "Postal code"
 msgstr "Código postal"
 
-#: ../inc/user.inc:206 ../inc/user.inc:309
+#: ../inc/user.inc:210 ../inc/user.inc:313
 msgid "%1 member since"
 msgstr "miembro de %1 desde"
 
-#: ../inc/user.inc:208
+#: ../inc/user.inc:212
 msgid "Change"
 msgstr "Cambiar"
 
-#: ../inc/user.inc:208
+#: ../inc/user.inc:212
 msgid "email address"
 msgstr "correo electrónico"
 
-#: ../inc/user.inc:208
+#: ../inc/user.inc:212
 msgid "password"
 msgstr "contraseña"
 
-#: ../inc/user.inc:208
+#: ../inc/user.inc:212
 msgid "other account info"
 msgstr "otros datos de la cuenta"
 
-#: ../inc/user.inc:209
+#: ../inc/user.inc:213
 msgid "Log out"
 msgstr "Salir"
 
-#: ../inc/user.inc:210
+#: ../inc/user.inc:214
 msgid "User ID"
 msgstr "ID de usuario"
 
-#: ../inc/user.inc:210
+#: ../inc/user.inc:214
 msgid "Used in community functions"
 msgstr "Usado para funciones comunitarias"
 
-#: ../inc/user.inc:212
+#: ../inc/user.inc:216
 msgid "Account key"
 msgstr "Clave de cuenta"
 
-#: ../inc/user.inc:212
+#: ../inc/user.inc:216
 msgid "Provides full access to your account"
 msgstr "Proporciona acceso total  a su cuenta"
 
-#: ../inc/user.inc:213 ../user/weak_auth.php:25
+#: ../inc/user.inc:217 ../user/weak_auth.php:25
 msgid "Weak account key"
 msgstr "Clave débil de cuenta"
 
-#: ../inc/user.inc:213
+#: ../inc/user.inc:217
 msgid "Provides %1limited access%2 to your account"
 msgstr "Proporciona %1acceso limitado%2 a su cuenta"
 
-#: ../inc/user.inc:216
+#: ../inc/user.inc:220
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: ../inc/user.inc:219
+#: ../inc/user.inc:223
 msgid "When and how BOINC uses your computer"
 msgstr "Cuándo y cómo BOINC usa su ordenador"
 
-#: ../inc/user.inc:220
+#: ../inc/user.inc:224
 msgid "Computing preferences"
 msgstr "Preferencias de cálculo computacional"
 
-#: ../inc/user.inc:223
+#: ../inc/user.inc:227
 msgid "Message boards and private messages"
 msgstr "Foros y mensajes privados"
 
-#: ../inc/user.inc:224
+#: ../inc/user.inc:228
 msgid "Community preferences"
 msgstr "Preferencias de la comunidad"
 
-#: ../inc/user.inc:227
+#: ../inc/user.inc:231
 msgid "Preferences for this project"
 msgstr ""
 
-#: ../inc/user.inc:228 ../user/prefs.php:33
+#: ../inc/user.inc:232 ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "Preferencias de %1"
 
-#: ../inc/user.inc:234 ../user/sample_index.php:66
+#: ../inc/user.inc:238 ../user/sample_index.php:66
 msgid "Community"
 msgstr "Comunidad"
 
-#: ../inc/user.inc:237 ../user/pm.php:103 ../user/pm.php:143
+#: ../inc/user.inc:241 ../user/pm.php:103 ../user/pm.php:143
 msgid "Delete"
 msgstr "Borrar"
 
-#: ../inc/user.inc:239
+#: ../inc/user.inc:243
 msgid "Create"
 msgstr "Crear"
 
-#: ../inc/user.inc:241 ../inc/user.inc:393
+#: ../inc/user.inc:245 ../inc/user.inc:397
 msgid "Profile"
 msgstr "Perfil"
 
 # ########################################
 # Forum
-#: ../inc/user.inc:244 ../inc/user.inc:366
+#: ../inc/user.inc:248 ../inc/user.inc:370
 msgid "%1 posts"
 msgstr "%1 mensajes"
 
 # ########################################
 # Apps page (apps.php)
-#: ../inc/user.inc:256
+#: ../inc/user.inc:260
 msgid "Notifications"
 msgstr "Notificaciones"
 
-#: ../inc/user.inc:263
+#: ../inc/user.inc:267
 msgid "Quit team"
 msgstr "Separase del equipo"
 
-#: ../inc/user.inc:265 ../inc/user.inc:282
+#: ../inc/user.inc:269 ../inc/user.inc:286
 msgid "Administer"
 msgstr "Administrar"
 
-#: ../inc/user.inc:271 ../inc/user.inc:284
+#: ../inc/user.inc:275 ../inc/user.inc:288
 msgid "(foundership change request pending)"
 msgstr "(petición de modificación del fundador pendiente)"
 
-#: ../inc/user.inc:273
+#: ../inc/user.inc:277
 msgid "Member of team"
 msgstr "Miembro del equipo"
 
-#: ../inc/user.inc:275
+#: ../inc/user.inc:279
 msgid "find a team"
 msgstr "buscar un equipo"
 
-#: ../inc/user.inc:286
+#: ../inc/user.inc:290
 msgid "Founder but not member of"
 msgstr "Fundador pero no miembro de"
 
-#: ../inc/user.inc:292
+#: ../inc/user.inc:296
 msgid "Find friends"
 msgstr "Encontrar amigos"
 
-#: ../inc/user.inc:299 ../inc/user.inc:301 ../inc/user.inc:376
-#: ../inc/user.inc:378 ../inc/user.inc:387
+#: ../inc/user.inc:303 ../inc/user.inc:305 ../inc/user.inc:380
+#: ../inc/user.inc:382 ../inc/user.inc:391
 msgid "Friends"
 msgstr "Amigos"
 
-#: ../inc/user.inc:318 ../inc/user.inc:320
+#: ../inc/user.inc:322 ../inc/user.inc:324
 msgid "Computers"
 msgstr "Ordenadores"
 
-#: ../inc/user.inc:320
+#: ../inc/user.inc:324
 msgid "hidden"
 msgstr "oculto"
 
-#: ../inc/user.inc:327
+#: ../inc/user.inc:331
 msgid "Donor"
 msgstr "Donante"
 
-#: ../inc/user.inc:369
+#: ../inc/user.inc:373
 msgid "Contact"
 msgstr "Contactar"
 
-#: ../inc/user.inc:372
+#: ../inc/user.inc:376
 msgid "This person is a friend"
 msgstr "Esta persona es un amigo"
 
-#: ../inc/user.inc:373 ../user/friend.php:224
+#: ../inc/user.inc:377 ../user/friend.php:224
 msgid "Cancel friendship"
 msgstr "Cancelar amistad"
 
-#: ../inc/user.inc:376 ../user/friend.php:35
+#: ../inc/user.inc:380 ../user/friend.php:35
 msgid "Request pending"
 msgstr "Solicitud pediente"
 
-#: ../inc/user.inc:378
+#: ../inc/user.inc:382
 msgid "Add as friend"
 msgstr "Añadir como amigo"
 
@@ -1839,7 +1844,8 @@ msgstr "Use etiquetas BBCode para formatear su texto"
 
 #: ../user/account_finish.php:40 ../user/create_account_form.php:75
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "Le identifica en nuestra página web. Utilice su nombre real o un apodo."
+msgstr ""
+"Le identifica en nuestra página web. Utilice su nombre real o un apodo."
 
 #: ../user/account_finish.php:44 ../user/create_account_form.php:94
 msgid "Select the country you want to represent, if any."
@@ -1993,8 +1999,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Si desea incluir una imagen en su perfil, haga clic en el botón \"Explorar\" y "
-"seleccione un archivo JPEG o PNG. Por favor seleccione imágenes de %1 o "
+"Si desea incluir una imagen en su perfil, haga clic en el botón \"Explorar\" "
+"y seleccione un archivo JPEG o PNG. Por favor seleccione imágenes de %1 o "
 "menos."
 
 #: ../user/create_profile.php:87
@@ -2043,16 +2049,16 @@ msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Su primera respuesta fue marcada como spam por el sistema anti-spam Akismet. "
-" Por favor, modifique su texto e inténtelo de nuevo."
+"Su primera respuesta fue marcada como spam por el sistema anti-spam "
+"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/create_profile.php:225
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Su segunda respuesta fue marcada como spam por el sistema anti-spam Akismet. "
-" Por favor, modifique su texto e inténtelo de nuevo."
+"Su segunda respuesta fue marcada como spam por el sistema anti-spam "
+"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/create_profile.php:241
 msgid "Your profile submission was empty."
@@ -2272,7 +2278,8 @@ msgstr "Resultados de la búsqueda en el foro"
 
 #: ../user/forum_thread.php:45
 msgid "No thread with id %1. Please check the link and try again."
-msgstr "No hay hilo con id %1. Por favor, pulse en el enlace y pruebe de nuevo."
+msgstr ""
+"No hay hilo con id %1. Por favor, pulse en el enlace y pruebe de nuevo."
 
 #: ../user/forum_thread.php:51
 msgid "This forum is not visible to you."
@@ -2553,6 +2560,15 @@ msgstr "Vea y edite las preferencias de su cuenta usando los enlaces de abajo."
 msgid "Your account"
 msgstr "Su cuenta"
 
+#: ../user/hosts_user.php:51
+#, fuzzy
+msgid "Computers belonging to %1"
+msgstr "Información del ordenador"
+
+#: ../user/hosts_user.php:54
+msgid "This user has chosen not to show information about their computers."
+msgstr ""
+
 # ########################################
 # Rules and Policies page (info.php)
 #: ../user/info.php:22 ../user/sample_index.php:47
@@ -2584,8 +2600,8 @@ msgid ""
 "resources are used by %1, and when it uses them."
 msgstr ""
 "Cuando ejecute %1 en su ordenador, utilizará parte de la potencia de su CPU, "
-"espacio en disco, y ancho de banda de red. Usted puede controlar la "
-"cantidad de recursos que usa %1, y cuándo son utilizados."
+"espacio en disco, y ancho de banda de red. Usted puede controlar la cantidad "
+"de recursos que usa %1, y cuándo son utilizados."
 
 #: ../user/info.php:38
 msgid ""
@@ -2935,8 +2951,8 @@ msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
 msgstr ""
-"¡Si no lo ha hecho todavía, usted puede %1crear su propio perfil de "
-"usuario%2 para que otros lo vean!"
+"¡Si no lo ha hecho todavía, usted puede %1crear su propio perfil de usuario%"
+"2 para que otros lo vean!"
 
 #: ../user/profile_menu.php:43
 msgid "User of the Day"
@@ -2959,8 +2975,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Ver perfiles %1al azar%2, %3al azar con imágenes%2, o %4al azar sin "
-"imágenes%2."
+"Ver perfiles %1al azar%2, %3al azar con imágenes%2, o %4al azar sin imágenes%"
+"2."
 
 #: ../user/profile_menu.php:65
 msgid "Alphabetical profile listings:"
@@ -3019,15 +3035,15 @@ msgstr "Esta opción está deshabilitada temporalmente"
 msgid "No computer with ID %1 found"
 msgstr "No se encontró computadora con ID %1"
 
-#: ../user/results.php:52
+#: ../user/results.php:53
 msgid "No access"
 msgstr "Sin acceso"
 
-#: ../user/results.php:57
+#: ../user/results.php:59
 msgid "Missing user ID or host ID"
 msgstr "Falta el ID de usuario o del host"
 
-#: ../user/results.php:85
+#: ../user/results.php:87
 msgid "No tasks to display"
 msgstr ""
 
@@ -3244,7 +3260,7 @@ msgstr "No existe dicho equipo."
 #: ../user/team_change_founder_action.php:28
 #: ../user/team_change_founder_form.php:31 ../user/team_display.php:67
 #: ../user/team_edit_action.php:28 ../user/team_edit_form.php:27
-#: ../user/team_email_list.php:52 ../user/team_forum.php:162
+#: ../user/team_email_list.php:53 ../user/team_forum.php:162
 #: ../user/team_manage.php:83
 #, fuzzy
 msgid "no such team"
@@ -3376,15 +3392,15 @@ msgstr ""
 msgid "Update team info"
 msgstr ""
 
-#: ../user/team_email_list.php:58
+#: ../user/team_email_list.php:59
 msgid "%1 Email List"
 msgstr ""
 
-#: ../user/team_email_list.php:60
+#: ../user/team_email_list.php:61
 msgid "Member list of %1"
 msgstr ""
 
-#: ../user/team_email_list.php:75
+#: ../user/team_email_list.php:76
 msgid "Show as plain text"
 msgstr ""
 
@@ -4099,8 +4115,8 @@ msgid ""
 msgstr ""
 "Para usar su clave débil en cierta computadora, busque o cree el 'archivo de "
 "cuenta' para este proyecto. El nombre de este archivo está en la forma "
-"<b>cuenta_URL_DEL_PROYECTO.xml</b>. El archivo de cuenta para %1 es "
-"<b>%2</b>."
+"<b>cuenta_URL_DEL_PROYECTO.xml</b>. El archivo de cuenta para %1 es <b>%2</"
+"b>."
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
@@ -4177,6 +4193,11 @@ msgstr "errores"
 msgid "validation"
 msgstr "validación"
 
+#: ../project.sample/project.inc:49
+#, fuzzy
+msgid "Main page"
+msgstr "Nombre de dominio"
+
 #: ../project.sample/project.inc:51
 msgid "Copyright"
 msgstr "Copyright"
@@ -4229,6 +4250,16 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(todas las aplicaciones)"
+
+#~ msgid "Maximum daily WU quota per CPU"
+#~ msgstr "Cuota diaria máxima de unidad de trabajo por CPU"
+
+#~ msgid "%1/day"
+#~ msgstr "%1/día"
+
+#, fuzzy
+#~ msgid "Granted credit"
+#~ msgstr "crédito concedido"
 
 #, fuzzy
 #~ msgid "preferences"

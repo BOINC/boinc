@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2010-07-14 11:54+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
-"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Chinese\n"
@@ -69,13 +69,11 @@ msgstr ""
 msgid "Find logon information"
 msgstr "寻找登录信息"
 
-#: AccountInfoPage.cpp:424
-#: AccountInfoPage.cpp:590
+#: AccountInfoPage.cpp:424 AccountInfoPage.cpp:590
 msgid "&Password:"
 msgstr "密码(&P)："
 
-#: AccountInfoPage.cpp:431
-#: AccountInfoPage.cpp:605
+#: AccountInfoPage.cpp:431 AccountInfoPage.cpp:605
 msgid "Choose a &password:"
 msgstr "选择一个密码(&P)："
 
@@ -119,8 +117,7 @@ msgstr ""
 msgid "Account manager website"
 msgstr "帐户管理器网站"
 
-#: AccountInfoPage.cpp:529
-#: WelcomePage.cpp:295
+#: AccountInfoPage.cpp:529 WelcomePage.cpp:295
 msgid "Attach to project"
 msgstr "加入项目"
 
@@ -128,23 +125,27 @@ msgstr "加入项目"
 msgid "Update account manager"
 msgstr "更新帐户管理器"
 
-#: AccountInfoPage.cpp:533
-#: WelcomePage.cpp:299
+#: AccountInfoPage.cpp:533 WelcomePage.cpp:299
 msgid "Attach to account manager"
 msgstr "加入帐户管理器"
 
 #: AccountInfoPage.cpp:542
 #, c-format
-msgid "The minimum password length for this project is %d. Please enter a different password."
+msgid ""
+"The minimum password length for this project is %d. Please enter a different "
+"password."
 msgstr "该项目要求的最小密码长度为%d，请输入符合要求的密码。"
 
 #: AccountInfoPage.cpp:548
 #, c-format
-msgid "The minimum password length for this account manager is %d. Please enter a different password."
+msgid ""
+"The minimum password length for this account manager is %d. Please enter a "
+"different password."
 msgstr "该帐户管理器要求的最小密码长度为%d。请输入符合要求的密码。"
 
 #: AccountInfoPage.cpp:559
-msgid "The password and confirmation password do not match. Please type them again."
+msgid ""
+"The password and confirmation password do not match. Please type them again."
 msgstr "两次输入的密码不匹配，请重新输入。"
 
 #: AccountManagerInfoPage.cpp:248
@@ -161,19 +162,16 @@ msgstr "要选择一个帐户管理器，请点击它的名称或在下方输入
 msgid "Account Manager &URL:"
 msgstr "帐户管理器的网址(&U)："
 
-#: AccountManagerProcessingPage.cpp:189
-#: AccountManagerPropertiesPage.cpp:195
+#: AccountManagerProcessingPage.cpp:189 AccountManagerPropertiesPage.cpp:195
 #, c-format
 msgid "Communicating with %s."
 msgstr "正在和 %s 进行通讯。"
 
-#: AccountManagerProcessingPage.cpp:196
-#: AccountManagerPropertiesPage.cpp:202
+#: AccountManagerProcessingPage.cpp:196 AccountManagerPropertiesPage.cpp:202
 msgid "Communicating with server."
 msgstr "正在和服务器进行通讯。"
 
-#: AccountManagerProcessingPage.cpp:201
-#: AccountManagerPropertiesPage.cpp:207
+#: AccountManagerProcessingPage.cpp:201 AccountManagerPropertiesPage.cpp:207
 msgid "Please wait..."
 msgstr "请稍候..."
 
@@ -189,14 +187,12 @@ msgstr "已连接"
 msgid "Disconnected"
 msgstr "已断开"
 
-#: AdvancedFrame.cpp:304
-#: sg_BoincSimpleGUI.cpp:103
+#: AdvancedFrame.cpp:304 sg_BoincSimpleGUI.cpp:103
 #, c-format
 msgid "Close the %s window"
 msgstr "关闭 %s 窗口"
 
-#: AdvancedFrame.cpp:307
-#: sg_BoincSimpleGUI.cpp:106
+#: AdvancedFrame.cpp:307 sg_BoincSimpleGUI.cpp:106
 msgid "&Close Window"
 msgstr "关闭窗口(&C)"
 
@@ -205,8 +201,7 @@ msgstr "关闭窗口(&C)"
 msgid "Exit %s"
 msgstr "退出 %s"
 
-#: AdvancedFrame.cpp:323
-#: BOINCTaskBar.cpp:508
+#: AdvancedFrame.cpp:323 BOINCTaskBar.cpp:508
 msgid "E&xit"
 msgstr "退出(&X)"
 
@@ -270,8 +265,7 @@ msgstr "显示简洁的图形界面。"
 msgid "&Attach to project or account manager..."
 msgstr "加入项目或帐户管理器(&A)..."
 
-#: AdvancedFrame.cpp:392
-#: sg_ProjectsComponent.cpp:105
+#: AdvancedFrame.cpp:392 sg_ProjectsComponent.cpp:105
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr "志愿加入到一个或多个分布在许多不同科学领域内的研究项目"
 
@@ -447,14 +441,12 @@ msgstr "事件日志..."
 msgid "Display diagnostic messages."
 msgstr "显示诊断消息。"
 
-#: AdvancedFrame.cpp:577
-#: sg_BoincSimpleGUI.cpp:129
+#: AdvancedFrame.cpp:577 sg_BoincSimpleGUI.cpp:129
 #, c-format
 msgid "%s &help"
 msgstr "%s 帮助(&H)"
 
-#: AdvancedFrame.cpp:583
-#: sg_BoincSimpleGUI.cpp:135
+#: AdvancedFrame.cpp:583 sg_BoincSimpleGUI.cpp:135
 #, c-format
 msgid "Show information about %s"
 msgstr "查看 %s 的信息"
@@ -464,26 +456,22 @@ msgstr "查看 %s 的信息"
 msgid "&%s help"
 msgstr "%s 帮助"
 
-#: AdvancedFrame.cpp:601
-#: sg_BoincSimpleGUI.cpp:153
+#: AdvancedFrame.cpp:601 sg_BoincSimpleGUI.cpp:153
 #, c-format
 msgid "Show information about the %s"
 msgstr "查看 %s 的信息"
 
-#: AdvancedFrame.cpp:613
-#: sg_BoincSimpleGUI.cpp:165
+#: AdvancedFrame.cpp:613 sg_BoincSimpleGUI.cpp:165
 #, c-format
 msgid "%s &website"
 msgstr "%s 网站(&W)"
 
-#: AdvancedFrame.cpp:619
-#: sg_BoincSimpleGUI.cpp:171
+#: AdvancedFrame.cpp:619 sg_BoincSimpleGUI.cpp:171
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "查看 BOINC 和 %s 的信息"
 
-#: AdvancedFrame.cpp:631
-#: BOINCTaskBar.cpp:498
+#: AdvancedFrame.cpp:631 BOINCTaskBar.cpp:498
 #, c-format
 msgid "&About %s..."
 msgstr "关于 %s (&A)..."
@@ -492,13 +480,11 @@ msgstr "关于 %s (&A)..."
 msgid "Licensing and copyright information."
 msgstr "查看许可与版权信息。"
 
-#: AdvancedFrame.cpp:644
-#: sg_BoincSimpleGUI.cpp:194
+#: AdvancedFrame.cpp:644 sg_BoincSimpleGUI.cpp:194
 msgid "&File"
 msgstr "文件(&F)"
 
-#: AdvancedFrame.cpp:648
-#: sg_BoincSimpleGUI.cpp:199
+#: AdvancedFrame.cpp:648 sg_BoincSimpleGUI.cpp:199
 msgid "&View"
 msgstr "视图(&V)"
 
@@ -514,9 +500,7 @@ msgstr "活动(&A)"
 msgid "A&dvanced"
 msgstr "高级(&D)"
 
-#: AdvancedFrame.cpp:664
-#: sg_BoincSimpleGUI.cpp:184
-#: wizardex.cpp:374
+#: AdvancedFrame.cpp:664 sg_BoincSimpleGUI.cpp:184 wizardex.cpp:374
 #: wizardex.cpp:381
 msgid "&Help"
 msgstr "帮助(&H)"
@@ -552,7 +536,9 @@ msgstr "%s - 语言选择"
 
 #: AdvancedFrame.cpp:1350
 #, c-format
-msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
+msgid ""
+"The %s's default language has been changed, in order for this change to take "
+"affect you must restart the %s."
 msgstr "%s 的缺省语言已被修改，且必须重启 %s 才能生效。"
 
 #: AdvancedFrame.cpp:1513
@@ -573,8 +559,7 @@ msgstr ""
 msgid "Retrying communications."
 msgstr "重试通讯。"
 
-#: AdvancedFrame.cpp:1774
-#: DlgAbout.cpp:104
+#: AdvancedFrame.cpp:1774 DlgAbout.cpp:104
 #, c-format
 msgid "%s"
 msgstr "%s"
@@ -648,8 +633,7 @@ msgstr "退出 %s (&X)"
 msgid "%s - Communication"
 msgstr "%s - 网络通讯"
 
-#: AsyncRPC.cpp:1258
-#: DlgAdvPreferencesBase.cpp:103
+#: AsyncRPC.cpp:1258 DlgAdvPreferencesBase.cpp:103
 msgid "Cancel"
 msgstr "取消"
 
@@ -661,7 +645,8 @@ msgstr "%s - 连接错误"
 #: BOINCBaseFrame.cpp:435
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user group."
+"Please contact your administrator to add you to the 'boinc_users' local user "
+"group."
 msgstr ""
 "您当前未被授权管理本客户端。\n"
 "请联系系统管理员将您添加到名称为 boinc_users 的本地用户组。"
@@ -705,7 +690,8 @@ msgstr "%s - 客户端服务程序启动失败"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+"Please launch the Control Panel->Administative Tools->Services applet and "
+"start the BOINC service."
 msgstr ""
 "%s 无法启动 %s 客户端的服务程序。\n"
 "请依次运行 控制面板->管理工具->服务，并从中启动 BOINC 服务。"
@@ -728,7 +714,8 @@ msgstr "%s - 连接状态"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
+"%s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s 当前未连接至任何 %s 客户端。\n"
@@ -752,8 +739,10 @@ msgstr "%s 需要连接至互联网。请点击打开 %s。"
 #: BOINCDialupManager.cpp:263
 #, c-format
 msgid ""
-"%s is unable to communicate with a project and needs an Internet connection.\n"
-"Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
+"%s is unable to communicate with a project and needs an Internet "
+"connection.\n"
+"Please connect to the Internet, then select the 'Do network communications' "
+"item from the Advanced menu."
 msgstr ""
 "%s 无法与项目进行通讯，请求接入互联网。\n"
 "请接入互联网并在菜单中依次选择“高级->进行网络通讯”。"
@@ -775,12 +764,14 @@ msgstr "%s 正在连接至互联网。"
 #: BOINCDialupManager.cpp:354
 #, c-format
 msgid ""
-"%s couldn't do Internet communication, and no default connection is selected.\n"
+"%s couldn't do Internet communication, and no default connection is "
+"selected.\n"
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
 "%s 无法在互联网上进行通讯，也没有设定缺省连接。\n"
-"请连接至互联网或者从菜单中选择'高级->选项'然后切换到连接页面以设定一个缺省连接。"
+"请连接至互联网或者从菜单中选择'高级->选项'然后切换到连接页面以设定一个缺省连"
+"接。"
 
 #: BOINCDialupManager.cpp:386
 #, c-format
@@ -831,7 +822,8 @@ msgstr ""
 #: BOINCGUIApp.cpp:318
 #, c-format
 msgid ""
-"BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
+"BOINC ownership or permissions are not set properly; please reinstall "
+"BOINC.\n"
 "(Error code %d)"
 msgstr ""
 "BOINC 相关的本地用户权限设置有误，请重新安装 BOINC。\n"
@@ -845,8 +837,7 @@ msgstr ""
 "BOINC 需要在计算机重新启动后才能正常运行。\n"
 "请您先重启计算机再重试当前的操作。"
 
-#: BOINCGUIApp.cpp:369
-#: DlgAbout.cpp:136
+#: BOINCGUIApp.cpp:369 DlgAbout.cpp:136
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
@@ -977,9 +968,7 @@ msgstr ""
 "\n"
 "点击完成可关闭本窗口。"
 
-#: CompletionErrorPage.cpp:225
-#: CompletionPage.cpp:223
-#: CompletionPage.cpp:246
+#: CompletionErrorPage.cpp:225 CompletionPage.cpp:223 CompletionPage.cpp:246
 #: CompletionPage.cpp:295
 msgid "Click Finish to close."
 msgstr "点击完成以关闭向导。"
@@ -1000,7 +989,9 @@ msgstr "您已经成功加入到这个项目。"
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr "点击完成，您的浏览器将打开一个网页，您可在网页上设置您的帐户用户名及项目参数。"
+msgstr ""
+"点击完成，您的浏览器将打开一个网页，您可在网页上设置您的帐户用户名及项目参"
+"数。"
 
 #: CompletionPage.cpp:236
 #, c-format
@@ -1063,16 +1054,12 @@ msgstr ""
 "( 中文网站: http://www.equn.com )\n"
 "( 中文论坛: http://www.equn.com/forum )"
 
-#: DlgAbout.cpp:179
-#: DlgAbout.cpp:183
+#: DlgAbout.cpp:179 DlgAbout.cpp:183
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "伯克利开放式网络计算平台 ( BOINC )"
 
-#: DlgAbout.cpp:195
-#: DlgExitMessage.cpp:172
-#: DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:383
-#: DlgSelectComputer.cpp:147
+#: DlgAbout.cpp:195 DlgExitMessage.cpp:172 DlgGenericMessage.cpp:120
+#: DlgOptions.cpp:383 DlgSelectComputer.cpp:147
 msgid "&OK"
 msgstr "确定(&O)"
 
@@ -1104,8 +1091,7 @@ msgstr "您确定要清除所有的本地参数设置吗？"
 msgid "Confirmation"
 msgstr "确认"
 
-#: DlgAdvPreferencesBase.cpp:45
-#: sg_DlgPreferences.cpp:1041
+#: DlgAdvPreferencesBase.cpp:45 sg_DlgPreferences.cpp:1041
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - 本地参数设置"
@@ -1152,11 +1138,8 @@ msgstr "保存所有参数值并关闭对话框"
 msgid "close the dialog without saving"
 msgstr "关闭对话框且不进行任何保存"
 
-#: DlgAdvPreferencesBase.cpp:108
-#: DlgEventLog.cpp:294
-#: Localization.cpp:35
-#: Localization.cpp:121
-#: Localization.cpp:139
+#: DlgAdvPreferencesBase.cpp:108 DlgEventLog.cpp:294 Localization.cpp:35
+#: Localization.cpp:121 Localization.cpp:139
 msgid "Help"
 msgstr "帮助"
 
@@ -1173,7 +1156,8 @@ msgid "While computer is on batteries"
 msgstr "电池供电时"
 
 #: DlgAdvPreferencesBase.cpp:138
-msgid "check this if you want this computer to do work while it runs on batteries"
+msgid ""
+"check this if you want this computer to do work while it runs on batteries"
 msgstr "如果您希望在电池供电时仍进行计算请选上"
 
 #: DlgAdvPreferencesBase.cpp:144
@@ -1181,7 +1165,8 @@ msgid "While computer is in use"
 msgstr "使用计算机时"
 
 #: DlgAdvPreferencesBase.cpp:147
-msgid "check this if you want this computer to do work even when you're using it"
+msgid ""
+"check this if you want this computer to do work even when you're using it"
 msgstr "如果您希望在您使用计算机的时候仍进行计算请选上"
 
 #: DlgAdvPreferencesBase.cpp:153
@@ -1189,7 +1174,9 @@ msgid "Use GPU while computer is in use"
 msgstr "在使用计算机时仍运行 GPU 计算程序"
 
 #: DlgAdvPreferencesBase.cpp:156
-msgid "check this if you want your GPU to do work even when you're using the computer"
+msgid ""
+"check this if you want your GPU to do work even when you're using the "
+"computer"
 msgstr "如果您希望在使用计算机的时候仍运行 GPU 版计算程序请选中此项"
 
 #: DlgAdvPreferencesBase.cpp:168
@@ -1197,11 +1184,11 @@ msgid "Only after computer has been idle for"
 msgstr "仅在计算机空闲多少时间后"
 
 #: DlgAdvPreferencesBase.cpp:178
-msgid "do work only after you haven't used the computer for this number of minutes"
+msgid ""
+"do work only after you haven't used the computer for this number of minutes"
 msgstr "仅在您不使用计算机后指定的时间才进行计算"
 
-#: DlgAdvPreferencesBase.cpp:183
-#: DlgAdvPreferencesBase.cpp:332
+#: DlgAdvPreferencesBase.cpp:183 DlgAdvPreferencesBase.cpp:332
 #: sg_DlgPreferences.cpp:452
 msgid "minutes"
 msgstr "分钟"
@@ -1218,8 +1205,7 @@ msgstr "如果处理器使用率超出设置值就暂停计算"
 msgid "percent (0 means no restriction)"
 msgstr "时 (0 表示不限制)"
 
-#: DlgAdvPreferencesBase.cpp:231
-#: DlgAdvPreferencesBase.cpp:471
+#: DlgAdvPreferencesBase.cpp:231 DlgAdvPreferencesBase.cpp:471
 msgid "Every day between hours of"
 msgstr "每日时间段 从"
 
@@ -1227,10 +1213,8 @@ msgstr "每日时间段 从"
 msgid "start work at this time"
 msgstr "开始计算的时间"
 
-#: DlgAdvPreferencesBase.cpp:239
-#: DlgAdvPreferencesBase.cpp:479
-#: sg_DlgPreferences.cpp:361
-#: sg_DlgPreferences.cpp:383
+#: DlgAdvPreferencesBase.cpp:239 DlgAdvPreferencesBase.cpp:479
+#: sg_DlgPreferences.cpp:361 sg_DlgPreferences.cpp:383
 msgid "and"
 msgstr "到"
 
@@ -1238,53 +1222,43 @@ msgstr "到"
 msgid "stop work at this time"
 msgstr "停止计算的时间"
 
-#: DlgAdvPreferencesBase.cpp:247
-#: DlgAdvPreferencesBase.cpp:487
+#: DlgAdvPreferencesBase.cpp:247 DlgAdvPreferencesBase.cpp:487
 msgid "(no restriction if equal)"
 msgstr "( 如果相同即表示不进行限制 )"
 
-#: DlgAdvPreferencesBase.cpp:252
-#: DlgAdvPreferencesBase.cpp:492
+#: DlgAdvPreferencesBase.cpp:252 DlgAdvPreferencesBase.cpp:492
 msgid "Day-of-week override:"
 msgstr "定制每周内各天的可用时间段："
 
-#: DlgAdvPreferencesBase.cpp:257
-#: DlgAdvPreferencesBase.cpp:497
+#: DlgAdvPreferencesBase.cpp:257 DlgAdvPreferencesBase.cpp:497
 msgid "check box to specify hours for this day of week"
 msgstr "选取以指定每周内的某天以进行可用时间设定"
 
-#: DlgAdvPreferencesBase.cpp:263
-#: DlgAdvPreferencesBase.cpp:503
+#: DlgAdvPreferencesBase.cpp:263 DlgAdvPreferencesBase.cpp:503
 msgid "Monday"
 msgstr "周一"
 
-#: DlgAdvPreferencesBase.cpp:270
-#: DlgAdvPreferencesBase.cpp:510
+#: DlgAdvPreferencesBase.cpp:270 DlgAdvPreferencesBase.cpp:510
 msgid "Tuesday"
 msgstr "周二"
 
-#: DlgAdvPreferencesBase.cpp:277
-#: DlgAdvPreferencesBase.cpp:517
+#: DlgAdvPreferencesBase.cpp:277 DlgAdvPreferencesBase.cpp:517
 msgid "Wednesday"
 msgstr "周三"
 
-#: DlgAdvPreferencesBase.cpp:284
-#: DlgAdvPreferencesBase.cpp:524
+#: DlgAdvPreferencesBase.cpp:284 DlgAdvPreferencesBase.cpp:524
 msgid "Thursday"
 msgstr "周四"
 
-#: DlgAdvPreferencesBase.cpp:291
-#: DlgAdvPreferencesBase.cpp:531
+#: DlgAdvPreferencesBase.cpp:291 DlgAdvPreferencesBase.cpp:531
 msgid "Friday"
 msgstr "周五"
 
-#: DlgAdvPreferencesBase.cpp:298
-#: DlgAdvPreferencesBase.cpp:538
+#: DlgAdvPreferencesBase.cpp:298 DlgAdvPreferencesBase.cpp:538
 msgid "Saturday"
 msgstr "周六"
 
-#: DlgAdvPreferencesBase.cpp:305
-#: DlgAdvPreferencesBase.cpp:545
+#: DlgAdvPreferencesBase.cpp:305 DlgAdvPreferencesBase.cpp:545
 msgid "Sunday"
 msgstr "周日"
 
@@ -1305,12 +1279,9 @@ msgstr "在多处理器系统上，最多使用"
 msgid "% of the processors"
 msgstr "% 处理器"
 
-#: DlgAdvPreferencesBase.cpp:345
-#: DlgAdvPreferencesBase.cpp:579
-#: DlgAdvPreferencesBase.cpp:601
-#: DlgAdvPreferencesBase.cpp:622
-#: DlgAdvPreferencesBase.cpp:643
-#: DlgAdvPreferencesBase.cpp:653
+#: DlgAdvPreferencesBase.cpp:345 DlgAdvPreferencesBase.cpp:579
+#: DlgAdvPreferencesBase.cpp:601 DlgAdvPreferencesBase.cpp:622
+#: DlgAdvPreferencesBase.cpp:643 DlgAdvPreferencesBase.cpp:653
 msgid "Use at most"
 msgstr "最多使用"
 
@@ -1327,8 +1298,7 @@ msgstr "综合选项"
 msgid "Maximum download rate"
 msgstr "最大下载速率"
 
-#: DlgAdvPreferencesBase.cpp:386
-#: DlgAdvPreferencesBase.cpp:395
+#: DlgAdvPreferencesBase.cpp:386 DlgAdvPreferencesBase.cpp:395
 msgid "KBytes/sec."
 msgstr "千字节/秒。"
 
@@ -1348,8 +1318,7 @@ msgstr "MB"
 msgid "every"
 msgstr "每"
 
-#: DlgAdvPreferencesBase.cpp:415
-#: DlgAdvPreferencesBase.cpp:429
+#: DlgAdvPreferencesBase.cpp:415 DlgAdvPreferencesBase.cpp:429
 msgid "days"
 msgstr "天"
 
@@ -1388,7 +1357,9 @@ msgid "Confirm before connecting to internet"
 msgstr "接入互联网前先确认"
 
 #: DlgAdvPreferencesBase.cpp:455
-msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
+msgid ""
+"if checked, a confirmation dialog will be displayed before trying to connect "
+"to the Internet"
 msgstr "如果选中，在需要连接至互联网时会先显示一个确认对话框"
 
 #: DlgAdvPreferencesBase.cpp:459
@@ -1413,8 +1384,7 @@ msgstr "开始使用网络的时间"
 msgid "network usage stop hour"
 msgstr "停止使用网络的时间"
 
-#: DlgAdvPreferencesBase.cpp:572
-#: DlgItemProperties.cpp:214
+#: DlgAdvPreferencesBase.cpp:572 DlgItemProperties.cpp:214
 msgid "Disk usage"
 msgstr "磁盘使用"
 
@@ -1487,39 +1457,26 @@ msgstr "如果选中，暂停的计算任务将保留在内存中"
 msgid "%s - Event Log"
 msgstr "%s - 事件日志"
 
-#: DlgEventLog.cpp:201
-#: ViewMessages.cpp:117
-#: ViewProjects.cpp:218
-#: ViewStatistics.cpp:381
-#: ViewStatistics.cpp:1769
-#: ViewTransfers.cpp:181
-#: ViewWork.cpp:222
-#: sg_DlgMessages.cpp:106
+#: DlgEventLog.cpp:201 ViewMessages.cpp:117 ViewProjects.cpp:218
+#: ViewStatistics.cpp:381 ViewStatistics.cpp:1769 ViewTransfers.cpp:181
+#: ViewWork.cpp:222 sg_DlgMessages.cpp:106
 msgid "Project"
 msgstr "项目"
 
-#: DlgEventLog.cpp:202
-#: ViewMessages.cpp:118
-#: sg_DlgMessages.cpp:107
+#: DlgEventLog.cpp:202 ViewMessages.cpp:118 sg_DlgMessages.cpp:107
 msgid "Time"
 msgstr "时间"
 
-#: DlgEventLog.cpp:203
-#: ViewMessages.cpp:119
-#: sg_DlgMessages.cpp:108
+#: DlgEventLog.cpp:203 ViewMessages.cpp:119 sg_DlgMessages.cpp:108
 msgid "Message"
 msgstr "消息"
 
-#: DlgEventLog.cpp:251
-#: DlgEventLog.cpp:365
-#: ViewMessages.cpp:106
+#: DlgEventLog.cpp:251 DlgEventLog.cpp:365 ViewMessages.cpp:106
 #: ViewMessages.cpp:502
 msgid "Show only this project"
 msgstr "仅显示当前项目"
 
-#: DlgEventLog.cpp:254
-#: DlgEventLog.cpp:366
-#: DlgEventLog.cpp:368
+#: DlgEventLog.cpp:254 DlgEventLog.cpp:366 DlgEventLog.cpp:368
 msgid "Show only the messages for the selected project"
 msgstr "仅显示当前选中项目的消息"
 
@@ -1527,11 +1484,8 @@ msgstr "仅显示当前选中项目的消息"
 msgid "Copy All"
 msgstr "复制所有的"
 
-#: DlgEventLog.cpp:260
-#: DlgEventLog.cpp:264
-#: ViewMessages.cpp:89
-#: sg_DlgMessages.cpp:176
-#: sg_DlgMessages.cpp:180
+#: DlgEventLog.cpp:260 DlgEventLog.cpp:264 ViewMessages.cpp:89
+#: sg_DlgMessages.cpp:176 sg_DlgMessages.cpp:180
 msgid "Copy all the messages to the clipboard."
 msgstr "复制所有消息至剪贴板。"
 
@@ -1539,41 +1493,38 @@ msgstr "复制所有消息至剪贴板。"
 msgid "Copy Selected"
 msgstr "复制选中的"
 
-#: DlgEventLog.cpp:272
-#: DlgEventLog.cpp:280
-#: ViewMessages.cpp:97
-#: sg_DlgMessages.cpp:201
-#: sg_DlgMessages.cpp:209
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr "复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Commandl键来选取多条消息。"
+#: DlgEventLog.cpp:272 DlgEventLog.cpp:280 ViewMessages.cpp:97
+#: sg_DlgMessages.cpp:201 sg_DlgMessages.cpp:209
+msgid ""
+"Copy the selected messages to the clipboard. You can select multiple "
+"messages by holding down the shift or command key while clicking on messages."
+msgstr ""
+"复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Commandl键来选取多"
+"条消息。"
 
-#: DlgEventLog.cpp:274
-#: DlgEventLog.cpp:282
-#: ViewMessages.cpp:99
-#: sg_DlgMessages.cpp:203
-#: sg_DlgMessages.cpp:211
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Ctrl键来选取多条消息。"
+#: DlgEventLog.cpp:274 DlgEventLog.cpp:282 ViewMessages.cpp:99
+#: sg_DlgMessages.cpp:203 sg_DlgMessages.cpp:211
+msgid ""
+"Copy the selected messages to the clipboard. You can select multiple "
+"messages by holding down the shift or control key while clicking on messages."
+msgstr ""
+"复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Ctrl键来选取多条消"
+"息。"
 
 #: DlgEventLog.cpp:289
 msgid "Close"
 msgstr "关闭"
 
-#: DlgEventLog.cpp:296
-#: DlgEventLog.cpp:299
-#: sg_DlgMessages.cpp:251
-#: sg_DlgPreferences.cpp:508
-#: sg_ProjectsComponent.cpp:140
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:299 sg_DlgMessages.cpp:251
+#: sg_DlgPreferences.cpp:508 sg_ProjectsComponent.cpp:140
 msgid "Get help with BOINC"
 msgstr "从 BOINC 得到帮助"
 
-#: DlgEventLog.cpp:378
-#: ViewMessages.cpp:494
+#: DlgEventLog.cpp:378 ViewMessages.cpp:494
 msgid "Show all messages"
 msgstr "显示所有消息"
 
-#: DlgEventLog.cpp:379
-#: DlgEventLog.cpp:381
+#: DlgEventLog.cpp:379 DlgEventLog.cpp:381
 msgid "Show messages for all projects"
 msgstr "显示所有项目的消息"
 
@@ -1610,7 +1561,8 @@ msgid ""
 msgstr ""
 "本操作将会退出 %s 及其所有任务直到重新运行 %s 或是重新启动 %s 屏保。\n"
 "\n"
-"一般情况下，建议只关闭 %s 的窗口而不是退出应用程序，这样 %s 将会在您设定的时间段内进行工作。"
+"一般情况下，建议只关闭 %s 的窗口而不是退出应用程序，这样 %s 将会在您设定的时"
+"间段内进行工作。"
 
 #: DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
@@ -1620,11 +1572,8 @@ msgstr "退出 BOINC Manger 的同时停止运行科学计算程序。"
 msgid "Remember this decision and do not show this dialog."
 msgstr "记住当前的选择并不再显示本对话框。"
 
-#: DlgExitMessage.cpp:177
-#: DlgGenericMessage.cpp:125
-#: DlgOptions.cpp:388
-#: DlgSelectComputer.cpp:152
-#: wizardex.cpp:378
+#: DlgExitMessage.cpp:177 DlgGenericMessage.cpp:125 DlgOptions.cpp:388
+#: DlgSelectComputer.cpp:152 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "取消(&C)"
 
@@ -1640,8 +1589,7 @@ msgstr "关闭(&C)"
 msgid "Properties of project "
 msgstr "项目属性"
 
-#: DlgItemProperties.cpp:200
-#: DlgOptions.cpp:205
+#: DlgItemProperties.cpp:200 DlgOptions.cpp:205
 msgid "General"
 msgstr "综合"
 
@@ -1657,8 +1605,7 @@ msgstr "用户名称"
 msgid "Team name"
 msgstr "团队名称"
 
-#: DlgItemProperties.cpp:204
-#: ViewProjects.cpp:223
+#: DlgItemProperties.cpp:204 ViewProjects.cpp:223
 msgid "Resource share"
 msgstr "资源分享"
 
@@ -1682,22 +1629,16 @@ msgstr "计算机编号"
 msgid "Non CPU intensive"
 msgstr "非 CPU 密集"
 
-#: DlgItemProperties.cpp:216
-#: DlgItemProperties.cpp:217
-#: DlgItemProperties.cpp:218
-#: DlgItemProperties.cpp:219
-#: DlgItemProperties.cpp:220
-#: DlgItemProperties.cpp:221
+#: DlgItemProperties.cpp:216 DlgItemProperties.cpp:217
+#: DlgItemProperties.cpp:218 DlgItemProperties.cpp:219
+#: DlgItemProperties.cpp:220 DlgItemProperties.cpp:221
 #: DlgItemProperties.cpp:222
 msgid "yes"
 msgstr "是"
 
-#: DlgItemProperties.cpp:216
-#: DlgItemProperties.cpp:217
-#: DlgItemProperties.cpp:218
-#: DlgItemProperties.cpp:219
-#: DlgItemProperties.cpp:220
-#: DlgItemProperties.cpp:221
+#: DlgItemProperties.cpp:216 DlgItemProperties.cpp:217
+#: DlgItemProperties.cpp:218 DlgItemProperties.cpp:219
+#: DlgItemProperties.cpp:220 DlgItemProperties.cpp:221
 #: DlgItemProperties.cpp:222
 msgid "no"
 msgstr "否"
@@ -1742,8 +1683,7 @@ msgstr "主机"
 msgid "Scheduling"
 msgstr "调度"
 
-#: DlgItemProperties.cpp:242
-#: DlgItemProperties.cpp:252
+#: DlgItemProperties.cpp:242 DlgItemProperties.cpp:252
 #: DlgItemProperties.cpp:263
 msgid "Project preference"
 msgstr "项目参数设置"
@@ -1816,8 +1756,7 @@ msgstr "时长校正因子"
 msgid "Properties of task "
 msgstr "任务属性"
 
-#: DlgItemProperties.cpp:286
-#: ViewWork.cpp:228
+#: DlgItemProperties.cpp:286 ViewWork.cpp:228
 msgid "Application"
 msgstr "计算程序"
 
@@ -1845,13 +1784,11 @@ msgstr "资源"
 msgid "CPU time at last checkpoint"
 msgstr "上次存盘的 CPU 时间"
 
-#: DlgItemProperties.cpp:300
-#: DlgItemProperties.cpp:315
+#: DlgItemProperties.cpp:300 DlgItemProperties.cpp:315
 msgid "CPU time"
 msgstr "已用 CPU 时间"
 
-#: DlgItemProperties.cpp:302
-#: DlgItemProperties.cpp:316
+#: DlgItemProperties.cpp:302 DlgItemProperties.cpp:316
 msgid "Elapsed time"
 msgstr "已用时间"
 
@@ -1879,8 +1816,7 @@ msgstr "目录"
 msgid "Process ID"
 msgstr "进程标识"
 
-#: DlgItemProperties.cpp:386
-#: ViewWork.cpp:956
+#: DlgItemProperties.cpp:386 ViewWork.cpp:956
 msgid "Local: "
 msgstr "本地："
 
@@ -1953,40 +1889,28 @@ msgstr "通过 HTTP 代理连接"
 msgid "HTTP Proxy Server Configuration"
 msgstr "HTTP 代理配置"
 
-#: DlgOptions.cpp:267
-#: DlgOptions.cpp:331
+#: DlgOptions.cpp:267 DlgOptions.cpp:331
 msgid "Address:"
 msgstr "地址："
 
-#: DlgOptions.cpp:275
-#: DlgOptions.cpp:339
-#: ProxyPage.cpp:340
-#: ProxyPage.cpp:360
+#: DlgOptions.cpp:275 DlgOptions.cpp:339 ProxyPage.cpp:340 ProxyPage.cpp:360
 msgid "Port:"
 msgstr "端口："
 
-#: DlgOptions.cpp:283
-#: DlgOptions.cpp:347
+#: DlgOptions.cpp:283 DlgOptions.cpp:347
 msgid "Don't use proxy for:"
 msgstr "不要使用代理服务器："
 
-#: DlgOptions.cpp:290
-#: DlgOptions.cpp:354
+#: DlgOptions.cpp:290 DlgOptions.cpp:354
 msgid "Leave these blank if not needed"
 msgstr "下面的内容如果不需要请留空"
 
-#: DlgOptions.cpp:296
-#: DlgOptions.cpp:360
-#: ProxyPage.cpp:343
-#: ProxyPage.cpp:363
+#: DlgOptions.cpp:296 DlgOptions.cpp:360 ProxyPage.cpp:343 ProxyPage.cpp:363
 msgid "User Name:"
 msgstr "用户名："
 
-#: DlgOptions.cpp:304
-#: DlgOptions.cpp:368
-#: DlgSelectComputer.cpp:136
-#: ProxyPage.cpp:346
-#: ProxyPage.cpp:366
+#: DlgOptions.cpp:304 DlgOptions.cpp:368 DlgSelectComputer.cpp:136
+#: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "密码："
 
@@ -2015,8 +1939,7 @@ msgstr "%s - 选择计算机"
 msgid "Host name:"
 msgstr "主机名："
 
-#: Localization.cpp:31
-#: Localization.cpp:69
+#: Localization.cpp:31 Localization.cpp:69
 msgid "Message boards"
 msgstr "留言板"
 
@@ -2028,16 +1951,12 @@ msgstr "在留言板上可以和其他 SETI@home 用户进行交流"
 msgid "Ask questions and report problems"
 msgstr "提问及报告错误"
 
-#: Localization.cpp:39
-#: Localization.cpp:81
-#: Localization.cpp:111
+#: Localization.cpp:39 Localization.cpp:81 Localization.cpp:111
 #: Localization.cpp:129
 msgid "Your account"
 msgstr "您的帐户"
 
-#: Localization.cpp:41
-#: Localization.cpp:87
-#: Localization.cpp:113
+#: Localization.cpp:41 Localization.cpp:87 Localization.cpp:113
 msgid "View your account information and credit totals"
 msgstr "查看您的帐户及积分信息"
 
@@ -2049,18 +1968,15 @@ msgstr "您的参数设置"
 msgid "View and modify your SETI@home account profile and preferences"
 msgstr "查看和修改您的 SETI@home 帐户及参数设置"
 
-#: Localization.cpp:47
-#: Localization.cpp:89
+#: Localization.cpp:47 Localization.cpp:89
 msgid "Your results"
 msgstr "您的任务"
 
-#: Localization.cpp:49
-#: Localization.cpp:91
+#: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr "查看您近期的计算任务及结果"
 
-#: Localization.cpp:51
-#: Localization.cpp:93
+#: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
 msgstr "您的计算机"
 
@@ -2068,13 +1984,11 @@ msgstr "您的计算机"
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "查看您用来运行 SETI@home 的计算机列表"
 
-#: Localization.cpp:55
-#: Localization.cpp:97
+#: Localization.cpp:55 Localization.cpp:97
 msgid "Your team"
 msgstr "您的团队"
 
-#: Localization.cpp:57
-#: Localization.cpp:99
+#: Localization.cpp:57 Localization.cpp:99
 msgid "View information about your team"
 msgstr "查看您的团队信息"
 
@@ -2095,7 +2009,8 @@ msgid "Read a detailed description of the Einstein@Home screensaver"
 msgstr "阅读 Einstein@Home 屏保的详细信息"
 
 #: Localization.cpp:71
-msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgid ""
+"Correspond with admins and other users on the Einstein@Home message boards"
 msgstr "和管理员及其他 Einstein@Home 用户进行交流"
 
 #: Localization.cpp:73
@@ -2123,7 +2038,8 @@ msgid "Account summary"
 msgstr "帐户概要"
 
 #: Localization.cpp:95
-msgid "View a listing of all the computers on which you are running Einstein@Home"
+msgid ""
+"View a listing of all the computers on which you are running Einstein@Home"
 msgstr "查看您用来运行 Einstein@Home 的计算机列表"
 
 #: Localization.cpp:101
@@ -2131,7 +2047,9 @@ msgid "LIGO project"
 msgstr "LIGO 项目"
 
 #: Localization.cpp:103
-msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
+msgid ""
+"The home page of the Laser Interferometer Gravitational-wave Observatory "
+"(LIGO) project"
 msgstr "激光干涉引力波观测站 (LIGO) 项目的主页"
 
 #: Localization.cpp:105
@@ -2142,9 +2060,7 @@ msgstr "GEO-600 项目"
 msgid "The home page of the GEO-600 project"
 msgstr "GEO-600 项目的主页"
 
-#: Localization.cpp:115
-#: Localization.cpp:133
-#: ViewProjects.cpp:220
+#: Localization.cpp:115 Localization.cpp:133 ViewProjects.cpp:220
 #: ViewStatistics.cpp:411
 msgid "Team"
 msgstr "团队"
@@ -2269,24 +2185,19 @@ msgstr "无可用 GPU, "
 msgid "New"
 msgstr "新任务"
 
-#: MainDocument.cpp:2276
-#: ViewTransfers.cpp:773
+#: MainDocument.cpp:2276 ViewTransfers.cpp:773
 msgid "Download failed"
 msgstr "下载失败"
 
-#: MainDocument.cpp:2278
-#: ViewTransfers.cpp:785
+#: MainDocument.cpp:2278 ViewTransfers.cpp:785
 msgid "Downloading"
 msgstr "正在下载"
 
-#: MainDocument.cpp:2280
-#: MainDocument.cpp:2338
+#: MainDocument.cpp:2280 MainDocument.cpp:2338
 msgid " (suspended - "
 msgstr "(已暂停 - "
 
-#: MainDocument.cpp:2282
-#: MainDocument.cpp:2340
-#: ViewTransfers.cpp:794
+#: MainDocument.cpp:2282 MainDocument.cpp:2340 ViewTransfers.cpp:794
 msgid ")"
 msgstr ")"
 
@@ -2314,8 +2225,7 @@ msgstr "等待足够的共享内存"
 msgid "Running, high priority"
 msgstr "运行中，高优先级"
 
-#: MainDocument.cpp:2306
-#: sg_ImageButton.cpp:88
+#: MainDocument.cpp:2306 sg_ImageButton.cpp:88
 msgid "Running"
 msgstr "运行中"
 
@@ -2327,8 +2237,7 @@ msgstr "( 非 CPU 密集 )"
 msgid "Waiting to run"
 msgstr "等待运行"
 
-#: MainDocument.cpp:2317
-#: MainDocument.cpp:2323
+#: MainDocument.cpp:2317 MainDocument.cpp:2323
 msgid "Ready to start"
 msgstr "准备运行"
 
@@ -2340,13 +2249,11 @@ msgstr "(等待足够的 GPU 内存)"
 msgid "Computation error"
 msgstr "计算错误"
 
-#: MainDocument.cpp:2334
-#: ViewTransfers.cpp:775
+#: MainDocument.cpp:2334 ViewTransfers.cpp:775
 msgid "Upload failed"
 msgstr "上传失败"
 
-#: MainDocument.cpp:2336
-#: ViewTransfers.cpp:785
+#: MainDocument.cpp:2336 ViewTransfers.cpp:785
 msgid "Uploading"
 msgstr "正在上传"
 
@@ -2428,28 +2335,23 @@ msgstr "请检查用户名及密码，然后重试。"
 msgid "Check the email address and password, and try again."
 msgstr "请检查电子邮件地址及密码，然后重试。"
 
-#: NoticeListCtrl.cpp:276
-#: ProjectListCtrl.cpp:276
+#: NoticeListCtrl.cpp:276 ProjectListCtrl.cpp:276
 msgid "Click"
 msgstr "点击"
 
-#: NoticeListCtrl.cpp:503
-#: ProjectListCtrl.cpp:503
+#: NoticeListCtrl.cpp:503 ProjectListCtrl.cpp:503
 msgid "Multicore CPU Supported"
 msgstr "已支持多核 CPU"
 
-#: NoticeListCtrl.cpp:505
-#: ProjectListCtrl.cpp:505
+#: NoticeListCtrl.cpp:505 ProjectListCtrl.cpp:505
 msgid "Nvidia GPU Supported"
 msgstr "已支持 Nvidia GPU"
 
-#: NoticeListCtrl.cpp:507
-#: ProjectListCtrl.cpp:507
+#: NoticeListCtrl.cpp:507 ProjectListCtrl.cpp:507
 msgid "ATI GPU Supported"
 msgstr "已支持 ATI GPU"
 
-#: NoticeListCtrl.cpp:509
-#: ProjectListCtrl.cpp:509
+#: NoticeListCtrl.cpp:509 ProjectListCtrl.cpp:509
 msgid "Project Website"
 msgstr "项目网站"
 
@@ -2466,11 +2368,14 @@ msgid "Project &URL:"
 msgstr "项目网址(&U)："
 
 #: ProjectInfoPage.cpp:392
-msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
+msgid ""
+"This project may not have work for your type of computer. Are you sure you "
+"wish to continue?"
 msgstr "该项目可能没有适合您计算机的任务类型。您确定还要继续吗？"
 
 #: ProjectInfoPage.cpp:416
-msgid "You are already attached to this project. Please choose a different project."
+msgid ""
+"You are already attached to this project. Please choose a different project."
 msgstr "您当前已经加入了这个项目，请选择一个其它的项目。"
 
 #: ProjectProcessingPage.cpp:322
@@ -2481,8 +2386,7 @@ msgstr "正在和项目服务器进行通讯。"
 msgid "Required files not found on the server."
 msgstr "请求的文件不在服务器上。"
 
-#: ProjectProcessingPage.cpp:502
-#: ProjectProcessingPage.cpp:564
+#: ProjectProcessingPage.cpp:502 ProjectProcessingPage.cpp:564
 msgid "An internal server error has occurred."
 msgstr "服务器上产生了一个内部错误。"
 
@@ -2518,7 +2422,8 @@ msgstr ""
 "\n"
 "1) 连接问题。请检查您的网络或拨号连接并点击上一步以重试。\n"
 "\n"
-"2) 被个人防火墙阻挡，您必须配置您的防火墙以允许 BOINC 在 80 端口和 443 端口的通讯。\n"
+"2) 被个人防火墙阻挡，您必须配置您的防火墙以允许 BOINC 在 80 端口和 443 端口的"
+"通讯。\n"
 "配置完成后，请点击上一步进行重试。\n"
 "\n"
 "3) 您正在通过代理服务器接入互联网。\n"
@@ -2558,8 +2463,7 @@ msgstr "代理配置"
 msgid "HTTP proxy"
 msgstr "HTTP 代理"
 
-#: ProxyPage.cpp:337
-#: ProxyPage.cpp:357
+#: ProxyPage.cpp:337 ProxyPage.cpp:357
 msgid "Server:"
 msgstr "服务器："
 
@@ -2623,8 +2527,7 @@ msgstr "请输入帐户密钥以继续。"
 msgid "Invalid Account Key; please enter a valid Account Key"
 msgstr "此帐户密钥错误；请输入一个正确的帐户密钥"
 
-#: ValidateAccountKey.cpp:82
-#: ValidateEmailAddress.cpp:86
+#: ValidateAccountKey.cpp:82 ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
 msgstr "验证冲突"
 
@@ -2650,18 +2553,12 @@ msgstr ""
 "例如：\n"
 "http://www.example.com/"
 
-#: ValidateURL.cpp:83
-#: ValidateURL.cpp:87
-#: ValidateURL.cpp:91
-#: ValidateURL.cpp:103
-#: ValidateURL.cpp:107
-#: ValidateURL.cpp:110
+#: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
+#: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
 msgid "Invalid URL"
 msgstr "错误的网址"
 
-#: ValidateURL.cpp:84
-#: ValidateURL.cpp:88
-#: ValidateURL.cpp:92
+#: ValidateURL.cpp:84 ValidateURL.cpp:88 ValidateURL.cpp:92
 msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
@@ -2671,8 +2568,7 @@ msgstr ""
 "比如：\n"
 "http://boincproject.example.com/"
 
-#: ValidateURL.cpp:104
-#: ValidateURL.cpp:108
+#: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s'中未包含正确的主机名称。"
@@ -2682,11 +2578,8 @@ msgstr "'%s'中未包含正确的主机名称。"
 msgid "'%s' does not contain a valid path."
 msgstr "'%s'中未包含正确的路径。"
 
-#: ViewMessages.cpp:84
-#: ViewProjects.cpp:169
-#: ViewStatistics.cpp:1738
-#: ViewTransfers.cpp:159
-#: ViewWork.cpp:180
+#: ViewMessages.cpp:84 ViewProjects.cpp:169 ViewStatistics.cpp:1738
+#: ViewTransfers.cpp:159 ViewWork.cpp:180
 msgid "Commands"
 msgstr "命令"
 
@@ -2698,8 +2591,7 @@ msgstr "复制所有消息"
 msgid "Copy selected messages"
 msgstr "复制选中的消息"
 
-#: ViewMessages.cpp:107
-#: ViewMessages.cpp:503
+#: ViewMessages.cpp:107 ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
 msgstr "仅显示当前选中项目的消息。"
 
@@ -2727,8 +2619,7 @@ msgstr "显示所有项目的消息。"
 msgid "News Feeds"
 msgstr "新闻订阅"
 
-#: ViewNotices.cpp:81
-#: ViewTransfers.cpp:284
+#: ViewNotices.cpp:81 ViewTransfers.cpp:284
 msgid "BOINC"
 msgstr "BOINC"
 
@@ -2749,23 +2640,20 @@ msgid "Update"
 msgstr "更新"
 
 #: ViewProjects.cpp:174
-msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
+msgid ""
+"Report all completed tasks, get latest credit, get latest preferences, and "
+"possibly get more tasks."
 msgstr "上报所有完成的任务，获取最新的积分及参数设置，可能下载更多的新任务。"
 
-#: ViewProjects.cpp:180
-#: ViewProjects.cpp:712
-#: ViewWork.cpp:198
-#: ViewWork.cpp:738
+#: ViewProjects.cpp:180 ViewProjects.cpp:712 ViewWork.cpp:198 ViewWork.cpp:738
 msgid "Suspend"
 msgstr "暂停"
 
-#: ViewProjects.cpp:181
-#: ViewProjects.cpp:712
+#: ViewProjects.cpp:181 ViewProjects.cpp:712
 msgid "Suspend tasks for this project."
 msgstr "暂停当前项目的所有任务。"
 
-#: ViewProjects.cpp:187
-#: ViewProjects.cpp:731
+#: ViewProjects.cpp:187 ViewProjects.cpp:731
 msgid "No new tasks"
 msgstr "禁止下载新任务"
 
@@ -2778,19 +2666,26 @@ msgid "Reset project"
 msgstr "重置项目"
 
 #: ViewProjects.cpp:195
-msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr "删除并重新下载当前项目所有相关文件。您可以先更新当前项目以上传所有已经完成的任务。"
+msgid ""
+"Delete all files and tasks associated with this project, and get new tasks.  "
+"You can update the project first to report any completed tasks."
+msgstr ""
+"删除并重新下载当前项目所有相关文件。您可以先更新当前项目以上传所有已经完成的"
+"任务。"
 
 #: ViewProjects.cpp:201
 msgid "Detach"
 msgstr "退出"
 
 #: ViewProjects.cpp:202
-msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr "在本计算机上退出当前项目。该项目所有正在计算的任务将丢失，您可以先点击“更新”按钮以上报所有已经完成的任务。"
+msgid ""
+"Detach computer from this project.  Tasks in progress will be lost (use "
+"'Update' first to report any completed tasks)."
+msgstr ""
+"在本计算机上退出当前项目。该项目所有正在计算的任务将丢失，您可以先点击“更"
+"新”按钮以上报所有已经完成的任务。"
 
-#: ViewProjects.cpp:208
-#: ViewWork.cpp:212
+#: ViewProjects.cpp:208 ViewWork.cpp:212
 msgid "Properties"
 msgstr "属性"
 
@@ -2798,8 +2693,7 @@ msgstr "属性"
 msgid "Show project details."
 msgstr "显示项目细节。"
 
-#: ViewProjects.cpp:219
-#: ViewStatistics.cpp:396
+#: ViewProjects.cpp:219 ViewStatistics.cpp:396
 msgid "Account"
 msgstr "帐户"
 
@@ -2811,9 +2705,7 @@ msgstr "总积分"
 msgid "Avg. work done"
 msgstr "近期平均积分"
 
-#: ViewProjects.cpp:224
-#: ViewTransfers.cpp:187
-#: ViewWork.cpp:224
+#: ViewProjects.cpp:224 ViewTransfers.cpp:187 ViewWork.cpp:224
 msgid "Status"
 msgstr "状态"
 
@@ -2858,24 +2750,20 @@ msgstr "重置项目"
 msgid "Detaching from project..."
 msgstr "正在退出项目..."
 
-#: ViewProjects.cpp:495
-#: sg_StatImageLoader.cpp:211
+#: ViewProjects.cpp:495 sg_StatImageLoader.cpp:211
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "您确定要退出'%s'项目吗？"
 
-#: ViewProjects.cpp:501
-#: sg_StatImageLoader.cpp:217
+#: ViewProjects.cpp:501 sg_StatImageLoader.cpp:217
 msgid "Detach from Project"
 msgstr "退出项目"
 
-#: ViewProjects.cpp:542
-#: ViewWork.cpp:551
+#: ViewProjects.cpp:542 ViewWork.cpp:551
 msgid "Launching browser..."
 msgstr "正在启动浏览器..."
 
-#: ViewProjects.cpp:708
-#: ViewWork.cpp:732
+#: ViewProjects.cpp:708 ViewWork.cpp:732
 msgid "Resume"
 msgstr "继续"
 
@@ -3064,15 +2952,9 @@ msgstr "在一张图表中显示所有项目"
 msgid "Statistics"
 msgstr "统计"
 
-#: ViewStatistics.cpp:1854
-#: ViewStatistics.cpp:1875
-#: ViewStatistics.cpp:1896
-#: ViewStatistics.cpp:1918
-#: ViewStatistics.cpp:1939
-#: ViewStatistics.cpp:1960
-#: ViewStatistics.cpp:1981
-#: ViewStatistics.cpp:2002
-#: ViewStatistics.cpp:2025
+#: ViewStatistics.cpp:1854 ViewStatistics.cpp:1875 ViewStatistics.cpp:1896
+#: ViewStatistics.cpp:1918 ViewStatistics.cpp:1939 ViewStatistics.cpp:1960
+#: ViewStatistics.cpp:1981 ViewStatistics.cpp:2002 ViewStatistics.cpp:2025
 msgid "Updating charts..."
 msgstr "正在更新图表..."
 
@@ -3089,15 +2971,17 @@ msgid "Abort Transfer"
 msgstr "中断传输"
 
 #: ViewTransfers.cpp:171
-msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "点击“中断传输”以从传输队列中删除该文件，这将导致您无法从该结果获得积分。"
+msgid ""
+"Click 'Abort transfer' to delete the file from the transfer queue. This will "
+"prevent you from being granted credit for this result."
+msgstr ""
+"点击“中断传输”以从传输队列中删除该文件，这将导致您无法从该结果获得积分。"
 
 #: ViewTransfers.cpp:182
 msgid "File"
 msgstr "文件"
 
-#: ViewTransfers.cpp:183
-#: ViewWork.cpp:223
+#: ViewTransfers.cpp:183 ViewWork.cpp:223
 msgid "Progress"
 msgstr "进度"
 
@@ -3175,18 +3059,15 @@ msgstr "等待下载"
 msgid " (project backoff: "
 msgstr "( 项目延后："
 
-#: ViewWork.cpp:184
-#: ViewWork.cpp:714
+#: ViewWork.cpp:184 ViewWork.cpp:714
 msgid "Show active tasks"
 msgstr "显示活动任务"
 
-#: ViewWork.cpp:185
-#: ViewWork.cpp:715
+#: ViewWork.cpp:185 ViewWork.cpp:715
 msgid "Show only active tasks."
 msgstr "只显示正在计算过程中的任务。"
 
-#: ViewWork.cpp:191
-#: sg_ViewTabPage.cpp:424
+#: ViewWork.cpp:191 sg_ViewTabPage.cpp:424
 msgid "Show graphics"
 msgstr "显示图形"
 
@@ -3314,7 +3195,8 @@ msgstr ""
 #: WelcomePage.cpp:284
 msgid ""
 "You have chosen to attach to a new BOINC project.  Attaching to a new\n"
-"project means that you will be connecting your computer to a new organization.\n"
+"project means that you will be connecting your computer to a new "
+"organization.\n"
 "If this is what you wanted to do, please click on\n"
 "the 'Next' button below.\n"
 "\n"
@@ -3406,8 +3288,7 @@ msgstr "暂停计算。"
 msgid "Waiting to contact project servers."
 msgstr "正在等待连接项目服务器。"
 
-#: sg_ClientStateIndicator.cpp:317
-#: sg_ClientStateIndicator.cpp:325
+#: sg_ClientStateIndicator.cpp:317 sg_ClientStateIndicator.cpp:325
 msgid "Retrieving current status"
 msgstr "正在获取当前状态"
 
@@ -3560,8 +3441,7 @@ msgstr "计算时间段："
 msgid "Connect to internet only between:"
 msgstr "连接互联网的时间段："
 
-#: sg_DlgPreferences.cpp:392
-#: sg_DlgPreferences.cpp:409
+#: sg_DlgPreferences.cpp:392 sg_DlgPreferences.cpp:409
 msgid "Use no more than:"
 msgstr "最多使用："
 
@@ -3581,14 +3461,10 @@ msgstr "电池供电时仍然计算？"
 msgid "Do work after idle for:"
 msgstr "闲置一定时间后开始计算："
 
-#: sg_DlgPreferences.cpp:677
-#: sg_DlgPreferences.cpp:680
-#: sg_DlgPreferences.cpp:748
-#: sg_DlgPreferences.cpp:752
-#: sg_DlgPreferences.cpp:764
-#: sg_DlgPreferences.cpp:768
-#: sg_DlgPreferences.cpp:926
-#: sg_DlgPreferences.cpp:937
+#: sg_DlgPreferences.cpp:677 sg_DlgPreferences.cpp:680
+#: sg_DlgPreferences.cpp:748 sg_DlgPreferences.cpp:752
+#: sg_DlgPreferences.cpp:764 sg_DlgPreferences.cpp:768
+#: sg_DlgPreferences.cpp:926 sg_DlgPreferences.cpp:937
 msgid "Anytime"
 msgstr "任何时候"
 
@@ -3656,8 +3532,7 @@ msgstr "点击即可显示项目图形"
 msgid "Synchronize projects with account manager system"
 msgstr "从帐户管理系统同步项目"
 
-#: sg_ProjectsComponent.cpp:193
-#: sg_ProjectsComponent.cpp:204
+#: sg_ProjectsComponent.cpp:193 sg_ProjectsComponent.cpp:204
 msgid "Open a window to view messages"
 msgstr "打开一个窗口来查看消息"
 
@@ -3690,8 +3565,7 @@ msgstr "%s。%s 已经完成的任务：%0.2f"
 msgid "Remove Project"
 msgstr "移除项目"
 
-#: sg_ViewTabPage.cpp:140
-#: sg_ViewTabPage.cpp:280
+#: sg_ViewTabPage.cpp:140 sg_ViewTabPage.cpp:280
 #, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
@@ -3709,8 +3583,7 @@ msgstr "您确定要在远程计算机上显示图形吗？"
 msgid "Application: "
 msgstr "计算程序："
 
-#: sg_ViewTabPage.cpp:449
-#: sg_ViewTabPage.cpp:453
+#: sg_ViewTabPage.cpp:449 sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
 msgstr "剩余时间："
 
@@ -3718,8 +3591,7 @@ msgstr "剩余时间："
 msgid "Elapsed Time: "
 msgstr "已用时间："
 
-#: wizardex.cpp:377
-#: wizardex.cpp:553
+#: wizardex.cpp:377 wizardex.cpp:553
 msgid "&Next >"
 msgstr "下一步(&N) >"
 
@@ -3731,8 +3603,7 @@ msgstr "< 上一步(&B)"
 msgid "&Finish"
 msgstr "完成(&F)"
 
-#: ../client/acct_mgr.cpp:373
-#: ../client/acct_mgr.cpp:383
+#: ../client/acct_mgr.cpp:373 ../client/acct_mgr.cpp:383
 msgid "error"
 msgstr "错误"
 
@@ -3764,14 +3635,12 @@ msgstr "XML 语法错误"
 msgid "Can't resolve hostname in"
 msgstr "无法解析主机名称"
 
-#: ../client/log_flags.cpp:67
-#: ../client/log_flags.cpp:317
+#: ../client/log_flags.cpp:67 ../client/log_flags.cpp:317
 #: ../client/log_flags.cpp:442
 msgid "Unexpected text in"
 msgstr "异常的文本"
 
-#: ../client/log_flags.cpp:111
-#: ../client/log_flags.cpp:414
+#: ../client/log_flags.cpp:111 ../client/log_flags.cpp:414
 msgid "Unrecognized tag in"
 msgstr "无法识别的标签"
 
@@ -3788,7 +3657,9 @@ msgid "Missing end tag in"
 msgstr "结束标签丢失"
 
 #: ../client/net_stats.cpp:213
-msgid "BOINC can't access Internet - check network connection or proxy configuration."
+msgid ""
+"BOINC can't access Internet - check network connection or proxy "
+"configuration."
 msgstr "BOINC 无法访问互联网 - 请查看网络连接或者代理服务器的配置。"
 
 #, fuzzy

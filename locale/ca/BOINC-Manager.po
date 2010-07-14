@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2010-06-16 13:31-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -1456,7 +1456,8 @@ msgstr "Gigabytes d'espai en disc lliure"
 
 #: DlgAdvPreferencesBase.cpp:605
 msgid "BOINC uses at most this percentage of total disk space"
-msgstr "BOINC utilitza com a mínim aquest percentatge del total d'espai en disc"
+msgstr ""
+"BOINC utilitza com a mínim aquest percentatge del total d'espai en disc"
 
 #: DlgAdvPreferencesBase.cpp:610
 #, no-c-format
@@ -3617,7 +3618,8 @@ msgstr "Prémer per mostrar els gràfics del projecte"
 
 #: sg_ProjectsComponent.cpp:122
 msgid "Synchronize projects with account manager system"
-msgstr "Sincronitzar els projectes amb el sistema de l'administrador de comptes"
+msgstr ""
+"Sincronitzar els projectes amb el sistema de l'administrador de comptes"
 
 #: sg_ProjectsComponent.cpp:193 sg_ProjectsComponent.cpp:204
 msgid "Open a window to view messages"
@@ -3705,8 +3707,7 @@ msgstr "Descarregar-la."
 #: ../client/client_state.cpp:342
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
-"No s'ha pogut guardar el fitxer d'estat, comproveu els permisos del "
-"directori"
+"No s'ha pogut guardar el fitxer d'estat, comproveu els permisos del directori"
 
 #: ../client/cs_cmdline.cpp:280
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"

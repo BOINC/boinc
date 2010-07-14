@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2010-06-18 15:14+0900\n"
 "Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
-"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
@@ -136,19 +136,24 @@ msgstr "계정 관리자 연결"
 msgid ""
 "The minimum password length for this project is %d. Please enter a different "
 "password."
-msgstr "이 프로젝트는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 입력해 주세요."
+msgstr ""
+"이 프로젝트는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 입"
+"력해 주세요."
 
 #: AccountInfoPage.cpp:548
 #, c-format
 msgid ""
 "The minimum password length for this account manager is %d. Please enter a "
 "different password."
-msgstr "이 계정 관리자는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 입력해 주세요."
+msgstr ""
+"이 계정 관리자는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 "
+"입력해 주세요."
 
 #: AccountInfoPage.cpp:559
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr "처음 비밀번호와 재입력한 비밀번호가 일치하지 않습니다. 다시 입력해주세요."
+msgstr ""
+"처음 비밀번호와 재입력한 비밀번호가 일치하지 않습니다. 다시 입력해주세요."
 
 #: AccountManagerInfoPage.cpp:248
 msgid "Choose an account manager"
@@ -543,7 +548,8 @@ msgstr "%s - 언어 선택"
 msgid ""
 "The %s's default language has been changed, in order for this change to take "
 "affect you must restart the %s."
-msgstr "%s가 기본 언어로 설정되었습니다. 이 설정은 %s을(를) 재시작해야 적용됩니다."
+msgstr ""
+"%s가 기본 언어로 설정되었습니다. 이 설정은 %s을(를) 재시작해야 적용됩니다."
 
 #: AdvancedFrame.cpp:1513
 #, c-format
@@ -835,7 +841,8 @@ msgid ""
 "BOINC.\n"
 "(Error code %d)"
 msgstr ""
-"BOINC 소유권이나 권한이 적절히 설정되지 않았습니다. BOINC를 다시 설치해주세요.\n"
+"BOINC 소유권이나 권한이 적절히 설정되지 않았습니다. BOINC를 다시 설치해주세"
+"요.\n"
 "(Error code %d)"
 
 #: BOINCGUIApp.cpp:368
@@ -1411,7 +1418,8 @@ msgstr "최소한"
 
 #: DlgAdvPreferencesBase.cpp:594
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr "BOINC는 최소한 이 만큼의 디스크 용량을 빈 공간으로 남겨둡니다 (단위 GB)"
+msgstr ""
+"BOINC는 최소한 이 만큼의 디스크 용량을 빈 공간으로 남겨둡니다 (단위 GB)"
 
 #: DlgAdvPreferencesBase.cpp:598
 msgid "Gigabytes disk space free"
@@ -1508,7 +1516,8 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
 msgstr ""
-"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
+"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 "
+"control 키를 눌러 여러 메세지를 선택할 수 있습니다"
 
 #: DlgEventLog.cpp:274 DlgEventLog.cpp:282 ViewMessages.cpp:99
 #: sg_DlgMessages.cpp:203 sg_DlgMessages.cpp:211
@@ -1516,8 +1525,8 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
 msgstr ""
-"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
-"있습니다."
+"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 "
+"Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
 
 #: DlgEventLog.cpp:289
 msgid "Close"
@@ -2022,7 +2031,8 @@ msgstr "Einstein@Home 화면보호기에 대해서 보다 자세한 정보를 �
 #: Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "Einstein@Home 게시판에서 운영자 및 다른 사용자와 이야기를 주고 받으세요"
+msgstr ""
+"Einstein@Home 게시판에서 운영자 및 다른 사용자와 이야기를 주고 받으세요"
 
 #: Localization.cpp:73
 msgid "Einstein status"
@@ -2382,7 +2392,8 @@ msgstr "프로젝트 &URL:"
 msgid ""
 "This project may not have work for your type of computer. Are you sure you "
 "wish to continue?"
-msgstr "이 프로젝트는 해당 컴퓨터에서 동작하지 않을 수도 있습니다. 계속하시겠습니까?"
+msgstr ""
+"이 프로젝트는 해당 컴퓨터에서 동작하지 않을 수도 있습니다. 계속하시겠습니까?"
 
 #: ProjectInfoPage.cpp:416
 msgid ""
@@ -2466,7 +2477,8 @@ msgstr ""
 "아니면 모뎀을 연결하고 다시 시도하세요.\n"
 "\n"
 "2) 개인 방화벽 소프트웨어가 BOINC를 막았습니다.\n"
-"개인 방화벽을 설정해서 BOINC가 80번 포트를 사용가능하게 한 후 다시 시도하세요.\n"
+"개인 방화벽을 설정해서 BOINC가 80번 포트를 사용가능하게 한 후 다시 시도하세"
+"요.\n"
 "\n"
 "3) 프록시 서버를 사용하고 계시다면\n"
 "다음을 눌러 BOINC 프록시 설정을 설정해주세요."
@@ -2659,7 +2671,9 @@ msgstr "업데이트"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr "모든 완료된 작업을 보고하고 마지막 크레딧과 환경 설정을 받아오며 가능하면 추가 작업을 받아옵니다."
+msgstr ""
+"모든 완료된 작업을 보고하고 마지막 크레딧과 환경 설정을 받아오며 가능하면 추"
+"가 작업을 받아옵니다."
 
 #: ViewProjects.cpp:180 ViewProjects.cpp:712 ViewWork.cpp:198 ViewWork.cpp:738
 msgid "Suspend"
@@ -2686,8 +2700,8 @@ msgid ""
 "Delete all files and tasks associated with this project, and get new tasks.  "
 "You can update the project first to report any completed tasks."
 msgstr ""
-"이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 "
-"있습니다."
+"이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 "
+"전에 먼저 완료된 작업을 보고하도록 업데이트할 수 있습니다."
 
 #: ViewProjects.cpp:201
 msgid "Detach"
@@ -2697,7 +2711,9 @@ msgstr "분리하기"
 msgid ""
 "Detach computer from this project.  Tasks in progress will be lost (use "
 "'Update' first to report any completed tasks)."
-msgstr "이 프로젝트를 컴퓨터로부터 분리합니다. 진행 중인 작업은 소실됩니다. (완료된 작업을 보고하려면 '업데이트'를 이용해 주세요)"
+msgstr ""
+"이 프로젝트를 컴퓨터로부터 분리합니다. 진행 중인 작업은 소실됩니다. (완료된 "
+"작업을 보고하려면 '업데이트'를 이용해 주세요)"
 
 #: ViewProjects.cpp:208 ViewWork.cpp:212
 msgid "Properties"
@@ -2988,7 +3004,9 @@ msgstr "전송 취소"
 msgid ""
 "Click 'Abort transfer' to delete the file from the transfer queue. This will "
 "prevent you from being granted credit for this result."
-msgstr "전송 큐에서 파일을 삭제하려면 '전송 중지'을 클릭하세요. 이것은 이 결과로 크레디트가 주어지는 것을 무효로 할 수 있습니다."
+msgstr ""
+"전송 큐에서 파일을 삭제하려면 '전송 중지'을 클릭하세요. 이것은 이 결과로 크레"
+"디트가 주어지는 것을 무효로 할 수 있습니다."
 
 #: ViewTransfers.cpp:182
 msgid "File"
@@ -3678,7 +3696,9 @@ msgstr "마침 태그가 빠짐: "
 msgid ""
 "BOINC can't access Internet - check network connection or proxy "
 "configuration."
-msgstr "BOINC가 인터넷에 엑세스할 수 없습니다 - 네트워크 연결이나 프록시 설정을 확인하세요."
+msgstr ""
+"BOINC가 인터넷에 엑세스할 수 없습니다 - 네트워크 연결이나 프록시 설정을 확인"
+"하세요."
 
 #~ msgid "Attach this computer to a project or account manager"
 #~ msgstr "이 컴퓨터를 계정 관리자 혹은 프로젝트에 연결합니다"

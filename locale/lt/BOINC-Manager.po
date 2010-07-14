@@ -6,12 +6,12 @@ msgstr ""
 "PO-Revision-Date: 2010-05-16 07:59-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
-"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
+"100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -548,13 +548,11 @@ msgstr ""
 "įsigaliotų kalbos pakeitimas."
 
 #: AdvancedFrame.cpp:1513
-#, c-format
 #, fuzzy, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - išjungti prisijungusį klientą..."
 
 #: AdvancedFrame.cpp:1522
-#, c-format
 #, fuzzy, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -637,7 +635,6 @@ msgid "&Quit %s"
 msgstr ""
 
 #: AsyncRPC.cpp:1238
-#, c-format
 #, fuzzy, c-format
 msgid "E&xit %s"
 msgstr "Išeiti iš %s"
@@ -786,7 +783,8 @@ msgid ""
 msgstr ""
 "%s negali prisijungti prie internero ir nėra numatyta jokia interneto "
 "jungtis.\n"
-"Prašome prisijungti prie interneto arba pasirinkti numatytą interneto jungtį\n"
+"Prašome prisijungti prie interneto arba pasirinkti numatytą interneto "
+"jungtį\n"
 "meniu Papildomi->Parinktys->Susijungimai."
 
 #: BOINCDialupManager.cpp:386
@@ -1886,7 +1884,8 @@ msgstr ""
 
 #: DlgOptions.cpp:213
 msgid "Dial-up and Virtual Private Network settings"
-msgstr "Jungimosi telefono linija ir virtualiu privačiu tinklu (VPN) nustatymai"
+msgstr ""
+"Jungimosi telefono linija ir virtualiu privačiu tinklu (VPN) nustatymai"
 
 #: DlgOptions.cpp:227
 msgid "&Set Default"
@@ -2080,8 +2079,7 @@ msgid ""
 "The home page of the Laser Interferometer Gravitational-wave Observatory "
 "(LIGO) project"
 msgstr ""
-"Laser Interferometer Gravitational-wave Observatory (LIGO) projekto "
-"tinklapis"
+"Laser Interferometer Gravitational-wave Observatory (LIGO) projekto tinklapis"
 
 #: Localization.cpp:105
 msgid "GEO-600 project"
