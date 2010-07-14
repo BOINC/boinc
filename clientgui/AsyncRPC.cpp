@@ -541,7 +541,8 @@ int RPCThread::ProcessRPCRequest() {
     case RPC_GET_MESSAGES:
         retval = (m_pDoc->rpcClient).get_messages(
             *(int*)(current_request->arg1), 
-            *(MESSAGES*)(current_request->arg2)
+            *(MESSAGES*)(current_request->arg2),
+            *(bool*)(current_request->arg3)
         );
         break;
     case RPC_FILE_TRANSFER_OP:

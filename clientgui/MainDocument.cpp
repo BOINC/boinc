@@ -923,12 +923,15 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     // We must keep getting messages even if the Event Log is not open 
     // due to the limited size of the client's buffer, or some may be 
     // lost, causing gaps when the Event Log is later opened.
+    //
     request.clear();
     request.which_rpc = RPC_GET_MESSAGES;
     // m_iMessageSequenceNumber could change between request and execution
     // of RPC, so pass in a pointer rather than its value
     request.arg1 = &m_iMessageSequenceNumber;
     request.arg2 = &messages;
+    static bool _true = true;
+    request.arg3 = &_true;
     request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_EVENT_LOG_AFTER;
     request.completionTime = NULL;
     request.resultPtr = &m_iGet_messages_rpc_result;
@@ -1940,6 +1943,7 @@ int CMainDocument::ResetNoticeState() {
 // Note: This must not call any rpcs.
 // This is now called after each get_messages RPC from 
 //   CMainDocument::HandleCompletedRPC() .
+//
 int CMainDocument::CachedMessageUpdate() {
     static bool in_this_func = false;
 

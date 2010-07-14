@@ -93,10 +93,11 @@ void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message) {
 #endif
 }
 
-void MESSAGE_DESCS::write(int seqno, MIOFILE& fout) {
+void MESSAGE_DESCS::write(int seqno, MIOFILE& fout, bool translatable) {
     int i, j;
     unsigned int k;
     MESSAGE_DESC* mdp;
+    char buf[1024];
 
     // messages are stored in descreasing seqno,
     // i.e. newer ones are at the head of the vector.
@@ -111,6 +112,10 @@ void MESSAGE_DESCS::write(int seqno, MIOFILE& fout) {
         }
     }
 
+    strcpy(buf, mdp->message.c_str());
+    if (!translatable) {
+        strip_translation(buf);
+    }
     fout.printf("<msgs>\n");
     for (i=j; i>=0; i--) {
         mdp = msgs[i];
@@ -124,7 +129,7 @@ void MESSAGE_DESCS::write(int seqno, MIOFILE& fout) {
             mdp->project_name,
             mdp->priority,
             mdp->seqno,
-            mdp->message.c_str(),
+            buf,
             mdp->timestamp
         );
         fout.printf("</msg>\n");

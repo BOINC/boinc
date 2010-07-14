@@ -5115,3 +5115,18 @@ Rom    14 Jul 2010
     
     clientgui/
         BOINCClientManager.cpp
+
+David  14 Jul 2010
+    - client/manager/GUI RPC: add optional "translatable" arg
+        to get_messages() RPC; if absent or false,
+        client will strip _( ) from messages.
+
+    client/
+        client_msgs.cpp,h
+        gui_rpc_server_ops.cpp
+    clientgui/
+        AsyncRPC.cpp
+        MainDocument.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

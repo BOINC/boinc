@@ -657,7 +657,7 @@ public:
     int run_benchmarks();
     int set_proxy_settings(GR_PROXY_INFO&);
     int get_proxy_settings(GR_PROXY_INFO&);
-    int get_messages(int seqno, MESSAGES&);
+    int get_messages(int seqno, MESSAGES&, bool translatable=false);
     int get_message_count(int& seqno);
     int get_notices(int seqno, NOTICES&);
     int get_notices_public(int seqno, NOTICES&);

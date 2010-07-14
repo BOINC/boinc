@@ -390,9 +390,11 @@ static void handle_get_proxy_settings(char* , MIOFILE& fout) {
 //
 static void handle_get_messages(char* buf, MIOFILE& fout) {
     int seqno=0;
+    bool translatable = false;
 
     parse_int(buf, "<seqno>", seqno);
-    message_descs.write(seqno, fout);
+    parse_bool(buf, "translatable", translatable);
+    message_descs.write(seqno, fout, translatable);
 }
 
 static void handle_get_message_count(char*, MIOFILE& fout) {

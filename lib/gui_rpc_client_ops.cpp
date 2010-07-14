@@ -1832,7 +1832,7 @@ int RPC_CLIENT::get_message_count(int& seqno) {
     return ERR_XML_PARSE;
 }
 
-int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs) {
+int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs, bool translatable) {
     int retval;
     SET_LOCALE sl;
     char buf[256];
@@ -1841,8 +1841,10 @@ int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs) {
     sprintf(buf,
         "<get_messages>\n"
         "  <seqno>%d</seqno>\n"
+        "%s"
         "</get_messages>\n",
-        seqno
+        seqno,
+        translatable?"  <translatable/>\n":""
     );
 
     retval = rpc.do_rpc(buf);
