@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-07-14 13:23-0700\n"
+"PO-Revision-Date: 2010-07-14 14:05-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
@@ -31,19 +31,19 @@ msgstr "Töltse le."
 
 #: client_state.cpp:342
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
+msgstr "Az állapotfájl nem írható; ellenőrizze a könyvtár jogosultságait"
 
 #: cs_cmdline.cpp:280
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "A HTTP_PROXY környezeti változónak egy HTTP proxy-t kell megadnia"
 
 #: cs_scheduler.cpp:556
 msgid "Message from project server:"
-msgstr ""
+msgstr "Üzenet a projekt szervertől:"
 
 #: cs_statefile.cpp:769
 msgid "XML syntax error in"
-msgstr ""
+msgstr "XML szintaktikai hiba itt:"
 
 #: gui_rpc_server.cpp:189
 msgid "Can't resolve hostname in"
