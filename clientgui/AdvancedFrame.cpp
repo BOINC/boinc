@@ -1717,6 +1717,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     // Do we need to bug out to the simple view?
     if (status.simple_gui_only) {
         wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
+        StartTimers();
         FireConnect();
         return;
     }

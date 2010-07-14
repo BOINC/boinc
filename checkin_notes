@@ -5072,3 +5072,11 @@ Rom    13 July 2010
     
     clientgui/
         BOINCGUIApp.cpp
+
+Charlie 14 Jul 2010
+    - MGR: Prevent a race condition which could erroneously invoke the 
+        Attach Wizard when restarting the client.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        MainDocument.cpp

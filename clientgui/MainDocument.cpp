@@ -204,7 +204,7 @@ void CNetworkConnection::Poll() {
             //   timeout event right after boot-up.
             //
             if (IsComputerNameLocal(strComputer)) {
-                retval = m_pDocument->rpcClient.init_asynch(NULL, 60.0, true, m_iPort);
+                retval = m_pDocument->rpcClient.init_asynch(NULL, 2.0, true, m_iPort);
             } else {
                 retval = m_pDocument->rpcClient.init_asynch(strComputer.mb_str(), 60.0, false, m_iPort);
             }
@@ -337,6 +337,10 @@ void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strCom
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+        // Prevent a race condition where OnFrameRender() causes SetStateDisconnected() 
+        // to be called due to a previous RPC error before we reconnected.
+        pFrame->StopTimers();
+        
         m_bConnected = true;
         m_bReconnecting = false;
         m_bReconnectOnError = true;
