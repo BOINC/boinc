@@ -204,7 +204,7 @@ void CNetworkConnection::Poll() {
             //   timeout event right after boot-up.
             //
             if (IsComputerNameLocal(strComputer)) {
-                retval = m_pDocument->rpcClient.init_asynch(NULL, 2.0, true, m_iPort);
+                retval = m_pDocument->rpcClient.init_asynch(NULL, 60.0, true, m_iPort);
             } else {
                 retval = m_pDocument->rpcClient.init_asynch(strComputer.mb_str(), 60.0, false, m_iPort);
             }
