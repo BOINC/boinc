@@ -5090,3 +5090,12 @@ Charlie 14 Jul 2010
     clientgui/
         BOINCBaseFrame.cpp
         BOINCClientManager.cpp, .h
+
+David  14 Jul 2010
+    - user web: translation fixes
+
+    html/
+        project.sample/
+            project.inc
+        inc/
+            prefs.inc

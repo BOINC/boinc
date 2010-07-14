@@ -614,10 +614,10 @@ function prefs_parse_global($prefs_xml) {
 //
 function row_top($x, $ncols=6, $class="heading") {
     echo "<tr><td class=$class width=35%>$x</td>";
-    echo "<td class=$class width=10%><b>Default</b></td>
-        <td class=$class width=10%><b>Home</b></td>
-        <td class=$class width=10%><b>School</b></td>
-        <td class=$class width=10%><b>Work</b></td>";
+    echo "<td class=$class width=10%><b>".tra("Default")."</b></td>
+        <td class=$class width=10%><b>".tra("Home")."</b></td>
+        <td class=$class width=10%><b>".tra("School")."</b></td>
+        <td class=$class width=10%><b>".tra("Work")."</b></td>";
     echo "<td width=15%><br></td></tr>\n";
 }
 
