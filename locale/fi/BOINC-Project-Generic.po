@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-13 23:51-0700\n"
+"PO-Revision-Date: 2010-07-14 13:40-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -292,14 +292,12 @@ msgid "%1 days"
 msgstr "%1 päivää"
 
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "Sovellukset"
+msgstr "Sovellustiedot"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Show"
-msgstr "Näytä:"
+msgstr "Näytä"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
@@ -809,9 +807,8 @@ msgid "bad subset: %1"
 msgstr ""
 
 #: ../inc/prefs.inc:617
-#, fuzzy
 msgid "Default"
-msgstr "Poista"
+msgstr "Oletus"
 
 #: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:995
 #: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:108
@@ -980,12 +977,11 @@ msgstr "Anonyymi alusta"
 
 #: ../inc/result.inc:43
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIAn GPU"
 
 #: ../inc/result.inc:44
-#, fuzzy
 msgid "ATI GPU"
-msgstr "GPU (näytönohjain)"
+msgstr "ATIn GPU"
 
 #: ../inc/result.inc:51
 msgid "Not in DB"
@@ -1201,12 +1197,10 @@ msgid "Show names"
 msgstr "Näytä nimet"
 
 #: ../inc/result.inc:272
-#, fuzzy
 msgid "Task"
-msgstr "Tehtäviä"
+msgstr "Tehtävä"
 
 #: ../inc/result.inc:275
-#, fuzzy
 msgid "Work unit"
 msgstr "Työpaketti"
 
@@ -1239,9 +1233,8 @@ msgid "CPU time<br />(sec)"
 msgstr "Suoritinaika<br />(sekuntia)"
 
 #: ../inc/result.inc:288 ../inc/result.inc:392
-#, fuzzy
 msgid "Credit"
-msgstr "Luo"
+msgstr "Pisteet"
 
 #: ../inc/result.inc:289
 msgid "Application"
@@ -1288,9 +1281,8 @@ msgid "Validate state"
 msgstr "Vahvistuksen tila"
 
 #: ../inc/result.inc:393
-#, fuzzy
 msgid "Application version"
-msgstr "sovellusversio"
+msgstr "Sovellusversio"
 
 #: ../inc/result.inc:408
 msgid "Previous"
@@ -2509,13 +2501,12 @@ msgid "Your account"
 msgstr "Tilisi"
 
 #: ../user/hosts_user.php:51
-#, fuzzy
 msgid "Computers belonging to %1"
-msgstr "Tietokoneen tiedot"
+msgstr "Tietokoneet, jotka kuuluvat käyttäjälle %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
-msgstr ""
+msgstr "Tämä käyttäjä ei ole halunnut näyttää tietokoneittensa tietoja."
 
 #: ../user/info.php:22 ../user/sample_index.php:47
 msgid "Read our rules and policies"
@@ -2971,7 +2962,7 @@ msgstr "Tehtävää ei ole"
 
 #: ../user/result.php:30
 msgid "Task %1"
-msgstr ""
+msgstr "Tehtävä %1"
 
 #: ../user/results.php:27
 msgid "This feature is turned off temporarily"
@@ -4127,7 +4118,7 @@ msgstr "myönnetyt pisteet"
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Suorituksessa olevat"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
@@ -4154,9 +4145,8 @@ msgid "validation"
 msgstr ""
 
 #: ../project.sample/project.inc:49
-#, fuzzy
 msgid "Main page"
-msgstr "Domain-nimi"
+msgstr "Etusivu"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
