@@ -484,6 +484,11 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
                 pDoc->Reconnect();        
                 return;
             }
+        } else {
+            // Don't ask whether to reconnect to local client if it is not running
+            if (!pDoc->m_pClientManager->IsBOINCCoreRunning()) {
+                return;
+            }
         }
     }
 
@@ -589,6 +594,11 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
             boinc_sleep(0.5);       // Allow time for Client to restart
             if (pDoc->m_pClientManager->IsBOINCCoreRunning()) {
                 pDoc->Reconnect();        
+                return;
+            }
+        } else {
+            // Don't ask whether to reconnect to local client if it is not running
+            if (!pDoc->m_pClientManager->IsBOINCCoreRunning()) {
                 return;
             }
         }

@@ -5080,3 +5080,13 @@ Charlie 14 Jul 2010
     clientgui/
         AdvancedFrame.cpp
         MainDocument.cpp
+
+Charlie 14 Jul 2010
+    - MGR: If the client exits unexpectedly, auto-restart it on Windows (and Mac) 
+        even if it was installed as a service / daemon.
+    - MGR: Display an alert if we auto-restart the client due to unexpected exits
+        3 times within CLIENT_3_CRASH_MAX_TIME minutes (currently 30 minutes.)
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCClientManager.cpp, .h

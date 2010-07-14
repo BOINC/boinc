@@ -21,8 +21,10 @@
 
 #include "stdwx.h"
 #include "diagnostics.h"
+#include "miofile.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
@@ -32,6 +34,10 @@
 #include "filesys.h"
 #include "daemonmgt.h"
 #include "util.h"
+#include "Events.h"
+
+// Alert user if Client crashes 3 times in 30 minutes
+#define CLIENT_3_CRASH_MAX_TIME 30
 
 #ifdef __WXMAC__
 enum {
@@ -55,6 +61,8 @@ CBOINCClientManager::CBOINCClientManager() {
 
     m_bBOINCStartedByManager = false;
     m_lBOINCCoreProcessId = 0;
+    m_fAutoRestart1Time = 0;
+    m_fAutoRestart2Time = 0;
 
 #ifdef __WXMSW__
     m_hBOINCCoreProcess = NULL;
@@ -72,11 +80,35 @@ CBOINCClientManager::~CBOINCClientManager() {
 
 
 bool CBOINCClientManager::AutoRestart() {
+    double timeNow, timeDiff;
     if (IsBOINCCoreRunning()) return true;
-#ifndef __WXMAC__       // Mac can restart Client as a daemon
+#if ! (defined(__WXMAC__) || defined(__WXMSW__)) 
+// Mac and Windows can restart Client as a daemon, but 
+// Linux may not know Client's location if it didn't start the Client
     if (!m_bBOINCStartedByManager) return false;
 #endif
+    // Alert user if Client crashes 3 times in CLIENT_3_CRASH_MAX_TIME
+    timeNow = dtime();
+    timeDiff = timeNow - m_fAutoRestart1Time;
+    if ((timeDiff) < (CLIENT_3_CRASH_MAX_TIME * 60)) {
+        int                 response;
+        ClientCrashDlg      *dlg = new ClientCrashDlg(timeDiff);
+        if (dlg) {
+            CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+            if (!pFrame->IsShown()) {
+                pFrame->Show();
+            }
+            response = dlg->ShowModal();
+            dlg->Destroy();
+            if (response == wxID_CANCEL) return false;
+            timeNow = 0;
+            m_fAutoRestart1Time = 0;
+            m_fAutoRestart2Time = 0;
+        }
+    }
     m_lBOINCCoreProcessId = 0;
+    m_fAutoRestart1Time = m_fAutoRestart2Time;
+    m_fAutoRestart2Time = timeNow;
     StartupBOINCCore();
     return true;
 }
@@ -479,4 +511,77 @@ void CBOINCClientManager::ShutdownBOINCCore() {
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::ShutdownBOINCCore - Function End"));
+}
+
+
+BEGIN_EVENT_TABLE(ClientCrashDlg, wxDialog)
+    EVT_BUTTON(wxID_HELP, ClientCrashDlg::OnHelp)
+END_EVENT_TABLE()
+
+IMPLEMENT_CLASS(ClientCrashDlg, wxDialog)
+
+ClientCrashDlg::ClientCrashDlg(double timeDiff) : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPosition ) {
+    wxString            strDialogTitle = wxEmptyString;
+    wxString            strDialogMessage = wxEmptyString;
+    int                 minutes = MAX((int)((timeDiff + 59.) / 60.), 2);
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+    
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strDialogTitle.Printf(
+        _("%s - Unexpected Exit"),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+    SetTitle(strDialogTitle.c_str());
+
+    // 1st %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    // 2st %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strDialogMessage.Printf(
+        _("The %s client has exited unexpectedly 3 times within the last %d minutes.\nWould you like to try to restart it again?"),
+        pSkinAdvanced->GetApplicationShortName().c_str(),
+        minutes        
+    );
+            
+    wxBoxSizer *topsizer = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer *icon_text = new wxBoxSizer( wxHORIZONTAL );
+
+    icon_text->Add( CreateTextSizer( strDialogMessage ), 0, wxALIGN_CENTER | wxLEFT, 10 );
+    topsizer->Add( icon_text, 1, wxCENTER | wxLEFT|wxRIGHT|wxTOP, 10 );
+    
+    wxStdDialogButtonSizer *sizerBtn = CreateStdDialogButtonSizer(wxYES | wxNO | wxHELP);
+    SetEscapeId(wxID_NO);   // Changes return value of NO button to wxID_CANCEL
+    
+    if ( sizerBtn )
+        topsizer->Add(sizerBtn, 0, wxEXPAND | wxALL, 10 );
+
+    SetAutoLayout( true );
+    SetSizer( topsizer );
+
+    topsizer->SetSizeHints( this );
+    topsizer->Fit( this );
+    wxSize size( GetSize() );
+    if (size.x < size.y*3/2)
+    {
+        size.x = size.y*3/2;
+        SetSize( size );
+    }
+
+    Centre( wxBOTH | wxCENTER_FRAME);
+}
+
+
+void ClientCrashDlg::OnHelp(wxCommandEvent& WXUNUSED(eventUnused)) {
+    wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
+
+    wxString wxurl;
+    wxurl.Printf(
+        wxT("%s?target=advanced&version=%s&controlid=%d"),
+        strURL.c_str(),
+        wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
+        ID_HELPBOINC
+    );
+    wxLaunchDefaultBrowser(wxurl);
 }
