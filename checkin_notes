@@ -5108,3 +5108,10 @@ Rom    14 Jul 2010
     win_build/
         *.sln
         *.vcproj
+
+Rom    14 Jul 2010
+    - MGR: Fix build break.
+    - MGR: Change the crash detect dialog target to 'crash_detection'
+    
+    clientgui/
+        BOINCClientManager.cpp

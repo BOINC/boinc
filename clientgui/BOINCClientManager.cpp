@@ -35,6 +35,7 @@
 #include "daemonmgt.h"
 #include "util.h"
 #include "Events.h"
+#include "version.h"
 
 // Alert user if Client crashes 3 times in 30 minutes
 #define CLIENT_3_CRASH_MAX_TIME 30
@@ -523,7 +524,7 @@ IMPLEMENT_CLASS(ClientCrashDlg, wxDialog)
 ClientCrashDlg::ClientCrashDlg(double timeDiff) : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPosition ) {
     wxString            strDialogTitle = wxEmptyString;
     wxString            strDialogMessage = wxEmptyString;
-    int                 minutes = MAX((int)((timeDiff + 59.) / 60.), 2);
+    int                 minutes = wxMax((int)((timeDiff + 59.) / 60.), 2);
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxASSERT(pSkinAdvanced);
     
@@ -578,7 +579,7 @@ void ClientCrashDlg::OnHelp(wxCommandEvent& WXUNUSED(eventUnused)) {
 
     wxString wxurl;
     wxurl.Printf(
-        wxT("%s?target=advanced&version=%s&controlid=%d"),
+        wxT("%s?target=crash_detection&version=%s&controlid=%d"),
         strURL.c_str(),
         wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
         ID_HELPBOINC
