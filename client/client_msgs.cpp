@@ -112,13 +112,13 @@ void MESSAGE_DESCS::write(int seqno, MIOFILE& fout, bool translatable) {
         }
     }
 
-    strcpy(buf, mdp->message.c_str());
-    if (!translatable) {
-        strip_translation(buf);
-    }
     fout.printf("<msgs>\n");
     for (i=j; i>=0; i--) {
         mdp = msgs[i];
+        strcpy(buf, mdp->message.c_str());
+        if (!translatable) {
+            strip_translation(buf);
+        }
         fout.printf(
             "<msg>\n"
             " <project>%s</project>\n"

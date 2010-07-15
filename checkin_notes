@@ -5136,3 +5136,9 @@ Charlie 14 Jul 2010
     
     clientgui/
         BOINCClientManager.cpp
+
+David  15 Jul 2010
+	- client: bug fix in message code
+
+	client/
+		client_msgs.cpp
