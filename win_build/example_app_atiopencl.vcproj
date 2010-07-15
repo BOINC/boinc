@@ -58,6 +58,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="opencl.lib"
 				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86"
+				SubSystem="2"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -127,6 +128,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="opencl.lib"
 				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86_64"
+				SubSystem="2"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -196,6 +198,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="opencl.lib"
 				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86"
+				SubSystem="2"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -266,6 +269,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="opencl.lib"
 				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86_64"
+				SubSystem="2"
 			/>
 			<Tool
 				Name="VCALinkTool"

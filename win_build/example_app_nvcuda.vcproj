@@ -80,7 +80,7 @@
 				AdditionalLibraryDirectories="&quot;$(CUDA_LIB_PATH)/../lib&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				EnableCOMDATFolding="1"
 				TargetMachine="1"
 			/>
@@ -168,7 +168,7 @@
 				AdditionalLibraryDirectories="&quot;$(CUDA_LIB_PATH)/../lib64&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				EnableCOMDATFolding="1"
 				TargetMachine="17"
 			/>
@@ -252,7 +252,7 @@
 				AdditionalLibraryDirectories="&quot;$(CUDA_LIB_PATH)/../lib&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="1"
 				TargetMachine="1"
@@ -337,7 +337,7 @@
 				AdditionalLibraryDirectories="&quot;$(CUDA_LIB_PATH)/../lib64&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="1"
 				TargetMachine="17"
@@ -425,7 +425,7 @@
 				AdditionalLibraryDirectories="&quot;$(CUDA_LIB_PATH)/../lib&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				EnableCOMDATFolding="1"
 				TargetMachine="1"
 			/>
@@ -512,7 +512,7 @@
 				AdditionalLibraryDirectories="&quot;$(CUDA_LIB_PATH)/../lib64&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				EnableCOMDATFolding="1"
 				TargetMachine="17"
 			/>
@@ -596,7 +596,7 @@
 				AdditionalLibraryDirectories="&quot;$(CUDA_LIB_PATH)/../lib&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="1"
 				TargetMachine="1"
@@ -682,7 +682,7 @@
 				AdditionalLibraryDirectories="&quot;$(CUDA_LIB_PATH)/../lib64&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="1"
 				TargetMachine="17"
@@ -724,6 +724,14 @@
 			<File
 				RelativePath="..\samples\nvcuda\cuda.cpp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						RuntimeLibrary="0"
+					/>
+				</FileConfiguration>
 				<FileConfiguration
 					Name="EmuRelease|Win32"
 					>
