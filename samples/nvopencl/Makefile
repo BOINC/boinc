@@ -1,7 +1,4 @@
-# Tuan Le
-# University of California, Berkeley
-# Berkeley Space Sciences Lab
-# tuanle86@berkeley.edu
+# makefile for nvopencl BOINC example application on Linux.
 
 # Add source files here
 EXECUTABLE	:= example_app_nvopencl

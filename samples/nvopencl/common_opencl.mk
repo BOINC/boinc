@@ -1,8 +1,3 @@
-# Tuan Le
-# University of California, Berkeley
-# Berkeley Space Sciences Lab
-# tuanle86@berkeley.edu
-
 .SUFFIXES : .cl
 
 P4_ROOT ?= ${HOME}/perforce/

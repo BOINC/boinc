@@ -1,11 +1,22 @@
-/*
- * nvopencl.hpp
- * Author: Tuan Le
- * Date: 06/24/2010
- * University of California, Berkeley
- * Berkeley Space Sciences Lab
- * tuanle86@berkeley.edu
- */
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+//
+// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues
+// Contributor: Tuan Le (tuanle86@berkeley.edu)
 
 #ifndef NVOPENCL_H_
 #define NVOPENCL_H_
@@ -24,8 +35,8 @@
 #define KERNELS_FILENAME "nvopencl_kernels.cl"
 #define KERNELS_FILEPATH "../samples/nvopencl/nvopencl_kernels.cl"
 #define CHECKPOINT_FILE "matrix_inversion_state"
-#define MATRIX_SIZE 20
-#define NUM_ITERATIONS 51 // execute the kernel NUM_ITERATIONS times
+#define MATRIX_SIZE 10
+#define NUM_ITERATIONS 501 // execute the kernel NUM_ITERATIONS times
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -53,9 +64,9 @@ struct UC_SHMEM {
     double cpu_time;
     BOINC_STATUS status;
     int countdown;
-        // graphics app sets this to 5 repeatedly,
-        // main program decrements it once/sec.
-        // If it's zero, don't bother updating shmem
+    // graphics app sets this to 5 repeatedly,
+    // main program decrements it once/sec.
+    // If it's zero, don't bother updating shmem
 };
 
 #ifdef APP_GRAPHICS
@@ -88,8 +99,8 @@ cl_uint width;
 cl_uint height;
 
 /* The memory buffer that is used as input/output for OpenCL kernel */
-cl_mem   inputBuffer; //in this sample app, we will read the result from the device back to host from inputBuffer as well.
-
+cl_mem   inputBuffer; //in this sample app, we will read the result
+                      //from the device back to host from inputBuffer as well.
 cl_context          context;
 cl_device_id        *devices;
 cl_command_queue    commandQueue;
@@ -106,26 +117,54 @@ cl_kernel  GEStep3_kernel;
 /*
  * Create an input file filled with random data of type cl_float.
  */
-void generateRandomInputFile(int n);
+void generate_random_input_file(int n);
 
 /*
  * Parse the input file and determine the size of the matrix.
  * This is an nxn matrix. Note: if width<> height, the matrix is
  * non-invertible.
  */
-int getMatrixSize(FILE *infile);
+int get_matrix_size(FILE *infile);
 
 /*
  * Read the float values from input file into "input" array.
  */
-void fetchElementsIntoHostMemory(FILE *infile, cl_float *input);
+void fetch_elements_into_host_memory(FILE *infile, cl_float *input);
 
 /*
  * BOINC functions
  */
+
+/* Do a billion floating-point ops */
 static double do_a_giga_flop(int foo);
+
+/* Save the computation state into checkpoint file */
 int do_checkpoint(MFILE& mf, int n, cl_float *input, int matrixSize);
-void update_shmem();
+
+#ifdef APP_GRAPHICS
+void update_shmem() {
+    if (!shmem) return;
+
+    // always do this; otherwise a graphics app will immediately
+    // assume we're not alive
+    shmem->update_time = dtime();
+
+    // Check whether a graphics app is running,
+    // and don't bother updating shmem if so.
+    // This doesn't matter here,
+    // but may be worth doing if updating shmem is expensive.
+    //
+    if (shmem->countdown > 0) {
+        // the graphics app sets this to 5 every time it renders a frame
+        shmem->countdown--;
+    } else {
+        return;
+    }
+    shmem->fraction_done = boinc_get_fraction_done();
+    shmem->cpu_time = boinc_worker_thread_cpu_time();;
+    boinc_get_status(&shmem->status);
+}
+#endif
 
 /*
  * OpenCL related initialisations are done here.
@@ -133,15 +172,15 @@ void update_shmem();
  * Calls are made to set up OpenCL memory buffers that this program uses
  * and to load the programs into memory and get kernel handles.
  */
-int initializeCL(void);
+int initialize_cl(void);
 
-int initializeHost(FILE *infile);
+int initialize_host(FILE *infile);
 
 /*
  * Read the file which contains kernel definitions, and stores the file content
  * into a char array which is used as an argument to clCreateProgramWithSource.
  */
-char *convertToString(const char * filename);
+char *convert_to_string(const char * filename);
 
 /*
  * This is called once the OpenCL context, memory etc. are set up,
@@ -152,32 +191,32 @@ char *convertToString(const char * filename);
  *
  * It also gets kernel start and end time if profiling is enabled.
  */
-int runCLKernels(void);
+int run_cl_kernels(void);
 
 /* Releases OpenCL resources (Context, Memory etc.) */
-int cleanupCL(void);
+int cleanup_cl(void);
 
 /* Releases program's resources */
-void cleanupHost(void);
+void cleanup_host(void);
 
 /* Write the result to output file */
-void printToFile(MFILE *out, float *h_odata, int n);
+void print_to_file(MFILE *out, float *h_odata, int n);
 
 /*
  * Check if the device is able to support the requested number of work items.
  */
-int checkDeviceCapability(size_t *globalThreads,
-						  size_t *localThreads);
+int check_device_capability(size_t *globalThreads,
+                            size_t *localThreads);
 
 /*
  *	Functions used to inverst matrix. Call kernels inside.
  */
 void invert(cl_float * input,
-			cl_float *output,
-			int n);
+            cl_float *output,
+            int n);
 
 void invertge(cl_float * AI_d,
-			  int lda,
-			  int n);
+              int lda,
+              int n);
 
 #endif  /* #ifndef NVOPENCL_H_ */
