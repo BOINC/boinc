@@ -1,8 +1,3 @@
-# Tuan Le
-# University of California, Berkeley
-# Berkeley Space Sciences Lab
-# tuanle86@berkeley.edu
-
 .SUFFIXES : .cu .cu_dbg.o .c_dbg.o .cpp_dbg.o .cu_rel.o .c_rel.o .cpp_rel.o .cubin .ptx
 
 # Add new SM Versions here as devices with new Compute Capability are released
