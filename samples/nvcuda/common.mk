@@ -297,7 +297,7 @@ ifneq ($(STATIC_LIB),)
 else
 	ifneq ($(OMIT_CUTIL_LIB),1)
 
-#TUAN add -lboinc and -lboinc_api below
+# MODIFIED add -lboinc and -lboinc_api below
 		LIB += -lcutil_$(LIB_ARCH)$(LIBSUFFIX) -lshrutil_$(LIB_ARCH)$(LIBSUFFIX) -lboinc_api -L$(BOINC_API_DIR) -lboinc -L$(BOINC_LIB_DIR) 
 	endif
 	# Device emulation configuration
