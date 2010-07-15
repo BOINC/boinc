@@ -83,9 +83,8 @@ void invertge(REAL * AI_d, int lda, int n) {
 /* inverts nxn matrix A and stores result back in A */
 extern void invert(REAL * A, int n) {
     fprintf(stderr,"starting inversion n = %d ", n);
-    volatile clock_t gputime, gputime0;
+    volatile clock_t gputime;
     gputime=clock();
-    gputime0 = gputime;
 
     int lda = ((n+15)&~15|16);
     REAL * AI = (REAL *)malloc(sizeof(REAL)*(n*lda*2));
