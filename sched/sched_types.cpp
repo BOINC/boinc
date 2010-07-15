@@ -75,7 +75,6 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
             if (host_usage.natis && g_request->coprocs.ati.count) {
                 f += host_usage.natis*g_request->coprocs.ati.peak_flops();
             }
-            host_usage.projected_flops = f;
             host_usage.peak_flops = f;
             return 0;
         }
@@ -86,6 +85,9 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
         if (parse_double(buf, "<avg_ncpus>", x)) {
             if (x>0) host_usage.avg_ncpus = x;
             continue;
+        }
+        if (parse_double(buf, "<flops>", x)) {
+            if (x>0) host_usage.projected_flops = x;
         }
         if (match_tag(buf, "<coproc>")) {
             COPROC_REQ coproc_req;

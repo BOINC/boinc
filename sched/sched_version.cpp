@@ -229,9 +229,27 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app, bool reliable_only) {
     return best;
 }
 
+// input:
+// cav.host_usage.projected_flops
+//      This is the <flops> specified in app_info.xml
+//      If not specific there, it's a conservative estimate
+//      (CPU speed * (ncpus = ngpus))
+//      In either case, this value will be used by the client
+//      to estimate job runtime and runtime limit
+//          est runtime = wu.rsc_fpops_est/x
+//          runtime limit = wu.rsc_fpops_bound/x
+//      x may be way off from the actual speed.
+//      To get accurate runtime est, we need to adjust wu.rsc_fpops_est
+//
+// output:
+// cav.host_usage.projected_flops
+//      An estimate of the actual FLOPS the app will get,
+//      based on elapsed time history (if possible).
+//      This is used by the scheduler to estimate runtime.
+// cav.rsc_fpops_scale
+//      wu.rsc_fpops_est and wu.rsc_fpops_bound will be scaled by this
+//
 // called at start of send_work().
-// Estimate FLOPS of anon platform versions,
-// and compute scaling factor for wu.rsc_fpops
 //
 void estimate_flops_anon_platform() {
     unsigned int i;
@@ -244,24 +262,21 @@ void estimate_flops_anon_platform() {
             cav.host_usage.avg_ncpus = 1;
         }
 
-        // current clients fill in host_usage.flops with peak FLOPS
-        // if it's missing from app_info.xml;
-        // however, for older clients, we need to fill it in ourselves;
-        // assume it uses 1 CPU
+        // if projected_flops is missing, make a wild guess
         //
         if (cav.host_usage.projected_flops == 0) {
             cav.host_usage.projected_flops = g_reply->host.p_fpops;
         }
 
-        // At this point host_usage.projected_flops is filled in with something.
-        // See if we have a better estimated based on history
-        //
         DB_HOST_APP_VERSION* havp = gavid_to_havp(
             generalized_app_version_id(
                 cav.host_usage.resource_type(), cav.app->id
             )
         );
-        if (havp && havp->et.n > MIN_HOST_SAMPLES) {
+        if (havp
+            && (havp->et.n > MIN_HOST_SAMPLES)
+            && (havp->et.get_avg() > 0)
+        ) {
             double new_flops = 1./havp->et.get_avg();
             cav.rsc_fpops_scale = cav.host_usage.projected_flops/new_flops;
             cav.host_usage.projected_flops = new_flops;

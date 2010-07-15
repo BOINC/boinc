@@ -5156,3 +5156,11 @@ Rom    15 July 2010
     /
         configure.ac
         version.h
+
+David  15 Jul 2010
+    - scheduler: fix and restore fpops scaling for anonymous platform jobs
+
+    sched/
+        sched_version.cpp
+        sched_send.cpp
+        sched_types.cpp

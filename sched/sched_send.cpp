@@ -862,14 +862,12 @@ static int add_wu_to_reply(
     //
     wu2 = wu;       // make copy since we're going to modify its XML field
 
-#if 0
     // adjust FPOPS figures for anonymous platform
     //
     if (bavp->cavp) {
         wu2.rsc_fpops_est *= bavp->cavp->rsc_fpops_scale;
         wu2.rsc_fpops_bound *= bavp->cavp->rsc_fpops_scale;
     }
-#endif
     retval = insert_wu_tags(wu2, *app);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "insert_wu_tags failed %d\n", retval);
