@@ -11,7 +11,6 @@ ifneq ($(DARWIN),)
    SNOWLEOPARD = $(strip $(findstring 10.6, $(shell egrep "<string>10\.6" /System/Library/CoreServices/SystemVersion.plist)))
 endif
 
-
 # detect if 32 bit or 64 bit system
 HP_64 =	$(shell uname -m | grep 64)
 OSARCH= $(shell uname -m)
@@ -38,7 +37,8 @@ INCDIR	?= $(ROOTDIR)/OpenCL/common/inc/
 # Compilers
 CXX        := g++
 CC         := gcc
-LINK       := g++ -fPIC
+# MODIFIED - add -lpthread to fix undefined reference in function start_timer_thread() in boinc_api.cpp
+LINK       := g++ -fPIC -lpthread
 
 # Includes
 INCLUDES  += -I$(INCDIR) -I$(OCLCOMMONDIR)/inc -I$(SHAREDDIR)/inc -I $(BOINC_API_DIR) -I $(BOINC_LIB_DIR) -I $(BOINC_DIR)
@@ -172,8 +172,8 @@ ifneq ($(DARWIN),)
    LIB += -framework OpenCL -framework OpenGL ${OPENGLLIB} -framework AppKit ${ATF} ${LIB} 
 else
    LIB       := ${USRLIBDIR} -L${OCLLIBDIR} -L$(LIBDIR) -L$(SHAREDDIR)/lib/$(OSLOWER) 
-   # TUAN - fix "cannot file -lOpenCL" error
-   LIB += -lOpenCL ${OPENGLLIB} ${LIB} -L $(ROOTDIR)/OpenCL/shared/lib/ -lboinc_api -L$(BOINC_API_DIR) -lboinc -L$(BOINC_LIB_DIR)
+   # MODIFIED - link boinc lib and boinc api
+   LIB += -lOpenCL ${OPENGLLIB} ${LIB} -lboinc_api -L$(BOINC_API_DIR) -lboinc -L$(BOINC_LIB_DIR)
 endif
 
 
