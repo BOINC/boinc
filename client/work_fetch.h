@@ -215,7 +215,16 @@ struct RSC_WORK_FETCH {
     void set_request(PROJECT*, bool allow_overworked);
     bool may_have_work(PROJECT*);
     RSC_WORK_FETCH() {
-        memset(this, 0, sizeof(*this));
+        rsc_type = 0;
+        ninstances = 0;
+        relative_speed = 0;
+        shortfall = 0;
+        nidle_now = 0;
+        sim_nused = 0;
+        total_fetchable_share = 0;
+        total_runnable_share = 0;
+        saturated_time = 0;
+        deadline_missed_instances = 0;
     }
 };
 

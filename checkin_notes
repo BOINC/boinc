@@ -5164,3 +5164,10 @@ David  15 Jul 2010
         sched_version.cpp
         sched_send.cpp
         sched_types.cpp
+
+David  15 Jul 2010
+    - client: fix crashing bug on VC 2008/10;
+        don't memset(0,) structures containing vectors.
+
+    client/
+        work_fetch.h
