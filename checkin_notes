@@ -4462,11 +4462,11 @@ David  21 June 2010
             multi_thread.cpp
 
 David  22 June 2010
-	- client: fix crashing bug when account manager returns
-		new project w/ "no more work" flag set
+    - client: fix crashing bug when account manager returns
+        new project w/ "no more work" flag set
 
-	client/
-		acct_mgr.cpp
+    client/
+        acct_mgr.cpp
 
 David  22 June 2010
     - validator: fix a divide by zero (happens w/ old clients
@@ -4476,11 +4476,11 @@ David  22 June 2010
         credit.cpp
 
 David  22 June 2010
-	- client: don't attach to a project if the account manager
-		has set the "detach when done" flag.
+    - client: don't attach to a project if the account manager
+        has set the "detach when done" flag.
 
-	client/
-		acct_mgr.cpp
+    client/
+        acct_mgr.cpp
 
 Charlie 22 Jun 2010
     MGR: save host name (from host.domain_name) instead of CPID when 
@@ -4822,11 +4822,11 @@ David  29 Jun 2010
         handle_request.cpp
 
 David  29 Jun 2010
-	- client: improve (or at least change) logic related to duplicate notices
+    - client: improve (or at least change) logic related to duplicate notices
 
-	client/
-		client_msgs.cpp
-		cs_notice.cpp,h
+    client/
+        client_msgs.cpp
+        cs_notice.cpp,h
 
 David  29 Jun 2010
     - GUI RPC: add NOTICES::complete, so caller knows whether
@@ -4975,12 +4975,12 @@ David  8 Jul 2010
         backend_lib.cpp
 
 David  8 Jul 2010
-	- win build: don't build CUDA/OpenCL apps by default
+    - win build: don't build CUDA/OpenCL apps by default
 
-	client/
-		client_msgs.cpp
-	win_build/
-		boinc.sln
+    client/
+        client_msgs.cpp
+    win_build/
+        boinc.sln
 
 Charlie 9 Jul 2010
     - MGR: Fix accessibility code bug in Attach Wizard's ProjectListCtrl, 
@@ -5138,7 +5138,13 @@ Charlie 14 Jul 2010
         BOINCClientManager.cpp
 
 David  15 Jul 2010
-	- client: bug fix in message code
+    - client: bug fix in message code
 
-	client/
-		client_msgs.cpp
+    client/
+        client_msgs.cpp
+
+David  15 Jul 2010
+    - user web: don't cache XML version of show_user.php
+
+    html/user/
+        show_user.php

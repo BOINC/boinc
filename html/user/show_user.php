@@ -40,9 +40,7 @@ if (!$auth) {
 $format = get_str("format", true);
 
 if ($format=="xml"){
-    // XML doesn't need translating, so use the full-file cache for this
-    $cache_args="userid=".$id."&auth=".$auth;
-    start_cache(USER_PAGE_TTL, $cache_args);
+    // don't do caching for XML
     xml_header();
     $retval = db_init_xml();
     if ($retval) xml_error($retval);
@@ -56,7 +54,6 @@ if ($format=="xml"){
     if (!$user) xml_error(-136);
 
     show_user_xml($user, $show_hosts);
-    end_cache(USER_PAGE_TTL, $cache_args);
 } else {
     db_init();  // need to do this in any case,
         // since show_user_summary_public() etc. accesses DB
