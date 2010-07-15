@@ -421,16 +421,18 @@ char * convert_to_string(const char *fileName) {
     char c;
     int i=0;
 
-    FILE *infile=fopen(fileName,"r"); //look for nvopencl_kernels.cl in
-	                                  //current directory which is in boinc\win_build
-    if (!infile) { //not found 
-        infile = fopen(KERNELS_FILEPATH,"r"); //look for nvopencl_kernels.cl in
-		                                      //boinc\sample\nvopencl
-        if (!infile) {
-            printf("File open Error!");
-            exit(0);
-        }
-    }
+    // look for "nvopencl_kernels.cl" in "boinc/samples/nvopencl/debug" or
+    // in "boinc/samples/nvopencl/release". Note that "nvopencl_kernels.cl"
+    // is automatically copied to these directories along the building process.
+    FILE *infile=fopen(fileName,"r");
+	if (!infile) { //not found. This typically happens on Linux or Mac.
+        //look for "nvopencl_kernels.cl" in "boinc/sample/nvopencl/" instead.
+		infile = fopen(KERNELS_FILEPATH,"r");
+		if (!infile) {
+			printf("File open Error!");
+			exit(0);
+		}
+	}
     fseek(infile,0,SEEK_SET);
     while (fgetc(infile)!=EOF) count++;
     s=(char *) malloc(sizeof(char)*(count+1)); //add 1 for string terminator.
@@ -1077,7 +1079,7 @@ void invertge(cl_float * AI_d, int lda, int n) {
 /* inverts nxn matrix input and stores the result in output */
 void invert(cl_float * input, cl_float *output, int n) {
     fprintf(stderr,"starting inversion n = %d ", n);
-    volatile clock_t gputime, gputime0;
+    volatile clock_t gputime;
     gputime=clock();
 
     int lda = ((n+15)&~15|16);

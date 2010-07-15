@@ -33,7 +33,7 @@
 #define INPUT_FILENAME "input"
 #define OUTPUT_FILENAME "output"
 #define KERNELS_FILENAME "nvopencl_kernels.cl"
-#define KERNELS_FILEPATH "../samples/nvopencl/nvopencl_kernels.cl"
+#define KERNELS_FILEPATH "../../nvopencl_kernels.cl" // for Linux and Mac
 #define CHECKPOINT_FILE "matrix_inversion_state"
 #define MATRIX_SIZE 10
 #define NUM_ITERATIONS 501 // execute the kernel NUM_ITERATIONS times
