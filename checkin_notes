@@ -5148,3 +5148,11 @@ David  15 Jul 2010
 
     html/user/
         show_user.php
+
+Rom    15 July 2010
+    - Tag for 6.11.1 release, all platforms
+      boinc_core_release_6_11_1
+
+    /
+        configure.ac
+        version.h
