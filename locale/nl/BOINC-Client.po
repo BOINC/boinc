@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-07-16 10:59-0700\n"
+"PO-Revision-Date: 2010-07-16 11:03-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -155,31 +155,41 @@ msgid "Newer BOINC version required; please install current version"
 msgstr "Nieuwere versie van BOINC vereist; instaleer a.u.b de meest recente"
 
 #: ../sched/sched_send.cpp:1444
+#, fuzzy
 msgid ""
 "Your preference for network connection interval is too high for this project"
 msgstr ""
+"Your preference for network connection interval is too high for this project"
 
 #: ../sched/sched_send.cpp:1450
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
+"Er zijn taken beschikbaar voor een NVIDIA GPU, maar je voorkeuren zijn hier "
+"niet op ingesteld"
 
 #: ../sched/sched_send.cpp:1456
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
+"Er zijn taken beschikbaar voor een ATI GPU, maar je voorkeuren zijn hier "
+"niet op ingesteld"
 
 #: ../sched/sched_send.cpp:1462
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
+"Er zijn taken beschikbaar voor een CPU, maar je voorkeuren zijn hier niet op "
+"ingesteld"
 
 #: ../sched/sched_version.cpp:224
+#, fuzzy
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Your app_info.xml file doesn't have a usable version of"
 
 #: ../sched/sched_version.cpp:635
+#, fuzzy
 msgid "is not available for your type of computer"
-msgstr ""
+msgstr "is not available for your type of computer"
