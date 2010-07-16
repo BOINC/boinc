@@ -40,6 +40,7 @@
 #include "util.h"
 #include "str_util.h"
 #include "error_numbers.h"
+#include "svn_version.h"
 
 #include "credit.h"
 #include "sched_config.h"
@@ -654,13 +655,14 @@ int main(int argc, char** argv) {
       "  --update_credited_job   Add record to credited_job table after granting credit\n"
       "  --credit_from_wu        Credit is specified in WU XML\n"
       "  --sleep_interval n      Set sleep-interval to n\n"
-      "  -d n, --debug_level n   Set log verbosity level, 1-4\n\n";
+      "  -d n, --debug_level n   Set log verbosity level, 1-4\n"
+      "  -h | --help             Show this\n"
+      "  -v | --version          Show version information\n";
 
     if ((argc > 1) && (!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help"))) {
         printf (usage, argv[0] );
-        exit(1);
+        exit(0);
     }
-
 
     check_stop_daemons();
 
@@ -691,6 +693,9 @@ int main(int argc, char** argv) {
             update_credited_job = true;
         } else if (is_arg(argv[i], "credit_from_wu")) {
             credit_from_wu = true;
+        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
         } else {
             fprintf(stderr,
                 "Invalid option '%s'\nTry `%s --help` for more information\n",

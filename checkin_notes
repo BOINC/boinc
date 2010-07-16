@@ -5171,3 +5171,11 @@ David  15 Jul 2010
 
     client/
         work_fetch.h
+
+Bernd  15 July 2010
+    - validator, assimilator: added --help and --version
+
+    sched/
+        validator.cpp
+        assimilator.cpp
+

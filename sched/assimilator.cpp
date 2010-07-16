@@ -33,6 +33,7 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "str_util.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -70,6 +71,8 @@ void usage(char** argv) {
         "    [-d | --debug_level N]       Set verbosity level (1 to 4)\n"
         "    [--dont_update_db]    Don't update DB (for testing)\n"
         "    [--noinsert]          Don't insert records in app-specific DB\n",
+        "    [-h | --help]                 Show this\n"
+        "    [-v | --version]      Show version information\n",
         argv[0]
     );
     exit(0);
@@ -236,6 +239,9 @@ int main(int argc, char** argv) {
             wu_id_remainder = atoi(argv[++i]);
         } else if (is_arg(argv[i], "help") || is_arg(argv[i], "h")) {
             usage(argv);
+        } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
         } else {
             log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
             usage(argv);
