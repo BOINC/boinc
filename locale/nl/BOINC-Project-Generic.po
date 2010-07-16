@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-16 11:59-0700\n"
+"PO-Revision-Date: 2010-07-16 12:47-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -2864,8 +2864,8 @@ msgid ""
 "\t      or you issue the %2Update%3 command from the BOINC client."
 msgstr ""
 "Your preferences have been updated. Client-related preferences\n"
-"\t will take effect when your computer communicates with %1\n"
-"\t or you issue the %2Update%3 command from the BOINC client."
+"\t      will take effect when your computer communicates with %1\n"
+"\t      or you issue the %2Update%3 command from the BOINC client."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
@@ -3483,147 +3483,189 @@ msgid "Submit"
 msgstr "Submit"
 
 #: ../user/team_forum.php:87
+#, fuzzy
 msgid "Remove your team's message board."
-msgstr ""
+msgstr "Remove your team's message board."
 
 #: ../user/team_forum.php:95
+#, fuzzy
 msgid "Really remove message board?"
-msgstr ""
+msgstr "Really remove message board?"
 
 #: ../user/team_forum.php:96
+#, fuzzy
 msgid ""
 "Are you sure you want to remove your team's message board? All threads and "
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
 msgstr ""
+"Are you sure you want to remove your team's message board? All threads and "
+"posts will be permanently removed. (You may, however, create a new message "
+"board later)."
 
 #: ../user/team_forum.php:98
+#, fuzzy
 msgid "Yes - remove message board"
-msgstr ""
+msgstr "Yes - remove message board"
 
 #: ../user/team_forum.php:105
+#, fuzzy
 msgid "message board not found"
-msgstr ""
+msgstr "message board not found"
 
 #: ../user/team_forum.php:119
+#, fuzzy
 msgid "Message board removed"
-msgstr ""
+msgstr "Message board removed"
 
 #: ../user/team_forum.php:122
+#, fuzzy
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
+"Your team's message board has been removed. You may now %1create a new "
+"one%2."
 
 #: ../user/team_forum.php:141
+#, fuzzy
 msgid "Team Message Board Updated"
-msgstr ""
+msgstr "Team Message Board Updated"
 
 #: ../user/team_forum.php:142
 msgid "Update successful"
-msgstr ""
+msgstr "Bijwerken gelukt"
 
 #: ../user/team_forum.php:145
-#, fuzzy
 msgid "Update failed"
-msgstr "Bijwerken mislukt: "
+msgstr "Bijwerken mislukt"
 
 #: ../user/team_forum.php:152
+#, fuzzy
 msgid "team has no forum"
-msgstr ""
+msgstr "team has no forum"
 
 #: ../user/team_forum.php:187
+#, fuzzy
 msgid "no such forum"
-msgstr ""
+msgstr "no such forum"
 
 #: ../user/team_forum.php:198
 msgid "unknown command %1"
-msgstr ""
+msgstr "onbekende opdracht %1"
 
 #: ../user/team_founder_transfer_action.php:34
+#, fuzzy
 msgid "You must be a member of a team to access this page."
-msgstr ""
+msgstr "You must be a member of a team to access this page."
 
 #: ../user/team_founder_transfer_action.php:88
+#, fuzzy
 msgid "Requesting foundership of %1"
-msgstr ""
+msgstr "Requesting foundership of %1"
 
 #: ../user/team_founder_transfer_action.php:96
+#, fuzzy
 msgid ""
 "The current founder has been notified of your request by email and private "
 "message.<br /><br />\n"
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
+"The current founder has been notified of your request by email and private "
+"message.<br /><br />\n"
+"                       If the founder does not respond within 60 days you "
+"will be allowed to become the founder."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
+#, fuzzy
 msgid "Foundership request not allowed now"
-msgstr ""
+msgstr "Foundership request not allowed now"
 
 #: ../user/team_founder_transfer_action.php:107
+#, fuzzy
 msgid "Assumed foundership of %1"
-msgstr ""
+msgstr "Assumed foundership of %1"
 
 #: ../user/team_founder_transfer_action.php:109
+#, fuzzy
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
+"Congratulations, you are now the founder of team %1. Go to %2Your Account "
+"page%3 to find the Team Admin options."
 
 #: ../user/team_founder_transfer_action.php:118
+#, fuzzy
 msgid "Decline founder change request"
-msgstr ""
+msgstr "Decline founder change request"
 
 #: ../user/team_founder_transfer_action.php:125
+#, fuzzy
 msgid "The foundership request from %1 has been declined."
-msgstr ""
+msgstr "The foundership request from %1 has been declined."
 
 #: ../user/team_founder_transfer_action.php:128
+#, fuzzy
 msgid "There were no foundership requests."
-msgstr ""
+msgstr "There were no foundership requests."
 
 #: ../user/team_founder_transfer_action.php:132
+#, fuzzy
 msgid "undefined action %1"
-msgstr ""
+msgstr "undefined action %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
 msgid "Return to team page"
-msgstr ""
+msgstr "Terug naar team pagina"
 
 #: ../user/team_founder_transfer_form.php:26
+#, fuzzy
 msgid "You need to be a member of a team to access this page."
-msgstr ""
+msgstr "You need to be a member of a team to access this page."
 
 #: ../user/team_founder_transfer_form.php:29
+#, fuzzy
 msgid "Request foundership of %1"
-msgstr ""
+msgstr "Request foundership of %1"
 
 #: ../user/team_founder_transfer_form.php:36
+#, fuzzy
 msgid "You are now founder of team %1."
-msgstr ""
+msgstr "You are now founder of team %1."
 
 #: ../user/team_founder_transfer_form.php:42
+#, fuzzy
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "You requested the foundership of %1 on %2."
 
 #: ../user/team_founder_transfer_form.php:45
+#, fuzzy
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
+"60 days have elapsed since your request, and the founder has not responded. "
+"You may now assume foundership by clicking here:"
 
 #: ../user/team_founder_transfer_form.php:48
+#, fuzzy
 msgid "Assume foundership"
-msgstr ""
+msgstr "Assume foundership"
 
 #: ../user/team_founder_transfer_form.php:52
+#, fuzzy
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
+"The founder was notified of your request. If he/she does not respond by %1 "
+"you will be given an option to become founder."
 
 #: ../user/team_founder_transfer_form.php:58
+#, fuzzy
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click the button below. The current founder will be sent an email "
@@ -3632,82 +3674,103 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click the button below. The current founder will be sent an email "
+"detailing your request, and will be able to transfer foundership to you or "
+"to decline your request. If the founder does not respond in 60 days, you "
+"will be allowed to become the founder.<br /><br />\n"
+"                       Are you sure you want to request foundership?"
 
 #: ../user/team_founder_transfer_form.php:63
+#, fuzzy
 msgid "Request foundership"
-msgstr ""
+msgstr "Request foundership"
 
 #: ../user/team_founder_transfer_form.php:72
+#, fuzzy
 msgid "Founder change has already been requested by %1 on %2."
-msgstr ""
+msgstr "Founder change has already been requested by %1 on %2."
 
 #: ../user/team_founder_transfer_form.php:75
+#, fuzzy
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
 msgstr ""
+"A foundership change was requested during the last 90 days, so new requests "
+"are not allowed. Please try again later."
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
+#, fuzzy
 msgid "The team %1 is not joinable."
-msgstr ""
+msgstr "The team %1 is not joinable."
 
 #: ../user/team_join.php:33 ../user/team_join_action.php:33
 msgid "Already a member"
-msgstr ""
+msgstr "Reeds lid"
 
 #: ../user/team_join.php:34 ../user/team_join_action.php:34
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "Je bent al lid van %1"
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
 #, fuzzy
 msgid "Couldn't join team - please try again later."
-msgstr "Team kon niet worden aangemaakt - probeer het a.u.b. later nogmaals."
+msgstr "Couldn't join team - please try again later."
 
 #: ../user/team_join_action.php:38
+#, fuzzy
 msgid "Joined %1"
-msgstr ""
+msgstr "Joined %1"
 
 #: ../user/team_join_action.php:39
+#, fuzzy
 msgid "You have joined %1."
-msgstr ""
+msgstr "You have joined %1."
 
 #: ../user/team_join_form.php:32
+#, fuzzy
 msgid "Join %1"
-msgstr ""
+msgstr "Join %1"
 
 #: ../user/team_join_form.php:33
+#, fuzzy
 msgid "Please note:"
-msgstr ""
+msgstr "Please note:"
 
 #: ../user/team_join_form.php:35
+#, fuzzy
 msgid "Joining a team gives its founder access to your email address."
-msgstr ""
+msgstr "Joining a team gives its founder access to your email address."
 
 #: ../user/team_join_form.php:36
+#, fuzzy
 msgid "Joining a team does not affect your account's credit."
-msgstr ""
+msgstr "Joining a team does not affect your account's credit."
 
 #: ../user/team_join_form.php:43
+#, fuzzy
 msgid "Join team"
-msgstr ""
+msgstr "Join team"
 
 #: ../user/team_lookup.php:82
 msgid "Search Results"
-msgstr ""
+msgstr "Zoek Resultaten"
 
 #: ../user/team_lookup.php:84
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Zoek resultaten voor '%1'"
 
 #: ../user/team_lookup.php:86
+#, fuzzy
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
+msgstr "You may view these teams' members, statistics, and information."
 
 #: ../user/team_lookup.php:96
+#, fuzzy
 msgid "More than 100 teams match your search. The first 100 are shown."
-msgstr ""
+msgstr "More than 100 teams match your search. The first 100 are shown."
 
 #: ../user/team_lookup.php:102
 #, fuzzy
@@ -3920,19 +3983,21 @@ msgstr "No members are eligible for removal."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
-msgstr ""
+msgstr "Verwijder gebruikers"
 
 #: ../user/team_search.php:65
 msgid "Team name"
-msgstr ""
+msgstr "Team naam"
 
 #: ../user/team_search.php:127
+#, fuzzy
 msgid "No teams were found matching your criteria. Try another search."
-msgstr ""
+msgstr "No teams were found matching your criteria. Try another search."
 
 #: ../user/team_search.php:129
+#, fuzzy
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "Or you can %1create a new team%2."
 
 #: ../user/team_search.php:133
 msgid ""
@@ -3940,33 +4005,43 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
+"The following teams match one or more of your search criteria.\n"
+"            To join a team, click its name to go to the team page,\n"
+"               then click %1Join this team%2."
 
 #: ../user/team_search.php:140
+#, fuzzy
 msgid "Change your search"
-msgstr ""
+msgstr "Change your search"
 
 #: ../user/team_search.php:152
 #, fuzzy
 msgid "Team search results"
-msgstr "Forum zoek resultaten"
+msgstr "Team search results"
 
 #: ../user/team_search.php:156
+#, fuzzy
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr ""
+"You can team up with other people with similar interests, or from the same "
+"country, company, or school."
 
 #: ../user/team_search.php:158
+#, fuzzy
 msgid "Use this form to find teams that might be right for you."
-msgstr ""
+msgstr "Use this form to find teams that might be right for you."
 
 #: ../user/team_search.php:163
+#, fuzzy
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr ""
+msgstr "%1I'm not interested%2 in joining a team right now."
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
+#, fuzzy
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr ""
+msgstr "Limit exceeded - Sorry, first %1 items only"
 
 #: ../user/top_hosts.php:80
 msgid "Top hosts"
@@ -3978,19 +4053,21 @@ msgstr "Top %1 teams"
 
 #: ../user/top_teams.php:106
 msgid "There are no %1 teams"
-msgstr ""
+msgstr "Er zijn geen %1 teams"
 
 #: ../user/top_users.php:62
 msgid "Participant since"
 msgstr "Deelnemer sinds"
 
 #: ../user/uotd.php:27
+#, fuzzy
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "No user of the day has been chosen."
 
 #: ../user/uotd.php:31
+#, fuzzy
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "User of the Day for %1: %2"
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Joined"
@@ -4022,7 +4099,7 @@ msgstr "Filter"
 
 #: ../user/user_search.php:119
 msgid "Any"
-msgstr ""
+msgstr "Ieder"
 
 #: ../user/user_search.php:122
 msgid "With profile?"
@@ -4030,7 +4107,7 @@ msgstr "Met een profiel?"
 
 #: ../user/user_search.php:123 ../user/user_search.php:128
 msgid "Either"
-msgstr ""
+msgstr "Beide"
 
 #: ../user/user_search.php:127
 msgid "On a team?"
@@ -4049,8 +4126,9 @@ msgid "No users match your search criteria."
 msgstr "Zoek opdracht heeft geen gebruikers opgeleverd."
 
 #: ../user/user_search.php:186
+#, fuzzy
 msgid "missing search type"
-msgstr ""
+msgstr "missing search type"
 
 #: ../user/user_search.php:224
 msgid "User search results"
@@ -4070,56 +4148,69 @@ msgid "Team:"
 msgstr "Team:"
 
 #: ../user/userw.php:47
+#, fuzzy
 msgid "Team TotCred:"
-msgstr ""
+msgstr "Team TotCred:"
 
 #: ../user/userw.php:48
+#, fuzzy
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "Team AvgCred:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr ""
+msgstr "Team : Geen"
 
 #: ../user/validate_email_addr.php:30
+#, fuzzy
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "Validate BOINC email address"
 
 #: ../user/validate_email_addr.php:31
+#, fuzzy
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
 msgstr ""
+"Please visit the following link to validate the email address of your %1 "
+"account:"
 
 #: ../user/validate_email_addr.php:34
+#, fuzzy
 msgid "Validate email sent"
-msgstr ""
+msgstr "Validate email sent"
 
 #: ../user/validate_email_addr.php:35
+#, fuzzy
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
 msgstr ""
+"An email has been sent to %1. Visit the link it contains to validate your "
+"email address."
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
-msgstr "Gebruiker niet gevonden"
+msgstr "Gebruiker niet gevonden."
 
 #: ../user/validate_email_addr.php:49
+#, fuzzy
 msgid "Error in URL data - can't validate email address"
-msgstr ""
+msgstr "Error in URL data - can't validate email address"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
-msgstr ""
+msgstr "Bijwerken database mislukt - probeer het a.u.b. later opnieuw."
 
 #: ../user/validate_email_addr.php:57
+#, fuzzy
 msgid "Validate email address"
-msgstr ""
+msgstr "Validate email address"
 
 #: ../user/validate_email_addr.php:58
+#, fuzzy
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "The email address of your account has been validated."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4181,13 +4272,14 @@ msgstr ""
 "is de vorige niet meer geldig."
 
 #: ../user/workunit.php:30
+#, fuzzy
 msgid "can't find workunit"
-msgstr ""
+msgstr "can't find workunit"
 
 #: ../user/workunit.php:33
 #, fuzzy
 msgid "Workunit %1"
-msgstr "Werkeenheid ID"
+msgstr "Workunit %1"
 
 #: ../user/workunit.php:37
 msgid "name"
@@ -4202,32 +4294,38 @@ msgid "created"
 msgstr "aangemaakt"
 
 #: ../user/workunit.php:41
+#, fuzzy
 msgid "canonical result"
-msgstr ""
+msgstr "canonical result"
 
 #: ../user/workunit.php:44
 msgid "granted credit"
 msgstr "toegekende punten"
 
 #: ../user/workunit.php:52
+#, fuzzy
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Tasks in progress"
 
 #: ../user/workunit.php:52
+#, fuzzy
 msgid "suppressed pending completion"
-msgstr ""
+msgstr "suppressed pending completion"
 
 #: ../user/workunit.php:55
+#, fuzzy
 msgid "minimum quorum"
-msgstr ""
+msgstr "minimum quorum"
 
 #: ../user/workunit.php:56
+#, fuzzy
 msgid "initial replication"
-msgstr ""
+msgstr "initial replication"
 
 #: ../user/workunit.php:57
+#, fuzzy
 msgid "max # of error/total/success tasks"
-msgstr ""
+msgstr "max # of error/total/success tasks"
 
 #: ../user/workunit.php:61
 msgid "errors"
@@ -4280,16 +4378,18 @@ msgstr ""
 "    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
+#, fuzzy
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "Color scheme for graphics"
 
 #: ../project.sample/project_specific_prefs.inc:48
+#, fuzzy
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "Maximum CPU % for graphics%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Alleen geselecteerde applicaties uitvoeren "
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
