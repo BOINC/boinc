@@ -752,9 +752,9 @@ int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
     size_t localThreads[1]; //1 matrixSize
     cl_event events[2];
 
-    if (check_device_capability(globalThreads,localThreads) == 1) {
+    /*if (check_device_capability(globalThreads,localThreads) == 1) {
         return 1;
-    }
+    }*/
 
     /* 
 	 * the input array to the kernel. This array will eventually be modified
@@ -853,9 +853,9 @@ int run_GEStep2_kernel(cl_float * AI, cl_float diag, int i, int n2, int lda2) {
     size_t localThreads[1]; //1 matrixSize
     cl_event events[2];
 
-    if (check_device_capability(globalThreads,localThreads) == 1) {
+    /*if (check_device_capability(globalThreads,localThreads) == 1) {
         return 1;
-    }
+    }*/
 
     /* 
 	 * the input array to the kernel. This array will eventually be modified 
@@ -962,9 +962,9 @@ int run_GEStep3_kernel(cl_float * AI, int i, int n2, int lda2) {
     size_t localThreads[1]; //1 matrixSize
     cl_event events[2];
 
-    if (check_device_capability(globalThreads,localThreads) == 1) {
+    /*if (check_device_capability(globalThreads,localThreads) == 1) {
         return 1;
-    }
+    }*/
 
     /* 
 	 * The input array to the kernel. This array will eventually be modified
