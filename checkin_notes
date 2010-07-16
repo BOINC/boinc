@@ -5202,3 +5202,13 @@ Charlie 16 Jul 2010
 
     clientgui/
         DlgEventLog.cpp, .h
+
+David  16 Jul 2010
+    - feeder: error out if an ordering option (e.g. --priority)
+        is used in combination with homogeneous redundancy.
+        HR requires a cyclic scan of all sendable results.
+
+    sched/
+        feeder.cpp
+    tools/
+        backend_lib.cpp

@@ -460,7 +460,7 @@ int create_result(
 
     result.clear();
     initialize_result(result, wu);
-    result.priority = result.priority + priority_increase;
+    result.priority += priority_increase;
     sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
     sprintf(base_outfile_name, "%s_", result.name);
     retval = read_filename(

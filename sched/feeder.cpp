@@ -856,6 +856,14 @@ int main(int argc, char** argv) {
     }
 
     hr_init();
+
+    if (using_hr && strlen(order_clause)) {
+        log_messages.printf(MSG_CRITICAL,
+            "Can't use ordering options together with homogeneous redundancy\n"
+        );
+        exit(1);
+    }
+
     if (config.job_size_matching) {
         retval = ssp->perf_info.read_file();
         if (retval) {
