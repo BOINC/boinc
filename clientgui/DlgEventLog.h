@@ -90,6 +90,9 @@ public:
     /// Creates the controls and sizers
     void CreateControls();
 
+    /// Text color selection
+    void SetTextColor();
+    
 ////@begin CDlgEventLog event handler declarations
     /// wxEVT_HELP event handler for ID_DLGEVENTLOG
     void OnHelp( wxHelpEvent& event );

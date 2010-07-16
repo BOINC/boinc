@@ -224,6 +224,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     m_pMessageErrorGrayAttr = new wxListItemAttr(*m_pMessageErrorAttr);
 #endif
 
+    SetTextColor();
     RestoreState();
 
     return true;
@@ -304,6 +305,28 @@ void CDlgEventLog::CreateControls()
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 #endif
+}
+
+
+/*!
+ * Text color selection for CDlgEventLog
+ */
+
+void CDlgEventLog::SetTextColor() {
+    bool isConnected = wxGetApp().GetDocument()->IsConnected();
+
+    if (isConnected) {
+        m_pMessageInfoAttr->SetTextColour(*wxBLACK);
+        m_pMessageErrorAttr->SetTextColour(*wxRED);
+        m_pMessageInfoGrayAttr->SetTextColour(*wxBLACK);
+        m_pMessageErrorGrayAttr->SetTextColour(*wxRED);
+    } else {
+        wxColourDatabase colorBase;
+        m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
+        m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
+        m_pMessageInfoGrayAttr->SetTextColour(wxColour(128, 128, 128));
+        m_pMessageErrorGrayAttr->SetTextColour(wxColour(255, 128, 128));
+    }
 }
 
 
@@ -458,18 +481,7 @@ void CDlgEventLog::OnRefresh() {
             isConnected = wxGetApp().GetDocument()->IsConnected();
             if (was_connected != isConnected) {
                 was_connected = isConnected;
-                if (isConnected) {
-                    m_pMessageInfoAttr->SetTextColour(*wxBLACK);
-                    m_pMessageErrorAttr->SetTextColour(*wxRED);
-                    m_pMessageInfoGrayAttr->SetTextColour(*wxBLACK);
-                    m_pMessageErrorGrayAttr->SetTextColour(*wxRED);
-                } else {
-                    wxColourDatabase colorBase;
-                    m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
-                    m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
-                    m_pMessageInfoGrayAttr->SetTextColour(wxColour(128, 128, 128));
-                    m_pMessageErrorGrayAttr->SetTextColour(wxColour(255, 128, 128));
-                }
+                SetTextColor();
 
                 // Force a complete update
                 m_pList->DeleteAllItems();

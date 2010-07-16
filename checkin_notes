@@ -5196,3 +5196,9 @@ Charlie 16 Jul 2010
         configure.ac
         version.h
 
+Charlie 16 Jul 2010
+    - MGR: Bug fix: event log text was not dimmed if event log was opened after 
+        Client was disconnected.
+
+    clientgui/
+        DlgEventLog.cpp, .h
