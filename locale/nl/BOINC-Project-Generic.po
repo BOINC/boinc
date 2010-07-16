@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-16 11:40-0700\n"
+"PO-Revision-Date: 2010-07-16 11:59-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -3715,133 +3715,157 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"Als je geen team vinden kan die voldoet aan jou eisen, kan je ook je eigen %"
-"1team maken%2."
+"End of results. %1 If you cannot find the team you are looking for, you may "
+"%2create a team%3 yourself."
 
 #: ../user/team_manage.php:24
+#, fuzzy
 msgid "Team administration for %1"
-msgstr ""
+msgstr "Team administration for %1"
 
 #: ../user/team_manage.php:27
+#, fuzzy
 msgid "Edit team info"
-msgstr ""
+msgstr "Edit team info"
 
 #: ../user/team_manage.php:28
+#, fuzzy
 msgid "Change team name, URL, description, type, or country"
-msgstr ""
+msgstr "Change team name, URL, description, type, or country"
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
-msgstr ""
+msgstr "Ledenlijst:"
 
 #: ../user/team_manage.php:31 ../user/team_manage.php:35
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:32
-#, fuzzy
 msgid "text"
-msgstr "Volgende"
+msgstr "tekst"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "Bekijk de ledenlijst en e-mail adressen"
 
 #: ../user/team_manage.php:34
+#, fuzzy
 msgid "View change history:"
-msgstr ""
+msgstr "View change history:"
 
 #: ../user/team_manage.php:36
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: ../user/team_manage.php:37
+#, fuzzy
 msgid "See when members joined or quit this team"
-msgstr ""
+msgstr "See when members joined or quit this team"
 
 #: ../user/team_manage.php:48
+#, fuzzy
 msgid "Respond to foundership request."
-msgstr ""
+msgstr "Respond to foundership request."
 
 #: ../user/team_manage.php:48
+#, fuzzy
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
-msgstr ""
+msgstr "If you don't respond by %1, %2 may assume foundership of this team."
 
 #: ../user/team_manage.php:53
+#, fuzzy
 msgid "Remove inactive or unwanted members from this team"
-msgstr ""
+msgstr "Remove inactive or unwanted members from this team"
 
 #: ../user/team_manage.php:55
+#, fuzzy
 msgid "Transfer foundership to another member"
-msgstr ""
+msgstr "Transfer foundership to another member"
 
 #: ../user/team_manage.php:56
+#, fuzzy
 msgid "Add/remove Team Admins"
-msgstr ""
+msgstr "Add/remove Team Admins"
 
 #: ../user/team_manage.php:57
+#, fuzzy
 msgid "Give selected team members Team Admin privileges"
-msgstr ""
+msgstr "Give selected team members Team Admin privileges"
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
-msgstr ""
+msgstr "Verwijder team"
 
 #: ../user/team_manage.php:60
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "Alleen toegestaan als er geen teamleden zijn"
 
 #: ../user/team_manage.php:62
+#, fuzzy
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "Create or manage a team message board"
 
 #: ../user/team_manage.php:69
+#, fuzzy
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
+"To have this team created on all BOINC projects (current and future) you can "
+"make it into a %1BOINC-wide team%2."
 
 #: ../user/team_manage.php:71
+#, fuzzy
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
+"Team admins are encouraged to join and participate in the Google %1boinc-"
+"team-founders%2 group."
 
 #: ../user/team_manage.php:73
+#, fuzzy
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
+"Other resources for BOINC team admins are available from a third-party site, "
+"%1www.boincteams.com%2."
 
 #: ../user/team_manage.php:89
+#, fuzzy
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "Can't delete non-empty team"
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "Team %1 verwijderd"
 
 #: ../user/team_members.php:33
+#, fuzzy
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr ""
+msgstr "Limit exceeded:  Can only display the first 1000 members."
 
 #: ../user/team_members.php:43
 msgid "Members of %1"
-msgstr ""
+msgstr "Leden van %1"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
-msgstr ""
+msgstr "Team verlaten niet mogelijk"
 
 #: ../user/team_quit_action.php:33
+#, fuzzy
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "Team doesn't exist, or you don't belong to it."
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
-msgstr ""
+msgstr "Verlaat %1"
 
 #: ../user/team_quit_form.php:32
+#, fuzzy
 msgid ""
 "<strong>Please note before quitting a team:</strong>\n"
 "         <ul>\n"
@@ -3851,40 +3875,48 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
+"<strong>Please note before quitting a team:</strong>\n"
+"         <ul>\n"
+"         <li>If you quit a team, you may rejoin later, or join any other "
+"team you desire\n"
+"         <li>Quitting a team does not affect your personal credit statistics "
+"in any way.\n"
+"         </ul>"
 
 #: ../user/team_quit_form.php:40
-#, fuzzy
 msgid "Quit Team"
-msgstr "Verlaat team"
+msgstr "Verlaat Team"
 
 #: ../user/team_remove_inactive_action.php:29
+#, fuzzy
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Removing users from %1"
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "%1 is geen lid van %2"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 is verwijderd"
 
 #: ../user/team_remove_inactive_form.php:30
+#, fuzzy
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Remove members from %1"
 
 #: ../user/team_remove_inactive_form.php:37
-#, fuzzy
 msgid "Remove?"
-msgstr "Verwijderen"
+msgstr "Verwijderen?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
-msgstr ""
+msgstr "Naam (ID)"
 
 #: ../user/team_remove_inactive_form.php:63
+#, fuzzy
 msgid "No members are eligible for removal."
-msgstr ""
+msgstr "No members are eligible for removal."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
@@ -4029,8 +4061,9 @@ msgid "User not found!"
 msgstr "Gebruiker niet gevonden!"
 
 #: ../user/userw.php:42
+#, fuzzy
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "Account Data<br/>for %1<br/>Time:"
 
 #: ../user/userw.php:46
 msgid "Team:"
