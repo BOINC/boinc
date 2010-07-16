@@ -161,7 +161,7 @@ public:
     int                         SetGPURunMode(int iMode, int iTimeout);
     int                         SetNetworkRunMode(int iMode, int iTimeout);
 
-    void                        RefreshRPCs();
+    void                        RefreshRPCs(bool fullReset = false);
     void                        RunPeriodicRPCs(int frameRefreshRate);
     int                         ForceCacheUpdate(bool immediate = true);
     int                         RunBenchmarks();

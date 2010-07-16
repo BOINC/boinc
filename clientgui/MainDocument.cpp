@@ -337,9 +337,6 @@ void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strCom
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-        // Prevent a race condition where OnFrameRender() causes SetStateDisconnected() 
-        // to be called due to a previous RPC error before we reconnected.
-        pFrame->StopTimers();
         
         m_bConnected = true;
         m_bReconnecting = false;
@@ -349,6 +346,10 @@ void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strCom
         m_strNewComputerName = wxEmptyString;
         m_strNewComputerPassword = wxEmptyString;
         m_bNewConnection = false;
+
+        // Prevent a race condition where OnFrameRender() causes SetStateDisconnected() 
+        // to be called due to a previous RPC error before we reconnected.
+        m_pDocument->RefreshRPCs(true);
 
         // Get the version of the client and cache it
         VERSION_INFO vi;
@@ -798,48 +799,49 @@ int CMainDocument::SetNetworkRunMode(int iMode, int iTimeout) {
 // We use 0 to indicate that the RPC has never been called yet, so 
 // set last update time to (time_t)1 here rather than to (time_t)0, 
 // and only if it is currently not zero.
-void CMainDocument::RefreshRPCs() {
+void CMainDocument::RefreshRPCs(bool fullReset) {
+    wxDateTime t = fullReset ? wxDateTime((time_t)0) : wxDateTime((time_t)1);
 
     if (!m_dtCachedCCStatusTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
-        m_dtCachedCCStatusTimestamp = wxDateTime((time_t)1);
+        m_dtCachedCCStatusTimestamp = t;
 //      m_iGet_status_rpc_result = -1;
     }
     
     if (!m_dtProjectsStatusTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
-        m_dtProjectsStatusTimestamp = wxDateTime((time_t)1);
+        m_dtProjectsStatusTimestamp = t;
 //      m_iGet_project_status1_rpc_result = -1;
     }
     
     if (!m_dtResultsTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
-        m_dtResultsTimestamp = wxDateTime((time_t)1);
+        m_dtResultsTimestamp = t;
 //      m_iGet_results_rpc_result = -1;
     }
     m_fResultsRPCExecutionTime = 0;
         
     if (!m_dtFileTransfersTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
-        m_dtFileTransfersTimestamp = wxDateTime((time_t)1);
+        m_dtFileTransfersTimestamp = t;
 //      m_iGet_file_transfers_rpc_result = 0;
     }
         
 //  m_iGet_messages_rpc_result = -1;
         
     if (!m_dtDiskUsageTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
-        m_dtDiskUsageTimestamp = wxDateTime((time_t)1);
+        m_dtDiskUsageTimestamp = t;
 //      m_iGet_dsk_usage_rpc_result = -1;
     }
 
     if (!m_dtStatisticsStatusTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
-        m_dtStatisticsStatusTimestamp = wxDateTime((time_t)1);
+        m_dtStatisticsStatusTimestamp = t;
 //      m_iGet_statistics_rpc_result = -1;
     }
         
     if (!m_dtCachedSimpleGUITimestamp.IsEqualTo(wxDateTime((time_t)0))) {
-        m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)1);
+        m_dtCachedSimpleGUITimestamp = t;
 //      m_iGet_simple_gui2_rpc_result = -1;
     }
 
     if (!m_dtCachedAcctMgrInfoTimestamp.IsEqualTo(wxDateTime((time_t)0))) {
-        m_dtCachedAcctMgrInfoTimestamp = wxDateTime((time_t)1);
+        m_dtCachedAcctMgrInfoTimestamp = t;
         m_iAcct_mgr_info_rpc_result = -1;
     }
 
