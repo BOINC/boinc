@@ -5182,8 +5182,17 @@ Bernd  15 July 2010
 Charlie 16 Jul 2010
     - MGR: Better solution to prevent a race condition which could erroneously 
         invoke the Attach Wizard when restarting the client, fix serious bug 
-        in Simple View I introduced with my previous fix if 14 July.
+        in Simple View I introduced with my previous fix of 14 July.
     
     clientgui/
         AdvancedFrame.cpp
         MainDocument.cpp
+
+Charlie 16 Jul 2010
+    - Tag for 6.11.2 release, all platforms
+      boinc_core_release_6_11_2
+
+    /
+        configure.ac
+        version.h
+
