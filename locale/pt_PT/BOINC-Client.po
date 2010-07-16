@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-07-16 14:29-0000\n"
+"PO-Revision-Date: 2010-07-16 15:12-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "Mensagem do servidor do projecto:"
 
 #: cs_statefile.cpp:769
 msgid "XML syntax error in"
-msgstr "Erro de sintaxe no XML em"
+msgstr "Erro de sintaxe XML em"
 
 #: gui_rpc_server.cpp:189
 msgid "Can't resolve hostname in"
