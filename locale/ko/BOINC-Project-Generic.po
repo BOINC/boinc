@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: 2010/05/15\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-05-14 19:34-0700\n"
+"PO-Revision-Date: 2010-07-16 23:19-0700\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
@@ -295,14 +295,12 @@ msgid "%1 days"
 msgstr "%1 일"
 
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "응용 프로그램"
+msgstr "응용 프로그램 상세 정보"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Show"
-msgstr "보이기:"
+msgstr "보이기"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
@@ -808,9 +806,8 @@ msgid "bad subset: %1"
 msgstr "잘못된 서브셋: %1"
 
 #: ../inc/prefs.inc:617
-#, fuzzy
 msgid "Default"
-msgstr "삭제"
+msgstr "기본값"
 
 #: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:995
 #: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:108
@@ -978,12 +975,11 @@ msgstr "불확실한 플랫폼"
 
 #: ../inc/result.inc:43
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA GPU"
 
 #: ../inc/result.inc:44
-#, fuzzy
 msgid "ATI GPU"
-msgstr "GPU"
+msgstr "ATI GPU"
 
 #: ../inc/result.inc:51
 msgid "Not in DB"
@@ -1199,12 +1195,10 @@ msgid "Show names"
 msgstr "이름 보이기"
 
 #: ../inc/result.inc:272
-#, fuzzy
 msgid "Task"
 msgstr "작업"
 
 #: ../inc/result.inc:275
-#, fuzzy
 msgid "Work unit"
 msgstr "작업 유닛"
 
@@ -1237,9 +1231,8 @@ msgid "CPU time<br />(sec)"
 msgstr "CPU 시간<br />(초)"
 
 #: ../inc/result.inc:288 ../inc/result.inc:392
-#, fuzzy
 msgid "Credit"
-msgstr "생성"
+msgstr "크레딧"
 
 #: ../inc/result.inc:289
 msgid "Application"
@@ -1286,7 +1279,6 @@ msgid "Validate state"
 msgstr "인증 현황"
 
 #: ../inc/result.inc:393
-#, fuzzy
 msgid "Application version"
 msgstr "응용 프로그램 버전"
 
@@ -2514,13 +2506,12 @@ msgid "Your account"
 msgstr "계정"
 
 #: ../user/hosts_user.php:51
-#, fuzzy
 msgid "Computers belonging to %1"
-msgstr "컴퓨터 정보"
+msgstr "%1에 속한 컴퓨터"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
-msgstr ""
+msgstr "이 사용자는 컴퓨터 정보를 보여주지 않도록 선택했습니다."
 
 #: ../user/info.php:22 ../user/sample_index.php:47
 msgid "Read our rules and policies"
@@ -4163,9 +4154,8 @@ msgid "validation"
 msgstr "유효"
 
 #: ../project.sample/project.inc:49
-#, fuzzy
 msgid "Main page"
-msgstr "도메인 이름"
+msgstr "첫 페이지"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
