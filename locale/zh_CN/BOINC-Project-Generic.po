@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-15 10:48+0800\n"
+"PO-Revision-Date: 2010-07-17 11:23+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -884,11 +884,11 @@ msgstr "移除"
 
 #: ../inc/prefs.inc:790
 msgid "Computing"
-msgstr "计算中"
+msgstr "计算"
 
 #: ../inc/prefs.inc:801
 msgid "Separate preferences for %1"
-msgstr "%1位置的参数设置"
+msgstr "用于%1环境的参数设置"
 
 #: ../inc/prefs.inc:810
 #: ../inc/prefs.inc:885
@@ -897,7 +897,7 @@ msgstr "编辑参数设置"
 
 #: ../inc/prefs.inc:814
 msgid "Add separate preferences for %1"
-msgstr "增加%1的参数设置"
+msgstr "增加%1环境的参数设置"
 
 #: ../inc/prefs.inc:822
 #: ../inc/prefs.inc:867
@@ -907,7 +907,7 @@ msgstr "（切换视图）"
 #: ../inc/prefs.inc:824
 #: ../inc/prefs.inc:870
 msgid "Combined preferences"
-msgstr "组合的参数设置"
+msgstr "横排的参数设置"
 
 #: ../inc/prefs.inc:829
 msgid "Project specific settings"
@@ -925,7 +925,7 @@ msgstr "默认的参数设置"
 #: ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
 msgid "Edit %1 preferences"
-msgstr "编辑%1的参数设置"
+msgstr "编辑 %1 的参数设置"
 
 #: ../inc/prefs.inc:860
 msgid ""
@@ -1776,7 +1776,7 @@ msgstr "本项目的参数设置"
 #: ../inc/user.inc:232
 #: ../user/prefs.php:33
 msgid "%1 preferences"
-msgstr "%1 参数设置"
+msgstr "%1参数设置"
 
 #: ../inc/user.inc:238
 #: ../user/sample_index.php:66
