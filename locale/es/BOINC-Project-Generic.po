@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-10 05:23-0700\n"
+"PO-Revision-Date: 2010-07-18 02:41-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -169,7 +169,7 @@ msgstr "Zona horaria"
 
 #: ../inc/host.inc:97
 msgid "UTC %1 hours"
-msgstr ""
+msgstr "UTC %1 horas"
 
 #: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:378
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:202
@@ -295,23 +295,21 @@ msgstr "Velocidad promedio de descarga"
 
 #: ../inc/host.inc:163
 msgid "Average turnaround time"
-msgstr ""
+msgstr "Tiempo promedio de finalización"
 
 #: ../inc/host.inc:163
 msgid "%1 days"
 msgstr "%1 días"
 
-# ########################################
+# ########################################<br />
 # Apps page (apps.php)
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "Programas"
+msgstr "Destalles de la aplicación"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Show"
-msgstr "Mostrar:"
+msgstr "Mostrar"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
