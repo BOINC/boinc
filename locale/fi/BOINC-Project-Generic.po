@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-07-14 00:05-0700\n"
+"PO-Revision-Date: 2010-07-18 10:52-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -99,7 +99,7 @@ msgstr "Kirjoittaja"
 #: ../inc/forum.inc:1100
 #: ../user/forum_forum.php:131
 msgid "Views"
-msgstr "Luettu"
+msgstr "Katsottu"
 
 #: ../inc/forum.inc:1100
 #: ../inc/team.inc:120
@@ -270,7 +270,7 @@ msgstr "Pyyntösi, perustajan vastauksen takaraja saavutettu."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "Päätä perustajuuden vaihto"
 
 #: ../inc/team.inc:60
 msgid "Requested by you"
@@ -288,7 +288,7 @@ msgstr "Ei mikään"
 
 #: ../inc/team.inc:67
 msgid "Initiate request"
-msgstr ""
+msgstr "Pyynnön aloitus"
 
 #: ../inc/team.inc:70
 msgid "Deferred"
@@ -718,7 +718,7 @@ msgstr "Profiili"
 #: ../inc/user.inc:244
 #: ../inc/user.inc:366
 msgid "%1 posts"
-msgstr ""
+msgstr "%1 viestiä"
 
 #: ../inc/user.inc:256
 msgid "Notifications"
