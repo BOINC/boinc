@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-07-17 06:31-0700\n"
+"PO-Revision-Date: 2010-07-18 02:33-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -82,6 +82,8 @@ msgid ""
 "You may have an outdated code signing key.  Try attaching and reattaching "
 "this project."
 msgstr ""
+"Usted debe tener una clave de firma de código antigua.   Pruebe a separarse "
+"y volver a unirse a este proyecto."
 
 #: ../sched/handle_request.cpp:908
 msgid "This project doesn't support operating system"
@@ -158,22 +160,28 @@ msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
+"Hay disponibles tareas para la GPU NVIDIA, pero en sus preferencias está "
+"seleccionado no aceptarlas"
 
 #: ../sched/sched_send.cpp:1456
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
+"Hay diponibles tareas para la GPU ATI, pero en sus preferencias está "
+"seleccionado no aceptarlas"
 
 #: ../sched/sched_send.cpp:1462
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
+"Hay disponibles tareas para la CPU, pero en sus preferencias está "
+"seleccionado no aceptarlas"
 
 #: ../sched/sched_version.cpp:224
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Su archivo app_info.xml no tiene una versión utilizable de"
 
 #: ../sched/sched_version.cpp:635
 msgid "is not available for your type of computer"
-msgstr ""
+msgstr "no está disponible para su tipo de ordenador"
