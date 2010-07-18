@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-07-18 10:52-0700\n"
+"PO-Revision-Date: 2010-07-18 11:32-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1781,11 +1781,11 @@ msgstr "Ei hakuehdot täyttäviä profiileja."
 
 #: ../user/profile_rate.php:27
 msgid "Invalid vote type:"
-msgstr ""
+msgstr "Virheellinen ehdotus:"
 
 #: ../user/profile_rate.php:32
 msgid "Vote Recorded"
-msgstr ""
+msgstr "Ehdotus tallennettiin"
 
 #: ../user/profile_rate.php:36
 msgid "Thank you"
@@ -1793,11 +1793,11 @@ msgstr "Kiitos"
 
 #: ../user/profile_rate.php:39
 msgid "Your recommendation has been recorded."
-msgstr "Ehdotuksesi tallennettiin."
+msgstr "Suosituksesi tallennettiin."
 
 #: ../user/profile_rate.php:41
 msgid "Your vote to reject this profile has been recorded."
-msgstr ""
+msgstr "Ehdotuksesi profiilin torjumiseksi on tallennettu."
 
 #: ../user/profile_rate.php:44
 msgid "Return to profile."
@@ -1967,7 +1967,7 @@ msgstr "%1 -tiimien kärki"
 
 #: ../user/top_users.php:62
 msgid "Participant since"
-msgstr ""
+msgstr "Osallistunut alkaen"
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -3947,7 +3947,7 @@ msgstr "Viimeksi yhteydessä"
 
 #: ../inc/host.inc:678
 msgid "Merge computers by name"
-msgstr ""
+msgstr "Sulauta koneet nimien mukaan"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -4286,7 +4286,7 @@ msgstr "Saako %1 näyttää tietokoneesi nettisivullaan?"
 
 #: ../inc/prefs.inc:933
 msgid "Computing"
-msgstr ""
+msgstr "Laskenta"
 
 #: ../inc/prefs.inc:945
 msgid "Separate preferences for %1"
@@ -4594,7 +4594,7 @@ msgstr "Tehtävä raportoitiin liian myöhään vahvistettavaksi"
 
 #: ../inc/result.inc:211
 msgid "Couldn't send result"
-msgstr ""
+msgstr "Tehtävää ei voitu lähettää"
 
 #: ../inc/result.inc:215
 msgid "Too many errors (may have bug)"
@@ -5288,7 +5288,7 @@ msgstr "Tiimisi keskustelupalsta on poistettu. Voit %1luoda uuden%2."
 
 #: ../user/team_forum.php:120
 msgid "<p>"
-msgstr ""
+msgstr "<p>"
 
 #: ../user/team_forum.php:135
 msgid "Team Message Board Updated"
@@ -5626,7 +5626,7 @@ msgstr ""
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "%1 ei ole %2 jäsen"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
@@ -5872,7 +5872,7 @@ msgstr "myönnetyt pisteet"
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Suorituksessa olevat tehtävät"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
