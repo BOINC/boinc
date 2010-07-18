@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-18 10:58-0700\n"
+"PO-Revision-Date: 2010-07-18 11:48-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -467,7 +467,7 @@ msgstr "Viimeksi yhteydessä"
 
 #: ../inc/host.inc:678
 msgid "Merge computers by name"
-msgstr ""
+msgstr "Sulauta koneet nimien mukaan"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -640,7 +640,7 @@ msgstr ""
 #: ../inc/prefs.inc:210
 #, php-format
 msgid "% of total"
-msgstr ""
+msgstr "% kokonaismäärästä"
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
@@ -710,11 +710,11 @@ msgstr "Verkkoyhteyttä käytetään vain tunteina"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
+msgstr "Siirrä enintään %1 Versiosta 6.10.46+ %2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
-msgstr ""
+msgstr "Megatavua joka"
 
 #: ../inc/prefs.inc:274
 msgid ""
@@ -840,7 +840,7 @@ msgstr "Poista"
 
 #: ../inc/prefs.inc:790
 msgid "Computing"
-msgstr ""
+msgstr "Laskenta"
 
 #: ../inc/prefs.inc:801
 msgid "Separate preferences for %1"
@@ -1105,7 +1105,7 @@ msgstr "Ohjelman virhe"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
-msgstr ""
+msgstr "Ylimääräinen"
 
 #: ../inc/result.inc:175
 msgid "No reply"
@@ -1157,7 +1157,7 @@ msgstr "Tehtävä raportoitiin liian myöhään vahvistettavaksi"
 
 #: ../inc/result.inc:218
 msgid "Couldn't send result"
-msgstr ""
+msgstr "Tehtävää ei voitu lähettää"
 
 #: ../inc/result.inc:222
 msgid "Too many errors (may have bug)"
@@ -1332,7 +1332,7 @@ msgstr "Pyyntösi, perustajan vastauksen takaraja saavutettu."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "Päätä perustajuuden vaihto"
 
 #: ../inc/team.inc:60
 msgid "Requested by you"
@@ -1348,7 +1348,7 @@ msgstr "Ei mikään"
 
 #: ../inc/team.inc:67
 msgid "Initiate request"
-msgstr ""
+msgstr "Pyynnön aloitus"
 
 #: ../inc/team.inc:70
 msgid "Deferred"
@@ -1704,7 +1704,7 @@ msgstr "Profiili"
 
 #: ../inc/user.inc:248 ../inc/user.inc:370
 msgid "%1 posts"
-msgstr ""
+msgstr "%1 viestiä"
 
 #: ../inc/user.inc:260
 msgid "Notifications"
@@ -2934,11 +2934,11 @@ msgstr "Ei hakuehdot täyttäviä profiileja."
 
 #: ../user/profile_rate.php:27
 msgid "Invalid vote type:"
-msgstr ""
+msgstr "Virheellinen ehdotus:"
 
 #: ../user/profile_rate.php:32
 msgid "Vote Recorded"
-msgstr ""
+msgstr "Ehdotus tallennettiin"
 
 #: ../user/profile_rate.php:36
 msgid "Thank you"
@@ -2946,11 +2946,11 @@ msgstr "Kiitos"
 
 #: ../user/profile_rate.php:39
 msgid "Your recommendation has been recorded."
-msgstr "Ehdotuksesi tallennettiin."
+msgstr "Suosituksesi tallennettiin."
 
 #: ../user/profile_rate.php:41
 msgid "Your vote to reject this profile has been recorded."
-msgstr ""
+msgstr "Ehdotuksesi profiilin torjumiseksi on tallennettu."
 
 #: ../user/profile_rate.php:44
 msgid "Return to profile."
@@ -3633,7 +3633,7 @@ msgstr "Hakutulokset"
 
 #: ../user/team_lookup.php:84
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Hakutulokset haulle \"%1\""
 
 #: ../user/team_lookup.php:86
 msgid "You may view these teams' members, statistics, and information."
@@ -3891,7 +3891,7 @@ msgstr "%1 -tiimejä ei ole"
 
 #: ../user/top_users.php:62
 msgid "Participant since"
-msgstr ""
+msgstr "Osallistunut alkaen"
 
 #: ../user/uotd.php:27
 msgid "No user of the day has been chosen."
