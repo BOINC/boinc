@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-14 13:40-0700\n"
+"PO-Revision-Date: 2010-07-18 10:58-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -90,7 +90,7 @@ msgstr "Kirjoittaja"
 
 #: ../inc/forum.inc:1102 ../user/forum_forum.php:135
 msgid "Views"
-msgstr "Luettu"
+msgstr "Katsottu"
 
 #: ../inc/forum.inc:1102 ../inc/team.inc:120 ../user/forum_forum.php:135
 #: ../user/forum_index.php:93
@@ -344,7 +344,7 @@ msgstr "Poista tämä tietokone"
 
 #: ../inc/host.inc:198
 msgid "Merge duplicate records of this computer"
-msgstr ""
+msgstr "Sulauta tämän tietokoneen duplikaattitiedot"
 
 #: ../inc/host.inc:198
 msgid "Merge"
