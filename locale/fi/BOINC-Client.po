@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-07-14 23:20+0200\n"
+"PO-Revision-Date: 2010-07-18 18:01+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -44,34 +44,34 @@ msgstr "Viesti projektin palvelimelta:"
 
 #: cs_statefile.cpp:769
 msgid "XML syntax error in"
-msgstr ""
+msgstr "XML-syntaksivirhe"
 
 #: gui_rpc_server.cpp:189
 msgid "Can't resolve hostname in"
-msgstr ""
+msgstr "Ei voi selvittää konenimeä"
 
 #: log_flags.cpp:67
 #: log_flags.cpp:317
 #: log_flags.cpp:442
 msgid "Unexpected text in"
-msgstr ""
+msgstr "Odottamatonta tekstiä"
 
 #: log_flags.cpp:111
 #: log_flags.cpp:414
 msgid "Unrecognized tag in"
-msgstr ""
+msgstr "Tunnistamaton merkki"
 
 #: log_flags.cpp:433
 msgid "Missing start tag in"
-msgstr ""
+msgstr "Puuttuva alkumerkki"
 
 #: log_flags.cpp:459
 msgid "Unparsed tag in"
-msgstr ""
+msgstr "Jäsentämätön merkki"
 
 #: log_flags.cpp:467
 msgid "Missing end tag in"
-msgstr ""
+msgstr "Puuttuva loppumerkki"
 
 #: ../sched/handle_request.cpp:293
 msgid ""
