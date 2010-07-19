@@ -703,6 +703,12 @@ if test "${enable_manager}" = yes ; then
   AM_PATH_SQLITE3
 fi
 
+dnl ---------- XCB --------------------------------------------------------
+if test "${enable_manager}" = yes ; then
+  PKG_CHECK_MODULES(XCB, xcb)
+  PKG_CHECK_MODULES(XCBATOM, xcb-atom)
+fi
+
 dnl --------------------------------------------------------------------------------
 
 dnl Heres another way to set up host-specific stuff
@@ -881,6 +887,7 @@ AC_CONFIG_FILES([
                  apps/Makefile
                  clientgui/Makefile
                  clientgui/res/Makefile
+                 clientscr/Makefile
                  client/Makefile
                  client/win/boinc_path_config.py:py/boinc_path_config.py.in
                  client/scripts/Makefile

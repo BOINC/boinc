@@ -21,6 +21,7 @@ if ENABLE_CLIENT
 endif
 
 if ENABLE_MANAGER
+# CLIENTGUI_SUBDIRS = clientgui clientgui/res locale clientscr
    CLIENTGUI_SUBDIRS = clientgui clientgui/res locale
 endif
 

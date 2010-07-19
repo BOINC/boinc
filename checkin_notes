@@ -5227,3 +5227,15 @@ David  19 Jul 2010
         log_flags.cpp
     lib/
         coproc.cpp
+
+David  19 Jul 2010
+    - Added Linux screensaver from Nils Brause.
+        Note: I can't get this to build because if requires
+        a package (xcb-atom) that I can't find.
+        Need to resolve this.
+
+    configure.ac
+    Makefile.am
+    clientscr/
+        Makefile.am (new)
+        screensaver_x11.cpp (new)
