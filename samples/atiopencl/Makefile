@@ -1,9 +1,4 @@
-# Tuan Le
-# tuanle86@berkeley.edu
-# University of California, Berkeley
-# Berkeley Space Sciences Lab
-# Makefile for Linux
-# Date 06/22/2010
+# makefile for atiopencl BOINC example appication on Linux.
 
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
@@ -52,8 +47,6 @@ else
 endif
 
 PROGS = atiopencl \
-# uc2_graphics
-# make this optional so compile doesn't break on systems without OpenGL
 
 all: $(PROGS)
 
