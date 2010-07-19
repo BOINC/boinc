@@ -36,9 +36,9 @@
 #include "sysmon_win.h"
 
 
-static HANDLE g_hWindowsMonitorSystemThread = NULL;
-static DWORD g_WindowsMonitorSystemThreadID = NULL;
-static HWND g_hWndWindowsMonitorSystem = NULL;
+static HANDLE g_hWindowsMonitorSystemPowerThread = NULL;
+static HWND g_hWndWindowsMonitorSystemPower = NULL;
+static HANDLE g_hWindowsMonitorSystemProxyThread = NULL;
 
 
 // The following 3 functions are called in a separate thread,
@@ -96,6 +96,113 @@ static BOOL WINAPI console_control_handler( DWORD dwCtrlType ){
         break;
     }
     return bReturnStatus;
+}
+
+// Trap events on Windows so we can clean ourselves up.
+static LRESULT CALLBACK WindowsMonitorSystemPowerWndProc(
+    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
+) {
+    switch(uMsg) {
+        // On Windows power events are broadcast via the WM_POWERBROADCAST
+        //   window message.  It has the following parameters:
+        //     PBT_APMQUERYSUSPEND
+        //     PBT_APMQUERYSUSPENDFAILED
+        //     PBT_APMSUSPEND
+        //     PBT_APMRESUMECRITICAL
+        //     PBT_APMRESUMESUSPEND
+        //     PBT_APMBATTERYLOW
+        //     PBT_APMPOWERSTATUSCHANGE
+        //     PBT_APMOEMEVENT
+        //     PBT_APMRESUMEAUTOMATIC 
+        case WM_POWERBROADCAST:
+            switch(wParam) {
+                // System is preparing to suspend.  This is valid on
+                //   Windows versions older than Vista
+                case PBT_APMQUERYSUSPEND:
+                    return TRUE;
+                    break;
+
+                // System is resuming from a failed request to suspend
+                //   activity.  This is only valid on Windows versions
+                //   older than Vista
+                case PBT_APMQUERYSUSPENDFAILED:
+                    resume_client();
+                    break;
+
+                // System is critically low on battery power.  This is
+                //   only valid on Windows versions older than Vista
+                case PBT_APMBATTERYLOW:
+                    msg_printf(NULL, MSG_INFO, "Critical battery alarm, Windows is suspending operations");
+                    suspend_client(true);
+                    break;
+
+                // System is suspending
+                case PBT_APMSUSPEND:
+                    msg_printf(NULL, MSG_INFO, "Windows is suspending operations");
+                    suspend_client(true);
+                    break;
+
+                // System is resuming from a normal power event
+                case PBT_APMRESUMESUSPEND:
+                    msg_printf(NULL, MSG_INFO, "Windows is resuming operations");
+
+                    // Check for a proxy
+                    working_proxy_info.need_autodetect_proxy_settings = true;
+
+                    resume_client();
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
+    return (DefWindowProc(hWnd, uMsg, wParam, lParam));
+}
+
+// Create a thread to monitor system events
+static DWORD WINAPI WindowsMonitorSystemPowerThread( LPVOID  ) {
+    WNDCLASS wc;
+    MSG msg;
+
+    wc.style         = CS_GLOBALCLASS;
+    wc.lpfnWndProc   = (WNDPROC)WindowsMonitorSystemPowerWndProc;
+    wc.cbClsExtra    = 0;
+    wc.cbWndExtra    = 0;
+    wc.hInstance     = NULL;
+    wc.hIcon         = NULL;
+    wc.hCursor       = NULL;
+    wc.hbrBackground = NULL;
+    wc.lpszMenuName  = NULL;
+	wc.lpszClassName = "BOINCWindowsMonitorSystemPower";
+
+    if (!RegisterClass(&wc)) {
+        log_message_error("Failed to register the WindowsMonitorSystem window class.");
+        return 1;
+    }
+
+    g_hWndWindowsMonitorSystemPower = CreateWindow(
+        wc.lpszClassName,
+		"BOINC Monitor System (Power)",
+        WS_OVERLAPPEDWINDOW & ~WS_VISIBLE,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        NULL,
+        NULL,
+        NULL,
+        NULL);
+
+    if (!g_hWndWindowsMonitorSystemPower) {
+        log_message_error("Failed to create the WindowsMonitorSystem window.");
+        return 0;
+    }
+
+    while (GetMessage(&msg, NULL, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+    return 0;
 }
 
 // Detect any proxy configuration settings automatically.
@@ -226,132 +333,20 @@ static void windows_detect_autoproxy_settings() {
     }
 }
 
-// Trap events on Windows so we can clean ourselves up.
-static LRESULT CALLBACK WindowsMonitorSystemWndProc(
-    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
-) {
-    switch(uMsg) {
-        // Process Timer Events
-        case WM_TIMER:
-            switch(wParam) {
+static DWORD WINAPI WindowsMonitorSystemProxyThread( LPVOID  ) {
+     
+    while (1) {
 
-                // System Monitor 1 second timer
-                case 1:
-                    if (working_proxy_info.need_autodetect_proxy_settings) {
-                        working_proxy_info.have_autodetect_proxy_settings = false;
-                        windows_detect_autoproxy_settings();
-                        working_proxy_info.need_autodetect_proxy_settings = false;
-                        working_proxy_info.have_autodetect_proxy_settings = true;
-                    }
-                default:
-                    break;
-            }
-            break;
+        if (working_proxy_info.need_autodetect_proxy_settings) {
+            working_proxy_info.have_autodetect_proxy_settings = false;
+            windows_detect_autoproxy_settings();
+            working_proxy_info.need_autodetect_proxy_settings = false;
+            working_proxy_info.have_autodetect_proxy_settings = true;
+        }
 
-        // On Windows power events are broadcast via the WM_POWERBROADCAST
-        //   window message.  It has the following parameters:
-        //     PBT_APMQUERYSUSPEND
-        //     PBT_APMQUERYSUSPENDFAILED
-        //     PBT_APMSUSPEND
-        //     PBT_APMRESUMECRITICAL
-        //     PBT_APMRESUMESUSPEND
-        //     PBT_APMBATTERYLOW
-        //     PBT_APMPOWERSTATUSCHANGE
-        //     PBT_APMOEMEVENT
-        //     PBT_APMRESUMEAUTOMATIC 
-        case WM_POWERBROADCAST:
-            switch(wParam) {
-                // System is preparing to suspend.  This is valid on
-                //   Windows versions older than Vista
-                case PBT_APMQUERYSUSPEND:
-                    return TRUE;
-                    break;
-
-                // System is resuming from a failed request to suspend
-                //   activity.  This is only valid on Windows versions
-                //   older than Vista
-                case PBT_APMQUERYSUSPENDFAILED:
-                    resume_client();
-                    break;
-
-                // System is critically low on battery power.  This is
-                //   only valid on Windows versions older than Vista
-                case PBT_APMBATTERYLOW:
-                    msg_printf(NULL, MSG_INFO, "Critical battery alarm, Windows is suspending operations");
-                    suspend_client(true);
-                    break;
-
-                // System is suspending
-                case PBT_APMSUSPEND:
-                    msg_printf(NULL, MSG_INFO, "Windows is suspending operations");
-                    suspend_client(true);
-                    break;
-
-                // System is resuming from a normal power event
-                case PBT_APMRESUMESUSPEND:
-                    msg_printf(NULL, MSG_INFO, "Windows is resuming operations");
-
-                    // Check for a proxy
-                    working_proxy_info.need_autodetect_proxy_settings = true;
-
-                    resume_client();
-                    break;
-            }
-            break;
-        default:
-            break;
-    }
-    return (DefWindowProc(hWnd, uMsg, wParam, lParam));
-}
-
-// Create a thread to monitor system events
-static DWORD WINAPI WindowsMonitorSystemThread( LPVOID  ) {
-    WNDCLASS wc;
-    MSG msg;
-
-    wc.style         = CS_GLOBALCLASS;
-    wc.lpfnWndProc   = (WNDPROC)WindowsMonitorSystemWndProc;
-    wc.cbClsExtra    = 0;
-    wc.cbWndExtra    = 0;
-    wc.hInstance     = NULL;
-    wc.hIcon         = NULL;
-    wc.hCursor       = NULL;
-    wc.hbrBackground = NULL;
-    wc.lpszMenuName  = NULL;
-	wc.lpszClassName = "BOINCWindowsMonitorSystem";
-
-    if (!RegisterClass(&wc)) {
-        log_message_error("Failed to register the WindowsMonitorSystem window class.");
-        return 1;
+        Sleep(1000);
     }
 
-    /* Create an invisible window */
-    g_hWndWindowsMonitorSystem = CreateWindow(
-        wc.lpszClassName,
-		"BOINC Monitor System",
-        WS_OVERLAPPEDWINDOW & ~WS_VISIBLE,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        NULL,
-        NULL,
-        NULL,
-        NULL);
-
-    if (!g_hWndWindowsMonitorSystem) {
-        log_message_error("Failed to create the WindowsMonitorSystem window.");
-        return 0;
-    }
-
-    if (!SetTimer(g_hWndWindowsMonitorSystem, 1, 1000, NULL)) {
-        log_message_error("Failed to create the WindowsMonitorSystem timer.");
-    }
-
-    while (GetMessage(&msg, NULL, 0, 0)) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
     return 0;
 }
 
@@ -364,21 +359,31 @@ int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
         return ERR_IO;
     }
 
-    // Create a window to receive system events that are
-    //   not taken care of by the console APIs.  The console
-    //   APIs haven't been updated to handle various power states.
-    g_hWindowsMonitorSystemThread = CreateThread(
+    // Create a window to receive system power events.
+    g_hWindowsMonitorSystemPowerThread = CreateThread(
         NULL,
         0,
-        WindowsMonitorSystemThread,
+        WindowsMonitorSystemPowerThread,
         NULL,
         0,
-        &g_WindowsMonitorSystemThreadID);
+        NULL);
 
-    if (!g_hWindowsMonitorSystemThread) {
-        g_hWindowsMonitorSystemThread = NULL;
-        g_WindowsMonitorSystemThreadID = NULL;
-        g_hWndWindowsMonitorSystem = NULL;
+    if (!g_hWindowsMonitorSystemPowerThread) {
+        g_hWindowsMonitorSystemPowerThread = NULL;
+        g_hWndWindowsMonitorSystemPower = NULL;
+    }
+
+    // Create a thread to handle proxy auto-detection.
+    g_hWindowsMonitorSystemProxyThread = CreateThread(
+        NULL,
+        0,
+        WindowsMonitorSystemProxyThread,
+        NULL,
+        0,
+        NULL);
+
+    if (!g_hWindowsMonitorSystemProxyThread) {
+        g_hWindowsMonitorSystemProxyThread = NULL;
     }
 
     return 0;
@@ -387,18 +392,17 @@ int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
 // Cleanup the system event monitor
 int cleanup_system_monitor() {
 
-    KillTimer(g_hWndWindowsMonitorSystem, 1);
-
-    if (g_WindowsMonitorSystemThreadID) {
-	    PostThreadMessage(g_WindowsMonitorSystemThreadID, WM_QUIT, 0, 0);
-        WaitForSingleObject(g_hWindowsMonitorSystemThread, 10000);
+    if (g_hWindowsMonitorSystemPowerThread) {
+        TerminateThread(g_hWindowsMonitorSystemPowerThread, 0);
+        CloseHandle(g_hWindowsMonitorSystemPowerThread);
+        g_hWindowsMonitorSystemPowerThread = NULL;
+        g_hWndWindowsMonitorSystemPower = NULL;
     }
 
-    if (g_hWindowsMonitorSystemThread) {
-        CloseHandle(g_hWindowsMonitorSystemThread);
-        g_hWindowsMonitorSystemThread = NULL;
-        g_WindowsMonitorSystemThreadID = NULL;
-        g_hWndWindowsMonitorSystem = NULL;
+    if (g_hWindowsMonitorSystemProxyThread) {
+        TerminateThread(g_hWindowsMonitorSystemProxyThread, 0);
+        CloseHandle(g_hWindowsMonitorSystemProxyThread);
+        g_hWindowsMonitorSystemProxyThread = NULL;
     }
 
     return 0;

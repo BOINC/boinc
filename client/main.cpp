@@ -308,7 +308,7 @@ static int initialize() {
 #ifdef _WIN32
     if(!startup_idle_monitor()) {
         log_message_error(
-            "Failed to initialize the BOINC Client Library Interface."
+            "Failed to initialize the BOINC idle monitor interface."
             "BOINC will not be able to determine if the user is idle or not...\n"
         );
     }
