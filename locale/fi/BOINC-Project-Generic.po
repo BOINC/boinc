@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-02-19 09:49 PST\n"
-"PO-Revision-Date: 2010-07-18 11:32-0700\n"
+"PO-Revision-Date: 2010-07-19 00:43-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -937,7 +937,7 @@ msgstr "Luo tili"
 
 #: ../user/create_profile.php:31
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "VIRHE: %1 ei ole olemassa!  Valikkoa ei voi luoda.<br>"
 
 #: ../user/create_profile.php:51
 msgid "Picture"
@@ -1264,7 +1264,7 @@ msgstr "On jo ystävä"
 
 #: ../user/friend.php:37
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Pyysit ystävyyttä %1 kanssa %2."
 
 #: ../user/friend.php:39
 msgid "This request is still pending confirmation."
@@ -3801,17 +3801,17 @@ msgstr "Viimeksi ollut yhteydessä palvelimeen"
 #: ../inc/host.inc:180
 #, php-format
 msgid "% of time BOINC client is running"
-msgstr "% o  ajasta, jolloin BOINC on käynnissä"
+msgstr "% ajasta, jolloin BOINC on käynnissä"
 
 #: ../inc/host.inc:182
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "BOINCin ollessa käynnissä on internetyhteys käytössä % o  ajasta"
+msgstr "BOINCin ollessa käynnissä on internetyhteys käytössä % ajasta"
 
 #: ../inc/host.inc:184
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr "BOINCin ollessa käynnissä on laskenta sallittu % o  ajasta"
+msgstr "BOINCin ollessa käynnissä on laskenta sallittu % ajasta"
 
 #: ../inc/host.inc:186
 msgid "Average CPU efficiency"
@@ -4072,22 +4072,22 @@ msgstr "(Arvoa %s pienempiä ei huomioida)"
 #: ../inc/prefs.inc:168
 #, php-format
 msgid "% of total disk space"
-msgstr "% of levyn kokonaiskapasiteetistä"
+msgstr "% levyn kokonaiskapasiteetistä"
 
 #: ../inc/prefs.inc:169
 #, php-format
 msgid "% of page file (swap space)"
-msgstr "% of sivutustiedostosta (näennäismuistista)"
+msgstr "% sivutustiedostosta (näennäismuistista)"
 
 #: ../inc/prefs.inc:170
 #, php-format
 msgid "% of memory when computer is in use"
-msgstr "% of muistista tietokoneen ollessa käytössä"
+msgstr "% muistista tietokoneen ollessa käytössä"
 
 #: ../inc/prefs.inc:171
 #, php-format
 msgid "% of memory when computer is not in use"
-msgstr "% of muistista tietokoneen ollessa jouten"
+msgstr "% muistista tietokoneen ollessa jouten"
 
 #: ../inc/prefs.inc:172
 msgid "Network usage"
@@ -5378,7 +5378,7 @@ msgstr "Olet nyt tiimin %1 perustaja."
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "Pyysit tiimin %1 perustajuutta %2."
 
 #: ../user/team_founder_transfer_form.php:45
 msgid "60 days have elapsed since your request, and the founder has not responded. You may now assume foundership by clicking here:"
@@ -5406,7 +5406,7 @@ msgstr "Pyydä perustajuutta"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
-msgstr ""
+msgstr "%1 on jo pyytänyt perustajan vaihtoa %2."
 
 #: ../user/team_founder_transfer_form.php:75
 msgid "A foundership change was requested during the last 90 days, so new requests are not allowed. Please try again later."
@@ -5471,7 +5471,7 @@ msgstr ""
 
 #: ../user/team_lookup.php:66
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
+msgstr "Voit katsoa näiden tiimien jäseniä, tilastoja ja tietoja."
 
 #: ../user/team_lookup.php:75
 msgid "More than 100 teams match your search. The first 100 are shown."
