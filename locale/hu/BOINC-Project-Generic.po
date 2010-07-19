@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-06-25 00:38-0700\n"
+"PO-Revision-Date: 2010-07-18 23:41-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Bookmarks: 7,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
@@ -118,7 +118,7 @@ msgstr "Minden üzenőfal minden témáját 'olvasott'-nak jelöli."
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "Nincs kiszolgáló"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
@@ -321,11 +321,11 @@ msgstr "Feladatok"
 
 #: ../inc/host.inc:179
 msgid "Number of times client has contacted server"
-msgstr ""
+msgstr "A kliens szerverhez való kapcsolódásainak száma"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
-msgstr ""
+msgstr "Utolsó kapcsolódás a kiszolgálóhoz"
 
 #: ../inc/host.inc:181
 #, php-format
@@ -344,7 +344,7 @@ msgstr ""
 
 #: ../inc/host.inc:187
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "Átlagos CPU teljesítmény"
 
 #: ../inc/host.inc:190
 msgid "Task duration correction factor"
@@ -352,11 +352,11 @@ msgstr ""
 
 #: ../inc/host.inc:192 ../inc/host.inc:614
 msgid "Location"
-msgstr ""
+msgstr "Hely"
 
 #: ../inc/host.inc:194
 msgid "Delete this computer"
-msgstr ""
+msgstr "Számítógép törlése"
 
 #: ../inc/host.inc:198
 msgid "Merge duplicate records of this computer"
