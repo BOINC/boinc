@@ -21,7 +21,12 @@
 #ifndef ATIOPENCL_H_
 #define ATIOPENCL_H_
 
+#ifdef __APPLE__
+#include <OpenCL/opencl.h>
+#else
 #include <CL/opencl.h>
+#endif
+
 #include <string.h>
 #include <math.h>
 #include <time.h>
@@ -41,7 +46,9 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
+#ifndef __APPLE__
 #include "config.h"
+#endif
 #include <cstdio>
 #include <cctype>
 #include <ctime>

@@ -733,10 +733,10 @@ int check_device_capability(size_t *globalThreads, size_t *localThreads) {
     globalThreads[0] = width*height; // # of threads associated with global matrixSize.
     localThreads[0]  = 1;  // # of threads associated with local matrixSize.
 
-    if (globalThreads[0] > maxWorkItemSizes[0] || localThreads[0] > maxWorkGroupSize) {
+    /*if (globalThreads[0] > maxWorkItemSizes[0] || localThreads[0] > maxWorkGroupSize) {
         printf("Unsupported: Device does not support requested number of work items.");
         return 1;
-    }
+    }*/
     return 0;
 }
 
