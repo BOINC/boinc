@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-19 12:34-0000\n"
+"PO-Revision-Date: 2010-07-19 14:39-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -368,7 +368,7 @@ msgstr "% de tempo que o cliente BOINC está em execução"
 #: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
+msgstr "Enquanto o BOINC está em execução, % de tempo que o computador anfitrião tem conexão à Internet"
 
 #: ../inc/host.inc:185
 #, php-format
@@ -3141,11 +3141,11 @@ msgstr "Mudar fundador de %1"
 
 #: ../user/team_change_founder_form.php:41
 msgid "Team member %1 requested this team's foundership on %2, but left the team, thus canceling the request."
-msgstr ""
+msgstr "O membro da equipa%1 solicitou a liderança desta equipa em %2, mas deixou a equipa e logo o pedido foi cancelado."
 
 #: ../user/team_change_founder_form.php:47
 msgid "Team member %1 has requested this team's foundership. This may be because you left the team or haven't had contact with the team for a long time."
-msgstr ""
+msgstr "O membro da equipa %1 solicitou a liderança desta equipa. Isto poderá ter acontecido porque deixou a equipa ou não contacta a equipa por um longo periodo de tempo."
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
@@ -3783,7 +3783,7 @@ msgstr "Nome de utilizador começa com"
 
 #: ../user/user_search.php:115
 msgid "Decreasing sign-up time"
-msgstr ""
+msgstr "Diminuir o tempo de inscrição"
 
 #: ../user/user_search.php:116
 msgid "Decreasing average credit"
