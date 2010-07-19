@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-18 11:48-0700\n"
+"PO-Revision-Date: 2010-07-19 00:22-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1936,7 +1936,7 @@ msgstr "Luo tili"
 
 #: ../user/create_profile.php:31
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "VIRHE: %1 ei ole olemassa!  Valikkoa ei voi luoda.<br>"
 
 #: ../user/create_profile.php:51
 msgid "Picture"
@@ -2346,7 +2346,7 @@ msgstr "On jo ystävä"
 
 #: ../user/friend.php:37
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Pyysit ystävyyttä %1 kanssa %2."
 
 #: ../user/friend.php:39
 msgid "This request is still pending confirmation."
