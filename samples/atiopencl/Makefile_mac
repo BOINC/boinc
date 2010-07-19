@@ -1,0 +1,34 @@
+# makefile for atiopencl BOINC example appication on Mac OS X 10.6
+
+BOINC_DIR = ../..
+BOINC_API_DIR = $(BOINC_DIR)/api
+BOINC_LIB_DIR = $(BOINC_DIR)/lib 
+BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
+
+CXXFLAGS = -g \
+    -I$(BOINC_DIR) \
+    -I$(BOINC_LIB_DIR) \
+    -I$(BOINC_API_DIR) \
+    -lpthread \
+    -L.
+
+PROGS = atiopencl \
+
+all: $(PROGS)
+
+clean:
+	/bin/rm -f $(PROGS) *.o
+
+distclean:
+	/bin/rm -f $(PROGS) *.o
+
+install: atiopencl
+
+atiopencl: atiopencl.o
+	$(CXX) $(CXXFLAGS) -o atiopencl atiopencl.o \
+        -framework OpenCL \
+        -lboinc_api -L$(BOINC_BUILD_DIR) \
+        -lboinc -L$(BOINC_BUILD_DIR)
+
+atiopencl.o: atiopencl.cpp atiopencl.hpp
+	$(CXX) $(CXXFLAGS) -c atiopencl.cpp
