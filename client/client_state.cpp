@@ -120,7 +120,6 @@ CLIENT_STATE::CLIENT_STATE():
     executing_as_daemon = false;
     redirect_io = false;
     disable_graphics = false;
-    work_fetch_no_new_work = false;
     cant_write_state_file = false;
 
     debt_interval_start = 0;
@@ -1815,6 +1814,7 @@ void CLIENT_STATE::start_abort_sequence() {
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         p->min_rpc_time = 0;
+        p->dont_request_more_work = true;
     }
 }
 

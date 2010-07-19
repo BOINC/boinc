@@ -151,10 +151,6 @@ void COPROCS::write_xml(MIOFILE& mf) {
 #endif
 }
 
-#ifdef _WIN32
-
-#endif
-
 void COPROC_CUDA::description(char* buf) {
     char vers[256];
     if (display_driver_version) {

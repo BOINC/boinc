@@ -179,7 +179,6 @@ private:
     double fetchable_resource_share();
     double total_cpu_time_this_debt_interval;
     double cpu_shortfall;
-    bool work_fetch_no_new_work;
     bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
     bool must_check_work_fetch;

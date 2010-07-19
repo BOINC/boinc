@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-06-06 12:55+0200\n"
+"POT-Creation-Date: 2010-07-14 12:19 PDT\n"
+"PO-Revision-Date: 2010-07-19 05:25+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <weboglan@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Bookmarks: -1,133,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Türkçe"
@@ -36,7 +35,7 @@ msgid "Advanced search"
 msgstr "Gelişmiş arama"
 
 #: ../inc/forum.inc:131
-#: ../inc/user.inc:247
+#: ../inc/user.inc:251
 #: ../user/pm.php:64
 #: ../user/pm.php:129
 msgid "Private messages"
@@ -50,8 +49,8 @@ msgstr "Soru ve Yanıtlar"
 
 #: ../inc/forum.inc:149
 #: ../inc/forum.inc:182
-#: ../inc/user.inc:244
-#: ../inc/user.inc:366
+#: ../inc/user.inc:248
+#: ../inc/user.inc:370
 #: ../user/forum_forum.php:72
 #: ../user/sample_index.php:70
 #: ../project.sample/project.inc:49
@@ -119,18 +118,20 @@ msgid "Unavailable"
 msgstr "Mevcut değil"
 
 #: ../inc/host.inc:55
-#: ../inc/prefs.inc:1000
-#: ../project.sample/project.inc:49
+#: ../inc/prefs.inc:618
+#: ../inc/prefs.inc:1018
 msgid "Home"
 msgstr "Ev"
 
 #: ../inc/host.inc:56
-#: ../inc/prefs.inc:1001
+#: ../inc/prefs.inc:620
+#: ../inc/prefs.inc:1019
 msgid "Work"
 msgstr "İş"
 
 #: ../inc/host.inc:57
-#: ../inc/prefs.inc:1002
+#: ../inc/prefs.inc:619
+#: ../inc/prefs.inc:1020
 msgid "School"
 msgstr "Okul"
 
@@ -172,16 +173,16 @@ msgid "UTC %1 hours"
 msgstr "UTC %1 saat"
 
 #: ../inc/host.inc:98
-#: ../inc/host.inc:611
+#: ../inc/host.inc:612
 #: ../inc/result.inc:378
 #: ../inc/team.inc:202
 #: ../inc/team.inc:345
-#: ../inc/user.inc:198
+#: ../inc/user.inc:202
 #: ../user/account_finish.php:40
 #: ../user/create_account_form.php:75
 #: ../user/team_admins.php:60
 #: ../user/team_change_founder_form.php:75
-#: ../user/team_email_list.php:61
+#: ../user/team_email_list.php:62
 #: ../user/top_users.php:47
 #: ../user/user_search.php:102
 #: ../user/user_search.php:158
@@ -190,12 +191,12 @@ msgstr "İsim"
 
 #: ../inc/host.inc:102
 #: ../inc/host.inc:104
-#: ../inc/host.inc:212
+#: ../inc/host.inc:213
 msgid "Owner"
 msgstr "Sahibi"
 
 #: ../inc/host.inc:104
-#: ../inc/host.inc:317
+#: ../inc/host.inc:318
 msgid "Anonymous"
 msgstr "Anonim"
 
@@ -205,19 +206,19 @@ msgid "Created"
 msgstr "Oluşturulma"
 
 #: ../inc/host.inc:109
-#: ../inc/host.inc:216
-#: ../inc/host.inc:221
-#: ../inc/host.inc:620
+#: ../inc/host.inc:217
+#: ../inc/host.inc:222
+#: ../inc/host.inc:621
 #: ../inc/team.inc:94
 #: ../inc/team.inc:207
 #: ../inc/team.inc:212
 #: ../inc/team.inc:214
 #: ../inc/team.inc:351
 #: ../inc/team.inc:356
-#: ../inc/user.inc:118
-#: ../inc/user.inc:132
+#: ../inc/user.inc:122
+#: ../inc/user.inc:136
 #: ../user/team_change_founder_form.php:76
-#: ../user/team_email_list.php:61
+#: ../user/team_email_list.php:62
 #: ../user/team_remove_inactive_form.php:39
 #: ../user/top_users.php:52
 #: ../user/top_users.php:57
@@ -227,7 +228,7 @@ msgid "Total credit"
 msgstr "Toplam kredi"
 
 #: ../inc/host.inc:110
-#: ../inc/user.inc:118
+#: ../inc/user.inc:122
 #: ../user/team_search.php:67
 #: ../user/user_search.php:102
 #: ../user/user_search.php:158
@@ -251,7 +252,7 @@ msgid "Coprocessors"
 msgstr "Yardımcı işlemciler"
 
 #: ../inc/host.inc:119
-#: ../inc/host.inc:626
+#: ../inc/host.inc:627
 msgid "Operating System"
 msgstr "İşletim sistemi"
 
@@ -318,10 +319,10 @@ msgstr "%1 KB/sn"
 
 #: ../inc/host.inc:153
 #: ../inc/host.inc:160
-#: ../inc/result.inc:148
-#: ../inc/result.inc:158
-#: ../inc/result.inc:176
-#: ../inc/result.inc:208
+#: ../inc/result.inc:152
+#: ../inc/result.inc:162
+#: ../inc/result.inc:180
+#: ../inc/result.inc:212
 msgid "Unknown"
 msgstr "Bilinmiyor"
 
@@ -338,199 +339,200 @@ msgstr "Ortalama geri dönüş zamanı"
 msgid "%1 days"
 msgstr "%1 gün"
 
-#: ../inc/host.inc:165
-msgid "Maximum daily WU quota per CPU"
-msgstr "CPU başına günlük iş birimi kotası"
+#: ../inc/host.inc:164
+msgid "Application details"
+msgstr "Uygulama detayları"
 
 #: ../inc/host.inc:165
-msgid "%1/day"
-msgstr "%1/gün"
+msgid "Show"
+msgstr "Göster"
 
-#: ../inc/host.inc:174
-#: ../inc/host.inc:301
-#: ../inc/user.inc:149
+#: ../inc/host.inc:175
+#: ../inc/host.inc:302
+#: ../inc/user.inc:153
 msgid "Tasks"
 msgstr "İşler"
 
-#: ../inc/host.inc:178
+#: ../inc/host.inc:179
 msgid "Number of times client has contacted server"
 msgstr "İstemcinin sunucuya bağlanma sayısı"
 
-#: ../inc/host.inc:179
+#: ../inc/host.inc:180
 msgid "Last time contacted server"
 msgstr "Sunucuya son bağlandığı zaman"
 
-#: ../inc/host.inc:180
+#: ../inc/host.inc:181
 #, php-format
 msgid "% of time BOINC client is running"
 msgstr "BOINC istemcisinin çalışır durumda olduğu zaman yüzdesi"
 
-#: ../inc/host.inc:182
+#: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr "BOINC çalışırken, bilgisayarın internet bağlantısına sahip olduğu zaman yüzdesi"
 
-#: ../inc/host.inc:184
+#: ../inc/host.inc:185
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
 msgstr "BOINC çalışırken, yeni işlerin kabul edildiği zaman yüzdesi"
 
-#: ../inc/host.inc:186
+#: ../inc/host.inc:187
 msgid "Average CPU efficiency"
 msgstr "Ortalama CPU verimi"
 
-#: ../inc/host.inc:189
+#: ../inc/host.inc:190
 msgid "Task duration correction factor"
 msgstr "İş süre düzeltme çarpanı"
 
-#: ../inc/host.inc:191
-#: ../inc/host.inc:613
+#: ../inc/host.inc:192
+#: ../inc/host.inc:614
 msgid "Location"
 msgstr "Konum"
 
-#: ../inc/host.inc:193
+#: ../inc/host.inc:194
 msgid "Delete this computer"
 msgstr "Bu bilgisayarı sil"
 
-#: ../inc/host.inc:197
+#: ../inc/host.inc:198
 msgid "Merge duplicate records of this computer"
 msgstr "Bu bilgisayarın yinelenen kayıtlarını birleştir"
 
-#: ../inc/host.inc:197
+#: ../inc/host.inc:198
 msgid "Merge"
 msgstr "Birleştir"
 
-#: ../inc/host.inc:210
+#: ../inc/host.inc:211
 msgid "Computer info"
 msgstr "Bilgisayar bilgisi"
 
-#: ../inc/host.inc:211
-#: ../inc/host.inc:615
+#: ../inc/host.inc:212
+#: ../inc/host.inc:616
 #: ../inc/team.inc:344
 #: ../user/top_users.php:46
 msgid "Rank"
 msgstr "Sıra"
 
-#: ../inc/host.inc:215
-#: ../inc/host.inc:618
+#: ../inc/host.inc:216
+#: ../inc/host.inc:619
 msgid "Avg. credit"
 msgstr "Ort. kredi"
 
-#: ../inc/host.inc:220
+#: ../inc/host.inc:221
 #: ../inc/team.inc:95
 #: ../inc/team.inc:208
 #: ../inc/team.inc:217
 #: ../inc/team.inc:219
 #: ../inc/team.inc:350
 #: ../inc/team.inc:355
-#: ../inc/user.inc:133
+#: ../inc/user.inc:137
 #: ../user/team_change_founder_form.php:77
-#: ../user/team_email_list.php:61
+#: ../user/team_email_list.php:62
 #: ../user/team_remove_inactive_form.php:40
 #: ../user/top_users.php:51
 #: ../user/top_users.php:56
 msgid "Recent average credit"
 msgstr "Güncel ortalama kredi"
 
-#: ../inc/host.inc:225
+#: ../inc/host.inc:226
 msgid "BOINC version"
 msgstr "BOINC sürümü"
 
-#: ../inc/host.inc:226
-#: ../inc/host.inc:623
+#: ../inc/host.inc:227
+#: ../inc/host.inc:624
+#: ../inc/result.inc:42
 msgid "CPU"
 msgstr "CPU"
 
-#: ../inc/host.inc:227
-#: ../inc/host.inc:624
+#: ../inc/host.inc:228
+#: ../inc/host.inc:625
 msgid "GPU"
 msgstr "GPU"
 
-#: ../inc/host.inc:228
+#: ../inc/host.inc:229
 msgid "Operating system"
 msgstr "İşletim sistemi"
 
-#: ../inc/host.inc:280
+#: ../inc/host.inc:281
 msgid "(%1 processors)"
 msgstr "(%1 işlemci)"
 
-#: ../inc/host.inc:300
+#: ../inc/host.inc:301
 msgid "Details"
 msgstr "Detaylar"
 
-#: ../inc/host.inc:305
+#: ../inc/host.inc:306
 msgid "Cross-project stats:"
 msgstr "Çapraz-proje ist.:"
 
-#: ../inc/host.inc:459
+#: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
 msgstr "Sunucu %1 kullanım süresi olarak örtüşmüyor:"
 
-#: ../inc/host.inc:466
+#: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
 msgstr "Sunucu %1 farklı bir işletim sistemine sahip:"
 
-#: ../inc/host.inc:472
+#: ../inc/host.inc:473
 msgid "Host %1 has an incompatible CPU:"
 msgstr "Sunucu %1 farklı bir CPU'ya sahip:"
 
-#: ../inc/host.inc:539
+#: ../inc/host.inc:540
 msgid "same host"
 msgstr "aynı sunucu"
 
-#: ../inc/host.inc:542
+#: ../inc/host.inc:543
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr "Sunucu %1 ile %2 birleştirilemedi. Birbirlerinden farklılar"
 
-#: ../inc/host.inc:545
+#: ../inc/host.inc:546
 msgid "Merging host %1 into host %2"
 msgstr "Sunucu %1, %2 ile birleştiriliyor"
 
-#: ../inc/host.inc:562
+#: ../inc/host.inc:563
 msgid "Couldn't update credit of new computer"
 msgstr "Yeni bilgisayarın kredisi güncellenemedi"
 
-#: ../inc/host.inc:566
+#: ../inc/host.inc:567
 msgid "Couldn't update results"
 msgstr "Sonuçlar güncellenemedi"
 
-#: ../inc/host.inc:571
+#: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
 msgstr "Eski bilgisayar kullanımdan kaldırılamadı"
 
-#: ../inc/host.inc:573
+#: ../inc/host.inc:574
 msgid "Retired old computer %1"
 msgstr "Eski bilgisayar %1 kullanımdan kaldırıldı"
 
-#: ../inc/host.inc:596
-#: ../inc/host.inc:599
+#: ../inc/host.inc:597
+#: ../inc/host.inc:600
 msgid "Show:"
 msgstr "Göster:"
 
-#: ../inc/host.inc:596
-#: ../inc/host.inc:599
+#: ../inc/host.inc:597
+#: ../inc/host.inc:600
 msgid "All computers"
 msgstr "Tüm bilgisayarlar"
 
-#: ../inc/host.inc:596
-#: ../inc/host.inc:599
+#: ../inc/host.inc:597
+#: ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
 msgstr "Yalnızca son 30 gün içerisinde aktif olan bilgisayarlar"
 
-#: ../inc/host.inc:608
+#: ../inc/host.inc:609
 #: ../inc/result.inc:387
 msgid "Computer ID"
 msgstr "Bilgisayar NO"
 
-#: ../inc/host.inc:621
+#: ../inc/host.inc:622
 msgid "BOINC<br>version"
 msgstr "BOINC<br>sürümü"
 
-#: ../inc/host.inc:628
+#: ../inc/host.inc:629
 msgid "Last contact"
 msgstr "Son bağlantı"
 
-#: ../inc/host.inc:677
+#: ../inc/host.inc:678
 msgid "Merge computers by name"
 msgstr "Bilgisayarları isme göre birleştir"
 
@@ -556,7 +558,7 @@ msgid "Write"
 msgstr "Yaz"
 
 #: ../inc/pm.inc:33
-#: ../inc/user.inc:369
+#: ../inc/user.inc:373
 msgid "Send private message"
 msgstr "Özel mesaj gönder"
 
@@ -802,130 +804,124 @@ msgid "Run test applications? %1 This helps us develop applications, but may cau
 msgstr "Test uygulamaları çalıştırılsın mı? %1 Bu, uygulamaları geliştirme konusunda bize yardımcı olacak. Ancak, bazen iş hesaplamalarının başarısız olmasına sebep olabilir. %2"
 
 #: ../inc/prefs.inc:347
+msgid "Emails will be sent from %1; make sure your spam filter accepts this address."
+msgstr "E-postalar %1 adresinden gönderilecek; gereksiz posta (spam) filtrenizin bu adresi kabul ettiğinden emin olun."
+
+#: ../inc/prefs.inc:354
+msgid "Is it OK for %1 and your team (if any) to email you?"
+msgstr "Takımınızın (eğer varsa) ve %1 projesinin size e-posta göndermesine izin verilsin mi?"
+
+#: ../inc/prefs.inc:360
+msgid "Should %1 show your computers on its web site?"
+msgstr "%1, projeye katıldığınız bilgisayarları bu internet sitesi üzerinde göstersin mi?"
+
+#: ../inc/prefs.inc:367
 msgid "Disk and memory usage"
 msgstr "Disk ve bellek kullanımı"
 
-#: ../inc/prefs.inc:348
+#: ../inc/prefs.inc:368
 msgid "Processor usage"
 msgstr "İşlemci kullanımı"
 
-#: ../inc/prefs.inc:349
+#: ../inc/prefs.inc:369
 msgid "Network usage"
 msgstr "Ağ kullanımı"
 
-#: ../inc/prefs.inc:352
+#: ../inc/prefs.inc:372
 msgid "These preferences apply to all the BOINC projects in which you participate."
 msgstr "Bu tercihler, katıldığınız tüm BOINC projelerine uygulanacak."
 
-#: ../inc/prefs.inc:355
+#: ../inc/prefs.inc:375
 msgid "%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric."
 msgstr "%1Tercihler güncellenemedi.%2 Kırmızıyla işaretlenen değerler izin verilen aralık dışında ya da rakam değiller."
 
-#: ../inc/prefs.inc:404
+#: ../inc/prefs.inc:424
 msgid "bad venue: %1"
 msgstr "geçersiz yetki: %1"
 
-#: ../inc/prefs.inc:410
+#: ../inc/prefs.inc:430
 msgid "bad subset: %1"
 msgstr "geçersiz altküme: %1"
 
-#: ../inc/prefs.inc:629
-#: ../inc/prefs.inc:632
-#: ../inc/prefs.inc:752
-#: ../inc/prefs.inc:754
-#: ../inc/prefs.inc:977
+#: ../inc/prefs.inc:617
+msgid "Default"
+msgstr "Varsayılan"
+
+#: ../inc/prefs.inc:649
+#: ../inc/prefs.inc:652
+#: ../inc/prefs.inc:995
 #: ../inc/prefs_util.inc:93
-#: ../inc/prefs_util.inc:100
-#: ../inc/prefs_util.inc:103
 #: ../inc/prefs_util.inc:108
 #: ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
 msgstr "Evet"
 
-#: ../inc/prefs.inc:629
-#: ../inc/prefs.inc:632
-#: ../inc/prefs.inc:752
-#: ../inc/prefs.inc:754
-#: ../inc/prefs.inc:979
+#: ../inc/prefs.inc:649
+#: ../inc/prefs.inc:652
+#: ../inc/prefs.inc:997
 #: ../inc/prefs_util.inc:93
-#: ../inc/prefs_util.inc:99
-#: ../inc/prefs_util.inc:104
 #: ../inc/prefs_util.inc:112
 #: ../project.sample/project_specific_prefs.inc:76
 msgid "no"
 msgstr "Hayır"
 
-#: ../inc/prefs.inc:637
+#: ../inc/prefs.inc:657
 msgid "no limit"
 msgstr "Sınırlama yok"
 
-#: ../inc/prefs.inc:662
+#: ../inc/prefs.inc:682
 #: ../user/team_admins.php:77
 msgid "Add"
 msgstr "Ekle"
 
-#: ../inc/prefs.inc:663
-#: ../inc/prefs.inc:665
+#: ../inc/prefs.inc:683
+#: ../inc/prefs.inc:685
 msgid "Edit"
 msgstr "Düzenle"
 
-#: ../inc/prefs.inc:664
-#: ../inc/prefs.inc:790
+#: ../inc/prefs.inc:684
+#: ../inc/prefs.inc:810
 #: ../user/team_admins.php:32
 msgid "Remove"
 msgstr "Kaldır"
 
-#: ../inc/prefs.inc:748
-msgid "Emails will be sent from %1; make sure your spam filter accepts this address."
-msgstr "E-postalar %1 adresinden gönderilecek; gereksiz posta (spam) filtrenizin bu adresi kabul ettiğinden emin olun."
-
-#: ../inc/prefs.inc:751
-#: ../inc/prefs.inc:951
-msgid "Is it OK for %1 and your team (if any) to email you?"
-msgstr "Takımınızın (eğer varsa) ve %1 projesinin size e-posta göndermesine izin verilsin mi?"
-
-#: ../inc/prefs.inc:754
-#: ../inc/prefs.inc:954
-msgid "Should %1 show your computers on its web site?"
-msgstr "%1, projeye katıldığınız bilgisayarları bu internet sitesi üzerinde göstersin mi?"
-
-#: ../inc/prefs.inc:770
+#: ../inc/prefs.inc:790
 msgid "Computing"
 msgstr "Hesaplama"
 
-#: ../inc/prefs.inc:781
+#: ../inc/prefs.inc:801
 msgid "Separate preferences for %1"
 msgstr "%1 için ayrı tercihler"
 
-#: ../inc/prefs.inc:790
-#: ../inc/prefs.inc:865
+#: ../inc/prefs.inc:810
+#: ../inc/prefs.inc:885
 msgid "Edit preferences"
 msgstr "Tercihleri düzenle"
 
-#: ../inc/prefs.inc:794
+#: ../inc/prefs.inc:814
 msgid "Add separate preferences for %1"
 msgstr "%1 için ayrı tercihler oluştur"
 
-#: ../inc/prefs.inc:802
-#: ../inc/prefs.inc:847
+#: ../inc/prefs.inc:822
+#: ../inc/prefs.inc:867
 msgid "(Switch View)"
 msgstr "(görünümü değiştir)"
 
-#: ../inc/prefs.inc:804
-#: ../inc/prefs.inc:850
+#: ../inc/prefs.inc:824
+#: ../inc/prefs.inc:870
 msgid "Combined preferences"
 msgstr "Ortak tercihler"
 
-#: ../inc/prefs.inc:809
+#: ../inc/prefs.inc:829
 msgid "Project specific settings"
 msgstr "Projeye özel ayarlar"
 
-#: ../inc/prefs.inc:817
-#: ../inc/prefs.inc:859
+#: ../inc/prefs.inc:837
+#: ../inc/prefs.inc:879
 msgid "Primary (default) preferences"
 msgstr "Birincil (varsayılan) tercihler"
 
-#: ../inc/prefs.inc:826
+#: ../inc/prefs.inc:846
 #: ../user/add_venue.php:43
 #: ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45
@@ -934,7 +930,7 @@ msgstr "Birincil (varsayılan) tercihler"
 msgid "Edit %1 preferences"
 msgstr "%1 tercihlerini düzenle"
 
-#: ../inc/prefs.inc:840
+#: ../inc/prefs.inc:860
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers attached to multiple projects, the most recently modified preferences will be used."
@@ -942,24 +938,24 @@ msgstr ""
 "Bu ayarlar, katıldığınız tüm BOINC projelerine uygulanacak.<br>\n"
 "             Birden fazla projeye katıldığınız bilgisayarlarda, en son güncellenen tercihler kullanılacak."
 
-#: ../inc/prefs.inc:844
+#: ../inc/prefs.inc:864
 msgid "Preferences last modified:"
 msgstr "Tercihlerin son güncellenmesi:"
 
-#: ../inc/prefs.inc:894
+#: ../inc/prefs.inc:914
 msgid "Add preferences"
 msgstr "Tercihleri ekle"
 
-#: ../inc/prefs.inc:898
+#: ../inc/prefs.inc:918
 msgid "Update preferences"
 msgstr "Tercihleri güncelle"
 
-#: ../inc/prefs.inc:988
-#: ../inc/prefs.inc:997
+#: ../inc/prefs.inc:1006
+#: ../inc/prefs.inc:1015
 msgid "Default computer location"
 msgstr "Varsayılan bilgisayar konumu"
 
-#: ../inc/prefs.inc:1146
+#: ../inc/prefs.inc:1166
 msgid "Update failed: "
 msgstr "Güncelleme başarısız:"
 
@@ -1019,299 +1015,290 @@ msgstr "Uygunsuz profili yöneticilere bildir:"
 msgid "I %1do not like%2 this profile"
 msgstr "Bu profilden %1hiç hoşlanmadım%2"
 
-#: ../inc/result.inc:25
+#: ../inc/result.inc:29
 msgid "Anonymous platform"
 msgstr "Anonim platform"
 
-#: ../inc/result.inc:26
-msgid "Anonymous platform - CPU"
-msgstr "Anonim platform - CPU"
+#: ../inc/result.inc:43
+msgid "NVIDIA GPU"
+msgstr "NVIDIA GPU"
 
-#: ../inc/result.inc:27
-msgid "Anonymous platform - NVIDIA GPU"
-msgstr "Anonim platform - NVIDIA GPU"
+#: ../inc/result.inc:44
+msgid "ATI GPU"
+msgstr "ATI GPU"
 
-#: ../inc/result.inc:28
-msgid "Anonymous platform - ATI GPU"
-msgstr "Anonim platform - ATI GPU"
-
-#: ../inc/result.inc:35
+#: ../inc/result.inc:51
 msgid "Not in DB"
 msgstr "DB içinde yok"
 
-#: ../inc/result.inc:73
+#: ../inc/result.inc:77
 msgid "pending"
 msgstr "beklemede"
 
-#: ../inc/result.inc:95
+#: ../inc/result.inc:99
 msgid "All"
 msgstr "Tümü"
 
-#: ../inc/result.inc:96
-#: ../inc/result.inc:116
-#: ../inc/result.inc:155
+#: ../inc/result.inc:100
+#: ../inc/result.inc:120
+#: ../inc/result.inc:159
 msgid "In progress"
 msgstr "Sürmekte"
 
-#: ../inc/result.inc:97
+#: ../inc/result.inc:101
 #: ../user/workunit.php:64
 msgid "Pending"
 msgstr "Beklemede"
 
-#: ../inc/result.inc:98
-#: ../inc/result.inc:198
+#: ../inc/result.inc:102
+#: ../inc/result.inc:202
 msgid "Valid"
 msgstr "Geçerli"
 
-#: ../inc/result.inc:99
-#: ../inc/result.inc:201
+#: ../inc/result.inc:103
+#: ../inc/result.inc:205
 msgid "Invalid"
 msgstr "Geçersiz"
 
-#: ../inc/result.inc:100
-#: ../inc/result.inc:141
+#: ../inc/result.inc:104
+#: ../inc/result.inc:145
 msgid "Error"
 msgstr "Hatalı"
 
-#: ../inc/result.inc:114
-#: ../inc/result.inc:153
+#: ../inc/result.inc:118
+#: ../inc/result.inc:157
 msgid "Inactive"
 msgstr "Pasif"
 
-#: ../inc/result.inc:115
-#: ../inc/result.inc:154
+#: ../inc/result.inc:119
+#: ../inc/result.inc:158
 msgid "Unsent"
 msgstr "Gönderilmemiş"
 
-#: ../inc/result.inc:121
+#: ../inc/result.inc:125
 msgid "Completed, waiting for validation"
 msgstr "Tamamlandı, doğrulanmayı bekliyor"
 
-#: ../inc/result.inc:122
+#: ../inc/result.inc:126
 msgid "Completed and validated"
 msgstr "Tamamlandı ve doğrulandı"
 
-#: ../inc/result.inc:123
+#: ../inc/result.inc:127
 msgid "Completed, marked as invalid"
 msgstr "Tamamlandı, geçersiz olarak işaretlendi"
 
-#: ../inc/result.inc:124
+#: ../inc/result.inc:128
 msgid "Completed, can't validate"
 msgstr "Tamamlandı, doğrulanamadı"
 
-#: ../inc/result.inc:125
+#: ../inc/result.inc:129
 msgid "Completed, validation inconclusive"
 msgstr "Tamamlandı, doğrulama sonuçsuz"
 
-#: ../inc/result.inc:126
+#: ../inc/result.inc:130
 msgid "Completed, too late to validate"
 msgstr "Tamamlandı, doğrulama için çok gecikti"
 
-#: ../inc/result.inc:128
+#: ../inc/result.inc:132
 msgid "Completed"
 msgstr "Tamamlandı"
 
-#: ../inc/result.inc:129
-#: ../inc/result.inc:165
+#: ../inc/result.inc:133
+#: ../inc/result.inc:169
 msgid "Couldn't send"
 msgstr "Gönderilemedi"
 
-#: ../inc/result.inc:132
-#: ../inc/result.inc:189
+#: ../inc/result.inc:136
+#: ../inc/result.inc:193
 msgid "Cancelled by server"
 msgstr "Sunucu tarafından iptal edildi"
 
-#: ../inc/result.inc:135
+#: ../inc/result.inc:139
 msgid "Error while downloading"
 msgstr "İndirilirken hata oluştu"
 
-#: ../inc/result.inc:137
+#: ../inc/result.inc:141
 msgid "Error while computing"
 msgstr "Hesaplanırken hata oluştu"
 
-#: ../inc/result.inc:138
+#: ../inc/result.inc:142
 msgid "Error while uploading"
 msgstr "Alınırken hata oluştu"
 
-#: ../inc/result.inc:139
-#: ../inc/result.inc:191
+#: ../inc/result.inc:143
+#: ../inc/result.inc:195
 msgid "Aborted by user"
 msgstr "Kullanıcı tarafından iptal edildi"
 
-#: ../inc/result.inc:142
+#: ../inc/result.inc:146
 msgid "Timed out - no response"
 msgstr "Zaman doldu - yanıt yok"
 
-#: ../inc/result.inc:143
-#: ../inc/result.inc:172
+#: ../inc/result.inc:147
+#: ../inc/result.inc:176
 msgid "Didn't need"
 msgstr "İhtiyaç yok"
 
-#: ../inc/result.inc:144
-#: ../inc/result.inc:173
+#: ../inc/result.inc:148
+#: ../inc/result.inc:177
 msgid "Validate error"
 msgstr "Doğrulama hatası"
 
-#: ../inc/result.inc:145
-#: ../inc/result.inc:174
+#: ../inc/result.inc:149
+#: ../inc/result.inc:178
 msgid "Client detached"
 msgstr "İstemci projeden ayrıldı"
 
-#: ../inc/result.inc:156
+#: ../inc/result.inc:160
 msgid "Over"
 msgstr "Sona erdi"
 
-#: ../inc/result.inc:164
+#: ../inc/result.inc:168
 msgid "Success"
 msgstr "Başarılı"
 
-#: ../inc/result.inc:168
+#: ../inc/result.inc:172
 msgid "Client error"
 msgstr "İstemci hatası"
 
-#: ../inc/result.inc:170
+#: ../inc/result.inc:174
 msgid "Redundant result"
 msgstr "İhtiyaç fazlası sonuç"
 
-#: ../inc/result.inc:171
+#: ../inc/result.inc:175
 msgid "No reply"
 msgstr "Yanıt yok"
 
-#: ../inc/result.inc:181
+#: ../inc/result.inc:185
 msgid "New"
 msgstr "Yeni"
 
-#: ../inc/result.inc:182
+#: ../inc/result.inc:186
 msgid "Downloading"
 msgstr "İndiriliyor"
 
-#: ../inc/result.inc:183
+#: ../inc/result.inc:187
 msgid "Processing"
 msgstr "Sürüyor"
 
-#: ../inc/result.inc:184
+#: ../inc/result.inc:188
 msgid "Compute error"
 msgstr "Hesaplama hatası"
 
-#: ../inc/result.inc:185
+#: ../inc/result.inc:189
 msgid "Uploading"
 msgstr "Gönderiliyor"
 
-#: ../inc/result.inc:186
+#: ../inc/result.inc:190
 msgid "Done"
 msgstr "Tamamlandı"
 
-#: ../inc/result.inc:197
+#: ../inc/result.inc:201
 msgid "Initial"
 msgstr "Başlangıcında"
 
-#: ../inc/result.inc:203
+#: ../inc/result.inc:207
 msgid "Not necessary"
 msgstr "Gerekli değil"
 
-#: ../inc/result.inc:204
+#: ../inc/result.inc:208
 msgid "Workunit error - check skipped"
 msgstr "İş birimi hatası - kontrol atlandı"
 
-#: ../inc/result.inc:205
+#: ../inc/result.inc:209
 msgid "Checked, but no consensus yet"
 msgstr "Kontrol edildi, ancak henüz uzlaşılamadı"
 
-#: ../inc/result.inc:206
+#: ../inc/result.inc:210
 msgid "Task was reported too late to validate"
 msgstr "İşin doğrulama için çok geciktiği bildirildi"
 
-#: ../inc/result.inc:214
+#: ../inc/result.inc:218
 msgid "Couldn't send result"
 msgstr "Sonuç gönderilemedi"
 
-#: ../inc/result.inc:218
+#: ../inc/result.inc:222
 msgid "Too many errors (may have bug)"
 msgstr "Çok fazla hata oluştu (yazılımsal bir hata olabilir)"
 
-#: ../inc/result.inc:222
+#: ../inc/result.inc:226
 msgid "Too many results (may be nondeterministic)"
 msgstr "Çok fazla sonuç var (belirleyici olmayabilir)"
 
-#: ../inc/result.inc:226
+#: ../inc/result.inc:230
 msgid "Too many total results"
 msgstr "Çok fazla toplam sonuç var"
 
-#: ../inc/result.inc:230
+#: ../inc/result.inc:234
 msgid "WU cancelled"
 msgstr "İş birimi iptal edildi"
 
-#: ../inc/result.inc:234
+#: ../inc/result.inc:238
 msgid "Unrecognized Error: %1"
 msgstr "Bilinmeyen hata: %1"
 
-#: ../inc/result.inc:260
+#: ../inc/result.inc:264
 msgid "Task name"
 msgstr "İş adı"
 
-#: ../inc/result.inc:260
-#: ../inc/result.inc:265
-#: ../inc/result.inc:268
-#: ../inc/result.inc:271
+#: ../inc/result.inc:264
+#: ../inc/result.inc:269
+#: ../inc/result.inc:272
+#: ../inc/result.inc:275
 msgid "click for details"
 msgstr "detaylar için tıklayın"
 
-#: ../inc/result.inc:260
+#: ../inc/result.inc:264
 msgid "Show IDs"
 msgstr "NO'ları göster"
 
-#: ../inc/result.inc:265
+#: ../inc/result.inc:269
 msgid "Show names"
 msgstr "İsimleri göster"
 
-#: ../inc/result.inc:268
-msgid "Task ID"
-msgstr "İş NO"
+#: ../inc/result.inc:272
+msgid "Task"
+msgstr "İş"
 
-#: ../inc/result.inc:271
-msgid "Work unit ID"
-msgstr "İş birimi NO"
+#: ../inc/result.inc:275
+msgid "Work unit"
+msgstr "İş birimi"
 
-#: ../inc/result.inc:274
+#: ../inc/result.inc:278
 msgid "Computer"
 msgstr "Bilgisayar"
 
-#: ../inc/result.inc:277
+#: ../inc/result.inc:281
 #: ../inc/result.inc:381
 msgid "Sent"
 msgstr "Gönderilme"
 
-#: ../inc/result.inc:278
+#: ../inc/result.inc:282
 msgid "Time reported<br />or deadline"
 msgstr "Raporlanma ya da<br />son teslim tarihi"
 
-#: ../inc/result.inc:279
+#: ../inc/result.inc:283
 msgid "explain"
 msgstr "açıklama"
 
-#: ../inc/result.inc:281
+#: ../inc/result.inc:285
 msgid "Status"
 msgstr "Durum"
 
-#: ../inc/result.inc:282
+#: ../inc/result.inc:286
 msgid "Run time<br />(sec)"
 msgstr "Çalışma zamanı<br />(sn)"
 
-#: ../inc/result.inc:283
+#: ../inc/result.inc:287
 msgid "CPU time<br />(sec)"
 msgstr "CPU zamanı<br />(sn)"
 
-#: ../inc/result.inc:284
+#: ../inc/result.inc:288
 #: ../inc/result.inc:392
-msgid "Claimed credit"
-msgstr "İstenen kredi"
+msgid "Credit"
+msgstr "Kredi"
 
-#: ../inc/result.inc:285
-#: ../inc/result.inc:393
-msgid "Granted credit"
-msgstr "Alınan kredi"
-
-#: ../inc/result.inc:286
+#: ../inc/result.inc:289
 msgid "Application"
 msgstr "Uygulama"
 
@@ -1355,15 +1342,15 @@ msgstr "CPU zamanı"
 msgid "Validate state"
 msgstr "Doğrulama durumu"
 
-#: ../inc/result.inc:394
-msgid "application version"
+#: ../inc/result.inc:393
+msgid "Application version"
 msgstr "Uygulama sürümü"
 
-#: ../inc/result.inc:409
+#: ../inc/result.inc:408
 msgid "Previous"
 msgstr "Önceki"
 
-#: ../inc/result.inc:418
+#: ../inc/result.inc:417
 msgid "Next"
 msgstr "Sonraki"
 
@@ -1384,12 +1371,12 @@ msgstr "Takımları, isimleri ya da tanıtımlarındaki bu kelimelere göre bul"
 #: ../inc/team.inc:225
 #: ../inc/team.inc:360
 #: ../inc/team.inc:444
-#: ../inc/user.inc:204
-#: ../inc/user.inc:310
+#: ../inc/user.inc:208
+#: ../inc/user.inc:314
 #: ../user/account_finish.php:44
 #: ../user/create_account_form.php:94
 #: ../user/edit_user_info_form.php:38
-#: ../user/team_email_list.php:61
+#: ../user/team_email_list.php:62
 #: ../user/team_search.php:69
 #: ../user/top_users.php:61
 #: ../user/user_search.php:102
@@ -1430,8 +1417,8 @@ msgid "founder response deadline is %1"
 msgstr "kurucunun son yanıt tarihi %1."
 
 #: ../inc/team.inc:65
-#: ../inc/user.inc:275
-#: ../inc/user.inc:362
+#: ../inc/user.inc:279
+#: ../inc/user.inc:366
 msgid "None"
 msgstr "Yok"
 
@@ -1621,278 +1608,278 @@ msgstr "Yeni üyeler kabul edilsin mi?"
 msgid "User profile"
 msgstr "Kullanıcı profili"
 
-#: ../inc/user.inc:112
+#: ../inc/user.inc:116
 msgid "Projects in which you are participating"
 msgstr "Katıldığınız projeler"
 
-#: ../inc/user.inc:114
+#: ../inc/user.inc:118
 msgid "Projects in which %1 is participating"
 msgstr "%1 kullanıcısının katıldığı projeler"
 
-#: ../inc/user.inc:118
+#: ../inc/user.inc:122
 msgid "Project"
 msgstr "Proje"
 
-#: ../inc/user.inc:118
+#: ../inc/user.inc:122
 msgid "Click for user page"
 msgstr "Kullanıcı safyası için tıklayın"
 
-#: ../inc/user.inc:118
+#: ../inc/user.inc:122
 msgid "Since"
 msgstr "Katılma tarihi"
 
-#: ../inc/user.inc:142
+#: ../inc/user.inc:146
 msgid "Computing and credit"
 msgstr "Hesaplama ve kredi"
 
-#: ../inc/user.inc:146
+#: ../inc/user.inc:150
 msgid "Pending credit"
 msgstr "Beklenen kredi"
 
-#: ../inc/user.inc:146
-#: ../inc/user.inc:148
-#: ../inc/user.inc:149
-#: ../inc/user.inc:237
-#: ../inc/user.inc:318
-#: ../inc/user.inc:393
+#: ../inc/user.inc:150
+#: ../inc/user.inc:152
+#: ../inc/user.inc:153
+#: ../inc/user.inc:241
+#: ../inc/user.inc:322
+#: ../inc/user.inc:397
 #: ../user/view_profile.php:54
 msgid "View"
 msgstr "Bak"
 
-#: ../inc/user.inc:148
+#: ../inc/user.inc:152
 msgid "Computers on this account"
 msgstr "Bu hesaptaki bilgisayarlar"
 
-#: ../inc/user.inc:158
+#: ../inc/user.inc:162
 msgid "Cross-project ID"
 msgstr "Çapraz-proje NO"
 
-#: ../inc/user.inc:159
+#: ../inc/user.inc:163
 msgid "Cross-project statistics"
 msgstr "Çapraz-proje istatistikleri"
 
-#: ../inc/user.inc:160
+#: ../inc/user.inc:164
 msgid "Account"
 msgstr "Hesap"
 
-#: ../inc/user.inc:162
-#: ../inc/user.inc:275
-#: ../inc/user.inc:360
-#: ../inc/user.inc:362
+#: ../inc/user.inc:166
+#: ../inc/user.inc:279
+#: ../inc/user.inc:364
+#: ../inc/user.inc:366
 #: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Team"
 msgstr "Takım"
 
-#: ../inc/user.inc:164
+#: ../inc/user.inc:168
 msgid "Cross-project"
 msgstr "Çapraz-proje"
 
-#: ../inc/user.inc:165
+#: ../inc/user.inc:169
 msgid "Certificate"
 msgstr "Sertifika"
 
-#: ../inc/user.inc:166
+#: ../inc/user.inc:170
 msgid "Stats on your cell phone"
 msgstr "Cep telefonunuz için istatistik sayfanız"
 
-#: ../inc/user.inc:197
+#: ../inc/user.inc:201
 msgid "Account information"
 msgstr "Hesap bilgisi"
 
-#: ../inc/user.inc:199
+#: ../inc/user.inc:203
 #: ../user/edit_passwd_form.php:46
-#: ../user/team_email_list.php:61
+#: ../user/team_email_list.php:62
 msgid "Email address"
 msgstr "E-posta adresi"
 
-#: ../inc/user.inc:202
-#: ../inc/user.inc:312
+#: ../inc/user.inc:206
+#: ../inc/user.inc:316
 msgid "URL"
 msgstr "Site"
 
-#: ../inc/user.inc:205
+#: ../inc/user.inc:209
 msgid "Postal code"
 msgstr "Posta kodu"
 
-#: ../inc/user.inc:206
-#: ../inc/user.inc:309
+#: ../inc/user.inc:210
+#: ../inc/user.inc:313
 msgid "%1 member since"
 msgstr "%1 üyelik tarihi"
 
-#: ../inc/user.inc:208
+#: ../inc/user.inc:212
 msgid "Change"
 msgstr "Değiştir"
 
-#: ../inc/user.inc:208
+#: ../inc/user.inc:212
 msgid "email address"
 msgstr "e-posta adresi"
 
-#: ../inc/user.inc:208
+#: ../inc/user.inc:212
 msgid "password"
 msgstr "parola"
 
-#: ../inc/user.inc:208
+#: ../inc/user.inc:212
 msgid "other account info"
 msgstr "diğer hesap bilgisi"
 
-#: ../inc/user.inc:209
+#: ../inc/user.inc:213
 msgid "Log out"
 msgstr "Çıkış"
 
-#: ../inc/user.inc:210
+#: ../inc/user.inc:214
 msgid "User ID"
 msgstr "Kullanıcı NO"
 
-#: ../inc/user.inc:210
+#: ../inc/user.inc:214
 msgid "Used in community functions"
 msgstr "Topluluk işlevlerinde kullanılır (özel mesaj için vs.)"
 
-#: ../inc/user.inc:212
+#: ../inc/user.inc:216
 msgid "Account key"
 msgstr "Hesap anahtarı"
 
-#: ../inc/user.inc:212
+#: ../inc/user.inc:216
 msgid "Provides full access to your account"
 msgstr "Hesabınıza tam erişimi sağlar"
 
-#: ../inc/user.inc:213
+#: ../inc/user.inc:217
 #: ../user/weak_auth.php:25
 msgid "Weak account key"
 msgstr "Zayıf hesap anahtarı"
 
-#: ../inc/user.inc:213
+#: ../inc/user.inc:217
 msgid "Provides %1limited access%2 to your account"
 msgstr "Hesabınıza %1sınırlı erişimi%2 sağlar"
 
-#: ../inc/user.inc:216
+#: ../inc/user.inc:220
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: ../inc/user.inc:219
+#: ../inc/user.inc:223
 msgid "When and how BOINC uses your computer"
 msgstr "BOINC bilgisayarınızı ne zaman ve nasıl kullanacak"
 
-#: ../inc/user.inc:220
+#: ../inc/user.inc:224
 msgid "Computing preferences"
 msgstr "Hesaplama tercihleri"
 
-#: ../inc/user.inc:223
+#: ../inc/user.inc:227
 msgid "Message boards and private messages"
 msgstr "Mesaj panoları ve özel mesajlar"
 
-#: ../inc/user.inc:224
+#: ../inc/user.inc:228
 msgid "Community preferences"
 msgstr "Topluluk tercihleri"
 
-#: ../inc/user.inc:227
+#: ../inc/user.inc:231
 msgid "Preferences for this project"
 msgstr "Bu proje için tercihler"
 
-#: ../inc/user.inc:228
+#: ../inc/user.inc:232
 #: ../user/prefs.php:33
 msgid "%1 preferences"
 msgstr "%1 tercihleri"
 
-#: ../inc/user.inc:234
+#: ../inc/user.inc:238
 #: ../user/sample_index.php:66
 msgid "Community"
 msgstr "Topluluk"
 
-#: ../inc/user.inc:237
+#: ../inc/user.inc:241
 #: ../user/pm.php:103
 #: ../user/pm.php:143
 msgid "Delete"
 msgstr "Sil"
 
-#: ../inc/user.inc:239
+#: ../inc/user.inc:243
 msgid "Create"
 msgstr "Oluştur"
 
-#: ../inc/user.inc:241
-#: ../inc/user.inc:393
+#: ../inc/user.inc:245
+#: ../inc/user.inc:397
 msgid "Profile"
 msgstr "Profil"
 
-#: ../inc/user.inc:244
-#: ../inc/user.inc:366
+#: ../inc/user.inc:248
+#: ../inc/user.inc:370
 msgid "%1 posts"
 msgstr "%1 gönderi"
 
-#: ../inc/user.inc:256
+#: ../inc/user.inc:260
 msgid "Notifications"
 msgstr "Uyarılar"
 
-#: ../inc/user.inc:263
+#: ../inc/user.inc:267
 msgid "Quit team"
 msgstr "Takımdan ayrıl"
 
-#: ../inc/user.inc:265
-#: ../inc/user.inc:282
+#: ../inc/user.inc:269
+#: ../inc/user.inc:286
 msgid "Administer"
 msgstr "Yönet"
 
-#: ../inc/user.inc:271
-#: ../inc/user.inc:284
+#: ../inc/user.inc:275
+#: ../inc/user.inc:288
 msgid "(foundership change request pending)"
 msgstr "(kurucu değişim isteği beklemede)"
 
-#: ../inc/user.inc:273
+#: ../inc/user.inc:277
 msgid "Member of team"
 msgstr "Takım üyeliği"
 
-#: ../inc/user.inc:275
+#: ../inc/user.inc:279
 msgid "find a team"
 msgstr "bir takım bul"
 
-#: ../inc/user.inc:286
+#: ../inc/user.inc:290
 msgid "Founder but not member of"
 msgstr "Kurucusu fakat üyesi değil"
 
-#: ../inc/user.inc:292
+#: ../inc/user.inc:296
 msgid "Find friends"
 msgstr "Arkadaş bul"
 
-#: ../inc/user.inc:299
-#: ../inc/user.inc:301
-#: ../inc/user.inc:376
-#: ../inc/user.inc:378
-#: ../inc/user.inc:387
+#: ../inc/user.inc:303
+#: ../inc/user.inc:305
+#: ../inc/user.inc:380
+#: ../inc/user.inc:382
+#: ../inc/user.inc:391
 msgid "Friends"
 msgstr "Arkadaşlar"
 
-#: ../inc/user.inc:318
-#: ../inc/user.inc:320
+#: ../inc/user.inc:322
+#: ../inc/user.inc:324
 msgid "Computers"
 msgstr "Bilgisayarlar"
 
-#: ../inc/user.inc:320
+#: ../inc/user.inc:324
 msgid "hidden"
 msgstr "Gizli"
 
-#: ../inc/user.inc:327
+#: ../inc/user.inc:331
 msgid "Donor"
 msgstr "Bağışçı"
 
-#: ../inc/user.inc:369
+#: ../inc/user.inc:373
 msgid "Contact"
 msgstr "İrtibat"
 
-#: ../inc/user.inc:372
+#: ../inc/user.inc:376
 msgid "This person is a friend"
 msgstr "Bu kişi arkadaşınız"
 
-#: ../inc/user.inc:373
+#: ../inc/user.inc:377
 #: ../user/friend.php:224
 msgid "Cancel friendship"
 msgstr "Arkadaşlığı bitir"
 
-#: ../inc/user.inc:376
+#: ../inc/user.inc:380
 #: ../user/friend.php:35
 msgid "Request pending"
 msgstr "İstek beklemede"
 
-#: ../inc/user.inc:378
+#: ../inc/user.inc:382
 msgid "Add as friend"
 msgstr "Arkadaş olarak ekle"
 
@@ -2585,6 +2572,14 @@ msgstr "Hesap tercihlerinizi aşağıdaki bağlantılardan görüp değiştirebi
 msgid "Your account"
 msgstr "Hesabınız"
 
+#: ../user/hosts_user.php:51
+msgid "Computers belonging to %1"
+msgstr "%1 kullanıcısına ait bilgisayarlar"
+
+#: ../user/hosts_user.php:54
+msgid "This user has chosen not to show information about their computers."
+msgstr "Bu kullanıcı, bilgisayarları hakkında bilgi gösterilmemesini tercih etti."
+
 #: ../user/info.php:22
 #: ../user/sample_index.php:47
 msgid "Read our rules and policies"
@@ -2919,15 +2914,15 @@ msgstr "Bu özellik geçici olarak kapatıldı"
 msgid "No computer with ID %1 found"
 msgstr "%1 NO'suyla bilgisayar bulunamadı"
 
-#: ../user/results.php:52
+#: ../user/results.php:53
 msgid "No access"
 msgstr "Erişim yok"
 
-#: ../user/results.php:57
+#: ../user/results.php:59
 msgid "Missing user ID or host ID"
 msgstr "Eksik kullanıcı NO ya da sunucu NO"
 
-#: ../user/results.php:85
+#: ../user/results.php:87
 msgid "No tasks to display"
 msgstr "Görüntülenecek iş yok"
 
@@ -3123,7 +3118,7 @@ msgstr "Eşleşen takım yok"
 #: ../user/team_display.php:67
 #: ../user/team_edit_action.php:28
 #: ../user/team_edit_form.php:27
-#: ../user/team_email_list.php:52
+#: ../user/team_email_list.php:53
 #: ../user/team_forum.php:162
 #: ../user/team_manage.php:83
 msgid "no such team"
@@ -3247,15 +3242,15 @@ msgstr "%1 takımını düzenle"
 msgid "Update team info"
 msgstr "Takım bilgisini güncelle"
 
-#: ../user/team_email_list.php:58
+#: ../user/team_email_list.php:59
 msgid "%1 Email List"
 msgstr "%1 e-posta listesi"
 
-#: ../user/team_email_list.php:60
+#: ../user/team_email_list.php:61
 msgid "Member list of %1"
 msgstr "%1 üye listesi"
 
-#: ../user/team_email_list.php:75
+#: ../user/team_email_list.php:76
 msgid "Show as plain text"
 msgstr "Salt metin olarak görüntüle"
 
@@ -3969,7 +3964,6 @@ msgid "Tasks in progress"
 msgstr "Süren işler"
 
 #: ../user/workunit.php:52
-#, fuzzy
 msgid "suppressed pending completion"
 msgstr "tamamlanma kuyruğunda beklemede"
 
@@ -3992,6 +3986,10 @@ msgstr "hatalar"
 #: ../user/workunit.php:64
 msgid "validation"
 msgstr "doğrulama"
+
+#: ../project.sample/project.inc:49
+msgid "Main page"
+msgstr "Ana sayfa"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
@@ -4046,6 +4044,33 @@ msgstr "Eğer seçili uygulamalar için iş mevcut değilse, diğer uygulamalard
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(tüm uygulamalar)"
+
+#~ msgid "Maximum daily WU quota per CPU"
+#~ msgstr "CPU başına günlük iş birimi kotası"
+
+#~ msgid "%1/day"
+#~ msgstr "%1/gün"
+
+#~ msgid "Anonymous platform - CPU"
+#~ msgstr "Anonim platform - CPU"
+
+#~ msgid "Anonymous platform - NVIDIA GPU"
+#~ msgstr "Anonim platform - NVIDIA GPU"
+
+#~ msgid "Anonymous platform - ATI GPU"
+#~ msgstr "Anonim platform - ATI GPU"
+
+#~ msgid "Task ID"
+#~ msgstr "İş NO"
+
+#~ msgid "Work unit ID"
+#~ msgstr "İş birimi NO"
+
+#~ msgid "Claimed credit"
+#~ msgstr "İstenen kredi"
+
+#~ msgid "Granted credit"
+#~ msgstr "Alınan kredi"
 
 #~ msgid "Click to"
 #~ msgstr "Tıkla"

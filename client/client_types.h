@@ -334,6 +334,10 @@ struct PROJECT {
         // This is dynamically updated in a way that maintains an upper bound.
         // it goes down slowly but if a new estimate X is larger,
         // the factor is set to X.
+        //
+        // Deprecated - current server logic handles this,
+        // and this should go to 1.
+        // But we need to keep it around for older projects
     void update_duration_correction_factor(ACTIVE_TASK*);
     
     // fields used by CPU scheduler and work fetch

@@ -446,10 +446,6 @@ int CLIENT_STATE::parse_state_file() {
             run_cpu_benchmarks = true;
             continue;
         }
-        if (match_tag(buf, "<work_fetch_no_new_work/>")) {
-            work_fetch_no_new_work = true;
-            continue;
-        }
         if (match_tag(buf, "<proxy_info>")) {
             retval = gui_proxy_info.parse(mf);
             if (retval) {

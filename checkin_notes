@@ -5212,3 +5212,18 @@ David  16 Jul 2010
         feeder.cpp
     tools/
         backend_lib.cpp
+
+David  19 Jul 2010
+    - client: fix bug with --abort_jobs_on_exit that caused the client
+        to request new work on exit
+    - client: change "unparsed tag" to "unrecognized tag" in msgs
+    - client: get rid of unused var work_fetch_no_new_work
+
+    client/
+        client_types.h
+        client_state.cpp,h
+        sim.h
+        cs_statefile.cpp
+        log_flags.cpp
+    lib/
+        coproc.cpp

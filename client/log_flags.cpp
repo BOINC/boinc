@@ -456,7 +456,7 @@ int CONFIG::parse(FILE* f) {
         }
         msg_printf(NULL, MSG_USER_ALERT,
             "%s %s: <%s>",
-            _("Unparsed tag in"),
+            _("Unrecognized tag in"),
             CONFIG_FILE,
             tag
         );
