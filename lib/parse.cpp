@@ -467,6 +467,8 @@ bool XML_PARSER::scan_nonws(int& first_char) {
 #define XML_PARSE_COMMENT   1
 #define XML_PARSE_EOF       2
 #define XML_PARSE_CDATA     3
+#define XML_PARSE_TAG       4
+#define XML_PARSE_DATA      5
 
 int XML_PARSER::scan_comment() {
     char buf[256];
@@ -512,10 +514,11 @@ int XML_PARSER::scan_cdata(char* buf, int len) {
 // - copy tag (or tag/) to tag_buf
 // - copy "attr=val attr=val" to attr_buf
 //
-// Return:
-// 0 if got a tag
-// 1 if got a comment (ignore)
-// 2 if reached EOF
+// Return either
+// XML_PARSE_TAG
+// XML_PARSE_COMMENT
+// XML_PARSE_EOF
+// XML_PARSE_CDATA
 //
 int XML_PARSER::scan_tag(
     char* tag_buf, int _tag_len, char* attr_buf, int attr_len
@@ -527,11 +530,11 @@ int XML_PARSER::scan_tag(
 
     for (int i=0; ; i++) {
         c = f->_getc();
-        if (c == EOF) return 2;
+        if (c == EOF) return XML_PARSE_EOF;
         if (c == '>') {
             *tag_buf = 0;
             if (attr_buf) *attr_buf = 0;
-            return 0;
+            return XML_PARSE_TAG;
         }
         if (isspace(c)) {
             if (found_space && attr_buf) {
@@ -591,34 +594,42 @@ bool XML_PARSER::copy_until_tag(char* buf, int len) {
 
 // Scan something, either tag or text.
 // Strip whitespace at start and end.
+// Return true iff reached EOF
 //
-int XML_PARSER::get(
-    char* buf, int len, bool& is_tag, char* attr_buf, int attr_len
-) {
+int XML_PARSER::get_aux(char* buf, int len, char* attr_buf, int attr_len) {
     bool eof;
-    int c;
+    int c, retval;
     
     while (1) {
         eof = scan_nonws(c);
         if (eof) return XML_PARSE_EOF;
         if (c == '<') {
-            int retval = scan_tag(buf, len, attr_buf, attr_len);
-            if (retval == XML_PARSE_EOF) return XML_PARSE_EOF;
+            retval = scan_tag(buf, len, attr_buf, attr_len);
+            if (retval == XML_PARSE_EOF) return retval;
             if (retval == XML_PARSE_COMMENT) continue;
-            if (retval == XML_PARSE_CDATA) {
-                is_tag = false;
-            } else {
-                is_tag = true;
-            }
         } else {
             buf[0] = c;
             eof = copy_until_tag(buf+1, len-1);
-            if (eof) return true;
-            is_tag = false;
+            if (eof) return XML_PARSE_EOF;
+            retval = XML_PARSE_DATA;
         }
         strip_whitespace(buf);
-        return retval;;
+        return retval;
     }
+}
+
+bool XML_PARSER::get(char* buf, int len, bool& is_tag, char* attr_buf, int attr_len) {
+    switch (get_aux(buf, len, attr_buf, attr_len)) {
+    case XML_PARSE_EOF: return true;
+    case XML_PARSE_TAG:
+        is_tag = true;
+        break;
+    case XML_PARSE_DATA:
+    case XML_PARSE_CDATA:
+        is_tag = false;
+        break;
+    }
+    return false;
 }
 
 // We just parsed "parsed_tag".
@@ -631,7 +642,6 @@ bool XML_PARSER::parse_str(
 ) {
     bool is_tag, eof;
     char end_tag[256], tag[256], tmp[64000];
-    int retval;
 
     // handle the archaic form <tag/>, which means empty string
     //
@@ -651,12 +661,12 @@ bool XML_PARSER::parse_str(
 
     // get text after start tag
     //
-    retval = get(tmp, 64000, is_tag);
+    int retval = get_aux(tmp, 64000, 0, 0);
     if (retval == XML_PARSE_EOF) return false;
 
     // if it's the end tag, return empty string
     //
-    if (is_tag) {
+    if (retval == XML_PARSE_TAG) {
         if (strcmp(tmp, end_tag)) {
             return false;
         } else {
@@ -669,7 +679,9 @@ bool XML_PARSER::parse_str(
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
-    if (retval != XML_PARSE_CDATA) {
+    if (retval == XML_PARSE_CDATA) {
+        strcpy(buf, tmp);
+    } else {
         xml_unescape(tmp, buf, len);
     }
     return true;

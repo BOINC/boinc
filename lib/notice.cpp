@@ -42,7 +42,6 @@ int NOTICE::parse(XML_PARSER& xp) {
     char tag[1024];
     bool is_tag;
 
-//    memset(this, 0, sizeof(*this));
     clear();
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;

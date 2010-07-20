@@ -35,6 +35,7 @@ public:
     MIOFILE* f;
     XML_PARSER(MIOFILE*);
     bool get(char*, int, bool&, char* ab=0, int al=0);
+    int get_aux(char* buf, int len, char* attr_buf, int attr_len);
     bool parse_start(const char*);
     bool parse_str(char*, const char*, char*, int);
     bool parse_string(char*, const char*, std::string&);

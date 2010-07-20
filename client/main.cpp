@@ -210,6 +210,7 @@ static void init_core_client(int argc, char** argv) {
 
     config.clear();
     gstate.parse_cmdline(argc, argv);
+    gstate.now = dtime();
 
 #ifdef _WIN32
     if (!config.allow_multiple_clients) {

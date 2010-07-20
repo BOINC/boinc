@@ -319,3 +319,6 @@ extern bool gpus_usable;
 
 #define START_TIME  946684800
     // Jan 1 2000
+
+#define WF_MIN_BACKOFF_INTERVAL    60
+#define WF_MAX_BACKOFF_INTERVAL    86400

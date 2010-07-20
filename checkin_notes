@@ -5273,3 +5273,14 @@ David  19 Jul 2010
 
     lib/
         parse.cpp
+
+David  19 Jul 2010
+	- client: init gstate.now early so that initial msgs have timestamps
+	- lib: fix the above
+
+	client/
+		main.cpp
+		sim.h
+	lib/
+		notice.cpp
+		parse.cpp,h
