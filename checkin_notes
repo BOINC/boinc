@@ -5306,3 +5306,10 @@ David  20 Jul 2010
     client/
         gui_rpc_server_ops.cpp
         cs_notice.cpp
+
+David  20 Jul 2010
+    - Unix build: don't error out if xcb or xcb-atom aren't found;
+        just don't build the screensaver
+
+    configure.ac
+    Makefile.am
