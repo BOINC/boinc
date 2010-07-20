@@ -5284,3 +5284,9 @@ David  19 Jul 2010
 	lib/
 		notice.cpp
 		parse.cpp,h
+
+Charlie 19 Jul 2010
+	- lib: fix compiler warnings.
+
+	lib/
+		parse.cpp
