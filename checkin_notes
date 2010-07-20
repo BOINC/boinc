@@ -5267,3 +5267,9 @@ David  19 Jul 2010
     client/
         client_msgs.cpp
 
+David  19 Jul 2010
+    - lib: XML_PARSER::parse_str(): if text is enclosed in ![CDATA[,
+        don't entity-unescape it
+
+    lib/
+        parse.cpp

@@ -591,18 +591,19 @@ bool XML_PARSER::copy_until_tag(char* buf, int len) {
 
 // Scan something, either tag or text.
 // Strip whitespace at start and end.
-// Return true iff reached EOF
 //
-bool XML_PARSER::get(char* buf, int len, bool& is_tag, char* attr_buf, int attr_len) {
+int XML_PARSER::get(
+    char* buf, int len, bool& is_tag, char* attr_buf, int attr_len
+) {
     bool eof;
     int c;
     
     while (1) {
         eof = scan_nonws(c);
-        if (eof) return true;
+        if (eof) return XML_PARSE_EOF;
         if (c == '<') {
             int retval = scan_tag(buf, len, attr_buf, attr_len);
-            if (retval == XML_PARSE_EOF) return true;
+            if (retval == XML_PARSE_EOF) return XML_PARSE_EOF;
             if (retval == XML_PARSE_COMMENT) continue;
             if (retval == XML_PARSE_CDATA) {
                 is_tag = false;
@@ -616,7 +617,7 @@ bool XML_PARSER::get(char* buf, int len, bool& is_tag, char* attr_buf, int attr_
             is_tag = false;
         }
         strip_whitespace(buf);
-        return false;
+        return retval;;
     }
 }
 
@@ -630,6 +631,7 @@ bool XML_PARSER::parse_str(
 ) {
     bool is_tag, eof;
     char end_tag[256], tag[256], tmp[64000];
+    int retval;
 
     // handle the archaic form <tag/>, which means empty string
     //
@@ -649,8 +651,8 @@ bool XML_PARSER::parse_str(
 
     // get text after start tag
     //
-    eof = get(tmp, 64000, is_tag);
-    if (eof) return false;
+    retval = get(tmp, 64000, is_tag);
+    if (retval == XML_PARSE_EOF) return false;
 
     // if it's the end tag, return empty string
     //
@@ -667,7 +669,9 @@ bool XML_PARSER::parse_str(
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
-    xml_unescape(tmp, buf, len);
+    if (retval != XML_PARSE_CDATA) {
+        xml_unescape(tmp, buf, len);
+    }
     return true;
 }
 
