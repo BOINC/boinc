@@ -5259,3 +5259,11 @@ Rom    19 July 2010
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  19 Jul 2010
+    - client: entity-encode client-generated notices
+        (e.g. they may contain XML tags)
+
+    client/
+        client_msgs.cpp
+

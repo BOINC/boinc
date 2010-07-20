@@ -81,8 +81,10 @@ void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message) {
 
 #ifndef SIM
     if (priority == MSG_USER_ALERT) {
+        char buf[1024];
+        xml_escape(message, buf, 1024);
         NOTICE n;
-        n.description = message;
+        n.description = buf;
         if (p) {
             strcpy(n.project_name, p->get_project_name());
         }
