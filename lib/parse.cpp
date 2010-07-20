@@ -626,6 +626,7 @@ bool XML_PARSER::get(char* buf, int len, bool& is_tag, char* attr_buf, int attr_
         break;
     case XML_PARSE_DATA:
     case XML_PARSE_CDATA:
+    default:
         is_tag = false;
         break;
     }
@@ -640,7 +641,7 @@ bool XML_PARSER::get(char* buf, int len, bool& is_tag, char* attr_buf, int attr_
 bool XML_PARSER::parse_str(
     char* parsed_tag, const char* start_tag, char* buf, int len
 ) {
-    bool is_tag = false, eof;
+    bool is_tag, eof;
     char end_tag[256], tag[256], tmp[64000];
 
     // handle the archaic form <tag/>, which means empty string
@@ -701,7 +702,7 @@ bool XML_PARSER::parse_string(
 //
 bool XML_PARSER::parse_int(char* parsed_tag, const char* start_tag, int& i) {
     char buf[256], *end;
-    bool is_tag = false, eof;
+    bool is_tag, eof;
     char end_tag[256], tag[256];
 
     if (strcmp(parsed_tag, start_tag)) return false;
@@ -736,7 +737,7 @@ bool XML_PARSER::parse_int(char* parsed_tag, const char* start_tag, int& i) {
 //
 bool XML_PARSER::parse_double(char* parsed_tag, const char* start_tag, double& x) {
     char buf[256], *end;
-    bool is_tag = false, eof;
+    bool is_tag, eof;
     char end_tag[256], tag[256];
 
     if (strcmp(parsed_tag, start_tag)) return false;
@@ -769,7 +770,7 @@ bool XML_PARSER::parse_double(char* parsed_tag, const char* start_tag, double& x
 //
 bool XML_PARSER::parse_bool(char* parsed_tag, const char* start_tag, bool& b) {
     char buf[256], *end;
-    bool is_tag = false, eof;
+    bool is_tag, eof;
     char end_tag[256], tag[256];
 
     // handle the archaic form <tag/>, which means true
@@ -805,7 +806,7 @@ bool XML_PARSER::parse_bool(char* parsed_tag, const char* start_tag, bool& b) {
 //
 bool XML_PARSER::parse_start(const char* start_tag) {
     char tag[256];
-    bool eof, is_tag = false;
+    bool eof, is_tag;
 
     eof = get(tag, sizeof(tag), is_tag);
     if (eof || !is_tag ) {
@@ -861,7 +862,7 @@ void XML_PARSER::skip_unexpected(
     const char* start_tag, bool verbose, const char* where
 ) {
     char tag[256], end_tag[256];
-    bool is_tag = false;
+    bool is_tag;
 
     if (verbose) {
         fprintf(stderr, "Unrecognized XML in %s: %s\n", where, start_tag);
@@ -883,7 +884,7 @@ void XML_PARSER::skip_unexpected(
 #if 0
 void parse(FILE* f) {
     char tag[256];
-    bool is_tag = false, flag;
+    bool is_tag, flag;
     MIOFILE mf;
     XML_PARSER xp(&mf);
     char name[256];
