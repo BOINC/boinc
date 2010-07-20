@@ -5313,3 +5313,18 @@ David  20 Jul 2010
 
     configure.ac
     Makefile.am
+
+David  20 Jul 2010
+	- client: don't do two RSS fetches at once
+	- manager: WxWidget's HTML renderer doesn't seem to like \n's.
+		For example, if you try to render
+			foo
+			<img src=...>
+			blah
+		all it shows is foo.
+		Work around this by replacing \n's with <br>
+
+	client/
+		cs_notice.cpp
+	clientgui/
+		NoticeListCtrl.cpp

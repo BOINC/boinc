@@ -172,6 +172,22 @@ wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId)
     return wxACC_NOT_IMPLEMENTED;
 }
 
+static void fix_html(const char* in, char* out) {
+    while (*in) {
+        switch (*in) {
+        case '\n':
+            strcpy(out, "<br>");
+            out += 4;
+            break;
+        case '\r':
+            break;
+        default:
+            *out++ = *in;
+        }
+        in++;
+    }
+    *out = 0;
+}
 
 // Returns the description for this object or a child.
 wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* description)
@@ -183,26 +199,26 @@ wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* des
     wxString strProjectName = wxEmptyString;
     wxString strArrivalTime = wxEmptyString;
 
-    if (pDoc && (childId != wxACC_SELF))
-    {
+    if (pDoc && (childId != wxACC_SELF)) {
         strBuffer = wxEmptyString;
-        if (pDoc)
-        {
-            strDescription = wxString(process_client_message(pDoc->notice(childId-1)->description.c_str()), wxConvUTF8); 
-            strProjectName = wxString(pDoc->notice(childId-1)->project_name, wxConvUTF8);
-            dtBuffer.Set((time_t)pDoc->notice(childId-1)->arrival_time);
-            strArrivalTime = dtBuffer.Format();
-            if (strProjectName.IsEmpty()) {
-                strBuffer.Printf(_("%s; received on %s"), strDescription.c_str(), strArrivalTime.c_str());
-            } else {
-                strBuffer.Printf(_("%s; received from %s; on %s"), strDescription.c_str(), strProjectName.c_str(), strArrivalTime.c_str());
-            }
-
-            strBuffer = StripHTMLTags(strBuffer);
-            *description = strBuffer.c_str();
-            
-            return wxACC_OK;
+        
+        // WxWidget's HTML renderer gets messed up by \n's. change to <br>
+        char buf[8192];
+        fix_html(pDoc->notice(childId-1)->description.c_str(), buf);
+        strDescription = process_client_message(buf); 
+        strProjectName = wxString(pDoc->notice(childId-1)->project_name, wxConvUTF8);
+        dtBuffer.Set((time_t)pDoc->notice(childId-1)->arrival_time);
+        strArrivalTime = dtBuffer.Format();
+        if (strProjectName.IsEmpty()) {
+            strBuffer.Printf(_("%s; received on %s"), strDescription.c_str(), strArrivalTime.c_str());
+        } else {
+            strBuffer.Printf(_("%s; received from %s; on %s"), strDescription.c_str(), strProjectName.c_str(), strArrivalTime.c_str());
         }
+
+        strBuffer = StripHTMLTags(strBuffer);
+        *description = strBuffer.c_str();
+        
+        return wxACC_OK;
     }
 
     // Let the framework handle the other cases.
@@ -532,7 +548,9 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
     strProjectName = wxString(np->project_name, wxConvUTF8);
     strURL = wxString(np->link, wxConvUTF8);
     strTitle = wxString(process_client_message(np->title), wxConvUTF8);
-    strDescription = wxString(process_client_message(np->description.c_str()), wxConvUTF8);
+    char buf[8192];
+    fix_html(np->description.c_str(), buf);
+    strDescription = process_client_message(buf);
 
     dtBuffer.Set((time_t)np->arrival_time);
     strArrivalTime = dtBuffer.Format();

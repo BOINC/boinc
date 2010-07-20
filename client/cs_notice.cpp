@@ -602,6 +602,7 @@ bool RSS_FEED_OP::poll() {
                 strcpy(url, rf.url);
             }
             gstate.gui_http.do_rpc(this, url, filename);
+            break;
         }
     }
     return false;
