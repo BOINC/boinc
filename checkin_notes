@@ -5290,3 +5290,19 @@ Charlie 19 Jul 2010
 
 	lib/
 		parse.cpp
+
+David  20 Jul 2010
+    - client: don't archive system notices,
+        so they don't persist across client restarts.
+        These notices are for transient conditions.
+        If the user has fixed the condition,
+        there's no reason to keep showing the notice.
+        If they haven't fixed it, the notice will be regenerated soon.
+    - manager: fix spelling error in simple GUI.
+
+    clientgui/
+        MainDocument.cpp
+        sg_ImageButton.cpp
+    client/
+        gui_rpc_server_ops.cpp
+        cs_notice.cpp

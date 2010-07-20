@@ -89,7 +89,7 @@ wxString CImageButton::GetStatusText() {
 	} else if ( status == TAB_STATUS_PREEMPTED )  {
 		return wxString(_("Paused: Other work running"));
 	} else if ( status == TAB_STATUS_PAUSED_USER_REQ )  {
-		return wxString(_("Paused: User initiatied.  Click 'Resume' to continue"));
+		return wxString(_("Paused: User initiated.  Click 'Resume' to continue"));
 	} else if ( status == TAB_STATUS_PAUSED_USER_ACTIVE )  {
 		return wxString(_("Paused: User active"));
 	} else if ( status == TAB_STATUS_PAUSED_POWER )  {

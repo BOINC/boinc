@@ -236,11 +236,13 @@ int NOTICE::parse_rss(XML_PARSER& xp) {
 // called at the start of client initialization
 //
 void NOTICES::init() {
+#if 0
     read_archive_file(NOTICES_DIR"/archive.xml", NULL);
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO, "read %d BOINC notices", (int)notices.size());
     }
     write_archive(NULL);
+#endif
 }
 
 // called at the end of client initialization
@@ -319,9 +321,11 @@ bool NOTICES::append(NOTICE& n) {
         );
     }
     notices.push_front(n);
+#if 0
     if (!strlen(n.feed_url)) {
         write_archive(NULL);
     }
+#endif
     return true;
 }
 
