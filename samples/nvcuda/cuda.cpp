@@ -315,6 +315,7 @@ void generate_random_input_file(int n) {
         }
     }
     fclose(infile);
+    free(h_idata);
 }
 
 /*
