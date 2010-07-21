@@ -358,12 +358,12 @@ wxInt32 CViewTabPage::FormatCPUTime(RESULT* rslt, wxString& strBuffer) const {
 
     if (result) {
         if (result->active_task) {
-            fBuffer = result->current_cpu_time;
+            fBuffer = result->elapsed_time;
         } else {
             if(result->state < RESULT_COMPUTE_ERROR) {
                 fBuffer = 0;
             } else {
-                fBuffer = result->final_cpu_time;
+                fBuffer = result->final_elapsed_time;
             }
         }
     }

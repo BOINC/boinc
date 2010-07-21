@@ -5328,3 +5328,12 @@ David  20 Jul 2010
 		cs_notice.cpp
 	clientgui/
 		NoticeListCtrl.cpp
+
+David  20 Jul 2010
+    - manager: in simple view, where it says Elapsed time,
+        show elapsed rather than CPU time
+
+    clientgui/
+        sg_ViewTabPage.cpp
+    sched/
+        sched_types.cpp

@@ -701,7 +701,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         goto end;
     }
     if (config.workload_sim) {
-        fprintf(fout, "<send_full_workload\n");
+        fprintf(fout, "<send_full_workload/>\n");
     }
 
     if (nucleus_only) goto end;
