@@ -10,45 +10,65 @@
 // $version is the verson number of the BOINC Manager requesting help.
 //   Only valid for BOINC Manager 5.9.3 or better
 //
-// $control_id is the control identifier for the control that captured
+// $controlid is the control identifier for the control that captured
 //   the context sensitive help request. Please see the Events.h file
 //   in the clientgui directory for a list of valid control ids.
 //
 
 $target = null;
 $version = null;
-$control_id = null;
+$controlid = null;
 
 if (isset($_GET['target'])) $target = $_GET['target'];
 if (isset($_GET['version'])) $version = $_GET['version'];
-if (isset($_GET['controlid'])) $control_id = $_GET['controlid'];
+if (isset($_GET['controlid'])) $controlid = $_GET['controlid'];
 
 if (($target == "advanced") && version_compare($version, "5.10.0", ">=")) {
-	if ($control_id == "6024") {
+	if ($controlid == "6024") {
 		header('Location: http://boinc.berkeley.edu');
-	} else if ($control_id == "6025") {
+	} else if ($controlid == "6025") {
 		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
-	} else if ($control_id == "6035") {
-		header('Location: http://boinc.berkeley.edu/help.php');
+	} else if ($controlid == "6035") {
+		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
 	} else {
 		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
 	}
 } else if (($target == "simple") && version_compare($version, "6.2.0", ">=")) {
-    if ($control_id == "6024") {
+    if ($controlid == "6024") {
         header('Location: http://boinc.berkeley.edu');
-    } else if ($control_id == "6025") {
+    } else if ($controlid == "6025") {
         header('Location: http://boinc.berkeley.edu/wiki/Simple_view');
-    } else if ($control_id == "6035") {
-        header('Location: http://boinc.berkeley.edu/help.php');
+    } else if ($controlid == "6035") {
+        header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
     } else {
         header('Location: http://boinc.berkeley.edu/wiki/Simple_view');
     }
 } else if ($target == "advanced_preferences") {
     header('Location: http://boinc.berkeley.edu/wiki/Preferences');
+} else if ($target == "notice") {
+    if ($controlid == 'download') {
+        header('Location: http://boinc.berkeley.edu/download.php');
+    } else if ($controlid == 'statefile') {
+        header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
+    } else if ($controlid == 'proxy_env') {
+        header('Location: http://boinc.berkeley.edu/wiki/Client_configuration#Environment_variables');
+    } else if ($controlid == 'app_info') {
+        header('Location: http://boinc.berkeley.edu/wiki/Anonymous_platform');
+    } else if ($controlid == 'remote_hosts') {
+        header('Location: http://boinc.berkeley.edu/wiki/Controlling_BOINC_remotely');
+    } else if ($controlid == 'log_flags') {
+        header('Location: http://boinc.berkeley.edu/wiki/Client_configuration#Logging_flags');
+    } else if ($controlid == 'config') {
+        header('Location: http://boinc.berkeley.edu/wiki/Client_configuration#Configuration_file');
+    } else {
+        header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
+    }
 } else {
     if ($target == "advanced") {
         header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
     } else {
-        header('Location: http://boinc.berkeley.edu/help.php');
+        header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
     }
 }
+
+?>
