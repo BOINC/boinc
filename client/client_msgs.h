@@ -43,7 +43,7 @@ struct MESSAGE_DESC {
 //
 struct MESSAGE_DESCS {
     std::deque<MESSAGE_DESC*> msgs;
-    void insert(struct PROJECT *p, int priority, int now, char* msg);
+    void insert(struct PROJECT *p, int priority, int now, char* msg, const char* link);
     void write(int seqno, class MIOFILE&, bool translatable);
     int highest_seqno();
     void cleanup();
@@ -60,7 +60,12 @@ extern MESSAGE_DESCS message_descs;
 
 // Show a message, preceded by timestamp and project name
 
-extern void msg_printf(struct PROJECT *p, int priority, const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
+extern void msg_printf(struct PROJECT *p, int priority, const char *fmt, ...)
+    __attribute__ ((format (printf, 3, 4)))
+;
+extern void msg_printf_link(struct PROJECT *p, int priority, const char* link, const char *fmt, ...)
+    __attribute__ ((format (printf, 4, 5)))
+;
 
 extern void strip_translation(char*);
 

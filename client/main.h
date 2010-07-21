@@ -22,4 +22,4 @@ extern void log_message_error(const char* msg, int error_code);
 extern int boinc_main_loop();
 #endif
 
-extern void show_message(struct PROJECT *p, char* message, int priority);
+extern void show_message(struct PROJECT *p, char* message, int priority, const char* link);

@@ -760,9 +760,10 @@ void CLIENT_STATE::check_anonymous() {
             // flag as anonymous even if can't parse file
         retval = parse_app_info(p, f);
         if (retval) {
-            msg_printf(p, MSG_USER_ALERT,
+            msg_printf_link(p, MSG_USER_ALERT,
+                "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=app_info",
                 "%s %s",
-                _("XML syntax error in"),
+                _("Syntax error in"),
                 APP_INFO_FILE_NAME
             );
         }

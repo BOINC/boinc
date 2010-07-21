@@ -184,7 +184,8 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
                 retval = resolve_hostname(buf, ipaddr);
                 if (retval) {
-                    msg_printf(0, MSG_USER_ALERT,
+                    msg_printf_link(0, MSG_USER_ALERT,
+                        "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=remote_hosts",
                         "%s %s: %s",
                         _("Can't resolve hostname in"),
                         REMOTEHOST_FILE_NAME,

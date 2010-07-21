@@ -5372,3 +5372,21 @@ Rom    21 July 2010
         sg_SGUIListControl.cpp, .h (deleted)
     win_build/
         boincmgr.vcproj
+
+David  21 Jul 2010
+	- client/manager: add the ability to associate URLs with
+		client-generated notices.
+		Use this as appropriate: e.g., for errors about cc_config.xml syntax,
+		direct user to the web page describing this syntax.
+
+	client/
+		acct_setup.cpp
+		client_msgs.cpp,h
+		client_state.cpp
+		cs_cmdline.cpp
+		cs_statefile.cpp
+		gui_rpc_server.cpp
+		log_flags.cpp
+		main.cpp,h
+	clientgui/
+		NoticeListCtrl.cpp

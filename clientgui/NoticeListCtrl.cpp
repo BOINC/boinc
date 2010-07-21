@@ -172,6 +172,8 @@ wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId)
     return wxACC_NOT_IMPLEMENTED;
 }
 
+// WxWidget's HTML renderer gets messed up by \n's. change to <br>
+//
 static void fix_html(const char* in, char* out) {
     while (*in) {
         switch (*in) {
@@ -202,7 +204,6 @@ wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* des
     if (pDoc && (childId != wxACC_SELF)) {
         strBuffer = wxEmptyString;
         
-        // WxWidget's HTML renderer gets messed up by \n's. change to <br>
         char buf[8192];
         fix_html(pDoc->notice(childId-1)->description.c_str(), buf);
         strDescription = process_client_message(buf); 

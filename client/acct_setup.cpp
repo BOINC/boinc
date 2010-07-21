@@ -259,7 +259,8 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<version>")) {
             if (parse_version(f, new_version)) {
-                msg_printf(0, MSG_USER_ALERT,
+                msg_printf_link(0, MSG_USER_ALERT,
+                    "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
                     "%s <a href=%s>%s</a>",
                     _("A new version of BOINC is available."),
                     config.client_download_url.c_str(),

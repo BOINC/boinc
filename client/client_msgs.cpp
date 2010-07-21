@@ -53,14 +53,28 @@ void msg_printf(PROJECT *p, int priority, const char *fmt, ...) {
     buf[sizeof(buf)-1] = 0;
     va_end(ap);
 
-    show_message(p, buf, priority);
+    show_message(p, buf, priority, 0);
+}
+
+void msg_printf_link(PROJECT *p, int priority, const char* link, const char *fmt, ...) {
+    char buf[8192];  // output can be much longer than format
+    va_list ap;
+
+    if (fmt == NULL) return;
+
+    va_start(ap, fmt);
+    vsnprintf(buf, sizeof(buf), fmt, ap);
+    buf[sizeof(buf)-1] = 0;
+    va_end(ap);
+
+    show_message(p, buf, priority, link);
 }
 
 // handle new message:
 // add to cache, and delete old messages if cache too big.
 // If high priority, create a notice.
 //
-void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message) {
+void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message, const char* link) {
     MESSAGE_DESC* mdp = new MESSAGE_DESC;
     static int seqno = 1;
     strcpy(mdp->project_name, "");
@@ -85,6 +99,9 @@ void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message) {
         xml_escape(message, buf, 1024);
         NOTICE n;
         n.description = buf;
+        if (link) {
+            strcpy(n.link, link);
+        }
         if (p) {
             strcpy(n.project_name, p->get_project_name());
         }

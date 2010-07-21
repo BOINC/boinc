@@ -70,7 +70,7 @@
 // Display a message to the user.
 // Depending on the priority, the message may be more or less obtrusive
 //
-void show_message(PROJECT *p, char* msg, int priority) {
+void show_message(PROJECT *p, char* msg, int priority, const char* link) {
     const char* x;
     char message[1024];
     char* time_string = time_to_string(gstate.now);
@@ -97,7 +97,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         x = "---";
     }
 
-    message_descs.insert(p, priority, (int)gstate.now, message);
+    message_descs.insert(p, priority, (int)gstate.now, message, link);
 
     strip_translation(message);
 

@@ -62,7 +62,8 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            msg_printf(NULL, MSG_USER_ALERT,
+            msg_printf_link(NULL, MSG_USER_ALERT,
+                "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=log_flags",
                 "%s %s: %s",
                 _("Unexpected text in"),
                 CONFIG_FILE,
@@ -106,7 +107,8 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "work_fetch_debug", work_fetch_debug)) continue;
         if (xp.parse_bool(tag, "notice_debug", notice_debug)) continue;
 
-        msg_printf(NULL, MSG_USER_ALERT,
+        msg_printf_link(NULL, MSG_USER_ALERT,
+            "http://boinc.berkeley.edu/manager_links.php?target=notice&control_id=log_flags",
             "%s %s: <%s>",
             _("Unrecognized tag in"),
             CONFIG_FILE,
@@ -312,7 +314,8 @@ int CONFIG::parse_options(XML_PARSER& xp) {
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            msg_printf(NULL, MSG_USER_ALERT,
+            msg_printf_link(NULL, MSG_USER_ALERT,
+                "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
                 "%s %s: %s",
                 _("Unexpected text in"),
                 CONFIG_FILE,
@@ -409,7 +412,8 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool(tag, "zero_debts", zero_debts)) continue;
 
-        msg_printf(NULL, MSG_USER_ALERT,
+        msg_printf_link(NULL, MSG_USER_ALERT,
+            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
             "%s %s: <%s>",
             _("Unrecognized tag in"),
             CONFIG_FILE,
@@ -428,7 +432,8 @@ int CONFIG::parse(FILE* f) {
 
     mf.init_file(f);
     if (!xp.parse_start("cc_config")) {
-        msg_printf(NULL, MSG_USER_ALERT,
+        msg_printf_link(NULL, MSG_USER_ALERT,
+            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
             "%s %s",
             _("Missing start tag in"),
             CONFIG_FILE
@@ -437,7 +442,8 @@ int CONFIG::parse(FILE* f) {
     }
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            msg_printf(NULL, MSG_USER_ALERT,
+            msg_printf_link(NULL, MSG_USER_ALERT,
+                "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
                 "%s %s: %s",
                 _("Unexpected text in"),
                 CONFIG_FILE,
@@ -454,7 +460,8 @@ int CONFIG::parse(FILE* f) {
             parse_options(xp);
             continue;
         }
-        msg_printf(NULL, MSG_USER_ALERT,
+        msg_printf_link(NULL, MSG_USER_ALERT,
+            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
             "%s %s: <%s>",
             _("Unrecognized tag in"),
             CONFIG_FILE,
@@ -462,7 +469,8 @@ int CONFIG::parse(FILE* f) {
         );
         xp.skip_unexpected(tag, true, "CONFIG.parse");
     }
-    msg_printf(NULL, MSG_USER_ALERT,
+    msg_printf_link(NULL, MSG_USER_ALERT,
+        "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
         "%s %s",
         _("Missing end tag in"),
         CONFIG_FILE
