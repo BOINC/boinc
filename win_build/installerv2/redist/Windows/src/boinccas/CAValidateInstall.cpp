@@ -102,15 +102,6 @@ UINT CAValidateInstall::OnExecution()
         SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
     
-    uiReturnValue = GetComponentKeyFilename( _T("_BOINCLog"), strFilename );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    strTemp = strInstallDirectory + _T("\\") + strFilename;
-    if (!ValidateExecutable( strTemp, strProductVersion ))
-    {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
-    }
-    
     uiReturnValue = GetComponentKeyFilename( _T("_BOINCTray"), strFilename );
     if ( uiReturnValue ) return uiReturnValue;
 

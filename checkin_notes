@@ -5244,6 +5244,7 @@ Rom    19 July 2010
     - WINSETUP: Update validate install procedure to account for the
         removal of boinc.dll and addition of boinclog.exe.
     - MGR: Move auto-proxy detection code into its own thread.
+    - client: Isolate the auto-proxy detection code to its own thread.
     
     client/
         main.cpp
@@ -5345,3 +5346,19 @@ Rom    21 Jul 2010
     /
         configure.ac
         version.h
+
+Rom    19 July 2010
+    - WINSETUP: Update validate install procedure to account for the
+        removal of boinclog.exe.
+    
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAValidateInstall.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
