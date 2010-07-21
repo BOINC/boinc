@@ -5337,3 +5337,11 @@ David  20 Jul 2010
         sg_ViewTabPage.cpp
     sched/
         sched_types.cpp
+
+Rom    21 Jul 2010
+    - Tag for 6.11.3 release, all platforms
+      boinc_core_release_6_11_3
+
+    /
+        configure.ac
+        version.h
