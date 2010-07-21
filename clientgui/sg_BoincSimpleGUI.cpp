@@ -322,7 +322,6 @@ void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function Start"));
     
     static bool bAlreadyRunning = false;
-    wxTimerEvent    timerEvent;
     
     if (bAlreadyRunning) return;
     bAlreadyRunning = true;

@@ -33,9 +33,8 @@
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "version.h"
-
 #include "sg_DlgMessages.h"
-#include "sg_SGUIListControl.h"
+#include "NoticeListCtrl.h"
 
 
 
@@ -64,8 +63,6 @@ BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
 ////@begin CPanelPreferences event table entries
     EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
-    EVT_BUTTON(ID_COPYAll, CPanelMessages::OnMessagesCopyAll)
-    EVT_BUTTON(ID_COPYSELECTED, CPanelMessages::OnMessagesCopySelected)
     EVT_BUTTON(ID_SIMPLE_HELP, CPanelMessages::OnButtonHelp)
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
@@ -93,8 +90,7 @@ CPanelMessages::CPanelMessages( wxWindow* parent ) :
 bool CPanelMessages::Create()
 {
 ////@begin CPanelMessages member initialisation
-    m_iPreviousDocCount = 0;
-	m_bProcessingRefreshEvent = false;
+    m_bProcessingRefreshEvent = false;
 ////@end CPanelMessages member initialisation
 
     CreateControls();
@@ -102,30 +98,12 @@ bool CPanelMessages::Create()
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
 
-	// Create List Pane Items
-    m_pList->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 109);
-    m_pList->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 130);
-    m_pList->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, 378);
-
-    m_pMessageInfoAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
-    m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
-
     return true;
 }
 
 
 CPanelMessages::~CPanelMessages()
 {
-	if (m_pMessageInfoAttr) {
-        delete m_pMessageInfoAttr;
-        m_pMessageInfoAttr = NULL;
-    }
-
-    if (m_pMessageErrorAttr) {
-        delete m_pMessageErrorAttr;
-        m_pMessageErrorAttr = NULL;
-    }
-
 }
 
 
@@ -146,8 +124,8 @@ void CPanelMessages::CreateControls()
     itemFlexGridSizer2->AddGrowableCol(0);
     itemDialog1->SetSizer(itemFlexGridSizer2);
 
-    m_pList = new CSGUIListCtrl(this, ID_SIMPLE_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS);
-    itemFlexGridSizer2->Add(m_pList, 0, wxGROW|wxALL, 5);
+    m_pHtmlListPane = new CNoticeListCtrl(this);
+    itemFlexGridSizer2->Add(m_pHtmlListPane, 0, wxGROW|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
     
@@ -155,64 +133,6 @@ void CPanelMessages::CreateControls()
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
 #else
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-#endif
-
-#ifdef wxUSE_CLIPBOARD
-    wxBitmapButton* itemButton1 = new wxBitmapButton(
-        this,
-        ID_COPYAll,
-        *pSkinSimple->GetCopyAllButton()->GetBitmap(),
-        wxDefaultPosition,
-        wxSize(
-            (*pSkinSimple->GetCopyAllButton()->GetBitmap()).GetWidth(),
-            (*pSkinSimple->GetCopyAllButton()->GetBitmap()).GetHeight()
-        ),
-        wxBU_AUTODRAW
-    );
-	if ( pSkinSimple->GetCopyAllButton()->GetBitmapClicked() != NULL ) {
-		itemButton1->SetBitmapSelected(*pSkinSimple->GetCopyAllButton()->GetBitmapClicked());
-	}
-    itemButton1->SetHelpText(
-        _("Copy all the messages to the clipboard.")
-    );
-#if wxUSE_TOOLTIPS
-    itemButton1->SetToolTip(
-        _("Copy all the messages to the clipboard.")
-    );
-#endif
-    itemBoxSizer4->Add(itemButton1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxBitmapButton* itemButton2 = new wxBitmapButton(
-        this,
-        ID_COPYSELECTED,
-        *pSkinSimple->GetCopyButton()->GetBitmap(),
-        wxDefaultPosition,
-        wxSize(
-            (*pSkinSimple->GetCopyButton()->GetBitmap()).GetWidth(),
-            (*pSkinSimple->GetCopyButton()->GetBitmap()).GetHeight()
-        ),
-        wxBU_AUTODRAW
-    );
-	if ( pSkinSimple->GetCopyButton()->GetBitmapClicked() != NULL ) {
-		itemButton2->SetBitmapSelected(*pSkinSimple->GetCopyButton()->GetBitmapClicked());
-	}
-    itemButton2->SetHelpText(
-#ifdef __WXMAC__
-        _("Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages.")
-#else
-        _("Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages.")
-#endif
-    );
-#if wxUSE_TOOLTIPS
-    itemButton2->SetToolTip(
-#ifdef __WXMAC__
-        _("Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages.")
-#else
-        _("Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages.")
-#endif
-    );
-#endif
-    itemBoxSizer4->Add(itemButton2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
     wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(
@@ -324,49 +244,12 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
  */
 
 void CPanelMessages::OnRefresh() {
-    bool isConnected;
-    static bool was_connected = false;
-    
     if (!m_bProcessingRefreshEvent) {
         m_bProcessingRefreshEvent = true;
 
-        wxASSERT(m_pList);
-
-        wxInt32 iDocCount = wxGetApp().GetDocument()->GetMessageCount();
-        if (0 >= iDocCount) {
-            m_pList->DeleteAllItems();
-        } else {
-            // If connection status changed, adjust color of messages display
-            isConnected = wxGetApp().GetDocument()->IsConnected();
-            if (was_connected != isConnected) {
-                was_connected = isConnected;
-                if (isConnected) {
-                    m_pMessageInfoAttr->SetTextColour(*wxBLACK);
-                    m_pMessageErrorAttr->SetTextColour(*wxRED);
-                } else {
-                    wxColourDatabase colorBase;
-                    m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
-                    m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
-                }
-                // Force a complete update
-                m_pList->DeleteAllItems();
-                m_pList->SetItemCount(iDocCount);
-                 m_iPreviousDocCount = 0;    // Force scrolling to bottom
-            } else {
-                // Connection status didn't change
-                if (m_iPreviousDocCount != iDocCount) {
-                    m_pList->SetItemCount(iDocCount);
-                }
-            }
-        }
-
-        if ((iDocCount > 1) && (EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
-            m_pList->EnsureVisible(iDocCount - 1);
-        }
-
-        if (m_iPreviousDocCount != iDocCount) {
-            m_iPreviousDocCount = iDocCount;
-        }
+        m_pHtmlListPane->Freeze();
+        m_pHtmlListPane->UpdateUI();
+        m_pHtmlListPane->Thaw();
 
         m_bProcessingRefreshEvent = false;
     }
@@ -379,58 +262,6 @@ void CPanelMessages::OnRefresh() {
 
 void CPanelMessages::OnOK( wxCommandEvent& event ) {
     event.Skip();
-}
-
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYAll
- */
-
-void CPanelMessages::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnMessagesCopyAll - Function Begin"));
-
-#ifdef wxUSE_CLIPBOARD
-    wxInt32 iIndex          = -1;
-    wxInt32 iRowCount       = 0;
-    OpenClipboard();
-
-    iRowCount = m_pList->GetItemCount();
-    for (iIndex = 0; iIndex < iRowCount; iIndex++) {
-        CopyToClipboard(iIndex);            
-    }
-
-    CloseClipboard();
-#endif
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnMessagesCopyAll - Function End"));
-}
-
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
- */
-
-void CPanelMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnMessagesCopySelected - Function Begin"));
-
-#ifdef wxUSE_CLIPBOARD
-    wxInt32 iIndex = -1;
-
-    OpenClipboard();
-
-    for (;;) {
-        iIndex = m_pList->GetNextItem(
-            iIndex, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED
-        );
-        if (iIndex == -1) break;
-
-        CopyToClipboard(iIndex);            
-    }
-
-    CloseClipboard();
-#endif
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnMessagesCopySelected - Function End"));
 }
 
 
@@ -459,241 +290,13 @@ void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {
 
 
 bool CPanelMessages::OnSaveState(wxConfigBase* pConfig) {
-    wxString    strBaseConfigLocation = wxEmptyString;
-    wxListItem  liColumnInfo;
-    wxInt32     iIndex = 0;
-    wxInt32     iColumnCount = 0;
-
-
-    wxASSERT(pConfig);
-
-
-    // Retrieve the base location to store configuration information
-    // Should be in the following form: "/Projects/"
-    strBaseConfigLocation = pConfig->GetPath() + wxT("/");
-
-    // Convert to a zero based index
-    iColumnCount = m_pList->GetColumnCount() - 1;
-
-    // Which fields are we interested in?
-    liColumnInfo.SetMask(
-        wxLIST_MASK_TEXT |
-        wxLIST_MASK_WIDTH |
-        wxLIST_MASK_FORMAT
-    );
-
-    // Cycle through the columns recording anything interesting
-    for (iIndex = 0; iIndex <= iColumnCount; iIndex++) {
-        m_pList->GetColumn(iIndex, liColumnInfo);
-
-        pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
-
-        pConfig->Write(wxT("Width"), liColumnInfo.GetWidth());
-        
-#if (defined(__WXMAC__) &&  wxCHECK_VERSION(2,8,0))
-        pConfig->Write(wxT("Width"), m_pList->GetColumnWidth(iIndex)); // Work around bug in wxMac-2.8.0 wxListCtrl::SetColumn()
-#endif
-    }
-
-
     return true;
 }
 
 
 bool CPanelMessages::OnRestoreState(wxConfigBase* pConfig) {
-    wxString    strBaseConfigLocation = wxEmptyString;
-    wxListItem  liColumnInfo;
-    wxInt32     iIndex = 0;
-    wxInt32     iColumnCount = 0;
-    wxInt32     iTempValue = 0;
-
-
-    wxASSERT(pConfig);
-
-
-    // Retrieve the base location to store configuration information
-    // Should be in the following form: "/Projects/"
-    strBaseConfigLocation = pConfig->GetPath() + wxT("/");
-
-    // Convert to a zero based index
-    iColumnCount = m_pList->GetColumnCount() - 1;
-
-    // Which fields are we interested in?
-    liColumnInfo.SetMask(
-        wxLIST_MASK_TEXT |
-        wxLIST_MASK_WIDTH |
-        wxLIST_MASK_FORMAT
-    );
-
-    // Cycle through the columns recording anything interesting
-    for (iIndex = 0; iIndex <= iColumnCount; iIndex++) {
-        m_pList->GetColumn(iIndex, liColumnInfo);
-
-        pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
-
-        pConfig->Read(wxT("Width"), &iTempValue, -1);
-        if (-1 != iTempValue) {
-            liColumnInfo.SetWidth(iTempValue);
-#if (defined(__WXMAC__) &&  wxCHECK_VERSION(2,8,0))
-            m_pList->SetColumnWidth(iIndex,iTempValue); // Work around bug in wxMac-2.8.0 wxListCtrl::SetColumn()
-#endif
-        }
-
-        m_pList->SetColumn(iIndex, liColumnInfo);
-    }
-
     return true;
 }
-
-
-wxString CPanelMessages::OnListGetItemText(long item, long column) const {
-    wxString        strBuffer   = wxEmptyString;
-
-    switch(column) {
-    case COLUMN_PROJECT:
-        FormatProjectName(item, strBuffer);
-        break;
-    case COLUMN_TIME:
-        FormatTime(item, strBuffer);
-        break;
-    case COLUMN_MESSAGE:
-        FormatMessage(item, strBuffer);
-        break;
-    }
-
-    return strBuffer;
-}
-
-
-wxListItemAttr* CPanelMessages::OnListGetItemAttr(long item) const {
-    wxListItemAttr* pAttribute  = NULL;
-    MESSAGE* message = wxGetApp().GetDocument()->message(item);
-
-    if (message) {
-        switch(message->priority) {
-        case MSG_USER_ALERT:
-            pAttribute = m_pMessageErrorAttr;
-            break;
-        default:
-            pAttribute = m_pMessageInfoAttr;
-            break;
-        }
-    }
-
-    return pAttribute;
-	
-}
-
-
-bool CPanelMessages::EnsureLastItemVisible() {
-    int numVisible = m_pList->GetCountPerPage();
-
-    // Auto-scroll only if already at bottom of list
-    if ((m_iPreviousDocCount > numVisible)
-         && ((m_pList->GetTopItem() + numVisible) < (m_iPreviousDocCount-1)) 
-    ) {
-        return false;
-    }
-    
-    return true;
-}
-
-
-wxInt32 CPanelMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
-    MESSAGE* message = wxGetApp().GetDocument()->message(item);
-
-    if (message) {
-        strBuffer = wxString(message->project.c_str(), wxConvUTF8);
-    }
-
-    return 0;
-}
-
-
-wxInt32 CPanelMessages::FormatTime(wxInt32 item, wxString& strBuffer) const {
-    wxDateTime dtBuffer;
-    MESSAGE*   message = wxGetApp().GetDocument()->message(item);
-
-    if (message) {
-        dtBuffer.Set((time_t)message->timestamp);
-        strBuffer = dtBuffer.Format();
-    }
-
-    return 0;
-}
-
-
-wxInt32 CPanelMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
-    MESSAGE*   message = wxGetApp().GetDocument()->message(item);
-
-    if (message) {
-        strBuffer = process_client_message(message->body.c_str());
-    }
-
-    strBuffer.Replace(wxT("\n"), wxT(""), true);
-
-    return 0;
-}
-
-
-#ifdef wxUSE_CLIPBOARD
-bool CPanelMessages::OpenClipboard() {
-    bool bRetVal = false;
-
-    bRetVal = wxTheClipboard->Open();
-    if (bRetVal) {
-        m_bClipboardOpen = true;
-        m_strClipboardData = wxEmptyString;
-        wxTheClipboard->Clear();
-    }
-
-    return bRetVal;
-}
-
-
-wxInt32 CPanelMessages::CopyToClipboard(wxInt32 item) {
-    wxInt32        iRetVal = -1;
-
-    if (m_bClipboardOpen) {
-        wxString       strBuffer = wxEmptyString;
-        wxString       strTimeStamp = wxEmptyString;
-        wxString       strProject = wxEmptyString;
-        wxString       strMessage = wxEmptyString;
-
-        FormatTime(item, strTimeStamp);
-        FormatProjectName(item, strProject);
-        FormatMessage(item, strMessage);
-
-#ifdef __WXMSW__
-        strBuffer.Printf(wxT("%s|%s|%s\r\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
-#else
-        strBuffer.Printf(wxT("%s|%s|%s\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
-#endif
-
-        m_strClipboardData += strBuffer;
-
-        iRetVal = 0;
-    }
-
-    return iRetVal;
-}
-
-
-bool CPanelMessages::CloseClipboard() {
-    bool bRetVal = false;
-
-    if (m_bClipboardOpen) {
-        wxTheClipboard->SetData(new wxTextDataObject(m_strClipboardData));
-        wxTheClipboard->Close();
-
-        m_bClipboardOpen = false;
-        m_strClipboardData = wxEmptyString;
-    }
-
-    return bRetVal;
-}
-
-#endif
 
 
 /*!

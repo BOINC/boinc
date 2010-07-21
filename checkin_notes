@@ -5347,7 +5347,7 @@ Rom    21 Jul 2010
         configure.ac
         version.h
 
-Rom    19 July 2010
+Rom    21 July 2010
     - WINSETUP: Update validate install procedure to account for the
         removal of boinclog.exe.
     
@@ -5362,3 +5362,13 @@ Rom    19 July 2010
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    21 July 2010
+    - MGR: Make the simple GUI messages dialog display notices instead.
+    
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        sg_DlgMessages.cpp, .h
+        sg_SGUIListControl.cpp, .h (deleted)
+    win_build/
+        boincmgr.vcproj

@@ -36,7 +36,7 @@
  */
 
 ////@begin forward declarations
-class CSGUIListCtrl;
+class CNoticeListCtrl;
 ////@end forward declarations
 
 /*!
@@ -98,12 +98,6 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
 
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYAll
-    void OnMessagesCopyAll( wxCommandEvent& event );
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
-    void OnMessagesCopySelected( wxCommandEvent& event );
-
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
 
@@ -112,33 +106,12 @@ public:
 ////@begin CPanelMessages member function declarations
 ////@end CPanelMessages member function declarations
 
-    virtual wxString        OnListGetItemText( long item, long column ) const;
-    virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
-
     bool                    OnSaveState(wxConfigBase* pConfig);
     bool                    OnRestoreState(wxConfigBase* pConfig);
 
 private:
-    wxInt32                 m_iPreviousDocCount;
-
-    CSGUIListCtrl*          m_pList;
-    wxListItemAttr*         m_pMessageInfoAttr;
-    wxListItemAttr*         m_pMessageErrorAttr;
-
     bool                    m_bProcessingRefreshEvent;
-
-    bool                    EnsureLastItemVisible();
-    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
-    wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
-    wxInt32                 FormatMessage( wxInt32 item, wxString& strBuffer ) const;
-
-#ifdef wxUSE_CLIPBOARD
-    bool                    m_bClipboardOpen;
-    wxString                m_strClipboardData;
-    bool                    OpenClipboard();
-    wxInt32                 CopyToClipboard( wxInt32 item );
-    bool                    CloseClipboard();
-#endif
+	CNoticeListCtrl*        m_pHtmlListPane;
 };
 
 

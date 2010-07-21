@@ -805,14 +805,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\sg_SGUIListControl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_SGUIListControl.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\sg_StatImageLoader.cpp"
 					>
 				</File>
