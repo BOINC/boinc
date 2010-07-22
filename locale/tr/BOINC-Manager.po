@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-07-19 05:18+0200\n"
+"PO-Revision-Date: 2010-07-22 18:01+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -136,12 +136,12 @@ msgstr "Hesap yöneticisine bağlan"
 #: AccountInfoPage.cpp:542
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr "Bu proje için en az parola uzunluğu %d karakter. Lütfen farklı bir parola girin."
+msgstr "Bu proje için parola uzunluğu en az %d karakter olmalı. Lütfen uygun bir parola girin."
 
 #: AccountInfoPage.cpp:548
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr "Bu hesap yöneticisi için en az parola uzunluğu %d karakter. Lütfen farklı bir parola girin."
+msgstr "Bu hesap yöneticisi için parola uzunluğu en az %d karakter olmalı. Lütfen uygun bir parola girin."
 
 #: AccountInfoPage.cpp:559
 msgid "The password and confirmation password do not match. Please type them again."
@@ -161,7 +161,7 @@ msgstr ""
 
 #: AccountManagerInfoPage.cpp:254
 msgid "Account Manager &URL:"
-msgstr "Hesap yöneticisi &adresi:"
+msgstr "Hesap Yöneticisi &adresi:"
 
 #: AccountManagerProcessingPage.cpp:189
 #: AccountManagerPropertiesPage.cpp:195
@@ -407,7 +407,7 @@ msgstr "Bağlı olan istemciyi kapat..."
 
 #: AdvancedFrame.cpp:542
 msgid "Shut down the currently connected client"
-msgstr "Şu anda bağlı olan çekirdek istemciyi kapatır."
+msgstr "Şu anda bağlı olan istemciyi kapatır."
 
 #: AdvancedFrame.cpp:546
 msgid "Run CPU &benchmarks"
@@ -415,7 +415,7 @@ msgstr "&CPU testlerini çalıştır"
 
 #: AdvancedFrame.cpp:547
 msgid "Runs BOINC CPU benchmarks"
-msgstr "BOINC'in CPU (işlemci) testlerini çalıştırır. Sonuçları Mesajlar'da görebilirsiniz."
+msgstr "BOINC'in CPU (işlemci) testlerini çalıştırır. Sonuçları Olay Günlüğü'nde görebilirsiniz."
 
 #: AdvancedFrame.cpp:551
 msgid "Do network communication"
@@ -447,7 +447,7 @@ msgstr "Olay günlüğü..."
 
 #: AdvancedFrame.cpp:567
 msgid "Display diagnostic messages."
-msgstr "æİstemcinin tanılama mesajlarını görüntüler."
+msgstr "Tanılama mesajlarını görüntüler."
 
 #: AdvancedFrame.cpp:577
 #: sg_BoincSimpleGUI.cpp:129
@@ -555,9 +555,7 @@ msgstr "%s - Dil Seçimi"
 #: AdvancedFrame.cpp:1350
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"%s'ın varsayılan dili değişti.\n"
-"Değişikliğin etkili olması için %s yeniden başlatılmalı."
+msgstr "%s'ın varsayılan dili değişti. Değişikliğin etkili olması için %s yeniden başlatılmalı."
 
 #: AdvancedFrame.cpp:1513
 #, c-format
@@ -575,7 +573,7 @@ msgstr ""
 
 #: AdvancedFrame.cpp:1569
 msgid "Retrying communications."
-msgstr "Proje(ler) için yeniden bağlantı kurulmaya çalışılıyor..."
+msgstr "Yeniden bağlantı kurulmaya çalışılıyor..."
 
 #: AdvancedFrame.cpp:1774
 #: DlgAbout.cpp:104
@@ -714,7 +712,7 @@ msgid ""
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 "%s, %s istemcisini başlatamıyor.\n"
-"Lütfen Denetim Masası->Yentimsel Araçlar->Hizmetler bölümüne gidip, BOINC servisini başlatın."
+"Lütfen, Denetim Masası->Yönetimsel Araçlar->Hizmetler bölümüne gidip, BOINC Hizmetini başlatın."
 
 #: BOINCBaseFrame.cpp:554
 #, c-format
@@ -762,8 +760,7 @@ msgid ""
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
 "%s bir projeyle iletişim kuramadı ve İnternet bağlantısına ihtiyaç duyuyor.\n"
-"Lütfen internete bağlanın, sonra Gelişmiş menüsünden\n"
-"'Ağ iletişimi gerçekleştir' komutunu seçin."
+"Lütfen internete bağlanın, sonra Gelişmiş menüsünden 'Ağ iletişimi gerçekleştir' komutunu seçin."
 
 #: BOINCDialupManager.cpp:310
 #, c-format
@@ -787,8 +784,7 @@ msgid ""
 "using Advanced/Options/Connections."
 msgstr ""
 "%s internet bağlantısı kuramadı ve varsayılan internet bağlantısı da seçili değil.\n"
-"Lütfen internete bağlanın ya da Gelişmiş/Seçenekler/Bağlantılar\n"
-"menüsünden varsayılan bir bağlantı seçin."
+"Lütfen internete bağlanın ya da Gelişmiş/Seçenekler/Bağlantılar menüsünden varsayılan bir bağlantı seçin."
 
 #: BOINCDialupManager.cpp:386
 #, c-format
@@ -864,7 +860,7 @@ msgstr "BOINC Manager"
 
 #: BOINCGUIApp.cpp:519
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "BOINC Manager işletim sistemi tarafından otomatik başlatılacak"
+msgstr "BOINC Manager, işletim sistemi tarafından otomatik başlatılacak"
 
 #: BOINCGUIApp.cpp:521
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -930,7 +926,7 @@ msgstr "Hesaplama durakladı - "
 
 #: BOINCTaskBar.cpp:682
 msgid "GPU computing is enabled"
-msgstr "GP hesaplaması devrede"
+msgstr "GPU hesaplaması devrede"
 
 #: BOINCTaskBar.cpp:685
 msgid "GPU computing is suspended - "
@@ -985,7 +981,7 @@ msgid ""
 "Click Finish to close."
 msgstr ""
 "Bir hata meydana geldi;\n"
-"detaylar için Mesajlar'ı kontrol edin.\n"
+"detaylar için Olay günlüğü'nü kontrol edin.\n"
 "\n"
 "Kapatmak için Son'u tıklayın."
 
@@ -1365,7 +1361,7 @@ msgstr "her"
 #: DlgAdvPreferencesBase.cpp:415
 #: DlgAdvPreferencesBase.cpp:429
 msgid "days"
-msgstr "günde bir"
+msgstr "gün için"
 
 #: DlgAdvPreferencesBase.cpp:421
 msgid "Connect about every"
@@ -2242,7 +2238,7 @@ msgstr "İstemci başlıyor"
 
 #: MainDocument.cpp:1154
 msgid "Retrieving system state; please wait..."
-msgstr "Sistem durum bilgisi alınıyor; lütfen bekleyin"
+msgstr "Sistem durum bilgisi alınıyor; lütfen bekleyin..."
 
 #: MainDocument.cpp:1163
 msgid "Retrieving host information; please wait..."
