@@ -5443,3 +5443,20 @@ David  22 Jul 2010
     client/
         cs_notice.cpp,h
         gui_rpc_server_ops.cpp
+
+David  22 Jul 2010
+    - client: the client shouldn't check for a physical connection
+        (contacting google.com and possibly alerting the user)
+        for "background" HTTP ops.  These include:
+        - periodic account manager requests
+        - periodic notice RSS feed fetches
+        - periodic fetch of project list
+        - periodic fetch of current client version
+
+    client/
+        http_curl.cpp,h
+        gui_http.cpp,h
+        acct_setup.cpp
+        net_stats.cpp
+        cs_notice.cpp
+        acct_mgr.cpp

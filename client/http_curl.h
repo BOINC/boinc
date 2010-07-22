@@ -126,6 +126,10 @@ public:
         // ERR_CONNECT (if server down)
         // ERR_FILE_NOT_FOUND (if 404)
         // ERR_HTTP_ERROR (other failures)
+    bool is_background;
+        // this operation shouldn't trigger a reference-site check
+        // and a user alert if it fails.
+        // For example: notice RSS feed fetches
 
     void reset();
     void init();

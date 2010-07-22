@@ -177,7 +177,7 @@ int ACCT_MGR_OP::do_rpc(
     fclose(f);
     sprintf(buf, "%srpc.php", url);
     retval = gstate.gui_http.do_rpc_post(
-        this, buf, ACCT_MGR_REQUEST_FILENAME, ACCT_MGR_REPLY_FILENAME
+        this, buf, ACCT_MGR_REQUEST_FILENAME, ACCT_MGR_REPLY_FILENAME, true
     );
     if (retval) {
         error_num = retval;

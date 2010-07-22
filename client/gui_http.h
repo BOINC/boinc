@@ -35,10 +35,14 @@ struct GUI_HTTP {
     HTTP_OP http_op;
 
     GUI_HTTP(): gui_http_state(GUI_HTTP_STATE_IDLE) {}
-    int do_rpc(struct GUI_HTTP_OP*, char* url, const char* output_file);
+    int do_rpc(
+        struct GUI_HTTP_OP*, char* url, const char* output_file,
+        bool is_background
+    );
     int do_rpc_post(
         struct GUI_HTTP_OP*, char* url,
-        const char* input_file, const char* output_file
+        const char* input_file, const char* output_file,
+        bool is_background
     );
     bool poll();
     inline bool is_busy() {

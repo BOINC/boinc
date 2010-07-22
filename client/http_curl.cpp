@@ -88,7 +88,7 @@ size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     return stWrite;
 }
 
-size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
+size_t libcurl_read(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     // OK here's the deal -- phop points to the calling object,
     // which has already pre-opened the file.  we'll want to
     // use pByte as a pointer for fseek calls into the file, and
@@ -258,6 +258,7 @@ HTTP_OP::HTTP_OP() {
     pByte = NULL;
     lSeek = 0;
     xfer_speed = 0;
+    is_background = false;
     reset();
 }
 
@@ -993,7 +994,13 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
         default:
             http_op_retval = ERR_HTTP_ERROR;
         }
-        net_status.got_http_error();
+
+        // trigger a check for whether we're connected,
+        // but not if this is a background operation
+        //
+        if (!is_background) {
+            net_status.got_http_error();
+        }
         if (log_flags.http_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[http] HTTP error: %s", error_msg

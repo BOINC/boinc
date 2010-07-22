@@ -105,7 +105,9 @@ int GET_PROJECT_CONFIG_OP::do_rpc(string master_url) {
         "Fetching configuration file from %s", url.c_str()
     );
 
-    retval = gui_http->do_rpc(this, (char*)url.c_str(), GET_PROJECT_CONFIG_FILENAME);
+    retval = gui_http->do_rpc(
+        this, (char*)url.c_str(), GET_PROJECT_CONFIG_FILENAME, false
+    );
     if (retval) {
         error_num = retval;
     } else {
@@ -140,7 +142,9 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     escape_url(parameter);
     url += parameter;
 
-    retval = gui_http->do_rpc(this, (char*)url.c_str(), LOOKUP_ACCOUNT_FILENAME);
+    retval = gui_http->do_rpc(
+        this, (char*)url.c_str(), LOOKUP_ACCOUNT_FILENAME, false
+    );
     if (retval) {
         error_num = retval;
     } else {
@@ -186,7 +190,9 @@ int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
         escape_url(parameter);
         url += parameter;
     }
-    retval = gui_http->do_rpc(this, (char*)url.c_str(), CREATE_ACCOUNT_FILENAME);
+    retval = gui_http->do_rpc(
+        this, (char*)url.c_str(), CREATE_ACCOUNT_FILENAME, false
+    );
     if (retval) {
         error_num = retval;
     } else {
@@ -207,7 +213,9 @@ int GET_CURRENT_VERSION_OP::do_rpc() {
     int retval;
 
     retval = gui_http->do_rpc(
-        this, (char*)config.client_version_check_url.c_str(), GET_CURRENT_VERSION_FILENAME
+        this, (char*)config.client_version_check_url.c_str(),
+        GET_CURRENT_VERSION_FILENAME,
+        true
     );
     if (retval) {
         error_num = retval;
@@ -279,7 +287,9 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
 void CLIENT_STATE::new_version_check() {
     if (( new_version_check_time == 0) ||
         (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD)) {
-            // get_current_version_op.handle_reply() will update new_version_check_time
+            // get_current_version_op.handle_reply()
+            // updates new_version_check_time
+            //
             get_current_version_op.do_rpc();
         }
 }
@@ -290,7 +300,7 @@ int GET_PROJECT_LIST_OP::do_rpc() {
 
     sprintf(buf, "http://boinc.berkeley.edu/project_list.php");
     retval = gui_http->do_rpc(
-        this, buf, ALL_PROJECTS_LIST_FILENAME_TEMP
+        this, buf, ALL_PROJECTS_LIST_FILENAME_TEMP, true
     );
     if (retval) {
         error_num = retval;

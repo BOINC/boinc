@@ -30,7 +30,9 @@
 
 #include "gui_http.h"
 
-int GUI_HTTP::do_rpc(GUI_HTTP_OP* op, char* url, const char* output_file) {
+int GUI_HTTP::do_rpc(
+    GUI_HTTP_OP* op, char* url, const char* output_file, bool is_bkgd
+) {
     int retval;
 
     // this check should be done at a higher level.
@@ -46,12 +48,14 @@ int GUI_HTTP::do_rpc(GUI_HTTP_OP* op, char* url, const char* output_file) {
     gstate.http_ops->insert(&http_op);
     gui_http_op = op;
     gui_http_state = GUI_HTTP_STATE_BUSY;
+    http_op.is_background = is_bkgd;
     return 0;
 }
 
 int GUI_HTTP::do_rpc_post(
     GUI_HTTP_OP* op, char* url,
-    const char* input_file, const char* output_file
+    const char* input_file, const char* output_file,
+    bool is_bkgd
 ) {
     int retval;
 
@@ -65,6 +69,7 @@ int GUI_HTTP::do_rpc_post(
     gstate.http_ops->insert(&http_op);
     gui_http_op = op;
     gui_http_state = GUI_HTTP_STATE_BUSY;
+    http_op.is_background = is_bkgd;
     return 0;
 }
 
