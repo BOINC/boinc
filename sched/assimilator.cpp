@@ -70,7 +70,7 @@ void usage(char** argv) {
         "    [--one_pass_N_WU N]   Process at most N jobs\n"
         "    [-d | --debug_level N]       Set verbosity level (1 to 4)\n"
         "    [--dont_update_db]    Don't update DB (for testing)\n"
-        "    [--noinsert]          Don't insert records in app-specific DB\n",
+        "    [--noinsert]          Don't insert records in app-specific DB\n"
         "    [-h | --help]                 Show this\n"
         "    [-v | --version]      Show version information\n",
         argv[0]

@@ -5277,21 +5277,21 @@ David  19 Jul 2010
         parse.cpp
 
 David  19 Jul 2010
-	- client: init gstate.now early so that initial msgs have timestamps
-	- lib: fix the above
+    - client: init gstate.now early so that initial msgs have timestamps
+    - lib: fix the above
 
-	client/
-		main.cpp
-		sim.h
-	lib/
-		notice.cpp
-		parse.cpp,h
+    client/
+        main.cpp
+        sim.h
+    lib/
+        notice.cpp
+        parse.cpp,h
 
 Charlie 19 Jul 2010
-	- lib: fix compiler warnings.
+    - lib: fix compiler warnings.
 
-	lib/
-		parse.cpp
+    lib/
+        parse.cpp
 
 David  20 Jul 2010
     - client: don't archive system notices,
@@ -5317,19 +5317,19 @@ David  20 Jul 2010
     Makefile.am
 
 David  20 Jul 2010
-	- client: don't do two RSS fetches at once
-	- manager: WxWidget's HTML renderer doesn't seem to like \n's.
-		For example, if you try to render
-			foo
-			<img src=...>
-			blah
-		all it shows is foo.
-		Work around this by replacing \n's with <br>
+    - client: don't do two RSS fetches at once
+    - manager: WxWidget's HTML renderer doesn't seem to like \n's.
+        For example, if you try to render
+            foo
+            <img src=...>
+            blah
+        all it shows is foo.
+        Work around this by replacing \n's with <br>
 
-	client/
-		cs_notice.cpp
-	clientgui/
-		NoticeListCtrl.cpp
+    client/
+        cs_notice.cpp
+    clientgui/
+        NoticeListCtrl.cpp
 
 David  20 Jul 2010
     - manager: in simple view, where it says Elapsed time,
@@ -5375,22 +5375,22 @@ Rom    21 July 2010
         boincmgr.vcproj
 
 David  21 Jul 2010
-	- client/manager: add the ability to associate URLs with
-		client-generated notices.
-		Use this as appropriate: e.g., for errors about cc_config.xml syntax,
-		direct user to the web page describing this syntax.
+    - client/manager: add the ability to associate URLs with
+        client-generated notices.
+        Use this as appropriate: e.g., for errors about cc_config.xml syntax,
+        direct user to the web page describing this syntax.
 
-	client/
-		acct_setup.cpp
-		client_msgs.cpp,h
-		client_state.cpp
-		cs_cmdline.cpp
-		cs_statefile.cpp
-		gui_rpc_server.cpp
-		log_flags.cpp
-		main.cpp,h
-	clientgui/
-		NoticeListCtrl.cpp
+    client/
+        acct_setup.cpp
+        client_msgs.cpp,h
+        client_state.cpp
+        cs_cmdline.cpp
+        cs_statefile.cpp
+        gui_rpc_server.cpp
+        log_flags.cpp
+        main.cpp,h
+    clientgui/
+        NoticeListCtrl.cpp
 
 Charlie 21 Jul 2010
     - MGR: Mark all notices as having been read if either Simple GUI 
@@ -5425,3 +5425,12 @@ Charlie 22 Jul 2010
     clientgui/
         AdvancedFrame.cpp
         sg_DlgMessages.cpp
+
+David  22 Jul 2010
+    - server: compile warning fixes
+
+    sched/
+        sched_driver.cpp
+        assimilator.cpp
+        handle_request.cpp
+        sched_main.cpp

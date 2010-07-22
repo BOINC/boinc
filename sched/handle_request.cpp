@@ -119,7 +119,9 @@ int lock_sched() {
 
     g_reply->lockfile_fd=-1;
 
-    sprintf(filename, "%s/CGI_%07d", config.sched_lockfile_dir, g_reply->host.id);
+    sprintf(filename, "%s/CGI_%07d",
+        config.sched_lockfile_dir, g_reply->host.id
+    );
 
     fd = open(filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
     if (fd < 0) return -1;
@@ -137,7 +139,11 @@ int lock_sched() {
     // write PID into the CGI_<HOSTID> file and flush to disk
     //
     count = sprintf(pid_string, "%d\n", getpid());
-    write(fd, pid_string, count);
+    ssize_t n = write(fd, pid_string, count);
+    if (n < 0) {
+        close(fd);
+        return -1;
+    }
     fsync(fd);
 
     g_reply->lockfile_fd = fd;

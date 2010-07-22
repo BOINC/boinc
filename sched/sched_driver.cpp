@@ -124,22 +124,25 @@ void usage(char *name) {
         "it acts as a \"driver\" for the scheduler when used as:\n"
         "%s | cgi --batch --mark_jobs_done\n\n"
         "This was written to test the homogeneous redundancy features\n"
-        "of the feeder and scheduler,\n"
-        "but it could be used for a variety of other purposes.\n\n"
+        "of the feeder and scheduler, and to measure server performance,\n"
+        "but it could be used for other purposes.\n"
+        "\n"
         "Each request asks for a uniformly-distributed random amount of work.\n"
         "The OS and CPU info is taken from the successive lines of a file of the form\n"
         "| os_name | p_vendor | p_model |\n"
-        "Generate this file with a SQL query, trimming off the start and end.\n\n"
+        "You can generate this file with a SQL query, trimming off the start and end.\n"
+        "\n"
         "Notes:\n"
         "1) Use sample_trivial_validator and sample_dummy_assimilator\n"
-        "2) Edit the following to something in your DB\n\n"
-        "Usage: %s [OPTION]...\n\n"
+        "\n"
+        "Usage: %s [OPTION]...\n"
+        "\n"
         "Options: \n"
-        "  --nrequests N                  Sets the total nukmer of requests to N\n"
+        "  --nrequests N                  Sets the total numberer of requests to N\n"
         "  --reqs_per_second X            Sets the number of requests per second to X\n"
         "  [ -h | --help ]                Show this help text.\n"
         "  [ -v | --version ]             Show version information\n",
-        name
+        name, name
     );
 }
 

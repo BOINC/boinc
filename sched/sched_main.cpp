@@ -398,7 +398,10 @@ int main(int argc, char** argv) {
     signal(SIGTERM, sigterm_handler);
 
     if (debug_log) {
-        freopen("debug_log", "w", stderr);
+        if (!freopen("debug_log", "w", stderr)) {
+            fprintf(stderr, "Can't redirect stderr\n");
+            exit(1);
+        }
     } else {
         char *stderr_buffer;
         get_log_path(path, "scheduler.log");
