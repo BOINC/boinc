@@ -78,8 +78,6 @@ struct SCHED_CONFIG {
     int reliable_on_priority;
         // results with a priority equal or greater than this value
         // will be sent to reliable hosts
-    int granted_credit_ramp_up; 
-    double granted_credit_weight;
     bool distinct_beta_apps;
         // allow users to select beta apps independently
     bool ended;

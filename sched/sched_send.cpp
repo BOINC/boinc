@@ -780,7 +780,7 @@ static int insert_after(char* buffer, const char* after, const char* text) {
     char* p;
     char temp[BLOB_SIZE];
 
-    if (strlen(buffer) + strlen(text) > BLOB_SIZE-1) {
+    if (strlen(buffer) + strlen(text) >= BLOB_SIZE-1) {
         log_messages.printf(MSG_CRITICAL,
             "insert_after: overflow: %d %d\n",
             (int)strlen(buffer),

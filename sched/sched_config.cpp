@@ -144,8 +144,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "ended", ended)) continue;
         if (xp.parse_int(tag, "shmem_work_items", shmem_work_items)) continue;
         if (xp.parse_int(tag, "feeder_query_size", feeder_query_size)) continue;
-        if (xp.parse_int(tag, "granted_credit_ramp_up", granted_credit_ramp_up)) continue;
-        if (xp.parse_double(tag, "granted_credit_weight", granted_credit_weight)) continue;
         if (xp.parse_str(tag, "httpd_user", httpd_user, sizeof(httpd_user))) continue;
         if (xp.parse_bool(tag, "enable_assignment", enable_assignment)) continue;
         if (xp.parse_bool(tag, "job_size_matching", job_size_matching)) continue;

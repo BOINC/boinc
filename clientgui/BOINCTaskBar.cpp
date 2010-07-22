@@ -777,7 +777,7 @@ void CTaskBarIcon::UpdateNoticeStatus() {
                 QueueBalloon(
                     m_iconTaskBarNormal,
                     strTitle,
-                    _("One or more notices are now available for viewing."),
+                    _("There are new notices - click to view."),
                     BALLOONTYPE_INFO
                 );
 #ifdef __WXMAC__
