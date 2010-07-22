@@ -997,13 +997,16 @@ void CAdvancedFrame::SaveWindowDimensions() {
 
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("WindowIconized"), IsIconized());
+    bool iconized = IsIconized();
+    pConfig->Write(wxT("WindowIconized"), iconized);
     pConfig->Write(wxT("WindowMaximized"), IsMaximized());
-    pConfig->Write(wxT("Width"), GetSize().GetWidth());
-    pConfig->Write(wxT("Height"), GetSize().GetHeight());
-    pConfig->Write(wxT("XPos"), GetPosition().x);
-    pConfig->Write(wxT("YPos"), GetPosition().y);
-
+    if (!iconized) {
+        pConfig->Write(wxT("Width"), GetSize().GetWidth());
+        pConfig->Write(wxT("Height"), GetSize().GetHeight());
+        pConfig->Write(wxT("XPos"), GetPosition().x);
+        pConfig->Write(wxT("YPos"), GetPosition().y);
+    }
+    
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveWindowDimensions - Function End"));
 }
     

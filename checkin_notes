@@ -5418,4 +5418,10 @@ Charlie 22 Jul 2010
         BOINCGUIApp.cpp, .h
         BOINCTaskBar.cpp
         DlgEventLog.cpp, .h
-        
+
+Charlie 22 Jul 2010
+    - MGR: Don't save bogus window dimensions when iconized.
+
+    clientgui/
+        AdvancedFrame.cpp
+        sg_DlgMessages.cpp

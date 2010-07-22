@@ -509,15 +509,18 @@ void CDlgMessages::SaveWindowDimensions() {
 
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("WindowIconized"), IsIconized());
+    bool iconized = IsIconized();
+    pConfig->Write(wxT("WindowIconized"), iconized);
     pConfig->Write(wxT("WindowMaximized"), IsMaximized());
-    pConfig->Write(wxT("Width"), GetSize().GetWidth());
-    pConfig->Write(wxT("Height"), GetSize().GetHeight());
+    if (!iconized) {
+        pConfig->Write(wxT("Width"), GetSize().GetWidth());
+        pConfig->Write(wxT("Height"), GetSize().GetHeight());
 
 #ifdef __WXMAC__
-    pConfig->Write(wxT("XPos"), GetPosition().x);
-    pConfig->Write(wxT("YPos"), GetPosition().y);
+        pConfig->Write(wxT("XPos"), GetPosition().x);
+        pConfig->Write(wxT("YPos"), GetPosition().y);
 #endif  // ! __WXMAC__
+    }
 }
     
 
