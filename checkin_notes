@@ -5460,3 +5460,6 @@ David  22 Jul 2010
         net_stats.cpp
         cs_notice.cpp
         acct_mgr.cpp
+
+David  22 Jul 2010
+    - rename cal.h to cal_boinc.h to avoid name conflict
