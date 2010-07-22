@@ -4507,32 +4507,38 @@ msgstr "(все приложения)"
 #~ msgid "GB disk space"
 #~ msgstr "Гбайт места на диске"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "GB disk space free"
 #~ msgstr "Гбайт свободного места на диске"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "%1 minutes"
 #~ msgstr "%1 минут"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "(no restriction)"
 #~ msgstr "(без ограничений)"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "%1 GB disk space"
 #~ msgstr "%1 Гбайт места на диске"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "%1 GB disk space free"
 #~ msgstr "%1 Гбайт свободного места на диске"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid ""
 #~ "Resource share %1If you participate in multiple BOINC projects, this is "
@@ -4544,10 +4550,56 @@ msgstr "(все приложения)"
 #~ msgid "Resource share"
 #~ msgstr "Выделено ресурсов"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "stderr out"
 #~ msgstr "вывод текста ошибки"
 
 #~ msgid "preferences"
 #~ msgstr "Настройки"
+
+#: ../inc/host.inc:164
+#, fuzzy
+msgid "Application details"
+msgstr "Подробно о приложении"
+
+#: ../inc/host.inc:165
+#, fuzzy
+msgid "Show"
+msgstr "Показать"
+
+#: ../inc/result.inc:43
+msgid "NVIDIA GPU"
+msgstr "ГП NVIDIA"
+
+#: ../inc/result.inc:44
+#, fuzzy
+msgid "ATI GPU"
+msgstr "ГП ATI"
+
+#: ../inc/result.inc:268
+msgid "Task"
+msgstr "Задание"
+
+#: ../inc/result.inc:271
+msgid "Work unit"
+msgstr "Задача (WU)"
+
+#: ../inc/result.inc:394
+msgid "Application version"
+msgstr "Версия приложения"
+
+#: ../user/hosts_user.php:51
+#, fuzzy
+msgid "Computers belonging to %1"
+msgstr "Компьютеры, принадлежащие %1"
+
+#: ../user/hosts_user.php:54
+msgid "This user has chosen not to show information about their computers."
+msgstr "Этот пользователь скрыл информацию о своих компьютерах."
+
+#: ../project.sample/project.inc:49
+#, fuzzy
+msgid "Main page"
+msgstr "Главная страница"
