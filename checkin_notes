@@ -5008,7 +5008,8 @@ David  9 Jul 2010
         client_state.cpp,h
         work_fetch.cpp
         pers_file_xfer.h
-        Charlie 9 Jul 2010
+
+Charlie 9 Jul 2010
     - MGR: Fix accessibility code bug in Attach Wizard's ProjectListCtrl, 
         consolidate and clean up Mac accessibility code.
     
@@ -5390,3 +5391,10 @@ David  21 Jul 2010
 		main.cpp,h
 	clientgui/
 		NoticeListCtrl.cpp
+
+Charlie 21 Jul 2010
+    - MGR: Mark all notices as having been read if either Simple GUI 
+        messages dialog or Advanced GUI Notices tab is open.
+        
+    clientgui/
+        MainDocument.cpp

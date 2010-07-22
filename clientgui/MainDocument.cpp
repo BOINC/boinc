@@ -1823,7 +1823,7 @@ int CMainDocument::CachedNoticeUpdate() {
             
             int currentTabView = pFrame->GetCurrentViewPage();
             // Consider all notices as having been read if Notices tab is open
-            if ((currentTabView & VW_NOTIF) && wxGetApp().IsActive()) {
+            if ((currentTabView & (VW_NOTIF | VW_SMSG)) && wxGetApp().IsActive()) {
                 if (m_iLastReadNoticeSequenceNumber != m_iNoticeSequenceNumber) {
                     m_iLastReadNoticeSequenceNumber = m_iNoticeSequenceNumber;
                     m_iLastReadNoticeArrivalTime = notices.notices[0]->arrival_time;
