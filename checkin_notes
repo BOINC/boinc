@@ -5492,3 +5492,9 @@ Bernd  22 Jul 2010
 
     lib/
         Makefile.mingw
+
+Rom    22 July 2010
+    - MGR: Add some padding to each notice.
+    
+    clientgui/
+        NoticeListCtrl.cpp

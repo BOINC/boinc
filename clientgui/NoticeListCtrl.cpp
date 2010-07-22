@@ -556,6 +556,8 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
     dtBuffer.Set((time_t)np->arrival_time);
     strArrivalTime = dtBuffer.Format();
 
+    strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
+
     if (!strTitle.IsEmpty()) {
         strTemp.Printf(
             wxT("<b>%s</b><br>"),
@@ -588,7 +590,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
         strBuffer += strTemp;
     }
 
-    strBuffer += wxT("</font><hr>\n");
+    strBuffer += wxT("</font></td></tr></table><hr>");
     
     return strBuffer;
 }
