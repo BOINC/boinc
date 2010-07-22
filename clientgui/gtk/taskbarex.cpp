@@ -71,10 +71,10 @@ extern "C" {
         if (taskBarIcon->IsUserClicked()) {
             wxTaskBarIconExEvent eventUserClicked(wxEVT_TASKBAR_BALLOON_USERCLICK, taskBarIcon);
             taskBarIcon->AddPendingEvent(eventUserClicked);
+        } else {
+            wxTaskBarIconExEvent eventTimeout(wxEVT_TASKBAR_BALLOON_TIMEOUT, taskBarIcon);
+            taskBarIcon->AddPendingEvent(eventTimeout);
         }
-        
-        wxTaskBarIconExEvent eventHide(wxEVT_TASKBAR_BALLOON_HIDE, taskBarIcon);
-        taskBarIcon->AddPendingEvent(eventHide);
 
         taskBarIcon->ClearEvents();
     }

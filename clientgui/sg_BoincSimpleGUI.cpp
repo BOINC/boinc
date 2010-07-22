@@ -61,6 +61,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
+    EVT_FRAME_NOTIFICATION(CSimpleFrame::OnNotification)
     // We can't eliminate the Mac Help menu, so we might as well make it useful.
     EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
@@ -210,6 +211,8 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     
     dlgMsgsPtr = NULL;
     m_pBackgroundPanel = new CSimplePanel(this);
+
+    RestoreState();
 }
 
 
@@ -246,6 +249,12 @@ bool CSimpleFrame::SaveState() {
     pConfig->Write(wxT("XPos"), GetPosition().x);
     pConfig->Write(wxT("YPos"), GetPosition().y);
 
+    return true;
+}
+
+
+bool CSimpleFrame::RestoreState() {
+	CBOINCBaseFrame::RestoreState();
     return true;
 }
 
@@ -315,6 +324,22 @@ void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
     m_pBackgroundPanel->ReskinInterface();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function End"));
+}
+
+
+void CSimpleFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnNotification - Function Begin"));
+
+	CDlgMessages dlg(GetParent());
+    m_pBackgroundPanel->SetDlgOpen(true);
+    SetMsgsDlgOpen(&dlg);
+    
+    dlg.ShowModal();
+
+    m_pBackgroundPanel->SetDlgOpen(false);
+    SetMsgsDlgOpen(NULL);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnNotification - Function End"));
 }
 
 

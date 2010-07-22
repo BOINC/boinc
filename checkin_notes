@@ -5463,3 +5463,26 @@ David  22 Jul 2010
 
 David  22 Jul 2010
     - rename cal.h to cal_boinc.h to avoid name conflict
+
+Rom    22 July 2010
+    - MGR: If the simple GUI received a notification event,
+        display the messages dialog.
+    - MGR: The simple GUI wasn't restoring state properly
+        thereby causing the reminder frequency to be set to
+        zero and preventing any reminders from being displayed.
+    - MGR: Rework the notices code so the document doesn't
+        make any assumtions about the UI.
+    - MGR: Fix a bug in the Linux notification window code.
+        Synchronize event behavior with Windows.
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp
+        BOINCTaskBar.cpp, .h
+        MainDocument.cpp, .h
+        sg_BoincSimpleGUI.cpp, .h
+        sg_DlgMessages.cpp
+        sg_ProjectsComponent.cpp, .h
+        ViewNotices.cpp
+    clientgui/gtk/
+        taskbarex.cpp

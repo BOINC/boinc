@@ -400,10 +400,10 @@ CMainDocument::CMainDocument() : rpc(this) {
     m_fProjectTotalResourceShare = 0.0;
 
     m_iMessageSequenceNumber = 0;
+
     m_iNoticeSequenceNumber = 0;
     m_iLastReadNoticeSequenceNumber = -1;
-    m_iLastReadNoticeArrivalTime = 0.0;
-    m_iNumberUnreadNotices = 0;
+    m_dLastReadNoticeArrivalTime = 0.0;
 
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
     m_iGet_state_rpc_result = 0;
@@ -1789,9 +1789,6 @@ int CMainDocument::WorkAbort(char* url, char* name) {
 //   CMainDocument::HandleCompletedRPC() .
 int CMainDocument::CachedNoticeUpdate() {
     static bool in_this_func = false;
-    int unread = 0;
-    double lastReadArrivalTime = 0.0;
-    int i, n = GetNoticeCount();
 
     if (in_this_func) return 0;
     in_this_func = true;
@@ -1809,55 +1806,16 @@ int CMainDocument::CachedNoticeUpdate() {
             goto done;
         }
         
-        if (GetNoticeCount() > 0) {
+        if (notices.notices.size() > 0) {
             m_iNoticeSequenceNumber = notices.notices[0]->seqno;
             
             if (m_iLastReadNoticeSequenceNumber < 0) {
                 m_iLastReadNoticeSequenceNumber = 0;    // Do this only once
                 RestoreUnreadNoticeInfo();
             }
-
-            CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-            if (!pFrame) goto done;
-            wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-            
-            int currentTabView = pFrame->GetCurrentViewPage();
-            // Consider all notices as having been read if Notices tab is open
-            if ((currentTabView & (VW_NOTIF | VW_SMSG)) && wxGetApp().IsActive()) {
-                if (m_iLastReadNoticeSequenceNumber != m_iNoticeSequenceNumber) {
-                    m_iLastReadNoticeSequenceNumber = m_iNoticeSequenceNumber;
-                    m_iLastReadNoticeArrivalTime = notices.notices[0]->arrival_time;
-                    SaveUnreadNoticeInfo();
-                }
-            
-            } else {    // Notices tab is not currently open
-
-                // Repeated / duplicate notices may be replaced with same sequence 
-                // number, or they may be deleted and replaced with a higher 
-                // sequence number.  But they always have newer arrival times.
-                // Vector is in descending order of arrival times and sequence numbers. 
-                for (i=0; i<n; ++i) {
-                    if (notices.notices[i]->arrival_time <= m_iLastReadNoticeArrivalTime) {
-                        m_iLastReadNoticeSequenceNumber = notices.notices[i]->seqno;
-                        lastReadArrivalTime = notices.notices[i]->arrival_time;
-                        break;
-                    } else {
-                        ++unread;
-                    }
-                }
-                
-                if (lastReadArrivalTime != m_iLastReadNoticeArrivalTime) {
-                    m_iLastReadNoticeArrivalTime = lastReadArrivalTime;
-                    SaveUnreadNoticeInfo();
-                }
-            }
-            
-            if (m_iNumberUnreadNotices != unread) {
-                m_iNumberUnreadNotices = unread;
-                pFrame->UpdateNoticesTabText();
-            }
         }
     }
+
 done:
     in_this_func = false;
     return 0;
@@ -1868,31 +1826,29 @@ void CMainDocument::SaveUnreadNoticeInfo() {
     wxString        strBaseConfigLocation = wxString(wxT("/Notices/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
-    wxString        strHostName = strDomainName.AfterLast(wxFileName::GetPathSeparator());
-    wxString        arrivalTime;
+    wxString        strArrivalTime = wxEmptyString;
     
-    pConfig->SetPath(strBaseConfigLocation + strHostName);
-    arrivalTime.Printf(wxT("%f"), m_iLastReadNoticeArrivalTime);
-    pConfig->Write(wxT("lastReadNoticeTime"), arrivalTime);
+    pConfig->SetPath(strBaseConfigLocation + strDomainName);
+    strArrivalTime.Printf(wxT("%f"), m_dLastReadNoticeArrivalTime);
+    pConfig->Write(wxT("LastReadNoticeTime"), strArrivalTime);
 }
 
 
 void CMainDocument::RestoreUnreadNoticeInfo() {
     wxString        strBaseConfigLocation = wxString(wxT("/Notices/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxString        arrivalTime = wxEmptyString;
+    wxString        strArrivalTime = wxEmptyString;
     wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
-    wxString        strHostName = strDomainName.AfterLast(wxFileName::GetPathSeparator());
-    double          lastReadNoticeTime;
-    int             i, n = GetNoticeCount();
-    
-    pConfig->SetPath(strBaseConfigLocation + strHostName);
-    if (pConfig->Read(wxT("lastReadNoticeTime"), &arrivalTime)) {
-        arrivalTime.ToDouble(&lastReadNoticeTime);
+    double          dLastReadNoticeTime;
+    int             i, n = (int)notices.notices.size();
+
+    pConfig->SetPath(strBaseConfigLocation + strDomainName);
+    if (pConfig->Read(wxT("LastReadNoticeTime"), &strArrivalTime)) {
+        strArrivalTime.ToDouble(&dLastReadNoticeTime);
         for (i=0; i<n; ++i) {
-            if (notices.notices[i]->arrival_time >= lastReadNoticeTime) {
+            if (notices.notices[i]->arrival_time >= dLastReadNoticeTime) {
                 m_iLastReadNoticeSequenceNumber = notices.notices[i]->seqno;
-                m_iLastReadNoticeArrivalTime = notices.notices[i]->arrival_time;
+                m_dLastReadNoticeArrivalTime = notices.notices[i]->arrival_time;
                 return;
             }
         }
@@ -1930,13 +1886,33 @@ int CMainDocument::GetNoticeCount() {
 }
 
 
+int CMainDocument::GetUnreadNoticeCount() {
+    int iCount = 0;
+    if (!notices.notices.empty()) {
+        for (unsigned int i = 0; i < notices.notices.size(); i++) { 
+            if (notices.notices[i]->arrival_time > m_dLastReadNoticeArrivalTime) { 
+                iCount++; 
+            } 
+        } 
+    }
+    return iCount;
+}
+
+
+void CMainDocument::UpdateUnreadNoticeState() {
+    if (!notices.notices.empty()) {
+        m_iLastReadNoticeSequenceNumber = notices.notices[0]->seqno;
+        m_dLastReadNoticeArrivalTime = notices.notices[0]->arrival_time;
+        SaveUnreadNoticeInfo();
+    }
+}
+
+
 int CMainDocument::ResetNoticeState() {
     notices.clear();
     m_iNoticeSequenceNumber = 0;
     m_iLastReadNoticeSequenceNumber = -1;
-    m_iLastReadNoticeArrivalTime = 0.0;
-    m_iNumberUnreadNotices = 0;
-
+    m_dLastReadNoticeArrivalTime = 0.0;
     return 0;
 }
 
@@ -1954,7 +1930,7 @@ int CMainDocument::CachedMessageUpdate() {
 
     if (IsConnected()) {
         // rpc.get_messages is now called from RunPeriodicRPCs()
-//        retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
+        // retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (m_iGet_messages_rpc_result) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'"), m_iGet_messages_rpc_result);
             m_pNetworkConnection->SetStateDisconnected();
@@ -1965,6 +1941,7 @@ int CMainDocument::CachedMessageUpdate() {
             m_iMessageSequenceNumber = messages.messages[last_ind]->seqno;
         }
     }
+
 done:
     in_this_func = false;
     return 0;

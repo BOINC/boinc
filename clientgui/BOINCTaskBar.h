@@ -52,6 +52,7 @@ public:
     void OnReloadSkin(CTaskbarEvent& event);
 
     void OnNotificationClick(wxTaskBarIconExEvent& event);
+    void OnNotificationTimeout(wxTaskBarIconExEvent& event);
     void OnShutdown(wxTaskBarIconExEvent& event);
     void OnLButtonDClick(wxTaskBarIconEvent& event);
     void OnRButtonDown(wxTaskBarIconEvent& event);

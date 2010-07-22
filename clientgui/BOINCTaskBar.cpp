@@ -60,6 +60,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
     EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
+    EVT_TASKBAR_BALLOON_TIMEOUT(CTaskBarIcon::OnNotificationTimeout)
 #endif
     EVT_MENU(ID_OPENBOINCMANAGER, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
@@ -165,6 +166,20 @@ void CTaskBarIcon::OnNotificationClick(wxTaskBarIconExEvent& WXUNUSED(event)) {
     wxGetApp().ShowNotifications();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnNotificationClick - Function End"));
+}
+
+
+void CTaskBarIcon::OnNotificationTimeout(wxTaskBarIconExEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnNotificationTimeout - Function Begin"));
+
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    ResetTaskBar();
+    pDoc->UpdateUnreadNoticeState();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnNotificationTimeout - Function End"));
 }
 
 
@@ -741,7 +756,7 @@ void CTaskBarIcon::UpdateNoticeStatus() {
     ) {
 
         if (pDoc->GetUnreadNoticeCount()) {
-  #ifdef __WXMAC__
+#ifdef __WXMAC__
             // Delay notification while user is inactive
             // NOTE: This API requires OS 10.4 or later
             double idleTime = CGEventSourceSecondsSinceLastEventType (

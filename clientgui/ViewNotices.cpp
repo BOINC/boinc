@@ -134,8 +134,11 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotices::OnListRender - Function Begin"));
 
     static bool s_bInProgress = false;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
+    wxASSERT(pDoc);
 	wxASSERT(m_pHtmlListPane);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (s_bInProgress) return;
     s_bInProgress = true;
@@ -143,6 +146,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     m_pHtmlListPane->Freeze();
     m_pHtmlListPane->UpdateUI();
     m_pHtmlListPane->Thaw();
+
+    pDoc->UpdateUnreadNoticeState();
 
     s_bInProgress = false;
 

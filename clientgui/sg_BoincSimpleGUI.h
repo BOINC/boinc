@@ -119,11 +119,13 @@ public:
 	void OnConnect(CFrameEvent& event );
     void OnReloadSkin( CFrameEvent& event );
     void OnRefreshView( CFrameEvent& event );
+    void OnNotification( CFrameEvent& event );
 
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 
     bool SaveState();
+    bool RestoreState();
 
 protected:
     virtual int     _GetCurrentViewPage();

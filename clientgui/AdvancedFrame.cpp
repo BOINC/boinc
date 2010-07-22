@@ -769,32 +769,6 @@ bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
 }
 
 
-void CAdvancedFrame::UpdateNoticesTabText() {
-    wxWindow*       pwndNotebookPage = NULL;
-    CBOINCBaseView* pView = NULL;
-    wxString strTabText;
-    CMainDocument*  pDoc   = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    wxASSERT(m_pNotebook);
-    pwndNotebookPage = m_pNotebook->GetPage(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
-    wxASSERT(pwndNotebookPage);
-    pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-    wxASSERT(pView);
-
-    int count = pDoc->GetUnreadNoticeCount();
-    if (count) {
-        strTabText.Printf(wxT("%s (%d)"), pView->GetViewDisplayName().c_str(), count);
-    } else {
-        strTabText = pView->GetViewDisplayName();
-    }
-
-    m_pNotebook->SetPageText(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE, strTabText);
-}
-
-
 bool CAdvancedFrame::CreateStatusbar() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateStatusbar - Function Begin"));
 
@@ -1670,18 +1644,30 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function Begin"));
 
     if (IsShown()) {
-        wxWindow*       pwndNotebookPage = NULL;
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
         CBOINCBaseView* pView = NULL;
         wxTimerEvent    timerEvent;
+        wxString        strTabTitle = wxEmptyString;
+        int             iCount = 0;
 
         wxASSERT(m_pNotebook);
+        wxASSERT(pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-        pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-        wxASSERT(pwndNotebookPage);
+        // Force update the notice tab text
+        pView = wxDynamicCast(m_pNotebook->GetPage(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE), CBOINCBaseView);
+        iCount = pDoc->GetUnreadNoticeCount();
+        if (iCount) {
+            strTabTitle.Printf(wxT("%s (%d)"), pView->GetViewDisplayName().c_str(), iCount);
+        } else {
+            strTabTitle = pView->GetViewDisplayName();
+        }
 
-        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(pView);
+        m_pNotebook->SetPageText(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE, strTabTitle);
 
+
+        // Update current tab contents
+        pView = wxDynamicCast(m_pNotebook->GetPage(m_pNotebook->GetSelection()), CBOINCBaseView);
         pView->FireOnListRender(timerEvent);
     }
 

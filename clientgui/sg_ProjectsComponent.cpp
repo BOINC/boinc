@@ -42,7 +42,6 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
-//#include "WizardAccountManager.h"
 #include "app_ipc.h"
 #include "version.h"
 
@@ -75,7 +74,6 @@ CProjectsComponent::CProjectsComponent(CSimplePanel* parent,wxPoint coord) :
     wxASSERT(parent);
 	m_maxNumOfIcons = 6; // max number of icons in component
 	m_leftIndex = 0;
-    lastMessageId = 0;
 	CreateComponent();
 
 	receivedErrorMessage = false;
@@ -733,28 +731,17 @@ void CProjectsComponent::OnEraseBackground(wxEraseEvent& event){
 
 
 void CProjectsComponent::OnMessageCheck(wxTimerEvent& WXUNUSED(event)) {
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
-	MESSAGE* message;
-
-	// Only look at the messages recieved since the last time we looked
-	if ( pDoc->GetMessageCount() > (int) lastMessageId ) {
-		// Loop through and check for any messages recieved that are error messages
-		for(size_t i=lastMessageId; i < pDoc->messages.messages.size(); i++) {
-			lastMessageId = i+1;
-			message = pDoc->message((unsigned int) i);
-			if ( message != NULL && message->priority == MSG_USER_ALERT ) {
-				receivedErrorMessage = true;
-				checkForMessagesTimer->Stop();
-				break;
-			}
-		}
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+	if ( pDoc->GetUnreadNoticeCount() ) {
+        receivedErrorMessage = true;
+        checkForMessagesTimer->Stop();
 	}
 }
 
 
 void CProjectsComponent::MessagesViewed() {
-	receivedErrorMessage = false;
 	CMainDocument* pDoc = wxGetApp().GetDocument();
-	lastMessageId = pDoc->GetMessageCount();
+	receivedErrorMessage = false;
+	pDoc->UpdateUnreadNoticeState();
 	checkForMessagesTimer->Start();
 }

@@ -289,12 +289,12 @@ void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {
 }
 
 
-bool CPanelMessages::OnSaveState(wxConfigBase* pConfig) {
+bool CPanelMessages::OnSaveState(wxConfigBase* /* pConfig */) {
     return true;
 }
 
 
-bool CPanelMessages::OnRestoreState(wxConfigBase* pConfig) {
+bool CPanelMessages::OnRestoreState(wxConfigBase* /* pConfig */) {
     return true;
 }
 
