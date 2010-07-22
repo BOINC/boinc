@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Client 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-07-22 11:28-0700\n"
+"PO-Revision-Date: 2010-07-22 13:06-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -76,7 +76,7 @@ msgstr "Неразобранный тэг в"
 
 #: log_flags.cpp:467
 msgid "Missing end tag in"
-msgstr "Отсутствует конечный тэг в"
+msgstr "Отсутствует завершающий тэг в"
 
 #: ../sched/handle_request.cpp:293
 msgid "Invalid or missing account key.  To fix, detach and reattach to this project."

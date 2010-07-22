@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-07-22 13:00-0700\n"
+"PO-Revision-Date: 2010-07-22 13:13-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -364,6 +364,7 @@ msgid "Use GPU always"
 msgstr "Постоянная обработка на GPU"
 
 #: AdvancedFrame.cpp:476
+#, fuzzy
 msgid "Allow GPU work regardless of preferences"
 msgstr "Обработка заданий на GPU запущена всегда"
 
@@ -3922,47 +3923,48 @@ msgstr "Не удалось записать файл состояния; про
 
 #: ../client/cs_cmdline.cpp:280
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "HTTP-прокси должен быть определен в переменной окружения HTTP_PROXY"
 
 #: ../client/cs_scheduler.cpp:554
-#, fuzzy
 msgid "Message from project server:"
-msgstr "Сообщения от сервера:"
+msgstr "Сообщение от сервера проекта:"
 
 #: ../client/cs_statefile.cpp:769
 msgid "XML syntax error in"
-msgstr ""
+msgstr "Ошибка синтаксиса XML в"
 
 #: ../client/gui_rpc_server.cpp:189
 msgid "Can't resolve hostname in"
-msgstr ""
+msgstr "Невозможно определить имя компьютера в"
 
 #: ../client/log_flags.cpp:67 ../client/log_flags.cpp:317
 #: ../client/log_flags.cpp:442
 msgid "Unexpected text in"
-msgstr ""
+msgstr "Неожиданный текст в"
 
 #: ../client/log_flags.cpp:111 ../client/log_flags.cpp:414
 msgid "Unrecognized tag in"
-msgstr ""
+msgstr "Нераспознанный тэг в"
 
 #: ../client/log_flags.cpp:433
 msgid "Missing start tag in"
-msgstr ""
+msgstr "Отсутствует начальный тэг в"
 
 #: ../client/log_flags.cpp:459
 msgid "Unparsed tag in"
-msgstr ""
+msgstr "Неразобранный тэг в"
 
 #: ../client/log_flags.cpp:467
 msgid "Missing end tag in"
-msgstr ""
+msgstr "Отсутствует завершающий тэг в"
 
 #: ../client/net_stats.cpp:213
 msgid ""
 "BOINC can't access Internet - check network connection or proxy "
 "configuration."
 msgstr ""
+"BOINC не может подключиться к интернету - проверьте сетевое подключение или "
+"настройки прокси."
 
 #~ msgid "&Messages\tCtrl+Shift+M"
 #~ msgstr "Сообщения\tCtrl+Shift+M"
