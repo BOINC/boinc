@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-07-22 11:59-0700\n"
+"PO-Revision-Date: 2010-07-22 12:10-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -2933,14 +2933,12 @@ msgid "Confirm delete preferences"
 msgstr "Подтверждение удаления настроек"
 
 #: ../user/prefs_remove.php:49
-#, fuzzy
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
 "Вы уверены, что хотите удалить ваши отдельные настройки %1 для конфигурации "
 "%2?"
 
 #: ../user/prefs_remove.php:53
-#, fuzzy
 msgid "Remove preferences"
 msgstr "Удалить настройки"
 
@@ -3181,34 +3179,28 @@ msgstr ""
 "команду%2."
 
 #: ../user/team_admins.php:32
-#, fuzzy
 msgid "Remove Team Admin status from this member"
-msgstr "Удалить статус Администратора команды с этого участника"
+msgstr "Удалить статус Администратора команды у этого участника"
 
 #: ../user/team_admins.php:38 ../user/team_admins.php:49
-#, fuzzy
 msgid "Add or remove Team Admins"
 msgstr "Добавить или удалить Администраторов команды"
 
 #: ../user/team_admins.php:39
-#, fuzzy
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr ""
 "Вы можете выбрать участников команды в качестве 'Администраторов команды'. "
 "Администраторы команды могут:"
 
 #: ../user/team_admins.php:41
-#, fuzzy
 msgid "Edit team information (name, URL, description, country)"
 msgstr "Редактировать информацию о команде (название, URL, описание, страна)"
 
 #: ../user/team_admins.php:42
-#, fuzzy
 msgid "View the team's join/quit history"
 msgstr "Просматривать историю присоединения/выхода из команды"
 
 #: ../user/team_admins.php:43
-#, fuzzy
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
@@ -3217,29 +3209,24 @@ msgstr ""
 "по электронной почте о событиях модерации и о красных X-сообщениях)"
 
 #: ../user/team_admins.php:45
-#, fuzzy
 msgid "Team Admins cannot:"
 msgstr "Администраторы команды не могут:"
 
 #: ../user/team_admins.php:47
-#, fuzzy
 msgid "Change the team founder"
 msgstr "Поменять основателя команды"
 
 #: ../user/team_admins.php:48 ../user/team_manage.php:52
-#, fuzzy
 msgid "Remove members"
 msgstr "Удалить участников"
 
 #: ../user/team_admins.php:51
-#, fuzzy
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr ""
 "Если Администратор команды покидает команду, он перестает быть "
 "Администратором."
 
 #: ../user/team_admins.php:52
-#, fuzzy
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
@@ -3248,32 +3235,26 @@ msgstr ""
 "которых Вы знаете и которым доверяете."
 
 #: ../user/team_admins.php:57
-#, fuzzy
 msgid "There are currently no Team Admins"
 msgstr "В настоящее время у команды нет Администраторов"
 
 #: ../user/team_admins.php:59
-#, fuzzy
 msgid "Current Team Admins"
 msgstr "Текущие Администраторы команды"
 
 #: ../user/team_admins.php:60
-#, fuzzy
 msgid "Became Team Admin on"
 msgstr "Стал Администратором команды с"
 
 #: ../user/team_admins.php:75
-#, fuzzy
 msgid "Add Team Admin"
 msgstr "Добавление Администратора команды"
 
 #: ../user/team_admins.php:76
-#, fuzzy
 msgid "Email address of team member:"
 msgstr "Адрес email участника команды:"
 
 #: ../user/team_admins.php:88
-#, fuzzy
 msgid "failed to remove admin"
 msgstr "не удалось удалить администратора"
 
@@ -3282,17 +3263,14 @@ msgid "no such user"
 msgstr "нет такого пользователя"
 
 #: ../user/team_admins.php:96
-#, fuzzy
 msgid "User is not member of team"
 msgstr "Пользователь не является участником команды"
 
 #: ../user/team_admins.php:98
-#, fuzzy
 msgid "%1 is already an admin of %2"
 msgstr "%1 уже администратор команды %2"
 
 #: ../user/team_admins.php:102
-#, fuzzy
 msgid "Couldn't add admin"
 msgstr "Невозможно добавить администратора"
 
@@ -3310,22 +3288,18 @@ msgid "no such team"
 msgstr "нет такой команды"
 
 #: ../user/team_change_founder_action.php:36
-#, fuzzy
 msgid "User is not a member of %1"
 msgstr "Пользователь не является участником команды %1"
 
 #: ../user/team_change_founder_action.php:39
-#, fuzzy
 msgid "Changing founder of %1"
 msgstr "Изменение основателя команды %1"
 
 #: ../user/team_change_founder_action.php:41
-#, fuzzy
 msgid "%1 is now founder of %2"
 msgstr "%1 теперь основатель команды %2"
 
 #: ../user/team_change_founder_form.php:35
-#, fuzzy
 msgid "Change founder of %1"
 msgstr "Изменение основателя команды %1"
 
@@ -3351,7 +3325,6 @@ msgid "decline request"
 msgstr "отклонить запрос"
 
 #: ../user/team_change_founder_form.php:56
-#, fuzzy
 msgid ""
 "If you don't decline the request by %1, %2 will have the option of assuming "
 "team foundership.<br /><br />\n"
@@ -3364,12 +3337,10 @@ msgstr ""
 "участнику %3, используя форму ниже."
 
 #: ../user/team_change_founder_form.php:64
-#, fuzzy
 msgid "No transfer request is pending."
 msgstr "Запросов на смену основателя нет в ожидании."
 
 #: ../user/team_change_founder_form.php:67
-#, fuzzy
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
@@ -3442,12 +3413,10 @@ msgid "Must specify team name"
 msgstr "Необходимо указать название команды"
 
 #: ../user/team_edit_action.php:88
-#, fuzzy
 msgid "Could not update team - please try again later."
 msgstr "Не удалось обновить команду - пожалуйста, попробуйте ещё раз позже."
 
 #: ../user/team_edit_form.php:31
-#, fuzzy
 msgid "Edit %1"
 msgstr "Редактирование команды %1"
 
@@ -3456,7 +3425,6 @@ msgid "Update team info"
 msgstr "Обновить информацию о команде"
 
 #: ../user/team_email_list.php:58
-#, fuzzy
 msgid "%1 Email List"
 msgstr "Список email-адресов команды %1"
 
@@ -3469,27 +3437,22 @@ msgid "Show as plain text"
 msgstr "Показать как простой текст"
 
 #: ../user/team_forum.php:26 ../user/team_forum.php:37
-#, fuzzy
 msgid "Create Message Board"
 msgstr "Создать доску сообщений"
 
 #: ../user/team_forum.php:27
-#, fuzzy
 msgid "You may create a message board for use by %1."
 msgstr "Вы можете создать доску сообщений для общения в команде %1."
 
 #: ../user/team_forum.php:29
-#, fuzzy
 msgid "Only team members will be able to post."
 msgstr "Только участники команды смогут оставлять сообщения."
 
 #: ../user/team_forum.php:30
-#, fuzzy
 msgid "At your option, only members will be able to read."
 msgstr "По вашему выбору, только участники смогут её читать."
 
 #: ../user/team_forum.php:31
-#, fuzzy
 msgid "You and your Team Admins will have moderator privileges."
 msgstr "У Вас и ваших Администраторов команды будут права модерирования."
 
@@ -3526,7 +3489,6 @@ msgid "Minimum average credit to post"
 msgstr "Минимальное среднее количество очков для написания сообщений"
 
 #: ../user/team_forum.php:78
-#, fuzzy
 msgid "Submit"
 msgstr "Отправить"
 
@@ -3561,7 +3523,6 @@ msgid "Message board removed"
 msgstr "Доска сообщений удалена"
 
 #: ../user/team_forum.php:122
-#, fuzzy
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
@@ -3569,17 +3530,14 @@ msgstr ""
 "новую%2."
 
 #: ../user/team_forum.php:141
-#, fuzzy
 msgid "Team Message Board Updated"
 msgstr "Доска сообщений команды обновлена"
 
 #: ../user/team_forum.php:142
-#, fuzzy
 msgid "Update successful"
 msgstr "Обновление завершено успешно"
 
 #: ../user/team_forum.php:145
-#, fuzzy
 msgid "Update failed"
 msgstr "Обновление не удалось"
 
@@ -3669,7 +3627,6 @@ msgid "You are now founder of team %1."
 msgstr "Вы теперь основатель команды %1."
 
 #: ../user/team_founder_transfer_form.php:42
-#, fuzzy
 msgid "You requested the foundership of %1 on %2."
 msgstr "Вы запросили смену основателя команды %1 с %2."
 
@@ -3729,7 +3686,6 @@ msgstr ""
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
-#, fuzzy
 msgid "The team %1 is not joinable."
 msgstr "Команда %1 не допускает присоединений."
 
@@ -3795,7 +3751,6 @@ msgstr ""
 "команд."
 
 #: ../user/team_lookup.php:102
-#, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
@@ -3951,7 +3906,6 @@ msgstr ""
 "         </ul>"
 
 #: ../user/team_quit_form.php:40
-#, fuzzy
 msgid "Quit Team"
 msgstr "Выйти из команды"
 
@@ -4017,7 +3971,6 @@ msgid "Change your search"
 msgstr "Измените ваш поиск"
 
 #: ../user/team_search.php:152
-#, fuzzy
 msgid "Team search results"
 msgstr "Результаты поиска команд"
 
@@ -4066,7 +4019,6 @@ msgid "User of the Day for %1: %2"
 msgstr "Пользователь дня на %1: %2"
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
-#, fuzzy
 msgid "Joined"
 msgstr "Присоединился"
 
@@ -4075,22 +4027,18 @@ msgid "Search type"
 msgstr "Тип поиска"
 
 #: ../user/user_search.php:114
-#, fuzzy
 msgid "User name starts with"
 msgstr "Имя пользователя начинается с"
 
 #: ../user/user_search.php:115
-#, fuzzy
 msgid "Decreasing sign-up time"
 msgstr "В порядке уменьшения времени регистрации"
 
 #: ../user/user_search.php:116
-#, fuzzy
 msgid "Decreasing average credit"
 msgstr "В порядке уменьшения среднего количества очков"
 
 #: ../user/user_search.php:117
-#, fuzzy
 msgid "Decreasing total credit"
 msgstr "В порядке уменьшения общего количества очков"
 
@@ -4119,7 +4067,6 @@ msgid "search string must be at least 3 characters"
 msgstr "искомая строка должна быть минимум 3 символа"
 
 #: ../user/user_search.php:156
-#, fuzzy
 msgid "User names starting with"
 msgstr "Имена пользователей, начинающиеся с"
 
@@ -4309,7 +4256,6 @@ msgid "initial replication"
 msgstr "начальная репликация"
 
 #: ../user/workunit.php:57
-#, fuzzy
 msgid "max # of error/total/success tasks"
 msgstr "макс. # ошибок/всего/успешных заданий"
 
@@ -4458,12 +4404,10 @@ msgstr "(все приложения)"
 #~ msgstr "Настройки"
 
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
 msgstr "Подробно о приложении"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Show"
 msgstr "Показать"
 
@@ -4472,7 +4416,6 @@ msgid "NVIDIA GPU"
 msgstr "ГП NVIDIA"
 
 #: ../inc/result.inc:44
-#, fuzzy
 msgid "ATI GPU"
 msgstr "ГП ATI"
 
@@ -4489,15 +4432,13 @@ msgid "Application version"
 msgstr "Версия приложения"
 
 #: ../user/hosts_user.php:51
-#, fuzzy
 msgid "Computers belonging to %1"
-msgstr "Компьютеры, принадлежащие %1"
+msgstr "Компьютеры, принадлежащие пользователю %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
 msgstr "Этот пользователь скрыл информацию о своих компьютерах."
 
 #: ../project.sample/project.inc:49
-#, fuzzy
 msgid "Main page"
 msgstr "Главная страница"
