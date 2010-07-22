@@ -136,6 +136,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     m_strFilteredProjectName.clear();
     m_iFilteredIndexes.Clear();
 	m_bProcessingRefreshEvent = false;
+    m_bEventLogIsOpen = true;
 ////@end CDlgEventLog member initialisation
 
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -368,6 +369,7 @@ void CDlgEventLog::OnOK( wxCommandEvent& WXUNUSED(event) ) {
  */
 
 void CDlgEventLog::OnClose(wxCloseEvent& WXUNUSED(event)) {
+    m_bEventLogIsOpen = false;  // User specifically closed window
     Destroy();
 }
 
@@ -468,6 +470,8 @@ void CDlgEventLog::OnRefresh() {
     bool isConnected;
     static bool was_connected = false;
 
+    if (!IsShown()) return;
+
     if (!m_bProcessingRefreshEvent) {
         m_bProcessingRefreshEvent = true;
 
@@ -526,7 +530,7 @@ void CDlgEventLog::OnRefresh() {
 bool CDlgEventLog::SaveState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::SaveState - Function Begin"));
 
-    wxString        strBaseConfigLocation = wxString(wxT("/EventLog/"));
+    wxString    strBaseConfigLocation = wxEmptyString;
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxListItem      liColumnInfo;
     wxInt32         iIndex = 0;
@@ -540,9 +544,14 @@ bool CDlgEventLog::SaveState() {
     //   pointer, return false.
     if (!pConfig) return false;
 
+    strBaseConfigLocation = wxString(wxT("/"));
+    pConfig->SetPath(strBaseConfigLocation);
+    pConfig->Write(wxT("EventLogOpen"), m_bEventLogIsOpen);
+
     //
     // Save Frame State
     //
+    strBaseConfigLocation = wxString(wxT("/EventLog/"));
     pConfig->SetPath(strBaseConfigLocation);
 
     // Convert to a zero based index

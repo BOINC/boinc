@@ -5405,3 +5405,17 @@ Charlie 22 Jul 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 22 Jul 2010
+    - MGR: If Event Log was open on Manager exit, open it on manager launch.
+    - MGR: Clicking main window's close box when Event Log is open also 
+        hides the Event Log; show Event Log again if "Open BOINC Manager" is
+        selected from task bar icon menu.  Clicking main window's Minimize 
+        box does not affect Event Log window.
+
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp
+        DlgEventLog.cpp, .h
+        

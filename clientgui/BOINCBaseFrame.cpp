@@ -792,6 +792,11 @@ bool CBOINCBaseFrame::Show(bool bShow) {
             }
         }
     }
+    
+    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
+    if (eventLog) {
+        eventLog->Show(bShow);
+    }
     return wxFrame::Show(bShow);
 }
 

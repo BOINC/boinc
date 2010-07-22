@@ -122,7 +122,7 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 
     CDlgEventLog* pEventLog = wxGetApp().GetEventLog();
     if (pEventLog) {
-        pEventLog->Close();
+        pEventLog->Destroy();
     }
 
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();

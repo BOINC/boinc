@@ -153,6 +153,7 @@ bool CBOINCGUIApp::OnInit() {
     // Initialize local variables
     int      iErrorCode = 0;
     int      iSelectedLanguage = 0;
+    bool     bOpenEventLog = false;
     wxString strDesiredSkinName = wxEmptyString;
     wxString strDialogMessage = wxEmptyString;
     bool     success = false;
@@ -206,6 +207,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("Language"), &iSelectedLanguage, 0L);
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
+    m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
 
 
     // Should we abort the BOINC Manager startup process?
@@ -456,7 +458,10 @@ bool CBOINCGUIApp::OnInit() {
     } else {
         ShowApplication(false);
 	}
-
+    
+    if(bOpenEventLog) {
+        DisplayEventLog(m_bGUIVisible);
+    }
     return true;
 }
 
@@ -793,7 +798,7 @@ int CBOINCGUIApp::StartBOINCDefaultScreensaverTest() {
 
 // Display the Event Log, it is a modeless dialog not owned by any
 // other UI element.
-bool CBOINCGUIApp::DisplayEventLog() {
+bool CBOINCGUIApp::DisplayEventLog(bool bShowWindow) {
     bool rc = false; 
 
     if (m_pEventLog) {
@@ -801,7 +806,7 @@ bool CBOINCGUIApp::DisplayEventLog() {
     } else {
         m_pEventLog = new CDlgEventLog();
         if (m_pEventLog) {
-            rc = m_pEventLog->Show();
+            rc = m_pEventLog->Show(bShowWindow);
             if (m_pFrame) {
                 m_pFrame->UpdateRefreshTimerInterval();
             }

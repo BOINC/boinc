@@ -157,6 +157,8 @@ private:
     wxListItemAttr*         m_pMessageErrorGrayAttr;
 
     bool                    m_bProcessingRefreshEvent;
+    
+    bool                    m_bEventLogIsOpen;
 
     bool                    SaveState();
     bool                    RestoreState();
