@@ -5486,3 +5486,9 @@ Rom    22 July 2010
         ViewNotices.cpp
     clientgui/gtk/
         taskbarex.cpp
+
+Bernd  22 Jul 2010
+    - rename cal.h to cal_boinc.h
+
+    lib/
+        Makefile.mingw

@@ -12,7 +12,7 @@ HEADERS = $(BOINC_SRC)/version.h $(BOINC_SRC)/api/boinc_api.h $(BOINC_SRC)/api/g
 	$(BOINC_SRC)/lib/boinc_win.h $(BOINC_SRC)/lib/url.h $(BOINC_SRC)/lib/common_defs.h $(BOINC_SRC)/lib/diagnostics.h \
 	$(BOINC_SRC)/lib/diagnostics_win.h $(BOINC_SRC)/lib/filesys.h $(BOINC_SRC)/lib/hostinfo.h $(BOINC_SRC)/lib/proxy_info.h \
 	$(BOINC_SRC)/lib/prefs.h $(BOINC_SRC)/lib/miofile.h $(BOINC_SRC)/lib/mfile.h $(BOINC_SRC)/lib/parse.h \
-	$(BOINC_SRC)/lib/util.h $(BOINC_SRC)/lib/coproc.h $(BOINC_SRC)/lib/cal.h $(BOINC_SRC)/win_build/config.h
+	$(BOINC_SRC)/lib/util.h $(BOINC_SRC)/lib/coproc.h $(BOINC_SRC)/lib/cal_boinc.h $(BOINC_SRC)/win_build/config.h
 
 ZIP_HEADERS = zip/boinc_zip.h
 
