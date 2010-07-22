@@ -120,6 +120,7 @@ extern RSS_FEED_OP rss_feed_op;
 struct RSS_FEEDS {
     std::vector<RSS_FEED> feeds;
     void init();
+    void trigger_fetch(PROJECT*);
     void update_feed_list();
     RSS_FEED* lookup_url(char*);
     void write_feed_list();

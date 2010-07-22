@@ -698,6 +698,18 @@ RSS_FEED* RSS_FEEDS::lookup_url(char* url) {
     return NULL;
 }
 
+// arrange to fetch the project's feeds
+//
+void RSS_FEEDS::trigger_fetch(PROJECT* p) {
+    for (unsigned int i=0; i<p->proj_feeds.size(); i++) {
+        RSS_FEED& rf = p->proj_feeds[i];
+        RSS_FEED* rfp = lookup_url(rf.url);
+        if (rfp) {
+            rfp->next_poll_time = 0;
+        }
+    }
+}
+
 // the set of project feeds has changed.
 // update the master list.
 //

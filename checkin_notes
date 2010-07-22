@@ -5434,3 +5434,12 @@ David  22 Jul 2010
         assimilator.cpp
         handle_request.cpp
         sched_main.cpp
+
+David  22 Jul 2010
+    - client: have project update fetch RSS feeds as well as doing
+        a scheduler RPC.
+        This is to facilitate debugging, and is probably temporary.
+
+    client/
+        cs_notice.cpp,h
+        gui_rpc_server_ops.cpp

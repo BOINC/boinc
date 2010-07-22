@@ -276,6 +276,9 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         msg_printf(p, MSG_INFO, "update requested by user");
         p->sched_rpc_pending = RPC_REASON_USER_REQ;
         p->min_rpc_time = 0;
+#if 1
+        rss_feeds.trigger_fetch(p);
+#endif
         gstate.request_work_fetch("project updated by user");
     } else if (!strcmp(op, "nomorework")) {
         msg_printf(p, MSG_INFO, "work fetch suspended by user");
