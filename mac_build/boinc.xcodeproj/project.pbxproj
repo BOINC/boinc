@@ -167,7 +167,6 @@
 		DD4C56180AD389A2009E23C6 /* sg_DlgMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */; };
 		DD4C561A0AD389A2009E23C6 /* sg_ImageButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560E0AD389A2009E23C6 /* sg_ImageButton.cpp */; };
 		DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */; };
-		DD4C561E0AD389A2009E23C6 /* sg_SGUIListControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */; };
 		DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.cpp */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */; };
@@ -741,8 +740,6 @@
 		DD4C560F0AD389A2009E23C6 /* sg_ImageButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ImageButton.h; path = ../clientgui/sg_ImageButton.h; sourceTree = SOURCE_ROOT; };
 		DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProgressBar.cpp; path = ../clientgui/sg_ProgressBar.cpp; sourceTree = SOURCE_ROOT; };
 		DD4C56110AD389A2009E23C6 /* sg_ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProgressBar.h; path = ../clientgui/sg_ProgressBar.h; sourceTree = SOURCE_ROOT; };
-		DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_SGUIListControl.cpp; path = ../clientgui/sg_SGUIListControl.cpp; sourceTree = SOURCE_ROOT; };
-		DD4C56130AD389A2009E23C6 /* sg_SGUIListControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_SGUIListControl.h; path = ../clientgui/sg_SGUIListControl.h; sourceTree = SOURCE_ROOT; };
 		DD4E70490BCDAC360010A522 /* browser.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = browser.cpp; sourceTree = "<group>"; };
 		DD4E704A0BCDAC360010A522 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../clientgui/browser.h; sourceTree = SOURCE_ROOT; };
 		DD4EC60F08A0A083009AA08F /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = texture.cpp; sourceTree = "<group>"; };
@@ -1425,8 +1422,6 @@
 				DD4C56110AD389A2009E23C6 /* sg_ProgressBar.h */,
 				DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */,
 				DDCE783F0A70BF72008218B6 /* sg_ProjectsComponent.h */,
-				DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */,
-				DD4C56130AD389A2009E23C6 /* sg_SGUIListControl.h */,
 				DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */,
 				DDCAD7DA0A6C603A0086C7EE /* sg_StatImageLoader.h */,
 				DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */,
@@ -2545,7 +2540,6 @@
 				DD4C56180AD389A2009E23C6 /* sg_DlgMessages.cpp in Sources */,
 				DD4C561A0AD389A2009E23C6 /* sg_ImageButton.cpp in Sources */,
 				DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */,
-				DD4C561E0AD389A2009E23C6 /* sg_SGUIListControl.cpp in Sources */,
 				DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */,
 				DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */,
 				DD1C82310AF372D900F709AC /* sg_CustomControls.cpp in Sources */,

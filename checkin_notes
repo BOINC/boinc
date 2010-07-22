@@ -5398,3 +5398,10 @@ Charlie 21 Jul 2010
         
     clientgui/
         MainDocument.cpp
+
+Charlie 22 Jul 2010
+    - Mac: Delete source files sg_SGUIListControl.cpp,.h from XCode project.
+        
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
