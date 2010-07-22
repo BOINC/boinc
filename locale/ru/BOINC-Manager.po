@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-05-17 23:31+0300\n"
+"PO-Revision-Date: 2010-07-22 13:00-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -221,14 +221,12 @@ msgid "E&xit"
 msgstr "Выход"
 
 #: AdvancedFrame.cpp:332
-#, fuzzy
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "Новости\tCtrl+Shift+N"
+msgstr "Уведомления\tCtrl+Shift+N"
 
 #: AdvancedFrame.cpp:333
-#, fuzzy
 msgid "Display notices"
-msgstr "Показать новости"
+msgstr "Показать уведомления"
 
 #: AdvancedFrame.cpp:338
 msgid "&Projects\tCtrl+Shift+P"
@@ -299,7 +297,6 @@ msgid "Get current settings from %s"
 msgstr "Обновить настройки с %s"
 
 #: AdvancedFrame.cpp:410
-#, fuzzy
 msgid "&Attach to project..."
 msgstr "Добавить проект..."
 
@@ -321,7 +318,7 @@ msgstr "Отсоединить клиент от менеджера проект
 
 #: AdvancedFrame.cpp:425
 msgid "Display and network &options..."
-msgstr ""
+msgstr "Графические и сетевые настройки..."
 
 #: AdvancedFrame.cpp:426
 msgid "Configure GUI options and proxy settings"
@@ -382,9 +379,8 @@ msgstr ""
 "Обработка на GPU происходит в моменты времени в соответствие с настройками"
 
 #: AdvancedFrame.cpp:485
-#, fuzzy
 msgid "Suspend GPU"
-msgstr "Приостановить"
+msgstr "Приостановить использование GPU"
 
 #: AdvancedFrame.cpp:486
 msgid "Stop GPU work regardless of preferences"
@@ -479,12 +475,12 @@ msgstr "Перезагрузить локальный файл общих нас
 
 #: AdvancedFrame.cpp:566
 msgid "Event Log..."
-msgstr ""
+msgstr "Просмотр событий..."
 
 #: AdvancedFrame.cpp:567
 #, fuzzy
 msgid "Display diagnostic messages."
-msgstr "Показать сообщения"
+msgstr "Показать диагностические сообщения."
 
 #: AdvancedFrame.cpp:577 sg_BoincSimpleGUI.cpp:129
 #, c-format
@@ -601,7 +597,7 @@ msgid ""
 "and prompt you for another host to connect to."
 msgstr ""
 "%s остановит подключенного в данный момент клиента,\n"
-"и запросит у Вас для подключения адрес другого компьютера.\n"
+"и запросит у Вас для подключения адрес другого компьютера."
 
 #: AdvancedFrame.cpp:1569
 #, fuzzy
@@ -683,7 +679,7 @@ msgstr "Выйти из %s"
 #: AsyncRPC.cpp:1242
 #, fuzzy, c-format
 msgid "%s - Communication"
-msgstr "%s - Подтверждение выхода"
+msgstr "%s - Коммуникация"
 
 #: AsyncRPC.cpp:1258 DlgAdvPreferencesBase.cpp:103
 msgid "Cancel"
@@ -973,37 +969,36 @@ msgstr "Приостановить GPU"
 
 # переделать
 #: BOINCTaskBar.cpp:669
-#, fuzzy
 msgid "Computing is enabled"
-msgstr "Запускать обработку заданий при выполнении следующих условий"
+msgstr "Вычисления разрешены"
 
 # пауза
 #: BOINCTaskBar.cpp:672
 #, fuzzy
 msgid "Computing is suspended - "
-msgstr "Обработка приостановлена."
+msgstr "Обработка приостановлена - "
 
 # переделать
 #: BOINCTaskBar.cpp:682
 #, fuzzy
 msgid "GPU computing is enabled"
-msgstr "Запускать обработку заданий при выполнении следующих условий"
+msgstr "Обработка на ГП разрешена"
 
 # пауза
 #: BOINCTaskBar.cpp:685
 #, fuzzy
 msgid "GPU computing is suspended - "
-msgstr "Обработка приостановлена."
+msgstr "Обработка на ГП приостановлена - "
 
 #: BOINCTaskBar.cpp:694
 #, fuzzy
 msgid "Network is enabled"
-msgstr "Доступ в интернет"
+msgstr "Доступ в интернет разрешен"
 
 #: BOINCTaskBar.cpp:697
 #, fuzzy
 msgid "Network is suspended - "
-msgstr "Работать автономно"
+msgstr "Доступ в интернет приостановлен - "
 
 #: BOINCTaskBar.cpp:705
 msgid "Reconnecting to client."
@@ -1015,12 +1010,14 @@ msgstr "Не подключен к клиенту."
 
 #: BOINCTaskBar.cpp:759
 #, c-format
+#, fuzzy
 msgid "%s Notices"
-msgstr ""
+msgstr "Уведомления %s"
 
 #: BOINCTaskBar.cpp:765
+#, fuzzy
 msgid "One or more notices are now available for viewing."
-msgstr ""
+msgstr "Одно или несколько уведомлений доступны для просмотра."
 
 #: CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1255,7 +1252,7 @@ msgstr "Запускать обработку заданий при выполн
 #: DlgAdvPreferencesBase.cpp:135
 #, fuzzy
 msgid "While computer is on batteries"
-msgstr " При питании от аккумуляторов"
+msgstr "При питании от аккумуляторов"
 
 #: DlgAdvPreferencesBase.cpp:138
 msgid ""
@@ -1267,7 +1264,7 @@ msgstr ""
 #: DlgAdvPreferencesBase.cpp:144
 #, fuzzy
 msgid "While computer is in use"
-msgstr " Когда компьютер используется для работы"
+msgstr "Когда компьютер используется для работы"
 
 #: DlgAdvPreferencesBase.cpp:147
 msgid ""
@@ -1279,7 +1276,7 @@ msgstr ""
 #: DlgAdvPreferencesBase.cpp:153
 #, fuzzy
 msgid "Use GPU while computer is in use"
-msgstr " Использовать GPU когда компьютер используется для работы"
+msgstr "Использовать ГП когда компьютер используется для работы"
 
 #: DlgAdvPreferencesBase.cpp:156
 msgid ""
@@ -1464,7 +1461,7 @@ msgstr "дней (макс. 10)"
 #: DlgAdvPreferencesBase.cpp:441
 #, fuzzy
 msgid "Skip image file verification"
-msgstr " Не проверять загружаемые файлы"
+msgstr "Не проверять загружаемые файлы"
 
 #: DlgAdvPreferencesBase.cpp:443
 msgid "check this if your Internet provider modifies image files"
@@ -1582,7 +1579,7 @@ msgstr "% когда компьютер простаивает"
 #: DlgAdvPreferencesBase.cpp:665
 #, fuzzy
 msgid "Leave applications in memory while suspended"
-msgstr " Оставлять неактивные приложения в памяти"
+msgstr "Оставлять неактивные приложения в памяти"
 
 #: DlgAdvPreferencesBase.cpp:667
 msgid "if checked, suspended work units are left in memory"
@@ -1590,8 +1587,9 @@ msgstr "оставлять приложение в памяти на время 
 
 #: DlgEventLog.cpp:188
 #, c-format
+#, fuzzy
 msgid "%s - Event Log"
-msgstr ""
+msgstr "%s - Просмотр событий"
 
 #: DlgEventLog.cpp:201 ViewMessages.cpp:117 ViewProjects.cpp:218
 #: ViewStatistics.cpp:381 ViewStatistics.cpp:1769 ViewTransfers.cpp:181
@@ -1619,7 +1617,7 @@ msgstr "Показать сообщения только от выбранног
 
 #: DlgEventLog.cpp:258
 msgid "Copy All"
-msgstr ""
+msgstr "Копировать все"
 
 #: DlgEventLog.cpp:260 DlgEventLog.cpp:264 ViewMessages.cpp:89
 #: sg_DlgMessages.cpp:176 sg_DlgMessages.cpp:180
@@ -1627,7 +1625,6 @@ msgid "Copy all the messages to the clipboard."
 msgstr "Копировать все сообщения в буфер обмена."
 
 #: DlgEventLog.cpp:269
-#, fuzzy
 msgid "Copy Selected"
 msgstr "Копировать выделенное"
 
@@ -1650,7 +1647,6 @@ msgstr ""
 "CTRL для выделения нескольких сообщений."
 
 #: DlgEventLog.cpp:289
-#, fuzzy
 msgid "Close"
 msgstr "Закрыть"
 
@@ -1664,9 +1660,8 @@ msgid "Show all messages"
 msgstr "Все сообщения"
 
 #: DlgEventLog.cpp:379 DlgEventLog.cpp:381
-#, fuzzy
 msgid "Show messages for all projects"
-msgstr "Показать все сообщения."
+msgstr "Показать все сообщения"
 
 #: DlgExitMessage.cpp:82
 #, c-format
@@ -1973,8 +1968,9 @@ msgid "Process ID"
 msgstr "ID процесса"
 
 #: DlgItemProperties.cpp:386 ViewWork.cpp:956
+#, fuzzy
 msgid "Local: "
-msgstr ""
+msgstr "Локальный: "
 
 #: DlgOptions.cpp:119
 #, c-format
@@ -1988,7 +1984,7 @@ msgstr "Язык (language):"
 #: DlgOptions.cpp:164
 #, fuzzy
 msgid "What language should BOINC use?"
-msgstr "Выбор языка интерфейса программы BOINC менеджер."
+msgstr "Какой язык должен использовать BOINC?"
 
 #: DlgOptions.cpp:168
 #, fuzzy
@@ -1997,12 +1993,12 @@ msgid ""
 "(minutes; 0 means no reminders)"
 msgstr ""
 "Интервал между напоминаниями:\n"
-"(в минутах)"
+"(в минутах; 0 - без напоминаний)"
 
 #: DlgOptions.cpp:180
 #, fuzzy
 msgid "How often should BOINC remind you of new notices?"
-msgstr "Интервал между напоминаниями о необходимости соединения с интернетом."
+msgstr "Как часто BOINC должен напоминать о новых уведомлениях?"
 
 #: DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2330,9 +2326,8 @@ msgstr "Подробные описания проектов запущенны�
 
 # ипользуется внутри программы
 #: MainDocument.cpp:553
-#, fuzzy
 msgid "Starting client"
-msgstr "Static text"
+msgstr "Запуск клиента"
 
 #: MainDocument.cpp:1154
 msgid "Retrieving system state; please wait..."
@@ -2353,8 +2348,9 @@ msgid "computer is in use"
 msgstr " Когда компьютер используется для работы"
 
 #: MainDocument.cpp:2242
+#, fuzzy
 msgid "user request"
-msgstr ""
+msgstr "запрос пользователя"
 
 #: MainDocument.cpp:2243
 #, fuzzy
@@ -2367,8 +2363,9 @@ msgid "CPU benchmarks in progress"
 msgstr " - запущен тест производительности"
 
 #: MainDocument.cpp:2245
+#, fuzzy
 msgid "need disk space - check preferences"
-msgstr ""
+msgstr "необходимо место на диске - проверьте настройки"
 
 #: MainDocument.cpp:2246
 #, fuzzy
@@ -2376,16 +2373,19 @@ msgid "an exclusive app is running"
 msgstr " - выполняется эксклюзивное приложение"
 
 #: MainDocument.cpp:2247
+#, fuzzy
 msgid "CPU is busy"
-msgstr ""
+msgstr "процессор занят"
 
 #: MainDocument.cpp:2248
+#, fuzzy
 msgid "network bandwidth limit exceeded"
-msgstr ""
+msgstr "превышен лимит использования сети"
 
 #: MainDocument.cpp:2250
+#, fuzzy
 msgid "unknown reason"
-msgstr ""
+msgstr "неизвестная причина"
 
 #: MainDocument.cpp:2266
 msgid "GPU missing, "
@@ -2404,9 +2404,8 @@ msgid "Downloading"
 msgstr "Загрузка данных"
 
 #: MainDocument.cpp:2280 MainDocument.cpp:2338
-#, fuzzy
 msgid " (suspended - "
-msgstr "(приостановлено)"
+msgstr "(приостановлено - "
 
 #: MainDocument.cpp:2282 MainDocument.cpp:2340 ViewTransfers.cpp:794
 msgid ")"
@@ -2424,7 +2423,7 @@ msgstr "Обработка задания приостановлена поль�
 #: MainDocument.cpp:2292
 #, fuzzy
 msgid "Suspended - "
-msgstr "Приостановлена"
+msgstr "Приостановлена - "
 
 #: MainDocument.cpp:2299
 msgid "Waiting for memory"
@@ -2482,7 +2481,6 @@ msgid "Aborted by project"
 msgstr "Прервано проектом"
 
 #: MainDocument.cpp:2353
-#, fuzzy
 msgid "Aborted: not started by deadline"
 msgstr "Прервано: не было запущено до крайнего срока"
 
@@ -2611,19 +2609,17 @@ msgstr "Этот проект уже подключен. Выберите дру
 
 # ???
 #: ProjectProcessingPage.cpp:322
-#, fuzzy
 msgid "Communicating with project."
-msgstr "Установка связи с сервером."
+msgstr "Установка связи с проектом."
 
 #: ProjectProcessingPage.cpp:499
 msgid "Required files not found on the server."
-msgstr ""
+msgstr "Необходимые файлы не найдены на сервере."
 
 # что бы это значило???
 #: ProjectProcessingPage.cpp:502 ProjectProcessingPage.cpp:564
-#, fuzzy
 msgid "An internal server error has occurred."
-msgstr "Произошла внутренняя ошибка сервера.\n"
+msgstr "Произошла внутренняя ошибка сервера."
 
 #: ProjectPropertiesPage.cpp:335
 msgid ""
@@ -2639,7 +2635,6 @@ msgid "Network communication failure"
 msgstr "Неудача при установлении соединения"
 
 #: ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2881,13 +2876,12 @@ msgstr "Показать последние новости BOINC"
 
 #: ViewNotices.cpp:105
 msgid "Notices"
-msgstr ""
+msgstr "Уведомления"
 
 # ?????? это о чём
 #: ViewNotices.cpp:155
-#, fuzzy
 msgid "Retrieving notices..."
-msgstr "Проверка текущего состояния."
+msgstr "Получение уведомлений..."
 
 #: ViewProjects.cpp:173
 msgid "Update"
@@ -3278,9 +3272,8 @@ msgid "Transfers"
 msgstr "Передача"
 
 #: ViewTransfers.cpp:279
-#, fuzzy
 msgid "Network activity is suspended - "
-msgstr "Автономная работа."
+msgstr "Доступ в сеть приостановлен - "
 
 #: ViewTransfers.cpp:281
 #, fuzzy
@@ -3288,8 +3281,8 @@ msgid ""
 ".\n"
 "You can enable it using the Activity menu."
 msgstr ""
-"Доступ в интернет приостановлен.\n"
-" Вы можете разрешить его через меню 'Управление'."
+".\n"
+"Вы можете включить его, используя меню Управление."
 
 #: ViewTransfers.cpp:291
 msgid "Retrying transfer now..."
@@ -3321,15 +3314,13 @@ msgstr "Повтор через "
 
 # не очень
 #: ViewTransfers.cpp:779
-#, fuzzy
 msgid "Upload suspended - "
-msgstr "Ожидание отправки данных"
+msgstr "Отправка данных приостановлена - "
 
 # не очень
 #: ViewTransfers.cpp:780
-#, fuzzy
 msgid "Download suspended - "
-msgstr "Ожидание загрузки данных"
+msgstr "Загрузка данных приостановлена - "
 
 # не очень
 #: ViewTransfers.cpp:787
@@ -3384,12 +3375,10 @@ msgid "Elapsed"
 msgstr "Затрачено времени"
 
 #: ViewWork.cpp:226
-#, fuzzy
 msgid "Remaining"
-msgstr "Осталось: "
+msgstr "Осталось"
 
 #: ViewWork.cpp:227
-#, fuzzy
 msgid "Deadline"
 msgstr "Отправить до"
 
@@ -3472,6 +3461,7 @@ msgstr ""
 "мастера, не будут управляться через %s."
 
 #: WelcomePage.cpp:276
+#, fuzzy
 msgid ""
 "There are over 30 BOINC-based projects\n"
 "doing research in many areas of science,\n"
@@ -3479,6 +3469,11 @@ msgid ""
 "You can attach to a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
 msgstr ""
+"Более 30 проектов в различных\n"
+"областях науки используют BOINC,\n"
+"и Вы можете добровольно помочь любым из них.\n"
+"Вы можете подключиться к проекту вручную,\n"
+"или использовать 'Менеждер Проектов' для выбора."
 
 #: WelcomePage.cpp:284
 #, fuzzy
@@ -3910,22 +3905,20 @@ msgid "&Finish"
 msgstr "Готово"
 
 #: ../client/acct_mgr.cpp:373 ../client/acct_mgr.cpp:383
-#, fuzzy
 msgid "error"
-msgstr "Ошибка"
+msgstr "oшибка"
 
 #: ../client/acct_setup.cpp:264
 msgid "A new version of BOINC is available."
-msgstr ""
+msgstr "Доступна новая версия BOINC."
 
 #: ../client/acct_setup.cpp:266
-#, fuzzy
 msgid "Download it."
-msgstr "Загрузка данных"
+msgstr "Загрузить её."
 
 #: ../client/client_state.cpp:342
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
+msgstr "Не удалось записать файл состояния; проверьте права доступа к каталогу"
 
 #: ../client/cs_cmdline.cpp:280
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
