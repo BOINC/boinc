@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-07-22 13:13-0700\n"
+"PO-Revision-Date: 2010-07-22 20:10-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -1969,9 +1969,8 @@ msgid "Process ID"
 msgstr "ID процесса"
 
 #: DlgItemProperties.cpp:386 ViewWork.cpp:956
-#, fuzzy
 msgid "Local: "
-msgstr "Локальный: "
+msgstr "Локальное: "
 
 #: DlgOptions.cpp:119
 #, c-format
