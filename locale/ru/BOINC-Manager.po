@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-07-22 20:10-0700\n"
+"PO-Revision-Date: 2010-07-22 21:33-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -317,8 +317,9 @@ msgid "Remove this computer from account manager control."
 msgstr "Отсоединить клиент от менеджера проектов."
 
 #: AdvancedFrame.cpp:425
+#, fuzzy
 msgid "Display and network &options..."
-msgstr "Графические и сетевые настройки..."
+msgstr "Настройки отображения и сети..."
 
 #: AdvancedFrame.cpp:426
 msgid "Configure GUI options and proxy settings"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-07-22 12:10-0700\n"
+"PO-Revision-Date: 2010-07-22 21:28-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -352,7 +352,6 @@ msgid "Delete this computer"
 msgstr "Удалить этот компьютер"
 
 #: ../inc/host.inc:197
-#, fuzzy
 msgid "Merge duplicate records of this computer"
 msgstr "Объединить дублирующиеся записи этого компьютера"
 
@@ -864,7 +863,6 @@ msgid "Should %1 show your computers on its web site?"
 msgstr "Должен ли %1 показывать ваши компьютеры на своём веб-сайте?"
 
 #: ../inc/prefs.inc:770
-#, fuzzy
 msgid "Computing"
 msgstr "вычислений"
 
@@ -903,7 +901,6 @@ msgid "Edit %1 preferences"
 msgstr "Редактировать настройки %1"
 
 #: ../inc/prefs.inc:840
-#, fuzzy
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers attached to multiple projects, the most recently "
@@ -1071,7 +1068,6 @@ msgid "Completed, can't validate"
 msgstr "Завершён, невозможно проверить"
 
 #: ../inc/result.inc:125
-#, fuzzy
 msgid "Completed, validation inconclusive"
 msgstr "Завершён, проверка неокончательная"
 
@@ -1084,7 +1080,6 @@ msgid "Completed"
 msgstr "Завершён"
 
 #: ../inc/result.inc:129 ../inc/result.inc:165
-#, fuzzy
 msgid "Couldn't send"
 msgstr "Не удалось отправить"
 
@@ -1125,7 +1120,6 @@ msgid "Client detached"
 msgstr "Клиент отсоединён"
 
 #: ../inc/result.inc:156
-#, fuzzy
 msgid "Over"
 msgstr "Завершено"
 
@@ -1138,7 +1132,6 @@ msgid "Client error"
 msgstr "Ошибка клиента"
 
 #: ../inc/result.inc:170
-#, fuzzy
 msgid "Redundant result"
 msgstr "Лишний результат"
 
@@ -1183,7 +1176,6 @@ msgid "Workunit error - check skipped"
 msgstr "Ошибка задачи - проверка пропущена"
 
 #: ../inc/result.inc:205
-#, fuzzy
 msgid "Checked, but no consensus yet"
 msgstr "Проверено, но пока нет согласия"
 
@@ -1192,17 +1184,14 @@ msgid "Task was reported too late to validate"
 msgstr "Задание возвращено слишком поздно для проверки"
 
 #: ../inc/result.inc:214
-#, fuzzy
 msgid "Couldn't send result"
 msgstr "Не удалось отправить результат"
 
 #: ../inc/result.inc:218
-#, fuzzy
 msgid "Too many errors (may have bug)"
-msgstr "Слишком много ошибок (может иметь ошибку)"
+msgstr "Слишком много ошибок (возможно ошибка в ПО)"
 
 #: ../inc/result.inc:222
-#, fuzzy
 msgid "Too many results (may be nondeterministic)"
 msgstr "Слишком много результатов (может быть недетерминированным)"
 
@@ -1213,7 +1202,6 @@ msgid "Too many total results"
 msgstr "Слишком много всего результатов"
 
 #: ../inc/result.inc:230
-#, fuzzy
 msgid "WU cancelled"
 msgstr "WU отменён"
 
@@ -1275,7 +1263,6 @@ msgid "CPU time<br />(sec)"
 msgstr "Время ЦП<br />(сек)"
 
 #: ../inc/result.inc:284 ../inc/result.inc:392
-#, fuzzy
 msgid "Claimed credit"
 msgstr "Затребовано очков"
 
@@ -1296,27 +1283,22 @@ msgid "Received"
 msgstr "Получен"
 
 #: ../inc/result.inc:383
-#, fuzzy
 msgid "Server state"
 msgstr "Состояние сервера"
 
 #: ../inc/result.inc:384
-#, fuzzy
 msgid "Outcome"
-msgstr "Результат"
+msgstr "Результат выполнения"
 
 #: ../inc/result.inc:385
-#, fuzzy
 msgid "Client state"
 msgstr "Состояние клиента"
 
 #: ../inc/result.inc:386
-#, fuzzy
 msgid "Exit status"
 msgstr "Статус выхода"
 
 #: ../inc/result.inc:388
-#, fuzzy
 msgid "Report deadline"
 msgstr "Крайний срок отчёта"
 
@@ -1638,7 +1620,6 @@ msgid "Team"
 msgstr "Команда"
 
 #: ../inc/user.inc:164
-#, fuzzy
 msgid "Cross-project"
 msgstr "Межпроектный"
 
@@ -4238,7 +4219,6 @@ msgid "granted credit"
 msgstr "предоставлено очков"
 
 #: ../user/workunit.php:52
-#, fuzzy
 msgid "Tasks in progress"
 msgstr "Задания обрабатываются"
 
@@ -4251,7 +4231,6 @@ msgid "minimum quorum"
 msgstr "минимальный кворум"
 
 #: ../user/workunit.php:56
-#, fuzzy
 msgid "initial replication"
 msgstr "начальная репликация"
 
