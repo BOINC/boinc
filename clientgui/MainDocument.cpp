@@ -1826,9 +1826,11 @@ void CMainDocument::SaveUnreadNoticeInfo() {
     wxString        strBaseConfigLocation = wxString(wxT("/Notices/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
+    // We want only the unique and invariant part (host name) of the domain path
+    wxString        strHostName = strDomainName.AfterLast(wxFileName::GetPathSeparator());
     wxString        strArrivalTime = wxEmptyString;
     
-    pConfig->SetPath(strBaseConfigLocation + strDomainName);
+    pConfig->SetPath(strBaseConfigLocation + strHostName);
     strArrivalTime.Printf(wxT("%f"), m_dLastReadNoticeArrivalTime);
     pConfig->Write(wxT("LastReadNoticeTime"), strArrivalTime);
 }
@@ -1839,10 +1841,12 @@ void CMainDocument::RestoreUnreadNoticeInfo() {
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxString        strArrivalTime = wxEmptyString;
     wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
+    // We want only the unique and invariant part (host name) of the domain path
+    wxString        strHostName = strDomainName.AfterLast(wxFileName::GetPathSeparator());
     double          dLastReadNoticeTime;
     int             i, n = (int)notices.notices.size();
 
-    pConfig->SetPath(strBaseConfigLocation + strDomainName);
+    pConfig->SetPath(strBaseConfigLocation + strHostName);
     if (pConfig->Read(wxT("LastReadNoticeTime"), &strArrivalTime)) {
         strArrivalTime.ToDouble(&dLastReadNoticeTime);
         for (i=0; i<n; ++i) {

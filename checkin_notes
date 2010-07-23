@@ -4483,7 +4483,7 @@ David  22 June 2010
         acct_mgr.cpp
 
 Charlie 22 Jun 2010
-    MGR: save host name (from host.domain_name) instead of CPID when 
+    - MGR: save host name (from host.domain_name) instead of CPID when 
         saving arrival time of last read notice; wait until we have 
         host.domain_name before checking for unread messages. 
                 
@@ -5511,3 +5511,12 @@ Rom    22 July 2010
         sched_send.cpp
     html/inc/
         notify.inc
+
+Charlie 23 Jul 2010
+    - MGR: for saving / restoring arrival time of last read notice, 
+        extract the host name from host.domain_name, to avoid future 
+        problems if we ever set host.domain_name to a fully-qualified 
+        domain name in the future.
+                
+    clientgui/
+        MainDocument.cpp
