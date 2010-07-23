@@ -861,9 +861,10 @@ wxInt32 CDlgEventLog::FormatTime(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CDlgEventLog::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
-
+    
     if (message) {
-        strBuffer = process_client_message(message->body.c_str());
+        strBuffer = wxString(message->body.c_str(), wxConvUTF8);
+        wxGetApp().GetDocument()->LocalizeNoticeText(strBuffer);
     }
 
     return 0;

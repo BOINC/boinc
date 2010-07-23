@@ -1924,6 +1924,37 @@ int CMainDocument::ResetNoticeState() {
 }
 
 
+// parse out the _(...)'s, and translate them
+//
+bool CMainDocument::LocalizeNoticeText(wxString& strMessage) {
+    wxString strBuffer = wxEmptyString;
+    wxString strStart = wxString(wxT("_(\""));
+    wxString strEnd = wxString(wxT("\")"));
+
+    // Replace CRLFs with HTML breaks.
+    strMessage.Replace(wxT("\r\n"), wxT("<BR>"));
+
+    // Replace LFs with HTML breaks.
+    strMessage.Replace(wxT("\n"), wxT("<BR>"));
+
+    // Localize translatable text
+    while (strMessage.Find(strStart.c_str()) != wxNOT_FOUND) {
+        strBuffer = 
+            strMessage.SubString(
+                strMessage.Find(strStart.c_str()) + strStart.Length(),
+                strMessage.Find(strEnd.c_str()) - (strEnd.Length() - 1)
+            );
+
+        strMessage.Replace(
+            wxString(strStart + strBuffer + strEnd).c_str(),
+            wxGetTranslation(strBuffer.c_str())
+        );
+    }
+
+    return true;
+}
+
+
 // Call this only when message buffer is stable
 // Note: This must not call any rpcs.
 // This is now called after each get_messages RPC from 
@@ -2446,38 +2477,3 @@ wxString result_description(RESULT* result) {
     return strBuffer;
 }
 
-// parse out the _(...)'s, and translate them
-//
-wxString process_client_message(const char* msg) {
-    wxString result;
-    const char* START = "_(\"";
-    const char* END = "\")";
-    char buf[1024];
-    char* p = buf, *q;
-
-    strcpy(buf, msg);
-    q = strchr(p, '\n');
-    if (q) *q = 0;
-    while (*p) {
-        q = strstr(p, START);
-        if (!q) {
-            result += wxString(p, wxConvUTF8);
-            break;
-        }
-        if (p != q) {
-            *q = 0;
-            result += wxString(p, wxConvUTF8);
-        }
-        p = q + strlen(START);
-        if (!p) break;  // paranoia
-        q = strstr(p, END);
-        if (!q) {       // paranoia
-            result += wxString(p, wxConvUTF8);
-            break;
-        }
-        *q = 0;
-        result += wxGetTranslation(wxString(p, wxConvUTF8));
-        p = q + strlen(END);
-    }
-    return result;
-}

@@ -5576,3 +5576,11 @@ David  23 Jul 2010
         sched_send.cpp,h
         sched_locality.cpp
         sched_types.cpp
+
+Rom    23 July 2010
+    - MGR: Enable the manager to be able to deal with any size notice.
+    
+    clientgui/
+        DlgEventLog.cpp
+        MainDocument.cpp, .h
+        NoticeListCtrl.cpp

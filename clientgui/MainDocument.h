@@ -303,6 +303,7 @@ public:
 
     void                        UpdateUnreadNoticeState();
     int                         ResetNoticeState();
+    bool                        LocalizeNoticeText(wxString& strMessage);
 
 
     //
