@@ -331,9 +331,11 @@ void CSimpleFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnNotification - Function Begin"));
 
 	CDlgMessages dlg(GetParent());
+
     m_pBackgroundPanel->SetDlgOpen(true);
     SetMsgsDlgOpen(&dlg);
     
+    m_pBackgroundPanel->projComponent->MessagesViewed();
     dlg.ShowModal();
 
     m_pBackgroundPanel->SetDlgOpen(false);

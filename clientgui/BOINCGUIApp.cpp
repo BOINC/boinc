@@ -1100,6 +1100,7 @@ bool CBOINCGUIApp::ShowNotifications() {
     retval = SetActiveGUI(m_iGUISelected, true);
     if (retval) {
         GetFrame()->FireNotification();
+        GetDocument()->UpdateUnreadNoticeState();
     }
 
     return retval;

@@ -41,10 +41,9 @@
 #include "res/macbadgemask.xpm"
 
 #define MIN_IDLE_TIME_FOR_NOTIFICATION 45
-#endif
-
 // How long to bounce Dock icon on Mac
 #define MAX_NOTIFICATION_DURATION 15
+#endif
 
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN)
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_REFRESH)
@@ -141,7 +140,6 @@ void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
     UpdateTaskbarStatus();
-
     UpdateNoticeStatus();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function End"));
@@ -172,12 +170,7 @@ void CTaskBarIcon::OnNotificationClick(wxTaskBarIconExEvent& WXUNUSED(event)) {
 void CTaskBarIcon::OnNotificationTimeout(wxTaskBarIconExEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnNotificationTimeout - Function Begin"));
 
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
     ResetTaskBar();
-    pDoc->UpdateUnreadNoticeState();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnNotificationTimeout - Function End"));
 }

@@ -1649,6 +1649,7 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
         wxTimerEvent    timerEvent;
         wxString        strTabTitle = wxEmptyString;
         int             iCount = 0;
+        static int      iLastCount = 0;
 
         wxASSERT(m_pNotebook);
         wxASSERT(pDoc);
@@ -1657,13 +1658,17 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
         // Force update the notice tab text
         pView = wxDynamicCast(m_pNotebook->GetPage(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE), CBOINCBaseView);
         iCount = pDoc->GetUnreadNoticeCount();
-        if (iCount) {
-            strTabTitle.Printf(wxT("%s (%d)"), pView->GetViewDisplayName().c_str(), iCount);
-        } else {
-            strTabTitle = pView->GetViewDisplayName();
-        }
+        if (iLastCount != iCount) {
+            iLastCount = iCount;
 
-        m_pNotebook->SetPageText(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE, strTabTitle);
+            if (iCount) {
+                strTabTitle.Printf(wxT("%s (%d)"), pView->GetViewDisplayName().c_str(), iCount);
+            } else {
+                strTabTitle = pView->GetViewDisplayName();
+            }
+
+            m_pNotebook->SetPageText(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE, strTabTitle);
+        }
 
 
         // Update current tab contents

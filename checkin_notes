@@ -5527,3 +5527,22 @@ Charlie 23 Jul 2010
 
     clientgui/
         BOINCBaseFrame.cpp
+
+Rom    23 Jul 2010
+    - MGR: Don't update the notice tab text unless the unread notice
+        count has changed.
+    - MGR: Don't update the last arrival time for the host unless
+        it has changed from the last time it was saved.
+    - MGR: Opps, forgot to move some code before commiting yesterday,
+        don't update the last save arrival time unless the user
+        clicks on the balloon.
+    - MGR: Stop the simple GUI from blinking the messages button
+        when the balloon is clicked.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp
+        MainDocument.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_ProjectsComponent.h
