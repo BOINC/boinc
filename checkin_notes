@@ -5499,7 +5499,7 @@ Rom    22 July 2010
     clientgui/
         NoticeListCtrl.cpp
 
-Rom    22 July 2010
+David  22 July 2010
     - user web: put RSS item titles in CDATA
     - sched: get rid of unused config items
     - manager: msg tweak
