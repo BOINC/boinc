@@ -153,7 +153,7 @@ public:
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
 
-    bool                DisplayEventLog(bool bShowWindow = true);
+    void                DisplayEventLog(bool bShowWindow = true);
     void                OnEventLogClose();
 
     void                FireReloadSkin();

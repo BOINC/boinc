@@ -61,7 +61,7 @@ wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name)
         if (pDoc)
         {
             strBuffer = wxString(pDoc->notice(childId-1)->title, wxConvUTF8);
-            pDoc->LocalizeNoticeText(strBuffer);
+            pDoc->LocalizeNoticeText(strBuffer, true);
             strBuffer = StripHTMLTags(strBuffer);
             *name = strBuffer.c_str();
         }
@@ -189,7 +189,7 @@ wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* des
         strProjectName = wxString(pDoc->notice(childId-1)->project_name, wxConvUTF8);
 
         strDescription = wxString(pDoc->notice(childId-1)->description.c_str(), wxConvUTF8);
-        pDoc->LocalizeNoticeText(strDescription);
+        pDoc->LocalizeNoticeText(strDescription, true);
 
         dtBuffer.Set((time_t)pDoc->notice(childId-1)->arrival_time);
         strArrivalTime = dtBuffer.Format();
@@ -534,10 +534,10 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
     strURL = wxString(np->link, wxConvUTF8);
 
     strTitle = wxString(np->title, wxConvUTF8);
-    pDoc->LocalizeNoticeText(strTitle);
+    pDoc->LocalizeNoticeText(strTitle, true);
 
     strDescription = wxString(np->description.c_str(), wxConvUTF8);
-    pDoc->LocalizeNoticeText(strDescription);
+    pDoc->LocalizeNoticeText(strDescription, true);
 
     dtBuffer.Set((time_t)np->arrival_time);
     strArrivalTime = dtBuffer.Format();

@@ -798,30 +798,31 @@ int CBOINCGUIApp::StartBOINCDefaultScreensaverTest() {
 
 // Display the Event Log, it is a modeless dialog not owned by any
 // other UI element.
-bool CBOINCGUIApp::DisplayEventLog(bool bShowWindow) {
-    bool rc = false; 
-
-    if (m_pEventLog) {
-        m_pEventLog->Raise();
+void CBOINCGUIApp::DisplayEventLog(bool bShowWindow) {
+    if (m_pEventLog ) {
+        if (bShowWindow) {
+            m_pEventLog->Raise();
+        }
     } else {
         m_pEventLog = new CDlgEventLog();
         if (m_pEventLog) {
-            rc = m_pEventLog->Show(bShowWindow);
+            m_pEventLog->Show(bShowWindow);
+            if (bShowWindow) {
+                m_pEventLog->Raise();
+            }
             if (m_pFrame) {
                 m_pFrame->UpdateRefreshTimerInterval();
             }
         }
     }
-
-    return rc;
 }
 
 
 void CBOINCGUIApp::OnEventLogClose() {
     m_pEventLog = NULL;
-        if (m_pFrame) {
-            m_pFrame->UpdateRefreshTimerInterval();
-        }
+    if (m_pFrame) {
+        m_pFrame->UpdateRefreshTimerInterval();
+    }
 }
 
     
@@ -948,6 +949,12 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     // Show the new frame if needed 
     if (m_pFrame && !m_pFrame->IsShown() && bShowWindow) {
         m_pFrame->Show();
+        m_pFrame->Raise();
+    }
+
+    // Raise the frame to the top of the Z order if needed
+    if (m_pFrame && m_pFrame->IsShown() && bShowWindow) {
+        m_pFrame->Raise();
     }
 
     m_iGUISelected = iGUISelection;

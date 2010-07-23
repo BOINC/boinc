@@ -5584,3 +5584,14 @@ Rom    23 July 2010
         DlgEventLog.cpp
         MainDocument.cpp, .h
         NoticeListCtrl.cpp
+
+Rom    23 July 2010
+    - MGR: Take another stab at the z-order problem when both the event log
+        and main window are open.
+    - MGR: Don't replace control characters for regular messages.
+    
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        DlgEventLog.cpp
+        MainDocument.cpp, .h
+        NoticeListCtrl.cpp
