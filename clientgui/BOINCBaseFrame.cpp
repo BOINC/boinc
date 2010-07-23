@@ -783,6 +783,7 @@ bool CBOINCBaseFrame::RestoreState() {
 
 
 bool CBOINCBaseFrame::Show(bool bShow) {
+    bool    retval;
     if (bShow) {
         wxGetApp().ShowApplication(true);
     } else {
@@ -793,11 +794,13 @@ bool CBOINCBaseFrame::Show(bool bShow) {
         }
     }
     
+    retval = wxFrame::Show(bShow);
+    
     CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
     if (eventLog) {
         eventLog->Show(bShow);
     }
-    return wxFrame::Show(bShow);
+    return retval;
 }
 
 

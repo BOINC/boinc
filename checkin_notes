@@ -5520,3 +5520,10 @@ Charlie 23 Jul 2010
                 
     clientgui/
         MainDocument.cpp
+
+Charlie 23 Jul 2010
+    - MGR: If Event Log was open, show it in front of main window when 
+        "opening" Manager after it was hidden.
+
+    clientgui/
+        BOINCBaseFrame.cpp
