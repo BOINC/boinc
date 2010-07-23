@@ -1501,7 +1501,7 @@ void send_work_setup() {
     g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
     g_wreq->cpu_req_secs = clamp_req_sec(g_request->cpu_req_secs);
     g_wreq->cpu_req_instances = g_request->cpu_req_instances;
-    g_wreq->anonymous_platform = anonymous(g_request->platforms.list[0]);
+    g_wreq->anonymous_platform = is_anonymous(g_request->platforms.list[0]);
 
     if (g_wreq->anonymous_platform) {
         estimate_flops_anon_platform();
@@ -1538,13 +1538,18 @@ void send_work_setup() {
         OTHER_RESULT& r = g_request->other_results[i];
         APP* app = NULL;
         bool uses_gpu = false;
+        bool have_cav = false;
         if (r.app_version >= 0
             && r.app_version < (int)g_request->client_app_versions.size()
         ) {
             CLIENT_APP_VERSION& cav = g_request->client_app_versions[r.app_version];
             app = cav.app;
-            uses_gpu = cav.host_usage.uses_gpu();
-        } else {
+            if (app) {
+                have_cav = true;
+                uses_gpu = cav.host_usage.uses_gpu();
+            }
+        }
+        if (!have_cav) {
             if (r.have_plan_class && app_plan_uses_gpu(r.plan_class)) {
                 uses_gpu = true;
             }

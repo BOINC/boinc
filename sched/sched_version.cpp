@@ -161,6 +161,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app, bool reliable_only) {
     }
     for (i=0; i<g_request->client_app_versions.size(); i++) {
         CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+        if (!cav.app) continue;
         if (cav.app->id != app.id) {
             continue;
         }
@@ -255,6 +256,7 @@ void estimate_flops_anon_platform() {
     unsigned int i;
     for (i=0; i<g_request->client_app_versions.size(); i++) {
         CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+        if (!cav.app) continue;
 
         cav.rsc_fpops_scale = 1;
 

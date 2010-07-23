@@ -30,7 +30,7 @@ extern int add_result_to_reply(
     bool locality_scheduling
 );
 
-inline bool anonymous(PLATFORM* platform) {
+inline bool is_anonymous(PLATFORM* platform) {
     return (!strcmp(platform->name, "anonymous"));
 }
 

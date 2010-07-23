@@ -204,7 +204,7 @@ wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* des
     if (pDoc && (childId != wxACC_SELF)) {
         strBuffer = wxEmptyString;
         
-        char buf[8192];
+        char buf[65000];
         fix_html(pDoc->notice(childId-1)->description.c_str(), buf);
         strDescription = process_client_message(buf); 
         strProjectName = wxString(pDoc->notice(childId-1)->project_name, wxConvUTF8);
@@ -549,7 +549,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
     strProjectName = wxString(np->project_name, wxConvUTF8);
     strURL = wxString(np->link, wxConvUTF8);
     strTitle = wxString(process_client_message(np->title), wxConvUTF8);
-    char buf[8192];
+    char buf[65000];
     fix_html(np->description.c_str(), buf);
     strDescription = process_client_message(buf);
 

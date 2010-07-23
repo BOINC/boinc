@@ -5546,3 +5546,33 @@ Rom    23 Jul 2010
         MainDocument.cpp
         sg_BoincSimpleGUI.cpp
         sg_ProjectsComponent.h
+
+David  23 Jul 2010
+    - client/scheduler: fix a group of bugs related to the new mechanism
+        where the client tells the scheduler which app versions
+        its queued jobs use
+        (this is needed, e.g., to enforce per-app or per-resource job limits).
+        In this mechanism, the client sends an array of <app_version>s,
+        and each <other_result> includes an index into this array.
+
+        - The wrong index was being sent (client).
+        - If an <app_version> had a non-existent app name
+            (e.g. because that app had been deprecated)
+            it wasn't getting put in the array, invalidating array indices
+            Furthermore, an erroneous message was being sent to the user
+
+            Fix: if parse error for <app_version>,
+            put it in the array anyway, but with cav.app = NULL,
+            meaning that it's a place-holder.
+            Send a message to user only if anon platform.
+
+    - manager: increase notice buffers to 64K
+
+    client/
+        cs_scheduler.cpp
+    clientgui/
+        NoticeListCtrl.cpp
+    sched/
+        sched_send.cpp,h
+        sched_locality.cpp
+        sched_types.cpp

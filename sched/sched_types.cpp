@@ -88,6 +88,7 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
         }
         if (parse_double(buf, "<flops>", x)) {
             if (x>0) host_usage.projected_flops = x;
+            continue;
         }
         if (match_tag(buf, "<coproc>")) {
             COPROC_REQ coproc_req;
@@ -100,6 +101,7 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
             if (!retval && !strcmp(coproc_req.type, "ATI")) {
                 host_usage.natis = coproc_req.count;
             }
+            continue;
         }
     }
     return ERR_XML_PARSE;
@@ -260,13 +262,29 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
                     CLIENT_APP_VERSION cav;
                     retval = cav.parse(fin);
                     if (retval) {
-                        g_reply->insert_message(
-                            "Invalid app version description in app_info.xml",
-                            "notice"
-                        );
-                    } else {
-                        client_app_versions.push_back(cav);
+                        if (is_anonymous(platforms.list[0])) {
+                            if (retval == ERR_NOT_FOUND) {
+                                g_reply->insert_message(
+                                    _("Unknown app name in app_info.xml"),
+                                    "notice"
+                                );
+                            } else {
+                                g_reply->insert_message(
+                                    _("Syntax error in app_info.xml"),
+                                    "notice"
+                                );
+                            }
+                        } else {
+                            // this case happens if the app version
+                            // refers to a deprecated app
+                        }
+                        cav.app = 0;
                     }
+                    // store the CLIENT_APP_VERSION even if it didn't parse.
+                    // This is necessary to maintain the correspondence
+                    // with result.app_version
+                    //
+                    client_app_versions.push_back(cav);
                 }
             }
             continue;
@@ -474,7 +492,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         prrs_fraction,
         cpu_estimated_delay,
         code_sign_key,
-        anonymous(platforms.list[0])?"true":"false"
+        is_anonymous(platforms.list[0])?"true":"false"
     );
 
     for (i=0; i<client_app_versions.size(); i++) {

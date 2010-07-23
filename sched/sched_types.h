@@ -147,6 +147,8 @@ struct CLIENT_APP_VERSION {
         // to reflect the discrepancy between how fast the client
         // thinks the app is versus how fast we think it is
     APP* app;
+        // if NULL, this record is a place-holder,
+        // used to preserve array indices
 
     int parse(FILE*);
 };

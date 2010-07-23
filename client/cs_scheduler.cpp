@@ -285,11 +285,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // send descriptions of app versions
     //
     fprintf(f, "<app_versions>\n");
+    int j=0;
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
         if (avp->project != p) continue;
         avp->write(mf, false);
-        avp->index = i;
+        avp->index = j++;
     }
     fprintf(f, "</app_versions>\n");
 

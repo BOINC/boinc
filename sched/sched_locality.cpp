@@ -289,7 +289,7 @@ static int possibly_send_result(DB_RESULT& result) {
 
     bavp = get_app_version(wu, true, false);
 
-    if (!bavp && anonymous(g_request->platforms.list[0])) {
+    if (!bavp && is_anonymous(g_request->platforms.list[0])) {
         char help_msg_buf[512];
         sprintf(help_msg_buf,
             "To get more %s work, finish current work, stop BOINC, remove app_info.xml file, and restart.",
