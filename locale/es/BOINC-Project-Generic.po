@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-18 02:41-0700\n"
+"PO-Revision-Date: 2010-07-24 04:28-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -654,13 +654,13 @@ msgstr "GB"
 
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr ""
+msgstr "Disco: dejar libre al menos %1 Valores menores que %2 son ignorados %3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
 #, php-format
 msgid "% of total"
-msgstr ""
+msgstr "% del total"
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
@@ -668,19 +668,19 @@ msgstr ""
 
 #: ../inc/prefs.inc:195
 msgid "seconds"
-msgstr ""
+msgstr "segundos"
 
 #: ../inc/prefs.inc:198
 msgid "Swap space: use at most"
-msgstr ""
+msgstr "Espacio de intercambio: usar como máximo"
 
 #: ../inc/prefs.inc:203
 msgid "Memory: when computer is in use, use at most"
-msgstr ""
+msgstr "Memoria: cuando el ordendador está en uso, usar como máximo"
 
 #: ../inc/prefs.inc:208
 msgid "Memory: when computer is not in use, use at most"
-msgstr ""
+msgstr "Memoria: cuando el ordenador no está en uso, usar como máximo"
 
 #: ../inc/prefs.inc:217
 msgid ""
@@ -690,7 +690,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 msgid "days"
-msgstr ""
+msgstr "días"
 
 #: ../inc/prefs.inc:226
 msgid "Maintain enough work for an additional"
@@ -701,36 +701,40 @@ msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
+"¿Confirmar antes de conectar a Internet? %1 Importa sólo si usted tiene una "
+"conexión por módem, RDSI o VPN  %2"
 
 #: ../inc/prefs.inc:241
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
 msgstr ""
+"¿Desconectar al terminar? %1 Importa sólo si tiene una conexión por módem, "
+"RDSI o VPN %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "Velocidad máxima de descarga:"
 
 #: ../inc/prefs.inc:251 ../inc/prefs.inc:256
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "Kbytes/s"
 
 #: ../inc/prefs.inc:254
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "Velocidad máxima de envío:"
 
 #: ../inc/prefs.inc:259
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Usar la red sólo entre las horas"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
+msgstr "Transferir como máximo %1 Obligatorio para la versión 6.10.46+ %2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
-msgstr ""
+msgstr "Mbytes cada"
 
 #: ../inc/prefs.inc:274
 msgid ""
@@ -738,6 +742,9 @@ msgid ""
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
 "reduces the security of BOINC. %3"
 msgstr ""
+"¿No verific¡ficar los archivos de imagen? %1 Márquelo SÓLO si su proveedor "
+"de Internet modifica los archivos de imagenes (UMTS lo hace, por ejemplo). "
+"%2 No verificarlos reduce la seguridad de BOINC. %3"
 
 #: ../inc/prefs.inc:287
 msgid ""
@@ -749,7 +756,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:300
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Usar la CPU %1 Obligatorio a partir de la versión 6.10+ %2"
 
 #: ../inc/prefs.inc:312
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
