@@ -5603,3 +5603,11 @@ Charlie 23 Jul 2010
     clientgui/
         BOINCBaseFrame.cpp
         BOINCGUIApp.cpp
+
+Charlie 23 Jul 2010
+    - MGR: remove my code for extracting host name from host.domain_name; 
+        it is not needed.
+                
+    clientgui/
+        MainDocument.cpp
+
