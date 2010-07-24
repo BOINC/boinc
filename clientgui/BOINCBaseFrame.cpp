@@ -793,12 +793,13 @@ bool CBOINCBaseFrame::Show(bool bShow) {
         }
     }
     
-    retval = wxFrame::Show(bShow);
-    
     CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
     if (eventLog) {
         eventLog->Show(bShow);
     }
+
+    retval = wxFrame::Show(bShow);
+    wxFrame::Raise();
     return retval;
 }
 

@@ -5595,3 +5595,11 @@ Rom    23 July 2010
         DlgEventLog.cpp
         MainDocument.cpp, .h
         NoticeListCtrl.cpp
+
+Charlie 23 Jul 2010
+    - MGR: I had it backwards: if Event Log was open, show it behind main 
+        window when "opening" Manager after it was hidden.
+
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp

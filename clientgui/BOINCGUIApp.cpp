@@ -461,7 +461,9 @@ bool CBOINCGUIApp::OnInit() {
     
     if(bOpenEventLog) {
         DisplayEventLog(m_bGUIVisible);
+        m_pFrame->Raise();
     }
+    
     return true;
 }
 
