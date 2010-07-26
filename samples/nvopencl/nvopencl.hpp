@@ -37,7 +37,8 @@
 #define KERNELS_FILEPATH "../../nvopencl_kernels.cl" // for Linux and Mac
 #define CHECKPOINT_FILE "matrix_inversion_state"
 
-#define LOCAL_WORK_SIZE 400
+#define LOCAL_WORK_SIZE 1
+#define GLOBAL_WORK_SIZE 400
 #define MATRIX_SIZE 10
 #define NUM_ITERATIONS 501 // execute the kernel NUM_ITERATIONS times
 
