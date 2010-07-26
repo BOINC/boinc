@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="example_app_nvopencl"
 	ProjectGUID="{BDC69EE0-033E-4AE1-B6AD-670E26FC117B}"
 	RootNamespace="nvopencl"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -41,7 +42,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH)"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH);/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/OpenCL/common/inc/;C:/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/shared/inc/"
 				PreprocessorDefinitions="NV_OS_WIN"
 				RuntimeLibrary="1"
 			/>
@@ -56,8 +57,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opencl.lib"
-				AdditionalLibraryDirectories="$(CUDA_LIB_PATH)\..\lib"
+				AdditionalDependencies="oclUtils32D.lib OpenCL.lib shrUtils32D.lib"
+				AdditionalLibraryDirectories="$(CUDA_LIB_PATH)\..\lib;/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/OpenCL/common/lib/;/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/shared/lib;/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/OpenCL/OpenCL/common/lib/$(PlatformName)/"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -78,7 +81,72 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
+				Name="VCPostBuildEventTool"
+				CommandLine="copy ..\samples\nvopencl\*.cl &quot;$(OUTDIR)&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH);/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/OpenCL/common/inc/;C:/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/shared/inc/"
+				PreprocessorDefinitions="NV_OS_WIN"
+				RuntimeLibrary="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="oclUtils32D.lib OpenCL.lib shrUtils32D.lib"
+				AdditionalLibraryDirectories="$(CUDA_LIB_PATH)\..\lib;/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/OpenCL/common/lib/;/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/shared/lib;/ProgramData/NVIDIA Corporation/NVIDIA GPU Computing SDK/OpenCL/OpenCL/common/lib/$(PlatformName)/"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -127,75 +195,6 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="opencl.lib"
 				AdditionalLibraryDirectories="$(CUDA_LIB_PATH)\..\lib64"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\samples\nvopencl\*.cl &quot;$(OUTDIR)&quot;"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
-			ConfigurationType="1"
-			CharacterSet="2"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH)"
-				PreprocessorDefinitions="NV_OS_WIN"
-				RuntimeLibrary="0"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="opencl.lib"
-				AdditionalLibraryDirectories="$(CUDA_LIB_PATH)\..\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -304,6 +303,10 @@
 			>
 			<File
 				RelativePath="..\samples\nvopencl\nvopencl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\samples\nvopencl\nvopencl_kernels.cl"
 				>
 			</File>
 		</Filter>
