@@ -17,7 +17,7 @@
 //
 // This file contains kernel definition for matrix inversion.
 //
-// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues
+// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues.
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 
 __kernel void GEStep1A(__global float * AI, int i, int n2, int lda2) {

@@ -29,11 +29,10 @@
 // -early_exit: exit(10) after 30 chars
 // -early_crash: crash after 30 chars
 //
-// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues
+// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues.
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 
 #include "nvopencl.hpp"
-
 using std::string;
 
 int main(int argc, char * argv[]) {
@@ -323,6 +322,7 @@ void generate_random_input_file(int n) {
         }
     }
     fclose(infile);
+    free(input);
 }
 
 /*
@@ -456,6 +456,10 @@ char * convert_to_string(const char *fileName) {
 int initialize_cl(void) {
     cl_int status = 0;
     size_t deviceListSize;
+
+    localThreads[0]  = 400;
+    // rounded up to the nearest multiple of the LocalWorkSize
+    globalThreads[0] = shrRoundUp(400,width*height);
 
     /*
      * Have a look at the available platforms and pick either
@@ -687,60 +691,6 @@ void print_to_file(MFILE *out, float *h_odata, int n) {
 }
 
 /*
- * Check if the device is able to support the requested number of work items.
- */
-int check_device_capability(size_t *globalThreads, size_t *localThreads) {
-    cl_int   status;
-    cl_uint maxDims;
-    size_t maxWorkGroupSize;
-    size_t maxWorkItemSizes[3];
-
-    /**
-    * Query device capabilities. Maximum 
-    * work item matrixSizes and the maximmum
-    * work item sizes
-    */ 
-    status = clGetDeviceInfo(devices[0],
-                             CL_DEVICE_MAX_WORK_GROUP_SIZE,
-                             sizeof(size_t),
-                             (void*)&maxWorkGroupSize,
-                             NULL);
-    if (status != CL_SUCCESS) {  
-        printf("Error: Getting Device Info. (clGetDeviceInfo)\n");
-        return 1;
-    }
-
-    status = clGetDeviceInfo(devices[0],
-                             CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS,
-                             sizeof(cl_uint),
-                             (void*)&maxDims,
-                             NULL);
-    if(status != CL_SUCCESS) {  
-        printf("Error: Getting Device Info. (clGetDeviceInfo)\n");
-        return 1;
-    }
-
-    status = clGetDeviceInfo(devices[0],
-                             CL_DEVICE_MAX_WORK_ITEM_SIZES,
-                             sizeof(size_t)*maxDims,
-                             (void*)maxWorkItemSizes,
-                             NULL);
-    if (status != CL_SUCCESS) {  
-        printf("Error: Getting Device Info. (clGetDeviceInfo)\n");
-        return 1;
-    }
-
-    globalThreads[0] = width*height; // # of threads associated with global matrixSize.
-    localThreads[0]  = 1;  // # of threads associated with local matrixSize.
-
-    /*if (globalThreads[0] > maxWorkItemSizes[0] || localThreads[0] > maxWorkGroupSize) {
-        printf("Unsupported: Device does not support requested number of work items.");
-        return 1;
-    }*/
-    return 0;
-}
-
-/*
  * \brief Run OpenCL program 
  *		  
  *        Bind host variables to kernel arguments 
@@ -748,18 +698,12 @@ int check_device_capability(size_t *globalThreads, size_t *localThreads) {
  */
 int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
     cl_int status;
-    size_t globalThreads[1]; //1 matrixSize
-    size_t localThreads[1]; //1 matrixSize
     cl_event events[2];
 
-    if (check_device_capability(globalThreads,localThreads) == 1) {
-        return 1;
-    }
-
     /* 
-	 * the input array to the kernel. This array will eventually be modified
-	 * to the inverted array.
-	 */
+     * the input array to the kernel. This array will eventually be modified
+     * to the inverted array.
+     */
     status = clSetKernelArg(GEStep1A_kernel, 0, sizeof(cl_mem), (void *)&inputBuffer);
     if (status != CL_SUCCESS) { 
         printf("Error: Setting kernel argument. (input)\n");
@@ -822,11 +766,12 @@ int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
                                  inputBuffer,
                                  CL_TRUE,
                                  0,
-                                 width * sizeof(cl_uint),
+                                 globalThreads[0] * sizeof(cl_float),
                                  AI,
                                  0,
                                  NULL,
                                  &events[1]);
+
     if(status != CL_SUCCESS) { 
         printf("Error: clEnqueueReadBuffer failed. (clEnqueueReadBuffer)\n");
         return 1;
@@ -849,18 +794,12 @@ int run_GEStep1A_kernel(cl_float * AI, int i, int n2, int lda2) {
 
 int run_GEStep2_kernel(cl_float * AI, cl_float diag, int i, int n2, int lda2) {
     cl_int status;
-    size_t globalThreads[1]; //1 matrixSize
-    size_t localThreads[1]; //1 matrixSize
     cl_event events[2];
 
-    if (check_device_capability(globalThreads,localThreads) == 1) {
-        return 1;
-    }
-
     /* 
-	 * the input array to the kernel. This array will eventually be modified 
-	 * to the inverted array.  
-	 */
+     * the input array to the kernel. This array will eventually be modified 
+     * to the inverted array.  
+     */
     status = clSetKernelArg(GEStep2_kernel, 0, sizeof(cl_mem), (void *)&inputBuffer);
     if (status != CL_SUCCESS) { 
         printf("Error: Setting kernel argument. (AI)\n");
@@ -931,7 +870,7 @@ int run_GEStep2_kernel(cl_float * AI, cl_float diag, int i, int n2, int lda2) {
                                  inputBuffer,
                                  CL_TRUE,
                                  0,
-                                 width * sizeof(cl_uint),
+                                 globalThreads[0] * sizeof(cl_float),
                                  AI,
                                  0,
                                  NULL,
@@ -958,18 +897,12 @@ int run_GEStep2_kernel(cl_float * AI, cl_float diag, int i, int n2, int lda2) {
 
 int run_GEStep3_kernel(cl_float * AI, int i, int n2, int lda2) {
     cl_int status;
-    size_t globalThreads[1]; //1 matrixSize
-    size_t localThreads[1]; //1 matrixSize
     cl_event events[2];
 
-    if (check_device_capability(globalThreads,localThreads) == 1) {
-        return 1;
-    }
-
     /* 
-	 * The input array to the kernel. This array will eventually be modified
-	 * to the inverted array.
-	 */
+     * The input array to the kernel. This array will eventually be modified
+     * to the inverted array.
+     */
     status = clSetKernelArg(GEStep3_kernel, 0, sizeof(cl_mem), (void *)&inputBuffer);
     if (status != CL_SUCCESS) { 
         printf("Error: Setting kernel argument. (input)\n");
@@ -1033,7 +966,7 @@ int run_GEStep3_kernel(cl_float * AI, int i, int n2, int lda2) {
                                  inputBuffer,
                                  CL_TRUE,
                                  0,
-                                 width * sizeof(cl_uint),
+                                 globalThreads[0] * sizeof(cl_float),
                                  AI,
                                  0,
                                  NULL,
@@ -1097,7 +1030,7 @@ void invert(cl_float * input, cl_float *output, int n) {
     /////////////////////////////////////////////////////////////////
     inputBuffer = clCreateBuffer(context,
                                  CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR,
-                                 sizeof(cl_uint) * width * height,
+                                 sizeof(cl_float) * globalThreads[0],
                                  AI_d,
                                  &status);
     if (status != CL_SUCCESS) { 
@@ -1113,12 +1046,12 @@ void invert(cl_float * input, cl_float *output, int n) {
 
 #ifdef VERIFY	
     // let's verify that
-    REAL error=0.0;
+    cl_float error=0.0;
 
     // multiply inverse*xcopy, should be Identity matrix
     for (int k = 0; k < n; k++) {
         for (int j = 0; j < n; j++) {
-            REAL sum = 0;
+            cl_float sum = 0;
             for (int i = 0; i < n; i++) {
                 sum += AI[j*lda*2+n+i]*A[i*n+k];
 	        }

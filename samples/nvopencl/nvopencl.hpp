@@ -15,13 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues
+// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues.
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 
 #ifndef NVOPENCL_H_
 #define NVOPENCL_H_
 
 #include <CL/cl.h>
+#include <oclUtils.h>
 #include <string.h>
 #include <math.h>
 #include <time.h>
@@ -35,6 +36,8 @@
 #define KERNELS_FILENAME "nvopencl_kernels.cl"
 #define KERNELS_FILEPATH "../../nvopencl_kernels.cl" // for Linux and Mac
 #define CHECKPOINT_FILE "matrix_inversion_state"
+
+#define LOCAL_WORK_SIZE 400
 #define MATRIX_SIZE 10
 #define NUM_ITERATIONS 501 // execute the kernel NUM_ITERATIONS times
 
@@ -82,6 +85,9 @@ bool early_sleep = false;
 double cpu_time = 20, comp_result;
 bool isStateFileInUse = false;
 const char *source;
+
+size_t globalThreads[1]; // 1D var for Total # of work items
+size_t localThreads[1];  // 1D var for # of work items in the work group	
 
 /*
  * Input data is stored here.
