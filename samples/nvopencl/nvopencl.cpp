@@ -457,9 +457,9 @@ int initialize_cl(void) {
     cl_int status = 0;
     size_t deviceListSize;
 
-    localThreads[0]  = 400;
+    localThreads[0]  = LOCAL_WORK_SIZE;
     // rounded up to the nearest multiple of the LocalWorkSize
-    globalThreads[0] = shrRoundUp(400,width*height);
+    globalThreads[0] = shrRoundUp((int)(localThreads[0]),width*height);
 
     /*
      * Have a look at the available platforms and pick either
