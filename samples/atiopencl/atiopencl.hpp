@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues
+// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues.
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 
 #ifndef ATIOPENCL_H_
@@ -40,6 +40,9 @@
 #define KERNELS_FILENAME "atiopencl_kernels.cl"
 #define KERNELS_FILEPATH "../../atiopencl_kernels.cl" // for Linux and Mac
 #define CHECKPOINT_FILE "matrix_inversion_state"
+
+#define LOCAL_WORK_SIZE 1
+#define GLOBAL_WORK_SIZE 400
 #define MATRIX_SIZE 10
 #define NUM_ITERATIONS 501 // execute the kernel NUM_ITERATIONS times
 
@@ -89,6 +92,9 @@ bool early_sleep = false;
 double cpu_time = 20, comp_result;
 bool isStateFileInUse = false;
 const char *source;
+
+size_t globalThreads[1]; // 1D var for Total # of work items
+size_t localThreads[1];  // 1D var for # of work items in the work group	
 
 /*
  * Input data is stored here.
@@ -208,12 +214,6 @@ void cleanup_host(void);
 
 /* Write the result to output file */
 void print_to_file(MFILE *out, float *h_odata, int n);
-
-/*
- * Check if the device is able to support the requested number of work items.
- */
-int check_device_capability(size_t *globalThreads,
-                            size_t *localThreads);
 
 /*
  *	Functions used to inverst matrix. Call kernels inside.
