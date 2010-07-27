@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="example_app_atiopencl"
 	ProjectGUID="{C41F5C14-772D-4B56-BAF3-0FE8BF6807D5}"
 	RootNamespace="atiopencl"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -59,6 +60,8 @@
 				AdditionalDependencies="opencl.lib"
 				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -79,7 +82,73 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
+				Name="VCPostBuildEventTool"
+				CommandLine="copy ..\samples\atiopencl\*.cl &quot;$(OUTDIR)&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(ATISTREAMSDKROOT)\include"
+				PreprocessorDefinitions="ATI_OS_WIN"
+				RuntimeLibrary="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="opencl.lib"
+				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -128,76 +197,6 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="opencl.lib"
 				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86_64"
-				SubSystem="2"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\samples\atiopencl\*.cl &quot;$(OUTDIR)&quot;"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
-			ConfigurationType="1"
-			CharacterSet="2"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(ATISTREAMSDKROOT)\include"
-				PreprocessorDefinitions="ATI_OS_WIN"
-				RuntimeLibrary="0"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="opencl.lib"
-				AdditionalLibraryDirectories="$(ATISTREAMSDKROOT)\lib\x86"
 				SubSystem="2"
 			/>
 			<Tool
@@ -308,6 +307,10 @@
 			>
 			<File
 				RelativePath="..\samples\atiopencl\atiopencl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\samples\atiopencl\atiopencl_kernels.cl"
 				>
 			</File>
 		</Filter>
