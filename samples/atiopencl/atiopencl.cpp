@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 // This program serves as both
-// - An example BOINC-NVOpenCL application, illustrating the use of the BOINC API
-//   and NVIDIA OpenCL API.
+// - An example BOINC-ATIOpenCL application, illustrating the use of the BOINC API
+//   and ATIStream OpenCL API.
 // - A program for testing various features of BOINC.
 //
 // The program reads the input nxn matrix from the "input" file, inverts the
