@@ -210,12 +210,6 @@ void cleanup_host(void);
 void print_to_file(MFILE *out, float *h_odata, int n);
 
 /*
- * Check if the device is able to support the requested number of work items.
- */
-int check_device_capability(size_t *globalThreads,
-                            size_t *localThreads);
-
-/*
  *	Functions used to inverst matrix. Call kernels inside.
  */
 void invert(cl_float * input,
