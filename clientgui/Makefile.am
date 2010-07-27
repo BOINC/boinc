@@ -90,7 +90,6 @@ boincmgr_SOURCES = \
     sg_ImageLoader.cpp \
     sg_ProgressBar.cpp \
     sg_ProjectsComponent.cpp \
-    sg_SGUIListControl.cpp \
     sg_StatImageLoader.cpp \
     sg_ViewTabPage.cpp \
     SkinManager.cpp \
