@@ -5618,3 +5618,10 @@ Rom    26 Jul 2010
     /
         configure.ac
         version.h
+
+Rom    28 Jul 2010
+    - client: fix typo that prevented the correct link to be used for going
+        to the log flag configuration wiki page.
+        
+    client/
+        log_flags.cpp

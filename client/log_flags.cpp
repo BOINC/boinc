@@ -108,7 +108,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "notice_debug", notice_debug)) continue;
 
         msg_printf_link(NULL, MSG_USER_ALERT,
-            "http://boinc.berkeley.edu/manager_links.php?target=notice&control_id=log_flags",
+            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=log_flags",
             "%s %s: <%s>",
             _("Unrecognized tag in"),
             CONFIG_FILE,
