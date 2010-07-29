@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-06-17 09:12-0700\n"
+"PO-Revision-Date: 2010-07-29 09:59-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -28,8 +28,9 @@ msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
-"Bitte geben Sie Ihre Kontoinformationen ein.(Bitte besuchen sie die "
-"Projektwebseite, um ein Teilnehmerkonto einzurichten.)"
+"Bitte geben Sie Ihre Kontoinformationen ein.\n"
+"(Bitte besuchen sie die Projektwebseite, um ein Teilnehmerkonto "
+"einzurichten.)"
 
 #: AccountInfoPage.cpp:385
 msgid ""
@@ -162,13 +163,12 @@ msgid "Choose an account manager"
 msgstr "Wählen Sie eine Kontoverwaltung"
 
 #: AccountManagerInfoPage.cpp:251
-#, fuzzy
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Um ein Projekt zu wählen, klicke auf seinen Namen oder gebe die "
-"Projektadresse ein."
+"Um eine Kontoverwaltung zu wählen, klicken Sie auf den Namen\n"
+"oder geben Sie die Kontoverwaltungsadresse ein."
 
 #: AccountManagerInfoPage.cpp:254
 msgid "Account Manager &URL:"
@@ -177,15 +177,15 @@ msgstr "Kontoverwaltung &URL:"
 #: AccountManagerProcessingPage.cpp:189 AccountManagerPropertiesPage.cpp:195
 #, c-format
 msgid "Communicating with %s."
-msgstr "Kommunikation mit %s"
+msgstr "Kommunikation mit %s."
 
 #: AccountManagerProcessingPage.cpp:196 AccountManagerPropertiesPage.cpp:202
 msgid "Communicating with server."
-msgstr "Kommunikation mit dem Server "
+msgstr "Kommunikation mit dem Server."
 
 #: AccountManagerProcessingPage.cpp:201 AccountManagerPropertiesPage.cpp:207
 msgid "Please wait..."
-msgstr "Bitte warten"
+msgstr "Bitte warten..."
 
 #: AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
