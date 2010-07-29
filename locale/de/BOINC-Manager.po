@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-07-29 09:59-0700\n"
+"PO-Revision-Date: 2010-07-29 10:53-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -189,7 +189,7 @@ msgstr "Bitte warten..."
 
 #: AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr "Ein interner Server Fehler ist aufgetreten.\n"
+msgstr "Ein interner Server-Fehler ist aufgetreten.\n"
 
 #: AdvancedFrame.cpp:95
 msgid "Connected"
@@ -206,7 +206,7 @@ msgstr "Das %s Fenster schließen."
 
 #: AdvancedFrame.cpp:307 sg_BoincSimpleGUI.cpp:106
 msgid "&Close Window"
-msgstr "&Fenster schließen"
+msgstr "Fenster &Schließen"
 
 #: AdvancedFrame.cpp:318
 #, c-format
@@ -219,11 +219,11 @@ msgstr "&Beenden"
 
 #: AdvancedFrame.cpp:332
 msgid "&Notices\tCtrl+Shift+N"
-msgstr ""
+msgstr "&Hinweise\tCtrl+Shift+H"
 
 #: AdvancedFrame.cpp:333
 msgid "Display notices"
-msgstr ""
+msgstr "Hinweise anzeigen"
 
 #: AdvancedFrame.cpp:338
 msgid "&Projects\tCtrl+Shift+P"
@@ -251,7 +251,7 @@ msgstr "Übertragungen anzeigen"
 
 #: AdvancedFrame.cpp:356
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr "Statistiken\tCtrl+Shift+S"
+msgstr "&Statistiken\tCtrl+Shift+S"
 
 #: AdvancedFrame.cpp:357
 msgid "Display statistics"
@@ -266,18 +266,16 @@ msgid "Display disk usage"
 msgstr "Festplattennutzung anzeigen"
 
 #: AdvancedFrame.cpp:370
-#, fuzzy
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Einfache AnsichtSTRG+SHIFT+S"
+msgstr "&Einfache Ansicht...\tCtrl+Shift+E"
 
 #: AdvancedFrame.cpp:371
 msgid "Display the simple graphical interface."
 msgstr "Schaltet auf die vereinfachte BOINC-Grafikoberfläche um."
 
 #: AdvancedFrame.cpp:391
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "Bei einer Kontoverwaltung an&melden ..."
+msgstr "Bei einem Projekt oder einer Kontoverwaltung &anmelden..."
 
 #: AdvancedFrame.cpp:392 sg_ProjectsComponent.cpp:105
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
@@ -296,9 +294,8 @@ msgid "Get current settings from %s"
 msgstr "Hole die aktuellen Einstellungen von %s"
 
 #: AdvancedFrame.cpp:410
-#, fuzzy
 msgid "&Attach to project..."
-msgstr "Projekt &anmelden ..."
+msgstr "Projekt &anmelden..."
 
 #: AdvancedFrame.cpp:411
 msgid "Attach to a project"
@@ -306,18 +303,17 @@ msgstr " Ein Projekt anmelden"
 
 #: AdvancedFrame.cpp:414
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid "S&top using %s..."
-msgstr "&Stoppe die Nutzung von %s..."
+msgstr "&Stoppe die Nutzung von %s ..."
 
 #: AdvancedFrame.cpp:420
-#, fuzzy
 msgid "Remove this computer from account manager control."
 msgstr "Trennt diesen Client von der Kontoverwaltung."
 
 #: AdvancedFrame.cpp:425
 msgid "Display and network &options..."
-msgstr ""
+msgstr "Anzeige- und Netzwerk&optionen..."
 
 #: AdvancedFrame.cpp:426
 msgid "Configure GUI options and proxy settings"
@@ -325,12 +321,10 @@ msgstr ""
 "Das Aussehen des BOINC Mangers und die Proxy Einstellungen konfigurieren."
 
 #: AdvancedFrame.cpp:430
-#, fuzzy
 msgid "Computing &preferences..."
 msgstr "&Einstellungen..."
 
 #: AdvancedFrame.cpp:431
-#, fuzzy
 msgid "Configure computing preferences"
 msgstr "Die lokalen Einstellungen konfigurieren."
 
@@ -349,7 +343,6 @@ msgid "Run based on &preferences"
 msgstr "Ausführen nach &Voreinstellung"
 
 #: AdvancedFrame.cpp:445
-#, fuzzy
 msgid "Allow work according to preferences"
 msgstr "BOINC arbeitet entsprechend der Einstellungen."
 
@@ -367,35 +360,26 @@ msgid "Use GPU always"
 msgstr "GPU immer nutzen"
 
 #: AdvancedFrame.cpp:476
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr ""
-"BOINC arbeitet permanent. Andere Einstellungen, ausgenommen zum "
-"Netzwerkzugriff, werden übersteuert."
+msgstr "Erlaubt GPU-Arbeit ungeachtet der Voreinstellungen"
 
 #: AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Use GPU based on preferences"
 msgstr "Ausführen nach &Voreinstellung"
 
 #: AdvancedFrame.cpp:481
-#, fuzzy
 msgid "Allow GPU work according to preferences"
-msgstr "BOINC arbeitet entsprechend der Einstellungen."
+msgstr "BOINC nutzt die GPU entsprechend der Einstellungen."
 
 #: AdvancedFrame.cpp:485
-#, fuzzy
 msgid "Suspend GPU"
-msgstr "Anhalten"
+msgstr "GPU Anhalten"
 
 #: AdvancedFrame.cpp:486
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr ""
-"BOINC unterbricht alle Arbeiten. Andere Einstellungen werden übersteuert."
+msgstr "Stoppt GPU-Arbeit ungeachtet der Voreinstellungen."
 
 #: AdvancedFrame.cpp:510
-#, fuzzy
 msgid "Network activity always available"
 msgstr "Netzwerkzugriff immer a&usführen"
 
@@ -404,17 +388,14 @@ msgid "Allow network activity regardless of preferences"
 msgstr "Erlaubt BOINC immer auf das Internet zuzugreifen."
 
 #: AdvancedFrame.cpp:515
-#, fuzzy
 msgid "Network activity based on preferences"
 msgstr "Netzwerkaktivität nach V&oreinstellung"
 
 #: AdvancedFrame.cpp:516
-#, fuzzy
 msgid "Allow network activity according to preferences"
 msgstr "Erlaubt BOINC den Internetzugriff entsprechend der Einstellungen."
 
 #: AdvancedFrame.cpp:520
-#, fuzzy
 msgid "Network activity suspended"
 msgstr "Netzwerkzugriff a&bgeschaltet"
 
@@ -429,14 +410,13 @@ msgstr "Verbindet mit einem anderen Computer auf dem %s läuft."
 
 #: AdvancedFrame.cpp:536
 msgid "Select computer..."
-msgstr "&Computer auswählen"
+msgstr "&Computer auswählen..."
 
 #: AdvancedFrame.cpp:541
 msgid "Shut down connected client..."
 msgstr "Beenden des aktuell verbundenen Client..."
 
 #: AdvancedFrame.cpp:542
-#, fuzzy
 msgid "Shut down the currently connected client"
 msgstr "Beendet den aktuell verbundenen Client."
 
@@ -449,23 +429,20 @@ msgid "Runs BOINC CPU benchmarks"
 msgstr "Startet die BOINC CPU Benchmarks."
 
 #: AdvancedFrame.cpp:551
-#, fuzzy
 msgid "Do network communication"
 msgstr "Netzwerk-&Kommunikation ausführen"
 
 #: AdvancedFrame.cpp:552
-#, fuzzy
 msgid "Do all pending network communication"
 msgstr "Ausstehende Netzwerk-Kommunikation ausführen."
 
 #: AdvancedFrame.cpp:556
 msgid "Read config file"
-msgstr "Konfigurationsdatei lesen"
+msgstr "Konfigurationsdatei einlesen"
 
 #: AdvancedFrame.cpp:557
-#, fuzzy
 msgid "Read configuration info from cc_config.xml"
-msgstr "Konfiguration aus cc-config.xml lesen."
+msgstr "Konfiguration aus cc-config.xml einlesen."
 
 #: AdvancedFrame.cpp:561
 msgid "Read local prefs file"
@@ -477,11 +454,11 @@ msgstr "Einstellungen aus global_prefs_override.xml lesen."
 
 #: AdvancedFrame.cpp:566
 msgid "Event Log..."
-msgstr ""
+msgstr "Ereignisprotokoll"
 
 #: AdvancedFrame.cpp:567
 msgid "Display diagnostic messages."
-msgstr ""
+msgstr "Zeige Diagnosenachrichten."
 
 #: AdvancedFrame.cpp:577 sg_BoincSimpleGUI.cpp:129
 #, c-format
@@ -491,7 +468,7 @@ msgstr "%s &Hilfe"
 #: AdvancedFrame.cpp:583 sg_BoincSimpleGUI.cpp:135
 #, c-format
 msgid "Show information about %s"
-msgstr "Zeigt Informationen über %s"
+msgstr "Zeige Informationen über %s"
 
 #: AdvancedFrame.cpp:595
 #, c-format
@@ -501,7 +478,7 @@ msgstr "&%s Hilfe"
 #: AdvancedFrame.cpp:601 sg_BoincSimpleGUI.cpp:153
 #, c-format
 msgid "Show information about the %s"
-msgstr "Zeigt Informationen über %s"
+msgstr "Zeige Informationen über %s"
 
 #: AdvancedFrame.cpp:613 sg_BoincSimpleGUI.cpp:165
 #, c-format
@@ -511,7 +488,7 @@ msgstr "%s &Webseite"
 #: AdvancedFrame.cpp:619 sg_BoincSimpleGUI.cpp:171
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Zeigt Informationen über BOINC und %s"
+msgstr "Zeige Informationen über BOINC und %s"
 
 #: AdvancedFrame.cpp:631 BOINCTaskBar.cpp:498
 #, c-format
@@ -520,7 +497,7 @@ msgstr "&Über %s..."
 
 #: AdvancedFrame.cpp:637
 msgid "Licensing and copyright information."
-msgstr "Lizenz- und Copyright-Informationen"
+msgstr "Lizenz- und Urheberrechts-Informationen."
 
 #: AdvancedFrame.cpp:644 sg_BoincSimpleGUI.cpp:194
 msgid "&File"
@@ -532,7 +509,7 @@ msgstr "&Ansicht"
 
 #: AdvancedFrame.cpp:652
 msgid "&Tools"
-msgstr "&Assistenten"
+msgstr "Ass&istenten"
 
 #: AdvancedFrame.cpp:656
 msgid "&Activity"
@@ -587,24 +564,23 @@ msgstr ""
 
 #: AdvancedFrame.cpp:1513
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Beende den aktuellen Client..."
 
 #: AdvancedFrame.cpp:1522
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr ""
-"%s - beendet den aktuell verbundenen Client,und fragt nach einem anderen "
-"Rechner zum Verbinden."
+"%s - beendet den aktuell verbundenen Client,\n"
+"und fragt nach einem anderen Rechner zum Verbinden."
 
 #: AdvancedFrame.cpp:1569
-#, fuzzy
 msgid "Retrying communications."
-msgstr "&Kommunikation wiederholen"
+msgstr "&Kommunikation wiederholen."
 
 #: AdvancedFrame.cpp:1774 DlgAbout.cpp:104
 #, c-format
@@ -648,7 +624,7 @@ msgstr ""
 
 #: AlreadyExistsPage.cpp:189
 msgid "Email address already in use"
-msgstr "Die Emailadresse wird bereits benutzt!"
+msgstr "Diese E-Mail-Adresse wird bereits benutzt!"
 
 #: AlreadyExistsPage.cpp:192
 msgid ""
@@ -657,10 +633,9 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"Ein Konto mit dieser Emailadresse existiert bereits und verwendet\n"
-"ein anderes Passwort als Sie eingegeben haben.\n"
-"\n"
-"Bitte besuchen Sie die Projektwebseite und folgen Sie dort den Anweisungen."
+"Ein Konto mit dieser E-Mail-Adresse existiert bereits und verwendetein "
+"anderes Passwort als Sie eingegeben haben.Bitte besuchen Sie die "
+"Projektwebseite und folgen Sie dort den Anweisungen."
 
 #: AsyncRPC.cpp:1233
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -679,7 +654,7 @@ msgstr "B&eende %s"
 #: AsyncRPC.cpp:1242
 #, c-format
 msgid "%s - Communication"
-msgstr ""
+msgstr "%S - Kommunikation"
 
 #: AsyncRPC.cpp:1258 DlgAdvPreferencesBase.cpp:103
 msgid "Cancel"
@@ -772,11 +747,11 @@ msgid ""
 "%s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
-"%s ist augenblicklich nicht mit mit dem %s Clientverbunden. Bitte benutzen "
+"%s ist augenblicklich nicht mit mit dem %s Client verbunden. Bitte benutzen "
 "Sie die 'Datei\\Computer auswählen ...'Menüoption um die Verbindung mit einem "
-"%s Client neu aufzubauen.Wenn Sie keinen anderen Computer fernsteuern "
-"wollen, dann lassenSie die Felder 'Computername und Passwort leer, oder "
-"benutzen Sie'localhost' als Computername.."
+"%s Client neu aufzubauen.Wenn Sie keinen anderen Computer fern-steuern "
+"wollen, dann lassen Sie die Felder 'Computername und Passwort leer, oder "
+"benutzen Sie 'localhost' als Computername."
 
 #: BOINCBaseView.cpp:773
 msgid "Web sites"
@@ -801,8 +776,9 @@ msgid ""
 "item from the Advanced menu."
 msgstr ""
 "%s kann nicht mit einem Projekt kommunizieren und benötigt eine "
-"Internetverbindung.Bitte verbinden Sie sich mit dem Internet und wählen sie "
-"anschließend \"Netzwerk-Kommunikation ausführen\" im Menü \"Extras\"."
+"Internetverbindung.\n"
+"Bitte verbinden Sie sich mit dem Internet und wählen sie anschließend "
+"\"Netzwerk-Kommunikation ausführen\" im Menü \"Extras\"."
 
 #: BOINCDialupManager.cpp:310
 #, c-format
@@ -965,34 +941,28 @@ msgid "Snooze GPU"
 msgstr "GPU pausieren"
 
 #: BOINCTaskBar.cpp:669
-#, fuzzy
 msgid "Computing is enabled"
-msgstr "Rechnen erlaubt"
+msgstr "Rechnen ist erlaubt"
 
 #: BOINCTaskBar.cpp:672
-#, fuzzy
 msgid "Computing is suspended - "
-msgstr "Berechnung wurde angehalten."
+msgstr "Berechnung wurde angehalten - "
 
 #: BOINCTaskBar.cpp:682
-#, fuzzy
 msgid "GPU computing is enabled"
-msgstr "Rechnen erlaubt"
+msgstr "Rechnen mit GPU ist erlaubt"
 
 #: BOINCTaskBar.cpp:685
-#, fuzzy
 msgid "GPU computing is suspended - "
-msgstr "Berechnung wurde angehalten."
+msgstr "GPU Berechnung wurde angehalten - "
 
 #: BOINCTaskBar.cpp:694
-#, fuzzy
 msgid "Network is enabled"
 msgstr "Nutzung des Netzwerks erlaubt"
 
 #: BOINCTaskBar.cpp:697
-#, fuzzy
 msgid "Network is suspended - "
-msgstr "Netzwerkzugriff a&bgeschaltet"
+msgstr "Netzwerkzugriff ist abgeschaltet - "
 
 #: BOINCTaskBar.cpp:705
 msgid "Reconnecting to client."
@@ -1005,11 +975,11 @@ msgstr "Nicht mit einem Client verbunden."
 #: BOINCTaskBar.cpp:759
 #, c-format
 msgid "%s Notices"
-msgstr ""
+msgstr "%s Hinweise"
 
 #: BOINCTaskBar.cpp:765
 msgid "One or more notices are now available for viewing."
-msgstr ""
+msgstr "Eine oder mehrere Hinweise können gelesen werden."
 
 #: CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1085,7 +1055,7 @@ msgstr "Bei einer Kontoverwaltung anmelden"
 #: CompletionPage.cpp:271
 #, c-format
 msgid "Welcome to %s!"
-msgstr "Willkommen bei %s"
+msgstr "Willkommen bei %s!"
 
 #: CompletionPage.cpp:285
 #, c-format
@@ -1114,12 +1084,12 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 University of California, Berkeley.Alle Rechte vorbehalten."
+"(C) 2003-2010 University of California, Berkeley.\n"
+"Alle Rechte vorbehalten."
 
 #: DlgAbout.cpp:179 DlgAbout.cpp:183
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1169,9 +1139,9 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings."
 msgstr ""
-"Dieser Dialog regelt die Einstellungen nur für diesen Rechner. Klick auf OK "
-"zum Übernehmen der Einstellungen.Klick auf Löschen zum Wiederherstellen der "
-"webbasierten Einstellungen."
+"Dieser Dialog regelt die Einstellungen nur für diesen Rechner.\n"
+"Klicken Sie auf OK zum Übernehmen der Einstellungen.\n"
+"Klicken Sie auf Löschen zum Wiederherstellen der webbasierten Einstellungen."
 
 #: DlgAdvPreferencesBase.cpp:64
 msgid "Clear"
@@ -1219,7 +1189,6 @@ msgid "Computing allowed"
 msgstr "Rechnen erlaubt"
 
 #: DlgAdvPreferencesBase.cpp:135
-#, fuzzy
 msgid "While computer is on batteries"
 msgstr " Wenn der Computer im Batteriebetrieb ist"
 
@@ -1230,7 +1199,6 @@ msgstr ""
 "aktiviere diese Option, wenn der Computer im Batteriebetrieb rechnen soll"
 
 #: DlgAdvPreferencesBase.cpp:144
-#, fuzzy
 msgid "While computer is in use"
 msgstr " Wenn der Computer benutzt wird"
 
@@ -1242,9 +1210,8 @@ msgstr ""
 "benutzt wird"
 
 #: DlgAdvPreferencesBase.cpp:153
-#, fuzzy
 msgid "Use GPU while computer is in use"
-msgstr " Wenn der Computer benutzt wird"
+msgstr "Nutze die GPU wenn der Computer benutzt wird"
 
 #: DlgAdvPreferencesBase.cpp:156
 msgid ""
@@ -1271,9 +1238,8 @@ msgid "minutes"
 msgstr "Minuten"
 
 #: DlgAdvPreferencesBase.cpp:202
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "Nutzung des Prozessors"
+msgstr "Wenn CPU-Auslastung geringer als"
 
 #: DlgAdvPreferencesBase.cpp:212
 msgid "suspend work if processor usage exceeds this level"
@@ -1387,19 +1353,16 @@ msgid "Maximum upload rate"
 msgstr "Maximale Upload-Rate"
 
 #: DlgAdvPreferencesBase.cpp:400
-#, fuzzy
 msgid "Transfer at most"
-msgstr "Nutze höchstens"
+msgstr "Übertrage höchstens"
 
 #: DlgAdvPreferencesBase.cpp:406
-#, fuzzy
 msgid "Mbytes"
-msgstr "Ja"
+msgstr "MB"
 
 #: DlgAdvPreferencesBase.cpp:409
-#, fuzzy
 msgid "every"
-msgstr "Server:"
+msgstr "pro"
 
 #: DlgAdvPreferencesBase.cpp:415 DlgAdvPreferencesBase.cpp:429
 msgid "days"
@@ -1538,9 +1501,8 @@ msgid "% when computer is idle"
 msgstr "%, wenn der Rechner nicht beschäftigt ist"
 
 #: DlgAdvPreferencesBase.cpp:665
-#, fuzzy
 msgid "Leave applications in memory while suspended"
-msgstr " Lasse Anwendung im Speicher, wenn sie pausiert"
+msgstr "Lasse Anwendung im Speicher, wenn sie pausiert"
 
 #: DlgAdvPreferencesBase.cpp:667
 msgid "if checked, suspended work units are left in memory"
@@ -1549,7 +1511,7 @@ msgstr "wenn aktiviert, verbleiben unterbrochene Arbeitseinheiten im Speicher"
 #: DlgEventLog.cpp:188
 #, c-format
 msgid "%s - Event Log"
-msgstr ""
+msgstr "%s - Ereignisanzeige"
 
 #: DlgEventLog.cpp:201 ViewMessages.cpp:117 ViewProjects.cpp:218
 #: ViewStatistics.cpp:381 ViewStatistics.cpp:1769 ViewTransfers.cpp:181
@@ -1571,13 +1533,12 @@ msgid "Show only this project"
 msgstr "Zeige nur dieses Projekt"
 
 #: DlgEventLog.cpp:254 DlgEventLog.cpp:366 DlgEventLog.cpp:368
-#, fuzzy
 msgid "Show only the messages for the selected project"
-msgstr "Zeigt nur die Meldungen für dieses Projekt."
+msgstr "Zeigt nur die Meldungen für das gewählte Projekt."
 
 #: DlgEventLog.cpp:258
 msgid "Copy All"
-msgstr ""
+msgstr "Alle kopieren"
 
 #: DlgEventLog.cpp:260 DlgEventLog.cpp:264 ViewMessages.cpp:89
 #: sg_DlgMessages.cpp:176 sg_DlgMessages.cpp:180
@@ -1586,7 +1547,7 @@ msgstr "Kopiert alle Meldungen in die Zwischenablage."
 
 #: DlgEventLog.cpp:269
 msgid "Copy Selected"
-msgstr ""
+msgstr "Gewählte kopieren"
 
 #: DlgEventLog.cpp:272 DlgEventLog.cpp:280 ViewMessages.cpp:97
 #: sg_DlgMessages.cpp:201 sg_DlgMessages.cpp:209
@@ -1623,7 +1584,6 @@ msgid "Show all messages"
 msgstr "Zeige alle Meldungen"
 
 #: DlgEventLog.cpp:379 DlgEventLog.cpp:381
-#, fuzzy
 msgid "Show messages for all projects"
 msgstr "Zeige Meldungen für alle Projekte."
 
@@ -1643,7 +1603,7 @@ msgid ""
 "exit the Manager, then choose from the following options:"
 msgstr ""
 "Sie wollen den %s verlassen, der Ihnen erlaubt\n"
-"die auf Ihrem PC laufenden wissenschaftlichenAnwendungen\n"
+"die auf Ihrem PC laufenden wissenschaftlichen Anwendungen\n"
 "zu überwachen und zu verwalten.\n"
 "\n"
 "Wenn Sie diese Anwendungen ebenfalls beenden\n"
@@ -1659,7 +1619,7 @@ msgid ""
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
 msgstr ""
-"Dies wird %s und seine Aufgaben ausser Betrieb nehmen, bis entweder\n"
+"Dies wird %s und seine Aufgaben außer Betrieb nehmen, bis entweder\n"
 "die %s-Anwendung oder der %s-Bildschirmschoner wieder\n"
 "laufen.\n"
 "\n"
@@ -1691,7 +1651,7 @@ msgstr "Schließen"
 
 #: DlgItemProperties.cpp:196
 msgid "Properties of project "
-msgstr "Projekteigenschaften"
+msgstr "Projekteigenschaften "
 
 #: DlgItemProperties.cpp:200 DlgOptions.cpp:205
 msgid "General"
@@ -1789,14 +1749,12 @@ msgstr "Planung"
 
 #: DlgItemProperties.cpp:242 DlgItemProperties.cpp:252
 #: DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Project preference"
-msgstr "Ihre Einstellungen"
+msgstr "Projekteinstellungen"
 
 #: DlgItemProperties.cpp:242
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "Erhält keine neue Aufgaben"
+msgstr "Keine neuen CPU-Aufgaben holen"
 
 #: DlgItemProperties.cpp:244
 msgid "CPU scheduling priority"
@@ -1835,9 +1793,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Verzögerungsintervall für NVIDIA GPU Arbeitsabruf"
 
 #: DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "Erhält keine neue Aufgaben"
+msgstr "Keine ATI GPU Aufgaben holen"
 
 #: DlgItemProperties.cpp:265
 msgid "ATI GPU scheduling priority"
@@ -1861,7 +1818,7 @@ msgstr "Duration correction factor"
 
 #: DlgItemProperties.cpp:282
 msgid "Properties of task "
-msgstr "Eigenschaften der Aufgabe"
+msgstr "Eigenschaften der Aufgabe "
 
 #: DlgItemProperties.cpp:286 ViewWork.cpp:228
 msgid "Application"
@@ -1925,7 +1882,7 @@ msgstr "Prozess-Nr."
 
 #: DlgItemProperties.cpp:386 ViewWork.cpp:956
 msgid "Local: "
-msgstr ""
+msgstr "Lokal: "
 
 #: DlgOptions.cpp:119
 #, c-format
@@ -1937,7 +1894,6 @@ msgid "Language:"
 msgstr "Sprache:"
 
 #: DlgOptions.cpp:164
-#, fuzzy
 msgid "What language should BOINC use?"
 msgstr "Welche Sprache soll der Manager verwenden?"
 
@@ -1947,15 +1903,13 @@ msgid ""
 "Notice reminder interval:\n"
 "(minutes; 0 means no reminders)"
 msgstr ""
-"Intervall der Netzwerk-Erinnerung\n"
-"(Minuten)"
+"Intervall der Hinweis-Erinnerung\n"
+"(Minuten; 0 bedeutet nie)"
 
 #: DlgOptions.cpp:180
-#, fuzzy
 msgid "How often should BOINC remind you of new notices?"
 msgstr ""
-"Wie oft soll der Manager Sie erinnern wenn eine Netzwerkverbindung benötigt "
-"wird?"
+"Wie oft soll der Manager Sie erinnern wenn neue Hinweise verfügbar sind?"
 
 #: DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2088,7 +2042,7 @@ msgstr "Ihre Resultate"
 #: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr ""
-"Anzeige der Ergebnissse und Berechnungen der letzten Woche (oder länger). "
+"Anzeige der Ergebnisse und Berechnungen der letzten Woche (oder länger)."
 
 #: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
@@ -2163,7 +2117,7 @@ msgstr "Kontoübersicht"
 msgid ""
 "View a listing of all the computers on which you are running Einstein@Home"
 msgstr ""
-"Rufen Sie eine Liste aller Komputer ab auf denen Sie Einstein@home ablaufen "
+"Rufen Sie eine Liste aller Computer ab auf denen Sie Einstein@home ablaufen "
 "lassen."
 
 #: Localization.cpp:101
@@ -2253,61 +2207,56 @@ msgstr "Erfahren Sie mehr über die auf World Community Grid gehosteten Projekte
 
 #: MainDocument.cpp:553
 msgid "Starting client"
-msgstr ""
+msgstr "Starte Client"
 
 #: MainDocument.cpp:1154
 msgid "Retrieving system state; please wait..."
-msgstr "Ermittlung des BOINC-Systemstatus. Bitte etwas Geduld ..."
+msgstr "Ermittlung des BOINC-Systemstatus. Bitte etwas Geduld..."
 
 #: MainDocument.cpp:1163
 msgid "Retrieving host information; please wait..."
-msgstr "Ermittlung der BOINC-Rechner-Informationen. Bitte etwas Geduld ..."
+msgstr "Ermittlung der BOINC-Rechner-Informationen. Bitte etwas Geduld..."
 
 #: MainDocument.cpp:2240
-#, fuzzy
 msgid "on batteries"
-msgstr "- Batteriebetrieb"
+msgstr "Batteriebetrieb"
 
 #: MainDocument.cpp:2241
-#, fuzzy
 msgid "computer is in use"
-msgstr " Wenn der Computer benutzt wird"
+msgstr "Computer wird benutzt"
 
 #: MainDocument.cpp:2242
 msgid "user request"
-msgstr ""
+msgstr "Benutzergefordert"
 
 #: MainDocument.cpp:2243
-#, fuzzy
 msgid "time of day"
-msgstr "- Tageszeit"
+msgstr "Tageszeit"
 
 #: MainDocument.cpp:2244
-#, fuzzy
 msgid "CPU benchmarks in progress"
-msgstr "- CPU Benchmarks"
+msgstr "CPU Benchmarks laufen"
 
 #: MainDocument.cpp:2245
-#, fuzzy
 msgid "need disk space - check preferences"
-msgstr "Freier Festplattenplatz - "
+msgstr "Festplattenplatz benötigt - Einstellungen überprüfen"
 
 #: MainDocument.cpp:2246
-#, fuzzy
 msgid "an exclusive app is running"
-msgstr "- Eine Anwendung läuft exklusiv."
+msgstr "eine Anwendung läuft exklusiv"
 
 #: MainDocument.cpp:2247
 msgid "CPU is busy"
-msgstr ""
+msgstr "CPU ist beschäftigt"
 
 #: MainDocument.cpp:2248
+#, fuzzy
 msgid "network bandwidth limit exceeded"
-msgstr ""
+msgstr "Limit der Netzwerkbandbreite überschritten"
 
 #: MainDocument.cpp:2250
 msgid "unknown reason"
-msgstr ""
+msgstr "Ursache unbekannt"
 
 #: MainDocument.cpp:2266
 msgid "GPU missing, "
@@ -2326,9 +2275,8 @@ msgid "Downloading"
 msgstr "Am herunterladen"
 
 #: MainDocument.cpp:2280 MainDocument.cpp:2338
-#, fuzzy
 msgid " (suspended - "
-msgstr "Angehalten"
+msgstr " (angehalten - "
 
 #: MainDocument.cpp:2282 MainDocument.cpp:2340 ViewTransfers.cpp:794
 msgid ")"
@@ -2343,9 +2291,8 @@ msgid "Task suspended by user"
 msgstr "Angehalten durch Benutzer"
 
 #: MainDocument.cpp:2292
-#, fuzzy
 msgid "Suspended - "
-msgstr "Angehalten"
+msgstr "Angehalten- "
 
 #: MainDocument.cpp:2299
 msgid "Waiting for memory"
@@ -2365,7 +2312,7 @@ msgstr "Aktiv"
 
 #: MainDocument.cpp:2311
 msgid " (non-CPU-intensive)"
-msgstr "(nicht CPU-intensiv)"
+msgstr " (nicht CPU-intensiv)"
 
 #: MainDocument.cpp:2315
 msgid "Waiting to run"
@@ -2376,9 +2323,8 @@ msgid "Ready to start"
 msgstr "Zur Ausführung bereit"
 
 #: MainDocument.cpp:2326
-#, fuzzy
 msgid " (waiting for GPU memory)"
-msgstr "Warten auf Speicher"
+msgstr " (wartet auf GPU-Speicher)"
 
 #: MainDocument.cpp:2330
 msgid "Computation error"
@@ -2469,7 +2415,8 @@ msgstr "Überprüfen Sie Kontoname und Passwort und versuchen es dann erneut."
 #: NotFoundPage.cpp:189
 msgid "Check the email address and password, and try again."
 msgstr ""
-"Bitte überprüfen Sie Emailadresse und Passwort und versuchen es dann erneut."
+"Bitte überprüfen Sie die E-Mail-Adresse und das Passwort und versuchen es "
+"dann erneut."
 
 #: NoticeListCtrl.cpp:276 ProjectListCtrl.cpp:276
 msgid "Click"
@@ -2521,33 +2468,28 @@ msgstr ""
 "Projekt."
 
 #: ProjectProcessingPage.cpp:322
-#, fuzzy
 msgid "Communicating with project."
-msgstr "Kommunikation mit dem Server "
+msgstr "Kommunikation mit dem Server."
 
 #: ProjectProcessingPage.cpp:499
 msgid "Required files not found on the server."
-msgstr ""
+msgstr "Benötigte Dateien wurden auf Server nicht gefunden."
 
 #: ProjectProcessingPage.cpp:502 ProjectProcessingPage.cpp:564
-#, fuzzy
 msgid "An internal server error has occurred."
-msgstr "Ein interner Server Fehler ist aufgetreten.\n"
+msgstr "Ein interner Server-Fehler ist aufgetreten."
 
 #: ProjectPropertiesPage.cpp:335
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr ""
-"Kommunikation mit dem Projekt\n"
-"Bitte warten ..."
+msgstr "Kommunikation mit dem ProjektBitte warten..."
 
 #: ProxyInfoPage.cpp:195
 msgid "Network communication failure"
 msgstr "Netzwerkfehler"
 
 #: ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2563,7 +2505,7 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
-"Die World Community Grit - BOINC Software konnte keine Verbindung über das "
+"Die World Community Grid - BOINC Software konnte keine Verbindung über das "
 "Internet herstellen.\n"
 "Die wahrscheinlichsten Gründe sind:\n"
 "\n"
@@ -2572,7 +2514,7 @@ msgstr ""
 "vorherige Operation zu wiederholen.\n"
 "2) Eine Personal-Firewall Software blockiert BOINC. Um\n"
 "dies zu beheben muss BOINC die Kommunikation über\n"
-"Port 80 und Port 443 erlaubt werden. Klicken Sie anschliessend auf\n"
+"Port 80 und Port 443 erlaubt werden. Klicken Sie anschließend auf\n"
 "[Zurück] um es erneut zu versuchen.\n"
 "\n"
 "3) Sie benutzen einen Proxyserver.\n"
@@ -2603,7 +2545,7 @@ msgstr ""
 "vorherige Operation zu wiederholen.\n"
 "2) Eine Personal-Firewall Software blockiert BOINC. Um\n"
 "dies zu beheben muss BOINC die Kommunikation über\n"
-"Port 80 erlaubt werden. Klicken Sie anschliessend auf\n"
+"Port 80 erlaubt werden. Klicken Sie anschließend auf\n"
 "[Zurück] um es erneut zu versuchen.\n"
 "\n"
 "3) Sie benutzen einen Proxyserver.\n"
@@ -2690,12 +2632,12 @@ msgstr "Überprüfungskonflikt"
 
 #: ValidateEmailAddress.cpp:72
 msgid "Please specify an email address"
-msgstr "Bitte geben Sie eine Emailadresse ein."
+msgstr "Bitte geben Sie eine E-Mail-Adresse ein."
 
 #: ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
 msgstr ""
-"Unzulässige Emailadresse; bitte geben Sie eine gültige Emailadresse ein."
+"Unzulässige E-Mail-Adresse; bitte geben Sie eine gültige E-Mail-Adresse ein."
 
 #: ValidateURL.cpp:69
 msgid "Missing URL"
@@ -2759,15 +2701,15 @@ msgstr "Meldungen"
 
 #: ViewMessages.cpp:187
 msgid "Copying all messages to the clipboard..."
-msgstr "Kopiert alle Meldungen in die Zwischenablage."
+msgstr "Kopiert alle Meldungen in die Zwischenablage..."
 
 #: ViewMessages.cpp:223
 msgid "Copying selected messages to the clipboard..."
-msgstr "Kopiere ausgewählte Meldungen in die Zwischenablage ..."
+msgstr "Kopiere ausgewählte Meldungen in die Zwischenablage..."
 
 #: ViewMessages.cpp:286
 msgid "Filtering messages..."
-msgstr "Filtere Meldungen ..."
+msgstr "Filtere Meldungen..."
 
 #: ViewMessages.cpp:495
 msgid "Show messages for all projects."
@@ -2787,11 +2729,11 @@ msgstr "Zeige die neusten Nachrichten über BOINC"
 
 #: ViewNotices.cpp:105
 msgid "Notices"
-msgstr ""
+msgstr "Hinweise"
 
 #: ViewNotices.cpp:155
 msgid "Retrieving notices..."
-msgstr ""
+msgstr "Hinweise abrufen..."
 
 #: ViewProjects.cpp:173
 msgid "Update"
@@ -2803,7 +2745,8 @@ msgid ""
 "possibly get more tasks."
 msgstr ""
 "Berichtet über alle fertig gestellten Aufgaben des ausgewählten (markierten) "
-"Projekts, holt die letzten Statistiken und erhält eventuell mehr Aufgaben."
+"Projekts, holt die letzten Statistiken und Einstellungen und erhält "
+"eventuell mehr Aufgaben."
 
 #: ViewProjects.cpp:180 ViewProjects.cpp:712 ViewWork.cpp:198 ViewWork.cpp:738
 msgid "Suspend"
@@ -2881,27 +2824,27 @@ msgstr "Projekte"
 
 #: ViewProjects.cpp:301
 msgid "Updating project..."
-msgstr "Projekt wird aktualisiert ..."
+msgstr "Projekt wird aktualisiert..."
 
 #: ViewProjects.cpp:343
 msgid "Resuming project..."
-msgstr "Projekt wird fortgesetzt ..."
+msgstr "Projekt wird fortgesetzt..."
 
 #: ViewProjects.cpp:347
 msgid "Suspending project..."
-msgstr "Projekt wird angehalten"
+msgstr "Projekt wird angehalten..."
 
 #: ViewProjects.cpp:384
 msgid "Telling project to allow additional task downloads..."
-msgstr "Erlaubt dem Projekt neue Aufgaben anzufordern."
+msgstr "Erlaubt dem Projekt neue Aufgaben anzufordern..."
 
 #: ViewProjects.cpp:388
 msgid "Telling project to not fetch any additional tasks..."
-msgstr "Verbietet dem Projekt neue Aufgaben anzufordern."
+msgstr "Verbietet dem Projekt neue Aufgaben anzufordern..."
 
 #: ViewProjects.cpp:424
 msgid "Resetting project..."
-msgstr "Projekt wird zurückgesetzt ..."
+msgstr "Projekt wird zurückgesetzt..."
 
 #: ViewProjects.cpp:437
 #, c-format
@@ -2914,7 +2857,7 @@ msgstr "Projekt zurücksetzen"
 
 #: ViewProjects.cpp:482
 msgid "Detaching from project..."
-msgstr "Projekt wird abgemeldet ..."
+msgstr "Projekt wird abgemeldet..."
 
 #: ViewProjects.cpp:495 sg_StatImageLoader.cpp:211
 #, c-format
@@ -2927,7 +2870,7 @@ msgstr "Abmelden"
 
 #: ViewProjects.cpp:542 ViewWork.cpp:551
 msgid "Launching browser..."
-msgstr "Webbrowser wird gestartet ..."
+msgstr "Webbrowser wird gestartet..."
 
 #: ViewProjects.cpp:708 ViewWork.cpp:732
 msgid "Resume"
@@ -2980,7 +2923,6 @@ msgid "Scheduler request in progress"
 msgstr "Laufende Scheduleranfrage"
 
 #: ViewProjects.cpp:1076
-#, fuzzy
 msgid "Trickle up message pending"
 msgstr "Zwischenmeldung ausstehend"
 
@@ -3010,15 +2952,15 @@ msgstr "Von BOINC belegt: "
 
 #: ViewResources.cpp:275
 msgid "free, available to BOINC: "
-msgstr "Frei, für BOINC verfügbar:"
+msgstr "Frei, für BOINC verfügbar: "
 
 #: ViewResources.cpp:285
 msgid "free, not available to BOINC: "
-msgstr "Frei, nicht für BOINC verfügbar:"
+msgstr "Frei, nicht für BOINC verfügbar: "
 
 #: ViewResources.cpp:295
 msgid "free: "
-msgstr "Frei:"
+msgstr "Frei: "
 
 #: ViewResources.cpp:305
 msgid "used by other programs: "
@@ -3123,13 +3065,13 @@ msgstr "Eine Grafik mit allen Projekten anzeigen"
 
 #: ViewStatistics.cpp:1830
 msgid "Statistics"
-msgstr "Statistik"
+msgstr "Statistiken"
 
 #: ViewStatistics.cpp:1854 ViewStatistics.cpp:1875 ViewStatistics.cpp:1896
 #: ViewStatistics.cpp:1918 ViewStatistics.cpp:1939 ViewStatistics.cpp:1960
 #: ViewStatistics.cpp:1981 ViewStatistics.cpp:2002 ViewStatistics.cpp:2025
 msgid "Updating charts..."
-msgstr "Charts werden aktualisiert"
+msgstr "Grafiken werden aktualisiert..."
 
 #: ViewTransfers.cpp:163
 msgid "Retry Now"
@@ -3137,7 +3079,7 @@ msgstr "Jetzt nochmal versuchen"
 
 #: ViewTransfers.cpp:164
 msgid "Click 'Retry now' to transfer the file now"
-msgstr "Startet die Übertragung der ausgewählte (markierte) Datei erneut."
+msgstr "Startet die Übertragung der ausgewählten (markierten) Datei erneut."
 
 #: ViewTransfers.cpp:170
 msgid "Abort Transfer"
@@ -3162,7 +3104,7 @@ msgstr "Fortschritt"
 
 #: ViewTransfers.cpp:184
 msgid "Size"
-msgstr "Grösse"
+msgstr "Größe"
 
 #: ViewTransfers.cpp:185
 msgid "Elapsed Time"
@@ -3177,23 +3119,24 @@ msgid "Transfers"
 msgstr "Übertragung"
 
 #: ViewTransfers.cpp:279
-#, fuzzy
 msgid "Network activity is suspended - "
-msgstr "Netzwerkzugriff ist abgeschaltet."
+msgstr "Netzwerkzugriff ist abgeschaltet - "
 
 #: ViewTransfers.cpp:281
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
 msgstr ""
+".\n"
+"Kann über das Menü Steuerung aktiviert werden."
 
 #: ViewTransfers.cpp:291
 msgid "Retrying transfer now..."
-msgstr "Übertragung wird jetzt wiederholt ..."
+msgstr "Übertragung wird jetzt wiederholt..."
 
 #: ViewTransfers.cpp:329
 msgid "Aborting transfer..."
-msgstr "Übertragung wird abgebrochen ..."
+msgstr "Übertragung wird abgebrochen..."
 
 #: ViewTransfers.cpp:342
 #, c-format
@@ -3212,17 +3155,15 @@ msgstr "Dateiübertragug abbrechen"
 
 #: ViewTransfers.cpp:771
 msgid "Retry in "
-msgstr "Wiederhole in"
+msgstr "Wiederhole in "
 
 #: ViewTransfers.cpp:779
-#, fuzzy
 msgid "Upload suspended - "
-msgstr "Hochladen pausiert"
+msgstr "Hochladen pausiert - "
 
 #: ViewTransfers.cpp:780
-#, fuzzy
 msgid "Download suspended - "
-msgstr "Herunterladen pausiert"
+msgstr "Herunterladen pausiert - "
 
 #: ViewTransfers.cpp:787
 msgid "Upload pending"
@@ -3267,7 +3208,7 @@ msgid "Abandon work on the result. You will get no credit for it."
 msgstr ""
 "Bricht die Arbeit an der ausgewählten (markierten) Berechnung dauerhaft ab. "
 "Diese zählt dann auch nicht mehr für die Statistik. Das kann nicht "
-"rückgängig gemacht werden. "
+"rückgängig gemacht werden."
 
 #: ViewWork.cpp:213
 msgid "Show task details."
@@ -3278,12 +3219,10 @@ msgid "Elapsed"
 msgstr "Vergangen"
 
 #: ViewWork.cpp:226
-#, fuzzy
 msgid "Remaining"
-msgstr "Verbleibende Zeit:"
+msgstr "Verbleibend"
 
 #: ViewWork.cpp:227
-#, fuzzy
 msgid "Deadline"
 msgstr "Ablaufdatum"
 
@@ -3297,15 +3236,15 @@ msgstr "Aufgaben"
 
 #: ViewWork.cpp:347
 msgid "Resuming task..."
-msgstr "Aufgabe wird fortgesetzt ..."
+msgstr "Aufgabe wird fortgesetzt..."
 
 #: ViewWork.cpp:350
 msgid "Suspending task..."
-msgstr "Aufgabe wird angehalten ..."
+msgstr "Aufgabe wird angehalten..."
 
 #: ViewWork.cpp:378
 msgid "Showing graphics for task..."
-msgstr "Zeigt die Grafik für Aufgabe ..."
+msgstr "Zeigt die Grafik für Aufgabe..."
 
 #: ViewWork.cpp:431
 #, c-format
@@ -3327,7 +3266,7 @@ msgstr "Abbrechen"
 
 #: ViewWork.cpp:451
 msgid "Aborting result..."
-msgstr "Berechnung wird abgebrochen ..."
+msgstr "Berechnung wird abgebrochen..."
 
 #: ViewWork.cpp:708
 msgid "Show all tasks"
@@ -3372,9 +3311,13 @@ msgid ""
 "You can attach to a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
 msgstr ""
+"Es gibt über 30 BOINC-Projekte,\n"
+"in verschiedenen wissenschaftlichen\n"
+"Richtungen, wo nach belieben teilgenommen werden kann.\n"
+"Man kann sich direkt bei einem Projekt anmelden\n"
+"oder eine 'Kontoverwaltung' benutzen um Projekte auszuwählen."
 
 #: WelcomePage.cpp:284
-#, fuzzy
 msgid ""
 "You have chosen to attach to a new BOINC project.  Attaching to a new\n"
 "project means that you will be connecting your computer to a new "
@@ -3396,8 +3339,8 @@ msgstr ""
 "Einige Projekte - wie World Community Grid - bieten mehrere, "
 "unterschiedliche wissenschaftliche Anwendungen. \n"
 " Wenn Sie ändern wollen, welche wissenschaftlichen Anwendungen auf Ihren "
-"Computer übertragen und dort gestartet werden, müssenSie die Projektwebseite "
-"aufsuchen und Ihre Einstellungen dort verändern. \n"
+"Computer übertragen und dort gestartet werden, müssen Sie die "
+"Projektwebseite aufsuchen und Ihre Einstellungen dort verändern. \n"
 "\n"
 "Um zu ändern, welche wissenschaftlichen Anwendungen Ihnen von World "
 "Community Grid gesendet werden klicken Sie bitte den folgenden Knopf:"
@@ -3419,9 +3362,8 @@ msgid "Question"
 msgstr "Frage"
 
 #: sg_BoincSimpleGUI.cpp:119
-#, fuzzy
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "&Erweiterte AnsichtSTRG+SHIFT+A"
+msgstr "Erweiterte &Ansicht...Ctrl+Shift+A"
 
 #: sg_BoincSimpleGUI.cpp:120
 msgid "Display the advanced (accessible) graphical interface."
@@ -3770,15 +3712,15 @@ msgstr ""
 
 #: sg_ViewTabPage.cpp:446
 msgid "Application: "
-msgstr "Anwendung:"
+msgstr "Anwendung: "
 
 #: sg_ViewTabPage.cpp:449 sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
-msgstr "Verbleibende Zeit:"
+msgstr "Verbleibende Zeit: "
 
 #: sg_ViewTabPage.cpp:452
 msgid "Elapsed Time: "
-msgstr "Vergangene Zeit:"
+msgstr "Vergangene Zeit: "
 
 #: wizardex.cpp:377 wizardex.cpp:553
 msgid "&Next >"
@@ -3793,18 +3735,16 @@ msgid "&Finish"
 msgstr "&Beenden"
 
 #: ../client/acct_mgr.cpp:373 ../client/acct_mgr.cpp:383
-#, fuzzy
 msgid "error"
 msgstr "Fehler"
 
 #: ../client/acct_setup.cpp:264
 msgid "A new version of BOINC is available."
-msgstr ""
+msgstr "Eine neue Version von BOINC ist verfügbar."
 
 #: ../client/acct_setup.cpp:266
-#, fuzzy
 msgid "Download it."
-msgstr "Am herunterladen"
+msgstr "Bitte herunterladen."
 
 #: ../client/client_state.cpp:342
 msgid "Couldn't write state file; check directory permissions"

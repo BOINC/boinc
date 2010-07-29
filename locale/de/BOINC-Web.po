@@ -4,13 +4,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-03 10:16 PDT\n"
-"PO-Revision-Date: 2010-06-10 08:20-0700\n"
+"PO-Revision-Date: 2010-07-29 10:56-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -284,10 +284,9 @@ msgstr ""
 "Supercomputer zu erstellen."
 
 #: index.php:135
-#, fuzzy
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr ""
-"%1Unternehmen%2: benutzen Sie BOINC für %3Vernetztes Rechnen%4 (desktop "
+"%1Unternehmen%2: benutzen Sie BOINC für %3Vernetztes Rechnen%4 (Desktop "
 "Grid)."
 
 #: index.php:147

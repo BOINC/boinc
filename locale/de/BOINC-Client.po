@@ -2,19 +2,20 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-07-29 10:28-0700\n"
+"Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #: acct_mgr.cpp:373 acct_mgr.cpp:383
 msgid "error"
@@ -22,27 +23,27 @@ msgstr ""
 
 #: acct_setup.cpp:264
 msgid "A new version of BOINC is available."
-msgstr ""
+msgstr "Eine neue Version von BOINC ist verfügbar."
 
 #: acct_setup.cpp:266
 msgid "Download it."
-msgstr ""
+msgstr "Bitte Herunterladen."
 
 #: client_state.cpp:342
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
+msgstr "Konnte Statusdatei nicht schreiben; bitte Zugriffsrechte überprüfen"
 
 #: cs_cmdline.cpp:280
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "Die HTTP_PROXY Umgebungsvariable muß einen HTTP-Proxy angeben"
 
 #: cs_scheduler.cpp:556
 msgid "Message from project server:"
-msgstr ""
+msgstr "Nachricht vom Projektserver:"
 
 #: cs_statefile.cpp:769
 msgid "XML syntax error in"
-msgstr ""
+msgstr "XML Syntax-Fehler in"
 
 #: gui_rpc_server.cpp:189
 msgid "Can't resolve hostname in"
