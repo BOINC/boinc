@@ -86,6 +86,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     memcpy(project_dir, a.project_dir, 256); 
     memcpy(boinc_dir, a.boinc_dir, 256); 
     memcpy(wu_name, a.wu_name, 256); 
+    memcpy(result_name, a.result_name, 256); 
     memcpy(authenticator, a.authenticator, 256); 
     memcpy(&shmem_seg_name, &a.shmem_seg_name, sizeof(SHMEM_SEG_NAME)); 
                 
@@ -169,6 +170,9 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     if (strlen(ai.wu_name)) {
         fprintf(f, "<wu_name>%s</wu_name>\n", ai.wu_name);
     }
+    if (strlen(ai.result_name)) {
+        fprintf(f, "<result_name>%s</result_name>\n", ai.result_name);
+    }
 #ifdef _WIN32
     if (strlen(ai.shmem_seg_name)) {
         fprintf(f, "<comm_obj_name>%s</comm_obj_name>\n", ai.shmem_seg_name);
@@ -234,6 +238,7 @@ void APP_INIT_DATA::clear() {
     strcpy(project_dir, "");
     strcpy(boinc_dir, "");
     strcpy(wu_name, "");
+    strcpy(result_name, "");
     strcpy(authenticator, "");
     slot = 0;
     user_total_credit = 0;
@@ -324,6 +329,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_str(tag, "boinc_dir", ai.boinc_dir, sizeof(ai.boinc_dir))) continue;
         if (xp.parse_str(tag, "authenticator", ai.authenticator, sizeof(ai.authenticator))) continue;
         if (xp.parse_str(tag, "wu_name", ai.wu_name, sizeof(ai.wu_name))) continue;
+        if (xp.parse_str(tag, "result_name", ai.result_name, sizeof(ai.result_name))) continue;
 #ifdef _WIN32
         if (xp.parse_str(tag, "comm_obj_name", ai.shmem_seg_name, sizeof(ai.shmem_seg_name))) continue;
 #else

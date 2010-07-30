@@ -35,13 +35,22 @@ if (($target == "advanced") && version_compare($version, "5.10.0", ">=")) {
 	}
 } else if (($target == "simple") && version_compare($version, "6.2.0", ">=")) {
     if ($controlid == "6024") {
+        // "Show info about BOINC" item on Mac simple-view menu
+        //
         header('Location: http://boinc.berkeley.edu');
     } else if ($controlid == "6025") {
+        // "Show info about BOINC manager" item on Mac simple-view menu
+        //
         header('Location: http://boinc.berkeley.edu/wiki/Simple_view');
     } else if ($controlid == "6035") {
+        // "Show info about BOINC and BOINC Manager"
+        // item on Mac simple-view menu ?? do we need this item?
+        //
         header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
     } else {
-        header('Location: http://boinc.berkeley.edu/wiki/Simple_view');
+        // the question-mark button
+        //
+        header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
     }
 } else if ($target == "advanced_preferences") {
     header('Location: http://boinc.berkeley.edu/wiki/Preferences');

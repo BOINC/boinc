@@ -248,6 +248,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_double(tag, "reliable_max_error_rate", reliable_max_error_rate)) continue;
         if (xp.parse_double(tag, "reliable_reduced_delay_bound", reliable_reduced_delay_bound)) continue;
         if (xp.parse_str(tag, "replace_download_url_by_timezone", replace_download_url_by_timezone, sizeof(replace_download_url_by_timezone))) continue;
+        if (xp.parse_int(tag, "max_download_urls_per_file", max_download_urls_per_file)) continue;
         if (xp.parse_int(tag, "report_max", report_max)) continue;
         if (xp.parse_bool(tag, "request_time_stats_log", request_time_stats_log)) continue;
         if (xp.parse_bool(tag, "resend_lost_results", resend_lost_results)) continue;

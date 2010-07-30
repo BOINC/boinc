@@ -5642,3 +5642,18 @@ Rom    30 Jul 2010
     client/
         net_stats.cpp
         sysmon_win.cpp
+
+David  30 Jul 2010
+    - API: add result name to APP_INFO_DATA structure (for Volpex)
+    - scheduler: add max_download_urls_per_file config option
+        (to limit the length of workunit.xml_doc,
+        which is currently capped at 64KB).
+        From Bernd.
+
+    client/
+        app_start.cpp
+    lib/
+        app_ipc.cpp,h
+    sched/
+        sched_timezone.cpp
+        sched_config.cpp,h

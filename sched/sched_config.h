@@ -140,6 +140,7 @@ struct SCHED_CONFIG {
     double reliable_reduced_delay_bound;
         // Reduce the delay bounds for reliable hosts by this percent
     char replace_download_url_by_timezone[256];
+    int max_download_urls_per_file;
     int report_max;
     bool request_time_stats_log;
     bool resend_lost_results;

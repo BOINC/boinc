@@ -148,7 +148,7 @@ URLTYPE* read_download_list() {
             "File %s contained no valid entries!\n"
             "Format of this file is one or more lines containing:\n"
             "TIMEZONE_OFFSET_IN_SEC   http://some.url.path\n",
-	    download_servers
+            download_servers
         );
         free(cached);
         return NULL;
@@ -172,8 +172,9 @@ URLTYPE* read_download_list() {
 
 // return number of bytes written, or <0 to indicate an error
 //
-int make_download_list(char *buffer, char *path, int tz) {
-    char *start=buffer;
+int make_download_list(char *buffer, char *path, unsigned int lim, int tz) {
+    char *start = buffer;
+    unsigned int l,len = 0;
     int i;
 
     // global variable used in the compare() function
@@ -185,16 +186,19 @@ int make_download_list(char *buffer, char *path, int tz) {
     // print list of servers in sorted order.
     // Space is to format them nicely
     //
-    for (i=0; strlen(serverlist[i].name); i++) {
-        start+=sprintf(start, "%s<url>%s%s</url>", i?"\n    ":"", serverlist[i].name, path);
+    for (i=0;
+        strlen(serverlist[i].name) && (config.max_download_urls_per_file ?(i < config.max_download_urls_per_file) :true);
+        i++
+    ) {
+        l = sprintf(start, "%s<url>%s%s</url>", i?"\n    ":"", serverlist[i].name, path);
+        len += l;
+        if (len >= lim) {
+            *start = '\0';
+            return (start-buffer);
+        }
+        start += l;
     }
 
-    // make a second copy in the same order
-    //
-    for (i=0; strlen(serverlist[i].name); i++) {
-        start+=sprintf(start, "%s<url>%s%s</url>", "\n    ", serverlist[i].name, path);
-    }
-    
     return (start-buffer);
 }
 
@@ -202,8 +206,9 @@ int make_download_list(char *buffer, char *path, int tz) {
 //
 int add_download_servers(char *old_xml, char *new_xml, int tz) {
     char *p, *q, *r;
-    
-    p=r=old_xml;
+    int total_free = BLOB_SIZE - strlen(old_xml);
+
+    p = (r = old_xml);
 
     // search for next URL to do surgery on 
     while ((q=strstr(p, "<url>"))) {
@@ -212,7 +217,7 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
 
         char *s;
         char path[1024];
-        int len = q-p;
+        int  len = q-p;
         
         // copy everything from p to q to new_xml
         //
@@ -221,7 +226,7 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
         
         // locate next instance of </url>
         //
-        if (!(r=strstr(q, "</url>"))) {
+        if (!(r = strstr(q, "</url>"))) {
             return 1;
         }
         r += strlen("</url>");
@@ -235,19 +240,27 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
 
         // check if path contains the string specified in config.xml
         //
-        if (!(s=strstr(path,config.replace_download_url_by_timezone))) {
+        if (!(s = strstr(path,config.replace_download_url_by_timezone))) {
             // if it doesn't, just copy the whole tag as it is
             strncpy(new_xml, q, r-q);
             new_xml += r-q;
             p=r;
         } else {
+	    // calculate free space available for URL replaces
+	    int lim = total_free - (len - (p - old_xml));
+
             // find end of the specified replace string,
             // i.e. start of the 'path'
             s += strlen(config.replace_download_url_by_timezone);
+
             // insert new download list in place of the original single URL
-            //
-            len = make_download_list(new_xml, s, tz);
-            if (len<0) {
+            len = make_download_list(new_xml, s, lim, tz);
+            if (len == 0) {
+	        // if the replacement would exceed the maximum XML length,
+	        // just keep the original URL
+	        len = r-q;
+	        strncpy(new_xml, q, len);
+            } else if (len < 0) {
                 return 1;
             }
             new_xml += len;

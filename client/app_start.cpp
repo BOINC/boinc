@@ -220,6 +220,7 @@ int ACTIVE_TASK::write_app_init_file() {
     strcpy(aid.authenticator, wup->project->authenticator);
     aid.slot = slot;
     strcpy(aid.wu_name, wup->name);
+    strcpy(aid.result_name, result->name);
     aid.user_total_credit = wup->project->user_total_credit;
     aid.user_expavg_credit = wup->project->user_expavg_credit;
     aid.host_total_credit = wup->project->host_total_credit;
