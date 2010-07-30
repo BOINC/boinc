@@ -5632,3 +5632,13 @@ Charlie 30 Jul 2010
 
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    30 Jul 2010
+    - client: Kick off an auto proxy detection pass on any http error, only
+        attempt a follow-up reference site check if the proxy server name
+        changes. This may mean that'll it will be the second or third connection
+        attempt before the CC starts using the new proxy information.
+        
+    client/
+        net_stats.cpp
+        sysmon_win.cpp

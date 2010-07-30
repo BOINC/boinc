@@ -184,8 +184,15 @@ void NET_STATUS::network_available() {
 // Find out for sure by trying to contact a reference site
 //
 void NET_STATUS::got_http_error() {
+    // Cause a round of proxy detections to occur
+    working_proxy_info.need_autodetect_proxy_settings = true;
+    working_proxy_info.have_autodetect_proxy_settings = false;
+
     if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) return;
+
+    // Don't spam the reference site when a project is down
     if (need_physical_connection) return;
+
     if (config.dont_contact_ref_site) return;
 
     if (log_flags.network_status_debug) {
@@ -228,8 +235,6 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
         net_status.need_physical_connection = true;
 		net_status.last_comm_time = 0;
 
-        working_proxy_info.need_autodetect_proxy_settings = true;
-        working_proxy_info.have_autodetect_proxy_settings = false;
         show_fail_msg();
     } else {
         error_num = ERR_IN_PROGRESS;

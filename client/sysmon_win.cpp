@@ -32,6 +32,7 @@
 #include "sandbox.h"
 #include "main.h"
 #include "cs_proxy.h"
+#include "net_stats.h"
 
 #include "sysmon_win.h"
 
@@ -300,9 +301,14 @@ static void windows_detect_autoproxy_settings() {
                 parse_url(proxy.c_str(), purl);
 
                 // Store the results for future use.
-                working_proxy_info.autodetect_protocol = purl.protocol;
-                strcpy(working_proxy_info.autodetect_server_name, purl.host);
-                working_proxy_info.autodetect_port = purl.port;
+                if (0 != strcmp(working_proxy_info.autodetect_server_name, purl.host)) {
+                    // Reset clients connection error detection path
+                    net_status.need_physical_connection = false;
+
+                    working_proxy_info.autodetect_protocol = purl.protocol;
+                    strcpy(working_proxy_info.autodetect_server_name, purl.host);
+                    working_proxy_info.autodetect_port = purl.port;
+                }
 
                 if (log_flags.proxy_debug) {
                     msg_printf(NULL, MSG_INFO,
