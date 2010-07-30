@@ -940,11 +940,12 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             // hiding the application
             if (pOldFrame) pOldFrame->Hide();
 
-            // Show the new frame if needed
-            if (pNewFrame && bShowWindow) pNewFrame->Show();
-
             // Delete the old one if it exists
+            // Note: this has the side effect of hiding the Event Log
             if (pOldFrame) pOldFrame->Destroy();
+
+            // Show the new frame if needed (and show the Event Log if open)
+            if (pNewFrame && bShowWindow) pNewFrame->Show();
         }
     }
 

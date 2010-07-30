@@ -5625,3 +5625,10 @@ Rom    28 Jul 2010
         
     client/
         log_flags.cpp
+
+Charlie 30 Jul 2010
+    - MGR: Fix a bug that hid the Event Log when switching between Advanced and 
+        Simple Views.
+
+    clientgui/
+        BOINCGUIApp.cpp
