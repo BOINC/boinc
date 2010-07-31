@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-24 04:28-0700\n"
+"PO-Revision-Date: 2010-07-31 04:44-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -687,6 +687,9 @@ msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work. %3"
 msgstr ""
+"El ordenador está conectado a Internet aproximadamente cada %1 Dejar en "
+"blanco o 0 si siempre está conectado. %2 BOINC intentará mantener el mayor "
+"trabajo posible. %3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 msgid "days"
@@ -694,7 +697,7 @@ msgstr "días"
 
 #: ../inc/prefs.inc:226
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "Mantener suficiente trabajo para otro"
 
 #: ../inc/prefs.inc:232
 msgid ""
@@ -760,22 +763,26 @@ msgstr "Usar la CPU %1 Obligatorio a partir de la versión 6.10+ %2"
 
 #: ../inc/prefs.inc:312
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Usar la GPU ATI %1 Obligatorio a partir de la versión 6.10+ %2"
 
 #: ../inc/prefs.inc:324
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Usar la GPU NVIDIA %1 Obligatorio a partir de la versión 6.10+ %2"
 
 #: ../inc/prefs.inc:338
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
+"¿Ejecutar aplicaciones de pruebas? %1 Esto nos ayuda a desarrollar "
+"aplicaciones, pero puede provocar que los trabajos fallen en su ordenador %2"
 
 #: ../inc/prefs.inc:347
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
+"Se enviarán correos electrónicos desde %1; asegurese de que su filtro "
+"antispam acepta esta dirección."
 
 #: ../inc/prefs.inc:354
 msgid "Is it OK for %1 and your team (if any) to email you?"
@@ -783,11 +790,11 @@ msgstr ""
 
 #: ../inc/prefs.inc:360
 msgid "Should %1 show your computers on its web site?"
-msgstr ""
+msgstr "¿Debería %1 mostrar sus ordenadores en este sitio web?"
 
 #: ../inc/prefs.inc:367
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "Uso de disco y memoria"
 
 #: ../inc/prefs.inc:368
 msgid "Processor usage"
@@ -795,18 +802,22 @@ msgstr "Uso del procesador"
 
 #: ../inc/prefs.inc:369
 msgid "Network usage"
-msgstr ""
+msgstr "Uso de la red"
 
 #: ../inc/prefs.inc:372
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
+"Estas preferencias se aplican a todos los proyectos BOINC en los que usted "
+"participa."
 
 #: ../inc/prefs.inc:375
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
+"%1No se pudo actualizar sus preferencias.%2 Los valores marcados en rojo "
+"debajo están fuera de rango o no son numéricos."
 
 #: ../inc/prefs.inc:424
 msgid "bad venue: %1"
@@ -817,63 +828,60 @@ msgid "bad subset: %1"
 msgstr ""
 
 #: ../inc/prefs.inc:617
-#, fuzzy
 msgid "Default"
-msgstr "Borrar"
+msgstr "Por defecto"
 
 #: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:995
 #: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:108
 #: ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
-msgstr ""
+msgstr "sí"
 
 #: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:997
 #: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:112
 #: ../project.sample/project_specific_prefs.inc:76
 msgid "no"
-msgstr ""
+msgstr "no"
 
 #: ../inc/prefs.inc:657
 msgid "no limit"
-msgstr ""
+msgstr "sin límite"
 
 #: ../inc/prefs.inc:682 ../user/team_admins.php:77
 msgid "Add"
-msgstr ""
+msgstr "Añadir"
 
 #: ../inc/prefs.inc:683 ../inc/prefs.inc:685
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: ../inc/prefs.inc:684 ../inc/prefs.inc:810 ../user/team_admins.php:32
 msgid "Remove"
-msgstr ""
+msgstr "Quitar"
 
 #: ../inc/prefs.inc:790
 msgid "Computing"
-msgstr ""
+msgstr "Procesando"
 
 #: ../inc/prefs.inc:801
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Preferencias aparte para %1"
 
 #: ../inc/prefs.inc:810 ../inc/prefs.inc:885
-#, fuzzy
 msgid "Edit preferences"
-msgstr "Preferencias de %1"
+msgstr "Editar las preferencias"
 
 #: ../inc/prefs.inc:814
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Añadir preferencias aparte para %1"
 
 #: ../inc/prefs.inc:822 ../inc/prefs.inc:867
 msgid "(Switch View)"
-msgstr ""
+msgstr "(Cambiar Vista)"
 
 #: ../inc/prefs.inc:824 ../inc/prefs.inc:870
-#, fuzzy
 msgid "Combined preferences"
-msgstr "Preferencias de cálculo computacional"
+msgstr "Preferencias combinadas"
 
 #: ../inc/prefs.inc:829
 msgid "Project specific settings"
