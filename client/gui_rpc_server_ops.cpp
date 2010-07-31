@@ -1304,7 +1304,6 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_req(request_msg, "read_cc_config")) {
         mf.printf("<success/>\n");
         read_config_file(false);
-        msg_printf(0, MSG_INFO, "Re-read config file");
         config.show();
         log_flags.show();
         gstate.set_ncpus();
