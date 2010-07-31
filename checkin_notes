@@ -5657,3 +5657,13 @@ David  30 Jul 2010
     sched/
         sched_timezone.cpp
         sched_config.cpp,h
+
+David  30 Jul 2010
+    - file deleter: if we're configured to generate cached MD5 checksums,
+        delete those files too.
+    - scheduler: add log messages (conditioned by debug_credit)
+        if result.fpops_cumulative or result.fpops_per_cpu_sec is present
+
+    sched/
+        file_deleter.cpp
+        sched_result.cpp

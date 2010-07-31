@@ -189,6 +189,21 @@ int wu_delete_files(WORKUNIT& wu) {
                     } else {
                         count_deleted++;
                     }
+                    // delete the cached MD5 file if needed
+                    //
+                    if (config.cache_md5_info) {
+                        strcat(pathname,".md5");
+                        log_messages.printf(MSG_NORMAL,
+                            "[WU#%d] deleting %s\n", wu.id, filename
+                        );
+                        retval = unlink(pathname);
+                        if (retval) {
+                            log_messages.printf(MSG_CRITICAL,
+                                "[WU#%d] unlink %s failed: %d\n",
+                                wu.id, filename, retval
+                            );
+                        }
+                    }
                 }
             }
         }
