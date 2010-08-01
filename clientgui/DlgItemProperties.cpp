@@ -218,7 +218,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	addProperty(_("Don't request more work"),project->dont_request_more_work ? _("yes") : _("no"));
 	addProperty(_("Scheduler call in progress"),project->scheduler_rpc_in_progress ? _("yes") : _("no"));
 	addProperty(_("Attached via account manager"),project->attached_via_acct_mgr ? _("yes") : _("no"));
-	addProperty(_("Detach when done"),project->detach_when_done ? _("yes") : _("no"));
+	addProperty(_("Remove when tasks done"),project->detach_when_done ? _("yes") : _("no"));
 	addProperty(_("Ended"),project->ended ? _("yes") : _("no"));
 	addSection(_("Credit"));
 	addProperty(_("User"),

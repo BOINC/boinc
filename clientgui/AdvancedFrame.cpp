@@ -1131,7 +1131,7 @@ void CAdvancedFrame::OnWizardDetach(wxCommandEvent& WXUNUSED(event)) {
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMessage.Printf(
-            _("If you stop using %s,\nyou'll keep all your current projects,\nbut you'll have to manage projects manually.\n\nDo you want to stop using %s?"), 
+            _("If you detach from %s,\nyou'll keep all your current projects,\nbut you'll have to manage projects manually.\n\nDo you want to detach from %s?"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );

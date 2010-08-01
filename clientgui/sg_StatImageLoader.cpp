@@ -208,13 +208,13 @@ void StatImageLoader::OnProjectDetach() {
 		}
 	}
     strMessage.Printf(
-        _("Are you sure you want to detach from project '%s'?"), 
+        _("Are you sure you want to remove project '%s'?"), 
         strProjectName.c_str()
     );
 
     iAnswer = wxGetApp().SafeMessageBox(
         strMessage,
-        _("Detach from Project"),
+        _("Remove Project"),
         wxYES_NO | wxICON_QUESTION,
         this
     );

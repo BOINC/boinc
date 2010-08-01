@@ -5669,6 +5669,7 @@ David  30 Jul 2010
         sched_result.cpp
 
 David  31 Jul 2010
-    - manager: change "Attach to project" to "Add project"
+    - manager: change "Attach to project" to "Add project";
+        change "Detach from" to "remove"
 
     clientgui/various
