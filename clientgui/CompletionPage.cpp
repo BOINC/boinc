@@ -249,8 +249,6 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
         } else {
             // Attach Completed
 
-            }
-
             m_pCompletionTitle->SetLabel(_("Attached to account manager"));
 
             if (pSkinAdvanced->IsBranded()) {

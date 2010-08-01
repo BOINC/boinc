@@ -70,7 +70,7 @@ void HOST_INFO::generate_host_cpid() {}
 
 int CLIENT_STATE::report_result_error(RESULT& , const char* , ...) {return 0;}
 
-void show_message(PROJECT *p, char* msg, int priority, const char* link) {
+void show_message(PROJECT *p, char* msg, int priority, const char*) {
     const char* x;
     char message[1024];
     char* time_string = time_to_string(gstate.now);
