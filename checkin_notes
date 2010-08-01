@@ -5667,3 +5667,8 @@ David  30 Jul 2010
     sched/
         file_deleter.cpp
         sched_result.cpp
+
+David  31 Jul 2010
+    - manager: change "Attach to project" to "Add project"
+
+    clientgui/various

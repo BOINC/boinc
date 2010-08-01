@@ -1103,7 +1103,7 @@ bool CSkinWizardATP::InitializeDelayedValidation() {
     }
     if (m_strTitle.IsEmpty()) {
         if (show_error_msgs) {
-            fprintf(stderr, "Skin Manager: Attach to project wizard title was not defined. Using default.\n");
+            fprintf(stderr, "Skin Manager: Add project wizard title was not defined. Using default.\n");
         }
         m_strTitle = wxT("BOINC Manager");
         wxASSERT(!m_strTitle.IsEmpty());
@@ -1172,7 +1172,7 @@ bool CSkinWizardATAM::InitializeDelayedValidation() {
     }
     if (m_strTitle.IsEmpty()) {
         if (show_error_msgs) {
-            fprintf(stderr, "Skin Manager: Attach to project wizard title was not defined. Using default.\n");
+            fprintf(stderr, "Skin Manager: Add project wizard title was not defined. Using default.\n");
         }
         m_strTitle = wxT("BOINC Manager");
         wxASSERT(!m_strTitle.IsEmpty());

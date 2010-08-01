@@ -526,11 +526,11 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 
         // Construct potiental dialog title
         if (IS_ATTACHTOPROJECTWIZARD()) {
-            strTitle = _("Attach to project");
+            strTitle = _("Add project");
         } else if (IS_ACCOUNTMANAGERWIZARD() && IS_ACCOUNTMANAGERUPDATEWIZARD()) {
             strTitle = _("Update account manager");
         } else if (IS_ACCOUNTMANAGERWIZARD()) {
-            strTitle = _("Attach to account manager");
+            strTitle = _("Add account manager");
         }
  
         // Verify minimum password length

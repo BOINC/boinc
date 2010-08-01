@@ -252,7 +252,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 
 
     m_pTitleStaticCtrl->SetLabel(
-        _("Attach to project or account manager")
+        _("Add project or account manager")
     );
 
     pDoc->rpc.acct_mgr_info(ami);
@@ -292,11 +292,11 @@ or use an 'Account Manager' web site to select projects.")
     }
 
     m_pAttachToProjectCtrl->SetLabel(
-        _("Attach to project")
+        _("Add project")
     );
 
     m_pAttachToAccountManagerCtrl->SetLabel(
-        _("Attach to account manager")
+        _("Add account manager")
     );
 
     if (!is_wcg_client) {

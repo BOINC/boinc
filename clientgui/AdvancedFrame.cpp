@@ -388,7 +388,7 @@ bool CAdvancedFrame::CreateMenu() {
     if (!is_acct_mgr_detected) {
         menuTools->Append(
             ID_WIZARDATTACH, 
-            _("&Attach to project or account manager..."),
+            _("&Add project or account manager..."),
             _("Volunteer for any or all of 30+ projects in many areas of science")
         );
     } else {
@@ -407,8 +407,8 @@ bool CAdvancedFrame::CreateMenu() {
         );
         menuTools->Append(
             ID_WIZARDATTACH, 
-            _("&Attach to project..."),
-            _("Attach to a project")
+            _("&Add project..."),
+            _("Add a project")
         );
         strMenuName.Printf(
             _("S&top using %s..."), 
