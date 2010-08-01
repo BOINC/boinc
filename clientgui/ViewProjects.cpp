@@ -492,7 +492,7 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
         }
 
         strMessage.Printf(
-            _("Are you sure you want remove project '%s'?"), 
+            _("Are you sure you want to remove project '%s'?"), 
             pProject->m_strProjectName.c_str()
         );
 

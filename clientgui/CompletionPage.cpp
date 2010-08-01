@@ -205,13 +205,13 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
 
     if (IS_ATTACHTOPROJECTWIZARD()) {
         m_pCompletionTitle->SetLabel(
-            _("Attached to project")
+            _("Project added")
         );
 
         m_pCompletionWelcome->Hide();
 
         m_pCompletionBrandedMessage->SetLabel(
-            _("You are now successfully attached to this project.")
+            _("This project has been successfully added.")
         );
 
         if (pWAP->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
@@ -249,19 +249,9 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
         } else {
             // Attach Completed
 
-            wxString strTitle;
-            if (pSkinAdvanced->IsBranded()) {
-                // %s is the project name
-                //    i.e. 'GridRepublic'
-                strTitle.Printf(
-                    _("Attached to %s"),
-                    pSkinAdvanced->GetApplicationShortName().c_str()
-                );
-            } else {
-                strTitle = _("Attached to account manager");
             }
 
-            m_pCompletionTitle->SetLabel( strTitle );
+            m_pCompletionTitle->SetLabel(_("Attached to account manager"));
 
             if (pSkinAdvanced->IsBranded()) {
                 // %s is the project name
