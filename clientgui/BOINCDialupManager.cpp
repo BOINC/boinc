@@ -149,33 +149,10 @@ void CBOINCDialUpManager::OnPoll() {
         );
         */
 
-#ifndef __WXMSW__           // notification logic for non MS-Windows systems
-        if (!bIsOnline && bWantConnection) {
-            // Make sure window is visable and active, don't want the message box
-            // to pop up on top of anything else
-            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Notify need Internet Connection"));
-            if (pFrame->IsShown() && wxGetApp().IsActive()) {
-                NotifyUserNeedConnection(false);
-            } 
-/*
-// this section commented out until taskbar/systray notification alerts are implemented
-              else {
-                // window is not visible, show alert
-                if (pTaskbar && pTaskbar->IsBalloonsSupported()) {
-                    NotifyUserNeedConnection(true);
-                }
-            }
-*/
-        } 
-#else               // dialer stuff for MS-Windows systems
         bool  bIsDialing = m_pDialupManager->IsDialing();
         if (!bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection) {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - !bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection"));
-            if (!pFrame->IsShown()) {
-                // BOINC Manager is hidden and displaying a dialog might interupt what they
-                //   are doing.
-                NotifyUserNeedConnection(true);
-            } else {
+            if (pFrame->IsShown()) {
                 // BOINC Manager is visable and can process user input.
                 m_bSetConnectionTimer = true;
                 Connect();
@@ -224,55 +201,8 @@ void CBOINCDialUpManager::OnPoll() {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - bIsDialing && !m_bWasDialing"));
             m_bWasDialing = true;
         }
-#endif
         bAlreadyRunningLoop = false;
     }
-}
-
-
-int CBOINCDialUpManager::NotifyUserNeedConnection(bool bNotificationOnly) {
-    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
-    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    wxTimeSpan          tsLastDialupAlertSent;
-    wxString            strDialogMessage = wxEmptyString;
-
-    wxASSERT(pFrame);
-    wxASSERT(pSkinAdvanced);
-    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-
-    tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
-    if ((tsLastDialupAlertSent.GetMinutes() >= pFrame->GetReminderFrequency()) && (pFrame->GetReminderFrequency() != 0)) {
-        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::NotifyUserNeedConnection - Manager not shown, notify instead"));
-        m_dtLastDialupAlertSent = wxDateTime::Now();
-
-#ifdef __WXWIN__
-        // 1st %s is the project name
-        //    i.e. 'BOINC', 'GridRepublic'
-        // 2st %s is the application name
-        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-        strDialogMessage.Printf(
-            _("%s needs to connect to the Internet.  Please click to open %s."),
-            pSkinAdvanced->GetApplicationShortName().c_str(),
-            pSkinAdvanced->GetApplicationName().c_str()
-        );
-#else
-        // %s is the project name
-        //    i.e. 'BOINC', 'GridRepublic'
-        strDialogMessage.Printf(
-            _("%s is unable to communicate with a project and needs an Internet connection.\nPlease connect to the Internet, then select the 'Do network communications' item from the Advanced menu."),
-            pSkinAdvanced->GetApplicationShortName().c_str()
-        );
-#endif
-        pFrame->ShowAlert(
-            m_strDialogTitle,
-            strDialogMessage,
-            wxOK | wxICON_INFORMATION,
-            bNotificationOnly
-        );
-    }
-
-    return 0;
 }
 
 
@@ -347,20 +277,6 @@ int CBOINCDialUpManager::Connect() {
             // The user hasn't given us a valid connection to dial.  Inform them
             //   that we need a connection and that they may need to set a default
             //   connection.
-
-            // %s is the project name
-            //    i.e. 'BOINC', 'GridRepublic'
-            strDialogMessage.Printf(
-                _("%s couldn't do Internet communication, and no default connection is selected.\nPlease connect to the Internet, or select a default connection\nusing Advanced/Options/Connections."),
-                pSkinAdvanced->GetApplicationShortName().c_str()
-            );
-
-            pFrame->ShowAlert(
-                m_strDialogTitle,
-                strDialogMessage,
-                wxOK | wxICON_INFORMATION,
-                false
-            );
         }
     }
 
@@ -529,7 +445,6 @@ int CBOINCDialUpManager::Disconnect() {
 
 
 void CBOINCDialUpManager::ResetReminderTimers() {
-    m_dtLastDialupAlertSent = wxDateTime((time_t)0);
     m_dtLastDialupRequest = wxDateTime((time_t)0);
     m_dtDialupConnectionTimeout = wxDateTime((time_t)0);
 }

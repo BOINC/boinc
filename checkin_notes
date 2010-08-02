@@ -5697,3 +5697,10 @@ Rom    2 Aug 2010
     
     clientgui/
         <Various Wizard Files>
+
+Rom    2 Aug 2010
+    - MGR: Remove connection needed type sys tray notifications from the manager,
+        lets the CC inform via a notice instead.
+        
+    clientgui/
+        BOINCDialupManager.cpp, .h

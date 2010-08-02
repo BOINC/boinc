@@ -35,8 +35,6 @@ public:
 
     void OnPoll();
 
-    int NotifyUserNeedConnection(bool bNotificationOnly);
-
     int Connect();
     int ConnectionSucceeded();
     int ConnectionFailed();
@@ -49,7 +47,6 @@ public:
 
 protected:
     wxDialUpManager* m_pDialupManager;
-    wxDateTime       m_dtLastDialupAlertSent;
     wxDateTime       m_dtLastDialupRequest;
     wxDateTime       m_dtDialupConnectionTimeout;
     bool             m_bSetConnectionTimer;
