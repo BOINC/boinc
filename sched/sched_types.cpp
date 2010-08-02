@@ -262,7 +262,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
                     CLIENT_APP_VERSION cav;
                     retval = cav.parse(fin);
                     if (retval) {
-                        if (is_anonymous(platforms.list[0])) {
+                        if (!strcmp(platform.name, "anonymous")) {
                             if (retval == ERR_NOT_FOUND) {
                                 g_reply->insert_message(
                                     _("Unknown app name in app_info.xml"),

@@ -5673,3 +5673,10 @@ David  31 Jul 2010
         change "Detach from" to "remove"
 
     clientgui/various
+
+David  1 Aug 2010
+    - scheduler: fix bug that crashed if app_info.xml
+        refers to nonexistent app
+
+    sched/
+        sched_types.cpp
