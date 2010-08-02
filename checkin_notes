@@ -5691,7 +5691,7 @@ Charlie 1 Aug 2010
         MainDocument.cpp
 
 Rom    2 Aug 2010
-    - MGR: Remove any remaining hints that their were two wizards at one time.
+    - MGR: Remove any remaining hints that there were two wizards at one time.
     - MGR: Save the username and email address in different places in the
         registry/config file
     
