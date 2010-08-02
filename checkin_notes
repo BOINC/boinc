@@ -5693,7 +5693,7 @@ Charlie 1 Aug 2010
 Rom    2 Aug 2010
     - MGR: Remove any remaining hints that their were two wizards at one time.
     - MGR: Save the username and email address in different places in the
-        registry
+        registry/config file
     
     clientgui/
         <Various Wizard Files>
@@ -5704,3 +5704,10 @@ Rom    2 Aug 2010
         
     clientgui/
         BOINCDialupManager.cpp, .h
+
+Rom    2 Aug 2010
+    - MGR: Use the account manager name provided by the project config RPC instead
+        of the skin name on the CompletionPage in the wizard.
+        
+    clientgui/
+        CompletionPage.cpp

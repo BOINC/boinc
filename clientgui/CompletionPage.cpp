@@ -226,14 +226,11 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
 
         if (IS_ACCOUNTMANAGERUPDATEWIZARD()) {
             // Update completed
-
             wxString strTitle;
             if (pSkinAdvanced->IsBranded()) {
-                // %s is the project name
-                //    i.e. 'GridRepublic'
                 strTitle.Printf(
                     _("Update from %s completed."),
-                    pSkinAdvanced->GetApplicationShortName().c_str()
+                    wxString(pWAP->project_config.name.c_str(), wxConvUTF8) 
                 );
             } else {
                 strTitle = _("Update completed.");
@@ -247,16 +244,13 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
 
         } else {
             // Attach Completed
-
             m_pCompletionTitle->SetLabel(_("Attached to account manager"));
 
             if (pSkinAdvanced->IsBranded()) {
-                // %s is the project name
-                //    i.e. 'GridRepublic'
                 wxString strWelcome;
                 strWelcome.Printf(
                     _("Welcome to %s!"),
-                    pSkinAdvanced->GetApplicationShortName().c_str()
+                    wxString(pWAP->project_config.name.c_str(), wxConvUTF8) 
                 );
 
                 m_pCompletionWelcome->Show();
@@ -265,12 +259,9 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
 
             wxString strBrandedMessage;
             if (pSkinAdvanced->IsBranded()) {
-                // 1st %s is the project name
-                //    i.e. 'GridRepublic'
-                // 2nd %s is the account manager success message
                 strBrandedMessage.Printf(
                     _("You are now successfully attached to the %s system."),
-                    pSkinAdvanced->GetApplicationShortName().c_str()
+                    wxString(pWAP->project_config.name.c_str(), wxConvUTF8) 
                 );
             } else {
                 strBrandedMessage = _("You are now successfully attached to this account manager.");
