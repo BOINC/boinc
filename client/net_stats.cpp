@@ -269,6 +269,11 @@ void NET_STATUS::poll() {
     // otherwise might show spurious "need connection" message
     //
     if (gstate.now < gstate.last_wakeup_time + 30) return;
+    // wait until after a round of automatic proxy detection 
+    // before attempting to contact the reference site
+    //
+    if (need_autodetect_proxy_settings && !have_autodetect_proxy_settings) return;
+
 	if (net_status.need_to_contact_reference_site && !gstate.gui_http.is_busy()) {
 		net_status.contact_reference_site();
 	}

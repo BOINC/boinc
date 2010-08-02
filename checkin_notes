@@ -5711,3 +5711,10 @@ Rom    2 Aug 2010
         
     clientgui/
         CompletionPage.cpp
+
+Rom    2 Aug 2010
+    - client: wait until after the proxy check completes before attempting to
+        check on the reference site.
+        
+    client/
+        net_status.cpp
