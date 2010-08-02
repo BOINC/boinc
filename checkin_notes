@@ -5680,3 +5680,12 @@ David  1 Aug 2010
 
     sched/
         sched_types.cpp
+
+Charlie 1 Aug 2010
+    - MGR: Fix bugs saving and restoring info on which notices have been read: 
+        saving as a double reduces precision, so save arrival time as string;
+        to avoid problems caused by rounding in save & restore operation, test in 
+        reverse order (oldest first) and for arrival time <= dLastReadNoticeTime 
+                
+    clientgui/
+        MainDocument.cpp

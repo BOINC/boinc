@@ -1823,16 +1823,19 @@ done:
 
 
 void CMainDocument::SaveUnreadNoticeInfo() {
-    wxString        strBaseConfigLocation = wxString(wxT("/Notices/"));
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
-    wxString        strArrivalTime = wxEmptyString;
     static double   dLastSavedArrivalTime = 0.0;       
 
-    pConfig->SetPath(strBaseConfigLocation + strDomainName);
-
     if (dLastSavedArrivalTime != m_dLastReadNoticeArrivalTime) {
-        pConfig->Write(wxT("LastReadNoticeTime"), m_dLastReadNoticeArrivalTime);
+        wxString        strBaseConfigLocation = wxString(wxT("/Notices/"));
+        wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+        wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
+        wxString        strArrivalTime = wxEmptyString;
+
+        pConfig->SetPath(strBaseConfigLocation + strDomainName);
+        // wxConfigBase::Write(const wxString& key, double value) has 
+        // insufficient precision so write a wxString.
+        strArrivalTime.Printf(wxT("%f"), m_dLastReadNoticeArrivalTime);
+        pConfig->Write(wxT("lastReadNoticeTime"), strArrivalTime);
         dLastSavedArrivalTime = m_dLastReadNoticeArrivalTime;
     }
 }
@@ -1843,16 +1846,19 @@ void CMainDocument::RestoreUnreadNoticeInfo() {
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxString        strDomainName = wxString(host.domain_name, wxConvUTF8, strlen(host.domain_name));
     double          dLastReadNoticeTime;
+    wxString        strArrivalTime = wxEmptyString;
     int             i, n = (int)notices.notices.size();
 
     pConfig->SetPath(strBaseConfigLocation + strDomainName);
 
-    if (pConfig->Read(wxT("LastReadNoticeTime"), &dLastReadNoticeTime)) {
-        for (i=0; i<n; ++i) {
-            if (notices.notices[i]->arrival_time >= dLastReadNoticeTime) {
+    if (pConfig->Read(wxT("LastReadNoticeTime"), &strArrivalTime)) {
+        strArrivalTime.ToDouble(&dLastReadNoticeTime);
+        // To avoid problems caused by rounding in save & restore operation, test in 
+        // reverse order (oldest first) and for arrival time <= dLastReadNoticeTime 
+        for (i=n-1; i>=0; --i) {
+            if (notices.notices[i]->arrival_time <= dLastReadNoticeTime) {
                 m_iLastReadNoticeSequenceNumber = notices.notices[i]->seqno;
                 m_dLastReadNoticeArrivalTime = notices.notices[i]->arrival_time;
-                return;
             }
         }
     }
