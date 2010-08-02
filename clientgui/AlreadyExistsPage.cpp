@@ -31,8 +31,8 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
+#include "WizardAttach.h"
 #include "AlreadyExistsPage.h"
 
 
@@ -174,10 +174,12 @@ wxIcon CErrAlreadyExistsPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CErrAlreadyExistsPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
+    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);
+    wxASSERT(pWA);
 
-    if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {
+    if (pWA->project_config.uses_username) {
         m_pTitleStaticCtrl->SetLabel(
             _("Username already in use")
         );

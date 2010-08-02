@@ -100,16 +100,19 @@ public:
     wxStaticText* m_pAccountInformationStaticCtrl;
     wxStaticText* m_pAccountEmailAddressStaticCtrl;
     wxTextCtrl* m_pAccountEmailAddressCtrl;
+    wxStaticText* m_pAccountUsernameStaticCtrl;
+    wxTextCtrl* m_pAccountUsernameCtrl;
     wxStaticText* m_pAccountPasswordStaticCtrl;
     wxTextCtrl* m_pAccountPasswordCtrl;
     wxStaticText* m_pAccountConfirmPasswordStaticCtrl;
     wxTextCtrl* m_pAccountConfirmPasswordCtrl;
     wxStaticText* m_pAccountPasswordRequirmentsStaticCtrl;
     wxStaticText* m_pAccountManagerLinkLabelStaticCtrl;
+    wxHyperlinkCtrl* m_pAccountForgotPasswordCtrl;
     wxString m_strAccountEmailAddress;
+    wxString m_strAccountUsername;
     wxString m_strAccountPassword;
     wxString m_strAccountConfirmPassword;
-    wxHyperlinkCtrl* m_pAccountForgotPasswordCtrl;
 ////@end CAccountInfoPage member variables
 };
 

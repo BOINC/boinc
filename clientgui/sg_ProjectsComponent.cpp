@@ -39,9 +39,8 @@
 #include "sg_DlgPreferences.h"
 #include "sg_ProjectsComponent.h"
 #include "wizardex.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "app_ipc.h"
 #include "version.h"
 
@@ -524,7 +523,7 @@ void CProjectsComponent::OnWizardUpdate(wxCommandEvent& /*event*/) {
 
 	    pPanel->SetDlgOpen(true);
 
-        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
+        CWizardAttach* pWizard = new CWizardAttach(this);
 
         pWizard->SyncToAccountManager();
 

@@ -31,9 +31,8 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "CompletionPage.h"
 #include "AccountInfoPage.h"
 
@@ -191,8 +190,8 @@ wxIcon CCompletionPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    CWizardAttachProject* pWAP = ((CWizardAttachProject*)GetParent());
-    CSkinAdvanced*        pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CWizardAttach* pWAP = ((CWizardAttach*)GetParent());
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
 
 
     wxASSERT(pSkinAdvanced);

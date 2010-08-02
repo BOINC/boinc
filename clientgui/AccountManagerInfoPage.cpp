@@ -33,8 +33,8 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "ValidateURL.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
+#include "WizardAttach.h"
 #include "AccountManagerInfoPage.h"
 #include "ProjectListCtrl.h"
 

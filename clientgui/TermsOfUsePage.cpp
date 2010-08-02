@@ -31,9 +31,8 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "TermsOfUsePage.h"
 
 
@@ -210,7 +209,7 @@ wxIcon CTermsOfUsePage::GetIconResource( const wxString& WXUNUSED(name) )
 void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    PROJECT_CONFIG&        pc = ((CBOINCBaseWizard*)GetParent())->project_config;
+    PROJECT_CONFIG& pc = ((CWizardAttach*)GetParent())->project_config;
 
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);
@@ -250,10 +249,10 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
 void CTermsOfUsePage::OnPageChanging( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+    CWizardAttach*  pWA = ((CWizardAttach*)GetParent());
 
-    wxASSERT(pWAP);
-    wxASSERT(wxDynamicCast(pWAP, CWizardAttachProject));
+    wxASSERT(pWA);
+    wxASSERT(wxDynamicCast(pWA, CWizardAttach));
 
 
     if (!CHECK_CLOSINGINPROGRESS()) {
@@ -262,7 +261,7 @@ void CTermsOfUsePage::OnPageChanging( wxWizardExEvent& event ) {
         // Determine if the account settings are already pre-populated.
         //   If so, advance to the Account Manager Processing page or the
         //   Project Processing page.
-        if ( pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected) {
+        if ( pWA->m_bCredentialsCached || pWA->m_bCredentialsDetected) {
             SetCredentialsAlreadyAvailable(true);
         } else {
             SetCredentialsAlreadyAvailable(false);

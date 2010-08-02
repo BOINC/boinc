@@ -32,9 +32,8 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "ProjectPropertiesPage.h"
 #include "ProjectInfoPage.h"
 #include "CompletionErrorPage.h"
@@ -363,9 +362,9 @@ void CProjectPropertiesPage::OnCancel( wxWizardExEvent& event ) {
  
 void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSED(event) )
 {
-    CMainDocument* pDoc        = wxGetApp().GetDocument();
-    CWizardAttachProject* pWAP = ((CWizardAttachProject*)GetParent());
-    PROJECT_CONFIG* pc         = &((CWizardAttachProject*)GetParent())->project_config;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CWizardAttach* pWAP = ((CWizardAttach*)GetParent());
+    PROJECT_CONFIG* pc  = &pWAP->project_config;
     CC_STATUS status;
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;

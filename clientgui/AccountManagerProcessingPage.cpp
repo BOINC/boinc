@@ -31,10 +31,9 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "ProjectListCtrl.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "AccountManagerProcessingPage.h"
 #include "AccountManagerInfoPage.h"
 #include "AccountInfoPage.h"
@@ -174,19 +173,19 @@ void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
 {
     if (event.GetDirection() == false) return;
  
-    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pPleaseWaitStaticCtrl);
     wxASSERT(m_pProgressIndicator);
-    wxASSERT(pWAP);
+    wxASSERT(pWA);
         
-    if (!pWAP->m_strProjectName.IsEmpty()) {
+    if (!pWA->m_strProjectName.IsEmpty()) {
         wxString str;
 
         // %s is the project name
         //    i.e. 'BOINC', 'GridRepublic'
-        str.Printf(_("Communicating with %s."), pWAP->m_strProjectName.c_str());
+        str.Printf(_("Communicating with %s."), pWA->m_strProjectName.c_str());
 
         m_pTitleStaticCtrl->SetLabel(
             str
@@ -226,8 +225,8 @@ void CAccountManagerProcessingPage::OnCancel( wxWizardExEvent& event ) {
  
 void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPageEvent& WXUNUSED(event) )
 {
-    CMainDocument* pDoc         = wxGetApp().GetDocument();
-    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
@@ -242,12 +241,11 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
  
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pWAP);
  
     switch(GetCurrentState()) {
         case ATTACHACCTMGR_INIT:
-            pWAP->DisableNextButton();
-            pWAP->DisableBackButton();
+            pWA->DisableNextButton();
+            pWA->DisableBackButton();
             StartProgress(m_pProgressIndicator);
             SetNextState(ATTACHACCTMGR_ATTACHACCTMGR_BEGIN);
             break;
@@ -260,14 +258,14 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             // Newer versions of the server-side software contain the correct
             //   master url in the get_project_config response.  If it is available
             //   use it instead of what the user typed in.
-            if (!pWAP->project_config.master_url.empty()) {
-                url = pWAP->project_config.master_url;
+            if (!pWA->project_config.master_url.empty()) {
+                url = pWA->project_config.master_url;
             } else {
-                url = (const char*)pWAP->m_AccountManagerInfoPage->GetProjectURL().mb_str();
+                url = (const char*)pWA->m_AccountManagerInfoPage->GetProjectURL().mb_str();
             }
 
-            username = (const char*)pWAP->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
-            password = (const char*)pWAP->m_AccountInfoPage->GetAccountPassword().mb_str();
+            username = (const char*)pWA->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+            password = (const char*)pWA->m_AccountInfoPage->GetAccountPassword().mb_str();
             
             // Wait until we are done processing the request.
             dtStartExecutionTime = wxDateTime::Now();
@@ -286,7 +284,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                         url.c_str(),
                         username.c_str(),
                         password.c_str(),
-                        pWAP->m_bCredentialsCached
+                        pWA->m_bCredentialsCached
                     );
                 }
             
@@ -302,7 +300,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
     
             if (!iReturnValue && !reply.error_num) {
                 SetProjectAttachSucceeded(true);
-                pWAP->SetAttachedToProjectSuccessfully(true);
+                pWA->SetAttachedToProjectSuccessfully(true);
             } else {
                 SetProjectAttachSucceeded(false);
 
@@ -313,13 +311,13 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 ) {
                     // For any logon error, make sure we do not attempt to use cached credentials
                     //   on any follow-ups.
-                    pWAP->m_bCredentialsCached = false;
+                    pWA->m_bCredentialsCached = false;
                     SetProjectAccountNotFound(true);
                 } else {
                     SetProjectAccountNotFound(false);
                 }
 
-                strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                strBuffer = pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                 if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num)) {
                     strBuffer += 
                         _("An internal server error has occurred.\n");
@@ -328,7 +326,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                         strBuffer += wxString(reply.messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
                     }
                 }
-                pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
             }
             SetNextState(ATTACHACCTMGR_CLEANUP);
             break;
@@ -339,9 +337,9 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
-            pWAP->EnableNextButton();
-            pWAP->EnableBackButton();
-            pWAP->SimulateNextButton();
+            pWA->EnableNextButton();
+            pWA->EnableBackButton();
+            pWA->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }

@@ -31,8 +31,8 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
+#include "WizardAttach.h"
 #include "NotFoundPage.h"
 
 
@@ -180,7 +180,7 @@ void CErrNotFoundPage::OnPageChanged( wxWizardExEvent& event ) {
     m_pTitleStaticCtrl->SetLabel(
         _("Login Failed.")
     );
-    if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {
+    if (((CWizardAttach*)GetParent())->project_config.uses_username) {
         m_pDirectionsStaticCtrl->SetLabel(
             _("Check the username and password, and try again.")
         );

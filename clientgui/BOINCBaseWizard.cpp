@@ -31,7 +31,6 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 
 
@@ -48,19 +47,11 @@ IMPLEMENT_DYNAMIC_CLASS( CBOINCBaseWizard, wxWizardEx )
 CBOINCBaseWizard::CBOINCBaseWizard() :
     wxWizardEx()
 {
-    IsAttachToProjectWizard = false;
-    IsAccountManagerWizard = false;
-    IsAccountManagerUpdateWizard = false;
-    close_when_completed = false;
 }
 
 CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& title, const wxPoint& pos, long style) :
     wxWizardEx(parent, id, title, pos, style)
 {
-    IsAttachToProjectWizard = false;
-    IsAccountManagerWizard = false;
-    IsAccountManagerUpdateWizard = false;
-    close_when_completed = false;
 }
 
 /*!

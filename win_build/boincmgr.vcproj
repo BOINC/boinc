@@ -1190,11 +1190,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\WizardAttachProject.cpp"
+				RelativePath="..\clientgui\WizardAttach.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\WizardAttachProject.h"
+				RelativePath="..\clientgui\WizardAttach.h"
 				>
 			</File>
 			<Filter

@@ -31,9 +31,8 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "WelcomePage.h"
 
 ////@begin XPM images
@@ -319,10 +318,10 @@ or use an 'Account Manager' web site to select projects.")
 void CWelcomePage::OnWizardSelectionChanged( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnWizardSelectionChanged - Function Begin"));
 
-    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+    CWizardAttach*  pWAP = ((CWizardAttach*)GetParent());
 
     wxASSERT(pWAP);
-    wxASSERT(wxDynamicCast(pWAP, CWizardAttachProject));
+    wxASSERT(wxDynamicCast(pWAP, CWizardAttach));
 
     if (ID_WELCOMESELECTWIZARDPROJECT == event.GetId()) {
         pWAP->IsAttachToProjectWizard = true;
@@ -342,12 +341,13 @@ void CWelcomePage::OnWizardSelectionChanged( wxCommandEvent& event ) {
 
 void CWelcomePage::OnChangeApplications( wxCommandEvent& /* event */ ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnChangeApplications - Function Begin"));
-    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+    CWizardAttach*  pWAP = ((CWizardAttach*)GetParent());
 
     wxASSERT(pWAP);
-    wxASSERT(wxDynamicCast(pWAP, CWizardAttachProject));
+    wxASSERT(wxDynamicCast(pWAP, CWizardAttach));
 
     wxLaunchDefaultBrowser(wxT("http://www.worldcommunitygrid.org/ms/viewMyProjects.do"));
+
     pWAP->SimulateCancelButton();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnChangeApplications - Function End"));

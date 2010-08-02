@@ -31,8 +31,8 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
+#include "WizardAttach.h"
 #include "CompletionErrorPage.h"
 
 

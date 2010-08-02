@@ -37,9 +37,8 @@
 #include "Events.h"
 #include "BOINCBaseFrame.h"
 #include "wizardex.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "error_numbers.h"
 #include "version.h"
 
@@ -378,12 +377,12 @@ void CSimpleFrame::OnProjectsAttachToProject() {
 
     if (pDoc->IsConnected()) {
 
-        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
+        CWizardAttach* pWizard = new CWizardAttach(this);
 
         wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
-        std::string foo;
-        pWizard->Run( strName, strURL, foo, false );
+        wxString strTeamName = wxEmptyString;
+        pWizard->Run( strName, strURL, strTeamName, false );
 
         if (pWizard)
             pWizard->Destroy();
@@ -400,10 +399,11 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function Begin"));
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
-    CWizardAttachProject* pAPWizard = NULL;
+    CWizardAttach* pWizard = NULL;
     wxString strComputer = wxEmptyString;
     wxString strName = wxEmptyString;
     wxString strURL = wxEmptyString;
+    wxString strTeamName = wxEmptyString;
     bool bCachedCredentials = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
@@ -427,7 +427,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         wxGetApp().StartBOINCDefaultScreensaverTest();
     }
 
-    pAPWizard = new CWizardAttachProject(this);
+    pWizard = new CWizardAttach(this);
 
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
@@ -436,7 +436,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             Show();
         }
 
-       if (pAPWizard->SyncToAccountManager()) {
+       if (pWizard->SyncToAccountManager()) {
             // If successful, hide the main window
             Hide();
         }
@@ -447,15 +447,15 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
         strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
+        strTeamName = wxString(pis.team_name.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
 
-        pAPWizard->Run(strName, strURL, pis.team_name, bCachedCredentials);
+        pWizard->Run(strName, strURL, strTeamName, bCachedCredentials);
     }
 
- 	if (pAPWizard){
-            pAPWizard->Destroy();
-            //update Project Component
-            m_pBackgroundPanel->UpdateProjectView();
+ 	if (pWizard) {
+        pWizard->Destroy();
+        m_pBackgroundPanel->UpdateProjectView();
 	}
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));

@@ -20,8 +20,19 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "error_numbers.h"
+#include "wizardex.h"
+#include "error_numbers.h"
 #include "BOINCGUIApp.h"
-#include "BOINCWizards.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
+#include "BOINCBaseWizard.h"
+#include "WizardAttach.h"
 #include "ProjectListCtrl.h"
 
 ////@begin XPM images

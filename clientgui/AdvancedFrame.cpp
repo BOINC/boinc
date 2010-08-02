@@ -52,9 +52,8 @@
 #include "DlgGenericMessage.h"
 #include "DlgEventLog.h"
 #include "wizardex.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "DlgAdvPreferences.h"
 
 #include "res/connect.xpm"
@@ -1037,12 +1036,12 @@ void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
         // Stop all timers so that the wizard is the only thing doing anything
         StopTimers();
 
-        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
+        CWizardAttach* pWizard = new CWizardAttach(this);
 
         wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
-        std::string foo;
-        pWizard->Run( strName, strURL, foo, false );
+        wxString strTeamName = wxEmptyString;
+        pWizard->Run( strName, strURL, strTeamName, false );
 
         if (pWizard)
             pWizard->Destroy();
@@ -1080,7 +1079,7 @@ void CAdvancedFrame::OnWizardUpdate(wxCommandEvent& WXUNUSED(event)) {
         // Stop all timers so that the wizard is the only thing doing anything
         StopTimers();
 
-        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
+        CWizardAttach* pWizard = new CWizardAttach(this);
 
         pWizard->SyncToAccountManager();
 
@@ -1685,10 +1684,11 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    CWizardAttachProject* pAPWizard = NULL;
+    CWizardAttach* pWizard = NULL;
     wxString strComputer = wxEmptyString;
     wxString strName = wxEmptyString;
     wxString strURL = wxEmptyString;
+    wxString strTeamName = wxEmptyString;
     wxString strDialogTitle = wxEmptyString;
     wxString strDialogDescription = wxEmptyString;
     bool bCachedCredentials = false;
@@ -1753,8 +1753,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             Show();
         }
 
-        pAPWizard = new CWizardAttachProject(this);
-        if (pAPWizard->SyncToAccountManager()) {
+        pWizard = new CWizardAttach(this);
+        if (pWizard->SyncToAccountManager()) {
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
             // If successful, hide the main window if we showed it
@@ -1795,12 +1795,13 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             Show();
         }
 
-        pAPWizard = new CWizardAttachProject(this);
+        pWizard = new CWizardAttach(this);
         strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
+        strTeamName = wxString(pis.team_name.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
 
-        if (pAPWizard->Run(strName, strURL, pis.team_name, bCachedCredentials)) {
+        if (pWizard->Run(strName, strURL, strTeamName, bCachedCredentials)) {
             // If successful, display the work tab
             m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
         } else {
@@ -1826,8 +1827,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     FireRefreshView();
 
 
-    if (pAPWizard)
-        pAPWizard->Destroy();
+    if (pWizard)
+        pWizard->Destroy();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function End"));
 }

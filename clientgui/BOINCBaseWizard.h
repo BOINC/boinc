@@ -65,22 +65,6 @@ public:
     void SimulateCancelButton();
     void EnableCancelButton();
     void DisableCancelButton();
-
-    /// Wizard Detection
-    bool IsAttachToProjectWizard;
-    bool IsAccountManagerWizard;
-    bool IsAccountManagerUpdateWizard;
-
-    /// Global Wizard Status
-    PROJECT_CONFIG      project_config;
-    ACCOUNT_IN          account_in;
-    ACCOUNT_OUT         account_out;
-    bool                account_created_successfully;
-    bool                attached_to_project_successfully;
-    bool                close_when_completed;
-    wxString            project_name;
-    wxString            project_url;
-    wxString            project_authenticator;
 };
 
 #endif // _WIZ_BOINCBASEWIZARD_H_

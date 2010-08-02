@@ -34,9 +34,8 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "ValidateURL.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "ProjectInfoPage.h"
 #include "ProjectListCtrl.h"
 

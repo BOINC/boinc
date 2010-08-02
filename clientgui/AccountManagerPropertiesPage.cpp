@@ -32,10 +32,9 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "ProjectListCtrl.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "AccountManagerPropertiesPage.h"
 #include "AccountManagerInfoPage.h"
 #include "AccountInfoPage.h"
@@ -181,18 +180,18 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
 {
     if (event.GetDirection() == false) return;
  
-    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pPleaseWaitStaticCtrl);
     wxASSERT(m_pProgressIndicator);
-    wxASSERT(pWAP);
+    wxASSERT(pWA);
 
-    if (!pWAP->m_strProjectName.IsEmpty()) {
+    if (!pWA->m_strProjectName.IsEmpty()) {
         wxString str;
 
         // %s is the project name
         //    i.e. 'BOINC', 'GridRepublic'
-        str.Printf(_("Communicating with %s."), pWAP->m_strProjectName.c_str());
+        str.Printf(_("Communicating with %s."), pWA->m_strProjectName.c_str());
 
         m_pTitleStaticCtrl->SetLabel(
             str
@@ -237,9 +236,9 @@ void CAccountManagerPropertiesPage::OnCancel( wxWizardExEvent& event ) {
  
 void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPageEvent& WXUNUSED(event) )
 {
-    CMainDocument*         pDoc = wxGetApp().GetDocument();
-    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
-    PROJECT_CONFIG* pc;
+    CMainDocument*  pDoc = wxGetApp().GetDocument();
+    CWizardAttach*  pWA = ((CWizardAttach*)GetParent());
+    PROJECT_CONFIG* pc = &pWA->project_config;
     CC_STATUS status;
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
@@ -248,17 +247,13 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
     bool bPostNewEvent = true;
     int  iReturnValue = 0;
  
-    pc = &pWAP->project_config;
-
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pWAP);
-    wxASSERT(wxDynamicCast(pWAP, CWizardAttachProject));
  
     switch(GetCurrentState()) {
         case ACCTMGRPROP_INIT:
-            pWAP->DisableNextButton();
-            pWAP->DisableBackButton();
+            pWA->DisableNextButton();
+            pWA->DisableBackButton();
             StartProgress(m_pProgressIndicator);
             SetNextState(ACCTMGRPROP_RETRPROJECTPROPERTIES_BEGIN);
             break;
@@ -283,7 +278,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             ) {
                 if (ERR_RETRY == pc->error_num) {
                     pDoc->rpc.get_project_config(
-                        (const char*)pWAP->m_AccountManagerInfoPage->GetProjectURL().mb_str()
+                        (const char*)pWA->m_AccountManagerInfoPage->GetProjectURL().mb_str()
                     );
                 }
 
@@ -310,7 +305,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 SetProjectClientAccountCreationDisabled(pc->client_account_creation_disabled);
                 SetTermsOfUseRequired(!pc->terms_of_use.empty());
 
-                pWAP->m_strProjectName = wxString(pc->name.c_str(), wxConvUTF8);
+                pWA->m_strProjectName = wxString(pc->name.c_str(), wxConvUTF8);
 
             } else {
 
@@ -337,11 +332,11 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 if (server_reported_error) {
                     SetServerReportedError(true);
 
-                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                    strBuffer = pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     if (pc->error_msg.size()) {
                         strBuffer += wxString(pc->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
                     }
-                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                    pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                 } else {
                     SetServerReportedError(false);
                 }
@@ -385,8 +380,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
         case ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE:
             // Determine if the account settings are already pre-populated.
             //   If so, advance to the Account Manager Processing page.
-            SetCredentialsAlreadyAvailable(pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected);
-
+            SetCredentialsAlreadyAvailable(pWA->m_bCredentialsCached || pWA->m_bCredentialsDetected);
             SetNextState(ACCTMGRPROP_CLEANUP);
             break;
         case ACCTMGRPROP_CLEANUP:
@@ -396,9 +390,9 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
-            pWAP->EnableNextButton();
-            pWAP->EnableBackButton();
-            pWAP->SimulateNextButton();
+            pWA->EnableNextButton();
+            pWA->EnableBackButton();
+            pWA->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }

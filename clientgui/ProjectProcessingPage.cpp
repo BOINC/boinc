@@ -31,9 +31,8 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
-#include "WizardAttachProject.h"
+#include "WizardAttach.h"
 #include "ProjectProcessingPage.h"
 #include "ProjectInfoPage.h"
 #include "AccountInfoPage.h"
@@ -347,10 +346,10 @@ void CProjectProcessingPage::OnCancel( wxWizardExEvent& event ) {
  
 void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSED(event) )
 {
-    CMainDocument* pDoc        = wxGetApp().GetDocument();
-    CWizardAttachProject* pWAP = ((CWizardAttachProject*)GetParent());
-    ACCOUNT_IN* ai             = &pWAP->account_in;
-    ACCOUNT_OUT* ao            = &pWAP->account_out;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CWizardAttach* pWA  = ((CWizardAttach*)GetParent());
+    ACCOUNT_IN* ai      = &pWA->account_in;
+    ACCOUNT_OUT* ao     = &pWA->account_out;
     unsigned int i;
     PROJECT_ATTACH_REPLY reply;
     wxString strBuffer = wxEmptyString;
@@ -366,8 +365,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
  
     switch(GetCurrentState()) {
         case ATTACHPROJECT_INIT:
-            pWAP->DisableNextButton();
-            pWAP->DisableBackButton();
+            pWA->DisableNextButton();
+            pWA->DisableBackButton();
 
             StartProgress(m_pProgressIndicator);
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_BEGIN);
@@ -383,31 +382,31 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
             // Newer versions of the server-side software contain the correct
             //   master url in the get_project_config response.  If it is available
             //   use it instead of what the user typed in.
-            if (!pWAP->project_config.master_url.empty()) {
-                ai->url = pWAP->project_config.master_url;
+            if (!pWA->project_config.master_url.empty()) {
+                ai->url = pWA->project_config.master_url;
             } else {
-                ai->url = (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str();
+                ai->url = (const char*)pWA->m_ProjectInfoPage->GetProjectURL().mb_str();
             }
 
-            if (!pWAP->GetProjectAuthenticator().IsEmpty() || 
-                pWAP->m_bCredentialsCached || 
-                pWAP->m_bCredentialsDetected
+            if (!pWA->GetProjectAuthenticator().IsEmpty() || 
+                pWA->m_bCredentialsCached || 
+                pWA->m_bCredentialsDetected
             ) {
-                if (!pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected) {
-                    ao->authenticator = (const char*)pWAP->GetProjectAuthenticator().mb_str();
+                if (!pWA->m_bCredentialsCached || pWA->m_bCredentialsDetected) {
+                    ao->authenticator = (const char*)pWA->GetProjectAuthenticator().mb_str();
                 }
                 SetProjectCommunitcationsSucceeded(true);
             } else {
                 // Setup initial values for both the create and lookup API
-                ai->email_addr = (const char*)pWAP->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
-                ai->passwd = (const char*)pWAP->m_AccountInfoPage->GetAccountPassword().mb_str();
+                ai->email_addr = (const char*)pWA->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+                ai->passwd = (const char*)pWA->m_AccountInfoPage->GetAccountPassword().mb_str();
                 ai->user_name = (const char*)::wxGetUserName().mb_str();
-                ai->team_name = pWAP->team_name;
                 if (ai->user_name.empty()) {
                     ai->user_name = (const char*)::wxGetUserId().mb_str();
                 }
+                //ai->team_name = (const char*)pWA->GetTeamName().mb_str();
 
-                if (pWAP->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
+                if (pWA->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
 					creating_account = true;
 
                     // Wait until we are done processing the request.
@@ -437,7 +436,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     }
 
                     if ((!iReturnValue) && !ao->error_num) {
-                        pWAP->SetAccountCreatedSuccessfully(true);
+                        pWA->SetAccountCreatedSuccessfully(true);
                     }
                 } else {
 					creating_account = false;
@@ -493,7 +492,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         SetProjectAccountNotFound(false);
                     }
 
-                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                    strBuffer = pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     if ((HTTP_STATUS_NOT_FOUND == ao->error_num)) {
                         strBuffer += 
                             _("Required files not found on the server.");
@@ -505,7 +504,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                             strBuffer += wxString(ao->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
                         }
                     }
-                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                    pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                 }
             }
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_BEGIN);
@@ -529,13 +528,13 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     !CHECK_CLOSINGINPROGRESS()
                 ) {
                     if (ERR_RETRY == reply.error_num) {
-                        if (pWAP->m_bCredentialsCached) {
+                        if (pWA->m_bCredentialsCached) {
                             pDoc->rpc.project_attach_from_file();
                         } else {
                             pDoc->rpc.project_attach(
                                 ai->url.c_str(),
                                 ao->authenticator.c_str(),
-                                pWAP->project_config.name.c_str()
+                                pWA->project_config.name.c_str()
                             );
                         }
                     }
@@ -552,13 +551,13 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
      
                 if (!iReturnValue && !reply.error_num) {
                     SetProjectAttachSucceeded(true);
-                    pWAP->SetAttachedToProjectSuccessfully(true);
-                    pWAP->SetProjectURL(wxString(ai->url.c_str(), wxConvUTF8));
-                    pWAP->SetProjectAuthenticator(wxString(ao->authenticator.c_str(), wxConvUTF8));
+                    pWA->SetAttachedToProjectSuccessfully(true);
+                    pWA->SetProjectURL(wxString(ai->url.c_str(), wxConvUTF8));
+                    pWA->SetProjectAuthenticator(wxString(ao->authenticator.c_str(), wxConvUTF8));
                 } else {
                     SetProjectAttachSucceeded(false);
 
-                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                    strBuffer = pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num)) {
                         strBuffer += 
                             _("An internal server error has occurred.");
@@ -567,7 +566,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                             strBuffer += wxString(reply.messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
                         }
                     }
-                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(wxString(strBuffer, wxConvUTF8));
+                    pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(wxString(strBuffer, wxConvUTF8));
                 }
             } else {
                 SetProjectAttachSucceeded(false);
@@ -581,9 +580,9 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
-            pWAP->EnableNextButton();
-            pWAP->EnableBackButton();
-            pWAP->SimulateNextButton();
+            pWA->EnableNextButton();
+            pWA->EnableBackButton();
+            pWA->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }
