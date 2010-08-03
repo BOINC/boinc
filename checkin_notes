@@ -6682,3 +6682,11 @@ Rom    3 Aug 2010
     client/
         net_stats.cpp
         sysmon_win.cpp
+
+Rom    3 Aug 2010
+    - Tag for 6.8.24 release, all platforms
+      boinc_core_release_6_8_24
+
+    /
+        configure.ac
+        version.h
