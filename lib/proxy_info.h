@@ -53,6 +53,9 @@ struct PROXY_INFO {
     // we try the "autodetect" mechanism.
     // If it gets anything, the info is filled in below
     //
+    bool autodetect_proxy_supported;
+        // if true, some mechinism for detecting proxy servers is
+        // supported by the client.
     int autodetect_protocol;
         // URL_PROTOCOL_SOCKS, URL_PROTOCOL_HTTP, or URL_PROTOCOL_HTTPS
     char autodetect_server_name[256];

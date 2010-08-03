@@ -185,8 +185,10 @@ void NET_STATUS::network_available() {
 //
 void NET_STATUS::got_http_error() {
     // Cause a round of proxy detections to occur
-    working_proxy_info.need_autodetect_proxy_settings = true;
-    working_proxy_info.have_autodetect_proxy_settings = false;
+    if (working_proxy_info.autodetect_proxy_supported) {
+        working_proxy_info.need_autodetect_proxy_settings = true;
+        working_proxy_info.have_autodetect_proxy_settings = false;
+    }
 
     if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) return;
 
@@ -272,7 +274,9 @@ void NET_STATUS::poll() {
     // wait until after a round of automatic proxy detection 
     // before attempting to contact the reference site
     //
-    if (working_proxy_info.need_autodetect_proxy_settings && !working_proxy_info.have_autodetect_proxy_settings) return;
+    if (working_proxy_info.autodetect_proxy_supported && 
+        working_proxy_info.need_autodetect_proxy_settings &&
+        !working_proxy_info.have_autodetect_proxy_settings) return;
 
 	if (net_status.need_to_contact_reference_site && !gstate.gui_http.is_busy()) {
 		net_status.contact_reference_site();

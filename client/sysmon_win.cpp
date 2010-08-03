@@ -340,7 +340,11 @@ static void windows_detect_autoproxy_settings() {
 }
 
 static DWORD WINAPI WindowsMonitorSystemProxyThread( LPVOID  ) {
-     
+    
+    // notify the main client thread that detecting proxies is
+    // supported.
+    working_proxy_info.autodetect_proxy_supported = true;
+
     while (1) {
 
         if (working_proxy_info.need_autodetect_proxy_settings) {
