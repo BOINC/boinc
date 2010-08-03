@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-07-29 10:53-0700\n"
+"PO-Revision-Date: 2010-08-03 03:55-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -275,7 +275,7 @@ msgstr "Schaltet auf die vereinfachte BOINC-Grafikoberfläche um."
 
 #: AdvancedFrame.cpp:391
 msgid "&Attach to project or account manager..."
-msgstr "Bei einem Projekt oder einer Kontoverwaltung &anmelden..."
+msgstr "Bei einem &Projekt oder einer Kontoverwaltung anmelden..."
 
 #: AdvancedFrame.cpp:392 sg_ProjectsComponent.cpp:105
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
