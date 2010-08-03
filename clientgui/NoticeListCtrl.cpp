@@ -593,8 +593,11 @@ bool CNoticeListCtrl::UpdateUI()
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (pDoc->GetNoticeCount() < 0) return true;
-
+    if (pDoc->GetNoticeCount() < 0) {
+        SetItemCount(0);
+        return true;
+    }
+    
     if (
         ((int)GetItemCount() != pDoc->GetNoticeCount()) ||
         pDoc->notices.complete

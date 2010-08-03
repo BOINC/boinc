@@ -134,6 +134,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewNotices::OnListRender - Function Begin"));
 
     static bool s_bInProgress = false;
+    static wxString strLastMachineName = wxEmptyString;
+    wxString strNewMachineName = wxEmptyString;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
@@ -142,6 +144,14 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
 
     if (s_bInProgress) return;
     s_bInProgress = true;
+
+    if (pDoc->IsConnected()) {
+        pDoc->GetConnectedComputerName(strNewMachineName);
+        if (strLastMachineName != strNewMachineName) {
+            strLastMachineName = strNewMachineName;
+            m_pHtmlListPane->Clear();
+        }
+    }
 
     m_pHtmlListPane->Freeze();
     m_pHtmlListPane->UpdateUI();

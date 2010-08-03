@@ -5736,3 +5736,11 @@ Charlie 3 Aug 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 3 Aug 2010
+    - MGR: clear notices display when selecting a different host to force display 
+        of new host's notices.
+
+    clientgui/
+        NoticeListCtrl.cpp
+        ViewNotices.cpp
