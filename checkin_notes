@@ -5730,9 +5730,9 @@ Charlie 3 Aug 2010
         BOINCDialupManager.cpp
 
 Charlie 3 Aug 2010
-    - MGR: clear notices display when selecting a different host to force display 
-        of host's notices.
-
-    clientgui/
-        NoticeListCtrl.cpp
-        ViewNotices.cpp
+     - Mac: XCode project: delete source files WizardAttachProject.cpp,.h and 
+        BOINCWizards.h; add files WizardAttach.cpp,.h.
+        
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
