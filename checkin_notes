@@ -5722,3 +5722,17 @@ Rom    2 Aug 2010
 David  2 Aug 2010
     client/
         net_status.cpp
+
+Charlie 3 Aug 2010
+    - MGR: fix crash bug on non-Windows computers.
+        
+    clientgui/
+        BOINCDialupManager.cpp
+
+Charlie 3 Aug 2010
+    - MGR: clear notices display when selecting a different host to force display 
+        of host's notices.
+
+    clientgui/
+        NoticeListCtrl.cpp
+        ViewNotices.cpp

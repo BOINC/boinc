@@ -148,7 +148,7 @@ void CBOINCDialUpManager::OnPoll() {
             pDoc->state.global_prefs.confirm_before_connecting, pDoc->state.global_prefs.hangup_if_dialed
         );
         */
-
+#ifdef __WXMSW__
         bool  bIsDialing = m_pDialupManager->IsDialing();
         if (!bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection) {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - !bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection"));
@@ -201,6 +201,7 @@ void CBOINCDialUpManager::OnPoll() {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - bIsDialing && !m_bWasDialing"));
             m_bWasDialing = true;
         }
+#endif
         bAlreadyRunningLoop = false;
     }
 }
