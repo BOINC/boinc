@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-06-18 15:14+0900\n"
+"PO-Revision-Date: 2010-08-04 01:18+0900\n"
 "Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
 "MIME-Version: 1.0\n"
@@ -13,11 +13,11 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: KOREA, REPUBLIC OF\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -71,11 +71,13 @@ msgstr ""
 msgid "Find logon information"
 msgstr "로그인 정보 찾기"
 
-#: clientgui/AccountInfoPage.cpp:435 clientgui/AccountInfoPage.cpp:619
+#: clientgui/AccountInfoPage.cpp:435
+#: clientgui/AccountInfoPage.cpp:619
 msgid "&Password:"
 msgstr "비밀번호:"
 
-#: clientgui/AccountInfoPage.cpp:442 clientgui/AccountInfoPage.cpp:643
+#: clientgui/AccountInfoPage.cpp:442
+#: clientgui/AccountInfoPage.cpp:643
 msgid "Choose a &password:"
 msgstr "비밀번호를 입력하세요:"
 
@@ -120,42 +122,30 @@ msgid "Account manager website"
 msgstr "계정 관리자 웹사이트"
 
 #: clientgui/AccountInfoPage.cpp:557
-#, fuzzy
 msgid "Add project"
-msgstr "모든 프로젝트"
+msgstr "프로젝트 추가"
 
 #: clientgui/AccountInfoPage.cpp:559
 msgid "Update account manager"
 msgstr "계정 관리자 업데이트"
 
 #: clientgui/AccountInfoPage.cpp:561
-#, fuzzy
 msgid "Add account manager"
-msgstr "계정 관리자 업데이트"
+msgstr "계정 관리자 추가"
 
 #: clientgui/AccountInfoPage.cpp:568
 #, c-format
-msgid ""
-"The minimum password length for this project is %d. Please enter a different "
-"password."
-msgstr ""
-"이 프로젝트는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 입"
-"력해 주세요."
+msgid "The minimum password length for this project is %d. Please enter a different password."
+msgstr "이 프로젝트는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 입력해 주세요."
 
 #: clientgui/AccountInfoPage.cpp:574
 #, c-format
-msgid ""
-"The minimum password length for this account manager is %d. Please enter a "
-"different password."
-msgstr ""
-"이 계정 관리자는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 "
-"입력해 주세요."
+msgid "The minimum password length for this account manager is %d. Please enter a different password."
+msgstr "이 계정 관리자는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 입력해 주세요."
 
 #: clientgui/AccountInfoPage.cpp:585
-msgid ""
-"The password and confirmation password do not match. Please type them again."
-msgstr ""
-"처음 비밀번호와 재입력한 비밀번호가 일치하지 않습니다. 다시 입력해주세요."
+msgid "The password and confirmation password do not match. Please type them again."
+msgstr "처음 비밀번호와 재입력한 비밀번호가 일치하지 않습니다. 다시 입력해주세요."
 
 #: clientgui/AccountManagerInfoPage.cpp:248
 msgid "Choose an account manager"
@@ -215,7 +205,8 @@ msgstr "창 닫기(&C)"
 msgid "Exit %s"
 msgstr "%s 종료(&E) "
 
-#: clientgui/AdvancedFrame.cpp:322 clientgui/BOINCTaskBar.cpp:516
+#: clientgui/AdvancedFrame.cpp:322
+#: clientgui/BOINCTaskBar.cpp:516
 msgid "E&xit"
 msgstr "종료(&X)"
 
@@ -276,9 +267,8 @@ msgid "Display the simple graphical interface."
 msgstr "간단한 형태의 그래픽 인터페이스로 표시합니다."
 
 #: clientgui/AdvancedFrame.cpp:390
-#, fuzzy
 msgid "&Add project or account manager..."
-msgstr "프로젝트 혹은 계정 관리자 연결(&P)..."
+msgstr "프로젝트 혹은 계정 관리자 추가(&A)..."
 
 #: clientgui/AdvancedFrame.cpp:391
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
@@ -295,14 +285,12 @@ msgid "Get current settings from %s"
 msgstr "%s 로부터 현재 설정을 가져옵니다"
 
 #: clientgui/AdvancedFrame.cpp:409
-#, fuzzy
 msgid "&Add project..."
-msgstr "프로젝트 연결(&P)..."
+msgstr "프로젝트 추가(&A)..."
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "Add a project"
-msgstr "모든 프로젝트"
+msgstr "프로젝트 추가"
 
 #: clientgui/AdvancedFrame.cpp:413
 #, c-format
@@ -488,7 +476,8 @@ msgstr "%s 웹 사이트(&W)"
 msgid "Show information about BOINC and %s"
 msgstr "BOINC와 %s에 대한 정보 보여주기"
 
-#: clientgui/AdvancedFrame.cpp:630 clientgui/BOINCTaskBar.cpp:506
+#: clientgui/AdvancedFrame.cpp:630
+#: clientgui/BOINCTaskBar.cpp:506
 #, c-format
 msgid "&About %s..."
 msgstr "%s 정보(&A)..."
@@ -531,7 +520,7 @@ msgid "%s - Detach from %s"
 msgstr "%s - %s를 분리"
 
 #: clientgui/AdvancedFrame.cpp:1133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If you detach from %s,\n"
 "you'll keep all your current projects,\n"
@@ -539,11 +528,11 @@ msgid ""
 "\n"
 "Do you want to detach from %s?"
 msgstr ""
-"%s 사용을 중지하면,\n"
+"%s로부터 분리하면,\n"
 "현재 수행 중인 프로젝트는 유지되지만,\n"
 "해당 프로젝트를 직접 제어해야 합니다.\n"
 "\n"
-"정말로 %s 사용을 중지하겠습니까?"
+"정말로 %s를 분리하시겠습니까?"
 
 #: clientgui/AdvancedFrame.cpp:1319
 #, c-format
@@ -552,11 +541,8 @@ msgstr "%s - 언어 선택"
 
 #: clientgui/AdvancedFrame.cpp:1326
 #, c-format
-msgid ""
-"The %s's default language has been changed, in order for this change to take "
-"affect you must restart the %s."
-msgstr ""
-"%s가 기본 언어로 설정되었습니다. 이 설정은 %s을(를) 재시작해야 적용됩니다."
+msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
+msgstr "%s가 기본 언어로 설정되었습니다. 이 설정은 %s을(를) 재시작해야 적용됩니다."
 
 #: clientgui/AdvancedFrame.cpp:1489
 #, c-format
@@ -664,8 +650,7 @@ msgstr "%s - 접속 오류"
 #: clientgui/BOINCBaseFrame.cpp:434
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
+"Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "현재 클라이언트 관리를 승인받지 못했습니다.\n"
 "관리자에게 문의해서 여러분을 'boinc_users' 로컬 사용자 그룹에 추가하십시오."
@@ -709,8 +694,7 @@ msgstr "%s - 데몬 시작 실패"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 "%s는 %s 클라이언트를 시작할 수 없습니다.\n"
 "제어판→관리 도구→서비스를 실행해서 BOINC 서비스를 시작하세요."
@@ -733,8 +717,7 @@ msgstr "%s - 접속 상태"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s는 현재 %s 클라이언트에 연결되어 있지 않습니다.\n"
@@ -746,18 +729,18 @@ msgid "Web sites"
 msgstr "웹 사이트"
 
 #: clientgui/BOINCClientManager.cpp:534
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Unexpected Exit"
-msgstr "예상치 못한 텍스트: "
+msgstr "%s - 예상치 못한 종료"
 
 #: clientgui/BOINCClientManager.cpp:544
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
-"%s는 %s 클라이언트에 연결이 불가능합니다.\n"
-"다시 연결하시겠습니까?"
+"%s 클라이언트가 최근 %d 분 동안 3번 이상 예상치 못하게 종료되었습니다.\n"
+"다시 시작하시겠습니까?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -830,12 +813,10 @@ msgstr ""
 #: clientgui/BOINCGUIApp.cpp:323
 #, c-format
 msgid ""
-"BOINC ownership or permissions are not set properly; please reinstall "
-"BOINC.\n"
+"BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
-"BOINC 소유권이나 권한이 적절히 설정되지 않았습니다. BOINC를 다시 설치해주세"
-"요.\n"
+"BOINC 소유권이나 권한이 적절히 설정되지 않았습니다. BOINC를 다시 설치해주세요.\n"
 "(Error code %d)"
 
 #: clientgui/BOINCGUIApp.cpp:370
@@ -947,7 +928,7 @@ msgstr "%s 공지 사항"
 
 #: clientgui/BOINCTaskBar.cpp:773
 msgid "There are new notices - click to view."
-msgstr ""
+msgstr "새로운 공지사항이 있습니다 - 보려면 클릭하세요."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -977,8 +958,10 @@ msgstr ""
 "\n"
 "닫을려면 완료를 누르세요."
 
-#: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:222
-#: clientgui/CompletionPage.cpp:242 clientgui/CompletionPage.cpp:273
+#: clientgui/CompletionErrorPage.cpp:225
+#: clientgui/CompletionPage.cpp:222
+#: clientgui/CompletionPage.cpp:242
+#: clientgui/CompletionPage.cpp:273
 msgid "Click Finish to close."
 msgstr "닫으려면 완료를 클릭하세요."
 
@@ -987,13 +970,12 @@ msgid "Messages from server:"
 msgstr "서버에서 온 메시지:"
 
 #: clientgui/CompletionPage.cpp:207
-#, fuzzy
 msgid "Project added"
-msgstr "프로젝트"
+msgstr "프로젝트가 추가됨"
 
 #: clientgui/CompletionPage.cpp:213
 msgid "This project has been successfully added."
-msgstr ""
+msgstr "프로젝트가 성공적으로 추가되었습니다."
 
 #: clientgui/CompletionPage.cpp:218
 msgid ""
@@ -1055,12 +1037,15 @@ msgstr ""
 "(C) 2003-2008 University of California, Berkeley.\n"
 "All Rights Reserved."
 
-#: clientgui/DlgAbout.cpp:179 clientgui/DlgAbout.cpp:183
+#: clientgui/DlgAbout.cpp:179
+#: clientgui/DlgAbout.cpp:183
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "네트워크 컴퓨팅을 위한 Berkeley 개방형 하부구조체"
 
-#: clientgui/DlgAbout.cpp:195 clientgui/DlgExitMessage.cpp:172
-#: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:383
+#: clientgui/DlgAbout.cpp:195
+#: clientgui/DlgExitMessage.cpp:172
+#: clientgui/DlgGenericMessage.cpp:120
+#: clientgui/DlgOptions.cpp:383
 #: clientgui/DlgSelectComputer.cpp:147
 msgid "&OK"
 msgstr "확인"
@@ -1140,8 +1125,10 @@ msgstr "모든 값을 저장하고 창을 닫습니다"
 msgid "close the dialog without saving"
 msgstr "저장하지 않고 창을 닫습니다"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:108 clientgui/DlgEventLog.cpp:296
-#: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
+#: clientgui/DlgAdvPreferencesBase.cpp:108
+#: clientgui/DlgEventLog.cpp:296
+#: clientgui/Localization.cpp:35
+#: clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139
 msgid "Help"
 msgstr "도움말"
@@ -1159,8 +1146,7 @@ msgid "While computer is on batteries"
 msgstr "배터리로 가동하는 동안에도 실행"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:138
-msgid ""
-"check this if you want this computer to do work while it runs on batteries"
+msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr "배터리가 남은 동안 작업을 수행하려면 체크하시십시오"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:144
@@ -1168,8 +1154,7 @@ msgid "While computer is in use"
 msgstr "컴퓨터가 사용중이어도 작업함"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-msgid ""
-"check this if you want this computer to do work even when you're using it"
+msgid "check this if you want this computer to do work even when you're using it"
 msgstr "컴퓨터가 사용중이어도 작업을 수행하려면 체크하십시오"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:153
@@ -1177,9 +1162,7 @@ msgid "Use GPU while computer is in use"
 msgstr "컴퓨터를 사용하는 동안에도 GPU 사용"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:156
-msgid ""
-"check this if you want your GPU to do work even when you're using the "
-"computer"
+msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr "컴퓨터가 사용중이어도 GPU로 작업을 수행하려면 체크하십시오"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:168
@@ -1187,8 +1170,7 @@ msgid "Only after computer has been idle for"
 msgstr "컴퓨터 대기 시간 설정"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:178
-msgid ""
-"do work only after you haven't used the computer for this number of minutes"
+msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr "이 시간(분) 이후로 컴퓨터를 사용하지 않을 때 작업을 수행합니다"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:183
@@ -1378,9 +1360,7 @@ msgid "Confirm before connecting to internet"
 msgstr "인터넷 접속 전에 확인"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:455
-msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
+msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
 msgstr "체크되면, 인터넷 접속 시도 전에 확인 다이얼로그가 표시됩니다"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:459
@@ -1407,7 +1387,8 @@ msgstr "네트워크 사용 시작 시간"
 msgid "network usage stop hour"
 msgstr "네트워크 사용 중단 시간"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:572 clientgui/DlgItemProperties.cpp:214
+#: clientgui/DlgAdvPreferencesBase.cpp:572
+#: clientgui/DlgItemProperties.cpp:214
 msgid "Disk usage"
 msgstr "디스크 사용량"
 
@@ -1425,8 +1406,7 @@ msgstr "최소한"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:594
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr ""
-"BOINC는 최소한 이 만큼의 디스크 용량을 빈 공간으로 남겨둡니다 (단위 GB)"
+msgstr "BOINC는 최소한 이 만큼의 디스크 용량을 빈 공간으로 남겨둡니다 (단위 GB)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:598
 msgid "Gigabytes disk space free"
@@ -1493,11 +1473,13 @@ msgstr "시간"
 msgid "Message"
 msgstr "메시지"
 
-#: clientgui/DlgEventLog.cpp:253 clientgui/DlgEventLog.cpp:390
+#: clientgui/DlgEventLog.cpp:253
+#: clientgui/DlgEventLog.cpp:390
 msgid "Show only this project"
 msgstr "이 프로젝트만 보여주기"
 
-#: clientgui/DlgEventLog.cpp:256 clientgui/DlgEventLog.cpp:391
+#: clientgui/DlgEventLog.cpp:256
+#: clientgui/DlgEventLog.cpp:391
 #: clientgui/DlgEventLog.cpp:393
 msgid "Show only the messages for the selected project"
 msgstr "선택한 프로젝트의 메세지만 보여줍니다."
@@ -1506,7 +1488,8 @@ msgstr "선택한 프로젝트의 메세지만 보여줍니다."
 msgid "Copy All"
 msgstr "모두 복사"
 
-#: clientgui/DlgEventLog.cpp:262 clientgui/DlgEventLog.cpp:266
+#: clientgui/DlgEventLog.cpp:262
+#: clientgui/DlgEventLog.cpp:266
 msgid "Copy all the messages to the clipboard."
 msgstr "모든 메시지를 클립보드에 복사"
 
@@ -1514,27 +1497,22 @@ msgstr "모든 메시지를 클립보드에 복사"
 msgid "Copy Selected"
 msgstr "선택 항목 복사"
 
-#: clientgui/DlgEventLog.cpp:274 clientgui/DlgEventLog.cpp:282
-msgid ""
-"Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 "
-"control 키를 눌러 여러 메세지를 선택할 수 있습니다"
+#: clientgui/DlgEventLog.cpp:274
+#: clientgui/DlgEventLog.cpp:282
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
+msgstr "선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
 
-#: clientgui/DlgEventLog.cpp:276 clientgui/DlgEventLog.cpp:284
-msgid ""
-"Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 "
-"Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
+#: clientgui/DlgEventLog.cpp:276
+#: clientgui/DlgEventLog.cpp:284
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+msgstr "클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
 
 #: clientgui/DlgEventLog.cpp:291
 msgid "Close"
 msgstr "닫기"
 
-#: clientgui/DlgEventLog.cpp:298 clientgui/DlgEventLog.cpp:301
+#: clientgui/DlgEventLog.cpp:298
+#: clientgui/DlgEventLog.cpp:301
 msgid "Get help with BOINC"
 msgstr "BOINC 도움말을 얻으세요"
 
@@ -1542,7 +1520,8 @@ msgstr "BOINC 도움말을 얻으세요"
 msgid "Show all messages"
 msgstr "모든 메시지 보여주기"
 
-#: clientgui/DlgEventLog.cpp:404 clientgui/DlgEventLog.cpp:406
+#: clientgui/DlgEventLog.cpp:404
+#: clientgui/DlgEventLog.cpp:406
 msgid "Show messages for all projects"
 msgstr "모든 프로젝트의 메세지를 보여줍니다."
 
@@ -1593,8 +1572,10 @@ msgstr "관리자 종료시 과학 응용 프로그램 실행 정지"
 msgid "Remember this decision and do not show this dialog."
 msgstr "이 설정을 기억하고 이 창을 다시 보여주지 않습니다."
 
-#: clientgui/DlgExitMessage.cpp:177 clientgui/DlgGenericMessage.cpp:125
-#: clientgui/DlgOptions.cpp:388 clientgui/DlgSelectComputer.cpp:152
+#: clientgui/DlgExitMessage.cpp:177
+#: clientgui/DlgGenericMessage.cpp:125
+#: clientgui/DlgOptions.cpp:388
+#: clientgui/DlgSelectComputer.cpp:152
 msgid "&Cancel"
 msgstr "취소(&C)"
 
@@ -1610,7 +1591,8 @@ msgstr "닫기"
 msgid "Properties of project "
 msgstr "프로젝트 속성"
 
-#: clientgui/DlgItemProperties.cpp:200 clientgui/DlgOptions.cpp:205
+#: clientgui/DlgItemProperties.cpp:200
+#: clientgui/DlgOptions.cpp:205
 msgid "General"
 msgstr "일반"
 
@@ -1650,16 +1632,22 @@ msgstr "컴퓨터 ID"
 msgid "Non CPU intensive"
 msgstr "CPU 비 집약적"
 
-#: clientgui/DlgItemProperties.cpp:216 clientgui/DlgItemProperties.cpp:217
-#: clientgui/DlgItemProperties.cpp:218 clientgui/DlgItemProperties.cpp:219
-#: clientgui/DlgItemProperties.cpp:220 clientgui/DlgItemProperties.cpp:221
+#: clientgui/DlgItemProperties.cpp:216
+#: clientgui/DlgItemProperties.cpp:217
+#: clientgui/DlgItemProperties.cpp:218
+#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220
+#: clientgui/DlgItemProperties.cpp:221
 #: clientgui/DlgItemProperties.cpp:222
 msgid "yes"
 msgstr "예"
 
-#: clientgui/DlgItemProperties.cpp:216 clientgui/DlgItemProperties.cpp:217
-#: clientgui/DlgItemProperties.cpp:218 clientgui/DlgItemProperties.cpp:219
-#: clientgui/DlgItemProperties.cpp:220 clientgui/DlgItemProperties.cpp:221
+#: clientgui/DlgItemProperties.cpp:216
+#: clientgui/DlgItemProperties.cpp:217
+#: clientgui/DlgItemProperties.cpp:218
+#: clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220
+#: clientgui/DlgItemProperties.cpp:221
 #: clientgui/DlgItemProperties.cpp:222
 msgid "no"
 msgstr "아니오"
@@ -1677,14 +1665,12 @@ msgid "Scheduler call in progress"
 msgstr "현재 진행중인 스케쥴러 부르기"
 
 #: clientgui/DlgItemProperties.cpp:220
-#, fuzzy
 msgid "Added via account manager"
-msgstr "계정 관리자에 연결됨"
+msgstr "계정 관리자를 통해 추가됨"
 
 #: clientgui/DlgItemProperties.cpp:221
-#, fuzzy
 msgid "Remove when tasks done"
-msgstr "작업 완료시 분리"
+msgstr "작업 완료시 제거"
 
 #: clientgui/DlgItemProperties.cpp:222
 msgid "Ended"
@@ -1706,7 +1692,8 @@ msgstr "호스트"
 msgid "Scheduling"
 msgstr "스케쥴 조정"
 
-#: clientgui/DlgItemProperties.cpp:242 clientgui/DlgItemProperties.cpp:252
+#: clientgui/DlgItemProperties.cpp:242
+#: clientgui/DlgItemProperties.cpp:252
 #: clientgui/DlgItemProperties.cpp:263
 msgid "Project preference"
 msgstr "프로젝트 환경 설정"
@@ -1807,11 +1794,13 @@ msgstr "자원"
 msgid "CPU time at last checkpoint"
 msgstr "마지막 기록 지점의 CPU 시간"
 
-#: clientgui/DlgItemProperties.cpp:300 clientgui/DlgItemProperties.cpp:315
+#: clientgui/DlgItemProperties.cpp:300
+#: clientgui/DlgItemProperties.cpp:315
 msgid "CPU time"
 msgstr "CPU 시간"
 
-#: clientgui/DlgItemProperties.cpp:302 clientgui/DlgItemProperties.cpp:316
+#: clientgui/DlgItemProperties.cpp:302
+#: clientgui/DlgItemProperties.cpp:316
 msgid "Elapsed time"
 msgstr "지난 시간"
 
@@ -1912,27 +1901,33 @@ msgstr "HTTP 프록시 서버를 통해 접속"
 msgid "HTTP Proxy Server Configuration"
 msgstr "HTTP 프록시 서버 설정"
 
-#: clientgui/DlgOptions.cpp:267 clientgui/DlgOptions.cpp:331
+#: clientgui/DlgOptions.cpp:267
+#: clientgui/DlgOptions.cpp:331
 msgid "Address:"
 msgstr "주소:"
 
-#: clientgui/DlgOptions.cpp:275 clientgui/DlgOptions.cpp:339
+#: clientgui/DlgOptions.cpp:275
+#: clientgui/DlgOptions.cpp:339
 msgid "Port:"
 msgstr "포트:"
 
-#: clientgui/DlgOptions.cpp:283 clientgui/DlgOptions.cpp:347
+#: clientgui/DlgOptions.cpp:283
+#: clientgui/DlgOptions.cpp:347
 msgid "Don't use proxy for:"
 msgstr "다음 경우 프록시를 사용 안 함:"
 
-#: clientgui/DlgOptions.cpp:290 clientgui/DlgOptions.cpp:354
+#: clientgui/DlgOptions.cpp:290
+#: clientgui/DlgOptions.cpp:354
 msgid "Leave these blank if not needed"
 msgstr "필요없으면 빈 칸으로 남겨두세요"
 
-#: clientgui/DlgOptions.cpp:296 clientgui/DlgOptions.cpp:360
+#: clientgui/DlgOptions.cpp:296
+#: clientgui/DlgOptions.cpp:360
 msgid "User Name:"
 msgstr "사용자 이름:"
 
-#: clientgui/DlgOptions.cpp:304 clientgui/DlgOptions.cpp:368
+#: clientgui/DlgOptions.cpp:304
+#: clientgui/DlgOptions.cpp:368
 #: clientgui/DlgSelectComputer.cpp:136
 msgid "Password:"
 msgstr "암호:"
@@ -1962,7 +1957,8 @@ msgstr "%s - 컴퓨터 선택"
 msgid "Host name:"
 msgstr "호스트 이름:"
 
-#: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
+#: clientgui/Localization.cpp:31
+#: clientgui/Localization.cpp:69
 msgid "Message boards"
 msgstr "게시판"
 
@@ -1974,12 +1970,15 @@ msgstr "SETI@home상의 다른 사용자와 게시판에서 이야기를 주고 
 msgid "Ask questions and report problems"
 msgstr "질문하기와 문제 보고"
 
-#: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
-#: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
+#: clientgui/Localization.cpp:39
+#: clientgui/Localization.cpp:81
+#: clientgui/Localization.cpp:111
+#: clientgui/Localization.cpp:129
 msgid "Your account"
 msgstr "계정"
 
-#: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
+#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
 msgstr "계정 정보와 모든 크레딧을 볼 수 있습니다"
@@ -1992,15 +1991,18 @@ msgstr "설정"
 msgid "View and modify your SETI@home account profile and preferences"
 msgstr "SETI@home 계정 프로필과 환경 설정을 보고 수정할 수 있습니다"
 
-#: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:47
+#: clientgui/Localization.cpp:89
 msgid "Your results"
 msgstr "결과"
 
-#: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
+#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr "지난 주 (혹은 그 이전)의 계산 결과 및 작업을 볼 수 있습니다"
 
-#: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
+#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:93
 msgid "Your computers"
 msgstr "컴퓨터"
 
@@ -2008,11 +2010,13 @@ msgstr "컴퓨터"
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "SETI@Home을 수행 중인 모든 컴퓨터 목록을 보여줍니다"
 
-#: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
+#: clientgui/Localization.cpp:55
+#: clientgui/Localization.cpp:97
 msgid "Your team"
 msgstr "팀"
 
-#: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
+#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:99
 msgid "View information about your team"
 msgstr "여러분이 속한 팀 정보를 보여줍니다"
 
@@ -2033,10 +2037,8 @@ msgid "Read a detailed description of the Einstein@Home screensaver"
 msgstr "Einstein@Home 화면보호기에 대해서 보다 자세한 정보를 읽어봅니다"
 
 #: clientgui/Localization.cpp:71
-msgid ""
-"Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Einstein@Home 게시판에서 운영자 및 다른 사용자와 이야기를 주고 받으세요"
+msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgstr "Einstein@Home 게시판에서 운영자 및 다른 사용자와 이야기를 주고 받으세요"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2063,8 +2065,7 @@ msgid "Account summary"
 msgstr "계정 요약"
 
 #: clientgui/Localization.cpp:95
-msgid ""
-"View a listing of all the computers on which you are running Einstein@Home"
+msgid "View a listing of all the computers on which you are running Einstein@Home"
 msgstr "Einstein@Home을 수행 중인 모든 컴퓨터 목록을 보여줍니다"
 
 #: clientgui/Localization.cpp:101
@@ -2072,9 +2073,7 @@ msgid "LIGO project"
 msgstr "LIGO 프로젝트"
 
 #: clientgui/Localization.cpp:103
-msgid ""
-"The home page of the Laser Interferometer Gravitational-wave Observatory "
-"(LIGO) project"
+msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
 msgstr "레이저 간섭계 중력파 관측소 (LIGO) 프로젝트 홈 페이지"
 
 #: clientgui/Localization.cpp:105
@@ -2085,7 +2084,8 @@ msgstr "GEO-600 프로젝트"
 msgid "The home page of the GEO-600 project"
 msgstr "GEO-600 프로젝트의 홈 페이지"
 
-#: clientgui/Localization.cpp:115 clientgui/Localization.cpp:133
+#: clientgui/Localization.cpp:115
+#: clientgui/Localization.cpp:133
 msgid "Team"
 msgstr "팀"
 
@@ -2186,14 +2186,12 @@ msgid "need disk space - check preferences"
 msgstr "디스크 공간 필요 - 환경 설정을 확인하세요"
 
 #: clientgui/MainDocument.cpp:2356
-#, fuzzy
 msgid "computer is not in use"
-msgstr "컴퓨터가 사용중"
+msgstr "컴퓨터가 사용중이 아님"
 
 #: clientgui/MainDocument.cpp:2357
-#, fuzzy
 msgid "starting up"
-msgstr "클라이언트 시작중"
+msgstr "시작중"
 
 #: clientgui/MainDocument.cpp:2358
 msgid "an exclusive app is running"
@@ -2227,11 +2225,13 @@ msgstr "다운로드 실패"
 msgid "Downloading"
 msgstr "다운로드 중"
 
-#: clientgui/MainDocument.cpp:2392 clientgui/MainDocument.cpp:2450
+#: clientgui/MainDocument.cpp:2392
+#: clientgui/MainDocument.cpp:2450
 msgid " (suspended - "
 msgstr " (일시 정지됨 - "
 
-#: clientgui/MainDocument.cpp:2394 clientgui/MainDocument.cpp:2452
+#: clientgui/MainDocument.cpp:2394
+#: clientgui/MainDocument.cpp:2452
 msgid ")"
 msgstr ")"
 
@@ -2271,7 +2271,8 @@ msgstr "(CPU 비 집약적)"
 msgid "Waiting to run"
 msgstr "실행 대기 중"
 
-#: clientgui/MainDocument.cpp:2429 clientgui/MainDocument.cpp:2435
+#: clientgui/MainDocument.cpp:2429
+#: clientgui/MainDocument.cpp:2435
 msgid "Ready to start"
 msgstr "시작 대기"
 
@@ -2370,31 +2371,31 @@ msgid "Check the email address and password, and try again."
 msgstr "Email 주소와 비밀번호를 확인하시고, 다시 시도해 주세요."
 
 #: clientgui/NoticeListCtrl.cpp:54
-#, fuzzy
 msgid "Notice List"
-msgstr "공지"
+msgstr "공지 목록"
 
 #: clientgui/NoticeListCtrl.cpp:198
 #, c-format
 msgid "%s; received on %s"
-msgstr ""
+msgstr "%s, %s로 수신"
 
 #: clientgui/NoticeListCtrl.cpp:200
 #, c-format
 msgid "%s; received from %s; on %s"
-msgstr ""
+msgstr "%s, %s에서 수신됨, %s로 수신"
 
-#: clientgui/NoticeListCtrl.cpp:313 clientgui/ProjectListCtrl.cpp:283
+#: clientgui/NoticeListCtrl.cpp:313
+#: clientgui/ProjectListCtrl.cpp:283
 msgid "Click"
 msgstr "Click"
 
 #: clientgui/NoticeListCtrl.cpp:562
 msgid "From"
-msgstr ""
+msgstr "송신자"
 
 #: clientgui/NoticeListCtrl.cpp:574
 msgid "more..."
-msgstr ""
+msgstr "자세히..."
 
 #: clientgui/ProjectInfoPage.cpp:257
 msgid "Choose a project"
@@ -2409,21 +2410,16 @@ msgid "Project &URL:"
 msgstr "프로젝트 &URL:"
 
 #: clientgui/ProjectInfoPage.cpp:391
-msgid ""
-"This project may not have work for your type of computer. Are you sure you "
-"wish to continue?"
-msgstr ""
-"이 프로젝트는 해당 컴퓨터에서 동작하지 않을 수도 있습니다. 계속하시겠습니까?"
+msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
+msgstr "이 프로젝트는 해당 컴퓨터에서 동작하지 않을 수도 있습니다. 계속하시겠습니까?"
 
 #: clientgui/ProjectInfoPage.cpp:415
-msgid ""
-"You are already attached to this project. Please choose a different project."
+msgid "You are already attached to this project. Please choose a different project."
 msgstr "이미 이 프로젝트에 연결되어 있습니다. 다른 프로젝트를 선택해주세요."
 
 #: clientgui/ProjectListCtrl.cpp:67
-#, fuzzy
 msgid "Project List"
-msgstr "프로젝트"
+msgstr "프로젝트 목록"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "Multicore CPU Supported"
@@ -2519,8 +2515,7 @@ msgstr ""
 "아니면 모뎀을 연결하고 다시 시도하세요.\n"
 "\n"
 "2) 개인 방화벽 소프트웨어가 BOINC를 막았습니다.\n"
-"개인 방화벽을 설정해서 BOINC가 80번 포트를 사용가능하게 한 후 다시 시도하세"
-"요.\n"
+"개인 방화벽을 설정해서 BOINC가 80번 포트를 사용가능하게 한 후 다시 시도하세요.\n"
 "\n"
 "3) 프록시 서버를 사용하고 계시다면\n"
 "다음을 눌러 BOINC 프록시 설정을 설정해주세요."
@@ -2533,7 +2528,8 @@ msgstr "프록시 설정"
 msgid "HTTP proxy"
 msgstr "HTTP 프록시"
 
-#: clientgui/ProxyPage.cpp:337 clientgui/ProxyPage.cpp:357
+#: clientgui/ProxyPage.cpp:337
+#: clientgui/ProxyPage.cpp:357
 msgid "Server:"
 msgstr "서버:"
 
@@ -2752,7 +2748,8 @@ msgstr "이 시간 사이에만 작업:"
 msgid "Connect to internet only between:"
 msgstr "이 시간 사이에만 인터넷이 접속:"
 
-#: clientgui/sg_DlgPreferences.cpp:392 clientgui/sg_DlgPreferences.cpp:409
+#: clientgui/sg_DlgPreferences.cpp:392
+#: clientgui/sg_DlgPreferences.cpp:409
 msgid "Use no more than:"
 msgstr "최대 사용 한도:"
 
@@ -2772,10 +2769,14 @@ msgstr "배터리 가동 중에도 작업하시겠습니까?"
 msgid "Do work after idle for:"
 msgstr "이 시간 이상 대기 후 작업:"
 
-#: clientgui/sg_DlgPreferences.cpp:677 clientgui/sg_DlgPreferences.cpp:680
-#: clientgui/sg_DlgPreferences.cpp:748 clientgui/sg_DlgPreferences.cpp:752
-#: clientgui/sg_DlgPreferences.cpp:764 clientgui/sg_DlgPreferences.cpp:768
-#: clientgui/sg_DlgPreferences.cpp:926 clientgui/sg_DlgPreferences.cpp:937
+#: clientgui/sg_DlgPreferences.cpp:677
+#: clientgui/sg_DlgPreferences.cpp:680
+#: clientgui/sg_DlgPreferences.cpp:748
+#: clientgui/sg_DlgPreferences.cpp:752
+#: clientgui/sg_DlgPreferences.cpp:764
+#: clientgui/sg_DlgPreferences.cpp:768
+#: clientgui/sg_DlgPreferences.cpp:926
+#: clientgui/sg_DlgPreferences.cpp:937
 msgid "Anytime"
 msgstr "언제든"
 
@@ -2808,9 +2809,8 @@ msgid "Paused: Other work running"
 msgstr "중지: 다른 작업이 실행되고 있습니다"
 
 #: clientgui/sg_ImageButton.cpp:92
-#, fuzzy
 msgid "Paused: User initiated.  Click 'Resume' to continue"
-msgstr "중지: 사용자가 요청했습니다. 계속하려면 '계속'을 누르세요."
+msgstr "중지됨: 사용자가 요청했습니다. 계속하려면 '계속'을 누르세요."
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
@@ -2874,17 +2874,20 @@ msgstr "내 프로젝트:"
 msgid "%s. Work done by %s: %0.2f"
 msgstr "%s. 작업 완료 %s: %0.2f"
 
-#: clientgui/sg_StatImageLoader.cpp:154 clientgui/sg_StatImageLoader.cpp:217
+#: clientgui/sg_StatImageLoader.cpp:154
+#: clientgui/sg_StatImageLoader.cpp:217
 #: clientgui/ViewProjects.cpp:501
 msgid "Remove Project"
 msgstr "프로젝트 제거"
 
-#: clientgui/sg_StatImageLoader.cpp:211 clientgui/ViewProjects.cpp:495
-#, fuzzy, c-format
+#: clientgui/sg_StatImageLoader.cpp:211
+#: clientgui/ViewProjects.cpp:495
+#, c-format
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "정말로 프로젝트 '%s' 다시 설정을 원하십니까?"
+msgstr "정말로 프로젝트 '%s'를 제거하길 원하십니까?"
 
-#: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
+#: clientgui/sg_ViewTabPage.cpp:140
+#: clientgui/sg_ViewTabPage.cpp:280
 #, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
@@ -2906,7 +2909,8 @@ msgstr "그래픽 보여주기"
 msgid "Application: "
 msgstr "응용 프로그램"
 
-#: clientgui/sg_ViewTabPage.cpp:449 clientgui/sg_ViewTabPage.cpp:453
+#: clientgui/sg_ViewTabPage.cpp:449
+#: clientgui/sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
 msgstr "남은 시간:"
 
@@ -2966,7 +2970,8 @@ msgstr "계속하려면 계정 키를 정의해 주세요."
 msgid "Invalid Account Key; please enter a valid Account Key"
 msgstr "잘못된 계정 키; 올바른 계정 키를 입력하세요"
 
-#: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
+#: clientgui/ValidateAccountKey.cpp:82
+#: clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
 msgstr "확인 충돌"
 
@@ -2992,13 +2997,17 @@ msgstr ""
 "예를 들어:\n"
 "http://www.example.com/"
 
-#: clientgui/ValidateURL.cpp:83 clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91 clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107 clientgui/ValidateURL.cpp:110
+#: clientgui/ValidateURL.cpp:83
+#: clientgui/ValidateURL.cpp:87
+#: clientgui/ValidateURL.cpp:91
+#: clientgui/ValidateURL.cpp:103
+#: clientgui/ValidateURL.cpp:107
+#: clientgui/ValidateURL.cpp:110
 msgid "Invalid URL"
 msgstr "잘못된 URL"
 
-#: clientgui/ValidateURL.cpp:84 clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:84
+#: clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
 msgid ""
 "Please specify a valid URL.\n"
@@ -3009,7 +3018,8 @@ msgstr ""
 "예를 들어:\n"
 "http://boincproject.example.com"
 
-#: clientgui/ValidateURL.cpp:104 clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s'은(는) 유효한 호스트 이름을 포함하고 있지 않습니다."
@@ -3019,7 +3029,8 @@ msgstr "'%s'은(는) 유효한 호스트 이름을 포함하고 있지 않습니
 msgid "'%s' does not contain a valid path."
 msgstr "'%s'은(는) 유효한 경로를 포함하고 있지 않습니다."
 
-#: clientgui/ViewMessages.cpp:84 clientgui/ViewProjects.cpp:169
+#: clientgui/ViewMessages.cpp:84
+#: clientgui/ViewProjects.cpp:169
 msgid "Commands"
 msgstr "명령"
 
@@ -3031,7 +3042,8 @@ msgstr "모든 메시지 복사"
 msgid "Copy selected messages"
 msgstr "선택한 메시지 복사"
 
-#: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
+#: clientgui/ViewMessages.cpp:107
+#: clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
 msgstr "선택한 프로젝의 메세지만 보여줍니다."
 
@@ -3076,22 +3088,21 @@ msgid "Update"
 msgstr "업데이트"
 
 #: clientgui/ViewProjects.cpp:174
-msgid ""
-"Report all completed tasks, get latest credit, get latest preferences, and "
-"possibly get more tasks."
-msgstr ""
-"모든 완료된 작업을 보고하고 마지막 크레딧과 환경 설정을 받아오며 가능하면 추"
-"가 작업을 받아옵니다."
+msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
+msgstr "모든 완료된 작업을 보고하고 마지막 크레딧과 환경 설정을 받아오며 가능하면 추가 작업을 받아옵니다."
 
-#: clientgui/ViewProjects.cpp:180 clientgui/ViewProjects.cpp:712
+#: clientgui/ViewProjects.cpp:180
+#: clientgui/ViewProjects.cpp:712
 msgid "Suspend"
 msgstr "일시 정지"
 
-#: clientgui/ViewProjects.cpp:181 clientgui/ViewProjects.cpp:712
+#: clientgui/ViewProjects.cpp:181
+#: clientgui/ViewProjects.cpp:712
 msgid "Suspend tasks for this project."
 msgstr "이 프로젝트 작업을 일시 정지 합니다."
 
-#: clientgui/ViewProjects.cpp:187 clientgui/ViewProjects.cpp:731
+#: clientgui/ViewProjects.cpp:187
+#: clientgui/ViewProjects.cpp:731
 msgid "No new tasks"
 msgstr "새 작업 금지"
 
@@ -3104,26 +3115,16 @@ msgid "Reset project"
 msgstr "프로젝트 다시 설정"
 
 #: clientgui/ViewProjects.cpp:195
-msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
-msgstr ""
-"이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 "
-"전에 먼저 완료된 작업을 보고하도록 업데이트할 수 있습니다."
+msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
+msgstr "이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 있습니다."
 
 #: clientgui/ViewProjects.cpp:201
-#, fuzzy
 msgid "Remove"
-msgstr "다시 시작"
+msgstr "제거"
 
 #: clientgui/ViewProjects.cpp:202
-#, fuzzy
-msgid ""
-"Remove this project.  Tasks in progress will be lost (use 'Update' first to "
-"report any completed tasks)."
-msgstr ""
-"이 프로젝트를 컴퓨터로부터 분리합니다. 진행 중인 작업은 소실됩니다. (완료된 "
-"작업을 보고하려면 '업데이트'를 이용해 주세요)"
+msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
+msgstr "이 프로젝트를 컴퓨터에서 제거합니다. 진행 중인 작업은 소실됩니다. (완료된 작업을 보고하려면 '업데이트'를 사용해 주세요)"
 
 #: clientgui/ViewProjects.cpp:208
 msgid "Properties"
@@ -3187,9 +3188,8 @@ msgid "Reset Project"
 msgstr "프로젝트 다시 설정"
 
 #: clientgui/ViewProjects.cpp:482
-#, fuzzy
 msgid "Removing project..."
-msgstr "프로젝트 다시 시작 중..."
+msgstr "프로젝트 제거 중..."
 
 #: clientgui/ViewProjects.cpp:542
 msgid "Launching browser..."
@@ -3224,14 +3224,12 @@ msgid "Won't get new tasks"
 msgstr "새 작업을 받지 않음"
 
 #: clientgui/ViewProjects.cpp:1063
-#, fuzzy
 msgid "Project ended - OK to remove"
-msgstr "프로젝트가 끝남 - 확인을 누르면 분리됩니다"
+msgstr "프로젝트 종료 - 확인을 누르면 제거됩니다"
 
 #: clientgui/ViewProjects.cpp:1066
-#, fuzzy
 msgid "Will remove when tasks done"
-msgstr "작업 완료시 분리"
+msgstr "작업 완료시 제거"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Scheduler request pending"
@@ -3386,10 +3384,14 @@ msgstr "모든 프로젝트를 하나의 차트로 보여줍니다"
 msgid "Statistics"
 msgstr "통계"
 
-#: clientgui/ViewStatistics.cpp:1854 clientgui/ViewStatistics.cpp:1875
-#: clientgui/ViewStatistics.cpp:1896 clientgui/ViewStatistics.cpp:1918
-#: clientgui/ViewStatistics.cpp:1939 clientgui/ViewStatistics.cpp:1960
-#: clientgui/ViewStatistics.cpp:1981 clientgui/ViewStatistics.cpp:2002
+#: clientgui/ViewStatistics.cpp:1854
+#: clientgui/ViewStatistics.cpp:1875
+#: clientgui/ViewStatistics.cpp:1896
+#: clientgui/ViewStatistics.cpp:1918
+#: clientgui/ViewStatistics.cpp:1939
+#: clientgui/ViewStatistics.cpp:1960
+#: clientgui/ViewStatistics.cpp:1981
+#: clientgui/ViewStatistics.cpp:2002
 #: clientgui/ViewStatistics.cpp:2025
 msgid "Updating charts..."
 msgstr "차트 업데이트 중..."
@@ -3407,18 +3409,15 @@ msgid "Abort Transfer"
 msgstr "전송 취소"
 
 #: clientgui/ViewTransfers.cpp:171
-msgid ""
-"Click 'Abort transfer' to delete the file from the transfer queue. This will "
-"prevent you from being granted credit for this result."
-msgstr ""
-"전송 큐에서 파일을 삭제하려면 '전송 중지'을 클릭하세요. 이것은 이 결과로 크레"
-"디트가 주어지는 것을 무효로 할 수 있습니다."
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgstr "전송 큐에서 파일을 삭제하려면 '전송 중지'을 클릭하세요. 이것은 이 결과로 크레디트가 주어지는 것을 무효로 할 수 있습니다."
 
 #: clientgui/ViewTransfers.cpp:182
 msgid "File"
 msgstr "파일"
 
-#: clientgui/ViewTransfers.cpp:183 clientgui/ViewWork.cpp:223
+#: clientgui/ViewTransfers.cpp:183
+#: clientgui/ViewWork.cpp:223
 msgid "Progress"
 msgstr "진행"
 
@@ -3497,11 +3496,13 @@ msgstr "다운로드를 기다리고 있는 중"
 msgid " (project backoff: "
 msgstr " (프로젝트 전송 지연: "
 
-#: clientgui/ViewWork.cpp:184 clientgui/ViewWork.cpp:714
+#: clientgui/ViewWork.cpp:184
+#: clientgui/ViewWork.cpp:714
 msgid "Show active tasks"
 msgstr "활동 중인 테스크 보여주기"
 
-#: clientgui/ViewWork.cpp:185 clientgui/ViewWork.cpp:715
+#: clientgui/ViewWork.cpp:185
+#: clientgui/ViewWork.cpp:715
 msgid "Show only active tasks."
 msgstr "활동 중인 테스크만 보여줍니다."
 
@@ -3596,9 +3597,8 @@ msgid "Suspend work for this task."
 msgstr "이 작업을 일시 중지"
 
 #: clientgui/WelcomePage.cpp:254
-#, fuzzy
 msgid "Add project or account manager"
-msgstr "계정 관리자 혹은 프로젝트에 연결합니다"
+msgstr "계정 관리자 혹은 프로젝트 추가"
 
 #: clientgui/WelcomePage.cpp:262
 #, c-format
@@ -3632,8 +3632,7 @@ msgstr ""
 #: clientgui/WelcomePage.cpp:283
 msgid ""
 "You have chosen to attach to a new BOINC project.  Attaching to a new\n"
-"project means that you will be connecting your computer to a new "
-"organization.\n"
+"project means that you will be connecting your computer to a new organization.\n"
 "If this is what you wanted to do, please click on\n"
 "the 'Next' button below.\n"
 "\n"
@@ -3674,7 +3673,8 @@ msgstr "정말 취소할까요?"
 msgid "Question"
 msgstr "질문"
 
-#: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
+#: clientgui/wizardex.cpp:377
+#: clientgui/wizardex.cpp:553
 msgid "&Next >"
 msgstr "다음 >"
 
@@ -3689,228 +3689,120 @@ msgstr "완료"
 #: clientgui/common/wxFlatNotebook.cpp:182
 #, c-format
 msgid "New page inserted. Index = %i"
-msgstr ""
+msgstr "새 페이지 삽입됨. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:187
 #, c-format
 msgid "New page appended. Index = %i"
-msgstr ""
+msgstr "새 페이지 첨부됨. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2047
 #, c-format
 msgid "Old Page Index = %i"
-msgstr ""
+msgstr "Old Page Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2052
 #, c-format
 msgid "OnDropTarget: index by HitTest = %i"
-msgstr ""
+msgstr "OnDropTarget: index by HitTest = %i"
 
 #: clientgui/common/wxPieCtrl.cpp:63
 msgid "Pie Ctrl"
-msgstr ""
+msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:257
-msgid ""
-"for accessibility support, please select advanced from the view menu or type "
-"command shift a"
-msgstr ""
+msgid "for accessibility support, please select advanced from the view menu or type command shift a"
+msgstr "장애인 지원을 위해서는 보기 메뉴에서 고급 보기를 선택하거나 shift a를 입력하세요"
 
 #: clientgui/mac/MacAccessiblity.cpp:302
 msgid "This panel contains graphs showing user totals for projects"
-msgstr ""
+msgstr "이 패널은 해당 프로젝트의 전체 사용자를 보여주는 그래프를 포함합니다"
 
 #: clientgui/mac/MacAccessiblity.cpp:726
 msgid "list headers"
-msgstr ""
+msgstr "목록 헤더"
 
 #: clientgui/mac/MacAccessiblity.cpp:732
 msgid "list of events"
-msgstr ""
+msgstr "이벤트 목록"
 
 #: clientgui/mac/MacAccessiblity.cpp:734
 msgid "list of events is empty"
-msgstr ""
+msgstr "이벤트 목록이 비었습니다"
 
 #: clientgui/mac/MacAccessiblity.cpp:739
 #, c-format
 msgid "list of %s"
-msgstr ""
+msgstr "%s 목록"
 
 #: clientgui/mac/MacAccessiblity.cpp:741
 #, c-format
 msgid "list of %s is empty"
-msgstr ""
+msgstr "%s 목록이 비었습니다"
 
 #: clientgui/mac/MacAccessiblity.cpp:843
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr " 현재 정렬 %d 컬럼 %d중에서, 내림차순 정렬"
 
 #: clientgui/mac/MacAccessiblity.cpp:845
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr " 현재 정렬 %d 컬럼 %d중에서, 오름차순 정렬"
 
 #: clientgui/mac/MacAccessiblity.cpp:848
 #, c-format
 msgid "; column %d of %d; "
-msgstr ""
+msgstr "컬럼 %d (%d중)"
 
 #: clientgui/mac/MacAccessiblity.cpp:855
 msgid "list is empty"
-msgstr ""
+msgstr "목록이 비었습니다"
 
-#: clientgui/mac/MacAccessiblity.cpp:858 clientgui/mac/MacAccessiblity.cpp:870
+#: clientgui/mac/MacAccessiblity.cpp:858
+#: clientgui/mac/MacAccessiblity.cpp:870
 #, c-format
 msgid "; row %d; "
-msgstr ""
+msgstr "열 %d"
 
 #: clientgui/mac/MacAccessiblity.cpp:862
 #, c-format
 msgid "; selected row %d of %d; "
-msgstr ""
+msgstr "%d열이 %d중에서 선택됨"
 
 #: clientgui/mac/MacAccessiblity.cpp:864
 #, c-format
 msgid "; selected row %d ; "
-msgstr ""
+msgstr "%d 열이 선택됨"
 
 #: clientgui/mac/MacAccessiblity.cpp:868
 #, c-format
 msgid "; row %d of %d; "
-msgstr ""
+msgstr "%d열 %d"
 
 #: clientgui/mac/MacAccessiblity.cpp:881
 msgid "blank"
-msgstr ""
+msgstr "공백"
 
 #: clientgui/mac/MacAccessiblity.cpp:1523
-#, fuzzy
 msgid "list of projects or account managers"
-msgstr "계정 관리자 혹은 프로젝트에 연결합니다"
+msgstr "계정 관리자 또는 프로젝트 목록"
 
 #: clientgui/mac/MacAccessiblity.cpp:1575
 #, c-format
 msgid "selected row %d of %d; "
-msgstr ""
+msgstr "%d열이 %d 중에서 선택됨"
 
 #: clientgui/mac/MacAccessiblity.cpp:1577
 #, c-format
 msgid "row %d of %d; "
-msgstr ""
+msgstr "줄%d %d용"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
-msgstr ""
+msgstr "작업 시작 및 중지 시간을 HH:MM-HH:MM 형식대로 입력해 주세요"
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr ""
+msgstr "네트워크 사용 시작 및 중지 시간을 HH:MM-HH:MM 형식대로 입력해 주세요"
 
-#~ msgid "Attach to project"
-#~ msgstr "프로젝트 연결"
-
-#~ msgid "Attach to account manager"
-#~ msgstr "계정 관리자 연결"
-
-#~ msgid "Attach to a project"
-#~ msgstr "프로젝트를 연결합니다"
-
-#~ msgid "%s needs to connect to the Internet.  Please click to open %s."
-#~ msgstr "%s는 인터넷 연결이 필요합니다. %s 열기를 클릭하십시오."
-
-#~ msgid ""
-#~ "%s is unable to communicate with a project and needs an Internet "
-#~ "connection.\n"
-#~ "Please connect to the Internet, then select the 'Do network "
-#~ "communications' item from the Advanced menu."
-#~ msgstr ""
-#~ "%s는 프로젝트 서버와 통신이 불가능하며, 인터넷 연결이 필요합니다.\n"
-#~ "인터넷에 접속한 다음 고급 메뉴의 '네트워크 통신 실행' 항목을 선택하십시오."
-
-#~ msgid ""
-#~ "%s couldn't do Internet communication, and no default connection is "
-#~ "selected.\n"
-#~ "Please connect to the Internet, or select a default connection\n"
-#~ "using Advanced/Options/Connections."
-#~ msgstr ""
-#~ "%s가 인터넷 통신이 불가능하거나 기본 연결이 선택되어 있지 않습니다.\n"
-#~ "인터넷에 접속하거나 고급/선택 사항/연결 메뉴에서 \n"
-#~ "기본 연결을 선택해 주세요."
-
-#~ msgid "One or more notices are now available for viewing."
-#~ msgstr "하나 이상의 공지 사항을 볼 수 있습니다."
-
-#~ msgid "Attached to project"
-#~ msgstr "프로젝트 연결됨"
-
-#~ msgid "You are now successfully attached to this project."
-#~ msgstr "해당 프로젝트 연결이 성공적으로 이뤄졌습니다."
-
-#~ msgid "Attached to %s"
-#~ msgstr "%s에 연결됨"
-
-#~ msgid "Detach when done"
-#~ msgstr "완료시 분리"
-
-#~ msgid "Retrieving notices..."
-#~ msgstr "안내 사항 복구중."
-
-#~ msgid "Detach"
-#~ msgstr "분리하기"
-
-#~ msgid "Detaching from project..."
-#~ msgstr "프로젝트에서 분리하는 중..."
-
-#~ msgid "Are you sure you want to detach from project '%s'?"
-#~ msgstr "정말로 프로젝트 '%s' 분리를 원하십니까?"
-
-#~ msgid "Detach from Project"
-#~ msgstr "프로젝트에서 분리하기"
-
-#~ msgid "error"
-#~ msgstr "오류"
-
-#~ msgid "A new version of BOINC is available."
-#~ msgstr "BOINC 새 버전이 나왔습니다."
-
-#~ msgid "Download it."
-#~ msgstr "다운로드하세요."
-
-#~ msgid "Couldn't write state file; check directory permissions"
-#~ msgstr "상태 파일 작성 불가: 디렉토리 권한을 확인하세요"
-
-#~ msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-#~ msgstr "HTTP_PROXY 환경은 여러 HTTP 프록시가 명기되어야 합니다"
-
-#~ msgid "Message from project server:"
-#~ msgstr "프로젝트 서버에서 온 메시지:"
-
-#~ msgid "XML syntax error in"
-#~ msgstr "XML syntax 오류: "
-
-#~ msgid "Can't resolve hostname in"
-#~ msgstr "호스트 이름을 역해석하지 못함: "
-
-#~ msgid "Unrecognized tag in"
-#~ msgstr "유효하지 않은 태그: "
-
-#~ msgid "Missing start tag in"
-#~ msgstr "시작 태그가 빠짐: "
-
-#~ msgid "Unparsed tag in"
-#~ msgstr "미해석 태그: "
-
-#~ msgid "Missing end tag in"
-#~ msgstr "마침 태그가 빠짐: "
-
-#~ msgid ""
-#~ "BOINC can't access Internet - check network connection or proxy "
-#~ "configuration."
-#~ msgstr ""
-#~ "BOINC가 인터넷에 엑세스할 수 없습니다 - 네트워크 연결이나 프록시 설정을 확"
-#~ "인하세요."
-
-#~ msgid "Attach this computer to a project or account manager"
-#~ msgstr "이 컴퓨터를 계정 관리자 혹은 프로젝트에 연결합니다"
