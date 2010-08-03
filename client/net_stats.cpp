@@ -181,6 +181,11 @@ void NET_STATUS::network_available() {
 // Find out for sure by trying to contact a reference site
 //
 void NET_STATUS::got_http_error() {
+#ifdef _WIN32
+    // Check for a proxy
+    gstate.proxy_info.detect_autoproxy_settings();
+#endif
+
     if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) return;
     if (need_physical_connection) return;
     if (config.dont_contact_ref_site) return;
@@ -207,7 +212,6 @@ void NET_STATUS::contact_reference_site() {
 
 int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     int retval;
-
     if (net_status.show_ref_message) {
         msg_printf(0, MSG_INFO,
             "Project communication failed: attempting access to reference site"
@@ -218,10 +222,6 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
         error_num = retval;
         net_status.need_physical_connection = true;
 		net_status.last_comm_time = 0;
-
-        // Check for a proxy
-        gstate.proxy_info.detect_autoproxy_settings();
-
         msg_printf(0, MSG_USER_ERROR,
             "BOINC can't access Internet - check network connection or proxy configuration."
         );
@@ -260,6 +260,11 @@ void NET_STATUS::poll() {
     // otherwise might show spurious "need connection" message
     //
     if (gstate.now < gstate.last_wakeup_time + 30) return;
+    // wait until after a round of automatic proxy detection 
+    // before attempting to contact the reference site
+    //
+    if (gstate.proxy_info.should_detect_autoproxy_settings()) return;
+
 	if (net_status.need_to_contact_reference_site && gstate.gui_http.state==GUI_HTTP_STATE_IDLE) {
 		net_status.contact_reference_site();
 	}

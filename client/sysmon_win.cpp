@@ -183,6 +183,10 @@ static void windows_detect_autoproxy_settings() {
                         proxy_file
                     );
 
+                    if (gstate.proxy_info.autodetect_server_name != proxy_server) {
+                        net_status.need_physical_connection = false;
+                    }
+
                     // Store the results for future use.
                     gstate.proxy_info.set_autoproxy_settings(
                         proxy_protocol,

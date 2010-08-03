@@ -6668,3 +6668,17 @@ Charlie  24 Feb 2010
 
     mac_installer/
         release_boinc.sh
+
+Rom    3 Aug 2010
+    - client: Kick off an auto proxy detection pass on any http error, only
+        attempt a follow-up reference site check if the proxy server name
+        changes. This may mean that'll it will be the second or third connection
+        attempt before the CC starts using the new proxy information.
+    - client: wait until after the proxy check completes before attempting to
+        check on the reference site.
+    - client: Fix autoproxy detection so that it doesn't break platforms that
+        currently do not support proxy detection.
+        
+    client/
+        net_stats.cpp
+        sysmon_win.cpp
