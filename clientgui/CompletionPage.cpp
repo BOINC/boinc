@@ -230,7 +230,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             if (pSkinAdvanced->IsBranded()) {
                 strTitle.Printf(
                     _("Update from %s completed."),
-                    wxString(pWAP->project_config.name.c_str(), wxConvUTF8) 
+                    pWAP->project_config.name.c_str() 
                 );
             } else {
                 strTitle = _("Update completed.");
@@ -250,7 +250,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
                 wxString strWelcome;
                 strWelcome.Printf(
                     _("Welcome to %s!"),
-                    wxString(pWAP->project_config.name.c_str(), wxConvUTF8) 
+                    pWAP->project_config.name.c_str() 
                 );
 
                 m_pCompletionWelcome->Show();
@@ -261,7 +261,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             if (pSkinAdvanced->IsBranded()) {
                 strBrandedMessage.Printf(
                     _("You are now successfully attached to the %s system."),
-                    wxString(pWAP->project_config.name.c_str(), wxConvUTF8) 
+                    pWAP->project_config.name.c_str() 
                 );
             } else {
                 strBrandedMessage = _("You are now successfully attached to this account manager.");

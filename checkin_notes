@@ -5744,3 +5744,10 @@ Charlie 3 Aug 2010
     clientgui/
         NoticeListCtrl.cpp
         ViewNotices.cpp
+
+Charlie 3 Aug 2010
+    - MGR: fix compiler warnings, some of which predict incorrect operation.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        CompletionPage.cpp

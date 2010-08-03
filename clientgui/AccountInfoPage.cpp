@@ -562,7 +562,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         }
  
         // Verify minimum password length
-        if (m_pAccountPasswordCtrl->GetValue().Length() < pc.min_passwd_length) {
+        if (m_pAccountPasswordCtrl->GetValue().Length() < (size_t)pc.min_passwd_length) {
             if (IS_ATTACHTOPROJECTWIZARD()) {
                 strMessage.Printf(
                     _("The minimum password length for this project is %d. Please enter a different password."),
