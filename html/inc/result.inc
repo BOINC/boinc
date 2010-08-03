@@ -146,7 +146,7 @@ function state_string($result) {
         case 4: return tra("Timed out - no response");
         case 5: return tra("Didn't need");
         case 6: return tra("Validate error");
-        case 7: return tra("Client detached");
+        case 7: return tra("Abandoned");
         }
     }
     return tra("Unknown");
@@ -169,13 +169,13 @@ function result_outcome_string($result) {
     case 2: return tra("Couldn't send");
     case 3:
         if ($result->exit_status <> -221) {
-            return tra("Client error");
+            return tra("Computation error");
         }
         return tra("Redundant result");
     case 4: return tra("No reply");
     case 5: return tra("Didn't need");
     case 6: return tra("Validate error");
-    case 7: return tra("Client detached");
+    case 7: return tra("Abandoned");
     }
     return tra("Unknown");
 }
