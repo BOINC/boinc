@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-07-16 11:03-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -107,7 +107,8 @@ msgstr "This project doesn't support computers of type"
 #: ../sched/sched_send.cpp:1252
 #, fuzzy
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr "Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr ""
+"Upgrade to the latest driver to process tasks using your computer's GPU"
 
 #: ../sched/sched_send.cpp:1259
 #, fuzzy
@@ -127,7 +128,8 @@ msgstr ""
 
 #: ../sched/sched_send.cpp:1296
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr "Er is een NVIDIA of ATI GPU nodig om taken van dit project te verwerken"
+msgstr ""
+"Er is een NVIDIA of ATI GPU nodig om taken van dit project te verwerken"
 
 #: ../sched/sched_send.cpp:1301
 msgid "An NVIDIA GPU is required to run tasks for this project"
@@ -142,8 +144,8 @@ msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
-"Er is geen werk aanwezig voor de geselecteerde applicatie.  Controleer "
-"a.u.b. je project voorkeuren."
+"Er is geen werk aanwezig voor de geselecteerde applicatie.  Controleer a.u."
+"b. je project voorkeuren."
 
 #: ../sched/sched_send.cpp:1428
 #, fuzzy

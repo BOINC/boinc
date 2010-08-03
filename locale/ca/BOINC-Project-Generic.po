@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2010-07-14 13:21-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -2530,7 +2530,8 @@ msgstr "Equips que pertanyen a %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
-msgstr "Aquest usuari ha optat per no mostrar informació sobre els seus equips."
+msgstr ""
+"Aquest usuari ha optat per no mostrar informació sobre els seus equips."
 
 #: ../user/info.php:22 ../user/sample_index.php:47
 msgid "Read our rules and policies"

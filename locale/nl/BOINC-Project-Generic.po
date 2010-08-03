@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2010-07-16 12:47-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -3523,8 +3523,7 @@ msgstr "Message board removed"
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
-"Your team's message board has been removed. You may now %1create a new "
-"one%2."
+"Your team's message board has been removed. You may now %1create a new one%2."
 
 #: ../user/team_forum.php:141
 #, fuzzy
@@ -3778,8 +3777,8 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"End of results. %1 If you cannot find the team you are looking for, you may "
-"%2create a team%3 yourself."
+"End of results. %1 If you cannot find the team you are looking for, you may %"
+"2create a team%3 yourself."
 
 #: ../user/team_manage.php:24
 #, fuzzy
