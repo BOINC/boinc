@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-04 10:57-0700\n"
+"PO-Revision-Date: 2010-08-04 11:07-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
-"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -379,7 +379,7 @@ msgstr "Приостановить использование ГП"
 
 #: clientgui/AdvancedFrame.cpp:485
 msgid "Stop GPU work regardless of preferences"
-msgstr "Приостанавливается обработка на GPU всех заданий во всех проектах"
+msgstr "Остановить обработку заданий на ГП независимо от настроек"
 
 #: clientgui/AdvancedFrame.cpp:509
 msgid "Network activity always available"
@@ -933,8 +933,9 @@ msgid "Snooze"
 msgstr "Пауза"
 
 #: clientgui/BOINCTaskBar.cpp:500
+#, fuzzy
 msgid "Snooze GPU"
-msgstr "Приостановить GPU"
+msgstr "Приостановить ГП"
 
 # переделать
 #: clientgui/BOINCTaskBar.cpp:677
@@ -2345,7 +2346,7 @@ msgstr "неизвестная причина"
 
 #: clientgui/MainDocument.cpp:2378
 msgid "GPU missing, "
-msgstr "Отсутствие GPU, "
+msgstr "Отсутствие ГП, "
 
 #: clientgui/MainDocument.cpp:2384
 msgid "New"
@@ -2413,7 +2414,7 @@ msgstr "Готово к запуску"
 
 #: clientgui/MainDocument.cpp:2438
 msgid " (waiting for GPU memory)"
-msgstr "(ожидание освобождения памяти GPU)"
+msgstr "(ожидание освобождения памяти ГП)"
 
 #: clientgui/MainDocument.cpp:2442
 msgid "Computation error"
@@ -2522,14 +2523,12 @@ msgid "Notice List"
 msgstr "Список уведомлений"
 
 #: clientgui/NoticeListCtrl.cpp:198
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s; received on %s"
 msgstr "%s; получен на %s"
 
 #: clientgui/NoticeListCtrl.cpp:200
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s; received from %s; on %s"
 msgstr "%s; получен от %s; на %s"
 
@@ -2583,11 +2582,11 @@ msgstr "Поддержка многоядерных ЦП"
 
 #: clientgui/ProjectListCtrl.cpp:512
 msgid "Nvidia GPU Supported"
-msgstr "Поддержка GPU NVIDIA"
+msgstr "Поддержка ГП NVIDIA"
 
 #: clientgui/ProjectListCtrl.cpp:514
 msgid "ATI GPU Supported"
-msgstr "Поддержка GPU ATI"
+msgstr "Поддержка ГП ATI"
 
 #: clientgui/ProjectListCtrl.cpp:516
 msgid "Project Website"

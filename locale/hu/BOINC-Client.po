@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-12 15:53-0700\n"
+"POT-Creation-Date: 2010-08-04 11:39-0700\n"
 "PO-Revision-Date: 2010-07-14 14:05-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,11 +21,11 @@ msgstr ""
 msgid "error"
 msgstr "hiba"
 
-#: acct_setup.cpp:264
+#: acct_setup.cpp:273
 msgid "A new version of BOINC is available."
 msgstr "Új BOINC verzió elérhető."
 
-#: acct_setup.cpp:266
+#: acct_setup.cpp:275
 msgid "Download it."
 msgstr "Töltse le."
 
@@ -33,132 +33,135 @@ msgstr "Töltse le."
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Az állapotfájl nem írható; ellenőrizze a könyvtár jogosultságait"
 
-#: cs_cmdline.cpp:280
+#: cs_cmdline.cpp:281
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "A HTTP_PROXY környezeti változónak egy HTTP proxy-t kell megadnia"
 
-#: cs_scheduler.cpp:556
+#: cs_scheduler.cpp:557
 msgid "Message from project server:"
 msgstr "Üzenet a projekt szervertől:"
 
-#: cs_statefile.cpp:769
-msgid "XML syntax error in"
-msgstr "XML szintaktikai hiba itt:"
+#: cs_statefile.cpp:766 ../sched/sched_types.cpp:273
+msgid "Syntax error in app_info.xml"
+msgstr ""
 
-#: gui_rpc_server.cpp:189
+#: gui_rpc_server.cpp:190
 msgid "Can't resolve hostname in"
 msgstr ""
 
-#: log_flags.cpp:67 log_flags.cpp:317 log_flags.cpp:442
-msgid "Unexpected text in"
+#: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
+msgid "Unexpected text in cc_config.xml"
 msgstr ""
 
-#: log_flags.cpp:111 log_flags.cpp:414
-msgid "Unrecognized tag in"
+#: log_flags.cpp:112 log_flags.cpp:415 log_flags.cpp:460
+msgid "Unrecognized tag in cc_config.xml"
 msgstr ""
 
-#: log_flags.cpp:433
-msgid "Missing start tag in"
+#: log_flags.cpp:434
+msgid "Missing start tag in cc_config.xml"
 msgstr ""
 
-#: log_flags.cpp:459
-msgid "Unparsed tag in"
+#: log_flags.cpp:468
+msgid "Missing end tag in cc_config.xml"
 msgstr ""
 
-#: log_flags.cpp:467
-msgid "Missing end tag in"
-msgstr ""
-
-#: ../sched/handle_request.cpp:293
+#: ../sched/handle_request.cpp:299
 msgid ""
 "Invalid or missing account key.  To fix, detach and reattach to this project."
 msgstr ""
 
-#: ../sched/handle_request.cpp:814 ../sched/handle_request.cpp:824
+#: ../sched/handle_request.cpp:820 ../sched/handle_request.cpp:830
 msgid ""
 "You may have an outdated code signing key.  Try attaching and reattaching "
 "this project."
 msgstr ""
 
-#: ../sched/handle_request.cpp:908
+#: ../sched/handle_request.cpp:914
 msgid "This project doesn't support operating system"
 msgstr ""
 
-#: ../sched/handle_request.cpp:934
+#: ../sched/handle_request.cpp:940
 msgid "This project doesn't support CPU type"
 msgstr ""
 
-#: ../sched/handle_request.cpp:1216
+#: ../sched/handle_request.cpp:964
+msgid ""
+"Your BOINC client software is too old.  Please install the current version."
+msgstr ""
+
+#: ../sched/handle_request.cpp:1215
 msgid "This project doesn't support computers of type"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1252
+#: ../sched/sched_send.cpp:1250
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1259
+#: ../sched/sched_send.cpp:1257
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1283
+#: ../sched/sched_send.cpp:1281
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1296
+#: ../sched/sched_send.cpp:1294
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1301
+#: ../sched/sched_send.cpp:1299
 msgid "An NVIDIA GPU is required to run tasks for this project"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1307
+#: ../sched/sched_send.cpp:1305
 msgid "An ATI GPU is required to run tasks for this project"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1402
+#: ../sched/sched_send.cpp:1400
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
 
-#: ../sched/sched_send.cpp:1428
+#: ../sched/sched_send.cpp:1426
 msgid "Your computer type is not supported by this project"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1434
+#: ../sched/sched_send.cpp:1432
 msgid "Newer BOINC version required; please install current version"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1444
-msgid ""
-"Your preference for network connection interval is too high for this project"
-msgstr ""
-
-#: ../sched/sched_send.cpp:1450
+#: ../sched/sched_send.cpp:1442
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1456
+#: ../sched/sched_send.cpp:1448
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1462
+#: ../sched/sched_send.cpp:1454
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
 
-#: ../sched/sched_version.cpp:224
+#: ../sched/sched_types.cpp:268
+msgid "Unknown app name in app_info.xml"
+msgstr ""
+
+#: ../sched/sched_version.cpp:225
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr ""
 
-#: ../sched/sched_version.cpp:635
+#: ../sched/sched_version.cpp:652
 msgid "is not available for your type of computer"
 msgstr ""
+
+#~ msgid "XML syntax error in"
+#~ msgstr "XML szintaktikai hiba itt:"
