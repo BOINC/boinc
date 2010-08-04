@@ -1437,12 +1437,6 @@ static void send_user_messages() {
                 "Not sending work because newer client version required\n"
             );
         }
-        if (g_wreq->excessive_work_buf) {
-            g_reply->insert_message(
-                _("Your preference for network connection interval is too high for this project"),
-                "notice"
-            );
-        }
         if (g_wreq->no_cuda_prefs) {
             g_reply->insert_message(
                 _("Tasks for NVIDIA GPU are available, but your preferences are set to not accept them"),

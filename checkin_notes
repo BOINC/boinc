@@ -5762,3 +5762,12 @@ Rom    3 Aug 2010
     lib/
         proxy_info.cpp, .h
     
+David  4 Aug 2010
+    - client/scheduler: tweak translatable messages
+
+    sched/
+        sched_types.h
+        sched_send.cpp
+    client/
+        cs_statefile.cpp
+        log_flags.cpp

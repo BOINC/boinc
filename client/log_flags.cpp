@@ -64,9 +64,8 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (!is_tag) {
             msg_printf_link(NULL, MSG_USER_ALERT,
                 "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=log_flags",
-                "%s %s: %s",
-                _("Unexpected text in"),
-                CONFIG_FILE,
+                "%s: %s",
+                _("Unexpected text in cc_config.xml"),
                 tag
             );
             continue;
@@ -109,9 +108,8 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
 
         msg_printf_link(NULL, MSG_USER_ALERT,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=log_flags",
-            "%s %s: <%s>",
-            _("Unrecognized tag in"),
-            CONFIG_FILE,
+            "%s: <%s>",
+            _("Unrecognized tag in cc_config.xml"),
             tag
         );
         xp.skip_unexpected(tag, true, "LOG_FLAGS::parse");
@@ -316,9 +314,8 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (!is_tag) {
             msg_printf_link(NULL, MSG_USER_ALERT,
                 "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
-                "%s %s: %s",
-                _("Unexpected text in"),
-                CONFIG_FILE,
+                "%s: %s",
+                _("Unexpected text in cc_config.xml"),
                 tag
             );
             continue;
@@ -414,9 +411,8 @@ int CONFIG::parse_options(XML_PARSER& xp) {
 
         msg_printf_link(NULL, MSG_USER_ALERT,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
-            "%s %s: <%s>",
-            _("Unrecognized tag in"),
-            CONFIG_FILE,
+            "%s: <%s>",
+            _("Unrecognized tag in cc_config.xml"),
             tag
         );
         xp.skip_unexpected(tag, true, "CONFIG::parse_options");
@@ -434,9 +430,8 @@ int CONFIG::parse(FILE* f) {
     if (!xp.parse_start("cc_config")) {
         msg_printf_link(NULL, MSG_USER_ALERT,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
-            "%s %s",
-            _("Missing start tag in"),
-            CONFIG_FILE
+            "%s",
+            _("Missing start tag in cc_config.xml")
         );
         return ERR_XML_PARSE;
     }
@@ -444,9 +439,8 @@ int CONFIG::parse(FILE* f) {
         if (!is_tag) {
             msg_printf_link(NULL, MSG_USER_ALERT,
                 "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
-                "%s %s: %s",
-                _("Unexpected text in"),
-                CONFIG_FILE,
+                "%s: %s",
+                _("Unexpected text in cc_config.xml"),
                 tag
             );
             continue;
@@ -462,18 +456,16 @@ int CONFIG::parse(FILE* f) {
         }
         msg_printf_link(NULL, MSG_USER_ALERT,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
-            "%s %s: <%s>",
-            _("Unrecognized tag in"),
-            CONFIG_FILE,
+            "%s: <%s>",
+            _("Unrecognized tag in cc_config.xml"),
             tag
         );
         xp.skip_unexpected(tag, true, "CONFIG.parse");
     }
     msg_printf_link(NULL, MSG_USER_ALERT,
         "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
-        "%s %s",
-        _("Missing end tag in"),
-        CONFIG_FILE
+        "%s",
+        _("Missing end tag in cc_config.xml")
     );
     return ERR_XML_PARSE;
 }

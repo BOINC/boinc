@@ -762,9 +762,8 @@ void CLIENT_STATE::check_anonymous() {
         if (retval) {
             msg_printf_link(p, MSG_USER_ALERT,
                 "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=app_info",
-                "%s %s",
-                _("Syntax error in"),
-                APP_INFO_FILE_NAME
+                "%s",
+                _("Syntax error in app_info.xml")
             );
         }
         fclose(f);

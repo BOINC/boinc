@@ -426,7 +426,6 @@ struct WORK_REQ {
     // various reasons for not sending jobs (used to explain why)
     //
     bool no_allowed_apps_available;
-    bool excessive_work_buf;
     bool hr_reject_temp;
     bool hr_reject_perm;
     bool outdated_client;
