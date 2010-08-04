@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-08-03 03:55-0700\n"
+"PO-Revision-Date: 2010-08-04 06:37-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -1903,7 +1903,7 @@ msgid ""
 "Notice reminder interval:\n"
 "(minutes; 0 means no reminders)"
 msgstr ""
-"Intervall der Hinweis-Erinnerung\n"
+"Intervall der Hinweis-Erinnerung:\n"
 "(Minuten; 0 bedeutet nie)"
 
 #: DlgOptions.cpp:180
@@ -3363,7 +3363,7 @@ msgstr "Frage"
 
 #: sg_BoincSimpleGUI.cpp:119
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Erweiterte &Ansicht...Ctrl+Shift+A"
+msgstr "Erweiterte &Ansicht...\tCtrl+Shift+A"
 
 #: sg_BoincSimpleGUI.cpp:120
 msgid "Display the advanced (accessible) graphical interface."
@@ -3748,51 +3748,54 @@ msgstr "Bitte herunterladen."
 
 #: ../client/client_state.cpp:342
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
+msgstr "Konnte Statusdatei nicht sichern. Bitte Verzeichnisrechte überprüfen."
 
 #: ../client/cs_cmdline.cpp:280
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "Die HTTP_PROXY Umgebungsvariable muss einen HTTP proxy angeben."
 
 #: ../client/cs_scheduler.cpp:554
-#, fuzzy
 msgid "Message from project server:"
-msgstr "Nachricht vom Server:"
+msgstr "Nachricht vom Projektserver:"
 
 #: ../client/cs_statefile.cpp:769
 msgid "XML syntax error in"
-msgstr ""
+msgstr "XML-Syntaxfehler in"
 
 #: ../client/gui_rpc_server.cpp:189
+#, fuzzy
 msgid "Can't resolve hostname in"
-msgstr ""
+msgstr "Rechnername konnte nicht aufgelöst werden in"
 
 #: ../client/log_flags.cpp:67 ../client/log_flags.cpp:317
 #: ../client/log_flags.cpp:442
 msgid "Unexpected text in"
-msgstr ""
+msgstr "Unerwarteter Text in"
 
 #: ../client/log_flags.cpp:111 ../client/log_flags.cpp:414
+#, fuzzy
 msgid "Unrecognized tag in"
-msgstr ""
+msgstr "Unbekannter Tag in"
 
 #: ../client/log_flags.cpp:433
 msgid "Missing start tag in"
-msgstr ""
+msgstr "Fehlender Start-Tag in"
 
 #: ../client/log_flags.cpp:459
 msgid "Unparsed tag in"
-msgstr ""
+msgstr "Unbearbeiteter Tag in"
 
 #: ../client/log_flags.cpp:467
 msgid "Missing end tag in"
-msgstr ""
+msgstr "Fehlender Ende-Tag in"
 
 #: ../client/net_stats.cpp:213
 msgid ""
 "BOINC can't access Internet - check network connection or proxy "
 "configuration."
 msgstr ""
+"BOINC kann nicht ins Internet kommunizieren - Bitte Netzwerkverbindung oder "
+"Proxy-Einstellungen überprüfen."
 
 #, fuzzy
 #~ msgid "Attach this computer to a project or account manager"
