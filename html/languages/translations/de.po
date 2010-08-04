@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-06-18 07:59-0700\n"
+"PO-Revision-Date: 2010-08-04 07:50-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -310,9 +310,8 @@ msgid "Application details"
 msgstr "Anwendungen"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Show"
-msgstr "Zeige:"
+msgstr "Zeige"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
@@ -685,14 +684,13 @@ msgid "Memory: when computer is not in use, use at most"
 msgstr "Arbeitsspeicher: wenn Computer nicht genutzt wird, nutze höchstens"
 
 #: ../inc/prefs.inc:217
-#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work. %3"
 msgstr ""
-"Computer ist mit dem Internet circa alle X verbunden. %1Frei lassen oder 0 "
+"Computer ist mit dem Internet circa alle X verbunden. %1 Frei lassen oder 0 "
 "eintragen, bei dauerhafter Verbindung. %2 BOINC versucht genug Aufgaben für "
-"diese Zeitdauer zu bekommen.%3"
+"diese Zeitdauer zu bekommen. %3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 msgid "days"
@@ -836,9 +834,8 @@ msgid "bad subset: %1"
 msgstr "fehlerhafte Teilmenge: %1"
 
 #: ../inc/prefs.inc:617
-#, fuzzy
 msgid "Default"
-msgstr "Löschen"
+msgstr "Standard"
 
 #: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:995
 #: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:108
@@ -869,7 +866,6 @@ msgid "Remove"
 msgstr "Entfernen"
 
 #: ../inc/prefs.inc:790
-#, fuzzy
 msgid "Computing"
 msgstr "Berechnung"
 
@@ -1009,13 +1005,14 @@ msgid "Anonymous platform"
 msgstr "Anonyme Plattform"
 
 #: ../inc/result.inc:43
+#, fuzzy
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA Grafikkarte"
 
 #: ../inc/result.inc:44
 #, fuzzy
 msgid "ATI GPU"
-msgstr "GPU"
+msgstr "ATI Grafikkarte"
 
 #: ../inc/result.inc:51
 msgid "Not in DB"
@@ -1235,9 +1232,8 @@ msgid "Show names"
 msgstr "Zeige Namen"
 
 #: ../inc/result.inc:272
-#, fuzzy
 msgid "Task"
-msgstr "Aufgaben"
+msgstr "Aufgabe"
 
 #: ../inc/result.inc:275
 #, fuzzy
@@ -1273,9 +1269,8 @@ msgid "CPU time<br />(sec)"
 msgstr "CPU Zeit<br />(sek)"
 
 #: ../inc/result.inc:288 ../inc/result.inc:392
-#, fuzzy
 msgid "Credit"
-msgstr "Erstellen"
+msgstr "Punkte"
 
 # ########################################<br />
 # Apps page (apps.php)
@@ -2589,13 +2584,12 @@ msgid "Your account"
 msgstr "Ihr Konto"
 
 #: ../user/hosts_user.php:51
-#, fuzzy
 msgid "Computers belonging to %1"
-msgstr "Informationen zum Computer"
+msgstr "Computer von %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
-msgstr ""
+msgstr "Dieser Benutzer hat die Informationen zu seinen Computern verborgen."
 
 # ########################################
 # Rules and Policies page (info.php)
@@ -2688,7 +2682,6 @@ msgstr ""
 "Sie aber jederzeit verzichten."
 
 #: ../user/info.php:44
-#, fuzzy
 msgid ""
 "Private messages sent on the %1 web site are visible only to the sender and "
 "recipient.  %1 does not examine or police the content of private messages.  "
@@ -2697,10 +2690,11 @@ msgid ""
 "public or private messages from that user."
 msgstr ""
 "Über die %1 Webseite versendete Private Nachrichten können nur vom Sender "
-"und Empfänger gelesen werden. %1 unternimmt keine Überprüfung des Inhalts "
-"von privaten Nachrichten. Wenn Sie ungewollt private Nachrichten von einem %"
-"1 Benutzer erhalten, können Sie diesen zu Ihrem %2Filter hinzufügen%3. Damit "
-"sehen Sie keine öffentlichen und privaten Nachrichten dieses Benutzers mehr."
+"und Empfänger gelesen werden.  %1 unternimmt keine Überprüfung des Inhalts "
+"von privaten Nachrichten.  Wenn Sie ungewollt private Nachrichten von einem "
+"%1 Benutzer erhalten, können Sie diesen zu Ihrem %2Filter hinzufügen%3.  "
+"Damit sehen Sie keine öffentlichen und privaten Nachrichten dieses Benutzers "
+"mehr."
 
 #: ../user/info.php:45
 msgid ""
@@ -3384,14 +3378,17 @@ msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
 msgstr ""
+"Um den Gründerstatus dieses Teams an einen anderen Benutzer zu geben muss "
+"die Box neben dem Namen gewählt werden und mit dem Knopf <strong>Gründer "
+"wechseln</strong> bestätigt werden."
 
 #: ../user/team_change_founder_form.php:74
 msgid "New founder?"
-msgstr ""
+msgstr "Neuer Gründer?"
 
 #: ../user/team_change_founder_form.php:103 ../user/team_manage.php:54
 msgid "Change founder"
-msgstr ""
+msgstr "Gründer wechseln"
 
 #: ../user/team_create_action.php:27
 msgid "You must choose a non-blank team name"
@@ -3419,125 +3416,129 @@ msgstr ""
 
 #: ../user/team_delta.php:64
 msgid "Not founder or admin"
-msgstr ""
+msgstr "Nicht Gründer oder Admin"
 
 #: ../user/team_delta.php:71
 msgid "Team history for %1"
-msgstr ""
+msgstr "Teamhistorie von %1"
 
 #: ../user/team_delta.php:74
+#, fuzzy
 msgid "When"
-msgstr ""
+msgstr "Wann"
 
 #: ../user/team_delta.php:75
 msgid "User"
-msgstr ""
+msgstr "Benutzer"
 
 #: ../user/team_delta.php:76
 msgid "Action"
-msgstr ""
+msgstr "Aktion"
 
 #: ../user/team_delta.php:77
 msgid "Total credit at time of action"
-msgstr ""
+msgstr "Gesamtpunkte zum Zeitpunkt der Aktion"
 
 #: ../user/team_edit_action.php:57
 msgid "The name '%1' is being used by another team."
-msgstr ""
+msgstr "Der Name '%1' wird bereits von einem anderen Team verwendet."
 
 #: ../user/team_edit_action.php:60
 msgid "Must specify team name"
-msgstr ""
+msgstr "Ein Teamname muss angegeben werden."
 
 #: ../user/team_edit_action.php:88
-#, fuzzy
 msgid "Could not update team - please try again later."
 msgstr ""
-"Das Team konnte nicht erstellt werden, bitte später noch einmal probieren."
+"Das Team konnte nicht aktualisiert werden, bitte später noch einmal "
+"probieren."
 
 #: ../user/team_edit_form.php:31
 msgid "Edit %1"
-msgstr ""
+msgstr "%1 bearbeiten"
 
 #: ../user/team_edit_form.php:32
 msgid "Update team info"
-msgstr ""
+msgstr "Teaminformationen aktualisieren"
 
 #: ../user/team_email_list.php:59
 msgid "%1 Email List"
-msgstr ""
+msgstr "E-Mailverzeichnis von %1"
 
 #: ../user/team_email_list.php:61
 msgid "Member list of %1"
-msgstr ""
+msgstr "Mitgliederverzeichnis von %1"
 
+# oder als Klartext anzeigen? Gemeint ist eine Anzeige ohne HTML-Elemente
 #: ../user/team_email_list.php:76
+#, fuzzy
 msgid "Show as plain text"
-msgstr ""
+msgstr "als nur-Text anzeigen"
 
 #: ../user/team_forum.php:26 ../user/team_forum.php:37
 msgid "Create Message Board"
-msgstr ""
+msgstr "Diskussionsforum erstellen"
 
 #: ../user/team_forum.php:27
 msgid "You may create a message board for use by %1."
-msgstr ""
+msgstr "Ein Diskussionsforum zur Nutzung durch %1 erstellen."
 
 #: ../user/team_forum.php:29
 msgid "Only team members will be able to post."
-msgstr ""
+msgstr "Nur Mitglieder des Teams können Beiträge verfassen."
 
 #: ../user/team_forum.php:30
 msgid "At your option, only members will be able to read."
-msgstr ""
+msgstr "Optional können auch nur Mitglieder das Forum sehen."
 
 #: ../user/team_forum.php:31
 msgid "You and your Team Admins will have moderator privileges."
-msgstr ""
+msgstr "Der Gründer und die Team-Admins haben Moderatorrechte."
 
 #: ../user/team_forum.php:38
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "Ein Diskussionsforum für %1 erstellen"
 
 #: ../user/team_forum.php:46
 msgid "Team already has a message board"
-msgstr ""
+msgstr "Das Team hat bereits ein Diskussionsforum."
 
 #: ../user/team_forum.php:51
 msgid "couldn't create message board"
-msgstr ""
+msgstr "Das Diskussionsforum konnte nicht erstellt werden."
 
 #: ../user/team_forum.php:57
 msgid "Team Message Board"
-msgstr ""
+msgstr "Diskussionsforum des Teams"
 
 #: ../user/team_forum.php:66
+#, fuzzy
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "Diskussionen der Mitglieder von %1"
 
 #: ../user/team_forum.php:69
 msgid "Minimum time between posts (seconds)"
-msgstr ""
+msgstr "Mindestzeit zwischen Beiträgen (Sekunden)"
 
 #: ../user/team_forum.php:72
 msgid "Minimum total credit to post"
-msgstr ""
+msgstr "Mindestpunktzahl (Gesamt) für Schreibrecht"
 
 #: ../user/team_forum.php:75
 msgid "Minimum average credit to post"
-msgstr ""
+msgstr "Mindestpunktzahl (Durchschnitt) für Schreibrecht"
 
 #: ../user/team_forum.php:78
 msgid "Submit"
-msgstr ""
+msgstr "Übertragen"
 
 #: ../user/team_forum.php:87
 msgid "Remove your team's message board."
-msgstr ""
+msgstr "Diskussionsforum des Teams entfernen."
 
 #: ../user/team_forum.php:95
 msgid "Really remove message board?"
-msgstr ""
+msgstr "Das Diskussionsforum wirklich entfernen?"
 
 #: ../user/team_forum.php:96
 msgid ""
@@ -3545,56 +3546,60 @@ msgid ""
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
 msgstr ""
+"Soll das Diskussionsforum wirklich entfernt werden? Alle Beiträge werden "
+"unwiderruflich gelöscht. Es kann aber danach ein neues (leeres) "
+"Diskussionsforum angelegt werden."
 
 #: ../user/team_forum.php:98
 msgid "Yes - remove message board"
-msgstr ""
+msgstr "Ja - Forum entfernen"
 
 #: ../user/team_forum.php:105
 msgid "message board not found"
-msgstr ""
+msgstr "Diskussionsforum nicht gefunden"
 
 #: ../user/team_forum.php:119
 msgid "Message board removed"
-msgstr ""
+msgstr "Diskussionsforum entfernt"
 
 #: ../user/team_forum.php:122
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
+"Das Diskussionsforum des Teams wurde entfernt. Es kann jetzt ein %1neues "
+"angelegt werden%2."
 
 #: ../user/team_forum.php:141
 msgid "Team Message Board Updated"
-msgstr ""
+msgstr "Diskussionsforum des Teams aktualisiert"
 
 #: ../user/team_forum.php:142
 msgid "Update successful"
-msgstr ""
+msgstr "Aktualisierung erfolgreich"
 
 #: ../user/team_forum.php:145
-#, fuzzy
 msgid "Update failed"
-msgstr "Aktualisierung fehlgeschlagen: "
+msgstr "Aktualisierung fehlgeschlagen"
 
 #: ../user/team_forum.php:152
 msgid "team has no forum"
-msgstr ""
+msgstr "Das Team hat kein Forum"
 
 #: ../user/team_forum.php:187
 msgid "no such forum"
-msgstr ""
+msgstr "Forum nicht gefunden"
 
 #: ../user/team_forum.php:198
 msgid "unknown command %1"
-msgstr ""
+msgstr "unbekannter Befehl %1"
 
 #: ../user/team_founder_transfer_action.php:34
 msgid "You must be a member of a team to access this page."
-msgstr ""
+msgstr "Nur Mitglieder dieses Teams haben Zugriff auf diese Seite."
 
 #: ../user/team_founder_transfer_action.php:88
 msgid "Requesting foundership of %1"
-msgstr ""
+msgstr "Gründerstatus für %1 anfordern"
 
 #: ../user/team_founder_transfer_action.php:96
 msgid ""
@@ -3603,15 +3608,19 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
+"Der aktuelle Gründer wurde von der Anfrage per E-Mail und PN "
+"benachrichtigt.<br /><br />\n"
+"Wenn der Gründer nicht innerhalb von 60 Tagen reagiert wird der Wechsel "
+"möglich sein."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
 msgid "Foundership request not allowed now"
-msgstr ""
+msgstr "Wechsel des Gründerstatus zur Zeit nicht erlaubt"
 
 #: ../user/team_founder_transfer_action.php:107
 msgid "Assumed foundership of %1"
-msgstr ""
+msgstr "Gründerstatus von %1 übernommen"
 
 #: ../user/team_founder_transfer_action.php:109
 msgid ""

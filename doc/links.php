@@ -146,10 +146,11 @@ echo "
 <h3>Miscellaneous</h3>
 ";
 $misc_sites = array(
-    array("http://www.myboinc.com/", "BOINC Users of the Day"),
+    //array("http://www.myboinc.com/", "BOINC Users of the Day"),
     //array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
-    array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),
-    array("http://www.linkedin.com/groups?gid=678497", "BOINC Users group on LinkedIn"),
+    //array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),
+    array("http://www.linkedin.com/groups?gid=678497", "BOINC group on LinkedIn"),
+    array("http://www.facebook.com/#!/pages/BOINC/109465765746025?ref=ts", "BOINC on Facebook"),
 );
 echo "<ul>";
 foreach ($misc_sites as $m) {
@@ -166,7 +167,9 @@ echo "
 <ul>
 <li> <a href=http://www.crunching-family.at/download-center/>Crunching Family Skin Download</a>
 <li> <a href=http://www.grid-france.fr/tutoriaux/comment-personnaliser-boinc-au-couleur-de-l-equipe-france/>Skin for Equipe France (WCG)</a>
-<li> <a href=http://wcg.userfriendly.org/resources.jspx>Skin for team UserFriendly.org</a>
+";
+//<li> <a href=http://wcg.userfriendly.org/resources.jspx>Skin for team UserFriendly.org</a>
+echo "
 </ul>
 <a name=sites></a>
 <h3>Other BOINC-related web sites</h3>
@@ -265,7 +268,7 @@ language("German", array(
     site("http://www.boinc-halle-saale.de", "BOINC@Halle/Saale"),
     site("http://www.bc-team.org/", "BOINC Confederation"),
     site("http://www.boincfun.tk/", "BOINCfun"),
-    site("http://www.setigermany.de", "SETI.Germany"),
+    site("http://www.seti-germany.de", "SETI.Germany"),
     site("http://www.sar-hessen.org", "Team Science and Research Hessen"),
     site("http://www.boinc.de/", "www.boinc.de"),
     //site( "http://www.boinc-lubeca.de/", "BOINC - LUBECA (L&uuml;beck, Germany)"),

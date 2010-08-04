@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-18 23:41-0700\n"
+"PO-Revision-Date: 2010-08-03 06:59-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -330,17 +330,19 @@ msgstr "Utolsó kapcsolódás a kiszolgálóhoz"
 #: ../inc/host.inc:181
 #, php-format
 msgid "% of time BOINC client is running"
-msgstr ""
+msgstr "BOINC kliens futása az idő %-ában"
 
 #: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr ""
+"Az idő azon %-a, amikor a gazdagépen van internetkapcsolat a BOINC futása "
+"közben"
 
 #: ../inc/host.inc:185
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "Az idő azon %-a, amikor munka engedélyezve van a BOINC futása közben"
 
 #: ../inc/host.inc:187
 msgid "Average CPU efficiency"

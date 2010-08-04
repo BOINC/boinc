@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-12 10:08 PDT\n"
-"PO-Revision-Date: 2010-05-16 22:03+0300\n"
+"PO-Revision-Date: 2010-07-22 21:28-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -247,9 +247,8 @@ msgid "%1 KB"
 msgstr "%1 Кб"
 
 #: ../inc/host.inc:134
-#, fuzzy
 msgid "Swap space"
-msgstr "Виртуальная память"
+msgstr "Файл подкачки"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
@@ -264,22 +263,18 @@ msgid "Free Disk Space"
 msgstr "Свободное дисковое пространство"
 
 #: ../inc/host.inc:144
-#, fuzzy
 msgid "Measured floating point speed"
 msgstr "Измеренная скорость вычислений с плавающей запятой"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
-#, fuzzy
 msgid "%1 million ops/sec"
 msgstr "%1 млн операций/с"
 
 #: ../inc/host.inc:147
-#, fuzzy
 msgid "Measured integer speed"
 msgstr "Измеренная скорость целочисленных вычислений"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
-#, fuzzy
 msgid "Average upload rate"
 msgstr "Средняя скорость отправки данных"
 
@@ -293,7 +288,6 @@ msgid "Unknown"
 msgstr "Неизвестно"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
-#, fuzzy
 msgid "Average download rate"
 msgstr "Средняя скорость загрузки данных"
 
@@ -307,7 +301,6 @@ msgid "%1 days"
 msgstr "%1 дней"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Maximum daily WU quota per CPU"
 msgstr "Максимальная дневная квота заданий на один ЦП"
 
@@ -320,12 +313,10 @@ msgid "Tasks"
 msgstr "Задания"
 
 #: ../inc/host.inc:178
-#, fuzzy
 msgid "Number of times client has contacted server"
 msgstr "Количество контактов клиента с сервером"
 
 #: ../inc/host.inc:179
-#, fuzzy
 msgid "Last time contacted server"
 msgstr "Время последнего контакта с сервером"
 
@@ -361,7 +352,6 @@ msgid "Delete this computer"
 msgstr "Удалить этот компьютер"
 
 #: ../inc/host.inc:197
-#, fuzzy
 msgid "Merge duplicate records of this computer"
 msgstr "Объединить дублирующиеся записи этого компьютера"
 
@@ -400,7 +390,6 @@ msgid "CPU"
 msgstr "Тип ЦП"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624
-#, fuzzy
 msgid "GPU"
 msgstr "Тип ГП"
 
@@ -409,7 +398,6 @@ msgid "Operating system"
 msgstr "Операционная система"
 
 #: ../inc/host.inc:280
-#, fuzzy
 msgid "(%1 processors)"
 msgstr "(%1 процессоров)"
 
@@ -422,17 +410,14 @@ msgid "Cross-project stats:"
 msgstr "Объединенная статистика по проектам:"
 
 #: ../inc/host.inc:459
-#, fuzzy
 msgid "Host %1 has overlapping lifetime:"
 msgstr "У компьютера %1 наложение времени жизни:"
 
 #: ../inc/host.inc:466
-#, fuzzy
 msgid "Host %1 has an incompatible OS:"
 msgstr "У компьютера %1 несовместимая ОС:"
 
 #: ../inc/host.inc:472
-#, fuzzy
 msgid "Host %1 has an incompatible CPU:"
 msgstr "У компьютера %1 несовместимый ЦП:"
 
@@ -441,17 +426,14 @@ msgid "same host"
 msgstr "тот же самый компьютер"
 
 #: ../inc/host.inc:542
-#, fuzzy
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr "Невозможно объединить компьютеры %1 и %2 - они несовместимы"
 
 #: ../inc/host.inc:545
-#, fuzzy
 msgid "Merging host %1 into host %2"
-msgstr "Слияние компьютера %1 в %2"
+msgstr "Объединение компьютеров %1 и %2"
 
 #: ../inc/host.inc:562
-#, fuzzy
 msgid "Couldn't update credit of new computer"
 msgstr "Невозможно обновить очки нового компьютера"
 
@@ -569,7 +551,6 @@ msgstr ""
 "сообщества%2"
 
 #: ../inc/prefs.inc:76
-#, fuzzy
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
@@ -578,12 +559,10 @@ msgstr ""
 "применимо только для портативных компьютеров %2"
 
 #: ../inc/prefs.inc:84
-#, fuzzy
 msgid "Suspend work while computer is in use?"
 msgstr "Приостанавливать обработку, пока компьютер используется?"
 
 #: ../inc/prefs.inc:90
-#, fuzzy
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
@@ -591,17 +570,14 @@ msgstr ""
 "версии 6.6.21+ %2"
 
 #: ../inc/prefs.inc:98
-#, fuzzy
 msgid "'In use' means mouse/keyboard activity in last"
 msgstr "'Использование' означает активность мыши/клавиатуры за последние"
 
 #: ../inc/prefs.inc:100 ../inc/prefs.inc:109 ../inc/prefs.inc:143
-#, fuzzy
 msgid "minutes"
 msgstr "минут"
 
 #: ../inc/prefs.inc:104
-#, fuzzy
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
@@ -611,7 +587,6 @@ msgstr ""
 "некоторых компьютерах %2"
 
 #: ../inc/prefs.inc:113
-#, fuzzy
 msgid ""
 "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
 "version 6.10.30+ %2"
@@ -620,14 +595,12 @@ msgstr ""
 "ограничений<br>Начиная с версии 6.10.30+ %2"
 
 #: ../inc/prefs.inc:121
-#, fuzzy
 msgid "Do work only between the hours of %1 No restriction if equal %2"
 msgstr ""
 "Запускать обработку только между указанными часами %1 без ограничений при "
 "равенстве значений %2"
 
 #: ../inc/prefs.inc:129
-#, fuzzy
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
@@ -636,12 +609,10 @@ msgstr ""
 "задания будут занимать место в виртуальной памяти %2"
 
 #: ../inc/prefs.inc:138
-#, fuzzy
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
 msgstr "Переключение между заданиями каждые %1 рекомендуется: 60 минут %2"
 
 #: ../inc/prefs.inc:146
-#, fuzzy
 msgid "On multiprocessors, use at most"
 msgstr "На мультипроцессорных системах использовать не более"
 
@@ -650,7 +621,6 @@ msgid "processors"
 msgstr "процессоров"
 
 #: ../inc/prefs.inc:152
-#, fuzzy
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
 "На мультипроцессорных системах использовать не более %1 Начиная с версии "
@@ -662,7 +632,6 @@ msgid "% of the processors"
 msgstr "% процессоров"
 
 #: ../inc/prefs.inc:161
-#, fuzzy
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr ""
 "Использовать не более %1 Может быть использовано для уменьшения перегрева ЦП "
@@ -670,12 +639,11 @@ msgstr ""
 
 #: ../inc/prefs.inc:166
 #, php-format
-#, fuzzy, php-format
+#, php-format
 msgid "% of CPU time"
 msgstr "% времени ЦП"
 
 #: ../inc/prefs.inc:174 ../inc/prefs.inc:188
-#, fuzzy
 msgid "Disk: use at most"
 msgstr "Диск: использовать не более"
 
@@ -684,7 +652,6 @@ msgid "GB"
 msgstr "Гб"
 
 #: ../inc/prefs.inc:179
-#, fuzzy
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
 msgstr ""
 "Диск: оставлять свободного места не менее %1 Значения менее %2 будут "
@@ -693,37 +660,31 @@ msgstr ""
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
 #, php-format
-#, fuzzy, php-format
+#, php-format
 msgid "% of total"
 msgstr "% от полного объема диска"
 
 #: ../inc/prefs.inc:193
-#, fuzzy
 msgid "Tasks checkpoint to disk at most every"
 msgstr "Период сохранения на диск промежуточных результатов заданий"
 
 #: ../inc/prefs.inc:195
-#, fuzzy
 msgid "seconds"
 msgstr "секунд"
 
 #: ../inc/prefs.inc:198
-#, fuzzy
 msgid "Swap space: use at most"
 msgstr "Виртуальная память: использовать не более"
 
 #: ../inc/prefs.inc:203
-#, fuzzy
 msgid "Memory: when computer is in use, use at most"
 msgstr "Память: когда компьютер используется, использовать не более"
 
 #: ../inc/prefs.inc:208
-#, fuzzy
 msgid "Memory: when computer is not in use, use at most"
 msgstr "Память: когда компьютер не используется, использовать не более"
 
 #: ../inc/prefs.inc:217
-#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work. %3"
@@ -733,17 +694,14 @@ msgstr ""
 "такой объем работы. %3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
-#, fuzzy
 msgid "days"
 msgstr "дней"
 
 #: ../inc/prefs.inc:226
-#, fuzzy
 msgid "Maintain enough work for an additional"
 msgstr "Поддерживать достаточный объем работы для дополнительных"
 
 #: ../inc/prefs.inc:232
-#, fuzzy
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
@@ -752,7 +710,6 @@ msgstr ""
 "модемного, ISDN- или VPN-подключения %2"
 
 #: ../inc/prefs.inc:241
-#, fuzzy
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
@@ -761,7 +718,6 @@ msgstr ""
 "модемного, ISDN- или VPN-подключения %2"
 
 #: ../inc/prefs.inc:249
-#, fuzzy
 msgid "Maximum download rate:"
 msgstr "Максимальная скорость загрузки:"
 
@@ -770,38 +726,32 @@ msgid "Kbytes/sec"
 msgstr "Кбайт/с"
 
 #: ../inc/prefs.inc:254
-#, fuzzy
 msgid "Maximum upload rate:"
 msgstr "Максимальная скорость отправки:"
 
 #: ../inc/prefs.inc:259
-#, fuzzy
 msgid "Use network only between the hours of"
 msgstr "Использовать сеть только между указанными часами"
 
 #: ../inc/prefs.inc:263
-#, fuzzy
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
 msgstr "Передавать не более %1 Начиная с версии 6.10.46+ %2"
 
 #: ../inc/prefs.inc:269
-#, fuzzy
 msgid "Mbytes every"
 msgstr "Мбайт каждые"
 
 #: ../inc/prefs.inc:274
-#, fuzzy
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
 "reduces the security of BOINC. %3"
 msgstr ""
 "Пропускать проверку файлов изображений? %1 Отметьте ТОЛЬКО В ТОМ СЛУЧАЕ, "
-"если ваш интернет-поставщик изменяет файлы изображений (Например, это делает "
+"если ваш интернет-провайдер изменяет файлы изображений (Например, это делает "
 "UMTS). %2 Пропуск проверки уменьшает безопасность BOINC. %3"
 
 #: ../inc/prefs.inc:287
-#, fuzzy
 msgid ""
 "Resource share %1 Determines the proportion of your computer's resources "
 "allocated to this project. Example: if you participate in two BOINC projects "
@@ -814,31 +764,26 @@ msgstr ""
 "получит 2/3. %2"
 
 #: ../inc/prefs.inc:300
-#, fuzzy
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
 msgstr "Использовать ЦП %1 начиная с версии 6.10+ %2"
 
 #: ../inc/prefs.inc:312
-#, fuzzy
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
 msgstr "Использовать ГП ATI %1 начиная с версии 6.10+ %2"
 
 #: ../inc/prefs.inc:324
-#, fuzzy
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "Использовать ГП NVIDIA %1 начиная с версии 6.10+ %2"
 
 #: ../inc/prefs.inc:338
-#, fuzzy
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
-"Выполнять тестовые приложения? %1 Это поможет нам разрабатывать приложения, "
+"Выполнять тестовые приложения? %1 Это поможет нам в разработке приложений, "
 "но может привести к ошибкам в расчётах заданий на вашем компьютере %2"
 
 #: ../inc/prefs.inc:347
-#, fuzzy
 msgid "Disk and memory usage"
 msgstr "Использование диска и памяти"
 
@@ -847,19 +792,16 @@ msgid "Processor usage"
 msgstr "Использование процессора"
 
 #: ../inc/prefs.inc:349
-#, fuzzy
 msgid "Network usage"
 msgstr "Использование сети"
 
 #: ../inc/prefs.inc:352
-#, fuzzy
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
 "Эти настройки применяются ко всем проектам BOINC, в которых Вы участвуете."
 
 #: ../inc/prefs.inc:355
-#, fuzzy
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
@@ -868,12 +810,10 @@ msgstr ""
 "диапазона или нечисловые."
 
 #: ../inc/prefs.inc:404
-#, fuzzy
 msgid "bad venue: %1"
 msgstr "плохая конфигурация: %1"
 
 #: ../inc/prefs.inc:410
-#, fuzzy
 msgid "bad subset: %1"
 msgstr "плохой набор: %1"
 
@@ -892,7 +832,6 @@ msgid "no"
 msgstr "нет"
 
 #: ../inc/prefs.inc:637
-#, fuzzy
 msgid "no limit"
 msgstr "нет ограничений"
 
@@ -909,7 +848,6 @@ msgid "Remove"
 msgstr "Удалить"
 
 #: ../inc/prefs.inc:748
-#, fuzzy
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
@@ -917,64 +855,52 @@ msgstr ""
 "спама принимает этот адрес."
 
 #: ../inc/prefs.inc:751 ../inc/prefs.inc:951
-#, fuzzy
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr "Могут ли %1 и ваша команда отправлять Вам электронные письма?"
 
 #: ../inc/prefs.inc:754 ../inc/prefs.inc:954
-#, fuzzy
 msgid "Should %1 show your computers on its web site?"
-msgstr "Должен ли %1 показывать ваши компьютеры на своем веб-сайте?"
+msgstr "Должен ли %1 показывать ваши компьютеры на своём веб-сайте?"
 
 #: ../inc/prefs.inc:770
-#, fuzzy
 msgid "Computing"
 msgstr "вычислений"
 
 #: ../inc/prefs.inc:781
-#, fuzzy
 msgid "Separate preferences for %1"
 msgstr "Отдельные настройки для конфигурации %1"
 
 #: ../inc/prefs.inc:790 ../inc/prefs.inc:865
-#, fuzzy
 msgid "Edit preferences"
 msgstr "Редактировать настройки"
 
 #: ../inc/prefs.inc:794
-#, fuzzy
 msgid "Add separate preferences for %1"
 msgstr "Добавить отдельные настройки для конфигурации %1"
 
 #: ../inc/prefs.inc:802 ../inc/prefs.inc:847
-#, fuzzy
 msgid "(Switch View)"
 msgstr "(Переключить вид)"
 
 #: ../inc/prefs.inc:804 ../inc/prefs.inc:850
-#, fuzzy
 msgid "Combined preferences"
 msgstr "Объединённые настройки"
 
 #: ../inc/prefs.inc:809
-#, fuzzy
 msgid "Project specific settings"
-msgstr "Определенные параметры проекта"
+msgstr "Определённые параметры проекта"
 
 #: ../inc/prefs.inc:817 ../inc/prefs.inc:859
-#, fuzzy
 msgid "Primary (default) preferences"
 msgstr "Основные настройки (по умолчанию)"
 
 #: ../inc/prefs.inc:826 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
-#, fuzzy
 msgid "Edit %1 preferences"
 msgstr "Редактировать настройки %1"
 
 #: ../inc/prefs.inc:840
-#, fuzzy
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers attached to multiple projects, the most recently "
@@ -997,12 +923,10 @@ msgid "Update preferences"
 msgstr "Обновить настройки"
 
 #: ../inc/prefs.inc:988 ../inc/prefs.inc:997
-#, fuzzy
 msgid "Default computer location"
 msgstr "Расположение компьютера по умолчанию"
 
 #: ../inc/prefs.inc:1146
-#, fuzzy
 msgid "Update failed: "
 msgstr "Неудача при обновлении: "
 
@@ -1011,7 +935,6 @@ msgid "and"
 msgstr "и"
 
 #: ../inc/profile.inc:86
-#, fuzzy
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
@@ -1032,7 +955,6 @@ msgid "Database error"
 msgstr "Ошибка базы данных"
 
 #: ../inc/profile.inc:187
-#, fuzzy
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
@@ -1042,7 +964,6 @@ msgstr ""
 "извинения за это неудобство."
 
 #: ../inc/profile.inc:191
-#, fuzzy
 msgid "User is banished"
 msgstr "Пользователь заблокирован"
 
@@ -1075,22 +996,18 @@ msgid "I %1do not like%2 this profile"
 msgstr "Мне %1не нравится%2 этот профиль"
 
 #: ../inc/result.inc:25
-#, fuzzy
 msgid "Anonymous platform"
 msgstr "Анонимная платформа"
 
 #: ../inc/result.inc:26
-#, fuzzy
 msgid "Anonymous platform - CPU"
 msgstr "Анонимная платформа - ЦП"
 
 #: ../inc/result.inc:27
-#, fuzzy
 msgid "Anonymous platform - NVIDIA GPU"
 msgstr "Анонимная платформа - ГП NVIDIA"
 
 #: ../inc/result.inc:28
-#, fuzzy
 msgid "Anonymous platform - ATI GPU"
 msgstr "Анонимная платформа - ГП ATI"
 
@@ -1151,7 +1068,6 @@ msgid "Completed, can't validate"
 msgstr "Завершён, невозможно проверить"
 
 #: ../inc/result.inc:125
-#, fuzzy
 msgid "Completed, validation inconclusive"
 msgstr "Завершён, проверка неокончательная"
 
@@ -1164,7 +1080,6 @@ msgid "Completed"
 msgstr "Завершён"
 
 #: ../inc/result.inc:129 ../inc/result.inc:165
-#, fuzzy
 msgid "Couldn't send"
 msgstr "Не удалось отправить"
 
@@ -1189,7 +1104,6 @@ msgid "Aborted by user"
 msgstr "Прервано пользователем"
 
 #: ../inc/result.inc:142
-#, fuzzy
 msgid "Timed out - no response"
 msgstr "Время истекло - нет ответа"
 
@@ -1202,17 +1116,14 @@ msgid "Validate error"
 msgstr "Ошибка проверки"
 
 #: ../inc/result.inc:145 ../inc/result.inc:174
-#, fuzzy
 msgid "Client detached"
 msgstr "Клиент отсоединён"
 
 #: ../inc/result.inc:156
-#, fuzzy
 msgid "Over"
 msgstr "Завершено"
 
 #: ../inc/result.inc:164
-#, fuzzy
 msgid "Success"
 msgstr "Успех"
 
@@ -1221,7 +1132,6 @@ msgid "Client error"
 msgstr "Ошибка клиента"
 
 #: ../inc/result.inc:170
-#, fuzzy
 msgid "Redundant result"
 msgstr "Лишний результат"
 
@@ -1266,7 +1176,6 @@ msgid "Workunit error - check skipped"
 msgstr "Ошибка задачи - проверка пропущена"
 
 #: ../inc/result.inc:205
-#, fuzzy
 msgid "Checked, but no consensus yet"
 msgstr "Проверено, но пока нет согласия"
 
@@ -1275,17 +1184,14 @@ msgid "Task was reported too late to validate"
 msgstr "Задание возвращено слишком поздно для проверки"
 
 #: ../inc/result.inc:214
-#, fuzzy
 msgid "Couldn't send result"
 msgstr "Не удалось отправить результат"
 
 #: ../inc/result.inc:218
-#, fuzzy
 msgid "Too many errors (may have bug)"
-msgstr "Слишком много ошибок (может иметь ошибку)"
+msgstr "Слишком много ошибок (возможно ошибка в ПО)"
 
 #: ../inc/result.inc:222
-#, fuzzy
 msgid "Too many results (may be nondeterministic)"
 msgstr "Слишком много результатов (может быть недетерминированным)"
 
@@ -1296,7 +1202,6 @@ msgid "Too many total results"
 msgstr "Слишком много всего результатов"
 
 #: ../inc/result.inc:230
-#, fuzzy
 msgid "WU cancelled"
 msgstr "WU отменён"
 
@@ -1334,12 +1239,10 @@ msgid "Computer"
 msgstr "Компьютер"
 
 #: ../inc/result.inc:277 ../inc/result.inc:381
-#, fuzzy
 msgid "Sent"
 msgstr "Отправлен"
 
 #: ../inc/result.inc:278
-#, fuzzy
 msgid "Time reported<br />or deadline"
 msgstr "Время подтверждения<br />или крайний срок"
 
@@ -1352,17 +1255,14 @@ msgid "Status"
 msgstr "Статус"
 
 #: ../inc/result.inc:282
-#, fuzzy
 msgid "Run time<br />(sec)"
 msgstr "Время выполнения<br />(сек)"
 
 #: ../inc/result.inc:283
-#, fuzzy
 msgid "CPU time<br />(sec)"
 msgstr "Время ЦП<br />(сек)"
 
 #: ../inc/result.inc:284 ../inc/result.inc:392
-#, fuzzy
 msgid "Claimed credit"
 msgstr "Затребовано очков"
 
@@ -1383,42 +1283,34 @@ msgid "Received"
 msgstr "Получен"
 
 #: ../inc/result.inc:383
-#, fuzzy
 msgid "Server state"
 msgstr "Состояние сервера"
 
 #: ../inc/result.inc:384
-#, fuzzy
 msgid "Outcome"
-msgstr "Результат"
+msgstr "Результат выполнения"
 
 #: ../inc/result.inc:385
-#, fuzzy
 msgid "Client state"
 msgstr "Состояние клиента"
 
 #: ../inc/result.inc:386
-#, fuzzy
 msgid "Exit status"
 msgstr "Статус выхода"
 
 #: ../inc/result.inc:388
-#, fuzzy
 msgid "Report deadline"
 msgstr "Крайний срок отчёта"
 
 #: ../inc/result.inc:389
-#, fuzzy
 msgid "Run time"
 msgstr "Время выполнения"
 
 #: ../inc/result.inc:390
-#, fuzzy
 msgid "CPU time"
 msgstr "Время ЦП"
 
 #: ../inc/result.inc:391
-#, fuzzy
 msgid "Validate state"
 msgstr "Состояние проверки"
 
@@ -1427,12 +1319,10 @@ msgid "application version"
 msgstr "версия приложения"
 
 #: ../inc/result.inc:409
-#, fuzzy
 msgid "Previous"
 msgstr "Предыдущие"
 
 #: ../inc/result.inc:418
-#, fuzzy
 msgid "Next"
 msgstr "Следующие"
 
@@ -1593,7 +1483,6 @@ msgstr "Администратор"
 
 #: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
 #: ../user/top_users.php:125
-#, fuzzy
 msgid "Previous %1"
 msgstr "Предыдущие %1"
 
@@ -1615,7 +1504,6 @@ msgid "This operation requires team admin privileges"
 msgstr "Эта операция требует прав администратора команды"
 
 #: ../inc/team.inc:410
-#, fuzzy
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
@@ -1669,12 +1557,10 @@ msgid "Description of team"
 msgstr "Описание команды"
 
 #: ../inc/team.inc:451
-#, fuzzy
 msgid "Accept new members?"
 msgstr "Принимать новых участников?"
 
 #: ../inc/uotd.inc:27
-#, fuzzy
 msgid "User profile"
 msgstr "Профиль пользователя"
 
@@ -1734,7 +1620,6 @@ msgid "Team"
 msgstr "Команда"
 
 #: ../inc/user.inc:164
-#, fuzzy
 msgid "Cross-project"
 msgstr "Межпроектный"
 
@@ -1987,7 +1872,6 @@ msgid "Optional"
 msgstr "Необязательно"
 
 #: ../user/add_venue.php:86
-#, fuzzy
 msgid "Add %1 preferences for %2"
 msgstr "Добавить настройки %1 для конфигурации %2"
 
@@ -2314,12 +2198,10 @@ msgid "HTML tags are not allowed in your name."
 msgstr "Тэги HTML недопустимы в Вашем имени."
 
 #: ../user/edit_user_info_action.php:32
-#, fuzzy
 msgid "You must supply a name for your account."
 msgstr "Вы должны указать имя для вашей учётной информации."
 
 #: ../user/edit_user_info_action.php:41 ../user/team_edit_action.php:51
-#, fuzzy
 msgid "bad country"
 msgstr "неправильная страна"
 
@@ -2400,7 +2282,6 @@ msgid "This forum is not visible to you."
 msgstr "Этот форум для Вас невидим."
 
 #: ../user/forum_thread.php:60
-#, fuzzy
 msgid "This thread has been hidden by moderators"
 msgstr "Это обсуждение было скрыто в административных целях"
 
@@ -3021,7 +2902,6 @@ msgstr ""
 "\t или Вы выполните команду %2Обновить%3 из клиента BOINC."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
-#, fuzzy
 msgid "%1 for %2"
 msgstr "%1 для конфигурации %2"
 
@@ -3030,19 +2910,16 @@ msgid "Back to preferences"
 msgstr "Назад к настройкам"
 
 #: ../user/prefs_remove.php:46
-#, fuzzy
 msgid "Confirm delete preferences"
 msgstr "Подтверждение удаления настроек"
 
 #: ../user/prefs_remove.php:49
-#, fuzzy
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
 "Вы уверены, что хотите удалить ваши отдельные настройки %1 для конфигурации "
 "%2?"
 
 #: ../user/prefs_remove.php:53
-#, fuzzy
 msgid "Remove preferences"
 msgstr "Удалить настройки"
 
@@ -3283,34 +3160,28 @@ msgstr ""
 "команду%2."
 
 #: ../user/team_admins.php:32
-#, fuzzy
 msgid "Remove Team Admin status from this member"
-msgstr "Удалить статус Администратора команды с этого участника"
+msgstr "Удалить статус Администратора команды у этого участника"
 
 #: ../user/team_admins.php:38 ../user/team_admins.php:49
-#, fuzzy
 msgid "Add or remove Team Admins"
 msgstr "Добавить или удалить Администраторов команды"
 
 #: ../user/team_admins.php:39
-#, fuzzy
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr ""
 "Вы можете выбрать участников команды в качестве 'Администраторов команды'. "
 "Администраторы команды могут:"
 
 #: ../user/team_admins.php:41
-#, fuzzy
 msgid "Edit team information (name, URL, description, country)"
 msgstr "Редактировать информацию о команде (название, URL, описание, страна)"
 
 #: ../user/team_admins.php:42
-#, fuzzy
 msgid "View the team's join/quit history"
 msgstr "Просматривать историю присоединения/выхода из команды"
 
 #: ../user/team_admins.php:43
-#, fuzzy
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
@@ -3319,29 +3190,24 @@ msgstr ""
 "по электронной почте о событиях модерации и о красных X-сообщениях)"
 
 #: ../user/team_admins.php:45
-#, fuzzy
 msgid "Team Admins cannot:"
 msgstr "Администраторы команды не могут:"
 
 #: ../user/team_admins.php:47
-#, fuzzy
 msgid "Change the team founder"
 msgstr "Поменять основателя команды"
 
 #: ../user/team_admins.php:48 ../user/team_manage.php:52
-#, fuzzy
 msgid "Remove members"
 msgstr "Удалить участников"
 
 #: ../user/team_admins.php:51
-#, fuzzy
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr ""
 "Если Администратор команды покидает команду, он перестает быть "
 "Администратором."
 
 #: ../user/team_admins.php:52
-#, fuzzy
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
@@ -3350,32 +3216,26 @@ msgstr ""
 "которых Вы знаете и которым доверяете."
 
 #: ../user/team_admins.php:57
-#, fuzzy
 msgid "There are currently no Team Admins"
 msgstr "В настоящее время у команды нет Администраторов"
 
 #: ../user/team_admins.php:59
-#, fuzzy
 msgid "Current Team Admins"
 msgstr "Текущие Администраторы команды"
 
 #: ../user/team_admins.php:60
-#, fuzzy
 msgid "Became Team Admin on"
 msgstr "Стал Администратором команды с"
 
 #: ../user/team_admins.php:75
-#, fuzzy
 msgid "Add Team Admin"
 msgstr "Добавление Администратора команды"
 
 #: ../user/team_admins.php:76
-#, fuzzy
 msgid "Email address of team member:"
 msgstr "Адрес email участника команды:"
 
 #: ../user/team_admins.php:88
-#, fuzzy
 msgid "failed to remove admin"
 msgstr "не удалось удалить администратора"
 
@@ -3384,17 +3244,14 @@ msgid "no such user"
 msgstr "нет такого пользователя"
 
 #: ../user/team_admins.php:96
-#, fuzzy
 msgid "User is not member of team"
 msgstr "Пользователь не является участником команды"
 
 #: ../user/team_admins.php:98
-#, fuzzy
 msgid "%1 is already an admin of %2"
 msgstr "%1 уже администратор команды %2"
 
 #: ../user/team_admins.php:102
-#, fuzzy
 msgid "Couldn't add admin"
 msgstr "Невозможно добавить администратора"
 
@@ -3412,22 +3269,18 @@ msgid "no such team"
 msgstr "нет такой команды"
 
 #: ../user/team_change_founder_action.php:36
-#, fuzzy
 msgid "User is not a member of %1"
 msgstr "Пользователь не является участником команды %1"
 
 #: ../user/team_change_founder_action.php:39
-#, fuzzy
 msgid "Changing founder of %1"
 msgstr "Изменение основателя команды %1"
 
 #: ../user/team_change_founder_action.php:41
-#, fuzzy
 msgid "%1 is now founder of %2"
 msgstr "%1 теперь основатель команды %2"
 
 #: ../user/team_change_founder_form.php:35
-#, fuzzy
 msgid "Change founder of %1"
 msgstr "Изменение основателя команды %1"
 
@@ -3453,7 +3306,6 @@ msgid "decline request"
 msgstr "отклонить запрос"
 
 #: ../user/team_change_founder_form.php:56
-#, fuzzy
 msgid ""
 "If you don't decline the request by %1, %2 will have the option of assuming "
 "team foundership.<br /><br />\n"
@@ -3466,12 +3318,10 @@ msgstr ""
 "участнику %3, используя форму ниже."
 
 #: ../user/team_change_founder_form.php:64
-#, fuzzy
 msgid "No transfer request is pending."
 msgstr "Запросов на смену основателя нет в ожидании."
 
 #: ../user/team_change_founder_form.php:67
-#, fuzzy
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
@@ -3544,12 +3394,10 @@ msgid "Must specify team name"
 msgstr "Необходимо указать название команды"
 
 #: ../user/team_edit_action.php:88
-#, fuzzy
 msgid "Could not update team - please try again later."
 msgstr "Не удалось обновить команду - пожалуйста, попробуйте ещё раз позже."
 
 #: ../user/team_edit_form.php:31
-#, fuzzy
 msgid "Edit %1"
 msgstr "Редактирование команды %1"
 
@@ -3558,7 +3406,6 @@ msgid "Update team info"
 msgstr "Обновить информацию о команде"
 
 #: ../user/team_email_list.php:58
-#, fuzzy
 msgid "%1 Email List"
 msgstr "Список email-адресов команды %1"
 
@@ -3571,27 +3418,22 @@ msgid "Show as plain text"
 msgstr "Показать как простой текст"
 
 #: ../user/team_forum.php:26 ../user/team_forum.php:37
-#, fuzzy
 msgid "Create Message Board"
 msgstr "Создать доску сообщений"
 
 #: ../user/team_forum.php:27
-#, fuzzy
 msgid "You may create a message board for use by %1."
 msgstr "Вы можете создать доску сообщений для общения в команде %1."
 
 #: ../user/team_forum.php:29
-#, fuzzy
 msgid "Only team members will be able to post."
 msgstr "Только участники команды смогут оставлять сообщения."
 
 #: ../user/team_forum.php:30
-#, fuzzy
 msgid "At your option, only members will be able to read."
 msgstr "По вашему выбору, только участники смогут её читать."
 
 #: ../user/team_forum.php:31
-#, fuzzy
 msgid "You and your Team Admins will have moderator privileges."
 msgstr "У Вас и ваших Администраторов команды будут права модерирования."
 
@@ -3628,7 +3470,6 @@ msgid "Minimum average credit to post"
 msgstr "Минимальное среднее количество очков для написания сообщений"
 
 #: ../user/team_forum.php:78
-#, fuzzy
 msgid "Submit"
 msgstr "Отправить"
 
@@ -3663,7 +3504,6 @@ msgid "Message board removed"
 msgstr "Доска сообщений удалена"
 
 #: ../user/team_forum.php:122
-#, fuzzy
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
@@ -3671,17 +3511,14 @@ msgstr ""
 "новую%2."
 
 #: ../user/team_forum.php:141
-#, fuzzy
 msgid "Team Message Board Updated"
 msgstr "Доска сообщений команды обновлена"
 
 #: ../user/team_forum.php:142
-#, fuzzy
 msgid "Update successful"
 msgstr "Обновление завершено успешно"
 
 #: ../user/team_forum.php:145
-#, fuzzy
 msgid "Update failed"
 msgstr "Обновление не удалось"
 
@@ -3771,7 +3608,6 @@ msgid "You are now founder of team %1."
 msgstr "Вы теперь основатель команды %1."
 
 #: ../user/team_founder_transfer_form.php:42
-#, fuzzy
 msgid "You requested the foundership of %1 on %2."
 msgstr "Вы запросили смену основателя команды %1 с %2."
 
@@ -3831,7 +3667,6 @@ msgstr ""
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
-#, fuzzy
 msgid "The team %1 is not joinable."
 msgstr "Команда %1 не допускает присоединений."
 
@@ -3897,7 +3732,6 @@ msgstr ""
 "команд."
 
 #: ../user/team_lookup.php:102
-#, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
@@ -4053,7 +3887,6 @@ msgstr ""
 "         </ul>"
 
 #: ../user/team_quit_form.php:40
-#, fuzzy
 msgid "Quit Team"
 msgstr "Выйти из команды"
 
@@ -4119,7 +3952,6 @@ msgid "Change your search"
 msgstr "Измените ваш поиск"
 
 #: ../user/team_search.php:152
-#, fuzzy
 msgid "Team search results"
 msgstr "Результаты поиска команд"
 
@@ -4168,7 +4000,6 @@ msgid "User of the Day for %1: %2"
 msgstr "Пользователь дня на %1: %2"
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
-#, fuzzy
 msgid "Joined"
 msgstr "Присоединился"
 
@@ -4177,22 +4008,18 @@ msgid "Search type"
 msgstr "Тип поиска"
 
 #: ../user/user_search.php:114
-#, fuzzy
 msgid "User name starts with"
 msgstr "Имя пользователя начинается с"
 
 #: ../user/user_search.php:115
-#, fuzzy
 msgid "Decreasing sign-up time"
 msgstr "В порядке уменьшения времени регистрации"
 
 #: ../user/user_search.php:116
-#, fuzzy
 msgid "Decreasing average credit"
 msgstr "В порядке уменьшения среднего количества очков"
 
 #: ../user/user_search.php:117
-#, fuzzy
 msgid "Decreasing total credit"
 msgstr "В порядке уменьшения общего количества очков"
 
@@ -4221,7 +4048,6 @@ msgid "search string must be at least 3 characters"
 msgstr "искомая строка должна быть минимум 3 символа"
 
 #: ../user/user_search.php:156
-#, fuzzy
 msgid "User names starting with"
 msgstr "Имена пользователей, начинающиеся с"
 
@@ -4393,7 +4219,6 @@ msgid "granted credit"
 msgstr "предоставлено очков"
 
 #: ../user/workunit.php:52
-#, fuzzy
 msgid "Tasks in progress"
 msgstr "Задания обрабатываются"
 
@@ -4406,12 +4231,10 @@ msgid "minimum quorum"
 msgstr "минимальный кворум"
 
 #: ../user/workunit.php:56
-#, fuzzy
 msgid "initial replication"
 msgstr "начальная репликация"
 
 #: ../user/workunit.php:57
-#, fuzzy
 msgid "max # of error/total/success tasks"
 msgstr "макс. # ошибок/всего/успешных заданий"
 
@@ -4560,12 +4383,10 @@ msgstr "(все приложения)"
 #~ msgstr "Настройки"
 
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
 msgstr "Подробно о приложении"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Show"
 msgstr "Показать"
 
@@ -4574,7 +4395,6 @@ msgid "NVIDIA GPU"
 msgstr "ГП NVIDIA"
 
 #: ../inc/result.inc:44
-#, fuzzy
 msgid "ATI GPU"
 msgstr "ГП ATI"
 
@@ -4584,22 +4404,20 @@ msgstr "Задание"
 
 #: ../inc/result.inc:271
 msgid "Work unit"
-msgstr "Задача (WU)"
+msgstr "Задача"
 
 #: ../inc/result.inc:394
 msgid "Application version"
 msgstr "Версия приложения"
 
 #: ../user/hosts_user.php:51
-#, fuzzy
 msgid "Computers belonging to %1"
-msgstr "Компьютеры, принадлежащие %1"
+msgstr "Компьютеры, принадлежащие пользователю %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
 msgstr "Этот пользователь скрыл информацию о своих компьютерах."
 
 #: ../project.sample/project.inc:49
-#, fuzzy
 msgid "Main page"
 msgstr "Главная страница"
