@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-07-16 15:12-0000\n"
+"PO-Revision-Date: 2010-08-04 10:02-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr "erro"
 
 #: acct_setup.cpp:264
 msgid "A new version of BOINC is available."
-msgstr "Uma versão mais recente do BOINC está disponível"
+msgstr "Uma versão mais recente do BOINC está disponível."
 
 #: acct_setup.cpp:266
 msgid "Download it."
@@ -90,7 +90,7 @@ msgstr "Este projecto não suporta o tipo de CPU"
 
 #: ../sched/handle_request.cpp:1216
 msgid "This project doesn't support computers of type"
-msgstr "Este projecto não suporta a computadores do tipo"
+msgstr "Este projecto não suporta computadores do tipo"
 
 #: ../sched/sched_send.cpp:1252
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
@@ -126,7 +126,7 @@ msgstr "O seu tipo de computador não é suportado por este projecto"
 
 #: ../sched/sched_send.cpp:1434
 msgid "Newer BOINC version required; please install current version"
-msgstr "Uma versão mais recente do BOINC é necessária; por favor, instale a versão actual"
+msgstr "Uma versão mais recente do BOINC é necessária; por favor instale a versão actual"
 
 #: ../sched/sched_send.cpp:1444
 msgid "Your preference for network connection interval is too high for this project"
