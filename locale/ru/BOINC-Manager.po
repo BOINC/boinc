@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-04 08:54-0700\n"
+"PO-Revision-Date: 2010-08-04 09:26-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -300,14 +300,12 @@ msgid "Get current settings from %s"
 msgstr "Обновить настройки с %s"
 
 #: clientgui/AdvancedFrame.cpp:409
-#, fuzzy
 msgid "&Add project..."
 msgstr "Добавить проект..."
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "Add a project"
-msgstr "Все проекты"
+msgstr "Добавить проект"
 
 # ???
 #: clientgui/AdvancedFrame.cpp:413
@@ -316,9 +314,8 @@ msgid "S&top using %s..."
 msgstr "Отсоединиться от %s..."
 
 #: clientgui/AdvancedFrame.cpp:419
-#, fuzzy
 msgid "Remove this computer from account manager control."
-msgstr "Отсоединить клиент от менеджера проектов."
+msgstr "Отсоединить этот компьютер от менеджера проектов."
 
 #: clientgui/AdvancedFrame.cpp:424
 #, fuzzy
@@ -330,14 +327,12 @@ msgid "Configure GUI options and proxy settings"
 msgstr "Настройки графического интерфейса программы и прокси серверов"
 
 #: clientgui/AdvancedFrame.cpp:429
-#, fuzzy
 msgid "Computing &preferences..."
 msgstr "Настройки клиента..."
 
 #: clientgui/AdvancedFrame.cpp:430
-#, fuzzy
 msgid "Configure computing preferences"
-msgstr "Локально хранимые настройки для текущего BOINC клиента"
+msgstr "Изменить локальные настройки вычислений подключенного клиента"
 
 #: clientgui/AdvancedFrame.cpp:438
 msgid "&Run always"
@@ -352,9 +347,8 @@ msgid "Run based on &preferences"
 msgstr "График работы определяется настройками"
 
 #: clientgui/AdvancedFrame.cpp:444
-#, fuzzy
 msgid "Allow work according to preferences"
-msgstr "Обработка происходит в моменты времени в соответствие с настройками"
+msgstr "Обработка заданий выполняется в соответствии с настройками"
 
 #: clientgui/AdvancedFrame.cpp:448
 msgid "&Suspend"
