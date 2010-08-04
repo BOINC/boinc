@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-12 15:53-0700\n"
-"PO-Revision-Date: 2010-08-04 06:38-0700\n"
+"PO-Revision-Date: 2010-08-04 07:17-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -151,26 +151,33 @@ msgid ""
 msgstr ""
 
 #: ../sched/sched_send.cpp:1450
+#, fuzzy
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
+"Aufgaben für NVIDIA GPUs sind verfügbar, aber die Einstellungen verbieten "
+"diese."
 
 #: ../sched/sched_send.cpp:1456
+#, fuzzy
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
+"Aufgaben für ATI GPUs sind verfügbar, aber die Einstellungen verbieten "
+"diese."
 
 #: ../sched/sched_send.cpp:1462
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
+"Aufgaben für die CPU sind verfügbar, aber die Einstellungen verbieten diese."
 
 #: ../sched/sched_version.cpp:224
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Die app_info.xml Datei enthält keine nutzbare Version von"
 
 #: ../sched/sched_version.cpp:635
 msgid "is not available for your type of computer"
-msgstr ""
+msgstr "ist für diesen Typ von Computer nicht verfügbar."
