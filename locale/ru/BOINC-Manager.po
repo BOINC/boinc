@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-04 09:26-0700\n"
+"PO-Revision-Date: 2010-08-04 10:57-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -318,9 +318,8 @@ msgid "Remove this computer from account manager control."
 msgstr "Отсоединить этот компьютер от менеджера проектов."
 
 #: clientgui/AdvancedFrame.cpp:424
-#, fuzzy
 msgid "Display and network &options..."
-msgstr "Настройки отображения и сети..."
+msgstr "Настройки интерфейса и сети..."
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Configure GUI options and proxy settings"
@@ -360,34 +359,29 @@ msgstr "Приостанавливается обработка всех зад�
 
 #: clientgui/AdvancedFrame.cpp:474
 msgid "Use GPU always"
-msgstr "Постоянная обработка на GPU"
+msgstr "Постоянная обработка на ГП"
 
 #: clientgui/AdvancedFrame.cpp:475
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Обработка заданий на GPU запущена всегда"
+msgstr "Обработка заданий на ГП запущена всегда"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Use GPU based on preferences"
-msgstr "График работы GPU определяется настройками"
+msgstr "График работы ГП определяется настройками"
 
 #: clientgui/AdvancedFrame.cpp:480
-#, fuzzy
 msgid "Allow GPU work according to preferences"
-msgstr ""
-"Обработка на GPU происходит в моменты времени в соответствие с настройками"
+msgstr "Обработка на ГП выполняется в соответствии с настройками"
 
 #: clientgui/AdvancedFrame.cpp:484
 msgid "Suspend GPU"
-msgstr "Приостановить использование GPU"
+msgstr "Приостановить использование ГП"
 
 #: clientgui/AdvancedFrame.cpp:485
 msgid "Stop GPU work regardless of preferences"
 msgstr "Приостанавливается обработка на GPU всех заданий во всех проектах"
 
 #: clientgui/AdvancedFrame.cpp:509
-#, fuzzy
 msgid "Network activity always available"
 msgstr "Подключен к интернету"
 
@@ -398,18 +392,15 @@ msgstr ""
 "от настроек"
 
 #: clientgui/AdvancedFrame.cpp:514
-#, fuzzy
 msgid "Network activity based on preferences"
 msgstr "Доступ в интернет определяется настройками"
 
 #: clientgui/AdvancedFrame.cpp:515
-#, fuzzy
 msgid "Allow network activity according to preferences"
 msgstr ""
 "Обмен данными через интернет осуществляется в соответствии с настройками"
 
 #: clientgui/AdvancedFrame.cpp:519
-#, fuzzy
 msgid "Network activity suspended"
 msgstr "Работать автономно"
 
@@ -432,9 +423,8 @@ msgid "Shut down connected client..."
 msgstr "Завершить работу подключенного BOINC клиента..."
 
 #: clientgui/AdvancedFrame.cpp:541
-#, fuzzy
 msgid "Shut down the currently connected client"
-msgstr "Завершить работу подключенного BOINC клиента"
+msgstr "Завершить работу подключенного BOINC-клиента"
 
 #: clientgui/AdvancedFrame.cpp:545
 msgid "Run CPU &benchmarks"
@@ -446,13 +436,11 @@ msgstr "Запустить тест производительности про�
 
 # ???
 #: clientgui/AdvancedFrame.cpp:550
-#, fuzzy
 msgid "Do network communication"
 msgstr "Повторить обмен данными с серверами проектов"
 
 # ???
 #: clientgui/AdvancedFrame.cpp:551
-#, fuzzy
 msgid "Do all pending network communication"
 msgstr "Повторить все незавершённые обмены данными с серверами проектов."
 
@@ -461,9 +449,8 @@ msgid "Read config file"
 msgstr "Перезагрузить файл спецнастроек"
 
 #: clientgui/AdvancedFrame.cpp:556
-#, fuzzy
 msgid "Read configuration info from cc_config.xml"
-msgstr "Перезагрузить файл спецнастроек cc_config.xml."
+msgstr "Перезагрузить файл спецнастроек cc_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:560
 msgid "Read local prefs file"
@@ -478,7 +465,6 @@ msgid "Event Log..."
 msgstr "Просмотр событий..."
 
 #: clientgui/AdvancedFrame.cpp:566
-#, fuzzy
 msgid "Display diagnostic messages."
 msgstr "Показать диагностические сообщения."
 
@@ -585,12 +571,12 @@ msgstr ""
 "для вступления в силу изменений требуется перезапустить программу %s."
 
 #: clientgui/AdvancedFrame.cpp:1489
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Завершение работы текущего BOINC клиента..."
 
 #: clientgui/AdvancedFrame.cpp:1498
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
@@ -599,9 +585,8 @@ msgstr ""
 "и запросит у Вас для подключения адрес другого компьютера."
 
 #: clientgui/AdvancedFrame.cpp:1545
-#, fuzzy
 msgid "Retrying communications."
-msgstr "Повторный обмен данными для всех подключенных проектов..."
+msgstr "Повторный обмен данными."
 
 #: clientgui/AdvancedFrame.cpp:1769
 #, c-format
@@ -785,18 +770,18 @@ msgid "Web sites"
 msgstr "Ссылки"
 
 #: clientgui/BOINCClientManager.cpp:534
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Unexpected Exit"
-msgstr "Неожиданный текст в"
+msgstr "%s - Неожиданный выход"
 
 #: clientgui/BOINCClientManager.cpp:544
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
-"%s не может подключиться к клиенту %s.\n"
-"Попытаться повторить подключение?"
+"Клиент %s неожиданно завершил работу 3 раза за последние %d минут.\n"
+"Хотите перезапустить его ещё раз?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -954,33 +939,28 @@ msgstr "Приостановить GPU"
 # переделать
 #: clientgui/BOINCTaskBar.cpp:677
 msgid "Computing is enabled"
-msgstr "Вычисления разрешены"
+msgstr "Обработка разрешена"
 
 # пауза
 #: clientgui/BOINCTaskBar.cpp:680
-#, fuzzy
 msgid "Computing is suspended - "
 msgstr "Обработка приостановлена - "
 
 # переделать
 #: clientgui/BOINCTaskBar.cpp:690
-#, fuzzy
 msgid "GPU computing is enabled"
 msgstr "Обработка на ГП разрешена"
 
 # пауза
 #: clientgui/BOINCTaskBar.cpp:693
-#, fuzzy
 msgid "GPU computing is suspended - "
 msgstr "Обработка на ГП приостановлена - "
 
 #: clientgui/BOINCTaskBar.cpp:702
-#, fuzzy
 msgid "Network is enabled"
 msgstr "Доступ в интернет разрешен"
 
 #: clientgui/BOINCTaskBar.cpp:705
-#, fuzzy
 msgid "Network is suspended - "
 msgstr "Доступ в интернет приостановлен - "
 
@@ -993,13 +973,13 @@ msgid "Not connected to a client."
 msgstr "Не подключен к клиенту."
 
 #: clientgui/BOINCTaskBar.cpp:767
-#, fuzzy, c-format
+#, c-format
 msgid "%s Notices"
 msgstr "Уведомления %s"
 
 #: clientgui/BOINCTaskBar.cpp:773
 msgid "There are new notices - click to view."
-msgstr ""
+msgstr "Есть новые уведомления - нажмите для просмотра."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1047,13 +1027,12 @@ msgid "Messages from server:"
 msgstr "Сообщения от сервера:"
 
 #: clientgui/CompletionPage.cpp:207
-#, fuzzy
 msgid "Project added"
-msgstr "Проект"
+msgstr "Проект добавлен"
 
 #: clientgui/CompletionPage.cpp:213
 msgid "This project has been successfully added."
-msgstr ""
+msgstr "Этот проект был успешно добавлен"
 
 # ...
 #: clientgui/CompletionPage.cpp:218
@@ -1229,7 +1208,6 @@ msgid "Computing allowed"
 msgstr "Запускать обработку заданий при выполнении следующих условий"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:135
-#, fuzzy
 msgid "While computer is on batteries"
 msgstr "При питании от аккумуляторов"
 
@@ -1241,7 +1219,6 @@ msgstr ""
 "питается от аккумуляторов"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:144
-#, fuzzy
 msgid "While computer is in use"
 msgstr "Когда компьютер используется для работы"
 
@@ -1253,7 +1230,6 @@ msgstr ""
 "используется пользователями для работы"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:153
-#, fuzzy
 msgid "Use GPU while computer is in use"
 msgstr "Использовать ГП когда компьютер используется для работы"
 
@@ -1454,7 +1430,6 @@ msgstr "дней (макс. 10)"
 
 # не проверять изображение файла
 #: clientgui/DlgAdvPreferencesBase.cpp:441
-#, fuzzy
 msgid "Skip image file verification"
 msgstr "Не проверять загружаемые файлы"
 
@@ -1572,7 +1547,6 @@ msgstr "% когда компьютер простаивает"
 
 # ?
 #: clientgui/DlgAdvPreferencesBase.cpp:665
-#, fuzzy
 msgid "Leave applications in memory while suspended"
 msgstr "Оставлять неактивные приложения в памяти"
 
@@ -1581,7 +1555,7 @@ msgid "if checked, suspended work units are left in memory"
 msgstr "оставлять приложение в памяти на время приостановки обработки задания"
 
 #: clientgui/DlgEventLog.cpp:189
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Event Log"
 msgstr "%s - Просмотр событий"
 
@@ -1603,7 +1577,6 @@ msgstr "Сообщения проекта"
 
 #: clientgui/DlgEventLog.cpp:256 clientgui/DlgEventLog.cpp:391
 #: clientgui/DlgEventLog.cpp:393
-#, fuzzy
 msgid "Show only the messages for the selected project"
 msgstr "Показать сообщения только от выбранного проекта."
 
@@ -1786,13 +1759,11 @@ msgstr "Сеанс связи с планировщиком"
 
 # ?
 #: clientgui/DlgItemProperties.cpp:220
-#, fuzzy
 msgid "Added via account manager"
-msgstr "Подключен менеджером проектов"
+msgstr "Добавлен менеджером проектов"
 
 # ?
 #: clientgui/DlgItemProperties.cpp:221
-#, fuzzy
 msgid "Remove when tasks done"
 msgstr "Будет удалён после завершения заданий"
 
@@ -1824,7 +1795,6 @@ msgstr "Настройка проекта"
 
 # ???
 #: clientgui/DlgItemProperties.cpp:242
-#, fuzzy
 msgid "Don't fetch CPU tasks"
 msgstr "Не запрашивать задания для ЦП"
 
@@ -1845,47 +1815,45 @@ msgid "CPU work fetch deferral interval"
 msgstr "Интервал задержки запроса заданий для ЦП"
 
 #: clientgui/DlgItemProperties.cpp:252
-#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr "Не запрашивать задания для GPU NVIDIA"
+msgstr "Не запрашивать задания для ГП NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
-msgstr "Приоритет планировщика GPU NVIDIA"
+msgstr "Приоритет планировщика ГП NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:255
 msgid "NVIDIA GPU work fetch priority"
-msgstr "Приоритет запроса заданий для GPU NVIDIA"
+msgstr "Приоритет запроса заданий для ГП NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:258
 msgid "NVIDIA GPU work fetch deferred for"
-msgstr "Запрос заданий для GPU NVIDIA отложен на"
+msgstr "Запрос заданий для ГП NVIDIA отложен на"
 
 #: clientgui/DlgItemProperties.cpp:259
 msgid "NVIDIA GPU work fetch deferral interval"
-msgstr "Интервал задержки запроса заданий для GPU NVIDIA"
+msgstr "Интервал задержки запроса заданий для ГП NVIDIA"
 
 # ???
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "Не запрашивать задания для GPU ATI"
+msgstr "Не запрашивать задания для ГП ATI"
 
 #: clientgui/DlgItemProperties.cpp:265
 msgid "ATI GPU scheduling priority"
-msgstr "Приоритет планировщика GPU ATI"
+msgstr "Приоритет планировщика ГП ATI"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "ATI GPU work fetch priority"
-msgstr "Приоритет запроса заданий для GPU ATI"
+msgstr "Приоритет запроса заданий для ГП ATI"
 
 #: clientgui/DlgItemProperties.cpp:269
 msgid "ATI GPU work fetch deferred for"
-msgstr "Запрос заданий для GPU ATI отложен на"
+msgstr "Запрос заданий для ГП ATI отложен на"
 
 #: clientgui/DlgItemProperties.cpp:270
 msgid "ATI GPU work fetch deferral interval"
-msgstr "Интервал задержки запроса заданий для GPU ATI"
+msgstr "Интервал задержки запроса заданий для ГП ATI"
 
 #: clientgui/DlgItemProperties.cpp:272
 msgid "Duration correction factor"
@@ -1972,7 +1940,6 @@ msgid "Language:"
 msgstr "Язык (language):"
 
 #: clientgui/DlgOptions.cpp:164
-#, fuzzy
 msgid "What language should BOINC use?"
 msgstr "Какой язык должен использовать BOINC?"
 
@@ -1986,7 +1953,6 @@ msgstr ""
 "(в минутах; 0 - без напоминаний)"
 
 #: clientgui/DlgOptions.cpp:180
-#, fuzzy
 msgid "How often should BOINC remind you of new notices?"
 msgstr "Как часто BOINC должен напоминать о новых уведомлениях?"
 
@@ -2328,63 +2294,52 @@ msgid "Retrieving host information; please wait..."
 msgstr "Обновляется информация о хосте; пожалуйста подождите..."
 
 #: clientgui/MainDocument.cpp:2350
-#, fuzzy
 msgid "on batteries"
-msgstr " - питание от аккумуляторов"
+msgstr "питание от аккумуляторов"
 
 #: clientgui/MainDocument.cpp:2351
-#, fuzzy
 msgid "computer is in use"
-msgstr " Когда компьютер используется для работы"
+msgstr "компьютер используется для работы"
 
 #: clientgui/MainDocument.cpp:2352
-#, fuzzy
 msgid "user request"
 msgstr "запрос пользователя"
 
 #: clientgui/MainDocument.cpp:2353
 #, fuzzy
 msgid "time of day"
-msgstr " - в зависимости от времени суток"
+msgstr "в зависимости от времени суток"
 
 #: clientgui/MainDocument.cpp:2354
-#, fuzzy
 msgid "CPU benchmarks in progress"
-msgstr " - запущен тест производительности"
+msgstr "запущен тест производительности"
 
 #: clientgui/MainDocument.cpp:2355
-#, fuzzy
 msgid "need disk space - check preferences"
 msgstr "необходимо место на диске - проверьте настройки"
 
 #: clientgui/MainDocument.cpp:2356
-#, fuzzy
 msgid "computer is not in use"
-msgstr " Когда компьютер используется для работы"
+msgstr "компьютер не используется для работы"
 
 # ипользуется внутри программы
 #: clientgui/MainDocument.cpp:2357
-#, fuzzy
 msgid "starting up"
-msgstr "Запуск клиента"
+msgstr "запуск"
 
 #: clientgui/MainDocument.cpp:2358
-#, fuzzy
 msgid "an exclusive app is running"
-msgstr " - выполняется эксклюзивное приложение"
+msgstr "выполняется эксклюзивное приложение"
 
 #: clientgui/MainDocument.cpp:2359
-#, fuzzy
 msgid "CPU is busy"
 msgstr "процессор занят"
 
 #: clientgui/MainDocument.cpp:2360
-#, fuzzy
 msgid "network bandwidth limit exceeded"
 msgstr "превышен лимит использования сети"
 
 #: clientgui/MainDocument.cpp:2362
-#, fuzzy
 msgid "unknown reason"
 msgstr "неизвестная причина"
 
@@ -2564,17 +2519,19 @@ msgstr ""
 #: clientgui/NoticeListCtrl.cpp:54
 #, fuzzy
 msgid "Notice List"
-msgstr "Уведомления"
+msgstr "Список уведомлений"
 
 #: clientgui/NoticeListCtrl.cpp:198
 #, c-format
+#, fuzzy
 msgid "%s; received on %s"
-msgstr ""
+msgstr "%s; получен на %s"
 
 #: clientgui/NoticeListCtrl.cpp:200
 #, c-format
+#, fuzzy
 msgid "%s; received from %s; on %s"
-msgstr ""
+msgstr "%s; получен от %s; на %s"
 
 #: clientgui/NoticeListCtrl.cpp:313 clientgui/ProjectListCtrl.cpp:283
 msgid "Click"
@@ -2582,11 +2539,11 @@ msgstr "Нажать"
 
 #: clientgui/NoticeListCtrl.cpp:562
 msgid "From"
-msgstr ""
+msgstr "От"
 
 #: clientgui/NoticeListCtrl.cpp:574
 msgid "more..."
-msgstr ""
+msgstr "больше..."
 
 #: clientgui/ProjectInfoPage.cpp:257
 msgid "Choose a project"
@@ -2618,7 +2575,7 @@ msgstr "Этот проект уже подключен. Выберите дру
 #: clientgui/ProjectListCtrl.cpp:67
 #, fuzzy
 msgid "Project List"
-msgstr "Проекты"
+msgstr "Список проектов"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "Multicore CPU Supported"
@@ -3019,7 +2976,9 @@ msgstr "Пауза: обрабатывается другое задание"
 #: clientgui/sg_ImageButton.cpp:92
 #, fuzzy
 msgid "Paused: User initiated.  Click 'Resume' to continue"
-msgstr "Обработка приостановлена пользователем"
+msgstr ""
+"Пауза: запрошено пользователем.  Нажмите 'Продолжить' для возобновления "
+"обработки"
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
@@ -3091,9 +3050,9 @@ msgid "Remove Project"
 msgstr "Удалить проект"
 
 #: clientgui/sg_StatImageLoader.cpp:211 clientgui/ViewProjects.cpp:495
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "Вы действительно хотите перезапустить проект '%s'?"
+msgstr "Вы действительно хотите удалить проект '%s'?"
 
 #: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
 #, c-format
@@ -3337,20 +3296,17 @@ msgstr ""
 "задания для данного проекта."
 
 #: clientgui/ViewProjects.cpp:201
-#, fuzzy
 msgid "Remove"
-msgstr "Запустить"
+msgstr "Удалить"
 
 #: clientgui/ViewProjects.cpp:202
-#, fuzzy
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
 msgstr ""
-"Отсоединить данный компьютер от выделенного проекта.  Обрабатываемые в "
-"данный момент задания будут потеряны.\n"
-"ВНИМАНИЕ: не забудьте перед данной операцией отправить все завершенные "
-"задания для данного проекта."
+"Удалить этот проект.  Обрабатываемые в данный момент задания будут потеряны "
+"(используйте 'Обновить' перед данной операцией, чтобы отправить все "
+"завершенные задания)."
 
 #: clientgui/ViewProjects.cpp:208
 msgid "Properties"
@@ -3416,9 +3372,8 @@ msgid "Reset Project"
 msgstr "Перезапуск проекта"
 
 #: clientgui/ViewProjects.cpp:482
-#, fuzzy
 msgid "Removing project..."
-msgstr "Проект запускается..."
+msgstr "Удаление проекта..."
 
 #: clientgui/ViewProjects.cpp:542
 msgid "Launching browser..."
@@ -3651,8 +3606,8 @@ msgid ""
 "Click 'Abort transfer' to delete the file from the transfer queue. This will "
 "prevent you from being granted credit for this result."
 msgstr ""
-"Удалить выделенный передаваемый файл данных. ВНИМАНИЕ: очки за задание, "
-"использующее этот файл, будут потеряны."
+"Нажмите 'Прервать передачу' для удаления выделенного файла из очереди "
+"передачи.ВНИМАНИЕ: очки за задание будут потеряны."
 
 #: clientgui/ViewTransfers.cpp:182
 msgid "File"
@@ -3845,9 +3800,8 @@ msgid "Suspend work for this task."
 msgstr "Приостановить обработку выделенного задания."
 
 #: clientgui/WelcomePage.cpp:254
-#, fuzzy
 msgid "Add project or account manager"
-msgstr "Выбор проекта или менеджера проектов"
+msgstr "Добавить проект или менеджер проектов"
 
 #: clientgui/WelcomePage.cpp:262
 #, c-format
@@ -3865,7 +3819,6 @@ msgstr ""
 "мастера, не будут управляться через %s."
 
 #: clientgui/WelcomePage.cpp:275
-#, fuzzy
 msgid ""
 "There are over 30 BOINC-based projects\n"
 "doing research in many areas of science,\n"
@@ -3880,7 +3833,6 @@ msgstr ""
 "или использовать 'Менеждер Проектов' для выбора."
 
 #: clientgui/WelcomePage.cpp:283
-#, fuzzy
 msgid ""
 "You have chosen to attach to a new BOINC project.  Attaching to a new\n"
 "project means that you will be connecting your computer to a new "
@@ -3963,7 +3915,6 @@ msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:257
-#, fuzzy
 msgid ""
 "for accessibility support, please select advanced from the view menu or type "
 "command shift a"
@@ -3972,34 +3923,30 @@ msgstr ""
 "'Расширенный вид' или введите команду shift a"
 
 #: clientgui/mac/MacAccessiblity.cpp:302
-#, fuzzy
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
 "Эта панель содержит графики, показывающие пользовательские достижения в "
 "проектах"
 
 #: clientgui/mac/MacAccessiblity.cpp:726
-#, fuzzy
 msgid "list headers"
 msgstr "заголовки списка"
 
 #: clientgui/mac/MacAccessiblity.cpp:732
-#, fuzzy
 msgid "list of events"
-msgstr "список %s"
+msgstr "список событий"
 
 #: clientgui/mac/MacAccessiblity.cpp:734
-#, fuzzy
 msgid "list of events is empty"
-msgstr "список %s пуст"
+msgstr "список событий пуст"
 
 #: clientgui/mac/MacAccessiblity.cpp:739
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s"
 msgstr "список %s"
 
 #: clientgui/mac/MacAccessiblity.cpp:741
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s is empty"
 msgstr "список %s пуст"
 
@@ -4014,52 +3961,49 @@ msgid "; current sort column %d of %d; ascending order; "
 msgstr "; текущий столбец сортировки %d из %d; в возрастающем порядке; "
 
 #: clientgui/mac/MacAccessiblity.cpp:848
-#, fuzzy, c-format
+#, c-format
 msgid "; column %d of %d; "
 msgstr "; столбец %d из %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:855
-#, fuzzy
 msgid "list is empty"
 msgstr "список пуст"
 
 #: clientgui/mac/MacAccessiblity.cpp:858 clientgui/mac/MacAccessiblity.cpp:870
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d; "
 msgstr "; строка %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:862
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d of %d; "
 msgstr "; выбранная строка %d из %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:864
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d ; "
 msgstr "; выбранная строка %d ; "
 
 #: clientgui/mac/MacAccessiblity.cpp:868
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d of %d; "
 msgstr "; строка %d из %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:881
-#, fuzzy
 msgid "blank"
 msgstr "пусто"
 
 #: clientgui/mac/MacAccessiblity.cpp:1523
-#, fuzzy
 msgid "list of projects or account managers"
 msgstr "список проектов и менеджеров проектов"
 
 #: clientgui/mac/MacAccessiblity.cpp:1575
-#, fuzzy, c-format
+#, c-format
 msgid "selected row %d of %d; "
 msgstr "выбранная строка %d из %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1577
-#, fuzzy, c-format
+#, c-format
 msgid "row %d of %d; "
 msgstr "строка %d из %d; "
 
