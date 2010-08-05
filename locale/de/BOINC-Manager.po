@@ -4597,6 +4597,7 @@ msgstr ""
 #~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
 #~ msgstr "gebe Anfangs- und Endzeit für das Rechnen im Format HH:MM-HH:MM ein"
 
+#, c-format
 #~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 #~ msgstr ""
 #~ "geben Sie die Anfangs- und Endzeiten der Netzwerknutzung im Format HH:MM-HH:"
