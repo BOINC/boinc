@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-04 11:39-0700\n"
+"POT-Creation-Date: 2010-08-05 11:43-0700\n"
 "PO-Revision-Date: 2010-07-16 11:03-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,7 +49,7 @@ msgstr ""
 
 #: gui_rpc_server.cpp:190
 #, fuzzy
-msgid "Can't resolve hostname in"
+msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr "Can't resolve hostname in"
 
 #: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-04 11:39-0700\n"
+"POT-Creation-Date: 2010-08-05 11:43-0700\n"
 "PO-Revision-Date: 2010-07-19 22:28+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,7 +44,8 @@ msgid "Syntax error in app_info.xml"
 msgstr ""
 
 #: gui_rpc_server.cpp:190
-msgid "Can't resolve hostname in"
+#, fuzzy
+msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr "Alan adı çözümlenemedi:"
 
 #: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
