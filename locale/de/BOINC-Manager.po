@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-05 11:59-0700\n"
+"PO-Revision-Date: 2010-08-05 12:11-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -300,7 +300,7 @@ msgstr "Projekt &hinzufügen..."
 
 #: clientgui/AdvancedFrame.cpp:410
 msgid "Add a project"
-msgstr ""
+msgstr "Ein Projekt hinzufügen"
 
 #: clientgui/AdvancedFrame.cpp:413
 #, c-format
@@ -547,7 +547,7 @@ msgstr ""
 "bleiben alle Ihre aktuellen Projekte erhalten,\n"
 "Aber Sie müssen die Projekte manuell verwalten.\n"
 "\n"
-"Wollen Sie mit der Abmeldung von %s forfahren?"
+"Wollen Sie mit der Abmeldung von %s fortfahren?"
 
 #: clientgui/AdvancedFrame.cpp:1319
 #, c-format
@@ -754,7 +754,7 @@ msgstr "Webseiten"
 #: clientgui/BOINCClientManager.cpp:534
 #, c-format
 msgid "%s - Unexpected Exit"
-msgstr ""
+msgstr "%s - Unerwartetes Ende"
 
 #: clientgui/BOINCClientManager.cpp:544
 #, c-format
@@ -762,6 +762,9 @@ msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
+"Der %1 Client wurde 3 mal in innerhalb der letzten %d Minuten unerwartet "
+"beendet.\n"
+"Soll er erneut gestartet werden?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -953,7 +956,7 @@ msgstr "%s Hinweise"
 
 #: clientgui/BOINCTaskBar.cpp:773
 msgid "There are new notices - click to view."
-msgstr ""
+msgstr "Es gibt neue hinweise - klicken zum anzeigen."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -996,11 +999,11 @@ msgstr "Nachricht vom Server:"
 
 #: clientgui/CompletionPage.cpp:207
 msgid "Project added"
-msgstr ""
+msgstr "Projekt hinzugefügt"
 
 #: clientgui/CompletionPage.cpp:213
 msgid "This project has been successfully added."
-msgstr ""
+msgstr "Das Projekt wurde erfolgreich hinzugefügt."
 
 #: clientgui/CompletionPage.cpp:218
 msgid ""
@@ -1714,13 +1717,13 @@ msgid "Scheduler call in progress"
 msgstr "Laufende Scheduleranfrage"
 
 #: clientgui/DlgItemProperties.cpp:220
-#, fuzzy
 msgid "Added via account manager"
-msgstr "Über eine Kontoverwaltung angemeldet"
+msgstr "Von der Kontoverwaltung hinzugefügt"
 
 #: clientgui/DlgItemProperties.cpp:221
+#, fuzzy
 msgid "Remove when tasks done"
-msgstr ""
+msgstr "Entfernen wenn alle Arbeit erledigt ist"
 
 #: clientgui/DlgItemProperties.cpp:222
 msgid "Ended"
@@ -2252,13 +2255,12 @@ msgid "need disk space - check preferences"
 msgstr "Festplattenplatz benötigt - Einstellungen überprüfen"
 
 #: clientgui/MainDocument.cpp:2356
-#, fuzzy
 msgid "computer is not in use"
-msgstr "Computer wird benutzt"
+msgstr "Computer wird nicht benutzt"
 
 #: clientgui/MainDocument.cpp:2357
 msgid "starting up"
-msgstr ""
+msgstr "starte"
 
 #: clientgui/MainDocument.cpp:2358
 msgid "an exclusive app is running"
@@ -2442,17 +2444,19 @@ msgstr ""
 
 #: clientgui/NoticeListCtrl.cpp:54
 msgid "Notice List"
-msgstr ""
+msgstr "Hinweisliste"
 
 #: clientgui/NoticeListCtrl.cpp:198
 #, c-format
+#, fuzzy
 msgid "%s; received on %s"
-msgstr ""
+msgstr "%s; erhalten am %s"
 
 #: clientgui/NoticeListCtrl.cpp:200
 #, c-format
+#, fuzzy
 msgid "%s; received from %s; on %s"
-msgstr ""
+msgstr "%s; erhalten von %s; am %s"
 
 #: clientgui/NoticeListCtrl.cpp:313
 #: clientgui/ProjectListCtrl.cpp:283
@@ -2460,12 +2464,13 @@ msgid "Click"
 msgstr "Klick"
 
 #: clientgui/NoticeListCtrl.cpp:562
+#, fuzzy
 msgid "From"
-msgstr ""
+msgstr "Absender"
 
 #: clientgui/NoticeListCtrl.cpp:574
 msgid "more..."
-msgstr ""
+msgstr "weiterlesen..."
 
 #: clientgui/ProjectInfoPage.cpp:257
 msgid "Choose a project"
@@ -2495,7 +2500,7 @@ msgstr ""
 
 #: clientgui/ProjectListCtrl.cpp:67
 msgid "Project List"
-msgstr ""
+msgstr "Projektliste"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "Multicore CPU Supported"
@@ -2889,10 +2894,9 @@ msgid "Paused: Other work running"
 msgstr "Angehalten: andere Aufgabe aktiv"
 
 #: clientgui/sg_ImageButton.cpp:92
-#, fuzzy
 msgid "Paused: User initiated.  Click 'Resume' to continue"
 msgstr ""
-"Angehalten: vom Nutzer veranlaßt. Klick 'Wiederaufnehmen' zum Fortsetzen"
+"Angehalten: vom Nutzer veranlasst.  Klick 'Wiederaufnehmen' zum Fortsetzen"
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
@@ -3218,7 +3222,7 @@ msgstr ""
 
 #: clientgui/ViewProjects.cpp:201
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 #: clientgui/ViewProjects.cpp:202
 #, fuzzy
@@ -3290,9 +3294,8 @@ msgid "Reset Project"
 msgstr "Projekt zurücksetzen"
 
 #: clientgui/ViewProjects.cpp:482
-#, fuzzy
 msgid "Removing project..."
-msgstr "Projekt wird fortgesetzt..."
+msgstr "Projekt wird entfernt..."
 
 #: clientgui/ViewProjects.cpp:542
 msgid "Launching browser..."
@@ -3333,14 +3336,12 @@ msgid "Won't get new tasks"
 msgstr "Erhält keine neue Aufgaben"
 
 #: clientgui/ViewProjects.cpp:1063
-#, fuzzy
 msgid "Project ended - OK to remove"
-msgstr "Projekt beendet - OK für Abmelden"
+msgstr "Projekt beendet - Bereit zum entfernen"
 
 #: clientgui/ViewProjects.cpp:1066
-#, fuzzy
 msgid "Will remove when tasks done"
-msgstr "Abmelden, sobald Aufgaben erledigt sind"
+msgstr "Entfernen, sobald Aufgaben erledigt sind"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Scheduler request pending"
@@ -3829,11 +3830,10 @@ msgid "Pie Ctrl"
 msgstr "Diagrammsteuerung"
 
 #: clientgui/mac/MacAccessiblity.cpp:257
-#, fuzzy
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
 msgstr ""
-"Für Barrierefreien Zugriff wählen Sie den Advanced View oder halten Strg, "
-"Umschalt und A gedrückt."
+"Für Barriere-freien Zugriff wählen Sie die Erweiterte Ansicht aus dem Menü "
+"oder halten Strg, Umschalt und A gedrückt."
 
 #: clientgui/mac/MacAccessiblity.cpp:302
 msgid "This panel contains graphs showing user totals for projects"
@@ -3845,12 +3845,11 @@ msgstr "Listenüberschriften"
 
 #: clientgui/mac/MacAccessiblity.cpp:732
 msgid "list of events"
-msgstr ""
+msgstr "Ereignisanzeige"
 
 #: clientgui/mac/MacAccessiblity.cpp:734
-#, fuzzy
 msgid "list of events is empty"
-msgstr "%s Liste ist leer"
+msgstr "Ereignisanzeige ist leer"
 
 #: clientgui/mac/MacAccessiblity.cpp:739
 #, c-format
