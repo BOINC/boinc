@@ -9624,7 +9624,7 @@ David  1 Dec 2009
             - it's passed to apps in app_init_data.xml
             - it's passed in scheduler requests.
             It should be broken down by resource type in these cases too.
-            Note to self: do this later.
+            TODO Note to self: do this later.
 
     client/
         app_start.cpp

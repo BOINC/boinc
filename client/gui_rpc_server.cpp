@@ -186,9 +186,8 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
                 if (retval) {
                     msg_printf_link(0, MSG_USER_ALERT,
                         "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=remote_hosts",
-                        "%s %s: %s",
-                        _("Can't resolve hostname in"),
-                        REMOTEHOST_FILE_NAME,
+                        "%s: %s",
+                        _("Can't resolve hostname in remote_hosts.cfg"),
                         buf
                     );
                 } else {

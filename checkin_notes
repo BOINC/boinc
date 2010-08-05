@@ -5786,3 +5786,10 @@ Rom    5 Aug 2010
     
     clientgui/
         ViewNotices.cpp
+
+David  5 Aug 2010
+    - client: tweak translatable msg
+
+    client/
+        gui_rpc_server.cpp
+    - client/scheduler: tweak translatable messages
