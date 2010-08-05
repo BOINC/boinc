@@ -194,12 +194,12 @@ function sort_db_info($db_name, $db_rec)
 	echo "</tr>";
 
 	echo "<tr>";
-	echo "<td class=heading><a href='$self?sort=name&r=" . (!$r) . "'>Table </a></td>";
-	echo "<td class=heading><a href='$self?sort=data_size&r=" . (!$r) . "'>Data Size</a></td>";
-	echo "<td class=heading><a href='$self?sort=index_size&r=" . (!$r) . "'>Index Size</a></td>";
-	echo "<td class=heading><a href='$self?sort=total_size&r=" . (!$r) . "'>Total Size</a></td>";
-	echo "<td class=heading><a href='$self?sort=rows&r=" . (!$r) . "'>Total Rows</a></td>";
-	echo "<td class=heading><a href='$self?sort=size_per_row&r=" . (!$r) . "'>Avg. Size per Row</a></td>";
+	echo "<td class=heading><a href='dbinfo.php?sort=name&r=" . (!$r) . "'>Table </a></td>";
+	echo "<td class=heading><a href='dbinfo.php?sort=data_size&r=" . (!$r) . "'>Data Size</a></td>";
+	echo "<td class=heading><a href='dbinfo.php?sort=index_size&r=" . (!$r) . "'>Index Size</a></td>";
+	echo "<td class=heading><a href='dbinfo.php?sort=total_size&r=" . (!$r) . "'>Total Size</a></td>";
+	echo "<td class=heading><a href='dbinfo.php?sort=rows&r=" . (!$r) . "'>Total Rows</a></td>";
+	echo "<td class=heading><a href='dbinfo.php?sort=size_per_row&r=" . (!$r) . "'>Avg. Size per Row</a></td>";
 	echo "</tr>";
 
 	$i = 0;

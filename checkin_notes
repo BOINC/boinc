@@ -5793,3 +5793,10 @@ David  5 Aug 2010
     client/
         gui_rpc_server.cpp
     - client/scheduler: tweak translatable messages
+
+David  5 Aug 2010
+    - admin web: fixed undefined var.
+        Maybe there's some version of PHP where $self means something.
+
+    html/ops/
+        dbinfo.php
