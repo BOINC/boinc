@@ -361,6 +361,13 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
 // don't request anything if project is overworked or backed off.
 //
 void RSC_WORK_FETCH::set_request(PROJECT* p, bool allow_overworked) {
+    // if backup project, fetch 1 job per idle instance
+    //
+    if (p->resource_share == 0) {
+        req_instances = nidle_now;
+        req_secs = 1;
+        return;
+    }
     if (config.fetch_minimal_work) {
         req_instances = ninstances;
         req_secs = 1;

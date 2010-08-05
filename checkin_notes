@@ -5800,3 +5800,9 @@ David  5 Aug 2010
 
     html/ops/
         dbinfo.php
+
+David  5 Aug 2010
+    - client: don't extra jobs for backup (resource share = 0) projects
+
+    client/
+        work_fetch.cpp
