@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-04 06:37-0700\n"
+"PO-Revision-Date: 2010-08-05 11:59-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -124,18 +124,16 @@ msgid "Account manager website"
 msgstr "Webseite der Kontoverwaltung"
 
 #: clientgui/AccountInfoPage.cpp:557
-#, fuzzy
 msgid "Add project"
-msgstr "Alle Projekte"
+msgstr "Projekt hinzufügen"
 
 #: clientgui/AccountInfoPage.cpp:559
 msgid "Update account manager"
 msgstr "Kontoverwaltung aktualisieren"
 
 #: clientgui/AccountInfoPage.cpp:561
-#, fuzzy
 msgid "Add account manager"
-msgstr "Kontoverwaltung"
+msgstr "Kontoverwaltung hinzufügen"
 
 #: clientgui/AccountInfoPage.cpp:568
 #, c-format
@@ -277,9 +275,8 @@ msgid "Display the simple graphical interface."
 msgstr "Schaltet auf die vereinfachte BOINC-Grafikoberfläche um."
 
 #: clientgui/AdvancedFrame.cpp:390
-#, fuzzy
 msgid "&Add project or account manager..."
-msgstr "Bei einem &Projekt oder einer Kontoverwaltung anmelden..."
+msgstr "Ein &Projekt oder eine Kontoverwaltung hinzufügen..."
 
 #: clientgui/AdvancedFrame.cpp:391
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
@@ -299,7 +296,7 @@ msgstr "Hole die aktuellen Einstellungen von %s"
 
 #: clientgui/AdvancedFrame.cpp:409
 msgid "&Add project..."
-msgstr ""
+msgstr "Projekt &hinzufügen..."
 
 #: clientgui/AdvancedFrame.cpp:410
 msgid "Add a project"
@@ -2970,9 +2967,8 @@ msgstr "Projekt entfernen"
 #: clientgui/sg_StatImageLoader.cpp:211
 #: clientgui/ViewProjects.cpp:495
 #, c-format
-#, fuzzy
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "Wollen Sie dieses Projekt '%s' wirklich zurücksetzen?"
+msgstr "Wollen Sie das Projekt '%s' wirklich entfernen?"
 
 #: clientgui/sg_ViewTabPage.cpp:140
 #: clientgui/sg_ViewTabPage.cpp:280
@@ -3720,9 +3716,8 @@ msgid "Suspend work for this task."
 msgstr "Unterbricht die Arbeit an der ausgewählten (markierte) Aufgabe."
 
 #: clientgui/WelcomePage.cpp:254
-#, fuzzy
 msgid "Add project or account manager"
-msgstr "Mit einem Projekt oder Kontomanager verbinden."
+msgstr "Ein Projekt oder Kontomanager hinzufügen."
 
 #: clientgui/WelcomePage.cpp:262
 #, c-format
@@ -3733,10 +3728,10 @@ msgid ""
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
 msgstr ""
-"Wenn möglich, nehmen Sie Projekte auf der\n"
-" %s-Webseite auf.\n"
+"Wenn möglich, fügen Sie Projekte auf der\n"
+" %s-Webseite hinzu.\n"
 "\n"
-"Projekte, die mit diesem Assistenten aufgenommen werden, werden nicht\n"
+"Projekte, die mit diesem Assistenten hinzugefügt werden, werden nicht\n"
 "gelistet von oder verwaltet mittels %s."
 
 #: clientgui/WelcomePage.cpp:275
