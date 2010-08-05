@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-08-04 07:50-0700\n"
+"PO-Revision-Date: 2010-08-05 10:32-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -302,12 +302,11 @@ msgstr "mittlere Taskdauer"
 msgid "%1 days"
 msgstr "%1 Tage"
 
-# ########################################
+# ########################################<br />
 # Apps page (apps.php)
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "Anwendungen"
+msgstr "Anwendungsdetails"
 
 #: ../inc/host.inc:165
 msgid "Show"
@@ -3623,22 +3622,25 @@ msgid "Assumed foundership of %1"
 msgstr "Gründerstatus von %1 übernommen"
 
 #: ../user/team_founder_transfer_action.php:109
+#, fuzzy
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
+"Glückwunsch, Du bist nun der Gründer von Team %1. Auf der %2Ihr Konto "
+"Seite%3 findet sich der Link zur Verwaltung des Teams."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
-msgstr ""
+msgstr "Anfrage nach Gründerwechsel ablehnen"
 
 #: ../user/team_founder_transfer_action.php:125
 msgid "The foundership request from %1 has been declined."
-msgstr ""
+msgstr "Die Anfrage zum Gründerwechsel von %1 wurde abgelehnt."
 
 #: ../user/team_founder_transfer_action.php:128
 msgid "There were no foundership requests."
-msgstr ""
+msgstr "Es gibt keine Anfragen zum Gründerwechsel."
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
