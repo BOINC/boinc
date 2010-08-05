@@ -63,7 +63,6 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
 BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
     EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
-    EVT_END_SESSION(CBOINCGUIApp::OnSystemShutDown)
 END_EVENT_TABLE ()
 
 
@@ -747,15 +746,6 @@ void CBOINCGUIApp::OnRPCFinished( CRPCFinishedEvent& event ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     
     pDoc->OnRPCComplete(event);
-}
-
-
-// Ensure our settings are saved on Windows logout or shutdown
-// This is never called on the Mac.
-void CBOINCGUIApp::OnSystemShutDown( wxCloseEvent& event ) {
-    if (m_pFrame) {
-        m_pFrame->ProcessEvent(event);
-    }
 }
 
 

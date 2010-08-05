@@ -122,16 +122,16 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 
     CDlgEventLog* pEventLog = wxGetApp().GetEventLog();
     if (pEventLog) {
+        wxLogTrace(wxT("Function Status"), wxT("CTaskBarIcon::OnClose - Closing Event Log"));
         pEventLog->Destroy();
     }
 
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame) {
+        wxLogTrace(wxT("Function Status"), wxT("CTaskBarIcon::OnClose - Closing Current Frame"));
         pFrame->Close(true);
     }
 
-    event.Skip();
-    
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function End"));
 }
 

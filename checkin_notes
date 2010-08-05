@@ -5771,3 +5771,12 @@ David  4 Aug 2010
     client/
         cs_statefile.cpp
         log_flags.cpp
+
+Rom    5 Aug 2010
+    - MGR: Remove EVT_END_SESSION event handler for now.  It was causing a
+        recursive call to itself on shutdown thereby halting the Windows
+        shutdown procedure on Windows XP and older systems. It would
+        eventually crash the process with a stack overflow error.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h

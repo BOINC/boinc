@@ -165,7 +165,6 @@ public:
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
     
     void                OnRPCFinished( CRPCFinishedEvent& event );
-    void                OnSystemShutDown( wxCloseEvent &event );
     
     int                 ConfirmExit();
 

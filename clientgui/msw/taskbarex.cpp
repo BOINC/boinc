@@ -99,22 +99,14 @@ wxTaskBarIconEx::~wxTaskBarIconEx()
 // Events
 void wxTaskBarIconEx::OnClose(wxCloseEvent& WXUNUSED(event))
 {
-    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::OnClose - Function Begin"));
-
     ::DestroyWindow((HWND) m_hWnd);
     m_hWnd = 0;
-
-    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::OnClose - Function End"));
 }
 
 void wxTaskBarIconEx::OnTaskBarCreated(wxTaskBarIconExEvent& WXUNUSED(event))
 {
-    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::OnTaskBarCreated - Function Begin"));
-
     m_iconAdded = false;
     UpdateIcon();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::OnTaskBarCreated - Function End"));
 }
 
 // Operations
@@ -312,8 +304,6 @@ bool wxTaskBarIconEx::IsBalloonsSupported()
 
 long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam )
 {
-    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::WindowProc - Function Begin"));
-
     wxEventType eventType = 0;
     long        lReturnValue = 0;     
 
@@ -327,18 +317,14 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
         } else {
             lReturnValue = 0;
         }
-
-        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_CLOSE Detected"));
     }
     else if ( WM_TASKBARCREATED == msg )
     {
         eventType = wxEVT_TASKBAR_CREATED;
-        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARCREATED Detected"));
     }
     else if ( WM_TASKBARSHUTDOWN == msg )
     {
         eventType = wxEVT_TASKBAR_SHUTDOWN;
-        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARSHUTDOWN Detected"));
     }
     else if ( WM_TASKBARMESSAGE == msg )
     {
@@ -400,13 +386,11 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
                 eventType = wxEVT_TASKBAR_BALLOON_USERCLICK;
                 break;
         }
-        wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_TASKBARMESSAGE(%d) Detected"), eventType);
     }
     else
     {
         lReturnValue = DefWindowProc((HWND) hWnd, msg, wParam, lParam);
     }
-
 
     if (eventType)
     {
@@ -414,7 +398,6 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
         lReturnValue = ProcessEvent(event);
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::WindowProc - Function End"));
     return lReturnValue;
 }
 
