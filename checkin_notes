@@ -5780,3 +5780,9 @@ Rom    5 Aug 2010
         
     clientgui/
         BOINCGUIApp.cpp, .h
+
+Rom    5 Aug 2010
+    - MGR: Remove useless Notices button.
+    
+    clientgui/
+        ViewNotices.cpp

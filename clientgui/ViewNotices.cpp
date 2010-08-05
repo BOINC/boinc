@@ -48,9 +48,6 @@ CViewNotices::CViewNotices()
 CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook)
 {
-    CTaskItemGroup* pGroup = NULL;
-    CTaskItem*      pItem = NULL;
-
     //
     // Setup View
     //
@@ -72,18 +69,6 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     SetSizer(itemFlexGridSizer);
 
     Layout();
-
-    pGroup = new CTaskItemGroup(_("News Feeds"));
-    m_TaskGroups.push_back(pGroup);
-
-    pItem = new CTaskItem(
-        _("BOINC"),
-        _("Display the latest news about BOINC"),
-        ID_TASK_NEWS_BOINC
-    );
-    pGroup->m_Tasks.push_back(pItem);
-
-    m_TaskGroups.push_back(pGroup);
 
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
