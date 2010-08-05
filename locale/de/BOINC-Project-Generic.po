@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-08-05 10:35-0700\n"
+"PO-Revision-Date: 2010-08-05 10:53-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -3678,7 +3678,7 @@ msgstr ""
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
-msgstr ""
+msgstr "Gründerstatus anfordern"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid ""
@@ -3697,9 +3697,8 @@ msgid ""
 msgstr ""
 
 #: ../user/team_founder_transfer_form.php:63
-#, fuzzy
 msgid "Request foundership"
-msgstr "Gründerstatus von %1 anfordern"
+msgstr "Gründerstatus anfordern"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
@@ -3713,58 +3712,59 @@ msgstr ""
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
+#, fuzzy
 msgid "The team %1 is not joinable."
-msgstr ""
+msgstr "Dem Team %1 kann nicht beigetreten werden."
 
 #: ../user/team_join.php:33 ../user/team_join_action.php:33
 msgid "Already a member"
-msgstr ""
+msgstr "Bereits Mitglied des Teams"
 
 #: ../user/team_join.php:34 ../user/team_join_action.php:34
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "Du bist bereits Mitglied im Team %1."
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
-#, fuzzy
 msgid "Couldn't join team - please try again later."
 msgstr ""
-"Das Team konnte nicht erstellt werden, bitte später noch einmal probieren."
+"Dem Team konnte nicht beigetreten werden, bitte später noch einmal "
+"probieren."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
-msgstr ""
+msgstr "%1 beigetreten"
 
 #: ../user/team_join_action.php:39
 msgid "You have joined %1."
-msgstr ""
+msgstr "Du bist %1 beigetreten."
 
 #: ../user/team_join_form.php:32
 msgid "Join %1"
-msgstr ""
+msgstr "%1 beitreten"
 
 #: ../user/team_join_form.php:33
 msgid "Please note:"
-msgstr ""
+msgstr "Bitte beachten:"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
-msgstr ""
+msgstr "Als Mitglied ist deine E-Mail Adresse für den Gründer einsehbar"
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
-msgstr ""
+msgstr "Der Beitritt hat keinen Einfluss auf deine Punkte."
 
 #: ../user/team_join_form.php:43
 msgid "Join team"
-msgstr ""
+msgstr "Team beitreten"
 
 #: ../user/team_lookup.php:82
 msgid "Search Results"
-msgstr ""
+msgstr "Suchergebnisse"
 
 #: ../user/team_lookup.php:84
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Suchergebnisse für '%1'"
 
 #: ../user/team_lookup.php:86
 msgid "You may view these teams' members, statistics, and information."
