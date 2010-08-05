@@ -5806,3 +5806,11 @@ David  5 Aug 2010
 
     client/
         work_fetch.cpp
+
+Rom    5 Aug 2010
+    - MGR: Modeless top level windows should not have the context help
+        button in the upper right-hand corner of the dialog. Use the
+        standard control there.
+        
+    clientgui/
+        DlgEventLog.cpp

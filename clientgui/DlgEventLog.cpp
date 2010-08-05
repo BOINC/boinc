@@ -181,7 +181,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     wxDialog::Create( parent, id, caption, oTempPoint, oTempSize, style );
 
-    SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
+    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
 
     // Initialize Application Title
     wxString strCaption = caption;
@@ -291,8 +291,10 @@ void CDlgEventLog::CreateControls()
     wxButton* itemButton44 = new wxButton(this, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-#ifndef __WXMSW__
-#ifdef __WXMAC__
+#ifndef __WXMAC__
+    wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
+    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#else
 	wxButton* itemButton45 = new wxButton(this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize);
     itemButton45->SetHelpText(
         _("Get help with BOINC")
@@ -301,10 +303,6 @@ void CDlgEventLog::CreateControls()
 	itemButton45->SetToolTip(_("Get help with BOINC"));
 #endif
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-#else
-    wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
-    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-#endif
 #endif
 }
 
