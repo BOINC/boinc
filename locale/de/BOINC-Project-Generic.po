@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-08-05 10:32-0700\n"
+"PO-Revision-Date: 2010-08-05 10:35-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -551,15 +551,15 @@ msgstr "ungelesen"
 
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
-"E-Mail Benachrichtigungen in den %1Communityeinstellungen%2 einrichten."
+msgstr "E-Mail Benachrichtigungen in den %1Communityeinstellungen%2 einrichten."
 
 #: ../inc/prefs.inc:76
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
-"Ausführung anhalten bei Batteriebetrieb? %1(gilt nur für tragbare Computer)%2"
+"Ausführung anhalten bei Batteriebetrieb? %1(gilt nur für tragbare "
+"Computer)%2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
@@ -569,8 +569,8 @@ msgstr "Ausführung anhalten wenn der Computer benutzt wird?"
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
-"Ausführung auf Grafikkarte anhalten wenn der Computer benutzt wird? %"
-"1Unterstützt ab Version 6.7 aufwärts%2"
+"Ausführung auf Grafikkarte anhalten wenn der Computer benutzt wird? "
+"%1Unterstützt ab Version 6.7 aufwärts%2"
 
 #: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
@@ -638,6 +638,7 @@ msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr "Nutze höchstens %1Kann benutzt werden um Überhitzung zu vermeiden.%2"
 
 #: ../inc/prefs.inc:166
+#, php-format
 #, fuzzy, php-format
 msgid "% of CPU time"
 msgstr "% der Prozessorzeit"
@@ -653,8 +654,8 @@ msgstr "GB"
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
 msgstr ""
-"Festplatte: mindestens frei zulassen %1Werte kleiner als %2 werden ignoriert%"
-"3"
+"Festplatte: mindestens frei zulassen %1Werte kleiner als %2 werden "
+"ignoriert%3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
@@ -908,8 +909,8 @@ msgid ""
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
-"Diese Einstellungen gelten für alle BOINC-Projekte an denen du teilnimmst."
-"<br>\n"
+"Diese Einstellungen gelten für alle BOINC-Projekte an denen du "
+"teilnimmst.<br>\n"
 "Auf Computern mit mehreren Projekten werden die aktuellsten Einstellungen "
 "verwendet."
 
@@ -2041,8 +2042,7 @@ msgstr "Profil speichern"
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
-"Zum Schutz vor unerwünschter Werbung tragen Sie hier bitte die zwei Wörter "
+msgstr "Zum Schutz vor unerwünschter Werbung tragen Sie hier bitte die zwei Wörter "
 "aus dem obigen Bild ein:<br>\n"
 
 #: ../user/create_profile.php:110
@@ -2143,7 +2143,8 @@ msgid ""
 "If this is not enough you should contact the author."
 msgstr ""
 "Wir stellen keine Anleitungen zur Installation der Anwendungen bereit.\n"
-"Weitere Informationen sind beim Urheber/Herausgeber der Anwendung erhältlich."
+"Weitere Informationen sind beim Urheber/Herausgeber der Anwendung "
+"erhältlich."
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
@@ -2269,8 +2270,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
-"Bei Fragen oder Problemen benutzen Sie bitte die Diskussionsforen für %"
-"1Fragen & Antworten%2."
+"Bei Fragen oder Problemen benutzen Sie bitte die Diskussionsforen für "
+"%1Fragen & Antworten%2."
 
 #: ../user/forum_index.php:93
 msgid "Topic"
@@ -2347,7 +2348,8 @@ msgstr "Abonnieren"
 #, fuzzy
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
-"Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben wurden."
+"Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben "
+"wurden."
 
 #: ../user/forum_thread.php:162
 msgid "Unhide"
@@ -2661,8 +2663,8 @@ msgid ""
 "location (e.g. its domain name or network address) will be shown."
 msgstr ""
 "Wenn Sie an %1 teilnehmen, werden Informationen über Ihren Computer  "
-"(darunter der Prozessortyp, die Speichergröße, usw.) aufgezeichnet und von %"
-"1 verwendet, um zu entscheiden, welche Art von Arbeit Ihrem Computer "
+"(darunter der Prozessortyp, die Speichergröße, usw.) aufgezeichnet und von "
+"%1 verwendet, um zu entscheiden, welche Art von Arbeit Ihrem Computer "
 "zugewiesen werden soll. Diese Informationen werden ebenfalls auf der "
 "Webseite von %1 gezeigt. Nichts, das Rückschlüsse auf den Standort Ihres "
 "Computers zulässt, (wie z. B. sein Domainnname oder seine Netzwerkadresse) "
@@ -2690,8 +2692,8 @@ msgid ""
 msgstr ""
 "Über die %1 Webseite versendete Private Nachrichten können nur vom Sender "
 "und Empfänger gelesen werden.  %1 unternimmt keine Überprüfung des Inhalts "
-"von privaten Nachrichten.  Wenn Sie ungewollt private Nachrichten von einem %"
-"1 Benutzer erhalten, können Sie diesen zu Ihrem %2Filter hinzufügen%3.  "
+"von privaten Nachrichten.  Wenn Sie ungewollt private Nachrichten von einem "
+"%1 Benutzer erhalten, können Sie diesen zu Ihrem %2Filter hinzufügen%3.  "
 "Damit sehen Sie keine öffentlichen und privaten Nachrichten dieses Benutzers "
 "mehr."
 
@@ -2737,8 +2739,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "Die Anwendungen von %1 können auf manchen Computern zu Überhitzung führen. "
-"Wenn dies passiert, sollten Sie aufhören, mit dem betreffenden Computer für %"
-"1 zu arbeiten oder ein %2Hilfprogramm%3 einsetzen, das die Prozessornutzung "
+"Wenn dies passiert, sollten Sie aufhören, mit dem betreffenden Computer für "
+"%1 zu arbeiten oder ein %2Hilfprogramm%3 einsetzen, das die Prozessornutzung "
 "beschränkt."
 
 #: ../user/info.php:49
@@ -2939,8 +2941,8 @@ msgstr "Benutzer %1 kann Ihnen keine weiteren privaten Nachrichten senden."
 #: ../user/pm.php:260
 msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
-"Die Blockierung können Sie in den %1Einstellungen für das Diskussionsforum %"
-"2 aufheben."
+"Die Blockierung können Sie in den %1Einstellungen für das Diskussionsforum "
+"%2 aufheben."
 
 #: ../user/prefs.php:36
 msgid ""
@@ -3001,8 +3003,8 @@ msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
 msgstr ""
-"Falls nicht schon vorhanden, sollten Sie Ihr %1eigenes Benutzerprofil anlegen"
-"%2 und den anderen Benutzern zeigen!"
+"Falls nicht schon vorhanden, sollten Sie Ihr %1eigenes Benutzerprofil "
+"anlegen%2 und den anderen Benutzern zeigen!"
 
 #: ../user/profile_menu.php:43
 msgid "User of the Day"
@@ -3025,8 +3027,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Durchsuchen der Profile %1per Zufall%2, %3per Zufall mit Bildern%2 oder %"
-"4per Zufall ohne Bilder%2."
+"Durchsuchen der Profile %1per Zufall%2, %3per Zufall mit Bildern%2 oder "
+"%4per Zufall ohne Bilder%2."
 
 #: ../user/profile_menu.php:65
 msgid "Alphabetical profile listings:"
@@ -3185,8 +3187,8 @@ msgstr "ein Team auflösen kann, wenn es keine Mitglieder mehr hat."
 #: ../user/team.php:37
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Um einem Team beizutreten besuchen Sie die Teamseite und benutzen Sie den %"
-"1Diesem Team beitreten%2 Link."
+"Um einem Team beizutreten besuchen Sie die Teamseite und benutzen Sie den "
+"%1Diesem Team beitreten%2 Link."
 
 #: ../user/team.php:38 ../user/team_search.php:155
 msgid "Find a team"
@@ -3607,8 +3609,8 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"Der aktuelle Gründer wurde von der Anfrage per E-Mail und PN benachrichtigt."
-"<br /><br />\n"
+"Der aktuelle Gründer wurde von der Anfrage per E-Mail und PN "
+"benachrichtigt.<br /><br />\n"
 "Wenn der Gründer nicht innerhalb von 60 Tagen reagiert wird der Wechsel "
 "möglich sein."
 
@@ -3644,24 +3646,25 @@ msgstr "Es gibt keine Anfragen zum Gründerwechsel."
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
-msgstr ""
+msgstr "unbekannte Aktion %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
 msgid "Return to team page"
-msgstr ""
+msgstr "Zurück zur Teamseite"
 
 #: ../user/team_founder_transfer_form.php:26
 msgid "You need to be a member of a team to access this page."
-msgstr ""
+msgstr "Man muss Mitglied eines Teams sein um diese Seite anzusehen."
 
 #: ../user/team_founder_transfer_form.php:29
+#, fuzzy
 msgid "Request foundership of %1"
-msgstr ""
+msgstr "Gründerstatus von %1 anfordern"
 
 #: ../user/team_founder_transfer_form.php:36
 msgid "You are now founder of team %1."
-msgstr ""
+msgstr "Du bist nun der Gründer von Team %1."
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
@@ -3694,8 +3697,9 @@ msgid ""
 msgstr ""
 
 #: ../user/team_founder_transfer_form.php:63
+#, fuzzy
 msgid "Request foundership"
-msgstr ""
+msgstr "Gründerstatus von %1 anfordern"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
@@ -3784,8 +3788,9 @@ msgid "Team administration for %1"
 msgstr ""
 
 #: ../user/team_manage.php:27
+#, fuzzy
 msgid "Edit team info"
-msgstr ""
+msgstr "Teaminformationen aktualisieren"
 
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
@@ -3888,8 +3893,9 @@ msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr ""
 
 #: ../user/team_members.php:43
+#, fuzzy
 msgid "Members of %1"
-msgstr ""
+msgstr "Mitgliederverzeichnis von %1"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
@@ -4204,9 +4210,9 @@ msgid ""
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
 "Um den schwachen Kontoschlüssel auf einem Computer zu verwenden, finden oder "
-"erstellen Sie die 'Kontodatei' für dieses Projekt. Der Dateiname ist in etwa "
-"<strong>account_PROJEKT_URL.xml</strong>. Die Kontodatei für %1 ist <strong>%"
-"2</strong>"
+"erstellen Sie die 'Kontodatei' für dieses Projekt. Der Dateiname ist in "
+"etwa <strong>account_PROJEKT_URL.xml</strong>. Die Kontodatei für %1 ist "
+"<strong>%2</strong>"
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
