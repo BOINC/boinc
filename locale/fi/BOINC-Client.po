@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-05 11:43-0700\n"
-"PO-Revision-Date: 2010-08-04 12:10-0700\n"
+"PO-Revision-Date: 2010-08-06 02:42-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -46,9 +46,8 @@ msgid "Syntax error in app_info.xml"
 msgstr "Syntaksivirhe app_info.xml -tiedostossa"
 
 #: gui_rpc_server.cpp:190
-#, fuzzy
 msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr "Konenimen selvitys ei onnistu"
+msgstr "Konenimen selvitys ei onnistu remote_hosts.cfg -tiedostossa"
 
 #: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
 msgid "Unexpected text in cc_config.xml"
