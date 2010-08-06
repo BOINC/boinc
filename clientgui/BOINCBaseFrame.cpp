@@ -333,19 +333,6 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
         // Save state before exiting
         SaveState();
 
-#ifdef __WXMSW__
-        CMainDocument* pDoc = wxGetApp().GetDocument();
-
-        wxASSERT(pDoc);
-        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-        if (wxGetApp().ShouldShutdownCoreClient()) {
-            pDoc->m_pClientManager->EnableBOINCStartedByManager();
-        } else {
-            pDoc->m_pClientManager->DisableBOINCStartedByManager();
-        }
-#endif
-
         // Under wxWidgets 2.8.0, the task bar icons must be deleted for app to exit its main loop
 #ifdef __WXMAC__
         wxGetApp().DeleteMacSystemMenu();

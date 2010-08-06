@@ -509,8 +509,13 @@ int CMainDocument::OnExit() {
     int iRetVal = 0;
 
     if (m_pClientManager) {
-        m_pClientManager->ShutdownBOINCCore();
-
+#ifdef __WXMSW__
+        if (wxGetApp().ShouldShutdownCoreClient())
+#endif
+        {
+            m_pClientManager->ShutdownBOINCCore();
+        }
+        
         delete m_pClientManager;
         m_pClientManager = NULL;
     }

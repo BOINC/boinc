@@ -5814,3 +5814,13 @@ Rom    5 Aug 2010
         
     clientgui/
         DlgEventLog.cpp
+
+Charlie 5 Aug 2010
+    - MGR: Fix a bug which shut down local client even though Manager didn't launch it 
+        when Manager was connected to a remote host.
+        
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCClientManager.h
+        BOINCTaskBar.cpp
+        MainDocument.cpp
