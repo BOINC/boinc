@@ -131,6 +131,9 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     m_strBOINCMGRRootDirectory = wxEmptyString;
     m_strBOINCMGRDataDirectory = wxEmptyString;
+    m_strHostNameArg = wxEmptyString;
+    m_strPasswordArg = wxEmptyString;
+    m_iRPCPortArg = GUI_RPC_PORT;
     m_strBOINCArguments = wxEmptyString;
     m_bAccessibilityEnabled = false;
     m_bGUIVisible = true;
@@ -518,6 +521,9 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
         { wxCMD_LINE_OPTION, wxT("e"), wxT("clientdir"), _("Directory containing the BOINC Client executable")},
         { wxCMD_LINE_OPTION, wxT("d"), wxT("datadir"), _("BOINC data directory")},
 #endif
+        { wxCMD_LINE_OPTION, wxT("n"), wxT("namehost"), _("Host name or IP address")},
+        { wxCMD_LINE_OPTION, wxT("g"), wxT("gui_rpc_port"), _("GUI RPC port number")},
+        { wxCMD_LINE_OPTION, wxT("p"), wxT("password"), _("Password")},
         { wxCMD_LINE_SWITCH, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
         { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
         { wxCMD_LINE_SWITCH, wxT("c"), wxT("checkskins"), _("set skin debugging mode to enable skin manager error messages")},
@@ -533,6 +539,8 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
 bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     // Give default processing (-?, --help and --verbose) the chance to do something.
     wxApp::OnCmdLineParsed(parser);
+    wxString portNum = wxEmptyString;
+    long    longPort;
 
     parser.Found(wxT("boincargs"), &m_strBOINCArguments);
     if (parser.Found(wxT("autostart"))) {
@@ -565,6 +573,24 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
         m_strBOINCMGRDataDirectory.Append('/');
     }
 #endif    
+
+    if (!parser.Found(wxT("namehost"), &m_strHostNameArg)) {
+        m_strHostNameArg = wxT("localhost");
+    }
+
+     if (parser.Found(wxT("gui_rpc_port"), &portNum)) {
+        if (portNum.ToLong(&longPort)) {
+            m_iRPCPortArg = longPort;
+        } else {
+            m_iRPCPortArg = GUI_RPC_PORT;  // conversion failed
+        }
+    } else {
+        m_iRPCPortArg = GUI_RPC_PORT;
+    }
+    
+    if (!parser.Found(wxT("password"), &m_strPasswordArg)) {
+        m_strPasswordArg = wxEmptyString;
+    }
 
     return true;
 }

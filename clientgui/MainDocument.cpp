@@ -255,7 +255,7 @@ bool CNetworkConnection::IsComputerNameLocal(const wxString& strMachine) {
     }
 
     if (strMachine.empty()) {
-        return true;
+        return false;
     } else if (wxT("localhost") == strMachine.Lower()) {
         return true;
     } else if (wxT("localhost.localdomain") == strMachine.Lower()) {
@@ -550,7 +550,10 @@ int CMainDocument::OnExit() {
 
 int CMainDocument::OnPoll() {
     int iRetVal = 0;
-
+    wxString hostName = wxGetApp().GetClientHostNameArg();
+    int portNum = wxGetApp().GetClientRPCPortArg();
+    wxString password = wxGetApp().GetClientPasswordArg();
+    
     wxASSERT(wxDynamicCast(m_pClientManager, CBOINCClientManager));
     wxASSERT(wxDynamicCast(m_pNetworkConnection, CNetworkConnection));
 
@@ -562,11 +565,15 @@ int CMainDocument::OnPoll() {
 
         pFrame->UpdateStatusText(_("Starting client"));
 
-        if (m_pClientManager->StartupBOINCCore()) {
-            Connect(wxT("localhost"), GUI_RPC_PORT, wxEmptyString, TRUE, TRUE);
+        if (IsComputerNameLocal(hostName)) {
+            if (m_pClientManager->StartupBOINCCore()) {
+                Connect(wxT("localhost"), portNum, password, TRUE, TRUE);
+            } else {
+                m_pNetworkConnection->ForceDisconnect();
+                pFrame->ShowDaemonStartFailedAlert();
+            }
         } else {
-            m_pNetworkConnection->ForceDisconnect();
-            pFrame->ShowDaemonStartFailedAlert();
+            Connect(hostName, portNum, password, TRUE, password.IsEmpty());
         }
 
         pFrame->UpdateStatusText(wxEmptyString);

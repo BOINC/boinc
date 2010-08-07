@@ -83,7 +83,10 @@ protected:
 
     wxString            m_strBOINCMGRRootDirectory;
     wxString            m_strBOINCMGRDataDirectory;
+    wxString            m_strHostNameArg;
+    wxString            m_strPasswordArg;
     wxString            m_strBOINCArguments;
+    int                 m_iRPCPortArg;
 
     bool                m_bAccessibilityEnabled;
 
@@ -125,7 +128,10 @@ public:
     CMainDocument*      GetDocument()               { return m_pDocument; }
     wxString            GetRootDirectory()          { return m_strBOINCMGRRootDirectory; }
     wxString            GetDataDirectory()          { return m_strBOINCMGRDataDirectory; }
+    wxString            GetClientHostNameArg()      { return m_strHostNameArg; }    
+    wxString            GetClientPasswordArg()      { return m_strPasswordArg; }    
     wxString            GetArguments()              { return m_strBOINCArguments; }
+    int                 GetClientRPCPortArg()       { return m_iRPCPortArg; }
     CDlgEventLog*       GetEventLog()               { return m_pEventLog; }
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
     void                DeleteTaskBarIcon();
