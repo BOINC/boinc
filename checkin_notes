@@ -5824,3 +5824,12 @@ Charlie 5 Aug 2010
         BOINCClientManager.h
         BOINCTaskBar.cpp
         MainDocument.cpp
+
+David  6 Aug 2010
+    - web: right-align bbcode images
+    - API: warning fix
+
+    html/inc/
+        text_transform.inc
+    api/
+        boinc_api.cpp
