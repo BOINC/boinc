@@ -5833,3 +5833,15 @@ David  6 Aug 2010
         text_transform.inc
     api/
         boinc_api.cpp
+
+Charlie 6 Aug 2010
+    - MGR: Add command-line parameters for automatic connection to remote host:
+        -n --namehost       Host name or IP address
+        -g --gui_rpc_port   GUI RPC port number
+        -p --password       Password
+    - MGR: If currently connected host name is empty string, don't autorestart 
+        local client.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        MainDocument.cpp
