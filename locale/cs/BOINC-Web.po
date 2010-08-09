@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-05-03 10:16 PDT\n"
-"PO-Revision-Date: 2010-08-09 13:59-0700\n"
+"PO-Revision-Date: 2010-08-09 14:10-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -19,15 +19,15 @@ msgstr ""
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
-msgstr "Aktuální verze by měla fungovat na těchto linuxových distribucích:"
+msgstr "Aktuální verze by měla fungovat na těchto verzích Linuxu:"
 
 #: versions.inc:14
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
 msgstr ""
-"U jiných linuxových distribucí si prosím zkontrolujte, zda nabízí aplikaci "
-"BOINC."
+"U jiných linuxových verzí si prosím zkontrolujte, zda je aplikace BOINC "
+"nabízena ve vaší linuxové distribuci."
 
 #: versions.inc:25
 msgid ""
@@ -279,10 +279,12 @@ msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Univerzity%2: využijte BOINC k vytvoření %3virtuálního univerzitního "
+"superpočítače%4."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr ""
+msgstr "%1Společnosti%2: využijte BOINC pro %3desktopový Grid computing%4."
 
 #: index.php:147
 msgid "The BOINC project"
@@ -310,7 +312,7 @@ msgstr "Dokumenty a přednášky"
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Výzkumné projekty"
 
 #: index.php:159
 msgid "Logos and graphics"
@@ -318,12 +320,11 @@ msgstr "Loga a grafika"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "a"
 
 #: index.php:164
-#, fuzzy
 msgid "Help wanted"
-msgstr "Uvítáme výpomoc!"
+msgstr "Uvítáme pomoc"
 
 #: index.php:166
 msgid "Programming"
@@ -339,7 +340,7 @@ msgstr "Testování"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "Propagace"
 
 #: index.php:172
 msgid "Software development"
@@ -351,7 +352,7 @@ msgstr "API pro doplňkový software"
 
 #: index.php:207
 msgid "Browser default"
-msgstr "Podle nastavení prohlížeče"
+msgstr "Dle výchozího nastavení prohlížeče"
 
 #: index.php:258
 #, php-format
@@ -362,7 +363,7 @@ msgstr ""
 
 #: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC má sídlo v The University of California, Berkeley"
 
 #~ msgid "Conferences"
 #~ msgstr "Konference"
