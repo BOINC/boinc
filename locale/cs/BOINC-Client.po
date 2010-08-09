@@ -2,162 +2,180 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-05 11:43-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-08-09 14:35-0700\n"
+"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #: acct_mgr.cpp:373 acct_mgr.cpp:383
 msgid "error"
-msgstr ""
+msgstr "chyba"
 
 #: acct_setup.cpp:273
 msgid "A new version of BOINC is available."
-msgstr ""
+msgstr "Je dostupná nová verze BOINC."
 
 #: acct_setup.cpp:275
 msgid "Download it."
-msgstr ""
+msgstr "Stáhnout."
 
 #: client_state.cpp:342
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
+"Nelze zapsat stavový soubor, zkontrolujte si práva zápisu v cílové složce."
 
 #: cs_cmdline.cpp:281
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "Proměnná prostředí HTTP_PROXY musí obsahovat HTTP proxy adresu."
 
 #: cs_scheduler.cpp:557
 msgid "Message from project server:"
-msgstr ""
+msgstr "Zpráva z projektového serveru:"
 
 #: cs_statefile.cpp:766 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
-msgstr ""
+msgstr "Chyba syntaxe v app_info.xml"
 
 #: gui_rpc_server.cpp:190
 msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr ""
+msgstr "Nelze rozeznat adresu hostitele v remote_hosts.cfg"
 
 #: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
 msgid "Unexpected text in cc_config.xml"
-msgstr ""
+msgstr "Nečekaný text v cc_config.xml"
 
 #: log_flags.cpp:112 log_flags.cpp:415 log_flags.cpp:460
 msgid "Unrecognized tag in cc_config.xml"
-msgstr ""
+msgstr "Nečekaný tag v cc_config.xml"
 
 #: log_flags.cpp:434
 msgid "Missing start tag in cc_config.xml"
-msgstr ""
+msgstr "Chybějící startovní tag v cc_config.xml"
 
 #: log_flags.cpp:468
 msgid "Missing end tag in cc_config.xml"
-msgstr ""
+msgstr "Chybějící koncový tag v cc_config.xml"
 
 #: ../sched/handle_request.cpp:299
 msgid ""
 "Invalid or missing account key.  To fix, detach and reattach to this project."
 msgstr ""
+"Chybný či neplatný klíč k účtu. Pro opravu se odpojte a znova připojte k "
+"tomuto projektu."
 
 #: ../sched/handle_request.cpp:820 ../sched/handle_request.cpp:830
 msgid ""
 "You may have an outdated code signing key.  Try attaching and reattaching "
 "this project."
 msgstr ""
+"Možná máte zastaralý podepisovací klíč. Zkuste se odpojit a znova připojit k "
+"tomuto projektu."
 
 #: ../sched/handle_request.cpp:914
 msgid "This project doesn't support operating system"
-msgstr ""
+msgstr "Tento projekt nepodporuje operační systém"
 
 #: ../sched/handle_request.cpp:940
 msgid "This project doesn't support CPU type"
-msgstr ""
+msgstr "Tento projekt nepodporuje typ procesoru"
 
 #: ../sched/handle_request.cpp:964
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr ""
+"Váš program BOINC je příliš starý. Nainstalujte si prosím aktuální verzi."
 
 #: ../sched/handle_request.cpp:1215
 msgid "This project doesn't support computers of type"
-msgstr ""
+msgstr "Tento projekt nepodporuje počítače typu"
 
 #: ../sched/sched_send.cpp:1250
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
+"Pro zpracování úkolů pomoci GPU si prosím nainstalujte nejnovější ovladače."
 
 #: ../sched/sched_send.cpp:1257
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
+"Pro využití všech GPU aplikací tohoto projektu si prosím nainstalujte "
+"nejnovější ovladače."
 
 #: ../sched/sched_send.cpp:1281
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
+"Stáhněte si prosím aktuální verzi programu BOINC, který je zapotřebí pro "
+"využití vaší nVidia GPU."
 
 #: ../sched/sched_send.cpp:1294
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí nVidia nebo ATI GPU."
 
 #: ../sched/sched_send.cpp:1299
 msgid "An NVIDIA GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí nVidia GPU."
 
 #: ../sched/sched_send.cpp:1305
 msgid "An ATI GPU is required to run tasks for this project"
-msgstr ""
+msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí ATI GPU."
 
 #: ../sched/sched_send.cpp:1400
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
+"Není dostupná žádná práce pro typ aplikací, které jste si zvolili. "
+"Zkontrolujte si prosím vaše nastavení na stránkách projektu."
 
 #: ../sched/sched_send.cpp:1426
 msgid "Your computer type is not supported by this project"
-msgstr ""
+msgstr "Váš typ počítače není podporován tímto projektem."
 
 #: ../sched/sched_send.cpp:1432
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
+msgstr "Nainstalujte si prosím novou verzi BOINC, která je vyžadována."
 
 #: ../sched/sched_send.cpp:1442
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
+"Jsou dostupné úkoly pro nVidia GPU, ale vaše nastavení je nedovoluje "
+"přijímat."
 
 #: ../sched/sched_send.cpp:1448
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
+"Jsou dostupné úkoly pro ATI GPU, ale vaše nastavení je nedovoluje přijímat."
 
 #: ../sched/sched_send.cpp:1454
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
+"Jsou dostupné úkoly pro procesor, ale vaše nastavení je nedovoluje přijímat."
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Neznámé jméno aplikace v app_info.xml"
 
 #: ../sched/sched_version.cpp:225
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Váš soubor app_info.xml neobsahuje použitelnou verzi"
 
 #: ../sched/sched_version.cpp:652
 msgid "is not available for your type of computer"
-msgstr ""
+msgstr "není dostupná pro váš typ počítače"
