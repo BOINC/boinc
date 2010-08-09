@@ -106,7 +106,7 @@ boincmgr_SOURCES = \
     ViewTransfers.cpp \
     ViewWork.cpp \
     WelcomePage.cpp \
-    WizardAttachProject.cpp \
+    WizardAttach.cpp \
     wizardex.cpp \
     $(mac_sources)
 
