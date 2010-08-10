@@ -67,11 +67,9 @@ IMPLEMENT_DYNAMIC_CLASS( CWizardAttach, CBOINCBaseWizard )
  */
  
 BEGIN_EVENT_TABLE( CWizardAttach, CBOINCBaseWizard )
-
 ////@begin CWizardAttach event table entries
     EVT_WIZARDEX_FINISHED( ID_ATTACHWIZARD, CWizardAttach::OnFinished )
 ////@end CWizardAttach event table entries
- 
 END_EVENT_TABLE()
  
 /*!
@@ -83,17 +81,17 @@ CWizardAttach::CWizardAttach() :
 {
 }
  
-CWizardAttach::CWizardAttach( wxWindow* parent, wxWindowID id, const wxPoint& pos ) :
-    CBOINCBaseWizard( parent, id, wxEmptyString, pos )
+CWizardAttach::CWizardAttach( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos ) :
+    CBOINCBaseWizard( parent, id, title, pos )
 {
-    Create(parent, id, pos);
+    Create(parent, id, title, pos);
 }
  
 /*!
  * CWizardAttach creator
  */
  
-bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxPoint& pos )
+bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* title */, const wxPoint& pos )
 {
 
 ////@begin CWizardAttach member initialisation
