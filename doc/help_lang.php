@@ -110,8 +110,13 @@ function show_vols($vols) {
         <a href=http://boinc.berkeley.edu/email_lists.php>boinc_projects</a>
         email list.
         <p>
-        <b>Note:</b> <font color=red>Never</font> give out email address/username
-        and password information to anybody, for any online service.
+        <span class=note>Note: BOINC helpers are unpaid volunteers.
+        Their advise is not endorsed by BOINC
+        or the University of California.</span>
+        <p>
+        <span class=note>Note: <font color=red>Never</font> give out 
+        email address/username and password information to anybody, 
+        for any online service.</span>
         </font>
     ";
     list_start("border=0");
