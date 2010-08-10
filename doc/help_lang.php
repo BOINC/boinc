@@ -109,6 +109,9 @@ function show_vols($vols) {
         Instead, try the
         <a href=http://boinc.berkeley.edu/email_lists.php>boinc_projects</a>
         email list.
+        <p>
+        <b>Note:</b> <font color=red>Never</font> give out email address/username
+        and password information to anybody, for any online service.
         </font>
     ";
     list_start("border=0");
