@@ -114,10 +114,6 @@ struct SCHED_CONFIG {
     bool matchmaker;
     int max_ncpus;
     JOB_LIMITS max_jobs_in_progress;
-#if 0
-    int max_wus_in_progress;
-    int max_wus_in_progress_gpu;
-#endif
     int max_wus_to_send;            // max results per RPC is this * mult
     int min_core_client_version;
     int min_core_client_version_announced;
@@ -150,6 +146,12 @@ struct SCHED_CONFIG {
     char symstore[256];
     bool workload_sim;
         // Do workload simulation in deciding whether to send a result
+    bool primary_platform_only;
+        // use app versions only for the client's primary platform
+        // e.g. send only 64-bit versions to 64-bit clients.
+        // Do this only if you have 64-bit versions for all platforms,
+        // and you're sure that your 64-bit versions are
+        // always faster than the corresponding 32-bit versions
 
     // scheduler log flags
     //

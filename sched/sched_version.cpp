@@ -509,6 +509,7 @@ BEST_APP_VERSION* get_app_version(
     bavp->avp = NULL;
     bool no_version_for_platform = true;
     for (i=0; i<g_request->platforms.list.size(); i++) {
+        if (config.primary_platform_only && i>0) break;
         PLATFORM* p = g_request->platforms.list[i];
         for (j=0; j<ssp->napp_versions; j++) {
             HOST_USAGE host_usage;

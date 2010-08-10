@@ -5859,3 +5859,12 @@ David  10 Aug 2010
 
     html/user/
         host_app_versions.php
+
+David  10 Aug 2010
+    - scheduler: add <primary_platform_only> config option:
+        send only 64-bit app versions to 64-bit hosts 
+        (the default is to send whatever app version is fastest)
+
+    sched/
+        sched_config.cpp,h
+        sched_version.cpp

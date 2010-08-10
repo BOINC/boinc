@@ -258,6 +258,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_str(tag, "symstore", symstore, sizeof(symstore))) continue;
 
         if (xp.parse_bool(tag, "workload_sim", workload_sim)) continue;
+        if (xp.parse_bool(tag, "primary_platform_only", primary_platform_only)) continue;
 
         //////////// SCHEDULER LOG FLAGS /////////
 
