@@ -98,4 +98,22 @@ function star_select($name, $val) {
     return $x;
 }
 
+function help_warning() {
+    echo "
+        <ul>
+        <span class=emphasize>
+        <li>
+        "
+        . tra("BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC or the University of California.")
+        ." <li>"
+        .tra(
+            "%1Never%2 give email address or password information to BOINC helpers.",
+            "<span class=emphasize2>",
+            "</span>"
+        )
+        ."</span>
+        </ul>
+    ";
+}
+
 ?>

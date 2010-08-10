@@ -25,9 +25,11 @@ function av_desc($gavid) {
         if (!$av) return "Missing app version";
         $app = BoincApp::lookup_id($av->appid);
         if (!$app) return "Missing app";
+        $platform = BoincPlatform::lookup_id($av->platformid);
+        if (!$platform) return "Missing platform";
         $pc = (strlen($av->plan_class))?"($av->plan_class)":"";
         $v = number_format($av->version_num/100, 2);
-        return "$app->user_friendly_name $v $pc";
+        return "$app->user_friendly_name $v $platform->name $pc";
     }
 }
 
@@ -38,6 +40,8 @@ function show_hav($hav) {
     row2("Number of tasks today", $hav->n_jobs_today);
     row2("Consecutive valid tasks", $hav->consecutive_valid);
     $x = number_format($hav->turnaround_avg/86400, 2);
+    $gflops = 1e-9/$hav->et_avg;
+    row2("Average processing rate", $gflops);
     row2("Average turnaround time", "$x days");
 }
 
@@ -45,7 +49,7 @@ $hostid = get_int('hostid');
 
 $havs = BoincHostAppVersion::enum("host_id=$hostid");
 
-page_head("Application info for host $hostid");
+page_head(tra("Application details for host %1", $hostid));
 start_table();
 foreach ($havs as $hav) {
     //if (!$hav->pfc_n) continue;

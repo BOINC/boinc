@@ -5851,3 +5851,11 @@ Rom    10 Aug 2010
     
     clientgui/
         WizardAttach.h
+
+David  10 Aug 2010
+    - user web: add platform names and elapsed-time info
+        (represented as "average processing rate")
+        to host application details page.
+
+    html/user/
+        host_app_versions.php

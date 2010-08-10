@@ -10,6 +10,13 @@ pre, code {
     font-size: medium;
 }
 
+.emphasize {
+	font-weight: bold;
+}
+.emphasize2 {
+	color: red;
+}
+
 a.heading {
     font-size: 14px;
 }
