@@ -111,7 +111,7 @@ function show_vols($vols) {
         email list.
         <p>
         <span class=note>Note: BOINC helpers are unpaid volunteers.
-        Their advise is not endorsed by BOINC
+        Their advice is not endorsed by BOINC
         or the University of California.</span>
         <p>
         <span class=note>Note: <font color=red>Never</font> give out 
