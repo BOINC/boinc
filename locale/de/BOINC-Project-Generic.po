@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-07-14 12:19 PDT\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
 "PO-Revision-Date: 2010-08-05 10:53-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -229,9 +229,9 @@ msgstr "Koprozessor"
 msgid "Operating System"
 msgstr "Betriebssystem"
 
-#: ../inc/host.inc:122
-msgid "BOINC client version"
-msgstr "BOINC-Client Version"
+#: ../inc/host.inc:122 ../inc/host.inc:226
+msgid "BOINC version"
+msgstr "BOINC Version"
 
 #: ../inc/host.inc:126
 msgid "Memory"
@@ -317,7 +317,8 @@ msgid "Tasks"
 msgstr "Aufgaben"
 
 #: ../inc/host.inc:179
-msgid "Number of times client has contacted server"
+#, fuzzy
+msgid "Number of times BOINC has contacted server"
 msgstr "Anzahl der Clientverbindungen zum Server"
 
 #: ../inc/host.inc:180
@@ -325,8 +326,8 @@ msgid "Last time contacted server"
 msgstr "letztmaliger Kontakt mit Server"
 
 #: ../inc/host.inc:181
-#, php-format
-msgid "% of time BOINC client is running"
+#, fuzzy, php-format
+msgid "% of time BOINC is running"
 msgstr "% der Zeit in der der BOINC-Client gestartet ist"
 
 #: ../inc/host.inc:183
@@ -384,10 +385,6 @@ msgstr "Durchschnittliches Guthaben"
 #: ../user/top_users.php:56
 msgid "Recent average credit"
 msgstr "aktuelles durchschnittliches Guthaben"
-
-#: ../inc/host.inc:226
-msgid "BOINC version"
-msgstr "BOINC Version"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
@@ -1118,8 +1115,8 @@ msgid "Validate error"
 msgstr "Bestätigungsfehler"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
-msgid "Client detached"
-msgstr "Client abgemeldet"
+msgid "Abandoned"
+msgstr ""
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1130,8 +1127,9 @@ msgid "Success"
 msgstr "Erfolgreich"
 
 #: ../inc/result.inc:172
-msgid "Client error"
-msgstr "Client-Fehler"
+#, fuzzy
+msgid "Computation error"
+msgstr "Berechnungsfehler"
 
 #: ../inc/result.inc:174
 #, fuzzy
@@ -2582,6 +2580,13 @@ msgstr ""
 msgid "Your account"
 msgstr "Ihr Konto"
 
+# ########################################<br />
+# Apps page (apps.php)
+#: ../user/host_app_versions.php:52
+#, fuzzy
+msgid "Application details for host %1"
+msgstr "Anwendungsdetails"
+
 #: ../user/hosts_user.php:51
 msgid "Computers belonging to %1"
 msgstr "Computer von %1"
@@ -2943,10 +2948,11 @@ msgstr ""
 "2 aufheben."
 
 #: ../user/prefs.php:36
+#, fuzzy
 msgid ""
-"Your preferences have been updated. Client-related preferences\n"
+"Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
-"\t      or you issue the %2Update%3 command from the BOINC client."
+"\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "Ihre Einstellungen wurden aktualisiert. Clienteinstellungen\n"
 "werden aktiviert wenn der Computer mit %1 kommuniziert\n"
@@ -3101,7 +3107,7 @@ msgstr "Keine Aufgaben verfügbar"
 msgid "User of the day"
 msgstr "Benutzer des Tages"
 
-#: ../user/show_user.php:91
+#: ../user/show_user.php:88
 msgid "Account data for %1"
 msgstr "Kontodaten von %1"
 
@@ -4349,6 +4355,15 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(alle Anwendungen)"
+
+#~ msgid "BOINC client version"
+#~ msgstr "BOINC-Client Version"
+
+#~ msgid "Client detached"
+#~ msgstr "Client abgemeldet"
+
+#~ msgid "Client error"
+#~ msgstr "Client-Fehler"
 
 #~ msgid "Maximum daily WU quota per CPU"
 #~ msgstr "maximale Anzahl Arbeitspakete pro CPU pro Tag"

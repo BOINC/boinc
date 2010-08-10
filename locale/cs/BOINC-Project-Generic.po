@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-07-14 12:19 PDT\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
 "PO-Revision-Date: 2009-05-20 14:38-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,8 +219,8 @@ msgstr ""
 msgid "Operating System"
 msgstr ""
 
-#: ../inc/host.inc:122
-msgid "BOINC client version"
+#: ../inc/host.inc:122 ../inc/host.inc:226
+msgid "BOINC version"
 msgstr ""
 
 #: ../inc/host.inc:126
@@ -306,7 +306,7 @@ msgid "Tasks"
 msgstr "Úkoly"
 
 #: ../inc/host.inc:179
-msgid "Number of times client has contacted server"
+msgid "Number of times BOINC has contacted server"
 msgstr ""
 
 #: ../inc/host.inc:180
@@ -315,7 +315,7 @@ msgstr ""
 
 #: ../inc/host.inc:181
 #, php-format
-msgid "% of time BOINC client is running"
+msgid "% of time BOINC is running"
 msgstr ""
 
 #: ../inc/host.inc:183
@@ -374,10 +374,6 @@ msgstr ""
 #: ../user/top_users.php:56
 msgid "Recent average credit"
 msgstr "Současný průměrný kredit (RAC)"
-
-#: ../inc/host.inc:226
-msgid "BOINC version"
-msgstr ""
 
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
@@ -1061,7 +1057,7 @@ msgid "Validate error"
 msgstr ""
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
-msgid "Client detached"
+msgid "Abandoned"
 msgstr ""
 
 #: ../inc/result.inc:160
@@ -1073,8 +1069,9 @@ msgid "Success"
 msgstr ""
 
 #: ../inc/result.inc:172
-msgid "Client error"
-msgstr ""
+#, fuzzy
+msgid "Computation error"
+msgstr "Počítače"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
@@ -2492,6 +2489,11 @@ msgstr ""
 msgid "Your account"
 msgstr "Váš účet"
 
+#: ../user/host_app_versions.php:52
+#, fuzzy
+msgid "Application details for host %1"
+msgstr "Aplikační programy"
+
 #: ../user/hosts_user.php:51
 #, fuzzy
 msgid "Computers belonging to %1"
@@ -2823,9 +2825,9 @@ msgstr "Pro odblokování navštivte %1nastavení diskuzního fóra%2"
 
 #: ../user/prefs.php:36
 msgid ""
-"Your preferences have been updated. Client-related preferences\n"
+"Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
-"\t      or you issue the %2Update%3 command from the BOINC client."
+"\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
@@ -2977,7 +2979,7 @@ msgstr ""
 msgid "User of the day"
 msgstr "Uživatel dne"
 
-#: ../user/show_user.php:91
+#: ../user/show_user.php:88
 msgid "Account data for %1"
 msgstr "Data o účtu %1"
 

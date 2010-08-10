@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-03 10:16 PDT\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
 "PO-Revision-Date: 2010-04-17 08:48-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,6 +176,16 @@ msgid ""
 msgstr ""
 "Jei jau esate pagalbininku: norėdami pakeisti savo nustatymus, %sspauskite "
 "čia%s."
+
+#: help_funcs.php:107
+msgid ""
+"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
+"or the University of California."
+msgstr ""
+
+#: help_funcs.php:110
+msgid "%1Never%2 give email address or password information to BOINC helpers."
+msgstr ""
 
 #: index.php:23
 msgid "Computing power"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-03 10:16 PDT\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
 "PO-Revision-Date: 2010-03-22 11:34-0700\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
@@ -185,6 +185,16 @@ msgid ""
 msgstr ""
 "Se sei un Volontario dell'Aiuto Online: per modificare le tue opzioni, %"
 "sclicca qui%s."
+
+#: help_funcs.php:107
+msgid ""
+"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
+"or the University of California."
+msgstr ""
+
+#: help_funcs.php:110
+msgid "%1Never%2 give email address or password information to BOINC helpers."
+msgstr ""
 
 #: index.php:23
 msgid "Computing power"

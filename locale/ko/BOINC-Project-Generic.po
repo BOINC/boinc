@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2010/05/15\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-07-14 12:19 PDT\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
 "PO-Revision-Date: 2010-07-16 23:19-0700\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
@@ -221,9 +221,9 @@ msgstr "코프로세서"
 msgid "Operating System"
 msgstr "운영체제(OS)"
 
-#: ../inc/host.inc:122
-msgid "BOINC client version"
-msgstr "BOINC 클라이언트 버전"
+#: ../inc/host.inc:122 ../inc/host.inc:226
+msgid "BOINC version"
+msgstr "BOINC 버전"
 
 #: ../inc/host.inc:126
 msgid "Memory"
@@ -307,7 +307,8 @@ msgid "Tasks"
 msgstr "작업"
 
 #: ../inc/host.inc:179
-msgid "Number of times client has contacted server"
+#, fuzzy
+msgid "Number of times BOINC has contacted server"
 msgstr "클라이언트가 서버와 통신한 횟수"
 
 #: ../inc/host.inc:180
@@ -315,8 +316,8 @@ msgid "Last time contacted server"
 msgstr "최근에 통신한 서버"
 
 #: ../inc/host.inc:181
-#, php-format
-msgid "% of time BOINC client is running"
+#, fuzzy, php-format
+msgid "% of time BOINC is running"
 msgstr "BOINC 클라이언트가 실행된 %"
 
 #: ../inc/host.inc:183
@@ -374,10 +375,6 @@ msgstr "평균 크레딧"
 #: ../user/top_users.php:56
 msgid "Recent average credit"
 msgstr "최근 평균 크레딧"
-
-#: ../inc/host.inc:226
-msgid "BOINC version"
-msgstr "BOINC 버전"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
@@ -1086,8 +1083,8 @@ msgid "Validate error"
 msgstr "검증 오류"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
-msgid "Client detached"
-msgstr "클라이언트 연결 해제됨"
+msgid "Abandoned"
+msgstr ""
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1098,8 +1095,9 @@ msgid "Success"
 msgstr "성공"
 
 #: ../inc/result.inc:172
-msgid "Client error"
-msgstr "클라이언트 오류"
+#, fuzzy
+msgid "Computation error"
+msgstr "연산 오류"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
@@ -2505,6 +2503,11 @@ msgstr ""
 msgid "Your account"
 msgstr "계정"
 
+#: ../user/host_app_versions.php:52
+#, fuzzy
+msgid "Application details for host %1"
+msgstr "응용 프로그램 상세 정보"
+
 #: ../user/hosts_user.php:51
 msgid "Computers belonging to %1"
 msgstr "%1에 속한 컴퓨터"
@@ -2835,10 +2838,11 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "차단을 해제할려면, %1게시판 환경설정%2을 방문하세요"
 
 #: ../user/prefs.php:36
+#, fuzzy
 msgid ""
-"Your preferences have been updated. Client-related preferences\n"
+"Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
-"\t      or you issue the %2Update%3 command from the BOINC client."
+"\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "환경 설정이 업데이트되었습니다. 클라이언트 관련 환경 설정\n"
 "\t      은 여러분 컴퓨터가 %1 서버와 통신을 하거나 BOINC\n"
@@ -2991,7 +2995,7 @@ msgstr "표시할 작업이 없습니다"
 msgid "User of the day"
 msgstr "오늘의 사용자"
 
-#: ../user/show_user.php:91
+#: ../user/show_user.php:88
 msgid "Account data for %1"
 msgstr "계정 데이터 %1"
 
@@ -4218,6 +4222,15 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(모든 응용 프로그램)"
+
+#~ msgid "BOINC client version"
+#~ msgstr "BOINC 클라이언트 버전"
+
+#~ msgid "Client detached"
+#~ msgstr "클라이언트 연결 해제됨"
+
+#~ msgid "Client error"
+#~ msgstr "클라이언트 오류"
 
 #~ msgid "Maximum daily WU quota per CPU"
 #~ msgstr "일일 최대 CPU 작업 유닛 할당량"

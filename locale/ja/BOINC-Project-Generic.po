@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-07-14 12:19 PDT\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
 "PO-Revision-Date: 2010-08-06 23:20+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
@@ -228,9 +228,9 @@ msgstr "コプロセッサの数"
 msgid "Operating System"
 msgstr "オペレーティングシステム"
 
-#: ../inc/host.inc:122
-msgid "BOINC client version"
-msgstr "BOINC クライアントの版数"
+#: ../inc/host.inc:122 ../inc/host.inc:226
+msgid "BOINC version"
+msgstr "BOINC の版数"
 
 #: ../inc/host.inc:126
 msgid "Memory"
@@ -316,7 +316,8 @@ msgid "Tasks"
 msgstr "タスク"
 
 #: ../inc/host.inc:179
-msgid "Number of times client has contacted server"
+#, fuzzy
+msgid "Number of times BOINC has contacted server"
 msgstr "クライアントがサーバに接続した回数"
 
 #: ../inc/host.inc:180
@@ -324,8 +325,8 @@ msgid "Last time contacted server"
 msgstr "最後にサーバに接続した日時"
 
 #: ../inc/host.inc:181
-#, php-format
-msgid "% of time BOINC client is running"
+#, fuzzy, php-format
+msgid "% of time BOINC is running"
 msgstr "BOINC クライアントが走行している時間の割合(%)"
 
 #: ../inc/host.inc:183
@@ -383,10 +384,6 @@ msgstr "平均功績値"
 #: ../user/top_users.php:56
 msgid "Recent average credit"
 msgstr "最近の平均功績(credits/day)"
-
-#: ../inc/host.inc:226
-msgid "BOINC version"
-msgstr "BOINC の版数"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
@@ -754,8 +751,8 @@ msgid ""
 "with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
 msgstr ""
-"リソース割り当て %1"
-"このプロジェクトに割り当てるあなたのコンピュータの資源量を決める指標です。\n"
+"リソース割り当て %1このプロジェクトに割り当てるあなたのコンピュータの資源量を"
+"決める指標です。\n"
 " 例えば２つの BOINC プロジェクトに参加していたとしてリソース\n"
 "割り当てをそれぞれ 100、200 と指定したら、１つ目のプロジェクト\n"
 "に1/3が割り当てられ、2つ目には2/3の資源が割り当てられます。"
@@ -1114,8 +1111,8 @@ msgid "Validate error"
 msgstr "検証で異常発生"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
-msgid "Client detached"
-msgstr "クライアントが離脱した"
+msgid "Abandoned"
+msgstr ""
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1126,8 +1123,9 @@ msgid "Success"
 msgstr "成功"
 
 #: ../inc/result.inc:172
-msgid "Client error"
-msgstr "クライアントでの異常"
+#, fuzzy
+msgid "Computation error"
+msgstr "計算中に異常発生"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
@@ -2572,6 +2570,13 @@ msgstr ""
 msgid "Your account"
 msgstr "あなたのアカウント"
 
+# #######################################
+# Apps page (apps.php)
+#: ../user/host_app_versions.php:52
+#, fuzzy
+msgid "Application details for host %1"
+msgstr "アプリケーションの詳細"
+
 #: ../user/hosts_user.php:51
 msgid "Computers belonging to %1"
 msgstr "%1さんのコンピュータ"
@@ -2929,10 +2934,11 @@ msgstr ""
 "い。"
 
 #: ../user/prefs.php:36
+#, fuzzy
 msgid ""
-"Your preferences have been updated. Client-related preferences\n"
+"Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
-"\t      or you issue the %2Update%3 command from the BOINC client."
+"\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "あなたのプレファレンス(好みの設定)は更新されました。　クライアントに関係する"
 "プレファレンスの変更\n"
@@ -3091,7 +3097,7 @@ msgstr "表示すべきタスクがありません"
 msgid "User of the day"
 msgstr "毎日の参加者紹介"
 
-#: ../user/show_user.php:91
+#: ../user/show_user.php:88
 msgid "Account data for %1"
 msgstr "%1 さんのアカウント・データ"
 
@@ -3775,8 +3781,8 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"検索結果の末尾。%1 探しているチームを見つけることができなかったなら、"
-"ご自身で %2チームを作る%3 こともできます。"
+"検索結果の末尾。%1 探しているチームを見つけることができなかったなら、ご自身"
+"で %2チームを作る%3 こともできます。"
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
@@ -4350,6 +4356,15 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(すべてのアプリケーション)"
+
+#~ msgid "BOINC client version"
+#~ msgstr "BOINC クライアントの版数"
+
+#~ msgid "Client detached"
+#~ msgstr "クライアントが離脱した"
+
+#~ msgid "Client error"
+#~ msgstr "クライアントでの異常"
 
 #~ msgid "Maximum daily WU quota per CPU"
 #~ msgstr "CPU ごとの最大WU割当量/日"

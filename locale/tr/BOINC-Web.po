@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Web Site\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2010-05-03 10:16 PDT\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
 "PO-Revision-Date: 2010-06-06 13:04+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
@@ -87,8 +87,7 @@ msgid ""
 "you may be able to %suse it to compute faster%s"
 msgstr ""
 "Not: Eğer bilgisayarınız bir ekran kartına (Graphics Processing Unit-GPU) "
-"sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da "
-"kullanabilirsiniz%s"
+"sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da kullanabilirsiniz%s"
 
 #: download.php:122
 msgid "System requirements"
@@ -179,6 +178,16 @@ msgid ""
 msgstr ""
 "Zaten bir Yardım Günllüsüyseniz: Ayarlarınızı düzenlemek için, %sburaya "
 "tıklayın%s."
+
+#: help_funcs.php:107
+msgid ""
+"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
+"or the University of California."
+msgstr ""
+
+#: help_funcs.php:110
+msgid "%1Never%2 give email address or password information to BOINC helpers."
+msgstr ""
 
 #: index.php:23
 msgid "Computing power"
@@ -353,8 +362,7 @@ msgstr "Tarayıcı varsayılanı"
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
-"Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s "
-"yazılımı."
+"Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s yazılımı."
 
 #: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"
