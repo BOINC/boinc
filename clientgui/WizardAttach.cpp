@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "WizardAttachProject.h"
+#pragma implementation "WizardAttach.h"
 #endif
 
 #include "stdwx.h"
@@ -175,7 +175,7 @@ void CWizardAttach::CreateControls()
     wxLogTrace(wxT("Function Start/End"), wxT("CWizardAttach::CreateControls - Function Begin"));
  
 ////@begin CWizardAttach content construction
-    CBOINCBaseWizard* itemWizard1 = this;
+    CWizardAttach* itemWizard1 = this;
 
     m_WelcomePage = new CWelcomePage;
     m_WelcomePage->Create( itemWizard1 );
