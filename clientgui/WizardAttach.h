@@ -182,7 +182,7 @@ class CAccountManagerProcessingPage;
 
 class CWizardAttach: public CBOINCBaseWizard
 {    
-    DECLARE_DYNAMIC_CLASS( CWizardAttachProject )
+    DECLARE_DYNAMIC_CLASS( CWizardAttach )
     DECLARE_EVENT_TABLE()
 
 public:

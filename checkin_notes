@@ -5845,3 +5845,9 @@ Charlie 6 Aug 2010
     clientgui/
         BOINCGUIApp.cpp, .h
         MainDocument.cpp
+
+Rom    10 Aug 2010
+    - MGR: Possible fix for vtable reference issue.
+    
+    clientgui/
+        WizardAttach.h
