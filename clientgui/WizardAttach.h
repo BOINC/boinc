@@ -188,10 +188,10 @@ class CWizardAttach: public CBOINCBaseWizard
 public:
     /// Constructors
     CWizardAttach( );
-    CWizardAttach( wxWindow* parent, wxWindowID id = SYMBOL_CWIZARDATTACH_IDNAME, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition );
+    CWizardAttach( wxWindow* parent, wxWindowID id = SYMBOL_CWIZARDATTACH_IDNAME, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE );
 
     /// Creation
-    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CWIZARDATTACH_IDNAME, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition );
+    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CWIZARDATTACH_IDNAME, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE );
 
     /// Creates the controls and sizers
     void CreateControls();

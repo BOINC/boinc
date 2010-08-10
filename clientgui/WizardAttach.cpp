@@ -81,17 +81,17 @@ CWizardAttach::CWizardAttach() :
 {
 }
  
-CWizardAttach::CWizardAttach( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos ) :
-    CBOINCBaseWizard( parent, id, title, pos )
+CWizardAttach::CWizardAttach( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, long style ) :
+    CBOINCBaseWizard( parent, id, title, pos, style )
 {
-    Create(parent, id, title, pos);
+    Create(parent, id, title, pos, style);
 }
  
 /*!
  * CWizardAttach creator
  */
  
-bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* title */, const wxPoint& pos )
+bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* title */, const wxPoint& pos, long style )
 {
 
 ////@begin CWizardAttach member initialisation
@@ -158,7 +158,7 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     }
 
 ////@begin CWizardAttach creation
-    CBOINCBaseWizard::Create( parent, id, strTitle, pos );
+    CBOINCBaseWizard::Create( parent, id, strTitle, pos, style );
 
     CreateControls();
 ////@end CWizardAttach creation
