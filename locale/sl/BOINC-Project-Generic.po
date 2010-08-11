@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-11 06:59-0700\n"
+"PO-Revision-Date: 2010-08-11 08:00-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -111,55 +111,55 @@ msgstr "Ni gostitelja"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Ni na voljo"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:618 ../inc/prefs.inc:1018
 msgid "Home"
-msgstr ""
+msgstr "Doma"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:620 ../inc/prefs.inc:1019
 msgid "Work"
-msgstr ""
+msgstr "V službi"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:619 ../inc/prefs.inc:1020
 msgid "School"
-msgstr ""
+msgstr "V šoli"
 
 #: ../inc/host.inc:59
 msgid "Update"
-msgstr ""
+msgstr "Posodobite"
 
 #: ../inc/host.inc:83
 msgid "Computer information"
-msgstr ""
+msgstr "Informacije o računalniku"
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "IP naslov"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(isti zadnjih %1 krat)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr ""
+msgstr "Zunanji IP naslov"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "Prikaži IP naslov"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
-msgstr ""
+msgstr "Ime domene"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
-msgstr ""
+msgstr "Lokalni čas"
 
 #: ../inc/host.inc:97
 msgid "UTC %1 hours"
-msgstr ""
+msgstr "UTC %1."
 
 #: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:378
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:202
@@ -172,16 +172,15 @@ msgstr "Ime"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
 msgid "Owner"
-msgstr ""
+msgstr "Lastnik"
 
 #: ../inc/host.inc:104 ../inc/host.inc:318
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonimen"
 
 #: ../inc/host.inc:108 ../inc/result.inc:380
-#, fuzzy
 msgid "Created"
-msgstr "Ustvari"
+msgstr "Ustvarjeno"
 
 #: ../inc/host.inc:109 ../inc/host.inc:217 ../inc/host.inc:222
 #: ../inc/host.inc:621 ../inc/team.inc:94 ../inc/team.inc:207
@@ -201,105 +200,104 @@ msgstr "Točk v povprečju"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr ""
+msgstr "Skupaj točk v projektih"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "Tip procesorja"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "Število procesorjev"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
-msgstr ""
+msgstr "Koprocesorji"
 
 #: ../inc/host.inc:119 ../inc/host.inc:627
 msgid "Operating System"
-msgstr ""
+msgstr "Operacijski sistem"
 
 #: ../inc/host.inc:122 ../inc/host.inc:226
 msgid "BOINC version"
-msgstr ""
+msgstr "Različica BOINC"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "Pomnilnik"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "Predpomnilnik"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr ""
+msgstr "Izmenjalni prostor"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "Skupni prostor na disku"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Prosto na disku"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "Izmerjena hitrost operacij s plavajočo vejico"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 miljonov operacij/s"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
-msgstr ""
+msgstr "Izmerjena hitrost celoštevilskih operacij"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
-msgstr ""
+msgstr "Povprečna hitrost pošiljanja"
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
-msgstr ""
+msgstr "%1 KB/s"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:152
 #: ../inc/result.inc:162 ../inc/result.inc:180 ../inc/result.inc:212
 msgid "Unknown"
-msgstr ""
+msgstr "Neznano"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
 msgid "Average download rate"
-msgstr ""
+msgstr "Povprečna hitrost prejemanja"
 
 #: ../inc/host.inc:163
 msgid "Average turnaround time"
-msgstr ""
+msgstr "Povprečna obračalni čas"
 
 #: ../inc/host.inc:163
 msgid "%1 days"
-msgstr ""
+msgstr "%1 dni"
 
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "Aplikacije"
+msgstr "Podrobnosti aplikacije"
 
 #: ../inc/host.inc:165
 msgid "Show"
-msgstr ""
+msgstr "Prikaži"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
@@ -307,55 +305,54 @@ msgstr "Opravila"
 
 #: ../inc/host.inc:179
 msgid "Number of times BOINC has contacted server"
-msgstr ""
+msgstr "Kolikokrat je BOINC kontaktiral strežnik"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
-msgstr ""
+msgstr "Zadnji čas kontaktiranja strežnika"
 
 #: ../inc/host.inc:181
 #, php-format
 msgid "% of time BOINC is running"
-msgstr ""
+msgstr "BOINC teče % časa"
 
 #: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
+msgstr "Ko BOINC teče, kolikšen % časa ima gostitelj povezavo na Internet"
 
 #: ../inc/host.inc:185
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "Ko BOINC teče, kolikšen % časa je dovoljeno delo"
 
 #: ../inc/host.inc:187
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "Povprečna učinkovitost procesorja"
 
 #: ../inc/host.inc:190
 msgid "Task duration correction factor"
-msgstr ""
+msgstr "Korekcijski faktor dolžine opravila"
 
 #: ../inc/host.inc:192 ../inc/host.inc:614
 msgid "Location"
-msgstr ""
+msgstr "Lokacija"
 
 #: ../inc/host.inc:194
 msgid "Delete this computer"
-msgstr ""
+msgstr "Briši ta računalnik"
 
 #: ../inc/host.inc:198
 msgid "Merge duplicate records of this computer"
-msgstr ""
+msgstr "Združi podvojene zapise tega računalnika"
 
 #: ../inc/host.inc:198
-#, fuzzy
 msgid "Merge"
-msgstr "Sporočilo"
+msgstr "Združi"
 
 #: ../inc/host.inc:211
 msgid "Computer info"
-msgstr ""
+msgstr "Informacije o računalniku"
 
 #: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:344
 #: ../user/top_users.php:46
@@ -364,7 +361,7 @@ msgstr "Uvrstitev"
 
 #: ../inc/host.inc:216 ../inc/host.inc:619
 msgid "Avg. credit"
-msgstr ""
+msgstr "Povprečno točk"
 
 #: ../inc/host.inc:221 ../inc/team.inc:95 ../inc/team.inc:208
 #: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:350
@@ -377,72 +374,71 @@ msgstr "Povprečje točk v zadnjem času"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
-msgstr ""
+msgstr "Procesor"
 
 #: ../inc/host.inc:228 ../inc/host.inc:625
 msgid "GPU"
-msgstr ""
+msgstr "Grafični procesor"
 
 #: ../inc/host.inc:229
 msgid "Operating system"
-msgstr ""
+msgstr "Operacijski sistem"
 
 #: ../inc/host.inc:281
 msgid "(%1 processors)"
-msgstr ""
+msgstr "(%1 procesorjev)"
 
 #: ../inc/host.inc:301
 msgid "Details"
-msgstr ""
+msgstr "Podrobnosti"
 
 #: ../inc/host.inc:306
-#, fuzzy
 msgid "Cross-project stats:"
-msgstr "Medprojektna statistika"
+msgstr "Medprojektna statistika:"
 
 #: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
-msgstr ""
+msgstr "Gostitelj %1 ima prekrivajočo se življensko dobo:"
 
 #: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
-msgstr ""
+msgstr "Gostitelj %1 ima nezdružljiv operacijski sistem:"
 
 #: ../inc/host.inc:473
 msgid "Host %1 has an incompatible CPU:"
-msgstr ""
+msgstr "Gostitelj %1 ima nezdružljiv procesor:"
 
 #: ../inc/host.inc:540
 msgid "same host"
-msgstr ""
+msgstr "isti gostitelj"
 
 #: ../inc/host.inc:543
 msgid "Can't merge host %1 into %2 - they're incompatible"
-msgstr ""
+msgstr "Ne morem združiti gostitelja %1 z %2 - nezdružljiva sta"
 
 #: ../inc/host.inc:546
 msgid "Merging host %1 into host %2"
-msgstr ""
+msgstr "Pridružujem gostitelja %1 k gostitelju %2"
 
 #: ../inc/host.inc:563
 msgid "Couldn't update credit of new computer"
-msgstr ""
+msgstr "Posodobitev točk novega računalnika ni uspela"
 
 #: ../inc/host.inc:567
 msgid "Couldn't update results"
-msgstr ""
+msgstr "Posodobitev rezultatov ni uspela"
 
 #: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "Upokojitev starega računalnnika ni uspela"
 
 #: ../inc/host.inc:574
 msgid "Retired old computer %1"
-msgstr ""
+msgstr "Upokojil stari računalnik %1"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Show:"
-msgstr ""
+msgstr "Prikaži:"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 #, fuzzy
