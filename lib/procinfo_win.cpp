@@ -20,7 +20,7 @@ typedef NTSTATUS (WINAPI *tNTQSI)(
 static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
     NTSTATUS Status = STATUS_INFO_LENGTH_MISMATCH;
     HANDLE   hHeap  = GetProcessHeap();
-    HMODULE  hNTDllLib = GetModuleHandle("ntdll.dll");
+    HMODULE  hNTDllLib = GetModuleHandle(_T("ntdll.dll"));
     tNTQSI   pNTQSI = (tNTQSI)GetProcAddress(hNTDllLib, "NtQuerySystemInformation");
     ULONG    cbBuffer = 0;
 

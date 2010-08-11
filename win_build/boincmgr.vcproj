@@ -986,6 +986,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\procinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\procinfo_win.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\proxy_info.cpp"
 				>
 			</File>

@@ -5893,3 +5893,9 @@ Rom    11 Aug 2010
     
     clientgui/
         DlgEventLog.cpp
+
+Rom    11 Aug 2010
+    - lib: Make procinfo_win.cpp Unicode compatible.
+    
+    lib/
+        procinfo_win.cpp
