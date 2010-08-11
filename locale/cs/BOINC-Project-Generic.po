@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-11 14:59-0700\n"
+"PO-Revision-Date: 2010-08-11 15:41-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -212,93 +212,92 @@ msgstr "Počet procesorů"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
-msgstr ""
+msgstr "Koprocesorů"
 
 #: ../inc/host.inc:119 ../inc/host.inc:627
 msgid "Operating System"
-msgstr ""
+msgstr "Operační systém"
 
 #: ../inc/host.inc:122 ../inc/host.inc:226
 msgid "BOINC version"
-msgstr ""
+msgstr "Verze BOINC"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "Paměť"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr ""
+msgstr "Odkládací prostor"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "Celkové místo na disku"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Volné místo na disku"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "Naměřená rychlost operací v plovoucí řádové čárce"
 
 #: ../inc/host.inc:144 ../inc/host.inc:147
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 milion op/sek"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
-msgstr ""
+msgstr "Naměřená rychlost v celočíselných operacích"
 
 #: ../inc/host.inc:151 ../inc/host.inc:153
 msgid "Average upload rate"
-msgstr ""
+msgstr "Průměrná rychlost nahrávání"
 
 #: ../inc/host.inc:151 ../inc/host.inc:158
 msgid "%1 KB/sec"
-msgstr ""
+msgstr "%1 KB/sek"
 
 #: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:152
 #: ../inc/result.inc:162 ../inc/result.inc:180 ../inc/result.inc:212
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámé"
 
 #: ../inc/host.inc:158 ../inc/host.inc:160
 msgid "Average download rate"
-msgstr ""
+msgstr "Průměrná rychlost stahování"
 
 #: ../inc/host.inc:163
 msgid "Average turnaround time"
-msgstr ""
+msgstr "Průměrný doba pro vrácení zpracované jednotky"
 
 #: ../inc/host.inc:163
 msgid "%1 days"
-msgstr ""
+msgstr "%1 dnů"
 
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "Aplikační programy"
+msgstr "Detaily aplikace"
 
 #: ../inc/host.inc:165
 msgid "Show"
-msgstr ""
+msgstr "Ukázat"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
@@ -306,55 +305,54 @@ msgstr "Úkoly"
 
 #: ../inc/host.inc:179
 msgid "Number of times BOINC has contacted server"
-msgstr ""
+msgstr "Počet kolikrát BOINC kontaktoval server"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
-msgstr ""
+msgstr "Datum posledního kontaktování serveru"
 
 #: ../inc/host.inc:181
 #, php-format
 msgid "% of time BOINC is running"
-msgstr ""
+msgstr "% času kdy je BOINC aktivní"
 
 #: ../inc/host.inc:183
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
+msgstr "% času kdy je dostupné připojení k Internetu, z doby kdy BOINC počítá"
 
 #: ../inc/host.inc:185
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
-msgstr ""
+msgstr "% času kdy je povolená práce, z doby kdy BOINC počítá"
 
 #: ../inc/host.inc:187
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "Průměrná efektivita CPU"
 
 #: ../inc/host.inc:190
 msgid "Task duration correction factor"
-msgstr ""
+msgstr "Korekční faktor pro dobu výpočtu"
 
 #: ../inc/host.inc:192 ../inc/host.inc:614
 msgid "Location"
-msgstr ""
+msgstr "Umístění"
 
 #: ../inc/host.inc:194
 msgid "Delete this computer"
-msgstr ""
+msgstr "Smazat tento počítač"
 
 #: ../inc/host.inc:198
 msgid "Merge duplicate records of this computer"
-msgstr ""
+msgstr "Spojit duplicitní záznamy tohoto počítače"
 
 #: ../inc/host.inc:198
-#, fuzzy
 msgid "Merge"
-msgstr "Zpráva"
+msgstr "Spojit"
 
 #: ../inc/host.inc:211
 msgid "Computer info"
-msgstr ""
+msgstr "Informace o počítači"
 
 #: ../inc/host.inc:212 ../inc/host.inc:616 ../inc/team.inc:344
 #: ../user/top_users.php:46
@@ -363,7 +361,7 @@ msgstr "Pořadí"
 
 #: ../inc/host.inc:216 ../inc/host.inc:619
 msgid "Avg. credit"
-msgstr ""
+msgstr "Průměrný kredit"
 
 #: ../inc/host.inc:221 ../inc/team.inc:95 ../inc/team.inc:208
 #: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:350
@@ -376,28 +374,27 @@ msgstr "Současný průměrný kredit (RAC)"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: ../inc/host.inc:228 ../inc/host.inc:625
 msgid "GPU"
-msgstr ""
+msgstr "GPU"
 
 #: ../inc/host.inc:229
 msgid "Operating system"
-msgstr ""
+msgstr "Operační systém"
 
 #: ../inc/host.inc:281
 msgid "(%1 processors)"
-msgstr ""
+msgstr "(%1 procesorů)"
 
 #: ../inc/host.inc:301
 msgid "Details"
-msgstr ""
+msgstr "Detaily"
 
 #: ../inc/host.inc:306
-#, fuzzy
 msgid "Cross-project stats:"
-msgstr "Statistiky napříč projekty"
+msgstr "Statistiky napříč projekty:"
 
 #: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
