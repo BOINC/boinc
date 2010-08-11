@@ -51,6 +51,9 @@
 #define COLUMN_MESSAGE              2
 
 
+static bool s_bIsFiltered = false;
+static std::string s_strFilteredProjectName;
+
 /*!
  * CDlgEventLog type definition
  */
@@ -113,7 +116,6 @@ CDlgEventLog::~CDlgEventLog() {
         m_pMessageErrorGrayAttr = NULL;
     }
 
-    m_strFilteredProjectName.clear();
     m_iFilteredIndexes.Clear();
 
     wxGetApp().OnEventLogClose();
@@ -132,8 +134,9 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     m_iPreviousRowCount = 0;
     m_iTotalDocCount = 0;
     m_iPreviousTotalDocCount = 0;
-    m_bIsFiltered = false;
-    m_strFilteredProjectName.clear();
+    if (!s_bIsFiltered) {
+        s_strFilteredProjectName.clear();
+    }
     m_iFilteredIndexes.Clear();
 	m_bProcessingRefreshEvent = false;
     m_bEventLogIsOpen = true;
@@ -197,6 +200,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     SetIcons(icons);
 
     CreateControls();
+//    SetFilterButtonText();
 
 	// Create List Pane Items
     m_pList->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 109);
@@ -252,9 +256,9 @@ void CDlgEventLog::CreateControls()
 
     m_pFilterButton = new wxButton(this, ID_TASK_MESSAGES_FILTERBYPROJECT, _("Show only this project"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(m_pFilterButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-#ifdef wxUSE_TOOLTIPS
-	m_pFilterButton->SetToolTip(_("Show only the messages for the selected project"));
-#endif
+    // Initially draw button with longer test but disabled.
+    // See comment in CDlgEventLog::UpdateButtons().
+    m_pFilterButton->Disable();
 
 #ifdef wxUSE_CLIPBOARD
     wxButton* itemButton1 = new wxButton(this, ID_COPYAll, _("Copy All"), wxDefaultPosition, wxDefaultSize );
@@ -304,6 +308,23 @@ void CDlgEventLog::CreateControls()
 #endif
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
+}
+
+
+void CDlgEventLog::SetFilterButtonText() {
+    if (s_bIsFiltered) {
+        m_pFilterButton->SetLabel( _("Show all messages") );
+        m_pFilterButton->SetHelpText( _("Show messages for all projects") );
+#ifdef wxUSE_TOOLTIPS
+        m_pFilterButton->SetToolTip(_("Show messages for all projects"));
+#endif
+    } else {
+        m_pFilterButton->SetLabel( _("Show only this project") );
+        m_pFilterButton->SetHelpText( _("Show only the messages for the selected project") );
+#ifdef wxUSE_TOOLTIPS
+        m_pFilterButton->SetToolTip(_("Show only the messages for the selected project"));
+#endif
+    }
 }
 
 
@@ -381,31 +402,21 @@ void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pList);
 
     m_iFilteredIndexes.Clear();
-    m_strFilteredProjectName.clear();
+    s_strFilteredProjectName.clear();
 
-    if (m_bIsFiltered) {
-        m_bIsFiltered = false;
-        m_pFilterButton->SetLabel( _("Show only this project") );
-        m_pFilterButton->SetHelpText( _("Show only the messages for the selected project") );
-#ifdef wxUSE_TOOLTIPS
-        m_pFilterButton->SetToolTip(_("Show only the messages for the selected project"));
-#endif
+    if (s_bIsFiltered) {
+        s_bIsFiltered = false;
         m_iFilteredDocCount = m_iTotalDocCount;
     } else {
         iIndex = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (iIndex >= 0) {
              message = wxGetApp().GetDocument()->message(iIndex);
              if ((message->project).size() > 0) {
-                m_strFilteredProjectName = message->project;
-                m_bIsFiltered = true;
-                m_pFilterButton->SetLabel( _("Show all messages") );
-                m_pFilterButton->SetHelpText( _("Show messages for all projects") );
-#ifdef wxUSE_TOOLTIPS
-                m_pFilterButton->SetToolTip(_("Show messages for all projects"));
-#endif
+                s_strFilteredProjectName = message->project;
+                s_bIsFiltered = true;
                 for (iIndex = 0; iIndex < m_iTotalDocCount; iIndex++) {
                     message = wxGetApp().GetDocument()->message(iIndex);
-                    if (message->project.empty() || (message->project == m_strFilteredProjectName)) {
+                    if (message->project.empty() || (message->project == s_strFilteredProjectName)) {
                         m_iFilteredIndexes.Add(iIndex);
                     }
 
@@ -414,6 +425,8 @@ void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
            }
         }
     }
+    
+    SetFilterButtonText();
     
     // Force a complete update
     m_iPreviousRowCount = 0;
@@ -426,7 +439,7 @@ void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
 
 
 wxInt32 CDlgEventLog::GetFilteredMessageIndex( wxInt32 iRow) const {
-    if (m_bIsFiltered) return m_iFilteredIndexes[iRow];
+    if (s_bIsFiltered) return m_iFilteredIndexes[iRow];
     return iRow;
 }
 
@@ -438,15 +451,16 @@ wxInt32 CDlgEventLog::GetDocCount() {
     m_iTotalDocCount = wxGetApp().GetDocument()->GetMessageCount();
     if (m_iTotalDocCount < m_iPreviousTotalDocCount) {
         // Usually due to a disconnect from client
-        m_bIsFiltered = false;
-        m_strFilteredProjectName.clear();
+        s_bIsFiltered = false;
+        s_strFilteredProjectName.clear();
         m_iFilteredIndexes.Clear();
+        SetFilterButtonText();
     }
     
-    if (m_bIsFiltered) {
+    if (s_bIsFiltered) {
         for (i = m_iPreviousTotalDocCount; i < m_iTotalDocCount; i++) {
             MESSAGE*   message = wxGetApp().GetDocument()->message(i);
-            if (message->project.empty() || (message->project == m_strFilteredProjectName)) {
+            if (message->project.empty() || (message->project == s_strFilteredProjectName)) {
                 m_iFilteredIndexes.Add(i);
             }
         }
@@ -467,7 +481,12 @@ wxInt32 CDlgEventLog::GetDocCount() {
 void CDlgEventLog::OnRefresh() {
     bool isConnected;
     static bool was_connected = false;
-
+    static wxString strLastMachineName = wxEmptyString;
+    wxString strNewMachineName = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
     if (!IsShown()) return;
 
     if (!m_bProcessingRefreshEvent) {
@@ -478,9 +497,26 @@ void CDlgEventLog::OnRefresh() {
         wxInt32 iRowCount = GetDocCount();
         if (0 >= iRowCount) {
             m_pList->DeleteAllItems();
+            s_bIsFiltered = false;
+            s_strFilteredProjectName.clear();
+            m_iFilteredIndexes.Clear();
+            SetFilterButtonText();
         } else {
-            // If connection status changed, adjust color of messages display
+            // If connected computer changed, reset message filtering
             isConnected = wxGetApp().GetDocument()->IsConnected();
+            if (isConnected) {
+                pDoc->GetConnectedComputerName(strNewMachineName);
+                if (strLastMachineName != strNewMachineName) {
+                    strLastMachineName = strNewMachineName;
+                    was_connected = false;
+                    s_bIsFiltered = false;
+                    s_strFilteredProjectName.clear();
+                    m_iFilteredIndexes.Clear();
+                    SetFilterButtonText();
+                }
+            }
+
+            // If connection status changed, adjust color of messages display
             if (was_connected != isConnected) {
                 was_connected = isConnected;
                 SetTextColor();
@@ -501,18 +537,6 @@ void CDlgEventLog::OnRefresh() {
         if ((iRowCount > 1) && (EnsureLastItemVisible()) && (m_iPreviousRowCount != iRowCount)) {
             m_pList->EnsureVisible(iRowCount - 1);
         }
-
-#if 0   // This was in ViewMessages.cpp; is it needed herre?
-        if (isConnected) {
-            pDoc->GetConnectedComputerName(strNewMachineName);
-            if (strLastMachineName != strNewMachineName) {
-                strLastMachineName = strNewMachineName;
-                     if (iRowCount) {
-                        m_pList->EnsureVisible(iRowCount - 1);
-                    }
-            }
-        }
-#endif
 
         if (m_iPreviousRowCount != iRowCount) {
             m_iPreviousRowCount = iRowCount;
@@ -758,7 +782,7 @@ void CDlgEventLog::OnButtonHelp( wxCommandEvent& event ) {
 
 
 void CDlgEventLog::UpdateButtons() {
-        bool enableFilterButton = m_bIsFiltered; 
+        bool enableFilterButton = s_bIsFiltered; 
         bool enableCopySelectedButon = false; 
         if (m_iTotalDocCount > 0) {
             int n = m_pList->GetSelectedItemCount();
@@ -766,13 +790,21 @@ void CDlgEventLog::UpdateButtons() {
                 enableCopySelectedButon = true;
             }
             
-            if ((n == 1) && (! m_bIsFiltered)) {
+            if ((n == 1) && (! s_bIsFiltered)) {
                 n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
                 MESSAGE* message = wxGetApp().GetDocument()->message(n);
                 if ((message->project).size() > 0) {
                     enableFilterButton = true;
                 }
             }
+        }
+        
+        // To ensure that the button is large enough to fit the longer label, 
+        // don't change the button text (possibly to the shorter label) until  
+        // after the button has been drawn (disabled) with the longer text, 
+        // and don't enable the button until it has the correct label.
+        if (m_pFilterButton->IsEnabled() != enableFilterButton) {
+            SetFilterButtonText();
         }
         m_pFilterButton->Enable(enableFilterButton);
         m_pCopySelectedButton->Enable(enableCopySelectedButon);

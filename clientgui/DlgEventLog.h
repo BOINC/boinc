@@ -90,6 +90,9 @@ public:
     /// Creates the controls and sizers
     void CreateControls();
 
+    /// Sets text for m_pFilterButton
+    void SetFilterButtonText();
+    
     /// Text color selection
     void SetTextColor();
     
@@ -146,8 +149,6 @@ private:
     wxInt32                 m_iFilteredDocCount;
     wxInt32                 m_iPreviousTotalDocCount;
     wxInt32                 m_iPreviousRowCount;
-    bool                    m_bIsFiltered;
-    std::string             m_strFilteredProjectName;
     wxButton*               m_pFilterButton;
     wxButton*               m_pCopySelectedButton;
 

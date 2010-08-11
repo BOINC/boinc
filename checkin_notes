@@ -5868,3 +5868,10 @@ David  10 Aug 2010
     sched/
         sched_config.cpp,h
         sched_version.cpp
+
+Charlie 11 Aug 2010
+    - MGR: preserve message filtering by project if Event Log is closed and 
+        reopened, but not when selecting a different host or exiting Manager.
+
+    clientgui/
+        DlgEventLog.cpp, .h
