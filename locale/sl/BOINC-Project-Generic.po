@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-11 10:58-0700\n"
+"PO-Revision-Date: 2010-08-11 11:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -3241,18 +3241,20 @@ msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
-"Član ekipe %1 je zahteval spremembo ustanoviteljstva skupine %2, vendar je "
-"ekipo zapustil in tako preklical svojo zahtevo."
+"Član ekipe %1 je zahteval spremembo ustanoviteljstva te skupine na %2, "
+"vendar je ekipo zapustil in tako preklical svojo zahtevo."
 
 #: ../user/team_change_founder_form.php:47
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
+"Član skupine %1 je zahteval spremembo ustanoviteljstva te skupine. To je "
+"morda, ker ste zapustili ekipo ali daljši čas niste imeli kontakta z ekipo."
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
-msgstr ""
+msgstr "odkloni zahtevo"
 
 #: ../user/team_change_founder_form.php:56
 msgid ""
@@ -3261,24 +3263,30 @@ msgid ""
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
+"Če ne odklonite te zahteve do %1, bo %2 imel možnost prevzeti "
+"ustanoviteljstvo ekipe.<br /><br />\n"
+"                  . Da sprejmete zahtevo, dodelite ustanoviteljstvo %3 z "
+"uporabo spodnjega obrazca."
 
 #: ../user/team_change_founder_form.php:64
 msgid "No transfer request is pending."
-msgstr ""
+msgstr "Ni čakajočih zahtev za prenos."
 
 #: ../user/team_change_founder_form.php:67
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
 msgstr ""
+"Da dodelite ustanoviteljstvo te ekipe drugemu članu, obkljukajte ime člana "
+"in spodaj kliknite <strong>Spremeni ustanovitelja</strong>."
 
 #: ../user/team_change_founder_form.php:74
 msgid "New founder?"
-msgstr ""
+msgstr "Nov ustanovitelj?"
 
 #: ../user/team_change_founder_form.php:103 ../user/team_manage.php:54
 msgid "Change founder"
-msgstr ""
+msgstr "Spremeni ustanovitelja"
 
 #: ../user/team_create_action.php:27
 msgid "You must choose a non-blank team name"
@@ -3303,124 +3311,123 @@ msgstr "Pripadate k %1. Preden ustvarite novo, morate %2zapustiti to ekipo%3."
 
 #: ../user/team_delta.php:64
 msgid "Not founder or admin"
-msgstr ""
+msgstr "Niste ustanovitelj ali administrator"
 
 #: ../user/team_delta.php:71
 msgid "Team history for %1"
-msgstr ""
+msgstr "Zgodovina ekipe za %1"
 
 #: ../user/team_delta.php:74
 msgid "When"
-msgstr ""
+msgstr "Kdaj"
 
 #: ../user/team_delta.php:75
 msgid "User"
-msgstr ""
+msgstr "Uporabnik"
 
 #: ../user/team_delta.php:76
 msgid "Action"
-msgstr ""
+msgstr "Dejanje"
 
 #: ../user/team_delta.php:77
 msgid "Total credit at time of action"
-msgstr ""
+msgstr "Skupaj točk ob času dejanja"
 
 #: ../user/team_edit_action.php:57
 msgid "The name '%1' is being used by another team."
-msgstr ""
+msgstr "Ime '%1' uporablja druga ekipa."
 
 #: ../user/team_edit_action.php:60
 msgid "Must specify team name"
-msgstr ""
+msgstr "Navesti morate ime ekipe"
 
 #: ../user/team_edit_action.php:88
-#, fuzzy
 msgid "Could not update team - please try again later."
-msgstr "Ekipe ni možno ustvariti - prosim, poskusite kasneje."
+msgstr "Ekipe ni možno posodobiti - prosim, poskusite kasneje."
 
 #: ../user/team_edit_form.php:31
 msgid "Edit %1"
-msgstr ""
+msgstr "Uredi %1"
 
 #: ../user/team_edit_form.php:32
 msgid "Update team info"
-msgstr ""
+msgstr "Posodobi informacije o ekipi"
 
 #: ../user/team_email_list.php:59
 msgid "%1 Email List"
-msgstr ""
+msgstr "%1 poštni seznam"
 
 #: ../user/team_email_list.php:61
 msgid "Member list of %1"
-msgstr ""
+msgstr "Seznam članov za %1"
 
 #: ../user/team_email_list.php:76
 msgid "Show as plain text"
-msgstr ""
+msgstr "Prikaži kot navadno besedilo"
 
 #: ../user/team_forum.php:26 ../user/team_forum.php:37
 msgid "Create Message Board"
-msgstr ""
+msgstr "Ustvari sporočilnico"
 
 #: ../user/team_forum.php:27
 msgid "You may create a message board for use by %1."
-msgstr ""
+msgstr "Lahko ustvarite sporočilnico za uporabo s strani %1."
 
 #: ../user/team_forum.php:29
 msgid "Only team members will be able to post."
-msgstr ""
+msgstr "Le člani ekipe bodo lahko objavljali."
 
 #: ../user/team_forum.php:30
 msgid "At your option, only members will be able to read."
-msgstr ""
+msgstr "Po vaši izbiri, bodo lahko brali le člani."
 
 #: ../user/team_forum.php:31
 msgid "You and your Team Admins will have moderator privileges."
-msgstr ""
+msgstr "Vi in vaši administratorji ekipe boste imeli moderatorske pravice."
 
 #: ../user/team_forum.php:38
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "Ustvarite sporočilnico za %1"
 
 #: ../user/team_forum.php:46
 msgid "Team already has a message board"
-msgstr ""
+msgstr "Ekipa že ima sporočilnico"
 
 #: ../user/team_forum.php:51
 msgid "couldn't create message board"
-msgstr ""
+msgstr "ni uspelo ustvariti sporočilnice"
 
 #: ../user/team_forum.php:57
 msgid "Team Message Board"
-msgstr ""
+msgstr "Sporočilnica ekipe"
 
 #: ../user/team_forum.php:66
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "Razprave med člani %1"
 
 #: ../user/team_forum.php:69
 msgid "Minimum time between posts (seconds)"
-msgstr ""
+msgstr "Najmanjši čas med objavami (sekunde)"
 
 #: ../user/team_forum.php:72
 msgid "Minimum total credit to post"
-msgstr ""
+msgstr "Najmanjše skupno številko točk za objavo"
 
 #: ../user/team_forum.php:75
 msgid "Minimum average credit to post"
-msgstr ""
+msgstr "Najmanjše povprečno številko točk za objavo"
 
 #: ../user/team_forum.php:78
 msgid "Submit"
-msgstr ""
+msgstr "Pošlji"
 
 #: ../user/team_forum.php:87
 msgid "Remove your team's message board."
-msgstr ""
+msgstr "Odstrani sporočilnico vaše ekipe."
 
 #: ../user/team_forum.php:95
 msgid "Really remove message board?"
-msgstr ""
+msgstr "Res odstraniti sporočilnico?"
 
 #: ../user/team_forum.php:96
 msgid ""
@@ -3428,55 +3435,59 @@ msgid ""
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
 msgstr ""
+"Ali ste prepričani, da želite odstraniti sporočilnico vaše ekipe? Vse teme "
+"in objave bodo trajno odstranjene. (Lahko pa kasneje ustvarite novo "
+"sporočilnico)."
 
 #: ../user/team_forum.php:98
 msgid "Yes - remove message board"
-msgstr ""
+msgstr "Da - odstrani sporočilnico"
 
 #: ../user/team_forum.php:105
 msgid "message board not found"
-msgstr ""
+msgstr "sporočilnica ni najdena"
 
 #: ../user/team_forum.php:119
 msgid "Message board removed"
-msgstr ""
+msgstr "Sporočilnica odstranjena"
 
 #: ../user/team_forum.php:122
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
+"Sporočilnica vaše ekipe je bila odstranjena. Zdaj lahko %1ustvarite novo%2."
 
 #: ../user/team_forum.php:141
 msgid "Team Message Board Updated"
-msgstr ""
+msgstr "Sporočilnica ekipe posodobljena"
 
 #: ../user/team_forum.php:142
 msgid "Update successful"
-msgstr ""
+msgstr "Posodobitev uspešna"
 
 #: ../user/team_forum.php:145
 msgid "Update failed"
-msgstr ""
+msgstr "Posodobitev ni uspela"
 
 #: ../user/team_forum.php:152
 msgid "team has no forum"
-msgstr ""
+msgstr "ekipa nima foruma"
 
 #: ../user/team_forum.php:187
 msgid "no such forum"
-msgstr ""
+msgstr "ni takšnega foruma"
 
 #: ../user/team_forum.php:198
 msgid "unknown command %1"
-msgstr ""
+msgstr "neznan ukaz %1"
 
 #: ../user/team_founder_transfer_action.php:34
 msgid "You must be a member of a team to access this page."
-msgstr ""
+msgstr "Za dostop do te strani morate biti član ekipe."
 
 #: ../user/team_founder_transfer_action.php:88
 msgid "Requesting foundership of %1"
-msgstr ""
+msgstr "Zahtevam ustanoviteljstvo %1"
 
 #: ../user/team_founder_transfer_action.php:96
 msgid ""
@@ -3485,42 +3496,48 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
+"Trenutni ustanovitelj je bil obveščen o vaši zahtevi po elektronski pošti in "
+"z zasebnim sporočilom.<br /><br />\n"
+"                       Če ustanovitelj ne odgovori v 60 dneh, vam bo "
+"dovoljeno postati ustanovitelj."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
 msgid "Foundership request not allowed now"
-msgstr ""
+msgstr "Zahteve po ustanoviteljstvu zdaj niso dovoljene"
 
 #: ../user/team_founder_transfer_action.php:107
 msgid "Assumed foundership of %1"
-msgstr ""
+msgstr "Prevzeli ste ustanoviteljstvo %1"
 
 #: ../user/team_founder_transfer_action.php:109
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
+"Čestitke, zdaj ste ustanovitelj ekipe %1. Pojdite na %2stran Vaš račun%3, da "
+"najdete možnosti administratorjev ekipe."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
-msgstr ""
+msgstr "Odklonite zahtevo za spremembo ustanoviteljstva."
 
 #: ../user/team_founder_transfer_action.php:125
 msgid "The foundership request from %1 has been declined."
-msgstr ""
+msgstr "Zahteva za ustanoviteljstvo od %1 je bila zavrnjena."
 
 #: ../user/team_founder_transfer_action.php:128
 msgid "There were no foundership requests."
-msgstr ""
+msgstr "Ni bilo zahtev za ustanoviteljstvo."
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
-msgstr ""
+msgstr "nedefinirano dejanje %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
 msgid "Return to team page"
-msgstr ""
+msgstr "Vrni se na stran ekipe"
 
 #: ../user/team_founder_transfer_form.php:26
 msgid "You need to be a member of a team to access this page."
