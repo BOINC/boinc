@@ -7,27 +7,29 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-01-22 02:26-0700\n"
+"PO-Revision-Date: 2010-08-11 06:51-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
-msgstr ""
+msgstr "Znano je, da trenutna izdaja deluje s sledečimi Linux različicami:"
 
 #: versions.inc:14
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
 msgstr ""
+"Za druge Linux različice preverite, če vaša Linux distribucija ponuja paket "
+"BOINC."
 
 #: versions.inc:25
 msgid ""
@@ -35,6 +37,9 @@ msgid ""
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
+"Druga možnost je, da potegnete %1BOINC odjemalca za starejše Linux "
+"različice%2. Ta nima grafičnega vmesnika, vendar pa bi moral teči na vseh "
+"Linux sistemih, tako x86 kot  x64."
 
 #: docutil.php:21
 msgid "Search"
@@ -183,10 +188,13 @@ msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
+"BOINC pomočniki so neplačani prostovoljci.  Njihovih nasvetov ne potrujejeta "
+"BOINC ali University of California."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
+"BOINC pomočnikom%1nikoli%2 ne dajajte naslova elektronske pošte ali gesla."
 
 #: index.php:23
 msgid "Computing power"
@@ -256,8 +264,8 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"Ali, če poganjate več projektov, poskusite %supravitelja računov%s, kot je %"
-"sGridRepublic%s ali %sBAM!%s"
+"Ali, če poganjate več projektov, poskusite %supravitelja računov%s, kot sta "
+"%sGridRepublic%s ali %sBAM!%s"
 
 #: index.php:116
 msgid "Compute with BOINC"
