@@ -404,10 +404,6 @@ bool CBOINCBaseFrame::SelectComputer(wxString& hostName, int& portNum, wxString&
     wxArrayString       aComputerNames;
     bool                bResult = false;
     
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-
     // Lets copy the template store in the system state
     aComputerNames = m_aSelectedComputerMRU;
 
