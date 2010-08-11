@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-11 11:59-0700\n"
+"PO-Revision-Date: 2010-08-11 12:22-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -3541,35 +3541,39 @@ msgstr "Vrni se na stran ekipe"
 
 #: ../user/team_founder_transfer_form.php:26
 msgid "You need to be a member of a team to access this page."
-msgstr ""
+msgstr "Za dostop do te strani morate biti član ekipe."
 
 #: ../user/team_founder_transfer_form.php:29
 msgid "Request foundership of %1"
-msgstr ""
+msgstr "Zahteva za ustanoviteljstvo %1"
 
 #: ../user/team_founder_transfer_form.php:36
 msgid "You are now founder of team %1."
-msgstr ""
+msgstr "Zdaj ste ustanovitelj ekipe %1."
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "Zahtevali ste ustanoviteljstvo %1 na %2."
 
 #: ../user/team_founder_transfer_form.php:45
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
+"60 dni je preteklo od vaše zahteve in ustanovitelj ni odgovoril. Zdaj lahko "
+"prevzamete ustanoviteljstvo s klikom tu:"
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
-msgstr ""
+msgstr "Prevzemi ustanoviteljstvo"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
+"Ustanovitelj je bil obveščen o vaši zahtevi. Če ne odgovori do %1, boste "
+"imeli na izbiro postati ustanovitelj."
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
@@ -3580,42 +3584,50 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
+"Če ustanovitelj ekipe ni aktiven in želite prevzeti vlogo ustanovitelja, "
+"kliknite na gumb spodaj. Trenutnemu ustanovitelju bo poslana elektronska "
+"pošta s podrobnostmi vaše zahteve in bo lahko prenesel ustanoviteljstvo vam "
+"ali zavrnil vašo zahtevo. Če ustanovitelj ne odgovori v 60 dneh, vam bo "
+"dovoljeno postati ustanovitelj.<br /><br />\n"
+"                       Ali ste prepričani, da želite zahtevati "
+"ustanoviteljstvo?"
 
 #: ../user/team_founder_transfer_form.php:63
 msgid "Request foundership"
-msgstr ""
+msgstr "Zahtevaj ustanoviteljstvo"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
-msgstr ""
+msgstr "Spremembo ustanoviteljstva je že zahteval(-a) %1 na %2."
 
 #: ../user/team_founder_transfer_form.php:75
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
 msgstr ""
+"Sprememba ustanoviteljstva je bila zahtevana v zadnjih 90 dneh, zato nove "
+"zahteve niso dovoljene. Prosim, poskusite kasneje."
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
 msgid "The team %1 is not joinable."
-msgstr ""
+msgstr "K ekipi %1 se ni možno pridružiti."
 
 #: ../user/team_join.php:33 ../user/team_join_action.php:33
 msgid "Already a member"
-msgstr ""
+msgstr "Ste že član"
 
 #: ../user/team_join.php:34 ../user/team_join_action.php:34
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "Že ste član %1."
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
-#, fuzzy
 msgid "Couldn't join team - please try again later."
-msgstr "Ekipe ni možno ustvariti - prosim, poskusite kasneje."
+msgstr "Ni uspelo pridružiti se ekipi - prosim, poskusite kasneje."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
-msgstr ""
+msgstr "Pridruženi %1"
 
 #: ../user/team_join_action.php:39
 msgid "You have joined %1."
