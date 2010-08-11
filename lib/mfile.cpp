@@ -50,6 +50,7 @@ MFILE::~MFILE() {
 int MFILE::open(const char* path, const char* mode) {
     f = boinc_fopen(path, mode);
     if (!f) return ERR_FOPEN;
+    if (!buf) buf = (char*)malloc(64*1024);
     return 0;
 }
 
@@ -137,11 +138,16 @@ int MFILE::puts(const char* p) {
 }
 
 int MFILE::close() {
-    int retval = flush();
-    fclose(f);
-    free(buf);
-    buf = 0;
-    f = NULL;
+    int retval = 0;
+    if (f) {
+        flush();
+        fclose(f);
+        f = NULL;
+    }
+    if (buf) {
+        free(buf);
+        buf = NULL;
+    }
     return retval;
 }
 

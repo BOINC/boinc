@@ -5953,3 +5953,9 @@ David  11 Aug 2010
         setup_project.py
     tools/
         upgrade
+
+David  11 Aug 2010
+    - lib: fix crash if you close and reopen an MFILE
+
+    lib/
+        mfile.cpp
