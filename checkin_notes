@@ -5887,3 +5887,9 @@ Charlie 11 Aug 2010
         BOINCGUIApp.cpp, .h
         MainDocument.cpp, .h
         DlgSelectComputer.cpp, .h
+
+Rom    11 Aug 2010
+    - MGR: Adjust control positions and resize controls after a text change.
+    
+    clientgui/
+        DlgEventLog.cpp
