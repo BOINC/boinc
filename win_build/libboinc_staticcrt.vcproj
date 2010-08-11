@@ -485,10 +485,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\crypt.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\lib\diagnostics.cpp"
 				>
 				<FileConfiguration
@@ -1024,10 +1020,6 @@
 			</File>
 			<File
 				RelativePath="..\lib\coproc.h"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\crypt.h"
 				>
 			</File>
 			<File

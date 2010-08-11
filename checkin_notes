@@ -5909,3 +5909,11 @@ Rom    11 Aug 2010
         AdvancedFrame.cpp
         sg_BoincSimpleGUI.cpp
         WizardAttach.cpp
+
+Rom    11 Aug 2010
+    - WIN_BUILD: Remove references to crypto.cpp, and .h from
+        libboinc_staticcrt so that projects who use it won't need to 
+        worry about pulling in OpenSSL.
+
+    win_build/
+        libboinc_staticcrt.vcproj
