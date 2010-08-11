@@ -5917,3 +5917,17 @@ Rom    11 Aug 2010
 
     win_build/
         libboinc_staticcrt.vcproj
+
+David  11 Aug 2010
+    - admin: add script for deleting results with no workunit.
+        There were ~1,400 of these on SETI@home,
+        presumably because of a bug at some point in the past.
+    html/
+        ops/
+            delete_orphan_results.php
+            profile_screen_form.php
+        inc/
+            boinc_db.inc
+
+    sched/
+        db_purge.cpp

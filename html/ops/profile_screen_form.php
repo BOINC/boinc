@@ -71,7 +71,7 @@ while ($profile = mysql_fetch_object($result)) {
         <br>
     ";
     echo "</td><td><table border=2> ";
-    show_profile($profile, $logged_in_user, true);
+    show_profile($profile, $g_logged_in_user, true);
     echo "</table></td></tr>\n";
     echo "<input type=\"hidden\" name=\"userid$n\" value=\"$profile->userid\">\n";
     $n++;

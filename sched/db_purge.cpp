@@ -18,9 +18,7 @@
 // db_purge options
 //
 // purge workunit and result records that are no longer needed.
-// Specifically, purges WUs for which file_delete_state=DONE;
-// this occurs only when it has been assimilated
-// and all results have server_state=OVER.
+// Specifically, purges WUs for which file_delete_state=DONE.
 // Purging a WU means writing it and all its results
 // to XML-format archive files, then deleting it and its results from the DB.
 //

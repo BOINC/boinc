@@ -223,6 +223,10 @@ class BoincResult {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'result', 'BoincResult');
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'result');
+    }
 }
 
 class BoincWorkunit {
