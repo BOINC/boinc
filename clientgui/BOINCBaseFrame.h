@@ -73,6 +73,7 @@ public:
     void                FireReloadSkin();
     void                FireNotification();
 
+    bool                SelectComputer(wxString& hostName, int& portNum, wxString& password, bool required = false);
     void                ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int m_iReadGUIRPCAuthFailure );
     void                ShowConnectionFailedAlert();
     void                ShowDaemonStartFailedAlert();

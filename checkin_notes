@@ -5875,3 +5875,15 @@ Charlie 11 Aug 2010
 
     clientgui/
         DlgEventLog.cpp, .h
+
+Charlie 11 Aug 2010
+    - MGR: Check whether another instance of BOINC Manager is already running; 
+        if so, show Select Computer dialog with extra text saying another 
+        instance is running; if user cancels dialog, exit Manager.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp, .h
+        BOINCGUIApp.cpp, .h
+        MainDocument.cpp, .h
+        DlgSelectComputer.cpp, .h

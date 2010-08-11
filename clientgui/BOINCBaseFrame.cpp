@@ -35,6 +35,7 @@
 #include "BOINCDialupManager.h"
 #include "Events.h"
 #include "DlgEventLog.h"
+#include "DlgSelectComputer.h"
 
 
 DEFINE_EVENT_TYPE(wxEVT_FRAME_ALERT)
@@ -392,6 +393,74 @@ void CBOINCBaseFrame::FireReloadSkin() {
 void CBOINCBaseFrame::FireNotification() {
     CFrameEvent event(wxEVT_FRAME_NOTIFICATION, this);
     AddPendingEvent(event);
+}
+
+
+bool CBOINCBaseFrame::SelectComputer(wxString& hostName, int& portNum, wxString& password, bool required) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::SelectComputer - Function Begin"));
+
+    CDlgSelectComputer  dlg(this, required);
+    size_t              lIndex = 0;
+    wxArrayString       aComputerNames;
+    bool                bResult = false;
+    
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+
+    // Lets copy the template store in the system state
+    aComputerNames = m_aSelectedComputerMRU;
+
+    // Lets populate the combo control with the MRU list
+    dlg.m_ComputerNameCtrl->Clear();
+    for (lIndex = 0; lIndex < aComputerNames.Count(); lIndex++) {
+        dlg.m_ComputerNameCtrl->Append(aComputerNames.Item(lIndex));
+    }
+
+    if (wxID_OK == dlg.ShowModal()) {
+        hostName = dlg.m_ComputerNameCtrl->GetValue();
+        // Make a null hostname be the same thing as localhost
+        if (wxEmptyString == hostName) {
+            hostName = wxT("localhost");
+            portNum = GUI_RPC_PORT;
+            password = wxEmptyString;
+        } else {
+            // Parse the remote machine info
+            wxString sHost = dlg.m_ComputerNameCtrl->GetValue(); 
+            long lPort = GUI_RPC_PORT; 
+            int iPos = sHost.Find(wxT(":")); 
+            if (iPos != wxNOT_FOUND) { 
+                wxString sPort = sHost.substr(iPos + 1); 
+                if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
+                sHost.erase(iPos); 
+            }
+            hostName = sHost;
+            portNum = (int)lPort;
+            password = dlg.m_ComputerPasswordCtrl->GetValue();
+        }
+
+        // Insert a copy of the current combo box value to the head of the
+        //   computer names string array
+        if (wxEmptyString != dlg.m_ComputerNameCtrl->GetValue()) {
+            aComputerNames.Insert(dlg.m_ComputerNameCtrl->GetValue(), 0);
+        }
+
+        // Loops through the computer names and remove any duplicates that
+        //   might exist with the new head value
+        for (lIndex = 1; lIndex < aComputerNames.Count(); lIndex++) {
+            if (aComputerNames.Item(lIndex) == aComputerNames.Item(0))
+                aComputerNames.RemoveAt(lIndex);
+        }
+
+        // Store the modified computer name MRU list back to the system state
+        m_aSelectedComputerMRU = aComputerNames;
+        bResult = true;
+    } else {
+        bResult = false;        // User cancelled
+    }
+    
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::SelectComputer - Function End"));
+    return bResult;
 }
 
 

@@ -75,13 +75,13 @@ class CDlgSelectComputer: public wxDialog
 public:
     /// Constructors
     CDlgSelectComputer( );
-    CDlgSelectComputer( wxWindow* parent, wxWindowID id = SYMBOL_CDLGSELECTCOMPUTER_IDNAME, const wxString& caption = SYMBOL_CDLGSELECTCOMPUTER_TITLE, const wxPoint& pos = SYMBOL_CDLGSELECTCOMPUTER_POSITION, const wxSize& size = SYMBOL_CDLGSELECTCOMPUTER_SIZE, long style = SYMBOL_CDLGSELECTCOMPUTER_STYLE );
+    CDlgSelectComputer( wxWindow* parent, bool required = false, wxWindowID id = SYMBOL_CDLGSELECTCOMPUTER_IDNAME, const wxString& caption = SYMBOL_CDLGSELECTCOMPUTER_TITLE, const wxPoint& pos = SYMBOL_CDLGSELECTCOMPUTER_POSITION, const wxSize& size = SYMBOL_CDLGSELECTCOMPUTER_SIZE, long style = SYMBOL_CDLGSELECTCOMPUTER_STYLE );
 
     /// Creation
-    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGSELECTCOMPUTER_IDNAME, const wxString& caption = SYMBOL_CDLGSELECTCOMPUTER_TITLE, const wxPoint& pos = SYMBOL_CDLGSELECTCOMPUTER_POSITION, const wxSize& size = SYMBOL_CDLGSELECTCOMPUTER_SIZE, long style = SYMBOL_CDLGSELECTCOMPUTER_STYLE );
+    bool Create( wxWindow* parent, bool required = false, wxWindowID id = SYMBOL_CDLGSELECTCOMPUTER_IDNAME, const wxString& caption = SYMBOL_CDLGSELECTCOMPUTER_TITLE, const wxPoint& pos = SYMBOL_CDLGSELECTCOMPUTER_POSITION, const wxSize& size = SYMBOL_CDLGSELECTCOMPUTER_SIZE, long style = SYMBOL_CDLGSELECTCOMPUTER_STYLE );
 
     /// Creates the controls and sizers
-    void CreateControls();
+    void CreateControls(bool required);
 
 ////@begin CDlgSelectComputer event handler declarations
 

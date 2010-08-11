@@ -65,16 +65,16 @@ CDlgSelectComputer::CDlgSelectComputer( )
 {
 }
 
-CDlgSelectComputer::CDlgSelectComputer( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+CDlgSelectComputer::CDlgSelectComputer( wxWindow* parent, bool required, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
-    Create(parent, id, caption, pos, size, style);
+    Create(parent, required, id, caption, pos, size, style);
 }
 
 /*!
  * CDlgSelectComputer creator
  */
 
-bool CDlgSelectComputer::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+bool CDlgSelectComputer::Create( wxWindow* parent, bool required, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
 ////@begin CDlgSelectComputer member initialisation
     m_ComputerNameCtrl = NULL;
@@ -94,7 +94,7 @@ bool CDlgSelectComputer::Create( wxWindow* parent, wxWindowID id, const wxString
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, strCaption, pos, size, style );
 
-    CreateControls();
+    CreateControls(required);
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
@@ -106,7 +106,7 @@ bool CDlgSelectComputer::Create( wxWindow* parent, wxWindowID id, const wxString
  * Control creation for CDlgSelectComputer
  */
 
-void CDlgSelectComputer::CreateControls()
+void CDlgSelectComputer::CreateControls(bool required)
 {    
 ////@begin CDlgSelectComputer content construction
     CDlgSelectComputer* itemDialog1 = this;
@@ -114,6 +114,15 @@ void CDlgSelectComputer::CreateControls()
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
     itemDialog1->SetSizer(itemBoxSizer2);
 
+    if (required) {
+        wxStaticText* itemStaticText1 = new wxStaticText;
+        itemStaticText1->Create( itemDialog1, wxID_STATIC, 
+            _("Another instance of BOINC Manager is already running \non this computer.  Please select a client to monitor."), 
+            wxDefaultPosition, wxDefaultSize, 0 
+        );
+        itemBoxSizer2->Add(itemStaticText1, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    }
+    
     wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 2, 0, 0);
     itemBoxSizer2->Add(itemFlexGridSizer3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 

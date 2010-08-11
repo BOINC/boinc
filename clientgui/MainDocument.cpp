@@ -87,6 +87,9 @@
 
 bool g_use_sandbox = false;
 
+extern bool s_bSkipExitConfirmation;
+
+
 using std::string;
 
 CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
@@ -563,9 +566,18 @@ int CMainDocument::OnPoll() {
         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
-        pFrame->UpdateStatusText(_("Starting client"));
-
         if (IsComputerNameLocal(hostName)) {
+            if (wxGetApp().IsAnotherInstanceRunning()) {
+                if (!pFrame->SelectComputer(hostName, portNum, password, true)) {
+                wxCommandEvent event;
+                s_bSkipExitConfirmation = true;
+                pFrame->OnExit(event); // Exit if Select Computer dialog cancelled
+                }
+            }
+        }
+        
+        if (IsComputerNameLocal(hostName)) {
+            pFrame->UpdateStatusText(_("Starting client"));
             if (m_pClientManager->StartupBOINCCore()) {
                 Connect(wxT("localhost"), portNum, password, TRUE, TRUE);
             } else {
@@ -573,6 +585,7 @@ int CMainDocument::OnPoll() {
                 pFrame->ShowDaemonStartFailedAlert();
             }
         } else {
+            pFrame->UpdateStatusText(_("Connecting to client"));
             Connect(hostName, portNum, password, TRUE, password.IsEmpty());
         }
 

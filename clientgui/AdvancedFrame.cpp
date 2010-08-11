@@ -48,7 +48,6 @@
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
-#include "DlgSelectComputer.h"
 #include "DlgGenericMessage.h"
 #include "DlgEventLog.h"
 #include "wizardex.h"
@@ -1388,31 +1387,17 @@ void CAdvancedFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 
 
 void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function Begin"));
-
+    wxString            hostName = wxEmptyString;
+    int                 portNum = GUI_RPC_PORT;
+    wxString            password = wxEmptyString;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-    CDlgSelectComputer  dlg(this);
-    size_t              lIndex = 0;
     long                lRetVal = -1;
-    wxArrayString       aComputerNames;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
-    // Lets copy the template store in the system state
-    aComputerNames = m_aSelectedComputerMRU;
-
-    // Lets populate the combo control with the MRU list
-    dlg.m_ComputerNameCtrl->Clear();
-    for (lIndex = 0; lIndex < aComputerNames.Count(); lIndex++) {
-        dlg.m_ComputerNameCtrl->Append(aComputerNames.Item(lIndex));
-    }
-
-    if (wxID_OK == dlg.ShowModal()) {
-
-        // Make a null hostname be the same thing as localhost
-        if (wxEmptyString == dlg.m_ComputerNameCtrl->GetValue()) {
+    if (SelectComputer(hostName, portNum, password, false)) { 
+        if (pDoc->IsComputerNameLocal(hostName)) {
             lRetVal = pDoc->Connect(
                 wxT("localhost"),
                 GUI_RPC_PORT,
@@ -1422,18 +1407,17 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
             );
         } else {
             // Connect to the remote machine
-            wxString sHost = dlg.m_ComputerNameCtrl->GetValue(); 
             long lPort = GUI_RPC_PORT; 
-            int iPos = sHost.Find(wxT(":")); 
+            int iPos = hostName.Find(wxT(":")); 
             if (iPos != wxNOT_FOUND) { 
-                wxString sPort = sHost.substr(iPos + 1); 
+                wxString sPort = hostName.substr(iPos + 1); 
                 if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
-                sHost.erase(iPos); 
+                hostName.erase(iPos); 
             } 
             lRetVal = pDoc->Connect(
-                sHost,
-                (int)lPort,
-                dlg.m_ComputerPasswordCtrl->GetValue(),
+                hostName,
+                portNum,
+                password,
                 TRUE,
                 FALSE
             );
@@ -1441,25 +1425,7 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
         if (lRetVal) {
             ShowConnectionFailedAlert();
         }
-
-        // Insert a copy of the current combo box value to the head of the
-        //   computer names string array
-        if (wxEmptyString != dlg.m_ComputerNameCtrl->GetValue()) {
-            aComputerNames.Insert(dlg.m_ComputerNameCtrl->GetValue(), 0);
-        }
-
-        // Loops through the computer names and remove any duplicates that
-        //   might exist with the new head value
-        for (lIndex = 1; lIndex < aComputerNames.Count(); lIndex++) {
-            if (aComputerNames.Item(lIndex) == aComputerNames.Item(0))
-                aComputerNames.RemoveAt(lIndex);
-        }
-
-        // Store the modified computer name MRU list back to the system state
-        m_aSelectedComputerMRU = aComputerNames;
     }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function End"));
 }
 
 

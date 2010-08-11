@@ -183,6 +183,7 @@ public:
                             int y = wxDefaultCoord
                         );
 
+    bool                IsAnotherInstanceRunning();
     bool                IsApplicationVisible();
     void                ShowApplication(bool bShow);
     bool                ShowInterface();

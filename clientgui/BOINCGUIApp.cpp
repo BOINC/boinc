@@ -54,6 +54,7 @@
 #include "sg_BoincSimpleGUI.h"
 #include "DlgExitMessage.h"
 #include "DlgEventLog.h"
+#include "procinfo.h"
 
 
 DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
@@ -1079,6 +1080,61 @@ int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& captio
 
     return retval;
 }
+
+
+///
+/// Determines if another instance of BOINC Manager is running.
+///
+/// @return
+///  true if another instance of BOINC Manager is running, otherwise false.
+///
+/// Note: will always return false on Win95, Win98, WinME
+/// 
+bool CBOINCGUIApp::IsAnotherInstanceRunning() {
+    std::vector<PROCINFO> piv;
+    PROCINFO* pi;
+    int retval;
+    char myName[256];
+    bool running = false;
+    int myPid;
+
+    // Look for BOINC Manager in list of all running processes
+    retval = procinfo_setup(piv);
+    if (retval) return false;     // Should never happen
+
+#ifdef _WIN32
+    myPid = (int)GetCurrentProcessId();
+#else
+    myPid = getpid();
+#endif
+
+    // Get the name of this Application
+    myName[0] = 0;
+    for (unsigned int i=0; i<piv.size(); i++) {
+        pi = &(piv[i]);
+        if (pi->id == myPid) {
+            strncpy(myName, pi->command, sizeof(myName));
+            break;
+        }
+    }
+
+    if (myName[0] == 0) {
+         return false;     // Should never happen
+    }
+    
+    // Search process list for other applications with same name
+    for (unsigned int i=0; i<piv.size(); i++) {
+        pi = &(piv[i]);
+        if (pi->id == myPid) continue;
+        if (!strcmp(pi->command, myName)) {
+            running = true;
+            break;
+        }
+    }
+    
+    return running;
+}
+
 
 ///
 /// Determines if the current process is visible.
