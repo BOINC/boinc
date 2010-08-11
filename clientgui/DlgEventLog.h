@@ -168,6 +168,8 @@ private:
     void                    SetWindowDimensions();
 
     void                    OnMouseUp(wxMouseEvent& event);
+
+    void                    ResetMessageFiltering();    
     
     bool                    EnsureLastItemVisible();
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;

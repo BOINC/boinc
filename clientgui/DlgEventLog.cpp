@@ -200,7 +200,6 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     SetIcons(icons);
 
     CreateControls();
-//    SetFilterButtonText();
 
 	// Create List Pane Items
     m_pList->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 109);
@@ -451,10 +450,7 @@ wxInt32 CDlgEventLog::GetDocCount() {
     m_iTotalDocCount = wxGetApp().GetDocument()->GetMessageCount();
     if (m_iTotalDocCount < m_iPreviousTotalDocCount) {
         // Usually due to a disconnect from client
-        s_bIsFiltered = false;
-        s_strFilteredProjectName.clear();
-        m_iFilteredIndexes.Clear();
-        SetFilterButtonText();
+        ResetMessageFiltering();
     }
     
     if (s_bIsFiltered) {
@@ -497,10 +493,7 @@ void CDlgEventLog::OnRefresh() {
         wxInt32 iRowCount = GetDocCount();
         if (0 >= iRowCount) {
             m_pList->DeleteAllItems();
-            s_bIsFiltered = false;
-            s_strFilteredProjectName.clear();
-            m_iFilteredIndexes.Clear();
-            SetFilterButtonText();
+            ResetMessageFiltering();
         } else {
             // If connected computer changed, reset message filtering
             isConnected = wxGetApp().GetDocument()->IsConnected();
@@ -509,10 +502,7 @@ void CDlgEventLog::OnRefresh() {
                 if (strLastMachineName != strNewMachineName) {
                     strLastMachineName = strNewMachineName;
                     was_connected = false;
-                    s_bIsFiltered = false;
-                    s_strFilteredProjectName.clear();
-                    m_iFilteredIndexes.Clear();
-                    SetFilterButtonText();
+                    ResetMessageFiltering();
                 }
             }
 
@@ -781,33 +771,41 @@ void CDlgEventLog::OnButtonHelp( wxCommandEvent& event ) {
 }
 
 
+void CDlgEventLog::ResetMessageFiltering() {
+    s_bIsFiltered = false;
+    s_strFilteredProjectName.clear();
+    m_iFilteredIndexes.Clear();
+    SetFilterButtonText();
+}
+
+
 void CDlgEventLog::UpdateButtons() {
-        bool enableFilterButton = s_bIsFiltered; 
-        bool enableCopySelectedButon = false; 
-        if (m_iTotalDocCount > 0) {
-            int n = m_pList->GetSelectedItemCount();
-            if (n > 0) {
-                enableCopySelectedButon = true;
-            }
-            
-            if ((n == 1) && (! s_bIsFiltered)) {
-                n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-                MESSAGE* message = wxGetApp().GetDocument()->message(n);
-                if ((message->project).size() > 0) {
-                    enableFilterButton = true;
-                }
-            }
+    bool enableFilterButton = s_bIsFiltered; 
+    bool enableCopySelectedButon = false; 
+    if (m_iTotalDocCount > 0) {
+        int n = m_pList->GetSelectedItemCount();
+        if (n > 0) {
+            enableCopySelectedButon = true;
         }
         
-        // To ensure that the button is large enough to fit the longer label, 
-        // don't change the button text (possibly to the shorter label) until  
-        // after the button has been drawn (disabled) with the longer text, 
-        // and don't enable the button until it has the correct label.
-        if (m_pFilterButton->IsEnabled() != enableFilterButton) {
-            SetFilterButtonText();
+        if ((n == 1) && (! s_bIsFiltered)) {
+            n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+            MESSAGE* message = wxGetApp().GetDocument()->message(n);
+            if ((message->project).size() > 0) {
+                enableFilterButton = true;
+            }
         }
-        m_pFilterButton->Enable(enableFilterButton);
-        m_pCopySelectedButton->Enable(enableCopySelectedButon);
+    }
+    
+    // To ensure that the button is large enough to fit the longer label, 
+    // don't change the button text (possibly to the shorter label) until  
+    // after the button has been drawn (disabled) with the longer text, 
+    // and don't enable the button until it has the correct label.
+    if (m_pFilterButton->IsEnabled() != enableFilterButton) {
+        SetFilterButtonText();
+    }
+    m_pFilterButton->Enable(enableFilterButton);
+    m_pCopySelectedButton->Enable(enableCopySelectedButon);
 }
 
 
