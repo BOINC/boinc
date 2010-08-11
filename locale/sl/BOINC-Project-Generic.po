@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-11 12:22-0700\n"
+"PO-Revision-Date: 2010-08-11 14:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -3631,74 +3631,76 @@ msgstr "Pridruženi %1"
 
 #: ../user/team_join_action.php:39
 msgid "You have joined %1."
-msgstr ""
+msgstr "Pridružili ste se %1."
 
 #: ../user/team_join_form.php:32
 msgid "Join %1"
-msgstr ""
+msgstr "Pridruži se %1"
 
 #: ../user/team_join_form.php:33
 msgid "Please note:"
-msgstr ""
+msgstr "Prosimo, upoštevajte:"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
 msgstr ""
+"Pridružitev ekipi da njenemu ustanovitelju vaš naslov elektronske pošte."
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
-msgstr ""
+msgstr "Pridružitev ekipi ne vpliva na točke vašega računa."
 
 #: ../user/team_join_form.php:43
 msgid "Join team"
-msgstr ""
+msgstr "Pridruži se ekipi"
 
 #: ../user/team_lookup.php:82
 msgid "Search Results"
-msgstr ""
+msgstr "Rezultati iskanja"
 
 #: ../user/team_lookup.php:84
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Rezultati iskanja za '%1'"
 
 #: ../user/team_lookup.php:86
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
+msgstr "Lahko si ogledate člane, statistiko in informacije o teh ekipah."
 
 #: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
-msgstr ""
+msgstr "Več kot 100 ekip ustreza vašemu iskanju. Prvih 100 je prikazanih."
 
 #: ../user/team_lookup.php:102
-#, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
-msgstr "Če ne najdete ekipe, pravšnje za vas, lahko %1ustvarite ekipo%2."
+msgstr ""
+"Konec rezultatov. %1 Če ne najdete ekipe, pravšnje za vas, lahko sami "
+"%2ustvarite ekipo%3."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
-msgstr ""
+msgstr "Administracija ekipe za %1"
 
 #: ../user/team_manage.php:27
 msgid "Edit team info"
-msgstr ""
+msgstr "Uredi informacije o ekipi"
 
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
-msgstr ""
+msgstr "Spremeni ime ekipe, URL, opis, tip ali državo"
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
-msgstr ""
+msgstr "Seznam članov:"
 
 #: ../user/team_manage.php:31 ../user/team_manage.php:35
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:32
 msgid "text"
-msgstr ""
+msgstr "besedilo"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"

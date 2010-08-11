@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2009-05-20 14:38-0700\n"
+"PO-Revision-Date: 2010-08-11 14:59-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -107,59 +107,59 @@ msgstr "Označit všechna vlákna ve všech diskuzních fórech jako přečtená
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "Žádný počítač"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Nedostupné"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:618 ../inc/prefs.inc:1018
 msgid "Home"
-msgstr ""
+msgstr "Doma"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:620 ../inc/prefs.inc:1019
 msgid "Work"
-msgstr ""
+msgstr "V práci"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:619 ../inc/prefs.inc:1020
 msgid "School"
-msgstr ""
+msgstr "Ve škole"
 
 #: ../inc/host.inc:59
 msgid "Update"
-msgstr ""
+msgstr "Aktualizovat"
 
 #: ../inc/host.inc:83
 msgid "Computer information"
-msgstr ""
+msgstr "Informace o počítači"
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "IP adresa"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(stejná u posledních %1 připojení)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr ""
+msgstr "Vnější IP adresa"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "Zobrazit IP adresu"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
-msgstr ""
+msgstr "Doménové jméno"
 
 #: ../inc/host.inc:97
 msgid "Local Standard Time"
-msgstr ""
+msgstr "Místní čas"
 
 #: ../inc/host.inc:97
 msgid "UTC %1 hours"
-msgstr ""
+msgstr "UTC %1 hodin"
 
 #: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:378
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:202
@@ -172,16 +172,15 @@ msgstr "Jméno"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
 msgid "Owner"
-msgstr ""
+msgstr "Vlastník"
 
 #: ../inc/host.inc:104 ../inc/host.inc:318
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonymní"
 
 #: ../inc/host.inc:108 ../inc/result.inc:380
-#, fuzzy
 msgid "Created"
-msgstr "Vytvořit"
+msgstr "Vytvořeno"
 
 #: ../inc/host.inc:109 ../inc/host.inc:217 ../inc/host.inc:222
 #: ../inc/host.inc:621 ../inc/team.inc:94 ../inc/team.inc:207
@@ -201,15 +200,15 @@ msgstr "Průměrný kredit"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr ""
+msgstr "Kredit napříč projekty"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "Typ procesoru"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "Počet procesorů"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
