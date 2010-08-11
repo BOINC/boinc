@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-11 09:00-0700\n"
+"PO-Revision-Date: 2010-08-11 09:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -820,64 +820,61 @@ msgstr "da"
 #: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:112
 #: ../project.sample/project_specific_prefs.inc:76
 msgid "no"
-msgstr ""
+msgstr "ne"
 
 #: ../inc/prefs.inc:657
 msgid "no limit"
-msgstr ""
+msgstr "ni omejitev"
 
 #: ../inc/prefs.inc:682 ../user/team_admins.php:77
 msgid "Add"
-msgstr ""
+msgstr "Dodaj"
 
 #: ../inc/prefs.inc:683 ../inc/prefs.inc:685
 msgid "Edit"
-msgstr ""
+msgstr "Uredi"
 
 #: ../inc/prefs.inc:684 ../inc/prefs.inc:810 ../user/team_admins.php:32
 msgid "Remove"
-msgstr ""
+msgstr "Odstrani"
 
 #: ../inc/prefs.inc:790
 msgid "Computing"
-msgstr ""
+msgstr "Računanje"
 
 #: ../inc/prefs.inc:801
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Ločene nastavitve za %1"
 
 #: ../inc/prefs.inc:810 ../inc/prefs.inc:885
-#, fuzzy
 msgid "Edit preferences"
-msgstr "%1 nastavitve"
+msgstr "Uredi nastavitve"
 
 #: ../inc/prefs.inc:814
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Dodaj ločene nastavitve za %1"
 
 #: ../inc/prefs.inc:822 ../inc/prefs.inc:867
 msgid "(Switch View)"
-msgstr ""
+msgstr "(preklopi pogled)"
 
 #: ../inc/prefs.inc:824 ../inc/prefs.inc:870
-#, fuzzy
 msgid "Combined preferences"
-msgstr "Nastavitve računanja"
+msgstr "Skupne nastavitve"
 
 #: ../inc/prefs.inc:829
 msgid "Project specific settings"
-msgstr ""
+msgstr "Posebne nastavitve projekta"
 
 #: ../inc/prefs.inc:837 ../inc/prefs.inc:879
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Primarne (privzete) nastavitve"
 
 #: ../inc/prefs.inc:846 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
-#, fuzzy
 msgid "Edit %1 preferences"
-msgstr "%1 nastavitve"
+msgstr "Uredi nastavitve %1"
 
 #: ../inc/prefs.inc:860
 msgid ""
@@ -885,44 +882,49 @@ msgid ""
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
+"To velja za vse BOINC projekte, v katerih sodelujete. <br>\n"
+"             Na računalnikih z več priklopljenimi projekti bodo uporabljene "
+"nazadnje spremenjene nastavitve."
 
 #: ../inc/prefs.inc:864
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Nazadnje spremenjene nastavitve:"
 
 #: ../inc/prefs.inc:914
-#, fuzzy
 msgid "Add preferences"
-msgstr "%1 nastavitve"
+msgstr "Dodaj nastavitve"
 
 #: ../inc/prefs.inc:918
-#, fuzzy
 msgid "Update preferences"
-msgstr "%1 nastavitve"
+msgstr "Posodobi nastavitve"
 
 #: ../inc/prefs.inc:1006 ../inc/prefs.inc:1015
 msgid "Default computer location"
-msgstr ""
+msgstr "Privzeta lokacija računalnika"
 
 #: ../inc/prefs.inc:1166
 msgid "Update failed: "
-msgstr ""
+msgstr "Posodobitev ni uspela:"
 
 #: ../inc/prefs_util.inc:314 ../inc/prefs_util.inc:324
 msgid "and"
-msgstr ""
+msgstr "in"
 
 #: ../inc/profile.inc:86
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
 msgstr ""
+"Vaš profil bo viden drugim ljudem takoj, ko ga bo projekt odobril. To lahko "
+"traja do nekaj dni."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
 msgstr ""
+"Vaš profil je bil označen kot nesprejemljiv. Ni viden drugim ljudem. Prosim, "
+"spremenite ga."
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
@@ -933,14 +935,17 @@ msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
+"Da bi preprečili smetenje, so profili uporabnikov s povprečjem točk manj kot "
+"%1 prikazani le prijavljenim uporabnikom.  Opravičujemo se za to "
+"nevšečnost."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
-msgstr ""
+msgstr "Uporabnik je pregnan"
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "Za ta ID uporabnika ne obstaja profil."
 
 #: ../inc/profile.inc:213 ../user/create_profile.php:306
 msgid "Edit your profile"
@@ -968,298 +973,292 @@ msgstr "Ta profil mi %1ni všeč%2"
 
 #: ../inc/result.inc:29
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Anonimna platforma"
 
 #: ../inc/result.inc:43
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA grafični procesor"
 
 #: ../inc/result.inc:44
 msgid "ATI GPU"
-msgstr ""
+msgstr "ATI grafični procesor"
 
 #: ../inc/result.inc:51
 msgid "Not in DB"
-msgstr ""
+msgstr "Ni v bazi"
 
 #: ../inc/result.inc:77
 msgid "pending"
-msgstr ""
+msgstr "čakajoče"
 
 #: ../inc/result.inc:99
 msgid "All"
-msgstr ""
+msgstr "Vse"
 
 #: ../inc/result.inc:100 ../inc/result.inc:120 ../inc/result.inc:159
 msgid "In progress"
-msgstr ""
+msgstr "V teku"
 
 #: ../inc/result.inc:101 ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "Čakajoče"
 
 #: ../inc/result.inc:102 ../inc/result.inc:202
 msgid "Valid"
-msgstr ""
+msgstr "Veljavno"
 
 #: ../inc/result.inc:103 ../inc/result.inc:205
 msgid "Invalid"
-msgstr ""
+msgstr "Neveljavno"
 
 #: ../inc/result.inc:104 ../inc/result.inc:145
 msgid "Error"
-msgstr ""
+msgstr "Napaka"
 
 #: ../inc/result.inc:118 ../inc/result.inc:157
 msgid "Inactive"
-msgstr ""
+msgstr "Neaktivno"
 
 #: ../inc/result.inc:119 ../inc/result.inc:158
 msgid "Unsent"
-msgstr ""
+msgstr "Neposlano"
 
 #: ../inc/result.inc:125
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Dokončano, čaka na preverjanje"
 
 #: ../inc/result.inc:126
 msgid "Completed and validated"
-msgstr ""
+msgstr "Dokončano in preverjeno"
 
 #: ../inc/result.inc:127
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Dokončano, označeno kot neveljavno"
 
 #: ../inc/result.inc:128
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Dokončano, preverjanje ni uspelo"
 
 #: ../inc/result.inc:129
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Dokončano, preverjanje ni dalo gotovega rezultata"
 
 #: ../inc/result.inc:130
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Dokončano, prepozno za preverjanje"
 
 #: ../inc/result.inc:132
 msgid "Completed"
-msgstr ""
+msgstr "Dokončano"
 
 #: ../inc/result.inc:133 ../inc/result.inc:169
 msgid "Couldn't send"
-msgstr ""
+msgstr "Pošiljanje ni uspelo"
 
 #: ../inc/result.inc:136 ../inc/result.inc:193
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Strežnik je preklical"
 
 #: ../inc/result.inc:139
 msgid "Error while downloading"
-msgstr ""
+msgstr "Napaka med prejemanjem"
 
 #: ../inc/result.inc:141
 msgid "Error while computing"
-msgstr ""
+msgstr "Napaka med računanjem"
 
 #: ../inc/result.inc:142
 msgid "Error while uploading"
-msgstr ""
+msgstr "Napaka med pošiljanjem"
 
 #: ../inc/result.inc:143 ../inc/result.inc:195
 msgid "Aborted by user"
-msgstr ""
+msgstr "Uporabnik je preklical"
 
 #: ../inc/result.inc:146
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Čas je potekel - ni odziva"
 
 #: ../inc/result.inc:147 ../inc/result.inc:176
 msgid "Didn't need"
-msgstr ""
+msgstr "Ni bilo potrebno"
 
 #: ../inc/result.inc:148 ../inc/result.inc:177
 msgid "Validate error"
-msgstr ""
+msgstr "Napaka pri preverjanju"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "Opuščeno"
 
 #: ../inc/result.inc:160
 msgid "Over"
-msgstr ""
+msgstr "Končano"
 
 #: ../inc/result.inc:168
 msgid "Success"
-msgstr ""
+msgstr "Uspeh"
 
 #: ../inc/result.inc:172
-#, fuzzy
 msgid "Computation error"
-msgstr "Računalniki"
+msgstr "Računska napaka"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
-msgstr ""
+msgstr "Odvečen rezultat"
 
 #: ../inc/result.inc:175
 msgid "No reply"
-msgstr ""
+msgstr "Ni odgovora"
 
 #: ../inc/result.inc:185
 msgid "New"
-msgstr ""
+msgstr "Novo"
 
 #: ../inc/result.inc:186
 msgid "Downloading"
-msgstr ""
+msgstr "Prejemam"
 
 #: ../inc/result.inc:187
 msgid "Processing"
-msgstr ""
+msgstr "Obdelujem"
 
 #: ../inc/result.inc:188
 msgid "Compute error"
-msgstr ""
+msgstr "Napaka pri računanju"
 
 #: ../inc/result.inc:189
 msgid "Uploading"
-msgstr ""
+msgstr "Pošiljam"
 
 #: ../inc/result.inc:190
-#, fuzzy
 msgid "Done"
-msgstr "brez"
+msgstr "Opravljeno"
 
 #: ../inc/result.inc:201
 msgid "Initial"
-msgstr ""
+msgstr "Začetno"
 
 #: ../inc/result.inc:207
 msgid "Not necessary"
-msgstr ""
+msgstr "Ni potrebno"
 
 #: ../inc/result.inc:208
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Napaka delovne enote - preverjanje preskočeno"
 
 #: ../inc/result.inc:209
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Preverjeno, ni pa še konsenza"
 
 #: ../inc/result.inc:210
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "Opravilo je bilo prepozno javljeno za preverjanje"
 
 #: ../inc/result.inc:218
 msgid "Couldn't send result"
-msgstr ""
+msgstr "Pošiljanje rezultatov ni uspelo"
 
 #: ../inc/result.inc:222
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Preveč napak (morda ima hrošča)"
 
 #: ../inc/result.inc:226
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "Preveč rezultatov (morda je nedeterministično)"
 
 #: ../inc/result.inc:230
 msgid "Too many total results"
-msgstr ""
+msgstr "Preveč skupnih rezultatov"
 
 #: ../inc/result.inc:234
 msgid "WU cancelled"
-msgstr ""
+msgstr "Delovna enota preklicana"
 
 #: ../inc/result.inc:238
 msgid "Unrecognized Error: %1"
-msgstr ""
+msgstr "Neznana napaka: %1"
 
 #: ../inc/result.inc:264
 msgid "Task name"
-msgstr ""
+msgstr "Ime opravila"
 
 #: ../inc/result.inc:264 ../inc/result.inc:269 ../inc/result.inc:272
 #: ../inc/result.inc:275
 msgid "click for details"
-msgstr ""
+msgstr "kliknite za podrobnosti"
 
 #: ../inc/result.inc:264
 msgid "Show IDs"
-msgstr ""
+msgstr "Prikaži IDje"
 
 #: ../inc/result.inc:269
 msgid "Show names"
-msgstr ""
+msgstr "Prikaži imena"
 
 #: ../inc/result.inc:272
-#, fuzzy
 msgid "Task"
-msgstr "Opravila"
+msgstr "Opravilo"
 
 #: ../inc/result.inc:275
 msgid "Work unit"
-msgstr ""
+msgstr "Delovna enota"
 
 #: ../inc/result.inc:278
-#, fuzzy
 msgid "Computer"
-msgstr "Računalniki"
+msgstr "Računalnik"
 
 #: ../inc/result.inc:281 ../inc/result.inc:381
 msgid "Sent"
-msgstr ""
+msgstr "Poslano"
 
 #: ../inc/result.inc:282
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Čas objave<br /> ali rok"
 
 #: ../inc/result.inc:283
 msgid "explain"
-msgstr ""
+msgstr "pojasni"
 
 #: ../inc/result.inc:285
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: ../inc/result.inc:286
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Čas izvajanja<br />(sekunde)"
 
 #: ../inc/result.inc:287
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "Čas procesorja<br />(sekunde)"
 
 #: ../inc/result.inc:288 ../inc/result.inc:392
-#, fuzzy
 msgid "Credit"
-msgstr "Ustvari"
+msgstr "Točke"
 
 #: ../inc/result.inc:289
-#, fuzzy
 msgid "Application"
-msgstr "Aplikacije"
+msgstr "Aplikacija"
 
 #: ../inc/result.inc:379
 msgid "Workunit"
-msgstr ""
+msgstr "Delovna enota"
 
 #: ../inc/result.inc:382
 msgid "Received"
-msgstr ""
+msgstr "Prejeto"
 
 #: ../inc/result.inc:383
 msgid "Server state"
-msgstr ""
+msgstr "Stanje strežnika"
 
 #: ../inc/result.inc:384
 msgid "Outcome"
-msgstr ""
+msgstr "Izid"
 
 #: ../inc/result.inc:385
 msgid "Client state"
-msgstr ""
+msgstr "Stanje odjemalca"
 
 #: ../inc/result.inc:386
 msgid "Exit status"
