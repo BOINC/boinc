@@ -399,7 +399,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function Begin"));
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
-    CWizardAttach* pWizard = NULL;
+    CWizardAttach*     pWizard = NULL;
     wxString strComputer = wxEmptyString;
     wxString strName = wxEmptyString;
     wxString strURL = wxEmptyString;
@@ -427,7 +427,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         wxGetApp().StartBOINCDefaultScreensaverTest();
     }
 
-    pWizard = new CWizardAttach(this);
 
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
@@ -436,7 +435,8 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             Show();
         }
 
-       if (pWizard->SyncToAccountManager()) {
+        pWizard = new CWizardAttach(this);
+        if (pWizard->SyncToAccountManager()) {
             // If successful, hide the main window
             Hide();
         }
@@ -450,6 +450,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         strTeamName = wxString(pis.team_name.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
 
+        pWizard = new CWizardAttach(this);
         pWizard->Run(strName, strURL, strTeamName, bCachedCredentials);
     }
 

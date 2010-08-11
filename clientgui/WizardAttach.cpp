@@ -76,13 +76,11 @@ END_EVENT_TABLE()
  * CWizardAttach constructors
  */
  
-CWizardAttach::CWizardAttach() :
-    CBOINCBaseWizard()
+CWizardAttach::CWizardAttach()
 {
 }
  
-CWizardAttach::CWizardAttach( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, long style ) :
-    CBOINCBaseWizard( parent, id, title, pos, style )
+CWizardAttach::CWizardAttach( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, long style ) 
 {
     Create(parent, id, title, pos, style);
 }

@@ -5899,3 +5899,13 @@ Rom    11 Aug 2010
     
     lib/
         procinfo_win.cpp
+
+Rom    11 Aug 2010
+    - MGR: Don't allow the Create function of the Wizard to be called twice,
+        it'll basically lead to both an assert and a memory leak.
+    - MGR: Don't create the wizard unless we are going to use it.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp
+        WizardAttach.cpp
