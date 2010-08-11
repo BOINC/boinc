@@ -103,7 +103,6 @@ extern int boinc_get_status(BOINC_STATUS*);
 extern double boinc_get_fraction_done();
 extern void boinc_register_timer_callback(FUNC_PTR);
 extern double boinc_worker_thread_cpu_time();
-extern void boinc_exit(int);    // deprecated
 extern int boinc_init_parallel();
 
 #ifdef __APPLE__
@@ -126,11 +125,7 @@ extern int boinc_wu_cpu_time(double&);
 extern double boinc_elapsed_time();
 extern int boinc_upload_file(std::string& name);
 extern int boinc_upload_status(std::string& name);
-extern int boinc_write_init_data_file(APP_INIT_DATA&);
 extern char* boinc_msg_prefix(char*);
-extern int suspend_activities();   // deprecated
-extern int resume_activities();    // deprecated
-extern int restore_activities();    //deprecated
 
 /////////// API ENDS HERE
 

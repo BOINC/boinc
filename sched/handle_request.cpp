@@ -1242,7 +1242,9 @@ void process_request(char* code_sign_key) {
     send_work_setup();
 
     if (g_request->have_other_results_list) {
-        if (config.resend_lost_results && ok_to_send_work) {
+        if (ok_to_send_work
+            && (config.resend_lost_results || g_wreq->resend_lost_results)
+        ) {
             if (resend_lost_work()) {
                 ok_to_send_work = false;
             }

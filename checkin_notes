@@ -5959,3 +5959,17 @@ David  11 Aug 2010
 
     lib/
         mfile.cpp
+
+David  11 Aug 2010
+    - API: remove deprected stuff related to:
+        1) old-style apps with graphics in main program.
+            No one should be using these anymore.
+        2) writing init_data.xml in boinc_finish().
+            This was used by deprecated "compound app" scheme
+    - scheduler: if request reports results that were previously reported,
+        that's evidence that the previous reply was not received by client.
+        It may have contained results.
+        So set a "resend lost results" flag.
+
+    api/
+        boinc_api.cpp,h

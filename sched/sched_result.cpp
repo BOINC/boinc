@@ -186,6 +186,13 @@ int handle_results() {
                 case RESULT_OUTCOME_SUCCESS:
                     // don't replace a successful result!
                     msg = "result already reported as success";
+
+                    // Client is reporting a result twice.
+                    // That could mean it didn't get the first reply.
+                    // That reply may have contained new jobs.
+                    // So make sure we resend lost jobs
+                    //
+                    g_wreq->resend_lost_results = true;
                     break;
                 case RESULT_OUTCOME_COULDNT_SEND:
                     // should never happen!

@@ -187,9 +187,9 @@ static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
 static void graphics_cleanup();
-//static int suspend_activities();
-//static int resume_activities();
-//static void boinc_exit(int);
+static int suspend_activities();
+static int resume_activities();
+static void boinc_exit(int);
 static void block_sigalrm();
 static int start_worker_signals();
 
@@ -471,10 +471,6 @@ int boinc_finish(int status) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
         if (f) fclose(f);
     }
-    if (options.send_status_msgs) {
-        aid.wu_cpu_time = last_checkpoint_cpu_time;
-        boinc_write_init_data_file(aid);
-    }
 
     boinc_exit(status);
 
@@ -614,14 +610,6 @@ int boinc_parse_init_data_file() {
         return retval;
     }
     return 0;
-}
-
-int boinc_write_init_data_file(APP_INIT_DATA& x) {
-    FILE* f = boinc_fopen(INIT_DATA_FILE, "w");
-    if (!f) return ERR_FOPEN;
-    int retval = write_init_data_file(f, x);
-    fclose(f);
-    return retval;
 }
 
 int boinc_report_app_status(

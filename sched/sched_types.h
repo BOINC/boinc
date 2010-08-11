@@ -333,6 +333,13 @@ struct WORK_REQ {
     bool user_apps_only;
     bool beta_only;
 
+    bool resend_lost_results;
+        // this is set if the request is reporting a result
+        // that was previously reported.
+        // This is evidence that the earlier reply was not received
+        // by the client.  It may have contained results,
+        // so check and resend just in case.
+
     // user preferences
     bool no_cuda;
     bool no_ati;
@@ -379,7 +386,7 @@ struct WORK_REQ {
     //
     double seconds_to_fill;
 
-    // true if new-type request
+    // true if new-type request, which has resource-specific requests
     //
     bool rsc_spec_request;
 
@@ -436,27 +443,7 @@ struct WORK_REQ {
     bool max_jobs_on_host_cpu_exceeded;
     bool max_jobs_on_host_gpu_exceeded;
     bool no_jobs_available;     // project has no work right now
-
-    //int max_jobs_per_day;
-        // host.max_results_day * (NCPUS + NGPUS*gpu_multiplier)
     int max_jobs_per_rpc;
-#if 0
-    int njobs_on_host;
-        // How many jobs from this project are in progress on the host.
-        // Initially this is the number of "other_results"
-        // reported in the request message.
-        // If the resend_lost_results option is used,
-        // it's set to the number of outstanding results taken from the DB
-        // (those that were lost are resent).
-        // As new results are sent, it's incremented.
-    int njobs_on_host_cpu;
-        // same, but just CPU jobs.
-    int njobs_on_host_gpu;
-        // same, but just GPU jobs.
-    int max_jobs_on_host;
-    int max_jobs_on_host_cpu;
-    int max_jobs_on_host_gpu;
-#endif
     void update_for_result(double seconds_filled);
     void add_no_work_message(const char*);
     void get_job_limits();
