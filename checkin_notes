@@ -5973,3 +5973,29 @@ David  11 Aug 2010
 
     api/
         boinc_api.cpp,h
+
+David  11 Aug 2010
+    - client: fix a bug that caused GPU apps to fail on startup
+        in the following situation.
+        Suppose GPU job A is running,
+        and GPU job B (which has never run before) preempts it.
+        Then
+        1) an ACTIVE_TASK and slot dir are allocated for B (slot dir is empty)
+        2) A is told to quit; B isn't started until A exits
+            (because they're GPU jobs)
+        3) before A exits, B is suspended
+        4) eventually B is started.
+            Its scheduler state is SUSPENDED rather than UNINITIALIZED,
+            so the scheduler thinks it slot dir has already been populated.
+            But it hasn't, and when the app starts it fails immediately
+            because no files are there.
+
+        Fix: decide whether a slot dir needs to be populated by
+        seeing whether it's empty,
+        rather than looking at the scheduler state of the task.
+
+    client/
+        cpu_sched.cpp
+        http_curl.cpp
+    lib/
+        filesys.cpp,h

@@ -48,10 +48,11 @@
 #endif
 
 
+#include "coproc.h"
+#include "error_numbers.h"
+#include "filesys.h"
 #include "str_util.h"
 #include "util.h"
-#include "error_numbers.h"
-#include "coproc.h"
 
 #include "client_msgs.h"
 #include "log_flags.h"
@@ -1610,9 +1611,13 @@ bool CLIENT_STATE::enforce_schedule() {
                 continue;
             }
             action = true;
-            retval = atp->resume_or_start(
-                atp->scheduler_state == CPU_SCHED_UNINITIALIZED
-            );
+
+            // GPU tasks can get suspended before they're ever run,
+            // so the only safe way of telling whether this is the
+            // first time the app is run is to check
+            // whether the slot dir is empty
+            //
+            retval = atp->resume_or_start(is_dir_empty(atp->slot_dir));
             if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
                 // Assume no additional shared memory segs
                 // will be available in the next 10 seconds

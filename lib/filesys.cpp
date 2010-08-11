@@ -190,6 +190,16 @@ void dir_close(DIRREF dirp) {
 #endif
 }
 
+bool is_dir_empty(const char *p) {
+    char file[256];
+    DIRREF dir = dir_open(p);
+    if (dir_scan(file, dir, sizeof(file))) {
+        dir_close(dir);
+        return false;
+    }
+    return true;
+}
+
 DirScanner::DirScanner(string const& path) {
 #ifdef _WIN32
     first = true;

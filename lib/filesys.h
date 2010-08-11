@@ -88,9 +88,10 @@ typedef DIR *DIRREF;
 
 extern DIRREF dir_open(const char*);
 extern int dir_scan(char*, DIRREF, int);
-int dir_scan(std::string&, DIRREF);
+extern int dir_scan(std::string&, DIRREF);
 extern void dir_close(DIRREF);
 
+extern bool is_dir_empty(const char*);
 
 class DirScanner {
 #if defined(_WIN32) && !defined(__CYGWIN32__)
