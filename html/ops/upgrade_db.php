@@ -18,7 +18,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Perform DB updates.
-// To be run in project/html/ops.
+// Used by "upgrade".
+// Can also be run manually in project/html/ops.
 
 require_once("../inc/util_ops.inc");
 
@@ -51,6 +52,10 @@ if ($x != 'y') {
 or run this script again later.
 ";
     exit;
+}
+
+if ($argc > 1) {
+    echo "\nWarning: you are upgrading only web or server code,\nbut these updates may affect the other code as well.\nWe recommend that you run 'upgrade' again to upgrade both parts of the code.\n\n";
 }
 
 foreach($updates as $update) {

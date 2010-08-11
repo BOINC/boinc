@@ -87,7 +87,13 @@ try:
 except:
     print '''Couldn't install translation files'''
 
-os.system('cd '+INSTALL_DIR+'/html/ops; ./upgrade_db.php')
+opt = '';
+if options.server_only:
+    opt = ' --server'
+if options.web_only:
+    opt = ' --web'
+
+os.system('cd '+INSTALL_DIR+'/html/ops; ./upgrade_db.php'+opt)
 
 if os.path.exists(INSTALL_DIR+'/html/project/project_news.inc'):
     print '''\

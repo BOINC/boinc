@@ -305,12 +305,17 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
 
     create_project_dirs(dest_dir);
 
+    # copy html/ops files in all cases.
+    # The critical one is db_update.php,
+    # which is needed even for a server_only upgrade
+
+    install_glob(srcdir('html/ops/*.php'), dir('html/ops/'))
+    install_glob(srcdir('html/ops/*.inc'), dir('html/ops/'))
+
     if install_web_files:
         install_glob(srcdir('html/inc/*.inc'), dir('html/inc/'))
         install_glob(srcdir('html/inc/*.php'), dir('html/inc/'))
         install_glob(srcdir('html/inc/*.dat'), dir('html/inc/'))
-        install_glob(srcdir('html/ops/*.php'), dir('html/ops/'))
-        install_glob(srcdir('html/ops/*.inc'), dir('html/ops/'))
         install_glob(srcdir('html/ops/ffmail/sample*'), dir('html/ops/ffmail/'))
         install_glob(srcdir('html/ops/mass_email/sample*'), dir('html/ops/mass_email/'))
         install_glob(srcdir('html/ops/remind_email/sample*'), dir('html/ops/remind_email/'))

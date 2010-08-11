@@ -353,14 +353,14 @@ $math = array(
             "This project studies Chess 960, a variant of orthodox chess. In classical chess the starting position of the game never changes.  In Chess 960, just before the start of every game, the initial configuration of the chess pieces is determined randomly.",
             "chess960athome.jpg"
         ),
-        array(
-            "NQueens@home",
-            "http://nqueens.ing.udec.cl/",
-            "Universidad de Concepción, Chile",
-            "Mathematics",
-            "The eight queens problem consists of trying to place eight queens on a chessboard so that no queen attacks any other queen.  I has long been known that there are 92 solutions, of which 12 are distinct. NQueens@home studies the generalization to N queens on an NxN board, for N=19 and greater.",
-            "NQueens-Logo1b.png"
-        ),
+//        array(
+//            "NQueens@home",
+//            "http://nqueens.ing.udec.cl/",
+//            "Universidad de Concepción, Chile",
+//            "Mathematics",
+//            "The eight queens problem consists of trying to place eight queens on a chessboard so that no queen attacks any other queen.  I has long been known that there are 92 solutions, of which 12 are distinct. NQueens@home studies the generalization to N queens on an NxN board, for N=19 and greater.",
+//            "NQueens-Logo1b.png"
+//        ),
     ),
 );
 

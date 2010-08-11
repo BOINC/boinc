@@ -5931,3 +5931,25 @@ David  11 Aug 2010
 
     sched/
         db_purge.cpp
+
+David  11 Aug 2010
+    - admin: fix bug with "upgrade --server_only".
+        It wasn't copying html/ops/db_update.php,
+        so it wasn't doing necessary DB updates.
+        Fixed this by always copying html/ops/*.
+
+        Even with this fix, there is a problem when using
+        the --server_only or --web_only options of upgrade:
+        if any DB updates are done, they may affect the
+        server code that's not being updated, resulting in crashes.
+
+        I added a warning message in this case,
+        recommending that a full upgrade be done.
+
+    html/ops/
+        delete_orphan_result.php
+        upgrade_db.php
+    py/Boinc/
+        setup_project.py
+    tools/
+        upgrade
