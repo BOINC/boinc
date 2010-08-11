@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-11 09:59-0700\n"
+"PO-Revision-Date: 2010-08-11 10:58-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -1262,36 +1262,35 @@ msgstr "Stanje odjemalca"
 
 #: ../inc/result.inc:386
 msgid "Exit status"
-msgstr ""
+msgstr "Stanje ob izhodu"
 
 #: ../inc/result.inc:388
 msgid "Report deadline"
-msgstr ""
+msgstr "Rok za poročilo"
 
 #: ../inc/result.inc:389
 msgid "Run time"
-msgstr ""
+msgstr "Čas izvajanja"
 
 #: ../inc/result.inc:390
 msgid "CPU time"
-msgstr ""
+msgstr "Čas procesorja"
 
 #: ../inc/result.inc:391
 msgid "Validate state"
-msgstr ""
+msgstr "Stanje preverjanja"
 
 #: ../inc/result.inc:393
-#, fuzzy
 msgid "Application version"
-msgstr "Aplikacije"
+msgstr "Različica aplikacije"
 
 #: ../inc/result.inc:408
 msgid "Previous"
-msgstr ""
+msgstr "Prejšnje"
 
 #: ../inc/result.inc:417
 msgid "Next"
-msgstr ""
+msgstr "Naslednje"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1451,7 +1450,7 @@ msgstr "Skrbnik"
 #: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
 #: ../user/top_users.php:125
 msgid "Previous %1"
-msgstr ""
+msgstr "Predhodnih %1"
 
 #: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
 #: ../user/top_users.php:130
@@ -1475,6 +1474,8 @@ msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
+"OPOZORILO: to je ekipa vsega BOINC. Če tu napravite spreembe, bodo hitro "
+"prepisane. Namesto tega uredite %1ekipo vsega BOINC%2."
 
 #: ../inc/team.inc:417
 msgid ""
@@ -1522,11 +1523,11 @@ msgstr "Opis ekipe"
 
 #: ../inc/team.inc:451
 msgid "Accept new members?"
-msgstr ""
+msgstr "Sprejeti nove člane?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr ""
+msgstr "Profil uporabnika"
 
 #: ../inc/user.inc:116
 msgid "Projects in which you are participating"
@@ -1779,7 +1780,7 @@ msgstr "Dodaj kot prijatelja"
 
 #: ../inc/util.inc:191
 msgid "Unable to handle request"
-msgstr ""
+msgstr "Ni bilo mogoče obdelati zahteve"
 
 #: ../inc/util.inc:385
 msgid "Email address:"
@@ -1837,7 +1838,7 @@ msgstr "Opcijsko"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Dodaj %1 nastavitve za %2"
 
 #: ../user/apps.php:31 ../user/sample_index.php:63
 msgid "Applications"
@@ -2157,40 +2158,39 @@ msgstr "Novo geslo, znova"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "HTML značke v vašem imenu niso dovoljene."
 
 #: ../user/edit_user_info_action.php:32
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Podati morate ime vašega računa."
 
 #: ../user/edit_user_info_action.php:41 ../user/team_edit_action.php:51
 msgid "bad country"
-msgstr ""
+msgstr "napačna država"
 
 #: ../user/edit_user_info_action.php:57
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "Posodobitev uporabniških podatkov ni uspela."
 
 #: ../user/edit_user_info_form.php:27
-#, fuzzy
 msgid "Edit account information"
-msgstr "Informacije o računu"
+msgstr "Uredite informacije o računu"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Ime %1 pravo ime ali vzdevek%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "URL %1 vaše spletne strani; ni obvezno%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Poštna številka %1 ni obvezno%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Posodobi informacije"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
@@ -2245,9 +2245,8 @@ msgid "This forum is not visible to you."
 msgstr "Ta forum za vas ni viden."
 
 #: ../user/forum_thread.php:60
-#, fuzzy
 msgid "This thread has been hidden by moderators"
-msgstr "Ta tema je bila skrita zaradi skrbniških razlogov"
+msgstr "To temo so moderatorji skrili"
 
 #: ../user/forum_thread.php:117
 msgid "My question was answered"
@@ -2514,18 +2513,16 @@ msgid "Your account"
 msgstr "Vaš račun"
 
 #: ../user/host_app_versions.php:52
-#, fuzzy
 msgid "Application details for host %1"
-msgstr "Aplikacije"
+msgstr "Podrobnosti aplikacij za gostitelja %1"
 
 #: ../user/hosts_user.php:51
-#, fuzzy
 msgid "Computers belonging to %1"
-msgstr "Računalniki tega računa"
+msgstr "Računalniki, ki pripadajo %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
-msgstr ""
+msgstr "Ta uporabnik je izbral, da ne prikaže informacij o svojih računalnikih."
 
 #: ../user/info.php:22 ../user/sample_index.php:47
 msgid "Read our rules and policies"
@@ -2713,11 +2710,10 @@ msgid "Language selection"
 msgstr "Izbira jezika"
 
 #: ../user/language_select.php:68
-#, fuzzy
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
-msgstr "Ta stran je na voljo v več jezikih. Trenutno izbran jezik je: %1 (%2)."
+msgstr "Ta stran je na voljo v več jezikih. Trenutno izbran jezik je %1."
 
 #: ../user/language_select.php:73
 msgid ""
@@ -2860,30 +2856,33 @@ msgid ""
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"Vaše nastavitve so bile posodobljene in\n"
+"\t      te bodo začele veljati, ko bo vaš računalnik komuniciral z %1\n"
+"\t      ali zahtevate ukaz %2Posodobi%3 v BOINC Upravitelju."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
-msgstr ""
+msgstr "%1 za %2"
 
 #: ../user/prefs_edit.php:119
 msgid "Back to preferences"
-msgstr ""
+msgstr "Nazaj k nastavitvam"
 
 #: ../user/prefs_remove.php:46
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "Potrdite brisanje nastavitev"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
+msgstr "Ali ste prepričani, da želeti brisati vaše ločene %1 nastavitve za %2"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
-msgstr ""
+msgstr "Odstrani nastavitve"
 
 #: ../user/prefs_remove.php:55
 msgid "Cancel"
-msgstr ""
+msgstr "Prekliči"
 
 #: ../user/profile_menu.php:33 ../user/sample_index.php:68
 msgid "Profiles"
@@ -2978,13 +2977,12 @@ msgid "Return to profile."
 msgstr "Vrnite se na profil."
 
 #: ../user/result.php:28
-#, fuzzy
 msgid "No such task"
-msgstr "Ekipa ne obstaja."
+msgstr "Ni takega opravila"
 
 #: ../user/result.php:30
 msgid "Task %1"
-msgstr ""
+msgstr "Opravilo %1"
 
 #: ../user/results.php:27
 msgid "This feature is turned off temporarily"
@@ -3117,129 +3115,134 @@ msgstr "Če ne najdete ekipe, pravšnje za vas, lahko %1ustvarite ekipo%2."
 
 #: ../user/team_admins.php:32
 msgid "Remove Team Admin status from this member"
-msgstr ""
+msgstr "Odstrani status administratorja ekipe temu uporabniku"
 
 #: ../user/team_admins.php:38 ../user/team_admins.php:49
 msgid "Add or remove Team Admins"
-msgstr ""
+msgstr "Dodaj ali odstrani administratorje skupine"
 
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr ""
+"Izberete lahko člane ekipe, ki bodo \"administratorji skupine'. "
+"Administratorji lahko:"
 
 #: ../user/team_admins.php:41
 msgid "Edit team information (name, URL, description, country)"
-msgstr ""
+msgstr "Urejajo informacije o ekipi (ime, URL, opis, država)"
 
 #: ../user/team_admins.php:42
 msgid "View the team's join/quit history"
-msgstr ""
+msgstr "Vidijo zgodovino pridružitev k ekipi/odhodov iz ekipe"
 
 #: ../user/team_admins.php:43
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
+"Moderirajo forum ekipe, če obstaja (administratorji dobijo obvestila o "
+"dogodkih in poročila po elektronski pošti)"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
-msgstr ""
+msgstr "Administratorji ekipe ne morejo:"
 
 #: ../user/team_admins.php:47
 msgid "Change the team founder"
-msgstr ""
+msgstr "Spremeniti ustanovitelja ekipe"
 
 #: ../user/team_admins.php:48 ../user/team_manage.php:52
 msgid "Remove members"
-msgstr ""
+msgstr "Odstraniti članov"
 
 #: ../user/team_admins.php:51
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr ""
+msgstr "Če administrator ekipe zapusti ekipo, preneha biti administrator ekipe."
 
 #: ../user/team_admins.php:52
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr ""
+"Priporočamo, da za administratorje ekipe izberete le ljudi, ki jih poznate "
+"in jim zelo zaupate."
 
 #: ../user/team_admins.php:57
 msgid "There are currently no Team Admins"
-msgstr ""
+msgstr "Trenutno ni administratorjev ekipe"
 
 #: ../user/team_admins.php:59
 msgid "Current Team Admins"
-msgstr ""
+msgstr "Trenutni administratorji ekipe"
 
 #: ../user/team_admins.php:60
 msgid "Became Team Admin on"
-msgstr ""
+msgstr "Postal(-a) administrator ekipe na"
 
 #: ../user/team_admins.php:75
 msgid "Add Team Admin"
-msgstr ""
+msgstr "Dodaj administratorja ekipe"
 
 #: ../user/team_admins.php:76
 msgid "Email address of team member:"
-msgstr ""
+msgstr "Naslov elektronske pošte člana ekipe:"
 
 #: ../user/team_admins.php:88
 msgid "failed to remove admin"
-msgstr ""
+msgstr "odstranjevanje administratorja ni uspelo"
 
 #: ../user/team_admins.php:95
-#, fuzzy
 msgid "no such user"
-msgstr "Uporabnik ne obstaja"
+msgstr "uporabnik ne obstaja"
 
 #: ../user/team_admins.php:96
 msgid "User is not member of team"
-msgstr ""
+msgstr "Uporabnik ni član ekipe"
 
 #: ../user/team_admins.php:98
 msgid "%1 is already an admin of %2"
-msgstr ""
+msgstr "%1 je že administrator %2"
 
 #: ../user/team_admins.php:102
 msgid "Couldn't add admin"
-msgstr ""
+msgstr "Dodajanje administratorja ni uspelo"
 
 #: ../user/team_admins.php:108 ../user/team_quit_form.php:28
 #: ../user/team_remove_inactive_action.php:26
-#, fuzzy
 msgid "No such team"
-msgstr "Ekipa ne obstaja."
+msgstr "Ekipa ne obstaja"
 
 #: ../user/team_change_founder_action.php:28
 #: ../user/team_change_founder_form.php:31 ../user/team_display.php:67
 #: ../user/team_edit_action.php:28 ../user/team_edit_form.php:27
 #: ../user/team_email_list.php:53 ../user/team_forum.php:162
 #: ../user/team_manage.php:83
-#, fuzzy
 msgid "no such team"
-msgstr "Ekipa ne obstaja."
+msgstr "ekipa ne obstaja"
 
 #: ../user/team_change_founder_action.php:36
 msgid "User is not a member of %1"
-msgstr ""
+msgstr "Uporabnik ni član %1"
 
 #: ../user/team_change_founder_action.php:39
 msgid "Changing founder of %1"
-msgstr ""
+msgstr "Spreminjanje ustanovitelja %1"
 
 #: ../user/team_change_founder_action.php:41
 msgid "%1 is now founder of %2"
-msgstr ""
+msgstr "%1 je zdaj ustanovitelj %2"
 
 #: ../user/team_change_founder_form.php:35
 msgid "Change founder of %1"
-msgstr ""
+msgstr "Spremeni ustanovitelja %1"
 
 #: ../user/team_change_founder_form.php:41
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
+"Član ekipe %1 je zahteval spremembo ustanoviteljstva skupine %2, vendar je "
+"ekipo zapustil in tako preklical svojo zahtevo."
 
 #: ../user/team_change_founder_form.php:47
 msgid ""
