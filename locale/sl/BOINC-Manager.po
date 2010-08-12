@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2009-12-15 10:47-0700\n"
+"PO-Revision-Date: 2010-08-12 13:30-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
@@ -202,7 +202,7 @@ msgstr "Zapri okno %s"
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
-msgstr ""
+msgstr "&Zapri okno"
 
 #: clientgui/AdvancedFrame.cpp:319
 #, c-format
@@ -270,13 +270,14 @@ msgid "Display the simple graphical interface."
 msgstr "Prikaži preprost uporabniški vmesnik."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "Priklopite se na &projekt ali na upravitelja računov..."
+msgstr "Priklopite se na &projekt ali upravitelja računov..."
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Bodite prostovoljec za kateregakoli ali vseh izmed več kot 30 projektov na "
+"mnogih znanstvenih področjih"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -331,31 +332,27 @@ msgstr "Ustavi delo ne glede na nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:468
 msgid "Use GPU always"
-msgstr ""
+msgstr "Vedno uporabljaj grafični procesor"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Dovoli delo, ne glede na nastavitve"
+msgstr "Dovoli delo grafičnega procesorja, ne glede na nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:473
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Poganjaj glede na &nastavitve"
+msgstr "Uporabljaj grafični procesor glede na &nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Dovoli delo glede na vaše nastavitve"
+msgstr "Dovoli delo grafičnega procesorja glede na vaše nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:478
 msgid "Use GPU never"
-msgstr ""
+msgstr "Nikoli ne uporabljaj grafičnega procesorja"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Ustavi delo ne glede na nastavitve"
+msgstr "Ustavi delo grafičnega procesorja ne glede na nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "&Network activity always available"
@@ -942,7 +939,7 @@ msgstr "Dremež"
 
 #: clientgui/BOINCTaskBar.cpp:625
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Dremež grafičnega procesorja"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1047,12 +1044,11 @@ msgid "Copyright:"
 msgstr "Avtorske pravice:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 University of California, Berkeley.\n"
+"(C) 2003-2010 University of California, Berkeley.\n"
 "Vse pravice pridržane."
 
 #: clientgui/DlgAbout.cpp:179 clientgui/DlgAbout.cpp:183
@@ -1170,17 +1166,16 @@ msgid "minutes"
 msgstr "minut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "uporaba procesorja"
+msgstr "Medtem ko je uporaba procesorja manj kot"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:157
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
+msgstr "da delo na čakanje, ko uporaba procesorja preseže ta nivo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 msgid "percent (0 means no restriction)"
-msgstr ""
+msgstr "odstotkov (0 pomeni ni omejitev)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:177
 #: clientgui/DlgAdvPreferencesBase.cpp:427
@@ -1255,7 +1250,6 @@ msgid "Other options"
 msgstr "Druge možnosti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:280
-#, fuzzy
 msgid "Switch between applications every"
 msgstr "Preklopi med aplikacijami vsakih"
 
@@ -1304,19 +1298,16 @@ msgid "Maximum upload rate"
 msgstr "Največja hitrost pošiljanja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:353
-#, fuzzy
 msgid "Transfer at most"
-msgstr "Uporabi največ"
+msgstr "Prenesi največ"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
-#, fuzzy
 msgid "Mbytes"
-msgstr "da"
+msgstr "Mbajtov"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:362
-#, fuzzy
 msgid "every"
-msgstr "Strežnik:"
+msgstr "vsakih"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:368
 #: clientgui/DlgAdvPreferencesBase.cpp:382
@@ -1649,14 +1640,12 @@ msgstr "Razvrščanje"
 
 #: clientgui/DlgItemProperties.cpp:243 clientgui/DlgItemProperties.cpp:253
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Project preference"
-msgstr "Vaše nastavitve"
+msgstr "Nastavitve projekta"
 
 #: clientgui/DlgItemProperties.cpp:243
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "Ne bom pridobil novih opravil"
+msgstr "Ne pridobi novih opravil procesorja"
 
 #: clientgui/DlgItemProperties.cpp:245
 msgid "CPU scheduling priority"
@@ -1676,11 +1665,11 @@ msgstr "Odložitveni interval prevzemanja dela za procesor"
 
 #: clientgui/DlgItemProperties.cpp:253
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr ""
+msgstr "Ne pridobi opravil za NVIDIA grafični procesor"
 
 #: clientgui/DlgItemProperties.cpp:255
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "Prioriteta razvrščanja za NVIDIA grafični procesor"
 
 #: clientgui/DlgItemProperties.cpp:256
 msgid "NVIDIA GPU work fetch priority"
@@ -1695,14 +1684,12 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Odložitveni interval prevzemanja dela za NVIDIA grafični procesor"
 
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "Ne bom pridobil novih opravil"
+msgstr "Ne pridobi opravil za ATI grafični procesor"
 
 #: clientgui/DlgItemProperties.cpp:266
-#, fuzzy
 msgid "ATI GPU scheduling priority"
-msgstr "Prioriteta razvrščanja procesorja"
+msgstr "Prioriteta razvrščanja za ATI grafični procesor"
 
 #: clientgui/DlgItemProperties.cpp:267
 msgid "ATI GPU work fetch priority"
@@ -1782,7 +1769,7 @@ msgstr "Imenik"
 
 #: clientgui/DlgItemProperties.cpp:313
 msgid "Process ID"
-msgstr ""
+msgstr "ID procesa"
 
 #: clientgui/DlgItemProperties.cpp:411
 msgid "New"
@@ -2318,19 +2305,19 @@ msgstr "Kliknite"
 
 #: clientgui/ProjectListCtrl.cpp:503
 msgid "Multicore CPU Supported"
-msgstr ""
+msgstr "Podprt večjedrni procesor"
 
 #: clientgui/ProjectListCtrl.cpp:505
 msgid "Nvidia GPU Supported"
-msgstr ""
+msgstr "Podprt Nvidia grafični procesor"
 
 #: clientgui/ProjectListCtrl.cpp:507
 msgid "ATI GPU Supported"
-msgstr ""
+msgstr "Podprt ATI grafični procesor"
 
 #: clientgui/ProjectListCtrl.cpp:509
 msgid "Project Website"
-msgstr ""
+msgstr "Spletna stran projekta"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 #: clientgui/ProjectPropertiesPage.cpp:335
@@ -2354,7 +2341,6 @@ msgid "Network communication failure"
 msgstr "Napaka pri komunikaciji po mreži"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2376,7 +2362,7 @@ msgstr ""
 "1) Problem pri povezavi.  Preverite vašo mrežno ali modemsko povezavo\n"
 "in nato kliknite Nazaj, da poskusite znova.\n"
 "\n"
-"2) Programska oprema požarnega zidu blokira World Community\n"
+"2) Programska oprema osebnega požarnega zidu blokira World Community\n"
 "Grid - BOINC programsko opremo.  Nastavite požarni zid, da dovoli\n"
 "BOINC in BOINC Upravitelju komunicirati na vratih 80 in 443,\n"
 "nato kliknite Nazaj, da poskusite znova.\n"
@@ -3211,7 +3197,7 @@ msgstr "Poteka zahteva razvrščevalnika"
 
 #: clientgui/ViewProjects.cpp:1071
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Pretočite gor čakajoča sporočila"
 
 #: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
@@ -3416,6 +3402,8 @@ msgid ""
 "Network activity is suspended.\n"
 "You can enable it using the Activity menu."
 msgstr ""
+"Mrežna aktivnost je na čakanju.\n"
+"Lahko jo omogočite z uporabo menuja Aktivnost."
 
 #: clientgui/ViewTransfers.cpp:283 clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
@@ -3445,14 +3433,12 @@ msgid "Retry in "
 msgstr "Ponovno poskusi čez_"
 
 #: clientgui/ViewTransfers.cpp:771
-#, fuzzy
 msgid "Suspended upload"
-msgstr "Na čakanju"
+msgstr "Pošiljanje dano na čakanje"
 
 #: clientgui/ViewTransfers.cpp:772
-#, fuzzy
 msgid "Suspended download"
-msgstr "Na čakanju"
+msgstr "Prejemanje dano na čakanje"
 
 #: clientgui/ViewTransfers.cpp:778 clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
@@ -3591,9 +3577,8 @@ msgid "GPU missing, "
 msgstr "Manjka grafični procesor, "
 
 #: clientgui/ViewWork.cpp:1122 clientgui/ViewWork.cpp:1198
-#, fuzzy
 msgid " (suspended)"
-msgstr "Na čakanju"
+msgstr " (na čakanju)"
 
 #: clientgui/ViewWork.cpp:1152
 msgid " - an exclusive app is running"
@@ -3604,13 +3589,12 @@ msgid " (non-CPU-intensive)"
 msgstr " (ne-procesorsko-intenzitvno)"
 
 #: clientgui/ViewWork.cpp:1186
-#, fuzzy
 msgid " (waiting for GPU memory)"
-msgstr "Čaka na pomnilnik"
+msgstr "(čakajoč na pomnilnik grafične kartice)"
 
 #: clientgui/ViewWork.cpp:1211
 msgid "Aborted: not started by deadline"
-msgstr ""
+msgstr "Opuščeno: ni bilo začeto do roka"
 
 #: clientgui/ViewWorkGrid.cpp:184
 msgid "TasksGrid"
