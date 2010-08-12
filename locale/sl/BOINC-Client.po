@@ -2,162 +2,188 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-05 11:43-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-08-12 13:04-0700\n"
+"Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #: acct_mgr.cpp:373 acct_mgr.cpp:383
 msgid "error"
-msgstr ""
+msgstr "napaka"
 
 #: acct_setup.cpp:273
 msgid "A new version of BOINC is available."
-msgstr ""
+msgstr "Na voljo je nova različica BOINC."
 
 #: acct_setup.cpp:275
 msgid "Download it."
-msgstr ""
+msgstr "Prenesite jo."
 
 #: client_state.cpp:342
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
+msgstr "Zapisovanje datoteke stanja ni bilo možno; preverite pravice imenika"
 
 #: cs_cmdline.cpp:281
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr ""
+msgstr "HTTP_PROXY spremenljivka okolja mora določati HTTP posrednika"
 
 #: cs_scheduler.cpp:557
 msgid "Message from project server:"
-msgstr ""
+msgstr "Sporočilo strežnika projekta:"
 
 #: cs_statefile.cpp:766 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
-msgstr ""
+msgstr "Sintaktična napaka v app_info.xml"
 
 #: gui_rpc_server.cpp:190
 msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr ""
+msgstr "Ni mogoče razrešiti ime gostitelja v remote_hosts.cfg"
 
 #: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
 msgid "Unexpected text in cc_config.xml"
-msgstr ""
+msgstr "Nepričakovano besedilo v cc_config.xml"
 
 #: log_flags.cpp:112 log_flags.cpp:415 log_flags.cpp:460
 msgid "Unrecognized tag in cc_config.xml"
-msgstr ""
+msgstr "Neprepoznana značka v cc_config.xml"
 
 #: log_flags.cpp:434
 msgid "Missing start tag in cc_config.xml"
-msgstr ""
+msgstr "Manjkajoča začetna značka v cc_config.xml"
 
 #: log_flags.cpp:468
 msgid "Missing end tag in cc_config.xml"
-msgstr ""
+msgstr "Manjkajoča končna značka v cc_config.xml"
 
 #: ../sched/handle_request.cpp:299
 msgid ""
 "Invalid or missing account key.  To fix, detach and reattach to this project."
 msgstr ""
+"Napačen ali manjkajoč ključ računa.  Da popravite, se odklopite in ponovno "
+"priklopite na ta projekt."
 
 #: ../sched/handle_request.cpp:820 ../sched/handle_request.cpp:830
 msgid ""
 "You may have an outdated code signing key.  Try attaching and reattaching "
 "this project."
 msgstr ""
+"Morda imate zastarel ključ za podpisovanje kode.  Poskusite se odklopiti in "
+"ponovno priklopiti na ta projekt."
 
 #: ../sched/handle_request.cpp:914
 msgid "This project doesn't support operating system"
-msgstr ""
+msgstr "Ta projekt ne podpira operacijskega sistema"
 
 #: ../sched/handle_request.cpp:940
 msgid "This project doesn't support CPU type"
-msgstr ""
+msgstr "Ta projekt ne podpira tipa procesorja"
 
 #: ../sched/handle_request.cpp:964
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr ""
+"Vaša programska oprema BOINC odjemalec je prestara.  Prosimo, namestite "
+"trenutno različico."
 
 #: ../sched/handle_request.cpp:1215
 msgid "This project doesn't support computers of type"
-msgstr ""
+msgstr "Ta projekt ne podpira računalnikov tega tipa"
 
 #: ../sched/sched_send.cpp:1250
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
+"Posodobite na najnovejši gonilnik za obdelovanje opravil z uporabo "
+"grafičnega procesorja vašega računalnika"
 
 #: ../sched/sched_send.cpp:1257
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
+"Posodobite na najnovejši gonilnik za uporabo vseh aplikacij grafičnega "
+"procesorja tega projekta"
 
 #: ../sched/sched_send.cpp:1281
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
+"Za uporabo vašega NVIDIA grafičnega procesorja je potrebna novejša različica "
+"BOINC; prosim nadgradite na trenutno različico"
 
 #: ../sched/sched_send.cpp:1294
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr ""
+"NVIDIA ali ATI grafični procesor je potreben za poganjanje opravil tega "
+"projekta"
 
 #: ../sched/sched_send.cpp:1299
 msgid "An NVIDIA GPU is required to run tasks for this project"
 msgstr ""
+"NVIDIA grafični procesor je potreben za poganjanje opravil tega projekta"
 
 #: ../sched/sched_send.cpp:1305
 msgid "An ATI GPU is required to run tasks for this project"
-msgstr ""
+msgstr "ATI grafični procesor je potreben za poganjanje opravil tega projekta"
 
 #: ../sched/sched_send.cpp:1400
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
+"Za aplikacije, ki ste jih izbrali, ni na voljo dela.  Prosimo, preverite "
+"vaše nastavitve projektov na spletni strani."
 
 #: ../sched/sched_send.cpp:1426
 msgid "Your computer type is not supported by this project"
-msgstr ""
+msgstr "Ta projekt ne podpira vašega tipa računalnika"
 
 #: ../sched/sched_send.cpp:1432
 msgid "Newer BOINC version required; please install current version"
 msgstr ""
+"Zahtevana je nova različica BOINC; prosimo, namestite trenutno različico"
 
 #: ../sched/sched_send.cpp:1442
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
+"Opravila za NVIDIA grafični procesor so na voljo, vendar so vaše nastavitve, "
+"da jih ne sprejemate"
 
 #: ../sched/sched_send.cpp:1448
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
+"Opravila za ATI grafični procesor so na voljo, vendar so vaše nastavitve, da "
+"jih ne sprejemate"
 
 #: ../sched/sched_send.cpp:1454
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
+"Opravila za procesor so na voljo, vendar so vaše nastavitve, da jih ne "
+"sprejemate"
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Neznano ime aplikacije v app_info.xml"
 
 #: ../sched/sched_version.cpp:225
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr ""
+msgstr "Vaša datoteka app_info.xml nima uporabne različice"
 
 #: ../sched/sched_version.cpp:652
 msgid "is not available for your type of computer"
-msgstr ""
+msgstr "ni na voljo za vaš tip računalnika"
