@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-11 15:05-0700\n"
+"PO-Revision-Date: 2010-08-12 03:43-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -3740,65 +3740,71 @@ msgstr "Dodajte/odstranite administratorje ekipe"
 
 #: ../user/team_manage.php:57
 msgid "Give selected team members Team Admin privileges"
-msgstr ""
+msgstr "Izbranim članom ekipe daj administratorske pravice za ekipo"
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
-msgstr ""
+msgstr "Odstrani ekipo"
 
 #: ../user/team_manage.php:60
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "Dovoljeno le, če ekipa nima članov"
 
 #: ../user/team_manage.php:62
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "Ustvari ali upravljaj s sporočilnico ekipe"
 
 #: ../user/team_manage.php:69
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
+"Da to ekipo ustvarite na vseh BOINC projektih (sedanjih in prihodnjih), jo "
+"lahko spremenite v %1ekipo za ves BOINC%2."
 
 #: ../user/team_manage.php:71
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
+"Administratorji ekipe so vabljeni, da se pridružijo in sodelujejo v Google "
+"%1boinc-team-founders%2 skupini."
 
 #: ../user/team_manage.php:73
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
+"Drugi viri za administratorje BOINC ekipe so na voljo na zunanji strani "
+"%1www.boincteams.com%2."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "Ni možno brisati ekipe, ki ni prazna"
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "Ekipa %1 izbrisana"
 
 #: ../user/team_members.php:33
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr ""
+msgstr "Omejitev presežena:  Prikazanih je lahko le prvih 1000 članov."
 
 #: ../user/team_members.php:43
 msgid "Members of %1"
-msgstr ""
+msgstr "Člani %1"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
-msgstr ""
+msgstr "Ni bilo možno zapustiti ekipe"
 
 #: ../user/team_quit_action.php:33
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "Ekipa ne obstaja ali pa ji ne pripadate"
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
-msgstr ""
+msgstr "Zapusti %1"
 
 #: ../user/team_quit_form.php:32
 msgid ""
@@ -3810,23 +3816,29 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
+"<strong>Prosimo, upoštevajte preden zapustite ekipo:</strong>\n"
+"         <ul>\n"
+"         <li>Če zapustite ekipo, se lahko pozneje ponovno pridružite ali pa "
+"se po želji pridružite drugi ekipi\n"
+"         <li>Zapustitev ekipe na noben način ne vpliva na vašo osebno "
+"statistiko točk.\n"
+"         </ul>"
 
 #: ../user/team_quit_form.php:40
-#, fuzzy
 msgid "Quit Team"
 msgstr "Zapusti ekipo"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Odstranjevanje uporabnikov iz %1"
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "%1 ni član %2"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 je bil odstranjen"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
