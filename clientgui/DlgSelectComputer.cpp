@@ -115,11 +115,17 @@ void CDlgSelectComputer::CreateControls(bool required)
     itemDialog1->SetSizer(itemBoxSizer2);
 
     if (required) {
-        wxStaticText* itemStaticText1 = new wxStaticText;
-        itemStaticText1->Create( itemDialog1, wxID_STATIC, 
-            _("Another instance of BOINC Manager is already running \non this computer.  Please select a client to monitor."), 
-            wxDefaultPosition, wxDefaultSize, 0 
+        CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+        wxASSERT(pSkinAdvanced);
+        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+        wxString strInfo = wxEmptyString;
+        strInfo.Printf(
+            _("Another instance of %s is already running \non this computer.  Please select a client to monitor."), 
+            pSkinAdvanced->GetApplicationName().c_str()
         );
+        wxStaticText* itemStaticText1 = new wxStaticText;
+        itemStaticText1->Create( itemDialog1, wxID_STATIC, strInfo, wxDefaultPosition, wxDefaultSize, 0);
         itemBoxSizer2->Add(itemStaticText1, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     }
     

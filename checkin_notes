@@ -6007,3 +6007,10 @@ Charlie 11 Aug 2010
         
     clientgui/
         DlgEventLog.cpp
+
+Charlie 11 Aug 2010
+    - MGR: "Another instance" message in Select Computer dialog gets Manager name 
+        from skin.
+
+     clientgui/
+        DlgSelectComputer.cpp
