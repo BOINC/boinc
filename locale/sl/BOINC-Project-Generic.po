@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-12 04:52-0700\n"
+"PO-Revision-Date: 2010-08-12 14:56-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -4068,7 +4068,7 @@ msgstr "Potrdite naslov elektronske pošte"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "Naslov elektronske pošte vašega računa je bil potrjen."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4076,7 +4076,7 @@ msgstr "Ta uporabnik nima profila"
 
 #: ../user/view_profile.php:44
 msgid "Profile: %1"
-msgstr ""
+msgstr "Profil: %1"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
@@ -4130,88 +4130,87 @@ msgstr ""
 
 #: ../user/workunit.php:30
 msgid "can't find workunit"
-msgstr ""
+msgstr "ne najdem delovne enote"
 
 #: ../user/workunit.php:33
 msgid "Workunit %1"
-msgstr ""
+msgstr "Delovna enota %1"
 
 #: ../user/workunit.php:37
-#, fuzzy
 msgid "name"
-msgstr "Ime"
+msgstr "ime"
 
 #: ../user/workunit.php:38
-#, fuzzy
 msgid "application"
-msgstr "Aplikacije"
+msgstr "aplikacija"
 
 #: ../user/workunit.php:39
-#, fuzzy
 msgid "created"
-msgstr "Ustvari"
+msgstr "ustvarjeno"
 
 #: ../user/workunit.php:41
 msgid "canonical result"
-msgstr ""
+msgstr "priznan rezultat"
 
 #: ../user/workunit.php:44
 msgid "granted credit"
-msgstr ""
+msgstr "dodeljene točke"
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Opravila v izvajanju"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
-msgstr ""
+msgstr "zadržano, čakajoč na dokončanje"
 
 #: ../user/workunit.php:55
 msgid "minimum quorum"
-msgstr ""
+msgstr "minimalni kvorum"
 
 #: ../user/workunit.php:56
 msgid "initial replication"
-msgstr ""
+msgstr "začetna replikacija"
 
 #: ../user/workunit.php:57
 msgid "max # of error/total/success tasks"
-msgstr ""
+msgstr "največje število napak/skupno/uspešnih opravil"
 
 #: ../user/workunit.php:61
 msgid "errors"
-msgstr ""
+msgstr "napak"
 
 #: ../user/workunit.php:64
 msgid "validation"
-msgstr ""
+msgstr "potrjevanje"
 
 #: ../project.sample/project.inc:49
 msgid "Main page"
-msgstr ""
+msgstr "Glavna stran"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
-msgstr ""
+msgstr "Avtorske pravice"
 
 #: ../project.sample/project.inc:54
 msgid "Generated"
-msgstr ""
+msgstr "Ustvarjeno"
 
 #: ../project.sample/project.inc:85
 msgid "Your personal background."
-msgstr ""
+msgstr "Vaše osebno ozadje."
 
 #: ../project.sample/project.inc:89
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr ""
+"Povejte nam o vas. Poveste nam lahko iz kje ste, vašo starost, poklic, "
+"hobije ali karkoli drugega o vas."
 
 #: ../project.sample/project.inc:93
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Vaše mnenje o %1"
 
 #: ../project.sample/project.inc:97
 msgid ""
@@ -4221,28 +4220,35 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
+"Povejte nam vaše misli o %1<ol>\n"
+"    <li>Zakaj poganjate %1?\n"
+"    <li>Kakšni so vaši pogled na projekt?\n"
+"    <li>Vaši predlogi?\n"
+"    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "Barvna shema za grafiko"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "Maksimalno procesorja %za grafiko%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Poganjaj le izbrane aplikacije"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
 msgstr ""
+"Če ni na voljo dela za izbrane aplikacije, sprejemate delo od drugih "
+"aplikacij?"
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(vse aplikacije)"
 
 #, fuzzy
 #~ msgid "preferences"
