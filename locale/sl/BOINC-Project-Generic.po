@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-12 03:43-0700\n"
+"PO-Revision-Date: 2010-08-12 04:52-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -3842,35 +3842,37 @@ msgstr "%1 je bil odstranjen"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Odstrani člane iz %1"
 
 #: ../user/team_remove_inactive_form.php:37
 msgid "Remove?"
-msgstr ""
+msgstr "Odstraniti?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
-msgstr ""
+msgstr "Ime (ID)"
 
 #: ../user/team_remove_inactive_form.php:63
 msgid "No members are eligible for removal."
-msgstr ""
+msgstr "Ni članov, ki bi bili primerni za odstranitev."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
-msgstr ""
+msgstr "Odstrani uporabnike"
 
 #: ../user/team_search.php:65
 msgid "Team name"
-msgstr ""
+msgstr "Ime ekipe"
 
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
 msgstr ""
+"Ni bilo najdenih ekip, ki bi ustrezale vašim pogojem. Poskusite iskati "
+"znova."
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "Lahko pa %1ustvarite novo ekipo%2."
 
 #: ../user/team_search.php:133
 msgid ""
@@ -3878,33 +3880,39 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
+"Sledeče ekipe ustrezajo enemu ali večim vašim iskalnim pogojem.\n"
+"            Da se pridružite ekipi, kliknite nanjeno ime, da greste na stran "
+"ekipe,\n"
+"               nato kliknite %1Pridruži se tej ekipi%2."
 
 #: ../user/team_search.php:140
 msgid "Change your search"
-msgstr ""
+msgstr "Spremenite vaše iskanje"
 
 #: ../user/team_search.php:152
-#, fuzzy
 msgid "Team search results"
-msgstr "Rezultati iskanja po forumu"
+msgstr "Rezultati iskanja ekip"
 
 #: ../user/team_search.php:156
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr ""
+"Lahko se združite v ekipo z ljudmi s podobnimi interesi, iz iste države, "
+"podjetja ali šole."
 
 #: ../user/team_search.php:158
 msgid "Use this form to find teams that might be right for you."
 msgstr ""
+"Uporabte ta obrazec, da najdete ekipe, ki bi lahko bile pravšnje za vas."
 
 #: ../user/team_search.php:163
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr ""
+msgstr "Trenutno %1me ne zanima%2 pridružitev k ekipi."
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr ""
+msgstr "Omejitev presežena - Oprostite, samo prvih %1 elementov"
 
 #: ../user/top_hosts.php:80
 msgid "Top hosts"
@@ -3916,7 +3924,7 @@ msgstr "Najboljših %1 ekip"
 
 #: ../user/top_teams.php:106
 msgid "There are no %1 teams"
-msgstr ""
+msgstr "Ni %1 ekip"
 
 #: ../user/top_users.php:62
 msgid "Participant since"
@@ -3924,11 +3932,11 @@ msgstr "Udeleženec od"
 
 #: ../user/uotd.php:27
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "Uporabnika dneva ni bil izbran."
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "Uporabnik dneva za %1: %2"
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Joined"
@@ -3960,7 +3968,7 @@ msgstr "Filtri"
 
 #: ../user/user_search.php:119
 msgid "Any"
-msgstr ""
+msgstr "Katerikoli"
 
 #: ../user/user_search.php:122
 msgid "With profile?"
@@ -3968,7 +3976,7 @@ msgstr "S profilom?"
 
 #: ../user/user_search.php:123 ../user/user_search.php:128
 msgid "Either"
-msgstr ""
+msgstr "Bodisi"
 
 #: ../user/user_search.php:127
 msgid "On a team?"
@@ -3988,7 +3996,7 @@ msgstr "Nobeden uporabnik ne ustreza vašim kriterijem iskanja."
 
 #: ../user/user_search.php:186
 msgid "missing search type"
-msgstr ""
+msgstr "manjka tip iskanja"
 
 #: ../user/user_search.php:224
 msgid "User search results"
@@ -3996,65 +4004,67 @@ msgstr "Rezultati iskanja uporabnikov"
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "Uporabnik ni bil najden!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "Podatki računa<br/>za %1<br/>Čas:"
 
 #: ../user/userw.php:46
-#, fuzzy
 msgid "Team:"
-msgstr "Ekipa"
+msgstr "Ekipa:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
-msgstr ""
+msgstr "Skupno točk ekipe:"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "Povprečno točk ekipe:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr ""
+msgstr "Ekipa: ni je"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "Potrdite BOINC naslov elektronske pošte"
 
 #: ../user/validate_email_addr.php:31
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
 msgstr ""
+"Prosim, obiščite sledečo povezavo, da potrdite elektronsko pošto vašega %1 "
+"računa:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "Poslana potrditvena elektronska pošta"
 
 #: ../user/validate_email_addr.php:35
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
 msgstr ""
+"Elektronska pošta je bila poslanana na %1. Obiščite vsebovano povezavo, da "
+"potrdite vaš naslov elektronske pošte."
 
 #: ../user/validate_email_addr.php:44
-#, fuzzy
 msgid "No such user."
-msgstr "Uporabnik ne obstaja"
+msgstr "Uporabnik ne obstaja."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
-msgstr ""
+msgstr "Napaka v URL podatkih - potrditev naslova elektronske pošte ni mogoča"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
-msgstr ""
+msgstr "Posodobitev podatkovne baze ni uspela - prosim, poskusite kasneje."
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "Potrdite naslov elektronske pošte"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
