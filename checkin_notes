@@ -6026,3 +6026,9 @@ Charlie 12 Aug 2010
     
     clientgui/
         DlgEventLog.cpp
+
+Rom    12 Aug 2010
+    - lib: Prevent category information from being lost in notices.
+    
+    lib/
+        notice.cpp
