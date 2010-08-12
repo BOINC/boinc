@@ -5999,3 +5999,11 @@ David  11 Aug 2010
         http_curl.cpp
     lib/
         filesys.cpp,h
+
+Charlie 11 Aug 2010
+    - MGR: revert Rom's change #22191; calling Fit() after a text change 
+        redraws the dialog at its minimum size, making it impossible to 
+        resize the dialog.
+        
+    clientgui/
+        DlgEventLog.cpp

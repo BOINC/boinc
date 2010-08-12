@@ -796,9 +796,15 @@ void CDlgEventLog::UpdateButtons() {
             }
         }
     }
+    // To ensure that the button is large enough to fit the longer label,  
+    // don't change the button text (possibly to the shorter label) until   
+    // after the button has been drawn (disabled) with the longer text,  
+    // and don't enable the button until it has the correct label. 
+    if (m_pFilterButton->IsEnabled() != enableFilterButton) { 
+        SetFilterButtonText(); 
+    }
     m_pFilterButton->Enable(enableFilterButton);
     m_pCopySelectedButton->Enable(enableCopySelectedButon);
-    Fit();
 }
 
 
