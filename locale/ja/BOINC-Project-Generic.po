@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-06 23:20+0900\n"
+"PO-Revision-Date: 2010-08-12 22:46+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -316,7 +316,6 @@ msgid "Tasks"
 msgstr "タスク"
 
 #: ../inc/host.inc:179
-#, fuzzy
 msgid "Number of times BOINC has contacted server"
 msgstr "クライアントがサーバに接続した回数"
 
@@ -325,7 +324,7 @@ msgid "Last time contacted server"
 msgstr "最後にサーバに接続した日時"
 
 #: ../inc/host.inc:181
-#, fuzzy, php-format
+#, php-format
 msgid "% of time BOINC is running"
 msgstr "BOINC クライアントが走行している時間の割合(%)"
 
@@ -1112,7 +1111,7 @@ msgstr "検証で異常発生"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "中途放棄された"
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1123,7 +1122,6 @@ msgid "Success"
 msgstr "成功"
 
 #: ../inc/result.inc:172
-#, fuzzy
 msgid "Computation error"
 msgstr "計算中に異常発生"
 
@@ -2573,9 +2571,8 @@ msgstr "あなたのアカウント"
 # #######################################
 # Apps page (apps.php)
 #: ../user/host_app_versions.php:52
-#, fuzzy
 msgid "Application details for host %1"
-msgstr "アプリケーションの詳細"
+msgstr "計算機 %1 のアプリケーション詳細"
 
 #: ../user/hosts_user.php:51
 msgid "Computers belonging to %1"
@@ -2934,17 +2931,14 @@ msgstr ""
 "い。"
 
 #: ../user/prefs.php:36
-#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
-"あなたのプレファレンス(好みの設定)は更新されました。　クライアントに関係する"
-"プレファレンスの変更\n"
-"\t      が効果を発揮するタイミングは、あなたのコンピュータが %1 と\n"
-"\t      通信したとき、または、あなたが %2更新%3 の指令を BOINC クライアントか"
-"ら出したときです。"
+"あなたのプレファレンス(好みの設定)は更新されました。この更新が効果を発揮\n"
+"\t      するタイミングは、あなたのコンピュータが %1 と通信をしたとき、\n"
+"\t      または、あなたが %2更新%3 の指令を BOINC Managerから出したときです。"
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"

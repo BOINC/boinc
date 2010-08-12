@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-05-16 07:59-0700\n"
+"PO-Revision-Date: 2010-08-12 12:01-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
-"100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -112,18 +112,16 @@ msgid "Account manager website"
 msgstr "Abonento valdiklio tinklapis"
 
 #: clientgui/AccountInfoPage.cpp:557
-#, fuzzy
 msgid "Add project"
-msgstr "Visi projektai"
+msgstr "Prisijungti prie projekto"
 
 #: clientgui/AccountInfoPage.cpp:559
 msgid "Update account manager"
 msgstr "Susisiekti su abonemento valdikliu"
 
 #: clientgui/AccountInfoPage.cpp:561
-#, fuzzy
 msgid "Add account manager"
-msgstr "Vartotojo abonento valdymas"
+msgstr "Prisijungti prie abonemento valdiklio"
 
 #: clientgui/AccountInfoPage.cpp:568
 #, c-format
@@ -267,7 +265,6 @@ msgid "Display the simple graphical interface."
 msgstr "Rodyti supaprastintą vartotojo sąsają."
 
 #: clientgui/AdvancedFrame.cpp:390
-#, fuzzy
 msgid "&Add project or account manager..."
 msgstr "&Prisijungti prie projekto ar abonemento valdiklio..."
 
@@ -286,14 +283,12 @@ msgid "Get current settings from %s"
 msgstr "Gauti naujausius nustatymus iš %s"
 
 #: clientgui/AdvancedFrame.cpp:409
-#, fuzzy
 msgid "&Add project..."
 msgstr "&Prisijungti prie projekto..."
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "Add a project"
-msgstr "Visi projektai"
+msgstr "Prisijungti prie projekto"
 
 #: clientgui/AdvancedFrame.cpp:413
 #, c-format
@@ -333,7 +328,6 @@ msgid "Run based on &preferences"
 msgstr "Veikti pagal nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:444
-#, fuzzy
 msgid "Allow work according to preferences"
 msgstr "Leisti veikti pagal nustatymus"
 
@@ -423,18 +417,16 @@ msgid "Do network communication"
 msgstr "Atlikti susijungimus tinkle"
 
 #: clientgui/AdvancedFrame.cpp:551
-#, fuzzy
 msgid "Do all pending network communication"
-msgstr "Atlikti visus laukiančius susijungimus tinkle."
+msgstr "Atlikti visus laukiančius susijungimus tinkle"
 
 #: clientgui/AdvancedFrame.cpp:555
 msgid "Read config file"
 msgstr "Nuskaityti nustatymų bylą"
 
 #: clientgui/AdvancedFrame.cpp:556
-#, fuzzy
 msgid "Read configuration info from cc_config.xml"
-msgstr "Nuskaityti nustatymus iš cc_config.xml."
+msgstr "Nuskaityti nustatymus iš cc_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:560
 msgid "Read local prefs file"
@@ -516,9 +508,8 @@ msgid "&Help"
 msgstr "&Pagalba"
 
 #: clientgui/AdvancedFrame.cpp:1034
-#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr "&Prisijungti prie projekto ar abonemento valdiklio..."
+msgstr "Prisijungiama prie projekto ar abonemento valdiklio..."
 
 #: clientgui/AdvancedFrame.cpp:1128
 #, c-format
@@ -526,7 +517,7 @@ msgid "%s - Detach from %s"
 msgstr "%s - atsijungti nuo %s"
 
 #: clientgui/AdvancedFrame.cpp:1133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If you detach from %s,\n"
 "you'll keep all your current projects,\n"
@@ -555,23 +546,22 @@ msgstr ""
 "įsigaliotų kalbos pakeitimas."
 
 #: clientgui/AdvancedFrame.cpp:1489
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - išjungti prisijungusį klientą..."
 
 #: clientgui/AdvancedFrame.cpp:1498
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr ""
 "%s išjungs šiuo metu prisijungusį klientą\n"
-"ir pasiūlys prisijungti prie kito kompiuterio.\n"
+"ir pasiūlys prisijungti prie kito kompiuterio."
 
 #: clientgui/AdvancedFrame.cpp:1545
-#, fuzzy
 msgid "Retrying communications."
-msgstr "Kartoti susijungimą"
+msgstr "Kartojamas susijungimas"
 
 #: clientgui/AdvancedFrame.cpp:1769
 #, c-format
@@ -642,7 +632,7 @@ msgid "&Quit %s"
 msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1239
-#, fuzzy, c-format
+#, c-format
 msgid "E&xit %s"
 msgstr "Išeiti iš %s"
 
@@ -899,34 +889,28 @@ msgid "Snooze GPU"
 msgstr ""
 
 #: clientgui/BOINCTaskBar.cpp:677
-#, fuzzy
 msgid "Computing is enabled"
 msgstr "Skaičiavimai leidžiami"
 
 #: clientgui/BOINCTaskBar.cpp:680
-#, fuzzy
 msgid "Computing is suspended - "
-msgstr "Skaičiavimai sustabdyti."
+msgstr "Skaičiavimai sustabdyti - "
 
 #: clientgui/BOINCTaskBar.cpp:690
-#, fuzzy
 msgid "GPU computing is enabled"
-msgstr "Skaičiavimai leidžiami"
+msgstr "Skaičiavimai vaizdo procesoriumi leidžiami"
 
 #: clientgui/BOINCTaskBar.cpp:693
-#, fuzzy
 msgid "GPU computing is suspended - "
-msgstr "Skaičiavimai sustabdyti."
+msgstr "Skaičiavimai vaizdo procesoriumi sustabdyti - "
 
 #: clientgui/BOINCTaskBar.cpp:702
-#, fuzzy
 msgid "Network is enabled"
-msgstr "tinklo naudojimas"
+msgstr "Tinklo naudojimas leidžiamas"
 
 #: clientgui/BOINCTaskBar.cpp:705
-#, fuzzy
 msgid "Network is suspended - "
-msgstr "Veiksmai tinkle sustabdyti"
+msgstr "Tinklo naudojimas sustabdytas - "
 
 #: clientgui/BOINCTaskBar.cpp:713
 msgid "Reconnecting to client."
@@ -982,9 +966,8 @@ msgid "Messages from server:"
 msgstr "Pranešimai iš serverio:"
 
 #: clientgui/CompletionPage.cpp:207
-#, fuzzy
 msgid "Project added"
-msgstr "Projektas"
+msgstr "Prisijungta prie projekto"
 
 #: clientgui/CompletionPage.cpp:213
 msgid "This project has been successfully added."
@@ -1043,12 +1026,11 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2009 University of California, Berkeley.\n"
+"(C) 2003-2010 University of California, Berkeley.\n"
 "Visos teisės saugomos."
 
 #: clientgui/DlgAbout.cpp:179 clientgui/DlgAbout.cpp:183
@@ -1152,7 +1134,6 @@ msgid "Computing allowed"
 msgstr "Skaičiavimai leidžiami"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:135
-#, fuzzy
 msgid "While computer is on batteries"
 msgstr "Kai kompiuteris veikia iš baterijų"
 
@@ -1164,7 +1145,6 @@ msgstr ""
 "baterijų"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:144
-#, fuzzy
 msgid "While computer is in use"
 msgstr "Kai kompiuteris naudojamas"
 
@@ -1174,9 +1154,8 @@ msgid ""
 msgstr "pažymėkite, jei norite vykdyti skaičiavimus kai naudojatės kompiuteriu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:153
-#, fuzzy
 msgid "Use GPU while computer is in use"
-msgstr "Naudoti grafikos plokštę kai kompiuteris naudojamas"
+msgstr "Naudoti vaizdo procesorių kai kompiuteris naudojamas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:156
 msgid ""
@@ -1203,9 +1182,8 @@ msgid "minutes"
 msgstr "minutes"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:202
-#, fuzzy
 msgid "While processor usage is less than"
-msgstr "procesoriaus naudojimas"
+msgstr "Kai procesoriaus naudojimas mažesnis nei"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:212
 msgid "suspend work if processor usage exceeds this level"
@@ -1288,7 +1266,6 @@ msgid "Other options"
 msgstr "Kiti pasirinkimai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:326
-#, fuzzy
 msgid "Switch between applications every"
 msgstr "Keisti programas kas"
 
@@ -1333,18 +1310,16 @@ msgid "Maximum upload rate"
 msgstr "Didžiausia išsiuntimo sparta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:400
-#, fuzzy
 msgid "Transfer at most"
-msgstr "Naudoti daugiausiai"
+msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:406
 msgid "Mbytes"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:409
-#, fuzzy
 msgid "every"
-msgstr "Serveris:"
+msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:415
 #: clientgui/DlgAdvPreferencesBase.cpp:429
@@ -1370,7 +1345,6 @@ msgid "days (max. 10)"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:441
-#, fuzzy
 msgid "Skip image file verification"
 msgstr "Praleisti bylų tikrinimą"
 
@@ -1549,9 +1523,8 @@ msgid "Show all messages"
 msgstr "Rodyti visus pranešimus"
 
 #: clientgui/DlgEventLog.cpp:404 clientgui/DlgEventLog.cpp:406
-#, fuzzy
 msgid "Show messages for all projects"
-msgstr "Rodyti kito projekto diagramą"
+msgstr "Rodyti visų projektų žinutes"
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
@@ -1598,7 +1571,6 @@ msgid "Don't show this dialog again."
 msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:66
-#, fuzzy
 msgid "&Close"
 msgstr "Uždaryti"
 
@@ -1673,7 +1645,6 @@ msgid "Scheduler call in progress"
 msgstr "Jungiamasi prie projekto serverio"
 
 #: clientgui/DlgItemProperties.cpp:220
-#, fuzzy
 msgid "Added via account manager"
 msgstr "Prisijungta naudojant abonemento valdiklį"
 
@@ -1703,14 +1674,12 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:242 clientgui/DlgItemProperties.cpp:252
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Project preference"
-msgstr "Jūsų nustatymai"
+msgstr "Projekto nustatymai"
 
 #: clientgui/DlgItemProperties.cpp:242
-#, fuzzy
 msgid "Don't fetch CPU tasks"
-msgstr "Negaus naujo darbo"
+msgstr "Negauti užduočių procesoriui"
 
 #: clientgui/DlgItemProperties.cpp:244
 msgid "CPU scheduling priority"
@@ -1729,9 +1698,8 @@ msgid "CPU work fetch deferral interval"
 msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:252
-#, fuzzy
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr "Negaus naujo darbo"
+msgstr "Negauti užduočių NVIDIA vaizdo procesoriui"
 
 #: clientgui/DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1750,9 +1718,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:263
-#, fuzzy
 msgid "Don't fetch ATI GPU tasks"
-msgstr "Negaus naujo darbo"
+msgstr "Negauti užduočių ATI vaizdo procesoriui"
 
 #: clientgui/DlgItemProperties.cpp:265
 msgid "ATI GPU scheduling priority"
@@ -2166,38 +2133,32 @@ msgid "Retrieving host information; please wait..."
 msgstr "Gaunama kompiuterio informacija; prašome palaukti..."
 
 #: clientgui/MainDocument.cpp:2350
-#, fuzzy
 msgid "on batteries"
-msgstr " - veikia iš baterijų"
+msgstr "veikia iš baterijų"
 
 #: clientgui/MainDocument.cpp:2351
-#, fuzzy
 msgid "computer is in use"
-msgstr "Kai kompiuteris naudojamas"
+msgstr "kompiuteris naudojamas"
 
 #: clientgui/MainDocument.cpp:2352
 msgid "user request"
 msgstr ""
 
 #: clientgui/MainDocument.cpp:2353
-#, fuzzy
 msgid "time of day"
-msgstr " - dienos laikas"
+msgstr "paros metas"
 
 #: clientgui/MainDocument.cpp:2354
-#, fuzzy
 msgid "CPU benchmarks in progress"
-msgstr " - matuojamas greitis"
+msgstr "Matuojamas procesoriaus greitis"
 
 #: clientgui/MainDocument.cpp:2355
-#, fuzzy
 msgid "need disk space - check preferences"
-msgstr "laisva disko vieta - "
+msgstr "reikalinga vieta diske - patikrinkite nustatymus"
 
 #: clientgui/MainDocument.cpp:2356
-#, fuzzy
 msgid "computer is not in use"
-msgstr "Kai kompiuteris naudojamas"
+msgstr "kompiuteris nėra naudojamas"
 
 #: clientgui/MainDocument.cpp:2357
 msgid "starting up"
@@ -2236,9 +2197,8 @@ msgid "Downloading"
 msgstr "Parsiunčiama"
 
 #: clientgui/MainDocument.cpp:2392 clientgui/MainDocument.cpp:2450
-#, fuzzy
 msgid " (suspended - "
-msgstr "Sustabdyta"
+msgstr " (sustabdyta - "
 
 #: clientgui/MainDocument.cpp:2394 clientgui/MainDocument.cpp:2452
 msgid ")"
@@ -2253,9 +2213,8 @@ msgid "Task suspended by user"
 msgstr "Sustabdė vartotojas"
 
 #: clientgui/MainDocument.cpp:2404
-#, fuzzy
 msgid "Suspended - "
-msgstr "Sustabdyta"
+msgstr "Sustabdyta - "
 
 #: clientgui/MainDocument.cpp:2411
 msgid "Waiting for memory"
@@ -2286,9 +2245,8 @@ msgid "Ready to start"
 msgstr "Paruoštas vykdymui"
 
 #: clientgui/MainDocument.cpp:2438
-#, fuzzy
 msgid " (waiting for GPU memory)"
-msgstr "Laukiama atminties"
+msgstr " (laukiama vaizdo procesoriaus atminties)"
 
 #: clientgui/MainDocument.cpp:2442
 msgid "Computation error"
@@ -2412,11 +2370,10 @@ msgid "Choose a project"
 msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:260
-#, fuzzy
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
-"Kad pasirinktumėte abonento valdiklį, spragtelėkite jo vardą\n"
-"arba įveskite jo internetinį adresą žemiau."
+"Kad pasirinktumėte projektą, spragtelėkite jo vardą arba žemiau įveskite jo "
+"tinklapio adresą."
 
 #: clientgui/ProjectInfoPage.cpp:263
 msgid "Project &URL:"
@@ -2434,9 +2391,8 @@ msgid ""
 msgstr ""
 
 #: clientgui/ProjectListCtrl.cpp:67
-#, fuzzy
 msgid "Project List"
-msgstr "Projektai"
+msgstr "Projektų sąrašas"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "Multicore CPU Supported"
@@ -2455,9 +2411,8 @@ msgid "Project Website"
 msgstr ""
 
 #: clientgui/ProjectProcessingPage.cpp:321
-#, fuzzy
 msgid "Communicating with project."
-msgstr "Jungiamasi prie serverio."
+msgstr ""
 
 #: clientgui/ProjectProcessingPage.cpp:498
 msgid "Required files not found on the server."
@@ -2465,9 +2420,8 @@ msgstr ""
 
 #: clientgui/ProjectProcessingPage.cpp:501
 #: clientgui/ProjectProcessingPage.cpp:563
-#, fuzzy
 msgid "An internal server error has occurred."
-msgstr "Vidinė serverio klaida.\n"
+msgstr "Vidinė serverio klaida."
 
 #: clientgui/ProjectPropertiesPage.cpp:334
 msgid ""
@@ -2482,7 +2436,6 @@ msgid "Network communication failure"
 msgstr "Tinklo klaida"
 
 #: clientgui/ProxyInfoPage.cpp:199
-#, fuzzy
 msgid ""
 "The World Community Grid - BOINC software failed to communicate\n"
 "over the Internet. The most likely reasons are:\n"
@@ -2498,20 +2451,8 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
-"BOINC negali prisijungti prie interneto. Dažniausios priežastys\n"
-"yra šios:\n"
-"\n"
-"1) tinklo problemos. Prašome patiktinti ar tinklo ar modemo ryšius\n"
-"ir spausti mygtyką atgal, kad pakartotumėte ankstesnę operacija.\n"
-"\n"
-"2) asmeninė tinklo ugniasienė blokuoja BOINC. Jūs turite nustatyti\n"
-"savo ugniasienę taip, kad BOINC programa galėtu pasinaudoti 80\n"
-"jungtimi. Kai tai bus padaryta, spauskite Atgal ir bandykite vėl.\n"
-"\n"
-"3) Jūs naudojate proxy serverį ir BOINC reikia duomenų apie jį."
 
 #: clientgui/ProxyInfoPage.cpp:203
-#, fuzzy
 msgid ""
 "BOINC failed to communicate on the Internet.\n"
 "The most likely reasons are:\n"
@@ -2530,14 +2471,15 @@ msgstr ""
 "BOINC negali prisijungti prie interneto. Dažniausios priežastys\n"
 "yra šios:\n"
 "\n"
-"1) tinklo problemos. Prašome patiktinti ar tinklo ar modemo ryšius\n"
-"ir spausti mygtyką atgal, kad pakartotumėte ankstesnę operacija.\n"
+"1) Tinklo problemos. Patikrinkite tinklo ryšius ir spauskite\n"
+"\"Atgal\", kad pabandytumėte jungtis dar kartą.\n"
 "\n"
-"2) asmeninė tinklo ugniasienė blokuoja BOINC. Jūs turite nustatyti\n"
-"savo ugniasienę taip, kad BOINC programa galėtu pasinaudoti 80\n"
-"jungtimi. Kai tai bus padaryta, spauskite Atgal ir bandykite vėl.\n"
+"2) Tinklo ugniasienė blokuoja BOINC. Nustatykite ugniasienę taip,\n"
+"BOINC ir BOINC Manager galėtų naudotis 80 jungtimi ir spauskite\n"
+"\"Atgal\", kad pabandytumėte jungtis dar kartą.\n"
 "\n"
-"3) Jūs naudojate proxy serverį ir BOINC reikia duomenų apie jį."
+"3) Jūs naudojate tarpinį serverį. Spauskite \"Pirmyn\", kad\n"
+"nustatytumėte BOINC tarpinio serverio nustatymus."
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"

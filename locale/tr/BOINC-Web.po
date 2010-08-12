@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Web Site\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-06-06 13:04+0200\n"
+"PO-Revision-Date: 2010-08-12 19:09+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -21,22 +21,12 @@ msgid "The current release is known to work with these Linux versions:"
 msgstr "Mevcut sürümün bu Linux sürümleriyle çalıştığı biliniyor:"
 
 #: versions.inc:14
-msgid ""
-"For other Linux versions, check if a BOINC package is offered by your Linux "
-"distribution."
-msgstr ""
-"Diğer Linux sürümleri için, Linux dağıtımınız tarafından BOINC paketi "
-"sağlanıp sağlanmadığını kontrol edin."
+msgid "For other Linux versions, check if a BOINC package is offered by your Linux distribution."
+msgstr "Diğer Linux sürümleri için, Linux dağıtımınız tarafından BOINC paketi sağlanıp sağlanmadığını kontrol edin."
 
 #: versions.inc:25
-msgid ""
-"Alternatively, download the %1BOINC client for older Linux versions%2. This "
-"doesn't have a graphical interface, but it should work on all Linux systems, "
-"both x86 and x64."
-msgstr ""
-"Alternatif olarak, %1eski Linux versiyonları için BOINC istemcisi%2ni "
-"indirebilirsiniz. Bu istemci grafiksel arayüze sahip değildir, fakat, x86 ve "
-"x64 tüm Linux sistemlerinde çalışması gerekir."
+msgid "Alternatively, download the %1BOINC client for older Linux versions%2. This doesn't have a graphical interface, but it should work on all Linux systems, both x86 and x64."
+msgstr "Alternatif olarak, %1eski Linux versiyonları için BOINC istemcisi%2ni indirebilirsiniz. Bu istemci grafiksel arayüze sahip değildir, fakat, x86 ve x64 tüm Linux sistemlerinde çalışması gerekir."
 
 #: docutil.php:21
 msgid "Search"
@@ -61,33 +51,17 @@ msgid "%s for %s (%s MB)"
 msgstr "%s sürümü, %s için (%s MB)"
 
 #: download.php:89
-msgid ""
-"BOINC is a program that lets you donate your idle computer time to science "
-"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
-"Community Grid, and many others. <p> After installing BOINC on your "
-"computer, you can connect it to as many of these projects as you like."
-msgstr ""
-"BOINC, bilgisayarınızın boş zamanını, SETI@home, Climateprediction.net, "
-"Rosetta@home, World Community Grid ve çok daha fazlası gibi bilimsel "
-"projelere bağışlamanızı sağlar. <p> BOINC'i bilgisayarınıza kurduktan sonra, "
-"bunlar gibi istediğiniz pek çok projeye katılabilirsiniz."
+msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
+msgstr "BOINC, bilgisayarınızın boş zamanını, SETI@home, Climateprediction.net, Rosetta@home, World Community Grid ve çok daha fazlası gibi bilimsel projelere bağışlamanızı sağlar. <p> BOINC'i bilgisayarınıza kurduktan sonra, bunlar gibi istediğiniz pek çok projeye katılabilirsiniz."
 
 #: download.php:91
-msgid ""
-"You may run this software on a computer only if you own the computer or have "
-"the permission of its owner."
-msgstr ""
-"Bu yazılımı, yalnızca kendi bilgisayarınızda ya da sahibinin izin verdiği "
-"bilgisayarlarda çalıştırabilirsiniz."
+msgid "You may run this software on a computer only if you own the computer or have the permission of its owner."
+msgstr "Bu yazılımı, yalnızca kendi bilgisayarınızda ya da sahibinin izin verdiği bilgisayarlarda çalıştırabilirsiniz."
 
 #: download.php:116
 #, php-format
-msgid ""
-"Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
-"you may be able to %suse it to compute faster%s"
-msgstr ""
-"Not: Eğer bilgisayarınız bir ekran kartına (Graphics Processing Unit-GPU) "
-"sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da kullanabilirsiniz%s"
+msgid "Note: if your computer is equipped with an Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"
+msgstr "Not: Eğer bilgisayarınız bir ekran kartına (Graphics Processing Unit-GPU) sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da kullanabilirsiniz%s"
 
 #: download.php:122
 msgid "System requirements"
@@ -97,7 +71,8 @@ msgstr "Sistem gereksinimleri"
 msgid "Release notes"
 msgstr "Sürüm notları"
 
-#: download.php:124 index.php:82
+#: download.php:124
+#: index.php:82
 msgid "Help"
 msgstr "Yardım"
 
@@ -115,45 +90,20 @@ msgstr "BOINC: bilim için hesapla"
 
 #: help.php:12
 #, php-format
-msgid ""
-"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
-"can: %s answer questions about BOINC and volunteer computing; %s walk you "
-"through the process of installing and using BOINC; %s troubleshoot any "
-"problems you might have."
-msgstr ""
-"BOINC Online Yardım, uzman BOINC kullanıcılarıyla bire bir konuşmanızı "
-"sağlar. Bu kişiler, %s BOINC ve gönüllü hesaplama hakkındaki sorular; %s "
-"kurulum sırasındaki işlemler ile adımlar; %s karşılaştığınız sorunların "
-"çözümleri konularında yardımcı olabilirler."
+msgid "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."
+msgstr "BOINC Online Yardım, uzman BOINC kullanıcılarıyla bire bir konuşmanızı sağlar. Bu kişiler, %s BOINC ve gönüllü hesaplama hakkındaki sorular; %s kurulum sırasındaki işlemler ile adımlar; %s karşılaştığınız sorunların çözümleri konularında yardımcı olabilirler."
 
 #: help.php:21
 #, php-format
-msgid ""
-"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
-"Skype is free (both the software and the calls).  If you don't already have "
-"Skype, please %sdownload and install it now%s.  When you're finished, return "
-"to this page."
-msgstr ""
-"BOINC Online Yardım, %sSkype%s tabanlı bir İnternet telefonu sistemidir. "
-"Skype bedavadır (yazılım ve görüşmeler). Eğer Skype'a sahip değilseniz, "
-"lütfen şimdi %sindirip kurun%s.  Tamamladığınızda, bu sayfaya geri dönün."
+msgid "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."
+msgstr "BOINC Online Yardım, %sSkype%s tabanlı bir İnternet telefonu sistemidir. Skype bedavadır (yazılım ve görüşmeler). Eğer Skype'a sahip değilseniz, lütfen şimdi %sindirip kurun%s.  Tamamladığınızda, bu sayfaya geri dönün."
 
 #: help.php:28
-msgid ""
-"The best way to get help is by voice, for which you need either built-in "
-"microphone and speakers or an external headset for your computer.  You can "
-"also use Skype's text-based chat system or regular email (if you don't have "
-"Skype) to communicate with Help Volunteers."
-msgstr ""
-"Sesle yardım almak için en iyi yol, bigilsayarınızın dahili mikrofon ve "
-"hoparlörünü ya da harici bir kulaklık setini kullanmaktır. Ayrıca "
-"gönüllülerle iletişim kurmak için Skype'ın yazı-tabanlı sohbet sistemini ya "
-"da normal e-postayı (eğer Skype'a sahip değilseniz) da kullanabilirsiniz."
+msgid "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
+msgstr "Sesle yardım almak için en iyi yol, bigilsayarınızın dahili mikrofon ve hoparlörünü ya da harici bir kulaklık setini kullanmaktır. Ayrıca gönüllülerle iletişim kurmak için Skype'ın yazı-tabanlı sohbet sistemini ya da normal e-postayı (eğer Skype'a sahip değilseniz) da kullanabilirsiniz."
 
 #: help.php:31
-msgid ""
-"Volunteers speaking several languages are available. Please select a "
-"language:"
+msgid "Volunteers speaking several languages are available. Please select a language:"
 msgstr "Çeşitli dillerde konuşan gönüllüler mevcuttur. Lütfen bir dil seçin:"
 
 #: help.php:47
@@ -162,32 +112,21 @@ msgstr "Bir Yardım Gönüllüsü olun"
 
 #: help.php:50
 #, php-format
-msgid ""
-"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
-"Volunteer%s.  It's a great way to help the cause of scientific research and "
-"volunteer computing - and it's fun!"
-msgstr ""
-"Eğer uzman bir BOINC kullanıcısıysanız, sizi bir %sYardım Gönüllüsü%s olmak "
-"için cesaretlendirebiliriz. Bu, bilimsel araştırmaları ve gönüllü "
-"hesaplamacılığı desteklemenin harika bir yoludur - üstelik eğlencelidir!"
+msgid "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s.  It's a great way to help the cause of scientific research and volunteer computing - and it's fun!"
+msgstr "Eğer uzman bir BOINC kullanıcısıysanız, sizi bir %sYardım Gönüllüsü%s olmak için cesaretlendirebiliriz. Bu, bilimsel araştırmaları ve gönüllü hesaplamacılığı desteklemenin harika bir yoludur - üstelik eğlencelidir!"
 
 #: help.php:56
 #, php-format
-msgid ""
-"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr ""
-"Zaten bir Yardım Günllüsüyseniz: Ayarlarınızı düzenlemek için, %sburaya "
-"tıklayın%s."
+msgid "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgstr "Zaten bir Yardım Günllüsüyseniz: Ayarlarınızı düzenlemek için, %sburaya tıklayın%s."
 
 #: help_funcs.php:107
-msgid ""
-"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
-"or the University of California."
-msgstr ""
+msgid "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC or the University of California."
+msgstr "BOINC yardımcıları ücretsiz çalışan gönüllülerdir.  Yaptıkları tavsiyeler, BOINC ya da California Üniversitesi'ni bağlamaz."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr ""
+msgstr "%1Asla%2 e-posta ya da parola bilginizi BOINC yardımcılarına vermeyin."
 
 #: index.php:23
 msgid "Computing power"
@@ -233,33 +172,21 @@ msgstr "Gönüllü olun"
 msgid "Download"
 msgstr "İndir"
 
-#: index.php:83 index.php:118 index.php:169
+#: index.php:83
+#: index.php:118
+#: index.php:169
 msgid "Documentation"
 msgstr "Belgeler"
 
 #: index.php:89
 #, php-format
-msgid ""
-" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
-"diseases, study global warming, discover pulsars, and do many other types of "
-"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
-"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
-msgstr ""
-" Bilgisayarınızın (Windows, Mac ya da Linux) boş zamanını, hastalıkları "
-"iyileştirmek, küresel ısınmayı araştırmak, elektromanyetik yıldızları "
-"keşfetmek ve çok daha farklı tipte bilimsel araştırmalar için kullanın.  Bu "
-"tehlikesiz, güvenilir ve basittir:  %sSeçin:%s Çeşitli projeler arasından "
-"beğendiğinizi seçin  %sİndirin:%s BOINC yazılımını sitemizden indirin ve "
-"çalıştırın  %sGirin:%s Bir e-posta adresi ve parola girin. "
+msgid " Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr " Bilgisayarınızın (Windows, Mac ya da Linux) boş zamanını, hastalıkları iyileştirmek, küresel ısınmayı araştırmak, elektromanyetik yıldızları keşfetmek ve çok daha farklı tipte bilimsel araştırmalar için kullanın.  Bu tehlikesiz, güvenilir ve basittir:  %sSeçin:%s Çeşitli projeler arasından beğendiğinizi seçin  %sİndirin:%s BOINC yazılımını sitemizden indirin ve çalıştırın  %sGirin:%s Bir e-posta adresi ve parola girin. "
 
 #: index.php:100
 #, php-format
-msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as %"
-"sGridRepublic%s or %sBAM!%s. "
-msgstr ""
-"Ya da çeşitli projeler çalıştırıyorsanız, bir %shesap yöneticisi%s deneyin. "
-"Örneğin %sGridRepublic%s ya da %sBAM!%s gibi. "
+msgid "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+msgstr "Ya da çeşitli projeler çalıştırıyorsanız, bir %shesap yöneticisi%s deneyin. Örneğin %sGridRepublic%s ya da %sBAM!%s gibi. "
 
 #: index.php:116
 msgid "Compute with BOINC"
@@ -270,20 +197,12 @@ msgid "Software updates"
 msgstr "Yazılım güncellemeleri"
 
 #: index.php:126
-msgid ""
-"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
-"you the computing power of thousands of CPUs."
-msgstr ""
-"%1Bilim insanları%2: BOINC'i bağışlanan binlerce CPU'nun gücünden "
-"yararlanmak için bir %3gönüllü hesaplama projesi%4 yaratmak için kullanın."
+msgid "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving you the computing power of thousands of CPUs."
+msgstr "%1Bilim insanları%2: BOINC'i bağışlanan binlerce CPU'nun gücünden yararlanmak için bir %3gönüllü hesaplama projesi%4 yaratmak için kullanın."
 
 #: index.php:130
-msgid ""
-"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
-"Center%4."
-msgstr ""
-"%1Üniversiteler%2: BOINC'i bir %3Sanal Yerleşke Süperbilgisayar Merkezi%4 "
-"yaratmak için kullanın."
+msgid "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing Center%4."
+msgstr "%1Üniversiteler%2: BOINC'i bir %3Sanal Yerleşke Süperbilgisayar Merkezi%4 yaratmak için kullanın."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
@@ -359,10 +278,8 @@ msgstr "Tarayıcı varsayılanı"
 
 #: index.php:258
 #, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr ""
-"Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s yazılımı."
+msgid "Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgstr "Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s yazılımı."
 
 #: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"

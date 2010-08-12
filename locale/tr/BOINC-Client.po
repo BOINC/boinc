@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-05 11:43-0700\n"
-"PO-Revision-Date: 2010-07-19 22:28+0200\n"
+"PO-Revision-Date: 2010-08-12 19:23+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 
-#: acct_mgr.cpp:373 acct_mgr.cpp:383
+#: acct_mgr.cpp:373
+#: acct_mgr.cpp:383
 msgid "error"
 msgstr "hata"
 
@@ -39,49 +40,43 @@ msgstr "HTTP_PROXY ortam değişkeni mutlaka bir HTTP vekil sunucusu belirtmeli"
 msgid "Message from project server:"
 msgstr "Proje sunucusundan mesaj:"
 
-#: cs_statefile.cpp:766 ../sched/sched_types.cpp:273
+#: cs_statefile.cpp:766
+#: ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
-msgstr ""
+msgstr "app_info.xml dosyasında sözdizimi hatası"
 
 #: gui_rpc_server.cpp:190
-#, fuzzy
 msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr "Alan adı çözümlenemedi:"
+msgstr "remote_hosts.cfg dosyasındaki alan adı çözümlenemedi"
 
-#: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
-#, fuzzy
+#: log_flags.cpp:68
+#: log_flags.cpp:318
+#: log_flags.cpp:443
 msgid "Unexpected text in cc_config.xml"
-msgstr "Beklenmedik metin:"
+msgstr "cc_config.xml dosyasında beklenmedik metin"
 
-#: log_flags.cpp:112 log_flags.cpp:415 log_flags.cpp:460
-#, fuzzy
+#: log_flags.cpp:112
+#: log_flags.cpp:415
+#: log_flags.cpp:460
 msgid "Unrecognized tag in cc_config.xml"
-msgstr "Tanınmayan etiket:"
+msgstr "cc_config.xml dosyasında tanınmayan etiket"
 
 #: log_flags.cpp:434
-#, fuzzy
 msgid "Missing start tag in cc_config.xml"
-msgstr "Başlangıç etiketi kayıp:"
+msgstr "cc_config.xml dosyasında başlangıç etiketi kayıp"
 
 #: log_flags.cpp:468
-#, fuzzy
 msgid "Missing end tag in cc_config.xml"
-msgstr "Bitiş etiketi kayıp:"
+msgstr "cc_config.xml dosyasında bitiş etiketi kayıp"
 
 #: ../sched/handle_request.cpp:299
-msgid ""
-"Invalid or missing account key.  To fix, detach and reattach to this project."
-msgstr ""
-"Hesap anahtarı geçersiz ya da mevcut değil.  Sorunu çözmek için, projeden "
-"ayrılıp, tekrar katılın."
+msgid "Invalid or missing account key.  To fix, detach and reattach to this project."
+msgstr "Hesap anahtarı geçersiz ya da mevcut değil.  Sorunu çözmek için, projeden ayrılıp, tekrar katılın."
 
-#: ../sched/handle_request.cpp:820 ../sched/handle_request.cpp:830
-msgid ""
-"You may have an outdated code signing key.  Try attaching and reattaching "
-"this project."
-msgstr ""
-"Tarihi geçmiş bir kod imza anahtarına sahip olabilirsiniz.   Projeden "
-"ayrılıp, tekrar katılmayı deneyin."
+#: ../sched/handle_request.cpp:820
+#: ../sched/handle_request.cpp:830
+msgid "You may have an outdated code signing key.  Try attaching and reattaching this project."
+msgstr "Tarihi geçmiş bir kod imza anahtarına sahip olabilirsiniz.   Projeden ayrılıp, tekrar katılmayı deneyin."
 
 #: ../sched/handle_request.cpp:914
 msgid "This project doesn't support operating system"
@@ -92,10 +87,8 @@ msgid "This project doesn't support CPU type"
 msgstr "Bu proje CPU tipinizi desteklemiyor"
 
 #: ../sched/handle_request.cpp:964
-#, fuzzy
-msgid ""
-"Your BOINC client software is too old.  Please install the current version."
-msgstr "Daha yeni bir BOINC sürümü gerekiyor; lütfen son sürümü kurun"
+msgid "Your BOINC client software is too old.  Please install the current version."
+msgstr "BOINC istemci yazılımınız çok eski.  Lütfen son sürümü kurun."
 
 #: ../sched/handle_request.cpp:1215
 msgid "This project doesn't support computers of type"
@@ -103,29 +96,19 @@ msgstr "Bu proje bilgisayarınızın tipini desteklemiyor"
 
 #: ../sched/sched_send.cpp:1250
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
-"İşleri bilgisayarınızın GPU'sunu kullanarak hesaplatmak için, sürücüleri son "
-"sürüme yükseltin"
+msgstr "İşleri bilgisayarınızın GPU'sunu kullanarak hesaplatmak için, sürücüleri son sürüme yükseltin"
 
 #: ../sched/sched_send.cpp:1257
-msgid ""
-"Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"Bu projenin tüm GPU uygulamalarını kullanabilmek için, sürücüleri son sürüme "
-"yükseltin"
+msgid "Upgrade to the latest driver to use all of this project's GPU applications"
+msgstr "Bu projenin tüm GPU uygulamalarını kullanabilmek için, sürücüleri son sürüme yükseltin"
 
 #: ../sched/sched_send.cpp:1281
-msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
-msgstr ""
-"NVIDIA GPU'nuzu kullanabilmek için BOINC'in daha yeni bir sürümüne "
-"ihtiyacınız var; lütfen mevcut sürümü yükseltin"
+msgid "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to the current version"
+msgstr "NVIDIA GPU'nuzu kullanabilmek için BOINC'in daha yeni bir sürümüne ihtiyacınız var; lütfen mevcut sürümü yükseltin"
 
 #: ../sched/sched_send.cpp:1294
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr ""
-"Bu projedeki işleri çalıştırabilmek için, bir NVIDIA ya da ATI GPU gerekiyor"
+msgstr "Bu projedeki işleri çalıştırabilmek için, bir NVIDIA ya da ATI GPU gerekiyor"
 
 #: ../sched/sched_send.cpp:1299
 msgid "An NVIDIA GPU is required to run tasks for this project"
@@ -136,12 +119,8 @@ msgid "An ATI GPU is required to run tasks for this project"
 msgstr "Bu projedeki işleri çalıştırabilmek için, bir ATI GPU gerekiyor"
 
 #: ../sched/sched_send.cpp:1400
-msgid ""
-"No work available for the applications you have selected.  Please check your "
-"project preferences on the web site."
-msgstr ""
-"Seçtiğiniz uygulamalar için iş mevcut değil.  Lütfen web sitesinde proje "
-"tercihlerinizi kontrol edin."
+msgid "No work available for the applications you have selected.  Please check your project preferences on the web site."
+msgstr "Seçtiğiniz uygulamalar için iş mevcut değil.  Lütfen web sitesinde proje tercihlerinizi kontrol edin."
 
 #: ../sched/sched_send.cpp:1426
 msgid "Your computer type is not supported by this project"
@@ -152,31 +131,20 @@ msgid "Newer BOINC version required; please install current version"
 msgstr "Daha yeni bir BOINC sürümü gerekiyor; lütfen son sürümü kurun"
 
 #: ../sched/sched_send.cpp:1442
-msgid ""
-"Tasks for NVIDIA GPU are available, but your preferences are set to not "
-"accept them"
-msgstr ""
-"NVIDIA GPU için işler mevcut, ancak, tercihleriniz bu işleri kabul edecek "
-"şekilde ayarlanmamış"
+msgid "Tasks for NVIDIA GPU are available, but your preferences are set to not accept them"
+msgstr "NVIDIA GPU için işler mevcut, ancak, tercihleriniz bu işleri kabul edecek şekilde ayarlanmamış"
 
 #: ../sched/sched_send.cpp:1448
-msgid ""
-"Tasks for ATI GPU are available, but your preferences are set to not accept "
-"them"
-msgstr ""
-"ATI GPU için işler mevcut, ancak, tercihleriniz bu işleri kabul edecek "
-"şekilde ayarlanmamış"
+msgid "Tasks for ATI GPU are available, but your preferences are set to not accept them"
+msgstr "ATI GPU için işler mevcut, ancak, tercihleriniz bu işleri kabul edecek şekilde ayarlanmamış"
 
 #: ../sched/sched_send.cpp:1454
-msgid ""
-"Tasks for CPU are available, but your preferences are set to not accept them"
-msgstr ""
-"CPU için işler mevcut, ancak, tercihleriniz bu işleri kabul edecek şekilde "
-"ayarlanmamış"
+msgid "Tasks for CPU are available, but your preferences are set to not accept them"
+msgstr "CPU için işler mevcut, ancak, tercihleriniz bu işleri kabul edecek şekilde ayarlanmamış"
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "app_info.xml dosyasında bilinmeyen uygulama ismi"
 
 #: ../sched/sched_version.cpp:225
 msgid "Your app_info.xml file doesn't have a usable version of"

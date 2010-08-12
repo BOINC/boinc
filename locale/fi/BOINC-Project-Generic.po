@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-07-19 00:22-0700\n"
+"PO-Revision-Date: 2010-08-12 13:47-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -304,16 +304,15 @@ msgid "Tasks"
 msgstr "Tehtäviä"
 
 #: ../inc/host.inc:179
-#, fuzzy
 msgid "Number of times BOINC has contacted server"
-msgstr "Ohjelman yhteydenottojen määrä palvelimeen"
+msgstr "BOINCin yhteydenottojen määrä palvelimeen"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
 msgstr "Viimeksi ollut yhteydessä palvelimeen"
 
 #: ../inc/host.inc:181
-#, fuzzy, php-format
+#, php-format
 msgid "% of time BOINC is running"
 msgstr "% ajasta, jolloin BOINC on käynnissä"
 
@@ -1086,7 +1085,7 @@ msgstr "Vahvistusvirhe"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "Hylätty"
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1097,7 +1096,6 @@ msgid "Success"
 msgstr "Onnistui"
 
 #: ../inc/result.inc:172
-#, fuzzy
 msgid "Computation error"
 msgstr "Laskentavirhe"
 
@@ -1791,7 +1789,7 @@ msgstr "Salasana:"
 
 #: ../inc/util.inc:387
 msgid "forgot password?"
-msgstr "salasana unohunut?"
+msgstr "salasana unohtunut?"
 
 #: ../inc/util.inc:390
 msgid "Stay logged in on this computer"
@@ -1914,7 +1912,7 @@ msgstr "Sähköpostiosoite"
 
 #: ../user/create_account_form.php:79
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr "Osoitteen pitää olla oikean mutooinen tyyliin \"nimi@domain\"."
+msgstr "Osoitteen pitää olla oikean muotoinen tyyliin \"nimi@domain\"."
 
 #: ../user/create_account_form.php:88 ../user/edit_email_form.php:46
 msgid "Password"
@@ -1949,8 +1947,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Vaihda se napsauttamalla \"Selaa\" ja valiset joko JPEG- tai PNG-tiedosto (%"
-"1 tai vähemmän)."
+"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto (%1 "
+"tai vähemmän)."
 
 #: ../user/create_profile.php:70
 msgid "To remove it from your profile, check this box:"
@@ -1961,7 +1959,7 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Jos haluat kuvan profiiliisi, napsuata \"Selaa\" ja valiste joko JPEG- tai "
+"Jos haluat kuvan profiiliisi, napsauta \"Selaa\" ja valitse joko JPEG- tai "
 "PNG-tiedosto. Valitse kuva, joka on %1 tai vähemmän."
 
 #: ../user/create_profile.php:87
@@ -2499,9 +2497,8 @@ msgid "Your account"
 msgstr "Tilisi"
 
 #: ../user/host_app_versions.php:52
-#, fuzzy
 msgid "Application details for host %1"
-msgstr "Sovellustiedot"
+msgstr "Koneen %1 sovellustiedot"
 
 #: ../user/hosts_user.php:51
 msgid "Computers belonging to %1"
@@ -2836,7 +2833,6 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Esto poistetaan %1keskustelupalstan asetuksista%2"
 
 #: ../user/prefs.php:36
-#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"

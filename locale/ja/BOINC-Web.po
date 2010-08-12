@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-05-14 22:00+0900\n"
+"PO-Revision-Date: 2010-08-12 22:55+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: Japanese <nobody@example.com>\n"
 "MIME-Version: 1.0\n"
@@ -191,10 +191,13 @@ msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
+"BOINC ヘルパーは無給のボランティアです。彼らのアドバイスは、BOINC あるいは"
+"the University of California のいずれからも保証されるものではありません。"
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
+"%1決して%2 BOINC ヘルパーの方々に Eメイルアドレスやパスワードを知らせないでください。"
 
 #: index.php:23
 msgid "Computing power"
