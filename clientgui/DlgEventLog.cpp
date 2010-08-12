@@ -255,9 +255,6 @@ void CDlgEventLog::CreateControls()
 
     m_pFilterButton = new wxButton(this, ID_TASK_MESSAGES_FILTERBYPROJECT, _("Show only this project"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(m_pFilterButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-    // Initially draw button with longer test but disabled.
-    // See comment in CDlgEventLog::UpdateButtons().
-    m_pFilterButton->Disable();
 
 #ifdef wxUSE_CLIPBOARD
     wxButton* itemButton1 = new wxButton(this, ID_COPYAll, _("Copy All"), wxDefaultPosition, wxDefaultSize );
@@ -307,6 +304,8 @@ void CDlgEventLog::CreateControls()
 #endif
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
+
+    SetFilterButtonText(); 
 }
 
 
@@ -324,6 +323,8 @@ void CDlgEventLog::SetFilterButtonText() {
         m_pFilterButton->SetToolTip(_("Show only the messages for the selected project"));
 #endif
     }
+    // Adjust button size for new text
+    Layout();
 }
 
 
@@ -795,13 +796,6 @@ void CDlgEventLog::UpdateButtons() {
                 enableFilterButton = true;
             }
         }
-    }
-    // To ensure that the button is large enough to fit the longer label,  
-    // don't change the button text (possibly to the shorter label) until   
-    // after the button has been drawn (disabled) with the longer text,  
-    // and don't enable the button until it has the correct label. 
-    if (m_pFilterButton->IsEnabled() != enableFilterButton) { 
-        SetFilterButtonText(); 
     }
     m_pFilterButton->Enable(enableFilterButton);
     m_pCopySelectedButton->Enable(enableCopySelectedButon);

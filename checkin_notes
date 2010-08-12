@@ -6014,3 +6014,15 @@ Charlie 11 Aug 2010
 
      clientgui/
         DlgSelectComputer.cpp
+
+Charlie 12 Aug 2010
+    - MGR: Adjust control positions and resize controls after a text change, 
+        using Layout(); don't use Fit() or FitInside(), which resize the window.
+        Remove the messy logic I used before to ensure the filter button is long 
+        enough to fit the longer text.
+        NOTE: we should add this logic everywhere we have a control whose label 
+        text changes with status, since we cannot predict which label will be 
+        longer in every language translation.
+    
+    clientgui/
+        DlgEventLog.cpp
