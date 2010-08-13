@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-08-12 13:30-0700\n"
+"PO-Revision-Date: 2010-08-13 03:05-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -3720,81 +3720,84 @@ msgid ""
 "for accessibility support, please select advanced from the view menu or type "
 "command shift a"
 msgstr ""
+"za podporo dostopnosti, prosimo, izberite napredno iz menuja poglej ali "
+"pritisnite shitft a"
 
 #: clientgui/mac/MacAccessiblity.cpp:216
 msgid "This panel contains graphs showing user totals for projects"
 msgstr ""
+"Ta pladenj vsebuje grafe, ki prikazujejo skupne točke uporabnika v projektih"
 
 #: clientgui/mac/MacAccessiblity.cpp:635
 msgid "list headers"
-msgstr ""
+msgstr "seznam zaglavij"
 
 #: clientgui/mac/MacAccessiblity.cpp:639
 #, c-format
 msgid "list of %s"
-msgstr ""
+msgstr "seznam %s"
 
 #: clientgui/mac/MacAccessiblity.cpp:641
 #, c-format
 msgid "list of %s is empty"
-msgstr ""
+msgstr "seznam %s je prazen"
 
 #: clientgui/mac/MacAccessiblity.cpp:742
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr "; trenutni stolpec urejanja %d od %d; padajoči vrstni red; "
 
 #: clientgui/mac/MacAccessiblity.cpp:744
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr "; trenutni stolpec urejanja %d od %d; naraščajoči vrstni red; "
 
 #: clientgui/mac/MacAccessiblity.cpp:747
 #, c-format
 msgid "; column %d of %d; "
-msgstr ""
+msgstr "; stolpec %d od %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:754
 msgid "list is empty"
-msgstr ""
+msgstr "seznam je prazen"
 
 #: clientgui/mac/MacAccessiblity.cpp:757 clientgui/mac/MacAccessiblity.cpp:769
 #, c-format
 msgid "; row %d; "
-msgstr ""
+msgstr "; vrstica %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:761
 #, c-format
 msgid "; selected row %d of %d; "
-msgstr ""
+msgstr "; izbrana vrstica %d od %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:763
 #, c-format
 msgid "; selected row %d ; "
-msgstr ""
+msgstr "; izbrana vrstica %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:767
 #, c-format
 msgid "; row %d of %d; "
-msgstr ""
+msgstr "; vrstica %d od %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:775
 msgid "blank"
-msgstr ""
+msgstr "prazno"
 
 #: clientgui/mac/MacAccessiblity.cpp:1411
 msgid "list of projects or account managers"
-msgstr ""
+msgstr "seznam projektov ali upraviteljev računov"
 
 #: clientgui/mac/MacAccessiblity.cpp:1448
 #, c-format
 msgid "selected row %d of %d; "
-msgstr ""
+msgstr "izbrana vrstica %d od %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1450
 #, c-format
 msgid "row %d of %d; "
-msgstr ""
+msgstr "vrstica %d od %d; "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
