@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-12 14:24-0700\n"
+"PO-Revision-Date: 2010-08-13 05:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -2816,23 +2816,23 @@ msgstr "%d"
 
 #: clientgui/sg_ImageButton.cpp:90
 msgid "Paused: Other work running"
-msgstr "Na pavzi: teče drugo delo"
+msgstr "Na čakanju: teče drugo delo"
 
 #: clientgui/sg_ImageButton.cpp:92
 msgid "Paused: User initiated.  Click 'Resume' to continue"
-msgstr "Na pavzi: na željo uporabnika.  Kliknite 'Nadaljuj' za nadaljevanje."
+msgstr "Na čakanju: na željo uporabnika.  Kliknite 'Nadaljuj' za nadaljevanje."
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
-msgstr "Na pavzi: uporabnik aktiven"
+msgstr "Na čakanju: uporabnik aktiven"
 
 #: clientgui/sg_ImageButton.cpp:96
 msgid "Paused: Computer on battery"
-msgstr "Na pavzi: računalnik dela na baterije"
+msgstr "Na čakanju: računalnik deluje na baterije"
 
 #: clientgui/sg_ImageButton.cpp:98
 msgid "Paused: Time of Day"
-msgstr "Na pavzi: čas dneva"
+msgstr "Na čakanju: čas dneva"
 
 #: clientgui/sg_ImageButton.cpp:100
 msgid "Paused: Benchmarks running"
