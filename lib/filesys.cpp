@@ -192,11 +192,15 @@ void dir_close(DIRREF dirp) {
 
 bool is_dir_empty(const char *p) {
     char file[256];
+
     DIRREF dir = dir_open(p);
+    if (!dir) return true;
+
     if (dir_scan(file, dir, sizeof(file))) {
         dir_close(dir);
         return false;
     }
+
     return true;
 }
 

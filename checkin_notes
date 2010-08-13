@@ -6040,3 +6040,9 @@ Rom    13 Aug 2010
     /
         configure.ac
         version.h
+
+Rom    13 Aug 2010
+    - lib: prevent crash on startup if slot directories have been deleted.
+    
+    lib/
+        filesys.cpp
