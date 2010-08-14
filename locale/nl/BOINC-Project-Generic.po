@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-07-16 12:47-0700\n"
+"PO-Revision-Date: 2010-08-14 05:23-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -304,7 +304,6 @@ msgid "Tasks"
 msgstr "Taken"
 
 #: ../inc/host.inc:179
-#, fuzzy
 msgid "Number of times BOINC has contacted server"
 msgstr "Aantal keren dat er contact is geweest met de server"
 
@@ -313,7 +312,7 @@ msgid "Last time contacted server"
 msgstr "Laatste contact met de server"
 
 #: ../inc/host.inc:181
-#, fuzzy, php-format
+#, php-format
 msgid "% of time BOINC is running"
 msgstr "% van de tijd dat de BOINC cliënt actief is"
 
@@ -1090,7 +1089,7 @@ msgstr "Fout tijdens controle"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "Afgebroken"
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1101,9 +1100,8 @@ msgid "Success"
 msgstr "Geslaagd"
 
 #: ../inc/result.inc:172
-#, fuzzy
 msgid "Computation error"
-msgstr "Berekeningsfout"
+msgstr "Berekenings fout"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
@@ -1203,9 +1201,8 @@ msgid "Task"
 msgstr "Taken"
 
 #: ../inc/result.inc:275
-#, fuzzy
 msgid "Work unit"
-msgstr "Werkeenheid"
+msgstr "Werk-eenheid"
 
 #: ../inc/result.inc:278
 msgid "Computer"
@@ -1474,13 +1471,13 @@ msgid "This operation requires team admin privileges"
 msgstr "Deze actie vereist administrator rechten "
 
 #: ../inc/team.inc:410
-#, fuzzy
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
-"WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
-"be overwritten. Edit the %1BOINC-wide team%2 instead."
+"WAARSCHUWING: dit is een BOINC-wide team. Indien je hier wijzigingen "
+"aanbrengt, worden ze snel overschreven. Pas daarom het %1BOINC-wide team%2 "
+"zelf aan."
 
 #: ../inc/team.inc:417
 msgid ""
@@ -2518,9 +2515,8 @@ msgid "Your account"
 msgstr "Mijn account"
 
 #: ../user/host_app_versions.php:52
-#, fuzzy
 msgid "Application details for host %1"
-msgstr "Applicatie details"
+msgstr "Applicatie details voor host %1"
 
 #: ../user/hosts_user.php:51
 msgid "Computers belonging to %1"
@@ -2860,15 +2856,14 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Om te deblokkeren, ga naar %1forum voorkeuren%2"
 
 #: ../user/prefs.php:36
-#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
-"Your preferences have been updated. Client-related preferences\n"
-"\t      will take effect when your computer communicates with %1\n"
-"\t      or you issue the %2Update%3 command from the BOINC client."
+"Je voorkeuren zijn bijgewerkt en\n"
+"\t      worden van kracht zodra de computer verbinding zoekt met %1\n"
+"\t      of indien je een %2Bijwerk%3 opdracht geeft aan de BOINC cliënt."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
