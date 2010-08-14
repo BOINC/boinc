@@ -6046,3 +6046,10 @@ Rom    13 Aug 2010
     
     lib/
         filesys.cpp
+
+David  13 Aug 2010
+	- client: fix bug in my last checkin
+
+	lib/
+		filesys.cpp
+

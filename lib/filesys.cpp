@@ -196,7 +196,7 @@ bool is_dir_empty(const char *p) {
     DIRREF dir = dir_open(p);
     if (!dir) return true;
 
-    if (dir_scan(file, dir, sizeof(file))) {
+    if (!dir_scan(file, dir, sizeof(file))) {
         dir_close(dir);
         return false;
     }
