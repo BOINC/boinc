@@ -859,9 +859,8 @@ int main(int argc, char** argv) {
 
     if (using_hr && strlen(order_clause)) {
         log_messages.printf(MSG_CRITICAL,
-            "Can't use ordering options together with homogeneous redundancy\n"
+            "Note: ordering options will not apply to apps for which homogeneous redundancy is used\n"
         );
-        exit(1);
     }
 
     if (config.job_size_matching) {

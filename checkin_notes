@@ -6070,3 +6070,10 @@ Charlie 14 Aug 2010
     
     clientgui/
         AsyncRPC.cpp
+
+David  14 Aug 2010
+    - feeder: don't error out when an ordering option is used with HR;
+        if some apps don't use HR the ordering option will apply to them.
+
+    sched/
+        feeder.cpp
