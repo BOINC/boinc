@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-05 11:43-0700\n"
-"PO-Revision-Date: 2010-08-14 04:24-0700\n"
+"PO-Revision-Date: 2010-08-14 05:06-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -47,7 +47,7 @@ msgstr "Syntaxisfout in bestand app_info.xml"
 
 #: gui_rpc_server.cpp:190
 msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr "Kan de hostnaam in remote_hosts.cfg niet achterhalen."
+msgstr "Kan de hostnaam in remote_hosts.cfg niet achterhalen"
 
 #: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
 msgid "Unexpected text in cc_config.xml"
@@ -69,7 +69,7 @@ msgstr "Missende eind instructie in bestand cc_config.xml"
 msgid ""
 "Invalid or missing account key.  To fix, detach and reattach to this project."
 msgstr ""
-"Ongeldige of missende account sleutel.  Verwijder het project en voeg het "
+"Ongeldige of missende account-key.  Verwijder het project en voeg het "
 "opnieuw toe om dit op te lossen."
 
 #: ../sched/handle_request.cpp:820 ../sched/handle_request.cpp:830
@@ -82,43 +82,41 @@ msgstr ""
 
 #: ../sched/handle_request.cpp:914
 msgid "This project doesn't support operating system"
-msgstr "Dit project ondersteunt uw besturingssysteem niet."
+msgstr "Dit project ondersteunt het besturingssysteem niet"
 
 #: ../sched/handle_request.cpp:940
 msgid "This project doesn't support CPU type"
-msgstr "Dit project ondersteunt uw CPU type niet."
+msgstr "Dit project ondersteunt het CPU type niet"
 
 #: ../sched/handle_request.cpp:964
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr "Nieuwere versie van BOINC vereist; instaleer a.u.b de meest recente"
+msgstr "Nieuwere versie van BOINC vereist.  Installeer a.u.b de meest recente."
 
 #: ../sched/handle_request.cpp:1215
-#, fuzzy
 msgid "This project doesn't support computers of type"
-msgstr "This project doesn't support computers of type"
+msgstr "Dit project ondersteund geen computers van het type"
 
 #: ../sched/sched_send.cpp:1250
-#, fuzzy
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
-"Upgrade to the latest driver to process tasks using your computer's GPU"
+"Om taken te kunnen verwerken, met de aanwezige GPU, is het nodig om de "
+"drivers bij te werken"
 
 #: ../sched/sched_send.cpp:1257
-#, fuzzy
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
-"Upgrade to the latest driver to use all of this project's GPU applications"
+"Om alle applicaties van dit project te kunnen verwerken, met de aanwezige "
+"GPU, is het nodig om de drivers bij te werken"
 
 #: ../sched/sched_send.cpp:1281
-#, fuzzy
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
+"Nieuwere versie van BOINC vereist voor de aanwezige NVIDIA GPU; instaleer "
+"a.u.b de meest recente"
 
 #: ../sched/sched_send.cpp:1294
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
@@ -142,9 +140,8 @@ msgstr ""
 "b. je project voorkeuren."
 
 #: ../sched/sched_send.cpp:1426
-#, fuzzy
 msgid "Your computer type is not supported by this project"
-msgstr "Your computer type is not supported by this project"
+msgstr "Dit computer type wordt niet door het project ondersteund"
 
 #: ../sched/sched_send.cpp:1432
 msgid "Newer BOINC version required; please install current version"
@@ -175,17 +172,15 @@ msgstr ""
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Onbekende applicatie naam in app_info.xml"
 
 #: ../sched/sched_version.cpp:225
-#, fuzzy
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr "Your app_info.xml file doesn't have a usable version of"
+msgstr "Het app_info.xml bestand vermeldt geen bruikbare versie van"
 
 #: ../sched/sched_version.cpp:652
-#, fuzzy
 msgid "is not available for your type of computer"
-msgstr "is not available for your type of computer"
+msgstr "is niet beschikbaar voor dit type computer"
 
 #~ msgid "XML syntax error in"
 #~ msgstr "XML syntaxis fout in"
