@@ -6058,3 +6058,9 @@ David  13 Aug 2010
 
     html/inc/
         text_transform.inc
+
+David  14 Aug 2010
+    - lib: removed unneeded include.  Fixes #1004
+
+    lib/
+        gui_rpc_client.h

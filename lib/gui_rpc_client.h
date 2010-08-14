@@ -777,12 +777,9 @@ extern locale_t	uselocale(locale_t) __attribute__((weak_import));
 };
 
 #else
-#ifndef _WIN32
-#include <xlocale.h>
-#endif
 
- struct SET_LOCALE {
-    // Don't need this if we have per-thread locale
+struct SET_LOCALE {
+    // Don't need to juggle locales if we have per-thread locale
     inline SET_LOCALE() {
     }
     inline ~SET_LOCALE() {
