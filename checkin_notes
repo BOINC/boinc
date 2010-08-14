@@ -6077,3 +6077,9 @@ David  14 Aug 2010
 
     sched/
         feeder.cpp
+
+David  14 Aug 2010
+    - scheduler: message tweak
+
+    sched/
+        handle_request.cpp
