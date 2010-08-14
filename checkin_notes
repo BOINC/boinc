@@ -6053,3 +6053,8 @@ David  13 Aug 2010
 	lib/
 		filesys.cpp
 
+David  13 Aug 2010
+    - web: remove align=right on BBcode images
+
+    html/inc/
+        text_transform.inc
