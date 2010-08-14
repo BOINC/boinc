@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-05 10:53-0700\n"
+"PO-Revision-Date: 2010-08-14 16:21-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -1116,7 +1116,7 @@ msgstr "Bestätigungsfehler"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "Aufgegeben"
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -2583,9 +2583,8 @@ msgstr "Ihr Konto"
 # ########################################<br />
 # Apps page (apps.php)
 #: ../user/host_app_versions.php:52
-#, fuzzy
 msgid "Application details for host %1"
-msgstr "Anwendungsdetails"
+msgstr "Anwendungsdetails für Rechner %1"
 
 #: ../user/hosts_user.php:51
 msgid "Computers belonging to %1"
@@ -3203,7 +3202,6 @@ msgid "All teams"
 msgstr "Alle Teams"
 
 #: ../user/team.php:49
-#, fuzzy
 msgid "%1 teams"
 msgstr "Teams vom Typ %1"
 
@@ -3428,7 +3426,6 @@ msgid "Team history for %1"
 msgstr "Teamhistorie von %1"
 
 #: ../user/team_delta.php:74
-#, fuzzy
 msgid "When"
 msgstr "Wann"
 
@@ -3672,13 +3669,15 @@ msgstr "Du bist nun der Gründer von Team %1."
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "Du hast den Gründerstatus von %1 am %2 angefragt."
 
 #: ../user/team_founder_transfer_form.php:45
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
+"60 Tage sind seit der Anfrage vergangen und der Gründer hat nicht reagiert. "
+"Du kannst nun den Gründerstatus bekommen:"
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
@@ -3689,6 +3688,8 @@ msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
+"Der Gründer wurde über die Anfrage informiert. Wenn Er/Sie nicht bis %1 "
+"antwortet bekommst du die Möglichkeit den Gründerstatus zu übernehmen."
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
@@ -3699,6 +3700,12 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
+"Wenn der Gründer des Teams nicht mehr Aktiv ist, kann der Gründerstatus von "
+"jedem Teammitglied übernommen werden. Der aktuelle Gründer bekommt eine "
+"E-Mail mit den Informationen und kann der Übertragung zustimmen oder diese "
+"ablehnen. Sollte der Gründer nicht innerhalb von 60 Tagen antworten, besteht "
+"dann die Möglichkeit den Gründerstatus zu übernehmen.<br /><br />\n"
+"Sicher das die Übernahme des Gründerstatus eingeleitet werden soll?"
 
 #: ../user/team_founder_transfer_form.php:63
 msgid "Request foundership"
@@ -3706,17 +3713,18 @@ msgstr "Gründerstatus anfordern"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
-msgstr ""
+msgstr "Der Gründerstatus wurde bereits von %1 am %2 beantragt."
 
 #: ../user/team_founder_transfer_form.php:75
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
 msgstr ""
+"Innerhalb der letzten 90 Tage wurde der Gründerstatus bereits beantragt, "
+"neue Anfragen sind nicht erlaubt. Bitte später erneut versuchen."
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
-#, fuzzy
 msgid "The team %1 is not joinable."
 msgstr "Dem Team %1 kann nicht beigetreten werden."
 
@@ -3771,146 +3779,156 @@ msgstr "Suchergebnisse für '%1'"
 
 #: ../user/team_lookup.php:86
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
+msgstr "Die Mitglieder, Statistiken und Informationen zu diesem Team anschauen."
 
 #: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
+"Mehr als 100 Teams entsprachen der Suche. Nur die ersten 100 werden "
+"angezeigt."
 
 #: ../user/team_lookup.php:102
-#, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"Wenn Sie kein passendes Team finden können dann sollten Sie ein %1neues Team "
-"erstellen%2."
+"Wenn kein passendes Team gefunden wurde dann kann auch ein %1neues Team "
+"erstellt%2 werden."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
-msgstr ""
+msgstr "Verwaltung von Team %1"
 
 #: ../user/team_manage.php:27
-#, fuzzy
 msgid "Edit team info"
-msgstr "Teaminformationen aktualisieren"
+msgstr "Teaminformationen bearbeiten"
 
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
 msgstr ""
+"Den Namen des Teams, die URL, die Beschreibung, den Typ oder das Land "
+"ändern."
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
-msgstr ""
+msgstr "Mitgliederliste:"
 
 #: ../user/team_manage.php:31 ../user/team_manage.php:35
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:32
-#, fuzzy
 msgid "text"
-msgstr "Nächste"
+msgstr "Text"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "Mitgliedsnamen und E-Mail Adressen anzeigen"
 
 #: ../user/team_manage.php:34
 msgid "View change history:"
-msgstr ""
+msgstr "Änderungshistorie anzeigen:"
 
 #: ../user/team_manage.php:36
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: ../user/team_manage.php:37
 msgid "See when members joined or quit this team"
 msgstr ""
+"Zeigt welche Mitglieder wann dem Team beigetreten sind oder dieses verlassen "
+"haben."
 
 #: ../user/team_manage.php:48
 msgid "Respond to foundership request."
-msgstr ""
+msgstr "Auf eine Anfrage zum Gründerwechsel antworten."
 
 #: ../user/team_manage.php:48
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
 msgstr ""
+"Wenn nicht bis zum %1 geantwortet wurde, kann %2 den Gründerstatus dieses "
+"Teams bekommen."
 
 #: ../user/team_manage.php:53
 msgid "Remove inactive or unwanted members from this team"
-msgstr ""
+msgstr "Inaktive oder unerwünschte Mitglieder dieses Teams entfernen."
 
 #: ../user/team_manage.php:55
 msgid "Transfer foundership to another member"
-msgstr ""
+msgstr "Den Gründerstatus auf ein anderes Mitglied übertragen."
 
 #: ../user/team_manage.php:56
-#, fuzzy
 msgid "Add/remove Team Admins"
-msgstr "Hinzufügen oder entfernen von Teamadmins"
+msgstr "Hinzufügen/Entfernen von Teamadmins"
 
 #: ../user/team_manage.php:57
 msgid "Give selected team members Team Admin privileges"
-msgstr ""
+msgstr "Die gewählten Mitglieder zu Teamadmins erklären,"
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
-msgstr ""
+msgstr "Team entfernen"
 
 #: ../user/team_manage.php:60
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "Nur erlaubt wenn das Team keine Mitglieder mehr hat."
 
 #: ../user/team_manage.php:62
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "Ein Diskussionsforum für das Team erstellen oder verwalten."
 
 #: ../user/team_manage.php:69
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
+"Um dieses Team in allen BOINC-Projekten (aktuelle und zukünftige) anzulegen, "
+"kann es zu einem %1BOINC-weitem Team%2 gemacht werden."
 
 #: ../user/team_manage.php:71
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
+"Teamadmins werden ersucht sich an der Google Gruppe %1boinc-team-founders%2 "
+"(englisch) zu beteiligen."
 
 #: ../user/team_manage.php:73
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
+"Andere Hilfsmittel werden von der externen Webseite %1www.boincteams.com%2 "
+"angeboten."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "Nicht-leeres Team kann nicht gelöscht werden."
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "Team %1 gelöscht"
 
 #: ../user/team_members.php:33
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr ""
+"Limit überschritten: Nur die ersten 1000 Mitglieder können angezeigt werden."
 
 #: ../user/team_members.php:43
-#, fuzzy
 msgid "Members of %1"
-msgstr "Mitgliederverzeichnis von %1"
+msgstr "Mitglieder von %1"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
-msgstr ""
+msgstr "Team konnte nicht verlassen werden."
 
 #: ../user/team_quit_action.php:33
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "Das Team existiert nicht oder Sie sind kein Mitglied."
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
-msgstr ""
+msgstr "Verlasse %1"
 
 #: ../user/team_quit_form.php:32
 msgid ""
@@ -3922,57 +3940,61 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
+"<strong>Vor dem Verlassen eines Teams bitte beachten:</strong>\n"
+"<ul>\n"
+"<li>Nach dem verlassen, kann man einem anderen Team oder diesem Team wieder "
+"beitreten.</li>\n"
+"<li>Das Verlassen eines Teams beeinflußt nicht die Anzahl der eigenen "
+"Punkte.</li>\n"
+"</ul>"
 
 #: ../user/team_quit_form.php:40
-#, fuzzy
 msgid "Quit Team"
 msgstr "Team verlassen"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Entferne Mitglieder aus %1"
 
 #: ../user/team_remove_inactive_action.php:37
-#, fuzzy
 msgid "%1 is not a member of %2"
-msgstr "Benutzer ist nicht Mitglied von %1"
+msgstr "%1 ist nicht Mitglied von %2"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 wurde entfernt"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Entferne Mitglieder aus %1"
 
 #: ../user/team_remove_inactive_form.php:37
-#, fuzzy
 msgid "Remove?"
-msgstr "Entfernen"
+msgstr "Entfernen?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
-msgstr ""
+msgstr "Name (ID)"
 
 #: ../user/team_remove_inactive_form.php:63
 msgid "No members are eligible for removal."
-msgstr ""
+msgstr "Keine Mitglieder können entfernt werden."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
-msgstr ""
+msgstr "Mitglieder entfernen"
 
 #: ../user/team_search.php:65
 msgid "Team name"
-msgstr ""
+msgstr "Teamname"
 
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
-msgstr ""
+msgstr "Keine Teams mit diesen Kriterien gefunden. Bitte neue Suche starten."
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "Oder ein %1neues Team erstellen%2."
 
 #: ../user/team_search.php:133
 msgid ""
