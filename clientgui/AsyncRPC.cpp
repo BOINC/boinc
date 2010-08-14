@@ -20,7 +20,7 @@
 #endif
 
 #if !(defined(_WIN32) || (defined(__WXMAC__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)))
-//#include <xlocale.h>
+#include <xlocale.h>
 //#include "gui_rpc_client.h"
 #endif
 

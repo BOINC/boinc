@@ -6064,3 +6064,9 @@ David  14 Aug 2010
 
     lib/
         gui_rpc_client.h
+
+Charlie 14 Aug 2010
+    - MGR: Fix build break on Mac.
+    
+    clientgui/
+        AsyncRPC.cpp
