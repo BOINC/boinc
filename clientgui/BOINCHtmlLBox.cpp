@@ -507,6 +507,15 @@ void CBOINCHtmlListBox::GetItemRect(size_t item, wxRect& rect)
     rect.width = cell->GetWidth();
 }
 
+bool CBOINCHtmlListBox::IsVisible(size_t item)
+{
+    wxRect rect;
+    
+    GetItemRect(item, rect);
+    
+    return (rect.Intersects(GetRect()));
+}
+
 // ----------------------------------------------------------------------------
 // CBOINCHtmlListBox handling of HTML links
 // ----------------------------------------------------------------------------

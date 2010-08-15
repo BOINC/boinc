@@ -89,6 +89,8 @@ public:
     int HitTest(const wxPoint& pos);
 
     void GetItemRect(size_t item, wxRect& rect) ;
+    
+    bool IsVisible(size_t item);
 
 protected:
     // this method must be implemented in the derived class and should return

@@ -1481,6 +1481,22 @@
 				Name="Support"
 				>
 				<File
+					RelativePath="..\clientgui\BOINCHtmlLBox.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCHtmlLBox.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCVListBox.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCVListBox.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\DlgAdvPreferences.cpp"
 					>
 				</File>
