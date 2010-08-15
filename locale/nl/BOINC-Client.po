@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-05 11:43-0700\n"
-"PO-Revision-Date: 2010-08-14 05:06-0700\n"
+"POT-Creation-Date: 2010-08-14 16:20-0700\n"
+"PO-Revision-Date: 2010-08-15 03:07-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -72,13 +72,19 @@ msgstr ""
 "Ongeldige of missende account-key.  Verwijder het project en voeg het "
 "opnieuw toe om dit op te lossen."
 
-#: ../sched/handle_request.cpp:820 ../sched/handle_request.cpp:830
+#: ../sched/handle_request.cpp:820
+msgid "Invalid code signing key.  To fix, detach and reattach to this project."
+msgstr ""
+"Ongeldige code signing-key.  Verwijder het project en voeg het opnieuw toe "
+"om dit op te lossen."
+
+#: ../sched/handle_request.cpp:830
 msgid ""
 "You may have an outdated code signing key.  Try attaching and reattaching "
 "this project."
 msgstr ""
-"U heeft misschien een verlopen code ondertekenings sleutel.  Probeer dit "
-"project opnieuw toe te voegen."
+"U heeft misschien een verlopen code signing-key.  Verwijder het project en "
+"voeg het opnieuw toe om dit op te lossen."
 
 #: ../sched/handle_request.cpp:914
 msgid "This project doesn't support operating system"
@@ -115,8 +121,8 @@ msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
-"Nieuwere versie van BOINC vereist voor de aanwezige NVIDIA GPU; instaleer "
-"a.u.b de meest recente"
+"Nieuwere versie van BOINC vereist voor de aanwezige NVIDIA GPU; instaleer a."
+"u.b de meest recente"
 
 #: ../sched/sched_send.cpp:1294
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
@@ -178,7 +184,7 @@ msgstr "Onbekende applicatie naam in app_info.xml"
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Het app_info.xml bestand vermeldt geen bruikbare versie van"
 
-#: ../sched/sched_version.cpp:652
+#: ../sched/sched_version.cpp:653
 msgid "is not available for your type of computer"
 msgstr "is niet beschikbaar voor dit type computer"
 
