@@ -6091,6 +6091,7 @@ Charlie 15 Aug 2010
     clientgui/
         BOINCHtmlListBox.cpp, .h (new)
         BOINCVListBox.cpp, .h (new)
+        Makefile.am
         NoticeListCtrl.cpp, .h
         ViewNotices.cpp
     mac_build/

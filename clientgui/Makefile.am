@@ -49,10 +49,12 @@ boincmgr_SOURCES = \
     BOINCClientManager.cpp \
     BOINCDialupManager.cpp \
     BOINCGUIApp.cpp \
+    BOINCHtmlLBox.cpp \
     BOINCInternetFSHandler.cpp \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
+    BOINCVListBox.cpp \
     browser.cpp \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \
