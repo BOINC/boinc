@@ -6083,3 +6083,16 @@ David  14 Aug 2010
 
     sched/
         handle_request.cpp
+
+Charlie 15 Aug 2010
+    - MGR: Allow Notices tab to scroll smoothly, disallow selection of 
+        items in Notices tab.
+    
+    clientgui/
+        BOINCHtmlListBox.cpp, .h (new)
+        BOINCVListBox.cpp, .h (new)
+        NoticeListCtrl.cpp, .h
+        ViewNotices.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

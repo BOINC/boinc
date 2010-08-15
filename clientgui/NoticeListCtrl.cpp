@@ -99,23 +99,9 @@ wxAccStatus CNoticeListCtrlAccessible::GetLocation(wxRect& rect, int elementId)
     }
     else if (pCtrl && (0 != elementId))
     {
-        // List item
-        wxSize cCtrlSize = pCtrl->GetClientSize();
+        pCtrl->GetItemRect(elementId - 1, rect);
+        pCtrl->ClientToScreen(&rect.x, &rect.y);
 
-        // Set the initial control postition to the absolute coords of the upper
-        //   left hand position of the control
-        rect.SetPosition(pCtrl->GetScreenPosition());
-        rect.width = cCtrlSize.GetWidth() - 1;
-        rect.height = pCtrl->GetItemHeight(elementId - 1) - 1;
-
-        // Items can have different heights
-        int    firstVisibleItem = (int)pCtrl->GetFirstVisibleLine();
-        int    yOffset = 0;
-        for (int i=firstVisibleItem; i<(elementId - 1); ++i) {
-            yOffset += pCtrl->GetItemHeight((size_t)i);
-        }
-        rect.SetTop(rect.GetTop() + yOffset);
-        rect.height -= 1;
         return wxACC_OK;
     }
     // Let the framework handle the other cases.
@@ -143,6 +129,8 @@ wxAccStatus CNoticeListCtrlAccessible::GetChildCount(int* childCount)
 // window (e.g. an edit control).
 wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId)
 {
+#if ALLOW_NOTICES_SELECTION
+
     CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
     CMainDocument* pDoc = wxDynamicCast(wxGetApp().GetDocument(), CMainDocument);
     if (pCtrl && (childId != wxACC_SELF))
@@ -168,6 +156,8 @@ wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId)
 
         return wxACC_OK;
     }
+    
+#endif      // ALLOW_NOTICES_SELECTION
 
     // Let the framework handle the other cases.
     return wxACC_NOT_IMPLEMENTED;
@@ -403,7 +393,7 @@ DEFINE_EVENT_TYPE( wxEVT_NOTICELIST_ITEM_DISPLAY )
 /*!
  * CNoticeListCtrl type definition
  */
-IMPLEMENT_DYNAMIC_CLASS( CNoticeListCtrl, wxHtmlListBox )
+IMPLEMENT_DYNAMIC_CLASS( CNoticeListCtrl, CBOINCHtmlListBox )
 IMPLEMENT_DYNAMIC_CLASS( NoticeListCtrlEvent, wxNotifyEvent )
 
 
@@ -411,7 +401,7 @@ IMPLEMENT_DYNAMIC_CLASS( NoticeListCtrlEvent, wxNotifyEvent )
  * CNoticeListCtrl event table definition
  */
  
-BEGIN_EVENT_TABLE( CNoticeListCtrl, wxHtmlListBox )
+BEGIN_EVENT_TABLE( CNoticeListCtrl, CBOINCHtmlListBox )
 
 ////@begin CNoticeListCtrl event table entries
     EVT_LISTBOX(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnSelected)
@@ -456,7 +446,7 @@ bool CNoticeListCtrl::Create( wxWindow* parent )
 ////@end CNoticeListCtrl member initialisation
 
 ////@begin CNoticeListCtrl creation
-    wxHtmlListBox::Create( parent, ID_LIST_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize,
+    CBOINCHtmlListBox::Create( parent, ID_LIST_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize,
         wxSUNKEN_BORDER | wxTAB_TRAVERSAL );
 
 #if wxUSE_ACCESSIBILITY
@@ -593,8 +583,12 @@ bool CNoticeListCtrl::UpdateUI()
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+    // Call Freeze() / Thaw() only when actually needed; 
+    // otherwise it causes unnecessary redraws
     if (pDoc->GetNoticeCount() < 0) {
+        Freeze();
         SetItemCount(0);
+        Thaw();
         return true;
     }
     
@@ -602,8 +596,10 @@ bool CNoticeListCtrl::UpdateUI()
         ((int)GetItemCount() != pDoc->GetNoticeCount()) ||
         pDoc->notices.complete
     ) {
+        Freeze();
         SetItemCount(pDoc->GetNoticeCount());
         pDoc->notices.complete = false;
+        Thaw();
     }
 #ifdef __WXMAC__
     // Enable accessibility only after drawing the page 

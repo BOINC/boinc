@@ -138,9 +138,8 @@ void CViewNotices::OnListRender(wxTimerEvent& WXUNUSED(event)) {
         }
     }
 
-    m_pHtmlListPane->Freeze();
+    // Don't call Freeze() / Thaw() here because it causes an unnecessary redraw
     m_pHtmlListPane->UpdateUI();
-    m_pHtmlListPane->Thaw();
 
     pDoc->UpdateUnreadNoticeState();
 

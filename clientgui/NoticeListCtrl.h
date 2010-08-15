@@ -22,6 +22,7 @@
 #pragma interface "NoticeListCtrl.cpp"
 #endif
 
+#include "BOINCHtmlLBox.h"
 
 #if wxUSE_ACCESSIBILITY || defined(__WXMAC__)
 
@@ -85,7 +86,7 @@ public:
  * CNoticeListCtrl class declaration
  */
 
-class CNoticeListCtrl: public wxHtmlListBox
+class CNoticeListCtrl: public CBOINCHtmlListBox
 {    
     DECLARE_DYNAMIC_CLASS( CNoticeListCtrl )
     DECLARE_EVENT_TABLE()
@@ -112,7 +113,7 @@ public:
 
     bool UpdateUI();
 
-    int GetItemHeight(size_t i) { return (int)OnMeasureItem(i); }
+    int GetItemHeight(size_t i) { return (int)OnGetItemHeight(i); }
 
 private:
 #ifdef __WXMAC__
