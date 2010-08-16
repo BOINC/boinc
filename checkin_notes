@@ -6099,3 +6099,11 @@ Charlie 15 Aug 2010
             project.pbxproj
     win_build/
         boincmgr.vcproj
+
+Rom    16 Aug 2010
+    - Tag for 6.11.6 release, all platforms
+      boinc_core_release_6_11_6
+
+    /
+        configure.ac
+        version.h
