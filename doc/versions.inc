@@ -63,7 +63,7 @@ function type_text($type) {
 $w611 = array(
 	"num"=>"6.11.6",
 	"status"=>"Development version",
-	"file"=>"boinc_6.11.4_windows_intelx86.exe",
+	"file"=>"boinc_6.11.6_windows_intelx86.exe",
 	"date"=>"17 Aug 2010",
 	"type"=>"win_new",
 );
