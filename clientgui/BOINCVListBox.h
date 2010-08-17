@@ -9,6 +9,8 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
+// Modified for BOINC from wx/vlbox.h
+
 
 #ifndef _VLBOX_H_
 #define _VLBOX_H_
@@ -38,7 +40,7 @@ class WXDLLIMPEXP_FWD_CORE wxSelectionStore;
     It emits the same events as wxListBox and the same event macros may be used
     with it.
  */
-class WXDLLEXPORT CBOINCVListBox : public wxScrolledWindow
+class CBOINCVListBox : public wxScrolledWindow
 {
 public:
     // constructors and such

@@ -6137,3 +6137,10 @@ David  17 Aug 2010
     client/
         client_types.cpp
         cs_statefile.cpp
+
+Charlie 17 Aug 2010
+    - MGR: Remove unused WXDLL* declarations to improve Linux compatibility.
+    
+    clientgui/
+        BOINCHtmlLBox.cpp, .h
+        BOINCVListBox.cpp, .h

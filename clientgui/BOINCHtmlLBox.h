@@ -9,6 +9,7 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
+// Modified for BOINC from wx/htmllbox.h
 
 #ifndef _HTMLLBOX_H_
 #define _HTMLLBOX_H_
@@ -17,10 +18,10 @@
 
 class WXDLLIMPEXP_FWD_HTML wxHtmlCell;
 class WXDLLIMPEXP_FWD_HTML wxHtmlWinParser;
-class WXDLLIMPEXP_FWD_HTML CBOINCHtmlListBoxCache;
-class WXDLLIMPEXP_FWD_HTML CBOINCHtmlListBoxStyle;
+class CBOINCHtmlListBoxCache;
+class CBOINCHtmlListBoxStyle;
 
-extern WXDLLIMPEXP_DATA_HTML(const wxChar) BOINCHtmlListBoxNameStr[];
+extern const wxChar BOINCHtmlListBoxNameStr[];
 
 // ----------------------------------------------------------------------------
 // CBOINCHtmlListBox
@@ -29,7 +30,7 @@ extern WXDLLIMPEXP_DATA_HTML(const wxChar) BOINCHtmlListBoxNameStr[];
 // small border always added to the cells:
 #define CELL_BORDER 2
 
-class WXDLLIMPEXP_HTML CBOINCHtmlListBox : public CBOINCVListBox,
+class CBOINCHtmlListBox : public CBOINCVListBox,
                                        public wxHtmlWindowInterface,
                                        public wxHtmlWindowMouseHelper
 {
