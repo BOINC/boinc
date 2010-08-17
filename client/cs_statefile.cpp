@@ -773,7 +773,7 @@ void CLIENT_STATE::check_anonymous() {
 // parse a project's app_info.xml (anonymous platform) file
 //
 int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
-    char buf[256];
+    char buf[256], path[1024];
     MIOFILE mf;
     mf.init_file(in);
 
@@ -794,6 +794,18 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 continue;
             }
             if (link_file_info(p, fip)) {
+                delete fip;
+                continue;
+            }
+            // check that the file is actually there
+            //
+            get_pathname(fip, path, sizeof(path));
+            if (!boinc_file_exists(path)) {
+                strcpy(buf,
+                    _("File referenced in app_info.xml does not exist: ")
+                );
+                strcat(buf, fip->name);
+                msg_printf(p, MSG_USER_ALERT, buf);
                 delete fip;
                 continue;
             }

@@ -6129,3 +6129,11 @@ Rom    17 Aug 2010
     clientgui/
         BOINCHtmlLBox.cpp, .h
         BOINCVListBox.cpp, .h
+
+David  17 Aug 2010
+    - client: check whether anonymous-app files exist
+    - client: parse (and ignore) <anonymous_platform> element in state file
+
+    client/
+        client_types.cpp
+        cs_statefile.cpp

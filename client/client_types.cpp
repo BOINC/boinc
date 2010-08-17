@@ -221,6 +221,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         }
         if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
         if (parse_bool(buf, "use_symlinks", use_symlinks)) continue;
+        if (parse_bool(buf, "anonymous_platform", btemp)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s", buf
