@@ -6107,3 +6107,11 @@ Rom    16 Aug 2010
     /
         configure.ac
         version.h
+
+Rom    17 Aug 2010
+    - MGR: In the future I need to be more careful when I flatten a
+        class hierarchy. I broke the ability to get the latest
+        project configuration from account managers. Fix that.
+        
+    clientgui/
+        WizardAttach.cpp
