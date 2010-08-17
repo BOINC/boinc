@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-05 11:43-0700\n"
-"PO-Revision-Date: 2010-08-05 10:02-0700\n"
+"POT-Creation-Date: 2010-08-14 16:20-0700\n"
+"PO-Revision-Date: 2010-08-17 12:33-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 
@@ -46,9 +46,8 @@ msgid "Syntax error in app_info.xml"
 msgstr "Syntaxfehler in app_info.xml"
 
 #: gui_rpc_server.cpp:190
-#, fuzzy
 msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr "Rechnername konnte nicht aufgelöst werden in"
+msgstr "Rechnername in remote_hosts.cfg konnte nicht aufgelöst werden."
 
 #: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
 msgid "Unexpected text in cc_config.xml"
@@ -73,7 +72,7 @@ msgstr ""
 "Ungültiger oder fehlender Kontoschlüssel.  Projekt abmelden und neu anmelden "
 "zum beheben."
 
-#: ../sched/handle_request.cpp:820 ../sched/handle_request.cpp:830
+#: ../sched/handle_request.cpp:830
 msgid ""
 "You may have an outdated code signing key.  Try attaching and reattaching "
 "this project."
@@ -181,7 +180,7 @@ msgstr "Unbekannte Anwendung in app_info.xml"
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Die app_info.xml Datei enthält keine nutzbare Version von"
 
-#: ../sched/sched_version.cpp:652
+#: ../sched/sched_version.cpp:653
 msgid "is not available for your type of computer"
 msgstr "ist für diesen Typ von Computer nicht verfügbar."
 
@@ -190,3 +189,8 @@ msgstr "ist für diesen Typ von Computer nicht verfügbar."
 
 #~ msgid "Unparsed tag in"
 #~ msgstr "Übersprungenes Tag in"
+
+#: ../sched/handle_request.cpp:820
+msgid "Invalid code signing key.  To fix, detach and reattach to this project."
+msgstr ""
+"Ungültiger Signaturschlüssel. Projekt abmelden und neu anmelden zum beheben."
