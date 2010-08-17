@@ -1,21 +1,14 @@
-// This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
-//
-// BOINC is free software; you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
-//
-// BOINC is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+///////////////////////////////////////////////////////////////////////////////
+// Name:        wx/htmllbox.h
+// Purpose:     wxHtmlListBox is a listbox whose items are wxHtmlCells
+// Author:      Vadim Zeitlin
+// Modified by: Charlie Fenton
+// Created:     31.05.03
+// RCS-ID:      $Id: htmllbox.h 49804 2007-11-10 01:09:42Z VZ $
+// Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
+// Licence:     wxWindows licence
+///////////////////////////////////////////////////////////////////////////////
 
-// Adapted from htmllbox.h by Vadim Zeitlin <vadim@wxwindows.org>
 
 #ifndef _HTMLLBOX_H_
 #define _HTMLLBOX_H_

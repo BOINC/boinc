@@ -6122,3 +6122,10 @@ Rom    17 Aug 2010
     
     clientgui/
         Makefile.am
+
+Rom    17 Aug 2010
+    - MGR: Remove copyright claims to wxWidgets code.
+    
+    clientgui/
+        BOINCHtmlLBox.cpp, .h
+        BOINCVListBox.cpp, .h
