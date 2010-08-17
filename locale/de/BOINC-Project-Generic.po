@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-14 16:21-0700\n"
+"PO-Revision-Date: 2010-08-17 12:48-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -611,7 +611,6 @@ msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
 msgstr "Wechsle zwischen den Tasks alle %1Empfohlen: 60 Minuten%2"
 
 #: ../inc/prefs.inc:146
-#, fuzzy
 msgid "On multiprocessors, use at most"
 msgstr "Bei mehreren Prozessoren, nutze höchstens"
 
@@ -635,7 +634,7 @@ msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr "Nutze höchstens %1Kann benutzt werden um Überhitzung zu vermeiden.%2"
 
 #: ../inc/prefs.inc:166
-#, fuzzy, php-format
+#, php-format
 msgid "% of CPU time"
 msgstr "% der Prozessorzeit"
 
@@ -1127,7 +1126,6 @@ msgid "Success"
 msgstr "Erfolgreich"
 
 #: ../inc/result.inc:172
-#, fuzzy
 msgid "Computation error"
 msgstr "Berechnungsfehler"
 
@@ -3701,8 +3699,8 @@ msgid ""
 "                       Are you sure you want to request foundership?"
 msgstr ""
 "Wenn der Gründer des Teams nicht mehr Aktiv ist, kann der Gründerstatus von "
-"jedem Teammitglied übernommen werden. Der aktuelle Gründer bekommt eine "
-"E-Mail mit den Informationen und kann der Übertragung zustimmen oder diese "
+"jedem Teammitglied übernommen werden. Der aktuelle Gründer bekommt eine E-"
+"Mail mit den Informationen und kann der Übertragung zustimmen oder diese "
 "ablehnen. Sollte der Gründer nicht innerhalb von 60 Tagen antworten, besteht "
 "dann die Möglichkeit den Gründerstatus zu übernehmen.<br /><br />\n"
 "Sicher das die Übernahme des Gründerstatus eingeleitet werden soll?"
@@ -3779,7 +3777,8 @@ msgstr "Suchergebnisse für '%1'"
 
 #: ../user/team_lookup.php:86
 msgid "You may view these teams' members, statistics, and information."
-msgstr "Die Mitglieder, Statistiken und Informationen zu diesem Team anschauen."
+msgstr ""
+"Die Mitglieder, Statistiken und Informationen zu diesem Team anschauen."
 
 #: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
@@ -3806,8 +3805,7 @@ msgstr "Teaminformationen bearbeiten"
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
 msgstr ""
-"Den Namen des Teams, die URL, die Beschreibung, den Typ oder das Land "
-"ändern."
+"Den Namen des Teams, die URL, die Beschreibung, den Typ oder das Land ändern."
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
@@ -3944,8 +3942,8 @@ msgstr ""
 "<ul>\n"
 "<li>Nach dem verlassen, kann man einem anderen Team oder diesem Team wieder "
 "beitreten.</li>\n"
-"<li>Das Verlassen eines Teams beeinflußt nicht die Anzahl der eigenen "
-"Punkte.</li>\n"
+"<li>Das Verlassen eines Teams beeinflußt nicht die Anzahl der eigenen Punkte."
+"</li>\n"
 "</ul>"
 
 #: ../user/team_quit_form.php:40
@@ -4002,15 +4000,17 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
+"Ein oder Mehrere Suchkriterien passen zu den folgenden Teams.\n"
+"Um einem Team beizutreten, bitte erst auf den Namen und\n"
+"dann %1diesem Team beitreten%2 klicken."
 
 #: ../user/team_search.php:140
 msgid "Change your search"
-msgstr ""
+msgstr "Suche ändern"
 
 #: ../user/team_search.php:152
-#, fuzzy
 msgid "Team search results"
-msgstr "Ergebnisse der Forensuche"
+msgstr "Ergebnisse der Teamsuche"
 
 #: ../user/team_search.php:156
 msgid ""
@@ -4032,7 +4032,7 @@ msgstr "%1Ich bin im Moment nicht daran interessiert%2 einem Team beizutreten."
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr ""
+msgstr "Höchstgrenze erreicht - Nur die ersten %1 Einträge werden angezeigt"
 
 #: ../user/top_hosts.php:80
 msgid "Top hosts"
@@ -4052,14 +4052,13 @@ msgstr "Teilnehmer seit"
 
 #: ../user/uotd.php:27
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "Kein Benutzer des Tages gewählt."
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "Benutzer des Tages am %1: %2"
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
-#, fuzzy
 msgid "Joined"
 msgstr "Beitritt"
 
@@ -4108,7 +4107,6 @@ msgid "search string must be at least 3 characters"
 msgstr "Der Suchbegriff muss mindestens 3 Zeichen enthalten"
 
 #: ../user/user_search.php:156
-#, fuzzy
 msgid "User names starting with"
 msgstr "Benutzernamen beginnend mit"
 
@@ -4118,7 +4116,7 @@ msgstr "Keine Benutzer entsprechen Ihren Suchkriterien."
 
 #: ../user/user_search.php:186
 msgid "missing search type"
-msgstr ""
+msgstr "fehlender Suchtyp"
 
 #: ../user/user_search.php:224
 msgid "User search results"
@@ -4130,20 +4128,19 @@ msgstr "Benutzer nicht gefunden!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "Kontodaten<br/>für %1<br/>Zeit:"
 
 #: ../user/userw.php:46
-#, fuzzy
 msgid "Team:"
 msgstr "Team:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
-msgstr ""
+msgstr "Team GesPunkt:"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "Team DurchschnPunkt:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
@@ -4163,35 +4160,36 @@ msgstr ""
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "E-Mail zur Validierung gesendet"
 
 #: ../user/validate_email_addr.php:35
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
 msgstr ""
+"Es wurde eine E-Mail an die Adresse %1 gesendet. Bitte den enthaltenen Link "
+"aufrufen um die E-Mail Adresse zu validieren."
 
 #: ../user/validate_email_addr.php:44
-#, fuzzy
 msgid "No such user."
-msgstr "Benutzer nicht gefunden"
+msgstr "Benutzer nicht gefunden."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
-msgstr ""
+msgstr "Fehler in der URL - E-Mail Adresse konnte nicht bestätigt werden."
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
 msgstr ""
+"Aktualisierung der Datenbank fehlgeschlagen - Bitte später erneut probieren."
 
 #: ../user/validate_email_addr.php:57
-#, fuzzy
 msgid "Validate email address"
-msgstr "Bestätige die BOINC E-Mail Adresse"
+msgstr " BOINC E-Mail Adresse bestätigen"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "Die E-Mail Adresse Ihres Kontos wurde bestätigt."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4199,14 +4197,13 @@ msgstr "Dieser Benutzer hat kein Profil."
 
 #: ../user/view_profile.php:44
 msgid "Profile: %1"
-msgstr ""
+msgstr "Profil: %1"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
 msgstr "Kontoinformationen"
 
 #: ../user/weak_auth.php:47
-#, fuzzy
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
 "project, without giving the ability to log in to your account or to change "
@@ -4255,7 +4252,7 @@ msgstr ""
 
 #: ../user/workunit.php:30
 msgid "can't find workunit"
-msgstr ""
+msgstr "Arbeitspaket nicht gefunden"
 
 #: ../user/workunit.php:33
 #, fuzzy
@@ -4263,24 +4260,23 @@ msgid "Workunit %1"
 msgstr "Paket ID"
 
 #: ../user/workunit.php:37
-#, fuzzy
 msgid "name"
 msgstr "Name"
 
 # ########################################
 # Apps page (apps.php)
 #: ../user/workunit.php:38
-#, fuzzy
 msgid "application"
-msgstr "Anwendungen"
+msgstr "Anwendung"
 
 #: ../user/workunit.php:39
 msgid "created"
 msgstr "erstellt"
 
 #: ../user/workunit.php:41
+#, fuzzy
 msgid "canonical result"
-msgstr ""
+msgstr "autorisiertes Ergebnis"
 
 #: ../user/workunit.php:44
 #, fuzzy
@@ -4297,11 +4293,12 @@ msgstr ""
 
 #: ../user/workunit.php:55
 msgid "minimum quorum"
-msgstr ""
+msgstr "Mindestanzahl"
 
 #: ../user/workunit.php:56
+#, fuzzy
 msgid "initial replication"
-msgstr ""
+msgstr "Initialreplikation"
 
 #: ../user/workunit.php:57
 msgid "max # of error/total/success tasks"
@@ -4316,9 +4313,8 @@ msgid "validation"
 msgstr "Gültigkeit"
 
 #: ../project.sample/project.inc:49
-#, fuzzy
 msgid "Main page"
-msgstr "Domäne"
+msgstr "Startseite"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
@@ -4329,8 +4325,9 @@ msgid "Generated"
 msgstr "Erstellt"
 
 #: ../project.sample/project.inc:85
+#, fuzzy
 msgid "Your personal background."
-msgstr ""
+msgstr "Ihr persönlicher Werdegang"
 
 #: ../project.sample/project.inc:89
 msgid ""
@@ -4353,6 +4350,11 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
+"Teilen Sie uns Ihre Gedanken zu %1 mit<ol>\n"
+"<li>Warum führen Sie %1 aus?\n"
+"<li>Wie ist Ihre Meinung zu diesem Projekt?\n"
+"<li>Haben Sie Hinweise oder Verbesserungsvorschläge?\n"
+"</ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
@@ -4360,7 +4362,7 @@ msgstr "Farbschema für Grafiken"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "maximale CPU % für Grafiken%1 0 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
