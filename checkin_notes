@@ -6115,3 +6115,10 @@ Rom    17 Aug 2010
         
     clientgui/
         WizardAttach.cpp
+
+Rom    17 Aug 2010
+    - MGR: Fix build issue on Linux (Sqlite3 needed to be added to the
+        list of libs and header directories to be included)
+    
+    clientgui/
+        Makefile.am
