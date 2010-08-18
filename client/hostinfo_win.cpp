@@ -810,7 +810,7 @@ int get_processor_version(int& family, int& model, int& stepping) {
     unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
 
     get_cpuid(0x00000000, eax, ebx, ecx, edx);
-    if (!(eax == 0x00000001)) return ERR_NOT_IMPLEMENTED;
+    if (eax < 0x00000001) return ERR_NOT_IMPLEMENTED;
 
     if (!get_cpuid(0x00000001, eax, ebx, ecx, edx)) {
         family = (((eax >> 8) + (eax >> 20)) & 0xff);

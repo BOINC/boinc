@@ -6151,3 +6151,10 @@ Rom    18 Aug 2010
         
     clientgui/
         AccountInfoPage.cpp
+
+Rom    18 Aug 2010
+    - client: Only error out of the CPU version check if the call to CPUID(0)
+        returns zero.
+        
+    client/
+        hostinfo_win.cpp
