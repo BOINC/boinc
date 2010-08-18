@@ -22,9 +22,6 @@ endif
 
 if ENABLE_MANAGER
 	CLIENTGUI_SUBDIRS = clientgui clientgui/res locale
-	if BUILD_X11_SCREENSAVER
-		CLIENTGUI_SUBDIRS += clientscr
-	endif 
 endif
 
 # ORDER MATTERS below.  One must build dependencies FIRST, then things
