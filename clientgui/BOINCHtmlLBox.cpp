@@ -20,8 +20,6 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#if wxUSE_HTML
-
 #include "BOINCHtmlLBox.h"
 
 // ----------------------------------------------------------------------------
@@ -629,5 +627,3 @@ void CBOINCHtmlListBox::OnLeftDown(wxMouseEvent& event)
         event.Skip();
     }
 }
-
-#endif // wxUSE_HTML

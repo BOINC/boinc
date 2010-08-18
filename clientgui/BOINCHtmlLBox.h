@@ -11,13 +11,11 @@
 
 // Modified for BOINC from wx/htmllbox.h
 
-#ifndef _HTMLLBOX_H_
-#define _HTMLLBOX_H_
+#ifndef _BOINCHTMLLBOX_H_
+#define _BOINCHTMLLBOX_H_
 
 #include "BOINCVListBox.h"               // base class
 
-class WXDLLIMPEXP_FWD_HTML wxHtmlCell;
-class WXDLLIMPEXP_FWD_HTML wxHtmlWinParser;
 class CBOINCHtmlListBoxCache;
 class CBOINCHtmlListBoxStyle;
 
@@ -188,5 +186,5 @@ private:
     DECLARE_NO_COPY_CLASS(CBOINCHtmlListBox)
 };
 
-#endif // _WX_HTMLLBOX_H_
+#endif // _BOINCHTMLLBOX_H_
 

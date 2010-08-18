@@ -114,6 +114,7 @@
 #include <wx/hyperlink.h>
 #include <wx/mstream.h>
 #include <wx/hash.h>
+#include <wx/selstore.h>
 
 #ifdef _WIN32
 // Visual Studio 2005 has extended the C Run-Time Library by including "secure"

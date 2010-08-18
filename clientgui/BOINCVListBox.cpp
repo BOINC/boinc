@@ -20,11 +20,13 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#if wxUSE_LISTBOX
-
 #include "BOINCVListBox.h"
 
-#include "wx/selstore.h"
+// ----------------------------------------------------------------------------
+// constants
+// ----------------------------------------------------------------------------
+
+const wxChar BOINCVListBoxNameStr[] = wxT("BOINCVListBox");
 
 // ----------------------------------------------------------------------------
 // event tables
@@ -682,4 +684,3 @@ CBOINCVListBox::GetClassDefaultAttributes(wxWindowVariant variant)
     return wxListBox::GetClassDefaultAttributes(variant);
 }
 
-#endif

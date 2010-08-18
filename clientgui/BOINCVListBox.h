@@ -12,20 +12,14 @@
 // Modified for BOINC from wx/vlbox.h
 
 
-#ifndef _VLBOX_H_
-#define _VLBOX_H_
-
-//#include "wx/vscroll.h"         // base class
-//#include "wx/bitmap.h"
-
-class WXDLLIMPEXP_FWD_CORE wxSelectionStore;
-
-#define BOINCVListBoxNameStr _T("BOINCVListBox")
+#ifndef _BOINCVLBOX_H_
+#define _BOINCVLBOX_H_
 
 #define ALLOW_NOTICES_SELECTION 0
-
 #define PIXELS_PER_VERTICAL_SCROLL_UNIT 10
 #define PIXELS_PER_HORIZONTAL_SCROLL_UNIT 10
+
+extern const wxChar BOINCVListBoxNameStr[];
 
 // ----------------------------------------------------------------------------
 // CBOINCVListBox
@@ -331,5 +325,5 @@ private:
     DECLARE_ABSTRACT_CLASS(CBOINCVListBox)
 };
 
-#endif // _VLBOX_H_
+#endif // _BOINCVLBOX_H_
 

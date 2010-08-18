@@ -6158,3 +6158,12 @@ Rom    18 Aug 2010
         
     client/
         hostinfo_win.cpp
+
+Rom    18 Aug 2010
+    - MGR: Try and clean up all the undefined reference errors for the GCC
+        linker
+
+    clientgui/
+        BOINCHtmlLBox.cpp, .h
+        BOINCVListBox.cpp, .h
+        stdwx.h
