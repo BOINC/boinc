@@ -6144,3 +6144,10 @@ Charlie 17 Aug 2010
     clientgui/
         BOINCHtmlLBox.cpp, .h
         BOINCVListBox.cpp, .h
+
+Rom    18 Aug 2010
+    - MGR: Set the email text box validator to a simple text validator when
+        the project in question only supports usernames.
+        
+    clientgui/
+        AccountInfoPage.cpp

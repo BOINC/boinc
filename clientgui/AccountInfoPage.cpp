@@ -214,10 +214,10 @@ void CAccountInfoPage::CreateControls()
     itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
-    // m_pAccountEmailAddressCtrl is setup when the OnPageChange event is fired since
+    // m_pAccountEmailAddressCtrl/m_pAccountUsernameCtrl is setup when the OnPageChange event is fired since
     //   it can be a username or an email address.
-    m_pAccountEmailAddressCtrl->SetValidator( CValidateEmailAddress(&m_strAccountEmailAddress) );
-    m_pAccountUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountUsername) );
+    m_pAccountEmailAddressCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountEmailAddress) );
+    m_pAccountUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountUsername) );
     m_pAccountPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountPassword) );
     m_pAccountConfirmPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountConfirmPassword) );
     
@@ -465,6 +465,13 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             }
         }
 
+        m_pAccountEmailAddressCtrl->SetValidator( 
+            wxTextValidator(wxFILTER_NONE, &m_strAccountEmailAddress)
+        );
+        m_pAccountUsernameCtrl->SetValidator(
+            wxTextValidator(wxFILTER_ASCII, &m_strAccountUsername)
+        );
+
         m_pAccountEmailAddressStaticCtrl->Hide();
         m_pAccountEmailAddressCtrl->Hide();
         m_pAccountUsernameStaticCtrl->Show();
@@ -483,6 +490,13 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 );
             }
         }
+
+        m_pAccountEmailAddressCtrl->SetValidator(
+            CValidateEmailAddress(&m_strAccountEmailAddress)
+        );
+        m_pAccountUsernameCtrl->SetValidator(
+            wxTextValidator(wxFILTER_NONE, &m_strAccountUsername)
+        );
 
         m_pAccountEmailAddressStaticCtrl->Show();
         m_pAccountEmailAddressCtrl->Show();
