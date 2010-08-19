@@ -130,7 +130,7 @@ public:
 
 #else
 
-    bool IsSelected(size_t item) const { return false; }
+    bool IsSelected(size_t ) const { return false; }
 
 #endif      // ALLOW_NOTICES_SELECTION
 
@@ -195,7 +195,7 @@ public:
 
 #else
 
-    void SetSelection(int selection) { };
+    void SetSelection(int ) { };
     
     
 
