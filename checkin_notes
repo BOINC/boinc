@@ -6167,3 +6167,12 @@ Rom    18 Aug 2010
         BOINCHtmlLBox.cpp, .h
         BOINCVListBox.cpp, .h
         stdwx.h
+
+Rom    18 Aug 2010
+    - MGR: Finish implementing the use of Usernames in the account manager part
+        of the wizard.  I must have been asleep at the wheel on that one.
+        
+    clientgui/
+        AccountInfoPage.h
+        AccountManagerProcessingPage.cpp
+        ProjectProcessingPage.cpp

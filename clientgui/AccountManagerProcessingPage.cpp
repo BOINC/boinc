@@ -264,7 +264,11 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 url = (const char*)pWA->m_AccountManagerInfoPage->GetProjectURL().mb_str();
             }
 
-            username = (const char*)pWA->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+            if (pWA->project_config.uses_username) {
+                username = (const char*)pWA->m_AccountInfoPage->GetAccountUsername().mb_str();
+            } else {
+                username = (const char*)pWA->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+            }
             password = (const char*)pWA->m_AccountInfoPage->GetAccountPassword().mb_str();
             
             // Wait until we are done processing the request.

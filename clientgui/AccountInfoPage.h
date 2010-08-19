@@ -80,6 +80,9 @@ public:
     wxString GetAccountConfirmPassword() const { return m_strAccountConfirmPassword ; }
     void SetAccountConfirmPassword(wxString value) { m_strAccountConfirmPassword = value ; }
 
+    wxString GetAccountUsername() const { return m_strAccountUsername ; }
+    void SetAccountUsername(wxString value) { m_strAccountUsername = value ; }
+
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
