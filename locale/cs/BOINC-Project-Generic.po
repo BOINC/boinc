@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-15 23:46+0100\n"
+"PO-Revision-Date: 2010-08-20 23:59+0100\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -110,7 +110,7 @@ msgstr "Označit všechna vlákna jako přečtená"
 
 #: ../inc/forum.inc:1174
 msgid "Mark all threads in all message boards as 'read'."
-msgstr "Označit všechna vlákna ve všech diskuzních fórech jako přečtená"
+msgstr "Označit všechna vlákna ve všech diskuzních fórech jako přečtená."
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -157,7 +157,7 @@ msgstr "(stejná u posledních %1 připojení)"
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr "Vnější IP adresa"
+msgstr "Veřejná IP adresa"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
@@ -240,7 +240,7 @@ msgstr "Průměrný kredit"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr "Kredit napříč projekty"
+msgstr "Kredit ze všech projektů"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
@@ -305,11 +305,11 @@ msgstr "Naměřená rychlost operací v plovoucí řádové čárce"
 #: ../inc/host.inc:144
 #: ../inc/host.inc:147
 msgid "%1 million ops/sec"
-msgstr "%1 milion op/sek"
+msgstr "%1 milionů op/sek"
 
 #: ../inc/host.inc:147
 msgid "Measured integer speed"
-msgstr "Naměřená rychlost v celočíselných operacích"
+msgstr "Naměřená rychlost celočíselných operací"
 
 #: ../inc/host.inc:151
 #: ../inc/host.inc:153
@@ -349,7 +349,7 @@ msgstr "Detaily aplikace"
 
 #: ../inc/host.inc:165
 msgid "Show"
-msgstr "Ukázat"
+msgstr "Zobrazit"
 
 #: ../inc/host.inc:175
 #: ../inc/host.inc:302
@@ -359,7 +359,7 @@ msgstr "Úkoly"
 
 #: ../inc/host.inc:179
 msgid "Number of times BOINC has contacted server"
-msgstr "Počet kolikrát BOINC kontaktoval server"
+msgstr "Kolikrát BOINC kontaktoval server"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
@@ -382,7 +382,7 @@ msgstr "% času kdy je povolená práce, z doby kdy BOINC počítá"
 
 #: ../inc/host.inc:187
 msgid "Average CPU efficiency"
-msgstr "Průměrná efektivita CPU"
+msgstr "Průměrná efektivita procesoru"
 
 #: ../inc/host.inc:190
 msgid "Task duration correction factor"
@@ -414,7 +414,7 @@ msgstr "Informace o počítači"
 #: ../inc/team.inc:344
 #: ../user/top_users.php:46
 msgid "Rank"
-msgstr "Pořadí"
+msgstr "Umístění"
 
 #: ../inc/host.inc:216
 #: ../inc/host.inc:619
@@ -435,13 +435,13 @@ msgstr "Průměrný kredit"
 #: ../user/top_users.php:51
 #: ../user/top_users.php:56
 msgid "Recent average credit"
-msgstr "Současný průměrný kredit (RAC)"
+msgstr "Současný průměrný kredit"
 
 #: ../inc/host.inc:227
 #: ../inc/host.inc:624
 #: ../inc/result.inc:42
 msgid "CPU"
-msgstr "CPU"
+msgstr "Procesor"
 
 #: ../inc/host.inc:228
 #: ../inc/host.inc:625
@@ -498,11 +498,11 @@ msgstr "Nelze aktualizovat výsledky"
 
 #: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
-msgstr "Nelze odvolat starý počítač"
+msgstr "Nelze vyřadit starý počítač"
 
 #: ../inc/host.inc:574
 msgid "Retired old computer %1"
-msgstr "Odvolaný starý počítač %1"
+msgstr "Vyřazený starý počítač %1"
 
 #: ../inc/host.inc:597
 #: ../inc/host.inc:600
@@ -517,7 +517,7 @@ msgstr "Všechny počítače"
 #: ../inc/host.inc:597
 #: ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
-msgstr "Jen počítače aktivní během posledních 30 dnů"
+msgstr "Jen počítače aktivní za posledních 30 dnů"
 
 #: ../inc/host.inc:609
 #: ../inc/result.inc:387
@@ -632,7 +632,7 @@ msgstr "Přerušit práci když je počítač používán?"
 
 #: ../inc/prefs.inc:90
 msgid "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
-msgstr "Přerušit práci na GPU když je počítač používán? %1 Funkční od verze 6.6.21+ %2"
+msgstr "Přerušit práci na GPU když je počítač používán? %1 Podporováno od verze 6.6.21+ %2"
 
 #: ../inc/prefs.inc:98
 msgid "'In use' means mouse/keyboard activity in last"
@@ -650,7 +650,7 @@ msgstr "Přerušit práci při nulové aktivitě myši či klávesnice během po
 
 #: ../inc/prefs.inc:113
 msgid "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+ %2"
-msgstr "Přerušit práci při zatížení procesoru nad %1 0 znamená bez omezení<br/>Funkční od verze 6.10.30+ %2"
+msgstr "Přerušit práci při zatížení procesoru nad %1 0 znamená bez omezení<br/>Podporováno od verze 6.10.30+ %2"
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
@@ -666,7 +666,7 @@ msgstr "Přepínat mezi aplikacemi každých %1 Doporučeno: 60 minut %2"
 
 #: ../inc/prefs.inc:146
 msgid "On multiprocessors, use at most"
-msgstr "Na víceprocesorovém systému používat nejvíce"
+msgstr "Na víceprocesorových systémech používat nanejvýš"
 
 #: ../inc/prefs.inc:148
 msgid "processors"
@@ -674,26 +674,26 @@ msgstr "procesorů"
 
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
-msgstr "U víceprocesorových systému používat nejvíce %1 Funkční od verze 6.1+ %2"
+msgstr "Na víceprocesorových systémech používat nanejvýš %1 Podporováno od verze 6.1+ %2"
 
 #: ../inc/prefs.inc:157
 #, php-format
 msgid "% of the processors"
-msgstr "% ze všech procesorů"
+msgstr "% všech procesorů"
 
 #: ../inc/prefs.inc:161
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
-msgstr "Používat nejvíce %1 Lze použít pro snížení tepla CPU %2"
+msgstr "Využívat nanejvýš %1 Lze použít pro snížení tepla procesoru %2"
 
 #: ../inc/prefs.inc:166
 #, php-format
 msgid "% of CPU time"
-msgstr "% CPU času"
+msgstr "% procesorového času"
 
 #: ../inc/prefs.inc:174
 #: ../inc/prefs.inc:188
 msgid "Disk: use at most"
-msgstr "Disk: použít nejvíce"
+msgstr "Disk: použít nanejvýš"
 
 #: ../inc/prefs.inc:176
 #: ../inc/prefs.inc:185
@@ -714,7 +714,7 @@ msgstr "% celkového místa"
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
-msgstr "Zapisovat průběh na disk nejvíce každých"
+msgstr "Zapisovat průběh na disk nanejvýš každých"
 
 #: ../inc/prefs.inc:195
 msgid "seconds"
@@ -722,126 +722,126 @@ msgstr "vteřin"
 
 #: ../inc/prefs.inc:198
 msgid "Swap space: use at most"
-msgstr "Odkládací paměť: využívat nejvíce"
+msgstr "Odkládací paměť: využívat nanejvýš"
 
 #: ../inc/prefs.inc:203
 msgid "Memory: when computer is in use, use at most"
-msgstr "Paměť: když je počítač používán, použít maximálně"
+msgstr "Paměť: když je počítač používán, použít nanejvýš"
 
 #: ../inc/prefs.inc:208
 msgid "Memory: when computer is not in use, use at most"
-msgstr "Paměť: když počítač není používán, použít maximálně"
+msgstr "Paměť: když počítač není používán, použít nanejvýš"
 
 #: ../inc/prefs.inc:217
 msgid "Computer is connected to the Internet about every %1 Leave blank or 0 if always connected. %2 BOINC will try to maintain at least this much work. %3"
-msgstr ""
+msgstr "Počítač bývá připojoven k Internetu jednou za %1 Pokud je připojen trvale, ponechte prázdné či zadejte 0. %2 BOINC se pokusí obstarávat dostatek práce na tolik dnů. %3"
 
 #: ../inc/prefs.inc:223
 #: ../inc/prefs.inc:228
 #: ../inc/prefs.inc:270
 msgid "days"
-msgstr ""
+msgstr "dny"
 
 #: ../inc/prefs.inc:226
 msgid "Maintain enough work for an additional"
-msgstr ""
+msgstr "Zajistit dostatek práce na další"
 
 #: ../inc/prefs.inc:232
 msgid "Confirm before connecting to Internet? %1 Matters only if you have a modem, ISDN or VPN connection %2"
-msgstr ""
+msgstr "Zobrazit dotaz před připojením k Internetu? %1 Má smysl jen u připojení přes modem, ISDN či VPN %2"
 
 #: ../inc/prefs.inc:241
 msgid "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN connection %2"
-msgstr ""
+msgstr "Odpojit po ukončení komunikace? %1 Má smysl jen při u připojení přes modem, ISDN či VPN %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
-msgstr ""
+msgstr "Maximální rychlost stahování:"
 
 #: ../inc/prefs.inc:251
 #: ../inc/prefs.inc:256
 msgid "Kbytes/sec"
-msgstr ""
+msgstr "KB/s"
 
 #: ../inc/prefs.inc:254
 msgid "Maximum upload rate:"
-msgstr ""
+msgstr "Maximální rychlost odesílání:"
 
 #: ../inc/prefs.inc:259
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Povolit přístup k síti jen mezi hodinami"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
+msgstr "Přenést nanejvýš %1 Podporováno od verze 6.10.46+ %2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
-msgstr ""
+msgstr "MB každé"
 
 #: ../inc/prefs.inc:274
 msgid "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC. %3"
-msgstr ""
+msgstr "Přeskočit kontrolou obrázků? %1 Zaškrtněte POUZE pokud váš poskytovatel upravuje soubory s obrázky (dělá to např. UMTS). %2 Vynechání kontroly snižuje bezpečnost BOINCu. %3"
 
 #: ../inc/prefs.inc:287
 msgid "Resource share %1 Determines the proportion of your computer's resources allocated to this project. Example: if you participate in two BOINC projects with resource shares of 100 and 200, the first will get 1/3 of your resources and the second will get 2/3. %2"
-msgstr ""
+msgstr "Podíl prostředků %1 Určuje podíl přostředků Vašeho počítače pro tento projekt. Příklad: pokud se podílíte ve dvou BOINC projektech s podílem 100 a 200, první bude mít k dispozici 1/3 a druhý 2/3 prostředků počítače %2"
 
 #: ../inc/prefs.inc:300
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Používat procesor %1 Podporováno od verze 6.10+ %2"
 
 #: ../inc/prefs.inc:312
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Používat ATI GPU %1 Podporováno od verze 6.10+ %2"
 
 #: ../inc/prefs.inc:324
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "Používat nVidia GPU %1 Podporováno od verze 6.10+ %2"
 
 #: ../inc/prefs.inc:338
 msgid "Run test applications? %1 This helps us develop applications, but may cause jobs to fail on your computer %2"
-msgstr ""
+msgstr "Povolit běh testovacích aplikací? %1 Povolením pomůžete vyvíjet a lépe testovat aplikace, ale také to může způsobovat občasné selhání výpočtu na Vašem počítači %2"
 
 #: ../inc/prefs.inc:347
 msgid "Emails will be sent from %1; make sure your spam filter accepts this address."
-msgstr ""
+msgstr "Emaily budou zasílané z adresy %1, ujistěte se, že Vám tuto adresu nezachytává spam filtr."
 
 #: ../inc/prefs.inc:354
 msgid "Is it OK for %1 and your team (if any) to email you?"
-msgstr ""
+msgstr "Může Vám %1 či Váš tým zasílat občasné emaily?"
 
 #: ../inc/prefs.inc:360
 msgid "Should %1 show your computers on its web site?"
-msgstr ""
+msgstr "Má %1 zobrazovat Vaše počítače na svých stránkách?"
 
 #: ../inc/prefs.inc:367
 msgid "Disk and memory usage"
-msgstr ""
+msgstr "Využití disku a paměti"
 
 #: ../inc/prefs.inc:368
 msgid "Processor usage"
-msgstr ""
+msgstr "Využití procesoru"
 
 #: ../inc/prefs.inc:369
 msgid "Network usage"
-msgstr ""
+msgstr "Využití připojení"
 
 #: ../inc/prefs.inc:372
 msgid "These preferences apply to all the BOINC projects in which you participate."
-msgstr ""
+msgstr "Tyto předvolby se vztahují na všechny BOINC projekty ve kterých se podílíte."
 
 #: ../inc/prefs.inc:375
 msgid "%1Unable to update preferences.%2 The values marked in red below were out of range or not numeric."
-msgstr ""
+msgstr "%1Nelze upravit předvolby.%2 Hodnoty označené červeně jsou mimo platný rozsah a nebo nejsou číselné."
 
 #: ../inc/prefs.inc:424
 msgid "bad venue: %1"
-msgstr ""
+msgstr "špatný typ: %1"
 
 #: ../inc/prefs.inc:430
 msgid "bad subset: %1"
-msgstr ""
+msgstr "špatný rozsah: %1"
 
 #: ../inc/prefs.inc:617
 msgid "Default"
@@ -854,7 +854,7 @@ msgstr "Výchozí"
 #: ../inc/prefs_util.inc:108
 #: ../project.sample/project_specific_prefs.inc:74
 msgid "yes"
-msgstr ""
+msgstr "ano"
 
 #: ../inc/prefs.inc:649
 #: ../inc/prefs.inc:652
@@ -863,35 +863,35 @@ msgstr ""
 #: ../inc/prefs_util.inc:112
 #: ../project.sample/project_specific_prefs.inc:76
 msgid "no"
-msgstr ""
+msgstr "ne"
 
 #: ../inc/prefs.inc:657
 msgid "no limit"
-msgstr ""
+msgstr "bez omezení"
 
 #: ../inc/prefs.inc:682
 #: ../user/team_admins.php:77
 msgid "Add"
-msgstr ""
+msgstr "Přidat"
 
 #: ../inc/prefs.inc:683
 #: ../inc/prefs.inc:685
 msgid "Edit"
-msgstr ""
+msgstr "Upravit"
 
 #: ../inc/prefs.inc:684
 #: ../inc/prefs.inc:810
 #: ../user/team_admins.php:32
 msgid "Remove"
-msgstr ""
+msgstr "Odebrat"
 
 #: ../inc/prefs.inc:790
 msgid "Computing"
-msgstr ""
+msgstr "Výpočty"
 
 #: ../inc/prefs.inc:801
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "Oddělené předvolby pro %1"
 
 #: ../inc/prefs.inc:810
 #: ../inc/prefs.inc:885
@@ -900,12 +900,12 @@ msgstr "Upravit předvolby"
 
 #: ../inc/prefs.inc:814
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "Přidat oddělené předvolby pro %1"
 
 #: ../inc/prefs.inc:822
 #: ../inc/prefs.inc:867
 msgid "(Switch View)"
-msgstr ""
+msgstr "(Přepnout pohled)"
 
 #: ../inc/prefs.inc:824
 #: ../inc/prefs.inc:870
@@ -914,12 +914,12 @@ msgstr "Společné předvolby"
 
 #: ../inc/prefs.inc:829
 msgid "Project specific settings"
-msgstr ""
+msgstr "Specifické nastavení projektu"
 
 #: ../inc/prefs.inc:837
 #: ../inc/prefs.inc:879
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Primární (výchozí) předvolby"
 
 #: ../inc/prefs.inc:846
 #: ../user/add_venue.php:43
@@ -935,10 +935,12 @@ msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers attached to multiple projects, the most recently modified preferences will be used."
 msgstr ""
+"Tyto se vztahují na všechny BOINC projekty, ve kterých se účastníte.<br/>\n"
+"U počítačů připojených do více projektů budou použity nejaktuálnější předvolby."
 
 #: ../inc/prefs.inc:864
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Poslední úprava předvoleb:"
 
 #: ../inc/prefs.inc:914
 msgid "Add preferences"
@@ -951,24 +953,24 @@ msgstr "Aktualizovat předvolby"
 #: ../inc/prefs.inc:1006
 #: ../inc/prefs.inc:1015
 msgid "Default computer location"
-msgstr ""
+msgstr "Výchozí umístění počítače:"
 
 #: ../inc/prefs.inc:1166
 msgid "Update failed: "
-msgstr ""
+msgstr "Nahrání selhalo:"
 
 #: ../inc/prefs_util.inc:314
 #: ../inc/prefs_util.inc:324
 msgid "and"
-msgstr ""
+msgstr "a"
 
 #: ../inc/profile.inc:86
 msgid "Your profile will be made visible to other people as soon as it has been approved by the project. This may take up to a few days."
-msgstr ""
+msgstr "Váš profil bude viditelný pro ostatní po schválení projektem, to může trvat pár dní."
 
 #: ../inc/profile.inc:92
 msgid "Your profile has been marked as unacceptable. It is not visible to other people. Please change it."
-msgstr ""
+msgstr "Váš profil byl označen jako závadný - momentálně není viditelný pro ostatní uživatele. Prosím upravte si jej."
 
 #: ../inc/profile.inc:167
 #: ../user/friend.php:103
@@ -978,15 +980,15 @@ msgstr "Chyba databáze"
 
 #: ../inc/profile.inc:187
 msgid "To prevent spam, profiles of users with an average credit of less than %1 are displayed only to logged-in users.  We apologize for this inconvenience."
-msgstr ""
+msgstr "Pro předcházení spamu jsou profily uživatelů s průměrným kreditem menším než %1 viditelné jen přihlášenými uživateli. Omlouváme se za tuto nepřijemnost."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
-msgstr ""
+msgstr "Uživatel byl vykázán"
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "Pro dané ID neexistuje žádný uživatelský profil."
 
 #: ../inc/profile.inc:213
 #: ../user/create_profile.php:306
@@ -995,11 +997,11 @@ msgstr "Upravit Váš profil"
 
 #: ../inc/profile.inc:251
 msgid "Your feedback on this profile"
-msgstr "Vaše reakce na tento profil"
+msgstr "Vaše reakce k tomuto profilu"
 
 #: ../inc/profile.inc:253
 msgid "Recommend this profile for User of the Day:"
-msgstr "Doporučit tento profil na 'Uživatele dne'\""
+msgstr "Doporučit tento profil na Uživatele dne:"
 
 #: ../inc/profile.inc:254
 msgid "I %1like%2 this profile"
@@ -1007,7 +1009,7 @@ msgstr "%1Líbí%2 se mi tento profil"
 
 #: ../inc/profile.inc:257
 msgid "Alert administrators to an offensive profile:"
-msgstr "Upozornit administrátory na urážlivý profil\""
+msgstr "Upozornit administrátory na urážlivý profil:"
 
 #: ../inc/profile.inc:258
 msgid "I %1do not like%2 this profile"
@@ -1015,145 +1017,145 @@ msgstr "%1Nelíbí%2 se mi tento profil"
 
 #: ../inc/result.inc:29
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Anonymní platforma"
 
 #: ../inc/result.inc:43
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "nVidia GPU"
 
 #: ../inc/result.inc:44
 msgid "ATI GPU"
-msgstr ""
+msgstr "ATI GPU"
 
 #: ../inc/result.inc:51
 msgid "Not in DB"
-msgstr ""
+msgstr "Není v DB"
 
 #: ../inc/result.inc:77
 msgid "pending"
-msgstr ""
+msgstr "nevyřízené"
 
 #: ../inc/result.inc:99
 msgid "All"
-msgstr ""
+msgstr "Všechny"
 
 #: ../inc/result.inc:100
 #: ../inc/result.inc:120
 #: ../inc/result.inc:159
 msgid "In progress"
-msgstr ""
+msgstr "Aktivní"
 
 #: ../inc/result.inc:101
 #: ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "Očekává vyřízení"
 
 #: ../inc/result.inc:102
 #: ../inc/result.inc:202
 msgid "Valid"
-msgstr ""
+msgstr "Validní"
 
 #: ../inc/result.inc:103
 #: ../inc/result.inc:205
 msgid "Invalid"
-msgstr ""
+msgstr "Nevalidní"
 
 #: ../inc/result.inc:104
 #: ../inc/result.inc:145
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: ../inc/result.inc:118
 #: ../inc/result.inc:157
 msgid "Inactive"
-msgstr ""
+msgstr "Neaktivní"
 
 #: ../inc/result.inc:119
 #: ../inc/result.inc:158
 msgid "Unsent"
-msgstr ""
+msgstr "Neodesláno"
 
 #: ../inc/result.inc:125
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Dokončeno, čeká se na validaci"
 
 #: ../inc/result.inc:126
 msgid "Completed and validated"
-msgstr ""
+msgstr "Dokončeno a validováno"
 
 #: ../inc/result.inc:127
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Dokončeno, označeno jako nevalidní"
 
 #: ../inc/result.inc:128
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Dokončeno, nelze validovat"
 
 #: ../inc/result.inc:129
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Dokončeno, částečně validováno"
 
 #: ../inc/result.inc:130
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Dokončeno, příliš pozdě na validaci"
 
 #: ../inc/result.inc:132
 msgid "Completed"
-msgstr ""
+msgstr "Dokončeno"
 
 #: ../inc/result.inc:133
 #: ../inc/result.inc:169
 msgid "Couldn't send"
-msgstr ""
+msgstr "Nelze odeslat"
 
 #: ../inc/result.inc:136
 #: ../inc/result.inc:193
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Zrušeno serverem"
 
 #: ../inc/result.inc:139
 msgid "Error while downloading"
-msgstr ""
+msgstr "Chyba při stahování"
 
 #: ../inc/result.inc:141
 msgid "Error while computing"
-msgstr ""
+msgstr "Chyba při výpočtu"
 
 #: ../inc/result.inc:142
 msgid "Error while uploading"
-msgstr ""
+msgstr "Chyba při odesílání"
 
 #: ../inc/result.inc:143
 #: ../inc/result.inc:195
 msgid "Aborted by user"
-msgstr ""
+msgstr "Zrušeno uživatelem"
 
 #: ../inc/result.inc:146
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Vypršela lhůta - bez odpovědi"
 
 #: ../inc/result.inc:147
 #: ../inc/result.inc:176
 msgid "Didn't need"
-msgstr ""
+msgstr "Není potřeba"
 
 #: ../inc/result.inc:148
 #: ../inc/result.inc:177
 msgid "Validate error"
-msgstr ""
+msgstr "Chyba validace"
 
 #: ../inc/result.inc:149
 #: ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "Zrušeno"
 
 #: ../inc/result.inc:160
 msgid "Over"
-msgstr ""
+msgstr "Pozdě"
 
 #: ../inc/result.inc:168
 msgid "Success"
-msgstr ""
+msgstr "Úspěch"
 
 #: ../inc/result.inc:172
 msgid "Computation error"
@@ -1161,31 +1163,31 @@ msgstr "Výpočetní chyba"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
-msgstr ""
+msgstr "Nadbytečný výsledek"
 
 #: ../inc/result.inc:175
 msgid "No reply"
-msgstr ""
+msgstr "Bez odpovědi"
 
 #: ../inc/result.inc:185
 msgid "New"
-msgstr ""
+msgstr "Nový"
 
 #: ../inc/result.inc:186
 msgid "Downloading"
-msgstr ""
+msgstr "Stahuje se"
 
 #: ../inc/result.inc:187
 msgid "Processing"
-msgstr ""
+msgstr "Počítá se"
 
 #: ../inc/result.inc:188
 msgid "Compute error"
-msgstr ""
+msgstr "Výpočetní chyba"
 
 #: ../inc/result.inc:189
 msgid "Uploading"
-msgstr ""
+msgstr "Odesílá se"
 
 #: ../inc/result.inc:190
 msgid "Done"
@@ -1193,66 +1195,66 @@ msgstr "Hotovo"
 
 #: ../inc/result.inc:201
 msgid "Initial"
-msgstr ""
+msgstr "Počáteční"
 
 #: ../inc/result.inc:207
 msgid "Not necessary"
-msgstr ""
+msgstr "Není zapotřebí"
 
 #: ../inc/result.inc:208
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Chyba pracovní jednotky - vynechána kontrola"
 
 #: ../inc/result.inc:209
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Zkontrolováno, ale zatím nerozhodnuto"
 
 #: ../inc/result.inc:210
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "Úkol byl nahlášen příliš pozdě pro validaci"
 
 #: ../inc/result.inc:218
 msgid "Couldn't send result"
-msgstr ""
+msgstr "Nelze odeslat výsledek"
 
 #: ../inc/result.inc:222
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Příliš mnoho chyb (možná chyba v zadání)"
 
 #: ../inc/result.inc:226
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "Příliš mnoho různých výsledků (výpočet může být nedeterministický)"
 
 #: ../inc/result.inc:230
 msgid "Too many total results"
-msgstr ""
+msgstr "Příliš mnoho konečných výsledků"
 
 #: ../inc/result.inc:234
 msgid "WU cancelled"
-msgstr ""
+msgstr "Pracovní jednotka zrušena"
 
 #: ../inc/result.inc:238
 msgid "Unrecognized Error: %1"
-msgstr ""
+msgstr "Neznámá chyba: %1"
 
 #: ../inc/result.inc:264
 msgid "Task name"
-msgstr ""
+msgstr "Jméno úkolu"
 
 #: ../inc/result.inc:264
 #: ../inc/result.inc:269
 #: ../inc/result.inc:272
 #: ../inc/result.inc:275
 msgid "click for details"
-msgstr ""
+msgstr "klikněte pro detaily"
 
 #: ../inc/result.inc:264
 msgid "Show IDs"
-msgstr ""
+msgstr "Zobrazit ID"
 
 #: ../inc/result.inc:269
 msgid "Show names"
-msgstr ""
+msgstr "Zobrazit jména"
 
 #: ../inc/result.inc:272
 msgid "Task"
@@ -1260,7 +1262,7 @@ msgstr "Úkol"
 
 #: ../inc/result.inc:275
 msgid "Work unit"
-msgstr ""
+msgstr "Pracovní jednotka"
 
 #: ../inc/result.inc:278
 msgid "Computer"
@@ -1269,27 +1271,27 @@ msgstr "Počítač"
 #: ../inc/result.inc:281
 #: ../inc/result.inc:381
 msgid "Sent"
-msgstr ""
+msgstr "Odesláno"
 
 #: ../inc/result.inc:282
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Lhůta pro dokončení<br/>nebo čas nahlášení"
 
 #: ../inc/result.inc:283
 msgid "explain"
-msgstr ""
+msgstr "vysvětlení"
 
 #: ../inc/result.inc:285
 msgid "Status"
-msgstr ""
+msgstr "Stav"
 
 #: ../inc/result.inc:286
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Čas běhu<br/>(sec)"
 
 #: ../inc/result.inc:287
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "Procesorový čas<br/>(sec)"
 
 #: ../inc/result.inc:288
 #: ../inc/result.inc:392
@@ -1302,43 +1304,43 @@ msgstr "Aplikace"
 
 #: ../inc/result.inc:379
 msgid "Workunit"
-msgstr ""
+msgstr "Pracovní jednotka"
 
 #: ../inc/result.inc:382
 msgid "Received"
-msgstr ""
+msgstr "Doručeno"
 
 #: ../inc/result.inc:383
 msgid "Server state"
-msgstr ""
+msgstr "Stav serveru"
 
 #: ../inc/result.inc:384
 msgid "Outcome"
-msgstr ""
+msgstr "Výsledek"
 
 #: ../inc/result.inc:385
 msgid "Client state"
-msgstr ""
+msgstr "Stav klienta"
 
 #: ../inc/result.inc:386
 msgid "Exit status"
-msgstr ""
+msgstr "Konečný stav"
 
 #: ../inc/result.inc:388
 msgid "Report deadline"
-msgstr ""
+msgstr "Lhůta pro dokončení"
 
 #: ../inc/result.inc:389
 msgid "Run time"
-msgstr ""
+msgstr "Čas běhu"
 
 #: ../inc/result.inc:390
 msgid "CPU time"
-msgstr ""
+msgstr "Procesorový čas"
 
 #: ../inc/result.inc:391
 msgid "Validate state"
-msgstr ""
+msgstr "Stav validace"
 
 #: ../inc/result.inc:393
 msgid "Application version"
@@ -1346,11 +1348,11 @@ msgstr "Verze aplikace"
 
 #: ../inc/result.inc:408
 msgid "Previous"
-msgstr ""
+msgstr "Předchozí"
 
 #: ../inc/result.inc:417
 msgid "Next"
-msgstr ""
+msgstr "Následující"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1400,7 +1402,7 @@ msgstr "Hledat"
 
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
-msgstr "Vaše žádosti, u nichž vypršela lhůta na odpověď vlastníka"
+msgstr "Vaše žádosti, u nichž vypršela lhůta na odpověď vlastníka."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
@@ -1469,7 +1471,7 @@ msgstr "Připojit se k tomuto týmu"
 
 #: ../inc/team.inc:129
 msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
-msgstr "Poznámka: pokud máte v nastavení projektu 'OK u emailu', připojením k týmu poskytnete jeho vlastníkovi přístup k vaší emailové adrese."
+msgstr "Poznámka: pokud máte v předvolbách projektu 'OK u emailu', připojením k týmu poskytnete jeho vlastníkovi přístup k vaší emailové adrese."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
@@ -1532,14 +1534,14 @@ msgstr "Administrátor"
 #: ../user/top_teams.php:119
 #: ../user/top_users.php:125
 msgid "Previous %1"
-msgstr ""
+msgstr "Předchozí %1"
 
 #: ../inc/team.inc:268
 #: ../user/top_hosts.php:96
 #: ../user/top_teams.php:124
 #: ../user/top_users.php:130
 msgid "Next %1"
-msgstr "Prvních %1"
+msgstr "Následující %1"
 
 #: ../inc/team.inc:276
 msgid "No such team."
@@ -1555,11 +1557,11 @@ msgstr "Tuto operaci může provést jen administrátor týmu"
 
 #: ../inc/team.inc:410
 msgid "WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead."
-msgstr ""
+msgstr "VAROVÁNÍ: toto je globální BOINC tým. Změny zanesené zde budou brzy přepsány. Upravte namísto toho přímo %1globální BOINC tým%2."
 
 #: ../inc/team.inc:417
 msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
-msgstr "%1Poznámka k soukromí%2: pokud založíte tým, vaše projektová nastavení (podíl prostředků, nastavení grafiky) budou veřejně viditelná."
+msgstr "%1Poznámka k soukromí%2: pokud založíte tým, vaše projektové předvolby (podíl prostředků, nastavení grafiky) budou veřejně viditelné."
 
 #: ../inc/team.inc:421
 msgid "Team name, text version"
@@ -1600,11 +1602,11 @@ msgstr "Popis týmu"
 
 #: ../inc/team.inc:451
 msgid "Accept new members?"
-msgstr ""
+msgstr "Povolit nové členy?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr ""
+msgstr "Uživatelský profil"
 
 #: ../inc/user.inc:116
 msgid "Projects in which you are participating"
@@ -1658,7 +1660,7 @@ msgstr "Statistiky napříč projekty"
 
 #: ../inc/user.inc:164
 msgid "Account"
-msgstr ""
+msgstr "Účet"
 
 #: ../inc/user.inc:166
 #: ../inc/user.inc:279
@@ -1752,7 +1754,7 @@ msgstr "Poskytuje %1omezený přístup%2 k Vašemu účtu"
 
 #: ../inc/user.inc:220
 msgid "Preferences"
-msgstr "Nastavení"
+msgstr "Předvolby"
 
 #: ../inc/user.inc:223
 msgid "When and how BOINC uses your computer"
@@ -1760,7 +1762,7 @@ msgstr "Kdy a jak má BOINC používat Váš počítač"
 
 #: ../inc/user.inc:224
 msgid "Computing preferences"
-msgstr "Výpočetní nastavení"
+msgstr "Výpočetní předvolby"
 
 #: ../inc/user.inc:227
 msgid "Message boards and private messages"
@@ -1768,16 +1770,16 @@ msgstr "Diskuzní fóra a soukromé zprávy"
 
 #: ../inc/user.inc:228
 msgid "Community preferences"
-msgstr "Komunitní nastavení"
+msgstr "Komunitní předvolby"
 
 #: ../inc/user.inc:231
 msgid "Preferences for this project"
-msgstr ""
+msgstr "Předvolby pro tento projekt"
 
 #: ../inc/user.inc:232
 #: ../user/prefs.php:33
 msgid "%1 preferences"
-msgstr "%1 nastavení"
+msgstr "%1 předvolby"
 
 #: ../inc/user.inc:238
 #: ../user/sample_index.php:66
@@ -1883,7 +1885,7 @@ msgstr "Přidat jako přítele"
 
 #: ../inc/util.inc:191
 msgid "Unable to handle request"
-msgstr ""
+msgstr "Nelze vyhodnotit žádost"
 
 #: ../inc/util.inc:385
 msgid "Email address:"
@@ -1891,7 +1893,7 @@ msgstr "Emailová adresa:"
 
 #: ../inc/util.inc:385
 msgid "forgot email address?"
-msgstr ""
+msgstr "zapomenutá emailová adresa?"
 
 #: ../inc/util.inc:387
 msgid "Password:"
@@ -1899,23 +1901,23 @@ msgstr "Heslo:"
 
 #: ../inc/util.inc:387
 msgid "forgot password?"
-msgstr ""
+msgstr "zapomenuté heslo?"
 
 #: ../inc/util.inc:390
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "Zapamatovat si přihlášení na tomto počítači"
 
 #: ../inc/util.inc:395
 msgid "Log in"
-msgstr ""
+msgstr "Přihlásit se"
 
 #: ../inc/util.inc:396
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "nebo si %1vytvořit účet%2."
 
 #: ../inc/util.inc:416
 msgid "Please log in"
-msgstr ""
+msgstr "Přihlašte se prosím"
 
 #: ../inc/util.inc:542
 msgid "Use BBCode tags to format your text"
@@ -1943,7 +1945,7 @@ msgstr "Volitelné"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Přidat %1 předvolby pro %2"
 
 #: ../user/apps.php:31
 #: ../user/sample_index.php:63
@@ -1988,11 +1990,11 @@ msgstr "Vytváření účtů je v %1 dočasně zakázáno. Zkuste to prosím poz
 
 #: ../user/create_account_form.php:41
 msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "POZNÁMKA: Pokud používáte BOINC Manager verze 5.2 a novější, nepoužívejte tento formulář. Jednoduše spusťte BOINC, zvolte Připojit projekt (Attach Project) a vložte emailovou adresu a heslo."
+msgstr "POZNÁMKA: Pokud používáte BOINC Manager od verze 5.2+, nepoužívejte tento formulář. Jednoduše spusťte BOINC, zvolte Připojit k projektu a zadejte emailovou adresu a heslo."
 
 #: ../user/create_account_form.php:57
 msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr "Tento účet bude náležet týmu %1 a bude mít nastavení projektu po jeho vlastníkovi."
+msgstr "Tento účet bude náležet týmu %1 a bude mít předvolby projektu po jeho vlastníkovi."
 
 #: ../user/create_account_form.php:69
 msgid "Invitation Code"
@@ -2025,11 +2027,11 @@ msgstr "Potvrzení hesla"
 
 #: ../user/create_account_form.php:104
 msgid "Create account"
-msgstr "Vytvořte si účet"
+msgstr "Vytvořit účet"
 
 #: ../user/create_profile.php:31
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr "CHYBA: %1 neexistuje! Nelze vytvořit nabídku pro volbu.<br/>"
+msgstr "CHYBA: %1 neexistuje! Nelze vytvořit nabídku s volbami.<br/>"
 
 #: ../user/create_profile.php:51
 msgid "Picture"
@@ -2041,7 +2043,7 @@ msgstr "%1 Váš obrázek bude zobrazen vlevo."
 
 #: ../user/create_profile.php:67
 msgid "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 or less)."
-msgstr "Pro změnu klikněte na tlačítko \"Hledat\" a vyberte soubor typu JPEG nebo PNG (do %10."
+msgstr "Pro změnu klikněte na tlačítko \"Hledat\" a vyberte soubor typu JPEG nebo PNG (do %1)."
 
 #: ../user/create_profile.php:70
 msgid "To remove it from your profile, check this box:"
@@ -2140,7 +2142,7 @@ msgid ""
 "We do not provide instructions for installing these applications.\n"
 "However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
-msgstr "Neposkytujeme informace k instalaci těchto aplikací, nicméně autor aplikace obvykle poskytuje základní informace pro instalaci a odinstalování své aplikace.Pokud nemáte dostatek informací, zkuste kontaktovat autora."
+msgstr "Neposkytujeme informace k instalaci těchto aplikací, nicméně autor aplikace obvykle poskytuje základní informace pro instalaci a odinstalování své aplikace. Pro získání více informací, zkuste kontaktovat autora."
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
@@ -2153,11 +2155,11 @@ msgstr "Tento seznam je spravován centrálně na %1webových stránkách BOINC%
 #: ../user/edit_email_form.php:26
 #: ../user/edit_email_form.php:50
 msgid "Change email address"
-msgstr ""
+msgstr "Změnit emailovou adresu"
 
 #: ../user/edit_email_form.php:35
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "Změnit emailovou adresu Vašeho účtu"
 
 #: ../user/edit_email_form.php:36
 msgid "New email address"
@@ -2169,20 +2171,20 @@ msgstr "Adresa musí být platného tvaru 'jmeno@domena'"
 
 #: ../user/edit_email_form.php:47
 msgid "No password?"
-msgstr ""
+msgstr "Bez hesla?"
 
 #: ../user/edit_passwd_form.php:26
 #: ../user/edit_passwd_form.php:56
 msgid "Change password"
-msgstr ""
+msgstr "Změnit heslo"
 
 #: ../user/edit_passwd_form.php:40
 msgid "You can identify yourself using either"
-msgstr ""
+msgstr "Můžete se identifikovat buď"
 
 #: ../user/edit_passwd_form.php:42
 msgid "your email address and old password"
-msgstr ""
+msgstr "Vaší emailovou adresou a starým heslem"
 
 #: ../user/edit_passwd_form.php:43
 msgid "your account key"
@@ -2190,40 +2192,40 @@ msgstr "váš klíč k účtu"
 
 #: ../user/edit_passwd_form.php:47
 msgid "Current password"
-msgstr ""
+msgstr "Současné heslo"
 
 #: ../user/edit_passwd_form.php:49
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<b>NEBO</b>: Klíč k účtu"
 
 #: ../user/edit_passwd_form.php:50
 msgid "Get account key by email"
-msgstr ""
+msgstr "Získat klíč k účtu zadáním emailu"
 
 #: ../user/edit_passwd_form.php:54
 msgid "New password"
-msgstr ""
+msgstr "Nové heslo"
 
 #: ../user/edit_passwd_form.php:55
 msgid "New password, again"
-msgstr ""
+msgstr "Nové heslo, pro kontrolu"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "Ve Vašem jméně nelze mít HTML tagy."
 
 #: ../user/edit_user_info_action.php:32
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "Je třeba zadat jméno k Vašemu účtu."
 
 #: ../user/edit_user_info_action.php:41
 #: ../user/team_edit_action.php:51
 msgid "bad country"
-msgstr ""
+msgstr "neplatná země"
 
 #: ../user/edit_user_info_action.php:57
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "Nelze upravit uživatelské údaje."
 
 #: ../user/edit_user_info_form.php:27
 msgid "Edit account information"
@@ -2231,19 +2233,19 @@ msgstr "Upravit informace o účtu"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "Jméno %1 pravé jméno nebo přezdívka%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "URL %1 vaše webové stránky, volitelné%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Poštovní směrovací číslo %1 volitelné%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Upravit údaje"
 
 #: ../user/forum_edit.php:115
 #: ../user/forum_edit.php:120
@@ -2359,11 +2361,11 @@ msgstr "Zrušit trvalou viditelnost tohoto vlákna"
 
 #: ../user/forum_thread.php:169
 msgid "Make sticky"
-msgstr "Nastav trvalou viditelnost"
+msgstr "Nastavit trvalou viditelnost"
 
 #: ../user/forum_thread.php:169
 msgid "Make this thread sticky"
-msgstr "Nastav trvalou viditelnost tohoto vlákna"
+msgstr "Nastavit trvalou viditelnost tohoto vlákna"
 
 #: ../user/forum_thread.php:172
 msgid "Unlock"
@@ -2577,7 +2579,7 @@ msgstr "Počítače náležící %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
-msgstr ""
+msgstr "Tento uživatel si nepřeje zobrazovat informace o svých počítačích."
 
 #: ../user/info.php:22
 #: ../user/sample_index.php:47
@@ -2638,7 +2640,7 @@ msgstr "Kdykoliv si stahujete programy z internetu, vystavujete se riziku, že p
 
 #: ../user/info.php:48
 msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr "Při běhu aplikačních programů %1 může docházet u některých počítačů k přehřívání. Pokud se tak stane, zastavte %1 nebo používejte %2pomocné programy%3 které omezí využití počítače."
+msgstr "Při běhu aplikačních programů %1 může docházet u některých počítačů k přehřívání. Pokud se tak stane, zastavte %1 nebo používejte %2pomocné programy%3 které sníží zatížení procesoru."
 
 #: ../user/info.php:49
 msgid "%1 was developed by %2. BOINC was developed at the University of California."
@@ -2666,39 +2668,39 @@ msgstr "Tyto další projekty nejsou nijak sdružené s %1 a tudíž se Vám nem
 
 #: ../user/language_select.php:41
 msgid "Language selection"
-msgstr ""
+msgstr "Výběr jazyka"
 
 #: ../user/language_select.php:68
 msgid "This web site is available in several languages. The currently selected language is %1."
-msgstr ""
+msgstr "Tato webová stránka je dostupná ve více jazycích. Aktuálně vybraný jazyk je %1."
 
 #: ../user/language_select.php:73
 msgid "Normally the choice of language is determined by your browser's language setting, which is: %1.  You can change this setting using:"
-msgstr ""
+msgstr "Podle nastavení Vašeho prohlížeče byl pro tyto stránky vybrán jazyk: %1. Toto nastavení lze změnit zde:"
 
 #: ../user/language_select.php:78
 msgid "Firefox: Tools/Options/General"
-msgstr ""
+msgstr "Firefox: Nástroje/Možnosti/Obecné"
 
 #: ../user/language_select.php:80
 msgid "Microsoft IE: Tools/Internet Options/Languages"
-msgstr ""
+msgstr "Microsoft Internet Explorer: Nástroje/Možnosti Internetu/Jazyky"
 
 #: ../user/language_select.php:84
 msgid "Or you can select a language by clicking on one of the links.  This will send your browser a cookie; make sure your browser accepts cookies from our domain."
-msgstr ""
+msgstr "Nebo si můžete vybrat jazyk kliknutím na jeden z těchto odkazů - tím si Váš prohlížeč uloží cookie s nastavením. Ujistěte se prosím, že Váš prohlížeč podporuje cookies."
 
 #: ../user/language_select.php:90
 msgid "Language name (click to select)"
-msgstr ""
+msgstr "Jméno jazyku (klikněte pro výběr)"
 
 #: ../user/language_select.php:92
 msgid "Use browser language setting"
-msgstr ""
+msgstr "Použít jazyk podle nastavení prohlížeče"
 
 #: ../user/language_select.php:108
 msgid "Translations are done by volunteers.  If your native language is not here, %1you can provide a translation%2."
-msgstr ""
+msgstr "Překlady jsou tvořeny dobrovolníky. Pokud tu Váš rodný jazyk dosud není, %1můžete pomoci s překladem%2."
 
 #: ../user/pm.php:68
 msgid "Your message has been sent."
@@ -3460,7 +3462,7 @@ msgstr ""
 #: ../user/team_join.php:33
 #: ../user/team_join_action.php:33
 msgid "Already a member"
-msgstr ""
+msgstr "Již členem"
 
 #: ../user/team_join.php:34
 #: ../user/team_join_action.php:34
@@ -3555,7 +3557,7 @@ msgstr ""
 
 #: ../user/team_manage.php:36
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: ../user/team_manage.php:37
 msgid "See when members joined or quit this team"
@@ -3939,11 +3941,11 @@ msgstr ""
 
 #: ../user/workunit.php:44
 msgid "granted credit"
-msgstr ""
+msgstr "přidělený kredit"
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"
-msgstr ""
+msgstr "Aktivních úkolů"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
@@ -3951,35 +3953,35 @@ msgstr ""
 
 #: ../user/workunit.php:55
 msgid "minimum quorum"
-msgstr ""
+msgstr "minimální kvorum"
 
 #: ../user/workunit.php:56
 msgid "initial replication"
-msgstr ""
+msgstr "počáteční replikace"
 
 #: ../user/workunit.php:57
 msgid "max # of error/total/success tasks"
-msgstr ""
+msgstr "max # chyb/celkem/úspěšných úkolů"
 
 #: ../user/workunit.php:61
 msgid "errors"
-msgstr ""
+msgstr "chyby"
 
 #: ../user/workunit.php:64
 msgid "validation"
-msgstr ""
+msgstr "validace"
 
 #: ../project.sample/project.inc:49
 msgid "Main page"
-msgstr ""
+msgstr "Hlavní stránka"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
-msgstr ""
+msgstr "Autorská práva"
 
 #: ../project.sample/project.inc:54
 msgid "Generated"
-msgstr ""
+msgstr "Vytvořeno"
 
 #: ../project.sample/project.inc:85
 msgid "Your personal background."
@@ -4020,7 +4022,7 @@ msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
-msgstr ""
+msgstr "(všechny aplikace)"
 
 #, fuzzy
 #~ msgid "preferences"
