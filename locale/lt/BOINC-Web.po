@@ -7,27 +7,29 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-04-17 08:48-0700\n"
+"PO-Revision-Date: 2010-08-20 11:58-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
-"100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
-msgstr ""
+msgstr "Žinoma, kad dabartinis leidimas veikia su šiomis Linux versijomis:"
 
 #: versions.inc:14
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
 msgstr ""
+"Kitoms Linux versijoms ieškokite paketų, kuriuos teikia jūsų Linux "
+"distribucija."
 
 #: versions.inc:25
 msgid ""
@@ -35,6 +37,9 @@ msgid ""
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
+"Taip pat galite parsisiųsti %1BOINC senesnėms Linux versijoms%2. Ši versija "
+"neturi grafinės vartotojo sąsajos, tačiau turėtų veikti visose Linux "
+"sistemose, įskaitant x86 ir x64."
 
 #: docutil.php:21
 msgid "Search"
@@ -182,10 +187,14 @@ msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
+"BOINC pagalbininkai yra neapmokami savanoriai. Jų patarimai nėra palaikomi "
+"BOINC ar University of California."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
+"%1Niekada%2 neatskleiskite elektroninio pašto adreso ar slaptažodžių "
+"informacijos BOINC pagalbininkams."
 
 #: index.php:23
 msgid "Computing power"
@@ -243,6 +252,11 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
+"Panaudokite laisvus kompiuterio resursus (Windows, Mac ar Linux) vaistų "
+"paieškai, globalinio atšilimo studijavimui, pulsarų paieškai ir daugeliui "
+"kitų mokslinių tyrimų sričių. Tai saugu ir paprasta: %sPasirinkite%s "
+"projektus %sParsisiųskite%s ir vykdykite BOINC programinę įrangą "
+"%sĮveskite%s elektroninio pašto adresą ir slaptažodį."
 
 #: index.php:100
 #, php-format
@@ -274,10 +288,12 @@ msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Universitetai%2: naudokite BOINC %3virtualaus universiteto "
+"superkompiuterių centro%4 sukūrimui."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr ""
+msgstr "%1Kompanijos%2: naudokite BOINC %3skaičiavimams vietiniame tinkle%4."
 
 #: index.php:147
 msgid "The BOINC project"
@@ -289,7 +305,7 @@ msgstr "Forumai"
 
 #: index.php:154
 msgid "Email lists"
-msgstr ""
+msgstr "Diskusijos elektroniniu paštu"
 
 #: index.php:155
 msgid "Personnel and contributors"
@@ -297,11 +313,11 @@ msgstr "Personalas ir prisidėję asmenys"
 
 #: index.php:156
 msgid "Events"
-msgstr ""
+msgstr "Renginiai"
 
 #: index.php:157
 msgid "Papers and talks"
-msgstr ""
+msgstr "Moksliniai darbai ir pristatymai"
 
 #: index.php:158
 msgid "Research projects"
