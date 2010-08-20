@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-07-31 04:44-0700\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
+"PO-Revision-Date: 2010-08-14 02:59-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -228,9 +228,9 @@ msgstr "Coprocesadores"
 msgid "Operating System"
 msgstr "Sistema Operativo"
 
-#: ../inc/host.inc:122
-msgid "BOINC client version"
-msgstr "Versión del cliente BOINC"
+#: ../inc/host.inc:122 ../inc/host.inc:226
+msgid "BOINC version"
+msgstr "Versión de BOINC"
 
 #: ../inc/host.inc:126
 msgid "Memory"
@@ -316,8 +316,8 @@ msgid "Tasks"
 msgstr "Tareas"
 
 #: ../inc/host.inc:179
-msgid "Number of times client has contacted server"
-msgstr "Número de veces que el cliente ha contactado con el servidor"
+msgid "Number of times BOINC has contacted server"
+msgstr "Número de veces que BOINC ha contactado con el servidor"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
@@ -325,8 +325,8 @@ msgstr "Ultima vez que contactó con el servidor"
 
 #: ../inc/host.inc:181
 #, php-format
-msgid "% of time BOINC client is running"
-msgstr "% del tiempo que el cliente BOINC se ejecuta"
+msgid "% of time BOINC is running"
+msgstr "% del tiempo que BOINC se ejecuta"
 
 #: ../inc/host.inc:183
 #, php-format
@@ -385,10 +385,6 @@ msgstr "Crédito promedio"
 #: ../user/top_users.php:56
 msgid "Recent average credit"
 msgstr "Promedio de créditos recientes"
-
-#: ../inc/host.inc:226
-msgid "BOINC version"
-msgstr "Versión de BOINC"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
@@ -664,7 +660,7 @@ msgstr "% del total"
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Las tareas vuelcan al disco al menos cada"
 
 #: ../inc/prefs.inc:195
 msgid "seconds"
@@ -885,18 +881,17 @@ msgstr "Preferencias combinadas"
 
 #: ../inc/prefs.inc:829
 msgid "Project specific settings"
-msgstr ""
+msgstr "Configuración específica del proyecto"
 
 #: ../inc/prefs.inc:837 ../inc/prefs.inc:879
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Preferencias principales (por defecto)"
 
 #: ../inc/prefs.inc:846 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
-#, fuzzy
 msgid "Edit %1 preferences"
-msgstr "Preferencias de %1"
+msgstr "Editar preferencias de %1"
 
 #: ../inc/prefs.inc:860
 msgid ""
@@ -907,29 +902,27 @@ msgstr ""
 
 #: ../inc/prefs.inc:864
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "Ultima modificación de las preferencias:"
 
 #: ../inc/prefs.inc:914
-#, fuzzy
 msgid "Add preferences"
-msgstr "Preferencias de %1"
+msgstr "Añadir preferencias"
 
 #: ../inc/prefs.inc:918
-#, fuzzy
 msgid "Update preferences"
-msgstr "Preferencias de %1"
+msgstr "Actualizar preferencias"
 
 #: ../inc/prefs.inc:1006 ../inc/prefs.inc:1015
 msgid "Default computer location"
-msgstr ""
+msgstr "Localización del ordenador por defecto"
 
 #: ../inc/prefs.inc:1166
 msgid "Update failed: "
-msgstr ""
+msgstr "Falló la actualización: "
 
 #: ../inc/prefs_util.inc:314 ../inc/prefs_util.inc:324
 msgid "and"
-msgstr ""
+msgstr "y"
 
 #: ../inc/profile.inc:86
 msgid ""
@@ -959,7 +952,7 @@ msgstr ""
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "No hay perfil para este ID de usuario."
 
 #: ../inc/profile.inc:213 ../user/create_profile.php:306
 msgid "Edit your profile"
@@ -987,108 +980,107 @@ msgstr "%1No me gusta%2 este perfil"
 
 #: ../inc/result.inc:29
 msgid "Anonymous platform"
-msgstr ""
+msgstr "Plataforma anónima"
 
 #: ../inc/result.inc:43
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "GPU NVIDIA"
 
 #: ../inc/result.inc:44
-#, fuzzy
 msgid "ATI GPU"
-msgstr "GPU"
+msgstr "GPU ATI"
 
 #: ../inc/result.inc:51
 msgid "Not in DB"
-msgstr ""
+msgstr "No está en base de datos"
 
 #: ../inc/result.inc:77
 msgid "pending"
-msgstr ""
+msgstr "pendiente"
 
 #: ../inc/result.inc:99
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 #: ../inc/result.inc:100 ../inc/result.inc:120 ../inc/result.inc:159
 msgid "In progress"
-msgstr ""
+msgstr "En progreso"
 
 #: ../inc/result.inc:101 ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "Pendiente"
 
 #: ../inc/result.inc:102 ../inc/result.inc:202
 msgid "Valid"
-msgstr ""
+msgstr "Válido"
 
 #: ../inc/result.inc:103 ../inc/result.inc:205
 msgid "Invalid"
-msgstr ""
+msgstr "Inválido"
 
 #: ../inc/result.inc:104 ../inc/result.inc:145
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: ../inc/result.inc:118 ../inc/result.inc:157
 msgid "Inactive"
-msgstr ""
+msgstr "Inactivo"
 
 #: ../inc/result.inc:119 ../inc/result.inc:158
 msgid "Unsent"
-msgstr ""
+msgstr "No enviado"
 
 #: ../inc/result.inc:125
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Completado, esperando validación"
 
 #: ../inc/result.inc:126
 msgid "Completed and validated"
-msgstr ""
+msgstr "Completado y validado"
 
 #: ../inc/result.inc:127
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "Completado, marcado como inválido"
 
 #: ../inc/result.inc:128
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Completado, no se puede validar"
 
 #: ../inc/result.inc:129
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "Completado, validación no concluyente"
 
 #: ../inc/result.inc:130
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Completado, demasiado tarde para validar"
 
 #: ../inc/result.inc:132
 msgid "Completed"
-msgstr ""
+msgstr "Completado"
 
 #: ../inc/result.inc:133 ../inc/result.inc:169
 msgid "Couldn't send"
-msgstr ""
+msgstr "No se pudo enviar"
 
 #: ../inc/result.inc:136 ../inc/result.inc:193
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Cancelado por el servidor"
 
 #: ../inc/result.inc:139
 msgid "Error while downloading"
-msgstr ""
+msgstr "Error en la descarga"
 
 #: ../inc/result.inc:141
 msgid "Error while computing"
-msgstr ""
+msgstr "Error en ejecución"
 
 #: ../inc/result.inc:142
 msgid "Error while uploading"
-msgstr ""
+msgstr "Error en el envío"
 
 #: ../inc/result.inc:143 ../inc/result.inc:195
 msgid "Aborted by user"
-msgstr ""
+msgstr "Abortado por el usuario"
 
 #: ../inc/result.inc:146
 msgid "Timed out - no response"
@@ -1103,7 +1095,7 @@ msgid "Validate error"
 msgstr ""
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
-msgid "Client detached"
+msgid "Abandoned"
 msgstr ""
 
 #: ../inc/result.inc:160
@@ -1115,8 +1107,9 @@ msgid "Success"
 msgstr ""
 
 #: ../inc/result.inc:172
-msgid "Client error"
-msgstr ""
+#, fuzzy
+msgid "Computation error"
+msgstr "Ordenadores"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
@@ -2573,6 +2566,13 @@ msgstr "Vea y edite las preferencias de su cuenta usando los enlaces de abajo."
 msgid "Your account"
 msgstr "Su cuenta"
 
+# ########################################<br />
+# Apps page (apps.php)
+#: ../user/host_app_versions.php:52
+#, fuzzy
+msgid "Application details for host %1"
+msgstr "Destalles de la aplicación"
+
 #: ../user/hosts_user.php:51
 #, fuzzy
 msgid "Computers belonging to %1"
@@ -2910,9 +2910,9 @@ msgstr "Para desbloquearlo, visite las %1preferencias del foro%2"
 
 #: ../user/prefs.php:36
 msgid ""
-"Your preferences have been updated. Client-related preferences\n"
+"Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
-"\t      or you issue the %2Update%3 command from the BOINC client."
+"\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
@@ -3064,7 +3064,7 @@ msgstr ""
 msgid "User of the day"
 msgstr "Usuario del día"
 
-#: ../user/show_user.php:91
+#: ../user/show_user.php:88
 msgid "Account data for %1"
 msgstr "Datos de la cuenta de %1"
 
@@ -4263,6 +4263,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(todas las aplicaciones)"
+
+#~ msgid "BOINC client version"
+#~ msgstr "Versión del cliente BOINC"
 
 #~ msgid "Maximum daily WU quota per CPU"
 #~ msgstr "Cuota diaria máxima de unidad de trabajo por CPU"

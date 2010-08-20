@@ -97,7 +97,7 @@ define('S_VOLUNTEER', 4);
 define('S_VOLUNTEER_TESTER', 5);
 define('S_SCIENTIST', 6);
 
-$special_user_bitfield[S_MODERATOR]="Forum moderator";
+$special_user_bitfield[S_MODERATOR]="Volunteer moderator";
 $special_user_bitfield[S_ADMIN]="Project administrator";
 $special_user_bitfield[S_DEV]="Project developer";
 $special_user_bitfield[S_TESTER]="Project tester";

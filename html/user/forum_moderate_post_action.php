@@ -97,9 +97,16 @@ New thread: $new_thread->title
     $explanation .= mod_comment();
     $action_name = "moved to another thread";
 } elseif ($action=="banish_user"){
-    if (!$user->prefs->privilege(S_ADMIN)) {
-      // Can't banish without being administrator
-        error_page("Not admin");
+    $auth = false;
+    if (defined("MODERATORS_CAN_BANISH") && $user->prefs->privilege(S_MODERATOR)) {
+        $auth = true;
+    } else {
+        if ($user->prefs->privilege(S_ADMIN)) {
+            $auth = true;
+        }
+    }
+    if (!$auth) {
+        error_page("Not authorized to banish users");
     }
     $userid = post_int('userid');
     $user = BoincUser::lookup_id($userid);

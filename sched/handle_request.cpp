@@ -296,7 +296,7 @@ int authenticate_user() {
                 retval = user.lookup(buf);
                 if (retval) {
                     g_reply->insert_message(
-                        _("Invalid or missing account key.  To fix, detach and reattach to this project."),
+                        _("Invalid or missing account key.  To fix, remove and add this project."),
                         "notice"
                     );
                     g_reply->set_delay(DELAY_MISSING_KEY);
@@ -363,7 +363,7 @@ lookup_user_and_make_new_host:
         }
         if (retval) {
             g_reply->insert_message(
-                "Invalid or missing account key.  To fix, detach and reattach to this project .",
+                "Invalid or missing account key.  To fix, remove and add this project .",
                 "low"
             );
             g_reply->set_delay(DELAY_MISSING_KEY);

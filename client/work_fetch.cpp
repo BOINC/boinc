@@ -1247,7 +1247,7 @@ bool RESULT::runnable() {
 // Like runnable, except downloading backoff is OK
 // Schedule-backoff is not OK;
 // we should be able to get GPU jobs from project A
-// even if project B based backed-off jobs.
+// even if project B has backed-off jobs.
 //
 bool RESULT::nearly_runnable() {
     if (suspended_via_gui) return false;

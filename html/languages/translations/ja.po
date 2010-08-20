@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-02-28 22:50+0900\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
+"PO-Revision-Date: 2010-08-12 22:46+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -228,9 +228,9 @@ msgstr "コプロセッサの数"
 msgid "Operating System"
 msgstr "オペレーティングシステム"
 
-#: ../inc/host.inc:122
-msgid "BOINC client version"
-msgstr "BOINC クライアントの版数"
+#: ../inc/host.inc:122 ../inc/host.inc:226
+msgid "BOINC version"
+msgstr "BOINC の版数"
 
 #: ../inc/host.inc:126
 msgid "Memory"
@@ -304,21 +304,19 @@ msgstr "%1 日"
 # #######################################
 # Apps page (apps.php)
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "アプリケーション"
+msgstr "アプリケーションの詳細"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Show"
-msgstr "表示範囲:"
+msgstr "内容を見る"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
 msgstr "タスク"
 
 #: ../inc/host.inc:179
-msgid "Number of times client has contacted server"
+msgid "Number of times BOINC has contacted server"
 msgstr "クライアントがサーバに接続した回数"
 
 #: ../inc/host.inc:180
@@ -327,7 +325,7 @@ msgstr "最後にサーバに接続した日時"
 
 #: ../inc/host.inc:181
 #, php-format
-msgid "% of time BOINC client is running"
+msgid "% of time BOINC is running"
 msgstr "BOINC クライアントが走行している時間の割合(%)"
 
 #: ../inc/host.inc:183
@@ -358,11 +356,11 @@ msgstr "このコンピュータを削除"
 
 #: ../inc/host.inc:198
 msgid "Merge duplicate records of this computer"
-msgstr ""
+msgstr "このコンピュータに関する重複データを合併させる"
 
 #: ../inc/host.inc:198
 msgid "Merge"
-msgstr ""
+msgstr "合併させる"
 
 #: ../inc/host.inc:211
 msgid "Computer info"
@@ -385,10 +383,6 @@ msgstr "平均功績値"
 #: ../user/top_users.php:56
 msgid "Recent average credit"
 msgstr "最近の平均功績(credits/day)"
-
-#: ../inc/host.inc:226
-msgid "BOINC version"
-msgstr "BOINC の版数"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
@@ -555,24 +549,22 @@ msgstr ""
 "Eメイルで通知が欲しい場合は、%1コミュニティのレファレンスを編集%2して下さい"
 
 #: ../inc/prefs.inc:76
-#, fuzzy
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
-"コンピュータがバッテリーで動作しているときには、計算を一時停止させるか? %1(携"
-"帯型のコンピュータの場合だけ有意)%2"
+"コンピュータがバッテリーで動作しているときには、計算を一時停止させるか? %1 携"
+"帯型のコンピュータの場合だけ有意 %2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
 msgstr "コンピュータで作業中は、計算を一時停止させますか?"
 
 #: ../inc/prefs.inc:90
-#, fuzzy
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
-"コンピュータで作業中は、GPU 向けの計算を一時停止させますか? %1バージョン 6.7"
+"コンピュータで作業中は、GPU 向けの計算を一時停止させますか? %1 Version 6.6.21"
 "以降で有効%2"
 
 # Suspicious of being English-dependent word sequence.
@@ -587,16 +579,14 @@ msgid "minutes"
 msgstr "分"
 
 #: ../inc/prefs.inc:104
-#, fuzzy
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
-"マウスとキーボとの操作が右の時間内になければ計算を一時停止させる%1(コンピュー"
-"タによっては低電力モードにする必要がある)%2"
+"マウスとキーボとの操作が右の時間内になければ計算を一時停止させる%1 コンピュー"
+"タによっては低電力モードに入る必要がある%2"
 
 #: ../inc/prefs.inc:113
-#, fuzzy
 msgid ""
 "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
 "version 6.10.30+ %2"
@@ -606,10 +596,9 @@ msgstr ""
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr ""
+msgstr "右の時間帯内でのみ計算をする %1 2つの時刻が等しければ制約なし %2"
 
 #: ../inc/prefs.inc:129
-#, fuzzy
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
@@ -618,9 +607,8 @@ msgstr ""
 "止のためにそのタスクはスワップ領域を使用する)%2"
 
 #: ../inc/prefs.inc:138
-#, fuzzy
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
-msgstr "タスク間の切り替え時間間隔 %1(推奨値は: 60 分)%2"
+msgstr "タスク間の切り替え時間間隔 %1 推奨値は: 60 分 %2"
 
 #: ../inc/prefs.inc:146
 msgid "On multiprocessors, use at most"
@@ -631,7 +619,6 @@ msgid "processors"
 msgstr "プロセッサまで"
 
 #: ../inc/prefs.inc:152
-#, fuzzy
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
 "マルチプロセッサで動作する場合、全プロセッサのうち使うのは最大で %1 Version "
@@ -643,32 +630,31 @@ msgid "% of the processors"
 msgstr "% のプロセッサまで"
 
 #: ../inc/prefs.inc:161
-#, fuzzy
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr "最大使用時でも %1 (CPU 過熱防止のためにも指定可)%2"
 
 #: ../inc/prefs.inc:166
 #, php-format
 msgid "% of CPU time"
-msgstr ""
+msgstr "% の CPU 時間まで"
 
 #: ../inc/prefs.inc:174 ../inc/prefs.inc:188
 msgid "Disk: use at most"
-msgstr ""
+msgstr "ディスク：最大使用時でも"
 
 #: ../inc/prefs.inc:176 ../inc/prefs.inc:185
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr ""
+msgstr "ディスク：少なくとも %1 は残す。 %2 未満を指定すると無視される %3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
 #, php-format
 msgid "% of total"
-msgstr ""
+msgstr "% まで(全体比)"
 
 #: ../inc/prefs.inc:193
 msgid "Tasks checkpoint to disk at most every"
@@ -680,18 +666,17 @@ msgstr "秒"
 
 #: ../inc/prefs.inc:198
 msgid "Swap space: use at most"
-msgstr ""
+msgstr "スワップ領域：最大でも"
 
 #: ../inc/prefs.inc:203
 msgid "Memory: when computer is in use, use at most"
-msgstr ""
+msgstr "メモリ：そのコンピュータを人が使っているときは、最大でも"
 
 #: ../inc/prefs.inc:208
 msgid "Memory: when computer is not in use, use at most"
-msgstr ""
+msgstr "メモリ：そのコンピュータを人が使っていないときは、最大でも"
 
 #: ../inc/prefs.inc:217
-#, fuzzy
 msgid ""
 "Computer is connected to the Internet about every %1 Leave blank or 0 if "
 "always connected. %2 BOINC will try to maintain at least this much work. %3"
@@ -709,7 +694,6 @@ msgid "Maintain enough work for an additional"
 msgstr "仕事の備蓄分(日数)"
 
 #: ../inc/prefs.inc:232
-#, fuzzy
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
@@ -718,7 +702,6 @@ msgstr ""
 "使っているときだけ有意)%2"
 
 #: ../inc/prefs.inc:241
-#, fuzzy
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
@@ -744,14 +727,13 @@ msgstr "ネットワーク使用を許す時間帯"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
+msgstr "転送量の上限値。最大でも右の値まで %1 Version 6.10.46以降で有効 %2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
-msgstr ""
+msgstr "Mバイト/"
 
 #: ../inc/prefs.inc:274
-#, fuzzy
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
@@ -762,39 +744,38 @@ msgstr ""
 "証をスキップすると BOINC のセキュリティレベルは低下します。%3"
 
 #: ../inc/prefs.inc:287
-#, fuzzy
 msgid ""
 "Resource share %1 Determines the proportion of your computer's resources "
 "allocated to this project. Example: if you participate in two BOINC projects "
 "with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
 msgstr ""
-"このプロジェクトに割り当てるあなたのコンピュータの資源量を決める指標です。\n"
-"            　例えば２つの BOINC プロジェクトに参加していたとしてリソース\n"
-"            割り当てをそれぞれ 100、200　と指定したら、１つ目のプロジェクト\n"
-"            に1/3が割り当てられ、2つ目には2/3の資源が割り当てられます。"
+"リソース割り当て %1このプロジェクトに割り当てるあなたのコンピュータの資源量を"
+"決める指標です。\n"
+" 例えば２つの BOINC プロジェクトに参加していたとしてリソース\n"
+"割り当てをそれぞれ 100、200 と指定したら、１つ目のプロジェクト\n"
+"に1/3が割り当てられ、2つ目には2/3の資源が割り当てられます。"
 
 #: ../inc/prefs.inc:300
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "CPU を計算に使うか %1 Version 6.10以降で有効 %2"
 
 #: ../inc/prefs.inc:312
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "ATI GPU を計算に使うか %1 Version 6.10以降で有効 %2"
 
 #: ../inc/prefs.inc:324
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr ""
+msgstr "NVIDIA GPU を計算に使うか %1 Version 6.10以降で有効 %2"
 
 #: ../inc/prefs.inc:338
-#, fuzzy
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
 "テスト中のアプリケーションでも実行しますか? %1 指定すればアプリケーション開発"
-"者を手助けすることになりますが、それはあなたのコンピュータ上で異常終了するこ"
-"とがあるかもしれません%2"
+"者を手助けすることになりますが、そのアプリケーションはあなたのコンピュータ上"
+"で異常終了することがあるかもしれません%2"
 
 #: ../inc/prefs.inc:347
 msgid ""
@@ -849,9 +830,8 @@ msgid "bad subset: %1"
 msgstr "不適切な適用範囲: %1"
 
 #: ../inc/prefs.inc:617
-#, fuzzy
 msgid "Default"
-msgstr "削除"
+msgstr "指定省略時の扱い"
 
 #: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:995
 #: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:108
@@ -881,7 +861,6 @@ msgstr "編集"
 msgid "Remove"
 msgstr "削除"
 
-# Two different usage share one msgid. One of them will be cut out to "processing" that means one of the result status.
 #: ../inc/prefs.inc:790
 msgid "Computing"
 msgstr "計算"
@@ -1020,12 +999,11 @@ msgstr "名前のないプラットフォーム"
 
 #: ../inc/result.inc:43
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "NVIDIA GPU"
 
 #: ../inc/result.inc:44
-#, fuzzy
 msgid "ATI GPU"
-msgstr "GPU"
+msgstr "ATI GPU"
 
 #: ../inc/result.inc:51
 msgid "Not in DB"
@@ -1132,8 +1110,8 @@ msgid "Validate error"
 msgstr "検証で異常発生"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
-msgid "Client detached"
-msgstr "クライアントが離脱した"
+msgid "Abandoned"
+msgstr "中途放棄された"
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1144,8 +1122,8 @@ msgid "Success"
 msgstr "成功"
 
 #: ../inc/result.inc:172
-msgid "Client error"
-msgstr "クライアントでの異常"
+msgid "Computation error"
+msgstr "計算中に異常発生"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
@@ -1241,12 +1219,10 @@ msgid "Show names"
 msgstr "名前を表示"
 
 #: ../inc/result.inc:272
-#, fuzzy
 msgid "Task"
 msgstr "タスク"
 
 #: ../inc/result.inc:275
-#, fuzzy
 msgid "Work unit"
 msgstr "ワークユニット"
 
@@ -1279,9 +1255,8 @@ msgid "CPU time<br />(sec)"
 msgstr "CPU 時間<br />(秒)"
 
 #: ../inc/result.inc:288 ../inc/result.inc:392
-#, fuzzy
 msgid "Credit"
-msgstr "作成"
+msgstr "功績値"
 
 # #######################################
 # Apps page (apps.php)
@@ -1309,10 +1284,9 @@ msgstr "結果"
 msgid "Client state"
 msgstr "クライアント側の状態"
 
-# Too technical to be translated.
 #: ../inc/result.inc:386
 msgid "Exit status"
-msgstr "Exit status"
+msgstr "終了ステイタス"
 
 #: ../inc/result.inc:388
 msgid "Report deadline"
@@ -1331,7 +1305,6 @@ msgid "Validate state"
 msgstr "検証状態"
 
 #: ../inc/result.inc:393
-#, fuzzy
 msgid "Application version"
 msgstr "アプリケーションの版数"
 
@@ -1444,7 +1417,7 @@ msgid ""
 msgstr ""
 "注意：あなたがプロジェクト・プレファレンスの中で 「Eメイルを送っても良い」と"
 "いう意味の項目を選択した状態でチームへ参加すると、そのチームの創設者はあなた"
-"の メイルアドレスを知ることになります。"
+"のメイルアドレスを知ることになります。"
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
@@ -2320,7 +2293,7 @@ msgstr "あなたはこのフォーラムを見ることはできません。"
 
 #: ../user/forum_thread.php:60
 msgid "This thread has been hidden by moderators"
-msgstr ""
+msgstr "モデレータによりこのスレッドの表示は抑止されています。"
 
 #: ../user/forum_thread.php:117
 msgid "My question was answered"
@@ -2595,14 +2568,19 @@ msgstr ""
 msgid "Your account"
 msgstr "あなたのアカウント"
 
+# #######################################
+# Apps page (apps.php)
+#: ../user/host_app_versions.php:52
+msgid "Application details for host %1"
+msgstr "計算機 %1 のアプリケーション詳細"
+
 #: ../user/hosts_user.php:51
-#, fuzzy
 msgid "Computers belonging to %1"
-msgstr "コンピュータの情報"
+msgstr "%1さんのコンピュータ"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
-msgstr ""
+msgstr "この参加者は自分のコンピュータの情報を表示することを許していません。"
 
 # #######################################
 # Rules and Policies page (info.php)
@@ -2954,15 +2932,13 @@ msgstr ""
 
 #: ../user/prefs.php:36
 msgid ""
-"Your preferences have been updated. Client-related preferences\n"
+"Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
-"\t      or you issue the %2Update%3 command from the BOINC client."
+"\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
-"あなたのプレファレンス(好みの設定)は更新されました。　クライアントに関係する"
-"プレファレンスの変更\n"
-"\t      が効果を発揮するタイミングは、あなたのコンピュータが %1 と\n"
-"\t      通信したとき、または、あなたが %2更新%3 の指令を BOINC クライアントか"
-"ら出したときです。"
+"あなたのプレファレンス(好みの設定)は更新されました。この更新が効果を発揮\n"
+"\t      するタイミングは、あなたのコンピュータが %1 と通信をしたとき、\n"
+"\t      または、あなたが %2更新%3 の指令を BOINC Managerから出したときです。"
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
@@ -3115,7 +3091,7 @@ msgstr "表示すべきタスクがありません"
 msgid "User of the day"
 msgstr "毎日の参加者紹介"
 
-#: ../user/show_user.php:91
+#: ../user/show_user.php:88
 msgid "Account data for %1"
 msgstr "%1 さんのアカウント・データ"
 
@@ -3574,7 +3550,6 @@ msgid "Message board removed"
 msgstr "掲示板を削除しました"
 
 #: ../user/team_forum.php:122
-#, fuzzy
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
@@ -3796,14 +3771,12 @@ msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr "100件を超える数のチームが見つかりました。最初の100件を表示します。"
 
 #: ../user/team_lookup.php:102
-#, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"検索結果の末尾<br>\n"
-"         探しているチームを見つけることができなかったなら、ご自身で %1チーム"
-"を作る%2 こともできます。"
+"検索結果の末尾。%1 探しているチームを見つけることができなかったなら、ご自身"
+"で %2チームを作る%3 こともできます。"
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
@@ -4313,9 +4286,8 @@ msgid "validation"
 msgstr "検証"
 
 #: ../project.sample/project.inc:49
-#, fuzzy
 msgid "Main page"
-msgstr "ドメイン名"
+msgstr "入口のページ"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
@@ -4378,6 +4350,15 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(すべてのアプリケーション)"
+
+#~ msgid "BOINC client version"
+#~ msgstr "BOINC クライアントの版数"
+
+#~ msgid "Client detached"
+#~ msgstr "クライアントが離脱した"
+
+#~ msgid "Client error"
+#~ msgstr "クライアントでの異常"
 
 #~ msgid "Maximum daily WU quota per CPU"
 #~ msgstr "CPU ごとの最大WU割当量/日"

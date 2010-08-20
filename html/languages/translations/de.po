@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-08-04 07:50-0700\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
+"PO-Revision-Date: 2010-08-17 12:48-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -229,9 +229,9 @@ msgstr "Koprozessor"
 msgid "Operating System"
 msgstr "Betriebssystem"
 
-#: ../inc/host.inc:122
-msgid "BOINC client version"
-msgstr "BOINC-Client Version"
+#: ../inc/host.inc:122 ../inc/host.inc:226
+msgid "BOINC version"
+msgstr "BOINC Version"
 
 #: ../inc/host.inc:126
 msgid "Memory"
@@ -302,12 +302,11 @@ msgstr "mittlere Taskdauer"
 msgid "%1 days"
 msgstr "%1 Tage"
 
-# ########################################
+# ########################################<br />
 # Apps page (apps.php)
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "Anwendungen"
+msgstr "Anwendungsdetails"
 
 #: ../inc/host.inc:165
 msgid "Show"
@@ -318,7 +317,8 @@ msgid "Tasks"
 msgstr "Aufgaben"
 
 #: ../inc/host.inc:179
-msgid "Number of times client has contacted server"
+#, fuzzy
+msgid "Number of times BOINC has contacted server"
 msgstr "Anzahl der Clientverbindungen zum Server"
 
 #: ../inc/host.inc:180
@@ -326,8 +326,8 @@ msgid "Last time contacted server"
 msgstr "letztmaliger Kontakt mit Server"
 
 #: ../inc/host.inc:181
-#, php-format
-msgid "% of time BOINC client is running"
+#, fuzzy, php-format
+msgid "% of time BOINC is running"
 msgstr "% der Zeit in der der BOINC-Client gestartet ist"
 
 #: ../inc/host.inc:183
@@ -385,10 +385,6 @@ msgstr "Durchschnittliches Guthaben"
 #: ../user/top_users.php:56
 msgid "Recent average credit"
 msgstr "aktuelles durchschnittliches Guthaben"
-
-#: ../inc/host.inc:226
-msgid "BOINC version"
-msgstr "BOINC Version"
 
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
@@ -615,7 +611,6 @@ msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
 msgstr "Wechsle zwischen den Tasks alle %1Empfohlen: 60 Minuten%2"
 
 #: ../inc/prefs.inc:146
-#, fuzzy
 msgid "On multiprocessors, use at most"
 msgstr "Bei mehreren Prozessoren, nutze höchstens"
 
@@ -639,7 +634,7 @@ msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr "Nutze höchstens %1Kann benutzt werden um Überhitzung zu vermeiden.%2"
 
 #: ../inc/prefs.inc:166
-#, fuzzy, php-format
+#, php-format
 msgid "% of CPU time"
 msgstr "% der Prozessorzeit"
 
@@ -1119,8 +1114,8 @@ msgid "Validate error"
 msgstr "Bestätigungsfehler"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
-msgid "Client detached"
-msgstr "Client abgemeldet"
+msgid "Abandoned"
+msgstr "Aufgegeben"
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1131,8 +1126,8 @@ msgid "Success"
 msgstr "Erfolgreich"
 
 #: ../inc/result.inc:172
-msgid "Client error"
-msgstr "Client-Fehler"
+msgid "Computation error"
+msgstr "Berechnungsfehler"
 
 #: ../inc/result.inc:174
 #, fuzzy
@@ -2583,6 +2578,12 @@ msgstr ""
 msgid "Your account"
 msgstr "Ihr Konto"
 
+# ########################################<br />
+# Apps page (apps.php)
+#: ../user/host_app_versions.php:52
+msgid "Application details for host %1"
+msgstr "Anwendungsdetails für Rechner %1"
+
 #: ../user/hosts_user.php:51
 msgid "Computers belonging to %1"
 msgstr "Computer von %1"
@@ -2691,8 +2692,8 @@ msgid ""
 msgstr ""
 "Über die %1 Webseite versendete Private Nachrichten können nur vom Sender "
 "und Empfänger gelesen werden.  %1 unternimmt keine Überprüfung des Inhalts "
-"von privaten Nachrichten.  Wenn Sie ungewollt private Nachrichten von einem "
-"%1 Benutzer erhalten, können Sie diesen zu Ihrem %2Filter hinzufügen%3.  "
+"von privaten Nachrichten.  Wenn Sie ungewollt private Nachrichten von einem %"
+"1 Benutzer erhalten, können Sie diesen zu Ihrem %2Filter hinzufügen%3.  "
 "Damit sehen Sie keine öffentlichen und privaten Nachrichten dieses Benutzers "
 "mehr."
 
@@ -2944,10 +2945,11 @@ msgstr ""
 "2 aufheben."
 
 #: ../user/prefs.php:36
+#, fuzzy
 msgid ""
-"Your preferences have been updated. Client-related preferences\n"
+"Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
-"\t      or you issue the %2Update%3 command from the BOINC client."
+"\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "Ihre Einstellungen wurden aktualisiert. Clienteinstellungen\n"
 "werden aktiviert wenn der Computer mit %1 kommuniziert\n"
@@ -3102,7 +3104,7 @@ msgstr "Keine Aufgaben verfügbar"
 msgid "User of the day"
 msgstr "Benutzer des Tages"
 
-#: ../user/show_user.php:91
+#: ../user/show_user.php:88
 msgid "Account data for %1"
 msgstr "Kontodaten von %1"
 
@@ -3198,7 +3200,6 @@ msgid "All teams"
 msgstr "Alle Teams"
 
 #: ../user/team.php:49
-#, fuzzy
 msgid "%1 teams"
 msgstr "Teams vom Typ %1"
 
@@ -3423,7 +3424,6 @@ msgid "Team history for %1"
 msgstr "Teamhistorie von %1"
 
 #: ../user/team_delta.php:74
-#, fuzzy
 msgid "When"
 msgstr "Wann"
 
@@ -3608,8 +3608,8 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"Der aktuelle Gründer wurde von der Anfrage per E-Mail und PN "
-"benachrichtigt.<br /><br />\n"
+"Der aktuelle Gründer wurde von der Anfrage per E-Mail und PN benachrichtigt."
+"<br /><br />\n"
 "Wenn der Gründer nicht innerhalb von 60 Tagen reagiert wird der Wechsel "
 "möglich sein."
 
@@ -3623,63 +3623,71 @@ msgid "Assumed foundership of %1"
 msgstr "Gründerstatus von %1 übernommen"
 
 #: ../user/team_founder_transfer_action.php:109
+#, fuzzy
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
+"Glückwunsch, Du bist nun der Gründer von Team %1. Auf der %2Ihr Konto Seite%"
+"3 findet sich der Link zur Verwaltung des Teams."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
-msgstr ""
+msgstr "Anfrage nach Gründerwechsel ablehnen"
 
 #: ../user/team_founder_transfer_action.php:125
 msgid "The foundership request from %1 has been declined."
-msgstr ""
+msgstr "Die Anfrage zum Gründerwechsel von %1 wurde abgelehnt."
 
 #: ../user/team_founder_transfer_action.php:128
 msgid "There were no foundership requests."
-msgstr ""
+msgstr "Es gibt keine Anfragen zum Gründerwechsel."
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
-msgstr ""
+msgstr "unbekannte Aktion %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
 msgid "Return to team page"
-msgstr ""
+msgstr "Zurück zur Teamseite"
 
 #: ../user/team_founder_transfer_form.php:26
 msgid "You need to be a member of a team to access this page."
-msgstr ""
+msgstr "Man muss Mitglied eines Teams sein um diese Seite anzusehen."
 
 #: ../user/team_founder_transfer_form.php:29
+#, fuzzy
 msgid "Request foundership of %1"
-msgstr ""
+msgstr "Gründerstatus von %1 anfordern"
 
 #: ../user/team_founder_transfer_form.php:36
 msgid "You are now founder of team %1."
-msgstr ""
+msgstr "Du bist nun der Gründer von Team %1."
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "Du hast den Gründerstatus von %1 am %2 angefragt."
 
 #: ../user/team_founder_transfer_form.php:45
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
+"60 Tage sind seit der Anfrage vergangen und der Gründer hat nicht reagiert. "
+"Du kannst nun den Gründerstatus bekommen:"
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
-msgstr ""
+msgstr "Gründerstatus anfordern"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
+"Der Gründer wurde über die Anfrage informiert. Wenn Er/Sie nicht bis %1 "
+"antwortet bekommst du die Möglichkeit den Gründerstatus zu übernehmen."
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
@@ -3690,216 +3698,235 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
+"Wenn der Gründer des Teams nicht mehr Aktiv ist, kann der Gründerstatus von "
+"jedem Teammitglied übernommen werden. Der aktuelle Gründer bekommt eine E-"
+"Mail mit den Informationen und kann der Übertragung zustimmen oder diese "
+"ablehnen. Sollte der Gründer nicht innerhalb von 60 Tagen antworten, besteht "
+"dann die Möglichkeit den Gründerstatus zu übernehmen.<br /><br />\n"
+"Sicher das die Übernahme des Gründerstatus eingeleitet werden soll?"
 
 #: ../user/team_founder_transfer_form.php:63
 msgid "Request foundership"
-msgstr ""
+msgstr "Gründerstatus anfordern"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
-msgstr ""
+msgstr "Der Gründerstatus wurde bereits von %1 am %2 beantragt."
 
 #: ../user/team_founder_transfer_form.php:75
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
 msgstr ""
+"Innerhalb der letzten 90 Tage wurde der Gründerstatus bereits beantragt, "
+"neue Anfragen sind nicht erlaubt. Bitte später erneut versuchen."
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
 msgid "The team %1 is not joinable."
-msgstr ""
+msgstr "Dem Team %1 kann nicht beigetreten werden."
 
 #: ../user/team_join.php:33 ../user/team_join_action.php:33
 msgid "Already a member"
-msgstr ""
+msgstr "Bereits Mitglied des Teams"
 
 #: ../user/team_join.php:34 ../user/team_join_action.php:34
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "Du bist bereits Mitglied im Team %1."
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
-#, fuzzy
 msgid "Couldn't join team - please try again later."
 msgstr ""
-"Das Team konnte nicht erstellt werden, bitte später noch einmal probieren."
+"Dem Team konnte nicht beigetreten werden, bitte später noch einmal probieren."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
-msgstr ""
+msgstr "%1 beigetreten"
 
 #: ../user/team_join_action.php:39
 msgid "You have joined %1."
-msgstr ""
+msgstr "Du bist %1 beigetreten."
 
 #: ../user/team_join_form.php:32
 msgid "Join %1"
-msgstr ""
+msgstr "%1 beitreten"
 
 #: ../user/team_join_form.php:33
 msgid "Please note:"
-msgstr ""
+msgstr "Bitte beachten:"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
-msgstr ""
+msgstr "Als Mitglied ist deine E-Mail Adresse für den Gründer einsehbar"
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
-msgstr ""
+msgstr "Der Beitritt hat keinen Einfluss auf deine Punkte."
 
 #: ../user/team_join_form.php:43
 msgid "Join team"
-msgstr ""
+msgstr "Team beitreten"
 
 #: ../user/team_lookup.php:82
 msgid "Search Results"
-msgstr ""
+msgstr "Suchergebnisse"
 
 #: ../user/team_lookup.php:84
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Suchergebnisse für '%1'"
 
 #: ../user/team_lookup.php:86
 msgid "You may view these teams' members, statistics, and information."
 msgstr ""
+"Die Mitglieder, Statistiken und Informationen zu diesem Team anschauen."
 
 #: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
+"Mehr als 100 Teams entsprachen der Suche. Nur die ersten 100 werden "
+"angezeigt."
 
 #: ../user/team_lookup.php:102
-#, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"Wenn Sie kein passendes Team finden können dann sollten Sie ein %1neues Team "
-"erstellen%2."
+"Wenn kein passendes Team gefunden wurde dann kann auch ein %1neues Team "
+"erstellt%2 werden."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
-msgstr ""
+msgstr "Verwaltung von Team %1"
 
 #: ../user/team_manage.php:27
 msgid "Edit team info"
-msgstr ""
+msgstr "Teaminformationen bearbeiten"
 
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
 msgstr ""
+"Den Namen des Teams, die URL, die Beschreibung, den Typ oder das Land ändern."
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
-msgstr ""
+msgstr "Mitgliederliste:"
 
 #: ../user/team_manage.php:31 ../user/team_manage.php:35
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:32
-#, fuzzy
 msgid "text"
-msgstr "Nächste"
+msgstr "Text"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "Mitgliedsnamen und E-Mail Adressen anzeigen"
 
 #: ../user/team_manage.php:34
 msgid "View change history:"
-msgstr ""
+msgstr "Änderungshistorie anzeigen:"
 
 #: ../user/team_manage.php:36
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: ../user/team_manage.php:37
 msgid "See when members joined or quit this team"
 msgstr ""
+"Zeigt welche Mitglieder wann dem Team beigetreten sind oder dieses verlassen "
+"haben."
 
 #: ../user/team_manage.php:48
 msgid "Respond to foundership request."
-msgstr ""
+msgstr "Auf eine Anfrage zum Gründerwechsel antworten."
 
 #: ../user/team_manage.php:48
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
 msgstr ""
+"Wenn nicht bis zum %1 geantwortet wurde, kann %2 den Gründerstatus dieses "
+"Teams bekommen."
 
 #: ../user/team_manage.php:53
 msgid "Remove inactive or unwanted members from this team"
-msgstr ""
+msgstr "Inaktive oder unerwünschte Mitglieder dieses Teams entfernen."
 
 #: ../user/team_manage.php:55
 msgid "Transfer foundership to another member"
-msgstr ""
+msgstr "Den Gründerstatus auf ein anderes Mitglied übertragen."
 
 #: ../user/team_manage.php:56
-#, fuzzy
 msgid "Add/remove Team Admins"
-msgstr "Hinzufügen oder entfernen von Teamadmins"
+msgstr "Hinzufügen/Entfernen von Teamadmins"
 
 #: ../user/team_manage.php:57
 msgid "Give selected team members Team Admin privileges"
-msgstr ""
+msgstr "Die gewählten Mitglieder zu Teamadmins erklären,"
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
-msgstr ""
+msgstr "Team entfernen"
 
 #: ../user/team_manage.php:60
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "Nur erlaubt wenn das Team keine Mitglieder mehr hat."
 
 #: ../user/team_manage.php:62
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "Ein Diskussionsforum für das Team erstellen oder verwalten."
 
 #: ../user/team_manage.php:69
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
+"Um dieses Team in allen BOINC-Projekten (aktuelle und zukünftige) anzulegen, "
+"kann es zu einem %1BOINC-weitem Team%2 gemacht werden."
 
 #: ../user/team_manage.php:71
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
+"Teamadmins werden ersucht sich an der Google Gruppe %1boinc-team-founders%2 "
+"(englisch) zu beteiligen."
 
 #: ../user/team_manage.php:73
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
+"Andere Hilfsmittel werden von der externen Webseite %1www.boincteams.com%2 "
+"angeboten."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "Nicht-leeres Team kann nicht gelöscht werden."
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "Team %1 gelöscht"
 
 #: ../user/team_members.php:33
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr ""
+"Limit überschritten: Nur die ersten 1000 Mitglieder können angezeigt werden."
 
 #: ../user/team_members.php:43
 msgid "Members of %1"
-msgstr ""
+msgstr "Mitglieder von %1"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
-msgstr ""
+msgstr "Team konnte nicht verlassen werden."
 
 #: ../user/team_quit_action.php:33
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "Das Team existiert nicht oder Sie sind kein Mitglied."
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
-msgstr ""
+msgstr "Verlasse %1"
 
 #: ../user/team_quit_form.php:32
 msgid ""
@@ -3911,57 +3938,61 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
+"<strong>Vor dem Verlassen eines Teams bitte beachten:</strong>\n"
+"<ul>\n"
+"<li>Nach dem verlassen, kann man einem anderen Team oder diesem Team wieder "
+"beitreten.</li>\n"
+"<li>Das Verlassen eines Teams beeinflußt nicht die Anzahl der eigenen Punkte."
+"</li>\n"
+"</ul>"
 
 #: ../user/team_quit_form.php:40
-#, fuzzy
 msgid "Quit Team"
 msgstr "Team verlassen"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Entferne Mitglieder aus %1"
 
 #: ../user/team_remove_inactive_action.php:37
-#, fuzzy
 msgid "%1 is not a member of %2"
-msgstr "Benutzer ist nicht Mitglied von %1"
+msgstr "%1 ist nicht Mitglied von %2"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 wurde entfernt"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Entferne Mitglieder aus %1"
 
 #: ../user/team_remove_inactive_form.php:37
-#, fuzzy
 msgid "Remove?"
-msgstr "Entfernen"
+msgstr "Entfernen?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
-msgstr ""
+msgstr "Name (ID)"
 
 #: ../user/team_remove_inactive_form.php:63
 msgid "No members are eligible for removal."
-msgstr ""
+msgstr "Keine Mitglieder können entfernt werden."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
-msgstr ""
+msgstr "Mitglieder entfernen"
 
 #: ../user/team_search.php:65
 msgid "Team name"
-msgstr ""
+msgstr "Teamname"
 
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
-msgstr ""
+msgstr "Keine Teams mit diesen Kriterien gefunden. Bitte neue Suche starten."
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "Oder ein %1neues Team erstellen%2."
 
 #: ../user/team_search.php:133
 msgid ""
@@ -3969,15 +4000,17 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
+"Ein oder Mehrere Suchkriterien passen zu den folgenden Teams.\n"
+"Um einem Team beizutreten, bitte erst auf den Namen und\n"
+"dann %1diesem Team beitreten%2 klicken."
 
 #: ../user/team_search.php:140
 msgid "Change your search"
-msgstr ""
+msgstr "Suche ändern"
 
 #: ../user/team_search.php:152
-#, fuzzy
 msgid "Team search results"
-msgstr "Ergebnisse der Forensuche"
+msgstr "Ergebnisse der Teamsuche"
 
 #: ../user/team_search.php:156
 msgid ""
@@ -3999,7 +4032,7 @@ msgstr "%1Ich bin im Moment nicht daran interessiert%2 einem Team beizutreten."
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr ""
+msgstr "Höchstgrenze erreicht - Nur die ersten %1 Einträge werden angezeigt"
 
 #: ../user/top_hosts.php:80
 msgid "Top hosts"
@@ -4019,14 +4052,13 @@ msgstr "Teilnehmer seit"
 
 #: ../user/uotd.php:27
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "Kein Benutzer des Tages gewählt."
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "Benutzer des Tages am %1: %2"
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
-#, fuzzy
 msgid "Joined"
 msgstr "Beitritt"
 
@@ -4075,7 +4107,6 @@ msgid "search string must be at least 3 characters"
 msgstr "Der Suchbegriff muss mindestens 3 Zeichen enthalten"
 
 #: ../user/user_search.php:156
-#, fuzzy
 msgid "User names starting with"
 msgstr "Benutzernamen beginnend mit"
 
@@ -4085,7 +4116,7 @@ msgstr "Keine Benutzer entsprechen Ihren Suchkriterien."
 
 #: ../user/user_search.php:186
 msgid "missing search type"
-msgstr ""
+msgstr "fehlender Suchtyp"
 
 #: ../user/user_search.php:224
 msgid "User search results"
@@ -4097,20 +4128,19 @@ msgstr "Benutzer nicht gefunden!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "Kontodaten<br/>für %1<br/>Zeit:"
 
 #: ../user/userw.php:46
-#, fuzzy
 msgid "Team:"
 msgstr "Team:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
-msgstr ""
+msgstr "Team GesPunkt:"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "Team DurchschnPunkt:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
@@ -4130,35 +4160,36 @@ msgstr ""
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "E-Mail zur Validierung gesendet"
 
 #: ../user/validate_email_addr.php:35
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
 msgstr ""
+"Es wurde eine E-Mail an die Adresse %1 gesendet. Bitte den enthaltenen Link "
+"aufrufen um die E-Mail Adresse zu validieren."
 
 #: ../user/validate_email_addr.php:44
-#, fuzzy
 msgid "No such user."
-msgstr "Benutzer nicht gefunden"
+msgstr "Benutzer nicht gefunden."
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
-msgstr ""
+msgstr "Fehler in der URL - E-Mail Adresse konnte nicht bestätigt werden."
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
 msgstr ""
+"Aktualisierung der Datenbank fehlgeschlagen - Bitte später erneut probieren."
 
 #: ../user/validate_email_addr.php:57
-#, fuzzy
 msgid "Validate email address"
-msgstr "Bestätige die BOINC E-Mail Adresse"
+msgstr " BOINC E-Mail Adresse bestätigen"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "Die E-Mail Adresse Ihres Kontos wurde bestätigt."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4166,14 +4197,13 @@ msgstr "Dieser Benutzer hat kein Profil."
 
 #: ../user/view_profile.php:44
 msgid "Profile: %1"
-msgstr ""
+msgstr "Profil: %1"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
 msgstr "Kontoinformationen"
 
 #: ../user/weak_auth.php:47
-#, fuzzy
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
 "project, without giving the ability to log in to your account or to change "
@@ -4222,7 +4252,7 @@ msgstr ""
 
 #: ../user/workunit.php:30
 msgid "can't find workunit"
-msgstr ""
+msgstr "Arbeitspaket nicht gefunden"
 
 #: ../user/workunit.php:33
 #, fuzzy
@@ -4230,24 +4260,23 @@ msgid "Workunit %1"
 msgstr "Paket ID"
 
 #: ../user/workunit.php:37
-#, fuzzy
 msgid "name"
 msgstr "Name"
 
 # ########################################
 # Apps page (apps.php)
 #: ../user/workunit.php:38
-#, fuzzy
 msgid "application"
-msgstr "Anwendungen"
+msgstr "Anwendung"
 
 #: ../user/workunit.php:39
 msgid "created"
 msgstr "erstellt"
 
 #: ../user/workunit.php:41
+#, fuzzy
 msgid "canonical result"
-msgstr ""
+msgstr "autorisiertes Ergebnis"
 
 #: ../user/workunit.php:44
 #, fuzzy
@@ -4264,11 +4293,12 @@ msgstr ""
 
 #: ../user/workunit.php:55
 msgid "minimum quorum"
-msgstr ""
+msgstr "Mindestanzahl"
 
 #: ../user/workunit.php:56
+#, fuzzy
 msgid "initial replication"
-msgstr ""
+msgstr "Initialreplikation"
 
 #: ../user/workunit.php:57
 msgid "max # of error/total/success tasks"
@@ -4283,9 +4313,8 @@ msgid "validation"
 msgstr "Gültigkeit"
 
 #: ../project.sample/project.inc:49
-#, fuzzy
 msgid "Main page"
-msgstr "Domäne"
+msgstr "Startseite"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"
@@ -4296,8 +4325,9 @@ msgid "Generated"
 msgstr "Erstellt"
 
 #: ../project.sample/project.inc:85
+#, fuzzy
 msgid "Your personal background."
-msgstr ""
+msgstr "Ihr persönlicher Werdegang"
 
 #: ../project.sample/project.inc:89
 msgid ""
@@ -4320,6 +4350,11 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
+"Teilen Sie uns Ihre Gedanken zu %1 mit<ol>\n"
+"<li>Warum führen Sie %1 aus?\n"
+"<li>Wie ist Ihre Meinung zu diesem Projekt?\n"
+"<li>Haben Sie Hinweise oder Verbesserungsvorschläge?\n"
+"</ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
@@ -4327,7 +4362,7 @@ msgstr "Farbschema für Grafiken"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "maximale CPU % für Grafiken%1 0 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
@@ -4344,6 +4379,15 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "(alle Anwendungen)"
+
+#~ msgid "BOINC client version"
+#~ msgstr "BOINC-Client Version"
+
+#~ msgid "Client detached"
+#~ msgstr "Client abgemeldet"
+
+#~ msgid "Client error"
+#~ msgstr "Client-Fehler"
 
 #~ msgid "Maximum daily WU quota per CPU"
 #~ msgstr "maximale Anzahl Arbeitspakete pro CPU pro Tag"

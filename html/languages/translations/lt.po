@@ -2,16 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-07-14 12:19 PDT\n"
-"PO-Revision-Date: 2010-05-11 13:27-0700\n"
+"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
+"PO-Revision-Date: 2010-08-20 11:48-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
-"100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -228,9 +228,9 @@ msgstr "Koprocesoriai"
 msgid "Operating System"
 msgstr "Operacinė sistema"
 
-#: ../inc/host.inc:122
-msgid "BOINC client version"
-msgstr "BOINC kliento versija"
+#: ../inc/host.inc:122 ../inc/host.inc:226
+msgid "BOINC version"
+msgstr ""
 
 #: ../inc/host.inc:126
 msgid "Memory"
@@ -304,22 +304,20 @@ msgstr "%1 dienų"
 # ########################################
 # Apps page (apps.php)
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "Programos"
+msgstr "Programos informacija"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Show"
-msgstr "Mokykla"
+msgstr "Rodyti"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
 msgstr "Užduotys"
 
 #: ../inc/host.inc:179
-msgid "Number of times client has contacted server"
-msgstr ""
+msgid "Number of times BOINC has contacted server"
+msgstr "Iš viso susisiekimų su serveriu"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
@@ -327,7 +325,7 @@ msgstr "Paskutinis susisiekimas su serveriu"
 
 #: ../inc/host.inc:181
 #, php-format
-msgid "% of time BOINC client is running"
+msgid "% of time BOINC is running"
 msgstr ""
 
 #: ../inc/host.inc:183
@@ -386,10 +384,6 @@ msgstr ""
 msgid "Recent average credit"
 msgstr "Vidutinis kreditas"
 
-#: ../inc/host.inc:226
-msgid "BOINC version"
-msgstr ""
-
 #: ../inc/host.inc:227 ../inc/host.inc:624 ../inc/result.inc:42
 msgid "CPU"
 msgstr ""
@@ -399,7 +393,6 @@ msgid "GPU"
 msgstr ""
 
 #: ../inc/host.inc:229
-#, fuzzy
 msgid "Operating system"
 msgstr "Operacinė sistema"
 
@@ -609,9 +602,8 @@ msgid "On multiprocessors, use at most"
 msgstr ""
 
 #: ../inc/prefs.inc:148
-#, fuzzy
 msgid "processors"
-msgstr "Koprocesoriai"
+msgstr "procesoriai"
 
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
@@ -797,9 +789,8 @@ msgid "bad subset: %1"
 msgstr ""
 
 #: ../inc/prefs.inc:617
-#, fuzzy
 msgid "Default"
-msgstr "Ištrinti"
+msgstr "Įprastiniai"
 
 #: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:995
 #: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:108
@@ -1069,7 +1060,7 @@ msgid "Validate error"
 msgstr ""
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
-msgid "Client detached"
+msgid "Abandoned"
 msgstr ""
 
 #: ../inc/result.inc:160
@@ -1081,8 +1072,8 @@ msgid "Success"
 msgstr ""
 
 #: ../inc/result.inc:172
-msgid "Client error"
-msgstr ""
+msgid "Computation error"
+msgstr "Skaičiavimo klaida"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
@@ -1178,14 +1169,12 @@ msgid "Show names"
 msgstr ""
 
 #: ../inc/result.inc:272
-#, fuzzy
 msgid "Task"
-msgstr "Užduotys"
+msgstr "Užduotis"
 
 #: ../inc/result.inc:275
-#, fuzzy
 msgid "Work unit"
-msgstr "Darbas"
+msgstr "Užduočių rinkinys"
 
 #: ../inc/result.inc:278
 msgid "Computer"
@@ -1216,9 +1205,8 @@ msgid "CPU time<br />(sec)"
 msgstr ""
 
 #: ../inc/result.inc:288 ../inc/result.inc:392
-#, fuzzy
 msgid "Credit"
-msgstr "Sukurti"
+msgstr "Kreditas"
 
 # ########################################
 # Apps page (apps.php)
@@ -1259,9 +1247,8 @@ msgid "Run time"
 msgstr ""
 
 #: ../inc/result.inc:390
-#, fuzzy
 msgid "CPU time"
-msgstr "Centrinio procesoriaus tipas"
+msgstr "Centrinio procesoriaus laikas"
 
 #: ../inc/result.inc:391
 msgid "Validate state"
@@ -1270,9 +1257,8 @@ msgstr ""
 # ########################################
 # Apps page (apps.php)
 #: ../inc/result.inc:393
-#, fuzzy
 msgid "Application version"
-msgstr "Programos"
+msgstr "Programos versija"
 
 #: ../inc/result.inc:408
 msgid "Previous"
@@ -1575,9 +1561,8 @@ msgid "Team"
 msgstr "Komanda"
 
 #: ../inc/user.inc:168
-#, fuzzy
 msgid "Cross-project"
-msgstr "Tarpprojektinis ID"
+msgstr "Tarpprojektinis"
 
 #: ../inc/user.inc:169
 msgid "Certificate"
@@ -1678,7 +1663,7 @@ msgstr "Bendruomenės nustatymai"
 
 #: ../inc/user.inc:231
 msgid "Preferences for this project"
-msgstr ""
+msgstr "Šio projekto nustatymai"
 
 #: ../inc/user.inc:232 ../user/prefs.php:33
 msgid "%1 preferences"
@@ -2501,10 +2486,15 @@ msgstr ""
 msgid "Your account"
 msgstr "Jūsų abonementas"
 
+# ########################################<br />
+# Apps page (apps.php)
+#: ../user/host_app_versions.php:52
+msgid "Application details for host %1"
+msgstr "Programos informacija kompiuteriui %1"
+
 #: ../user/hosts_user.php:51
-#, fuzzy
 msgid "Computers belonging to %1"
-msgstr "Abonementui priskirti kompiuteriai"
+msgstr "Kompiuteriai, priskirti %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
@@ -2826,9 +2816,9 @@ msgstr "Kad atblokuotumėte, apsilankykite %1diskusijų lentos nustatymuose%2"
 
 #: ../user/prefs.php:36
 msgid ""
-"Your preferences have been updated. Client-related preferences\n"
+"Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
-"\t      or you issue the %2Update%3 command from the BOINC client."
+"\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
@@ -2973,7 +2963,7 @@ msgstr ""
 msgid "User of the day"
 msgstr "Dienos dalyvis"
 
-#: ../user/show_user.php:91
+#: ../user/show_user.php:88
 msgid "Account data for %1"
 msgstr ""
 
@@ -3049,6 +3039,8 @@ msgstr ""
 #: ../user/team.php:37
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+"Kad prisijungtumėte prie komandos, pereikite į komandos puslapį ir spauskite "
+"%1prisijungti prie komandos%2."
 
 #: ../user/team.php:38 ../user/team_search.php:155
 msgid "Find a team"
@@ -3765,7 +3757,7 @@ msgstr ""
 
 #: ../user/team_search.php:65
 msgid "Team name"
-msgstr ""
+msgstr "Komandos pavadinimas"
 
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
@@ -4135,6 +4127,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr ""
+
+#~ msgid "BOINC client version"
+#~ msgstr "BOINC kliento versija"
 
 #~ msgid "%1/day"
 #~ msgstr "%1 per dieną"
