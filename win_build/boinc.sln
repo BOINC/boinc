@@ -1,223 +1,153 @@
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "boinc_cli.vcproj", "{C04F0FCC-BB5D-4627-8656-6173B28BD69E}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_os_ss", "boinc_os_ss.vcproj", "{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "boinc_cli.vcxproj", "{C04F0FCC-BB5D-4627-8656-6173B28BD69E}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinccmd", "boinccmd.vcproj", "{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{C04F0FCC-BB5D-4627-8656-6173B28BD69E} = {C04F0FCC-BB5D-4627-8656-6173B28BD69E}
-		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincmgr", "boincmgr.vcproj", "{06113715-AC51-4E91-8B9D-C987CABE0920}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{C04F0FCC-BB5D-4627-8656-6173B28BD69E} = {C04F0FCC-BB5D-4627-8656-6173B28BD69E}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "libboinc.vcproj", "{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_os_ss", "boinc_os_ss.vcxproj", "{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsim", "sim.vcproj", "{B950E31B-C075-4F6D-8A2B-25EAE9D46C93}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinccmd", "boinccmd.vcxproj", "{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinctray", "boinctray.vcproj", "{4A2C5963-6A8D-4DA1-A312-C3D749B2EA81}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "image_libs", "image_libs.vcproj", "{D3D21F11-A7E7-4EA2-8518-E24695133BFF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincmgr", "boincmgr.vcxproj", "{06113715-AC51-4E91-8B9D-C987CABE0920}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jpeglib", "jpeglib.vcproj", "{5F065EAC-B881-4E9A-9E34-7A21D7A01D98}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "libboinc.vcxproj", "{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glut", "glut.vcproj", "{C4165626-F68F-4F66-A126-3B82DDBB7480}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsim", "sim.vcxproj", "{B950E31B-C075-4F6D-8A2B-25EAE9D46C93}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wrapper", "wrapper.vcproj", "{F243B93C-73CB-44E7-9BDC-847BB95A27CA}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE} = {07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sleeper", "sleeper.vcproj", "{A9647CEA-644D-4C0A-8733-D916CD344859}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE} = {07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "worker", "worker.vcproj", "{F1BE6109-586D-448E-8C5B-D5C2CB874EA2}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
-		{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE} = {07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app", "uc2.vcproj", "{CCB9A37C-7AD8-4FC1-ABEC-1A6ED2268F83}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE} = {07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_graphics", "uc2_graphics.vcproj", "{3CF31288-A44D-4C78-A3AA-B05B6E32DF11}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{D3D21F11-A7E7-4EA2-8518-E24695133BFF} = {D3D21F11-A7E7-4EA2-8518-E24695133BFF}
-		{C4165626-F68F-4F66-A126-3B82DDBB7480} = {C4165626-F68F-4F66-A126-3B82DDBB7480}
-		{5F065EAC-B881-4E9A-9E34-7A21D7A01D98} = {5F065EAC-B881-4E9A-9E34-7A21D7A01D98}
-		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgraphics2", "libgraphics2.vcproj", "{814EBFD3-3CE6-4933-A580-C1FE3147ACB4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinctray", "boinctray.vcxproj", "{4A2C5963-6A8D-4DA1-A312-C3D749B2EA81}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc_staticcrt", "libboinc_staticcrt.vcproj", "{B00664BD-71EB-46C1-957E-CD851418D395}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "image_libs", "image_libs.vcxproj", "{D3D21F11-A7E7-4EA2-8518-E24695133BFF}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincapi_staticcrt", "libboincapi_staticcrt.vcproj", "{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jpeglib", "jpeglib.vcxproj", "{5F065EAC-B881-4E9A-9E34-7A21D7A01D98}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsvcctrl", "boincsvcctrl.vcproj", "{9FC47E90-4E0D-4383-B446-A84314B00764}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glut", "glut.vcxproj", "{C4165626-F68F-4F66-A126-3B82DDBB7480}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "boinc_ss.vcproj", "{C3163ACA-C2E6-49D2-AA21-B8B953331EF7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wrapper", "wrapper.vcxproj", "{F243B93C-73CB-44E7-9BDC-847BB95A27CA}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{D3D21F11-A7E7-4EA2-8518-E24695133BFF} = {D3D21F11-A7E7-4EA2-8518-E24695133BFF}
-		{C4165626-F68F-4F66-A126-3B82DDBB7480} = {C4165626-F68F-4F66-A126-3B82DDBB7480}
-		{5F065EAC-B881-4E9A-9E34-7A21D7A01D98} = {5F065EAC-B881-4E9A-9E34-7A21D7A01D98}
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
-		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinclog", "boinclog.vcproj", "{3A8DFC5C-D169-4BB6-8282-EBD3D1318140}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sleeper", "sleeper.vcxproj", "{A9647CEA-644D-4C0A-8733-D916CD344859}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
-		{C04F0FCC-BB5D-4627-8656-6173B28BD69E} = {C04F0FCC-BB5D-4627-8656-6173B28BD69E}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_atiopencl", "example_app_atiopencl.vcproj", "{C41F5C14-772D-4B56-BAF3-0FE8BF6807D5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "worker", "worker.vcxproj", "{F1BE6109-586D-448E-8C5B-D5C2CB874EA2}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE} = {07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}
-		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_nvcuda", "example_app_nvcuda.vcproj", "{55F71337-32A6-4C26-8CBA-A06A9183D6F2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app", "uc2.vcxproj", "{CCB9A37C-7AD8-4FC1-ABEC-1A6ED2268F83}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
-		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
-		{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE} = {07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_nvopencl", "example_app_nvopencl.vcproj", "{BDC69EE0-033E-4AE1-B6AD-670E26FC117B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_graphics", "uc2_graphics.vcxproj", "{3CF31288-A44D-4C78-A3AA-B05B6E32DF11}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE} = {07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}
-		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_multi_thread", "example_app_multi_thread.vcproj", "{BFE833C6-840F-4F2E-A1FA-A4DE9B9277D6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgraphics2", "libgraphics2.vcxproj", "{814EBFD3-3CE6-4933-A580-C1FE3147ACB4}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
-		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
-		{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE} = {07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc_staticcrt", "libboinc_staticcrt.vcxproj", "{B00664BD-71EB-46C1-957E-CD851418D395}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincapi_staticcrt", "libboincapi_staticcrt.vcxproj", "{07BDA8F7-4AAF-4A3B-B96E-EA72A143C5AE}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsvcctrl", "boincsvcctrl.vcxproj", "{9FC47E90-4E0D-4383-B446-A84314B00764}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "boinc_ss.vcxproj", "{C3163ACA-C2E6-49D2-AA21-B8B953331EF7}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinclog", "boinclog.vcxproj", "{3A8DFC5C-D169-4BB6-8282-EBD3D1318140}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_atiopencl", "example_app_atiopencl.vcxproj", "{C41F5C14-772D-4B56-BAF3-0FE8BF6807D5}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_nvcuda", "example_app_nvcuda.vcxproj", "{55F71337-32A6-4C26-8CBA-A06A9183D6F2}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_nvopencl", "example_app_nvopencl.vcxproj", "{BDC69EE0-033E-4AE1-B6AD-670E26FC117B}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_multi_thread", "example_app_multi_thread.vcxproj", "{BFE833C6-840F-4F2E-A1FA-A4DE9B9277D6}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
 Global
