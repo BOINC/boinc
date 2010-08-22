@@ -501,15 +501,18 @@ BEST_APP_VERSION* get_app_version(
         return bavp;
     }
 
-    // Go through the client's platforms.
-    // Scan the app versions for each platform.
-    // Find the one with highest expected FLOPS
+    // Go through the client's platforms,
+    // and scan the app versions for each platform.
+    // Pick the one with highest expected FLOPS
     //
+    // if config.prefer_primary_platform is set:
+    // stop scanning platforms once we find a feasible version 
+
     bavp->host_usage.projected_flops = 0;
     bavp->avp = NULL;
     bool no_version_for_platform = true;
     for (i=0; i<g_request->platforms.list.size(); i++) {
-        if (config.primary_platform_only && i>0) break;
+        bool found_feasible_version = false;
         PLATFORM* p = g_request->platforms.list[i];
         for (j=0; j<ssp->napp_versions; j++) {
             HOST_USAGE host_usage;
@@ -518,15 +521,6 @@ BEST_APP_VERSION* get_app_version(
             if (av.platformid != p->id) continue;
             no_version_for_platform = false;
 
-            if (reliable_only && !app_version_is_reliable(av.id)) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] not reliable\n", av.id
-                    );
-
-                }
-                continue;
-            }
             if (g_request->core_client_version < av.min_core_version) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
@@ -552,29 +546,6 @@ BEST_APP_VERSION* get_app_version(
                 }
             } else {
                 host_usage.sequential_app(g_reply->host.p_fpops);
-            }
-
-            // this must follow app_plan(), which populates host_usage
-            //
-            if (daily_quota_exceeded(av.id, host_usage)) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] daily quota exceeded\n", av.id
-                    );
-                }
-                continue;
-            }
-
-            // skip versions for which we're at the jobs-in-progress limit
-            //
-            if (config.max_jobs_in_progress.exceeded(app, host_usage.uses_gpu())) {
-                continue;
-            }
-
-            // skip versions for resources we don't need
-            //
-            if (!need_this_resource(host_usage, &av, NULL)) {
-                continue;
             }
 
             // skip versions that go against resource prefs
@@ -610,6 +581,43 @@ BEST_APP_VERSION* get_app_version(
                 continue;
             }
 
+            // at this point we know the version is feasible,
+            // so if config.prefer_primary_platform is set
+            // we won't look any further.
+            // (the version may still be ruled out by job limits etc.)
+            //
+            found_feasible_version = true;
+
+            if (reliable_only && !app_version_is_reliable(av.id)) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] [AV#%d] not reliable\n", av.id
+                    );
+                }
+                continue;
+            }
+
+            if (daily_quota_exceeded(av.id, host_usage)) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] [AV#%d] daily quota exceeded\n", av.id
+                    );
+                }
+                continue;
+            }
+
+            // skip versions for which we're at the jobs-in-progress limit
+            //
+            if (config.max_jobs_in_progress.exceeded(app, host_usage.uses_gpu())) {
+                continue;
+            }
+
+            // skip versions for resources we don't need
+            //
+            if (!need_this_resource(host_usage, &av, NULL)) {
+                continue;
+            }
+
             estimate_flops(host_usage, av);
 
             // pick the fastest version
@@ -620,8 +628,13 @@ BEST_APP_VERSION* get_app_version(
                 bavp->reliable = app_version_is_reliable(av.id);
                 bavp->trusted = app_version_is_trusted(av.id);
             }
+        }   // loop over app versions
+
+        if (config.prefer_primary_platform && found_feasible_version) {
+            break;
         }
-    }
+    }   // loop over client platforms
+
     if (bavp->avp) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,

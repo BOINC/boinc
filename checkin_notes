@@ -6176,3 +6176,12 @@ Rom    18 Aug 2010
         AccountInfoPage.h
         AccountManagerProcessingPage.cpp
         ProjectProcessingPage.cpp
+
+David  22 Aug 2010
+    - scheduler: change the "primary_platform_only" config option
+        to "prefer_primary_platform".
+        If an app has only only 32-bit versions, use the for 64-bit clients.
+
+    sched/
+        sched_config.cpp,h
+        sched_version.cpp

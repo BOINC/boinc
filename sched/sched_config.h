@@ -146,11 +146,12 @@ struct SCHED_CONFIG {
     char symstore[256];
     bool workload_sim;
         // Do workload simulation in deciding whether to send a result
-    bool primary_platform_only;
-        // use app versions only for the client's primary platform
-        // e.g. send only 64-bit versions to 64-bit clients.
-        // Do this only if you have 64-bit versions for all platforms,
-        // and you're sure that your 64-bit versions are
+    bool prefer_primary_platform;
+        // When selecting app versions,
+        // use the client's primary platform if a version exists.
+        // e.g. send 64-bit versions to 64-bit clients,
+        // rather than trying the 32-bit version to see if it's faster.
+        // Do this only if you're sure that your 64-bit versions are
         // always faster than the corresponding 32-bit versions
 
     // scheduler log flags

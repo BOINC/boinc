@@ -220,7 +220,7 @@ function language_form() {
         ."<option value=it>Italiano (Italian)"
         ."<option value=ja>日本語 (Japanese)"
         ."<option value=ko>한국어 (Korean)"
-        //."<option value=lt>Lietuvių (Lithuanian)"
+        ."<option value=lt>Lietuvių (Lithuanian)"
         ."<option value=nl>Nederlands (Dutch)"
         //."<option value=pl>Polski (Polish)"
         ."<option value=pt_PT>Portugu&ecirc;s (Portuguese)"
