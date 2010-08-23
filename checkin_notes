@@ -6185,3 +6185,14 @@ David  22 Aug 2010
     sched/
         sched_config.cpp,h
         sched_version.cpp
+
+David  22 Aug 2010
+    - client: maintain "gpu_active_frac" in addition to "active_frac"
+        (which really means CPU active)
+
+    client/
+        client_state.cpp,h
+        time_stats.cpp,h
+        work_fetch.cpp
+        rr_sim.cpp
+        sim.h

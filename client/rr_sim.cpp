@@ -152,7 +152,7 @@ void set_rrsim_flops(RESULT* rp) {
     // For coproc jobs, use app version estimate
     //
     if (rp->uses_coprocs()) {
-        rp->rrsim_flops = rp->avp->flops * gstate.overall_cpu_frac();
+        rp->rrsim_flops = rp->avp->flops * gstate.overall_gpu_frac();
         return;
     }
     PROJECT* p = rp->project;
@@ -391,7 +391,8 @@ void CLIENT_STATE::rr_simulation() {
         // update busy time
         //
         if (rpbest->rr_sim_misses_deadline) {
-            double dur = rpbest->estimated_time_remaining(false) / gstate.overall_cpu_frac();
+            double frac = rpbest->uses_coprocs()?gstate.overall_gpu_frac():gstate.overall_cpu_frac();
+            double dur = rpbest->estimated_time_remaining(false) / frac;
             cpu_work_fetch.update_busy_time(dur, rpbest->avp->avg_ncpus);
             if (rpbest->uses_cuda()) {
                 cuda_work_fetch.update_busy_time(dur, rpbest->avp->ncudas);

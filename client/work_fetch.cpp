@@ -1333,10 +1333,16 @@ double ACTIVE_TASK::est_dur(bool for_work_fetch) {
 // the fraction of time BOINC is processing
 //
 double CLIENT_STATE::overall_cpu_frac() {
-    double running_frac = time_stats.on_frac * time_stats.active_frac;
-    if (running_frac < 0.01) running_frac = 0.01;
-    if (running_frac > 1) running_frac = 1;
-    return running_frac;
+    double x = time_stats.on_frac * time_stats.active_frac;
+    if (x < 0.01) x = 0.01;
+    if (x > 1) x = 1;
+    return x;
+}
+double CLIENT_STATE::overall_gpu_frac() {
+    double x = time_stats.on_frac * time_stats.gpu_active_frac;
+    if (x < 0.01) x = 0.01;
+    if (x > 1) x = 1;
+    return x;
 }
 
 // called when benchmarks change

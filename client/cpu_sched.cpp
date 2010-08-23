@@ -1612,12 +1612,18 @@ bool CLIENT_STATE::enforce_schedule() {
             }
             action = true;
 
+            bool first_time;
             // GPU tasks can get suspended before they're ever run,
             // so the only safe way of telling whether this is the
             // first time the app is run is to check
             // whether the slot dir is empty
             //
-            retval = atp->resume_or_start(is_dir_empty(atp->slot_dir));
+#ifdef SIM
+            first_time = atp->scheduler_state == CPU_SCHED_UNINITIALIZED;
+#else
+            first_time = is_dir_empty(atp->slot_dir);
+#endif
+            retval = atp->resume_or_start(first_time);
             if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
                 // Assume no additional shared memory segs
                 // will be available in the next 10 seconds

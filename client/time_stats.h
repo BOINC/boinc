@@ -35,13 +35,15 @@ public:
         // or -1 if not known
     double active_frac;
         // of the time this host runs the core client,
-        // the fraction it is enabled to work
+        // the fraction it is enabled to use CPU
         // (as determined by preferences, manual suspend/resume, etc.)
+    double gpu_active_frac;
+        // same, GPU
 
     FILE* time_stats_log;
     double inactive_start;
 
-    void update(int suspend_reason);
+    void update(int suspend_reason, int gpu_suspend_reason);
 
     TIME_STATS();
     int write(MIOFILE&, bool to_server);

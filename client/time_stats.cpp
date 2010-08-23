@@ -78,6 +78,7 @@ TIME_STATS::TIME_STATS() {
     on_frac = 1;
     connected_frac = 1;
     active_frac = 1;
+    gpu_active_frac = 1;
     previous_connected_state = CONNECTED_STATE_UNINITIALIZED;
     inactive_start = 0;
     trim_stats_log();
@@ -144,10 +145,11 @@ void TIME_STATS::get_log_after(double t, MIOFILE& mf) {
 // so these get written to disk only when other activities
 // cause this to happen.  Maybe should change this.
 //
-void TIME_STATS::update(int suspend_reason) {
+void TIME_STATS::update(int suspend_reason, int gpu_suspend_reason) {
     double dt, w1, w2;
 
     bool is_active = !(suspend_reason & ~SUSPEND_REASON_CPU_THROTTLE);
+    bool is_gpu_active = !is_active && !gpu_suspend_reason;
     if (last_update == 0) {
         // this is the first time this client has executed.
         // Assume that everything is active
@@ -155,6 +157,7 @@ void TIME_STATS::update(int suspend_reason) {
         on_frac = 1;
         connected_frac = 1;
         active_frac = 1;
+        gpu_active_frac = 1;
         first = false;
         last_update = gstate.now;
         log_append("power_on", gstate.now);
@@ -225,6 +228,7 @@ void TIME_STATS::update(int suspend_reason) {
                 log_append_net(connected_state);
                 previous_connected_state = connected_state;
             }
+
             active_frac *= w2;
             if (is_active) {
                 active_frac += w1;
@@ -236,13 +240,19 @@ void TIME_STATS::update(int suspend_reason) {
                 inactive_start = gstate.now;
                 log_append("proc_stop", gstate.now);
             }
+
+            gpu_active_frac *= w2;
+            if (is_gpu_active) {
+                gpu_active_frac += w1;
+            }
+
             //msg_printf(NULL, MSG_INFO, "is_active %d, active_frac %f", is_active, active_frac);
         }
         last_update = gstate.now;
         if (log_flags.time_debug) {
             msg_printf(0, MSG_INFO,
-                "[time] dt %f w2 %f on %f; active %f; conn %f",
-                dt, w2, on_frac, active_frac, connected_frac
+                "[time] dt %f w2 %f on %f; active %f; gpu_active %f; conn %f",
+                dt, w2, on_frac, active_frac, gpu_active_frac, connected_frac
             );
         }
     }
@@ -255,10 +265,12 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
         "<time_stats>\n"
         "    <on_frac>%f</on_frac>\n"
         "    <connected_frac>%f</connected_frac>\n"
-        "    <active_frac>%f</active_frac>\n",
+        "    <active_frac>%f</active_frac>\n"
+        "    <gpu_active_frac>%f</gpu_active_frac>\n",
         on_frac,
         connected_frac,
-        active_frac
+        active_frac,
+        gpu_active_frac
     );
     if (!to_server) {
         out.printf(
@@ -307,6 +319,15 @@ int TIME_STATS::parse(MIOFILE& in) {
                 );
             } else {
                 active_frac = x;
+            }
+            continue;
+        } else if (parse_double(buf, "<gpu_active_frac>", x)) {
+            if (x <= 0 || x > 1) {
+                msg_printf(0, MSG_INTERNAL_ERROR,
+                    "bad value %f of time stats gpu_active_frac; ignoring", x
+                );
+            } else {
+                gpu_active_frac = x;
             }
             continue;
         } else {

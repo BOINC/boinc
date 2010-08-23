@@ -467,6 +467,7 @@ public:
     int proj_min_results(PROJECT*, double);
     void check_project_timeout();
     double overall_cpu_frac();
+    double overall_gpu_frac();
     double time_until_work_done(PROJECT*, int, double);
     bool compute_work_requests();
     void scale_duration_correction_factors(double);

@@ -748,7 +748,7 @@ bool CLIENT_STATE::poll_slow_events() {
     if (actions > 0) {
         return true;
     } else {
-        time_stats.update(suspend_reason);
+        time_stats.update(suspend_reason, gpu_suspend_reason);
 
         // on some systems, gethostbyname() only starts working
         // a few minutes after system boot.
