@@ -6204,12 +6204,13 @@ Charlie 23 Aug 2010
             Don't show exit dialog if connected Client is not on localhost.
             Mac: Manager shuts down Client only if it started the Client 
                 and if the Client is on localhost.
-            Windows, Linux: Manager shuts down Client only if the Client is 
-                on localhost and the user requests Client shutdown in the 
-                exit dialog, even if running as a service on Windows.  As 
-                before, it skips the exit dialog and uses the saved behavior 
-                if the user previously set "Remember this decision and do not 
-                show this dialog."
+            Windows, Linux: Manager shuts down Client, whether or not the 
+                Manager started the Client, but only if the Client is on 
+                localhost and the user requests Client shutdown in the exit
+                dialog, even if running as a service on Windows.  As before, 
+                it skips the exit dialog and uses the saved behavior if the 
+                user previously set "Remember this decision and do not show 
+                this dialog."
         
     clientgui/
         BOINCClientManager.cpp
