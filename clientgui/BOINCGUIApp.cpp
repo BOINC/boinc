@@ -997,15 +997,10 @@ int CBOINCGUIApp::ConfirmExit() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     
-    // If we are connected to the local core client and the manager is exiting
-    //   give the user the option to shutdown the core client, even if the
-    //   manager didn't launch the core client anyway.
-    if (!pDoc->m_pClientManager->WasBOINCStartedByManager()) {
-        pDoc->GetConnectedComputerName(strConnectedCompter);
-        if (!pDoc->IsComputerNameLocal(strConnectedCompter)) {
-            // Don't shutdown remote clients
-            return 1;
-        }
+    pDoc->GetConnectedComputerName(strConnectedCompter);
+    if (!pDoc->IsComputerNameLocal(strConnectedCompter)) {
+        // Don't shut down remote clients on Manager exit
+        return 1;
     }
 
     // Don't run confirmation dialog if logging out or shutting down Mac, 

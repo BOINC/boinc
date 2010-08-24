@@ -509,14 +509,19 @@ int CMainDocument::OnInit() {
 
 
 int CMainDocument::OnExit() {
-    int iRetVal = 0;
+    wxString         strConnectedCompter = wxEmptyString;
+    int              iRetVal = 0;
 
     if (m_pClientManager) {
 #ifdef __WXMSW__
         if (wxGetApp().ShouldShutdownCoreClient())
 #endif
         {
-            m_pClientManager->ShutdownBOINCCore();
+            // Shut down only local clients on Manager exit
+            GetConnectedComputerName(strConnectedCompter);
+            if (IsComputerNameLocal(strConnectedCompter)) {
+                m_pClientManager->ShutdownBOINCCore();
+            }
         }
         
         delete m_pClientManager;

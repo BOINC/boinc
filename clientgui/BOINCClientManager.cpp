@@ -457,59 +457,62 @@ void CBOINCClientManager::ShutdownBOINCCore() {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (m_bBOINCStartedByManager) {
-#ifdef __WXMSW__
-        if (IsBOINCConfiguredAsDaemon()) {
-            stop_daemon_via_daemonctrl();
-            bClientQuit = true;
-        } else
+#ifndef __WXMAC__
+    // Mac Manager shuts down client only if Manager started client
+    if (!m_bBOINCStartedByManager) return;
 #endif
-        {
-            pDoc->GetConnectedComputerName(strConnectedCompter);
-            if (!pDoc->IsComputerNameLocal(strConnectedCompter)) {
-                RPC_CLIENT rpc;
-                if (!rpc.init("localhost")) {
-                    pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
-                    rpc.authorize((const char*)strPassword.mb_str());
-                    if (IsBOINCCoreRunning()) {
-                        rpc.quit();
-                        for (iCount = 0; iCount <= 10; iCount++) {
-                            if (!bClientQuit && !IsBOINCCoreRunning()) {
-                                wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit Detected"));
-                                bClientQuit = true;
-                                break;
-                            }
-                            wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit NOT Detected, Sleeping..."));
-                            ::wxSleep(1);
-                        }
-                    } else {
-                        bClientQuit = true;
-                    }
-                }
-                rpc.close();
-            } else {
+
+#ifdef __WXMSW__
+    if (IsBOINCConfiguredAsDaemon()) {
+        stop_daemon_via_daemonctrl();
+        bClientQuit = true;
+    } else
+#endif
+    {
+        pDoc->GetConnectedComputerName(strConnectedCompter);
+        if (!pDoc->IsComputerNameLocal(strConnectedCompter)) {
+            RPC_CLIENT rpc;
+            if (!rpc.init("localhost")) {
+                pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
+                rpc.authorize((const char*)strPassword.mb_str());
                 if (IsBOINCCoreRunning()) {
-                    pDoc->CoreClientQuit();
+                    rpc.quit();
                     for (iCount = 0; iCount <= 10; iCount++) {
                         if (!bClientQuit && !IsBOINCCoreRunning()) {
-                            wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit Detected"));
+                            wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit Detected"));
                             bClientQuit = true;
                             break;
                         }
-                        wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit NOT Detected, Sleeping..."));
+                        wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit NOT Detected, Sleeping..."));
                         ::wxSleep(1);
                     }
                 } else {
                     bClientQuit = true;
                 }
             }
+            rpc.close();
+        } else {
+            if (IsBOINCCoreRunning()) {
+                pDoc->CoreClientQuit();
+                for (iCount = 0; iCount <= 10; iCount++) {
+                    if (!bClientQuit && !IsBOINCCoreRunning()) {
+                        wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit Detected"));
+                        bClientQuit = true;
+                        break;
+                    }
+                    wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit NOT Detected, Sleeping..."));
+                    ::wxSleep(1);
+                }
+            } else {
+                bClientQuit = true;
+            }
         }
-
-        if (!bClientQuit) {
-            KillClient();
-        }
-        m_lBOINCCoreProcessId = 0;
     }
+
+    if (!bClientQuit) {
+        KillClient();
+    }
+    m_lBOINCCoreProcessId = 0;
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::ShutdownBOINCCore - Function End"));
 }
