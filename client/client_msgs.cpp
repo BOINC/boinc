@@ -74,7 +74,9 @@ void msg_printf_link(PROJECT *p, int priority, const char* link, const char *fmt
 // add to cache, and delete old messages if cache too big.
 // If high priority, create a notice.
 //
-void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message, const char* link) {
+void MESSAGE_DESCS::insert(
+    PROJECT* p, int priority, int now, char* message, const char* link
+) {
     MESSAGE_DESC* mdp = new MESSAGE_DESC;
     static int seqno = 1;
     strcpy(mdp->project_name, "");
@@ -83,7 +85,7 @@ void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message, con
             mdp->project_name, p->get_project_name(), sizeof(mdp->project_name)
         );
     }
-    mdp->priority = priority;
+    mdp->priority = (priority==MSG_SCHEDULER_ALERT)?MSG_USER_ALERT:priority;
     mdp->timestamp = now;
     mdp->seqno = seqno++;
     mdp->message = message;
@@ -94,7 +96,9 @@ void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message, con
     msgs.push_front(mdp);
 
 #ifndef SIM
-    if (priority == MSG_USER_ALERT) {
+    switch (priority) {
+    case MSG_USER_ALERT:
+    case MSG_SCHEDULER_ALERT:
         char buf[1024];
         xml_escape(message, buf, 1024);
         NOTICE n;
@@ -106,7 +110,7 @@ void MESSAGE_DESCS::insert(PROJECT* p, int priority, int now, char* message, con
             strcpy(n.project_name, p->get_project_name());
         }
         n.create_time = n.arrival_time = gstate.now;
-        strcpy(n.category, "client");
+        strcpy(n.category, (priority==MSG_USER_ALERT)?"client":"scheduler");
         notices.append(n);
     }
 #endif

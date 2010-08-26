@@ -91,10 +91,14 @@
     // Text should be user-friendly.
     // write to stdout
     // GUI: show in event log in bold or red; show in notices tab
-#define MSG_INTERNAL_ERROR   3
+#define MSG_INTERNAL_ERROR  3
     // Conditions that indicate a problem or bug with BOINC itself,
     // or with a BOINC project or account manager.
     // treat same as MSG_INFO, but prepend with [error]
+#define MSG_SCHEDULER_ALERT 4
+    // high-priority message from scheduler
+    // (used internally within the client;
+    // changed to MSG_USER_ALERT before passing to manager)
     
 // bitmap defs for task_suspend_reason, network_suspend_reason
 // Note: doesn't need to be a bitmap, but keep for compatibility

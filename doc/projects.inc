@@ -322,6 +322,14 @@ $math = array(
             "primegrid_logo.png"
         ),
         array(
+            "primaboinca",
+            "http://www.primaboinca.com/",
+            "Hochschule RheinMain University of Applied Sciences",
+            "Mathematics",
+            "Search for counterexamples to two conjectures related to the identification of prime numbers",
+            "logo_primaboinca.gif"
+        ),
+        array(
             "SZTAKI Desktop Grid",
             "http://szdg.lpds.sztaki.hu/szdg/",
             "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)",

@@ -6223,3 +6223,15 @@ Charlie 26 Aug 2010
 
     clientgui/
         BOINCBaseFrame.cpp
+
+David  26 Aug 2010
+    - client: treat notices from schedulers a little differently.
+        Ignore duplicate notices unless they're at least 24 hours
+        newer than the previous one.
+
+    client/
+        client_msgs.cpp
+        cs_scheduler.cpp
+        cs_notice.cpp
+    lib/
+        common_defs.h

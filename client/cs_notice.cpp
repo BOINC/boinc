@@ -271,8 +271,9 @@ static inline bool same_text(NOTICE& n1, NOTICE& n2) {
 // we're considering adding a notice n.
 // If there's already an identical message n2
 //     return false (don't add n)
-// If there's a message n2 with same title and text but different create_time,
-//     delete n2
+// If there's a message n2 with same title and text,
+//      and n is significantly newer than n2,
+//      delete n2
 //
 // Also remove notices older than 30 days
 //
@@ -286,7 +287,11 @@ bool NOTICES::remove_dups(NOTICE& n) {
             i = notices.erase(i);
             removed_something = true;
         } else if (same_text(n, n2)) {
-            if (n.create_time > n2.create_time) {
+            int min_diff = 0;
+            if (!strcmp(n.category, "scheduler")) {
+                min_diff = 86400;
+            }
+            if (n.create_time > n2.create_time + min_diff) {
                 i = notices.erase(i);
                 removed_something = true;
             } else {
