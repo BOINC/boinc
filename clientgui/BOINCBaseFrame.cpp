@@ -328,7 +328,10 @@ void CBOINCBaseFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
         if (win) {
             CopyWindowTitleAsCFString(win, &frontWindowTitle);
             eventLogTitle = CFStringCreateWithCString(NULL, eventLog->GetTitle().char_str(), kCFStringEncodingUTF8);
-            if (CFStringCompare(eventLogTitle, frontWindowTitle, 0) == kCFCompareEqualTo) {
+            CFComparisonResult res = CFStringCompare(eventLogTitle, frontWindowTitle, 0);
+            CFRelease(eventLogTitle);
+            CFRelease(frontWindowTitle);
+            if (res == kCFCompareEqualTo) {
                 wxCloseEvent eventClose;
                 eventLog->OnClose(eventClose);
                 return;
