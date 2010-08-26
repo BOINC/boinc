@@ -320,6 +320,23 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
 void CBOINCBaseFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnCloseWindow - Function Begin"));
 
+#ifdef __WXMAC__
+    CFStringRef frontWindowTitle, eventLogTitle;
+    CDlgEventLog* eventLog = wxGetApp().GetEventLog();
+    if (eventLog) {
+        WindowRef win = FrontNonFloatingWindow();
+        if (win) {
+            CopyWindowTitleAsCFString(win, &frontWindowTitle);
+            eventLogTitle = CFStringCreateWithCString(NULL, eventLog->GetTitle().char_str(), kCFStringEncodingUTF8);
+            if (CFStringCompare(eventLogTitle, frontWindowTitle, 0) == kCFCompareEqualTo) {
+                wxCloseEvent eventClose;
+                eventLog->OnClose(eventClose);
+                return;
+            }
+        }
+    }
+#endif
+
 	Close();
 
 	wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnCloseWindow - Function End"));

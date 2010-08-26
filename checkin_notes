@@ -6216,3 +6216,10 @@ Charlie 23 Aug 2010
         BOINCClientManager.cpp
         BOINCGUIApp.cpp
         MainDocument.cpp
+
+Charlie 26 Aug 2010
+    - MGR: On Mac only, Close Window menu item (or its shortcut Command-w) 
+        closes the Event Log if it is the front window.
+
+    clientgui/
+        BOINCBaseFrame.cpp
