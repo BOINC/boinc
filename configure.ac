@@ -648,7 +648,7 @@ AC_FUNC_ALLOCA
 if test "${ac_cv_func_alloca_works}" = "yes" ; then
   ac_cv_func_alloca="yes"
 fi
-AC_CHECK_FUNCS(alloca _alloca __builtin_alloca ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init)
+AC_CHECK_FUNCS(alloca _alloca __builtin_alloca ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

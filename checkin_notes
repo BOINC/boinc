@@ -6245,6 +6245,11 @@ David  27 Aug 2010
 	- client: in log message, instead of saying
 		"fetching tasks for GPU", say which kind of GPU
 
+    TODO: GPU suspend/resume works by setting or clearing
+    gpu_suspend_reason, then calling request_schedule_cpus().
+    There's no explicit suspending or resuming.
+    CPU suspend/resume should work the same way.
+
 	client/
 		app.cpp
 		cs_prefs.cpp
