@@ -169,8 +169,10 @@ int CLIENT_STATE::check_suspend_processing() {
     if (log_flags.cpu_sched) {
         if (old_gpu_suspend_reason && !gpu_suspend_reason) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched] resuming GPU activity");
+            request_schedule_cpus("GPU resumption");
         } else if (!old_gpu_suspend_reason && gpu_suspend_reason) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched] suspending GPU activity");
+            request_schedule_cpus("GPU suspension");
         }
     }
 

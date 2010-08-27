@@ -6235,3 +6235,19 @@ David  26 Aug 2010
         cs_notice.cpp
     lib/
         common_defs.h
+
+David  27 Aug 2010
+	- client: ignore case in names of "exclusive apps"
+		and exclusive GPU apps
+	- client: fix bug that caused GPU apps to not be
+		suspended or resumed immediately after
+		exclusive GPU app transition
+	- client: in log message, instead of saying
+		"fetching tasks for GPU", say which kind of GPU
+
+	client/
+		app.cpp
+		cs_prefs.cpp
+		scheduler_op.cpp
+	lib/
+		str_replace.h

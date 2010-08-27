@@ -204,6 +204,25 @@ void SCHEDULER_OP::rpc_failed(const char* msg) {
     cur_proj = 0;
 }
 
+static void request_string(char* buf) {
+    bool first = true;
+    strcpy(buf, "");
+    if (cpu_work_fetch.req_secs) {
+        strcpy(buf, "CPU");
+        first = false;
+    }
+    if (cuda_work_fetch.req_secs) {
+        if (!first) strcat(buf, " and ");
+        strcat(buf, "NVIDIA GPU");
+        first = false;
+    }
+    if (ati_work_fetch.req_secs) {
+        if (!first) strcat(buf, " and ");
+        strcat(buf, "ATI GPU");
+        first = false;
+    }
+}
+
 // low-level routine to initiate an RPC
 // If successful, creates an HTTP_OP that must be polled
 // PRECONDITION: the request file has been created
@@ -217,26 +236,15 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         msg_printf(p, MSG_INFO,
             "Sending scheduler request: %s.", rpc_reason_string(reason)
         );
-        double gpu_req = cuda_work_fetch.req_secs + ati_work_fetch.req_secs;
-        if (cpu_work_fetch.req_secs || gpu_req) {
-            if (gstate.host_info.have_cuda()||gstate.host_info.have_ati()) {
-                if (cpu_work_fetch.req_secs && gpu_req) {
-                    sprintf(buf, " for CPU and GPU");
-                } else if (cpu_work_fetch.req_secs) {
-                    sprintf(buf, " for CPU");
-                } else {
-                    sprintf(buf, " for GPU");
-                }
-            } else {
-                strcpy(buf, "");
-            }
+        request_string(buf);
+        if (strlen(buf)) {
             if (p->nresults_returned) {
                 msg_printf(p, MSG_INFO,
-                    "Reporting %d completed tasks, requesting new tasks%s",
+                    "Reporting %d completed tasks, requesting new tasks for %s",
                     p->nresults_returned, buf
                 );
             } else {
-                msg_printf(p, MSG_INFO, "Requesting new tasks%s", buf);
+                msg_printf(p, MSG_INFO, "Requesting new tasks for %s", buf);
             }
         } else {
             if (p->nresults_returned) {

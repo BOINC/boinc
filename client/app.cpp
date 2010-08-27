@@ -52,7 +52,6 @@
 #include <cstdlib>
 #endif
 
-#include "client_state.h"
 
 #include "error_numbers.h"
 #include "filesys.h"
@@ -60,6 +59,9 @@
 #include "parse.h"
 #include "shmem.h"
 #include "str_util.h"
+#include "str_replace.h"
+
+#include "client_state.h"
 #include "client_msgs.h"
 #include "procinfo.h"
 #include "sandbox.h"
@@ -292,7 +294,7 @@ bool app_running(vector<PROCINFO>& piv, const char* p) {
     for (unsigned int i=0; i<piv.size(); i++) {
         PROCINFO& pi = piv[i];
         //msg_printf(0, MSG_INFO, "running: [%s]", pi.command);
-        if (!strcmp(pi.command, p)) {
+        if (!strcasecmp(pi.command, p)) {
             return true;
         }
     }
