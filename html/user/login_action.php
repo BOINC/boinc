@@ -16,14 +16,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 
 $next_url = $_POST["next_url"];
+$next_url = local_url_only($next_url);
 if (strlen($next_url) == 0) $next_url = "home.php";
 
 // check for email/password case

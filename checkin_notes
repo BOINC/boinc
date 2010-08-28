@@ -6256,3 +6256,16 @@ David  27 Aug 2010
 		scheduler_op.cpp
 	lib/
 		str_replace.h
+
+David  27 Aug 2010
+    - web: check the "next URL" passed to login and account
+        creation scripts to ensure they refer only to local pages
+        (i.e. they don't contain "://").
+        This prevents cross-site scripting attacks (I think).
+
+    html/
+        inc/
+            util.inc
+        user/
+            login_action.php
+            create_account_action.php

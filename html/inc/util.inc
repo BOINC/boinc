@@ -791,6 +791,14 @@ function get_app_types() {
     return $t;
 }
 
+// check URL; if any http://, return empty
+// (prevent cross-site scripting)
+//
+function local_url_only($x) {
+    if (strstr($x, "://")) return "";
+    return $x;
+}
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>
