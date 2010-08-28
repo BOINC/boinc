@@ -284,6 +284,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             }
             double x;
             if (temporary_exit_file_present(x)) {
+                if (log_flags.task_debug) {
+                    msg_printf(result->project, MSG_INFO,
+                        "[task] task called temporary_exit(%f)", x
+                    );
+                }
                 set_task_state(PROCESS_UNINITIALIZED, "temporary exit");
                 will_restart = true;
                 result->schedule_backoff = gstate.now + x;

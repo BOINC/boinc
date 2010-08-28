@@ -92,6 +92,7 @@ struct PROC_RESOURCES {
     // should we consider scheduling this job?
     //
     bool can_schedule(RESULT* rp) {
+        if (rp->schedule_backoff > gstate.now) return false;
         if (rp->uses_coprocs()) {
             if (gpu_suspend_reason) return false;
             if (sufficient_coprocs(
@@ -1423,11 +1424,16 @@ bool CLIENT_STATE::enforce_schedule() {
             ram_left -= atp->procinfo.working_set_size_smoothed;
             swap_left -= atp->procinfo.swap_size;
         }
-        if (rp->schedule_backoff > gstate.now) {
-            if (rp->uses_cuda()) {
-                rp->project->cuda_defer_sched = true;
-            } else if (rp->uses_ati()) {
-                rp->project->ati_defer_sched = true;
+        if (rp->schedule_backoff) {
+            if (rp->schedule_backoff > gstate.now) {
+                if (rp->uses_cuda()) {
+                    rp->project->cuda_defer_sched = true;
+                } else if (rp->uses_ati()) {
+                    rp->project->ati_defer_sched = true;
+                }
+            } else {
+                rp->schedule_backoff = 0;
+                request_schedule_cpus("schedule backoff finished");
             }
         }
     }

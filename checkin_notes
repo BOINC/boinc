@@ -6277,3 +6277,11 @@ David  27 Aug 2010
 
     client/
         client_state.cpp
+
+David  28 Aug 2010
+	- client: fix "boinc_temporary_exit()" support.
+		This is critical for GPU support.
+
+	client/
+		app_control.cpp
+		cpu_sched.cpp
