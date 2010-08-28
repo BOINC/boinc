@@ -1611,10 +1611,6 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
             }
         }
         garbage_collect_always();
-
-        char buf[1024];
-        get_project_dir(project, buf, sizeof(buf));
-        client_clean_out_dir(buf, "reset or detach project");
     }
 
     project->duration_correction_factor = 1;

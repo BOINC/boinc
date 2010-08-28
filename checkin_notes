@@ -6269,3 +6269,11 @@ David  27 Aug 2010
         user/
             login_action.php
             create_account_action.php
+
+David  27 Aug 2010
+    - client: back out changeset [21086],
+        which cleaned out project dir on reset.
+        The semantics of reset are to not delete sticky files.
+
+    client/
+        client_state.cpp
