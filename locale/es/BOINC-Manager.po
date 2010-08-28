@@ -3,13 +3,13 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-07-10 05:00-0700\n"
+"PO-Revision-Date: 2010-08-28 04:50-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
@@ -120,18 +120,16 @@ msgid "Account manager website"
 msgstr "Sitio web del administrador de cuentas"
 
 #: clientgui/AccountInfoPage.cpp:557
-#, fuzzy
 msgid "Add project"
-msgstr "Todos los proyectos"
+msgstr "Añadir proyecto"
 
 #: clientgui/AccountInfoPage.cpp:559
 msgid "Update account manager"
 msgstr "Actualizar el administrador de cuentas"
 
 #: clientgui/AccountInfoPage.cpp:561
-#, fuzzy
 msgid "Add account manager"
-msgstr "Administrador de cuentas"
+msgstr "Añadir administrador de cuentas"
 
 #: clientgui/AccountInfoPage.cpp:568
 #, c-format
@@ -279,7 +277,7 @@ msgstr "Muestra el interfaz gráfico simple de BOINC."
 #: clientgui/AdvancedFrame.cpp:390
 #, fuzzy
 msgid "&Add project or account manager..."
-msgstr "&Unirse a un proyecto o administrador de cuentas..."
+msgstr "&Añadir un proyecto o un administrador de cuentas..."
 
 #: clientgui/AdvancedFrame.cpp:391
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
@@ -298,14 +296,12 @@ msgid "Get current settings from %s"
 msgstr "Obtener las preferencias actuales de %s"
 
 #: clientgui/AdvancedFrame.cpp:409
-#, fuzzy
 msgid "&Add project..."
-msgstr "&Unirse a un proyecto..."
+msgstr "&Añadir proyecto..."
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "Add a project"
-msgstr "Todos los proyectos"
+msgstr "Añadir un proyecto"
 
 #: clientgui/AdvancedFrame.cpp:413
 #, c-format
@@ -755,18 +751,19 @@ msgid "Web sites"
 msgstr "Páginas web"
 
 #: clientgui/BOINCClientManager.cpp:534
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Unexpected Exit"
-msgstr "Texto inesperado en"
+msgstr "%s - Salida inesperada"
 
 #: clientgui/BOINCClientManager.cpp:544
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
-"%s no ha podido conectar con un cliente %s.\n"
-"¿Le gustaría intentarlo de nuevo?"
+"El cliente %s ha salido inesperadamente 3 veces durante los últimos %d "
+"minutos.\n"
+"¿Desea reiniciarlo de nuevo?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -962,7 +959,7 @@ msgstr "%s Avisos"
 
 #: clientgui/BOINCTaskBar.cpp:773
 msgid "There are new notices - click to view."
-msgstr ""
+msgstr "Hay nuevos avisos - haz click para verlos."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1002,13 +999,12 @@ msgid "Messages from server:"
 msgstr "Mensajes del servidor:"
 
 #: clientgui/CompletionPage.cpp:207
-#, fuzzy
 msgid "Project added"
-msgstr "Proyecto"
+msgstr "Proyecto añadido"
 
 #: clientgui/CompletionPage.cpp:213
 msgid "This project has been successfully added."
-msgstr ""
+msgstr "Este proyecto ha sido añadido correctamente."
 
 #: clientgui/CompletionPage.cpp:218
 msgid ""
@@ -1707,14 +1703,12 @@ msgid "Scheduler call in progress"
 msgstr "Llamada al planificador en progreso"
 
 #: clientgui/DlgItemProperties.cpp:220
-#, fuzzy
 msgid "Added via account manager"
-msgstr "Unido mediante administrador de cuentas"
+msgstr "Añadido mediante administrador de cuentas"
 
 #: clientgui/DlgItemProperties.cpp:221
-#, fuzzy
 msgid "Remove when tasks done"
-msgstr "Se desconectará cuando las tareas estén terminadas"
+msgstr "Eliminar cuando las tareas estén terminadas"
 
 #: clientgui/DlgItemProperties.cpp:222
 msgid "Ended"
@@ -2224,14 +2218,12 @@ msgid "need disk space - check preferences"
 msgstr "se necesita espacio en disco - compruebe las preferencias"
 
 #: clientgui/MainDocument.cpp:2356
-#, fuzzy
 msgid "computer is not in use"
-msgstr "ordenador está en uso"
+msgstr "ordenador no está en uso"
 
 #: clientgui/MainDocument.cpp:2357
-#, fuzzy
 msgid "starting up"
-msgstr "Iniciando cliente"
+msgstr "Iniciando"
 
 #: clientgui/MainDocument.cpp:2358
 msgid "an exclusive app is running"
@@ -2409,19 +2401,18 @@ msgid "Check the email address and password, and try again."
 msgstr "Verifique que su dirección de correo y clave e inténtelo de nuevo."
 
 #: clientgui/NoticeListCtrl.cpp:54
-#, fuzzy
 msgid "Notice List"
-msgstr "Avisos"
+msgstr "Lista de Avisos"
 
 #: clientgui/NoticeListCtrl.cpp:198
 #, c-format
 msgid "%s; received on %s"
-msgstr ""
+msgstr "%s; recibido en %s"
 
 #: clientgui/NoticeListCtrl.cpp:200
 #, c-format
 msgid "%s; received from %s; on %s"
-msgstr ""
+msgstr "%s; recibido de %s; en %s"
 
 #: clientgui/NoticeListCtrl.cpp:313 clientgui/ProjectListCtrl.cpp:283
 msgid "Click"
@@ -2429,11 +2420,11 @@ msgstr "Pulsar"
 
 #: clientgui/NoticeListCtrl.cpp:562
 msgid "From"
-msgstr ""
+msgstr "De"
 
 #: clientgui/NoticeListCtrl.cpp:574
 msgid "more..."
-msgstr ""
+msgstr "más..."
 
 #: clientgui/ProjectInfoPage.cpp:257
 msgid "Choose a project"
@@ -2462,9 +2453,8 @@ msgid ""
 msgstr "Usted ya está unido a este proyecto. Por favor, elija otro proyecto."
 
 #: clientgui/ProjectListCtrl.cpp:67
-#, fuzzy
 msgid "Project List"
-msgstr "Proyectos"
+msgstr "Lista de Proyectos"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "Multicore CPU Supported"
@@ -2850,9 +2840,8 @@ msgid "Paused: Other work running"
 msgstr "Detenido: Otro trabajo ejecutándose"
 
 #: clientgui/sg_ImageButton.cpp:92
-#, fuzzy
 msgid "Paused: User initiated.  Click 'Resume' to continue"
-msgstr "Detenido: Usuario iniciado. Pulse 'Reanudar' para continuar"
+msgstr "En pausa: Usuario iniciado.   Pulse 'Reanudar' para continuar"
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
@@ -2922,9 +2911,10 @@ msgid "Remove Project"
 msgstr "Eliminar Proyecto"
 
 #: clientgui/sg_StatImageLoader.cpp:211 clientgui/ViewProjects.cpp:495
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "¿Está seguro de que quiere reiniciar el proyecto '%s'?"
+msgstr "¿Está seguro de que quiere eliminar el proyecto '%s'?"
 
 #: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
 #, c-format
@@ -3156,18 +3146,16 @@ msgstr ""
 "completada."
 
 #: clientgui/ViewProjects.cpp:201
-#, fuzzy
 msgid "Remove"
-msgstr "Reanudar"
+msgstr "Eliminar"
 
 #: clientgui/ViewProjects.cpp:202
-#, fuzzy
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
 msgstr ""
-"Separar el ordenador de este proyecto. Las tareas en progreso se perderán "
-"(use 'Actualizar' antes para enviar todas las tareas completadas)."
+"Eliminar este proyecto.   Las tareas en progreso se perderán (use "
+"'Actualizar' en primer lugar para informar las tareas completadas)."
 
 #: clientgui/ViewProjects.cpp:208
 msgid "Properties"
@@ -3231,9 +3219,8 @@ msgid "Reset Project"
 msgstr "Reiniciar Proyecto"
 
 #: clientgui/ViewProjects.cpp:482
-#, fuzzy
 msgid "Removing project..."
-msgstr "Reanudando proyecto..."
+msgstr "Eliminando proyecto..."
 
 #: clientgui/ViewProjects.cpp:542
 msgid "Launching browser..."
@@ -3268,14 +3255,12 @@ msgid "Won't get new tasks"
 msgstr "No se descargarán nuevas tareas"
 
 #: clientgui/ViewProjects.cpp:1063
-#, fuzzy
 msgid "Project ended - OK to remove"
-msgstr "Proyecto finalizado - Aceptar para separarse"
+msgstr "Proyecto finalizado - listo para eliminarlo"
 
 #: clientgui/ViewProjects.cpp:1066
-#, fuzzy
 msgid "Will remove when tasks done"
-msgstr "Se desconectará cuando las tareas estén terminadas"
+msgstr "Se eliminará cuando las tareas estén terminadas"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Scheduler request pending"
@@ -3640,9 +3625,8 @@ msgid "Suspend work for this task."
 msgstr "Suspender el trabajo para esta tarea."
 
 #: clientgui/WelcomePage.cpp:254
-#, fuzzy
 msgid "Add project or account manager"
-msgstr "Unirse a proyecto o administrador de cuentas"
+msgstr "Añadir proyecto o administrador de cuentas"
 
 #: clientgui/WelcomePage.cpp:262
 #, c-format
@@ -3777,63 +3761,61 @@ msgid "list headers"
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:732
-#, fuzzy
 msgid "list of events"
-msgstr "lista de  "
+msgstr "lista de eventos"
 
 #: clientgui/mac/MacAccessiblity.cpp:734
-#, fuzzy
 msgid "list of events is empty"
-msgstr "la lista está vacía"
+msgstr "la lista de eventos está vacía"
 
 #: clientgui/mac/MacAccessiblity.cpp:739
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s"
-msgstr "lista de  "
+msgstr "lista de %s"
 
 #: clientgui/mac/MacAccessiblity.cpp:741
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s is empty"
-msgstr "la lista está vacía"
+msgstr "la lista de %s está vacía"
 
 #: clientgui/mac/MacAccessiblity.cpp:843
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr "; clasificación actual por columna %d de %d; orden descendente; "
 
 #: clientgui/mac/MacAccessiblity.cpp:845
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr "; clasificación actual por columna %d de %d; orden ascendente; "
 
 #: clientgui/mac/MacAccessiblity.cpp:848
-#, fuzzy, c-format
+#, c-format
 msgid "; column %d of %d; "
-msgstr "columna %d; "
+msgstr "; columna %d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:855
 msgid "list is empty"
 msgstr "la lista está vacía"
 
 #: clientgui/mac/MacAccessiblity.cpp:858 clientgui/mac/MacAccessiblity.cpp:870
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d; "
-msgstr "fila %d "
+msgstr "; fila %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:862
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d of %d; "
-msgstr "fila %d de %d; "
+msgstr "; fila selecionada %d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:864
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d ; "
-msgstr "seleccionada "
+msgstr "; fila seleccionada %d ; "
 
 #: clientgui/mac/MacAccessiblity.cpp:868
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d of %d; "
-msgstr "fila %d de %d; "
+msgstr "; fila %d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:881
 msgid "blank"
@@ -3844,9 +3826,9 @@ msgid "list of projects or account managers"
 msgstr "lista de proyectos o administradores de cuenta"
 
 #: clientgui/mac/MacAccessiblity.cpp:1575
-#, fuzzy, c-format
+#, c-format
 msgid "selected row %d of %d; "
-msgstr "fila %d de %d; "
+msgstr "fila seleccionada %d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1577
 #, c-format
