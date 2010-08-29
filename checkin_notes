@@ -6293,3 +6293,18 @@ David  29 Aug 2010
         boinc_db.cpp
     tools/
         backend_lib.cpp
+
+David  29 Aug 2010
+    - web: if SECURE_URL_BASE is defined in html/project/project.inc,
+        use it a prefix for forms that include passwords,
+        namely login_form.php and create_account.php.
+        Typically SECURE_URL_BASE would start with "https://".
+
+    html/
+        inc/
+            util.inc
+        user/
+            login_form.php
+            login_action.php
+            create_account_form.php
+            create_account_action.php

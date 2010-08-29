@@ -21,6 +21,17 @@ require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
 
+$next_url = get_str('next_url', true);
+
+if (defined('SECURE_URL_BASE')
+    && strstr(SECURE_URL_BASE, "https://")
+    && !$_SERVER['HTTPS']
+) {
+    Header("Location: ".SECURE_URL_BASE."create_account_form.php?next_url=$next_url");
+    exit;
+
+}
+
 page_head(tra("Create an account"));
 
 $config = get_config();
@@ -32,8 +43,6 @@ if (parse_bool($config, "disable_account_creation")) {
     page_tail();
     exit();
 }
-
-$next_url = get_str('next_url', true);
 
 $wac = parse_bool($config, "web_account_creation");
 if (!$wac) {

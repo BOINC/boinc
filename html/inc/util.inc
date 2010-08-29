@@ -56,15 +56,6 @@ function clear_cookie($name, $ops=false) {
     setcookie($name, '', time()-3600, $path);
 }
 
-// if not logged in, put up login form and exit
-//
-function require_login($user) {
-    if (!$user) {
-        print_login_form();
-        exit();
-    }
-}
-
 function get_user_from_id($id) {
     if ($id) return lookup_user_id($id);
     return NULL;
@@ -85,8 +76,13 @@ function get_logged_in_user($must_be_logged_in=true) {
     if ($authenticator) {
         $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
     }
-    if ($must_be_logged_in) {
-        require_login($g_logged_in_user);
+    if ($must_be_logged_in && !$g_logged_in_user) {
+        $next_url = $_SERVER['REQUEST_URI'];
+        $n = strrpos($next_url, "/");
+        if ($n) {
+            $next_url = substr($next_url, $n+1);
+        }
+        Header("Location: login_form.php?next_url=$next_url");
     }
     return $g_logged_in_user;
 }
@@ -373,51 +369,6 @@ function check_tokens($auth) {
         "Link has timed out. Please click Back, refresh the page,
         and try again."
     );
-}
-
-if (!function_exists("print_login_form_aux")){
-function print_login_form_aux($next_url, $user, $email_addr="") {
-    echo "
-        <form name=\"f\" method=\"post\" action=\"".URL_BASE."login_action.php\">
-        <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
-    ";
-    start_table();
-    row2(tra("Email address:") . '<br><span class="note"><a href="get_passwd.php">'.tra("forgot email address?")."</a></span>",
-        "<input name=email_addr size=40 tabindex=1 value=\"$email_addr\">");
-    row2(tra("Password:") . '<br><span class="note"><a href="get_passwd.php">' . tra("forgot password?") . "</a></span>",
-        '<input type="password" name="passwd" size="40" tabindex="2">'
-    );
-    row2(tra("Stay logged in on this computer"),
-        '<input type="checkbox" name="stay_logged_in" checked>'
-    );
-    $x = urlencode($next_url);
-    row2("",
-        "<input type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>".
-        tra("or %1create an account%2.", "<a href=\"create_account_form.php?next_url=$x\">","</a>")
-    );
-    if ($user) {
-        row1("Log out");
-        row2("You are logged in as $user->name",
-            "<a href=\"logout.php?".url_tokens($user->authenticator)."\">Log out</a>"
-        );
-    }
-    end_table();
-    echo "
-        </form>
-        <script type=\"text/javascript\">
-            document.f.email_addr.focus();
-        </script>
-    ";
-}
-}
-
-if (!function_exists("print_login_form")){
-function print_login_form() {
-    page_head(tra("Please log in"));
-    $next_url = $_SERVER['REQUEST_URI'];
-    print_login_form_aux($next_url, null);
-    page_tail();
-}
 }
 
 function no_computing() {
@@ -791,11 +742,11 @@ function get_app_types() {
     return $t;
 }
 
-// check URL; if any http://, return empty
+// check URL; if any "/", return empty
 // (prevent cross-site scripting)
 //
 function local_url_only($x) {
-    if (strstr($x, "://")) return "";
+    if (strstr($x, "/")) return "";
     return $x;
 }
 
