@@ -28,6 +28,7 @@
 #include <ieeefp.h>
 #endif
 
+#include "common_defs.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
@@ -1960,8 +1961,10 @@ int DB_SCHED_RESULT_ITEM_SET::update_workunits() {
         (int)time(0)
     );
     for (i=0; i<results.size(); i++) {
-        if (results[i].id == 0) continue;   // skip non-updated results
-        if (strstr(results[i].name, "asgn")) continue;  // skip assigned jobs
+        if (results[i].id == 0) continue;
+            // skip non-updated results
+        if (strstr(results[i].name, ASSIGNED_WU_STR)) continue;
+            // skip assigned jobs
         if (!first) strcat(query, ",");
         first = false;
         sprintf(buf, "%d", results[i].workunitid);

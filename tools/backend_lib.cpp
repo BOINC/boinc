@@ -441,7 +441,9 @@ int create_result_ti(
 }
 
 // Create a new result for the given WU.
-// This is called ONLY from the transitioner
+// This is called from:
+// - the transitioner
+// - the scheduler (for assigned jobs)
 //
 int create_result(
     WORKUNIT& wu,

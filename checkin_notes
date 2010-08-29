@@ -6285,3 +6285,11 @@ David  28 Aug 2010
 	client/
 		app_control.cpp
 		cpu_sched.cpp
+
+David  29 Aug 2010
+    - tweaks
+
+    db/
+        boinc_db.cpp
+    tools/
+        backend_lib.cpp
