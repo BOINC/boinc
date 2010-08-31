@@ -415,7 +415,6 @@ bool ACTIVE_TASK_SET::poll() {
     send_trickle_downs();
     graphics_poll();
     process_control_poll();
-    get_memory_usage();
     action |= check_rsc_limits_exceeded();
     get_msgs();
     for (i=0; i<active_tasks.size(); i++) {

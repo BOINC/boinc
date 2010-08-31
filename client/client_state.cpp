@@ -627,6 +627,9 @@ bool CLIENT_STATE::poll_slow_events() {
     }
 #endif
 
+    // active_tasks.get_memory_usage() sets variables needed by 
+    // check_suspend_processing(), so it must be called first.
+    active_tasks.get_memory_usage();
     suspend_reason = check_suspend_processing();
 
     // suspend or resume activities (but only if already did startup)

@@ -6308,3 +6308,12 @@ David  29 Aug 2010
             login_action.php
             create_account_form.php
             create_account_action.php
+
+Charlie 31 Aug 2010
+    - client: fix problems with exclusive_gpu_app feature.
+    
+    client/
+        app.cpp
+        client_state.cpp
+    lib/
+        procinfo_mac.cpp

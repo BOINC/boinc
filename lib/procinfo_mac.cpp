@@ -102,14 +102,14 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 
 
     fd = popen("ps -axcopid,ppid,rss,vsz,pagein,time,command", "r");
-    if (!fd) return 0;
+    if (!fd) return ERR_FOPEN;
 
     // Skip over the header line
     do {
         c = fgetc(fd);
         if (c == EOF) {
             pclose(fd);
-            return 0;
+            return ERR_GETS;
         }
     } while (c != '\n');
 
