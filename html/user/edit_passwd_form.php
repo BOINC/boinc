@@ -26,7 +26,7 @@ $user = get_logged_in_user(false);
 page_head(tra("Change password"));
 
 echo "
-    <form method=post action=edit_passwd_action.php>
+    <form method=post action=".SECURE_URL_BASE."edit_passwd_action.php>
 ";
 
 
