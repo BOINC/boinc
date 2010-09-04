@@ -24,8 +24,8 @@ function handle_add($job, $inst) {
     $f = null;
     $f->x = get_int('pic_x');
     $f->y = get_int('pic_y');
-    $f->type = get_str('type');
-    $c = get_str('comment', true);
+    $f->type = sanitize_tags(get_str('type'));
+    $c = sanitize_tags(get_str('comment', true));
     if (strstr($c, "(optional)")) $c = "";
     $f->comment = $c;
     $output = $inst->get_opaque_data();

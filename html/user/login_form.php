@@ -19,7 +19,7 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 
-$next_url = get_str('next_url', true);
+$next_url = sanitize_local_url(get_str('next_url', true));
 
 if (defined('SECURE_URL_BASE')
     && strstr(SECURE_URL_BASE, "https://")

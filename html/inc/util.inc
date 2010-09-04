@@ -742,12 +742,25 @@ function get_app_types() {
     return $t;
 }
 
-// check URL; if any "/", return empty
-// (prevent cross-site scripting)
+// Functions to sanitize GET and POST args
+
+// "next_url" arguments (must be local, not full URLs)
 //
-function local_url_only($x) {
+function sanitize_local_url($x) {
     if (strstr($x, "/")) return "";
+    if (strstr($x, "<")) return "";
+    if (strstr($x, "\"")) return "";
     return $x;
+}
+
+// strip HTML tags
+//
+function sanitize_tags($x) {
+    return filter_var($x, FILTER_SANITIZE_STRING);
+}
+
+function sanitize_numeric($x) {
+    return filter_var($x, FILTER_SANITIZE_NUMBER_FLOAT);
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

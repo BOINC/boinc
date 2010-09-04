@@ -22,7 +22,7 @@ require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 
 $next_url = $_POST["next_url"];
-$next_url = local_url_only($next_url);
+$next_url = sanitize_local_url($next_url);
 if (strlen($next_url) == 0) $next_url = "home.php";
 
 // check for email/password case

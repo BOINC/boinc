@@ -75,6 +75,7 @@ init()
 install_boinc_files(INSTALL_DIR, not options.server_only, not options.web_only)
 
 print "Upgrading files... done"
+print "Finding SVN revision"
 
 svn_version_file = INSTALL_DIR+'/local.revision'
 try:
@@ -82,6 +83,7 @@ try:
 except:
     print '''Couldn't find svnversion'''
 
+print "Updating translations"
 try:
     os.system('cd '+INSTALL_DIR+'/html/ops; ./update_translations.php -d 1')
 except:
@@ -93,6 +95,7 @@ if options.server_only:
 if options.web_only:
     opt = ' --web'
 
+print "Checking for DB upgrades"
 os.system('cd '+INSTALL_DIR+'/html/ops; ./upgrade_db.php'+opt)
 
 if os.path.exists(INSTALL_DIR+'/html/project/project_news.inc'):

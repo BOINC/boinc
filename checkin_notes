@@ -6326,3 +6326,26 @@ David  1 Sept 2010
         user/
             edit_passwd_form.php
             edit_email_form.php
+
+David  4 Sept 2010
+    - fix various XSS vulnerabilities reported by the
+        Acunetix Web Vulnerability Scanner (free edition)
+
+    tools/
+        upgrade
+    html/
+        project.sample/
+            projects_specific_prefs.inc
+        inc/
+            util.inc
+        user/
+            login_action.php
+            pm.php
+            lanbuage_select.php
+            create_account_form.php
+            create_account_action.php
+            create_team.php
+            prefs_edit.php
+            mail_passwd.php
+            add_venue.php
+            login_form.php

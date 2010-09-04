@@ -365,7 +365,7 @@ if (!$course) {
     error_page("no such course");
 }
 $view_id = get_int('view_id', true);
-$action = get_str('action', true);
+$action = sanitize_tags(get_str('action', true));
 $course_doc = require_once($course->doc_file());
 
 switch ($action) {
@@ -563,7 +563,7 @@ case 'review':
         echo "NO XSET"; exit;
     }
     $xset = $iter->xset;
-    $unit_name = get_str('unit_name');
+    $unit_name = sanitize_tags(get_str('unit_name'));
     $found = $xset->start_review($iter, $unit_name);
     if (!$found) {
         echo "REVIEW UNIT MISSING"; exit;

@@ -26,9 +26,9 @@ db_init();
 $user = get_logged_in_user();
 check_tokens($user->authenticator);
 
-$action = get_str("action", true);
-$subset = get_str("subset");
-$venue = get_str("venue");
+$action = sanitize_tags(get_str("action", true));
+$subset = sanitize_tags(get_str("subset"));
+$venue = sanitize_tags(get_str("venue"));
 $columns = get_int("cols", true);
 $c = $columns?"&cols=$columns":"";
 check_venue($venue);

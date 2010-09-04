@@ -36,8 +36,8 @@ if (strlen($name) == 0) {
     xml_error(-1, "must set team name");
 }
 
-$url = get_str("url");
-$type_name = get_str("type");  // textual
+$url = sanitize_tags(get_str("url"));
+$type_name = sanitize_tags(get_str("type"));  // textual
 $type = team_type_num($type_name);
 $name_html = get_str("name_html");
 $description = get_str("description");

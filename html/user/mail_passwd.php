@@ -40,6 +40,7 @@ function email_sent_message($email_addr) {
 }
 
 $email_addr = strtolower(post_str("email_addr"));
+$email_addr = filter_var($email_addr, FILTER_SANITIZE_EMAIL);
 if (!strlen($email_addr)) {
     error_page("no address given");
 }

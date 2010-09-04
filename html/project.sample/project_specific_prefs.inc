@@ -132,11 +132,11 @@ function project_specific_prefs_parse_form(&$error) {
     global $app_array;
     $x = "";
     if (COLOR_PREFS) {
-        $color_scheme = $_GET["color_scheme"];
+        $color_scheme = sanitize_tags($_GET["color_scheme"]);
         $x .= "<color_scheme>$color_scheme</color_scheme>\n";
     }
     if (GFX_CPU_PREFS) {
-        $max_gfx_cpu_pct = $_GET["max_gfx_cpu_pct"];
+        $max_gfx_cpu_pct = sanitize_numeric($_GET["max_gfx_cpu_pct"]);
         if (!verify_numeric($max_gfx_cpu_pct, 0, 100)) $error->max_gfx_cpu_pct = true;
         $x .= "<max_gfx_cpu_pct>$max_gfx_cpu_pct</max_gfx_cpu_pct>\n";
     }
