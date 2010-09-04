@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-04 11:07-0700\n"
+"PO-Revision-Date: 2010-09-03 11:53-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -309,7 +309,7 @@ msgstr "Добавить проект"
 
 # ???
 #: clientgui/AdvancedFrame.cpp:413
-#, fuzzy, c-format
+#, c-format
 msgid "S&top using %s..."
 msgstr "Отсоединиться от %s..."
 
@@ -661,9 +661,9 @@ msgid "E&xit %s"
 msgstr "Выйти из %s"
 
 #: clientgui/AsyncRPC.cpp:1243
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Communication"
-msgstr "%s - Коммуникация"
+msgstr "%s - Установка связи"
 
 #: clientgui/AsyncRPC.cpp:1259
 msgid "Cancel"
@@ -930,12 +930,11 @@ msgstr "Открыть %s..."
 # Сончас
 #: clientgui/BOINCTaskBar.cpp:498
 msgid "Snooze"
-msgstr "Пауза"
+msgstr "Приостановить на час"
 
 #: clientgui/BOINCTaskBar.cpp:500
-#, fuzzy
 msgid "Snooze GPU"
-msgstr "Приостановить ГП"
+msgstr "Приостановить ГП на час"
 
 # переделать
 #: clientgui/BOINCTaskBar.cpp:677
@@ -2307,7 +2306,6 @@ msgid "user request"
 msgstr "запрос пользователя"
 
 #: clientgui/MainDocument.cpp:2353
-#, fuzzy
 msgid "time of day"
 msgstr "в зависимости от времени суток"
 
@@ -2378,9 +2376,8 @@ msgid "Task suspended by user"
 msgstr "Обработка задания приостановлена пользователем"
 
 #: clientgui/MainDocument.cpp:2404
-#, fuzzy
 msgid "Suspended - "
-msgstr "Приостановлена - "
+msgstr "Приостановлено - "
 
 #: clientgui/MainDocument.cpp:2411
 msgid "Waiting for memory"
@@ -2518,17 +2515,16 @@ msgstr ""
 "электронной почты и пароля и повторите ввод."
 
 #: clientgui/NoticeListCtrl.cpp:54
-#, fuzzy
 msgid "Notice List"
 msgstr "Список уведомлений"
 
 #: clientgui/NoticeListCtrl.cpp:198
-#, fuzzy, c-format
+#, c-format
 msgid "%s; received on %s"
 msgstr "%s; получен на %s"
 
 #: clientgui/NoticeListCtrl.cpp:200
-#, fuzzy, c-format
+#, c-format
 msgid "%s; received from %s; on %s"
 msgstr "%s; получен от %s; на %s"
 
@@ -2572,7 +2568,6 @@ msgid ""
 msgstr "Этот проект уже подключен. Выберите другой проект."
 
 #: clientgui/ProjectListCtrl.cpp:67
-#, fuzzy
 msgid "Project List"
 msgstr "Список проектов"
 
@@ -2973,7 +2968,6 @@ msgstr "Пауза: обрабатывается другое задание"
 
 # Resume это картинка !!! - зависит от скина
 #: clientgui/sg_ImageButton.cpp:92
-#, fuzzy
 msgid "Paused: User initiated.  Click 'Resume' to continue"
 msgstr ""
 "Пауза: запрошено пользователем.  Нажмите 'Продолжить' для возобновления "
@@ -3410,13 +3404,11 @@ msgstr "Не запрашивать новые задания"
 
 # ?
 #: clientgui/ViewProjects.cpp:1063
-#, fuzzy
 msgid "Project ended - OK to remove"
 msgstr "Проект завершён - можно удалять"
 
 # ?
 #: clientgui/ViewProjects.cpp:1066
-#, fuzzy
 msgid "Will remove when tasks done"
 msgstr "Будет удалён после завершения заданий"
 
@@ -3431,7 +3423,6 @@ msgid "Scheduler request in progress"
 msgstr "Производится запрос информации у планировщика"
 
 #: clientgui/ViewProjects.cpp:1076
-#, fuzzy
 msgid "Trickle up message pending"
 msgstr "Ожидание отправки промежуточного сообщения"
 
@@ -3637,7 +3628,6 @@ msgid "Network activity is suspended - "
 msgstr "Доступ в сеть приостановлен - "
 
 #: clientgui/ViewTransfers.cpp:281
-#, fuzzy
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
