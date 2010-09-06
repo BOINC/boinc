@@ -6356,3 +6356,13 @@ David  6 Sept 2010
     html/inc/
         result.inc
         pm.inc
+
+Rom    6 Sept 2010
+    - MGR: Properly display which components have trouble loading when
+        a skin is defined.
+    - MGR: A new new skin which will become the new default skin.
+        
+    clientgui/
+        SkinManager.cpp
+    clientgui/skin/BOINC
+        <Various Files>
