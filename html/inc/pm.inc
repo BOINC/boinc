@@ -115,19 +115,19 @@ To change email preferences, visit:
 ".URL_BASE."edit_forum_preferences_form.php
 Do not reply to this message.
 " ;
-    send_email($to_user, "[".PROJECT."] private message", $message);
+    send_email($to_user, "[".PROJECT."] ".tra("- private message"), $message);
 }
 
 function pm_email_line($notify) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
-    return "$from_user->name sent you a private message; subject: '$pm->subject'";
+    return "$from_user->name ".tra("sent you a private message; subject:")." '$pm->subject'";
 }
 
 function pm_web_line($notify) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
-    return "<a href=pm.php>Private message</a> from $from_user->name, subject: $pm->subject";
+    return "<a href=pm.php>".tra("Private message%1 from %2, subject:" , "</a>", $from_user->name )." $pm->subject";
 }
 
 function pm_send($to_user, $subject, $content, $send_email) {
@@ -136,7 +136,7 @@ function pm_send($to_user, $subject, $content, $send_email) {
     $sql_content = boinc_real_escape_string($content);
     $mid = BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($to_user->id, $g_logged_in_user->id, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
     if (!$mid) {
-        error_page("Couldn't create message");
+        error_page(tra("Couldn't create message"));
     }
     // send email notification if needed
     //
@@ -199,7 +199,7 @@ function pm_email_remind($user) {
 function pm_rss($notify, &$title, &$msg, &$url) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
-    $title = "Private message from $from_user->name: $pm->subject";
+    $title = tra("Private message from")." $from_user->name: $pm->subject";
     $msg = "$pm->content";
     $url = URL_BASE."pm.php";
 }

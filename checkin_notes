@@ -6349,3 +6349,10 @@ David  4 Sept 2010
             mail_passwd.php
             add_venue.php
             login_form.php
+
+David  6 Sept 2010
+    - web: make some strings translatable, fixes #1006, from Simek
+
+    html/inc/
+        result.inc
+        pm.inc

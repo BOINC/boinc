@@ -392,7 +392,7 @@ function show_result($result) {
     row2(tra("Credit"), number_format($result->granted_credit, 2));
     row2(tra("Application version"), app_version_string($result));
     end_table();
-    echo "<h3>Stderr output</h3> <pre>".htmlspecialchars($result->stderr_out)."</pre>";
+    echo "<h3>".tra("Stderr output")."</h3> <pre>".htmlspecialchars($result->stderr_out)."</pre>";
 }
 
 function show_result_navigation($info) {
@@ -416,7 +416,7 @@ function show_result_navigation($info) {
         $url = result_page_url($i2);
         echo "<a href=$url>".tra("Next")." ".$info->results_per_page."</a>";
     }
-    echo "<br>Show: ";
+    echo "<br>".tra("Show").": ";
     for ($i=0; $i<NSTATES; $i++) {
         if ($i) echo " | ";
         if ($info->state == $i) {
