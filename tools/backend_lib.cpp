@@ -187,9 +187,9 @@ static int process_wu_template(
 ) {
     char* p;
     char buf[BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
-    string out, cmdline;
+    string out, cmdline, md5str, urlstr;
     int retval, file_number;
-    double nbytes;
+    double nbytes, nbytesdef;
     char open_name[256];
     bool found=false;
     int nfiles_parsed = 0;
@@ -198,7 +198,8 @@ static int process_wu_template(
     for (p=strtok(tmplate, "\n"); p; p=strtok(0, "\n")) {
         if (match_tag(p, "<file_info>")) {
             bool generated_locally = false;
-            file_number = -1;
+            file_number = nbytesdef = -1;
+            md5str = urlstr = "";
             out += "<file_info>\n";
             while (1) {
                 p = strtok(0, "\n");
@@ -207,7 +208,20 @@ static int process_wu_template(
                     continue;
                 } else if (parse_bool(p, "generated_locally", generated_locally)) {
                     continue;
+                } else if (parse_str(p, "<url>", urlstr)) {
+                    continue;
+                } else if (parse_str(p, "<md5_cksum>", md5str)) {
+                    continue;
+                } else if (parse_double(p, "<nbytes>", nbytesdef)) {
+                    continue;
                 } else if (match_tag(p, "</file_info>")) {
+                    if (nbytesdef != -1 || md5str != "" || urlstr != "") {
+                        if (nbytesdef == -1 || md5str == "" || urlstr == "") {
+                            fprintf(stderr, "All file properties must be defined "
+                                "if at least one defined (url, md5_cksum, nbytes)!\n");
+                            return ERR_XML_PARSE;
+                        }
+                    }
                     if (file_number < 0) {
                         fprintf(stderr, "No file number found\n");
                         return ERR_XML_PARSE;
@@ -227,7 +241,7 @@ static int process_wu_template(
                             "</file_info>\n",
                             infiles[file_number]
                         );
-                    } else {
+                    } else if (nbytesdef == -1) {
                         dir_hier_path(
                             infiles[file_number], config_loc.download_dir,
                             config_loc.uldl_dir_fanout, path, true
@@ -269,6 +283,18 @@ static int process_wu_template(
                             url,
                             md5,
                             nbytes
+                        );
+                    } else {
+                        sprintf(buf,
+                            "    <name>%s</name>\n"
+                            "    <url>%s</url>\n"
+                            "    <md5_cksum>%s</md5_cksum>\n"
+                            "    <nbytes>%.0f</nbytes>\n"
+                            "</file_info>\n",
+                            infiles[file_number],
+                            urlstr.c_str(),
+                            md5str.c_str(),
+                            nbytesdef
                         );
                     }
                     out += buf;
