@@ -89,10 +89,10 @@ function get_logged_in_user($must_be_logged_in=true) {
 
 function show_login($user) {
     if ($user) {
-        echo "Logged in as %s.\n", $user->name;
-        echo "<br><a href=\"login_form.php\">Log in as someone else.</a>\n";
+        echo tra("Logged in as %1.", $user->name)."\n";
+        echo "<br><a href=\"login_form.php\">".tra("Log in as someone else.")."</a>\n";
     } else {
-        echo "Not logged in.";
+        echo tra("Not logged in.");
     }
 }
 
@@ -173,9 +173,7 @@ function display_cvs_versions(){
 
 function db_error_page() {
     page_head("Database error");
-    echo "A database error occurred while handling your request.
-        <br>Please try again later.
-    ";
+    echo tra("A database error occurred while handling your request; please try again later.");
     page_tail();
 }
 
@@ -201,16 +199,16 @@ function time_diff($x) {
 
     $datestring = "";
     if ($days) {
-        $datestring .= "$days days ";
+        $datestring .= "$days ".tra("days")." ";
     }
     if ($hours || strlen($datestring)) {
-        $datestring .= "$hours hours ";
+        $datestring .= "$hours ".tra("hours")." ";
     }
     if ($minutes || strlen($datestring)) {
-        $datestring .= "$minutes min ";
+        $datestring .= "$minutes ".tra("min")." ";
     }
     if ($seconds) {
-        $datestring .= "$seconds sec";
+        $datestring .= "$seconds ".tra("sec")." ";
     }
 
     return $datestring;
@@ -366,8 +364,7 @@ function valid_tokens($auth) {
 function check_tokens($auth) {
     if (valid_tokens($auth)) return;
     error_page(
-        "Link has timed out. Please click Back, refresh the page,
-        and try again."
+        tra("Link has timed out. Please click Back, refresh the page, and try again.")
     );
 }
 
@@ -436,7 +433,9 @@ function friend_links($user) {
         } else {
             $img_url = URL_BASE."img/head_20.png";
         }
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img class="userimg" title="View the profile of '.$user->name.'" align="top" src="'.$img_url.'" alt="Profile"></a><br>';
+        $title = tra("View the profile of %1", $user->name);
+        $alt = tra("Profile");
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img class="userimg" title="'.$title.'" align="top" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
     }
     $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     if ($user->donated == 1) { 
@@ -685,11 +684,8 @@ function check_web_stopped() {
         if ($generating_xml) {
             xml_error(-183);
         } else {
-            page_head("Project down for maintenance");
-            echo "This page requires database access.
-                Our database server is temporarily shut down for maintenance.
-                Please try again later.
-            ";
+            page_head(tra("Project down for maintenance"));
+            echo tra("This page requires database access.  Our database server is temporarily shut down for maintenance.  Please try again later.");
             page_tail();
             exit();
         }
@@ -705,12 +701,12 @@ function db_init($try_replica=false) {
     check_web_stopped();
     $retval = db_init_aux($try_replica);
     if ($retval == 1) {
-        echo "Unable to connect to database - please try again later\n";
-        echo "Error: ", mysql_errno(), mysql_error();
+        echo tra("Unable to connect to database - please try again later");
+        echo tra("Error:"), " ", mysql_errno(), mysql_error();
         exit();
     }
     if ($retval == 2) {
-        echo "Unable to select database - please try again later";
+        echo tra("Unable to select database - please try again later");
         echo mysql_error();
         exit();
     }

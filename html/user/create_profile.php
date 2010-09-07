@@ -27,9 +27,6 @@ require_once("../inc/akismet.inc");
 // it will be selected by default.
 //
 function show_combo_box($name, $filename, $selection=null) {
-    if (!file_exists($filename)) {
-        error_page(tra("ERROR: %1 does not exist!  Cannot create combo box.<br>", htmlentities($filename)));
-    }
     echo "<select name=\"$name\">\n";
 
     $file = fopen($filename, "r");
@@ -84,6 +81,9 @@ tra("To remove it from your profile, check this box:") . "
 }
 
 function show_language_selection($profile) {
+    if (!file_exists(LANGUAGE_FILE)) {
+        return;
+    }
     row1(tra("Language"));
     echo "<tr><td>
         <p>" . 
@@ -104,8 +104,11 @@ function show_submit() {
     $config = get_config();
     $publickey = parse_config($config, "<recaptcha_public_key>");
     if ($publickey) {
-        table_row(tra("To protect the project's webpages from spam, we kindly ask you to type in the two words shown in the image:<br>\n").
-            recaptcha_get_html($publickey));
+        table_row(
+            tra("Please enter the words shown in the image.")
+            ."<br>\n"
+            .recaptcha_get_html($publickey)
+        );
     }
     table_row("<p><input type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }

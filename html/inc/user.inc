@@ -181,7 +181,7 @@ function notify_description($notify) {
     case NOTIFY_SUBSCRIBED_POST:
         return subscribed_post_web_line($notify);
     }
-    return "Unknown notification type: $notify->type";
+    return tra("Unknown notification type: %1", $notify->type);
 }
 
 function weak_auth($user) {
@@ -195,7 +195,7 @@ function show_user_info_private($user) {
     if (is_valid_email_addr($user->email_addr)) {
         $email_text = $user->email_addr;
     } else {
-        $email_text = "Verification pending";
+        $email_text = tra("Email address verification pending");
     }
 
     row1(tra("Account information"));

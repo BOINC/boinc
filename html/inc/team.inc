@@ -541,7 +541,7 @@ function make_team(
     $name_html = BoincDb::escape_string($name_html);
     $description = BoincDb::escape_string($description);
     if (!is_valid_country($country)) {
-        $country = 'None';
+        $country = tra('None');
     }
     $country = BoincDb::escape_string($country);  // for Cote d'Ivoire
 

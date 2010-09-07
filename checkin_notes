@@ -6366,3 +6366,14 @@ Rom    6 Sept 2010
         SkinManager.cpp
     clientgui/skin/BOINC
         <Various Files>
+
+David  7 Sept 2010
+    - web: make strings translatable.  From Simek, fixes #1007
+
+    html/
+        inc/
+            user.inc
+            team.inc
+            util.inc
+        user/
+            create_profile.php
