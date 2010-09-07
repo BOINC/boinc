@@ -139,6 +139,13 @@ $astro_phys_chem = array(
     "Astronomy/Physics/Chemistry",
     array(
         array(
+            "eOn",
+            "http://eon.ices.utexas.edu/eon2/",
+            "University of Texas at Austin",
+            "Chemistry",
+            "A common problem in theoretical chemistry, condensed matter physics and materials science is the calculation of the time evolution of an atomic scale system where, for example, chemical reactions and/or diffusion occur. Generally the events of interest are quite rare (many orders of magnitude slower than the vibrational movements of the atoms), and therefore direct simulations, tracking every movement of the atoms, would take thousands of years of computer calculations on the fastest present day computer before a single event of interest can be expected to occur.  Our research group is interested in calculating the long time dynamics of systems."
+        ),
+        array(
             "Orbit@home",
             "http://orbit.psi.edu/oah/",
             "Planetary Science Institute",
@@ -223,6 +230,14 @@ $astro_phys_chem = array(
 $mixed = array(
     "Multiple applications",
     array(
+        array(
+            "CAS@home",
+            "http://casathome.ihep.ac.cn/",
+            "Chinese Academy of Sciences",
+            "Physics, biochemistry, and others",
+            "The objective of CAS@home is to encourage and assist scientists in China to adopt the technologies of volunteer computing and volunteer thinking for their research.",
+            "cas_at_home.jpg"
+        ),
         array(
             "Yoyo@home",
             "http://www.rechenkraft.net/yoyo/",
