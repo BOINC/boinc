@@ -67,7 +67,7 @@ int ACCT_MGR_OP::do_rpc(
 
     // if null URL, detach from current AMS
     //
-    if (!strlen(url) && strlen(gstate.acct_mgr_info.acct_mgr_url)) {
+    if (!strlen(url) && strlen(gstate.acct_mgr_info.master_url)) {
         msg_printf(NULL, MSG_INFO, "Removing account manager info");
         gstate.acct_mgr_info.clear();
         boinc_delete_file(ACCT_MGR_URL_FILENAME);
@@ -87,8 +87,8 @@ int ACCT_MGR_OP::do_rpc(
         return 0;
     }
 
-    strlcpy(ami.acct_mgr_url, url, sizeof(ami.acct_mgr_url));
-    strlcpy(ami.acct_mgr_name, "", sizeof(ami.acct_mgr_name));
+    strlcpy(ami.master_url, url, sizeof(ami.master_url));
+    strlcpy(ami.project_name, "", sizeof(ami.project_name));
     strlcpy(ami.login_name, name.c_str(), sizeof(ami.login_name));
     strlcpy(ami.password_hash, password_hash.c_str(), sizeof(ami.password_hash));
 
@@ -282,7 +282,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
 			continue;
 		}
         if (!strcmp(tag, "/acct_mgr_reply")) return 0;
-        if (xp.parse_str(tag, "name", ami.acct_mgr_name, 256)) continue;
+        if (xp.parse_str(tag, "name", ami.project_name, 256)) continue;
         if (xp.parse_int(tag, "error_num", error_num)) continue;
         if (xp.parse_string(tag, "error", error_str)) continue;
         if (xp.parse_double(tag, "repeat_sec", repeat_sec)) continue;
@@ -369,7 +369,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     if (error_str.size()) {
         msg_printf(NULL, MSG_USER_ALERT,
             "%s %s: %s",
-            gstate.acct_mgr_info.acct_mgr_name,
+            gstate.acct_mgr_info.project_name,
             _("error"),
             error_str.c_str()
         );
@@ -379,7 +379,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     } else if (error_num) {
         msg_printf(NULL, MSG_USER_ALERT,
             "%s %s: %s",
-            gstate.acct_mgr_info.acct_mgr_name,
+            gstate.acct_mgr_info.project_name,
             _("error"),
             boincerror(error_num)
         );
@@ -411,8 +411,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     }
 
     if (sig_ok) {
-        strcpy(gstate.acct_mgr_info.acct_mgr_url, ami.acct_mgr_url);
-        strcpy(gstate.acct_mgr_info.acct_mgr_name, ami.acct_mgr_name);
+        strcpy(gstate.acct_mgr_info.master_url, ami.master_url);
+        strcpy(gstate.acct_mgr_info.project_name, ami.project_name);
         strcpy(gstate.acct_mgr_info.signing_key, ami.signing_key);
         strcpy(gstate.acct_mgr_info.login_name, ami.login_name);
         strcpy(gstate.acct_mgr_info.password_hash, ami.password_hash);
@@ -517,7 +517,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         //
         if (global_prefs_xml) {
             retval = gstate.save_global_prefs(
-                global_prefs_xml, ami.acct_mgr_url, ami.acct_mgr_url
+                global_prefs_xml, ami.master_url, ami.master_url
             );
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't save global prefs");
@@ -544,15 +544,15 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 
 int ACCT_MGR_INFO::write_info() {
     FILE* p;
-    if (strlen(acct_mgr_url)) {
+    if (strlen(master_url)) {
         p = fopen(ACCT_MGR_URL_FILENAME, "w");
         if (p) {
             fprintf(p, 
                 "<acct_mgr>\n"
                 "    <name>%s</name>\n"
                 "    <url>%s</url>\n",
-                acct_mgr_name,
-                acct_mgr_url
+                project_name,
+                master_url
             );
             if (send_gui_rpc_info) fprintf(p,"    <send_gui_rpc_info/>\n");
             if (strlen(signing_key)) {
@@ -594,8 +594,8 @@ int ACCT_MGR_INFO::write_info() {
 }
 
 void ACCT_MGR_INFO::clear() {
-    strcpy(acct_mgr_name, "");
-    strcpy(acct_mgr_url, "");
+    strcpy(project_name, "");
+    strcpy(master_url, "");
     strcpy(login_name, "");
     strcpy(password_hash, "");
     strcpy(signing_key, "");
@@ -668,8 +668,8 @@ int ACCT_MGR_INFO::init() {
 			continue;
 		} 
         if (!strcmp(tag, "/acct_mgr")) break;
-        else if (xp.parse_str(tag, "name", acct_mgr_name, 256)) continue;
-        else if (xp.parse_str(tag, "url", acct_mgr_url, 256)) continue;
+        else if (xp.parse_str(tag, "name", project_name, 256)) continue;
+        else if (xp.parse_str(tag, "url", master_url, 256)) continue;
         else if (xp.parse_bool(tag, "send_gui_rpc_info", send_gui_rpc_info)) continue;
         else if (!strcmp(tag, "signing_key")) {
             retval = xp.element_contents("</signing_key>", signing_key, sizeof(signing_key));
@@ -695,14 +695,13 @@ int ACCT_MGR_INFO::init() {
 }
 
 bool ACCT_MGR_INFO::poll() {
+    if (!using_am()) return false;
     if (gstate.gui_http.is_busy()) return false;
-
-    if (!strlen(login_name) && !strlen(password_hash)) return false;
 
     if (gstate.now > next_rpc_time) {
         next_rpc_time = gstate.now + 86400;
         gstate.acct_mgr_op.do_rpc(
-            acct_mgr_url, login_name, password_hash, false
+            master_url, login_name, password_hash, false
         );
         return true;
     }

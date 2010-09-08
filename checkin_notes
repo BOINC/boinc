@@ -6401,3 +6401,16 @@ Rom    16 Aug 2010
     /
         configure.ac
         version.h
+
+David  8 Sept 2010
+    - client: support notice feeds from account managers.
+        Implementation: create a base class PROJ_AM,
+        from which both PROJECT and ACCT_MGR_INFO are derived,
+        with basic stuff like name, URL, and RSS feed list
+
+    client/
+        acct_mgr.cpp,h
+        app_start.cpp
+        client_types.cpp,h
+        cs_notice.cpp,h
+        gui_rpc_server_ops.cpp

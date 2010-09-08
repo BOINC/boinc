@@ -19,7 +19,7 @@
 #define _CS_NOTICE_
 
 // Code related to "notices", which come from
-// 1) RSS feeds specified by projects
+// 1) RSS feeds specified by projects and account managers
 // 2) Scheduler replies (high-priority messages)
 // 3) the client (MSG_USER_ALERT messages)
 //
@@ -63,6 +63,7 @@
 #include "miofile.h"
 
 #include "gui_http.h"
+#include "client_types.h"
 
 #include "notice.h"
 
@@ -120,16 +121,17 @@ extern RSS_FEED_OP rss_feed_op;
 struct RSS_FEEDS {
     std::vector<RSS_FEED> feeds;
     void init();
-    void trigger_fetch(PROJECT*);
+    void trigger_fetch(struct PROJ_AM*);
     void update_feed_list();
     RSS_FEED* lookup_url(char*);
+    void update_proj_am(PROJ_AM*);
     void write_feed_list();
 };
 
 extern RSS_FEEDS rss_feeds;
 
 int parse_rss_feed_descs(MIOFILE& fin, std::vector<RSS_FEED>&);
-void handle_sr_feeds(std::vector<RSS_FEED>&, struct PROJECT*);
+void handle_sr_feeds(std::vector<RSS_FEED>&, struct PROJ_AM*);
     // process the feeds in a scheduler reply
 
 #endif

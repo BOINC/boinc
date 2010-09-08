@@ -526,8 +526,8 @@ static void handle_acct_mgr_info(char*, MIOFILE& fout) {
         "<acct_mgr_info>\n"
         "   <acct_mgr_url>%s</acct_mgr_url>\n"
         "   <acct_mgr_name>%s</acct_mgr_name>\n",
-        gstate.acct_mgr_info.acct_mgr_url,
-        gstate.acct_mgr_info.acct_mgr_name
+        gstate.acct_mgr_info.master_url,
+        gstate.acct_mgr_info.project_name
     );
 
     if (strlen(gstate.acct_mgr_info.login_name)) {
@@ -816,13 +816,13 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
             }
         }
     } else {
-        if (!strlen(gstate.acct_mgr_info.acct_mgr_url)) {
+        if (!strlen(gstate.acct_mgr_info.master_url)) {
             bad_arg = true;
             msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Account manager info missing from config file"
             );
         } else {
-            url = gstate.acct_mgr_info.acct_mgr_url;
+            url = gstate.acct_mgr_info.master_url;
             name = gstate.acct_mgr_info.login_name;
             password_hash = gstate.acct_mgr_info.password_hash;
         }

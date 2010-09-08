@@ -28,12 +28,10 @@
 
 // represents info stored in acct_mgr_url.xml and acct_mgr_login.xml
 
-struct ACCT_MGR_INFO {
+struct ACCT_MGR_INFO : PROJ_AM {
 	// the following used to be std::string but there
 	// were mysterious bugs where setting it to "" didn't work
 	//
-    char acct_mgr_name[256];
-    char acct_mgr_url[256];
     char login_name[256];
     char password_hash[256];
         // md5 of password.lowercase(login_name)
@@ -58,6 +56,13 @@ struct ACCT_MGR_INFO {
         //   successfully attached to an account manager
     bool password_error;
 
+    inline bool using_am() {
+        if (!strlen(master_url)) return false;
+        if (!strlen(login_name)) return false;
+        if (!strlen(password_hash)) return false;
+        return true;
+    }
+
     ACCT_MGR_INFO();
     int parse_login_file(FILE*);
     int write_info();
@@ -65,6 +70,8 @@ struct ACCT_MGR_INFO {
     void clear();
     bool poll();
 };
+
+// stuff after here related to RPCs to account managers
 
 struct OPTIONAL_BOOL {
     bool present;
@@ -79,8 +86,6 @@ struct OPTIONAL_DOUBLE {
     inline void init() {present=false;}
     inline void set(double v) {value=v; present=true;}
 };
-
-// stuff after here related to RPCs to account managers
 
 struct AM_ACCOUNT {
     std::string url;

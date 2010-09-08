@@ -460,14 +460,6 @@ int PROJECT::write_statistics(MIOFILE& out, bool /*gui_rpc*/) {
     return 0;
 }
 
-char* PROJECT::get_project_name() {
-    if (strlen(project_name)) {
-        return project_name;
-    } else {
-        return master_url;
-    }
-}
-
 const char* PROJECT::get_scheduler_url(int index, double r) {
     int n = (int) scheduler_urls.size();
     int ir = (int)(r*n);

@@ -181,12 +181,26 @@ struct DAILY_STATS {
 };
 bool operator < (const DAILY_STATS&, const DAILY_STATS&);
 
-struct PROJECT {
+// base class for PROJECT and ACCT_MGR_INFO
+//
+struct PROJ_AM {
+    char master_url[256];
+    char project_name[256];
+        // descriptive.  not unique
+    std::vector<RSS_FEED> proj_feeds;
+    inline char *get_project_name() {
+        if (strlen(project_name)) {
+            return project_name;
+        } else {
+            return master_url;
+        }
+    }
+};
+
+struct PROJECT : PROJ_AM {
     // the following items come from the account file
     // They are a function only of the user and the project
     //
-    char master_url[256];
-        // url of site that contains scheduler tags for this project
     char authenticator[256];
         // user's authenticator on this project
     std::string project_prefs;
@@ -231,8 +245,6 @@ struct PROJECT {
     //
     std::vector<std::string> scheduler_urls;
         // where to find scheduling servers
-    char project_name[256];
-        // descriptive.  not unique
     char symstore[256];
         // URL of symbol server (Windows)
     char user_name[256];
@@ -405,7 +417,6 @@ struct PROJECT {
     ~PROJECT(){}
     void init();
     void copy_state_fields(PROJECT&);
-    char *get_project_name();
     int write_account_file();
     int parse_account(FILE*);
     int parse_account_file_venue();
@@ -419,9 +430,6 @@ struct PROJECT {
     int parse_statistics(FILE*);
     int write_statistics(MIOFILE&, bool gui_rpc=false);
     int write_statistics_file();
-
-    // feed-related
-    std::vector<RSS_FEED> proj_feeds;
 };
 
 struct APP {

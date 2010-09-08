@@ -52,7 +52,7 @@ static bool cmp(NOTICE n1, NOTICE n2) {
     return (strcmp(n1.guid, n2.guid) > 0);
 }
 
-static void project_feed_list_file_name(PROJECT* p, char* buf) {
+static void project_feed_list_file_name(PROJ_AM* p, char* buf) {
     char url[256];
     escape_project_url(p->master_url, url);
     sprintf(buf, "notices/feeds_%s.xml", url);
@@ -97,7 +97,7 @@ static void write_rss_feed_descs(MIOFILE& fout, vector<RSS_FEED>& feeds) {
     fout.printf("</rss_feeds>\n");
 }
 
-static void write_project_feed_list(PROJECT* p) {
+static void write_project_feed_list(PROJ_AM* p) {
     char buf[256];
     project_feed_list_file_name(p, buf);
     FILE* f = fopen(buf, "w");
@@ -112,7 +112,7 @@ static void write_project_feed_list(PROJECT* p) {
 // Add new ones to the project's set,
 // and remove ones from the project's set that aren't in the list.
 //
-void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJECT* p) {
+void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJ_AM* p) {
     unsigned int i, j;
     bool feed_set_changed = false;
 
@@ -658,25 +658,33 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
 
 ///////////// RSS_FEEDS ////////////////
 
+static void init_proj_am(PROJ_AM* p) {
+    FILE* f;
+    MIOFILE fin;
+    char path[256];
+
+    project_feed_list_file_name(p, path);
+    f = fopen(path, "r");
+    if (f) {
+        fin.init_file(f);
+        parse_rss_feed_descs(fin, p->proj_feeds);
+        fclose(f);
+    }
+}
+
 // called on startup.  Get list of feeds.  Read archives.
 //
 void RSS_FEEDS::init() {
     unsigned int i;
-    MIOFILE fin;
-    FILE* f;
 
     boinc_mkdir(NOTICES_DIR);
 
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        char path[256];
-        project_feed_list_file_name(p, path);
-        f = fopen(path, "r");
-        if (f) {
-            fin.init_file(f);
-            parse_rss_feed_descs(fin, p->proj_feeds);
-            fclose(f);
-        }
+        init_proj_am(p);
+    }
+    if (gstate.acct_mgr_info.using_am()) {
+        init_proj_am(&gstate.acct_mgr_info);
     }
 
     update_feed_list();
@@ -705,7 +713,7 @@ RSS_FEED* RSS_FEEDS::lookup_url(char* url) {
 
 // arrange to fetch the project's feeds
 //
-void RSS_FEEDS::trigger_fetch(PROJECT* p) {
+void RSS_FEEDS::trigger_fetch(PROJ_AM* p) {
     for (unsigned int i=0; i<p->proj_feeds.size(); i++) {
         RSS_FEED& rf = p->proj_feeds[i];
         RSS_FEED* rfp = lookup_url(rf.url);
@@ -715,34 +723,42 @@ void RSS_FEEDS::trigger_fetch(PROJECT* p) {
     }
 }
 
+void RSS_FEEDS::update_proj_am(PROJ_AM* p) {
+    unsigned int j;
+    for (j=0; j<p->proj_feeds.size(); j++) {
+        RSS_FEED& rf = p->proj_feeds[j];
+        RSS_FEED* rfp = lookup_url(rf.url);
+        if (rfp) {
+            rfp->found = true;
+        } else {
+            rf.found = true;
+            strcpy(rf.project_name, p->get_project_name());
+            feeds.push_back(rf);
+            if (log_flags.notice_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[notice] adding feed: %s, %.0f sec",
+                    rf.url, rf.poll_interval
+                );
+            }
+        }
+    }
+}
+
 // the set of project feeds has changed.
 // update the master list.
 //
 void RSS_FEEDS::update_feed_list() {
-    unsigned int i, j;
+    unsigned int i;
     for (i=0; i<feeds.size(); i++) {
         RSS_FEED& rf = feeds[i];
         rf.found = false;
     }
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        for (j=0; j<p->proj_feeds.size(); j++) {
-            RSS_FEED& rf = p->proj_feeds[j];
-            RSS_FEED* rfp = lookup_url(rf.url);
-            if (rfp) {
-                rfp->found = true;
-            } else {
-                rf.found = true;
-                strcpy(rf.project_name, p->get_project_name());
-                feeds.push_back(rf);
-                if (log_flags.notice_debug) {
-                    msg_printf(0, MSG_INFO,
-                        "[notice] adding feed: %s, %.0f sec",
-                        rf.url, rf.poll_interval
-                    );
-                }
-            }
-        }
+        update_proj_am(p);
+    }
+    if (gstate.acct_mgr_info.using_am()) {
+        update_proj_am(&gstate.acct_mgr_info);
     }
     vector<RSS_FEED>::iterator iter = feeds.begin();
     while (iter != feeds.end()) {
