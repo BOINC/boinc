@@ -6421,3 +6421,14 @@ David  8 Sept 2010
     client/
         acct_mgr.cpp,h
         scheduler_op.cpp
+
+David  8 Sept 2010
+	- debug the above.  It now successfully displays an
+		RSS feed of news items from Google,
+		linked from a project manager
+
+	client/
+		cs_notice.cpp
+	lib/
+		notice.cpp
+		parse.cpp

@@ -395,6 +395,15 @@ void xml_unescape(const char* in, char* out, int len) {
         } else if (!strncmp(in, "&lt;", 4)) {
             *p++ = '<';
             in += 4;
+        } else if (!strncmp(in, "&gt;", 4)) {
+            *p++ = '>';
+            in += 4;
+        } else if (!strncmp(in, "&quot;", 4)) {
+            *p++ = '"';
+            in += 6;
+        } else if (!strncmp(in, "&apos;", 4)) {
+            *p++ = '\'';
+            in += 6;
         } else if (!strncmp(in, "&amp;", 5)) {
             *p++ = '&';
             in += 5;

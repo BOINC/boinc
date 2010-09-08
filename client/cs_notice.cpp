@@ -562,6 +562,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
             } else {
                 n.arrival_time = gstate.now;
                 strcpy(n.feed_url, url);
+                strcpy(n.project_name, project_name);
                 if (notices.append(n)) {
                     nitems++;
                 }
