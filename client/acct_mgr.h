@@ -113,6 +113,8 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     double repeat_sec;
     char* global_prefs_xml;
     char host_venue[256];
+    bool got_rss_feeds;
+    std::vector<RSS_FEED>rss_feeds;
 
     int do_rpc(
         std::string url, std::string name, std::string password,

@@ -6414,3 +6414,10 @@ David  8 Sept 2010
         client_types.cpp,h
         cs_notice.cpp,h
         gui_rpc_server_ops.cpp
+
+David  8 Sept 2010
+    - finish the above
+
+    client/
+        acct_mgr.cpp,h
+        scheduler_op.cpp

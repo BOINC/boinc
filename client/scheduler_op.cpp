@@ -862,6 +862,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (match_tag(buf, "<rss_feeds>")) {
             got_rss_feeds = true;
             parse_rss_feed_descs(mf, sr_feeds);
+            continue;
         } else if (match_tag(buf, "<!--")) {
             continue;
         } else if (strlen(buf)>1){

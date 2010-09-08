@@ -270,6 +270,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
     repeat_sec = 0;
     strcpy(host_venue, "");
 	strcpy(ami.opaque, "");
+    rss_feeds.clear();
 	if (!xp.parse_start("acct_mgr_reply")) return ERR_XML_PARSE;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
 		if (!is_tag) {
@@ -328,7 +329,14 @@ int ACCT_MGR_OP::parse(FILE* f) {
             }
             continue;
         }
-        if (xp.parse_str(tag, "host_venue", host_venue, sizeof(host_venue))) continue;
+        if (xp.parse_str(tag, "host_venue", host_venue, sizeof(host_venue))) {
+            continue;
+        }
+        if (!strcmp(tag, "rss_feeds")) {
+            got_rss_feeds = true;
+            parse_rss_feed_descs(mf, rss_feeds);
+            continue;
+        }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
                 "[unparsed_xml] ACCT_MGR_OP::parse: unrecognized %s", tag
@@ -529,6 +537,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         //
         if (read_prefs) {
             gstate.read_global_prefs();
+        }
+
+        if (got_rss_feeds) {
+            handle_sr_feeds(rss_feeds, &gstate.acct_mgr_info);
         }
     }
 
