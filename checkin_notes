@@ -6393,3 +6393,11 @@ David  7 Sept 2010
         
     tools/
         backend_lib.cpp
+
+Rom    16 Aug 2010
+    - Tag for 6.11.7 release, all platforms
+      boinc_core_release_6_11_7
+
+    /
+        configure.ac
+        version.h
