@@ -6438,3 +6438,9 @@ Rytis  9 Sept 2010
     
     html/user/
         host_app_versions.php
+
+David  9 Sept 2010
+    - scheduler: fix "prefer_primary_platform" logic (I hope).
+
+    sched/
+        sched_version.cpp

@@ -581,13 +581,6 @@ BEST_APP_VERSION* get_app_version(
                 continue;
             }
 
-            // at this point we know the version is feasible,
-            // so if config.prefer_primary_platform is set
-            // we won't look any further.
-            // (the version may still be ruled out by job limits etc.)
-            //
-            found_feasible_version = true;
-
             if (reliable_only && !app_version_is_reliable(av.id)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
@@ -617,6 +610,12 @@ BEST_APP_VERSION* get_app_version(
             if (!need_this_resource(host_usage, &av, NULL)) {
                 continue;
             }
+
+            // at this point we know the version is feasible,
+            // so if config.prefer_primary_platform is set
+            // we won't look any further.
+            //
+            found_feasible_version = true;
 
             estimate_flops(host_usage, av);
 
