@@ -268,6 +268,11 @@ static inline bool same_text(NOTICE& n1, NOTICE& n2) {
     return true;
 }
 
+static inline bool same_guid(NOTICE& n1, NOTICE& n2) {
+    if (!strlen(n1.guid)) return false;
+    return !strcmp(n1.guid, n2.guid);
+}
+
 // we're considering adding a notice n.
 // If there's already an identical message n2
 //     return false (don't add n)
@@ -286,6 +291,8 @@ bool NOTICES::remove_dups(NOTICE& n) {
         if (n2.arrival_time < gstate.now - 30*86400) {
             i = notices.erase(i);
             removed_something = true;
+        } else if (same_guid(n, n2)) {
+            return false;
         } else if (same_text(n, n2)) {
             int min_diff = 0;
             if (!strcmp(n.category, "scheduler")) {

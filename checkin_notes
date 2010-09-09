@@ -6444,3 +6444,11 @@ David  9 Sept 2010
 
     sched/
         sched_version.cpp
+
+David  9 Sept 2010
+	- client: remove duplicate notices based on GUID as well as text
+		(Google RSS feeds, e.g., change random strings in URLs
+		in the item description, but leave the GUID the same)
+
+	client/
+		cs_notice.cpp
