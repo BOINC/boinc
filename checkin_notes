@@ -6423,12 +6423,18 @@ David  8 Sept 2010
         scheduler_op.cpp
 
 David  8 Sept 2010
-	- debug the above.  It now successfully displays an
-		RSS feed of news items from Google,
-		linked from a project manager
+    - debug the above.  It now successfully displays an
+        RSS feed of news items from Google,
+        linked from a project manager
 
-	client/
-		cs_notice.cpp
-	lib/
-		notice.cpp
-		parse.cpp
+    client/
+        cs_notice.cpp
+    lib/
+        notice.cpp
+        parse.cpp
+
+Rytis  9 Sept 2010
+    - user web: fix division by zero in host app versions page.
+    
+    html/user/
+        host_app_versions.php

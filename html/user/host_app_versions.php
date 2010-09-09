@@ -40,8 +40,10 @@ function show_hav($hav) {
     row2("Number of tasks today", $hav->n_jobs_today);
     row2("Consecutive valid tasks", $hav->consecutive_valid);
     $x = number_format($hav->turnaround_avg/86400, 2);
-    $gflops = 1e-9/$hav->et_avg;
-    row2("Average processing rate", $gflops);
+    if ($hav->et_avg) {
+        $gflops = 1e-9/$hav->et_avg;
+        row2("Average processing rate", $gflops);
+    }
     row2("Average turnaround time", "$x days");
 }
 
