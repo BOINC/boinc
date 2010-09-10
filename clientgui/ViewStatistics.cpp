@@ -562,21 +562,6 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 	if (m_Legend_Shift < 0) m_Legend_Shift = 0;
     m_scrollBar->SetThumbPosition(m_Legend_Shift);
 //	Legend Shift (end)
-#if 0
-	if (m_Legend_Shift > 0){
-		dc.SetBrush(wxBrush(m_brush_LegendColour , wxSOLID));
-		dc.SetPen(wxPen(m_pen_LegendColour , 1 , wxSOLID));
-		x0 = wxCoord(m_Legend_select_X_start + ((m_Legend_select_X_end - m_Legend_select_X_start) / 4.0));
-		y0 = wxCoord(m_Legend_Y_start - 1.0);
-		w0 = wxCoord((m_Legend_select_X_end - m_Legend_select_X_start) / 2.0);
-		h0 = wxCoord(3);
-		if (x0 < 0) x0 = 0;
-		if (y0 < 0) y0 = 0;
-		if (w0 < 0) w0 = 0;
-		if (h0 < 0) h0 = 0;
-		dc.DrawRectangle(x0, y0 ,w0 , h0);
-	}
-#endif
 //---------------
 	project_count = count;
 	count = -1;
@@ -639,19 +624,6 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 		dc.DrawText(head_name, x0, y0);
 		m_Legend_select_Y_end = m_WorkSpace_Y_start + (double)(count - m_Legend_Shift + 1) * m_Legend_dY + double(buffer_y1) + radius1;
 		if ((m_Legend_select_Y_end + m_Legend_dY) > (m_WorkSpace_Y_end - double(buffer_y1) - radius1)){
-#if 0
-			if (project_count > count){
-				dc.SetBrush(wxBrush(m_brush_LegendColour, wxSOLID));
-				dc.SetPen(wxPen(m_pen_LegendColour, 1, wxSOLID));
-				x0 = wxCoord(m_Legend_select_X_start + ((m_Legend_select_X_end - m_Legend_select_X_start) / 4.0));
-				y0 = wxCoord(m_WorkSpace_Y_end) - buffer_y1 - wxCoord(2);
-				w0 = wxCoord((m_Legend_select_X_end - m_Legend_select_X_start) / 2.0);
-				if (x0 < 0) x0 = 0;
-				if (y0 < 0) y0 = 0;
-				if (w0 < 0) w0 = 0;
-				dc.DrawRectangle(x0, y0, w0, wxCoord(3));
-			}
-#endif
 			break;
 		}
 	}
