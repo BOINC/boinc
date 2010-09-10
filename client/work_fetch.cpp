@@ -575,6 +575,11 @@ void RSC_WORK_FETCH::update_short_term_debts() {
     double total_short_term_debt = 0;
     double rrs = gstate.runnable_resource_share(rsc_type);
 
+    // for projects with no runnable jobs,
+    // STD decays by a factor of e every day
+    //
+    double decay_factor = exp(-secs_this_debt_interval/86400);
+
     for (i=0; i<gstate.projects.size(); i++) {
         double delta;
         p = gstate.projects[i];
@@ -601,6 +606,8 @@ void RSC_WORK_FETCH::update_short_term_debts() {
                 );
             }
             rpwf.short_term_debt += delta;
+        } else {
+            rpwf.short_term_debt *= decay_factor;
         }
         total_short_term_debt += rpwf.short_term_debt;
     }

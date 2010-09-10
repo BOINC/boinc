@@ -6048,10 +6048,10 @@ Rom    13 Aug 2010
         filesys.cpp
 
 David  13 Aug 2010
-	- client: fix bug in my last checkin
+    - client: fix bug in my last checkin
 
-	lib/
-		filesys.cpp
+    lib/
+        filesys.cpp
 
 David  13 Aug 2010
     - web: remove align=right on BBcode images
@@ -6237,25 +6237,25 @@ David  26 Aug 2010
         common_defs.h
 
 David  27 Aug 2010
-	- client: ignore case in names of "exclusive apps"
-		and exclusive GPU apps
-	- client: fix bug that caused GPU apps to not be
-		suspended or resumed immediately after
-		exclusive GPU app transition
-	- client: in log message, instead of saying
-		"fetching tasks for GPU", say which kind of GPU
+    - client: ignore case in names of "exclusive apps"
+        and exclusive GPU apps
+    - client: fix bug that caused GPU apps to not be
+        suspended or resumed immediately after
+        exclusive GPU app transition
+    - client: in log message, instead of saying
+        "fetching tasks for GPU", say which kind of GPU
 
     TODO: GPU suspend/resume works by setting or clearing
     gpu_suspend_reason, then calling request_schedule_cpus().
     There's no explicit suspending or resuming.
     CPU suspend/resume should work the same way.
 
-	client/
-		app.cpp
-		cs_prefs.cpp
-		scheduler_op.cpp
-	lib/
-		str_replace.h
+    client/
+        app.cpp
+        cs_prefs.cpp
+        scheduler_op.cpp
+    lib/
+        str_replace.h
 
 David  27 Aug 2010
     - web: check the "next URL" passed to login and account
@@ -6279,12 +6279,12 @@ David  27 Aug 2010
         client_state.cpp
 
 David  28 Aug 2010
-	- client: fix "boinc_temporary_exit()" support.
-		This is critical for GPU support.
+    - client: fix "boinc_temporary_exit()" support.
+        This is critical for GPU support.
 
-	client/
-		app_control.cpp
-		cpu_sched.cpp
+    client/
+        app_control.cpp
+        cpu_sched.cpp
 
 David  29 Aug 2010
     - tweaks
@@ -6446,9 +6446,16 @@ David  9 Sept 2010
         sched_version.cpp
 
 David  9 Sept 2010
-	- client: remove duplicate notices based on GUID as well as text
-		(Google RSS feeds, e.g., change random strings in URLs
-		in the item description, but leave the GUID the same)
+    - client: remove duplicate notices based on GUID as well as text
+        (Google RSS feeds, e.g., change random strings in URLs
+        in the item description, but leave the GUID the same)
 
-	client/
-		cs_notice.cpp
+    client/
+        cs_notice.cpp
+
+David  9 Sept 2010
+    - client: if a client has no jobs for a resource, decay its STD
+        for that resource by a factor of e every day
+
+    client/
+        work_fetch.cpp
