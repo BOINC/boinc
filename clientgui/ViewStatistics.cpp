@@ -37,14 +37,15 @@ BEGIN_EVENT_TABLE (CPaintStatistics, wxWindow)
 	EVT_SIZE(CPaintStatistics::OnSize)
 	EVT_LEFT_DOWN(CPaintStatistics::OnLeftMouseDown)
 	EVT_LEFT_UP(CPaintStatistics::OnLeftMouseUp)
-	EVT_LEFT_DCLICK(CPaintStatistics::OnLeftMouseDoubleClick)
 	EVT_RIGHT_DOWN(CPaintStatistics::OnRightMouseDown)
 	EVT_RIGHT_UP(CPaintStatistics::OnRightMouseUp)
 	EVT_MOTION(CPaintStatistics::OnMouseMotion)
 	EVT_LEAVE_WINDOW(CPaintStatistics::OnMouseLeaveWindows)
 	EVT_ERASE_BACKGROUND(CPaintStatistics::OnEraseBackground)
+    EVT_SCROLL(CPaintStatistics::OnLegendScroll)
 END_EVENT_TABLE ()
 
+#define USE_MEMORYDC true
 
 CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoint& pos,	const wxSize& size, long style, const wxString& name
 ): wxWindow(parent, id, pos, size, style, name)
@@ -61,6 +62,14 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 	m_GraphLineWidth = 2;
 	m_GraphPointWidth = 4;
 
+    m_Space_for_scrollbar = 0;
+    m_Num_projects = 0;
+    m_previous_SelProj = -1;
+    m_scrollBar = new wxScrollBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL);
+    int h;
+    m_scrollBar->GetSize(&m_Scrollbar_width, &h);
+    m_scrollBar->SetScrollbar(0, 1, 1, 1);
+    m_scrollBar->Hide();
 	m_Legend_Shift_Mode1 = 0;
 	m_Legend_Shift_Mode2 = 0;
 
@@ -170,6 +179,14 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 	m_full_repaint = true;
 	m_bmp_OK = false;
 }
+
+CPaintStatistics::~CPaintStatistics() {
+    if (m_scrollBar) {
+        delete m_scrollBar;
+    }
+}
+
+
 static void getTypePoint(int &typePoint, int number) {typePoint = number / 10;}
 
 static bool CrossTwoLine(const double X1_1, const double Y1_1, const double X1_2, const double Y1_2, 
@@ -452,7 +469,8 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 	wxCoord y0 = 0;
 	wxCoord h0 = 0;
 	wxCoord w0 = 0;
-
+    wxCoord totalTextAreaHeight = 0;
+    
 	dc.SetFont(m_font_bold);
 	dc.GetTextExtent(head_name, &w_temp, &h_temp, &des_temp, &lead_temp);
 	m_Legend_dY = (double)(h_temp) + 4.0;
@@ -465,23 +483,39 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 		dc.GetTextExtent(head_name, &w_temp, &h_temp, &des_temp, &lead_temp);
 		if (project_name_max_width < w_temp) project_name_max_width = w_temp;
 	}
+    m_Num_projects = count + 1;
 	project_name_max_width += wxCoord(8) + buffer_x1 + buffer_x1 + wxCoord(m_GraphPointWidth) + wxCoord(2);
 	if (project_name_max_width < 0) project_name_max_width = 0;
+    totalTextAreaHeight = (m_Num_projects * m_Legend_dY);
 
 	dc.SetBrush(wxBrush(m_brush_LegendColour , wxSOLID));
 	dc.SetPen(wxPen(m_pen_LegendColour , 1 , wxSOLID));
-	x0 = wxCoord(m_WorkSpace_X_end) - project_name_max_width + buffer_x1;
 	y0 = wxCoord(m_WorkSpace_Y_start) + buffer_y1;
-	w0 = project_name_max_width - buffer_x1 - buffer_x1;
-	h0 = wxCoord(m_WorkSpace_Y_end - m_WorkSpace_Y_start) - buffer_y1 - buffer_y1;
-	if (x0 > wxCoord(m_WorkSpace_X_end)) x0 = wxCoord(m_WorkSpace_X_end);
-	if (x0 < wxCoord(m_WorkSpace_X_start)) x0 = wxCoord(m_WorkSpace_X_start);
-	if (x0 < 0) x0 = 0;
 	if (y0 > wxCoord(m_WorkSpace_Y_end)) y0 = wxCoord(m_WorkSpace_Y_end);
 	if (y0 < wxCoord(m_WorkSpace_Y_start)) y0 = wxCoord(m_WorkSpace_Y_start);
 	if (y0 < 0) y0 = 0;
+	w0 = project_name_max_width - buffer_x1 - buffer_x1;
 	if (w0 < 0) w0 = 0;
+	h0 = wxCoord(m_WorkSpace_Y_end - m_WorkSpace_Y_start) - buffer_y1 - buffer_y1;
 	if (h0 < 0) h0 = 0;
+    
+    m_Space_for_scrollbar = 0;
+    if (h0 < (totalTextAreaHeight + (2 * radius1))) m_Space_for_scrollbar = m_Scrollbar_width;
+    int numVisible = (h0 - (2 * radius1)) / m_Legend_dY;
+    int numSteps = m_Num_projects - numVisible + 1;
+    if (numSteps < 2) {
+        m_scrollBar->Hide();
+    } else {
+        m_scrollBar->SetSize(m_WorkSpace_X_end - m_Scrollbar_width, m_WorkSpace_Y_start, m_Scrollbar_width, m_WorkSpace_Y_end - m_WorkSpace_Y_start, 0);
+        m_scrollBar->SetScrollbar(m_scrollBar->GetThumbPosition(), 1, numSteps, 1);
+        m_scrollBar->Show();
+    }
+    
+	x0 = wxCoord(m_WorkSpace_X_end) - project_name_max_width + buffer_x1 - m_Space_for_scrollbar;
+	if (x0 > wxCoord(m_WorkSpace_X_end)) x0 = wxCoord(m_WorkSpace_X_end);
+	if (x0 < wxCoord(m_WorkSpace_X_start)) x0 = wxCoord(m_WorkSpace_X_start);
+	if (x0 < 0) x0 = 0;
+    
 	dc.DrawRoundedRectangle(x0, y0, w0, h0, radius1);
 
 	m_Legend_X_start = double(x0);
@@ -505,7 +539,14 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 	int Legend_count_temp = 0;
 	if (m_Legend_dY > 0) Legend_count_temp = int(floor((m_Legend_select_Y_end - m_Legend_select_Y_start) / m_Legend_dY));
 	
-	if (SelProj >= 0){
+    if (numSteps > 1) {
+        m_Legend_Shift = m_scrollBar->GetThumbPosition();
+    } else {
+         m_Legend_Shift = 0;
+    }
+
+	if ((SelProj >= 0) && (m_previous_SelProj != SelProj)) {
+        m_previous_SelProj = SelProj;
 		if (Legend_count_temp <= 0){
 			m_Legend_Shift = SelProj;
 		}
@@ -518,7 +559,9 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 
 	if (m_Legend_Shift > count) m_Legend_Shift = count; //???
 	if (m_Legend_Shift < 0) m_Legend_Shift = 0;
+    m_scrollBar->SetThumbPosition(m_Legend_Shift);
 //	Legend Shift (end)
+#if 0
 	if (m_Legend_Shift > 0){
 		dc.SetBrush(wxBrush(m_brush_LegendColour , wxSOLID));
 		dc.SetPen(wxPen(m_pen_LegendColour , 1 , wxSOLID));
@@ -532,11 +575,12 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 		if (h0 < 0) h0 = 0;
 		dc.DrawRectangle(x0, y0 ,w0 , h0);
 	}
+#endif
 //---------------
 	project_count = count;
 	count = -1;
 
-	m_WorkSpace_X_end -= double(project_name_max_width);
+	m_WorkSpace_X_end -= double(project_name_max_width) + m_Space_for_scrollbar;
 	if (m_WorkSpace_X_end < m_WorkSpace_X_start) m_WorkSpace_X_end = m_WorkSpace_X_start;
 	if (m_WorkSpace_X_end < 0.0) m_WorkSpace_X_end = 0.0;
 
@@ -594,6 +638,7 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 		dc.DrawText(head_name, x0, y0);
 		m_Legend_select_Y_end = m_WorkSpace_Y_start + (double)(count - m_Legend_Shift + 1) * m_Legend_dY + double(buffer_y1) + radius1;
 		if ((m_Legend_select_Y_end + m_Legend_dY) > (m_WorkSpace_Y_end - double(buffer_y1) - radius1)){
+#if 0
 			if (project_count > count){
 				dc.SetBrush(wxBrush(m_brush_LegendColour, wxSOLID));
 				dc.SetPen(wxPen(m_pen_LegendColour, 1, wxSOLID));
@@ -605,6 +650,7 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 				if (w0 < 0) w0 = 0;
 				dc.DrawRectangle(x0, y0, w0, wxCoord(3));
 			}
+#endif
 			break;
 		}
 	}
@@ -1125,11 +1171,14 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 	if (y0 < 0) y0 = 0;
 	if (w0 < 0) w0 = 0;
 	if (h0 < 0) h0 = 0;
+	dc.SetBrush(wxBrush(m_brush_MainColour , wxSOLID));
+	dc.SetPen(wxPen(m_pen_MainColour , 1 , wxSOLID));
 	dc.DrawRectangle(x0, y0, w0, h0);
 //Number of Projects
 	int nb_proj = 0;
 	for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) { ++nb_proj; }
 	if (0 == nb_proj) {
+        dc.DrawRectangle(x0, y0, w0, h0);
 		return;
 	}
 // Check m_NextProjectStatistic
@@ -1144,6 +1193,11 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 	default:heading = wxT("");
 	}
 
+    if (!m_LegendDraw) {
+        m_scrollBar->Hide();
+        m_Space_for_scrollbar = 0;
+    }
+    
 	switch (m_ModeViewStatistic){
 	case 0:{
 	//Draw Legend
@@ -1394,11 +1448,20 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		break;
 		}
 	}
+    if (m_Space_for_scrollbar) {
+        dc.SetPen(wxPen(m_pen_MainColour , 1 , wxSOLID));
+        dc.DrawLine(w0 - m_Space_for_scrollbar - x0 - 1, y0, w0 - m_Space_for_scrollbar - x0 - 1, y0 + h0);
+    }
 }
 //=================================================================
 void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
+#if USE_MEMORYDC
 	wxPaintDC pdc(this);
 	wxMemoryDC mdc;
+#else
+    wxPaintDC mdc(this);
+    m_full_repaint=true;
+#endif
 	wxCoord width = 0, height = 0;
 	GetClientSize(&width, &height);
 	if (m_full_repaint){
@@ -1413,17 +1476,23 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
 			if (width < 1) width = 1;
 			if (height < 1) height = 1;
+#if USE_MEMORYDC
 			m_dc_bmp.Create(width, height);
 			mdc.SelectObject(m_dc_bmp);
+#endif
 			DrawAll(mdc);
 			m_bmp_OK = true;
 			m_full_repaint = false;
 		}else if(m_bmp_OK){
+#if USE_MEMORYDC
 			mdc.SelectObject(m_dc_bmp);
+#endif
 		}
 	}else{
 		if (m_bmp_OK){
+#if USE_MEMORYDC
 			mdc.SelectObject(m_dc_bmp);
+#endif
 			if (m_GraphZoomStart && (width == m_dc_bmp.GetWidth()) &&(height == m_dc_bmp.GetHeight())){
 
 				mdc.SetPen(wxPen(m_pen_ZoomRectColour , 1 , wxSOLID));
@@ -1466,10 +1535,12 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 			}
 		}
 	}
+#if USE_MEMORYDC
 	if (m_bmp_OK && (width == m_dc_bmp.GetWidth()) &&(height == m_dc_bmp.GetHeight())){
-		pdc.Blit(0, 0, width, height,& mdc, 0, 0);         
+		pdc.Blit(0, 0, width - m_Space_for_scrollbar, height,& mdc, 0, 0);         
 	}
 	mdc.SelectObject(wxNullBitmap);
+#endif
 }
 
 void CPaintStatistics::OnLeftMouseDown(wxMouseEvent& event) {
@@ -1520,13 +1591,6 @@ void CPaintStatistics::OnLeftMouseDown(wxMouseEvent& event) {
 		}
 	}
     event.Skip();
-}
-
-void CPaintStatistics::OnLeftMouseDoubleClick(wxMouseEvent& event) {
-	m_LegendDraw = !m_LegendDraw;
-	m_full_repaint = true;
-	Refresh(false);
-	event.Skip(); 
 }
 
 void CPaintStatistics::OnMouseMotion(wxMouseEvent& event) {
@@ -1682,6 +1746,13 @@ void CPaintStatistics::OnMouseLeaveWindows(wxMouseEvent& event) {
 	}
 	event.Skip();
 }
+
+void CPaintStatistics::OnLegendScroll(wxScrollEvent& event) {
+    m_full_repaint = true;
+    Refresh(false);
+    event.Skip();
+}
+
 void CPaintStatistics::OnSize(wxSizeEvent& event) {
 	m_full_repaint = true;
     Refresh(false);
@@ -1700,6 +1771,7 @@ BEGIN_EVENT_TABLE (CViewStatistics, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEW2, CViewStatistics::OnStatisticsModeView2)
     EVT_BUTTON(ID_TASK_STATISTICS_NEXTPROJECT, CViewStatistics::OnStatisticsNextProject)
     EVT_BUTTON(ID_TASK_STATISTICS_PREVPROJECT, CViewStatistics::OnStatisticsPrevProject)
+    EVT_BUTTON(ID_TASK_STATISTICS_HIDEPROJLIST, CViewStatistics::OnShowHideProjectList)
     EVT_LIST_ITEM_SELECTED(ID_LIST_STATISTICSVIEW, CViewStatistics::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_STATISTICSVIEW, CViewStatistics::OnListDeselected)
 END_EVENT_TABLE ()
@@ -1779,6 +1851,13 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
         _("&Next project >"),
         _("Show chart for next project"),
         ID_TASK_STATISTICS_NEXTPROJECT 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Hide project list"),
+        _("Use entire area for graphs"),
+        ID_TASK_STATISTICS_HIDEPROJLIST 
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -2037,6 +2116,17 @@ void CViewStatistics::OnStatisticsPrevProject( wxCommandEvent& WXUNUSED(event) )
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsPrevProject - Function End"));
 }
 
+void CViewStatistics::OnShowHideProjectList( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnShowHideProjectList - Function Begin"));
+
+	m_PaintStatistics->m_LegendDraw = !m_PaintStatistics->m_LegendDraw;
+	m_PaintStatistics->m_full_repaint = true;
+	m_PaintStatistics->Refresh(false);
+    UpdateSelection();
+    
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnShowHideProjectList - Function End"));
+}
+
 bool CViewStatistics::OnSaveState(wxConfigBase* pConfig) {
     bool bReturnValue = true;
 
@@ -2113,7 +2203,34 @@ void CViewStatistics::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 }
 
 void CViewStatistics::UpdateSelection() {
+    CTaskItemGroup*     pGroup = m_TaskGroups[0];
+
     CBOINCBaseView::PreUpdateSelection();
+
+    pGroup->m_Tasks[0]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != 0);
+    pGroup->m_Tasks[1]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != 1);
+    pGroup->m_Tasks[2]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != 2);
+    pGroup->m_Tasks[3]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != 3);
+
+    pGroup = m_TaskGroups[1];
+    pGroup->m_Tasks[0]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic == 1);
+    pGroup->m_Tasks[1]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic == 1);
+
+    if (m_PaintStatistics->m_LegendDraw) {
+        m_pTaskPane->UpdateTask(
+            pGroup->m_Tasks[2], _("Hide project list"), _("Use entire area for graphs")
+        );
+    } else {
+        m_pTaskPane->UpdateTask(
+            pGroup->m_Tasks[2], _("Show project list"), _("Uses smaller area for graphs")
+        );
+    }
+    
+    pGroup = m_TaskGroups[2];
+    pGroup->m_Tasks[0]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic != 0);
+    pGroup->m_Tasks[1]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic != 1);
+    pGroup->m_Tasks[2]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic != 2);
+
     CBOINCBaseView::PostUpdateSelection();
 }
 

@@ -6459,3 +6459,12 @@ David  9 Sept 2010
 
     client/
         work_fetch.cpp
+
+Charlie 10 Sept 2010
+    - MGR: Statistics tab: add scroll bar to project list, replace 
+        hidden double-click function with new "Hide / Show Project 
+        List" button, enable & disable buttons appropriately.
+    
+    clientgui/
+        Events.h
+        ViewStatistics.cpp, .h

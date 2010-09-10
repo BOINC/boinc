@@ -31,6 +31,8 @@ public:
 	CPaintStatistics();
 	CPaintStatistics(wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("panel"));
 	
+    ~CPaintStatistics();
+    
 	void DrawMainHead(wxDC &dc, const wxString head_name);
 	
 	void DrawProjectHead(wxDC &dc, PROJECT* project1, const wxString head_name_last);
@@ -89,6 +91,11 @@ public:
 	double                  m_Zoom_min_val_Y;
 	bool                    m_Zoom_Auto;
 // Shift Legend
+    int                     m_Scrollbar_width;
+    int                     m_Space_for_scrollbar;
+    int                     m_Num_projects;
+    int                     m_previous_SelProj;
+    wxScrollBar*            m_scrollBar;
 	int                     m_Legend_Shift_Mode1;
 	int                     m_Legend_Shift_Mode2;
 	bool                    m_LegendDraw;
@@ -189,11 +196,12 @@ protected:
     void OnSize(wxSizeEvent& event);
     void OnLeftMouseDown(wxMouseEvent& event);
     void OnLeftMouseUp(wxMouseEvent& event);
-	void OnLeftMouseDoubleClick(wxMouseEvent& event);
 	void OnMouseMotion(wxMouseEvent& event);
     void OnRightMouseDown(wxMouseEvent& event);
     void OnRightMouseUp(wxMouseEvent& event);
 	void OnMouseLeaveWindows(wxMouseEvent& event);
+    void OnLegendScroll(wxScrollEvent& event);
+
 
 	DECLARE_EVENT_TABLE()
 };
@@ -221,6 +229,7 @@ public:
     void                    OnStatisticsHostAverage( wxCommandEvent& event );
     void                    OnStatisticsNextProject( wxCommandEvent& event );
     void                    OnStatisticsPrevProject( wxCommandEvent& event );
+    void                    OnShowHideProjectList( wxCommandEvent& event );
     void                    OnStatisticsModeView0( wxCommandEvent& event );
     void                    OnStatisticsModeView1( wxCommandEvent& event );
     void                    OnStatisticsModeView2( wxCommandEvent& event );
