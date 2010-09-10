@@ -45,7 +45,8 @@ BEGIN_EVENT_TABLE (CPaintStatistics, wxWindow)
     EVT_SCROLL(CPaintStatistics::OnLegendScroll)
 END_EVENT_TABLE ()
 
-#define USE_MEMORYDC true
+// Set USE_MEMORYDC FALSE to aid debugging
+#define USE_MEMORYDC TRUE
 
 CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoint& pos,	const wxSize& size, long style, const wxString& name
 ): wxWindow(parent, id, pos, size, style, name)
