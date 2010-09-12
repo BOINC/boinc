@@ -34,6 +34,7 @@ $results_per_page = 20;
 $hostid = get_int("hostid", true);
 $userid = get_int("userid", true);
 $offset = get_int("offset", true);
+$appid = get_int("appid", true);
 if (!$offset) $offset=0;
 $state = get_int("state", true);
 if (!$state) $state=0;
@@ -60,6 +61,9 @@ if ($hostid) {
 }
 
 $clause2 = $clause. $state_clause[$state];
+if ($appid) {
+    $clause2 .= ' AND appid='.$appid;
+}
 
 $query = "$clause2 order by id desc limit $offset,".($results_per_page+1);
 $results = BoincResult::enum($query);
@@ -71,6 +75,7 @@ $info->results_per_page = $results_per_page;
 $info->offset = $offset;
 $info->show_names = $show_names;
 $info->state = $state;
+$info->appid = $appid;
 
 if (count($results)) {
     echo show_result_navigation($info);

@@ -6474,4 +6474,12 @@ David  11 Sept 2010
 
     client/
         boinc_cmd.cpp
+
+Rytis  12 Sept 2010
+    - user web: filter results by application.
     
+    html/
+        inc/
+            result.inc
+        user/
+            results.php

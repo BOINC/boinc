@@ -250,7 +250,8 @@ function result_page_url($info) {
     $o = $info->offset;
     $sn = $info->show_names;
     $st = $info->state;
-    return "results.php?$c&amp;offset=$o&amp;show_names=$sn&amp;state=$st";
+    $appid = $info->appid;
+    return "results.php?$c&amp;offset=$o&amp;show_names=$sn&amp;state=$st&amp;appid=$appid";
 }
 
 function result_table_start($show_wu_link, $show_host_link, $info) {
@@ -429,6 +430,31 @@ function show_result_navigation($info) {
             echo "<a href=$url>".$state_name[$i]."</a>";
         }
     }
+    
+    $apps = BoincApp::enum('deprecated=0 ORDER BY user_friendly_name');
+    if (count($apps) > 1) {
+        $i2 = clone $info;
+        echo '<br />';
+        if ($info->appid) {
+            $i2->appid = 0;
+            $url = result_page_url($i2);
+            echo '<a href="'.$url.'">All</a>';
+        } else {
+            echo 'All';
+        }
+        
+        foreach ($apps as $app) {
+            $i2->appid = $app->id;
+            $url = result_page_url($i2);
+            echo ' | ';
+            if ($info->appid == $app->id) {
+                echo $app->user_friendly_name;
+            } else {
+                echo '<a href="'.$url.'">'.$app->user_friendly_name.'</a>';
+            }
+        }
+    }
+
     echo "</center><br>";
 }
 
