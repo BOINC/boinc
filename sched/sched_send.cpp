@@ -967,6 +967,11 @@ bool work_needed(bool locality_sched) {
     //
     bool some_type_allowed = false;
     if (config.max_jobs_in_progress.exceeded(NULL, true)) {
+        if (config.debug_quota) {
+            log_messages.printf(MSG_NORMAL,
+                "[quota] reached limit on GPU jobs in progress\n"
+            );
+        }
         g_wreq->clear_gpu_req();
         if (g_wreq->effective_ngpus) {
             g_wreq->max_jobs_on_host_gpu_exceeded = true;
@@ -975,6 +980,11 @@ bool work_needed(bool locality_sched) {
         some_type_allowed = true;
     }
     if (config.max_jobs_in_progress.exceeded(NULL, false)) {
+        if (config.debug_quota) {
+            log_messages.printf(MSG_NORMAL,
+                "[quota] reached limit on CPU jobs in progress\n"
+            );
+        }
         g_wreq->clear_cpu_req();
         g_wreq->max_jobs_on_host_cpu_exceeded = true;
     } else {

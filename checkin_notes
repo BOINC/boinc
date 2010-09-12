@@ -6468,3 +6468,10 @@ Charlie 10 Sept 2010
     clientgui/
         Events.h
         ViewStatistics.cpp, .h
+
+David  11 Sept 2010
+    - boinc_cmd: don't crash if can't connect to local client
+
+    client/
+        boinc_cmd.cpp
+    

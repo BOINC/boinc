@@ -188,7 +188,7 @@ int main(int argc, char** argv) {
 #if 1
     retval = rpc.init(hostname, port);
     if (retval) {
-        fprintf(stderr, "can't connect to %s\n", strlen(hostname)?hostname:"local host");
+        fprintf(stderr, "can't connect to %s\n", hostname?hostname:"local host");
         exit(1);
     }
 #else
