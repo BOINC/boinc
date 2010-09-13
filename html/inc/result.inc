@@ -434,6 +434,7 @@ function show_result_navigation($info) {
     $apps = BoincApp::enum('deprecated=0 ORDER BY user_friendly_name');
     if (count($apps) > 1) {
         $i2 = clone $info;
+        $i2->offset = 0;
         echo '<br />';
         if ($info->appid) {
             $i2->appid = 0;
