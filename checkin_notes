@@ -6504,3 +6504,10 @@ David  13 Sept 2010
         sched_send.cpp
     client/
         client_types.cpp,h
+
+David  13 Sept 2010
+    - back end: compile fixes
+
+    sched/
+        sched_limit.cpp,h
+        sched_main.cpp

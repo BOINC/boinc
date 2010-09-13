@@ -41,13 +41,6 @@ int RSC_JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
     return ERR_XML_PARSE;
 }
 
-void RSC_JOB_LIMIT::print_log(const char* rsc_name) {
-    log_messages.printf(MSG_NORMAL,
-        "[quota] %s: base %d scaled %d\n",
-        rsc_name, base_limit, scaled_limit
-    );
-}
-
 int JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
     char tag[1024];
     bool is_tag;
@@ -78,12 +71,6 @@ int JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
     return ERR_XML_PARSE;
 }
 
-void JOB_LIMIT::print_log() {
-    if (total.any_limit()) total.print_log("total");
-    if (cpu.any_limit()) cpu.print_log("CPU");
-    if (gpu.any_limit()) gpu.print_log("GPU");
-}
-
 int JOB_LIMITS::parse(XML_PARSER& xp, const char* end_tag) {
     char tag[1024];
     bool is_tag;
@@ -111,16 +98,4 @@ int JOB_LIMITS::parse(XML_PARSER& xp, const char* end_tag) {
         }
     }
     return ERR_XML_PARSE;
-}
-
-void JOB_LIMITS::print_log() {
-    log_messages.printf(MSG_NORMAL, "[quota] Overall limit on jobs in progress:\n");
-    project_limits.print_log();
-    for (unsigned int i=0; i<app_limits.size(); i++) {
-        if (app_limits[i].any_limit()) {
-            APP* app = &ssp->apps[i];
-            log_messages.printf(MSG_NORMAL, "Limits for %s:\n", app->name);
-            app_limits[i].print_log();
-        }
-    }
 }

@@ -612,4 +612,32 @@ done:
     }
 }
 
+// the following stuff is here because if you put it in sched_limit.cpp
+// you get "ssp undefined" in programs other than cgi
+
+void RSC_JOB_LIMIT::print_log(const char* rsc_name) {
+    log_messages.printf(MSG_NORMAL,
+        "[quota] %s: base %d scaled %d\n",
+        rsc_name, base_limit, scaled_limit
+    );
+}
+
+void JOB_LIMIT::print_log() {
+    if (total.any_limit()) total.print_log("total");
+    if (cpu.any_limit()) cpu.print_log("CPU");
+    if (gpu.any_limit()) gpu.print_log("GPU");
+}
+
+void JOB_LIMITS::print_log() {
+    log_messages.printf(MSG_NORMAL, "[quota] Overall limit on jobs in progress:\n");
+    project_limits.print_log();
+    for (unsigned int i=0; i<app_limits.size(); i++) {
+        if (app_limits[i].any_limit()) {
+            APP* app = &ssp->apps[i];
+            log_messages.printf(MSG_NORMAL, "Limits for %s:\n", app->name);
+            app_limits[i].print_log();
+        }
+    }
+}
+
 const char *BOINC_RCSID_0ebdf5d770 = "$Id$";
