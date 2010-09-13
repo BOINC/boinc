@@ -88,6 +88,10 @@ struct _DC_Workunit
 	GList			*input_files;
 	int			num_inputs;
 
+	/* Remote input file definitions. Elements are of type DC_RemoteFile */
+	GList			*remote_input_files;
+	int			num_remote_inputs;
+
 	/* Output file definitions. Elements are of type char * */
 	GList			*output_files;
 	int			num_outputs;

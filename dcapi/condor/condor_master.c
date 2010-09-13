@@ -438,6 +438,13 @@ int DC_addWUInputAdvanced(DC_Workunit *wu, const char *logicalFileName, const ch
         return DC_ERR_INTERNAL;
 }
 
+int DC_addWURemoteInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
+        const char *md5, const int size)
+{
+        DC_log(LOG_ERR,"Function \"%s\" is not implemented in this backend.",__func__);
+        return DC_ERR_INTERNAL;
+}
+
 /* Sets an input file for the work unit. */
 int
 DC_addWUInput(DC_Workunit *wu,

@@ -90,6 +90,16 @@ struct _DC_PhysicalFile
 	char			*physicalfilehash;
 };
 
+/* Descriptor of a remote file */
+typedef struct _DC_RemoteFile	DC_RemoteFile;
+struct _DC_RemoteFile
+{
+	char			*label;
+	char			*url;
+	char			*remotefilehash;
+	int			remotefilesize;
+};
+
 
 /********************************************************************
  * Function prototypes
