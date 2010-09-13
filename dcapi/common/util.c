@@ -166,6 +166,29 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 	return file;
 }
 
+DC_RemoteFile *_DC_createRemoteFile(const char *label,
+	const char *url, const char *md5, const int size)
+{
+	DC_RemoteFile *file;
+
+	file = malloc(sizeof(*file));
+	if (!file)
+		return NULL;
+
+	file->label = strdup(label);
+	file->url = strdup(url);
+	file->remotefilehash = strdup(md5);
+	file->remotefilesize = size;
+
+	if (!file->label || !file->url || !file->remotefilehash)
+	{
+		_DC_destroyRemoteFile(file);
+		return NULL;
+	}
+
+	return file;
+}
+
 void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
 {
 	if (!file)
@@ -178,5 +201,15 @@ void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
 	if (file->physicalfilehash)
 		free(file->physicalfilehash);
 	free(file);
+}
 
+void _DC_destroyRemoteFile(DC_RemoteFile *file)
+{
+	if (!file)
+		return;
+
+	free(file->label);
+	free(file->url);
+	free(file->remotefilehash);
+	free(file);
 }

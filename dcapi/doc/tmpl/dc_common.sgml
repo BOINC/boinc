@@ -96,6 +96,18 @@ Describes a physical file.
 @label: logical name of the file as used by the application.
 @path: the real path name of the file.
 @mode: usage mode of the file.
+@physicalfilename: 
+@physicalfilehash: 
+
+<!-- ##### STRUCT DC_RemoteFile ##### -->
+<para>
+Describes a remote file.
+</para>
+
+@label: logical name of the file as used by the application.
+@url: URL of the remote file.
+@remotefilehash: MD5 hash of the remote file.
+@remotefilesize: size of the remote file in bytes.
 
 <!-- ##### FUNCTION DC_getCfgStr ##### -->
 <para>

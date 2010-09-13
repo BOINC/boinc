@@ -272,6 +272,23 @@ units in state %DC_WU_READY (i.e., before the work unit is submitted).
 @Returns: 0 if successful or a #DC_ErrorCode.
 
 
+<!-- ##### FUNCTION DC_addWURemoteInput ##### -->
+<para>
+Adds a remote input file to a work unit. This function may be called only for
+work units in state %DC_WU_READY (i.e., before the work unit is submitted).
+</para>
+
+@wu: the work unit to add the input file to.
+@logicalFileName: the logical file name the client will use to refer to this
+	input file. The client should call the DC_resolveFileName() function
+	with the %DC_FILE_IN file type and this name to get the real name of
+	the file on the local system.
+@URL: remote URL of the input file.
+@md5: the MD5 hash of the remote input file.
+@size: the size of the remote input file in bytes.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
 <!-- ##### FUNCTION DC_addWUOutput ##### -->
 <para>
 Adds an output file specification to a work unit. Files registered using this

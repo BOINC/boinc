@@ -25,6 +25,7 @@
 #include <sched_util.h>
 #include <sched_config.h>
 #include <backend_lib.h>
+#include <md5_file.h>
 
 #include "dc_boinc.h"
 
@@ -417,6 +418,7 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 static int write_wudesc(const DC_Workunit *wu)
 {
 	DC_PhysicalFile *file;
+	DC_RemoteFile *rfile;
 	GList *l;
 	FILE *f;
 	int i;
@@ -447,6 +449,13 @@ static int write_wudesc(const DC_Workunit *wu)
 		file = (DC_PhysicalFile *)l->data;
 		fprintf(f, "\t<input_label type=\"%d\">%s</input_label>\n",
 			file->mode, file->label);
+	}
+
+	for (l = wu->remote_input_files; l; l = l->next)
+	{
+		rfile = (DC_RemoteFile *)l->data;
+		fprintf(f, "\t<remote_input_label>%s</remote_input_label>\n",
+			rfile->label);
 	}
 
 	for (l = wu->output_files; l; l = l->next)
@@ -592,6 +601,15 @@ void DC_destroyWU(DC_Workunit *wu)
 		_DC_destroyPhysicalFile(file);
 	}
 
+	while (wu->remote_input_files)
+	{
+		DC_RemoteFile *file = (DC_RemoteFile *)wu->remote_input_files->data;
+
+		wu->remote_input_files = g_list_delete_link(wu->remote_input_files,
+			wu->remote_input_files);
+		_DC_destroyRemoteFile(file);
+	}
+
 	while (wu->output_files)
 	{
 		g_free(wu->output_files->data);
@@ -655,11 +673,20 @@ static int check_logical_name(DC_Workunit *wu, const char *logicalFileName)
 	for (l = wu->input_files; l; l = l->next)
 	{
 		DC_PhysicalFile *file = (DC_PhysicalFile *)l->data;
-
 		if (!strcmp(file->label, logicalFileName))
 		{
 			DC_log(LOG_ERR, "File %s is already registered as an "
 				"input file", logicalFileName);
+			return DC_ERR_BADPARAM;
+		}
+	}
+	for (l = wu->remote_input_files; l; l = l->next)
+	{
+		DC_RemoteFile *file = (DC_RemoteFile *)l->data;
+		if (!strcmp(file->label, logicalFileName))
+		{
+			DC_log(LOG_ERR, "File %s is already registered as a "
+				"remote input file", logicalFileName);
 			return DC_ERR_BADPARAM;
 		}
 	}
@@ -770,6 +797,36 @@ int DC_addWUInputAdvanced(DC_Workunit *wu, const char *logicalFileName, const ch
 		write_wudesc(wu);
 
 	return 0;
+}
+
+int DC_addWURemoteInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
+	const char *md5, const int size)
+{
+	int ret;
+	DC_RemoteFile *file;
+
+	/* Sanity checks */
+	if (!wu || !logicalFileName || !URL || !md5 || !size)
+	{
+		DC_log(LOG_ERR, "%s: Missing arguments", __func__);
+		return DC_ERR_BADPARAM;
+	}
+	ret = check_logical_name(wu, logicalFileName);
+	if (ret)
+		return ret;
+
+	file = _DC_createRemoteFile(logicalFileName, URL, md5, size);
+	if (!file)
+		return DC_ERR_INTERNAL;
+
+	wu->remote_input_files = g_list_append(wu->remote_input_files, file);
+	wu->num_remote_inputs++;
+
+	if (wu->serialized)
+		write_wudesc(wu);
+
+	return 0;
+
 }
 
 int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
@@ -928,6 +985,16 @@ static void append_wu_file_info(GString *tmpl, int idx)
 	g_string_append(tmpl, "</file_info>\n");
 }
 
+static void append_wu_remote_file_info(GString *tmpl, int idx, DC_RemoteFile *file)
+{
+	g_string_append(tmpl, "<file_info>\n");
+	g_string_append_printf(tmpl, "\t<number>%d</number>\n", idx);
+	g_string_append_printf(tmpl, "\t<url>%s</url>\n", file->url);
+	g_string_append_printf(tmpl, "\t<md5_cksum>%s</md5_cksum>\n", file->remotefilehash);
+	g_string_append_printf(tmpl, "\t<nbytes>%d</nbytes>\n", file->remotefilesize);
+	g_string_append(tmpl, "</file_info>\n");
+}
+
 static void append_wu_file_ref(GString *tmpl, int idx, const char *label)
 {
 	g_string_append(tmpl, "\t<file_ref>\n");
@@ -940,7 +1007,7 @@ static char *generate_wu_template(DC_Workunit *wu)
 {
 	struct wu_params params;
 	GString *tmpl, *cmd;
-	int i, num_inputs;
+	int i, num_inputs, num_remote_inputs;
 	GList *l;
 	char *p;
 
@@ -948,23 +1015,36 @@ static char *generate_wu_template(DC_Workunit *wu)
 
 	/* Generate the file info block */
 	num_inputs = wu->num_inputs;
+	num_remote_inputs = wu->num_remote_inputs;
 	if (wu->ckpt_name)
 		num_inputs++;
 
 	tmpl = g_string_new("");
 	for (i = 0; i < num_inputs; i++)
 		append_wu_file_info(tmpl, i);
+	for (l = wu->remote_input_files; l && i < num_inputs + num_remote_inputs;
+			l = l->next, i++)
+	{
+		DC_RemoteFile *file = (DC_RemoteFile *)l->data;
+		append_wu_remote_file_info(tmpl, i, file);
+	}
 	/* Checkpoint file, if exists */
 	if (wu->ckpt_name)
 		append_wu_file_info(tmpl, i++);
 
 	/* Generate the workunit description */
 	g_string_append(tmpl, "<workunit>\n");
-	for (i = 0, l = wu->input_files; l && i < wu->num_inputs;
+	for (i = 0, l = wu->input_files; l && i < num_inputs;
 			l = l->next, i++)
 	{
 		DC_PhysicalFile *file = (DC_PhysicalFile *)l->data;
+		append_wu_file_ref(tmpl, i, file->label);
+	}
 
+	for (l = wu->remote_input_files; l && i < num_inputs + num_remote_inputs;
+			l = l->next, i++)
+	{
+		DC_PhysicalFile *file = (DC_PhysicalFile *)l->data;
 		append_wu_file_ref(tmpl, i, file->label);
 	}
 
@@ -1200,6 +1280,7 @@ int DC_submitWU(DC_Workunit *wu)
 	dbwu.priority = wu->priority;
 
 	wu_template = generate_wu_template(wu);
+	printf("WU template is: %s", wu_template);
 	result_template_file = generate_result_template(wu);
 	if (!result_template_file)
 	{
@@ -1219,7 +1300,7 @@ int DC_submitWU(DC_Workunit *wu)
 	free(cfgval);
 
 	/* Create the input file name array as required by create_work() */
-	ninputs = wu->num_inputs;
+	ninputs = wu->num_inputs + wu->num_remote_inputs;
 	if (wu->ckpt_name)
 		ninputs++;
 
@@ -1229,6 +1310,13 @@ int DC_submitWU(DC_Workunit *wu)
 	{
 		DC_PhysicalFile *file = (DC_PhysicalFile *)l->data;
 		infiles[i] = get_input_download_name(wu, file->label, file->physicalfilename);
+	}
+	for (l = wu->remote_input_files; l && i < wu->num_remote_inputs+wu->num_inputs;
+			l = l->next, i++)
+	{
+		DC_RemoteFile *file = (DC_RemoteFile *)l->data;
+		//infiles[i] = get_input_download_name(wu, file->label, NULL);
+		infiles[i] = g_strdup_printf("%s_%s", file->label, md5_string(file->url));
 	}
 	if (wu->ckpt_name)
 		infiles[i++] = get_input_download_name(wu, wu->ckpt_name, NULL);

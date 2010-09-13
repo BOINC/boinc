@@ -59,8 +59,16 @@ int _DC_parseBoolean(const char *value) __attribute__((visibility("hidden")));
 DC_PhysicalFile *_DC_createPhysicalFile(const char *label, const char *path)
 	__attribute__((visibility("hidden")));
 
+/* Allocates a remote file descriptor */
+DC_RemoteFile *_DC_createRemoteFile(const char *label, const char *url, const char *md5, const int size)
+	__attribute__((visibility("hidden")));
+
 /* De-allocates a physical file descriptor */
 void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
+	__attribute__((visibility("hidden")));
+
+/* De-allocates a remote file descriptor */
+void _DC_destroyRemoteFile(DC_RemoteFile *file)
 	__attribute__((visibility("hidden")));
 
 /* Initializa a config file for a client */
