@@ -19,6 +19,11 @@ function site($url, $name) {
 
 $info_sites = array(
     array(
+        "http://projekty.czechnationalteam.cz/",
+        "BOINC projects",
+        "(in Czech)"
+    ),
+    array(
         "http://www.boincteams.com/",
         "BOINC Team Leaders Forum",
         "(a meeting place to chat and discuss team building on BOINC projects)"
@@ -166,6 +171,7 @@ echo "
 <h3>Skins for the BOINC Manager</h3>
 <ul>
 <li> <a href=http://www.crunching-family.at/download-center/>Crunching Family Skin Download</a>
+<li> <a href=http://www.czechnationalteam.cz/view.php?cisloclanku=2007040003>Czech National Team skin</a> (in Czech)
 <li> <a href=http://www.grid-france.fr/tutoriaux/comment-personnaliser-boinc-au-couleur-de-l-equipe-france/>Skin for Equipe France (WCG)</a>
 ";
 //<li> <a href=http://wcg.userfriendly.org/resources.jspx>Skin for team UserFriendly.org</a>

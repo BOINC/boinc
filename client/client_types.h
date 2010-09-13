@@ -101,7 +101,7 @@ struct FILE_INFO {
     CERT_SIGS* cert_sigs;
 
     FILE_INFO();
-    ~FILE_INFO();
+    ~FILE_INFO(){}
     void reset();
     int set_permissions();
     int parse(MIOFILE&, bool from_server);

@@ -682,16 +682,6 @@ FILE_INFO::FILE_INFO() {
     cert_sigs = 0;
 }
 
-FILE_INFO::~FILE_INFO() {
-    if (pers_file_xfer) {
-        msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "Deleting file %s while in use",
-            name
-        );
-        pers_file_xfer->fip = NULL;
-    }
-}
-
 void FILE_INFO::reset() {
     status = FILE_NOT_PRESENT;
     delete_file();

@@ -108,6 +108,7 @@ $stats_sites = array(
 );
 
 $team_stats_sites = array(
+    array("http://stats.czechnationalteam.cz/", "Czech National Team", "(in Czech)"),
     array("http://www.boincitaly.org/", "BOINC.Italy"),
     array("http://www.spacepage.be/component/option,com_boinc/", "Spacepage"),
     array("http://boinc.radax.net/de_boinc.htm", "BOINC@Austria"),

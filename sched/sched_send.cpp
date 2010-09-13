@@ -117,14 +117,16 @@ void WORK_REQ::get_job_limits() {
     } else {
         g_wreq->max_jobs_per_rpc = 999999;
     }
+
+    config.max_jobs_in_progress.reset(g_reply->host, g_request->coprocs);
+
     if (config.debug_quota) {
         log_messages.printf(MSG_NORMAL,
             "[quota] max jobs per RPC: %d\n",
             g_wreq->max_jobs_per_rpc
         );
+        config.max_jobs_in_progress.print_log();
     }
-
-    config.max_jobs_in_progress.reset(g_reply->host, g_request->coprocs);
 }
 
 static const char* find_user_friendly_name(int appid) {

@@ -6494,3 +6494,13 @@ Rom    13 Sept 2010
         
     clientscr/
         screensaver_win.cpp
+
+David  13 Sept 2010
+    - client: remove spurious msgs about deleting files while in use
+    - scheduler: add log messages related to max jobs in progress
+
+    sched/
+        sched_limit.cpp,h
+        sched_send.cpp
+    client/
+        client_types.cpp,h

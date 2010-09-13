@@ -54,6 +54,12 @@ struct RSC_JOB_LIMIT {
     inline void register_job() {
         njobs++;
     }
+
+    inline bool any_limit() {
+        return (base_limit != 0);
+    }
+
+    void print_log(const char*);
 };
 
 struct JOB_LIMIT {
@@ -88,6 +94,12 @@ struct JOB_LIMIT {
             cpu.register_job();
         }
     }
+
+    inline bool any_limit() {
+        return total.any_limit() || cpu.any_limit() || gpu.any_limit();
+    }
+
+    void print_log();
 };
 
 struct JOB_LIMITS {
@@ -95,6 +107,7 @@ struct JOB_LIMITS {
     vector<JOB_LIMIT> app_limits;  // per-app limits
 
     int parse(XML_PARSER&, const char* end_tag);
+    void print_log();
 
     // called at start of each request
     //
