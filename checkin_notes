@@ -6483,3 +6483,14 @@ Rytis  12 Sept 2010
             result.inc
         user/
             results.php
+
+Rom    13 Sept 2010
+    - WINSCR: Set the screen saver log directory to the data directory.
+    - WINSCR: Already create a log file, even on release builds, just don't
+        write trace messages.
+    - WINSCR: Be a bit more paranoid about not being able to detect keyboard
+        and mouse activity.  If the function fails for whatever reason
+        shutdown the screensaver.
+        
+    clientscr/
+        screensaver_win.cpp

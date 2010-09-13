@@ -61,25 +61,6 @@ INT WINAPI WinMain(
     WSADATA      wsdata;
 
 
-#ifdef _DEBUG
-    // Initialize Diagnostics
-    retval = diagnostics_init (
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
-        BOINC_DIAG_HEAPCHECKENABLED |
-        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
-        BOINC_DIAG_ARCHIVESTDOUT |
-        BOINC_DIAG_REDIRECTSTDOUTOVERWRITE |
-        BOINC_DIAG_REDIRECTSTDERROVERWRITE |
-        BOINC_DIAG_TRACETOSTDOUT,
-        "stdoutscr",
-        "stderrscr"
-    );
-    if (retval) {
-        BOINCTRACE("WinMain - BOINC Screensaver Diagnostic Error '%d'\n", retval);
-        MessageBox(NULL, NULL, "BOINC Screensaver Diagnostic Error", MB_OK);
-    }
-#endif
-
     // Initialize the CRT random number generator.
     srand((unsigned int)time(0));
 
@@ -161,9 +142,38 @@ CScreensaver::CScreensaver() {
 //
 HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     HRESULT hr;
-    BOOL    bReturnValue;
-    struct ss_periods periods;
+    int     retval;
+    struct  ss_periods periods;
+
     m_hInstance = hInstance;
+
+
+    // Retrieve the locations of the install directory and data directory
+	UtilGetRegDirectoryStr(_T("DATADIR"), m_strBOINCDataDirectory);
+	UtilGetRegDirectoryStr(_T("INSTALLDIR"), m_strBOINCInstallDirectory);
+
+    if (!m_strBOINCDataDirectory.empty()) {
+        SetCurrentDirectory(m_strBOINCDataDirectory.c_str());
+    }
+
+    // Initialize Diagnostics
+    retval = diagnostics_init (
+#ifdef _DEBUG
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+#endif
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_ARCHIVESTDOUT |
+        BOINC_DIAG_REDIRECTSTDOUTOVERWRITE |
+        BOINC_DIAG_REDIRECTSTDERROVERWRITE |
+        BOINC_DIAG_TRACETOSTDOUT,
+        "stdoutscr",
+        "stderrscr"
+    );
+    if (retval) {
+        BOINCTRACE("WinMain - BOINC Screensaver Diagnostic Error '%d'\n", retval);
+        MessageBox(NULL, NULL, "BOINC Screensaver Diagnostic Error", MB_OK);
+    }
 
     // Parse the command line and do the appropriate thing
     m_SaverMode = ParseCommandLine(GetCommandLine());
@@ -184,11 +194,6 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     GetDefaultDisplayPeriods(periods);
     m_bShow_default_ss_first = periods.Show_default_ss_first;
         
-    // Retrieve the locations of the install directory and data directory
-	bReturnValue = UtilGetRegDirectoryStr(_T("DATADIR"), m_strBOINCDataDirectory);
-	bReturnValue = UtilGetRegDirectoryStr(_T("INSTALLDIR"), m_strBOINCInstallDirectory);
-
-
     // Get the last set of saved values, if not set
     // use the configuration file, if not set, use defaults.
     // Normalize on Seconds...
@@ -879,15 +884,31 @@ DWORD WINAPI CScreensaver::InputActivityProcStub(LPVOID UNUSED(lpParam)) {
 //
 DWORD WINAPI CScreensaver::InputActivityProc() {
     LASTINPUTINFO lii;
+    DWORD         dwCounter = 0;
     lii.cbSize = sizeof(LASTINPUTINFO);
 
+    BOINCTRACE(_T("CScreensaver::InputActivityProc - Last Input Activity '%d'.\n"), m_dwLastInputTimeAtStartup);
+
     while(true) {
-        GetLastInputInfo(&lii);
-        if (m_dwLastInputTimeAtStartup != lii.dwTime) {
-            BOINCTRACE(_T("CScreensaver::InputActivityProc - Activity Detected.\n"));
+        if (GetLastInputInfo(&lii)) {
+            if (dwCounter > 4) {
+                BOINCTRACE(_T("CScreensaver::InputActivityProc - Heartbeat.\n"));
+                dwCounter = 0;
+            }
+            if (m_dwLastInputTimeAtStartup != lii.dwTime) {
+                BOINCTRACE(_T("CScreensaver::InputActivityProc - Activity Detected.\n"));
+                SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
+                FireInterruptSaverEvent();
+            }
+        } else {
+            BOINCTRACE(_T("CScreensaver::InputActivityProc - Failed to detect input activity.\n"));
+            fprintf(stdout, _T("Screen saver shutdown due to not being able to detect input activity.\n"));
+            fprintf(stdout, _T("Try rebooting, if the problem persists contact the BOINC.\n"));
+            fprintf(stdout, _T("development team.\n\n"));
             SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
             FireInterruptSaverEvent();
         }
+        dwCounter++;
         boinc_sleep(0.25);
     }
 }
