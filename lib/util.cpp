@@ -343,6 +343,10 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
 #endif
     size_t isize = (size_t)size;
     buf = (char*)malloc(isize+1);
+    if (!buf) {
+        fclose(f);
+        return ERR_MALLOC;
+    }
     size_t n = fread(buf, 1, isize, f);
     buf[n] = 0;
     fclose(f);

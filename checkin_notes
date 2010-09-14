@@ -6520,3 +6520,8 @@ Charlie 14 Sept 2010
     clientgui/
         Events.h
         ViewStatistics.cpp, .h
+
+David  14 Sept 2010
+    - lib: check for malloc() NULL return; fixes #921
+    lib/
+        util.cpp
