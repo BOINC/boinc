@@ -32,6 +32,26 @@
 
 #include "res/stats.xpm"
 
+enum {  // Command buttons (m_SelectedStatistic)
+    show_user_total = 0,
+    show_user_average,
+    show_host_total,
+    show_host_average
+};
+
+enum {  // Mode buttons (m_ModeViewStatistic)
+    mode_one_project = 0,
+    mode_all_separate,
+    mode_all_together,
+    mode_sum
+};
+
+enum {  // Project buttons
+    previous_project = 0,
+    next_project,
+    show_hide_project_list
+};
+
 BEGIN_EVENT_TABLE (CPaintStatistics, wxWindow)
 	EVT_PAINT(CPaintStatistics::OnPaint)
 	EVT_SIZE(CPaintStatistics::OnSize)
@@ -54,9 +74,9 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 	m_font_bold = *wxSWISS_FONT;
 	m_font_standart_italic = *wxSWISS_FONT;
 
-	m_SelectedStatistic = 0;
+	m_SelectedStatistic = show_user_total;
 	heading = wxT("");
-	m_ModeViewStatistic = 0;
+	m_ModeViewStatistic = mode_one_project;
 	m_NextProjectStatistic = 0;
 	m_ViewHideProjectStatistic = -1;
 
@@ -262,10 +282,10 @@ static void MinMaxDayCredit(std::vector<PROJECT*>::const_iterator &i, double &mi
 		if (first){
 			max_day = j->day;
 			switch (m_SelectedStatistic){ 
-			case 0:	max_credit = j->user_total_credit;	break;
-			case 1:	max_credit = j->user_expavg_credit;	break;
-			case 2:	max_credit = j->host_total_credit;	break;
-			case 3:	max_credit = j->host_expavg_credit;	break;
+			case show_user_total:	max_credit = j->user_total_credit;	break;
+			case show_user_average:	max_credit = j->user_expavg_credit;	break;
+			case show_host_total:	max_credit = j->host_total_credit;	break;
+			case show_host_average:	max_credit = j->host_expavg_credit;	break;
 			default: max_credit = 0.0;
 			}
 			min_day = max_day;
@@ -276,19 +296,19 @@ static void MinMaxDayCredit(std::vector<PROJECT*>::const_iterator &i, double &mi
 			if (j->day > max_day) max_day = j->day;
 
 			switch (m_SelectedStatistic){ 
-			case 0:
+			case show_user_total:
 				if (j->user_total_credit > max_credit) max_credit = j->user_total_credit;
 				if (j->user_total_credit < min_credit) min_credit = j->user_total_credit;
 				break;
-			case 1:
+			case show_user_average:
 				if (j->user_expavg_credit > max_credit) max_credit = j->user_expavg_credit;
 				if (j->user_expavg_credit < min_credit) min_credit = j->user_expavg_credit;
 				break;
-			case 2:
+			case show_host_total:
 				if (j->host_total_credit > max_credit) max_credit = j->host_total_credit;
 				if (j->host_total_credit < min_credit) min_credit = j->host_total_credit;
 				break;
-			case 3:
+			case show_host_average:
 				if (j->host_expavg_credit > max_credit) max_credit = j->host_expavg_credit;
 				if (j->host_expavg_credit < min_credit) min_credit = j->host_expavg_credit;
 				break;
@@ -786,6 +806,11 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 }
 //----Draw graph----
 void CPaintStatistics::DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic) {
+    std::vector<DAILY_STATS> stats = (*i)->statistics;
+    DrawGraph2(dc, stats, graphColour, typePoint, m_SelectedStatistic);
+}
+
+void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic) {
 	wxCoord x0 = wxCoord(m_Graph_X_start);
 	wxCoord y0 = wxCoord(m_Graph_Y_start);
 	wxCoord w0 = wxCoord(m_Graph_X_end - m_Graph_X_start);
@@ -823,7 +848,7 @@ void CPaintStatistics::DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator
 	double d_end_point_y = 0;
 	bool end_point = false;
 //
-	for (std::vector<DAILY_STATS>::const_iterator j = (*i)->statistics.begin(); j != (*i)->statistics.end(); ++j) {
+	for (std::vector<DAILY_STATS>::const_iterator j = stats.begin(); j != stats.end(); ++j) {
 		double d_x1 = 0;
 		double d_y1 = 0;
 		double d_x2 = 0;
@@ -838,10 +863,10 @@ void CPaintStatistics::DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator
 
 		d_xpos = (m_Ax_ValToCoord * j->day + m_Bx_ValToCoord);// добавить округление
 		switch (m_SelectedStatistic){  // добавить округление
-		case 0:	d_ypos = (m_Ay_ValToCoord * j->user_total_credit + m_By_ValToCoord);	break;
-		case 1:	d_ypos = (m_Ay_ValToCoord * j->user_expavg_credit + m_By_ValToCoord);	break;
-		case 2:	d_ypos = (m_Ay_ValToCoord * j->host_total_credit + m_By_ValToCoord);	break;
-		case 3:	d_ypos = (m_Ay_ValToCoord * j->host_expavg_credit + m_By_ValToCoord);	break;
+		case show_user_total:	d_ypos = (m_Ay_ValToCoord * j->user_total_credit + m_By_ValToCoord);	break;
+		case show_user_average:	d_ypos = (m_Ay_ValToCoord * j->user_expavg_credit + m_By_ValToCoord);	break;
+		case show_host_total:	d_ypos = (m_Ay_ValToCoord * j->host_total_credit + m_By_ValToCoord);	break;
+		case show_host_average:	d_ypos = (m_Ay_ValToCoord * j->host_expavg_credit + m_By_ValToCoord);	break;
 		default:d_ypos = (m_Ay_ValToCoord * j->user_total_credit + m_By_ValToCoord);	break;
 		}
 
@@ -1159,10 +1184,10 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 	if ((m_NextProjectStatistic < 0) || (m_NextProjectStatistic >= nb_proj)) m_NextProjectStatistic = 0;
 // Initial coord
 	switch (m_SelectedStatistic){
-	case 0: heading = _("User Total");		break;
-	case 1: heading = _("User Average");	break;
-	case 2: heading = _("Host Total");		break;
-	case 3: heading = _("Host Average");	break;
+	case show_user_total: heading = _("User Total");		break;
+	case show_user_average: heading = _("User Average");	break;
+	case show_host_total: heading = _("Host Total");		break;
+	case show_host_average: heading = _("Host Average");	break;
 	default:heading = wxT("");
 	}
 
@@ -1172,7 +1197,8 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
     }
     
 	switch (m_ModeViewStatistic){
-	case 0:{
+	case mode_all_separate:
+    {
 	//Draw Legend
 		if (m_ViewHideProjectStatistic >= 0){
 			int count = -1;
@@ -1286,7 +1312,8 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		}
 		break;
 		}
-	case 1:{
+	case mode_one_project:
+    {
 	//Draw Legend
 		if (m_LegendDraw) DrawLegend(dc, proj, pDoc, m_NextProjectStatistic, false, m_Legend_Shift_Mode1);
 	//Draw heading
@@ -1347,7 +1374,8 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		}
 		break;
 		}
-	case 2:{
+	case mode_all_together:
+    {
 	//Draw Legend
 		if (m_ViewHideProjectStatistic >= 0){
 			int count = -1;
@@ -1416,8 +1444,163 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		DrawMarker(dc);
 		break;
 		}
+	case mode_sum:
+    {
+	//Draw Legend
+		if (m_ViewHideProjectStatistic >= 0){
+			int count = -1;
+			std::set<wxString>::iterator s;
+			for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
+				++count;
+				if (m_ViewHideProjectStatistic == count){
+					s = m_HideProjectStatistic.find( wxString((*i)->master_url, wxConvUTF8) );
+					if (s != m_HideProjectStatistic.end()){
+						m_HideProjectStatistic.erase(s);
+					}else m_HideProjectStatistic.insert( wxString((*i)->master_url, wxConvUTF8) );
+					break;
+				}
+			}
+		}
+		m_ViewHideProjectStatistic = -1;
+
+		if (m_LegendDraw) DrawLegend(dc, proj, pDoc, -1, true, m_Legend_Shift_Mode2);
+	//Draw heading
+		dc.SetFont(m_font_bold);
+		DrawMainHead(dc, heading);
+		dc.SetFont(m_font_standart);
+	//Find minimum/maximum value
+		double min_val_y = 10e32, max_val_y = 0;
+		double min_val_x = 10e32, max_val_x = 0;
+        double min_total_y = 0;
+        double max_total_y = 0;
+        double temp_min_val_x = 0;
+		
+		wxColour pen_AxisColour1 = m_pen_AxisColourAutoZoom;
+
+		if (m_Zoom_Auto){
+			for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
+				if (!(m_HideProjectStatistic.count( wxString((*i)->master_url, wxConvUTF8) ))){
+					MinMaxDayCredit(i, min_val_y, max_val_y, min_val_x, max_val_x, m_SelectedStatistic, false);
+                    min_total_y += min_val_y;
+                    max_total_y += max_val_y;
+                    if (min_val_x > temp_min_val_x) temp_min_val_x = min_val_x;
+                    min_val_x = 10e32;
+                    min_val_y = 10e32;
+                    max_val_y = 0;
+				}
+			}
+			min_val_x = floor(temp_min_val_x / 86400.0) * 86400.0;
+			max_val_x = ceil(max_val_x / 86400.0) * 86400.0;
+            min_val_y = min_total_y;
+            max_val_y = max_total_y;
+		}else{
+			pen_AxisColour1 = m_pen_AxisColourZoom;
+			min_val_x = m_Zoom_min_val_X;
+			max_val_x = m_Zoom_max_val_X;
+			min_val_y = m_Zoom_min_val_Y;
+			max_val_y = m_Zoom_max_val_Y;
+		}
+		CheckMinMaxD(min_val_x, max_val_x);
+		CheckMinMaxD(min_val_y, max_val_y);
+
+		m_Zoom_min_val_X = min_val_x;
+        m_Zoom_max_val_X = max_val_x;
+		m_Zoom_min_val_Y = min_val_y;
+		m_Zoom_max_val_Y = max_val_y;
+	//Draw axis
+		DrawAxis(dc, max_val_y, min_val_y, max_val_x, min_val_x, pen_AxisColour1, max_val_y, min_val_y);
+    // Generate summed data
+        DAILY_STATS stat;
+        std::vector<DAILY_STATS> sumstats;
+        stat.day = min_val_x;
+        stat.user_total_credit = 0.0;
+        stat.user_expavg_credit = 0.0;
+        stat.host_total_credit = 0.0;
+        stat.host_expavg_credit = 0.0;
+        sumstats.push_back(stat);
+        stat.day = max_val_x;
+        sumstats.push_back(stat);
+
+		int count = -1;
+		for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
+			++count;
+			if (m_HideProjectStatistic.count( wxString((*i)->master_url, wxConvUTF8) )) continue;
+            double oldutot = 0.0;
+            double olduavg = 0.0;
+            double oldhtot = 0.0;
+            double oldhavg = 0.0;
+            double projutot = 0.0;
+            double projuavg = 0.0;
+            double projhtot = 0.0;
+            double projhavg = 0.0;
+            std::vector<DAILY_STATS>::iterator j = sumstats.begin();
+            std::vector<DAILY_STATS>::const_iterator k = (*i)->statistics.begin();
+            for (;;) {
+                if ((*k).day < min_val_x) {
+                    projutot = (*k).user_total_credit;
+                    projuavg = (*k).user_expavg_credit;
+                    projhtot = (*k).host_total_credit;
+                    projhavg = (*k).host_expavg_credit;
+                    ++k;
+                    continue;
+                }
+                if ((*k).day < (*j).day) {
+                    j = sumstats.insert(j, stat);
+                    (*j).day = (*k).day;
+                } else {
+                    oldutot = (*j).user_total_credit;
+                    olduavg = (*j).user_expavg_credit;
+                    oldhtot = (*j).host_total_credit;
+                    oldhavg = (*j).host_expavg_credit;
+                }
+                if ((*k).day > (*j).day) {
+                    (*j).user_total_credit = oldutot + projutot;
+                    (*j).user_expavg_credit = olduavg + projuavg;
+                    (*j).host_total_credit = oldhtot + projhtot;
+                    (*j).host_expavg_credit = oldhavg + projhavg;
+                } else {
+                    (*j).user_total_credit = oldutot + (*k).user_total_credit;
+                    (*j).user_expavg_credit = olduavg + (*k).user_expavg_credit;
+                    (*j).host_total_credit = oldhtot + (*k).host_total_credit;
+                    (*j).host_expavg_credit = oldhavg + (*k).host_expavg_credit;
+                }
+                if (j == sumstats.end()) {
+                    break;
+                }
+                ++j;
+
+                if ((*k).day <= (*j).day) {
+                    projutot = (*k).user_total_credit;
+                    projuavg = (*k).user_expavg_credit;
+                    projhtot = (*k).host_total_credit;
+                    projhavg = (*k).host_expavg_credit;
+                    ++k;
+                    if (k == (*i)->statistics.end()) {
+                        for (; j != sumstats.end(); ++j) {
+                            (*j).user_total_credit += projutot;
+                            (*j).user_expavg_credit += projuavg;
+                            (*j).host_total_credit += projhtot;
+                            (*j).host_expavg_credit += projhavg;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        
+	//Draw graph
+        wxColour graphColour = wxColour(0,0,0);
+        int  typePoint = 0;
+        getTypePoint(typePoint,count);
+        getDrawColour(graphColour,m_SelectedStatistic);
+        DrawGraph2(dc, sumstats, graphColour, typePoint, m_SelectedStatistic);
+//        sumstats.clear();
+	//Draw marker
+		DrawMarker(dc);
+		break;
+		}
 	default:{
-		m_ModeViewStatistic = 0;
+		m_ModeViewStatistic = mode_all_separate;
 		break;
 		}
 	}
@@ -1524,13 +1707,14 @@ void CPaintStatistics::OnLeftMouseDown(wxMouseEvent& event) {
 		if((double(pt.y) > m_Legend_select_Y_start) && (double(pt.y) < m_Legend_select_Y_end) && (double(pt.x) > m_Legend_select_X_start) && (double(pt.x) < m_Legend_select_X_end)){
 			int i1 = (int)floor((double(pt.y) - m_Legend_select_Y_start) / m_Legend_dY);
 			switch (m_ModeViewStatistic){
-			case 1: 
+			case mode_one_project: 
 				m_NextProjectStatistic = i1 + m_Legend_Shift_Mode1; 
 				m_Zoom_Auto = true;
 				m_GraphMarker1 = false;
 				break;
-			case 0:
-			case 2:
+			case mode_all_separate:
+			case mode_all_together:
+            case mode_sum:
 				m_ViewHideProjectStatistic = i1 + m_Legend_Shift_Mode2; 
 				break;
 			}
@@ -1542,8 +1726,10 @@ void CPaintStatistics::OnLeftMouseDown(wxMouseEvent& event) {
 	}
 // Graph
 	switch (m_ModeViewStatistic){
-	case 1:
-	case 2:{
+	case mode_one_project:
+	case mode_all_together:
+    case mode_sum:
+    {
 		wxClientDC dc (this);
 		wxPoint pt(event.GetLogicalPosition(dc));
 		if((double(pt.y) > m_Graph_Y_start) && (double(pt.y) < m_Graph_Y_end) && (double(pt.x) > m_Graph_X_start) && (double(pt.x) < m_Graph_X_end)){
@@ -1568,8 +1754,10 @@ void CPaintStatistics::OnLeftMouseDown(wxMouseEvent& event) {
 
 void CPaintStatistics::OnMouseMotion(wxMouseEvent& event) {
 	switch (m_ModeViewStatistic){
-	case 1:
-	case 2:{
+	case mode_one_project:
+	case mode_all_together:
+    case mode_sum:
+    {
 		if (m_GraphZoomStart){
 			if (event.LeftIsDown()){
 				wxClientDC cdc (this);
@@ -1631,8 +1819,10 @@ void CPaintStatistics::OnMouseMotion(wxMouseEvent& event) {
 }
 void CPaintStatistics::OnLeftMouseUp(wxMouseEvent& event) {
 	switch (m_ModeViewStatistic){
-	case 1:
-	case 2:{
+	case mode_one_project:
+	case mode_all_together:
+    case mode_sum:
+    {
 		if (m_GraphZoomStart){
 			if ((abs(int(m_GraphZoom_X1 - m_GraphZoom_X2)) > 2) && (abs(int(m_GraphZoom_Y1 - m_GraphZoom_Y2)) > 2)){
 				double X1 = m_Ax_CoordToVal * double(m_GraphZoom_X1) + m_Bx_CoordToVal;
@@ -1668,8 +1858,10 @@ void CPaintStatistics::OnLeftMouseUp(wxMouseEvent& event) {
 }
 void CPaintStatistics::OnRightMouseDown(wxMouseEvent& event) {
 	switch (m_ModeViewStatistic){
-	case 1:
-	case 2:{
+	case mode_one_project:
+	case mode_all_together:
+    case mode_sum:
+    {
 		if (m_GraphZoomStart){       //???
 			m_GraphZoomStart = false;
 			m_GraphMarker1 = false;
@@ -1739,9 +1931,10 @@ BEGIN_EVENT_TABLE (CViewStatistics, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_STATISTICS_USERAVERAGE, CViewStatistics::OnStatisticsUserAverage)
     EVT_BUTTON(ID_TASK_STATISTICS_HOSTTOTAL, CViewStatistics::OnStatisticsHostTotal)
     EVT_BUTTON(ID_TASK_STATISTICS_HOSTAVERAGE, CViewStatistics::OnStatisticsHostAverage)
-    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEW0, CViewStatistics::OnStatisticsModeView0)
-    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEW1, CViewStatistics::OnStatisticsModeView1)
-    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEW2, CViewStatistics::OnStatisticsModeView2)
+    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEWALLSEPARATE, CViewStatistics::OnStatisticsModeViewAllSeparate)
+    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEWONEPROJECT, CViewStatistics::OnStatisticsModeViewOneProject)
+    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEWALLTOGETHER, CViewStatistics::OnStatisticsModeViewAllTogether)
+    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEWSUM, CViewStatistics::OnStatisticsModeViewSum)
     EVT_BUTTON(ID_TASK_STATISTICS_NEXTPROJECT, CViewStatistics::OnStatisticsNextProject)
     EVT_BUTTON(ID_TASK_STATISTICS_PREVPROJECT, CViewStatistics::OnStatisticsPrevProject)
     EVT_BUTTON(ID_TASK_STATISTICS_HIDEPROJLIST, CViewStatistics::OnShowHideProjectList)
@@ -1836,26 +2029,35 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 
 	pGroup = new CTaskItemGroup( _("Mode view") );
 	m_TaskGroups.push_back( pGroup );
-	pItem = new CTaskItem(
-        _("All projects"),
-        _("Show all projects, one chart per project"),
-        ID_TASK_STATISTICS_MODEVIEW0 
-    );
-    pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("One project"),
         _("Show one chart with selected project"),
-        ID_TASK_STATISTICS_MODEVIEW1 
+        ID_TASK_STATISTICS_MODEVIEWONEPROJECT 
     );
     pGroup->m_Tasks.push_back( pItem );
         
 	pItem = new CTaskItem(
-        _("All projects(sum)"),
-        _("Show one chart with all projects"),
-        ID_TASK_STATISTICS_MODEVIEW2 
+        _("All projects (separate)"),
+        _("Show all projects, one chart per project"),
+        ID_TASK_STATISTICS_MODEVIEWALLSEPARATE 
     );
     pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("All projects (together)"),
+        _("Show one chart with all projects"),
+        ID_TASK_STATISTICS_MODEVIEWALLTOGETHER 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+ 
+	pItem = new CTaskItem(
+        _("All projects (sum)"),
+        _("Show one chart with sum of projects"),
+        ID_TASK_STATISTICS_MODEVIEWSUM 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
@@ -1904,7 +2106,7 @@ void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->m_SelectedStatistic = 0;
+	m_PaintStatistics->m_SelectedStatistic = show_user_total;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
@@ -1925,7 +2127,7 @@ void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->m_SelectedStatistic = 1;
+	m_PaintStatistics->m_SelectedStatistic = show_user_average;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
@@ -1946,7 +2148,7 @@ void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->m_SelectedStatistic = 2;
+	m_PaintStatistics->m_SelectedStatistic = show_host_total;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
@@ -1968,7 +2170,7 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->m_SelectedStatistic = 3;
+	m_PaintStatistics->m_SelectedStatistic = show_host_average;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
@@ -1980,7 +2182,7 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& WXUNUSED(event) )
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostAverage - Function End"));
 }
 
-void CViewStatistics::OnStatisticsModeView0( wxCommandEvent& WXUNUSED(event) ) {
+void CViewStatistics::OnStatisticsModeViewAllSeparate( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function Begin"));
 
     CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
@@ -1989,7 +2191,7 @@ void CViewStatistics::OnStatisticsModeView0( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->m_ModeViewStatistic = 0;
+	m_PaintStatistics->m_ModeViewStatistic = mode_all_separate;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
@@ -2001,7 +2203,7 @@ void CViewStatistics::OnStatisticsModeView0( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function End"));
 }
 
-void CViewStatistics::OnStatisticsModeView1( wxCommandEvent& WXUNUSED(event) ) {
+void CViewStatistics::OnStatisticsModeViewOneProject( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function Begin"));
 
     CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
@@ -2010,7 +2212,7 @@ void CViewStatistics::OnStatisticsModeView1( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->m_ModeViewStatistic = 1;
+	m_PaintStatistics->m_ModeViewStatistic = mode_one_project;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
@@ -2022,7 +2224,7 @@ void CViewStatistics::OnStatisticsModeView1( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function End"));
 }
 
-void CViewStatistics::OnStatisticsModeView2( wxCommandEvent& WXUNUSED(event) ) {
+void CViewStatistics::OnStatisticsModeViewAllTogether( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function Begin"));
 
     CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
@@ -2031,7 +2233,28 @@ void CViewStatistics::OnStatisticsModeView2( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->m_ModeViewStatistic = 2;
+	m_PaintStatistics->m_ModeViewStatistic = mode_all_together;
+	m_PaintStatistics->m_Zoom_Auto = true;
+	m_PaintStatistics->m_GraphMarker1 = false;
+	m_PaintStatistics->m_full_repaint = true;
+    pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function End"));
+}
+
+void CViewStatistics::OnStatisticsModeViewSum( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function Begin"));
+
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+
+    pFrame->UpdateStatusText(_("Updating charts..."));
+	m_PaintStatistics->m_ModeViewStatistic = mode_sum;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
@@ -2052,12 +2275,12 @@ void CViewStatistics::OnStatisticsNextProject( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	if (m_PaintStatistics->m_ModeViewStatistic == 1) m_PaintStatistics->m_NextProjectStatistic++;
+	if (m_PaintStatistics->m_ModeViewStatistic == mode_one_project) m_PaintStatistics->m_NextProjectStatistic++;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-	if (m_PaintStatistics->m_ModeViewStatistic == 0) m_PaintStatistics->m_Legend_Shift_Mode2++;
-	if (m_PaintStatistics->m_ModeViewStatistic == 2) m_PaintStatistics->m_Legend_Shift_Mode2++;
+	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_separate) m_PaintStatistics->m_Legend_Shift_Mode2++;
+	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_together) m_PaintStatistics->m_Legend_Shift_Mode2++;
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -2075,12 +2298,12 @@ void CViewStatistics::OnStatisticsPrevProject( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	if (m_PaintStatistics->m_ModeViewStatistic == 1) m_PaintStatistics->m_NextProjectStatistic--;
+	if (m_PaintStatistics->m_ModeViewStatistic == mode_one_project) m_PaintStatistics->m_NextProjectStatistic--;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-	if (m_PaintStatistics->m_ModeViewStatistic == 0) m_PaintStatistics->m_Legend_Shift_Mode2--;
-	if (m_PaintStatistics->m_ModeViewStatistic == 2) m_PaintStatistics->m_Legend_Shift_Mode2--;
+	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_separate) m_PaintStatistics->m_Legend_Shift_Mode2--;
+	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_together) m_PaintStatistics->m_Legend_Shift_Mode2--;
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -2141,11 +2364,11 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
     strBaseConfigLocation = wxT("/Statistics");
 	pConfig->SetPath(strBaseConfigLocation);
 
-	m_PaintStatistics->m_ModeViewStatistic = 0;
+	m_PaintStatistics->m_ModeViewStatistic = mode_all_separate;
 	pConfig->Read(wxT("ModeViewStatistic"), &iTempValue, -1);
 	if ((iTempValue >= 0) && (iTempValue <= 2))m_PaintStatistics->m_ModeViewStatistic = iTempValue;
 
-	m_PaintStatistics->m_SelectedStatistic = 0;
+	m_PaintStatistics->m_SelectedStatistic = show_user_total;
 	pConfig->Read(wxT("SelectedStatistic"), &iTempValue, -1);
 	if ((iTempValue >= 0) && (iTempValue <= 3))m_PaintStatistics->m_SelectedStatistic = iTempValue;
 
@@ -2165,6 +2388,8 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 			m_PaintStatistics->m_HideProjectStatistic.insert(tmpstr1);
 		}
 	}
+    
+    UpdateSelection();
     return true;
 }
 
@@ -2180,29 +2405,30 @@ void CViewStatistics::UpdateSelection() {
 
     CBOINCBaseView::PreUpdateSelection();
 
-    pGroup->m_Tasks[0]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != 0);
-    pGroup->m_Tasks[1]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != 1);
-    pGroup->m_Tasks[2]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != 2);
-    pGroup->m_Tasks[3]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != 3);
+    pGroup->m_Tasks[show_user_total]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != show_user_total);
+    pGroup->m_Tasks[show_user_average]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != show_user_average);
+    pGroup->m_Tasks[show_host_total]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != show_host_total);
+    pGroup->m_Tasks[show_host_average]->m_pButton->Enable(m_PaintStatistics->m_SelectedStatistic != show_host_average);
 
     pGroup = m_TaskGroups[1];
-    pGroup->m_Tasks[0]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic == 1);
-    pGroup->m_Tasks[1]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic == 1);
+    pGroup->m_Tasks[previous_project]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic == mode_one_project);
+    pGroup->m_Tasks[next_project]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic == mode_one_project);
 
     if (m_PaintStatistics->m_LegendDraw) {
         m_pTaskPane->UpdateTask(
-            pGroup->m_Tasks[2], _("Hide project list"), _("Use entire area for graphs")
+            pGroup->m_Tasks[show_hide_project_list], _("Hide project list"), _("Use entire area for graphs")
         );
     } else {
         m_pTaskPane->UpdateTask(
-            pGroup->m_Tasks[2], _("Show project list"), _("Uses smaller area for graphs")
+            pGroup->m_Tasks[show_hide_project_list], _("Show project list"), _("Uses smaller area for graphs")
         );
     }
     
     pGroup = m_TaskGroups[2];
-    pGroup->m_Tasks[0]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic != 0);
-    pGroup->m_Tasks[1]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic != 1);
-    pGroup->m_Tasks[2]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic != 2);
+    pGroup->m_Tasks[mode_one_project]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic != mode_one_project);
+    pGroup->m_Tasks[mode_all_separate]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic != mode_all_separate);
+    pGroup->m_Tasks[mode_all_together]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic != mode_all_together);
+    pGroup->m_Tasks[mode_sum]->m_pButton->Enable(m_PaintStatistics->m_ModeViewStatistic != mode_sum);
 
     CBOINCBaseView::PostUpdateSelection();
 }

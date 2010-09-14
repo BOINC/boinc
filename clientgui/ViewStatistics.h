@@ -42,6 +42,8 @@ public:
 	void DrawAxis(wxDC &dc, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x, wxColour pen_AxisColour, const double max_val_y_all, const double min_val_y_all);
 	
 	void DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic);
+
+    void DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic);
 	
 	void DrawMarker(wxDC &dc);
 
@@ -230,9 +232,10 @@ public:
     void                    OnStatisticsNextProject( wxCommandEvent& event );
     void                    OnStatisticsPrevProject( wxCommandEvent& event );
     void                    OnShowHideProjectList( wxCommandEvent& event );
-    void                    OnStatisticsModeView0( wxCommandEvent& event );
-    void                    OnStatisticsModeView1( wxCommandEvent& event );
-    void                    OnStatisticsModeView2( wxCommandEvent& event );
+    void                    OnStatisticsModeViewAllSeparate( wxCommandEvent& event );
+    void                    OnStatisticsModeViewOneProject( wxCommandEvent& event );
+    void                    OnStatisticsModeViewAllTogether( wxCommandEvent& event );
+    void                    OnStatisticsModeViewSum( wxCommandEvent& event );
 
 protected:
 

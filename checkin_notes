@@ -6511,3 +6511,12 @@ David  13 Sept 2010
     sched/
         sched_limit.cpp,h
         sched_main.cpp
+
+Charlie 14 Sept 2010
+    - MGR: Statistics tab: add graph showing sum of selected projects, rename 
+        other mode buttons "All projects (separate)", "All projects (together)". 
+        Minor bug fix: call UpdateSelection() from OnRestoreState().
+    
+    clientgui/
+        Events.h
+        ViewStatistics.cpp, .h
