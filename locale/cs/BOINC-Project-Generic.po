@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-28 19:37+0100\n"
+"PO-Revision-Date: 2010-09-14 22:53+0100\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -3259,207 +3259,209 @@ msgstr "Vytvořit Diskuzní fórum"
 
 #: ../user/team_forum.php:27
 msgid "You may create a message board for use by %1."
-msgstr ""
+msgstr "Je možné pro potřebu %1 vytvořit diskuzní fórum."
 
 #: ../user/team_forum.php:29
 msgid "Only team members will be able to post."
-msgstr ""
+msgstr "Přispívat budou moci pouze členové týmu."
 
 #: ../user/team_forum.php:30
 msgid "At your option, only members will be able to read."
-msgstr ""
+msgstr "Lze nastavit, aby toto fórum mohli číst jen členové týmu."
 
 #: ../user/team_forum.php:31
 msgid "You and your Team Admins will have moderator privileges."
-msgstr ""
+msgstr "Práva moderovat fórum budete mít vy a správci týmu."
 
 #: ../user/team_forum.php:38
 msgid "Create a message board for %1"
-msgstr ""
+msgstr "Vytvořit diskuzní fórum pro %1."
 
 #: ../user/team_forum.php:46
 msgid "Team already has a message board"
-msgstr ""
+msgstr "Tým již má vlastní diskuzní fórum."
 
 #: ../user/team_forum.php:51
 msgid "couldn't create message board"
-msgstr ""
+msgstr "nelze vytvořit diskuzní fórum."
 
 #: ../user/team_forum.php:57
 msgid "Team Message Board"
-msgstr ""
+msgstr "Týmové diskuzní fórum."
 
 #: ../user/team_forum.php:66
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "Diskuze členů %1"
 
 #: ../user/team_forum.php:69
 msgid "Minimum time between posts (seconds)"
-msgstr ""
+msgstr "Minimální čas mezi příspěvky (vteřiny)"
 
 #: ../user/team_forum.php:72
 msgid "Minimum total credit to post"
-msgstr ""
+msgstr "Minimální celkový kredit potřebný pro přispívání"
 
 #: ../user/team_forum.php:75
 msgid "Minimum average credit to post"
-msgstr ""
+msgstr "Minimální nedávný kredit potřebný pro přispívání"
 
 #: ../user/team_forum.php:78
 msgid "Submit"
-msgstr ""
+msgstr "Odeslat"
 
 #: ../user/team_forum.php:87
 msgid "Remove your team's message board."
-msgstr ""
+msgstr "Zrušit týmové diskuzní fórum."
 
 #: ../user/team_forum.php:95
 msgid "Really remove message board?"
-msgstr ""
+msgstr "Opravdu zrušit diskuzní fórum?"
 
 #: ../user/team_forum.php:96
 msgid "Are you sure you want to remove your team's message board? All threads and posts will be permanently removed. (You may, however, create a new message board later)."
-msgstr ""
+msgstr "Jste si jisti, že chcete zrušit vaše týmové diskuzní fórum? Všechna vlákna a příspěvky budou smazána. (Je ale možné založit si později nové fórum)."
 
 #: ../user/team_forum.php:98
 msgid "Yes - remove message board"
-msgstr ""
+msgstr "Ano - zrušit diskuzní fórum"
 
 #: ../user/team_forum.php:105
 msgid "message board not found"
-msgstr ""
+msgstr "diskuzní fórum nenalezeno"
 
 #: ../user/team_forum.php:119
 msgid "Message board removed"
-msgstr ""
+msgstr "Diskuzní fórum zrušeno"
 
 #: ../user/team_forum.php:122
 msgid "Your team's message board has been removed. You may now %1create a new one%2."
-msgstr ""
+msgstr "Vaše týmové diskuzní fórum bylo zrušeno. Nyní si můžete %1vytvořit nové%2."
 
 #: ../user/team_forum.php:141
 msgid "Team Message Board Updated"
-msgstr ""
+msgstr "Týmové diskuzní fórum aktualizováno"
 
 #: ../user/team_forum.php:142
 msgid "Update successful"
-msgstr ""
+msgstr "Aktualizace byla úspěšná"
 
 #: ../user/team_forum.php:145
 msgid "Update failed"
-msgstr ""
+msgstr "Aktualizace selhala"
 
 #: ../user/team_forum.php:152
 msgid "team has no forum"
-msgstr ""
+msgstr "tým nemá vlastní fórum"
 
 #: ../user/team_forum.php:187
 msgid "no such forum"
-msgstr ""
+msgstr "fórum nenalezeno"
 
 #: ../user/team_forum.php:198
 msgid "unknown command %1"
-msgstr ""
+msgstr "neznámý příkaz %1"
 
 #: ../user/team_founder_transfer_action.php:34
 msgid "You must be a member of a team to access this page."
-msgstr ""
+msgstr "Musíte být členem tohoto týmu pro přístup k této stránce."
 
 #: ../user/team_founder_transfer_action.php:88
 msgid "Requesting foundership of %1"
-msgstr ""
+msgstr "Požadavek na vlastnictví %1"
 
 #: ../user/team_founder_transfer_action.php:96
 msgid ""
 "The current founder has been notified of your request by email and private message.<br /><br />\n"
 "                       If the founder does not respond within 60 days you will be allowed to become the founder."
 msgstr ""
+"Aktuální vlastník byl upozorněn na váš požadavek emailem a soukromou zprávou.<br/><br/>\n"
+"Pokud vlastník neodpoví do 60 dnů, bude vám umožněno stát se vlastníkem."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
 msgid "Foundership request not allowed now"
-msgstr ""
+msgstr "Žádost o vlastnictví není momentálně povolena"
 
 #: ../user/team_founder_transfer_action.php:107
 msgid "Assumed foundership of %1"
-msgstr ""
+msgstr "Převzato vlastnictví %1"
 
 #: ../user/team_founder_transfer_action.php:109
 msgid "Congratulations, you are now the founder of team %1. Go to %2Your Account page%3 to find the Team Admin options."
-msgstr ""
+msgstr "Gratulujeme, nyní jste vlastníkem týmu %1. Na stránce %2Vašeho účtu%3 nyní naleznete volby pro administraci týmu."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
-msgstr ""
+msgstr "Odmítnout žádost na změnu vlastnictví"
 
 #: ../user/team_founder_transfer_action.php:125
 msgid "The foundership request from %1 has been declined."
-msgstr ""
+msgstr "Žádost o vlastnictví z %1 byla zamítnuta."
 
 #: ../user/team_founder_transfer_action.php:128
 msgid "There were no foundership requests."
-msgstr ""
+msgstr "Nebyly žádné žádosti o změnu vlastnictví."
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "undefined action %1"
-msgstr ""
+msgstr "neznámá akce %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
 msgid "Return to team page"
-msgstr ""
+msgstr "Návrat na týmovou stránku"
 
 #: ../user/team_founder_transfer_form.php:26
 msgid "You need to be a member of a team to access this page."
-msgstr ""
+msgstr "Je třeba být členem tohoto týmu pro přístup k této stránce."
 
 #: ../user/team_founder_transfer_form.php:29
 msgid "Request foundership of %1"
-msgstr ""
+msgstr "Zažádat o vlastnictví %1"
 
 #: ../user/team_founder_transfer_form.php:36
 msgid "You are now founder of team %1."
-msgstr ""
+msgstr "Nyní jste vlastníkem týmu %1."
 
 #: ../user/team_founder_transfer_form.php:42
 msgid "You requested the foundership of %1 on %2."
-msgstr ""
+msgstr "Požádal jste o vlastnictví týmu %1 v %2."
 
 #: ../user/team_founder_transfer_form.php:45
 msgid "60 days have elapsed since your request, and the founder has not responded. You may now assume foundership by clicking here:"
-msgstr ""
+msgstr "Uplynulo 60 dní od vaší žádosti a vlastník nijak neodpověděl. Můžete nyní převzít vlastnictví týmu kliknutím zde:"
 
 #: ../user/team_founder_transfer_form.php:48
 msgid "Assume foundership"
-msgstr ""
+msgstr "Převzít vlastnictví"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid "The founder was notified of your request. If he/she does not respond by %1 you will be given an option to become founder."
-msgstr ""
+msgstr "Vlastník obdržel vaší žádost. Pokud neodpoví do %1 bude vám dána možnost převzít vlastnictví."
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
 "If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
-msgstr ""
+msgstr "Pokud vlastník týmu není aktivní a máte zájem převzít vlastnictví týmu klikněte na následující tlačítko. Aktuálnímu vlastníkovi bude odeslán email s detaily vaší žádosti - bude mu umožněno předat vám vlastnictví či vaší žádost odmítnout. Pokud vlastník neodpoví do 60 dnů, bude vám umožněno převzít vlastnictví.<br/><br/>Chcete požádat o převzetí vlastnictví?"
 
 #: ../user/team_founder_transfer_form.php:63
 msgid "Request foundership"
-msgstr ""
+msgstr "Zažádat o vlastnictví"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
-msgstr ""
+msgstr "Žádost o vlastnictví byla odeslána uživatelem %1 v %2."
 
 #: ../user/team_founder_transfer_form.php:75
 msgid "A foundership change was requested during the last 90 days, so new requests are not allowed. Please try again later."
-msgstr ""
+msgstr "Během posledních 90 dnů byla již odeslána žádost o vlastnictví, nové žádosti nejsou momentálně povolené. Zkuste to prosím později."
 
 #: ../user/team_join.php:30
 #: ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
 msgid "The team %1 is not joinable."
-msgstr ""
+msgstr "Nelze se připojit k týmu %1."
 
 #: ../user/team_join.php:33
 #: ../user/team_join_action.php:33
@@ -3469,40 +3471,40 @@ msgstr "Již členem"
 #: ../user/team_join.php:34
 #: ../user/team_join_action.php:34
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "Již jste členem týmu %1."
 
 #: ../user/team_join.php:40
 #: ../user/team_join_action.php:41
 msgid "Couldn't join team - please try again later."
-msgstr "Není možné připojit tým - zkuste to prosím později."
+msgstr "Nelze se připojit k týmu - zkuste to prosím později."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
-msgstr ""
+msgstr "Připojili jste se k %1"
 
 #: ../user/team_join_action.php:39
 msgid "You have joined %1."
-msgstr ""
+msgstr "Připojili jste se k %1."
 
 #: ../user/team_join_form.php:32
 msgid "Join %1"
-msgstr ""
+msgstr "Připojit se k %1"
 
 #: ../user/team_join_form.php:33
 msgid "Please note:"
-msgstr ""
+msgstr "Upozornění:"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
-msgstr ""
+msgstr "Připojením k týmu dáte jeho vlastníkovi přístup k vaší emailové adrese."
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
-msgstr ""
+msgstr "Připojení k týmu nijak neovlivní váš kredit."
 
 #: ../user/team_join_form.php:43
 msgid "Join team"
-msgstr ""
+msgstr "Připojit se k týmu"
 
 #: ../user/team_lookup.php:82
 msgid "Search Results"
