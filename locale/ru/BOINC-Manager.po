@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-09-03 11:53-0700\n"
+"PO-Revision-Date: 2010-09-15 12:10-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -542,7 +542,7 @@ msgid "%s - Detach from %s"
 msgstr "%s - отсоединение от %s"
 
 #: clientgui/AdvancedFrame.cpp:1133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If you detach from %s,\n"
 "you'll keep all your current projects,\n"
@@ -1944,7 +1944,6 @@ msgid "What language should BOINC use?"
 msgstr "Какой язык должен использовать BOINC?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid ""
 "Notice reminder interval:\n"
 "(minutes; 0 means no reminders)"
