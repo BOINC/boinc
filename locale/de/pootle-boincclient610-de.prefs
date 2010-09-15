@@ -9,5 +9,5 @@ rights:
   romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
 goals:
   'do not translate':
-    files = u'BOINC-Project-Generic.po, BOINC-Web.po'
+    files = ''
     users = u'ChristianB'
