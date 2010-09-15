@@ -568,8 +568,7 @@ int boinc_copy(const char* orig, const char* newf) {
 
 static int boinc_rename_aux(const char* old, const char* newf) {
 #ifdef _WIN32
-    boinc_delete_file(newf);
-    if (MoveFileA(old, newf)) return 0;
+    if (MoveFileEx(old, newf, MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) return 0;
     return GetLastError();
 #else
     int retval = rename(old, newf);

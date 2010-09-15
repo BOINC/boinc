@@ -6610,3 +6610,10 @@ David  15 Sept 2010
         boinc_api.cpp,h
         graphics2_unix.cpp
         graphics2_win.cpp
+
+David  15 Sept 2010
+	- client (Win): use MoveFileEx() to rename file.
+		More atomic than delete/rename.
+		fixes #1010
+	lib/
+		filesyst.cpp
