@@ -6539,7 +6539,7 @@ David  15 Sept 2010
             (which may be IPv4 or IPv6)
             rather than assuming they fit in an int.
         - the entries in gui_rpc_auth.cfg may now be IPv6 addresses
-            (a:b:c:e:f:g format),
+            (a:b:c::e:f:g format),
             or domain names of hosts that support only IPv6
         Note: GUI RPCs are still constrained to use IPv4,
         but this should be easy to change if it's every needed
