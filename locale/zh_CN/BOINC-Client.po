@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-05 11:43-0700\n"
-"PO-Revision-Date: 2010-08-06 08:11+0800\n"
+"POT-Creation-Date: 2010-08-14 16:20-0700\n"
+"PO-Revision-Date: 2010-08-15 11:10+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -77,6 +77,9 @@ msgid "Invalid or missing account key.  To fix, detach and reattach to this proj
 msgstr "帐户密钥错误或者不存在，请退出并重新加入该项目以修复这个问题。"
 
 #: ../sched/handle_request.cpp:820
+msgid "Invalid code signing key.  To fix, detach and reattach to this project."
+msgstr "代码签名密码错误，请退出并重新加入该项目以修复这个问题。"
+
 #: ../sched/handle_request.cpp:830
 msgid "You may have an outdated code signing key.  Try attaching and reattaching this project."
 msgstr "你的代码签名密钥已经过期，请退出并重新加入该项目。"
@@ -153,7 +156,7 @@ msgstr "app_info.xml 中的 app 名称未知"
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "你的 app_info.xml 文件中未包括可用版本的"
 
-#: ../sched/sched_version.cpp:652
+#: ../sched/sched_version.cpp:653
 msgid "is not available for your type of computer"
 msgstr "对于你的计算机类型不可用"
 

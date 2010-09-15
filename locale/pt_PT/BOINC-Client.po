@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-05 11:43-0700\n"
-"PO-Revision-Date: 2010-08-06 09:07-0000\n"
+"POT-Creation-Date: 2010-08-14 16:20-0700\n"
+"PO-Revision-Date: 2010-08-17 09:25-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -74,6 +74,9 @@ msgid "Invalid or missing account key.  To fix, detach and reattach to this proj
 msgstr "Chave de conta inválida ou em falta. Para corrigir, desanexe e volte-se a anexar a este projecto."
 
 #: ../sched/handle_request.cpp:820
+msgid "Invalid code signing key.  To fix, detach and reattach to this project."
+msgstr "Chave de conta inválida. Para corrigir, desanexe e volte-se a anexar a este projecto."
+
 #: ../sched/handle_request.cpp:830
 msgid "You may have an outdated code signing key.  Try attaching and reattaching this project."
 msgstr "O seu código de assinatura poderá estar desactualizado. Tente anexar e reanexar a este projecto."
@@ -150,7 +153,7 @@ msgstr "Aplicação de nome desconhecido em app_info.xml"
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "O seu ficheiro app_info.xml não tem uma versão utilizável de"
 
-#: ../sched/sched_version.cpp:652
+#: ../sched/sched_version.cpp:653
 msgid "is not available for your type of computer"
 msgstr "não está disponível para o seu tipo de computador"
 

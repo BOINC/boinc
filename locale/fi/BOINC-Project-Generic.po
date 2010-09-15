@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-12 13:47-0700\n"
+"PO-Revision-Date: 2010-08-23 12:38-0700\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -61,8 +61,7 @@ msgid ""
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
 "Uuden viestiketjun aloittamiseksi tällä palstalla (%1) sinulla pitää olla "
-"tietty määrä \"krediittejä\". Tällä pyritään estämään järjestelmän "
-"väärinkäytökset."
+"tietty määrä pisteitä. Tällä pyritään estämään järjestelmän väärinkäytökset."
 
 #: ../inc/forum.inc:1063
 msgid ""
@@ -1145,7 +1144,7 @@ msgstr "Työpakettivirhe - tarkistus ohitettu"
 
 #: ../inc/result.inc:209
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Ei vielä selvyyttä"
 
 #: ../inc/result.inc:210
 msgid "Task was reported too late to validate"
@@ -1753,7 +1752,7 @@ msgstr "Lahjoittaja"
 
 #: ../inc/user.inc:373
 msgid "Contact"
-msgstr ""
+msgstr "Yhteydenotto"
 
 #: ../inc/user.inc:376
 msgid "This person is a friend"
@@ -1947,8 +1946,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto (%1 "
-"tai vähemmän)."
+"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto (%"
+"1 tai vähemmän)."
 
 #: ../user/create_profile.php:70
 msgid "To remove it from your profile, check this box:"

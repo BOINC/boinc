@@ -7,3 +7,7 @@ rights:
   ChristianB = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+goals:
+  testgoal:
+    files = ''
+    users = u'ChristianB'

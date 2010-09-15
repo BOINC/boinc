@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-05 11:43-0700\n"
-"PO-Revision-Date: 2010-08-12 11:46-0700\n"
+"POT-Creation-Date: 2010-08-14 16:20-0700\n"
+"PO-Revision-Date: 2010-08-20 11:43-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: lt\n"
@@ -73,7 +73,13 @@ msgstr ""
 "Neteisingas ar trūkstamas abonemento raktas. Problemai išspręsti, "
 "atsijunkite ir vėl prisijunkite prie projekto."
 
-#: ../sched/handle_request.cpp:820 ../sched/handle_request.cpp:830
+#: ../sched/handle_request.cpp:820
+msgid "Invalid code signing key.  To fix, detach and reattach to this project."
+msgstr ""
+"Neteisingas programų atpažinimo raktas. Problemai išspręsti, atsijunkite ir "
+"vėl prisijunkite prie projekto."
+
+#: ../sched/handle_request.cpp:830
 msgid ""
 "You may have an outdated code signing key.  Try attaching and reattaching "
 "this project."
@@ -172,6 +178,6 @@ msgstr "Nežinomas programos vardas byloje app_info.xml"
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Jūsų app_info.xml byla neturi tinkamos naudojimui versijos"
 
-#: ../sched/sched_version.cpp:652
+#: ../sched/sched_version.cpp:653
 msgid "is not available for your type of computer"
 msgstr "nėra prieinama jūsų kompiuterio tipui"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-14 02:59-0700\n"
+"PO-Revision-Date: 2010-08-21 10:47-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -899,6 +899,9 @@ msgid ""
 "             On computers attached to multiple projects, the most recently "
 "modified preferences will be used."
 msgstr ""
+"Estas se aplican a todos los proyectos BOINC en los que usted participa.<br>\n"
+"                         En ordenadores unidos a múltiples proyectos, se "
+"usarán las preferencias modificadas más recientemente."
 
 #: ../inc/prefs.inc:864
 msgid "Preferences last modified:"
@@ -929,12 +932,16 @@ msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
 msgstr ""
+"Su perfil será hecho visible para otra gente tan pronto como haya sido "
+"aprobado por el proyecto. Esto puede tomar unos pocos días."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
 msgstr ""
+"Su perfil ha sido marcado como inaceptable. No es visible para otra gente. "
+"Por favor, cámbielo."
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
@@ -945,10 +952,13 @@ msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
+"Para evitar el spam, los perfiles de usuarios con un crédito promedio de "
+"menos que %1 son visualizados sólo a usuarios conectados.   Pedimos "
+"disculpas por las molestias."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
-msgstr ""
+msgstr "El usuario está prohibido"
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
@@ -1084,7 +1094,7 @@ msgstr "Abortado por el usuario"
 
 #: ../inc/result.inc:146
 msgid "Timed out - no response"
-msgstr ""
+msgstr "Fuera de tiempo - sin respuesta"
 
 #: ../inc/result.inc:147 ../inc/result.inc:176
 msgid "Didn't need"
@@ -1092,11 +1102,11 @@ msgstr ""
 
 #: ../inc/result.inc:148 ../inc/result.inc:177
 msgid "Validate error"
-msgstr ""
+msgstr "Error de validación"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "Abandonado"
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1104,125 +1114,120 @@ msgstr ""
 
 #: ../inc/result.inc:168
 msgid "Success"
-msgstr ""
+msgstr "Con éxito"
 
 #: ../inc/result.inc:172
-#, fuzzy
 msgid "Computation error"
-msgstr "Ordenadores"
+msgstr "Error de ejecución"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
-msgstr ""
+msgstr "Resultado redundante"
 
 #: ../inc/result.inc:175
 msgid "No reply"
-msgstr ""
+msgstr "Sin respuesta"
 
 #: ../inc/result.inc:185
 msgid "New"
-msgstr ""
+msgstr "Nuevo"
 
 #: ../inc/result.inc:186
 msgid "Downloading"
-msgstr ""
+msgstr "Descargando"
 
 #: ../inc/result.inc:187
 msgid "Processing"
-msgstr ""
+msgstr "Procesando"
 
 #: ../inc/result.inc:188
 msgid "Compute error"
-msgstr ""
+msgstr "Error de ejecución"
 
 #: ../inc/result.inc:189
 msgid "Uploading"
-msgstr ""
+msgstr "Enviando"
 
 #: ../inc/result.inc:190
-#, fuzzy
 msgid "Done"
-msgstr "Ninguno"
+msgstr "Hecho"
 
 #: ../inc/result.inc:201
 msgid "Initial"
-msgstr ""
+msgstr "Inicial"
 
 #: ../inc/result.inc:207
 msgid "Not necessary"
-msgstr ""
+msgstr "No necesario"
 
 #: ../inc/result.inc:208
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Error en la unidad de trabajo - comprobación no hecha"
 
 #: ../inc/result.inc:209
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "Compobada, pero no hay consenso todavía"
 
 #: ../inc/result.inc:210
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "La tarea fue informada como demasiado tarde para validar"
 
 #: ../inc/result.inc:218
 msgid "Couldn't send result"
-msgstr ""
+msgstr "No se pudo enviar el resultado"
 
 #: ../inc/result.inc:222
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Demasiados errores (puede que haya un error de programación)"
 
 #: ../inc/result.inc:226
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "Demasiados resultados (puede no ser determinante)"
 
 #: ../inc/result.inc:230
 msgid "Too many total results"
-msgstr ""
+msgstr "Demasiados resultados totales"
 
 #: ../inc/result.inc:234
 msgid "WU cancelled"
-msgstr ""
+msgstr "Unidad de trabajo cancelada"
 
 #: ../inc/result.inc:238
 msgid "Unrecognized Error: %1"
-msgstr ""
+msgstr "Error no reconocido: %1"
 
 #: ../inc/result.inc:264
 msgid "Task name"
-msgstr ""
+msgstr "Nombre de la tarea"
 
 #: ../inc/result.inc:264 ../inc/result.inc:269 ../inc/result.inc:272
 #: ../inc/result.inc:275
 msgid "click for details"
-msgstr ""
+msgstr "pulse para ver detalles"
 
 #: ../inc/result.inc:264
 msgid "Show IDs"
-msgstr ""
+msgstr "Mostrar IDs"
 
 #: ../inc/result.inc:269
 msgid "Show names"
-msgstr ""
+msgstr "Mostrar nombres"
 
 #: ../inc/result.inc:272
-#, fuzzy
 msgid "Task"
-msgstr "Tareas"
+msgstr "Tarea"
 
 #: ../inc/result.inc:275
-#, fuzzy
 msgid "Work unit"
-msgstr "Trabajo"
+msgstr "Unidad de trabajo"
 
 #: ../inc/result.inc:278
-#, fuzzy
 msgid "Computer"
-msgstr "Ordenadores"
+msgstr "Ordenador"
 
 #: ../inc/result.inc:281 ../inc/result.inc:381
 msgid "Sent"
-msgstr ""
+msgstr "Enviado"
 
 #: ../inc/result.inc:282
 msgid "Time reported<br />or deadline"
@@ -1234,47 +1239,45 @@ msgstr ""
 
 #: ../inc/result.inc:285
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: ../inc/result.inc:286
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Tiempo de ejecución <br/>(seg)"
 
 #: ../inc/result.inc:287
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "Tiempo de CPU<br/> (seg)"
 
 #: ../inc/result.inc:288 ../inc/result.inc:392
-#, fuzzy
 msgid "Credit"
-msgstr "Crear"
+msgstr "Crédito"
 
-# ########################################
+# ########################################<br />
 # Apps page (apps.php)
 #: ../inc/result.inc:289
-#, fuzzy
 msgid "Application"
-msgstr "Programas"
+msgstr "Aplicación"
 
 #: ../inc/result.inc:379
 msgid "Workunit"
-msgstr ""
+msgstr "Unidad de trabajo"
 
 #: ../inc/result.inc:382
 msgid "Received"
-msgstr ""
+msgstr "Recibir"
 
 #: ../inc/result.inc:383
 msgid "Server state"
-msgstr ""
+msgstr "Estado del servidor"
 
 #: ../inc/result.inc:384
 msgid "Outcome"
-msgstr ""
+msgstr "Resultado"
 
 #: ../inc/result.inc:385
 msgid "Client state"
-msgstr ""
+msgstr "Estado del cliente"
 
 #: ../inc/result.inc:386
 msgid "Exit status"
@@ -1282,35 +1285,33 @@ msgstr ""
 
 #: ../inc/result.inc:388
 msgid "Report deadline"
-msgstr ""
+msgstr "Límite de tiempo para informar"
 
 #: ../inc/result.inc:389
 msgid "Run time"
-msgstr ""
+msgstr "Tiempo de ejecución"
 
 #: ../inc/result.inc:390
-#, fuzzy
 msgid "CPU time"
-msgstr "Tipo de CPU"
+msgstr "Tiempo de CPU"
 
 #: ../inc/result.inc:391
 msgid "Validate state"
-msgstr ""
+msgstr "Estado de validación"
 
-# ########################################
+# ########################################&lt;br /&gt;<br />
 # Apps page (apps.php)
 #: ../inc/result.inc:393
-#, fuzzy
 msgid "Application version"
-msgstr "Programas"
+msgstr "Versión de la aplicación"
 
 #: ../inc/result.inc:408
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 #: ../inc/result.inc:417
 msgid "Next"
-msgstr ""
+msgstr "Siguiente"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
@@ -1471,7 +1472,7 @@ msgstr "Administrador"
 #: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
 #: ../user/top_users.php:125
 msgid "Previous %1"
-msgstr ""
+msgstr "Anteriores %1"
 
 #: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
 #: ../user/top_users.php:130
@@ -1544,11 +1545,11 @@ msgstr "Descripción del equipo"
 
 #: ../inc/team.inc:451
 msgid "Accept new members?"
-msgstr ""
+msgstr "¿Aceptar nuevos miembros?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr ""
+msgstr "Perfil de usuario"
 
 # ########################################
 # Public user page (show_user.php)
@@ -1600,7 +1601,7 @@ msgstr "Estadísticas interproyectos"
 
 #: ../inc/user.inc:164
 msgid "Account"
-msgstr ""
+msgstr "Cuenta"
 
 #: ../inc/user.inc:166 ../inc/user.inc:279 ../inc/user.inc:364
 #: ../inc/user.inc:366 ../user/user_search.php:102 ../user/user_search.php:158
@@ -1608,9 +1609,8 @@ msgid "Team"
 msgstr "Equipo"
 
 #: ../inc/user.inc:168
-#, fuzzy
 msgid "Cross-project"
-msgstr "ID interproyectos"
+msgstr "Interproyectos"
 
 #: ../inc/user.inc:169
 msgid "Certificate"
@@ -1707,7 +1707,7 @@ msgstr "Preferencias de la comunidad"
 
 #: ../inc/user.inc:231
 msgid "Preferences for this project"
-msgstr ""
+msgstr "Preferencias para este proyecto"
 
 #: ../inc/user.inc:232 ../user/prefs.php:33
 msgid "%1 preferences"
@@ -1808,41 +1808,39 @@ msgstr "Añadir como amigo"
 
 #: ../inc/util.inc:191
 msgid "Unable to handle request"
-msgstr ""
+msgstr "No se ha podido procesar su petición"
 
 #: ../inc/util.inc:385
-#, fuzzy
 msgid "Email address:"
-msgstr "Dirección de correo electrónico"
+msgstr "Dirección de correo electrónico:"
 
 #: ../inc/util.inc:385
 msgid "forgot email address?"
-msgstr ""
+msgstr "¿Ha olvidado el correo electrónico?"
 
 #: ../inc/util.inc:387
-#, fuzzy
 msgid "Password:"
-msgstr "Contraseña"
+msgstr "Contraseña:"
 
 #: ../inc/util.inc:387
 msgid "forgot password?"
-msgstr ""
+msgstr "¿Ha olvidado su contraseña?"
 
 #: ../inc/util.inc:390
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "Permanecer conectado en este ordenador"
 
 #: ../inc/util.inc:395
 msgid "Log in"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: ../inc/util.inc:396
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "o %1cree una cuenta%2."
 
 #: ../inc/util.inc:416
 msgid "Please log in"
-msgstr ""
+msgstr "Por favor, inicie la sesión"
 
 #: ../inc/util.inc:542
 msgid "Use BBCode tags to format your text"
@@ -1869,7 +1867,7 @@ msgstr "Opcional"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Añadir %1 preferencias para %2"
 
 # ########################################
 # Apps page (apps.php)
@@ -2143,21 +2141,19 @@ msgstr ""
 
 #: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
 msgid "Change email address"
-msgstr ""
+msgstr "Cambiar dirección de correo"
 
 #: ../user/edit_email_form.php:35
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "Cambiar la dirección de correo de su cuenta"
 
 #: ../user/edit_email_form.php:36
-#, fuzzy
 msgid "New email address"
-msgstr "correo electrónico"
+msgstr "Nuevo correo electrónico"
 
 #: ../user/edit_email_form.php:37
-#, fuzzy
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr "Debe ser una dirección válida con la forma 'nombre@dominio'."
+msgstr "Debe ser una dirección válida con la forma 'nombre@dominio'"
 
 #: ../user/edit_email_form.php:47
 msgid "No password?"
@@ -2165,7 +2161,7 @@ msgstr ""
 
 #: ../user/edit_passwd_form.php:26 ../user/edit_passwd_form.php:56
 msgid "Change password"
-msgstr ""
+msgstr "Cambiar contraseña"
 
 #: ../user/edit_passwd_form.php:40
 msgid "You can identify yourself using either"
@@ -2176,29 +2172,28 @@ msgid "your email address and old password"
 msgstr ""
 
 #: ../user/edit_passwd_form.php:43
-#, fuzzy
 msgid "your account key"
-msgstr "Clave débil de cuenta"
+msgstr "su clave de cuenta"
 
 #: ../user/edit_passwd_form.php:47
 msgid "Current password"
-msgstr ""
+msgstr "Contraseña actual"
 
 #: ../user/edit_passwd_form.php:49
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<b>O</b>: Clave de cuenta"
 
 #: ../user/edit_passwd_form.php:50
 msgid "Get account key by email"
-msgstr ""
+msgstr "Obtener la clave de cuenta por correo electrónico"
 
 #: ../user/edit_passwd_form.php:54
 msgid "New password"
-msgstr ""
+msgstr "Nueva contraseña"
 
 #: ../user/edit_passwd_form.php:55
 msgid "New password, again"
-msgstr ""
+msgstr "Nueva contraseña, de nuevo"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."

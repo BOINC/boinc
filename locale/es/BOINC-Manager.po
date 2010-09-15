@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-28 04:50-0700\n"
+"PO-Revision-Date: 2010-08-28 04:52-0700\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -275,7 +275,6 @@ msgid "Display the simple graphical interface."
 msgstr "Muestra el interfaz gráfico simple de BOINC."
 
 #: clientgui/AdvancedFrame.cpp:390
-#, fuzzy
 msgid "&Add project or account manager..."
 msgstr "&Añadir un proyecto o un administrador de cuentas..."
 
@@ -2912,7 +2911,6 @@ msgstr "Eliminar Proyecto"
 
 #: clientgui/sg_StatImageLoader.cpp:211 clientgui/ViewProjects.cpp:495
 #, c-format
-#, fuzzy
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "¿Está seguro de que quiere eliminar el proyecto '%s'?"
 

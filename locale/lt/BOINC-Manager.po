@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-12 12:01-0700\n"
+"PO-Revision-Date: 2010-08-20 11:42-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: lt\n"
@@ -2764,7 +2764,6 @@ msgid "Paused: Other work running"
 msgstr "Skaičiavimai sustabdyti: veikia kitos užduotys"
 
 #: clientgui/sg_ImageButton.cpp:92
-#, fuzzy
 msgid "Paused: User initiated.  Click 'Resume' to continue"
 msgstr ""
 "Skaičiavimai sustabdyti: vartotojo prašymas. Spauskite \"Tęsti\" pratęsimui"
@@ -2837,9 +2836,9 @@ msgid "Remove Project"
 msgstr ""
 
 #: clientgui/sg_StatImageLoader.cpp:211 clientgui/ViewProjects.cpp:495
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "Ar tikrai norite perkrauti projektą \"%s\"?"
+msgstr "Ar tikrai norite pašalinti projektą \"%s\"?"
 
 #: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
 #, c-format
@@ -2987,9 +2986,8 @@ msgid "Copy selected messages"
 msgstr "Kopijuoti pasirinktus pranešimus"
 
 #: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
-#, fuzzy
 msgid "Show only the messages for the selected project."
-msgstr "Rodyti tik pasirinkto projekto žinutes"
+msgstr "Rodyti tik pasirinkto projekto žinutes."
 
 #: clientgui/ViewMessages.cpp:164
 msgid "Messages"
@@ -3008,9 +3006,8 @@ msgid "Filtering messages..."
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:495
-#, fuzzy
 msgid "Show messages for all projects."
-msgstr "Rodyti kito projekto diagramą"
+msgstr "Rodyti visų projektų žinutes."
 
 #: clientgui/ViewNotices.cpp:76
 msgid "News Feeds"
@@ -3069,18 +3066,16 @@ msgstr ""
 "atnaujinti projekto duomenis ir nusiųsti atliktą darbą."
 
 #: clientgui/ViewProjects.cpp:201
-#, fuzzy
 msgid "Remove"
-msgstr "Tęsti"
+msgstr "Pašalinti"
 
 #: clientgui/ViewProjects.cpp:202
-#, fuzzy
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
 msgstr ""
-"Atjungti kompiuterį nuo šio projekto. Visas atliekamas darbas bus prarastas "
-"(spauskite \"Atnaujinti\" tam, kad būtų nusiųstas atliktas darbas)."
+"Pašalinti šį projektą. Visos atliekamos užduotys bus prarastos (spauskite "
+"\"Atnaujinti\" tam, kad prieš tai būtų nusiųstos atliktos užduotys)."
 
 #: clientgui/ViewProjects.cpp:208
 msgid "Properties"
@@ -3144,9 +3139,8 @@ msgid "Reset Project"
 msgstr "Perkrauti projektą"
 
 #: clientgui/ViewProjects.cpp:482
-#, fuzzy
 msgid "Removing project..."
-msgstr "Pratęsiamas darbas su projektu..."
+msgstr "Šalinamas projektas..."
 
 #: clientgui/ViewProjects.cpp:542
 msgid "Launching browser..."
@@ -3181,9 +3175,8 @@ msgid "Won't get new tasks"
 msgstr "Negaus naujo darbo"
 
 #: clientgui/ViewProjects.cpp:1063
-#, fuzzy
 msgid "Project ended - OK to remove"
-msgstr "Projektą sustabdė vartotojas"
+msgstr "Projektas pabaigtas - galima pašalinti"
 
 #: clientgui/ViewProjects.cpp:1066
 msgid "Will remove when tasks done"
@@ -3395,9 +3388,8 @@ msgid "Transfers"
 msgstr "Perdavimai"
 
 #: clientgui/ViewTransfers.cpp:279
-#, fuzzy
 msgid "Network activity is suspended - "
-msgstr "Veiksmai tinkle sustabdyti."
+msgstr "Veiksmai tinkle sustabdyti - "
 
 #: clientgui/ViewTransfers.cpp:281
 msgid ""
@@ -3433,14 +3425,12 @@ msgid "Retry in "
 msgstr "Bandymas po "
 
 #: clientgui/ViewTransfers.cpp:779
-#, fuzzy
 msgid "Upload suspended - "
-msgstr "Laukiama išsiuntimo"
+msgstr "Duomenų išsiuntimas sustabdytas - "
 
 #: clientgui/ViewTransfers.cpp:780
-#, fuzzy
 msgid "Download suspended - "
-msgstr "Laukiama parsiuntimo"
+msgstr "Duomenų atsiuntimas sustabdytas - "
 
 #: clientgui/ViewTransfers.cpp:787
 msgid "Upload pending"
@@ -3487,9 +3477,8 @@ msgid "Elapsed"
 msgstr ""
 
 #: clientgui/ViewWork.cpp:226
-#, fuzzy
 msgid "Remaining"
-msgstr "Likęs laikas:"
+msgstr "Likęs laikas"
 
 #: clientgui/ViewWork.cpp:227
 #, fuzzy
@@ -3555,9 +3544,8 @@ msgid "Suspend work for this task."
 msgstr "Sustabdyti šį skaičiavimo darbą."
 
 #: clientgui/WelcomePage.cpp:254
-#, fuzzy
 msgid "Add project or account manager"
-msgstr "&Prisijungti prie projekto ar abonemento valdiklio..."
+msgstr "Prisijungti prie projekto ar abonemento valdiklio"
 
 #: clientgui/WelcomePage.cpp:262
 #, c-format
@@ -3723,9 +3711,8 @@ msgid "blank"
 msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:1523
-#, fuzzy
 msgid "list of projects or account managers"
-msgstr "&Prisijungti prie projekto ar abonemento valdiklio..."
+msgstr "projektų ir abonementų valdiklių sąrašas"
 
 #: clientgui/mac/MacAccessiblity.cpp:1575
 #, c-format

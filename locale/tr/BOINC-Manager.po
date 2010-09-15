@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-12 19:50+0200\n"
+"PO-Revision-Date: 2010-08-17 09:52+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -270,7 +270,7 @@ msgstr "&Proje ya da hesap yöneticisi ekle..."
 
 #: clientgui/AdvancedFrame.cpp:391
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr "Bilimin pek çok alanından 30'dan fazla projeden birisi için gönüllü ol."
+msgstr "Bilimin pek çok alanından 30'dan fazla projeden birisi için gönüllü olun."
 
 #: clientgui/AdvancedFrame.cpp:395
 #, c-format
@@ -305,7 +305,7 @@ msgstr "Görünüm ve ağ &seçenekleri..."
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Configure GUI options and proxy settings"
-msgstr "BOINC Manager'ın arayüz seçeneklerini ve vekil sunucu ayarlarını yapılandırabileceğiniz pencereyi açar."
+msgstr "BOINC Manager'ın arayüz seçeneklerini ve vekil sunucu ayarlarını yapılandırın."
 
 #: clientgui/AdvancedFrame.cpp:429
 msgid "Computing &preferences..."
@@ -313,7 +313,7 @@ msgstr "&Hesaplama tercihleri..."
 
 #: clientgui/AdvancedFrame.cpp:430
 msgid "Configure computing preferences"
-msgstr "İşlerin çalışmasıyla ilgili bu bilgisayara ait tercihleri ayarlayabileceğiniz pencereyi açar."
+msgstr "İşlerin çalışmasıyla ilgili bu bilgisayara ait tercihleri ayarlayın."
 
 #: clientgui/AdvancedFrame.cpp:438
 msgid "&Run always"
@@ -558,7 +558,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1545
 msgid "Retrying communications."
-msgstr "Yeniden bağlantı kurulmaya çalışılıyor..."
+msgstr "Yeniden bağlantı kuruluyor..."
 
 #: clientgui/AdvancedFrame.cpp:1769
 #, c-format
@@ -1187,11 +1187,11 @@ msgstr "İşlemci kullanımı bu orandan azsa:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:212
 msgid "suspend work if processor usage exceeds this level"
-msgstr "BOINC dışı işlemci kullanımı bu seviyeyi aşarsa, hesaplama duraklatılır"
+msgstr "BOINC dışındaki diğer programların işlemci kullanımı bu seviyeyi aşarsa, hesaplama duraklatılır"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:217
 msgid "percent (0 means no restriction)"
-msgstr "% (sınırlamayı kaldırmak için 0 yazın)"
+msgstr "% (0 yazarsanız sınırlama kaldırılır)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:231
 #: clientgui/DlgAdvPreferencesBase.cpp:471
@@ -1324,7 +1324,7 @@ msgstr "her"
 #: clientgui/DlgAdvPreferencesBase.cpp:415
 #: clientgui/DlgAdvPreferencesBase.cpp:429
 msgid "days"
-msgstr "gün için"
+msgstr "günde bir"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:421
 msgid "Connect about every"
@@ -1435,7 +1435,7 @@ msgstr "saniyede bir kaydetsin"
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 #, no-c-format
 msgid "% of page file (swap space)"
-msgstr "% kadar sayfa dosyası (swap alanı) kullanılsın"
+msgstr "% kadar sanal bellek (swap alanı) kullanılsın"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:636
 msgid "Memory usage"
@@ -1851,7 +1851,7 @@ msgstr "Dil:"
 
 #: clientgui/DlgOptions.cpp:164
 msgid "What language should BOINC use?"
-msgstr "Manager'ı hangi dilde kullanmak istediğinizi seçin."
+msgstr "BOINC Manager'ı hangi dilde kullanmak istediğinizi seçin."
 
 #: clientgui/DlgOptions.cpp:168
 msgid ""
@@ -1859,27 +1859,27 @@ msgid ""
 "(minutes; 0 means no reminders)"
 msgstr ""
 "Bildirim hatırlatma sıklığı\n"
-"(dakika olarak, 0 seçilirse hatırlatma yapılmaz)"
+"(dakika; 0 seçilirse hatırlatma yapılmaz)"
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should BOINC remind you of new notices?"
-msgstr "Manager'ın, yeni bildirimler olduğunu size kaç dakikada bir hatırlatmasını istediğinizi belirleyin."
+msgstr "BOINC Manager'ın, yeni bildirimler olduğunu size kaç dakikada bir hatırlatmasını istediğinizi belirleyin."
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
-msgstr "Oturum açıldığında Manager'ı çalıştır"
+msgstr "Açılışta BOINC Manager'ı çalıştır"
 
 #: clientgui/DlgOptions.cpp:191
 msgid "Run the BOINC Manager when you log on."
-msgstr "İşaretlerseniz, oturum açtığınızda BOINC Manager otomatik olarak çalışır."
+msgstr "İşaretlerseniz, bilgisayarda oturum açtığınızda BOINC Manager otomatik olarak çalışır."
 
 #: clientgui/DlgOptions.cpp:196
 msgid "Enable Manager exit dialog?"
-msgstr "Manager'dan çıkarken sor"
+msgstr "BOINC Manager'dan çıkarken sor"
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr "İşaretlerseniz, Manager'ı kapatırken bunu onaylamanızı isteyen bir pencere belirir."
+msgstr "İşaretlerseniz, BOINC Manager'ı kapatırken bunu onaylamanızı isteyen bir pencere belirir."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Dial-up and Virtual Private Network settings"

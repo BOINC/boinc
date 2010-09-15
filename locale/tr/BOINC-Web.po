@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Web Site\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-12 19:09+0200\n"
+"PO-Revision-Date: 2010-08-26 11:13+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -130,7 +130,7 @@ msgstr "%1Asla%2 e-posta ya da parola bilginizi BOINC yardımcılarına vermeyin
 
 #: index.php:23
 msgid "Computing power"
-msgstr "Hesaplama gücü"
+msgstr "Hesaplama Gücü"
 
 #: index.php:25
 msgid "Top 100 volunteers"
@@ -166,7 +166,7 @@ msgstr "Haberler"
 
 #: index.php:79
 msgid "Volunteer"
-msgstr "Gönüllü olun"
+msgstr "Gönüllü Olun"
 
 #: index.php:81
 msgid "Download"
@@ -190,7 +190,7 @@ msgstr "Ya da çeşitli projeler çalıştırıyorsanız, bir %shesap yöneticis
 
 #: index.php:116
 msgid "Compute with BOINC"
-msgstr "BOINC ile hesaplatın"
+msgstr "BOINC ile Hesaplatın"
 
 #: index.php:119
 msgid "Software updates"
@@ -210,7 +210,7 @@ msgstr "%1Şirketler%2: BOINC'i %3masaüstü Grid hesaplama%4 için kullanın."
 
 #: index.php:147
 msgid "The BOINC project"
-msgstr "BOINC projesi"
+msgstr "BOINC Projesi"
 
 #: index.php:153
 msgid "Message boards"

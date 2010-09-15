@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-05 11:43-0700\n"
+"POT-Creation-Date: 2010-08-14 16:20-0700\n"
 "PO-Revision-Date: 2010-07-14 12:32-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,7 +71,11 @@ msgid ""
 "Invalid or missing account key.  To fix, detach and reattach to this project."
 msgstr ""
 
-#: ../sched/handle_request.cpp:820 ../sched/handle_request.cpp:830
+#: ../sched/handle_request.cpp:820
+msgid "Invalid code signing key.  To fix, detach and reattach to this project."
+msgstr ""
+
+#: ../sched/handle_request.cpp:830
 msgid ""
 "You may have an outdated code signing key.  Try attaching and reattaching "
 "this project."
@@ -160,7 +164,7 @@ msgstr ""
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr ""
 
-#: ../sched/sched_version.cpp:652
+#: ../sched/sched_version.cpp:653
 msgid "is not available for your type of computer"
 msgstr ""
 
