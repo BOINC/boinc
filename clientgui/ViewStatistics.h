@@ -54,6 +54,9 @@ public:
 	void ClearLegendXY();
 	
 	void AB(const double x_coord1, const double y_coord1, const double x_coord2, const double y_coord2, const double x_val1, const double y_val1, const double x_val2, const double y_val2);
+
+    void AddToStats(const DAILY_STATS &src, DAILY_STATS &dst);
+    
 //--------------------------
 	void DrawAll(wxDC &dc);
 //--------------------------

@@ -390,6 +390,14 @@ void CPaintStatistics::AB(const double x_coord1, const double y_coord1, const do
 		m_By_CoordToVal = y_val1 - (m_Ay_CoordToVal * y_coord1);
 	}
 }
+
+void CPaintStatistics::AddToStats(const DAILY_STATS &src, DAILY_STATS &dst) {
+    dst.user_total_credit += src.user_total_credit;
+    dst.user_expavg_credit += src.user_expavg_credit;
+    dst.host_total_credit += src.host_total_credit;
+    dst.host_expavg_credit += src.host_expavg_credit;
+}
+
 //----Draw Main Head----
 void CPaintStatistics::DrawMainHead(wxDC &dc, const wxString head_name){
 	wxCoord w_temp = 0, h_temp = 0, des_temp = 0, lead_temp = 0;
@@ -1483,6 +1491,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 					MinMaxDayCredit(i, min_val_y, max_val_y, min_val_x, max_val_x, m_SelectedStatistic, false);
                     min_total_y += min_val_y;
                     max_total_y += max_val_y;
+                    // Start graph on first date when all requested projects had valid data
                     if (min_val_x > temp_min_val_x) temp_min_val_x = min_val_x;
                     min_val_x = 10e32;
                     min_val_y = 10e32;
@@ -1510,77 +1519,62 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 	//Draw axis
 		DrawAxis(dc, max_val_y, min_val_y, max_val_x, min_val_x, pen_AxisColour1, max_val_y, min_val_y);
     // Generate summed data
-        DAILY_STATS stat;
+        DAILY_STATS stat, saved_sum_stat, prev_proj_stat;
         std::vector<DAILY_STATS> sumstats;
-        stat.day = min_val_x;
         stat.user_total_credit = 0.0;
         stat.user_expavg_credit = 0.0;
         stat.host_total_credit = 0.0;
         stat.host_expavg_credit = 0.0;
+        stat.day = min_val_x;
         sumstats.push_back(stat);
         stat.day = max_val_x;
         sumstats.push_back(stat);
 
+        double saved_day;
 		int count = -1;
 		for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
 			++count;
 			if (m_HideProjectStatistic.count( wxString((*i)->master_url, wxConvUTF8) )) continue;
-            double oldutot = 0.0;
-            double olduavg = 0.0;
-            double oldhtot = 0.0;
-            double oldhavg = 0.0;
-            double projutot = 0.0;
-            double projuavg = 0.0;
-            double projhtot = 0.0;
-            double projhavg = 0.0;
-            std::vector<DAILY_STATS>::iterator j = sumstats.begin();
-            std::vector<DAILY_STATS>::const_iterator k = (*i)->statistics.begin();
+            saved_sum_stat.user_total_credit = 0.0;
+            saved_sum_stat.user_expavg_credit = 0.0;
+            saved_sum_stat.host_total_credit = 0.0;
+            saved_sum_stat.host_expavg_credit = 0.0;
+            saved_sum_stat.day = 0.0;
+            prev_proj_stat = saved_sum_stat;
+            std::vector<DAILY_STATS>::iterator sum_iter = sumstats.begin();
+            std::vector<DAILY_STATS>::const_iterator proj_iter = (*i)->statistics.begin();
             for (;;) {
-                if ((*k).day < min_val_x) {
-                    projutot = (*k).user_total_credit;
-                    projuavg = (*k).user_expavg_credit;
-                    projhtot = (*k).host_total_credit;
-                    projhavg = (*k).host_expavg_credit;
-                    ++k;
-                    continue;
+                if ((*proj_iter).day >= min_val_x) {
+                    if ((*proj_iter).day < (*sum_iter).day) {
+                        sum_iter = sumstats.insert(sum_iter, stat);
+                        (*sum_iter).day = (*proj_iter).day;
+                    } else {
+                        saved_sum_stat = *sum_iter;
+                    }
+                    
+                    saved_day = (*sum_iter).day;
+                    *sum_iter = saved_sum_stat;
+                    if ((*proj_iter).day > saved_day) {
+                        AddToStats(prev_proj_stat, *sum_iter);
+                    } else {
+                        AddToStats(*proj_iter, *sum_iter);
+                    }
+                    (*sum_iter).day = saved_day;
+                    
+                    ++sum_iter;
+                    if (sum_iter == sumstats.end()) {
+                        break;
+                    }
                 }
-                if ((*k).day < (*j).day) {
-                    j = sumstats.insert(j, stat);
-                    (*j).day = (*k).day;
-                } else {
-                    oldutot = (*j).user_total_credit;
-                    olduavg = (*j).user_expavg_credit;
-                    oldhtot = (*j).host_total_credit;
-                    oldhavg = (*j).host_expavg_credit;
-                }
-                if ((*k).day > (*j).day) {
-                    (*j).user_total_credit = oldutot + projutot;
-                    (*j).user_expavg_credit = olduavg + projuavg;
-                    (*j).host_total_credit = oldhtot + projhtot;
-                    (*j).host_expavg_credit = oldhavg + projhavg;
-                } else {
-                    (*j).user_total_credit = oldutot + (*k).user_total_credit;
-                    (*j).user_expavg_credit = olduavg + (*k).user_expavg_credit;
-                    (*j).host_total_credit = oldhtot + (*k).host_total_credit;
-                    (*j).host_expavg_credit = oldhavg + (*k).host_expavg_credit;
-                }
-                if (j == sumstats.end()) {
-                    break;
-                }
-                ++j;
-
-                if ((*k).day <= (*j).day) {
-                    projutot = (*k).user_total_credit;
-                    projuavg = (*k).user_expavg_credit;
-                    projhtot = (*k).host_total_credit;
-                    projhavg = (*k).host_expavg_credit;
-                    ++k;
-                    if (k == (*i)->statistics.end()) {
-                        for (; j != sumstats.end(); ++j) {
-                            (*j).user_total_credit += projutot;
-                            (*j).user_expavg_credit += projuavg;
-                            (*j).host_total_credit += projhtot;
-                            (*j).host_expavg_credit += projhavg;
+                
+                if ((*proj_iter).day <= (*sum_iter).day) {
+                    prev_proj_stat = *proj_iter;
+                    ++proj_iter;
+                    if (proj_iter == (*i)->statistics.end()) {
+                        for (; sum_iter != sumstats.end(); ++sum_iter) {
+                            saved_day = (*sum_iter).day;
+                            AddToStats(prev_proj_stat, *sum_iter);
+                            (*sum_iter).day = saved_day;
                         }
                         break;
                     }

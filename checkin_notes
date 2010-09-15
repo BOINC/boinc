@@ -6525,3 +6525,10 @@ David  14 Sept 2010
     - lib: check for malloc() NULL return; fixes #921
     lib/
         util.cpp
+
+Charlie 15 Sept 2010
+    - MGR: Statistics tab: optimize and fix bugs in new graph showing sum of 
+        selected projects.
+    
+    clientgui/
+        ViewStatistics.cpp, .h
