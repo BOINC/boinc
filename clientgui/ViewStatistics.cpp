@@ -2275,6 +2275,7 @@ void CViewStatistics::OnStatisticsNextProject( wxCommandEvent& WXUNUSED(event) )
 	m_PaintStatistics->m_full_repaint = true;
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_separate) m_PaintStatistics->m_Legend_Shift_Mode2++;
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_together) m_PaintStatistics->m_Legend_Shift_Mode2++;
+	if (m_PaintStatistics->m_ModeViewStatistic == mode_sum) m_PaintStatistics->m_Legend_Shift_Mode2++;
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -2298,6 +2299,7 @@ void CViewStatistics::OnStatisticsPrevProject( wxCommandEvent& WXUNUSED(event) )
 	m_PaintStatistics->m_full_repaint = true;
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_separate) m_PaintStatistics->m_Legend_Shift_Mode2--;
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_together) m_PaintStatistics->m_Legend_Shift_Mode2--;
+	if (m_PaintStatistics->m_ModeViewStatistic == mode_sum) m_PaintStatistics->m_Legend_Shift_Mode2--;
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -2360,11 +2362,11 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 
 	m_PaintStatistics->m_ModeViewStatistic = mode_all_separate;
 	pConfig->Read(wxT("ModeViewStatistic"), &iTempValue, -1);
-	if ((iTempValue >= 0) && (iTempValue <= 2))m_PaintStatistics->m_ModeViewStatistic = iTempValue;
+	if ((iTempValue >= mode_one_project) && (iTempValue <= mode_sum))m_PaintStatistics->m_ModeViewStatistic = iTempValue;
 
 	m_PaintStatistics->m_SelectedStatistic = show_user_total;
 	pConfig->Read(wxT("SelectedStatistic"), &iTempValue, -1);
-	if ((iTempValue >= 0) && (iTempValue <= 3))m_PaintStatistics->m_SelectedStatistic = iTempValue;
+	if ((iTempValue >= show_user_total) && (iTempValue <= show_host_average))m_PaintStatistics->m_SelectedStatistic = iTempValue;
 
 	m_PaintStatistics->m_NextProjectStatistic = 0;
 	pConfig->Read(wxT("NextProjectStatistic"), &iTempValue, -1);
