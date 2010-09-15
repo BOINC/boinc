@@ -213,7 +213,7 @@ if ($xml) {
     xml_header();
     echo $xmlstring;
 } else {
-    page_head(tra("Server status page"));
+    page_head(tra("Project status"));
     if ($version) {
         echo tra("Server software version: %1", $version) . " / ";
     }
@@ -276,15 +276,13 @@ if ($xml) {
         <tr><td align=right><b>".tra("Running:")."</b></td>
         <td colspan=2>".tra("Program is operating normally")."</td></tr>
         <tr><td align=right><b>".tra("Not Running:")."</b></td>
-        <td colspan=2>".tra("Program failed or ran out of work<br>
-(or the project is down)")."</td></tr>
+        <td colspan=2>".tra("Program failed or the project is down")."</td></tr>
         <tr><td align=right><b>".tra("Disabled:")."</b></td>
-        <td colspan=2>".tra("Program has been disabled by staff<br>
-(for debugging/maintenance)")."</td></tr>
+        <td colspan=2>".tra("Program is disabled")."</td></tr>
         </table>
         </td>
         <td valign=top>
-        <h2>".tra("Database/file status")."</h2>
+        <h2>".tra("Computing status")."</h2>
     ";
 }
 
@@ -295,7 +293,7 @@ if ($retval) {
     if (!$xml) {
         echo "<table border=0 cellpadding=0 cellspacing=0><tr><td>
             <table border=0 cellpadding=4>
-            <tr><th>".tra("State")."</th><th>#</th></tr>
+            <tr><th>".tra("Work")."</th><th>#</th></tr>
         ";
     }
 
@@ -354,9 +352,9 @@ if ($retval) {
 	echo "<table>";
 	echo "<tr><th>".tra("Users")."</th><th>#</th></tr>";
 	show_counts(
-		tra("in database"),
-		"users_in_database",
-		get_mysql_count("user")
+		tra("with recent credit"),
+		"users_with_recent_credit",
+		get_mysql_count("user where expavg_credit>1")
 	);
 	show_counts(
 		tra("with credit"),
@@ -370,9 +368,9 @@ if ($retval) {
 	);
 	echo "<tr><th>".tra("Computers")."</th><th>#</th></tr>";
 	show_counts(
-		tra("in database"),
-		"hosts_in_database",
-		get_mysql_count("host")
+		tra("with recent credit"),
+		"hosts_with_recent_credit",
+		get_mysql_count("host where expavg_credit>1")
 	);
 	show_counts(
 		tra("with credit"),
@@ -384,27 +382,12 @@ if ($retval) {
 		"hosts_registered_in_past_24_hours",
 		get_mysql_count("host where create_time > (unix_timestamp() - (24*3600))")
 	);
-	show_counts(
-		tra("active in past 7 days"),
-		"hosts_active_in_past_7_days",
-		get_mysql_count("host where rpc_time > (unix_timestamp() - (7*24*3600))")
-	);
-	show_counts(
-		tra("potential GigaFLOPs")."<sup>1)</sup>",
-		"potential_gflops",
-		get_mysql_value("select sum(p_fpops)/1e9 as value FROM host")
-	);
-	show_counts(
-		tra("pot. GigaFLOPs in past 7 days")."<sup>2)</sup>",
-		"pot_gflops_in_past_7_days",
-		get_mysql_value("select sum(p_fpops)/1e9 as value FROM host WHERE rpc_time > (unix_timestamp() - (7*86400))")
-	);
 	// 100,000 cobblestones = 1 TeraFLOPS 
 	// divide by 2, because double credits
 	show_counts(
-		tra("current GigaFLOPs")."<sup>3)</sup>",
+		tra("current GigaFLOPs"),
 		"current_floating_point_speed",
-		get_mysql_value("SELECT sum(expavg_credit)/2/100 as value FROM user")
+		get_mysql_value("SELECT sum(expavg_credit)/200 as value FROM user")
 	);
 
 	end_table();
@@ -415,8 +398,8 @@ if ($retval) {
 	row_heading_array(array(tra("application"),tra("unsent"),tra("in progress"),tra("avg runtime of last 100 results in h (min-max)"),tra("users in last 24h")));
 	$apps = get_mysql_assoc("SELECT * FROM app WHERE deprecated != 1");
 	foreach($apps as $app) {
-	    $appid = $row["id"];
-	    $uf_name = $row["user_friendly_name"];
+	    $appid = $app["id"];
+	    $uf_name = $app["user_friendly_name"];
 	    echo "<tr><td>$uf_name</td>
                     <td>" . number_format(get_mysql_count("result where server_state = 2 and appid = $appid")) . "</td>
                     <td>" . number_format(get_mysql_count("result where server_state = 4 and appid = $appid")) . "</td>
@@ -429,17 +412,6 @@ if ($retval) {
 	}
 	end_table();
 	
-        // This can be used to show the status of Workunits of the same Batch if they have a common
-        // substring within the Workunits name. Adjust to your own naming convention first.
-	//start_table();
-	//row1(tra("Workunits to do"));
-
-	//$sql = "SELECT substring(workunit.name, 1, (locate(']', workunit.name))) as b, count(*) as todo FROM workunit where assimilate_state!=2 group by substring(workunit.name, 1, (locate(']', workunit.name)))";
-	//$result = mysql_query($sql);
-	//while ($row = mysql_fetch_assoc($result)) {
-	//	row2($row["b"], $row["todo"]);
-        //}
-	//end_table();
     }
 }
 
@@ -452,9 +424,6 @@ if ($xml) {
         </tr>
         </table>
     ";
-    echo tra("1) the sum of the benchmarked FLOPs of all hosts in the database")."<br/>";
-    echo tra("2) the sum of the benchmarked FLOPs of all hosts that have contacted the server within the past week")."<br/>";
-    echo tra("3) from the sum of the Recent Average Credit (RAC) for all users");
     page_tail();
 }
 

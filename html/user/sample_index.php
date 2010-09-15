@@ -58,6 +58,7 @@ function show_nav() {
         <h2>Returning participants</h2>
         <ul>
         <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
+        <li><a href=server_status.php>Server status</a>
         <li><a href=\"team.php\">Teams</a> - create or join a team
         <li><a href=\"cert1.php\">Certificate</a>
         <li> <a href=\"apps.php\">".tra("Applications")."</a>

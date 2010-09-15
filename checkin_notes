@@ -6577,3 +6577,16 @@ David  15 Sept 2010
 
     html/ops/
         sample_server_status.php
+
+David  15 Sept 2010
+    - web: move server status page from ops/ to user/.
+        Remove funky file-writing stuff - just use caching.
+        fixes #913
+    - web: include link to server status page on sample front page
+
+    html/
+        ops/
+            sample_server_status (removed)
+        user/
+            sample_index.php
+            server_status.php (new)
