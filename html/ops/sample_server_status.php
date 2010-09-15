@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// server_status.php [-f xml_output_filename]
+// server_status.php 
 //   (or server_status.php?xml=1)
 //
 // outputs general information about BOINC server status gathered from
@@ -37,17 +37,6 @@
 // optional "?xml=1" tag at the end, i.e 
 //   http://yourboincproject.edu/server_status.php?xml=1
 //
-// If running as a standalone program there is an optional -f flag where
-// you can generate xml server status output to the filename you provide
-// (this will output both html to stdout and xml to the filename given).
-// Some may prefer to do this if takes so long to dredge up the stats for
-// the html, you won't have to do it again to generate the xml.
-//
-// It is highly recommended that you run this program every 10 minutes and
-// send its stdout to an .html file, rather than having the values get
-// regenerated every time the page is accessed. Or use the available
-// web page cache utilities.
-//
 // You should edit the following variables in config.xml to suit your needs:
 //
 // <www_host>    hostname of web server (default: same as <host>)
@@ -63,22 +52,14 @@
 require_once("../inc/util_ops.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/cache.inc");
+require_once("../inc/translation.inc");
 
 $xml = get_int("xml", true);
 
-$cache_args = "";
+$cache_args = $languages_in_use[0];
 if ($xml) $cache_args = "xml=1";
-$cache_period = 600;
+$cache_period = 3600;
 start_cache($cache_period, $cache_args);
-
-$xmlout = "";
-if ($argc>0 && $argv[1] == "-f") {
-    $xmlout = $argv[2];
-    $xmloutfile = fopen($xmlout,"w+");
-    if (!$xmloutfile) {
-        die( "failed to open file: $xmlout");
-    }
-}
 
 // daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
 //
@@ -105,28 +86,26 @@ function daemon_status($host, $pidname, $progname, $disabled) {
 }
 
 function show_status($host, $function, $running) {
-    global $xml,$xmlout,$xmloutfile;
+    global $xml;
     $xmlstring = "    <daemon>\n      <host>$host</host>\n      <command>$function</command>\n";
     $htmlstring = "<tr><td>$function</td><td>$host</td>";
     if ($running == 1) {
         $xmlstring .= "      <status>running</status>\n";
-        $htmlstring .= "<td class=\"running\">Running</td>\n";
+        $htmlstring .= "<td class=\"running\">".tra("Running")."</td>\n";
     } elseif ($running == 0) {
         $xmlstring .= "      <status>not running</status>\n";
-        $htmlstring .= "<td class=\"notrunning\">Not Running</td>\n";
+        $htmlstring .= "<td class=\"notrunning\">".tra("Not Running")."</td>\n";
     } else {
         $xmlstring .= "      <status>disabled</status>\n";
-        $htmlstring .= "<td class=\"disabled\">Disabled</td>\n";
+        $htmlstring .= "<td class=\"disabled\">".tra("Disabled")."</td>\n";
     }
     $xmlstring .= "    </daemon>\n";
     $htmlstring .= "</tr>\n";
     if ($xml) {
-        echo $xmlstring; return 0;
+        echo $xmlstring;
+    } else {
+        echo $htmlstring;
     }
-    if ($xmlout) {
-        fwrite($xmloutfile, $xmlstring);
-    }
-    echo $htmlstring;
     return 0;
 }
 
@@ -136,17 +115,14 @@ function show_daemon_status($host, $pidname, $progname, $disabled) {
 }
 
 function show_counts($key, $xmlkey, $value) {
-    global $xml,$xmlout,$xmloutfile;
+    global $xml;
     $formattedvalue = number_format($value);
     $xmlstring = "    <$xmlkey>$value</$xmlkey>\n";
     if ($xml) {
         echo $xmlstring;
-        return 0;
+    } else {
+        echo "<tr><td>$key</td><td>$formattedvalue</td></tr>";
     }
-    if ($xmlout) {
-        fwrite($xmloutfile,$xmlstring);
-    }
-    echo "<tr><td>$key</td><td>$formattedvalue</td></tr>";
     return 0;
 }
 
@@ -155,6 +131,41 @@ function get_mysql_count ($query) {
     $count = mysql_fetch_object($result);
     mysql_free_result($result);
     return $count->count;
+}
+
+function get_mysql_value ($query) {
+    $result = mysql_query($query);
+    $row = mysql_fetch_object($result);
+    mysql_free_result($result);
+    return $row->value;
+}
+
+function get_mysql_assoc($query) {
+    $sql = "SELECT * FROM app WHERE deprecated != 1";
+    $result = mysql_query($sql);
+    while($row = mysql_fetch_assoc($result)) {
+        $assoc[] = $row;
+    }
+    mysql_free_result($result);
+    return $assoc;
+}
+
+function get_mysql_user ($clause) {
+    $result = mysql_query("select count(userid) as userid from (SELECT distinct userid FROM result where validate_state=1 and received_time > (unix_timestamp()-(3600*24*1)) " . $clause . ") t");
+    $count = mysql_fetch_object($result);
+    mysql_free_result($result);
+    return $count->userid;
+}
+
+function get_cpu_time ($appid) {
+    $result = mysql_query("
+	Select ceil(avg(cpu_time)/3600*100)/100 as cpu_time, 
+       		ceil(min(cpu_time)/3600*100)/100 as min, 
+       		ceil(max(cpu_time)/3600*100)/100 as max 
+	from (SELECT cpu_time FROM `result` WHERE appid = $appid and validate_state =1 and received_time > (unix_timestamp()-(3600*24)) ORDER BY `received_time` DESC limit 100) t");
+    $count = mysql_fetch_object($result);
+    mysql_free_result($result);
+    return $count;
 }
 
 $config_xml = get_config();
@@ -202,20 +213,17 @@ if ($xml) {
     xml_header();
     echo $xmlstring;
 } else {
-    if ($xmlout) {
-        fwrite($xmloutfile,$xmlstring);
-    }
-    page_head("Server status page");
+    page_head(tra("Server status page"));
     if ($version) {
-        echo "Server software version: $version<p>\n";
+        echo tra("Server software version: %1", $version) . " / ";
     }
     echo time_str(time()), "
         <table width=100%>
         <tr>
         <td width=40% valign=top>
-        <h2>Server status</h2>
+        <h2>".tra("Server status")."</h2>
         <table border=0 cellpadding=4>
-        <tr><th>Program</th><th>Host</th><th>Status</th></tr>
+        <tr><th>".tra("Program")."</th><th>".tra("Host")."</th><th>".tra("Status")."</th></tr>
     ";
 }
 ;
@@ -226,16 +234,16 @@ if ($xml) {
 //
 $web_running = !file_exists("../../stop_web");
 if ($web_running == 0) $web_running = -1;
-show_status($www_host, "data-driven web pages", $web_running);
+show_status($www_host, tra("data-driven web pages"), $web_running);
 
 // Check for httpd.pid file of upload/download server.
 //
 $uldl_running = file_exists($uldl_pid);
 if ($uldl_running == 0) $uldl_running = -1;
-show_status($uldl_host, "upload/download server", $uldl_running);
+show_status($uldl_host, tra("upload/download server"), $uldl_running);
 
 $sched_running = !file_exists("../../stop_sched");
-show_status($sched_host, "scheduler", $sched_running);
+show_status($sched_host, tra("scheduler"), $sched_running);
 
 // parse through config.xml to get all daemons running
 //
@@ -264,33 +272,30 @@ $xmlstring = "  </daemon_status>\n  <database_file_states>\n";
 if ($xml) {
     echo $xmlstring;
 } else {
-    if ($xmlout) {
-        fwrite($xmloutfile,$xmlstring);
-    }
     echo "
-        <tr><td align=right><b>Running:</b></td>
-        <td colspan=2>Program is operating normally</td></tr>
-        <tr><td align=right><b>Not Running:</b></td>
-        <td colspan=2>Program failed or ran out of work<br>
-           (or the project is down)</td></tr>
-        <tr><td align=right><b>Disabled:</b></td>
-        <td colspan=2>Program has been disabled by staff<br>
-           (for debugging/maintenance)</td></tr>
+        <tr><td align=right><b>".tra("Running:")."</b></td>
+        <td colspan=2>".tra("Program is operating normally")."</td></tr>
+        <tr><td align=right><b>".tra("Not Running:")."</b></td>
+        <td colspan=2>".tra("Program failed or ran out of work<br>
+(or the project is down)")."</td></tr>
+        <tr><td align=right><b>".tra("Disabled:")."</b></td>
+        <td colspan=2>".tra("Program has been disabled by staff<br>
+(for debugging/maintenance)")."</td></tr>
         </table>
         </td>
-        <td width=40% valign=top>
-        <h2>Database/file status</h2>
+        <td valign=top>
+        <h2>".tra("Database/file status")."</h2>
     ";
 }
 
 $retval = db_init_aux();
 if ($retval) {
-    echo "The database server is not accessible";
+    echo tra("The database server is not accessible");
 } else {
     if (!$xml) {
-        echo "
+        echo "<table border=0 cellpadding=0 cellspacing=0><tr><td>
             <table border=0 cellpadding=4>
-            <tr><th>State</th><th>#</th></tr>
+            <tr><th>".tra("State")."</th><th>#</th></tr>
         ";
     }
 
@@ -302,32 +307,32 @@ if ($retval) {
     // show_counts("Tasks ready to send","results_ready_to_send",$n);
 
     show_counts(
-        "Tasks ready to send",
+        tra("Tasks ready to send"),
         "results_ready_to_send",
         get_mysql_count("result where server_state = 2")
     );
     show_counts(
-        "Tasks in progress",
+        tra("Tasks in progress"),
         "results_in_progress",
         get_mysql_count("result where server_state = 4")
     );
     show_counts(
-        "Workunits waiting for validation",
+        tra("Workunits waiting for validation"),
         "workunits_waiting_for_validation",
         get_mysql_count("workunit where need_validate=1")
     );
     show_counts(
-        "Workunits waiting for assimilation",
+        tra("Workunits waiting for assimilation"),
         "workunits_waiting_for_assimilation",
         get_mysql_count("workunit where assimilate_state=1")
     );
     show_counts(
-        "Workunits waiting for file deletion",
+        tra("Workunits waiting for file deletion"),
         "workunits_waiting_for_deletion",
         get_mysql_count("workunit where file_delete_state=1")
     );
     show_counts(
-        "Tasks waiting for file deletion",
+        tra("Tasks waiting for file deletion"),
         "results_waiting_for_deletion",
         get_mysql_count("result where file_delete_state=1")
     );
@@ -340,12 +345,101 @@ if ($retval) {
         $gap = 0;
     }
     show_counts(
-        "Transitioner backlog (hours)",
+        tra("Transitioner backlog (hours)"),
         "transitioner_backlog_hours",
         $gap
     );
     if (!$xml) {
-        echo "</table>";
+        echo "</table></td><td>";
+	echo "<table>";
+	echo "<tr><th>".tra("Users")."</th><th>#</th></tr>";
+	show_counts(
+		tra("in database"),
+		"users_in_database",
+		get_mysql_count("user")
+	);
+	show_counts(
+		tra("with credit"),
+		"users_with_credit",
+		get_mysql_count("user where total_credit>0")
+	);
+	show_counts(
+		tra("registered in past 24 hours"),
+		"users_registered_in_past_24_hours",
+		get_mysql_count("user where create_time > (unix_timestamp() - (24*3600))")
+	);
+	echo "<tr><th>".tra("Computers")."</th><th>#</th></tr>";
+	show_counts(
+		tra("in database"),
+		"hosts_in_database",
+		get_mysql_count("host")
+	);
+	show_counts(
+		tra("with credit"),
+		"hosts_with_credit",
+		get_mysql_count("host where total_credit>0")
+	);
+	show_counts(
+		tra("registered in past 24 hours"),
+		"hosts_registered_in_past_24_hours",
+		get_mysql_count("host where create_time > (unix_timestamp() - (24*3600))")
+	);
+	show_counts(
+		tra("active in past 7 days"),
+		"hosts_active_in_past_7_days",
+		get_mysql_count("host where rpc_time > (unix_timestamp() - (7*24*3600))")
+	);
+	show_counts(
+		tra("potential GigaFLOPs")."<sup>1)</sup>",
+		"potential_gflops",
+		get_mysql_value("select sum(p_fpops)/1e9 as value FROM host")
+	);
+	show_counts(
+		tra("pot. GigaFLOPs in past 7 days")."<sup>2)</sup>",
+		"pot_gflops_in_past_7_days",
+		get_mysql_value("select sum(p_fpops)/1e9 as value FROM host WHERE rpc_time > (unix_timestamp() - (7*86400))")
+	);
+	// 100,000 cobblestones = 1 TeraFLOPS 
+	// divide by 2, because double credits
+	show_counts(
+		tra("current GigaFLOPs")."<sup>3)</sup>",
+		"current_floating_point_speed",
+		get_mysql_value("SELECT sum(expavg_credit)/2/100 as value FROM user")
+	);
+
+	end_table();
+	echo "</td></tr></table>";
+
+	start_table();
+       	echo "<tr><th colspan=5>".tra("Tasks by application")."</th></tr>";
+	row_heading_array(array(tra("application"),tra("unsent"),tra("in progress"),tra("avg runtime of last 100 results in h (min-max)"),tra("users in last 24h")));
+	$apps = get_mysql_assoc("SELECT * FROM app WHERE deprecated != 1");
+	foreach($apps as $app) {
+	    $appid = $row["id"];
+	    $uf_name = $row["user_friendly_name"];
+	    echo "<tr><td>$uf_name</td>
+                    <td>" . number_format(get_mysql_count("result where server_state = 2 and appid = $appid")) . "</td>
+                    <td>" . number_format(get_mysql_count("result where server_state = 4 and appid = $appid")) . "</td>
+                    <td>";
+            $count = get_cpu_time($appid);
+            echo number_format($count->cpu_time,2) . " (" . number_format($count->min,2) . " - " . number_format($count->max,2) . ")";
+            echo "</td>
+                    <td>" . number_format(get_mysql_user("and appid = $appid")) . "</td>
+                </tr>";
+	}
+	end_table();
+	
+        // This can be used to show the status of Workunits of the same Batch if they have a common
+        // substring within the Workunits name. Adjust to your own naming convention first.
+	//start_table();
+	//row1(tra("Workunits to do"));
+
+	//$sql = "SELECT substring(workunit.name, 1, (locate(']', workunit.name))) as b, count(*) as todo FROM workunit where assimilate_state!=2 group by substring(workunit.name, 1, (locate(']', workunit.name)))";
+	//$result = mysql_query($sql);
+	//while ($row = mysql_fetch_assoc($result)) {
+	//	row2($row["b"], $row["todo"]);
+        //}
+	//end_table();
     }
 }
 
@@ -353,15 +447,14 @@ $xmlstring = "  </database_file_states>\n</server_status>\n";
 if ($xml) {
     echo $xmlstring;
 } else {
-    if ($xmlout) {
-        fwrite($xmloutfile, $xmlstring);
-    }
     echo "
         </td>
-        <td>&nbsp;</td>
         </tr>
         </table>
     ";
+    echo tra("1) the sum of the benchmarked FLOPs of all hosts in the database")."<br/>";
+    echo tra("2) the sum of the benchmarked FLOPs of all hosts that have contacted the server within the past week")."<br/>";
+    echo tra("3) from the sum of the Recent Average Credit (RAC) for all users");
     page_tail();
 }
 
