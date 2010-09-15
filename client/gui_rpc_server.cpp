@@ -304,10 +304,15 @@ static void show_connect_error(sockaddr_storage& s) {
         last_time = gstate.now;
     }
     char buf[256];
-    msg_printf(
-        NULL, MSG_INFO,
+#ifdef _WIN32
+    sockaddr_in* sin = (sockaddr_in*)&s;
+    strcpy(buf, inet_ntoa(sin->sin_addr));
+#else
+    inet_ntop(s.ss_family, &s, buf, 256);
+#endif
+    msg_printf(NULL, MSG_INFO,
         "GUI RPC request from non-allowed address %s",
-        inet_ntop(s.ss_family, &s, buf, 256)
+        buf
     );
     if (count > 1) {
         msg_printf(

@@ -94,6 +94,9 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
     } else {
         port = htons(GUI_RPC_PORT);
     }
+#ifdef _WIN32
+    addr.sin_port = port;
+#else
     if (addr.ss_family == AF_INET) {
         sockaddr_in* sin = (sockaddr_in*)&addr;
         sin->sin_port = port;
@@ -101,6 +104,7 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
         sockaddr_in6* sin = (sockaddr_in6*)&addr;
         sin->sin6_port = port;
     }
+#endif
     return 0;
 }
 

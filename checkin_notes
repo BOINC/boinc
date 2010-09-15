@@ -6553,3 +6553,20 @@ David  15 Sept 2010
     lib/
         gui_rpc_client.cpp,h
         network.cpp,h
+
+David  15 Sept 2010
+	- client: revert to old network functions (gethostbyname() etc.) on Win:
+		- inet_ntop() etc. exist only on Vista+
+		- the other functions are declared in winsock2.h.
+			This breaks the Manager build, since wxwidgets includes winsock.h.
+		So to hell with it.
+	- windows build: manager doesn't depend on client
+
+	client/
+		gui_rpc_server.cpp
+		hostinfo_network.cpp
+	lib/
+		gui_rpc_client.cpp,h
+		network.cpp,h
+	win_build/
+		boinc.sln

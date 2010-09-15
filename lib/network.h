@@ -21,6 +21,9 @@
 #include <string.h>
 #ifdef _WIN32
 #include "boinc_win.h"
+// WxWidgets can't deal with modern network code (winsock2.h)
+// so use old code on Win
+#define sockaddr_storage sockaddr_in
 #else
 #include <sys/select.h>
 #include <unistd.h>

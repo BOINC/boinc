@@ -34,6 +34,7 @@
 #include "hostinfo.h"
 #include "common_defs.h"
 #include "notice.h"
+#include "network.h"
 
 struct GUI_URL {
     std::string name;

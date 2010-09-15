@@ -71,6 +71,10 @@ int HOST_INFO::get_local_network_info() {
     }
     int retval = resolve_hostname(domain_name, s);
     if (retval) return retval;
+#ifdef _WIN32
+    sockaddr_in* sin = (sockaddr_in*)&s;
+    strlcpy(ip_addr, inet_ntoa(sin->sin_addr), sizeof(ip_addr));
+#else
     if (s.ss_family == AF_INET) {
         sockaddr_in* sin = (sockaddr_in*)&s;
         inet_ntop(AF_INET, (void*)(&sin->sin_addr), ip_addr, 256);
@@ -78,6 +82,7 @@ int HOST_INFO::get_local_network_info() {
         sockaddr_in6* sin = (sockaddr_in6*)&s;
         inet_ntop(AF_INET6, (void*)(&sin->sin6_addr), ip_addr, 256);
     }
+#endif
     return 0;
 }
 
