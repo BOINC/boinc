@@ -6617,3 +6617,11 @@ David  15 Sept 2010
 		fixes #1010
 	lib/
 		filesyst.cpp
+
+David  15 Sept 2010
+    - client: if we successfully did CPU benchmarks,
+        don't keep doing them every 5 days unless restart the client
+        fixes #994
+
+    client/
+        cs_benchmark.cpp

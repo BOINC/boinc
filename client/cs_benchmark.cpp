@@ -90,6 +90,10 @@
 #define BM_DONE     5
 static int bm_state;
 
+static bool did_benchmarks = false;
+    // true if we successfully did benchmarks.
+    // don't do them again during this run of client
+
 #define BENCHMARK_PERIOD        (SECONDS_PER_DAY*5)
     // rerun CPU benchmarks this often (hardware may have been upgraded)
 
@@ -280,6 +284,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
 // flag is set or it's been 5 days since we last ran
 //
 bool CLIENT_STATE::should_run_cpu_benchmarks() {
+    if (did_benchmarks) return false;
     // Note: if skip_cpu_benchmarks we still should "run" cpu benchmarks
     // (we'll just use default values in cpu_benchmarks())
     //
@@ -509,6 +514,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             }
             host_info.p_membw = p_membw;
             print_benchmark_results();
+            did_benchmarks = true;
         }
 
         // scale duration correction factor according to change in benchmarks.
