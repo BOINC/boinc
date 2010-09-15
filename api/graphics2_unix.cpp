@@ -54,7 +54,7 @@ bool fullscreen;
 
 void boinc_close_window_and_quit(const char* p) {
     char buf[256];
-    fprintf(stderr, "%s Quitting: %s\n", boinc_msg_prefix(buf), p);
+    fprintf(stderr, "%s Quitting: %s\n", boinc_msg_prefix(buf, sizeof(buf)), p);
     exit(0);
 }
 

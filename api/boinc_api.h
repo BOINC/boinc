@@ -125,7 +125,7 @@ extern int boinc_wu_cpu_time(double&);
 extern double boinc_elapsed_time();
 extern int boinc_upload_file(std::string& name);
 extern int boinc_upload_status(std::string& name);
-extern char* boinc_msg_prefix(char*);
+extern char* boinc_msg_prefix(char*, int);
 
 /////////// API ENDS HERE
 

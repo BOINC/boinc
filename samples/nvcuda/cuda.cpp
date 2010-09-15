@@ -44,8 +44,7 @@ bool early_crash = false;
 bool early_sleep = false;
 double cpu_time = 20, comp_result;
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     int i, retval, lastInversion=0, checkpointExists=0, dimension=0;
     double fd;
     char input_path[512], output_path[512], chkpt_path[512], buf[256];
@@ -68,9 +67,10 @@ int main(int argc, char** argv)
 	
     retval = boinc_init();
     if (retval) {
-        fprintf(stderr, "%s boinc_init returned %d\n",
-				boinc_msg_prefix(buf), retval
-				);
+        fprintf(stderr,
+            "%s boinc_init returned %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)), retval
+        );
         exit(retval);
     }
     
@@ -80,9 +80,9 @@ int main(int argc, char** argv)
     infile = boinc_fopen(input_path, "r");
     if (!infile) {
         fprintf(stderr,
-				"%s Couldn't find input file, resolved name %s.\n",
-				boinc_msg_prefix(buf), input_path
-				);
+            "%s Couldn't find input file, resolved name %s.\n",
+            boinc_msg_prefix(buf, sizeof(buf)), input_path
+        );
         getchar();
         exit(-1);
     }
@@ -113,12 +113,14 @@ int main(int argc, char** argv)
     retval = out.open(output_path, "wb");
     
     if (retval) {
-        fprintf(stderr, "%s APP: matrix_inversion output open failed:\n",
-                boinc_msg_prefix(buf)
-                );
-        fprintf(stderr, "%s resolved name %s, retval %d\n",
-                boinc_msg_prefix(buf), output_path, retval
-                );
+        fprintf(stderr,
+            "%s APP: matrix_inversion output open failed:\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+        fprintf(stderr,
+            "%s resolved name %s, retval %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)), output_path, retval
+        );
         perror("open");
         exit(1);
     }
@@ -128,9 +130,10 @@ int main(int argc, char** argv)
     //
     shmem = (UC_SHMEM*)boinc_graphics_make_shmem("matrix_inversion", sizeof(UC_SHMEM));
     if (!shmem) {
-        fprintf(stderr, "%s failed to create shared mem segment\n",
-                boinc_msg_prefix(buf)
-                );
+        fprintf(stderr,
+            "%s failed to create shared mem segment\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
     }
     update_shmem();
     boinc_register_timer_callback(update_shmem);
@@ -175,9 +178,10 @@ int main(int argc, char** argv)
             //we'll need to write the current matrix to the state file.
             retval = do_checkpoint(out, i, h_idata, dimension); 
             if (retval) {
-                fprintf(stderr, "%s APP: matrix_inversion checkpoint failed %d\n",
-                        boinc_msg_prefix(buf), retval
-                        );
+                fprintf(stderr,
+                    "%s APP: matrix_inversion checkpoint failed %d\n",
+                    boinc_msg_prefix(buf, sizeof(buf)), retval
+                );
                 exit(retval);
             }
             boinc_checkpoint_completed();
@@ -194,9 +198,10 @@ int main(int argc, char** argv)
     cudaFreeHost( h_idata );
     retval = out.flush(); //force the output file to be closed.
     if (retval) {
-        fprintf(stderr, "%s APP: matrix_inversion flush failed %d\n",
-                boinc_msg_prefix(buf), retval
-                );
+        fprintf(stderr,
+            "%s APP: matrix_inversion flush failed %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)), retval
+        );
         exit(1);
     }
 
@@ -214,9 +219,10 @@ int main(int argc, char** argv)
             if (boinc_time_to_checkpoint()) {
                 retval = do_checkpoint(out, NUM_ITERATIONS, h_idata, dimension);
                 if (retval) {
-                    fprintf(stderr, "%s APP: maxtrix_inversion checkpoint failed %d\n",
-							boinc_msg_prefix(buf), retval
-							);
+                    fprintf(stderr,
+                        "%s APP: maxtrix_inversion checkpoint failed %d\n",
+                        boinc_msg_prefix(buf, sizeof(buf)), retval
+                    );
                     exit(1);
                 }
                 boinc_checkpoint_completed();

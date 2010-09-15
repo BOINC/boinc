@@ -135,7 +135,7 @@ int TASK::parse(XML_PARSER& xp) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             fprintf(stderr, "%s TASK::parse(): unexpected text %s\n",
-                boinc_msg_prefix(buf), tag
+                boinc_msg_prefix(buf, sizeof(buf)), tag
             );
             continue;
         }
@@ -172,7 +172,10 @@ int parse_job_file() {
     boinc_resolve_filename(JOB_FILENAME, buf, 1024);
     FILE* f = boinc_fopen(buf, "r");
     if (!f) {
-        fprintf(stderr, "%s can't open job file %s\n", boinc_msg_prefix(buf2), buf);
+        fprintf(stderr,
+            "%s can't open job file %s\n",
+            boinc_msg_prefix(buf2, sizeof(buf2)), buf
+        );
         return ERR_FOPEN;
     }
     mf.init_file(f);
@@ -181,8 +184,9 @@ int parse_job_file() {
     if (!xp.parse_start("job_desc")) return ERR_XML_PARSE;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            fprintf(stderr, "%s SCHED_CONFIG::parse(): unexpected text %s\n",
-                boinc_msg_prefix(buf2), tag
+            fprintf(stderr,
+                "%s SCHED_CONFIG::parse(): unexpected text %s\n",
+                boinc_msg_prefix(buf2, sizeof(buf2)), tag
             );
             continue;
         }
@@ -283,7 +287,7 @@ int TASK::run(int argct, char** argvt) {
     }
 
     fprintf(stderr, "%s wrapper: running %s (%s)\n",
-        boinc_msg_prefix(buf), app_path, command_line.c_str()
+        boinc_msg_prefix(buf, sizeof(buf)), app_path, command_line.c_str()
     );
 
 #ifdef _WIN32

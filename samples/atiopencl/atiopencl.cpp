@@ -58,7 +58,7 @@ int main(int argc, char * argv[]) {
     retval = boinc_init();
     if (retval) {
         fprintf(stderr, "%s boinc_init returned %d\n",
-                boinc_msg_prefix(buf), retval );
+                boinc_msg_prefix(buf, sizeof(buf)), retval );
         exit(retval);
     }
     
@@ -69,7 +69,7 @@ int main(int argc, char * argv[]) {
     if (!infile) {
         fprintf(stderr,
             "%s Couldn't find input file in boinc\\win_build, resolved name %s.\n",
-            boinc_msg_prefix(buf), input_path
+            boinc_msg_prefix(buf, sizeof(buf)), input_path
         );
         getchar();
         exit(-1);
@@ -102,10 +102,10 @@ int main(int argc, char * argv[]) {
 
     if (retval) {
         fprintf(stderr, "%s APP: matrix_inversion output open failed:\n",
-            boinc_msg_prefix(buf)
+            boinc_msg_prefix(buf, sizeof(buf))
         );
         fprintf(stderr, "%s resolved name %s, retval %d\n",
-            boinc_msg_prefix(buf), output_path, retval
+            boinc_msg_prefix(buf, sizeof(buf)), output_path, retval
         );
         perror("open");
         exit(1);
@@ -117,7 +117,7 @@ int main(int argc, char * argv[]) {
     shmem = (UC_SHMEM*)boinc_graphics_make_shmem("matrix_inversion", sizeof(UC_SHMEM));
     if (!shmem) {
         fprintf(stderr, "%s failed to create shared mem segment\n",
-            boinc_msg_prefix(buf)
+            boinc_msg_prefix(buf, sizeof(buf))
         );
     }
     update_shmem();
@@ -180,7 +180,7 @@ int main(int argc, char * argv[]) {
             retval = do_checkpoint(out, i, input, matrixSize); 
             if (retval) {
                 fprintf(stderr, "%s APP: matrix_inversion checkpoint failed %d\n",
-                    boinc_msg_prefix(buf), retval
+                    boinc_msg_prefix(buf, sizeof(buf)), retval
                 );
                 exit(retval);
             }
@@ -198,7 +198,7 @@ int main(int argc, char * argv[]) {
     retval = out.flush(); //force the output file to be closed.
     if (retval) {
         fprintf(stderr, "%s APP: matrix_inversion flush failed %d\n",
-            boinc_msg_prefix(buf), retval
+            boinc_msg_prefix(buf, sizeof(buf)), retval
         );
         exit(1);
     }
@@ -227,7 +227,7 @@ int main(int argc, char * argv[]) {
                 retval = do_checkpoint(out, NUM_ITERATIONS, input, matrixSize);
                 if (retval) {
                     fprintf(stderr, "%s APP: maxtrix_inversion checkpoint failed %d\n",
-                        boinc_msg_prefix(buf), retval
+                        boinc_msg_prefix(buf, sizeof(buf)), retval
                     );
                     exit(1);
                 }

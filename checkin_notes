@@ -6596,3 +6596,17 @@ David  15 Sept 2010
 
     lib/
         gui_rpc_client.cpp
+
+David  15 Sept 2010
+    - API and sample apps: pass buf length arg to boinc_msg_prefix()
+        and use snprintf() to avoid overrun.
+        Can't see why this could ever happen.
+        Attempt to fix crash in E@h apps.
+
+    apps/
+        upper_case.cpp
+    samples/*/*.cpp
+    api/
+        boinc_api.cpp,h
+        graphics2_unix.cpp
+        graphics2_win.cpp

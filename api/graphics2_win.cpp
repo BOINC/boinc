@@ -52,7 +52,7 @@ static bool fullscreen;
 void boinc_close_window_and_quit(const char* p) {
     char buf[256];
     fprintf(stderr, "%s Close event (%s) detected, shutting down.\n",
-        boinc_msg_prefix(buf), p
+        boinc_msg_prefix(buf, sizeof(buf)), p
     );
 
     window_ready = false;
@@ -105,7 +105,7 @@ void SetupPixelFormat(HDC win_dc) {
     if (!SetPixelFormat(win_dc, nPixelFormat, &pfd)) {
         fprintf(stderr,
             "%s ERROR: Couldn't set pixel format for device context (0x%x).\n",
-            boinc_msg_prefix(buf), GetLastError()
+            boinc_msg_prefix(buf, sizeof(buf)), GetLastError()
         );
     }
 }
@@ -168,14 +168,14 @@ static void make_window(const char* title) {
     if (!SetForegroundWindow(window)) {
         fprintf(stderr,
             "%s ERROR: SetForegroundWindow() failed (0x%x).\n",
-            boinc_msg_prefix(buf), GetLastError()
+            boinc_msg_prefix(buf, sizeof(buf)), GetLastError()
         );
     }
 
     if (!GetCursorPos(&mousePos)) {
         fprintf(stderr,
             "%s ERROR: GetCursorPos() failed (0x%x).\n",
-            boinc_msg_prefix(buf), GetLastError()
+            boinc_msg_prefix(buf, sizeof(buf)), GetLastError()
         );
     }
 
@@ -183,7 +183,7 @@ static void make_window(const char* title) {
     if (!win_dc) {
         fprintf(stderr,
             "%s ERROR: GetDC() failed (0x%x).\n",
-            boinc_msg_prefix(buf), GetLastError()
+            boinc_msg_prefix(buf, sizeof(buf)), GetLastError()
         );
     }
     SetupPixelFormat(win_dc);
@@ -192,7 +192,7 @@ static void make_window(const char* title) {
     if (!gl_dc) {
         fprintf(stderr,
             "%s ERROR: wglCreateContext() failed (0x%x).\n",
-            boinc_msg_prefix(buf), GetLastError()
+            boinc_msg_prefix(buf, sizeof(buf)), GetLastError()
         );
         ReleaseDC(window, win_dc);
         return;
@@ -201,7 +201,7 @@ static void make_window(const char* title) {
     if(!wglMakeCurrent(win_dc, gl_dc)) {
         fprintf(stderr,
             "%s ERROR: wglMakeCurrent() failed (0x%x).\n",
-            boinc_msg_prefix(buf), GetLastError()
+            boinc_msg_prefix(buf, sizeof(buf)), GetLastError()
         );
         ReleaseDC(window, win_dc);
         wglDeleteContext(gl_dc);
@@ -416,13 +416,16 @@ void boinc_graphics_loop(int argc, char** argv, const char* title) {
         boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
     }
 
-    fprintf(stderr, "%s Starting graphics application.\n", boinc_msg_prefix(buf));
+    fprintf(stderr,
+        "%s Starting graphics application.\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
 
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--fullscreen")) {
             fullscreen = true;
             fprintf(stderr, "%s fullscreen mode requested.\n",
-                boinc_msg_prefix(buf)
+                boinc_msg_prefix(buf, sizeof(buf))
             );
         }
     }
@@ -450,7 +453,7 @@ void boinc_graphics_loop(int argc, char** argv, const char* title) {
     unreg_win_class();
 
     fprintf(stderr, "%s Shutting down graphics application.\n",
-        boinc_msg_prefix(buf)
+        boinc_msg_prefix(buf, sizeof(buf))
     );
 }
 

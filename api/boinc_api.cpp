@@ -193,17 +193,18 @@ static void boinc_exit(int);
 static void block_sigalrm();
 static int start_worker_signals();
 
-char* boinc_msg_prefix(char* sbuf) {
+char* boinc_msg_prefix(char* sbuf, int len) {
     char buf[256];
 
     time_t x = time(0);
     struct tm* tm = localtime(&x);
     strftime(buf, sizeof(buf)-1, "%H:%M:%S", tm);
 #ifdef _WIN32
-    sprintf(sbuf, "%s (%d):", buf, GetCurrentProcessId());
+    snprintf(sbuf, len, "%s (%d):", buf, GetCurrentProcessId());
 #else
-    sprintf(sbuf, "%s (%d):", buf, getpid());
+    snprintf(sbuf, len, "%s (%d):", buf, getpid());
 #endif
+    sbuf[len-1] = 0;    // just in case
     return sbuf;
 }
 
@@ -212,7 +213,7 @@ static int setup_shared_mem() {
     if (standalone) {
         fprintf(stderr,
             "%s Standalone mode, so not using shared memory.\n",
-            boinc_msg_prefix(buf)
+            boinc_msg_prefix(buf, sizeof(buf))
         );
         return 0;
     }
@@ -367,7 +368,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             // give any previous occupant a chance to timeout and exit
             //
             fprintf(stderr, "%s Can't acquire lockfile (%d) - waiting %ds\n",
-                boinc_msg_prefix(buf),
+                boinc_msg_prefix(buf, sizeof(buf)),
                 retval, LOCKFILE_TIMEOUT_PERIOD
             );
             boinc_sleep(LOCKFILE_TIMEOUT_PERIOD);
@@ -375,13 +376,13 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         }
         if (retval) {
             fprintf(stderr, "%s Can't acquire lockfile (%d) - exiting\n",
-                boinc_msg_prefix(buf),
+                boinc_msg_prefix(buf, sizeof(buf)),
                 retval
             );
 #ifdef _WIN32
-            char buf[256];
-            windows_error_string(buf, 256);
-            fprintf(stderr, "%s Error: %s\n", boinc_msg_prefix(buf), buf);
+            char buf2[256];
+            windows_error_string(buf2, 256);
+            fprintf(stderr, "%s Error: %s\n", boinc_msg_prefix(buf, sizeof(buf)), buf2);
 #endif
             // if we can't acquire the lock file there must be
             // another app instance running in this slot.
@@ -400,7 +401,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         if (retval) {
             fprintf(stderr,
                 "%s Can't set up shared mem: %d. Will run in standalone mode.\n",
-                boinc_msg_prefix(buf), retval
+                boinc_msg_prefix(buf, sizeof(buf)), retval
             );
             standalone = true;
         }
@@ -463,7 +464,10 @@ static void send_trickle_up_msg() {
 int boinc_finish(int status) {
     char buf[256];
     fraction_done = 1;
-    fprintf(stderr, "%s called boinc_finish\n", boinc_msg_prefix(buf));
+    fprintf(stderr,
+        "%s called boinc_finish\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
     boinc_sleep(2.0);   // let the timer thread send final messages
     g_sleep = true;     // then disable it
 
@@ -509,11 +513,12 @@ void boinc_exit(int status) {
             windows_error_string(buf, 256);
             fprintf(stderr,
                 "%s Can't unlock lockfile (%d): %s\n",
-                boinc_msg_prefix(buf), retval, buf
+                boinc_msg_prefix(buf, sizeof(buf)), retval, buf
             );
 #else
             fprintf(stderr,
-                "%s Can't unlock lockfile (%d)\n", boinc_msg_prefix(buf), retval
+                "%s Can't unlock lockfile (%d)\n",
+                boinc_msg_prefix(buf, sizeof(buf)), retval
             );
             perror("file unlock failed");
 #endif
@@ -556,7 +561,7 @@ static void exit_from_timer_thread(int status) {
 #ifdef DEBUG_BOINC_API
     char buf[256];
     fprintf(stderr, "%s exit_from_timer_thread(%d) called\n",
-        boinc_msg_prefix(buf), status
+        boinc_msg_prefix(buf, sizeof(buf)), status
     );
 #endif
 #ifdef _WIN32
@@ -595,7 +600,7 @@ int boinc_parse_init_data_file() {
     if (!boinc_file_exists(INIT_DATA_FILE)) {
         fprintf(stderr,
             "%s Can't open init data file - running in standalone mode\n",
-            boinc_msg_prefix(buf)
+            boinc_msg_prefix(buf, sizeof(buf))
         );
         return ERR_FOPEN;
     }
@@ -605,7 +610,7 @@ int boinc_parse_init_data_file() {
     if (retval) {
         fprintf(stderr,
             "%s Can't parse init data file - running in standalone mode\n",
-            boinc_msg_prefix(buf)
+            boinc_msg_prefix(buf, sizeof(buf))
         );
         return retval;
     }
@@ -723,7 +728,7 @@ static void handle_upload_file_status() {
         if (!f) {
             fprintf(stderr,
                 "%s handle_file_upload_status: can't open %s\n",
-                boinc_msg_prefix(buf), filename.c_str()
+                boinc_msg_prefix(buf, sizeof(buf)), filename.c_str()
             );
             continue;
         }
@@ -736,7 +741,7 @@ static void handle_upload_file_status() {
             upload_file_status.push_back(uf);
         } else {
             fprintf(stderr, "%s handle_upload_file_status: can't parse %s\n",
-                boinc_msg_prefix(log_buf), buf
+                boinc_msg_prefix(log_buf, sizeof(log_buf)), buf
             );
         }
     }
@@ -765,7 +770,7 @@ static void handle_process_control_msg() {
 #ifdef DEBUG_BOINC_API
         char log_buf[256]
         fprintf(stderr, "%s got process control msg %s\n",
-            boinc_msg_prefix(log_buf), buf
+            boinc_msg_prefix(log_buf, sizeof(log_buf)), buf
         );
 #endif
         if (match_tag(buf, "<suspend/>")) {
@@ -937,7 +942,8 @@ static void timer_handler() {
 #ifdef DEBUG_BOINC_API
     if (in_critical_section) {
         fprintf(stderr,
-            "%s: timer_handler(): in critical section\n", boinc_msg_prefix(buf)
+            "%s: timer_handler(): in critical section\n",
+            boinc_msg_prefix(buf, sizeof(buf))
         );
     }
 #endif
@@ -962,7 +968,7 @@ static void timer_handler() {
     if (interrupt_count % TIMERS_PER_SEC) return;
 
 #ifdef DEBUG_BOINC_API
-    fprintf(stderr, "%s 1 sec elapsed\n", boinc_msg_prefix(buf));
+    fprintf(stderr, "%s 1 sec elapsed\n", boinc_msg_prefix(buf, sizeof(buf)));
 #endif
 
     // here it we're at a one-second boundary; do slow stuff
@@ -982,7 +988,7 @@ static void timer_handler() {
         if (heartbeat_giveup_time < interrupt_count) {
             fprintf(stderr,
                 "%s No heartbeat from core client for 30 sec - exiting\n",
-                boinc_msg_prefix(buf)
+                boinc_msg_prefix(buf, sizeof(buf))
             );
             if (options.direct_process_action) {
                 exit_from_timer_thread(0);
@@ -1092,7 +1098,7 @@ int start_timer_thread() {
     if (!CreateThread(NULL, 0, timer_thread, 0, 0, &timer_thread_id)) {
         fprintf(stderr,
             "%s start_timer_thread(): CreateThread() failed, errno %d\n",
-            boinc_msg_prefix(buf), errno
+            boinc_msg_prefix(buf, sizeof(buf)), errno
         );
         return errno;
     }
@@ -1110,7 +1116,7 @@ int start_timer_thread() {
     if (retval) {
         fprintf(stderr,
             "%s start_timer_thread(): pthread_create(): %d",
-            boinc_msg_prefix(buf), retval
+            boinc_msg_prefix(buf, sizeof(buf)), retval
         );
         return retval;
     }

@@ -82,14 +82,18 @@ struct THREAD {
             NULL
         );
         if (!id) {
-            fprintf(stderr, "%s Can't start thread\n", boinc_msg_prefix(buf));
+            fprintf(stderr, "%s Can't start thread\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
             exit(1);
         }
 #else
         int retval;
         retval = pthread_create(&id, 0, func, (void*)this);
         if (retval) {
-            fprintf(stderr, "%s can't start thread\n", boinc_msg_prefix(buf));
+            fprintf(stderr, "%s can't start thread\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
             exit(1);
         }
 #endif
@@ -139,7 +143,7 @@ void* worker(void* p) {
         double x = do_a_giga_flop(i);
         t->units_done++;
         fprintf(stderr, "%s thread %d finished %d: %f\n",
-            boinc_msg_prefix(buf), t->index, i, x
+            boinc_msg_prefix(buf, sizeof(buf)), t->index, i, x
         );
     }
     t->id = THREAD_ID_NULL;
@@ -160,7 +164,7 @@ int main(int argc, char** argv) {
             nthreads = atoi(argv[++i]);
         } else {
             fprintf(stderr, "%s unrecognized arg: %s\n",
-                boinc_msg_prefix(buf), argv[i]
+                boinc_msg_prefix(buf, sizeof(buf)), argv[i]
             );
         }
     }
@@ -181,7 +185,7 @@ int main(int argc, char** argv) {
     double elapsed_time = dtime()-start_time;
     fprintf(stderr,
         "%s All done.  Used %d threads.  Elapsed time %f\n",
-        boinc_msg_prefix(buf), nthreads, elapsed_time
+        boinc_msg_prefix(buf, sizeof(buf)), nthreads, elapsed_time
     );
     boinc_finish(0);
 }
