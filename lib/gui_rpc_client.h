@@ -612,12 +612,13 @@ public:
     double start_time;
     double timeout;
     bool retry;
-    sockaddr_in addr;
+    sockaddr_storage addr;
 
     int send_request(const char*);
     int get_reply(char*&);
     RPC_CLIENT();
     ~RPC_CLIENT();
+    int get_ip_addr(const char* host, int port);
     int init(const char* host, int port=0);
     int init_asynch(
         const char* host, double timeout, bool retry, int port=GUI_RPC_PORT

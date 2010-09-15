@@ -58,8 +58,7 @@
 // get domain name and IP address of this host
 //
 int HOST_INFO::get_local_network_info() {
-    struct in_addr addr;
-    struct hostent* he;
+    struct sockaddr_storage s;
     
     strcpy(domain_name, "");
     strcpy(ip_addr, "");
@@ -67,14 +66,18 @@ int HOST_INFO::get_local_network_info() {
     // it seems like we should use getdomainname() instead of gethostname(),
     // but on FC6 it returns "(none)".
     //
-    if (gethostname(domain_name, 256)) return ERR_GETHOSTBYNAME;
-    he = gethostbyname(domain_name);
-    if (!he || !he->h_addr_list[0]) {
-        //msg_printf(NULL, MSG_ERROR, "gethostbyname (%s) failed", domain_name);
+    if (gethostname(domain_name, 256)) {
         return ERR_GETHOSTBYNAME;
     }
-    memcpy(&addr, he->h_addr_list[0], sizeof(addr));
-    strlcpy(ip_addr, inet_ntoa(addr), sizeof(ip_addr));
+    int retval = resolve_hostname(domain_name, s);
+    if (retval) return retval;
+    if (s.ss_family == AF_INET) {
+        sockaddr_in* sin = (sockaddr_in*)&s;
+        inet_ntop(AF_INET, (void*)(&sin->sin_addr), ip_addr, 256);
+    } else {
+        sockaddr_in6* sin = (sockaddr_in6*)&s;
+        inet_ntop(AF_INET6, (void*)(&sin->sin6_addr), ip_addr, 256);
+    }
     return 0;
 }
 

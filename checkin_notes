@@ -6532,3 +6532,24 @@ Charlie 15 Sept 2010
     
     clientgui/
         ViewStatistics.cpp, .h
+
+David  15 Sept 2010
+    - client: a bit of IPv6 compatibility
+        - use "sockaddr_storage" to store network addresses
+            (which may be IPv4 or IPv6)
+            rather than assuming they fit in an int.
+        - the entries in gui_rpc_auth.cfg may now be IPv6 addresses
+            (a:b:c:e:f:g format),
+            or domain names of hosts that support only IPv6
+        Note: GUI RPCs are still constrained to use IPv4,
+        but this should be easy to change if it's every needed
+
+        Also: replace deprecated gethostbyname() with getaddrinfo().
+
+    client/
+        client_state.cpp
+        gui_rpc_server.cpp,h
+        hostinfo_network.cpp
+    lib/
+        gui_rpc_client.cpp,h
+        network.cpp,h

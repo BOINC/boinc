@@ -81,11 +81,11 @@ public:
 
 class GUI_RPC_CONN_SET {
     std::vector<GUI_RPC_CONN*> gui_rpcs;
-    std::vector<int> allowed_remote_ip_addresses;
+    std::vector<sockaddr_storage> allowed_remote_ip_addresses;
     int get_allowed_hosts();
     int get_password();
     int insert(GUI_RPC_CONN*);
-    bool check_allowed_list(int ip_addr);
+    bool check_allowed_list(sockaddr_storage& ip_addr);
     bool remote_hosts_file_exists;
 public:
     int lsock;

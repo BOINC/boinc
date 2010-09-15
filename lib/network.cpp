@@ -99,25 +99,83 @@ const char* socket_error_str() {
 #endif
 }
 
-int resolve_hostname(char* hostname, int &ip_addr) {
+bool is_localhost(sockaddr_storage& s) {
+    switch (s.ss_family) {
+    case AF_INET:
+        {
+            sockaddr_in* sin = (sockaddr_in*)&s;
+            return (ntohl(sin->sin_addr.s_addr) == 0x7f000001);
+        }
+    case AF_INET6:
+        {
+            sockaddr_in6* sin = (sockaddr_in6*)&s;
+            char buf[256];
+            inet_ntop(AF_INET6, (void*)(&sin->sin6_addr), buf, 256);
+            return (strcmp(buf, "::1") == 0);
+        }
+    }
+    return false;
+}
 
-    // if the hostname is in Internet Standard dotted notation, 
-    // return that address.
+bool same_ip_addr(sockaddr_storage& s1, sockaddr_storage& s2) {
+    if (s1.ss_family != s2.ss_family) return false;
+    switch (s1.ss_family) {
+    case AF_INET:
+        {
+            sockaddr_in* sin1 = (sockaddr_in*)&s1;
+            sockaddr_in* sin2 = (sockaddr_in*)&s2;
+            return (memcmp((void*)(&sin1->sin_addr), (void*)(&sin2->sin_addr), sizeof(in_addr)) == 0);
+            break;
+        }
+    case AF_INET6:
+        {
+            sockaddr_in6* sin1 = (sockaddr_in6*)&s1;
+            sockaddr_in6* sin2 = (sockaddr_in6*)&s2;
+            return (memcmp((void*)(&sin1->sin6_addr), (void*)(&sin2->sin6_addr), sizeof(in6_addr)) == 0);
+            break;
+        }
+    }
+    return false;
+}
+
+int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
+    struct addrinfo *res, hints;
+
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+    int retval = getaddrinfo(hostname, NULL, &hints, &res);
+    if (retval) {
+        perror("getaddrinfo");
+        return retval;
+    }
+    memcpy(&ip_addr, res->ai_addr, res->ai_addrlen);
+    freeaddrinfo(res);
+    return 0;
+}
+
+int resolve_hostname_or_ip_addr(const char* hostname, sockaddr_storage &ip_addr) {
+    int retval;
+
+    // check for IPV4 and IPV6 notation
     //
-    ip_addr = inet_addr(hostname);
-    if (ip_addr != -1) {
+    sockaddr_in* sin = (sockaddr_in*)&ip_addr;
+    retval = inet_pton(AF_INET, hostname, &sin->sin_addr);
+    if (retval > 0) {
+        ip_addr.ss_family = AF_INET;
+        return 0;
+    }
+    sockaddr_in6* sin6 = (sockaddr_in6*)&ip_addr;
+    retval = inet_pton(AF_INET6, hostname, &sin6->sin6_addr);
+    if (retval > 0) {
+        ip_addr.ss_family = AF_INET6;
         return 0;
     }
 
     // else resolve the name
     //
-    hostent* hep;
-    hep = gethostbyname(hostname);
-    if (!hep) {
-        return ERR_GETHOSTBYNAME;
-    }
-    ip_addr = *(int*)hep->h_addr_list[0];
-    return 0;
+    return resolve_hostname(hostname, ip_addr);
 }
 
 int boinc_socket(int& fd) {

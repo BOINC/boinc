@@ -74,27 +74,39 @@ void RPC_CLIENT::close() {
 	}
 }
 
-int RPC_CLIENT::init(const char* host, int port) {
+int RPC_CLIENT::get_ip_addr(const char* host, int port) {
     int retval;
     memset(&addr, 0, sizeof(addr));
-    addr.sin_family = AF_INET;
-    if (port) {
-        addr.sin_port = htons(port);
-    } else {
-        addr.sin_port = htons(GUI_RPC_PORT);
-    }
     //printf("trying port %d\n", htons(addr.sin_port));
 
     if (host) {
-        hostent* hep = gethostbyname(host);
-        if (!hep) {
-            //perror("gethostbyname");
+        retval = resolve_hostname(host, addr);
+        if (retval) {
             return ERR_GETHOSTBYNAME;
         }
-        addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
     } else {
-        addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+        sockaddr_in* sin = (sockaddr_in*)&addr;
+        sin->sin_family = AF_INET;
+        sin->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     }
+    if (port) {
+        port = htons(port);
+    } else {
+        port = htons(GUI_RPC_PORT);
+    }
+    if (addr.ss_family == AF_INET) {
+        sockaddr_in* sin = (sockaddr_in*)&addr;
+        sin->sin_port = port;
+    } else {
+        sockaddr_in6* sin = (sockaddr_in6*)&addr;
+        sin->sin6_port = port;
+    }
+    return 0;
+}
+
+int RPC_CLIENT::init(const char* host, int port) {
+    int retval = get_ip_addr(host, port);
+    if (retval) return retval;
     boinc_socket(sock);
 
     // set up receive timeout; avoid hang if client doesn't respond
@@ -123,22 +135,11 @@ int RPC_CLIENT::init_asynch(
     const char* host, double _timeout, bool _retry, int port
 ) {
     int retval;
-	memset(&addr, 0, sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
     retry = _retry;
     timeout = _timeout;
 
-    if (host) {
-        hostent* hep = gethostbyname(host);
-        if (!hep) {
-            //perror("gethostbyname");
-            return ERR_GETHOSTBYNAME;
-        }
-        addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
-    } else {
-        addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    }
+    retval = get_ip_addr(host, port);
+    if (retval) return retval;
 
     retval = boinc_socket(sock);
     BOINCTRACE("init_asynch() boinc_socket: %d\n", sock);

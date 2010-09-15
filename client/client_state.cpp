@@ -753,7 +753,7 @@ bool CLIENT_STATE::poll_slow_events() {
     } else {
         time_stats.update(suspend_reason, gpu_suspend_reason);
 
-        // on some systems, gethostbyname() only starts working
+        // on some systems, DNS resolution only starts working
         // a few minutes after system boot.
         // If it didn't work before, try it again.
         //

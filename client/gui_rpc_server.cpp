@@ -158,7 +158,8 @@ int GUI_RPC_CONN_SET::get_password() {
 }
 
 int GUI_RPC_CONN_SET::get_allowed_hosts() {
-    int ipaddr, retval;
+    int retval;
+    sockaddr_storage ip_addr;
     char buf[256];
 
     allowed_remote_ip_addresses.clear();
@@ -182,7 +183,7 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
         while (fgets(buf, 256, f)) {
             strip_whitespace(buf);
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
-                retval = resolve_hostname(buf, ipaddr);
+                retval = resolve_hostname_or_ip_addr(buf, ip_addr);
                 if (retval) {
                     msg_printf_link(0, MSG_USER_ALERT,
                         "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=remote_hosts",
@@ -191,7 +192,7 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
                         buf
                     );
                 } else {
-                    allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
+                    allowed_remote_ip_addresses.push_back(ip_addr);
                 }
             }
         }
@@ -288,7 +289,7 @@ int GUI_RPC_CONN_SET::init(bool last_time) {
     return 0;
 }
 
-static void show_connect_error(in_addr ia) {
+static void show_connect_error(sockaddr_storage& s) {
     static double last_time=0;
     static int count=0;
 
@@ -302,10 +303,11 @@ static void show_connect_error(in_addr ia) {
         }
         last_time = gstate.now;
     }
+    char buf[256];
     msg_printf(
         NULL, MSG_INFO,
         "GUI RPC request from non-allowed address %s",
-        inet_ntoa(ia)
+        inet_ntop(s.ss_family, &s, buf, 256)
     );
     if (count > 1) {
         msg_printf(
@@ -339,11 +341,10 @@ void GUI_RPC_CONN_SET::get_fdset(FDSET_GROUP& fg, FDSET_GROUP& all) {
     if (lsock > all.max_fd) all.max_fd = lsock;
 }
 
-bool GUI_RPC_CONN_SET::check_allowed_list(int peer_ip) {
-    vector<int>::iterator remote_iter = allowed_remote_ip_addresses.begin();
+bool GUI_RPC_CONN_SET::check_allowed_list(sockaddr_storage& peer_ip) {
+    vector<sockaddr_storage>::iterator remote_iter = allowed_remote_ip_addresses.begin();
     while (remote_iter != allowed_remote_ip_addresses.end() ) {
-        int remote_host = *remote_iter;
-        if (peer_ip == remote_host) {
+        if (same_ip_addr(peer_ip, *remote_iter)) {
             return true;
         }
         remote_iter++;
@@ -360,7 +361,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     if (lsock < 0) return;
 
     if (FD_ISSET(lsock, &fg.read_fds)) {
-        struct sockaddr_in addr;
+        struct sockaddr_storage addr;
 
         // For unknown reasons, the FD_ISSET() above succeeds
         // after a SIGTERM, SIGHUP, SIGINT or SIGQUIT is received,
@@ -385,7 +386,6 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         fcntl(sock, F_SETFD, FD_CLOEXEC);
 #endif
 
-        int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
         bool allowed;
          
         // accept the connection if:
@@ -393,20 +393,18 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         // 2) client host is included in "remote_hosts" file or
         // 3) client is on localhost
         //
-        if (peer_ip == 0x7f000001) {
+        if (is_localhost(addr)) {
             allowed = true;
             is_local = true;
         } else {
             // reread host file because IP addresses might have changed
             //
             get_allowed_hosts();
-            allowed = check_allowed_list(peer_ip);
+            allowed = check_allowed_list(addr);
         }
 
         if (!(config.allow_remote_gui_rpc) && !(allowed)) {
-            in_addr ia;
-            ia.s_addr = htonl(peer_ip);
-            show_connect_error(ia);
+            show_connect_error(addr);
             boinc_close_socket(sock);
         } else {
             gr = new GUI_RPC_CONN(sock);

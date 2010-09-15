@@ -40,7 +40,10 @@ struct FDSET_GROUP {
     }
 };
 
-extern int resolve_hostname(char* hostname, int& ip_addr);
+extern bool is_localhost(sockaddr_storage& s);
+extern bool same_ip_addr(sockaddr_storage& s1, sockaddr_storage& s2);
+extern int resolve_hostname(const char* hostname, sockaddr_storage& ip_addr);
+extern int resolve_hostname_or_ip_addr(const char* hostname, sockaddr_storage& ip_addr);
 extern int boinc_socket(int& sock);
 extern int boinc_socket_asynch(int sock, bool asynch);
 extern void boinc_close_socket(int sock);
