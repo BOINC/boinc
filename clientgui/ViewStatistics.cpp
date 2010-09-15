@@ -1530,7 +1530,6 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
         stat.day = max_val_x;
         sumstats.push_back(stat);
 
-        double saved_day;
 		int count = -1;
 		for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
 			++count;
@@ -1547,19 +1546,17 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
                 if ((*proj_iter).day >= min_val_x) {
                     if ((*proj_iter).day < (*sum_iter).day) {
                         sum_iter = sumstats.insert(sum_iter, stat);
+                        *sum_iter = saved_sum_stat;
                         (*sum_iter).day = (*proj_iter).day;
                     } else {
                         saved_sum_stat = *sum_iter;
                     }
                     
-                    saved_day = (*sum_iter).day;
-                    *sum_iter = saved_sum_stat;
-                    if ((*proj_iter).day > saved_day) {
+                    if ((*proj_iter).day > (*sum_iter).day) {
                         AddToStats(prev_proj_stat, *sum_iter);
                     } else {
                         AddToStats(*proj_iter, *sum_iter);
                     }
-                    (*sum_iter).day = saved_day;
                     
                     ++sum_iter;
                     if (sum_iter == sumstats.end()) {
@@ -1572,9 +1569,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
                     ++proj_iter;
                     if (proj_iter == (*i)->statistics.end()) {
                         for (; sum_iter != sumstats.end(); ++sum_iter) {
-                            saved_day = (*sum_iter).day;
                             AddToStats(prev_proj_stat, *sum_iter);
-                            (*sum_iter).day = saved_day;
                         }
                         break;
                     }
