@@ -185,7 +185,7 @@ int RPC_CLIENT::init_poll() {
     } else if (FD_ISSET(sock, &write_fds)) {
         retval = get_socket_error(sock);
         if (!retval) {
-            BOINCTRACE("init_poll(): connected to port %d\n", ntohs(addr.sin_port));
+            BOINCTRACE("init_poll(): connected\n");
             retval = boinc_socket_asynch(sock, false);
             if (retval) {
                 BOINCTRACE("init_poll(): boinc_socket_asynch: %d\n", retval);

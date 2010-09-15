@@ -6590,3 +6590,9 @@ David  15 Sept 2010
         user/
             sample_index.php
             server_status.php (new)
+
+David  15 Sept 2010
+    - compile fix for Mac
+
+    lib/
+        gui_rpc_client.cpp
