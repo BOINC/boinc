@@ -6625,3 +6625,16 @@ David  15 Sept 2010
 
     client/
         cs_benchmark.cpp
+
+David  15 Sept 2010
+    - web: don't require that SECURE_URL_BASE be set,
+        or that it end with a /
+
+    html/
+        inc/
+            user.inc
+            util.inc
+        user/
+            create_account_form.php
+            edit_email_form.php
+            login_form.php

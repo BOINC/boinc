@@ -44,7 +44,7 @@ row2(tra("New email address").
 
 row2(
     tra("Password").
-    "<br><a href=".SECURE_URL_BASE."edit_passwd_form.php><font size=-2>".tra("No password?")."</font></a>",
+    "<br><a href=".SECURE_URL_BASE."/edit_passwd_form.php><font size=-2>".tra("No password?")."</font></a>",
     "<input type=password name=passwd>"
 );
 row2("", "<input type=submit value='".tra("Change email address")."'>");

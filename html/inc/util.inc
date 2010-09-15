@@ -28,6 +28,10 @@ ini_set("memory_limit", "64M");
 
 date_default_timezone_set("UTC");
 
+if (!defined('SECURE_URL_BASE')) {
+    define('SECURE_URL_BASE', URL_BASE);
+}
+
 $generating_xml = false;
 $caching = false;
 

@@ -25,7 +25,7 @@ if (defined('SECURE_URL_BASE')
     && strstr(SECURE_URL_BASE, "https://")
     && !$_SERVER['HTTPS']
 ) {
-    Header("Location: ".SECURE_URL_BASE."login_form.php?next_url=$next_url");
+    Header("Location: ".SECURE_URL_BASE."/login_form.php?next_url=$next_url");
     exit;
 
 }
@@ -35,7 +35,7 @@ $user = get_logged_in_user(false);
 page_head("Log in");
 
 echo "
-    <form name=\"f\" method=\"post\" action=\"".SECURE_URL_BASE."login_action.php\">
+    <form name=\"f\" method=\"post\" action=\"".SECURE_URL_BASE."/login_action.php\">
     <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
 ";
 start_table();

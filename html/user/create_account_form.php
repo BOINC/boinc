@@ -27,7 +27,7 @@ if (defined('SECURE_URL_BASE')
     && strstr(SECURE_URL_BASE, "https://")
     && !$_SERVER['HTTPS']
 ) {
-    Header("Location: ".SECURE_URL_BASE."create_account_form.php?next_url=$next_url");
+    Header("Location: ".SECURE_URL_BASE."/create_account_form.php?next_url=$next_url");
     exit;
 
 }
