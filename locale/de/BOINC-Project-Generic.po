@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-09-07 11:01-0700\n"
+"PO-Revision-Date: 2010-09-16 03:59-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -317,9 +317,8 @@ msgid "Tasks"
 msgstr "Aufgaben"
 
 #: ../inc/host.inc:179
-#, fuzzy
 msgid "Number of times BOINC has contacted server"
-msgstr "Anzahl der Clientverbindungen zum Server"
+msgstr "Anzahl der Verbindungen zum Server"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
@@ -1000,12 +999,10 @@ msgid "Anonymous platform"
 msgstr "Anonyme Plattform"
 
 #: ../inc/result.inc:43
-#, fuzzy
 msgid "NVIDIA GPU"
 msgstr "NVIDIA Grafikkarte"
 
 #: ../inc/result.inc:44
-#, fuzzy
 msgid "ATI GPU"
 msgstr "ATI Grafikkarte"
 
@@ -1130,9 +1127,8 @@ msgid "Computation error"
 msgstr "Berechnungsfehler"
 
 #: ../inc/result.inc:174
-#, fuzzy
 msgid "Redundant result"
-msgstr "redundantes Ergebnis"
+msgstr "nicht benötigtes Ergebnis"
 
 #: ../inc/result.inc:175
 msgid "No reply"
@@ -1231,7 +1227,6 @@ msgid "Task"
 msgstr "Aufgabe"
 
 #: ../inc/result.inc:275
-#, fuzzy
 msgid "Work unit"
 msgstr "Arbeitspaket"
 
@@ -1314,7 +1309,6 @@ msgid "Validate state"
 msgstr "Prüfungsstatus"
 
 #: ../inc/result.inc:393
-#, fuzzy
 msgid "Application version"
 msgstr "Anwendungsversion"
 
@@ -2013,7 +2007,6 @@ msgid "To remove it from your profile, check this box:"
 msgstr "Bild aus meinem Profil entfernen:"
 
 #: ../user/create_profile.php:78
-#, fuzzy
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
@@ -2319,9 +2312,8 @@ msgstr ""
 "schließen."
 
 #: ../user/forum_thread.php:126
-#, fuzzy
 msgid "I've also got this question"
-msgstr "Ich möchte auch eine Antwort zu dieser Frage"
+msgstr "Ich habe auch diese Frage"
 
 #: ../user/forum_thread.php:145 ../user/forum_thread.php:200
 msgid "Add a new message to this thread"
@@ -2340,7 +2332,6 @@ msgid "Subscribe"
 msgstr "Abonnieren"
 
 #: ../user/forum_thread.php:155
-#, fuzzy
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
 "Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben wurden."
@@ -2362,7 +2353,6 @@ msgid "Hide this thread"
 msgstr "Dieses Thema vor der Öffentlichkeit verstecken"
 
 #: ../user/forum_thread.php:167
-#, fuzzy
 msgid "Make unsticky"
 msgstr "Entpinnen"
 
@@ -2945,7 +2935,6 @@ msgstr ""
 "2 aufheben."
 
 #: ../user/prefs.php:36
-#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
@@ -2953,7 +2942,7 @@ msgid ""
 msgstr ""
 "Ihre Einstellungen wurden aktualisiert. Clienteinstellungen\n"
 "werden aktiviert wenn der Computer mit %1 kommuniziert\n"
-"oder die %2Aktualisierung%3 im Manager ausgelöst wurde."
+"oder die %2Aktualisieren%3 im Manager ausgelöst wurde."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
@@ -3215,7 +3204,6 @@ msgstr ""
 "erstellen%2."
 
 #: ../user/team_admins.php:32
-#, fuzzy
 msgid "Remove Team Admin status from this member"
 msgstr "Teamadmin-Status von diesem Mitglied entfernen"
 
@@ -3347,13 +3335,12 @@ msgstr ""
 "zwischenzeitlich verlassen. Daher wurde die Anfrage abgebrochen."
 
 #: ../user/team_change_founder_form.php:47
-#, fuzzy
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
-"Das Mitglied %1 hat den Gründerstatus angefordert. Entweder haben Sie das "
-"Team verlassen oder schon lange keinen Kontakt mehr gesucht."
+"Das Mitglied %1 hat den Gründerstatus für dieses Team angefordert. Entweder "
+"haben Sie das Team verlassen oder schon lange keinen Kontakt mehr gesucht."
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
@@ -3512,7 +3499,6 @@ msgid "Team Message Board"
 msgstr "Diskussionsforum des Teams"
 
 #: ../user/team_forum.php:66
-#, fuzzy
 msgid "Discussion among members of %1"
 msgstr "Diskussionen der Mitglieder von %1"
 
@@ -3623,7 +3609,6 @@ msgid "Assumed foundership of %1"
 msgstr "Gründerstatus von %1 übernommen"
 
 #: ../user/team_founder_transfer_action.php:109
-#, fuzzy
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
@@ -3657,9 +3642,8 @@ msgid "You need to be a member of a team to access this page."
 msgstr "Man muss Mitglied eines Teams sein um diese Seite anzusehen."
 
 #: ../user/team_founder_transfer_form.php:29
-#, fuzzy
 msgid "Request foundership of %1"
-msgstr "Gründerstatus von %1 anfordern"
+msgstr "Gründerstatus für %1 anfordern"
 
 #: ../user/team_founder_transfer_form.php:36
 msgid "You are now founder of team %1."

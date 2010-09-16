@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-09-16 02:13-0700\n"
+"PO-Revision-Date: 2010-09-16 03:41-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -224,7 +224,7 @@ msgstr "&Nachrichten\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:332
 msgid "Display notices"
-msgstr "Hinweise anzeigen"
+msgstr "Nachrichten anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "&Projects\tCtrl+Shift+P"
@@ -952,11 +952,11 @@ msgstr "Nicht mit einem Client verbunden."
 #: clientgui/BOINCTaskBar.cpp:767
 #, c-format
 msgid "%s Notices"
-msgstr "%s Hinweise"
+msgstr "%s Nachrichten"
 
 #: clientgui/BOINCTaskBar.cpp:773
 msgid "There are new notices - click to view."
-msgstr "Es gibt neue hinweise - klicken zum anzeigen."
+msgstr "Es gibt neue Nachrichten - klicken zum anzeigen."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1557,7 +1557,6 @@ msgstr ""
 "mehrere Meldungen gleichzeitig markieren."
 
 #: clientgui/DlgEventLog.cpp:291
-#, fuzzy
 msgid "Close"
 msgstr "Schließen"
 
@@ -1721,9 +1720,8 @@ msgid "Added via account manager"
 msgstr "Von der Kontoverwaltung hinzugefügt"
 
 #: clientgui/DlgItemProperties.cpp:221
-#, fuzzy
 msgid "Remove when tasks done"
-msgstr "Entfernen wenn alle Arbeit erledigt ist"
+msgstr "Abmelden wenn alle Arbeit erledigt ist"
 
 #: clientgui/DlgItemProperties.cpp:222
 msgid "Ended"
@@ -1899,18 +1897,17 @@ msgid "What language should BOINC use?"
 msgstr "Welche Sprache soll der Manager verwenden?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid ""
 "Notice reminder interval:\n"
 "(minutes; 0 means no reminders)"
 msgstr ""
-"Intervall der Hinweis-Erinnerung:\n"
+"Intervall der Nachrichten-Erinnerung:\n"
 "(Minuten; 0 bedeutet nie)"
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should BOINC remind you of new notices?"
 msgstr ""
-"Wie oft soll der Manager Sie erinnern wenn neue Hinweise verfügbar sind?"
+"Wie oft soll der Manager Sie erinnern wenn neue Nachrichten verfügbar sind?"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2444,7 +2441,7 @@ msgstr ""
 
 #: clientgui/NoticeListCtrl.cpp:54
 msgid "Notice List"
-msgstr "Hinweisliste"
+msgstr "Nachrichtenliste"
 
 #: clientgui/NoticeListCtrl.cpp:198
 #, c-format
@@ -2466,7 +2463,7 @@ msgstr "Klick"
 #: clientgui/NoticeListCtrl.cpp:562
 #, fuzzy
 msgid "From"
-msgstr "Absender"
+msgstr "Autor"
 
 #: clientgui/NoticeListCtrl.cpp:574
 msgid "more..."
@@ -3173,7 +3170,7 @@ msgstr "Zeige die neusten Nachrichten über BOINC"
 
 #: clientgui/ViewNotices.cpp:104
 msgid "Notices"
-msgstr "Hinweise"
+msgstr "Nachrichten"
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
