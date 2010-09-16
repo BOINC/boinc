@@ -26,7 +26,7 @@ if (!is_array($languages)) {
 }
 
 $prefs = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
-$prefs = filter_var($prefs, FILTER_SANITIZE_STRING);
+$prefs = sanitize_tags($prefs);
 
 $set_lang = get_str("set_lang", true);
 if ($set_lang){

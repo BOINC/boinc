@@ -6638,3 +6638,13 @@ David  15 Sept 2010
             create_account_form.php
             edit_email_form.php
             login_form.php
+
+David  16 Sept 2010
+    - web: don't call filter_var() if it doesn't exist (PHP version < 5.2)
+
+    html/
+        inc/
+            util.inc
+        user/
+            language_select.php
+            mail_passwd.php

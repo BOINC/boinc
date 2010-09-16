@@ -756,12 +756,29 @@ function sanitize_local_url($x) {
 // strip HTML tags
 //
 function sanitize_tags($x) {
-    return filter_var($x, FILTER_SANITIZE_STRING);
+    if (function_exists('filter_var')) {
+        return filter_var($x, FILTER_SANITIZE_STRING);
+    } else {
+        return strip_tags($x);
+    }
 }
 
 function sanitize_numeric($x) {
-    return filter_var($x, FILTER_SANITIZE_NUMBER_FLOAT);
+    if (is_numeric($x)) {
+        return $x;
+    } else {
+        return "not numeric"
+    }
 }
+
+function sanitize_email($x) {
+    if (function_exists('filter_var')) {
+        filter_var($email_addr, FILTER_SANITIZE_EMAIL);
+    } else {
+        return strip_tags($x);
+    }
+}
+
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
