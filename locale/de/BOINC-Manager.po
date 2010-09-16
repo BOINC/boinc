@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-08-05 12:11-0700\n"
+"PO-Revision-Date: 2010-09-16 02:13-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -220,7 +220,7 @@ msgstr "&Beenden"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Hinweise\tCtrl+Shift+H"
+msgstr "&Nachrichten\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:332
 msgid "Display notices"
@@ -4707,6 +4707,7 @@ msgstr "gebe Anfangs- und Endzeit der Netzwerknutzung im Format HH:MM-HH:MM ein"
 #~ "Wir assistieren Ihnen bei der Anbindung an ein Projekt oder eine "
 #~ "Kontoverwaltung."
 
+#, c-format
 #~ msgid ""
 #~ "You have selected to attach to a new BOINC project.  Attaching to a new\n"
 #~ "project means that you will be connecting your computer to a new website\n"
