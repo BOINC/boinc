@@ -6648,3 +6648,9 @@ David  16 Sept 2010
         user/
             language_select.php
             mail_passwd.php
+
+David  16 Sept 2010
+    - web: bug fix
+
+    html/inc/
+        pm.inc

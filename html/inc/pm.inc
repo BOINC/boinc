@@ -27,7 +27,7 @@ function pm_header() {
     echo "</div>\n";
 }
 
-function pm_create_new($error = null) {
+function pm_form($error = null) {
     global $bbcode_html, $bbcode_js;
     global $g_logged_in_user;
     page_head(tra("Send private message"),'','','', $bbcode_js);
