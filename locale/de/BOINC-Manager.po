@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-09-16 04:59-0700\n"
+"PO-Revision-Date: 2010-09-16 05:59-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -303,7 +303,7 @@ msgstr "Projekt &anmelden..."
 #: clientgui/AdvancedFrame.cpp:413
 msgid "Attach to a project to begin processing work"
 msgstr ""
-"Sie müssen ein Projekt an diesem Rechner anmelden um mit der Arbeit zu "
+"Sie müssen ein Projekt an diesem Rechner anmelden, um mit der Arbeit zu "
 "beginnen."
 
 #: clientgui/AdvancedFrame.cpp:417
@@ -388,7 +388,7 @@ msgstr "Netzwerkzugriff a&bgeschaltet"
 
 #: clientgui/AdvancedFrame.cpp:514
 msgid "Stop BOINC network activity"
-msgstr "Verhindert das BOINC auf das Internet zugreift."
+msgstr "Verhindert, dass BOINC auf das Internet zugreift."
 
 #: clientgui/AdvancedFrame.cpp:521
 msgid "&Options..."
