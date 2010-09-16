@@ -767,7 +767,7 @@ function sanitize_numeric($x) {
     if (is_numeric($x)) {
         return $x;
     } else {
-        return "not numeric"
+        return "not numeric";
     }
 }
 
