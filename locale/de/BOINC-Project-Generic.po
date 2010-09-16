@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-09-16 03:59-0700\n"
+"PO-Revision-Date: 2010-09-16 04:02-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -4239,9 +4239,8 @@ msgid "can't find workunit"
 msgstr "Arbeitspaket nicht gefunden"
 
 #: ../user/workunit.php:33
-#, fuzzy
 msgid "Workunit %1"
-msgstr "Paket ID"
+msgstr "Paket %1"
 
 #: ../user/workunit.php:37
 msgid "name"
@@ -4258,14 +4257,12 @@ msgid "created"
 msgstr "erstellt"
 
 #: ../user/workunit.php:41
-#, fuzzy
 msgid "canonical result"
 msgstr "autorisiertes Ergebnis"
 
 #: ../user/workunit.php:44
-#, fuzzy
 msgid "granted credit"
-msgstr "bewilligte Punkte"
+msgstr "gewährte Punkte"
 
 #: ../user/workunit.php:52
 msgid "Tasks in progress"

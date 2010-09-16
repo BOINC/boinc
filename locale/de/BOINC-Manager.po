@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-09-16 03:41-0700\n"
+"PO-Revision-Date: 2010-09-16 04:33-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -2931,7 +2931,7 @@ msgstr "Synchronisiere Projekt mit der Kontoverwaltung"
 #: clientgui/sg_ProjectsComponent.cpp:201
 msgid "Open a window to view messages"
 msgstr ""
-"Öffnet ein Fenster um Nachrichten der Anwendungen und des BOINC Clients "
+"Öffnet ein Fenster um Meldungen der Anwendungen und des BOINC Clients "
 "anzuzeigen."
 
 #: clientgui/sg_ProjectsComponent.cpp:219
