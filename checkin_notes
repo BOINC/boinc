@@ -6660,4 +6660,9 @@ David  16 Sept 2010
 
     html/user/
         server_status.php
+
 David  16 Sept 2010
+    - client: fix boinc_temporary_exit() handling on Unix (from Hien)
+
+    client/
+        app_control.cpp

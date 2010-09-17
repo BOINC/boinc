@@ -348,11 +348,23 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                     handle_premature_exit(will_restart);
                 }
             }
-            if (log_flags.task_debug) {
-                msg_printf(result->project, MSG_INFO,
-                    "[task] exit status %d\n",
-                    result->exit_status
-                );
+            double x;
+            if (temporary_exit_file_present(x)) {
+                if (log_flags.task_debug) {
+                    msg_printf(result->project, MSG_INFO,
+                        "[task] task called temporary_exit(%f)", x
+                    );
+                }
+                set_task_state(PROCESS_UNINITIALIZED, "temporary exit");
+                will_restart = true;
+                result->schedule_backoff = gstate.now + x;
+            } else {
+                if (log_flags.task_debug) {
+                    msg_printf(result->project, MSG_INFO,
+                        "[task] process exited with status %d\n",
+                        result->exit_status
+                    );
+                }
             }
         } else if (WIFSIGNALED(stat)) {
             int got_signal = WTERMSIG(stat);
