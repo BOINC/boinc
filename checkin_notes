@@ -6654,3 +6654,10 @@ David  16 Sept 2010
 
     html/inc/
         pm.inc
+
+David  16 Sept 2010
+    - web: server_status.php is not an ops page
+
+    html/user/
+        server_status.php
+David  16 Sept 2010

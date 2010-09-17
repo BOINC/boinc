@@ -491,7 +491,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
             struct stat s;
             char buf[256];
             sprintf(buf, "/proc/%d", pid);
-            log_messages.printf(MSG_NORMAL, "checking pid %d", pid);
+            log_messages.printf(MSG_NORMAL, "checking pid %d\n", pid);
             if (stat(buf, &s)) {
                 wu_result.state = WR_STATE_PRESENT;
                 log_messages.printf(MSG_NORMAL,
