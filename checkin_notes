@@ -6666,3 +6666,11 @@ David  16 Sept 2010
 
     client/
         app_control.cpp
+
+David  16 Sept 2010
+	- client: improve "wrong URL" messages
+	- client: add title to client/server messages: "Notice from BOINC"
+
+	client/
+		client_msgs.cpp
+		cs_scheduler.cpp

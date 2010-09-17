@@ -103,6 +103,7 @@ void MESSAGE_DESCS::insert(
         xml_escape(message, buf, 1024);
         NOTICE n;
         n.description = buf;
+        strcpy(n.title, _("Notice from BOINC"));
         if (link) {
             strcpy(n.link, link);
         }

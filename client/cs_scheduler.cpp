@@ -500,29 +500,17 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         downcase_string(url1);
         downcase_string(url2);
         if (url1 != url2) {
-            msg_printf(project, MSG_INFO,
-                "You used the wrong URL for this project; the correct URL is %s",
-                sr.master_url
-            );
             p2 = lookup_project(sr.master_url);
             if (p2) {
-                msg_printf(project, MSG_INFO,
-                    "You seem to be attached to this project twice"
-                );
-                msg_printf(project, MSG_INFO,
-                    "We suggest that you detach projects named %s,",
-                    project->project_name
-                );
-                msg_printf(project, MSG_INFO,
-                    "then reattach to %s", sr.master_url
+                msg_printf(project, MSG_USER_ALERT,
+                    "You are attached to this project twice.  Please remove projects named %s, then add %s",
+                    project->project_name,
+                    sr.master_url
                 );
             } else {
-                msg_printf(project, MSG_INFO,
-                    "Using the wrong URL can cause problems in some cases."
-                );
-                msg_printf(project, MSG_INFO,
-                    "When convenient, detach this project, then reattach to %s",
-                    sr.master_url
+                msg_printf(project, MSG_USER_ALERT,
+                    "You used the wrong URL for this project.  When convenient, remove this project, then add %s",
+                    sr.master_url, sr.master_url
                 );
             }
         }
@@ -553,8 +541,8 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     //
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
-        sprintf(buf, "%s %s",
-            _("Message from project server:"),
+        sprintf(buf, "%s %s: %s",
+            _("Message from"), project->get_project_name(),
             um.message.c_str()
         );
         int prio = (!strcmp(um.priority.c_str(), "notice"))?MSG_SCHEDULER_ALERT:MSG_INFO;
