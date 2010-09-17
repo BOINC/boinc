@@ -6674,3 +6674,10 @@ David  16 Sept 2010
 	client/
 		client_msgs.cpp
 		cs_scheduler.cpp
+
+David  17 Sept 2010
+    - scheduler: message tweak
+    tools/
+        create_work.cpp
+    sched/
+        handle_request.cpp

@@ -197,15 +197,22 @@ int main(int argc, const char** argv) {
         i++;
     }
 
-#define CHKARG(x,m) do { if (!(x)) { fprintf(stderr, "create_work: bad command line: "m"\n"); exit(1); } } while (0)
-#define CHKARG_STR(v,m) CHKARG(strlen(v),m)
-
-    CHKARG_STR(app.name             , "need --appname");
-    CHKARG_STR(wu.name              , "need --wu_name");
-    CHKARG_STR(wu_template_file     , "need --wu_template");
-    CHKARG_STR(result_template_file , "need --result_template");
-#undef CHKARG
-#undef CHKARG_STR
+    if (!strlen(app.name)) {
+        fprintf(stderr, "create_work: missing --appname\n");
+        exit(1);
+    }
+    if (!strlen(wu.name)) {
+        fprintf(stderr, "create_work: missing --wu_name\n");
+        exit(1);
+    }
+    if (!strlen(wu_template_file)) {
+        fprintf(stderr, "create_work: missing --wu_template\n");
+        exit(1);
+    }
+    if (!strlen(result_template_file)) {
+        fprintf(stderr, "create_work: missing --result_template\n");
+        exit(1);
+    }
 
     if (assign_flag) {
         if (!strstr(wu.name, ASSIGNED_WU_STR)) {

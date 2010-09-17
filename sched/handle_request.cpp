@@ -827,7 +827,7 @@ bool send_code_sign_key(char* code_sign_key) {
                     retval = read_file_malloc(path, signature);
                     if (retval) {
                         g_reply->insert_message(
-                           _("You may have an outdated code signing key.  Try attaching and reattaching this project."),
+                           _("The project has changed its security key.  Please remove and add this project."),
                            "notice"
                         );
                     } else {
