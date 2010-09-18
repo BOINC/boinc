@@ -509,8 +509,8 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
                 );
             } else {
                 msg_printf(project, MSG_USER_ALERT,
-                    "You used the wrong URL for this project.  When convenient, remove this project, then add %s",
-                    sr.master_url, sr.master_url
+                    _("You used the wrong URL for this project.  When convenient, remove this project, then add %s"),
+                    sr.master_url
                 );
             }
         }

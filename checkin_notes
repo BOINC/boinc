@@ -6681,3 +6681,14 @@ David  17 Sept 2010
         create_work.cpp
     sched/
         handle_request.cpp
+
+David  17 Sept 2010
+    - client: when computing non-BOINC CPU usage,
+        allow for the possibility that suspended BOINC apps
+        aren't really suspended
+        (e.g. multithread apps that don't use boinc_init_parallel())
+    - client: message tweak
+
+    client/
+        app.cpp
+        cs_scheduler.cpp

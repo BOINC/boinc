@@ -324,7 +324,13 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 	}
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
-        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
+
+        // scan all tasks, in case preempted tasks
+        // didn't actually suspend themselves
+        // (otherwise we'd count that as non-BOINC CPU usage
+        // and suspend everything).
+
+        //if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
             PROCINFO& pi = atp->procinfo;
             unsigned long last_page_fault_count = pi.page_fault_count;
             memset(&pi, 0, sizeof(pi));
@@ -343,7 +349,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
                     pi.user_time, pi.kernel_time
                 );
             }
-        }
+        //}
     }
 
     exclusive_app_running = false;
