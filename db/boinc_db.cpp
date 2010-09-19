@@ -1826,7 +1826,7 @@ int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
 }
 
 int DB_SCHED_RESULT_ITEM_SET::enumerate() {
-    char query[MAX_QUERY_LEN];
+    string query;
     int retval;
     unsigned int i;
     MYSQL_RES* rp;
@@ -1834,7 +1834,7 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     SCHED_RESULT_ITEM ri;
 
 
-    strcpy2(query,
+    query =
         "SELECT "
         "   id, "
         "   name, "
@@ -1854,17 +1854,17 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
         "   result "
         "WHERE "
         "   name IN ( "
-    );
+    ;
 
     for (i=0; i<results.size(); i++) {
-        if (i>0) strcat(query, ",");
-        strcat(query, "'");
-        strcat(query, results[i].queried_name);
-        strcat(query, "'");
+        if (i>0) query += ",";
+        query += "'";
+        query += results[i].queried_name;
+        query += "'";
     }
-    strcat(query, ")");
+    query += ")";
 
-    retval = db->do_query(query);
+    retval = db->do_query(query.c_str());
     if (retval) return retval;
 
     // the following stores the entire result set in memory

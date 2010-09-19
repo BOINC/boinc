@@ -6692,3 +6692,10 @@ David  17 Sept 2010
     client/
         app.cpp
         cs_scheduler.cpp
+
+David  18 Sept 2010
+    - scheduler: fix crashing bug when client reports a large # (1000+)
+        of results (256KB not enough for query in this case)
+
+    db/
+        boinc_db.cpp
