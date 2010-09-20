@@ -17,6 +17,7 @@
 
 #include "config.h"
 #include <cstdlib>
+#include <string>
 #include <cstring>
 #include <ctime>
 #include <unistd.h>
@@ -38,6 +39,8 @@
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
 #endif
+
+using std::string;
 
 extern "C" {
     int isnan(double);
