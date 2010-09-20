@@ -189,10 +189,10 @@ for ($i=0; $i<sizeof($filtered_userlist); $i++){
         $forum_filtered_userlist .= "<input type =\"submit\" name=\"remove".$filtered_user->id."\" value=\"Remove\"> ".$filtered_user->id." - ".user_links($filtered_user)."<br>";
     }
 }
+
 row2("Filtered users".
     "<br><span class=note>Ignore message board posts and private messages from these  users.</span>",
     "$forum_filtered_userlist
-    <br>
         <input type=\"text\" name=\"forum_filter_user\" size=12> User ID (For instance: 123456789)
         <br><input type=\"submit\" name=\"add_user_to_filter\" value=\"Add user to filter\">
     "

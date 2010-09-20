@@ -6699,3 +6699,19 @@ David  18 Sept 2010
 
     db/
         boinc_db.cpp
+
+David  20 Sept 2010
+    - web: appearance tweaks from Simek; fixes #1012
+
+    html/
+        inc/
+            util.inc
+        user/
+            sample_index.php
+            main.css
+            edit_email_form.php
+            white.css
+            login_form.php
+            notices.phhp
+            edit_user_info_form.php
+            edit_forum_preferences_form.php

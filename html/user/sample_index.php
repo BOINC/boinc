@@ -49,7 +49,7 @@ function show_nav() {
             If you're already running BOINC, select Attach to Project.
             If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
         <li> When prompted, enter <br><b>".$master_url."</b>
-        <li> If you're running a command-line or pre-5.0 version of BOINC,
+        <li> If you're running a command-line version of BOINC,
             <a href=\"create_account_form.php\">create an account</a> first.
         <li> If you have any problems,
             <a target=\"_new\" href=\"http://boinc.berkeley.edu/help.php\">get help here</a>.

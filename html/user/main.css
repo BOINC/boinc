@@ -76,11 +76,13 @@ td.heading {
 td.fieldname {
 	text-align: right;
 	padding-right: 10px;
+    font-size: 14px;
 	margin: 2px 0;
 }
 
 td.fieldvalue {
 	margin: 2px 0;
+	vertical-align: top;
 }
 
 td.fieldname_error {
@@ -118,8 +120,9 @@ input[type="submit"],
 	margin: 2px;
 	border-width: 1px;
 	border-style: solid;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: normal;
+	cursor: pointer;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
@@ -135,7 +138,7 @@ a.button {
 	margin: 0 4px;
 	border-width: 1px;
 	border-style: solid;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: normal;
 	white-space: nowrap;
 	-moz-border-radius: 5px;
@@ -152,12 +155,12 @@ input.btn:hover,
 	text-decoration: none;
 }
 
-input[type="text"], select, textarea {
+input[type="text"], input[type="password"] select, textarea {
 	border-width: 1px;
 	border-style: solid;
 	margin: 2px 4px;
 	padding: 3px;
-	font-size: 12px;
+	font-size: 14px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
@@ -361,11 +364,12 @@ span.page_title {
 
 span.note {
 	font-weight: normal;
+	font-style: italic;
 	font-size: 0.9em;
 }
 
 span.news_date {
-	font-size: 0.9em;
+	font-size: 0.8em;
 }
 
 span.news_title,

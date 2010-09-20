@@ -1458,7 +1458,8 @@ bool CLIENT_STATE::enforce_schedule() {
             if (ncpus_used >= ncpus) {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched] all CPUs used, skipping %s",
+                        "[cpu_sched] all CPUs used (%.2f > %d), skipping %s",
+                        ncpus_used, ncpus,
                         rp->name
                     );
                 }

@@ -40,7 +40,7 @@ echo "
 ";
 start_table();
 row2(tra("Email address:") . '<br><span class="note"><a href="get_passwd.php">'.tra("forgot email address?")."</a></span>",
-    "<input name=email_addr size=40 tabindex=1>");
+    "<input name=email_addr type=\"text\" size=40 tabindex=1>");
 row2(tra("Password:") . '<br><span class="note"><a href="get_passwd.php">' . tra("forgot password?") . "</a></span>",
     '<input type="password" name="passwd" size="40" tabindex="2">'
 );
