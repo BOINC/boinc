@@ -3,21 +3,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-06-07 05:22-0700\n"
+"PO-Revision-Date: 2010-09-20 00:01+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -120,18 +118,16 @@ msgid "Account manager website"
 msgstr "Fiókkezelő honlap"
 
 #: clientgui/AccountInfoPage.cpp:557
-#, fuzzy
 msgid "Add project"
-msgstr "Csatlakozott a projekthez"
+msgstr "Projekt hozzáadása"
 
 #: clientgui/AccountInfoPage.cpp:559
 msgid "Update account manager"
 msgstr "Fiókkezelő frissítése"
 
 #: clientgui/AccountInfoPage.cpp:561
-#, fuzzy
 msgid "Add account manager"
-msgstr "Fiókkezelő"
+msgstr "Fiókkezelő hozzáadása"
 
 #: clientgui/AccountInfoPage.cpp:568
 #, c-format
@@ -275,13 +271,13 @@ msgid "Display the simple graphical interface."
 msgstr "Az egyszerű grafikus felület megjelenítése."
 
 #: clientgui/AdvancedFrame.cpp:390
-#, fuzzy
 msgid "&Add project or account manager..."
-msgstr "&Csatlakozás projekthez vagy fiókkezelőhöz..."
+msgstr "&Projekt vagy fiókkezelő hozzáadása"
 
 #: clientgui/AdvancedFrame.cpp:391
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Vegyen részt bármelyikben a több, mint 30 különböző tudományos projektből"
 
 #: clientgui/AdvancedFrame.cpp:395
 #, c-format
@@ -294,14 +290,12 @@ msgid "Get current settings from %s"
 msgstr "Aktuális beállítások betöltése innen: %s"
 
 #: clientgui/AdvancedFrame.cpp:409
-#, fuzzy
 msgid "&Add project..."
-msgstr "&Csatlakozás projekthez..."
+msgstr "&Projekt hozzáadása..."
 
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "Add a project"
-msgstr "Csatlakozás egy projekthez"
+msgstr "Projekt hozzáadása"
 
 #: clientgui/AdvancedFrame.cpp:413
 #, c-format

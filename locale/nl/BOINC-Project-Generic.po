@@ -3,21 +3,19 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-14 05:23-0700\n"
-"Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
+"PO-Revision-Date: 2010-09-19 18:31+0200\n"
+"Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Nederlands"
@@ -3156,19 +3154,16 @@ msgstr ""
 "events and red X reports)"
 
 #: ../user/team_admins.php:45
-#, fuzzy
 msgid "Team Admins cannot:"
-msgstr "Team Admins cannot:"
+msgstr "Team Administrator beperkingen:"
 
 #: ../user/team_admins.php:47
-#, fuzzy
 msgid "Change the team founder"
-msgstr "Change the team founder"
+msgstr "De team oprichter aanpassen is niet mogelijk"
 
 #: ../user/team_admins.php:48 ../user/team_manage.php:52
-#, fuzzy
 msgid "Remove members"
-msgstr "Remove members"
+msgstr "Leden verwijderen niet toegestaan"
 
 #: ../user/team_admins.php:51
 #, fuzzy
@@ -3176,13 +3171,12 @@ msgid "If a Team Admin quits the team, they cease to be a Team Admin."
 msgstr "If a Team Admin quits the team, they cease to be a Team Admin."
 
 #: ../user/team_admins.php:52
-#, fuzzy
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
 msgstr ""
-"We recommend that you select only people you know and trust very well as "
-"Team Admins."
+"Wij raden aan dat de keuze van een betrouwbare team administrator "
+"weloverwogen wordt genomen."
 
 #: ../user/team_admins.php:57
 #, fuzzy
@@ -3200,9 +3194,8 @@ msgid "Became Team Admin on"
 msgstr "Became Team Admin on"
 
 #: ../user/team_admins.php:75
-#, fuzzy
 msgid "Add Team Admin"
-msgstr "Add Team Admin"
+msgstr "Team Administrator toevoegen "
 
 #: ../user/team_admins.php:76
 #, fuzzy
@@ -3210,9 +3203,8 @@ msgid "Email address of team member:"
 msgstr "Email address of team member:"
 
 #: ../user/team_admins.php:88
-#, fuzzy
 msgid "failed to remove admin"
-msgstr "failed to remove admin"
+msgstr "verwijderen van team administrator mislukt"
 
 #: ../user/team_admins.php:95
 #, fuzzy

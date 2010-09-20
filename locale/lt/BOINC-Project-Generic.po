@@ -3,22 +3,20 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-20 11:48-0700\n"
+"PO-Revision-Date: 2010-09-19 20:09+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"(n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
+"100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -903,7 +901,7 @@ msgstr ""
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
-msgstr ""
+msgstr "Duomenų bazės klaida"
 
 #: ../inc/profile.inc:187
 msgid ""
@@ -913,7 +911,7 @@ msgstr ""
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
-msgstr ""
+msgstr "Vartotojas pašalintas"
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
@@ -961,7 +959,7 @@ msgstr ""
 
 #: ../inc/result.inc:77
 msgid "pending"
-msgstr ""
+msgstr "laukiamas"
 
 #: ../inc/result.inc:99
 msgid "All"
@@ -969,11 +967,11 @@ msgstr ""
 
 #: ../inc/result.inc:100 ../inc/result.inc:120 ../inc/result.inc:159
 msgid "In progress"
-msgstr ""
+msgstr "Vykdomas"
 
 #: ../inc/result.inc:101 ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "Laukiama"
 
 #: ../inc/result.inc:102 ../inc/result.inc:202
 msgid "Valid"
@@ -985,7 +983,7 @@ msgstr ""
 
 #: ../inc/result.inc:104 ../inc/result.inc:145
 msgid "Error"
-msgstr ""
+msgstr "Klaida"
 
 #: ../inc/result.inc:118 ../inc/result.inc:157
 msgid "Inactive"
@@ -993,15 +991,15 @@ msgstr ""
 
 #: ../inc/result.inc:119 ../inc/result.inc:158
 msgid "Unsent"
-msgstr ""
+msgstr "Neišsiųsta"
 
 #: ../inc/result.inc:125
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Užbaigta, laukiama patikros"
 
 #: ../inc/result.inc:126
 msgid "Completed and validated"
-msgstr ""
+msgstr "Užbaigta ir patikrinta"
 
 #: ../inc/result.inc:127
 msgid "Completed, marked as invalid"
@@ -1033,15 +1031,15 @@ msgstr ""
 
 #: ../inc/result.inc:139
 msgid "Error while downloading"
-msgstr ""
+msgstr "Klaida atsisiunčiant"
 
 #: ../inc/result.inc:141
 msgid "Error while computing"
-msgstr ""
+msgstr "Klaida skaičiuojant"
 
 #: ../inc/result.inc:142
 msgid "Error while uploading"
-msgstr ""
+msgstr "Klaida įkeliant"
 
 #: ../inc/result.inc:143 ../inc/result.inc:195
 msgid "Aborted by user"
@@ -1057,7 +1055,7 @@ msgstr ""
 
 #: ../inc/result.inc:148 ../inc/result.inc:177
 msgid "Validate error"
-msgstr ""
+msgstr "Patikrinimo klaida"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
@@ -1097,7 +1095,7 @@ msgstr ""
 
 #: ../inc/result.inc:188
 msgid "Compute error"
-msgstr ""
+msgstr "Skaičiavimo klaida"
 
 #: ../inc/result.inc:189
 msgid "Uploading"
@@ -1117,7 +1115,7 @@ msgstr ""
 
 #: ../inc/result.inc:208
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "Užduočių rinkinio klaida - patikrinimas praleistas"
 
 #: ../inc/result.inc:209
 msgid "Checked, but no consensus yet"
@@ -1132,8 +1130,9 @@ msgid "Couldn't send result"
 msgstr ""
 
 #: ../inc/result.inc:222
+#, fuzzy
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "Per daug klaidų (gali būti klaidingas užduočių rinkinys)"
 
 #: ../inc/result.inc:226
 msgid "Too many results (may be nondeterministic)"
@@ -1153,7 +1152,7 @@ msgstr ""
 
 #: ../inc/result.inc:264
 msgid "Task name"
-msgstr ""
+msgstr "Užduoties pavadinimas"
 
 #: ../inc/result.inc:264 ../inc/result.inc:269 ../inc/result.inc:272
 #: ../inc/result.inc:275
@@ -1166,7 +1165,7 @@ msgstr ""
 
 #: ../inc/result.inc:269
 msgid "Show names"
-msgstr ""
+msgstr "Rodyti pavadinimus"
 
 #: ../inc/result.inc:272
 msgid "Task"
@@ -1182,7 +1181,7 @@ msgstr "Kompiuteris"
 
 #: ../inc/result.inc:281 ../inc/result.inc:381
 msgid "Sent"
-msgstr ""
+msgstr "Išsiųsta"
 
 #: ../inc/result.inc:282
 msgid "Time reported<br />or deadline"
@@ -1190,15 +1189,15 @@ msgstr ""
 
 #: ../inc/result.inc:283
 msgid "explain"
-msgstr ""
+msgstr "paaiškinti"
 
 #: ../inc/result.inc:285
 msgid "Status"
-msgstr ""
+msgstr "Būsena"
 
 #: ../inc/result.inc:286
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Veikimo trukmė<br />(sek.)"
 
 #: ../inc/result.inc:287
 msgid "CPU time<br />(sec)"
@@ -1244,7 +1243,7 @@ msgstr ""
 
 #: ../inc/result.inc:389
 msgid "Run time"
-msgstr ""
+msgstr "Veikimo trukmė"
 
 #: ../inc/result.inc:390
 msgid "CPU time"
@@ -2187,6 +2186,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"Jei turite klausimų ar problemų, naudokite %1klausimų ir atsakymų%2 forumų "
+"dalį."
 
 #: ../user/forum_index.php:93
 msgid "Topic"
@@ -2238,7 +2239,7 @@ msgstr ""
 
 #: ../user/forum_thread.php:145 ../user/forum_thread.php:200
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Pridėti naują žinutę į šią temą"
 
 #: ../user/forum_thread.php:152
 msgid "Unsubscribe"
@@ -2366,7 +2367,7 @@ msgstr ""
 
 #: ../user/friend.php:113
 msgid "Friend request sent"
-msgstr ""
+msgstr "Draugavimo užklausa išsiųsta"
 
 #: ../user/friend.php:114
 msgid "We have notified %1 of your request."

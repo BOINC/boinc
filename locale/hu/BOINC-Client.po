@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-14 16:20-0700\n"
-"PO-Revision-Date: 2010-08-17 23:27-0700\n"
-"Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
+"PO-Revision-Date: 2010-09-19 23:59+0200\n"
+"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 
 #: acct_mgr.cpp:373 acct_mgr.cpp:383
 msgid "error"
@@ -46,16 +46,18 @@ msgid "Syntax error in app_info.xml"
 msgstr "Szintaktikai hiba az app_info.xml-ben"
 
 #: gui_rpc_server.cpp:190
+#, fuzzy
 msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr ""
+msgstr "Nem sikerült feloldani a host nevet a remote_host.cfg-ben"
 
 #: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
+#, fuzzy
 msgid "Unexpected text in cc_config.xml"
-msgstr ""
+msgstr "Váratlan szöveg a cc_config.xml-ben"
 
 #: log_flags.cpp:112 log_flags.cpp:415 log_flags.cpp:460
 msgid "Unrecognized tag in cc_config.xml"
-msgstr ""
+msgstr "Fel nem ismert címke a cc_config.xml-ben"
 
 #: log_flags.cpp:434
 msgid "Missing start tag in cc_config.xml"
