@@ -50,7 +50,7 @@ for file in `find -name 'BOINC-Manager.po'` ; do
   then
 
     # Compile the PO file into an MO file.
-    pocompile ${template_name}.po ${template_name}.mo > /dev/null 2> /dev/null
+    pocompile ${template_name}.po ${template_name}.mo 
     
     # Add any new MO files to SVN
     svn add ${template_name}.mo > /dev/null 2> /dev/null
