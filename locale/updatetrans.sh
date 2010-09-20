@@ -46,20 +46,11 @@ for file in `find -name 'BOINC-Manager.po'` ; do
   locale=`basename $dir`
   template_name=${projdir}/${locale}/BOINC-Manager
  
-  # Remove old MO from previous compilation
-  #
-  rm ${projdir}/BOINC-Manager.mo > /dev/null 2> /dev/null
-
   if test ${template_name}.po -nt ${template_name}.mo
   then
 
-    # Use wget to cause the Pottle system to compile the PO file into an MO file.
-    #
-    # poEdit has a hard time with the Pootle markup in the PO files.
-    #
-    # Example: http://boinc.berkeley.edu/translate/ar/boinctrunk/BOINC-Manager.mo
-    #
-    wget "http://boinc.berkeley.edu/translate/${locale}/${projname}/BOINC-Manager.mo" > /dev/null 2> /dev/null
+    # Compile the PO file into an MO file.
+    pocompile ${template_name}.po ${template_name}.mo > /dev/null 2> /dev/null
     
     # Add any new MO files to SVN
     svn add ${template_name}.mo > /dev/null 2> /dev/null
@@ -79,20 +70,11 @@ for file in `find -name 'BOINC-Client.po'` ; do
   locale=`basename $dir`
   template_name=${projdir}/${locale}/BOINC-Client
  
-  # Remove old MO from previous compilation
-  #
-  rm ${projdir}/BOINC-Client.mo > /dev/null 2> /dev/null
-
   if test ${template_name}.po -nt ${template_name}.mo
   then
 
-    # Use wget to cause the Pottle system to compile the PO file into an MO file.
-    #
-    # poEdit has a hard time with the Pootle markup in the PO files.
-    #
-    # Example: http://boinc.berkeley.edu/translate/ar/boinctrunk/BOINC-Client.mo
-    #
-    wget "http://boinc.berkeley.edu/translate/${locale}/${projname}/BOINC-Client.mo" > /dev/null 2> /dev/null
+    # Compile the PO file into an MO file.
+    pocompile ${template_name}.po ${template_name}.mo > /dev/null 2> /dev/null
     
     # Add any new MO files to SVN
     svn add ${template_name}.mo > /dev/null 2> /dev/null
