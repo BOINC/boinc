@@ -38,11 +38,9 @@
 //
 // RSS_FEED represents an RSS feed.
 // The client polls each feed periodically.
-// A feed may have a (nonstandard) <use_seqno> attribute.
-// If present, each nonempty feed reply includes an opaque <seqno> element,
-// representing the last item returned.
-// The following request should include this element in the URL;
-// only later elements will be returned.
+// A feed has a <use_since_time> flag.
+// If present, each request includes "?since_date=x" in the URL,
+// where x is the lastBuildDate field of the previous reply.
 //
 // The last 30 days of each feed is cached on disk.
 //
@@ -88,10 +86,11 @@ struct RSS_FEED {
     char project_name[256];
     double poll_interval;
     double next_poll_time;
-    bool use_seqno;
-        // if true, append "?seqno=x" to feed requests;
-        // assume we'll get only unique items
-    char last_seqno[256];
+    bool use_since_time;
+        // if true, append "?since_time=x" to feed requests,
+        // so the server can send only new items
+    int since_time;
+        // <lastBuildDate> field of previous reply, or zero
     bool found;
         // temp used in garbage collection
 

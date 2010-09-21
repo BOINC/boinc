@@ -22,7 +22,7 @@ foreach ($areas as $area) {
     shuffle($projects);
     foreach ($projects as $p) {
         $np = null;
-        if ($p[5]) {
+        if (array_key_exists(5, $p)) {
             $np->image = $p[5];
         }
         $np->url = $p[1];

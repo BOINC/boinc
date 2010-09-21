@@ -178,10 +178,12 @@ static int month_index(char* x) {
     if (strstr(x, "Dec")) return 11;
     return 0;
 }
+#endif
 
 // convert a date-time string (assumed GMT) to Unix time
 
 static int parse_rss_time(char* buf) {
+#ifdef _WIN32
     char day_name[64], month_name[64];
     int day_num, year, h, m, s;
     sscanf(buf, "%s %d %s %d %d:%d:%d",
@@ -200,8 +202,12 @@ static int parse_rss_time(char* buf) {
     tm.tm_isdst = 0;
 
     return (int)mktime(&tm);
-}
+#else
+    struct tm tm;
+    strptime(buf, "%a, %d %b %Y %H:%M:%S", &tm);
+    return mktime(&tm);
 #endif
+}
 
 ///////////// NOTICE ////////////////
 
@@ -218,13 +224,7 @@ int NOTICE::parse_rss(XML_PARSER& xp) {
         if (xp.parse_str(tag, "guid", guid, sizeof(guid))) continue;
         if (xp.parse_string(tag, "description", description)) continue;
         if (xp.parse_str(tag, "pubDate", buf, sizeof(buf))) {
-#ifdef _WIN32
             create_time = parse_rss_time(buf);
-#else
-            struct tm tm;
-            strptime(buf, "%a, %d %b %Y %H:%M:%S", &tm);
-            create_time = mktime(&tm);
-#endif
             continue;
         }
     }
@@ -498,8 +498,8 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
     strcpy(url, "");
     poll_interval = 0;
     next_poll_time = 0;
-    use_seqno = false;
-    strcpy(last_seqno, "");
+    use_since_time = false;
+    since_time = 0;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/rss_feed")) {
@@ -519,8 +519,8 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
         if (xp.parse_str(tag, "url", url, sizeof(url))) continue;
         if (xp.parse_double(tag, "poll_interval", poll_interval)) continue;
         if (xp.parse_double(tag, "next_poll_time", next_poll_time)) continue;
-        if (xp.parse_bool(tag, "use_seqno", use_seqno)) continue;
-        if (xp.parse_str(tag, "last_seqno", last_seqno, sizeof(last_seqno))) continue;
+        if (xp.parse_bool(tag, "use_since_time", use_since_time)) continue;
+        if (xp.parse_int(tag, "since_time", since_time)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -531,21 +531,21 @@ void RSS_FEED::write(MIOFILE& fout) {
         "    <url>%s</url>\n"
         "    <poll_interval>%f</poll_interval>\n"
         "    <next_poll_time>%f</next_poll_time>\n"
-        "    <use_seqno>%d</use_seqno>\n"
-        "    <last_seqno>%s</last_seqno>\n"
+        "    <use_since_time>%d</use_since_time>\n"
+        "    <since_time>%d</since_time>\n"
         "  </rss_feed>\n",
         url,
         poll_interval,
         next_poll_time,
-        use_seqno?1:0,
-        last_seqno
+        use_since_time?1:0,
+        since_time
     );
 }
 
 // parse the actual RSS feed.
 //
 int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
-    char tag[256];
+    char tag[256], buf[256];
     bool is_tag;
     nitems = 0;
     int ntotal = 0, nerror = 0;
@@ -566,6 +566,13 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
             int retval = n.parse_rss(xp);
             if (retval) {
                 nerror++;
+            } else if (n.create_time < gstate.now - 30*86400) {
+                if (log_flags.notice_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[notice] item is older than 30 days: %s",
+                        n.title
+                    );
+                }
             } else {
                 n.arrival_time = gstate.now;
                 strcpy(n.feed_url, url);
@@ -576,7 +583,8 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
             }
             continue;
         }
-        if (xp.parse_str(tag, "seqno", last_seqno, sizeof(last_seqno))) {
+        if (xp.parse_str(tag, "lastBuildDate", buf, sizeof(buf))) {
+            since_time = parse_rss_time(buf);
             continue;
         }
     }
@@ -609,8 +617,12 @@ bool RSS_FEED_OP::poll() {
                 );
             }
             char url[256];
-            if (rf.use_seqno) {
-                sprintf(url, "%s?seqno=%s", rf.url, rf.last_seqno);
+            if (rf.use_since_time) {
+                if (strchr(url, '?')) {
+                    sprintf(url, "%s&since_time=%s", rf.url, rf.since_time);
+                } else {
+                    sprintf(url, "%s?since_time=%s", rf.url, rf.since_time);
+                }
             } else {
                 strcpy(url, rf.url);
             }

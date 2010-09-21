@@ -6722,3 +6722,17 @@ Charlie 20 Sept 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  21 Sept 2010
+    - client/web: change RSS feed mechanism a little.
+        If <use_since_time> is included in feed description,
+        the client will append &since_time=x to the URL,
+        where x is the lastBuildDate of the previous reply.
+        This notices handler (notices.php) sends only notices
+        newer than this.
+    - client: discard old notices as they arrive
+
+    html/user/
+        notices.php
+    client/
+        cs_notice.cpp,h
