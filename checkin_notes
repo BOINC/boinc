@@ -6715,3 +6715,10 @@ David  20 Sept 2010
             notices.phhp
             edit_user_info_form.php
             edit_forum_preferences_form.php
+
+Charlie 20 Sept 2010
+    - Mac: Update XCode project for XCode 3.2.4.
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
