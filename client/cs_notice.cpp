@@ -619,9 +619,9 @@ bool RSS_FEED_OP::poll() {
             char url[256];
             if (rf.use_since_time) {
                 if (strchr(url, '?')) {
-                    sprintf(url, "%s&since_time=%s", rf.url, rf.since_time);
+                    sprintf(url, "%s&since_time=%d", rf.url, rf.since_time);
                 } else {
-                    sprintf(url, "%s?since_time=%s", rf.url, rf.since_time);
+                    sprintf(url, "%s?since_time=%d", rf.url, rf.since_time);
                 }
             } else {
                 strcpy(url, rf.url);

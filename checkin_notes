@@ -6742,3 +6742,9 @@ David  22 Sept 2010
 
     html/user/
         notices.php
+
+David  22 Sept 2010
+    - client: typo fix
+
+    client/
+        cs_notice.cpp
