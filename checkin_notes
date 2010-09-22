@@ -6736,3 +6736,9 @@ David  21 Sept 2010
         notices.php
     client/
         cs_notice.cpp,h
+
+David  22 Sept 2010
+    - web: authenticate notices request
+
+    html/user/
+        notices.php

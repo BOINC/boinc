@@ -58,7 +58,14 @@ if (!$since_time) {
 
 $user = BoincUser::lookup_id($userid);
 if (!$user) xml_error();
-if (notify_rss_auth($user) != $auth) xml_error();
+
+// the auth in the URL includes "userid_"
+//
+
+$x = $user->id."_".notify_rss_auth($user);
+if ($x != $auth) {
+    xml_error(-155, 'Invalid authenticator');
+}
 
 $since_clause = "and create_time > $since_time";
 
