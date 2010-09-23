@@ -37,6 +37,7 @@
 #include "BOINCBaseFrame.h"
 #include "BOINCBaseView.h"
 #include "BOINCTaskBar.h"
+#include "BOINCClientManager.h"
 #include "BOINCDialupManager.h"
 #include "AdvancedFrame.h"
 #include "ViewNotices.h"
@@ -279,6 +280,7 @@ bool CAdvancedFrame::CreateMenu() {
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     ACCT_MGR_INFO      ami;
     bool               is_acct_mgr_detected = false;
+    bool               is_boinc_started_by_manager = false;
     wxString           strMenuName;
     wxString           strMenuDescription;
     
@@ -292,6 +294,11 @@ bool CAdvancedFrame::CreateMenu() {
         pDoc->rpc.acct_mgr_info(ami);
         is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
     }
+
+    if (pDoc->m_pClientManager->WasBOINCStartedByManager()) {
+        is_boinc_started_by_manager = true;
+    }
+
 
     // File menu
     wxMenu *menuFile = new wxMenu;
@@ -316,9 +323,24 @@ bool CAdvancedFrame::CreateMenu() {
         _("Exit %s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
+    if (is_boinc_started_by_manager) {
+        // %s is the application short name
+        //    i.e. 'BOINC', 'GridRepublic'
+        strMenuName.Printf(
+            _("Exit %s"), 
+            pSkinAdvanced->GetApplicationShortName().c_str()
+        );
+    } else {
+        // %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        strMenuName.Printf(
+            _("Exit %s"), 
+            pSkinAdvanced->GetApplicationName().c_str()
+        );
+    }
     menuFile->Append(
         wxID_EXIT,
-        _("E&xit"),
+        strMenuName,
         strMenuDescription
     );
 
@@ -1879,10 +1901,10 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
                     }
 
                     if (pDoc->IsComputerNameLocal(strComputerName)) {
-                        strComputerName = wxT("localhost");
+                        strTitle.Printf(wxT("%s"), m_strBaseTitle.c_str());
+                    } else {
+                        strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
                     }
-
-                    strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strComputerName.c_str());
 
                     if (pDoc->IsReconnecting()) {
                         strStatusText.Printf(_("Connecting to %s"), strComputerName.c_str());

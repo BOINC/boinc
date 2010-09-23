@@ -349,9 +349,6 @@ HRESULT CScreensaver::Run() {
             DestroyGraphicsWindowPromotionThread();
             DestroyInputActivityThread();
             break;
-        case sm_passwordchange:
-            ChangePassword();
-            break;
     }
     return S_OK;
 }
@@ -1596,7 +1593,7 @@ VOID CScreensaver::FireInterruptSaverEvent() {
 
 
 // A message was received (mouse move, keydown, etc.) that may mean
-//     the screen saver should show the password dialog and/or shut down.
+//     the screen saver should shut down.
 //
 VOID CScreensaver::InterruptSaver() {
     BOINCTRACE(_T("CScreensaver::InterruptSaver Function Begin\n"));
@@ -1817,27 +1814,5 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
     DrawText(hdc, szError, -1, &rc2, DT_CENTER);
 
     if(hFont) DeleteObject(hFont);
-}
-
-
-
-
-VOID CScreensaver::ChangePassword() {
-    // Load the password change DLL
-    HINSTANCE mpr = LoadLibrary(_T("MPR.DLL"));
-
-    if (mpr != NULL) {
-        // Grab the password change function from it
-        typedef DWORD (PASCAL *PWCHGPROC)(LPCSTR, HWND, DWORD, LPVOID);
-        PWCHGPROC pwd = (PWCHGPROC)GetProcAddress(mpr, "PwdChangePasswordA");
-
-        // Do the password change
-        if (pwd != NULL) {
-            pwd("SCRSAVE", m_hWndParent, 0, NULL);
-        }
-
-        // Free the library
-        FreeLibrary(mpr);
-    }
 }
 

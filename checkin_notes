@@ -6748,3 +6748,18 @@ David  22 Sept 2010
 
     client/
         cs_notice.cpp
+
+Rom    23 Sept 2010
+    - MGR: Display the default action in the system tray menu in bold again.
+    - MGR: If connected to the localhost, don't display the computer name
+        in the window title.
+    - MGR: Change the exit menu item text to be a little more specific about
+        what is being shutdown.  Use the same scheme as the exit text in the
+        status bar so that it'll automatically be localized.
+    - SCR: Remove some old Win9x code.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCTaskBar.cpp
+    clientscr/
+        screensaver_win.cpp, .h

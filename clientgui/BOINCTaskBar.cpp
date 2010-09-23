@@ -551,7 +551,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
             pMenu->Remove(pMenuItem);
 
             font = pMenuItem->GetFont();
-            if (pMenuItem->GetId() != wxID_OPEN) {
+            if (pMenuItem->GetId() != ID_OPENBOINCMANAGER) {
                 font.SetWeight(wxFONTWEIGHT_NORMAL);
             } else {
                 font.SetWeight(wxFONTWEIGHT_BOLD);
