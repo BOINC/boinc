@@ -127,6 +127,7 @@ struct COPROC {
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
+    void write_request(MIOFILE&);
 #endif
     inline void clear() {
         // can't just memcpy() - trashes vtable
@@ -193,7 +194,7 @@ struct COPROC_CUDA : public COPROC {
     CUDA_DEVICE_PROP prop;
 
 #ifndef _USING_FCGI_
-    virtual void write_xml(MIOFILE&);
+    virtual void write_xml(MIOFILE&, bool include_request);
 #endif
     COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
@@ -258,7 +259,7 @@ struct COPROC_ATI : public COPROC {
     CALdeviceattribs attribs; 
     CALdeviceinfo info;
 #ifndef _USING_FCGI_
-    virtual void write_xml(MIOFILE&);
+    virtual void write_xml(MIOFILE&, bool include_request);
 #endif
     COPROC_ATI(): COPROC("ATI"){}
     virtual ~COPROC_ATI(){}
@@ -285,7 +286,7 @@ struct COPROCS {
 
     COPROCS(){}
     ~COPROCS(){}    // don't delete coprocs; else crash in APP_INIT_DATA logic
-    void write_xml(MIOFILE& out);
+    void write_xml(MIOFILE& out, bool include_request);
     void get(
         bool use_all, std::vector<std::string> &descs,
         std::vector<std::string> &warnings,

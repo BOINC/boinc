@@ -205,7 +205,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     host_info.get_host_info();
     set_ncpus();
-    retval = host_info.write(mf, config.suppress_net_info, false);
+    retval = host_info.write(mf, !config.suppress_net_info, false);
     //if (retval) return retval;
 
     // get and write disk usage
@@ -234,7 +234,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     }
 
     if (!host_info.coprocs.none()) {
-        host_info.coprocs.write_xml(mf);
+        host_info.coprocs.write_xml(mf, true);
     }
 
     // report results

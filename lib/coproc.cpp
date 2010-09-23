@@ -93,6 +93,17 @@ int COPROC::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
+void COPROC::write_request(MIOFILE& f) {
+    f.printf(
+        "   <req_secs>%f</req_secs>\n"
+        "   <req_instances>%f</req_instances>\n"
+        "   <estimated_delay>%f</estimated_delay>\n",
+        req_secs,
+        req_instances,
+        estimated_delay
+    );
+}
+
 void COPROCS::summary_string(char* buf, int len) {
     char bigbuf[8192], buf2[1024];
 
@@ -138,14 +149,14 @@ int COPROCS::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
-void COPROCS::write_xml(MIOFILE& mf) {
+void COPROCS::write_xml(MIOFILE& mf, bool include_request) {
 #ifndef _USING_FCGI_
     mf.printf("    <coprocs>\n");
     if (cuda.count) {
-        cuda.write_xml(mf);
+        cuda.write_xml(mf, include_request);
     }
     if (ati.count) {
-        ati.write_xml(mf);
+        ati.write_xml(mf, include_request);
     }
     mf.printf("    </coprocs>\n");
 #endif
@@ -165,14 +176,18 @@ void COPROC_CUDA::description(char* buf) {
 }
 
 #ifndef _USING_FCGI_
-void COPROC_CUDA::write_xml(MIOFILE& f) {
+void COPROC_CUDA::write_xml(MIOFILE& f, bool include_request) {
     f.printf(
         "<coproc_cuda>\n"
         "   <count>%d</count>\n"
-        "   <name>%s</name>\n"
-        "   <req_secs>%f</req_secs>\n"
-        "   <req_instances>%f</req_instances>\n"
-        "   <estimated_delay>%f</estimated_delay>\n"
+        "   <name>%s</name>\n",
+        count,
+        prop.name
+    );
+    if (include_request) {
+        write_request(f);
+    }
+    f.printf(
         "   <drvVersion>%d</drvVersion>\n"
         "   <cudaVersion>%d</cudaVersion>\n"
         "   <totalGlobalMem>%u</totalGlobalMem>\n"
@@ -191,11 +206,6 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         "   <deviceOverlap>%d</deviceOverlap>\n"
         "   <multiProcessorCount>%d</multiProcessorCount>\n"
         "</coproc_cuda>\n",
-        count,
-        prop.name,
-        req_secs,
-        req_instances,
-        estimated_delay,
         display_driver_version,
         cuda_version,
         (unsigned int)prop.totalGlobalMem,
@@ -312,14 +322,18 @@ int COPROC_CUDA::parse(MIOFILE& fin) {
 ////////////////// ATI STARTS HERE /////////////////
 
 #ifndef _USING_FCGI_
-void COPROC_ATI::write_xml(MIOFILE& f) {
+void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
     f.printf(
         "<coproc_ati>\n"
-    );
-
-    f.printf(
         "   <count>%d</count>\n"
-        "   <name>%s</name>\n"
+        "   <name>%s</name>\n",
+        count,
+        name
+    );
+    if (include_request) {
+        write_request(f);
+    }
+    f.printf(
         "   <req_secs>%f</req_secs>\n"
         "   <req_instances>%f</req_instances>\n"
         "   <estimated_delay>%f</estimated_delay>\n"
@@ -338,11 +352,6 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
         "   <maxResource2DWidth>%d</maxResource2DWidth>\n"
         "   <maxResource2DHeight>%d</maxResource2DHeight>\n"
         "   <CALVersion>%s</CALVersion>\n",
-        count,
-        name,
-        req_secs,
-        req_instances,
-        estimated_delay,
         attribs.target,
         attribs.localRAM,
         attribs.uncachedRemoteRAM,

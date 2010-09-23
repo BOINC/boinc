@@ -6763,3 +6763,16 @@ Rom    23 Sept 2010
         BOINCTaskBar.cpp
     clientscr/
         screensaver_win.cpp, .h
+
+David  23 Sept 2010
+	- client: write GPU info to client_state.xml,
+		so that it can be input file to the client simulator.
+
+	client/
+		cs_scheduler.cpp
+		cs_statefile.cpp
+		gui_rpc_server_ops.cpp
+	lib/
+		app_ipc.cpp
+		coproc.cpp,h
+		hostinfo.cpp,h

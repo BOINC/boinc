@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Write and parse HOST_INFO structures.
+// Used by client and GUI
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -113,11 +116,15 @@ int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {
     return ERR_XML_PARSE;
 }
 
-// Write the host information, to the client state XML file
-// or in a scheduler request message
+// Write the host information to either:
+// - client state XML file (net info, coprocs)
+// - a GUI RPC reply (net info, coprocs)
+// - a scheduler request message
+//   (net info unless config says otherwise, no coprocs)
+// - app init file (net info, coprocs)
 //
 int HOST_INFO::write(
-    MIOFILE& out, bool suppress_net_info, bool include_coprocs
+    MIOFILE& out, bool include_net_info, bool include_coprocs
 ) {
     char pv[265], pm[256], pf[256], osn[256], osv[256];
     out.printf(
@@ -125,7 +132,7 @@ int HOST_INFO::write(
         "    <timezone>%d</timezone>\n",
         timezone
     );
-    if (!suppress_net_info) {
+    if (include_net_info) {
         out.printf(
             "    <domain_name>%s</domain_name>\n"
             "    <ip_addr>%s</ip_addr>\n",
@@ -173,7 +180,7 @@ int HOST_INFO::write(
         osv
     );
     if (include_coprocs) {
-        coprocs.write_xml(out);
+        coprocs.write_xml(out, false);
     }
     out.printf(
         "</host_info>\n"
