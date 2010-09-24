@@ -28,6 +28,13 @@
 #include "app_ipc.h"
 #include "procinfo.h"
 
+#define ABORT_TIMEOUT   60
+    // if we send app <abort> request, wait this long before killing it.
+    // This gives it time to download symbol files (which can be several MB)
+    // and write stack trace to stderr
+#define QUIT_TIMEOUT    10
+    // Same, for <quit>.  Shorter because no stack trace is generated
+
 // values for preempt_type
 //
 #define REMOVE_NEVER        0
@@ -35,7 +42,7 @@
 #define REMOVE_MAYBE_SCHED  2
 #define REMOVE_ALWAYS       3
 
-class CLIENT_STATE;
+struct CLIENT_STATE;
 typedef int PROCESS_ID;
 
 #define MAX_STDERR_LEN  65536

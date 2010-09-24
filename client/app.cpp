@@ -75,13 +75,6 @@ bool exclusive_gpu_app_running;
 int gpu_suspend_reason;
 double non_boinc_cpu_usage;
 
-#define ABORT_TIMEOUT   60
-    // if we send app <abort> request, wait this long before killing it.
-    // This gives it time to download symbol files (which can be several MB)
-    // and write stack trace to stderr
-#define QUIT_TIMEOUT    10
-    // Same, for <quit>.  Shorter because no stack trace is generated
-
 ACTIVE_TASK::~ACTIVE_TASK() {
 }
 
