@@ -195,7 +195,7 @@ void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, const char* name) {
     } else {
         backoff_interval = WF_MIN_BACKOFF_INTERVAL;
     }
-    double x = drand()*backoff_interval;
+    double x = (.5 + drand())*backoff_interval;
     backoff_time = gstate.now + x;
     if (log_flags.work_fetch_debug) {
         msg_printf(p, MSG_INFO,
@@ -1141,6 +1141,18 @@ void WORK_FETCH::init() {
                 p->cpu_pwf.anon_skip = false;
             }
         }
+    }
+}
+
+// clear backoff for app's resource
+//
+void WORK_FETCH::clear_backoffs(APP_VERSION& av) {
+    if (av.ncudas) {
+        av.project->cuda_pwf.clear_backoff();
+    } else if (av.natis) {
+        av.project->ati_pwf.clear_backoff();
+    } else {
+        av.project->cpu_pwf.clear_backoff();
     }
 }
 

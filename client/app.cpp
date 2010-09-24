@@ -212,18 +212,6 @@ void ACTIVE_TASK::cleanup_task() {
     }
 #endif
 
-    // clear backoff for app's resource;
-    // this addresses the situation where the project has a
-    // "max # jobs in progress" limit, and we're backed off because of that
-    //
-    if (app_version->ncudas) {
-        result->project->cuda_pwf.clear_backoff();
-    } else if (app_version->natis) {
-        result->project->ati_pwf.clear_backoff();
-    } else {
-        result->project->cpu_pwf.clear_backoff();
-    }
-
     if (config.exit_after_finish) {
         exit(0);
     }

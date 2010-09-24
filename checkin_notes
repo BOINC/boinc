@@ -6810,3 +6810,21 @@ David  24 Sept 2010
     client/
         makefile_sym
         *.cpp
+
+David  24 Sept 2010
+    - client: fix bug that cause wasted scheduler RPC
+        Old: when a job finished, we cleared the backoffs for the
+            resources it used.  The idea was to get more jobs
+            immediately in the case where the client was at
+            a jobs-in-progress limit.
+        Problem: this resulted in an RPC immediately,
+            typically before the output files were uploaded.
+            So the client is still at the limit, and doesn't get jobs.
+        New: clear the backoffs at the point when output files
+            have been uploaded and the job is ready to report.
+    - client: change range in resource backoff from (0,x) to (.5, 1.5*x)
+
+    client/
+        work_fetch.cpp,h
+        client_state.cpp,h
+        app.cpp

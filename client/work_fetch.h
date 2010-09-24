@@ -33,6 +33,7 @@ struct RESULT;
 struct ACTIVE_TASK;
 struct RSC_WORK_FETCH;
 struct SCHEDULER_REPLY;
+struct APP_VERSION;
 
 // state per (resource, project) pair
 //
@@ -265,6 +266,7 @@ struct WORK_FETCH {
     void clear_request();
     void compute_shares();
     void zero_debts();
+    void clear_backoffs(APP_VERSION&);
 };
 
 extern RSC_WORK_FETCH cuda_work_fetch;

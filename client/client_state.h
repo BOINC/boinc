@@ -521,7 +521,7 @@ extern void print_suspend_tasks_message(int);
 
 #define WORK_FETCH_PERIOD   60
     // see if we need to fetch work at least this often
-#define WF_MIN_BACKOFF_INTERVAL    60
+#define WF_MIN_BACKOFF_INTERVAL    600
 #define WF_MAX_BACKOFF_INTERVAL    86400
     // if we ask a project for work for a resource and don't get it,
     // we do exponential backoff.

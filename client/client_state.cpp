@@ -1401,6 +1401,13 @@ bool CLIENT_STATE::update_results() {
                 rp->ready_to_report = true;
                 rp->completed_time = gstate.now;
                 rp->set_state(RESULT_FILES_UPLOADED, "CS::update_results");
+
+                // clear backoffs for app's resources;
+                // this addresses the situation where the project has a
+                // "max # jobs in progress" limit,
+                // and we're backed off because of that
+                //
+                work_fetch.clear_backoffs(*rp->avp);
                 action = true;
             }
             break;
