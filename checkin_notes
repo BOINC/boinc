@@ -6776,3 +6776,15 @@ David  23 Sept 2010
 		app_ipc.cpp
 		coproc.cpp,h
 		hostinfo.cpp,h
+
+Charlie 24 Sept 2010
+    Mac: add Mac executables of wrapper application.
+    
+    samples/
+        wrapper/
+            i386/
+                wrapper_macOSX_i686
+            ppc/
+                wrapper_macOSX_ppc
+            x86_64/
+                wrapper_macOSX_x86_64
