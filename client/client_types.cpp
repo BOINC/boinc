@@ -124,6 +124,16 @@ void PROJECT::init() {
 
     // Initialize scratch variables.
     rr_sim_status.clear();
+
+#ifdef SIM
+    idle_time = 0;
+    idle_time_sumsq = 0;
+    completed_task_count = 0;
+    completions_ratio_mean = 0.0;
+    completions_ratio_s = 0.0;
+    completions_ratio_stdev = 0.1;  // for the first couple of completions - guess.
+    completions_required_stdevs = 3.0;
+#endif
 }
 
 // parse project fields from client_state.xml
@@ -636,6 +646,22 @@ int APP::parse(MIOFILE& in) {
                 "[unparsed_xml] APP::parse(): unrecognized: %s\n", buf
             );
         }
+#ifdef SIM
+        if (parse_double(buf, "<latency_bound>", latency_bound)) continue;
+        if (parse_double(buf, "<fpops_est>", fpops_est)) continue;
+        if (parse_double(buf, "<weight>", weight)) continue;
+        if (parse_double(buf, "<working_set>", working_set)) continue;
+        if (match_tag(buf, "<fpops>")) {
+            XML_PARSER xp(&in);
+            fpops.parse(xp, "/fpops");
+            continue;
+        }
+        if (match_tag(buf, "<checkpoint_period>")) {
+            XML_PARSER xp(&in);
+            checkpoint_period.parse(xp, "/checkpoint_period");
+            continue;
+        }
+#endif
     }
     return ERR_XML_PARSE;
 }
@@ -810,6 +836,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         if (parse_bool(buf, "is_project_file", is_project_file)) continue;
         if (match_tag(buf, "<no_delete")) continue;
         if (match_tag(buf, "<persistent_file_xfer>")) {
+#ifndef SIM
             pfxp = new PERS_FILE_XFER;
             retval = pfxp->parse(in);
             if (!retval) {
@@ -817,6 +844,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             } else {
                 delete pfxp;
             }
+#endif
             continue;
         }
         if (!from_server && match_tag(buf, "<signed_xml>")) {
@@ -1709,6 +1737,8 @@ int RESULT::write(MIOFILE& out, bool to_server) {
     return 0;
 }
 
+#ifndef SIM
+
 int RESULT::write_gui(MIOFILE& out) {
     out.printf(
         "<result>\n"
@@ -1787,6 +1817,8 @@ int RESULT::write_gui(MIOFILE& out) {
     return 0;
 }
 
+#endif
+
 // Returns true if the result's output files are all either
 // successfully uploaded or have unrecoverable errors
 //
@@ -1823,6 +1855,7 @@ void RESULT::clear_uploaded_flags() {
 }
 
 bool PROJECT::some_download_stalled() {
+#ifndef SIM
     unsigned int i;
     for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
         PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
@@ -1830,6 +1863,7 @@ bool PROJECT::some_download_stalled() {
         if (pfx->is_upload) continue;
         if (pfx->next_request_time > gstate.now) return true;
     }
+#endif
     return false;
 }
 
@@ -1837,6 +1871,7 @@ bool PROJECT::some_download_stalled() {
 // is downloading and backed off
 //
 bool RESULT::some_download_stalled() {
+#ifndef SIM
     unsigned int i;
     FILE_INFO* fip;
     PERS_FILE_XFER* pfx;
@@ -1855,6 +1890,7 @@ bool RESULT::some_download_stalled() {
             return true;
         }
     }
+#endif
     return false;
 }
 

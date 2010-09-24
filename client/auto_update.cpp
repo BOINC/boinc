@@ -232,6 +232,7 @@ void AUTO_UPDATE::install() {
 // Wait an additional 10 seconds in any case
 
 void AUTO_UPDATE::poll() {
+#ifndef SIM
     if (!present) return;
     static double last_time = 0;
     static bool ready_to_install = false;
@@ -260,6 +261,7 @@ void AUTO_UPDATE::poll() {
         ready_to_install = true;
         gstate.gui_rpcs.send_quits();
     }
+#endif
 }
 
 int VERSION_INFO::parse(MIOFILE& in) {

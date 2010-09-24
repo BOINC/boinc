@@ -236,6 +236,7 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
     return 0;
 }
 
+#ifndef SIM
 // scan all FILE_INFOs and PERS_FILE_XFERs.
 // start and finish downloads and uploads as needed.
 //
@@ -339,6 +340,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
 
     return action;
 }
+#endif
 
 // called at startup to ensure that if the core client
 // thinks a file is there, it's actually there

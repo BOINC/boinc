@@ -309,9 +309,11 @@ bool NOTICES::remove_dups(NOTICE& n) {
             ++i;
         }
     }
+#ifndef SIM
     if (removed_something) {
         gstate.gui_rpcs.set_notice_refresh();
     }
+#endif
     return retval;
 }
 

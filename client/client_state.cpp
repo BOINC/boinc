@@ -63,15 +63,17 @@ using std::max;
 
 CLIENT_STATE gstate;
 
-CLIENT_STATE::CLIENT_STATE():
-    lookup_website_op(&gui_http),
+CLIENT_STATE::CLIENT_STATE()
+    : lookup_website_op(&gui_http),
     get_current_version_op(&gui_http),
     get_project_list_op(&gui_http)
 {
     http_ops = new HTTP_OP_SET();
     file_xfers = new FILE_XFER_SET(http_ops);
     pers_file_xfers = new PERS_FILE_XFER_SET(file_xfers);
+#ifndef SIM
     scheduler_op = new SCHEDULER_OP(http_ops);
+#endif
     client_state_dirty = false;
     exit_before_start = false;
     check_all_logins = false;
@@ -186,6 +188,19 @@ void CLIENT_STATE::show_host_info() {
         tz<0?"":"+", tz
     );
 }
+
+// Sometime has failed N times.
+// Calculate an exponential backoff between MIN and MAX
+//
+double calculate_exponential_backoff(int n, double MIN, double MAX) {
+    double x = pow(2, (double)n);
+    x *= MIN;
+    if (x > MAX) x = MAX;
+    x *= (.5 + .5*drand());
+    return x;
+}
+
+#ifndef SIM
 
 int CLIENT_STATE::init() {
     int retval;
@@ -764,6 +779,8 @@ bool CLIENT_STATE::poll_slow_events() {
     }
 }
 
+#endif // ifndef SIM
+
 // See if the project specified by master_url already exists
 // in the client state record.  Ignore any trailing "/" characters
 //
@@ -1050,6 +1067,7 @@ bool CLIENT_STATE::garbage_collect() {
     action = garbage_collect_always();
     if (action) return true;
 
+#ifndef SIM
     // Detach projects that are marked for detach when done
     // and are in fact done (have no results).
     // This is done here (not in garbage_collect_always())
@@ -1063,6 +1081,7 @@ bool CLIENT_STATE::garbage_collect() {
             action = true;
         }
     }
+#endif
     return action;
 }
 
@@ -1128,6 +1147,7 @@ bool CLIENT_STATE::garbage_collect_always() {
     result_iter = results.begin();
     while (result_iter != results.end()) {
         rp = *result_iter;
+#ifndef SIM
         if (rp->got_server_ack) {
             // see if - for some reason - there's an active task
             // for this result.  don't want to create dangling ptr.
@@ -1155,6 +1175,7 @@ bool CLIENT_STATE::garbage_collect_always() {
                 continue;
             }
         }
+#endif
         // See if the files for this result's workunit had
         // any errors (download failure, MD5, RSA, etc)
         // and we don't already have an error for this result
@@ -1190,6 +1211,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             }
             rp->output_files[i].file_info->ref_cnt++;
         }
+#ifndef SIM
         if (found_error) {
             // check for process still running; this can happen
             // e.g. if an intermediate upload fails
@@ -1207,6 +1229,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             }
             report_result_error(*rp, "%s", error_str.c_str());
         }
+#endif
         rp->avp->ref_cnt++;
         rp->wup->ref_cnt++;
         result_iter++;
@@ -1464,7 +1487,9 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     va_end(va);
 
     sprintf(buf, "Unrecoverable error for task %s (%s)", res.name, err_msg);
+#ifndef SIM
     scheduler_op->backoff(res.project, buf);
+#endif
 
     sprintf( buf, "<message>\n%s\n</message>\n", err_msg);
     res.stderr_out.append(buf);
@@ -1526,6 +1551,8 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     res.stderr_out = res.stderr_out.substr(0, MAX_STDERR_LEN);
     return 0;
 }
+
+#ifndef SIM
 
 // "Reset" a project: (clear error conditions)
 // - stop all active tasks
@@ -1746,16 +1773,7 @@ int CLIENT_STATE::quit_activities() {
     return 0;
 }
 
-// Sometime has failed N times.
-// Calculate an exponential backoff between MIN and MAX
-//
-double calculate_exponential_backoff(int n, double MIN, double MAX) {
-    double x = pow(2, (double)n);
-    x *= MIN;
-    if (x > MAX) x = MAX;
-    x *= (.5 + .5*drand());
-    return x;
-}
+#endif
 
 // See if a timestamp in the client state file
 // is later than the current time.
@@ -1790,6 +1808,8 @@ void CLIENT_STATE::check_clock_reset() {
 
     // RESULT: could change report_deadline, but not clear how
 }
+
+#ifndef SIM
 
 // the following is done on client exit if the
 // "abort_jobs_on_exit" flag is present.
@@ -1829,3 +1849,4 @@ bool CLIENT_STATE::abort_sequence_done() {
     return true;
 }
 
+#endif

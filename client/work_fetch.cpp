@@ -1290,9 +1290,8 @@ double RESULT::estimated_duration_uncorrected() {
 //
 #ifdef SIM
 double RESULT::estimated_duration(bool for_work_fetch) {
-    SIM_PROJECT* spp = (SIM_PROJECT*)project;
-    if (dual_dcf && for_work_fetch && spp->completions_ratio_mean) {
-        return estimated_duration_uncorrected()*spp->completions_ratio_mean;
+    if (dual_dcf && for_work_fetch && project->completions_ratio_mean) {
+        return estimated_duration_uncorrected()*project->completions_ratio_mean;
     }
     return estimated_duration_uncorrected()*project->duration_correction_factor;
 }

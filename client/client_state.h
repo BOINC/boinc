@@ -18,10 +18,6 @@
 #ifndef _CLIENT_STATE_
 #define _CLIENT_STATE_
 
-#ifdef SIM
-#include "sim.h"
-#else
-
 #ifndef _WIN32
 #include <string>
 #include <vector>
@@ -48,6 +44,10 @@ using std::vector;
 #include "scheduler_op.h"
 #include "time_stats.h"
 
+#ifdef SIM
+#include "../sched/edf_sim.h"
+#endif
+
 #define WORK_FETCH_DONT_NEED 0
     // project: suspended, deferred, or no new work (can't ask for more work)
     // overall: not work_fetch_ok (from CPU policy)
@@ -64,8 +64,7 @@ using std::vector;
 // encapsulates the global variables of the core client.
 // If you add anything here, initialize it in the constructor
 //
-class CLIENT_STATE {
-public:
+struct CLIENT_STATE {
     vector<PLATFORM> platforms;
     vector<PROJECT*> projects;
     vector<APP*> apps;
@@ -78,13 +77,21 @@ public:
     PERS_FILE_XFER_SET* pers_file_xfers;
     HTTP_OP_SET* http_ops;
     FILE_XFER_SET* file_xfers;
-    ACTIVE_TASK_SET active_tasks;
-    HOST_INFO host_info;
+#ifndef SIM
+    GUI_RPC_CONN_SET gui_rpcs;
+#endif
+    GUI_HTTP gui_http;
+    AUTO_UPDATE auto_update;
+    LOOKUP_WEBSITE_OP lookup_website_op;
+    GET_CURRENT_VERSION_OP get_current_version_op;
+    GET_PROJECT_LIST_OP get_project_list_op;
+    ACCT_MGR_OP acct_mgr_op;
+
+    TIME_STATS time_stats;
     GLOBAL_PREFS global_prefs;
     NET_STATS net_stats;
-    GUI_RPC_CONN_SET gui_rpcs;
-    TIME_STATS time_stats;
-    GUI_HTTP gui_http;
+    ACTIVE_TASK_SET active_tasks;
+    HOST_INFO host_info;
 
     VERSION_INFO core_client_version;
     string statefile_platform_name;
@@ -173,7 +180,7 @@ public:
         // In this case we continue to run for 1 minute,
         // handling GUI RPCs but doing nothing else,
         // so that the Manager can tell the user what the problem is
-private:
+
     bool client_state_dirty;
     int old_major_version;
     int old_minor_version;
@@ -190,29 +197,18 @@ private:
         // when the most recent app was started
 
 // --------------- acct_mgr.cpp:
-public:
-    ACCT_MGR_OP acct_mgr_op;
     ACCT_MGR_INFO acct_mgr_info;
 
 // --------------- acct_setup.cpp:
-public:
     PROJECT_INIT project_init;
     PROJECT_ATTACH project_attach;
-    LOOKUP_WEBSITE_OP lookup_website_op;
-    GET_CURRENT_VERSION_OP get_current_version_op;
-    GET_PROJECT_LIST_OP get_project_list_op;
     void new_version_check();
     void all_projects_list_check();
     double new_version_check_time;
     double all_projects_list_check_time;
     string newer_version;
 
-// --------------- auto_update.cpp:
-public:
-    AUTO_UPDATE auto_update;
-
 // --------------- client_state.cpp:
-public:
     CLIENT_STATE();
     void show_host_info();
     int init();
@@ -237,7 +233,7 @@ public:
     void start_abort_sequence();
     bool abort_sequence_done();
     int quit_activities();
-private:
+
     int link_app(PROJECT*, APP*);
     int link_file_info(PROJECT*, FILE_INFO*);
     int link_file_ref(PROJECT*, FILE_REF*);
@@ -253,7 +249,6 @@ private:
     void check_clock_reset();
 
 // --------------- cpu_sched.cpp:
-private:
     double total_resource_share();
     double potentially_runnable_resource_share();
     double nearly_runnable_resource_share();
@@ -271,7 +266,7 @@ private:
     void schedule_cpus();
     bool enforce_schedule();
     void append_unfinished_time_slice(vector<RESULT*>&);
-public:
+
     double runnable_resource_share(int);
     void adjust_debts();
     std::vector <RESULT*> ordered_scheduled_results;
@@ -305,12 +300,11 @@ public:
     void set_ncpus();
 
 // --------------- cs_account.cpp:
-public:
     int add_project(
         const char* master_url, const char* authenticator,
         const char* project_name, bool attached_via_acct_mgr
     );
-private:
+
     int parse_account_files();
     int parse_account_files_venue();
     int parse_preferences_for_user_files();
@@ -318,7 +312,6 @@ private:
         // should be move to a new file, but this will do it for testing
 
 // --------------- cs_apps.cpp:
-public:
     double get_fraction_done(RESULT* result);
     int input_files_available(RESULT*, bool, FILE_INFO** f=0);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
@@ -328,16 +321,15 @@ public:
         // but it can be changed in two ways:
         // - type <ncpus>N</ncpus> in the config file
         // - type the max_ncpus_pct pref
-private:
+
     int latest_version(APP*, char*);
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_finished_apps();
-public:
+
     ACTIVE_TASK* get_task(RESULT*);
 
 // --------------- cs_benchmark.cpp:
-public:
     bool should_run_cpu_benchmarks();
     void start_cpu_benchmarks();
     bool cpu_benchmarks_poll();
@@ -348,30 +340,25 @@ public:
     void print_benchmark_results();
 
 // --------------- cs_cmdline.cpp:
-public:
     void parse_cmdline(int argc, char** argv);
     void parse_env_vars();
     void do_cmdline_actions();
 
 // --------------- cs_files.cpp:
-public:
     void check_file_existence();
     bool start_new_file_xfer(PERS_FILE_XFER&);
-private:
+
     int make_project_dirs();
     bool handle_pers_file_xfers();
 
 // --------------- cs_platforms.cpp:
-public:
     const char* get_primary_platform();
-private:
     void add_platform(const char*);
     void detect_platforms();
     void write_platforms(PROJECT*, MIOFILE&);
     bool is_supported_platform(const char*);
 
 // --------------- cs_prefs.cpp:
-public:
     int project_disk_usage(PROJECT*, double&);
     int total_disk_usage(double&);
         // returns the total disk usage of BOINC on this host
@@ -383,7 +370,6 @@ public:
     int save_global_prefs(char* prefs, char* url, char* sched);
     double available_ram();
     double max_available_ram();
-private:
     int check_suspend_processing();
     void check_suspend_network();
     void install_global_prefs();
@@ -391,7 +377,6 @@ private:
     void show_global_prefs_source(bool);
 
 // --------------- cs_scheduler.cpp:
-public:
     void request_work_fetch(const char*);
         // Called when:
         // - core client starts (CS::init())
@@ -408,11 +393,9 @@ public:
     PROJECT* next_project_trickle_up_pending();
     PROJECT* find_project_with_overdue_results();
     bool had_or_requested_work;
-private:
     bool scheduler_rpc_poll();
 
 // --------------- cs_statefile.cpp:
-public:
     void set_client_state_dirty(const char*);
     int parse_state_file();
     int write_state(MIOFILE&);
@@ -426,16 +409,13 @@ public:
     void sort_results();
 
 // --------------- cs_trickle.cpp:
-private:
     int read_trickle_files(PROJECT*, FILE*);
     int remove_trickle_files(PROJECT*);
-public:
     int handle_trickle_down(PROJECT*, FILE*);
 
 // --------------- check_state.cpp:
 // stuff related to data-structure integrity checking
 //
-public:
     void check_project_pointer(PROJECT*);
     void check_app_pointer(APP*);
     void check_file_info_pointer(FILE_INFO*);
@@ -463,7 +443,6 @@ public:
     void print_deadline_misses();
 
 // --------------- work_fetch.cpp:
-public:
     int proj_min_results(PROJECT*, double);
     void check_project_timeout();
     double overall_cpu_frac();
@@ -474,6 +453,27 @@ public:
     void generate_new_host_cpid();
     void compute_nuploading_results();
 
+#ifdef SIM
+    RANDOM_PROCESS available;
+    RANDOM_PROCESS idle;
+    FILE* html_out;
+    double connection_interval;
+
+    void html_start(bool);
+    void html_rec();
+    void html_end(bool);
+    std::string html_msg;
+    double share_violation();
+    double monotony();
+
+    void do_client_simulation();
+    void make_job(PROJECT*, WORKUNIT*, RESULT*);
+    void handle_completed_results();
+    void get_workload(vector<IP_RESULT>&);
+    void simulate();
+    bool simulate_rpc(PROJECT*);
+    void print_project_results(FILE*);
+#endif
 };
 
 extern CLIENT_STATE gstate;
@@ -555,5 +555,4 @@ extern void print_suspend_tasks_message(int);
 #define MAX_STD   (86400)
     // maximum short-term debt
 
-#endif
 #endif

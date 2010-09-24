@@ -41,6 +41,10 @@
 #include "work_fetch.h"
 #include "cs_notice.h"
 
+#ifdef SIM
+#include "sim.h"
+#endif
+
 #define MAX_FILE_INFO_LEN   4096
 #define MAX_SIGNATURE_LEN   4096
 #define MAX_KEY_LEN         4096
@@ -430,12 +434,40 @@ struct PROJECT : PROJ_AM {
     int parse_statistics(FILE*);
     int write_statistics(MIOFILE&, bool gui_rpc=false);
     int write_statistics_file();
+
+#ifdef SIM
+    RANDOM_PROCESS available;
+    int index;
+    int result_index;
+    double idle_time;
+    double idle_time_sumsq;
+    bool idle;
+    int max_infeasible_count;
+    // for DCF variants:
+    int completed_task_count;
+    double completions_ratio_mean;
+    double completions_ratio_s;
+    double completions_ratio_stdev;
+    double completions_required_stdevs;
+    PROJECT_RESULTS project_results;
+    void print_results(FILE*, SIM_RESULTS&);
+    void backoff();
+    void update_dcf_stats(RESULT*);
+#endif
 };
 
 struct APP {
     char name[256];
     char user_friendly_name[256];
     PROJECT* project;
+#ifdef SIM
+    double latency_bound;
+    double fpops_est;
+    NORMAL_DIST fpops;
+    NORMAL_DIST checkpoint_period;
+    double working_set;
+    double weight;
+#endif
 
     int parse(MIOFILE&);
     int write(MIOFILE&);

@@ -348,6 +348,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
 }
 
 void ACCT_MGR_OP::handle_reply(int http_op_retval) {
+#ifndef SIM
     unsigned int i;
     int retval;
     bool verified;
@@ -552,6 +553,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     }
     gstate.acct_mgr_info.write_info();
     gstate.set_client_state_dirty("account manager RPC");
+#endif
 }
 
 int ACCT_MGR_INFO::write_info() {

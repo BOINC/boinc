@@ -40,8 +40,8 @@
 #include "util.h"
 #include "log_flags.h"
 #include "filesys.h"
-#include "network.h"
 #include "client_msgs.h"
+#include "client_state.h"
 #include "../sched/edf_sim.h"
 #include "sim.h"
 
@@ -54,10 +54,6 @@
 #define SIM_EXEC "../sim"
 #endif
 
-CLIENT_STATE gstate;
-COPROC_CUDA* coproc_cuda;
-COPROC_ATI* coproc_ati;
-NET_STATUS net_status;
 bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
@@ -73,7 +69,7 @@ int line_limit = 1000000;
 
 SIM_RESULTS sim_results;
 
-void SIM_PROJECT::update_dcf_stats(RESULT* rp) {
+void PROJECT::update_dcf_stats(RESULT* rp) {
     double raw_ratio = rp->final_cpu_time/rp->estimated_duration_uncorrected();
     // see http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Algorithm_III
     ++completed_task_count;
@@ -95,14 +91,14 @@ void SIM_PROJECT::update_dcf_stats(RESULT* rp) {
 // generate a job; pick a random app,
 // and pick a FLOP count from its distribution
 //
-void CLIENT_STATE::make_job(SIM_PROJECT* p, WORKUNIT* wup, RESULT* rp) {
-    SIM_APP* ap1, *ap=0;
+void CLIENT_STATE::make_job(PROJECT* p, WORKUNIT* wup, RESULT* rp) {
+    APP* ap1, *ap=0;
     double net_fpops = host_info.p_fpops;
     double x = drand();
     unsigned int i;
 
     for (i=0; i<apps.size();i++) {
-        ap1 = (SIM_APP*)apps[i];
+        ap1 = apps[i];
         if (ap1->project != p) continue;
         x -= ap1->weight;
         if (x <= 0) {
@@ -154,7 +150,7 @@ void CLIENT_STATE::handle_completed_results() {
                 "<font color=#cc0000>MISSED DEADLINE</font>":
                 "<font color=#00cc00>MADE DEADLINE</font>"
             );
-            SIM_PROJECT* spp = (SIM_PROJECT*)rp->project;
+            PROJECT* spp = rp->project;
             if (gstate.now > rp->report_deadline) {
                 sim_results.cpu_wasted += rp->final_cpu_time;
                 sim_results.nresults_missed_deadline++;
@@ -192,18 +188,17 @@ void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
 // simulate trying to do an RPC
 // return false if we didn't actually do one
 //
-bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
+bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     char buf[256];
-    SIM_PROJECT* p = (SIM_PROJECT*) _p;
     static double last_time=-1e9;
     vector<IP_RESULT> ip_results;
     int infeasible_count = 0;
 
     double diff = now - last_time;
-    if (diff && diff < host_info.connection_interval) {
+    if (diff && diff < connection_interval) {
         msg_printf(NULL, MSG_INFO,
             "simulate_rpc: too soon %f < %f",
-            diff, host_info.connection_interval
+            diff, connection_interval
         );
         return false;
     }
@@ -266,7 +261,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     return true;
 }
 
-void SIM_PROJECT::backoff() {
+void PROJECT::backoff() {
     nrpc_failures++;
     double backoff = calculate_exponential_backoff(
         nrpc_failures, SCHED_RETRY_DELAY_MIN, SCHED_RETRY_DELAY_MAX
@@ -342,12 +337,12 @@ bool ACTIVE_TASK_SET::poll() {
     double diff = gstate.now - last_time;
     if (diff < 1.0) return false;
     last_time = gstate.now;
-    SIM_PROJECT* p;
+    PROJECT* p;
 
     if (!running) return false;
 
     for (i=0; i<gstate.projects.size(); i++) {
-        p = (SIM_PROJECT*) gstate.projects[i];
+        p = gstate.projects[i];
         p->idle = true;
         sprintf(buf, "%s STD: %f LTD %f<br>",
             p->project_name, p->cpu_pwf.short_term_debt,
@@ -379,7 +374,7 @@ bool ACTIVE_TASK_SET::poll() {
                 gstate.html_msg += buf;
                 action = true;
             }
-            ((SIM_PROJECT*)rp->project)->idle = false;
+            rp->project->idle = false;
             n++;
         }
     }
@@ -392,7 +387,7 @@ bool ACTIVE_TASK_SET::poll() {
     }
 
     for (i=0; i<gstate.projects.size(); i++) {
-        p = (SIM_PROJECT*) gstate.projects[i];
+        p = gstate.projects[i];
         if (p->idle) {
             p->idle_time += diff;
             p->idle_time_sumsq += diff*(p->idle_time*p->idle_time);
@@ -405,35 +400,6 @@ bool ACTIVE_TASK_SET::poll() {
     return action;
 }
 
-int SIM_APP::parse(XML_PARSER& xp) {
-    char tag[256];
-    bool is_tag;
-    int retval;
-
-    weight = 1;
-    while(!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (!strcmp(tag, "/app")) {
-            return 0;
-        }
-        else if (xp.parse_double(tag, "latency_bound", latency_bound)) continue;
-        else if (xp.parse_double(tag, "fpops_est", fpops_est)) continue;
-        else if (xp.parse_double(tag, "weight", weight)) continue;
-        else if (!strcmp(tag, "fpops")) {
-            retval = fpops.parse(xp, "/fpops");
-            if (retval) return retval;
-        } else if (!strcmp(tag, "checkpoint_period")) {
-            retval = checkpoint_period.parse(xp, "/checkpoint_period");
-            if (retval) return retval;
-        } else if (xp.parse_double(tag, "working_set", working_set)) continue;
-        else {
-            printf("unrecognized: %s\n", tag);
-            return ERR_XML_PARSE;
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
 // return the fraction of CPU time that was spent in violation of shares
 // i.e., if a project got X and it should have got Y,
 // add up |X-Y| over all projects, and divide by total CPU
@@ -443,13 +409,13 @@ double CLIENT_STATE::share_violation() {
 
     double tot = 0, trs=0;
     for (i=0; i<projects.size(); i++) {
-        SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
+        PROJECT* p = projects[i];
         tot += p->project_results.cpu_used + p->project_results.cpu_wasted;
         trs += p->resource_share;
     }
     double sum = 0;
     for (i=0; i<projects.size(); i++) {
-        SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
+        PROJECT* p = projects[i];
         double t = p->project_results.cpu_used + p->project_results.cpu_wasted;
         double rs = p->resource_share/trs;
         double rt = tot*rs;
@@ -474,7 +440,7 @@ double CLIENT_STATE::monotony() {
     double schedint = global_prefs.cpu_scheduling_period();
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
-        SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
+        PROJECT* p = projects[i];
         double avg_ss = p->idle_time_sumsq/running_time;
         double s = sqrt(avg_ss);
         sum += s;
@@ -531,7 +497,7 @@ void SIM_RESULTS::clear() {
     memset(this, 0, sizeof(*this));
 }
 
-void SIM_PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
+void PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
     double t = project_results.cpu_used + project_results.cpu_wasted;
     double gt = sr.cpu_used + sr.cpu_wasted;
     fprintf(f, "%s: share %.2f total CPU %2f (%.2f%%)\n"
@@ -546,7 +512,7 @@ void SIM_PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
     );
 }
 
-char* colors[] = {
+const char* colors[] = {
     "#ffffdd",
     "#ffddff",
     "#ddffff",
@@ -596,7 +562,7 @@ void gpu_on_aux(COPROC* cp) {
             if (!uses_coproc(rp, cp)) continue;
             if (atp->task_state() != PROCESS_EXECUTING) continue;
             if (!using_instance(rp, j)) continue;
-            SIM_PROJECT* p = (SIM_PROJECT*)rp->project;
+            PROJECT* p = rp->project;
             fprintf(gstate.html_out, "<td bgcolor=%s>%s%s: %.2f</td>",
                 colors[p->index],
                 atp->result->rr_sim_misses_deadline?"*":"",
@@ -655,7 +621,7 @@ void CLIENT_STATE::html_rec() {
         for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
             ACTIVE_TASK* atp = active_tasks.active_tasks[i];
             if (atp->task_state() == PROCESS_EXECUTING) {
-                SIM_PROJECT* p = (SIM_PROJECT*)atp->result->project;
+                PROJECT* p = atp->result->project;
                 fprintf(html_out, "<td bgcolor=%s>%s%s: %.2f</td>",
                     colors[p->index],
                     atp->result->rr_sim_misses_deadline?"*":"",
@@ -716,7 +682,7 @@ void CLIENT_STATE::simulate() {
         "starting simultion. delta %f duration %f", delta, duration
     );
     while (1) {
-        running = host_info.available.sample(now);
+        running = available.sample(now);
         while (1) {
             msg_printf(0, MSG_INFO, "polling");
             action = active_tasks.poll();
@@ -772,11 +738,30 @@ char* next_arg(int argc, char** argv, int& i) {
     return argv[i++];
 }
 
-#define PROJECTS_FILE "sim_projects.xml"
-#define HOST_FILE "sim_host.xml"
-#define PREFS_FILE "sim_prefs.xml"
 #define SUMMARY_FILE "sim_summary.txt"
 #define LOG_FILE "sim_log.txt"
+
+void CLIENT_STATE::do_client_simulation() {
+    msg_printf(0, MSG_INFO, "SIMULATION START");
+    read_config_file(true);
+    config.show();
+
+    parse_state_file();
+    read_global_prefs();
+
+    gstate.set_ncpus();
+    work_fetch.init();
+    gstate.request_work_fetch("init");
+    gstate.simulate();
+
+    sim_results.compute();
+
+    // print machine-readable first
+    sim_results.print(stdout);
+
+    // then other
+    gstate.print_project_results(stdout);
+}
 
 int main(int argc, char** argv) {
     int i, retval;
@@ -865,31 +850,6 @@ int main(int argc, char** argv) {
         total_results.divide((int)(dirs.size()));
         total_results.print(stdout, "Total");
     } else {
-        msg_printf(0, MSG_INFO, "SIMULATION START");
-        read_config_file(true);
-        config.show();
-
-        int retval;
-        bool flag;
-
-        retval = gstate.parse_host(HOST_FILE);
-        if (retval) parse_error(HOST_FILE, retval);
-        retval = gstate.parse_projects(PROJECTS_FILE);
-        if (retval) parse_error(PROJECTS_FILE, retval);
-        retval = gstate.global_prefs.parse_file(PREFS_FILE, "", flag);
-        if (retval) parse_error(PREFS_FILE, retval);
-
-        gstate.set_ncpus();
-        work_fetch.init();
-        gstate.request_work_fetch("init");
-        gstate.simulate();
-
-        sim_results.compute();
-
-        // print machine-readable first
-        sim_results.print(stdout);
-
-        // then other
-        gstate.print_project_results(stdout);
+        gstate.do_client_simulation();
     }
 }

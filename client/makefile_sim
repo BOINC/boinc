@@ -6,27 +6,58 @@ CXXFLAGS = -g -DSIM \
     -I ..
 
 OBJS = \
+	acct_mgr.o \
+	acct_setup.o \
     app.o \
+	auto_update.o \
     client_msgs.o \
-    cs_apps.o \
-    cs_scheduler.o \
+    client_state.o \
+    client_types.o \
     cpu_sched.o \
+	cs_account.o \
+    cs_apps.o \
+	cs_files.o \
+	cs_notice.o \
+    cs_platforms.o \
+    cs_prefs.o \
+    cs_proxy.o \
+    cs_scheduler.o \
+    cs_statefile.o \
+	file_names.o \
+	file_xfer.o \
+	gui_http.o \
+	http_curl.o \
     log_flags.o \
+	net_stats.o \
+	pers_file_xfer.o \
     rr_sim.o \
+	sandbox.o \
     sim.o \
     sim_util.o \
     time_stats.o \
     work_fetch.o \
     ../sched/edf_sim.o \
+    ../lib/cert_sig.o \
     ../lib/coproc.o \
+    ../lib/crypt.o \
+    ../lib/filesys.o \
+    ../lib/hostinfo.o \
+    ../lib/md5.o \
+    ../lib/md5_file.o \
     ../lib/mfile.o \
     ../lib/miofile.o \
     ../lib/msg_log.o \
+    ../lib/network.o \
+    ../lib/notice.o \
     ../lib/parse.o \
     ../lib/prefs.o \
-    ../lib/str_util.o
+    ../lib/proxy_info.o \
+    ../lib/shmem.o \
+    ../lib/str_util.o \
+    ../lib/url.o \
+    ../lib/util.o
 
 all: sim
 
 sim: $(OBJS) sim.h
-	$(CXX) $(CXXFLAGS) $(OBJS) -o sim -ldl
+	$(CXX) $(CXXFLAGS) $(OBJS) -o sim -ldl -lcurl

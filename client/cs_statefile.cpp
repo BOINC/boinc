@@ -128,6 +128,11 @@ int CLIENT_STATE::parse_state_file() {
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't parse project in state file");
             } else {
+#ifdef SIM
+                PROJECT* p = new PROJECT;
+                *p = temp_project;
+                projects.push_back(p);
+#else
                 project = lookup_project(temp_project.master_url);
                 if (project) {
                     project->copy_state_fields(temp_project);
@@ -137,6 +142,7 @@ int CLIENT_STATE::parse_state_file() {
                         temp_project.get_project_name()
                     );
                 }
+#endif
             }
             continue;
         }
@@ -205,6 +211,7 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
             }
             file_infos.push_back(fip);
+#ifndef SIM
             // If the file had a failure before,
             // don't start another file transfer
             //
@@ -230,6 +237,7 @@ int CLIENT_STATE::parse_state_file() {
                     );
                 }
             }
+#endif
             continue;
         }
         if (match_tag(buf, "<app_version>")) {
@@ -467,6 +475,7 @@ int CLIENT_STATE::parse_state_file() {
         if (parse_str(buf, "<newer_version>", newer_version)) {
             continue;
         }
+#ifndef SIM
         if (match_tag(buf, "<auto_update>")) {
             if (!project) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
@@ -480,6 +489,24 @@ int CLIENT_STATE::parse_state_file() {
             }
             continue;
         }
+#endif
+#ifdef SIM
+        if (parse_double(buf, "<connection_interval>", connection_interval)) {
+            continue;
+        }
+        if (match_tag(buf, "<available>")) {
+            XML_PARSER xp(&mf);
+            available.parse(xp, "/available");
+            available.init(START_TIME);
+            continue;
+        }
+        if (match_tag(buf, "<idle>")) {
+            XML_PARSER xp(&mf);
+            idle.parse(xp, "/idle");
+            idle.init(START_TIME);
+            continue;
+        }
+#endif
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] state_file: unrecognized: %s", buf
@@ -517,6 +544,8 @@ void CLIENT_STATE::sort_results() {
         arrived_first
     );
 }
+
+#ifndef SIM
 
 // Write the client_state.xml file
 //
@@ -736,6 +765,8 @@ int CLIENT_STATE::write_state_file_if_needed() {
     return 0;
 }
 
+#endif // ifndef SIM
+
 // look for app_versions.xml file in project dir.
 // If find, get app versions from there,
 // and use "anonymous platform" mechanism for this project
@@ -853,6 +884,8 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
     return ERR_XML_PARSE;
 }
 
+#ifndef SIM
+
 int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     unsigned int i, j;
     int retval;
@@ -960,3 +993,4 @@ int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
     return 0;
 }
 
+#endif

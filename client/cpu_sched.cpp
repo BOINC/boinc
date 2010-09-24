@@ -58,11 +58,7 @@
 #include "log_flags.h"
 #include "app.h"
 
-#ifdef SIM
-#include "sim.h"
-#else
 #include "client_state.h"
-#endif
 
 using std::vector;
 using std::list;
@@ -1281,7 +1277,7 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
     // enforce "don't use GPUs while active" pref in NVIDIA case;
     // it applies only to GPUs running a graphics app
     //
-    if (coproc_cuda && gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
+    if (gstate.host_info.coprocs.cuda.count && gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
         job_iter = jobs.begin();
         while (job_iter != jobs.end()) {
             RESULT* rp = *job_iter;
@@ -1293,7 +1289,7 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
             bool some_gpu_busy = false;
             for (i=0; i<rp->avp->ncudas; i++) {
                 int dev = atp->coproc_indices[i];
-                if (coproc_cuda->running_graphics_app[dev]) {
+                if (gstate.host_info.coprocs.cuda.running_graphics_app[dev]) {
                     some_gpu_busy = true;
                     break;
                 }
@@ -1882,7 +1878,7 @@ void PROJECT::update_duration_correction_factor(ACTIVE_TASK* atp) {
         return;
     }
     if (dcf_stats) {
-        ((SIM_PROJECT*)this)->update_dcf_stats(rp);
+        update_dcf_stats(rp);
         return;
     }
 #endif

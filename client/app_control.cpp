@@ -74,6 +74,46 @@ using std::vector;
 
 #include "app.h"
 
+// Do periodic checks on running apps:
+// - get latest CPU time and % done info
+// - check if any has exited, and clean up
+// - see if any has exceeded its CPU or disk space limits, and abort it
+//
+bool ACTIVE_TASK_SET::poll() {
+    bool action;
+    unsigned int i;
+    static double last_time = 0;
+    if (gstate.now - last_time < TASK_POLL_PERIOD) return false;
+    last_time = gstate.now;
+
+    action = check_app_exited();
+    send_heartbeats();
+    send_trickle_downs();
+    graphics_poll();
+    process_control_poll();
+    action |= check_rsc_limits_exceeded();
+    get_msgs();
+    for (i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        if (atp->task_state() == PROCESS_ABORT_PENDING) {
+            if (gstate.now > atp->abort_time + ABORT_TIMEOUT) {
+                atp->kill_task(false);
+            }
+        }
+        if (atp->task_state() == PROCESS_QUIT_PENDING) {
+            if (gstate.now > atp->quit_time + QUIT_TIMEOUT) {
+                atp->kill_task(true);
+            }
+        }
+    }
+
+    if (action) {
+        gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
+    }
+
+    return action;
+}
+
 #if 0
 // deprecated; TerminateProcessById() doesn't work if
 // the process is running as a different user

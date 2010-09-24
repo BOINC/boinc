@@ -6788,3 +6788,25 @@ Charlie 24 Sept 2010
                 wrapper_macOSX_ppc
             x86_64/
                 wrapper_macOSX_x86_64
+
+David  24 Sept 2010
+    - client simulator: major remodel and upgrade.
+        Insteady of using its own XML input files,
+        the simulator now takes a client_state.xml file as input.
+        The simulator generates a synthetic workload based on the
+        projects, apps, app versions, WUs, and result it finds there.
+
+        This means that a user seeing aberrant behavior
+        can just send their client_state.xml file
+        and (hopefully) we can use the simulator to repro.
+
+        The simulator now can model GPUs.
+
+        As of this checkin, the simulator compiles but doesn't work.
+        There should be no change in the actual client.
+
+    html/user/
+        rss_main.php
+    client/
+        makefile_sym
+        *.cpp

@@ -65,6 +65,8 @@ double CLIENT_STATE::allowed_disk_usage(double boinc_total) {
     return size;
 }
 
+#ifndef SIM
+
 int CLIENT_STATE::project_disk_usage(PROJECT* p, double& size) {
     char buf[256];
     unsigned int i;
@@ -274,6 +276,8 @@ void CLIENT_STATE::check_suspend_network() {
     }
 }
 
+#endif // ifndef SIM
+
 // call this only after parsing global prefs
 //
 PROJECT* CLIENT_STATE::global_prefs_source_project() {
@@ -433,11 +437,13 @@ void CLIENT_STATE::read_global_prefs() {
         (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
     );
     double x;
+#ifndef SIM
     total_disk_usage(x);
     msg_printf(NULL, MSG_INFO,
         "   max disk usage: %.2fGB",
         allowed_disk_usage(x)/GIGA
     );
+#endif
     // max_cpus, bandwidth limits may have changed
     //
     set_ncpus();
@@ -470,8 +476,10 @@ void CLIENT_STATE::read_global_prefs() {
             global_prefs.max_bytes_sec_up
         );
     }
+#ifndef SIM
     file_xfers->set_bandwidth_limits(true);
     file_xfers->set_bandwidth_limits(false);
+#endif
     msg_printf(NULL, MSG_INFO,
         "   (to change preferences, visit the web site of an attached project, or select Preferences in the Manager)"
     );
