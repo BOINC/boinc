@@ -267,6 +267,7 @@ struct WORK_FETCH {
     void compute_shares();
     void zero_debts();
     void clear_backoffs(APP_VERSION&);
+    void request_string(char*);
 };
 
 extern RSC_WORK_FETCH cuda_work_fetch;

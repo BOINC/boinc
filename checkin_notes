@@ -6828,3 +6828,23 @@ David  24 Sept 2010
         work_fetch.cpp,h
         client_state.cpp,h
         app.cpp
+
+David  27 Sept 2010
+    - client: add <no_info_fetch> config option and --no_info_fetch
+        cmdline arg.
+        Suppresses the fetch of project list and of current client version #.
+        Use when running on grid nodes.
+    - debugging on client simulator.  Not done yet.
+
+    client/
+        work_fetch.cpp,h
+        client_types.cpp,h
+        client_state.cpp
+        sim.cpp
+        work_fetch.cpp
+        sim_util.cpp
+        cs_cmdline.cpp
+        log_flags.cpp,h
+        cs_statefile.cpp
+        scheduler_op.cpp
+        time_stats.cpp

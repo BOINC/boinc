@@ -88,7 +88,7 @@ function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
     // Create channel header and open XML content
     //
     $description = PROJECT.": $forum->title";
-    if ($user) {
+    if ($userid) {
         $description .= " (posts by $user->name)";
     }
     $channel_image = URL_BASE . "rss_image.gif";

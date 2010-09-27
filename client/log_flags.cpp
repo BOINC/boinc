@@ -191,6 +191,9 @@ void CONFIG::show() {
     if (no_gpus) {
         msg_printf(NULL, MSG_INFO, "Config: don't use coprocessors");
     }
+    if (no_info_fetch) {
+        msg_printf(NULL, MSG_INFO, "Config: don't fetch project list or client version info");
+    }
     if (no_priority_change) {
         msg_printf(NULL, MSG_INFO, "Config: run apps at regular priority");
     }
@@ -276,6 +279,7 @@ void CONFIG::clear() {
     network_test_url = "http://www.google.com/";
     no_alt_platform = false;
     no_gpus = false;
+    no_info_fetch = false;
     no_priority_change = false;
     os_random_only = false;
     report_results_immediately = false;
@@ -386,6 +390,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         }
         if (xp.parse_bool(tag, "no_alt_platform", no_alt_platform)) continue;
         if (xp.parse_bool(tag, "no_gpus", no_gpus)) continue;
+        if (xp.parse_bool(tag, "no_info_fetch", no_info_fetch)) continue;
         if (xp.parse_bool(tag, "no_priority_change", no_priority_change)) continue;
         if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
 #ifndef SIM

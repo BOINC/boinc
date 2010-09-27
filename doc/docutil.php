@@ -219,4 +219,11 @@ function show_link($url) {
     echo "<br><a href=$url>$url</a>";
 }
 
+function get_str2($x) {
+    if (array_key_exists($x, $_GET)) {
+        return $_GET[$x];
+    }
+    return null;
+}
+
 ?>

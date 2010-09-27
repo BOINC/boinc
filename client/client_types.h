@@ -467,6 +467,8 @@ struct APP {
     NORMAL_DIST checkpoint_period;
     double working_set;
     double weight;
+    bool has_version;
+    APP() {memset(this, 0, sizeof(APP));}
 #endif
 
     int parse(MIOFILE&);

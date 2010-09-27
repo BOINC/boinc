@@ -88,7 +88,7 @@ void PROJECT::update_dcf_stats(RESULT* rp) {
     return;
 }
 
-// generate a job; pick a random app,
+// generate a job; pick a random app for this project,
 // and pick a FLOP count from its distribution
 //
 void CLIENT_STATE::make_job(PROJECT* p, WORKUNIT* wup, RESULT* rp) {
@@ -107,7 +107,7 @@ void CLIENT_STATE::make_job(PROJECT* p, WORKUNIT* wup, RESULT* rp) {
         }
     }
     if (!ap) {
-        printf("ERROR-NO APP\n");
+        printf("ERROR - NO APP\n");
         exit(1);
     }
     rp->clear();
@@ -185,11 +185,11 @@ void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
     init_ip_results(work_buf_min(), ncpus, ip_results);
 }
 
-// simulate trying to do an RPC
-// return false if we didn't actually do one
+// simulate trying to do an RPC;
+// return true if we actually did one
 //
 bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
-    char buf[256];
+    char buf[256], buf2[256];
     static double last_time=-1e9;
     vector<IP_RESULT> ip_results;
     int infeasible_count = 0;
@@ -204,9 +204,8 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
     last_time = now;
 
-    sprintf(buf, "RPC to %s; asking for %f/%.2f<br>",
-        p->project_name, cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
-    );
+    work_fetch.request_string(buf);
+    sprintf(buf, "RPC to %s: %s<br>", p->project_name, buf2);
     html_msg += buf;
 
     msg_printf(0, MSG_INFO, buf);
@@ -738,6 +737,77 @@ char* next_arg(int argc, char** argv, int& i) {
     return argv[i++];
 }
 
+// get application FLOPS params.
+// These can be specified manually in the <app>.
+// If not they are taken from a WU if one exists for the app.
+// If not they default to 1 GFLOPS/hour
+//
+void get_app_params() {
+    unsigned int i, j;
+    for (i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        if (!app->fpops_est) {
+            for (j=0; j<gstate.workunits.size(); j++) {
+                WORKUNIT* wup = gstate.workunits[j];
+                if (wup->app != app) continue;
+                app->fpops_est = wup->rsc_fpops_est;
+                break;
+            }
+            if (!app->fpops_est) {
+                app->fpops_est = 3600 * 1e9;
+            }
+        }
+        if (!app->fpops.mean) {
+            app->fpops.mean = app->fpops_est;
+        }
+        if (!app->weight) {
+            app->weight = 1;
+        }
+        fprintf(stderr, "app %s: fpops_est %f fpops mean %f\n",
+            app->name, app->fpops_est, app->fpops.mean
+        );
+    }
+}
+
+// zero backoffs and debts.
+//
+void clear_backoff() {
+    unsigned int i;
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->cpu_pwf.reset();
+        p->cuda_pwf.reset();
+        p->ati_pwf.reset();
+        p->min_rpc_time = 0;
+    }
+}
+
+// remove apps with no app versions,
+// then projects with no apps
+//
+void cull_projects() {
+    unsigned int i;
+
+    for (i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        app->has_version = false;
+    }
+    for (i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        avp->app->has_version = true;
+    }
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->dont_request_more_work = true;
+    }
+    for (i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        if (app->has_version) {
+            app->project->dont_request_more_work = false;
+        }
+    }
+}
+
 #define SUMMARY_FILE "sim_summary.txt"
 #define LOG_FILE "sim_log.txt"
 
@@ -746,8 +816,19 @@ void CLIENT_STATE::do_client_simulation() {
     read_config_file(true);
     config.show();
 
+    add_platform("client simulator");
     parse_state_file();
     read_global_prefs();
+    for (unsigned int i=0; i<projects.size(); i++) {
+        projects[i]->index = i;
+    }
+
+    gstate.now = 86400;
+    get_app_params();
+    clear_backoff();
+
+    gstate.workunits.clear();
+    gstate.results.clear();
 
     gstate.set_ncpus();
     work_fetch.init();

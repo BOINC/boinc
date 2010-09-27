@@ -13,13 +13,13 @@
 require_once("docutil.php");
 require_once("versions.inc");
 
-$xml = $_GET["xml"];
-$dev = $_GET["dev"];
-$pname = $_GET["platform"];
-$min_version = $_GET["min_version"];
-$max_version = $_GET["max_version"];
-$version = $_GET["version"];
-$type_name = $_GET["type"];
+$xml = get_str2("xml");
+$dev = get_str2("dev");
+$pname = get_str2("platform");
+$min_version = get_str2("min_version");
+$max_version = get_str2("max_version");
+$version = get_str2("version");
+$type_name = get_str2("type");
 $client_info = $_SERVER['HTTP_USER_AGENT'];
 
 if (!$xml) $dev=1;

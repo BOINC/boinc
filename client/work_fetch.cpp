@@ -970,6 +970,27 @@ void WORK_FETCH::compute_shares() {
     }
 }
 
+void WORK_FETCH::request_string(char* buf) {
+    char buf2[256];
+    sprintf(buf,
+        "[work_fetch] request: %.2f sec CPU (%.2f sec, %.2f)",
+        cpu_work_fetch.req_secs,
+        cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
+    );
+    if (gstate.host_info.have_cuda()) {
+        sprintf(buf2, " NVIDIA GPU (%.2f sec, %.2f)",
+            cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
+        );
+        strcat(buf, buf2);
+    }
+    if (gstate.host_info.have_ati()) {
+        sprintf(buf2, " ATI GPU (%.2f sec, %.2f)",
+            ati_work_fetch.req_secs, ati_work_fetch.req_instances
+        );
+        strcat(buf, buf2);
+    }
+}
+
 void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
     double work_req = cpu_work_fetch.req_secs;
 
@@ -1001,24 +1022,8 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
         cpu_work_fetch.req_secs?cpu_work_fetch.busy_time_estimator.get_busy_time():0
     );
     if (log_flags.work_fetch_debug) {
-        char buf[256], buf2[256];
-        sprintf(buf,
-            "[work_fetch] request: %.2f sec CPU (%.2f sec, %.2f)",
-            work_req,
-            cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
-        );
-        if (gstate.host_info.have_cuda()) {
-            sprintf(buf2, " NVIDIA GPU (%.2f sec, %.2f)",
-                cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
-            );
-            strcat(buf, buf2);
-        }
-        if (gstate.host_info.have_ati()) {
-            sprintf(buf2, " ATI GPU (%.2f sec, %.2f)",
-                ati_work_fetch.req_secs, ati_work_fetch.req_instances
-            );
-            strcat(buf, buf2);
-        }
+        char buf[256];
+        request_string(buf);
         msg_printf(p, MSG_INFO, buf);
     }
 }

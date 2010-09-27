@@ -135,6 +135,7 @@ struct CONFIG {
     std::string network_test_url;
     bool no_alt_platform;
     bool no_gpus;
+    bool no_info_fetch;
     bool no_priority_change;
     bool os_random_only;
     bool report_results_immediately;

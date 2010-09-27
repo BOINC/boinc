@@ -199,7 +199,7 @@ function site_list($sites) {
         $s = $sites[$i];
         $url = $s[0];
         $name = $s[1];
-        $comment = $s[2];
+        $comment = array_key_exists(2, $s)?$s[2]:"";
         echo "<li><a href=\"$url\">$name</a> $comment\n";
     }
     echo "</ul>\n";

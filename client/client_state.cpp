@@ -483,7 +483,9 @@ int CLIENT_STATE::init() {
     if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {
         all_projects_list_check_time = 0;
     }
-    all_projects_list_check();
+    if (!config.no_info_fetch) {
+        all_projects_list_check();
+    }
 
     auto_update.init();
 

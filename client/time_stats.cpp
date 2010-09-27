@@ -292,9 +292,11 @@ int TIME_STATS::parse(MIOFILE& in) {
         if (match_tag(buf, "</time_stats>")) return 0;
         else if (parse_double(buf, "<last_update>", x)) {
             if (x < 0 || x > gstate.now) {
+#ifndef SIM
                 msg_printf(0, MSG_INTERNAL_ERROR,
                     "bad value %f of time stats last update; ignoring", x
                 );
+#endif
             } else {
                 last_update = x;
             }

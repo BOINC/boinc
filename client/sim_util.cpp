@@ -99,8 +99,8 @@ int ACTIVE_TASK::request_exit() {
 int ACTIVE_TASK::resume_or_start(bool first_time) {
     if (log_flags.task) {
         msg_printf(result->project, MSG_INFO,
-            "[task] %s task %s",
-            first_time?"Starting":"Resuming", result->name
+            "[task] %s task %s: time left %f",
+            first_time?"Starting":"Resuming", result->name, cpu_time_left
         );
     }
     set_task_state(PROCESS_EXECUTING, "start");

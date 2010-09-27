@@ -74,6 +74,7 @@ static void print_options(char* prog) {
         "    --master_fetch_period N        reload master URL after N RPC failures\n"
         "    --master_fetch_retry_cap N     exponential backoff limit\n"
         "    --no_gui_rpc                   don't allow GUI RPC, don't make socket\n"
+        "    --no_info_fetch                don't fetch project list or client version info\n"
         "    --no_priority_change           run apps at same priority as client\n"
         "    --pers_giveup N                giveup time for persistent file xfer\n"
         "    --pers_retry_delay_max N       max for file xfer exponential backoff\n"
@@ -189,8 +190,9 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             config.no_gpus = true;
         } else if (ARG(no_gui_rpc)) {
             no_gui_rpc = true;
+        } else if (ARG(no_info_fetch)) {
+            config.no_info_fetch = true;
         } else if (ARG(no_priority_change)) {
-            fprintf(stderr, "NO PRIO CHANGE\n");
             config.no_priority_change = true;
         } else if (ARG(pers_giveup)) {
             if (i == argc-1) show_options = true;

@@ -129,9 +129,9 @@ int CLIENT_STATE::parse_state_file() {
                 msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't parse project in state file");
             } else {
 #ifdef SIM
-                PROJECT* p = new PROJECT;
-                *p = temp_project;
-                projects.push_back(p);
+                project = new PROJECT;
+                *project = temp_project;
+                projects.push_back(project);
 #else
                 project = lookup_project(temp_project.master_url);
                 if (project) {
@@ -669,6 +669,10 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     unsigned int i, j;
     int retval;
 
+#ifdef SIM
+    fprintf(stderr, "simulator shouldn't write state file\n");
+    exit(1);
+#endif
     f.printf("<client_state>\n");
     retval = host_info.write(f, true, true);
     if (retval) return retval;

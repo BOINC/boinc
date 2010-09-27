@@ -836,15 +836,17 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         if (parse_bool(buf, "is_project_file", is_project_file)) continue;
         if (match_tag(buf, "<no_delete")) continue;
         if (match_tag(buf, "<persistent_file_xfer>")) {
-#ifndef SIM
             pfxp = new PERS_FILE_XFER;
             retval = pfxp->parse(in);
+#ifdef SIM
+            delete pfxp;
+            continue;
+#endif
             if (!retval) {
                 pers_file_xfer = pfxp;
             } else {
                 delete pfxp;
             }
-#endif
             continue;
         }
         if (!from_server && match_tag(buf, "<signed_xml>")) {
