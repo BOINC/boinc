@@ -898,8 +898,15 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
             atp->preempt(REMOVE_NEVER);
             break;
         case SUSPEND_REASON_CPU_USAGE:
+            // If we're suspending because of non-BOINC CPU load,
+            // don't remove from memory.
+            // Some systems do a security check when apps are launched,
+            // which uses a lot of CPU.
+            // Avoid going into a preemption loop.
+            //
             if (atp->result->project->non_cpu_intensive) break;
-            // fall through
+            atp->preempt(REMOVE_NEVER);
+            break;
         default:
             atp->preempt(REMOVE_MAYBE_USER);
         }

@@ -6847,19 +6847,6 @@ David  27 Sept 2010
         cs_statefile.cpp
         scheduler_op.cpp
         time_stats.cpp
-<<<<<<< .mine
-
-David  28 Sept 2010
-    - validator: if credit calculation returns an error,
-        wait 6 hours before retrying
-
-    sched/
-        validator.cpp
-    client/
-        sim.cpp,h
-        client_state.h
-        cs_statefile.cpp
-=======
 
 Rom    28 Sept 2010
     - MGR: Make the new BOINC skin the default skin.
@@ -6883,4 +6870,25 @@ Rom    28 Sept 2010
     /
         configure.ac
         version.h
->>>>>>> .r22417
+
+David  28 Sept 2010
+    - validator: if credit calculation returns an error,
+        wait 6 hours before retrying
+
+    sched/
+        validator.cpp
+    client/
+        sim.cpp,h
+        client_state.h
+        cs_statefile.cpp
+
+
+David  28 Sept 2010
+    - client: if we suspend apps because non-BOINC CPU is is too high,
+        leave them in memory.
+        Otherwise (if the CPU use is caused by launching an app,
+        say by security software)
+        we would get into a loop.
+
+    client/
+        app_control.cpp
