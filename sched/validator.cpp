@@ -373,7 +373,8 @@ int handle_wu(
                         "[WU#%d %s] assign_credit_set() returned %d\n",
                         wu.id, wu.name, retval
                     );
-                    return retval;
+                    transition_time = DELAYED;
+                    goto leave;
                 }
             }
 
@@ -530,6 +531,7 @@ int handle_wu(
         }
     }
 
+leave:
     --log_messages;
 
     switch (transition_time) {

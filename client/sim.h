@@ -47,6 +47,13 @@ struct PROJECT_RESULTS {
     double cpu_wasted;
     int nresults_met_deadline;
     int nresults_missed_deadline;
+
+    PROJECT_RESULTS() {
+        cpu_used = 0;
+        cpu_wasted = 0;
+        nresults_met_deadline = 0;
+        nresults_missed_deadline = 0;
+    }
 };
 
 struct NORMAL_DIST {

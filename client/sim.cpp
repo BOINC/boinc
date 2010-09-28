@@ -88,37 +88,70 @@ void PROJECT::update_dcf_stats(RESULT* rp) {
     return;
 }
 
+APP* choose_app(vector<APP*>& apps) {
+    double x = drand();
+    double sum = 0;
+    unsigned int i;
+
+    for (i=0; i<apps.size(); i++) {
+        sum += apps[i]->weight;
+    }
+    for (i=0; i<apps.size(); i++) {
+        APP* app = apps[i];
+        x -= app->weight/sum;
+        if (x <= 0) {
+            return app;
+        }
+    }
+    return apps.back();
+}
+
+bool app_version_needs_work(APP_VERSION* avp) {
+    if (avp->ncudas) {
+        return (cuda_work_fetch.req_secs>0 || cuda_work_fetch.req_instances>0);
+    }
+    if (avp->natis) {
+        return (ati_work_fetch.req_secs>0 || ati_work_fetch.req_instances>0);
+    }
+    return (cpu_work_fetch.req_secs>0 || cpu_work_fetch.req_instances>0);
+}
+
+bool has_app_version_needing_work(APP* app) {
+    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->app != app) continue;
+        if (app_version_needs_work(avp)) return true;
+    }
+    return false;
+}
+
+// choose a version for this app for which we need work
+//
+APP_VERSION* choose_app_version(APP* app) {
+    APP_VERSION* best_avp = NULL;
+    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->app != app) continue;
+        if (!app_version_needs_work(avp)) continue;
+        if (!best_avp) {
+            best_avp = avp;
+        } else if (avp->flops > best_avp->flops) {
+            best_avp = avp;
+        }
+    }
+    return best_avp;
+}
+
 // generate a job; pick a random app for this project,
 // and pick a FLOP count from its distribution
 //
-void CLIENT_STATE::make_job(PROJECT* p, WORKUNIT* wup, RESULT* rp) {
-    APP* ap1, *ap=0;
-    double net_fpops = host_info.p_fpops;
-    double x = drand();
-    unsigned int i;
-
-    for (i=0; i<apps.size();i++) {
-        ap1 = apps[i];
-        if (ap1->project != p) continue;
-        x -= ap1->weight;
-        if (x <= 0) {
-            ap = ap1;
-            break;
-        }
-    }
-    if (!ap) {
-        printf("ERROR - NO APP\n");
-        exit(1);
-    }
+void make_job(
+    PROJECT* p, WORKUNIT* wup, RESULT* rp, vector<APP*>app_list
+) {
+    APP* app = choose_app(app_list);
+    APP_VERSION* avp = choose_app_version(app);
     rp->clear();
-    rp->avp = 0;
-    for (i=0; i<gstate.app_versions.size(); i++) {
-        APP_VERSION* avp = gstate.app_versions[i];
-        if (avp->app == ap) {
-            rp->avp = avp;
-            break;
-        }
-    }
+    rp->avp = avp;
     if (!rp->avp) {
         printf("ERROR - NO APP VERSION\n");
         exit(1);
@@ -127,23 +160,23 @@ void CLIENT_STATE::make_job(PROJECT* p, WORKUNIT* wup, RESULT* rp) {
     rp->wup = wup;
     sprintf(rp->name, "%s_%d", p->project_name, p->result_index++);
     wup->project = p;
-    wup->rsc_fpops_est = ap->fpops_est;
-    double ops = ap->fpops.sample();
+    wup->rsc_fpops_est = app->fpops_est;
+    double ops = app->fpops.sample();
     if (ops < 0) ops = 0;
-    rp->final_cpu_time = ops/net_fpops;
-    rp->report_deadline = now + ap->latency_bound;
+    rp->final_cpu_time = ops/avp->flops;
+    rp->report_deadline = gstate.now + app->latency_bound;
 }
 
 // process ready-to-report results
 //
-void CLIENT_STATE::handle_completed_results() {
+void CLIENT_STATE::handle_completed_results(PROJECT* p) {
     char buf[256];
     vector<RESULT*>::iterator result_iter;
 
     result_iter = results.begin();
     while (result_iter != results.end()) {
         RESULT* rp = *result_iter;
-        if (rp->ready_to_report) {
+        if (rp->project == p && rp->ready_to_report) {
             sprintf(buf, "result %s reported; %s<br>",
                 rp->name,
                 (gstate.now > rp->report_deadline)?
@@ -185,6 +218,31 @@ void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
     init_ip_results(work_buf_min(), ncpus, ip_results);
 }
 
+void get_apps_needing_work(PROJECT* p, vector<APP*>& apps) {
+    apps.clear();
+    for (unsigned int i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        if (app->project != p) continue;
+        if (!has_app_version_needing_work(app)) continue;
+        apps.push_back(app);
+    }
+}
+
+void decrement_request_rsc(
+    RSC_WORK_FETCH& rwf, double ninstances, double est_runtime
+) {
+    rwf.req_secs -= est_runtime * ninstances;
+    rwf.req_instances -= ninstances;
+}
+
+void decrement_request(RESULT* rp) {
+    APP_VERSION* avp = rp->avp;
+    double est_runtime = rp->wup->rsc_fpops_est/avp->flops;
+    decrement_request_rsc(cpu_work_fetch, avp->avg_ncpus, est_runtime);
+    decrement_request_rsc(cuda_work_fetch, avp->ncudas, est_runtime);
+    decrement_request_rsc(ati_work_fetch, avp->natis, est_runtime);
+}
+
 // simulate trying to do an RPC;
 // return true if we actually did one
 //
@@ -193,6 +251,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     static double last_time=-1e9;
     vector<IP_RESULT> ip_results;
     int infeasible_count = 0;
+    vector<RESULT*> new_results;
 
     double diff = now - last_time;
     if (diff && diff < connection_interval) {
@@ -204,25 +263,32 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
     last_time = now;
 
-    work_fetch.request_string(buf);
+    // save request params for WORK_FETCH::handle_reply
+    double save_cpu_req_secs = cpu_work_fetch.req_secs;
+    host_info.coprocs.cuda.req_secs = cuda_work_fetch.req_secs;
+    host_info.coprocs.ati.req_secs = ati_work_fetch.req_secs;
+
+
+    work_fetch.request_string(buf2);
     sprintf(buf, "RPC to %s: %s<br>", p->project_name, buf2);
     html_msg += buf;
 
     msg_printf(0, MSG_INFO, buf);
 
-    handle_completed_results();
+    handle_completed_results(p);
 
     if (server_uses_workload) {
         get_workload(ip_results);
     }
 
     bool sent_something = false;
-    double work_left = cpu_work_fetch.req_secs;
-    double instances_needed = cpu_work_fetch.req_instances;
-    while (work_left > 0 || instances_needed>0) {
+    while (1) {
+        vector<APP*> apps;
+        get_apps_needing_work(p, apps);
+        if (apps.empty()) break;
         RESULT* rp = new RESULT;
         WORKUNIT* wup = new WORKUNIT;
-        make_job(p, wup, rp);
+        make_job(p, wup, rp, apps);
 
         if (server_uses_workload) {
             IP_RESULT c(rp->name, rp->report_deadline, rp->final_cpu_time);
@@ -241,17 +307,18 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         sent_something = true;
         rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
         results.push_back(rp);
+        new_results.push_back(rp);
         sprintf(buf, "got job %s: CPU time %.2f, deadline %s<br>",
             rp->name, rp->final_cpu_time, time_to_string(rp->report_deadline)
         );
         html_msg += buf;
-        work_left -= p->duration_correction_factor*wup->rsc_fpops_est/host_info.p_fpops;
-        instances_needed -= 1;
+        decrement_request(rp);
     }
 
-    if (cpu_work_fetch.req_secs > 0 && !sent_something) {
-        p->backoff();
-    }
+
+    SCHEDULER_REPLY sr;
+    cpu_work_fetch.req_secs = save_cpu_req_secs;
+    work_fetch.handle_reply(p, &sr, new_results);
     p->nrpc_failures = 0;
     if (sent_something) {
         request_schedule_cpus("simulate_rpc");
@@ -259,6 +326,13 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
     return true;
 }
+
+SCHEDULER_REPLY::SCHEDULER_REPLY() {
+    cpu_backoff = 0;
+    cuda_backoff = 0;
+    ati_backoff = 0;
+}
+SCHEDULER_REPLY::~SCHEDULER_REPLY() {}
 
 void PROJECT::backoff() {
     nrpc_failures++;
@@ -619,14 +693,16 @@ void CLIENT_STATE::html_rec() {
         int n=0;
         for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
             ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+            int np = atp->result->avp->avg_ncpus;
+            if (np < 1) np = 1;
             if (atp->task_state() == PROCESS_EXECUTING) {
                 PROJECT* p = atp->result->project;
-                fprintf(html_out, "<td bgcolor=%s>%s%s: %.2f</td>",
-                    colors[p->index],
+                fprintf(html_out, "<td colspan=%d bgcolor=%s>%s%s: %.2f</td>",
+                    np, colors[p->index],
                     atp->result->rr_sim_misses_deadline?"*":"",
                     atp->result->name, atp->cpu_time_left
                 );
-                n++;
+                n += np;
             }
         }
         while (n<ncpus) {
@@ -819,8 +895,12 @@ void CLIENT_STATE::do_client_simulation() {
     add_platform("client simulator");
     parse_state_file();
     read_global_prefs();
+    cull_projects();
+    int j=0;
     for (unsigned int i=0; i<projects.size(); i++) {
-        projects[i]->index = i;
+        if (!projects[i]->dont_request_more_work) {
+            projects[i]->index = j++;
+        }
     }
 
     gstate.now = 86400;

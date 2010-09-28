@@ -467,8 +467,7 @@ struct CLIENT_STATE {
     double monotony();
 
     void do_client_simulation();
-    void make_job(PROJECT*, WORKUNIT*, RESULT*);
-    void handle_completed_results();
+    void handle_completed_results(PROJECT*);
     void get_workload(vector<IP_RESULT>&);
     void simulate();
     bool simulate_rpc(PROJECT*);

@@ -1,4 +1,3 @@
-
 David  3 Jan 2010
     - client: ATI available RAM wasn't being detected correctly
 
@@ -6848,6 +6847,19 @@ David  27 Sept 2010
         cs_statefile.cpp
         scheduler_op.cpp
         time_stats.cpp
+<<<<<<< .mine
+
+David  28 Sept 2010
+    - validator: if credit calculation returns an error,
+        wait 6 hours before retrying
+
+    sched/
+        validator.cpp
+    client/
+        sim.cpp,h
+        client_state.h
+        cs_statefile.cpp
+=======
 
 Rom    28 Sept 2010
     - MGR: Make the new BOINC skin the default skin.
@@ -6871,3 +6883,4 @@ Rom    28 Sept 2010
     /
         configure.ac
         version.h
+>>>>>>> .r22417
