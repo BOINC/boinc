@@ -733,6 +733,22 @@
 		<Filter
 			Name="Simple"
 			>
+			<File
+				RelativePath="..\clientgui\sg_DlgMessages.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_DlgMessages.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_DlgPreferences.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_DlgPreferences.h"
+				>
+			</File>
 			<Filter
 				Name="Prototype"
 				>
@@ -754,22 +770,6 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\sg_CustomControls.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_DlgMessages.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_DlgMessages.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_DlgPreferences.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_DlgPreferences.h"
 					>
 				</File>
 				<File

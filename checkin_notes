@@ -6848,3 +6848,18 @@ David  27 Sept 2010
         cs_statefile.cpp
         scheduler_op.cpp
         time_stats.cpp
+
+Rom    28 Sept 2010
+    - MGR: Make the new BOINC skin the default skin.
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        SkinManager.cpp, .h
+    clientgui/skins/BOINC/graphic/
+        <Various Files>
+    clientgui/skins/BOINC/
+        skin.xml
+    clientgui/skins/People for a Smarter Planet/
+        skin.xml
+    win_build/
+        boincmgr.vcproj

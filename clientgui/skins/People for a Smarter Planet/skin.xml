@@ -248,21 +248,5 @@
 			<exit_message></exit_message>
 		</advanced>
 		<!-- this section can be omitted in which case it will use the BOINC defaults (shown below) -->
-		<wizards>  
-			<attach_to_project>
-				<!-- title displayed on the attach to project wizard -->
-				<title></title> 
-				<!-- logo displayed on the attach to project wizard -->
-				<logo>graphic/wcg_wizard_bar.png</logo>  
-			</attach_to_project>
-			<attach_to_account_manager>
-				<!-- title displayed on the attach to account manager wizard -->
-				<title></title>  
-				<!-- logo displayed on the attach to account manager wizard -->
-				<logo>graphic/wcg_wizard_bar.png</logo>  
-				<!-- additional message to user about attaching to an account manager -->
-				<account_info_message></account_info_message>  
-			</attach_to_account_manager>
-		</wizards>
 	</en>
 </skin>

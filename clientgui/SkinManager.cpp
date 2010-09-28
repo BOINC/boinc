@@ -1265,19 +1265,7 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
 
     // Check to see if the skin we want to change to is the default skin
     if (GetDefaultSkinName() == m_strSelectedSkin) {
-
-        // Disable the error messages since the default images are
-        //   going to be used.
-        show_error_msgs = false;
-
-        // Validate settings
-        InitializeDelayedValidation();
-
-        // Tell whichever UI elements that are loaded to reload the
-        //   skinable resources they use.
-        wxGetApp().FireReloadSkin();
-
-        return true;
+        m_strSelectedSkin = GetDefaultBOINCSkinName();
     }
 
     // First we try the users canonical locale resources.
@@ -1361,6 +1349,11 @@ wxArrayString& CSkinManager::GetCurrentSkins() {
 
 wxString CSkinManager::GetDefaultSkinName() {
     return wxString(wxT("Default"));
+}
+
+
+wxString CSkinManager::GetDefaultBOINCSkinName() {
+    return wxString(wxT("BOINC"));
 }
 
 
@@ -1462,5 +1455,4 @@ bool CSkinManager::InitializeDelayedValidation() {
            m_AdvancedSkin.InitializeDelayedValidation() && 
            m_WizardsSkin.InitializeDelayedValidation();
 }
-
 

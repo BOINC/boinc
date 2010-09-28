@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ASCII"?>
 <skin>
   <completed/>
   <en>
@@ -56,6 +56,7 @@
 			<workunit_area_background_image>
 				<image>
 					<imagesrc>graphic/wu_bg.png</imagesrc>
+					<background_color>0:0:0</background_color>
 				</image>
 			</workunit_area_background_image>
 			<workunit_animation_background_image>
@@ -129,19 +130,19 @@
 			<help_button>
 				<button>
 					<imagesrc>graphic/btnHelp.png</imagesrc>
-					<imagesrc_clicked>graphic/btnHelpClicked.png</imagesrc_clicked>
+					<imagesrc_clicked>graphic/btnHelpClick.png</imagesrc_clicked>
 				</button>
 			</help_button>
 			<copy_button>
 				<button>
 					<imagesrc>graphic/btnCopy.png</imagesrc>
-					<imagesrc_clicked>graphic/btnCopyClicked.png</imagesrc_clicked>
+					<imagesrc_clicked>graphic/btnCopyClick.png</imagesrc_clicked>
 				</button>
 			</copy_button>
 			<copy_all_button>
 				<button>
 					<imagesrc>graphic/btnCopyAll.png</imagesrc>
-					<imagesrc_clicked>graphic/btnCopyAllClicked.png</imagesrc_clicked>
+					<imagesrc_clicked>graphic/btnCopyAllClick.png</imagesrc_clicked>
 				</button>
 			</copy_all_button>
 			<clear_button>
@@ -165,16 +166,9 @@
 					<imagesrc>graphic/btnPause.png</imagesrc>
 				</image>
 			</suspend_link_image>
-			<synchronize_button>
-				<image>
-					<imagesrc>graphic/btnSynchronize.png</imagesrc>
-					<imagesrc_clicked>graphic/btnSynchronizeClick.png</imagesrc_clicked>
-				</image>
-			</synchronize_button>
 			<resume_link_image>
 				<image>
 					<imagesrc>graphic/btnResume.png</imagesrc>
-					<imagesrc_clicked>graphic/btnResumeClick.png</imagesrc_clicked>
 				</image>
 			</resume_link_image>
 			<preferences_link_image>
@@ -182,11 +176,18 @@
 					<imagesrc>graphic/btnPreferences.png</imagesrc>
 				</image>
 			</preferences_link_image>
+
 			<advanced_link_image>
 				<image>
 					<imagesrc>graphic/btnAdvancedView.png</imagesrc>
 				</image>
 			</advanced_link_image>
+			<synchronize_button>
+				<image>
+					<imagesrc>graphic/btnSynchronize.png</imagesrc>
+					<imagesrc_clicked>graphic/btnSynchronizeClick.png</imagesrc_clicked>
+				</image>
+			</synchronize_button>
 			<dialog_background_image>
 				<image>
 					<imagesrc>graphic/dlgBackground.png</imagesrc>

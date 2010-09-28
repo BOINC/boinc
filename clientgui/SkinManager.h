@@ -401,6 +401,7 @@ public:
 
     wxArrayString&      GetCurrentSkins();
     wxString            GetDefaultSkinName();
+    wxString            GetDefaultBOINCSkinName();
     wxString            GetSelectedSkin() { return m_strSelectedSkin; }
 
     wxString            ConstructSkinFileName();

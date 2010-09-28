@@ -365,9 +365,7 @@ bool CBOINCGUIApp::OnInit() {
     wxString strRebootPendingFile = 
         GetRootDirectory() + wxFileName::GetPathSeparator() + wxT("RebootPending.txt");
     
-    wxFileInputStream fisRebootPending(strRebootPendingFile);
-    if (fisRebootPending.IsOk()) {
-
+    if (wxFile::Exists(strRebootPendingFile)) {
         wxMessageDialog dialog(
             NULL,
             _("A reboot is required in order for BOINC to run properly.\nPlease reboot your computer and try again."),
