@@ -6863,3 +6863,11 @@ Rom    28 Sept 2010
         skin.xml
     win_build/
         boincmgr.vcproj
+
+Rom    28 Sept 2010
+    - Tag for 6.11.8 release, all platforms
+      boinc_core_release_6_11_8
+
+    /
+        configure.ac
+        version.h
