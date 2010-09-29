@@ -726,7 +726,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	{
 		va_start(ap, fileMode);
 		char *md5 = va_arg(ap, char *);
-		int size = va_arg(ap, int);
+		size_t size = va_arg(ap, size_t);
 		va_end(ap);
 
 		rfile = _DC_createRemoteFile(logicalFileName, URL, md5, size);

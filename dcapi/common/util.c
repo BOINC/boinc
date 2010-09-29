@@ -167,7 +167,7 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 }
 
 DC_RemoteFile *_DC_createRemoteFile(const char *label,
-	const char *url, const char *md5, const int size)
+	const char *url, const char *md5, const size_t size)
 {
 	DC_RemoteFile *file;
 
