@@ -96,7 +96,7 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
         p.kernel_time = ((double) pProcesses->KernelTime.QuadPart)/1e7;
 		p.id = pProcesses->ProcessId;
 		p.parentid = pProcesses->InheritedFromProcessId;
-        p.is_low_priority = (pProcesses->BasePriority <= IDLE_PRIORITY_CLASS);
+        p.is_low_priority = (pProcesses->BasePriority <= 4);
         WideCharToMultiByte(CP_ACP, 0,
             pProcesses->ProcessName.Buffer,
             pProcesses->ProcessName.Length,

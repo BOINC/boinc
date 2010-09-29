@@ -6911,3 +6911,13 @@ David  29 Sept 2010
         procinfo_win.cpp
     client/
         app.cpp
+
+David  29 Sept 2010
+	- client: in computing non-BOINC CPU time,
+		ignore ACTIVE_TASKs that don't have a process.
+	- client: bug fix to previous checkin
+
+	client/
+		app.cpp
+	lib/
+		procinfo_win.cpp

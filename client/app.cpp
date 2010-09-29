@@ -258,6 +258,22 @@ bool app_running(vector<PROCINFO>& piv, const char* p) {
     return false;
 }
 
+#if 0  // debugging
+void procinfo_show(PROCINFO& pi, vector<PROCINFO>& piv) {
+	unsigned int i;
+	memset(&pi, 0, sizeof(pi));
+	for (i=0; i<piv.size(); i++) {
+		PROCINFO& p = piv[i];
+
+        pi.kernel_time += p.kernel_time;
+        pi.user_time += p.user_time;
+        msg_printf(NULL, MSG_INFO, "%d %s: boinc %d low %d (%f %f) total (%f %f)",
+            p.id, p.command, p.is_boinc_app, p.is_low_priority, p.kernel_time, p.user_time, pi.kernel_time, pi.user_time
+        );
+    }
+}
+#endif
+
 void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_mem_time=0;
     unsigned int i;
@@ -281,10 +297,12 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 	}
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
+        if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
+        if (atp->pid ==0) continue;
 
-        // scan all tasks because
-        // 1) we might have recently suspended tasks,
-        //    and we still need to count their time
+        // scan all active tasks with a process, even if not scheduled, because
+        // 1) we might have recently suspended a tasks,
+        //    and we still need to count its time
         // 2) preempted tasks might not actually suspend themselves
         //    (and we'd count that as non-BOINC CPU usage
         //    and suspend everything).
@@ -336,6 +354,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     // so they're not useful for detecting paging/thrashing.
     //
     PROCINFO pi;
+    //procinfo_show(pi, piv);
     procinfo_other(pi, piv);
     if (log_flags.mem_usage_debug) {
         msg_printf(NULL, MSG_INFO,
