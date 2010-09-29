@@ -63,7 +63,8 @@ typedef enum {
 typedef enum {
 	DC_FILE_REGULAR,	/* Not persistent, needs copy */
 	DC_FILE_PERSISTENT,	/* Persistent, link is enough */
-	DC_FILE_VOLATILE	/* DC-API should remove the original */
+	DC_FILE_VOLATILE,	/* DC-API should remove the original */
+	DC_FILE_REMOTE		/* HTTP files physically not present */
 } DC_FileMode;
 
 /* Default name of the configuration file */

@@ -703,17 +703,13 @@ static int check_logical_name(DC_Workunit *wu, const char *logicalFileName)
 }
 
 int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
-        DC_FileMode fileMode) 
+        DC_FileMode fileMode, ...)
 {
-	return DC_addWUInputAdvanced(wu, logicalFileName, URL, fileMode, NULL, NULL);
-}
-
-int DC_addWUInputAdvanced(DC_Workunit *wu, const char *logicalFileName, const char *URL,
-	DC_FileMode fileMode, const char *physicalFileName, const char *physicalFileHashString)
-{
-	DC_PhysicalFile *file;
-	char *workpath;
 	int ret;
+	va_list ap;
+	char *workpath;
+	DC_PhysicalFile *file;
+	DC_RemoteFile *rfile;
 
 	/* Sanity checks */
 	if (!wu || !logicalFileName)
@@ -725,14 +721,38 @@ int DC_addWUInputAdvanced(DC_Workunit *wu, const char *logicalFileName, const ch
 	if (ret)
 		return ret;
 
-	/* XXX Check if the wu->num_inputs + wu->num_outputs + wu->subresults
-	 * does not exceed the max. number of file slots */
+	/* Handle remote files */
+	if (DC_FILE_REMOTE == fileMode)
+	{
+		va_start(ap, fileMode);
+		char *md5 = va_arg(ap, char *);
+		int size = va_arg(ap, int);
+		va_end(ap);
 
+		rfile = _DC_createRemoteFile(logicalFileName, URL, md5, size);
+		if (!rfile)
+			return DC_ERR_INTERNAL;
+
+		wu->remote_input_files = g_list_append(wu->remote_input_files, rfile);
+		wu->num_remote_inputs++;
+
+		if (wu->serialized)
+			write_wudesc(wu);
+
+		return 0;
+	}
+
+	/* Now handle local files */
 	workpath = _DC_workDirPath(wu, logicalFileName, FILE_IN);
 	file = _DC_createPhysicalFile(logicalFileName, workpath);
 	g_free(workpath);
 	if (!file)
 		return DC_ERR_INTERNAL;
+
+	va_start(ap, fileMode);
+	char *physicalFileName = va_arg(ap, char *);
+	char *physicalFileHashString = va_arg(ap, char *);
+	va_end(ap);
 	if (physicalFileName)
 	{
 		file->physicalfilename = strdup(physicalFileName);
@@ -797,36 +817,6 @@ int DC_addWUInputAdvanced(DC_Workunit *wu, const char *logicalFileName, const ch
 		write_wudesc(wu);
 
 	return 0;
-}
-
-int DC_addWURemoteInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
-	const char *md5, const int size)
-{
-	int ret;
-	DC_RemoteFile *file;
-
-	/* Sanity checks */
-	if (!wu || !logicalFileName || !URL || !md5 || !size)
-	{
-		DC_log(LOG_ERR, "%s: Missing arguments", __func__);
-		return DC_ERR_BADPARAM;
-	}
-	ret = check_logical_name(wu, logicalFileName);
-	if (ret)
-		return ret;
-
-	file = _DC_createRemoteFile(logicalFileName, URL, md5, size);
-	if (!file)
-		return DC_ERR_INTERNAL;
-
-	wu->remote_input_files = g_list_append(wu->remote_input_files, file);
-	wu->num_remote_inputs++;
-
-	if (wu->serialized)
-		write_wudesc(wu);
-
-	return 0;
-
 }
 
 int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
@@ -900,11 +890,11 @@ static int install_input_files(DC_Workunit *wu)
 			if (!f)
 			{
 				if (errno == EEXIST && file->physicalfilename)
-                        	{
-                                	DC_log(LOG_NOTICE, "File %s already exists under Boinc. Skipping...",hashFile->str);
-                        	}
-	                        else
-        	                {
+				{
+					DC_log(LOG_NOTICE, "File %s already exists under Boinc. Skipping...",hashFile->str);
+				}
+				else
+				{
 					DC_log(LOG_ERR, "Failed to create hash file %s: %s", hashFile->str,strerror(errno));
 					g_string_free(hashFile, TRUE);
 					g_free(dest);
@@ -914,7 +904,7 @@ static int install_input_files(DC_Workunit *wu)
 			else
 			{
 				fprintf(f, "%s", file->physicalfilehash);
-			        fclose(f);
+				fclose(f);
 				DC_log(LOG_DEBUG, "Hash file \"%s\" has been created with content \"%s\".", hashFile->str, file->physicalfilehash);
 			}
 			
@@ -1315,7 +1305,6 @@ int DC_submitWU(DC_Workunit *wu)
 			l = l->next, i++)
 	{
 		DC_RemoteFile *file = (DC_RemoteFile *)l->data;
-		//infiles[i] = get_input_download_name(wu, file->label, NULL);
 		infiles[i] = g_strdup_printf("%s_%s", file->label, md5_string(file->url));
 	}
 	if (wu->ckpt_name)
