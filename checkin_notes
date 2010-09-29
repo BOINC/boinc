@@ -6935,3 +6935,11 @@ David  29 Sept 2010
     lib/
         procinfo_unix.cpp
         procinfo_mac.cpp
+
+Charlie 29 Sept 2010
+    lib: Temporary work-around for unknown problem with IPV6-compatible 
+        code on Mac.
+    
+    lib/
+    	gui_rpc_client.cpp,h
+    

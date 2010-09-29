@@ -75,10 +75,29 @@ void RPC_CLIENT::close() {
 }
 
 int RPC_CLIENT::get_ip_addr(const char* host, int port) {
-    int retval;
     memset(&addr, 0, sizeof(addr));
     //printf("trying port %d\n", htons(addr.sin_port));
+#ifdef __APPLE__
+    addr.sin_family = AF_INET;
+    if (port) {
+        addr.sin_port = htons(port);
+    } else {
+        addr.sin_port = htons(GUI_RPC_PORT);
+    }
+    //printf("trying port %d\n", htons(addr.sin_port));
 
+    if (host) {
+        hostent* hep = gethostbyname(host);
+        if (!hep) {
+            //perror("gethostbyname");
+            return ERR_GETHOSTBYNAME;
+        }
+        addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
+    } else {
+        addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    }
+#else
+    int retval;
     if (host) {
         retval = resolve_hostname(host, addr);
         if (retval) {
@@ -104,6 +123,7 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
         sockaddr_in6* sin = (sockaddr_in6*)&addr;
         sin->sin6_port = port;
     }
+#endif
 #endif
     return 0;
 }
