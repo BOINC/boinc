@@ -6892,3 +6892,9 @@ David  28 Sept 2010
 
     client/
         app_control.cpp
+
+Charlie 28 Sept 2010
+    Mac: update release scrit to add new BOINC skin.
+
+    mac_installer/
+        release_boinc.sh

@@ -20,7 +20,7 @@
 ##
 # Release Script for Macintosh BOINC Manager 10/31/07 by Charlie Fenton
 ## updated 11/18/09 by Charlie Fenton for OS 10.6 Snow Leopard
-## updated 4/16/10 by Charlie Fenton
+## updated 9/28/10 by Charlie Fenton for new BOINC skins
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -107,9 +107,15 @@ cp -fpR $BUILDPATH/switcher ../BOINC_Installer/Pkg_Root/Library/Application\ Sup
 cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 ## cp -fpR $BUILDPATH/AppStats ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 
+## Copy the new BOINC skins into the installer tree, minus the CVS files
+cd "${BOINCPath}/clientgui/skins"
+cp -fpR BOINC ../../../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/
+cd "${BOINCPath}"
+sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/World\ Community\ Grid/CVS
+sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/World\ Community\ Grid/graphic/CVS
+
 ## FOR NOW - Don't install WCG Skins.  If you reinstate this, also reinstate preinstall & preupgrade above
 ## Copy the World Community Grid skins into the installer tree, minus the CVS files
-## mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
 ## cd "${BOINCPath}/clientgui/skins"
 ## cp -fpR World\ Community\ Grid ../../../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/
 ## cd "${BOINCPath}"
