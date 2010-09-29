@@ -59,6 +59,7 @@ Tells how should DC-API treat physical files passed to it.
 	lets DC-API use symbolic or hard links instead of copying to save space.
 @DC_FILE_VOLATILE: the application does not want to use the file in any way in
 	the future. DC-API will remove the file when it is no longer needed.
+@DC_FILE_REMOTE: the application uses a remote file not physically present.
 
 <!-- ##### MACRO DC_CONFIG_FILE ##### -->
 <para>
@@ -98,16 +99,6 @@ Describes a physical file.
 @mode: usage mode of the file.
 @physicalfilename: 
 @physicalfilehash: 
-
-<!-- ##### STRUCT DC_RemoteFile ##### -->
-<para>
-Describes a remote file.
-</para>
-
-@label: logical name of the file as used by the application.
-@url: URL of the remote file.
-@remotefilehash: MD5 hash of the remote file.
-@remotefilesize: size of the remote file in bytes.
 
 <!-- ##### FUNCTION DC_getCfgStr ##### -->
 <para>

@@ -431,26 +431,12 @@ DC_destroyWU(DC_Workunit *wu)
 }
 
 
-int DC_addWUInputAdvanced(DC_Workunit *wu, const char *logicalFileName, const char *URL,
-        DC_FileMode fileMode, const char *physicalFileName, const char *physicalFileHashString)
-{
-        DC_log(LOG_ERR,"Function \"%s\" is not implemented in this backend.",__func__);
-        return DC_ERR_INTERNAL;
-}
-
-int DC_addWURemoteInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
-        const char *md5, const int size)
-{
-        DC_log(LOG_ERR,"Function \"%s\" is not implemented in this backend.",__func__);
-        return DC_ERR_INTERNAL;
-}
-
 /* Sets an input file for the work unit. */
 int
 DC_addWUInput(DC_Workunit *wu,
 	      const char *logicalFileName,
 	      const char *URL,
-	      DC_FileMode fileMode)
+	      DC_FileMode fileMode, ...)
 {
 	DC_PhysicalFile *file;
 	char *workpath;
@@ -458,6 +444,15 @@ DC_addWUInput(DC_Workunit *wu,
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
+
+	/* Remote file aren't supported */
+	if (DC_FILE_REMOTE == fileMode)
+	{
+		DC_log(LOG_ERR, "Unsupported file mode for input file %s",
+			logicalFileName);
+		return(DC_ERR_BADPARAM);
+	}
+
 	DC_log(LOG_DEBUG, "DC_addWUInput(%p-\"%s\", %s, %s, %d)",
 	       wu, wu->data.name, logicalFileName, URL, fileMode);
 

@@ -269,23 +269,8 @@ units in state %DC_WU_READY (i.e., before the work unit is submitted).
 @fileMode: usage mode of the file. Passing %DC_FILE_PERSISTENT or
 	%DC_FILE_VOLATILE allows DC-API to optimize the disk space
 	requirements of the application.
-@Returns: 0 if successful or a #DC_ErrorCode.
-
-
-<!-- ##### FUNCTION DC_addWURemoteInput ##### -->
-<para>
-Adds a remote input file to a work unit. This function may be called only for
-work units in state %DC_WU_READY (i.e., before the work unit is submitted).
-</para>
-
-@wu: the work unit to add the input file to.
-@logicalFileName: the logical file name the client will use to refer to this
-	input file. The client should call the DC_resolveFileName() function
-	with the %DC_FILE_IN file type and this name to get the real name of
-	the file on the local system.
-@URL: remote URL of the input file.
-@md5: the MD5 hash of the remote input file.
-@size: the size of the remote input file in bytes.
+@Varargs: in case using %DC_FILE_REMOTE file mode, the MD5 hash string (char *)
+	and file size information (int) have to be passed.
 @Returns: 0 if successful or a #DC_ErrorCode.
 
 
