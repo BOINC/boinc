@@ -21,6 +21,7 @@ extern "C" {
 #include <sys/syslog.h>
 #endif
 
+#include <string.h>
 #include <stdarg.h>
 
 /********************************************************************
@@ -98,7 +99,7 @@ struct _DC_RemoteFile
 	char			*label;
 	char			*url;
 	char			*remotefilehash;
-	int			remotefilesize;
+	size_t			remotefilesize;
 };
 
 

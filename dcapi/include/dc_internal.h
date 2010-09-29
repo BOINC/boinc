@@ -60,7 +60,7 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label, const char *path)
 	__attribute__((visibility("hidden")));
 
 /* Allocates a remote file descriptor */
-DC_RemoteFile *_DC_createRemoteFile(const char *label, const char *url, const char *md5, const int size)
+DC_RemoteFile *_DC_createRemoteFile(const char *label, const char *url, const char *md5, const size_t size)
 	__attribute__((visibility("hidden")));
 
 /* De-allocates a physical file descriptor */
