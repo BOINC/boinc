@@ -86,9 +86,6 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 // Unfortunately, the selectors majflt, minflt, pagein do not work on OS X, 
 // and ps does not return kernel time separately from user time.  
 //
-// This code doesn't use PROCINFO.is_boinc_app, but we set it to be 
-// consistent with the code for other platforms.
-//
 // Earlier versions of procinf_mac.C launched a small helper application 
 // AppStats using a bi-directional pipe.  AppStats used mach ports to get 
 // all the information, including page fault counts, kernel and user times.
@@ -165,7 +162,6 @@ void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, char* graphic
     for (i=0; i<piv.size(); i++) {
         PROCINFO& p = piv[i];
 		if (p.id == pid || p.parentid == pid) {
-//            pi.kernel_time += p.kernel_time;
             pi.user_time += p.user_time;
             pi.swap_size += p.swap_size;
             pi.working_set_size += p.working_set_size;
@@ -194,12 +190,10 @@ void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
     memset(&pi, 0, sizeof(pi));
     for (i=0; i<piv.size(); i++) {
         PROCINFO& p = piv[i];
-        if (!p.is_boinc_app) {
-//            pi.kernel_time += p.kernel_time;
-            pi.user_time += p.user_time;
-            pi.swap_size += p.swap_size;
-            pi.working_set_size += p.working_set_size;
-            p.is_boinc_app = true;
-        }
+        if (p.is_boinc_app) continue
+
+        pi.user_time += p.user_time;
+        pi.swap_size += p.swap_size;
+        pi.working_set_size += p.working_set_size;
     }
 }

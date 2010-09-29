@@ -6921,3 +6921,17 @@ David  29 Sept 2010
 		app.cpp
 	lib/
 		procinfo_win.cpp
+
+David  29 Sept 2010
+    - client (unix): don't count low-priority processes towards
+        non-BOINC CPU time.
+        NOTE: when you nice a process to 19,
+        its priority in /proc is 39 (at least on Ubuntu and FC11).
+        I can't find where this offset (20) is documented,
+        so I just hardwired 39.
+
+        TODO: Mac
+
+    lib/
+        procinfo_unix.cpp
+        procinfo_mac.cpp

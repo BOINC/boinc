@@ -237,6 +237,9 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                 p.kernel_time = ps.stime / 100.;
                 strlcpy(p.command, ps.comm, sizeof(p.command));
                 p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
+                p.is_low_priority = (ps.priority == 39);
+                    // Linux seems to add 20 here,
+                    // but this isn't documented anywhere
                 pi.push_back(p);
             }
         }
@@ -313,11 +316,12 @@ void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
     memset(&pi, 0, sizeof(pi));
     for (i=0; i<piv.size(); i++) {
         PROCINFO& p = piv[i];
-        if (!p.is_boinc_app) {
-            pi.kernel_time += p.kernel_time;
-            pi.user_time += p.user_time;
-            pi.swap_size += p.swap_size;
-            pi.working_set_size += p.working_set_size;
-        }
+        if (p.is_boinc_app) continue;
+        if (p.is_low_priority) continue;
+
+        pi.kernel_time += p.kernel_time;
+        pi.user_time += p.user_time;
+        pi.swap_size += p.swap_size;
+        pi.working_set_size += p.working_set_size;
     }
 }
