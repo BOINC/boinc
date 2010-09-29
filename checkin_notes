@@ -6894,7 +6894,20 @@ David  28 Sept 2010
         app_control.cpp
 
 Charlie 28 Sept 2010
-    Mac: update release scrit to add new BOINC skin.
+    Mac: update release script to add new BOINC skin.
 
     mac_installer/
         release_boinc.sh
+
+David  29 Sept 2010
+    - client: if a process has priority <= that of BOINC apps,
+        don't include it in non-BOINC CPU time.
+        Otherwise the presence of such a process could
+        prevent BOINC from running apps.
+        (Windows only - will do Unix/Mac later)
+
+    lib/
+        procinfo.h
+        procinfo_win.cpp
+    client/
+        app.cpp

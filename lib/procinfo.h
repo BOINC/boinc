@@ -30,6 +30,8 @@ struct PROCINFO {
     double user_time;
     double kernel_time;
 	bool is_boinc_app;
+    bool is_low_priority;
+        // running at or below priority of BOINC apps
     char command[256];
 
 	double page_fault_rate;		// derived by higher-level code
