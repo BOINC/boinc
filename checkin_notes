@@ -6986,7 +6986,7 @@ David  30 Sept 2010
         merge_by_name.php
 
 David  30 Sept 2010
-    - scheduler: typo in app_plan() for ATI GPUs
+    - scheduler: typo in app_plan() for ATI GPUs; fixes #1016
 
     sched/
         sched_customize.cpp
