@@ -150,7 +150,7 @@ int handle_results() {
         retval = result_handler.lookup_result(rp->name, &srip);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#? %s] can't find result\n",
+                "[HOST#%d] [RESULT#? %s] reported result not in DB\n",
                 g_reply->host.id, rp->name
             );
 
@@ -342,7 +342,7 @@ int handle_results() {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
                     "[credit] [RESULT#%d] claimed credit %.2f based on fpops_cumulative\n",
-                    rp->id, srip->claimed_credit
+                    srip->id, srip->claimed_credit
                 );
             }
         } else if (rp->fpops_per_cpu_sec || rp->intops_per_cpu_sec) {
@@ -353,7 +353,7 @@ int handle_results() {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
                     "[credit] [RESULT#%d] claimed credit %.2f based on fpops_per_cpu_sec\n",
-                    rp->id, srip->claimed_credit
+                    srip->id, srip->claimed_credit
                 );
             }
         } else {

@@ -340,7 +340,24 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         if (match_tag(buf, "<result>")) {
             result.parse_from_client(fin);
-            results.push_back(result);
+#if 0   // enable if you need to limit CGI memory size
+            if (results.size() >= 1024) {
+                continue;
+            }
+#endif
+            // check if client is sending the same result twice.
+            // Shouldn't happen, but if it does bad things will happen
+            //
+            bool found = false;
+            for (unsigned int i=0; i<results.size(); i++) {
+                if (!strcmp(results[i].name, result.name)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                results.push_back(result);
+            }
             continue;
         }
         if (match_tag(buf, "<code_sign_key>")) {

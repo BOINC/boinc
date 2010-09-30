@@ -6971,3 +6971,16 @@ Rom    30 Sept 2010
     /
         configure.ac
         version.h
+
+David  30 Sept 2010
+    - scheduler: check whether client is reporting the same result twice
+        in a given request message.
+        Eliminate duplicates; they mess things up.
+    - scheduler: fix RESULT#0 problem in message log
+    - user web: keep credit totals when merging hosts by name
+
+    sched/
+        sched_result.cpp
+        sched_types.cpp
+    html/user/
+        merge_by_name.php
