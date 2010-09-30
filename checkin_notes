@@ -6955,3 +6955,11 @@ Charlie 29 Sept 2010
         
     lib/
         procinfo_mac.cpp
+
+Charlie 30 Sept 2010
+    lib: Fix problem with IPV6-compatible code on Mac: we need to set the 
+        third argument to connect() differently for IPV4 or IPV6.
+    NOTE: This is not yet tested with actual IPV6 addresses.
+    
+    lib/
+    	gui_rpc_client.cpp,h

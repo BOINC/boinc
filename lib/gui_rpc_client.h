@@ -613,11 +613,8 @@ public:
     double start_time;
     double timeout;
     bool retry;
-#ifdef __APPLE__
-    sockaddr_in addr;
-#else
+    bool isIPV6;
     sockaddr_storage addr;
-#endif
 
     int send_request(const char*);
     int get_reply(char*&);
