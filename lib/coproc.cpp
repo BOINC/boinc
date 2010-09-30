@@ -93,6 +93,7 @@ int COPROC::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
+#ifndef _USING_FCGI_
 void COPROC::write_request(MIOFILE& f) {
     f.printf(
         "   <req_secs>%f</req_secs>\n"
@@ -103,6 +104,7 @@ void COPROC::write_request(MIOFILE& f) {
         estimated_delay
     );
 }
+#endif
 
 void COPROCS::summary_string(char* buf, int len) {
     char bigbuf[8192], buf2[1024];
