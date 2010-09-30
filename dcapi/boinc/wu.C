@@ -721,6 +721,9 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	if (ret)
 		return ret;
 
+	/* XXX Check if the wu->num_inputs + wu->num_outputs + wu->subresults
+	 * does not exceed the max. number of file slots */
+
 	/* Handle remote files */
 	if (DC_FILE_REMOTE == fileMode)
 	{
