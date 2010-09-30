@@ -167,7 +167,7 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     }
 
     hu.gpu_ram = min_ram;
-    hu.ncudas = ndevs;
+    hu.natis = ndevs;
 
     coproc_perf(
         g_request->host.p_fpops,
