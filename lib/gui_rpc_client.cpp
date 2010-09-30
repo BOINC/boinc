@@ -115,6 +115,8 @@ int RPC_CLIENT::init(const char* host, int port) {
     if (retval) return retval;
     boinc_socket(sock);
 
+    printf("Attempting sync connection...\n");
+
     // set up receive timeout; avoid hang if client doesn't respond
     //
     struct timeval tv;
@@ -144,6 +146,8 @@ int RPC_CLIENT::init_asynch(
     int retval;
     retry = _retry;
     timeout = _timeout;
+
+    printf("Attempting async connection...\n");
 
     retval = get_ip_addr(host, port);
     if (retval) return retval;
