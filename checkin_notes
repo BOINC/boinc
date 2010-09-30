@@ -6963,3 +6963,11 @@ Charlie 30 Sept 2010
     
     lib/
     	gui_rpc_client.cpp,h
+
+Rom    30 Sept 2010
+    - Tag for 6.11.9 release, all platforms
+      boinc_core_release_6_11_9
+
+    /
+        configure.ac
+        version.h
