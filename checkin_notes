@@ -6990,3 +6990,9 @@ David  30 Sept 2010
 
     sched/
         sched_customize.cpp
+
+David  30 Sept 2010
+    - undo recent change to str_util.h; it broke FCGI compile
+
+    lib/
+        str_util.h
