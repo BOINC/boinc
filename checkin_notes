@@ -6943,3 +6943,8 @@ Charlie 29 Sept 2010
     lib/
     	gui_rpc_client.cpp,h
     
+David  29 Sept 2010
+    - lib: make str_util.h C-compatible (from Matt Arsenault)
+
+    lib/
+        str_util.h
