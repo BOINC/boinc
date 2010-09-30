@@ -6948,3 +6948,10 @@ David  29 Sept 2010
 
     lib/
         str_util.h
+
+Charlie 29 Sept 2010
+    lib: Add test for low-priority processes to procinfo_setup() and 
+        relatives on Mac.
+        
+    lib/
+        procinfo_mac.cpp

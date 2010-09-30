@@ -49,6 +49,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
     int c, real_mem, virtual_mem, hours;
     char* lf;
     static long iBrandID = -1;
+    int priority;
     
     if (iBrandID < 0) {
         iBrandID = BOINC_BRAND_ID;
@@ -79,6 +80,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 // pid        process ID
 // ppid       parent process ID
 // poip       pageouts in progress
+// pri        scheduling priority
 // rss        resident set size in Kbytes
 // time       accumulated cpu time, user + system
 // vsz        virtual size in Kbytes
@@ -98,7 +100,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 // root; this was perceived by some users as a security risk.
 
 
-    fd = popen("ps -axcopid,ppid,rss,vsz,pagein,time,command", "r");
+    fd = popen("ps -axcopid,ppid,rss,vsz,pagein,pri,time,command", "r");
     if (!fd) return ERR_FOPEN;
 
     // Skip over the header line
@@ -112,8 +114,8 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 
     while (1) {
         memset(&p, 0, sizeof(p));
-        c = fscanf(fd, "%d%d%d%d%ld%d:%lf ", &p.id, &p.parentid, &real_mem, 
-                    &virtual_mem, &p.page_fault_count, &hours, &p.user_time);
+        c = fscanf(fd, "%d%d%d%d%ld%d%d:%lf ", &p.id, &p.parentid, &real_mem, 
+                    &virtual_mem, &p.page_fault_count, &priority, &hours, &p.user_time);
         if (c < 7) break;
         if (fgets(p.command, sizeof(p.command) , fd) == NULL) break;
         lf = strchr(p.command, '\n');
@@ -122,6 +124,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
         p.swap_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
+        p.is_low_priority = (priority <= 12);
 
         switch (iBrandID) {
         case GRIDREPUBLIC_BRAND_ID:
@@ -190,7 +193,8 @@ void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
     memset(&pi, 0, sizeof(pi));
     for (i=0; i<piv.size(); i++) {
         PROCINFO& p = piv[i];
-        if (p.is_boinc_app) continue
+        if (p.is_boinc_app) continue;
+        if (p.is_low_priority) continue;
 
         pi.user_time += p.user_time;
         pi.swap_size += p.swap_size;
