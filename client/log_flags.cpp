@@ -362,7 +362,9 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         }
         if (xp.parse_bool(tag, "exit_after_finish", exit_after_finish)) continue;
         if (xp.parse_bool(tag, "exit_when_idle", exit_when_idle)) {
-            report_results_immediately = true;
+            if (exit_when_idle) {
+                report_results_immediately = true;
+            }
             continue;
         }
         if (xp.parse_bool(tag, "fetch_minimal_work", fetch_minimal_work)) continue;

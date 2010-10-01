@@ -157,6 +157,9 @@ struct CLIENT_APP_VERSION {
 //
 struct BEST_APP_VERSION {
     int appid;
+    bool for_64b_jobs;
+        // maintain this separately for jobs that need > 2GB RAM,
+        // in which case we can't use 32-bit apps
 
     bool present;
         // false means there's no usable version for this app

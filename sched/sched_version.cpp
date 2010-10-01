@@ -27,6 +27,10 @@
 
 #include "sched_version.h"
 
+inline bool is_64b_platform(const char* name) {
+    return (strstr(name, "64") != NULL);
+}
+
 inline void dont_need_message(
     const char* p, APP_VERSION* avp, CLIENT_APP_VERSION* cavp
 ) {
@@ -147,7 +151,9 @@ inline bool daily_quota_exceeded(int gavid, HOST_USAGE& hu) {
 
 // scan through client's anonymous apps and pick the best one
 //
-CLIENT_APP_VERSION* get_app_version_anonymous(APP& app, bool reliable_only) {
+CLIENT_APP_VERSION* get_app_version_anonymous(
+    APP& app, bool need_64b, bool reliable_only
+) {
     unsigned int i;
     CLIENT_APP_VERSION* best = NULL;
     bool found = false;
@@ -163,6 +169,9 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app, bool reliable_only) {
         CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
         if (!cav.app) continue;
         if (cav.app->id != app.id) {
+            continue;
+        }
+        if (need_64b && !is_64b_platform(cav.platform)) {
             continue;
         }
         int gavid = host_usage_to_gavid(cav.host_usage, app);
@@ -354,10 +363,13 @@ static void app_version_desc(BEST_APP_VERSION& bav, char* buf) {
 // return BEST_APP_VERSION for the given job and host, or NULL if none
 //
 // check_req: check whether we still need work for the resource
-//  This check is not done for:
+// This check is not done for:
 //    - assigned jobs
 //    - resent jobs
 // reliable_only: use only versions for which this host is "reliable"
+//
+// We "memoize" the results, maintaining an array g_wreq->best_app_versions
+// that maps app ID to the best app version (or NULL).
 //
 BEST_APP_VERSION* get_app_version(
     WORKUNIT& wu, bool check_req, bool reliable_only
@@ -366,6 +378,16 @@ BEST_APP_VERSION* get_app_version(
     int j;
     BEST_APP_VERSION* bavp;
     char message[256], buf[256];
+    bool job_needs_64b = (wu.rsc_memory_bound > 2.1e9);
+
+    if (config.debug_version_select) {
+        if (job_needs_64b) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] job needs 64-bit app version: mem bnd %f\n",
+                wu.rsc_memory_bound
+            );
+        }
+    }
 
     APP* app = ssp->lookup_app(wu.appid);
     if (!app) {
@@ -381,7 +403,7 @@ BEST_APP_VERSION* get_app_version(
     bavi = g_wreq->best_app_versions.begin();
     while (bavi != g_wreq->best_app_versions.end()) {
         bavp = *bavi;
-        if (bavp->appid == wu.appid) {
+        if (bavp->appid == wu.appid && (job_needs_64b == bavp->for_64b_jobs)) {
             if (!bavp->present) {
 #if 0
                 if (config.debug_version_select) {
@@ -408,7 +430,7 @@ BEST_APP_VERSION* get_app_version(
             }
 
             // if we previously chose a CUDA app but don't need more CUDA work,
-            // delete record, fall through, and find another version
+            // fall through and find another version
             //
             if (check_req
                 && g_wreq->rsc_spec_request
@@ -477,9 +499,10 @@ BEST_APP_VERSION* get_app_version(
 
     bavp = new BEST_APP_VERSION;
     bavp->appid = wu.appid;
+    bavp->for_64b_jobs = job_needs_64b;
     if (g_wreq->anonymous_platform) {
         CLIENT_APP_VERSION* cavp = get_app_version_anonymous(
-            *app, reliable_only
+            *app, job_needs_64b, reliable_only
         );
         if (!cavp) {
             bavp->present = false;
@@ -514,6 +537,9 @@ BEST_APP_VERSION* get_app_version(
     for (i=0; i<g_request->platforms.list.size(); i++) {
         bool found_feasible_version = false;
         PLATFORM* p = g_request->platforms.list[i];
+        if (job_needs_64b && !is_64b_platform(p->name)) {
+            continue;
+        }
         for (j=0; j<ssp->napp_versions; j++) {
             HOST_USAGE host_usage;
             APP_VERSION& av = ssp->app_versions[j];
