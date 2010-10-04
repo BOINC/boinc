@@ -43,7 +43,7 @@ function merge_name($list) {
             echo "<br>$error\n";
         }
         // refresh from DB (otherwise credit increments get lost)
-        $newest_host = BoincHost:lookup_id($newest_host->id);
+        $newest_host = BoincHost::lookup_id($newest_host->id);
     }
 }
 

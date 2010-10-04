@@ -7029,3 +7029,9 @@ David  1 Oct 2010
         sched_version.cpp
     client/
         log_flags.cpp
+
+David  3 Oct 2010
+    - user web: typo fix.  Fixes #1018.  From Simek.
+
+    html/user/
+        merge_by_name.php
