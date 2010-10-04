@@ -773,7 +773,7 @@ function sanitize_numeric($x) {
 
 function sanitize_email($x) {
     if (function_exists('filter_var')) {
-        filter_var($email_addr, FILTER_SANITIZE_EMAIL);
+        return filter_var($x, FILTER_SANITIZE_EMAIL);
     } else {
         return strip_tags($x);
     }

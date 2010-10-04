@@ -7061,3 +7061,9 @@ David  4 Oct 2010
 
     client/
         client_state.cpp 
+
+David  4 Oct 2010
+    - web: fix bug in "email passwd" page
+
+    html/inc/
+        util.inc
