@@ -7048,3 +7048,9 @@ Rom    4 Oct 2010
     clientgui/
         BOINCBaseFrame.cpp
         DlgAbout.cpp
+
+David  4 Oct 2010
+    - client: remove debugging code accidentally left in
+
+    client_state.h
+    cs_statefile.cpp

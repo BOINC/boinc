@@ -458,6 +458,7 @@ struct CLIENT_STATE {
     RANDOM_PROCESS idle;
     FILE* html_out;
     double connection_interval;
+        // don't connect more often than this
 
     void html_start(bool);
     void html_rec();

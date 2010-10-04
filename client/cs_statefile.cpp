@@ -388,15 +388,11 @@ int CLIENT_STATE::parse_state_file() {
             continue;
         }
         if (match_tag(buf, "<host_info>")) {
-            FILE* f2 = fopen("temp", "w");
 #ifdef SIM
-            fprintf(f2, "FOOBAR\n");
             retval = host_info.parse(mf, false);
 #else
-            fprintf(f2, "BLAH\n");
             retval = host_info.parse(mf, true);
 #endif
-            fclose(f2);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse host info in state file"
