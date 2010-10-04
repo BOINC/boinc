@@ -483,14 +483,15 @@ int CLIENT_STATE::init() {
     if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {
         all_projects_list_check_time = 0;
     }
-    if (!config.no_info_fetch) {
-        all_projects_list_check();
-    }
 
     auto_update.init();
 
     http_ops->cleanup_temp_files();
-    notices.init_rss();
+
+    if (!config.no_info_fetch) {
+        all_projects_list_check();
+        notices.init_rss();
+    }
 
     initialized = true;
     return 0;
@@ -741,7 +742,9 @@ bool CLIENT_STATE::poll_slow_events() {
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );
         POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
-        POLL_ACTION(rss_feed_op            , rss_feed_op.poll );
+        if (!config.no_info_fetch) {
+            POLL_ACTION(rss_feed_op            , rss_feed_op.poll );
+        }
     }
     POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
     POLL_ACTION(update_results         , update_results         );

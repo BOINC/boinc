@@ -7052,5 +7052,12 @@ Rom    4 Oct 2010
 David  4 Oct 2010
     - client: remove debugging code accidentally left in
 
-    client_state.h
-    cs_statefile.cpp
+    client/
+        client_state.h
+        cs_statefile.cpp
+
+David  4 Oct 2010
+    - client: don't fetch RSS feeds if "no_info_fetch" flag is set
+
+    client/
+        client_state.cpp 
