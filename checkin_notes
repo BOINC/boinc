@@ -7035,3 +7035,16 @@ David  3 Oct 2010
 
     html/user/
         merge_by_name.php
+
+Rom    4 Oct 2010
+    - MGR: On Linix, minimize the main window instead of trying to hide it when
+        close is selected on the window instead of the menu.  Ideally the main
+        window would just be hidden until the notification icon is clicked, but
+        apparently wxWidgets/GTK/X doesn't like it when you attempt to hide the
+        main window.
+    - MGR: Display what cpu architecture the manager was built for in the about
+        box.
+
+    clientgui/
+        BOINCBaseFrame.cpp
+        DlgAbout.cpp
