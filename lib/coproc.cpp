@@ -336,9 +336,6 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
         write_request(f);
     }
     f.printf(
-        "   <req_secs>%f</req_secs>\n"
-        "   <req_instances>%f</req_instances>\n"
-        "   <estimated_delay>%f</estimated_delay>\n"
         "   <target>%d</target>\n"
         "   <localRAM>%d</localRAM>\n"
         "   <uncachedRemoteRAM>%d</uncachedRemoteRAM>\n"

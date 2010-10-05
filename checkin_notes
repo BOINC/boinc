@@ -7067,3 +7067,9 @@ David  4 Oct 2010
 
     html/inc/
         util.inc
+
+David  5 Oct 2010
+    - client: fix bug causing garbage values in ATI descriptions
+
+    lib/
+        coproc.cpp
