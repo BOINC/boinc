@@ -114,9 +114,7 @@ if (!$user) {
     ";
     page_tail();
 } else {
-            $x = URL_BASE."$next_url";
-            echo $x; exit;
-    Header("Location: $x");
+    Header("Location: $next_url");
     $perm = $_POST['stay_logged_in'];
     send_cookie('auth', $authenticator, $perm);
 }

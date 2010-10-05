@@ -7073,3 +7073,9 @@ David  5 Oct 2010
 
     lib/
         coproc.cpp
+
+David  5 Oct 2010
+    - web: fix login bug
+
+    html/user/
+        login_action.php
