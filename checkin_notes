@@ -7079,3 +7079,9 @@ David  5 Oct 2010
 
     html/user/
         login_action.php
+
+David  5 Oct 2010
+    - crypt_prog: show cmdline options if error.  Fixes #1019
+
+    lib/
+        crypt_prog.cpp

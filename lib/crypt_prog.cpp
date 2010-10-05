@@ -60,6 +60,27 @@ void die(const char* p) {
     exit(2);
 }
 
+void usage() {
+    fprintf(stderr,
+        "Usage: crypt_prog options\n\n"
+        "Options:\n\n"
+        "-genkey n private_keyfile public_keyfile\n"
+        "    create an n-bit key pair\n"
+        "-sign file private_keyfile\n"
+        "    create a signature for a given file, write to stdout\n"
+        "-sign_string string private_keyfile\n"
+        "    create a signature for a given string\n"
+        "-verify file signature_file public_keyfile\n"
+        "    verify a signature\n"
+        "-test_crypt private_keyfile public_keyfile\n"
+        "    test encrypt/decrypt functions\n"
+        "-conkey o2b/b20 priv/pub input_file output_file\n"
+        "    convert keys between BOINC and OpenSSL format\n"
+        "-cert_verify file signature certificate_dir\n"
+        "    verify a signature using a directory of certificates\n"
+    );
+}
+
 unsigned int random_int() {
     unsigned int n;
 #if defined(_WIN32)
@@ -110,12 +131,12 @@ int main(int argc, char** argv) {
     bool kpriv=false; // private key ?
 
     if (argc == 1) {
-        printf("missing command\n");
+        usage();
         exit(1);
     }
     if (!strcmp(argv[1], "-genkey")) {
         if (argc < 5) {
-            fprintf(stderr, "missing cmdline args\n");
+            usage();
             exit(1);
         }
         printf("creating keys in %s and %s\n", argv[3], argv[4]);
@@ -132,6 +153,10 @@ int main(int argc, char** argv) {
         print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
 
     } else if (!strcmp(argv[1], "-sign")) {
+        if (argc < 4) {
+            usage();
+            exit(1);
+        }
         fpriv = fopen(argv[3], "r");
         if (!fpriv) die("fopen");
         retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
@@ -141,6 +166,10 @@ int main(int argc, char** argv) {
         retval = sign_file(argv[2], private_key, signature);
         print_hex_data(stdout, signature);
     } else if (!strcmp(argv[1], "-sign_string")) {
+        if (argc < 4) {
+            usage();
+            exit(1);
+        }
         fpriv = fopen(argv[3], "r");
         if (!fpriv) die("fopen");
         retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
@@ -148,6 +177,10 @@ int main(int argc, char** argv) {
         generate_signature(argv[2], cbuf, private_key);
         puts(cbuf);
     } else if (!strcmp(argv[1], "-verify")) {
+        if (argc < 5) {
+            usage();
+            exit(1);
+        }
         fpub = fopen(argv[4], "r");
         if (!fpub) die("fopen");
         retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
@@ -166,6 +199,10 @@ int main(int argc, char** argv) {
             return 1;
         }
     } else if (!strcmp(argv[1], "-test_crypt")) {
+        if (argc < 4) {
+            usage();
+            exit(1);
+        }
         fpriv = fopen(argv[2], "r");
         if (!fpriv) die("fopen");
         retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
@@ -198,26 +235,29 @@ int main(int argc, char** argv) {
         } else {
             printf("siganture verified using certificate '%s'.\n\n", certpath);
             free(certpath);
-        }    
+        }
     // this converts, but an executable signed with sign_executable,
     // and signature converted to OpenSSL format cannot be verified with
     // OpenSSL
     } else if (!strcmp(argv[1], "-convsig")) {
-        if (argc < 5)
-            die("usage: crypt_prog -convsig o2b/b2o input_file output_file \n");
-        if (strcmp(argv[2], "b2o") == 0)
+        if (argc < 5) {
+            usage();
+            exit(1);
+        }
+        if (strcmp(argv[2], "b2o") == 0) {
             b2o = true;
-        else if (strcmp(argv[2], "o2b") == 0)
+        } else if (strcmp(argv[2], "o2b") == 0) {
             b2o = false;
-        else
+        } else {
             die("either 'o2b' or 'b2o' must be defined for -convsig\n");
+        }
         if (b2o) {
             f = fopen(argv[3], "r");
             signature.data = signature_buf;
             signature.len = 256;
             retval = scan_hex_data(f, signature);
             fclose(f);
-            f = fopen(argv[4], "w+");            
+            f = fopen(argv[4], "w+");
             print_raw_data(f, signature);
             fclose(f);
         } else {
@@ -226,30 +266,35 @@ int main(int argc, char** argv) {
             signature.len = 256;
             retval = scan_raw_data(f, signature);
             fclose(f);
-            f = fopen(argv[4], "w+");            
+            f = fopen(argv[4], "w+");
             print_hex_data(f, signature);
             fclose(f);
         }
     } else if (!strcmp(argv[1], "-convkey")) {
-        if (argc < 6)
-            die("usage: crypt_prog -convkey o2b/b2o priv/pub input_file output_file\n");
-        if (strcmp(argv[2], "b2o") == 0)
+        if (argc < 6) {
+            usage();
+            exit(1);
+        }
+        if (strcmp(argv[2], "b2o") == 0) {
             b2o = true;
-        else if (strcmp(argv[2], "o2b") == 0)
+        } else if (strcmp(argv[2], "o2b") == 0) {
             b2o = false;
-        else
+        } else {
             die("either 'o2b' or 'b2o' must be defined for -convkey\n");
-        if (strcmp(argv[3], "pub") == 0)
+        }
+        if (strcmp(argv[3], "pub") == 0) {
             kpriv = false;
-        else if (strcmp(argv[3], "priv") == 0) 
+        } else if (strcmp(argv[3], "priv") == 0)  {
             kpriv = true;
-        else
+        } else {
             die("either 'pub' or 'priv' must be defined for -convkey\n");
+        }
         OpenSSL_add_all_algorithms();
-		ERR_load_crypto_strings(); 
+		ERR_load_crypto_strings();
 		ENGINE_load_builtin_engines();
-		if (bio_err == NULL)
+		if (bio_err == NULL) {
 		    bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
+        }
         //enc=EVP_get_cipherbyname("des");
         //if (enc == NULL)
         //    die("could not get cypher.\n");
@@ -263,12 +308,13 @@ int main(int argc, char** argv) {
             rsa_key_ = RSA_new();
             if (kpriv) {
                 fpriv = fopen(argv[4], "r");
-                if (!fpriv) 
+                if (!fpriv) {
                     die("fopen");
+                }
                 scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
                 fclose(fpriv);
                 private_to_openssl(private_key, &rsa_key);
-                
+
                 //i = PEM_write_bio_RSAPrivateKey(bio_out, &rsa_key,
         		//				enc, NULL, 0, pass_cb, NULL);
         		// no encryption yet.
@@ -284,13 +330,15 @@ int main(int argc, char** argv) {
     		    //}
             } else {
                 fpub = fopen(argv[4], "r");
-                if (!fpub) 
+                if (!fpub) {
                     die("fopen");
+                }
                 scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
                 fclose(fpub);
                 fpub = fopen(argv[5], "w+");
-                if (!fpub) 
+                if (!fpub) {
                     die("fopen");
+                }
                 public_to_openssl(public_key, rsa_key_);
     		    i = PEM_write_RSA_PUBKEY(fpub, rsa_key_);
     		    if (i == 0) {
@@ -303,8 +351,9 @@ int main(int argc, char** argv) {
             // o2b
             rsa_key_ = (RSA *)calloc(1, sizeof(RSA));
             memset(rsa_key_, 0, sizeof(RSA));
-            if (rsa_key_ == NULL)
+            if (rsa_key_ == NULL) {
                 die("could not allocate memory for RSA structure.\n");
+            }
             if (kpriv) {
                 fpriv = fopen (argv[4], "r");
                 rsa_key_ = PEM_read_RSAPrivateKey(fpriv, NULL, NULL, NULL);
@@ -315,9 +364,10 @@ int main(int argc, char** argv) {
                 }
                 openssl_to_private(rsa_key_, &private_key);
                 fpriv = fopen(argv[5], "w");
-                if (!fpriv) 
+                if (!fpriv) {
                     die("fopen");
-                print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));            
+                }
+                print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
             } else {
                 fpub = fopen (argv[4], "r");
                 rsa_key_ = PEM_read_RSA_PUBKEY(fpub, NULL, NULL, NULL);
@@ -330,14 +380,15 @@ int main(int argc, char** argv) {
                 //openssl_to_public(rsa_key_, &public_key);
                 public_to_openssl(public_key, rsa_key_); //
                 fpub = fopen(argv[5], "w");
-                if (!fpub) 
+                if (!fpub) {
                     die("fopen");
+                }
                 print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
             }
         }
     } else {
-        printf("unrecognized command\n");
-        return 1;
+        usage();
+        exit(1);
     }
     return 0;
 }
