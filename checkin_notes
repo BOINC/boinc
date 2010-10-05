@@ -7085,3 +7085,9 @@ David  5 Oct 2010
 
     lib/
         crypt_prog.cpp
+
+David  5 Oct 2010
+    - client: don't show GPU suspend/resume msgs if no GPUs
+
+    client/
+        cs_prefs.cpp
