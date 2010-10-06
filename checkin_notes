@@ -7141,3 +7141,10 @@ David  6 Oct 2010
             create_account_form.php
             sample_index.php
             weak_auth.php
+
+David  6 Oct 2010
+    - client simulator: bug fixes
+
+    client/
+        sim.cpp,h
+        client_types.cpp

@@ -152,6 +152,7 @@ void make_job(
     APP_VERSION* avp = choose_app_version(app);
     rp->clear();
     rp->avp = avp;
+    rp->app = app;
     if (!rp->avp) {
         printf("ERROR - NO APP VERSION\n");
         exit(1);
@@ -161,6 +162,9 @@ void make_job(
     sprintf(rp->name, "%s_%d", p->project_name, p->result_index++);
     wup->project = p;
     wup->rsc_fpops_est = app->fpops_est;
+    strcpy(wup->name, rp->name);
+    strcpy(wup->app_name, app->name);
+    wup->app = app;
     double ops = app->fpops.sample();
     if (ops < 0) ops = 0;
     rp->final_cpu_time = ops/avp->flops;
@@ -315,6 +319,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         decrement_request(rp);
     }
 
+    msg_printf(0, MSG_INFO, "Got %d tasks", new_results.size());
 
     SCHEDULER_REPLY sr;
     cpu_work_fetch.req_secs = save_cpu_req_secs;
@@ -754,12 +759,11 @@ void CLIENT_STATE::simulate() {
     now = start;
     html_start(false);
     msg_printf(0, MSG_INFO,
-        "starting simultion. delta %f duration %f", delta, duration
+        "starting simulation. delta %f duration %f", delta, duration
     );
     while (1) {
         running = available.sample(now);
         while (1) {
-            msg_printf(0, MSG_INFO, "polling");
             action = active_tasks.poll();
             if (running) {
                 action |= handle_finished_apps();
@@ -845,6 +849,17 @@ void get_app_params() {
     }
 }
 
+// fill in APP.latency_bound
+//
+void assign_latency_bounds() {
+    unsigned int i;
+    for (i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        APP* app = rp->app;
+        app->latency_bound = rp->report_deadline - rp->received_time;
+    }
+}
+
 // zero backoffs and debts.
 //
 void clear_backoff() {
@@ -903,8 +918,8 @@ void CLIENT_STATE::do_client_simulation() {
         }
     }
 
-    gstate.now = 86400;
     get_app_params();
+    assign_latency_bounds();
     clear_backoff();
 
     gstate.workunits.clear();
@@ -933,6 +948,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Can't open sim_log.txt\n");
         exit(1);
     }
+    setbuf(logfile, 0);
 
     sim_results.clear();
     for (i=1; i<argc;) {

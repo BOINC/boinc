@@ -98,7 +98,8 @@ extern bool dual_dcf;
 extern bool work_fetch_old;
 extern bool gpus_usable;
 
-#define START_TIME  946684800
+//#define START_TIME  946684800
     // Jan 1 2000
+#define START_TIME  0
 
 #endif

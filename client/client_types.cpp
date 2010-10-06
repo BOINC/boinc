@@ -1406,7 +1406,9 @@ int WORKUNIT::parse(MIOFILE& in) {
         if (parse_double(buf, "<rsc_disk_bound>", rsc_disk_bound)) continue;
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
+#ifndef SIM
             input_files.push_back(file_ref);
+#endif
             continue;
         }
         // unused stuff
@@ -1605,7 +1607,9 @@ int RESULT::parse_state(MIOFILE& in) {
         }
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
+#ifndef SIM
             output_files.push_back(file_ref);
+#endif
             continue;
         }
         if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
