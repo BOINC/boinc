@@ -7091,3 +7091,11 @@ David  5 Oct 2010
 
     client/
         cs_prefs.cpp
+
+Charlie 6 Oct 2010
+    - ss_app: call rpc.init(NULL) not rpc.init("localhost") to work around 
+        a bug which prevented default screensaver boincscr from communicating 
+        with client on Mac (and probably other computers which support IPV6.)
+
+    clientscr/
+        ss_app.cpp

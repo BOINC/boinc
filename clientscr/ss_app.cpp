@@ -374,7 +374,7 @@ void app_graphics_render(int xs, int ys, double t) {
 
     if (!connected) {
         if (t > next_connect_time) {
-            retval = rpc.init("localhost");
+            retval = rpc.init(NULL);
             if (!retval) {
                 retval = update_data();
             }
@@ -481,7 +481,7 @@ int main(int argc, char** argv) {
 #endif
 
     if (test) {
-        retval = rpc.init("localhost");
+        retval = rpc.init(NULL);
         if (!retval) {
             retval = update_data();
         }
