@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-28 05:39-0700\n"
-"Last-Translator: Dima <dima666@012.net.il>\n"
+"PO-Revision-Date: 2010-10-05 17:03+0200\n"
+"Last-Translator: Ido Schwartz <dj_legolas1@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
@@ -24,7 +24,7 @@ msgstr "אמת את חשבונך"
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr "הזן את פרטי החשבון שלך/n (ליצירת חשבון, בקר באתר הפרוייקט)"
+msgstr "הזן את פרטי החשבון שלך/n(ליצירת חשבון, בקר באתר הפרוייקט)"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid ""
@@ -115,81 +115,83 @@ msgstr "אתר מנהל החשבון"
 
 #: clientgui/AccountInfoPage.cpp:530
 msgid "Attach to project"
-msgstr ""
+msgstr "צרף פרויקט"
 
 #: clientgui/AccountInfoPage.cpp:532
 msgid "Update account manager"
-msgstr ""
+msgstr "עדכן את מנהל החשבון"
 
 #: clientgui/AccountInfoPage.cpp:534
 msgid "Attach to account manager"
-msgstr ""
+msgstr "צרף למנהל חשבון"
 
 #: clientgui/AccountInfoPage.cpp:543
 #, c-format
 msgid ""
 "The minimum password length for this project is %d. Please enter a different "
 "password."
-msgstr ""
+msgstr "אורך הסיסמה המינימלי עבור פרויקט זה היא %d. אנא הזן סיסמה אחרת."
 
 #: clientgui/AccountInfoPage.cpp:549
 #, c-format
 msgid ""
 "The minimum password length for this account manager is %d. Please enter a "
 "different password."
-msgstr ""
+msgstr "אורך הסיסמה המינימלי עבור מנהל חשבון זה היא %d. אנא הזן סיסמה אחרת."
 
 #: clientgui/AccountInfoPage.cpp:560
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr ""
+msgstr "הסיסמה ואימות הסיסמה אינם תואמים. אנא הקלד אותם שוב"
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Choose an account manager"
-msgstr ""
+msgstr "במחר מנהל חשבון"
 
 #: clientgui/AccountManagerInfoPage.cpp:252
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
+"בכדי לבחור מנהל חשבונות, לחץ על שמו או \n"
+"הקלד את כתובת האתר שלו להלן."
 
 #: clientgui/AccountManagerInfoPage.cpp:255
 msgid "Account Manager &URL:"
-msgstr ""
+msgstr "&כתובת מנהל חשבון:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:195
 #, c-format
 msgid "Communicating with %s."
-msgstr ""
+msgstr "מתחבר ל %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:196
 #: clientgui/AccountManagerPropertiesPage.cpp:202
 msgid "Communicating with server."
-msgstr ""
+msgstr "מתחבר לשרת."
 
 #: clientgui/AccountManagerProcessingPage.cpp:201
 #: clientgui/AccountManagerPropertiesPage.cpp:207
 msgid "Please wait..."
-msgstr ""
+msgstr "אנא המתן ..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr ""
+msgstr "שגיאת שרת פנימית התרחשה. .\n"
 
 #: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
-msgstr ""
+msgstr "מחובר"
 
 #: clientgui/AdvancedFrame.cpp:101
 msgid "Disconnected"
-msgstr ""
+msgstr "מנותק"
 
 #: clientgui/AdvancedFrame.cpp:305
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "סגור את החלון ה%s"
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"

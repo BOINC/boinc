@@ -3,26 +3,24 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2009-05-04 12:32-0700\n"
-"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
+"PO-Revision-Date: 2010-10-02 11:09+0200\n"
+"Last-Translator: kamiccolo <kamicc@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
 "100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "Identify your account "
-msgstr ""
+msgstr "Nustatykite vartotojo tapatybę"
 
 #: clientgui/AccountInfoPage.cpp:382
 msgid ""
@@ -158,7 +156,7 @@ msgstr ""
 
 #: clientgui/AccountManagerInfoPage.cpp:255
 msgid "Account Manager &URL:"
-msgstr "Abonemento valdiklio tinklapio adresas:"
+msgstr "Abonemento valdiklio tinklapio &adresas:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:195
@@ -191,11 +189,11 @@ msgstr "Atsijungta"
 #: clientgui/AdvancedFrame.cpp:305
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "Uždaryti %s langą"
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
-msgstr ""
+msgstr "&Uždaryti Langą"
 
 #: clientgui/AdvancedFrame.cpp:319
 #, c-format
@@ -212,15 +210,15 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:334
 msgid "Display projects"
-msgstr ""
+msgstr "Rodyti projektus"
 
 #: clientgui/AdvancedFrame.cpp:339
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr ""
+msgstr "&Užduotys\t Ctrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:340
 msgid "Display tasks"
-msgstr ""
+msgstr "Rodyti užduotis"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Trans&fers\tCtrl+Shift+X"
@@ -240,11 +238,11 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:357
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr ""
+msgstr "&Statistika\t Ctrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:358
 msgid "Display statistics"
-msgstr ""
+msgstr "Rodyti satistiką"
 
 #: clientgui/AdvancedFrame.cpp:363
 msgid "&Disk usage\tCtrl+Shift+D"
@@ -252,17 +250,15 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:364
 msgid "Display disk usage"
-msgstr ""
+msgstr "Rodyti disko sąnaudas"
 
 #: clientgui/AdvancedFrame.cpp:371
-#, fuzzy
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Supaprastinas režimas...\tCTRL+SHIFT+S"
+msgstr "&Supaprastintas rėžimas...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:372
-#, fuzzy
 msgid "Display the simple graphical interface."
-msgstr "Parodyti supaprastintą BOINC vartotojo sąsają."
+msgstr "Rodyti supaprastintą BOINC vartotojo sąsają."
 
 #: clientgui/AdvancedFrame.cpp:392
 #, fuzzy
@@ -326,31 +322,27 @@ msgstr "Darbas sustabdomas nepaisant nustatymų"
 
 #: clientgui/AdvancedFrame.cpp:468
 msgid "Use GPU always"
-msgstr ""
+msgstr "Visada naudoti GPU"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Darbas vykdomas nepaisant nustatymų"
+msgstr "Leisti naudoti GPU nepaisant nustatymų"
 
 #: clientgui/AdvancedFrame.cpp:473
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Veikti pagal nustatymus"
+msgstr "Naudoti GPU pagal &nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Darbas vykdomas pagal nustatymus"
+msgstr "GPU darbas vykdomas pagal nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:478
 msgid "Use GPU never"
-msgstr ""
+msgstr "Niekada nenaudoti GPU"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Darbas sustabdomas nepaisant nustatymų"
+msgstr "Nenaudoti GPU, nepaisant nustatymų"
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "&Network activity always available"
@@ -849,11 +841,11 @@ msgstr "Paleisti BOINC tik su matoma piktograma sistemos dėkle"
 
 #: clientgui/BOINCGUIApp.cpp:530
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "Aplankas, kuriame yra BOINC kliento vykdomosios bylos"
 
 #: clientgui/BOINCGUIApp.cpp:531
 msgid "BOINC data directory"
-msgstr ""
+msgstr "BOINC duomenų aplankas"
 
 #: clientgui/BOINCGUIApp.cpp:533
 msgid "Startup BOINC with these optional arguments"
@@ -919,11 +911,11 @@ msgstr "Atidaryti %s..."
 
 #: clientgui/BOINCTaskBar.cpp:623
 msgid "Snooze"
-msgstr "Sustabdyti trumpam"
+msgstr "Pristabdyti"
 
 #: clientgui/BOINCTaskBar.cpp:625
 msgid "Snooze GPU"
-msgstr ""
+msgstr "Pristabdyti GPU"
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -1290,21 +1282,20 @@ msgstr "Naudoti daugiausiai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
 msgid "Mbytes"
-msgstr ""
+msgstr "Megabaitai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:362
-#, fuzzy
 msgid "every"
-msgstr "Serveris:"
+msgstr "kiekvieną"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:368
 #: clientgui/DlgAdvPreferencesBase.cpp:382
 msgid "days"
-msgstr ""
+msgstr "dienos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:374
 msgid "Connect about every"
-msgstr ""
+msgstr "Užmegzti ryšį kas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:378
 msgid ""
@@ -1326,7 +1317,7 @@ msgstr "Praleisti bylų tikrinimą"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:396
 msgid "check this if your Internet provider modifies image files"
-msgstr ""
+msgstr "pažymėkite, jeigu jūsų interneto tiekėjas modifikuoja atvaizdų bylas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:405
 msgid "Connect options"
@@ -1341,6 +1332,8 @@ msgid ""
 "if checked, a confirmation dialog will be displayed before trying to connect "
 "to the Internet"
 msgstr ""
+"jeigu pažymėta, bus pakartotinai klausiama, kai bandoma prisijungti prie "
+"interneto"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:413
 msgid "Disconnect when done"
@@ -1354,31 +1347,32 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:422
 msgid "Network usage allowed"
-msgstr ""
+msgstr "Tinklo sąnaudos leidžiamos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 msgid "network usage start hour"
-msgstr ""
+msgstr "valanda, nuo kurios leidžiama jungtis prie tinklo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:439
 msgid "network usage stop hour"
-msgstr ""
+msgstr "valanda, iki kurios leidžiama jungtis prie tinklo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:524
 msgid "network usage"
-msgstr "tinklo naudojimas"
+msgstr "tinklo sąnaudos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:532 clientgui/DlgItemProperties.cpp:215
 msgid "Disk usage"
-msgstr "Disko naudojimas"
+msgstr "Disko sąnaudos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:544
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
 msgstr ""
+"maksimalus kietojo disko atminties kiekis prieinamas BOINC (gigabaitais)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:548
 msgid "Gigabytes disk space"
-msgstr ""
+msgstr "Gigabaitai disko atminties"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:551
 msgid "Leave at least"
@@ -1390,7 +1384,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:559
 msgid "Gigabytes disk space free"
-msgstr ""
+msgstr "Gigabaitai laisvos atminties diske"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:566
 msgid "BOINC uses at most this percentage of total disk space"
@@ -1438,7 +1432,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:639
 msgid "disk and memory usage"
-msgstr ""
+msgstr "disko ir atminties sąnaudos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:652
 msgid "OK"
@@ -1446,11 +1440,11 @@ msgstr "Gerai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:653
 msgid "save all values and close the dialog"
-msgstr ""
+msgstr "išsaugoti visas reikšmes ir uždaryti dialogą"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:658
 msgid "close the dialog without saving"
-msgstr ""
+msgstr "uždaryti dialogą neišsaugant"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:662 clientgui/Localization.cpp:35
 #: clientgui/Localization.cpp:121 clientgui/Localization.cpp:139
@@ -1527,7 +1521,7 @@ msgstr "Vartotojo vardas"
 
 #: clientgui/DlgItemProperties.cpp:204
 msgid "Team name"
-msgstr ""
+msgstr "Komandos pavadinimas"
 
 #: clientgui/DlgItemProperties.cpp:205
 msgid "Resource share"
@@ -1558,14 +1552,14 @@ msgstr ""
 #: clientgui/DlgItemProperties.cpp:221 clientgui/DlgItemProperties.cpp:222
 #: clientgui/DlgItemProperties.cpp:223
 msgid "yes"
-msgstr ""
+msgstr "taip"
 
 #: clientgui/DlgItemProperties.cpp:217 clientgui/DlgItemProperties.cpp:218
 #: clientgui/DlgItemProperties.cpp:219 clientgui/DlgItemProperties.cpp:220
 #: clientgui/DlgItemProperties.cpp:221 clientgui/DlgItemProperties.cpp:222
 #: clientgui/DlgItemProperties.cpp:223
 msgid "no"
-msgstr ""
+msgstr "ne"
 
 #: clientgui/DlgItemProperties.cpp:218
 msgid "Suspended via GUI"
@@ -1573,7 +1567,7 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:219
 msgid "Don't request more work"
-msgstr ""
+msgstr "Neprašyti daugiau darbo"
 
 #: clientgui/DlgItemProperties.cpp:220
 msgid "Scheduler call in progress"
@@ -1593,11 +1587,11 @@ msgstr "Užbaigtas"
 
 #: clientgui/DlgItemProperties.cpp:224
 msgid "Credit"
-msgstr ""
+msgstr "Kreditas"
 
 #: clientgui/DlgItemProperties.cpp:225
 msgid "User"
-msgstr ""
+msgstr "Vartotojas"
 
 #: clientgui/DlgItemProperties.cpp:232
 msgid "Host"
@@ -1605,13 +1599,12 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:241
 msgid "Scheduling"
-msgstr ""
+msgstr "Planavimas"
 
 #: clientgui/DlgItemProperties.cpp:243 clientgui/DlgItemProperties.cpp:253
 #: clientgui/DlgItemProperties.cpp:264
-#, fuzzy
 msgid "Project preference"
-msgstr "Jūsų nustatymai"
+msgstr "Projekto nustatymai"
 
 #: clientgui/DlgItemProperties.cpp:243
 #, fuzzy
@@ -1693,11 +1686,11 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:289
 msgid "State"
-msgstr ""
+msgstr "Būsena"
 
 #: clientgui/DlgItemProperties.cpp:292
 msgid "Received"
-msgstr ""
+msgstr "Gauta"
 
 #: clientgui/DlgItemProperties.cpp:295
 msgid "Report deadline"
@@ -1705,7 +1698,7 @@ msgstr "Atlikti iki"
 
 #: clientgui/DlgItemProperties.cpp:297
 msgid "Resources"
-msgstr ""
+msgstr "Resursai"
 
 #: clientgui/DlgItemProperties.cpp:300
 msgid "CPU time at last checkpoint"
@@ -1729,7 +1722,7 @@ msgstr "Atlikta dalis"
 
 #: clientgui/DlgItemProperties.cpp:307
 msgid "Virtual memory size"
-msgstr ""
+msgstr "Virtualios atminties dydis"
 
 #: clientgui/DlgItemProperties.cpp:308
 msgid "Working set size"
@@ -1741,7 +1734,7 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:313
 msgid "Process ID"
-msgstr ""
+msgstr "Proceso ID"
 
 #: clientgui/DlgItemProperties.cpp:411
 msgid "New"
@@ -1801,7 +1794,7 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:452
 msgid "Running, high priority"
-msgstr ""
+msgstr "Vykdoma aukštu prioritetu"
 
 #: clientgui/DlgItemProperties.cpp:454
 msgid "Running"
@@ -1859,7 +1852,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:157
 msgid "Language:"
-msgstr ""
+msgstr "Kalba:"
 
 #: clientgui/DlgOptions.cpp:164
 msgid "What language should the manager use?"
@@ -1870,15 +1863,18 @@ msgid ""
 "Network reminder interval:\n"
 "(minutes)"
 msgstr ""
+"Tinklo poreikio priminimas kas:\n"
+"(minutes)"
 
 #: clientgui/DlgOptions.cpp:180
 msgid ""
 "How often should the Manager remind you when a network connection is needed?"
 msgstr ""
+"Kaip dažnai Valdiklis turėtų Jums priminti, kad reikalinga tinklo jungtis?"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
-msgstr ""
+msgstr "Paleisti Valdiklį pisijungiant?"
 
 #: clientgui/DlgOptions.cpp:191
 msgid "Run the BOINC Manager when you log on."
@@ -1890,7 +1886,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr ""
+msgstr "Rodyti išėjimo dialogą, kai Valdiklis yra išjungiamas."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Dial-up and Virtual Private Network settings"
@@ -1931,7 +1927,7 @@ msgstr "Jungtis:"
 
 #: clientgui/DlgOptions.cpp:283 clientgui/DlgOptions.cpp:347
 msgid "Don't use proxy for:"
-msgstr ""
+msgstr "Nenaudoti tarpinio (prox) serverio:"
 
 #: clientgui/DlgOptions.cpp:290 clientgui/DlgOptions.cpp:354
 msgid "Leave these blank if not needed"
@@ -2250,30 +2246,30 @@ msgstr "Patikrinkite el. pašto adresą ir slaptažodį ir pabandykite dar kart�
 
 #: clientgui/ProjectInfoPage.cpp:259
 msgid "Choose a project"
-msgstr ""
+msgstr "Pasirinkite projektą"
 
 #: clientgui/ProjectInfoPage.cpp:262
 msgid "To choose a project, click its name or type its URL below."
-msgstr ""
+msgstr "Norėdami pasirinkti projektą, spustelėkite arba suveskite jo adresą."
 
 #: clientgui/ProjectInfoPage.cpp:265
 msgid "Project &URL:"
-msgstr "Projekto tinklapis:"
+msgstr "Projekto &adresas:"
 
 #: clientgui/ProjectInfoPage.cpp:393
 msgid ""
 "This project may not have work for your type of computer. Are you sure you "
 "wish to continue?"
-msgstr ""
+msgstr "Šis projektas gali neveikti Jūsų kompiuteryje. Ar norite tęsti?"
 
 #: clientgui/ProjectInfoPage.cpp:417
 msgid ""
 "You are already attached to this project. Please choose a different project."
-msgstr ""
+msgstr "Jūs jau esate prisijungęs prie šio projekto. Pasirinkite kitą."
 
 #: clientgui/ProjectListCtrl.cpp:276
 msgid "Click"
-msgstr ""
+msgstr "Spustelėkite"
 
 #: clientgui/ProjectListCtrl.cpp:503
 msgid "Multicore CPU Supported"
@@ -2289,7 +2285,7 @@ msgstr ""
 
 #: clientgui/ProjectListCtrl.cpp:509
 msgid "Project Website"
-msgstr ""
+msgstr "Projekto Svetainė"
 
 #: clientgui/ProjectProcessingPage.cpp:322
 #: clientgui/ProjectPropertiesPage.cpp:335

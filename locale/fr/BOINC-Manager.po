@@ -4,22 +4,22 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-05-29 05:57-0700\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
+"PO-Revision-Date: 2010-09-24 00:41+0200\n"
+"Last-Translator: Stéphan <stephan.www@wanadoo.fr>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "Identify your account "
-msgstr "Identifiez vous "
+msgstr "Identifiez-vous "
 
 #: clientgui/AccountInfoPage.cpp:382
 msgid ""
@@ -34,7 +34,7 @@ msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
-"Actuellement, ce projet n'accepte pas de nouveaux comptes.\n"
+"Actuellement ce projet n'accepte plus de nouveaux comptes.\n"
 "Vous pouvez le rejoindre seulement si vous avez déjà un compte."
 
 #: clientgui/AccountInfoPage.cpp:390
@@ -58,13 +58,15 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
-"Il n'est pas possible de configurer votre compte automatiquement.Veuillez "
-"cliquer sur le lien \"Trouver les informations de login\" ci-dessous pour "
-"savoir quoi mettre dans les champsemail et mot de passe."
+"Nous ne pouvons initialiser votre compte\n"
+"automatiquement.\n"
+"Veuillez cliquer sur le lien 'Trouver les informations de connexion'\n"
+"ci-dessous pour en savoir davantage sur la saisie des champs email et\n"
+"mot de passe."
 
 #: clientgui/AccountInfoPage.cpp:405
 msgid "Find logon information"
-msgstr "Trouver les informations de login"
+msgstr "Trouver les informations de connexion"
 
 #: clientgui/AccountInfoPage.cpp:425 clientgui/AccountInfoPage.cpp:591
 msgid "&Password:"
@@ -106,9 +108,9 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
-"Si vous n'avez pas déjà enregistré ce compte avec ce gestionnaire de compte, "
-"faites le avant de continuer.Cliquer sur le lien ci-dessous pour vous "
-"enregistrer ou pourretrouver votre mot de passe."
+"Si vous ne vous êtes pas déjà enregistré avec ce compte,\n"
+"veuillez le faire avant de continuer. Cliquez sur le lien ci-dessous\n"
+"pour vous enregistrer ou pour retrouver votre mot de passe."
 
 #: clientgui/AccountInfoPage.cpp:498
 msgid "Account manager website"
@@ -132,8 +134,8 @@ msgid ""
 "The minimum password length for this project is %d. Please enter a different "
 "password."
 msgstr ""
-"La longueur minimum du mot de passe pour ce gestionnaire de compte est de %d "
-"caractères. Entrez un mot de passe différent, svp."
+"La longueur minimale du mot de passe pour ce projet est de %d caractères. "
+"Veuillez entrer un mot de passe différent."
 
 #: clientgui/AccountInfoPage.cpp:549
 #, c-format
@@ -141,15 +143,15 @@ msgid ""
 "The minimum password length for this account manager is %d. Please enter a "
 "different password."
 msgstr ""
-"La longueur minimum du mot de passe pour ce gestionnaire de compte est de %d "
-"caractères. Entrez un mot de passe différent, svp."
+"La longueur minimale du mot de passe pour ce gestionnaire de compte est de %"
+"d caractères. Veuillez entrer un mot de passe différent."
 
 #: clientgui/AccountInfoPage.cpp:560
 msgid ""
 "The password and confirmation password do not match. Please type them again."
 msgstr ""
-"Le mot de passe et la confirmation du mot de passe sont différents. Entrez-"
-"les à nouveau, svp."
+"Le mot de passe et la confirmation du mot de passe sont différents. Veuillez "
+"les saisir à nouveau."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Choose an account manager"
@@ -160,8 +162,8 @@ msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Pour choisir un gestionnaire de compte, cliquez sur son nom ou tapez son URL "
-"ci-dessous."
+"Pour choisir un gestionnaire de compte, cliquez sur son nom ou \n"
+"tapez son URL ci-dessous."
 
 #: clientgui/AccountManagerInfoPage.cpp:255
 msgid "Account Manager &URL:"
@@ -185,7 +187,7 @@ msgstr "Veuillez patienter..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr "Une erreur interne du serveur a eu lieu.\n"
+msgstr "Une erreur interne du serveur est survenue.\n"
 
 #: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
@@ -198,7 +200,7 @@ msgstr "Déconnecté"
 #: clientgui/AdvancedFrame.cpp:305
 #, c-format
 msgid "Close the %s window"
-msgstr "Fermer la fenêtre %s"
+msgstr "Fermer la %s fenêtre"
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
@@ -207,11 +209,11 @@ msgstr "&Fermer la fenêtre"
 #: clientgui/AdvancedFrame.cpp:319
 #, c-format
 msgid "Exit %s"
-msgstr "Ferme %s"
+msgstr "Quitter %s"
 
 #: clientgui/AdvancedFrame.cpp:324 clientgui/BOINCTaskBar.cpp:641
 msgid "E&xit"
-msgstr "&Quitter"
+msgstr "Q&uitter"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "&Projects\tCtrl+Shift+P"
@@ -223,7 +225,7 @@ msgstr "Afficher les projets"
 
 #: clientgui/AdvancedFrame.cpp:339
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr "&Tâches\tCtrl+Shift+T"
+msgstr "&Tâches\t Ctrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:340
 msgid "Display tasks"
@@ -231,7 +233,7 @@ msgstr "Afficher les tâches"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "Trans&férer\tCtrl+Shift+X"
+msgstr "Trans&fers\t Ctrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:346
 msgid "Display transfers"
@@ -239,7 +241,7 @@ msgstr "Afficher les transferts"
 
 #: clientgui/AdvancedFrame.cpp:351
 msgid "&Messages\tCtrl+Shift+M"
-msgstr "&Messages\tCtrl+Shift+M"
+msgstr "&Messages\t Ctrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:352
 msgid "Display messages"
@@ -263,7 +265,7 @@ msgstr "Afficher l'utilisation du disque"
 
 #: clientgui/AdvancedFrame.cpp:371
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Vue Simple...\tCtrl+Shift+S"
+msgstr "&Vue Simple...\t Ctrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:372
 msgid "Display the simple graphical interface."
@@ -3209,7 +3211,7 @@ msgstr "Requête au planificateur en cours"
 
 #: clientgui/ViewProjects.cpp:1071
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Trickle up message en attente"
 
 #: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "

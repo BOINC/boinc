@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-01-09 15:35-0700\n"
-"Last-Translator: Valeriy Khakhutskyy <v.khakhutskyy@web.de>\n"
+"PO-Revision-Date: 2010-09-27 17:17+0200\n"
+"Last-Translator: -=VJ=- <vj@vj.net.ua>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: uk\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
@@ -207,7 +207,7 @@ msgstr "Зачинити вікно %s"
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
-msgstr ""
+msgstr "&Закрити вікно"
 
 #: clientgui/AdvancedFrame.cpp:319
 #, c-format
@@ -275,13 +275,14 @@ msgid "Display the simple graphical interface."
 msgstr "Показати спрощенний графічній інтерфейс."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "Підлючитися до проєкту чи менеджера облікових записів..."
+msgstr "Підлючитися до проекту чи менеджера облікових записів..."
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Стати учасником в будь-якому з більш ніж 30 проектів в багатьох галузях "
+"науки"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
@@ -336,31 +337,27 @@ msgstr "Зупинити обробку незаложно від настрой
 
 #: clientgui/AdvancedFrame.cpp:468
 msgid "Use GPU always"
-msgstr ""
+msgstr "Завжди використовувати графічний процесор"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Дозволити обробку незалежно від настройок"
+msgstr "Завжди обробляти використовуючи процесор відеокарти"
 
 #: clientgui/AdvancedFrame.cpp:473
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Виконувати згодно з настройкам"
+msgstr "Використання процесора відеокарти регулюється налаштуваннями"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Дозволити обробку згодно з Вашими настройками"
+msgstr "Використання процесора відеокарти регулюється Вашими налаштуваннями"
 
 #: clientgui/AdvancedFrame.cpp:478
 msgid "Use GPU never"
-msgstr ""
+msgstr "Ніколи не використовувати процесор відеокарти"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Зупинити обробку незаложно від настройок"
+msgstr "Зупинити обробку з використанням процесора відеокарти у всіх завданнях"
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "&Network activity always available"

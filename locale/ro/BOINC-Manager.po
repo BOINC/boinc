@@ -3,47 +3,52 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2005-09-26 01:18-0500\n"
-"Last-Translator: Mathe Stefan <mstefan@cs.toronto.edu>\n"
+"PO-Revision-Date: 2010-09-20 11:49+0200\n"
+"Last-Translator: Stefan.Szekeres <stefanszekeres@yahoo.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
-"X-Poedit-Language: English\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "Identify your account "
-msgstr ""
+msgstr "Identificaţi contul"
 
 #: clientgui/AccountInfoPage.cpp:382
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
+"Introduceţi informaţiile legate de contul dumneavoastră\n"
+"(pentru a crea un cont, vizitaţi website-ul proiectului)"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
+"Acest proiect nu acceptă conturi noi\n"
+"Vă puteţi ataşa doar cu un cont existent"
 
 #: clientgui/AccountInfoPage.cpp:390
 msgid "Are you already running this project?"
-msgstr ""
+msgstr "Contribuiţi deja la acest proiect?"
 
 #: clientgui/AccountInfoPage.cpp:394
 msgid "&No, new user"
-msgstr ""
+msgstr "&Nu, cont nou"
 
 #: clientgui/AccountInfoPage.cpp:397
 msgid "&Yes, existing user"
-msgstr ""
+msgstr "&Da, cont existent"
 
 #: clientgui/AccountInfoPage.cpp:402
 msgid ""
@@ -57,45 +62,41 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:405
 msgid "Find logon information"
-msgstr ""
+msgstr "Gaseşte informaţiile de login"
 
 #: clientgui/AccountInfoPage.cpp:425 clientgui/AccountInfoPage.cpp:591
-#, fuzzy
 msgid "&Password:"
-msgstr "Parola:"
+msgstr "&Parola:"
 
 #: clientgui/AccountInfoPage.cpp:432 clientgui/AccountInfoPage.cpp:606
 msgid "Choose a &password:"
-msgstr ""
+msgstr "Alegeţi o &parolă"
 
 #: clientgui/AccountInfoPage.cpp:435
-#, fuzzy
 msgid "C&onfirm password:"
-msgstr "Confirmaţi parola:"
+msgstr "C&onfirmaţi parola:"
 
 #: clientgui/AccountInfoPage.cpp:442
 #, c-format
 msgid "Are you already running %s?"
-msgstr ""
+msgstr "Rulaţi deja %s?"
 
 #: clientgui/AccountInfoPage.cpp:459
-#, fuzzy
 msgid "&Username:"
-msgstr "Nume utilizator:"
+msgstr "&Nume:"
 
 #: clientgui/AccountInfoPage.cpp:473
-#, fuzzy
 msgid "&Email address:"
-msgstr "Adresa email:"
+msgstr "&Adresa de email:"
 
 #: clientgui/AccountInfoPage.cpp:481
 #, c-format
 msgid "minimum length %d"
-msgstr ""
+msgstr "lungimea minimă %d"
 
 #: clientgui/AccountInfoPage.cpp:488
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Aţi uitat parola?"
 
 #: clientgui/AccountInfoPage.cpp:495
 msgid ""
@@ -103,10 +104,13 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"Dacă nu v-aţi conectat încă cu acest manager de conturi,\n"
+"vă rugăm s-o faceţi înainte de a continua. Click pe link-ul de mai jos\n"
+"pentru a vă înregistra sau pentru a recupera parola uitată."
 
 #: clientgui/AccountInfoPage.cpp:498
 msgid "Account manager website"
-msgstr ""
+msgstr "Website-ul managerului de cont"
 
 #: clientgui/AccountInfoPage.cpp:530
 msgid "Attach to project"
@@ -114,11 +118,11 @@ msgstr "Ataşare la proiect"
 
 #: clientgui/AccountInfoPage.cpp:532
 msgid "Update account manager"
-msgstr ""
+msgstr "Updataţi managerul de cont"
 
 #: clientgui/AccountInfoPage.cpp:534
 msgid "Attach to account manager"
-msgstr ""
+msgstr "Conectare la manager de cont"
 
 #: clientgui/AccountInfoPage.cpp:543
 #, fuzzy, c-format
@@ -144,38 +148,39 @@ msgstr ""
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Alegeţi un manager de cont"
 
 #: clientgui/AccountManagerInfoPage.cpp:252
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
+"Pentru a alege un manager de cont, click pe numele sau \n"
+"introduceţi URL-ul mai jos."
 
 #: clientgui/AccountManagerInfoPage.cpp:255
-#, fuzzy
 msgid "Account Manager &URL:"
-msgstr "URL Account Manager:"
+msgstr "&URL Manager de Cont:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:195
 #, c-format
 msgid "Communicating with %s."
-msgstr ""
+msgstr "Comunic cu %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:196
 #: clientgui/AccountManagerPropertiesPage.cpp:202
 msgid "Communicating with server."
-msgstr ""
+msgstr "Iau legătura cu serverul."
 
 #: clientgui/AccountManagerProcessingPage.cpp:201
 #: clientgui/AccountManagerPropertiesPage.cpp:207
 msgid "Please wait..."
-msgstr ""
+msgstr "Vă rugăm aşteptaţi..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr ""
+msgstr "S-a produs o eroare internă.\n"
 
 #: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
@@ -188,16 +193,16 @@ msgstr "Deconectat"
 #: clientgui/AdvancedFrame.cpp:305
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "Închideţi fereastra %s"
 
 #: clientgui/AdvancedFrame.cpp:308
 msgid "&Close Window"
-msgstr ""
+msgstr "Închide &Fereastra"
 
 #: clientgui/AdvancedFrame.cpp:319
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "Ieşire %s"
 
 #: clientgui/AdvancedFrame.cpp:324 clientgui/BOINCTaskBar.cpp:641
 msgid "E&xit"
@@ -205,114 +210,112 @@ msgstr "I&eşire"
 
 #: clientgui/AdvancedFrame.cpp:333
 msgid "&Projects\tCtrl+Shift+P"
-msgstr ""
+msgstr "&Proiecte\t Ctrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:334
 msgid "Display projects"
-msgstr ""
+msgstr "Afişează proiectele"
 
 #: clientgui/AdvancedFrame.cpp:339
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr ""
+msgstr "&Sarcini\t Ctrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:340
 msgid "Display tasks"
-msgstr ""
+msgstr "Afişează sarcinile"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr ""
+msgstr "Trans&feruri\t Ctrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:346
 msgid "Display transfers"
-msgstr ""
+msgstr "Afişează transferurile"
 
 #: clientgui/AdvancedFrame.cpp:351
 msgid "&Messages\tCtrl+Shift+M"
-msgstr ""
+msgstr "&Mesaje\t Ctrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:352
 msgid "Display messages"
-msgstr ""
+msgstr "Afişează mesaje"
 
 #: clientgui/AdvancedFrame.cpp:357
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr ""
+msgstr "&Statistici\t Ctrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:358
 msgid "Display statistics"
-msgstr ""
+msgstr "Afişează statistici"
 
 #: clientgui/AdvancedFrame.cpp:363
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr ""
+msgstr "&Utilizare disc\t Ctrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:364
 msgid "Display disk usage"
-msgstr ""
+msgstr "Afişează utilizare disc"
 
 #: clientgui/AdvancedFrame.cpp:371
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr ""
+msgstr "&Vizionare Simplă...\t Ctrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:372
 msgid "Display the simple graphical interface."
-msgstr ""
+msgstr "Afişează interfaţa grafică simplă."
 
 #: clientgui/AdvancedFrame.cpp:392
-#, fuzzy
 msgid "&Attach to project or account manager..."
-msgstr "Ataşare la proiect..."
+msgstr "Ataşare la manager de cont..."
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
+"Voluntariază la oricare dintre cele 30+ proiecte din multe ramuri ale "
+"stiinţei"
 
 #: clientgui/AdvancedFrame.cpp:397
 #, c-format
 msgid "&Synchronize with %s"
-msgstr ""
+msgstr "&Sincronizează cu %s"
 
 #: clientgui/AdvancedFrame.cpp:401
 #, c-format
 msgid "Get current settings from %s"
-msgstr ""
+msgstr "Ia setările curente de la %s"
 
 #: clientgui/AdvancedFrame.cpp:412
-#, fuzzy
 msgid "Attach to &project..."
-msgstr "Ataşare la proiect..."
+msgstr "Ataşare la &proiect..."
 
 #: clientgui/AdvancedFrame.cpp:413
 msgid "Attach to a project to begin processing work"
-msgstr ""
+msgstr "Ataşează la proiect pentru a începe procesarea"
 
 #: clientgui/AdvancedFrame.cpp:417
 #, c-format
 msgid "&Stop using %s..."
-msgstr ""
+msgstr "&Opreste utilizarea %s..."
 
 #: clientgui/AdvancedFrame.cpp:423
 msgid "Remove client from account manager control."
-msgstr ""
+msgstr "Şterge clientul din managerul de cont."
 
 #: clientgui/AdvancedFrame.cpp:432
 msgid "&Run always"
 msgstr "&Rulează continuu"
 
 #: clientgui/AdvancedFrame.cpp:433
-#, fuzzy
 msgid "Allow work regardless of preferences"
-msgstr "Lucrează indiferent de preferinţte"
+msgstr "Lucrează indiferent de preferinţe"
 
 #: clientgui/AdvancedFrame.cpp:437
 msgid "Run based on &preferences"
 msgstr "Rulează conform &preferinţelor"
 
 #: clientgui/AdvancedFrame.cpp:438
-#, fuzzy
 msgid "Allow work according to your preferences"
-msgstr "Lucrează conform preferinţelor"
+msgstr "Accepta lucru conform preferinţelor"
 
 #: clientgui/AdvancedFrame.cpp:442
 msgid "&Suspend"
@@ -325,64 +328,55 @@ msgstr "Suspendă lucrul indiferent de preferinţe"
 
 #: clientgui/AdvancedFrame.cpp:468
 msgid "Use GPU always"
-msgstr ""
+msgstr "Foloseşte întotdeauna GPU"
 
 #: clientgui/AdvancedFrame.cpp:469
-#, fuzzy
 msgid "Allow GPU work regardless of preferences"
-msgstr "Lucrează indiferent de preferinţte"
+msgstr "Acceptă lucru pe GPU indiferent de preferinţe"
 
 #: clientgui/AdvancedFrame.cpp:473
-#, fuzzy
 msgid "Use GPU based on &preferences"
-msgstr "Rulează conform &preferinţelor"
+msgstr "Foloseşte GPU pe baza &preferinţelor"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Allow GPU work according to your preferences"
-msgstr "Lucrează conform preferinţelor"
+msgstr "Acceptă lucru pe GPU comform preferinţelor"
 
 #: clientgui/AdvancedFrame.cpp:478
 msgid "Use GPU never"
-msgstr ""
+msgstr "Niciodată nu folosi GPU"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Stop GPU work regardless of preferences"
-msgstr "Suspendă lucrul indiferent de preferinţe"
+msgstr "Suspendă lucrul pe GPU indiferent de preferinţe"
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "&Network activity always available"
-msgstr "Acces la reţea disponibil perma&nent"
+msgstr "Accesul la reţea este disponibil în mod perma&nent"
 
 #: clientgui/AdvancedFrame.cpp:504
-#, fuzzy
 msgid "Allow network activity regardless of preferences"
-msgstr "Activează în reţea indiferent de preferinţe"
+msgstr "Permite activitatea în reţea indiferent de preferinţe"
 
 #: clientgui/AdvancedFrame.cpp:508
-#, fuzzy
 msgid "Network activity based on pre&ferences"
-msgstr "Acces la reţea conform &preferinţelor"
+msgstr "Activitatea în reţea comform &preferinţelor"
 
 #: clientgui/AdvancedFrame.cpp:509
-#, fuzzy
 msgid "Allow network activity according to your preferences"
-msgstr "Activează în reţea în funcţie de preferinţe"
+msgstr "Permite activitate în reţea în funcţie de preferinţe"
 
 #: clientgui/AdvancedFrame.cpp:513
-#, fuzzy
 msgid "Network activity s&uspended"
-msgstr "Suspendă accesul la retea"
+msgstr "Activitatea în reţea a fost s&uspendată"
 
 #: clientgui/AdvancedFrame.cpp:514
-#, fuzzy
 msgid "Stop BOINC network activity"
-msgstr "Suspendă activitatea de reţea BOINC"
+msgstr "Suspendă activitatea în reţeaua BOINC"
 
 #: clientgui/AdvancedFrame.cpp:521
 msgid "&Options..."
-msgstr ""
+msgstr "&Opţiuni..."
 
 #: clientgui/AdvancedFrame.cpp:522
 msgid "Configure GUI options and proxy settings"
@@ -390,16 +384,16 @@ msgstr "Configurează opţiunile GUI şi setările proxy"
 
 #: clientgui/AdvancedFrame.cpp:526
 msgid "&Preferences..."
-msgstr ""
+msgstr "&Preferinţe..."
 
 #: clientgui/AdvancedFrame.cpp:527
 msgid "Configure local preferences"
-msgstr ""
+msgstr "Configurează preferinţele locale"
 
 #: clientgui/AdvancedFrame.cpp:533
-#, fuzzy, c-format
+#, c-format
 msgid "Connect to another computer running %s"
-msgstr "Conectare la alt computer care rulează BOINC"
+msgstr "Conectare la alt computer care rulează %s"
 
 #: clientgui/AdvancedFrame.cpp:538
 #, fuzzy
@@ -408,78 +402,78 @@ msgstr "Selectează Computer..."
 
 #: clientgui/AdvancedFrame.cpp:543
 msgid "Shut down connected client..."
-msgstr ""
+msgstr "Opreşte clientul conectat..."
 
 #: clientgui/AdvancedFrame.cpp:544
 msgid "Shut down the currently connected core client"
-msgstr ""
+msgstr "Opreşte curentul client conectat"
 
 #: clientgui/AdvancedFrame.cpp:548
 msgid "Run CPU &benchmarks"
-msgstr ""
+msgstr "Rulează &testul de viteză CPU"
 
 #: clientgui/AdvancedFrame.cpp:549
 msgid "Runs BOINC CPU benchmarks"
-msgstr "Rulează benchmarks CPU BOINC"
+msgstr "Rulează testul de viteză BOINC CPU"
 
 #: clientgui/AdvancedFrame.cpp:553
 msgid "Do network &communication"
-msgstr ""
+msgstr "Fă reţea &comunicare"
 
 #: clientgui/AdvancedFrame.cpp:554
 msgid "Do all pending network communication."
-msgstr ""
+msgstr "Rulează toate comunicările în reţea."
 
 #: clientgui/AdvancedFrame.cpp:558
 msgid "Read config file"
-msgstr ""
+msgstr "Citeşte fişierul config"
 
 #: clientgui/AdvancedFrame.cpp:559
 msgid "Read configuration info from cc_config.xml."
-msgstr ""
+msgstr "Citeşte informaţiile de configurare din cc_config.xml."
 
 #: clientgui/AdvancedFrame.cpp:563
 msgid "Read local prefs file"
-msgstr ""
+msgstr "Citeşte preferinţele locale din fisier"
 
 #: clientgui/AdvancedFrame.cpp:564
 msgid "Read preferences from global_prefs_override.xml."
-msgstr ""
+msgstr "Citeşte preferinţele din global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:574
 #, c-format
 msgid "%s &help"
-msgstr ""
+msgstr "%s &ajutor"
 
 #: clientgui/AdvancedFrame.cpp:580
 #, c-format
 msgid "Show information about %s"
-msgstr ""
+msgstr "Afişează informaţii despre %s"
 
 #: clientgui/AdvancedFrame.cpp:592
 #, c-format
 msgid "&%s help"
-msgstr ""
+msgstr "&%s ajutor"
 
 #: clientgui/AdvancedFrame.cpp:598
 #, c-format
 msgid "Show information about the %s"
-msgstr ""
+msgstr "Afişează informaţii despre %s"
 
 #: clientgui/AdvancedFrame.cpp:610
 #, c-format
 msgid "%s &website"
-msgstr ""
+msgstr "%s &website"
 
 #: clientgui/AdvancedFrame.cpp:616
-#, fuzzy, c-format
+#, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Afisează informaţii despre BOINC Manager"
+msgstr "Afisează informaţii despre BOINC şi %s"
 
 #: clientgui/AdvancedFrame.cpp:628 clientgui/BOINCTaskBar.cpp:631
 #, c-format
 msgid "&About %s..."
-msgstr ""
+msgstr "&Despre %s..."
 
 #: clientgui/AdvancedFrame.cpp:634
 msgid "Licensing and copyright information."
@@ -491,7 +485,7 @@ msgstr "&Fişier"
 
 #: clientgui/AdvancedFrame.cpp:645
 msgid "&View"
-msgstr ""
+msgstr "&Afişează"
 
 #: clientgui/AdvancedFrame.cpp:649
 msgid "&Tools"
@@ -499,24 +493,24 @@ msgstr "&Unelte"
 
 #: clientgui/AdvancedFrame.cpp:653
 msgid "&Activity"
-msgstr ""
+msgstr "&Activitate"
 
 #: clientgui/AdvancedFrame.cpp:657
 msgid "A&dvanced"
-msgstr ""
+msgstr "A&vansat"
 
 #: clientgui/AdvancedFrame.cpp:661
 msgid "&Help"
-msgstr "Ajutor"
+msgstr "&Ajutor"
 
 #: clientgui/AdvancedFrame.cpp:1028
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "În curs de ataşare la proiect sau manager de cont..."
 
 #: clientgui/AdvancedFrame.cpp:1122
 #, c-format
 msgid "%s - Detach from %s"
-msgstr ""
+msgstr "%s - Deconectează de la %s"
 
 #: clientgui/AdvancedFrame.cpp:1127
 #, c-format
@@ -527,25 +521,30 @@ msgid ""
 "\n"
 "Do you want to stop using %s?"
 msgstr ""
+"Dacă nu mai folosiţi %s,\n"
+"vă veţi păstra toate proiectele curente,\n"
+"dar va trebui să vă administraţi proiectele manual.\n"
+"\n"
+"Doriţi să nu mai folosiţi %s ?"
 
 #: clientgui/AdvancedFrame.cpp:1313
 #, c-format
 msgid "%s - Language Selection"
-msgstr ""
+msgstr "%s - Selecţia limbii"
 
 #: clientgui/AdvancedFrame.cpp:1320
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s's default language has been changed, in order for this change to take "
 "affect you must restart the %s."
 msgstr ""
-"Setările de limbă pentru BOINC Manager au fost schimbate. Pentru a vizualiza "
-"efectele, restartaţi BOINC manager."
+"Setările de limbă implicite pentru %s au fost schimbate. Pentru a vizualiza "
+"efectele, restartaţi %s."
 
 #: clientgui/AdvancedFrame.cpp:1483
 #, c-format
 msgid "%s - Shutdown the current client..."
-msgstr ""
+msgstr "%s - Opriţi clientul curent..."
 
 #: clientgui/AdvancedFrame.cpp:1492
 #, c-format
@@ -553,20 +552,22 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
+"%s va opri curentul client conectat,\n"
+"şi vă va afişa o altă gazdă la care să vă conectaţi.\n"
 
 #: clientgui/AdvancedFrame.cpp:1539
 msgid "Retrying communications for project(s)..."
-msgstr ""
+msgstr "Încerc din nou să comunic cu proiectul(ele)..."
 
 #: clientgui/AdvancedFrame.cpp:1735
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1744
 #, c-format
 msgid "%s has successfully attached to %s"
-msgstr ""
+msgstr "%s s-a conectat cu success la %s"
 
 #: clientgui/AdvancedFrame.cpp:1875
 #, c-format
@@ -576,16 +577,16 @@ msgstr "%s - (%s)"
 #: clientgui/AdvancedFrame.cpp:1878
 #, c-format
 msgid "Connecting to %s"
-msgstr "In curs de conectare la %s"
+msgstr "În curs de conectare la %s"
 
 #: clientgui/AdvancedFrame.cpp:1881
-#, fuzzy, c-format
+#, c-format
 msgid "Connected to %s (%s)"
-msgstr "Conectat la %s"
+msgstr "Conectat la %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:182
 msgid "Username already in use"
-msgstr ""
+msgstr "Nume de utilizator in uz deja"
 
 #: clientgui/AlreadyExistsPage.cpp:185
 #, fuzzy

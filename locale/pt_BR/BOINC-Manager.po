@@ -3,44 +3,50 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-10-05 13:56+0200\n"
+"Last-Translator: Leonardo <king_lsd@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "Identify your account "
-msgstr ""
+msgstr "Identifique sua conta"
 
 #: clientgui/AccountInfoPage.cpp:382
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
+"Por favor entre com suas informações de conta\n"
+"(para criar uma conta, visite a página do projeto)"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
+"Este projeto não está aceitando novas contas atualmente.\n"
+"Somente é possível anexar se você já possuir uma conta."
 
 #: clientgui/AccountInfoPage.cpp:390
 msgid "Are you already running this project?"
-msgstr ""
+msgstr "Você já está executando este projeto?"
 
 #: clientgui/AccountInfoPage.cpp:394
 msgid "&No, new user"
-msgstr ""
+msgstr "&Não, novo usuário"
 
 #: clientgui/AccountInfoPage.cpp:397
 msgid "&Yes, existing user"
-msgstr ""
+msgstr "&Sim, usuário existente"
 
 #: clientgui/AccountInfoPage.cpp:402
 msgid ""
@@ -51,44 +57,50 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"Não pudemos definir suas informações de conta\n"
+"automaticamente.\n"
+"\n"
+"Por favor clique em \"Encontrar informações de acesso\"\n"
+"abaixo para saber o que colocar nos campos e-mail e\n"
+"senha."
 
 #: clientgui/AccountInfoPage.cpp:405
 msgid "Find logon information"
-msgstr ""
+msgstr "Encontrar informações de acesso"
 
 #: clientgui/AccountInfoPage.cpp:425 clientgui/AccountInfoPage.cpp:591
 msgid "&Password:"
-msgstr ""
+msgstr "&Senha:"
 
 #: clientgui/AccountInfoPage.cpp:432 clientgui/AccountInfoPage.cpp:606
 msgid "Choose a &password:"
-msgstr ""
+msgstr "Escolha uma &senha:"
 
 #: clientgui/AccountInfoPage.cpp:435
 msgid "C&onfirm password:"
-msgstr ""
+msgstr "C&onfirme senha:"
 
 #: clientgui/AccountInfoPage.cpp:442
 #, c-format
 msgid "Are you already running %s?"
-msgstr ""
+msgstr "Você já está executando %s?"
 
 #: clientgui/AccountInfoPage.cpp:459
 msgid "&Username:"
-msgstr ""
+msgstr "&Nome de usuário:"
 
 #: clientgui/AccountInfoPage.cpp:473
 msgid "&Email address:"
-msgstr ""
+msgstr "&Email:"
 
 #: clientgui/AccountInfoPage.cpp:481
 #, c-format
 msgid "minimum length %d"
-msgstr ""
+msgstr "comprimento mínimo %d"
 
 #: clientgui/AccountInfoPage.cpp:488
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Esqueceu sua senha?"
 
 #: clientgui/AccountInfoPage.cpp:495
 msgid ""
@@ -96,14 +108,17 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"Se você ainda não esta registrado com este gerenciador de contas,\n"
+"Por favor faça isso antes de seguir. Clique no link abaixo\n"
+"para registrar ou para reaver sua senha perdida."
 
 #: clientgui/AccountInfoPage.cpp:498
 msgid "Account manager website"
-msgstr ""
+msgstr "Site do gerenciador de contas"
 
 #: clientgui/AccountInfoPage.cpp:530
 msgid "Attach to project"
-msgstr ""
+msgstr "Anexar-se a um projeto"
 
 #: clientgui/AccountInfoPage.cpp:532
 msgid "Update account manager"
