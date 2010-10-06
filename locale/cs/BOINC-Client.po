@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-14 16:20-0700\n"
-"PO-Revision-Date: 2010-08-21 00:16+0100\n"
-"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
+"PO-Revision-Date: 2010-09-26 13:17+0200\n"
+"Last-Translator: Martin <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 
 #: acct_mgr.cpp:373
 #: acct_mgr.cpp:383
@@ -85,7 +85,7 @@ msgstr "Tento projekt nepodporuje operační systém"
 
 #: ../sched/handle_request.cpp:940
 msgid "This project doesn't support CPU type"
-msgstr "Tento projekt nepodporuje typ procesoru"
+msgstr "Tento projekt nepodporuje typ CPU"
 
 #: ../sched/handle_request.cpp:964
 msgid "Your BOINC client software is too old.  Please install the current version."
@@ -105,15 +105,17 @@ msgstr "Pro využití všech GPU aplikací tohoto projektu si prosím nainstaluj
 
 #: ../sched/sched_send.cpp:1281
 msgid "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to the current version"
-msgstr "Stáhněte si prosím aktuální verzi programu BOINC, který je zapotřebí pro využití vaší nVidia GPU."
+msgstr ""
+"Stáhněte si prosím novější verzi programu BOINC, který je zapotřebí pro "
+"využití vaší NVIDIA GPU"
 
 #: ../sched/sched_send.cpp:1294
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí nVidia nebo ATI GPU."
+msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí NVIDIA nebo ATI GPU"
 
 #: ../sched/sched_send.cpp:1299
 msgid "An NVIDIA GPU is required to run tasks for this project"
-msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí nVidia GPU."
+msgstr "Pro počítání úkolů u tohoto projektu je zapotřebí NVIDIA GPU"
 
 #: ../sched/sched_send.cpp:1305
 msgid "An ATI GPU is required to run tasks for this project"
@@ -133,7 +135,9 @@ msgstr "Nainstalujte si prosím novou verzi BOINC, která je vyžadována."
 
 #: ../sched/sched_send.cpp:1442
 msgid "Tasks for NVIDIA GPU are available, but your preferences are set to not accept them"
-msgstr "Jsou dostupné úkoly pro nVidia GPU, ale vaše nastavení je nedovoluje přijímat."
+msgstr ""
+"Jsou dostupné úkoly pro NVIDIA GPU, ale vaše nastavení je nedovoluje "
+"přijímat"
 
 #: ../sched/sched_send.cpp:1448
 msgid "Tasks for ATI GPU are available, but your preferences are set to not accept them"
@@ -141,7 +145,7 @@ msgstr "Jsou dostupné úkoly pro ATI GPU, ale vaše nastavení je nedovoluje p�
 
 #: ../sched/sched_send.cpp:1454
 msgid "Tasks for CPU are available, but your preferences are set to not accept them"
-msgstr "Jsou dostupné úkoly pro procesor, ale vaše nastavení je nedovoluje přijímat."
+msgstr "Jsou dostupné úkoly pro CPU, ale vaše nastavení je nedovoluje přijímat"
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
@@ -158,4 +162,3 @@ msgstr "není dostupná pro váš typ počítače"
 #: ../sched/handle_request.cpp:820
 msgid "Invalid code signing key.  To fix, detach and reattach to this project."
 msgstr "Neplatný podepisovací klíč. Pro opravu se odpojte a znova připojte k tomuto projektu."
-

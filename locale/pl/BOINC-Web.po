@@ -3,22 +3,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-04-25 03:59-0700\n"
-"Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
+"PO-Revision-Date: 2010-10-02 13:08+0200\n"
+"Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: versions.inc:6
@@ -44,12 +42,12 @@ msgstr "Szukaj"
 
 #: docutil.php:102
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Wróć na główna stronę BOINC"
 
 #: docutil.php:113
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Tę stronę %smożna przetłumaczyć%s."
 
 # ######################################
 # download.php
@@ -106,7 +104,7 @@ msgstr "Wszystkie wersje"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "Historia wersji"
 
 #: download.php:143
 msgid "BOINC: compute for science"
@@ -178,11 +176,11 @@ msgstr ""
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "Najlepsza 100 uczestników"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Statystyki"
 
 #: index.php:53
 msgid "Active:"
@@ -190,35 +188,36 @@ msgstr ""
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "uczestnicy,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "komputery.\n"
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "średnia z 24h:"
 
 #: index.php:54
+#, fuzzy
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TeraFLOPS."
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Nowości"
 
 #: index.php:79
 msgid "Volunteer"
-msgstr ""
+msgstr "Uczestnik"
 
 #: index.php:81
 msgid "Download"
-msgstr ""
+msgstr "Pobierz"
 
 #: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentacja"
 
 #: index.php:89
 #, php-format
@@ -238,17 +237,21 @@ msgstr ""
 
 #: index.php:116
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "Przeliczaj z BOINC"
 
 #: index.php:119
 msgid "Software updates"
 msgstr ""
 
 #: index.php:126
+#, fuzzy
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%1Naukowcy%2: używają BOINC, aby stworzyć %3naukowy projekt%4, w którym "
+"dzięki komputerom uczestników mogą przetwarzać dane przy pomocy tysięcy "
+"procesorów."
 
 #: index.php:130
 msgid ""
@@ -262,11 +265,11 @@ msgstr ""
 
 #: index.php:147
 msgid "The BOINC project"
-msgstr ""
+msgstr "Projekt BOINC"
 
 #: index.php:153
 msgid "Message boards"
-msgstr ""
+msgstr "Forum dyskusyjne"
 
 #: index.php:154
 msgid "Email lists"
@@ -274,7 +277,7 @@ msgstr ""
 
 #: index.php:155
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "Personel i współtwórcy"
 
 #: index.php:156
 msgid "Events"
@@ -286,31 +289,31 @@ msgstr ""
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Projekty badawcze"
 
 #: index.php:159
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Loga i grafiki"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "i"
 
 #: index.php:164
 msgid "Help wanted"
-msgstr ""
+msgstr "Potrzeba pomoc"
 
 #: index.php:166
 msgid "Programming"
-msgstr ""
+msgstr "Programowanie"
 
 #: index.php:167
 msgid "Translation"
-msgstr ""
+msgstr "Tłumaczenie"
 
 #: index.php:168
 msgid "Testing"
-msgstr ""
+msgstr "Testowanie"
 
 #: index.php:170
 msgid "Publicity"

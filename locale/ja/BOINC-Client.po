@@ -8,21 +8,23 @@ msgstr ""
 "Project-Id-Version: BOINC Client 0.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-14 16:20-0700\n"
-"PO-Revision-Date: 2010-08-19 21:00+0900\n"
-"Last-Translator: Je2bwm <je2bwm@jarl.com>\n"
+"PO-Revision-Date: 2010-09-28 10:52+0200\n"
+"Last-Translator: Gen Hayase <gen0215@gmail.com>\n"
 "Language-Team: \n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.1.1\n"
 
 #: acct_mgr.cpp:373 acct_mgr.cpp:383
 msgid "error"
-msgstr "異常"
+msgstr "エラー"
 
 #: acct_setup.cpp:273
 msgid "A new version of BOINC is available."
-msgstr "新しい版の BOINC が使えます。"
+msgstr "最新版の BOINC が利用できます。"
 
 #: acct_setup.cpp:275
 msgid "Download it."
@@ -119,38 +121,32 @@ msgstr ""
 #: ../sched/sched_send.cpp:1257
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"このプロジェクトの GPU アプリケーションの全てを使うため、ドライバーを最新のも"
-"のにアップグレイドしてください。"
+msgstr "このプロジェクトの GPU アプリケーションの全てを使うため、ドライバーを最新のものにアップグレードしてください。"
 
 #: ../sched/sched_send.cpp:1281
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
-"あなたのマシンの NVIDIA GPU を使うには、より新しい版の BOINC が必要です。現在"
-"の版へと BOINC をアップグレイドしてください。"
+"あなたのマシンの NVIDIA GPU を使うには、より新しい版の BOINC が必要です。現在の版へと BOINC をアップグレードしてください。"
 
 #: ../sched/sched_send.cpp:1294
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr ""
-"このプロジェクトの タスクを走らせるには NVIDIA または ATI の GPU 必要です"
+msgstr "このプロジェクトの タスクを走らせるには NVIDIA または ATI の GPU が必要です"
 
 #: ../sched/sched_send.cpp:1299
 msgid "An NVIDIA GPU is required to run tasks for this project"
-msgstr "このプロジェクトの タスクを走らせるには NVIDIA の GPU 必要です"
+msgstr "このプロジェクトの タスクを走らせるには NVIDIA の GPU が必要です"
 
 #: ../sched/sched_send.cpp:1305
 msgid "An ATI GPU is required to run tasks for this project"
-msgstr "このプロジェクトの タスクを走らせるには ATI の GPU 必要です"
+msgstr "このプロジェクトの タスクを走らせるには ATI の GPU が必要です"
 
 #: ../sched/sched_send.cpp:1400
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
-msgstr ""
-"あなたが選んだアプリケーションで処理できる仕事が手に入りません。該当のウェブ"
-"サイトであなたのプロジェクト・プレファレンスを確かめてください。"
+msgstr "あなたが選んだアプリケーションで処理できる仕事が手に入りません。該当のウェブサイトであなたのプロジェクト・プリファレンスを確かめてください。"
 
 #: ../sched/sched_send.cpp:1426
 msgid "Your computer type is not supported by this project"
@@ -158,34 +154,28 @@ msgstr "あなたのコンピュータはこのプロジェクトではサポー
 
 #: ../sched/sched_send.cpp:1432
 msgid "Newer BOINC version required; please install current version"
-msgstr "より新しい版の BOINC が必要です。 現在の版をインストールしてください。"
+msgstr "より新しい版の BOINC が必要です。最新版をインストールしてください。"
 
 #: ../sched/sched_send.cpp:1442
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
-msgstr ""
-"NVIDIA GPU 用のタスクが手に入りますが、あなたが設定したプレファレンスではそれ"
-"らを処理しないことになっています。"
+msgstr "NVIDIA GPU 用のタスクが手に入りますが、あなたが設定したプリファレンスではそれらを処理しないことになっています。"
 
 #: ../sched/sched_send.cpp:1448
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
-msgstr ""
-"ATI GPU 用のタスクが手に入りますが、あなたが設定したプレファレンスではそれら"
-"を処理しないことになっています。"
+msgstr "ATI GPU 用のタスクが手に入りますが、あなたが設定したプリファレンスではそれらを処理しないことになっています。"
 
 #: ../sched/sched_send.cpp:1454
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
-msgstr ""
-"CPU 用のタスクが手に入りますが、あなたが設定したプレファレンスではそれらを処"
-"理しないことになっています。"
+msgstr "CPU 用のタスクが手に入りますが、あなたが設定したプリファレンスではそれらを処理しないことになっています。"
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr "app_info.xml の中に知らないアプリケーションの名前があります"
+msgstr "app_info.xml の中に不明なアプリケーション名があります"
 
 #  Poor translation because the implementation and the original text are English-dependent.
 #: ../sched/sched_version.cpp:225

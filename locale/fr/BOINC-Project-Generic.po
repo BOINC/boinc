@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-05-31 03:41-0700\n"
-"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
+"PO-Revision-Date: 2010-10-05 15:09+0200\n"
+"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
@@ -292,32 +292,29 @@ msgid "%1 days"
 msgstr "%1 jours"
 
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "Applications"
+msgstr "Détails de l'application"
 
 #: ../inc/host.inc:165
-#, fuzzy
 msgid "Show"
-msgstr "Afficher :"
+msgstr "Afficher"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
 msgstr "Tâches"
 
 #: ../inc/host.inc:179
-#, fuzzy
 msgid "Number of times BOINC has contacted server"
-msgstr "Nombre de fois où le client a contacté le serveur"
+msgstr "Nombre de fois où le client BOINC a contacté le serveur"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
 msgstr "Dernière date de contact du serveur"
 
 #: ../inc/host.inc:181
-#, fuzzy, php-format
+#, php-format
 msgid "% of time BOINC is running"
-msgstr "% des fois où le client BOINC est en fonctionnement"
+msgstr "% du temps où le client BOINC est en fonctionnement"
 
 #: ../inc/host.inc:183
 #, php-format
@@ -829,9 +826,8 @@ msgid "bad subset: %1"
 msgstr "mauvais sous-ensemble : %1"
 
 #: ../inc/prefs.inc:617
-#, fuzzy
 msgid "Default"
-msgstr "Supprimer"
+msgstr "Par défaut"
 
 #: ../inc/prefs.inc:649 ../inc/prefs.inc:652 ../inc/prefs.inc:995
 #: ../inc/prefs_util.inc:93 ../inc/prefs_util.inc:108
@@ -1002,12 +998,11 @@ msgstr "Plateforme anonyme"
 
 #: ../inc/result.inc:43
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "GPU NVIDIA"
 
 #: ../inc/result.inc:44
-#, fuzzy
 msgid "ATI GPU"
-msgstr "GPU"
+msgstr "GPU ATI"
 
 #: ../inc/result.inc:51
 msgid "Not in DB"
@@ -1115,7 +1110,7 @@ msgstr "Valider l'erreur"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "abandonné"
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1224,9 +1219,8 @@ msgid "Show names"
 msgstr "Afficher les noms"
 
 #: ../inc/result.inc:272
-#, fuzzy
 msgid "Task"
-msgstr "Tâches"
+msgstr "Tâche"
 
 #: ../inc/result.inc:275
 #, fuzzy
@@ -1262,9 +1256,8 @@ msgid "CPU time<br />(sec)"
 msgstr "Temps de CPU<br />(sec)"
 
 #: ../inc/result.inc:288 ../inc/result.inc:392
-#, fuzzy
 msgid "Credit"
-msgstr "Créer"
+msgstr "Crédit"
 
 #: ../inc/result.inc:289
 msgid "Application"
@@ -1311,9 +1304,8 @@ msgid "Validate state"
 msgstr "Valider l'état"
 
 #: ../inc/result.inc:393
-#, fuzzy
 msgid "Application version"
-msgstr "version de l'application"
+msgstr "Version de l'application"
 
 #: ../inc/result.inc:408
 msgid "Previous"
@@ -2555,18 +2547,18 @@ msgid "Your account"
 msgstr "Votre compte"
 
 #: ../user/host_app_versions.php:52
-#, fuzzy
 msgid "Application details for host %1"
-msgstr "Applications"
+msgstr "Détails de l'application pour l'hôte %1"
 
 #: ../user/hosts_user.php:51
-#, fuzzy
 msgid "Computers belonging to %1"
-msgstr "Informations sur l'ordinateur"
+msgstr "Ordinateurs appartenant à %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
 msgstr ""
+"Cet utilisateur a choisi de ne pas montrer d'information au sujet de ses "
+"ordinateurs."
 
 #: ../user/info.php:22 ../user/sample_index.php:47
 msgid "Read our rules and policies"
@@ -2912,17 +2904,15 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "Pour débloquer, aller sur les %1préférences de messages%2"
 
 #: ../user/prefs.php:36
-#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "Vos préférences ont été mises à jour. Les préférences du client\n"
-"\t      seront prises en compte lorsque votre ordinateur communiquera avec %"
-"1\n"
-"\t      ou si vous utilisez la commande %2Mise à jour%2 depuis le client "
-"BOINC."
+"\t      seront prises en compte lorsque votre ordinateur communiquera avec %1\n"
+"\t      ou si vous utilisez la commande %2Mise à jour%3 depuis le BOINC "
+"Manager."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
@@ -4286,9 +4276,8 @@ msgid "validation"
 msgstr "validation"
 
 #: ../project.sample/project.inc:49
-#, fuzzy
 msgid "Main page"
-msgstr "Nom de domaine"
+msgstr "Page principale"
 
 #: ../project.sample/project.inc:51
 msgid "Copyright"

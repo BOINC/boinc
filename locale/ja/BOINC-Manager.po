@@ -3,13 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-08 16:57-0700\n"
-"PO-Revision-Date: 2010-06-20 17:30+0900\n"
-"Last-Translator: je2bwm <je2bwm@jarl.com>\n"
+"PO-Revision-Date: 2010-09-28 11:36+0200\n"
+"Last-Translator: Gen Hayase <gen0215@gmail.com>\n"
 "Language-Team: \n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-BOINC-UTF8-Marker: 日本語\n"
 
 #: AccountInfoPage.cpp:375
@@ -156,7 +158,7 @@ msgstr ""
 
 #: AccountManagerInfoPage.cpp:254
 msgid "Account Manager &URL:"
-msgstr "アカウント・マネージャ URL(&U)："
+msgstr "アカウント・マネージャー &URL："
 
 #: AccountManagerProcessingPage.cpp:189 AccountManagerPropertiesPage.cpp:195
 #, c-format
@@ -1062,7 +1064,7 @@ msgstr "Berkeley Open Infrastructure for Network Computing"
 #: DlgAbout.cpp:195 DlgExitMessage.cpp:172 DlgGenericMessage.cpp:120
 #: DlgOptions.cpp:383 DlgSelectComputer.cpp:147
 msgid "&OK"
-msgstr "OK(&O)"
+msgstr "&OK"
 
 #: DlgAdvPreferences.cpp:499
 msgid "invalid float"
@@ -2349,11 +2351,10 @@ msgstr "名前とパスワードを確認の上、もう一度試して下さい
 msgid "Check the email address and password, and try again."
 msgstr "電子メールアドレスとパスワードを確認の上、もう一度試して下さい。"
 
-# This string is the default action of objects specified for GetDefaultAction. I'm not sure this is meaningful to be translated, that is, is it a string for Human?
+# This string is the default action of objects specified for GetDefaultAction. I'm not sure it is meaningful to be translated, that is, is it a string to be read by human?
 #: NoticeListCtrl.cpp:276 ProjectListCtrl.cpp:276
-#, fuzzy
 msgid "Click"
-msgstr "Click"
+msgstr "クリック"
 
 #: NoticeListCtrl.cpp:503 ProjectListCtrl.cpp:503
 msgid "Multicore CPU Supported"
@@ -2381,7 +2382,7 @@ msgstr "プロジェクトを選択するには、その名前をクリックす
 
 #: ProjectInfoPage.cpp:264
 msgid "Project &URL:"
-msgstr "プロジェクトの URL(&U)："
+msgstr "プロジェクトの &URL："
 
 #: ProjectInfoPage.cpp:392
 msgid ""
@@ -3054,7 +3055,7 @@ msgid ""
 msgstr ""
 "このファイル転送 '%s' を中止してよいですか？\n"
 "注意： 転送を中止するとタスクはキャンセルされたことになり\n"
-"功績 (credit) は付与されなくなります。"
+"功績（クレジット）は付与されなくなります。"
 
 #: ViewTransfers.cpp:348
 msgid "Abort File Transfer"
@@ -3693,61 +3694,50 @@ msgstr "BOINC はインターネットにアクセスできません。ネット
 
 #~ msgid "New page inserted. Index = %i"
 #~ msgstr "New page inserted. Index = %i"
-
-#~ "
+#~ ""
 
 #~ msgid "New page appended. Index = %i"
 #~ msgstr "New page appended. Index = %i"
-
-#~ "
+#~ ""
 
 #~ msgid "Old Page Index = %i"
 #~ msgstr "Old Page Index = %i"
-
-#~ "
+#~ ""
 
 #~ msgid "OnDropTarget: index by HitTest = %i"
 #~ msgstr "OnDropTarget: index by HitTest = %i"
-
-#~ "
+#~ ""
 
 #~ msgid "Pie Ctrl"
 #~ msgstr "Pie Ctrl"
-
-#~ "
+#~ ""
 
 #, fuzzy
 #~ msgid "blank"
 #~ msgstr "blank"
-
-#~ "
+#~ ""
 
 #, fuzzy
 #~ msgid "list of "
 #~ msgstr "list of "
-
-#~ "
+#~ ""
 
 #, fuzzy
 #~ msgid "events"
 #~ msgstr "events"
-
-#~ "
+#~ ""
 
 #, fuzzy
 #~ msgid " is empty"
 #~ msgstr " is empty"
-
-#~ "
+#~ ""
 
 #, fuzzy
 #~ msgid "list is empty"
 #~ msgstr "list is empty"
-
-#~ "
+#~ ""
 
 #
 #~ msgid "&Messages\tCtrl+Shift+M"
 #~ msgstr "メッセージ(M)\tCtrl+Shift+M"
-
-#~ "
+#~ ""

@@ -4,15 +4,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-02 21:29-0500\n"
-"PO-Revision-Date: 2010-07-05 07:30-0700\n"
-"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
+"PO-Revision-Date: 2010-10-05 14:53+0200\n"
+"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
@@ -115,19 +115,19 @@ msgstr ""
 msgid "Account manager website"
 msgstr "Site du gestionnaire de compte"
 
+# changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/AccountInfoPage.cpp:557
-#, fuzzy
 msgid "Add project"
-msgstr "Tous les projets"
+msgstr "Ajouter un projet"
 
 #: clientgui/AccountInfoPage.cpp:559
 msgid "Update account manager"
 msgstr "Mettre à jour le gestionnaire de compte"
 
+# changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/AccountInfoPage.cpp:561
-#, fuzzy
 msgid "Add account manager"
-msgstr "Mettre à jour le gestionnaire de compte"
+msgstr "Ajouter un gestionnaire de compte"
 
 #: clientgui/AccountInfoPage.cpp:568
 #, c-format
@@ -273,9 +273,8 @@ msgid "Display the simple graphical interface."
 msgstr "Affiche l'interface graphique simplifiée"
 
 #: clientgui/AdvancedFrame.cpp:390
-#, fuzzy
 msgid "&Add project or account manager..."
-msgstr "Rejoindre un &projet ou un gestionnaire de compte..."
+msgstr "&Rejoindre un projet ou un gestionnaire de compte..."
 
 #: clientgui/AdvancedFrame.cpp:391
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
@@ -293,15 +292,15 @@ msgstr "&Synchronisation avec %s "
 msgid "Get current settings from %s"
 msgstr "Récupération des paramètres actuels de %s "
 
+# changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/AdvancedFrame.cpp:409
-#, fuzzy
 msgid "&Add project..."
-msgstr "Rejoindre un &projet..."
+msgstr "Ajouter un &projet..."
 
+# changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/AdvancedFrame.cpp:410
-#, fuzzy
 msgid "Add a project"
-msgstr "Tous les projets"
+msgstr "Ajouter un projet"
 
 # Is this a serious real message ???
 #: clientgui/AdvancedFrame.cpp:413
@@ -532,7 +531,7 @@ msgid "%s - Detach from %s"
 msgstr "%s - Se détacher de %s"
 
 #: clientgui/AdvancedFrame.cpp:1133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If you detach from %s,\n"
 "you'll keep all your current projects,\n"
@@ -540,11 +539,8 @@ msgid ""
 "\n"
 "Do you want to detach from %s?"
 msgstr ""
-"Si vous cessez d'utiliser %s,\n"
-"vous conserverez tous vos projets,\n"
-"mais vous devrez gérer les projets manuellement.\n"
-"\n"
-"Voulez-vous cesser d'utiliser %s ?"
+"Si vous cessez d'utiliser %s,vous conserverez tous vos projets,mais vous "
+"devrez gérer les projets manuellement.Voulez-vous cesser d'utiliser %s ?"
 
 #: clientgui/AdvancedFrame.cpp:1319
 #, c-format
@@ -754,18 +750,18 @@ msgid "Web sites"
 msgstr "Sites Web"
 
 #: clientgui/BOINCClientManager.cpp:534
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Unexpected Exit"
-msgstr "Texte inattendu dans"
+msgstr "%s - Terminaison inattendue"
 
 #: clientgui/BOINCClientManager.cpp:544
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
-"LE %s n'a pas réussi à se connecter à un client %s.\n"
-"Voulez-vous tenter d'établir la connexion à nouveau ?"
+"Le client %s s'est terminé de façon inattendue 3 fois durant les dernières %"
+"d minutes.Voulez-vous le relancer ?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -939,9 +935,8 @@ msgid "Network is enabled"
 msgstr "Utilisation du réseau autorisée"
 
 #: clientgui/BOINCTaskBar.cpp:705
-#, fuzzy
 msgid "Network is suspended - "
-msgstr "Activité réseau suspendue"
+msgstr "Activité réseau suspendue - "
 
 #: clientgui/BOINCTaskBar.cpp:713
 msgid "Reconnecting to client."
@@ -958,7 +953,7 @@ msgstr "Notifications de %s"
 
 #: clientgui/BOINCTaskBar.cpp:773
 msgid "There are new notices - click to view."
-msgstr ""
+msgstr "Il y a de nouveaux messages - cliquer pour visualiser."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to attach to project"
@@ -998,13 +993,12 @@ msgid "Messages from server:"
 msgstr "Messages du serveur:"
 
 #: clientgui/CompletionPage.cpp:207
-#, fuzzy
 msgid "Project added"
-msgstr "Projet"
+msgstr "Projet ajouté"
 
 #: clientgui/CompletionPage.cpp:213
 msgid "This project has been successfully added."
-msgstr ""
+msgstr "Ce projet a été ajouté avec succès."
 
 #: clientgui/CompletionPage.cpp:218
 msgid ""
@@ -1343,9 +1337,8 @@ msgid "Maximum upload rate"
 msgstr "Débit maximum (up)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:400
-#, fuzzy
 msgid "Transfer at most"
-msgstr "Utiliser au plus"
+msgstr "Transférer au plus"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:406
 msgid "Mbytes"
@@ -1707,9 +1700,8 @@ msgid "Added via account manager"
 msgstr "Attaché via le gestionnaire de compte"
 
 #: clientgui/DlgItemProperties.cpp:221
-#, fuzzy
 msgid "Remove when tasks done"
-msgstr "Se détachera lorsque les tâches seront terminées"
+msgstr "Se détacher une fois les tâches terminées"
 
 #: clientgui/DlgItemProperties.cpp:222
 msgid "Ended"
@@ -2211,23 +2203,20 @@ msgid "user request"
 msgstr "requête utilisateur"
 
 #: clientgui/MainDocument.cpp:2353
-#, fuzzy
 msgid "time of day"
-msgstr " - moment de la journée"
+msgstr "moment de la journée"
 
 #: clientgui/MainDocument.cpp:2354
-#, fuzzy
 msgid "CPU benchmarks in progress"
-msgstr " - tests de puissance de l'ordinateur"
+msgstr "Tests de puissance de l'ordinateur en cours"
 
 #: clientgui/MainDocument.cpp:2355
 msgid "need disk space - check preferences"
 msgstr "a besoin d'espace disque - vérifiez les préférences"
 
 #: clientgui/MainDocument.cpp:2356
-#, fuzzy
 msgid "computer is not in use"
-msgstr " Lorsque l'ordinateur est utilisé"
+msgstr " Lorsque l'ordinateur n'est pas utilisé"
 
 #: clientgui/MainDocument.cpp:2357
 #, fuzzy
@@ -2235,9 +2224,8 @@ msgid "starting up"
 msgstr "Client en court de démarrage"
 
 #: clientgui/MainDocument.cpp:2358
-#, fuzzy
 msgid "an exclusive app is running"
-msgstr " - une application exclusive est en cours d'exécution"
+msgstr " une application exclusive est en cours d'exécution"
 
 #: clientgui/MainDocument.cpp:2359
 msgid "CPU is busy"
@@ -2268,9 +2256,8 @@ msgid "Downloading"
 msgstr "Téléchargement en cours"
 
 #: clientgui/MainDocument.cpp:2392 clientgui/MainDocument.cpp:2450
-#, fuzzy
 msgid " (suspended - "
-msgstr "Suspendu"
+msgstr " (suspendu - "
 
 #: clientgui/MainDocument.cpp:2394 clientgui/MainDocument.cpp:2452
 msgid ")"
@@ -2285,9 +2272,8 @@ msgid "Task suspended by user"
 msgstr "Tâche suspendue par l'utilisateur"
 
 #: clientgui/MainDocument.cpp:2404
-#, fuzzy
 msgid "Suspended - "
-msgstr "Suspendu"
+msgstr "Suspendu - "
 
 #: clientgui/MainDocument.cpp:2411
 msgid "Waiting for memory"
@@ -2414,19 +2400,18 @@ msgid "Check the email address and password, and try again."
 msgstr "Vérifiez l'adresse email et le mot de passe, et essayez à nouveau."
 
 #: clientgui/NoticeListCtrl.cpp:54
-#, fuzzy
 msgid "Notice List"
-msgstr "Remarques"
+msgstr "Liste des messages"
 
 #: clientgui/NoticeListCtrl.cpp:198
 #, c-format
 msgid "%s; received on %s"
-msgstr ""
+msgstr "%s; reçu le %s"
 
 #: clientgui/NoticeListCtrl.cpp:200
 #, c-format
 msgid "%s; received from %s; on %s"
-msgstr ""
+msgstr "%s; reçu de %s; le %s"
 
 #: clientgui/NoticeListCtrl.cpp:313 clientgui/ProjectListCtrl.cpp:283
 msgid "Click"
@@ -2434,11 +2419,11 @@ msgstr "Cliquer"
 
 #: clientgui/NoticeListCtrl.cpp:562
 msgid "From"
-msgstr ""
+msgstr "De"
 
 #: clientgui/NoticeListCtrl.cpp:574
 msgid "more..."
-msgstr ""
+msgstr "suivant..."
 
 #: clientgui/ProjectInfoPage.cpp:257
 msgid "Choose a project"
@@ -2468,9 +2453,8 @@ msgstr ""
 "Vous avez déjà rejoint ce projet. Merci de choisir un projet différent."
 
 #: clientgui/ProjectListCtrl.cpp:67
-#, fuzzy
 msgid "Project List"
-msgstr "Projets"
+msgstr "Liste des Projets"
 
 #: clientgui/ProjectListCtrl.cpp:510
 msgid "Multicore CPU Supported"
@@ -2927,9 +2911,9 @@ msgid "Remove Project"
 msgstr "Supprimer le projet"
 
 #: clientgui/sg_StatImageLoader.cpp:211 clientgui/ViewProjects.cpp:495
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "Etes-vous sûr de vouloir recommencer le projet '%s'?"
+msgstr "Etes-vous sûr de vouloir supprimer le projet '%s'?"
 
 #: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
 #, c-format
@@ -3163,19 +3147,19 @@ msgstr ""
 "à nouveau les fichiers nécessaires. Vous pouvez d'abord mettre à jour le "
 "projet pour transmettre tout le travail effectué."
 
+# changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/ViewProjects.cpp:201
-#, fuzzy
 msgid "Remove"
-msgstr "Reprendre"
+msgstr "Retirer"
 
+# changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/ViewProjects.cpp:202
-#, fuzzy
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
 msgstr ""
-"Détache cet ordinateur de ce projet. Le travail en cours sera perdu. "
-"(Cliquez d'abord sur 'Mettre à jour' pour envoyer le travail terminé)."
+"Retire ce projet. Le travail en cours sera perdu. (Cliquez d'abord sur "
+"'Mettre à jour' pour envoyer le travail terminé)."
 
 #: clientgui/ViewProjects.cpp:208
 msgid "Properties"
@@ -3238,10 +3222,10 @@ msgstr "Etes-vous sûr de vouloir recommencer le projet '%s'?"
 msgid "Reset Project"
 msgstr "Recommencer le projet"
 
+# changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/ViewProjects.cpp:482
-#, fuzzy
 msgid "Removing project..."
-msgstr "Reprise du projet en cours..."
+msgstr "En train de retirer le projet..."
 
 #: clientgui/ViewProjects.cpp:542
 msgid "Launching browser..."
@@ -3275,15 +3259,15 @@ msgstr "Suspendu par l'utilisateur"
 msgid "Won't get new tasks"
 msgstr "Pas de nouveau travail"
 
+# changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/ViewProjects.cpp:1063
-#, fuzzy
 msgid "Project ended - OK to remove"
-msgstr "Fin du projet - OK pour détacher."
+msgstr "Projet terminé - OK pour le retirer."
 
+# changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: clientgui/ViewProjects.cpp:1066
-#, fuzzy
 msgid "Will remove when tasks done"
-msgstr "Se détachera lorsque les tâches seront terminées"
+msgstr "Le projet sera retiré lorsque les tâches seront terminées"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Scheduler request pending"
@@ -3293,9 +3277,10 @@ msgstr "Requête au planificateur en attente"
 msgid "Scheduler request in progress"
 msgstr "Requête au planificateur en cours"
 
+# divers débat sur la traduction de trickle up ont eu lieu sur boinc_loc, pas de conclusion claire
 #: clientgui/ViewProjects.cpp:1076
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Message de progression de tâche en cours"
 
 #: clientgui/ViewProjects.cpp:1082
 msgid "Communication deferred "
@@ -3494,9 +3479,8 @@ msgid "Transfers"
 msgstr "Transferts"
 
 #: clientgui/ViewTransfers.cpp:279
-#, fuzzy
 msgid "Network activity is suspended - "
-msgstr "Activité réseau suspendue."
+msgstr "Activité réseau suspendue - "
 
 #: clientgui/ViewTransfers.cpp:281
 msgid ""
@@ -3534,14 +3518,12 @@ msgid "Retry in "
 msgstr "Réessayer dans "
 
 #: clientgui/ViewTransfers.cpp:779
-#, fuzzy
 msgid "Upload suspended - "
-msgstr "Envoi en attente"
+msgstr "Envoi suspendu - "
 
 #: clientgui/ViewTransfers.cpp:780
-#, fuzzy
 msgid "Download suspended - "
-msgstr "Téléchargement en attente"
+msgstr "Téléchargement suspendu - "
 
 #: clientgui/ViewTransfers.cpp:787
 msgid "Upload pending"
@@ -3590,9 +3572,8 @@ msgid "Elapsed"
 msgstr "Ecoulé"
 
 #: clientgui/ViewWork.cpp:226
-#, fuzzy
 msgid "Remaining"
-msgstr "Temps restant: "
+msgstr "Restant"
 
 #: clientgui/ViewWork.cpp:227
 #, fuzzy
@@ -3657,10 +3638,10 @@ msgstr "Reprend le calcul de cette unité."
 msgid "Suspend work for this task."
 msgstr "Suspend le calcul de cette unité."
 
+# changement de terminologie (annoncé par David Anderson sur boinc_loc)
 #: clientgui/WelcomePage.cpp:254
-#, fuzzy
 msgid "Add project or account manager"
-msgstr "Rejoindre un projet ou un gestionnaire de compte"
+msgstr "Ajouter un projet ou un gestionnaire de compte"
 
 #: clientgui/WelcomePage.cpp:262
 #, c-format
@@ -3791,66 +3772,64 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:726
 msgid "list headers"
-msgstr ""
+msgstr "en-têtes de liste"
 
 #: clientgui/mac/MacAccessiblity.cpp:732
-#, fuzzy
 msgid "list of events"
-msgstr "liste de "
+msgstr "liste des évènements"
 
 #: clientgui/mac/MacAccessiblity.cpp:734
-#, fuzzy
 msgid "list of events is empty"
-msgstr "la liste est vide"
+msgstr "la liste des évènements est vide"
 
 #: clientgui/mac/MacAccessiblity.cpp:739
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s"
-msgstr "liste de "
+msgstr "liste de %s"
 
 #: clientgui/mac/MacAccessiblity.cpp:741
-#, fuzzy, c-format
+#, c-format
 msgid "list of %s is empty"
-msgstr "la liste est vide"
+msgstr "la liste de %s est vide"
 
 #: clientgui/mac/MacAccessiblity.cpp:843
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr "; colonne de tri courante %d de %d; ordre décroissant; "
 
 #: clientgui/mac/MacAccessiblity.cpp:845
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr "; colonne de tri courante %d de %d; ordre croissant; "
 
 #: clientgui/mac/MacAccessiblity.cpp:848
-#, fuzzy, c-format
+#, c-format
 msgid "; column %d of %d; "
-msgstr "colonne %d; "
+msgstr "; colonne %d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:855
 msgid "list is empty"
 msgstr "la liste est vide"
 
 #: clientgui/mac/MacAccessiblity.cpp:858 clientgui/mac/MacAccessiblity.cpp:870
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d; "
-msgstr "ligne %d "
+msgstr "; ligne %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:862
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d of %d; "
-msgstr "ligne %d de %d; "
+msgstr "; ligne sélectionnée %d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:864
-#, fuzzy, c-format
+#, c-format
 msgid "; selected row %d ; "
-msgstr "sélectionné "
+msgstr "; ligne sélectionnée %d ; "
 
 #: clientgui/mac/MacAccessiblity.cpp:868
-#, fuzzy, c-format
+#, c-format
 msgid "; row %d of %d; "
-msgstr "ligne %d de %d; "
+msgstr "; ligne %d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:881
 msgid "blank"
@@ -3861,9 +3840,9 @@ msgid "list of projects or account managers"
 msgstr "liste de projets ou de gestionnaires de compte"
 
 #: clientgui/mac/MacAccessiblity.cpp:1575
-#, fuzzy, c-format
+#, c-format
 msgid "selected row %d of %d; "
-msgstr "ligne %d de %d; "
+msgstr "ligne sélectionnée %d de %d; "
 
 #: clientgui/mac/MacAccessiblity.cpp:1577
 #, c-format

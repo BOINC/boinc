@@ -3,20 +3,18 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-09-14 22:53+0100\n"
-"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
+"PO-Revision-Date: 2010-09-24 22:03+0200\n"
+"Last-Translator: Martin <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 
 msgid "LANG_NAME_NATIVE"
@@ -3508,19 +3506,20 @@ msgstr "Připojit se k týmu"
 
 #: ../user/team_lookup.php:82
 msgid "Search Results"
-msgstr ""
+msgstr "Výsledky hledání"
 
 #: ../user/team_lookup.php:84
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Výsledky hledání pro '%1'"
 
 #: ../user/team_lookup.php:86
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
+msgstr "Je možné si zobrazit členy tohoto týmu, statistiky a další informace."
 
 #: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
+"Pro váš dotaz bylo nalezeno více než 100 výsledků, zobrazeno je prvních 100."
 
 #: ../user/team_lookup.php:102
 msgid "End of results. %1 If you cannot find the team you are looking for, you may %2create a team%3 yourself."
@@ -3528,36 +3527,36 @@ msgstr "Konec výsledků. %1 Pokud Vám nevyhovuje žádný tým, můžete si %2
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
-msgstr ""
+msgstr "Administrace týmu pro %1"
 
 #: ../user/team_manage.php:27
 msgid "Edit team info"
-msgstr ""
+msgstr "Upravit údaje o týmu"
 
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
-msgstr ""
+msgstr "Změnit jméno týmu, URL adresu, popis, typ či zemi"
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
-msgstr ""
+msgstr "Seznam členů:"
 
 #: ../user/team_manage.php:31
 #: ../user/team_manage.php:35
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:32
 msgid "text"
-msgstr ""
+msgstr "text"
 
 #: ../user/team_manage.php:33
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "Zobrazit jména členů a jejich emailové adresy"
 
 #: ../user/team_manage.php:34
 msgid "View change history:"
-msgstr ""
+msgstr "Zobrazit historii změn:"
 
 #: ../user/team_manage.php:36
 msgid "XML"
@@ -3565,83 +3564,89 @@ msgstr "XML"
 
 #: ../user/team_manage.php:37
 msgid "See when members joined or quit this team"
-msgstr ""
+msgstr "Zobrazit, kdy se k týmu přidávali či tým opouštěli členové"
 
 #: ../user/team_manage.php:48
 msgid "Respond to foundership request."
-msgstr ""
+msgstr "Odpovědět na žádost o předání vlastnictví."
 
 #: ../user/team_manage.php:48
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
-msgstr ""
+msgstr "Pokud neodpovíte do %1, %2 bude moci převzít vlastnictví tohoto týmu."
 
 #: ../user/team_manage.php:53
 msgid "Remove inactive or unwanted members from this team"
-msgstr ""
+msgstr "Odebrat neaktivní či nežádoucí členy týmu."
 
 #: ../user/team_manage.php:55
 msgid "Transfer foundership to another member"
-msgstr ""
+msgstr "Převést vlastnictví na jiného člena"
 
 #: ../user/team_manage.php:56
 msgid "Add/remove Team Admins"
-msgstr ""
+msgstr "Přidat/odebrat Správce týmu"
 
 #: ../user/team_manage.php:57
 msgid "Give selected team members Team Admin privileges"
-msgstr ""
+msgstr "Nastavit vybraným členům týmu práva Správce týmu"
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
-msgstr ""
+msgstr "Zrušit tým"
 
 #: ../user/team_manage.php:60
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "Povoleno jen když tým nemá žádné členy"
 
 #: ../user/team_manage.php:62
 msgid "Create or manage a team message board"
-msgstr ""
+msgstr "Vytvořit či spravovat týmové diskuzní fórum"
 
 #: ../user/team_manage.php:69
 msgid "To have this team created on all BOINC projects (current and future) you can make it into a %1BOINC-wide team%2."
 msgstr ""
+"Je možné vytvořit tým ve všech BOINC projektech, aktuálních i budoucích, "
+"jako %1BOINC tým napříč projekty%2."
 
 #: ../user/team_manage.php:71
 msgid "Team admins are encouraged to join and participate in the Google %1boinc-team-founders%2 group."
 msgstr ""
+"Správcům týmů je doporučováno zapojit se do Google skupiny %1boinc-team-"
+"founders%2."
 
 #: ../user/team_manage.php:73
 msgid "Other resources for BOINC team admins are available from a third-party site, %1www.boincteams.com%2."
 msgstr ""
+"Jsou dostupné i další nástroje pro správce BOINC týmů na této stránce: %"
+"1www.boincteams.com%2."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
-msgstr ""
+msgstr "Nelze smazat neprázdný tým"
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "Tým %1 smazán"
 
 #: ../user/team_members.php:33
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr ""
+msgstr "Překročen limit: Lze zobrazit jen prvních 1000 členů."
 
 #: ../user/team_members.php:43
 msgid "Members of %1"
-msgstr ""
+msgstr "Členové %1"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
-msgstr ""
+msgstr "Nelze opustit tým"
 
 #: ../user/team_quit_action.php:33
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr ""
+msgstr "Tým neexistuje, nebo nejste jeho členem."
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
-msgstr ""
+msgstr "Opustit %1"
 
 #: ../user/team_quit_form.php:32
 msgid ""
@@ -3651,6 +3656,13 @@ msgid ""
 "         <li>Quitting a team does not affect your personal credit statistics in any way.\n"
 "         </ul>"
 msgstr ""
+"<strong>Upozornění před opuštěním týmu:</strong>\n"
+"         <ul>\n"
+"         <li>Pokud opustíte tým, můžete se do něj později vrátit, nebo se "
+"připojit do kteréhokoliv jiného týmu.</li>\n"
+"         <li>Opuštění týmu nemá žádný vliv na vaše statistiky či "
+"kredit.</li>\n"
+"         </ul>"
 
 #: ../user/team_quit_form.php:40
 msgid "Quit Team"
@@ -3658,47 +3670,47 @@ msgstr "Opustit tým"
 
 #: ../user/team_remove_inactive_action.php:29
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Odebrání členů z %1"
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "%1 není členem %2"
 
 #: ../user/team_remove_inactive_action.php:40
 msgid "%1 has been removed"
-msgstr ""
+msgstr "%1 byl odebrán"
 
 #: ../user/team_remove_inactive_form.php:30
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Odebrat členy z %1"
 
 #: ../user/team_remove_inactive_form.php:37
 msgid "Remove?"
-msgstr ""
+msgstr "Odebrat?"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
-msgstr ""
+msgstr "Jméno (ID)"
 
 #: ../user/team_remove_inactive_form.php:63
 msgid "No members are eligible for removal."
-msgstr ""
+msgstr "Není vhodný žádný člen pro odebrání."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
-msgstr ""
+msgstr "Odebrat uživatele"
 
 #: ../user/team_search.php:65
 msgid "Team name"
-msgstr ""
+msgstr "Jméno týmu"
 
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
-msgstr ""
+msgstr "Nenalezen žádný tým podle vašeho dotazu. Zkuste prosím jiný dotaz."
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "Nebo si můžete %založit nový tým%2."
 
 #: ../user/team_search.php:133
 msgid ""
@@ -3706,10 +3718,14 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
+"Následující týmy odpovídají jednomu či více z vašich zadaných požadavků.\n"
+"Pro přidání klikněte na jméno týmu - tím se dostanete na stránku tohoto "
+"týmu,\n"
+"zde klikněte na %1Přidat se do týmu%2."
 
 #: ../user/team_search.php:140
 msgid "Change your search"
-msgstr ""
+msgstr "Změnit hledané údaje"
 
 #: ../user/team_search.php:152
 msgid "Team search results"
@@ -3718,20 +3734,22 @@ msgstr "Výsledky hledání týmů"
 #: ../user/team_search.php:156
 msgid "You can team up with other people with similar interests, or from the same country, company, or school."
 msgstr ""
+"Můžete se přidat do týmu k lidem, kteří mají podobné zájmy, jsou ze stejné "
+"země, společnosti či školy."
 
 #: ../user/team_search.php:158
 msgid "Use this form to find teams that might be right for you."
-msgstr ""
+msgstr "K nalezení týmů, které by vás mohly zajímat, použijte tento formulář."
 
 #: ../user/team_search.php:163
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr ""
+msgstr "%1Nemám zájem%2 se momentálně připojovat k týmu."
 
 #: ../user/top_hosts.php:65
 #: ../user/top_teams.php:98
 #: ../user/top_users.php:110
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr ""
+msgstr "Překročen limit - zobrazeno jen prvních %1 položek"
 
 #: ../user/top_hosts.php:80
 msgid "Top hosts"
@@ -3743,7 +3761,7 @@ msgstr "Nejlepší %1 týmy"
 
 #: ../user/top_teams.php:106
 msgid "There are no %1 teams"
-msgstr ""
+msgstr "Nenalezeny žádné %1 týmy"
 
 #: ../user/top_users.php:62
 msgid "Participant since"
@@ -3751,28 +3769,28 @@ msgstr "Účastníkem od"
 
 #: ../user/uotd.php:27
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "Nebyl zvolen žádný Uživatel dne."
 
 #: ../user/uotd.php:31
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "Uživatel dne pro %1: %2"
 
 #: ../user/user_search.php:102
 #: ../user/user_search.php:158
 msgid "Joined"
-msgstr ""
+msgstr "Připojen"
 
 #: ../user/user_search.php:113
 msgid "Search type"
-msgstr ""
+msgstr "Typ hledání"
 
 #: ../user/user_search.php:114
 msgid "User name starts with"
-msgstr ""
+msgstr "Uživatelské jméno začíná na"
 
 #: ../user/user_search.php:115
 msgid "Decreasing sign-up time"
-msgstr ""
+msgstr "Sestupně podle času registrace"
 
 #: ../user/user_search.php:116
 msgid "Decreasing average credit"
@@ -3784,40 +3802,40 @@ msgstr "Snižující se celkový kredit"
 
 #: ../user/user_search.php:118
 msgid "Filters"
-msgstr ""
+msgstr "Filtry"
 
 #: ../user/user_search.php:119
 msgid "Any"
-msgstr ""
+msgstr "Všechny"
 
 #: ../user/user_search.php:122
 msgid "With profile?"
-msgstr ""
+msgstr "S profilem?"
 
 #: ../user/user_search.php:123
 #: ../user/user_search.php:128
 msgid "Either"
-msgstr ""
+msgstr "Nebo"
 
 #: ../user/user_search.php:127
 msgid "On a team?"
-msgstr ""
+msgstr "V týmu?"
 
 #: ../user/user_search.php:146
 msgid "search string must be at least 3 characters"
-msgstr ""
+msgstr "hledaný řetězec musí být aspoň 3 znaky dlouhý"
 
 #: ../user/user_search.php:156
 msgid "User names starting with"
-msgstr ""
+msgstr "Uživatelská jména začínající na"
 
 #: ../user/user_search.php:166
 msgid "No users match your search criteria."
-msgstr ""
+msgstr "Žádný uživatel neodpovídá vašim kriteriím."
 
 #: ../user/user_search.php:186
 msgid "missing search type"
-msgstr ""
+msgstr "nezadán typ hledání"
 
 #: ../user/user_search.php:224
 msgid "User search results"
@@ -3825,11 +3843,11 @@ msgstr "Výsledky hledání uživatelů"
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "Uživatel nenalezen!"
 
 #: ../user/userw.php:42
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr ""
+msgstr "Data o účtu<br/>pro %1<br/>Čas:"
 
 #: ../user/userw.php:46
 msgid "Team:"
@@ -3837,31 +3855,35 @@ msgstr "Tým:"
 
 #: ../user/userw.php:47
 msgid "Team TotCred:"
-msgstr ""
+msgstr "Celkový kredit týmu:"
 
 #: ../user/userw.php:48
 msgid "Team AvgCred:"
-msgstr ""
+msgstr "Průměrný nový kredit týmu:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
-msgstr ""
+msgstr "Tým: žádný"
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "Ověřit BOINC emailovou adresu"
 
 #: ../user/validate_email_addr.php:31
 msgid "Please visit the following link to validate the email address of your %1 account:"
 msgstr ""
+"Klikněte prosím na tento odkaz pro ověření emailové adresy od vašeho účtu %"
+"1:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
-msgstr ""
+msgstr "Email pro ověření byl odeslán"
 
 #: ../user/validate_email_addr.php:35
 msgid "An email has been sent to %1. Visit the link it contains to validate your email address."
 msgstr ""
+"Byl odeslán email na %1. Klikněte prosím na odkaz, který tento email "
+"obsahuje, pro ověření dané emailové adresy."
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
@@ -3869,19 +3891,19 @@ msgstr "Uživatel nenalezen:"
 
 #: ../user/validate_email_addr.php:49
 msgid "Error in URL data - can't validate email address"
-msgstr ""
+msgstr "Chyba dat v URL - nelze validovat emailovou adresu"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
-msgstr ""
+msgstr "Aktualizace databáze selhala - zkuste to prosím později."
 
 #: ../user/validate_email_addr.php:57
 msgid "Validate email address"
-msgstr ""
+msgstr "Ověřit emailovou adresu"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
-msgstr ""
+msgstr "Emailová adresa od vašeho účtu byla ověřena."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -3889,7 +3911,7 @@ msgstr "Tento uživatel nemá žádný profil"
 
 #: ../user/view_profile.php:44
 msgid "Profile: %1"
-msgstr ""
+msgstr "Profil: %1"
 
 #: ../user/view_profile.php:53
 msgid "Account data"
@@ -3921,11 +3943,11 @@ msgstr "Váš slabý klíč k účtu je spjatý s Vaším heslem. Pokud změnít
 
 #: ../user/workunit.php:30
 msgid "can't find workunit"
-msgstr ""
+msgstr "nelze najít pracovní jednotku"
 
 #: ../user/workunit.php:33
 msgid "Workunit %1"
-msgstr ""
+msgstr "Pracovní jednotka %1"
 
 #: ../user/workunit.php:37
 msgid "name"
@@ -3941,7 +3963,7 @@ msgstr "vytvořeno"
 
 #: ../user/workunit.php:41
 msgid "canonical result"
-msgstr ""
+msgstr "částečný výsledek"
 
 #: ../user/workunit.php:44
 msgid "granted credit"
@@ -3953,7 +3975,7 @@ msgstr "Aktivních úkolů"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
-msgstr ""
+msgstr "potlačeno očekávané dokončení"
 
 #: ../user/workunit.php:55
 msgid "minimum quorum"
@@ -3989,15 +4011,17 @@ msgstr "Vytvořeno"
 
 #: ../project.sample/project.inc:85
 msgid "Your personal background."
-msgstr ""
+msgstr "Vaše osobní zázemí."
 
 #: ../project.sample/project.inc:89
 msgid "Tell us about yourself. You could tell us where you're from, your age, occupation, hobbies, or anything else about yourself."
 msgstr ""
+"Řekněte nám něco o sobě. Můžete například uvést odkud jste, jaký je váš věk, "
+"povolání, koníčky či cokoliv dalšího o vás."
 
 #: ../project.sample/project.inc:93
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Vaše názory na %1"
 
 #: ../project.sample/project.inc:97
 msgid ""
@@ -4007,22 +4031,29 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
+"Řekněte nám, co si myslíte o %1<ol>\n"
+"    <li>Proč jste se zapojil do %1?</li>\n"
+"    <li>Jaké jsou vaše očekávání od projektu?</li>\n"
+"    <li>Nějaké připomínky?</li>\n"
+"    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
-msgstr ""
+msgstr "Barevné schéma pro grafiku"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "Maximum CPU % pro grafiku %10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Povolit jen vybrané aplikace"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid "If no work for selected applications is available, accept work from other applications?"
 msgstr ""
+"Pokud není dostupná žádná práce pro vámi vybrané aplikace, přijímat práci i "
+"od jiných aplikací?"
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"

@@ -3,32 +3,32 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-02-11 09:15-0700\n"
-"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
+"PO-Revision-Date: 2010-10-05 15:16+0200\n"
+"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
-msgstr ""
+msgstr "La version actuelle fonctionne avec ces versions de Linux:"
 
 #: versions.inc:14
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
 msgstr ""
+"Pour les autres versions de Linux, vérifiez si un paquet BOINC est proposé "
+"par votre distribution Linux."
 
 #: versions.inc:25
 msgid ""
@@ -36,6 +36,9 @@ msgid ""
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
+"Sinon, téléchargez le client %1BOINC pour des versions de Linux antérieures%"
+"2. Il ne possède pas d'interface graphique mais devrait fonctionner sur tous "
+"les systèmes Linux, x86 et x64."
 
 #: docutil.php:21
 msgid "Search"
@@ -164,7 +167,7 @@ msgstr ""
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr "Devenez un volontaire pour l'aide en ligne"
+msgstr "Devenez un volontaire de support"
 
 #: help.php:50
 #, php-format
@@ -174,8 +177,8 @@ msgid ""
 "volunteer computing - and it's fun!"
 msgstr ""
 "Si vous êtes un utilisateur expérimenté de BOINC, nous vous encourageons à %"
-"svous porter volontaire pour l'aide en ligne%s.  C'est un bon moyen d'aider "
-"la recherche scientifique et le calcul distribué bénévole - et c'est "
+"sdevenir un volontaire de support%s.  C'est un bon moyen d'aider la "
+"recherche scientifique et le calcul distribué bénévole - et c'est "
 "sympathique !"
 
 #: help.php:56
@@ -183,18 +186,22 @@ msgstr ""
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
-"Si vous êtes un volontaire pour l'aide en ligne : pour éditer vos "
-"paramètres, %scliquez ici%s."
+"Si vous êtes un volontaire de support : pour éditer vos paramètres, %"
+"scliquez ici%s."
 
 #: help_funcs.php:107
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
+"Les volontaires de support BOINC sont bénévoles. Leurs conseils ne sont pas "
+"garantis par BOINC ou l'Université de Californie."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
+"%1Ne jamais%2 donner votre adresse mail ou votre mot de passe aux "
+"volontaires de support BOINC."
 
 #: index.php:23
 msgid "Computing power"

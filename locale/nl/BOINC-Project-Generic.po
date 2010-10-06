@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-09-19 18:31+0200\n"
-"Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
+"PO-Revision-Date: 2010-10-03 15:46+0200\n"
+"Last-Translator: goho2838 <gordonsegall@aol.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Dutch"
 
 #: ../inc/forum.inc:124
 msgid "Search for words in forum messages"
-msgstr "Zoek naar woorden in forumberichten"
+msgstr "Zoek naar woorden in forum berichten"
 
 #: ../inc/forum.inc:124
 msgid "Search forums"
@@ -60,7 +60,7 @@ msgid ""
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
 "Om een nieuw onderwerp te plaatsen in %1 is het nodig om een minimaal aantal "
-"puntem te hebben. Dit is nodig om misbruik te voorkomen"
+"punten te hebben. Dit is nodig om misbruik te voorkomen."
 
 #: ../inc/forum.inc:1063
 msgid ""
@@ -68,8 +68,8 @@ msgid ""
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
-"Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later a.u."
-"b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen"
+"Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later "
+"a.u.b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen."
 
 #: ../inc/forum.inc:1102
 msgid "Thread"
@@ -109,7 +109,7 @@ msgstr "Geen computer"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr "Niet aanwezig"
+msgstr "Niet voor handen"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:618 ../inc/prefs.inc:1018
 msgid "Home"
@@ -194,11 +194,11 @@ msgstr "Punten totaal"
 #: ../inc/host.inc:110 ../inc/user.inc:122 ../user/team_search.php:67
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Average credit"
-msgstr "Gemiddelde punten"
+msgstr "Punten gemiddelde"
 
 #: ../inc/host.inc:112
 msgid "Cross project credit"
-msgstr "'Cross project' punten"
+msgstr "Cross-project krediet"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
@@ -2794,64 +2794,65 @@ msgstr "Je moet overal iets invullen om het bericht te kunnen versturen"
 
 #: ../user/pm.php:199
 msgid "Could not find user with id %1"
-msgstr "Gebruiker met ID %1 niet gevonden"
+msgstr "Kan gebruiker niet vinden met id% 1 "
 
 #: ../user/pm.php:204
 msgid "Could not find user with username %1"
-msgstr "Gebruiker met gebruikersnaam %1 niet gevonden"
+msgstr "Kan gebruiker niet vinden met gebruikersnaam% 1 "
 
 #: ../user/pm.php:206
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr ""
-"%1 is geen unieke gebruikersnaam; je zal de gebruikers ID moeten invullen"
+msgstr "% 1 is niet een unieke gebruikersnaam, je zal moeten gebruikers-ID "
 
 #: ../user/pm.php:211
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "Gebruiker %1 (ID: %2) accepteert geen privé berichten van jou. "
+msgstr "Gebruiker% 1 (ID:% 2) is niet te accepteren prive berichten van u "
 
 #: ../user/pm.php:236
 msgid "Really block %1?"
-msgstr "Echt %1 blokkeren?"
+msgstr "Echt blok% 1? "
 
 #: ../user/pm.php:237
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
 msgstr ""
-"Weet je zeker dat je gebruiker %1 wilt blokkeren zodat hij je geen privé "
-"berichten kan zenden?"
+"Weet u zeker dat u wilt gebruiker% 1 blok uit het sturen van prive berichten "
+"te bekijken? "
 
 #: ../user/pm.php:238
 msgid "Please note that you can only block a limited amount of users."
-msgstr "Onthoud dat je maar een beperkt aantal gebruikers mag blokkeren."
+msgstr ""
+"Houdt u er rekening mee dat u slechts een beperkt aantal gebruikers te "
+"blokkeren. "
 
 #: ../user/pm.php:239
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
 msgstr ""
-"Als een gebruiker is geblokkeerd kan je deze later alsnog deblokkeren bij je "
-"forum voorkeuren."
+"Zodra de gebruiker is geblokkeerd kunt u met behulp van blokkering op forum "
+"pagina met voorkeuren. "
 
 #: ../user/pm.php:245
 msgid "Add user to filter"
-msgstr "Voeg gebruiker toe aan filter"
+msgstr "Gebruiker toevoegen aan filter "
 
 #: ../user/pm.php:246
 msgid "No, cancel"
-msgstr "Nee, annuleer"
+msgstr "Nee, te annuleren"
 
 #: ../user/pm.php:257
 msgid "User %1 blocked"
-msgstr "Gebruiker %1 geblokkeerd"
+msgstr "Gebruiker% 1 geblokkeerd "
 
 #: ../user/pm.php:259
 msgid "User %1 has been blocked from sending you private messages."
-msgstr "Gebruiker %1 is geblokkeerd en kan je geen privé berichten zenden."
+msgstr "Gebruiker% 1 is geblokkeerd uit het sturen van prive berichten. "
 
 #: ../user/pm.php:260
 msgid "To unblock, visit %1message board preferences%2"
-msgstr "Om te deblokkeren, ga naar %1forum voorkeuren%2"
+msgstr "Om te deblokkeren, bezoek% 1message Forumvoorkeuren%"
 
 #: ../user/prefs.php:36
 msgid ""
@@ -2859,9 +2860,9 @@ msgid ""
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
-"Je voorkeuren zijn bijgewerkt en\n"
-"\t      worden van kracht zodra de computer verbinding zoekt met %1\n"
-"\t      of indien je een %2Bijwerk%3 opdracht geeft aan de BOINC cliënt."
+"Uw voorkeuren zijn bijgewerkt, en \\ n \\ t zal van kracht worden wanneer de "
+"computer communiceert met% 1 \\ n \\ t of je de volgende 2Update% 3% commando "
+"van de BOINC Manager "
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
@@ -3120,38 +3121,32 @@ msgstr ""
 "1team maken%2."
 
 #: ../user/team_admins.php:32
-#, fuzzy
 msgid "Remove Team Admin status from this member"
-msgstr "Remove Team Admin status from this member"
+msgstr "Verwyder span Admin status van hierdie lid "
 
 #: ../user/team_admins.php:38 ../user/team_admins.php:49
-#, fuzzy
 msgid "Add or remove Team Admins"
-msgstr "Add or remove Team Admins"
+msgstr "Voeg span bestuurders of verwyder "
 
 #: ../user/team_admins.php:39
-#, fuzzy
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
-msgstr "You can select team members as 'Team Admins'. Team Admins can:"
+msgstr "U kunt kiezen teamleden als ë \"team admins ë\". team admins kan:"
 
 #: ../user/team_admins.php:41
-#, fuzzy
 msgid "Edit team information (name, URL, description, country)"
-msgstr "Edit team information (name, URL, description, country)"
+msgstr "Hun team gegevens (naam, URL, beschrijving, land)"
 
 #: ../user/team_admins.php:42
-#, fuzzy
 msgid "View the team's join/quit history"
-msgstr "View the team's join/quit history"
+msgstr "Gezien het team ë Het toetreden tot/rug toekeren geschiedenis"
 
 #: ../user/team_admins.php:43
-#, fuzzy
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
-"Moderate the team forum, if any (admins get email notification of moderation "
-"events and red X reports)"
+"Matig het team Forum, indien een (admins krijgen via e-mail aanmelding van "
+"gematigdheid gebeurtenissen en rode X verslagen)"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
@@ -3166,9 +3161,8 @@ msgid "Remove members"
 msgstr "Leden verwijderen niet toegestaan"
 
 #: ../user/team_admins.php:51
-#, fuzzy
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr "If a Team Admin quits the team, they cease to be a Team Admin."
+msgstr "Als een team ADMIN staan het team, zij niet langer in een team ADMIN"
 
 #: ../user/team_admins.php:52
 msgid ""
@@ -3179,28 +3173,24 @@ msgstr ""
 "weloverwogen wordt genomen."
 
 #: ../user/team_admins.php:57
-#, fuzzy
 msgid "There are currently no Team Admins"
-msgstr "There are currently no Team Admins"
+msgstr "Er zijn momenteel geen team admins"
 
 #: ../user/team_admins.php:59
-#, fuzzy
 msgid "Current Team Admins"
-msgstr "Current Team Admins"
+msgstr "Huidige team Admins"
 
 #: ../user/team_admins.php:60
-#, fuzzy
 msgid "Became Team Admin on"
-msgstr "Became Team Admin on"
+msgstr "Werd Team Admin op"
 
 #: ../user/team_admins.php:75
 msgid "Add Team Admin"
 msgstr "Team Administrator toevoegen "
 
 #: ../user/team_admins.php:76
-#, fuzzy
 msgid "Email address of team member:"
-msgstr "Email address of team member:"
+msgstr "E-mail adres van teamlid:"
 
 #: ../user/team_admins.php:88
 msgid "failed to remove admin"
@@ -3212,19 +3202,16 @@ msgid "no such user"
 msgstr "no such user"
 
 #: ../user/team_admins.php:96
-#, fuzzy
 msgid "User is not member of team"
-msgstr "User is not member of team"
+msgstr "Gebruiker is geen lid van het team"
 
 #: ../user/team_admins.php:98
-#, fuzzy
 msgid "%1 is already an admin of %2"
-msgstr "%1 is already an admin of %2"
+msgstr "% 1 is al een admin van% 2"
 
 #: ../user/team_admins.php:102
-#, fuzzy
 msgid "Couldn't add admin"
-msgstr "Couldn't add admin"
+msgstr "Kon het niet toevoegen admin"
 
 #: ../user/team_admins.php:108 ../user/team_quit_form.php:28
 #: ../user/team_remove_inactive_action.php:26
@@ -3244,37 +3231,32 @@ msgid "User is not a member of %1"
 msgstr "Gebruiker is geen lid van %1"
 
 #: ../user/team_change_founder_action.php:39
-#, fuzzy
 msgid "Changing founder of %1"
-msgstr "Changing founder of %1"
+msgstr "Veranderende oprichter van% 1"
 
 #: ../user/team_change_founder_action.php:41
-#, fuzzy
 msgid "%1 is now founder of %2"
-msgstr "%1 is now founder of %2"
+msgstr "% 1 is nu oprichter van% 2"
 
 #: ../user/team_change_founder_form.php:35
-#, fuzzy
 msgid "Change founder of %1"
-msgstr "Change founder of %1"
+msgstr "Verandering oprichter van% 1"
 
 #: ../user/team_change_founder_form.php:41
-#, fuzzy
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
-"Team member %1 requested this team's foundership on %2, but left the team, "
-"thus canceling the request."
+"Teamlid% 1 verzocht dit team foundership op% 2, maar verliet het team, dus "
+"het annuleren van de aanvraag."
 
 #: ../user/team_change_founder_form.php:47
-#, fuzzy
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
-"Team member %1 has requested this team's foundership. This may be because "
-"you left the team or haven't had contact with the team for a long time."
+"Teamlid% 1 heeft verzocht dit team foundership. Dit kan zijn omdat je het "
+"team verlaten of niet contact gehad met het team voor een lange tijd."
 
 #: ../user/team_change_founder_form.php:53
 #, fuzzy
@@ -3282,30 +3264,35 @@ msgid "decline request"
 msgstr "decline request"
 
 #: ../user/team_change_founder_form.php:56
-#, fuzzy
 msgid ""
 "If you don't decline the request by %1, %2 will have the option of assuming "
 "team foundership.<br /><br />\n"
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
-"If you don't decline the request by %1, %2 will have the option of assuming "
-"team foundership.<br /><br />\n"
-"To accept the request, assign foundership to %3 using the form below."
+"Als u het verzoek niet afnemen door% 1,% 2 zal de mogelijkheid hebben de "
+"veronderstelling dat het team foundership. <br /> <br /> \\ N Om het verzoek "
+"goedkeurt, toewijzen foundership% 3 via het onderstaande formulier."
 
 #: ../user/team_change_founder_form.php:64
-#, fuzzy
 msgid "No transfer request is pending."
-msgstr "No transfer request is pending."
+msgstr "Geen verzoek tot overschrijving is in behandeling."
 
 #: ../user/team_change_founder_form.php:67
-#, fuzzy
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
 msgstr ""
-"To assign foundership of this team to another member, check the box next to "
-"member name and click <strong>Change founder</strong> below."
+"Toewijzen foundership van dit team aan een ander lid, vinkt u het vakje aan "
+"naast lid van naam en klik op 'Wijzigen oprichter </ strong> "
+"hieronder.ListenRead phoneticallyDictionary - View detailed dictionarynoun0."
+"przegłębienie0.trym0.forma0.kondycja0.podstrzyżenie0.przystrzyżenie0.nastrój"
+"0.wyważanie samolotuverb0.zredukować0.przystrzyc0.podstrzyc0.ostrzyc0.trymow"
+"ać0.ustroić0.obszyć0.ubierać0.poprawiać0.wymuskać0.oporządzać0.oberznąć0.obc"
+"iosać0.garnirować0.okalać0.naszyć0.poubierać0.udekorować0.dekorować0.obkroić"
+"0.przystrajać0.obkuwać0.przyciosać0.lawirować0.oprawiać0.lamować0.ugarnirowa"
+"ć0.podpiąć0.besztać0.ozdobić0.nie angażować "
+"sięadjective0.schludny0.wymuskany"
 
 #: ../user/team_change_founder_form.php:74
 #, fuzzy
@@ -3341,14 +3328,12 @@ msgstr ""
 "nieuw team kan beginnen."
 
 #: ../user/team_delta.php:64
-#, fuzzy
 msgid "Not founder or admin"
-msgstr "Not founder or admin"
+msgstr "Niet oprichter of admin"
 
 #: ../user/team_delta.php:71
-#, fuzzy
 msgid "Team history for %1"
-msgstr "Team history for %1"
+msgstr "Team historie voor% 1"
 
 #: ../user/team_delta.php:74
 msgid "When"
@@ -3363,84 +3348,72 @@ msgid "Action"
 msgstr "Actie"
 
 #: ../user/team_delta.php:77
-#, fuzzy
 msgid "Total credit at time of action"
-msgstr "Total credit at time of action"
+msgstr "Totale krediet op het moment van de actie"
 
 #: ../user/team_edit_action.php:57
 msgid "The name '%1' is being used by another team."
-msgstr "De naam '%1' wordt al door een ander team gebruikt."
+msgstr "De naam '% 1' wordt gebruikt door een ander team."
 
 #: ../user/team_edit_action.php:60
-#, fuzzy
 msgid "Must specify team name"
-msgstr "Must specify team name"
+msgstr "Moet worden vermeld teamnaam"
 
 #: ../user/team_edit_action.php:88
-#, fuzzy
 msgid "Could not update team - please try again later."
-msgstr "Could not update team - please try again later."
+msgstr "Kunnen niet bijwerken team - probeer het later opnieuw."
 
 #: ../user/team_edit_form.php:31
 msgid "Edit %1"
-msgstr "%1 aanpassen"
+msgstr "Bewerken% 1"
 
 #: ../user/team_edit_form.php:32
 msgid "Update team info"
-msgstr "Team informatie bijwerken"
+msgstr "Update Team Info"
 
 #: ../user/team_email_list.php:59
-#, fuzzy
 msgid "%1 Email List"
-msgstr "%1 Email List"
+msgstr "% 1 E-maillijst"
 
 #: ../user/team_email_list.php:61
 msgid "Member list of %1"
-msgstr "Ledenlijst van %1"
+msgstr "Ledenlijst van% 1"
 
 #: ../user/team_email_list.php:76
 msgid "Show as plain text"
-msgstr "Laat zien als platte tekst"
+msgstr "Weergeven als platte tekst"
 
 #: ../user/team_forum.php:26 ../user/team_forum.php:37
-#, fuzzy
 msgid "Create Message Board"
-msgstr "Create Message Board"
+msgstr "Maak Message Board"
 
 #: ../user/team_forum.php:27
-#, fuzzy
 msgid "You may create a message board for use by %1."
-msgstr "You may create a message board for use by %1."
+msgstr "Je mag er een message board voor gebruik door% 1."
 
 #: ../user/team_forum.php:29
-#, fuzzy
 msgid "Only team members will be able to post."
-msgstr "Only team members will be able to post."
+msgstr "Alleen teamleden in staat zal zijn om berichten te plaatsen."
 
 #: ../user/team_forum.php:30
-#, fuzzy
 msgid "At your option, only members will be able to read."
-msgstr "At your option, only members will be able to read."
+msgstr "Naar uw keuze, zal alleen leden kunnen lezen."
 
 #: ../user/team_forum.php:31
-#, fuzzy
 msgid "You and your Team Admins will have moderator privileges."
-msgstr "You and your Team Admins will have moderator privileges."
+msgstr "U en uw team Admins hebben moderatorrechten."
 
 #: ../user/team_forum.php:38
-#, fuzzy
 msgid "Create a message board for %1"
-msgstr "Create a message board for %1"
+msgstr "Maak een message board voor% 1"
 
 #: ../user/team_forum.php:46
-#, fuzzy
 msgid "Team already has a message board"
-msgstr "Team already has a message board"
+msgstr "Team heeft al een message board"
 
 #: ../user/team_forum.php:51
-#, fuzzy
 msgid "couldn't create message board"
-msgstr "couldn't create message board"
+msgstr "kon geen message board"
 
 #: ../user/team_forum.php:57
 #, fuzzy
@@ -3448,77 +3421,63 @@ msgid "Team Message Board"
 msgstr "Team Message Board"
 
 #: ../user/team_forum.php:66
-#, fuzzy
 msgid "Discussion among members of %1"
-msgstr "Discussion among members of %1"
+msgstr "Discussie onder de leden van% 1"
 
 #: ../user/team_forum.php:69
-#, fuzzy
 msgid "Minimum time between posts (seconds)"
-msgstr "Minimum time between posts (seconds)"
+msgstr "Minimale tijd tussen de palen (seconden)"
 
 #: ../user/team_forum.php:72
-#, fuzzy
 msgid "Minimum total credit to post"
-msgstr "Minimum total credit to post"
+msgstr "Minimale totale krediet te plaatsen"
 
 #: ../user/team_forum.php:75
-#, fuzzy
 msgid "Minimum average credit to post"
-msgstr "Minimum average credit to post"
+msgstr "Minimale gemiddelde credit te plaatsen"
 
 #: ../user/team_forum.php:78
-#, fuzzy
 msgid "Submit"
-msgstr "Submit"
+msgstr "Indienen"
 
 #: ../user/team_forum.php:87
-#, fuzzy
 msgid "Remove your team's message board."
-msgstr "Remove your team's message board."
+msgstr "Verwijder uw team message board."
 
 #: ../user/team_forum.php:95
-#, fuzzy
 msgid "Really remove message board?"
-msgstr "Really remove message board?"
+msgstr "Echt verwijderen message board?"
 
 #: ../user/team_forum.php:96
-#, fuzzy
 msgid ""
 "Are you sure you want to remove your team's message board? All threads and "
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
 msgstr ""
-"Are you sure you want to remove your team's message board? All threads and "
-"posts will be permanently removed. (You may, however, create a new message "
-"board later)."
+"Weet u zeker dat u wilt uw team message board verwijderen? Alle discussies "
+"en berichten zal permanent worden verwijderd. (U kunt echter later een "
+"nieuwe message board)."
 
 #: ../user/team_forum.php:98
-#, fuzzy
 msgid "Yes - remove message board"
-msgstr "Yes - remove message board"
+msgstr "Ja - verwijderen message board"
 
 #: ../user/team_forum.php:105
-#, fuzzy
 msgid "message board not found"
-msgstr "message board not found"
+msgstr "message board niet gevonden"
 
 #: ../user/team_forum.php:119
-#, fuzzy
 msgid "Message board removed"
-msgstr "Message board removed"
+msgstr "verwijderd Reisberichten"
 
 #: ../user/team_forum.php:122
-#, fuzzy
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
-msgstr ""
-"Your team's message board has been removed. You may now %1create a new one%2."
+msgstr "Uw team message board is verwijderd. U kunt nu% 1create een nieuwe% 2."
 
 #: ../user/team_forum.php:141
-#, fuzzy
 msgid "Team Message Board Updated"
-msgstr "Team Message Board Updated"
+msgstr "Team Bijgewerkt Message Board"
 
 #: ../user/team_forum.php:142
 msgid "Update successful"
@@ -3543,67 +3502,58 @@ msgid "unknown command %1"
 msgstr "onbekende opdracht %1"
 
 #: ../user/team_founder_transfer_action.php:34
-#, fuzzy
 msgid "You must be a member of a team to access this page."
-msgstr "You must be a member of a team to access this page."
+msgstr "Je moet lid zijn van een team om deze pagina te bekijken."
 
 #: ../user/team_founder_transfer_action.php:88
-#, fuzzy
 msgid "Requesting foundership of %1"
-msgstr "Requesting foundership of %1"
+msgstr "Verzoekende foundership van% 1"
 
 #: ../user/team_founder_transfer_action.php:96
-#, fuzzy
 msgid ""
 "The current founder has been notified of your request by email and private "
 "message.<br /><br />\n"
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"The current founder has been notified of your request by email and private "
-"message.<br /><br />\n"
-"                       If the founder does not respond within 60 days you "
-"will be allowed to become the founder."
+"De huidige oprichter kennis is gesteld van uw verzoek per e-mail en prive-"
+"bericht. <br /> <br /> \\ N Als de oprichter niet reageert binnen 60 dagen "
+"zult u worden toegestaan om de stichter te worden."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
-#, fuzzy
 msgid "Foundership request not allowed now"
-msgstr "Foundership request not allowed now"
+msgstr "Foundership verzoek nu niet toegestaan"
 
 #: ../user/team_founder_transfer_action.php:107
-#, fuzzy
 msgid "Assumed foundership of %1"
-msgstr "Assumed foundership of %1"
+msgstr "Veronderstelde foundership van% "
 
 #: ../user/team_founder_transfer_action.php:109
-#, fuzzy
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
-"Congratulations, you are now the founder of team %1. Go to %2Your Account "
-"page%3 to find the Team Admin options."
+"Gefeliciteerd, u bent nu de oprichter van het team% 1. Ga naar de pagina "
+"'Account% 2Your% 3 tot en met het Team Admin opties te vinden.ListenRead "
+"phoneticallyDictionary - View detailed "
+"dictionaryverb0.voorleggen0.onderwerpen0.menen0.zich onderwerpen0.knechten"
 
 #: ../user/team_founder_transfer_action.php:118
-#, fuzzy
 msgid "Decline founder change request"
-msgstr "Decline founder change request"
+msgstr "Daling oprichter verzoek tot wijziging"
 
 #: ../user/team_founder_transfer_action.php:125
-#, fuzzy
 msgid "The foundership request from %1 has been declined."
-msgstr "The foundership request from %1 has been declined."
+msgstr "De foundership verzoek van% 1 is geweigerd."
 
 #: ../user/team_founder_transfer_action.php:128
-#, fuzzy
 msgid "There were no foundership requests."
-msgstr "There were no foundership requests."
+msgstr "Er waren geen foundership verzoeken."
 
 #: ../user/team_founder_transfer_action.php:132
-#, fuzzy
 msgid "undefined action %1"
-msgstr "undefined action %1"
+msgstr "undefined actie% 1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
@@ -3611,50 +3561,42 @@ msgid "Return to team page"
 msgstr "Terug naar team pagina"
 
 #: ../user/team_founder_transfer_form.php:26
-#, fuzzy
 msgid "You need to be a member of a team to access this page."
-msgstr "You need to be a member of a team to access this page."
+msgstr "Je moet een lid van een team om deze pagina te bekijken."
 
 #: ../user/team_founder_transfer_form.php:29
-#, fuzzy
 msgid "Request foundership of %1"
-msgstr "Request foundership of %1"
+msgstr "Verzoek foundership van% 1"
 
 #: ../user/team_founder_transfer_form.php:36
-#, fuzzy
 msgid "You are now founder of team %1."
-msgstr "You are now founder of team %1."
+msgstr "U bent nu oprichter van het team van% 1"
 
 #: ../user/team_founder_transfer_form.php:42
-#, fuzzy
 msgid "You requested the foundership of %1 on %2."
-msgstr "You requested the foundership of %1 on %2."
+msgstr "Verzocht u de foundership van% 1 op% 2."
 
 #: ../user/team_founder_transfer_form.php:45
-#, fuzzy
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
-"60 days have elapsed since your request, and the founder has not responded. "
-"You may now assume foundership by clicking here:"
+"60 dagen zijn verstreken sinds uw verzoek, en de oprichter heeft niet "
+"gereageerd. U kunt nu aannemen foundership door hier te klikken:"
 
 #: ../user/team_founder_transfer_form.php:48
-#, fuzzy
 msgid "Assume foundership"
-msgstr "Assume foundership"
+msgstr "Veronderstellen foundership"
 
 #: ../user/team_founder_transfer_form.php:52
-#, fuzzy
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
-"The founder was notified of your request. If he/she does not respond by %1 "
-"you will be given an option to become founder."
+"De oprichter was gesteld van uw verzoek. Als hij / zij niet reageert door% 1 "
+"krijgt u een optie te worden oprichter."
 
 #: ../user/team_founder_transfer_form.php:58
-#, fuzzy
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click the button below. The current founder will be sent an email "
@@ -3663,37 +3605,33 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click the button below. The current founder will be sent an email "
-"detailing your request, and will be able to transfer foundership to you or "
-"to decline your request. If the founder does not respond in 60 days, you "
-"will be allowed to become the founder.<br /><br />\n"
-"                       Are you sure you want to request foundership?"
+"Als de oprichter van het team is niet actief en u wilt de rol van de "
+"oprichter ervan, klikt u op de knop hieronder. De huidige oprichter zal een "
+"e-mail waarin uw verzoek, en zal in staat zijn om foundership overdracht aan "
+"u of aan uw verzoek te weigeren. Als de oprichter niet reageert binnen 60 "
+"dagen, wordt u toegestaan om de stichter te worden. <br /> <br /> \\ N Weet u "
+"zeker dat u wilt foundership verzoek?"
 
 #: ../user/team_founder_transfer_form.php:63
-#, fuzzy
 msgid "Request foundership"
-msgstr "Request foundership"
+msgstr "Verzoek foundership"
 
 #: ../user/team_founder_transfer_form.php:72
-#, fuzzy
 msgid "Founder change has already been requested by %1 on %2."
-msgstr "Founder change has already been requested by %1 on %2."
+msgstr "Oprichter verandering is al gevraagd door% 1 op% 2."
 
 #: ../user/team_founder_transfer_form.php:75
-#, fuzzy
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
 msgstr ""
-"A foundership change was requested during the last 90 days, so new requests "
-"are not allowed. Please try again later."
+"Een foundership verandering was verzocht tijdens de laatste 90 dagen zijn zo "
+"nieuwe aanvragen niet toegestaan. Probeer het later opnieuw."
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
-#, fuzzy
 msgid "The team %1 is not joinable."
-msgstr "The team %1 is not joinable."
+msgstr "Het team% 1 is niet koppelbaar."
 
 #: ../user/team_join.php:33 ../user/team_join_action.php:33
 msgid "Already a member"
@@ -3704,44 +3642,36 @@ msgid "You are already a member of %1."
 msgstr "Je bent al lid van %1"
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
-#, fuzzy
 msgid "Couldn't join team - please try again later."
-msgstr "Couldn't join team - please try again later."
+msgstr "Kon er niet bij team - probeer het later opnieuw."
 
 #: ../user/team_join_action.php:38
-#, fuzzy
 msgid "Joined %1"
-msgstr "Joined %1"
+msgstr "Geregistreerd op% 1"
 
 #: ../user/team_join_action.php:39
-#, fuzzy
 msgid "You have joined %1."
-msgstr "You have joined %1."
+msgstr "U bent aangemeld bij% 1."
 
 #: ../user/team_join_form.php:32
-#, fuzzy
 msgid "Join %1"
-msgstr "Join %1"
+msgstr "Join% 1"
 
 #: ../user/team_join_form.php:33
-#, fuzzy
 msgid "Please note:"
-msgstr "Please note:"
+msgstr "Let op:"
 
 #: ../user/team_join_form.php:35
-#, fuzzy
 msgid "Joining a team gives its founder access to your email address."
-msgstr "Joining a team gives its founder access to your email address."
+msgstr "Deelnemen aan een team geeft de oprichter toegang tot uw e-mailadres."
 
 #: ../user/team_join_form.php:36
-#, fuzzy
 msgid "Joining a team does not affect your account's credit."
-msgstr "Joining a team does not affect your account's credit."
+msgstr "Deelnemen aan een team heeft geen invloed op uw account krediet."
 
 #: ../user/team_join_form.php:43
-#, fuzzy
 msgid "Join team"
-msgstr "Join team"
+msgstr "Word lid van het team"
 
 #: ../user/team_lookup.php:82
 msgid "Search Results"
@@ -3752,28 +3682,26 @@ msgid "Search results for '%1'"
 msgstr "Zoek resultaten voor '%1'"
 
 #: ../user/team_lookup.php:86
-#, fuzzy
 msgid "You may view these teams' members, statistics, and information."
-msgstr "You may view these teams' members, statistics, and information."
+msgstr "U kunt bekijken deze teams 'leden, statistieken en informatie."
 
 #: ../user/team_lookup.php:96
-#, fuzzy
 msgid "More than 100 teams match your search. The first 100 are shown."
-msgstr "More than 100 teams match your search. The first 100 are shown."
+msgstr ""
+"Meer dan 100 teams aan uw zoekopdracht voldoen. De eerste 100 worden "
+"getoond."
 
 #: ../user/team_lookup.php:102
-#, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"End of results. %1 If you cannot find the team you are looking for, you may %"
-"2create a team%3 yourself."
+"Einde van de resultaten. % 1 Als je niet kan het team dat u zoekt, kunt u% "
+"2create een team% 3 zelf."
 
 #: ../user/team_manage.php:24
-#, fuzzy
 msgid "Team administration for %1"
-msgstr "Team administration for %1"
+msgstr "Team administratie voor% 1"
 
 #: ../user/team_manage.php:27
 #, fuzzy
@@ -3781,9 +3709,8 @@ msgid "Edit team info"
 msgstr "Edit team info"
 
 #: ../user/team_manage.php:28
-#, fuzzy
 msgid "Change team name, URL, description, type, or country"
-msgstr "Change team name, URL, description, type, or country"
+msgstr "Change Team naam, URL, beschrijving, type, of het land"
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
@@ -3802,48 +3729,41 @@ msgid "View member names and email addresses"
 msgstr "Bekijk de ledenlijst en e-mail adressen"
 
 #: ../user/team_manage.php:34
-#, fuzzy
 msgid "View change history:"
-msgstr "View change history:"
+msgstr "Bekijk de geschiedenis veranderen:"
 
 #: ../user/team_manage.php:36
 msgid "XML"
 msgstr "XML"
 
 #: ../user/team_manage.php:37
-#, fuzzy
 msgid "See when members joined or quit this team"
-msgstr "See when members joined or quit this team"
+msgstr "Zien wanneer de leden toegetreden of stoppen met dit team"
 
 #: ../user/team_manage.php:48
-#, fuzzy
 msgid "Respond to foundership request."
-msgstr "Respond to foundership request."
+msgstr "Reageren op foundership verzoek."
 
 #: ../user/team_manage.php:48
-#, fuzzy
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
-msgstr "If you don't respond by %1, %2 may assume foundership of this team."
+msgstr ""
+"Als u niet reageert door% 1,% 2 mogen aannemen foundership van dit team."
 
 #: ../user/team_manage.php:53
-#, fuzzy
 msgid "Remove inactive or unwanted members from this team"
-msgstr "Remove inactive or unwanted members from this team"
+msgstr "Verwijder inactieve of ongewenste leden van dit team"
 
 #: ../user/team_manage.php:55
-#, fuzzy
 msgid "Transfer foundership to another member"
-msgstr "Transfer foundership to another member"
+msgstr "Transfer foundership aan een ander lid"
 
 #: ../user/team_manage.php:56
-#, fuzzy
 msgid "Add/remove Team Admins"
-msgstr "Add/remove Team Admins"
+msgstr "Toevoegen / verwijderen Team Admins"
 
 #: ../user/team_manage.php:57
-#, fuzzy
 msgid "Give selected team members Team Admin privileges"
-msgstr "Give selected team members Team Admin privileges"
+msgstr "Geven de geselecteerde teamleden Team Admin privileges"
 
 #: ../user/team_manage.php:59
 msgid "Remove team"
@@ -3854,50 +3774,44 @@ msgid "Allowed only if team has no members"
 msgstr "Alleen toegestaan als er geen teamleden zijn"
 
 #: ../user/team_manage.php:62
-#, fuzzy
 msgid "Create or manage a team message board"
-msgstr "Create or manage a team message board"
+msgstr "Maken of beheren van een team message board"
 
 #: ../user/team_manage.php:69
-#, fuzzy
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
-"To have this team created on all BOINC projects (current and future) you can "
-"make it into a %1BOINC-wide team%2."
+"Om dit team zijn gemaakt op alle BOINC projecten (huidige en toekomstige) "
+"kunt u het in een% 1BOINC hele team% 2."
 
 #: ../user/team_manage.php:71
-#, fuzzy
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
-"Team admins are encouraged to join and participate in the Google %1boinc-"
-"team-founders%2 group."
+"Team admins worden aangemoedigd om deel te nemen en in het Google-team% "
+"1boinc-oprichters% 2 groep deelnemen."
 
 #: ../user/team_manage.php:73
-#, fuzzy
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Other resources for BOINC team admins are available from a third-party site, "
-"%1www.boincteams.com%2."
+"Andere middelen voor BOINC team admins beschikbaar zijn van een site van "
+"derden,% 1www.boincteams.com% 2."
 
 #: ../user/team_manage.php:89
-#, fuzzy
 msgid "Can't delete non-empty team"
-msgstr "Can't delete non-empty team"
+msgstr "Een team moet leeg zijn om te verwijderen"
 
 #: ../user/team_manage.php:93
 msgid "Team %1 deleted"
 msgstr "Team %1 verwijderd"
 
 #: ../user/team_members.php:33
-#, fuzzy
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr "Limit exceeded:  Can only display the first 1000 members."
+msgstr "Limiet overschreden: Alleen de eerst 1000 leden kunnen worden getoond."
 
 #: ../user/team_members.php:43
 msgid "Members of %1"
@@ -3908,16 +3822,14 @@ msgid "Unable to quit team"
 msgstr "Team verlaten niet mogelijk"
 
 #: ../user/team_quit_action.php:33
-#, fuzzy
 msgid "Team doesn't exist, or you don't belong to it."
-msgstr "Team doesn't exist, or you don't belong to it."
+msgstr "Team bestaat niet of je bent er geen lid van."
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
 msgstr "Verlaat %1"
 
 #: ../user/team_quit_form.php:32
-#, fuzzy
 msgid ""
 "<strong>Please note before quitting a team:</strong>\n"
 "         <ul>\n"
@@ -3927,12 +3839,12 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
-"<strong>Please note before quitting a team:</strong>\n"
+"<strong>Let op voordat je een team verlaat:</strong>\n"
 "         <ul>\n"
-"         <li>If you quit a team, you may rejoin later, or join any other "
-"team you desire\n"
-"         <li>Quitting a team does not affect your personal credit statistics "
-"in any way.\n"
+"         <li>Je mag altijd opnieuw lid worden of lid worden van een ander "
+"team indien je dit wenst.\n"
+"         <li>Een team verlaten heeft op geen enkele wijze gevolgen voor je "
+"persoonlijke punten statistiek.\n"
 "         </ul>"
 
 #: ../user/team_quit_form.php:40
@@ -3940,9 +3852,8 @@ msgid "Quit Team"
 msgstr "Verlaat Team"
 
 #: ../user/team_remove_inactive_action.php:29
-#, fuzzy
 msgid "Removing users from %1"
-msgstr "Removing users from %1"
+msgstr "Bebruikers van %1 worden verwijderd"
 
 #: ../user/team_remove_inactive_action.php:37
 msgid "%1 is not a member of %2"
@@ -3953,9 +3864,8 @@ msgid "%1 has been removed"
 msgstr "%1 is verwijderd"
 
 #: ../user/team_remove_inactive_form.php:30
-#, fuzzy
 msgid "Remove members from %1"
-msgstr "Remove members from %1"
+msgstr "Leden van %1 verwijderen"
 
 #: ../user/team_remove_inactive_form.php:37
 msgid "Remove?"
@@ -3966,9 +3876,8 @@ msgid "Name (ID)"
 msgstr "Naam (ID)"
 
 #: ../user/team_remove_inactive_form.php:63
-#, fuzzy
 msgid "No members are eligible for removal."
-msgstr "No members are eligible for removal."
+msgstr "Er komen geen leden in aanmerking voor verwijdering."
 
 #: ../user/team_remove_inactive_form.php:66
 msgid "Remove users"
@@ -3979,14 +3888,14 @@ msgid "Team name"
 msgstr "Team naam"
 
 #: ../user/team_search.php:127
-#, fuzzy
 msgid "No teams were found matching your criteria. Try another search."
-msgstr "No teams were found matching your criteria. Try another search."
+msgstr ""
+"Geen teams werden gevonden die voldoen aan uw criteria. Probeer een andere "
+"zoekopdracht."
 
 #: ../user/team_search.php:129
-#, fuzzy
 msgid "Or you can %1create a new team%2."
-msgstr "Or you can %1create a new team%2."
+msgstr "Of u kunt% 1create een nieuw team% 2."
 
 #: ../user/team_search.php:133
 msgid ""
@@ -3994,43 +3903,38 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
-"The following teams match one or more of your search criteria.\n"
-"            To join a team, click its name to go to the team page,\n"
-"               then click %1Join this team%2."
+"hij volgende teams overeenkomen met een of meer van uw zoekcriteria. \\ n Om "
+"lid van een team, klik op de naam om naar de team pagina, \\ n klik% 1Join "
+"dit team% 2"
 
 #: ../user/team_search.php:140
-#, fuzzy
 msgid "Change your search"
-msgstr "Change your search"
+msgstr "Wijzig uw zoekopdracht"
 
 #: ../user/team_search.php:152
-#, fuzzy
 msgid "Team search results"
-msgstr "Team search results"
+msgstr "Team resultaten"
 
 #: ../user/team_search.php:156
-#, fuzzy
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr ""
-"You can team up with other people with similar interests, or from the same "
-"country, company, or school."
+"U kunt een team met andere mensen met dezelfde interesses, of uit hetzelfde "
+"land, bedrijf of school."
 
 #: ../user/team_search.php:158
-#, fuzzy
 msgid "Use this form to find teams that might be right for you."
-msgstr "Use this form to find teams that might be right for you."
+msgstr ""
+"Gebruik dit formulier om teams dat recht zou kunnen worden voor u te vinden."
 
 #: ../user/team_search.php:163
-#, fuzzy
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr "%1I'm not interested%2 in joining a team right now."
+msgstr "% 1I'm niet geïnteresseerd in deelname aan% 2 een team op dit moment."
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
-#, fuzzy
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr "Limit exceeded - Sorry, first %1 items only"
+msgstr "Overschreden - Sorry, eerste% 1 items alleen"
 
 #: ../user/top_hosts.php:80
 msgid "Top hosts"
@@ -4049,14 +3953,12 @@ msgid "Participant since"
 msgstr "Deelnemer sinds"
 
 #: ../user/uotd.php:27
-#, fuzzy
 msgid "No user of the day has been chosen."
-msgstr "No user of the day has been chosen."
+msgstr "De gebruiker mag geen van de dag is gekozen."
 
 #: ../user/uotd.php:31
-#, fuzzy
 msgid "User of the Day for %1: %2"
-msgstr "User of the Day for %1: %2"
+msgstr "Gebruiker van de Dag voor% 1:% 2"
 
 #: ../user/user_search.php:102 ../user/user_search.php:158
 msgid "Joined"
@@ -4115,9 +4017,8 @@ msgid "No users match your search criteria."
 msgstr "Zoek opdracht heeft geen gebruikers opgeleverd."
 
 #: ../user/user_search.php:186
-#, fuzzy
 msgid "missing search type"
-msgstr "missing search type"
+msgstr "ontbrekende type zoekopdracht"
 
 #: ../user/user_search.php:224
 msgid "User search results"
@@ -4128,9 +4029,8 @@ msgid "User not found!"
 msgstr "Gebruiker niet gevonden!"
 
 #: ../user/userw.php:42
-#, fuzzy
 msgid "Account Data<br/>for %1<br/>Time:"
-msgstr "Account Data<br/>for %1<br/>Time:"
+msgstr "Account Data <br/> voor% 1 <br/> Tijd:"
 
 #: ../user/userw.php:46
 msgid "Team:"
@@ -4362,19 +4262,17 @@ msgid ""
 msgstr ""
 "Vertel ons jouw gedachten over %1<ol>\n"
 "    <li>Waarom draai je %1?\n"
-"    <li>Wat zijn jouw visie(s) op het project?\n"
+"    <li>Wat zijn jouw visies op het project?\n"
 "    <li>Heb je suggesties?\n"
 "    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
-#, fuzzy
 msgid "Color scheme for graphics"
-msgstr "Color scheme for graphics"
+msgstr "Kleuren schema voor grafische weergave"
 
 #: ../project.sample/project_specific_prefs.inc:48
-#, fuzzy
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr "Maximum CPU % for graphics%10 ... 100%2"
+msgstr "Maximum CPU gebruik voor grafische weergave %10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"

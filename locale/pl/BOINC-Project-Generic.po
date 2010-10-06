@@ -3,22 +3,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2009-01-12 03:19-0700\n"
+"PO-Revision-Date: 2010-10-02 13:17+0200\n"
 "Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -116,35 +114,35 @@ msgstr "Zaznacz wszystkie tematy we wszystkich forach jako przeczytane"
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr ""
+msgstr "Brak komputerów"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr ""
+msgstr "Niedostępne"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:618 ../inc/prefs.inc:1018
 msgid "Home"
-msgstr ""
+msgstr "Dom"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:620 ../inc/prefs.inc:1019
 msgid "Work"
-msgstr ""
+msgstr "Praca"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:619 ../inc/prefs.inc:1020
 msgid "School"
-msgstr ""
+msgstr "Szkoła"
 
 #: ../inc/host.inc:59
 msgid "Update"
-msgstr ""
+msgstr "Uaktualnij"
 
 #: ../inc/host.inc:83
 msgid "Computer information"
-msgstr ""
+msgstr "Informacje o komputerze"
 
 #: ../inc/host.inc:87 ../inc/host.inc:92
 msgid "IP address"
-msgstr ""
+msgstr "Adres IP"
 
 #: ../inc/host.inc:87
 msgid "(same the last %1 times)"
@@ -152,11 +150,11 @@ msgstr ""
 
 #: ../inc/host.inc:89
 msgid "External IP address"
-msgstr ""
+msgstr "Zewnętrzny adres IP"
 
 #: ../inc/host.inc:92
 msgid "Show IP address"
-msgstr ""
+msgstr "Pokaz adres IP"
 
 #: ../inc/host.inc:94
 msgid "Domain name"
@@ -181,16 +179,15 @@ msgstr "Nazwa użytkownika"
 
 #: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:213
 msgid "Owner"
-msgstr ""
+msgstr "Właściciel"
 
 #: ../inc/host.inc:104 ../inc/host.inc:318
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonimowy"
 
 #: ../inc/host.inc:108 ../inc/result.inc:380
-#, fuzzy
 msgid "Created"
-msgstr "Stwórz"
+msgstr "Stworzono"
 
 #: ../inc/host.inc:109 ../inc/host.inc:217 ../inc/host.inc:222
 #: ../inc/host.inc:621 ../inc/team.inc:94 ../inc/team.inc:207
@@ -214,31 +211,32 @@ msgstr ""
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr ""
+msgstr "Typ procesora"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
-msgstr ""
+msgstr "Liczba procesorów"
 
 #: ../inc/host.inc:117
 msgid "Coprocessors"
-msgstr ""
+msgstr "Koprocesory"
 
 #: ../inc/host.inc:119 ../inc/host.inc:627
 msgid "Operating System"
-msgstr ""
+msgstr "System operacyjny"
 
 #: ../inc/host.inc:122 ../inc/host.inc:226
 msgid "BOINC version"
-msgstr ""
+msgstr "Wersja BOINC"
 
 #: ../inc/host.inc:126
 msgid "Memory"
-msgstr ""
+msgstr "Pamięć"
 
 #: ../inc/host.inc:126 ../inc/host.inc:134
+#, fuzzy
 msgid "%1 MB"
-msgstr ""
+msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
@@ -246,23 +244,23 @@ msgstr ""
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
-msgstr ""
+msgstr "%1 KB"
 
 #: ../inc/host.inc:134
 msgid "Swap space"
-msgstr ""
+msgstr "Powierzchnia wymiany"
 
 #: ../inc/host.inc:137
 msgid "Total disk space"
-msgstr ""
+msgstr "Całkowita powierzchnia"
 
 #: ../inc/host.inc:137 ../inc/host.inc:140
 msgid "%1 GB"
-msgstr ""
+msgstr "%1 GB"
 
 #: ../inc/host.inc:140
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Wolna powierzchnia"
 
 #: ../inc/host.inc:144
 msgid "Measured floating point speed"
