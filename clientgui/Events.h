@@ -85,6 +85,7 @@
 #define ID_READCONFIG                           6056
 #define ID_READPREFERENCES                      6057
 #define ID_EVENTLOG                             6058
+#define ID_LAUNCHNEWINSTANCE                    6059
 
 // Help Menu
 #define ID_HELPBOINC                            6035  // Locked: Used by manager_links.php

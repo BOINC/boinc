@@ -7099,3 +7099,18 @@ Charlie 6 Oct 2010
 
     clientscr/
         ss_app.cpp
+
+Charlie 6 Oct 2010
+    - MGR: Add command-line argument --multiple or -m to allow multiple 
+        instances of BOINC Manager to be run.  If a second instance is 
+        launched without this argument, it will bring the original 
+        instance to the front and quit.  If this argument is present, 
+        the second instance will automatically run the Selectr Computer 
+        dialog (as before.)
+        Also add "Launch another BOINC Manager" menu item to Advanced menu.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCGUIApp.cpp, .h
+        Events.h
+        MainDocument.cpp

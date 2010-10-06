@@ -99,6 +99,7 @@ protected:
     
     int                 m_iGUISelected;
     bool                m_bDebugSkins;
+    bool                m_bMultipleInstancesOK;
 
 #ifdef __WXMSW__
     HINSTANCE           m_hClientLibraryDll;
@@ -137,6 +138,7 @@ public:
     void                DeleteTaskBarIcon();
 
     bool                IsAccessibilityEnabled()    { return m_bAccessibilityEnabled; }
+    bool                IsMultipleInstancesOK()    { return m_bMultipleInstancesOK; }
 
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
@@ -183,7 +185,7 @@ public:
                             int y = wxDefaultCoord
                         );
 
-    bool                IsAnotherInstanceRunning();
+    int                 IsAnotherInstanceRunning();
     bool                IsApplicationVisible();
     void                ShowApplication(bool bShow);
     bool                ShowInterface();

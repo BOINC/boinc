@@ -139,6 +139,7 @@ bool CBOINCGUIApp::OnInit() {
     m_bAccessibilityEnabled = false;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
+    m_bMultipleInstancesOK = false;
     m_strDefaultWindowStation = wxEmptyString;
     m_strDefaultDesktop = wxEmptyString;
     m_strDefaultDisplay = wxEmptyString;
@@ -526,6 +527,7 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
         { wxCMD_LINE_SWITCH, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
         { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
         { wxCMD_LINE_SWITCH, wxT("c"), wxT("checkskins"), _("set skin debugging mode to enable skin manager error messages")},
+        { wxCMD_LINE_SWITCH, wxT("m"), wxT("multiple"), _("multiple instances of BOINC Manager allowed")},
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
     parser.SetDesc(cmdLineDesc);
@@ -555,6 +557,9 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     }
     if (parser.Found(wxT("checkskins"))) {
         m_bDebugSkins = true;
+    }
+    if (parser.Found(wxT("multiple"))) {
+        m_bMultipleInstancesOK = true;
     }
 
 #if !(defined(__WXMSW__) || defined(__WXMAC__))
@@ -1083,12 +1088,12 @@ int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& captio
 ///
 /// Note: will always return false on Win95, Win98, WinME
 /// 
-bool CBOINCGUIApp::IsAnotherInstanceRunning() {
+int CBOINCGUIApp::IsAnotherInstanceRunning() {
     std::vector<PROCINFO> piv;
     PROCINFO* pi;
     int retval;
     char myName[256];
-    bool running = false;
+    int otherInstanceID = 0;
     int myPid;
 
     // Look for BOINC Manager in list of all running processes
@@ -1120,12 +1125,12 @@ bool CBOINCGUIApp::IsAnotherInstanceRunning() {
         pi = &(piv[i]);
         if (pi->id == myPid) continue;
         if (!strcmp(pi->command, myName)) {
-            running = true;
+            otherInstanceID = pi->id;
             break;
         }
     }
     
-    return running;
+    return otherInstanceID;
 }
 
 

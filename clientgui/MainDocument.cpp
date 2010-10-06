@@ -558,6 +558,7 @@ int CMainDocument::OnExit() {
 
 int CMainDocument::OnPoll() {
     int iRetVal = 0;
+    int otherInstanceID;
     wxString hostName = wxGetApp().GetClientHostNameArg();
     int portNum = wxGetApp().GetClientRPCPortArg();
     wxString password = wxGetApp().GetClientPasswordArg();
@@ -572,11 +573,27 @@ int CMainDocument::OnPoll() {
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
         if (IsComputerNameLocal(hostName)) {
-            if (wxGetApp().IsAnotherInstanceRunning()) {
-                if (!pFrame->SelectComputer(hostName, portNum, password, true)) {
-                wxCommandEvent event;
-                s_bSkipExitConfirmation = true;
-                pFrame->OnExit(event); // Exit if Select Computer dialog cancelled
+            otherInstanceID = wxGetApp().IsAnotherInstanceRunning();
+            if (otherInstanceID) {
+                if (wxGetApp().IsMultipleInstancesOK()) {
+                    if (!pFrame->SelectComputer(hostName, portNum, password, true)) {
+                        wxCommandEvent event;
+                        s_bSkipExitConfirmation = true;
+                        pFrame->OnExit(event); // Exit if Select Computer dialog cancelled
+                    }
+                } else {    // (IsMultipleInstancesOK() == false)
+                    // Bring other instance to the front and exit this instance
+
+#ifdef __WXMAC__
+                    ProcessSerialNumber otherInstancePSN;
+                    OSStatus err;
+
+                    err = GetProcessForPID(otherInstanceID, &otherInstancePSN);
+                    if (!err) SetFrontProcess(&otherInstancePSN);
+#endif
+                    wxCommandEvent event;
+                    s_bSkipExitConfirmation = true;
+                    pFrame->OnExit(event); // Exit if Select Computer dialog cancelled
                 }
             }
         }

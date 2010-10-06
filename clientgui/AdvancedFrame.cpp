@@ -178,6 +178,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
 	EVT_MENU(ID_READPREFERENCES, CAdvancedFrame::OnReadPreferences)
 	EVT_MENU(ID_READCONFIG, CAdvancedFrame::OnReadConfig)
 	EVT_MENU(ID_EVENTLOG, CAdvancedFrame::OnEventLog)
+	EVT_MENU(ID_LAUNCHNEWINSTANCE, CAdvancedFrame::OnLaunchNewInstance)
     // Help
     EVT_MENU(ID_HELPBOINC, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
@@ -585,6 +586,21 @@ bool CAdvancedFrame::CreateMenu() {
         ID_EVENTLOG, 
         _("Event Log..."),
         _("Display diagnostic messages.")
+    );
+    // %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strMenuDescription.Printf(
+        _("Launch another instance of %s"), 
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+    strMenuName.Printf(
+        _("Launch another %s"), 
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+    menuAdvanced->Append(
+        ID_LAUNCHNEWINSTANCE, 
+        strMenuName,
+        strMenuDescription
     );
 
 
@@ -1574,6 +1590,32 @@ void CAdvancedFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
     wxGetApp().DisplayEventLog();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnEventLog - Function End"));
+}
+
+
+void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnLaunchNewInstance - Function Begin"));
+
+#ifdef __WXMAC__
+    char s[512];
+    unsigned char procName[256];
+    ProcessSerialNumber myPSN;
+    GetCurrentProcess(&myPSN);
+    ProcessInfoRec pInfo;
+    OSStatus err;
+    
+    memset(&pInfo, 0, sizeof(pInfo));
+    pInfo.processInfoLength = sizeof( ProcessInfoRec );
+    pInfo.processName = procName;
+    err = GetProcessInformation(&myPSN, &pInfo);
+    if (!err) {
+        procName[procName[0]+1] = '\0'; // Convert pascal string to C string
+        sprintf(s, "open -n \"/Applications/%s.app\" --args --multiple", procName+1);
+        system(s);
+    }
+#endif
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnLaunchNewInstance - Function End"));
 }
 
 
