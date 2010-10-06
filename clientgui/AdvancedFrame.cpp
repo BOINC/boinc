@@ -261,14 +261,17 @@ CAdvancedFrame::~CAdvancedFrame() {
         m_pFrameRenderTimer = NULL;
     }
 
-    if (m_pStatusbar)
+    if (m_pStatusbar) {
         wxCHECK_RET(DeleteStatusbar(), _T("Failed to delete status bar."));
+    }
 
-    if (m_pNotebook)
+    if (m_pNotebook) {
         wxCHECK_RET(DeleteNotebook(), _T("Failed to delete notebook."));
+    }
 
-    if (m_pMenubar)
+    if (m_pMenubar) {
         wxCHECK_RET(DeleteMenu(), _T("Failed to delete menu bar."));
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::~CAdvancedFrame - Function End"));
 }
@@ -1162,12 +1165,12 @@ void CAdvancedFrame::OnWizardDetach(wxCommandEvent& WXUNUSED(event)) {
         pDoc->rpc.acct_mgr_info(ami);
 
         strTitle.Printf(
-            _("%s - Detach from %s"),
+            _("%s - Stop using %s"),
             pSkinAdvanced->GetApplicationName().c_str(),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMessage.Printf(
-            _("If you detach from %s,\nyou'll keep all your current projects,\nbut you'll have to manage projects manually.\n\nDo you want to detach from %s?"), 
+            _("If you stop using %s,\nyou'll keep all your current projects,\nbut you'll have to manage projects manually.\n\nDo you want to stop using %s?"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );

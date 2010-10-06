@@ -7114,3 +7114,11 @@ Charlie 6 Oct 2010
         BOINCGUIApp.cpp, .h
         Events.h
         MainDocument.cpp
+
+David  6 Oct 2010
+    - manager: remove last few instances of "detach" from messages
+
+    sched/
+        handle_request.cpp
+    clientgui/
+        AdvancedFrame.cpp
