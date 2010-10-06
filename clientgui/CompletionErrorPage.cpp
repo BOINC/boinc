@@ -196,7 +196,7 @@ void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
 
     if (IS_ATTACHTOPROJECTWIZARD()) {
         m_pTitleStaticCtrl->SetLabel(
-            _("Failed to attach to project")
+            _("Failed to add project")
         );
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
         if (IS_ACCOUNTMANAGERUPDATEWIZARD()) {
@@ -209,7 +209,7 @@ void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
             );
         } else {
             m_pTitleStaticCtrl->SetLabel(
-                _("Failed to attach to account manager")
+                _("Failed to add account manager")
             );
         }
     } else {

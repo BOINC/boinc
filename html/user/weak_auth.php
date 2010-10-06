@@ -44,7 +44,7 @@ for ($i=0; $i<strlen($url); $i++) {
 //remove trailing underscore(s)
 $account_file = "account_" . rtrim($url, '_') . ".xml";
 
-echo "<p>",tra("Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."), " ",
+echo "<p>",tra("Your 'weak account key' lets you link a computer to your account without giving it the ability to log in to your account or to change it in any way."), " ",
 	tra("This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."), "</p>",
 	"<p>", tra("Your weak account key for this project is:"), "</p>",
 	"<pre>$weak_auth</pre>",

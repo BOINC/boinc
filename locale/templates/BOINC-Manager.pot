@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-06 09:00-0700\n"
+"POT-Creation-Date: 2010-10-06 13:04-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr ""
 #: AccountInfoPage.cpp:396
 msgid ""
 "This project is not currently accepting new accounts.\n"
-"You can attach only if you already have an account."
+"You can add it only if you already have an account."
 msgstr ""
 
 #: AccountInfoPage.cpp:400
@@ -49,13 +49,13 @@ msgid ""
 "We were not able to set up your account information\n"
 "automatically.\n"
 "\n"
-"Please click on the 'Find logon information' link\n"
+"Please click on the 'Find login information' link\n"
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
 
 #: AccountInfoPage.cpp:415
-msgid "Find logon information"
+msgid "Find login information"
 msgstr ""
 
 #: AccountInfoPage.cpp:435 AccountInfoPage.cpp:633
@@ -173,330 +173,336 @@ msgstr ""
 msgid "Disconnected"
 msgstr ""
 
-#: AdvancedFrame.cpp:309 sg_BoincSimpleGUI.cpp:103
+#: AdvancedFrame.cpp:313 sg_BoincSimpleGUI.cpp:103
 #, c-format
 msgid "Close the %s window"
 msgstr ""
 
-#: AdvancedFrame.cpp:312 sg_BoincSimpleGUI.cpp:106
+#: AdvancedFrame.cpp:316 sg_BoincSimpleGUI.cpp:106
 msgid "&Close Window"
 msgstr ""
 
-#: AdvancedFrame.cpp:323 AdvancedFrame.cpp:330 AdvancedFrame.cpp:337
+#: AdvancedFrame.cpp:327 AdvancedFrame.cpp:334 AdvancedFrame.cpp:341
 #, c-format
 msgid "Exit %s"
 msgstr ""
 
-#: AdvancedFrame.cpp:352
+#: AdvancedFrame.cpp:356
 msgid "&Notices\tCtrl+Shift+N"
 msgstr ""
 
-#: AdvancedFrame.cpp:353
+#: AdvancedFrame.cpp:357
 msgid "Display notices"
 msgstr ""
 
-#: AdvancedFrame.cpp:358
+#: AdvancedFrame.cpp:362
 msgid "&Projects\tCtrl+Shift+P"
 msgstr ""
 
-#: AdvancedFrame.cpp:359
+#: AdvancedFrame.cpp:363
 msgid "Display projects"
 msgstr ""
 
-#: AdvancedFrame.cpp:364
+#: AdvancedFrame.cpp:368
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr ""
 
-#: AdvancedFrame.cpp:365
+#: AdvancedFrame.cpp:369
 msgid "Display tasks"
 msgstr ""
 
-#: AdvancedFrame.cpp:370
+#: AdvancedFrame.cpp:374
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr ""
 
-#: AdvancedFrame.cpp:371
+#: AdvancedFrame.cpp:375
 msgid "Display transfers"
 msgstr ""
 
-#: AdvancedFrame.cpp:376
+#: AdvancedFrame.cpp:380
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr ""
 
-#: AdvancedFrame.cpp:377
+#: AdvancedFrame.cpp:381
 msgid "Display statistics"
 msgstr ""
 
-#: AdvancedFrame.cpp:382
+#: AdvancedFrame.cpp:386
 msgid "&Disk usage\tCtrl+Shift+D"
 msgstr ""
 
-#: AdvancedFrame.cpp:383
+#: AdvancedFrame.cpp:387
 msgid "Display disk usage"
 msgstr ""
 
-#: AdvancedFrame.cpp:390
+#: AdvancedFrame.cpp:394
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr ""
 
-#: AdvancedFrame.cpp:391
+#: AdvancedFrame.cpp:395
 msgid "Display the simple graphical interface."
 msgstr ""
 
-#: AdvancedFrame.cpp:411
+#: AdvancedFrame.cpp:415
 msgid "&Add project or account manager..."
 msgstr ""
 
-#: AdvancedFrame.cpp:412 sg_ProjectsComponent.cpp:102
+#: AdvancedFrame.cpp:416 sg_ProjectsComponent.cpp:102
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
-
-#: AdvancedFrame.cpp:416
-#, c-format
-msgid "&Synchronize with %s"
 msgstr ""
 
 #: AdvancedFrame.cpp:420
 #, c-format
+msgid "&Synchronize with %s"
+msgstr ""
+
+#: AdvancedFrame.cpp:424
+#, c-format
 msgid "Get current settings from %s"
 msgstr ""
 
-#: AdvancedFrame.cpp:430
+#: AdvancedFrame.cpp:434
 msgid "&Add project..."
 msgstr ""
 
-#: AdvancedFrame.cpp:431
+#: AdvancedFrame.cpp:435
 msgid "Add a project"
 msgstr ""
 
-#: AdvancedFrame.cpp:434
+#: AdvancedFrame.cpp:438
 #, c-format
 msgid "S&top using %s..."
 msgstr ""
 
-#: AdvancedFrame.cpp:440
+#: AdvancedFrame.cpp:444
 msgid "Remove this computer from account manager control."
 msgstr ""
 
-#: AdvancedFrame.cpp:445
+#: AdvancedFrame.cpp:449
 msgid "Display and network &options..."
 msgstr ""
 
-#: AdvancedFrame.cpp:446
-msgid "Configure GUI options and proxy settings"
+#: AdvancedFrame.cpp:450
+msgid "Configure display options and proxy settings"
 msgstr ""
 
-#: AdvancedFrame.cpp:450
+#: AdvancedFrame.cpp:454
 msgid "Computing &preferences..."
 msgstr ""
 
-#: AdvancedFrame.cpp:451
+#: AdvancedFrame.cpp:455
 msgid "Configure computing preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:459
+#: AdvancedFrame.cpp:463
 msgid "&Run always"
 msgstr ""
 
-#: AdvancedFrame.cpp:460
+#: AdvancedFrame.cpp:464
 msgid "Allow work regardless of preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:464
+#: AdvancedFrame.cpp:468
 msgid "Run based on &preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:465
+#: AdvancedFrame.cpp:469
 msgid "Allow work according to preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:469
+#: AdvancedFrame.cpp:473
 msgid "&Suspend"
 msgstr ""
 
-#: AdvancedFrame.cpp:470
+#: AdvancedFrame.cpp:474
 msgid "Stop work regardless of preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:495
+#: AdvancedFrame.cpp:499
 msgid "Use GPU always"
 msgstr ""
 
-#: AdvancedFrame.cpp:496
+#: AdvancedFrame.cpp:500
 msgid "Allow GPU work regardless of preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:500
+#: AdvancedFrame.cpp:504
 msgid "Use GPU based on preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:501
+#: AdvancedFrame.cpp:505
 msgid "Allow GPU work according to preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:505
+#: AdvancedFrame.cpp:509
 msgid "Suspend GPU"
 msgstr ""
 
-#: AdvancedFrame.cpp:506
+#: AdvancedFrame.cpp:510
 msgid "Stop GPU work regardless of preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:530
+#: AdvancedFrame.cpp:534
 msgid "Network activity always available"
 msgstr ""
 
-#: AdvancedFrame.cpp:531
+#: AdvancedFrame.cpp:535
 msgid "Allow network activity regardless of preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:535
+#: AdvancedFrame.cpp:539
 msgid "Network activity based on preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:536
+#: AdvancedFrame.cpp:540
 msgid "Allow network activity according to preferences"
 msgstr ""
 
-#: AdvancedFrame.cpp:540
+#: AdvancedFrame.cpp:544
 msgid "Network activity suspended"
 msgstr ""
 
-#: AdvancedFrame.cpp:541
+#: AdvancedFrame.cpp:545
 msgid "Stop BOINC network activity"
 msgstr ""
 
-#: AdvancedFrame.cpp:551
+#: AdvancedFrame.cpp:555
 #, c-format
 msgid "Connect to another computer running %s"
 msgstr ""
 
-#: AdvancedFrame.cpp:556
+#: AdvancedFrame.cpp:560
 msgid "Select computer..."
 msgstr ""
 
-#: AdvancedFrame.cpp:561
+#: AdvancedFrame.cpp:565
 msgid "Shut down connected client..."
 msgstr ""
 
-#: AdvancedFrame.cpp:562
+#: AdvancedFrame.cpp:566
 msgid "Shut down the currently connected client"
 msgstr ""
 
-#: AdvancedFrame.cpp:566
+#: AdvancedFrame.cpp:570
 msgid "Run CPU &benchmarks"
 msgstr ""
 
-#: AdvancedFrame.cpp:567
+#: AdvancedFrame.cpp:571
 msgid "Runs BOINC CPU benchmarks"
 msgstr ""
 
-#: AdvancedFrame.cpp:571
+#: AdvancedFrame.cpp:575
 msgid "Do network communication"
 msgstr ""
 
-#: AdvancedFrame.cpp:572
+#: AdvancedFrame.cpp:576
 msgid "Do all pending network communication"
 msgstr ""
 
-#: AdvancedFrame.cpp:576
+#: AdvancedFrame.cpp:580
 msgid "Read config file"
 msgstr ""
 
-#: AdvancedFrame.cpp:577
+#: AdvancedFrame.cpp:581
 msgid "Read configuration info from cc_config.xml"
 msgstr ""
 
-#: AdvancedFrame.cpp:581
+#: AdvancedFrame.cpp:585
 msgid "Read local prefs file"
 msgstr ""
 
-#: AdvancedFrame.cpp:582
+#: AdvancedFrame.cpp:586
 msgid "Read preferences from global_prefs_override.xml."
 msgstr ""
 
-#: AdvancedFrame.cpp:586
+#: AdvancedFrame.cpp:590
 msgid "Event Log..."
 msgstr ""
 
-#: AdvancedFrame.cpp:587
+#: AdvancedFrame.cpp:591
 msgid "Display diagnostic messages."
 msgstr ""
 
-#: AdvancedFrame.cpp:597 sg_BoincSimpleGUI.cpp:129
+#: AdvancedFrame.cpp:596
+#, c-format
+msgid "Launch another instance of %s"
+msgstr ""
+
+#: AdvancedFrame.cpp:600
+#, c-format
+msgid "Launch another %s"
+msgstr ""
+
+#: AdvancedFrame.cpp:616 sg_BoincSimpleGUI.cpp:129
 #, c-format
 msgid "%s &help"
 msgstr ""
 
-#: AdvancedFrame.cpp:603 sg_BoincSimpleGUI.cpp:135
+#: AdvancedFrame.cpp:622 sg_BoincSimpleGUI.cpp:135
 #, c-format
 msgid "Show information about %s"
 msgstr ""
 
-#: AdvancedFrame.cpp:615
+#: AdvancedFrame.cpp:634
 #, c-format
 msgid "&%s help"
 msgstr ""
 
-#: AdvancedFrame.cpp:621 sg_BoincSimpleGUI.cpp:153
+#: AdvancedFrame.cpp:640 sg_BoincSimpleGUI.cpp:153
 #, c-format
 msgid "Show information about the %s"
 msgstr ""
 
-#: AdvancedFrame.cpp:633 sg_BoincSimpleGUI.cpp:165
+#: AdvancedFrame.cpp:652 sg_BoincSimpleGUI.cpp:165
 #, c-format
 msgid "%s &website"
 msgstr ""
 
-#: AdvancedFrame.cpp:639 sg_BoincSimpleGUI.cpp:171
+#: AdvancedFrame.cpp:658 sg_BoincSimpleGUI.cpp:171
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr ""
 
-#: AdvancedFrame.cpp:651 BOINCTaskBar.cpp:493
+#: AdvancedFrame.cpp:670 BOINCTaskBar.cpp:493
 #, c-format
 msgid "&About %s..."
 msgstr ""
 
-#: AdvancedFrame.cpp:657
+#: AdvancedFrame.cpp:676
 msgid "Licensing and copyright information."
 msgstr ""
 
-#: AdvancedFrame.cpp:664 sg_BoincSimpleGUI.cpp:194
+#: AdvancedFrame.cpp:683 sg_BoincSimpleGUI.cpp:194
 msgid "&File"
 msgstr ""
 
-#: AdvancedFrame.cpp:668 sg_BoincSimpleGUI.cpp:199
+#: AdvancedFrame.cpp:687 sg_BoincSimpleGUI.cpp:199
 msgid "&View"
 msgstr ""
 
-#: AdvancedFrame.cpp:672
+#: AdvancedFrame.cpp:691
 msgid "&Tools"
 msgstr ""
 
-#: AdvancedFrame.cpp:676
+#: AdvancedFrame.cpp:695
 msgid "&Activity"
 msgstr ""
 
-#: AdvancedFrame.cpp:680
+#: AdvancedFrame.cpp:699
 msgid "A&dvanced"
 msgstr ""
 
-#: AdvancedFrame.cpp:684 sg_BoincSimpleGUI.cpp:184 wizardex.cpp:374
+#: AdvancedFrame.cpp:703 sg_BoincSimpleGUI.cpp:184 wizardex.cpp:374
 #: wizardex.cpp:381
 msgid "&Help"
 msgstr ""
 
-#: AdvancedFrame.cpp:1055
-msgid "Attaching to project or account manager..."
-msgstr ""
-
-#: AdvancedFrame.cpp:1149
+#: AdvancedFrame.cpp:1167
 #, c-format
 msgid "%s - Stop using %s"
 msgstr ""
 
-#: AdvancedFrame.cpp:1154
+#: AdvancedFrame.cpp:1172
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -506,55 +512,51 @@ msgid ""
 "Do you want to stop using %s?"
 msgstr ""
 
-#: AdvancedFrame.cpp:1340
+#: AdvancedFrame.cpp:1358
 #, c-format
 msgid "%s - Language Selection"
 msgstr ""
 
-#: AdvancedFrame.cpp:1347
+#: AdvancedFrame.cpp:1365
 #, c-format
 msgid ""
 "The %s's default language has been changed, in order for this change to take "
 "affect you must restart the %s."
 msgstr ""
 
-#: AdvancedFrame.cpp:1477
+#: AdvancedFrame.cpp:1495
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr ""
 
-#: AdvancedFrame.cpp:1486
+#: AdvancedFrame.cpp:1504
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr ""
 
-#: AdvancedFrame.cpp:1533
-msgid "Retrying communications."
-msgstr ""
-
-#: AdvancedFrame.cpp:1757 DlgAbout.cpp:108
+#: AdvancedFrame.cpp:1799 DlgAbout.cpp:108
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: AdvancedFrame.cpp:1766
+#: AdvancedFrame.cpp:1808
 #, c-format
-msgid "%s has successfully attached to %s"
+msgid "%s has successfully added %s"
 msgstr ""
 
-#: AdvancedFrame.cpp:1906
+#: AdvancedFrame.cpp:1948
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: AdvancedFrame.cpp:1910
+#: AdvancedFrame.cpp:1952
 #, c-format
 msgid "Connecting to %s"
 msgstr ""
 
-#: AdvancedFrame.cpp:1913
+#: AdvancedFrame.cpp:1955
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr ""
@@ -738,7 +740,7 @@ msgstr ""
 msgid "%s failed to disconnected from the Internet."
 msgstr ""
 
-#: BOINCGUIApp.cpp:323
+#: BOINCGUIApp.cpp:324
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -750,7 +752,7 @@ msgid ""
 "     user group."
 msgstr ""
 
-#: BOINCGUIApp.cpp:326
+#: BOINCGUIApp.cpp:327
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall "
@@ -758,65 +760,69 @@ msgid ""
 "(Error code %d)"
 msgstr ""
 
-#: BOINCGUIApp.cpp:371
+#: BOINCGUIApp.cpp:372
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
 
-#: BOINCGUIApp.cpp:372 DlgAbout.cpp:140
+#: BOINCGUIApp.cpp:373 DlgAbout.cpp:140
 msgid "BOINC Manager"
 msgstr ""
 
-#: BOINCGUIApp.cpp:516
+#: BOINCGUIApp.cpp:517
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr ""
 
-#: BOINCGUIApp.cpp:518
+#: BOINCGUIApp.cpp:519
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 
-#: BOINCGUIApp.cpp:520
+#: BOINCGUIApp.cpp:521
 msgid "Directory containing the BOINC Client executable"
 msgstr ""
 
-#: BOINCGUIApp.cpp:521
+#: BOINCGUIApp.cpp:522
 msgid "BOINC data directory"
 msgstr ""
 
-#: BOINCGUIApp.cpp:523
+#: BOINCGUIApp.cpp:524
 msgid "Host name or IP address"
 msgstr ""
 
-#: BOINCGUIApp.cpp:524
+#: BOINCGUIApp.cpp:525
 msgid "GUI RPC port number"
 msgstr ""
 
-#: BOINCGUIApp.cpp:525
+#: BOINCGUIApp.cpp:526
 msgid "Password"
 msgstr ""
 
-#: BOINCGUIApp.cpp:526
+#: BOINCGUIApp.cpp:527
 msgid "Startup BOINC with these optional arguments"
 msgstr ""
 
-#: BOINCGUIApp.cpp:527
+#: BOINCGUIApp.cpp:528
 msgid "disable BOINC security users and permissions"
 msgstr ""
 
-#: BOINCGUIApp.cpp:528
+#: BOINCGUIApp.cpp:529
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 
-#: BOINCGUIApp.cpp:738
+#: BOINCGUIApp.cpp:530
+msgid "multiple instances of BOINC Manager allowed"
+msgstr ""
+
+#: BOINCGUIApp.cpp:743
 msgid "(Automatic Detection)"
 msgstr ""
 
-#: BOINCGUIApp.cpp:739
+#: BOINCGUIApp.cpp:744
 msgid "(Unknown)"
 msgstr ""
 
-#: BOINCGUIApp.cpp:740
+#: BOINCGUIApp.cpp:745
 msgid "(User Defined)"
 msgstr ""
 
@@ -884,7 +890,7 @@ msgid "There are new notices - click to view."
 msgstr ""
 
 #: CompletionErrorPage.cpp:199
-msgid "Failed to attach to project"
+msgid "Failed to add project"
 msgstr ""
 
 #: CompletionErrorPage.cpp:204
@@ -896,7 +902,7 @@ msgid "Failed to remove account manager"
 msgstr ""
 
 #: CompletionErrorPage.cpp:212
-msgid "Failed to attach to account manager"
+msgid "Failed to add account manager"
 msgstr ""
 
 #: CompletionErrorPage.cpp:221
@@ -940,7 +946,7 @@ msgid "Update completed."
 msgstr ""
 
 #: CompletionPage.cpp:247
-msgid "Attached to account manager"
+msgid "Now using account manager"
 msgstr ""
 
 #: CompletionPage.cpp:252
@@ -950,11 +956,11 @@ msgstr ""
 
 #: CompletionPage.cpp:263
 #, c-format
-msgid "You are now successfully attached to the %s system."
+msgid "You are now using %s to manage accounts."
 msgstr ""
 
 #: CompletionPage.cpp:267
-msgid "You are now successfully attached to this account manager."
+msgid "You are now using this account manager."
 msgstr ""
 
 #: DlgAbout.cpp:102
@@ -2037,175 +2043,175 @@ msgstr ""
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr ""
 
-#: MainDocument.cpp:585
+#: MainDocument.cpp:602
 msgid "Starting client"
 msgstr ""
 
-#: MainDocument.cpp:593
+#: MainDocument.cpp:610
 msgid "Connecting to client"
 msgstr ""
 
-#: MainDocument.cpp:1191
+#: MainDocument.cpp:1208
 msgid "Retrieving system state; please wait..."
 msgstr ""
 
-#: MainDocument.cpp:1200
+#: MainDocument.cpp:1217
 msgid "Retrieving host information; please wait..."
 msgstr ""
 
-#: MainDocument.cpp:2380
+#: MainDocument.cpp:2397
 msgid "on batteries"
 msgstr ""
 
-#: MainDocument.cpp:2381
+#: MainDocument.cpp:2398
 msgid "computer is in use"
 msgstr ""
 
-#: MainDocument.cpp:2382
+#: MainDocument.cpp:2399
 msgid "user request"
 msgstr ""
 
-#: MainDocument.cpp:2383
+#: MainDocument.cpp:2400
 msgid "time of day"
 msgstr ""
 
-#: MainDocument.cpp:2384
+#: MainDocument.cpp:2401
 msgid "CPU benchmarks in progress"
 msgstr ""
 
-#: MainDocument.cpp:2385
+#: MainDocument.cpp:2402
 msgid "need disk space - check preferences"
 msgstr ""
 
-#: MainDocument.cpp:2386
+#: MainDocument.cpp:2403
 msgid "computer is not in use"
 msgstr ""
 
-#: MainDocument.cpp:2387
+#: MainDocument.cpp:2404
 msgid "starting up"
 msgstr ""
 
-#: MainDocument.cpp:2388
+#: MainDocument.cpp:2405
 msgid "an exclusive app is running"
 msgstr ""
 
-#: MainDocument.cpp:2389
+#: MainDocument.cpp:2406
 msgid "CPU is busy"
 msgstr ""
 
-#: MainDocument.cpp:2390
+#: MainDocument.cpp:2407
 msgid "network bandwidth limit exceeded"
 msgstr ""
 
-#: MainDocument.cpp:2392
+#: MainDocument.cpp:2409
 msgid "unknown reason"
 msgstr ""
 
-#: MainDocument.cpp:2408
+#: MainDocument.cpp:2425
 msgid "GPU missing, "
 msgstr ""
 
-#: MainDocument.cpp:2414
+#: MainDocument.cpp:2431
 msgid "New"
 msgstr ""
 
-#: MainDocument.cpp:2418 ViewTransfers.cpp:773
+#: MainDocument.cpp:2435 ViewTransfers.cpp:773
 msgid "Download failed"
 msgstr ""
 
-#: MainDocument.cpp:2420 ViewTransfers.cpp:785
+#: MainDocument.cpp:2437 ViewTransfers.cpp:785
 msgid "Downloading"
 msgstr ""
 
-#: MainDocument.cpp:2422 MainDocument.cpp:2480
+#: MainDocument.cpp:2439 MainDocument.cpp:2497
 msgid " (suspended - "
 msgstr ""
 
-#: MainDocument.cpp:2424 MainDocument.cpp:2482 ViewTransfers.cpp:794
+#: MainDocument.cpp:2441 MainDocument.cpp:2499 ViewTransfers.cpp:794
 msgid ")"
 msgstr ""
 
-#: MainDocument.cpp:2430
+#: MainDocument.cpp:2447
 msgid "Project suspended by user"
 msgstr ""
 
-#: MainDocument.cpp:2432
+#: MainDocument.cpp:2449
 msgid "Task suspended by user"
 msgstr ""
 
-#: MainDocument.cpp:2434
+#: MainDocument.cpp:2451
 msgid "Suspended - "
 msgstr ""
 
-#: MainDocument.cpp:2441
+#: MainDocument.cpp:2458
 msgid "Waiting for memory"
 msgstr ""
 
-#: MainDocument.cpp:2443
+#: MainDocument.cpp:2460
 msgid "Waiting for shared memory"
 msgstr ""
 
-#: MainDocument.cpp:2446
+#: MainDocument.cpp:2463
 msgid "Running, high priority"
 msgstr ""
 
-#: MainDocument.cpp:2448 sg_ImageButton.cpp:88
+#: MainDocument.cpp:2465 sg_ImageButton.cpp:88
 msgid "Running"
 msgstr ""
 
-#: MainDocument.cpp:2453
+#: MainDocument.cpp:2470
 msgid " (non-CPU-intensive)"
 msgstr ""
 
-#: MainDocument.cpp:2457
+#: MainDocument.cpp:2474
 msgid "Waiting to run"
 msgstr ""
 
-#: MainDocument.cpp:2459 MainDocument.cpp:2465
+#: MainDocument.cpp:2476 MainDocument.cpp:2482
 msgid "Ready to start"
 msgstr ""
 
-#: MainDocument.cpp:2468
+#: MainDocument.cpp:2485
 msgid " (waiting for GPU memory)"
 msgstr ""
 
-#: MainDocument.cpp:2472
+#: MainDocument.cpp:2489
 msgid "Computation error"
 msgstr ""
 
-#: MainDocument.cpp:2476 ViewTransfers.cpp:775
+#: MainDocument.cpp:2493 ViewTransfers.cpp:775
 msgid "Upload failed"
 msgstr ""
 
-#: MainDocument.cpp:2478 ViewTransfers.cpp:785
+#: MainDocument.cpp:2495 ViewTransfers.cpp:785
 msgid "Uploading"
 msgstr ""
 
-#: MainDocument.cpp:2489
+#: MainDocument.cpp:2506
 msgid "Aborted by user"
 msgstr ""
 
-#: MainDocument.cpp:2492
+#: MainDocument.cpp:2509
 msgid "Aborted by project"
 msgstr ""
 
-#: MainDocument.cpp:2495
+#: MainDocument.cpp:2512
 msgid "Aborted: not started by deadline"
 msgstr ""
 
-#: MainDocument.cpp:2498
+#: MainDocument.cpp:2515
 msgid "Aborted"
 msgstr ""
 
-#: MainDocument.cpp:2503
+#: MainDocument.cpp:2520
 msgid "Acknowledged"
 msgstr ""
 
-#: MainDocument.cpp:2505
+#: MainDocument.cpp:2522
 msgid "Ready to report"
 msgstr ""
 
-#: MainDocument.cpp:2507
+#: MainDocument.cpp:2524
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr ""
@@ -2293,13 +2299,12 @@ msgstr ""
 
 #: ProjectInfoPage.cpp:391
 msgid ""
-"This project may not have work for your type of computer. Are you sure you "
-"wish to continue?"
+"This project may not have work for your type of computer.  Do you want to "
+"add it anyway?"
 msgstr ""
 
 #: ProjectInfoPage.cpp:415
-msgid ""
-"You are already attached to this project. Please choose a different project."
+msgid "You already added this project. Please choose a different project."
 msgstr ""
 
 #: ProjectListCtrl.cpp:67
@@ -2719,7 +2724,7 @@ msgid "Disk"
 msgstr ""
 
 #: ViewResources.cpp:228
-msgid "not attached to any BOINC project: 0 bytes"
+msgid "no projects: 0 bytes used"
 msgstr ""
 
 #: ViewResources.cpp:265
@@ -3093,13 +3098,13 @@ msgid ""
 "There are over 30 BOINC-based projects\n"
 "doing research in many areas of science,\n"
 "and you can volunteer for as many of them as you like.\n"
-"You can attach to a project directly,\n"
+"You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
 msgstr ""
 
 #: WelcomePage.cpp:283
 msgid ""
-"You have chosen to attach to a new BOINC project.  Attaching to a new\n"
+"You have chosen to add a new BOINC project.  Adding a new\n"
 "project means that you will be connecting your computer to a new "
 "organization.\n"
 "If this is what you wanted to do, please click on\n"

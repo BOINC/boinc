@@ -447,7 +447,7 @@ bool CAdvancedFrame::CreateMenu() {
     menuTools->Append(
         ID_OPTIONS, 
         _("Display and network &options..."),
-        _("Configure GUI options and proxy settings")
+        _("Configure display options and proxy settings")
     );
     menuTools->Append(
 		ID_PREFERENCES, 
@@ -1067,11 +1067,11 @@ void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (!pDoc->IsUserAuthorized())
+    if (!pDoc->IsUserAuthorized()) {
         return;
+    }
 
     if (pDoc->IsConnected()) {
-        UpdateStatusText(_("Attaching to project or account manager..."));
 
         // Stop all timers so that the wizard is the only thing doing anything
         StopTimers();
@@ -1083,16 +1083,15 @@ void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
         wxString strTeamName = wxEmptyString;
         pWizard->Run( strName, strURL, strTeamName, false );
 
-        if (pWizard)
+        if (pWizard) {
             pWizard->Destroy();
+        }
 
         DeleteMenu();
         CreateMenu();
 
         // Restart timers to continue normal operations.
         StartTimers();
-
-        UpdateStatusText(wxT(""));
 
         pDoc->ForceCacheUpdate();
         FireRefreshView();
@@ -1549,9 +1548,7 @@ void CAdvancedFrame::OnRetryCommunications( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    UpdateStatusText(_("Retrying communications."));
     pDoc->rpc.network_available();
-    UpdateStatusText(wxT(""));
 
     FireRefreshView();
 
@@ -1808,7 +1805,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             // %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
             strDialogDescription.Printf(
-                _("%s has successfully attached to %s"),
+                _("%s has successfully added %s"),
                 pSkinAdvanced->GetApplicationName().c_str(),
                 pSkinAdvanced->GetApplicationShortName().c_str()
             );

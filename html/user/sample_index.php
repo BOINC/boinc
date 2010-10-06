@@ -46,7 +46,7 @@ function show_nav() {
         <ul>
         <li><a href=\"info.php\">".tra("Read our rules and policies")."</a>
         <li> This project uses BOINC.
-            If you're already running BOINC, select Attach to Project.
+            If you're already running BOINC, select Add Project.
             If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
         <li> When prompted, enter <br><b>".$master_url."</b>
         <li> If you're running a command-line version of BOINC,

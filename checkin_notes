@@ -7122,3 +7122,22 @@ David  6 Oct 2010
         handle_request.cpp
     clientgui/
         AdvancedFrame.cpp
+
+David  6 Oct 2010
+    - fix a few absolutely last messages with "attach", "detach"
+
+    clientgui/
+        CompletionPage.cpp
+        AdvancedFrame.cpp
+        ProjectInfoPge.cpp
+        WelcomePage.cpp
+        AccountInfoPage.cpp
+        ViewResources.cpp
+        CompletionErrorPage.cpp
+    html/
+        inc/
+            prefs.inc
+        user/
+            create_account_form.php
+            sample_index.php
+            weak_auth.php

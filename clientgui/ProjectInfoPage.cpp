@@ -388,7 +388,7 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     if ( !GetProjectSupported() ) {
 
         iAnswer = wxGetApp().SafeMessageBox(
-            _("This project may not have work for your type of computer. Are you sure you wish to continue?"),
+            _("This project may not have work for your type of computer.  Do you want to add it anyway?"),
             strTitle,
             wxCENTER | wxYES_NO | wxICON_INFORMATION
         );
@@ -412,7 +412,7 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                 
                 if (project_url == new_project_url) {
                     wxGetApp().SafeMessageBox(
-                        _("You are already attached to this project. Please choose a different project."),
+                        _("You already added this project. Please choose a different project."),
                         strTitle,
                         wxCENTER | wxICON_INFORMATION
                     );
