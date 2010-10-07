@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005_6_12/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DLL;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
@@ -119,7 +119,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005_6_12/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DLL;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
@@ -193,7 +193,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005_6_12/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DLL;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;CLIENT;BOINC_APP_GRAPHICS"
 				ExceptionHandling="2"
 				RuntimeLibrary="0"
@@ -265,7 +265,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005_6_12/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DLL;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;CLIENT;BOINC_APP_GRAPHICS"
 				ExceptionHandling="2"
 				RuntimeLibrary="0"
