@@ -66,7 +66,7 @@ function pm_form($error = null) {
             $writeto = $userid." (".$user->name.")";
         }
     } else {
-        $writeto = post_str("to", true);
+        $writeto = sanitize_tags(post_str("to", true));
         $subject = post_str("subject", true);
         $content = post_str("content", true);
     }
