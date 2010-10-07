@@ -114,7 +114,7 @@ void CTaskBarIcon::OnIdle(wxIdleEvent& event) {
 }
 
 
-void CTaskBarIcon::OnClose(wxCloseEvent& event) {
+void CTaskBarIcon::OnClose(wxCloseEvent& ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function Begin"));
 
     RemoveIcon();

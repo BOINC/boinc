@@ -57,12 +57,24 @@ using std::vector;
 
 RPC_CLIENT::RPC_CLIENT() {
     sock = -1;
-    isIPV6 = true;
 }
 
 RPC_CLIENT::~RPC_CLIENT() {
     close();
 }
+
+#ifdef _WIN32
+static int addr_len(sockaddr_storage&) {
+    return (int) sizeof(sockaddr_in);
+}
+#else
+static int addr_len(sockaddr_storage& s) {
+    if (s.ss_family == AF_INET6) {
+        return (int) sizeof(sockaddr_in6);
+    }
+    return (int) sizeof(sockaddr_in);
+}
+#endif
 
 // if any RPC returns ERR_READ or ERR_WRITE,
 // call this and then call init() again.
@@ -88,7 +100,6 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
         sockaddr_in* sin = (sockaddr_in*)&addr;
         sin->sin_family = AF_INET;
         sin->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-        isIPV6 = false;
     }
     if (port) {
         port = htons(port);
@@ -101,7 +112,6 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
     if (addr.ss_family == AF_INET) {
         sockaddr_in* sin = (sockaddr_in*)&addr;
         sin->sin_port = port;
-        isIPV6 = false;
     } else {
         sockaddr_in6* sin = (sockaddr_in6*)&addr;
         sin->sin6_port = port;
@@ -125,8 +135,7 @@ int RPC_CLIENT::init(const char* host, int port) {
     if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,  sizeof tv)) {
         // not fatal
     } 
-    socklen_t len = isIPV6 ? sizeof(sockaddr_storage) : sizeof(sockaddr_in);
-    retval = connect(sock, (const sockaddr*)(&addr), len);
+    retval = connect(sock, (const sockaddr*)(&addr), addr_len(addr));
     if (retval) {
 #ifdef _WIN32
         BOINCTRACE("RPC_CLIENT::init connect 2: Winsock error '%d'\n", WSAGetLastError());
@@ -161,8 +170,7 @@ int RPC_CLIENT::init_asynch(
         BOINCTRACE("init_asynch() boinc_socket_asynch: %d\n", retval);
     }
     start_time = dtime();
-    socklen_t len = isIPV6 ? sizeof(sockaddr_storage) : sizeof(sockaddr_in);
-    retval = connect(sock, (const sockaddr*)(&addr), len);
+    retval = connect(sock, (const sockaddr*)(&addr), addr_len(addr));
     if (retval) {
         //perror("init_asynch(): connect");
         BOINCTRACE("init_asynch() connect: %d\n", retval);
@@ -213,8 +221,7 @@ int RPC_CLIENT::init_poll() {
             boinc_close_socket(sock);
             retval = boinc_socket(sock);
             retval = boinc_socket_asynch(sock, true);
-            socklen_t len = isIPV6 ? sizeof(sockaddr_storage) : sizeof(sockaddr_in);
-            retval = connect(sock, (const sockaddr*)(&addr), len);
+            retval = connect(sock, (const sockaddr*)(&addr), addr_len(addr));
             BOINCTRACE("init_poll(): retrying connect: %d\n", retval);
             return ERR_RETRY;
         } else {
