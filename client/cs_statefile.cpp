@@ -82,10 +82,6 @@ static inline bool arrived_first(RESULT* r0, RESULT* r1) {
 // Parse the client_state.xml file
 //
 int CLIENT_STATE::parse_state_file() {
-    PROJECT *project=NULL;
-    char buf[256];
-    int retval=0;
-    int failnum;
     const char *fname;
 
     // Look for a valid state file:
@@ -111,6 +107,14 @@ int CLIENT_STATE::parse_state_file() {
         old_release = BOINC_RELEASE;
         return ERR_FOPEN;
     }
+    return parse_state_file_aux(fname);
+}
+
+int CLIENT_STATE::parse_state_file_aux(const char* fname) {
+    PROJECT *project=NULL;
+    char buf[256];
+    int retval=0;
+    int failnum;
 
     FILE* f = fopen(fname, "r");
     MIOFILE mf;

@@ -34,6 +34,7 @@ using std::vector;
 #include "app.h"
 #include "client_types.h"
 #include "file_xfer.h"
+#include "file_names.h"
 #include "gui_rpc_server.h"
 #include "gui_http.h"
 #include "hostinfo.h"
@@ -366,7 +367,10 @@ struct CLIENT_STATE {
     int allowed_project_disk_usage(double&);
     int suspend_tasks(int reason);
     int resume_tasks(int reason=0);
-    void read_global_prefs();
+    void read_global_prefs(
+        const char* fname = GLOBAL_PREFS_FILE_NAME,
+        const char* override_fname = GLOBAL_PREFS_OVERRIDE_FILE
+    );
     int save_global_prefs(char* prefs, char* url, char* sched);
     double available_ram();
     double max_available_ram();
@@ -398,6 +402,7 @@ struct CLIENT_STATE {
 // --------------- cs_statefile.cpp:
     void set_client_state_dirty(const char*);
     int parse_state_file();
+    int parse_state_file_aux(const char*);
     int write_state(MIOFILE&);
     int write_state_file();
     int write_state_file_if_needed();
@@ -460,9 +465,9 @@ struct CLIENT_STATE {
     double connection_interval;
         // don't connect more often than this
 
-    void html_start(bool);
+    void html_start();
     void html_rec();
-    void html_end(bool);
+    void html_end();
     std::string html_msg;
     double share_violation();
     double monotony();

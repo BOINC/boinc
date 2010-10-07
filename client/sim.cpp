@@ -17,23 +17,35 @@
 
 // BOINC client simulator.
 //
-// usage:
-// sim [--duration x] [--delta x] [--dirs dir ...]
-//  duration = simulation duration (default 86400)
-//  delta = simulation time step (default 10)
+// usage: sim options
 //
-// If no dirs are specified:
-// reads input files
-//    sim_projects.xml, sim_host.xml, sim_prefs.xml, cc_config.xml
-// and does simulation, generating output files
-//    sim_log.txt, sim_out.html
+//  Input files:
+//  [--state_file filename]
+//      name of main input file; default client_state.xml
+//  [--prefs_file filename]
+//      name of prefs file; default global_prefs.xml
+//  [--config_file filename]
+//      name of config file; default cc_config.xml
 //
-// If dirs are specified, chdir into each directory in sequence,
-// do the above for each one, and write summary info to stdout
-
-#ifdef _MSC_VER
-#define chdir _chdir
-#endif
+//  Output files:
+//  [--timeline_file filename]
+//      name of timeline file (default sim_timeline.html)
+//  [--log_file filename]
+//      name of log file (default sim_log.txt)
+//  [--summary_file filename]
+//      name of summary file (default sim_summary.xml)
+//
+//  Simulation params:
+//  [--duration x]
+//      simulation duration (default 86400)
+//  [--delta x]
+//      delta = simulation time step (default 10)
+//
+//  Policy options:
+//  [--server_uses_workload]
+//      simulate use of EDF sim by scheduler
+//  [--cpu_sched_rr_only]
+//      use only RR scheduling
 
 #include "error_numbers.h"
 #include "str_util.h"
@@ -48,11 +60,13 @@
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
-#ifdef _WIN32
-#define SIM_EXEC "..\\boincsim"
-#else
-#define SIM_EXEC "../sim"
-#endif
+const char* state_fname = STATE_FILE_NAME;
+const char* prefs_fname = GLOBAL_PREFS_FILE_NAME;
+const char* config_fname = CONFIG_FILE;
+
+const char* timeline_fname = "sim_timeline.html";
+const char* log_fname = "sim_log.txt";
+const char* summary_fname = "sim_summary.xml";
 
 bool user_active;
 double duration = 86400, delta = 60;
@@ -60,32 +74,19 @@ FILE* logfile;
 bool running;
 double running_time = 0;
 bool server_uses_workload = false;
-bool dcf_dont_use;
-bool dcf_stats;
-bool dual_dcf;
 bool cpu_sched_rr_only;
-bool work_fetch_old;
-int line_limit = 1000000;
 
 SIM_RESULTS sim_results;
 
-void PROJECT::update_dcf_stats(RESULT* rp) {
-    double raw_ratio = rp->final_cpu_time/rp->estimated_duration_uncorrected();
-    // see http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Algorithm_III
-    ++completed_task_count;
-    double delta = raw_ratio - completions_ratio_mean;
-    completions_ratio_mean += delta / completed_task_count;
-    completions_ratio_s += delta * ( raw_ratio - completions_ratio_mean);
-    if (completed_task_count > 1) {
-        completions_ratio_stdev = sqrt(completions_ratio_s / (completed_task_count - 1));
-        double required_stdev = (raw_ratio - completions_ratio_mean) / completions_ratio_stdev;
-        if (required_stdev > completions_required_stdevs) {
-            completions_required_stdevs = std::min(required_stdev, 7.0);
-        }
-    }
-    duration_correction_factor = completions_ratio_mean + 
-        completions_required_stdevs * completions_ratio_stdev;
-    return;
+void usage(char* prog) {
+    fprintf(stderr, "usage: %s\n"
+        "[--duration X]\n"
+        "[--delta X]\n"
+        "[--server_uses_workload]\n"
+        "[--cpu_sched_rr_only]\n",
+        prog
+    );
+    exit(1);
 }
 
 APP* choose_app(vector<APP*>& apps) {
@@ -599,8 +600,6 @@ const char* colors[] = {
     "#ffdddd",
 };
 
-static int outfile_num=0;
-
 bool uses_coproc(RESULT*, COPROC*) {
     // TODO
     return false;
@@ -649,30 +648,23 @@ void gpu_on_aux(COPROC* cp) {
         }
     }
 }
+
 void gpu_on() {
     gpu_on_aux(&gstate.host_info.coprocs.cuda);
     gpu_on_aux(&gstate.host_info.coprocs.ati);
 }
 
-void CLIENT_STATE::html_start(bool show_prev) {
+void CLIENT_STATE::html_start() {
     char buf[256];
 
-    sprintf(buf, "sim_out_%d.html", outfile_num++);
-    html_out = fopen(buf, "w");
+    html_out = fopen(timeline_fname, "w");
     if (!html_out) {
-        fprintf(stderr, "can't open %s for writing\n", buf);
+        fprintf(stderr, "can't open %s for writing\n", timeline_fname);
         exit(1);
     }
     setbuf(html_out, 0);
     fprintf(html_out, "<h2>Simulator output</h2>\n");
-    if (show_prev) {
-        fprintf(html_out,
-            "<a href=sim_out_%d.html>Previous file</a><p>\n",
-            outfile_num-2
-        );
-    }
     fprintf(html_out,
-        "<a href=sim_log.txt>message log</a><p>"
         "<table border=1><tr><th>Time</th>\n"
     );
     for (int i=0; i<ncpus; i++) {
@@ -719,37 +711,15 @@ void CLIENT_STATE::html_rec() {
         "<td><font size=-2>%s</font></td></tr>\n", html_msg.c_str()
     );
     html_msg = "";
-
-    if (++line_num == line_limit) {
-        line_num = 0;
-        html_end(true);
-        html_start(true);
-    }
 }
 
-void CLIENT_STATE::html_end(bool show_next) {
+void CLIENT_STATE::html_end() {
     fprintf(html_out, "</table>");
-    if (show_next) {
-        fprintf(html_out,
-            "<p><a href=sim_out_%d.html>Next file</a>\n",
-            outfile_num
-        );
-    } else {
-        fprintf(html_out, "<pre>\n");
-        sim_results.compute();
-        sim_results.print(html_out);
-        print_project_results(html_out);
-        fprintf(html_out, "</pre>\n");
-    }
-    if (show_next) {
-        fprintf(html_out, "<p><a href=sim_out_last.html>Last file</a>\n");
-    } else {
-        char buf[256];
-        sprintf(buf, "sim_out_%d.html", outfile_num-1);
-#ifndef _WIN32
-        symlink(buf, "sim_out_last.html");
-#endif
-    }
+    fprintf(html_out, "<pre>\n");
+    sim_results.compute();
+    sim_results.print(html_out);
+    print_project_results(html_out);
+    fprintf(html_out, "</pre>\n");
     fclose(html_out);
 }
 
@@ -757,7 +727,7 @@ void CLIENT_STATE::simulate() {
     bool action;
     double start = START_TIME;
     now = start;
-    html_start(false);
+    html_start();
     msg_printf(0, MSG_INFO,
         "starting simulation. delta %f duration %f", delta, duration
     );
@@ -785,7 +755,7 @@ void CLIENT_STATE::simulate() {
         html_rec();
         if (now > start + duration) break;
     }
-    html_end(false);
+    html_end();
 }
 
 void parse_error(char* file, int retval) {
@@ -793,26 +763,10 @@ void parse_error(char* file, int retval) {
     exit(1);
 }
 
-void help(char* prog) {
-    fprintf(stderr, "usage: %s\n"
-        "[--duration X]\n"
-        "[--delta X]\n"
-        "[--server_uses_workload]\n"
-        "[--dcf_dont_user]\n"
-        "[--dcf_stats]\n"
-        "[--dual_dcf]\n"
-        "[--cpu_sched_rr_only]\n"
-        "[--work_fetch_old]\n"
-        "[--dirs ...]\n",
-        prog
-    );
-    exit(1);
-}
-
 char* next_arg(int argc, char** argv, int& i) {
     if (i >= argc) {
         fprintf(stderr, "Missing command-line argument\n");
-        help(argv[0]);
+        usage(argv[0]);
     }
     return argv[i++];
 }
@@ -899,17 +853,14 @@ void cull_projects() {
     }
 }
 
-#define SUMMARY_FILE "sim_summary.txt"
-#define LOG_FILE "sim_log.txt"
-
 void CLIENT_STATE::do_client_simulation() {
     msg_printf(0, MSG_INFO, "SIMULATION START");
-    read_config_file(true);
+    read_config_file(true, config_fname);
     config.show();
 
     add_platform("client simulator");
-    parse_state_file();
-    read_global_prefs();
+    parse_state_file_aux(state_fname);
+    read_global_prefs(prefs_fname);
     cull_projects();
     int j=0;
     for (unsigned int i=0; i<projects.size(); i++) {
@@ -941,92 +892,49 @@ void CLIENT_STATE::do_client_simulation() {
 
 int main(int argc, char** argv) {
     int i, retval;
-    vector<std::string> dirs;
-
-    logfile = fopen("sim_log.txt", "w");
-    if (!logfile) {
-        fprintf(stderr, "Can't open sim_log.txt\n");
-        exit(1);
-    }
-    setbuf(logfile, 0);
 
     sim_results.clear();
     for (i=1; i<argc;) {
         char* opt = argv[i++];
-        if (!strcmp(opt, "--duration")) {
+        if (!strcmp(opt, "--state_file")) {
+            state_fname = argv[i++];
+        } else if (!strcmp(opt, "--prefs_file")) {
+            prefs_fname = argv[i++];
+        } else if (!strcmp(opt, "--config_file")) {
+            config_fname = argv[i++];
+        } else if (!strcmp(opt, "--timeline_file")) {
+            timeline_fname = argv[i++];
+        } else if (!strcmp(opt, "--log_file")) {
+            log_fname = argv[i++];
+        } else if (!strcmp(opt, "--summary_file")) {
+            summary_fname = argv[i++];
+        } else if (!strcmp(opt, "--duration")) {
             duration = atof(next_arg(argc, argv, i));
         } else if (!strcmp(opt, "--delta")) {
             delta = atof(next_arg(argc, argv, i));
-        } else if (!strcmp(opt, "--dirs")) {
-            while (i<argc) {
-                dirs.push_back(argv[i++]);
-            }
         } else if (!strcmp(opt, "--server_uses_workload")) {
             server_uses_workload = true;
-        } else if (!strcmp(opt, "--dcf_dont_use")) {
-            dcf_dont_use = true;
-        } else if (!strcmp(opt, "--dcf_stats")) {
-            dcf_stats = true;
-        } else if (!strcmp(opt, "--dual_dcf")) {
-            dual_dcf = true;
-            dcf_stats = true;
         } else if (!strcmp(opt, "--cpu_sched_rr_only")) {
             cpu_sched_rr_only = true;
-        } else if (!strcmp(opt, "--work_fetch_old")) {
-            work_fetch_old = true;
-        } else if (!strcmp(opt, "--line_limit")) {
-            line_limit = atoi(next_arg(argc, argv, i));
         } else {
-            help(argv[0]);
+            usage(argv[0]);
         }
     }
 
     if (duration <= 0) {
-        printf("non-pos duration\n");
+        fprintf(stderr, "non-pos duration\n");
         exit(1);
     }
     if (delta <= 0) {
-        printf("non-pos delta\n");
+        fprintf(stderr, "non-pos delta\n");
         exit(1);
     }
 
-    if (dirs.size()) {
-        // If we need to do several simulations,
-        // use system() to do each one in a separate process,
-        // because there are lots of static variables and we need to ensure
-        // that they start off with the right initial values
-        //
-        unsigned int i;
-        SIM_RESULTS total_results;
-        total_results.clear();
-        for (i=0; i<dirs.size(); i++) {
-            std::string dir = dirs[i];
-            retval = chdir(dir.c_str());
-            if (retval) {
-                fprintf(stderr, "can't chdir into %s: ", dir.c_str());
-                perror("chdir");
-                continue;
-            }
-            char buf[256];
-            sprintf(
-                buf, "%s --duration %f --delta %f > %s",
-                SIM_EXEC, duration, delta, SUMMARY_FILE
-            );
-            retval = system(buf);
-            if (retval) {
-                printf("simulation in %s failed\n", dir.c_str());
-                exit(1);
-            }
-            FILE* f = fopen(SUMMARY_FILE, "r");
-            sim_results.parse(f);
-            fclose(f);
-            sim_results.print(stdout, dir.c_str());
-            total_results.add(sim_results);
-            chdir("..");
-        }
-        total_results.divide((int)(dirs.size()));
-        total_results.print(stdout, "Total");
-    } else {
-        gstate.do_client_simulation();
+    logfile = fopen(log_fname, "w");
+    if (!logfile) {
+        fprintf(stderr, "Can't open %s\n", log_fname);
+        exit(1);
     }
+    setbuf(logfile, 0);
+    gstate.do_client_simulation();
 }

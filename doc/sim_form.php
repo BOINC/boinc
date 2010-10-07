@@ -33,8 +33,7 @@ function show_form() {
     <p>
     <b>
     The following controls enable various experimental policies.
-    The standard policy (as of 5.10.13) is no checkboxes enabled,
-    and the 'Normal' DCF policy.
+    The standard policy is no checkboxes enabled.
     </b>
 
     <p>
@@ -42,33 +41,46 @@ function show_form() {
     <p>
     Client uses Round-Robin (old-style) CPU scheduling? <input type=checkbox name=rr_only>
     <p>
-    Client uses old work fetch policy? <input type=checkbox name=work_fetch_old>
-    <p>
-    Duration correction factor: <input type=radio name=dcf value=normal checked> Normal
-        : <input type=radio name=dcf value=stats> Stats
-        : <input type=radio name=dcf value=dual> Dual
-        : <input type=radio name=dcf value=none> None
-    <p>
-    HTML output lines per file: <input name=line_limit>
-    <p>
     <input type=submit name=submit value=\"Run simulation\">
 
     </form>
     ";
 }
 
+// ?? the actual function doesn't seem to work here
+function file_put_contents_aux($fname, $str) {
+    $f = fopen($fname, "w");
+    if (!$f) die("fopen");
+    $x = fwrite($f, $str);
+    if (!$x) die("fwrite");
+    fclose($f);
+}
+
 if ($_POST['submit']) {
     chdir("sim");
 
-    if (!file_put_contents("client_state.xml", $_POST['client_state'])) {
-        echo "Can't write client_state.xml - check permissions\n"; exit();
+    $x = $_POST['client_state'];
+    if (!strlen($x)) {
+        die("missing state");
     }
-    if (!file_put_contents("global_prefs.xml", $_POST['global_prefs'])) {
-        echo "Can't write global_prefs.xml - check permissions\n"; exit();
+    $state_fname = tempnam("/tmp", "sim");
+    file_put_contents_aux($state_fname, $x);
+
+    $prefs_name = null;
+    $config_name = null;
+
+    $x = $_POST['global_prefs'];
+    if (strlen($x)) {
+        $prefs_fname = tempnam("/tmp", "sim");
+        file_put_contents_aux($prefs_fname, $x);
     }
-    if (!file_put_contents("cc_config.xml", $_POST['cc_config'])) {
-        echo "Can't write cc_config.xml - check permissions\n"; exit();
+
+    $x = $_POST['cc_config'];
+    if (strlen($x)) {
+        $config_fname = tempnam("/tmp", "sim");
+        file_put_contents_aux($config_fname, $x);
     }
+
     $duration = $_POST['duration'];
 
     $delta = $_POST['delta'];
@@ -91,31 +103,35 @@ if ($_POST['submit']) {
     if ($_POST['rr_only']) {
         $rr_only = '--cpu_sched_rr_only';
     }
-    $work_fetch_old = '';
-    if ($_POST['work_fetch_old']) {
-        $work_fetch_old = '--work_fetch_old';
-    }
 
-    $dcfflag = "";
-    $dcf = ($_POST['dcf']);
-    if ($dcf == "stats") {
-        $dcfflag = '--dcf_stats';
-    } else if ($dcf == 'none') {
-        $dcfflag = '--dcf_dont_use';
-    } else if ($dcf == 'dual') {
-        $dcfflag = '--dual_dcf';
-    }
+    $timeline_fname = tempnam("/tmp", "sim");
+    $log_fname = tempnam("/tmp", "sim");
+    $summary_fname = tempnam("/tmp", "sim");
 
-    $llflag = '';
-    $line_limit = $_POST['line_limit'];
-    if ($line_limit) {
-        $llflag = "--line_limit $line_limit";
+    $cmd = "./sim --duration $duration --delta $delta $suw --state_file $state_fname --timeline_file $timeline_fname --log_file $log_fname --summary_file $summary_fname $rr_only $llflag";
+    if ($prefs_fname) {
+        $cmd .= " --prefs_file $prefs_fname";
     }
+    if ($config_fname) {
+        $cmd .= " --config_file $config_fname";
+    }
+    echo "cmd: $cmd\n";
 
-    Header("Location: sim/sim_out_0.html");
-    $cmd = "./sim --duration $duration --delta $delta $suw $dcfflag $rr_only $work_fetch_old $llflag";
-    system("/bin/rm sim_log.txt sim_out_*.html");
-    system($cmd);
+    $x = system($cmd);
+
+    echo $x;
+    readfile($timeline_fname);
+    echo "\n<pre>\n";
+    readfile($log_fname);
+    echo "\n</pre>\n";
+    readfile($summary_fname);
+
+    unlink($state_fname);
+    unlink($prefs_fname);
+    unlink($config_fname);
+    unlink($timeline_fname);
+    unlink($log_fname);
+    unlink($summary_fname);
 } else {
     page_head("BOINC client simulator");
     echo "

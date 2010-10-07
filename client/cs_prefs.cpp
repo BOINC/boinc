@@ -371,23 +371,27 @@ int PROJECT::parse_preferences_for_user_files() {
 // - on completion of a scheduler or AMS RPC, if they sent prefs
 // - in response to read_global_prefs_override GUI RPC
 //
-void CLIENT_STATE::read_global_prefs() {
+void CLIENT_STATE::read_global_prefs(
+    const char* fname, const char* override_fname
+) {
     bool found_venue;
     bool venue_specified_in_override = false;
     int retval;
     FILE* f;
     string foo;
 
-    retval = read_file_string(GLOBAL_PREFS_OVERRIDE_FILE, foo);
-    if (!retval) {
-        parse_str(foo.c_str(), "<host_venue>", main_host_venue, sizeof(main_host_venue));
-        if (strlen(main_host_venue)) {
-            venue_specified_in_override = true;
+    if (override_fname) {
+        retval = read_file_string(override_fname, foo);
+        if (!retval) {
+            parse_str(foo.c_str(), "<host_venue>", main_host_venue, sizeof(main_host_venue));
+            if (strlen(main_host_venue)) {
+                venue_specified_in_override = true;
+            }
         }
     }
 
     retval = global_prefs.parse_file(
-        GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue
+        fname, main_host_venue, found_venue
     );
     if (retval) {
         if (retval == ERR_FOPEN) {
@@ -398,7 +402,7 @@ void CLIENT_STATE::read_global_prefs() {
             msg_printf(NULL, MSG_INFO,
                 "Couldn't parse preferences file - using BOINC defaults"
             );
-            boinc_delete_file(GLOBAL_PREFS_FILE_NAME);
+            boinc_delete_file(fname);
         }
         global_prefs.init();
     } else {
@@ -410,7 +414,7 @@ void CLIENT_STATE::read_global_prefs() {
             PROJECT* p = global_prefs_source_project();
             if (p && strcmp(main_host_venue, p->host_venue)) {
                 strcpy(main_host_venue, p->host_venue);
-                global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue);
+                global_prefs.parse_file(fname, main_host_venue, found_venue);
             }
         }
         show_global_prefs_source(found_venue);
@@ -418,15 +422,17 @@ void CLIENT_STATE::read_global_prefs() {
 
     // read the override file
     //
-    f = fopen(GLOBAL_PREFS_OVERRIDE_FILE, "r");
-    if (f) {
-        MIOFILE mf;
-        GLOBAL_PREFS_MASK mask;
-        mf.init_file(f);
-        XML_PARSER xp(&mf);
-        global_prefs.parse_override(xp, "", found_venue, mask);
-        msg_printf(NULL, MSG_INFO, "Reading preferences override file");
-        fclose(f);
+    if (override_fname) {
+        f = fopen(override_fname, "r");
+        if (f) {
+            MIOFILE mf;
+            GLOBAL_PREFS_MASK mask;
+            mf.init_file(f);
+            XML_PARSER xp(&mf);
+            global_prefs.parse_override(xp, "", found_venue, mask);
+            msg_printf(NULL, MSG_INFO, "Reading preferences override file");
+            fclose(f);
+        }
     }
 
     msg_printf(NULL, MSG_INFO, "Preferences:");

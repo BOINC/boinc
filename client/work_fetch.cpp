@@ -1305,18 +1305,9 @@ double RESULT::estimated_duration_uncorrected() {
 
 // estimate how long a result will take on this host
 //
-#ifdef SIM
-double RESULT::estimated_duration(bool for_work_fetch) {
-    if (dual_dcf && for_work_fetch && project->completions_ratio_mean) {
-        return estimated_duration_uncorrected()*project->completions_ratio_mean;
-    }
-    return estimated_duration_uncorrected()*project->duration_correction_factor;
-}
-#else
 double RESULT::estimated_duration(bool) {
     return estimated_duration_uncorrected()*project->duration_correction_factor;
 }
-#endif
 
 double RESULT::estimated_time_remaining(bool for_work_fetch) {
     if (computing_done()) return 0;

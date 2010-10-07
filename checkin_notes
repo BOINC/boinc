@@ -7187,3 +7187,15 @@ David  7 Oct 2010
         network.cpp
     client/
         boinc_cmd.cpp
+
+David  7 Oct 2010
+    - client simulator: updates.  Fix web interface.
+
+    client/
+        client_state.h
+        cpu_sched.cpp
+        cs_prefs.cpp
+        cs_statefile.cpp
+        log_flags.cpp,h
+        sim.cpp
+        work_fetch.cpp

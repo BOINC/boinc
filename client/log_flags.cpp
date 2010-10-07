@@ -479,14 +479,12 @@ int CONFIG::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int read_config_file(bool init) {
-    FILE* f;
-
+int read_config_file(bool init, const char* fname) {
     if (!init) {
-        msg_printf(NULL, MSG_INFO, "Re-reading cc_config.xml");
+        msg_printf(NULL, MSG_INFO, "Re-reading %s", fname);
         config.clear();
     }
-    f = boinc_fopen(CONFIG_FILE, "r");
+    FILE* f = boinc_fopen(fname, "r");
     if (!f) return ERR_FOPEN;
     config.parse(f);
     fclose(f);

@@ -1872,16 +1872,6 @@ void CLIENT_STATE::set_ncpus() {
 //
 void PROJECT::update_duration_correction_factor(ACTIVE_TASK* atp) {
     RESULT* rp = atp->result;
-#ifdef SIM
-    if (dcf_dont_use) {
-        duration_correction_factor = 1.0;
-        return;
-    }
-    if (dcf_stats) {
-        update_dcf_stats(rp);
-        return;
-    }
-#endif
     double raw_ratio = atp->elapsed_time/rp->estimated_duration_uncorrected();
     double adj_ratio = atp->elapsed_time/rp->estimated_duration(false);
     double old_dcf = duration_correction_factor;
