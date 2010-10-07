@@ -7148,3 +7148,10 @@ David  6 Oct 2010
     client/
         sim.cpp,h
         client_types.cpp
+
+Rom    7 Oct 2010
+    - Increment version to 6.13.0.
+
+    /
+        configure.ac
+        version.h
