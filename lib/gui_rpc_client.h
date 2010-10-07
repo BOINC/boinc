@@ -613,7 +613,6 @@ public:
     double start_time;
     double timeout;
     bool retry;
-    bool isIPV6;
     sockaddr_storage addr;
 
     int send_request(const char*);

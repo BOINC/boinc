@@ -7156,3 +7156,11 @@ David  7 Oct 2010
     client/
         log_flags.cpp,h
         cs_scheduler.cpp
+
+David  7 Oct 2010
+	- GUI RPC: remove unneeded isIPV6 flag, factor out sizeof() logic
+
+	lib/
+		gui_rpc_client.cpp,h
+	clientgui/
+		BOINCTaskBar.cpp
