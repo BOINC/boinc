@@ -246,6 +246,11 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             p->nresults_returned++;
             rp->write(mf, true);
         }
+        if (config.max_tasks_reported
+            && (p->nresults_returned >= config.max_tasks_reported)
+        ) {
+            break;
+        }
     }
 
     read_trickle_files(p, f);

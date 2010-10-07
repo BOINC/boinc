@@ -275,6 +275,7 @@ void CONFIG::clear() {
     max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
     max_stderr_file_size = 0;
     max_stdout_file_size = 0;
+    max_tasks_reported = 0;
     ncpus = -1;
     network_test_url = "http://www.google.com/";
     no_alt_platform = false;
@@ -385,6 +386,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
         if (xp.parse_int(tag, "max_stderr_file_size", max_stderr_file_size)) continue;
         if (xp.parse_int(tag, "max_stdout_file_size", max_stdout_file_size)) continue;
+        if (xp.parse_int(tag, "max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int(tag, "ncpus", ncpus)) continue;
         if (xp.parse_string(tag, "network_test_url", network_test_url)) {
             downcase_string(network_test_url);
