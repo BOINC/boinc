@@ -563,7 +563,7 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();
     } else {
-        fprintf(stderr, "unrecognized command %s\n", cmd);
+        usage();
     }
     if (retval < 0) {
         show_error(retval);

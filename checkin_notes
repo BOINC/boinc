@@ -6555,20 +6555,20 @@ David  15 Sept 2010
 
 David  15 Sept 2010
     - client: revert to old network functions (gethostbyname() etc.) on Win:
-    	- inet_ntop() etc. exist only on Vista+
-    	- the other functions are declared in winsock2.h.
-    		This breaks the Manager build, since wxwidgets includes winsock.h.
-    	So to hell with it.
+        - inet_ntop() etc. exist only on Vista+
+        - the other functions are declared in winsock2.h.
+            This breaks the Manager build, since wxwidgets includes winsock.h.
+        So to hell with it.
     - windows build: manager doesn't depend on client
 
     client/
-    	gui_rpc_server.cpp
-    	hostinfo_network.cpp
+        gui_rpc_server.cpp
+        hostinfo_network.cpp
     lib/
-    	gui_rpc_client.cpp,h
-    	network.cpp,h
+        gui_rpc_client.cpp,h
+        network.cpp,h
     win_build/
-    	boinc.sln
+        boinc.sln
 
 David  15 Sept 2010
     - web: improve server status page, and make it translatable
@@ -6611,11 +6611,11 @@ David  15 Sept 2010
         graphics2_win.cpp
 
 David  15 Sept 2010
-	- client (Win): use MoveFileEx() to rename file.
-		More atomic than delete/rename.
-		fixes #1010
-	lib/
-		filesyst.cpp
+    - client (Win): use MoveFileEx() to rename file.
+        More atomic than delete/rename.
+        fixes #1010
+    lib/
+        filesyst.cpp
 
 David  15 Sept 2010
     - client: if we successfully did CPU benchmarks,
@@ -6667,12 +6667,12 @@ David  16 Sept 2010
         app_control.cpp
 
 David  16 Sept 2010
-	- client: improve "wrong URL" messages
-	- client: add title to client/server messages: "Notice from BOINC"
+    - client: improve "wrong URL" messages
+    - client: add title to client/server messages: "Notice from BOINC"
 
-	client/
-		client_msgs.cpp
-		cs_scheduler.cpp
+    client/
+        client_msgs.cpp
+        cs_scheduler.cpp
 
 David  17 Sept 2010
     - scheduler: message tweak
@@ -6764,17 +6764,17 @@ Rom    23 Sept 2010
         screensaver_win.cpp, .h
 
 David  23 Sept 2010
-	- client: write GPU info to client_state.xml,
-		so that it can be input file to the client simulator.
+    - client: write GPU info to client_state.xml,
+        so that it can be input file to the client simulator.
 
-	client/
-		cs_scheduler.cpp
-		cs_statefile.cpp
-		gui_rpc_server_ops.cpp
-	lib/
-		app_ipc.cpp
-		coproc.cpp,h
-		hostinfo.cpp,h
+    client/
+        cs_scheduler.cpp
+        cs_statefile.cpp
+        gui_rpc_server_ops.cpp
+    lib/
+        app_ipc.cpp
+        coproc.cpp,h
+        hostinfo.cpp,h
 
 Charlie 24 Sept 2010
     Mac: add Mac executables of wrapper application.
@@ -6913,14 +6913,14 @@ David  29 Sept 2010
         app.cpp
 
 David  29 Sept 2010
-	- client: in computing non-BOINC CPU time,
-		ignore ACTIVE_TASKs that don't have a process.
-	- client: bug fix to previous checkin
+    - client: in computing non-BOINC CPU time,
+        ignore ACTIVE_TASKs that don't have a process.
+    - client: bug fix to previous checkin
 
-	client/
-		app.cpp
-	lib/
-		procinfo_win.cpp
+    client/
+        app.cpp
+    lib/
+        procinfo_win.cpp
 
 David  29 Sept 2010
     - client (unix): don't count low-priority processes towards
@@ -6941,7 +6941,7 @@ Charlie 29 Sept 2010
         code on Mac.
     
     lib/
-    	gui_rpc_client.cpp,h
+        gui_rpc_client.cpp,h
     
 David  29 Sept 2010
     - lib: make str_util.h C-compatible (from Matt Arsenault)
@@ -6962,7 +6962,7 @@ Charlie 30 Sept 2010
     NOTE: This is not yet tested with actual IPV6 addresses.
     
     lib/
-    	gui_rpc_client.cpp,h
+        gui_rpc_client.cpp,h
 
 Rom    30 Sept 2010
     - Tag for 6.11.9 release, all platforms
@@ -7171,9 +7171,19 @@ David  7 Oct 2010
         pm.inc
 
 David  7 Oct 2010
-	- GUI RPC: remove unneeded isIPV6 flag, factor out sizeof() logic
+    - GUI RPC: remove unneeded isIPV6 flag, factor out sizeof() logic
 
-	lib/
-		gui_rpc_client.cpp,h
-	clientgui/
-		BOINCTaskBar.cpp
+    lib/
+        gui_rpc_client.cpp,h
+    clientgui/
+        BOINCTaskBar.cpp
+
+David  7 Oct 2010
+    - GUI RPC: when resolving hostnames, ask for only IPV4 addresses.
+        No point in allowing IPV6 since the client doesn't
+        create a listening socket for IPV6
+
+    lib/
+        network.cpp
+    client/
+        boinc_cmd.cpp
