@@ -7123,6 +7123,25 @@ David  6 Oct 2010
     clientgui/
         AdvancedFrame.cpp
 
+David  6 Oct 2010
+    - fix a few absolutely last messages with "attach", "detach"
+
+    clientgui/
+        CompletionPage.cpp
+        AdvancedFrame.cpp
+        ProjectInfoPge.cpp
+        WelcomePage.cpp
+        AccountInfoPage.cpp
+        ViewResources.cpp
+        CompletionErrorPage.cpp
+    html/
+        inc/
+            prefs.inc
+        user/
+            create_account_form.php
+            sample_index.php
+            weak_auth.php
+
 Rom    7 Oct 2010
     - Increment version to 6.12.0.
 

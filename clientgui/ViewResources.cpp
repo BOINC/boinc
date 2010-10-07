@@ -225,7 +225,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
             //paint an empty black pie
 			m_pieCtrlBOINC->m_Series.Clear();
 			wxPiePart part;
-            part.SetLabel(_("not attached to any BOINC project: 0 bytes"));
+            part.SetLabel(_("no projects: 0 bytes used"));
 			part.SetValue(1);
 			part.SetColour(wxColour(0,0,0));
 			m_pieCtrlBOINC->m_Series.Add(part);

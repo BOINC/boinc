@@ -858,7 +858,7 @@ function print_prefs_display_global($user, $columns=false) {
 
     echo "<span class=note>".
          tra("These apply to all BOINC projects in which you participate.<br>
-             On computers attached to multiple projects, the most recently modified preferences will be used.").
+             On computers participating in multiple projects, the most recently modified preferences will be used.").
          "</span><br><br>";
     if (isset($global_prefs->mod_time)) {
         echo tra("Preferences last modified:")." ".pretty_time_str($global_prefs->mod_time);

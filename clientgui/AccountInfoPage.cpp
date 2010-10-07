@@ -393,7 +393,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 			);
 		} else if (pc.account_creation_disabled) {
 			m_pAccountQuestionStaticCtrl->SetLabel(
-				_("This project is not currently accepting new accounts.\nYou can attach only if you already have an account.")
+				_("This project is not currently accepting new accounts.\nYou can add it only if you already have an account.")
 			);
 		} else {
 			m_pAccountQuestionStaticCtrl->SetLabel(
@@ -409,10 +409,10 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     } else {
         if (pWA->m_bCookieRequired && !pWA->m_bCredentialsDetected) {
             m_pCookieDetectionFailedStaticCtrl->SetLabel(
-                _("We were not able to set up your account information\nautomatically.\n\nPlease click on the 'Find logon information' link\nbelow to find out what to put in the email address and\npassword fields.")
+                _("We were not able to set up your account information\nautomatically.\n\nPlease click on the 'Find login information' link\nbelow to find out what to put in the email address and\npassword fields.")
             );
             m_pCookieDetectionFailedCtrl->SetLabel(
-                _("Find logon information")
+                _("Find login information")
             );
             m_pCookieDetectionFailedCtrl->SetURL(
                 pWA->m_strCookieFailureURL

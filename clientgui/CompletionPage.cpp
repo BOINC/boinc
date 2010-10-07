@@ -244,7 +244,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
 
         } else {
             // Attach Completed
-            m_pCompletionTitle->SetLabel(_("Attached to account manager"));
+            m_pCompletionTitle->SetLabel(_("Now using account manager"));
 
             if (pSkinAdvanced->IsBranded()) {
                 wxString strWelcome;
@@ -260,11 +260,11 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             wxString strBrandedMessage;
             if (pSkinAdvanced->IsBranded()) {
                 strBrandedMessage.Printf(
-                    _("You are now successfully attached to the %s system."),
+                    _("You are now using %s to manage accounts."),
                     pWAP->project_config.name.c_str() 
                 );
             } else {
-                strBrandedMessage = _("You are now successfully attached to this account manager.");
+                strBrandedMessage = _("You are now using this account manager.");
             }
 
             m_pCompletionBrandedMessage->SetLabel( strBrandedMessage );
