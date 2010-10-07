@@ -131,6 +131,7 @@ struct CONFIG {
     int max_file_xfers_per_project;
     int max_stderr_file_size;
     int max_stdout_file_size;
+    int max_tasks_reported;
     int ncpus;
     std::string network_test_url;
     bool no_alt_platform;

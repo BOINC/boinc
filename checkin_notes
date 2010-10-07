@@ -7148,3 +7148,11 @@ Rom    7 Oct 2010
     /
         configure.ac
         version.h
+
+David  7 Oct 2010
+    - client: add <max_tasks_reported> config item:
+        limit the # of completed tasks reported per RPC
+
+    client/
+        log_flags.cpp,h
+        cs_scheduler.cpp
