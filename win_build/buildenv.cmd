@@ -28,9 +28,10 @@ SET BUILDROOT=%~dps0
 SET BUILDROOT=%BUILDROOT:\win_bu~1\=%
 
 rem Detect Branch Name
-PUSHD %BUILDROOT%\..
+PUSHD %~dp0\..\..
+FOR /F %%I IN ("%~dp0\..") DO SET _ArgBUILDROOTLFNSUPPORT=%%~fI
 FOR /D %%I IN (*.*) DO (
-    IF /I "%CD%\%%I" == "%BUILDROOT%" SET BUILDBRANCHNAME=%%I
+    IF /I "%CD%\%%I" == "%_ArgBUILDROOTLFNSUPPORT%" SET BUILDBRANCHNAME=%%I
 )
 POPD
 
@@ -147,8 +148,8 @@ rem number, we have had to rev the branch name for certain releases due
 rem to late changing features. 6.6 vs 6.6a
 FOR /F "usebackq tokens=3,* delims=_" %%I IN ('%BUILDBRANCHNAME%') DO (
     SET BUILDTOOLSNAME=boinc_depends_win_%BUILDCOMPILERDETECTED%_%%J
-    SET BUILDTOOLSROOT=%BUILDROOT%\..\%BUILDTOOLSNAME%
 )
+SET BUILDTOOLSROOT=%BUILDROOT%\..\%BUILDTOOLSNAME%
 
 IF NOT EXIST %BUILDTOOLSROOT%\win_build\subversion (
     ECHO Software NOT Detected: Build Tools...
