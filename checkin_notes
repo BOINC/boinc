@@ -7122,3 +7122,10 @@ David  6 Oct 2010
         handle_request.cpp
     clientgui/
         AdvancedFrame.cpp
+
+Rom    7 Oct 2010
+    - Increment version to 6.12.0.
+
+    /
+        configure.ac
+        version.h
