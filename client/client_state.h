@@ -461,23 +461,15 @@ struct CLIENT_STATE {
 #ifdef SIM
     RANDOM_PROCESS available;
     RANDOM_PROCESS idle;
-    FILE* html_out;
     double connection_interval;
         // don't connect more often than this
 
-    void html_start();
-    void html_rec();
-    void html_end();
-    std::string html_msg;
     double share_violation();
     double monotony();
 
-    void do_client_simulation();
     void handle_completed_results(PROJECT*);
     void get_workload(vector<IP_RESULT>&);
-    void simulate();
     bool simulate_rpc(PROJECT*);
-    void print_project_results(FILE*);
 #endif
 };
 

@@ -24,6 +24,12 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 
+// don't allow /... at the end of URL
+
+if (array_key_exists("PATH_INFO", $_SERVER)) {
+    die("bad URL");
+}
+
 ini_set("memory_limit", "64M");
 
 date_default_timezone_set("UTC");

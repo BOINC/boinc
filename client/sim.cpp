@@ -71,6 +71,8 @@ const char* summary_fname = "sim_summary.xml";
 bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
+FILE* html_out;
+string html_msg;
 bool running;
 double running_time = 0;
 bool server_uses_workload = false;
@@ -80,6 +82,12 @@ SIM_RESULTS sim_results;
 
 void usage(char* prog) {
     fprintf(stderr, "usage: %s\n"
+        "[--state_file F]\n"
+        "[--prefs_file F]\n"
+        "[--config_file F]\n"
+        "[--timeline_file F]\n"
+        "[--log_file F]\n"
+        "[--summary_file F]\n"
         "[--duration X]\n"
         "[--delta X]\n"
         "[--server_uses_workload]\n"
@@ -87,6 +95,13 @@ void usage(char* prog) {
         prog
     );
     exit(1);
+}
+
+void print_project_results(FILE* f) {
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->print_results(f, sim_results);
+    }
 }
 
 APP* choose_app(vector<APP*>& apps) {
@@ -200,7 +215,7 @@ void CLIENT_STATE::handle_completed_results(PROJECT* p) {
                 spp->project_results.nresults_met_deadline++;
                 spp->project_results.cpu_used += rp->final_cpu_time;
             }
-            gstate.html_msg += buf;
+            html_msg += buf;
             delete rp;
             result_iter = results.erase(result_iter);
         } else {
@@ -313,10 +328,12 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
         results.push_back(rp);
         new_results.push_back(rp);
+#if 0
         sprintf(buf, "got job %s: CPU time %.2f, deadline %s<br>",
             rp->name, rp->final_cpu_time, time_to_string(rp->report_deadline)
         );
         html_msg += buf;
+#endif
         decrement_request(rp);
     }
 
@@ -423,14 +440,16 @@ bool ACTIVE_TASK_SET::poll() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         p->idle = true;
+#if 0
         sprintf(buf, "%s STD: %f LTD %f<br>",
             p->project_name, p->cpu_pwf.short_term_debt,
             p->pwf.overall_debt
         );
-        gstate.html_msg += buf;
+        html_msg += buf;
+#endif
     }
 
-    int n=0;
+    double x=0;
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         switch (atp->task_state()) {
@@ -450,19 +469,15 @@ bool ACTIVE_TASK_SET::poll() {
                 gstate.request_schedule_cpus("ATP poll");
                 gstate.request_work_fetch("ATP poll");
                 sprintf(buf, "result %s finished<br>", rp->name);
-                gstate.html_msg += buf;
+                html_msg += buf;
                 action = true;
             }
             rp->project->idle = false;
-            n++;
+            x += rp->avp->avg_ncpus;
         }
     }
-    if (n < gstate.ncpus) {
-        sim_results.cpu_idle += diff*(gstate.ncpus-n);
-    }
-    if (n > gstate.ncpus) {
-        sprintf(buf, "TOO MANY JOBS RUNNING");
-        gstate.html_msg += buf;
+    if (x < gstate.ncpus) {
+        sim_results.cpu_idle += diff*(gstate.ncpus-x);
     }
 
     for (i=0; i<gstate.projects.size(); i++) {
@@ -600,61 +615,53 @@ const char* colors[] = {
     "#ffdddd",
 };
 
-bool uses_coproc(RESULT*, COPROC*) {
-    // TODO
-    return false;
-}
-
-bool using_instance(RESULT*, int) {
-    return false;
-}
-
-void gpu_header_aux(COPROC* cp) {
-    for (int i=0; i<cp->count; i++) {
-        fprintf(gstate.html_out, "<th>%s %d</th>", cp->type, i);
+void show_cuda() {
+    fprintf(html_out, "<td>");
+    bool found = false;
+    for (unsigned int k=0; k<gstate.active_tasks.active_tasks.size(); k++) {
+        ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[k];
+        RESULT* rp = atp->result;
+        if (!rp->avp->ncudas) continue;
+        if (atp->task_state() != PROCESS_EXECUTING) continue;
+        PROJECT* p = rp->project;
+        fprintf(html_out, "%.2f: <span color=%s>%s%s: %.2f</span><br>",
+            rp->avp->ncudas,
+            colors[p->index],
+            atp->result->rr_sim_misses_deadline?"*":"",
+            atp->result->name,
+            atp->cpu_time_left
+        );
+        found = true;
     }
+    if (!found) fprintf(html_out, "IDLE");
+    fprintf(html_out, "</td>");
 }
 
-void gpu_header() {
-    gpu_header_aux(&gstate.host_info.coprocs.cuda);
-    gpu_header_aux(&gstate.host_info.coprocs.ati);
-}
-
-void gpu_off_aux(COPROC* cp) {
-    for (int i=0; i<cp->count; i++) {
-        fprintf(gstate.html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+void show_ati() {
+    fprintf(html_out, "<td>");
+    bool found = false;
+    for (unsigned int k=0; k<gstate.active_tasks.active_tasks.size(); k++) {
+        ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[k];
+        RESULT* rp = atp->result;
+        if (!rp->avp->natis) continue;
+        if (atp->task_state() != PROCESS_EXECUTING) continue;
+        PROJECT* p = rp->project;
+        fprintf(html_out, "%.2f: <span color=%s>%s%s: %.2f</span><br>",
+            rp->avp->natis,
+            colors[p->index],
+            atp->result->rr_sim_misses_deadline?"*":"",
+            atp->result->name,
+            atp->cpu_time_left
+        );
+        found = true;
     }
+    if (!found) fprintf(html_out, "IDLE");
+    fprintf(html_out, "</td>");
 }
 
-void gpu_off() {
-    gpu_off_aux(&gstate.host_info.coprocs.cuda);
-    gpu_off_aux(&gstate.host_info.coprocs.ati);
-}
+int nproc_types = 1;
 
-void gpu_on_aux(COPROC* cp) {
-    for (int j=0; j<cp->count; j++) {
-        for (unsigned int k=0; k<gstate.active_tasks.active_tasks.size(); k++) {
-            ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[k];
-            RESULT* rp = atp->result;
-            if (!uses_coproc(rp, cp)) continue;
-            if (atp->task_state() != PROCESS_EXECUTING) continue;
-            if (!using_instance(rp, j)) continue;
-            PROJECT* p = rp->project;
-            fprintf(gstate.html_out, "<td bgcolor=%s>%s%s: %.2f</td>",
-                colors[p->index],
-                atp->result->rr_sim_misses_deadline?"*":"",
-                atp->result->name, atp->cpu_time_left
-            );
-        }
-    }
-}
-
-void gpu_on() {
-    gpu_on_aux(&gstate.host_info.coprocs.cuda);
-    gpu_on_aux(&gstate.host_info.coprocs.ati);
-}
-
-void CLIENT_STATE::html_start() {
+void html_start() {
     char buf[256];
 
     html_out = fopen(timeline_fname, "w");
@@ -663,57 +670,74 @@ void CLIENT_STATE::html_start() {
         exit(1);
     }
     setbuf(html_out, 0);
-    fprintf(html_out, "<h2>Simulator output</h2>\n");
+    fprintf(html_out, "<h2>BOINC client simulator</h2>\n");
     fprintf(html_out,
         "<table border=1><tr><th>Time</th>\n"
     );
-    for (int i=0; i<ncpus; i++) {
-        fprintf(html_out,
-            "<th>CPU %d<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>", i
-        );
+    fprintf(html_out,
+        "<th>CPU<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>"
+    );
+    if (gstate.host_info.coprocs.cuda.count) {
+        fprintf(html_out, "<th>NVIDIA GPU</th>");
+        nproc_types++;
     }
-    gpu_header();
-    fprintf(html_out, "<th>Notes</th></tr>\n");
+    if (gstate.host_info.coprocs.ati.count) {
+        fprintf(html_out, "<th>ATI GPU</th>");
+        nproc_types++;
+    }
+    fprintf(html_out, "</tr>\n");
 }
 
-void CLIENT_STATE::html_rec() {
-    static int line_num=0;
-
-    fprintf(html_out, "<tr><td>%s</td>", time_to_string(now));
+void html_rec() {
+    fprintf(html_out, "<tr><td>%s</td>", time_to_string(gstate.now));
 
     if (!running) {
-        for (int j=0; j<ncpus; j++) {
+        fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+        if (gstate.host_info.coprocs.cuda.count) {
             fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
         }
-        gpu_off();
+        if (gstate.host_info.coprocs.ati.count) {
+            fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+        }
     } else {
-        int n=0;
-        for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
-            ACTIVE_TASK* atp = active_tasks.active_tasks[i];
-            int np = atp->result->avp->avg_ncpus;
-            if (np < 1) np = 1;
+        fprintf(html_out, "<td>");
+        double x=0;
+        for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
+            ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
             if (atp->task_state() == PROCESS_EXECUTING) {
                 PROJECT* p = atp->result->project;
-                fprintf(html_out, "<td colspan=%d bgcolor=%s>%s%s: %.2f</td>",
-                    np, colors[p->index],
+                fprintf(html_out, "(%.2f) <span bgcolor=%s>%s%s: %.2f</span><br>",
+                    atp->result->avp->avg_ncpus,
+                    colors[p->index],
                     atp->result->rr_sim_misses_deadline?"*":"",
-                    atp->result->name, atp->cpu_time_left
+                    atp->result->name,
+                    atp->cpu_time_left
                 );
-                n += np;
+                x += atp->result->avp->avg_ncpus;
             }
         }
-        while (n<ncpus) {
-            fprintf(html_out, "<td>IDLE</td>");
-            n++;
+        if (x<gstate.ncpus) {
+            fprintf(html_out, "IDLE: %.2f", gstate.ncpus-x);
+        }
+        if (gstate.host_info.coprocs.cuda.count) {
+            show_cuda();
+        }
+        if (gstate.host_info.coprocs.ati.count) {
+            show_ati();
         }
     }
-    fprintf(html_out,
-        "<td><font size=-2>%s</font></td></tr>\n", html_msg.c_str()
-    );
-    html_msg = "";
+    if (html_msg.size()) {
+        fprintf(html_out, "<tr><td>%s</td>", time_to_string(gstate.now));
+        fprintf(html_out,
+            "<td colspan=%d><font size=-2>%s</font></td></tr>\n",
+            nproc_types,
+            html_msg.c_str()
+        );
+        html_msg = "";
+    }
 }
 
-void CLIENT_STATE::html_end() {
+void html_end() {
     fprintf(html_out, "</table>");
     fprintf(html_out, "<pre>\n");
     sim_results.compute();
@@ -723,37 +747,37 @@ void CLIENT_STATE::html_end() {
     fclose(html_out);
 }
 
-void CLIENT_STATE::simulate() {
+void simulate() {
     bool action;
     double start = START_TIME;
-    now = start;
+    gstate.now = start;
     html_start();
     msg_printf(0, MSG_INFO,
         "starting simulation. delta %f duration %f", delta, duration
     );
     while (1) {
-        running = available.sample(now);
+        running = gstate.available.sample(gstate.now);
         while (1) {
-            action = active_tasks.poll();
+            action = gstate.active_tasks.poll();
             if (running) {
-                action |= handle_finished_apps();
-                action |= possibly_schedule_cpus();
-                action |= enforce_schedule();
-                action |= scheduler_rpc_poll();
+                action |= gstate.handle_finished_apps();
+                action |= gstate.possibly_schedule_cpus();
+                action |= gstate.enforce_schedule();
+                action |= gstate.scheduler_rpc_poll();
             }
             msg_printf(0, MSG_INFO, action?"did action":"did no action");
             if (!action) break;
         }
-        now += delta;
+        gstate.now += delta;
         msg_printf(0, MSG_INFO, "took time step");
-        for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
-            ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+        for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
+            ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
             if (atp->task_state() == PROCESS_EXECUTING) {
                 atp->elapsed_time += delta;
             }
         }
         html_rec();
-        if (now > start + duration) break;
+        if (gstate.now > start + duration) break;
     }
     html_end();
 }
@@ -853,19 +877,19 @@ void cull_projects() {
     }
 }
 
-void CLIENT_STATE::do_client_simulation() {
+void do_client_simulation() {
     msg_printf(0, MSG_INFO, "SIMULATION START");
     read_config_file(true, config_fname);
     config.show();
 
-    add_platform("client simulator");
-    parse_state_file_aux(state_fname);
-    read_global_prefs(prefs_fname);
+    gstate.add_platform("client simulator");
+    gstate.parse_state_file_aux(state_fname);
+    gstate.read_global_prefs(prefs_fname);
     cull_projects();
     int j=0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        if (!projects[i]->dont_request_more_work) {
-            projects[i]->index = j++;
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        if (!gstate.projects[i]->dont_request_more_work) {
+            gstate.projects[i]->index = j++;
         }
     }
 
@@ -879,7 +903,7 @@ void CLIENT_STATE::do_client_simulation() {
     gstate.set_ncpus();
     work_fetch.init();
     gstate.request_work_fetch("init");
-    gstate.simulate();
+    simulate();
 
     sim_results.compute();
 
@@ -887,7 +911,7 @@ void CLIENT_STATE::do_client_simulation() {
     sim_results.print(stdout);
 
     // then other
-    gstate.print_project_results(stdout);
+    print_project_results(stdout);
 }
 
 int main(int argc, char** argv) {
@@ -936,5 +960,5 @@ int main(int argc, char** argv) {
         exit(1);
     }
     setbuf(logfile, 0);
-    gstate.do_client_simulation();
+    do_client_simulation();
 }

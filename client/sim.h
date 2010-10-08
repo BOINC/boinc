@@ -86,6 +86,7 @@ public:
 
 extern FILE* logfile;
 extern bool user_active;
+extern std::string html_msg;
 extern SIM_RESULTS sim_results;
 extern double calculate_exponential_backoff(
     int n, double MIN, double MAX

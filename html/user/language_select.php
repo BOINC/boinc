@@ -60,7 +60,6 @@ function language_name($code) {
 if (count($languages_in_use)) {
     $cur_lang_name = language_name($languages_in_use[0]);
 } else {
-    echo "foo";
     $cur_lang_name = language_name('en');
 }
 

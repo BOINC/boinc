@@ -106,7 +106,7 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     set_task_state(PROCESS_EXECUTING, "start");
     char buf[256];
     sprintf(buf, "Starting %s: %f<br>", result->name, cpu_time_left);
-    gstate.html_msg += buf;
+    html_msg += buf;
     return 0;
 }
 
@@ -122,14 +122,6 @@ int ACTIVE_TASK::init(RESULT* rp) {
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     return 0;
 }
-
-void CLIENT_STATE::print_project_results(FILE* f) {
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        p->print_results(f, sim_results);
-    }
-}
-
 
 //////////////// OTHER
 

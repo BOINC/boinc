@@ -1187,7 +1187,6 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
     double usage;
 
     gstate.host_info.coprocs.clear_usage();
-#ifndef SIM
     if (gstate.host_info.have_cuda()) {
         gstate.host_info.coprocs.cuda.get_available_ram();
         if (log_flags.coproc_debug) {
@@ -1200,7 +1199,6 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
             gstate.host_info.coprocs.ati.print_available_ram();
         }
     }
-#endif
 
     // fill in pending usage
     //

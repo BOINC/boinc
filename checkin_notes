@@ -7215,3 +7215,19 @@ Charlie 8 Oct 2010
             MakeMacExample.sh
         wrapper/
             BuildMacWrapper.sh
+
+David  8 Oct 2010
+    - client simulator: get it to work for GPU simulation
+    - web: small fixes to mollify skipfish
+
+    html/
+        inc/
+            util.inc
+        user/
+            language_select.php
+    client/
+        sim.cpp,h
+        client_state.h
+        sim_util.cpp
+        makefile_sim
+        cpu_sched.cpp

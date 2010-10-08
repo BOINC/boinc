@@ -13,6 +13,7 @@ OBJS = \
     client_msgs.o \
     client_state.o \
     client_types.o \
+    coproc_detect.o \
     cpu_sched.o \
 	cs_account.o \
     cs_apps.o \
