@@ -40,24 +40,18 @@ if [ "$1" != "-clean" ]; then
     fi
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
-    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
-fi
-
-if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
+if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
+    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
 
 export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk"
-export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.4u.sdk"
-export CFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.4u.sdk"
-export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk"
+export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.6.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.6.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.3
 
 ./configure --disable-shared --host=ppc
@@ -78,10 +72,10 @@ if [  $? -ne 0 ]; then return 1; fi
 
 ##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch i386"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
 ./configure --disable-shared --host=i386
@@ -98,10 +92,10 @@ if [  $? -ne 0 ]; then return 1; fi
 
 ##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.5
 
 ./configure --disable-shared --host=x86_64

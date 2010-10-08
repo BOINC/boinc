@@ -38,20 +38,14 @@
 ##
 
 if [ "$1" != "-clean" ]; then
-    if [ -f lib/.libs/libcurl_ppc.a ] && [ -f lib/.libs/libcurl_i386.a ] && [ -f lib/.libs/libcurl_x86_64.a ] && [ -f lib/.libs/libcurl.a ]; then
+    if [ -f lib/.libs/libcurl_ppc.a ] && [ -f lib/.libs/libcurl_i386.a ] && [ -f lib/.libs/libcurl.a ]; then
         echo "curl-7.19.7 already built"
         return 0
     fi
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
-    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
-fi
-
-if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
+if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
+    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
@@ -253,24 +247,22 @@ cd ../c-ares-1.6.0
 make install 
 cd "${CURL_DIR}"
 
-export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
-export MACOSX_DEPLOYMENT_TARGET=10.4
 
 rm -f lib/.libs/libcurl.a
 rm -f lib/.libs/libcurl_ppc.a
 rm -f lib/.libs/libcurl_i386.a
-rm -f lib/.libs/libcurl_x86_64.a
 
 # cURL configure creates a different curlbuild.h file for each architecture
 rm -f include/curl/curlbuild.h
 rm -f include/curl/curlbuild_ppc.h
 rm -f include/curl/curlbuild_i386.h
-rm -f include/curl/curlbuild_x86_64.h
 
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS=" -isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
+export LDFLAGS=" -isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch ppc"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch ppc -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch ppc -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.3
 
 # c-ares configure creates a different ares_build.h file for each architecture
 cp -f ../c-ares-1.6.0/ares_build_ppc.h /tmp/installed-c-ares/include/ares_build.h
@@ -290,10 +282,10 @@ if [  $? -ne 0 ]; then return 1; fi
 
 ##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch i386"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
 # c-ares configure creates a different ares_build.h file for each architecture
@@ -304,49 +296,18 @@ if [  $? -ne 0 ]; then return 1; fi
 
 make
 if [  $? -ne 0 ]; then return 1; fi
-
-export CC="";export CXX=""
-export LDFLAGS=""
-export CPPFLAGS=""
-export CFLAGS=""
-export SDKROOT=""
-
-# Build for x86_64 architecture using OS 10.5 SDK
 mv -f include/curl/curlbuild.h include/curl/curlbuild_i386.h
 mv -f lib/.libs/libcurl.a lib/libcurl_i386.a
 
-make clean
-if [  $? -ne 0 ]; then return 1; fi
-
-##export PATH=/usr/local/bin:$PATH
-export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
-export MACOSX_DEPLOYMENT_TARGET=10.5
-
-# c-ares configure creates a different ares_build.h file for each architecture
-cp -f ../c-ares-1.6.0/ares_build_x86_64.h /tmp/installed-c-ares/include/ares_build.h
-
-./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=x86_64
-if [  $? -ne 0 ]; then return 1; fi
-
-make
-if [  $? -ne 0 ]; then return 1; fi
-
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 
-mv -f include/curl/curlbuild.h include/curl/curlbuild_x86_64.h
-
-mv -f lib/.libs/libcurl.a lib/.libs/libcurl_x86_64.a
 mv -f lib/libcurl_ppc.a lib/.libs/
 mv -f lib/libcurl_i386.a lib/.libs/
-lipo -create lib/.libs/libcurl_i386.a lib/.libs/libcurl_x86_64.a lib/.libs/libcurl_ppc.a -output lib/.libs/libcurl.a
+lipo -create lib/.libs/libcurl_i386.a lib/.libs/libcurl_ppc.a -output lib/.libs/libcurl.a
 if [  $? -ne 0 ]; then return 1; fi
 
 # Delete temporarily installed c-ares.
@@ -372,9 +333,7 @@ cat >> include/curl/curlbuild.h << ENDOFFILE
 #error - this file is for Macintosh only
 #endif
 
-#ifdef __x86_64__
-#include "curl/curlbuild_x86_64.h"
-#elif defined(__ppc__)
+#ifdef __ppc__
 #include "curl/curlbuild_ppc.h"
 #elif defined(__i386__)
 #include "curl/curlbuild_i386.h"

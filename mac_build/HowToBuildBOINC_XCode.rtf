@@ -1,10 +1,10 @@
-{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fnil\fcharset0 LucidaGrande;
-\f3\fswiss\fcharset0 ArialMT;\f4\fmodern\fcharset0 Courier-Oblique;}
-{\colortbl;\red255\green255\blue255;\red174\green0\blue0;\red0\green0\blue239;}
-{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc2\leveljcn2\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid0\'02\'05.;}{\levelnumbers\'01;}}{\listname ;}\listid1}
-{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc2\leveljcn2\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid0\'02\'05.;}{\levelnumbers\'01;}}{\listlevel\levelnfc23\levelnfcn23\leveljc2\leveljcn2\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{circle\}}{\leveltext\leveltemplateid1\'02\'05.;}{\levelnumbers\'01;}}{\listname ;}\listid2}}
-{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf320
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 ArialMT;
+\f3\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;\red174\green0\blue0;\red0\green0\blue239;\red0\green0\blue0;
+}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \margl1440\margr1440\vieww14740\viewh11840\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 4/3/10\
+Last updated 10/7/10\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-This document applies to BOINC version 6.10.44 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 6.11.9 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 Note: the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -51,57 +51,41 @@ Contents of this document:\
 \b0 : 32-bit intel processors running OS 10.4.0 and above\
 {\listtext	\'95	}
 \b x86_64-apple-darwin
-\b0 : 64-bit intel processors running OS 10.5.0 and above\
+\b0 : 64-bit Intel processors running OS 10.5.0 and above\
 \pard\pardeftab720\sa260\ql\qnatural
 \cf0 BOINC does not support 64-bit PowerPC applications for the Mac.\
-You need to take certain steps to ensure that you use only APIs that are available in all the OS versions BOINC supports for each architecture. There are two basic ways to accomplish this:\
-\pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
-\ls2\ilvl0\cf0 {\listtext	\'95	}Build each platform on a system running the oldest OS you need to support, then combine them into a Universal Binary using the lipo command-line utility:\
-\pard\tx940\tx1440\pardeftab720\li1440\fi-1440\ql\qnatural
-\ls2\ilvl1\cf0 {\listtext	
-\f2 \uc0\u9702 
-\f0 	}A PowerPC development system running OS 10.3.9\
-{\listtext	
-\f2 \uc0\u9702 
-\f0 	}An Intel development system running OS 10.4.x\
-{\listtext	
-\f2 \uc0\u9702 
-\f0 	}A 64-bit development Intel system running OS 10.5.x. However, at the time this is written, the BOINC Makefiles do not directly build 64-bit binaries; you will have to modify the Makefile slightly to specify the x86_64 architecture by adding the compiler and linker flag -arch x86_64.\
-\pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
-\ls2\ilvl0\cf0 {\listtext	\'95	}Use a single development system running OS 10.5.x and cross-compile for the various platforms. The remainder of this document describes that process.\
+Although BOINC supports 64-bit Intel project applications on Mac OS 10.5.0 and above, the only part of the BOINC client package built as a 64-bit executable is the screensaver coordinator for OS 10.6.x.  The BOINC libraries also include a 64-bit build so that they can be linked with 64-bit project applications.\
+You need to take certain steps to ensure that you use only APIs that are available in all the OS versions BOINC supports for each architecture. The best way to accomplish this is to use a single development system running OS 10.6.x and cross-compile for the various platforms. The remainder of this document describes that process.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \b \cf0 The above requirements apply not only BOINC itself, but also the WxWidgets, JPEG, c-ares and cURL libraries, as well as all project applications
-\b0 . The BOINC Client does not use WxWidgets or JPEG, so only the c-ares and cURL libraries must be built for  the x86_64 architecture.\
+\b0 . Only theJPEG library must be built for  the x86_64 architecture, since it is used by the libboinc_graphics_api library.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 Be sure to follow the directions in this document to ensure that these requirements are met.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
 \pard\pardeftab720\sa260\ql\qnatural
 \cf0 Starting with version 6.1.0, the BOINC Client supports only Mac OS X 10.3.9 and later; support for OS 10.3.0 through 10.3.8 has been discontinued. This allows us to build the BOINC Client and Manager using only GCC 4.0, which offers a number of advantages.\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf0 Be sure to follow the directions in this document to ensure that these requirements are met.\
-\
-\pard\pardeftab720\sa260\ql\qnatural
-\cf0 As of version 6.1.0, the BOINC Client includes support for the x86_64 (64-bit Intel) architecture.\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf0 \
+Starting with version 6.10.58,  the BOINC Client supports only Mac OS X 10.4.0 and later.  This allows it to be built with XCode 3.2 under OS 10.6.x, which does not support the Mac OS 10.3.9 SDK. \
 \pard\pardeftab720\sa260\qc
 
 \b\fs28 \cf0 Cross-Platform Development
-\f3\fs32 \
+\f2\fs32 \
 \pard\pardeftab720\sa260\ql\qnatural
 
-\f0\b0\fs24 \cf0 Apple provides the tools necessary to cross-compile for all three BOINC Mac platform on any Mac running OS 10.5.x.\
-Apple provides Software Developer Kits (SDKs) for OS 10.3.9, OS 10.4 and OS 10.5. These include all the header files and stub libraries appropriate to the corresponding versions of OS X.\
-You get these tools, including the GCC compilers and system library header files, by installing the XCode Tools package. I recommend running OS 10.5.x and installing XCode Tools 3.0 or later. If you have the OS 10.5 installation DVD for your system, you can install XCode Tools at the time you install the OS, or you can install it later by opening the file Optional Installs/XCode Tools/XCodeTools.mpkg.\
+\f0\b0\fs24 \cf0 Apple provides the tools necessary to cross-compile for all three BOINC Mac platform on any Mac running OS 10.6.x.\
+You get these tools, including the GCC compilers and system library header files, by installing the XCode Tools package. Building BOINC and the library packages on which it depends requires XCode 3.2 or later running under OS 10.6.x or later. If you have the OS 10.6 installation DVD for your system, you can install XCode Tools at the time you install the OS, or you can install it later by opening the file Optional Installs/XCode Tools/XCodeTools.mpkg.\
 Otherwise, you can download it from Apple's web site (it is large: 1.1 GB). You must be a member of the Apple Developer Connection to download the software, but you can join for free at: {\field{\*\fldinst{HYPERLINK "http://connect.apple.com/"}}{\fldrslt \cf2 http://connect.apple.com}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\b \cf0 Building BOINC now requires XCode Tools version 3.0 or later. 
-\b0  Note that the MacOS10.3.9 SDK is not automatically included unless you customize the installation; click  the 
+\b \cf0 Building BOINC now requires XCode Tools version 3.2 or later. 
+\b0  Note that the MacOS10.4u SDK is not automatically included unless you customize the installation; click  the 
 \b Customize
 \b0  button in the 
 \i Installation type
@@ -113,8 +97,22 @@ Source files are now archived using Subversion.  You can download svnX, a free G
 or\
 	{\field{\*\fldinst{HYPERLINK "http://www.lachoseinteractive.net/en/community/subversion/svnx/"}}{\fldrslt http://www.lachoseinteractive.net/en/community/subversion/svnx/}}\
 \
-You also need to install Subversion itself.  One place to get it is:\
-	{\field{\*\fldinst{HYPERLINK "http://www.codingmonkeys.de/mbo/"}}{\fldrslt http://www.codingmonkeys.de/mbo/}}\
+You also need to install Subversion itself in the 
+\f1\fs26 /usr/local/bin/
+\f3  directory
+\f0\fs24 .  By default, OS X and XCode install it in 
+\fs26 /
+\f1 usr/bin/
+\f0\fs24 .  To copy it into 
+\f1\fs26 /usr/local/bin/
+\f0 , enter the following in the Terminal utility application:\
+\
+
+\f1\fs24 cd /usr/bin\
+sudo cp -p svn* /usr/local/bin\
+
+\f0 \
+Enter your administrator password when prompted to do so.\
 \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
@@ -160,42 +158,16 @@ jpeg-6b (needed  only if you are building the BOINC libboinc_graphics_api.a libr
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f0\fs24 \cf0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-
-\i \cf0 XCode 3.0 installs autoconf 2.61 and automake 1.10.
-\i0   
-\i To determine the version number, type 
-\f4\fs26 autoconf --version
-\f0\fs24  or 
-\f4\fs26 automake --version
-\f0\fs24 .  Building curl-7.19.7 requires autoconf 2.59 and automake 1.9.3 or later.  \
-\
-Upgrades for autoconf and automake are available from www.gnu.org:  \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-{\field{\*\fldinst{HYPERLINK "http://ftp.gnu.org/gnu/autoconf/autoconf-2.61.tar.gz"}}{\fldrslt 
-\f1\i0\fs26 \cf0 http://ftp.gnu.org/gnu/autoconf/autoconf-2.61.tar.gz}}
-\f1\i0\fs26 \cf3 \ul \ulc3 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-{\field{\*\fldinst{HYPERLINK "http://ftp.gnu.org/gnu/automake/automake-1.10.tar.gz"}}{\fldrslt \cf0 \ulnone http://ftp.gnu.org/gnu/automake/automake-1.10.tar.gz}}\cf0 \ulnone \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-
-\f0\i\fs24 \cf0 \
-XCode installed these utilities in the 
-\f4\fs26 /usr/bin/ 
-\f0\fs24 directory, but the upgrades by default will install in 
-\f4\fs26 /usr/local/bin/.
-\f0\fs24   If you install there, you must also set your 
-\f4\fs26 PATH
-\f0\fs24  environment variable to include that location.  The scripts referenced below do this automatically.\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-
-\i0 \cf0 \
 \pard\pardeftab720\sa260\ql\qnatural
-\cf0 All BOINC software for Power PC Macs must be built using MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.9.\uc0\u8232 All 32-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.\u8232 All 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.5 SDK.\
-These are not done by either the XCode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.6.0, curl-7.19.7, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 Building BOINC and the library packages on which it depends requires OS 10.5 and XCode 3.0 (or greater).  \
-\
+\cf0 XCode will automatically check compatibility back to OS 10.3 if the following are defined during compilation:\
+\pard\tx480\pardeftab480\ql\qnatural\pardirnatural
+
+\f1\fs26 \cf4 \CocoaLigature0 MAC_OS_X_VERSION_MAX_ALLOWED=1030\
+MAC_OS_X_VERSION_MIN_REQUIRED=1030\CocoaLigature1 \
+\pard\pardeftab720\sa260\ql\qnatural
+
+\f0\fs24 \cf0 \
+These are not defined automatically by either the XCode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.6.0, curl-7.19.7, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
@@ -269,7 +241,7 @@ source BuildMacBOINC.sh
 The complete syntax for this script is\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\fs26 \cf0 source BuildMacBOINC.sh [-dev] [-noclean] [-no64bit] [-all] [-lib] [-client] [-help]
+\f1\fs26 \cf0 source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]
 \f0\fs24 \
 \
 The options for BuildMacBOINC.sh are:\
@@ -278,8 +250,6 @@ The options for BuildMacBOINC.sh are:\
 \
 	-noclean	don't do a "clean" of each target before building.\
 			default is to clean all first.\
-\
-	-no64bit	build 32-bit binaries only, no x86_64 architecture.\
 \
   The following arguments determine which targets to build\
 	-all		build all targets (i.e. target "Build_All" -- this is the default)\
@@ -294,34 +264,24 @@ The options for BuildMacBOINC.sh are:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \b \cf0 Note:
-\b0  You may find three XCode projects in the BOINC_dev/boinc/mac_build/ directory: \
-  \'95 
-\b boinc.pbproj
-\b0  is obsolete and should no longer be used.\
+\b0  You may find two XCode projects in the BOINC_dev/boinc/mac_build/ directory: \
   \'95 
 \b wxMac-BOINC.xcodeproj
 \b0  was needed for building older versions of the wxMac library in conjunction with the older versions of the setupForBoinc.sh or buildWxMac.sh scripts.  It is not used for BOINC 5.9.2 or later.  \
   \'95 
 \b boinc.xcodeproj
-\b0  builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  It has three extra build configurations, 
-\i i386-Deployment
-\i0  and 
-\i ppc-Deployment
-\i0 , which can be used for testing only to build for just one architecture, and 
-\i Deployment-no64
-\i0  which builds only 32-bit products.  The 
+\b0  builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  The 
 \i Development
 \i0  build configuration builds only the native architecture and is used for debugging.  The 
 \i Deployment
-\i0  build configuration builds a universal binary and is suitable for release builds.\
+\i0  build configuration builds a universal binary and is suitable for release builds.  If there are any other build configurations, they should not be used as they are obsolete.\
 \
-The standard release of BOINC version 6.1.0 and later contains a universal binary of the BOINC Client containing builds for three architectures: ppc, i386 and x86_64.  The Mac OS automatically chooses the appropriate architecture as follows:\
+The standard release of BOINC version 6.1.0 and later contains a universal binary of the BOINC Client containing builds for two architectures: ppc and i386.  The Mac OS automatically chooses the appropriate architecture as follows:\
  \'95 On a PowerPC Mac, it runs the ppc executable.\
- * On a Mac with a 64-bit Intel processor running OS 10.5 or later, it runs the x86_64 executable.\
- * On any other Intel Mac, it runs the i386 executable.\
+ * On an Intel Mac, it runs the i386 executable.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 \cf0 \
+\f3 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f0 \cf0 \
@@ -343,14 +303,14 @@ source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh x y z\
 \cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above.  For example, to build the installer for BOINC version 5.5.4, the command would be\
 \pard\pardeftab720\ql\qnatural
 
-\f1\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 5 5 4\
+\f1\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 6 11 9\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f0\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_5_5_4" in the BOINC_dev directory.
+\f0\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_6_11_9" in the BOINC_dev directory.
 \f1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 \cf0 \
+\f3 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f0 \cf0 \
@@ -367,7 +327,7 @@ source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh x y z\
 \f1 http://boinc.berkeley.edu/trac/wiki/SandboxUser}}\
 \
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural\pardirnatural
-\cf0 \CocoaLigature0 The GDB debugger can't attach to applications which are running as a diferent user or group so it ignores the S_ISUID and S_ISGID permisison bits when launching an application.  To work around this, the BOINC 
+\cf0 \CocoaLigature0 The GDB debugger can't attach to applications which are running as a different user or group so it ignores the S_ISUID and S_ISGID permission bits when launching an application.  To work around this, the BOINC 
 \i \CocoaLigature1 Development
 \i0 \CocoaLigature0  build does not use the special boinc_master or boinc_project users or groups, and so can be run under the debugger from XCode.  \
 \
@@ -380,7 +340,7 @@ The
 To restore the standard ownerships and permissions, run the installer.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 \cf0 \CocoaLigature1 \
+\f3 \cf0 \CocoaLigature1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f0 \cf0 \
