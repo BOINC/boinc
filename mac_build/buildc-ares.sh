@@ -38,37 +38,30 @@
 ##
 
 if [ "$1" != "-clean" ]; then
-    if [ -f .libs/libcares_ppc.a ] && [ -f .libs/libcares_i386.a ] && [ -f .libs/libcares_x86_64.a ] && [ -f .libs/libcares.a ]; then
+    if [ -f .libs/libcares_ppc.a ] && [ -f .libs/libcares_i386.a ] && [ -f .libs/libcares.a ]; then
         echo "c-ares-1.6.0 already built"
         return 0
     fi
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
-    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
-fi
-
-if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
+if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
+    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
 
 export PATH=/usr/local/bin:$PATH
-export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
-export MACOSX_DEPLOYMENT_TARGET=10.4
 
 rm -f .libs/libcares.a
 rm -f .libs/libcares_ppc.a
 rm -f .libs/libcares_i386.a
-rm -f .libs/libcares_x86_64.a
 
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch ppc -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch ppc"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch ppc"
+export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.3
 
 ./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=ppc
 if [  $? -ne 0 ]; then return 1; fi
@@ -87,10 +80,10 @@ if [  $? -ne 0 ]; then return 1; fi
 
 ##export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
-export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386"
+export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
 ./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=i386
@@ -107,38 +100,11 @@ export CPPFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 
-# Build for x86_64 architecture using OS 10.5 SDK
 mv -f .libs/libcares.a libcares_i386.a
 
-make clean
-if [  $? -ne 0 ]; then return 1; fi
-
-##export PATH=/usr/local/bin:$PATH
-export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
-export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
-export MACOSX_DEPLOYMENT_TARGET=10.5
-
-./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=x86_64
-if [  $? -ne 0 ]; then return 1; fi
-
-make
-if [  $? -ne 0 ]; then return 1; fi
-# c-ares configure creates a different ares_build.h file for each architecture
-cp -f ares_build.h ares_build_x86_64.h
-
-export CC="";export CXX=""
-export LDFLAGS=""
-export CPPFLAGS=""
-export CFLAGS=""
-export SDKROOT=""
-
-mv -f .libs/libcares.a .libs/libcares_x86_64.a
 mv -f libcares_ppc.a .libs/
 mv -f libcares_i386.a .libs/
-lipo -create .libs/libcares_i386.a .libs/libcares_x86_64.a .libs/libcares_ppc.a -output .libs/libcares.a
+lipo -create .libs/libcares_i386.a .libs/libcares_ppc.a -output .libs/libcares.a
 if [  $? -ne 0 ]; then return 1; fi
 
 return 0

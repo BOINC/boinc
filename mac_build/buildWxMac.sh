@@ -32,6 +32,19 @@
 ## the -clean argument will force a full rebuild.
 #
 
+Path=$PWD
+echo "${Path}" | grep " " > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "**********                                      **********"
+    echo "********** ERROR: Path must not contain spaces! **********"
+    echo "**********                                      **********"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    return 1
+fi
 
 if [ "$1" = "-clean" ]; then
   doclean="clean "
@@ -40,13 +53,7 @@ else
 fi
 
 if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
-    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
-fi
-
-if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
+    echo "ERROR: System 10.4 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
@@ -80,8 +87,8 @@ fi
 if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
     echo "Deployment libwx_mac_static.a already built"
 else
-     export DEVELOPER_SDK_DIR="/Developer/SDKs"
-     xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION=4.0 GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET=10.4 MACOSX_DEPLOYMENT_TARGET_ppc=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk SDKROOT_ppc=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+    export DEVELOPER_SDK_DIR="/Developer/SDKs"
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION=4.0 GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CFLAGS="-I build/include -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -89,11 +96,11 @@ fi
 if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
     echo "Development libwx_mac_static.a already built"
 else
-     export DEVELOPER_SDK_DIR="/Developer/SDKs"
-     xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION=4.0 GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET=10.4 MACOSX_DEPLOYMENT_TARGET_ppc=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk SDKROOT_ppc=/Developer/SDKs/MacOSX10.4u.sdk OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+    export DEVELOPER_SDK_DIR="/Developer/SDKs"
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION=4.0 GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk OTHER_CFLAGS="-I build/include -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 -fvisibility=hidden -fvisibility-inlines-hidden"
 ## The above line does Development build for only the native architecture.  
 ## Use line below instead for Universal Binary Development build
-##    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build MACOSX_DEPLOYMENT_TARGET=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+##    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build MACOSX_DEPLOYMENT_TARGET=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CFLAGS="-I build/include -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi

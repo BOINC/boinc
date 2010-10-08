@@ -7164,3 +7164,13 @@ David  7 Oct 2010
 		gui_rpc_client.cpp,h
 	clientgui/
 		BOINCTaskBar.cpp
+
+Charlie 8 Oct 2010
+    - Mac: Update build scripts and documentation.
+
+     mac_build/
+        buildc-ares.sh
+        buildcurl.sh
+        buildjpeg.sh
+        buildWxMac.sh
+        HowToBuildBOINC_XCode.rtf
