@@ -7168,9 +7168,15 @@ David  7 Oct 2010
 Charlie 8 Oct 2010
     - Mac: Update build scripts and documentation.
 
-     mac_build/
+    mac_build/
         buildc-ares.sh
         buildcurl.sh
         buildjpeg.sh
         buildWxMac.sh
         HowToBuildBOINC_XCode.rtf
+    samples/
+        example_app/
+            Makefile_mac2
+            MakeMacExample.sh
+        wrapper/
+            BuildMacWrapper.sh

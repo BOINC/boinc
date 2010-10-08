@@ -20,13 +20,8 @@
 #
 # Script to build Macintosh wrapper using Makefile
 #
-# This will build for OS 10.3.9 and later on Mac OS 10.5 and XCode 3.1
-# if you have installed the OS 10.3.9 SDK.
-#
-# This will build for OS 10.4 and later on Mac OS 10.6 and XCode 3.2 or 
-# on Mac OS 10.5 and XCode 3.1 if you  have not installed OS 10.3.9 SDK.
-#
 # by Charlie Fenton 2/15/10
+# Updated 10/8/10 for XCode 3.2 and OS 10.6 
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ##
@@ -38,36 +33,16 @@
 
 rm -fR ppc i386 x86_64
 
-if [ -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
-    HAS_1039SDK=1
-else
-    HAS_1039SDK=0
-    echo
-    echo "System 10.3.9 SDK is not available.  Building for OS 10.4 and later"
-    echo
-fi
-
 echo
 echo "***************************************************"
 echo "********** Building PowerPC Application ***********"
-if [ "$HAS_1039SDK" = "1" ]; then
-    echo "************ for OS 10.3.9 and later **************"
-else
-    echo "************* for OS 10.4 and later ***************"
-fi
 echo "***************************************************"
 echo
 
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-if [ "$HAS_1039SDK" = "1" ]; then
-export MACOSX_DEPLOYMENT_TARGET=10.3
-export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk,-arch,ppc"
-export VARIANTFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
-else
 export MACOSX_DEPLOYMENT_TARGET=10.4
-export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,ppc"
-export VARIANTFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
-fi
+export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk,-arch,ppc"
+export VARIANTFLAGS="-arch ppc -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 -isysroot /Developer/SDKs/MacOSX10.6.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
 
 rm -f wrapper.o
 rm -f wrapper
@@ -86,8 +61,8 @@ echo
 
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,i386"
-export VARIANTFLAGS="-arch i386 -isystem /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
+export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk,-arch,i386"
+export VARIANTFLAGS="-arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040 -isysroot /Developer/SDKs/MacOSX10.6.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
 
 rm -f wrapper.o
 rm -f wrapper
@@ -107,9 +82,8 @@ echo
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
 export LDFLAGS="-Wl,-arch x86_64"
-export VARIANTFLAGS="-arch x86_64 -fvisibility=hidden -fvisibility-inlines-hidden"
 export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk,-arch,x86_64"
-export VARIANTFLAGS="-arch x86_64 -isystem /Developer/SDKs/MacOSX10.5.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
+export VARIANTFLAGS="-arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 -isysroot /Developer/SDKs/MacOSX10.6.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
 
 rm -f wrapper.o
 rm -f wrapper
@@ -117,8 +91,10 @@ make -f Makefile_mac all
 
     if [  $? -ne 0 ]; then exit 1; fi
 
-    mkdir x86_64
-    mv wrapper x86_64/
+mkdir x86_64
+mv wrapper x86_64/
+
+rm -f wrapper.o
 
 echo
 echo "***************************************************"
