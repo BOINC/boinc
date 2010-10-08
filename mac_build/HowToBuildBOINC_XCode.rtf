@@ -13,7 +13,7 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 10/7/10\
+Last updated 10/8/10\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 This document applies to BOINC version 6.11.9 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
@@ -59,8 +59,8 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\b \cf0 The above requirements apply not only BOINC itself, but also the WxWidgets, JPEG, c-ares and cURL libraries, as well as all project applications
-\b0 . Only theJPEG library must be built for  the x86_64 architecture, since it is used by the libboinc_graphics_api library.\
+\b \cf0 The above requirements apply not only to BOINC itself, but also to the WxWidgets, JPEG, c-ares and cURL libraries, as well as all project applications
+\b0 . Note: only theJPEG library must be built for  the x86_64 architecture, since it is used by the libboinc_graphics_api library.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -77,7 +77,9 @@ Starting with version 6.10.58,  the BOINC Client supports only Mac OS X 10.4.0 a
 \pard\pardeftab720\sa260\ql\qnatural
 
 \f0\b0\fs24 \cf0 Apple provides the tools necessary to cross-compile for all three BOINC Mac platform on any Mac running OS 10.6.x.\
-You get these tools, including the GCC compilers and system library header files, by installing the XCode Tools package. Building BOINC and the library packages on which it depends requires XCode 3.2 or later running under OS 10.6.x or later. If you have the OS 10.6 installation DVD for your system, you can install XCode Tools at the time you install the OS, or you can install it later by opening the file Optional Installs/XCode Tools/XCodeTools.mpkg.\
+You get these tools, including the GCC compilers and system library header files, by installing the XCode Tools package. Building BOINC and the library packages on which it depends requires XCode 3.2 or later running under OS 10.6.x or later. If you have the OS 10.6 installation DVD for your system, you can install XCode Tools at the time you install the OS, or you can install it later by opening the file 
+\f1\fs26 Optional Installs/XCode Tools/XCodeTools.mpkg
+\f0\fs24 .\
 Otherwise, you can download it from Apple's web site (it is large: 1.1 GB). You must be a member of the Apple Developer Connection to download the software, but you can join for free at: {\field{\*\fldinst{HYPERLINK "http://connect.apple.com/"}}{\fldrslt \cf2 http://connect.apple.com}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
@@ -172,7 +174,7 @@ These are not defined automatically by either the XCode projects which come with
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
-[2] Put the following 3 directories inside the BOINC_dev folder (omit any you don't need):\
+[2] Put the following 4 directories inside the BOINC_dev folder (omit any you don't need):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1\fs26 \cf0     c-ares-1.6.0\
@@ -182,7 +184,7 @@ These are not defined automatically by either the XCode projects which come with
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f0\fs24 \cf0 \
-Important: do not change the names of any of these 3 directories.\
+Important: do not change the names of any of these 4 directories.\
 \
 [3] Get the BOINC source tree from Subversion, and put it in the same BOINC_dev folder.  To do this, type the following in Terminal:\
 \
@@ -277,7 +279,7 @@ The options for BuildMacBOINC.sh are:\
 \i Deployment
 \i0  build configuration builds a universal binary and is suitable for release builds.  If there are any other build configurations, they should not be used as they are obsolete.\
 \
-The standard release of BOINC version 6.1.0 and later contains a universal binary of the BOINC Client containing builds for two architectures: ppc and i386.  The Mac OS automatically chooses the appropriate architecture as follows:\
+The standard release of BOINC version 6.10.58 and later contains a universal binary of the BOINC Client containing builds for two architectures: ppc and i386.  The Mac OS automatically chooses the appropriate architecture as follows:\
  \'95 On a PowerPC Mac, it runs the ppc executable.\
  * On an Intel Mac, it runs the i386 executable.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -292,6 +294,8 @@ The standard release of BOINC version 6.1.0 and later contains a universal binar
 \b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
+In order to execute BOINC Manager, you have to install it using BOINC Manager Installer. Otherwise, you will encounter an error prompting for proper installation.\
+\
 To build the Installer for the BOINC Manager, you must be logged in as an administrator.  If you are building BOINC version number x.y.z, type the following in Terminal, then enter your administrator password when prompted by the script:\
 \
 \pard\pardeftab720\ql\qnatural
@@ -307,7 +311,9 @@ source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh x y z\
 \f1\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 6 11 9\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f0\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_6_11_9" in the BOINC_dev directory.
+\f0\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_6_11_9" in the BOINC_dev directory, and the installer will be located in '
+\f1\fs26 \{path\}/BOINC_dev/BOINC_Installer/New_Release_6_11_9/boinc_6.11.9_macOSX_universal
+\f0\fs24 '.
 \f1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
