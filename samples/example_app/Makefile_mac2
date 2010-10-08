@@ -1,5 +1,5 @@
 # stand-alone makefile for uc2 BOINC example application on Macintosh.
-# Updated 2/16/10 for OS 10.6 and XCode 3.2
+# Updated 10/8/10 for OS 10.6 and XCode 3.2
 #
 
 BOINC_DIR = ../..
@@ -21,25 +21,25 @@ CXXFLAGS_ALL = \
 
 CC_PPC = /usr/bin/gcc-4.0
 CXX_PPC = /usr/bin/g++-4.0
-CXXFLAGS_PPC = -arch ppc -mmacosx-version-min=10.4 \
-    -isysroot /Developer/SDKs/MacOSX10.4u.sdk \
+CXXFLAGS_PPC = -arch ppc -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 \
+    -isysroot /Developer/SDKs/MacOSX10.6.sdk \
     $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_PPC = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,ppc
+LDFLAGS_PPC = -Wl,-syslibroot,/Developer/SDKs/MacOSX106.sdk,-arch,ppc
 
 
 CC_i386 = /usr/bin/gcc-4.0
 CXX_i386 = /usr/bin/g++-4.0
-CXXFLAGS_i386 = -arch i386 -mmacosx-version-min=10.4  \
-    -isysroot /Developer/SDKs/MacOSX10.4u.sdk \
+CXXFLAGS_i386 = -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040 \
+    -isysroot /Developer/SDKs/MacOSX10.6.sdk \
     $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_i386 = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,i386
+LDFLAGS_i386 = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk,-arch,i386
 
 CC_x86_64 = /usr/bin/gcc-4.0
 CXX_x86_64 = /usr/bin/g++-4.0
-CXXFLAGS_x86_64 = -arch x86_64 -mmacosx-version-min=10.5 \
-    -isysroot /Developer/SDKs/MacOSX10.5.sdk \
+CXXFLAGS_x86_64 = -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 \
+    -isysroot /Developer/SDKs/MacOSX10.6.sdk \
     $(CXXFLAGS_ALL) -fvisibility=hidden -fvisibility-inlines-hidden
-LDFLAGS_x86_64 = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk,-arch,x86_64
+LDFLAGS_x86_64 = -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk,-arch,x86_64
 
 
 LIBJPEG = ../../../jpeg-6b/libjpeg.a
