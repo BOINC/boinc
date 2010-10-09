@@ -452,7 +452,14 @@
 			isa = PBXProject;
 			buildConfigurationList = DD6341040973C81800B1057F /* Build configuration list for PBXProject "UpperCase2" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* UpperCase */;
 			projectDirPath = "";
 			projectRoot = "";

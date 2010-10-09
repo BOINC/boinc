@@ -7180,3 +7180,9 @@ Charlie 8 Oct 2010
             MakeMacExample.sh
         wrapper/
             BuildMacWrapper.sh
+
+Charlie 8 Oct 2010
+    - Mac: Update build example.
+    samples/
+        mac_build/
+            UpperCase2.xcodeproj
