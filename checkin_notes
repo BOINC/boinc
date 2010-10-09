@@ -7231,3 +7231,9 @@ David  8 Oct 2010
         sim_util.cpp
         makefile_sim
         cpu_sched.cpp
+
+Charlie 8 Oct 2010
+    - Mac: Update build example.
+    samples/
+        mac_build/
+            UpperCase2.xcodeproj

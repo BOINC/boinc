@@ -452,7 +452,14 @@
 			isa = PBXProject;
 			buildConfigurationList = DD6341040973C81800B1057F /* Build configuration list for PBXProject "UpperCase2" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* UpperCase */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -554,17 +561,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
-				GCC_VERSION_x86_64 = 4.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
+				GCC_VERSION = 4.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
+					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1050",
+				);
+				OTHER_LDFLAGS = (
+					"-lboinc_api",
+					"-lboinc",
+				);
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
-				SDKROOT_x86_64 = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = x86_64_Deployment;
 		};
@@ -588,18 +595,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "../../**";
-				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				OTHER_CFLAGS = (
-					"-DAPP_GRAPHICS",
-					"-DHAVE_SIGNAL_H",
-					"-D_THREAD_SAFE",
-				);
-				OTHER_LDFLAGS = (
-					"-lboinc_api",
-					"-lboinc",
-				);
 				PREBINDING = NO;
 				PRODUCT_NAME = uc2;
 				ZERO_LINK = NO;
@@ -621,11 +617,6 @@
 				HEADER_SEARCH_PATHS = "../../**";
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-DHAVE_SIGNAL_H",
-					"-D_THREAD_SAFE",
-				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc_graphics2",
@@ -651,19 +642,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "../../**";
-				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Development/;
-				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DAPP_GRAPHICS",
-					"-DHAVE_SIGNAL_H",
-					"-D_THREAD_SAFE",
-					"-D_DEBUG",
-				);
-				OTHER_LDFLAGS = (
-					"-lboinc_api",
-					"-lboinc",
-				);
 				PREBINDING = NO;
 				PRODUCT_NAME = uc2;
 				ZERO_LINK = NO;
@@ -682,18 +661,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "../../**";
-				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-DAPP_GRAPHICS",
-					"-DHAVE_SIGNAL_H",
-					"-D_THREAD_SAFE",
-				);
-				OTHER_LDFLAGS = (
-					"-lboinc_api",
-					"-lboinc",
-				);
 				PREBINDING = NO;
 				PRODUCT_NAME = uc2;
 				ZERO_LINK = NO;
@@ -703,14 +671,17 @@
 		DD6341050973C81800B1057F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
-				MACOSX_DEPLOYMENT_TARGET = "";
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				GCC_VERSION = 4.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
+				);
+				OTHER_LDFLAGS = (
+					"-lboinc_api",
+					"-lboinc",
+				);
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
@@ -718,14 +689,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = ppc;
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				GCC_VERSION = 4.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
+				);
+				OTHER_LDFLAGS = (
+					"-lboinc_api",
+					"-lboinc",
+				);
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = ppc_Deployment;
 		};
@@ -741,18 +715,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "../../**";
-				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-DAPP_GRAPHICS",
-					"-DHAVE_SIGNAL_H",
-					"-D_THREAD_SAFE",
-				);
-				OTHER_LDFLAGS = (
-					"-lboinc_api",
-					"-lboinc",
-				);
 				PREBINDING = NO;
 				PRODUCT_NAME = uc2;
 				ZERO_LINK = NO;
@@ -763,14 +726,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
+				GCC_VERSION = 4.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-DMAC_OS_X_VERSION_MIN_REQUIRED=1040",
+				);
+				OTHER_LDFLAGS = (
+					"-lboinc_api",
+					"-lboinc",
+				);
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
 			};
 			name = i386_Deployment;
 		};
@@ -790,12 +756,6 @@
 				HEADER_SEARCH_PATHS = "../../**";
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Development/;
-				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DHAVE_SIGNAL_H",
-					"-D_THREAD_SAFE",
-					"-D_DEBUG",
-				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc_graphics2",
@@ -821,11 +781,6 @@
 				HEADER_SEARCH_PATHS = "../../**";
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-DHAVE_SIGNAL_H",
-					"-D_THREAD_SAFE",
-				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc_graphics2",
@@ -851,11 +806,6 @@
 				HEADER_SEARCH_PATHS = "../../**";
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-DHAVE_SIGNAL_H",
-					"-D_THREAD_SAFE",
-				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc_graphics2",
