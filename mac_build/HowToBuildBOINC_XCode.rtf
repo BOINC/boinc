@@ -13,7 +13,7 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 10/8/10\
+Last updated 10/11/10\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 This document applies to BOINC version 6.11.9 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
@@ -282,6 +282,12 @@ The options for BuildMacBOINC.sh are:\
 The standard release of BOINC version 6.10.58 and later contains a universal binary of the BOINC Client containing builds for two architectures: ppc and i386.  The Mac OS automatically chooses the appropriate architecture as follows:\
  \'95 On a PowerPC Mac, it runs the ppc executable.\
  * On an Intel Mac, it runs the i386 executable.\
+\
+Note: you may see the following warning when building the PowerPC executable.  You may safely ignore it:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1\fs26 \cf0 ld: warning: object file compiled with -mlong-branch which is no longer needed. To remove this warning, recompile without -mlong-branch
+\f0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f3 \cf0 \

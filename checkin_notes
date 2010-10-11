@@ -7234,6 +7234,26 @@ David  8 Oct 2010
 
 Charlie 8 Oct 2010
     - Mac: Update build example.
+    
     samples/
         mac_build/
             UpperCase2.xcodeproj
+
+Charlie 11 Oct 2010
+    - Mac: Update build scripts, build examples and documentation.
+    
+    mac_build/
+        buildc-ares.sh
+        buildcurl.sh
+        buildjpeg.sh
+        BuildMacBOINC.sh
+        buildWxMac.sh
+        HowToBuildBOINC_XCode.rtf
+    samples/
+        example_app/
+            Makefile_mac2
+            MakeMacExample.sh
+        mac_build/
+            UpperCase2.xcodeproj
+        wrapper/
+            BuildMacWrapper.sh

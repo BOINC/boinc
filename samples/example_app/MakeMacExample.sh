@@ -21,7 +21,7 @@
 # Script to build Macintosh example_app using Makefile
 #
 # by Charlie Fenton 2/16/10
-# Updated 10/8/10 for XCode 3.2 and OS 10.6 
+# Updated 10/11/10 for XCode 3.2 and OS 10.6 
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ##
@@ -40,9 +40,9 @@ echo "***************************************************"
 echo
 
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export MACOSX_DEPLOYMENT_TARGET=10.4
-export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk,-arch,ppc"
-export VARIANTFLAGS="-arch ppc -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 -isysroot /Developer/SDKs/MacOSX10.6.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
+export MACOSX_DEPLOYMENT_TARGET=10.3
+export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,ppc"
+export VARIANTFLAGS="-arch ppc -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
 
 
 rm -f uc2.o
@@ -65,8 +65,8 @@ echo
 
 export MACOSX_DEPLOYMENT_TARGET=10.4
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk,-arch,i386"
-export VARIANTFLAGS="-arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040 -isysroot /Developer/SDKs/MacOSX10.6.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
+export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk,-arch,i386"
+export VARIANTFLAGS="-arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
 
 rm -f uc2.o
 rm -f uc2_graphics.o
@@ -89,7 +89,7 @@ echo
 export MACOSX_DEPLOYMENT_TARGET=10.5
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
 export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk,-arch,x86_64"
-export VARIANTFLAGS="-arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 -isysroot /Developer/SDKs/MacOSX10.6.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
+export VARIANTFLAGS="-arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050 -isysroot /Developer/SDKs/MacOSX10.5.sdk -fvisibility=hidden -fvisibility-inlines-hidden"
 
 rm -f uc2.o
 rm -f uc2_graphics.o

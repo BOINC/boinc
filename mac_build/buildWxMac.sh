@@ -22,6 +22,7 @@
 #
 # by Charlie Fenton    7/21/06
 # Updated for wx-Mac 2.8.10 and Unicode 4/17/09
+# Updated 10/11/10
 
 #
 ## In Terminal, CD to the wxMac-2.8.10 directory.
@@ -88,7 +89,8 @@ if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
     echo "Deployment libwx_mac_static.a already built"
 else
     export DEVELOPER_SDK_DIR="/Developer/SDKs"
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION=4.0 GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CFLAGS="-I build/include -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 -fvisibility=hidden -fvisibility-inlines-hidden"
+    ## We must override some of the build settings in wxWindows.xcodeproj 
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -97,10 +99,8 @@ if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
     echo "Development libwx_mac_static.a already built"
 else
     export DEVELOPER_SDK_DIR="/Developer/SDKs"
-    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION=4.0 GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk OTHER_CFLAGS="-I build/include -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 -fvisibility=hidden -fvisibility-inlines-hidden"
-## The above line does Development build for only the native architecture.  
-## Use line below instead for Universal Binary Development build
-##    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build MACOSX_DEPLOYMENT_TARGET=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CFLAGS="-I build/include -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030 -fvisibility=hidden -fvisibility-inlines-hidden"
+    ## We must override some of the build settings in wxWindows.xcodeproj 
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi

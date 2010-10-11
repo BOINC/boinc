@@ -24,6 +24,7 @@
 # with thanks to Reinhard Prix for his assistance
 #
 # Updated for OS 10.6 and XCode 3.2 on 2/11/10
+# Updated 10/11/10
 ##
 
 ## Usage:
@@ -123,17 +124,21 @@ if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
     return 1
 fi
 
+if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
+    if [ "${style}" = "Deployment" ]; then
+        if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
+            echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
+            echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+            return 1
+        fi
+    fi
+fi
+
 if [ "${style}" = "Development" ]; then
     echo "Development (debug) build"
 else
     style="Deployment"
     echo "Deployment (release) build for architectures: i386, ppc, x86_64"
-fi
-
-if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
-    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
 fi
 
 echo ""

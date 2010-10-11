@@ -27,7 +27,7 @@
 #
 # by Charlie Fenton 7/21/06
 # Updated 12/3/09 for OS 10.6 Snow Leopard and XCode 3.2.1
-# Updated 4/3/10
+# Updated 10/11/10
 #
 ## In Terminal, CD to the c-ares-1.6.0 directory.
 ##     cd [path]/c-ares-1.6.0/
@@ -44,8 +44,8 @@ if [ "$1" != "-clean" ]; then
     fi
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
-    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
+if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
+    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
@@ -57,10 +57,10 @@ rm -f .libs/libcares_ppc.a
 rm -f .libs/libcares_i386.a
 
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch ppc -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch ppc"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch ppc"
-export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.3
 
 ./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=ppc
@@ -78,12 +78,12 @@ mv -f .libs/libcares.a libcares_ppc.a
 make clean
 if [  $? -ne 0 ]; then return 1; fi
 
-##export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386"
-export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
 ./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=i386
