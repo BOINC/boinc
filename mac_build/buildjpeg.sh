@@ -22,8 +22,8 @@
 # use in building BOINC.
 #
 # by Charlie Fenton 12/19/07
-# Updated 2/27/08
 # Updated 12/3/09 for OS 10.6 Snow Leopard and XCode 3.2.1
+# Updated 10/11/10
 #
 ## In Terminal, CD to the jpeg-6b directory.
 ##     cd [path]/jpeg-6b/
@@ -40,18 +40,24 @@ if [ "$1" != "-clean" ]; then
     fi
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.6.sdk/ ]; then
-    echo "ERROR: System 10.6 SDK is missing.  For details, see build instructions at"
+if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
+    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+    return 1
+fi
+
+if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
 
 export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk"
-export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.6.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
-export CFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.6.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
-export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk"
+export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.4u.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.4u.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.3
 
 ./configure --disable-shared --host=ppc
@@ -70,12 +76,12 @@ mv -f libjpeg.a libjpeg_ppc.a
 make clean
 if [  $? -ne 0 ]; then return 1; fi
 
-##export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk -arch i386"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
-export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
 ./configure --disable-shared --host=i386
@@ -90,12 +96,12 @@ mv libjpeg.a libjpeg_i386.a
 make clean
 if [  $? -ne 0 ]; then return 1; fi
 
-##export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
-export SDKROOT="/Developer/SDKs/MacOSX10.6.sdk"
+export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DMAC_OS_X_VERSION_MIN_REQUIRED=1030"
+export SDKROOT="/Developer/SDKs/MacOSX10.5.sdk"
 export MACOSX_DEPLOYMENT_TARGET=10.5
 
 ./configure --disable-shared --host=x86_64
