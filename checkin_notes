@@ -7238,6 +7238,7 @@ Charlie 8 Oct 2010
     samples/
         mac_build/
             UpperCase2.xcodeproj
+                project.pbxproj
 
 Charlie 11 Oct 2010
     - Mac: Update build scripts, build examples and documentation.
@@ -7255,5 +7256,6 @@ Charlie 11 Oct 2010
             MakeMacExample.sh
         mac_build/
             UpperCase2.xcodeproj
+                project.pbxproj
         wrapper/
             BuildMacWrapper.sh
