@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-17 11:04-0500\n"
-"PO-Revision-Date: 2010-06-01 01:47-0700\n"
+"PO-Revision-Date: 2010-10-09 19:24+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -11,13 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "Identify your account "
@@ -29,7 +27,7 @@ msgid ""
 "(to create an account, visit the project's web site)"
 msgstr ""
 "Kérjük, adja meg fiókinformációit\n"
-"(fiók létrehozásához keresse fel a projekt weblapját)"
+"(fiók létrehozásához keresse fel a projekt weboldalát)"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid ""
@@ -3218,8 +3216,9 @@ msgid "Scheduler request in progress"
 msgstr "Folyamatban lévő kérés az ütemezőhöz"
 
 #: clientgui/ViewProjects.cpp:1071
+#, fuzzy
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Függő üzenetek kiszivárogtatása"
 
 #: clientgui/ViewProjects.cpp:1077
 msgid "Communication deferred "
