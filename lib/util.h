@@ -83,7 +83,7 @@ extern int read_file_string(
 #ifdef _WIN32
 
 extern int run_program(
-    const char* path, const char* cdir, int argc, char *const argv[], double, HANDLE&
+    const char* dir, const char* file, int argc, char *const argv[], double, HANDLE&
 );
 
 extern void kill_program(HANDLE);
@@ -92,7 +92,7 @@ extern bool process_exists(HANDLE);
 
 #else
 extern int run_program(
-    const char* path, const char* cdir, int argc, char *const argv[], double, int&
+    const char* dir, const char* file, int argc, char *const argv[], double, int&
 );
 extern void kill_program(int);
 extern int get_exit_status(int);

@@ -7259,3 +7259,13 @@ Charlie 11 Oct 2010
                 project.pbxproj
         wrapper/
             BuildMacWrapper.sh
+
+Rom    13 Oct 2010
+    - Win/Linux: Implement the launch new manager functionality for Windows
+        and Linux.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp, .h
+    lib/
+        util.h

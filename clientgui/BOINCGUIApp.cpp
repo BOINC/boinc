@@ -130,6 +130,7 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMAC__
     m_pMacSystemMenu = NULL;
 #endif
+    m_strBOINCMGRExecutableName = wxEmptyString;
     m_strBOINCMGRRootDirectory = wxEmptyString;
     m_strBOINCMGRDataDirectory = wxEmptyString;
     m_strHostNameArg = wxEmptyString;
@@ -222,10 +223,11 @@ bool CBOINCGUIApp::OnInit() {
     // Detect if a program that is defined as an accessibility aid is running
     DetectAccessibilityEnabled();
 
+    // Detect where BOINC Manager executable name.
+    DetectExecutableName();
 
     // Detect where BOINC Manager was installed too.
     DetectRootDirectory();
-
 
     // Detect where the BOINC Data files are.
     DetectDataDirectory();
@@ -541,7 +543,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     // Give default processing (-?, --help and --verbose) the chance to do something.
     wxApp::OnCmdLineParsed(parser);
     wxString portNum = wxEmptyString;
-    long    longPort;
+    long longPort;
 
     parser.Found(wxT("boincargs"), &m_strBOINCArguments);
     if (parser.Found(wxT("autostart"))) {
@@ -646,6 +648,27 @@ void CBOINCGUIApp::DetectAccessibilityEnabled() {
     BOOL bScreenReaderEnabled = false;
     SystemParametersInfo(SPI_GETSCREENREADER, NULL, &bScreenReaderEnabled, NULL);
     m_bAccessibilityEnabled = (bScreenReaderEnabled == TRUE);
+#endif
+}
+
+
+///
+/// Determines what name BOINC Manager is called.
+///
+void CBOINCGUIApp::DetectExecutableName() {
+#ifdef __WXMSW__
+    TCHAR   szPath[MAX_PATH-1];
+
+    // change the current directory to the boinc install directory
+    GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
+		
+    TCHAR *pszProg = _tcsrchr(szPath, '\\');
+    if (pszProg) {
+        pszProg++;
+    }
+
+    // Store the root directory for later use.
+    m_strBOINCMGRExecutableName = pszProg;
 #endif
 }
 

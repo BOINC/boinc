@@ -30,6 +30,7 @@
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
+#include "util.h"
 #include "BOINCGUIApp.h"
 #include "Events.h"
 #include "SkinManager.h"
@@ -1596,7 +1597,30 @@ void CAdvancedFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnLaunchNewInstance - Function Begin"));
 
-#ifdef __WXMAC__
+#ifndef __WXMAC__
+#ifdef __WXMSW__
+    HANDLE prog;
+#else
+    int prog;
+#endif
+    int argc = 3;
+    char* argv[3];
+
+    wxString strExecutable = wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName();
+
+    argv[0] = (char*)(const char*)strExecutable.mb_str();
+    argv[1] = "--multiple";
+    argv[2] = "";
+
+    run_program(
+        wxGetApp().GetRootDirectory().mb_str(),
+        strExecutable.mb_str(),
+        argc,
+        argv, 
+        2.0,
+        prog
+    );
+#else
     char s[512];
     unsigned char procName[256];
     ProcessSerialNumber myPSN;
