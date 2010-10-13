@@ -7275,3 +7275,10 @@ Rom    13 Oct 2010
     
     clientgui/
         DlgEventLog.cpp
+
+Rom    13 Oct 2010
+    - MGR: Take two of the above.
+    
+    clientgui/
+        DlgEventLog.cpp
+        MainDocument.cpp, .h
