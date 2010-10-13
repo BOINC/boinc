@@ -7302,3 +7302,12 @@ David  13 Oct 2010
 
     lib/
         Makefile.mingw
+
+David  13 Oct 2010
+    - API/client: move CUdevice_attribute_enum out of lib/coproc.h
+        to fix app build errors
+
+    lib/
+        coproc.h
+    client/
+        coproc_detect.cpp
