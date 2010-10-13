@@ -7296,3 +7296,9 @@ David  13 Oct 2010
         cs_scheduler.cpp
     sched/
         feeder.cpp
+
+David  13 Oct 2010
+    - API: compile fix for MinGW (from Bernd)
+
+    lib/
+        Makefile.mingw

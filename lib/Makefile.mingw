@@ -55,7 +55,7 @@ INCS = -I"$(BOINC_SRC)" -I"$(BOINC_SRC)/db" -I"$(BOINC_SRC)/lib" -I"$(BOINC_SRC)
 # set NOCYGWIN=-mno-cygwin to build non-Cywin Windows libs under Cygwin
 # -D_WIN32_WINDOWS=0x0410 sets to use Win98 API
 CCXXFLAGS = $(INCS) $(DEBUG) --include $(BOINC_SRC)/version.h -DEINSTEINATHOME_CROSS_BUILD -DMINGW_WIN32 \
-	-DWIN32 -D_WIN32 -D_WIN32_WINDOWS=0x0410 -D_MT -DNDEBUG -D_WINDOWS  -DBOINC \
+	-DHAVE_STRCASECMP -DWIN32 -D_WIN32 -D_WIN32_WINDOWS=0x0410 -D_MT -DNDEBUG -D_WINDOWS -DBOINC \ 
 	-DNODB -D_CONSOLE -mtune=pentium-m -fexceptions -march=i386 -O2 $(NOCYGWIN)
 
 # flags for compiling boinc_zip
