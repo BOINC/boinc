@@ -7269,3 +7269,9 @@ Rom    13 Oct 2010
         BOINCGUIApp.cpp, .h
     lib/
         util.h
+
+Rom    13 Oct 2010
+    - MGR: Sanitize the event log output from the CC.
+    
+    clientgui/
+        DlgEventLog.cpp
