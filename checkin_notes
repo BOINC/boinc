@@ -7282,3 +7282,17 @@ Rom    13 Oct 2010
     clientgui/
         DlgEventLog.cpp
         MainDocument.cpp, .h
+
+David  13 Oct 2010
+    - client: fix bug with the <max_tasks_reported> config option.
+        If # of ready-to-report tasks > max_tasks_reported,
+        then the excess ready-to-report tasks weren't getting
+        reported to the scheduler at all (i.e. not in <other_results> either)
+        so the scheduler would resend them
+        (not a fatal problem, but a waste of bandwidth).
+        From Josef Segur.
+
+    client/
+        cs_scheduler.cpp
+    sched/
+        feeder.cpp

@@ -226,4 +226,16 @@ function get_str2($x) {
     return null;
 }
 
+function get_int($name, $optional=false) {
+    $x=null;
+    if (isset($_GET[$name])) $x = $_GET[$name];
+    if (!is_numeric($x)) {
+        if ($optional) {
+            return null;
+        } else {
+            error_page("missing or bad parameter: $name; supplied: ".htmlspecialchars($x));
+        }
+    }
+    return (int)$x;
+}
 ?>

@@ -28,6 +28,7 @@ function rating_update($r) {
 
 function ratings_get($volid) {
     $ratings = array();
+    $volid = mysql_real_escape_string($volid);
     $query = "select * from rating where volunteerid=$volid order by timestamp desc";
     $result = mysql_query($query);
     while ($r = mysql_fetch_object($result)) {
@@ -39,6 +40,7 @@ function ratings_get($volid) {
 
 function rating_vol_auth($volid, $auth) {
     $auth = mysql_real_escape_string($auth);
+    $volid = mysql_real_escape_string($volid);
     $result = mysql_query("select * from rating where volunteerid=$volid and auth='$auth'");
     $rating = mysql_fetch_object($result);
     mysql_free_result($result);
