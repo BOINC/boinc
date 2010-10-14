@@ -1,18 +1,13 @@
 <?php
 
 require_once("docutil.php");
+require_once("../html/inc/util.inc");
 require_once("help_funcs.php");
 require_once("help_db.php");
 
 $volid = get_int('volid');
 
 $vol = vol_lookup($volid);
-
-function is_valid_email_addr($addr) {
-    $pattern = '/^([^@]+)@([^@\.]+)\.([^@]{2,})$/';
-    $match = preg_match($pattern, $addr);
-    return (bool) $match;
-}
 
 function show_info($vol) {
     $x = "<span class=note> Country: $vol->country\n";

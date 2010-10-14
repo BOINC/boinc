@@ -7325,3 +7325,12 @@ Rom    14 Oct 2010
         
     clientgui/
         BOINCGUIApp.cpp, .h
+
+David  14 Oct 2010
+    - client: when an app exits, adjust debts before erasing ACTIVE_TASK.
+        Otherwise the last episode won't get accounted
+    - client simulator: add output file for debt info
+
+    client/
+        cs_apps.cpp
+        cs_scheduler.cpp

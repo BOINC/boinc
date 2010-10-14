@@ -19,21 +19,19 @@
 //
 // usage: sim options
 //
-//  Input files:
-//  [--state_file filename]
-//      name of main input file; default client_state.xml
-//  [--prefs_file filename]
-//      name of prefs file; default global_prefs.xml
-//  [--config_file filename]
-//      name of config file; default cc_config.xml
-//
-//  Output files:
-//  [--timeline_file filename]
-//      name of timeline file (default sim_timeline.html)
-//  [--log_file filename]
-//      name of log file (default sim_log.txt)
-//  [--summary_file filename]
-//      name of summary file (default sim_summary.xml)
+//  [--input_file_prefix X]
+//      Prefix of input filenames; default is blank.
+//      Input files are:
+//          client_state.xml
+//          global_prefs.xml
+//          cc_config.xml
+//  [--output_file_prefix X]
+//      Prefix of output filenames; default is blank.
+//      Output files are:
+//          timeline.html
+//          log.txt
+//          summary.xml
+//          debt.dat
 //
 //  Simulation params:
 //  [--duration x]
@@ -60,18 +58,20 @@
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
-const char* state_fname = STATE_FILE_NAME;
-const char* prefs_fname = GLOBAL_PREFS_FILE_NAME;
-const char* config_fname = CONFIG_FILE;
+const char* input_file_prefix = "";
+const char* output_file_prefix = "";
 
-const char* timeline_fname = "sim_timeline.html";
-const char* log_fname = "sim_log.txt";
-const char* summary_fname = "sim_summary.xml";
+#define TIMELINE_FNAME "timeline.html"
+#define LOG_FNAME "log.txt"
+#define SUMMARY_FNAME "summary.xml"
+#define DEBT_FNAME "debt.dat"
 
 bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
 FILE* html_out;
+FILE* debt_file;
+
 string html_msg;
 bool running;
 double running_time = 0;
@@ -82,12 +82,8 @@ SIM_RESULTS sim_results;
 
 void usage(char* prog) {
     fprintf(stderr, "usage: %s\n"
-        "[--state_file F]\n"
-        "[--prefs_file F]\n"
-        "[--config_file F]\n"
-        "[--timeline_file F]\n"
-        "[--log_file F]\n"
-        "[--summary_file F]\n"
+        "[--input_file_prefix F]\n"
+        "[--output_file_prefix F]\n"
         "[--duration X]\n"
         "[--delta X]\n"
         "[--server_uses_workload]\n"
@@ -607,12 +603,12 @@ void PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
 }
 
 const char* colors[] = {
-    "#ffffdd",
-    "#ffddff",
-    "#ddffff",
-    "#ddffdd",
-    "#ddddff",
-    "#ffdddd",
+    "#000088",
+    "#008800",
+    "#880000",
+    "#880088",
+    "#888800",
+    "#000088",
 };
 
 void show_cuda() {
@@ -624,7 +620,7 @@ void show_cuda() {
         if (!rp->avp->ncudas) continue;
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         PROJECT* p = rp->project;
-        fprintf(html_out, "%.2f: <span color=%s>%s%s: %.2f</span><br>",
+        fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2f</font><br>",
             rp->avp->ncudas,
             colors[p->index],
             atp->result->rr_sim_misses_deadline?"*":"",
@@ -646,7 +642,7 @@ void show_ati() {
         if (!rp->avp->natis) continue;
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         PROJECT* p = rp->project;
-        fprintf(html_out, "%.2f: <span color=%s>%s%s: %.2f</span><br>",
+        fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2f</font><br>",
             rp->avp->natis,
             colors[p->index],
             atp->result->rr_sim_misses_deadline?"*":"",
@@ -664,9 +660,10 @@ int nproc_types = 1;
 void html_start() {
     char buf[256];
 
-    html_out = fopen(timeline_fname, "w");
+    sprintf(buf, "%s%s", output_file_prefix, TIMELINE_FNAME);
+    html_out = fopen(buf, "w");
     if (!html_out) {
-        fprintf(stderr, "can't open %s for writing\n", timeline_fname);
+        fprintf(stderr, "can't open %s for writing\n", buf);
         exit(1);
     }
     setbuf(html_out, 0);
@@ -706,7 +703,7 @@ void html_rec() {
             ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
             if (atp->task_state() == PROCESS_EXECUTING) {
                 PROJECT* p = atp->result->project;
-                fprintf(html_out, "(%.2f) <span bgcolor=%s>%s%s: %.2f</span><br>",
+                fprintf(html_out, "(%.2f) <font color=%s>%s%s: %.2f</font><br>",
                     atp->result->avp->avg_ncpus,
                     colors[p->index],
                     atp->result->rr_sim_misses_deadline?"*":"",
@@ -747,6 +744,42 @@ void html_end() {
     fclose(html_out);
 }
 
+// lines in the debt file have these fields:
+// time
+// per project:
+//      overall LTD
+//      CPU LTD
+//      [NVIDIA LTD]
+//      [ATI LTD]
+//      CPU STD
+//      [NVIDIA STD]
+//      [ATI STD]
+//
+void write_debts() {
+    fprintf(debt_file, "%f ", gstate.now);
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        fprintf(debt_file, "%f %f %f ",
+            p->pwf.overall_debt,
+            p->cpu_pwf.long_term_debt,
+            p->cpu_pwf.short_term_debt
+        );
+        if (gstate.host_info.coprocs.cuda.count) {
+            fprintf(debt_file, "%f %f ",
+                p->cuda_pwf.long_term_debt,
+                p->cuda_pwf.short_term_debt
+            );
+        }
+        if (gstate.host_info.coprocs.ati.count) {
+            fprintf(debt_file, "%f %f",
+                p->ati_pwf.long_term_debt,
+                p->ati_pwf.short_term_debt
+            );
+        }
+    }
+    fprintf(debt_file, "\n");
+}
+
 void simulate() {
     bool action;
     double start = START_TIME;
@@ -768,7 +801,6 @@ void simulate() {
             msg_printf(0, MSG_INFO, action?"did action":"did no action");
             if (!action) break;
         }
-        gstate.now += delta;
         msg_printf(0, MSG_INFO, "took time step");
         for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
             ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
@@ -777,6 +809,8 @@ void simulate() {
             }
         }
         html_rec();
+        write_debts();
+        gstate.now += delta;
         if (gstate.now > start + duration) break;
     }
     html_end();
@@ -878,13 +912,18 @@ void cull_projects() {
 }
 
 void do_client_simulation() {
+    char buf[256];
     msg_printf(0, MSG_INFO, "SIMULATION START");
-    read_config_file(true, config_fname);
+
+    sprintf(buf, "%s%s", input_file_prefix, CONFIG_FILE);
+    read_config_file(true, buf);
     config.show();
 
     gstate.add_platform("client simulator");
-    gstate.parse_state_file_aux(state_fname);
-    gstate.read_global_prefs(prefs_fname);
+    sprintf(buf, "%s%s", input_file_prefix, STATE_FILE_NAME);
+    gstate.parse_state_file_aux(buf);
+    sprintf(buf, "%s%s", input_file_prefix, GLOBAL_PREFS_FILE_NAME);
+    gstate.read_global_prefs(buf);
     cull_projects();
     int j=0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
@@ -916,22 +955,15 @@ void do_client_simulation() {
 
 int main(int argc, char** argv) {
     int i, retval;
+    char buf[256];
 
     sim_results.clear();
     for (i=1; i<argc;) {
         char* opt = argv[i++];
-        if (!strcmp(opt, "--state_file")) {
-            state_fname = argv[i++];
-        } else if (!strcmp(opt, "--prefs_file")) {
-            prefs_fname = argv[i++];
-        } else if (!strcmp(opt, "--config_file")) {
-            config_fname = argv[i++];
-        } else if (!strcmp(opt, "--timeline_file")) {
-            timeline_fname = argv[i++];
-        } else if (!strcmp(opt, "--log_file")) {
-            log_fname = argv[i++];
-        } else if (!strcmp(opt, "--summary_file")) {
-            summary_fname = argv[i++];
+        if (!strcmp(opt, "--input_file_prefix")) {
+            input_file_prefix = argv[i++];
+        } else if (!strcmp(opt, "--output_file_prefix")) {
+            output_file_prefix = argv[i++];
         } else if (!strcmp(opt, "--duration")) {
             duration = atof(next_arg(argc, argv, i));
         } else if (!strcmp(opt, "--delta")) {
@@ -946,19 +978,24 @@ int main(int argc, char** argv) {
     }
 
     if (duration <= 0) {
-        fprintf(stderr, "non-pos duration\n");
+        fprintf(stderr, "duration <= 0\n");
         exit(1);
     }
     if (delta <= 0) {
-        fprintf(stderr, "non-pos delta\n");
+        fprintf(stderr, "delta <= 0\n");
         exit(1);
     }
 
-    logfile = fopen(log_fname, "w");
+    sprintf(buf, "%s%s", output_file_prefix, LOG_FNAME);
+    logfile = fopen(buf, "w");
     if (!logfile) {
-        fprintf(stderr, "Can't open %s\n", log_fname);
+        fprintf(stderr, "Can't open %s\n", buf);
         exit(1);
     }
     setbuf(logfile, 0);
+
+    sprintf(buf, "%s%s", output_file_prefix, DEBT_FNAME);
+    debt_file = fopen(buf, "w");
+
     do_client_simulation();
 }
