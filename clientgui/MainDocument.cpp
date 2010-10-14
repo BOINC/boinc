@@ -1975,7 +1975,7 @@ int CMainDocument::ResetNoticeState() {
 
 // parse out the _(...)'s, and translate them
 //
-bool CMainDocument::LocalizeNoticeText(wxString& strMessage, bool bSanitize) {
+bool CMainDocument::LocalizeNoticeText(wxString& strMessage, bool bSanitize, bool bClean) {
     wxString strBuffer = wxEmptyString;
     wxString strStart = wxString(wxT("_(\""));
     wxString strEnd = wxString(wxT("\")"));
@@ -1983,9 +1983,14 @@ bool CMainDocument::LocalizeNoticeText(wxString& strMessage, bool bSanitize) {
     if (bSanitize) {
         // Replace CRLFs with HTML breaks.
         strMessage.Replace(wxT("\r\n"), wxT("<BR>"));
-
         // Replace LFs with HTML breaks.
         strMessage.Replace(wxT("\n"), wxT("<BR>"));
+    }
+    if (bClean) {
+        // Replace CRLFs with HTML breaks.
+        strMessage.Replace(wxT("\r\n"), wxT(""));
+        // Replace LFs with HTML breaks.
+        strMessage.Replace(wxT("\n"), wxT(""));
     }
 
     // Localize translatable text

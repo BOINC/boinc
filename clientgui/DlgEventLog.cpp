@@ -885,7 +885,7 @@ wxInt32 CDlgEventLog::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     
     if (message) {
         strBuffer = wxString(message->body.c_str(), wxConvUTF8);
-        wxGetApp().GetDocument()->LocalizeNoticeText(strBuffer);
+        wxGetApp().GetDocument()->LocalizeNoticeText(strBuffer, false, true);
     }
 
     return 0;
