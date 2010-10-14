@@ -60,6 +60,7 @@ protected:
 
     void                DetectDisplayInfo();
     void                DetectAccessibilityEnabled();
+    void                DetectExecutableName();
     void                DetectRootDirectory();
     void                DetectDataDirectory();
 
@@ -81,6 +82,7 @@ protected:
     CMacSystemMenu*     m_pMacSystemMenu;
 #endif
 
+    wxString            m_strBOINCMGRExecutableName;
     wxString            m_strBOINCMGRRootDirectory;
     wxString            m_strBOINCMGRDataDirectory;
     wxString            m_strHostNameArg;
@@ -127,6 +129,7 @@ public:
     CSkinManager*       GetSkinManager()            { return m_pSkinManager; }
     CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
     CMainDocument*      GetDocument()               { return m_pDocument; }
+    wxString            GetExecutableName()         { return m_strBOINCMGRExecutableName; }
     wxString            GetRootDirectory()          { return m_strBOINCMGRRootDirectory; }
     wxString            GetDataDirectory()          { return m_strBOINCMGRDataDirectory; }
     wxString            GetClientHostNameArg()      { return m_strHostNameArg; }    

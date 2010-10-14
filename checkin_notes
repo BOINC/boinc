@@ -7218,3 +7218,13 @@ David  7 Oct 2010
         network.cpp
     client/
         boinc_cmd.cpp
+
+Rom    13 Oct 2010
+    - Win/Linux: Implement the launch new manager functionality for Windows
+        and Linux.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp, .h
+    lib/
+        util.h
