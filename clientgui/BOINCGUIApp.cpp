@@ -381,6 +381,13 @@ bool CBOINCGUIApp::OnInit() {
     }
 #endif
 
+    // Detect if BOINC Manager is already running, if so, bring it into the
+    // foreground and then exit.
+    if (!m_bMultipleInstancesOK) {
+        if (DetectDuplicateInstance()) {
+            return false;
+        }
+    }
 
     // Initialize the main document
     m_pDocument = new CMainDocument();
@@ -649,6 +656,23 @@ void CBOINCGUIApp::DetectAccessibilityEnabled() {
     SystemParametersInfo(SPI_GETSCREENREADER, NULL, &bScreenReaderEnabled, NULL);
     m_bAccessibilityEnabled = (bScreenReaderEnabled == TRUE);
 #endif
+}
+
+
+///
+/// Detect if another instance of this application is running.
+//  Returns true if there is, otherwise false
+///
+bool CBOINCGUIApp::DetectDuplicateInstance() {
+#ifdef __WXMSW__
+    HWND hWnd = ::FindWindow(NULL, m_pSkinManager->GetAdvanced()->GetApplicationName().c_str());
+    if (hWnd) {
+        ::ShowWindow(hWnd, SW_SHOW);
+        ::SetForegroundWindow(hWnd);
+        return true;
+    }
+#endif
+    return false;
 }
 
 
