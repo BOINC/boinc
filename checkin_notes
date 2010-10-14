@@ -7253,3 +7253,12 @@ David  13 Oct 2010
 
     client/
         cs_scheduler.cpp
+
+David  13 Oct 2010
+    - API/client: move CUdevice_attribute_enum out of lib/coproc.h
+        to fix app build errors
+
+    lib/
+        coproc.h
+    client/
+        coproc_detect.cpp
