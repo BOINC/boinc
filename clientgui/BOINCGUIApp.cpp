@@ -672,6 +672,16 @@ bool CBOINCGUIApp::DetectDuplicateInstance() {
         return true;
     }
 #endif
+#ifdef __WXMAC__
+    ProcessSerialNumber PSN;
+    int iInstanceID = wxGetApp().IsAnotherInstanceRunning();
+    if (iInstanceID) {
+        // Bring other instance to the front and exit this instance
+        OSStatus err = GetProcessForPID(iInstanceID, &PSN);
+        if (!err) SetFrontProcess(&PSN);
+        return true;
+    }
+#endif
     return false;
 }
 

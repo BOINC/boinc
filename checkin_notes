@@ -7284,3 +7284,10 @@ David  14 Oct 2010
     client/
         cs_apps.cpp
         cs_scheduler.cpp
+
+Rom    14 Oct 2010
+    - MGR: Complete above initialization changes for the Mac
+    
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        MainDocument.cpp
