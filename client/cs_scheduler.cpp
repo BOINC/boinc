@@ -239,6 +239,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     // report results
     //
+    int last_reported_index = 0;
     p->nresults_returned = 0;
     for (i=0; i<results.size(); i++) {
         rp = results[i];
@@ -249,6 +250,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         if (config.max_tasks_reported
             && (p->nresults_returned >= config.max_tasks_reported)
         ) {
+            last_reported_index = i;
             break;
         }
     }
@@ -304,7 +306,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     fprintf(f, "<other_results>\n");
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        if (rp->project == p && !rp->ready_to_report) {
+        if (rp->project != p) continue;
+        if ((last_reported_index && (i > last_reported_index)) || !rp->ready_to_report) {
             fprintf(f,
                 "    <other_result>\n"
                 "        <name>%s</name>\n"

@@ -4,7 +4,7 @@ require_once("docutil.php");
 require_once("help_funcs.php");
 require_once("help_db.php");
 
-$volid = $_GET['volid'];
+$volid = get_int('volid');
 
 $vol = vol_lookup($volid);
 

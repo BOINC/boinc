@@ -653,8 +653,7 @@ void show_version() {
     log_messages.printf(MSG_NORMAL, "%s\n", SVN_VERSION);
 }
 
-void usage(char *name)
-{
+void usage(char *name) {
     fprintf(stderr,
         "%s creates a shared memory segment containing DB info,\n"
         "including an array of work items (results/workunits to send).\n\n"
