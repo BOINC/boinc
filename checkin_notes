@@ -7262,3 +7262,9 @@ David  13 Oct 2010
         coproc.h
     client/
         coproc_detect.cpp
+
+Charlie 14 Oct 2010
+    - client: fix compiler warning.    
+    
+    client/
+        cs_scheduler.cpp
