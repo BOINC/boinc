@@ -237,7 +237,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         host_info.coprocs.write_xml(mf, true);
     }
 
-    // report results
+    // report completed jobs
     //
     unsigned int last_reported_index = 0;
     p->nresults_returned = 0;
@@ -301,7 +301,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     }
     fprintf(f, "</app_versions>\n");
 
-    // send descriptions of results in progress for this project
+    // send descriptions of jobs in progress for this project
     //
     fprintf(f, "<other_results>\n");
     for (i=0; i<results.size(); i++) {

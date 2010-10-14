@@ -67,6 +67,9 @@ bool CLIENT_STATE::handle_finished_apps() {
                 );
             }
             app_finished(*atp);
+            if (!action) {
+                adjust_debts();     // update debts before erasing ACTIVE_TASK
+            }
             iter = active_tasks.active_tasks.erase(iter);
             delete atp;
             set_client_state_dirty("handle_finished_apps");
