@@ -7336,7 +7336,7 @@ David  14 Oct 2010
         cs_scheduler.cpp
 
 Rom    14 Oct 2010
-    - MGR: Complete above changes for the Mac
+    - MGR: Complete above initialization changes for the Mac
     
     clientgui/
         BOINCGUIApp.cpp, .h
