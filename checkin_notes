@@ -7237,7 +7237,7 @@ Charlie 8 Oct 2010
     
     samples/
         mac_build/
-            UpperCase2.xcodeproj
+            UpperCase2.xcodeproj/
                 project.pbxproj
 
 Charlie 11 Oct 2010
@@ -7255,7 +7255,7 @@ Charlie 11 Oct 2010
             Makefile_mac2
             MakeMacExample.sh
         mac_build/
-            UpperCase2.xcodeproj
+            UpperCase2.xcodeproj/
                 project.pbxproj
         wrapper/
             BuildMacWrapper.sh
@@ -7311,3 +7311,9 @@ David  13 Oct 2010
         coproc.h
     client/
         coproc_detect.cpp
+
+Charlie 14 Oct 2010
+    - client: fix compiler warning.    
+    
+    client/
+        cs_scheduler.cpp

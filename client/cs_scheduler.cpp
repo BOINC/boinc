@@ -239,7 +239,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     // report results
     //
-    int last_reported_index = 0;
+    unsigned int last_reported_index = 0;
     p->nresults_returned = 0;
     for (i=0; i<results.size(); i++) {
         rp = results[i];
