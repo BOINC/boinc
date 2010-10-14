@@ -60,6 +60,7 @@ protected:
 
     void                DetectDisplayInfo();
     void                DetectAccessibilityEnabled();
+    bool                DetectDuplicateInstance();
     void                DetectExecutableName();
     void                DetectRootDirectory();
     void                DetectDataDirectory();

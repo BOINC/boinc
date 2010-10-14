@@ -7317,3 +7317,11 @@ Charlie 14 Oct 2010
     
     client/
         cs_scheduler.cpp
+
+Rom    14 Oct 2010
+    - MGR: Check for a duplicate instance much earlier in the initialization
+        cycle, before any window or document creation.  Prevents rapid window
+        creation and then destruction.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h
