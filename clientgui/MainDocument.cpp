@@ -575,24 +575,9 @@ int CMainDocument::OnPoll() {
         if (IsComputerNameLocal(hostName)) {
             otherInstanceID = wxGetApp().IsAnotherInstanceRunning();
             if (otherInstanceID) {
-                if (wxGetApp().IsMultipleInstancesOK()) {
-                    if (!pFrame->SelectComputer(hostName, portNum, password, true)) {
-                        wxCommandEvent event;
-                        s_bSkipExitConfirmation = true;
-                        pFrame->OnExit(event); // Exit if Select Computer dialog cancelled
-                    }
-                } else {    // (IsMultipleInstancesOK() == false)
-                    // Bring other instance to the front and exit this instance
-
-#ifdef __WXMAC__
-                    ProcessSerialNumber otherInstancePSN;
-                    OSStatus err;
-
-                    err = GetProcessForPID(otherInstanceID, &otherInstancePSN);
-                    if (!err) SetFrontProcess(&otherInstancePSN);
-#endif
-                    wxCommandEvent event;
+                if (!pFrame->SelectComputer(hostName, portNum, password, true)) {
                     s_bSkipExitConfirmation = true;
+                    wxCommandEvent event;
                     pFrame->OnExit(event); // Exit if Select Computer dialog cancelled
                 }
             }
