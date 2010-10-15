@@ -7348,3 +7348,10 @@ Charlie 14 Oct 2010
         
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    15 Oct 2010
+    - MGR: Handle paths with spaces in them when launching new instances
+        of the manager.
+        
+    clientgui/
+        AdvancedFrame.cpp
