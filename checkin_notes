@@ -7385,3 +7385,10 @@ David  15 Oct 2010
         work_fetch.cpp
     lib/
         coproc.h
+
+David  15 Oct 2010
+    - scheduler: instead of "app is not available for your type of computer",
+        say "app is not available for Microsoft Windows (98 or later) running on an Intel x86-compatible CPU" (or whatever)
+
+    sched/
+        sched_send.cpp

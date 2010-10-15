@@ -686,9 +686,10 @@ BEST_APP_VERSION* get_app_version(
         }
         if (no_version_for_platform) {
             sprintf(message,
-                "%s %s.",
+                "%s %s %s.",
                 app->user_friendly_name,
-                _("is not available for your type of computer")
+                _("is not available for"),
+                g_request->platforms.list[0]->user_friendly_name
             );
             add_no_work_message(message);
         }
