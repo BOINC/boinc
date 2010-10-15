@@ -7355,3 +7355,13 @@ Rom    15 Oct 2010
         
     clientgui/
         AdvancedFrame.cpp
+
+Rom    15 Oct 2010
+    - MGR: It turns out it was some wxWidgets parameter parsing wierdness
+        in the newly launched application that was throwing the error.  Double
+        quotes around the parameter didn't fix the issue.  For the time being
+        just hard code 'boincmgr.exe' as argv[0] as it isn't used by the Windows
+        client at all.  wxWidgets won't find --multiple if it is argv[0].
+        
+    clientgui/
+        AdvancedFrame.cpp
