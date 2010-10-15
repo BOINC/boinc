@@ -1606,7 +1606,7 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
     int argc = 3;
     char* argv[3];
 
-    wxString strExecutable = wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName();
+    wxString strExecutable = wxT("\"") + wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName() + wxT("\"");
 
     argv[0] = (char*)(const char*)strExecutable.mb_str();
     argv[1] = "--multiple";
