@@ -60,11 +60,11 @@ function type_text($type) {
     }
 }
 
-$w611 = array(
-	"num"=>"6.11.9",
+$w612 = array(
+	"num"=>"6.12.1",
 	"status"=>"Development version",
-	"file"=>"boinc_6.11.9_windows_intelx86.exe",
-	"date"=>"1 Oct 2010",
+	"file"=>"boinc_6.12.1_windows_intelx86.exe",
+	"date"=>"15 Oct 2010",
 	"type"=>"win_new",
 );
 
@@ -92,11 +92,11 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
-$w611x64 = array(
-	"num"=>"6.11.9",
+$w612x64 = array(
+	"num"=>"6.12.1",
 	"status"=>"Development version",
-	"file"=>"boinc_6.11.9_windows_x86_64.exe",
-	"date"=>"1 Oct 2010",
+	"file"=>"boinc_6.12.1_windows_x86_64.exe",
+	"date"=>"15 Oct 2010",
 	"type"=>"win_new",
 );
 
@@ -254,7 +254,7 @@ $windows = array(
     "description"=>"2000/XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-		$w611,
+		$w612,
 		$w610,
 		$w66,
         $w5816,
@@ -266,7 +266,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-		$w611x64,
+		$w612x64,
 		$w610x64,
 		$w66x64,
     )
