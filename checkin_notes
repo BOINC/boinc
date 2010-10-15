@@ -7305,3 +7305,11 @@ Rom    15 Oct 2010
         
     clientgui/
         AdvancedFrame.cpp
+
+Rom    30 Sept 2010
+    - Tag for 6.12.1 release, all platforms
+      boinc_core_release_6_12_1
+
+    /
+        configure.ac
+        version.h
