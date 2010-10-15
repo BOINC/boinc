@@ -1606,9 +1606,9 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
     int argc = 3;
     char* argv[3];
 
-    wxString strExecutable = wxT("\"") + wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName() + wxT("\"");
+    wxString strExecutable = wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName();
 
-    argv[0] = (char*)(const char*)strExecutable.mb_str();
+    argv[0] = "boincmgr";
     argv[1] = "--multiple";
     argv[2] = "";
 
