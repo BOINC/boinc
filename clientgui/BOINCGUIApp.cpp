@@ -551,6 +551,8 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     wxApp::OnCmdLineParsed(parser);
     wxString portNum = wxEmptyString;
     long longPort;
+    bool hostNameSpecified = false;
+    bool passwordSpecified = false;
 
     parser.Found(wxT("boincargs"), &m_strBOINCArguments);
     if (parser.Found(wxT("autostart"))) {
@@ -587,7 +589,9 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     }
 #endif    
 
-    if (!parser.Found(wxT("namehost"), &m_strHostNameArg)) {
+    if (parser.Found(wxT("namehost"), &m_strHostNameArg)) {
+        hostNameSpecified = true;
+    } else {
         m_strHostNameArg = wxT("localhost");
     }
 
@@ -601,10 +605,15 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
         m_iRPCPortArg = GUI_RPC_PORT;
     }
     
-    if (!parser.Found(wxT("password"), &m_strPasswordArg)) {
+    if (parser.Found(wxT("password"), &m_strPasswordArg)) {
+        passwordSpecified = true;
+    } else {
         m_strPasswordArg = wxEmptyString;
     }
 
+    if (hostNameSpecified && passwordSpecified) {
+        m_bMultipleInstancesOK = true;
+    }
     return true;
 }
 
