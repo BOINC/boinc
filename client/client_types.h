@@ -403,6 +403,13 @@ struct PROJECT : PROJ_AM {
         }
         return cpu_pwf.deadlines_missed;
     }
+    inline double short_term_debt(int rsc_type) {
+        switch(rsc_type) {
+        case RSC_TYPE_CUDA: return cuda_pwf.short_term_debt;
+        case RSC_TYPE_ATI: return ati_pwf.short_term_debt;
+        }
+        return cpu_pwf.short_term_debt;
+    }
 
     int nresults_returned;
         // # of results being returned in current scheduler op
@@ -660,6 +667,11 @@ struct RESULT {
         if (avp->ncudas > 0) return true;
         if (avp->natis > 0) return true;
         return false;
+    }
+    inline int resource_type() {
+        if (uses_cuda()) return RSC_TYPE_CUDA;
+        if (uses_ati()) return RSC_TYPE_ATI;
+        return RSC_TYPE_CPU;
     }
 
     // temporaries used in CLIENT_STATE::rr_simulation():

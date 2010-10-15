@@ -101,6 +101,7 @@ extern bool gpus_usable;
 
 //#define START_TIME  946684800
     // Jan 1 2000
-#define START_TIME  0
+#define START_TIME  3600
+    // should be at least an hour or so
 
 #endif

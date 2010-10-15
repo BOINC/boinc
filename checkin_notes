@@ -7365,3 +7365,23 @@ Rom    15 Oct 2010
         
     clientgui/
         AdvancedFrame.cpp
+
+David  15 Oct 2010
+    - client: use project STD, rather than arrival time,
+        as the major criterion in choosing non-EDF GPU jobs.
+        GPU scheduling now respects resource share,
+        and as a result STD should no longer diverge.
+    - client simulator: various improvements, most notably
+        that we now generate gnuplot graphs of all debt types
+
+    NOTE: the client problem was found and fixed using the simulator!
+
+    client/
+        client_state.h
+        client_types.h
+        cpu_sched.cpp
+        sim.cpp,h
+        sim_util.cpp
+        work_fetch.cpp
+    lib/
+        coproc.h

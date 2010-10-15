@@ -757,7 +757,9 @@ void WORK_FETCH::print_state() {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        msg_printf(p, MSG_INFO, "[work_fetch] overall LTD %.2f", p->pwf.overall_debt);
+        msg_printf(p, MSG_INFO, "[work_fetch] overall LTD %.2f",
+            p->pwf.overall_debt
+        );
     }
     msg_printf(0, MSG_INFO, "[work_fetch] ------- end work fetch state -------");
 }

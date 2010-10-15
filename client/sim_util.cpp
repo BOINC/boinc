@@ -56,7 +56,6 @@ void HOST_INFO::generate_host_cpid() {}
 void show_message(PROJECT *p, char* msg, int priority, const char*) {
     const char* x;
     char message[1024];
-    char* time_string = time_to_string(gstate.now);
 
     if (priority == MSG_INTERNAL_ERROR) {
         strcpy(message, "[error] ");
@@ -74,7 +73,7 @@ void show_message(PROJECT *p, char* msg, int priority, const char*) {
         x = "---";
     }
 
-    fprintf(logfile, "%s [%s] %s\n", time_string, x, message);
+    fprintf(logfile, "%.0f [%s] %s\n", gstate.now, x, message);
 }
 
 APP_CLIENT_SHM::APP_CLIENT_SHM() {}

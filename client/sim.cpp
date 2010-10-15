@@ -32,6 +32,12 @@
 //          log.txt
 //          summary.xml
 //          debt.dat
+//          debt_overall.png
+//          debt_cpu_std.png
+//          debt_cpu_ltd.png
+//          debt_nvidia_std.png
+//          debt_nvidia_ltd.png
+//          ...
 //
 //  Simulation params:
 //  [--duration x]
@@ -254,6 +260,7 @@ void decrement_request_rsc(
 void decrement_request(RESULT* rp) {
     APP_VERSION* avp = rp->avp;
     double est_runtime = rp->wup->rsc_fpops_est/avp->flops;
+    est_runtime /= (gstate.time_stats.on_frac*gstate.time_stats.active_frac);
     decrement_request_rsc(cpu_work_fetch, avp->avg_ncpus, est_runtime);
     decrement_request_rsc(cuda_work_fetch, avp->ncudas, est_runtime);
     decrement_request_rsc(ati_work_fetch, avp->natis, est_runtime);
@@ -264,7 +271,7 @@ void decrement_request(RESULT* rp) {
 //
 bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     char buf[256], buf2[256];
-    static double last_time=-1e9;
+    static double last_time=0;
     vector<IP_RESULT> ip_results;
     int infeasible_count = 0;
     vector<RESULT*> new_results;
@@ -334,6 +341,8 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
 
     msg_printf(0, MSG_INFO, "Got %d tasks", new_results.size());
+    sprintf(buf, "got %d tasks<br>", new_results.size());
+    html_msg += buf;
 
     SCHEDULER_REPLY sr;
     cpu_work_fetch.req_secs = save_cpu_req_secs;
@@ -611,39 +620,41 @@ const char* colors[] = {
     "#000088",
 };
 
-void show_cuda() {
-    fprintf(html_out, "<td>");
-    bool found = false;
-    for (unsigned int k=0; k<gstate.active_tasks.active_tasks.size(); k++) {
-        ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[k];
-        RESULT* rp = atp->result;
-        if (!rp->avp->ncudas) continue;
-        if (atp->task_state() != PROCESS_EXECUTING) continue;
-        PROJECT* p = rp->project;
-        fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2f</font><br>",
-            rp->avp->ncudas,
-            colors[p->index],
-            atp->result->rr_sim_misses_deadline?"*":"",
-            atp->result->name,
-            atp->cpu_time_left
-        );
-        found = true;
+int njobs_in_progress(PROJECT* p, int rsc_type) {
+    int n = 0;
+    unsigned int i;
+    for (i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (rp->project != p) continue;
+        if (rp->resource_type() != rsc_type) continue;
+        if (rp->state() > RESULT_FILES_DOWNLOADED) continue;
+        n++;
     }
-    if (!found) fprintf(html_out, "IDLE");
-    fprintf(html_out, "</td>");
+    return n;
 }
 
-void show_ati() {
+void show_resource(int rsc_type) {
+    unsigned int i;
+
     fprintf(html_out, "<td>");
     bool found = false;
-    for (unsigned int k=0; k<gstate.active_tasks.active_tasks.size(); k++) {
-        ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[k];
+    for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
         RESULT* rp = atp->result;
-        if (!rp->avp->natis) continue;
+        if (rp->resource_type() != rsc_type) continue;
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         PROJECT* p = rp->project;
+        double ninst;
+        if (rsc_type == RSC_TYPE_CUDA) {
+            ninst = rp->avp->ncudas;
+        } else if (rsc_type == RSC_TYPE_ATI) {
+            ninst = rp->avp->natis;
+        } else {
+            ninst = rp->avp->avg_ncpus;
+        }
+
         fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2f</font><br>",
-            rp->avp->natis,
+            ninst,
             colors[p->index],
             atp->result->rr_sim_misses_deadline?"*":"",
             atp->result->name,
@@ -652,6 +663,11 @@ void show_ati() {
         found = true;
     }
     if (!found) fprintf(html_out, "IDLE");
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        int n = njobs_in_progress(p, rsc_type);
+        fprintf(html_out, "<br>%s: %d jobs in progress\n", p->project_name, n);
+    }
     fprintf(html_out, "</td>");
 }
 
@@ -674,11 +690,11 @@ void html_start() {
     fprintf(html_out,
         "<th>CPU<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>"
     );
-    if (gstate.host_info.coprocs.cuda.count) {
+    if (gstate.host_info.have_cuda()) {
         fprintf(html_out, "<th>NVIDIA GPU</th>");
         nproc_types++;
     }
-    if (gstate.host_info.coprocs.ati.count) {
+    if (gstate.host_info.have_ati()) {
         fprintf(html_out, "<th>ATI GPU</th>");
         nproc_types++;
     }
@@ -686,51 +702,35 @@ void html_start() {
 }
 
 void html_rec() {
-    fprintf(html_out, "<tr><td>%s</td>", time_to_string(gstate.now));
-
-    if (!running) {
-        fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
-        if (gstate.host_info.coprocs.cuda.count) {
-            fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
-        }
-        if (gstate.host_info.coprocs.ati.count) {
-            fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
-        }
-    } else {
-        fprintf(html_out, "<td>");
-        double x=0;
-        for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
-            ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
-            if (atp->task_state() == PROCESS_EXECUTING) {
-                PROJECT* p = atp->result->project;
-                fprintf(html_out, "(%.2f) <font color=%s>%s%s: %.2f</font><br>",
-                    atp->result->avp->avg_ncpus,
-                    colors[p->index],
-                    atp->result->rr_sim_misses_deadline?"*":"",
-                    atp->result->name,
-                    atp->cpu_time_left
-                );
-                x += atp->result->avp->avg_ncpus;
-            }
-        }
-        if (x<gstate.ncpus) {
-            fprintf(html_out, "IDLE: %.2f", gstate.ncpus-x);
-        }
-        if (gstate.host_info.coprocs.cuda.count) {
-            show_cuda();
-        }
-        if (gstate.host_info.coprocs.ati.count) {
-            show_ati();
-        }
-    }
     if (html_msg.size()) {
-        fprintf(html_out, "<tr><td>%s</td>", time_to_string(gstate.now));
+        //fprintf(html_out, "<tr><td>%s</td>", time_to_string(gstate.now));
+        fprintf(html_out, "<tr><td>%f</td>", gstate.now);
         fprintf(html_out,
             "<td colspan=%d><font size=-2>%s</font></td></tr>\n",
             nproc_types,
             html_msg.c_str()
         );
         html_msg = "";
+    }
+    //fprintf(html_out, "<tr><td>%s</td>", time_to_string(gstate.now));
+    fprintf(html_out, "<tr><td>%f</td>", gstate.now);
+
+    if (!running) {
+        fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+        if (gstate.host_info.have_cuda()) {
+            fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+        }
+        if (gstate.host_info.have_ati()) {
+            fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+        }
+    } else {
+        show_resource(RSC_TYPE_CPU);
+        if (gstate.host_info.have_cuda()) {
+            show_resource(RSC_TYPE_CUDA);
+        }
+        if (gstate.host_info.have_ati()) {
+            show_resource(RSC_TYPE_ATI);
+        }
     }
 }
 
@@ -749,10 +749,10 @@ void html_end() {
 // per project:
 //      overall LTD
 //      CPU LTD
-//      [NVIDIA LTD]
-//      [ATI LTD]
 //      CPU STD
+//      [NVIDIA LTD]
 //      [NVIDIA STD]
+//      [ATI LTD]
 //      [ATI STD]
 //
 void write_debts() {
@@ -764,13 +764,13 @@ void write_debts() {
             p->cpu_pwf.long_term_debt,
             p->cpu_pwf.short_term_debt
         );
-        if (gstate.host_info.coprocs.cuda.count) {
+        if (gstate.host_info.have_cuda()) {
             fprintf(debt_file, "%f %f ",
                 p->cuda_pwf.long_term_debt,
                 p->cuda_pwf.short_term_debt
             );
         }
-        if (gstate.host_info.coprocs.ati.count) {
+        if (gstate.host_info.have_ati()) {
             fprintf(debt_file, "%f %f",
                 p->ati_pwf.long_term_debt,
                 p->ati_pwf.short_term_debt
@@ -778,6 +778,49 @@ void write_debts() {
         }
     }
     fprintf(debt_file, "\n");
+}
+
+// generate a bunch of debt graphs
+//
+
+void make_graph(const char* title, const char* fname, int field, int nfields) {
+    char gp_fname[256], cmd[256], png_fname[256];
+
+    sprintf(gp_fname, "%s%s.gp", output_file_prefix, fname);
+    FILE* f = fopen(gp_fname, "w");
+    fprintf(f,
+        "set terminal png small size 1024, 768\n"
+        "set title \"%s\"\n"
+        "plot ",
+        title
+    );
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        fprintf(f, "\"%sdebt.dat\" using 1:%d title \"%s\" with lines%s",
+            output_file_prefix, 2+field+i*nfields, p->project_name,
+            (i==gstate.projects.size()-1)?"\n":", \\\n"
+        );
+    }
+    fclose(f);
+    sprintf(png_fname, "%s%s.png", output_file_prefix, fname);
+    sprintf(cmd, "gnuplot < %s > %s", gp_fname, png_fname);
+    system(cmd);
+}
+
+void debt_graphs() {
+    int nfields = 3 + (gstate.host_info.have_cuda()?2:0) + (gstate.host_info.have_ati()?2:0);
+    make_graph("Overall debt", "debt_overall", 0, nfields);
+    make_graph("CPU LTD", "debt_cpu_ltd", 1, nfields);
+    make_graph("CPU STD", "debt_cpu_std", 2, nfields);
+    if (gstate.host_info.have_cuda()) {
+        make_graph("NVIDIA LTD", "debt_nvidia_ltd", 3, nfields);
+        make_graph("NVIDIA STD", "debt_nvidia_std", 4, nfields);
+    }
+    if (gstate.host_info.have_ati()) {
+        int off = gstate.host_info.have_cuda()?2:0;
+        make_graph("ATI LTD", "debt_ati_ltd", 3+off, nfields);
+        make_graph("ATI STD", "debt_ati_std", 4+off, nfields);
+    }
 }
 
 void simulate() {
@@ -951,6 +994,8 @@ void do_client_simulation() {
 
     // then other
     print_project_results(stdout);
+
+    debt_graphs();
 }
 
 int main(int argc, char** argv) {
