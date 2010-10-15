@@ -7291,3 +7291,10 @@ Rom    14 Oct 2010
     clientgui/
         BOINCGUIApp.cpp, .h
         MainDocument.cpp
+
+Charlie 14 Oct 2010
+    - MGR: Don't require --multiple arg to launch a new instance if both 
+        --namehost and --password args are specified.
+        
+    clientgui/
+        BOINCGUIApp.cpp
