@@ -124,7 +124,7 @@ $m610 = array(
 	"type"=>"mac_advanced",
 );
 
-$m611dev = array(
+$m612dev = array(
 	"num"=>"6.12.2",
 	"status"=>"Development version (standard GUI)",
 	"file"=>"boinc_6.12.2_macOSX_universal.zip",
