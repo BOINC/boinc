@@ -7331,3 +7331,12 @@ Rom    30 Sept 2010
     /
         configure.ac
         version.h
+
+Charlie 16 Oct 2010
+    - lib: Fix problems with Mac backtrace code: use atos only if present, etc. 
+        (atos is installed only if developer tools are installed.)
+    
+    lib/
+        mac/
+            mac_backtrace.cpp, .h
+            QCrashReport.c
