@@ -44,6 +44,8 @@
 * Pipe the output of the shell script through c++filt to demangle C++ symbols.
 */
 
+// The old way still seems to work better under OS 10.6.4
+#define USE_NEW_ROUTINES false  
 
 #include <mach-o/dyld.h>
 #include <mach-o/loader.h>
@@ -63,6 +65,7 @@
 #include "QBacktrace.h"
 #include "QCrashReport.h"
 #include "mac_backtrace.h"
+#include "filesys.h"
 
 // Suppress obsolete warning when building for OS 10.3.9
 #define DLOPEN_NO_WARN
@@ -70,6 +73,7 @@
 
 // Functions available only in OS 10.5 and later
     typedef int     (*backtraceProc)(void**,int);
+    typedef char ** (*backtrace_symbolsProc)(void* const*,int);
 #define CALL_STACK_SIZE 128
 
 extern void * _sigtramp;
@@ -80,24 +84,31 @@ enum {
 
 #define SKIPFRAME 4 /* Number frames overhead for signal handler and backtrace */
 
-static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
-static void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbuf, size_t outBufLen);
 static void PrintOSVersion(char *minorVersion);
 
 void PrintBacktrace(void) {
     int                         err;
     QCrashReportRef             crRef = NULL;
 
-    char                        nameBuf[256], pathToThisProcess[1024], pipeBuf[1024];
+    char                        nameBuf[256], pathToThisProcess[1024];
     const NXArchInfo            *localArch;
     char                        OSMinorVersion;
     time_t                      t;
+#if USE_NEW_ROUTINES
+    char                        atosPipeBuf[1024], cppfiltPipeBuf[1024];
+    char                        outBuf[1024], offsetBuf[32];
+    char                        *sourceSymbol, *symbolEnd;
+    char                        **symbols = NULL;
     void                        *callstack[CALL_STACK_SIZE];
     int                         frames, i;
     void                        *systemlib = NULL;
-    FILE                        *f;
+    FILE                        *atosPipe = NULL;
+    FILE                        *cppfiltPipe = NULL;
     backtraceProc               myBacktraceProc = NULL;
-    char                        saved_env[128], *env;
+    backtrace_symbolsProc       myBacktrace_symbolsProc = NULL;
+    char                        saved_env[128], *env = NULL;
+    bool                        atosExists = false, cppfiltExists = false;
+#endif
 
 #if 0
 // To debug backtrace logic:
@@ -145,6 +156,7 @@ void PrintBacktrace(void) {
     
    err = QCRCreateFromSelf(&crRef);
 
+#if USE_NEW_ROUTINES
     // Use new backtrace functions if available (only in OS 10.5 and later)
     systemlib = dlopen ("/usr/lib/libSystem.dylib", RTLD_NOW );
     if (systemlib) {
@@ -152,52 +164,123 @@ void PrintBacktrace(void) {
      }
     if (myBacktraceProc) {
         frames = myBacktraceProc(callstack, CALL_STACK_SIZE);
-        
-        // The backtrace_symbols() and backtrace_symbols_fd() APIs are limited to 
-        // external symbols only, so we use the atos command-line utility which 
-        // checks all symbols and gives us debugging symbols when available.
-        //
-        // The bidirectional popen only works if the NSUnbufferedIO environment 
-        // variable is set, so we save and restore its current value.
-        env = getenv("NSUnbufferedIO");
-        if (env) {
-            strlcpy(saved_env, env, sizeof(saved_env));
-        }
-        setenv("NSUnbufferedIO", "YES", 1);
-        
-        // For some reason, using the -p option with the value from getpid() 
-        // fails here but the -o option with a path does work.
-#ifdef __x86_64__
-        snprintf(pipeBuf, sizeof(pipeBuf), "/usr/bin/atos -o \"%s\" -arch x86_64", pathToThisProcess);
-#elif defined (__i386__)
-        snprintf(pipeBuf, sizeof(pipeBuf), "/usr/bin/atos -o \"%s\" -arch i386", pathToThisProcess);
-#else
-        snprintf(pipeBuf, sizeof(pipeBuf), "/usr/bin/atos -o \"%s\" -arch ppc", pathToThisProcess);
-#endif
-        f = popen(pipeBuf, "r+");
-        if (f) {
-            setbuf(f, 0);
-            for (i=0; i<frames; i++) {
-                fprintf(f, "%#lx\n", (long)callstack[i]);
-                PersistentFGets(pipeBuf, sizeof(pipeBuf), f);
-#ifdef __LP64__
-                fprintf(stderr, "%3d  0x%016llx  %s", i, (unsigned long long)callstack[i], pipeBuf);
-#else
-                fprintf(stderr, "%3d  0x%08lx  %s", i, (unsigned long)callstack[i], pipeBuf);
-#endif
-            }
-            pclose(f);
-        }
-        fprintf(stderr, "\n");
-        
-        if (env) {
-            setenv("NSUnbufferedIO", saved_env, 1);
+        myBacktrace_symbolsProc = (backtrace_symbolsProc)dlsym(systemlib, "backtrace_symbols");
+        if (myBacktrace_symbolsProc) {
+            symbols = myBacktrace_symbolsProc(callstack, frames);
         } else {
-            unsetenv("NSUnbufferedIO");
+            goto useOldMethod;
         }
+        
+        atosExists = boinc_file_exists("/usr/bin/atos");
+        cppfiltExists = boinc_file_exists("/usr/bin/atos");
+        if (atosExists || cppfiltExists) {
+            // The bidirectional popen only works if the NSUnbufferedIO environment 
+            // variable is set, so we save and restore its current value.
+            env = getenv("NSUnbufferedIO");
+            if (env) {
+                strlcpy(saved_env, env, sizeof(saved_env));
+            }
+            setenv("NSUnbufferedIO", "YES", 1);
+        }
+        
+        if (atosExists) {
+            // The backtrace_symbols() and backtrace_symbols() APIs are limited to 
+            // external symbols only, so we also use the atos command-line utility  
+            // which gives us debugging symbols when available.
+            //
+            // For some reason, using the -p option with the value from getpid() 
+            // fails here but the -o option with a path does work.
+#ifdef __x86_64__
+            snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch x86_64", pathToThisProcess);
+#elif defined (__i386__)
+            snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch i386", pathToThisProcess);
+#else
+            snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch ppc", pathToThisProcess);
+#endif
+
+            atosPipe = popen(atosPipeBuf, "r+");
+            if (atosPipe) {
+                setbuf(atosPipe, 0);
+            }
+        }
+
+        if (cppfiltExists) {
+            cppfiltPipe = popen("/usr/bin/c++filt -s gnu-v3 -n", "r+");
+            if (cppfiltPipe) {
+                setbuf(cppfiltPipe, 0);
+            }
+        }
+        
+        for (i=0; i<frames; i++) {
+            strlcpy(outBuf, symbols[i], sizeof(outBuf));
+            if (cppfiltPipe) {
+                sourceSymbol = strstr(outBuf, "0x");
+                if (sourceSymbol) {
+                    sourceSymbol = strchr(sourceSymbol, (int)'_');
+                    if (sourceSymbol) {
+                        strlcpy(cppfiltPipeBuf, sourceSymbol, sizeof(cppfiltPipeBuf)-1);
+                        *sourceSymbol = '\0';
+                        symbolEnd = strchr(cppfiltPipeBuf, (int)' ');
+                        if (symbolEnd) {
+                            strlcpy(offsetBuf, symbolEnd, sizeof(offsetBuf));
+                            *symbolEnd = '\0';
+                        }
+                        fprintf(cppfiltPipe, "%s\n", cppfiltPipeBuf);
+                        BT_PersistentFGets(cppfiltPipeBuf, sizeof(cppfiltPipeBuf), cppfiltPipe);
+                        symbolEnd = strchr(cppfiltPipeBuf, (int)'\n');
+                        if (symbolEnd) {
+                            *symbolEnd = '\0';
+                        }
+                        strlcat(outBuf, cppfiltPipeBuf, sizeof(outBuf));
+                        strlcat(outBuf, offsetBuf, sizeof(outBuf));
+                    }
+                }
+            }
+            
+            if (atosPipe) {
+                fprintf(atosPipe, "%#llx\n", (QTMAddr)callstack[i]);
+                BT_PersistentFGets(atosPipeBuf, sizeof(atosPipeBuf), atosPipe);
+                sourceSymbol = strrchr(atosPipeBuf, (int)':');
+                if (sourceSymbol) {
+                    if (*--sourceSymbol != ':') {
+                        sourceSymbol = strrchr(atosPipeBuf, (int)'(');
+                        if (sourceSymbol) {
+                            strlcat(outBuf, sourceSymbol-1, sizeof(outBuf));
+                            symbolEnd = strchr(outBuf, (int)'\n');
+                            if (symbolEnd) {
+                                *symbolEnd = '\0';
+                            }
+                        }
+                    }
+                }
+            }
+            fprintf(stderr, "%s\n", outBuf);
+        }
+
+        if (atosPipe) {
+            pclose(atosPipe);
+        }
+        
+        if (cppfiltPipe) {
+            pclose(cppfiltPipe);
+        }
+
+        if (atosExists || cppfiltExists) {
+            if (env) {
+                setenv("NSUnbufferedIO", saved_env, 1);
+            } else {
+                unsetenv("NSUnbufferedIO");
+            }
+        }
+        
+        fprintf(stderr, "\n");
     } else {
+useOldMethod:
         QCRPrintBacktraces(crRef, stderr);
     }
+#else   // ! USE_NEW_ROUTINES
+    QCRPrintBacktraces(crRef, stderr);
+#endif
 
     // make sure this much gets written to file in case future 
     // versions of OS break our crash dump code beyond this point.
@@ -208,7 +291,7 @@ void PrintBacktrace(void) {
 }
 
 
-static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+char * BT_PersistentFGets(char *buf, size_t buflen, FILE *f) {
     char *p = buf;
     size_t len = buflen;
     size_t datalen = 0;
@@ -227,7 +310,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 }
 
 
-static void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbuf, size_t outBufLen) {
+void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbuf, size_t outBufLen) {
     FILE *f;
     char buf[256], *p, *q=NULL;
     pid_t aPID = getpid();
@@ -241,16 +324,16 @@ static void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char
     if (f == NULL)
         return;
     
-    PersistentFGets (outbuf, outBufLen, f);     // Discard header line
-    PersistentFGets (outbuf, outBufLen, f);     // Get the UNIX command which ran us
+    BT_PersistentFGets (outbuf, outBufLen, f);     // Discard header line
+    BT_PersistentFGets (outbuf, outBufLen, f);     // Get the UNIX command which ran us
     pclose(f);
 
     sprintf(buf, "ps -p %d -c -o command", aPID);
     f = popen(buf,  "r");
     if (!f)
         return;
-    PersistentFGets(nameBuf, nameBufLen, f);    // Discard header line
-    PersistentFGets(nameBuf, nameBufLen, f);    // Get just the name of our application
+    BT_PersistentFGets(nameBuf, nameBufLen, f);    // Discard header line
+    BT_PersistentFGets(nameBuf, nameBufLen, f);    // Get just the name of our application
     pclose(f);
 
     // Remove trailing newline if present
@@ -262,11 +345,11 @@ static void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char
     p = outbuf;
     nameLen = strlen(nameBuf);
     // Find last instance of string nameBuf in string outbuf
+    p = strnstr(p, nameBuf, outBufLen);
     while (p) {
         q = p;
-        p = strnstr(q + nameLen, nameBuf, outBufLen);
+        p = strnstr(q + nameLen, nameBuf, outBufLen - (q - nameBuf));
     }
-    
     // Terminate the string immediately after path
     if (q) {
         q += nameLen;

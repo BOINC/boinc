@@ -58,6 +58,8 @@ extern "C" {
 #include <mach/mach.h>
 
 void PrintBacktrace(void);
+void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbuf, size_t outBufLen);
+char * BT_PersistentFGets(char *buf, size_t buflen, FILE *f);
 
 #if defined(__cplusplus)
 }

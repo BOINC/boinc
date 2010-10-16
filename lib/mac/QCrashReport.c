@@ -108,6 +108,8 @@ First checked in.
 
 #include "config.h"
 #include "QCrashReport.h"
+#include "mac_backtrace.h"
+#include "filesys.h"
 
 // System interfaces
 
@@ -737,18 +739,68 @@ extern void QCRPrintBacktraces(QCrashReportRef crRef, FILE *f)
     const QBTFrame *frames;
     size_t          frameCount;
     size_t          frameIndex;
-    const char *    library;
-    char            libraryName[32];
-    const char *    symbol;
+    char *          library;
+    char            libraryName[36];
+    char *          libraryNamePtr;
     char            offsetStr[32];
-    QTMAddr         pc;
+    QTMAddr         pc = 0;
     size_t          startframe = 0;     // Added for BOINC
+    char            atosPipeBuf[1024];
+    char            nameBuf[256], pathToThisProcess[1024];
+    char            outBuf[1024];
+    char            *sourceSymbol, *symbolEnd;
+    FILE            *atosPipe = NULL;
+    FILE            *cppfiltPipe = NULL;
+    char            saved_env[128], *env = NULL;
+    bool            atosExists = false, cppfiltExists = false;
    
     assert( QCRIsValid(crRef) );
     assert( f != NULL );
     
     is64Bit = QMOImageIs64Bit(crRef->executable);
 
+    GetNameOfAndPathToThisProcess(nameBuf, sizeof(nameBuf), pathToThisProcess, sizeof(pathToThisProcess));
+
+    atosExists = boinc_file_exists("/usr/bin/atos");
+    cppfiltExists = boinc_file_exists("/usr/bin/atos");
+    if (atosExists || cppfiltExists) {
+        // The bidirectional popen only works if the NSUnbufferedIO environment 
+        // variable is set, so we save and restore its current value.
+        env = getenv("NSUnbufferedIO");
+        if (env) {
+            strlcpy(saved_env, env, sizeof(saved_env));
+        }
+        setenv("NSUnbufferedIO", "YES", 1);
+    }
+    
+    if (atosExists) {
+        // The backtrace_symbols() and backtrace_symbols() APIs are limited to 
+        // external symbols only, so we also use the atos command-line utility  
+        // which gives us debugging symbols when available.
+        //
+        // For some reason, using the -p option with the value from getpid() 
+        // fails here but the -o option with a path does work.
+#ifdef __x86_64__
+        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch x86_64", pathToThisProcess);
+#elif defined (__i386__)
+        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch i386", pathToThisProcess);
+#else
+        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch ppc", pathToThisProcess);
+#endif
+
+        atosPipe = popen(atosPipeBuf, "r+");
+        if (atosPipe) {
+            setbuf(atosPipe, 0);
+        }
+    }
+
+    if (cppfiltExists) {
+        cppfiltPipe = popen("/usr/bin/c++filt -s gnu-v3 -n", "r+");
+        if (cppfiltPipe) {
+            setbuf(cppfiltPipe, 0);
+        }
+    }
+        
     for (threadIndex = 0; threadIndex < crRef->threadCount; threadIndex++) {
         fprintf(f, "Thread %zd%s:\n", threadIndex, (threadIndex == crRef->crashedThreadIndex) ? " Crashed" : "");
 
@@ -773,32 +825,27 @@ extern void QCRPrintBacktraces(QCrashReportRef crRef, FILE *f)
                 // to fit the field.  I trim at the front because the interesting 
                 // stuff (most notably, the framework name) is at the end.
                 //
-                // Note that the field with is 30 and 27 is the field width 
+                // Note that the field with is 35 and 32 is the field width 
                 // minus the three dots that mark the truncation.
                 
-                library = frames[frameIndex].library;
+                library = (char *)frames[frameIndex].library;
                 if (library == NULL) {
                     libraryName[0] = 0;
                 } else {
-                    if (strlen(library) > 30) {
-                        snprintf(libraryName, sizeof(libraryName), "...%s", library + strlen(library) - 27);
+                    libraryNamePtr = strrchr(library, (int)'/');
+                    if (libraryNamePtr == NULL) {
+                        libraryNamePtr = library;
                     } else {
-                        strlcpy(libraryName, library, sizeof(libraryName));
+                        ++libraryNamePtr;
+                    }
+                    
+                    if (strlen(libraryNamePtr) > 35) {
+                        snprintf(libraryName, sizeof(libraryName), "...%s", libraryNamePtr + strlen(libraryNamePtr) - 32);
+                    } else {
+                        strlcpy(libraryName, libraryNamePtr, sizeof(libraryName));
                     }
                 }
                 
-                // OTOH, it's easy to emulate the symbol rendering.  Note that 
-                // I deliberately include the leading underscore.  The fact 
-                // that CrashReporter strips it out is a poor decision IMHO.
-                
-                if (frames[frameIndex].symbol == NULL) {
-                    symbol = "";
-                    offsetStr[0] = 0;
-                } else {
-                    symbol = frames[frameIndex].symbol;
-                    snprintf(offsetStr, sizeof(offsetStr), " + %llu", (unsigned long long) frames[frameIndex].offset);
-                }
-
 				pc = frames[frameIndex].pc;
 				if ( ! is64Bit ) {
 					// Without this, a value of ((QTMAddr) -1), which is generated 
@@ -806,20 +853,79 @@ extern void QCRPrintBacktraces(QCrashReportRef crRef, FILE *f)
 					// hex number.
 					pc = pc & 0x00000000FFFFFFFFLL;
 				}
+
+                // OTOH, it's easy to emulate the symbol rendering.  Note that 
+                // I deliberately include the leading underscore.  The fact 
+                // that CrashReporter strips it out is a poor decision IMHO.
+                
+                if (frames[frameIndex].symbol == NULL) {
+                    outBuf[0] = 0;
+                    offsetStr[0] = 0;
+                } else {
+                    strlcpy(outBuf, frames[frameIndex].symbol, sizeof(outBuf));
+                    if (cppfiltPipe) {
+                        if (outBuf[0] == '_') {
+                            fprintf(cppfiltPipe, "%s\n", outBuf+1);
+                        } else {
+                            fprintf(cppfiltPipe, "%s\n", outBuf);
+                        }
+                        BT_PersistentFGets(outBuf, sizeof(outBuf), cppfiltPipe);
+                        symbolEnd = strchr(outBuf, (int)'\n');
+                        if (symbolEnd) {
+                            *symbolEnd = '\0';
+                        }
+                    }
+                    snprintf(offsetStr, sizeof(offsetStr), " + %llu", (unsigned long long) frames[frameIndex].offset);
+                    strlcat(outBuf, offsetStr, sizeof(outBuf));
+
+                    if (atosPipe) {
+                        fprintf(atosPipe, "%#llx\n", (QTMAddr)pc);
+                        BT_PersistentFGets(atosPipeBuf, sizeof(atosPipeBuf), atosPipe);
+                        sourceSymbol = strrchr(atosPipeBuf, (int)':');
+                        if (sourceSymbol) {
+                            if (*--sourceSymbol != ':') {
+                                sourceSymbol = strrchr(atosPipeBuf, (int)'(');
+                                if (sourceSymbol) {
+                                    strlcat(outBuf, sourceSymbol-1, sizeof(outBuf));
+                                    symbolEnd = strchr(outBuf, (int)'\n');
+                                    if (symbolEnd) {
+                                        *symbolEnd = '\0';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 fprintf(
                     f, 
-                    "%3d %-30s %#0*llx %s%s\n", 
+                    "%-3d %-35s %#0*llx %s\n", 
                     (int) (frameIndex - startframe),            // startframe added for BOINC
                     libraryName,
                     is64Bit ? 18 : 10,
                     pc,
-                    symbol,
-                    offsetStr
+                    outBuf
                 );
             }
         }
         
         fprintf(f, "\n");
+    }
+
+    if (atosPipe) {
+        pclose(atosPipe);
+    }
+    
+    if (cppfiltPipe) {
+        pclose(cppfiltPipe);
+    }
+
+    if (atosExists || cppfiltExists) {
+        if (env) {
+            setenv("NSUnbufferedIO", saved_env, 1);
+        } else {
+            unsetenv("NSUnbufferedIO");
+        }
     }
 }
 
