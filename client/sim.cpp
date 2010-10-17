@@ -956,7 +956,7 @@ void cull_projects() {
 }
 
 void do_client_simulation() {
-    char buf[256];
+    char buf[256], buf2[256];
     msg_printf(0, MSG_INFO, "SIMULATION START");
 
     sprintf(buf, "%s%s", file_prefix, CONFIG_FILE);
@@ -975,10 +975,12 @@ void do_client_simulation() {
         buf
     );
     sprintf(buf, "%s%s", file_prefix, GLOBAL_PREFS_FILE_NAME);
-    gstate.read_global_prefs(buf);
+    sprintf(buf2, "%s%s", file_prefix, GLOBAL_PREFS_OVERRIDE_FILE);
+    gstate.read_global_prefs(buf, buf2);
     fprintf(index_file,
-        "<br><a href=%s>Preferences file (global_prefs.xml)</a>\n",
-        buf
+        "<br><a href=%s>Preferences file (global_prefs.xml)</a>\n"
+        "<br><a href=%s>Preferences override file (global_prefs_override.xml)</a>\n",
+        buf, buf2
     );
     cull_projects();
     int j=0;

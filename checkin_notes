@@ -7421,3 +7421,15 @@ David  16 Oct 2010
 
 	client/
 		cs_notice.cpp
+
+David  16 Oct 2010
+    - user web: in RSS item for private message, don't say anything
+        about the message (sender, title, or content)
+    - user web: don't send an RSS item for a thread with no posts (i.e., hidden)
+    - client simulator: support global_prefs_override.xml
+
+    html/inc/
+        pm.inc
+        forum_rss.inc
+    client/
+        sim.cpp

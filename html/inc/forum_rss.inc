@@ -32,6 +32,7 @@ function show_forum_rss_item($thread, $userid, $threads_only, $truncate) {
     } else {
         $posts = BoincPost::enum("thread=$thread->id $clause2 order by timestamp desc limit 1");
     }
+    if (!count($posts)) return;
     $post = $posts[0];
     $post_date = gmdate('D, d M Y H:i:s',$post->timestamp).' GMT';
     $t = bb2html($post->content, true);

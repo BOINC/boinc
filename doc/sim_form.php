@@ -18,6 +18,12 @@ function show_form() {
 </textarea>
 
     <p>
+    <b>global_prefs_override.xml:</b> (the host's preferences override file)
+    <br>
+    <textarea name=global_prefs_override rows=10 cols=80>
+</textarea>
+
+    <p>
     <b>cc_config.xml:</b> (the client configuration options)
     <br>
     <textarea name=cc_config rows=10 cols=80>
@@ -68,13 +74,16 @@ if ($_POST['submit']) {
     $state_fname = $prefix."client_state.xml";
     file_put_contents_aux($state_fname, $x);
 
-    $prefs_name = null;
-    $config_name = null;
-
     $x = $_POST['global_prefs'];
     if (strlen($x)) {
         $prefs_fname = $prefix."global_prefs.xml";
         file_put_contents_aux($prefs_fname, $x);
+    }
+
+    $x = $_POST['global_prefs_override'];
+    if (strlen($x)) {
+        $prefs_override_fname = $prefix."global_prefs_override.xml";
+        file_put_contents_aux($prefs_override_fname, $x);
     }
 
     $x = $_POST['cc_config'];
