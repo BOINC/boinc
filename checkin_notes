@@ -7401,3 +7401,17 @@ Charlie 16 Oct 2010
         mac/
             mac_backtrace.cpp, .h
             QCrashReport.c
+
+David  16 Oct 2010
+    - client: delete a notice if it's no longer in the RSS feed.
+        E.g., if a project deletes a news item, remove it from notices.
+    - notices RSS: remove the "since_time" mechanism
+        (an optimization that conflicts with the above)
+        
+    html/user/
+        notices.php
+    lib/
+        notice.h
+    client/
+        cs_notice.cpp,h
+        sim.cpp

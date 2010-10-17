@@ -59,11 +59,13 @@ function file_put_contents_aux($fname, $str) {
 if ($_POST['submit']) {
     chdir("sim");
 
+    $prefix = tempnam("/tmp", "sim");
+
     $x = $_POST['client_state'];
     if (!strlen($x)) {
         die("missing state");
     }
-    $state_fname = tempnam("/tmp", "sim");
+    $state_fname = $prefix."client_state.xml";
     file_put_contents_aux($state_fname, $x);
 
     $prefs_name = null;
@@ -71,13 +73,13 @@ if ($_POST['submit']) {
 
     $x = $_POST['global_prefs'];
     if (strlen($x)) {
-        $prefs_fname = tempnam("/tmp", "sim");
+        $prefs_fname = $prefix."global_prefs.xml";
         file_put_contents_aux($prefs_fname, $x);
     }
 
     $x = $_POST['cc_config'];
     if (strlen($x)) {
-        $config_fname = tempnam("/tmp", "sim");
+        $config_fname = $prefix."cc_config.xml";
         file_put_contents_aux($config_fname, $x);
     }
 
@@ -104,34 +106,11 @@ if ($_POST['submit']) {
         $rr_only = '--cpu_sched_rr_only';
     }
 
-    $timeline_fname = tempnam("/tmp", "sim");
-    $log_fname = tempnam("/tmp", "sim");
-    $summary_fname = tempnam("/tmp", "sim");
-
-    $cmd = "./sim --duration $duration --delta $delta $suw --state_file $state_fname --timeline_file $timeline_fname --log_file $log_fname --summary_file $summary_fname $rr_only $llflag";
-    if ($prefs_fname) {
-        $cmd .= " --prefs_file $prefs_fname";
-    }
-    if ($config_fname) {
-        $cmd .= " --config_file $config_fname";
-    }
-    echo "cmd: $cmd\n";
+    $cmd = "./sim --duration $duration --delta $delta $suw --file_prefix $prefix $rr_only $llflag";
 
     $x = system($cmd);
 
-    echo $x;
-    readfile($timeline_fname);
-    echo "\n<pre>\n";
-    readfile($log_fname);
-    echo "\n</pre>\n";
-    readfile($summary_fname);
-
-    unlink($state_fname);
-    unlink($prefs_fname);
-    unlink($config_fname);
-    unlink($timeline_fname);
-    unlink($log_fname);
-    unlink($summary_fname);
+    Header("Location: ".$prefix."index.html");
 } else {
     page_head("BOINC client simulator");
     echo "

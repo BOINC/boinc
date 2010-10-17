@@ -19,15 +19,14 @@
 //
 // usage: sim options
 //
-//  [--input_file_prefix X]
-//      Prefix of input filenames; default is blank.
+//  [--file_prefix X]
+//      Prefix of filenames; default is blank.
 //      Input files are:
 //          client_state.xml
 //          global_prefs.xml
 //          cc_config.xml
-//  [--output_file_prefix X]
-//      Prefix of output filenames; default is blank.
 //      Output files are:
+//          index.html (lists other files)
 //          timeline.html
 //          log.txt
 //          summary.xml
@@ -64,8 +63,7 @@
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
-const char* input_file_prefix = "";
-const char* output_file_prefix = "";
+const char* file_prefix = "";
 
 #define TIMELINE_FNAME "timeline.html"
 #define LOG_FNAME "log.txt"
@@ -77,6 +75,8 @@ double duration = 86400, delta = 60;
 FILE* logfile;
 FILE* html_out;
 FILE* debt_file;
+FILE* index_file;
+char log_filename[256];
 
 string html_msg;
 bool running;
@@ -88,8 +88,7 @@ SIM_RESULTS sim_results;
 
 void usage(char* prog) {
     fprintf(stderr, "usage: %s\n"
-        "[--input_file_prefix F]\n"
-        "[--output_file_prefix F]\n"
+        "[--file_prefix F]\n"
         "[--duration X]\n"
         "[--delta X]\n"
         "[--server_uses_workload]\n"
@@ -676,13 +675,14 @@ int nproc_types = 1;
 void html_start() {
     char buf[256];
 
-    sprintf(buf, "%s%s", output_file_prefix, TIMELINE_FNAME);
+    sprintf(buf, "%s%s", file_prefix, TIMELINE_FNAME);
     html_out = fopen(buf, "w");
     if (!html_out) {
         fprintf(stderr, "can't open %s for writing\n", buf);
         exit(1);
     }
     setbuf(html_out, 0);
+    fprintf(index_file, "<br><a href=%s>Timeline</a>\n", buf);
     fprintf(html_out, "<h2>BOINC client simulator</h2>\n");
     fprintf(html_out,
         "<table border=1><tr><th>Time</th>\n"
@@ -786,7 +786,7 @@ void write_debts() {
 void make_graph(const char* title, const char* fname, int field, int nfields) {
     char gp_fname[256], cmd[256], png_fname[256];
 
-    sprintf(gp_fname, "%s%s.gp", output_file_prefix, fname);
+    sprintf(gp_fname, "%s%s.gp", file_prefix, fname);
     FILE* f = fopen(gp_fname, "w");
     fprintf(f,
         "set terminal png small size 1024, 768\n"
@@ -797,13 +797,14 @@ void make_graph(const char* title, const char* fname, int field, int nfields) {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         fprintf(f, "\"%sdebt.dat\" using 1:%d title \"%s\" with lines%s",
-            output_file_prefix, 2+field+i*nfields, p->project_name,
+            file_prefix, 2+field+i*nfields, p->project_name,
             (i==gstate.projects.size()-1)?"\n":", \\\n"
         );
     }
     fclose(f);
-    sprintf(png_fname, "%s%s.png", output_file_prefix, fname);
+    sprintf(png_fname, "%s%s.png", file_prefix, fname);
     sprintf(cmd, "gnuplot < %s > %s", gp_fname, png_fname);
+    fprintf(index_file, "<br><a href=%s>Graph of %s</a>\n", png_fname, title);
     system(cmd);
 }
 
@@ -958,15 +959,27 @@ void do_client_simulation() {
     char buf[256];
     msg_printf(0, MSG_INFO, "SIMULATION START");
 
-    sprintf(buf, "%s%s", input_file_prefix, CONFIG_FILE);
+    sprintf(buf, "%s%s", file_prefix, CONFIG_FILE);
     read_config_file(true, buf);
+    fprintf(index_file,
+        "<br><a href=%s>Configuration file (cc_config.xml)</a>\n",
+        buf
+    );
     config.show();
 
     gstate.add_platform("client simulator");
-    sprintf(buf, "%s%s", input_file_prefix, STATE_FILE_NAME);
+    sprintf(buf, "%s%s", file_prefix, STATE_FILE_NAME);
     gstate.parse_state_file_aux(buf);
-    sprintf(buf, "%s%s", input_file_prefix, GLOBAL_PREFS_FILE_NAME);
+    fprintf(index_file,
+        "<br><a href=%s>State file (client_state.xml)</a>\n",
+        buf
+    );
+    sprintf(buf, "%s%s", file_prefix, GLOBAL_PREFS_FILE_NAME);
     gstate.read_global_prefs(buf);
+    fprintf(index_file,
+        "<br><a href=%s>Preferences file (global_prefs.xml)</a>\n",
+        buf
+    );
     cull_projects();
     int j=0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
@@ -974,6 +987,12 @@ void do_client_simulation() {
             gstate.projects[i]->index = j++;
         }
     }
+
+    fprintf(index_file,
+        "<h2>Output files</h2>\n"
+        "<a href=%s>Log file</a>\n",
+        log_filename
+    );
 
     get_app_params();
     assign_latency_bounds();
@@ -1005,10 +1024,8 @@ int main(int argc, char** argv) {
     sim_results.clear();
     for (i=1; i<argc;) {
         char* opt = argv[i++];
-        if (!strcmp(opt, "--input_file_prefix")) {
-            input_file_prefix = argv[i++];
-        } else if (!strcmp(opt, "--output_file_prefix")) {
-            output_file_prefix = argv[i++];
+        if (!strcmp(opt, "--file_prefix")) {
+            file_prefix = argv[i++];
         } else if (!strcmp(opt, "--duration")) {
             duration = atof(next_arg(argc, argv, i));
         } else if (!strcmp(opt, "--delta")) {
@@ -1031,15 +1048,21 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sprintf(buf, "%s%s", output_file_prefix, LOG_FNAME);
-    logfile = fopen(buf, "w");
+    sprintf(buf, "%s%s", file_prefix, "index.html");
+    index_file = fopen(buf, "w");
+    fprintf(index_file,
+        "<h2>Input files</h2>\n"
+    );
+
+    sprintf(log_filename, "%s%s", file_prefix, LOG_FNAME);
+    logfile = fopen(log_filename, "w");
     if (!logfile) {
         fprintf(stderr, "Can't open %s\n", buf);
         exit(1);
     }
     setbuf(logfile, 0);
 
-    sprintf(buf, "%s%s", output_file_prefix, DEBT_FNAME);
+    sprintf(buf, "%s%s", file_prefix, DEBT_FNAME);
     debt_file = fopen(buf, "w");
 
     do_client_simulation();

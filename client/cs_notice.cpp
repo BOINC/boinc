@@ -268,6 +268,27 @@ static inline bool same_text(NOTICE& n1, NOTICE& n2) {
     return true;
 }
 
+void NOTICES::clear_keep() {
+    deque<NOTICE>::iterator i = notices.begin();
+    while (i != notices.end()) {
+        NOTICE& n = *i;
+        n.keep = false;
+        i++;
+    }
+}
+
+void NOTICES::unkeep(const char* url) {
+    deque<NOTICE>::iterator i = notices.begin();
+    while (i != notices.end()) {
+        NOTICE& n = *i;
+        if (!strcmp(url, n.feed_url) && !n.keep) {
+            i = notices.erase(i);
+        } else {
+            i++;
+        }
+    }
+}
+
 static inline bool same_guid(NOTICE& n1, NOTICE& n2) {
     if (!strlen(n1.guid)) return false;
     return !strcmp(n1.guid, n2.guid);
@@ -292,6 +313,7 @@ bool NOTICES::remove_dups(NOTICE& n) {
             i = notices.erase(i);
             removed_something = true;
         } else if (same_guid(n, n2)) {
+            n2.keep = true;
             return false;
         } else if (same_text(n, n2)) {
             int min_diff = 0;
@@ -302,6 +324,7 @@ bool NOTICES::remove_dups(NOTICE& n) {
                 i = notices.erase(i);
                 removed_something = true;
             } else {
+                n2.keep = true;
                 retval = false;
                 ++i;
             }
@@ -500,8 +523,6 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
     strcpy(url, "");
     poll_interval = 0;
     next_poll_time = 0;
-    use_since_time = false;
-    since_time = 0;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/rss_feed")) {
@@ -521,8 +542,6 @@ int RSS_FEED::parse_desc(XML_PARSER& xp) {
         if (xp.parse_str(tag, "url", url, sizeof(url))) continue;
         if (xp.parse_double(tag, "poll_interval", poll_interval)) continue;
         if (xp.parse_double(tag, "next_poll_time", next_poll_time)) continue;
-        if (xp.parse_bool(tag, "use_since_time", use_since_time)) continue;
-        if (xp.parse_int(tag, "since_time", since_time)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -533,24 +552,24 @@ void RSS_FEED::write(MIOFILE& fout) {
         "    <url>%s</url>\n"
         "    <poll_interval>%f</poll_interval>\n"
         "    <next_poll_time>%f</next_poll_time>\n"
-        "    <use_since_time>%d</use_since_time>\n"
-        "    <since_time>%d</since_time>\n"
         "  </rss_feed>\n",
         url,
         poll_interval,
-        next_poll_time,
-        use_since_time?1:0,
-        since_time
+        next_poll_time
     );
 }
 
 // parse the actual RSS feed.
 //
 int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
-    char tag[256], buf[256];
+    char tag[256];
     bool is_tag;
     nitems = 0;
     int ntotal = 0, nerror = 0;
+    int func_ret = ERR_XML_PARSE;
+
+    notices.clear_keep();
+
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/rss")) {
@@ -560,7 +579,8 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
                     ntotal, nerror, nitems
                 );
             }
-            return 0;
+            func_ret = 0;
+            break;
         }
         if (!strcmp(tag, "item")) {
             NOTICE n;
@@ -577,6 +597,7 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
                 }
             } else {
                 n.arrival_time = gstate.now;
+                n.keep = true;
                 strcpy(n.feed_url, url);
                 strcpy(n.project_name, project_name);
                 if (notices.append(n)) {
@@ -585,12 +606,9 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
             }
             continue;
         }
-        if (xp.parse_str(tag, "lastBuildDate", buf, sizeof(buf))) {
-            since_time = parse_rss_time(buf);
-            continue;
-        }
     }
-    return ERR_XML_PARSE;
+    notices.unkeep(url);
+    return func_ret;
 }
 
 ///////////// RSS_FEED_OP ////////////////
@@ -619,15 +637,7 @@ bool RSS_FEED_OP::poll() {
                 );
             }
             char url[256];
-            if (rf.use_since_time) {
-                if (strchr(url, '?')) {
-                    sprintf(url, "%s&since_time=%d", rf.url, rf.since_time);
-                } else {
-                    sprintf(url, "%s?since_time=%d", rf.url, rf.since_time);
-                }
-            } else {
-                strcpy(url, rf.url);
-            }
+            strcpy(url, rf.url);
             gstate.gui_http.do_rpc(this, url, filename, true);
             break;
         }

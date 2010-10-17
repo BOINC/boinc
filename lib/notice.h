@@ -45,6 +45,7 @@ public:
     char guid[256];
     char feed_url[256];
         // URL of RSS feed, or blank
+    bool keep;
 
     NOTICE();
     ~NOTICE();

@@ -51,10 +51,8 @@ function notices_rss_end() {
 
 $userid = get_int('userid');
 $auth = get_str('auth');
-$since_time = get_int('since_time', true);
-if (!$since_time) {
-    $since_time = time() - 30*86400;
-}
+
+$since_time = time() - 30*86400;
 
 $user = BoincUser::lookup_id($userid);
 if (!$user) xml_error();
