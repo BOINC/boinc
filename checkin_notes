@@ -7415,3 +7415,9 @@ David  16 Oct 2010
     client/
         cs_notice.cpp,h
         sim.cpp
+
+David  16 Oct 2010
+    - bug fix for the above
+
+	client/
+		cs_notice.cpp
