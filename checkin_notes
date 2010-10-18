@@ -7481,3 +7481,9 @@ David  18 Oct 2010
         client_state.cpp,h
         acct_setup.cpp,h
         Makefile.am
+
+David  18 Oct 2010
+    - client: notice debugging
+
+    client/
+        cs_notice.cpp

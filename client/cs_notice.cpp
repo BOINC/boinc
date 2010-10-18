@@ -690,9 +690,7 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
     }
     fclose(f);
 
-    if (nitems) {
-        notices.write_archive(rfp);
-    }
+    notices.write_archive(rfp);
 }
 
 ///////////// RSS_FEEDS ////////////////
