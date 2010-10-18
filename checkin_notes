@@ -7456,3 +7456,19 @@ Rom    16 Oct 2010
         BOINCTaskBar.cpp, .h
     clientgui/msw/
         taskbarex.cpp, .h
+
+David  18 Oct 2010
+	- client: distinguish between messages to be displayed as HTML
+		(e.g. "Download new client here" link) and others
+		(e.g. "Bad tag in cc_config.xml: <foo>").
+	- code cleanup; move show_message from main.cpp to client_msgs.cpp
+
+	client/
+		acct_setup.cpp
+		client_msgs.cpp,h
+		client_state.cpp
+		cs_cmdline.cpp
+		cs_statefile.cpp
+		gui_rpc_server.cpp
+		log_flags.cpp
+		main.cpp,h

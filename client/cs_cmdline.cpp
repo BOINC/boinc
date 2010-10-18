@@ -278,7 +278,7 @@ void CLIENT_STATE::parse_env_vars() {
             env_var_proxy_info.http_server_port = purl.port;
             break;
         default:
-            msg_printf_link(0, MSG_USER_ALERT,
+            msg_printf_notice(0, false,
                 "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=proxy_env",
                 _("The HTTP_PROXY environment variable must specify an HTTP proxy")
             );
