@@ -7433,3 +7433,26 @@ David  16 Oct 2010
         forum_rss.inc
     client/
         sim.cpp
+
+Rom    16 Oct 2010
+    - MGR(WIN): While it is a perfectly valid thing to use FindWindow() and
+        ShowWindow() on an application frame to restore an application from
+        a minimized state or a hidden state on Windows(75% of the UI test 
+        automation would fail at Microsoft without this ability), it appeartly
+        isn't for other platforms.  wxWidgets is or appears to be tracking window
+        state internally, which leads to problems when the OS restores the window
+        and the rest of the framework doesn't know about that change in state.
+        Certain window events were being ignored (like WM_CLOSE, menu selection
+        events, etc.). So replace the previous mechinism for bringing an existing
+        instance of the BOINC Manager to the foreground by creating a new global
+        window message which is tracked by the system tray icon.  When the new
+        global message is fired make sure the CBOINCGUIApp::SetActiveGUI() function
+        is called to restore the window state which in turn updates all the internal
+        framework data structures.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+    clientgui/
+        BOINCTaskBar.cpp, .h
+    clientgui/msw/
+        taskbarex.cpp, .h

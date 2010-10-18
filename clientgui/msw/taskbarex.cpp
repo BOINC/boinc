@@ -44,9 +44,10 @@ LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam
 wxChar* wxTaskBarExWindowClass = (wxChar*) wxT("wxTaskBarExWindowClass");
 wxChar* wxTaskBarExWindow      = (wxChar*) wxT("wxTaskBarExWindow");
 
-const UINT WM_TASKBARCREATED   = ::RegisterWindowMessage(wxT("TaskbarCreated"));
-const UINT WM_TASKBARMESSAGE   = ::RegisterWindowMessage(wxT("TaskbarMessage"));
-const UINT WM_TASKBARSHUTDOWN  = ::RegisterWindowMessage(wxT("TaskbarShutdown"));
+const UINT WM_TASKBARCREATED    = ::RegisterWindowMessage(wxT("TaskbarCreated"));
+const UINT WM_TASKBARMESSAGE    = ::RegisterWindowMessage(wxT("TaskbarMessage"));
+const UINT WM_TASKBARSHUTDOWN   = ::RegisterWindowMessage(wxT("TaskbarShutdown"));
+const UINT WM_TASKBARAPPRESTORE = ::RegisterWindowMessage(wxT("TaskbarAppRestore"));
 
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_CREATED )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_CONTEXT_MENU )
@@ -57,6 +58,7 @@ DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_HIDE )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_TIMEOUT )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_SHUTDOWN )
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_APPRESTORE )
 
 IMPLEMENT_DYNAMIC_CLASS(wxTaskBarIconEx, wxEvtHandler)
 
@@ -252,6 +254,15 @@ bool wxTaskBarIconEx::PopupMenu(wxMenu *menu)
     return rval;
 }
 
+bool wxTaskBarIconEx::FireAppRestore()
+{
+    HWND hWnd = ::FindWindow(wxTaskBarExWindowClass, NULL);
+    if (hWnd) {
+        ::SendMessage(hWnd, WM_TASKBARAPPRESTORE, NULL, NULL);
+        return true;
+    }
+    return false;
+}
 
 WXHWND wxTaskBarIconEx::CreateTaskBarWindow( wxChar* szWindowTitle )
 {
@@ -325,6 +336,10 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
     else if ( WM_TASKBARSHUTDOWN == msg )
     {
         eventType = wxEVT_TASKBAR_SHUTDOWN;
+    }
+    else if ( WM_TASKBARAPPRESTORE == msg )
+    {
+        eventType = wxEVT_TASKBAR_APPRESTORE;
     }
     else if ( WM_TASKBARMESSAGE == msg )
     {
