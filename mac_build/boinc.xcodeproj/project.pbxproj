@@ -254,6 +254,7 @@
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
+		DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA1F1EC126D105B005EFFEB /* current_version.cpp */; };
 		DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA546600D16964E008CC69A /* QuickTime.framework */; };
 		DDA6BD120BD4551F008F7921 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */; };
 		DDA6BD130BD4551F008F7921 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD060BD4551F008F7921 /* QBacktrace.c */; };
@@ -880,6 +881,8 @@
 		DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseFrame.h; path = ../clientgui/BOINCBaseFrame.h; sourceTree = SOURCE_ROOT; };
 		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
+		DDA1F1EC126D105B005EFFEB /* current_version.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = current_version.cpp; path = ../client/current_version.cpp; sourceTree = SOURCE_ROOT; };
+		DDA1F1ED126D105B005EFFEB /* current_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = current_version.h; path = ../client/current_version.h; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
 		DDA546600D16964E008CC69A /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
@@ -1629,6 +1632,8 @@
 				F54B8FC402AC0A0C01FB7237 /* client_state.h */,
 				F54B8FC502AC0A0C01FB7237 /* client_types.cpp */,
 				F54B8FC602AC0A0C01FB7237 /* client_types.h */,
+				DDA1F1EC126D105B005EFFEB /* current_version.cpp */,
+				DDA1F1ED126D105B005EFFEB /* current_version.h */,
 				DD69FEF608416C9A00C01361 /* boinc_cmd.cpp */,
 				DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */,
 				DD81C3D507C5CEB50098A04D /* cpp.h */,
@@ -2899,6 +2904,7 @@
 				DDD9C59310CCF54300A1E4CD /* coproc_detect.cpp in Sources */,
 				DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */,
 				DDE1373210DC5EA400161D6B /* notice.cpp in Sources */,
+				DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

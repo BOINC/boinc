@@ -7487,3 +7487,10 @@ David  18 Oct 2010
 
     client/
         cs_notice.cpp
+
+Charlie 18 Oct 2010
+    - Mac: Update XCode project for new source files client/current_version.cpp,.h.
+        
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
