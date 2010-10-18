@@ -56,6 +56,7 @@ boinc_client_SOURCES = \
     cs_scheduler.cpp \
     cs_statefile.cpp \
     cs_trickle.cpp \
+	current_version.cpp \
     dhrystone.cpp \
     dhrystone2.cpp \
     file_names.cpp \
