@@ -40,6 +40,11 @@ using std::deque;
 
 MESSAGE_DESCS message_descs;
 
+#ifdef SIM
+extern void show_message(
+    PROJECT *p, char* msg, int priority, bool is_html, const char* link
+);
+#else
 // Show a message:
 // 1) As a MESSAGE_DESC (for GUI event log)
 // 2) As a NOTICE, if high priority (for GUI notices)
@@ -75,7 +80,6 @@ void show_message(PROJECT *p, char* msg, int priority, bool is_html, const char*
 
     message_descs.insert(p, priority, (int)gstate.now, message);
 
-#ifndef SIM
     switch (priority) {
     case MSG_USER_ALERT:
     case MSG_SCHEDULER_ALERT:
@@ -100,7 +104,6 @@ void show_message(PROJECT *p, char* msg, int priority, bool is_html, const char*
         strcpy(n.category, (priority==MSG_USER_ALERT)?"client":"scheduler");
         notices.append(n);
     }
-#endif
 
     strip_translation(message);
 
@@ -113,6 +116,7 @@ void show_message(PROJECT *p, char* msg, int priority, bool is_html, const char*
 #endif
     }
 }
+#endif
 
 // Takes a printf style formatted string, inserts the proper values,
 // and passes it to show_message

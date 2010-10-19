@@ -53,7 +53,7 @@ void HOST_INFO::generate_host_cpid() {}
 
 //int get_connected_state() {return 1;}
 
-void show_message(PROJECT *p, char* msg, int priority, const char*) {
+void show_message(PROJECT *p, char* msg, int priority, bool, const char*) {
     const char* x;
     char message[1024];
 
@@ -126,6 +126,8 @@ int ACTIVE_TASK::init(RESULT* rp) {
 
 // http://www.cs.wm.edu/~va/software/park/rvgs.c
 double NORMAL_DIST::sample() {
+    if (!std_dev) return mean;
+
   const double p0 = 0.322232431088;     const double q0 = 0.099348462606;
   const double p1 = 1.0;                const double q1 = 0.588581570495;
   const double p2 = 0.342242088547;     const double q2 = 0.531103462366;
@@ -144,7 +146,7 @@ double NORMAL_DIST::sample() {
     z = (p / q) - t;
   else
     z = t - (p / q);
-  return (mean + stdev * z);
+  return (mean + std_dev * z);
 
 }
 
@@ -190,7 +192,7 @@ int NORMAL_DIST::parse(XML_PARSER& xp, const char* end_tag) {
     while(!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) return ERR_XML_PARSE;
         if (xp.parse_double(tag, "mean", mean)) continue;
-        else if (xp.parse_double(tag, "stdev", stdev)) continue;
+        else if (xp.parse_double(tag, "std_dev", std_dev)) continue;
         else if (!strcmp(tag, end_tag)) return 0;
         else {
             printf("unrecognized: %s\n", tag);

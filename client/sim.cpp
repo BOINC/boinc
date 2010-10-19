@@ -388,12 +388,14 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     msg_printf(NULL, MSG_INFO, "RPC poll start");
     while (1) {
+#if 0
         p = next_project_sched_rpc_pending();
         if (p) {
             work_fetch.compute_work_request(p);
             action = simulate_rpc(p);
             break;
         }
+#endif
     
         p = find_project_with_overdue_results();
         if (p) {
@@ -616,8 +618,22 @@ const char* colors[] = {
     "#880000",
     "#880088",
     "#888800",
-    "#000088",
+    "#008888",
+    "#0000aa",
+    "#00aa00",
+    "#aa0000",
+    "#aa00aa",
+    "#aaaa00",
+    "#00aaaa",
+    "#0000cc",
+    "#00cc00",
+    "#cc0000",
+    "#cc00cc",
+    "#cccc00",
+    "#00cccc",
 };
+
+#define NCOLORS 12
 
 int njobs_in_progress(PROJECT* p, int rsc_type) {
     int n = 0;
@@ -654,7 +670,7 @@ void show_resource(int rsc_type) {
 
         fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2f</font><br>",
             ninst,
-            colors[p->index],
+            colors[p->index%NCOLORS],
             atp->result->rr_sim_misses_deadline?"*":"",
             atp->result->name,
             atp->cpu_time_left
@@ -665,7 +681,9 @@ void show_resource(int rsc_type) {
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         int n = njobs_in_progress(p, rsc_type);
-        fprintf(html_out, "<br>%s: %d jobs in progress\n", p->project_name, n);
+        if (n) {
+            fprintf(html_out, "<br>%s: %d jobs in progress\n", p->project_name, n);
+        }
     }
     fprintf(html_out, "</td>");
 }
@@ -955,6 +973,29 @@ void cull_projects() {
     }
 }
 
+void show_apps() {
+    for (unsigned int i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        msg_printf(app->project, MSG_INFO,
+            "app %s fpops_est %.0fG fpops mean %.0fG std_dev %.0fG",
+            app->name, app->fpops_est/1e9,
+            app->fpops.mean/1e9, app->fpops.std_dev/1e9
+        );
+    }
+}
+
+void show_app_versions() {
+    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        msg_printf(avp->project, MSG_INFO,
+            "app version %s %d (%s): ncpus %.2f ncuda %.2f nati %.2f flops %.0fG",
+            avp->app_name, avp->version_num, avp->plan_class,
+            avp->avg_ncpus, avp->ncudas, avp->natis,
+            avp->flops/1e9
+        );
+    }
+}
+
 void do_client_simulation() {
     char buf[256], buf2[256];
     msg_printf(0, MSG_INFO, "SIMULATION START");
@@ -1002,6 +1043,9 @@ void do_client_simulation() {
 
     gstate.workunits.clear();
     gstate.results.clear();
+
+    show_apps();
+    show_app_versions();
 
     gstate.set_ncpus();
     work_fetch.init();

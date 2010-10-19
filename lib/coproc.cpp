@@ -274,7 +274,10 @@ int COPROC_CUDA::parse(MIOFILE& fin) {
         if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
         if (parse_int(buf, "<drvVersion>", display_driver_version)) continue;
         if (parse_int(buf, "<cudaVersion>", cuda_version)) continue;
-        if (parse_double(buf, "<totalGlobalMem>", prop.dtotalGlobalMem)) continue;
+        if (parse_double(buf, "<totalGlobalMem>", prop.dtotalGlobalMem)) {
+            prop.totalGlobalMem = (int)prop.dtotalGlobalMem;
+            continue;
+        }
         if (parse_int(buf, "<sharedMemPerBlock>", (int&)prop.sharedMemPerBlock)) continue;
         if (parse_int(buf, "<regsPerBlock>", prop.regsPerBlock)) continue;
         if (parse_int(buf, "<warpSize>", prop.warpSize)) continue;

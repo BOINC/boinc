@@ -7494,3 +7494,17 @@ Charlie 18 Oct 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  19 Oct 2010
+    - client simulator: various fixes
+
+    client/
+        app.cpp
+        client_msgs.cpp
+        client_state.cpp
+        cs_notice.cpp
+        makefile_sim
+        sim.cpp,h
+        sim_util.cpp
+    lib/
+        coproc.cpp

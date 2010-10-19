@@ -701,6 +701,10 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
     while (fin.fgets(buf, 256)) {
         if (match_tag(buf, "</active_task_set>")) return 0;
         else if (match_tag(buf, "<active_task>")) {
+#ifdef SIM
+            ACTIVE_TASK at;
+            at.parse(fin);
+#else
             atp = new ACTIVE_TASK;
             retval = atp->parse(fin);
             if (!retval) {
@@ -714,6 +718,7 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
             }
             if (!retval) active_tasks.push_back(atp);
             else delete atp;
+#endif
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(NULL, MSG_INFO,

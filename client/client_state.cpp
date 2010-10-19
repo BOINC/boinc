@@ -899,6 +899,8 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         return ERR_NOT_UNIQUE;
     }
     
+#ifndef SIM
+
     strcpy(avp->graphics_exec_path, "");
     strcpy(avp->graphics_exec_file, "");
 
@@ -929,6 +931,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 
         file_ref.file_info = fip;
     }
+#endif
     return 0;
 }
 

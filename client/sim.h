@@ -58,7 +58,7 @@ struct PROJECT_RESULTS {
 
 struct NORMAL_DIST {
     double mean;
-    double stdev;
+    double std_dev;
     int parse(XML_PARSER&, const char* end_tag);
     double sample();
 };

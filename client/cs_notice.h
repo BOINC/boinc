@@ -48,6 +48,7 @@
 // notices/feeds.xml                feed list
 // notices/feeds_PROJ_URL.xml       list of project feeds
 // notices/RSS_URL.xml              result of last fetch for a feed
+// notices/archive_RSS_URL.xml      archive for a feed
 
 #include <deque>
 #include <vector>
