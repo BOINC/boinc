@@ -518,55 +518,64 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    NOTICE* np = pDoc->notice((unsigned int)i);
 
-    strProjectName = wxString(np->project_name, wxConvUTF8);
-    strURL = wxString(np->link, wxConvUTF8);
+    if (pDoc->GetNoticeCount() <= 0) {
+        strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
+        strBuffer += _("There are no notices to be displayed at this time.");
+        strBuffer += wxT("</font></td></tr></table><hr>");
+    } else {
+        NOTICE* np = pDoc->notice((unsigned int)i);
 
-    strTitle = wxString(np->title, wxConvUTF8);
-    pDoc->LocalizeNoticeText(strTitle, true);
+        strProjectName = wxString(np->project_name, wxConvUTF8);
+        strURL = wxString(np->link, wxConvUTF8);
 
-    strDescription = wxString(np->description.c_str(), wxConvUTF8);
-    pDoc->LocalizeNoticeText(strDescription, true);
+        strTitle = wxString(np->title, wxConvUTF8);
+        pDoc->LocalizeNoticeText(strTitle, true);
 
-    dtBuffer.Set((time_t)np->arrival_time);
-    strArrivalTime = dtBuffer.Format();
+        strDescription = wxString(np->description.c_str(), wxConvUTF8);
+        pDoc->LocalizeNoticeText(strDescription, true);
 
-    strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
+        dtBuffer.Set((time_t)np->arrival_time);
+        strArrivalTime = dtBuffer.Format();
 
-    if (!strTitle.IsEmpty()) {
-        strTemp.Printf(
-            wxT("<b>%s</b><br>"),
-            strTitle.c_str()
-        );
-        strBuffer += strTemp;
+        strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
+
+        if (!strTitle.IsEmpty()) {
+            strTemp.Printf(
+                wxT("<b>%s</b><br>"),
+                strTitle.c_str()
+            );
+            strBuffer += strTemp;
+        }
+
+        strBuffer += strDescription;
+
+        strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
+
+        if (!strProjectName.IsEmpty()) {
+            strTemp.Printf(
+                wxT("%s %s<br>"),
+                _("From"),
+                strProjectName.c_str()
+            );
+            strBuffer += strTemp;
+        }
+
+        strBuffer += strArrivalTime;
+
+        if (!strURL.IsEmpty()) {
+            strTemp.Printf(
+                wxT(" &middot; <a target=_new href=%s>%s</a> "),
+                strURL.c_str(),
+                _("more...")
+            );
+            strBuffer += strTemp;
+        }
+
+        strBuffer += wxT("</font></td></tr></table><hr>");
     }
 
-    strBuffer += strDescription;
 
-    strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
-
-    if (!strProjectName.IsEmpty()) {
-        strTemp.Printf(
-            wxT("%s %s<br>"),
-            _("From"),
-            strProjectName.c_str()
-        );
-        strBuffer += strTemp;
-    }
-
-    strBuffer += strArrivalTime;
-
-    if (!strURL.IsEmpty()) {
-        strTemp.Printf(
-            wxT(" &middot; <a target=_new href=%s>%s</a> "),
-            strURL.c_str(),
-            _("more...")
-        );
-        strBuffer += strTemp;
-    }
-
-    strBuffer += wxT("</font></td></tr></table><hr>");
     
     return strBuffer;
 }
@@ -585,9 +594,9 @@ bool CNoticeListCtrl::UpdateUI()
 
     // Call Freeze() / Thaw() only when actually needed; 
     // otherwise it causes unnecessary redraws
-    if (pDoc->GetNoticeCount() < 0) {
+    if (pDoc->GetNoticeCount() <= 0) {
         Freeze();
-        SetItemCount(0);
+        SetItemCount(1);
         Thaw();
         return true;
     }

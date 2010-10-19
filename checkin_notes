@@ -7508,3 +7508,14 @@ David  19 Oct 2010
         sim_util.cpp
     lib/
         coproc.cpp
+
+Rom    19 Oct 2010
+    - MGR: Add missing keyboard shortcut for the Event Log
+    - MGR: Add missing ellipses for the new instance of BOINC Manager and
+        Event Log.
+    - MGR: Display a simple message when saying that there are no notices
+        to be displayed when the client reports there are zero notices.
+
+    clientgui/
+        AdvancedFrame.cpp
+        NoticeListCtrl.cpp
