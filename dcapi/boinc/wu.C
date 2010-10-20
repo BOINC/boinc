@@ -984,7 +984,7 @@ static void append_wu_remote_file_info(GString *tmpl, int idx, DC_RemoteFile *fi
 	g_string_append_printf(tmpl, "\t<number>%d</number>\n", idx);
 	g_string_append_printf(tmpl, "\t<url>%s</url>\n", file->url);
 	g_string_append_printf(tmpl, "\t<md5_cksum>%s</md5_cksum>\n", file->remotefilehash);
-	g_string_append_printf(tmpl, "\t<nbytes>%d</nbytes>\n", file->remotefilesize);
+	g_string_append_printf(tmpl, "\t<nbytes>%lu</nbytes>\n", file->remotefilesize);
 	g_string_append(tmpl, "</file_info>\n");
 }
 
@@ -1273,7 +1273,6 @@ int DC_submitWU(DC_Workunit *wu)
 	dbwu.priority = wu->priority;
 
 	wu_template = generate_wu_template(wu);
-	printf("WU template is: %s", wu_template);
 	result_template_file = generate_result_template(wu);
 	if (!result_template_file)
 	{
@@ -1308,7 +1307,7 @@ int DC_submitWU(DC_Workunit *wu)
 			l = l->next, i++)
 	{
 		DC_RemoteFile *file = (DC_RemoteFile *)l->data;
-		infiles[i] = g_strdup_printf("%s_%s", file->label, md5_string(file->url));
+		infiles[i] = g_strdup_printf("%s_%s", file->label, md5_string(file->url).c_str());
 	}
 	if (wu->ckpt_name)
 		infiles[i++] = get_input_download_name(wu, wu->ckpt_name, NULL);
