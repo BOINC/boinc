@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-14 16:20-0700\n"
+"POT-Creation-Date: 2010-10-06 08:58-0700\n"
 "PO-Revision-Date: 2010-08-15 13:09-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "n%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 1.2.1\n"
 
-#: acct_mgr.cpp:373 acct_mgr.cpp:383
+#: acct_mgr.cpp:382 acct_mgr.cpp:392
 msgid "error"
 msgstr "napaka"
 
@@ -30,62 +30,76 @@ msgstr "Na voljo je nova različica BOINC."
 msgid "Download it."
 msgstr "Prenesite jo."
 
-#: client_state.cpp:342
+#: client_msgs.cpp:106
+msgid "Notice from BOINC"
+msgstr ""
+
+#: client_state.cpp:357
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Zapisovanje datoteke stanja ni bilo možno; preverite pravice imenika"
 
-#: cs_cmdline.cpp:281
+#: cs_cmdline.cpp:283
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "HTTP_PROXY spremenljivka okolja mora določati HTTP posrednika"
 
-#: cs_scheduler.cpp:557
-msgid "Message from project server:"
-msgstr "Sporočilo strežnika projekta:"
+#: cs_scheduler.cpp:512
+#, c-format
+msgid ""
+"You used the wrong URL for this project.  When convenient, remove this "
+"project, then add %s"
+msgstr ""
 
-#: cs_statefile.cpp:766 ../sched/sched_types.cpp:273
+#: cs_scheduler.cpp:545
+msgid "Message from"
+msgstr ""
+
+#: cs_statefile.cpp:805 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
 msgstr "Sintaktična napaka v app_info.xml"
 
-#: gui_rpc_server.cpp:190
+#: cs_statefile.cpp:844
+msgid "File referenced in app_info.xml does not exist: "
+msgstr ""
+
+#: gui_rpc_server.cpp:191
 msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr "Ni mogoče razrešiti ime gostitelja v remote_hosts.cfg"
 
-#: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
+#: log_flags.cpp:68 log_flags.cpp:322 log_flags.cpp:450
 msgid "Unexpected text in cc_config.xml"
 msgstr "Nepričakovano besedilo v cc_config.xml"
 
-#: log_flags.cpp:112 log_flags.cpp:415 log_flags.cpp:460
+#: log_flags.cpp:112 log_flags.cpp:422 log_flags.cpp:467
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Neprepoznana značka v cc_config.xml"
 
-#: log_flags.cpp:434
+#: log_flags.cpp:441
 msgid "Missing start tag in cc_config.xml"
 msgstr "Manjkajoča začetna značka v cc_config.xml"
 
-#: log_flags.cpp:468
+#: log_flags.cpp:475
 msgid "Missing end tag in cc_config.xml"
 msgstr "Manjkajoča končna značka v cc_config.xml"
 
 #: ../sched/handle_request.cpp:299
-msgid ""
-"Invalid or missing account key.  To fix, detach and reattach to this project."
+#, fuzzy
+msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr ""
 "Napačen ali manjkajoč ključ računa.  Da popravite, se odklopite in ponovno "
 "priklopite na ta projekt."
 
 #: ../sched/handle_request.cpp:820
-msgid "Invalid code signing key.  To fix, detach and reattach to this project."
+#, fuzzy
+msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
 "Napačen ali manjkajoč ključ računa.  Da popravite, se odklopite in ponovno "
 "priklopite na ta projekt."
 
 #: ../sched/handle_request.cpp:830
 msgid ""
-"You may have an outdated code signing key.  Try attaching and reattaching "
-"this project."
+"The project has changed its security key.  Please remove and add this "
+"project."
 msgstr ""
-"Morda imate zastarel ključ za podpisovanje kode.  Poskusite se odklopiti in "
-"ponovno priklopiti na ta projekt."
 
 #: ../sched/handle_request.cpp:914
 msgid "This project doesn't support operating system"
@@ -106,20 +120,20 @@ msgstr ""
 msgid "This project doesn't support computers of type"
 msgstr "Ta projekt ne podpira računalnikov tega tipa"
 
-#: ../sched/sched_send.cpp:1250
+#: ../sched/sched_send.cpp:1262
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
 "Posodobite na najnovejši gonilnik za obdelovanje opravil z uporabo "
 "grafičnega procesorja vašega računalnika"
 
-#: ../sched/sched_send.cpp:1257
+#: ../sched/sched_send.cpp:1269
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
 "Posodobite na najnovejši gonilnik za uporabo vseh aplikacij grafičnega "
 "procesorja tega projekta"
 
-#: ../sched/sched_send.cpp:1281
+#: ../sched/sched_send.cpp:1293
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
@@ -127,22 +141,22 @@ msgstr ""
 "Za uporabo vašega NVIDIA grafičnega procesorja je potrebna novejša različica "
 "BOINC; prosim nadgradite na trenutno različico"
 
-#: ../sched/sched_send.cpp:1294
+#: ../sched/sched_send.cpp:1306
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr ""
 "NVIDIA ali ATI grafični procesor je potreben za poganjanje opravil tega "
 "projekta"
 
-#: ../sched/sched_send.cpp:1299
+#: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA GPU is required to run tasks for this project"
 msgstr ""
 "NVIDIA grafični procesor je potreben za poganjanje opravil tega projekta"
 
-#: ../sched/sched_send.cpp:1305
+#: ../sched/sched_send.cpp:1317
 msgid "An ATI GPU is required to run tasks for this project"
 msgstr "ATI grafični procesor je potreben za poganjanje opravil tega projekta"
 
-#: ../sched/sched_send.cpp:1400
+#: ../sched/sched_send.cpp:1412
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
@@ -150,16 +164,16 @@ msgstr ""
 "Za aplikacije, ki ste jih izbrali, ni na voljo dela.  Prosimo, preverite "
 "vaše nastavitve projektov na spletni strani."
 
-#: ../sched/sched_send.cpp:1426
+#: ../sched/sched_send.cpp:1438
 msgid "Your computer type is not supported by this project"
 msgstr "Ta projekt ne podpira vašega tipa računalnika"
 
-#: ../sched/sched_send.cpp:1432
+#: ../sched/sched_send.cpp:1444
 msgid "Newer BOINC version required; please install current version"
 msgstr ""
 "Zahtevana je nova različica BOINC; prosimo, namestite trenutno različico"
 
-#: ../sched/sched_send.cpp:1442
+#: ../sched/sched_send.cpp:1454
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
@@ -167,7 +181,7 @@ msgstr ""
 "Opravila za NVIDIA grafični procesor so na voljo, vendar so vaše nastavitve, "
 "da jih ne sprejemate"
 
-#: ../sched/sched_send.cpp:1448
+#: ../sched/sched_send.cpp:1460
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
@@ -175,7 +189,7 @@ msgstr ""
 "Opravila za ATI grafični procesor so na voljo, vendar so vaše nastavitve, da "
 "jih ne sprejemate"
 
-#: ../sched/sched_send.cpp:1454
+#: ../sched/sched_send.cpp:1466
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
@@ -186,10 +200,20 @@ msgstr ""
 msgid "Unknown app name in app_info.xml"
 msgstr "Neznano ime aplikacije v app_info.xml"
 
-#: ../sched/sched_version.cpp:225
+#: ../sched/sched_version.cpp:234
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Vaša datoteka app_info.xml nima uporabne različice"
 
-#: ../sched/sched_version.cpp:653
+#: ../sched/sched_version.cpp:691
 msgid "is not available for your type of computer"
 msgstr "ni na voljo za vaš tip računalnika"
+
+#~ msgid "Message from project server:"
+#~ msgstr "Sporočilo strežnika projekta:"
+
+#~ msgid ""
+#~ "You may have an outdated code signing key.  Try attaching and reattaching "
+#~ "this project."
+#~ msgstr ""
+#~ "Morda imate zastarel ključ za podpisovanje kode.  Poskusite se odklopiti in "
+#~ "ponovno priklopiti na ta projekt."

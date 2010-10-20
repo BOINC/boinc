@@ -6,23 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Client 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-14 16:20-0700\n"
-"PO-Revision-Date: 2010-08-24 11:17-0700\n"
-"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
+"POT-Creation-Date: 2010-10-06 08:58-0700\n"
+"PO-Revision-Date: 2010-10-12 22:39+0200\n"
+"Last-Translator: Nikolay <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: Russian\n"
-"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: D:\\BOINCSrcTree\\boinc\\client\n"
 
-#: acct_mgr.cpp:373 acct_mgr.cpp:383
+#: acct_mgr.cpp:382 acct_mgr.cpp:392
 msgid "error"
 msgstr "ошибка"
 
@@ -34,62 +32,78 @@ msgstr "Доступна новая версия BOINC."
 msgid "Download it."
 msgstr "Загрузить её."
 
-#: client_state.cpp:342
+#: client_msgs.cpp:106
+msgid "Notice from BOINC"
+msgstr "Уведомление от BOINC"
+
+#: client_state.cpp:357
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Не удалось записать файл состояния; проверьте права доступа к каталогу"
 
-#: cs_cmdline.cpp:281
+#: cs_cmdline.cpp:283
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "HTTP-прокси должен быть определен в переменной окружения HTTP_PROXY"
 
-#: cs_scheduler.cpp:557
-msgid "Message from project server:"
-msgstr "Сообщение от сервера проекта:"
+#: cs_scheduler.cpp:512
+#, c-format
+msgid ""
+"You used the wrong URL for this project.  When convenient, remove this "
+"project, then add %s"
+msgstr ""
+"Для этого проекта Вы использовали неправильный URL. Как только будет "
+"возможно, удалите этот проект, затем добавьте %s"
 
-#: cs_statefile.cpp:766 ../sched/sched_types.cpp:273
+#: cs_scheduler.cpp:545
+msgid "Message from"
+msgstr "Сообщение от"
+
+#: cs_statefile.cpp:805 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
 msgstr "Ошибка синтаксиса в файле app_info.xml"
 
-#: gui_rpc_server.cpp:190
+#: cs_statefile.cpp:844
+msgid "File referenced in app_info.xml does not exist: "
+msgstr "Файл, на который ссылается app_info.xml, не существует: "
+
+#: gui_rpc_server.cpp:191
 msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr "Невозможно определить имя компьютера в файле remote_hosts.cfg"
 
-#: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
+#: log_flags.cpp:68 log_flags.cpp:322 log_flags.cpp:450
 msgid "Unexpected text in cc_config.xml"
 msgstr "Неожиданный текст в файле cc_config.xml"
 
-#: log_flags.cpp:112 log_flags.cpp:415 log_flags.cpp:460
+#: log_flags.cpp:112 log_flags.cpp:422 log_flags.cpp:467
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Нераспознанный тэг в файле cc_config.xml"
 
-#: log_flags.cpp:434
+#: log_flags.cpp:441
 msgid "Missing start tag in cc_config.xml"
 msgstr "Отсутствует начальный тэг в файле cc_config.xml"
 
-#: log_flags.cpp:468
+#: log_flags.cpp:475
 msgid "Missing end tag in cc_config.xml"
 msgstr "Отсутствует завершающий тэг в файле cc_config.xml"
 
 #: ../sched/handle_request.cpp:299
-msgid ""
-"Invalid or missing account key.  To fix, detach and reattach to this project."
+msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr ""
-"Неправильный или отсутствующий ключ учётной записи.  Для исправления "
-"отключитесь и снова подключитесь к этому проекту."
+"Неправильный или отсутствующий ключ учётной записи.  Для исправления удалите "
+"и снова добавьте этот проект."
 
 #: ../sched/handle_request.cpp:820
-msgid "Invalid code signing key.  To fix, detach and reattach to this project."
+msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
-"Неправильный ключ подписания кода.  Для исправления отключитесь и снова "
-"подключитесь к этому проекту."
+"Неправильный ключ подписания кода.  Для исправления удалите и снова добавьте "
+"этот проект."
 
 #: ../sched/handle_request.cpp:830
 msgid ""
-"You may have an outdated code signing key.  Try attaching and reattaching "
-"this project."
+"The project has changed its security key.  Please remove and add this "
+"project."
 msgstr ""
-"У Вас может быть устаревший ключ подписания кода.  Попробуйте отключить и "
-"снова подключить этот проект."
+"Проект изменил свой ключ безопасности. Пожалуйста, удалите и снова добавьте "
+"этот проект."
 
 #: ../sched/handle_request.cpp:914
 msgid "This project doesn't support operating system"
@@ -110,20 +124,20 @@ msgstr ""
 msgid "This project doesn't support computers of type"
 msgstr "Этот проект не поддерживает компьютеры типа"
 
-#: ../sched/sched_send.cpp:1250
+#: ../sched/sched_send.cpp:1262
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
 "Для обработки задач, использующих ГП вашего компьютера, обновите драйвер до "
 "самой последней версии"
 
-#: ../sched/sched_send.cpp:1257
+#: ../sched/sched_send.cpp:1269
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
 "Для использования всех приложений данного проекта, работающих на ГП, "
 "обновите драйвер до самой последней версии"
 
-#: ../sched/sched_send.cpp:1281
+#: ../sched/sched_send.cpp:1293
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
@@ -131,19 +145,19 @@ msgstr ""
 "Необходима более новая версия BOINC для использования вашего ГП NVIDIA; "
 "пожалуйста, обновитесь до текущей версии"
 
-#: ../sched/sched_send.cpp:1294
+#: ../sched/sched_send.cpp:1306
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr "ГП NVIDIA или ATI необходимы для обработки задач этого проекта"
 
-#: ../sched/sched_send.cpp:1299
+#: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA GPU is required to run tasks for this project"
 msgstr "ГП NVIDIA необходим для обработки задач этого проекта"
 
-#: ../sched/sched_send.cpp:1305
+#: ../sched/sched_send.cpp:1317
 msgid "An ATI GPU is required to run tasks for this project"
 msgstr "ГП ATI необходим для обработки задач этого проекта"
 
-#: ../sched/sched_send.cpp:1400
+#: ../sched/sched_send.cpp:1412
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
@@ -151,30 +165,29 @@ msgstr ""
 "Нет доступных заданий для приложений, которые Вы выбрали. Пожалуйста, "
 "проверьте ваши настройки проекта на вебсайте."
 
-#: ../sched/sched_send.cpp:1426
+#: ../sched/sched_send.cpp:1438
 msgid "Your computer type is not supported by this project"
 msgstr "Тип вашего компьютера не поддерживается этим проектом"
 
-#: ../sched/sched_send.cpp:1432
+#: ../sched/sched_send.cpp:1444
 msgid "Newer BOINC version required; please install current version"
 msgstr ""
 "Необходима более новая версия BOINC; пожалуйста, установите текущую версию"
 
-#: ../sched/sched_send.cpp:1442
+#: ../sched/sched_send.cpp:1454
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
 "Доступны задачи для ГП NVIDIA, но ваши настройки не позволяют принимать их"
 
-#: ../sched/sched_send.cpp:1448
+#: ../sched/sched_send.cpp:1460
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
-msgstr ""
-"Доступны задачи для ГП ATI, но ваши настройки не позволяют принимать их"
+msgstr "Доступны задачи для ГП ATI, но ваши настройки не позволяют принимать их"
 
-#: ../sched/sched_send.cpp:1454
+#: ../sched/sched_send.cpp:1466
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr "Доступны задачи для ЦП, но ваши настройки не позволяют принимать их"
@@ -183,13 +196,23 @@ msgstr "Доступны задачи для ЦП, но ваши настрой�
 msgid "Unknown app name in app_info.xml"
 msgstr "Неизвестное имя приложения в файле app_info.xml"
 
-#: ../sched/sched_version.cpp:225
+#: ../sched/sched_version.cpp:234
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Ваш файл app_info.xml не имеет годной версии"
 
-#: ../sched/sched_version.cpp:653
+#: ../sched/sched_version.cpp:691
 msgid "is not available for your type of computer"
 msgstr "не доступно для вашего типа компьютера"
+
+#~ msgid "Message from project server:"
+#~ msgstr "Сообщение от сервера проекта:"
+
+#~ msgid ""
+#~ "You may have an outdated code signing key.  Try attaching and reattaching "
+#~ "this project."
+#~ msgstr ""
+#~ "У Вас может быть устаревший ключ подписания кода.  Попробуйте отключить и "
+#~ "снова подключить этот проект."
 
 #~ msgid "XML syntax error in"
 #~ msgstr "Ошибка синтаксиса XML в"

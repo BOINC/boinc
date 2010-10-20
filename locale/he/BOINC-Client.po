@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC-Client\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-14 16:20-0700\n"
-"PO-Revision-Date: 2010-08-15 14:55-0700\n"
-"Last-Translator: Ido Schwartz <dj_legolas1@hotmail.com>\n"
+"POT-Creation-Date: 2010-10-06 08:58-0700\n"
+"PO-Revision-Date: 2010-10-16 01:40+0200\n"
+"Last-Translator: Ido Schwartz\n"
 "Language-Team: IOPanel.net\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: Hebrew\n"
 "X-Poedit-Country: ISRAEL\n"
+"X-Poedit-Language: Hebrew\n"
 
-#: acct_mgr.cpp:373 acct_mgr.cpp:383
+#: acct_mgr.cpp:382 acct_mgr.cpp:392
 msgid "error"
 msgstr "שגיאה"
 
@@ -31,56 +31,70 @@ msgstr "גרסה חדשה של BOINC זמינה."
 msgid "Download it."
 msgstr "הורד אותה."
 
-#: client_state.cpp:342
+#: client_msgs.cpp:106
+msgid "Notice from BOINC"
+msgstr "התראה מ-BOINC"
+
+#: client_state.cpp:357
 msgid "Couldn't write state file; check directory permissions"
 msgstr "ללא יכולת לרשום קובץ מצב; בדוק הרשאות תיקייה"
 
-#: cs_cmdline.cpp:281
+#: cs_cmdline.cpp:283
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "משתנה הסביבה HTTP_PROXY חייב לציין פרוקסי מסוג HTTP"
 
-#: cs_scheduler.cpp:557
-msgid "Message from project server:"
-msgstr "הודעה משרת הפרוייקט:"
+#: cs_scheduler.cpp:512
+#, c-format
+msgid ""
+"You used the wrong URL for this project.  When convenient, remove this "
+"project, then add %s"
+msgstr "השתמשת בכתובת שגויה לפרוייקט זה. כשיהיה נוח, הסר פרוייקט זה והוסף %s"
 
-#: cs_statefile.cpp:766 ../sched/sched_types.cpp:273
+#: cs_scheduler.cpp:545
+msgid "Message from"
+msgstr "הודעה מאת"
+
+#: cs_statefile.cpp:805 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
 msgstr "שגיאת תחביר ב-app_info.xml"
 
-#: gui_rpc_server.cpp:190
+#: cs_statefile.cpp:844
+msgid "File referenced in app_info.xml does not exist: "
+msgstr "קובץ שהופנה מ-app_info.xml אינו קיים:"
+
+#: gui_rpc_server.cpp:191
 msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr "לא יכול לפענח שם-מחשב ב-remote_hosts.cfg"
 
-#: log_flags.cpp:68 log_flags.cpp:318 log_flags.cpp:443
+#: log_flags.cpp:68 log_flags.cpp:322 log_flags.cpp:450
 msgid "Unexpected text in cc_config.xml"
 msgstr "טקסט לא צפוי ב-cc_config.xml"
 
-#: log_flags.cpp:112 log_flags.cpp:415 log_flags.cpp:460
+#: log_flags.cpp:112 log_flags.cpp:422 log_flags.cpp:467
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "תג לא מוכר ב-cc_config.xml"
 
-#: log_flags.cpp:434
+#: log_flags.cpp:441
 msgid "Missing start tag in cc_config.xml"
 msgstr "חוסר בתג התחלה ב-cc_config.xml"
 
-#: log_flags.cpp:468
+#: log_flags.cpp:475
 msgid "Missing end tag in cc_config.xml"
 msgstr "חוסר בתג סיום ב-cc_config.xml"
 
 #: ../sched/handle_request.cpp:299
-msgid ""
-"Invalid or missing account key.  To fix, detach and reattach to this project."
-msgstr "מפתח החשבון לא נכוו או חסר. לתיקון, התנתק והתחבר מחדש לפרוייקט."
+msgid "Invalid or missing account key.  To fix, remove and add this project."
+msgstr "מפתח החשבון לא נכון או חסר. לתיקון, הסר והוסף מחדש לפרוייקט."
 
 #: ../sched/handle_request.cpp:820
-msgid "Invalid code signing key.  To fix, detach and reattach to this project."
-msgstr "מפתח החשבון לא נכוו או חסר. לתיקון, התנתק והתחבר מחדש לפרוייקט."
+msgid "Invalid code signing key.  To fix, remove and add this project."
+msgstr "מפתח החשבון לא נכוו או חסר. לתיקון, הסר והוסף מחדש לפרוייקט."
 
 #: ../sched/handle_request.cpp:830
 msgid ""
-"You may have an outdated code signing key.  Try attaching and reattaching "
-"this project."
-msgstr "מפתח חתימת הקוד שלך פג תוקף. נסה להתנתק ולהתחבר מחדש לפרוייקט."
+"The project has changed its security key.  Please remove and add this "
+"project."
+msgstr "הפרוייקט שינה את מפתח האבטחה שלו. הסר והוסף מחדש לפרוייקט."
 
 #: ../sched/handle_request.cpp:914
 msgid "This project doesn't support operating system"
@@ -99,16 +113,16 @@ msgstr "גרסת קליינט ה-BOINC ישנה מידי. אנא התקן את �
 msgid "This project doesn't support computers of type"
 msgstr "פרוייקט זה אינו תומך במחשבים מסוג"
 
-#: ../sched/sched_send.cpp:1250
+#: ../sched/sched_send.cpp:1262
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "עדכן לדרייברים האחרונים כדי לבצע חישובים בעזרת הליבה הגרפית"
 
-#: ../sched/sched_send.cpp:1257
+#: ../sched/sched_send.cpp:1269
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "עדכן לדרייברים האחרונים כדי להשתמש בכל האפליקציות הזמינות לליבה הגרפית"
 
-#: ../sched/sched_send.cpp:1281
+#: ../sched/sched_send.cpp:1293
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
@@ -116,48 +130,49 @@ msgstr ""
 "יש צורך בגרסה חדשה יותר של BOINC על מנת להשתמש בליבה הגרפית מבוססת NVIDIA; "
 "אנא עדכן לגרסה הנוכחית"
 
-#: ../sched/sched_send.cpp:1294
+#: ../sched/sched_send.cpp:1306
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr "ליבה גרפית מבוססת NVIDIA או ATI נחוצה להרצת משימות מפרוייקט זה"
 
-#: ../sched/sched_send.cpp:1299
+#: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA GPU is required to run tasks for this project"
 msgstr "ליבה גרפית מבוססת NVIDIA נחוצה להרצת משימות מפרוייקט זה"
 
-#: ../sched/sched_send.cpp:1305
+#: ../sched/sched_send.cpp:1317
 msgid "An ATI GPU is required to run tasks for this project"
 msgstr "ליבה גרפית מבוססת ATI נחוצה להרצת משימות מפרוייקט זה"
 
-#: ../sched/sched_send.cpp:1400
+#: ../sched/sched_send.cpp:1412
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
 "אין עבודה זמינה לאפליקצייה שבחרת. אנא בדוק את העדפות הפרוייקט באתר האינטרנט."
 
-#: ../sched/sched_send.cpp:1426
+#: ../sched/sched_send.cpp:1438
 msgid "Your computer type is not supported by this project"
 msgstr "מחשבך אינו נתמך ע\"י פרוייקט זה"
 
-#: ../sched/sched_send.cpp:1432
+#: ../sched/sched_send.cpp:1444
 msgid "Newer BOINC version required; please install current version"
 msgstr "נדרשת גרסה חדשה של BOINC; אנא התקן גרסה נוכחית"
 
-#: ../sched/sched_send.cpp:1442
+#: ../sched/sched_send.cpp:1454
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
-"ישומים לליבה גרפית מבוססת NVIDIA זמינים, אך ההעדפות שלך מוגדרות ללא לקבל אותם"
+"ישומים לליבה גרפית מבוססת NVIDIA זמינים, אך ההעדפות שלך מוגדרות ללא לקבל "
+"אותם"
 
-#: ../sched/sched_send.cpp:1448
+#: ../sched/sched_send.cpp:1460
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
 "ישומים לליבה גרפית מבוססת ATI זמינים, אך ההעדפות שלך מוגדרות ללא לקבל אותם"
 
-#: ../sched/sched_send.cpp:1454
+#: ../sched/sched_send.cpp:1466
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr "ישומים למעבד זמינים, אך ההעדפות שלך מוגדרות ללא לקבל אותם"
@@ -166,13 +181,21 @@ msgstr "ישומים למעבד זמינים, אך ההעדפות שלך מוג�
 msgid "Unknown app name in app_info.xml"
 msgstr "שם אפליקציה לא מוכרת ב-app_info.xml"
 
-#: ../sched/sched_version.cpp:225
+#: ../sched/sched_version.cpp:234
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "קובץ app_info.xml שלך אינו מכיל גרסה שמישה של"
 
-#: ../sched/sched_version.cpp:653
+#: ../sched/sched_version.cpp:691
 msgid "is not available for your type of computer"
 msgstr "לא זמין לסוג המחשב שלך"
+
+#~ msgid "Message from project server:"
+#~ msgstr "הודעה משרת הפרוייקט:"
+
+#~ msgid ""
+#~ "You may have an outdated code signing key.  Try attaching and reattaching "
+#~ "this project."
+#~ msgstr "מפתח חתימת הקוד שלך פג תוקף. נסה להתנתק ולהתחבר מחדש לפרוייקט."
 
 #~ msgid "XML syntax error in"
 #~ msgstr "שגיאת תחביר XML ב- "
