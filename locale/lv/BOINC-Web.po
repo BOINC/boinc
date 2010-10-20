@@ -1,3 +1,7 @@
+# BOINC web translation
+# Copyright (C) 2008-2009 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -10,12 +14,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
-"X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: English\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: versions.inc:6

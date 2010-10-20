@@ -1,3 +1,7 @@
+# BOINC web translation
+# Copyright (C) 2008-2009 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
@@ -6,18 +10,18 @@ msgstr ""
 "PO-Revision-Date: 2010-03-22 11:34-0700\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: English\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: versions.inc:6
@@ -254,8 +258,8 @@ msgid ""
 msgstr ""
 " Usa il tempo di inattività del tuo computer (Windows, Mac o Linux) per "
 "curare malattie, studiare il riscaldamento globale, scoprire pulsar e fare "
-"molti altri tipi di ricerche scientifiche.  E' sicuro, garantito e facile:  %"
-"sScegli%s i progetti  %sScarica%s e lancia il software BOINC  %sInserisci%s "
+"molti altri tipi di ricerche scientifiche.  E' sicuro, garantito e facile:  "
+"%sScegli%s i progetti  %sScarica%s e lancia il software BOINC  %sInserisci%s "
 "un indirizzo email e una password. "
 
 #: index.php:100
@@ -280,8 +284,8 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
-"%1Scientifico%2: usa il BOINC per creare un %3progetto di calcolo distribuito"
-"%4 che ti da la potenza computazionale di centinaia di CPU."
+"%1Scientifico%2: usa il BOINC per creare un %3progetto di calcolo "
+"distribuito%4 che ti da la potenza computazionale di centinaia di CPU."
 
 #: index.php:130
 msgid ""
@@ -703,30 +707,6 @@ msgstr "BOINC è basato sull'università di Berkeley in California"
 #~ msgid "CHARSET"
 #~ msgstr "UTF-8"
 
-# The name of this language in this language<br />
-# <br />
-# The name of this language in this language
-#, fuzzy
-#~ msgid "LANG_NAME_NATIVE"
-#~ msgstr "English"
-
-# The name of this language in an international language (English)<br />
-# <br />
-# The name of this language in an international language (English)
-#, fuzzy
-#~ msgid "LANG_NAME_INTERNATIONAL"
-#~ msgstr "English"
-
-# poll-related stuff
-# #######################################
-# ######################################<br />
-# <br />
-# poll-related stuff<br />
-# ######################################
-#, fuzzy
-#~ msgid "POLL_TITLE"
-#~ msgstr "BOINC user survey"
-
 #~ msgid "POLL_INTRO"
 #~ msgstr ""
 #~ "Several volunteer computing projects, including Climateprediction.net, "
@@ -1018,16 +998,6 @@ msgstr "BOINC è basato sull'università di Berkeley in California"
 #~ "institutions). The server is chosen randomly - if a download fails, "
 #~ "reload this page and try again. "
 
-# help.php
-# #############################################
-# ############################################<br />
-# <br />
-# help.php<br />
-# help.php
-#, fuzzy
-#~ msgid "HELP_TITLE"
-#~ msgstr "Getting help with BOINC"
-
 #~ msgid "HELP_HEADING1"
 #~ msgstr "Online Help"
 
@@ -1088,16 +1058,6 @@ msgstr "BOINC è basato sull'università di Berkeley in California"
 #~ msgstr ""
 #~ "If you're already a Help Volunteer: to edit your settings, %sclick here%"
 #~ "s. "
-
-# index.php
-# #############################################
-# ############################################<br />
-# <br />
-# index.php<br />
-# index.php
-#, fuzzy
-#~ msgid "HOME_HEADING1"
-#~ msgstr "Volunteer"
 
 #~ msgid "HOME_P1"
 #~ msgstr ""

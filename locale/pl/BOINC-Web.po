@@ -1,3 +1,7 @@
+# BOINC web translation
+# Copyright (C) 2008-2009 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -345,26 +349,6 @@ msgstr ""
 #~ msgid "CHARSET"
 #~ msgstr "UTF-8"
 
-# The name of this language in this language
-#, fuzzy
-#~ msgid "LANG_NAME_NATIVE"
-#~ msgstr "English"
-
-# The name of this language in an international language (English)
-#, fuzzy
-#~ msgid "LANG_NAME_INTERNATIONAL"
-#~ msgstr "English"
-
-# #######################################
-# poll-related stuff
-# #######################################
-# poll-related stuff<br />
-# <br />
-# ######################################
-#, fuzzy
-#~ msgid "POLL_TITLE"
-#~ msgstr "BOINC user survey"
-
 #~ msgid "POLL_INTRO"
 #~ msgstr ""
 #~ "Several volunteer computing projects, including Climateprediction.net, "
@@ -669,141 +653,6 @@ msgstr ""
 #~ "%s pobrać gotowe programy stworzone przez innych użytkowników %s "
 #~ "(dostępne dla platform Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, "
 #~ "i FreeBSD oraz innych)."
-
-#, fuzzy
-#~ msgid "DL_MIRRORS"
-#~ msgstr ""
-#~ "Note: files are downloaded from mirror servers at boinc.berkeley.edu, "
-#~ "morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein."
-#~ "ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these "
-#~ "institutions). The server is chosen randomly - if a download fails, "
-#~ "reload this page and try again. "
-
-# #############################################
-# help.php
-# #############################################
-#, fuzzy
-#~ msgid "HELP_TITLE"
-#~ msgstr "Getting help with BOINC"
-
-#, fuzzy
-#~ msgid "HELP_HEADING1"
-#~ msgstr "Online Help"
-
-#, fuzzy
-#~ msgid "HELP_P1_1"
-#~ msgstr ""
-#~ "BOINC Online Help lets you talk one-on-one with experienced BOINC users, "
-#~ "who can: %s answer questions about BOINC and volunteer computing; %s walk "
-#~ "you through the process of installing and using BOINC; %s troubleshoot "
-#~ "any problems you might have. "
-
-#, fuzzy
-#~ msgid "HELP_P1_2"
-#~ msgstr ""
-#~ "BOINC Online Help is based on %sSkype%s, an Internet-based telephone "
-#~ "system. Skype is free (both the software and the calls). If you don't "
-#~ "already have Skype, please %sdownload and install it now%s. When you're "
-#~ "finished, return to this page. "
-
-#, fuzzy
-#~ msgid "HELP_P1_3"
-#~ msgstr ""
-#~ "The best way to get help is by voice, for which you need either built-in "
-#~ "microphone and speakers or an external headset for your computer. You can "
-#~ "also use Skype's text-based chat system or regular email (if you don't "
-#~ "have Skype) to communicate with Help Volunteers."
-
-#, fuzzy
-#~ msgid "HELP_P1_4"
-#~ msgstr ""
-#~ "Volunteers speaking several languages are available. Please select a "
-#~ "language: "
-
-#, fuzzy
-#~ msgid "HELP_HEADING2"
-#~ msgstr "BOINC help on the web"
-
-#, fuzzy
-#~ msgid "HELP_P2_ITEM1"
-#~ msgstr "BOINC user's manual"
-
-#, fuzzy
-#~ msgid "HELP_P2_ITEM2"
-#~ msgstr "Troubleshooting BOINC "
-
-#, fuzzy
-#~ msgid "HELP_P2_ITEM3"
-#~ msgstr "BOINC-related web sites "
-
-#, fuzzy
-#~ msgid "HELP_P2_ITEM4"
-#~ msgstr "The BOINC message boards "
-
-#, fuzzy
-#~ msgid "HELP_P2_ITEM5"
-#~ msgstr "The message boards on any BOINC-based project "
-
-#, fuzzy
-#~ msgid "HELP_HEADING3"
-#~ msgstr "Be a Help Volunteer"
-
-#, fuzzy
-#~ msgid "HELP_P3_1"
-#~ msgstr ""
-#~ "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
-#~ "Volunteer%s. It's a great way to help the cause of scientific research "
-#~ "and volunteer computing - and it's fun!  "
-
-#, fuzzy
-#~ msgid "HELP_P3_2"
-#~ msgstr ""
-#~ "If you're already a Help Volunteer: to edit your settings, %sclick here%"
-#~ "s. "
-
-# #############################################
-# index.php
-# #############################################
-#, fuzzy
-#~ msgid "HOME_HEADING1"
-#~ msgstr "Volunteer"
-
-#, fuzzy
-#~ msgid "HOME_P1"
-#~ msgstr ""
-#~ " Use the idle time on your computer  (Windows, Mac, or Linux)  to cure "
-#~ "diseases, study global warming,  discover pulsars, and do many other "
-#~ "types of scientific research.  It's safe, secure, and easy:  %sChoose%s "
-#~ "projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
-#~ "and password. "
-
-#, fuzzy
-#~ msgid "HOME_P2"
-#~ msgstr ""
-#~ "Or, if you run several projects, try an %saccount manager%s such as %"
-#~ "sGridRepublic%s or %sBAM!%s. "
-
-#, fuzzy
-#~ msgid "HOME_P3"
-#~ msgstr ""
-#~ "If you have any questions, or need help getting started, you can %stalk "
-#~ "to a Volunteer Helper%s. "
-
-#, fuzzy
-#~ msgid "HOME_DOWNLOAD"
-#~ msgstr "Download"
-
-#, fuzzy
-#~ msgid "HOME_WEB_SITES"
-#~ msgstr "Web"
-
-#, fuzzy
-#~ msgid "HOME_ADD_ONS"
-#~ msgstr "Add-ons"
-
-#, fuzzy
-#~ msgid "HOME_SURVEY"
-#~ msgstr "Survey"
 
 #~ msgid "HOME_BOINC"
 #~ msgstr "Berkeley Open Infrastructure for Network Computing"

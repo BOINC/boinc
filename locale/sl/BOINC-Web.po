@@ -37,8 +37,8 @@ msgid ""
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
-"Druga možnost je, da potegnete %1BOINC odjemalca za starejše Linux različice%"
-"2. Ta nima grafičnega vmesnika, vendar pa bi moral teči na vseh Linux "
+"Druga možnost je, da potegnete %1BOINC odjemalca za starejše Linux različice"
+"%2. Ta nima grafičnega vmesnika, vendar pa bi moral teči na vseh Linux "
 "sistemih, tako x86 kot  x64."
 
 #: docutil.php:21
@@ -181,7 +181,8 @@ msgstr ""
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
-"Če ste že prostovoljec za pomoč: da uredite vaše nastavitve, %skliknite tu%s."
+"Če ste že prostovoljec za pomoč: da uredite vaše nastavitve, %skliknite tu%"
+"s."
 
 #: help_funcs.php:107
 msgid ""
@@ -264,8 +265,8 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"Ali, če poganjate več projektov, poskusite %supravitelja računov%s, kot sta %"
-"sGridRepublic%s ali %sBAM!%s"
+"Ali, če poganjate več projektov, poskusite %supravitelja računov%s, kot sta "
+"%sGridRepublic%s ali %sBAM!%s"
 
 #: index.php:116
 msgid "Compute with BOINC"

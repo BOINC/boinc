@@ -1,3 +1,7 @@
+# BOINC web translation
+# Copyright (C) 2008-2009 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Web 6.x\n"
@@ -10,12 +14,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
-"X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: English\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: versions.inc:6
@@ -332,23 +336,6 @@ msgstr ""
 #~ msgid "CHARSET"
 #~ msgstr "UTF-8"
 
-# The name of this language in this language
-#, fuzzy
-#~ msgid "LANG_NAME_NATIVE"
-#~ msgstr "English"
-
-# The name of this language in an international language (English)
-#, fuzzy
-#~ msgid "LANG_NAME_INTERNATIONAL"
-#~ msgstr "English"
-
-# #######################################
-# poll-related stuff
-# #######################################
-#, fuzzy
-#~ msgid "POLL_TITLE"
-#~ msgstr "BOINC user survey"
-
 #~ msgid "POLL_INTRO"
 #~ msgstr ""
 #~ "Several volunteer computing projects, including Climateprediction.net, "
@@ -634,15 +621,6 @@ msgstr ""
 #~ msgstr ""
 #~ "These are the current results of the <a href=poll.php>BOINC user survey</"
 #~ "a>.  This page is updated every hour."
-
-#, fuzzy
-#~ msgid "DL_MIRRORS"
-#~ msgstr ""
-#~ "Note: files are downloaded from mirror servers at boinc.berkeley.edu, "
-#~ "morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein."
-#~ "ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these "
-#~ "institutions). The server is chosen randomly - if a download fails, "
-#~ "reload this page and try again. "
 
 # #############################################
 # help.php

@@ -1,23 +1,25 @@
+# BOINC web translation
+# Copyright (C) 2008-2009 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-06-01 04:54-0700\n"
+"PO-Revision-Date: 2010-10-09 19:26+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: versions.inc:6
@@ -72,9 +74,10 @@ msgid ""
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
 "A BOINC egy program, melynek segítségével a szabad gépidejét olyan "
-"tudományos projekteknek adományozhatja, mint a SETI@home, Climateprediction."
-"net, Rosetta@home, World Community Grid, és sokan mások. <p> Számítógépre "
-"telepítés után a BOINC tetszőleges számú projekthez csalakoztatható."
+"tudományos projekteknek adományozhatja, mint a SETI@home, "
+"Climateprediction.net, Rosetta@home, World Community Grid, és sokan mások. "
+"<p> Számítógépre telepítés után a BOINC tetszőleges számú projekthez "
+"csalakoztatható."
 
 #: download.php:91
 msgid ""
@@ -126,9 +129,9 @@ msgid ""
 "problems you might have."
 msgstr ""
 "A BOINC Online Segítség lehetőséget biztosít olyan tapasztalt "
-"felhasználókkal való személyes beszélgetésre, akik %s megválaszolják a BOINC-"
-"kal és az önkéntes részvétellel kapcsolatos kérdéseit; %s végigvezetik a "
-"BOINC telepítésének és használatának folyamatán; %s segítenek a felmerülő "
+"felhasználókkal való személyes beszélgetésre, akik %s megválaszolják a "
+"BOINC-kal és az önkéntes részvétellel kapcsolatos kérdéseit; %s végigvezetik "
+"a BOINC telepítésének és használatának folyamatán; %s segítenek a felmerülő "
 "problémák megoldásában."
 
 #: help.php:21
@@ -161,7 +164,8 @@ msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
 msgstr ""
-"Önkénteseink számos különböző nyelven beszélnek. Kérem válasszon egy nyelvet:"
+"Önkénteseink számos különböző nyelven beszélnek. Kérem válasszon egy "
+"nyelvet:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
@@ -190,10 +194,13 @@ msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
+"A BOINC segítők nem fizetett alkalmazottak. Tanácsaikért sem a BOINC, sem a "
+"Kaliforniai Egyetem nem vállal felelősséget."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
+"%1Soha%2 ne adja ki emailcímét vagy jelszó információit a BOINC segítőknek."
 
 #: index.php:23
 msgid "Computing power"

@@ -1,34 +1,40 @@
+# BOINC web translation
+# Copyright (C) 2008-2009 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2009-12-14 17:02-0700\n"
-"Last-Translator: Nick Liolios <anarchist_jesus@hotmail.com>\n"
+"PO-Revision-Date: 2010-10-12 18:13+0200\n"
+"Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
 msgstr ""
+"Η παρούσα έκδοση είναι γνωστό οτι είναι συμβατή με αυτές τις εκδόσεις του "
+"Linux:"
 
 #: versions.inc:14
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
 msgstr ""
+"Για άλλες εκδόσεις του Linux, ελέγξτε εάν παρέχεται κάποια έκδοση του BOINC "
+"απο την διανομή του Linux σας."
 
 #: versions.inc:25
 msgid ""
@@ -36,19 +42,22 @@ msgid ""
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
+"Εναλλακτικά, κατεβάστε το λογισμικό %1BOINC για παλαιότερες εκδόσεις του "
+"Linux%2. Αυτό δε θα έχει γραφικό περιβάλλον, αλλά θα μπορεί να εκτελείται σε "
+"όλα τα συστήματα linux, και x86 και x64."
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Αναζήτηση"
 
 #: docutil.php:102
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Επιστροφή στην κεντρική σελίδα του BOINC"
 
 #: docutil.php:113
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Αυτή η σελίδα είναι %μεταφράσιμη%s"
 
 #: download.php:40
 msgid "Download BOINC"
@@ -77,16 +86,18 @@ msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"Μπορείτε να εκτελέσετε αυτό το λογισμικό σε έναν υπολογιστή μόνο εάν σας "
+"ανήκει ή εάν έχετε την άδεια του ιδιοκτήτη του."
 
 #: download.php:116
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
-"Σημείωση: Αν ο υπολογιστής σας είναι εφοδιασμένος με έναν επεξεργαστή "
-"γραφικών (Graphics Processing Unit) μάρκας NVIDIA, είναι πιθανό να μπορείτε "
-"να τον %sχρησιμοποιήσετε για γρηγορότερους υπολογισμούς.%s"
+"Σημείωση: αν ο υπολογιστής σας είναι εφοδιασμένος με μια μονάδα επεξεργασίας "
+"γραφικών (Graphics Processing Unit), είναι πιθανό να μπορείτε να τη %"
+"sχρησιμοποιήσετε για γρηγορότερους υπολογισμούς.%s"
 
 #: download.php:122
 msgid "System requirements"
@@ -106,7 +117,7 @@ msgstr "Όλες οι εκδόσεις"
 
 #: download.php:126
 msgid "Version history"
-msgstr ""
+msgstr "Ιστορικό εκδόσεων"
 
 #: download.php:143
 msgid "BOINC: compute for science"
@@ -190,10 +201,14 @@ msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
+"Όσοι βοηθούν στο BONC είναι εθελοντές αφιλοκερδώς. Οι συμβουλές τους δεν "
+"έχουν εγκριθεί απο το BOINC ή απο το πανεπιστήμιο της Καλιφόρνιας."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
+"%1Ποτέ%2 μη δείνετε διευθύνσεις ηλεκτρονικού ταχυδρομίου ή κωδικούς "
+"πρόσβασης σε συμμετέχοντες στο BOINC."
 
 #: index.php:23
 msgid "Computing power"
@@ -280,16 +295,23 @@ msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%Επιστήμονες%2: χρησιμοποιείστε το BOINC για να κατασκευάσετε ένα εθελοντικό "
+"έργο%4 και εκμεταλλευτείτε την υπολογιστική δύναμη χιλιάδων κεντρικών "
+"μονάδων επεξεργασίας."
 
 #: index.php:130
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Πανεπιστήμια%2: χρησιμοποιείστε το BOINC για να κατασκευάσετε ένα εικονικό "
+"υπερυπολογιστικό κέντρο στην πανεπιστημιούπολη%4."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr ""
+"%1Εταιρείες%2: χρησιμοποιείστε το BOINC για %κάναβο επιτραπέζιας "
+"επεξεργασίας%4."
 
 #: index.php:147
 msgid "The BOINC project"
@@ -317,7 +339,7 @@ msgstr "Άρθρα και ομιλίες"
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Έργα έρευνας"
 
 #: index.php:159
 msgid "Logos and graphics"
@@ -325,12 +347,11 @@ msgstr "Λογότυτα και γραφικά"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "και"
 
 #: index.php:164
-#, fuzzy
 msgid "Help wanted"
-msgstr "Ζητείται βοήθεια!"
+msgstr "Zητείται βοήθεια!"
 
 #: index.php:166
 msgid "Programming"
@@ -346,7 +367,7 @@ msgstr "Δοκιμή"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "Δημοσίευση"
 
 #: index.php:172
 msgid "Software development"
@@ -370,7 +391,7 @@ msgstr ""
 
 #: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "Το BOINC βρίσκεται στο πανεπιστήμιο της Καλιφορνιας, Berkeley"
 
 #~ msgid "Conferences"
 #~ msgstr "Συνέδρια"
