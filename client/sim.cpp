@@ -347,19 +347,13 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     cpu_work_fetch.req_secs = save_cpu_req_secs;
     work_fetch.handle_reply(p, &sr, new_results);
     p->nrpc_failures = 0;
+    p->sched_rpc_pending = false;
     if (sent_something) {
         request_schedule_cpus("simulate_rpc");
         request_work_fetch("simulate_rpc");
     }
     return true;
 }
-
-SCHEDULER_REPLY::SCHEDULER_REPLY() {
-    cpu_backoff = 0;
-    cuda_backoff = 0;
-    ati_backoff = 0;
-}
-SCHEDULER_REPLY::~SCHEDULER_REPLY() {}
 
 void PROJECT::backoff() {
     nrpc_failures++;
@@ -651,12 +645,12 @@ int njobs_in_progress(PROJECT* p, int rsc_type) {
 void show_resource(int rsc_type) {
     unsigned int i;
 
-    fprintf(html_out, "<td>");
+    fprintf(html_out, "<td valign=top>");
     bool found = false;
     for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
         RESULT* rp = atp->result;
-        if (rp->resource_type() != rsc_type) continue;
+        if (rsc_type!=RSC_TYPE_CPU && rp->resource_type() != rsc_type) continue;
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         PROJECT* p = rp->project;
         double ninst;
@@ -678,11 +672,12 @@ void show_resource(int rsc_type) {
         found = true;
     }
     if (!found) fprintf(html_out, "IDLE");
+    fprintf(html_out, "<br>Jobs in progress\n");
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         int n = njobs_in_progress(p, rsc_type);
         if (n) {
-            fprintf(html_out, "<br>%s: %d jobs in progress\n", p->project_name, n);
+            fprintf(html_out, "<br>%s: %d\n", p->project_name, n);
         }
     }
     fprintf(html_out, "</td>");
@@ -703,7 +698,7 @@ void html_start() {
     fprintf(index_file, "<br><a href=%s>Timeline</a>\n", buf);
     fprintf(html_out, "<h2>BOINC client simulator</h2>\n");
     fprintf(html_out,
-        "<table border=1><tr><th>Time</th>\n"
+        "<table border=1 cellpadding=4><tr><th>Time</th>\n"
     );
     fprintf(html_out,
         "<th>CPU<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>"
@@ -722,24 +717,24 @@ void html_start() {
 void html_rec() {
     if (html_msg.size()) {
         //fprintf(html_out, "<tr><td>%s</td>", time_to_string(gstate.now));
-        fprintf(html_out, "<tr><td>%f</td>", gstate.now);
+        fprintf(html_out, "<tr><td valign=top>%.0f</td>", gstate.now);
         fprintf(html_out,
-            "<td colspan=%d><font size=-2>%s</font></td></tr>\n",
+            "<td colspan=%d valign=top><font size=-2>%s</font></td></tr>\n",
             nproc_types,
             html_msg.c_str()
         );
         html_msg = "";
     }
     //fprintf(html_out, "<tr><td>%s</td>", time_to_string(gstate.now));
-    fprintf(html_out, "<tr><td>%f</td>", gstate.now);
+    fprintf(html_out, "<tr><td valign=top>%.0f</td>", gstate.now);
 
     if (!running) {
-        fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+        fprintf(html_out, "<td valign=top bgcolor=#aaaaaa>OFF</td>");
         if (gstate.host_info.have_cuda()) {
-            fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+            fprintf(html_out, "<td valign=top bgcolor=#aaaaaa>OFF</td>");
         }
         if (gstate.host_info.have_ati()) {
-            fprintf(html_out, "<td bgcolor=#aaaaaa>OFF</td>");
+            fprintf(html_out, "<td valign=top bgcolor=#aaaaaa>OFF</td>");
         }
     } else {
         show_resource(RSC_TYPE_CPU);

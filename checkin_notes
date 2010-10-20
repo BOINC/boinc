@@ -7542,3 +7542,15 @@ Bernd  20 Oct 2010
         Makefile.mingw
         boinc_win.h
         procinfo_unix.cpp
+
+David  20 Oct 2010
+    - client: msg tweak
+    - client: ignore exclusive apps including "boinc"
+    - client simulator: fixes
+
+    client/
+        scheduler_op.cpp,h
+        sim.cpp
+        makefile_sim
+        log_flags.cpp
+        cpu_sched.cpp

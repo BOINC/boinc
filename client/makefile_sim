@@ -34,6 +34,7 @@ OBJS = \
 	pers_file_xfer.o \
     rr_sim.o \
 	sandbox.o \
+	scheduler_op.o \
     sim.o \
     sim_util.o \
     time_stats.o \

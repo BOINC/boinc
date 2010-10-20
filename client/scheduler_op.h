@@ -133,6 +133,7 @@ struct SCHEDULER_REPLY {
     bool got_rss_feeds;
         // whether scheduler reply included <rss_feeds>
 
+    void clear();
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();
     int parse(FILE*, PROJECT*);
