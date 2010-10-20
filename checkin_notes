@@ -7340,3 +7340,12 @@ Charlie 16 Oct 2010
         mac/
             mac_backtrace.cpp, .h
             QCrashReport.c
+
+Charlie 16 Oct 2010
+    - lib: Mac backtrace code (including the backtrace() API) doesn't work 
+        on PowerPC Macs running under OS 10.5.x, so display explanatory text 
+        when attempting a backtrace on those machines.
+    
+    lib/
+        mac/
+            mac_backtrace.cpp
