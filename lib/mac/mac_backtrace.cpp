@@ -47,6 +47,10 @@
 // The old way still seems to work better under OS 10.6.4
 #define USE_NEW_ROUTINES false  
 
+#ifdef __ppc__
+#include <Carbon/Carbon.h>
+#endif
+
 #include <mach-o/dyld.h>
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
@@ -154,7 +158,16 @@ void PrintBacktrace(void) {
     fputs(asctime(localtime(&t)), stderr);
     fputc('\n', stderr);
     
-   err = QCRCreateFromSelf(&crRef);
+#ifdef __ppc__
+    long OSVersion = 0;
+    OSStatus gestaltErr = Gestalt(gestaltSystemVersion, &OSVersion);
+    if ((gestaltErr == noErr) && ((OSVersion & 0xfff0) == 0x1050)) {
+        fputs("BOINC backtrace is not supported for PowerPC under OS 10.5.x\n", stderr);
+        fputs("To get a backtrace run under OS 10.4.x or run on an Intel Mac\n\n", stderr);
+    }
+#endif
+
+    err = QCRCreateFromSelf(&crRef);
 
 #if USE_NEW_ROUTINES
     // Use new backtrace functions if available (only in OS 10.5 and later)
