@@ -12,7 +12,8 @@ HEADERS = $(BOINC_SRC)/version.h $(BOINC_SRC)/api/boinc_api.h $(BOINC_SRC)/api/g
 	$(BOINC_SRC)/lib/boinc_win.h $(BOINC_SRC)/lib/url.h $(BOINC_SRC)/lib/common_defs.h $(BOINC_SRC)/lib/diagnostics.h \
 	$(BOINC_SRC)/lib/diagnostics_win.h $(BOINC_SRC)/lib/filesys.h $(BOINC_SRC)/lib/hostinfo.h $(BOINC_SRC)/lib/proxy_info.h \
 	$(BOINC_SRC)/lib/prefs.h $(BOINC_SRC)/lib/miofile.h $(BOINC_SRC)/lib/mfile.h $(BOINC_SRC)/lib/parse.h \
-	$(BOINC_SRC)/lib/util.h $(BOINC_SRC)/lib/coproc.h $(BOINC_SRC)/lib/cal_boinc.h $(BOINC_SRC)/win_build/config.h
+	$(BOINC_SRC)/lib/util.h $(BOINC_SRC)/lib/coproc.h $(BOINC_SRC)/lib/cal_boinc.h $(BOINC_SRC)/lib/svn_version.h \
+	$(BOINC_SRC)/win_build/config.h
 
 ZIP_HEADERS = zip/boinc_zip.h
 
@@ -55,7 +56,7 @@ INCS = -I"$(BOINC_SRC)" -I"$(BOINC_SRC)/db" -I"$(BOINC_SRC)/lib" -I"$(BOINC_SRC)
 # set NOCYGWIN=-mno-cygwin to build non-Cywin Windows libs under Cygwin
 # -D_WIN32_WINDOWS=0x0410 sets to use Win98 API
 CCXXFLAGS = $(INCS) $(DEBUG) --include $(BOINC_SRC)/version.h -DEINSTEINATHOME_CROSS_BUILD -DMINGW_WIN32 \
-	-DHAVE_STRCASECMP -DWIN32 -D_WIN32 -D_WIN32_WINDOWS=0x0410 -D_MT -DNDEBUG -D_WINDOWS -DBOINC \ 
+	-DHAVE_STRCASECMP -DWIN32 -D_WIN32 -D_WIN32_WINDOWS=0x0410 -D_MT -DNDEBUG -D_WINDOWS -DBOINC \
 	-DNODB -D_CONSOLE -mtune=pentium-m -fexceptions -march=i386 -O2 $(NOCYGWIN)
 
 # flags for compiling boinc_zip
@@ -109,6 +110,9 @@ md5.o: $(BOINC_SRC)/lib/md5.c
 	$(CC) -c $< -o $@ $(ZIP_FLAGS)
 z_util.o: $(BOINC_SRC)/zip/zip/util.c
 	$(CC) -c $< -o $@ $(ZIP_FLAGS)
+
+$(BOINC_SRC)/lib/svn_version.h:
+	cd $(BOINC_SRC)/lib && sh ../generate_svn_version.sh
 
 # set to the target ranlib when cross-compiling
 RANLIB ?= ranlib

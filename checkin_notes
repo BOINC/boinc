@@ -7528,3 +7528,17 @@ Charlie 16 Oct 2010
     lib/
         mac/
             mac_backtrace.cpp
+
+Bernd  20 Oct 2010
+    - lib:
+        - fixed whitespace error in Makefile.mingw
+        - build and install svn_version.h in Makefile.mingw
+        - fixed boinc_win.h for MinGW gcc-4
+        - not sure why "client_msgs.h" was ever included in procinfo_unix.cpp,
+          but in current code caused a nasty trail of includes breaking the
+          Linux build, so removed it
+
+    lib/
+        Makefile.mingw
+        boinc_win.h
+        procinfo_unix.cpp
