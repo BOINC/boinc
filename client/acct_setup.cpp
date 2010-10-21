@@ -237,6 +237,10 @@ static bool is_version_newer(char* p) {
     return false;
 }
 
+// Parse the output of download.php?xml=1.
+// If there is a newer version for our primary platform,
+// copy it to new_version and return true.
+//
 static bool parse_version(FILE* f, char* new_version) {
     char buf[256], buf2[256];
     bool same_platform = false, newer_version = false;
@@ -267,7 +271,7 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<version>")) {
             if (parse_version(f, new_version)) {
-                msg_printf_link(0, MSG_USER_ALERT,
+                msg_printf_notice(0, true,
                     "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
                     "%s <a href=%s>%s</a>",
                     _("A new version of BOINC is available."),
@@ -285,7 +289,7 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
 #define NEW_VERSION_CHECK_PERIOD (14*86400)
 
 void CLIENT_STATE::new_version_check() {
-    if (( new_version_check_time == 0) ||
+    if ((new_version_check_time == 0) ||
         (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD)) {
             // get_current_version_op.handle_reply()
             // updates new_version_check_time

@@ -27,6 +27,7 @@
 
 using std::deque;
 
+#include "diagnostics.h"
 #include "log_flags.h"
 #include "str_replace.h"
 
@@ -38,6 +39,80 @@ using std::deque;
 #include "client_msgs.h"
 
 MESSAGE_DESCS message_descs;
+
+// Show a message:
+// 1) As a MESSAGE_DESC (for GUI event log)
+// 2) As a NOTICE, if high priority (for GUI notices)
+// 3) write to log file (stdoutdae.txt)
+//
+void show_message(PROJECT *p, char* msg, int priority, bool is_html, const char* link) {
+    const char* x;
+    char message[1024];
+    char* time_string = time_to_string(gstate.now);
+
+    // Cycle the log files if needed
+    //
+    diagnostics_cycle_logs();
+
+    if (priority == MSG_INTERNAL_ERROR) {
+        strcpy(message, "[error] ");
+        strlcpy(message+8, msg, sizeof(message)-8);
+    } else {
+        strlcpy(message, msg, sizeof(message));
+    }
+
+    // trim trailing \n's
+    //
+    while (strlen(message)&&message[strlen(message)-1] == '\n') {
+        message[strlen(message)-1] = 0;
+    }
+
+    if (p) {
+        x = p->get_project_name();
+    } else {
+        x = "---";
+    }
+
+    message_descs.insert(p, priority, (int)gstate.now, message);
+
+#ifndef SIM
+    switch (priority) {
+    case MSG_USER_ALERT:
+    case MSG_SCHEDULER_ALERT:
+        char buf[1024];
+        if (is_html) {
+            xml_escape(message, buf, 1024);
+        } else {
+            char buf2[1024];
+            xml_escape(message, buf2, 1024);
+            xml_escape(buf2, buf, 1024);
+        }
+        NOTICE n;
+        n.description = buf;
+        strcpy(n.title, _("Notice from BOINC"));
+        if (link) {
+            strcpy(n.link, link);
+        }
+        if (p) {
+            strcpy(n.project_name, p->get_project_name());
+        }
+        n.create_time = n.arrival_time = gstate.now;
+        strcpy(n.category, (priority==MSG_USER_ALERT)?"client":"scheduler");
+        notices.append(n);
+    }
+#endif
+
+    strip_translation(message);
+
+    printf("%s [%s] %s\n", time_string, x, message);
+    if (gstate.executing_as_daemon) {
+#ifdef _WIN32
+        char event_message[2048];
+        sprintf(event_message, "%s [%s] %s\n", time_string,  x, message);
+        ::OutputDebugString(event_message);
+#endif
+    }
+}
 
 // Takes a printf style formatted string, inserts the proper values,
 // and passes it to show_message
@@ -53,10 +128,10 @@ void msg_printf(PROJECT *p, int priority, const char *fmt, ...) {
     buf[sizeof(buf)-1] = 0;
     va_end(ap);
 
-    show_message(p, buf, priority, 0);
+    show_message(p, buf, priority, true, 0);
 }
 
-void msg_printf_link(PROJECT *p, int priority, const char* link, const char *fmt, ...) {
+void msg_printf_notice(PROJECT *p, bool is_html, const char* link, const char *fmt, ...) {
     char buf[8192];  // output can be much longer than format
     va_list ap;
 
@@ -67,7 +142,7 @@ void msg_printf_link(PROJECT *p, int priority, const char* link, const char *fmt
     buf[sizeof(buf)-1] = 0;
     va_end(ap);
 
-    show_message(p, buf, priority, link);
+    show_message(p, buf, MSG_USER_ALERT, is_html, link);
 }
 
 // handle new message:
@@ -75,7 +150,7 @@ void msg_printf_link(PROJECT *p, int priority, const char* link, const char *fmt
 // If high priority, create a notice.
 //
 void MESSAGE_DESCS::insert(
-    PROJECT* p, int priority, int now, char* message, const char* link
+    PROJECT* p, int priority, int now, char* message
 ) {
     MESSAGE_DESC* mdp = new MESSAGE_DESC;
     static int seqno = 1;
@@ -94,27 +169,6 @@ void MESSAGE_DESCS::insert(
         msgs.pop_back();
     }
     msgs.push_front(mdp);
-
-#ifndef SIM
-    switch (priority) {
-    case MSG_USER_ALERT:
-    case MSG_SCHEDULER_ALERT:
-        char buf[1024];
-        xml_escape(message, buf, 1024);
-        NOTICE n;
-        n.description = buf;
-        strcpy(n.title, _("Notice from BOINC"));
-        if (link) {
-            strcpy(n.link, link);
-        }
-        if (p) {
-            strcpy(n.project_name, p->get_project_name());
-        }
-        n.create_time = n.arrival_time = gstate.now;
-        strcpy(n.category, (priority==MSG_USER_ALERT)?"client":"scheduler");
-        notices.append(n);
-    }
-#endif
 }
 
 void MESSAGE_DESCS::write(int seqno, MIOFILE& fout, bool translatable) {

@@ -67,50 +67,6 @@
 
 #include "main.h"
 
-// Display a message to the user.
-// Depending on the priority, the message may be more or less obtrusive
-//
-void show_message(PROJECT *p, char* msg, int priority, const char* link) {
-    const char* x;
-    char message[1024];
-    char* time_string = time_to_string(gstate.now);
-
-    // Cycle the log files if we need to
-    diagnostics_cycle_logs();
-
-    if (priority == MSG_INTERNAL_ERROR) {
-        strcpy(message, "[error] ");
-        strlcpy(message+8, msg, sizeof(message)-8);
-    } else {
-        strlcpy(message, msg, sizeof(message));
-    }
-
-    // trim trailing \n's
-    //
-    while (strlen(message)&&message[strlen(message)-1] == '\n') {
-        message[strlen(message)-1] = 0;
-    }
-
-    if (p) {
-        x = p->get_project_name();
-    } else {
-        x = "---";
-    }
-
-    message_descs.insert(p, priority, (int)gstate.now, message, link);
-
-    strip_translation(message);
-
-    printf("%s [%s] %s\n", time_string, x, message);
-    if (gstate.executing_as_daemon) {
-#ifdef _WIN32
-        char event_message[2048];
-        sprintf(event_message, "%s [%s] %s\n", time_string,  x, message);
-        ::OutputDebugString(event_message);
-#endif
-    }
-}
-
 // Log informational messages to system specific places
 //
 void log_message_startup(const char* msg) {

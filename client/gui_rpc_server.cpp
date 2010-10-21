@@ -185,7 +185,7 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
                 retval = resolve_hostname_or_ip_addr(buf, ip_addr);
                 if (retval) {
-                    msg_printf_link(0, MSG_USER_ALERT,
+                    msg_printf_notice(0, false,
                         "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=remote_hosts",
                         "%s: %s",
                         _("Can't resolve hostname in remote_hosts.cfg"),
