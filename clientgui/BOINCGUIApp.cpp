@@ -674,10 +674,7 @@ void CBOINCGUIApp::DetectAccessibilityEnabled() {
 ///
 bool CBOINCGUIApp::DetectDuplicateInstance() {
 #ifdef __WXMSW__
-    HWND hWnd = ::FindWindow(NULL, m_pSkinManager->GetAdvanced()->GetApplicationName().c_str());
-    if (hWnd) {
-        ::ShowWindow(hWnd, SW_SHOW);
-        ::SetForegroundWindow(hWnd);
+    if (CTaskBarIcon::FireAppRestore()) {
         return true;
     }
 #endif
@@ -1039,11 +1036,17 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     if (m_pFrame && !m_pFrame->IsShown() && bShowWindow) {
         m_pFrame->Show();
         m_pFrame->Raise();
+#ifdef __WXMSW__
+        ::SetForegroundWindow((HWND)m_pFrame->GetHWND());
+#endif
     }
 
     // Raise the frame to the top of the Z order if needed
     if (m_pFrame && m_pFrame->IsShown() && bShowWindow) {
         m_pFrame->Raise();
+#ifdef __WXMSW__
+        ::SetForegroundWindow((HWND)m_pFrame->GetHWND());
+#endif
     }
 
     m_iGUISelected = iGUISelection;

@@ -70,6 +70,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 
 #ifdef __WXMSW__
     EVT_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
+    EVT_TASKBAR_APPRESTORE(CTaskBarIcon::OnAppRestore)
 #endif
 
 #ifdef __WXMAC__
@@ -297,6 +298,14 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
     if (eventClose.GetSkipped()) event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
+}
+void CTaskBarIcon::OnAppRestore(wxTaskBarIconExEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnAppRestore - Function Begin"));
+
+    ResetTaskBar();
+    wxGetApp().ShowInterface();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnAppRestore - Function End"));
 }
 #endif
 

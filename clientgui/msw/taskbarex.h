@@ -76,6 +76,7 @@ public:
     virtual void UpdateIcon();
 
     bool PopupMenu(wxMenu *menu);
+    static bool FireAppRestore();
 
 // Implementation
     WXHWND CreateTaskBarWindow( wxChar* szWindowTitle );
@@ -118,6 +119,7 @@ BEGIN_DECLARE_EVENT_TYPES()
     DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_TIMEOUT, 1563 )
     DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK, 1564 )
     DECLARE_EVENT_TYPE( wxEVT_TASKBAR_SHUTDOWN, 1565 )
+    DECLARE_EVENT_TYPE( wxEVT_TASKBAR_APPRESTORE, 1566 )
 END_DECLARE_EVENT_TYPES()
 
 typedef void (wxEvtHandler::*wxTaskBarIconExEventFunction)(wxTaskBarIconExEvent&);
@@ -137,6 +139,7 @@ typedef void (wxEvtHandler::*wxTaskBarIconExEventFunction)(wxTaskBarIconExEvent&
 #define EVT_TASKBAR_BALLOON_TIMEOUT(fn)      wx__DECLARE_TASKBAREXEVT(BALLOON_TIMEOUT, fn)
 #define EVT_TASKBAR_CONTEXT_USERCLICK(fn)    wx__DECLARE_TASKBAREXEVT(BALLOON_USERCLICK, fn)
 #define EVT_TASKBAR_SHUTDOWN(fn)             wx__DECLARE_TASKBAREXEVT(SHUTDOWN, fn)
+#define EVT_TASKBAR_APPRESTORE(fn)           wx__DECLARE_TASKBAREXEVT(APPRESTORE, fn)
 
 
 #endif
