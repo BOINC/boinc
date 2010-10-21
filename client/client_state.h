@@ -33,6 +33,7 @@ using std::vector;
 #include "acct_setup.h"
 #include "app.h"
 #include "client_types.h"
+#include "current_version.h"
 #include "file_xfer.h"
 #include "gui_rpc_server.h"
 #include "gui_http.h"

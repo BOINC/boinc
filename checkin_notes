@@ -7434,3 +7434,12 @@ David  18 Oct 2010
 		gui_rpc_server.cpp
 		log_flags.cpp
 		main.cpp,h
+
+David  18 Oct 2010
+    - client: on startup, generate a message and notice
+        about new client version if needed
+
+    client/
+        client_state.cpp,h
+        acct_setup.cpp,h
+        Makefile.am
