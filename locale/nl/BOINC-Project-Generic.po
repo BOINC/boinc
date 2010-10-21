@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-20 14:40+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -72,8 +72,8 @@ msgid ""
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
-"Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later "
-"a.u.b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen."
+"Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later a.u."
+"b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen."
 
 #: ../inc/forum.inc:1102
 msgid "Thread"
@@ -627,8 +627,7 @@ msgstr "processoren"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+ %"
-"2"
+"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+ %2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -1358,7 +1357,8 @@ msgstr "Zoek"
 
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
-msgstr "Op eigen verzoek, deadline voor de oprichter om te reageren is verlopen"
+msgstr ""
+"Op eigen verzoek, deadline voor de oprichter om te reageren is verlopen"
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
@@ -1422,8 +1422,8 @@ msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
-"NB: als je \"email toestaan\" hebt ingevuld bij je project voorkeuren, zal je "
-"email adres bekend worden bij de team oprichter, indien je jezelf bij een "
+"NB: als je \"email toestaan\" hebt ingevuld bij je project voorkeuren, zal "
+"je email adres bekend worden bij de team oprichter, indien je jezelf bij een "
 "team opgeeft."
 
 #: ../inc/team.inc:132
@@ -2040,9 +2040,9 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Als je een afbeelding wilt toevoegen aan je profiel, klik dan op \"Bladeren\" "
-"en selecteer een JPEG of PNG afbeelding. Kies a.u.b. afbeeldingen van %1 of "
-"minder."
+"Als je een afbeelding wilt toevoegen aan je profiel, klik dan op \"Bladeren"
+"\" en selecteer een JPEG of PNG afbeelding. Kies a.u.b. afbeeldingen van %1 "
+"of minder."
 
 #: ../user/create_profile.php:87
 msgid "Language"
@@ -2086,16 +2086,16 @@ msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Je eerste reactie wordt gezien als spam door het Akismet anti-spam systeem. "
-" Pas a.u.b. je tekst aan en probeer het opnieuw."
+"Je eerste reactie wordt gezien als spam door het Akismet anti-spam systeem.  "
+"Pas a.u.b. je tekst aan en probeer het opnieuw."
 
 #: ../user/create_profile.php:228
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Je tweede reactie wordt gezien als spam door het Akismet anti-spam systeem. "
-" Pas a.u.b. je tekst aan en probeer het opnieuw."
+"Je tweede reactie wordt gezien als spam door het Akismet anti-spam systeem.  "
+"Pas a.u.b. je tekst aan en probeer het opnieuw."
 
 #: ../user/create_profile.php:244
 msgid "Your profile submission was empty."
@@ -2281,8 +2281,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
-"Als je een vraag of probleem hebt, gebruik dan a.u.b. de %1Vraag en Antwoord"
-"%2 sectie van het forum."
+"Als je een vraag of probleem hebt, gebruik dan a.u.b. de %1Vraag en Antwoord%"
+"2 sectie van het forum."
 
 #: ../user/forum_index.php:93
 msgid "Topic"
@@ -2660,8 +2660,8 @@ msgstr ""
 "Wanneer je deelneemt aan %1, wordt er informatie over je computer (type "
 "processor, hoeveelheid geheugen, etc.) opgeslagen door %1 en gebruikt om te "
 "kunnen bepalen welk soort werk er aan je computer wordt verzonden. Deze "
-"informatie wordt ook getoond op de website van %1. Je werkelijke locatie "
-"(b.v. je IP-adres) blijft verborgen."
+"informatie wordt ook getoond op de website van %1. Je werkelijke locatie (b."
+"v. je IP-adres) blijft verborgen."
 
 #: ../user/info.php:43
 msgid ""
@@ -2685,8 +2685,8 @@ msgstr ""
 "Privé berichten die verzonden zijn op de website van %1 zijn alleen "
 "zichtbaar voor de afzender en ontvanger.  %1 bekijkt en veranderd de inhoud "
 "niet.  Als je een ongewenst bericht ontvangt van een andere %1 gebruiker, is "
-"het mogelijk deze toe te voegen aan een %2berichten filter%3.  Dit "
-"blokkeert zowel privé als forum berichten van deze gebruiker."
+"het mogelijk deze toe te voegen aan een %2berichten filter%3.  Dit blokkeert "
+"zowel privé als forum berichten van deze gebruiker."
 
 #: ../user/info.php:45
 msgid ""
@@ -2715,8 +2715,8 @@ msgid ""
 "to the Internet."
 msgstr ""
 "Elke keer als je een programma via het internet download neem je een risico; "
-"het programma kan fatale fouten hebben, of de download server is niet "
-"veilig genoeg. %1 heeft zijn best gedaan om deze risico's tot een minimum te "
+"het programma kan fatale fouten hebben, of de download server is niet veilig "
+"genoeg. %1 heeft zijn best gedaan om deze risico's tot een minimum te "
 "beperken. Ons programma is uitvoerig getest. Onze servers zijn zo veel als "
 "mogelijk is beveiligd tegen misbruik. Om de integriteit van de programma's "
 "te garanderen zijn ze digitaal ondertekend op een computer die niet met het "
@@ -2958,8 +2958,8 @@ msgid ""
 "\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "Uw voorkeuren zijn bijgewerkt, en \\ n \\ t zal van kracht worden wanneer de "
-"computer communiceert met% 1 \\ n \\ t of je de volgende 2Update% 3% commando "
-"van de BOINC Manager "
+"computer communiceert met% 1 \\ n \\ t of je de volgende 2Update% 3% "
+"commando van de BOINC Manager "
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
@@ -3965,8 +3965,7 @@ msgstr "You may view these teams' members, statistics, and information."
 #: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
-"Meer dan 100 teams voldoen aan uw zoekopdracht. De eerste 100 worden "
-"getoond."
+"Meer dan 100 teams voldoen aan uw zoekopdracht. De eerste 100 worden getoond."
 
 #: ../user/team_lookup.php:102
 #, fuzzy
@@ -3974,8 +3973,8 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"End of results. %1 If you cannot find the team you are looking for, you may "
-"%2create a team%3 yourself."
+"End of results. %1 If you cannot find the team you are looking for, you may %"
+"2create a team%3 yourself."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"

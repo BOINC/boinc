@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-24 22:03+0200\n"
 "Last-Translator: Martin <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -600,8 +600,8 @@ msgid ""
 "Suspend work if CPU usage is above %1 0 means no restriction<br>Enforced by "
 "version 6.10.30+ %2"
 msgstr ""
-"Přerušit práci při zatížení procesoru nad %1 0 znamená bez "
-"omezení<br/>Podporováno od verze 6.10.30+ %2"
+"Přerušit práci při zatížení procesoru nad %1 0 znamená bez omezení<br/"
+">Podporováno od verze 6.10.30+ %2"
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
@@ -631,8 +631,8 @@ msgstr "procesorů"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Na víceprocesorových systémech používat nanejvýš %1 Podporováno od verze "
-"6.1+ %2"
+"Na víceprocesorových systémech používat nanejvýš %1 Podporováno od verze 6.1"
+"+ %2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -658,7 +658,8 @@ msgstr "GB"
 
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr "Disk: ponechat volných aspoň %1 Hodnoty menší než %2 jsou ignorované %3"
+msgstr ""
+"Disk: ponechat volných aspoň %1 Hodnoty menší než %2 jsou ignorované %3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
@@ -2021,8 +2022,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Pro změnu klikněte na tlačítko \"Hledat\" a vyberte soubor typu JPEG nebo PNG "
-"(do %1)."
+"Pro změnu klikněte na tlačítko \"Hledat\" a vyberte soubor typu JPEG nebo "
+"PNG (do %1)."
 
 #: ../user/create_profile.php:67
 msgid "To remove it from your profile, check this box:"
@@ -2033,8 +2034,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Pokud si přejete mít u svého profilu obrázek, klikněte na \"Hledat\" a zvolte "
-"soubor typu JPEG nebo PNG. Obrázek může být velký maximálně %1."
+"Pokud si přejete mít u svého profilu obrázek, klikněte na \"Hledat\" a "
+"zvolte soubor typu JPEG nebo PNG. Obrázek může být velký maximálně %1."
 
 #: ../user/create_profile.php:87
 msgid "Language"
@@ -2338,7 +2339,8 @@ msgstr "Odebírat příspěvky"
 
 #: ../user/forum_thread.php:155
 msgid "Click to get email when there are new posts in this thread"
-msgstr "Klikněte pro zasílání emailu při každém novém příspěvku v tomto vlákně."
+msgstr ""
+"Klikněte pro zasílání emailu při každém novém příspěvku v tomto vlákně."
 
 #: ../user/forum_thread.php:162
 msgid "Unhide"
@@ -2563,8 +2565,7 @@ msgstr "Vítejte v %1"
 #: ../user/home.php:41
 msgid "View and edit your account preferences using the links below."
 msgstr ""
-"Pro zobrazení a nastavení vlastností Vašeho účtu použijte následující "
-"odkazy."
+"Pro zobrazení a nastavení vlastností Vašeho účtu použijte následující odkazy."
 
 #: ../user/home.php:49 ../project.sample/project.inc:49
 msgid "Your account"
@@ -2773,8 +2774,8 @@ msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
-"Tato webová stránka je dostupná ve více jazycích. Aktuálně vybraný jazyk je "
-"%1."
+"Tato webová stránka je dostupná ve více jazycích. Aktuálně vybraný jazyk je %"
+"1."
 
 #: ../user/language_select.php:74
 msgid ""
@@ -3545,8 +3546,7 @@ msgstr "Vytvořit tým"
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
-"Nyní jste v %1. Musíte nejdříve %2opustit tento tým%3 před vytvářením "
-"nového."
+"Nyní jste v %1. Musíte nejdříve %2opustit tento tým%3 před vytvářením nového."
 
 #: ../user/team_delta.php:64
 msgid "Not founder or admin"
@@ -3734,8 +3734,8 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"Aktuální vlastník byl upozorněn na váš požadavek emailem a soukromou "
-"zprávou.<br/><br/>\n"
+"Aktuální vlastník byl upozorněn na váš požadavek emailem a soukromou zprávou."
+"<br/><br/>\n"
 "Pokud vlastník neodpoví do 60 dnů, bude vám umožněno stát se vlastníkem."
 
 #: ../user/team_founder_transfer_action.php:100
@@ -3878,7 +3878,8 @@ msgstr "Upozornění:"
 
 #: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
-msgstr "Připojením k týmu dáte jeho vlastníkovi přístup k vaší emailové adrese."
+msgstr ""
+"Připojením k týmu dáte jeho vlastníkovi přístup k vaší emailové adrese."
 
 #: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
@@ -4010,8 +4011,8 @@ msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Jsou dostupné i další nástroje pro správce BOINC týmů na této stránce: %"
-"1www.boincteams.com%2."
+"Jsou dostupné i další nástroje pro správce BOINC týmů na této stránce: %1www."
+"boincteams.com%2."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
@@ -4055,8 +4056,8 @@ msgstr ""
 "         <ul>\n"
 "         <li>Pokud opustíte tým, můžete se do něj později vrátit, nebo se "
 "připojit do kteréhokoliv jiného týmu.</li>\n"
-"         <li>Opuštění týmu nemá žádný vliv na vaše statistiky či "
-"kredit.</li>\n"
+"         <li>Opuštění týmu nemá žádný vliv na vaše statistiky či kredit.</"
+"li>\n"
 "         </ul>"
 
 #: ../user/team_quit_form.php:40
@@ -4267,8 +4268,7 @@ msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
 msgstr ""
-"Klikněte prosím na tento odkaz pro ověření emailové adresy od vašeho účtu %"
-"1:"
+"Klikněte prosím na tento odkaz pro ověření emailové adresy od vašeho účtu %1:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
@@ -4478,8 +4478,12 @@ msgstr "(všechny aplikace)"
 #~ msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
 #~ msgstr "CHYBA: %1 neexistuje! Nelze vytvořit nabídku s volbami.<br/>"
 
-#~ msgid "To protect the project's webpages from spam, we kindly ask you to type in the two words shown in the image:<br>\n"
-#~ msgstr "Pro ochranu projektových stránek před spamem je vyžadováno zadání dvou slov které prosím opište z tohoto obrázku:<br/>\n"
+#~ msgid ""
+#~ "To protect the project's webpages from spam, we kindly ask you to type in "
+#~ "the two words shown in the image:<br>\n"
+#~ msgstr ""
+#~ "Pro ochranu projektových stránek před spamem je vyžadováno zadání dvou "
+#~ "slov které prosím opište z tohoto obrázku:<br/>\n"
 
 #~ msgid "Last %1"
 #~ msgstr "Posledních %1"

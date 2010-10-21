@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-23 23:50+0200\n"
 "Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
 "Language-Team: \n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -570,7 +570,8 @@ msgstr "no leído"
 
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
-msgstr "Para notificaciones por email, %1editar las preferencias comunitarias%2"
+msgstr ""
+"Para notificaciones por email, %1editar las preferencias comunitarias%2"
 
 # ########################################
 # Private messages
@@ -929,7 +930,8 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
-"Estas se aplican a todos los proyectos BOINC en los que usted participa.<br>\n"
+"Estas se aplican a todos los proyectos BOINC en los que usted participa."
+"<br>\n"
 "                         En ordenadores unidos a múltiples proyectos, se "
 "usarán las preferencias modificadas más recientemente."
 
@@ -1384,8 +1386,7 @@ msgstr "Buscar"
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
 msgstr ""
-"Solicitado por usted, y el tiempo límite de repuesta del fundador ha "
-"acabado."
+"Solicitado por usted, y el tiempo límite de repuesta del fundador ha acabado."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
@@ -1921,7 +1922,8 @@ msgstr ""
 
 #: ../user/account_finish.php:40 ../user/create_account_form.php:84
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "Le identifica en nuestra página web. Utilice su nombre real o un apodo."
+msgstr ""
+"Le identifica en nuestra página web. Utilice su nombre real o un apodo."
 
 #: ../user/account_finish.php:44 ../user/create_account_form.php:103
 msgid "Select the country you want to represent, if any."
@@ -2070,8 +2072,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Si desea incluir una imagen en su perfil, haga clic en el botón \"Explorar\" y "
-"seleccione un archivo JPEG o PNG. Por favor seleccione imágenes de %1 o "
+"Si desea incluir una imagen en su perfil, haga clic en el botón \"Explorar\" "
+"y seleccione un archivo JPEG o PNG. Por favor seleccione imágenes de %1 o "
 "menos."
 
 #: ../user/create_profile.php:87
@@ -2116,16 +2118,16 @@ msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Su primera respuesta fue marcada como spam por el sistema anti-spam Akismet. "
-" Por favor, modifique su texto e inténtelo de nuevo."
+"Su primera respuesta fue marcada como spam por el sistema anti-spam "
+"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/create_profile.php:228
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
-"Su segunda respuesta fue marcada como spam por el sistema anti-spam Akismet. "
-" Por favor, modifique su texto e inténtelo de nuevo."
+"Su segunda respuesta fue marcada como spam por el sistema anti-spam "
+"Akismet.  Por favor, modifique su texto e inténtelo de nuevo."
 
 #: ../user/create_profile.php:244
 msgid "Your profile submission was empty."
@@ -2342,7 +2344,8 @@ msgstr "Resultados de la búsqueda en el foro"
 
 #: ../user/forum_thread.php:45
 msgid "No thread with id %1. Please check the link and try again."
-msgstr "No hay hilo con id %1. Por favor, pulse en el enlace y pruebe de nuevo."
+msgstr ""
+"No hay hilo con id %1. Por favor, pulse en el enlace y pruebe de nuevo."
 
 #: ../user/forum_thread.php:51
 msgid "This forum is not visible to you."
@@ -2670,8 +2673,8 @@ msgid ""
 "resources are used by %1, and when it uses them."
 msgstr ""
 "Cuando ejecute %1 en su ordenador, utilizará parte de la potencia de su CPU, "
-"espacio en disco, y ancho de banda de red. Usted puede controlar la "
-"cantidad de recursos que usa %1, y cuándo son utilizados."
+"espacio en disco, y ancho de banda de red. Usted puede controlar la cantidad "
+"de recursos que usa %1, y cuándo son utilizados."
 
 #: ../user/info.php:38
 msgid ""
@@ -3073,8 +3076,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Ver perfiles %1al azar%2, %3al azar con imágenes%2, o %4al azar sin imágenes"
-"%2."
+"Ver perfiles %1al azar%2, %3al azar con imágenes%2, o %4al azar sin imágenes%"
+"2."
 
 #: ../user/profile_menu.php:65
 msgid "Alphabetical profile listings:"
@@ -4370,8 +4373,8 @@ msgid ""
 msgstr ""
 "Para usar su clave débil en cierta computadora, busque o cree el 'archivo de "
 "cuenta' para este proyecto. El nombre de este archivo está en la forma "
-"<b>cuenta_URL_DEL_PROYECTO.xml</b>. El archivo de cuenta para %1 es <b>%"
-"2</b>."
+"<b>cuenta_URL_DEL_PROYECTO.xml</b>. El archivo de cuenta para %1 es <b>%2</"
+"b>."
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
