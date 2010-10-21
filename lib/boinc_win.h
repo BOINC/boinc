@@ -249,13 +249,15 @@ extern "C" {
 #endif
 void __cdecl _fpreset (void);
 void __cdecl fpreset (void);
+#if (__GNUC__ < 4) // breaks build on MinGW gcc-4
 #define SetClassLongPtr SetClassLong
 #define GCLP_HICON GCL_HICON
 #define GCLP_HICONSM GCL_HICONSM
+#endif //GNUC
 #ifdef __cplusplus
 }
-#endif
-#endif
+#endif //cplusplus
+#endif //MINGW
 
 // On the Win32 platform include file and line number information for each
 //   memory allocation/deallocation
