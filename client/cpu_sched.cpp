@@ -81,8 +81,11 @@ struct PROC_RESOURCES {
         return ncpus_used >= ncpus;
     }
 
-    inline bool stop_scan_coproc() {
-        return coprocs.fully_used();
+    inline bool stop_scan_coproc(int rsc_type) {
+        if (rsc_type == RSC_TYPE_CUDA) {
+            return coprocs.cuda.used >= coprocs.cuda.count;
+        }
+        return coprocs.ati.used >= coprocs.ati.count;
     }
 
     // should we consider scheduling this job?
@@ -343,29 +346,49 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
     return rp;
 }
 
-// Return coproc jobs in FIFO order
-// Give priority to already-started jobs because of the following scenario:
-// - client gets several jobs in a sched reply and starts download files
-// - a job with a later name happens to finish downloading first, and starts
-// - a job with an earlier name finishes downloading and preempts
+// Return a job of the given type according to the following criteria
+// (desc priority):
+//  - from project with higher STD for that resource
+//  - already-started job
+//  - earlier received_time
+//  - lexicographically earlier name
 //
-RESULT* first_coproc_result() {
+// Give priority to already-started jobs because of the following scenario:
+// - client gets several jobs in a sched reply and starts downloading files
+// - a later job finishes downloading and starts
+// - an earlier finishes downloading and preempts
+//
+RESULT* first_coproc_result(int rsc_type) {
     unsigned int i;
     RESULT* best = NULL;
+    double best_std=0;
     for (i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
+        if (rp->resource_type() != rsc_type) continue;
         if (!rp->runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
-        if (!rp->uses_coprocs()) continue;
+        double std = rp->project->short_term_debt(rsc_type);
         if (!best) {
             best = rp;
+            best_std = std;
             continue;
         }
+
+        if (std < best_std) {
+            continue;
+        }
+        if (std > best_std) {
+            best = rp;
+            best_std = std;
+            continue;
+        }
+
         bool bs = !best->not_started();
         bool rs = !rp->not_started();
         if (rs && !bs) {
             best = rp;
+            best_std = std;
             continue;
         }
         if (!rs && bs) {
@@ -373,32 +396,31 @@ RESULT* first_coproc_result() {
         }
         if (rp->received_time < best->received_time) {
             best = rp;
+            best_std = std;
         } else if (rp->received_time == best->received_time) {
             // make it deterministic by looking at name
             //
             if (strcmp(rp->name, best->name) > 0) {
                 best = rp;
+                best_std = std;
             }
         }
     }
     return best;
 }
 
-// Return earliest-deadline result.
-// if coproc_only:
-//   return only coproc jobs, and only if project misses deadlines for that coproc
-// otherwise:
-//   return only CPU jobs, and only from a project with deadlines_missed>0
+// Return earliest-deadline result for given resource type.
 //
-RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
+static RESULT* earliest_deadline_result(int rsc_type) {
     RESULT *best_result = NULL;
     ACTIVE_TASK* best_atp = NULL;
     unsigned int i;
 
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
-        if (!rp->runnable()) continue;
+    for (i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (rp->resource_type() != rsc_type) continue;
         if (rp->already_selected) continue;
+        if (!rp->runnable()) continue;
         PROJECT* p = rp->project;
         if (p->non_cpu_intensive) continue;
 
@@ -406,34 +428,23 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
 
         // treat projects with DCF>90 as if they had deadline misses
         //
-        if (coproc_only) {
-            if (!rp->uses_coprocs()) continue;
-            if (rp->avp->ncudas) {
-                if (p->duration_correction_factor < 90.0) {
-                    if (!p->cuda_pwf.deadlines_missed_copy) {
-                        continue;
-                    }
-                } else {
-                    only_deadline_misses = false;
-                }
-            } else if (rp->avp->natis) {
-                if (p->duration_correction_factor < 90.0) {
-                    if (!p->ati_pwf.deadlines_missed_copy) {
-                        continue;
-                    }
-                } else {
-                    only_deadline_misses = false;
-                }
+        if (p->duration_correction_factor < 90.0) {
+            int d;
+            switch (rsc_type) {
+            case RSC_TYPE_CUDA:
+                d = p->cuda_pwf.deadlines_missed_copy;
+                break;
+            case RSC_TYPE_ATI:
+                d = p->ati_pwf.deadlines_missed_copy;
+                break;
+            default:
+                d = p->cpu_pwf.deadlines_missed_copy;
+            }
+            if (!d) {
+                continue;
             }
         } else {
-            if (rp->uses_coprocs()) continue;
-            if (p->duration_correction_factor < 90.0) {
-                if (!p->cpu_pwf.deadlines_missed_copy) {
-                    continue;
-                }
-            } else {
-                only_deadline_misses = false;
-            }
+            only_deadline_misses = false;
         }
         
         if (only_deadline_misses && !rp->rr_sim_misses_deadline) {
@@ -449,7 +460,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
         }
         if (new_best) {
             best_result = rp;
-            best_atp = lookup_active_task_by_result(rp);
+            best_atp = gstate.lookup_active_task_by_result(rp);
             continue;
         }
         if (rp->report_deadline > best_result->report_deadline) {
@@ -459,7 +470,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
         // If there's a tie, pick the job with the least remaining time
         // (but don't pick an unstarted job over one that's started)
         //
-        ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
+        ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
         if (best_atp && !atp) continue;
         if (rp->estimated_time_remaining(false)
             < best_result->estimated_time_remaining(false)
@@ -667,6 +678,48 @@ static void promote_once_ran_edf() {
     }
 }
 
+void add_coproc_jobs(int rsc_type, PROC_RESOURCES& proc_rsc) {
+    ACTIVE_TASK* atp;
+    RESULT* rp;
+    bool can_run;
+
+    // choose coproc jobs from projects with coproc deadline misses
+    //
+    while (!proc_rsc.stop_scan_coproc(rsc_type)) {
+        rp = earliest_deadline_result(rsc_type);
+        if (!rp) break;
+        rp->already_selected = true;
+        if (!proc_rsc.can_schedule(rp)) continue;
+        atp = gstate.lookup_active_task_by_result(rp);
+        can_run = schedule_if_possible(
+            rp, atp, proc_rsc, "coprocessor job, EDF"
+        );
+        if (!can_run) continue;
+        if (rsc_type == RSC_TYPE_CUDA) {
+            rp->project->cuda_pwf.deadlines_missed_copy--;
+        } else {
+            rp->project->ati_pwf.deadlines_missed_copy--;
+        }
+        rp->edf_scheduled = true;
+        gstate.ordered_scheduled_results.push_back(rp);
+    }
+
+    // then coproc jobs in FIFO order
+    //
+    while (!proc_rsc.stop_scan_coproc(rsc_type)) {
+        rp = first_coproc_result(rsc_type);
+        if (!rp) break;
+        rp->already_selected = true;
+        if (!proc_rsc.can_schedule(rp)) continue;
+        atp = gstate.lookup_active_task_by_result(rp);
+        can_run = schedule_if_possible(
+            rp, atp, proc_rsc, "coprocessor job, FIFO"
+        );
+        if (!can_run) continue;
+        gstate.ordered_scheduled_results.push_back(rp);
+    }
+}
+
 // CPU scheduler - decide which results to run.
 // output: sets ordered_scheduled_result.
 //
@@ -730,41 +783,8 @@ void CLIENT_STATE::schedule_cpus() {
 
     ordered_scheduled_results.clear();
 
-    // choose coproc jobs from projects with coproc deadline misses
-    //
-    while (!proc_rsc.stop_scan_coproc()) {
-        rp = earliest_deadline_result(true);
-        if (!rp) break;
-        rp->already_selected = true;
-        if (!proc_rsc.can_schedule(rp)) continue;
-        atp = lookup_active_task_by_result(rp);
-        can_run = schedule_if_possible(
-            rp, atp, proc_rsc, "coprocessor job, EDF"
-        );
-        if (!can_run) continue;
-        if (rp->avp->ncudas) {
-            rp->project->cuda_pwf.deadlines_missed_copy--;
-        } else if (rp->avp->natis) {
-            rp->project->ati_pwf.deadlines_missed_copy--;
-        }
-        rp->edf_scheduled = true;
-        ordered_scheduled_results.push_back(rp);
-    }
-
-    // then coproc jobs in FIFO order
-    //
-    while (!proc_rsc.stop_scan_coproc()) {
-        rp = first_coproc_result();
-        if (!rp) break;
-        rp->already_selected = true;
-        if (!proc_rsc.can_schedule(rp)) continue;
-        atp = lookup_active_task_by_result(rp);
-        can_run = schedule_if_possible(
-            rp, atp, proc_rsc, "coprocessor job, FIFO"
-        );
-        if (!can_run) continue;
-        ordered_scheduled_results.push_back(rp);
-    }
+    add_coproc_jobs(RSC_TYPE_CUDA, proc_rsc);
+    add_coproc_jobs(RSC_TYPE_ATI, proc_rsc);
 
     // choose CPU jobs from projects with CPU deadline misses
     //
@@ -772,7 +792,7 @@ void CLIENT_STATE::schedule_cpus() {
     if (!cpu_sched_rr_only) {
 #endif
     while (!proc_rsc.stop_scan_cpu()) {
-        rp = earliest_deadline_result(false);
+        rp = earliest_deadline_result(RSC_TYPE_CPU);
         if (!rp) break;
         rp->already_selected = true;
         if (!proc_rsc.can_schedule(rp)) continue;

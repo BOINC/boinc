@@ -272,11 +272,6 @@ struct COPROCS {
     );
     int parse(MIOFILE&);
     void summary_string(char*, int);
-    bool fully_used() {
-        if (cuda.used < cuda.count) return false;
-        if (ati.used < ati.count) return false;
-        return true;
-    }
 
     // Copy a coproc set, possibly setting usage to zero.
     // used in round-robin simulator and CPU scheduler,

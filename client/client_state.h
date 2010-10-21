@@ -260,7 +260,6 @@ struct CLIENT_STATE {
     bool must_check_work_fetch;
     void assign_results_to_projects();
     RESULT* largest_debt_project_best_result();
-    RESULT* earliest_deadline_result(bool coproc_only);
     void reset_debt_accounting();
     bool possibly_schedule_cpus();
     void schedule_cpus();
