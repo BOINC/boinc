@@ -668,6 +668,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\current_version.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\client\dhrystone.cpp"
 				>
 			</File>
@@ -818,6 +822,10 @@
 			</File>
 			<File
 				RelativePath="..\client\cs_proxy.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\current_version.h"
 				>
 			</File>
 			<File

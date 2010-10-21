@@ -26,11 +26,10 @@
 // Classes:
 //
 // NOTICE represents a notice of any the above types.
-// Attributes include a "private" flag,
-// and an "arrival time"; for RSS items, this is the time it
+// Attributes include an "arrival time"; for RSS items, this is the time it
 // arrived at the client, not the create time.
 //
-// NOTICES represents the set of all notices in the last 30 days.
+// NOTICES represents the set of all current notices.
 // Each notice has a unique seqno, which is a total ordering
 // compatible with increasing arrival time.
 // GUI RPC allow the enumerating of notices above a given seqno.
@@ -39,7 +38,7 @@
 // RSS_FEED represents an RSS feed.
 // The client polls each feed periodically.
 //
-// The last 30 days of each feed is cached on disk.
+// The last successful reply from each feed is cached on disk.
 //
 // Two projects may request the same feed.
 // So each PROJECT has its own list of feeds.
@@ -48,9 +47,7 @@
 // files:
 // notices/feeds.xml                feed list
 // notices/feeds_PROJ_URL.xml       list of project feeds
-// notices/archive_RSS_URL.xml      item archive for a feed
-// notices/out_RSS_URL.xml          result of last fetch for a feed
-// notices/archive.xml              non-RSS messages
+// notices/RSS_URL.xml              result of last fetch for a feed
 
 #include <deque>
 #include <vector>
