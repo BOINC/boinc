@@ -586,15 +586,10 @@ bool CAdvancedFrame::CreateMenu() {
         _("Read local prefs file"),
         _("Read preferences from global_prefs_override.xml.")
     );
-    menuAdvanced->Append(
-        ID_EVENTLOG, 
-        _("Event Log..."),
-        _("Display diagnostic messages.")
-    );
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
-        _("Launch another instance of %s"), 
+        _("Launch another instance of %s..."), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     strMenuName.Printf(
@@ -605,6 +600,11 @@ bool CAdvancedFrame::CreateMenu() {
         ID_LAUNCHNEWINSTANCE, 
         strMenuName,
         strMenuDescription
+    );
+    menuAdvanced->Append(
+        ID_EVENTLOG, 
+        _("Event Log...\tCtrl+Shift+E"),
+        _("Display diagnostic messages.")
     );
 
 
