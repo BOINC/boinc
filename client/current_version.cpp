@@ -24,6 +24,7 @@
 #include "client_msgs.h"
 #include "client_state.h"
 #include "log_flags.h"
+#include "file_names.h"
 
 #include "current_version.h"
 
