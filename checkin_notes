@@ -7500,3 +7500,11 @@ Rom    21 Oct 2010
     /
         configure.ac
         version.h
+
+Charlie 21 Oct 2010
+    - Mac: Update XCode project for new source files client/current_version.cpp,.h.
+        (checked in to boinc_core_release_6_12_4)
+        
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
