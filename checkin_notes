@@ -7377,3 +7377,13 @@ David  16 Oct 2010
         notice.h
     client/
         cs_notice.cpp,h
+<<<<<<< .working
+=======
+        sim.cpp
+
+David  16 Oct 2010
+    - bug fix for the above
+
+	client/
+		cs_notice.cpp
+>>>>>>> .merge-right.r22544

@@ -279,14 +279,21 @@ void NOTICES::clear_keep() {
 
 void NOTICES::unkeep(const char* url) {
     deque<NOTICE>::iterator i = notices.begin();
+    bool removed_something = false;
     while (i != notices.end()) {
         NOTICE& n = *i;
         if (!strcmp(url, n.feed_url) && !n.keep) {
             i = notices.erase(i);
+            removed_something = true;
         } else {
             i++;
         }
     }
+#ifndef SIM
+    if (removed_something) {
+        gstate.gui_rpcs.set_notice_refresh();
+    }
+#endif
 }
 
 static inline bool same_guid(NOTICE& n1, NOTICE& n2) {
