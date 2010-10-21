@@ -7484,3 +7484,11 @@ David  20 Oct 2010
         makefile_sim
         log_flags.cpp
         cpu_sched.cpp
+
+Rom    21 Oct 2010
+    - Tag for 6.12.3 release, all platforms
+      boinc_core_release_6_12_3
+
+    /
+        configure.ac
+        version.h
