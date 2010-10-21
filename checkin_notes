@@ -7492,3 +7492,11 @@ Rom    21 Oct 2010
     /
         configure.ac
         version.h
+
+Rom    21 Oct 2010
+    - Tag for 6.12.4 release, all platforms
+      boinc_core_release_6_12_4
+
+    /
+        configure.ac
+        version.h
