@@ -7368,3 +7368,12 @@ David  15 Oct 2010
         work_fetch.cpp
     lib/
         coproc.h
+
+David  16 Oct 2010
+    - client: delete a notice if it's no longer in the RSS feed.
+        E.g., if a project deletes a news item, remove it from notices.
+
+    lib/
+        notice.h
+    client/
+        cs_notice.cpp,h
