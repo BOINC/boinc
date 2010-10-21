@@ -354,11 +354,15 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "dont_check_file_sizes", dont_check_file_sizes)) continue;
         if (xp.parse_bool(tag, "dont_contact_ref_site", dont_contact_ref_site)) continue;
         if (xp.parse_string(tag, "exclusive_app", s)) {
-            exclusive_apps.push_back(s);
+            if (!strstr(s.c_str(), "boinc")) {
+                exclusive_apps.push_back(s);
+            }
             continue;
         }
         if (xp.parse_string(tag, "exclusive_gpu_app", s)) {
-            exclusive_gpu_apps.push_back(s);
+            if (!strstr(s.c_str(), "boinc")) {
+                exclusive_gpu_apps.push_back(s);
+            }
             continue;
         }
         if (xp.parse_bool(tag, "exit_after_finish", exit_after_finish)) continue;

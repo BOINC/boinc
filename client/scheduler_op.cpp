@@ -74,6 +74,8 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     return true;
 }
 
+#ifndef SIM
+
 // try to initiate an RPC to the given project.
 // If there are multiple schedulers, start with a random one.
 // User messages and backoff() is done at this level.
@@ -133,6 +135,8 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     }
     return retval;
 }
+
+#endif
 
 // One of the following errors occurred:
 // - connection failure in fetching master file
@@ -415,6 +419,8 @@ bool SCHEDULER_OP::update_urls(PROJECT* p, vector<std::string> &urls) {
     return any_new;
 }
 
+#ifndef SIM
+
 // poll routine.  If an operation is in progress, check for completion
 //
 bool SCHEDULER_OP::poll() {
@@ -523,6 +529,8 @@ bool SCHEDULER_OP::poll() {
     return false;
 }
 
+#endif
+
 void SCHEDULER_OP::abort(PROJECT* p) {
     if (state != SCHEDULER_OP_STATE_IDLE && cur_proj == p) {
         gstate.http_ops->remove(&http_op);
@@ -531,42 +539,14 @@ void SCHEDULER_OP::abort(PROJECT* p) {
     }
 }
 
-SCHEDULER_REPLY::SCHEDULER_REPLY() {
-    global_prefs_xml = 0;
-    project_prefs_xml = 0;
-    code_sign_key = 0;
-    code_sign_key_signature = 0;
-}
-
-SCHEDULER_REPLY::~SCHEDULER_REPLY() {
-    if (global_prefs_xml) free(global_prefs_xml);
-    if (project_prefs_xml) free(project_prefs_xml);
-    if (code_sign_key) free(code_sign_key);
-    if (code_sign_key_signature) free(code_sign_key_signature);
-}
-
-// parse a scheduler reply.
-// Some of the items go into the SCHEDULER_REPLY object.
-// Others are copied straight to the PROJECT
-//
-int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
-    char buf[256], msg_buf[1024], pri_buf[256];
-    int retval;
-    MIOFILE mf;
-    std::string delete_file_name;
-    mf.init_file(in);
-    bool found_start_tag = false;
-    double cpid_time = 0;
-
+void SCHEDULER_REPLY::clear() {
     hostid = 0;
     request_delay = 0;
     next_rpc_delay = 0;
     global_prefs_xml = 0;
     project_prefs_xml = 0;
-    strcpy(host_venue, project->host_venue);
-        // the project won't send us a venue if it's doing maintenance
-        // or doesn't check the DB because no work.
-        // Don't overwrite the host venue in that case.
+    code_sign_key = 0;
+    code_sign_key_signature = 0;
     strcpy(master_url, "");
     code_sign_key = 0;
     code_sign_key_signature = 0;
@@ -582,6 +562,39 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     cuda_backoff = 0;
     ati_backoff = 0;
     got_rss_feeds = false;
+}
+
+SCHEDULER_REPLY::SCHEDULER_REPLY() {
+    clear();
+}
+
+SCHEDULER_REPLY::~SCHEDULER_REPLY() {
+    if (global_prefs_xml) free(global_prefs_xml);
+    if (project_prefs_xml) free(project_prefs_xml);
+    if (code_sign_key) free(code_sign_key);
+    if (code_sign_key_signature) free(code_sign_key_signature);
+}
+
+#ifndef SIM
+
+// parse a scheduler reply.
+// Some of the items go into the SCHEDULER_REPLY object.
+// Others are copied straight to the PROJECT
+//
+int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
+    char buf[256], msg_buf[1024], pri_buf[256];
+    int retval;
+    MIOFILE mf;
+    std::string delete_file_name;
+    mf.init_file(in);
+    bool found_start_tag = false;
+    double cpid_time = 0;
+
+    clear();
+    strcpy(host_venue, project->host_venue);
+        // the project won't send us a venue if it's doing maintenance
+        // or doesn't check the DB because no work.
+        // Don't overwrite the host venue in that case.
     sr_feeds.clear();
 
     // First line should either be tag (HTTP 1.0) or
@@ -883,6 +896,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 
     return ERR_XML_PARSE;
 }
+#endif
 
 USER_MESSAGE::USER_MESSAGE(char* m, char* p) {
     message = m;

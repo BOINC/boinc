@@ -1876,10 +1876,9 @@ void CLIENT_STATE::set_ncpus() {
 
     if (initialized && ncpus != ncpus_old) {
         msg_printf(0, MSG_INFO,
-            "Number of usable CPUs has changed from %d to %d.  Running benchmarks.",
+            "Number of usable CPUs has changed from %d to %d.",
             ncpus_old, ncpus
         );
-        run_cpu_benchmarks = true;
         request_schedule_cpus("Number of usable CPUs has changed");
         request_work_fetch("Number of usable CPUs has changed");
         work_fetch.init();
