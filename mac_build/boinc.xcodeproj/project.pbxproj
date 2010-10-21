@@ -157,6 +157,7 @@
 		DD407A6B07D2FBC700163EF5 /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.cpp */; };
 		DD407A6D07D2FBD100163EF5 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DD407ABB07D2FC7D00163EF5 /* mem_usage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD407AB707D2FC7D00163EF5 /* mem_usage.cpp */; };
+		DD40BEEF1270EECE009D9AA6 /* current_version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40BEED1270EECE009D9AA6 /* current_version.cpp */; };
 		DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD4329910BA63DEC007CDF2A /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
@@ -725,6 +726,8 @@
 		DD40825807D3076400163EF5 /* reduce_main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = reduce_main.cpp; sourceTree = "<group>"; };
 		DD40825907D3076400163EF5 /* reduce.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = reduce.h; path = ../api/reduce.h; sourceTree = SOURCE_ROOT; };
 		DD40827D07D30AA800163EF5 /* jpeglib.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = jpeglib.h; path = "../../jpeg-6b/jpeglib.h"; sourceTree = SOURCE_ROOT; };
+		DD40BEED1270EECE009D9AA6 /* current_version.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = current_version.cpp; path = ../client/current_version.cpp; sourceTree = SOURCE_ROOT; };
+		DD40BEEE1270EECE009D9AA6 /* current_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = current_version.h; path = ../client/current_version.h; sourceTree = SOURCE_ROOT; };
 		DD40CDF907F0386A0096C645 /* SystemMenu.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SystemMenu.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD40CDFA07F0386B0096C645 /* SystemMenu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SystemMenu-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DD40CDFE07F038990096C645 /* SystemMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SystemMenu.m; path = ../clientgui/mac/SystemMenu.m; sourceTree = SOURCE_ROOT; };
@@ -1648,6 +1651,8 @@
 				F54B8FC902AC0A0C01FB7237 /* cs_scheduler.cpp */,
 				DD344B9307C5AE2E0043025C /* cs_statefile.cpp */,
 				DD344B9407C5AE2E0043025C /* cs_trickle.cpp */,
+				DD40BEED1270EECE009D9AA6 /* current_version.cpp */,
+				DD40BEEE1270EECE009D9AA6 /* current_version.h */,
 				DD344B9507C5AE2E0043025C /* dhrystone.cpp */,
 				DD344B9607C5AE2E0043025C /* dhrystone.h */,
 				DD344B9707C5AE2E0043025C /* dhrystone2.cpp */,
@@ -2899,6 +2904,7 @@
 				DDD9C59310CCF54300A1E4CD /* coproc_detect.cpp in Sources */,
 				DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */,
 				DDE1373210DC5EA400161D6B /* notice.cpp in Sources */,
+				DD40BEEF1270EECE009D9AA6 /* current_version.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
