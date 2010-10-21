@@ -4,7 +4,7 @@
 # generating them at night.
 #
 projname=boinctrunk
-projdir=$HOME/pootle/po/$projname
+projdir=/home/boincadm/pootle/po/$projname
 
 cd $projdir
 
