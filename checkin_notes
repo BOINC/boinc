@@ -7554,3 +7554,13 @@ David  20 Oct 2010
         makefile_sim
         log_flags.cpp
         cpu_sched.cpp
+
+David  22 Oct 2010
+    - client simulator: no defaults for app params (fpops_est, latency_bound).
+        They can be determined implicitly by WUs/results,
+        or explicitly in the <app> record.
+        If you do neither, the app is ignored.
+
+    client/
+        client_types.h
+        sim.cpp

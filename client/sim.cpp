@@ -244,6 +244,7 @@ void get_apps_needing_work(PROJECT* p, vector<APP*>& apps) {
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
         if (app->project != p) continue;
+        if (app->ignore) continue;
         if (!has_app_version_needing_work(app)) continue;
         apps.push_back(app);
     }
@@ -873,59 +874,81 @@ void simulate() {
     html_end();
 }
 
-void parse_error(char* file, int retval) {
-    printf("can't parse %s: %d\n", file, retval);
-    exit(1);
-}
-
-char* next_arg(int argc, char** argv, int& i) {
-    if (i >= argc) {
-        fprintf(stderr, "Missing command-line argument\n");
-        usage(argv[0]);
-    }
-    return argv[i++];
-}
-
-// get application FLOPS params.
-// These can be specified manually in the <app>.
-// If not they are taken from a WU if one exists for the app.
-// If not they default to 1 GFLOPS/hour
-//
-void get_app_params() {
-    unsigned int i, j;
-    for (i=0; i<gstate.apps.size(); i++) {
-        APP* app = gstate.apps[i];
-        if (!app->fpops_est) {
-            for (j=0; j<gstate.workunits.size(); j++) {
-                WORKUNIT* wup = gstate.workunits[j];
-                if (wup->app != app) continue;
-                app->fpops_est = wup->rsc_fpops_est;
-                break;
-            }
-            if (!app->fpops_est) {
-                app->fpops_est = 3600 * 1e9;
-            }
-        }
-        if (!app->fpops.mean) {
-            app->fpops.mean = app->fpops_est;
-        }
-        if (!app->weight) {
-            app->weight = 1;
-        }
-        fprintf(stderr, "app %s: fpops_est %f fpops mean %f\n",
-            app->name, app->fpops_est, app->fpops.mean
+void show_app(APP* app) {
+    msg_printf(app->project, MSG_INFO,
+        "app %s fpops_est %.0fG fpops mean %.0fG std_dev %.0fG latency %.2f weight %.2f",
+        app->name, app->fpops_est/1e9,
+        app->fpops.mean/1e9, app->fpops.std_dev/1e9,
+        app->latency_bound,
+        app->weight
+    );
+    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->app != app) continue;
+        msg_printf(avp->project, MSG_INFO,
+            "   app version %s %d (%s): ncpus %.2f ncuda %.2f nati %.2f flops %.0fG",
+            avp->app_name, avp->version_num, avp->plan_class,
+            avp->avg_ncpus, avp->ncudas, avp->natis,
+            avp->flops/1e9
         );
     }
 }
 
-// fill in APP.latency_bound
+// get application params,
+// and set "ignore" for apps that have no versions or no params.
 //
-void assign_latency_bounds() {
-    unsigned int i;
+// App params can be specified in 2 ways:
+// - the presence of a WU and result for that app
+// - app.latency_bound and app.fpops_est are populated
+//
+void get_app_params() {
+    APP* app;
+    unsigned int i, j;
+
     for (i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
-        APP* app = rp->app;
-        app->latency_bound = rp->report_deadline - rp->received_time;
+        app = rp->app;
+        if (!app->latency_bound) {
+            app->latency_bound = rp->report_deadline - rp->received_time;
+        }
+    }
+    for (i=0; i<gstate.workunits.size(); i++) {
+        WORKUNIT* wup = gstate.workunits[i];
+        app = wup->app;
+        if (!app->fpops_est) {
+            app->fpops_est = wup->rsc_fpops_est;
+        }
+    }
+    for (i=0; i<gstate.apps.size(); i++) {
+        app = gstate.apps[i];
+        app->ignore = true;
+    }
+    for (i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        avp->app->ignore = false;
+    }
+    for (i=0; i<gstate.apps.size(); i++) {
+        app = gstate.apps[i];
+        if (!app->fpops_est || !app->latency_bound) {
+            app->ignore = true;
+            msg_printf(app->project, MSG_INFO,
+                "ignoring app %s - no fpops_est or latency bound",
+                app->name
+            );
+        } else if (app->ignore) {
+            msg_printf(app->project, MSG_INFO,
+                "ignoring app %s - no app versions",
+                app->name
+            );
+        } else {
+            if (!app->fpops.mean) {
+                app->fpops.mean = app->fpops_est;
+            }
+            if (!app->weight) {
+                app->weight = 1;
+            }
+            show_app(app);
+        }
     }
 }
 
@@ -948,46 +971,15 @@ void clear_backoff() {
 void cull_projects() {
     unsigned int i;
 
-    for (i=0; i<gstate.apps.size(); i++) {
-        APP* app = gstate.apps[i];
-        app->has_version = false;
-    }
-    for (i=0; i<gstate.app_versions.size(); i++) {
-        APP_VERSION* avp = gstate.app_versions[i];
-        avp->app->has_version = true;
-    }
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->dont_request_more_work = true;
     }
     for (i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
-        if (app->has_version) {
+        if (!app->ignore) {
             app->project->dont_request_more_work = false;
         }
-    }
-}
-
-void show_apps() {
-    for (unsigned int i=0; i<gstate.apps.size(); i++) {
-        APP* app = gstate.apps[i];
-        msg_printf(app->project, MSG_INFO,
-            "app %s fpops_est %.0fG fpops mean %.0fG std_dev %.0fG",
-            app->name, app->fpops_est/1e9,
-            app->fpops.mean/1e9, app->fpops.std_dev/1e9
-        );
-    }
-}
-
-void show_app_versions() {
-    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
-        APP_VERSION* avp = gstate.app_versions[i];
-        msg_printf(avp->project, MSG_INFO,
-            "app version %s %d (%s): ncpus %.2f ncuda %.2f nati %.2f flops %.0fG",
-            avp->app_name, avp->version_num, avp->plan_class,
-            avp->avg_ncpus, avp->ncudas, avp->natis,
-            avp->flops/1e9
-        );
     }
 }
 
@@ -1015,10 +1007,15 @@ void do_client_simulation() {
     gstate.read_global_prefs(buf, buf2);
     fprintf(index_file,
         "<br><a href=%s>Preferences file (global_prefs.xml)</a>\n"
-        "<br><a href=%s>Preferences override file (global_prefs_override.xml)</a>\n",
-        buf, buf2
+        "<br><a href=%s>Preferences override file (global_prefs_override.xml)</a>\n"
+        "<h2>Output files</h2>\n"
+        "<a href=%s>Log file</a>\n",
+        buf, buf2, log_filename
     );
+
+    get_app_params();
     cull_projects();
+
     int j=0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         if (!gstate.projects[i]->dont_request_more_work) {
@@ -1026,21 +1023,9 @@ void do_client_simulation() {
         }
     }
 
-    fprintf(index_file,
-        "<h2>Output files</h2>\n"
-        "<a href=%s>Log file</a>\n",
-        log_filename
-    );
-
-    get_app_params();
-    assign_latency_bounds();
     clear_backoff();
-
     gstate.workunits.clear();
     gstate.results.clear();
-
-    show_apps();
-    show_app_versions();
 
     gstate.set_ncpus();
     work_fetch.init();
@@ -1056,6 +1041,14 @@ void do_client_simulation() {
     print_project_results(stdout);
 
     debt_graphs();
+}
+
+char* next_arg(int argc, char** argv, int& i) {
+    if (i >= argc) {
+        fprintf(stderr, "Missing command-line argument\n");
+        usage(argv[0]);
+    }
+    return argv[i++];
 }
 
 int main(int argc, char** argv) {

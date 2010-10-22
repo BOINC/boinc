@@ -474,7 +474,7 @@ struct APP {
     NORMAL_DIST checkpoint_period;
     double working_set;
     double weight;
-    bool has_version;
+    bool ignore;
     APP() {memset(this, 0, sizeof(APP));}
 #endif
 
