@@ -7564,3 +7564,10 @@ David  22 Oct 2010
     client/
         client_types.h
         sim.cpp
+
+David  22 Oct 2010
+    - client: update STD of ineligible projects by decay only.
+        Not sure why, but this eliminates gradual negative drift.
+
+    client/
+        work_fetch.cpp
