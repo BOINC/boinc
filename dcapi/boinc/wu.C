@@ -724,8 +724,8 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	/* XXX Check if the wu->num_inputs + wu->num_outputs + wu->subresults
 	 * does not exceed the max. number of file slots */
 
-	/* Handle remote files */
-	if (DC_FILE_REMOTE == fileMode)
+	/* Handle remote http:// files */
+	if (DC_FILE_REMOTE == fileMode && strncmp("http://", URL, 7))
 	{
 		va_start(ap, fileMode);
 		char *md5 = va_arg(ap, char *);
@@ -740,31 +740,48 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 		wu->num_remote_inputs++;
 
 		if (wu->serialized)
-			write_wudesc(wu);
+		write_wudesc(wu);
 
 		return 0;
 	}
 
-	/* Now handle local files */
+	/* Now handle local and ADICS files */
 	workpath = _DC_workDirPath(wu, logicalFileName, FILE_IN);
 	file = _DC_createPhysicalFile(logicalFileName, workpath);
 	g_free(workpath);
 	if (!file)
 		return DC_ERR_INTERNAL;
 
-	va_start(ap, fileMode);
-	char *physicalFileName = va_arg(ap, char *);
-	char *physicalFileHashString = va_arg(ap, char *);
-	va_end(ap);
-	if (physicalFileName)
+	/* Handle remote adics:// files */
+	if (DC_FILE_REMOTE == fileMode && strncmp("adics://", URL, 8))
 	{
+		va_start(ap, fileMode);
+		char *physicalFileName = va_arg(ap, char *);
+		char *physicalFileHashString = va_arg(ap, char *);
+		va_end(ap);
+
+		if (!physicalFileName)
+		{
+			DC_log(LOG_ERR, "%s: Physical filename of ADICS file "
+				"'%s' not found", __func__, logicalFileName);
+			return DC_ERR_BADPARAM;
+		}
 		file->physicalfilename = strdup(physicalFileName);
-		DC_log(LOG_DEBUG, "Physicalfilename received: %s",file->physicalfilename);
-	}
-	if (physicalFileHashString)
-	{
+
+		if (!physicalFileHashString)
+		{
+			DC_log(LOG_ERR, "%s: Hash of ADICS file "
+				"'%s' not found", __func__, logicalFileName);
+			return DC_ERR_BADPARAM;
+		}
 		file->physicalfilehash = strdup(physicalFileHashString);
-		DC_log(LOG_DEBUG, "Hash received: %s",file->physicalfilehash);
+	}
+	else
+	{
+		DC_log(LOG_ERR, "%s: Unsupported URL received: '%s'",
+			__func__, URL);
+		_DC_destroyPhysicalFile(file);
+		return DC_ERR_BADPARAM;
 	}
 
 	switch (fileMode)
@@ -806,6 +823,8 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 				return ret;
 			}
 			unlink(URL);
+			break;
+		case DC_FILE_REMOTE:
 			break;
 		default:
 			DC_log(LOG_ERR, "Invalid file mode %d", fileMode);
