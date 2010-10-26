@@ -776,7 +776,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 		}
 		file->physicalfilehash = strdup(physicalFileHashString);
 	}
-	else
+	else if (DC_FILE_REMOTE == fileMode)
 	{
 		DC_log(LOG_ERR, "%s: Unsupported URL received: '%s'",
 			__func__, URL);
