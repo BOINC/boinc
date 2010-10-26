@@ -970,15 +970,26 @@ void clear_backoff() {
 //
 void cull_projects() {
     unsigned int i;
+    PROJECT* p;
 
     for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+        p = gstate.projects[i];
         p->dont_request_more_work = true;
     }
     for (i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
         if (!app->ignore) {
             app->project->dont_request_more_work = false;
+        }
+    }
+    vector<PROJECT*>::iterator iter;
+    iter = gstate.projects.begin();
+    while (iter != gstate.projects.end()) {
+        p = *iter;
+        if (p->dont_request_more_work) {
+            iter = gstate.projects.erase(iter);
+        } else {
+            iter++;
         }
     }
 }
@@ -1018,9 +1029,7 @@ void do_client_simulation() {
 
     int j=0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        if (!gstate.projects[i]->dont_request_more_work) {
-            gstate.projects[i]->index = j++;
-        }
+        gstate.projects[i]->index = j++;
     }
 
     clear_backoff();
