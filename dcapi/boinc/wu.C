@@ -725,7 +725,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	 * does not exceed the max. number of file slots */
 
 	/* Handle remote http:// files */
-	if (DC_FILE_REMOTE == fileMode && strncmp("http://", URL, 7))
+	if (DC_FILE_REMOTE == fileMode && !strncmp("http://", URL, 7))
 	{
 		va_start(ap, fileMode);
 		char *md5 = va_arg(ap, char *);
@@ -753,7 +753,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 		return DC_ERR_INTERNAL;
 
 	/* Handle remote adics:// files */
-	if (DC_FILE_REMOTE == fileMode && strncmp("adics://", URL, 8))
+	if (DC_FILE_REMOTE == fileMode && !strncmp("adics://", URL, 8))
 	{
 		va_start(ap, fileMode);
 		char *physicalFileName = va_arg(ap, char *);
