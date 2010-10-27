@@ -35,6 +35,9 @@ extern void push_unique(std::string, std::vector<std::string>&);
 // NOTE: use #include <functional>   to get max,min
 
 #define SECONDS_PER_DAY 86400
+#define KILO (1024.0)
+#define MEGA (1048576.0)
+#define GIGA (1024.*1048576.0)
 
 static inline double drand() {
     return (double)rand()/(double)RAND_MAX;

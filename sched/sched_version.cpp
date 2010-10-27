@@ -360,6 +360,24 @@ static void app_version_desc(BEST_APP_VERSION& bav, char* buf) {
     }
 }
 
+// different OSs have different max user address space for 32 bit apps
+//
+static double max_32b_address_space() {
+    if (strstr(g_request->platform.name, "windows")) {
+        return 2*GIGA;
+    } else if (strstr(g_request->platform.name, "linux")) {
+        return 3*GIGA;
+    } else if (strstr(g_request->platform.name, "darwin")) {
+        return 4*GIGA;
+    } else if (strstr(g_request->platform.name, "solaris")) {
+        return 4*GIGA;
+    } else if (strstr(g_request->platform.name, "anonymous")) {
+        // problem case.  assume windows
+        return 2*GIGA;
+    }
+    return 2*GIGA;
+}
+
 // return BEST_APP_VERSION for the given job and host, or NULL if none
 //
 // check_req: check whether we still need work for the resource
@@ -378,7 +396,7 @@ BEST_APP_VERSION* get_app_version(
     int j;
     BEST_APP_VERSION* bavp;
     char message[256], buf[256];
-    bool job_needs_64b = (wu.rsc_memory_bound > 2.1e9);
+    bool job_needs_64b = (wu.rsc_memory_bound > max_32b_address_space());
 
     if (config.debug_version_select) {
         if (job_needs_64b) {
