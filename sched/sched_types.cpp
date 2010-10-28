@@ -957,7 +957,14 @@ void SCHEDULER_REPLY::insert_result(RESULT& result) {
 }
 
 void SCHEDULER_REPLY::insert_message(const char* msg, const char* prio) {
-    messages.push_back(USER_MESSAGE(msg, prio));
+    if (g_request->core_client_version < 61200) {
+        char buf[1024];
+        strcpy(buf, msg);
+        strip_translation(buf);
+        messages.push_back(USER_MESSAGE(buf, prio));
+    } else {
+        messages.push_back(USER_MESSAGE(msg, prio));
+    }
 }
 
 void SCHEDULER_REPLY::insert_message(USER_MESSAGE& um) {

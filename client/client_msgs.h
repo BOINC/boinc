@@ -73,8 +73,6 @@ extern void msg_printf_notice(struct PROJECT *p, bool is_html, const char* link,
     __attribute__ ((format (printf, 4, 5)))
 ;
 
-extern void strip_translation(char*);
-
 #define _(x) "_(\""x"\")"
 
 #endif

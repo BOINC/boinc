@@ -7631,3 +7631,13 @@ David  28 Oct 2010
 
     clientgui/u
         ViewResources.cpp
+
+David  28 Oct 2010
+    - scheduler: don't send translatable strings to pre-6.12 clients
+
+    client/
+        client_msgs.cpp,h
+    lib/
+        str_util.cpp,h
+    sched/
+        sched_types.cpp

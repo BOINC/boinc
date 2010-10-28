@@ -695,3 +695,18 @@ int string_substitute(
     return retval;
 }
 
+inline void remove_str(char* p, const char* str) {
+    size_t n = strlen(str);
+    while (1) {
+        p = strstr(p, str);
+        if (!p) break;
+        strcpy(p, p+n);
+    }
+}
+
+// remove _( and ") from string
+//
+void strip_translation(char* p) {
+    remove_str(p, "_(\"");
+    remove_str(p, "\")");
+}

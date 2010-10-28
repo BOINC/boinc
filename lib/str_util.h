@@ -77,5 +77,6 @@ extern const char* network_status_string(int);
 extern const char* rpc_reason_string(int);
 extern const char* suspend_reason_string(int reason);
 
+extern void strip_translation(char* p);
 
 #endif
