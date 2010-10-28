@@ -322,10 +322,8 @@ wxInt32 CViewResources::FormatDiskSpace(double bytes, wxString& strBuffer) const
         strBuffer.Printf(wxT("%0.2f GB"), bytes/xGiga);
     } else if (bytes >= xMega) {
         strBuffer.Printf(wxT("%0.2f MB"), bytes/xMega);
-    } else if (bytes >= xKilo) {
-        strBuffer.Printf(wxT("%0.2f KB"), bytes/xKilo);
     } else {
-        strBuffer.Printf(wxT("%0.0f bytes"), bytes);
+        strBuffer.Printf(wxT("%0.2f KB"), bytes/xKilo);
     }
 
     return 0;
