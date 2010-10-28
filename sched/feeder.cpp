@@ -19,20 +19,21 @@
 // including an array of work items (results/workunits to send).
 //
 // Usage: feeder [ options ]
-//  [ -d x ]              debug level x
-//  [ -random_order ]     order by "random" field of result
-//  [ -priority_order ]   order by decreasing "priority" field of result
-//  [ -priority_order_create_time ]
-//                        order by priority, then by increasing WU create time
-//  [ -mod n i ]          handle only results with (id mod n) == i
-//  [ -wmod n i ]         handle only workunits with (id mod n) == i
-//                        recommended if using HR with multiple schedulers
-//  [ -sleep_interval x ] sleep x seconds if nothing to do
-//  [ -allapps ]          interleave results from all applications uniformly
-//  [ -appids a1{,a2} ]   get work only for appids a1,... (comma-separated list)
-//  [ -purge_stale x ]    remove work items from the shared memory segment
-//                        that have been there for longer then x minutes
-//                        but haven't been assigned
+//  [ -d x ]                debug level x
+//  [ --random_order ]      order by "random" field of result
+//  [ --priority_order ]    order by decreasing "priority" field of result
+//  [ --priority_order_create_time ]
+//                          order by priority, then by increasing WU create time
+//  [ --mod n i ]           handle only results with (id mod n) == i
+//  [ --wmod n i ]          handle only workunits with (id mod n) == i
+//                          recommended if using HR with multiple schedulers
+//  [ --sleep_interval x ]  sleep x seconds if nothing to do
+//  [ --allapps ]           interleave results from all applications uniformly
+//  [ --appids a1{,a2} ]    get work only for appids a1,...
+//                          (comma-separated list)
+//  [ --purge_stale x ]     remove work items from the shared memory segment
+//                          that have been there for longer then x minutes
+//                          but haven't been assigned
 //
 // The feeder tries to keep the work array filled.
 // It maintains a DB enumerator (DB_WORK_ITEM).
@@ -526,7 +527,12 @@ void feeder_loop() {
     }
 
     while (1) {
-        bool action = scan_work_array(work_items);
+        bool action;
+        if (config.dont_send_jobs) {
+            action = false;
+        } else {
+            action = scan_work_array(work_items);
+        }
         ssp->ready = true;
         if (!action) {
 #ifdef GCL_SIMULATOR
@@ -659,20 +665,20 @@ void usage(char *name) {
         "including an array of work items (results/workunits to send).\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  [ -d X | --debug_level X]         Set Debug level to X\n"
-        "  [ --allapps ]                     Interleave results from all applications uniformly.\n"
-        "  [ --random_order ]                order by \"random\" field of result\n"
-        "  [ --priority_order ]              order by decreasing \"priority\" field of result\n"
-        "  [ --priority_order_create_time ]  order by priority, then by increasing WU create time\n"
-        "  [ --purge_stale ]                 remove work items from the shared memory segment\n"
-        "                                    that have been there for longer then x minutes\n"
-        "                                    but haven't been assigned\n"
-        "  [ --appids a1{,a2} ]              get work only for appids a1,... (comma-separated list)\n"
-        "  [ --mod n i ]                     handle only results with (id mod n) == i\n"
-        "  [ --wmod n i ]                    handle only workunits with (id mod n) == i\n"
-        "  [ --sleep_interval x ]            sleep x seconds if nothing to do\n"
-        "  [ -h | --help ]                   Shows this help text.\n"
-        "  [ -v | --version ]                Shows version information.\n",
+        "  [ -d X | --debug_level X]        Set Debug level to X\n"
+        "  [ --allapps ]                    Interleave results from all applications uniformly.\n"
+        "  [ --random_order ]               order by \"random\" field of result\n"
+        "  [ --priority_order ]             order by decreasing \"priority\" field of result\n"
+        "  [ --priority_order_create_time ] order by priority, then by increasing WU create time\n"
+        "  [ --purge_stale x ]              remove work items from the shared memory segment after x secs\n"
+        "                                   that have been there for longer then x minutes\n"
+        "                                   but haven't been assigned\n"
+        "  [ --appids a1{,a2} ]             get work only for appids a1,... (comma-separated list)\n"
+        "  [ --mod n i ]                    handle only results with (id mod n) == i\n"
+        "  [ --wmod n i ]                   handle only workunits with (id mod n) == i\n"
+        "  [ --sleep_interval x ]           sleep x seconds if nothing to do\n"
+        "  [ -h | --help ]                  Shows this help text.\n"
+        "  [ -v | --version ]               Shows version information.\n",
         name, name
     );
 }

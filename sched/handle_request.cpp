@@ -1066,7 +1066,7 @@ void process_request(char* code_sign_key) {
     int retval;
     double last_rpc_time;
     struct tm *rpc_time_tm;
-    bool ok_to_send_work = true;
+    bool ok_to_send_work = !config.dont_send_jobs;
     bool have_no_work = false;
     char buf[256];
     HOST initial_host;
@@ -1082,15 +1082,15 @@ void process_request(char* code_sign_key) {
         || unacceptable_cpu()
     ) {
         ok_to_send_work = false;
-
-        // if no results, return without accessing DB
-        //
-        if (g_request->results.size() == 0) {
-            return;
-        }
-    } else {
-        warn_user_if_core_client_upgrade_scheduled();
     }
+
+    // if no jobs reported and none to send, return without accessing DB
+    //
+    if (!ok_to_send_work && !g_request->results.size()) {
+        return;
+    }
+
+    warn_user_if_core_client_upgrade_scheduled();
 
     if (requesting_work()) {
         if (config.locality_scheduling || config.locality_scheduler_fraction || config.enable_assignment) {

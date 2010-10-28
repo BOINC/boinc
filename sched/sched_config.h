@@ -90,6 +90,7 @@ struct SCHED_CONFIG {
         // user name under which web server runs (default: apache)
     bool enable_assignment;
     bool job_size_matching;
+    bool dont_send_jobs;
 
     //////////// STUFF RELEVANT ONLY TO SCHEDULER FOLLOWS ///////////
 

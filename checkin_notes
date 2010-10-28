@@ -7613,3 +7613,15 @@ David  27 Oct 2010
 
 	clientgui/
 		AccountInfoPage.cpp
+
+David  28 Oct 2010
+    - scheduler/feeder: add a project config option <dont_send_jobs>.
+        If set, the feeder doesn't read jobs into shmem,
+        and the scheduler doesn't send jobs.
+        Intended for use when a project wants to process
+        a backlog of completed jobs and not issue more.
+
+    sched/
+        sched_config.cpp,h
+        feeder.cpp
+        handle_request.cpp
