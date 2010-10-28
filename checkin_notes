@@ -7606,3 +7606,10 @@ David  27 Oct 2010
         sched_customize.cpp
         sched_score.cpp
         sched_version.cpp
+
+David  27 Oct 2010
+	- manager: if attaching to existing account,
+		don't check min passwd length
+
+	clientgui/
+		AccountInfoPage.cpp
