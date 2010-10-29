@@ -40,8 +40,8 @@ if ($email_addr && $passwd) {
     $authenticator = $user->authenticator;
     $next_url = $_POST["next_url"];
     if (strlen($next_url) == 0) $next_url = "index.php";
-    Header("Location: $next_url");
     $perm = $_POST['stay_logged_in'];
     send_cookie('auth', $authenticator, $perm, true);
+    Header("Location: $next_url");
 }
 ?>

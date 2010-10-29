@@ -128,6 +128,7 @@ function print_login_form_ops($next_url='') {
     ";
     row2("Email", "<input name=email_addr size=40>");
     row2("Password", "<input type=password name=passwd size=40>");
+    row2(tra("Stay logged in on this computer"), '<input type="checkbox" name="stay_logged_in" checked>');
     row2("", "<input type=submit value=OK>");
     end_table();
 }
