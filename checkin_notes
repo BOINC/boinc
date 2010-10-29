@@ -7651,3 +7651,12 @@ David  29 Oct 2010
         ops/
             login_form.php
             login_action.php
+
+David  29 Oct 2010
+	- client and manager: fix notice titles
+	- code cleanup: please use standard coding conventions
+
+	client/
+		client_msgs.cpp
+	clientgui/
+		NoticeListCtrl.cpp
