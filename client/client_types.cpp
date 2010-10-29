@@ -202,6 +202,8 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_bool(buf, "dont_request_more_work", dont_request_more_work)) continue;
         if (parse_bool(buf, "detach_when_done", detach_when_done)) continue;
         if (parse_bool(buf, "ended", ended)) continue;
+        if (parse_double(buf, "<rec>", pwf.rec)) continue;
+        if (parse_double(buf, "<rec_time>", pwf.rec_time)) continue;
         if (parse_double(buf, "<short_term_debt>", cpu_pwf.short_term_debt)) continue;
         if (parse_double(buf, "<long_term_debt>", cpu_pwf.long_term_debt)) continue;
         if (parse_double(buf, "<cpu_backoff_interval>", cpu_pwf.backoff_interval)) continue;
@@ -275,6 +277,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%f</min_rpc_time>\n"
         "    <next_rpc_time>%f</next_rpc_time>\n"
+        "    <rec>%f</rec>\n"
+        "    <rec_time>%f</rec_time>\n"
         "    <short_term_debt>%f</short_term_debt>\n"
         "    <long_term_debt>%f</long_term_debt>\n"
         "    <cpu_backoff_interval>%f</cpu_backoff_interval>\n"
@@ -314,6 +318,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         master_fetch_failures,
         min_rpc_time,
         next_rpc_time,
+        pwf.rec,
+        pwf.rec_time,
         cpu_pwf.short_term_debt,
         cpu_pwf.long_term_debt, cpu_pwf.backoff_interval, cpu_pwf.backoff_time,
         cuda_pwf.short_term_debt, cuda_pwf.long_term_debt,

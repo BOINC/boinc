@@ -61,7 +61,7 @@ static const int PROCESS_MEDIUM_PRIORITY = 10;
 extern double linux_cpu_time(int pid);
 #endif
 
-extern void update_average(double, double, double, double&, double&);
+extern void update_average(double, double, double, double, double&, double&);
 
 extern int boinc_calling_thread_cpu_time(double&);
 

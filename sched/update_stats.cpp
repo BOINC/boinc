@@ -54,6 +54,7 @@ int update_users() {
     DB_USER user;
     int retval;
     char buf[256];
+    double now = dtime();
 
     while (1) {
         retval = user.enumerate("where expavg_credit>0.1");
@@ -66,7 +67,9 @@ int update_users() {
         }
 
         if (user.expavg_time > update_time_cutoff) continue;
-        update_average(0, 0, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
+        update_average(
+            now, 0, 0, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time
+        );
         sprintf( buf, "expavg_credit=%f, expavg_time=%f",
             user.expavg_credit, user.expavg_time
         );
@@ -84,6 +87,7 @@ int update_hosts() {
     DB_HOST host;
     int retval;
     char buf[256];
+    double now = dtime();
 
     while (1) {
         retval = host.enumerate("where expavg_credit>0.1");
@@ -96,7 +100,9 @@ int update_hosts() {
         }
 
         if (host.expavg_time > update_time_cutoff) continue;
-        update_average(0, 0, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
+        update_average(
+            now, 0, 0, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time
+        );
         sprintf(
             buf,"expavg_credit=%f, expavg_time=%f",
             host.expavg_credit, host.expavg_time
@@ -142,6 +148,7 @@ int update_teams() {
     DB_TEAM team;
     int retval;
     char buf[256];
+    double now = dtime();
 
     while (1) {
         retval = team.enumerate("where expavg_credit>0.1");
@@ -163,7 +170,10 @@ int update_teams() {
             continue;
         }
         if (team.expavg_time < update_time_cutoff) {
-            update_average(0, 0, CREDIT_HALF_LIFE, team.expavg_credit, team.expavg_time);
+            update_average(
+                now, 0, 0, CREDIT_HALF_LIFE, team.expavg_credit,
+                team.expavg_time
+            );
         }
         sprintf(
             buf, "expavg_credit=%f, expavg_time=%f, nusers=%d",

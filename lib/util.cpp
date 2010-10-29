@@ -234,6 +234,7 @@ int boinc_calling_thread_cpu_time(double &cpu_t) {
 // html/inc/credit.inc
 //
 void update_average(
+    double now,
     double work_start_time,       // when new work was started
                                     // (or zero if no new work)
     double work,                    // amount of new work
@@ -241,8 +242,6 @@ void update_average(
     double& avg,                    // average work per day (in and out)
     double& avg_time                // when average was last computed
 ) {
-    double now = dtime();
-
     if (avg_time) {
         // If an average R already exists, imagine that the new work was done
         // entirely between avg_time and now.
