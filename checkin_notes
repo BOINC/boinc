@@ -7679,7 +7679,7 @@ David  29 Oct 2010
         update_stats.cpp
 
 David  30 Oct 2010
-    - client: add --no_gpus cmdline option
+    - client: show --no_gpus option in --help
 
     client/
         sim.cpp

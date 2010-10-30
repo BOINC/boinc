@@ -189,8 +189,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             else master_fetch_retry_cap = atoi(argv[++i]);
         } else if (ARG(no_gpus)) {
             config.no_gpus = true;
-        } else if (ARG(no_gpus)) {
-            config.no_gpus = true;
         } else if (ARG(no_gui_rpc)) {
             no_gui_rpc = true;
         } else if (ARG(no_info_fetch)) {
