@@ -73,6 +73,7 @@ static void print_options(char* prog) {
         "    --master_fetch_interval N      limiting period of master retry\n"
         "    --master_fetch_period N        reload master URL after N RPC failures\n"
         "    --master_fetch_retry_cap N     exponential backoff limit\n"
+        "    --no_gpus                      don't check for GPUs\n"
         "    --no_gui_rpc                   don't allow GUI RPC, don't make socket\n"
         "    --no_info_fetch                don't fetch project list or client version info\n"
         "    --no_priority_change           run apps at same priority as client\n"
@@ -186,6 +187,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(master_fetch_retry_cap)) {
             if (i == argc-1) show_options = true;
             else master_fetch_retry_cap = atoi(argv[++i]);
+        } else if (ARG(no_gpus)) {
+            config.no_gpus = true;
         } else if (ARG(no_gpus)) {
             config.no_gpus = true;
         } else if (ARG(no_gui_rpc)) {

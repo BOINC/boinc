@@ -7677,3 +7677,10 @@ David  29 Oct 2010
     sched/
         credit.cpp
         update_stats.cpp
+
+David  30 Oct 2010
+    - client: add --no_gpus cmdline option
+
+    client/
+        sim.cpp
+        cs_cmdline.cpp
