@@ -184,6 +184,9 @@ struct RSC_WORK_FETCH {
         // instance count for jobs that miss deadline
     std::vector<RESULT*> pending;
     BUSY_TIME_ESTIMATOR busy_time_estimator;
+#ifdef SIM
+    double estimated_delay;
+#endif
 
     void init(int t, int n, double sp) {
         rsc_type = t;

@@ -568,13 +568,9 @@ static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
 }
 
 static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
-    if (bav.host_usage.ncudas) {
-        g_request->coprocs.cuda.estimated_delay += dt;
-    } else if (bav.host_usage.natis) {
-        g_request->coprocs.ati.estimated_delay += dt;
-    } else {
-        g_request->cpu_estimated_delay += dt;
-    }
+    g_request->coprocs.cuda.estimated_delay += dt*bav.host_usage.ncudas/g_request->coprocs.cuda.count;
+    g_request->coprocs.ati.estimated_delay += dt*bav.host_usage.natis/g_request->coprocs.ati.count;
+    g_request->cpu_estimated_delay += dt*bav.host_usage.avg_ncpus/g_request->host.p_ncpus;
 }
 
 // return the delay bound to use for this job/host.

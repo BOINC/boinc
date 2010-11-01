@@ -7692,3 +7692,18 @@ Rytis  01 Nov 2010
 
     html/ops/
         manage_apps.php
+
+David  01 Nov 2010
+    - client simulator: model the scheduler's deadline check mechanism
+    - scheduler: improve the deadline check mechanism slightly.
+        When updating "estimated delay" (a rough measure of how long
+        a resource is saturated with high-priority work)
+        take into account the # of instances used by the job,
+        and the # of total instances
+
+    client/
+        client_types.h
+        sim.cpp
+        work_fetch.h
+    sched/
+        sched_send.cpp

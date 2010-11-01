@@ -507,6 +507,9 @@ struct APP_VERSION {
         // max working set of tasks using this app version.
 
     int index;  // temp var for make_scheduler_request()
+#ifdef SIM
+    bool dont_use;
+#endif
 
     APP_VERSION(){}
     ~APP_VERSION(){}

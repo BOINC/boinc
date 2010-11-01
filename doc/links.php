@@ -172,7 +172,7 @@ echo "
 <ul>
 <li> <a href=http://www.crunching-family.at/download-center/>Crunching Family Skin Download</a>
 <li> <a href=http://www.czechnationalteam.cz/view.php?cisloclanku=2007040003>Czech National Team skin</a> (in Czech)
-<li> <a href=http://www.grid-france.fr/tutoriaux/comment-personnaliser-boinc-au-couleur-de-l-equipe-france/>Skin for Equipe France (WCG)</a>
+<li> <a href=http://www.grid-france.fr/tutos/boinc-personnaliser-aux-couleurs-equipe >Skin for Equipe France (WCG)</a>
 ";
 //<li> <a href=http://wcg.userfriendly.org/resources.jspx>Skin for team UserFriendly.org</a>
 echo "

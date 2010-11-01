@@ -124,6 +124,7 @@ APP* choose_app(vector<APP*>& apps) {
 }
 
 bool app_version_needs_work(APP_VERSION* avp) {
+    if (avp->dont_use) return false;
     if (avp->ncudas) {
         return (cuda_work_fetch.req_secs>0 || cuda_work_fetch.req_instances>0);
     }
@@ -255,6 +256,7 @@ void decrement_request_rsc(
 ) {
     rwf.req_secs -= est_runtime * ninstances;
     rwf.req_instances -= ninstances;
+    rwf.estimated_delay += est_runtime*(ninstances/rwf.ninstances);
 }
 
 void decrement_request(RESULT* rp) {
@@ -264,6 +266,16 @@ void decrement_request(RESULT* rp) {
     decrement_request_rsc(cpu_work_fetch, avp->avg_ncpus, est_runtime);
     decrement_request_rsc(cuda_work_fetch, avp->ncudas, est_runtime);
     decrement_request_rsc(ati_work_fetch, avp->natis, est_runtime);
+}
+
+double get_estimated_delay(RESULT* rp) {
+    if (rp->avp->ncudas) {
+        return cuda_work_fetch.estimated_delay;
+    } else if (rp->avp->natis) {
+        return ati_work_fetch.estimated_delay;
+    } else {
+        return cpu_work_fetch.estimated_delay;
+    }
 }
 
 // simulate trying to do an RPC;
@@ -287,10 +299,20 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     last_time = now;
 
     // save request params for WORK_FETCH::handle_reply
+    //
     double save_cpu_req_secs = cpu_work_fetch.req_secs;
     host_info.coprocs.cuda.req_secs = cuda_work_fetch.req_secs;
     host_info.coprocs.ati.req_secs = ati_work_fetch.req_secs;
 
+    if (!server_uses_workload) {
+        cpu_work_fetch.estimated_delay = cpu_work_fetch.busy_time_estimator.get_busy_time();
+        cuda_work_fetch.estimated_delay = cuda_work_fetch.busy_time_estimator.get_busy_time();
+        ati_work_fetch.estimated_delay = ati_work_fetch.busy_time_estimator.get_busy_time();
+    }
+
+    for (unsigned int i=0; i<app_versions.size(); i++) {
+        app_versions[i]->dont_use = false;
+    }
 
     work_fetch.request_string(buf2);
     sprintf(buf, "RPC to %s: %s<br>", p->project_name, buf2);
@@ -318,14 +340,21 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
             if (check_candidate(c, ncpus, ip_results)) {
                 ip_results.push_back(c);
             } else {
+                APP_VERSION* avp = rp->avp;
                 delete rp;
                 delete wup;
-                if (++infeasible_count > p->max_infeasible_count) {
-                    p->min_rpc_time = now + 1;
-                    break;
-                }
+                avp->dont_use = true;
+                continue;
             }
         } else {
+            double et = wup->rsc_fpops_est / rp->avp->flops;
+            if (get_estimated_delay(rp) + et > wup->app->latency_bound) {
+                APP_VERSION* avp = rp->avp;
+                delete rp;
+                delete wup;
+                avp->dont_use = true;
+                continue;
+            }
         }
 
         sent_something = true;
