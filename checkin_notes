@@ -7684,3 +7684,11 @@ David  30 Oct 2010
     client/
         sim.cpp
         cs_cmdline.cpp
+
+Rytis  01 Nov 2010
+    - ops: extend manage_apps to estimate feeder shmem work items for each
+        application. Useful for projects with multiple applications and limited
+        work supply.
+
+    html/ops/
+        manage_apps.php

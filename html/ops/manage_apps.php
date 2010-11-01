@@ -20,11 +20,11 @@
 
 /***********************************************************************\
  *  Display and Manage BOINC Application Versions
- * 
+ *
  * This page presents a form with information about application versions.
  * Some of the fields can be changed.   An appllication version can be deleted
- * by entering the word "DELETE" (all caps required) in the provided field.   
- * It is better to deprecate a version first than to delete it, but it is also 
+ * by entering the word "DELETE" (all caps required) in the provided field.
+ * It is better to deprecate a version first than to delete it, but it is also
  * good to remove old versions after they have been unused for a while,
  * lest you over-fill the feeder (which results in new versions not being
  * used by clients).
@@ -44,7 +44,7 @@ $Nplatform =  mysql_num_rows($result);
 for($i=0;$i<=$Nplatform;$i++){
     $item=mysql_fetch_object($result);
     $id=$item->id;
-    $plat_off[$id]=$item->deprecated; 
+    $plat_off[$id]=$item->deprecated;
     $platform[$id]=$item->user_friendly_name;
  }
 mysql_free_result($result);
@@ -66,7 +66,7 @@ if( !empty($_POST) ) {
         $id=$item->id;
 
         /* Delete this entry? */
-        $field="delete_".$id; 
+        $field="delete_".$id;
         if( $_POST[$field]=='DELETE' ) {
             $cmd =  "DELETE FROM app WHERE id=$id";
             $commands .= "<P><pre>$cmd</pre>\n";
@@ -160,11 +160,18 @@ echo "<TR><TH>ID #</TH>
       <TH>Creation<br>Time</TH>
       <TH>minimum<br>version</TH>
       <TH>weight</TH>
+      <TH>shmem work items</TH>
       <TH>homogeneous<br>redundancy<br>class (0=none)</TH>
       <TH>deprecated?</TH>
       <TH>DELETE?<sup>*</sup>
     </TH>
        </TR>\n";
+
+$total_weight = mysql_query('SELECT SUM(weight) AS total_weight FROM app WHERE deprecated=0');
+$total_weight = mysql_fetch_assoc($total_weight);
+$total_weight = $total_weight['total_weight'];
+$swi = parse_config(get_config(), "<shmem_work_items>");
+if (!$swi) { $swi = 100; }
 
 $q="SELECT * FROM app ORDER BY id";
 $result = mysql_query($q);
@@ -173,7 +180,7 @@ for($j=1;$j<=$Nrow;$j++){
     $item=mysql_fetch_object($result);
     $id=$item->id;
 
-    // grey-out deprecated versions 
+    // grey-out deprecated versions
     $f1=$f2='';
     if($item->deprecated==1) {
         $f1="<font color='GREY'>";
@@ -200,7 +207,11 @@ for($j=1;$j<=$Nrow;$j++){
     echo "  <TD align='center'>
     <input type='text' size='4' name='$field' value='$v'></TD>\n";
 
-
+    if ($item->deprecated) {
+        echo '<td></td>';
+    } else {
+        echo '<td align="right">'.round($item->weight/$total_weight*$swi).'</td>';
+    }
 
     $field="homogeneous_redundancy_".$id;
     $v = $item->homogeneous_redundancy;
@@ -214,10 +225,10 @@ for($j=1;$j<=$Nrow;$j++){
     echo "  <TD align='center'>
     <input name='$field' type='checkbox' $v></TD>\n";
 
-    $field="delete_app_".$id; 
+    $field="delete_app_".$id;
     echo "  <TD align='center'>
     <input type='text' size='6' name='$field' value=''></TD>\n";
-    echo "</tr> "; 
+    echo "</tr> ";
  }
 mysql_free_result($result);
 
@@ -237,8 +248,8 @@ end_table();
 
 echo"<P>
      <h2>Add an Application</h2>
-  To add an application to the project enter the short name and description 
-  ('user friendly name') below.  You can then control the version limits and 
+  To add an application to the project enter the short name and description
+  ('user friendly name') below.  You can then control the version limits and
   turn on homogeneous redundancy (if desired) when the application appears
   in the table above.
  </p>\n";
