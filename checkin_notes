@@ -7707,3 +7707,9 @@ David  01 Nov 2010
         work_fetch.h
     sched/
         sched_send.cpp
+
+David  01 Nov 2010
+    - client: don't preempt GPU jobs in middle of time slice
+
+    client/
+        cpu_sched.cpp
