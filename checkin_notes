@@ -7816,3 +7816,13 @@ David  03 Nov 2010
 
     sched/
         validator.cpp
+
+David  03 Nov 2010
+    - make_project, upgrade scripts:
+        create a symbolic link from html/user/user_profile to html/user_profile
+        (needed to make profiles work)
+
+    tools/
+        make_project
+    py/Boinc/
+        setup_project.py

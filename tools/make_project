@@ -281,7 +281,6 @@ t.disabled = 1
 
 project.config.write()
 
-
 svn_version_file = proot+'/local.revision'
 try:
     cmd = '/bin/sh -c \'/usr/bin/svnversion ' + options.srcdir + '\' > '+svn_version_file
