@@ -71,14 +71,14 @@ using std::list;
 //
 struct PROC_RESOURCES {
     int ncpus;
-    double ncpus_used;
-    double ram_left;
+    double ncpus_used_st;   // #CPUs of GPU or single-thread jobs
+    double ncpus_used_mt;   // #CPUs of multi-thread jobs
     COPROCS coprocs;
 
     // should we stop scanning jobs?
     //
     inline bool stop_scan_cpu() {
-        return ncpus_used >= ncpus;
+        return ncpus_used_st >= ncpus;
     }
 
     inline bool stop_scan_coproc(int rsc_type) {
@@ -94,9 +94,7 @@ struct PROC_RESOURCES {
         if (rp->schedule_backoff > gstate.now) return false;
         if (rp->uses_coprocs()) {
             if (gpu_suspend_reason) return false;
-            if (sufficient_coprocs(
-                *rp->avp, log_flags.cpu_sched_debug)
-            ) {
+            if (sufficient_coprocs(*rp->avp, log_flags.cpu_sched_debug)) {
                 return true;
             } else {
                 if (log_flags.cpu_sched_debug) {
@@ -106,10 +104,10 @@ struct PROC_RESOURCES {
                 }
                 return false;
             }
+        } else if (rp->avp->avg_ncpus > 1) {
+            return (ncpus_used_mt + rp->avp->avg_ncpus < ncpus);
         } else {
-            // otherwise, only if CPUs are available
-            //
-            return (ncpus_used < ncpus);
+            return (ncpus_used_st < ncpus);
         }
     }
 
@@ -119,7 +117,13 @@ struct PROC_RESOURCES {
         reserve_coprocs(
             *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug"
         );
-        ncpus_used += rp->avp->avg_ncpus;
+        if (rp->uses_coprocs()) {
+            ncpus_used_st += rp->avp->avg_ncpus;
+        } else if (rp->avp->avg_ncpus > 1) {
+            ncpus_used_mt += rp->avp->avg_ncpus;
+        } else {
+            ncpus_used_st += rp->avp->avg_ncpus;
+        }
     }
 
     bool sufficient_coprocs(APP_VERSION& av, bool log_flag) {
@@ -409,7 +413,9 @@ RESULT* first_coproc_result(int rsc_type) {
     return best;
 }
 
-// Return earliest-deadline result for given resource type.
+// Return earliest-deadline result for given resource type;
+// return only results projected to miss their deadline,
+// or from projects with extreme DCF
 //
 static RESULT* earliest_deadline_result(int rsc_type) {
     RESULT *best_result = NULL;
@@ -624,7 +630,6 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
 }
 
 // Check whether the job can be run:
-// - it will fit in RAM
 // - we have enough shared-mem segments (old Mac problem)
 // If so, update proc_rsc and anticipated debts, and return true
 //
@@ -633,20 +638,6 @@ static bool schedule_if_possible(
     const char* description
 ) {
     if (atp) {
-        // see if it fits in available RAM
-        //
-        if (atp->procinfo.working_set_size_smoothed > proc_rsc.ram_left) {
-            if (log_flags.cpu_sched_debug) {
-                msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched]  %s working set too large: %.2fMB",
-                    rp->name, atp->procinfo.working_set_size_smoothed/MEGA
-                );
-            }
-            atp->too_large = true;
-            return false;
-        }
-        atp->too_large = false;
-        
         if (gstate.retry_shmem_time > gstate.now) {
             if (atp->app_client_shm.shm == NULL) {
                 if (log_flags.cpu_sched_debug) {
@@ -659,17 +650,6 @@ static bool schedule_if_possible(
                 return false;
             }
             atp->needs_shmem = false;
-        }
-        proc_rsc.ram_left -= atp->procinfo.working_set_size_smoothed;
-    } else {
-        if (rp->avp->max_working_set_size > proc_rsc.ram_left) {
-            if (log_flags.cpu_sched_debug) {
-                msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched]  %s projected working set too large: %.2fMB",
-                    rp->name, rp->avp->max_working_set_size/MEGA
-                );
-            }
-            return false;
         }
     }
 
@@ -761,8 +741,8 @@ void CLIENT_STATE::schedule_cpus() {
     bool can_run;
 
     proc_rsc.ncpus = ncpus;
-    proc_rsc.ncpus_used = 0;
-    proc_rsc.ram_left = available_ram();
+    proc_rsc.ncpus_used_st = 0;
+    proc_rsc.ncpus_used_mt = 0;
     proc_rsc.coprocs.clone(host_info.coprocs, false);
 
     if (log_flags.cpu_sched_debug) {
@@ -819,8 +799,16 @@ void CLIENT_STATE::schedule_cpus() {
 
     ordered_scheduled_results.clear();
 
+    // first, add GPU jobs
+
     add_coproc_jobs(RSC_TYPE_CUDA, proc_rsc);
     add_coproc_jobs(RSC_TYPE_ATI, proc_rsc);
+
+    // then add CPU jobs.
+    // Note: the jobs that actually get run are not necessarily
+    // an initial segment of this list;
+    // e.g. a multithread job may not get run because it has
+    // a high-priority single-thread job ahead of it.
 
     // choose CPU jobs from projects with CPU deadline misses
     //
@@ -873,6 +861,9 @@ static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
 // scan the runnable list, keeping track of CPU usage X.
 // if find a MT job J, and X < ncpus, move J before all non-MT jobs
 // But don't promote a MT job ahead of a job in EDF
+//
+// This is needed because there may always be a 1-CPU jobs
+// in the middle of its time-slice, and MT jobs could starve.
 //
 static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
     double cpus_used = 0;

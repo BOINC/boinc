@@ -7713,3 +7713,52 @@ David  01 Nov 2010
 
     client/
         cpu_sched.cpp
+
+David  01 Nov 2010
+    - client: fix problems with job scheduling policy.
+        Old: job scheduling has 2 phases.
+            In the first phase (schedule_cpus()) we make a list of jobs,
+            with deadline-miss and high-STD jobs first.
+            Keep track of the RAM used,
+            and skip jobs that would exceed available RAM.
+            Stop scanning when the # of CPUs used by jobs in the list
+            exceeds the # of actual CPUs.
+
+            In the 2nd phase (enforce_schedule()), we add currently running jobs
+            (which may be in the middle of a time slice) to the list,
+            and reorder to give priority to such jobs,
+            and possibly also to multi-thread jobs.
+            We then run and/or preempt jobs, keeping track of RAM used.
+
+        Problems:
+            - suppose we add an EDF 1-CPU job to the list, then a MT job.
+                We'll stop at that point because #CPUs is exceeded.
+                But enforce_schedule() won't run the MT job,
+                and CPUs will be idle.
+            - Because the list may be reordered, skipping jobs based
+                on RAM is not correct, and may cause deadlines to be missed.
+
+        New:
+            - when making the job list, keep track of #CPUs used
+                by MT jobs and non-MT jobs separately.
+                Stop the scan only if the non-MT count exceeds #CPUs.
+                This ensures that we have enough jobs to use all the CPUs,
+                even if the MT jobs can't be run for whatever reason.
+            - don't skip jobs because of RAM usage
+            - skip MT jobs if the MT CPU count is at least #CPUs
+
+        Notes:
+            - ignoring RAM usage in phase 1 can cause idleness in some cases,
+                e.g. suppose there are 4 GB of RAM and the list has
+                jobs that use 3 GB, but there are also some jobs that use 1 GB.
+                I'm not sure how to fix this.
+            - Maybe the 2-phase approach is not a good idea.
+                We did it this way for efficiency,
+                so that we don't have to recompute the job list
+                each time a job checkpoints.
+                But this is probably not a concern,
+                and I like the idea of a simpler approach,
+                e.g. reducing the policy to a single comparison function.
+
+    client/
+        cpu_sched.cpp
