@@ -7714,7 +7714,7 @@ David  01 Nov 2010
     client/
         cpu_sched.cpp
 
-David  01 Nov 2010
+David  03 Nov 2010
     - client: fix problems with job scheduling policy.
         Old: job scheduling has 2 phases.
             In the first phase (schedule_cpus()) we make a list of jobs,
@@ -7762,3 +7762,17 @@ David  01 Nov 2010
 
     client/
         cpu_sched.cpp
+
+David  03 Nov 2010
+    - python DB layer: fields with values None or ''
+        where being omitted from query strings.
+        This is incorrect.
+        For example, suppose you have an app version with nonempty plan_class,
+        then you try to add a version with no plan class.
+        The query would omit the "and plan_class = ''"
+        so it would match the existing app version and not add a new version.
+        Reported by Rytis.
+        Hopefully this won't break anything.
+
+    py/Boinc/
+        db_base.py

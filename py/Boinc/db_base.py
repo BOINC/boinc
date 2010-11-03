@@ -127,13 +127,13 @@ def _select_object(table, searchdict, extra_args="", extra_params=[], select_wha
     if join:
         command += "," + join
     for (key,value) in searchdict.items():
-        # note: if value == 0, we want to look for it.
-        if value != None and value != '':
-            escaped_value = dbconnection.escape_string(str(value))
-            if key == 'text':
-                parameters.append("instr(%s,'%s')"%(key,escaped_value))
-            else:
-                parameters.append("%s='%s'"%(key,escaped_value))
+        if value == None:
+            value = ''
+        escaped_value = dbconnection.escape_string(str(value))
+        if key == 'text':
+            parameters.append("instr(%s,'%s')"%(key,escaped_value))
+        else:
+            parameters.append("%s='%s'"%(key,escaped_value))
     if parameters:
         command += ' WHERE ' + ' AND '.join(parameters)
     if extra_args:
