@@ -340,9 +340,7 @@ int handle_wu(
             );
 
             double dummy;
-            retval = check_set(
-                results, wu, canonicalid, dummy, retry
-            );
+            retval = check_set(results, wu, canonicalid, dummy, retry);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[WU#%d %s] check_set returned %d, exiting\n",
@@ -361,20 +359,20 @@ int handle_wu(
                     );
                     return retval;
                 }
-            }
-
-            if (canonicalid) {
-                retval = assign_credit_set(
-                    wu, results, app, app_versions, host_app_versions,
-                    max_granted_credit, credit
-                );
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d %s] assign_credit_set() returned %d\n",
-                        wu.id, wu.name, retval
+            } else {
+                if (canonicalid) {
+                    retval = assign_credit_set(
+                        wu, results, app, app_versions, host_app_versions,
+                        max_granted_credit, credit
                     );
-                    transition_time = DELAYED;
-                    goto leave;
+                    if (retval) {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[WU#%d %s] assign_credit_set() returned %d\n",
+                            wu.id, wu.name, retval
+                        );
+                        transition_time = DELAYED;
+                        goto leave;
+                    }
                 }
             }
 

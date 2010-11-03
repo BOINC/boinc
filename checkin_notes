@@ -7808,3 +7808,11 @@ David  03 Nov 2010
             team.php
             team_manage.php
             white.css
+
+David  03 Nov 2010
+    - validator: fix bug with --credit_from_wu
+        HOWEVER: use of this option is discouraged.
+        Use the default credit system.
+
+    sched/
+        validator.cpp
