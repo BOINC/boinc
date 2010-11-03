@@ -1,9 +1,13 @@
+# BOINC web translation
+# Copyright (C) 2008 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-06 20:19+0800\n"
+"POT-Creation-Date: 2010-10-06 13:10 PDT\n"
+"PO-Revision-Date: 2010-10-17 14:14+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -12,12 +16,13 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: Chinese\n"
+"X-Poedit-Bookmarks: -1,-1,-1,-1,232,-1,-1,-1,-1,-1\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: D:\\Work\\boinc_src\\boinc_trunk\\html\\user\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: CHINA\n"
-"X-Poedit-SearchPath-0: html\\user\n"
+"X-Poedit-Language: Chinese\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "简体中文"
@@ -42,12 +47,12 @@ msgstr "高级搜索"
 msgid "Private messages"
 msgstr "私人消息"
 
-#: ../inc/forum.inc:149 ../user/forum_forum.php:69 ../user/sample_index.php:71
+#: ../inc/forum.inc:149 ../user/forum_forum.php:69 ../user/sample_index.php:72
 msgid "Questions and Answers"
 msgstr "疑难解答"
 
 #: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:248
-#: ../inc/user.inc:370 ../user/forum_forum.php:72 ../user/sample_index.php:70
+#: ../inc/user.inc:370 ../user/forum_forum.php:72 ../user/sample_index.php:71
 #: ../project.sample/project.inc:49
 msgid "Message boards"
 msgstr "留言板"
@@ -118,6 +123,7 @@ msgid "Home"
 msgstr "家庭"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:620 ../inc/prefs.inc:1019
+#: ../user/server_status.php:296
 msgid "Work"
 msgstr "工作"
 
@@ -161,9 +167,9 @@ msgstr "当地标准时间"
 msgid "UTC %1 hours"
 msgstr "UTC 时间 %1 时"
 
-#: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:378
+#: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:379
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:202
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/account_finish.php:40 ../user/create_account_form.php:84
 #: ../user/team_admins.php:60 ../user/team_change_founder_form.php:75
 #: ../user/team_email_list.php:62 ../user/top_users.php:47
 #: ../user/user_search.php:102 ../user/user_search.php:158
@@ -178,7 +184,7 @@ msgstr "用户"
 msgid "Anonymous"
 msgstr "匿名"
 
-#: ../inc/host.inc:108 ../inc/result.inc:380
+#: ../inc/host.inc:108 ../inc/result.inc:381
 msgid "Created"
 msgstr "创建时间"
 
@@ -295,7 +301,7 @@ msgstr "%1 天"
 msgid "Application details"
 msgstr "计算程序"
 
-#: ../inc/host.inc:165
+#: ../inc/host.inc:165 ../inc/result.inc:420
 msgid "Show"
 msgstr "查看"
 
@@ -304,26 +310,25 @@ msgid "Tasks"
 msgstr "任务"
 
 #: ../inc/host.inc:179
-#, fuzzy
 msgid "Number of times BOINC has contacted server"
-msgstr "客户端连接服务端的次数"
+msgstr "BOINC 客户端连接服务端的次数"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
 msgstr "最近一次连接服务端的时间"
 
 #: ../inc/host.inc:181
-#, fuzzy, php-format
+#, php-format
 msgid "% of time BOINC is running"
 msgstr "BOINC 客户端运行的时间比例"
 
 #: ../inc/host.inc:183
-#, fuzzy, php-format
+#, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr "当 BOINC 在运行时，主机拥有互联网连接的时间比例"
 
 #: ../inc/host.inc:185
-#, fuzzy, php-format
+#, php-format
 msgid "While BOINC running, % of time work is allowed"
 msgstr "当 BOINC 在运行时，允许计算的时间比例"
 
@@ -449,7 +454,7 @@ msgstr "所有计算机"
 msgid "Only computers active in past 30 days"
 msgstr "仅显示最近 30 天内活跃的计算机"
 
-#: ../inc/host.inc:609 ../inc/result.inc:387
+#: ../inc/host.inc:609 ../inc/result.inc:388
 msgid "Computer ID"
 msgstr "计算机 ID"
 
@@ -519,6 +524,22 @@ msgstr "消息"
 msgid "Send message"
 msgstr "发送消息"
 
+#: ../inc/pm.inc:118
+msgid "- private message"
+msgstr "- 私人消息"
+
+#: ../inc/pm.inc:124
+msgid "sent you a private message; subject:"
+msgstr "给你发送了一条私人消息，标题是："
+
+#: ../inc/pm.inc:130
+msgid "Private message%1 from %2, subject:"
+msgstr "私人消息 %1 来自 %2，标题是："
+
+#: ../inc/pm.inc:139
+msgid "Couldn't create message"
+msgstr "无法创建消息"
+
 #: ../inc/pm.inc:170
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
@@ -532,6 +553,10 @@ msgstr "未读"
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
 msgstr "如需要电子邮件通知，请%1编辑社区参数设置%2。"
+
+#: ../inc/pm.inc:202
+msgid "Private message from"
+msgstr "私人消息，来自"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -599,7 +624,7 @@ msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr "在多处理器计算机上，最多使用%16.1 之后的版本实现了该设置%2"
 
 #: ../inc/prefs.inc:157
-#, fuzzy, php-format
+#, php-format
 msgid "% of the processors"
 msgstr "% 的处理器"
 
@@ -608,7 +633,7 @@ msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr "最多使用%1可用于减少 CPU  的发热量%2"
 
 #: ../inc/prefs.inc:166
-#, fuzzy, php-format
+#, php-format
 msgid "% of CPU time"
 msgstr "% 的处理器时间"
 
@@ -626,7 +651,7 @@ msgstr "磁盘：至少保留%1小于 %2 的设定值将被忽略%3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
-#, fuzzy, php-format
+#, php-format
 msgid "% of total"
 msgstr "%"
 
@@ -659,6 +684,7 @@ msgstr ""
 "决定在本地缓存多少计算任务。%3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
+#: ../inc/util.inc:206
 msgid "days"
 msgstr "天"
 
@@ -860,8 +886,8 @@ msgstr "编辑 %1 的参数设置"
 #: ../inc/prefs.inc:860
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
-"             On computers attached to multiple projects, the most recently "
-"modified preferences will be used."
+"             On computers participating in multiple projects, the most "
+"recently modified preferences will be used."
 msgstr ""
 "此处的参数设置对你参加的所有 BOINC 项目均有效。<br>\n"
 "             如果一台计算机参加了多个项目，以最近修改过的参数设置为准。"
@@ -923,7 +949,7 @@ msgstr "用户已被禁言"
 msgid "No profile exists for that user ID."
 msgstr "没有和该用户 ID 对应的用户档案信息。"
 
-#: ../inc/profile.inc:213 ../user/create_profile.php:306
+#: ../inc/profile.inc:213 ../user/create_profile.php:309
 msgid "Edit your profile"
 msgstr "编辑您的用户档案"
 
@@ -1065,7 +1091,7 @@ msgstr "验证错误"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "已丢弃"
 
 #: ../inc/result.inc:160
 msgid "Over"
@@ -1076,7 +1102,6 @@ msgid "Success"
 msgstr "成功"
 
 #: ../inc/result.inc:172
-#, fuzzy
 msgid "Computation error"
 msgstr "计算错误"
 
@@ -1156,116 +1181,120 @@ msgstr "WU 已被取消"
 msgid "Unrecognized Error: %1"
 msgstr "无法识别的错误：%1"
 
-#: ../inc/result.inc:264
+#: ../inc/result.inc:265
 msgid "Task name"
 msgstr "任务名称"
 
-#: ../inc/result.inc:264 ../inc/result.inc:269 ../inc/result.inc:272
-#: ../inc/result.inc:275
+#: ../inc/result.inc:265 ../inc/result.inc:270 ../inc/result.inc:273
+#: ../inc/result.inc:276
 msgid "click for details"
 msgstr "点击查看详细"
 
-#: ../inc/result.inc:264
+#: ../inc/result.inc:265
 msgid "Show IDs"
 msgstr "显示 ID"
 
-#: ../inc/result.inc:269
+#: ../inc/result.inc:270
 msgid "Show names"
 msgstr "显示名称"
 
-#: ../inc/result.inc:272
+#: ../inc/result.inc:273
 msgid "Task"
 msgstr "任务"
 
-#: ../inc/result.inc:275
+#: ../inc/result.inc:276
 msgid "Work unit"
 msgstr "任务单元"
 
-#: ../inc/result.inc:278
+#: ../inc/result.inc:279
 msgid "Computer"
 msgstr "计算机"
 
-#: ../inc/result.inc:281 ../inc/result.inc:381
+#: ../inc/result.inc:282 ../inc/result.inc:382
 msgid "Sent"
 msgstr "发送时间"
 
-#: ../inc/result.inc:282
+#: ../inc/result.inc:283
 msgid "Time reported<br />or deadline"
 msgstr "结果上报时间<br />或者上报期限"
 
-#: ../inc/result.inc:283
+#: ../inc/result.inc:284
 msgid "explain"
 msgstr "解释"
 
-#: ../inc/result.inc:285
+#: ../inc/result.inc:286 ../user/server_status.php:226
 msgid "Status"
 msgstr "状态"
 
-#: ../inc/result.inc:286
+#: ../inc/result.inc:287
 msgid "Run time<br />(sec)"
 msgstr "运行时间<br />（秒）"
 
-#: ../inc/result.inc:287
+#: ../inc/result.inc:288
 msgid "CPU time<br />(sec)"
 msgstr "CPU 时间<br />（秒）"
 
-#: ../inc/result.inc:288 ../inc/result.inc:392
+#: ../inc/result.inc:289 ../inc/result.inc:393
 msgid "Credit"
 msgstr "积分"
 
-#: ../inc/result.inc:289
+#: ../inc/result.inc:290
 msgid "Application"
 msgstr "计算程序"
 
-#: ../inc/result.inc:379
+#: ../inc/result.inc:380
 msgid "Workunit"
 msgstr "任务单元"
 
-#: ../inc/result.inc:382
+#: ../inc/result.inc:383
 msgid "Received"
 msgstr "接收时间"
 
-#: ../inc/result.inc:383
+#: ../inc/result.inc:384
 msgid "Server state"
 msgstr "服务端状态"
 
-#: ../inc/result.inc:384
+#: ../inc/result.inc:385
 msgid "Outcome"
 msgstr "结果"
 
-#: ../inc/result.inc:385
+#: ../inc/result.inc:386
 msgid "Client state"
 msgstr "客户端状态"
 
-#: ../inc/result.inc:386
+#: ../inc/result.inc:387
 msgid "Exit status"
 msgstr "退出状态"
 
-#: ../inc/result.inc:388
+#: ../inc/result.inc:389
 msgid "Report deadline"
 msgstr "上报期限"
 
-#: ../inc/result.inc:389
+#: ../inc/result.inc:390
 msgid "Run time"
 msgstr "运行时间"
 
-#: ../inc/result.inc:390
+#: ../inc/result.inc:391
 msgid "CPU time"
 msgstr "CPU 时间"
 
-#: ../inc/result.inc:391
+#: ../inc/result.inc:392
 msgid "Validate state"
 msgstr "验证状态"
 
-#: ../inc/result.inc:393
+#: ../inc/result.inc:394
 msgid "Application version"
 msgstr "计算程序版本"
 
-#: ../inc/result.inc:408
+#: ../inc/result.inc:396
+msgid "Stderr output"
+msgstr "标准错误输出"
+
+#: ../inc/result.inc:409
 msgid "Previous"
 msgstr "前"
 
-#: ../inc/result.inc:417
+#: ../inc/result.inc:418
 msgid "Next"
 msgstr "后"
 
@@ -1284,7 +1313,7 @@ msgstr "寻找名称或描述中包含这些关键字的团队"
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:360 ../inc/team.inc:444 ../inc/user.inc:208
 #: ../inc/user.inc:314 ../user/account_finish.php:44
-#: ../user/create_account_form.php:94 ../user/edit_user_info_form.php:38
+#: ../user/create_account_form.php:103 ../user/edit_user_info_form.php:38
 #: ../user/team_email_list.php:62 ../user/team_search.php:69
 #: ../user/top_users.php:61 ../user/user_search.php:102
 #: ../user/user_search.php:119 ../user/user_search.php:158
@@ -1319,7 +1348,8 @@ msgstr "请求已由您发起过"
 msgid "founder response deadline is %1"
 msgstr "原创建人的回复期限是 %1"
 
-#: ../inc/team.inc:65 ../inc/user.inc:279 ../inc/user.inc:366
+#: ../inc/team.inc:65 ../inc/team.inc:544 ../inc/user.inc:279
+#: ../inc/user.inc:366
 msgid "None"
 msgstr "未加入团队"
 
@@ -1572,6 +1602,14 @@ msgstr "计算证书"
 msgid "Stats on your cell phone"
 msgstr "用手机查看您的统计信息"
 
+#: ../inc/user.inc:184
+msgid "Unknown notification type: %1"
+msgstr "未知的通知类型：%1"
+
+#: ../inc/user.inc:198
+msgid "Email address verification pending"
+msgstr "电子邮件地址验证中"
+
 #: ../inc/user.inc:201
 msgid "Account information"
 msgstr "帐户信息"
@@ -1665,7 +1703,7 @@ msgstr "本项目的参数设置"
 msgid "%1 preferences"
 msgstr "%1参数设置"
 
-#: ../inc/user.inc:238 ../user/sample_index.php:66
+#: ../inc/user.inc:238 ../user/sample_index.php:67
 msgid "Community"
 msgstr "社区"
 
@@ -1677,7 +1715,7 @@ msgstr "删除"
 msgid "Create"
 msgstr "创建"
 
-#: ../inc/user.inc:245 ../inc/user.inc:397
+#: ../inc/user.inc:245 ../inc/user.inc:397 ../inc/util.inc:441
 msgid "Profile"
 msgstr "用户档案"
 
@@ -1722,7 +1760,7 @@ msgstr "寻找好友"
 msgid "Friends"
 msgstr "好友"
 
-#: ../inc/user.inc:322 ../inc/user.inc:324
+#: ../inc/user.inc:322 ../inc/user.inc:324 ../user/server_status.php:369
 msgid "Computers"
 msgstr "计算机"
 
@@ -1754,59 +1792,89 @@ msgstr "请求待处理"
 msgid "Add as friend"
 msgstr "添加为好友"
 
-#: ../inc/util.inc:191
+#: ../inc/util.inc:96
+msgid "Logged in as %1."
+msgstr "已登录为 %1。"
+
+#: ../inc/util.inc:97
+msgid "Log in as someone else."
+msgstr "用其他用户来登录。"
+
+#: ../inc/util.inc:99
+msgid "Not logged in."
+msgstr "未登录。"
+
+#: ../inc/util.inc:180
+msgid ""
+"A database error occurred while handling your request; please try again "
+"later."
+msgstr "服务器在处理你的请求过程中发生了一次数据库错误，请稍后重试。"
+
+#: ../inc/util.inc:189
 msgid "Unable to handle request"
 msgstr "无法处理请求"
 
-#: ../inc/util.inc:385
-msgid "Email address:"
-msgstr "电子邮件地址："
+#: ../inc/util.inc:209
+msgid "hours"
+msgstr "时"
 
-#: ../inc/util.inc:385
-msgid "forgot email address?"
-msgstr "忘记了电子邮箱地址？"
+#: ../inc/util.inc:212
+msgid "min"
+msgstr "分"
 
-#: ../inc/util.inc:387
-msgid "Password:"
-msgstr "用户口令："
+#: ../inc/util.inc:215
+msgid "sec"
+msgstr "秒"
 
-#: ../inc/util.inc:387
-msgid "forgot password?"
-msgstr "忘记了口令？"
+#: ../inc/util.inc:371
+msgid "Link has timed out. Please click Back, refresh the page, and try again."
+msgstr "链接已经超时，请点击返回并刷新页面后再重试。"
 
-#: ../inc/util.inc:390
-msgid "Stay logged in on this computer"
-msgstr "保持这台计算机上的登录状态"
+#: ../inc/util.inc:440
+msgid "View the profile of %1"
+msgstr "查看 %1 的用户档案"
 
-#: ../inc/util.inc:395
-msgid "Log in"
-msgstr "登录"
-
-#: ../inc/util.inc:396
-msgid "or %1create an account%2."
-msgstr "或者%1创建一个新帐户%2。"
-
-#: ../inc/util.inc:416
-msgid "Please log in"
-msgstr "请先登录"
-
-#: ../inc/util.inc:542
+#: ../inc/util.inc:496
 msgid "Use BBCode tags to format your text"
 msgstr "使用 BBCode 标记来格式化您的正文"
 
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../inc/util.inc:691
+msgid "Project down for maintenance"
+msgstr "项目已停止进行维护"
+
+#: ../inc/util.inc:692
+msgid ""
+"This page requires database access.  Our database server is temporarily shut "
+"down for maintenance.  Please try again later."
+msgstr ""
+"该项目需要访问数据库，而我们的数据库服务器已经临时关闭并进行维护工作，请稍后"
+"重试。"
+
+#: ../inc/util.inc:708
+msgid "Unable to connect to database - please try again later"
+msgstr "无法连接数据库 - 请稍后重试"
+
+#: ../inc/util.inc:709
+msgid "Error:"
+msgstr "错误："
+
+#: ../inc/util.inc:713
+msgid "Unable to select database - please try again later"
+msgstr "无法选择数据库 - 请稍后重试"
+
+#: ../user/account_finish.php:40 ../user/create_account_form.php:84
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "您在我们网站上的标识，可以使用您的真实姓名或是昵称。"
 
-#: ../user/account_finish.php:44 ../user/create_account_form.php:94
+#: ../user/account_finish.php:44 ../user/create_account_form.php:103
 msgid "Select the country you want to represent, if any."
 msgstr "选择您所希望代表的国家或地区。"
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:100
+#: ../user/account_finish.php:50 ../user/create_account_form.php:109
 msgid "Postal or ZIP Code"
 msgstr "邮编"
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:100
+#: ../user/account_finish.php:50 ../user/create_account_form.php:109
 msgid "Optional"
 msgstr "可选的"
 
@@ -1814,7 +1882,7 @@ msgstr "可选的"
 msgid "Add %1 preferences for %2"
 msgstr "增加 %1 参数设置（用于 %2）"
 
-#: ../user/apps.php:31 ../user/sample_index.php:63
+#: ../user/apps.php:31 ../user/sample_index.php:64
 msgid "Applications"
 msgstr "计算程序"
 
@@ -1849,89 +1917,84 @@ msgstr "您必须提供一个邀请码才能创建帐户。"
 msgid "The invitation code you gave is not valid."
 msgstr "您提供的邀请码是错误的。"
 
-#: ../user/create_account_form.php:24
+#: ../user/create_account_form.php:35
 msgid "Create an account"
 msgstr "创建帐户"
 
-#: ../user/create_account_form.php:29
+#: ../user/create_account_form.php:40
 msgid "Account creation is disabled"
 msgstr "账号创建功能已被禁用"
 
-#: ../user/create_account_form.php:30
+#: ../user/create_account_form.php:41
 msgid "Account creation is currently disabled. Please try again later."
 msgstr "新帐户创建功能当前已暂停，请以后再试。"
 
-#: ../user/create_account_form.php:41
+#: ../user/create_account_form.php:50
 msgid ""
-"NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
-"form. Just run BOINC, select Attach Project, and enter an email address and "
-"password."
+"NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
+"select Add Project, and enter an email address and password."
 msgstr ""
-"注意：如果您正在使用5.2版本之后的客户端，请不要使用这个表单。运行 BOINC，运行"
-"菜单中的“加入项目”，然后输入电子邮件地址并设置一个用户口令。"
+"注意：如果您正在使用 BOINC Manager，请不要使用这个表单。在 BOINC Manager 内选"
+"择“加入项目”，然后输入电子邮件地址并设置一个用户口令就可以了。"
 
-#: ../user/create_account_form.php:57
+#: ../user/create_account_form.php:66
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
 msgstr "此帐户将属于 %1 团队并且其项目参数的默认值和团队创建人的项目参数相同。"
 
-#: ../user/create_account_form.php:69
+#: ../user/create_account_form.php:78
 msgid "Invitation Code"
 msgstr "邀请码"
 
-#: ../user/create_account_form.php:69
+#: ../user/create_account_form.php:78
 msgid "A valid invitation code is required to create an account."
 msgstr "创建帐户时需要一个正确的邀请码。"
 
-#: ../user/create_account_form.php:79
+#: ../user/create_account_form.php:88
 msgid "Email Address"
 msgstr "电子邮件地址"
 
-#: ../user/create_account_form.php:79
+#: ../user/create_account_form.php:88
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "必须是有效的电子邮件地址，形式如 '用户名@域名'。"
 
-#: ../user/create_account_form.php:88 ../user/edit_email_form.php:46
+#: ../user/create_account_form.php:97 ../user/edit_email_form.php:46
 msgid "Password"
 msgstr "用户口令"
 
-#: ../user/create_account_form.php:89
+#: ../user/create_account_form.php:98
 msgid "Must be at least %1 characters"
 msgstr "必须至少包含 %1 个字符"
 
-#: ../user/create_account_form.php:92
+#: ../user/create_account_form.php:101
 msgid "Confirm password"
 msgstr "确认用户口令"
 
-#: ../user/create_account_form.php:104
+#: ../user/create_account_form.php:113
 msgid "Create account"
 msgstr "创建帐户"
 
-#: ../user/create_profile.php:31
-msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr "错误：%1不存在！不能创建组合框。<br>"
-
-#: ../user/create_profile.php:51
+#: ../user/create_profile.php:48
 msgid "Picture"
 msgstr "照片"
 
-#: ../user/create_profile.php:65
+#: ../user/create_profile.php:62
 msgid "%1 Your profile picture is shown to the left."
 msgstr "%1您的用户档案图片将显示在左边"
 
-#: ../user/create_profile.php:67
+#: ../user/create_profile.php:64
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
 "要替换的话，点击“浏览”按钮并选择一个 JPEG 或 PNG 文件（大小不超过 %1）。"
 
-#: ../user/create_profile.php:70
+#: ../user/create_profile.php:67
 msgid "To remove it from your profile, check this box:"
 msgstr "如果想从用户档案中删除它，请选择："
 
-#: ../user/create_profile.php:78
+#: ../user/create_profile.php:75
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
@@ -1951,32 +2014,29 @@ msgstr "请选择你写用户档案所用的语言："
 msgid "Submit profile"
 msgstr "提交用户档案"
 
-#: ../user/create_profile.php:107
-msgid ""
-"To protect the project's webpages from spam, we kindly ask you to type in "
-"the two words shown in the image:<br>\n"
-msgstr ""
-"为保护我们网站不被垃圾信息破坏，我们请求您输入下面图片中的两个单词：<br>\n"
+#: ../user/create_profile.php:108
+msgid "Please enter the words shown in the image."
+msgstr "请输入图片中显示的单词。"
 
-#: ../user/create_profile.php:110
+#: ../user/create_profile.php:113
 msgid "Create/edit profile"
 msgstr "创建/编辑用户档案"
 
-#: ../user/create_profile.php:132
+#: ../user/create_profile.php:135
 msgid "The format of your uploaded image is not supported."
 msgstr "您上传的图片格式不支持。"
 
-#: ../user/create_profile.php:161
+#: ../user/create_profile.php:164
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr "通过 %1用户档案%2，您可以和 %3 社区分享您的观点和背景。"
 
-#: ../user/create_profile.php:208
+#: ../user/create_profile.php:211
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr "您的验证字符回复不正确，请重试。"
 
-#: ../user/create_profile.php:217
+#: ../user/create_profile.php:220
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
@@ -1984,7 +2044,7 @@ msgstr ""
 "您第一次输入的验证字符被 Akismet 防垃圾信息系统标记为垃圾信息，请修改您的输入"
 "并重试。"
 
-#: ../user/create_profile.php:225
+#: ../user/create_profile.php:228
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
@@ -1992,36 +2052,36 @@ msgstr ""
 "您第二次输入的验证字符被 Akismet 防垃圾信息系统标记为垃圾信息，请修改您的输入"
 "并重试。"
 
-#: ../user/create_profile.php:241
+#: ../user/create_profile.php:244
 msgid "Your profile submission was empty."
 msgstr "你提交的用户档案内容为空。"
 
-#: ../user/create_profile.php:280
+#: ../user/create_profile.php:283
 msgid "Could not update the profile: database error"
 msgstr "无法更新该用户档案：数据库错误"
 
-#: ../user/create_profile.php:292
+#: ../user/create_profile.php:295
 msgid "Could not create the profile: database error"
 msgstr "无法创建该用户档案：数据库错误"
 
-#: ../user/create_profile.php:297
+#: ../user/create_profile.php:300
 msgid "Profile saved"
 msgstr "用户档案内容已保存"
 
-#: ../user/create_profile.php:299
+#: ../user/create_profile.php:302
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
 msgstr "恭喜！您的用户档案已经成功进入了我们的数据库。"
 
-#: ../user/create_profile.php:300
+#: ../user/create_profile.php:303
 msgid "%1View your profile%2"
 msgstr "%1查看您的用户档案%2"
 
-#: ../user/create_profile.php:308
+#: ../user/create_profile.php:311
 msgid "Create a profile"
 msgstr "创建一个用户档案"
 
-#: ../user/create_profile.php:336
+#: ../user/create_profile.php:339
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
@@ -2465,10 +2525,9 @@ msgstr "使用下面的链接查看及编辑您的帐户参数"
 msgid "Your account"
 msgstr "您的帐户"
 
-#: ../user/host_app_versions.php:52
-#, fuzzy
+#: ../user/host_app_versions.php:54
 msgid "Application details for host %1"
-msgstr "计算程序"
+msgstr "主机 %1 的计算程序情况"
 
 #: ../user/hosts_user.php:51
 msgid "Computers belonging to %1"
@@ -2642,17 +2701,17 @@ msgstr ""
 "其它项目同 %1 没有关系，所以我们也无法保证这些项目的安全性以及确切的研究内"
 "容，请您自行决定是否参加其他项目。"
 
-#: ../user/language_select.php:41
+#: ../user/language_select.php:42
 msgid "Language selection"
 msgstr "语言选择"
 
-#: ../user/language_select.php:68
+#: ../user/language_select.php:69
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr "本网站提供了多种语言界面，当前选择的语言是 %1。"
 
-#: ../user/language_select.php:73
+#: ../user/language_select.php:74
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
@@ -2660,15 +2719,15 @@ msgstr ""
 "通常语言的选择是通过你浏览器的语言设置来自动完成的，当前选择为：%1。你可以通"
 "过下面的操作来改变这个设置："
 
-#: ../user/language_select.php:78
+#: ../user/language_select.php:79
 msgid "Firefox: Tools/Options/General"
 msgstr "Firefox（火狐）：工具/选项/内容"
 
-#: ../user/language_select.php:80
+#: ../user/language_select.php:81
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr "微软 IE：工具/Internet 选项/语言"
 
-#: ../user/language_select.php:84
+#: ../user/language_select.php:85
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
@@ -2677,20 +2736,48 @@ msgstr ""
 "或者你也可以点击下面的链接来选择一种语言。该操作将给你的浏览器发送一个 "
 "Cookie，请确保你的浏览器能从我们的域名接收 Cookie。"
 
-#: ../user/language_select.php:90
+#: ../user/language_select.php:91
 msgid "Language name (click to select)"
 msgstr "语言名称（直接点击进行设置）"
 
-#: ../user/language_select.php:92
+#: ../user/language_select.php:93
 msgid "Use browser language setting"
 msgstr "使用浏览器的语言设置"
 
-#: ../user/language_select.php:108
+#: ../user/language_select.php:109
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
 "翻译工作都是由志愿者完成的，如果这里没有你的母语，%1你可以自己进行翻译%2。"
+
+#: ../user/login_form.php:42
+msgid "Email address:"
+msgstr "电子邮件地址："
+
+#: ../user/login_form.php:42
+msgid "forgot email address?"
+msgstr "忘记了电子邮箱地址？"
+
+#: ../user/login_form.php:44
+msgid "Password:"
+msgstr "用户口令："
+
+#: ../user/login_form.php:44
+msgid "forgot password?"
+msgstr "忘记了口令？"
+
+#: ../user/login_form.php:47
+msgid "Stay logged in on this computer"
+msgstr "保持这台计算机上的登录状态"
+
+#: ../user/login_form.php:52
+msgid "Log in"
+msgstr "登录"
+
+#: ../user/login_form.php:53
+msgid "or %1create an account%2."
+msgstr "或者%1创建一个新帐户%2。"
 
 #: ../user/pm.php:68
 msgid "Your message has been sent."
@@ -2781,13 +2868,12 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr "要解除阻止，请访问 %1留言板的参数设置%2"
 
 #: ../user/prefs.php:36
-#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
-"你的参数设置已经更新，其中客户端相关的参数设置\n"
+"你的参数设置已经更新\n"
 "\t      将在你的计算机与%1进行通讯的时候生效\n"
 "\t      或者你也可以直接执行 BOINC 客户端里的%2更新%3命令。"
 
@@ -2815,7 +2901,7 @@ msgstr "移除参数设置"
 msgid "Cancel"
 msgstr "取消"
 
-#: ../user/profile_menu.php:33 ../user/sample_index.php:68
+#: ../user/profile_menu.php:33 ../user/sample_index.php:69
 msgid "Profiles"
 msgstr "用户档案"
 
@@ -2913,25 +2999,173 @@ msgstr "任务 %1"
 msgid "This feature is turned off temporarily"
 msgstr "该特性已临时被关闭"
 
-#: ../user/results.php:46
+#: ../user/results.php:47
 msgid "No computer with ID %1 found"
 msgstr "找不到 ID 为 %1 的计算机"
 
-#: ../user/results.php:53
+#: ../user/results.php:54
 msgid "No access"
 msgstr "无法访问"
 
-#: ../user/results.php:59
+#: ../user/results.php:60
 msgid "Missing user ID or host ID"
 msgstr "用户 ID 或 主机 ID 丢失"
 
-#: ../user/results.php:87
+#: ../user/results.php:92
 msgid "No tasks to display"
 msgstr "没有任务可以显示"
 
-#: ../user/sample_index.php:130
+#: ../user/sample_index.php:131
 msgid "User of the day"
 msgstr "今日用户"
+
+#: ../user/server_status.php:94
+msgid "Running"
+msgstr "运行中"
+
+#: ../user/server_status.php:97
+msgid "Not Running"
+msgstr "未运行"
+
+#: ../user/server_status.php:100
+msgid "Disabled"
+msgstr "已禁用"
+
+#: ../user/server_status.php:216
+msgid "Project status"
+msgstr "项目状态"
+
+#: ../user/server_status.php:218
+msgid "Server software version: %1"
+msgstr "服务端软件版本：%1"
+
+#: ../user/server_status.php:224
+msgid "Server status"
+msgstr "服务器状态"
+
+#: ../user/server_status.php:226
+msgid "Program"
+msgstr "程序"
+
+#: ../user/server_status.php:226
+msgid "Host"
+msgstr "主机"
+
+#: ../user/server_status.php:237
+msgid "data-driven web pages"
+msgstr "数据驱动的网页"
+
+#: ../user/server_status.php:243
+msgid "upload/download server"
+msgstr "上传/下载服务器"
+
+#: ../user/server_status.php:246
+msgid "scheduler"
+msgstr "调度程序"
+
+#: ../user/server_status.php:276
+msgid "Running:"
+msgstr "运行中："
+
+#: ../user/server_status.php:277
+msgid "Program is operating normally"
+msgstr "程序当前运行正常"
+
+#: ../user/server_status.php:278
+msgid "Not Running:"
+msgstr "未运行："
+
+#: ../user/server_status.php:279
+msgid "Program failed or the project is down"
+msgstr "程序出错或者项目已停机"
+
+#: ../user/server_status.php:280
+msgid "Disabled:"
+msgstr "已禁用："
+
+#: ../user/server_status.php:281
+msgid "Program is disabled"
+msgstr "程序已禁用"
+
+#: ../user/server_status.php:285
+msgid "Computing status"
+msgstr "计算状态"
+
+#: ../user/server_status.php:291
+msgid "The database server is not accessible"
+msgstr "数据库服务器当前无法访问"
+
+#: ../user/server_status.php:308
+msgid "Tasks ready to send"
+msgstr "准备分发的任务"
+
+#: ../user/server_status.php:313 ../user/workunit.php:52
+msgid "Tasks in progress"
+msgstr "任务处理中"
+
+#: ../user/server_status.php:318
+msgid "Workunits waiting for validation"
+msgstr "等待验证的任务"
+
+#: ../user/server_status.php:323
+msgid "Workunits waiting for assimilation"
+msgstr "等待回收的任务"
+
+#: ../user/server_status.php:328
+msgid "Workunits waiting for file deletion"
+msgstr "等待删除的任务"
+
+#: ../user/server_status.php:333
+msgid "Tasks waiting for file deletion"
+msgstr "等待删除的任务"
+
+#: ../user/server_status.php:346
+msgid "Transitioner backlog (hours)"
+msgstr "服务端事务积压（小时）"
+
+#: ../user/server_status.php:353
+msgid "Users"
+msgstr "用户"
+
+#: ../user/server_status.php:355 ../user/server_status.php:371
+msgid "with recent credit"
+msgstr "近期得到过积分的"
+
+#: ../user/server_status.php:360 ../user/server_status.php:376
+msgid "with credit"
+msgstr "得到过积分的"
+
+#: ../user/server_status.php:365 ../user/server_status.php:381
+msgid "registered in past 24 hours"
+msgstr "过去 24 小时内注册的"
+
+#: ../user/server_status.php:388
+msgid "current GigaFLOPs"
+msgstr "当前处理能力（GFLOPs）"
+
+#: ../user/server_status.php:397
+msgid "Tasks by application"
+msgstr "按计算程序分类的任务"
+
+#: ../user/server_status.php:398 ../user/workunit.php:38
+msgid "application"
+msgstr "计算程序"
+
+#: ../user/server_status.php:398
+msgid "unsent"
+msgstr "未发送的"
+
+#: ../user/server_status.php:398
+msgid "in progress"
+msgstr "计算中"
+
+#: ../user/server_status.php:398
+msgid "avg runtime of last 100 results in h (min-max)"
+msgstr "最近 100 个计算结果的平均处理时间（单位：小时）"
+
+#: ../user/server_status.php:398
+msgid "users in last 24h"
+msgstr "最近 24 小时的用户"
 
 #: ../user/show_user.php:88
 msgid "Account data for %1"
@@ -3971,11 +4205,11 @@ msgstr "帐户数据"
 
 #: ../user/weak_auth.php:47
 msgid ""
-"Your 'weak account key' lets you attach computers to your account on this "
-"project, without giving the ability to log in to your account or to change "
-"it in any way."
+"Your 'weak account key' lets you link a computer to your account without "
+"giving it the ability to log in to your account or to change it in any way."
 msgstr ""
-"'弱帐户密钥'仅用于在客户端加入项目，而不能用来登录您在项目网站上的帐户。"
+"'弱帐户密钥'仅用于在客户端加入项目，而不能用来登录并修改你在项目网站上的帐"
+"户。"
 
 #: ../user/weak_auth.php:48
 msgid ""
@@ -4021,10 +4255,6 @@ msgstr "任务单元 %1"
 msgid "name"
 msgstr "名称"
 
-#: ../user/workunit.php:38
-msgid "application"
-msgstr "计算程序"
-
 #: ../user/workunit.php:39
 msgid "created"
 msgstr "创建时间"
@@ -4036,10 +4266,6 @@ msgstr "规范结果"
 #: ../user/workunit.php:44
 msgid "granted credit"
 msgstr "授予积分"
-
-#: ../user/workunit.php:52
-msgid "Tasks in progress"
-msgstr "任务处理中"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
@@ -4127,6 +4353,18 @@ msgstr "如果选中的计算程序暂时没有计算任务，是否从其它计
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"
 msgstr "（所有计算程序）"
+
+#~ msgid "Please log in"
+#~ msgstr "请先登录"
+
+#~ msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
+#~ msgstr "错误：%1不存在！不能创建组合框。<br>"
+
+#~ msgid ""
+#~ "To protect the project's webpages from spam, we kindly ask you to type in "
+#~ "the two words shown in the image:<br>\n"
+#~ msgstr ""
+#~ "为保护我们网站不被垃圾信息破坏，我们请求您输入下面图片中的两个单词：<br>\n"
 
 #~ msgid "BOINC client version"
 #~ msgstr "BOINC 客户端版本"

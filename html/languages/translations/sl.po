@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2010-08-10 12:43 PDT\n"
+"POT-Creation-Date: 2010-10-06 13:10 PDT\n"
 "PO-Revision-Date: 2010-08-12 14:56-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3);\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -42,12 +42,12 @@ msgstr "Napredno iskanje"
 msgid "Private messages"
 msgstr "Zasebna sporočila"
 
-#: ../inc/forum.inc:149 ../user/forum_forum.php:69 ../user/sample_index.php:71
+#: ../inc/forum.inc:149 ../user/forum_forum.php:69 ../user/sample_index.php:72
 msgid "Questions and Answers"
 msgstr "Vprašanja in odgovori"
 
 #: ../inc/forum.inc:149 ../inc/forum.inc:182 ../inc/user.inc:248
-#: ../inc/user.inc:370 ../user/forum_forum.php:72 ../user/sample_index.php:70
+#: ../inc/user.inc:370 ../user/forum_forum.php:72 ../user/sample_index.php:71
 #: ../project.sample/project.inc:49
 msgid "Message boards"
 msgstr "Razpravljalnice"
@@ -118,6 +118,7 @@ msgid "Home"
 msgstr "Doma"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:620 ../inc/prefs.inc:1019
+#: ../user/server_status.php:296
 msgid "Work"
 msgstr "V službi"
 
@@ -161,9 +162,9 @@ msgstr "Lokalni čas"
 msgid "UTC %1 hours"
 msgstr "UTC %1."
 
-#: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:378
+#: ../inc/host.inc:98 ../inc/host.inc:612 ../inc/result.inc:379
 #: ../inc/team.inc:202 ../inc/team.inc:345 ../inc/user.inc:202
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../user/account_finish.php:40 ../user/create_account_form.php:84
 #: ../user/team_admins.php:60 ../user/team_change_founder_form.php:75
 #: ../user/team_email_list.php:62 ../user/top_users.php:47
 #: ../user/user_search.php:102 ../user/user_search.php:158
@@ -178,7 +179,7 @@ msgstr "Lastnik"
 msgid "Anonymous"
 msgstr "Anonimen"
 
-#: ../inc/host.inc:108 ../inc/result.inc:380
+#: ../inc/host.inc:108 ../inc/result.inc:381
 msgid "Created"
 msgstr "Ustvarjeno"
 
@@ -295,7 +296,7 @@ msgstr "%1 dni"
 msgid "Application details"
 msgstr "Podrobnosti aplikacije"
 
-#: ../inc/host.inc:165
+#: ../inc/host.inc:165 ../inc/result.inc:420
 msgid "Show"
 msgstr "Prikaži"
 
@@ -448,7 +449,7 @@ msgstr "Vse računalnike"
 msgid "Only computers active in past 30 days"
 msgstr "Samo računalnike, aktivne v zadnjih 30 dneh"
 
-#: ../inc/host.inc:609 ../inc/result.inc:387
+#: ../inc/host.inc:609 ../inc/result.inc:388
 msgid "Computer ID"
 msgstr "ID računalnika"
 
@@ -518,6 +519,24 @@ msgstr "Sporočilo"
 msgid "Send message"
 msgstr "Pošlji sporočilo"
 
+#: ../inc/pm.inc:118
+#, fuzzy
+msgid "- private message"
+msgstr "Pošlji zasebno sporočilo"
+
+#: ../inc/pm.inc:124
+msgid "sent you a private message; subject:"
+msgstr ""
+
+#: ../inc/pm.inc:130
+msgid "Private message%1 from %2, subject:"
+msgstr ""
+
+#: ../inc/pm.inc:139
+#, fuzzy
+msgid "Couldn't create message"
+msgstr "ni uspelo ustvariti sporočilnice"
+
 #: ../inc/pm.inc:170
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
@@ -533,6 +552,11 @@ msgstr "neprebrano"
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
 msgstr "Za obveščanje po e-pošti, %1uredite nastavitve skupnosti%2"
+
+#: ../inc/pm.inc:202
+#, fuzzy
+msgid "Private message from"
+msgstr "Zasebna sporočila"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -668,6 +692,7 @@ msgstr ""
 "če je vedno povezan. %2 BOINC bo poskusil vzdrževati vsaj toliko dela. %3"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
+#: ../inc/util.inc:206
 msgid "days"
 msgstr "dni"
 
@@ -733,8 +758,8 @@ msgid ""
 "resources and the second will get 2/3. %2"
 msgstr ""
 "Delitev virov %1 Določi delež virov vašega računalnika, ki so dodeljeni temu "
-"projektu. Primer: če sodelujete v dveh BOINC projektih z delitvijo virov "
-"100 in 200, bo prvi dobil 1/3 vaših virov in drugi 2/3. %2"
+"projektu. Primer: če sodelujete v dveh BOINC projektih z delitvijo virov 100 "
+"in 200, bo prvi dobil 1/3 vaših virov in drugi 2/3. %2"
 
 #: ../inc/prefs.inc:300
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
@@ -746,7 +771,8 @@ msgstr "Uporabi ATI grafični procesor %1 Velja za različice od 6.10 dalje %2"
 
 #: ../inc/prefs.inc:324
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr "Uporabi NVIDIA grafični procesor %1 Velja za različice od 6.10 dalje %2"
+msgstr ""
+"Uporabi NVIDIA grafični procesor %1 Velja za različice od 6.10 dalje %2"
 
 #: ../inc/prefs.inc:338
 msgid ""
@@ -877,10 +903,11 @@ msgid "Edit %1 preferences"
 msgstr "Uredi nastavitve %1"
 
 #: ../inc/prefs.inc:860
+#, fuzzy
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
-"             On computers attached to multiple projects, the most recently "
-"modified preferences will be used."
+"             On computers participating in multiple projects, the most "
+"recently modified preferences will be used."
 msgstr ""
 "To velja za vse BOINC projekte, v katerih sodelujete. <br>\n"
 "             Na računalnikih z več priklopljenimi projekti bodo uporabljene "
@@ -936,8 +963,7 @@ msgid ""
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
 "Da bi preprečili smetenje, so profili uporabnikov s povprečjem točk manj kot "
-"%1 prikazani le prijavljenim uporabnikom.  Opravičujemo se za to "
-"nevšečnost."
+"%1 prikazani le prijavljenim uporabnikom.  Opravičujemo se za to nevšečnost."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
@@ -947,7 +973,7 @@ msgstr "Uporabnik je pregnan"
 msgid "No profile exists for that user ID."
 msgstr "Za ta ID uporabnika ne obstaja profil."
 
-#: ../inc/profile.inc:213 ../user/create_profile.php:306
+#: ../inc/profile.inc:213 ../user/create_profile.php:309
 msgid "Edit your profile"
 msgstr "Uredite vaš profil"
 
@@ -1179,116 +1205,120 @@ msgstr "Delovna enota preklicana"
 msgid "Unrecognized Error: %1"
 msgstr "Neznana napaka: %1"
 
-#: ../inc/result.inc:264
+#: ../inc/result.inc:265
 msgid "Task name"
 msgstr "Ime opravila"
 
-#: ../inc/result.inc:264 ../inc/result.inc:269 ../inc/result.inc:272
-#: ../inc/result.inc:275
+#: ../inc/result.inc:265 ../inc/result.inc:270 ../inc/result.inc:273
+#: ../inc/result.inc:276
 msgid "click for details"
 msgstr "kliknite za podrobnosti"
 
-#: ../inc/result.inc:264
+#: ../inc/result.inc:265
 msgid "Show IDs"
 msgstr "Prikaži IDje"
 
-#: ../inc/result.inc:269
+#: ../inc/result.inc:270
 msgid "Show names"
 msgstr "Prikaži imena"
 
-#: ../inc/result.inc:272
+#: ../inc/result.inc:273
 msgid "Task"
 msgstr "Opravilo"
 
-#: ../inc/result.inc:275
+#: ../inc/result.inc:276
 msgid "Work unit"
 msgstr "Delovna enota"
 
-#: ../inc/result.inc:278
+#: ../inc/result.inc:279
 msgid "Computer"
 msgstr "Računalnik"
 
-#: ../inc/result.inc:281 ../inc/result.inc:381
+#: ../inc/result.inc:282 ../inc/result.inc:382
 msgid "Sent"
 msgstr "Poslano"
 
-#: ../inc/result.inc:282
+#: ../inc/result.inc:283
 msgid "Time reported<br />or deadline"
 msgstr "Čas objave<br /> ali rok"
 
-#: ../inc/result.inc:283
+#: ../inc/result.inc:284
 msgid "explain"
 msgstr "pojasni"
 
-#: ../inc/result.inc:285
+#: ../inc/result.inc:286 ../user/server_status.php:226
 msgid "Status"
 msgstr "Status"
 
-#: ../inc/result.inc:286
+#: ../inc/result.inc:287
 msgid "Run time<br />(sec)"
 msgstr "Čas izvajanja<br />(sekunde)"
 
-#: ../inc/result.inc:287
+#: ../inc/result.inc:288
 msgid "CPU time<br />(sec)"
 msgstr "Čas procesorja<br />(sekunde)"
 
-#: ../inc/result.inc:288 ../inc/result.inc:392
+#: ../inc/result.inc:289 ../inc/result.inc:393
 msgid "Credit"
 msgstr "Točke"
 
-#: ../inc/result.inc:289
+#: ../inc/result.inc:290
 msgid "Application"
 msgstr "Aplikacija"
 
-#: ../inc/result.inc:379
+#: ../inc/result.inc:380
 msgid "Workunit"
 msgstr "Delovna enota"
 
-#: ../inc/result.inc:382
+#: ../inc/result.inc:383
 msgid "Received"
 msgstr "Prejeto"
 
-#: ../inc/result.inc:383
+#: ../inc/result.inc:384
 msgid "Server state"
 msgstr "Stanje strežnika"
 
-#: ../inc/result.inc:384
+#: ../inc/result.inc:385
 msgid "Outcome"
 msgstr "Izid"
 
-#: ../inc/result.inc:385
+#: ../inc/result.inc:386
 msgid "Client state"
 msgstr "Stanje odjemalca"
 
-#: ../inc/result.inc:386
+#: ../inc/result.inc:387
 msgid "Exit status"
 msgstr "Stanje ob izhodu"
 
-#: ../inc/result.inc:388
+#: ../inc/result.inc:389
 msgid "Report deadline"
 msgstr "Rok za poročilo"
 
-#: ../inc/result.inc:389
+#: ../inc/result.inc:390
 msgid "Run time"
 msgstr "Čas izvajanja"
 
-#: ../inc/result.inc:390
+#: ../inc/result.inc:391
 msgid "CPU time"
 msgstr "Čas procesorja"
 
-#: ../inc/result.inc:391
+#: ../inc/result.inc:392
 msgid "Validate state"
 msgstr "Stanje preverjanja"
 
-#: ../inc/result.inc:393
+#: ../inc/result.inc:394
 msgid "Application version"
 msgstr "Različica aplikacije"
 
-#: ../inc/result.inc:408
+#: ../inc/result.inc:396
+msgid "Stderr output"
+msgstr ""
+
+#: ../inc/result.inc:409
 msgid "Previous"
 msgstr "Prejšnje"
 
-#: ../inc/result.inc:417
+#: ../inc/result.inc:418
 msgid "Next"
 msgstr "Naslednje"
 
@@ -1307,7 +1337,7 @@ msgstr "Poišči ekipe s temi besedami v njihovem imenu ali opisu"
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:360 ../inc/team.inc:444 ../inc/user.inc:208
 #: ../inc/user.inc:314 ../user/account_finish.php:44
-#: ../user/create_account_form.php:94 ../user/edit_user_info_form.php:38
+#: ../user/create_account_form.php:103 ../user/edit_user_info_form.php:38
 #: ../user/team_email_list.php:62 ../user/team_search.php:69
 #: ../user/top_users.php:61 ../user/user_search.php:102
 #: ../user/user_search.php:119 ../user/user_search.php:158
@@ -1342,7 +1372,8 @@ msgstr "Zahtevali ste vi"
 msgid "founder response deadline is %1"
 msgstr "rok za ustanoviteljev odgovor je %1"
 
-#: ../inc/team.inc:65 ../inc/user.inc:279 ../inc/user.inc:366
+#: ../inc/team.inc:65 ../inc/team.inc:544 ../inc/user.inc:279
+#: ../inc/user.inc:366
 msgid "None"
 msgstr "brez"
 
@@ -1596,6 +1627,14 @@ msgstr "Certifikat"
 msgid "Stats on your cell phone"
 msgstr "Statistika na vašem mobilnem telefonu"
 
+#: ../inc/user.inc:184
+msgid "Unknown notification type: %1"
+msgstr ""
+
+#: ../inc/user.inc:198
+msgid "Email address verification pending"
+msgstr ""
+
 #: ../inc/user.inc:201
 msgid "Account information"
 msgstr "Informacije o računu"
@@ -1689,7 +1728,7 @@ msgstr "Nastavitve za ta projekt"
 msgid "%1 preferences"
 msgstr "%1 nastavitve"
 
-#: ../inc/user.inc:238 ../user/sample_index.php:66
+#: ../inc/user.inc:238 ../user/sample_index.php:67
 msgid "Community"
 msgstr "Skupnost"
 
@@ -1701,7 +1740,7 @@ msgstr "Briši"
 msgid "Create"
 msgstr "Ustvari"
 
-#: ../inc/user.inc:245 ../inc/user.inc:397
+#: ../inc/user.inc:245 ../inc/user.inc:397 ../inc/util.inc:441
 msgid "Profile"
 msgstr "Profil"
 
@@ -1746,7 +1785,7 @@ msgstr "Poišči prijatelje"
 msgid "Friends"
 msgstr "Prijatelji"
 
-#: ../inc/user.inc:322 ../inc/user.inc:324
+#: ../inc/user.inc:322 ../inc/user.inc:324 ../user/server_status.php:369
 msgid "Computers"
 msgstr "Računalniki"
 
@@ -1778,61 +1817,90 @@ msgstr "Čakajoča prošnja"
 msgid "Add as friend"
 msgstr "Dodaj kot prijatelja"
 
-#: ../inc/util.inc:191
+#: ../inc/util.inc:96
+msgid "Logged in as %1."
+msgstr ""
+
+#: ../inc/util.inc:97
+msgid "Log in as someone else."
+msgstr ""
+
+#: ../inc/util.inc:99
+msgid "Not logged in."
+msgstr ""
+
+#: ../inc/util.inc:180
+msgid ""
+"A database error occurred while handling your request; please try again "
+"later."
+msgstr ""
+
+#: ../inc/util.inc:189
 msgid "Unable to handle request"
 msgstr "Ni bilo mogoče obdelati zahteve"
 
-#: ../inc/util.inc:385
-msgid "Email address:"
-msgstr "Naslov e-pošte"
+#: ../inc/util.inc:209
+msgid "hours"
+msgstr ""
 
-#: ../inc/util.inc:385
-msgid "forgot email address?"
-msgstr "ste pozabili naslov e-pošte?"
+#: ../inc/util.inc:212
+msgid "min"
+msgstr ""
 
-#: ../inc/util.inc:387
-msgid "Password:"
-msgstr "Geslo:"
+#: ../inc/util.inc:215
+msgid "sec"
+msgstr ""
 
-#: ../inc/util.inc:387
-msgid "forgot password?"
-msgstr "ste pozabili geslo?"
+#: ../inc/util.inc:371
+msgid "Link has timed out. Please click Back, refresh the page, and try again."
+msgstr ""
 
-#: ../inc/util.inc:390
-msgid "Stay logged in on this computer"
-msgstr "Ostanite prijavljeni na tem računalniku"
+#: ../inc/util.inc:440
+msgid "View the profile of %1"
+msgstr ""
 
-#: ../inc/util.inc:395
-msgid "Log in"
-msgstr "Prijavite se"
-
-#: ../inc/util.inc:396
-msgid "or %1create an account%2."
-msgstr "ali %1ustvarite račun%2."
-
-#: ../inc/util.inc:416
-msgid "Please log in"
-msgstr "Prosim, prijavite se"
-
-#: ../inc/util.inc:542
+#: ../inc/util.inc:496
 msgid "Use BBCode tags to format your text"
 msgstr "Uporabite BBCode oznake za oblikovanje vašega besedila"
 
-#: ../user/account_finish.php:40 ../user/create_account_form.php:75
+#: ../inc/util.inc:691
+msgid "Project down for maintenance"
+msgstr ""
+
+#: ../inc/util.inc:692
+msgid ""
+"This page requires database access.  Our database server is temporarily shut "
+"down for maintenance.  Please try again later."
+msgstr ""
+
+#: ../inc/util.inc:708
+msgid "Unable to connect to database - please try again later"
+msgstr ""
+
+#: ../inc/util.inc:709
+#, fuzzy
+msgid "Error:"
+msgstr "Napaka"
+
+#: ../inc/util.inc:713
+msgid "Unable to select database - please try again later"
+msgstr ""
+
+#: ../user/account_finish.php:40 ../user/create_account_form.php:84
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
 "Identificira vas na naši spletni strani. Uporabite vaše pravo ime ali "
 "vzdevek."
 
-#: ../user/account_finish.php:44 ../user/create_account_form.php:94
+#: ../user/account_finish.php:44 ../user/create_account_form.php:103
 msgid "Select the country you want to represent, if any."
 msgstr "Če želite, izberite državo, ki jo želite predstavljati."
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:100
+#: ../user/account_finish.php:50 ../user/create_account_form.php:109
 msgid "Postal or ZIP Code"
 msgstr "Poštna številka ali oznaka"
 
-#: ../user/account_finish.php:50 ../user/create_account_form.php:100
+#: ../user/account_finish.php:50 ../user/create_account_form.php:109
 msgid "Optional"
 msgstr "Opcijsko"
 
@@ -1840,7 +1908,7 @@ msgstr "Opcijsko"
 msgid "Add %1 preferences for %2"
 msgstr "Dodaj %1 nastavitve za %2"
 
-#: ../user/apps.php:31 ../user/sample_index.php:63
+#: ../user/apps.php:31 ../user/sample_index.php:64
 msgid "Applications"
 msgstr "Aplikacije"
 
@@ -1876,30 +1944,30 @@ msgstr "Podati morate kodo vabila, da ustvarite račun."
 msgid "The invitation code you gave is not valid."
 msgstr "Koda vabila, ki ste jo podali, ni veljavna."
 
-#: ../user/create_account_form.php:24
+#: ../user/create_account_form.php:35
 msgid "Create an account"
 msgstr "Ustvarite račun"
 
-#: ../user/create_account_form.php:29
+#: ../user/create_account_form.php:40
 msgid "Account creation is disabled"
 msgstr "Ustvarjanje računov je onemogočeno"
 
-#: ../user/create_account_form.php:30
+#: ../user/create_account_form.php:41
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
 "Ustvarjanje računov je trenutno onemogočeno. Prosim, poskusite kasneje."
 
-#: ../user/create_account_form.php:41
+#: ../user/create_account_form.php:50
+#, fuzzy
 msgid ""
-"NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
-"form. Just run BOINC, select Attach Project, and enter an email address and "
-"password."
+"NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
+"select Add Project, and enter an email address and password."
 msgstr ""
 "OPOMBA: Če uporabljate BOINC različico 5.2 ali novejšo z BOINC Upraviteljem, "
 "ne uporabljajte tega obrazca. Samo poženite BOINC, izberite Pripni projet in "
 "vnesi naslov elektronske pošte in geslo."
 
-#: ../user/create_account_form.php:57
+#: ../user/create_account_form.php:66
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
@@ -1907,51 +1975,47 @@ msgstr ""
 "Ta račun bo pripadal ekipi %1 in bo imel nastavitve projekta njenega "
 "ustanovitelja."
 
-#: ../user/create_account_form.php:69
+#: ../user/create_account_form.php:78
 msgid "Invitation Code"
 msgstr "Koda vabila"
 
-#: ../user/create_account_form.php:69
+#: ../user/create_account_form.php:78
 msgid "A valid invitation code is required to create an account."
 msgstr "Da ustvarite račun, je potrebna veljavna koda vabila."
 
-#: ../user/create_account_form.php:79
+#: ../user/create_account_form.php:88
 msgid "Email Address"
 msgstr "Naslov elektronske pošte"
 
-#: ../user/create_account_form.php:79
+#: ../user/create_account_form.php:88
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Mora biti veljaven naslov v obliki 'ime@domena'."
 
-#: ../user/create_account_form.php:88 ../user/edit_email_form.php:46
+#: ../user/create_account_form.php:97 ../user/edit_email_form.php:46
 msgid "Password"
 msgstr "Geslo"
 
-#: ../user/create_account_form.php:89
+#: ../user/create_account_form.php:98
 msgid "Must be at least %1 characters"
 msgstr "Biti mora vsaj %1 znakov"
 
-#: ../user/create_account_form.php:92
+#: ../user/create_account_form.php:101
 msgid "Confirm password"
 msgstr "Potrdi geslo"
 
-#: ../user/create_account_form.php:104
+#: ../user/create_account_form.php:113
 msgid "Create account"
 msgstr "Ustvari račun"
 
-#: ../user/create_profile.php:31
-msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr "NAPAKA: %1 ne obstaja!  Ne morem ustvariti kombo izbirnika.<br>"
-
-#: ../user/create_profile.php:51
+#: ../user/create_profile.php:48
 msgid "Picture"
 msgstr "Slika"
 
-#: ../user/create_profile.php:65
+#: ../user/create_profile.php:62
 msgid "%1 Your profile picture is shown to the left."
 msgstr "%1 Vaša slika profila je prikazana na levi."
 
-#: ../user/create_profile.php:67
+#: ../user/create_profile.php:64
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
@@ -1959,11 +2023,11 @@ msgstr ""
 "Da jo zamenjate, kliknite gumb \"Brskaj\" in izberite JPEG ali PNG datoteko "
 "(%1 ali manjšo)."
 
-#: ../user/create_profile.php:70
+#: ../user/create_profile.php:67
 msgid "To remove it from your profile, check this box:"
 msgstr "Da odstranite sliko z vašega profila, kliknite ta okvir:"
 
-#: ../user/create_profile.php:78
+#: ../user/create_profile.php:75
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
@@ -1983,36 +2047,32 @@ msgstr "Izberite jezik v katerem naj bo napisan vaš profil:"
 msgid "Submit profile"
 msgstr "Vnesi profil"
 
-#: ../user/create_profile.php:107
-msgid ""
-"To protect the project's webpages from spam, we kindly ask you to type in "
-"the two words shown in the image:<br>\n"
+#: ../user/create_profile.php:108
+msgid "Please enter the words shown in the image."
 msgstr ""
-"Za zaščito spletne strani projekta pred smetjem, vas vljudno prosimo, da "
-"napišete besedi, prikazani na sliki:<br>\n"
 
-#: ../user/create_profile.php:110
+#: ../user/create_profile.php:113
 msgid "Create/edit profile"
 msgstr "Ustvari/uredi profil"
 
-#: ../user/create_profile.php:132
+#: ../user/create_profile.php:135
 msgid "The format of your uploaded image is not supported."
 msgstr "Format slike, ki ste jo naložili, ni podprt."
 
-#: ../user/create_profile.php:161
+#: ../user/create_profile.php:164
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
 "Vaš %1profil%2 vam omogoča deliti vaša mnenja in ozadje s skupnostjo %3."
 
-#: ../user/create_profile.php:208
+#: ../user/create_profile.php:211
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
 "Vaš \"Recaptcha\" odgovor na vsebino slike ni bil pravilen.  Prosim, "
 "poskusite znova."
 
-#: ../user/create_profile.php:217
+#: ../user/create_profile.php:220
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
@@ -2020,7 +2080,7 @@ msgstr ""
 "Vaš prvi odgovor je bil označen kot smetje s strani Akismet proti-smetnega "
 "sistema.  Prosim, spremenite vaše besedilo in poskusite znova."
 
-#: ../user/create_profile.php:225
+#: ../user/create_profile.php:228
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
@@ -2028,36 +2088,36 @@ msgstr ""
 "Vaš drugi odgovor je bil označen kot smetje s strani Akismet proti-smetnega "
 "sistema.  Prosim, spremenite vaše besedilo in poskusite znova."
 
-#: ../user/create_profile.php:241
+#: ../user/create_profile.php:244
 msgid "Your profile submission was empty."
 msgstr "Vnesli ste prazen profil."
 
-#: ../user/create_profile.php:280
+#: ../user/create_profile.php:283
 msgid "Could not update the profile: database error"
 msgstr "Ne morem posodobiti profila: napaka v podatkovni bazi"
 
-#: ../user/create_profile.php:292
+#: ../user/create_profile.php:295
 msgid "Could not create the profile: database error"
 msgstr "Ne morem ustvariti profila: napaka v podatkovni bazi"
 
-#: ../user/create_profile.php:297
+#: ../user/create_profile.php:300
 msgid "Profile saved"
 msgstr "Profil shranjen"
 
-#: ../user/create_profile.php:299
+#: ../user/create_profile.php:302
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
 msgstr "Čestitke! Vaš profil je bil uspešno vnesen v našo podatkovno bazo."
 
-#: ../user/create_profile.php:300
+#: ../user/create_profile.php:303
 msgid "%1View your profile%2"
 msgstr "%1Poglejte vaš profil%2"
 
-#: ../user/create_profile.php:308
+#: ../user/create_profile.php:311
 msgid "Create a profile"
 msgstr "Ustvarite profil"
 
-#: ../user/create_profile.php:336
+#: ../user/create_profile.php:339
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
@@ -2512,7 +2572,7 @@ msgstr "Poglejte in uredite nastavitve vašega računa s spodnjimi povezavami."
 msgid "Your account"
 msgstr "Vaš račun"
 
-#: ../user/host_app_versions.php:52
+#: ../user/host_app_versions.php:54
 msgid "Application details for host %1"
 msgstr "Podrobnosti aplikacij za gostitelja %1"
 
@@ -2522,7 +2582,8 @@ msgstr "Računalniki, ki pripadajo %1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
-msgstr "Ta uporabnik je izbral, da ne prikaže informacij o svojih računalnikih."
+msgstr ""
+"Ta uporabnik je izbral, da ne prikaže informacij o svojih računalnikih."
 
 #: ../user/info.php:22 ../user/sample_index.php:47
 msgid "Read our rules and policies"
@@ -2705,17 +2766,17 @@ msgstr ""
 "Ti projekti niso povezani s/z %1 in ne moremo jamčiti za njihovo varnostno "
 "prakso ali narave njihovih raziskav.  Uporabljajte jih na lastno odgovornost."
 
-#: ../user/language_select.php:41
+#: ../user/language_select.php:42
 msgid "Language selection"
 msgstr "Izbira jezika"
 
-#: ../user/language_select.php:68
+#: ../user/language_select.php:69
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr "Ta stran je na voljo v več jezikih. Trenutno izbran jezik je %1."
 
-#: ../user/language_select.php:73
+#: ../user/language_select.php:74
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
@@ -2723,15 +2784,15 @@ msgstr ""
 "Običajno je izbira jezika odvisna od nastavitve jezika vašega brskalnika, ki "
 "je: %1.  To nastavitev lahko spremenite z uporabo:"
 
-#: ../user/language_select.php:78
+#: ../user/language_select.php:79
 msgid "Firefox: Tools/Options/General"
 msgstr "Firefox: Orodja/Možnosti/Splošno"
 
-#: ../user/language_select.php:80
+#: ../user/language_select.php:81
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr "Microsoft IE: Orodja/Internetne možnosti/Jeziki"
 
-#: ../user/language_select.php:84
+#: ../user/language_select.php:85
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
@@ -2741,21 +2802,49 @@ msgstr ""
 "brskalniku poslalo piškotek; prepričajte se, da vaš brskalnik sprejema "
 "piškotke iz naše domene."
 
-#: ../user/language_select.php:90
+#: ../user/language_select.php:91
 msgid "Language name (click to select)"
 msgstr "Ime jezika (kliknite za izbiro)"
 
-#: ../user/language_select.php:92
+#: ../user/language_select.php:93
 msgid "Use browser language setting"
 msgstr "Uporabi brskalnikovo nastavitev jezika"
 
-#: ../user/language_select.php:108
+#: ../user/language_select.php:109
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
 "Prevode opravljajo prostovoljci.  Če vašega materinega jezika ni tu, %1lahko "
 "prevod priskrbite Vi%2."
+
+#: ../user/login_form.php:42
+msgid "Email address:"
+msgstr "Naslov e-pošte"
+
+#: ../user/login_form.php:42
+msgid "forgot email address?"
+msgstr "ste pozabili naslov e-pošte?"
+
+#: ../user/login_form.php:44
+msgid "Password:"
+msgstr "Geslo:"
+
+#: ../user/login_form.php:44
+msgid "forgot password?"
+msgstr "ste pozabili geslo?"
+
+#: ../user/login_form.php:47
+msgid "Stay logged in on this computer"
+msgstr "Ostanite prijavljeni na tem računalniku"
+
+#: ../user/login_form.php:52
+msgid "Log in"
+msgstr "Prijavite se"
+
+#: ../user/login_form.php:53
+msgid "or %1create an account%2."
+msgstr "ali %1ustvarite račun%2."
 
 #: ../user/pm.php:68
 msgid "Your message has been sent."
@@ -2884,7 +2973,7 @@ msgstr "Odstrani nastavitve"
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: ../user/profile_menu.php:33 ../user/sample_index.php:68
+#: ../user/profile_menu.php:33 ../user/sample_index.php:69
 msgid "Profiles"
 msgstr "Profili"
 
@@ -2988,25 +3077,177 @@ msgstr "Opravilo %1"
 msgid "This feature is turned off temporarily"
 msgstr "Ta možnost je začasno izklopljena"
 
-#: ../user/results.php:46
+#: ../user/results.php:47
 msgid "No computer with ID %1 found"
 msgstr "Ni bil najden računalnik z ID %1"
 
-#: ../user/results.php:53
+#: ../user/results.php:54
 msgid "No access"
 msgstr "Ni dostopa"
 
-#: ../user/results.php:59
+#: ../user/results.php:60
 msgid "Missing user ID or host ID"
 msgstr "Manjka ID uporabnika ali ID gostitelja"
 
-#: ../user/results.php:87
+#: ../user/results.php:92
 msgid "No tasks to display"
 msgstr "Ni opravil za prikaz "
 
-#: ../user/sample_index.php:130
+#: ../user/sample_index.php:131
 msgid "User of the day"
 msgstr "Uporabnik dneva"
+
+#: ../user/server_status.php:94
+msgid "Running"
+msgstr ""
+
+#: ../user/server_status.php:97
+msgid "Not Running"
+msgstr ""
+
+#: ../user/server_status.php:100
+msgid "Disabled"
+msgstr ""
+
+#: ../user/server_status.php:216
+msgid "Project status"
+msgstr ""
+
+#: ../user/server_status.php:218
+msgid "Server software version: %1"
+msgstr ""
+
+#: ../user/server_status.php:224
+#, fuzzy
+msgid "Server status"
+msgstr "Stanje strežnika"
+
+#: ../user/server_status.php:226
+msgid "Program"
+msgstr ""
+
+#: ../user/server_status.php:226
+msgid "Host"
+msgstr ""
+
+#: ../user/server_status.php:237
+msgid "data-driven web pages"
+msgstr ""
+
+#: ../user/server_status.php:243
+msgid "upload/download server"
+msgstr ""
+
+#: ../user/server_status.php:246
+msgid "scheduler"
+msgstr ""
+
+#: ../user/server_status.php:276
+msgid "Running:"
+msgstr ""
+
+#: ../user/server_status.php:277
+msgid "Program is operating normally"
+msgstr ""
+
+#: ../user/server_status.php:278
+msgid "Not Running:"
+msgstr ""
+
+#: ../user/server_status.php:279
+msgid "Program failed or the project is down"
+msgstr ""
+
+#: ../user/server_status.php:280
+msgid "Disabled:"
+msgstr ""
+
+#: ../user/server_status.php:281
+msgid "Program is disabled"
+msgstr ""
+
+#: ../user/server_status.php:285
+msgid "Computing status"
+msgstr ""
+
+#: ../user/server_status.php:291
+msgid "The database server is not accessible"
+msgstr ""
+
+#: ../user/server_status.php:308
+msgid "Tasks ready to send"
+msgstr ""
+
+#: ../user/server_status.php:313 ../user/workunit.php:52
+msgid "Tasks in progress"
+msgstr "Opravila v izvajanju"
+
+#: ../user/server_status.php:318
+msgid "Workunits waiting for validation"
+msgstr ""
+
+#: ../user/server_status.php:323
+msgid "Workunits waiting for assimilation"
+msgstr ""
+
+#: ../user/server_status.php:328
+msgid "Workunits waiting for file deletion"
+msgstr ""
+
+#: ../user/server_status.php:333
+msgid "Tasks waiting for file deletion"
+msgstr ""
+
+#: ../user/server_status.php:346
+msgid "Transitioner backlog (hours)"
+msgstr ""
+
+#: ../user/server_status.php:353
+#, fuzzy
+msgid "Users"
+msgstr "Uporabnik"
+
+#: ../user/server_status.php:355 ../user/server_status.php:371
+msgid "with recent credit"
+msgstr ""
+
+#: ../user/server_status.php:360 ../user/server_status.php:376
+msgid "with credit"
+msgstr ""
+
+#: ../user/server_status.php:365 ../user/server_status.php:381
+msgid "registered in past 24 hours"
+msgstr ""
+
+#: ../user/server_status.php:388
+msgid "current GigaFLOPs"
+msgstr ""
+
+#: ../user/server_status.php:397
+msgid "Tasks by application"
+msgstr ""
+
+#: ../user/server_status.php:398 ../user/workunit.php:38
+msgid "application"
+msgstr "aplikacija"
+
+#: ../user/server_status.php:398
+#, fuzzy
+msgid "unsent"
+msgstr "Neposlano"
+
+#: ../user/server_status.php:398
+#, fuzzy
+msgid "in progress"
+msgstr "V teku"
+
+#: ../user/server_status.php:398
+msgid "avg runtime of last 100 results in h (min-max)"
+msgstr ""
+
+#: ../user/server_status.php:398
+msgid "users in last 24h"
+msgstr ""
 
 #: ../user/show_user.php:88
 msgid "Account data for %1"
@@ -3157,7 +3398,8 @@ msgstr "Odstraniti članov"
 
 #: ../user/team_admins.php:51
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr "Če administrator ekipe zapusti ekipo, preneha biti administrator ekipe."
+msgstr ""
+"Če administrator ekipe zapusti ekipo, preneha biti administrator ekipe."
 
 #: ../user/team_admins.php:52
 msgid ""
@@ -3675,8 +3917,8 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"Konec rezultatov. %1 Če ne najdete ekipe, pravšnje za vas, lahko sami "
-"%2ustvarite ekipo%3."
+"Konec rezultatov. %1 Če ne najdete ekipe, pravšnje za vas, lahko sami %"
+"2ustvarite ekipo%3."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
@@ -3767,16 +4009,16 @@ msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
-"Administratorji ekipe so vabljeni, da se pridružijo in sodelujejo v Google "
-"%1boinc-team-founders%2 skupini."
+"Administratorji ekipe so vabljeni, da se pridružijo in sodelujejo v Google %"
+"1boinc-team-founders%2 skupini."
 
 #: ../user/team_manage.php:73
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
-"Drugi viri za administratorje BOINC ekipe so na voljo na zunanji strani "
-"%1www.boincteams.com%2."
+"Drugi viri za administratorje BOINC ekipe so na voljo na zunanji strani %"
+"1www.boincteams.com%2."
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
@@ -3867,8 +4109,7 @@ msgstr "Ime ekipe"
 #: ../user/team_search.php:127
 msgid "No teams were found matching your criteria. Try another search."
 msgstr ""
-"Ni bilo najdenih ekip, ki bi ustrezale vašim pogojem. Poskusite iskati "
-"znova."
+"Ni bilo najdenih ekip, ki bi ustrezale vašim pogojem. Poskusite iskati znova."
 
 #: ../user/team_search.php:129
 msgid "Or you can %1create a new team%2."
@@ -4083,10 +4324,10 @@ msgid "Account data"
 msgstr "Podatki računa"
 
 #: ../user/weak_auth.php:47
+#, fuzzy
 msgid ""
-"Your 'weak account key' lets you attach computers to your account on this "
-"project, without giving the ability to log in to your account or to change "
-"it in any way."
+"Your 'weak account key' lets you link a computer to your account without "
+"giving it the ability to log in to your account or to change it in any way."
 msgstr ""
 "Vaš 'šibki ključ računa' vam dovoli pripeti računalnike na vaš račun pri tem "
 "projektu, brez da bi se bilo možno prijaviti v račun ali ga kakorkoli "
@@ -4140,10 +4381,6 @@ msgstr "Delovna enota %1"
 msgid "name"
 msgstr "ime"
 
-#: ../user/workunit.php:38
-msgid "application"
-msgstr "aplikacija"
-
 #: ../user/workunit.php:39
 msgid "created"
 msgstr "ustvarjeno"
@@ -4155,10 +4392,6 @@ msgstr "priznan rezultat"
 #: ../user/workunit.php:44
 msgid "granted credit"
 msgstr "dodeljene točke"
-
-#: ../user/workunit.php:52
-msgid "Tasks in progress"
-msgstr "Opravila v izvajanju"
 
 #: ../user/workunit.php:52
 msgid "suppressed pending completion"
@@ -4250,9 +4483,18 @@ msgstr ""
 msgid "(all applications)"
 msgstr "(vse aplikacije)"
 
-#, fuzzy
-#~ msgid "preferences"
-#~ msgstr "Nastavitve"
+#~ msgid "Please log in"
+#~ msgstr "Prosim, prijavite se"
+
+#~ msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
+#~ msgstr "NAPAKA: %1 ne obstaja!  Ne morem ustvariti kombo izbirnika.<br>"
+
+#~ msgid ""
+#~ "To protect the project's webpages from spam, we kindly ask you to type in "
+#~ "the two words shown in the image:<br>\n"
+#~ msgstr ""
+#~ "Za zaščito spletne strani projekta pred smetjem, vas vljudno prosimo, da "
+#~ "napišete besedi, prikazani na sliki:<br>\n"
 
 #~ msgid "Last %1"
 #~ msgstr "Zadnjih %1"
