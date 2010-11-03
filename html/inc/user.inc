@@ -293,7 +293,7 @@ function show_community_private($user) {
     }
 
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
-    $x = "<a href=\"user_search.php\">".tra("Find friends")."</a><br\>\n";
+    $x = "<a href=\"user_search.php\">".tra("Find friends")."</a><br/>\n";
     $n = count($friends);
     if ($n) {
         foreach($friends as $friend) {

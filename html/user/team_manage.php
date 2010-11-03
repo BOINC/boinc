@@ -80,7 +80,7 @@ function show_admin_page($user, $team) {
 $user = get_logged_in_user(true);
 $teamid = get_int('teamid');
 $team = BoincTeam::lookup_id($teamid);
-if (!$team) error_page(tra("no such team"));
+if (!$team) error_page(tra("No such team"));
 
 $action = get_str('action', true);
 if ($action == 'delete') {

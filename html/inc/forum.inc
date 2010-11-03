@@ -69,6 +69,7 @@ define('NEW_IMAGE_STICKY_LOCKED', 'img/unread_sticky_locked.png');
 define('IMAGE_STICKY', 'img/sticky_post.png');
 define('IMAGE_LOCKED', 'img/locked_post.png');
 define('IMAGE_STICKY_LOCKED', 'img/sticky_locked_post.png');
+define('IMAGE_POST', 'img/post.png');
 define('NEW_IMAGE_HEIGHT','15');
 define('EMPHASIZE_IMAGE', 'img/emphasized_post.png');
 define('EMPHASIZE_IMAGE_HEIGHT','15');
@@ -146,8 +147,10 @@ function show_forum_title($category, $forum, $thread, $link_thread=false) {
     } else {
         $is_helpdesk = false;
     }
+
     $where = $is_helpdesk?tra("Questions and Answers"):tra("Message boards");
     $top_url = $is_helpdesk?"forum_help_desk.php":"forum_index.php";
+
     if (!$forum && !$thread) {
         echo "<span class=\"title\">$where</span>";
 
@@ -170,9 +173,7 @@ function show_forum_title($category, $forum, $thread, $link_thread=false) {
         }
         echo "</span>";
     } else {
-        echo "Invalid input to show_forum_title<br>";
-        echo "threadid $thread->id";
-        // TODO: handle this condition gracefully 
+        echo "Invalid thread ID";
     }
 }
 
@@ -251,7 +252,7 @@ function show_page_nav($forum, $start=0){
             $navbar.='<a href="forum_forum.php?id='.get_int("id").'&start='.(($i-1)*THREADS_PER_PAGE);
             $sort = get_int("sort",true);
             if ($sort) $navbar.='&sort='.$sort;
-            $navbar.='">'.$i.' |</a> ';
+            $navbar.='">'.$i.'</a> | ';
             if ($i == $curpage+1){$navbar.="</em>";}
         }
 
@@ -519,7 +520,7 @@ function show_post(
     }
     echo "
         <tr>
-        <td class=\"".($highlight?"highlighted_":"")."row$n\" rowspan=\"3\">
+        <td class=\"leftcol ".($highlight?"highlighted_":"")."row$n\" rowspan=\"3\">
         <a name=\"$post->id\"></a>
         <div class=\"authorcol\">
     ";
@@ -539,7 +540,7 @@ function show_post(
     $url = "pm.php?action=new&userid=".$user->id;
     $name = $user->name;
     show_button($url, "Send&nbsp;message", "Send $name a private message");
-    echo "<br />Joined: ", gmdate('M j y', $user->create_time), "<br>";
+    echo "<br />Joined: ", gmdate('j M y', $user->create_time), "<br>";
 
     if (!isset($user->nposts)) {
         $user->nposts = BoincPost::count("user=$user->id");
@@ -583,7 +584,7 @@ function show_post(
     echo " <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#$post->id\">Message ".$post->id."</a> - ";
     if ($post->hidden) echo "<font color=red>[hidden] </font>";
     echo "
-        Posted ", pretty_time_str($post->timestamp);
+        Posted: ", pretty_time_str($post->timestamp);
     ;
 
     if ($post->parent_post) {
@@ -1099,7 +1100,7 @@ function is_moderator($user, $forum) {
 }
 
 function show_thread_and_context_header() {
-    start_forum_table(array(tra("Thread"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
+    start_forum_table(array(tra("Thread"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"), "id=\"thread\" cellspacing=0");
 }
 
 // show a 1-line summary of thread and its forum.
@@ -1122,10 +1123,10 @@ function show_thread_and_context($thread, $user, $i) {
         break;
     }
     echo '
-        </td><td>'.($thread->replies+1).'</td>
+        </td><td class="numbers">'.($thread->replies+1).'</td>
         <td>'.user_links($owner).'</td>
-        <td>'.$thread->views.'</td>
-        <td>'.time_diff_str($thread->timestamp, time()).'</td>
+        <td class="numbers">'.$thread->views.'</td>
+        <td class="lastpost">'.time_diff_str($thread->timestamp, time()).'</td>
         </tr>
     ';
 }

@@ -71,7 +71,7 @@ echo "</ul></td></tr>";
 row1(tra("Search profile text"));
 rowify("
     <form action=\"profile_search_action.php\" method=\"GET\">
-    <input name=\"search_string\">
+    <input type=\"text\" name=\"search_string\">
     <input type=\"submit\" value=\"".tra("Search")."\">
     </form>
 ");

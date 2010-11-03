@@ -90,7 +90,7 @@ foreach ($categories as $category) {
         echo "<p>";
         show_mark_as_read_button($user);
         start_forum_table(
-            array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Last post"))
+            array(tra("Topic"), tra("Threads"), tra("Posts"), tra("Last post") ), "id=\"catview\" cellspacing=0"
         );
     }
     if (strlen($category->name)) {

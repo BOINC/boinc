@@ -28,17 +28,17 @@ start_table();
 echo "<form action=\"forum_search_action.php\" method=\"post\">";
 row1("Search query");
 row2("Search for keywords:<br />
-    <font size=-1>Posts that contain all the specified words will be displayed</font>",
+    <span class=\"smalltext\">Posts that contain all the specified words will be displayed</span>",
     '<input type="text" style="width: 290px" name="search_keywords" size="30" /><br />
-    <font size=-1>For example: "screensaver freeze"</font>');
+    <span class="smalltext">For example: "screensaver freeze"</span>');
 row2("Search for author ID:<br />
-    <font size=-1>Only posts by this author will be displayed</font>",
+    <span class=\"smalltext\">Only posts by this author will be displayed</span>",
     '<input type="text" style="width: 150px" name="search_author" size="10" /><br />
-    <font size=-1>For example: "43214"</font>');
+    <span class="smalltext">For example: "43214"</span>');
 
 row1("Search options");
 row2("Search limits<br />
-    <font size=-1>Search at most this many days back in time</font>",
+    <span class=\"smalltext\">Search at most this many days back in time</span>",
     '<select name="search_max_time">
     <option value="1">1 day</option>
     <option value="3">3 days</option>
@@ -67,7 +67,7 @@ foreach ($categories as $category) {
     }
 }
 row2("Forum<br />
-    <font size=-1>Only display posts from this forum</font>",
+    <span class=\"smalltext\">Only display posts from this forum</span>",
     '<select name="search_forum">'.$forumlist.'</select');
 
 $sortlist = null;

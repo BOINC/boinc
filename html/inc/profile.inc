@@ -82,13 +82,13 @@ function profile_user_thumb_url($user) {
 function offensive_profile_warning($verify_flag) {
     if ($verify_flag == 0) {
         return "
-            <font size='+2' color='#33cc33'>
+            <font size='+2' color='#3c3'>
             ".tra("Your profile will be made visible to other people as soon as it has been approved by the project. This may take up to a few days.")."
             </font>
         ";
     } else if ($verify_flag == -1) {
         return "
-            <font size='+2' color='#ff3333'>
+            <font size='+2' color='#f33'>
             ".tra("Your profile has been marked as unacceptable. It is not visible to other people. Please change it.")."
             </font>
         ";
@@ -184,7 +184,7 @@ function check_whether_to_show_profile($user, $logged_in_user) {
     $min_credit = parse_config(get_config(), "<profile_min_credit>");
     if (!$logged_in_user && $min_credit && $user->expavg_credit < $min_credit ) {
         error_page(
-           tra("To prevent spam, profiles of users with an average credit of less than %1 are displayed only to logged-in users.  We apologize for this inconvenience.", $min_credit)
+           tra("To prevent spam, profiles of users with an average credit of less than %1 are displayed only to logged-in users. We apologize for this inconvenience.", $min_credit)
         );
     }
     if (is_banished($user)) {
@@ -224,7 +224,7 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     if ($show_picture) {
         echo "
             <tr><td colspan=\"2\" align=\"center\">
-        <img vspace=\"6\" hspace=\"9\" src=\"".profile_image_url($user->id)."\">
+			<img vspace=\"6\" hspace=\"9\" src=\"".profile_image_url($user->id)."\">
             </td></tr>
         ";
     }
@@ -242,10 +242,15 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     BoincForumPrefs::lookup($logged_in_user);
     $options = get_output_options($logged_in_user);
 
-    row1(show_profile_heading1());
-    row1(output_transform($profile->response1, $options), 2, "foobar");
-    row1(show_profile_heading2());
-    row1(output_transform($profile->response2, $options), 2, "foobar");
+	if ( !empty($profile->response1) ) {
+		row1(show_profile_heading1());
+		row1(output_transform($profile->response1, $options), 2, "foobar");
+	}
+	
+	if ( !empty($profile->response2) ) {
+		row1(show_profile_heading2());
+		row1(output_transform($profile->response2, $options), 2, "foobar");
+	}
 
     if (!$can_edit and !$screen_mode) {
         row1(tra("Your feedback on this profile"));

@@ -62,13 +62,13 @@ function make_script() {
 //
 function do_inbox($logged_in_user) {
     page_head(tra("Private messages").": ".tra("Inbox"));
-    
+
     make_script();
     if (get_int("sent", true) == 1) {
         echo "<div class=\"notice\">".tra("Your message has been sent.")."</div>\n";
     }
     $options = get_output_options($logged_in_user);
-    
+
     BoincNotify::delete_aux("userid=$logged_in_user->id and type=".NOTIFY_PM);
 
     $msgs = BoincPrivateMessage::enum(
@@ -128,7 +128,7 @@ function do_read($logged_in_user) {
     }
     page_head(tra("Private messages")." : ".$message->subject);
     pm_header();
-    
+
     $sender = BoincUser::lookup_id($message->senderid);
 
     start_table();
@@ -143,7 +143,7 @@ function do_read($logged_in_user) {
     echo " | <a href=\"pm.php?action=delete&amp;id=$id\">".tra("Delete")."</a>\n";
     echo " | <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>\n";
     end_table();
-    
+
     if ($message->opened == 0) {
         $message->update("opened=1");
     }
@@ -167,11 +167,11 @@ function do_delete($logged_in_user) {
 function do_send($logged_in_user) {
     check_banished($logged_in_user);
     check_tokens($logged_in_user->authenticator);
-    
+
     $to = sanitize_tags(post_str("to", true));
     $subject = post_str("subject", true);
     $content = post_str("content", true);
-    
+
     if (post_str("preview", true) == tra("Preview")) {
         pm_form();
     }
@@ -186,10 +186,10 @@ function do_send($logged_in_user) {
         }
         $to = str_replace(", ", ",", $to); // Filter out spaces after separator
         $users = explode(",", $to);
-        
+
         $userlist = array();
         $userids = array(); // To prevent from spamming a single user by adding it multiple times
-        
+
         foreach ($users as $username) {
             $user = explode(" ", $username);
             if (is_numeric($user[0])) { // user ID is gived
@@ -215,14 +215,14 @@ function do_send($logged_in_user) {
                 $userids[$user->id] = true;
             }
         }
-        
+
         foreach ($userlist as $user) {
             if (!is_moderator($logged_in_user, null)) {
                 check_pm_count($logged_in_user->id);
             }
             pm_send($user, $subject, $content, true);
         }
-        
+
         Header("Location: pm.php?action=inbox&sent=1");
     }
 }
@@ -237,7 +237,7 @@ function do_block($logged_in_user) {
     echo "<div>".tra("Are you really sure you want to block user %1 from sending you private messages?", $user->name)."<br>\n";
     echo tra("Please note that you can only block a limited amount of users.")."</div>\n";
     echo "<div>".tra("Once the user has been blocked you can unblock it using forum preferences page.")."</div>\n";
-    
+
     echo "<form action=\"pm.php\" method=\"POST\">\n";
     echo form_tokens($logged_in_user->authenticator);
     echo "<input type=\"hidden\" name=\"action\" value=\"confirmedblock\">\n";
@@ -253,9 +253,9 @@ function do_confirmedblock($logged_in_user) {
     $blocked_user = BoincUser::lookup_id($id);
     if (!$blocked_user) error_page("no such user");
     add_ignored_user($logged_in_user, $blocked_user);
-    
+
     page_head(tra("User %1 blocked", $blocked_user->name));
-    
+
     echo "<div>".tra("User %1 has been blocked from sending you private messages.", $blocked_user->name)."\n";
     echo tra("To unblock, visit %1message board preferences%2", "<a href=\"edit_forum_preferences_form.php\">", "</a>")."</div>\n";
 }

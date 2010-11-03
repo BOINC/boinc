@@ -86,7 +86,7 @@ input[type="button"],
 input[type="submit"],
 .btn,
 a.button {
-	background: #f2f2f2 url(img/white_grad.png) repeat-x scroll left top;
+	background: #EDEDED url(img/white_grad.png) repeat-x scroll left top;
 	color: black;
 	border-color: #ccc;
 }
@@ -100,8 +100,12 @@ input.btn:hover,
 	color: #0069A1;
 }
 
-input[type="text"], select, textarea {
-	border-color: #d8d8d8;
+input[type="text"], input[type="password"], select, textarea {
+	border-color: #bbb;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+	border-color: #0069A1;
 }
 
 #news {
@@ -118,30 +122,57 @@ input[type="text"], select, textarea {
 	border-color: #eee;
 }
 
-td.category , tr.subtitle{
-	background-color: #ddd;
+#thread, #catview {
+	background: #0069A1 url(./img/forum_bg.png) repeat-x;
+}
+
+#thread th, #catview th {
+	background-color: transparent;
+	color: #fff;
+}
+
+#catview .row0 {
+	background-color: #eee;
+}
+
+#catview .row1 {
+	background-color: #fff;
+}
+
+#catview tr.row0:hover,
+#catview tr.row1:hover {
+	background-color: #D1E4EF
+}
+
+td.category {
+ color: #fff;
 }
 
 td.postheader {
 	background-color: #eee;
+	color: #333;
 }
 
 td.postbody {
-	background: transparent url('img/75pct_white.png');
+	background-color: #fff;
 }
 
 td.postfooter {
 	background-color: #eee;
+	color: #333;
 }
 
 tr.postseperator {
-	background-color: #c8c8c8;
-	border-color: #aaa;
+	background-color: #0069A1;
 }
 
 div.authorcol {
 	background-color: white;
 	border-color: #c8c8c8;
+}
+
+.authorinfo {
+	color: #333;
 }
 
 .authorinfo img {

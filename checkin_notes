@@ -7776,3 +7776,35 @@ David  03 Nov 2010
 
     py/Boinc/
         db_base.py
+
+David  03 Nov 2010
+    - user web: various enhancements and fixes from Simek.
+        Fixes #1020
+
+    html/
+        inc/
+            forum.inc
+            user.inc
+            team.inc
+            profile.inc
+            util.inc
+        user/
+            img/
+                forum_bg.png (new)
+                post.png (new)
+                head
+            create_account_form.php
+            forum_forum.php
+            forum_help_desk.php
+            forum_index.php
+            forum_search.php
+            forum_search_action.php
+            forum_thread.php
+            get_passwd.php
+            main.css
+            pm.php
+            profile_menu.php
+            server_status.php
+            team.php
+            team_manage.php
+            white.css

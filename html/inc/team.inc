@@ -32,7 +32,7 @@ function team_search_form($params) {
     start_table();
     row2('<b>'.tra('Search criteria (use one or more)').'</b>', '');
     row2(tra('Key words').'<br><span class="note">'.tra('Find teams with these words in their names or descriptions').'</span>',
-        '<input name="keywords" value="' . htmlspecialchars($params->keywords) . '">');
+        '<input type="text" name="keywords" value="' . htmlspecialchars($params->keywords) . '">');
     row2_init(tra('Country'), '');
     echo '<select name="country"><option value="" selected>---</option>';
     $country = $params->country;
@@ -89,7 +89,7 @@ function display_team_page($team, $user) {
         }
         row2(tra('Web site'), "<a href=$x>$x</a>");
     }
-    
+
     if (!no_computing()) {
         row2(tra('Total credit'), format_credit_large($team->total_credit));
         row2(tra('Recent average credit'), format_credit_large($team->expavg_credit));
@@ -196,7 +196,7 @@ function display_team_members($team, $offset, $sort_by) {
     } else {
         $sort_clause = "expavg_credit desc";
     }
-    
+
     start_table();
     echo '<tr>
         <th>'.tra('Name').'</th>
@@ -430,7 +430,7 @@ function team_edit_form($team, $label, $url) {
     );
     row2(tra('URL of team web page, if any').':<br><font size=-2>('.tra('without "http://"').')
         '.tra('This URL will be linked to from the team\'s page on this site.'),
-        "<input name=url size=60 value='$team->url'>"
+        "<input type=text name=url size=60 value='$team->url'>"
     );
     row2(tra('Description of team').':
         <br><span class="note">
@@ -445,7 +445,7 @@ function team_edit_form($team, $label, $url) {
         "<select name=country>"
     );
     print_country_select($team->country);
-    
+
     echo "</select></td></tr>\n";
     $x = $team->joinable?"checked":"";
     row2(tra("Accept new members?"), "<input type=checkbox name=joinable $x>");

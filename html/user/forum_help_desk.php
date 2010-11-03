@@ -40,7 +40,7 @@ foreach ($categories as $category) {
         show_forum_title($category, null, null);
         echo "<p>";
         show_mark_as_read_button($user);
-        start_forum_table(array("Topic", "# Questions", "Last post"));
+        start_forum_table(array("Topic", "# Questions", "Last post"),"id=\"catview\" cellspacing=0");
     }
     if (strlen($category->name)) {
         echo "
@@ -56,10 +56,10 @@ foreach ($categories as $category) {
         <tr class=\"row1\">
         <td>
             <b><a href=\"forum_forum.php?id=$forum->id\">$forum->title</a></b>
-            <br>", $forum->description, "
+            <br><span class=\"smalltext\">", $forum->description, "</span>
         </td>
-        <td>", $forum->threads, "</td>
-        <td>", time_diff_str($forum->timestamp, time()), "</td>
+        <td class=\"numbers\">", $forum->threads, "</td>
+        <td class=\"lastpost\">", time_diff_str($forum->timestamp, time()), "</td>
     </tr>
         ";
     }

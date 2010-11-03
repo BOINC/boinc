@@ -39,6 +39,10 @@ if ($logged_in_user) {
     $tokens = url_tokens($logged_in_user->authenticator);
 }
 
+if ($threadid < 1) {
+	error_page(tra("Invalid thread ID!"));
+}
+
 $thread = BoincThread::lookup_id($threadid);
 $forum = BoincForum::lookup_id($thread->forum);
 
@@ -192,7 +196,7 @@ echo "<input type=\"submit\" value=\"Sort\">
 // Here is where the actual thread begins.
 $headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),""));
 
-start_forum_table($headings, "id=\"thread\" width=100%");
+start_forum_table($headings, "id=\"thread\" cellspacing=0");
 show_posts($thread, $forum, $sort_style, $filter, $logged_in_user, true);
 end_table();
 

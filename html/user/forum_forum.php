@@ -132,7 +132,7 @@ function show_forum($forum, $start, $sort_style, $user) {
         $gotoStr = "<div align=\"right\">$nav</div><br>";
     }
     echo $gotoStr; // Display the navbar
-    start_forum_table(array("", tra("Threads"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"));
+    start_forum_table(array("", tra("Threads"), tra("Posts"), tra("Author"), tra("Views"), "<nobr>".tra("Last post")."</nobr>"), "id=\"catview\" cellspacing=0");
     
     $sticky_first = !$user || !$user->prefs->ignore_sticky_posts;
 
@@ -163,9 +163,9 @@ function show_forum($forum, $start, $sort_style, $user) {
             echo '<tr class="row'.$n.'">';    
         }
         
-        echo "<td width=\"1%\" align=\"right\"><nobr>";
+        echo "<td width=\"1%\" class=\"threadicon\"><nobr>";
         if ($thread->hidden) {
-            echo "[hidden]";
+            echo "[".tra("hidden")."]";
         }
         if ($unread) {
             if ($thread->sticky) {
@@ -191,7 +191,9 @@ function show_forum($forum, $start, $sort_style, $user) {
             } else {
                 if ($thread->locked) {
                     show_image(IMAGE_LOCKED, "This thread is locked", "locked");
-                }
+                } else {
+					show_image(IMAGE_POST, "You read this thread", "read");
+				}
             }
         }
         echo "</nobr></td>";
@@ -205,10 +207,10 @@ function show_forum($forum, $start, $sort_style, $user) {
         $n = ($n+1)%2;
 
         echo '
-            <td>'.($thread->replies+1).'</td>
+            <td class="numbers">'.($thread->replies+1).'</td>
             <td>'.user_links($owner).'</td>
-            <td>'.$thread->views.'</td>
-            <td class=\"lastpost\">'.time_diff_str($thread->timestamp, time()).'</td>
+            <td class="numbers">'.$thread->views.'</td>
+            <td class="lastpost">'.time_diff_str($thread->timestamp, time()).'</td>
             </tr>
         ';
         flush();

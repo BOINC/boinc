@@ -232,7 +232,7 @@ function date_str($x) {
 
 function time_str($x) {
     if ($x == 0) return "---";
-    return gmdate('j M Y G:i:s', $x) . " UTC";
+    return gmdate('j M Y | G:i:s', $x) . " UTC";
 }
 
 function pretty_time_str($x) {

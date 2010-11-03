@@ -22,7 +22,7 @@ include_once("../inc/team.inc");
 
 page_head("Teams");
 
-echo "<p>".tra("%1 participants may form %2teams%3", PROJECT, "<b>", "</b>") ."
+echo "<p>".tra("%1 participants may form %2teams%3.", PROJECT, "<b>", "</b>") ."
     <p>
     ". tra("You may belong to only one team. You can join or quit a team at any time."). "
     <p>" .

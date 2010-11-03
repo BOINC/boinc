@@ -32,7 +32,7 @@ You will be sent email instructions for resetting your password.
 
 start_table();
 echo "<form method=post action=mail_passwd.php>\n";
-row2("Email address","<input size=40 name=email_addr>");
+row2("Email address","<input type=\"text\" size=40 name=email_addr>");
 row2("", "<input type=submit value=OK>");
 echo "</form>";
 end_table();
@@ -75,7 +75,7 @@ update the email and password of your account.
 start_table();
 
 echo "<form action=login_action.php method=post>\n";
-row2("Log in with authenticator", "<input name=authenticator size=40>");
+row2("Log in with authenticator", "<input type=\"text\" name=authenticator size=40>");
 row2("Stay logged in on this computer",
     "<input type=checkbox name=send_cookie checked>"
 );
