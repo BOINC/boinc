@@ -7832,3 +7832,11 @@ David  04 Nov 2010
 
     html/
         various
+
+David  04 Nov 2010
+    - GUI RPC: parse GPU info, FLOPS from APP_VERSION records
+        (client already sends this info)
+
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

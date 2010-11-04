@@ -369,23 +369,46 @@ APP_VERSION::~APP_VERSION() {
     clear();
 }
 
+int APP_VERSION::parse_coproc(MIOFILE& in) {
+    char buf[256], type_buf[256];
+    double count = 0;
+
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</coproc>")) {
+            if (!strcmp(type_buf, "CUDA")) {
+                ncudas = count;
+            } else if (!strcmp(type_buf, "ATI")) {
+                natis = count;
+            }
+            return 0;
+        }
+        if (parse_str(buf, "<type>", type_buf, sizeof(type_buf))) continue;
+        if (parse_double(buf, "<count>", count)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 int APP_VERSION::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
         if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
-        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) continue;
+        if (parse_str(buf, "<platform>", platform, sizeof(platform))) continue;
+        if (parse_double(buf, "<avg_ncpus>", avg_ncpus)) continue;
+        if (parse_double(buf, "<gpu_ram>", gpu_ram)) continue;
+        if (parse_double(buf, "<flops>", flops)) continue;
+        if (match_tag(buf, "<coproc>")) {
+            parse_coproc(in);
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
 
 void APP_VERSION::clear() {
-    strcpy(app_name, "");
-    strcpy(plan_class, "");
-    version_num = 0;
-    app = NULL;
-    project = NULL;
+    memset(this, 0, sizeof(*this));
 }
 
 WORKUNIT::WORKUNIT() {

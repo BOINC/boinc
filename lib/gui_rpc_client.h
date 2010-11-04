@@ -194,7 +194,13 @@ class APP_VERSION {
 public:
     char app_name[256];
     int version_num;
+    char platform[64];
     char plan_class[64];
+    double avg_ncpus;
+    double ncudas;
+    double natis;
+    double gpu_ram;
+    double flops;
     APP* app;
     PROJECT* project;
 
@@ -202,6 +208,7 @@ public:
     ~APP_VERSION();
 
     int parse(MIOFILE&);
+    int parse_coproc(MIOFILE&);
     void print();
     void clear();
 };
