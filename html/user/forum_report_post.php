@@ -56,7 +56,7 @@ if (get_str("submit",true)){
     }
 }
 
-$no_forum_rating = parse_bool($config, "no_forum_rating"); 
+$no_forum_rating = parse_bool($config, "no_forum_rating");
 
 //__--------------- Display part
 if ($success_page==1) {
@@ -68,7 +68,7 @@ if ($success_page==1) {
     ";
     echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
 } elseif ($success_page==0){
-    page_head('Report a forum post'); 
+    page_head('Report a forum post');
     if (!$no_forum_rating) {
         echo "<p>Before reporting this post <em>please</em>
             consider using the +/- rating system instead.
@@ -82,13 +82,13 @@ if ($success_page==1) {
     echo "<form action=\"forum_report_post.php\" method=\"get\">\n";
     echo form_tokens($user->authenticator);
     row1("Report post");
-    row2("Why do you find the post offensive:<br><font size=-1>Please include enough information so that a person that 
+    row2("Why do you find the post offensive:<br><font size=-1>Please include enough information so that a person that
     has not yet read the thread will quickly be able to identify the issue.</font>",
         "<textarea name=\"reason\" rows=12 cols=54></textarea>"
     );
     row2("", "<input type=\"submit\" name=\"submit\" value=\"OK\">");
     echo "<input type=\"hidden\" name=\"post\" value=\"".$post->id."\">";
-    echo "</form>";		    
+    echo "</form>";
     end_table();
 } elseif ($success_page==-1) {
     page_head('Report NOT registered');

@@ -70,7 +70,7 @@ function handle_add($user) {
         <input type=hidden name=userid value=$destid>
         <input type=hidden name=action value=add_confirm>" .
         tra("You have asked to add %1 as a friend. We will notify %2 and will ask him/her to confirm that you are friends.",
-	"<b>".$destuser->name."</b>","<b>".$destuser->name."</b>") ."
+        "<b>".$destuser->name."</b>","<b>".$destuser->name."</b>") ."
         <p>" .
         tra("Add an optional message here:") ."
         <br>

@@ -42,27 +42,27 @@ $nhosts = get_int("nhosts");
 $hostid = get_int("id_0");
 $latest_host = get_host($hostid, $user);
 for ($i=1; $i<$nhosts; $i++) {
-	$var = "id_$i";
-	$hostid = get_int($var, true);
+    $var = "id_$i";
+    $hostid = get_int($var, true);
     if (!$hostid) continue;
-	$host = get_host($hostid, $user);
-	if ($host->create_time > $latest_host->create_time) {
-		$error = merge_hosts($latest_host, $host);
+    $host = get_host($hostid, $user);
+    if ($host->create_time > $latest_host->create_time) {
+        $error = merge_hosts($latest_host, $host);
         if ($error) {
             echo "<br>$error\n";
             continue;
         }
-		$latest_host = $host;
-	} else {
-		merge_hosts($host, $latest_host);
-	}
-	// reread latest_host from database since we just
-	// updated its credits
-	//
-	$latest_host = BoincHost::lookup_id($latest_host->id);
+        $latest_host = $host;
+    } else {
+        merge_hosts($host, $latest_host);
+    }
+    // reread latest_host from database since we just
+    // updated its credits
+    //
+    $latest_host = BoincHost::lookup_id($latest_host->id);
 }
 echo "
-	<p><a href=hosts_user.php>Return to list of your computers</a>
+    <p><a href=hosts_user.php>Return to list of your computers</a>
 ";
 page_tail();
 

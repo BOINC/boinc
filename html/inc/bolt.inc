@@ -30,7 +30,7 @@ abstract class BoltUnit {
     public $title;
         // Optional; used when showing course history outline.
     public $is_item;
-	public $attrs;		// course-defined
+    public $attrs;        // course-defined
 
     abstract function walk(&$iter, $incr, &$frac_done);
         // multi-purpose function for traversing a course.
@@ -60,7 +60,7 @@ class BoltItem extends BoltUnit {
         $this->name = $filename;
         $this->title = $title;
         $this->is_item = true;
-		$this->attrs = $attrs;
+        $this->attrs = $attrs;
     }
     function begin() {
         return array(new BoltFrame($this));
@@ -123,7 +123,7 @@ class BoltSet extends BoltUnit {
         $this->units = $units;
         $this->ntoshow = $ntoshow;
         $this->ordered = false;
-		$this->attrs = $attrs;
+        $this->attrs = $attrs;
     }
 
     // restart this unit - set its state record to an initial state
@@ -160,7 +160,7 @@ class BoltSet extends BoltUnit {
             }
 
             // look up unit by name
-            // 
+            //
             $child = null;
             for ($i=0; $i<$n; $i++) {
                 $c = $this->units[$i];
@@ -277,7 +277,7 @@ function callback($n) {
 function lesson() {
     $filename = "";
     $title = "";
-	$attrs = null;
+    $attrs = null;
 
     $args = func_get_args();
     foreach ($args as $arg) {
@@ -304,7 +304,7 @@ function lesson() {
 function exercise() {
     $filename = "";
     $title = "";
-	$attrs = null;
+    $attrs = null;
     $weight = 1;
     $has_answer_page = true;
 

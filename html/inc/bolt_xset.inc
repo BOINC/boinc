@@ -172,7 +172,7 @@ function exercise_set() {
     $callback = null;
     $name = "";
     $number = 0;
-	$attrs = null;
+    $attrs = null;
     $weight = 1;
     foreach ($args as $arg) {
         if (is_array($arg)) {

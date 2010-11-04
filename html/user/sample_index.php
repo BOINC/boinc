@@ -52,7 +52,7 @@ function show_nav() {
         <li> If you're running a command-line version of BOINC,
             <a href=\"create_account_form.php\">create an account</a> first.
         <li> If you have any problems,
-            <a target=\"_new\" href=\"http://boinc.berkeley.edu/help.php\">get help here</a>.
+            <a target=\"_new\" href=\"http://boinc.berkeley.edu/wiki/BOINC_Help\">get help here</a>.
         </ul>
 
         <h2>Returning participants</h2>
@@ -94,7 +94,7 @@ echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://
 echo "<html>
     <head>
     <title>".PROJECT."</title>
-	<link rel=\"stylesheet\" type=\"text/css\" href=\"main.css\" media=\"all\" />
+    <link rel=\"stylesheet\" type=\"text/css\" href=\"main.css\" media=\"all\" />
     <link rel=\"stylesheet\" type=\"text/css\" href=\"".STYLESHEET."\">
     <link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$rssname."\" href=\"".$rsslink."\">
 ";

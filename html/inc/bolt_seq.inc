@@ -39,7 +39,7 @@ function sequence() {
     $args = func_get_args();
     $units = array();
     $name = "";
-	$attrs = null;
+    $attrs = null;
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {

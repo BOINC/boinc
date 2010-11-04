@@ -74,18 +74,17 @@ show_forum_header($user);
 if (FORUM_QA_MERGED_MODE === true){
     $categories = BoincCategory::enum("true order by orderID");
 } else {
-    echo "
-	<p>
-        ".tra("If you have a question or problem, please use the %1Questions & Answers%2 section of the message boards.", "<a href=\"forum_help_desk.php\">", "</a>")."
-        </p>
-    ";
+    echo "<p>"
+        .tra("If you have a question or problem, please use the %1Questions & Answers%2 section of the message boards.", "<a href=\"forum_help_desk.php\">", "</a>")
+        ."</p>"
+    ;
     $categories = BoincCategory::enum("is_helpdesk=0 order by orderID");
 }
 $first = true;
 foreach ($categories as $category) {
     if ($first) {
         $first = false;
-	echo "<p>";
+        echo "<p>";
         show_forum_title($category, NULL, NULL);
         echo "<p>";
         show_mark_as_read_button($user);

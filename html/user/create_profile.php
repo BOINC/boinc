@@ -60,10 +60,10 @@ function show_picture_option($profile) {
 <td valign=top><a href=\"" . IMAGE_URL . $profile->userid . '.jpg' . "\"><img src=\"" . IMAGE_URL . $profile->userid . '_sm.jpg' . "\"></a>
 </td>
 <td valign=top>" .tra("%1 Your profile picture is shown to the left.",  $warning) ."
-<p>". 
+<p>".
 tra("To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 or less).", "50KB") ."<br />
 <input name=picture type=file><br>
-<p>". 
+<p>".
 tra("To remove it from your profile, check this box:") . "
 <input type=checkbox name=delete_pic>
 <p>
@@ -86,7 +86,7 @@ function show_language_selection($profile) {
     }
     row1(tra("Language"));
     echo "<tr><td>
-        <p>" . 
+        <p>" .
         tra("Select the language in which your profile is written:") . "
         <p>
     ";
@@ -194,7 +194,7 @@ function show_textarea($name, $text) {
 //
 function process_create_profile($user, $profile) {
     global $config;
-    
+
     $response1 = post_str('response1', true);
     $response2 = post_str('response2', true);
     $language = post_str('language');
@@ -299,8 +299,10 @@ function process_create_profile($user, $profile) {
 
     page_head(tra("Profile saved"));
 
-    echo tra("Congratulations! Your profile was successfully entered into our database.").
-	"<br><br>". tra("%1View your profile%2", "<a href=\"view_profile.php?userid=".$user->id."\">", "</a><br>");
+    echo tra("Congratulations! Your profile was successfully entered into our database.")
+        ."<br><br>"
+        .tra("%1View your profile%2", "<a href=\"view_profile.php?userid=".$user->id."\">", "</a><br>")
+    ;
     page_tail();
 }
 

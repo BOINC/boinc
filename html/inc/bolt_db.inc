@@ -22,7 +22,7 @@ require_once("../inc/util.inc");
 define('BOLT_PHASE_STUDY', 1);
     // sequential progress through course
 define('BOLT_PHASE_REVIEW', 2);
-	// review and repeat of an exercise set
+    // review and repeat of an exercise set
 define('BOLT_PHASE_REFRESH', 3);
     // timed repeat of exercise set, and possibly review and repeat
 

@@ -40,10 +40,10 @@ if ($email_addr && $passwd) {
         page_tail();
         exit;
     }
-	if (substr($user->authenticator, 0, 1) == 'x'){
-		//User has been bad so we are going to take away ability to post for awhile.
-		error_page("This account has been administratively disabled.");
-	}
+    if (substr($user->authenticator, 0, 1) == 'x'){
+        //User has been bad so we are going to take away ability to post for awhile.
+        error_page("This account has been administratively disabled.");
+    }
     $passwd_hash = md5($passwd.$email_addr);
     if ($passwd_hash != $user->passwd_hash) {
         page_head("Password incorrect");
@@ -103,8 +103,8 @@ if (!$authenticator) {
 }
 
 if (substr($user->authenticator, 0, 1) == 'x'){
-	//User has been bad so we are going to take away ability to post for awhile.
-	error_page("This account has been administratively disabled.");
+    //User has been bad so we are going to take away ability to post for awhile.
+    error_page("This account has been administratively disabled.");
 }
 $user = lookup_user_auth($authenticator);
 if (!$user) {

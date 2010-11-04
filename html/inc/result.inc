@@ -66,7 +66,7 @@ function app_version_string($result) {
 
 function result_granted_credit_string($result, $string_to_show) {
     if ($result->server_state == 4 && $result->granted_credit > 0) {
-        return $string_to_show; 
+        return $string_to_show;
     }
     if ($result->server_state <> 5) return "---";
     switch($result->outcome) {
@@ -80,10 +80,10 @@ function result_granted_credit_string($result, $string_to_show) {
     default:
         if ($result->granted_credit > 0) {
             return $string_to_show;
-	    }
+        }
         return "---";
     }
-} 
+}
 
 // various states that we allow users to filter on
 
@@ -321,7 +321,7 @@ function show_result_row(
     }
     $ss = state_string($result);
     $result_granted_credit = format_credit($result->granted_credit);
-    $result_granted_credit = result_granted_credit_string($result, $result_granted_credit); 
+    $result_granted_credit = result_granted_credit_string($result, $result_granted_credit);
     $j = $i % 2;
     echo "<tr class=row$j>";
     if ($show_name) {
@@ -430,7 +430,7 @@ function show_result_navigation($info) {
             echo "<a href=$url>".$state_name[$i]."</a>";
         }
     }
-    
+
     $apps = BoincApp::enum('deprecated=0 ORDER BY user_friendly_name');
     if (count($apps) > 1) {
         $i2 = clone $info;
@@ -443,7 +443,7 @@ function show_result_navigation($info) {
         } else {
             echo 'All';
         }
-        
+
         foreach ($apps as $app) {
             $i2->appid = $app->id;
             $url = result_page_url($i2);

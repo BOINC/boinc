@@ -22,15 +22,14 @@ function time_diff_str($t1, $t2) {
     if (!$t1 || !$t2) return "---";
     $diff = $t2 - $t1;
     if ($diff<0){
-	$pre="In "; 
-	$post=""; 
-	$diff=-$diff;
+        $pre="In ";
+        $post="";
+        $diff=-$diff;
     } else {
-	$pre="";
-	$post=" ago";
+        $pre="";
+        $post=" ago";
     }
     $x = "";
-
 
     if ($diff >= 3600*24) {
         $n = (int) ($diff/(3600*24));
@@ -62,6 +61,6 @@ function time_diff_str($t1, $t2) {
         return $pre."$diff seconds".$post;
     } elseif($diff == 1){
         return $pre."$diff seconds".$post;
-    }    
+    }
 }
 ?>

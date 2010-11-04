@@ -52,19 +52,19 @@ if (!$user) {
         Try reentering your email address.<p>
     ";
 } else {
-	if (substr($user->authenticator, 0, 1) == 'x') {
-		page_head("Account Currently Disabled");
-		echo "This account has been administratively disabled.";
-	} else {
-		$user->email_addr = $email_addr;
-		$retval = send_auth_email($user);
-		if ($retval) {
-			email_sent_message($email_addr);
-		} else {
+    if (substr($user->authenticator, 0, 1) == 'x') {
+        page_head("Account Currently Disabled");
+        echo "This account has been administratively disabled.";
+    } else {
+        $user->email_addr = $email_addr;
+        $retval = send_auth_email($user);
+        if ($retval) {
+            email_sent_message($email_addr);
+        } else {
             page_head("Email failed");
-			echo "Can't send email to $user->email_addr";
-		}
-	}
+            echo "Can't send email to $user->email_addr";
+        }
+    }
 }
 
 page_tail();

@@ -134,12 +134,12 @@ function show_message_row($thread, $parent_post) {
 
     $x2 .= " method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     $x2 .= form_tokens($g_logged_in_user->authenticator);
-    $x2 .= $bbcode_html."<textarea name=\"content\" rows=\"18\" cols=\"80\">";        
+    $x2 .= $bbcode_html."<textarea name=\"content\" rows=\"18\" cols=\"80\">";
     $no_quote = get_int("no_quote", true)==1;
     if ($preview) {
         $x2 .= htmlspecialchars($content);
     } else if (!$no_quote) {
-        if ($parent_post) $x2 .= quote_text(htmlspecialchars($parent_post->content), 80)."\n";
+        if ($parent_post) $x2 .= quote_text(htmlspecialchars($parent_post->content))."\n";
     }
     if (!$g_logged_in_user->prefs->no_signature_by_default){
         $enable_signature="checked=\"true\"";
@@ -158,10 +158,10 @@ function show_message_row($thread, $parent_post) {
     row2($x1, $x2);
 }
 
-function quote_text($text, $cols = 0) {
-	/* $cols is depricated. */
+function quote_text($text) {
     $text = "[quote]" . $text . "[/quote]";
     return $text;
 }
+
 $cvs_version_tracker[]="\$Id$";
 ?>

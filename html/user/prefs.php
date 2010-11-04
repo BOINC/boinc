@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/prefs.inc");
@@ -32,11 +30,11 @@ $updated = get_int("updated", true);
 
 page_head(tra("%1 preferences", subset_name($subset)));
 if (isset($updated)) {
-	echo "<p style='color: red'>
+    echo "<p style='color: red'>
         ".tra("Your preferences have been updated, and
-	      will take effect when your computer communicates with %1
-	      or you issue the %2Update%3 command from the BOINC Manager.",
-	      PROJECT, "<strong>", "</strong>")."
+          will take effect when your computer communicates with %1
+          or you issue the %2Update%3 command from the BOINC Manager.",
+          PROJECT, "<strong>", "</strong>")."
         </p>
     ";
 }

@@ -33,28 +33,28 @@ define("NVALIDATE_STATES", 6);
 // @return String A user readable DateTime-String in UTC
 // @param Integer $x The mysql-Timestamp to convert
 function mysqltime_str($x) {
-	if(strpos($x,"-")==4) {
-		// Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
-		$year = substr($x,0,4);
-		$month = substr($x,5,2);
-		$day = substr($x,8,2);
-		$hour = substr($x,11,2);
-		$minute = substr($x,14,2);
-		$second = substr($x,17,2);
-	} else {
-    	// Syntax of supplied mysql-timestamp is YYYYMMDDHHMMSS
-		$year = substr($x,0,4);
-		$month = substr($x,4,2);
-		$day = substr($x,6,2);
-		$hour = substr($x,8,2);
-		$minute = substr($x,10,2);
-		$second = substr($x,12,2);
-	
+    if(strpos($x,"-")==4) {
+        // Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
+        $year = substr($x,0,4);
+        $month = substr($x,5,2);
+        $day = substr($x,8,2);
+        $hour = substr($x,11,2);
+        $minute = substr($x,14,2);
+        $second = substr($x,17,2);
+    } else {
+        // Syntax of supplied mysql-timestamp is YYYYMMDDHHMMSS
+        $year = substr($x,0,4);
+        $month = substr($x,4,2);
+        $day = substr($x,6,2);
+        $hour = substr($x,8,2);
+        $minute = substr($x,10,2);
+        $second = substr($x,12,2);
+    
     }
-	//make a Unix-Timestamp
+    //make a Unix-Timestamp
     // echo "Time string is " . "$x";
-	$time = mktime($hour,$minute,$second,$month,$day,$year);
-	return time_str($time);
+    $time = mktime($hour,$minute,$second,$month,$day,$year);
+    return time_str($time);
 }
 
 // Function prints a description of $table 
@@ -1053,7 +1053,7 @@ function show_workunit($wu) {
     start_table();
     row("Created", time_str($wu->create_time));
     row("Transition Time", time_str($wu->transition_time));
-	row("Last time modified",mysqltime_str($wu->mod_time));
+    row("Last time modified",mysqltime_str($wu->mod_time));
     row("Name", $wu->name);
     row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     row("Application", "<a href=\"db_action.php?table=app&id=$wu->appid\">" . app_name_by_id($wu->appid) . " [".$wu->appid."]</a>");

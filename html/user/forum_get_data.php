@@ -50,7 +50,7 @@ if ($method == "user_posts") {
     echo "<rpc_response>\n";
     echo "<count>$realcount</count>\n";
     echo "<posts>\n";
-        
+
     foreach ($posts as $post) {
         $thread = BoincThread::lookup_id($post->thread);
         echo "<post>\n";
@@ -65,7 +65,7 @@ if ($method == "user_posts") {
         }
         echo "</post>\n";
     }
-        
+
     echo "</posts>\n";
     echo "</rpc_response>\n";
 } elseif ($method == "user_threads") {
@@ -73,7 +73,7 @@ if ($method == "user_posts") {
     if (!$count || $count <= 0 || $count > 50) { $count = 10; }
     $threads = BoincThread::enum("owner=$userid ORDER BY timestamp DESC LIMIT $count");
     $count = count($threads);
-	
+
     echo "<rpc_response>\n";
     echo "<count>$count</count>\n";
     echo "<threads>\n";
@@ -87,7 +87,7 @@ if ($method == "user_posts") {
         echo "    <title><![CDATA[$thread->title]]></title>\n";
         echo "</thread>\n";
     }
-        
+
     echo "</threads>\n";
     echo "</rpc_response>\n";
 }

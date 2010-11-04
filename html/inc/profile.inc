@@ -224,7 +224,7 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     if ($show_picture) {
         echo "
             <tr><td colspan=\"2\" align=\"center\">
-			<img vspace=\"6\" hspace=\"9\" src=\"".profile_image_url($user->id)."\">
+            <img vspace=\"6\" hspace=\"9\" src=\"".profile_image_url($user->id)."\">
             </td></tr>
         ";
     }
@@ -242,15 +242,15 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     BoincForumPrefs::lookup($logged_in_user);
     $options = get_output_options($logged_in_user);
 
-	if ( !empty($profile->response1) ) {
-		row1(show_profile_heading1());
-		row1(output_transform($profile->response1, $options), 2, "foobar");
-	}
-	
-	if ( !empty($profile->response2) ) {
-		row1(show_profile_heading2());
-		row1(output_transform($profile->response2, $options), 2, "foobar");
-	}
+    if (!empty($profile->response1)) {
+        row1(show_profile_heading1());
+        row1(output_transform($profile->response1, $options), 2, "foobar");
+    }
+
+    if (!empty($profile->response2)) {
+        row1(show_profile_heading2());
+        row1(output_transform($profile->response2, $options), 2, "foobar");
+    }
 
     if (!$can_edit and !$screen_mode) {
         row1(tra("Your feedback on this profile"));

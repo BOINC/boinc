@@ -48,7 +48,7 @@ function xml_error($num, $msg=null) {
         case -207: $msg = "Email address is not unique"; break;
         case -208: $msg = "Account creation is disabled"; break;
         case -209: $msg = "Invalid invitation code"; break;
-	case -210: $msg = "Invalid request method"; break;
+        case -210: $msg = "Invalid request method"; break;
         default: "Unknown error"; break;
         }
     }

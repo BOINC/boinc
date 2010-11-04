@@ -49,7 +49,7 @@ function random() {
     $units = array();
     $name = "";
     $number = 0;
-	$attrs = null;
+    $attrs = null;
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {

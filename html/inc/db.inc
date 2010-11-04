@@ -24,14 +24,14 @@ require_once('../inc/boinc_db.inc');
 
 function db_init_aux($try_replica=false) {
     $config = get_config();
-	$user = parse_config($config, "<db_user>");
-	$pass = parse_config($config, "<db_passwd>");
+    $user = parse_config($config, "<db_user>");
+    $pass = parse_config($config, "<db_passwd>");
     $host = null;
     if ($try_replica == true) {
-	  $host = parse_config($config, "<replica_db_host>");
+      $host = parse_config($config, "<replica_db_host>");
     }
     if ($host == null) {
-  	  $host = parse_config($config, "<db_host>");
+        $host = parse_config($config, "<db_host>");
     }
     if ($host == null) {
         $host = "localhost";

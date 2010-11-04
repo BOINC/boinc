@@ -122,7 +122,7 @@ function page_head(
     $stylesheet = URL_BASE.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
-    
+
     header("Content-type: text/html; charset=utf-8");
     if (!$caching) {
         header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
@@ -130,9 +130,8 @@ function page_head(
         header ("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
         header ("Pragma: no-cache");                          // HTTP/1.0
     }
-    
+
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
- 
     
     if (!$title_plain) {
         echo "<html><head><title>".strip_tags($title)."</title>\n";
@@ -140,7 +139,7 @@ function page_head(
         echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
     }
     echo "<link rel=stylesheet type=\"text/css\" href=\"main.css\" media=\"all\" />
-		<link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
+        <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         $head_extra
         </head>
@@ -448,7 +447,7 @@ function friend_links($user) {
         $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img class="userimg" title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
     }
     $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->donated == 1) { 
+    if ($user->donated == 1) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
@@ -467,7 +466,7 @@ function user_links($user) {
         $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img class="userimg" title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
     }
     $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->donated == 1) { 
+    if ($user->donated == 1) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
@@ -626,14 +625,14 @@ function select_from_array($name, $array, $selection) {
     return $out;
 }
 
-// Convert to entities, while preserving already-encoded entities. 
+// Convert to entities, while preserving already-encoded entities.
 // Do NOT use if $str contains valid HTML tags.
 //
-function boinc_htmlentities($str) { 
-    $str = html_entity_decode($str, ENT_COMPAT, "UTF-8"); 
-    $str = htmlentities($str, ENT_COMPAT, "UTF-8"); 
-    return $str; 
-} 
+function boinc_htmlentities($str) {
+    $str = html_entity_decode($str, ENT_COMPAT, "UTF-8");
+    $str = htmlentities($str, ENT_COMPAT, "UTF-8");
+    return $str;
+}
 
 function strip_bbcode($string){
     return preg_replace("/((\[.+\])+?)(.+?)((\[\/.+\])+?)/","",$string);
@@ -662,7 +661,7 @@ function current_url() {
 // @param text The text to display on the button
 // @param desc The title of the destination - typically used as a popup
 // @param class The optional CSS class of the button. Defaults to a standard button
-// 
+//
 function show_button($url, $text, $desc, $class="button") {
     echo "<a href=\"".$url."\" title=\"".addslashes($desc)."\" class=\"".$class."\">".$text."</a>";
 }

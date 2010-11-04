@@ -35,7 +35,7 @@ if (!post_str('action', true)) {
     if (!get_str('action', true)){
 	    error_page("You must specify an action...");
     } else {
-	$action = get_str('action');
+        $action = get_str('action');
     }
 } else {
     $action = post_str('action');
@@ -61,7 +61,7 @@ switch (post_int("category", true)) {
 
 if (post_str('reason', true)){
     start_vote($config,$logged_in_user,$user, $mod_category,post_str("reason"));
-} else { 
+} else {
     start_vote($config,$logged_in_user,$user, $mod_category,"None given");
 }
 
