@@ -7653,13 +7653,13 @@ David  29 Oct 2010
             login_action.php
 
 David  29 Oct 2010
-	- client and manager: fix notice titles
-	- code cleanup: please use standard coding conventions
+    - client and manager: fix notice titles
+    - code cleanup: please use standard coding conventions
 
-	client/
-		client_msgs.cpp
-	clientgui/
-		NoticeListCtrl.cpp
+    client/
+        client_msgs.cpp
+    clientgui/
+        NoticeListCtrl.cpp
 
 David  29 Oct 2010
     - client: small initial checkin for new scheduling system.
@@ -7840,3 +7840,9 @@ David  04 Nov 2010
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  04 Nov 2010
+    - manager: show app speed and task FLOPs estimate in task Properties
+
+    clientgui/
+        DlgItemProperties.cpp
