@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-10-20 14:40+0200\n"
+"PO-Revision-Date: 2010-10-30 19:00+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -109,15 +109,15 @@ msgstr "Markeer alle forums als 'gelezen'."
 
 #: ../inc/host.inc:24
 msgid "No host"
-msgstr "Geen computer"
+msgstr "Geen host computer"
 
 #: ../inc/host.inc:26
 msgid "Unavailable"
-msgstr "Niet voor handen"
+msgstr "Niet beschikbaar"
 
 #: ../inc/host.inc:55 ../inc/prefs.inc:618 ../inc/prefs.inc:1018
 msgid "Home"
-msgstr "Thuis"
+msgstr "Thuis pagina"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:620 ../inc/prefs.inc:1019
 #: ../user/server_status.php:296
@@ -397,7 +397,7 @@ msgstr "Details"
 
 #: ../inc/host.inc:306
 msgid "Cross-project stats:"
-msgstr "'Cross-project' statistieken:"
+msgstr "Project brede statistieken:"
 
 #: ../inc/host.inc:460
 msgid "Host %1 has overlapping lifetime:"
@@ -1309,7 +1309,6 @@ msgid "Application version"
 msgstr "Programma versie"
 
 #: ../inc/result.inc:396
-#, fuzzy
 msgid "Stderr output"
 msgstr "Stderr output"
 
@@ -1629,9 +1628,8 @@ msgid "Stats on your cell phone"
 msgstr "Statistieken op je mobiele telefoon"
 
 #: ../inc/user.inc:184
-#, fuzzy
 msgid "Unknown notification type: %1"
-msgstr "Unknown notification type: %1"
+msgstr "Onbekend berichten type: %1"
 
 #: ../inc/user.inc:198
 msgid "Email address verification pending"
@@ -1873,27 +1871,24 @@ msgid "Project down for maintenance"
 msgstr "Project wegens onderhoud gesloten"
 
 #: ../inc/util.inc:692
-#, fuzzy
 msgid ""
 "This page requires database access.  Our database server is temporarily shut "
 "down for maintenance.  Please try again later."
 msgstr ""
-"This page requires database access.  Our database server is temporarily shut "
-"down for maintenance.  Please try again later."
+"Deze pagina vereist database toegang. Onze database server is tijdelijk "
+"gesloten wegens onderhoud. Probeer het later a.u.b. opnieuw."
 
 #: ../inc/util.inc:708
-#, fuzzy
 msgid "Unable to connect to database - please try again later"
-msgstr "Unable to connect to database - please try again later"
+msgstr "Verbinden met database mislukt - probeer het later a.u.b. opnieuw."
 
 #: ../inc/util.inc:709
 msgid "Error:"
 msgstr "Fout:"
 
 #: ../inc/util.inc:713
-#, fuzzy
 msgid "Unable to select database - please try again later"
-msgstr "Unable to select database - please try again later"
+msgstr "Selecteren van database mislukt - probeer het later a.u.b. opnieuw."
 
 #: ../user/account_finish.php:40 ../user/create_account_form.php:84
 msgid "Identifies you on our web site. Use your real name or a nickname."
@@ -2057,9 +2052,8 @@ msgid "Submit profile"
 msgstr "Profiel toevoegen"
 
 #: ../user/create_profile.php:108
-#, fuzzy
 msgid "Please enter the words shown in the image."
-msgstr "Please enter the words shown in the image."
+msgstr "Vul a.u.b het in het plaatje getoonde woord in."
 
 #: ../user/create_profile.php:113
 msgid "Create/edit profile"
@@ -3139,130 +3133,123 @@ msgstr "Programma"
 
 #: ../user/server_status.php:226
 msgid "Host"
-msgstr ""
+msgstr "Host computer"
 
 #: ../user/server_status.php:237
 msgid "data-driven web pages"
-msgstr ""
+msgstr "data-afhankelijke web pagina's"
 
 #: ../user/server_status.php:243
 msgid "upload/download server"
-msgstr ""
+msgstr "upload/download server"
 
 #: ../user/server_status.php:246
 msgid "scheduler"
-msgstr ""
+msgstr "taakverdeler"
 
 #: ../user/server_status.php:276
-#, fuzzy
 msgid "Running:"
-msgstr "Actief"
+msgstr "Actief:"
 
 #: ../user/server_status.php:277
 msgid "Program is operating normally"
-msgstr ""
+msgstr "Programma functioneert normaal"
 
 #: ../user/server_status.php:278
-#, fuzzy
 msgid "Not Running:"
-msgstr "Niet actief"
+msgstr "Niet actief:"
 
 #: ../user/server_status.php:279
 msgid "Program failed or the project is down"
-msgstr ""
+msgstr "Programma of project functioneert niet goed"
 
 #: ../user/server_status.php:280
-#, fuzzy
 msgid "Disabled:"
-msgstr "Uitgezet"
+msgstr "Uitgezet:"
 
 #: ../user/server_status.php:281
 msgid "Program is disabled"
-msgstr ""
+msgstr "Programma is stopgezet"
 
 #: ../user/server_status.php:285
 msgid "Computing status"
-msgstr ""
+msgstr "Berekenings status"
 
 #: ../user/server_status.php:291
 msgid "The database server is not accessible"
-msgstr ""
+msgstr "De database server is tijdelijk onbereikbaar"
 
 #: ../user/server_status.php:308
 msgid "Tasks ready to send"
-msgstr ""
+msgstr "Taken gereed om te verzenden"
 
 #: ../user/server_status.php:313 ../user/workunit.php:52
-#, fuzzy
 msgid "Tasks in progress"
-msgstr "Tasks in progress"
+msgstr "Taken in uitvoering"
 
 #: ../user/server_status.php:318
 msgid "Workunits waiting for validation"
-msgstr ""
+msgstr "Werkeenheden in afwachting van validatie"
 
 #: ../user/server_status.php:323
 msgid "Workunits waiting for assimilation"
-msgstr ""
+msgstr "Werkeenheden in aanmaak"
 
 #: ../user/server_status.php:328
 msgid "Workunits waiting for file deletion"
-msgstr ""
+msgstr "Werkeenheden in afwachting van verwijdering"
 
 #: ../user/server_status.php:333
 msgid "Tasks waiting for file deletion"
-msgstr ""
+msgstr "Taken in afwachting van verwijdering"
 
 #: ../user/server_status.php:346
 msgid "Transitioner backlog (hours)"
-msgstr ""
+msgstr "Achterstand bestandsoverdracht (uren)"
 
 #: ../user/server_status.php:353
-#, fuzzy
 msgid "Users"
-msgstr "Gebruiker"
+msgstr "Gebruikers"
 
 #: ../user/server_status.php:355 ../user/server_status.php:371
 msgid "with recent credit"
-msgstr ""
+msgstr "met recentelijke punten"
 
 #: ../user/server_status.php:360 ../user/server_status.php:376
 msgid "with credit"
-msgstr ""
+msgstr "met punten"
 
 #: ../user/server_status.php:365 ../user/server_status.php:381
 msgid "registered in past 24 hours"
-msgstr ""
+msgstr "geregistreerd in de afgelopen 24 uur"
 
 #: ../user/server_status.php:388
 msgid "current GigaFLOPs"
-msgstr ""
+msgstr "huidig aantal GigaFLOPs"
 
 #: ../user/server_status.php:397
 msgid "Tasks by application"
-msgstr ""
+msgstr "Taken per applicatie"
 
 #: ../user/server_status.php:398 ../user/workunit.php:38
 msgid "application"
 msgstr "applicatie"
 
 #: ../user/server_status.php:398
-#, fuzzy
 msgid "unsent"
-msgstr "Niet verzonden"
+msgstr "niet verzonden"
 
 #: ../user/server_status.php:398
-#, fuzzy
 msgid "in progress"
-msgstr "In uitvoering"
+msgstr "in uitvoering"
 
 #: ../user/server_status.php:398
 msgid "avg runtime of last 100 results in h (min-max)"
-msgstr ""
+msgstr "gem. looptijd van de laatste 100 resultaten in u (min-max)"
 
 #: ../user/server_status.php:398
 msgid "users in last 24h"
-msgstr ""
+msgstr "gebruikers in laatste 24u"
 
 #: ../user/show_user.php:88
 msgid "Account data for %1"
@@ -3395,13 +3382,12 @@ msgid "View the team's join/quit history"
 msgstr "Toon voor dit team het verloop van de aan en afmeld gegevens"
 
 #: ../user/team_admins.php:43
-#, fuzzy
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
-"Moderate the team forum, if any (admins get email notification of moderation "
-"events and red X reports)"
+"Beheer het team forum, indien aanwezig (Admins krijgen een email notificatie "
+"over het beheren van evenementen en het lezen van X rapporten)"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
@@ -3499,54 +3485,50 @@ msgid "Change founder of %1"
 msgstr "Oprichter van %1 wijzigen"
 
 #: ../user/team_change_founder_form.php:41
-#, fuzzy
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
 msgstr ""
-"Team member %1 requested this team's foundership on %2, but left the team, "
-"thus canceling the request."
+"Team lid %1 heeft het oprichterschap van dit team gevraagd op %2, maar heeft "
+"het team verlaten, hierdoor wordt zijn verzoek geannuleerd."
 
 #: ../user/team_change_founder_form.php:47
-#, fuzzy
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
 msgstr ""
-"Team member %1 has requested this team's foundership. This may be because "
-"you left the team or haven't had contact with the team for a long time."
+"Team lid %1 heeft het oprichterschap van dit team aangevraagd. Dit kan zijn "
+"omdat u het team heeft verlaten, of lange tijd geen contact hebt gehad met "
+"het team."
 
 #: ../user/team_change_founder_form.php:53
 msgid "decline request"
 msgstr "verzoek afwijzen"
 
 #: ../user/team_change_founder_form.php:56
-#, fuzzy
 msgid ""
 "If you don't decline the request by %1, %2 will have the option of assuming "
 "team foundership.<br /><br />\n"
 "                  To accept the request, assign foundership to %3 using the "
 "form below."
 msgstr ""
-"If you don't decline the request by %1, %2 will have the option of assuming "
-"team foundership.<br /><br />\n"
-"\n"
-"                  To accept the request, assign foundership to %3 using the "
-"form below."
+"Al u het verzoek niet voor %1 afwijst, zal %2 de optie krijgen om het "
+"oprichterschap van het team op te eissen.<br /><br />\n"
+"                  Om het verzoek te accepteren kunt het het oprichterschap "
+"overdragen aan %3 middels het onderstaande formulier."
 
 #: ../user/team_change_founder_form.php:64
-#, fuzzy
 msgid "No transfer request is pending."
-msgstr "No transfer request is pending."
+msgstr "Geen overplaatsings verzoeken in behandeling."
 
 #: ../user/team_change_founder_form.php:67
-#, fuzzy
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
 msgstr ""
-"To assign foundership of this team to another member, check the box next to "
-"member name and click <strong>Change founder</strong> below."
+" Om oprichterschap van dit team over te dragen naar een ander lid, vinkt u "
+"het vakje naast de naam van het lid aan en klikt u hieronder "
+"op<strong>Oprichter wijzigen</strong>"
 
 #: ../user/team_change_founder_form.php:74
 msgid "New founder?"
@@ -3608,14 +3590,12 @@ msgid "The name '%1' is being used by another team."
 msgstr "De naam '%1' wordt al gebruikt door een ander team."
 
 #: ../user/team_edit_action.php:60
-#, fuzzy
 msgid "Must specify team name"
-msgstr "Must specify team name"
+msgstr "Specificeer teamnaam"
 
 #: ../user/team_edit_action.php:88
-#, fuzzy
 msgid "Could not update team - please try again later."
-msgstr "Could not update team - please try again later."
+msgstr "Team bijwerken mislukt - probeer het later a.u.b. opnieuw."
 
 #: ../user/team_edit_form.php:31
 msgid "Edit %1"
@@ -3642,17 +3622,14 @@ msgid "Create Message Board"
 msgstr "Forum aanmaken"
 
 #: ../user/team_forum.php:27
-#, fuzzy
 msgid "You may create a message board for use by %1."
-msgstr "You may create a message board for use by %1."
+msgstr "het is mogelijk om voor %1 een forum aan te maken."
 
 #: ../user/team_forum.php:29
-#, fuzzy
 msgid "Only team members will be able to post."
-msgstr "Only team members will be able to post."
+msgstr "Alleen teamleden mogen hier berichten in plaatsen."
 
 #: ../user/team_forum.php:30
-#, fuzzy
 msgid "At your option, only members will be able to read."
 msgstr "Inhoud voorbehouden aan teamleden indien gewenst."
 
@@ -3760,63 +3737,53 @@ msgid "You must be a member of a team to access this page."
 msgstr "Je moet lid zijn van een team om deze pagina te bekijken."
 
 #: ../user/team_founder_transfer_action.php:88
-#, fuzzy
 msgid "Requesting foundership of %1"
-msgstr "Requesting foundership of %1"
+msgstr "Verzoek oprichterschap van %1"
 
 #: ../user/team_founder_transfer_action.php:96
-#, fuzzy
 msgid ""
 "The current founder has been notified of your request by email and private "
 "message.<br /><br />\n"
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"The current founder has been notified of your request by email and private "
-"message.<br /><br />\n"
-"\n"
-"                       If the founder does not respond within 60 days you "
-"will be allowed to become the founder."
+"De huidige oprichter is per e-mail en privé bericht op de hoogte gesteld van "
+"je verzoek.<br /><br />\n"
+"                       Als deze oprichter niet binnen 60 dagen reageert word "
+"jij automatisch de nieuwe oprichter."
 
 #: ../user/team_founder_transfer_action.php:100
 #: ../user/team_founder_transfer_action.php:111
-#, fuzzy
 msgid "Foundership request not allowed now"
-msgstr "Foundership request not allowed now"
+msgstr "Oprichterschap verzoek is nu niet toegestaan"
 
 #: ../user/team_founder_transfer_action.php:107
-#, fuzzy
 msgid "Assumed foundership of %1"
-msgstr "Assumed foundership of %1"
+msgstr "Heeft het oprichterschap verkregen van %1"
 
 #: ../user/team_founder_transfer_action.php:109
-#, fuzzy
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
-"Congratulations, you are now the founder of team %1. Go to %2Your Account "
-"page%3 to find the Team Admin options."
+"Gefeliciteerd, u bent nu de nieuwe oprichter van team %1. Ga naar %2Uw "
+"Account pagina%3 om de Team Admin opties te vinden."
 
 #: ../user/team_founder_transfer_action.php:118
-#, fuzzy
 msgid "Decline founder change request"
-msgstr "Decline founder change request"
+msgstr "Oprichterschap verzoek afwijzen"
 
 #: ../user/team_founder_transfer_action.php:125
-#, fuzzy
 msgid "The foundership request from %1 has been declined."
-msgstr "The foundership request from %1 has been declined."
+msgstr "Het oprichterschap verzoek van %1 werd afgewezen."
 
 #: ../user/team_founder_transfer_action.php:128
-#, fuzzy
 msgid "There were no foundership requests."
-msgstr "There were no foundership requests."
+msgstr "Er zijn geen aanvragen voor nieuwe oprichters."
 
 #: ../user/team_founder_transfer_action.php:132
-#, fuzzy
 msgid "undefined action %1"
-msgstr "undefined action %1"
+msgstr "ongedefineerde actie %1"
 
 #: ../user/team_founder_transfer_action.php:135
 #: ../user/team_founder_transfer_form.php:81
@@ -3828,45 +3795,38 @@ msgid "You need to be a member of a team to access this page."
 msgstr "Je moet een lid van een team om deze pagina te bekijken."
 
 #: ../user/team_founder_transfer_form.php:29
-#, fuzzy
 msgid "Request foundership of %1"
-msgstr "Request foundership of %1"
+msgstr "Oprichtersschap verzoeken van %1"
 
 #: ../user/team_founder_transfer_form.php:36
-#, fuzzy
 msgid "You are now founder of team %1."
-msgstr "You are now founder of team %1."
+msgstr "Je bent nu de oprichter van team %1."
 
 #: ../user/team_founder_transfer_form.php:42
-#, fuzzy
 msgid "You requested the foundership of %1 on %2."
-msgstr "You requested the foundership of %1 on %2."
+msgstr "Je hebt een verzoek gedaan om oprichter te worden van %1 op %2."
 
 #: ../user/team_founder_transfer_form.php:45
-#, fuzzy
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
-"60 days have elapsed since your request, and the founder has not responded. "
-"You may now assume foundership by clicking here:"
+"Er zijn 60 dagen verstreken sinds je verzoek, en de huidige oprichter heeft "
+"niet gereageerd. Jij kunt nu oprichter worden door hier te klikken:"
 
 #: ../user/team_founder_transfer_form.php:48
-#, fuzzy
 msgid "Assume foundership"
-msgstr "Assume foundership"
+msgstr "Oprichterschap aannemen"
 
 #: ../user/team_founder_transfer_form.php:52
-#, fuzzy
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
-"The founder was notified of your request. If he/she does not respond by %1 "
-"you will be given an option to become founder."
+"De oprichter is op de hoogte gesteld van uw verzoek. Als hij/zij niet voor %"
+"1 reageert, kunt u de status van oprichter toegewezen krijgen."
 
 #: ../user/team_founder_transfer_form.php:58
-#, fuzzy
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click the button below. The current founder will be sent an email "
@@ -3875,38 +3835,34 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click the button below. The current founder will be sent an email "
-"detailing your request, and will be able to transfer foundership to you or "
-"to decline your request. If the founder does not respond in 60 days, you "
-"will be allowed to become the founder.<br /><br />\n"
-"\n"
-"                       Are you sure you want to request foundership?"
+"Indien de oprichter van het team niet actief deelneemt en u de status van "
+"oprichter wilt overnemen, klikt u op de onderstaande knop. De huidige "
+"oprichter ontvangt uw verzoek tot overname per e-mail en kan dit vervolgens "
+"inwilligen of afwijzen. Als de oprichter niet binnen 60 dagen reageert, "
+"wordt de status van oprichter aan u toegewezen.<br /><br />\n"
+"                       Wilt u een verzoek tot statusovername indienen?"
 
 #: ../user/team_founder_transfer_form.php:63
-#, fuzzy
 msgid "Request foundership"
-msgstr "Request foundership"
+msgstr "Oprichterschap verzoeken"
 
 #: ../user/team_founder_transfer_form.php:72
-#, fuzzy
 msgid "Founder change has already been requested by %1 on %2."
-msgstr "Founder change has already been requested by %1 on %2."
+msgstr "Er is al een verzoek gedaan om oprichter te worden door %1 op %2."
 
 #: ../user/team_founder_transfer_form.php:75
-#, fuzzy
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
 msgstr ""
-"A foundership change was requested during the last 90 days, so new requests "
-"are not allowed. Please try again later."
+"Omdat er in de afgelopen 90 dagen al een verzoek tot overname van de "
+"oprichterstatus is ingediend, worden recentere verzoeken niet in behandeling "
+"genomen. Probeer het later nog eens alstublieft."
 
 #: ../user/team_join.php:30 ../user/team_join_action.php:30
 #: ../user/team_join_form.php:29
-#, fuzzy
 msgid "The team %1 is not joinable."
-msgstr "The team %1 is not joinable."
+msgstr "%1 accepteert geen nieuwe teamleden."
 
 #: ../user/team_join.php:33 ../user/team_join_action.php:33
 msgid "Already a member"
@@ -3917,9 +3873,8 @@ msgid "You are already a member of %1."
 msgstr "Je bent al lid van %1"
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
-#, fuzzy
 msgid "Couldn't join team - please try again later."
-msgstr "Couldn't join team - please try again later."
+msgstr "Aansluiten als teamlid mislukt. Probeer het later nog eens alstublieft."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
@@ -3958,9 +3913,9 @@ msgid "Search results for '%1'"
 msgstr "Zoek resultaten voor '%1'"
 
 #: ../user/team_lookup.php:86
-#, fuzzy
 msgid "You may view these teams' members, statistics, and information."
-msgstr "You may view these teams' members, statistics, and information."
+msgstr ""
+"U hebt toegang tot informatie over de leden en statistieken van dit team."
 
 #: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
@@ -3968,13 +3923,12 @@ msgstr ""
 "Meer dan 100 teams voldoen aan uw zoekopdracht. De eerste 100 worden getoond."
 
 #: ../user/team_lookup.php:102
-#, fuzzy
 msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"End of results. %1 If you cannot find the team you are looking for, you may %"
-"2create a team%3 yourself."
+"Einde van zoekresultaten. %1 Als u het team dat u zoekt niet hebt gevonden, "
+"kunt u %2zelf een team oprichten%3."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
@@ -4005,37 +3959,34 @@ msgid "View member names and email addresses"
 msgstr "Bekijk de ledenlijst en e-mail adressen"
 
 #: ../user/team_manage.php:34
-#, fuzzy
 msgid "View change history:"
-msgstr "View change history:"
+msgstr "Toon verloop van wijzigingen:"
 
 #: ../user/team_manage.php:36
 msgid "XML"
 msgstr "XML"
 
 #: ../user/team_manage.php:37
-#, fuzzy
 msgid "See when members joined or quit this team"
-msgstr "See when members joined or quit this team"
+msgstr "Bekijk wanneer er leden zijn bijgekomen en weggegaan"
 
 #: ../user/team_manage.php:48
-#, fuzzy
 msgid "Respond to foundership request."
-msgstr "Respond to foundership request."
+msgstr "Reageer op verzoek tot veranderen oprichter."
 
 #: ../user/team_manage.php:48
-#, fuzzy
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
-msgstr "If you don't respond by %1, %2 may assume foundership of this team."
+msgstr ""
+"Indien je niet voor %1 reageert, kan %2 het oprichterschap van dit team "
+"aannemen."
 
 #: ../user/team_manage.php:53
 msgid "Remove inactive or unwanted members from this team"
 msgstr "Verwijder inactieve of ongewenste leden van dit team"
 
 #: ../user/team_manage.php:55
-#, fuzzy
 msgid "Transfer foundership to another member"
-msgstr "Transfer foundership to another member"
+msgstr "Oprichterschap overdragen aan een ander lid"
 
 #: ../user/team_manage.php:56
 msgid "Add/remove Team Admins"
@@ -4174,12 +4125,10 @@ msgstr ""
 "andere zoekopdracht."
 
 #: ../user/team_search.php:129
-#, fuzzy
 msgid "Or you can %1create a new team%2."
-msgstr "Or you can %1create a new team%2."
+msgstr "Je kan ook %1een nieuw team aanmaken%2."
 
 #: ../user/team_search.php:133
-#, fuzzy
 msgid ""
 "The following teams match one or more of your search criteria.\n"
 "            To join a team, click its name to go to the team page,\n"
@@ -4200,23 +4149,22 @@ msgid "Team search results"
 msgstr "Team resultaten"
 
 #: ../user/team_search.php:156
-#, fuzzy
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr ""
-"You can team up with other people with similar interests, or from the same "
-"country, company, or school."
+"U kunt zich aansluiten bij deelnemers met dezelfde interesses, bij "
+"landgenoten, collega's of uw schoolteam."
 
 #: ../user/team_search.php:158
-#, fuzzy
 msgid "Use this form to find teams that might be right for you."
-msgstr "Use this form to find teams that might be right for you."
+msgstr ""
+"Middels dit formulier kunt u wellicht een keuze maken uit de voor u "
+"geschikte teams."
 
 #: ../user/team_search.php:163
-#, fuzzy
 msgid "%1I'm not interested%2 in joining a team right now."
-msgstr "%1I'm not interested%2 in joining a team right now."
+msgstr "%1Ik heb nu nog geen belangstelling%2 voor een teamlidmaatschap."
 
 #: ../user/top_hosts.php:65 ../user/top_teams.php:98 ../user/top_users.php:110
 msgid "Limit exceeded - Sorry, first %1 items only"
@@ -4323,69 +4271,60 @@ msgid "Team:"
 msgstr "Team:"
 
 #: ../user/userw.php:47
-#, fuzzy
 msgid "Team TotCred:"
-msgstr "Team TotCred:"
+msgstr "Team Tot Punten:"
 
 #: ../user/userw.php:48
-#, fuzzy
 msgid "Team AvgCred:"
-msgstr "Team AvgCred:"
+msgstr "Team Gem Punten:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
 msgstr "Team : Geen"
 
 #: ../user/validate_email_addr.php:30
-#, fuzzy
 msgid "Validate BOINC email address"
-msgstr "Validate BOINC email address"
+msgstr "Controleer BOINC e-mail adres"
 
 #: ../user/validate_email_addr.php:31
-#, fuzzy
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
 msgstr ""
-"Please visit the following link to validate the email address of your %1 "
-"account:"
+"Klik a.u.b. op de volgende link om het e-mail adres van je  %1 account te "
+"controleren:"
 
 #: ../user/validate_email_addr.php:34
-#, fuzzy
 msgid "Validate email sent"
-msgstr "Validate email sent"
+msgstr "Controle e-mail verzonden"
 
 #: ../user/validate_email_addr.php:35
-#, fuzzy
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
 msgstr ""
-"An email has been sent to %1. Visit the link it contains to validate your "
-"email address."
+"Er is een e-mail verzonden naar %1. Een bevestigings link is hierin "
+"opgenomen."
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
 msgstr "Gebruiker niet gevonden."
 
 #: ../user/validate_email_addr.php:49
-#, fuzzy
 msgid "Error in URL data - can't validate email address"
-msgstr "Error in URL data - can't validate email address"
+msgstr "Ongeldige URL - validatie van e-mailadres mislukt"
 
 #: ../user/validate_email_addr.php:54
 msgid "Database update failed - please try again later."
 msgstr "Bijwerken database mislukt - probeer het a.u.b. later opnieuw."
 
 #: ../user/validate_email_addr.php:57
-#, fuzzy
 msgid "Validate email address"
-msgstr "Validate email address"
+msgstr "E-mail adres controleren"
 
 #: ../user/validate_email_addr.php:58
-#, fuzzy
 msgid "The email address of your account has been validated."
-msgstr "The email address of your account has been validated."
+msgstr "Het e-mail adres van je account is met succes gecontroleerd."
 
 #: ../user/view_profile.php:27
 msgid "This user has no profile"
@@ -4400,7 +4339,6 @@ msgid "Account data"
 msgstr "Account gegevens"
 
 #: ../user/weak_auth.php:47
-#, fuzzy
 msgid ""
 "Your 'weak account key' lets you link a computer to your account without "
 "giving it the ability to log in to your account or to change it in any way."
@@ -4447,14 +4385,12 @@ msgstr ""
 "is de vorige niet meer geldig."
 
 #: ../user/workunit.php:30
-#, fuzzy
 msgid "can't find workunit"
-msgstr "can't find workunit"
+msgstr "taak niet gevonden"
 
 #: ../user/workunit.php:33
-#, fuzzy
 msgid "Workunit %1"
-msgstr "Workunit %1"
+msgstr "Taak %1"
 
 #: ../user/workunit.php:37
 msgid "name"
@@ -4465,33 +4401,28 @@ msgid "created"
 msgstr "aangemaakt"
 
 #: ../user/workunit.php:41
-#, fuzzy
 msgid "canonical result"
-msgstr "canonical result"
+msgstr "meest overeenkomstig resultaat"
 
 #: ../user/workunit.php:44
 msgid "granted credit"
 msgstr "toegekende punten"
 
 #: ../user/workunit.php:52
-#, fuzzy
 msgid "suppressed pending completion"
-msgstr "suppressed pending completion"
+msgstr "onderdrukt in afwachting van resultaat"
 
 #: ../user/workunit.php:55
-#, fuzzy
 msgid "minimum quorum"
 msgstr "minimum quorum"
 
 #: ../user/workunit.php:56
-#, fuzzy
 msgid "initial replication"
-msgstr "initial replication"
+msgstr "eerste betrouwbare kopie"
 
 #: ../user/workunit.php:57
-#, fuzzy
 msgid "max # of error/total/success tasks"
-msgstr "max # of error/total/success tasks"
+msgstr "max # van foute/totale/succesvolle taken"
 
 #: ../user/workunit.php:61
 msgid "errors"

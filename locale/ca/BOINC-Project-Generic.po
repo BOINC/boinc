@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-10-20 01:51+0200\n"
+"PO-Revision-Date: 2010-10-25 23:42+0200\n"
 "Last-Translator: Xavier <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -523,22 +523,20 @@ msgid "Send message"
 msgstr "Enviar missatge"
 
 #: ../inc/pm.inc:118
-#, fuzzy
 msgid "- private message"
-msgstr "Enviar un missatge privat"
+msgstr "- missatge privat"
 
 #: ../inc/pm.inc:124
 msgid "sent you a private message; subject:"
-msgstr ""
+msgstr "ha enviat un missatge privat, assumpte:"
 
 #: ../inc/pm.inc:130
 msgid "Private message%1 from %2, subject:"
-msgstr ""
+msgstr "Missatge privat%1 de %2, assumpte:"
 
 #: ../inc/pm.inc:139
-#, fuzzy
 msgid "Couldn't create message"
-msgstr "no s'ha pogut crear el tauler de missatges"
+msgstr "No s'ha pogut crear el missatge"
 
 #: ../inc/pm.inc:170
 msgid ""
@@ -559,9 +557,8 @@ msgstr ""
 "comunitat%2"
 
 #: ../inc/pm.inc:202
-#, fuzzy
 msgid "Private message from"
-msgstr "Missatges privats"
+msgstr "Missatge privat de"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -910,13 +907,12 @@ msgid "Edit %1 preferences"
 msgstr "Edita les preferències de %1"
 
 #: ../inc/prefs.inc:860
-#, fuzzy
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
-"Aquestes s'apliquen a tots els projectes BOINC en què vostè participa.<br>\n"
+"Aixó s'aplica a tots els projectes BOINC en què vostè participa.<br>\n"
 "             En els ordinadors connectats a múltiples projectes, "
 "s'utilitzaràn les preferències modificades més recentment."
 
@@ -1320,7 +1316,7 @@ msgstr "Versió de l'aplicació"
 
 #: ../inc/result.inc:396
 msgid "Stderr output"
-msgstr ""
+msgstr "Sortida stderr"
 
 #: ../inc/result.inc:409
 msgid "Previous"
@@ -1638,11 +1634,11 @@ msgstr "Estadístiques en el seu mòbil"
 
 #: ../inc/user.inc:184
 msgid "Unknown notification type: %1"
-msgstr ""
+msgstr "Tipus de notificació desconeguda: %1"
 
 #: ../inc/user.inc:198
 msgid "Email address verification pending"
-msgstr ""
+msgstr "Està pendent la verificació de l'adreça de correu electrònic"
 
 #: ../inc/user.inc:201
 msgid "Account information"
@@ -1828,21 +1824,23 @@ msgstr "Afegir com amic"
 
 #: ../inc/util.inc:96
 msgid "Logged in as %1."
-msgstr ""
+msgstr "Connectat com %1."
 
 #: ../inc/util.inc:97
 msgid "Log in as someone else."
-msgstr ""
+msgstr "Connecteu-vos com algú més."
 
 #: ../inc/util.inc:99
 msgid "Not logged in."
-msgstr ""
+msgstr "No esteu connectat."
 
 #: ../inc/util.inc:180
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr ""
+"S'ha produit un error a la base de dades processant la seva sol.licitud; si "
+"us plau, torni provar-ho més tard."
 
 #: ../inc/util.inc:189
 msgid "Unable to handle request"
@@ -1850,23 +1848,25 @@ msgstr "No es pot gestionar la sol licitud"
 
 #: ../inc/util.inc:209
 msgid "hours"
-msgstr ""
+msgstr "hores"
 
 #: ../inc/util.inc:212
 msgid "min"
-msgstr ""
+msgstr "min"
 
 #: ../inc/util.inc:215
 msgid "sec"
-msgstr ""
+msgstr "seg"
 
 #: ../inc/util.inc:371
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr ""
+"S'ha esgotat el temps per activar l'acces. Si us plau, feu clic a Enrere, "
+"carregui de nou la pàgina i torni a intentar-ho."
 
 #: ../inc/util.inc:440
 msgid "View the profile of %1"
-msgstr ""
+msgstr "Veure el perfil de %1"
 
 #: ../inc/util.inc:496
 msgid "Use BBCode tags to format your text"
@@ -1874,26 +1874,28 @@ msgstr "Utilitzar les marques BBCode per formatar el text"
 
 #: ../inc/util.inc:691
 msgid "Project down for maintenance"
-msgstr ""
+msgstr "Projecte aturat per manteniment"
 
 #: ../inc/util.inc:692
 msgid ""
 "This page requires database access.  Our database server is temporarily shut "
 "down for maintenance.  Please try again later."
 msgstr ""
+"Aquesta pàgina requereix d'accés a base de dades.  El nostre servidor de "
+"base de dades està temporalment aturat per manteniment.  Si us plau, provi-"
+"ho més tard."
 
 #: ../inc/util.inc:708
 msgid "Unable to connect to database - please try again later"
-msgstr ""
+msgstr "No es pot connectar a la base de dades - si us plau, provi-ho més tard"
 
 #: ../inc/util.inc:709
-#, fuzzy
 msgid "Error:"
 msgstr "Error"
 
 #: ../inc/util.inc:713
 msgid "Unable to select database - please try again later"
-msgstr ""
+msgstr "No es pot seleccionar la base de dades - si us plau, provi-ho més tard"
 
 #: ../user/account_finish.php:40 ../user/create_account_form.php:84
 msgid "Identifies you on our web site. Use your real name or a nickname."
@@ -1965,14 +1967,13 @@ msgid "Account creation is currently disabled. Please try again later."
 msgstr "La creació de comptes està desactivada. Si us plau provi-ho mes tard."
 
 #: ../user/create_account_form.php:50
-#, fuzzy
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
-"NOTA: Si utilitzeu la versió BOINC 5.2+ amb el gestor BOINC, no utilitzeu "
-"aquest formulari. Senzillament executeu BOINC, seleccioneu Unir-vos a un "
-"Projecte, i introduïu una adreça de correu i contrasenya."
+"NOTA: Si utilitzeu l'Administrador de BOINC, no utilitzi aquest formulari. "
+"Simplement executeu BOINC, seleccioneu Afegir projecte, entreu una adreça de "
+"correu electrònic i contrasenya."
 
 #: ../user/create_account_form.php:66
 msgid ""
@@ -2056,7 +2057,7 @@ msgstr "Lliurar el perfil"
 
 #: ../user/create_profile.php:108
 msgid "Please enter the words shown in the image."
-msgstr ""
+msgstr "Si us plau, introduïu les paraules que es mostren a la imatge."
 
 #: ../user/create_profile.php:113
 msgid "Create/edit profile"
@@ -3115,84 +3116,83 @@ msgstr "Usuari del Dia"
 
 #: ../user/server_status.php:94
 msgid "Running"
-msgstr ""
+msgstr "Executant"
 
 #: ../user/server_status.php:97
 msgid "Not Running"
-msgstr ""
+msgstr "Aturat"
 
 #: ../user/server_status.php:100
 msgid "Disabled"
-msgstr ""
+msgstr "Desactivat"
 
 #: ../user/server_status.php:216
 msgid "Project status"
-msgstr ""
+msgstr "Estat del projecte"
 
 #: ../user/server_status.php:218
 msgid "Server software version: %1"
-msgstr ""
+msgstr "Versió del programari servidor: %1"
 
 #: ../user/server_status.php:224
-#, fuzzy
 msgid "Server status"
 msgstr "Estat del servidor"
 
 #: ../user/server_status.php:226
 msgid "Program"
-msgstr ""
+msgstr "Programa"
 
 #: ../user/server_status.php:226
 msgid "Host"
-msgstr ""
+msgstr "Ordinador central"
 
 #: ../user/server_status.php:237
 msgid "data-driven web pages"
-msgstr ""
+msgstr "pàgines web amb dades auto-actualizables"
 
 #: ../user/server_status.php:243
 msgid "upload/download server"
-msgstr ""
+msgstr "carregar/baixar del servidor"
 
 #: ../user/server_status.php:246
 msgid "scheduler"
-msgstr ""
+msgstr "planificador"
 
 #: ../user/server_status.php:276
 msgid "Running:"
-msgstr ""
+msgstr "Executant:"
 
 #: ../user/server_status.php:277
 msgid "Program is operating normally"
-msgstr ""
+msgstr "El programa està funcionant amb normalitat"
 
 #: ../user/server_status.php:278
 msgid "Not Running:"
-msgstr ""
+msgstr "No s'està executant:"
 
 #: ../user/server_status.php:279
 msgid "Program failed or the project is down"
-msgstr ""
+msgstr "El programa a fallat o el projecte està aturat"
 
 #: ../user/server_status.php:280
 msgid "Disabled:"
-msgstr ""
+msgstr "Desactivat:"
 
 #: ../user/server_status.php:281
 msgid "Program is disabled"
-msgstr ""
+msgstr "El programa està desactivat"
 
 #: ../user/server_status.php:285
 msgid "Computing status"
-msgstr ""
+msgstr "Estat del comput"
 
 #: ../user/server_status.php:291
 msgid "The database server is not accessible"
-msgstr ""
+msgstr "El servidor de base de dades no és accessible"
 
 #: ../user/server_status.php:308
 msgid "Tasks ready to send"
-msgstr ""
+msgstr "Tasques a punt per enviar"
 
 #: ../user/server_status.php:313 ../user/workunit.php:52
 msgid "Tasks in progress"
@@ -3200,70 +3200,67 @@ msgstr "Tasques en curs"
 
 #: ../user/server_status.php:318
 msgid "Workunits waiting for validation"
-msgstr ""
+msgstr "Workunits esperant la validació"
 
 #: ../user/server_status.php:323
 msgid "Workunits waiting for assimilation"
-msgstr ""
+msgstr "Workunits esperant l'assimilació"
 
 #: ../user/server_status.php:328
 msgid "Workunits waiting for file deletion"
-msgstr ""
+msgstr "Workunits esperant l'eliminació d'arxius"
 
 #: ../user/server_status.php:333
 msgid "Tasks waiting for file deletion"
-msgstr ""
+msgstr "Tasques esperan l'eliminació d'arxius"
 
 #: ../user/server_status.php:346
 msgid "Transitioner backlog (hours)"
-msgstr ""
+msgstr "Retard en les transicións (hores)"
 
 #: ../user/server_status.php:353
-#, fuzzy
 msgid "Users"
-msgstr "Usuari"
+msgstr "Usuaris"
 
 #: ../user/server_status.php:355 ../user/server_status.php:371
 msgid "with recent credit"
-msgstr ""
+msgstr "amb crèdit recent"
 
 #: ../user/server_status.php:360 ../user/server_status.php:376
 msgid "with credit"
-msgstr ""
+msgstr "amb crèdit"
 
 #: ../user/server_status.php:365 ../user/server_status.php:381
 msgid "registered in past 24 hours"
-msgstr ""
+msgstr "registrats en les últimes 24 hores"
 
 #: ../user/server_status.php:388
 msgid "current GigaFLOPs"
-msgstr ""
+msgstr "GigaFLOPs actuals"
 
 #: ../user/server_status.php:397
 msgid "Tasks by application"
-msgstr ""
+msgstr "Tasques per aplicació"
 
 #: ../user/server_status.php:398 ../user/workunit.php:38
 msgid "application"
 msgstr "aplicació"
 
 #: ../user/server_status.php:398
-#, fuzzy
 msgid "unsent"
-msgstr "No enviats"
+msgstr "no enviat"
 
 #: ../user/server_status.php:398
-#, fuzzy
 msgid "in progress"
-msgstr "En progrés"
+msgstr "en progrés"
 
 #: ../user/server_status.php:398
 msgid "avg runtime of last 100 results in h (min-max)"
-msgstr ""
+msgstr "mitjana de temps d'execució dels últims 100 resultats en h (mín-màx)"
 
 #: ../user/server_status.php:398
 msgid "users in last 24h"
-msgstr ""
+msgstr "usuaris en les últimes 24 hores"
 
 #: ../user/show_user.php:88
 msgid "Account data for %1"
@@ -4353,14 +4350,13 @@ msgid "Account data"
 msgstr "Dades del compte"
 
 #: ../user/weak_auth.php:47
-#, fuzzy
 msgid ""
 "Your 'weak account key' lets you link a computer to your account without "
 "giving it the ability to log in to your account or to change it in any way."
 msgstr ""
-"La seva 'clau de compte feble' li permet associar ordinadors al seu compte "
-"en aquest projecte, sense permetre d'iniciar una sessió amb el seu compte o "
-"canviar-lo."
+"El seu 'clau feble de compte' li permet vincular un ordinador al teu compte "
+"sense donar-li la possibilitat d'accedir al seu compte o per canviar-lo de "
+"cap manera."
 
 #: ../user/weak_auth.php:48
 msgid ""

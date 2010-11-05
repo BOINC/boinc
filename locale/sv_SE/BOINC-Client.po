@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-06 08:58-0700\n"
-"PO-Revision-Date: 2010-10-15 00:38+0200\n"
+"PO-Revision-Date: 2010-10-23 14:38+0200\n"
 "Last-Translator: Erik <ersi@digitalfractions.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv_SE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 
@@ -35,7 +35,7 @@ msgstr "Notis från BOINC"
 
 #: client_state.cpp:357
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
+msgstr "Kunde inte skriva tillståndsfil; kontrollera katalogsbehörigheter"
 
 #: cs_cmdline.cpp:283
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -47,6 +47,8 @@ msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
+"Du använde en felaktig URL för detta projekt. Vid tillfälle, ta bort "
+"projektet och lägg sedan till %s"
 
 #: cs_scheduler.cpp:545
 msgid "Message from"
@@ -167,7 +169,7 @@ msgstr ""
 
 #: ../sched/sched_send.cpp:1444
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
+msgstr "En nyare BOINC-version krävs; vänligen installera en aktuell version"
 
 #: ../sched/sched_send.cpp:1454
 msgid ""

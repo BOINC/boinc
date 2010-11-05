@@ -7,21 +7,19 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-14 05:13-0700\n"
-"Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
+"PO-Revision-Date: 2010-10-25 19:22+0200\n"
+"Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: versions.inc:6
@@ -75,11 +73,10 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
-"BOINC is een programma dat jou ongebruikte computertijd aan "
-"wetenschappelijke projecten laat doneren zoals SETI@home, Climateprediction."
-"net, Rosetta@home, World Community Grid, en vele andere. <p> Nadat BOINC is "
-"geïnstalleerd op je computer, is het mogelijk je aan te melden voor zo veel "
-"projecten als je wilt."
+"BOINC is een programma dat de onbenutte processorcapaciteit van uw pc inzet "
+"voor wetenschappelijk doeleinden zoals SETI@home, Climateprediction.net, "
+"Rosetta@home, World Community Grid en vele andere projecten. <p> Als u BOINC "
+"op uw computer installeert, kunt u aan elk van deze projecten deelnemen."
 
 #: download.php:91
 msgid ""
@@ -95,13 +92,12 @@ msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
-"Let op: Indien je computer is voorzien van een grafische processor (GPU) is "
-"het misschien mogelijk deze in te zetten om %sje computer sneller te laten "
-"werken%s"
+"Opmerking: Indien je computer over een grafische processor (GPU) beschikt, "
+"kan deze misschien worden ingezet om %s taken sneller uit te voeren%s"
 
 #: download.php:122
 msgid "System requirements"
-msgstr "Systeem vereisten"
+msgstr "Systeemvereisten"
 
 #: download.php:123
 msgid "Release notes"
@@ -121,7 +117,7 @@ msgstr "Vorige versies"
 
 #: download.php:143
 msgid "BOINC: compute for science"
-msgstr "BOINC: rekenen voor de wetenschap"
+msgstr "BOINC: voor wetenschappelijke berekeningen"
 
 #: help.php:12
 #, php-format

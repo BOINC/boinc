@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-10-13 21:25+0200\n"
+"PO-Revision-Date: 2010-10-23 23:09+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -1386,10 +1386,8 @@ msgid "Search"
 msgstr "Suche"
 
 #: ../inc/team.inc:54
-#, fuzzy
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
-"Von Ihnen angefordert und die Rückmeldung des Gründers ist ausgeblieben."
+msgstr "Von Dir angefordert und die Rückmeldung des Gründers ist ausgeblieben."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"

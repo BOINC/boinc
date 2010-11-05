@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-10-05 15:09+0200\n"
+"PO-Revision-Date: 2010-10-27 23:12+0200\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -524,22 +524,20 @@ msgid "Send message"
 msgstr "Envoyer message"
 
 #: ../inc/pm.inc:118
-#, fuzzy
 msgid "- private message"
-msgstr "Envoyer un message privé"
+msgstr "- message privé"
 
 #: ../inc/pm.inc:124
 msgid "sent you a private message; subject:"
-msgstr ""
+msgstr "message privé envoyé; sujet:"
 
 #: ../inc/pm.inc:130
 msgid "Private message%1 from %2, subject:"
-msgstr ""
+msgstr "Message privé %1 de %2, sujet:"
 
 #: ../inc/pm.inc:139
-#, fuzzy
 msgid "Couldn't create message"
-msgstr "impossible de créer le forum"
+msgstr "Impossible de créer le message"
 
 #: ../inc/pm.inc:170
 msgid ""
@@ -559,9 +557,8 @@ msgstr ""
 "Pour les notifications par email, éditer les %1préférences de communauté%2"
 
 #: ../inc/pm.inc:202
-#, fuzzy
 msgid "Private message from"
-msgstr "Messages privés"
+msgstr "Message privé de"
 
 #: ../inc/prefs.inc:76
 msgid ""
@@ -921,14 +918,14 @@ msgid "Edit %1 preferences"
 msgstr "Modifier les préférences de %1"
 
 #: ../inc/prefs.inc:860
-#, fuzzy
 msgid ""
 "These apply to all BOINC projects in which you participate.<br>\n"
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
-"Celles-ci s'appliquent à tous les projets BOINC auxquels vous participez."
-"<br>           Sur les ordinateurs rattachés à plusieurs projets, les "
+"Celles-ci s'appliquent à tous les projets BOINC auxquels vous "
+"participez.<br>\n"
+"           Sur les ordinateurs rattachés à plusieurs projets, les "
 "préférences les plus récemment modifiées seront utilisées."
 
 #: ../inc/prefs.inc:864
@@ -1335,7 +1332,7 @@ msgstr "Version de l'application"
 
 #: ../inc/result.inc:396
 msgid "Stderr output"
-msgstr ""
+msgstr "Stderr output"
 
 #: ../inc/result.inc:409
 msgid "Previous"
@@ -1657,11 +1654,11 @@ msgstr "Statistiques sur votre téléphone mobile"
 
 #: ../inc/user.inc:184
 msgid "Unknown notification type: %1"
-msgstr ""
+msgstr "Type de notification inconnue: %1"
 
 #: ../inc/user.inc:198
 msgid "Email address verification pending"
-msgstr ""
+msgstr "Vérification de l'adresse email en attente"
 
 #: ../inc/user.inc:201
 msgid "Account information"
@@ -1847,21 +1844,23 @@ msgstr "Ajouter en tant qu'ami(e)"
 
 #: ../inc/util.inc:96
 msgid "Logged in as %1."
-msgstr ""
+msgstr "Connecté en tant que %1."
 
 #: ../inc/util.inc:97
 msgid "Log in as someone else."
-msgstr ""
+msgstr "Connecté avec une autre identité."
 
 #: ../inc/util.inc:99
 msgid "Not logged in."
-msgstr ""
+msgstr "Non connecté."
 
 #: ../inc/util.inc:180
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr ""
+"Une erreur de base de donnée s'est produite durant le traitement de votre "
+"demande; veuillez réessayer ultérieurement."
 
 #: ../inc/util.inc:189
 msgid "Unable to handle request"
@@ -1869,23 +1868,25 @@ msgstr "Impossible de traiter la requête"
 
 #: ../inc/util.inc:209
 msgid "hours"
-msgstr ""
+msgstr "heures"
 
 #: ../inc/util.inc:212
 msgid "min"
-msgstr ""
+msgstr "min"
 
 #: ../inc/util.inc:215
 msgid "sec"
-msgstr ""
+msgstr "sec"
 
 #: ../inc/util.inc:371
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr ""
+"Expiration du délai. Veuillez cliquer Retour, rafraichissez la page et "
+"réessayez."
 
 #: ../inc/util.inc:440
 msgid "View the profile of %1"
-msgstr ""
+msgstr "Consulter le profil de %1"
 
 #: ../inc/util.inc:496
 msgid "Use BBCode tags to format your text"
@@ -1893,26 +1894,32 @@ msgstr "Utiliser les balises BBCode pour mettre votre texte en forme"
 
 #: ../inc/util.inc:691
 msgid "Project down for maintenance"
-msgstr ""
+msgstr "Le projet est arrêté pour cause de maintenance."
 
 #: ../inc/util.inc:692
 msgid ""
 "This page requires database access.  Our database server is temporarily shut "
 "down for maintenance.  Please try again later."
 msgstr ""
+"Cette page nécessite un accès à la base de données. Notre serveur de base de "
+"données est temporairement arrêté pour cause de maintenance. Veuillez "
+"réessayer ultérieurement."
 
 #: ../inc/util.inc:708
 msgid "Unable to connect to database - please try again later"
 msgstr ""
+"Impossible de se connecter à la base de données - veuillez réessayer "
+"ultérieurement."
 
 #: ../inc/util.inc:709
-#, fuzzy
 msgid "Error:"
-msgstr "Erreur"
+msgstr "Erreur:"
 
 #: ../inc/util.inc:713
 msgid "Unable to select database - please try again later"
 msgstr ""
+"Impossible d'interroger la base de données - veuillez réessayer "
+"ultérieurement"
 
 #: ../user/account_finish.php:40 ../user/create_account_form.php:84
 msgid "Identifies you on our web site. Use your real name or a nickname."
@@ -1986,15 +1993,13 @@ msgstr ""
 "plus tard."
 
 #: ../user/create_account_form.php:50
-#, fuzzy
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
-"NOTE: Si vous utilisez BOINC 5.2 ou supérieur avec son gestionnaire, "
-"n'utilisez pas ce formulaire. Lancez simplement BOINC, sélectionnez "
-"\"Attacher un projet\", et saisissez votre adresse email et votre mot de "
-"passe."
+"NOTE: Si vous utilisez le BOINC Manager n'utilisez pas ce formulaire. Lancez "
+"simplement BOINC, sélectionnez \"Ajouter un projet\", et saisissez votre "
+"adresse email et votre mot de passe."
 
 #: ../user/create_account_form.php:66
 msgid ""
@@ -2078,7 +2083,7 @@ msgstr "Soumettre le profil"
 
 #: ../user/create_profile.php:108
 msgid "Please enter the words shown in the image."
-msgstr ""
+msgstr "Veuillez saisir les mots affichés sur l'image."
 
 #: ../user/create_profile.php:113
 msgid "Create/edit profile"
@@ -3154,23 +3159,23 @@ msgstr "Utilisateur du jour"
 
 #: ../user/server_status.php:94
 msgid "Running"
-msgstr ""
+msgstr "En cours d'exécution"
 
 #: ../user/server_status.php:97
 msgid "Not Running"
-msgstr ""
+msgstr "Arrêté"
 
 #: ../user/server_status.php:100
 msgid "Disabled"
-msgstr ""
+msgstr "Suspendu"
 
 #: ../user/server_status.php:216
 msgid "Project status"
-msgstr ""
+msgstr "Statut du projet"
 
 #: ../user/server_status.php:218
 msgid "Server software version: %1"
-msgstr ""
+msgstr "Version du serveur: %1"
 
 #: ../user/server_status.php:224
 #, fuzzy
@@ -3179,59 +3184,59 @@ msgstr "État du serveur"
 
 #: ../user/server_status.php:226
 msgid "Program"
-msgstr ""
+msgstr "Programme"
 
 #: ../user/server_status.php:226
 msgid "Host"
-msgstr ""
+msgstr "Hôte"
 
 #: ../user/server_status.php:237
 msgid "data-driven web pages"
-msgstr ""
+msgstr "pages web pilotée par les données"
 
 #: ../user/server_status.php:243
 msgid "upload/download server"
-msgstr ""
+msgstr "serveur d'upload/download"
 
 #: ../user/server_status.php:246
 msgid "scheduler"
-msgstr ""
+msgstr "ordonnanceur"
 
 #: ../user/server_status.php:276
 msgid "Running:"
-msgstr ""
+msgstr "En cours d'exécution:"
 
 #: ../user/server_status.php:277
 msgid "Program is operating normally"
-msgstr ""
+msgstr "Le programme fonctionne normalement"
 
 #: ../user/server_status.php:278
 msgid "Not Running:"
-msgstr ""
+msgstr "Arrêté:"
 
 #: ../user/server_status.php:279
 msgid "Program failed or the project is down"
-msgstr ""
+msgstr "Programme en échec ou projet arrêté"
 
 #: ../user/server_status.php:280
 msgid "Disabled:"
-msgstr ""
+msgstr "Suspendu:"
 
 #: ../user/server_status.php:281
 msgid "Program is disabled"
-msgstr ""
+msgstr "Le programme est suspendu"
 
 #: ../user/server_status.php:285
 msgid "Computing status"
-msgstr ""
+msgstr "État de l'exécution"
 
 #: ../user/server_status.php:291
 msgid "The database server is not accessible"
-msgstr ""
+msgstr "Le serveur de base de donnée n'est pas joignable"
 
 #: ../user/server_status.php:308
 msgid "Tasks ready to send"
-msgstr ""
+msgstr "Tâches prêtes à l'envoi"
 
 #: ../user/server_status.php:313 ../user/workunit.php:52
 msgid "Tasks in progress"
@@ -3239,70 +3244,67 @@ msgstr "Tâches en cours"
 
 #: ../user/server_status.php:318
 msgid "Workunits waiting for validation"
-msgstr ""
+msgstr "Unités de travail en attente de validation"
 
 #: ../user/server_status.php:323
 msgid "Workunits waiting for assimilation"
-msgstr ""
+msgstr "Unités de travail en attente d'assimilation"
 
 #: ../user/server_status.php:328
 msgid "Workunits waiting for file deletion"
-msgstr ""
+msgstr "Unités de travail en attente de nettoyage de fichiers"
 
 #: ../user/server_status.php:333
 msgid "Tasks waiting for file deletion"
-msgstr ""
+msgstr "Tâches en attente de nettoyage de fichiers"
 
 #: ../user/server_status.php:346
 msgid "Transitioner backlog (hours)"
 msgstr ""
 
 #: ../user/server_status.php:353
-#, fuzzy
 msgid "Users"
-msgstr "Utilisateur"
+msgstr "Utilisateurs"
 
 #: ../user/server_status.php:355 ../user/server_status.php:371
 msgid "with recent credit"
-msgstr ""
+msgstr "avec des crédits récents"
 
 #: ../user/server_status.php:360 ../user/server_status.php:376
 msgid "with credit"
-msgstr ""
+msgstr "avec des crédits"
 
 #: ../user/server_status.php:365 ../user/server_status.php:381
 msgid "registered in past 24 hours"
-msgstr ""
+msgstr "enregistrés dans les dernières 24 heures"
 
 #: ../user/server_status.php:388
 msgid "current GigaFLOPs"
-msgstr ""
+msgstr "GigaFLOPs actuels"
 
 #: ../user/server_status.php:397
 msgid "Tasks by application"
-msgstr ""
+msgstr "Tâches par application"
 
 #: ../user/server_status.php:398 ../user/workunit.php:38
 msgid "application"
 msgstr "applications"
 
 #: ../user/server_status.php:398
-#, fuzzy
 msgid "unsent"
-msgstr "Non envoyé"
+msgstr "non envoyé"
 
 #: ../user/server_status.php:398
-#, fuzzy
 msgid "in progress"
-msgstr "En cours"
+msgstr "en cours"
 
 #: ../user/server_status.php:398
 msgid "avg runtime of last 100 results in h (min-max)"
-msgstr ""
+msgstr "temps d'exécution moyen des 100 derniers résultats en heures (min-max)"
 
 #: ../user/server_status.php:398
 msgid "users in last 24h"
-msgstr ""
+msgstr "utilisateurs dans les dernières 24 heures"
 
 #: ../user/show_user.php:88
 msgid "Account data for %1"
@@ -4413,14 +4415,13 @@ msgid "Account data"
 msgstr "Données de compte"
 
 #: ../user/weak_auth.php:47
-#, fuzzy
 msgid ""
 "Your 'weak account key' lets you link a computer to your account without "
 "giving it the ability to log in to your account or to change it in any way."
 msgstr ""
-"Votre 'clef de compte simplifiée' (weak account key) vous permet d'attacher "
-"des ordinateurs à votre compte de ce projet, sans pour autant leur donner la "
-"possibilité de se connecter à votre compte ou de le modifier."
+"Votre 'clé de compte faible' vous permet d'attacher des ordinateurs à votre "
+"compte sans pour autant leur donner la possibilité de se connecter à votre "
+"compte ou de le modifier."
 
 #: ../user/weak_auth.php:48
 msgid ""

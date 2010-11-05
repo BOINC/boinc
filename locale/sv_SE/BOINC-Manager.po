@@ -7,21 +7,19 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-20 15:02-0500\n"
-"PO-Revision-Date: 2010-10-15 00:51+0200\n"
+"PO-Revision-Date: 2010-10-21 20:07+0200\n"
 "Last-Translator: Erik <ersi@digitalfractions.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv_SE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -552,7 +550,7 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:1823
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1832
 #, c-format
@@ -562,17 +560,17 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:1972
 #, c-format
 msgid "%s - (%s)"
-msgstr ""
+msgstr "%s - (%s)"
 
 #: clientgui/AdvancedFrame.cpp:1976
 #, c-format
 msgid "Connecting to %s"
-msgstr ""
+msgstr "Ansluter till %s"
 
 #: clientgui/AdvancedFrame.cpp:1979
 #, c-format
 msgid "Connected to %s (%s)"
-msgstr ""
+msgstr "Ansluten till %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:184
 msgid "Username already in use"
@@ -619,12 +617,12 @@ msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1259
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: clientgui/BOINCBaseFrame.cpp:503
 #, c-format
 msgid "%s - Connection Error"
-msgstr ""
+msgstr "%s - Anslutningsfel"
 
 #: clientgui/BOINCBaseFrame.cpp:512
 msgid ""
@@ -801,11 +799,11 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:533
 msgid "Host name or IP address"
-msgstr ""
+msgstr "Värdnamn eller IP-adress"
 
 #: clientgui/BOINCGUIApp.cpp:534
 msgid "GUI RPC port number"
-msgstr ""
+msgstr "GUI RPC-portnummer"
 
 #: clientgui/BOINCGUIApp.cpp:535
 msgid "Password"
@@ -965,7 +963,7 @@ msgstr ""
 #: clientgui/CompletionPage.cpp:252
 #, c-format
 msgid "Welcome to %s!"
-msgstr ""
+msgstr "Välkommen till %s!"
 
 #: clientgui/CompletionPage.cpp:263
 #, c-format
@@ -979,11 +977,11 @@ msgstr ""
 #: clientgui/DlgAbout.cpp:102
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "Om %s"
 
 #: clientgui/DlgAbout.cpp:159
 msgid "Version:"
-msgstr ""
+msgstr "Version:"
 
 #: clientgui/DlgAbout.cpp:167
 msgid "wxWidgets Version:"
@@ -1051,7 +1049,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:64
 msgid "Clear"
-msgstr ""
+msgstr "Rensa"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:65
 msgid "clear all local preferences and close the dialog"
@@ -1133,7 +1131,7 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:183
 #: clientgui/DlgAdvPreferencesBase.cpp:332
 msgid "minutes"
-msgstr ""
+msgstr "minuter"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:202
 msgid "While processor usage is less than"
@@ -1183,37 +1181,37 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:263
 #: clientgui/DlgAdvPreferencesBase.cpp:503
 msgid "Monday"
-msgstr ""
+msgstr "Måndag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:270
 #: clientgui/DlgAdvPreferencesBase.cpp:510
 msgid "Tuesday"
-msgstr ""
+msgstr "Tisdag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:277
 #: clientgui/DlgAdvPreferencesBase.cpp:517
 msgid "Wednesday"
-msgstr ""
+msgstr "Onsdag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:284
 #: clientgui/DlgAdvPreferencesBase.cpp:524
 msgid "Thursday"
-msgstr ""
+msgstr "Torsdag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:291
 #: clientgui/DlgAdvPreferencesBase.cpp:531
 msgid "Friday"
-msgstr ""
+msgstr "Fredag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:298
 #: clientgui/DlgAdvPreferencesBase.cpp:538
 msgid "Saturday"
-msgstr ""
+msgstr "Lördag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:305
 #: clientgui/DlgAdvPreferencesBase.cpp:545
 msgid "Sunday"
-msgstr ""
+msgstr "Söndag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:319
 msgid "Other options"
@@ -1616,7 +1614,7 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:231
 msgid "Host"
-msgstr ""
+msgstr "Värd"
 
 #: clientgui/DlgItemProperties.cpp:240
 msgid "Scheduling"
@@ -1697,7 +1695,7 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "Application"
-msgstr ""
+msgstr "Applikation"
 
 #: clientgui/DlgItemProperties.cpp:287
 msgid "Workunit name"
@@ -1749,7 +1747,7 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:309
 msgid "Directory"
-msgstr ""
+msgstr "Katalog"
 
 #: clientgui/DlgItemProperties.cpp:312
 msgid "Process ID"
@@ -1766,7 +1764,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:157
 msgid "Language:"
-msgstr ""
+msgstr "Språk:"
 
 #: clientgui/DlgOptions.cpp:164
 msgid "What language should BOINC use?"
@@ -1816,7 +1814,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:246
 msgid "Connections"
-msgstr ""
+msgstr "Anslutningar"
 
 #: clientgui/DlgOptions.cpp:255
 msgid "Connect via HTTP proxy server"
@@ -1844,7 +1842,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:296 clientgui/DlgOptions.cpp:360
 msgid "User Name:"
-msgstr ""
+msgstr "Användarnamn:"
 
 #: clientgui/DlgOptions.cpp:304 clientgui/DlgOptions.cpp:368
 #: clientgui/DlgSelectComputer.cpp:151
@@ -1882,7 +1880,7 @@ msgstr ""
 
 #: clientgui/DlgSelectComputer.cpp:142
 msgid "Host name:"
-msgstr ""
+msgstr "Värdnamn:"
 
 #: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
 msgid "Message boards"
@@ -1940,7 +1938,7 @@ msgstr ""
 
 #: clientgui/Localization.cpp:61
 msgid "Common questions"
-msgstr ""
+msgstr "Vanliga frågor"
 
 #: clientgui/Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
@@ -2020,7 +2018,7 @@ msgstr ""
 
 #: clientgui/Localization.cpp:125
 msgid "News"
-msgstr ""
+msgstr "Nyheter"
 
 #: clientgui/Localization.cpp:127
 msgid "climateprediction.net News"
@@ -2064,7 +2062,7 @@ msgstr ""
 
 #: clientgui/Localization.cpp:155
 msgid "Research"
-msgstr ""
+msgstr "Forskning"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
@@ -2504,80 +2502,79 @@ msgstr ""
 #: clientgui/sg_DlgMessages.cpp:361
 #, c-format
 msgid "%s - Messages"
-msgstr ""
+msgstr "%s - Meddelanden"
 
 #: clientgui/sg_DlgPreferences.cpp:94
 msgid "100 MB"
-msgstr ""
+msgstr "100 MB"
 
 #: clientgui/sg_DlgPreferences.cpp:95
 msgid "200 MB"
-msgstr ""
+msgstr "200 MB"
 
 #: clientgui/sg_DlgPreferences.cpp:96
 msgid "500 MB"
-msgstr ""
+msgstr "500 MB"
 
 #: clientgui/sg_DlgPreferences.cpp:97
 msgid "1 GB"
-msgstr ""
+msgstr "1 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:98
 msgid "2 GB"
-msgstr ""
+msgstr "2 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:99
 msgid "5 GB"
-msgstr ""
+msgstr "5 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:100
 msgid "10 GB"
-msgstr ""
+msgstr "10 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:101
 msgid "20 GB"
-msgstr ""
+msgstr "20 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:102
 msgid "50 GB"
-msgstr ""
+msgstr "50 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:103
 msgid "100 GB"
-msgstr ""
+msgstr "100 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:134
-#, fuzzy
 msgid "10%"
-msgstr "100%"
+msgstr "10%"
 
 #: clientgui/sg_DlgPreferences.cpp:135
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: clientgui/sg_DlgPreferences.cpp:136
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: clientgui/sg_DlgPreferences.cpp:137
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: clientgui/sg_DlgPreferences.cpp:138
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: clientgui/sg_DlgPreferences.cpp:139
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: clientgui/sg_DlgPreferences.cpp:140
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: clientgui/sg_DlgPreferences.cpp:141
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: clientgui/sg_DlgPreferences.cpp:142
 msgid "90%"
@@ -2914,9 +2911,8 @@ msgid "Show only the messages for the selected project."
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:164
-#, fuzzy
 msgid "Messages"
-msgstr "Meddelande"
+msgstr "Meddelanden"
 
 #: clientgui/ViewMessages.cpp:187
 msgid "Copying all messages to the clipboard..."
@@ -3527,11 +3523,11 @@ msgstr ""
 
 #: clientgui/WizardAttach.cpp:613
 msgid "Question"
-msgstr ""
+msgstr "Fråga"
 
 #: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
 msgid "&Next >"
-msgstr ""
+msgstr "&Nästa>"
 
 #: clientgui/wizardex.cpp:383
 msgid "< &Back"

@@ -7,19 +7,19 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-10-23 16:02+0200\n"
+"Last-Translator: Erik <ersi@digitalfractions.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: versions.inc:6
@@ -41,7 +41,7 @@ msgstr ""
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Sök"
 
 #: docutil.php:102
 msgid "Return to BOINC main page"
@@ -59,7 +59,7 @@ msgstr ""
 #: download.php:42
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr ""
+msgstr "%s för %s (%s MB)"
 
 #: download.php:89
 msgid ""
@@ -84,7 +84,7 @@ msgstr ""
 
 #: download.php:122
 msgid "System requirements"
-msgstr ""
+msgstr "Systemkrav"
 
 #: download.php:123
 msgid "Release notes"
@@ -92,7 +92,7 @@ msgstr ""
 
 #: download.php:124 index.php:82
 msgid "Help"
-msgstr ""
+msgstr "Hjälp"
 
 #: download.php:125
 msgid "All versions"
@@ -168,7 +168,7 @@ msgstr ""
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "Datorkraft"
 
 #: index.php:25
 msgid "Top 100 volunteers"
@@ -176,23 +176,23 @@ msgstr ""
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "Aktiva:"
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "voluntärer,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "datorer.\n"
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "24-timmarssnitt:"
 
 #: index.php:54
 msgid "TeraFLOPS."
@@ -200,7 +200,7 @@ msgstr ""
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Nyheter"
 
 #: index.php:79
 msgid "Volunteer"
@@ -212,7 +212,7 @@ msgstr ""
 
 #: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentation"
 
 #: index.php:89
 #, php-format
@@ -236,7 +236,7 @@ msgstr ""
 
 #: index.php:119
 msgid "Software updates"
-msgstr ""
+msgstr "Mjukvaruppdateringar"
 
 #: index.php:126
 msgid ""
@@ -256,7 +256,7 @@ msgstr ""
 
 #: index.php:147
 msgid "The BOINC project"
-msgstr ""
+msgstr "BOINC-projektet"
 
 #: index.php:153
 msgid "Message boards"
@@ -264,7 +264,7 @@ msgstr ""
 
 #: index.php:154
 msgid "Email lists"
-msgstr ""
+msgstr "E-postlistor"
 
 #: index.php:155
 msgid "Personnel and contributors"
@@ -276,43 +276,43 @@ msgstr ""
 
 #: index.php:157
 msgid "Papers and talks"
-msgstr ""
+msgstr "Papper och föreläsningar"
 
 #: index.php:158
 msgid "Research projects"
-msgstr ""
+msgstr "Forskningsprojekt"
 
 #: index.php:159
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Logotyper och grafik"
 
 #: index.php:160
 msgid "and"
-msgstr ""
+msgstr "och"
 
 #: index.php:164
 msgid "Help wanted"
-msgstr ""
+msgstr "Hjälp önskad"
 
 #: index.php:166
 msgid "Programming"
-msgstr ""
+msgstr "Programmering"
 
 #: index.php:167
 msgid "Translation"
-msgstr ""
+msgstr "Översättning"
 
 #: index.php:168
 msgid "Testing"
-msgstr ""
+msgstr "Testning"
 
 #: index.php:170
 msgid "Publicity"
-msgstr ""
+msgstr "Publicitet"
 
 #: index.php:172
 msgid "Software development"
-msgstr ""
+msgstr "Mjukvaruutveckling"
 
 #: index.php:173
 msgid "APIs for add-on software"
