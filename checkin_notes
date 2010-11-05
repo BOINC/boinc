@@ -7853,3 +7853,9 @@ David  04 Nov 2010
 
     client/
         time_stats.cpp
+
+David  04 Nov 2010
+    - admin web: fix bugs in manage_apps.php
+
+    html/ops/
+        manage_apps.php

@@ -33,6 +33,8 @@
  * @(#) $Id$
 \***********************************************************************/
 
+// TODO - code cleanup and use new DB interface
+
 require_once('../inc/util_ops.inc');
 
 db_init();
@@ -41,7 +43,7 @@ db_init();
 
 $result = mysql_query("SELECT * FROM platform");
 $Nplatform =  mysql_num_rows($result);
-for($i=0;$i<=$Nplatform;$i++){
+for($i=0;$i<$Nplatform;$i++){
     $item=mysql_fetch_object($result);
     $id=$item->id;
     $plat_off[$id]=$item->deprecated;
@@ -143,7 +145,7 @@ if( !empty($_POST) ) {
 
 admin_page_head("Manage Applications");
 
-if($commands) echo $commands;
+if(isset($commands)) echo $commands;
 
 
 $self=$_SERVER['PHP_SELF'];
