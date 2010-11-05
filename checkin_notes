@@ -7871,3 +7871,9 @@ David  05 Nov 2010
         validator.cpp
     py/Boinc/
         setup_project.py
+
+David  05 Nov 2010
+	- client: comment out a debug msg
+
+	client/
+		work_fetch.cpp
