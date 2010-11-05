@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-20 15:02-0500\n"
-"PO-Revision-Date: 2010-10-13 16:49+0200\n"
+"PO-Revision-Date: 2010-10-23 22:01+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -20,8 +20,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -58,7 +56,6 @@ msgid "&Yes, existing user"
 msgstr "&Ja, existierendes Teilnehmerkonto"
 
 #: clientgui/AccountInfoPage.cpp:412
-#, fuzzy
 msgid ""
 "We were not able to set up your account information\n"
 "automatically.\n"
@@ -74,7 +71,6 @@ msgstr ""
 "das Passwort zu finden."
 
 #: clientgui/AccountInfoPage.cpp:415
-#, fuzzy
 msgid "Find login information"
 msgstr "Kontoinformationen suchen"
 
@@ -456,19 +452,20 @@ msgid "Read preferences from global_prefs_override.xml."
 msgstr "Einstellungen aus global_prefs_override.xml lesen."
 
 #: clientgui/AdvancedFrame.cpp:592
-#, c-format, fuzzy
+#, c-format, 
 msgid "Launch another instance of %s..."
-msgstr "Eine neue Instanz von %s starten."
+msgstr "Eine neue Instanz von %s starten..."
 
 #: clientgui/AdvancedFrame.cpp:596
 #, c-format
-#, c-format, fuzzy
+#, c-format, 
 msgid "Launch another %s"
 msgstr "Weiteren %s starten"
 
+# Das Eventlog in 6.12 ist das Meldungstab aus 6.10 hier sollte der Name konsistent bleiben.
 #: clientgui/AdvancedFrame.cpp:606
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr ""
+msgstr "Meldungen... \t Ctrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:607
 msgid "Display diagnostic messages."
@@ -544,7 +541,6 @@ msgstr "%s - Nutzung von %s beenden"
 
 #: clientgui/AdvancedFrame.cpp:1173
 #, c-format
-#, fuzzy
 msgid ""
 "If you stop using %s,\n"
 "you'll keep all your current projects,\n"
@@ -554,7 +550,7 @@ msgid ""
 msgstr ""
 "Wenn Sie sich von %s abmelden\n"
 "bleiben alle Ihre aktuellen Projekte erhalten,\n"
-"Aber Sie müssen die Projekte manuell verwalten.\n"
+"müssen sie aber manuell verwalten.\n"
 "\n"
 "Wollen Sie mit der Abmeldung von %s fortfahren?"
 
@@ -2027,11 +2023,13 @@ msgid "%s - Select Computer"
 msgstr "%s - wähle Rechner"
 
 #: clientgui/DlgSelectComputer.cpp:124
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
 msgstr ""
+"Eine weitere Instanz von %s ist bereits auf diesem\n"
+"Computer gestartet. Bitte einen Client auswählen."
 
 #: clientgui/DlgSelectComputer.cpp:142
 msgid "Host name:"
@@ -2248,9 +2246,8 @@ msgid "Starting client"
 msgstr "Starte Client"
 
 #: clientgui/MainDocument.cpp:595
-#, fuzzy
 msgid "Connecting to client"
-msgstr "Wiederherstellen der Verbindung zu einem Client."
+msgstr "Verbindung zum Client wird hergestellt."
 
 #: clientgui/MainDocument.cpp:1193
 msgid "Retrieving system state; please wait..."
@@ -2494,8 +2491,9 @@ msgid "Click"
 msgstr "Klick"
 
 #: clientgui/NoticeListCtrl.cpp:524
+#, fuzzy
 msgid "There are no notices to be displayed at this time."
-msgstr ""
+msgstr "Es gibt derzeit keine Nachrichten zum ansehen."
 
 #: clientgui/NoticeListCtrl.cpp:558
 msgid "From"
@@ -2520,11 +2518,10 @@ msgid "Project &URL:"
 msgstr "&Projektadresse:"
 
 #: clientgui/ProjectInfoPage.cpp:391
-#, fuzzy
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
 msgstr ""
-"Das Projekt scheint keine Aufgaben für diesen Computertyp zu haben. Wirklich "
-"fortsetzen?"
+"Dieses Projekt scheint keine Aufgaben für Ihren Computertyp zu haben. "
+"Wirklich fortsetzen?"
 
 #: clientgui/ProjectInfoPage.cpp:415
 #, fuzzy
@@ -3247,12 +3244,10 @@ msgid "Remove"
 msgstr "Entfernen"
 
 #: clientgui/ViewProjects.cpp:202
-#, fuzzy
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr ""
-"Entfernt das ausgewählte (markierte) Projekt von diesem Computer. Sie\n"
-"sollten vorher das Projekt aktualisieren um alle erledigten Aufgaben\n"
-"dem Server zu melden."
+"Entfernt dieses Projekt von diesem Computer. Sie sollten vorher das Projekt "
+"aktualisieren um alle erledigten Aufgaben dem Server zu melden."
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:212
@@ -3401,7 +3396,7 @@ msgstr "Festplatte"
 
 #: clientgui/ViewResources.cpp:228
 msgid "no projects: 0 bytes used"
-msgstr ""
+msgstr "keine Projekte: 0 Bytes benutzt"
 
 #: clientgui/ViewResources.cpp:265
 msgid "used by BOINC: "
@@ -3495,12 +3490,12 @@ msgstr "Grafik für das nächste Projekt anzeigen"
 #: clientgui/ViewStatistics.cpp:2013
 #: clientgui/ViewStatistics.cpp:2410
 msgid "Hide project list"
-msgstr ""
+msgstr "Projektliste ausblenden"
 
 #: clientgui/ViewStatistics.cpp:2014
 #: clientgui/ViewStatistics.cpp:2410
 msgid "Use entire area for graphs"
-msgstr ""
+msgstr "Den ganzen Bereich für Grafiken nutzen"
 
 #: clientgui/ViewStatistics.cpp:2019
 msgid "Mode view"
@@ -3516,7 +3511,7 @@ msgstr "Eine Grafik mit dem ausgewählten Projekt anzeigen"
 
 #: clientgui/ViewStatistics.cpp:2030
 msgid "All projects (separate)"
-msgstr ""
+msgstr "Alle Projekte (separat)"
 
 #: clientgui/ViewStatistics.cpp:2031
 msgid "Show all projects, one chart per project"
@@ -3524,21 +3519,19 @@ msgstr "Alle Projekte anzeigen, eine Grafik je Projekt"
 
 #: clientgui/ViewStatistics.cpp:2037
 msgid "All projects (together)"
-msgstr ""
+msgstr "Alle Projekte (zusammen)"
 
 #: clientgui/ViewStatistics.cpp:2038
 msgid "Show one chart with all projects"
 msgstr "Eine Grafik mit allen Projekten anzeigen"
 
 #: clientgui/ViewStatistics.cpp:2044
-#, fuzzy
 msgid "All projects (sum)"
 msgstr "Alle Projekte (Summe)"
 
 #: clientgui/ViewStatistics.cpp:2045
-#, fuzzy
 msgid "Show one chart with sum of projects"
-msgstr "Eine Grafik mit allen Projekten anzeigen"
+msgstr "Eine Grafik mit allen Projekten (summiert) anzeigen"
 
 #: clientgui/ViewStatistics.cpp:2073
 msgid "Statistics"
@@ -3559,11 +3552,11 @@ msgstr "Grafiken werden aktualisiert..."
 
 #: clientgui/ViewStatistics.cpp:2414
 msgid "Show project list"
-msgstr ""
+msgstr "Projektliste anzeigen"
 
 #: clientgui/ViewStatistics.cpp:2414
 msgid "Uses smaller area for graphs"
-msgstr ""
+msgstr "Kleineren Bereich für Grafiken nutzen"
 
 #: clientgui/ViewTransfers.cpp:163
 msgid "Retry Now"
@@ -3797,7 +3790,6 @@ msgstr ""
 "gelistet von oder verwaltet mittels %s."
 
 #: clientgui/WelcomePage.cpp:275
-#, fuzzy
 msgid ""
 "There are over 30 BOINC-based projects\n"
 "doing research in many areas of science,\n"
@@ -3812,7 +3804,6 @@ msgstr ""
 "oder eine 'Kontoverwaltung' benutzen um Projekte auszuwählen."
 
 #: clientgui/WelcomePage.cpp:283
-#, fuzzy
 msgid ""
 "You have chosen to add a new BOINC project.  Adding a new\n"
 "project means that you will be connecting your computer to a new organization.\n"

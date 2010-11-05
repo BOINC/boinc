@@ -7,21 +7,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-20 15:02-0500\n"
-"PO-Revision-Date: 2010-08-14 04:45-0700\n"
-"Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
+"PO-Revision-Date: 2010-10-24 13:17+0200\n"
+"Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -36,7 +34,6 @@ msgstr ""
 "(een account aanmaken kan op de project website)"
 
 #: clientgui/AccountInfoPage.cpp:396
-#, fuzzy
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
@@ -57,7 +54,6 @@ msgid "&Yes, existing user"
 msgstr "&Ja, bestaande gebruiker"
 
 #: clientgui/AccountInfoPage.cpp:412
-#, fuzzy
 msgid ""
 "We were not able to set up your account information\n"
 "automatically.\n"
@@ -74,7 +70,6 @@ msgstr ""
 "in het email- en wachtwoord vak."
 
 #: clientgui/AccountInfoPage.cpp:415
-#, fuzzy
 msgid "Find login information"
 msgstr "Zoek inlog informatie"
 
@@ -316,7 +311,6 @@ msgid "Display and network &options..."
 msgstr "Weergave en netwerk opties..."
 
 #: clientgui/AdvancedFrame.cpp:451
-#, fuzzy
 msgid "Configure display options and proxy settings"
 msgstr "Configureer weergave opties en proxy instellingen"
 
@@ -452,16 +446,16 @@ msgstr "Lokale voorkeur inlezen vanuit global_prefs_override.xml"
 #: clientgui/AdvancedFrame.cpp:592
 #, c-format
 msgid "Launch another instance of %s..."
-msgstr ""
+msgstr "Start nog een sessie van %s"
 
 #: clientgui/AdvancedFrame.cpp:596
 #, c-format
 msgid "Launch another %s"
-msgstr ""
+msgstr "Een extra %s opstarten"
 
 #: clientgui/AdvancedFrame.cpp:606
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr ""
+msgstr "Gebeurtenissen Logboek...\tCtrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:607
 msgid "Display diagnostic messages."
@@ -533,11 +527,11 @@ msgstr "&Help"
 #: clientgui/AdvancedFrame.cpp:1168
 #, c-format
 msgid "%s - Stop using %s"
-msgstr ""
+msgstr "%s - Stop het gebruik van %s"
 
 #: clientgui/AdvancedFrame.cpp:1173
 #, c-format
-#, c-format, fuzzy
+#, c-format, 
 msgid ""
 "If you stop using %s,\n"
 "you'll keep all your current projects,\n"
@@ -584,7 +578,7 @@ msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1832
 #, c-format
-#, c-format, fuzzy
+#, c-format, 
 msgid "%s has successfully added %s"
 msgstr "%s heeft met succes %s toegevoegd"
 
@@ -868,16 +862,15 @@ msgstr "BOINC data map"
 
 #: clientgui/BOINCGUIApp.cpp:533
 msgid "Host name or IP address"
-msgstr ""
+msgstr "Computer naam of IP adres"
 
 #: clientgui/BOINCGUIApp.cpp:534
 msgid "GUI RPC port number"
-msgstr ""
+msgstr "GUI RPC poortnummer"
 
 #: clientgui/BOINCGUIApp.cpp:535
-#, fuzzy
 msgid "Password"
-msgstr "Wachtwoord:"
+msgstr "Wachtwoord"
 
 #: clientgui/BOINCGUIApp.cpp:536
 msgid "Startup BOINC with these optional arguments"
@@ -895,7 +888,7 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:539
 msgid "multiple instances of BOINC Manager allowed"
-msgstr ""
+msgstr "meerdere gelijktijdige sessies van BOINC-Manager mogelijk"
 
 #: clientgui/BOINCGUIApp.cpp:806
 msgid "(Automatic Detection)"
@@ -974,20 +967,19 @@ msgstr "Er zijn nieuwe berichten - klik om ze te bekijken."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to add project"
-msgstr ""
+msgstr "Project toevoegen mislukt"
 
 #: clientgui/CompletionErrorPage.cpp:204
 msgid "Failed to update account manager"
-msgstr "Account manager bijwerken niet gelukt"
+msgstr "Account manager bijwerken mislukt"
 
 #: clientgui/CompletionErrorPage.cpp:208
 msgid "Failed to remove account manager"
-msgstr "Account manager verwijderen niet gelukt"
+msgstr "Account manager verwijderen mislukt"
 
 #: clientgui/CompletionErrorPage.cpp:212
-#, fuzzy
 msgid "Failed to add account manager"
-msgstr "Account manager bijwerken niet gelukt"
+msgstr "Account manager bijwerken mislukt"
 
 #: clientgui/CompletionErrorPage.cpp:221
 msgid ""
@@ -1039,7 +1031,7 @@ msgstr "Bijwerken voltooid."
 
 #: clientgui/CompletionPage.cpp:247
 msgid "Now using account manager"
-msgstr ""
+msgstr "Account Manager in gebruik"
 
 #: clientgui/CompletionPage.cpp:252
 #, c-format
@@ -1049,11 +1041,11 @@ msgstr "Welkom bij %s"
 #: clientgui/CompletionPage.cpp:263
 #, c-format
 msgid "You are now using %s to manage accounts."
-msgstr ""
+msgstr "Je gebruikt nu %s om je accounts te onderhouden"
 
 #: clientgui/CompletionPage.cpp:267
 msgid "You are now using this account manager."
-msgstr ""
+msgstr "Je gebruikt nu deze Account Manager"
 
 #: clientgui/DlgAbout.cpp:102
 #, c-format
@@ -2010,6 +2002,8 @@ msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
 msgstr ""
+"%s wordt al uitgevoerd op deze computer \n"
+"Kies de client die u wilt controleren."
 
 #: clientgui/DlgSelectComputer.cpp:142
 msgid "Host name:"
@@ -2213,12 +2207,11 @@ msgstr "Bekijk de projecten die door 'World Community Grid' ondersteund worden"
 
 #: clientgui/MainDocument.cpp:587
 msgid "Starting client"
-msgstr "Cliënt opstarten "
+msgstr "Cliënt opstarten"
 
 #: clientgui/MainDocument.cpp:595
-#, fuzzy
 msgid "Connecting to client"
-msgstr "Client wordt verbonden."
+msgstr "Cliënt wordt verbonden"
 
 #: clientgui/MainDocument.cpp:1193
 msgid "Retrieving system state; please wait..."
@@ -2459,7 +2452,7 @@ msgstr "Klik"
 
 #: clientgui/NoticeListCtrl.cpp:524
 msgid "There are no notices to be displayed at this time."
-msgstr ""
+msgstr "Momenteel zijn er geen mededelingen"
 
 #: clientgui/NoticeListCtrl.cpp:558
 msgid "From"
@@ -2482,14 +2475,12 @@ msgid "Project &URL:"
 msgstr "Project &URL:"
 
 #: clientgui/ProjectInfoPage.cpp:391
-#, fuzzy
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
 msgstr ""
 "Dit project heeft mogelijk geen werk voor jouw type computer. Weet je zeker "
 "dat je verder wilt gaan?"
 
 #: clientgui/ProjectInfoPage.cpp:415
-#, fuzzy
 msgid "You already added this project. Please choose a different project."
 msgstr "Je hebt dit project reeds toegevoegd. Kies a.u.b. een ander project."
 
@@ -3341,7 +3332,7 @@ msgstr "Schijfgebruik"
 
 #: clientgui/ViewResources.cpp:228
 msgid "no projects: 0 bytes used"
-msgstr ""
+msgstr "geen projecten: 0 bytes in gebruik"
 
 #: clientgui/ViewResources.cpp:265
 msgid "used by BOINC: "
@@ -3435,12 +3426,12 @@ msgstr "Bekijk de statistieken van het volgende project"
 #: clientgui/ViewStatistics.cpp:2013
 #: clientgui/ViewStatistics.cpp:2410
 msgid "Hide project list"
-msgstr ""
+msgstr "Verberg project lijst"
 
 #: clientgui/ViewStatistics.cpp:2014
 #: clientgui/ViewStatistics.cpp:2410
 msgid "Use entire area for graphs"
-msgstr ""
+msgstr "Gebruik volledige ruimte voor grafieken"
 
 #: clientgui/ViewStatistics.cpp:2019
 msgid "Mode view"
@@ -3456,7 +3447,7 @@ msgstr "Bekijk de grafiek van het geselecteerde project"
 
 #: clientgui/ViewStatistics.cpp:2030
 msgid "All projects (separate)"
-msgstr ""
+msgstr "Alle projecten (apart)"
 
 #: clientgui/ViewStatistics.cpp:2031
 msgid "Show all projects, one chart per project"
@@ -3464,21 +3455,19 @@ msgstr "Bekijk alle projecten, per project een aparte grafiek"
 
 #: clientgui/ViewStatistics.cpp:2037
 msgid "All projects (together)"
-msgstr ""
+msgstr "Alle projecten (samen)"
 
 #: clientgui/ViewStatistics.cpp:2038
 msgid "Show one chart with all projects"
 msgstr "Bekijk alle projecten samen gebracht in de grafiek"
 
 #: clientgui/ViewStatistics.cpp:2044
-#, fuzzy
 msgid "All projects (sum)"
-msgstr "Projecten gecombineerd"
+msgstr "Alle projecten (som)"
 
 #: clientgui/ViewStatistics.cpp:2045
-#, fuzzy
 msgid "Show one chart with sum of projects"
-msgstr "Bekijk alle projecten samen gebracht in de grafiek"
+msgstr "Bekijk alle projecten opgeteld in één grafiek"
 
 #: clientgui/ViewStatistics.cpp:2073
 msgid "Statistics"
@@ -3499,11 +3488,11 @@ msgstr "Grafieken aan het bijwerken..."
 
 #: clientgui/ViewStatistics.cpp:2414
 msgid "Show project list"
-msgstr ""
+msgstr "Laat project lijst zien"
 
 #: clientgui/ViewStatistics.cpp:2414
 msgid "Uses smaller area for graphs"
-msgstr ""
+msgstr "Beperk ruimte voor grafieken"
 
 #: clientgui/ViewTransfers.cpp:163
 msgid "Retry Now"
@@ -3732,7 +3721,6 @@ msgstr ""
 "zijn niet te onderhouden m.b.v. %s."
 
 #: clientgui/WelcomePage.cpp:275
-#, fuzzy
 msgid ""
 "There are over 30 BOINC-based projects\n"
 "doing research in many areas of science,\n"
@@ -3747,7 +3735,6 @@ msgstr ""
 "of gebruik maken van een \"Account manager\" website."
 
 #: clientgui/WelcomePage.cpp:283
-#, fuzzy
 msgid ""
 "You have chosen to add a new BOINC project.  Adding a new\n"
 "project means that you will be connecting your computer to a new organization.\n"

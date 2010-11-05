@@ -1,27 +1,23 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.12\n"
+"Project-Id-Version: BOINC Manager 6.12.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-20 15:02-0500\n"
-"PO-Revision-Date: 2010-10-16 13:22+0900\n"
+"PO-Revision-Date: 2010-10-23 16:27+0900\n"
 "Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
-"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Language: Korean\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: KOREA, REPUBLIC OF\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -440,9 +436,9 @@ msgid "Read preferences from global_prefs_override.xml."
 msgstr "global_prefs_override.xml로 부터 환경 설정을 읽어옵니다."
 
 #: clientgui/AdvancedFrame.cpp:592
-#, c-format, fuzzy
+#, c-format
 msgid "Launch another instance of %s..."
-msgstr "별도의 %s 객체 실행"
+msgstr "별도의 %s 객체 실행..."
 
 #: clientgui/AdvancedFrame.cpp:596
 #, c-format
@@ -451,7 +447,7 @@ msgstr "별도로 %s 실행"
 
 #: clientgui/AdvancedFrame.cpp:606
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr ""
+msgstr "이벤트 로그...\tCtrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:607
 msgid "Display diagnostic messages."
@@ -1513,15 +1509,12 @@ msgstr "선택한 항목 복사"
 #: clientgui/DlgEventLog.cpp:274
 #: clientgui/DlgEventLog.cpp:282
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
+msgstr "선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
 
 #: clientgui/DlgEventLog.cpp:276
 #: clientgui/DlgEventLog.cpp:284
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
-"있습니다."
+msgstr "클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
 
 #: clientgui/DlgEventLog.cpp:291
 msgid "Close"
@@ -2425,7 +2418,7 @@ msgstr "Click"
 
 #: clientgui/NoticeListCtrl.cpp:524
 msgid "There are no notices to be displayed at this time."
-msgstr ""
+msgstr "지금은 새로운 공지 사항이 없습니다."
 
 #: clientgui/NoticeListCtrl.cpp:558
 msgid "From"
@@ -3141,9 +3134,7 @@ msgstr "프로젝트 다시 설정"
 
 #: clientgui/ViewProjects.cpp:195
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 "
-"있습니다."
+msgstr "이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 있습니다."
 
 #: clientgui/ViewProjects.cpp:201
 msgid "Remove"
@@ -3753,123 +3744,122 @@ msgstr "완료"
 #: clientgui/common/wxFlatNotebook.cpp:182
 #, c-format
 msgid "New page inserted. Index = %i"
-msgstr ""
+msgstr "새 페이지 삽입됨. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:187
 #, c-format
 msgid "New page appended. Index = %i"
-msgstr ""
+msgstr "새 페이지 첨부됨. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2047
 #, c-format
 msgid "Old Page Index = %i"
-msgstr ""
+msgstr "Old Page Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2052
 #, c-format
 msgid "OnDropTarget: index by HitTest = %i"
-msgstr ""
+msgstr "OnDropTarget: index by HitTest = %i"
 
 #: clientgui/common/wxPieCtrl.cpp:63
 msgid "Pie Ctrl"
-msgstr ""
+msgstr "차트 컨트롤"
 
 #: clientgui/mac/MacAccessiblity.cpp:257
 msgid "for accessibility support, please select advanced from the view menu or type command shift a"
-msgstr ""
+msgstr "접급성 지원을 원하시면 보기 메뉴에서 고급 보기를 선택하거나 쉬프트 A 명령을 입력하세요"
 
 #: clientgui/mac/MacAccessiblity.cpp:302
 msgid "This panel contains graphs showing user totals for projects"
-msgstr ""
+msgstr "이 패널은 프로젝트 전체 사용자를 보여주는 그래프를 포함합니다"
 
 #: clientgui/mac/MacAccessiblity.cpp:726
 msgid "list headers"
-msgstr ""
+msgstr "목록 헤더"
 
 #: clientgui/mac/MacAccessiblity.cpp:732
 msgid "list of events"
-msgstr ""
+msgstr "이벤트 목록"
 
 #: clientgui/mac/MacAccessiblity.cpp:734
 msgid "list of events is empty"
-msgstr ""
+msgstr "이벤트 목록이 비었습니다"
 
 #: clientgui/mac/MacAccessiblity.cpp:739
 #, c-format
 msgid "list of %s"
-msgstr ""
+msgstr "%s 목록"
 
 #: clientgui/mac/MacAccessiblity.cpp:741
 #, c-format
 msgid "list of %s is empty"
-msgstr ""
+msgstr "%s 목록이 비었습니다"
 
 #: clientgui/mac/MacAccessiblity.cpp:843
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr ", 현재 컬럼 %d %d 정렬, 내림차순 정렬, "
 
 #: clientgui/mac/MacAccessiblity.cpp:845
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr ", 현재 컬럼 %d %d 정렬, 오름차순 정렬, "
 
 #: clientgui/mac/MacAccessiblity.cpp:848
 #, c-format
 msgid "; column %d of %d; "
-msgstr ""
+msgstr ", 컬럼 %d %d"
 
 #: clientgui/mac/MacAccessiblity.cpp:855
 msgid "list is empty"
-msgstr ""
+msgstr "목록이 없습니다"
 
 #: clientgui/mac/MacAccessiblity.cpp:858
 #: clientgui/mac/MacAccessiblity.cpp:870
 #, c-format
 msgid "; row %d; "
-msgstr ""
+msgstr ", 줄 %d, "
 
 #: clientgui/mac/MacAccessiblity.cpp:862
 #, c-format
 msgid "; selected row %d of %d; "
-msgstr ""
+msgstr ", 줄 %d %d가 선택됨, "
 
 #: clientgui/mac/MacAccessiblity.cpp:864
 #, c-format
 msgid "; selected row %d ; "
-msgstr ""
+msgstr ", 줄 %d가 선택됨, "
 
 #: clientgui/mac/MacAccessiblity.cpp:868
 #, c-format
 msgid "; row %d of %d; "
-msgstr ""
+msgstr ", 줄 %d %d, "
 
 #: clientgui/mac/MacAccessiblity.cpp:881
 msgid "blank"
-msgstr ""
+msgstr "공백"
 
 #: clientgui/mac/MacAccessiblity.cpp:1523
-#, fuzzy
 msgid "list of projects or account managers"
-msgstr "계정 관리자 혹은 프로젝트에 추가합니다"
+msgstr "계정 관리자 및 프로젝트 목록"
 
 #: clientgui/mac/MacAccessiblity.cpp:1575
 #, c-format
 msgid "selected row %d of %d; "
-msgstr ""
+msgstr "줄 %d %d가 선택됨, "
 
 #: clientgui/mac/MacAccessiblity.cpp:1577
 #, c-format
 msgid "row %d of %d; "
-msgstr ""
+msgstr "줄 %d %d, "
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
-msgstr ""
+msgstr "작업 시작 시각과 종료 시각을 HH:MM-HH:MM 형식으로 적어주세요"
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr ""
+msgstr "네트워크 사용 시작 시각과 종료 시각을 HH:MM-HH:MM 형식으로 적어주세요"
 
 #~ msgid "Event Log..."
 #~ msgstr "이벤트 로그..."
@@ -3892,9 +3882,12 @@ msgstr ""
 #~ msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 #~ msgstr "HTTP_PROXY 환경 변수는 반드시 HTTP 프록시로 입력해야 합니다"
 
-#, c-format
-#~ msgid "You used the wrong URL for this project.  When convenient, remove this project, then add %s"
-#~ msgstr "이 프로젝트의 URL이 잘못되었습니다.  이 프로젝트를 제거하고 %s를(을) 추가하십시오"
+#~ msgid ""
+#~ "You used the wrong URL for this project.  When convenient, remove this "
+#~ "project, then add %s"
+#~ msgstr ""
+#~ "이 프로젝트의 URL이 잘못되었습니다.  이 프로젝트를 제거하고 %s를(을) 추가"
+#~ "하십시오"
 
 #~ msgid "Message from"
 #~ msgstr "메시지 전송됨"
