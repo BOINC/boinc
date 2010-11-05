@@ -584,7 +584,9 @@ void CLIENT_STATE::adjust_debts() {
         work_fetch.accumulate_inst_sec(atp, elapsed_time);
     }
 
+#if 0
     update_rec();
+#endif
 
     cpu_work_fetch.update_long_term_debts();
     cpu_work_fetch.update_short_term_debts();

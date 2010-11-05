@@ -632,7 +632,14 @@ static inline int check_deadline(
     // and it's not a hard app.
     // (i.e. everyone gets one result, no matter how slow they are)
     //
-    if (get_estimated_delay(bav) == 0 && !hard_app(app)) return 0;
+    if (get_estimated_delay(bav) == 0 && !hard_app(app)) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] est delay 0, skipping deadline check\n"
+            );
+        }
+        return 0;
+    }
 
     // if it's a hard app, don't send it to a host with no credit
     //
