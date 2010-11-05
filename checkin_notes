@@ -7859,3 +7859,15 @@ David  04 Nov 2010
 
     html/ops/
         manage_apps.php
+
+David  05 Nov 2010
+    - validator: fix another bug with --credit_from_wu
+    - make_project, update scripts: don't quit it user_profiles
+        already exists
+
+    sched
+        credit.cpp
+        validate_util.cpp
+        validator.cpp
+    py/Boinc/
+        setup_project.py

@@ -306,7 +306,10 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
     create_project_dirs(dest_dir);
 
     # make a symbolic link from html/user/user_profile to html/user_profile
-    my_symlink(dir('html/user_profile'), dir('html/user/user_profile'));
+    try:
+        my_symlink(dir('html/user_profile'), dir('html/user/user_profile'));
+    except:
+        pass
 
     # copy html/ops files in all cases.
     # The critical one is db_update.php,

@@ -427,9 +427,9 @@ int handle_wu(
                             result.id, result.name, retval
                         );
                     }
+                    result.granted_credit = credit;
                     grant_credit(
-                        host, result.sent_time, result.cpu_time,
-                        result.granted_credit
+                        host, result.sent_time, result.cpu_time, credit
                     );
                     log_messages.printf(MSG_NORMAL,
                         "[RESULT#%d %s] Valid; granted %f credit [HOST#%d]\n",

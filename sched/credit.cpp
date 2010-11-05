@@ -704,8 +704,7 @@ double vec_min(vector<double>& v) {
 }
 
 // Called by validator when canonical result has been selected.
-// Compute credit for valid instances, store in result.granted_credit
-// and return as credit
+// Compute credit for valid instances
 //
 int assign_credit_set(
     WORKUNIT& wu, vector<RESULT>& results,
@@ -771,11 +770,6 @@ int assign_credit_set(
             "[credit] [WU#%d] assign_credit_set: credit %g\n",
             wu.id, x
         );
-    }
-    for (i=0; i<results.size(); i++) {
-        RESULT& r = results[i];
-        if (r.validate_state != VALIDATE_STATE_VALID) continue;
-        r.granted_credit = x;
     }
     credit = x;
     return 0;
