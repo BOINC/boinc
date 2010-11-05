@@ -43,7 +43,7 @@ db_init();
 
 $result = mysql_query("SELECT * FROM platform");
 $Nplatform =  mysql_num_rows($result);
-for($i=0;$i<=$Nplatform;$i++){
+for($i=0;$i<$Nplatform;$i++){
     $item=mysql_fetch_object($result);
     $id=$item->id;
     $plat_off[$id]=$item->deprecated; 
@@ -54,7 +54,7 @@ mysql_free_result($result);
 
 $result = mysql_query("SELECT * FROM app");
 $Napp =  mysql_num_rows($result);
-for($i=0;$i<=$Napp;$i++){
+for($i=0;$i<$Napp;$i++){
     $item=mysql_fetch_object($result);
     $id=$item->id;
     $app_off[$id]=$item->deprecated; 

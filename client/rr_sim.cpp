@@ -239,8 +239,9 @@ void CLIENT_STATE::rr_simulation() {
 
     if (log_flags.rr_simulation) {
         msg_printf(0, MSG_INFO,
-            "[rr_sim] rr_sim start: work_buf_total %.2f on_frac %.3f active_frac %.3f",
-            work_buf_total(), time_stats.on_frac, time_stats.active_frac
+            "[rr_sim] start: work_buf min %.0f additional %.0f total %.0f on_frac %.3f active_frac %.3f",
+            work_buf_min(), work_buf_additional(), work_buf_total(),
+            time_stats.on_frac, time_stats.active_frac
         );
     }
 

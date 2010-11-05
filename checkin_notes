@@ -7873,7 +7873,16 @@ David  05 Nov 2010
         setup_project.py
 
 David  05 Nov 2010
-	- client: comment out a debug msg
+    - client: comment out a debug msg
 
-	client/
-		work_fetch.cpp
+    client/
+        work_fetch.cpp
+
+David  05 Nov 2010
+    - admin web: fix bugs in manage_app_versions page
+    - client: message tweak
+
+    client/
+        rr_sim.cpp
+    html/ops/
+        manage_app_versions.php
