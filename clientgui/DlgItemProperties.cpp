@@ -42,7 +42,7 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     if (!pFrame) return;
 
 	SetSizeHints( wxDefaultSize, wxDefaultSize );
-	SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
+	SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
 	
 	m_bSizer1 = new wxBoxSizer( wxVERTICAL );
 	
