@@ -7886,3 +7886,9 @@ David  05 Nov 2010
         rr_sim.cpp
     html/ops/
         manage_app_versions.php
+
+David  08 Nov 2010
+    - web: show prefs bools as checkboxes rather than radio yes/no
+
+    html/inc/
+        prefs_util.inc
