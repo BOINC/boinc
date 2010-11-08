@@ -7517,7 +7517,37 @@ David  22 Oct 2010
     client/
         work_fetch.cpp
 
-David 26 Oct 2010
+David  26 Oct 2010
     - client: linux compile fix
     - client: small fix for GPU scheduling
         (use anticipated debt instead of STD)
+
+    client/
+        app_start.cpp
+        cpu_sched.cpp
+        sim.cpp
+        client_types.h
+
+David  27 Oct 2010
+    - scheduler: fix logic that deals with jobs that need > 2GB RAM.
+        My change of 1 Oct ([22440]) required that such jobs
+        be processed with 64-bit apps,
+        on the assumption that 32-bit apps have a 2 GB user address space limit.
+        However, it turns out this limit applies only to Windows
+        (kernel and user mode share the 4GB address space; each gets half).
+        On Linux, the split is 3GB user / 1 GB kernel.
+        On Mac OS X, user mode and kernel mode have separate address spaces,
+        each of them 4 GB.
+
+    client/
+        app.cpp
+        hostinfo_unix.cpp
+        hostinfo_win.cpp
+    lib/
+        coproc.cpp
+        str_util.h
+        util.h
+    sched/
+        sched_customize.cpp
+        sched_score.cpp
+        sched_version.cpp

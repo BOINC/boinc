@@ -50,6 +50,7 @@
 // In either case, put your version under source-code control, e.g. SVN
 
 #include "str_util.h"
+#include "util.h"
 
 #include "sched_config.h"
 #include "sched_main.h"

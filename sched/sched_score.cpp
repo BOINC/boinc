@@ -19,7 +19,7 @@
 
 #include "boinc_db.h"
 #include "error_numbers.h"
-#include "str_util.h"
+#include "util.h"
 
 #include "sched_main.h"
 #include "sched_config.h"
