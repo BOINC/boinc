@@ -84,7 +84,7 @@ int create_upload_result(
     result.hostid = host_id;
     retval = result.insert();
     if (retval) {
-        fprintf(stderr, "result.insert(): %d\n", retval);
+        fprintf(stderr, "result.insert(): %s\n", boincerror(retval));
         return retval;
     }
     return 0;
@@ -125,7 +125,7 @@ int create_upload_message(
     );
     retval = mth.insert();
     if (retval) {
-        fprintf(stderr, "msg_to_host.insert(): %d\n", retval);
+        fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
         return retval;
     }
     return 0;
@@ -216,7 +216,7 @@ int main(int argc, char** argv) {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        fprintf(stderr, "boinc_db.open failed: %d\n", retval);
+        fprintf(stderr, "boinc_db.open failed: %s\n", boincerror(retval));
         exit(1);
     }
 

@@ -69,10 +69,6 @@ extern int string_substitute(
 //
 extern void mysql_timestamp(double, char*);
 
-// returns short text description of error corresponding to
-// int errornumber from error_numbers.h
-//
-extern const char* boincerror(int which_error);
 extern const char* network_status_string(int);
 extern const char* rpc_reason_string(int);
 extern const char* suspend_reason_string(int reason);

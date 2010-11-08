@@ -172,8 +172,8 @@ int wu_delete_files(WORKUNIT& wu) {
                     mthd_retval = ERR_UNLINK;
                 } else if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d] get_file_path: %s: %d\n",
-                        wu.id, filename, retval
+                        "[WU#%d] get_file_path: %s: %s\n",
+                        wu.id, filename, boincerror(retval)
                     );
                 } else {
                     log_messages.printf(MSG_NORMAL,
@@ -182,8 +182,8 @@ int wu_delete_files(WORKUNIT& wu) {
                     retval = unlink(pathname);
                     if (retval) {
                         log_messages.printf(MSG_CRITICAL,
-                            "[WU#%d] unlink %s failed: %d\n",
-                            wu.id, filename, retval
+                            "[WU#%d] unlink %s failed: %s\n",
+                            wu.id, filename, boincerror(retval)
                         );
                         mthd_retval = ERR_UNLINK;
                     } else {
@@ -199,8 +199,8 @@ int wu_delete_files(WORKUNIT& wu) {
                         retval = unlink(pathname);
                         if (retval) {
                             log_messages.printf(MSG_CRITICAL,
-                                "[WU#%d] unlink %s failed: %d\n",
-                                wu.id, filename, retval
+                                "[WU#%d] unlink %s failed: %s\n",
+                                wu.id, filename, boincerror(retval)
                             );
                         }
                     }
@@ -263,8 +263,8 @@ int result_delete_files(RESULT& result) {
                     if (retval) {
                         mthd_retval = ERR_UNLINK;
                         log_messages.printf(MSG_CRITICAL,
-                            "[RESULT#%d] unlink %s returned %d %s\n",
-                            result.id, pathname, retval,
+                            "[RESULT#%d] unlink %s error: %s %s\n",
+                            result.id, pathname, boincerror(retval),
                             (retval && errno)?strerror(errno):""
                         );
                     } else {
@@ -336,7 +336,7 @@ bool do_pass(bool retry_error) {
         if (retval) {
             new_state = FILE_DELETE_ERROR;
             log_messages.printf(MSG_CRITICAL,
-                "[WU#%d] file deletion failed: %d\n", wu.id, retval
+                "[WU#%d] file deletion failed: %s\n", wu.id, boincerror(retval)
             );
         } else {
             new_state = FILE_DELETE_DONE;
@@ -346,7 +346,7 @@ bool do_pass(bool retry_error) {
             retval = wu.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[WU#%d] update failed: %d\n", wu.id, retval
+                    "[WU#%d] update failed: %s\n", wu.id, boincerror(retval)
                 );
             } else {
                 log_messages.printf(MSG_DEBUG,
@@ -381,7 +381,7 @@ bool do_pass(bool retry_error) {
         if (retval) {
             new_state = FILE_DELETE_ERROR;
             log_messages.printf(MSG_CRITICAL,
-                "[RESULT#%d] file deletion failed: %d\n", result.id, retval
+                "[RESULT#%d] file deletion failed: %s\n", result.id, boincerror(retval)
             );
         } else {
             new_state = FILE_DELETE_DONE;
@@ -391,7 +391,7 @@ bool do_pass(bool retry_error) {
             retval = result.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[RESULT#%d] update failed: %d\n", result.id, retval
+                    "[RESULT#%d] update failed: %s\n", result.id, boincerror(retval)
                 );
             } else {
                 log_messages.printf(MSG_DEBUG,
@@ -453,7 +453,7 @@ int delete_antique_files() {
         );
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "get_file_path(%s) failed: %d\n", fr.name.c_str(), retval
+                "get_file_path(%s) failed: %s\n", fr.name.c_str(), boincerror(retval)
             );
             return retval;
         }
@@ -623,7 +623,8 @@ void do_antique_pass() {
     retval = find_antique_files();
     if (retval < 0) {
         log_messages.printf(MSG_CRITICAL,
-            "Problem 1 [%d] in antique file deletion: turning OFF -delete_antiques switch\n", retval
+            "Problem 1 [%s] in antique file deletion: turning OFF --delete_antiques switch\n",
+            boincerror(retval)
         );
         dont_delete_antiques = true;
         return;
@@ -632,7 +633,8 @@ void do_antique_pass() {
     retval = delete_antique_files();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "Problem 2 [%d] in antique file deletion: turning OFF -delete_antiques switch\n", retval
+            "Problem 2 [%s] in antique file deletion: turning OFF --delete_antiques switch\n",
+            boincerror(retval)
         );
         dont_delete_antiques = true;
     }
@@ -742,7 +744,8 @@ int main(int argc, char** argv) {
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
+            "boinc_db.set_isolation_level: %s; %s\n",
+            boincerror(retval), boinc_db.error_string()
         );
     }
 

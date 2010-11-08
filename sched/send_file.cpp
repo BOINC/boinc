@@ -78,7 +78,7 @@ int create_download_result(DB_RESULT& result, int host_id) {
     result.hostid = host_id;
     retval = result.insert();
     if (retval) {
-        fprintf(stderr, "result.insert(): %d\n", retval);
+        fprintf(stderr, "result.insert(): %s\n", boincerror(retval));
         return retval;
     }
     return 0;
@@ -101,7 +101,7 @@ int create_download_message(
     sprintf(path, "%s/%s", dirpath, file_name);
     retval = md5_file(path, md5, nbytes);
     if (retval) {
-        fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
+        fprintf(stderr, "process_wu_template: md5_file %s\n", boincerror(retval));
         return retval;
     }
     sprintf(mth.xml,
@@ -133,7 +133,7 @@ int create_download_message(
     );
     retval = mth.insert();
     if (retval) {
-        fprintf(stderr, "msg_to_host.insert(): %d\n", retval);
+        fprintf(stderr, "msg_to_host.insert(): %s\n", boincerror(retval));
         return retval;
     }
     return 0;
@@ -221,7 +221,7 @@ int main(int argc, char** argv) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        fprintf(stderr, "boinc_db.open failed: %d\n", retval);
+        fprintf(stderr, "boinc_db.open failed: %s\n", boincerror(retval));
         exit(1);
     }
 

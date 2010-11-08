@@ -40,8 +40,8 @@ int read_sendable_result(DB_RESULT& result) {
     int retval = result.lookup_id(result.id);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] result.lookup_id() failed %d\n",
-            result.id, retval
+            "[RESULT#%d] result.lookup_id() failed %s\n",
+            result.id, boincerror(retval)
         );
         return ERR_NOT_FOUND;
     }
@@ -73,7 +73,7 @@ bool wu_is_infeasible_slow(
         retval = result.count(n, buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "send_work: can't get result count (%d)\n", retval
+                "send_work: can't get result count (%s)\n", boincerror(retval)
             );
             return true;
         } else {
@@ -100,7 +100,7 @@ bool wu_is_infeasible_slow(
         retval = result.count(n, buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "send_work: can't get result count (%d)\n", retval
+                "send_work: can't get result count (%s)\n", boincerror(retval)
             );
             return true;
         } else {

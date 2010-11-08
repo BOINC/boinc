@@ -90,7 +90,7 @@ static int result_timed_out(
     int retval = hav_lookup(hav, res_item.res_hostid, gavid);
     if (retval) {
         log_messages.printf(MSG_NORMAL,
-            "result_timed_out(): hav_lookup failed %d\n", retval
+            "result_timed_out(): hav_lookup failed: %s\n", boincerror(retval)
         );
         return retval;
     }
@@ -135,7 +135,8 @@ static int result_timed_out(
     retval = hav.update_fields_noid(query, clause);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "CRITICAL result_timed_out(): hav updated failed: %d\n", retval
+            "CRITICAL result_timed_out(): hav updated failed: %s\n",
+            boincerror(retval)
         );
     }
     return 0;
@@ -171,7 +172,7 @@ int handle_wu(
         retval = wu.update_field(buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "update_field failed %d\n", retval
+                "update_field failed: %s\n", boincerror(retval)
             );
         }
         return 0;
@@ -246,7 +247,8 @@ int handle_wu(
             if (res_item.res_report_deadline < now) {
                 log_messages.printf(MSG_NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d) server_state:IN_PROGRESS=>OVER; outcome:NO_REPLY\n",
-                    wu_item.id, wu_item.name, res_item.res_id, res_item.res_name,
+                    wu_item.id, wu_item.name, res_item.res_id,
+                    res_item.res_name,
                     res_item.res_report_deadline, (int)now
                 );
                 res_item.res_server_state = RESULT_SERVER_STATE_OVER;
@@ -254,15 +256,15 @@ int handle_wu(
                 retval = transitioner.update_result(res_item);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d %s] [RESULT#%d %s] update_result(): %d\n",
+                        "[WU#%d %s] [RESULT#%d %s] update_result(): %s\n",
                         wu_item.id, wu_item.name, res_item.res_id,
-                        res_item.res_name, retval
+                        res_item.res_name, boincerror(retval)
                     );
                 }
                 retval = result_timed_out(res_item, wu_item);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "result_timed_out() error %d\n", retval
+                        "result_timed_out() error: %s\n", boincerror(retval)
                     );
                     exit(1);
                 }
@@ -287,11 +289,19 @@ int handle_wu(
                     if (canonical_result_files_deleted) {
                         res_item.res_validate_state = VALIDATE_STATE_TOO_LATE;
                         retval = transitioner.update_result(res_item);
-                        log_messages.printf(MSG_NORMAL,
-                            "[WU#%d %s] [RESULT#%d %s] validate_state:INIT=>TOO_LATE retval %d\n",
-                            wu_item.id, wu_item.name, res_item.res_id,
-                            res_item.res_name, retval
-                        );
+                        if (retval) {
+                            log_messages.printf(MSG_CRITICAL,
+                                "[WU#%d %s] [RESULT#%d %s] update_result(): %s\n",
+                                wu_item.id, wu_item.name, res_item.res_id,
+                                res_item.res_name, boincerror(retval)
+                            );
+                        } else {
+                            log_messages.printf(MSG_NORMAL,
+                                "[WU#%d %s] [RESULT#%d %s] validate_state:INIT=>TOO_LATE\n",
+                                wu_item.id, wu_item.name, res_item.res_id,
+                                res_item.res_name
+                            );
+                        }
                     } else {
                         have_new_result_to_validate = true;
                     }
@@ -413,8 +423,9 @@ int handle_wu(
                 retval = transitioner.update_result(res_item);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
-                        wu_item.id, wu_item.name, res_item.res_id, res_item.res_name, retval
+                        "[WU#%d %s] [RESULT#%d %s] result.update(): %s\n",
+                        wu_item.id, wu_item.name, res_item.res_id,
+                        res_item.res_name, boincerror(retval)
                     );
                 }
             }
@@ -453,8 +464,8 @@ int handle_wu(
                 );
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d %s] create_result_ti() %d\n",
-                        wu_item.id, wu_item.name, retval
+                        "[WU#%d %s] create_result_ti(): %s\n",
+                        wu_item.id, wu_item.name, boincerror(retval)
                     );
                     return retval;
                 }
@@ -469,8 +480,8 @@ int handle_wu(
             retval = r.insert_batch(values);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[WU#%d %s] insert_batch() %d\n",
-                    wu_item.id, wu_item.name, retval
+                    "[WU#%d %s] insert_batch(): %s\n",
+                    wu_item.id, wu_item.name, boincerror(retval)
                 );
                 return retval;
             }
@@ -571,8 +582,9 @@ int handle_wu(
                 retval = transitioner.update_result(res_item);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
-                        wu_item.id, wu_item.name, res_item.res_id, res_item.res_name, retval
+                        "[WU#%d %s] [RESULT#%d %s] result.update(): %s\n",
+                        wu_item.id, wu_item.name, res_item.res_id,
+                        res_item.res_name, boincerror(retval)
                     );
                 }
             }
@@ -681,8 +693,8 @@ int handle_wu(
     retval = transitioner.update_workunit(wu_item, wu_item_original);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[WU#%d %s] workunit.update() == %d\n",
-            wu_item.id, wu_item.name, retval
+            "[WU#%d %s] workunit.update(): %s\n",
+            wu_item.id, wu_item.name, boincerror(retval)
         );
         return retval;
     }
@@ -706,7 +718,7 @@ bool do_pass() {
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
                 log_messages.printf(MSG_CRITICAL,
-                    "WU enum error%d; exiting\n", retval
+                    "WU enum error: %s; exiting\n", boincerror(retval)
                 );
                 exit(1);
             }
@@ -717,8 +729,8 @@ bool do_pass() {
         retval = handle_wu(transitioner, items);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "[WU#%d %s] handle_wu: %d; quitting\n",
-                wu_item.id, wu_item.name, retval
+                "[WU#%d %s] handle_wu: %s; quitting\n",
+                wu_item.id, wu_item.name, boincerror(retval)
             );
             exit(1);
         }
@@ -733,7 +745,9 @@ void main_loop() {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "boinc_db.open: %d\n", retval);
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_db.open: %s\n", boincerror(retval)
+        );
         exit(1);
     }
 

@@ -557,7 +557,7 @@ void feeder_loop() {
             int retval = update_av_scales(ssp);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "update_av_scales failed: %d\n", retval
+                    "update_av_scales failed: %s\n", boincerror(retval)
                 );
                 exit(1);
             }
@@ -629,7 +629,7 @@ void hr_init() {
     retval = hr_info.read_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "Can't read HR info file: %d\n", retval
+            "Can't read HR info file: %s\n", boincerror(retval)
         );
         exit(1);
     }

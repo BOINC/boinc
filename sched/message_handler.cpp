@@ -57,7 +57,7 @@ int handle_message(MSG_FROM_HOST& mfh) {
     strcpy(mth.xml, mfh.xml);
     retval = mth.insert();
     if (retval) {
-        printf("insert failed %d\n", retval);
+        printf("insert failed %s\n", boincerror(retval));
     }
     return 0;
 }
@@ -101,7 +101,7 @@ int main_loop(bool one_pass) {
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "boinc_db.open failed: %d\n", retval
+            "boinc_db.open failed: %s\n", boincerror(retval)
         );
         exit(1);
     }

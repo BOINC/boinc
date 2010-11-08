@@ -52,7 +52,8 @@ void write_time_stats_log() {
         int retval = boinc_mkdir(dirname);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "Can't make time stats log dir %s: %d\n", dirname, retval
+                "Can't make time stats log dir %s: %s\n",
+                dirname, boincerror(retval)
             );
             std::perror("mkdir");
             return;
@@ -79,5 +80,7 @@ void write_time_stats_log() {
 bool have_time_stats_log() {
     int hostid = g_reply->host.id;
     int dirnum = hostid % 1000;
-    return is_file(config.project_path("time_stats_log/%d/%d", dirnum, hostid));
+    return is_file(
+        config.project_path("time_stats_log/%d/%d", dirnum, hostid)
+    );
 }

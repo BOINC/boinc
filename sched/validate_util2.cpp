@@ -78,8 +78,8 @@ int check_set(
             had_error[i] = true;
         } else if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "check_set: init_result([RESULT#%d %s]) failed: %d\n",
-                results[i].id, results[i].name, retval
+                "check_set: init_result([RESULT#%d %s]) failed: %s\n",
+                results[i].id, results[i].name, boincerror(retval)
             );
             results[i].outcome = RESULT_OUTCOME_VALIDATE_ERROR;
             results[i].validate_state = VALIDATE_STATE_INVALID;

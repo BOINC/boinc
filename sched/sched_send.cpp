@@ -798,7 +798,7 @@ static int insert_after(char* buffer, const char* after, const char* text) {
         log_messages.printf(MSG_CRITICAL,
             "insert_after: %s not found in %s\n", after, buffer
         );
-        return ERR_NULL;
+        return ERR_XML_PARSE;
     }
     p += strlen(after);
     strcpy(temp, p);
@@ -875,7 +875,9 @@ static int add_wu_to_reply(
     }
     retval = insert_wu_tags(wu2, *app);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "insert_wu_tags failed %d\n", retval);
+        log_messages.printf(MSG_CRITICAL,
+            "insert_wu_tags failed: %s\n", boincerror(retval)
+        );
         return retval;
     }
     wu3 = wu2;
@@ -1113,7 +1115,7 @@ int add_result_to_reply(
         );
     } else if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "add_result_to_reply: can't update result: %d\n", retval
+            "add_result_to_reply: can't update result: %s\n", boincerror(retval)
         );
     }
     if (retval) return retval;
@@ -1149,7 +1151,7 @@ int add_result_to_reply(
     retval = insert_deadline_tag(result);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "add_result_to_reply: can't insert deadline tag: %d\n", retval
+            "add_result_to_reply: can't insert deadline tag: %s\n", boincerror(retval)
         );
         return retval;
     }
@@ -1230,7 +1232,7 @@ int add_result_to_reply(
             retval = dbwu.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "WU update failed: %d", retval
+                    "WU update failed: %s", boincerror(retval)
                 );
             }
         }
@@ -1664,7 +1666,7 @@ int update_host_app_versions(vector<RESULT>& results, int hostid) {
         retval = hav.insert();
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "hav.insert(): %d\n", retval
+                "hav.insert(): %s\n", boincerror(retval)
             );
         } else {
             if (config.debug_credit) {
@@ -1763,7 +1765,7 @@ done:
     retval = update_host_app_versions(g_reply->results, g_reply->host.id);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "update_host_app_versions() failed: %d\n", retval
+            "update_host_app_versions() failed: %s\n", boincerror(retval)
         );
     }
     send_user_messages();

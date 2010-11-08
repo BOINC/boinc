@@ -422,8 +422,8 @@ int handle_results() {
     retval = result_handler.update_workunits();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[HOST#%d] can't update WUs: %d\n",
-            g_reply->host.id, retval
+            "[HOST#%d] can't update WUs: %s\n",
+            g_reply->host.id, boincerror(retval)
         );
     }
     return 0;

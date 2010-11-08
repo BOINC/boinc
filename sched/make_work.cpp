@@ -135,7 +135,7 @@ void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
     retval = wu.insert();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "Failed to created WU, error %d; exiting\n", retval
+            "Failed to created WU: %s; exiting\n", boincerror(retval)
         );
         exit(retval);
     }
@@ -157,11 +157,11 @@ void wait_for_results(int wu_id) {
     sprintf(buf, "where workunitid=%d", wu_id);
     while (1) {
         retval = result.count(count, buf);
-        log_messages.printf(MSG_DEBUG, "result.count for %d returned %d, %d\n",
-            wu_id, count, retval
+        log_messages.printf(MSG_DEBUG, "result.count for %d returned %d, error: %s\n",
+            wu_id, count, boincerror(retval)
         );
         if (retval) {
-            log_messages.printf(MSG_CRITICAL, "result.count: %d\n", retval);
+            log_messages.printf(MSG_CRITICAL, "result.count: %s\n", boincerror(retval));
             exit(1);
         }
         if (count > 0) return;

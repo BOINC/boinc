@@ -1365,7 +1365,7 @@ void write_host_app_versions() {
         int retval = hav.update_scheduler(hav_orig);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "CRITICAL: hav.update_sched() returned %d\n", retval
+                "CRITICAL: hav.update_sched() error: %s\n", boincerror(retval)
             );
         }
     }

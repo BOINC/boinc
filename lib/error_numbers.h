@@ -194,4 +194,9 @@
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.cpp.
 
+// returns short text description of error corresponding to
+// int errornumber from error_numbers.h
+//
+extern const char* boincerror(int which_error);
+
 #endif

@@ -125,7 +125,7 @@ void main_loop() {
                 retval = make_job();
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "can't make job: %d\n", retval
+                        "can't make job: %s\n", boincerror(retval)
                     );
                     exit(retval);
                 }

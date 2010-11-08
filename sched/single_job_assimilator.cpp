@@ -106,8 +106,8 @@ int assimilate_handler(
             retval = get_logical_name(canonical_result, fi.path, logical_name);
             if (retval) {
                 fprintf(f,
-                    "Couldn't get logical name for %s: %d\n",
-                    fi.path.c_str(), retval
+                    "Couldn't get logical name for %s: %s\n",
+                    fi.path.c_str(), boincerror(retval)
                 );
                 continue;
             }

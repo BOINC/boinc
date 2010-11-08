@@ -349,7 +349,8 @@ static bool retrieve_single_trigger_by_fileset_name(char *fileset_name, DB_SCHED
     }
     else {
         log_messages.printf(MSG_CRITICAL,
-                "[locality] trigger retrieval for filename %s failed with error %i\n", fileset_name, retval
+            "[locality] trigger retrieval for filename %s failed with error %s\n",
+            fileset_name, boincerror(retval)
         );
         return false;
     }
@@ -390,7 +391,10 @@ int make_more_work_for_file(char* filename) {
     // for this fileset. If this operation fails, don't worry or tarry!
     retval = trigger.update_single_state(DB_SCHED_TRIGGER::state_need_work, true);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "unable to set need_work state for trigger %s (error: %d)\n", filename, retval);
+        log_messages.printf(MSG_CRITICAL,
+            "unable to set need_work state for trigger %s (error: %s)\n",
+            filename, boincerror(retval)
+        );
         return -1;
     }
 
@@ -526,7 +530,10 @@ static void flag_for_possible_removal(char* fileset_name) {
     // set trigger state to working_set_removal
     retval = trigger.update_single_state(DB_SCHED_TRIGGER::state_working_set_removal, true);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "unable to set working_set_removal state for trigger %s (error: %d)\n", fileset_name, retval);
+        log_messages.printf(MSG_CRITICAL,
+            "unable to set working_set_removal state for trigger %s (error: %s)\n",
+            fileset_name, boincerror(retval)
+        );
     }
 }
 

@@ -7904,3 +7904,13 @@ Rom    08 Nov 2010
         DlgAdvPreferencesBase.cpp
         DlgEventLog.cpp
         DlgItemProperties.cpp
+
+David  08 Nov 2010
+    - server programs: print error message instead of numeric retval
+        in log messages
+
+    lib/
+        str_util.h
+        error_numbers.h
+    sched/
+        (most).cpp

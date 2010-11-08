@@ -246,7 +246,7 @@ public:
                 retval = system(buf);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "%s failed: %d\n", buf, retval
+                        "%s failed: %s\n", buf, boincerror(retval)
                     );
                     exit(retval);
                 }
@@ -256,7 +256,7 @@ public:
                 retval = system(buf);
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "%s failed: %d\n", buf, retval
+                        "%s failed: %s\n", buf, boincerror(retval)
                     );
                     exit(retval);
                 }
@@ -311,8 +311,8 @@ void write_host(HOST& host, FILE* f, bool detail) {
         retval = user.lookup_id(host.userid);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "user lookup of user %d for host %d: %d\n",
-                host.userid, host.id, retval
+                "user lookup of user %d for host %d: %s\n",
+                host.userid, host.id, boincerror(retval)
             );
         } else {
             if (user.show_hosts) {
@@ -452,7 +452,7 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
             }
         }
         if (retval != ERR_DB_NOT_FOUND) {
-            boinc_db.print_error("host enum: %d", retval);
+            boinc_db.print_error("host enum: %s", boincerror(retval));
             exit(retval);
         }
     }
@@ -542,7 +542,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         }
         if (retval != ERR_DB_NOT_FOUND) {
             log_messages.printf(MSG_CRITICAL,
-                "user enum: %d", retval
+                "user enum: %s", boincerror(retval)
             );
             exit(retval);
         }
@@ -672,7 +672,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         if (retval != ERR_DB_NOT_FOUND) {
             log_messages.printf(MSG_CRITICAL,
-                "user enum: %d", retval
+                "user enum: %s", boincerror(retval)
             );
             exit(retval);
         }
@@ -698,7 +698,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         if (retval != ERR_DB_NOT_FOUND) {
             log_messages.printf(MSG_CRITICAL,
-                "host enum: %d", retval
+                "host enum: %s", boincerror(retval)
             );
             exit(retval);
         }
@@ -723,7 +723,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         if (retval != ERR_DB_NOT_FOUND) {
             log_messages.printf(MSG_CRITICAL,
-                "team enum: %d", retval
+                "team enum: %s", boincerror(retval)
             );
             exit(retval);
         }
@@ -850,7 +850,8 @@ int main(int argc, char** argv) {
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
+            "boinc_db.set_isolation_level: %s; %s\n",
+            boincerror(retval), boinc_db.error_string()
         );
     }
 
@@ -868,7 +869,7 @@ int main(int argc, char** argv) {
     retval = system(buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "%s failed: %d\n", buf, retval
+            "%s failed: %s\n", buf, boincerror(retval)
         );
         exit(retval);
     }

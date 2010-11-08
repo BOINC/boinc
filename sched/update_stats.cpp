@@ -263,14 +263,17 @@ int main(int argc, char** argv) {
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
+            "boinc_db.set_isolation_level: %s; %s\n",
+            boincerror(retval), boinc_db.error_string()
         );
     }
 
     if (do_update_users) {
         retval = update_users();
         if (retval) {
-            log_messages.printf(MSG_CRITICAL, "update_users failed: %d\n", retval);
+            log_messages.printf(MSG_CRITICAL,
+                "update_users failed: %s\n", boincerror(retval)
+            );
             exit(1);
         }
     }
@@ -278,7 +281,9 @@ int main(int argc, char** argv) {
     if (do_update_hosts) {
         retval = update_hosts();
         if (retval) {
-            log_messages.printf(MSG_CRITICAL, "update_hosts failed: %d\n", retval);
+            log_messages.printf(MSG_CRITICAL,
+                "update_hosts failed: %s\n", boincerror(retval)
+            );
             exit(1);
         }
     }
@@ -286,7 +291,9 @@ int main(int argc, char** argv) {
     if (do_update_teams) {
         retval = update_teams();
         if (retval) {
-            log_messages.printf(MSG_CRITICAL, "update_teams failed: %d\n", retval);
+            log_messages.printf(MSG_CRITICAL,
+                "update_teams failed: %s\n", boincerror(retval)
+            );
             exit(1);
         }
     }

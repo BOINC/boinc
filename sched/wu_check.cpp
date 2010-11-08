@@ -31,9 +31,9 @@
 #include "boinc_db.h"
 #include "svn_version.h"
 
+#include "error_numbers.h"
 #include "parse.h"
 #include "util.h"
-#include "error_numbers.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -105,7 +105,7 @@ void usage(char *name) {
         "Looks for results with missing input files\n\n"
         "Usage: %s [OPTION]\n\n"
         "Options:\n"
-        "  [ --repair ]                    change them to server_state OVER,\n"
+        "  [ --repair ]                   change them to server_state OVER,\n"
         "                                 outcome COULDNT_SEND\n"
         "  [ -h | --help ]                Shows this help text\n"
         "  [ -v | --version ]             Shows version information\n",
@@ -138,9 +138,11 @@ int main(int argc, char** argv) {
     retval = config.parse_file();
     if (retval) exit(1);
 
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
-        printf("boinc_db.open: %d\n", retval);
+        printf("boinc_db.open: %s\n", boincerror(retval));
         exit(1);
     }
 

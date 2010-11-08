@@ -156,7 +156,7 @@ bool do_pass(APP& app) {
         retval = assimilate_handler(wu, results, canonical_result);
         if (retval && retval != DEFER_ASSIMILATION) {
             log_messages.printf(MSG_CRITICAL,
-                "[%s] handler returned error %d; exiting\n", wu.name, retval
+                "[%s] handler error: %s; exiting\n", wu.name, boincerror(retval)
             );
             exit(retval);
         }
@@ -174,7 +174,7 @@ bool do_pass(APP& app) {
             retval = wu.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[%s] update failed: %d\n", wu.name, retval
+                    "[%s] update failed: %s\n", wu.name, boincerror(retval)
                 );
                 exit(1);
             }

@@ -22,6 +22,7 @@
 #include <cstring>
 
 #include "config.h"
+
 #include "sched_main.h"
 #include "sched_types.h"
 #include "sched_shmem.h"
@@ -166,7 +167,7 @@ static bool slow_check(WU_RESULT& wu_result, WORKUNIT& wu, APP* app) {
         retval = result.count(n, buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "send_work: can't get result count (%d)\n", retval
+                "send_work: can't get result count (%s)\n", boincerror(retval)
             );
             return false;
         } else {
@@ -193,7 +194,7 @@ static bool slow_check(WU_RESULT& wu_result, WORKUNIT& wu, APP* app) {
         retval = result.count(n, buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "send_work: can't get result count (%d)\n", retval
+                "send_work: can't get result count (%s)\n", boincerror(retval)
             );
             return false;
         } else {
@@ -237,8 +238,8 @@ static bool result_still_sendable(DB_RESULT& result, WORKUNIT& wu) {
     int retval = result.lookup_id(result.id);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] result.lookup_id() failed %d\n",
-            result.id, retval
+            "[RESULT#%d] result.lookup_id() failed: %s\n",
+            result.id, boincerror(retval)
         );
         return false;
     }

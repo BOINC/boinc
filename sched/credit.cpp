@@ -71,8 +71,8 @@ int grant_credit(
     retval = user.lookup_id(host.userid);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "lookup of user %d failed %d\n",
-            host.userid, retval
+            "lookup of user %d failed: %s\n",
+            host.userid, boincerror(retval)
         );
         return retval;
     }
@@ -89,8 +89,8 @@ int grant_credit(
     retval = user.update_field(buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "update of user %d failed %d\n",
-             host.userid, retval
+            "update of user %d failed: %s\n",
+             host.userid, boincerror(retval)
         );
     }
 
@@ -100,8 +100,8 @@ int grant_credit(
         retval = team.lookup_id(user.teamid);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "lookup of team %d failed %d\n",
-                user.teamid, retval
+                "lookup of team %d failed: %s\n",
+                user.teamid, boincerror(retval)
             );
             return retval;
         }
@@ -117,8 +117,8 @@ int grant_credit(
         retval = team.update_field(buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "update of team %d failed %d\n",
-                team.id, retval
+                "update of team %d failed: %s\n",
+                team.id, boincerror(retval)
             );
         }
     }
@@ -725,7 +725,9 @@ int assign_credit_set(
         DB_HOST_APP_VERSION& hav = host_app_versions[i];
         retval = get_pfc(r, wu, app, app_versions, hav, pfc, mode);
         if (retval) {
-            log_messages.printf(MSG_CRITICAL, "get_pfc() error: %d\n", retval);
+            log_messages.printf(MSG_CRITICAL,
+                "get_pfc() error: %s\n", boincerror(retval)
+            );
             return retval;
         } else {
             if (config.debug_credit) {

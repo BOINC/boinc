@@ -176,7 +176,9 @@ int dir_hier_path(
     if (create) {
         retval = boinc_mkdir(dirpath);
         if (retval && (errno != EEXIST)) {
-            fprintf(stderr, "boinc_mkdir(%s): retval %d errno %d\n", dirpath, retval, errno);
+            fprintf(stderr, "boinc_mkdir(%s): %s: errno %d\n",
+                dirpath, boincerror(retval), errno
+            );
             return ERR_MKDIR;
         }
     }

@@ -368,8 +368,8 @@ lookup_user_and_make_new_host:
             );
             g_reply->set_delay(DELAY_MISSING_KEY);
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#<none>] Bad authenticator '%s': %d\n",
-                g_request->authenticator, retval
+                "[HOST#<none>] Bad authenticator '%s': %s\n",
+                g_request->authenticator, boincerror(retval)
             );
             return ERR_AUTHENTICATOR;
         }
@@ -559,7 +559,9 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     }
     retval = host.update_diff_sched(initial_host);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "host.update() failed: %d\n", retval);
+        log_messages.printf(MSG_CRITICAL,
+            "host.update() failed: %s\n", boincerror(retval)
+        );
     }
     return 0;
 }
@@ -772,7 +774,7 @@ int handle_global_prefs() {
             int retval = user.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "user.update_field() failed: %d\n", retval
+                    "user.update_field() failed: %s\n", boincerror(retval)
                 );
             }
         }
@@ -994,8 +996,8 @@ void handle_msgs_from_host() {
         retval = mfh.insert();
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] message insert failed: %d\n",
-                g_reply->host.id, retval
+                "[HOST#%d] message insert failed: %s\n",
+                g_reply->host.id, boincerror(retval)
             );
             g_reply->send_msg_ack = false;
 

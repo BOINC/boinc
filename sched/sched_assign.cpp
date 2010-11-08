@@ -79,7 +79,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     retval = create_result(wu, (char *)rtfpath, suffix, key, config, 0, 0);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[WU#%d %s] create_result() %d\n", wu.id, wu.name, retval
+            "[WU#%d %s] create_result(): %s\n", wu.id, wu.name, boincerror(retval)
         );
         return retval;
     }
@@ -98,7 +98,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
         retval = db_asg.update_field(buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "assign update failed: %d\n", retval
+                "assign update failed: %s\n", boincerror(retval)
             );
             return retval;
         }

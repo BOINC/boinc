@@ -180,7 +180,8 @@ bool resend_lost_work() {
             retval = result.mark_as_sent(result.server_state);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "resend_lost_work: can't update result deadline: %d\n", retval
+                    "resend_lost_work: can't update result deadline: %s\n",
+                    boincerror(retval)
                 );
                 continue;
             }
@@ -188,7 +189,8 @@ bool resend_lost_work() {
             retval = update_wu_transition_time(wu, result.report_deadline);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "resend_lost_result: can't update WU transition time: %d\n", retval
+                    "resend_lost_result: can't update WU transition time: %s\n",
+                    boincerror(retval)
                 );
                 continue;
             }

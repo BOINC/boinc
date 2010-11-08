@@ -81,7 +81,7 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
     );
     retval = mth.insert();
     if (retval) {
-        printf("insert failed %d\n", retval);
+        printf("insert failed: %s\n", boincerror(retval));
     }
     return 0;
 }
@@ -123,7 +123,9 @@ int main_loop(bool one_pass) {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "boinc_db.open failed: %d\n", retval);
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_db.open failed: %s\n", boincerror(retval)
+        );
         exit(1);
     }
 
@@ -167,14 +169,19 @@ int main(int argc, char** argv) {
             one_pass = true;
         } else if (is_arg(argv[i], "variety")) {
             if (!argv[++i]) {
-                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                log_messages.printf(MSG_CRITICAL,
+                    "%s requires an argument\n\n", argv[--i]
+                );
                 usage(argv[0]);
                 exit(1);
             }
             strcpy(variety, argv[i]);
         } else if (!strcmp(argv[i], "-d")) {
             if (!argv[++i]) {
-                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                log_messages.printf(MSG_CRITICAL,
+                    "%s requires an argument\n\n", argv[--i]
+                    
+                );
                 usage(argv[0]);
                 exit(1);
             }
@@ -188,7 +195,9 @@ int main(int argc, char** argv) {
             usage(argv[0]);
             exit(0);
         } else {
-            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            log_messages.printf(MSG_CRITICAL,
+                "unknown command line argument: %s\n\n", argv[i]
+            );
             usage(argv[0]);
             exit(1);
         }
