@@ -17,6 +17,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#define snprintf _snprintf
 #else
 #include "config.h"
 #include <cstdarg>
@@ -47,33 +48,34 @@ MESSAGE_DESCS message_descs;
 //
 void show_message(PROJECT *p, char* msg, int priority, bool is_html, const char* link) {
     const char* x;
-    char message[1024];
+    char message[1024], event_msg[1024];
     char* time_string = time_to_string(gstate.now);
 
     // Cycle the log files if needed
     //
     diagnostics_cycle_logs();
 
-    if (priority == MSG_INTERNAL_ERROR) {
-        strcpy(message, "[error] ");
-        strlcpy(message+8, msg, sizeof(message)-8);
-    } else {
-        strlcpy(message, msg, sizeof(message));
-    }
+    strlcpy(message, msg, sizeof(message));
 
     // trim trailing \n's
     //
-    while (strlen(message)&&message[strlen(message)-1] == '\n') {
+    while (strlen(message) && message[strlen(message)-1] == '\n') {
         message[strlen(message)-1] = 0;
     }
 
-    if (p) {
-        x = p->get_project_name();
-    } else {
-        x = "---";
+    switch (priority) {
+    case MSG_INTERNAL_ERROR:
+        snprintf(event_msg, sizeof(event_msg), "[error] %s", message);
+        break;
+    case MSG_SCHEDULER_ALERT:
+        snprintf(event_msg, sizeof(event_msg), "%s %s: %s",
+            _("Message from"), p->get_project_name(), message
+        );
+        break;
+    default:
+        strlcpy(event_msg, message, sizeof(event_msg));
     }
-
-    message_descs.insert(p, priority, (int)gstate.now, message);
+    message_descs.insert(p, priority, (int)gstate.now, event_msg);
 
 #ifndef SIM
     switch (priority) {
@@ -89,7 +91,6 @@ void show_message(PROJECT *p, char* msg, int priority, bool is_html, const char*
         }
         NOTICE n;
         n.description = buf;
-        strcpy(n.title, _("Notice from BOINC"));
         if (link) {
             strcpy(n.link, link);
         }
@@ -104,14 +105,19 @@ void show_message(PROJECT *p, char* msg, int priority, bool is_html, const char*
 
     strip_translation(message);
 
+    if (p) {
+        x = p->get_project_name();
+    } else {
+        x = "---";
+    }
     printf("%s [%s] %s\n", time_string, x, message);
-    if (gstate.executing_as_daemon) {
 #ifdef _WIN32
+    if (gstate.executing_as_daemon) {
         char event_message[2048];
         sprintf(event_message, "%s [%s] %s\n", time_string,  x, message);
         ::OutputDebugString(event_message);
-#endif
     }
+#endif
 }
 
 // Takes a printf style formatted string, inserts the proper values,

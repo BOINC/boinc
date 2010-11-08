@@ -45,21 +45,16 @@ CNoticeListCtrlAccessible::~CNoticeListCtrlAccessible() {
 #endif
 
 // Gets the name of the specified object.
-wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name)
-{
+wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name) {
     static wxString strBuffer;
 
-    if (childId == wxACC_SELF)
-    {
+    if (childId == wxACC_SELF) {
         *name = _("Notice List");
-    }
-    else
-    {
+    } else {
         CMainDocument* pDoc = wxDynamicCast(wxGetApp().GetDocument(), CMainDocument);
         strBuffer = wxEmptyString;
 
-        if (pDoc)
-        {
+        if (pDoc) {
             strBuffer = wxString(pDoc->notice(childId-1)->title, wxConvUTF8);
             pDoc->LocalizeNoticeText(strBuffer, true);
             strBuffer = StripHTMLTags(strBuffer);
@@ -72,11 +67,9 @@ wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name)
 
 // Can return either a child object, or an integer
 // representing the child element, starting from 1.
-wxAccStatus CNoticeListCtrlAccessible::HitTest(const wxPoint& pt, int* childId, wxAccessible** /*childObject*/)
-{
+wxAccStatus CNoticeListCtrlAccessible::HitTest(const wxPoint& pt, int* childId, wxAccessible** /*childObject*/) {
     CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    if (pCtrl)
-    {
+    if (pCtrl) {
         *childId = pCtrl->HitTest(pt);
         return wxACC_OK;
     }
@@ -86,19 +79,15 @@ wxAccStatus CNoticeListCtrlAccessible::HitTest(const wxPoint& pt, int* childId, 
 
 
 // Returns the rectangle for this object (id = 0) or a child element (id > 0).
-wxAccStatus CNoticeListCtrlAccessible::GetLocation(wxRect& rect, int elementId)
-{
+wxAccStatus CNoticeListCtrlAccessible::GetLocation(wxRect& rect, int elementId) {
     CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    if (pCtrl && (0 == elementId))
-    {
+    if (pCtrl && (0 == elementId)) {
         // List control
         rect.SetPosition(pCtrl->GetScreenPosition());
         rect.SetWidth(pCtrl->GetSize().GetWidth());
         rect.SetHeight(pCtrl->GetSize().GetHeight());
         return wxACC_OK;
-    }
-    else if (pCtrl && (0 != elementId))
-    {
+    } else if (pCtrl && (0 != elementId)) {
         pCtrl->GetItemRect(elementId - 1, rect);
         pCtrl->ClientToScreen(&rect.x, &rect.y);
 
@@ -110,11 +99,9 @@ wxAccStatus CNoticeListCtrlAccessible::GetLocation(wxRect& rect, int elementId)
 
 
 // Gets the number of children.
-wxAccStatus CNoticeListCtrlAccessible::GetChildCount(int* childCount)
-{
+wxAccStatus CNoticeListCtrlAccessible::GetChildCount(int* childCount) {
     CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    if (pCtrl)
-    {
+    if (pCtrl) {
         *childCount = (int)pCtrl->GetItemCount();
         return wxACC_OK;
     }
@@ -127,14 +114,12 @@ wxAccStatus CNoticeListCtrlAccessible::GetChildCount(int* childCount)
 // or > 0 (the action for a child).
 // Return wxACC_NOT_SUPPORTED if there is no default action for this
 // window (e.g. an edit control).
-wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId)
-{
+wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId) {
 #if ALLOW_NOTICES_SELECTION
 
     CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
     CMainDocument* pDoc = wxDynamicCast(wxGetApp().GetDocument(), CMainDocument);
-    if (pCtrl && (childId != wxACC_SELF))
-    {
+    if (pCtrl && (childId != wxACC_SELF)) {
         // Zero-based array index
         int iRealChildId = childId - 1;
 
@@ -164,8 +149,7 @@ wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId)
 }
 
 // Returns the description for this object or a child.
-wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* description)
-{
+wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* description) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     static wxString strBuffer;
     wxDateTime dtBuffer;
@@ -225,30 +209,22 @@ wxAccStatus CNoticeListCtrlAccessible::Navigate(
     CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
     *toObject = NULL;
 
-    if (0 != fromId)
-    {
-        switch (navDir)
-        {
+    if (0 != fromId) {
+        switch (navDir) {
         case wxNAVDIR_PREVIOUS:
         case wxNAVDIR_UP:
-            if (1 == fromId)
-            {
+            if (1 == fromId){
                 return wxACC_FALSE;
-            }
-            else
-            {
+            } else {
                 *toId = fromId - 1;
                 return wxACC_OK;
             }
             break;
         case wxNAVDIR_NEXT:
         case wxNAVDIR_DOWN:
-            if ((int)pCtrl->GetItemCount() == fromId)
-            {
+            if ((int)pCtrl->GetItemCount() == fromId) {
                 return wxACC_FALSE;
-            }
-            else
-            {
+            } else {
                 *toId = fromId + 1;
                 return wxACC_OK;
             }
@@ -261,23 +237,17 @@ wxAccStatus CNoticeListCtrlAccessible::Navigate(
             return wxACC_FALSE;           
             break;
         case wxNAVDIR_FIRSTCHILD:
-            if (1 == fromId)
-            {
+            if (1 == fromId) {
                 return wxACC_FALSE;
-            }
-            else
-            {
+            } else {
                 *toId = 1;
                 return wxACC_OK;
             }
             break;
         case wxNAVDIR_LASTCHILD:
-            if ((int)pCtrl->GetItemCount() == fromId)
-            {
+            if ((int)pCtrl->GetItemCount() == fromId) {
                 return wxACC_FALSE;
-            }
-            else
-            {
+            } else {
                 *toId = (int)pCtrl->GetItemCount();
                 return wxACC_OK;
             }
@@ -295,11 +265,9 @@ wxAccStatus CNoticeListCtrlAccessible::Navigate(
 // The retrieved string describes the action that is performed on an object,
 // not what the object does as a result. For example, a toolbar button that prints
 // a document has a default action of "Press" rather than "Prints the current document."
-wxAccStatus CNoticeListCtrlAccessible::GetDefaultAction(int childId, wxString* actionName)
-{
+wxAccStatus CNoticeListCtrlAccessible::GetDefaultAction(int childId, wxString* actionName) {
     CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    if (pCtrl && (childId != wxACC_SELF))
-    {
+    if (pCtrl && (childId != wxACC_SELF)) {
         *actionName = _("Click");
         return wxACC_OK;
     }
@@ -309,14 +277,10 @@ wxAccStatus CNoticeListCtrlAccessible::GetDefaultAction(int childId, wxString* a
 
 
 // Returns a role constant.
-wxAccStatus CNoticeListCtrlAccessible::GetRole(int childId, wxAccRole* role)
-{
-    if (childId == wxACC_SELF)
-    {
+wxAccStatus CNoticeListCtrlAccessible::GetRole(int childId, wxAccRole* role) {
+    if (childId == wxACC_SELF) {
         *role = wxROLE_SYSTEM_LIST;
-    }
-    else
-    {
+    } else {
         *role = wxROLE_SYSTEM_LISTITEM;
     }
     return wxACC_OK;
@@ -324,29 +288,20 @@ wxAccStatus CNoticeListCtrlAccessible::GetRole(int childId, wxAccRole* role)
 
 
 // Returns a role constant.
-wxAccStatus CNoticeListCtrlAccessible::GetState(int childId, long* state)
-{
-    if (childId == wxACC_SELF)
-    {
+wxAccStatus CNoticeListCtrlAccessible::GetState(int childId, long* state) {
+    if (childId == wxACC_SELF) {
         *state = wxACC_STATE_SYSTEM_DEFAULT;
-    }
-    else
-    {
+    } else {
         CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-        if (pCtrl && (pCtrl->IsSelected(childId - 1)))
-        {
+        if (pCtrl && (pCtrl->IsSelected(childId - 1))) {
             *state = wxACC_STATE_SYSTEM_SELECTABLE |
                      wxACC_STATE_SYSTEM_FOCUSABLE | 
                      wxACC_STATE_SYSTEM_SELECTED | 
                      wxACC_STATE_SYSTEM_FOCUSED;
-        }
-        else if (pCtrl && (pCtrl->IsVisible(childId - 1)))
-        {
+        } else if (pCtrl && (pCtrl->IsVisible(childId - 1))) {
             *state = wxACC_STATE_SYSTEM_SELECTABLE |
                      wxACC_STATE_SYSTEM_FOCUSABLE;
-        }
-        else
-        {
+        } else {
             *state = wxACC_STATE_SYSTEM_SELECTABLE |
                      wxACC_STATE_SYSTEM_FOCUSABLE |
                      wxACC_STATE_SYSTEM_OFFSCREEN |
@@ -358,8 +313,7 @@ wxAccStatus CNoticeListCtrlAccessible::GetState(int childId, long* state)
 
 
 // Selects the object or child.
-wxAccStatus CNoticeListCtrlAccessible::Select(int , wxAccSelectionFlags )
-{
+wxAccStatus CNoticeListCtrlAccessible::Select(int , wxAccSelectionFlags ) {
     // Let the framework handle the other cases.
     return wxACC_NOT_IMPLEMENTED;
 }
@@ -373,8 +327,7 @@ wxAccStatus CNoticeListCtrlAccessible::Select(int , wxAccSelectionFlags )
 // - an integer representing the selected child element,
 //   or 0 if this object is selected (GetType() == wxT("long"))
 // - a "void*" pointer to a wxAccessible child object
-wxAccStatus CNoticeListCtrlAccessible::GetSelections(wxVariant* )
-{
+wxAccStatus CNoticeListCtrlAccessible::GetSelections(wxVariant* ) {
     // Let the framework handle the other cases.
     return wxACC_NOT_IMPLEMENTED;
 }
@@ -503,8 +456,7 @@ void CNoticeListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
 }
 
 
-wxString CNoticeListCtrl::OnGetItem(size_t i) const
-{
+wxString CNoticeListCtrl::OnGetItem(size_t i) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxString strTitle = wxEmptyString;
     wxString strDescription = wxEmptyString;
@@ -514,6 +466,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
     wxString strBuffer = wxEmptyString;
     wxString strTemp = wxEmptyString;
     wxDateTime dtBuffer;
+    char buf[1024];
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -521,15 +474,29 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
 
     if (pDoc->GetNoticeCount() <= 0) {
         strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
-        strBuffer += _("There are no notices to be displayed at this time.");
+        strBuffer += _("There are no notices at this time.");
         strBuffer += wxT("</font></td></tr></table><hr>");
     } else {
         NOTICE* np = pDoc->notice((unsigned int)i);
 
-        strProjectName = wxString(np->project_name, wxConvUTF8);
         strURL = wxString(np->link, wxConvUTF8);
 
-        strTitle = wxString(np->title, wxConvUTF8);
+        if (!strcmp(np->category, "client")) {
+            if (strlen(np->project_name)) {
+                sprintf(buf, "%s: %s", np->project_name, "_(\"Notice from BOINC\")");
+            } else {
+                strcpy(buf, "_(\"Notice from BOINC\")");
+            }
+        } else if (!strcmp(np->category, "scheduler")) {
+            sprintf(buf, "%s: %s", np->project_name, "_(\"Notice from server\")");
+        } else {
+            if (strlen(np->project_name)) {
+                sprintf(buf, "%s: %s", np->project_name, np->title);
+            } else {
+                strcpy(buf, np->title);
+            }
+        }
+        strTitle = wxString(buf, wxConvUTF8);
         pDoc->LocalizeNoticeText(strTitle, true);
 
         strDescription = wxString(np->description.c_str(), wxConvUTF8);
@@ -551,15 +518,6 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const
         strBuffer += strDescription;
 
         strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
-
-        if (!strProjectName.IsEmpty()) {
-            strTemp.Printf(
-                wxT("%s %s<br>"),
-                _("From"),
-                strProjectName.c_str()
-            );
-            strBuffer += strTemp;
-        }
 
         strBuffer += strArrivalTime;
 
