@@ -964,7 +964,6 @@ void CLIENT_STATE::append_unfinished_time_slice(
         if (!atp->result->runnable()) continue;
         if (atp->result->project->non_cpu_intensive) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        if (atp->result->uses_coprocs()) continue;
         if (finished_time_slice(atp)) continue;
         atp->result->unfinished_time_slice = true;
         if (in_ordered_scheduled_results(atp)) continue;
