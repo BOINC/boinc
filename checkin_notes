@@ -7666,3 +7666,10 @@ David  04 Nov 2010
 
     clientgui/
         DlgItemProperties.cpp
+
+David  04 Nov 2010
+    - client: gpu_active_frac was being computed incorrectly,
+        resulting in various scheduling problems
+
+    client/
+        time_stats.cpp
