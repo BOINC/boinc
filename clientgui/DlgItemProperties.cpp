@@ -278,12 +278,21 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 // show task properties
 //
 void CDlgItemProperties::renderInfos(RESULT* result) {
+    CMainDocument* pDoc = wxGetApp().GetDocument();
     wxDateTime dt;
 	wxString wxTitle = _("Properties of task ");
 	wxTitle.append(wxString(result->name, wxConvUTF8));
 	SetTitle(wxTitle);
 
-	addProperty(_("Application"), FormatApplicationName(result));
+    APP_VERSION* avp = NULL;
+    WORKUNIT* wup = NULL;
+    RESULT* r = pDoc->state.lookup_result(result->project_url, result->name);
+    if (r) {
+        avp = r->avp;
+        wup = r->wup;
+    }
+    
+    addProperty(_("Application"), FormatApplicationName(result));
 	addProperty(_("Workunit name"),wxString(result->wu_name, wxConvUTF8));
 	addProperty(_("State"), result_description(result));
     if (result->received_time) {
@@ -295,6 +304,12 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 	if (strlen(result->resources)) {
 		addProperty(_("Resources"), wxString(result->resources, wxConvUTF8));
 	}
+    if (avp) {
+        addProperty(_("Estimated app speed"), wxString::Format(wxT("%.2f GFLOPs/sec"), avp->flops/1e9));
+    }
+    if (wup) {
+        addProperty(_("Estimated task size"), wxString::Format(wxT("%.0f GFLOPs"), wup->rsc_fpops_est/1e9));
+    }
     if (result->active_task) {
 		addProperty(_("CPU time at last checkpoint"), FormatTime(result->checkpoint_cpu_time));
 		addProperty(_("CPU time"), FormatTime(result->current_cpu_time));
