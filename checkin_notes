@@ -7697,3 +7697,11 @@ Rom    08 Nov 2010
         DlgAdvPreferencesBase.cpp
         DlgEventLog.cpp
         DlgItemProperties.cpp
+
+Rom    08 Nov 2010
+    - Tag for 6.12.5 release, all platforms
+      boinc_core_release_6_12_5
+
+    /
+        configure.ac
+        version.h
