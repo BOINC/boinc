@@ -55,10 +55,12 @@ int grant_credit(
     DB_TEAM team;
     int retval;
     char buf[256];
+    double now = dtime();
 
     // first, process the host
 
     update_average(
+        now,
         start_time, credit, CREDIT_HALF_LIFE,
         host.expavg_credit, host.expavg_time
     );
@@ -76,6 +78,7 @@ int grant_credit(
     }
 
     update_average(
+        now,
         start_time, credit, CREDIT_HALF_LIFE,
         user.expavg_credit, user.expavg_time
     );
@@ -103,6 +106,7 @@ int grant_credit(
             return retval;
         }
         update_average(
+            now,
             start_time, credit, CREDIT_HALF_LIFE,
             team.expavg_credit, team.expavg_time
         );
@@ -799,6 +803,7 @@ void got_error(DB_HOST_APP_VERSION& hav) {
 int write_modified_app_versions(vector<DB_APP_VERSION>& app_versions) {
     unsigned int i, j;
     int retval = 0;
+    double now = dtime();
 
     if (config.debug_credit && app_versions.size()) {
         log_messages.printf(MSG_NORMAL,
@@ -827,6 +832,7 @@ int write_modified_app_versions(vector<DB_APP_VERSION>& app_versions) {
             }
             for (j=0; j<av.credit_samples.size(); j++) {
                 update_average(
+                    now,
                     av.credit_times[j], av.credit_samples[j], CREDIT_HALF_LIFE,
                     av.expavg_credit, av.expavg_time
                 );

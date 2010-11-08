@@ -514,6 +514,33 @@ void CLIENT_STATE::reset_debt_accounting() {
     debt_interval_start = now;
 }
 
+#define REC_HALF_LIFE (30*86400)
+
+// update REC (recent estimated credit)
+//
+static void update_rec() {
+    double f = gstate.host_info.p_fpops;
+
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        double x = p->cpu_pwf.secs_this_debt_interval * f;
+        if (gstate.host_info.have_cuda()) {
+            x += p->cuda_pwf.secs_this_debt_interval * f * cuda_work_fetch.relative_speed;
+        }
+        if (gstate.host_info.have_ati()) {
+            x += p->ati_pwf.secs_this_debt_interval * f * ati_work_fetch.relative_speed;
+        }
+        update_average(
+            gstate.now,
+            gstate.debt_interval_start,
+            x,
+            REC_HALF_LIFE,
+            p->pwf.rec,
+            p->pwf.rec_time
+        );
+    }
+}
+
 // adjust project debts (short, long-term)
 //
 void CLIENT_STATE::adjust_debts() {
@@ -550,6 +577,8 @@ void CLIENT_STATE::adjust_debts() {
         if (p->non_cpu_intensive) continue;
         work_fetch.accumulate_inst_sec(atp, elapsed_time);
     }
+
+    update_rec();
 
     cpu_work_fetch.update_long_term_debts();
     cpu_work_fetch.update_short_term_debts();

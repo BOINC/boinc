@@ -71,6 +71,7 @@ void NET_INFO::update(double nbytes, double dt) {
     }
     double start_time = gstate.now - dt;
     update_average(
+        gstate.now,
         start_time,
         nbytes,
         NET_RATE_HALF_LIFE,

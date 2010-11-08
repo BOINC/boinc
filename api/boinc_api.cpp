@@ -835,9 +835,9 @@ struct GRAPHICS_APP {
 #else
         strcpy(abspath, path);
 #endif
-        argv[0] = GRAPHICS_APP_FILENAME;
+        argv[0] = (char*)GRAPHICS_APP_FILENAME;
         if (fullscreen) {
-            argv[1] = "--fullscreen";
+            argv[1] = (char*)"--fullscreen";
             argv[2] = 0;
             argc = 2;
         } else {

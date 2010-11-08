@@ -7573,3 +7573,20 @@ David  29 Oct 2010
 		client_msgs.cpp
 	clientgui/
 		NoticeListCtrl.cpp
+
+David  29 Oct 2010
+    - client: small initial checkin for new scheduling system.
+        Keep track of per-project recent estimated credit
+
+    api/
+        boinc_api.cpp
+    client/
+        client_types.cpp
+        cpu_sched.cpp
+        net_stats.cpp
+        work_fetch.h
+    lib/
+        util.cpp,h
+    sched/
+        credit.cpp
+        update_stats.cpp
