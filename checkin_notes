@@ -7509,3 +7509,10 @@ Charlie 18 Oct 2010
         boinc.xcodeproj/
             project.pbxproj
 
+
+David  22 Oct 2010
+    - client: update STD of ineligible projects by decay only.
+        Not sure why, but this eliminates gradual negative drift.
+
+    client/
+        work_fetch.cpp

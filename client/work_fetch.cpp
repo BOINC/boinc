@@ -620,15 +620,15 @@ void RSC_WORK_FETCH::update_short_term_debts() {
             p = gstate.projects[i];
             if (p->non_cpu_intensive) continue;
             if (!p->resource_share) continue;
-            RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
-            rpwf.short_term_debt -= avg_short_term_debt;
-            if (rpwf.short_term_debt > MAX_STD) {
-                rpwf.short_term_debt = MAX_STD;
-            }
-            if (rpwf.short_term_debt < -MAX_STD) {
-                rpwf.short_term_debt = -MAX_STD;
-            }
             if (p->runnable(rsc_type)) {
+                RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
+                rpwf.short_term_debt -= avg_short_term_debt;
+                if (rpwf.short_term_debt > MAX_STD) {
+                    rpwf.short_term_debt = MAX_STD;
+                }
+                if (rpwf.short_term_debt < -MAX_STD) {
+                    rpwf.short_term_debt = -MAX_STD;
+                }
                 if (log_flags.std_debug) {
                     msg_printf(p, MSG_INFO,
                         "[std] %s STD %.2f",
