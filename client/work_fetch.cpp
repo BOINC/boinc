@@ -1344,8 +1344,8 @@ double ACTIVE_TASK::est_dur(bool for_work_fetch) {
     double wu_weight = fraction_left * fraction_left * fraction_left;
     double fd_weight = 1 - wu_weight;
     double x = fd_weight*frac_est + wu_weight*wu_est;
-#if 1
-    if (log_flags.rr_simulation) {
+#if 0
+    if (for_work_fetch && log_flags.rr_simulation) {
         msg_printf(result->project, MSG_INFO,
             "[rr_sim] %s dur: %.2f = %.3f*%.2f + %.3f*%.2f",
             result->name, x, fd_weight, frac_est, wu_weight, wu_est

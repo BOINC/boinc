@@ -7679,3 +7679,9 @@ David  05 Nov 2010
 
     client/
         cpu_sched.cpp
+
+David  05 Nov 2010
+	- client: comment out a debug msg
+
+	client/
+		work_fetch.cpp
