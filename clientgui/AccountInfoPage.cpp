@@ -576,21 +576,23 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         }
  
         // Verify minimum password length
-        if (m_pAccountPasswordCtrl->GetValue().Length() < (size_t)pc.min_passwd_length) {
-            if (IS_ATTACHTOPROJECTWIZARD()) {
-                strMessage.Printf(
-                    _("The minimum password length for this project is %d. Please enter a different password."),
-                    pc.min_passwd_length
-                );
-            }
-            if (IS_ACCOUNTMANAGERWIZARD()) {
-                strMessage.Printf(
-                    _("The minimum password length for this account manager is %d. Please enter a different password."),
-                    pc.min_passwd_length
-                );
-            }
+        if (!m_pAccountUseExistingCtrl->GetValue()) {
+            if (m_pAccountPasswordCtrl->GetValue().Length() < (size_t)pc.min_passwd_length) {
+                if (IS_ATTACHTOPROJECTWIZARD()) {
+                    strMessage.Printf(
+                        _("The minimum password length for this project is %d. Please enter a different password."),
+                        pc.min_passwd_length
+                    );
+                }
+                if (IS_ACCOUNTMANAGERWIZARD()) {
+                    strMessage.Printf(
+                        _("The minimum password length for this account manager is %d. Please enter a different password."),
+                        pc.min_passwd_length
+                    );
+                }
 
-            bDisplayError = true;
+                bDisplayError = true;
+            }
         }
 
         // Verify that the password and confirmation password math.
