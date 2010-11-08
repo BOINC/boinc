@@ -671,12 +671,13 @@ void CDlgEventLog::SetWindowDimensions() {
 
     wxASSERT(pConfig);
 
-    pConfig->SetPath(strBaseConfigLocation);
-
-    pConfig->Write(wxT("XPos"), GetPosition().x);
-    pConfig->Write(wxT("YPos"), GetPosition().y);
-    pConfig->Write(wxT("Width"), GetSize().x);
-    pConfig->Write(wxT("Height"), GetSize().y);
+    if (!IsIconized()) {
+        pConfig->SetPath(strBaseConfigLocation);
+        pConfig->Write(wxT("XPos"), GetPosition().x);
+        pConfig->Write(wxT("YPos"), GetPosition().y);
+        pConfig->Write(wxT("Width"), GetSize().x);
+        pConfig->Write(wxT("Height"), GetSize().y);
+    }
 }
     
 

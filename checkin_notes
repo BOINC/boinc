@@ -7685,3 +7685,15 @@ David  05 Nov 2010
 
 	client/
 		work_fetch.cpp
+
+Rom    08 Nov 2010
+    - MGR: Fix the event log so that it doesn't store the event log's
+        size information when it is in a minimized state.
+    - MGR: Fix the close dialog issue on wxGTK, apparently there is a
+        hidden flag that governs the handling of the GTK callback
+        function.  Fixes #962 (Thanks for the patch cli)
+
+    clientgui/
+        DlgAdvPreferencesBase.cpp
+        DlgEventLog.cpp
+        DlgItemProperties.cpp

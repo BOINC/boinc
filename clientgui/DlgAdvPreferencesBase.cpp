@@ -45,7 +45,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
         strCaption.Printf(_("%s - Preferences"), pSkinAdvanced->GetApplicationName().c_str());
     }
 
-    this->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
+    this->SetExtraStyle( this->GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
     this->Centre( wxBOTH );
     this->SetTitle(strCaption);
 
