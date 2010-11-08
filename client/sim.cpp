@@ -302,6 +302,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
                     break;
                 }
             }
+        } else {
         }
 
         sent_something = true;
