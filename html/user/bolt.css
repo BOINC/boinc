@@ -258,9 +258,9 @@ td.postfooter {
     -webkit-border-radius: 10px 10px 0px 0px; 
 }
 
-tr.helpdeskseperator { height: 10pt; }
+tr.helpdeskseparator { height: 10pt; }
 
-tr.postseperator {
+tr.postseparator {
     background-color: #c8c8c8;
     border: 1px solid #aaaaaa;
     margin: 4px 0px;

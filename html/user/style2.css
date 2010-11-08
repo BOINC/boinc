@@ -263,11 +263,11 @@ td.postfooter{
     padding-left: 6px;
 }
 
-tr.helpdeskseperator{
+tr.helpdeskseparator{
     height: 10pt;
 }
 
-tr.postseperator td{
+tr.postseparator td{
     border-top: 1px solid #AAAAAA;
     border-bottom: 1px solid #AAAAAA;
     background-color: #D3D3D3;

@@ -7914,3 +7914,15 @@ David  08 Nov 2010
         error_numbers.h
     sched/
         (most).cpp
+
+David  08 Nov 2010
+    - web: fix "seperator" spelling
+
+    html/
+        inc/
+            forum.inc
+        user/
+            bolt.css
+            main.css
+            style2.css
+            white.css
