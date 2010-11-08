@@ -403,12 +403,12 @@ struct PROJECT : PROJ_AM {
         }
         return cpu_pwf.deadlines_missed;
     }
-    inline double short_term_debt(int rsc_type) {
+    inline double anticipated_debt(int rsc_type) {
         switch(rsc_type) {
-        case RSC_TYPE_CUDA: return cuda_pwf.short_term_debt;
-        case RSC_TYPE_ATI: return ati_pwf.short_term_debt;
+        case RSC_TYPE_CUDA: return cuda_pwf.anticipated_debt;
+        case RSC_TYPE_ATI: return ati_pwf.anticipated_debt;
         }
-        return cpu_pwf.short_term_debt;
+        return cpu_pwf.anticipated_debt;
     }
 
     int nresults_returned;

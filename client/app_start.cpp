@@ -890,7 +890,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 perror("setpriority");
             }
 #endif
-#if defined (HAVE_SCHED_SETSCHEDULER) && defined (__linux__)
+#if defined (HAVE_SCHED_SETSCHEDULER) && defined(SCHED_BATCH) && defined (__linux__)
             if (!high_priority) {
                 struct sched_param p;
                 p.sched_priority = 0;

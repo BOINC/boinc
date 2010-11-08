@@ -7516,3 +7516,8 @@ David  22 Oct 2010
 
     client/
         work_fetch.cpp
+
+David 26 Oct 2010
+    - client: linux compile fix
+    - client: small fix for GPU scheduling
+        (use anticipated debt instead of STD)

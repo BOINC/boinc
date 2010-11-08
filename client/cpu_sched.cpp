@@ -368,7 +368,7 @@ RESULT* first_coproc_result(int rsc_type) {
         if (!rp->runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
-        double std = rp->project->short_term_debt(rsc_type);
+        double std = rp->project->anticipated_debt(rsc_type);
         if (!best) {
             best = rp;
             best_std = std;
@@ -758,12 +758,19 @@ void CLIENT_STATE::schedule_cpus() {
         rp->already_selected = false;
         rp->edf_scheduled = false;
     }
+    //work_fetch.set_overall_debts();
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->next_runnable_result = NULL;
+#if 1
         p->cpu_pwf.anticipated_debt = p->cpu_pwf.short_term_debt;
         p->cuda_pwf.anticipated_debt = p->cuda_pwf.short_term_debt;
         p->ati_pwf.anticipated_debt = p->ati_pwf.short_term_debt;
+#else
+        p->cpu_pwf.anticipated_debt = p->pwf.overall_debt;
+        p->cuda_pwf.anticipated_debt = p->pwf.overall_debt;
+        p->ati_pwf.anticipated_debt = p->pwf.overall_debt;
+#endif
         p->cpu_pwf.deadlines_missed_copy = p->cpu_pwf.deadlines_missed;
         p->cuda_pwf.deadlines_missed_copy = p->cuda_pwf.deadlines_missed;
         p->ati_pwf.deadlines_missed_copy = p->ati_pwf.deadlines_missed;
