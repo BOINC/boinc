@@ -7673,3 +7673,9 @@ David  04 Nov 2010
 
     client/
         time_stats.cpp
+
+David  05 Nov 2010
+    - client: comment out update_rec() call
+
+    client/
+        cpu_sched.cpp
