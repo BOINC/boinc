@@ -7935,3 +7935,13 @@ David  08 Nov 2010
         setup_project.py
     client/
         cpu_sched.cpp
+
+David  08 Nov 2010
+    - web: add an option project-specific pref for
+        "accelerate GPU tasks by dedicating a CPU to each one".
+        Enable this by putting
+            $accelerate_gpu_apps_pref = true;
+        in html/project/project.inc
+
+    html/inc/
+        prefs.inc

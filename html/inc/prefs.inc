@@ -293,6 +293,14 @@ $project_pref_descs = array(
     ),
 );
 
+if (isset($accelerate_gpu_apps_pref) && $accelerate_gpu_apps_pref) {
+    $project_pref_descs[] = new PREF_BOOL(
+        tra("Accelerate GPU tasks by dedicating a CPU to each one?"),
+        "accelerate_gpu_apps",
+        false
+    );
+}
+
 if ($app_types->count > 1) {
     if ($app_types->cpu) {
         $project_pref_descs[] = new PREF_BOOL (
