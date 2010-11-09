@@ -7950,3 +7950,20 @@ David  09 Nov 2010
     - unix build system: fix for non-english locale, from Nicolas. fixes #975
 
     generate_svn_version.sh
+
+David  09 Nov 2010
+    - client, scheduler, RPC protocol:
+        - If the scheduler doesn't have any app versions for resource type X,
+            it includes an element <no_X_apps>1</no_X_apps> in the reply msg
+            (e.g., <no_cpu_apps>1</no_cpu_apps>)
+        - The client parses and stores these flags,
+            and doesn't ask a project for work for a resource
+            if the project doesn't have app versions for it.
+        Apparently I started this change in [19375] (October 2009)
+        and forgot to finish it.
+
+    sched/
+        sched_types.cpp
+    client/
+        work_fetch.cpp
+        client_types.cpp
