@@ -957,6 +957,7 @@ void CLIENT_STATE::append_unfinished_time_slice(
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (!atp->result->runnable()) continue;
+        if (atp->result->uses_coprocs() && gpu_suspend_reason) continue;
         if (atp->result->project->non_cpu_intensive) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (finished_time_slice(atp)) continue;
