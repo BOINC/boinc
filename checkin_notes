@@ -7945,3 +7945,8 @@ David  08 Nov 2010
 
     html/inc/
         prefs.inc
+
+David  09 Nov 2010
+    - unix build system: fix for non-english locale, from Nicolas. fixes #975
+
+    generate_svn_version.sh

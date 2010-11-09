@@ -16,7 +16,7 @@ else
 fi
 
 if [ "x$CMD" != "x" ]; then
-    $CMD | awk '/^URL/ { url = $2; }; \
+    LANG=C $CMD | awk '/^URL/ { url = $2; }; \
                 /^Rev/ { rev = $2; }; \
                 END { print "#define SVN_VERSION \"Repository: " url \
                             " Revision: " rev "\""; };' \
