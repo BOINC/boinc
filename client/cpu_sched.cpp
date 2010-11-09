@@ -520,6 +520,7 @@ void CLIENT_STATE::reset_debt_accounting() {
     debt_interval_start = now;
 }
 
+#if 0
 #define REC_HALF_LIFE (30*86400)
 
 // update REC (recent estimated credit)
@@ -546,6 +547,7 @@ static void update_rec() {
         );
     }
 }
+#endif
 
 // adjust project debts (short, long-term)
 //

@@ -7926,3 +7926,12 @@ David  08 Nov 2010
             main.css
             style2.css
             white.css
+
+David  08 Nov 2010
+    - client: fix harmless compile warning
+    - make_project: don't try to install non-existent file
+
+    py/Boinc/
+        setup_project.py
+    client/
+        cpu_sched.cpp

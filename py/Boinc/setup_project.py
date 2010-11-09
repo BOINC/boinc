@@ -503,8 +503,6 @@ class Project:
             self.dir('html/project/project_specific_prefs.inc'))
         install(srcdir('html/project.sample/cache_parameters.inc'),
             self.dir('html/project/cache_parameters.inc'))
-        install(srcdir('html/ops', 'sample_server_status.php'),
-            self.dir('html/user/server_status.php'))
         install(srcdir('tools/project.xml'), self.dir('project.xml'))
         if not self.production:
             install(srcdir('test/uc_result'), self.dir('templates/uc_result'))
