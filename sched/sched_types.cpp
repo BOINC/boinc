@@ -902,12 +902,12 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     }
 
     fprintf(fout,
-        "<have_cpu_apps>%d</have_cpu_apps>\n"
-        "<have_cuda_apps>%d</have_cuda_apps>\n"
-        "<have_ati_apps>%d</have_ati_apps>\n",
-        ssp->have_cpu_apps?1:0,
-        ssp->have_cuda_apps?1:0,
-        ssp->have_ati_apps?1:0
+        "<no_cpu_apps>%d</no_cpu_apps>\n"
+        "<no_cuda_apps>%d</no_cuda_apps>\n"
+        "<no_ati_apps>%d</no_ati_apps>\n",
+        ssp->have_cpu_apps?0:1,
+        ssp->have_cuda_apps?0:1,
+        ssp->have_ati_apps?0:1
     );
     gui_urls.get_gui_urls(user, host, team, buf);
     fputs(buf, fout);

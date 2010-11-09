@@ -7967,3 +7967,9 @@ David  09 Nov 2010
     client/
         work_fetch.cpp
         client_types.cpp
+
+David  09 Nov 2010
+    - scheduler: bug fix to the above
+
+    sched/
+        sched_types.cpp
