@@ -39,6 +39,8 @@ require_once('../inc/util_ops.inc');
 
 db_init();
 
+$commands = "";
+
 // Platform and application labels (are better than numbers)
 
 $result = mysql_query("SELECT * FROM platform");
@@ -69,7 +71,7 @@ if( !empty($_POST) ) {
 
         /* Delete this entry? */
         $field="delete_".$id;
-        if( $_POST[$field]=='DELETE' ) {
+        if(post_str($field, true) =='DELETE' ) {
             $cmd =  "DELETE FROM app WHERE id=$id";
             $commands .= "<P><pre>$cmd</pre>\n";
             mysql_query($cmd);
@@ -78,7 +80,7 @@ if( !empty($_POST) ) {
 
         /* Change deprecated status? */
         $field="deprecated_".$id;
-        $new_v= ($_POST[$field]=='on') ? 1 : 0;
+        $new_v= (post_str($field, true)=='on') ? 1 : 0;
         $old_v=$item->deprecated;
         if($new_v != $old_v ) {
             $cmd =  "UPDATE app SET deprecated=$new_v WHERE id=$id";
@@ -120,7 +122,7 @@ if( !empty($_POST) ) {
 
     /* Adding a new application */
 
-    if( $_POST['add_app'] ) {
+    if(post_str('add_app', true)) {
         $name= mysql_real_escape_string($_POST['add_name']);
         $user_friendly_name=mysql_real_escape_string($_POST['add_user_friendly_name']);
         if( empty($name) || empty($user_friendly_name) ) {
