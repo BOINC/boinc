@@ -1,0 +1,54 @@
+#! /usr/bin/env php
+
+<?php
+
+// submit a job for existing application
+//
+// usage: demo_submit appname infile
+//
+// Submit a job, show its name, wait for it to complete
+// (or you can use demo_query to query status later)
+//
+// This is for demo use, not production.  It assumes:
+// - template files are appname_in.xml and appname_out.xml
+// - the app uses sample_assimilator
+//   (which puts output files in sample_results/)
+// - app has 1 input file and 1 output file
+
+
+if ($argc != 3) die("usage: demo_submit appname infile\n");
+
+$appname = $argv[1];
+
+chdir("html/ops");
+require_once("../inc/boinc_db.inc");
+$app = BoincApp::lookup("name='$appname'");
+chdir("../..");
+
+if (!$app) {
+    die("no such application: $appname\n");
+}
+
+$fname = $argv[2];
+if (!is_file($fname)) {
+    die("no such file: $fname\n");
+}
+
+$in_template = "templates/".$appname."_in.xml";
+if (!is_file($in_template)) {
+    die("no input template: $in_template\n");
+}
+$out_template = "templates/".$appname."_out.xml";
+if (!is_file($out_template)) {
+    die("no output template: $out_template\n");
+}
+
+system("cp $fname `bin/dir_hier_path $fname`");
+
+$wu_name = $appname."_".$fname."_".(string)time();
+system("bin/create_work --appname $appname --wu_name $wu_name --wu_template $in_template --result_template $out_template $fname");
+
+echo "Job name: $wu_name\n";
+
+system("bin/demo_query $wu_name");
+?>

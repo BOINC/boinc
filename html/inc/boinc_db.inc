@@ -234,6 +234,10 @@ class BoincWorkunit {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'workunit', 'BoincWorkunit');
     }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('workunit', 'BoincWorkunit', $clause);
+    }
     static function insert($clause) {
         $db = BoincDb::get();
         $ret = $db->insert('workunit', $clause);

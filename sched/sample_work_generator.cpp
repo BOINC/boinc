@@ -44,9 +44,9 @@
 #include "sched_msgs.h"
 #include "str_util.h"
 
-#define CUSHION 100
+#define CUSHION 10
     // maintain at least this many unsent results
-#define REPLICATION_FACTOR  2
+#define REPLICATION_FACTOR  1
 
 char* app_name = (char*) "example_app";
 char* in_template_file = (char*) "example_app_in.xml";
@@ -118,7 +118,7 @@ void main_loop() {
         int n;
         retval = count_unsent_results(n, 0);
         if (n > CUSHION) {
-            sleep(60);
+            sleep(10);
         } else {
             int njobs = (CUSHION-n)/REPLICATION_FACTOR;
             log_messages.printf(MSG_DEBUG,

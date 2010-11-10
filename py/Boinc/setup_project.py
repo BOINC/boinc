@@ -380,7 +380,7 @@ sys.path.insert(0, os.path.join('%s', 'py'))
         [ 'appmgr', 'create_work', 'xadd', 'dbcheck_files_exist', 'run_in_ops',
           'update_versions', 'parse_config', 'grep_logs', 'db_query',
           'watch_tcp', 'sign_executable', 'dir_hier_move',
-          'dir_hier_path' ])
+          'dir_hier_path', 'boinc_submit', 'demo_submit', 'demo_query' ])
     map(lambda (s): install(srcdir('lib',s), dir('bin',s)),
         [ 'crypt_prog' ])
     map(lambda (s): install(srcdir('sched',s), dir('',s)),

@@ -8019,11 +8019,11 @@ David  09 Nov 2010
         cpu_sched.cpp
 
 David  09 Nov 2010
-	- manager: don't show resources redundantly on task properties page
+    - manager: don't show resources redundantly on task properties page
 
-	clientgui/
-		DlgItemProperties.cpp
-		MainDocument.cpp,h
+    clientgui/
+        DlgItemProperties.cpp
+        MainDocument.cpp,h
 
 David  10 Nov 2010
     - boinccmd: --get_cc_status now prints its result
@@ -8052,3 +8052,16 @@ David  10 Nov 2010
         client_types.h,cpp
         client_state.cpp
         scheduler_op.cpp
+
+David  10 Nov 2010
+    - server: add scripts to submit jobs for demo application
+
+    tools/
+        demo_submit
+        demo_query
+    html/inc/
+        boinc_db.inc
+    py/Boinc/
+        setup_project.py
+    sched/
+        sample_work_generator.cpp

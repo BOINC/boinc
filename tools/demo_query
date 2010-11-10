@@ -1,0 +1,49 @@
+#! /usr/bin/env php
+
+<?php
+// query a job created with demo_submit
+//
+// usage: demo_query jobname
+
+if ($argc != 2) {
+    die("usage: demo_query jobname\n");
+}
+
+$wu_name = $argv[1];
+chdir("html/ops");
+require_once("../inc/boinc_db.inc");
+$wu = BoincWorkunit::lookup("name='$wu_name'");
+chdir("../..");
+
+if (!$wu) {
+    die("no such job: $wu_name\n");
+}
+
+echo "Waiting for job to finish\n";
+
+while (1) {
+    if ($wu->error_mask) {
+        echo "job error: $wu->error_mask\n";
+        break;
+    }
+    if ($wu->assimilate_state == 2) {
+        $result = BoincResult::lookup_id($wu->canonical_resultid);
+        $host = BoincHost::lookup_id($result->hostid);
+        $user = BoincUser::lookup_id($result->userid);
+        echo "Job completed\n"
+            ."    Host $host->id ($host->os_name, $host->p_vendor)\n"
+            ."    User $user->id ($user->name)\n"
+        ;
+        $outfile = "sample_results/$wu_name";
+        if (!is_file($outfile)) {
+            die("output file is missing: $outfile\n");
+        }
+        echo "output file:\n";
+        readfile($outfile);
+        break;
+    }
+    sleep(5);
+    $wu = BoincWorkunit::lookup("name='$wu_name'");
+}
+
+?>
