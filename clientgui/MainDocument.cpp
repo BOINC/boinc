@@ -2399,7 +2399,7 @@ wxString suspend_reason_wxstring(int reason) {
     return _("unknown reason");
 }
 
-wxString result_description(RESULT* result) {
+wxString result_description(RESULT* result, bool show_resources) {
     CMainDocument* doc = wxGetApp().GetDocument();
     CC_STATUS       status;
     int             retval;
@@ -2440,7 +2440,7 @@ wxString result_description(RESULT* result) {
         } else if (status.task_suspend_reason && !throttled) {
             strBuffer += _("Suspended - ");
             strBuffer += suspend_reason_wxstring(status.task_suspend_reason);
-            if (strlen(result->resources)) {
+            if (strlen(result->resources) && show_resources) {
                 strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
             }
         } else if (result->active_task) {
@@ -2465,7 +2465,7 @@ wxString result_description(RESULT* result) {
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                 strBuffer += _("Ready to start");
             }
-            if (strlen(result->resources)) {
+            if (strlen(result->resources) && show_resources) {
                 strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
             }
         } else {

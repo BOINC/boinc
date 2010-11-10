@@ -8017,3 +8017,10 @@ David  09 Nov 2010
             (Yes, the MT job might run very slow)
     client/
         cpu_sched.cpp
+
+David  09 Nov 2010
+	- manager: don't show resources redundantly on task properties page
+
+	clientgui/
+		DlgItemProperties.cpp
+		MainDocument.cpp,h
