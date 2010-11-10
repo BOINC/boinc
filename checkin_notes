@@ -8038,3 +8038,17 @@ David  10 Nov 2010
         str_util.cpp,h
     client/
         boinc_cmd.cpp
+
+David  10 Nov 2010
+    - client: fix yesterday's checkin [22661] for anonymous platform:
+        if project P is anonymous platform
+            don't request work for resource R from P
+            if there is no app version using R in P/app_info.xml
+        else
+            don't request work for resource R from P
+            if P tells us it has no app versions using R
+
+    client/
+        client_types.h,cpp
+        client_state.cpp
+        scheduler_op.cpp

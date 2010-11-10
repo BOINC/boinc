@@ -228,6 +228,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_bool(buf, "no_cpu_apps", no_cpu_apps)) continue;
         if (parse_bool(buf, "no_cuda_apps", no_cuda_apps)) continue;
         if (parse_bool(buf, "no_ati_apps", no_ati_apps)) continue;
+
             // backwards compat - old state files had ams_resource_share = 0
         if (parse_double(buf, "<ams_resource_share_new>", ams_resource_share)) continue;
         if (parse_double(buf, "<ams_resource_share>", x)) {

@@ -189,6 +189,24 @@ void CLIENT_STATE::show_host_info() {
     );
 }
 
+static void check_no_apps(PROJECT* p) {
+    p->no_cpu_apps = true;
+    p->no_cuda_apps = true;
+    p->no_ati_apps = true;
+
+    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->project != p) continue;
+        if (avp->ncudas > 0) {
+            p->no_cuda_apps = false;
+        } else if (avp->natis > 0) {
+            p->no_ati_apps = false;
+        } else {
+            p->no_cpu_apps = false;
+        }
+    }
+}
+
 // Sometime has failed N times.
 // Calculate an exponential backoff between MIN and MAX
 //
@@ -327,6 +345,14 @@ int CLIENT_STATE::init() {
     //
     parse_account_files_venue();
 
+    // fill in p->no_X_apps for anon platform projects
+    //
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        if (p->anonymous_platform) {
+            check_no_apps(p);
+        }
+    }
 
     // fill in avp->flops for anonymous platform projects
     //
