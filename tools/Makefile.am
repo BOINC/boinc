@@ -6,8 +6,10 @@ scheddir = $(libexecdir)/sched
 bin_PROGRAMS = create_work sign_executable dir_hier_path dir_hier_move
 
 dist_bin_SCRIPTS = \
-		calculate_credit_multiplier \
+	    boinc_submit \
 		dbcheck_files_exist \
+		demo_submit \
+		demo_query \
 		grep_logs \
 		make_project \
 		parse_config \
