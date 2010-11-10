@@ -7975,10 +7975,10 @@ David  09 Nov 2010
         sched_types.cpp
 
 David  09 Nov 2010
-	- client: fix "Snooze GPU"
+    - client: fix "Snooze GPU"
 
-	client/
-		cpu_sched.cpp
+    client/
+        cpu_sched.cpp
 
 David  09 Nov 2010
     - make_project: with --test_app, copy all the executables
@@ -7999,3 +7999,21 @@ David  09 Nov 2010
         update_versions
     py/Boinc/
         database.py
+
+David  09 Nov 2010
+    - client: change scheduling policy to allow multithread jobs to coexist
+        with GPU jobs that use significant CPU time.
+        Old: run a MT job only if total CPU usage will be < #CPUs + 1.
+            So if you have some GPU jobs running and their CPU usage sums to < 1,
+            BOINC will run a MT job too.
+            But if CPU usage > 1 BOINC won't run the MT job,
+            and some CPUs will be idle.
+        Note: to maximize throughput, it might be better to run
+            either GPU jobs or MT jobs, but not both at the same time.
+            However, volunteers don't like it when CPUs are idle.  So...
+        New: ignore the CPU usage of GPU jobs in deciding whether to run MT jobs.
+            So we'll run a 4-core MT job (at low priority)
+            even if GPU jobs (which run at normal priority) use > 1 CPU.
+            (Yes, the MT job might run very slow)
+    client/
+        cpu_sched.cpp
