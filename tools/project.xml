@@ -48,7 +48,7 @@
         <user_friendly_name>anonymous</user_friendly_name>
     </platform>
     <app>
-        <name>uppercase</name>
-        <user_friendly_name>upperCASE</user_friendly_name>
+        <name>example_app</name>
+        <user_friendly_name>Example Application</user_friendly_name>
     </app>
 </boinc>

@@ -22,7 +22,7 @@
 // - Runs as a daemon, and creates an unbounded supply of work.
 //   It attempts to maintain a "cushion" of 100 unsent job instances.
 //   (your app may not work this way; e.g. you might create work in batches)
-// - Creates work for the application "uppercase".
+// - Creates work for the application "example_app".
 // - Creates a new input file for each job;
 //   the file (and the workunit names) contain a timestamp
 //   and sequence number, so that they're unique.
@@ -48,9 +48,11 @@
     // maintain at least this many unsent results
 #define REPLICATION_FACTOR  2
 
-// globals
-//
-char* wu_template;
+char* app_name = (char*) "example_app";
+char* in_template_file = (char*) "example_app_in.xml";
+char* out_template_file = (char*) "example_app_out.xml";
+
+char* in_template;
 DB_APP app;
 int start_time;
 int seqno;
@@ -65,7 +67,7 @@ int make_job() {
 
     // make a unique name (for the job and its input file)
     //
-    sprintf(name, "uc_%d_%d", start_time, seqno++);
+    sprintf(name, "%s_%d_%d", app_name, start_time, seqno++);
 
     // Create the input file.
     // Put it at the right place in the download dir hierarchy
@@ -96,11 +98,12 @@ int make_job() {
 
     // Register the job with BOINC
     //
+    sprintf(path, "templates/%s", out_template_file);
     return create_work(
         wu,
-        wu_template,
-        "templates/uc_result",
-        config.project_path("templates/uc_result"),
+        in_template,
+        path,
+        config.project_path(path),
         infiles,
         1,
         config
@@ -145,21 +148,25 @@ void usage(char *name) {
         "- Runs as a daemon, and creates an unbounded supply of work.\n"
         "  It attempts to maintain a \"cushion\" of 100 unsent job instances.\n"
         "  (your app may not work this way; e.g. you might create work in batches)\n"
-        "- Creates work for the application \"uppercase\".\n"
+        "- Creates work for the application \"example_app\".\n"
         "- Creates a new input file for each job;\n"
         "  the file (and the workunit names) contain a timestamp\n"
         "  and sequence number, so that they're unique.\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  [ -d X ]                    Sets debug level to X.\n"
-        "  [ -h | --help ]             Shows this help text.\n"
-        "  [ -v | --version ]          Shows version information.\n",
+        "  [ --app X                Application name (default: example_app)\n"
+        "  [ --in_template_file     Input template (default: example_app_in)\n"
+        "  [ --out_template_file    Output template (default: example_app_out)\n"
+        "  [ -d X ]                 Sets debug level to X.\n"
+        "  [ -h | --help ]          Shows this help text.\n"
+        "  [ -v | --version ]       Shows version information.\n",
         name
     );
 }
 
 int main(int argc, char** argv) {
     int i, retval;
+    char buf[256];
 
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "d")) {
@@ -171,6 +178,12 @@ int main(int argc, char** argv) {
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) g_print_queries = true;
+        } else if (!strcmp(argv[i], "--app")) {
+            app_name = argv[++i];
+        } else if (!strcmp(argv[i], "--in_template_file")) {
+            in_template_file = argv[++i];
+        } else if (!strcmp(argv[i], "--out_template_file")) {
+            out_template_file = argv[++i];
         } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage(argv[0]);
             exit(0);
@@ -199,12 +212,16 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL, "can't open db\n");
         exit(1);
     }
-    if (app.lookup("where name='uppercase'")) {
-        log_messages.printf(MSG_CRITICAL, "can't find app\n");
+
+    sprintf(buf, "where name='%s'", app_name);
+    if (app.lookup(buf)) {
+        log_messages.printf(MSG_CRITICAL, "can't find app %s\n", app_name);
         exit(1);
     }
-    if (read_file_malloc(config.project_path("templates/uc_wu"), wu_template)) {
-        log_messages.printf(MSG_CRITICAL, "can't read WU template\n");
+
+    sprintf(buf, "templates/%s", in_template_file);
+    if (read_file_malloc(config.project_path(buf), in_template)) {
+        log_messages.printf(MSG_CRITICAL, "can't read input template %s\n", buf);
         exit(1);
     }
 

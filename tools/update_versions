@@ -85,10 +85,15 @@ def add_files(
     '''
     assert(match)
     assert(exec_files[0])
-    version_major, version_minor, platform_name, plan_class = match.groups()
+    version, platform_name, plan_class = match.groups()
     if plan_class:
         plan_class = plan_class[2:]      # drop leading __
-    version_num = int(version_major) * 100 + int(version_minor)
+
+    vlist = version.split(".");
+    version_num = 0
+    for i in vlist:
+        version_num *= 100;
+        version_num += int(i)
 
     file_base = os.path.basename(exec_files[0])
     platforms = database.Platforms.find(name = platform_name)
@@ -139,7 +144,7 @@ def add_files(
 
 def re_match_exec_filename(filepath):
     file = os.path.basename(filepath)
-    return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(__[^.]+)?(?:[.][a-zA-Z0-9\_\-]*)?$', file)
+    return re.match('[^.]+_([0-9.]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(__[^.]+)?(?:[.][a-zA-Z0-9\_\-]*)?$', file)
 
 # scan the directory of a given application, process its app versions
 #

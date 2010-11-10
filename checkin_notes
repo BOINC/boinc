@@ -7979,3 +7979,23 @@ David  09 Nov 2010
 
 	client/
 		cpu_sched.cpp
+
+David  09 Nov 2010
+    - make_project: with --test_app, copy all the executables
+        (for many platforms) from samples/example_app/bin
+    - make_project: change name of example app from uppercase to example_app.
+    - update_versions: allow version numbers to not have decimal points
+    - sample work generator: make app name and template files
+        command-line options;
+        default to "example_app", "example_app_in.xml", "example_app_out.xml"
+
+    db/
+        schema.sql
+    sched/
+        sample_work_generator.cpp
+    tools/
+        create_work_example
+        make_project
+        update_versions
+    py/Boinc/
+        database.py

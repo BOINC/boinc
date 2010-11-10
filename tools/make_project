@@ -33,7 +33,7 @@ Misc options:
    --user_name          default: $USER (%(USER)s)
    --delete_prev_inst   delete project-root first (from prev installation)
    --drop_db_first      drop database first (from prev installation)
-   --test_app           install test application
+   --test_app           install example application
    --web_only           install web files, no executables (for Bossa, Bolt)
    --srcdir             where to find the source files (default: current directory)
 
@@ -232,15 +232,15 @@ project.sched_install('transitioner')
 project.sched_install('file_deleter')
 if options.test_app:
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_work_generator -d 3'
-    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_bitwise_validator -d 3 -app uppercase'
-    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_assimilator -d 3 -app uppercase'
+    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_bitwise_validator -d 3 --app example_app'
+    project.config.daemons.make_node_and_append("daemon").cmd = 'sample_assimilator -d 3 --app example_app'
 
 # set up default tasks
 
 t = project.config.tasks.make_node_and_append("task")
 t.period = '24 hours'
 t.output = 'db_dump.out'
-t.cmd = 'db_dump -d 2 -dump_spec ../db_dump_spec.xml'
+t.cmd = 'db_dump -d 2 --dump_spec ../db_dump_spec.xml'
 t.disabled = 1
 
 t = project.config.tasks.make_node_and_append("task")
@@ -258,7 +258,7 @@ t.disabled = 1
 t = project.config.tasks.make_node_and_append("task")
 t.period = '7 days'
 t.output = 'update_stats.out'
-t.cmd = 'update_stats -update_users -update_teams -update_hosts'
+t.cmd = 'update_stats --update_users --update_teams --update_hosts'
 t.disabled = 1
 
 t = project.config.tasks.make_node_and_append("task")
@@ -303,16 +303,11 @@ print '''Done installing default daemons.'''
 
 # copy the test app if needed
 if options.test_app:
-    pname = 'i686-pc-linux-gnu'
-    dname = 'uppercase_1.1_'+pname
-    ucdir = proot+'/apps/uppercase/'
-    versdir = ucdir+dname
-    filepath = versdir+'/'+dname
-    os.mkdir(ucdir)
-    os.mkdir(versdir)
-    shutil.copy('../samples/example_app/uc2', filepath)
-    shutil.copy('uc_result', proot+'/templates/')
-    shutil.copy('uc_wu', proot+'/templates/')
+    app_dir = proot+'/apps/example_app/'
+    os.mkdir(app_dir)
+    os.system('cp -r ../samples/example_app/bin/* ' + app_dir);
+    shutil.copy('example_app_in.xml', proot+'/templates/')
+    shutil.copy('example_app_out.xml', proot+'/templates/')
     shutil.copy('../tools/create_work_example', proot+'/bin/')
 
 httpd_conf_template_filename = os.path.join(

@@ -50,7 +50,7 @@ create table app (
     beta                    smallint        not null default 0,
     target_nresults         smallint        not null default 0,
     min_avg_pfc             double          not null default 1,
-    host_scale_check        tinyint         not null,
+    host_scale_check        tinyint         not null default 0,
     primary key (id)
 ) engine=InnoDB;
 

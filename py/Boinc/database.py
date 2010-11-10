@@ -53,7 +53,9 @@ class App(DatabaseObject):
                     'homogeneous_redundancy',
                     'weight',
                     'beta',
-                    'target_nresults'
+                    'target_nresults',
+                    'min_avg_pfc',
+                    'host_scale_check'
                     ])
 
 class AppVersion(DatabaseObject):
