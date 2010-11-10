@@ -8024,3 +8024,17 @@ David  09 Nov 2010
 	clientgui/
 		DlgItemProperties.cpp
 		MainDocument.cpp,h
+
+David  10 Nov 2010
+    - boinccmd: --get_cc_status now prints its result
+    - feeder: don't panic if can't find app for result;
+        if the app is deprecated, it won't be in shmem
+
+    sched/
+        feeder.cpp
+    lib/
+        gui_rpc_client.cpp
+        gui_rpc_client_print.cpp
+        str_util.cpp,h
+    client/
+        boinc_cmd.cpp

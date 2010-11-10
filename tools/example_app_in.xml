@@ -6,5 +6,5 @@
         <file_number>0</file_number>
         <open_name>in</open_name>
     </file_ref>
-    <command_line>-cpu_time 10</command_line>
+    <command_line>-cpu_time 30</command_line>
 </workunit>

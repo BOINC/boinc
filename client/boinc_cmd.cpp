@@ -56,44 +56,44 @@ void usage() {
     fprintf(stderr, "\n\
 usage: boinccmd [--host hostname] [--passwd passwd] command\n\n\
 Commands:\n\
- --lookup_account URL email passwd\n\
  --create_account URL email passwd name\n\
- --project_attach URL auth          attach to project\n\
- --join_acct_mgr URL name passwd    attach account manager\n\
- --quit_acct_mgr                    quit current account manager\n\
- --get_state                        show entire state\n\
- --get_tasks                        show tasks\n\
- --get_simple_gui_info              show status of projects and active tasks\n\
- --get_file_transfers               show file transfers\n\
- --get_project_status               show status of all attached projects\n\
- --get_disk_usage                   show disk usage\n\
- --get_proxy_settings\n\
- --get_messages [ seqno ]           show messages > seqno\n\
- --get_message_count                show largest message seqno\n\
- --get_notices [ seqno ]            show notices > seqno\n\
- --get_host_info\n\
- --version, -V                      show core client version\n\
- --task url task_name op            task operation\n\
-   op = suspend | resume | abort | graphics_window | graphics_fullscreen\n\
- --project URL op                   project operation\n\
-   op = reset | detach | update | suspend | resume | nomorework | allowmorework\n\
  --file_transfer URL filename op    file transfer operation\n\
    op = retry | abort\n\
- --set_run_mode mode duration       set run mode for given duration\n\
-   mode = always | auto | never\n\
+ --get_cc_status\n\
+ --get_disk_usage                   show disk usage\n\
+ --get_file_transfers               show file transfers\n\
+ --get_host_info\n\
+ --get_message_count                show largest message seqno\n\
+ --get_messages [ seqno ]           show messages > seqno\n\
+ --get_notices [ seqno ]            show notices > seqno\n\
+ --get_project_config URL\n\
+ --get_project_config_poll\n\
+ --get_project_status               show status of all attached projects\n\
+ --get_proxy_settings\n\
+ --get_simple_gui_info              show status of projects and active tasks\n\
+ --get_state                        show entire state\n\
+ --get_tasks                        show tasks\n\
+ --join_acct_mgr URL name passwd    attach account manager\n\
+ --lookup_account URL email passwd\n\
+ --network_available\n\
+ --project URL op                   project operation\n\
+   op = reset | detach | update | suspend | resume | nomorework | allowmorework\n\
+ --project_attach URL auth          attach to project\n\
+ --quit                             tell client to exit\n\
+ --quit_acct_mgr                    quit current account manager\n\
+ --read_cc_config\n\
+ --read_global_prefs_override\n\
+ --run_benchmarks\n\
+ --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]\n\
  --set_gpu_mode mode duration       set GPU run mode for given duration\n\
    mode = always | auto | never\n\
  --set_network_mode mode duration\n\
  --set_proxy_settings\n\
- --run_benchmarks\n\
- --read_global_prefs_override\n\
- --quit\n\
- --read_cc_config\n\
- --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]\n\
- --get_project_config URL\n\
- --get_project_config_poll\n\
- --network_available\n\
- --get_cc_status\n\
+ --set_run_mode mode duration       set run mode for given duration\n\
+   mode = always | auto | never\n\
+ --task url task_name op            task operation\n\
+   op = suspend | resume | abort | graphics_window | graphics_fullscreen\n\
+ --version, -V                      show core client version\n\
 "
 );
     exit(1);
@@ -544,6 +544,7 @@ int main(int argc, char** argv) {
         if (!retval) {
             retval = cs.network_status;
         }
+        cs.print();
     } else if (!strcmp(cmd, "--set_debts")) {
         vector<PROJECT>projects;
         while (i < argc) {

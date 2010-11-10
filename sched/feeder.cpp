@@ -299,11 +299,13 @@ static bool get_job_from_db(
             // Check for invalid application ID
             //
             if (!ssp->lookup_app(wi.wu.appid)) {
+#if 0
                 log_messages.printf(MSG_CRITICAL,
                     "result [RESULT#%d] has bad appid %d; clean up your DB!\n",
                     wi.res_id, wi.wu.appid
                 );
-                exit(1);
+#endif
+                continue;
             }
             
             // Check for collision (i.e. this result already is in the array)
