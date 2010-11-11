@@ -7754,3 +7754,13 @@ David  09 Nov 2010
 	clientgui/
 		DlgItemProperties.cpp
 		MainDocument.cpp,h
+
+David  10 Nov 2010
+    - boinccmd: --get_cc_status now prints its result
+
+    lib/
+        gui_rpc_client.cpp
+        gui_rpc_client_print.cpp
+        str_util.cpp,h
+    client/
+        boinc_cmd.cpp

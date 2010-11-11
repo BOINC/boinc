@@ -76,6 +76,7 @@ extern const char* boincerror(int which_error);
 extern const char* network_status_string(int);
 extern const char* rpc_reason_string(int);
 extern const char* suspend_reason_string(int reason);
+extern const char* run_mode_string(int mode);
 
 
 #endif

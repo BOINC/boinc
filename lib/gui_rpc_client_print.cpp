@@ -231,6 +231,49 @@ void CC_STATE::print() {
     }
 }
 
+void print_status(
+    const char* name, int reason, int mode, int mode_perm, double delay
+) {
+    printf("%s status\n", name);
+    if (reason) {
+        printf("    suspended: %s\n", suspend_reason_string(reason));
+    } else {
+        printf("    not suspended\n");
+    }
+    printf(
+        "    current mode: %s\n"
+        "    perm mode: %s\n"
+        "    perm becomes current in %.0f sec\n",
+        run_mode_string(mode),
+        run_mode_string(mode_perm),
+        delay
+    );
+}
+
+void CC_STATUS::print() {
+    printf("network connection status: %s\n",
+        network_status_string(network_status)
+    );
+    print_status("CPU",
+        task_suspend_reason,
+        task_mode,
+        task_mode_perm,
+        task_mode_delay
+    );
+    print_status("GPU",
+        gpu_suspend_reason,
+        gpu_mode,
+        gpu_mode_perm,
+        gpu_mode_delay
+    );
+    print_status("Network",
+        network_suspend_reason,
+        network_mode,
+        network_mode_perm,
+        network_mode_delay
+    );
+}
+
 void PROJECTS::print() {
     unsigned int i;
     printf("======== Projects ========\n");

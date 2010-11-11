@@ -591,6 +591,15 @@ const char* suspend_reason_string(int reason) {
     return "unknown reason";
 }
 
+const char* run_mode_string(int mode) {
+    switch (mode) {
+    case RUN_MODE_ALWAYS: return "always";
+    case RUN_MODE_AUTO: return "according to prefs";
+    case RUN_MODE_NEVER: return "never";
+    }
+    return "unknown";
+}
+
 #ifdef WIN32
 
 // get message for last error
