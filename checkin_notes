@@ -7722,3 +7722,9 @@ David  09 Nov 2010
     client/
         work_fetch.cpp
         client_types.cpp
+
+David  09 Nov 2010
+	- client: fix "Snooze GPU"
+
+	client/
+		cpu_sched.cpp
