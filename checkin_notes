@@ -8065,3 +8065,9 @@ David  10 Nov 2010
         setup_project.py
     sched/
         sample_work_generator.cpp
+
+Charlie  11 Nov 2010
+    - Mac SS: Minor tweak for use in debugging.
+        
+    clientscr/
+        mac_saver_module.cpp
