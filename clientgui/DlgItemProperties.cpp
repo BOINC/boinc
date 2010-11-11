@@ -294,7 +294,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     
     addProperty(_("Application"), FormatApplicationName(result));
 	addProperty(_("Workunit name"),wxString(result->wu_name, wxConvUTF8));
-	addProperty(_("State"), result_description(result));
+	addProperty(_("State"), result_description(result, false));
     if (result->received_time) {
         dt.Set((time_t)result->received_time);
 	    addProperty(_("Received"), dt.Format());
