@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-20 15:02-0500\n"
-"PO-Revision-Date: 2010-10-28 22:01+0200\n"
+"PO-Revision-Date: 2010-11-06 20:57+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: BOINC SK\n"
 "Language: sk\n"
@@ -166,7 +166,7 @@ msgstr ""
 
 #: clientgui/AccountManagerInfoPage.cpp:254
 msgid "Account Manager &URL:"
-msgstr "&URL správcu konta:"
+msgstr "&URL Správcu konta:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:188
 #: clientgui/AccountManagerPropertiesPage.cpp:194
@@ -352,7 +352,7 @@ msgstr "Vždy používať GPU"
 
 #: clientgui/AdvancedFrame.cpp:501
 msgid "Allow GPU work regardless of preferences"
-msgstr "Dovoliť prácu na GPU bez ohľadu na preferencie"
+msgstr "Povoliť prácu na GPU bez ohľadu na preferencie"
 
 #: clientgui/AdvancedFrame.cpp:505
 msgid "Use GPU based on preferences"
@@ -446,7 +446,7 @@ msgstr "Čítať preferencie z global_prefs_override.xml."
 #: clientgui/AdvancedFrame.cpp:592
 #, c-format
 msgid "Launch another instance of %s..."
-msgstr "Spustiť ďalšiu kópiu %s"
+msgstr "Spustiť ďalšiu kópiu %s..."
 
 #: clientgui/AdvancedFrame.cpp:596
 #, c-format
@@ -1344,7 +1344,7 @@ msgstr "Maximálna rýchlosť sťahovania"
 #: clientgui/DlgAdvPreferencesBase.cpp:386
 #: clientgui/DlgAdvPreferencesBase.cpp:395
 msgid "KBytes/sec."
-msgstr "KB/sekundu"
+msgstr "KB/s"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:389
 msgid "Maximum upload rate"
@@ -1609,8 +1609,7 @@ msgid ""
 "tasks at the times you selected in your preferences."
 msgstr ""
 "Toto ukončí %s a ukončí jeho úlohy až kým buď\n"
-"%s alebo šetrič obrazovky %s\n"
-"nebudú znova spustené.\n"
+"%s alebo šetrič obrazovky %s nebudú znova spustené.\n"
 "\n"
 "Vo väčšine prípadov je lepšie len zatvoriť okno %s,\n"
 "než celkom ukončiť aplikáciu; takto bude môcť %s počítať\n"
@@ -1891,7 +1890,7 @@ msgid ""
 "(minutes; 0 means no reminders)"
 msgstr ""
 "Interval upozorňovania na oznamy:\n"
-"(v minútach; 0 znamená vypnutie upozornení):"
+"(v minútach; 0 znamená vypnutie upozornení)"
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should BOINC remind you of new notices?"
@@ -1968,7 +1967,7 @@ msgstr "Heslo:"
 
 #: clientgui/DlgOptions.cpp:311
 msgid "HTTP Proxy"
-msgstr "HTTP Proxy"
+msgstr "HTTP proxy server"
 
 #: clientgui/DlgOptions.cpp:319
 msgid "Connect via SOCKS proxy server"
@@ -1980,7 +1979,7 @@ msgstr "Konfigurácia SOCKS proxy servera"
 
 #: clientgui/DlgOptions.cpp:375
 msgid "SOCKS Proxy"
-msgstr "SOCKS Proxy"
+msgstr "SOCKS proxy server"
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
@@ -2398,7 +2397,7 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"URL Vami dodaná nie je zo správcov kont pod BOINC.\n"
+"Vami dodané URL nie je známym Správcom konta pre BOINC.\n"
 "\n"
 "Prosím skontrolujte URL a skúste znova."
 
@@ -2581,7 +2580,7 @@ msgstr "Konfigurácia proxy"
 
 #: clientgui/ProxyPage.cpp:334
 msgid "HTTP proxy"
-msgstr "HTTP proxy"
+msgstr "HTTP proxy server"
 
 #: clientgui/ProxyPage.cpp:337 clientgui/ProxyPage.cpp:357
 msgid "Server:"
@@ -2593,7 +2592,7 @@ msgstr "Autodetekcia"
 
 #: clientgui/ProxyPage.cpp:354
 msgid "SOCKS proxy"
-msgstr "SOCKS proxy"
+msgstr "SOCKS proxy server"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:119
 msgid "Advanced View...\tCtrl+Shift+A"
@@ -2860,7 +2859,7 @@ msgstr "Pozastavené: Prebieha výpočet inej úlohy"
 #: clientgui/sg_ImageButton.cpp:92
 msgid "Paused: User initiated.  Click 'Resume' to continue"
 msgstr ""
-"Pozastavené: Vyžiadané užívateľom. Kliknite na 'Pokračovať' pre spustenie."
+"Pozastavené: Vyžiadané užívateľom. Kliknite na 'Pokračovať' pre spustenie"
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
