@@ -843,6 +843,12 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (parse_bool(buf, "ended", project->ended)) {
             continue;
+        } else if (parse_bool(buf, "no_cpu_apps", project->no_cpu_apps)) {
+            continue;
+        } else if (parse_bool(buf, "no_cuda_apps", project->no_cuda_apps)) {
+            continue;
+        } else if (parse_bool(buf, "no_ati_apps", project->no_ati_apps)) {
+            continue;
         } else if (parse_bool(buf, "verify_files_on_app_start", project->verify_files_on_app_start)) {
             continue;
         } else if (parse_bool(buf, "request_file_list", send_file_list)) {

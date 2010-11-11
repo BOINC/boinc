@@ -225,6 +225,9 @@ int PROJECT::parse_state(MIOFILE& in) {
             // not authoritative
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
+        if (parse_bool(buf, "no_cpu_apps", no_cpu_apps)) continue;
+        if (parse_bool(buf, "no_cuda_apps", no_cuda_apps)) continue;
+        if (parse_bool(buf, "no_ati_apps", no_ati_apps)) continue;
             // backwards compat - old state files had ams_resource_share = 0
         if (parse_double(buf, "<ams_resource_share_new>", ams_resource_share)) continue;
         if (parse_double(buf, "<ams_resource_share>", x)) {
@@ -296,7 +299,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
 		"    <send_time_stats_log>%d</send_time_stats_log>\n"
 		"    <send_job_log>%d</send_job_log>\n"
-        "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -343,6 +346,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         detach_when_done?"    <detach_when_done/>\n":"",
         ended?"    <ended/>\n":"",
         attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
+        no_cpu_apps?"    <no_cpu_apps/>\n":"",
+        no_cuda_apps?"    <no_cuda_apps/>\n":"",
+        no_ati_apps?"    <no_ati_apps/>\n":"",
         (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":"",
         use_symlinks?"    <use_symlinks/>\n":""
     );

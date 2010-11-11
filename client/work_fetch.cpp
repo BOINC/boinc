@@ -73,16 +73,16 @@ static inline const char* rsc_name(int t) {
     return "Unknown";
 }
 
-inline bool prefs_prevent_fetch(PROJECT* p, int rsc_type) {
+inline bool dont_fetch(PROJECT* p, int rsc_type) {
     switch(rsc_type) {
     case RSC_TYPE_CPU:
-        if (p->no_cpu_pref) return true;
+        if (p->no_cpu_pref || p->no_cpu_apps) return true;
         break;
     case RSC_TYPE_CUDA:
-        if (p->no_cuda_pref) return true;
+        if (p->no_cuda_pref || p->no_cuda_apps) return true;
         break;
     case RSC_TYPE_ATI:
-        if (p->no_ati_pref) return true;
+        if (p->no_ati_pref || p->no_ati_apps) return true;
         break;
     }
     return false;
@@ -167,7 +167,7 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
         // must precede the done_request_more_work check
     if (p->dont_request_more_work) return false;
     if (backoff_time > gstate.now) return false;
-    if (prefs_prevent_fetch(p, rwf.rsc_type)) return false;
+    if (dont_fetch(p, rwf.rsc_type)) return false;
 
     // NOTE: it's critical that all conditions that might prevent
     // us from asking the project for work of this type
@@ -216,7 +216,7 @@ RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
 }
 
 bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
-    if (prefs_prevent_fetch(p, rsc_type)) return false;
+    if (dont_fetch(p, rsc_type)) return false;
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     return (w.backoff_time < gstate.now);
 }
