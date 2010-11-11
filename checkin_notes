@@ -7705,3 +7705,9 @@ Rom    08 Nov 2010
     /
         configure.ac
         version.h
+
+Charlie  11 Nov 2010
+    - Mac SS: Minor tweak for use in debugging.
+        
+    clientscr/
+        mac_saver_module.cpp

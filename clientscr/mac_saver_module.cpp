@@ -341,8 +341,13 @@ OSStatus CScreensaver::initBOINCApp() {
     if (++retryCount > 3)   // Limit to 3 relaunches to prevent thrashing
         return -1;
 
+#ifdef _DEBUG
+    err = -1;
+#else
     err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
-    if (err) {   // If we couldn't find BOINCManager.app, try default path
+#endif
+   if (err) 
+    {   // If we couldn't find BOINCManager.app, try default path
         strcpy(boincPath, "/Applications/");
         if (brandId)
             strcat(boincPath, m_BrandText);
