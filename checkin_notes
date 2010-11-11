@@ -8071,3 +8071,9 @@ Charlie  11 Nov 2010
         
     clientscr/
         mac_saver_module.cpp
+
+Rom    11 Nov 2010
+    - MGR: Disable balloons on Linux for the time being.
+    
+    clientgui/gtk/
+        taskbarex.h
