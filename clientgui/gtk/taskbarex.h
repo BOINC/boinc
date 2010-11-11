@@ -76,7 +76,7 @@ public:
     bool PopupMenu(wxMenu *menu);
 
 // Implementation
-    bool IsBalloonsSupported() const { return true; };
+    bool IsBalloonsSupported() const { return false; };
 
 // Data members
 protected:

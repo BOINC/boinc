@@ -7778,3 +7778,9 @@ David  10 Nov 2010
         client_types.h,cpp
         client_state.cpp
         scheduler_op.cpp
+
+Rom    11 Nov 2010
+    - MGR: Disable balloons on Linux for the time being.
+    
+    clientgui/gtk/
+        taskbarex.h
