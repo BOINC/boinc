@@ -105,7 +105,7 @@ struct PROC_RESOURCES {
                 return false;
             }
         } else if (rp->avp->avg_ncpus > 1) {
-            return (ncpus_used_mt + rp->avp->avg_ncpus < ncpus);
+            return (ncpus_used_mt + rp->avp->avg_ncpus <= ncpus);
         } else {
             return (ncpus_used_st < ncpus);
         }
@@ -1373,7 +1373,7 @@ bool CLIENT_STATE::enforce_schedule() {
     vector<ACTIVE_TASK*> preemptable_tasks;
     static double last_time = 0;
     int retval;
-    double ncpus_used;
+    double ncpus_used=0, ncpus_used_non_gpu=0;
     ACTIVE_TASK* atp;
 
     // Do this when requested, and once a minute as a safety net
@@ -1491,7 +1491,6 @@ bool CLIENT_STATE::enforce_schedule() {
     // prune jobs that don't fit in RAM or that exceed CPU usage limits.
     // Mark the rest as SCHEDULED
     //
-    ncpus_used = 0;
     bool running_multithread = false;
     for (i=0; i<runnable_jobs.size(); i++) {
         RESULT* rp = runnable_jobs[i];
@@ -1517,7 +1516,7 @@ bool CLIENT_STATE::enforce_schedule() {
             // so that a GPU app and a multithread app can run together.
             //
             if (rp->avp->avg_ncpus > 1) {
-                if (ncpus_used && (ncpus_used + rp->avp->avg_ncpus >= ncpus+1)) {
+                if (ncpus_used_non_gpu && (ncpus_used_non_gpu + rp->avp->avg_ncpus >= ncpus+1)) {
                     // the "ncpus_used &&" is to allow running a job that uses
                     // more than ncpus (this can happen in pathological cases)
 
@@ -1573,6 +1572,11 @@ bool CLIENT_STATE::enforce_schedule() {
         //
         if (!atp) {
             atp = get_task(rp);
+        }
+
+        // don't count CPU usage by GPU jobs
+        if (!rp->uses_coprocs()) {
+            ncpus_used_non_gpu += rp->avp->avg_ncpus;
         }
         ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
