@@ -587,7 +587,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     MIOFILE mf;
     std::string delete_file_name;
     mf.init_file(in);
-    bool found_start_tag = false;
+    bool found_start_tag = false, btemp;
     double cpid_time = 0;
 
     clear();
@@ -843,11 +843,20 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (parse_bool(buf, "ended", project->ended)) {
             continue;
-        } else if (parse_bool(buf, "no_cpu_apps", project->no_cpu_apps)) {
+        } else if (parse_bool(buf, "no_cpu_apps", btemp)) {
+            if (!project->anonymous_platform) {
+                project->no_cpu_apps = btemp;
+            }
             continue;
-        } else if (parse_bool(buf, "no_cuda_apps", project->no_cuda_apps)) {
+        } else if (parse_bool(buf, "no_cuda_apps", btemp)) {
+            if (!project->anonymous_platform) {
+                project->no_cuda_apps = btemp;
+            }
             continue;
-        } else if (parse_bool(buf, "no_ati_apps", project->no_ati_apps)) {
+        } else if (parse_bool(buf, "no_ati_apps", btemp)) {
+            if (!project->anonymous_platform) {
+                project->no_ati_apps = btemp;
+            }
             continue;
         } else if (parse_bool(buf, "verify_files_on_app_start", project->verify_files_on_app_start)) {
             continue;

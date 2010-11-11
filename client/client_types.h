@@ -220,17 +220,20 @@ struct PROJECT : PROJ_AM {
     double resource_share;
         // project's resource share relative to other projects.
 
-        // the following are the user's project prefs
+    // the following are the user's project prefs
+    //
     bool no_cpu_pref;
     bool no_cuda_pref;
     bool no_ati_pref;
 
-        // the following are from the project itself
+    // the following are from the project itself
+    // (or derived from app version list if anonymous platform)
+    //
     bool no_cpu_apps;
     bool no_cuda_apps;
     bool no_ati_apps;
 
-        // the following set dynamically
+    // the following set dynamically
     bool cuda_defer_sched;
         // This project has a CUDA job for which there's insuff. video RAM.
         // Don't fetch more CUDA jobs; they might have same problem
