@@ -7779,6 +7779,12 @@ David  10 Nov 2010
         client_state.cpp
         scheduler_op.cpp
 
+Charlie  11 Nov 2010
+    - Mac SS: Minor tweak for use in debugging.
+        
+    clientscr/
+        mac_saver_module.cpp
+
 Rom    11 Nov 2010
     - MGR: Disable balloons on Linux for the time being.
     
