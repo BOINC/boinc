@@ -72,6 +72,8 @@ BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
     EVT_BUTTON(ID_COPYSELECTED, CDlgEventLog::OnMessagesCopySelected)
     EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYPROJECT, CDlgEventLog::OnMessagesFilter)
     EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
+	EVT_SIZE(CDlgEventLog::OnSize)
+    EVT_MOVE(CDlgEventLog::OnMove)
     EVT_CLOSE(CDlgEventLog::OnClose)
 ////@end CDlgEventLog event table entries
 END_EVENT_TABLE()
@@ -679,7 +681,19 @@ void CDlgEventLog::SetWindowDimensions() {
         pConfig->Write(wxT("Height"), GetSize().y);
     }
 }
-    
+
+
+void CDlgEventLog::OnSize(wxSizeEvent& event) {
+    SetWindowDimensions();
+    event.Skip();
+}
+
+
+void CDlgEventLog::OnMove(wxMoveEvent& event) {
+    SetWindowDimensions();
+    event.Skip();
+}
+
 
 /*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYAll

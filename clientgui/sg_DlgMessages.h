@@ -150,6 +150,8 @@ private:
     void SaveWindowDimensions();
     bool RestoreState();
     void RestoreWindowDimensions();
+    void OnSize(wxSizeEvent& event);
+    void OnMove(wxMoveEvent& event);
 
 ////@begin CDlgMessages member variables
     CPanelMessages* m_pBackgroundPanel;

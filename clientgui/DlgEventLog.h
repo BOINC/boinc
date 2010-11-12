@@ -166,6 +166,8 @@ private:
 
     void                    GetWindowDimensions( wxPoint& position, wxSize& size );
     void                    SetWindowDimensions();
+    void                    OnSize(wxSizeEvent& event);
+    void                    OnMove(wxMoveEvent& event);
 
     void                    OnMouseUp(wxMouseEvent& event);
 

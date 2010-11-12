@@ -8077,3 +8077,13 @@ Rom    11 Nov 2010
     
     clientgui/gtk/
         taskbarex.h
+
+Charlie  12 Nov 2010
+    - MGR: Save window dimensions and position on SIZE and MOVE events 
+        to make sure changes are recorded even if the window is minimized 
+        (iconized) when exiting BOINC.
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+        DlgEventLog.cpp, .h
+        sg_DlgMessages.cpp, .h

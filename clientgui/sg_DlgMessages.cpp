@@ -314,6 +314,8 @@ BEGIN_EVENT_TABLE( CDlgMessages, wxDialog )
     EVT_HELP(wxID_ANY, CDlgMessages::OnHelp)
     EVT_SHOW( CDlgMessages::OnShow )
     EVT_BUTTON( wxID_OK, CDlgMessages::OnOK )
+	EVT_SIZE(CDlgMessages::OnSize)
+    EVT_MOVE(CDlgMessages::OnMove)
 ////@end CDlgMessages event table entries
 END_EVENT_TABLE()
 
@@ -606,3 +608,17 @@ void CDlgMessages::RestoreWindowDimensions() {
 #endif  // ! __WXMAC__
 }
 
+void CDlgMessages::OnSize(wxSizeEvent& event) {
+    if (IsShown()) {
+        SaveWindowDimensions();
+    }
+    event.Skip();
+}
+
+
+void CDlgMessages::OnMove(wxMoveEvent& event) {
+    if (IsShown()) {
+        SaveWindowDimensions();
+    }
+    event.Skip();
+}
