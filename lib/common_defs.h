@@ -25,6 +25,9 @@
 
 #define GUI_RPC_PORT                                31416
 
+// run modes for CPU, GPU, network,
+// controlled by Activity menu and snooze button
+//
 #define RUN_MODE_ALWAYS 1
 #define RUN_MODE_AUTO   2
 #define RUN_MODE_NEVER  3

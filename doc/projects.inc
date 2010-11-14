@@ -117,13 +117,13 @@ $biomed = array(
 $earth = array(
     "Earth Sciences",
     array(
-        array(
-            "Quake Catcher Network",
-            "http://qcn.stanford.edu/",
-            "Stanford University",
-            "Seismology",
-            "The Quake-Catcher Network is a collaborative initiative for developing the world's largest, low-cost strong-motion seismic network by utilizing sensors in and attached to internet-connected computers."
-        ),
+//        array(
+//            "Quake Catcher Network",
+//            "http://qcn.stanford.edu/",
+//            "Stanford University",
+//            "Seismology",
+//            "The Quake-Catcher Network is a collaborative initiative for developing the world's largest, low-cost strong-motion seismic network by utilizing sensors in and attached to internet-connected computers."
+//        ),
         array(
             "Virtual Prairie",
             "http://vcsc.cs.uh.edu/virtual-prairie/",

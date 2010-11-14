@@ -8087,3 +8087,10 @@ Charlie  12 Nov 2010
         AdvancedFrame.cpp, .h
         DlgEventLog.cpp, .h
         sg_DlgMessages.cpp, .h
+
+David  14 Nov 2010
+    - admin web: fix bug in credit.php
+    html/ops/
+        credit.php
+    lib/
+        common_defs.h
