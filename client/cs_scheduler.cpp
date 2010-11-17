@@ -337,7 +337,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f, "<in_progress_results>\n");
         for (i=0; i<results.size(); i++) {
             rp = results[i];
-            double x = rp->estimated_time_remaining(false);
+            double x = rp->estimated_time_remaining();
             if (x == 0) continue;
             fprintf(f,
                 "    <ip_result>\n"
@@ -847,14 +847,14 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         } else {
             rp->set_state(RESULT_NEW, "handle_scheduler_reply");
             if (rp->avp->ncudas) {
-                est_cuda_duration += rp->estimated_duration(false);
+                est_cuda_duration += rp->estimated_duration();
                 gpus_usable = true;
                     // trigger a check of whether GPU is actually usable
             } else if (rp->avp->natis) {
-                est_ati_duration += rp->estimated_duration(false);
+                est_ati_duration += rp->estimated_duration();
                 gpus_usable = true;
             } else {
-                est_cpu_duration += rp->estimated_duration(false);
+                est_cpu_duration += rp->estimated_duration();
             }
         }
         rp->wup->version_num = rp->version_num;

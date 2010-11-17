@@ -712,7 +712,7 @@ void WORK_FETCH::set_overall_debts() {
         p = rp->project;
         if (!rp->nearly_runnable()) continue;
         if (p->non_cpu_intensive) continue;
-        double dt = rp->estimated_time_remaining(false);
+        double dt = rp->estimated_time_remaining();
         avp = rp->avp;
         p->cpu_pwf.queue_est += dt*avp->avg_ncpus;
         p->cuda_pwf.queue_est += dt*avp->ncudas;
@@ -1307,17 +1307,17 @@ double RESULT::estimated_duration_uncorrected() {
 
 // estimate how long a result will take on this host
 //
-double RESULT::estimated_duration(bool) {
+double RESULT::estimated_duration() {
     return estimated_duration_uncorrected()*project->duration_correction_factor;
 }
 
-double RESULT::estimated_time_remaining(bool for_work_fetch) {
+double RESULT::estimated_time_remaining() {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
     if (atp) {
-        return atp->est_dur(for_work_fetch) - atp->elapsed_time;
+        return atp->est_dur() - atp->elapsed_time;
     }
-    return estimated_duration(for_work_fetch);
+    return estimated_duration();
 }
 
 // Returns the estimated total elapsed time of this task.
@@ -1325,9 +1325,9 @@ double RESULT::estimated_time_remaining(bool for_work_fetch) {
 // 1) the workunit's flops count (static estimate)
 // 2) the current elapsed time and fraction done (dynamic estimate)
 //
-double ACTIVE_TASK::est_dur(bool for_work_fetch) {
+double ACTIVE_TASK::est_dur() {
     if (fraction_done >= 1) return 0;
-    double wu_est = result->estimated_duration(for_work_fetch);
+    double wu_est = result->estimated_duration();
     if (fraction_done <= 0) return wu_est;
     if (wu_est < elapsed_time) wu_est = elapsed_time;
     double frac_est = elapsed_time / fraction_done;
@@ -1336,7 +1336,7 @@ double ACTIVE_TASK::est_dur(bool for_work_fetch) {
     double fd_weight = 1 - wu_weight;
     double x = fd_weight*frac_est + wu_weight*wu_est;
 #if 0
-    if (for_work_fetch && log_flags.rr_simulation) {
+    if (log_flags.rr_simulation) {
         msg_printf(result->project, MSG_INFO,
             "[rr_sim] %s dur: %.2f = %.3f*%.2f + %.3f*%.2f",
             result->name, x, fd_weight, frac_est, wu_weight, wu_est

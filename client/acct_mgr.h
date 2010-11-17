@@ -87,6 +87,8 @@ struct OPTIONAL_DOUBLE {
     inline void set(double v) {value=v; present=true;}
 };
 
+// an account entry in reply message
+//
 struct AM_ACCOUNT {
     std::string url;
     std::string authenticator;
@@ -96,6 +98,8 @@ struct AM_ACCOUNT {
     OPTIONAL_BOOL dont_request_more_work;
     OPTIONAL_BOOL detach_when_done;
     OPTIONAL_DOUBLE resource_share;
+    OPTIONAL_BOOL suspend;
+    OPTIONAL_BOOL abort_not_started;
 
     int parse(XML_PARSER&);
     AM_ACCOUNT() {}

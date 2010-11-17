@@ -393,7 +393,7 @@ void CLIENT_STATE::rr_simulation() {
         //
         if (rpbest->rr_sim_misses_deadline) {
             double frac = rpbest->uses_coprocs()?gstate.overall_gpu_frac():gstate.overall_cpu_frac();
-            double dur = rpbest->estimated_time_remaining(false) / frac;
+            double dur = rpbest->estimated_time_remaining() / frac;
             cpu_work_fetch.update_busy_time(dur, rpbest->avp->avg_ncpus);
             if (rpbest->uses_cuda()) {
                 cuda_work_fetch.update_busy_time(dur, rpbest->avp->ncudas);

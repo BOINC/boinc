@@ -253,14 +253,10 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         gstate.reset_project(p, false);
     } else if (!strcmp(op, "suspend")) {
         msg_printf(p, MSG_INFO, "suspended by user");
-        p->suspended_via_gui = true;
-        gstate.request_schedule_cpus("project suspended by user");
-        gstate.request_work_fetch("project suspended by user");
+        p->suspend();
     } else if (!strcmp(op, "resume")) {
         msg_printf(p, MSG_INFO, "resumed by user");
-        p->suspended_via_gui = false;
-        gstate.request_schedule_cpus("project resumed by user");
-        gstate.request_work_fetch("project resumed by user");
+        p->resume();
     } else if (!strcmp(op, "detach")) {
         if (p->attached_via_acct_mgr) {
             msg_printf(p, MSG_INFO,

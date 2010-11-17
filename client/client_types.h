@@ -413,6 +413,7 @@ struct PROJECT : PROJ_AM {
         }
         return cpu_pwf.anticipated_debt;
     }
+    void get_task_durs(double& not_started_dur, double& in_progress_dur);
 
     int nresults_returned;
         // # of results being returned in current scheduler op
@@ -444,6 +445,11 @@ struct PROJECT : PROJ_AM {
     int parse_statistics(FILE*);
     int write_statistics(MIOFILE&, bool gui_rpc=false);
     int write_statistics_file();
+
+    void suspend();
+    void resume();
+    void abort_not_started();
+        // abort unstarted jobs
 
 #ifdef SIM
     RANDOM_PROCESS available;
@@ -640,11 +646,11 @@ struct RESULT {
 
     // stuff related to CPU scheduling
 
-    double estimated_duration(bool for_work_fetch);
+    double estimated_duration();
     double estimated_duration_uncorrected();
-    double estimated_time_remaining(bool for_work_fetch);
+    double estimated_time_remaining();
     inline double estimated_flops_remaining() {
-        return estimated_time_remaining(false)*avp->flops;
+        return estimated_time_remaining()*avp->flops;
     }
 
     inline bool computing_done() {
