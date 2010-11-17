@@ -31,6 +31,8 @@
 #include "miofile.h"
 #include "coproc.h"
 
+// if you add fields, update clear_host_info()
+
 class HOST_INFO {
 public:
     int timezone;                 // local STANDARD time - UTC time (in seconds)
@@ -58,8 +60,10 @@ public:
     char os_name[256];
     char os_version[256];
 
-    char vm_name[256];
-    char vm_version[256];
+    // the following are non-empty if that VM system is installed
+    //
+    char virtualbox_version[256];
+    // ... add entries for VMWare, others
 
     COPROCS coprocs;
 
@@ -78,6 +82,7 @@ public:
 #endif
     int get_host_info();
     int get_local_network_info();
+    int get_virtualbox_version();
     void clear_host_info();
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();

@@ -188,10 +188,10 @@ void CLIENT_STATE::show_host_info() {
         tz<0?"":"+", tz
     );
 
-    if (strlen(host_info.vm_version)) {
+    if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
-            "Detected: %s %s",
-            host_info.vm_name, host_info.vm_version
+            "VirtualBox version: %s",
+            host_info.virtualbox_version
         );
     }
 }
