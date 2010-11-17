@@ -8119,3 +8119,13 @@ David  17 Nov 2010
         work_fetch.cpp
     html/ops/
         team_export.php
+
+Rom    17 Nov 2010
+    - client: Add support to detect VirtualBox VM software.
+    
+    client/
+        client_state.cpp
+        hostinfo_win.cpp
+    lib/
+        hostinfo.cpp, .h
+    
