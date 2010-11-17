@@ -333,7 +333,9 @@ struct HOST {
 
     // the following not stored in DB
     //
-    char p_features[256];
+    char p_features[1024];
+    char vm_name[256];
+    char vm_version[256];
 
     int parse(FILE*);
     int parse_time_stats(FILE*);
