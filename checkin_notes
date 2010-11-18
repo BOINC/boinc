@@ -8157,3 +8157,9 @@ Charlie 18 Nov 2010
     
     client/
         hostinfo_unix.cpp
+
+Charlie 18 Nov 2010
+    - Mac Installer: remove obsolete kludge for generating x86_64 screensaver.
+    
+    mac_installer/
+        release_boinc.sh
