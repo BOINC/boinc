@@ -1097,6 +1097,9 @@ int GetMaxCPUTemperature() {
 // see if Virtualbox is installed
 //
 int HOST_INFO::get_virtualbox_version() {
+#if LINUX_LIKE_SYSTEM
+
+#elif defined( __APPLE__)
     FSRef theFSRef;
     OSStatus status = noErr;
     char path[MAXPATHLEN];
@@ -1130,7 +1133,7 @@ int HOST_INFO::get_virtualbox_version() {
             pclose(fd);
         }
     }
-    
+#endif
     return 0;
 }
 
@@ -1142,10 +1145,7 @@ int HOST_INFO::get_virtualbox_version() {
 //
 int HOST_INFO::get_host_info() {
     get_filesystem_info(d_total, d_free);
-
-#if defined( __APPLE__)
     get_virtualbox_version();
-#endif
 
 ///////////// p_vendor, p_model, p_features /////////////////
 #if LINUX_LIKE_SYSTEM
