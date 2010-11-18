@@ -7798,3 +7798,9 @@ Rom    11 Nov 2010
     /
         configure.ac
         version.h
+
+David  08 Nov 2010
+    - client: fix harmless compile warning
+
+    client/
+        cpu_sched.cpp
