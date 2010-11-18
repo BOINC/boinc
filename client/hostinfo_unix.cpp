@@ -1094,6 +1094,46 @@ int GetMaxCPUTemperature() {
 
 #endif
 
+// see if Virtualbox is installed
+//
+int HOST_INFO::get_virtualbox_version() {
+    FSRef theFSRef;
+    OSStatus status = noErr;
+    char path[MAXPATHLEN];
+    char cmd [MAXPATHLEN+35];
+    char *newlinePtr;
+    FILE* fd;
+
+    // First try to locate the VirtualBox application by Bundle ID and Creator Code
+    status = LSFindApplicationForInfo('VBOX', CFSTR("org.virtualbox.app.VirtualBox"),   
+                                        NULL, &theFSRef, NULL
+                                    );
+    if (status == noErr) {
+        status = FSRefMakePath(&theFSRef, (unsigned char *)path, sizeof(path));
+    }
+    // If that failed, try its default location
+    if (status != noErr) {
+        strcpy(path, "/Applications/VirtualBox.app");
+    }
+
+    if (boinc_file_exists(path)) {
+        safe_strcpy(cmd, "defaults read ");
+        safe_strcat(cmd, path);
+        safe_strcat(cmd, "/Contents/Info CFBundleShortVersionString");
+        fd = popen(cmd, "r");
+        if (fd) {
+            fgets(virtualbox_version, sizeof(virtualbox_version), fd);
+            newlinePtr = strchr(virtualbox_version, '\n');
+            if (newlinePtr) *newlinePtr = '\0';
+            newlinePtr = strchr(virtualbox_version, '\r');
+            if (newlinePtr) *newlinePtr = '\0';
+            pclose(fd);
+        }
+    }
+    
+    return 0;
+}
+
 #endif  // __APPLE__
 
 // Rules:
@@ -1102,6 +1142,10 @@ int GetMaxCPUTemperature() {
 //
 int HOST_INFO::get_host_info() {
     get_filesystem_info(d_total, d_free);
+
+#if defined( __APPLE__)
+    get_virtualbox_version();
+#endif
 
 ///////////// p_vendor, p_model, p_features /////////////////
 #if LINUX_LIKE_SYSTEM
