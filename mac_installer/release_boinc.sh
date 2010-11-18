@@ -21,6 +21,7 @@
 # Release Script for Macintosh BOINC Manager 10/31/07 by Charlie Fenton
 ## updated 11/18/09 by Charlie Fenton for OS 10.6 Snow Leopard
 ## updated 9/28/10 by Charlie Fenton for new BOINC skins
+## updated 11/18/10 by Charlie Fenton
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -132,18 +133,6 @@ cp -fpR $BUILDPATH/boincscr ../BOINC_Installer/Pkg_Root/Library/Application\ Sup
 cp -fpR $BUILDPATH/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
 
 cp -fpR $BUILDPATH/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
-
-## If x86_64 version of screen saver for OS 10.6 exists, merge it into our screen saver
-if [ -x ../_boinc_SnowLeopard/mac_build/build/Deployment/BOINCSaver.saver/Contents/MacOS/BOINCSaver ]; then
-    if [ "$4" != "-dev" ]; then
-        rm -f ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/BOINCSaver.saver/Contents/MacOS/BOINCSaver
-        rm -fR ../BOINC_Installer/temp/
-        mkdir -p ../BOINC_Installer/temp/
-        lipo ../_boinc_SnowLeopard/mac_build/build/Deployment/BOINCSaver.saver/Contents/MacOS/BOINCSaver -thin x86_64 -output ../BOINC_Installer/temp/saver64
-        lipo ../BOINC_Installer/temp/saver64 $BUILDPATH/BOINCSaver.saver/Contents/MacOS/BOINCSaver -create -output ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/BOINCSaver.saver/Contents/MacOS/BOINCSaver
-        rm -fR ../BOINC_Installer/temp/
-    fi
-fi
 
 ## Copy the localization files into the installer tree
 ## Old way copies CVS and *.po files which are not needed
