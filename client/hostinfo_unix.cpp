@@ -1093,6 +1093,7 @@ int GetMaxCPUTemperature() {
 }
 
 #endif
+#endif  // __APPLE__
 
 // see if Virtualbox is installed
 //
@@ -1137,7 +1138,6 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
-#endif  // __APPLE__
 
 // Rules:
 // - Keep code in the right place
