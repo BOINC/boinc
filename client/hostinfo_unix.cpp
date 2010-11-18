@@ -1141,7 +1141,6 @@ int HOST_INFO::get_virtualbox_version() {
             pclose(fd);
         }
     }
-#endif
 
     return 0;
 }
