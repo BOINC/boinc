@@ -8163,3 +8163,11 @@ Charlie 18 Nov 2010
     
     mac_installer/
         release_boinc.sh
+
+Rom    18 Nov 2010
+    - win_tray: Add logging support to trap crashes.
+    
+    clienttray/
+        tray_win.cpp
+    win_build/
+        boinctray.vcproj
