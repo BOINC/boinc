@@ -8189,3 +8189,10 @@ David  18 Nov 2010
         cpu_sched.cpp
     html/ops/
         manage_user.php
+
+Rom    18 Nov 2010
+    - client: Add VirtualBox detection for linux
+    
+    client/
+        hostinfo_unix.cpp
+        hostinfo_win.cpp
