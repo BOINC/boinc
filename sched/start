@@ -391,8 +391,9 @@ def run_task(task):
     # we don't need the full double-fork because this should finish quickly
     if fork() > 0: return
     if lock_file(get_task_lock_name(task)):
-        print >>sys.stderr, "    Task currently running! (%s)"%task.cmd
-        sys.exit(1)
+        if verbose:
+            print >>sys.stderr, "    Task currently running! (%s)"%task.cmd
+        sys.exit(0)
     redirect(get_task_output_name(task))
     exec_command_string(task.cmd)
 

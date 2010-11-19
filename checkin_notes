@@ -8238,3 +8238,11 @@ David  20 Nov 2010
 
     client/
         scheduler_op.cpp
+
+David  20 Nov 2010
+    - start script: don't write error message if period task is already
+        running, and output is not a TTY (i.e., cron).
+        Otherwise admin gets a lot of spurious emails.
+
+    sched/
+        start
