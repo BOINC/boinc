@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-28 10:52+0200\n"
 "Last-Translator: Gen Hayase <gen0215@gmail.com>\n"
 "Language-Team: \n"
-"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.1.1\n"
 
@@ -35,7 +35,9 @@ msgstr ""
 
 #: client_state.cpp:357
 msgid "Couldn't write state file; check directory permissions"
-msgstr "状態ファイルを書くことができませんでした。ディレクトリの許可属性を確かめて下さい。"
+msgstr ""
+"状態ファイルを書くことができませんでした。ディレクトリの許可属性を確かめて下"
+"さい。"
 
 #: cs_cmdline.cpp:283
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -62,7 +64,8 @@ msgstr ""
 
 #: gui_rpc_server.cpp:191
 msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr "remote_hosts.cfg ファイル内にあるホスト名をアドレス解決できませんでした"
+msgstr ""
+"remote_hosts.cfg ファイル内にあるホスト名をアドレス解決できませんでした"
 
 #: log_flags.cpp:68 log_flags.cpp:322 log_flags.cpp:450
 msgid "Unexpected text in cc_config.xml"
@@ -83,12 +86,16 @@ msgstr "cc_config.xml には終了タグがありませんでした。"
 #: ../sched/handle_request.cpp:299
 #, fuzzy
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr "アカウント・キーが無効であるか存在していません。修復するには、このプロジェクトから一旦離脱し、再び参加して下さい。"
+msgstr ""
+"アカウント・キーが無効であるか存在していません。修復するには、このプロジェク"
+"トから一旦離脱し、再び参加して下さい。"
 
 #: ../sched/handle_request.cpp:820
 #, fuzzy
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr "コード署名用のキーが有効ではありません。修復するには、このプロジェクトから一旦離脱し、再び参加して下さい。"
+msgstr ""
+"コード署名用のキーが有効ではありません。修復するには、このプロジェクトから一"
+"旦離脱し、再び参加して下さい。"
 
 #: ../sched/handle_request.cpp:830
 msgid ""
@@ -109,7 +116,9 @@ msgstr "このプロジェクトは次に示す CPU をサポートしていま�
 #: ../sched/handle_request.cpp:964
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr "あなたのマシンに入っている BOINC クライアントソフトウェアは古過ぎます。現在の版にインストールしなおしてください。"
+msgstr ""
+"あなたのマシンに入っている BOINC クライアントソフトウェアは古過ぎます。現在の"
+"版にインストールしなおしてください。"
 
 #  Poor translation because the implementation and the original text are English-dependent.
 #: ../sched/handle_request.cpp:1215
@@ -118,23 +127,29 @@ msgstr "このプロジェクトは次に示す プラットフォームをサ�
 
 #: ../sched/sched_send.cpp:1262
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr "あなたのコンピュータが持つ GPU を使ってタスクを処理するためには、ドライバーを最新のものにアップグレイドしてください。"
+msgstr ""
+"あなたのコンピュータが持つ GPU を使ってタスクを処理するためには、ドライバーを"
+"最新のものにアップグレイドしてください。"
 
 #: ../sched/sched_send.cpp:1269
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr "このプロジェクトの GPU アプリケーションの全てを使うため、ドライバーを最新のものにアップグレードしてください。"
+msgstr ""
+"このプロジェクトの GPU アプリケーションの全てを使うため、ドライバーを最新のも"
+"のにアップグレードしてください。"
 
 #: ../sched/sched_send.cpp:1293
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
-"あなたのマシンの NVIDIA GPU を使うには、より新しい版の BOINC が必要です。現在の版へと BOINC をアップグレードしてください。"
+"あなたのマシンの NVIDIA GPU を使うには、より新しい版の BOINC が必要です。現在"
+"の版へと BOINC をアップグレードしてください。"
 
 #: ../sched/sched_send.cpp:1306
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-msgstr "このプロジェクトの タスクを走らせるには NVIDIA または ATI の GPU が必要です"
+msgstr ""
+"このプロジェクトの タスクを走らせるには NVIDIA または ATI の GPU が必要です"
 
 #: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA GPU is required to run tasks for this project"
@@ -148,7 +163,9 @@ msgstr "このプロジェクトの タスクを走らせるには ATI の GPU �
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
-msgstr "あなたが選んだアプリケーションで処理できる仕事が手に入りません。該当のウェブサイトであなたのプロジェクト・プリファレンスを確かめてください。"
+msgstr ""
+"あなたが選んだアプリケーションで処理できる仕事が手に入りません。該当のウェブ"
+"サイトであなたのプロジェクト・プリファレンスを確かめてください。"
 
 #: ../sched/sched_send.cpp:1438
 msgid "Your computer type is not supported by this project"
@@ -162,18 +179,24 @@ msgstr "より新しい版の BOINC が必要です。最新版をインスト�
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
-msgstr "NVIDIA GPU 用のタスクが手に入りますが、あなたが設定したプリファレンスではそれらを処理しないことになっています。"
+msgstr ""
+"NVIDIA GPU 用のタスクが手に入りますが、あなたが設定したプリファレンスではそれ"
+"らを処理しないことになっています。"
 
 #: ../sched/sched_send.cpp:1460
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
-msgstr "ATI GPU 用のタスクが手に入りますが、あなたが設定したプリファレンスではそれらを処理しないことになっています。"
+msgstr ""
+"ATI GPU 用のタスクが手に入りますが、あなたが設定したプリファレンスではそれら"
+"を処理しないことになっています。"
 
 #: ../sched/sched_send.cpp:1466
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
-msgstr "CPU 用のタスクが手に入りますが、あなたが設定したプリファレンスではそれらを処理しないことになっています。"
+msgstr ""
+"CPU 用のタスクが手に入りますが、あなたが設定したプリファレンスではそれらを処"
+"理しないことになっています。"
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
@@ -182,7 +205,9 @@ msgstr "app_info.xml の中に不明なアプリケーション名がありま�
 #  Poor translation because the implementation and the original text are English-dependent.
 #: ../sched/sched_version.cpp:234
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr "あなたの app_info.xml ファイルには次のアプリケーションの使える版が記述されていません："
+msgstr ""
+"あなたの app_info.xml ファイルには次のアプリケーションの使える版が記述されて"
+"いません："
 
 #  Poor translation because the implementation and the original text are English-dependent.
 #: ../sched/sched_version.cpp:691
@@ -196,5 +221,5 @@ msgstr "は、あなたのコンピュータのタイプでは処理できませ
 #~ "You may have an outdated code signing key.  Try attaching and reattaching "
 #~ "this project."
 #~ msgstr ""
-#~ "あなたのマシンが持っているコード署名用キーは古過ぎます。このプロジェクトから"
-#~ "一旦離脱し、再び参加してみて下さい。"
+#~ "あなたのマシンが持っているコード署名用キーは古過ぎます。このプロジェクトか"
+#~ "ら一旦離脱し、再び参加してみて下さい。"

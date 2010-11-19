@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-13 16:38+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 
@@ -168,7 +168,8 @@ msgstr "Der Computertyp wird von diesem Projekt nicht unterstützt."
 
 #: ../sched/sched_send.cpp:1444
 msgid "Newer BOINC version required; please install current version"
-msgstr "Neuere BOINC Version benötigt. Bitte die neueste Software installieren."
+msgstr ""
+"Neuere BOINC Version benötigt. Bitte die neueste Software installieren."
 
 #: ../sched/sched_send.cpp:1454
 msgid ""
