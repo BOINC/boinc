@@ -7823,3 +7823,13 @@ Charlie 19 Nov 2010
             MacPkgIcon.zip
     mac_installer/
         release_boinc.sh
+
+Charlie 19 Nov 2010
+    - Mac Installer: to permit remote install via SSH, suppress dialogs if 
+        COMMAND_LINE_INSTALL environment variable was set by command-line 
+        installer; if set, recognize two additional environment variables 
+        NONADMINUSERSOK (to allow non-admin users to run Manager) and 
+        SETBOINCSAVER (to set BOINC as screensaver for all BOINC users.)
+
+    mac_installer/
+        PostInstall.cpp

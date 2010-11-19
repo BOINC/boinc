@@ -17,6 +17,17 @@
 
 /* PostInstall.cpp */
 
+// SUPPORTED ENVIRONMENT VARIABLES:
+//      COMMAND_LINE_INSTALL set if running the installer from the command line;
+//                           suppresses all dialogs.  If set, the following 2
+//                           environment variables are also recognized:
+//
+//      NONADMINUSERSOK      Allow users without administrator privileges to 
+//                           run BOINC Manager
+//
+//      SETBOINCSAVER        Set BOINCSaver as screensaver for all BOINC users
+//
+
 #define CREATE_LOG 1    /* for debugging */
 
 #include <Carbon/Carbon.h>
@@ -72,6 +83,7 @@ extern int check_security(char *bundlePath, char *dataPath, int use_sandbox, int
 #define NUMBRANDS 3
 
 /* globals */
+static Boolean                  gCommandLineInstall = false;
 static Boolean                  gQuitFlag = false;
 static Boolean                  currentUserCanRunBOINC = false;
 static char                     loginName[256];
@@ -148,6 +160,9 @@ int main(int argc, char *argv[])
     
     // getlogin() gives unreliable results under OS 10.6.2, so use environment
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    if (getenv("COMMAND_LINE_INSTALL") != NULL) {
+        gCommandLineInstall = true;
+    }
 
     err = Gestalt(gestaltSystemVersion, &OSVersion);
     if (err != noErr)
@@ -402,11 +417,15 @@ int main(int argc, char *argv[])
             sleep(1);
         }
         
-        CreateStandardAlert(kAlertNoteAlert, CFSTR("Finishing install.  Please wait ..."), CFSTR("This may take a few more minutes."), NULL, &theWin);
-        HideDialogItem(theWin, kStdOkItemIndex);
-        RemoveDialogItems(theWin, kStdOkItemIndex, 1, false);
-        RunStandardAlert(theWin, &myFilterProc, &itemHit);
-
+        if (gCommandLineInstall) {
+            printf("Finishing install.  Please wait ...\n");
+            printf("This may take a few more minutes.\n");
+        } else {
+            CreateStandardAlert(kAlertNoteAlert, CFSTR("Finishing install.  Please wait ..."), CFSTR("This may take a few more minutes."), NULL, &theWin);
+            HideDialogItem(theWin, kStdOkItemIndex);
+            RemoveDialogItems(theWin, kStdOkItemIndex, 1, false);
+            RunStandardAlert(theWin, &myFilterProc, &itemHit);
+        }
     }
 #endif   // SANDBOX
     
@@ -1041,28 +1060,42 @@ OSErr UpdateAllVisibleUsers(long brandID)
 
     ResynchSystem();
 
-    if (! allNonAdminUsersAreSet) {
-        if (ShowMessage(true, 
-            "Users who are permitted to administer this computer will automatically be allowed to "
-            "run and control %s.\n\n"
-            "Do you also want non-administrative users to be able to run and control %s on this Mac?",
-            brandName[brandID], brandName[brandID])
-        ) {
-            allowNonAdminUsersToRunBOINC = true;
-            currentUserCanRunBOINC = true;
-            saverAlreadySetForAll = false;
-            printf("[2] User answered Yes to allowing non-admin users to run %s\n", brandName[brandID]);
-        } else {
-            printf("[2] User answered No to allowing non-admin users to run %s\n", brandName[brandID]);
-        }
-    } else {
+    if (allNonAdminUsersAreSet) {
         puts("[2] All non-admin users are already members of group boinc_master\n");
+    } else {
+        if (gCommandLineInstall) {
+            if (getenv("NONADMINUSERSOK") != NULL) {
+                allowNonAdminUsersToRunBOINC = true;
+                currentUserCanRunBOINC = true;
+                saverAlreadySetForAll = false;
+            }
+        } else {
+            if (ShowMessage(true, 
+                "Users who are permitted to administer this computer will automatically be allowed to "
+                "run and control %s.\n\n"
+                "Do you also want non-administrative users to be able to run and control %s on this Mac?",
+                brandName[brandID], brandName[brandID])
+            ) {
+                allowNonAdminUsersToRunBOINC = true;
+                currentUserCanRunBOINC = true;
+                saverAlreadySetForAll = false;
+                printf("[2] User answered Yes to allowing non-admin users to run %s\n", brandName[brandID]);
+            } else {
+                printf("[2] User answered No to allowing non-admin users to run %s\n", brandName[brandID]);
+            }
+        }
     }
     
     if (! saverAlreadySetForAll) {
-        setSaverForAllUsers = ShowMessage(true, 
+        if (gCommandLineInstall) {
+            if (getenv("SETBOINCSAVER") != NULL) {
+                setSaverForAllUsers = true;
+            }
+        } else {
+            setSaverForAllUsers = ShowMessage(true, 
                     "Do you want to set %s as the screensaver for all %s users on this Mac?", 
-                    brandName[brandID], brandName[brandID]);    
+                    brandName[brandID], brandName[brandID]);
+        }
     }
 
     // Step through all users a second time, setting non-admin users and / or our screensaver
