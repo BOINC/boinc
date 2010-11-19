@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-11-19 19:05+0200\n"
 "Last-Translator: Ido Schwartz <dj_legolas1@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -476,6 +476,7 @@ msgid "Comment"
 msgstr "תגובה"
 
 #: ../inc/news.inc:102
+#, php-format
 #, fuzzy, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "חדשות זמינות כ%sהזנת RSS%s"
@@ -713,8 +714,7 @@ msgstr ""
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
-msgstr ""
-"להתנתק בעת סיום? %1 הכרחי רק אם ברשותך חיבור בעזרת מודם, ISDN או VPN %2"
+msgstr "להתנתק בעת סיום? %1 הכרחי רק אם ברשותך חיבור בעזרת מודם, ISDN או VPN %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
@@ -1207,8 +1207,9 @@ msgid "Show names"
 msgstr ""
 
 #: ../inc/result.inc:273
+#, fuzzy
 msgid "Task"
-msgstr ""
+msgstr "משימות"
 
 #: ../inc/result.inc:276
 msgid "Work unit"
@@ -1283,8 +1284,9 @@ msgid "Run time"
 msgstr ""
 
 #: ../inc/result.inc:391
+#, fuzzy
 msgid "CPU time"
-msgstr ""
+msgstr "סוג מעבד"
 
 #: ../inc/result.inc:392
 msgid "Validate state"
@@ -1390,12 +1392,14 @@ msgid "Type"
 msgstr ""
 
 #: ../inc/team.inc:119 ../user/team_manage.php:61
+#, fuzzy
 msgid "Message board"
-msgstr ""
+msgstr "לוחות הודעות"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:135 ../user/forum_index.php:93
+#, fuzzy
 msgid "Threads"
-msgstr ""
+msgstr "אשכול"
 
 #: ../inc/team.inc:128
 msgid "Join this team"
@@ -1568,8 +1572,9 @@ msgstr ""
 #: ../inc/user.inc:150 ../inc/user.inc:152 ../inc/user.inc:153
 #: ../inc/user.inc:241 ../inc/user.inc:322 ../inc/user.inc:397
 #: ../user/view_profile.php:54
+#, fuzzy
 msgid "View"
-msgstr ""
+msgstr "צפיות"
 
 #: ../inc/user.inc:152
 msgid "Computers on this account"
@@ -1589,8 +1594,9 @@ msgstr ""
 
 #: ../inc/user.inc:166 ../inc/user.inc:279 ../inc/user.inc:364
 #: ../inc/user.inc:366 ../user/user_search.php:102 ../user/user_search.php:158
+#, fuzzy
 msgid "Team"
-msgstr ""
+msgstr "קבוצה:"
 
 #: ../inc/user.inc:168
 msgid "Cross-project"
@@ -1714,8 +1720,9 @@ msgid "Delete"
 msgstr ""
 
 #: ../inc/user.inc:243
+#, fuzzy
 msgid "Create"
-msgstr ""
+msgstr "נוצר"
 
 #: ../inc/user.inc:245 ../inc/user.inc:397 ../inc/util.inc:441
 msgid "Profile"
@@ -2207,8 +2214,9 @@ msgid "Add my signature to this post"
 msgstr ""
 
 #: ../user/forum_index.php:69
+#, fuzzy
 msgid "%1 Message boards"
-msgstr ""
+msgstr "%1 לוח הודעות"
 
 #: ../user/forum_index.php:79
 msgid ""
@@ -3125,8 +3133,9 @@ msgid "Top participants"
 msgstr ""
 
 #: ../user/stats.php:30
+#, fuzzy
 msgid "Top computers"
-msgstr ""
+msgstr "כל המחשבים"
 
 #: ../user/stats.php:31 ../user/team.php:43
 msgid "Top teams"
@@ -3469,8 +3478,9 @@ msgid "Team already has a message board"
 msgstr ""
 
 #: ../user/team_forum.php:51
+#, fuzzy
 msgid "couldn't create message board"
-msgstr ""
+msgstr "לא ניתן ליצור הודעה"
 
 #: ../user/team_forum.php:57
 msgid "Team Message Board"
@@ -3881,8 +3891,9 @@ msgid "Remove members from %1"
 msgstr ""
 
 #: ../user/team_remove_inactive_form.php:37
+#, fuzzy
 msgid "Remove?"
-msgstr ""
+msgstr "הסרה"
 
 #: ../user/team_remove_inactive_form.php:38
 msgid "Name (ID)"
@@ -3982,8 +3993,9 @@ msgid "Decreasing sign-up time"
 msgstr ""
 
 #: ../user/user_search.php:116
+#, fuzzy
 msgid "Decreasing average credit"
-msgstr ""
+msgstr "ממוצע נקודות זכות לאחרונה"
 
 #: ../user/user_search.php:117
 msgid "Decreasing total credit"

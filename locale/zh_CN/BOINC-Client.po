@@ -18,8 +18,7 @@ msgstr ""
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Basepath: D:\\Work\\boinc_src\\boinc_trunk\\locale\n"
 
-#: acct_mgr.cpp:382
-#: acct_mgr.cpp:392
+#: acct_mgr.cpp:382 acct_mgr.cpp:392
 msgid "error"
 msgstr "错误"
 
@@ -45,15 +44,16 @@ msgstr "必须在环境变量 HTTP_PROXY 中指定一个 HTTP 代理服务器"
 
 #: cs_scheduler.cpp:512
 #, c-format
-msgid "You used the wrong URL for this project.  When convenient, remove this project, then add %s"
+msgid ""
+"You used the wrong URL for this project.  When convenient, remove this "
+"project, then add %s"
 msgstr "你当前使用了错误的项目网址，方便的时候，请移除该项目，然后重新添加 %s"
 
 #: cs_scheduler.cpp:545
 msgid "Message from"
 msgstr "消息来自"
 
-#: cs_statefile.cpp:805
-#: ../sched/sched_types.cpp:273
+#: cs_statefile.cpp:805 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
 msgstr "app_info.xml 语法错误"
 
@@ -65,15 +65,11 @@ msgstr "app_info.xml 中引用的文件不存在："
 msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr "无法解析 remote_hosts.cfg 里的主机名称"
 
-#: log_flags.cpp:68
-#: log_flags.cpp:322
-#: log_flags.cpp:450
+#: log_flags.cpp:68 log_flags.cpp:322 log_flags.cpp:450
 msgid "Unexpected text in cc_config.xml"
 msgstr "cc_config.xml 中有异常文本"
 
-#: log_flags.cpp:112
-#: log_flags.cpp:422
-#: log_flags.cpp:467
+#: log_flags.cpp:112 log_flags.cpp:422 log_flags.cpp:467
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "cc_config.xml 中有无法识别的标签"
 
@@ -94,7 +90,9 @@ msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr "代码签名密钥错误，请退出并重新加入该项目以修复这个问题。"
 
 #: ../sched/handle_request.cpp:830
-msgid "The project has changed its security key.  Please remove and add this project."
+msgid ""
+"The project has changed its security key.  Please remove and add this "
+"project."
 msgstr "该项目已经修改了它的安全密钥，请退出并重新加入该项目以修复这个问题。"
 
 #: ../sched/handle_request.cpp:914
@@ -106,7 +104,8 @@ msgid "This project doesn't support CPU type"
 msgstr "该项目不支持的处理器类型"
 
 #: ../sched/handle_request.cpp:964
-msgid "Your BOINC client software is too old.  Please install the current version."
+msgid ""
+"Your BOINC client software is too old.  Please install the current version."
 msgstr "你的 BOINC 客户端软件太旧，请安装当前最新的版本。"
 
 #: ../sched/handle_request.cpp:1215
@@ -118,11 +117,14 @@ msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "将你计算机中 GPU 的驱动升级到最新版本后，才能继续处理计算任务"
 
 #: ../sched/sched_send.cpp:1269
-msgid "Upgrade to the latest driver to use all of this project's GPU applications"
+msgid ""
+"Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "将你计算机中 GPU 的驱动升级到最新版本后，才能运行该项目的 GPU 计算程序"
 
 #: ../sched/sched_send.cpp:1293
-msgid "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to the current version"
+msgid ""
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
+"the current version"
 msgstr "如果要使用你的 NVIDIA GPU 来进行计算，请将 BOINC 升级至最新的正式版本。"
 
 #: ../sched/sched_send.cpp:1306
@@ -138,7 +140,9 @@ msgid "An ATI GPU is required to run tasks for this project"
 msgstr "运行这个项目要求计算机配备一块 ATI 的显卡。"
 
 #: ../sched/sched_send.cpp:1412
-msgid "No work available for the applications you have selected.  Please check your project preferences on the web site."
+msgid ""
+"No work available for the applications you have selected.  Please check your "
+"project preferences on the web site."
 msgstr "你当前选择的计算程序类型没有任务可供处理，请在项目网站上检查你的项目参数设置。"
 
 #: ../sched/sched_send.cpp:1438
@@ -150,15 +154,20 @@ msgid "Newer BOINC version required; please install current version"
 msgstr "要求更新版本的 BOINC，请安装当前最新的正式版本"
 
 #: ../sched/sched_send.cpp:1454
-msgid "Tasks for NVIDIA GPU are available, but your preferences are set to not accept them"
+msgid ""
+"Tasks for NVIDIA GPU are available, but your preferences are set to not "
+"accept them"
 msgstr "目前还有 NVIDIA GPU 的计算任务，但你在参数设置中选择了不下载该类型的任务"
 
 #: ../sched/sched_send.cpp:1460
-msgid "Tasks for ATI GPU are available, but your preferences are set to not accept them"
+msgid ""
+"Tasks for ATI GPU are available, but your preferences are set to not accept "
+"them"
 msgstr "目前还有 ATI GPU 的计算任务，但你在参数设置中选择了不下载该类型的任务"
 
 #: ../sched/sched_send.cpp:1466
-msgid "Tasks for CPU are available, but your preferences are set to not accept them"
+msgid ""
+"Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr "目前还有 CPU 的计算任务，但你在参数设置中选择了不下载该类型的任务"
 
 #: ../sched/sched_types.cpp:268

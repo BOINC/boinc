@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-10-27 23:12+0200\n"
+"PO-Revision-Date: 2010-10-27 23:13+0200\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -635,8 +635,8 @@ msgstr "processeurs"
 #: ../inc/prefs.inc:152
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
-"Sur les multiprocesseurs, utiliser au plus %1 Applicable à une version 6.1+ %"
-"2"
+"Sur les multiprocesseurs, utiliser au plus %1 Applicable à une version 6.1+ "
+"%2"
 
 #: ../inc/prefs.inc:157
 #, php-format
@@ -792,8 +792,8 @@ msgid ""
 "jobs to fail on your computer %2"
 msgstr ""
 "Lancer les applications de test ? %1Ceci nous aide à développer les "
-"applications, mais peut engendrer des échecs de calculs sur votre ordinateur%"
-"2"
+"applications, mais peut engendrer des échecs de calculs sur votre ordinateur"
+"%2"
 
 #: ../inc/prefs.inc:347
 msgid ""
@@ -923,8 +923,8 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
-"Celles-ci s'appliquent à tous les projets BOINC auxquels vous participez."
-"<br>\n"
+"Celles-ci s'appliquent à tous les projets BOINC auxquels vous "
+"participez.<br>\n"
 "           Sur les ordinateurs rattachés à plusieurs projets, les "
 "préférences les plus récemment modifiées seront utilisées."
 
@@ -978,8 +978,8 @@ msgid ""
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
 "Pour se prémunir du spam, les profils des utilisateurs ayant un crédit moyen "
-"inférieur à %1 sont affichés uniquement aux utilisateurs connectés. Veuillez "
-"nous excuser de cet inconvénient."
+"inférieur à %1 sont affichés uniquement aux utilisateurs connectés. "
+"Veuillez nous excuser de cet inconvénient."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
@@ -1144,7 +1144,6 @@ msgid "Success"
 msgstr "Succès"
 
 #: ../inc/result.inc:172
-#, fuzzy
 msgid "Computation error"
 msgstr "Erreur de calcul"
 
@@ -1246,7 +1245,6 @@ msgid "Task"
 msgstr "Tâche"
 
 #: ../inc/result.inc:276
-#, fuzzy
 msgid "Work unit"
 msgstr "Unité de travail (WU)"
 
@@ -1446,7 +1444,8 @@ msgid ""
 "gives its founder access to your email address."
 msgstr ""
 "Note : si 'OK to email' est choisi dans vos préférences de projets, le fait "
-"de rejoindre une équipe, donnera accès à votre adresse email à son fondateur."
+"de rejoindre une équipe, donnera accès à votre adresse email à son "
+"fondateur."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
@@ -2066,8 +2065,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Pour inclure une image, cliquez sur le bouton \"Parcourir\" et sélectionnez "
-"un fichier JPEG ou PNG. Veuillez choisir une image de %1 ou moins."
+"Pour inclure une image, cliquez sur le bouton \"Parcourir\" et sélectionnez un "
+"fichier JPEG ou PNG. Veuillez choisir une image de %1 ou moins."
 
 #: ../user/create_profile.php:87
 msgid "Language"
@@ -2190,8 +2189,7 @@ msgstr ""
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
-"Instructions pour l'installation et le fonctionnement de BOINC %1ici%2."
+msgstr "Instructions pour l'installation et le fonctionnement de BOINC %1ici%2."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
@@ -2964,7 +2962,8 @@ msgstr ""
 #: ../user/pm.php:238
 msgid "Please note that you can only block a limited amount of users."
 msgstr ""
-"Veuillez noter que vous ne pouvez bloquer qu'un nombre limité d'utilisateurs."
+"Veuillez noter que vous ne pouvez bloquer qu'un nombre limité "
+"d'utilisateurs."
 
 #: ../user/pm.php:239
 msgid ""
@@ -3003,8 +3002,7 @@ msgid ""
 "\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
 "Vos préférences ont été mises à jour. Les préférences du client\n"
-"\t      seront prises en compte lorsque votre ordinateur communiquera avec %"
-"1\n"
+"\t      seront prises en compte lorsque votre ordinateur communiquera avec %1\n"
 "\t      ou si vous utilisez la commande %2Mise à jour%3 depuis le BOINC "
 "Manager."
 
@@ -3022,8 +3020,7 @@ msgstr "Confirmer la suppression des préférences"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
-"Voulez-vous vraiment supprimer vos préférences séparées de %1 pour %2 ?"
+msgstr "Voulez-vous vraiment supprimer vos préférences séparées de %1 pour %2 ?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
@@ -3178,7 +3175,6 @@ msgid "Server software version: %1"
 msgstr "Version du serveur: %1"
 
 #: ../user/server_status.php:224
-#, fuzzy
 msgid "Server status"
 msgstr "État du serveur"
 
@@ -3444,8 +3440,8 @@ msgid ""
 "events and red X reports)"
 msgstr ""
 "Modérer le forum de l'équipe, s'il existe (les administrateurs reçoivent des "
-"notification par e-mail des événements de modération et des rapports 'rouges "
-"X')"
+"notification par e-mail des événements de modération et des rapports "
+"'rouges X')"
 
 #: ../user/team_admins.php:45
 msgid "Team Admins cannot:"
@@ -3830,8 +3826,8 @@ msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
 msgstr ""
-"Félicitations ! Vous êtes maintenant le fondateur de l'équipe %1. Allez sur %"
-"2la page de votre compte%3 pour y trouver les options d'administration."
+"Félicitations ! Vous êtes maintenant le fondateur de l'équipe %1. Allez sur "
+"%2la page de votre compte%3 pour y trouver les options d'administration."
 
 #: ../user/team_founder_transfer_action.php:118
 msgid "Decline founder change request"
@@ -3904,8 +3900,8 @@ msgstr ""
 "rôle, cliquer sur le bouton ci-dessous. Un e-mail sera envoyé au fondateur "
 "actuel pour détailler votre requête. Il pourra alors vous transférer le "
 "titre de fondateur ou refuser votre requête. Si le fondateur ne répond pas "
-"dans les 60 jours, vous serez alors autorisé à devenir fondateur.<br /><br /"
-">\n"
+"dans les 60 jours, vous serez alors autorisé à devenir fondateur.<br /><br "
+"/>\n"
 "                       Voulez-vous vraiment demander le titre de fondateur ?"
 
 #: ../user/team_founder_transfer_form.php:63
@@ -4444,8 +4440,8 @@ msgid ""
 msgstr ""
 "Pour utiliser votre clef de compte simplifiée sur un hôte donné, rechercher "
 "ou créer le 'fichier de compte' pour ce projet. Ce fichier a un nom de la "
-"forme <b>compte_PROJET_URL.xml</b>. Le fichier de compte pour %1 est <b>%2</"
-"b>."
+"forme <b>compte_PROJET_URL.xml</b>. Le fichier de compte pour %1 est <b>%"
+"2</b>."
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
@@ -4545,8 +4541,8 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
-"Dites nous vos pensées à propos de %1<ol>    <li>Pourquoi utilisez vous %"
-"1?    <li>Quel est votre point de vue à propos du projet ?    <li>Des "
+"Dites nous vos pensées à propos de %1<ol>    <li>Pourquoi utilisez vous %1? "
+"   <li>Quel est votre point de vue à propos du projet ?    <li>Des "
 "suggestions ?    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
