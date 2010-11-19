@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-20 15:02-0500\n"
+"POT-Creation-Date: 2010-11-19 14:52-0500\n"
 "PO-Revision-Date: 2008-01-01 00:33+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -68,11 +68,11 @@ msgstr ""
 msgid "Find login information"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:435 clientgui/AccountInfoPage.cpp:633
+#: clientgui/AccountInfoPage.cpp:435 clientgui/AccountInfoPage.cpp:635
 msgid "&Password:"
 msgstr "密碼(&P):"
 
-#: clientgui/AccountInfoPage.cpp:442 clientgui/AccountInfoPage.cpp:657
+#: clientgui/AccountInfoPage.cpp:442 clientgui/AccountInfoPage.cpp:659
 msgid "Choose a &password:"
 msgstr "選擇密碼(&O):"
 
@@ -127,21 +127,21 @@ msgstr "更新帳號管理員"
 msgid "Add account manager"
 msgstr "帳號管理員(&A)"
 
-#: clientgui/AccountInfoPage.cpp:582
+#: clientgui/AccountInfoPage.cpp:583
 #, c-format
 msgid ""
 "The minimum password length for this project is %d. Please enter a different "
 "password."
 msgstr "此計畫所需的最小密碼長度為 %d，請輸入其他的密碼。"
 
-#: clientgui/AccountInfoPage.cpp:588
+#: clientgui/AccountInfoPage.cpp:589
 #, c-format
 msgid ""
 "The minimum password length for this account manager is %d. Please enter a "
 "different password."
 msgstr "此帳號管理員所需的最小密碼長度為 %d，請輸入其他的密碼。"
 
-#: clientgui/AccountInfoPage.cpp:599
+#: clientgui/AccountInfoPage.cpp:601
 msgid ""
 "The password and confirmation password do not match. Please type them again."
 msgstr "「密碼」與「確認密碼」不相符。請再輸入一次。"
@@ -188,358 +188,358 @@ msgstr "已連線"
 msgid "Disconnected"
 msgstr "已斷線"
 
-#: clientgui/AdvancedFrame.cpp:314
+#: clientgui/AdvancedFrame.cpp:316
 #, c-format
 msgid "Close the %s window"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:317
+#: clientgui/AdvancedFrame.cpp:319
 msgid "&Close Window"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:328 clientgui/AdvancedFrame.cpp:335
-#: clientgui/AdvancedFrame.cpp:342
+#: clientgui/AdvancedFrame.cpp:330 clientgui/AdvancedFrame.cpp:337
+#: clientgui/AdvancedFrame.cpp:344
 #, c-format
 msgid "Exit %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:357
+#: clientgui/AdvancedFrame.cpp:359
 msgid "&Notices\tCtrl+Shift+N"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:358
+#: clientgui/AdvancedFrame.cpp:360
 msgid "Display notices"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:363
+#: clientgui/AdvancedFrame.cpp:365
 msgid "&Projects\tCtrl+Shift+P"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:364
+#: clientgui/AdvancedFrame.cpp:366
 msgid "Display projects"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:369
+#: clientgui/AdvancedFrame.cpp:371
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:370
+#: clientgui/AdvancedFrame.cpp:372
 msgid "Display tasks"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:375
+#: clientgui/AdvancedFrame.cpp:377
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:376
+#: clientgui/AdvancedFrame.cpp:378
 msgid "Display transfers"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:381
+#: clientgui/AdvancedFrame.cpp:383
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:382
+#: clientgui/AdvancedFrame.cpp:384
 msgid "Display statistics"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:387
+#: clientgui/AdvancedFrame.cpp:389
 msgid "&Disk usage\tCtrl+Shift+D"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:388
+#: clientgui/AdvancedFrame.cpp:390
 msgid "Display disk usage"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:395
+#: clientgui/AdvancedFrame.cpp:397
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:396
+#: clientgui/AdvancedFrame.cpp:398
 #, fuzzy
 msgid "Display the simple graphical interface."
 msgstr "顯示精簡 BOINC 圖形介面。"
 
-#: clientgui/AdvancedFrame.cpp:416
+#: clientgui/AdvancedFrame.cpp:418
 #, fuzzy
 msgid "&Add project or account manager..."
 msgstr "加入帳號管理(&A)..."
 
-#: clientgui/AdvancedFrame.cpp:417
+#: clientgui/AdvancedFrame.cpp:419
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:421
+#: clientgui/AdvancedFrame.cpp:423
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "與 %s 同步(&S)"
 
-#: clientgui/AdvancedFrame.cpp:425
+#: clientgui/AdvancedFrame.cpp:427
 #, c-format
 msgid "Get current settings from %s"
 msgstr "從 %s 取得現在的設定"
 
-#: clientgui/AdvancedFrame.cpp:435
+#: clientgui/AdvancedFrame.cpp:437
 #, fuzzy
 msgid "&Add project..."
 msgstr "加入計畫(&P)"
 
-#: clientgui/AdvancedFrame.cpp:436
+#: clientgui/AdvancedFrame.cpp:438
 #, fuzzy
 msgid "Add a project"
 msgstr "所有計畫"
 
-#: clientgui/AdvancedFrame.cpp:439
+#: clientgui/AdvancedFrame.cpp:441
 #, fuzzy, c-format
 msgid "S&top using %s..."
 msgstr "停止使用 %s(&S)..."
 
-#: clientgui/AdvancedFrame.cpp:445
+#: clientgui/AdvancedFrame.cpp:447
 #, fuzzy
 msgid "Remove this computer from account manager control."
 msgstr "從帳號管理員控制中移除用戶端。"
 
-#: clientgui/AdvancedFrame.cpp:450
+#: clientgui/AdvancedFrame.cpp:452
 msgid "Display and network &options..."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:451
+#: clientgui/AdvancedFrame.cpp:453
 #, fuzzy
 msgid "Configure display options and proxy settings"
 msgstr "GUI 組態選項和 Proxy 設定"
 
-#: clientgui/AdvancedFrame.cpp:455
+#: clientgui/AdvancedFrame.cpp:457
 #, fuzzy
 msgid "Computing &preferences..."
 msgstr "偏好設定(&P)..."
 
-#: clientgui/AdvancedFrame.cpp:456
+#: clientgui/AdvancedFrame.cpp:458
 #, fuzzy
 msgid "Configure computing preferences"
 msgstr "設定本機偏好設定"
 
-#: clientgui/AdvancedFrame.cpp:464
+#: clientgui/AdvancedFrame.cpp:466
 msgid "&Run always"
 msgstr "持續執行(&R)"
 
-#: clientgui/AdvancedFrame.cpp:465
+#: clientgui/AdvancedFrame.cpp:467
 msgid "Allow work regardless of preferences"
 msgstr "不管偏好設定運行工作"
 
-#: clientgui/AdvancedFrame.cpp:469
+#: clientgui/AdvancedFrame.cpp:471
 msgid "Run based on &preferences"
 msgstr "以偏好設定執行(&P)"
 
-#: clientgui/AdvancedFrame.cpp:470
+#: clientgui/AdvancedFrame.cpp:472
 #, fuzzy
 msgid "Allow work according to preferences"
 msgstr "依照您的偏好設定運行工作"
 
-#: clientgui/AdvancedFrame.cpp:474
+#: clientgui/AdvancedFrame.cpp:476
 msgid "&Suspend"
 msgstr "暫止(&S)"
 
-#: clientgui/AdvancedFrame.cpp:475
+#: clientgui/AdvancedFrame.cpp:477
 msgid "Stop work regardless of preferences"
 msgstr "不管偏好設定停止工作"
 
-#: clientgui/AdvancedFrame.cpp:500
+#: clientgui/AdvancedFrame.cpp:502
 msgid "Use GPU always"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:501
+#: clientgui/AdvancedFrame.cpp:503
 #, fuzzy
 msgid "Allow GPU work regardless of preferences"
 msgstr "不管偏好設定運行工作"
 
-#: clientgui/AdvancedFrame.cpp:505
+#: clientgui/AdvancedFrame.cpp:507
 #, fuzzy
 msgid "Use GPU based on preferences"
 msgstr "以偏好設定執行(&P)"
 
-#: clientgui/AdvancedFrame.cpp:506
+#: clientgui/AdvancedFrame.cpp:508
 #, fuzzy
 msgid "Allow GPU work according to preferences"
 msgstr "依照您的偏好設定運行工作"
 
-#: clientgui/AdvancedFrame.cpp:510
+#: clientgui/AdvancedFrame.cpp:512
 #, fuzzy
 msgid "Suspend GPU"
 msgstr "暫止"
 
-#: clientgui/AdvancedFrame.cpp:511
+#: clientgui/AdvancedFrame.cpp:513
 #, fuzzy
 msgid "Stop GPU work regardless of preferences"
 msgstr "不管偏好設定停止工作"
 
-#: clientgui/AdvancedFrame.cpp:535
+#: clientgui/AdvancedFrame.cpp:537
 #, fuzzy
 msgid "Network activity always available"
 msgstr "持續進行網路活動(&N)"
 
-#: clientgui/AdvancedFrame.cpp:536
+#: clientgui/AdvancedFrame.cpp:538
 msgid "Allow network activity regardless of preferences"
 msgstr "不管偏好設定進行網路活動"
 
-#: clientgui/AdvancedFrame.cpp:540
+#: clientgui/AdvancedFrame.cpp:542
 #, fuzzy
 msgid "Network activity based on preferences"
 msgstr "以偏好設定連線網路(&P)"
 
-#: clientgui/AdvancedFrame.cpp:541
+#: clientgui/AdvancedFrame.cpp:543
 #, fuzzy
 msgid "Allow network activity according to preferences"
 msgstr "依照您的偏好設定進行網路活動"
 
-#: clientgui/AdvancedFrame.cpp:545
+#: clientgui/AdvancedFrame.cpp:547
 #, fuzzy
 msgid "Network activity suspended"
 msgstr "暫止網路活動(&N)"
 
-#: clientgui/AdvancedFrame.cpp:546
+#: clientgui/AdvancedFrame.cpp:548
 msgid "Stop BOINC network activity"
 msgstr "停止 BONIC 的網路活動"
 
-#: clientgui/AdvancedFrame.cpp:556
+#: clientgui/AdvancedFrame.cpp:558
 #, c-format
 msgid "Connect to another computer running %s"
 msgstr "連線到另一台運行 %s 的電腦"
 
-#: clientgui/AdvancedFrame.cpp:561
+#: clientgui/AdvancedFrame.cpp:563
 msgid "Select computer..."
 msgstr "選擇電腦(&S)..."
 
-#: clientgui/AdvancedFrame.cpp:566
+#: clientgui/AdvancedFrame.cpp:568
 msgid "Shut down connected client..."
 msgstr "關閉已連線用戶端..."
 
-#: clientgui/AdvancedFrame.cpp:567
+#: clientgui/AdvancedFrame.cpp:569
 #, fuzzy
 msgid "Shut down the currently connected client"
 msgstr "關閉目前連線的核心用戶端"
 
-#: clientgui/AdvancedFrame.cpp:571
+#: clientgui/AdvancedFrame.cpp:573
 msgid "Run CPU &benchmarks"
 msgstr "執行 CPU 效能測試(&B)"
 
-#: clientgui/AdvancedFrame.cpp:572
+#: clientgui/AdvancedFrame.cpp:574
 msgid "Runs BOINC CPU benchmarks"
 msgstr "執行 BONIC 的 CPU 效能測試"
 
-#: clientgui/AdvancedFrame.cpp:576
+#: clientgui/AdvancedFrame.cpp:578
 #, fuzzy
 msgid "Do network communication"
 msgstr "開始網路通訊(&C)"
 
-#: clientgui/AdvancedFrame.cpp:577
+#: clientgui/AdvancedFrame.cpp:579
 #, fuzzy
 msgid "Do all pending network communication"
 msgstr "開始所有待處理的網路通訊。"
 
-#: clientgui/AdvancedFrame.cpp:581
+#: clientgui/AdvancedFrame.cpp:583
 msgid "Read config file"
 msgstr "讀取設定檔"
 
-#: clientgui/AdvancedFrame.cpp:582
+#: clientgui/AdvancedFrame.cpp:584
 #, fuzzy
 msgid "Read configuration info from cc_config.xml"
 msgstr "從 cc-config.xml 讀取設定資訊。"
 
-#: clientgui/AdvancedFrame.cpp:586
+#: clientgui/AdvancedFrame.cpp:588
 msgid "Read local prefs file"
 msgstr "讀取本機偏好設定"
 
-#: clientgui/AdvancedFrame.cpp:587
+#: clientgui/AdvancedFrame.cpp:589
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "從 global_prefs_override.xml 讀取偏好設定。"
 
-#: clientgui/AdvancedFrame.cpp:592
+#: clientgui/AdvancedFrame.cpp:594
 #, c-format
 msgid "Launch another instance of %s..."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:596
+#: clientgui/AdvancedFrame.cpp:598
 #, c-format
 msgid "Launch another %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:606
+#: clientgui/AdvancedFrame.cpp:608
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:607
+#: clientgui/AdvancedFrame.cpp:609
 msgid "Display diagnostic messages."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:617
+#: clientgui/AdvancedFrame.cpp:619
 #, c-format
 msgid "%s &help"
 msgstr "%s 說明(&H)"
 
-#: clientgui/AdvancedFrame.cpp:623
+#: clientgui/AdvancedFrame.cpp:625
 #, c-format
 msgid "Show information about %s"
 msgstr "顯示關於 %s 的資訊"
 
-#: clientgui/AdvancedFrame.cpp:635
+#: clientgui/AdvancedFrame.cpp:637
 #, c-format
 msgid "&%s help"
 msgstr "說明(&%s)"
 
-#: clientgui/AdvancedFrame.cpp:641
+#: clientgui/AdvancedFrame.cpp:643
 #, c-format
 msgid "Show information about the %s"
 msgstr "顯示關於 %s 的資訊"
 
-#: clientgui/AdvancedFrame.cpp:653
+#: clientgui/AdvancedFrame.cpp:655
 #, c-format
 msgid "%s &website"
 msgstr "%s 網站(&W)"
 
-#: clientgui/AdvancedFrame.cpp:659
+#: clientgui/AdvancedFrame.cpp:661
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "顯示關於 BONIC 及 %s 的資訊"
 
-#: clientgui/AdvancedFrame.cpp:671
+#: clientgui/AdvancedFrame.cpp:673
 #, c-format
 msgid "&About %s..."
 msgstr "關於 %s(&A)..."
 
-#: clientgui/AdvancedFrame.cpp:677
+#: clientgui/AdvancedFrame.cpp:679
 msgid "Licensing and copyright information."
 msgstr "授權與版權資訊。"
 
-#: clientgui/AdvancedFrame.cpp:684
+#: clientgui/AdvancedFrame.cpp:686
 msgid "&File"
 msgstr "檔案(&F)"
 
-#: clientgui/AdvancedFrame.cpp:688
+#: clientgui/AdvancedFrame.cpp:690
 msgid "&View"
 msgstr "檢視(&V)"
 
-#: clientgui/AdvancedFrame.cpp:692
+#: clientgui/AdvancedFrame.cpp:694
 msgid "&Tools"
 msgstr "工具(&T)"
 
-#: clientgui/AdvancedFrame.cpp:696
+#: clientgui/AdvancedFrame.cpp:698
 msgid "&Activity"
 msgstr "活動(&A)"
 
-#: clientgui/AdvancedFrame.cpp:700
+#: clientgui/AdvancedFrame.cpp:702
 msgid "A&dvanced"
 msgstr "進階(&D)"
 
-#: clientgui/AdvancedFrame.cpp:704
+#: clientgui/AdvancedFrame.cpp:706
 msgid "&Help"
 msgstr "說明(&H)"
 
-#: clientgui/AdvancedFrame.cpp:1168
+#: clientgui/AdvancedFrame.cpp:1182
 #, c-format
 msgid "%s - Stop using %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1173
+#: clientgui/AdvancedFrame.cpp:1187
 #, fuzzy, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -553,51 +553,51 @@ msgstr ""
 "\n"
 "您確定要停止使用 %s 嗎？"
 
-#: clientgui/AdvancedFrame.cpp:1359
+#: clientgui/AdvancedFrame.cpp:1373
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s - 語言選擇"
 
-#: clientgui/AdvancedFrame.cpp:1366
+#: clientgui/AdvancedFrame.cpp:1380
 #, c-format
 msgid ""
 "The %s's default language has been changed, in order for this change to take "
 "affect you must restart the %s."
 msgstr "%s 預設的語言已改變。為了使變更生效， 您必須重新啟動 %s。"
 
-#: clientgui/AdvancedFrame.cpp:1496
+#: clientgui/AdvancedFrame.cpp:1510
 #, fuzzy, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - 關閉目前用戶端..."
 
-#: clientgui/AdvancedFrame.cpp:1505
+#: clientgui/AdvancedFrame.cpp:1519
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1823
+#: clientgui/AdvancedFrame.cpp:1837
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1832
+#: clientgui/AdvancedFrame.cpp:1846
 #, fuzzy, c-format
 msgid "%s has successfully added %s"
 msgstr "%s 已成功加入 %s 計畫。"
 
-#: clientgui/AdvancedFrame.cpp:1972
+#: clientgui/AdvancedFrame.cpp:1986
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1976
+#: clientgui/AdvancedFrame.cpp:1990
 #, c-format
 msgid "Connecting to %s"
 msgstr "正在連線到 %s"
 
-#: clientgui/AdvancedFrame.cpp:1979
+#: clientgui/AdvancedFrame.cpp:1993
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "已連線到 %s (%s)"
@@ -1151,7 +1151,7 @@ msgstr "儲存所有值並關閉視窗"
 msgid "close the dialog without saving"
 msgstr "關閉視窗且不儲存"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:108 clientgui/DlgEventLog.cpp:298
+#: clientgui/DlgAdvPreferencesBase.cpp:108 clientgui/DlgEventLog.cpp:300
 msgid "Help"
 msgstr "幫助"
 
@@ -1494,40 +1494,40 @@ msgstr " 當暫止時保留應用程式於記憶體中"
 msgid "if checked, suspended work units are left in memory"
 msgstr "若勾選此方塊，暫止的工作會留在記憶體中"
 
-#: clientgui/DlgEventLog.cpp:192
+#: clientgui/DlgEventLog.cpp:194
 #, c-format
 msgid "%s - Event Log"
 msgstr ""
 
-#: clientgui/DlgEventLog.cpp:205
+#: clientgui/DlgEventLog.cpp:207
 msgid "Project"
 msgstr "計畫"
 
-#: clientgui/DlgEventLog.cpp:206
+#: clientgui/DlgEventLog.cpp:208
 msgid "Time"
 msgstr "時間"
 
-#: clientgui/DlgEventLog.cpp:207
+#: clientgui/DlgEventLog.cpp:209
 msgid "Message"
 msgstr "訊息"
 
-#: clientgui/DlgEventLog.cpp:256 clientgui/DlgEventLog.cpp:320
+#: clientgui/DlgEventLog.cpp:258 clientgui/DlgEventLog.cpp:322
 msgid "Show only this project"
 msgstr ""
 
-#: clientgui/DlgEventLog.cpp:260
+#: clientgui/DlgEventLog.cpp:262
 msgid "Copy All"
 msgstr ""
 
-#: clientgui/DlgEventLog.cpp:262 clientgui/DlgEventLog.cpp:266
+#: clientgui/DlgEventLog.cpp:264 clientgui/DlgEventLog.cpp:268
 msgid "Copy all the messages to the clipboard."
 msgstr "複製全部訊息到剪貼簿。"
 
-#: clientgui/DlgEventLog.cpp:271
+#: clientgui/DlgEventLog.cpp:273
 msgid "Copy Selected"
 msgstr ""
 
-#: clientgui/DlgEventLog.cpp:274 clientgui/DlgEventLog.cpp:282
+#: clientgui/DlgEventLog.cpp:276 clientgui/DlgEventLog.cpp:284
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1535,7 +1535,7 @@ msgstr ""
 "只複製已選取的訊息到剪貼簿，您可以在選取訊息時按住 Shift 或 Command 鍵以同時"
 "選取多個訊息。"
 
-#: clientgui/DlgEventLog.cpp:276 clientgui/DlgEventLog.cpp:284
+#: clientgui/DlgEventLog.cpp:278 clientgui/DlgEventLog.cpp:286
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1543,25 +1543,25 @@ msgstr ""
 "只複製已選取的訊息到剪貼簿， 您可以在選取訊息時按住 Shift 或 Ctrl 鍵以同時選"
 "取多個訊息。"
 
-#: clientgui/DlgEventLog.cpp:291
+#: clientgui/DlgEventLog.cpp:293
 msgid "Close"
 msgstr ""
 
-#: clientgui/DlgEventLog.cpp:300 clientgui/DlgEventLog.cpp:303
+#: clientgui/DlgEventLog.cpp:302 clientgui/DlgEventLog.cpp:305
 msgid "Get help with BOINC"
 msgstr "取得 BOINC 說明"
 
-#: clientgui/DlgEventLog.cpp:314
+#: clientgui/DlgEventLog.cpp:316
 #, fuzzy
 msgid "Show all messages"
 msgstr "複製所有訊息"
 
-#: clientgui/DlgEventLog.cpp:315 clientgui/DlgEventLog.cpp:317
+#: clientgui/DlgEventLog.cpp:317 clientgui/DlgEventLog.cpp:319
 #, fuzzy
 msgid "Show messages for all projects"
 msgstr "顯示所有計畫於同一統計圖"
 
-#: clientgui/DlgEventLog.cpp:321 clientgui/DlgEventLog.cpp:323
+#: clientgui/DlgEventLog.cpp:323 clientgui/DlgEventLog.cpp:325
 #, fuzzy
 msgid "Show only the messages for the selected project"
 msgstr "顯示所選計畫於同一統計圖"
@@ -1794,72 +1794,80 @@ msgstr ""
 msgid "Duration correction factor"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:282
+#: clientgui/DlgItemProperties.cpp:283
 msgid "Properties of task "
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:286
+#: clientgui/DlgItemProperties.cpp:295
 msgid "Application"
 msgstr "應用程式"
 
-#: clientgui/DlgItemProperties.cpp:287
+#: clientgui/DlgItemProperties.cpp:296
 msgid "Workunit name"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:288
+#: clientgui/DlgItemProperties.cpp:297
 msgid "State"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:291
+#: clientgui/DlgItemProperties.cpp:300
 msgid "Received"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:294
+#: clientgui/DlgItemProperties.cpp:303
 msgid "Report deadline"
 msgstr "回報期限"
 
-#: clientgui/DlgItemProperties.cpp:296
+#: clientgui/DlgItemProperties.cpp:305
 msgid "Resources"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:299
+#: clientgui/DlgItemProperties.cpp:308
+msgid "Estimated app speed"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:311
+msgid "Estimated task size"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:314
 msgid "CPU time at last checkpoint"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:300 clientgui/DlgItemProperties.cpp:315
+#: clientgui/DlgItemProperties.cpp:315 clientgui/DlgItemProperties.cpp:330
 msgid "CPU time"
 msgstr "CPU 時間"
 
-#: clientgui/DlgItemProperties.cpp:302 clientgui/DlgItemProperties.cpp:316
+#: clientgui/DlgItemProperties.cpp:317 clientgui/DlgItemProperties.cpp:331
 #, fuzzy
 msgid "Elapsed time"
 msgstr "剩餘時間"
 
-#: clientgui/DlgItemProperties.cpp:304
+#: clientgui/DlgItemProperties.cpp:319
 msgid "Estimated time remaining"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:305
+#: clientgui/DlgItemProperties.cpp:320
 msgid "Fraction done"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:306
+#: clientgui/DlgItemProperties.cpp:321
 msgid "Virtual memory size"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:307
+#: clientgui/DlgItemProperties.cpp:322
 msgid "Working set size"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:309
+#: clientgui/DlgItemProperties.cpp:324
 msgid "Directory"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:312
+#: clientgui/DlgItemProperties.cpp:327
 msgid "Process ID"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:386
+#: clientgui/DlgItemProperties.cpp:401
 msgid "Local: "
 msgstr ""
 
@@ -2403,33 +2411,29 @@ msgstr "請檢查您的帳號名稱和密碼後再試一次。"
 msgid "Check the email address and password, and try again."
 msgstr "請檢查您的電子郵件地址和密碼後再試一次。"
 
-#: clientgui/NoticeListCtrl.cpp:54
+#: clientgui/NoticeListCtrl.cpp:52
 msgid "Notice List"
 msgstr ""
 
-#: clientgui/NoticeListCtrl.cpp:188
+#: clientgui/NoticeListCtrl.cpp:172
 #, c-format
 msgid "%s; received on %s"
 msgstr ""
 
-#: clientgui/NoticeListCtrl.cpp:190
+#: clientgui/NoticeListCtrl.cpp:174
 #, c-format
 msgid "%s; received from %s; on %s"
 msgstr ""
 
-#: clientgui/NoticeListCtrl.cpp:303 clientgui/ProjectListCtrl.cpp:283
+#: clientgui/NoticeListCtrl.cpp:271 clientgui/ProjectListCtrl.cpp:283
 msgid "Click"
 msgstr ""
 
-#: clientgui/NoticeListCtrl.cpp:524
-msgid "There are no notices to be displayed at this time."
+#: clientgui/NoticeListCtrl.cpp:477
+msgid "There are no notices at this time."
 msgstr ""
 
-#: clientgui/NoticeListCtrl.cpp:558
-msgid "From"
-msgstr ""
-
-#: clientgui/NoticeListCtrl.cpp:570
+#: clientgui/NoticeListCtrl.cpp:528
 msgid "more..."
 msgstr ""
 
@@ -2645,7 +2649,7 @@ msgstr "無工作可用"
 msgid "Unable to connect to the core client"
 msgstr "無法連到核心用戶端"
 
-#: clientgui/sg_DlgMessages.cpp:361
+#: clientgui/sg_DlgMessages.cpp:363
 #, c-format
 msgid "%s - Messages"
 msgstr "%s - 訊息"

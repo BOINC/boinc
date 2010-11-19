@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-11-03 11:23+0200\n"
 "Last-Translator: Ido Schwartz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -23,12 +23,20 @@ msgid "The current release is known to work with these Linux versions:"
 msgstr "הגרסה הנוכחית יודעת לעבוד עם גרסאות הלינוקס הבאות:"
 
 #: versions.inc:14
-msgid "For other Linux versions, check if a BOINC package is offered by your Linux distribution."
-msgstr "לגרסאות לינוקס אחרות, בדוק אם חבילת BOINC מוצעת ע\"י מפיצי הלינוקס באזורך."
+msgid ""
+"For other Linux versions, check if a BOINC package is offered by your Linux "
+"distribution."
+msgstr ""
+"לגרסאות לינוקס אחרות, בדוק אם חבילת BOINC מוצעת ע\"י מפיצי הלינוקס באזורך."
 
 #: versions.inc:25
-msgid "Alternatively, download the %1BOINC client for older Linux versions%2. This doesn't have a graphical interface, but it should work on all Linux systems, both x86 and x64."
-msgstr "לחילופין, הורד את %1קליינט BOINC לגרסאות לינוקס ישנות%2. לקליינט זה אין ממש גרפי, אך הוא אמור לעבוד על כל מערכות לינוקס, הן x84 והן x64."
+msgid ""
+"Alternatively, download the %1BOINC client for older Linux versions%2. This "
+"doesn't have a graphical interface, but it should work on all Linux systems, "
+"both x86 and x64."
+msgstr ""
+"לחילופין, הורד את %1קליינט BOINC לגרסאות לינוקס ישנות%2. לקליינט זה אין ממש "
+"גרפי, אך הוא אמור לעבוד על כל מערכות לינוקס, הן x84 והן x64."
 
 #: docutil.php:21
 msgid "Search"
@@ -53,17 +61,33 @@ msgid "%s for %s (%s MB)"
 msgstr "%s למשך %s (%s MB)"
 
 #: download.php:89
-msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
-msgstr "BOINC היא תוכנה המאפשרת לך לתרום מזמנו הפנוי של מחשבך לטובת פרוייקטים מדעיים כדוגמת SETI@home, Climateprediction.net, Rosetta@home, World Community Grid ורבים אחרים. <p> לאחר התקנת BOINC על מחשבך, באפשרותך לחבר אותו לכמות בלתי מוגבלת של הפרוייקטים הנ\"ל."
+msgid ""
+"BOINC is a program that lets you donate your idle computer time to science "
+"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
+"Community Grid, and many others. <p> After installing BOINC on your "
+"computer, you can connect it to as many of these projects as you like."
+msgstr ""
+"BOINC היא תוכנה המאפשרת לך לתרום מזמנו הפנוי של מחשבך לטובת פרוייקטים מדעיים "
+"כדוגמת SETI@home, Climateprediction.net, Rosetta@home, World Community Grid "
+"ורבים אחרים. <p> לאחר התקנת BOINC על מחשבך, באפשרותך לחבר אותו לכמות בלתי "
+"מוגבלת של הפרוייקטים הנ\"ל."
 
 #: download.php:91
-msgid "You may run this software on a computer only if you own the computer or have the permission of its owner."
-msgstr "אתה רשאי להריץ תוכנה זו על מחשב רק במידה ואתה הבעלים שלו או שיש לך רשות מהבעלים."
+msgid ""
+"You may run this software on a computer only if you own the computer or have "
+"the permission of its owner."
+msgstr ""
+"אתה רשאי להריץ תוכנה זו על מחשב רק במידה ואתה הבעלים שלו או שיש לך רשות "
+"מהבעלים."
 
 #: download.php:116
 #, php-format
-msgid "Note: if your computer is equipped with an Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"
-msgstr "שים לב: אם קיימת במחשבך יחידת עיבוד גרפית (GPU), באפשרותך %sלהשתמש בה על מנך לחשב מהר יותר%s"
+msgid ""
+"Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
+"you may be able to %suse it to compute faster%s"
+msgstr ""
+"שים לב: אם קיימת במחשבך יחידת עיבוד גרפית (GPU), באפשרותך %sלהשתמש בה על מנך "
+"לחשב מהר יותר%s"
 
 #: download.php:122
 msgid "System requirements"
@@ -73,8 +97,7 @@ msgstr "דרישות מערכת"
 msgid "Release notes"
 msgstr "הערות הפצה"
 
-#: download.php:124
-#: index.php:82
+#: download.php:124 index.php:82
 msgid "Help"
 msgstr "עזרה"
 
@@ -92,20 +115,43 @@ msgstr "BOINC: חישובים עבור המדע"
 
 #: help.php:12
 #, php-format
-msgid "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."
-msgstr "העזרה המקוונת של BOINC מאפשרת לך לדבר אחד-על-אחד עם משתמשי BOINC מנוסים, אשר יכולים: %s לענות על שאלות אודות BOINC ועיבוד התנדבותי; %s להנחות אותך בתהליך ההתקנה והשימוש ב-BOINC; %s לפתור כל בעיה בה אתה עשוי להיתקל."
+msgid ""
+"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
+"can: %s answer questions about BOINC and volunteer computing; %s walk you "
+"through the process of installing and using BOINC; %s troubleshoot any "
+"problems you might have."
+msgstr ""
+"העזרה המקוונת של BOINC מאפשרת לך לדבר אחד-על-אחד עם משתמשי BOINC מנוסים, אשר "
+"יכולים: %s לענות על שאלות אודות BOINC ועיבוד התנדבותי; %s להנחות אותך בתהליך "
+"ההתקנה והשימוש ב-BOINC; %s לפתור כל בעיה בה אתה עשוי להיתקל."
 
 #: help.php:21
 #, php-format
-msgid "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."
-msgstr "העזרה המקוונת של BOINC מבוססת על %sSkype%s, מערכת טלפוניה מבוססת אינטרנט. Skype היא תוכנה חינמית, כמו גם השיחות עצמן. במידה ואין לך עדיין Skype, %sהורד והתקן אותה עכשיו%s. בסיום, חזור לעמוד זה."
+msgid ""
+"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
+"Skype is free (both the software and the calls).  If you don't already have "
+"Skype, please %sdownload and install it now%s.  When you're finished, return "
+"to this page."
+msgstr ""
+"העזרה המקוונת של BOINC מבוססת על %sSkype%s, מערכת טלפוניה מבוססת אינטרנט. "
+"Skype היא תוכנה חינמית, כמו גם השיחות עצמן. במידה ואין לך עדיין Skype, %"
+"sהורד והתקן אותה עכשיו%s. בסיום, חזור לעמוד זה."
 
 #: help.php:28
-msgid "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
-msgstr "הדרך הטובה ביותר לקבלת עזרה היא בדיבור, ולצורך כך תזדקק למיקרופון ורמקולים או אוזניות עם מיקרופון מובנה. באפשרותך להשתמש בצ'אט המובנה ב-Skype או דוא\"ל (במידה ואין לך Skype) להתקשרות עם התומכים המתנדבים."
+msgid ""
+"The best way to get help is by voice, for which you need either built-in "
+"microphone and speakers or an external headset for your computer.  You can "
+"also use Skype's text-based chat system or regular email (if you don't have "
+"Skype) to communicate with Help Volunteers."
+msgstr ""
+"הדרך הטובה ביותר לקבלת עזרה היא בדיבור, ולצורך כך תזדקק למיקרופון ורמקולים "
+"או אוזניות עם מיקרופון מובנה. באפשרותך להשתמש בצ'אט המובנה ב-Skype או דוא\"ל "
+"(במידה ואין לך Skype) להתקשרות עם התומכים המתנדבים."
 
 #: help.php:31
-msgid "Volunteers speaking several languages are available. Please select a language:"
+msgid ""
+"Volunteers speaking several languages are available. Please select a "
+"language:"
 msgstr "קיימים מתנדבים המדברים מספר שפות. בחר שפה:"
 
 #: help.php:47
@@ -114,17 +160,27 @@ msgstr "הפוך לתומך מתנדב"
 
 #: help.php:50
 #, php-format
-msgid "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s.  It's a great way to help the cause of scientific research and volunteer computing - and it's fun!"
-msgstr "אם אתה משתמש BOINC מנוסה, אנו מעודדים אותך %sלהפוך לתומך מתנדב%s. זו דרך מצויינת לסייע למטרות המחקר המדעי ולחישוב התנדבותי - וזה כיף!"
+msgid ""
+"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+"Volunteer%s.  It's a great way to help the cause of scientific research and "
+"volunteer computing - and it's fun!"
+msgstr ""
+"אם אתה משתמש BOINC מנוסה, אנו מעודדים אותך %sלהפוך לתומך מתנדב%s. זו דרך "
+"מצויינת לסייע למטרות המחקר המדעי ולחישוב התנדבותי - וזה כיף!"
 
 #: help.php:56
 #, php-format
-msgid "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgid ""
+"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr "במידה ואתה כבר תומך מתנדב: לעריכת ההגדרות שלך, %sלחץ כאן%s."
 
 #: help_funcs.php:107
-msgid "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC or the University of California."
-msgstr "תומכי BOINC הם מתנדבים שלא בתשלום. העצה שלהם אינה מאושרת ע\"י BOINC או האוניברסיטה של קליפורניה."
+msgid ""
+"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
+"or the University of California."
+msgstr ""
+"תומכי BOINC הם מתנדבים שלא בתשלום. העצה שלהם אינה מאושרת ע\"י BOINC או "
+"האוניברסיטה של קליפורניה."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
@@ -174,21 +230,31 @@ msgstr "התנדב"
 msgid "Download"
 msgstr "הורדה"
 
-#: index.php:83
-#: index.php:118
-#: index.php:169
+#: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
 msgstr "תיעוד"
 
 #: index.php:89
 #, php-format
-msgid " Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
-msgstr "השתמש בזמן הפנוי של מחשבך (וינדוס, מק או לינוקס) כדי לרפא מחלות, לחקור את ההתחממות הגלובלית, לגלות פולסארים ולבצע מחקר בתחומים מדעיים רבים אחרים. זה בטוח, מאובטח וקל: %sבחר%s פרוייקטים %sהורד%s והרץ את תוכנת ה-BOINC %sהזן%s כתובת דוא\"ל וסיסמה."
+msgid ""
+" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+"diseases, study global warming, discover pulsars, and do many other types of "
+"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
+"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr ""
+"השתמש בזמן הפנוי של מחשבך (וינדוס, מק או לינוקס) כדי לרפא מחלות, לחקור את "
+"ההתחממות הגלובלית, לגלות פולסארים ולבצע מחקר בתחומים מדעיים רבים אחרים. זה "
+"בטוח, מאובטח וקל: %sבחר%s פרוייקטים %sהורד%s והרץ את תוכנת ה-BOINC %sהזן%s "
+"כתובת דוא\"ל וסיסמה."
 
 #: index.php:100
 #, php-format
-msgid "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
-msgstr "או, אם אתה מריץ מספר פרוייקטים, נסה %sמנהל חשבונות%s כדוגמת %sGridRepublic%s או %sBAM!%s. "
+msgid ""
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
+msgstr ""
+"או, אם אתה מריץ מספר פרוייקטים, נסה %sמנהל חשבונות%s כדוגמת %sGridRepublic%s "
+"או %sBAM!%s. "
 
 #: index.php:116
 msgid "Compute with BOINC"
@@ -199,11 +265,17 @@ msgid "Software updates"
 msgstr "עדכוני תוכנה"
 
 #: index.php:126
-msgid "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving you the computing power of thousands of CPUs."
-msgstr "%1מדענים%2: השתמשו ב-BOINC ליצירת %3פרוייקט חישוב התנדבותי%4 המעניק לך את כוח החישוב של אלפי מעבדים."
+msgid ""
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
+"you the computing power of thousands of CPUs."
+msgstr ""
+"%1מדענים%2: השתמשו ב-BOINC ליצירת %3פרוייקט חישוב התנדבותי%4 המעניק לך את "
+"כוח החישוב של אלפי מעבדים."
 
 #: index.php:130
-msgid "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing Center%4."
+msgid ""
+"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
+"Center%4."
 msgstr "%1אוניברסיטאות%2: השתמשו ב-BOINC ליצירת %3מרכז עיבוד-על וירטואלי%4."
 
 #: index.php:135
@@ -280,10 +352,10 @@ msgstr "ברירת המחדל של הדפדפן"
 
 #: index.php:258
 #, php-format
-msgid "Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgid ""
+"Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr "תוכנת קוד-פתוח עבור %sחישוב התנדבותי%s ו%sחישוב רשתי%s."
 
 #: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr "BOINC ממוקמת באוניברסיטת קליפורניה בברקלי"
-

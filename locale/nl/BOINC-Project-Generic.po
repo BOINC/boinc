@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-30 19:00+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -3874,7 +3874,8 @@ msgstr "Je bent al lid van %1"
 
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
 msgid "Couldn't join team - please try again later."
-msgstr "Aansluiten als teamlid mislukt. Probeer het later nog eens alstublieft."
+msgstr ""
+"Aansluiten als teamlid mislukt. Probeer het later nog eens alstublieft."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
