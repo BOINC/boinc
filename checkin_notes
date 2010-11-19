@@ -8197,7 +8197,7 @@ Rom    18 Nov 2010
         hostinfo_unix.cpp
         hostinfo_win.cpp
 
-Charlie 18 Nov 2010
+Charlie 19 Nov 2010
     - Mac Installer: eliminate wrapper application around install package 
         (was only needed for OS 10.3.x support); set our custom icon in
         the install package "BOINC Installer.pkg".
@@ -8209,3 +8209,13 @@ Charlie 18 Nov 2010
             MacPkgIcon.zip
     mac_installer/
         release_boinc.sh
+
+Charlie 19 Nov 2010
+    - Mac Installer: to permit remote install via SSH, suppress dialogs if 
+        COMMAND_LINE_INSTALL environment variable was set by command-line 
+        installer; if set, recognize two additional environment variables 
+        NONADMINUSERSOK (to allow non-admin users to run Manager) and 
+        SETBOINCSAVER (to set BOINC as screensaver for all BOINC users.)
+
+    mac_installer/
+        PostInstall.cpp
