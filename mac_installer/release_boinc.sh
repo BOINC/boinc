@@ -21,7 +21,7 @@
 # Release Script for Macintosh BOINC Manager 10/31/07 by Charlie Fenton
 ## updated 11/18/09 by Charlie Fenton for OS 10.6 Snow Leopard
 ## updated 9/28/10 by Charlie Fenton for new BOINC skins
-## updated 11/18/10 by Charlie Fenton
+## updated 11/18/10 by Charlie Fenton to remove obsolete items
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -183,9 +183,6 @@ cp -fpR $BUILDPATH/Uninstall\ BOINC.app ../BOINC_Installer/New_Release_$1_$2_$3/
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/extras/Uninstall\ BOINC.app
 sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/extras/Uninstall\ BOINC.app
 
-# Copy the installer wrapper application "BOINC Installer.app"
-cp -fpR $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/
-
 DarwinVersion=`uname -r`;
 DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
 # DarwinMinorVersion=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
@@ -199,19 +196,19 @@ DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
 # Darwin version 6.x corresponds to OS 10.2.x
 
 # Build the installer package inside the wrapper application's bundle
-if [ "$DarwinMajorVersion" = "8" ]; then
-    # OS 10.4 packagemaker
-    /Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
-else
-    # OS 10.5 / OS 10.6 packagemaker
-    /Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg
-    # Remove TokenDefinitions.plist and IFPkgPathMappings in Info.plist, which would cause installer to find a previous copy of BOINCManager and install there
-    sudo rm -f ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/TokenDefinitions.plist
-    defaults delete "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC Installer.app/Contents/Resources/BOINC.pkg/Contents/Info" IFPkgPathMappings
-fi
-
-# Allow the installer wrapper application to modify the package's Info.plist file
-sudo chmod a+rw ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Info.plist
+# OS 10.5 / OS 10.6 packagemaker
+/Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.pkg
+# Remove TokenDefinitions.plist and IFPkgPathMappings in Info.plist, which would cause installer to find a previous copy of BOINCManager and install there
+sudo rm -f ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.pkg/Contents/Resources/TokenDefinitions.plist
+defaults delete "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC Installer.pkg/Contents/Info" IFPkgPathMappings
+# Add our custom icon
+cp -fpR clientgui/res/MacPkgIcon.zip ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.pkg/
+open ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.pkg/MacPkgIcon.zip
+# Give the open command time to unzip the icon file
+sleep 5
+rm -f ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.pkg/MacPkgIcon.zip
+SetFile -a CE "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC Installer.pkg"
+# SetFile -a V "$BOINCPath/../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC Installer.pkg/"Icon*
 
 # Build the stand-alone client distribution
 cp -fpR mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/

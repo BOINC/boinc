@@ -8196,3 +8196,16 @@ Rom    18 Nov 2010
     client/
         hostinfo_unix.cpp
         hostinfo_win.cpp
+
+Charlie 18 Nov 2010
+    - Mac Installer: eliminate wrapper application around install package 
+        (was only needed for OS 10.3.x support); set our custom icon in
+        the install package "BOINC Installer.pkg".
+    
+    clientgui/
+        mac/
+            SetVersion.cpp
+        res/
+            MacPkgIcon.zip
+    mac_installer/
+        release_boinc.sh
