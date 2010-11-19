@@ -8219,3 +8219,22 @@ Charlie 19 Nov 2010
 
     mac_installer/
         PostInstall.cpp
+
+David  20 Nov 2010
+    - client: improve the way credit history is maintained
+        Old: maintain list of daily records.
+            When add a new record, delete records older than a month
+        Problem:
+            If there's a gap in the record (e.g. because project was down)
+            deleting old records may result in a list that
+            has an entry only for today.
+            Data for the last month is lost.
+        New:
+            When appropriate, adjust the date of old records
+            rather than deleting them
+
+    client/
+        scheduler_op.cpp
+
+    client/
+        scheduler_op.cpp
