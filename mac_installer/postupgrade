@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ##
-# post-Upgrade Script for Macintosh BOINC Manager for OS X revised 2/10/10
+# post-Upgrade Script for Macintosh BOINC Manager for OS X revised 11/22/10
 ##
 
 echo "initial directory = $PWD"
@@ -18,8 +18,13 @@ if [ -f "Contents/Resources/acct_mgr_url.xml" ]; then
 fi
 
 # Run the Postinstall Application
+if [ "${COMMAND_LINE_INSTALL}" = "1" ]; then
+rm -f /tmp/BOINCInstallLog.txt
+Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part1 >> /tmp/BOINCInstallLog.txt
+Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part2 & >> /tmp/BOINCInstallLog.txt
+else
 Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part1
-
 Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part2 &
+fi
 
 exit 0

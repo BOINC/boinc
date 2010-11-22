@@ -17,15 +17,40 @@
 
 /* PostInstall.cpp */
 
-// SUPPORTED ENVIRONMENT VARIABLES:
-//      COMMAND_LINE_INSTALL set if running the installer from the command line;
-//                           suppresses all dialogs.  If set, the following 2
-//                           environment variables are also recognized:
+// Notes on command-line installation to a remote Mac:
 //
-//      NONADMINUSERSOK      Allow users without administrator privileges to 
-//                           run BOINC Manager
+// When the installer is run from the Finder, this Postinstall.app will 
+// display up to two dialogs, asking the user whether or not to:
+//  [1] allow non-administrative users to run the BOINC Manager
+//      (asked only if this Mac has any non-administrative users)
+//  [2] set BOINC as the screensaver for all users who can run BOINC 
+//      (asked only if BOINC screensaver is not already set for them)
 //
-//      SETBOINCSAVER        Set BOINCSaver as screensaver for all BOINC users
+// The installer can also be run from the command line.  This is useful 
+//  for installation on remote Macs.  However, there is no way to respond 
+//  to dialogs during a command-line install.
+//
+// The command-line installer sets the following environment variable: 
+//     COMMAND_LINE_INSTALL=1
+// The postinstall script, postupgrade script, and this Postinstall.app 
+//   detect this environment variable and do the following:
+//  * Redirect the Postinstall.app log output to a file 
+//      /tmp/BOINCInstallLog.txt
+//  * Suppress the 2 dialogs
+//  * test for the existence of a file /tmp/nonadminusersok.txt; if the 
+//     file exists, allow non-administrative users to run BOINC Manager
+//  * test for the existence of a file /tmp/setboincsaver.txt; if the 
+//     file exists, set BOINC as the screensaver for all BOINC users. 
+//
+// Example: To install on a remote Mac from the command line, allowing 
+//   non-admin users to run the BOINC Manager and setting BOINC as the 
+//   screensaver:
+//  * First SCP the "BOINC Installer.pkg" to the remote Mac's /tmp 
+//     directory, then SSh into the remote mac and enter the following
+//  $ touch /tmp/nonadminusersok.txt
+//  $ touch /tmp/setboincsaver.txt
+//  $ sudo installer -pkg "/tmp/BOINC Installer.pkg" -tgt /
+//  $ sudo reboot
 //
 
 #define CREATE_LOG 1    /* for debugging */
@@ -157,11 +182,17 @@ int main(int argc, char *argv[])
     receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors.pkg";
 
     ::GetCurrentProcess (&ourProcess);
-    
+
+    puts("Starting PostInstall app\n");
+    fflush(stdout);
     // getlogin() gives unreliable results under OS 10.6.2, so use environment
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
+    printf("login name = %s\n", loginName);
+
     if (getenv("COMMAND_LINE_INSTALL") != NULL) {
         gCommandLineInstall = true;
+        puts("command-line install\n");
+        fflush(stdout);
     }
 
     err = Gestalt(gestaltSystemVersion, &OSVersion);
@@ -343,6 +374,7 @@ int main(int argc, char *argv[])
  
 #ifdef SANDBOX
     err = CheckLogoutRequirement(&finalInstallAction);
+    printf("CheckLogoutRequirement returned %d\n", finalInstallAction);
     
     if (finalInstallAction == launchWhenDone) {
         // Wait for BOINC's RPC socket address to become available to user boinc_master, in
@@ -473,7 +505,6 @@ int DeleteReceipt()
 
     Initialize();
     err = CheckLogoutRequirement(&finalInstallAction);
-
     err = FindProcess ('APPL', 'xins', &installerPSN);
     if (err == noErr)
         err = GetProcessPID(&installerPSN , &installerPID);
@@ -552,7 +583,7 @@ OSStatus CheckLogoutRequirement(int *finalAction)
         ++i;
         }
     }
-
+printf("In CheckLogoutRequirement: isMember=%d, currentUserCanRunBOINC=%d\n", (int)isMember, (int)currentUserCanRunBOINC);
     if (!isMember && !currentUserCanRunBOINC) {
         *finalAction = nothingrequired;
         return noErr;
@@ -939,6 +970,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
     FILE                *f;
     OSStatus            err;
     Boolean             isGroupMember;
+    struct stat         sbuf;
 #ifdef SANDBOX
     char                *p;
     short               i;
@@ -1064,7 +1096,11 @@ OSErr UpdateAllVisibleUsers(long brandID)
         puts("[2] All non-admin users are already members of group boinc_master\n");
     } else {
         if (gCommandLineInstall) {
-            if (getenv("NONADMINUSERSOK") != NULL) {
+            err = stat("/tmp/nonadminusersok.txt", &sbuf);
+            if (err == noErr) {
+                puts("nonadminusersok.txt file detected\n");
+                fflush(stdout);
+                unlink("/tmp/nonadminusersok.txt");
                 allowNonAdminUsersToRunBOINC = true;
                 currentUserCanRunBOINC = true;
                 saverAlreadySetForAll = false;
@@ -1088,7 +1124,11 @@ OSErr UpdateAllVisibleUsers(long brandID)
     
     if (! saverAlreadySetForAll) {
         if (gCommandLineInstall) {
-            if (getenv("SETBOINCSAVER") != NULL) {
+            err = stat("/tmp/setboincsaver.txt", &sbuf);
+            if (err == noErr) {
+                puts("setboincsaver.txt file detected\n");
+                fflush(stdout);
+                unlink("/tmp/setboincsaver.txt");
                 setSaverForAllUsers = true;
             }
         } else {
