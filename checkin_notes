@@ -8246,3 +8246,18 @@ David  20 Nov 2010
 
     sched/
         start
+
+Charlie 19 Nov 2010
+    - Mac Installer: It turns out that the command-line installer clears all 
+        environment variables, so instead of checking environment variables  
+        during command-line installs, we check for the existence of files 
+        /tmp/nonadminusersok.txt and /tmp/setboincsaver.txt.  In normal GUI 
+        installs, these are ignored and the normal BOINC installer dialogs 
+        are used to determine these options.  See the comments at the top of 
+        PostInstall.cpp for details of doing command-line installs on remote 
+        Macs.
+        
+    mac_installer/
+        PostInstall.cpp
+        postinstall
+        postupgrade
