@@ -8261,3 +8261,10 @@ Charlie 19 Nov 2010
         PostInstall.cpp
         postinstall
         postupgrade
+
+Rom    22 Nov 2010
+    - MGR: Switch to the tasks tab when a request to execute benchmarks has
+        been requested.  The messages tab no longer exists.
+        
+    clientgui/
+        AdvancedFrame.cpp
