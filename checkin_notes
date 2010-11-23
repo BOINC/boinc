@@ -7834,6 +7834,22 @@ Charlie 19 Nov 2010
     mac_installer/
         PostInstall.cpp
 
+David  20 Nov 2010
+    - client: improve the way credit history is maintained
+        Old: maintain list of daily records.
+            When add a new record, delete records older than a month
+        Problem:
+            If there's a gap in the record (e.g. because project was down)
+            deleting old records may result in a list that
+            has an entry only for today.
+            Data for the last month is lost.
+        New:
+            When appropriate, adjust the date of old records
+            rather than deleting them
+
+    client/
+        scheduler_op.cpp
+
 Charlie 22 Nov 2010
     - Mac Installer: It turns out that the command-line installer clears all 
         environment variables, so instead of checking environment variables  
@@ -7857,3 +7873,11 @@ Charlie 23 Nov 2010
             MacPkgIcon.zip
     mac_installer/
         release_boinc.sh
+
+Charlie 23 Nov 2010
+    - MGR: Statistics tab: in graph showing sum of selected projects, always 
+        show statistics for the last 30 days.  This is now possible due to 
+        November 20 changes to the way credit history is maintained.
+    
+    clientgui/
+        ViewStatistics.cpp
