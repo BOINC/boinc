@@ -8247,7 +8247,7 @@ David  20 Nov 2010
     sched/
         start
 
-Charlie 19 Nov 2010
+Charlie 22 Nov 2010
     - Mac Installer: It turns out that the command-line installer clears all 
         environment variables, so instead of checking environment variables  
         during command-line installs, we check for the existence of files 
@@ -8280,3 +8280,12 @@ David  22 Nov 2010
 
 	client/
 		work_fetch.cpp
+
+Charlie 22 Nov 2010
+    - Mac Installer: Better handling of custom installer icon.
+    
+    clientgui/
+        res/
+            MacPkgIcon.zip
+    mac_installer/
+        release_boinc.sh
