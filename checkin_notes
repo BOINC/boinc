@@ -8281,7 +8281,7 @@ David  22 Nov 2010
 	client/
 		work_fetch.cpp
 
-Charlie 22 Nov 2010
+Charlie 23 Nov 2010
     - Mac Installer: Better handling of custom installer icon.
     
     clientgui/
