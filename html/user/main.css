@@ -165,7 +165,7 @@ input[type="text"], input[type="password"], select, textarea {
     border-style: solid;
     margin: 2px 4px;
     padding: 3px;
-    font-size: 14px;
+#font-size: 14px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     -khtml-border-radius: 5px;

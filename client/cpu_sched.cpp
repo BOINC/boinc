@@ -322,7 +322,7 @@ void CLIENT_STATE::assign_results_to_projects() {
 //
 RESULT* CLIENT_STATE::largest_debt_project_best_result() {
     PROJECT *best_project = NULL;
-    double best_debt = -MAX_STD;
+    double best_debt;
     bool first = true;
     unsigned int i;
 
@@ -330,14 +330,23 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
         PROJECT* p = projects[i];
         if (!p->next_runnable_result) continue;
         if (p->non_cpu_intensive) continue;
+#ifdef USE_REC
+        if (first || project_priority(p)> best_debt) {
+            first = false;
+            best_project = p;
+            best_debt = project_priority(p);
+        }
+#else
         if (first || p->cpu_pwf.anticipated_debt > best_debt) {
             first = false;
             best_project = p;
             best_debt = p->cpu_pwf.anticipated_debt;
         }
+#endif
     }
     if (!best_project) return NULL;
 
+#ifndef USE_REC
     if (log_flags.cpu_sched_debug) {
         msg_printf(best_project, MSG_INFO,
             "[cpu_sched] highest debt: %f %s",
@@ -345,6 +354,7 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
             best_project->next_runnable_result->name
         );
     }
+#endif
     RESULT* rp = best_project->next_runnable_result;
     best_project->next_runnable_result = 0;
     return rp;
@@ -372,7 +382,11 @@ RESULT* first_coproc_result(int rsc_type) {
         if (!rp->runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
+#ifdef USE_REC
+        double std = project_priority(rp->project);
+#else
         double std = rp->project->anticipated_debt(rsc_type);
+#endif
         if (!best) {
             best = rp;
             best_std = std;
@@ -519,6 +533,8 @@ void CLIENT_STATE::reset_debt_accounting() {
     debt_interval_start = now;
 }
 
+#ifdef USE_REC
+
 #define REC_HALF_LIFE (30*86400)
 
 // update REC (recent estimated credit)
@@ -552,6 +568,7 @@ static void update_rec() {
             p->pwf.rec,
             p->pwf.rec_time
         );
+
         if (log_flags.debt_debug) {
             double dt = gstate.now - gstate.debt_interval_start;
             msg_printf(p, MSG_INFO,
@@ -560,6 +577,59 @@ static void update_rec() {
         }
     }
 }
+
+double peak_flops(APP_VERSION* avp) {
+    double f = gstate.host_info.p_fpops;
+    return f * avp->avg_ncpus
+        + f * avp->ncudas * cuda_work_fetch.relative_speed
+        + f * avp->natis * ati_work_fetch.relative_speed
+    ;
+}
+
+static double rec_sum;
+
+// Initialize project "priorities" based on REC:
+// compute resource share and REC fractions
+// among compute-intensive, non-suspended projects
+//
+void project_priority_init() {
+    double rs_sum = 0;
+    double rec_sum = 0;
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->suspended_via_gui) continue;
+        rs_sum += p->resource_share;
+        rec_sum += p->pwf.rec;
+    }
+    if (rec_sum == 0) {
+        rec_sum = 1;
+    }
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (p->non_cpu_intensive || p->suspended_via_gui || rs_sum==0) {
+            p->resource_share_frac = 0;
+            continue;
+        }
+        p->resource_share_frac = p->resource_share/rs_sum;
+        p->pwf.rec_temp = p->pwf.rec;
+
+    }
+}
+
+double project_priority(PROJECT* p) {
+    return p->resource_share_frac - p->pwf.rec_temp/rec_sum;
+}
+
+// we plan to run this job.
+// bump the project's REC accordingly
+//
+void adjust_rec_temp(RESULT* rp) {
+    PROJECT* p = rp->project;
+    p->pwf.rec_temp += peak_flops(rp->avp) * gstate.global_prefs.cpu_scheduling_period() / 86400;
+}
+
+#endif
 
 // adjust project debts (short, long-term)
 //
@@ -598,8 +668,9 @@ void CLIENT_STATE::adjust_debts() {
         work_fetch.accumulate_inst_sec(atp, elapsed_time);
     }
 
+#ifdef USE_REC
     update_rec();
-
+#else
     cpu_work_fetch.update_long_term_debts();
     cpu_work_fetch.update_short_term_debts();
     if (host_info.have_cuda()) {
@@ -610,6 +681,7 @@ void CLIENT_STATE::adjust_debts() {
         ati_work_fetch.update_long_term_debts();
         ati_work_fetch.update_short_term_debts();
     }
+#endif
 
     reset_debt_accounting();
 }
@@ -673,13 +745,17 @@ static bool schedule_if_possible(
         );
     }
     proc_rsc.schedule(rp);
-    double dt = gstate.global_prefs.cpu_scheduling_period();
 
+#ifdef USE_REC
+    adjust_rec_temp(rp);
+#else
     // project STD at end of scheduling period
     //
+    double dt = gstate.global_prefs.cpu_scheduling_period();
     rp->project->cpu_pwf.anticipated_debt -= dt*rp->avp->avg_ncpus/cpu_work_fetch.ninstances;
     rp->project->cuda_pwf.anticipated_debt -= dt*rp->avp->ncudas/cuda_work_fetch.ninstances;
     rp->project->ati_pwf.anticipated_debt -= dt*rp->avp->natis/ati_work_fetch.ninstances;
+#endif
     return true;
 }
 
@@ -776,23 +852,21 @@ void CLIENT_STATE::schedule_cpus() {
 
     // set temporary variables
     //
+#ifdef USE_REC
+    project_priority_init();
+#endif
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         rp->already_selected = false;
         rp->edf_scheduled = false;
     }
-    //work_fetch.set_overall_debts();
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->next_runnable_result = NULL;
-#if 1
+#ifndef USE_REC
         p->cpu_pwf.anticipated_debt = p->cpu_pwf.short_term_debt;
         p->cuda_pwf.anticipated_debt = p->cuda_pwf.short_term_debt;
         p->ati_pwf.anticipated_debt = p->ati_pwf.short_term_debt;
-#else
-        p->cpu_pwf.anticipated_debt = p->pwf.overall_debt;
-        p->cuda_pwf.anticipated_debt = p->pwf.overall_debt;
-        p->ati_pwf.anticipated_debt = p->pwf.overall_debt;
 #endif
         p->cpu_pwf.deadlines_missed_copy = p->cpu_pwf.deadlines_missed;
         p->cuda_pwf.deadlines_missed_copy = p->cuda_pwf.deadlines_missed;

@@ -24,15 +24,14 @@
 using std::vector;
 
 struct SIM_RESULTS {
-    double cpu_used;
-    double cpu_wasted;
-    double cpu_idle;
+    double flops_used;      // based on peak flops
+    double flops_wasted;
     int nresults_met_deadline;
     int nresults_missed_deadline;
     double share_violation;
     double monotony;
-    double cpu_wasted_frac;
-    double cpu_idle_frac;
+    double wasted_frac;
+    double idle_frac;
 
     void compute();
     void print(FILE* f, const char* title=0);
@@ -43,14 +42,14 @@ struct SIM_RESULTS {
 };
 
 struct PROJECT_RESULTS {
-    double cpu_used;
-    double cpu_wasted;
+    double flops_used;      // based on peak flops
+    double flops_wasted;
     int nresults_met_deadline;
     int nresults_missed_deadline;
 
     PROJECT_RESULTS() {
-        cpu_used = 0;
-        cpu_wasted = 0;
+        flops_used = 0;
+        flops_wasted = 0;
         nresults_met_deadline = 0;
         nresults_missed_deadline = 0;
     }

@@ -98,6 +98,33 @@ void usage(char* prog) {
     exit(1);
 }
 
+// peak flops of an app version running for dt secs
+//
+double app_peak_flops(APP_VERSION* avp, double dt, double cpu_scale) {
+    double x = avp->avg_ncpus*cpu_scale;
+    if (avp->ncudas) {
+        x += avp->ncudas * cuda_work_fetch.relative_speed;
+    }
+    if (avp->natis) {
+        x += avp->natis * ati_work_fetch.relative_speed;
+    }
+    x *= gstate.host_info.p_fpops;
+    return x*dt;
+}
+
+// peak flops of all devices running for dt secs
+//
+double total_peak_flops(double dt) {
+    double cuda = gstate.host_info.coprocs.cuda.count * cuda_work_fetch.relative_speed * gstate.host_info.p_fpops;
+    double ati = gstate.host_info.coprocs.ati.count * ati_work_fetch.relative_speed * gstate.host_info.p_fpops;
+    double cpu = gstate.ncpus * gstate.host_info.p_fpops;
+    double tot = cpu+ati+cuda;
+    printf("CPU: %.2fG CUDA: %.2fG ATI: %.2fG total: %.2fG\n",
+        cpu/1e9, cuda/1e9, ati/1e9, tot/1e9
+    );
+    return tot*dt;
+}
+
 void print_project_results(FILE* f) {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
@@ -185,7 +212,7 @@ void make_job(
     wup->app = app;
     double ops = app->fpops.sample();
     if (ops < 0) ops = 0;
-    rp->final_cpu_time = ops/avp->flops;
+    wup->rsc_fpops_est = ops;
     rp->report_deadline = gstate.now + app->latency_bound;
 }
 
@@ -207,15 +234,13 @@ void CLIENT_STATE::handle_completed_results(PROJECT* p) {
             );
             PROJECT* spp = rp->project;
             if (gstate.now > rp->report_deadline) {
-                sim_results.cpu_wasted += rp->final_cpu_time;
+                sim_results.flops_wasted += rp->peak_flop_count;
                 sim_results.nresults_missed_deadline++;
                 spp->project_results.nresults_missed_deadline++;
-                spp->project_results.cpu_wasted += rp->final_cpu_time;
+                spp->project_results.flops_wasted += rp->peak_flop_count;
             } else {
-                sim_results.cpu_used += rp->final_cpu_time;
                 sim_results.nresults_met_deadline++;
                 spp->project_results.nresults_met_deadline++;
-                spp->project_results.cpu_used += rp->final_cpu_time;
             }
             html_msg += buf;
             delete rp;
@@ -232,7 +257,7 @@ void CLIENT_STATE::handle_completed_results(PROJECT* p) {
 void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        double x = rp->estimated_time_remaining(false);
+        double x = rp->estimated_time_remaining();
         if (x == 0) continue;
         IP_RESULT ipr(rp->name, rp->report_deadline, x);
         ip_results.push_back(ipr);
@@ -460,7 +485,7 @@ bool ACTIVE_TASK_SET::poll() {
     unsigned int i;
     char buf[256];
     bool action = false;
-    static double last_time = 0;
+    static double last_time = START_TIME;
     double diff = gstate.now - last_time;
     if (diff < 1.0) return false;
     last_time = gstate.now;
@@ -471,29 +496,60 @@ bool ACTIVE_TASK_SET::poll() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         p->idle = true;
-#if 0
-        sprintf(buf, "%s STD: %f LTD %f<br>",
-            p->project_name, p->cpu_pwf.short_term_debt,
-            p->pwf.overall_debt
-        );
-        html_msg += buf;
-#endif
     }
 
-    double x=0;
+    // we do two kinds of FLOPs accounting:
+    // 1) actual FLOPS (for job completion)
+    // 2) peak FLOPS (for total and per-project resource usage)
+    //
+    // CPU may be overcommitted, in which case we compute
+    //  a "cpu_scale" factor that is < 1.
+    // GPUs are never overcommitted.
+    //
+    // actual FLOPS is based on app_version.flops, scaled by cpu_scale for CPU jobs
+    // peak FLOPS is based on device peak FLOPS,
+    //  with CPU component scaled by cpu_scale for all jobs
+
+    // get CPU usage by GPU and CPU jobs
+    //
+    double cpu_usage_cpu=0;
+    double cpu_usage_gpu=0;
+    for (i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        if (atp->task_state() != PROCESS_EXECUTING) continue;
+        RESULT* rp = atp->result;
+        if (rp->uses_coprocs()) {
+            cpu_usage_gpu += rp->avp->avg_ncpus;
+        } else {
+            cpu_usage_cpu += rp->avp->avg_ncpus;
+        }
+    }
+    double cpu_usage = cpu_usage_cpu + cpu_usage_gpu;
+
+    // if CPU is overcommitted, compute cpu_scale
+    //
+    double cpu_scale = 1;
+    if (cpu_usage > gstate.ncpus) {
+        cpu_scale = (gstate.ncpus - cpu_usage_gpu) / (cpu_usage - cpu_usage_gpu);
+    }
+
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         switch (atp->task_state()) {
         case PROCESS_EXECUTING:
-            atp->cpu_time_left -= diff;
-            atp->current_cpu_time += diff;
+            atp->elapsed_time += diff;
             RESULT* rp = atp->result;
+            double flops = rp->avp->flops;
+            if (!rp->uses_coprocs()) {
+                flops *= cpu_scale;
+            }
 
-            double cpu_time_used = rp->final_cpu_time - atp->cpu_time_left;
-            atp->fraction_done = cpu_time_used/rp->final_cpu_time;
+            atp->flops_left -= diff*flops;
+
+            atp->fraction_done = 1 - (atp->flops_left / rp->wup->rsc_fpops_est);
             atp->checkpoint_wall_time = gstate.now;
 
-            if (atp->cpu_time_left <= 0) {
+            if (atp->flops_left <= 0) {
                 atp->set_task_state(PROCESS_EXITED, "poll");
                 rp->exit_status = 0;
                 rp->ready_to_report = true;
@@ -503,12 +559,15 @@ bool ACTIVE_TASK_SET::poll() {
                 html_msg += buf;
                 action = true;
             }
+            double pf = app_peak_flops(rp->avp, diff, cpu_scale);
+            rp->project->project_results.flops_used += pf;
+            rp->peak_flop_count += pf;
+            sim_results.flops_used += pf;
             rp->project->idle = false;
-            x += rp->avp->avg_ncpus;
         }
     }
-    if (x < gstate.ncpus) {
-        sim_results.cpu_idle += diff*(gstate.ncpus-x);
+    if (cpu_usage < gstate.ncpus) {
+        printf("CPU idle: diff %f nidle %f\n", diff, gstate.ncpus - cpu_usage);
     }
 
     for (i=0; i<gstate.projects.size(); i++) {
@@ -525,9 +584,9 @@ bool ACTIVE_TASK_SET::poll() {
     return action;
 }
 
-// return the fraction of CPU time that was spent in violation of shares
+// return the fraction of flops that was spent in violation of shares
 // i.e., if a project got X and it should have got Y,
-// add up |X-Y| over all projects, and divide by total CPU
+// add up |X-Y| over all projects, and divide by total flops
 //
 double CLIENT_STATE::share_violation() {
     unsigned int i;
@@ -535,13 +594,13 @@ double CLIENT_STATE::share_violation() {
     double tot = 0, trs=0;
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
-        tot += p->project_results.cpu_used + p->project_results.cpu_wasted;
+        tot += p->project_results.flops_used;
         trs += p->resource_share;
     }
     double sum = 0;
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
-        double t = p->project_results.cpu_used + p->project_results.cpu_wasted;
+        double t = p->project_results.flops_used;
         double rs = p->resource_share/trs;
         double rt = tot*rs;
         sum += fabs(t - rt);
@@ -580,9 +639,14 @@ double CLIENT_STATE::monotony() {
 // the CPU totals are there; compute the other fields
 //
 void SIM_RESULTS::compute() {
-    double total = cpu_used + cpu_wasted + cpu_idle;
-    cpu_wasted_frac = cpu_wasted/total;
-    cpu_idle_frac = cpu_idle/total;
+    double flops_total = total_peak_flops(running_time);
+    printf("total %fG\n", flops_total/1e9);
+    double flops_idle = flops_total - flops_used;
+    printf("used: %fG wasted: %fG idle: %fG\n",
+        flops_used/1e9, flops_wasted/1e9, flops_idle/1e9
+    );
+    wasted_frac = flops_wasted/flops_total;
+    idle_frac = flops_idle/flops_total;
     share_violation = gstate.share_violation();
     monotony = gstate.monotony();
 }
@@ -594,26 +658,26 @@ void SIM_RESULTS::print(FILE* f, const char* title) {
         fprintf(f, "%s: ", title);
     }
     fprintf(f, "wasted_frac %f idle_frac %f share_violation %f monotony %f\n",
-        cpu_wasted_frac, cpu_idle_frac, share_violation, monotony
+        wasted_frac, idle_frac, share_violation, monotony
     );
 }
 
 void SIM_RESULTS::parse(FILE* f) {
     fscanf(f, "wasted_frac %lf idle_frac %lf share_violation %lf monotony %lf",
-        &cpu_wasted_frac, &cpu_idle_frac, &share_violation, &monotony
+        &wasted_frac, &idle_frac, &share_violation, &monotony
     );
 }
 
 void SIM_RESULTS::add(SIM_RESULTS& r) {
-    cpu_wasted_frac += r.cpu_wasted_frac;
-    cpu_idle_frac += r.cpu_idle_frac;
+    wasted_frac += r.wasted_frac;
+    idle_frac += r.idle_frac;
     share_violation += r.share_violation;
     monotony += r.monotony;
 }
 
 void SIM_RESULTS::divide(int n) {
-    cpu_wasted_frac /= n;
-    cpu_idle_frac /= n;
+    wasted_frac /= n;
+    idle_frac /= n;
     share_violation /= n;
     monotony /= n;
 }
@@ -623,15 +687,15 @@ void SIM_RESULTS::clear() {
 }
 
 void PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
-    double t = project_results.cpu_used + project_results.cpu_wasted;
-    double gt = sr.cpu_used + sr.cpu_wasted;
-    fprintf(f, "%s: share %.2f total CPU %2f (%.2f%%)\n"
-        "   used %.2f wasted %.2f\n"
+    double t = project_results.flops_used;
+    double gt = sr.flops_used;
+    fprintf(f, "%s: share %.2f total flops %.2fG (%.2f%%)\n"
+        "   used %.2fG wasted %.2fG\n"
         "   met %d missed %d\n",
         project_name, resource_share,
-        t, (t/gt)*100,
-        project_results.cpu_used,
-        project_results.cpu_wasted,
+        t/1e9, (t/gt)*100,
+        project_results.flops_used/1e9,
+        project_results.flops_wasted/1e9,
         project_results.nresults_met_deadline,
         project_results.nresults_missed_deadline
     );
@@ -693,12 +757,12 @@ void show_resource(int rsc_type) {
             ninst = rp->avp->avg_ncpus;
         }
 
-        fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2f</font><br>",
+        fprintf(html_out, "%.2f: <font color=%s>%s%s: %.2fG</font><br>",
             ninst,
             colors[p->index%NCOLORS],
             atp->result->rr_sim_misses_deadline?"*":"",
             atp->result->name,
-            atp->cpu_time_left
+            atp->flops_left/1e9
         );
         found = true;
     }
@@ -788,6 +852,8 @@ void html_end() {
     fclose(html_out);
 }
 
+#ifndef USE_REC
+
 // lines in the debt file have these fields:
 // time
 // per project:
@@ -868,6 +934,8 @@ void debt_graphs() {
     }
 }
 
+#endif
+
 void simulate() {
     bool action;
     double start = START_TIME;
@@ -897,7 +965,9 @@ void simulate() {
             }
         }
         html_rec();
+#ifndef USE_REC
         write_debts();
+#endif
         gstate.now += delta;
         if (gstate.now > start + duration) break;
     }
@@ -1005,6 +1075,19 @@ void cull_projects() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         p->dont_request_more_work = true;
+        p->no_cpu_apps = true;
+        p->no_cuda_apps = true;
+        p->no_ati_apps = true;
+    }
+    for (i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->ncudas) {
+            avp->project->no_cuda_apps = false;
+        } else if (avp->natis) {
+            avp->project->no_ati_apps = false;
+        } else {
+            avp->project->no_cpu_apps = false;
+        }
     }
     for (i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
@@ -1079,7 +1162,9 @@ void do_client_simulation() {
     // then other
     print_project_results(stdout);
 
+#ifndef USE_REC
     debt_graphs();
+#endif
 }
 
 char* next_arg(int argc, char** argv, int& i) {
