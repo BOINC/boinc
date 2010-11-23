@@ -870,4 +870,3 @@ void PrintBacktrace(void) {
 // Dummy routine to satisfy linker
 }
 
-const char *BOINC_RCSID_7ce0778d35="$Id$";

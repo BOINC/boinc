@@ -1529,4 +1529,3 @@ void print_to_log_file(const char *format, ...) {
 
 #endif
 }
-const char *BOINC_RCSID_c7abe0490e="$Id$";

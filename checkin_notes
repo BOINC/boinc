@@ -8294,3 +8294,23 @@ Charlie 23 Nov 2010
     
     clientgui/
         ViewStatistics.cpp
+
+Charlie 23 Nov 2010
+    - Remove BOINC_RCSID tags from more source files.
+    
+    api/
+        mac_icon.cpp
+        make_app_icon_h.cpp
+    clientgui/
+        Localization.cpp
+        mac/
+            MacSysMenu.cpp
+            SetVersion.cpp
+    clientscr/
+        mac_saver_module.cpp
+    lib/
+        synch.cpp
+    mac_installer/
+        Installer.cpp
+        LoginItemAPI.c
+        PostInstall.cpp

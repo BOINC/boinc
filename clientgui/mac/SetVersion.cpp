@@ -245,4 +245,3 @@ int MakeInstallerInfoPlistFile(char* myPath, char* brand) {
 }
 
 
-const char *BOINC_RCSID_9263a2dc22="$Id$";

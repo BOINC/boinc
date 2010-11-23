@@ -409,4 +409,3 @@ void strip_cr(char *buf)
         *theCR = '\0';
 }
 #endif	// CREATE_LOG
-const char *BOINC_RCSID_c7abe0490e="$Id$";

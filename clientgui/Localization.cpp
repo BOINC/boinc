@@ -158,4 +158,3 @@ CLocalization::CLocalization() {
 
 }
 
-const char *BOINC_RCSID_4632804e37="$Id$";
