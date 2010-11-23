@@ -566,9 +566,6 @@ bool ACTIVE_TASK_SET::poll() {
             rp->project->idle = false;
         }
     }
-    if (cpu_usage < gstate.ncpus) {
-        printf("CPU idle: diff %f nidle %f\n", diff, gstate.ncpus - cpu_usage);
-    }
 
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];

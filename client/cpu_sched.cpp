@@ -594,7 +594,6 @@ static double rec_sum;
 //
 void project_priority_init() {
     double rs_sum = 0;
-    double rec_sum = 0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
@@ -618,7 +617,13 @@ void project_priority_init() {
 }
 
 double project_priority(PROJECT* p) {
-    return p->resource_share_frac - p->pwf.rec_temp/rec_sum;
+    double x = p->resource_share_frac - p->pwf.rec_temp/rec_sum;
+#if 0
+    printf("%s: rs frac %.3f rec_temp %.3f rec_sum %.3f prio %.3f\n",
+        p->project_name, p->resource_share_frac, p->pwf.rec_temp, rec_sum, x
+    );
+#endif
+    return x;
 }
 
 // we plan to run this job.
