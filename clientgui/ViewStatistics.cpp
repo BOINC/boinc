@@ -1481,7 +1481,6 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		double min_val_x = 10e32, max_val_x = 0;
         double min_total_y = 0;
         double max_total_y = 0;
-        double temp_min_val_x = 0;
 		
 		wxColour pen_AxisColour1 = m_pen_AxisColourAutoZoom;
 
@@ -1491,14 +1490,12 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 					MinMaxDayCredit(i, min_val_y, max_val_y, min_val_x, max_val_x, m_SelectedStatistic, false);
                     min_total_y += min_val_y;
                     max_total_y += max_val_y;
-                    // Start graph on first date when all requested projects had valid data
-                    if (min_val_x > temp_min_val_x) temp_min_val_x = min_val_x;
-                    min_val_x = 10e32;
                     min_val_y = 10e32;
                     max_val_y = 0;
 				}
 			}
-			min_val_x = floor(temp_min_val_x / 86400.0) * 86400.0;
+            // Start graph 30 days before today
+			min_val_x = dday() - (30*86400);
 			max_val_x = ceil(max_val_x / 86400.0) * 86400.0;
             min_val_y = min_total_y;
             max_val_y = max_total_y;

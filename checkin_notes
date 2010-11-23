@@ -8236,9 +8236,6 @@ David  20 Nov 2010
     client/
         scheduler_op.cpp
 
-    client/
-        scheduler_op.cpp
-
 David  20 Nov 2010
     - start script: don't write error message if period task is already
         running, and output is not a TTY (i.e., cron).
@@ -8289,3 +8286,11 @@ Charlie 23 Nov 2010
             MacPkgIcon.zip
     mac_installer/
         release_boinc.sh
+
+Charlie 23 Nov 2010
+    - MGR: Statistics tab: in graph showing sum of selected projects, always 
+        show statistics for the last 30 days.  This is now possible due to 
+        November 20 changes to the way credit history is maintained.
+    
+    clientgui/
+        ViewStatistics.cpp
