@@ -44,8 +44,28 @@ def make_uuid():
     return binascii.hexlify(urandom(16))
 
 def md5_file(path):
-    """Return a 16-digit MD5 hex digest of a file's contents"""
-    return md5.new(open(path).read()).hexdigest()
+    """
+    Return a 16-digit MD5 hex digest of a file's contents
+    Read the file in chunks 
+    """
+
+    chunk = 8096
+
+    try:
+        checksum = md5()
+    except NameError:
+        checksum = md5.new()
+
+    fp = open(path, 'r')
+    while True:
+        buffer = fp.read(chunk)
+        if not buffer:
+            break
+        checksum.update(buffer)
+
+    fp.close()
+
+    return checksum
 
 def file_size(path):
     """Return the size of a file"""

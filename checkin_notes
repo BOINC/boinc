@@ -8359,3 +8359,11 @@ David  23 Nov 2010
         cpu_sched.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+David  23 Nov 2010
+    - server scripts (e.g. update_versions):
+        compute MD5 checksums be reading files in pieces instead
+        of reading whole file into memory.  From Tolu Aina
+
+    py/Boinc/
+        tools.py
