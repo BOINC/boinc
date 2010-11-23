@@ -658,20 +658,20 @@ static void get_cpu_info_maxosx(HOST_INFO& host) {
         brand_string, family, model, stepping
     );
 #else       // PowerPC
-    char capabilities[256], model[256];
+    char model[256];
     int response = 0;
     int retval;
     len = sizeof(response);
-    safe_strcpy(host.p_vendor, "Power Macintosh");
     retval = sysctlbyname("hw.optional.altivec", &response, &len, NULL, 0);
     if (response && (!retval)) {
-        safe_strcpy(capabilities, "AltiVec");
+        safe_strcpy(host.p_features, "AltiVec");
     }
         
     len = sizeof(model);
     sysctlbyname("hw.model", model, &len, NULL, 0);
 
-    snprintf(host.p_model, p_model_size, "%s [%s Model %s] [%s]", host.p_vendor, host.p_vendor, model, capabilities);
+    safe_strcpy(host.p_vendor, "Power Macintosh");
+    snprintf(host.p_model, p_model_size, "%s [%s Model %s] [%s]", host.p_vendor, host.p_vendor, model, host.p_features);
 
 #endif
 

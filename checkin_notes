@@ -8314,3 +8314,10 @@ Charlie 23 Nov 2010
         Installer.cpp
         LoginItemAPI.c
         PostInstall.cpp
+
+Rom    23 Nov 2010
+    - client: Copy the AltiVec CPU feature to the p_features field, leave
+        AltiVec in the host model field for backwards compatibility.
+        
+    client/
+        hostinfo_unix.cpp
