@@ -535,8 +535,6 @@ void CLIENT_STATE::reset_debt_accounting() {
 
 #ifdef USE_REC
 
-#define REC_HALF_LIFE (30*86400)
-
 // update REC (recent estimated credit)
 //
 static void update_rec() {
@@ -572,7 +570,8 @@ static void update_rec() {
         if (log_flags.debt_debug) {
             double dt = gstate.now - gstate.debt_interval_start;
             msg_printf(p, MSG_INFO,
-                "[debt] recent est credit: %.2fG in %.2f sec, %f->%f", x, dt, old, p->pwf.rec
+                "[debt] recent est credit: %.2fG in %.2f sec, %f + %f ->%f",
+                x, dt, old, p->pwf.rec-old, p->pwf.rec
             );
         }
     }
@@ -631,7 +630,7 @@ double project_priority(PROJECT* p) {
 //
 void adjust_rec_temp(RESULT* rp) {
     PROJECT* p = rp->project;
-    p->pwf.rec_temp += peak_flops(rp->avp) * gstate.global_prefs.cpu_scheduling_period() / 86400;
+    p->pwf.rec_temp += peak_flops(rp->avp);
 }
 
 #endif

@@ -720,6 +720,9 @@ const char* colors[] = {
 };
 
 #define NCOLORS 12
+#define WIDTH1  100
+#define WIDTH2  400
+
 
 int njobs_in_progress(PROJECT* p, int rsc_type) {
     int n = 0;
@@ -737,7 +740,7 @@ int njobs_in_progress(PROJECT* p, int rsc_type) {
 void show_resource(int rsc_type) {
     unsigned int i;
 
-    fprintf(html_out, "<td valign=top>");
+    fprintf(html_out, "<td width=%d valign=top>", WIDTH2);
     bool found = false;
     for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
@@ -790,43 +793,44 @@ void html_start() {
     fprintf(index_file, "<br><a href=%s>Timeline</a>\n", buf);
     fprintf(html_out, "<h2>BOINC client simulator</h2>\n");
     fprintf(html_out,
-        "<table border=1 cellpadding=4><tr><th>Time</th>\n"
+        "<table border=1 cellpadding=4><tr><th width=%d>Time</th>\n", WIDTH1
     );
     fprintf(html_out,
-        "<th>CPU<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>"
+        "<th width=%d>CPU<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>", WIDTH2
     );
     if (gstate.host_info.have_cuda()) {
-        fprintf(html_out, "<th>NVIDIA GPU</th>");
+        fprintf(html_out, "<th width=%d>NVIDIA GPU</th>", WIDTH2);
         nproc_types++;
     }
     if (gstate.host_info.have_ati()) {
-        fprintf(html_out, "<th>ATI GPU</th>");
+        fprintf(html_out, "<th width=%d>ATI GPU</th>", WIDTH2);
         nproc_types++;
     }
-    fprintf(html_out, "</tr>\n");
+    fprintf(html_out, "</tr></table>\n");
 }
 
 void html_rec() {
     if (html_msg.size()) {
-        //fprintf(html_out, "<tr><td>%s</td>", time_to_string(gstate.now));
-        fprintf(html_out, "<tr><td valign=top>%.0f</td>", gstate.now);
         fprintf(html_out,
-            "<td colspan=%d valign=top><font size=-2>%s</font></td></tr>\n",
-            nproc_types,
+            "<table border=1><tr><td width=%d valign=top>%.0f</td>",
+            WIDTH1, gstate.now
+        );
+        fprintf(html_out,
+            "<td width=%d valign=top><font size=-2>%s</font></td></tr></table>\n",
+            nproc_types*WIDTH2,
             html_msg.c_str()
         );
         html_msg = "";
     }
-    //fprintf(html_out, "<tr><td>%s</td>", time_to_string(gstate.now));
-    fprintf(html_out, "<tr><td valign=top>%.0f</td>", gstate.now);
+    fprintf(html_out, "<table border=1><tr><td width=%d valign=top>%.0f</td>", WIDTH1, gstate.now);
 
     if (!running) {
-        fprintf(html_out, "<td valign=top bgcolor=#aaaaaa>OFF</td>");
+        fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
         if (gstate.host_info.have_cuda()) {
-            fprintf(html_out, "<td valign=top bgcolor=#aaaaaa>OFF</td>");
+            fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
         }
         if (gstate.host_info.have_ati()) {
-            fprintf(html_out, "<td valign=top bgcolor=#aaaaaa>OFF</td>");
+            fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
         }
     } else {
         show_resource(RSC_TYPE_CPU);
@@ -837,10 +841,10 @@ void html_rec() {
             show_resource(RSC_TYPE_ATI);
         }
     }
+    fprintf(html_out, "</tr></table>\n");
 }
 
 void html_end() {
-    fprintf(html_out, "</table>");
     fprintf(html_out, "<pre>\n");
     sim_results.compute();
     sim_results.print(html_out);
@@ -849,7 +853,42 @@ void html_end() {
     fclose(html_out);
 }
 
-#ifndef USE_REC
+#ifdef USE_REC
+void write_recs() {
+    fprintf(debt_file, "%f ", gstate.now);
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        fprintf(debt_file, "%f ", p->pwf.rec);
+    }
+    fprintf(debt_file, "\n");
+}
+
+void make_graph(const char* title, const char* fname, int field) {
+    char gp_fname[256], cmd[256], png_fname[256];
+
+    sprintf(gp_fname, "%s%s.gp", file_prefix, fname);
+    FILE* f = fopen(gp_fname, "w");
+    fprintf(f,
+        "set terminal png small size 1024, 768\n"
+        "set title \"%s\"\n"
+        "plot ",
+        title
+    );
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        fprintf(f, "\"%sdebt.dat\" using 1:%d title \"%s\" with lines%s",
+            file_prefix, 2+i+field, p->project_name,
+            (i==gstate.projects.size()-1)?"\n":", \\\n"
+        );
+    }
+    fclose(f);
+    sprintf(png_fname, "%s%s.png", file_prefix, fname);
+    sprintf(cmd, "gnuplot < %s > %s", gp_fname, png_fname);
+    fprintf(index_file, "<br><a href=%s>Graph of %s</a>\n", png_fname, title);
+    system(cmd);
+}
+
+#else
 
 // lines in the debt file have these fields:
 // time
@@ -962,7 +1001,9 @@ void simulate() {
             }
         }
         html_rec();
-#ifndef USE_REC
+#ifdef USE_REC
+        write_recs();
+#else
         write_debts();
 #endif
         gstate.now += delta;
@@ -1159,7 +1200,9 @@ void do_client_simulation() {
     // then other
     print_project_results(stdout);
 
-#ifndef USE_REC
+#ifdef USE_REC
+    make_graph("REC", "rec", 0);
+#else
     debt_graphs();
 #endif
 }

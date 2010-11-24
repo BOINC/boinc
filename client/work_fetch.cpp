@@ -448,9 +448,9 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
 #ifdef USE_REC
         msg_printf(p, MSG_INFO,
-            "[work_fetch] %s: fetch share %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
+            "[work_fetch] %s: fetch share %.2f rec %.5f prio %.5f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
             name,
-            pwf.fetchable_share, bt, pwf.backoff_interval,
+            pwf.fetchable_share, p->pwf.rec, project_priority(p), bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
             p->master_url_fetch_pending?" (master fetch pending)":"",
             p->min_rpc_time > gstate.now?" (comm deferred)":"",
@@ -923,7 +923,7 @@ PROJECT* WORK_FETCH::choose_project() {
     if (!p) {
         p = cpu_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
     }
-#if 0
+#if 1
     // don't try to maintain GPU work for all projects,
     // since we don't use round-robin scheduling for GPUs
     //

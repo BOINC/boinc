@@ -8391,3 +8391,14 @@ Rom    24 Nov 2010
     win_build/
         boinc.sln
         vboxwrapper.vcproj
+
+David  24 Nov 2010
+    - client: work fetch fix: try to maintain GPU work all projects,
+        since we now do round-robin for GPUs as well as CPU.
+        NOTE: this bug was found using the client simulator!
+    - client simulator: generate REC graph
+        
+    client/
+        work_fetch.cpp,h
+        cpu_sched.cpp
+        sim.cpp
