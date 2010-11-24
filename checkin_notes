@@ -8373,3 +8373,21 @@ Charlie 24 Nov 2010
      
     client/
         cpu_sched.cpp
+
+Rom    24 Nov 2010
+    - vbox: Create a new VirtualBox wrapper using the VirtualBox COM
+        API set.  Use the existing wrapper as the baseline.  Current
+        wrapper just dumps the existing VMs defined on the machine.
+        More to follow.
+        
+    samples/vboxwrapper/mscom/
+        VirtualBox.h
+        VirtualBox.tlb
+        VirtualBox_i.c
+    samples/vboxwrapper/
+        vbox.h
+        vbox_win.cpp
+        vboxwrapper.cpp
+    win_build/
+        boinc.sln
+        vboxwrapper.vcproj
