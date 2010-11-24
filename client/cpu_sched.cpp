@@ -322,7 +322,7 @@ void CLIENT_STATE::assign_results_to_projects() {
 //
 RESULT* CLIENT_STATE::largest_debt_project_best_result() {
     PROJECT *best_project = NULL;
-    double best_debt;
+    double best_debt = 0;
     bool first = true;
     unsigned int i;
 
