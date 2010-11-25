@@ -189,10 +189,10 @@ function map_gen_lesson($uid, $unit, $sb) {
 function clear() {
     global $course;
     $db = BoltDb::get();
-    $db->do_query("delete from DBNAME.bolt_view where course_id=$course->id");
-    $db->do_query("delete from DBNAME.bolt_result where course_id=$course->id");
-    $db->do_query("delete from DBNAME.bolt_xset_result where course_id=$course->id");
-    $db->do_query("delete from DBNAME.bolt_select_finished where course_id=$course->id");
+    $db->do_query("delete from ".$db->db_name.".bolt_view where course_id=$course->id");
+    $db->do_query("delete from ".$db->db_name.".bolt_result where course_id=$course->id");
+    $db->do_query("delete from ".$db->db_name.".bolt_xset_result where course_id=$course->id");
+    $db->do_query("delete from ".$db->db_name.".bolt_select_finished where course_id=$course->id");
 }
 
 // put your course ID here:

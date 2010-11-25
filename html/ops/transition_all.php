@@ -23,7 +23,7 @@ require_once("../inc/util_ops.inc");
 
 $db = BoincDb::get();
 $now = time();
-$db->do_query("update DBNAME.workunit set transition_time = $now");
+$db->do_query("update ".$db->db_name.".workunit set transition_time = $now");
 
 admin_page_head("Transition WUs");
 echo "The transition time of all WUs has been set to now.

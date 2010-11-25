@@ -83,6 +83,8 @@ function search_thread_titles(
 function search_post_content(
     $keyword_list, $forum, $user, $time, $limit, $sort_style, $show_hidden
 ){
+    $db = BoincDb::get();
+
     $search_string="%";
     foreach ($keyword_list as $key => $word){
         $search_string.=mysql_escape_string($word)."%";
@@ -92,9 +94,9 @@ function search_post_content(
     // because that's where the link to forum is
     //
     if ($forum) {
-        $optional_join = " LEFT JOIN DBNAME.thread ON post.thread = thread.id";
+        $optional_join = " LEFT JOIN ".$db->db_name.".thread ON post.thread = thread.id";
     }
-    $query = "select post.* from DBNAME.post".$optional_join." where content like '".$search_string."'";
+    $query = "select post.* from ".$db->db_name.".post".$optional_join." where content like '".$search_string."'";
     if ($forum) {
         $query.=" and forum = $forum->id";
     }

@@ -36,8 +36,7 @@ class DbConn {
         return true;
     }
 
-    function do_query($query) {
-        $q = str_replace('DBNAME', $this->db_name, $query);
+    function do_query($q) {
         //echo "query: $q<br>\n";
         $ret = mysql_query($q, $this->db_conn);
         if (!$ret) {
@@ -55,7 +54,7 @@ class DbConn {
     }
 
     function lookup_fields($table, $classname, $fields, $clause) {
-        $query = "select $fields from DBNAME.$table where $clause";
+        $query = "select $fields from ".$this->db_name.".$table where $clause";
         $result = $this->do_query($query);
         if (!$result) {
             return null;
@@ -66,7 +65,7 @@ class DbConn {
     }
 
     function lookup($table, $classname, $clause) {
-        $query = "select * from DBNAME.$table where $clause";
+        $query = "select * from ".$this->db_name.".$table where $clause";
         $result = $this->do_query($query);
         if (!$result) {
             return null;
@@ -98,7 +97,7 @@ class DbConn {
         if ($where_clause) {
             $where_clause = "where $where_clause";
         }
-        $query = "select $fields from DBNAME.$table $where_clause $order_clause";
+        $query = "select $fields from ".$this->db_name.".$table $where_clause $order_clause";
         $result = $this->do_query($query);
         if (!$result) return null;
         $x = array();
@@ -115,30 +114,30 @@ class DbConn {
     }
 
     function update($obj, $table, $clause) {
-        $query = "update DBNAME.$table set $clause where id=$obj->id";
+        $query = "update ".$this->db_name.".$table set $clause where id=$obj->id";
         return $this->do_query($query);
     }
     function update_aux($table, $clause) {
-        $query = "update DBNAME.$table set $clause";
+        $query = "update ".$this->db_name.".$table set $clause";
         return $this->do_query($query);
     }
     function insert($table, $clause) {
-        $query = "insert into DBNAME.$table $clause";
+        $query = "insert into ".$this->db_name.".$table $clause";
         return $this->do_query($query);
     }
     function delete($obj, $table) {
-        $query = "delete from DBNAME.$table where id=$obj->id";
+        $query = "delete from ".$this->db_name.".$table where id=$obj->id";
         return $this->do_query($query);
     }
     function delete_aux($table, $clause) {
-        $query = "delete from DBNAME.$table where $clause";
+        $query = "delete from ".$this->db_name.".$table where $clause";
         return $this->do_query($query);
     }
     function insert_id() {
         return mysql_insert_id($this->db_conn);
     }
     function count($table, $clause) {
-        $query = "select count(*) as total from DBNAME.$table where $clause";
+        $query = "select count(*) as total from ".$this->db_name.".$table where $clause";
         $result = $this->do_query($query);
         $cnt = mysql_fetch_object($result);
         mysql_free_result($result);
@@ -146,7 +145,7 @@ class DbConn {
         return null;
     }
     function replace($table, $clause) {
-        $query = "replace into DBNAME.$table set $clause";
+        $query = "replace into ".$this->db_name.".$table set $clause";
         return $this->do_query($query);
     }
     function base_escape_string($string) {
@@ -156,7 +155,7 @@ class DbConn {
         return mysql_error($this->db_conn);
     }
     function table_exists($table_name) {
-        $result = $this->do_query("show tables from DBNAME like '$table_name'");
+        $result = $this->do_query("show tables from ".$this->db_name." like '$table_name'");
         $t = mysql_fetch_array($result);
         mysql_free_result($result);
         if ($t[0] == "$table_name") return true;

@@ -194,20 +194,20 @@ class BoincForumLogging {
         // TODO - clean this up
 
         $db = BoincDb::get();
-        $sql = "SELECT timestamp FROM DBNAME.forum_logging where userid=0 and threadid=0";
+        $sql = "SELECT timestamp FROM ".$db->db_name.".forum_logging where userid=0 and threadid=0";
         $result=$db->do_query($sql);
         if (mysql_num_rows($result)>0) {
             $data=mysql_fetch_object($result);
             if ($data->timestamp<time()-MAX_FORUM_LOGGING_TIME){
-                $sql = "DELETE FROM DBNAME.forum_logging where timestamp<'".(time()-MAX_FORUM_LOGGING_TIME)."' and userid != 0";
+                $sql = "DELETE FROM ".$db->db_name.".forum_logging where timestamp<'".(time()-MAX_FORUM_LOGGING_TIME)."' and userid != 0";
                 $db->do_query($sql);
                 echo mysql_error();
-                $sql = "REPLACE INTO DBNAME.forum_logging set userid=0, threadid=0, timestamp='".time()."'";
+                $sql = "REPLACE INTO ".$db->db_name.".forum_logging set userid=0, threadid=0, timestamp='".time()."'";
                 $db->do_query($sql);
             }
         } else {
             //No cleanup timestamp found, make one:
-            $sql = "INSERT INTO DBNAME.forum_logging set userid=0, threadid=0, timestamp=0";
+            $sql = "INSERT INTO ".$db->db_name.".forum_logging set userid=0, threadid=0, timestamp=0";
             $db->do_query($sql);
             echo mysql_error();
         }

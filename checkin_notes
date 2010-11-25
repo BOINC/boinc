@@ -8412,3 +8412,22 @@ David  24 Nov 2010
         acct_mgr.cpp,h
         client_state.h
         work_fetch.h
+
+David  24 Nov 2010
+    - web: remove DBNAME hack, which allowed users to see the DB name
+        (not a big deal, but bad form).
+        Fixes #1028
+
+    html/
+        inc/
+            bossa_db.inc
+            db_conn.inc
+            forum_db.inc
+        ops/
+            autolock.php
+            bolt_datagen.php
+            notify.php
+            repair_forums.php
+            transition_all.php
+        user/
+            forum_search_action.php

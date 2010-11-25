@@ -47,7 +47,7 @@ function cleanup_orphan_threads() {
 //
 function remove_backslashes($table, $field) {
     $db = BoincDb::get();
-    $query = "update DBNAME.$table set $field=replace(replace($field, '\\\\\\\"', '\\\"'), '\\\\\\'', '\'')";
+    $query = "update ".$db->name.".$table set $field=replace(replace($field, '\\\\\\\"', '\\\"'), '\\\\\\'', '\'')";
     $db->do_query($query);
 }
 
