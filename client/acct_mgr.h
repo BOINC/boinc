@@ -41,6 +41,7 @@ struct ACCT_MGR_INFO : PROJ_AM {
     char previous_host_cpid[64];
         // the host CPID sent in last RPC
     double next_rpc_time;
+    int nfailures;
     bool send_gui_rpc_info;
         // whether to include GUI RPC port and password hash
         // in AM RPCs (used for "farm management")

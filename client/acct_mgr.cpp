@@ -414,7 +414,18 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         );
     }
 
-    if (error_num) return;
+    if (error_num) {
+        gstate.acct_mgr_info.next_rpc_time =
+            gstate.now
+            + calculate_exponential_backoff(
+                gstate.acct_mgr_info.nfailures,
+                ACCT_MGR_MIN_BACKOFF, ACCT_MGR_MAX_BACKOFF
+            )
+        ;
+        gstate.acct_mgr_info.nfailures++;
+        return;
+    }
+    gstate.acct_mgr_info.nfailures = 0;
 
     msg_printf(NULL, MSG_INFO, "Account manager contact succeeded");
 
@@ -649,6 +660,7 @@ void ACCT_MGR_INFO::clear() {
     strcpy(previous_host_cpid, "");
 	strcpy(opaque, "");
     next_rpc_time = 0;
+    nfailures = 0;
     send_gui_rpc_info = false;
     password_error = false;
 }
@@ -746,6 +758,9 @@ bool ACCT_MGR_INFO::poll() {
     if (gstate.gui_http.is_busy()) return false;
 
     if (gstate.now > next_rpc_time) {
+
+        // default synch period is 1 day
+        //
         next_rpc_time = gstate.now + 86400;
         gstate.acct_mgr_op.do_rpc(
             master_url, login_name, password_hash, false

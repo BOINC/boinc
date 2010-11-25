@@ -8402,3 +8402,13 @@ David  24 Nov 2010
         work_fetch.cpp,h
         cpu_sched.cpp
         sim.cpp
+
+David  24 Nov 2010
+    - client: do exponential backoff (from 10 min to 24 hours)
+        on account manager RPC failures,
+        rather than always waiting 24 hours
+
+    client/
+        acct_mgr.cpp,h
+        client_state.h
+        work_fetch.h
