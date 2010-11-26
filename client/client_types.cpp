@@ -288,9 +288,10 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%f</min_rpc_time>\n"
         "    <next_rpc_time>%f</next_rpc_time>\n"
+#ifdef USE_REC
         "    <rec>%f</rec>\n"
         "    <rec_time>%f</rec_time>\n"
-#ifndef USE_REC
+#else
         "    <short_term_debt>%f</short_term_debt>\n"
         "    <long_term_debt>%f</long_term_debt>\n"
 #endif

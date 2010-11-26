@@ -8431,3 +8431,9 @@ David  24 Nov 2010
             transition_all.php
         user/
             forum_search_action.php
+
+Charlie 26 Nov 2010
+     - client: fix crash bug.
+     
+    client/
+        client_types.cpp
