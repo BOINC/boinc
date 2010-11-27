@@ -8437,3 +8437,12 @@ Charlie 26 Nov 2010
      
     client/
         client_types.cpp
+
+David  26 Nov 2010
+    - client: use <foo>0|1</foo> instead of <foo/> or "" as XML boolean.
+        This distinguishes between "false" and "not defined"
+        (did this in a few places, should do it everywhere)
+
+    client/
+        acct_mgr.cpp
+        client_types.cpp
