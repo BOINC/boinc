@@ -178,6 +178,9 @@ int ACCT_MGR_OP::do_rpc(
             fclose(fprefs);
         }
     }
+    MIOFILE mf;
+    mf.init_file(f);
+    gstate.host_info.write(mf, !config.suppress_net_info, true);
 	if (strlen(gstate.acct_mgr_info.opaque)) {
 		fprintf(f,
 			"   <opaque>\n%s\n"
