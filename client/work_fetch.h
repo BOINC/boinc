@@ -23,9 +23,9 @@
 
 #include <vector>
 
-#define USE_REC
-//#define REC_HALF_LIFE (30*86400)
-#define REC_HALF_LIFE (1*86400)
+//#define USE_REC
+#define REC_HALF_LIFE (10*86400)
+//#define REC_HALF_LIFE (1*86400)
 
 
 #define RSC_TYPE_ANY    0

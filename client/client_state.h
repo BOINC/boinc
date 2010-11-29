@@ -555,4 +555,8 @@ extern void print_suspend_tasks_message(int);
 #define MAX_STD   (86400)
     // maximum short-term debt
 
+#define ACCT_MGR_MIN_BACKOFF    600
+#define ACCT_MGR_MAX_BACKOFF    86400
+    // min/max account manager RPC backoff
+
 #endif
