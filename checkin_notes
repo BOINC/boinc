@@ -8058,3 +8058,9 @@ David  24 Nov 2010
         acct_mgr.cpp,h
         client_state.h
         work_fetch.h
+
+Charlie 26 Nov 2010
+     - client: fix crash bug.
+     
+    client/
+        client_types.cpp
