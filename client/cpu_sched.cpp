@@ -478,8 +478,7 @@ static RESULT* earliest_deadline_result(int rsc_type) {
         //
         ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
         if (best_atp && !atp) continue;
-        if (rp->estimated_time_remaining(false)
-            < best_result->estimated_time_remaining(false)
+        if (rp->estimated_time_remaining() < best_result->estimated_time_remaining()
             || (!best_atp && atp)
         ) {
             best_result = rp;
@@ -1937,7 +1936,7 @@ void PROJECT::update_duration_correction_factor(ACTIVE_TASK* atp) {
     }
 #endif
     double raw_ratio = atp->elapsed_time/rp->estimated_duration_uncorrected();
-    double adj_ratio = atp->elapsed_time/rp->estimated_duration(false);
+    double adj_ratio = atp->elapsed_time/rp->estimated_duration();
     double old_dcf = duration_correction_factor;
 
     // it's OK to overestimate completion time,

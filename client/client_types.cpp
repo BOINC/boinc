@@ -483,6 +483,42 @@ int PROJECT::write_statistics(MIOFILE& out, bool /*gui_rpc*/) {
     return 0;
 }
 
+void PROJECT::suspend() {
+    suspended_via_gui = true;
+    gstate.request_schedule_cpus("project suspended");
+    gstate.request_work_fetch("project suspended");
+}
+void PROJECT::resume() {
+    suspended_via_gui = false;
+    gstate.request_schedule_cpus("project resumed");
+    gstate.request_work_fetch("project resumed");
+}
+
+void PROJECT::abort_not_started() {
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (rp->project != this) continue;
+        if (rp->not_started()) {
+            rp->abort_inactive(ERR_ABORTED_VIA_GUI);
+        }
+    }
+}
+
+void PROJECT::get_task_durs(double& not_started_dur, double& in_progress_dur) {
+    not_started_dur = 0;
+    in_progress_dur = 0;
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (rp->project != this) continue;
+        double d = rp->estimated_time_remaining();
+        if (rp->not_started()) {
+            not_started_dur += d;
+        } else {
+            in_progress_dur += d;
+        }
+    }
+}
+
 const char* PROJECT::get_scheduler_url(int index, double r) {
     int n = (int) scheduler_urls.size();
     int ir = (int)(r*n);
@@ -1780,7 +1816,7 @@ int RESULT::write_gui(MIOFILE& out) {
         state(),
         report_deadline,
         received_time,
-        estimated_time_remaining(false)
+        estimated_time_remaining()
     );
     if (got_server_ack) out.printf("    <got_server_ack/>\n");
     if (ready_to_report) out.printf("    <ready_to_report/>\n");

@@ -7881,3 +7881,26 @@ Charlie 23 Nov 2010
     
     clientgui/
         ViewStatistics.cpp
+
+David  17 Nov 2010
+    - client: account manager RPC:
+        Additions to request message:
+            <not_started_dur>X</not_started_dur>
+            <in_progress_dur>X</in_progress_dur>
+            The estimated remaining duration of unstarted
+            and in-progress tasks
+        Additions to reply message, within <project>, optional:
+            <suspend>0|1</suspend>
+                suspend or resume project (overrides local state)
+            <abort_not_started>0|1</abort_not_started>
+                if set, abort unstarted jobs
+
+    client/
+        acct_mgr.cpp,h
+        app.h
+        client_types.cpp,h
+        cpu_sched.cpp
+        cs_scheduler.cpp
+        gui_rpc_server_ops.cpp
+        rr_sim.cpp
+        work_fetch.cpp

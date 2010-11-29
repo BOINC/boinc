@@ -142,6 +142,8 @@ int ACCT_MGR_OP::do_rpc(
     }
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
+        double not_started_dur, in_progress_dur;
+        p->get_task_durs(not_started_dur, in_progress_dur);
         fprintf(f,
             "   <project>\n"
             "      <url>%s</url>\n"
@@ -149,6 +151,8 @@ int ACCT_MGR_OP::do_rpc(
             "      <suspended_via_gui>%d</suspended_via_gui>\n"
             "      <account_key>%s</account_key>\n"
             "      <hostid>%d</hostid>\n"
+            "      <not_started_dur>%f</not_started_dur>\n"
+            "      <in_progress_dur>%f</in_progress_dur>\n"
             "%s"
             "   </project>\n",
             p->master_url,
@@ -156,6 +160,8 @@ int ACCT_MGR_OP::do_rpc(
             p->suspended_via_gui,
             p->authenticator,
             p->hostid,
+            not_started_dur,
+            in_progress_dur,
             p->attached_via_acct_mgr?"      <attached_via_acct_mgr/>\n":""
         );
     }
@@ -198,6 +204,8 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     update = false;
     dont_request_more_work.init();
     detach_when_done.init();
+    suspend.init();
+    abort_not_started.init();
     url = "";
     strcpy(url_signature, "");
     authenticator = "";
@@ -243,6 +251,14 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
                     "Resource share out of range: %f", dtemp
                 );
             }
+            continue;
+        }
+        if (xp.parse_bool(tag, "suspend", btemp)) {
+            suspend.set(btemp);
+            continue;
+        }
+        if (xp.parse_bool(tag, "abort_not_started", btemp)) {
+            abort_not_started.set(btemp);
             continue;
         }
         if (log_flags.unparsed_xml) {
@@ -486,6 +502,19 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                                 } else {
                                     pp->resource_share = 100;
                                 }
+                            }
+                        }
+
+                        if (acct.suspend.present) {
+                            if (acct.suspend.value) {
+                                pp->suspend();
+                            } else {
+                                pp->resume();
+                            }
+                        }
+                        if (acct.abort_not_started.present) {
+                            if (acct.abort_not_started.value) {
+                                pp->abort_not_started();
                             }
                         }
                     }
