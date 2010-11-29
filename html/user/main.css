@@ -155,16 +155,16 @@ input.btn:hover,
 	text-decoration: none;
 }
 
-input[type="text"], input[type="password"] select, textarea {
-	border-width: 1px;
-	border-style: solid;
-	margin: 2px 4px;
-	padding: 3px;
-	font-size: 14px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-khtml-border-radius: 5px;
-	border-radius: 5px;
+input[type="text"], input[type="password"], select, textarea {
+    border-width: 1px;
+    border-style: solid;
+    margin: 2px 4px;
+    padding: 3px;
+#font-size: 14px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .actionlist {

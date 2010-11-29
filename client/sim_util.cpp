@@ -98,13 +98,13 @@ int ACTIVE_TASK::request_exit() {
 int ACTIVE_TASK::resume_or_start(bool first_time) {
     if (log_flags.task) {
         msg_printf(result->project, MSG_INFO,
-            "[task] %s task %s: time left %f",
-            first_time?"Starting":"Resuming", result->name, cpu_time_left
+            "[task] %s task %s: FLOPS left %.2fG",
+            first_time?"Starting":"Resuming", result->name, flops_left/1e9
         );
     }
     set_task_state(PROCESS_EXECUTING, "start");
     char buf[256];
-    sprintf(buf, "Starting %s: %f<br>", result->name, cpu_time_left);
+    sprintf(buf, "Starting %s: %.2fG<br>", result->name, flops_left/1e9);
     gstate.html_msg += buf;
     return 0;
 }
@@ -116,7 +116,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_elapsed_time = rp->wup->rsc_fpops_bound/result->avp->flops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
-    cpu_time_left = rp->final_cpu_time;
+    flops_left = rp->wup->rsc_fpops_est;
     _task_state = PROCESS_UNINITIALIZED;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     return 0;

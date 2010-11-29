@@ -219,6 +219,8 @@ struct PROJECT : PROJ_AM {
         // GUI URLs, with enclosing <gui_urls> tags
     double resource_share;
         // project's resource share relative to other projects.
+    double resource_share_frac;
+        // fraction of RS of non-suspended, compute-intensive projects
 
     // the following are the user's project prefs
     //
@@ -406,6 +408,7 @@ struct PROJECT : PROJ_AM {
         }
         return cpu_pwf.deadlines_missed;
     }
+#ifndef USE_REC
     inline double anticipated_debt(int rsc_type) {
         switch(rsc_type) {
         case RSC_TYPE_CUDA: return cuda_pwf.anticipated_debt;
@@ -413,6 +416,7 @@ struct PROJECT : PROJ_AM {
         }
         return cpu_pwf.anticipated_debt;
     }
+#endif
     void get_task_durs(double& not_started_dur, double& in_progress_dur);
 
     int nresults_returned;
@@ -585,6 +589,9 @@ struct RESULT {
         // we've received the ack for this result from the server
     double final_cpu_time;
     double final_elapsed_time;
+#ifdef SIM
+    double peak_flop_count;
+#endif
 
     // the following are nonzero if reported by app
     double fpops_per_cpu_sec;

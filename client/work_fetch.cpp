@@ -150,6 +150,7 @@ void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT* p, int rsc_type) {
     deadlines_missed = 0;
 }
 
+#ifndef USE_REC
 // see if the project's debt is beyond what would normally happen;
 // if so we conclude that it had a long job that ran in EDF mode;
 // avoid asking it for work unless absolutely necessary.
@@ -190,6 +191,7 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
     if (p->min_rpc_time > gstate.now) return false;
     return true;
 }
+#endif
 
 void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, const char* name) {
     if (backoff_interval) {
@@ -293,7 +295,9 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
         if (rpwf.anon_skip) continue;
         switch (criterion) {
         case FETCH_IF_MINOR_SHORTFALL:
+#ifndef USE_REC
             if (rpwf.overworked()) continue;
+#endif
             if (wacky_dcf(p)) continue;
             if (!p->resource_share) continue;
             break;
@@ -302,7 +306,9 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
             if (!p->resource_share) continue;
             break;
         case FETCH_IF_PROJECT_STARVED:
+#ifndef USE_REC
             if (rpwf.overworked()) continue;
+#endif
             if (rpwf.nused_total >= ninstances*rpwf.fetchable_share) continue;
             if (!p->resource_share) continue;
             break;
@@ -312,9 +318,15 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
             if (!p->resource_share) {
                 continue;
             }
+#ifdef USE_REC
+            if (project_priority(pbest) > project_priority(p)) {
+                continue;
+            }
+#else
             if (pbest->pwf.overall_debt > p->pwf.overall_debt) {
                 continue;
             }
+#endif
         }
         pbest = p;
     }
@@ -379,7 +391,9 @@ void RSC_WORK_FETCH::set_request(PROJECT* p, bool allow_overworked) {
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     if (!w.may_have_work) return;
     if (w.anon_skip) return;
+#ifndef USE_REC
     if (!allow_overworked && w.overworked()) return;
+#endif
     if (shortfall) {
         if (wacky_dcf(p)) {
             // if project's DCF is too big or small,
@@ -416,19 +430,36 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
-        double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
-        bool blocked_by_prefs = false;
+        bool blocked_by_prefs = false, no_apps = false;
         switch (rsc_type) {
         case RSC_TYPE_CPU:
             if (p->no_cpu_pref) blocked_by_prefs = true;
+            if (p->no_cpu_apps) no_apps = true;
             break;
         case RSC_TYPE_CUDA:
             if (p->no_cuda_pref) blocked_by_prefs = true;
+            if (p->no_cuda_apps) no_apps = true;
             break;
         case RSC_TYPE_ATI:
             if (p->no_ati_pref) blocked_by_prefs = true;
+            if (p->no_ati_apps) no_apps = true;
             break;
         }
+        double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
+#ifdef USE_REC
+        msg_printf(p, MSG_INFO,
+            "[work_fetch] %s: fetch share %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
+            name,
+            pwf.fetchable_share, bt, pwf.backoff_interval,
+            p->suspended_via_gui?" (susp via GUI)":"",
+            p->master_url_fetch_pending?" (master fetch pending)":"",
+            p->min_rpc_time > gstate.now?" (comm deferred)":"",
+            p->dont_request_more_work?" (no new tasks)":"",
+            p->too_many_uploading_results?" (too many uploads)":"",
+            blocked_by_prefs?" (blocked by prefs)":"",
+            no_apps?" (no apps)":""
+        );
+#else
         msg_printf(p, MSG_INFO,
             "[work_fetch] %s: fetch share %.2f LTD %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
             name,
@@ -441,6 +472,7 @@ void RSC_WORK_FETCH::print_state(const char* name) {
             p->too_many_uploading_results?" (too many uploads)":"",
             blocked_by_prefs?" (blocked by prefs)":""
         );
+#endif
     }
 }
 
@@ -449,6 +481,7 @@ void RSC_WORK_FETCH::clear_request() {
     req_instances = 0;
 }
 
+#ifndef USE_REC
 // update long-term debts for a resource.
 //
 void RSC_WORK_FETCH::update_long_term_debts() {
@@ -642,6 +675,7 @@ void RSC_WORK_FETCH::update_short_term_debts() {
         }
     }
 }
+#endif
 
 ///////////////  PROJECT_WORK_FETCH  ///////////////
 
@@ -694,6 +728,7 @@ void WORK_FETCH::set_all_requests(PROJECT* p) {
     }
 }
 
+#ifndef USE_REC
 // Compute an "overall long-term debt" for each project.
 // This is a sum of per-resource terms, scaled by the relative speed of the resource.
 // The term for a resource is its LTD plus an estimate of queued work.
@@ -744,6 +779,7 @@ void WORK_FETCH::zero_debts() {
         p->ati_pwf.zero_debt();
     }
 }
+#endif
 
 void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[work_fetch] ------- start work fetch state -------");
@@ -760,9 +796,13 @@ void WORK_FETCH::print_state() {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
+#ifdef USE_REC
+        msg_printf(p, MSG_INFO, "[work_fetch] REC %f", p->pwf.rec);
+#else
         msg_printf(p, MSG_INFO, "[work_fetch] overall LTD %.2f",
             p->pwf.overall_debt
         );
+#endif
     }
     msg_printf(0, MSG_INFO, "[work_fetch] ------- end work fetch state -------");
 }
@@ -847,7 +887,11 @@ PROJECT* WORK_FETCH::choose_project() {
     gstate.compute_nuploading_results();
 
     gstate.rr_simulation();
+#ifdef USE_REC
+    project_priority_init();
+#else
     set_overall_debts();
+#endif
 
     bool cuda_usable = gstate.host_info.have_cuda() && gpus_usable;
     bool ati_usable = gstate.host_info.have_ati() && gpus_usable;
@@ -1127,9 +1171,11 @@ void WORK_FETCH::init() {
         );
     }
 
+#ifndef USE_REC
     if (config.zero_debts) {
         zero_debts();
     }
+#endif
 
     // see what resources anon platform projects can use
     //

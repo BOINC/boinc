@@ -7997,3 +7997,29 @@ Rom    23 Nov 2010
         
     client/
         hostinfo_unix.cpp
+
+David  23 Nov 2010
+    - client: implement more scheduler changes that use
+        recent estimated credit (REC) instead of debt.
+        These changes are enabled by
+            #define USE_REC
+        in work_fetch.h.
+        If this is commented out (the default) the client uses
+        debt-based scheduling, same as before.
+        TODO: work-fetch policy changes
+    - client simulator: various fixes:
+        - compute idle and wasted fraction based on all processing resources,
+            not just CPU
+        - compute job completion times based on FLOPS, not CPU seconds
+        - compute and use project->no_X_apps
+        etc.
+
+    client/
+        app.h
+        client_state.cpp
+        client_types.cpp,h
+        cpu_sched.cpp
+        gui_rpc_server_ops.cpp
+        sim.cpp,h
+        sim_util.cpp
+        work_fetch.cpp,h

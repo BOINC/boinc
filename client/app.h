@@ -149,7 +149,7 @@ struct ACTIVE_TASK {
     double graphics_mode_ack_timeout;
 
 #ifdef SIM
-    double cpu_time_left;
+    double flops_left;
 #endif
 
 #if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))

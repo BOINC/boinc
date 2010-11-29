@@ -196,6 +196,8 @@ void CLIENT_STATE::show_host_info() {
     }
 }
 
+// set no_X_apps for anonymous platform project
+//
 static void check_no_apps(PROJECT* p) {
     p->no_cpu_apps = true;
     p->no_cuda_apps = true;
