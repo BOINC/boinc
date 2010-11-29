@@ -1093,16 +1093,21 @@ int GetMaxCPUTemperature() {
 }
 
 #endif
+#endif  // __APPLE__
 
 // see if Virtualbox is installed
 //
 int HOST_INFO::get_virtualbox_version() {
-    FSRef theFSRef;
-    OSStatus status = noErr;
     char path[MAXPATHLEN];
     char cmd [MAXPATHLEN+35];
     char *newlinePtr;
     FILE* fd;
+
+#if LINUX_LIKE_SYSTEM
+    strcpy(path, "/usr/lib/virtualbox");
+#elif defined( __APPLE__)
+    FSRef theFSRef;
+    OSStatus status = noErr;
 
     // First try to locate the VirtualBox application by Bundle ID and Creator Code
     status = LSFindApplicationForInfo('VBOX', CFSTR("org.virtualbox.app.VirtualBox"),   
@@ -1115,11 +1120,17 @@ int HOST_INFO::get_virtualbox_version() {
     if (status != noErr) {
         strcpy(path, "/Applications/VirtualBox.app");
     }
+#endif
 
     if (boinc_file_exists(path)) {
+#if LINUX_LIKE_SYSTEM
+        safe_strcpy(cmd, path);
+        safe_strcat(cmd, "/VBoxManager --version ");
+#elif defined( __APPLE__)
         safe_strcpy(cmd, "defaults read ");
         safe_strcat(cmd, path);
         safe_strcat(cmd, "/Contents/Info CFBundleShortVersionString");
+#endif
         fd = popen(cmd, "r");
         if (fd) {
             fgets(virtualbox_version, sizeof(virtualbox_version), fd);
@@ -1134,18 +1145,13 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
-#endif  // __APPLE__
-
 // Rules:
 // - Keep code in the right place
 // - only one level of #if
 //
 int HOST_INFO::get_host_info() {
     get_filesystem_info(d_total, d_free);
-
-#if defined( __APPLE__)
     get_virtualbox_version();
-#endif
 
 ///////////// p_vendor, p_model, p_features /////////////////
 #if LINUX_LIKE_SYSTEM
