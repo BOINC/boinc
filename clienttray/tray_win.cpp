@@ -18,6 +18,8 @@
 
 #include "boinc_win.h"
 
+#include "diagnostics.h"
+#include "win_util.h"
 #include "boinc_tray.h"
 #include "tray_win.h"
 #include "idlemon.h"
@@ -46,6 +48,21 @@ CBOINCTray::CBOINCTray() {
 //
 INT CBOINCTray::Run( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR /* lpCmdLine */ , int /* nCmdShow */ ) {
 
+    // Initialize the BOINC Diagnostics Framework
+    int flags =
+#ifdef _DEBUG
+        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+#endif
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_TRACETOSTDOUT |
+        BOINC_DIAG_REDIRECTSTDERR |
+        BOINC_DIAG_REDIRECTSTDOUT;
+
+    chdir_to_data_dir();
+    diagnostics_init(flags, "stdouttray", "stderrtray");
+
+    // Create application window class
     if (!hPrevInstance) {
         // Register an appropriate window class for the primary window
         WNDCLASS cls;

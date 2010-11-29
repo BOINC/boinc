@@ -7942,3 +7942,11 @@ Charlie 18 Nov 2010
     
     client/
         hostinfo_unix.cpp
+
+Rom    18 Nov 2010
+    - win_tray: Add logging support to trap crashes.
+    
+    clienttray/
+        tray_win.cpp
+    win_build/
+        boinctray.vcproj
