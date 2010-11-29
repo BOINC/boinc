@@ -7979,3 +7979,14 @@ Rom    22 Nov 2010
         
     clientgui/
         AdvancedFrame.cpp
+
+David  22 Nov 2010
+	- client: fix bug where client would ask project for work for a resource
+		even when the project doesn't have app versions that use the resource.
+		TODO: there are 2 functions,
+		compute_may_have_work() and dont_fetch(),
+		that do the same thing and both have misleading names.
+		Clean this up.
+
+	client/
+		work_fetch.cpp
