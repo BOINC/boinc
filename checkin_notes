@@ -7972,3 +7972,10 @@ Rom    18 Nov 2010
     client/
         hostinfo_unix.cpp
         hostinfo_win.cpp
+
+Rom    22 Nov 2010
+    - MGR: Switch to the tasks tab when a request to execute benchmarks has
+        been requested.  The messages tab no longer exists.
+        
+    clientgui/
+        AdvancedFrame.cpp

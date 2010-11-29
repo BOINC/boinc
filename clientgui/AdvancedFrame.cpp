@@ -1535,7 +1535,7 @@ void CAdvancedFrame::OnRunBenchmarks(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
+    m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
     pDoc->RunBenchmarks();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRunBenchmarks - Function End"));
