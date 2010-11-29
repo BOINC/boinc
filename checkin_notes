@@ -7936,3 +7936,9 @@ David  17 Nov 2010
         hostinfo.cpp,h
     sched/
         sched_types.cpp
+
+Charlie 18 Nov 2010
+    - client: Add support to detect VirtualBox VM software on Mac.
+    
+    client/
+        hostinfo_unix.cpp
