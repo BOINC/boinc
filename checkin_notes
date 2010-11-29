@@ -7950,3 +7950,11 @@ Rom    18 Nov 2010
         tray_win.cpp
     win_build/
         boinctray.vcproj
+
+David  18 Nov 2010
+    - client: in account manager requests,
+        include the following per-project attributes:
+        suspended_via_gui, dont_request_more_work, deatch_when_done, ended
+
+    client/
+        acct_mgr.cpp
