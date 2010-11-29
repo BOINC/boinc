@@ -314,7 +314,10 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
 		"    <send_time_stats_log>%d</send_time_stats_log>\n"
 		"    <send_job_log>%d</send_job_log>\n"
-        "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+		"    <no_cpu_apps>%d</no_cpu_apps>\n"
+		"    <no_cuda_apps>%d</no_cuda_apps>\n"
+		"    <no_ati_apps>%d</no_ati_apps>\n"
+        "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -362,6 +365,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		sched_rpc_pending,
         send_time_stats_log,
         send_job_log,
+        no_cpu_apps?1:0,
+        no_cuda_apps?1:0,
+        no_ati_apps?1:0,
         anonymous_platform?"    <anonymous_platform/>\n":"",
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
@@ -374,9 +380,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         detach_when_done?"    <detach_when_done/>\n":"",
         ended?"    <ended/>\n":"",
         attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
-        no_cpu_apps?"    <no_cpu_apps/>\n":"",
-        no_cuda_apps?"    <no_cuda_apps/>\n":"",
-        no_ati_apps?"    <no_ati_apps/>\n":"",
         (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":"",
         use_symlinks?"    <use_symlinks/>\n":""
     );

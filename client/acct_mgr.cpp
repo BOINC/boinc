@@ -153,20 +153,22 @@ int ACCT_MGR_OP::do_rpc(
             "      <hostid>%d</hostid>\n"
             "      <not_started_dur>%f</not_started_dur>\n"
             "      <in_progress_dur>%f</in_progress_dur>\n"
-            "%s%s%s%s%s"
+            "      <attached_via_acct_mgr>%d</attached_via_acct_mgr/>\n"
+            "      <dont_request_more_work>%d</dont_request_more_work/>\n"
+            "      <detach_when_done>%d</detach_when_done/>\n"
+            "      <ended>%d</ended/>\n"
             "   </project>\n",
             p->master_url,
             p->project_name,
-            p->suspended_via_gui,
+            p->suspended_via_gui?1:0,
             p->authenticator,
             p->hostid,
             not_started_dur,
             in_progress_dur,
-            p->attached_via_acct_mgr?"      <attached_via_acct_mgr/>\n":"",
-            p->suspended_via_gui?"      <suspended_via_gui/>\n":"",
-            p->dont_request_more_work?"      <dont_request_more_work/>\n":"",
-            p->detach_when_done?"      <detach_when_done/>\n":"",
-            p->ended?"      <ended/>\n":""
+            p->attached_via_acct_mgr?1:0,
+            p->dont_request_more_work?1:0,
+            p->detach_when_done?1:0,
+            p->ended?1:0
         );
     }
     if (boinc_file_exists(GLOBAL_PREFS_FILE_NAME)) {
