@@ -15,21 +15,27 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-// Provide cross-platform interfaces for making changes to VirtualBox
-
-#ifndef _VBOX_H_
-#define _VBOX_H_
-
-extern int virtualbox_generate_vm_name( std::string& strName );
-
-extern int virtualbox_initialize();
-extern int virtualbox_cleanup();
-
-extern int virtualbox_enumeratevms();
-extern int virtualbox_startvm();
-extern int virtualbox_stopvm();
-extern int virtualbox_pausevm();
-extern int virtualbox_resumevm();
-
+#ifdef _WIN32
+#include "boinc_win.h"
+#include "win_util.h"
+#else
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <vector>
+#include <string>
+#include <unistd.h>
 #endif
+
+#include "diagnostics.h"
+#include "filesys.h"
+#include "parse.h"
+#include "str_util.h"
+#include "str_replace.h"
+#include "util.h"
+#include "error_numbers.h"
+#include "procinfo.h"
+#include "boinc_api.h"
+#include "vbox.h"
+

@@ -8459,3 +8459,20 @@ David  28 Nov 2010
 
     html/user/
         workunit.phph
+
+Rom    29 Nov 2010
+    - vboxwrapper: Remove unneeded cruft.  Vbox can report how long a
+        VM has been running since the last state change, we'll use that
+        instead.
+    - vboxwrapper: provide basic stub functions for starting/stopping/
+        suspending/resuming a VM.  Leave wrapper functionality in
+        vboxwrapper, and VM specific functionality in vbox_*.  Ideally
+        only the stub functions would have to change for other VM
+        implementations.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vbox_win.cpp
+        vboxwrapper.cpp
+    win_build/
+        vboxwrapper.vcproj

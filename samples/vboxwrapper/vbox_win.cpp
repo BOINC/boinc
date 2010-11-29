@@ -36,11 +36,14 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
+#include "boinc_api.h"
 #include "vbox.h"
 #include "mscom/VirtualBox.h"
 
 
-IVirtualBox* pVirtualBox;
+IVirtualBox*    pVirtualBox;
+ISession*       pSession;
+IMachine*       pMachine;
 
 
 int virtualbox_initialize() {
@@ -103,5 +106,21 @@ int virtualbox_enumeratevms() {
         SafeArrayDestroy (machinesArray);
     }
 
+    return 0;
+}
+
+int virtualbox_startvm() {
+    return 1;
+}
+
+int virtualbox_stopvm() {
+    return 0;
+}
+
+int virtualbox_pausevm() {
+    return 0;
+}
+
+int virtualbox_resumevm() {
     return 0;
 }
