@@ -7913,3 +7913,12 @@ Rom    17 Nov 2010
         hostinfo_win.cpp
     lib/
         hostinfo.cpp, .h
+
+Rom    17 Nov 2010
+    - sched: Parse the detected virtual machine software from
+        the scheduler request so it can be used in plan classes.
+        
+    db/
+        boinc_db.h
+    sched/
+        sched_types.cpp
