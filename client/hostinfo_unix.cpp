@@ -1104,7 +1104,7 @@ int HOST_INFO::get_virtualbox_version() {
     FILE* fd;
 
 #if LINUX_LIKE_SYSTEM
-    strcpy(path, "/usr/lib/virtualbox");
+    strcpy(path, "/usr/lib/virtualbox/VBoxManage");
 #elif defined( __APPLE__)
     FSRef theFSRef;
     OSStatus status = noErr;
@@ -1125,7 +1125,7 @@ int HOST_INFO::get_virtualbox_version() {
     if (boinc_file_exists(path)) {
 #if LINUX_LIKE_SYSTEM
         safe_strcpy(cmd, path);
-        safe_strcat(cmd, "/VBoxManager --version ");
+        safe_strcat(cmd, " --version");
 #elif defined( __APPLE__)
         safe_strcpy(cmd, "defaults read ");
         safe_strcat(cmd, path);
@@ -1141,7 +1141,7 @@ int HOST_INFO::get_virtualbox_version() {
             pclose(fd);
         }
     }
-    
+
     return 0;
 }
 
