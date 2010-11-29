@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2010 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,19 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-// wrapper.C
-// wrapper program - lets you use non-BOINC apps with BOINC
-//
-// Handles:
-// - suspend/resume/quit/abort
-// - reporting CPU time
-// - loss of heartbeat from core client
-// - checkpointing
-//      (at the level of task; or potentially within task)
-//
-// See http://boinc.berkeley.edu/wrapper.php for details
-// Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
 
 #include <stdio.h>
 #include <vector>
@@ -51,8 +38,7 @@
 #include "util.h"
 #include "error_numbers.h"
 
-#define JOB_FILENAME "job.xml"
-#define CHECKPOINT_FILENAME "wrapper_checkpoint.txt"
+#include "wrappture.h"
 
 #define POLL_PERIOD 1.0
 
@@ -87,7 +73,6 @@ struct TASK {
     struct stat last_stat;
 #endif
     bool stat_first;
-    int parse(XML_PARSER&);
     bool poll(int& status);
     int run(int argc, char** argv);
     void kill();
@@ -121,90 +106,8 @@ struct TASK {
     }
 };
 
-vector<TASK> tasks;
 APP_INIT_DATA aid;
-bool graphics = false;
-
-int TASK::parse(XML_PARSER& xp) {
-    char tag[1024], buf[8192], buf2[8192];
-    bool is_tag;
-
-    weight = 1;
-    final_cpu_time = 0;
-    stat_first = true;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
-            fprintf(stderr, "%s TASK::parse(): unexpected text %s\n",
-                boinc_msg_prefix(buf, sizeof(buf)), tag
-            );
-            continue;
-        }
-        if (!strcmp(tag, "/task")) {
-            return 0;
-        }
-        else if (xp.parse_string(tag, "application", application)) continue;
-        else if (xp.parse_string(tag, "stdin_filename", stdin_filename)) continue;
-        else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
-        else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
-        else if (xp.parse_str(tag, "command_line", buf, sizeof(buf))) {
-            while (1) {
-                char* p = strstr(buf, "$PROJECT_DIR");
-                if (!p) break;
-                strcpy(buf2, p+strlen("$PROJECT_DIR"));
-                strcpy(p, aid.project_dir);
-                strcat(p, buf2);
-            }
-            command_line = buf;
-            continue;
-        }
-        else if (xp.parse_string(tag, "checkpoint_filename", checkpoint_filename)) continue;
-        else if (xp.parse_string(tag, "fraction_done_filename", fraction_done_filename)) continue;
-        else if (xp.parse_double(tag, "weight", weight)) continue;
-    }
-    return ERR_XML_PARSE;
-}
-
-int parse_job_file() {
-    MIOFILE mf;
-    char tag[1024], buf[256], buf2[256];
-    bool is_tag;
-
-    boinc_resolve_filename(JOB_FILENAME, buf, 1024);
-    FILE* f = boinc_fopen(buf, "r");
-    if (!f) {
-        fprintf(stderr,
-            "%s can't open job file %s\n",
-            boinc_msg_prefix(buf2, sizeof(buf2)), buf
-        );
-        return ERR_FOPEN;
-    }
-    mf.init_file(f);
-    XML_PARSER xp(&mf);
-
-    if (!xp.parse_start("job_desc")) return ERR_XML_PARSE;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
-            fprintf(stderr,
-                "%s SCHED_CONFIG::parse(): unexpected text %s\n",
-                boinc_msg_prefix(buf2, sizeof(buf2)), tag
-            );
-            continue;
-        }
-        if (!strcmp(tag, "/job_desc")) {
-            fclose(f);
-            return 0;
-        }
-        if (!strcmp(tag, "task")) {
-            TASK task;
-            int retval = task.parse(xp);
-            if (!retval) {
-                tasks.push_back(task);
-            }
-        }
-    }
-    fclose(f);
-    return ERR_XML_PARSE;
-}
+double fraction_done, checkpoint_cpu_time;
 
 #ifdef _WIN32
 // CreateProcess() takes HANDLEs for the stdin/stdout.
@@ -495,133 +398,76 @@ void send_status_message(
     );
 }
 
-// Support for multiple tasks.
-// We keep a checkpoint file that says how many tasks we've completed
-// and how much CPU time has been used so far
+#define PROGRESS_MARKER "=RAPPTURE-PROGRESS=>"
+
+// the following runs in a thread and parses the app's stdout file,
+// looking for progress tags
 //
-void write_checkpoint(int ntasks_completed, double cpu) {
-    FILE* f = fopen(CHECKPOINT_FILENAME, "w");
-    if (!f) return;
-    fprintf(f, "%d %f\n", ntasks_completed, cpu);
-    fclose(f);
-}
+void* parse_app_stdout(void*) {
+    char buf[8192];
+    FILE* f = boinc_fopen("rappture_stdout.txt", "r");
 
-void read_checkpoint(int& ntasks_completed, double& cpu) {
-    int nt;
-    double c;
-
-    ntasks_completed = 0;
-    cpu = 0;
-    FILE* f = fopen(CHECKPOINT_FILENAME, "r");
-    if (!f) return;
-    int n = fscanf(f, "%d %lf", &nt, &c);
-    fclose(f);
-    if (n != 2) return;
-    ntasks_completed = nt;
-    cpu = c;
-}
-
-int main(int argc, char** argv) {
-    BOINC_OPTIONS options;
-    int retval, ntasks_completed;
-    unsigned int i;
-    double total_weight=0, weight_completed=0;
-    double checkpoint_cpu_time;
-        // overall CPU time at last checkpoint
-
-    for (i=1; i<(unsigned int)argc; i++) {
-        if (!strcmp(argv[i], "--graphics")) {
-            graphics = true;
+    while (1) {
+        if (fgets(buf, sizeof(buf), f)) {
+            if (strstr(buf, PROGRESS_MARKER)) {
+                fraction_done = atof(buf+strlen(PROGRESS_MARKER))/100;
+            }
+        } else {
+            boinc_sleep(1.);
         }
     }
+}
+
+int create_parser_thread() {
+#ifdef _WIN32
+    DWORD parser_thread_id;
+    if (!CreateThread(NULL, 0, parse_app_stdout, 0, 0, &parser_thread_id)) {
+        return ERR_THREAD;
+    }
+#else
+    pthread_t parser_thread_handle;
+    pthread_attr_t thread_attrs;
+    pthread_attr_init(&thread_attrs);
+    pthread_attr_setstacksize(&thread_attrs, 16384);
+    int retval = pthread_create(
+        &parser_thread_handle, &thread_attrs, parse_app_stdout, NULL
+    );
+    if (retval) {
+        return ERR_THREAD;
+    }
+#endif
+    return 0;
+}
+
+int boinc_run_rappture_app(const char* program, const char* cmdline) {
+    TASK task;
+    int retval;
+    BOINC_OPTIONS options;
 
     memset(&options, 0, sizeof(options));
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_process_control = true;
-    if (graphics) {
-        options.backwards_compatible_graphics = true;
-    }
-
     boinc_init_options(&options);
-    fprintf(stderr, "wrapper: starting\n");
 
-    boinc_get_init_data(aid);
+    memset(&task, 0, sizeof(task));
+    task.application = program;
+    task.command_line = cmdline;
+    task.stdout_filename = "rappture_stdout.txt";
 
-    retval = parse_job_file();
-    if (retval) {
-        fprintf(stderr, "can't parse job file: %d\n", retval);
-        boinc_finish(retval);
-    }
-
-    read_checkpoint(ntasks_completed, checkpoint_cpu_time);
-    if (ntasks_completed > (int)tasks.size()) {
-        fprintf(stderr,
-            "Checkpoint file: ntasks_completed too large: %d > %d\n",
-            ntasks_completed, (int)tasks.size()
-        );
-        boinc_finish(1);
-    }
-    for (i=0; i<tasks.size(); i++) {
-        total_weight += tasks[i].weight;
-    }
-
-    // loop over tasks
-    //
-    for (i=0; i<tasks.size(); i++) {
-        TASK& task = tasks[i];
-        if ((int)i<ntasks_completed) {
-            weight_completed += task.weight;
-            continue;
-        }
-        double frac_done = weight_completed/total_weight;
-
-        task.starting_cpu = checkpoint_cpu_time;
-        retval = task.run(argc, argv);
-        if (retval) {
-            boinc_finish(retval);
-        }
-        while (1) {
-            int status;
-            if (task.poll(status)) {
-                if (status) {
-                    fprintf(stderr, "app exit status: 0x%x\n", status);
-                    // On Unix, if the app is non-executable,
-                    // the child status will be 0x6c00.
-                    // If we return this the client will treat it
-                    // as recoverable, and restart us.
-                    // We don't want this, so return an 8-bit error code.
-                    //
-                    boinc_finish(EXIT_CHILD_FAILED);
-                }
-                break;
+    retval = task.run(0, 0);
+    create_parser_thread();
+    while (1) {
+        int status;
+        if (task.poll(status)) {
+            if (status) {
+                boinc_finish(EXIT_CHILD_FAILED);
             }
-            poll_boinc_messages(task);
-            double task_fraction_done = task.fraction_done();
-            double delta = task_fraction_done*task.weight/total_weight;
-            send_status_message(task, frac_done+delta, checkpoint_cpu_time);
-            if (task.has_checkpointed()) {
-                checkpoint_cpu_time = task.starting_cpu + task.cpu_time();
-                write_checkpoint(i, checkpoint_cpu_time);
-            }
-            boinc_sleep(POLL_PERIOD);
+            break;
         }
-        checkpoint_cpu_time = task.starting_cpu + task.final_cpu_time;
-        write_checkpoint(i+1, checkpoint_cpu_time);
-        weight_completed += task.weight;
+        poll_boinc_messages(task);
+        send_status_message(task, fraction_done, checkpoint_cpu_time);
+        boinc_sleep(POLL_PERIOD);
     }
-    boinc_finish(0);
+    return 0;
 }
-
-#ifdef _WIN32
-
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
-    LPSTR command_line;
-    char* argv[100];
-    int argc;
-
-    command_line = GetCommandLine();
-    argc = parse_command_line(command_line, argv);
-    return main(argc, argv);
-}
-#endif

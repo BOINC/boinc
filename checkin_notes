@@ -8476,3 +8476,15 @@ Rom    29 Nov 2010
         vboxwrapper.cpp
     win_build/
         vboxwrapper.vcproj
+
+David  29 Nov 2010
+    - add support for making wrappers for Rappture:
+        https://nanohub.org/infrastructure/rappture/
+
+    samples/
+        wrappture/
+            wrappture.cpp,h
+            wrappture_example.cpp
+            Makefile
+        wrapper/
+            wrapper.cpp
