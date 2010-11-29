@@ -7954,7 +7954,14 @@ Rom    18 Nov 2010
 David  18 Nov 2010
     - client: in account manager requests,
         include the following per-project attributes:
-        suspended_via_gui, dont_request_more_work, deatch_when_done, ended
+        suspended_via_gui, dont_request_more_work, detach_when_done, ended
 
     client/
         acct_mgr.cpp
+
+David  18 Nov 2010
+    - client: restore code to maintain recent estimated credit
+
+    client/
+        client_types.cpp
+        cpu_sched.cpp

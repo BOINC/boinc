@@ -431,6 +431,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     cpu_pwf = p.cpu_pwf;
     cuda_pwf = p.cuda_pwf;
     ati_pwf = p.ati_pwf;
+    pwf = p.pwf;
     send_file_list = p.send_file_list;
     send_full_workload = p.send_full_workload;
     send_time_stats_log = p.send_time_stats_log;
