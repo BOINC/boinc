@@ -1163,8 +1163,7 @@ int HOST::parse(FILE* fin) {
         if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
         if (parse_str(buf, "<p_features>", p_features, sizeof(p_features))) continue;
-        if (parse_str(buf, "<vm_name>", vm_name, sizeof(vm_name))) continue;
-        if (parse_str(buf, "<vm_version>", vm_version, sizeof(vm_version))) continue;
+        if (parse_str(buf, "<virtualbox_version>", virtualbox_version, sizeof(virtualbox_version))) continue;
 
         // parse deprecated fields to avoid error messages
         //

@@ -68,8 +68,7 @@ void HOST_INFO::clear_host_info() {
     strcpy(os_name, "");
     strcpy(os_version, "");
 
-    strcpy(vm_name, "");
-    strcpy(vm_version, "");
+    strcpy(virtualbox_version, "");
 
     coprocs.clear();
 }
@@ -112,8 +111,7 @@ int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {
         else if (parse_double(buf, "<d_free>", d_free)) continue;
         else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
         else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
-        else if (parse_str(buf, "<vm_name>", vm_name, sizeof(vm_name))) continue;
-        else if (parse_str(buf, "<vm_version>", vm_version, sizeof(vm_version))) continue;
+        else if (parse_str(buf, "<virtualbox_version>", virtualbox_version, sizeof(virtualbox_version))) continue;
         else if (match_tag(buf, "<coprocs>")) {
             coprocs.parse(in);
         }
@@ -131,7 +129,7 @@ int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {
 int HOST_INFO::write(
     MIOFILE& out, bool include_net_info, bool include_coprocs
 ) {
-    char pv[265], pm[256], pf[256], osn[256], osv[256], vmn[256], vmv[256];
+    char pv[265], pm[256], pf[256], osn[256], osv[256];
     out.printf(
         "<host_info>\n"
         "    <timezone>%d</timezone>\n",
@@ -150,8 +148,6 @@ int HOST_INFO::write(
     xml_escape(p_features, pf, sizeof(pf));
     xml_escape(os_name, osn, sizeof(osn));
     xml_escape(os_version, osv, sizeof(osv));
-    xml_escape(vm_name, vmn, sizeof(vmn));
-    xml_escape(vm_version, vmv, sizeof(vmv));
     out.printf(
         "    <host_cpid>%s</host_cpid>\n"
         "    <p_ncpus>%d</p_ncpus>\n"
@@ -168,9 +164,7 @@ int HOST_INFO::write(
         "    <d_total>%f</d_total>\n"
         "    <d_free>%f</d_free>\n"
         "    <os_name>%s</os_name>\n"
-        "    <os_version>%s</os_version>\n"
-        "    <vm_name>%s</vm_name>\n"
-        "    <vm_version>%s</vm_version>\n",
+        "    <os_version>%s</os_version>\n",
         host_cpid,
         p_ncpus,
         pv,
@@ -186,10 +180,16 @@ int HOST_INFO::write(
         d_total,
         d_free,
         osn,
-        osv,
-        vmn,
-        vmv
+        osv
     );
+    if (strlen(virtualbox_version)) {
+        char buf[256];
+        xml_escape(virtualbox_version, buf, sizeof(buf));
+        out.printf(
+            "    <virtualbox_version>%s</virtualbox_version>\n",
+            buf
+        );
+    }
     if (include_coprocs) {
         coprocs.write_xml(out, false);
     }

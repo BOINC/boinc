@@ -7922,3 +7922,17 @@ Rom    17 Nov 2010
         boinc_db.h
     sched/
         sched_types.cpp
+
+David  17 Nov 2010
+    - client and scheduler: a client host may have multiple VM systems installed.
+        TODO: check for VirtualBox on Mac, Linux
+
+    client/
+        client_state.cpp
+        hostinfo_win.cpp
+    db/
+        boinc_db.h
+    lib/
+        hostinfo.cpp,h
+    sched/
+        sched_types.cpp
