@@ -8039,3 +8039,12 @@ Charlie 24 Nov 2010
      
     client/
         cpu_sched.cpp
+
+David  24 Nov 2010
+    - client: work fetch fix: try to maintain GPU work all projects,
+        since we now do round-robin for GPUs as well as CPU.
+        NOTE: this bug was found using the client simulator!
+        
+    client/
+        work_fetch.cpp,h
+        cpu_sched.cpp
