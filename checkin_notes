@@ -8023,3 +8023,13 @@ David  23 Nov 2010
         sim.cpp,h
         sim_util.cpp
         work_fetch.cpp,h
+
+David  23 Nov 2010
+    - GUI RPC, client side: add error-checking for CC_STATE::parse();
+        avoid crash if error or missing item in reply XML
+
+    client/
+        sim.cpp
+        cpu_sched.cpp
+    lib/
+        gui_rpc_client_ops.cpp

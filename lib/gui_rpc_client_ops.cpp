@@ -730,6 +730,7 @@ int CC_STATE::parse(MIOFILE& fin) {
     char buf[256];
     string platform;
     PROJECT* project = NULL;
+    int retval;
 
     while (fin.fgets(buf, 256)) {
         if (match_tag(buf, "<unauthorized")) {
@@ -742,38 +743,72 @@ int CC_STATE::parse(MIOFILE& fin) {
         if (parse_bool(buf, "have_ati", have_ati)) continue;
         if (match_tag(buf, "<project>")) {
             project = new PROJECT();
-            project->parse(fin);
+            retval = project->parse(fin);
+            if (retval) {
+                // should never happen
+                delete project;
+                project = NULL;
+                continue;
+            }
             projects.push_back(project);
             continue;
         }
         if (match_tag(buf, "<app>")) {
             APP* app = new APP();
-            app->parse(fin);
+            retval = app->parse(fin);
+            if (retval || !project) {
+                delete app;
+                continue;
+            }
             app->project = project;
             apps.push_back(app);
             continue;
         }
         if (match_tag(buf, "<app_version>")) {
             APP_VERSION* app_version = new APP_VERSION();
-            app_version->parse(fin);
+            retval = app_version->parse(fin);
+            if (retval || !project) {
+                delete app_version;
+                continue;
+            }
             app_version->project = project;
             app_version->app = lookup_app(project, app_version->app_name);
+            if (!app_version->app) {
+                delete app_version;
+                continue;
+            }
             app_versions.push_back(app_version);
             continue;
         }
         if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wu = new WORKUNIT();
-            wu->parse(fin);
+            retval = wu->parse(fin);
+            if (retval || !project) {
+                delete wu;
+                continue;
+            }
             wu->project = project;
             wu->app = lookup_app(project, wu->app_name);
+            if (!wu->app) {
+                delete wu;
+                continue;
+            }
             wus.push_back(wu);
             continue;
         }
         if (match_tag(buf, "<result>")) {
             RESULT* result = new RESULT();
-            result->parse(fin);
+            retval = result->parse(fin);
+            if (retval || !project) {
+                delete result;
+                continue;
+            }
             result->project = project;
             result->wup = lookup_wu(project, result->wu_name);
+            if (!result->wup) {
+                delete result;
+                continue;
+            }
             result->app = result->wup->app;
             APP_VERSION* avp;
             if (result->version_num) {
@@ -785,6 +820,10 @@ int CC_STATE::parse(MIOFILE& fin) {
                 avp = lookup_app_version_old(
                     project, result->app, result->wup->version_num
                 );
+            }
+            if (!avp) {
+                delete result;
+                continue;
             }
             result->avp = avp;
             results.push_back(result);
