@@ -8033,3 +8033,9 @@ David  23 Nov 2010
         cpu_sched.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+Charlie 24 Nov 2010
+     - client: fix compiler warning.
+     
+    client/
+        cpu_sched.cpp
