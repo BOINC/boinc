@@ -124,6 +124,8 @@ int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {
 // - a GUI RPC reply (net info, coprocs)
 // - a scheduler request message
 //   (net info unless config says otherwise, no coprocs)
+// - account manager request
+//   (net info unless config says otherwise, coprocs)
 // - app init file (net info, coprocs)
 //
 int HOST_INFO::write(

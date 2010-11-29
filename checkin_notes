@@ -8073,3 +8073,9 @@ David  26 Nov 2010
     client/
         acct_mgr.cpp
         client_types.cpp
+
+David  27 Nov 2010
+    - client: send host info in account manager request message
+
+    client/
+        acct_mgr.cpp
