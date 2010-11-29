@@ -8452,3 +8452,10 @@ David  27 Nov 2010
 
     client/
         acct_mgr.cpp
+
+David  28 Nov 2010
+    - web: show details of single-replicated WUs if they have an error
+        fixes #1036
+
+    html/user/
+        workunit.phph
