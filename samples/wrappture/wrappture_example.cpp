@@ -16,10 +16,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 #include "error_numbers.h"
 #include "boinc_api.h"
+#include "str_util.h"
 #include "wrappture.h"
 
 #define RPLIB_OVERWRITE 0
@@ -28,14 +31,14 @@ RpLibrary* rpLibrary(char*){return NULL;}
 void rpGetString(RpLibrary*, const char*, const char**){}
 double rpConvertDbl(const char*, const char*, int*){return 0;}
 void rpPutString (RpLibrary*, const char*, const char*, int){}
-void rpResult(RpLibrary*);
+void rpResult(RpLibrary*){}
 
 int main(int argc, char * argv[]) {
 
     RpLibrary* lib    = NULL;
 
     const char* data  = NULL;
-    char line[100];
+    //char line[100];
 
     double T          = 0.0;
     double Ef         = 0.0;
@@ -105,3 +108,16 @@ int main(int argc, char * argv[]) {
         boinc_finish(EXIT_CHILD_FAILED);
     }
 }
+
+#ifdef _WIN32
+
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+    LPSTR command_line;
+    char* argv[100];
+    int argc;
+
+    command_line = GetCommandLine();
+    argc = parse_command_line(command_line, argv);
+    return main(argc, argv);
+}
+#endif

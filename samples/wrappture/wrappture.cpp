@@ -403,7 +403,11 @@ void send_status_message(
 // the following runs in a thread and parses the app's stdout file,
 // looking for progress tags
 //
+#ifdef _WIN32
+DWORD WINAPI parse_app_stdout(void*) {
+#else
 void* parse_app_stdout(void*) {
+#endif
     char buf[8192];
     FILE* f = boinc_fopen("rappture_stdout.txt", "r");
 

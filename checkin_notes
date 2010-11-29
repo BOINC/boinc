@@ -8488,3 +8488,13 @@ David  29 Nov 2010
             Makefile
         wrapper/
             wrapper.cpp
+
+David  29 Nov 2010
+	- add VS project file for wrappture_example; fix Win compile
+
+	samples/wrappture/
+		wrappture.cpp	
+		wrappture_example.cpp	
+	win_build/
+		boinc.sln
+		wrappture_example.vcproj
