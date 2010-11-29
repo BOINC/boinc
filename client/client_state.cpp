@@ -187,6 +187,13 @@ void CLIENT_STATE::show_host_info() {
     msg_printf(0, MSG_INFO, "Local time is UTC %s%d hours",
         tz<0?"":"+", tz
     );
+
+    if (strlen(host_info.vm_version)) {
+        msg_printf(NULL, MSG_INFO,
+            "Detected: %s %s",
+            host_info.vm_name, host_info.vm_version
+        );
+    }
 }
 
 static void check_no_apps(PROJECT* p) {

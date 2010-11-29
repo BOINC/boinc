@@ -7904,3 +7904,12 @@ David  17 Nov 2010
         gui_rpc_server_ops.cpp
         rr_sim.cpp
         work_fetch.cpp
+
+Rom    17 Nov 2010
+    - client: Add support to detect VirtualBox VM software.
+    
+    client/
+        client_state.cpp
+        hostinfo_win.cpp
+    lib/
+        hostinfo.cpp, .h

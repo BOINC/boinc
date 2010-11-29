@@ -1058,7 +1058,6 @@ int get_processor_info(
 // detect the network usage totals for the host.
 //
 int get_network_usage_totals(unsigned int& total_received, unsigned int& total_sent) {
-
     // Declare and initialize variables.
     int i;
     int iRetVal = 0;
@@ -1102,7 +1101,45 @@ int get_network_usage_totals(unsigned int& total_received, unsigned int& total_s
     }
 
     return iRetVal;
+}
 
+
+// Check, if any, virtual machine technology is supported on the host
+//
+int get_virtualmachine_information(
+    char* vm_name, int /*vm_name_size*/, char* vm_version, int vm_version_size
+)
+{
+    HKEY hKey;
+    char szInstallDir[256];
+    char szVersion[256];
+    DWORD dwInstallDir = sizeof(szInstallDir);
+    DWORD dwVersion = sizeof(szVersion);
+    LONG lRet;
+
+    lRet = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
+        "SOFTWARE\\Oracle\\VirtualBox",
+        0, KEY_QUERY_VALUE, &hKey );
+    if( lRet == ERROR_SUCCESS ) {
+
+        lRet = RegQueryValueEx( hKey, "InstallDir", NULL, NULL,
+            (LPBYTE) szInstallDir, &dwInstallDir);
+        if( (lRet != ERROR_SUCCESS) || (dwInstallDir > sizeof(szInstallDir)) ) return 1;
+
+        lRet = RegQueryValueEx( hKey, "Version", NULL, NULL,
+            (LPBYTE) szVersion, &dwVersion);
+        if( (lRet != ERROR_SUCCESS) || (dwVersion > sizeof(szVersion)) ) return 1;
+
+        strncat(szInstallDir, "\\virtualbox.exe", sizeof(szInstallDir) - strlen(szInstallDir));
+
+        if (boinc_file_exists(szInstallDir)) {
+            strcpy(vm_name, "VirtualBox");
+            strncpy(vm_version, szVersion, vm_version_size - strlen(szVersion));
+        }
+    }
+
+    RegCloseKey( hKey );
+    return 0;
 }
 
 
@@ -1114,6 +1151,9 @@ int HOST_INFO::get_host_info() {
     get_memory_info(m_nbytes, m_swap);
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
+    );
+    get_virtualmachine_information(
+        vm_name, sizeof(vm_name), vm_version, sizeof(vm_version)
     );
     get_processor_info(
         p_vendor, sizeof(p_vendor),

@@ -58,6 +58,9 @@ public:
     char os_name[256];
     char os_version[256];
 
+    char vm_name[256];
+    char vm_version[256];
+
     COPROCS coprocs;
 
     HOST_INFO();
