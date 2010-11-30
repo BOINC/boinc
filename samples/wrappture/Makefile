@@ -13,7 +13,7 @@ CXXFLAGS = -g \
     -L$(BOINC_LIB_DIR) \
     -L.
 
-PROGS = wrappture_example
+PROGS = wrappture_example fermi
 
 all: $(PROGS)
 
@@ -31,3 +31,6 @@ wrappture.o: wrappture.cpp
 
 wrappture_example: wrappture.o wrappture_example.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
 	g++ $(CXXFLAGS) -o wrappture_example wrappture_example.o wrappture.o libstdc++.a -pthread -lboinc_api -lboinc
+
+fermi: fermi.cpp
+	g++ $(CSSFLAGS) -o fermi fermi.cpp

@@ -406,9 +406,17 @@ void send_status_message(
 #ifdef _WIN32
 DWORD WINAPI parse_app_stdout(void*) {
 #else
-void* parse_app_stdout(void*) {
+static void block_sigalrm() {
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGALRM);
+    pthread_sigmask(SIG_BLOCK, &mask, NULL);
+}
+
+static void* parse_app_stdout(void*) {
+    block_sigalrm();
 #endif
-    char buf[8192];
+    char buf[1024];
     FILE* f = boinc_fopen("rappture_stdout.txt", "r");
 
     while (1) {
@@ -454,7 +462,6 @@ int boinc_run_rappture_app(const char* program, const char* cmdline) {
     options.handle_process_control = true;
     boinc_init_options(&options);
 
-    memset(&task, 0, sizeof(task));
     task.application = program;
     task.command_line = cmdline;
     task.stdout_filename = "rappture_stdout.txt";

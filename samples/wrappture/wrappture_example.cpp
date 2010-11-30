@@ -23,11 +23,13 @@
 #include "error_numbers.h"
 #include "boinc_api.h"
 #include "str_util.h"
+#include "filesys.h"
 #include "wrappture.h"
 
 #define RPLIB_OVERWRITE 0
+#define RPLIB_APPEND 0
 struct RpLibrary{};
-RpLibrary* rpLibrary(char*){return NULL;}
+RpLibrary* rpLibrary(char*){return new RpLibrary;}
 void rpGetString(RpLibrary*, const char*, const char**){}
 double rpConvertDbl(const char*, const char*, int*){return 0;}
 void rpPutString (RpLibrary*, const char*, const char*, int){}
@@ -38,7 +40,6 @@ int main(int argc, char * argv[]) {
     RpLibrary* lib    = NULL;
 
     const char* data  = NULL;
-    //char line[100];
 
     double T          = 0.0;
     double Ef         = 0.0;
@@ -100,13 +101,29 @@ int main(int argc, char * argv[]) {
                     "eV",
                     RPLIB_OVERWRITE );
 
-    int retval = boinc_run_rappture_app("foobar.exe", "-kT 4.3");
-    if (retval == 0) {
-        boinc_finish(0);
-        rpResult(lib);
-    } else {
+    // Run core simulator
+    char buf[256];
+    sprintf(buf, "%g %g", T, Ef);
+    int retval = boinc_run_rappture_app("fermi", buf);
+    if (retval) {
+        fprintf(stderr, "boinc_run_rappture_app(): %d\n", retval);
         boinc_finish(EXIT_CHILD_FAILED);
     }
+
+    // Read resulting output file
+    FILE* file;
+    if (!(file = boinc_fopen("fermi_out.dat", "r"))) {
+       fprintf(stderr, "Unable to open data file\n");
+       exit(-1);
+    }
+    while (fgets(buf, sizeof(buf), file)) {
+       rpPutString(lib, "output.curve(f12).component.xy", buf, RPLIB_APPEND);
+    }
+    fclose(file);
+
+    // Finish
+    rpResult(lib);
+    boinc_finish(0);
 }
 
 #ifdef _WIN32
