@@ -309,6 +309,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     }
     if (wup) {
         addProperty(_("Estimated task size"), wxString::Format(wxT("%.0f GFLOPs"), wup->rsc_fpops_est/1e9));
+        addProperty(_("Max RAM usage"), wxString::Format(wxT("%.0f MB"), wup->rsc_memory_bound/MEGA));
     }
     if (result->active_task) {
 		addProperty(_("CPU time at last checkpoint"), FormatTime(result->checkpoint_cpu_time));
