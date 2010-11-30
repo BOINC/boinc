@@ -119,7 +119,12 @@ if ($_POST['submit']) {
         $rr_only = '--cpu_sched_rr_only';
     }
 
-    $cmd = "./sim --duration $duration --delta $delta $suw --file_prefix $prefix $rr_only $llflag";
+    $prog = "./sim_debt";
+    if ($_POST['use_rec']) {
+        $prog = "./sim_rec";
+    }
+
+    $cmd = "$prog --duration $duration --delta $delta $suw --file_prefix $prefix $rr_only $llflag";
 
     $x = system($cmd);
 

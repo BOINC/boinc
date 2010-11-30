@@ -8510,3 +8510,11 @@ David  30 Nov 2010
         sched_types.h
         sched_customize.cpp
         sched_version.cpp
+
+David  30 Nov 2010
+    - client: on startup, generate a notice if any jobs require more RAM
+        than is allowed by prefs
+
+    client/
+        client_state.cpp
+        cpu_sched.cpp

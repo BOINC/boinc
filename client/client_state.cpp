@@ -216,6 +216,25 @@ static void check_no_apps(PROJECT* p) {
     }
 }
 
+// alert user if any jobs need more RAM than available
+//
+static void check_too_large_jobs() {
+    double m = gstate.max_available_ram();
+    bool found = false;
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (rp->wup->rsc_memory_bound > m) {
+            found = true;
+            break;
+        }
+    }
+    if (found) {
+        msg_printf(0, MSG_USER_ALERT,
+            _("Some tasks need more memory than allowed by your preferences.  Please check the preferences.")
+        );
+    }
+}
+
 // Sometime has failed N times.
 // Calculate an exponential backoff between MIN and MAX
 //
@@ -527,10 +546,17 @@ int CLIENT_STATE::init() {
 
     http_ops->cleanup_temp_files();
 
+    // get list of BOINC projects occasionally,
+    // and initialize notice RSS feeds
+    //
     if (!config.no_info_fetch) {
         all_projects_list_check();
         notices.init_rss();
     }
+
+    // warn user if some jobs need more memory than available
+    //
+    check_too_large_jobs();
 
     initialized = true;
     return 0;

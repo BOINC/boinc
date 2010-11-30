@@ -786,6 +786,9 @@ void add_coproc_jobs(int rsc_type, PROC_RESOURCES& proc_rsc) {
     RESULT* rp;
     bool can_run;
 
+#ifdef SIM
+    if (!cpu_sched_rr_only) {
+#endif
     // choose coproc jobs from projects with coproc deadline misses
     //
     while (!proc_rsc.stop_scan_coproc(rsc_type)) {
@@ -806,6 +809,9 @@ void add_coproc_jobs(int rsc_type, PROC_RESOURCES& proc_rsc) {
         rp->edf_scheduled = true;
         gstate.ordered_scheduled_results.push_back(rp);
     }
+#ifdef SIM
+    }
+#endif
 
     // then coproc jobs in FIFO order
     //
