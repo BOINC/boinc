@@ -112,9 +112,9 @@ double app_peak_flops(APP_VERSION* avp, double dt, double cpu_scale) {
     return x*dt;
 }
 
-// peak flops of all devices running for dt secs
+// peak flops of all devices
 //
-double total_peak_flops(double dt) {
+double total_peak_flops() {
     double cuda = gstate.host_info.coprocs.cuda.count * cuda_work_fetch.relative_speed * gstate.host_info.p_fpops;
     double ati = gstate.host_info.coprocs.ati.count * ati_work_fetch.relative_speed * gstate.host_info.p_fpops;
     double cpu = gstate.ncpus * gstate.host_info.p_fpops;
@@ -122,7 +122,7 @@ double total_peak_flops(double dt) {
     printf("CPU: %.2fG CUDA: %.2fG ATI: %.2fG total: %.2fG\n",
         cpu/1e9, cuda/1e9, ati/1e9, tot/1e9
     );
-    return tot*dt;
+    return tot;
 }
 
 void print_project_results(FILE* f) {
@@ -636,7 +636,7 @@ double CLIENT_STATE::monotony() {
 // the CPU totals are there; compute the other fields
 //
 void SIM_RESULTS::compute() {
-    double flops_total = total_peak_flops(running_time);
+    double flops_total = total_peak_flops()*running_time;
     printf("total %fG\n", flops_total/1e9);
     double flops_idle = flops_total - flops_used;
     printf("used: %fG wasted: %fG idle: %fG\n",
@@ -854,6 +854,20 @@ void html_end() {
 }
 
 #ifdef USE_REC
+
+void set_initial_rec() {
+    unsigned int i;
+    double sum=0;
+    double x = total_peak_flops();
+    for (i=0; i<gstate.projects.size(); i++) {
+        sum += gstate.projects[i]->resource_share;
+    }
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->pwf.rec = 86400*x*(p->resource_share/sum)/1e9;
+    }
+}
+
 void write_recs() {
     fprintf(debt_file, "%f ", gstate.now);
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
@@ -871,6 +885,7 @@ void make_graph(const char* title, const char* fname, int field) {
     fprintf(f,
         "set terminal png small size 1024, 768\n"
         "set title \"%s\"\n"
+        "set yrange[0:]\n"
         "plot ",
         title
     );
@@ -1189,6 +1204,11 @@ void do_client_simulation() {
 
     gstate.set_ncpus();
     work_fetch.init();
+
+#ifdef USE_REC
+    set_initial_rec();
+#endif
+
     gstate.request_work_fetch("init");
     simulate();
 

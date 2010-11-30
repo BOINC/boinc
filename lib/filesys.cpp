@@ -426,9 +426,6 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
 }
 
 FILE* boinc_fopen(const char* path, const char* mode) {
-
-    printf("boinc_fopen: %s\n", path);
-
     // if opening for read, and file isn't there,
     // leave now (avoid 5-second delay!!)
     //
@@ -480,7 +477,6 @@ FILE* boinc_fopen(const char* path, const char* mode) {
 
 
 int boinc_file_exists(const char* path) {
-    printf("boinc_file_exists: %s\n", path);
     struct stat buf;
     if (stat(path, &buf)) {
         return false;     // stat() returns zero on success

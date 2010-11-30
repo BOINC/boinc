@@ -519,4 +519,8 @@ extern void write_host_app_versions();
 extern DB_HOST_APP_VERSION* gavid_to_havp(int gavid);
 extern DB_HOST_APP_VERSION* quota_exceeded_version();
 
+inline bool is_64b_platform(const char* name) {
+    return (strstr(name, "64") != NULL);
+}
+
 #endif

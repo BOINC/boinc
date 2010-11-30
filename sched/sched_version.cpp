@@ -27,10 +27,6 @@
 
 #include "sched_version.h"
 
-inline bool is_64b_platform(const char* name) {
-    return (strstr(name, "64") != NULL);
-}
-
 inline void dont_need_message(
     const char* p, APP_VERSION* avp, CLIENT_APP_VERSION* cavp
 ) {

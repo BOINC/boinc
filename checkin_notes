@@ -8498,3 +8498,15 @@ David  29 Nov 2010
 	win_build/
 		boinc.sln
 		wrappture_example.vcproj
+
+David  30 Nov 2010
+    - scheduler: add vbox32 and vbox64 plan classes for VirtualBox apps.
+
+    client/
+        sim.cpp
+    lib/
+        filesys.cpp
+    sched/
+        sched_types.h
+        sched_customize.cpp
+        sched_version.cpp

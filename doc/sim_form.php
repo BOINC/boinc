@@ -38,14 +38,18 @@ function show_form() {
     <br>Duration: <input name=duration value=86400>
     <p>
     <b>
-    The following controls enable various experimental policies.
-    The standard policy is no checkboxes enabled.
+    Scheduling policy options:
     </b>
 
     <p>
-    Server does EDF simulation based on current workload? <input type=checkbox name=suw>
+    Client uses Recent Estimated Credit scheduling? <input type=checkbox name=rec>
+    <br>(default: debt-based scheduling)
     <p>
-    Client uses Round-Robin (old-style) CPU scheduling? <input type=checkbox name=rr_only>
+    Server does EDF simulation to predict deadline misses? <input type=checkbox name=suw>
+    <br>(default: approximate method)
+    <p>
+    Client uses only round-robin CPU scheduling? <input type=checkbox name=rr_only>
+    <br>(default: round-robin and EDF hybrid)
     <p>
     <input type=submit name=submit value=\"Run simulation\">
 
