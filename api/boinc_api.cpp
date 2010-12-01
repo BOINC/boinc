@@ -195,16 +195,35 @@ static int start_worker_signals();
 
 char* boinc_msg_prefix(char* sbuf, int len) {
     char buf[256];
-
+    struct tm* tm;
     time_t x = time(0);
-    struct tm* tm = localtime(&x);
-    strftime(buf, sizeof(buf)-1, "%H:%M:%S", tm);
+
+    if(x == (time_t)-1) {
+        *sbuf='\0'; // make sure there is a valid (empty) string returned
+        return sbuf;
+    }
+
+    if(!(tm = localtime(&x))) {
+        *sbuf='\0'; // make sure there is a valid (empty) string returned
+        return sbuf;
+    }
+
+    if(!strftime(buf, sizeof(buf)-1, "%H:%M:%S", tm)) {
+        *sbuf='\0'; // make sure there is a valid (empty) string returned
+        return sbuf;
+    }
+
 #ifdef _WIN32
-    _snprintf(sbuf, len, "%s (%d):", buf, GetCurrentProcessId());
+    if(_snprintf(sbuf, len, "%s (%d):", buf, GetCurrentProcessId()) < 0)
 #else
-    snprintf(sbuf, len, "%s (%d):", buf, getpid());
+    if(snprintf(sbuf, len, "%s (%d):", buf, getpid()) < 0)
 #endif
-    sbuf[len-1] = 0;    // just in case
+      {
+        *sbuf='\0'; // make sure there is a valid (empty) string returned
+        return sbuf;
+      }
+
+    sbuf[len-1] = '\0'; // just in case
     return sbuf;
 }
 
