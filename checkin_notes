@@ -8540,3 +8540,22 @@ David  1 Dec 2010
     client/
         acct_mgr_cpp
         client_types.h
+
+David  1 Dec 2010
+    - client: fix major bug in job scheduling
+        Old: scheduling has 2 phases:
+            1) computing a list of jobs to run (a vector of RESULT*);
+                this is done infrequently
+            2) enforcing the schedule; this is done more frequently
+        Problem:
+            when we enforce the schedule,
+            the RESULTs in the jobs-to-run list may not still be runnable,
+            and in fact they may not still exist (dangling pointer).
+        New: combine the 2 phases
+
+    client/
+        client_state.cpp,h
+        app_control.cpp
+        cpu_sched.cpp
+    lib/
+        prefs.h

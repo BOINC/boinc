@@ -127,7 +127,6 @@ CLIENT_STATE::CLIENT_STATE()
     debt_interval_start = 0;
     retry_shmem_time = 0;
     must_schedule_cpus = true;
-    must_enforce_cpu_schedule = true;
     no_gui_rpc = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
@@ -789,7 +788,6 @@ bool CLIENT_STATE::poll_slow_events() {
     //  active_tasks_poll
     //  handle_finished_apps
     //  possibly_schedule_cpus
-    //  enforce_schedule
     // in that order (active_tasks_poll() sets must_schedule_cpus,
     // and handle_finished_apps() must be done before possibly_schedule_cpus()
 
@@ -815,7 +813,6 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(update_results         , update_results         );
     if (!tasks_suspended) {
         POLL_ACTION(possibly_schedule_cpus, possibly_schedule_cpus          );
-        POLL_ACTION(enforce_schedule    , enforce_schedule  );
         tasks_restarted = true;
     }
     if (!network_suspended) {

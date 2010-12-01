@@ -286,10 +286,9 @@ struct CLIENT_STATE {
         if (x < 1) x = 1;
         return x;
     }
-    void request_enforce_schedule(PROJECT*, const char*);
 
     void request_schedule_cpus(const char*);
-        // Check for reschedule CPUs ASAP.
+        // Reschedule CPUs ASAP.
         // Called when:
         // - core client starts (CS::init())
         // - an app exits (ATS::check_app_exited())
@@ -529,10 +528,10 @@ extern void print_suspend_tasks_message(int);
 
 //////// CPU SCHEDULING
 
-#define CPU_SCHED_ENFORCE_PERIOD    60
-    // enforce CPU schedule at least this often
+#define CPU_SCHED_PERIOD    60
+    // do CPU schedule at least this often
 
-#define DEBT_ADJUST_PERIOD CPU_SCHED_ENFORCE_PERIOD
+#define DEBT_ADJUST_PERIOD CPU_SCHED_PERIOD
     // debt is adjusted at least this often,
     // since adjust_debts() is called from enforce_schedule()
 
