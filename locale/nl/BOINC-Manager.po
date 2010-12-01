@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-19 14:53-0500\n"
-"PO-Revision-Date: 2010-10-24 13:17+0200\n"
+"PO-Revision-Date: 2010-11-21 17:47+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -20,8 +20,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -1835,12 +1833,11 @@ msgstr "Bronnen"
 
 #: clientgui/DlgItemProperties.cpp:308
 msgid "Estimated app speed"
-msgstr ""
+msgstr "Geschatte applicatie snelheid"
 
 #: clientgui/DlgItemProperties.cpp:311
-#, fuzzy
 msgid "Estimated task size"
-msgstr "Resterende tijd"
+msgstr "Geschatte grootte van de taak"
 
 #: clientgui/DlgItemProperties.cpp:314
 msgid "CPU time at last checkpoint"
@@ -1858,7 +1855,7 @@ msgstr "Verstreken tijd"
 
 #: clientgui/DlgItemProperties.cpp:319
 msgid "Estimated time remaining"
-msgstr "Resterende tijd"
+msgstr "Geschatte resterende tijd"
 
 #: clientgui/DlgItemProperties.cpp:320
 msgid "Fraction done"
@@ -1907,7 +1904,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should BOINC remind you of new notices?"
-msgstr "Hoe vaak moet BOINC een bericht weergeven?"
+msgstr "Hoe vaak moet BOINC je herinneren aan nieuwe berichten?"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2460,9 +2457,8 @@ msgid "Click"
 msgstr "Klik"
 
 #: clientgui/NoticeListCtrl.cpp:477
-#, fuzzy
 msgid "There are no notices at this time."
-msgstr "Momenteel zijn er geen mededelingen"
+msgstr "Op dit moment zijn er geen mededelingen."
 
 #: clientgui/NoticeListCtrl.cpp:528
 msgid "more..."

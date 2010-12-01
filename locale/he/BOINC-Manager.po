@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-19 14:53-0500\n"
-"PO-Revision-Date: 2010-11-19 22:09+0200\n"
+"PO-Revision-Date: 2010-11-19 22:10+0200\n"
 "Last-Translator: Ido Schwartz <dj_legolas1@hotmail.com>\n"
 "Language-Team: IOPanel.net\n"
 "Language: he\n"
@@ -1812,9 +1812,8 @@ msgid "Resources"
 msgstr "משאבים"
 
 #: clientgui/DlgItemProperties.cpp:308
-#, fuzzy
 msgid "Estimated app speed"
-msgstr "מהירות אפליקציה משוערת"
+msgstr "מהירות יישום משוערת"
 
 #: clientgui/DlgItemProperties.cpp:311
 #, fuzzy

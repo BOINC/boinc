@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-06 08:58-0700\n"
-"PO-Revision-Date: 2010-10-13 16:38+0200\n"
+"PO-Revision-Date: 2010-10-23 22:01+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -61,7 +61,7 @@ msgstr "Syntaxfehler in app_info.xml"
 #: cs_statefile.cpp:844
 #, fuzzy
 msgid "File referenced in app_info.xml does not exist: "
-msgstr "Dateiverweis aus app_info.xml existiert nicht: "
+msgstr "Datei auf die aus app_info.xml verwiesen wurde, existiert nicht: "
 
 #: gui_rpc_server.cpp:191
 msgid "Can't resolve hostname in remote_hosts.cfg"
