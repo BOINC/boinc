@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-06 08:58-0700\n"
-"PO-Revision-Date: 2010-07-14 03:54-0700\n"
-"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: 2010-11-25 19:19+0200\n"
+"Last-Translator: Morris83 <zara-83@libero.it>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 
 #: acct_mgr.cpp:382 acct_mgr.cpp:392
 msgid "error"
@@ -31,7 +31,7 @@ msgstr "Scaricala."
 
 #: client_msgs.cpp:106
 msgid "Notice from BOINC"
-msgstr ""
+msgstr "Avviso da BOINC"
 
 #: client_state.cpp:357
 msgid "Couldn't write state file; check directory permissions"
@@ -48,43 +48,42 @@ msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
+"Hai usato l'URL sbagliato per questo progetto. Quando hai tempo , rimuovi "
+"questo progetto , poi aggiungi %s"
 
 #: cs_scheduler.cpp:545
 msgid "Message from"
-msgstr ""
+msgstr "Messaggio da"
 
 #: cs_statefile.cpp:805 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
-msgstr ""
+msgstr "Errore di sintassi nel file app_info.xml"
 
 #: cs_statefile.cpp:844
 msgid "File referenced in app_info.xml does not exist: "
-msgstr ""
+msgstr "Il file riferito in app_info.xml non esite:"
 
 #: gui_rpc_server.cpp:191
 #, fuzzy
 msgid "Can't resolve hostname in remote_hosts.cfg"
-msgstr "Non posso risolvere il nome dell'host"
+msgstr "Impossibile risolvere il nome dell'hostname in remote_hosts.cfg"
 
 #: log_flags.cpp:68 log_flags.cpp:322 log_flags.cpp:450
-#, fuzzy
 msgid "Unexpected text in cc_config.xml"
-msgstr "Testo inaspettato nel file"
+msgstr "Testo inaspettato nel file cc_config.xml"
 
 #: log_flags.cpp:112 log_flags.cpp:422 log_flags.cpp:467
 #, fuzzy
 msgid "Unrecognized tag in cc_config.xml"
-msgstr "Tag non riconosciuto nel file"
+msgstr "Tag non riconosciuto nel file cc_config.xml"
 
 #: log_flags.cpp:441
-#, fuzzy
 msgid "Missing start tag in cc_config.xml"
-msgstr "Tag di inizio mancante"
+msgstr "Tag di inizio mancante nel file cc_config.xml"
 
 #: log_flags.cpp:475
-#, fuzzy
 msgid "Missing end tag in cc_config.xml"
-msgstr "Tag di fine mancante"
+msgstr "Tag di fine mancante nel file cc_config.xml"
 
 #: ../sched/handle_request.cpp:299
 #, fuzzy
@@ -94,10 +93,9 @@ msgstr ""
 "questo progetto."
 
 #: ../sched/handle_request.cpp:820
-#, fuzzy
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
-"Chiave account invalida o mancante.  Per risolvere, disconnetti e riconnetti "
+"Codice di chiave account invalido.  Per risolvere, disconnetti e riconnetti "
 "questo progetto."
 
 #: ../sched/handle_request.cpp:830
@@ -105,6 +103,8 @@ msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr ""
+"Il progetto ha modificato la sua chiave di sicurezza. Per favore disconnetti "
+"e riconnetti questo progetto."
 
 #: ../sched/handle_request.cpp:914
 msgid "This project doesn't support operating system"
@@ -203,7 +203,7 @@ msgstr ""
 
 #: ../sched/sched_types.cpp:268
 msgid "Unknown app name in app_info.xml"
-msgstr ""
+msgstr "Nome sconosciuto di app nel file app_info.xml"
 
 #: ../sched/sched_version.cpp:234
 msgid "Your app_info.xml file doesn't have a usable version of"

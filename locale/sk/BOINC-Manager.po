@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-19 14:52-0500\n"
-"PO-Revision-Date: 2010-11-06 20:57+0200\n"
+"PO-Revision-Date: 2010-11-20 16:47+0200\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: BOINC SK\n"
 "Language: sk\n"
@@ -20,8 +20,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -1841,12 +1839,11 @@ msgstr "Prostriedky"
 
 #: clientgui/DlgItemProperties.cpp:308
 msgid "Estimated app speed"
-msgstr ""
+msgstr "Odhadovaná rýchlosť aplikácie"
 
 #: clientgui/DlgItemProperties.cpp:311
-#, fuzzy
 msgid "Estimated task size"
-msgstr "Odhad zostávajúceho času"
+msgstr "Odhadovaná veľkosť úlohy"
 
 #: clientgui/DlgItemProperties.cpp:314
 msgid "CPU time at last checkpoint"
@@ -2466,9 +2463,8 @@ msgid "Click"
 msgstr "Klik"
 
 #: clientgui/NoticeListCtrl.cpp:477
-#, fuzzy
 msgid "There are no notices at this time."
-msgstr "Zatiaľ neexistujú žiadne oznamy na zobrazenie."
+msgstr "Zatiaľ neexistujú žiadne oznamy."
 
 #: clientgui/NoticeListCtrl.cpp:528
 msgid "more..."

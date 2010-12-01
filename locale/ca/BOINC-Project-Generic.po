@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-10-25 23:42+0200\n"
+"PO-Revision-Date: 2010-11-21 13:54+0200\n"
 "Last-Translator: Xavier <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -56,7 +56,7 @@ msgstr "Panells de missatges"
 
 #: ../inc/forum.inc:186 ../inc/forum.inc:194
 msgid "%1 message board"
-msgstr "Tauler de missatges %1"
+msgstr "tauler de missatges %1"
 
 #: ../inc/forum.inc:1056
 msgid ""
@@ -106,7 +106,7 @@ msgstr "Marcar tots el fils com a llegits"
 
 #: ../inc/forum.inc:1174
 msgid "Mark all threads in all message boards as 'read'."
-msgstr "Marcar com a llegits tots els fils a tots els taulers de missatges."
+msgstr "Marcar com a 'llegits' tots els fils a tots els taulers de missatges."
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -236,7 +236,7 @@ msgstr "%1 MB"
 
 #: ../inc/host.inc:129
 msgid "Cache"
-msgstr "Cache"
+msgstr "Memòria cau"
 
 #: ../inc/host.inc:129
 msgid "%1 KB"
@@ -613,7 +613,7 @@ msgid ""
 "space if 'yes' %2"
 msgstr ""
 "Deixar les tasques en la memòria mentre està suspès? %1 Les tasques suspeses "
-"consumeixen espai d'intercanvi en cas afirmatiu %2"
+"consumeixen espai d'intercanvi en cas 'afirmatiu' %2"
 
 #: ../inc/prefs.inc:138
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
@@ -799,7 +799,7 @@ msgstr "Es CORRECTE per 1% i el seu equip (si n'hi ha) enviar-li per correu?"
 
 #: ../inc/prefs.inc:360
 msgid "Should %1 show your computers on its web site?"
-msgstr "%1 ha de mostrar els seus equips en el seu lloc web?"
+msgstr "Pot %1 mostrar els seus equips en el seu lloc web?"
 
 #: ../inc/prefs.inc:367
 msgid "Disk and memory usage"
@@ -1731,7 +1731,7 @@ msgstr "Preferències per a aquest projecte"
 
 #: ../inc/user.inc:232 ../user/prefs.php:33
 msgid "%1 preferences"
-msgstr "Preferències de %1"
+msgstr "preferències de %1"
 
 #: ../inc/user.inc:238 ../user/sample_index.php:67
 msgid "Community"
@@ -1775,7 +1775,7 @@ msgstr "Membre de l'equip"
 
 #: ../inc/user.inc:279
 msgid "find a team"
-msgstr "Trobar un grup"
+msgstr "trobar un grup"
 
 #: ../inc/user.inc:290
 msgid "Founder but not member of"
@@ -2078,7 +2078,7 @@ msgstr ""
 #: ../user/create_profile.php:211
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
-"La seva resposta 'ReCaptcha' no es correcte.  Si us plau, provi-ho de nou."
+"La seva resposta ReCaptcha no es correcte.  Si us plau, provi-ho de nou."
 
 #: ../user/create_profile.php:220
 msgid ""
@@ -2343,7 +2343,7 @@ msgstr "Finalitzar subscripció"
 
 #: ../user/forum_thread.php:152
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr "vostè està subscrit a aquest fil.  Premi aquí per finalitzar-la."
+msgstr "Vostè està subscrit a aquest fil.  Premi aquí per finalitzar-la."
 
 #: ../user/forum_thread.php:155
 msgid "Subscribe"
@@ -2439,7 +2439,7 @@ msgstr "%1 no accepta les peticions d'amistat de vostè"
 
 #: ../user/friend.php:59
 msgid "You can't be friends with yourself"
-msgstr "vostè no pot ser amic de vostè mateix"
+msgstr "Vostè no pot ser amic de vostè mateix"
 
 #: ../user/friend.php:62 ../user/friend.php:90 ../user/friend.php:123
 #: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
@@ -2849,7 +2849,7 @@ msgstr "Contrasenya:"
 
 #: ../user/login_form.php:44
 msgid "forgot password?"
-msgstr "Heu oblidat la contrasenya?"
+msgstr "ha oblidat la contrasenya?"
 
 #: ../user/login_form.php:47
 msgid "Stay logged in on this computer"
@@ -2999,7 +2999,7 @@ msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
 msgstr ""
-"Els %1Perfils%2 permet als usuaris compartir experiències i opinions amb la "
+"els %1Perfils%2 permet als usuaris compartir experiències i opinions amb la "
 "comunitat %3."
 
 #: ../user/profile_menu.php:37
@@ -3112,7 +3112,7 @@ msgstr "No hi ha tasques per mostrar"
 
 #: ../user/sample_index.php:131
 msgid "User of the day"
-msgstr "Usuari del Dia"
+msgstr "Usuari del dia"
 
 #: ../user/server_status.php:94
 msgid "Running"
@@ -3326,7 +3326,7 @@ msgstr "Cada equip te un %1fondador%2 que pot:"
 
 #: ../user/team.php:31
 msgid "access team members' email addresses"
-msgstr "adreces de correu d'accés al membres de l'equip"
+msgstr "accés a les adreces de correu electrònic dels membres de l'equip"
 
 #: ../user/team.php:32
 msgid "edit the team's name and description"
@@ -3379,7 +3379,7 @@ msgstr "Afegir o treure Administradors d'Equip"
 #: ../user/team_admins.php:39
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
 msgstr ""
-"Vostè pot seleccionar els membres de l'equip com a Equip d'Administradors '. "
+"Vostè pot seleccionar els membres de l'equip com a 'Equip d'Administradors'. "
 "L'Equip d'Administradors pot:"
 
 #: ../user/team_admins.php:41
@@ -3593,7 +3593,7 @@ msgstr "Acció"
 
 #: ../user/team_delta.php:77
 msgid "Total credit at time of action"
-msgstr "Crèdit Total en el moment de l'acció"
+msgstr "Crèdit total en el moment de l'acció"
 
 #: ../user/team_edit_action.php:57
 msgid "The name '%1' is being used by another team."
@@ -3653,7 +3653,7 @@ msgstr "Crea un tauler de missatges per %1"
 
 #: ../user/team_forum.php:46
 msgid "Team already has a message board"
-msgstr "L'Equip ja té un tauler de missatges"
+msgstr "L'equip ja té un tauler de missatges"
 
 #: ../user/team_forum.php:51
 msgid "couldn't create message board"
@@ -3823,7 +3823,7 @@ msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
 msgstr ""
-"Han transcorregut 60 dies des de la seva petició, i el fundador no ha "
+"han transcorregut 60 dies des de la seva petició, i el fundador no ha "
 "respost. Ara pot convertir-se en fundador fent clic aquí:"
 
 #: ../user/team_founder_transfer_form.php:48
@@ -3945,7 +3945,7 @@ msgstr ""
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
-msgstr "Equip d'Administració d'%1"
+msgstr "Equip d'administració d'%1"
 
 #: ../user/team_manage.php:27
 msgid "Edit team info"
@@ -4433,7 +4433,7 @@ msgstr "replicació inicial"
 
 #: ../user/workunit.php:57
 msgid "max # of error/total/success tasks"
-msgstr "Nombre màxim de tasques amb error/totals/amb èxit"
+msgstr "nombre màxim de tasques amb error/totals/amb èxit"
 
 #: ../user/workunit.php:61
 msgid "errors"

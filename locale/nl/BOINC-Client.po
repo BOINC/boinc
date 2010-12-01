@@ -157,8 +157,8 @@ msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
-"Er is geen werk beschikbaar voor de geselecteerde applicaties.  Controleer "
-"a.u.b. je project voorkeuren."
+"Er is geen werk beschikbaar voor de geselecteerde applicaties. Controleer "
+"a.u.b. je project voorkeuren op de website.."
 
 #: ../sched/sched_send.cpp:1438
 msgid "Your computer type is not supported by this project"

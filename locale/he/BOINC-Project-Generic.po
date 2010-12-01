@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-11-19 19:05+0200\n"
-"Last-Translator: Ido Schwartz <dj_legolas1@hotmail.com>\n"
+"PO-Revision-Date: 2010-12-01 10:24+0200\n"
+"Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -477,9 +477,9 @@ msgstr "תגובה"
 
 #: ../inc/news.inc:102
 #, php-format
-#, fuzzy, php-format
+#, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "חדשות זמינות כ%sהזנת RSS%s"
+msgstr "חדשות זמינות כ%sעדכון RSS%s"
 
 #: ../inc/pm.inc:25 ../inc/pm.inc:178 ../user/pm.php:64 ../user/pm.php:144
 msgid "Inbox"
@@ -509,7 +509,7 @@ msgstr "ל"
 
 #: ../inc/pm.inc:85
 msgid "User IDs or unique usernames, separated with commas"
-msgstr ""
+msgstr "זיהויי משתמש או שמות משתמש מיוחדים, מופרדים באמצעות פסיק"
 
 #: ../inc/pm.inc:88 ../user/pm.php:85 ../user/pm.php:135
 msgid "Subject"
@@ -593,6 +593,8 @@ msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
+"השהה עבודה אם לא קיימת פעילות עכבר/מקלדת %1 יש להיכנס למצב צריכת חשמל "
+"במחשבים מסויימים %2"
 
 #: ../inc/prefs.inc:113
 msgid ""
@@ -823,7 +825,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:430
 msgid "bad subset: %1"
-msgstr ""
+msgstr "תת-קבוצה שגויה: %1"
 
 #: ../inc/prefs.inc:617
 msgid "Default"
@@ -864,37 +866,37 @@ msgstr "חישוב"
 
 #: ../inc/prefs.inc:801
 msgid "Separate preferences for %1"
-msgstr ""
+msgstr "העדפות נפרדות עבור %1"
 
 #: ../inc/prefs.inc:810 ../inc/prefs.inc:885
 msgid "Edit preferences"
-msgstr ""
+msgstr "ערוך העדפות"
 
 #: ../inc/prefs.inc:814
 msgid "Add separate preferences for %1"
-msgstr ""
+msgstr "הוסף העדפות נפרדות עבור %1"
 
 #: ../inc/prefs.inc:822 ../inc/prefs.inc:867
 msgid "(Switch View)"
-msgstr ""
+msgstr "(החלף תצוגה)"
 
 #: ../inc/prefs.inc:824 ../inc/prefs.inc:870
 msgid "Combined preferences"
-msgstr ""
+msgstr "העדפות משולבות"
 
 #: ../inc/prefs.inc:829
 msgid "Project specific settings"
-msgstr ""
+msgstr "הגדרות ספציפיות של הפרוייקט"
 
 #: ../inc/prefs.inc:837 ../inc/prefs.inc:879
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "העדפות ראשיות (ברירת מחדל)"
 
 #: ../inc/prefs.inc:846 ../user/add_venue.php:43 ../user/add_venue.php:68
 #: ../user/prefs_edit.php:45 ../user/prefs_edit.php:71
 #: ../user/prefs_edit.php:100
 msgid "Edit %1 preferences"
-msgstr ""
+msgstr "ערוך העדפות %1"
 
 #: ../inc/prefs.inc:860
 msgid ""
@@ -902,423 +904,430 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
+"הנ\"ל מיושם בכלל פרוייקטי BOINC בהם אתה משתתף.<br>\n"
+"במחשבים אשר משתתפים במספר פרוייקטים, ההעדפות ששונו לאחרונה יהיו בשימוש."
 
 #: ../inc/prefs.inc:864
+#, fuzzy
 msgid "Preferences last modified:"
-msgstr ""
+msgstr "ההעדפות ששונו לאחרונה/העדפות שונו לאחרונה:"
 
 #: ../inc/prefs.inc:914
 msgid "Add preferences"
-msgstr ""
+msgstr "הוסף העדפות"
 
 #: ../inc/prefs.inc:918
 msgid "Update preferences"
-msgstr ""
+msgstr "עדכון העדפות"
 
 #: ../inc/prefs.inc:1006 ../inc/prefs.inc:1015
 msgid "Default computer location"
-msgstr ""
+msgstr "מיקום ברירת מחדל של המחשב"
 
 #: ../inc/prefs.inc:1166
 msgid "Update failed: "
-msgstr ""
+msgstr "עדכון נכשל:"
 
 #: ../inc/prefs_util.inc:314 ../inc/prefs_util.inc:324
 msgid "and"
-msgstr ""
+msgstr "ו"
 
 #: ../inc/profile.inc:86
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
 msgstr ""
+"הפרופיל שלך יהיה גלוי לאחרים ברגע שיאושר ע\"י הפרוייקט. הדבר עשוי לקחת מספר "
+"ימים."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
-msgstr ""
+msgstr "הפרופיל שלך סומן כבלתי קביל. הוא אינו גלוי לאחרים. אנא שנה אותו."
 
 #: ../inc/profile.inc:167 ../user/friend.php:103 ../user/friend.php:160
 msgid "Database error"
-msgstr ""
+msgstr "שגיאת בסיס נתונים"
 
 #: ../inc/profile.inc:187
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
+"בכדי למנוע זיבול, פרופילים של משתמשים עם ממוצע נקודות זכות קטן מ-%1 מוצגים "
+"רק למשתמשים מחוברים. אנו מתנצלים על אי הנוחות."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
-msgstr ""
+msgstr "משתמש מוחרם"
 
 #: ../inc/profile.inc:205
 msgid "No profile exists for that user ID."
-msgstr ""
+msgstr "לא קיים פרופיל עבור זיהוי משתמש זה."
 
 #: ../inc/profile.inc:213 ../user/create_profile.php:309
 msgid "Edit your profile"
-msgstr ""
+msgstr "ערוך את הפרופיל שלך"
 
 #: ../inc/profile.inc:251
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "המשוב שלך על פרופיל זה"
 
 #: ../inc/profile.inc:253
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "המלץ על פרופיל זה למשתמש היום:"
 
 #: ../inc/profile.inc:254
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "אני %1אוהב%2 פרופיל זה"
 
 #: ../inc/profile.inc:257
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "התרע בפני המנהלים מפני פרופיל פוגעני:"
 
 #: ../inc/profile.inc:258
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "אני %1לא אוהב%2 פרופיל זה"
 
 #: ../inc/result.inc:29
 msgid "Anonymous platform"
-msgstr ""
+msgstr "פלטפורמה אנונימית"
 
 #: ../inc/result.inc:43
 msgid "NVIDIA GPU"
-msgstr ""
+msgstr "מעבד גרפי של NVIDIA"
 
 #: ../inc/result.inc:44
 msgid "ATI GPU"
-msgstr ""
+msgstr "מעבד גרפי של ATI"
 
 #: ../inc/result.inc:51
 msgid "Not in DB"
-msgstr ""
+msgstr "אינו נמצא בבסיס הנתונים"
 
 #: ../inc/result.inc:77
 msgid "pending"
-msgstr ""
+msgstr "ממתין"
 
 #: ../inc/result.inc:99
 msgid "All"
-msgstr ""
+msgstr "הכל"
 
 #: ../inc/result.inc:100 ../inc/result.inc:120 ../inc/result.inc:159
 msgid "In progress"
-msgstr ""
+msgstr "בתהליך"
 
 #: ../inc/result.inc:101 ../user/workunit.php:64
 msgid "Pending"
-msgstr ""
+msgstr "ממתין"
 
 #: ../inc/result.inc:102 ../inc/result.inc:202
 msgid "Valid"
-msgstr ""
+msgstr "תקף"
 
 #: ../inc/result.inc:103 ../inc/result.inc:205
 msgid "Invalid"
-msgstr ""
+msgstr "לא תקף"
 
 #: ../inc/result.inc:104 ../inc/result.inc:145
 msgid "Error"
-msgstr ""
+msgstr "שגיאה"
 
 #: ../inc/result.inc:118 ../inc/result.inc:157
 msgid "Inactive"
-msgstr ""
+msgstr "אינו פעיל"
 
 #: ../inc/result.inc:119 ../inc/result.inc:158
 msgid "Unsent"
-msgstr ""
+msgstr "לא נשלח"
 
 #: ../inc/result.inc:125
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "הושלם, ממתין לתיקוף"
 
 #: ../inc/result.inc:126
 msgid "Completed and validated"
-msgstr ""
+msgstr "הושלם ותוקף"
 
 #: ../inc/result.inc:127
 msgid "Completed, marked as invalid"
-msgstr ""
+msgstr "הושלם, סומן כלא תקף"
 
 #: ../inc/result.inc:128
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "הושלם, לא ניתן לתקף"
 
 #: ../inc/result.inc:129
 msgid "Completed, validation inconclusive"
-msgstr ""
+msgstr "הושלם, תיקוף אינו חד משמעי"
 
 #: ../inc/result.inc:130
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "הושלם, מאוחר מדי לתקף"
 
 #: ../inc/result.inc:132
 msgid "Completed"
-msgstr ""
+msgstr "הושלם"
 
 #: ../inc/result.inc:133 ../inc/result.inc:169
 msgid "Couldn't send"
-msgstr ""
+msgstr "לא ניתן לשלוח"
 
 #: ../inc/result.inc:136 ../inc/result.inc:193
 msgid "Cancelled by server"
-msgstr ""
+msgstr "בוטל ע\"י השרת"
 
 #: ../inc/result.inc:139
 msgid "Error while downloading"
-msgstr ""
+msgstr "שגיאה בעת הורדה"
 
 #: ../inc/result.inc:141
 msgid "Error while computing"
-msgstr ""
+msgstr "שגיאה בעת חישוב"
 
 #: ../inc/result.inc:142
 msgid "Error while uploading"
-msgstr ""
+msgstr "שגיאה בעת העלאה"
 
 #: ../inc/result.inc:143 ../inc/result.inc:195
 msgid "Aborted by user"
-msgstr ""
+msgstr "בוטל ע\"י המשתמש"
 
 #: ../inc/result.inc:146
 msgid "Timed out - no response"
-msgstr ""
+msgstr "חלף זמן שהוקצב - אין תגובה"
 
 #: ../inc/result.inc:147 ../inc/result.inc:176
 msgid "Didn't need"
-msgstr ""
+msgstr "לא נזקק"
 
 #: ../inc/result.inc:148 ../inc/result.inc:177
 msgid "Validate error"
-msgstr ""
+msgstr "שגיאת תיקוף"
 
 #: ../inc/result.inc:149 ../inc/result.inc:178
 msgid "Abandoned"
-msgstr ""
+msgstr "ננטש"
 
 #: ../inc/result.inc:160
+#, fuzzy
 msgid "Over"
-msgstr ""
+msgstr "הסתיים/מעל"
 
 #: ../inc/result.inc:168
 msgid "Success"
-msgstr ""
+msgstr "הצלחה"
 
 #: ../inc/result.inc:172
 msgid "Computation error"
-msgstr ""
+msgstr "שגיאת חישוב"
 
 #: ../inc/result.inc:174
 msgid "Redundant result"
-msgstr ""
+msgstr "תוצאה מיותרת"
 
 #: ../inc/result.inc:175
 msgid "No reply"
-msgstr ""
+msgstr "אין תשובה"
 
 #: ../inc/result.inc:185
 msgid "New"
-msgstr ""
+msgstr "חדש"
 
 #: ../inc/result.inc:186
 msgid "Downloading"
-msgstr ""
+msgstr "מוריד"
 
 #: ../inc/result.inc:187
 msgid "Processing"
-msgstr ""
+msgstr "מעבד"
 
 #: ../inc/result.inc:188
 msgid "Compute error"
-msgstr ""
+msgstr "שגיאת חישוב"
 
 #: ../inc/result.inc:189
 msgid "Uploading"
-msgstr ""
+msgstr "מעלה"
 
 #: ../inc/result.inc:190
 msgid "Done"
-msgstr ""
+msgstr "הסתיים"
 
 #: ../inc/result.inc:201
 msgid "Initial"
-msgstr ""
+msgstr "התחלתי"
 
 #: ../inc/result.inc:207
 msgid "Not necessary"
-msgstr ""
+msgstr "אינו נחוץ"
 
 #: ../inc/result.inc:208
 msgid "Workunit error - check skipped"
-msgstr ""
+msgstr "שגיאת יחידת עבודה - דילוג על בדיקה"
 
 #: ../inc/result.inc:209
 msgid "Checked, but no consensus yet"
-msgstr ""
+msgstr "נבדק, אך טרם התקבלה הסכמה"
 
 #: ../inc/result.inc:210
 msgid "Task was reported too late to validate"
-msgstr ""
+msgstr "המשימה דווחה מאוחר מדי לתיקוף"
 
 #: ../inc/result.inc:218
 msgid "Couldn't send result"
-msgstr ""
+msgstr "לא ניתן לשלוח תוצאה"
 
 #: ../inc/result.inc:222
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "יותר מדי שגיאות (ייתכן וקיים באג)"
 
 #: ../inc/result.inc:226
+#, fuzzy
 msgid "Too many results (may be nondeterministic)"
-msgstr ""
+msgstr "יותר מדי תוצאות (ייתכן ואינו דטרמיניסטי)"
 
 #: ../inc/result.inc:230
 msgid "Too many total results"
-msgstr ""
+msgstr "יותר מדי תוצאות כלליות"
 
 #: ../inc/result.inc:234
 msgid "WU cancelled"
-msgstr ""
+msgstr "יחידת עבודה בוטלה"
 
 #: ../inc/result.inc:238
 msgid "Unrecognized Error: %1"
-msgstr ""
+msgstr "שגיאה לא מזוהה: %1"
 
 #: ../inc/result.inc:265
 msgid "Task name"
-msgstr ""
+msgstr "שם המשימה"
 
 #: ../inc/result.inc:265 ../inc/result.inc:270 ../inc/result.inc:273
 #: ../inc/result.inc:276
 msgid "click for details"
-msgstr ""
+msgstr "לחץ לפרטים"
 
 #: ../inc/result.inc:265
 msgid "Show IDs"
-msgstr ""
+msgstr "הצג זיהויים"
 
 #: ../inc/result.inc:270
 msgid "Show names"
-msgstr ""
+msgstr "הצג שמות"
 
 #: ../inc/result.inc:273
-#, fuzzy
 msgid "Task"
-msgstr "משימות"
+msgstr "משימה"
 
 #: ../inc/result.inc:276
 msgid "Work unit"
-msgstr ""
+msgstr "יחידת עבודה"
 
 #: ../inc/result.inc:279
 msgid "Computer"
-msgstr ""
+msgstr "מחשב"
 
 #: ../inc/result.inc:282 ../inc/result.inc:382
 msgid "Sent"
-msgstr ""
+msgstr "נשלח"
 
 #: ../inc/result.inc:283
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "זמן דיווח<br />או תאריך יעד"
 
 #: ../inc/result.inc:284
 msgid "explain"
-msgstr ""
+msgstr "הסבר"
 
 #: ../inc/result.inc:286 ../user/server_status.php:226
 msgid "Status"
-msgstr ""
+msgstr "מצב"
 
 #: ../inc/result.inc:287
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "זמן ריצה<br />(שניות)"
 
 #: ../inc/result.inc:288
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "זמן מעבד<br />(שניות)"
 
 #: ../inc/result.inc:289 ../inc/result.inc:393
 msgid "Credit"
-msgstr ""
+msgstr "נקודות זכות"
 
 #: ../inc/result.inc:290
 msgid "Application"
-msgstr ""
+msgstr "יישום"
 
 #: ../inc/result.inc:380
 msgid "Workunit"
-msgstr ""
+msgstr "יחידת עבודה"
 
 #: ../inc/result.inc:383
 msgid "Received"
-msgstr ""
+msgstr "התקבל"
 
 #: ../inc/result.inc:384
 msgid "Server state"
-msgstr ""
+msgstr "מצב השרת"
 
 #: ../inc/result.inc:385
 msgid "Outcome"
-msgstr ""
+msgstr "תוצאה"
 
 #: ../inc/result.inc:386
 msgid "Client state"
-msgstr ""
+msgstr "מצב המחשב"
 
 #: ../inc/result.inc:387
 msgid "Exit status"
-msgstr ""
+msgstr "מצב יציאה"
 
 #: ../inc/result.inc:389
 msgid "Report deadline"
-msgstr ""
+msgstr "תאריך יעד לדיווח"
 
 #: ../inc/result.inc:390
 msgid "Run time"
-msgstr ""
+msgstr "זמן ריצה"
 
 #: ../inc/result.inc:391
-#, fuzzy
 msgid "CPU time"
-msgstr "סוג מעבד"
+msgstr "זמן מעבד"
 
 #: ../inc/result.inc:392
 msgid "Validate state"
-msgstr ""
+msgstr "מצב תיקוף"
 
 #: ../inc/result.inc:394
 msgid "Application version"
-msgstr ""
+msgstr "גרסת יישום"
 
 #: ../inc/result.inc:396
 msgid "Stderr output"
-msgstr ""
+msgstr "פלט Stderr"
 
 #: ../inc/result.inc:409
 msgid "Previous"
-msgstr ""
+msgstr "הקודם"
 
 #: ../inc/result.inc:418
 msgid "Next"
-msgstr ""
+msgstr "הבא"
 
 #: ../inc/team.inc:33
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "חיפוש מאפיין (אחד או יותר)"
 
 #: ../inc/team.inc:34
 msgid "Key words"
-msgstr ""
+msgstr "מילות מפתח"
 
 #: ../inc/team.inc:34
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "מצא קבוצות עם מילים אלו בשמות או בתיאור שלהן"
 
 #: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
 #: ../inc/team.inc:360 ../inc/team.inc:444 ../inc/user.inc:208
@@ -1328,60 +1337,61 @@ msgstr ""
 #: ../user/top_users.php:61 ../user/user_search.php:102
 #: ../user/user_search.php:119 ../user/user_search.php:158
 msgid "Country"
-msgstr ""
+msgstr "מדינה"
 
 #: ../inc/team.inc:42 ../inc/team.inc:442
 msgid "Type of team"
-msgstr ""
+msgstr "סוג הקבוצה"
 
 #: ../inc/team.inc:44
 msgid "Show only active teams"
-msgstr ""
+msgstr "הצג קבוצות פעילות בלבד"
 
 #: ../inc/team.inc:45 ../user/profile_menu.php:75 ../user/user_search.php:132
 msgid "Search"
-msgstr ""
+msgstr "חיפוש"
 
 #: ../inc/team.inc:54
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
+msgstr "התבקש על ידך, ותאריך היעד לתשובת מייסד עבר."
 
 #: ../inc/team.inc:56
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "השלם העברת בעלות מייסד"
 
 #: ../inc/team.inc:60
 msgid "Requested by you"
-msgstr ""
+msgstr "התבקש על ידך"
 
 #: ../inc/team.inc:60
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "תאריך יעד לתשובת מייסד הוא %1"
 
 #: ../inc/team.inc:65 ../inc/team.inc:544 ../inc/user.inc:279
 #: ../inc/user.inc:366
 msgid "None"
-msgstr ""
+msgstr "לא קיים"
 
 #: ../inc/team.inc:67
+#, fuzzy
 msgid "Initiate request"
-msgstr ""
+msgstr "התחלת בקשה"
 
 #: ../inc/team.inc:70
 msgid "Deferred"
-msgstr ""
+msgstr "נדחה"
 
 #: ../inc/team.inc:80
 msgid "Team info"
-msgstr ""
+msgstr "מידע על הקבוצה"
 
 #: ../inc/team.inc:82 ../user/team_forum.php:68 ../user/team_search.php:66
 msgid "Description"
-msgstr ""
+msgstr "תיאור"
 
 #: ../inc/team.inc:90
 msgid "Web site"
-msgstr ""
+msgstr "אתר אינטרנט"
 
 #: ../inc/team.inc:112
 msgid "Cross-project stats"
@@ -1389,101 +1399,103 @@ msgstr ""
 
 #: ../inc/team.inc:115 ../inc/team.inc:361 ../user/team_search.php:68
 msgid "Type"
-msgstr ""
+msgstr "סוג"
 
 #: ../inc/team.inc:119 ../user/team_manage.php:61
-#, fuzzy
 msgid "Message board"
-msgstr "לוחות הודעות"
+msgstr "לוח הודעות"
 
 #: ../inc/team.inc:120 ../user/forum_forum.php:135 ../user/forum_index.php:93
-#, fuzzy
 msgid "Threads"
-msgstr "אשכול"
+msgstr "אשכולות"
 
 #: ../inc/team.inc:128
 msgid "Join this team"
-msgstr ""
+msgstr "הצטרף לקבוצה זו"
 
 #: ../inc/team.inc:129
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
+"הערה: אם בהעדפות הפרוייקט שלך מוגדר \"אישור למייל\", הצטרפות לקבוצה תאפשר "
+"למייסד גישה לכתובת הדוא\"ל שלך."
 
 #: ../inc/team.inc:132
 msgid "Not accepting new members"
-msgstr ""
+msgstr "לא מקבלים חברים חדשים"
 
 #: ../inc/team.inc:139
 msgid "Foundership change requested"
-msgstr ""
+msgstr "התבקש שינוי בעלות מייסד"
 
 #: ../inc/team.inc:140
 msgid "Respond by %1"
-msgstr ""
+msgstr "השב עד %1"
 
 #: ../inc/team.inc:144
 msgid "Team foundership change"
-msgstr ""
+msgstr "שינוי בעלות מייסד הקבוצה"
 
 #: ../inc/team.inc:148 ../inc/team.inc:346
 msgid "Members"
-msgstr ""
+msgstr "חברים"
 
 #: ../inc/team.inc:149 ../inc/team.inc:241
 msgid "Founder"
-msgstr ""
+msgstr "מייסד"
 
 #: ../inc/team.inc:161
 msgid "Admins"
-msgstr ""
+msgstr "מנהלים"
 
 #: ../inc/team.inc:176
 msgid "New members in last day"
-msgstr ""
+msgstr "חברים חדשים ביום האחרון"
 
 #: ../inc/team.inc:177
 msgid "Total members"
-msgstr ""
+msgstr "סה\"כ חברים"
 
 #: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
 msgid "view"
-msgstr ""
+msgstr "הצג"
 
 #: ../inc/team.inc:178
 msgid "Active members"
-msgstr ""
+msgstr "חברים פעילים"
 
 #: ../inc/team.inc:179
 msgid "Members with credit"
-msgstr ""
+msgstr "חברים עם נקודות זכות"
 
 #: ../inc/team.inc:243
 msgid "Admin"
-msgstr ""
+msgstr "מנהל"
 
 #: ../inc/team.inc:264 ../user/top_hosts.php:91 ../user/top_teams.php:119
 #: ../user/top_users.php:125
+#, fuzzy
 msgid "Previous %1"
-msgstr ""
+msgstr "%1 הקודם"
 
 #: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
 #: ../user/top_users.php:130
+#, fuzzy
 msgid "Next %1"
-msgstr ""
+msgstr "%1 הבא"
 
 #: ../inc/team.inc:276
 msgid "No such team."
-msgstr ""
+msgstr "לא קיימת קבוצה."
 
 #: ../inc/team.inc:289
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "פעולה זו מצריכה בעלות מייסד."
 
 #: ../inc/team.inc:313
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "פעולה זו מצריכה הרשאות מנהל קבוצה"
 
 #: ../inc/team.inc:410
 msgid ""
@@ -1496,89 +1508,90 @@ msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
 msgstr ""
+"%1הערת פרטיות%2: בעת יצירת קבוצה, העדפות הפרוייקט שלך (חלוקת משאבים, העדפות "
+"גרפיות) יהיו גלויות לציבור הרחב."
 
 #: ../inc/team.inc:421
 msgid "Team name, text version"
-msgstr ""
+msgstr "שם הקבוצה, גרסת טקסט"
 
 #: ../inc/team.inc:422
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "אל תשתמש בתגי HTML."
 
 #: ../inc/team.inc:425
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "שם הקבוצה, גרסת HTML"
 
 #: ../inc/team.inc:427 ../inc/team.inc:437
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "באפשרותך להשתמש %1בכמות מוגבלת של תגי HTML%2."
 
 #: ../inc/team.inc:428
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "אם אין לך ידע ב-HTML, השאר תיבה זו ריקה."
 
 #: ../inc/team.inc:431
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "כתובת אתר האינטרנט של הקבוצה, אם קיימת"
 
 #: ../inc/team.inc:431
 msgid "without \"http://\""
-msgstr ""
+msgstr "ללא \"http://\""
 
 #: ../inc/team.inc:432
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "ניתן יהיה להגיע לכתובת זו מדף הקבוצה באתר זה."
 
 #: ../inc/team.inc:435
 msgid "Description of team"
-msgstr ""
+msgstr "תיאור הקבוצה"
 
 #: ../inc/team.inc:451
 msgid "Accept new members?"
-msgstr ""
+msgstr "האם לקבל חברים חדשים?"
 
 #: ../inc/uotd.inc:27
 msgid "User profile"
-msgstr ""
+msgstr "פרופיל משתמש"
 
 #: ../inc/user.inc:116
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "פרוייקטים בהם אתה משתתף"
 
 #: ../inc/user.inc:118
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "פרוייקטים בהם %1 משתתף"
 
 #: ../inc/user.inc:122
 msgid "Project"
-msgstr ""
+msgstr "פרוייקט"
 
 #: ../inc/user.inc:122
 msgid "Click for user page"
-msgstr ""
+msgstr "לחץ לקבלת דף משתמש"
 
 #: ../inc/user.inc:122
 msgid "Since"
-msgstr ""
+msgstr "מאז"
 
 #: ../inc/user.inc:146
 msgid "Computing and credit"
-msgstr ""
+msgstr "חישוב ונקודות זכות"
 
 #: ../inc/user.inc:150
 msgid "Pending credit"
-msgstr ""
+msgstr "נקודות זכות ממתינות"
 
 #: ../inc/user.inc:150 ../inc/user.inc:152 ../inc/user.inc:153
 #: ../inc/user.inc:241 ../inc/user.inc:322 ../inc/user.inc:397
 #: ../user/view_profile.php:54
-#, fuzzy
 msgid "View"
-msgstr "צפיות"
+msgstr "הצג"
 
 #: ../inc/user.inc:152
 msgid "Computers on this account"
-msgstr ""
+msgstr "מחשבים של חשבון זה"
 
 #: ../inc/user.inc:162
 msgid "Cross-project ID"
@@ -1590,13 +1603,12 @@ msgstr ""
 
 #: ../inc/user.inc:164
 msgid "Account"
-msgstr ""
+msgstr "חשבון"
 
 #: ../inc/user.inc:166 ../inc/user.inc:279 ../inc/user.inc:364
 #: ../inc/user.inc:366 ../user/user_search.php:102 ../user/user_search.php:158
-#, fuzzy
 msgid "Team"
-msgstr "קבוצה:"
+msgstr "קבוצה"
 
 #: ../inc/user.inc:168
 msgid "Cross-project"
@@ -1604,236 +1616,235 @@ msgstr ""
 
 #: ../inc/user.inc:169
 msgid "Certificate"
-msgstr ""
+msgstr "אישור"
 
 #: ../inc/user.inc:170
 msgid "Stats on your cell phone"
-msgstr ""
+msgstr "קבלת נתונים לנייד שלך"
 
 #: ../inc/user.inc:184
 msgid "Unknown notification type: %1"
-msgstr ""
+msgstr "סוג התראה לא מזוהה: %1"
 
 #: ../inc/user.inc:198
 msgid "Email address verification pending"
-msgstr ""
+msgstr "אימות כתובת מייל ממתין"
 
 #: ../inc/user.inc:201
 msgid "Account information"
-msgstr ""
+msgstr "מידע אודות החשבון"
 
 #: ../inc/user.inc:203 ../user/edit_passwd_form.php:46
 #: ../user/team_email_list.php:62
 msgid "Email address"
-msgstr ""
+msgstr "כתובת אימייל"
 
 #: ../inc/user.inc:206 ../inc/user.inc:316
 msgid "URL"
-msgstr ""
+msgstr "כתובת אתר"
 
 #: ../inc/user.inc:209
 msgid "Postal code"
-msgstr ""
+msgstr "מיקוד"
 
 #: ../inc/user.inc:210 ../inc/user.inc:313
 msgid "%1 member since"
-msgstr ""
+msgstr "%1 חבר מאז"
 
 #: ../inc/user.inc:212
 msgid "Change"
-msgstr ""
+msgstr "שינוי"
 
 #: ../inc/user.inc:212
 msgid "email address"
-msgstr ""
+msgstr "כתובת אימייל"
 
 #: ../inc/user.inc:212
 msgid "password"
-msgstr ""
+msgstr "סיסמא"
 
 #: ../inc/user.inc:212
 msgid "other account info"
-msgstr ""
+msgstr "מידע חשבון אחר"
 
 #: ../inc/user.inc:213
 msgid "Log out"
-msgstr ""
+msgstr "יציאה"
 
 #: ../inc/user.inc:214
 msgid "User ID"
-msgstr ""
+msgstr "זיהוי משתמש"
 
 #: ../inc/user.inc:214
 msgid "Used in community functions"
-msgstr ""
+msgstr "נמצא בשימוש בפונקציות קהילה"
 
 #: ../inc/user.inc:216
 msgid "Account key"
-msgstr ""
+msgstr "מפתח חשבון"
 
 #: ../inc/user.inc:216
 msgid "Provides full access to your account"
-msgstr ""
+msgstr "מספק גישה מלאה לחשבונך"
 
 #: ../inc/user.inc:217 ../user/weak_auth.php:25
 msgid "Weak account key"
-msgstr ""
+msgstr "מפתח חשבון חלש"
 
 #: ../inc/user.inc:217
 msgid "Provides %1limited access%2 to your account"
-msgstr ""
+msgstr "מספק %1גישה מוגבלת%2 לחשבונך"
 
 #: ../inc/user.inc:220
 msgid "Preferences"
-msgstr ""
+msgstr "העדפות"
 
 #: ../inc/user.inc:223
 msgid "When and how BOINC uses your computer"
-msgstr ""
+msgstr "מתי וכיצד משתמש BOINC במחשבך"
 
 #: ../inc/user.inc:224
 msgid "Computing preferences"
-msgstr ""
+msgstr "העדפות חישוב"
 
 #: ../inc/user.inc:227
 msgid "Message boards and private messages"
-msgstr ""
+msgstr "לוחות הודעות והודעות פרטיות"
 
 #: ../inc/user.inc:228
 msgid "Community preferences"
-msgstr ""
+msgstr "העדפות קהילה"
 
 #: ../inc/user.inc:231
 msgid "Preferences for this project"
-msgstr ""
+msgstr "העדפות עבור פרוייקט זה"
 
 #: ../inc/user.inc:232 ../user/prefs.php:33
 msgid "%1 preferences"
-msgstr ""
+msgstr "העדפות %1"
 
 #: ../inc/user.inc:238 ../user/sample_index.php:67
 msgid "Community"
-msgstr ""
+msgstr "קהילה"
 
 #: ../inc/user.inc:241 ../user/pm.php:103 ../user/pm.php:143
 msgid "Delete"
-msgstr ""
+msgstr "מחק"
 
 #: ../inc/user.inc:243
-#, fuzzy
 msgid "Create"
-msgstr "נוצר"
+msgstr "צור"
 
 #: ../inc/user.inc:245 ../inc/user.inc:397 ../inc/util.inc:441
 msgid "Profile"
-msgstr ""
+msgstr "פרופיל"
 
 #: ../inc/user.inc:248 ../inc/user.inc:370
 msgid "%1 posts"
-msgstr ""
+msgstr "הרשומות של %1"
 
 #: ../inc/user.inc:260
 msgid "Notifications"
-msgstr ""
+msgstr "התראות"
 
 #: ../inc/user.inc:267
 msgid "Quit team"
-msgstr ""
+msgstr "עזוב קבוצה"
 
 #: ../inc/user.inc:269 ../inc/user.inc:286
 msgid "Administer"
-msgstr ""
+msgstr "נהל"
 
 #: ../inc/user.inc:275 ../inc/user.inc:288
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(בקשת שינוי בעלות מייסד ממתינה)"
 
 #: ../inc/user.inc:277
 msgid "Member of team"
-msgstr ""
+msgstr "חבר בקבוצה"
 
 #: ../inc/user.inc:279
 msgid "find a team"
-msgstr ""
+msgstr "מצא קבוצה"
 
 #: ../inc/user.inc:290
 msgid "Founder but not member of"
-msgstr ""
+msgstr "מייסד אך לא חבר ב"
 
 #: ../inc/user.inc:296
 msgid "Find friends"
-msgstr ""
+msgstr "מצא חברים"
 
 #: ../inc/user.inc:303 ../inc/user.inc:305 ../inc/user.inc:380
 #: ../inc/user.inc:382 ../inc/user.inc:391
 msgid "Friends"
-msgstr ""
+msgstr "חברים"
 
 #: ../inc/user.inc:322 ../inc/user.inc:324 ../user/server_status.php:369
 msgid "Computers"
-msgstr ""
+msgstr "מחשבים"
 
 #: ../inc/user.inc:324
 msgid "hidden"
-msgstr ""
+msgstr "מוסתר"
 
 #: ../inc/user.inc:331
 msgid "Donor"
-msgstr ""
+msgstr "תורם"
 
 #: ../inc/user.inc:373
 msgid "Contact"
-msgstr ""
+msgstr "צור קשר"
 
 #: ../inc/user.inc:376
 msgid "This person is a friend"
-msgstr ""
+msgstr "גורם זה הוא חבר"
 
 #: ../inc/user.inc:377 ../user/friend.php:224
 msgid "Cancel friendship"
-msgstr ""
+msgstr "ביטול חברות"
 
 #: ../inc/user.inc:380 ../user/friend.php:35
 msgid "Request pending"
-msgstr ""
+msgstr "בקשה ממתינה"
 
 #: ../inc/user.inc:382
 msgid "Add as friend"
-msgstr ""
+msgstr "הוסף כחבר"
 
 #: ../inc/util.inc:96
 msgid "Logged in as %1."
-msgstr ""
+msgstr "מחובר כ%1."
 
 #: ../inc/util.inc:97
 msgid "Log in as someone else."
-msgstr ""
+msgstr "התחבר כגורם אחר."
 
 #: ../inc/util.inc:99
 msgid "Not logged in."
-msgstr ""
+msgstr "לא מחובר."
 
 #: ../inc/util.inc:180
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
-msgstr ""
+msgstr "אירעה שגיאה בבסיס הנתונים בעת הטיפול בבקשתך; אנא נסה שנית מאוחר יותר."
 
 #: ../inc/util.inc:189
 msgid "Unable to handle request"
-msgstr ""
+msgstr "לא ניתן לטפל בבקשה"
 
 #: ../inc/util.inc:209
 msgid "hours"
-msgstr ""
+msgstr "שעות"
 
 #: ../inc/util.inc:212
 msgid "min"
-msgstr ""
+msgstr "דקות"
 
 #: ../inc/util.inc:215
 msgid "sec"
-msgstr ""
+msgstr "שניות"
 
 #: ../inc/util.inc:371
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
@@ -1841,57 +1852,59 @@ msgstr ""
 
 #: ../inc/util.inc:440
 msgid "View the profile of %1"
-msgstr ""
+msgstr "הצג את הפרופיל של %1"
 
 #: ../inc/util.inc:496
 msgid "Use BBCode tags to format your text"
-msgstr ""
+msgstr "השתמש בתגי BBCode בכדי לפרמט את הטקסט"
 
 #: ../inc/util.inc:691
 msgid "Project down for maintenance"
-msgstr ""
+msgstr "הפרוייקט הופסק לצרכי תחזוקה"
 
 #: ../inc/util.inc:692
 msgid ""
 "This page requires database access.  Our database server is temporarily shut "
 "down for maintenance.  Please try again later."
 msgstr ""
+"דף זה דורש גישה לבסיס הנתונים. בסיס הנתונים שלנו סגור זמנית לצרכי תחזוקה. "
+"אנא נסה שנית מאוחר יותר."
 
 #: ../inc/util.inc:708
 msgid "Unable to connect to database - please try again later"
-msgstr ""
+msgstr "לא ניתן להתחבר לבסיס הנתונים - אנא נסה שנית מאוחר יותר"
 
 #: ../inc/util.inc:709
 msgid "Error:"
-msgstr ""
+msgstr "שגיאה:"
 
 #: ../inc/util.inc:713
 msgid "Unable to select database - please try again later"
-msgstr ""
+msgstr "לא ניתן לבחור בסיס נתונים - אנא נסה שנית מאוחר יותר"
 
 #: ../user/account_finish.php:40 ../user/create_account_form.php:84
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
+msgstr "מזהה אותך באתר האינטרנט שלנו. השתמש בשמך האמיתי או בכינוי."
 
 #: ../user/account_finish.php:44 ../user/create_account_form.php:103
 msgid "Select the country you want to represent, if any."
-msgstr ""
+msgstr "בחר את המדינה אותה ברצונך לייצג, אם בכלל."
 
 #: ../user/account_finish.php:50 ../user/create_account_form.php:109
 msgid "Postal or ZIP Code"
-msgstr ""
+msgstr "מיקוד"
 
 #: ../user/account_finish.php:50 ../user/create_account_form.php:109
 msgid "Optional"
-msgstr ""
+msgstr "אפשרי"
 
 #: ../user/add_venue.php:86
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "הוסף %1 העדפות עבור %2"
 
 #: ../user/apps.php:31 ../user/sample_index.php:64
 msgid "Applications"
-msgstr ""
+msgstr "יישומים"
 
 #: ../user/apps.php:32
 msgid ""
@@ -1900,200 +1913,214 @@ msgid ""
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
 msgstr ""
+"כרגע, היישומים הבאים מוגדרים עבור %1. כאשר הנך נוטל חלק ב-%1, תישלח למחשבך "
+"עבודה עבור אחד מהיישומים הללו, או יותר. מחשבך יוריד את הגרסא הנוכחית של "
+"היישום. הדבר קורה בצורה אוטומטית; אתה לא צריך לעשות דבר."
 
 #: ../user/apps.php:48
 msgid "Platform"
-msgstr ""
+msgstr "פלטפורמה"
 
 #: ../user/apps.php:49
 msgid "Version"
-msgstr ""
+msgstr "גרסא"
 
 #: ../user/apps.php:50
 msgid "Installation time"
-msgstr ""
+msgstr "זמן התקנה"
 
 #: ../user/create_account_action.php:64
 msgid "You must supply an invitation code to create an account."
-msgstr ""
+msgstr "עלייך לספק קוד הזמנה בכדי ליצור חשבון."
 
 #: ../user/create_account_action.php:67
 msgid "The invitation code you gave is not valid."
-msgstr ""
+msgstr "קוד ההזמנה אשר סיפקת אינו תקף."
 
 #: ../user/create_account_form.php:35
 msgid "Create an account"
-msgstr ""
+msgstr "צור חשבון"
 
 #: ../user/create_account_form.php:40
 msgid "Account creation is disabled"
-msgstr ""
+msgstr "יצירת חשבון אינה פעילה"
 
 #: ../user/create_account_form.php:41
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
+msgstr "יצירת חשבון אינה פעילה בזמן זה. אנא נסה שנית מאוחר יותר."
 
 #: ../user/create_account_form.php:50
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
+"הערה: אם אתה משתמש במנהל BOINC, אל תשתמש בטופס זה. פשוט הפעל את BOINC, בחר "
+"בהוספת פרוייקט והזן כתובת דוא\"ל וסיסמא. "
 
 #: ../user/create_account_form.php:66
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
-msgstr ""
+msgstr "פרוייקט זה ישתייך לקבוצה %1 ויהיה בעל העדפות הפרוייקט של מייסד הקבוצה."
 
 #: ../user/create_account_form.php:78
 msgid "Invitation Code"
-msgstr ""
+msgstr "קוד הזמנה"
 
 #: ../user/create_account_form.php:78
 msgid "A valid invitation code is required to create an account."
-msgstr ""
+msgstr "נדרש קוד הזמנה תקף בכדי ליצור חשבון."
 
 #: ../user/create_account_form.php:88
 msgid "Email Address"
-msgstr ""
+msgstr "כתובת דוא\"ל"
 
 #: ../user/create_account_form.php:88
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
+msgstr "צריכה להיות כתובת תקפה בסגנון 'שם@דומיין'."
 
 #: ../user/create_account_form.php:97 ../user/edit_email_form.php:46
 msgid "Password"
-msgstr ""
+msgstr "סיסמא"
 
 #: ../user/create_account_form.php:98
 msgid "Must be at least %1 characters"
-msgstr ""
+msgstr "נדרשים לפחות %1 תווים"
 
 #: ../user/create_account_form.php:101
 msgid "Confirm password"
-msgstr ""
+msgstr "אימות סיסמא"
 
 #: ../user/create_account_form.php:113
 msgid "Create account"
-msgstr ""
+msgstr "צור חשבון"
 
 #: ../user/create_profile.php:48
 msgid "Picture"
-msgstr ""
+msgstr "תמונה"
 
 #: ../user/create_profile.php:62
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 תמונת הפרופיל שלך מוצגת מצד שמאל."
 
 #: ../user/create_profile.php:64
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"בכדי להחליף אותה, לחץ על כפתור \"עיון\" ובחר קובץ JPEG או PNG (%1 או פחות)."
 
 #: ../user/create_profile.php:67
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "בכדי להסירה מהפרופיל שלך, סמן תיבה זו:"
 
 #: ../user/create_profile.php:75
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
+"אם ברצונך להוסיף תמונה לפרופיל שלך, לחץ על כפתור \"עיון\" ובחר בקובץ JPEG או "
+"PNG. אנא בחר תמונה בגודל %1 או פחות."
 
 #: ../user/create_profile.php:87
 msgid "Language"
-msgstr ""
+msgstr "שפה"
 
 #: ../user/create_profile.php:90
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "בחר את שפת הפרופיל שלך:"
 
 #: ../user/create_profile.php:102
 msgid "Submit profile"
-msgstr ""
+msgstr "הגש פרופיל"
 
 #: ../user/create_profile.php:108
 msgid "Please enter the words shown in the image."
-msgstr ""
+msgstr "אנא הזן את המילים אשר מוצגות בתמונה."
 
 #: ../user/create_profile.php:113
 msgid "Create/edit profile"
-msgstr ""
+msgstr "צור/ערוך פרופיל"
 
 #: ../user/create_profile.php:135
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "הפורמט של התמונות שלך אינו נתמך."
 
 #: ../user/create_profile.php:164
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
-msgstr ""
+msgstr "%1הפרופיל%2 שלך מאפשר לך לשתף את דעותייך ואת הרקע שלך עם קהילת %3."
 
 #: ../user/create_profile.php:211
 msgid "Your ReCaptcha response was not correct.  Please try again."
-msgstr ""
+msgstr "תגובת ה-ReCaptcha שלך שגויה. אנא נסה שנית."
 
 #: ../user/create_profile.php:220
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"תגובתך הראשונה סומנה כזבל על-ידי מערכת למניעת זיבול של Akismet. אנא ערוך את "
+"הטקסט ונסה שנית."
 
 #: ../user/create_profile.php:228
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"תגובתך השנייה סומנה כזבל על-ידי מערכת למניעת זיבול של Akismet. אנא ערוך את "
+"הטקסט ונסה שנית."
 
 #: ../user/create_profile.php:244
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "הפרופיל שהגשת הינו ריק."
 
 #: ../user/create_profile.php:283
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "לא ניתן לעדכן את הפרופיל: שגיאת בסיס נתונים"
 
 #: ../user/create_profile.php:295
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "לא ניתן ליצור פרופיל: שגיאת בסיס נתונים"
 
 #: ../user/create_profile.php:300
 msgid "Profile saved"
-msgstr ""
+msgstr "הפרופיל נשמר"
 
 #: ../user/create_profile.php:302
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
+msgstr "ברכותינו! הפרופיל שלך התווסף בהצלחה לבסיס הנתונים שלנו."
 
 #: ../user/create_profile.php:303
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1צפה בפרופיל שלך%2"
 
 #: ../user/create_profile.php:311
 msgid "Create a profile"
-msgstr ""
+msgstr "צור פרופיל"
 
 #: ../user/create_profile.php:339
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
+"בכדי למנוע זיבול, נדרש ממוצע של %1 נקודות זכות או יותר. אנו מתנצלים על אי "
+"הנוחות."
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "הורדת תכנת תוסף עבור BOINC"
 
 #: ../user/download_network.php:28
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "ניתן להוריד יישומים במספר קטגוריות."
 
 #: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr ""
+msgstr "יישומים אלו אינם מאושרים על-ידי %1 והשימוש בהם הוא על אחריותך."
 
 #: ../user/download_network.php:33
 msgid ""
@@ -2105,7 +2132,7 @@ msgstr ""
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "הוראות התקנה והפעלה של BOINC  נמצאות %1כאן%2."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
@@ -2113,124 +2140,124 @@ msgstr ""
 
 #: ../user/edit_email_form.php:26 ../user/edit_email_form.php:50
 msgid "Change email address"
-msgstr ""
+msgstr "שנה כתובת דוא\"ל"
 
 #: ../user/edit_email_form.php:35
 msgid "Change the email address of your account"
-msgstr ""
+msgstr "שנה את כתובת הדוא\"ל של חשבונך"
 
 #: ../user/edit_email_form.php:36
 msgid "New email address"
-msgstr ""
+msgstr "כתובת דוא\"ל חדשה"
 
 #: ../user/edit_email_form.php:37
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr ""
+msgstr "צריכה להיות כתובת תקפה בצורת 'שם@דומיין'"
 
 #: ../user/edit_email_form.php:47
 msgid "No password?"
-msgstr ""
+msgstr "ללא סיסמא?"
 
 #: ../user/edit_passwd_form.php:26 ../user/edit_passwd_form.php:56
 msgid "Change password"
-msgstr ""
+msgstr "שינוי סיסמא"
 
 #: ../user/edit_passwd_form.php:40
 msgid "You can identify yourself using either"
-msgstr ""
+msgstr "תוכל לזהות את עצמך על-ידי שימוש"
 
 #: ../user/edit_passwd_form.php:42
 msgid "your email address and old password"
-msgstr ""
+msgstr "בכתובת הדוא\"ל והסיסמא הישנה שלך"
 
 #: ../user/edit_passwd_form.php:43
 msgid "your account key"
-msgstr ""
+msgstr "במפתח החשבון שלך"
 
 #: ../user/edit_passwd_form.php:47
 msgid "Current password"
-msgstr ""
+msgstr "סיסמא נוכחית"
 
 #: ../user/edit_passwd_form.php:49
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<b>או</b>: מפתח חשבון"
 
 #: ../user/edit_passwd_form.php:50
 msgid "Get account key by email"
-msgstr ""
+msgstr "קבלת מפתח חשבון בדוא\"ל"
 
 #: ../user/edit_passwd_form.php:54
 msgid "New password"
-msgstr ""
+msgstr "סיסמא חדשה"
 
 #: ../user/edit_passwd_form.php:55
 msgid "New password, again"
-msgstr ""
+msgstr "סיסמא חדשה, שוב"
 
 #: ../user/edit_user_info_action.php:29
 msgid "HTML tags are not allowed in your name."
-msgstr ""
+msgstr "תגיות HTML אסורות לשימוש בשמך."
 
 #: ../user/edit_user_info_action.php:32
 msgid "You must supply a name for your account."
-msgstr ""
+msgstr "עלייך לספק שם עבור חשבונך."
 
 #: ../user/edit_user_info_action.php:41 ../user/team_edit_action.php:51
 msgid "bad country"
-msgstr ""
+msgstr "מדינה שגויה"
 
 #: ../user/edit_user_info_action.php:57
 msgid "Couldn't update user info."
-msgstr ""
+msgstr "לא ניתן לעדכן מידע משתמש."
 
 #: ../user/edit_user_info_form.php:27
 msgid "Edit account information"
-msgstr ""
+msgstr "ערוך מידע חשבון"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr ""
+msgstr "שם %1 שם אמיתי או כינוי%2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr ""
+msgstr "כתובת %1 אתר האינטרנט שלך; אפשרי%2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "מיקוד %1 אפשרי%2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "עדכון מידע"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:110 ../user/forum_post.php:112
 #: ../user/team_forum.php:67
 msgid "Title"
-msgstr ""
+msgstr "כותרת"
 
 #: ../user/forum_edit.php:144 ../user/forum_post.php:128
 msgid "Add my signature to this post"
-msgstr ""
+msgstr "הוסף את חתימתי לרשומה זו"
 
 #: ../user/forum_index.php:69
-#, fuzzy
 msgid "%1 Message boards"
-msgstr "%1 לוח הודעות"
+msgstr "לוחות ההודעות של %1"
 
 #: ../user/forum_index.php:79
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"אם יש לך שאלה או בעיה, אנא השתמש בחלק %1שאלות ותשובות%2 של לוחות המודעות."
 
 #: ../user/forum_index.php:93
 msgid "Topic"
-msgstr ""
+msgstr "נושא"
 
 #: ../user/forum_post.php:101
 msgid "Create a new thread"
-msgstr ""
+msgstr "צור אשכול חדש"
 
 #: ../user/forum_reply.php:85 ../user/forum_thread.php:145
 #: ../user/forum_thread.php:200
@@ -2239,302 +2266,303 @@ msgstr ""
 
 #: ../user/forum_search.php:25
 msgid "Forum search"
-msgstr ""
+msgstr "חיפוש בפורום"
 
 #: ../user/forum_search_action.php:139
 msgid "Forum search results"
-msgstr ""
+msgstr "תוצאות חיפוש בפורום"
 
 #: ../user/forum_thread.php:45
 msgid "No thread with id %1. Please check the link and try again."
-msgstr ""
+msgstr "לא קיים אשכול עם הזיהוי %1. אנא בדוק את הקישור ונסה שנית."
 
 #: ../user/forum_thread.php:51
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "פורום זה אינו גלוי לך."
 
 #: ../user/forum_thread.php:60
 msgid "This thread has been hidden by moderators"
-msgstr ""
+msgstr "אשכול זה הוסתר על-ידי מנהלי הפורום"
 
 #: ../user/forum_thread.php:117
 msgid "My question was answered"
-msgstr ""
+msgstr "שאלתי נענתה"
 
 #: ../user/forum_thread.php:119
 msgid ""
 "If your question has been adequately answered please click here to close it!"
-msgstr ""
+msgstr "אם קיבלת תשובה מספקת לשאלתך, לחץ כאן כדי לסגור אותה!"
 
 #: ../user/forum_thread.php:126
 msgid "I've also got this question"
-msgstr ""
+msgstr "כמו כן, ברצוני לשאול שאלה זו"
 
 #: ../user/forum_thread.php:145 ../user/forum_thread.php:200
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "הוסף הודעה חדשה לאשכול זה"
 
 #: ../user/forum_thread.php:152
 msgid "Unsubscribe"
-msgstr ""
+msgstr "ביטול הרשמה"
 
 #: ../user/forum_thread.php:152
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
+msgstr "אתה רשום לאשכול זה. לחץ כאן כדי לביטול ההרשמה."
 
 #: ../user/forum_thread.php:155
 msgid "Subscribe"
-msgstr ""
+msgstr "הרשמה"
 
 #: ../user/forum_thread.php:155
 msgid "Click to get email when there are new posts in this thread"
-msgstr ""
+msgstr "לחץ לקבלת הודעות בדוא\"ל כאשר ישנן רשומות חדשות באשכול זה"
 
 #: ../user/forum_thread.php:162
 msgid "Unhide"
-msgstr ""
+msgstr "הצג"
 
 #: ../user/forum_thread.php:162
 msgid "Unhide this thread"
-msgstr ""
+msgstr "הצג אשכול זה"
 
 #: ../user/forum_thread.php:164
 msgid "Hide"
-msgstr ""
+msgstr "הסתר"
 
 #: ../user/forum_thread.php:164
 msgid "Hide this thread"
-msgstr ""
+msgstr "הסתר אשכול זה"
 
 #: ../user/forum_thread.php:167
 msgid "Make unsticky"
-msgstr ""
+msgstr "בטל נעיצה"
 
 #: ../user/forum_thread.php:167
 msgid "Make this thread not sticky"
-msgstr ""
+msgstr "בטל נעיצה של אשכול זה"
 
 #: ../user/forum_thread.php:169
 msgid "Make sticky"
-msgstr ""
+msgstr "נעץ"
 
 #: ../user/forum_thread.php:169
 msgid "Make this thread sticky"
-msgstr ""
+msgstr "נעץ אשכול זה"
 
 #: ../user/forum_thread.php:172
 msgid "Unlock"
-msgstr ""
+msgstr "בטל נעילה"
 
 #: ../user/forum_thread.php:172
 msgid "Unlock this thread"
-msgstr ""
+msgstr "בטל נעילה של אשכול זה"
 
 #: ../user/forum_thread.php:174
 msgid "Lock"
-msgstr ""
+msgstr "נעל"
 
 #: ../user/forum_thread.php:174
 msgid "Lock this thread"
-msgstr ""
+msgstr "נעל אשכול זה"
 
 #: ../user/forum_thread.php:177
 msgid "Move"
-msgstr ""
+msgstr "הזז"
 
 #: ../user/forum_thread.php:177
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "הזז אשכול זה לפורום אחר"
 
 #: ../user/forum_thread.php:179
 msgid "Edit title"
-msgstr ""
+msgstr "ערוך כותרת"
 
 #: ../user/forum_thread.php:179
 msgid "Edit thread title"
-msgstr ""
+msgstr "ערוך כותרת אשכול"
 
 #: ../user/forum_thread.php:186
 msgid "Sort"
-msgstr ""
+msgstr "מיין"
 
 #: ../user/friend.php:31
 msgid "Already friends"
-msgstr ""
+msgstr "כבר חברים"
 
 #: ../user/friend.php:37
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "ביקשת להיות חבר של %1 ב-%2."
 
 #: ../user/friend.php:39
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "בקשה זו עדיין ממתינה לאישור."
 
 #: ../user/friend.php:50
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 אינו מקבל בקשות חברות ממך"
 
 #: ../user/friend.php:59
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "אינך יכול להיות חבר של עצמך"
 
 #: ../user/friend.php:62 ../user/friend.php:90 ../user/friend.php:123
 #: ../user/friend.php:146 ../user/friend.php:204 ../user/friend.php:219
 #: ../user/friend.php:233 ../user/pm.php:234 ../user/view_profile.php:24
 msgid "No such user"
-msgstr ""
+msgstr "לא קיים משתמש"
 
 #: ../user/friend.php:67
 msgid "Add friend"
-msgstr ""
+msgstr "הוסף חבר"
 
 #: ../user/friend.php:72
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
+"ביקשת להוסיף את %1 כחבר/ה. אנו נודיע ל-%2 ונבקש ממנו/ה לאשר כי הנכם חברים."
 
 #: ../user/friend.php:75
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "הוסף הודעה אופציונאלית כאן:"
 
 #: ../user/friend.php:113
 msgid "Friend request sent"
-msgstr ""
+msgstr "בקשת חברות נשלחה"
 
 #: ../user/friend.php:114
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "יידענו את %1 על בקשתך."
 
 #: ../user/friend.php:125
 msgid "Request not found"
-msgstr ""
+msgstr "בקשה לא נמצאה"
 
 #: ../user/friend.php:126
 msgid "Friend request"
-msgstr ""
+msgstr "בקשת חברות"
 
 #: ../user/friend.php:128
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 הוסיף אותך כחבר."
 
 #: ../user/friend.php:130
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 אומר: %2"
 
 #: ../user/friend.php:134
 msgid "Accept friendship"
-msgstr ""
+msgstr "קבל חברות"
 
 #: ../user/friend.php:134
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "לחץ על קבל במידה ו-%1 הוא אכן חבר"
 
 #: ../user/friend.php:135
 msgid "Decline"
-msgstr ""
+msgstr "דחייה"
 
 #: ../user/friend.php:135
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "לחץ על דחייה במידה ו-%1 אינו חבר"
 
 #: ../user/friend.php:150
 msgid "No request"
-msgstr ""
+msgstr "אין בקשה"
 
 #: ../user/friend.php:174
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "חברות אושרה"
 
 #: ../user/friend.php:175
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "חברותך עם %1 אושרה."
 
 #: ../user/friend.php:193
 msgid "Friendship declined"
-msgstr ""
+msgstr "חברות נדחתה"
 
 #: ../user/friend.php:194
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "דחית חברות עם %1"
 
 #: ../user/friend.php:209
 msgid "Notification not found"
-msgstr ""
+msgstr "התראה לא נמצאה"
 
 #: ../user/friend.php:211
 msgid "Friend confirmed"
-msgstr ""
+msgstr "החבר אושר"
 
 #: ../user/friend.php:212
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "אתה כעת חבר של %1."
 
 #: ../user/friend.php:220
 msgid "Cancel friendship?"
-msgstr ""
+msgstr "לבטל חברות?"
 
 #: ../user/friend.php:221
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "האם אתה בטוח כי ברצונך לבטל את חברותך עם %1?"
 
 #: ../user/friend.php:224 ../user/prefs_remove.php:53
 #: ../user/user_search.php:125 ../user/user_search.php:130
 msgid "Yes"
-msgstr ""
+msgstr "כן"
 
 #: ../user/friend.php:225 ../user/user_search.php:124
 #: ../user/user_search.php:129
 msgid "No"
-msgstr ""
+msgstr "לא"
 
 #: ../user/friend.php:225
 msgid "Stay friends"
-msgstr ""
+msgstr "השארו חברים"
 
 #: ../user/friend.php:235
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "חברות בוטלה"
 
 #: ../user/friend.php:236
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "חברותך עם %1 בוטלה."
 
 #: ../user/friend.php:274
 msgid "Unknown action"
-msgstr ""
+msgstr "פעולה לא ידועה"
 
 #: ../user/home.php:40
 msgid "Welcome to %1"
-msgstr ""
+msgstr "ברוכים הבאים ל-%1"
 
 #: ../user/home.php:41
 msgid "View and edit your account preferences using the links below."
-msgstr ""
+msgstr "צפה וערוך את העדפות החשבון שלך בעזרת הקישורים הבאים."
 
 #: ../user/home.php:49 ../project.sample/project.inc:49
 msgid "Your account"
-msgstr ""
+msgstr "חשבונך"
 
 #: ../user/host_app_versions.php:54
 msgid "Application details for host %1"
-msgstr ""
+msgstr "פרטי יישום עבור מחשב %1"
 
 #: ../user/hosts_user.php:51
 msgid "Computers belonging to %1"
-msgstr ""
+msgstr "מחשבים המשתייכים ל-%1"
 
 #: ../user/hosts_user.php:54
 msgid "This user has chosen not to show information about their computers."
-msgstr ""
+msgstr "משתמש זה בחר שלא להציג מידע אודות המחשבים שלו."
 
 #: ../user/info.php:22 ../user/sample_index.php:47
 msgid "Read our rules and policies"
-msgstr ""
+msgstr "קרא את החוקים והמדיניות שלנו"
 
 #: ../user/info.php:33
 msgid "Run %1 only on authorized computers"
-msgstr ""
+msgstr "הרץ את %1 רק על מחשבים מורשים"
 
 #: ../user/info.php:34
 msgid ""
@@ -2542,10 +2570,13 @@ msgid ""
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
 msgstr ""
+"הרץ את %1 רק על מחשבים אשר משתייכים לך, או על מחשבים אשר לגביהם קיבלת את "
+"רשות הבעלים. בחלק מהחברות ובתי-הספר קיימת מדיניות האוסרת שימוש במחשביהם "
+"לפרוייקטים כגון %1."
 
 #: ../user/info.php:36
 msgid "How %1 will use your computer"
-msgstr ""
+msgstr "איזה שימוש יעשה %1 במחשבך"
 
 #: ../user/info.php:37
 msgid ""
@@ -2553,16 +2584,20 @@ msgid ""
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
 msgstr ""
+"כאשר תריץ את %1 על מחשבך, הוא ינצל חלק מכוח העיבוד, שטח הדיסק ורוחב הפס של "
+"המחשב. באפשרותך לשלוט בכמות המשאבים בהם %1 יעשה שימוש, ובזמן השימוש בהם."
 
 #: ../user/info.php:38
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
 msgstr ""
+"העבודה אשר מתבצעת על-ידי מחשבך תורמת למטרות של %1, כפי שמתואר באתר שלו. "
+"תוכנות היישום עשויות להשתנות מדי פעם."
 
 #: ../user/info.php:40
 msgid "Privacy policy"
-msgstr ""
+msgstr "מדיניות פרטיות"
 
 #: ../user/info.php:41
 msgid ""
@@ -2571,6 +2606,9 @@ msgid ""
 "done for %1. If you want to be anonymous, choose a name that doesn't reveal "
 "your identity."
 msgstr ""
+"חשבונך ב-%1 מזוהה על-ידי שם לבחירתך. שם זה עשוי להיות מוצג באתר של %1, מלווה "
+"בסיכום העבודה אשר מחשבך ביצע עבור %1. אם ברצונך להשאר אנונימי, בחר בשם אשר "
+"אינו חושף את זהותך."
 
 #: ../user/info.php:42
 msgid ""
@@ -2580,6 +2618,10 @@ msgid ""
 "also be shown on %1's web site. Nothing that reveals your computer's "
 "location (e.g. its domain name or network address) will be shown."
 msgstr ""
+"אם אתה נוטל חלק ב-%1, מידע אודות מחשבך (כגון סוג מעבד, כמות זכרון וכו') "
+"יתועד על-ידי %1 וינוצל בכדי להחליט לגבי סוג העבודה אשר יוקצב עבור מחשבך. כמו "
+"כן, מידע זה יוצג באתר של %1. לא יוצג אף פרט אשר חושף את מיקום מחשבך (כגון "
+"שם תחום או כתובת רשת)."
 
 #: ../user/info.php:43
 msgid ""
@@ -2587,6 +2629,9 @@ msgid ""
 "address will not be shown on the %1 web site or shared with organizations. %"
 "1 may send you periodic newsletters; however, you can opt out at any time."
 msgstr ""
+"בכדי להשתתף ב-%1, עלייך לספק כתובת אליה תקבל הודעות דוא\"ל. כתובת זו לא תוצג "
+"באתר של %1 או תשותף עם ארגונים. %1 עשוי לשלוח עלוני מידע תקופתיים; עם זאת, "
+"באפשרותך לבטלם בכל עת. "
 
 #: ../user/info.php:44
 msgid ""
@@ -2596,6 +2641,10 @@ msgid ""
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
+"הודעות פרטיות אשר נשלחות באתר של %1 גלויות רק לשולח ולנמען. %1 אינו בוחן או "
+"מפקח על תוכנן של הודעות פרטיות. אם אתה מקבל הודעות פרטיות בלתי רצויות ממשתמש "
+"%1 אחר, באפשרותך להוסיפו ל%2מסנן ההודעות%3 שלך. הדבר ימנע ממך לצפות בהודעות "
+"ציבוריות או פרטיות של משתמש זה."
 
 #: ../user/info.php:45
 msgid ""
@@ -2607,7 +2656,7 @@ msgstr ""
 
 #: ../user/info.php:46
 msgid "Is it safe to run %1?"
-msgstr ""
+msgstr "האם זה בטוח להריץ את %1?"
 
 #: ../user/info.php:47
 msgid ""
@@ -2619,21 +2668,28 @@ msgid ""
 "all executable files are digitally signed on a secure computer not connected "
 "to the Internet."
 msgstr ""
+"בכל פעם בה אתה מוריד תכנה מהאינטרנט, אתה נוטל סיכון: שגיאות מסוכנות עלולות "
+"להופיע בתכנה, או ששרת ההורדה נפרץ. %1 עשה מאמצים בכדי למזער סיכונים אלה. "
+"בדקנו את היישומים שלנו בזהירות. שרתינו מוגנים על-ידי חומת אש ומוגדרים לרמת "
+"אבטחה גבוהה. על מנת להבטיח את שלמות הורדות התכנה, כל הקבצים הניתנים להרצה "
+"נחתמו דיגיטלית על מחשב מאובטח אשר לא מחובר לרשת האינטרנט."
 
 #: ../user/info.php:48
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
+"היישומים אשר מורצים על-ידי %1 עשויים לגרום להתחממות-יתר בחלק מהמחשבים. אם "
+"הדבר קורה, הפסק להריץ את %1 או השתמש ב%2תכנת שירות%3 המגבילה את ניצול המעבד."
 
 #: ../user/info.php:49
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
+msgstr "%1 פותח על-ידי %2. BOINC פותחה על-ידי אוניברסיטת קליפורניה."
 
 #: ../user/info.php:51
 msgid "Liability"
-msgstr ""
+msgstr "אחריות"
 
 #: ../user/info.php:52
 msgid ""
@@ -2641,10 +2697,12 @@ msgid ""
 "any other event or condition that may occur as a result of participating in %"
 "1."
 msgstr ""
+"%1 ו-%2 אינם נוטלים כל אחריות על נזק אשר ייגרם למחשבך, איבוד מידע או כל "
+"אירוע או מצב אחר, אשר עלול להיגרם כתוצאה מהשתתפות ב-%1."
 
 #: ../user/info.php:54
 msgid "Other BOINC projects"
-msgstr ""
+msgstr "פרוייקטי BOINC אחרים"
 
 #: ../user/info.php:55
 msgid ""
@@ -2652,6 +2710,9 @@ msgid ""
 "participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
 msgstr ""
+"פרוייקטים אחרים משתמשים באותה הפלטפורמה, BOINC, כמו %1. אולי תרצה לשקול "
+"להשתתף באחד או יותר מפרוייקטים אלו. כך, מחשבך יוכל לבצע עבודה מועילה, גם "
+"כאשר ל-%1 אין עבודה זמינה למחשבך."
 
 #: ../user/info.php:56
 msgid ""
@@ -2659,30 +2720,34 @@ msgid ""
 "their security practices or the nature of their research. Join them at your "
 "own risk."
 msgstr ""
+"פרוייקטים אחרים אלו אינם משוייכים ל-%1, ואין באפשרותינו לערוב לאמצעי אבטחתם "
+"או לטבע מחקרם. ההצטרפות לקבוצה היא על אחריותך."
 
 #: ../user/language_select.php:42
 msgid "Language selection"
-msgstr ""
+msgstr "בחירת שפה"
 
 #: ../user/language_select.php:69
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
-msgstr ""
+msgstr "אתר זה זמין במספר שפות. השפה הנוכחית היא %1."
 
 #: ../user/language_select.php:74
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
+"לרוב, בחירת השפה נקבעת על-ידי הגדרת השפה של הדפדפן, שהיא: %1. באפשרותך לשנות "
+"הגדרה זו באמצעות:"
 
 #: ../user/language_select.php:79
 msgid "Firefox: Tools/Options/General"
-msgstr ""
+msgstr "Firefox: כלים-אפשרויות-כללי"
 
 #: ../user/language_select.php:81
 msgid "Microsoft IE: Tools/Internet Options/Languages"
-msgstr ""
+msgstr "Internet Explorer: כלים-אפשרויות אינטרנט-שפות"
 
 #: ../user/language_select.php:85
 msgid ""
@@ -2690,193 +2755,203 @@ msgid ""
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
+"או שבאפשרותך לבחור שפה על-ידי לחיצה על אחד הקישורים הבאים. הדבר יישלח עוגיה "
+"לדפדפן שלך; וודא כי הדפדפן מוגדר לקבל עוגיות מהתחום שלנו."
 
 #: ../user/language_select.php:91
 msgid "Language name (click to select)"
-msgstr ""
+msgstr "שם השפה (לחץ לבחירה)"
 
 #: ../user/language_select.php:93
 msgid "Use browser language setting"
-msgstr ""
+msgstr "השתמש בהגדרת השפה של הדפדפן"
 
 #: ../user/language_select.php:109
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, %"
 "1you can provide a translation%2."
 msgstr ""
+"התרגומים מבוצעים על-ידי מתנדבים. אם שפת האם שלך לא מופיעה כאן, %1באפשרותך "
+"לספק תרגום%2."
 
 #: ../user/login_form.php:42
 msgid "Email address:"
-msgstr ""
+msgstr "כתובת דוא\"ל:"
 
 #: ../user/login_form.php:42
 msgid "forgot email address?"
-msgstr ""
+msgstr "שכחת את כתובת הדוא\"ל?"
 
 #: ../user/login_form.php:44
 msgid "Password:"
-msgstr ""
+msgstr "סיסמא:"
 
 #: ../user/login_form.php:44
 msgid "forgot password?"
-msgstr ""
+msgstr "שכחת את הסיסמא:"
 
 #: ../user/login_form.php:47
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "השאר מחובר במחשב זה"
 
 #: ../user/login_form.php:52
 msgid "Log in"
-msgstr ""
+msgstr "התחבר"
 
 #: ../user/login_form.php:53
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "או %1צור חשבון%2."
 
 #: ../user/pm.php:68
 msgid "Your message has been sent."
-msgstr ""
+msgstr "הודעתך נשלחה."
 
 #: ../user/pm.php:78
 msgid "You have no private messages."
-msgstr ""
+msgstr "אין לך הודעות פרטיות."
 
 #: ../user/pm.php:85
 msgid "Sender and date"
-msgstr ""
+msgstr "שולח ותאריך"
 
 #: ../user/pm.php:102 ../user/pm.php:142
 msgid "Reply"
-msgstr ""
+msgstr "השב"
 
 #: ../user/pm.php:113
 msgid "Delete selected messages"
-msgstr ""
+msgstr "מחק הודעות נבחרות"
 
 #: ../user/pm.php:136
 msgid "Sender"
-msgstr ""
+msgstr "שולח"
 
 #: ../user/pm.php:139
 msgid "Date"
-msgstr ""
+msgstr "תאריך"
 
 #: ../user/pm.php:179
 msgid "You need to fill all fields to send a private message"
-msgstr ""
+msgstr "עלייך למלא את כל השדות על מנת לשלוח הודעה פרטית"
 
 #: ../user/pm.php:199
 msgid "Could not find user with id %1"
-msgstr ""
+msgstr "לא ניתן למצוא משתמש עם הזיהוי %1"
 
 #: ../user/pm.php:204
 msgid "Could not find user with username %1"
-msgstr ""
+msgstr "לא ניתן למצוא משתמש עם שם המשתמש %1"
 
 #: ../user/pm.php:206
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr ""
+msgstr "%1 אינו שם משתמש ייחודי; עלייך להשתמש בזיהוי משתמש"
 
 #: ../user/pm.php:211
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr ""
+msgstr "משתמש %1 (זיהוי: %2) אינו מקבל הודעות פרטיות ממך."
 
 #: ../user/pm.php:236
 msgid "Really block %1?"
-msgstr ""
+msgstr "האם לחסום את %1?"
 
 #: ../user/pm.php:237
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
-msgstr ""
+msgstr "האם אתה בטוח כי ברצונך לחסום את המשתמש %1 לשליחת הודעות פרטיות?"
 
 #: ../user/pm.php:238
 msgid "Please note that you can only block a limited amount of users."
-msgstr ""
+msgstr "שים לב, כי באפשרותך לחסום כמות מוגבלת של משתמשים."
 
 #: ../user/pm.php:239
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
 msgstr ""
+"ברגע שהמשתמש נחסם, באפשרותך לבטל את החסימה על-ידי שימוש בדף העדפות פורום."
 
 #: ../user/pm.php:245
 msgid "Add user to filter"
-msgstr ""
+msgstr "הוסף משתמש למסנן"
 
 #: ../user/pm.php:246
 msgid "No, cancel"
-msgstr ""
+msgstr "לא, ביטול"
 
 #: ../user/pm.php:257
 msgid "User %1 blocked"
-msgstr ""
+msgstr "משתמש %1 נחסם"
 
 #: ../user/pm.php:259
 msgid "User %1 has been blocked from sending you private messages."
-msgstr ""
+msgstr "משתמש %1 נחסם לשליחת הודעות פרטיות."
 
 #: ../user/pm.php:260
 msgid "To unblock, visit %1message board preferences%2"
-msgstr ""
+msgstr "בכדי לבטל חסימה, בקר ב%1העדפות לוח הודעות%2"
 
 #: ../user/prefs.php:36
+#, fuzzy
 msgid ""
 "Your preferences have been updated, and\n"
 "\t      will take effect when your computer communicates with %1\n"
 "\t      or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
+"העדפותיך עודכנו, ו\n"
+"\t ייכנסו לתוקף כאשר מחשבך ייתקשר עם %1\t או הרץ את פקודת %2עדכון%3 במנהל של "
+"BOINC."
 
 #: ../user/prefs_edit.php:72 ../user/prefs_edit.php:101
 msgid "%1 for %2"
-msgstr ""
+msgstr "%1 עבור %2"
 
 #: ../user/prefs_edit.php:119
 msgid "Back to preferences"
-msgstr ""
+msgstr "חזרה להעדפות"
 
 #: ../user/prefs_remove.php:46
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "אשר מחיקת העדפות"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr ""
+msgstr "האם אתה בטוח כי ברצונך למחוק את ההעדפות הנפרדות של %1 עבור %2?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
-msgstr ""
+msgstr "הסר העדפות"
 
 #: ../user/prefs_remove.php:55
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: ../user/profile_menu.php:33 ../user/sample_index.php:69
 msgid "Profiles"
-msgstr ""
+msgstr "פרופילים"
 
 #: ../user/profile_menu.php:36
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
-msgstr ""
+msgstr "%1פרופילים%2 מאפשרים לאנשים לשתף רקעים ודעות עם קהילת %3."
 
 #: ../user/profile_menu.php:37
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
 msgstr ""
+"גלה את המגוון הרחב של עמיתיך המתנדבים, ותרום את השקפותיך להנאתם של אחרים."
 
 #: ../user/profile_menu.php:38
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
-msgstr ""
+msgstr "אם טרם עשית זאת, באפשרותך %1ליצור פרופיל אישי%2 שאחרים יוכלו לראות!"
 
 #: ../user/profile_menu.php:43
 msgid "User of the Day"
-msgstr ""
+msgstr "משתמש היום"
 
 #: ../user/profile_menu.php:56
 msgid "User Profile Explorer"

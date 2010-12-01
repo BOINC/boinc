@@ -1,27 +1,23 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.12.1\n"
+"Project-Id-Version: BOINC Manager 6.12.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-19 14:52-0500\n"
-"PO-Revision-Date: 2010-10-23 16:27+0900\n"
+"PO-Revision-Date: 2010-11-23 08:39+0900\n"
 "Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
-"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Language: Korean\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: KOREA, REPUBLIC OF\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -227,13 +223,14 @@ msgstr "프로젝트(&P)\tCtrl+Shift+P"
 msgid "Display projects"
 msgstr "프로젝트를 보여줍니다"
 
+# 진행 상황을 표시하는 탭
 #: clientgui/AdvancedFrame.cpp:371
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "작업(&T)\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:372
 msgid "Display tasks"
-msgstr "작업 현황을 보여줍니다"
+msgstr "태스크 현황을 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:377
 msgid "Trans&fers\tCtrl+Shift+X"
@@ -376,7 +373,7 @@ msgstr "설정을 무시하고 네트워크 활동을 허용합니다"
 
 #: clientgui/AdvancedFrame.cpp:542
 msgid "Network activity based on preferences"
-msgstr "설정한 대로 네트워크 네트워크 활동"
+msgstr "설정한 대로 네트워크 활동"
 
 #: clientgui/AdvancedFrame.cpp:543
 msgid "Allow network activity according to preferences"
@@ -451,7 +448,7 @@ msgstr "별도로 %s 실행"
 
 #: clientgui/AdvancedFrame.cpp:608
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr "이벤트 로그...\tCtrl+Shift+E"
+msgstr "이벤트 기록...\tCtrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:609
 msgid "Display diagnostic messages."
@@ -1111,9 +1108,9 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings."
 msgstr ""
-"이 다이얼로그는 이 컴퓨터 환경 설정만을 제어합니다.\n"
-"확인을 눌러서 환경을 설정하세요.\n"
-"지우기를 눌러서 웹 기반 설정으로 복원하실 수 있습니다."
+"이 다이얼로그에서 한 설정은 이 컴퓨터에만 적용됩니다.\n"
+"확인을 눌러서 설정값을 저장하세요.\n"
+"지우기를 눌러서 웹 기반 설정으로 복원할 수 있습니다."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:64
 msgid "Clear"
@@ -1158,7 +1155,7 @@ msgstr "환경 설정 웹 페이지를 보여줍니다"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:131
 msgid "Computing allowed"
-msgstr "계산이 허가되었습니다"
+msgstr "연산 허용 여부 설정"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:135
 msgid "While computer is on batteries"
@@ -1351,7 +1348,7 @@ msgid ""
 "this computer is connected to the Internet about every X days\n"
 "(0 if it's always connected)"
 msgstr ""
-"이 컴퓨터는 X일동안 계속 인터넷에 접속되어 있습니다\n"
+"이 컴퓨터는 대략 X일마다 인터넷에 접속할 수 있습니다\n"
 "(0은 항상 접속됨)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:432
@@ -1442,7 +1439,7 @@ msgstr "% (전체 디스크 공간 중)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:613
 msgid "Tasks checkpoint to disk at most every"
-msgstr "작업 중간점을 해당 시간마다 디스크 기록"
+msgstr "태스크 중간점을 지정된 시간마다 기록"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:619
 msgid "seconds"
@@ -1495,7 +1492,7 @@ msgstr "메시지"
 #: clientgui/DlgEventLog.cpp:258
 #: clientgui/DlgEventLog.cpp:322
 msgid "Show only this project"
-msgstr "이 프로젝만 보여주기"
+msgstr "이 프로젝트만 보여주기"
 
 #: clientgui/DlgEventLog.cpp:262
 msgid "Copy All"
@@ -1513,15 +1510,12 @@ msgstr "선택한 항목 복사"
 #: clientgui/DlgEventLog.cpp:276
 #: clientgui/DlgEventLog.cpp:284
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
+msgstr "선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
 
 #: clientgui/DlgEventLog.cpp:278
 #: clientgui/DlgEventLog.cpp:286
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
-"있습니다."
+msgstr "클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
 
 #: clientgui/DlgEventLog.cpp:293
 msgid "Close"
@@ -1578,12 +1572,12 @@ msgid ""
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
 msgstr ""
-"종료된 이후에 %s에 작업이 등록될 때\n"
-"%s 응용 프로그램 또는 %s의 화면 보호기가 다시 실행됩니다.\n"
+"종료된 이후에 %s에 태스크가 등록이 되었을 때\n"
+"%s 응용 프로그램 또는 %s 화면 보호기가 다시 실행됩니다.\n"
 "\n"
 "대부분의 경우, 단지 %s 창을 닫는 것보다 오히려 응용\n"
 "프로그램을 종료하는게 낫습니다; 여러분이 환경 설정에서 선택한\n"
-"시간에 %s의 작업 실행이 허용될 것입니다."
+"시간에 %s의 태스크 실행이 허용될 것입니다."
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
@@ -1691,7 +1685,7 @@ msgstr "계정 관리자를 통해 추가됨"
 
 #: clientgui/DlgItemProperties.cpp:221
 msgid "Remove when tasks done"
-msgstr "작업 완료시 제거"
+msgstr "태스크 완료시 제거"
 
 #: clientgui/DlgItemProperties.cpp:222
 msgid "Ended"
@@ -1721,7 +1715,7 @@ msgstr "프로젝트 환경 설정"
 
 #: clientgui/DlgItemProperties.cpp:242
 msgid "Don't fetch CPU tasks"
-msgstr "CPU 작업을 받지 않음"
+msgstr "CPU 태스크를 받지 않음"
 
 #: clientgui/DlgItemProperties.cpp:244
 msgid "CPU scheduling priority"
@@ -1741,7 +1735,7 @@ msgstr "CPU가 이 시간 이후로 작업"
 
 #: clientgui/DlgItemProperties.cpp:252
 msgid "Don't fetch NVIDIA GPU tasks"
-msgstr "NVIDIA GPU 작업을 받지 않음"
+msgstr "NVIDIA GPU 태스크를 받지 않음"
 
 #: clientgui/DlgItemProperties.cpp:254
 msgid "NVIDIA GPU scheduling priority"
@@ -1761,7 +1755,7 @@ msgstr "NVIDIA GPU가 이 시간 이후로 작업"
 
 #: clientgui/DlgItemProperties.cpp:263
 msgid "Don't fetch ATI GPU tasks"
-msgstr "ATI GPU 작업을 받지 않음"
+msgstr "ATI GPU 태스크를 받지 않음"
 
 #: clientgui/DlgItemProperties.cpp:265
 msgid "ATI GPU scheduling priority"
@@ -1785,7 +1779,7 @@ msgstr "지연 정정 값"
 
 #: clientgui/DlgItemProperties.cpp:283
 msgid "Properties of task "
-msgstr "작업 속성"
+msgstr "태스크 속성"
 
 #: clientgui/DlgItemProperties.cpp:295
 msgid "Application"
@@ -1805,7 +1799,7 @@ msgstr "수신됨"
 
 #: clientgui/DlgItemProperties.cpp:303
 msgid "Report deadline"
-msgstr "리포트 마감 시한"
+msgstr "리포트 마감 시각"
 
 #: clientgui/DlgItemProperties.cpp:305
 msgid "Resources"
@@ -1813,12 +1807,11 @@ msgstr "자원"
 
 #: clientgui/DlgItemProperties.cpp:308
 msgid "Estimated app speed"
-msgstr ""
+msgstr "실행 속도 추정"
 
 #: clientgui/DlgItemProperties.cpp:311
-#, fuzzy
 msgid "Estimated task size"
-msgstr "남은 시간 추정"
+msgstr "태스크 크기 추정"
 
 #: clientgui/DlgItemProperties.cpp:314
 msgid "CPU time at last checkpoint"
@@ -1832,7 +1825,7 @@ msgstr "CPU 시간"
 #: clientgui/DlgItemProperties.cpp:317
 #: clientgui/DlgItemProperties.cpp:331
 msgid "Elapsed time"
-msgstr "지난 시간"
+msgstr "경과 시간"
 
 #: clientgui/DlgItemProperties.cpp:319
 msgid "Estimated time remaining"
@@ -2280,11 +2273,11 @@ msgstr ")"
 
 #: clientgui/MainDocument.cpp:2437
 msgid "Project suspended by user"
-msgstr "사용자에 의해 일시 정지된 프로젝트"
+msgstr "사용자가 일시 정지시킨 프로젝트"
 
 #: clientgui/MainDocument.cpp:2439
 msgid "Task suspended by user"
-msgstr "사용자가 작업을 일시 정지했습니다"
+msgstr "사용자가 일시 정지시킨 태스크"
 
 #: clientgui/MainDocument.cpp:2441
 msgid "Suspended - "
@@ -2433,7 +2426,6 @@ msgid "Click"
 msgstr "Click"
 
 #: clientgui/NoticeListCtrl.cpp:477
-#, fuzzy
 msgid "There are no notices at this time."
 msgstr "지금은 새로운 공지 사항이 없습니다."
 
@@ -2958,7 +2950,7 @@ msgstr "남은 시간:"
 
 #: clientgui/sg_ViewTabPage.cpp:452
 msgid "Elapsed Time: "
-msgstr "지난 시간:"
+msgstr "경과 시간:"
 
 #: clientgui/TermsOfUsePage.cpp:218
 msgid "Terms of Use"
@@ -3118,7 +3110,7 @@ msgstr "업데이트"
 
 #: clientgui/ViewProjects.cpp:174
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr "모든 완료된 작업을 보고하고 마지막 크레딧과 환경 설정을 받아오며 가능하면 추가 작업을 받아옵니다."
+msgstr "모든 완료된 태스크를 보고하고 마지막 크레딧과 환경 설정을 받아오며 가능하면 추가 태스크를 받아옵니다."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:712
@@ -3130,16 +3122,16 @@ msgstr "일시 정지"
 #: clientgui/ViewProjects.cpp:181
 #: clientgui/ViewProjects.cpp:712
 msgid "Suspend tasks for this project."
-msgstr "이 프로젝트 작업을 일시 정지 합니다."
+msgstr "이 프로젝트 태스크를 일시 정지시킵니다."
 
 #: clientgui/ViewProjects.cpp:187
 #: clientgui/ViewProjects.cpp:731
 msgid "No new tasks"
-msgstr "새 작업 금지"
+msgstr "새 태스크 금지"
 
 #: clientgui/ViewProjects.cpp:188
 msgid "Don't get new tasks for this project."
-msgstr "이 프로젝트의 새로운 작업을 받지 않습니다."
+msgstr "이 프로젝트의 새로운 태스크를 받지 않습니다."
 
 #: clientgui/ViewProjects.cpp:194
 msgid "Reset project"
@@ -3147,9 +3139,7 @@ msgstr "프로젝트 다시 설정"
 
 #: clientgui/ViewProjects.cpp:195
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 "
-"있습니다."
+msgstr "이 프로젝트와 관련된 모든 태스크와 파일들을 삭제하고 새 태스크를 받아옵니다. 그 전에 먼저 완료된 태스크를 보고하도록 업데이트할 수 있습니다."
 
 #: clientgui/ViewProjects.cpp:201
 msgid "Remove"
@@ -3157,7 +3147,7 @@ msgstr "제거"
 
 #: clientgui/ViewProjects.cpp:202
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr "이 프로젝트를 제거합니다. 진행 중인 작업은 소실됩니다. (완료된 작업을 보고하려면 '업데이트'를 이용해 주세요)"
+msgstr "이 프로젝트를 제거합니다. 진행 중인 태스크는 소실됩니다. (완료된 태스크를 보고하려면 '업데이트'를 사용하세요)"
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:212
@@ -3205,11 +3195,11 @@ msgstr "프로젝트 일시 정지 중..."
 
 #: clientgui/ViewProjects.cpp:384
 msgid "Telling project to allow additional task downloads..."
-msgstr "추가적인 작업 다운로드를 허용하도록 프로젝트에 알리는 중..."
+msgstr "추가적인 태스크 다운로드를 허용하도록 프로젝트에 알리는 중..."
 
 #: clientgui/ViewProjects.cpp:388
 msgid "Telling project to not fetch any additional tasks..."
-msgstr "프로젝트에게 추가 작업 수용 금지를 통보하고 있습니다..."
+msgstr "프로젝트에게 추가 태스크 수용 금지를 통보하고 있습니다..."
 
 #: clientgui/ViewProjects.cpp:424
 msgid "Resetting project..."
@@ -3240,19 +3230,19 @@ msgstr "다시 시작"
 
 #: clientgui/ViewProjects.cpp:708
 msgid "Resume tasks for this project."
-msgstr "이 프로젝트를 재개합니다."
+msgstr "이 프로젝트의 태스크를 다시 시작합니다."
 
 #: clientgui/ViewProjects.cpp:727
 msgid "Allow new tasks"
-msgstr "새 작업 허용"
+msgstr "새 태스크 허용"
 
 #: clientgui/ViewProjects.cpp:727
 msgid "Allow fetching new tasks for this project."
-msgstr "이 프로젝트의 새 작업 수용을 허용합니다."
+msgstr "이 프로젝트의 새 태스크를 수용합니다."
 
 #: clientgui/ViewProjects.cpp:731
 msgid "Don't fetch new tasks for this project."
-msgstr "이 프로젝트의 새 작업을 수용하지 않습니다."
+msgstr "이 프로젝트의 새 태스크를 수용하지 않습니다."
 
 #: clientgui/ViewProjects.cpp:1057
 msgid "Suspended by user"
@@ -3260,7 +3250,7 @@ msgstr "사용자에 의한 일시 정지"
 
 #: clientgui/ViewProjects.cpp:1060
 msgid "Won't get new tasks"
-msgstr "새 작업을 받지 않음"
+msgstr "새 태스크를 받지 않음"
 
 #: clientgui/ViewProjects.cpp:1063
 msgid "Project ended - OK to remove"
@@ -3268,7 +3258,7 @@ msgstr "프로젝트가 끝남 - 확인을 누르면 제거됩니다"
 
 #: clientgui/ViewProjects.cpp:1066
 msgid "Will remove when tasks done"
-msgstr "작업 완료시 제거하기"
+msgstr "태스크 완료시 제거하기"
 
 #: clientgui/ViewProjects.cpp:1069
 msgid "Scheduler request pending"
@@ -3485,7 +3475,7 @@ msgstr "파일"
 #: clientgui/ViewTransfers.cpp:183
 #: clientgui/ViewWork.cpp:223
 msgid "Progress"
-msgstr "진행"
+msgstr "진행률"
 
 #: clientgui/ViewTransfers.cpp:184
 msgid "Size"
@@ -3493,7 +3483,7 @@ msgstr "크기"
 
 #: clientgui/ViewTransfers.cpp:185
 msgid "Elapsed Time"
-msgstr "소요된 시간"
+msgstr "경과 시간"
 
 #: clientgui/ViewTransfers.cpp:186
 msgid "Speed"
@@ -3534,9 +3524,9 @@ msgid ""
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
-"정말 파일 전송 '%s'을(를) 중지할까요?\n"
-"주의: 전송 중지하기는 작업을 무효화하여 해당 작업에\n"
-"대한 크레디트를 받지 못하게 됩니다."
+"정말로 현재 전송중인 파일 '%s'을(를) 중지할까요?\n"
+"주의: 전송을 중지하면 태스크를 무효화하며, 해당 태스크에\n"
+"대한 크레딧을 받지 못하게 됩니다."
 
 #: clientgui/ViewTransfers.cpp:348
 msgid "Abort File Transfer"
@@ -3569,12 +3559,12 @@ msgstr " (프로젝트 전송 지연: "
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:714
 msgid "Show active tasks"
-msgstr "활동 중인 테스크 보여주기"
+msgstr "처리 중인 태스크 보여주기"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:715
 msgid "Show only active tasks."
-msgstr "활동 중인 테스크만 보여줍니다."
+msgstr "처리 중인 태스크만 보여줍니다."
 
 #: clientgui/ViewWork.cpp:192
 msgid "Show application graphics in a window."
@@ -3594,7 +3584,7 @@ msgstr "이 결과에서 작업을 버립니다. 크래디트를 얻을 수 없�
 
 #: clientgui/ViewWork.cpp:213
 msgid "Show task details."
-msgstr "자세한 작업 정보를 보여줍니다."
+msgstr "자세한 태스크 정보를 보여줍니다."
 
 #: clientgui/ViewWork.cpp:225
 msgid "Elapsed"
@@ -3606,27 +3596,28 @@ msgstr "남은 시간"
 
 #: clientgui/ViewWork.cpp:227
 msgid "Deadline"
-msgstr "리포트 마감 시한"
+msgstr "리포트 마감 시각"
 
 #: clientgui/ViewWork.cpp:229
 msgid "Name"
 msgstr "이름"
 
+# 작업 진행 현황 탭
 #: clientgui/ViewWork.cpp:254
 msgid "Tasks"
 msgstr "작업"
 
 #: clientgui/ViewWork.cpp:347
 msgid "Resuming task..."
-msgstr "작업 다시 시작 중..."
+msgstr "태스크 다시 시작 중..."
 
 #: clientgui/ViewWork.cpp:350
 msgid "Suspending task..."
-msgstr "작업 일시 중지 중..."
+msgstr "태스크 일시 중지 중..."
 
 #: clientgui/ViewWork.cpp:378
 msgid "Showing graphics for task..."
-msgstr "작업 그래픽 보여주는 중..."
+msgstr "태스크 그래픽 보여주는 중..."
 
 #: clientgui/ViewWork.cpp:431
 #, c-format
@@ -3634,17 +3625,17 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr ""
-"정말로 작업 '%s' 중지 할까요?\n"
+"정말로 태스크 '%s'를(을) 중지 할까요?\n"
 "(진행도: %s, 상태: %s)"
 
 #: clientgui/ViewWork.cpp:437
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr "정말로 작업 '%d'를(을) 중단하겠습니까?"
+msgstr "정말로 태스크 '%d'를(을) 중단하겠습니까?"
 
 #: clientgui/ViewWork.cpp:442
 msgid "Abort task"
-msgstr "작업 중지"
+msgstr "태스크 중지"
 
 #: clientgui/ViewWork.cpp:451
 msgid "Aborting result..."
@@ -3652,19 +3643,19 @@ msgstr "작업 중지 중..."
 
 #: clientgui/ViewWork.cpp:708
 msgid "Show all tasks"
-msgstr "모든 테스크 보여주기"
+msgstr "모든 태스크 보여주기"
 
 #: clientgui/ViewWork.cpp:709
 msgid "Show all tasks."
-msgstr "모든 테스크를 보여줍니다."
+msgstr "모든 태스크를 보여줍니다."
 
 #: clientgui/ViewWork.cpp:733
 msgid "Resume work for this task."
-msgstr "이 작업을 다시 시작"
+msgstr "이 태스크를 다시 시작합니다."
 
 #: clientgui/ViewWork.cpp:739
 msgid "Suspend work for this task."
-msgstr "이 작업을 일시 중지"
+msgstr "이 태스크를 일시 중지합니다."
 
 #: clientgui/WelcomePage.cpp:254
 msgid "Add project or account manager"
