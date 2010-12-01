@@ -8093,3 +8093,11 @@ Rom    01 Dec 2010
     
     clientgui/
         sg_StatImageLoader.cpp
+
+Rom    1 Dec 2010
+    - Tag for 6.12.7 release, all platforms
+      boinc_core_release_6_12_7
+
+    /
+        configure.ac
+        version.h
