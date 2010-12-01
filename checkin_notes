@@ -8525,3 +8525,9 @@ Bernd  01 Dec 2010
 
     api/
         boinc-api.cpp
+
+Rom    01 Dec 2010
+    - MGR: Use standard menus, even on Windows, for the Simple GUI.
+    
+    clientgui/
+        sg_StatImageLoader.cpp
