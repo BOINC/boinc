@@ -8531,3 +8531,12 @@ Rom    01 Dec 2010
     
     clientgui/
         sg_StatImageLoader.cpp
+
+David  1 Dec 2010
+    - API: use localtime_r() instead of localtime()
+
+    api/
+        boinc_api.cpp
+    client/
+        acct_mgr_cpp
+        client_types.h

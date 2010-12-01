@@ -4,6 +4,7 @@
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
+RAPPTURE_DIR = ~/rappture/rappture/src/core
 
 CXXFLAGS = -g \
     -I$(BOINC_DIR) \

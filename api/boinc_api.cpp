@@ -195,35 +195,32 @@ static int start_worker_signals();
 
 char* boinc_msg_prefix(char* sbuf, int len) {
     char buf[256];
-    struct tm* tm;
+    struct tm tm;
+    int n;
+
     time_t x = time(0);
-
-    if(x == (time_t)-1) {
-        *sbuf='\0'; // make sure there is a valid (empty) string returned
+    if (x == -1) {
+        strcpy(sbuf, "time() failed");
         return sbuf;
     }
-
-    if(!(tm = localtime(&x))) {
-        *sbuf='\0'; // make sure there is a valid (empty) string returned
+    if (localtime_r(&x, &tm) == NULL) {
+        strcpy(sbuf, "localtime() failed");
         return sbuf;
     }
-
-    if(!strftime(buf, sizeof(buf)-1, "%H:%M:%S", tm)) {
-        *sbuf='\0'; // make sure there is a valid (empty) string returned
+    if (strftime(buf, sizeof(buf)-1, "%H:%M:%S", &tm) == 0) {
+        strcpy(sbuf, "strftime() failed");
         return sbuf;
     }
-
 #ifdef _WIN32
-    if(_snprintf(sbuf, len, "%s (%d):", buf, GetCurrentProcessId()) < 0)
+    n = _snprintf(sbuf, len, "%s (%d):", buf, GetCurrentProcessId());
 #else
-    if(snprintf(sbuf, len, "%s (%d):", buf, getpid()) < 0)
+    n = snprintf(sbuf, len, "%s (%d):", buf, getpid());
 #endif
-      {
-        *sbuf='\0'; // make sure there is a valid (empty) string returned
+    if (n < 0) {
+        strcpy(sbuf, "sprintf() failed");
         return sbuf;
-      }
-
-    sbuf[len-1] = '\0'; // just in case
+    }
+    sbuf[len-1] = 0;    // just in case
     return sbuf;
 }
 
