@@ -8079,3 +8079,11 @@ David  27 Nov 2010
 
     client/
         acct_mgr.cpp
+
+David  30 Nov 2010
+    - client: on startup, generate a notice if any jobs require more RAM
+        than is allowed by prefs
+
+    client/
+        client_state.cpp
+        cpu_sched.cpp
