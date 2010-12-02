@@ -44,8 +44,6 @@
 * Pipe the output of the shell script through c++filt to demangle C++ symbols.
 */
 
-// The old way still seems to work better under OS 10.6.4
-#define USE_NEW_ROUTINES false  
 
 #ifdef __ppc__
 #include <Carbon/Carbon.h>
@@ -96,9 +94,8 @@ void PrintBacktrace(void) {
 
     char                        nameBuf[256], pathToThisProcess[1024];
     const NXArchInfo            *localArch;
-    char                        OSMinorVersion;
+    char                        OSMinorVersion = '?';
     time_t                      t;
-#if USE_NEW_ROUTINES
     char                        atosPipeBuf[1024], cppfiltPipeBuf[1024];
     char                        outBuf[1024], offsetBuf[32];
     char                        *sourceSymbol, *symbolEnd;
@@ -112,7 +109,6 @@ void PrintBacktrace(void) {
     backtrace_symbolsProc       myBacktrace_symbolsProc = NULL;
     char                        saved_env[128], *env = NULL;
     bool                        atosExists = false, cppfiltExists = false;
-#endif
 
 #if 0
 // To debug backtrace logic:
@@ -158,30 +154,32 @@ void PrintBacktrace(void) {
     fputs(asctime(localtime(&t)), stderr);
     fputc('\n', stderr);
     
-#ifdef __ppc__
-    long OSVersion = 0;
-    OSStatus gestaltErr = Gestalt(gestaltSystemVersion, &OSVersion);
-    if ((gestaltErr == noErr) && ((OSVersion & 0xfff0) == 0x1050)) {
-        fputs("BOINC backtrace is not supported for PowerPC under OS 10.5.x\n", stderr);
-        fputs("To get a backtrace run under OS 10.4.x or run on an Intel Mac\n\n", stderr);
-    }
-#endif
-
     err = QCRCreateFromSelf(&crRef);
 
-#if USE_NEW_ROUTINES
-    // Use new backtrace functions if available (only in OS 10.5 and later)
-    systemlib = dlopen ("/usr/lib/libSystem.dylib", RTLD_NOW );
-    if (systemlib) {
-        myBacktraceProc = (backtraceProc)dlsym(systemlib, "backtrace");
-     }
-    if (myBacktraceProc) {
+    if (OSMinorVersion == '5') {
+#ifdef __ppc__
+        fputs("BOINC backtrace under OS 10.5.x only shows exported (global) symbols\n", stderr);
+        fputs("and may work poorly on a PowerPC Mac after a crash.  For a better\n", stderr);
+        fputs("backtrace, run under OS 10.4.x.\n\n", stderr);
+#else
+        fputs("BOINC backtrace under OS 10.5.x only shows exported (global) symbols\n", stderr);
+        fputs("and may not show the final location which caused a crash.  For a better\n", stderr);
+        fputs("backtrace, either run under OS 10.4.x or run under OS 10.6.x or later.\n\n", stderr);
+#endif
+        // Use new backtrace functions if available (only in OS 10.5 and later)
+        systemlib = dlopen ("/usr/lib/libSystem.dylib", RTLD_NOW );
+        if (systemlib) {
+            myBacktraceProc = (backtraceProc)dlsym(systemlib, "backtrace");
+         }
+        if (! myBacktraceProc) {
+            goto skipBackTrace;     // Should never happen
+        }
         frames = myBacktraceProc(callstack, CALL_STACK_SIZE);
         myBacktrace_symbolsProc = (backtrace_symbolsProc)dlsym(systemlib, "backtrace_symbols");
         if (myBacktrace_symbolsProc) {
             symbols = myBacktrace_symbolsProc(callstack, frames);
         } else {
-            goto useOldMethod;
+            goto skipBackTrace;     // Should never happen
         }
         
         atosExists = boinc_file_exists("/usr/bin/atos");
@@ -253,17 +251,16 @@ void PrintBacktrace(void) {
             if (atosPipe) {
                 fprintf(atosPipe, "%#llx\n", (QTMAddr)callstack[i]);
                 BT_PersistentFGets(atosPipeBuf, sizeof(atosPipeBuf), atosPipe);
-                sourceSymbol = strrchr(atosPipeBuf, (int)':');
-                if (sourceSymbol) {
-                    if (*--sourceSymbol != ':') {
-                        sourceSymbol = strrchr(atosPipeBuf, (int)'(');
-                        if (sourceSymbol) {
-                            strlcat(outBuf, sourceSymbol-1, sizeof(outBuf));
-                            symbolEnd = strchr(outBuf, (int)'\n');
-                            if (symbolEnd) {
-                                *symbolEnd = '\0';
-                            }
-                        }
+                sourceSymbol = strstr(atosPipeBuf, "0x");
+                if (!sourceSymbol) {        // If atos returned a symbol (not just a hex value)
+                    sourceSymbol = strstr(outBuf, "0x");
+                    if (sourceSymbol) sourceSymbol = strstr(sourceSymbol, " ");
+                    if (sourceSymbol) *++sourceSymbol = '\0'; // Remove questionable symbol from backtrace_symbols()
+                    strlcat(outBuf, " ", sizeof(outBuf));
+                    strlcat(outBuf, atosPipeBuf, sizeof(outBuf));
+                    symbolEnd = strchr(outBuf, (int)'\n');
+                    if (symbolEnd) {
+                        *symbolEnd = '\0';
                     }
                 }
             }
@@ -286,14 +283,12 @@ void PrintBacktrace(void) {
             }
         }
         
+skipBackTrace:
         fprintf(stderr, "\n");
     } else {
-useOldMethod:
+    // Not OS 10.5.x
         QCRPrintBacktraces(crRef, stderr);
     }
-#else   // ! USE_NEW_ROUTINES
-    QCRPrintBacktraces(crRef, stderr);
-#endif
 
     // make sure this much gets written to file in case future 
     // versions of OS break our crash dump code beyond this point.
