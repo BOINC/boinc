@@ -8101,3 +8101,13 @@ Rom    1 Dec 2010
     /
         configure.ac
         version.h
+
+Charlie 2 Dec 2010
+    - lib: The custom Mac backtrace code doesn't work on Intel Macs running 
+        under OS 10.5.x, so use newer backtrace() and backtrace_symbols() 
+        APIs under OS 10.5.x, with explanatory text suggesting alternatives.
+        (Checked into 6.12.7 tag.)
+    
+    lib/
+        mac/
+            mac_backtrace.cpp
