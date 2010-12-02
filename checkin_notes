@@ -8178,3 +8178,11 @@ David  2 Dec 2010
 
 	client/
 		acct_mgr.cpp
+
+Rom    2 Dec 2010
+    - Tag for 6.12.8 release, all platforms
+      boinc_core_release_6_12_8
+
+    /
+        configure.ac
+        version.h
