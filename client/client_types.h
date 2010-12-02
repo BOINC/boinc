@@ -235,6 +235,12 @@ struct PROJECT : PROJ_AM {
     bool no_cuda_apps;
     bool no_ati_apps;
 
+    // the following are from the account manager, if any
+    //
+    bool no_cpu_ams;
+    bool no_cuda_ams;
+    bool no_ati_ams;
+
     // the following set dynamically
     bool cuda_defer_sched;
         // This project has a CUDA job for which there's insuff. video RAM.

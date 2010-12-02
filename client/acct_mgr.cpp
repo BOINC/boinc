@@ -211,6 +211,9 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
 
     detach = false;
     update = false;
+    no_cpu = false;
+    no_cuda = false;
+    no_ati = false;
     dont_request_more_work.init();
     detach_when_done.init();
     suspend.init();
@@ -244,6 +247,9 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.parse_string(tag, "authenticator", authenticator)) continue;
         if (xp.parse_bool(tag, "detach", detach)) continue;
         if (xp.parse_bool(tag, "update", update)) continue;
+        if (xp.parse_bool(tag, "no_cpu", no_cpu)) continue;
+        if (xp.parse_bool(tag, "no_cuda", no_cuda)) continue;
+        if (xp.parse_bool(tag, "no_ati", no_ati)) continue;
         if (xp.parse_bool(tag, "dont_request_more_work", btemp)) {
             dont_request_more_work.set(btemp);
             continue;
@@ -537,6 +543,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                                 pp->abort_not_started();
                             }
                         }
+                        pp->no_cpu_ams = acct.no_cpu;
+                        pp->no_cuda_ams = acct.no_cuda;
+                        pp->no_ati_ams = acct.no_ati;
                     }
                 }
             } else {
@@ -550,16 +559,19 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     gstate.add_project(
                         acct.url.c_str(), acct.authenticator.c_str(), "", true
                     );
-                    if (acct.dont_request_more_work.present) {
-                        pp = gstate.lookup_project(acct.url.c_str());
-                        if (pp) {
+                    pp = gstate.lookup_project(acct.url.c_str());
+                    if (pp) {
+                        pp->no_cpu_ams = acct.no_cpu;
+                        pp->no_cuda_ams = acct.no_cuda;
+                        pp->no_ati_ams = acct.no_ati;
+                        if (acct.dont_request_more_work.present) {
                             pp->dont_request_more_work = acct.dont_request_more_work.value;
-                        } else {
-                            msg_printf(NULL, MSG_INTERNAL_ERROR,
-                                "Project not found: %s",
-                                acct.url.c_str()
-                            );
                         }
+                    } else {
+                        msg_printf(NULL, MSG_INTERNAL_ERROR,
+                            "Failed to add project: %s",
+                            acct.url.c_str()
+                        );
                     }
                 }
             }

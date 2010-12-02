@@ -270,10 +270,12 @@ int CLIENT_STATE::parse_state_file() {
                     // and then reverted to a 32-bit client.
                     // Let's not throw away the app version and its WUs
                     //
+#ifndef SIM
                     msg_printf(project, MSG_INTERNAL_ERROR,
                         "App version has unsupported platform %s; changing to %s",
                         avp->platform, get_primary_platform()
                     );
+#endif
                     strcpy(avp->platform, get_primary_platform());
                 }
             }

@@ -8140,3 +8140,15 @@ David  1 Dec 2010
         cpu_sched.cpp
     lib/
         prefs.h
+
+David  1 Dec 2010
+    - client, acct manager protocol:
+        allow <no_cpu>, <no_cuda> and <no_ati> bools
+        within <account> in reply message.
+        They suppress work fetch for that resource type from that project.
+
+    client/
+        acct_mgr.h
+        client_types.cpp
+        cs_statefile.cpp
+        acct_mgr.cpp

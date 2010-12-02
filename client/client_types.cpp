@@ -71,6 +71,9 @@ void PROJECT::init() {
     no_cpu_apps = false;
     no_cuda_apps = false;
     no_ati_apps = false;
+    no_cpu_ams = false;
+    no_cuda_ams = false;
+    no_ati_ams = false;
     cuda_defer_sched = false;
     ati_defer_sched = false;
     strcpy(host_venue, "");
@@ -235,6 +238,9 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_bool(buf, "no_cpu_apps", no_cpu_apps)) continue;
         if (parse_bool(buf, "no_cuda_apps", no_cuda_apps)) continue;
         if (parse_bool(buf, "no_ati_apps", no_ati_apps)) continue;
+        if (parse_bool(buf, "no_cpu_ams", no_cpu_ams)) continue;
+        if (parse_bool(buf, "no_cuda_ams", no_cuda_ams)) continue;
+        if (parse_bool(buf, "no_ati_ams", no_ati_ams)) continue;
 
             // backwards compat - old state files had ams_resource_share = 0
         if (parse_double(buf, "<ams_resource_share_new>", ams_resource_share)) continue;
@@ -317,6 +323,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		"    <no_cpu_apps>%d</no_cpu_apps>\n"
 		"    <no_cuda_apps>%d</no_cuda_apps>\n"
 		"    <no_ati_apps>%d</no_ati_apps>\n"
+		"    <no_cpu_ams>%d</no_cpu_ams>\n"
+		"    <no_cuda_ams>%d</no_cuda_ams>\n"
+		"    <no_ati_ams>%d</no_ati_ams>\n"
         "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -368,6 +377,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         no_cpu_apps?1:0,
         no_cuda_apps?1:0,
         no_ati_apps?1:0,
+        no_cpu_ams?1:0,
+        no_cuda_ams?1:0,
+        no_ati_ams?1:0,
         anonymous_platform?"    <anonymous_platform/>\n":"",
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",

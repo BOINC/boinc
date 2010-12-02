@@ -96,6 +96,9 @@ struct AM_ACCOUNT {
     char url_signature[MAX_SIGNATURE_LEN];
     bool detach;
     bool update;
+    bool no_cpu;
+    bool no_cuda;
+    bool no_ati;
     OPTIONAL_BOOL dont_request_more_work;
     OPTIONAL_BOOL detach_when_done;
     OPTIONAL_DOUBLE resource_share;
