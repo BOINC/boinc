@@ -737,17 +737,21 @@ int assign_credit_set(
                 );
             }
         }
-        if (max_granted_credit && pfc*COBBLESTONE_SCALE > max_granted_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] Credit too high: %f\n", pfc*COBBLESTONE_SCALE
-            );
-            pfc = wu_estimated_pfc(wu, app);
-        }
         if (pfc > wu.rsc_fpops_bound) {
             log_messages.printf(MSG_NORMAL,
                 "[credit] PFC too high: %f\n", pfc*COBBLESTONE_SCALE
             );
             pfc = wu_estimated_pfc(wu, app);
+        }
+
+        // max_granted_credit trumps rsc_fpops_bound;
+        // the latter may be set absurdly high
+        //
+        if (max_granted_credit && pfc*COBBLESTONE_SCALE > max_granted_credit) {
+            log_messages.printf(MSG_NORMAL,
+                "[credit] Credit too high: %f\n", pfc*COBBLESTONE_SCALE
+            );
+            pfc = max_granted_credit/COBBLESTONE_SCALE;
         }
         if (mode == PFC_MODE_NORMAL) {
             normal.push_back(pfc);

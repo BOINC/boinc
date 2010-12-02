@@ -8559,3 +8559,23 @@ David  1 Dec 2010
         cpu_sched.cpp
     lib/
         prefs.h
+
+David  1 Dec 2010
+    - client, acct manager protocol:
+        allow <no_cpu>, <no_cuda> and <no_ati> bools
+        within <account> in reply message.
+        They suppress work fetch for that resource type from that project.
+    - scheduler:
+        check max_granted_credit after wu.rsc_fpops_bound,
+        so that max_granted_credit will be enforced
+        even if wu.rsc_fpops_bound is absurdly high
+        Fixes #1034.  From Diggory Hardy.
+
+    sched/
+        credit.cpp
+    client/
+        sim.cpp
+        acct_mgr.h
+        client_types.cpp
+        cs_statefile.cpp
+        acct_mgr.cpp

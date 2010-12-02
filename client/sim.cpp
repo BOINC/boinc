@@ -1153,6 +1153,9 @@ void cull_projects() {
     while (iter != gstate.projects.end()) {
         p = *iter;
         if (p->dont_request_more_work) {
+            msg_printf(p, MSG_INFO,
+                "Removing from simulation - no jobs in client_state.xml"
+            );
             iter = gstate.projects.erase(iter);
         } else {
             iter++;
