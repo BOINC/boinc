@@ -152,6 +152,8 @@ struct GLOBAL_PREFS {
     double max_ncpus_pct;
     int max_ncpus;
     double cpu_scheduling_period_minutes;
+        // length of a time slice.
+        // scheduling happens more often.
     double disk_interval;
     double disk_max_used_gb;
     double disk_max_used_pct;

@@ -703,13 +703,13 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
     if (projects.size() == 0) return false;
     if (results.size() == 0) return false;
 
-    // Reschedule every cpu_sched_period seconds,
+    // Reschedule every CPU_SCHED_PERIOD seconds,
     // or if must_schedule_cpus is set
     // (meaning a new result is available, or a CPU has been freed).
     //
     elapsed_time = now - last_reschedule;
-    if (elapsed_time >= global_prefs.cpu_scheduling_period()) {
-        request_schedule_cpus("Scheduling period elapsed.");
+    if (elapsed_time >= CPU_SCHED_PERIOD) {
+        request_schedule_cpus("periodic CPU scheduling");
     }
 
     if (!must_schedule_cpus) return false;
@@ -753,7 +753,7 @@ static bool schedule_if_possible(
 #ifdef USE_REC
     adjust_rec_temp(rp);
 #else
-    // project STD at end of scheduling period
+    // project STD at end of time slice
     //
     double dt = gstate.global_prefs.cpu_scheduling_period();
     rp->project->cpu_pwf.anticipated_debt -= dt*rp->avp->avg_ncpus/cpu_work_fetch.ninstances;
@@ -946,7 +946,7 @@ void CLIENT_STATE::schedule_cpus() {
         ordered_scheduled_results.push_back(rp);
     }
 
-    request_enforce_schedule(NULL, "schedule_cpus");
+    enforce_schedule();
 }
 
 static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
@@ -1472,16 +1472,8 @@ bool CLIENT_STATE::enforce_schedule() {
     double ncpus_used=0, ncpus_used_non_gpu=0;
     ACTIVE_TASK* atp;
 
-    // Do this when requested, and once a minute as a safety net
-    //
-    if (now - last_time > CPU_SCHED_ENFORCE_PERIOD) {
-        must_enforce_cpu_schedule = true;
-    }
-    if (!must_enforce_cpu_schedule) return false;
-    must_enforce_cpu_schedule = false;
-
     // NOTE: there's an assumption that debt is adjusted at
-    // least as often as the CPU sched is enforced (see client_state.h).
+    // least as often as the CPU sched period (see client_state.h).
     // If you remove the following, make changes accordingly
     //
     adjust_debts();
@@ -1821,20 +1813,9 @@ bool CLIENT_STATE::enforce_schedule() {
                 "[cpu_sched] coproc quit pending, deferring start"
             );
         }
-        request_enforce_schedule(NULL, "coproc quit retry");
+        request_schedule_cpus("coproc quit retry");
     }
     return action;
-}
-
-// trigger CPU schedule enforcement.
-// Called when a new schedule is computed,
-// and when an app checkpoints.
-//
-void CLIENT_STATE::request_enforce_schedule(PROJECT* p, const char* where) {
-    if (log_flags.cpu_sched_debug) {
-        msg_printf(p, MSG_INFO, "[cpu_sched] Request enforce CPU schedule: %s", where);
-    }
-    must_enforce_cpu_schedule = true;
 }
 
 // trigger CPU scheduling.
@@ -1952,8 +1933,6 @@ double RESULT::computation_deadline() {
     return report_deadline - (
         gstate.work_buf_min()
             // Seconds that the host will not be connected to the Internet
-        + gstate.global_prefs.cpu_scheduling_period()
-            // Seconds that the CPU may be busy with some other result
         + DEADLINE_CUSHION
     );
 }

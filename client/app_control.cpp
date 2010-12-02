@@ -187,7 +187,7 @@ int ACTIVE_TASK::kill_task(bool restart) {
 		set_task_state(PROCESS_UNINITIALIZED, "kill_task");
         char buf[256];
         sprintf(buf, "restarting %s", result->name);
-		gstate.request_enforce_schedule(result->project, buf);
+		gstate.request_schedule_cpus(buf);
 	} else {
 		set_task_state(PROCESS_ABORTED, "kill_task");
 	}
@@ -1142,7 +1142,7 @@ void ACTIVE_TASK_SET::get_msgs() {
             if (old_time != atp->checkpoint_cpu_time) {
                 char buf[256];
                 sprintf(buf, "%s checkpointed", atp->result->name);
-                gstate.request_enforce_schedule(atp->result->project, buf);
+                gstate.request_schedule_cpus(buf);
                 atp->checkpoint_wall_time = gstate.now;
                 atp->premature_exit_count = 0;
                 atp->checkpoint_elapsed_time = atp->elapsed_time;
