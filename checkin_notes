@@ -8596,3 +8596,16 @@ Charlie 2 Dec 2010
         PostInstall.cpp
         release_boinc.sh
         WaitPermissions.cpp
+
+David  2 Dec 2010
+    - client: fix scheduling bug.
+        The round-robin simulation wasn't handling multithread jobs correctly.
+        For example, given two 3-CPU jobs,
+        it would model running them together on a 4-CPU host.
+        This doesn't correspond with the CPU scheduler,
+        which runs only 1 at a time.
+        So the simulator would say that there are no idle CPUs
+        when in fact there are, and no new CPU jobs would be fetched.
+
+    client/
+        rr_sim.cpp

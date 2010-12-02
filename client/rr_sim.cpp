@@ -290,7 +290,7 @@ void CLIENT_STATE::rr_simulation() {
             }
         } else {
             p->cpu_pwf.has_runnable_jobs = true;
-            if (p->cpu_pwf.sim_nused < ncpus) {
+            if (p->cpu_pwf.sim_nused + rp->avp->avg_ncpus <= ncpus) {
                 sim_status.activate(rp, 0);
                 p->rr_sim_status.activate(rp);
             } else {
@@ -447,9 +447,9 @@ void CLIENT_STATE::rr_simulation() {
             }
         } else {
             while (1) {
-                if (pbest->cpu_pwf.sim_nused >= ncpus) break;
                 RESULT* rp = pbest->rr_sim_status.get_pending();
                 if (!rp) break;
+                if (pbest->cpu_pwf.sim_nused + rp->avp->avg_ncpus > ncpus) break;
                 sim_status.activate(rp, sim_now-now);
                 pbest->rr_sim_status.activate(rp);
             }
