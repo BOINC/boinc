@@ -8152,25 +8152,6 @@ David  1 Dec 2010
         client_types.cpp
         cs_statefile.cpp
         acct_mgr.cpp
-<<<<<<< .working
-=======
-
-Charlie 2 Dec 2010
-    - lib: The custom Mac backtrace code doesn't work on Intel Macs running 
-        under OS 10.5.x, so use newer backtrace() and backtrace_symbols() 
-        APIs under OS 10.5.x, with explanatory text suggesting alternatives.
-    
-    lib/
-        mac/
-            mac_backtrace.cpp
-
-Charlie 2 Dec 2010
-    - Mac Installer: Updates for OS 10.6.5 compatibility.
-    
-    mac_installer/
-        PostInstall.cpp
-        release_boinc.sh
-        WaitPermissions.cpp
 
 David  2 Dec 2010
     - client: fix scheduling bug.
@@ -8184,4 +8165,9 @@ David  2 Dec 2010
 
     client/
         rr_sim.cpp
->>>>>>> .merge-right.r22801
+
+David  2 Dec 2010
+	- client: fix typo that broke communication with account managers
+
+	client/
+		acct_mgr.cpp
