@@ -149,7 +149,6 @@ int main(int argc, char *argv[])
     OSStatus                err, err_fsref;
     FILE                    *f;
     char                    s[256];
-    char                    *q;
 #ifdef SANDBOX
     uid_t                   saved_euid, saved_uid, b_m_uid;
     passwd                  *pw;
@@ -396,37 +395,10 @@ int main(int argc, char *argv[])
         
         seteuid(saved_euid);
 
-        ProcessSerialNumber ourPSN;
-        ProcessInfoRec      pInfo;
-        FSRef               ourFSRef, theFSRef;
-        char                thePath[MAXPATHLEN];
-        
-        // Get the full path to this PostInstall application's bundle
-        err = GetCurrentProcess (&ourPSN);
-        if (err)
-            return -1000;          // Should never happen
-        
-        memset(&pInfo, 0, sizeof(pInfo));
-        pInfo.processInfoLength = sizeof( ProcessInfoRec );
-        err = GetProcessInformation(&ourPSN, &pInfo);
-        if (err)
-            return -1001;          // Should never happen
-        
-        err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-        if (err)
-            return -1002;          // Should never happen
+        FSRef               theFSRef;
 
-        err = FSRefMakePath (&ourFSRef, (UInt8*)thePath, sizeof(thePath));
-        if (err)
-            return -1003;          // Should never happen
-        
-        q = strrchr(thePath, '/');
-        if (q == NULL)
-            return -1004;          // Should never happen
-
-        *++q = '\0';
-        strlcat(thePath, "WaitPermissions.app", sizeof(thePath));
-        err = FSPathMakeRef((StringPtr)thePath, &theFSRef, NULL);
+        err = FSPathMakeRef((StringPtr)"/Library/Application Support/BOINC Data/WaitPermissions.app", 
+                &theFSRef, NULL);
         
         // When we first create the boinc_master group and add the current user to the 
         // new group, there is a delay before the new group membership is recognized.  
@@ -1529,4 +1501,3 @@ void print_to_log_file(const char *format, ...) {
 
 #endif
 }
-const char *BOINC_RCSID_c7abe0490e="$Id$";

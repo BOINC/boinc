@@ -21,7 +21,7 @@
 # Release Script for Macintosh BOINC Manager 10/31/07 by Charlie Fenton
 ## updated 11/18/09 by Charlie Fenton for OS 10.6 Snow Leopard
 ## updated 9/28/10 by Charlie Fenton for new BOINC skins
-## updated 11/23/10 by Charlie Fenton to remove obsolete items
+## updated 12/2/10 by Charlie Fenton to remove obsolete items
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -92,7 +92,6 @@ cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Scripts/
 cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Scripts/
 
 cp -fpR $BUILDPATH/PostInstall.app ../BOINC_Installer/Installer\ Resources/
-cp -fpR $BUILDPATH/WaitPermissions.app ../BOINC_Installer/Installer\ Resources/
 
 mkdir -p ../BOINC_Installer/Pkg_Root
 mkdir -p ../BOINC_Installer/Pkg_Root/Applications
@@ -103,6 +102,8 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
+
+cp -fpR $BUILDPATH/WaitPermissions.app ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 
 cp -fpR $BUILDPATH/switcher ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
@@ -233,9 +234,9 @@ cp -fpR $BUILDPATH/SymbolTables/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
 ## Use ditto instead of zip utility to preserve resource forks and Finder attributes (custom icon, hide extension) 
-ditto -ck boinc_$1.$2.$3_macOSX_universal boinc_$1.$2.$3_macOSX_universal.zip
-ditto -ck boinc_$1.$2.$3_universal-apple-darwin boinc_$1.$2.$3_universal-apple-darwin.zip
-ditto -ck boinc_$1.$2.$3_macOSX_SymbolTables boinc_$1.$2.$3_macOSX_SymbolTables.zip
+ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_universal boinc_$1.$2.$3_macOSX_universal.zip
+ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_universal-apple-darwin boinc_$1.$2.$3_universal-apple-darwin.zip
+ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_SymbolTables boinc_$1.$2.$3_macOSX_SymbolTables.zip
 
 #popd
 cd "${BOINCPath}"

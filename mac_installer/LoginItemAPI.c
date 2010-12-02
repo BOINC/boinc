@@ -688,4 +688,3 @@ Boolean PrintNumberOfLoginItems(CFStringRef WhosPreferencesToList)
 }
 
 
-const char *BOINC_RCSID_e2d32e1aca="$Id$";
