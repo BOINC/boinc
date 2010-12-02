@@ -8579,3 +8579,12 @@ David  1 Dec 2010
         client_types.cpp
         cs_statefile.cpp
         acct_mgr.cpp
+
+Charlie 2 Dec 2010
+    - lib: The custom Mac backtrace code doesn't work on Intel Macs running 
+        under OS 10.5.x, so use newer backtrace() and backtrace_symbols() 
+        APIs under OS 10.5.x, with explanatory text suggesting alternatives.
+    
+    lib/
+        mac/
+            mac_backtrace.cpp
