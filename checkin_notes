@@ -8142,6 +8142,13 @@ David  1 Dec 2010
         prefs.h
 
 David  1 Dec 2010
+    - client: slightly change detach scheme for account managers.
+
+    client/
+        acct_mgr_cpp
+        client_types.h
+
+David  1 Dec 2010
     - client, acct manager protocol:
         allow <no_cpu>, <no_cuda> and <no_ati> bools
         within <account> in reply message.

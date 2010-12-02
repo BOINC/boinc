@@ -242,6 +242,7 @@ struct PROJECT : PROJ_AM {
     bool no_ati_ams;
 
     // the following set dynamically
+    //
     bool cuda_defer_sched;
         // This project has a CUDA job for which there's insuff. video RAM.
         // Don't fetch more CUDA jobs; they might have same problem
@@ -460,6 +461,15 @@ struct PROJECT : PROJ_AM {
     void resume();
     void abort_not_started();
         // abort unstarted jobs
+
+    // clear AMS-related fields
+    inline void detach_ams() {
+        attached_via_acct_mgr = false;
+        ams_resource_share = -1;
+        no_cpu_ams = false;
+        no_cuda_ams = false;
+        no_ati_ams = false;
+    }
 
 #ifdef SIM
     RANDOM_PROCESS available;

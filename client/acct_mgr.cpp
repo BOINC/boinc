@@ -74,9 +74,7 @@ int ACCT_MGR_OP::do_rpc(
         boinc_delete_file(ACCT_MGR_LOGIN_FILENAME);
         error_num = 0;
         for (i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
-            p->attached_via_acct_mgr = false;
-            p->ams_resource_share = -1;
+            gstate.projects[i]->detach_ams();
         }
         return 0;
     }
