@@ -203,7 +203,11 @@ char* boinc_msg_prefix(char* sbuf, int len) {
         strcpy(sbuf, "time() failed");
         return sbuf;
     }
+#ifdef _WIN32
+    if (localtime_s(&tm, &x) == EINVAL) {
+#else
     if (localtime_r(&x, &tm) == NULL) {
+#endif
         strcpy(sbuf, "localtime() failed");
         return sbuf;
     }
