@@ -61,10 +61,10 @@ function type_text($type) {
 }
 
 $w612 = array(
-	"num"=>"6.12.6",
+	"num"=>"6.12.7",
 	"status"=>"Development version",
-	"file"=>"boinc_6.12.6_windows_intelx86.exe",
-	"date"=>"12 Nov 2010",
+	"file"=>"boinc_6.12.7_windows_intelx86.exe",
+	"date"=>"2 Dec 2010",
 	"type"=>"win_new",
 );
 
@@ -93,10 +93,10 @@ $w5816 = array(
 );
 
 $w612x64 = array(
-	"num"=>"6.12.6",
+	"num"=>"6.12.7",
 	"status"=>"Development version",
-	"file"=>"boinc_6.12.6_windows_x86_64.exe",
-	"date"=>"12 Nov 2010",
+	"file"=>"boinc_6.12.7_windows_x86_64.exe",
+	"date"=>"2 Dec 2010",
 	"type"=>"win_new",
 );
 
@@ -124,11 +124,11 @@ $m610 = array(
 	"type"=>"mac_advanced",
 );
 
-$m612dev = array(
-	"num"=>"6.12.6",
+$m612 = array(
+	"num"=>"6.12.7",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_6.12.6_macOSX_universal.zip",
-	"date"=>"12 Nov 2010",
+	"file"=>"boinc_6.12.7_macOSX_universal.zip",
+	"date"=>"2 Dec 2010",
 	"type"=>"mac_advanced",
 );
 
@@ -149,11 +149,11 @@ $m66 = array(
     "type"=>"mac_advanced",
 );
 
-$m612cdev = array(
-	"num"=>"6.12.6",
+$m612c = array(
+	"num"=>"6.12.7",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_6.12.6_universal-apple-darwin.zip",
-	"date"=>"12 Nov 2010",
+	"file"=>"boinc_6.12.7_universal-apple-darwin.zip",
+	"date"=>"2 Dec 2010",
 	"type"=>"bare_core",
 );
 
@@ -197,11 +197,11 @@ $l64 = array(
     "type"=>"sea",
 );
 
-$l612ubuntudev = array(
-	"num"=>"6.12.6",
+$l612ubuntu = array(
+	"num"=>"6.12.7",
 	"status"=>"Development version",
-	"file"=>"boinc_6.12.6_i686-pc-linux-gnu.sh",
-	"date"=>"12 Nov 2010",
+	"file"=>"boinc_6.12.7_i686-pc-linux-gnu.sh",
+	"date"=>"2 Dec 2010",
 	"type"=>"sea",
 );
 
@@ -221,11 +221,11 @@ $l66ubuntu = array(
 	"type"=>"sea",
 );
 
-$l612ubuntux64dev = array(
-	"num"=>"6.12.6",
+$l612ubuntux64 = array(
+	"num"=>"6.12.7",
 	"status"=>"Development version",
-	"file"=>"boinc_6.12.6_x86_64-pc-linux-gnu.sh",
-	"date"=>"12 Nov 2010",
+	"file"=>"boinc_6.12.7_x86_64-pc-linux-gnu.sh",
+	"date"=>"2 Dec 2010",
 	"type"=>"sea",
 );
 
@@ -277,8 +277,8 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m612dev,
-        $m612cdev,
+        $m612,
+        $m612c,
         $m610,
         $m610c,
         $m610older,
@@ -303,7 +303,7 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-		$l612ubuntudev,
+		$l612ubuntu,
 		$l610ubuntu,
 		$l66ubuntu,
     )
@@ -314,7 +314,7 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-		$l612ubuntux64dev,
+		$l612ubuntux64,
 		$l610ubuntux64,
 		$l66ubuntux64,
     )
