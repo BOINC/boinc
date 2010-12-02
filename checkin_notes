@@ -8152,3 +8152,36 @@ David  1 Dec 2010
         client_types.cpp
         cs_statefile.cpp
         acct_mgr.cpp
+<<<<<<< .working
+=======
+
+Charlie 2 Dec 2010
+    - lib: The custom Mac backtrace code doesn't work on Intel Macs running 
+        under OS 10.5.x, so use newer backtrace() and backtrace_symbols() 
+        APIs under OS 10.5.x, with explanatory text suggesting alternatives.
+    
+    lib/
+        mac/
+            mac_backtrace.cpp
+
+Charlie 2 Dec 2010
+    - Mac Installer: Updates for OS 10.6.5 compatibility.
+    
+    mac_installer/
+        PostInstall.cpp
+        release_boinc.sh
+        WaitPermissions.cpp
+
+David  2 Dec 2010
+    - client: fix scheduling bug.
+        The round-robin simulation wasn't handling multithread jobs correctly.
+        For example, given two 3-CPU jobs,
+        it would model running them together on a 4-CPU host.
+        This doesn't correspond with the CPU scheduler,
+        which runs only 1 at a time.
+        So the simulator would say that there are no idle CPUs
+        when in fact there are, and no new CPU jobs would be fetched.
+
+    client/
+        rr_sim.cpp
+>>>>>>> .merge-right.r22801
