@@ -47,6 +47,8 @@ int main(int argc, char *argv[])
     int                     retval = 0;
     DIR                     *dirp;
     
+    printf("WaitPermissions launched\n");
+    
     for (i=0; i<180; i++) {     // Limit delay to 3 minutes
     
         retval = stat("/Library/Application Support/BOINC Data/projects", &sbuf);
