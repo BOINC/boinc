@@ -8609,3 +8609,12 @@ David  2 Dec 2010
 
     client/
         rr_sim.cpp
+
+David  2 Dec 2010
+	- client: fix typo that broke communication with account managers
+	- API: compile fix for Win
+
+	client/
+		acct_mgr.cpp
+	api/
+		boinc_api.cpp

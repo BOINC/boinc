@@ -151,10 +151,10 @@ int ACCT_MGR_OP::do_rpc(
             "      <hostid>%d</hostid>\n"
             "      <not_started_dur>%f</not_started_dur>\n"
             "      <in_progress_dur>%f</in_progress_dur>\n"
-            "      <attached_via_acct_mgr>%d</attached_via_acct_mgr/>\n"
-            "      <dont_request_more_work>%d</dont_request_more_work/>\n"
-            "      <detach_when_done>%d</detach_when_done/>\n"
-            "      <ended>%d</ended/>\n"
+            "      <attached_via_acct_mgr>%d</attached_via_acct_mgr>\n"
+            "      <dont_request_more_work>%d</dont_request_more_work>\n"
+            "      <detach_when_done>%d</detach_when_done>\n"
+            "      <ended>%d</ended>\n"
             "   </project>\n",
             p->master_url,
             p->project_name,
