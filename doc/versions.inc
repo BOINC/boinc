@@ -61,9 +61,9 @@ function type_text($type) {
 }
 
 $w612 = array(
-	"num"=>"6.12.6",
+	"num"=>"6.12.8",
 	"status"=>"Development version",
-	"file"=>"boinc_6.12.6_windows_intelx86.exe",
+	"file"=>"boinc_6.12.8_windows_intelx86.exe",
 	"date"=>"2 Dec 2010",
 	"type"=>"win_new",
 );
@@ -93,9 +93,9 @@ $w5816 = array(
 );
 
 $w612x64 = array(
-	"num"=>"6.12.6",
+	"num"=>"6.12.8",
 	"status"=>"Development version",
-	"file"=>"boinc_6.12.6_windows_x86_64.exe",
+	"file"=>"boinc_6.12.8_windows_x86_64.exe",
 	"date"=>"2 Dec 2010",
 	"type"=>"win_new",
 );
@@ -198,9 +198,9 @@ $l64 = array(
 );
 
 $l612ubuntu = array(
-	"num"=>"6.12.6",
+	"num"=>"6.12.8",
 	"status"=>"Development version",
-	"file"=>"boinc_6.12.6_i686-pc-linux-gnu.sh",
+	"file"=>"boinc_6.12.8_i686-pc-linux-gnu.sh",
 	"date"=>"2 Dec 2010",
 	"type"=>"sea",
 );
@@ -222,9 +222,9 @@ $l66ubuntu = array(
 );
 
 $l612ubuntux64 = array(
-	"num"=>"6.12.6",
+	"num"=>"6.12.8",
 	"status"=>"Development version",
-	"file"=>"boinc_6.12.6_x86_64-pc-linux-gnu.sh",
+	"file"=>"boinc_6.12.8_x86_64-pc-linux-gnu.sh",
 	"date"=>"2 Dec 2010",
 	"type"=>"sea",
 );
