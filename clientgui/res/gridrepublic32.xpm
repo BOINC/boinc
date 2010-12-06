@@ -18,7 +18,7 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 /* XPM */
-static char *gridrepublic32_xpm[] = {
+static const char *gridrepublic32_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "32 32 212 2",
 ":. c #3C4248",

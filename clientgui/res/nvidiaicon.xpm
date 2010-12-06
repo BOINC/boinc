@@ -3,7 +3,7 @@
 //
 
 /* XPM */
-static char *nvidiaicon_xpm[] = {
+static const char *nvidiaicon_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 103 2",
 "V  c #6DB400",
