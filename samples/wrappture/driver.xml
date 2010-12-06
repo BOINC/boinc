@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<run>
+    <tool>
+        <about>Press Simulate to view results.</about>
+        <command>@tool/fermi @driver</command>
+    </tool>
+    <input>
+        <number id="temperature">
+            <about>
+                <label>Ambient temperature</label>
+                <description>Temperature of the environment.</description>
+            </about>
+            <units>K</units>
+            <min>0K</min>
+            <max>500K</max>
+            <default>300K</default>
+            <preset>
+                <value>300K</value>
+                <label>300K (room temperature)</label>
+            </preset>
+            <preset>
+                <value>77K</value>
+                <label>77K (liquid nitrogen)</label>
+            </preset>
+            <preset>
+                <value>4.2K</value>
+                <label>4.2K (liquid helium)</label>
+            </preset>
+            <current>300K</current>
+        </number>
+        <number id="Ef">
+            <about>
+                <label>Fermi Level</label>
+                <description>Energy at center of distribution.</description>
+            </about>
+            <units>eV</units>
+            <min>-10eV</min>
+            <max>10eV</max>
+            <default>0eV</default>
+            <current>0eV</current>
+        </number>
+    </input>
+</run>

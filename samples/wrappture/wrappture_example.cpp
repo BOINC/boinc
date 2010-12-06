@@ -11,7 +11,7 @@
 //  redistribution of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 // ======================================================================
 
-//#include "rappture.h"
+#include "rappture.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -25,15 +25,6 @@
 #include "str_util.h"
 #include "filesys.h"
 #include "wrappture.h"
-
-#define RPLIB_OVERWRITE 0
-#define RPLIB_APPEND 0
-struct RpLibrary{};
-RpLibrary* rpLibrary(char*){return new RpLibrary;}
-void rpGetString(RpLibrary*, const char*, const char**){}
-double rpConvertDbl(const char*, const char*, int*){return 0;}
-void rpPutString (RpLibrary*, const char*, const char*, int){}
-void rpResult(RpLibrary*){}
 
 int main(int argc, char * argv[]) {
 
