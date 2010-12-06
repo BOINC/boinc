@@ -27,6 +27,7 @@
 #include "wrappture.h"
 
 int main(int argc, char * argv[]) {
+    char buf[256];
 
     RpLibrary* lib    = NULL;
 
@@ -43,8 +44,8 @@ int main(int argc, char * argv[]) {
 
     int err           = 0;
 
-    // create a rappture library from the file filePath
-    lib = rpLibrary(argv[1]);
+    boinc_resolve_filename("driver.xml", buf, sizeof(buf));
+    lib = rpLibrary(buf);
 
     if (lib == NULL) {
         // cannot open file or out of memory
@@ -93,7 +94,6 @@ int main(int argc, char * argv[]) {
                     RPLIB_OVERWRITE );
 
     // Run core simulator
-    char buf[256];
     sprintf(buf, "%g %g", T, Ef);
     int retval = boinc_run_rappture_app("fermi", buf);
     if (retval) {
