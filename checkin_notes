@@ -8638,3 +8638,20 @@ Bernd  7 Dec 2010
 
     api/
         boinc_api.cpp
+
+David  7 Dec 2010
+    - Fix bugs in Rappture wrapper
+    - Add README file and templates for Rappture wrapper
+    - create_work: create defaults for --wu_name, --wu_template, --result_template
+    - user web: fix typo on workunit.php
+
+    tools/
+        create_work.cpp
+    html/user/
+        workunit.php
+        style2.css
+    samples/wrappture/
+        fermi_in (new)
+        fermi_out (new)
+        wrappture.cpp
+        README (new)

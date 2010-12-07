@@ -106,8 +106,8 @@ $biomed = array(
         ),
         array(
             "SIMAP",
-            "http://boinc.bio.wzw.tum.de/boincsimap/",
-            "Technical University of Munich",
+            "http://www.boincsimap.org/boincsimap/",
+            "University of Vienna",
             "Biology",
             "Calculate similarities between proteins. SIMAP provides a public database of the resulting data, which plays a key role in many bioinformatics research projects.",
             "simaplogo.jpg"

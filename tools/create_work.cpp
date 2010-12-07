@@ -23,9 +23,14 @@
 //
 // create_work
 //  --appname name
-//  --wu_name name
-//  --wu_template filename       relative to project root; usually in templates/
-//  --result_template filename   relative to project root; usually in templates/
+//  [ --wu_name name ]
+//      // default: generate a name based on app name
+//  [ --wu_template filename ]
+//      relative to project root; usually in templates/
+//      default: appname_in
+//  [ --result_template filename ]
+//      relative to project root; usually in templates/
+//      default: appname_out
 //  [ --config_dir path ]
 //  [ --batch n ]
 //            the following can be supplied in WU template; see defaults below
@@ -57,11 +62,12 @@
 #include <ctime>
 #include <string>
 
-#include "boinc_db.h"
-#include "crypt.h"
 #include "backend_lib.h"
+#include "boinc_db.h"
 #include "common_defs.h"
+#include "crypt.h"
 #include "sched_config.h"
+#include "util.h"
 
 bool arg(const char** argv, int i, const char* name) {
     char buf[256];
@@ -90,6 +96,7 @@ int main(int argc, const char** argv) {
     int assign_id = 0;
     int assign_type = ASSIGN_NONE;
 
+    strcpy(wu_template_file, "");
     strcpy(result_template_file, "");
     strcpy(app.name, "");
     strcpy(db_passwd, "");
@@ -202,16 +209,14 @@ int main(int argc, const char** argv) {
         exit(1);
     }
     if (!strlen(wu.name)) {
-        fprintf(stderr, "create_work: missing --wu_name\n");
-        exit(1);
+        sprintf(wu.name, "%s_%d_%f", app.name, getpid(), dtime());
+        printf("workunit name: %s\n", wu.name);
     }
     if (!strlen(wu_template_file)) {
-        fprintf(stderr, "create_work: missing --wu_template\n");
-        exit(1);
+        sprintf(wu_template_file, "templates/%s_in", app.name);
     }
     if (!strlen(result_template_file)) {
-        fprintf(stderr, "create_work: missing --result_template\n");
-        exit(1);
+        sprintf(result_template_file, "templates/%s_out", app.name);
     }
 
     if (assign_flag) {
@@ -248,7 +253,9 @@ int main(int argc, const char** argv) {
 
     retval = read_filename(wu_template_file, wu_template, sizeof(wu_template));
     if (retval) {
-        fprintf(stderr, "create_work: can't open WU template: %d\n", retval);
+        fprintf(stderr,
+            "create_work: can't open input template %s\n", wu_template_file
+        );
         exit(1);
     }
 

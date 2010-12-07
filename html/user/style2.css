@@ -144,12 +144,10 @@ a.navbar:hover {
 }
 
 tr.row1 {
-    text-align: left;
 }
 
 tr.row0 td {
     background-color: #eeeeee;
-    text-align: left;
 }
 
 tr.row0 td.postheader {

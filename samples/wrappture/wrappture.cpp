@@ -413,11 +413,18 @@ static void block_sigalrm() {
     pthread_sigmask(SIG_BLOCK, &mask, NULL);
 }
 
+// we create a thread to parse the stdout from the worker app
+//
 static void* parse_app_stdout(void*) {
     block_sigalrm();
 #endif
     char buf[1024];
-    FILE* f = boinc_fopen("rappture_stdout.txt", "r");
+    FILE* f;
+    while (1) {
+        f = boinc_fopen("rappture_stdout.txt", "r");
+        if (f) break;
+        boinc_sleep(1.);
+    }
 
     while (1) {
         if (fgets(buf, sizeof(buf), f)) {
