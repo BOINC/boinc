@@ -196,6 +196,7 @@ static int start_worker_signals();
 char* boinc_msg_prefix(char* sbuf, int len) {
     char buf[256];
     struct tm tm;
+    struct tm *tmp = &tm;
     int n;
 
     time_t x = time(0);
@@ -204,14 +205,18 @@ char* boinc_msg_prefix(char* sbuf, int len) {
         return sbuf;
     }
 #ifdef _WIN32
+#ifdef __MINGW32__
+    if ((tmp = localtime(&x)) == NULL) {
+#else
     if (localtime_s(&tm, &x) == EINVAL) {
+#endif
 #else
     if (localtime_r(&x, &tm) == NULL) {
 #endif
         strcpy(sbuf, "localtime() failed");
         return sbuf;
     }
-    if (strftime(buf, sizeof(buf)-1, "%H:%M:%S", &tm) == 0) {
+    if (strftime(buf, sizeof(buf)-1, "%H:%M:%S", tmp) == 0) {
         strcpy(sbuf, "strftime() failed");
         return sbuf;
     }

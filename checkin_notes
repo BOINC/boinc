@@ -8631,3 +8631,10 @@ Charlie 6 Dec 2010
     mac_installer/
         postinstall
         postupgrade
+
+Bernd  7 Dec 2010
+    - API: MinGWs runtime API has neither localtime_r nor localtime_s,
+           but it should be safe to use localtime here
+
+    api/
+        boinc_api.cpp
