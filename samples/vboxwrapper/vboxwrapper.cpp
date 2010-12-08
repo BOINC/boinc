@@ -50,6 +50,7 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
+#include "vm.h"
 #include "vbox.h"
 
 #define JOB_FILENAME "job.xml"
@@ -57,76 +58,8 @@
 
 #define POLL_PERIOD 1.0
 
-struct VM {
-    std::string stdin_filename;
-    std::string stdout_filename;
-    std::string stderr_filename;
-    // name of checkpoint file, if any
-    std::string checkpoint_filename;
-    // name of file where app will write its fraction done
-    std::string fraction_done_filename;
-    bool suspended;
-
-    int parse( XML_PARSER& );
-    void poll();
-    int run();
-    void stop();
-    void pause();
-    void resume();
-};
-
-VM vm;
 APP_INIT_DATA aid;
 
-int VM::parse(XML_PARSER& xp) {
-    char tag[1024], buf[8192];
-    bool is_tag;
-
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
-            fprintf(stderr, "%s VM::parse(): unexpected text %s\n",
-                boinc_msg_prefix(buf, sizeof(buf)), tag
-            );
-            continue;
-        }
-        if (!strcmp(tag, "/vm")) {
-            return 0;
-        }
-        else if (xp.parse_string(tag, "stdin_filename", stdin_filename)) continue;
-        else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
-        else if (xp.parse_string(tag, "stderr_filename", stderr_filename)) continue;
-        else if (xp.parse_string(tag, "checkpoint_filename", checkpoint_filename)) continue;
-        else if (xp.parse_string(tag, "fraction_done_filename", fraction_done_filename)) continue;
-    }
-    return ERR_XML_PARSE;
-}
-
-int VM::run() {
-    int retval;
-    retval = virtualbox_initialize();
-    if (retval) return retval;
-    retval = virtualbox_startvm();
-    if (retval) return retval;
-    return 0;
-}
-
-void VM::poll() {
-}
-
-void VM::stop() {
-    virtualbox_stopvm();
-    virtualbox_cleanup();
-}
-
-void VM::pause() {
-    virtualbox_pausevm();
-    suspended = true;
-}
-
-void VM::resume() {
-    virtualbox_resumevm();
-    suspended = false;
-}
 
 int parse_job_file() {
     MIOFILE mf;
@@ -213,15 +146,12 @@ int main(int argc, char** argv) {
     while (1) {
         vm.poll();
         boinc_get_status(&boinc_status);
-        if (boinc_status.no_heartbeat) {
-            vm.stop();
-            exit(0);
-        }
-        if (boinc_status.quit_request) {
+        if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.stop();
             exit(0);
         }
         if (boinc_status.abort_request) {
+            // TODO: Unregister VM and Delete VM before exiting.
             vm.stop();
             exit(0);
         }
@@ -239,6 +169,7 @@ int main(int argc, char** argv) {
     
     vm.stop();
     boinc_finish(0);
+    return 0;
 }
 
 #ifdef _WIN32

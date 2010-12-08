@@ -39,3 +39,32 @@
 #include "boinc_api.h"
 #include "vbox.h"
 
+
+// Generate a unique virtual machine name for a given task instance
+// Rules:
+//   1. Must be unique
+//   2. Must identifity itself as being part of BOINC
+//   3. Must be file system compatible
+//
+int virtualbox_generate_vm_name( std::string& name ) {
+    APP_INIT_DATA* aidp = NULL;
+
+    name.empty();
+    name = "boinc_";
+
+    if (boinc_is_standalone()) {
+        name += "standalone";
+    } else {
+        boinc_get_init_data_p( aidp );
+        name += aidp->wu_name;
+    }
+
+    if (!name.empty()) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+

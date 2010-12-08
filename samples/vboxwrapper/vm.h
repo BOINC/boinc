@@ -18,17 +18,27 @@
 
 // Provide cross-platform interfaces for making changes to VirtualBox
 
-#ifndef _VBOX_H_
-#define _VBOX_H_
+#ifndef _VM_H_
+#define _VM_H_
 
-extern int virtualbox_generate_vm_name( std::string& name );
+struct VM {
+    std::string stdin_filename;
+    std::string stdout_filename;
+    std::string stderr_filename;
+    // name of checkpoint file, if any
+    std::string checkpoint_filename;
+    // name of file where app will write its fraction done
+    std::string fraction_done_filename;
+    bool suspended;
 
-extern int virtualbox_initialize();
-extern int virtualbox_cleanup();
+    int parse( XML_PARSER& );
+    void poll();
+    int run();
+    void stop();
+    void pause();
+    void resume();
+};
 
-extern int virtualbox_startvm();
-extern int virtualbox_stopvm();
-extern int virtualbox_pausevm();
-extern int virtualbox_resumevm();
+extern VM vm;
 
 #endif

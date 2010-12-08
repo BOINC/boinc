@@ -8655,3 +8655,15 @@ David  7 Dec 2010
         fermi_out (new)
         wrappture.cpp
         README (new)
+
+Rom    8 Dec 2010
+    - VBOX: Implement stubs for starting/stopping/suspending/resuming VMs
+        TODO: create/delete.
+        
+    samples/vboxwrapper/
+        vbox.cpp, .h
+        vbox_win.cpp
+        vboxwrapper.cpp
+        vm.cpp, .h
+    win_build/
+        vboxwrapper.vcproj

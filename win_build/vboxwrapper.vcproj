@@ -467,6 +467,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\samples\vboxwrapper\vm.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -483,6 +487,10 @@
 			</File>
 			<File
 				RelativePath="..\samples\vboxwrapper\mscom\VirtualBox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\samples\vboxwrapper\vm.h"
 				>
 			</File>
 		</Filter>
