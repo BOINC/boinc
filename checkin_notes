@@ -8676,3 +8676,9 @@ David  7 Dec 2010
 
     client/
         work_fetch.cpp
+
+David  8 Dec 2010
+	- API: add support from Truetype fonts (from Carl Christensen)
+
+	api/
+		ttffont.cpp,h
