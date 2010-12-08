@@ -1,3 +1,21 @@
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2010 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+
 // utility functions for TrueType font OpenGL graphics
 
 // FTGL OpenGL TrueType/FreeType font rendering
@@ -10,7 +28,7 @@
 // this should basically be a drop-in for the old boinc txf_* functions i.e.
 //  txf_load_fonts and txf_render_string, with extra options on the latter for rotating etc
 
-// adapted by Carl Christensen, freely released under LGPL for BOINC
+// adapted by Carl Christensen
 
 #include "ttfont.h"
 #include "filesys.h"  // from boinc for file_exists
