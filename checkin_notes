@@ -8667,3 +8667,12 @@ Rom    8 Dec 2010
         vm.cpp, .h
     win_build/
         vboxwrapper.vcproj
+
+David  7 Dec 2010
+    - client: fix scheduling bug when a job has fraction_done = 1
+        but it's not finished yet.
+        ACTIVE_TASK::est_dur() was returning 0
+        when it should have returned elapsed_time.
+
+    client/
+        work_fetch.cpp
