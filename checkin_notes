@@ -8682,3 +8682,18 @@ David  8 Dec 2010
 
 	api/
 		ttffont.cpp,h
+
+David  8 Dec 2010
+    - scheduler: in some cases the system may have a too-low estimate
+        of the performance of an app version on a host.
+        It will then stop using that app version,
+        so the estimate never has a chance to converge to its correct value.
+        Fix: multiply by a random factor (mean 1, stddev .1)
+        when comparing the FLOPS estimates of app versions.
+
+    client/
+        sim_util.cpp
+    lib/
+        util.cpp,h
+    sched/
+        sched_version.cpp

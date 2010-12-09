@@ -659,9 +659,11 @@ BEST_APP_VERSION* get_app_version(
 
             estimate_flops(host_usage, av);
 
-            // pick the fastest version
+            // pick the fastest version.
+            // Throw in a random factor in case the estimates are off.
             //
-            if (host_usage.projected_flops > bavp->host_usage.projected_flops) {
+            double r = 1 + .1*rand_normal();
+            if (r*host_usage.projected_flops > bavp->host_usage.projected_flops) {
                 bavp->host_usage = host_usage;
                 bavp->avp = &av;
                 bavp->reliable = app_version_is_reliable(av.id);

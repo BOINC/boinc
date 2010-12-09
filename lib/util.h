@@ -42,6 +42,7 @@ extern void push_unique(std::string, std::vector<std::string>&);
 static inline double drand() {
     return (double)rand()/(double)RAND_MAX;
 }
+extern double rand_normal();
 
 #ifdef _WIN32
 #include <windows.h>
