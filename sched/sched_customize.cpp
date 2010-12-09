@@ -409,16 +409,20 @@ static inline bool app_plan_nci(
     return true;
 }
 
-// the following is for an app that requires a processor with SSE3,
-// and will run 10% faster if so
+// the following is for an app version that requires a processor with SSE3,
+// and will run 10% faster than the non-SSE3 version
 //
 static inline bool app_plan_sse3(
     SCHEDULER_REQUEST& sreq, HOST_USAGE& hu
 ) {
     downcase_string(sreq.host.p_features);
     if (!strstr(sreq.host.p_features, "sse3")) {
-        //add_no_work_message("Your CPU lacks SSE3");
-        return false;
+        // Pre-6.x clients report CPU features in p_model
+        //
+        if (!strstr(sreq.host.p_model, "sse3")) {
+            //add_no_work_message("Your CPU lacks SSE3");
+            return false;
+        }
     }
     hu.avg_ncpus = 1;
     hu.max_ncpus = 1;

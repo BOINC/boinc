@@ -8697,3 +8697,16 @@ David  8 Dec 2010
         util.cpp,h
     sched/
         sched_version.cpp
+
+David  9 Dec 2010
+    - scheduler: in app_plan_sse3(): check for CPU features in
+        p_model as well as p_features;
+        pre-6.x clients report them in p_model.
+    - client: fix bug where "reread config file" didn't update
+        the max log file sizes
+
+    client/
+        main.cpp
+        log_flags.cpp
+    sched/
+        sched_customize.cpp
