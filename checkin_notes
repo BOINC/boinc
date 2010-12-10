@@ -8710,3 +8710,13 @@ David  9 Dec 2010
         log_flags.cpp
     sched/
         sched_customize.cpp
+
+David  9 Dec 2010
+    - transitioner: fix bug where retry jobs weren't getting sent
+        because invalid jobs were counted as successful.
+        How could this bug possibly have survived this long?
+        From TJM (thanks -- who are you?)
+        Fixes #1029
+
+    sched/
+        transitioner.cpp

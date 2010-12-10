@@ -187,6 +187,7 @@ int handle_wu(
     nover = 0;
     nerrors = 0;
     nsuccess = 0;
+        // not counting invalid results!!!!
     ncouldnt_send = 0;
     nno_reply = 0;
     ndidnt_need = 0;
@@ -306,7 +307,11 @@ int handle_wu(
                         have_new_result_to_validate = true;
                     }
                 }
-                nsuccess++;
+                // don't count invalid results as successful
+                //
+                if (res_item.res_validate_state != VALIDATE_STATE_INVALID) {
+                    nsuccess++;
+                }
                 break;
             case RESULT_OUTCOME_CLIENT_ERROR:
             case RESULT_OUTCOME_VALIDATE_ERROR:
