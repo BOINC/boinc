@@ -8720,3 +8720,21 @@ David  9 Dec 2010
 
     sched/
         transitioner.cpp
+
+David  11 Dec 2010
+    - client: fix scheduling problem:
+        Old: enforce_schedule() won't run an active job if its
+            working set size exceeds remaining available RAM.
+        Problem: there may be a lot of similar jobs.
+            The client starts one, finds that its working set is too large,
+            starts the second, and so on.
+        Solution: if J is an unstarted job,
+            and there are started jobs using the same app version,
+            consider J's working set size to be the largest of
+            the working sets of those jobs.
+    - client: fix an apparent bug that could oversaturate
+        the CPUs with single-thread jobsk
+
+    client/
+        client_types.h
+        cpu_sched.cpp

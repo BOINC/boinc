@@ -17,23 +17,39 @@
 
 // CPU scheduling logic.
 //
-// Terminology:
+//  - create an ordered "run list" (schedule_cpus).
+//      The ordering is roughly as follows:
+//          - GPU jobs first, then CPU jobs
+//          - for a given resource, jobs in deadline danger first
+//          - jobs from projects with lower recent est. credit first
+//      In principle, the run list could include all runnable jobs.
+//      For efficiency, we stop adding:
+//          - GPU jobs: when all GPU instances used
+//          - CPU jobs: when the # of CPUs allocated to single-thread jobs,
+//              OR the # allocated to multi-thread jobs, exceeds # CPUs
+//              (ensure we have enough single-thread jobs
+//              in case we can't run the multi-thread jobs)
+//      NOTE: RAM usage is not taken into consideration
+//          in the process of building this list.
+//          It's possible that include a bunch of jobs that can't run
+//          because of memory limits,
+//          even though there are other jobs that could run.
+//      - add running jobs to the list
+//          (in case they haven't finished time slice or checkpointed)
+//      - sort the list according to "more_important()"
+//      - shuffle the list to avoid starving multi-thread jobs
 //
-// Episode
-// The execution of a task is divided into "episodes".
-// An episode starts then the application is executed,
-// and ends when it exits or dies
-// (e.g., because it's preempted and not left in memory,
-// or the user quits BOINC, or the host is turned off).
-// A task may checkpoint now and then.
-// Each episode begins with the state of the last checkpoint.
-//
-// Debt interval
-// The interval between consecutive executions of adjust_debts()
-//
-// Run interval
-// If an app is running (not suspended), the interval
-// during which it's been running.
+//  - scan through the resulting list,
+//      running the jobs and preempting other jobs.
+//      Don't run a job if
+//      - its GPUs can't be assigned (possible if need >1 GPU)
+//      - it's a multi-thread job, and CPU usage would be #CPUs+1 or more
+//      - it's a single-thread job, don't oversaturate CPU
+//          (details depend on whether a MT job is running)
+//      - its memory usage would exceed RAM limits
+//          If there's a running job using a given app version,
+//          unstarted jobs using that app version
+//          are assumed to have the same working set size.
 
 #include "cpp.h"
 
@@ -1630,22 +1646,32 @@ bool CLIENT_STATE::enforce_schedule() {
                         }
                         continue;
                     }
+                } else {
+                    if (ncpus_used >= ncpus) {
+                        continue;
+                    }
                 }
             }
         }
 
+        double wss = 0;
         if (atp) {
             atp->too_large = false;
-            if (atp->procinfo.working_set_size_smoothed > ram_left) {
+            wss = atp->procinfo.working_set_size_smoothed;
+        } else {
+            wss = rp->avp->max_working_set_size;
+        }
+        if (wss > ram_left) {
+            if (atp) {
                 atp->too_large = true;
-                if (log_flags.mem_usage_debug) {
-                    msg_printf(rp->project, MSG_INFO,
-                        "[mem_usage] enforce: result %s can't run, too big %.2fMB > %.2fMB",
-                        rp->name,  atp->procinfo.working_set_size_smoothed/MEGA, ram_left/MEGA
-                    );
-                }
-                continue;
             }
+            if (log_flags.mem_usage_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[mem_usage] enforce: result %s can't run, too big %.2fMB > %.2fMB",
+                    rp->name,  wss/MEGA, ram_left/MEGA
+                );
+            }
+            continue;
         }
 
         if (log_flags.cpu_sched_debug) {
@@ -1666,7 +1692,7 @@ bool CLIENT_STATE::enforce_schedule() {
         }
         ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
-        ram_left -= atp->procinfo.working_set_size_smoothed;
+        ram_left -= wss;
     }
 
     if (log_flags.cpu_sched_debug && ncpus_used < ncpus) {
