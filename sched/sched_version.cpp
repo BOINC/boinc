@@ -572,17 +572,19 @@ BEST_APP_VERSION* get_app_version(
                 continue;
             }
             if (strlen(av.plan_class)) {
-                if (!g_request->client_cap_plan_class) {
-                    if (config.debug_version_select) {
-                        log_messages.printf(MSG_NORMAL,
-                            "[version] [AV#%d] client %d lacks plan class capability\n",
-                            av.id, g_request->core_client_version
-                        );
-                    }
-                    continue;
-                }
                 if (!app_plan(*g_request, av.plan_class, host_usage)) {
                     continue;
+                }
+                if (!g_request->client_cap_plan_class) {
+                    if (!host_usage.is_sequential_app()) {
+                        if (config.debug_version_select) {
+                            log_messages.printf(MSG_NORMAL,
+                                "[version] [AV#%d] client %d lacks plan class capability\n",
+                                av.id, g_request->core_client_version
+                            );
+                        }
+                        continue;
+                    }
                 }
             } else {
                 host_usage.sequential_app(g_reply->host.p_fpops);

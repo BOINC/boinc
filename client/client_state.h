@@ -526,6 +526,12 @@ extern void print_suspend_tasks_message(int);
     // so if the project develops a GPU app,
     // we'll find out about it within a day.
 
+#define WF_DEFER_INTERVAL   300
+    // if a project is uploading, and the last upload started within this interval,
+    // don't fetch work from it.
+    // This allows the work fetch to be merged with the reporting of the
+    // jobs that are currently uploading.
+
 //////// CPU SCHEDULING
 
 #define CPU_SCHED_PERIOD    60

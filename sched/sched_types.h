@@ -95,6 +95,12 @@ struct HOST_USAGE {
         peak_flops = x;
         strcpy(cmdline, "");
     }
+    inline bool is_sequential_app() {
+         if (ncudas) return false;
+         if (natis) return false;
+         if (avg_ncpus != 1) return false;
+         return true;
+    }
     inline int resource_type() {
         if (ncudas) {
             return ANON_PLATFORM_NVIDIA;

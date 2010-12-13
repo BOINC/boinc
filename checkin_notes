@@ -8738,3 +8738,26 @@ David  11 Dec 2010
     client/
         client_types.h
         cpu_sched.cpp
+
+David  13 Dec 2010
+    - client: work fetch: if the chosen project is currently uploading a file,
+        and an upload started in the last 5 min, don't fetch work from it.
+        The goal is to merge the 2 scheduler RPCs
+        (fetch work, report completed taskS) into a single RPC.
+        Note: this may result in idleness in some cases.
+    - scheduler: if client doesn't handle plan class (pre-5.10),
+        check plan-class app versions anyway,
+        but only use if it's a single-CPU app.
+        This allows single-CPU app versions with specific requirements
+        (like SSE) to be issued to old clients.
+        From Bernd Machenschalk
+
+    client/
+        client_types.h
+        work_fetch.cpp
+        client_state.h
+        pers_file_xfer.cpp
+        cs_scheduler.cpp
+    sched/
+        sched_types.h
+        sched_version.cpp
