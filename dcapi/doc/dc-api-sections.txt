@@ -79,6 +79,7 @@ DC_addWUInput
 DC_addWURemoteInput
 DC_addWUOutput
 DC_setWUPriority
+DC_setWUBatch
 DC_serializeWU
 DC_deserializeWU
 DC_getWUState

@@ -83,6 +83,9 @@ struct _DC_Workunit
 	char			*workdir;
 	/* The WU's ID in the Boinc database */
 	int			db_id;
+	
+	/* Batch value of the workunit */
+	int 			batch;
 
 	/* Input file definitions. Elements are of type DC_PhysicalFile */
 	GList			*input_files;

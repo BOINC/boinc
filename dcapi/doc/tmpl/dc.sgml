@@ -305,6 +305,22 @@ support priorities and the number of supported levels may be fewer than 100.
 @Returns: 0 if successful or a #DC_ErrorCode.
 
 
+<!-- ##### FUNCTION DC_setWUBatch ##### -->
+<para>
+Sets the batch identifier of a work unit. Batch identifier reflects the 
+corresponding workunits. Workunits with the same batch identifier belongs
+to the same group of workunits. Depending on the underlying grid
+infrastructure, this function may be called only for work units in state
+%DC_WU_READY (i.e., before the work unit is submitted). The batch value 
+may be in the range of an integer. The default batch is 0. Note that not 
+all infrastructures support batch handling.
+</para>
+
+@wu: the work unit.
+@batch: the batch identifier of the work unit.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
 <!-- ##### FUNCTION DC_serializeWU ##### -->
 <para>
 Serializes a #DC_Workunit structure. The returned string may be stored on

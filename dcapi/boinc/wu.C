@@ -48,7 +48,8 @@ typedef enum
 	WU_SUSPENDED,
 	WU_NOSUSPEND,
 	WU_NATIVECLIENT,
-	WU_PRIORITY
+	WU_PRIORITY,
+	WU_BATCH
 } wu_tag;
 
 #define WU_DESC_FILE		"wu_desc.xml"
@@ -126,7 +127,8 @@ static const struct tag_desc tags[] =
 	{ WU_SERIALIZED,	"serialized" },
 	{ WU_NOSUSPEND,		"nosuspend" },
 	{ WU_NATIVECLIENT,	"nativeclient" },
-	{ WU_PRIORITY,		"priority" }
+	{ WU_PRIORITY,		"priority" },
+	{ WU_PRIORITY,		"batch" }
 };
 
 static const GMarkupParser wudesc_parser =
@@ -401,6 +403,11 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 			pctx->wu->priority = atoi(tmp);
 			g_free(tmp);
 			break;
+		case WU_BATCH:
+			tmp = g_strndup(text, text_len);
+			pctx->wu->batch = atoi(tmp);
+			g_free(tmp);
+			break;
 		case WU_WUDESC:
 			break;
 		case WU_SUSPENDED:
@@ -463,6 +470,7 @@ static int write_wudesc(const DC_Workunit *wu)
 
 	fprintf(f, "\t<subresults>%d</subresults>\n", wu->subresults);
 	fprintf(f, "\t<priority>%d</priority>\n", wu->priority);
+	fprintf(f, "\t<batch>%d</batch>\n", wu->batch);
 
 	fprintf(f, "</wudesc>\n");
 	fclose(f);
@@ -542,6 +550,9 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 
 	/* Set the default priority */
 	wu->priority = DC_getClientCfgInt(clientName, CFG_DEFAULTPRIO, 0, TRUE);
+
+	/* Set the default batch value */
+	wu->batch = 0;
 
 	/* Add the internal output files */
 	if (DC_getClientCfgBool(clientName, CFG_NATIVECLIENT, FALSE, TRUE))
@@ -1317,7 +1328,6 @@ int DC_submitWU(DC_Workunit *wu)
 		return DC_ERR_DATABASE;
 
 	fill_wu_params(wu, &params);
-	dbwu.batch = 1;
 	dbwu.rsc_fpops_est = params.rsc_fpops_est;
 	dbwu.rsc_fpops_bound = params.rsc_fpops_bound;
 	dbwu.rsc_memory_bound = params.rsc_memory_bound;
@@ -1325,6 +1335,7 @@ int DC_submitWU(DC_Workunit *wu)
 	dbwu.delay_bound = params.delay_bound;
 
 	dbwu.priority = wu->priority;
+	dbwu.batch = wu->batch;
 
 	wu_template = generate_wu_template(wu);
 	result_template_file = generate_result_template(wu);
@@ -1739,6 +1750,21 @@ int DC_setWUPriority(DC_Workunit *wu, int priority)
 		write_wudesc(wu);
 	return 0;
 }
+
+int DC_setWUBatch(DC_Workunit *wu, int batch)
+{
+        if (!wu)
+        {
+                DC_log(LOG_ERR, "%s: Missing WU", __func__);
+                return DC_ERR_BADPARAM;
+        }
+
+        wu->batch = batch;
+        if (wu->serialized)
+                write_wudesc(wu);
+        return 0;
+}
+
 
 DC_WUState DC_getWUState(DC_Workunit *wu)
 {
