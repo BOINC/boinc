@@ -155,6 +155,9 @@ int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName);
 /* Sets the priority for the work unit. */
 int DC_setWUPriority(DC_Workunit *wu, int priority);
 
+/* Sets the batch id for the work unit. */
+int DC_setWUBatch(DC_Workunit *wu, int batch);
+
 /* Serializes a work unit description. */
 char *DC_serializeWU(DC_Workunit *wu);
 
