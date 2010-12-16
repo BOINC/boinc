@@ -128,7 +128,7 @@ static const struct tag_desc tags[] =
 	{ WU_NOSUSPEND,		"nosuspend" },
 	{ WU_NATIVECLIENT,	"nativeclient" },
 	{ WU_PRIORITY,		"priority" },
-	{ WU_PRIORITY,		"batch" }
+	{ WU_BATCH,		"batch" }
 };
 
 static const GMarkupParser wudesc_parser =
