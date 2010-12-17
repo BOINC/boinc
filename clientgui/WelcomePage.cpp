@@ -295,7 +295,7 @@ or use an 'Account Manager' web site to select projects.")
     );
 
     m_pAttachToAccountManagerCtrl->SetLabel(
-        _("Add account manager")
+        _("Use account manager")
     );
 
     if (!is_wcg_client) {

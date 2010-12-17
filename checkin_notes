@@ -8781,3 +8781,19 @@ David  16 Dec 2010
         client_types.h
         client_state.cpp,h
         coproc_detect.cpp
+
+David  17 Dec 2010
+	- client: improve text of "message from server" notices
+	- manager: change "add account manager" to "use account manager".
+		"Add" is confusing, because you can't add multiple account managers
+		like you add projects.
+	- client: recognize a few new ATI GPU models
+		from Robert Kreﬂ
+
+	client/
+		client_msgs.cpp
+		coproc_detect.cpp
+		cs_scheduler.cpp
+	clientgui/
+		AccountInfoPage.cpp
+		WelcomePage.cpp

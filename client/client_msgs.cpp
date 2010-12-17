@@ -73,8 +73,8 @@ void show_message(PROJECT *p, char* msg, int priority, bool is_html, const char*
         snprintf(event_msg, sizeof(event_msg), "[error] %s", message);
         break;
     case MSG_SCHEDULER_ALERT:
-        snprintf(event_msg, sizeof(event_msg), "%s %s: %s",
-            _("Message from"), p->get_project_name(), message
+        snprintf(event_msg, sizeof(event_msg), "%s: %s",
+            _("Message from server"), message
         );
         break;
     default:

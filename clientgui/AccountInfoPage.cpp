@@ -572,7 +572,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         } else if (IS_ACCOUNTMANAGERWIZARD() && IS_ACCOUNTMANAGERUPDATEWIZARD()) {
             strTitle = _("Update account manager");
         } else if (IS_ACCOUNTMANAGERWIZARD()) {
-            strTitle = _("Add account manager");
+            strTitle = _("Use account manager");
         }
  
         // Verify minimum password length
