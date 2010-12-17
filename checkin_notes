@@ -8797,3 +8797,10 @@ David  17 Dec 2010
 	clientgui/
 		AccountInfoPage.cpp
 		WelcomePage.cpp
+
+David  17 Dec 2010
+    - API: small tweak that should help narrow down the occasional crashes
+        in fprintf() and boinc_msg_prefix() seen by E@h
+
+    api/
+        boinc_api.cpp

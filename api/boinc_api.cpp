@@ -1011,10 +1011,10 @@ static void timer_handler() {
     //
     if (in_critical_section==0 && options.check_heartbeat) {
         if (heartbeat_giveup_time < interrupt_count) {
-            fprintf(stderr,
-                "%s No heartbeat from core client for 30 sec - exiting\n",
-                boinc_msg_prefix(buf, sizeof(buf))
-            );
+            boinc_msg_prefix(buf, sizeof(buf));
+            buf[255] = 0;  // paranoia
+            fputs(buf, stderr);
+            fputs(" No heartbeat from core client for 30 sec - exiting\n", stderr);
             if (options.direct_process_action) {
                 exit_from_timer_thread(0);
             } else {
