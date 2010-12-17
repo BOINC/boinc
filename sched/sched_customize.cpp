@@ -239,10 +239,6 @@ static inline bool app_plan_ati(
             return false;
         }
     }
-    if (!strcmp(plan_class, "ati_opencl")) {
-        // OpenCL not yet supported in standard ATI drivers
-        return false;
-    }
 
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,

@@ -231,6 +231,8 @@ struct COPROC_ATI : public COPROC {
     char name[256];
     char version[50];
     int version_num;
+        // based on CAL version (not driver version)
+        // encoded as 1000000*major + 1000*minor + release
     bool atirt_detected;
     bool amdrt_detected;
     CALdeviceattribs attribs; 

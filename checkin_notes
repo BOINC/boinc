@@ -8761,3 +8761,23 @@ David  13 Dec 2010
     sched/
         sched_types.h
         sched_version.cpp
+
+David  16 Dec 2010
+    - client: if detect that system clock has been set backwards
+        (either at startup or during execution)
+        reset a number of "wait until X" variables;
+        otherwise we might wait years to contact a project, restart a file xfer, etc.
+        Notes:
+        - there is no problem setting clocks forward; things just happen prematurely
+        - some variables (e.g. task deadlines) are not reset,
+            because it's not clear what to set them to
+    - sched: remove ati_opencl plan class until we understand what it is
+
+    sched/
+        sched_customize.cpp
+    lib/
+        coproc.h
+    client/
+        client_types.h
+        client_state.cpp,h
+        coproc_detect.cpp

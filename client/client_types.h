@@ -749,12 +749,10 @@ struct RESULT {
 
 // represents an always/auto/never value, possibly temporarily overridden
 
-class MODE {
-private:
+struct MODE {
     int perm_mode;
     int temp_mode;
     double temp_timeout;
-public:
     MODE();
     void set(int mode, double duration);
     int get_perm();

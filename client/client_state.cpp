@@ -575,7 +575,7 @@ FDSET_GROUP all_fds;
 void CLIENT_STATE::do_io_or_sleep(double x) {
     int n;
     struct timeval tv;
-    now = dtime();
+    set_now();
     double end_time = now + x;
     int loops = 0;
 
@@ -615,7 +615,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
             break;
         }
 
-        now = dtime();
+        set_now();
         if (now > end_time) break;
         x = end_time - now;
     }
@@ -644,7 +644,7 @@ bool CLIENT_STATE::poll_slow_events() {
     double idletime;
 #endif
 
-    now = dtime();
+    set_now();
 
     if (cant_write_state_file) {
         return false;
@@ -1855,18 +1855,32 @@ int CLIENT_STATE::quit_activities() {
 // See if a timestamp in the client state file
 // is later than the current time.
 // If so, the user must have decremented the system clock.
-// Clear all timeout variables.
 //
 void CLIENT_STATE::check_clock_reset() {
-    now = time(0);
     if (!time_stats.last_update) return;
     if (time_stats.last_update <= now) return;
+    clear_absolute_times();
+}
 
+// The system clock seems to have been set back,
+// possibly by a large amount (years).
+// Clear various "wait until X" absolute times.
+//
+// Note: there are other absolute times (like job deadlines)
+// that we could try to patch up, but it's not clear how.
+//
+void CLIENT_STATE::clear_absolute_times() {
     msg_printf(NULL, MSG_INFO,
         "System clock was turned backwards; clearing timeouts"
     );
+
     new_version_check_time = now;
     all_projects_list_check_time = now;
+    retry_shmem_time = 0;
+    run_mode.temp_timeout = 0;
+    gpu_mode.temp_timeout = 0;
+    network_mode.temp_timeout = 0;
+    time_stats.last_update = now;
 
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
@@ -1877,13 +1891,22 @@ void CLIENT_STATE::check_clock_reset() {
         }
         p->download_backoff.next_xfer_time = 0;
         p->upload_backoff.next_xfer_time = 0;
+        p->cpu_pwf.clear_backoff();
+        p->cuda_pwf.clear_backoff();
+        p->ati_pwf.clear_backoff();
+#ifdef USE_REC
+        p->wfd.rec_time = now;
+#endif
     }
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         PERS_FILE_XFER* pfx = pers_file_xfers->pers_file_xfers[i];
         pfx->next_request_time = 0;
     }
 
-    // RESULT: could change report_deadline, but not clear how
+    for (i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        rp->schedule_backoff = 0;
+    }
 }
 
 #ifndef SIM

@@ -28,6 +28,7 @@ using std::string;
 using std::vector;
 
 #include "coproc.h"
+#include "util.h"
 
 #include "acct_mgr.h"
 #include "acct_setup.h"
@@ -249,6 +250,14 @@ struct CLIENT_STATE {
     bool update_results();
     int nresults_for_project(PROJECT*);
     void check_clock_reset();
+    void clear_absolute_times();
+    inline void set_now() {
+        double x = dtime();
+        if (x < now) {
+            clear_absolute_times();
+        }
+        now = x;
+    }
 
 // --------------- cpu_sched.cpp:
     double total_resource_share();
