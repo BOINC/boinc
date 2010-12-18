@@ -133,10 +133,8 @@ inline double exponential(double mean) {
     return -mean*log(1-drand());
 }
 
-bool RANDOM_PROCESS::sample(double t) {
+bool RANDOM_PROCESS::sample(double diff) {
     if (frac==1) return true;
-    double diff = t-last_time;
-    last_time = t;
     time_left -= diff;
     if (time_left < 0) {
         if (value) {
@@ -148,21 +146,40 @@ bool RANDOM_PROCESS::sample(double t) {
         }
     }
     msg_printf(0, MSG_INFO,
-        "value: %d lambda: %f t %f time_left %f",
-        value, lambda, t, time_left
+        "value: %d lambda: %f time_left %f",
+        value, lambda, time_left
     );
     return value;
 }
 
 RANDOM_PROCESS::RANDOM_PROCESS() {
     frac = 1;
+    last_time = 0;
 }
 
-void RANDOM_PROCESS::init(double st) {
-    last_time = st;
+void RANDOM_PROCESS::init(double f, double l) {
+    frac = f;
+    lambda = l;
+    last_time = 0;
     value = true;
     time_left = exponential(lambda);
     off_lambda = lambda/frac - lambda;
+}
+
+int UNIFORM_DIST::parse(XML_PARSER& xp, const char* end_tag) {
+    char tag[256];
+    bool is_tag;
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) return ERR_XML_PARSE;
+        if (xp.parse_double(tag, "lo", lo)) continue;
+        else if (xp.parse_double(tag, "hi", hi)) continue;
+        else if (!strcmp(tag, end_tag)) return 0;
+        else {
+            printf("unrecognized: %s\n", tag);
+            return ERR_XML_PARSE;
+        }
+    }
+    return ERR_XML_PARSE;
 }
 
 int NORMAL_DIST::parse(XML_PARSER& xp, const char* end_tag) {
@@ -180,36 +197,3 @@ int NORMAL_DIST::parse(XML_PARSER& xp, const char* end_tag) {
     }
     return ERR_XML_PARSE;
 }
-
-int UNIFORM_DIST::parse(XML_PARSER& xp, const char* end_tag) {
-    char tag[256];
-    bool is_tag;
-    while(!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (xp.parse_double(tag, "lo", lo)) continue;
-        else if (xp.parse_double(tag, "hi", hi)) continue;
-        else if (!strcmp(tag, end_tag)) return 0;
-        else {
-            printf("unrecognized: %s\n", tag);
-            return ERR_XML_PARSE;
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
-int RANDOM_PROCESS::parse(XML_PARSER& xp, const char* end_tag) {
-    char tag[256];
-    bool is_tag;
-    while(!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) return ERR_XML_PARSE;
-        if (xp.parse_double(tag, "frac", frac)) continue;
-        else if (xp.parse_double(tag, "lambda", lambda)) continue;
-        else if (!strcmp(tag, end_tag)) return 0;
-        else {
-            printf("unrecognized: %s\n", tag);
-            return ERR_XML_PARSE;
-        }
-    }
-    return ERR_XML_PARSE;
-}
-

@@ -467,11 +467,6 @@ struct CLIENT_STATE {
     void compute_nuploading_results();
 
 #ifdef SIM
-    RANDOM_PROCESS available;
-    RANDOM_PROCESS idle;
-    double connection_interval;
-        // don't connect more often than this
-
     double share_violation();
     double monotony();
 

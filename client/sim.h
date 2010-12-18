@@ -77,9 +77,8 @@ class RANDOM_PROCESS {
 public:
     double frac;
     double lambda;
-    int parse(XML_PARSER&, const char* end_tag);
-    bool sample(double);
-    void init(double);
+    bool sample(double dt);
+    void init(double f, double l);
     RANDOM_PROCESS();
 };
 

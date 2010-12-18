@@ -30,13 +30,16 @@
 //          timeline.html
 //          log.txt
 //          summary.xml
-//          debt.dat
-//          debt_overall.png
-//          debt_cpu_std.png
-//          debt_cpu_ltd.png
-//          debt_nvidia_std.png
-//          debt_nvidia_ltd.png
-//          ...
+//          if using REC:
+//              rec.png
+//          if not using REC:
+//              debt.dat
+//              debt_overall.png
+//              debt_cpu_std.png
+//              debt_cpu_ltd.png
+//              debt_nvidia_std.png
+//              debt_nvidia_ltd.png
+//              ...
 //
 //  Simulation params:
 //  [--duration x]
@@ -79,10 +82,18 @@ FILE* index_file;
 char log_filename[256];
 
 string html_msg;
-bool running;
 double running_time = 0;
 bool server_uses_workload = false;
 bool cpu_sched_rr_only;
+
+RANDOM_PROCESS on_proc;
+RANDOM_PROCESS active_proc;
+RANDOM_PROCESS gpu_active_proc;
+RANDOM_PROCESS connected_proc;
+bool on;
+bool active;
+bool gpu_active;
+bool connected;
 
 SIM_RESULTS sim_results;
 
@@ -308,20 +319,9 @@ double get_estimated_delay(RESULT* rp) {
 //
 bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     char buf[256], buf2[256];
-    static double last_time=0;
     vector<IP_RESULT> ip_results;
     int infeasible_count = 0;
     vector<RESULT*> new_results;
-
-    double diff = now - last_time;
-    if (diff && diff < connection_interval) {
-        msg_printf(NULL, MSG_INFO,
-            "simulate_rpc: too soon %f < %f",
-            diff, connection_interval
-        );
-        return false;
-    }
-    last_time = now;
 
     // save request params for WORK_FETCH::handle_reply
     //
@@ -482,6 +482,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 }
 
 bool ACTIVE_TASK_SET::poll() {
+    if (!active) return false;
+
     unsigned int i;
     char buf[256];
     bool action = false;
@@ -490,8 +492,6 @@ bool ACTIVE_TASK_SET::poll() {
     if (diff < 1.0) return false;
     last_time = gstate.now;
     PROJECT* p;
-
-    if (!running) return false;
 
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
@@ -519,7 +519,9 @@ bool ACTIVE_TASK_SET::poll() {
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         RESULT* rp = atp->result;
         if (rp->uses_coprocs()) {
-            cpu_usage_gpu += rp->avp->avg_ncpus;
+            if (gpu_active) {
+                cpu_usage_gpu += rp->avp->avg_ncpus;
+            }
         } else {
             cpu_usage_cpu += rp->avp->avg_ncpus;
         }
@@ -535,36 +537,37 @@ bool ACTIVE_TASK_SET::poll() {
 
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
-        switch (atp->task_state()) {
-        case PROCESS_EXECUTING:
-            atp->elapsed_time += diff;
-            RESULT* rp = atp->result;
-            double flops = rp->avp->flops;
-            if (!rp->uses_coprocs()) {
-                flops *= cpu_scale;
-            }
-
-            atp->flops_left -= diff*flops;
-
-            atp->fraction_done = 1 - (atp->flops_left / rp->wup->rsc_fpops_est);
-            atp->checkpoint_wall_time = gstate.now;
-
-            if (atp->flops_left <= 0) {
-                atp->set_task_state(PROCESS_EXITED, "poll");
-                rp->exit_status = 0;
-                rp->ready_to_report = true;
-                gstate.request_schedule_cpus("ATP poll");
-                gstate.request_work_fetch("ATP poll");
-                sprintf(buf, "result %s finished<br>", rp->name);
-                html_msg += buf;
-                action = true;
-            }
-            double pf = app_peak_flops(rp->avp, diff, cpu_scale);
-            rp->project->project_results.flops_used += pf;
-            rp->peak_flop_count += pf;
-            sim_results.flops_used += pf;
-            rp->project->idle = false;
+        if (atp->task_state() != PROCESS_EXECUTING) continue;
+        RESULT* rp = atp->result;
+        if (!gpu_active && rp->uses_coprocs()) {
+            continue;
         }
+        atp->elapsed_time += diff;
+        double flops = rp->avp->flops;
+        if (!rp->uses_coprocs()) {
+            flops *= cpu_scale;
+        }
+
+        atp->flops_left -= diff*flops;
+
+        atp->fraction_done = 1 - (atp->flops_left / rp->wup->rsc_fpops_est);
+        atp->checkpoint_wall_time = gstate.now;
+
+        if (atp->flops_left <= 0) {
+            atp->set_task_state(PROCESS_EXITED, "poll");
+            rp->exit_status = 0;
+            rp->ready_to_report = true;
+            gstate.request_schedule_cpus("ATP poll");
+            gstate.request_work_fetch("ATP poll");
+            sprintf(buf, "result %s finished<br>", rp->name);
+            html_msg += buf;
+            action = true;
+        }
+        double pf = app_peak_flops(rp->avp, diff, cpu_scale);
+        rp->project->project_results.flops_used += pf;
+        rp->peak_flop_count += pf;
+        sim_results.flops_used += pf;
+        rp->project->idle = false;
     }
 
     for (i=0; i<gstate.projects.size(); i++) {
@@ -824,7 +827,24 @@ void html_rec() {
     }
     fprintf(html_out, "<table border=1><tr><td width=%d valign=top>%.0f</td>", WIDTH1, gstate.now);
 
-    if (!running) {
+    if (active) {
+        show_resource(RSC_TYPE_CPU);
+        if (gpu_active) {
+            if (gstate.host_info.have_cuda()) {
+                show_resource(RSC_TYPE_CUDA);
+            }
+            if (gstate.host_info.have_ati()) {
+                show_resource(RSC_TYPE_ATI);
+            }
+        } else {
+            if (gstate.host_info.have_cuda()) {
+                fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
+            }
+            if (gstate.host_info.have_ati()) {
+                fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
+            }
+        }
+    } else {
         fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
         if (gstate.host_info.have_cuda()) {
             fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
@@ -832,15 +852,8 @@ void html_rec() {
         if (gstate.host_info.have_ati()) {
             fprintf(html_out, "<td width=%d valign=top bgcolor=#aaaaaa>OFF</td>", WIDTH2);
         }
-    } else {
-        show_resource(RSC_TYPE_CPU);
-        if (gstate.host_info.have_cuda()) {
-            show_resource(RSC_TYPE_CUDA);
-        }
-        if (gstate.host_info.have_ati()) {
-            show_resource(RSC_TYPE_ATI);
-        }
     }
+
     fprintf(html_out, "</tr></table>\n");
 }
 
@@ -996,17 +1009,30 @@ void simulate() {
         "starting simulation. delta %f duration %f", delta, duration
     );
     while (1) {
-        running = gstate.available.sample(gstate.now);
-        while (1) {
-            action = gstate.active_tasks.poll();
-            if (running) {
-                action |= gstate.handle_finished_apps();
-                action |= gstate.possibly_schedule_cpus();
-                action |= gstate.enforce_schedule();
-                action |= gstate.scheduler_rpc_poll();
+        on = on_proc.sample(delta);
+        if (on) {
+            active = active_proc.sample(delta);
+            if (active) {
+                gpu_active = gpu_active_proc.sample(delta);
+            } else {
+                gpu_active = false;
             }
-            msg_printf(0, MSG_INFO, action?"did action":"did no action");
-            if (!action) break;
+            connected = connected_proc.sample(delta);
+        } else {
+            active = gpu_active = connected = false;
+        }
+        if (on) {
+            while (1) {
+                action = gstate.active_tasks.poll();
+                action |= gstate.handle_finished_apps();
+                gpu_suspend_reason = gpu_active?0:1;
+                action |= gstate.possibly_schedule_cpus();
+                if (connected) {
+                    action |= gstate.scheduler_rpc_poll();
+                }
+                msg_printf(0, MSG_INFO, action?"did action":"did no action");
+                if (!action) break;
+            }
         }
         msg_printf(0, MSG_INFO, "took time step");
         for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {

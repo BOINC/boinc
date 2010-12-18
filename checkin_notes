@@ -8788,7 +8788,7 @@ David  17 Dec 2010
 		"Add" is confusing, because you can't add multiple account managers
 		like you add projects.
 	- client: recognize a few new ATI GPU models
-		from Robert Kreﬂ
+		from [P3D] Crashtest
 
 	client/
 		client_msgs.cpp
@@ -8804,3 +8804,9 @@ David  17 Dec 2010
 
     api/
         boinc_api.cpp
+
+David  17 Dec 2010
+    - client: tweak to ATI CPU recognition
+		from [P3D] Crashtest
+    client/
+        coproc_detect.cpp

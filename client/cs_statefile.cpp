@@ -500,23 +500,6 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             continue;
         }
 #endif
-#ifdef SIM
-        if (parse_double(buf, "<connection_interval>", connection_interval)) {
-            continue;
-        }
-        if (match_tag(buf, "<available>")) {
-            XML_PARSER xp(&mf);
-            available.parse(xp, "/available");
-            available.init(START_TIME);
-            continue;
-        }
-        if (match_tag(buf, "<idle>")) {
-            XML_PARSER xp(&mf);
-            idle.parse(xp, "/idle");
-            idle.init(START_TIME);
-            continue;
-        }
-#endif
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] state_file: unrecognized: %s", buf

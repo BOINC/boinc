@@ -494,9 +494,11 @@ int read_config_file(bool init, const char* fname) {
     int retval = config.parse(f);
     fclose(f);
     if (retval) return retval;
+#ifndef SIM
     diagnostics_set_max_file_sizes(
         config.max_stdout_file_size, config.max_stderr_file_size
     );
+#endif
     return 0;
 }
 
