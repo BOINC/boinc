@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-19 14:53-0500\n"
-"PO-Revision-Date: 2010-11-19 22:10+0200\n"
-"Last-Translator: Ido Schwartz <dj_legolas1@hotmail.com>\n"
+"PO-Revision-Date: 2010-11-22 08:49+0200\n"
+"Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: IOPanel.net\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,8 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -1816,7 +1818,6 @@ msgid "Estimated app speed"
 msgstr "מהירות יישום משוערת"
 
 #: clientgui/DlgItemProperties.cpp:311
-#, fuzzy
 msgid "Estimated task size"
 msgstr "גודל משימה משוער"
 
@@ -2435,7 +2436,6 @@ msgid "Click"
 msgstr "לחץ"
 
 #: clientgui/NoticeListCtrl.cpp:477
-#, fuzzy
 msgid "There are no notices at this time."
 msgstr "אין התראות להציג בשלב זה."
 

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-19 14:53-0500\n"
-"PO-Revision-Date: 2010-10-25 15:12-0000\n"
+"PO-Revision-Date: 2010-12-06 11:55-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -753,6 +753,8 @@ msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
+"O %s cliente desligou inesperadamente 3 vezes nos ultimos %d minutos.\n"
+"Quer reiniciá-lo outra vez?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -1843,11 +1845,11 @@ msgstr "Recursos"
 
 #: clientgui/DlgItemProperties.cpp:308
 msgid "Estimated app speed"
-msgstr ""
+msgstr "Velocidade estimada da aplicação"
 
 #: clientgui/DlgItemProperties.cpp:311
 msgid "Estimated task size"
-msgstr ""
+msgstr "Tamanho estimado da tarefa"
 
 #: clientgui/DlgItemProperties.cpp:314
 msgid "CPU time at last checkpoint"
@@ -2468,7 +2470,7 @@ msgstr "Carregue"
 
 #: clientgui/NoticeListCtrl.cpp:477
 msgid "There are no notices at this time."
-msgstr ""
+msgstr "Não existem notícias de momento."
 
 #: clientgui/NoticeListCtrl.cpp:528
 msgid "more..."
@@ -3843,7 +3845,7 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:726
 msgid "list headers"
-msgstr ""
+msgstr "lista de cabeçalhos"
 
 #: clientgui/mac/MacAccessiblity.cpp:732
 msgid "list of events"
@@ -3866,12 +3868,12 @@ msgstr "lista de %s está vazia"
 #: clientgui/mac/MacAccessiblity.cpp:843
 #, c-format
 msgid "; current sort column %d of %d; descending order; "
-msgstr ""
+msgstr "; classificar coluna actual %d de %d; em ordem descendente;"
 
 #: clientgui/mac/MacAccessiblity.cpp:845
 #, c-format
 msgid "; current sort column %d of %d; ascending order; "
-msgstr ""
+msgstr "; classificar coluna actual %d de %d; em ordem ascendente;"
 
 #: clientgui/mac/MacAccessiblity.cpp:848
 #, c-format
