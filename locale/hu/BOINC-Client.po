@@ -6,45 +6,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-06 08:58-0700\n"
+"POT-Creation-Date: 2010-12-18 09:11-0800\n"
 "PO-Revision-Date: 2010-11-17 12:54+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 2.1.1\n"
 
-#: acct_mgr.cpp:382 acct_mgr.cpp:392
+#: acct_mgr.cpp:411 acct_mgr.cpp:421
 msgid "error"
 msgstr "hiba"
 
-#: acct_setup.cpp:273
-msgid "A new version of BOINC is available."
-msgstr "Új BOINC verzió érhető el."
+#: client_msgs.cpp:77
+#, fuzzy
+msgid "Message from server"
+msgstr "Üzenet a projekt szervertől:"
 
-#: acct_setup.cpp:275
-msgid "Download it."
-msgstr "Kérjük, töltse le."
+#: client_state.cpp:232
+msgid ""
+"Some tasks need more memory than allowed by your preferences.  Please check "
+"the preferences."
+msgstr ""
 
-#: client_msgs.cpp:106
-msgid "Notice from BOINC"
-msgstr "Üzenetek a BOINCtól"
-
-#: client_state.cpp:357
+#: client_state.cpp:414
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
 "Az állapotadatok nem írhatók; kérjük, ellenőrizze a könyvtár jogosultságait"
 
-#: cs_cmdline.cpp:283
+#: cs_cmdline.cpp:284
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "A HTTP_PROXY környezeti változónak egy HTTP proxy-t kell megadnia"
 
-#: cs_scheduler.cpp:512
-#, c-format
-#, c-format, fuzzy
+#: cs_scheduler.cpp:529
+#, fuzzy, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
@@ -52,36 +50,40 @@ msgstr ""
 "Nem megfelelő URL-t adott meg ehhez a projekthez. Próbálja meg eltávolítani "
 "ezt a projektet, majd adja hozzá %s-t"
 
-#: cs_scheduler.cpp:545
-msgid "Message from"
-msgstr "Üzenet ettől:"
-
-#: cs_statefile.cpp:805 ../sched/sched_types.cpp:273
+#: cs_statefile.cpp:794 ../sched/sched_types.cpp:273
 msgid "Syntax error in app_info.xml"
 msgstr "Szintaktikai hiba az app_info.xml-ben"
 
-#: cs_statefile.cpp:844
+#: cs_statefile.cpp:833
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Az app_info.xml-ben hivatkozott fájl nem létezik:"
+
+#: current_version.cpp:84
+msgid "A new version of BOINC is available."
+msgstr "Új BOINC verzió érhető el."
+
+#: current_version.cpp:86
+msgid "Download it."
+msgstr "Kérjük, töltse le."
 
 #: gui_rpc_server.cpp:191
 msgid "Can't resolve hostname in remote_hosts.cfg"
 msgstr ""
 "Nem sikerült feloldani a gazdaszámítógép nevét a remote_host.cfg fájlban"
 
-#: log_flags.cpp:68 log_flags.cpp:322 log_flags.cpp:450
+#: log_flags.cpp:69 log_flags.cpp:324 log_flags.cpp:457
 msgid "Unexpected text in cc_config.xml"
 msgstr "Váratlan szöveg a cc_config.xml fájlban"
 
-#: log_flags.cpp:112 log_flags.cpp:422 log_flags.cpp:467
+#: log_flags.cpp:113 log_flags.cpp:429 log_flags.cpp:474
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Fel nem ismert címke a cc_config.xml-ben"
 
-#: log_flags.cpp:441
+#: log_flags.cpp:448
 msgid "Missing start tag in cc_config.xml"
 msgstr "Hiányzó indító címke a cc_config.xml-ben"
 
-#: log_flags.cpp:475
+#: log_flags.cpp:482
 msgid "Missing end tag in cc_config.xml"
 msgstr "Hiányzó lezáró címke a cc_config.xml-ben"
 
@@ -91,13 +93,13 @@ msgstr ""
 "Érvénytelen vagy hiányzó fiókkulcs. A hiba kijavításához csatlakoztassa le, "
 "majd adja hozzá újra ezt a projektet."
 
-#: ../sched/handle_request.cpp:820
+#: ../sched/handle_request.cpp:822
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
 "Érvénytelen aláíró kulcs. A hiba kijavításához csatlakozzon le, majd adja "
 "hozzá újra ezt a projektet."
 
-#: ../sched/handle_request.cpp:830
+#: ../sched/handle_request.cpp:832
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
@@ -105,42 +107,41 @@ msgstr ""
 "A projekt megváltoztatta a biztonsági kulcsát. Kérjük, csatlakoztassa le, "
 "majd adja hozzá újra ezt a projektet."
 
-#: ../sched/handle_request.cpp:914
+#: ../sched/handle_request.cpp:916
 #, fuzzy
 msgid "This project doesn't support operating system"
 msgstr "Ez a projekt nem támogatja az alábbi operációs rendszer(eke)t"
 
-#: ../sched/handle_request.cpp:940
+#: ../sched/handle_request.cpp:942
 #, fuzzy
 msgid "This project doesn't support CPU type"
 msgstr "Ez a projekt nem támogatja az alábbi CPU típus(oka)t"
 
-#: ../sched/handle_request.cpp:964
+#: ../sched/handle_request.cpp:966
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr ""
-"Az Ön BOINC kliens szoftvere túl régi. Kérjük, telepítse a jelenlegi "
-"verziót."
+"Az Ön BOINC kliens szoftvere túl régi. Kérjük, telepítse a jelenlegi verziót."
 
-#: ../sched/handle_request.cpp:1215
+#: ../sched/handle_request.cpp:1217
 #, fuzzy
 msgid "This project doesn't support computers of type"
 msgstr "Ez a projekt nem támogatja az alábbí típusú számítógépe(ke)t"
 
-#: ../sched/sched_send.cpp:1262
+#: ../sched/sched_send.cpp:1267
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
 "A számítógép GPU-ját használó feladatok futtatásához telepítse a legfrissebb "
 "videókártya illesztőprogramot"
 
-#: ../sched/sched_send.cpp:1269
+#: ../sched/sched_send.cpp:1274
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
 "Ezen projekt GPU-alkalmazásainak használatához telepítse a legfrissebb "
 "videókártya illesztőprogramot"
 
-#: ../sched/sched_send.cpp:1293
+#: ../sched/sched_send.cpp:1298
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
@@ -148,45 +149,45 @@ msgstr ""
 "NVIDIA GPU-jának használatához a BOINC újabb verziója szükséges; kérjük, "
 "telepítse a jelenlegi verziót"
 
-#: ../sched/sched_send.cpp:1306
+#: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1311
+#: ../sched/sched_send.cpp:1316
 msgid "An NVIDIA GPU is required to run tasks for this project"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1317
+#: ../sched/sched_send.cpp:1322
 msgid "An ATI GPU is required to run tasks for this project"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1412
+#: ../sched/sched_send.cpp:1417
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
 msgstr ""
 
-#: ../sched/sched_send.cpp:1438
+#: ../sched/sched_send.cpp:1443
 msgid "Your computer type is not supported by this project"
 msgstr "Ez a projekt nem támogatja az ön számítógéptípusát"
 
-#: ../sched/sched_send.cpp:1444
+#: ../sched/sched_send.cpp:1449
 msgid "Newer BOINC version required; please install current version"
 msgstr "Újabb BOINC verzió szükséges, töltse le a legfrissebbet"
 
-#: ../sched/sched_send.cpp:1454
+#: ../sched/sched_send.cpp:1459
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1460
+#: ../sched/sched_send.cpp:1465
 msgid ""
 "Tasks for ATI GPU are available, but your preferences are set to not accept "
 "them"
 msgstr ""
 
-#: ../sched/sched_send.cpp:1466
+#: ../sched/sched_send.cpp:1471
 msgid ""
 "Tasks for CPU are available, but your preferences are set to not accept them"
 msgstr ""
@@ -195,16 +196,20 @@ msgstr ""
 msgid "Unknown app name in app_info.xml"
 msgstr ""
 
-#: ../sched/sched_version.cpp:234
+#: ../sched/sched_version.cpp:230
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr ""
 
-#: ../sched/sched_version.cpp:691
-msgid "is not available for your type of computer"
+#: ../sched/sched_version.cpp:709
+#, fuzzy
+msgid "is not available for"
 msgstr "nem érhető el az Ön számítógép típusához"
 
-#~ msgid "Message from project server:"
-#~ msgstr "Üzenet a projekt szervertől:"
+#~ msgid "Notice from BOINC"
+#~ msgstr "Üzenetek a BOINCtól"
+
+#~ msgid "Message from"
+#~ msgstr "Üzenet ettől:"
 
 #~ msgid "XML syntax error in"
 #~ msgstr "XML szintaktikai hiba itt:"

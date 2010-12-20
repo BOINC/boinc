@@ -9,10 +9,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-25 16:05-0000\n"
 "Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
-"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -602,7 +602,8 @@ msgstr ""
 
 #: ../inc/prefs.inc:121
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr "Executar trabalho apenas entre as horas %1 Sem restrições se igual a %2"
+msgstr ""
+"Executar trabalho apenas entre as horas %1 Sem restrições se igual a %2"
 
 #: ../inc/prefs.inc:129
 msgid ""
@@ -759,9 +760,9 @@ msgid ""
 "resources and the second will get 2/3. %2"
 msgstr ""
 "Partilha de recursos %1 Determina a proporção dos recursos do seu computador "
-"dedicados a este projecto. Exemplo: se participa em dois projectos BOINC "
-"com recursos partilhados de 100 e 200, o primeiro obterá 1/3 dos recursos e "
-"o segundo obterá 2/3. %2"
+"dedicados a este projecto. Exemplo: se participa em dois projectos BOINC com "
+"recursos partilhados de 100 e 200, o primeiro obterá 1/3 dos recursos e o "
+"segundo obterá 2/3. %2"
 
 #: ../inc/prefs.inc:300
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
@@ -1881,7 +1882,8 @@ msgstr ""
 
 #: ../inc/util.inc:708
 msgid "Unable to connect to database - please try again later"
-msgstr "Não foi possivel conectar à base de dados - por favor, tente mais tarde"
+msgstr ""
+"Não foi possivel conectar à base de dados - por favor, tente mais tarde"
 
 #: ../inc/util.inc:709
 msgid "Error:"
@@ -2025,8 +2027,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Para a substituir, carregue no botão \"Procurar em\" e seleccione um ficheiro "
-"JPEG ou PNG (%1 ou menos)."
+"Para a substituir, carregue no botão \"Procurar em\" e seleccione um "
+"ficheiro JPEG ou PNG (%1 ou menos)."
 
 #: ../user/create_profile.php:67
 msgid "To remove it from your profile, check this box:"
@@ -2113,7 +2115,8 @@ msgstr "Perfil salvo"
 #: ../user/create_profile.php:302
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr "Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
+msgstr ""
+"Parabéns! O seu perfil foi inserido com sucesso na nossa base de dados."
 
 #: ../user/create_profile.php:303
 msgid "%1View your profile%2"
@@ -2697,10 +2700,10 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
-"Se usa o nosso fórum na web, tem que seguir as %2instruções para fazer posts"
-"%3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo "
-"não-membros. Ao postar nos fóruns, está a garantir licença irrevogável para "
-"que qualquer pessoa possa ver e copiar os seus posts."
+"Se usa o nosso fórum na web, tem que seguir as %2instruções para fazer posts%"
+"3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo não-"
+"membros. Ao postar nos fóruns, está a garantir licença irrevogável para que "
+"qualquer pessoa possa ver e copiar os seus posts."
 
 #: ../user/info.php:46
 msgid "Is it safe to run %1?"
@@ -2722,8 +2725,8 @@ msgstr ""
 "riscos. Testamos as nossas aplicações com todos o cuidado. os nossos "
 "servidores estão por trás de uma firewall e configurados para alta "
 "segurança. Para garantir a integridade dos downloads dos programas, todos os "
-"executáveis estão assinados digitalmente num computador seguro não "
-"conectado à Internet."
+"executáveis estão assinados digitalmente num computador seguro não conectado "
+"à Internet."
 
 #: ../user/info.php:48
 msgid ""
@@ -2978,7 +2981,8 @@ msgstr "Confirmar apagar preferências"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr "Tem a certeza que quer apagar as suas %1preferências separadas para %2?"
+msgstr ""
+"Tem a certeza que quer apagar as suas %1preferências separadas para %2?"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
@@ -3306,8 +3310,7 @@ msgid ""
 "projects from several sites; see your %1home page%2."
 msgstr ""
 "Adicionalmente pode obter as suas estatísticas individuais resumidas através "
-"de todos os projectos BOINC de vários sites; veja a sua %1página principal%"
-"2."
+"de todos os projectos BOINC de vários sites; veja a sua %1página principal%2."
 
 #: ../user/team.php:25
 msgid "%1 participants may form %2teams%3"
@@ -3830,8 +3833,8 @@ msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
 msgstr ""
-"O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 "
-"ser-lhe-á dada a opção de se tornar fundador."
+"O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 ser-"
+"lhe-á dada a opção de se tornar fundador."
 
 #: ../user/team_founder_transfer_form.php:58
 msgid ""
@@ -3925,8 +3928,7 @@ msgstr "Pode ver os membros, estatísticas e informações das equipas."
 #: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
-"Mais de 100 equipas correspondem à sua procura. Os primeiros serão "
-"mostrados."
+"Mais de 100 equipas correspondem à sua procura. Os primeiros serão mostrados."
 
 #: ../user/team_lookup.php:102
 msgid ""
@@ -4025,8 +4027,8 @@ msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
-"Administradores de Equipa são encorajados a juntar-se e participar no grupo "
-"%1fundadores de equipas do boinc%2 no Google."
+"Administradores de Equipa são encorajados a juntar-se e participar no grupo %"
+"1fundadores de equipas do boinc%2 no Google."
 
 #: ../user/team_manage.php:73
 msgid ""

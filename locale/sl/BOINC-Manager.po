@@ -10,12 +10,12 @@ msgstr ""
 "PO-Revision-Date: 2010-08-13 06:21-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3);\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -79,13 +79,11 @@ msgstr ""
 msgid "Find login information"
 msgstr "Najdi prijavne informacije"
 
-#: clientgui/AccountInfoPage.cpp:435
-#: clientgui/AccountInfoPage.cpp:635
+#: clientgui/AccountInfoPage.cpp:435 clientgui/AccountInfoPage.cpp:635
 msgid "&Password:"
 msgstr "&Geslo:"
 
-#: clientgui/AccountInfoPage.cpp:442
-#: clientgui/AccountInfoPage.cpp:659
+#: clientgui/AccountInfoPage.cpp:442 clientgui/AccountInfoPage.cpp:659
 msgid "Choose a &password:"
 msgstr "Izberite &geslo:"
 
@@ -143,19 +141,24 @@ msgstr "Dodaj upravitelja računov"
 
 #: clientgui/AccountInfoPage.cpp:583
 #, c-format
-msgid "The minimum password length for this project is %d. Please enter a different password."
+msgid ""
+"The minimum password length for this project is %d. Please enter a different "
+"password."
 msgstr ""
 "Najmanjša dolžina gesla za ta projekt je %d. Prosim vnesite drugo geslo."
 
 #: clientgui/AccountInfoPage.cpp:589
 #, c-format
-msgid "The minimum password length for this account manager is %d. Please enter a different password."
+msgid ""
+"The minimum password length for this account manager is %d. Please enter a "
+"different password."
 msgstr ""
 "Najmanjša dolžina gesla za ta upravitelj računov je %d. Prosim vnesite drugo "
 "geslo."
 
 #: clientgui/AccountInfoPage.cpp:601
-msgid "The password and confirmation password do not match. Please type them again."
+msgid ""
+"The password and confirmation password do not match. Please type them again."
 msgstr "Geslo in potrditev gesla se ne ujemata. Prosim, vtipkajte jih znova."
 
 #: clientgui/AccountManagerInfoPage.cpp:248
@@ -211,8 +214,7 @@ msgstr "Zapri okno %s"
 msgid "&Close Window"
 msgstr "&Zapri okno"
 
-#: clientgui/AdvancedFrame.cpp:330
-#: clientgui/AdvancedFrame.cpp:337
+#: clientgui/AdvancedFrame.cpp:330 clientgui/AdvancedFrame.cpp:337
 #: clientgui/AdvancedFrame.cpp:344
 #, c-format
 msgid "Exit %s"
@@ -538,7 +540,6 @@ msgid "%s - Stop using %s"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1187
-#, c-format
 #, fuzzy, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -560,7 +561,9 @@ msgstr "%s - Izbira jezika"
 
 #: clientgui/AdvancedFrame.cpp:1380
 #, c-format
-msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
+msgid ""
+"The %s's default language has been changed, in order for this change to take "
+"affect you must restart the %s."
 msgstr ""
 "Privzeti jezik za %s je bil spremenjen, da to začne veljati morate ponovno "
 "zagnati %s."
@@ -585,7 +588,6 @@ msgid "%s"
 msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1846
-#, c-format
 #, fuzzy, c-format
 msgid "%s has successfully added %s"
 msgstr "%s se je uspešno pripel(-a) na %s"
@@ -668,7 +670,8 @@ msgstr "%s - Napaka pri povezavi"
 #: clientgui/BOINCBaseFrame.cpp:512
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user group."
+"Please contact your administrator to add you to the 'boinc_users' local user "
+"group."
 msgstr ""
 "Trenutno nimate dovoljenja upravljati odjemalca.\n"
 "Prosim, kontaktirajte skrbnika sistema, da vas doda v uporabniško skupino "
@@ -713,7 +716,8 @@ msgstr "%s - Zagon strežniškega procesa (daemon) ni uspel"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+"Please launch the Control Panel->Administative Tools->Services applet and "
+"start the BOINC service."
 msgstr ""
 "%s ni mogel zagnati odjemalca %s.\n"
 "Prosim, poženite Nadzorna plošča->Skrbniška orodja->Storitve in poženite "
@@ -737,7 +741,8 @@ msgstr "%s - Status povezave"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
+"%s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s trenutno ni povezan na odjemalca %s.\n"
@@ -835,7 +840,8 @@ msgstr ""
 #: clientgui/BOINCGUIApp.cpp:329
 #, c-format
 msgid ""
-"BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
+"BOINC ownership or permissions are not set properly; please reinstall "
+"BOINC.\n"
 "(Error code %d)"
 msgstr ""
 "Lastništvo BOINC ali pravice niso prav nastavljene; prosim, ponovno "
@@ -856,7 +862,8 @@ msgstr "BOINC Upravitelj"
 
 #: clientgui/BOINCGUIApp.cpp:526
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "BOINC Upravitelj je bil samodejno pognan s strani operacijskega sistema"
+msgstr ""
+"BOINC Upravitelj je bil samodejno pognan s strani operacijskega sistema"
 
 #: clientgui/BOINCGUIApp.cpp:528
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -1006,10 +1013,8 @@ msgstr ""
 "\n"
 "Kliknite Končaj, da zaprete."
 
-#: clientgui/CompletionErrorPage.cpp:225
-#: clientgui/CompletionPage.cpp:222
-#: clientgui/CompletionPage.cpp:242
-#: clientgui/CompletionPage.cpp:273
+#: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:222
+#: clientgui/CompletionPage.cpp:242 clientgui/CompletionPage.cpp:273
 msgid "Click Finish to close."
 msgstr "Kliknite Končaj, da zaprete."
 
@@ -1085,15 +1090,12 @@ msgstr ""
 "(C) 2003-2010 University of California, Berkeley.\n"
 "Vse pravice pridržane."
 
-#: clientgui/DlgAbout.cpp:183
-#: clientgui/DlgAbout.cpp:187
+#: clientgui/DlgAbout.cpp:183 clientgui/DlgAbout.cpp:187
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeleyeva odprta infrastruktura za mrežno računanje"
 
-#: clientgui/DlgAbout.cpp:199
-#: clientgui/DlgExitMessage.cpp:172
-#: clientgui/DlgGenericMessage.cpp:120
-#: clientgui/DlgOptions.cpp:383
+#: clientgui/DlgAbout.cpp:199 clientgui/DlgExitMessage.cpp:172
+#: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:383
 #: clientgui/DlgSelectComputer.cpp:162
 msgid "&OK"
 msgstr "&V redu"
@@ -1173,8 +1175,7 @@ msgstr "shrani vse vrednosti in zapri dialog"
 msgid "close the dialog without saving"
 msgstr "zapri ta dialog brez shranjevanja"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:108
-#: clientgui/DlgEventLog.cpp:300
+#: clientgui/DlgAdvPreferencesBase.cpp:108 clientgui/DlgEventLog.cpp:300
 msgid "Help"
 msgstr "Pomoč"
 
@@ -1191,7 +1192,8 @@ msgid "While computer is on batteries"
 msgstr "Medtem, ko računalnik deluje na baterije"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:138
-msgid "check this if you want this computer to do work while it runs on batteries"
+msgid ""
+"check this if you want this computer to do work while it runs on batteries"
 msgstr ""
 "obkljukajte to, če želite, da računalnik opravlja delo med tem ko deluje na "
 "baterije"
@@ -1201,7 +1203,8 @@ msgid "While computer is in use"
 msgstr "Medtem, ko je računalnik v uporabi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:147
-msgid "check this if you want this computer to do work even when you're using it"
+msgid ""
+"check this if you want this computer to do work even when you're using it"
 msgstr ""
 "obkljukajte to, če želite, da računalnik opravlja delo tudi, ko ga "
 "uporabljate vi"
@@ -1211,7 +1214,9 @@ msgid "Use GPU while computer is in use"
 msgstr "Uporabi grafični procesor medtem, ko je računalnik v uporabi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:156
-msgid "check this if you want your GPU to do work even when you're using the computer"
+msgid ""
+"check this if you want your GPU to do work even when you're using the "
+"computer"
 msgstr ""
 "obkljukajte to, če želite uporabiti vaš grafični procesor za delo tudi, ko "
 "računalnik uporabljate vi"
@@ -1221,8 +1226,10 @@ msgid "Only after computer has been idle for"
 msgstr "Samo, ko je računalnik bil nedejeven že"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:178
-msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr "opravljaj delo samo, kadar niste uporabljali računalnik že toliko minut"
+msgid ""
+"do work only after you haven't used the computer for this number of minutes"
+msgstr ""
+"opravljaj delo samo, kadar niste uporabljali računalnik že toliko minut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:183
 #: clientgui/DlgAdvPreferencesBase.cpp:332
@@ -1411,7 +1418,9 @@ msgid "Confirm before connecting to internet"
 msgstr "Zahtevaj potrditev pred povezavo na internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:455
-msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
+msgid ""
+"if checked, a confirmation dialog will be displayed before trying to connect "
+"to the Internet"
 msgstr ""
 "če je obkljukano, bo prikazan potrditveni dialog pred poskusom povezave na "
 "internet"
@@ -1441,8 +1450,7 @@ msgstr "začetna ura uporabe mreže"
 msgid "network usage stop hour"
 msgstr "končna ura uporabe mreže"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:572
-#: clientgui/DlgItemProperties.cpp:214
+#: clientgui/DlgAdvPreferencesBase.cpp:572 clientgui/DlgItemProperties.cpp:214
 msgid "Disk usage"
 msgstr "Poraba diska"
 
@@ -1527,8 +1535,7 @@ msgstr "Čas"
 msgid "Message"
 msgstr "Sporočilo"
 
-#: clientgui/DlgEventLog.cpp:258
-#: clientgui/DlgEventLog.cpp:322
+#: clientgui/DlgEventLog.cpp:258 clientgui/DlgEventLog.cpp:322
 msgid "Show only this project"
 msgstr "Prikaži samo ta projekt"
 
@@ -1536,8 +1543,7 @@ msgstr "Prikaži samo ta projekt"
 msgid "Copy All"
 msgstr "Kopiraj vse"
 
-#: clientgui/DlgEventLog.cpp:264
-#: clientgui/DlgEventLog.cpp:268
+#: clientgui/DlgEventLog.cpp:264 clientgui/DlgEventLog.cpp:268
 msgid "Copy all the messages to the clipboard."
 msgstr "Kopiraj vsa sporočila na odložišče."
 
@@ -1545,16 +1551,18 @@ msgstr "Kopiraj vsa sporočila na odložišče."
 msgid "Copy Selected"
 msgstr "Kopiraj izbrano"
 
-#: clientgui/DlgEventLog.cpp:276
-#: clientgui/DlgEventLog.cpp:284
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
+#: clientgui/DlgEventLog.cpp:276 clientgui/DlgEventLog.cpp:284
+msgid ""
+"Copy the selected messages to the clipboard. You can select multiple "
+"messages by holding down the shift or command key while clicking on messages."
 msgstr ""
 "Kopiraj označena sporočila na odložišče. Označite lahko več sporočil s tem, "
 "da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
 
-#: clientgui/DlgEventLog.cpp:278
-#: clientgui/DlgEventLog.cpp:286
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+#: clientgui/DlgEventLog.cpp:278 clientgui/DlgEventLog.cpp:286
+msgid ""
+"Copy the selected messages to the clipboard. You can select multiple "
+"messages by holding down the shift or control key while clicking on messages."
 msgstr ""
 "Kopiraj označena sporočila na odložišče. Označite lahko več sporočil s tem, "
 "da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
@@ -1563,8 +1571,7 @@ msgstr ""
 msgid "Close"
 msgstr "Zapri"
 
-#: clientgui/DlgEventLog.cpp:302
-#: clientgui/DlgEventLog.cpp:305
+#: clientgui/DlgEventLog.cpp:302 clientgui/DlgEventLog.cpp:305
 msgid "Get help with BOINC"
 msgstr "Dobi pomoč za BOINC"
 
@@ -1572,13 +1579,11 @@ msgstr "Dobi pomoč za BOINC"
 msgid "Show all messages"
 msgstr "Prikaži vsa sporočila"
 
-#: clientgui/DlgEventLog.cpp:317
-#: clientgui/DlgEventLog.cpp:319
+#: clientgui/DlgEventLog.cpp:317 clientgui/DlgEventLog.cpp:319
 msgid "Show messages for all projects"
 msgstr "Prikaži sporočila za vse projekte"
 
-#: clientgui/DlgEventLog.cpp:323
-#: clientgui/DlgEventLog.cpp:325
+#: clientgui/DlgEventLog.cpp:323 clientgui/DlgEventLog.cpp:325
 msgid "Show only the messages for the selected project"
 msgstr "Prikaži samo sporočila za izbrani projekt"
 
@@ -1629,10 +1634,8 @@ msgstr "Zaustavi delujoče znanstvene aplikacije ob izhodu iz Upravitelja"
 msgid "Remember this decision and do not show this dialog."
 msgstr "Zapomni si to odločitev in ne prikaži tega dialoga."
 
-#: clientgui/DlgExitMessage.cpp:177
-#: clientgui/DlgGenericMessage.cpp:125
-#: clientgui/DlgOptions.cpp:388
-#: clientgui/DlgSelectComputer.cpp:167
+#: clientgui/DlgExitMessage.cpp:177 clientgui/DlgGenericMessage.cpp:125
+#: clientgui/DlgOptions.cpp:388 clientgui/DlgSelectComputer.cpp:167
 msgid "&Cancel"
 msgstr "&Prekliči"
 
@@ -1648,8 +1651,7 @@ msgstr "&Zapri"
 msgid "Properties of project "
 msgstr "Lastnosti projekta"
 
-#: clientgui/DlgItemProperties.cpp:200
-#: clientgui/DlgOptions.cpp:205
+#: clientgui/DlgItemProperties.cpp:200 clientgui/DlgOptions.cpp:205
 msgid "General"
 msgstr "Splošno"
 
@@ -1689,22 +1691,16 @@ msgstr "ID računalnika"
 msgid "Non CPU intensive"
 msgstr "Ne procesorsko intenzivno"
 
-#: clientgui/DlgItemProperties.cpp:216
-#: clientgui/DlgItemProperties.cpp:217
-#: clientgui/DlgItemProperties.cpp:218
-#: clientgui/DlgItemProperties.cpp:219
-#: clientgui/DlgItemProperties.cpp:220
-#: clientgui/DlgItemProperties.cpp:221
+#: clientgui/DlgItemProperties.cpp:216 clientgui/DlgItemProperties.cpp:217
+#: clientgui/DlgItemProperties.cpp:218 clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220 clientgui/DlgItemProperties.cpp:221
 #: clientgui/DlgItemProperties.cpp:222
 msgid "yes"
 msgstr "da"
 
-#: clientgui/DlgItemProperties.cpp:216
-#: clientgui/DlgItemProperties.cpp:217
-#: clientgui/DlgItemProperties.cpp:218
-#: clientgui/DlgItemProperties.cpp:219
-#: clientgui/DlgItemProperties.cpp:220
-#: clientgui/DlgItemProperties.cpp:221
+#: clientgui/DlgItemProperties.cpp:216 clientgui/DlgItemProperties.cpp:217
+#: clientgui/DlgItemProperties.cpp:218 clientgui/DlgItemProperties.cpp:219
+#: clientgui/DlgItemProperties.cpp:220 clientgui/DlgItemProperties.cpp:221
 #: clientgui/DlgItemProperties.cpp:222
 msgid "no"
 msgstr "ne"
@@ -1749,8 +1745,7 @@ msgstr "Gostitelj"
 msgid "Scheduling"
 msgstr "Razvrščanje"
 
-#: clientgui/DlgItemProperties.cpp:242
-#: clientgui/DlgItemProperties.cpp:252
+#: clientgui/DlgItemProperties.cpp:242 clientgui/DlgItemProperties.cpp:252
 #: clientgui/DlgItemProperties.cpp:263
 msgid "Project preference"
 msgstr "Nastavitve projekta"
@@ -1860,13 +1855,11 @@ msgstr "Ocena preostalega časa"
 msgid "CPU time at last checkpoint"
 msgstr "Procesorski čas ob zadnji kontrolni točki"
 
-#: clientgui/DlgItemProperties.cpp:315
-#: clientgui/DlgItemProperties.cpp:330
+#: clientgui/DlgItemProperties.cpp:315 clientgui/DlgItemProperties.cpp:330
 msgid "CPU time"
 msgstr "Procesorski čas"
 
-#: clientgui/DlgItemProperties.cpp:317
-#: clientgui/DlgItemProperties.cpp:331
+#: clientgui/DlgItemProperties.cpp:317 clientgui/DlgItemProperties.cpp:331
 msgid "Elapsed time"
 msgstr "Pretečeni čas"
 
@@ -1967,33 +1960,27 @@ msgstr "Poveži se preko HTTP posredniškega strežnika (proxy)"
 msgid "HTTP Proxy Server Configuration"
 msgstr "Nastavitve HTTP posredniškega strežnika"
 
-#: clientgui/DlgOptions.cpp:267
-#: clientgui/DlgOptions.cpp:331
+#: clientgui/DlgOptions.cpp:267 clientgui/DlgOptions.cpp:331
 msgid "Address:"
 msgstr "Naslov:"
 
-#: clientgui/DlgOptions.cpp:275
-#: clientgui/DlgOptions.cpp:339
+#: clientgui/DlgOptions.cpp:275 clientgui/DlgOptions.cpp:339
 msgid "Port:"
 msgstr "Vrata:"
 
-#: clientgui/DlgOptions.cpp:283
-#: clientgui/DlgOptions.cpp:347
+#: clientgui/DlgOptions.cpp:283 clientgui/DlgOptions.cpp:347
 msgid "Don't use proxy for:"
 msgstr "Ne uporabljaj posrednika za:"
 
-#: clientgui/DlgOptions.cpp:290
-#: clientgui/DlgOptions.cpp:354
+#: clientgui/DlgOptions.cpp:290 clientgui/DlgOptions.cpp:354
 msgid "Leave these blank if not needed"
 msgstr "Pusti prazno, če ni potrebno"
 
-#: clientgui/DlgOptions.cpp:296
-#: clientgui/DlgOptions.cpp:360
+#: clientgui/DlgOptions.cpp:296 clientgui/DlgOptions.cpp:360
 msgid "User Name:"
 msgstr "Uporabniško ime:"
 
-#: clientgui/DlgOptions.cpp:304
-#: clientgui/DlgOptions.cpp:368
+#: clientgui/DlgOptions.cpp:304 clientgui/DlgOptions.cpp:368
 #: clientgui/DlgSelectComputer.cpp:151
 msgid "Password:"
 msgstr "Geslo:"
@@ -2030,8 +2017,7 @@ msgstr ""
 msgid "Host name:"
 msgstr "Ime gostitelja:"
 
-#: clientgui/Localization.cpp:31
-#: clientgui/Localization.cpp:69
+#: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
 msgid "Message boards"
 msgstr "Razpravljalnice"
 
@@ -2043,15 +2029,12 @@ msgstr "Dopisuj si z drugimi uporabniki na SETI@home razpravljalnicah."
 msgid "Ask questions and report problems"
 msgstr "Postavi vprašanja in prijavi probleme"
 
-#: clientgui/Localization.cpp:39
-#: clientgui/Localization.cpp:81
-#: clientgui/Localization.cpp:111
-#: clientgui/Localization.cpp:129
+#: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
+#: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
 msgid "Your account"
 msgstr "Vaš račun"
 
-#: clientgui/Localization.cpp:41
-#: clientgui/Localization.cpp:87
+#: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
 msgstr "Poglej informacije vašega računa in skupno točk"
@@ -2064,18 +2047,15 @@ msgstr "Vaše nastavitve"
 msgid "View and modify your SETI@home account profile and preferences"
 msgstr "Poglej in spremeni vaš SETI@home uporabniški profil in nastavitve"
 
-#: clientgui/Localization.cpp:47
-#: clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
 msgid "Your results"
 msgstr "Vaši rezultati"
 
-#: clientgui/Localization.cpp:49
-#: clientgui/Localization.cpp:91
+#: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr "Poglej zadnji teden (ali dlje) rezultatov računanja in dela"
 
-#: clientgui/Localization.cpp:51
-#: clientgui/Localization.cpp:93
+#: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
 msgid "Your computers"
 msgstr "Vaši računalniki"
 
@@ -2083,13 +2063,11 @@ msgstr "Vaši računalniki"
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "Poglej seznam vseh računalnikov, na katerih poganjate SETI@home"
 
-#: clientgui/Localization.cpp:55
-#: clientgui/Localization.cpp:97
+#: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
 msgid "Your team"
 msgstr "Vaša ekipa"
 
-#: clientgui/Localization.cpp:57
-#: clientgui/Localization.cpp:99
+#: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
 msgid "View information about your team"
 msgstr "Poglej informacije o vaši ekipi"
 
@@ -2110,7 +2088,8 @@ msgid "Read a detailed description of the Einstein@Home screensaver"
 msgstr "Preberi podrobno razlago Einstein@Home ohranjevalnika zaslona"
 
 #: clientgui/Localization.cpp:71
-msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgid ""
+"Correspond with admins and other users on the Einstein@Home message boards"
 msgstr ""
 "Dopisuj si z administratorji in drugimi uporabniki na Einstein@Home forumu"
 
@@ -2139,7 +2118,8 @@ msgid "Account summary"
 msgstr "Povzetek o računu"
 
 #: clientgui/Localization.cpp:95
-msgid "View a listing of all the computers on which you are running Einstein@Home"
+msgid ""
+"View a listing of all the computers on which you are running Einstein@Home"
 msgstr "Poglej seznam vseh računalnikov, na katerih poganjate Einstein@Home"
 
 #: clientgui/Localization.cpp:101
@@ -2147,8 +2127,11 @@ msgid "LIGO project"
 msgstr "Projekt LIGO"
 
 #: clientgui/Localization.cpp:103
-msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr "Domača stran Laser Interferometer Gravitational-wave Observatory (LIGO)"
+msgid ""
+"The home page of the Laser Interferometer Gravitational-wave Observatory "
+"(LIGO) project"
+msgstr ""
+"Domača stran Laser Interferometer Gravitational-wave Observatory (LIGO)"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2158,8 +2141,7 @@ msgstr "Projekt GEO-600"
 msgid "The home page of the GEO-600 project"
 msgstr "Domača stran projekta GEO-600"
 
-#: clientgui/Localization.cpp:115
-#: clientgui/Localization.cpp:133
+#: clientgui/Localization.cpp:115 clientgui/Localization.cpp:133
 msgid "Team"
 msgstr "Ekipa"
 
@@ -2304,13 +2286,11 @@ msgstr "Prejemanje ni uspelo"
 msgid "Downloading"
 msgstr "Prejemam"
 
-#: clientgui/MainDocument.cpp:2429
-#: clientgui/MainDocument.cpp:2487
+#: clientgui/MainDocument.cpp:2429 clientgui/MainDocument.cpp:2487
 msgid " (suspended - "
 msgstr "(na čakanju - "
 
-#: clientgui/MainDocument.cpp:2431
-#: clientgui/MainDocument.cpp:2489
+#: clientgui/MainDocument.cpp:2431 clientgui/MainDocument.cpp:2489
 msgid ")"
 msgstr ")"
 
@@ -2350,8 +2330,7 @@ msgstr " (ne-procesorsko-intenzitvno)"
 msgid "Waiting to run"
 msgstr "Čaka na izvajanje"
 
-#: clientgui/MainDocument.cpp:2466
-#: clientgui/MainDocument.cpp:2472
+#: clientgui/MainDocument.cpp:2466 clientgui/MainDocument.cpp:2472
 msgid "Ready to start"
 msgstr "Pripravljen začeti"
 
@@ -2464,8 +2443,7 @@ msgstr "%s; prejeto %s"
 msgid "%s; received from %s; on %s"
 msgstr "%s; prejeto od %s; %s"
 
-#: clientgui/NoticeListCtrl.cpp:271
-#: clientgui/ProjectListCtrl.cpp:283
+#: clientgui/NoticeListCtrl.cpp:271 clientgui/ProjectListCtrl.cpp:283
 msgid "Click"
 msgstr "Kliknite"
 
@@ -2493,7 +2471,9 @@ msgstr "&URL projekta:"
 
 #: clientgui/ProjectInfoPage.cpp:391
 #, fuzzy
-msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
+msgid ""
+"This project may not have work for your type of computer.  Do you want to "
+"add it anyway?"
 msgstr ""
 "Ta projekt morda nima dela za vaš tip računalnika. Ali ste prepričani, da "
 "želite nadaljevati?"
@@ -2616,8 +2596,7 @@ msgstr "Nastavitve posredniškega strežnika"
 msgid "HTTP proxy"
 msgstr "HTTP posrednik"
 
-#: clientgui/ProxyPage.cpp:337
-#: clientgui/ProxyPage.cpp:357
+#: clientgui/ProxyPage.cpp:337 clientgui/ProxyPage.cpp:357
 msgid "Server:"
 msgstr "Strežnik:"
 
@@ -2836,8 +2815,7 @@ msgstr "Opravljaj delo le med:"
 msgid "Connect to internet only between:"
 msgstr "Poveži se na internet samo med:"
 
-#: clientgui/sg_DlgPreferences.cpp:392
-#: clientgui/sg_DlgPreferences.cpp:409
+#: clientgui/sg_DlgPreferences.cpp:392 clientgui/sg_DlgPreferences.cpp:409
 msgid "Use no more than:"
 msgstr "Ne uporabi več kot:"
 
@@ -2857,14 +2835,10 @@ msgstr "Opravljati delo med delovanjem na baterije?"
 msgid "Do work after idle for:"
 msgstr "Opravljati delo, ko je neaktiven že:"
 
-#: clientgui/sg_DlgPreferences.cpp:677
-#: clientgui/sg_DlgPreferences.cpp:680
-#: clientgui/sg_DlgPreferences.cpp:748
-#: clientgui/sg_DlgPreferences.cpp:752
-#: clientgui/sg_DlgPreferences.cpp:764
-#: clientgui/sg_DlgPreferences.cpp:768
-#: clientgui/sg_DlgPreferences.cpp:926
-#: clientgui/sg_DlgPreferences.cpp:937
+#: clientgui/sg_DlgPreferences.cpp:677 clientgui/sg_DlgPreferences.cpp:680
+#: clientgui/sg_DlgPreferences.cpp:748 clientgui/sg_DlgPreferences.cpp:752
+#: clientgui/sg_DlgPreferences.cpp:764 clientgui/sg_DlgPreferences.cpp:768
+#: clientgui/sg_DlgPreferences.cpp:926 clientgui/sg_DlgPreferences.cpp:937
 msgid "Anytime"
 msgstr "Kdajkoli"
 
@@ -2962,8 +2936,7 @@ msgstr "Moji projekti:"
 msgid "%s. Work done by %s: %0.2f"
 msgstr "%s. Delo opravljeno s strani %s: %0.2f"
 
-#: clientgui/sg_StatImageLoader.cpp:154
-#: clientgui/sg_StatImageLoader.cpp:217
+#: clientgui/sg_StatImageLoader.cpp:154 clientgui/sg_StatImageLoader.cpp:217
 msgid "Remove Project"
 msgstr "Odstrani projekt"
 
@@ -2972,8 +2945,7 @@ msgstr "Odstrani projekt"
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "Ali ste prepričani, da želite odstraniti projekt '%s'?"
 
-#: clientgui/sg_ViewTabPage.cpp:140
-#: clientgui/sg_ViewTabPage.cpp:280
+#: clientgui/sg_ViewTabPage.cpp:140 clientgui/sg_ViewTabPage.cpp:280
 #, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
@@ -2996,8 +2968,7 @@ msgstr "Prikaži grafiko"
 msgid "Application: "
 msgstr "Aplikacija: "
 
-#: clientgui/sg_ViewTabPage.cpp:449
-#: clientgui/sg_ViewTabPage.cpp:453
+#: clientgui/sg_ViewTabPage.cpp:449 clientgui/sg_ViewTabPage.cpp:453
 msgid "Time Remaining: "
 msgstr "Preostali čas: "
 
@@ -3057,8 +3028,7 @@ msgstr "Za nadaljevanje, prosim, podajte ključ računa. "
 msgid "Invalid Account Key; please enter a valid Account Key"
 msgstr "Napačen ključ računa; prosim vnesite veljaven ključ računa."
 
-#: clientgui/ValidateAccountKey.cpp:82
-#: clientgui/ValidateEmailAddress.cpp:86
+#: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
 msgstr "Konflikt pri validaciji"
 
@@ -3086,17 +3056,13 @@ msgstr ""
 "Na primer:\n"
 "http://www.primer.si/"
 
-#: clientgui/ValidateURL.cpp:83
-#: clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91
-#: clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107
-#: clientgui/ValidateURL.cpp:110
+#: clientgui/ValidateURL.cpp:83 clientgui/ValidateURL.cpp:87
+#: clientgui/ValidateURL.cpp:91 clientgui/ValidateURL.cpp:103
+#: clientgui/ValidateURL.cpp:107 clientgui/ValidateURL.cpp:110
 msgid "Invalid URL"
 msgstr "Napačen URL"
 
-#: clientgui/ValidateURL.cpp:84
-#: clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:84 clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
 msgid ""
 "Please specify a valid URL.\n"
@@ -3107,8 +3073,7 @@ msgstr ""
 "Na primer:\n"
 "http://www.primer.si/"
 
-#: clientgui/ValidateURL.cpp:104
-#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:104 clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s' ne vsebuje veljavnega imena gostitelja."
@@ -3130,8 +3095,7 @@ msgstr "Kopiraj vsa sporočila"
 msgid "Copy selected messages"
 msgstr "Kopiraj izbrana sporočila"
 
-#: clientgui/ViewMessages.cpp:107
-#: clientgui/ViewMessages.cpp:503
+#: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
 msgstr "Prikaži samo sporočila za izbrani projekt."
 
@@ -3164,25 +3128,23 @@ msgid "Update"
 msgstr "Posodobi"
 
 #: clientgui/ViewProjects.cpp:174
-msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
+msgid ""
+"Report all completed tasks, get latest credit, get latest preferences, and "
+"possibly get more tasks."
 msgstr ""
 "Poročaj o vseh opravljenih opravilih, dobi najnovejše zasluge, dobi "
 "najnovejše nastavitve in morda dobi več opravil."
 
-#: clientgui/ViewProjects.cpp:180
-#: clientgui/ViewProjects.cpp:712
-#: clientgui/ViewWork.cpp:198
-#: clientgui/ViewWork.cpp:738
+#: clientgui/ViewProjects.cpp:180 clientgui/ViewProjects.cpp:712
+#: clientgui/ViewWork.cpp:198 clientgui/ViewWork.cpp:738
 msgid "Suspend"
 msgstr "Daj na čakanje"
 
-#: clientgui/ViewProjects.cpp:181
-#: clientgui/ViewProjects.cpp:712
+#: clientgui/ViewProjects.cpp:181 clientgui/ViewProjects.cpp:712
 msgid "Suspend tasks for this project."
 msgstr "Daj opravila tega projekta na čakanje."
 
-#: clientgui/ViewProjects.cpp:187
-#: clientgui/ViewProjects.cpp:731
+#: clientgui/ViewProjects.cpp:187 clientgui/ViewProjects.cpp:731
 msgid "No new tasks"
 msgstr "Brez novih opravil"
 
@@ -3195,7 +3157,9 @@ msgid "Reset project"
 msgstr "Resetiraj projekt"
 
 #: clientgui/ViewProjects.cpp:195
-msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
+msgid ""
+"Delete all files and tasks associated with this project, and get new tasks.  "
+"You can update the project first to report any completed tasks."
 msgstr ""
 "Briše vse datoteke in opravila povezana s tem projektom in dobi nova "
 "opravila.  Lahko najprej posodobite projekt, da poročate o morebitnih "
@@ -3206,13 +3170,14 @@ msgid "Remove"
 msgstr "Odstrani"
 
 #: clientgui/ViewProjects.cpp:202
-msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
+msgid ""
+"Remove this project.  Tasks in progress will be lost (use 'Update' first to "
+"report any completed tasks)."
 msgstr ""
 "Odstrani ta projekt.  Opravila, ki potekajo, bodo izgubljena (najprej "
 "uporabite 'Posodobi', da sporočite morebitna opravljena opravila)."
 
-#: clientgui/ViewProjects.cpp:208
-#: clientgui/ViewWork.cpp:212
+#: clientgui/ViewProjects.cpp:208 clientgui/ViewWork.cpp:212
 msgid "Properties"
 msgstr "Lastnosti"
 
@@ -3220,8 +3185,7 @@ msgstr "Lastnosti"
 msgid "Show project details."
 msgstr "Prikaži podrobnosti projekta."
 
-#: clientgui/ViewProjects.cpp:219
-#: clientgui/ViewStatistics.cpp:442
+#: clientgui/ViewProjects.cpp:219 clientgui/ViewStatistics.cpp:442
 msgid "Account"
 msgstr "Račun"
 
@@ -3233,8 +3197,7 @@ msgstr "Opravljeno delo"
 msgid "Avg. work done"
 msgstr "Povpr. opravljeno delo"
 
-#: clientgui/ViewProjects.cpp:224
-#: clientgui/ViewTransfers.cpp:187
+#: clientgui/ViewProjects.cpp:224 clientgui/ViewTransfers.cpp:187
 #: clientgui/ViewWork.cpp:224
 msgid "Status"
 msgstr "Status"
@@ -3280,13 +3243,11 @@ msgstr "Resetiraj projekt"
 msgid "Removing project..."
 msgstr "Odstranjujem projekt..."
 
-#: clientgui/ViewProjects.cpp:542
-#: clientgui/ViewWork.cpp:551
+#: clientgui/ViewProjects.cpp:542 clientgui/ViewWork.cpp:551
 msgid "Launching browser..."
 msgstr "Zaganjam brskalnik..."
 
-#: clientgui/ViewProjects.cpp:708
-#: clientgui/ViewWork.cpp:732
+#: clientgui/ViewProjects.cpp:708 clientgui/ViewWork.cpp:732
 msgid "Resume"
 msgstr "Nadaljuj"
 
@@ -3444,13 +3405,11 @@ msgstr "&Naslednji projekt >"
 msgid "Show chart for next project"
 msgstr "Prikaži graf za naslednji projekt"
 
-#: clientgui/ViewStatistics.cpp:2013
-#: clientgui/ViewStatistics.cpp:2410
+#: clientgui/ViewStatistics.cpp:2013 clientgui/ViewStatistics.cpp:2410
 msgid "Hide project list"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:2014
-#: clientgui/ViewStatistics.cpp:2410
+#: clientgui/ViewStatistics.cpp:2014 clientgui/ViewStatistics.cpp:2410
 msgid "Use entire area for graphs"
 msgstr ""
 
@@ -3496,16 +3455,11 @@ msgstr "Prikaži en graf z vsemi projekti"
 msgid "Statistics"
 msgstr "Statistika"
 
-#: clientgui/ViewStatistics.cpp:2097
-#: clientgui/ViewStatistics.cpp:2118
-#: clientgui/ViewStatistics.cpp:2139
-#: clientgui/ViewStatistics.cpp:2161
-#: clientgui/ViewStatistics.cpp:2182
-#: clientgui/ViewStatistics.cpp:2203
-#: clientgui/ViewStatistics.cpp:2224
-#: clientgui/ViewStatistics.cpp:2245
-#: clientgui/ViewStatistics.cpp:2266
-#: clientgui/ViewStatistics.cpp:2290
+#: clientgui/ViewStatistics.cpp:2097 clientgui/ViewStatistics.cpp:2118
+#: clientgui/ViewStatistics.cpp:2139 clientgui/ViewStatistics.cpp:2161
+#: clientgui/ViewStatistics.cpp:2182 clientgui/ViewStatistics.cpp:2203
+#: clientgui/ViewStatistics.cpp:2224 clientgui/ViewStatistics.cpp:2245
+#: clientgui/ViewStatistics.cpp:2266 clientgui/ViewStatistics.cpp:2290
 msgid "Updating charts..."
 msgstr "Posodobljam grafe..."
 
@@ -3530,7 +3484,9 @@ msgid "Abort Transfer"
 msgstr "Opusti prenos"
 
 #: clientgui/ViewTransfers.cpp:171
-msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgid ""
+"Click 'Abort transfer' to delete the file from the transfer queue. This will "
+"prevent you from being granted credit for this result."
 msgstr ""
 "Kliknite 'Opusti prenos', da izbrišete datoteko iz čakalne vrste prenosov. "
 "To vam bo prepričilo, da bi bili nagrajeni z zaslugami za ta rezultat."
@@ -3539,8 +3495,7 @@ msgstr ""
 msgid "File"
 msgstr "Datoteka"
 
-#: clientgui/ViewTransfers.cpp:183
-#: clientgui/ViewWork.cpp:223
+#: clientgui/ViewTransfers.cpp:183 clientgui/ViewWork.cpp:223
 msgid "Progress"
 msgstr "Napredek"
 
@@ -3623,13 +3578,11 @@ msgstr "Čakajoče prejemanje"
 msgid " (project backoff: "
 msgstr " (projekt je odstopil: "
 
-#: clientgui/ViewWork.cpp:184
-#: clientgui/ViewWork.cpp:714
+#: clientgui/ViewWork.cpp:184 clientgui/ViewWork.cpp:714
 msgid "Show active tasks"
 msgstr "Prikaži aktivna opravila"
 
-#: clientgui/ViewWork.cpp:185
-#: clientgui/ViewWork.cpp:715
+#: clientgui/ViewWork.cpp:185 clientgui/ViewWork.cpp:715
 msgid "Show only active tasks."
 msgstr "Prikaži samo aktivna opravila"
 
@@ -3760,7 +3713,8 @@ msgstr ""
 #, fuzzy
 msgid ""
 "You have chosen to add a new BOINC project.  Adding a new\n"
-"project means that you will be connecting your computer to a new organization.\n"
+"project means that you will be connecting your computer to a new "
+"organization.\n"
 "If this is what you wanted to do, please click on\n"
 "the 'Next' button below.\n"
 "\n"
@@ -3779,7 +3733,8 @@ msgstr ""
 "Nekateri projekti kot naprimer World Community Grid poganjanjo več "
 "raziskovalnih aplikacij.\n"
 "Če želite spremeniti katere raziskovalne aplikacije so\n"
-"poslane na vaš računalnik v izvajanje, morate obiskat spletno stran projekta\n"
+"poslane na vaš računalnik v izvajanje, morate obiskat spletno stran "
+"projekta\n"
 "in tam spremeniti vaše nastavitve.\n"
 "\n"
 "Da spremenite katere raziskovalne aplikacije so poslane vam iz\n"
@@ -3801,8 +3756,7 @@ msgstr "Res želite preklicati?"
 msgid "Question"
 msgstr "Vprašanje"
 
-#: clientgui/wizardex.cpp:377
-#: clientgui/wizardex.cpp:553
+#: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
 msgid "&Next >"
 msgstr "&Naprej >"
 
@@ -3839,7 +3793,9 @@ msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
 #: clientgui/mac/MacAccessiblity.cpp:257
-msgid "for accessibility support, please select advanced from the view menu or type command shift a"
+msgid ""
+"for accessibility support, please select advanced from the view menu or type "
+"command shift a"
 msgstr ""
 "za podporo pomožnim tehnologijam, prosim, izberite napredno pod menujem "
 "pogled ali pritisnite command shift a"
@@ -3890,8 +3846,7 @@ msgstr "; stolpec %d od %d; "
 msgid "list is empty"
 msgstr "seznam je prazen"
 
-#: clientgui/mac/MacAccessiblity.cpp:858
-#: clientgui/mac/MacAccessiblity.cpp:870
+#: clientgui/mac/MacAccessiblity.cpp:858 clientgui/mac/MacAccessiblity.cpp:870
 #, c-format
 msgid "; row %d; "
 msgstr "; vrstica %d; "

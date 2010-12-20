@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-26 21:37+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -328,7 +328,6 @@ msgid "Last time contacted server"
 msgstr "letztmaliger Kontakt mit Server"
 
 #: ../inc/host.inc:181
-#, php-format
 #, fuzzy, php-format
 msgid "% of time BOINC is running"
 msgstr "% der Zeit in der der BOINC-Client gestartet ist"
@@ -567,7 +566,8 @@ msgstr "ungelesen"
 
 #: ../inc/pm.inc:190
 msgid "For email notification, %1edit community prefs%2"
-msgstr "E-Mail Benachrichtigungen in den %1Communityeinstellungen%2 einrichten."
+msgstr ""
+"E-Mail Benachrichtigungen in den %1Communityeinstellungen%2 einrichten."
 
 # ########################################
 # Private messages
@@ -580,8 +580,7 @@ msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
-"Ausführung anhalten bei Batteriebetrieb? %1(gilt nur für tragbare Computer)%"
-"2"
+"Ausführung anhalten bei Batteriebetrieb? %1(gilt nur für tragbare Computer)%2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
@@ -674,8 +673,8 @@ msgstr "GB"
 #: ../inc/prefs.inc:179
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
 msgstr ""
-"Festplatte: mindestens frei zulassen %1Werte kleiner als %2 werden ignoriert"
-"%3"
+"Festplatte: mindestens frei zulassen %1Werte kleiner als %2 werden ignoriert%"
+"3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
@@ -930,8 +929,8 @@ msgid ""
 "             On computers participating in multiple projects, the most "
 "recently modified preferences will be used."
 msgstr ""
-"Diese Einstellungen gelten für alle BOINC-Projekte an denen du "
-"teilnimmst.<br>\n"
+"Diese Einstellungen gelten für alle BOINC-Projekte an denen du teilnimmst."
+"<br>\n"
 "Auf Computern mit mehreren Projekten werden die aktuellsten Einstellungen "
 "verwendet."
 
@@ -2196,8 +2195,7 @@ msgid ""
 "If this is not enough you should contact the author."
 msgstr ""
 "Wir stellen keine Anleitungen zur Installation der Anwendungen bereit.\n"
-"Weitere Informationen sind beim Urheber/Herausgeber der Anwendung "
-"erhältlich."
+"Weitere Informationen sind beim Urheber/Herausgeber der Anwendung erhältlich."
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
@@ -2399,8 +2397,7 @@ msgstr "Abonnieren"
 #: ../user/forum_thread.php:155
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
-"Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben "
-"wurden."
+"Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben wurden."
 
 #: ../user/forum_thread.php:162
 msgid "Unhide"
@@ -2748,8 +2745,8 @@ msgid ""
 msgstr ""
 "Über die %1 Webseite versendete Private Nachrichten können nur vom Sender "
 "und Empfänger gelesen werden.  %1 unternimmt keine Überprüfung des Inhalts "
-"von privaten Nachrichten.  Wenn Sie ungewollt private Nachrichten von einem "
-"%1 Benutzer erhalten, können Sie diesen zu Ihrem %2Filter hinzufügen%3.  "
+"von privaten Nachrichten.  Wenn Sie ungewollt private Nachrichten von einem %"
+"1 Benutzer erhalten, können Sie diesen zu Ihrem %2Filter hinzufügen%3.  "
 "Damit sehen Sie keine öffentlichen und privaten Nachrichten dieses Benutzers "
 "mehr."
 
@@ -2795,8 +2792,8 @@ msgid ""
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
 "Die Anwendungen von %1 können auf manchen Computern zu Überhitzung führen. "
-"Wenn dies passiert, sollten Sie aufhören, mit dem betreffenden Computer für "
-"%1 zu arbeiten oder ein %2Hilfprogramm%3 einsetzen, das die Prozessornutzung "
+"Wenn dies passiert, sollten Sie aufhören, mit dem betreffenden Computer für %"
+"1 zu arbeiten oder ein %2Hilfprogramm%3 einsetzen, das die Prozessornutzung "
 "beschränkt."
 
 #: ../user/info.php:49
@@ -3087,8 +3084,8 @@ msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
 msgstr ""
-"Falls nicht schon vorhanden, sollten Sie Ihr %1eigenes Benutzerprofil "
-"anlegen%2 und den anderen Benutzern zeigen!"
+"Falls nicht schon vorhanden, sollten Sie Ihr %1eigenes Benutzerprofil anlegen"
+"%2 und den anderen Benutzern zeigen!"
 
 #: ../user/profile_menu.php:43
 msgid "User of the Day"
@@ -3839,8 +3836,8 @@ msgid ""
 "                       If the founder does not respond within 60 days you "
 "will be allowed to become the founder."
 msgstr ""
-"Der aktuelle Gründer wurde von der Anfrage per E-Mail und PN "
-"benachrichtigt.<br /><br />\n"
+"Der aktuelle Gründer wurde von der Anfrage per E-Mail und PN benachrichtigt."
+"<br /><br />\n"
 "Wenn der Gründer nicht innerhalb von 60 Tagen reagiert wird der Wechsel "
 "möglich sein."
 
@@ -3928,8 +3925,8 @@ msgid ""
 "                       Are you sure you want to request foundership?"
 msgstr ""
 "Wenn der Gründer des Teams nicht mehr Aktiv ist, kann der Gründerstatus von "
-"jedem Teammitglied übernommen werden. Der aktuelle Gründer bekommt eine "
-"E-Mail mit den Informationen und kann der Übertragung zustimmen oder diese "
+"jedem Teammitglied übernommen werden. Der aktuelle Gründer bekommt eine E-"
+"Mail mit den Informationen und kann der Übertragung zustimmen oder diese "
 "ablehnen. Sollte der Gründer nicht innerhalb von 60 Tagen antworten, besteht "
 "dann die Möglichkeit den Gründerstatus zu übernehmen.<br /><br />\n"
 "Sicher das die Übernahme des Gründerstatus eingeleitet werden soll?"
@@ -3966,8 +3963,7 @@ msgstr "Du bist bereits Mitglied im Team %1."
 #: ../user/team_join.php:40 ../user/team_join_action.php:41
 msgid "Couldn't join team - please try again later."
 msgstr ""
-"Dem Team konnte nicht beigetreten werden, bitte später noch einmal "
-"probieren."
+"Dem Team konnte nicht beigetreten werden, bitte später noch einmal probieren."
 
 #: ../user/team_join_action.php:38
 msgid "Joined %1"
@@ -4007,7 +4003,8 @@ msgstr "Suchergebnisse für '%1'"
 
 #: ../user/team_lookup.php:86
 msgid "You may view these teams' members, statistics, and information."
-msgstr "Die Mitglieder, Statistiken und Informationen zu diesem Team anschauen."
+msgstr ""
+"Die Mitglieder, Statistiken und Informationen zu diesem Team anschauen."
 
 #: ../user/team_lookup.php:96
 msgid "More than 100 teams match your search. The first 100 are shown."
@@ -4034,8 +4031,7 @@ msgstr "Teaminformationen bearbeiten"
 #: ../user/team_manage.php:28
 msgid "Change team name, URL, description, type, or country"
 msgstr ""
-"Den Namen des Teams, die URL, die Beschreibung, den Typ oder das Land "
-"ändern."
+"Den Namen des Teams, die URL, die Beschreibung, den Typ oder das Land ändern."
 
 #: ../user/team_manage.php:30
 msgid "Member list:"
@@ -4172,8 +4168,8 @@ msgstr ""
 "<ul>\n"
 "<li>Nach dem verlassen, kann man einem anderen Team oder diesem Team wieder "
 "beitreten.</li>\n"
-"<li>Das Verlassen eines Teams beeinflußt nicht die Anzahl der eigenen "
-"Punkte.</li>\n"
+"<li>Das Verlassen eines Teams beeinflußt nicht die Anzahl der eigenen Punkte."
+"</li>\n"
 "</ul>"
 
 #: ../user/team_quit_form.php:40
@@ -4461,9 +4457,9 @@ msgid ""
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
 "Um den schwachen Kontoschlüssel auf einem Computer zu verwenden, finden oder "
-"erstellen Sie die 'Kontodatei' für dieses Projekt. Der Dateiname ist in "
-"etwa <strong>account_PROJEKT_URL.xml</strong>. Die Kontodatei für %1 ist "
-"<strong>%2</strong>"
+"erstellen Sie die 'Kontodatei' für dieses Projekt. Der Dateiname ist in etwa "
+"<strong>account_PROJEKT_URL.xml</strong>. Die Kontodatei für %1 ist <strong>%"
+"2</strong>"
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"

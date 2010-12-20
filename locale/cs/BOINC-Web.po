@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-11-27 17:15+0100\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: \n"
-"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Czech\n"
@@ -26,12 +26,22 @@ msgid "The current release is known to work with these Linux versions:"
 msgstr "Aktuální verze by měla fungovat na těchto verzích Linuxu:"
 
 #: versions.inc:14
-msgid "For other Linux versions, check if a BOINC package is offered by your Linux distribution."
-msgstr "U jiných linuxových verzí si prosím zkontrolujte, zda je aplikace BOINC nabízena vaší linuxovou distribucí."
+msgid ""
+"For other Linux versions, check if a BOINC package is offered by your Linux "
+"distribution."
+msgstr ""
+"U jiných linuxových verzí si prosím zkontrolujte, zda je aplikace BOINC "
+"nabízena vaší linuxovou distribucí."
 
 #: versions.inc:25
-msgid "Alternatively, download the %1BOINC client for older Linux versions%2. This doesn't have a graphical interface, but it should work on all Linux systems, both x86 and x64."
-msgstr "Jinou možností je stažení %1BOINC klienta pro starší verze Linuxu%2. Tato verze nemá grafické rozhraní, ale měla by fungovat na všech linuxových systémech, x86 i x64."
+msgid ""
+"Alternatively, download the %1BOINC client for older Linux versions%2. This "
+"doesn't have a graphical interface, but it should work on all Linux systems, "
+"both x86 and x64."
+msgstr ""
+"Jinou možností je stažení %1BOINC klienta pro starší verze Linuxu%2. Tato "
+"verze nemá grafické rozhraní, ale měla by fungovat na všech linuxových "
+"systémech, x86 i x64."
 
 #: docutil.php:21
 msgid "Search"
@@ -59,17 +69,34 @@ msgid "%s for %s (%s MB)"
 msgstr "%s pro %s (%s MB)"
 
 #: download.php:89
-msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
-msgstr "<p>BOINC je program, který Vám umožňuje darovat volný výpočetní výkon vašeho počítače pro účely vědeckých projektů jako je SETI@home, Climateprediction.net, Rosetta@home, World Community Grid a mnohé další.</p><p>Po nainstalování programu BOINC na vašem počítači se můžete připojit do libovolného množství projektů.</p>"
+msgid ""
+"BOINC is a program that lets you donate your idle computer time to science "
+"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
+"Community Grid, and many others. <p> After installing BOINC on your "
+"computer, you can connect it to as many of these projects as you like."
+msgstr ""
+"<p>BOINC je program, který Vám umožňuje darovat volný výpočetní výkon vašeho "
+"počítače pro účely vědeckých projektů jako je SETI@home, Climateprediction."
+"net, Rosetta@home, World Community Grid a mnohé další.</p><p>Po "
+"nainstalování programu BOINC na vašem počítači se můžete připojit do "
+"libovolného množství projektů.</p>"
 
 #: download.php:91
-msgid "You may run this software on a computer only if you own the computer or have the permission of its owner."
-msgstr "Tento software můžete používat pouze na počítači jehož jste vlastníkem nebo máte-li svolení jeho majitele."
+msgid ""
+"You may run this software on a computer only if you own the computer or have "
+"the permission of its owner."
+msgstr ""
+"Tento software můžete používat pouze na počítači jehož jste vlastníkem nebo "
+"máte-li svolení jeho majitele."
 
 #: download.php:116
 #, php-format
-msgid "Note: if your computer is equipped with an Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"
-msgstr "Poznámka: Pokud je váš počítač vybaven novější grafickou kartou (GPU), je možné, že jí budete moci %svyužít pro rychlejší výpočty%s."
+msgid ""
+"Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
+"you may be able to %suse it to compute faster%s"
+msgstr ""
+"Poznámka: Pokud je váš počítač vybaven novější grafickou kartou (GPU), je "
+"možné, že jí budete moci %svyužít pro rychlejší výpočty%s."
 
 #: download.php:122
 msgid "System requirements"
@@ -79,8 +106,7 @@ msgstr "Systémové požadavky"
 msgid "Release notes"
 msgstr "Poznámky k vydání"
 
-#: download.php:124
-#: index.php:82
+#: download.php:124 index.php:82
 msgid "Help"
 msgstr "Nápověda"
 
@@ -98,21 +124,49 @@ msgstr "BOINC: počítejte pro vědu"
 
 #: help.php:12
 #, php-format
-msgid "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."
-msgstr "BOINC online pomoc vám umoňuje hovořit se zkušenými uživateli systému BOINC, kteří vám mohou: %s odpovědět otázky o BOINC dobrovolnickém počítání %s provést vás procesem instalace a nastavení programu BOINC %s vyřešit problémy, na které můžete narazit."
+msgid ""
+"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
+"can: %s answer questions about BOINC and volunteer computing; %s walk you "
+"through the process of installing and using BOINC; %s troubleshoot any "
+"problems you might have."
+msgstr ""
+"BOINC online pomoc vám umoňuje hovořit se zkušenými uživateli systému BOINC, "
+"kteří vám mohou: %s odpovědět otázky o BOINC dobrovolnickém počítání %s "
+"provést vás procesem instalace a nastavení programu BOINC %s vyřešit "
+"problémy, na které můžete narazit."
 
 #: help.php:21
 #, php-format
-msgid "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."
-msgstr "BOINC online pomoc je založena na programu %sSkype%s pro telefonování přes internet. Skype je zdarma (program i telefonování). Pokud Skype dosud nemáte, %sstáhněte si jej zde%s a potom se vraťte na tuto stránku."
+msgid ""
+"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
+"Skype is free (both the software and the calls).  If you don't already have "
+"Skype, please %sdownload and install it now%s.  When you're finished, return "
+"to this page."
+msgstr ""
+"BOINC online pomoc je založena na programu %sSkype%s pro telefonování přes "
+"internet. Skype je zdarma (program i telefonování). Pokud Skype dosud "
+"nemáte, %sstáhněte si jej zde%s a potom se vraťte na tuto stránku."
 
 #: help.php:28
-msgid "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
-msgstr "Nejlepší způsob, jak získat pomoc, je pomocí hlasové komunikace, pro kterou budete potřebovat buď vestavěný mikrofon a sluchátka, nebo přenosný headset pro váš počítač. Pro komunikaci s dobrovolnými pomocníky lze též použít textovového rozhovoru přes Skype, nebo klasický email (pokud nepoužíváte Skype)."
+msgid ""
+"The best way to get help is by voice, for which you need either built-in "
+"microphone and speakers or an external headset for your computer.  You can "
+"also use Skype's text-based chat system or regular email (if you don't have "
+"Skype) to communicate with Help Volunteers."
+msgstr ""
+"Nejlepší způsob, jak získat pomoc, je pomocí hlasové komunikace, pro kterou "
+"budete potřebovat buď vestavěný mikrofon a sluchátka, nebo přenosný headset "
+"pro váš počítač. Pro komunikaci s dobrovolnými pomocníky lze též použít "
+"textovového rozhovoru přes Skype, nebo klasický email (pokud nepoužíváte "
+"Skype)."
 
 #: help.php:31
-msgid "Volunteers speaking several languages are available. Please select a language:"
-msgstr "Jsou dostupní dobrovolní pomocníci mluvící mnoha jazyky. Vyberte si prosím Váš jazyk:"
+msgid ""
+"Volunteers speaking several languages are available. Please select a "
+"language:"
+msgstr ""
+"Jsou dostupní dobrovolní pomocníci mluvící mnoha jazyky. Vyberte si prosím "
+"Váš jazyk:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
@@ -120,17 +174,30 @@ msgstr "Staňte se dobrovolným pomocníkem"
 
 #: help.php:50
 #, php-format
-msgid "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s.  It's a great way to help the cause of scientific research and volunteer computing - and it's fun!"
-msgstr "Pokud jste zkušeným uživatelem programu BOINC, byly bychom rádi, pokud byste se %sstal dobrovolným pomocníkem%s. Je to skvělý způsob, jak pomoci vědeckému výzkumu a dobrovolnickému počítání - a je to také zábava!"
+msgid ""
+"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+"Volunteer%s.  It's a great way to help the cause of scientific research and "
+"volunteer computing - and it's fun!"
+msgstr ""
+"Pokud jste zkušeným uživatelem programu BOINC, byly bychom rádi, pokud byste "
+"se %sstal dobrovolným pomocníkem%s. Je to skvělý způsob, jak pomoci "
+"vědeckému výzkumu a dobrovolnickému počítání - a je to také zábava!"
 
 #: help.php:56
 #, php-format
-msgid "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr "Pokud jste již dobrovolným pomocníkem: k úpravě svého nastavení %sklikněte zde%s."
+msgid ""
+"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgstr ""
+"Pokud jste již dobrovolným pomocníkem: k úpravě svého nastavení %sklikněte "
+"zde%s."
 
 #: help_funcs.php:107
-msgid "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC or the University of California."
-msgstr "BOINC pomocníci jsou neplacení dobrovolníci, jejichž činnost není zastřešována Kalifornskou univerzitou v Berkeley."
+msgid ""
+"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
+"or the University of California."
+msgstr ""
+"BOINC pomocníci jsou neplacení dobrovolníci, jejichž činnost není "
+"zastřešována Kalifornskou univerzitou v Berkeley."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
@@ -180,21 +247,32 @@ msgstr "Staňte se dobrovolníkem"
 msgid "Download"
 msgstr "Ke stažení"
 
-#: index.php:83
-#: index.php:118
-#: index.php:169
+#: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
 msgstr "Dokumentace"
 
 #: index.php:89
 #, php-format
-msgid " Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
-msgstr "Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) k hledání léků proti nemocem, studování globální oteplování, k objevení pulsarů nebo k mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte%s vaší emailovou adresu a heslo k projektu."
+msgid ""
+" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+"diseases, study global warming, discover pulsars, and do many other types of "
+"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
+"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr ""
+"Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) k hledání léků "
+"proti nemocem, studování globální oteplování, k objevení pulsarů nebo k "
+"mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte si%"
+"s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte%s vaší "
+"emailovou adresu a heslo k projektu."
 
 #: index.php:100
 #, php-format
-msgid "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
-msgstr "Případně, pokud používáte více projektů současně, vyzkoušejte některého ze %ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
+msgid ""
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
+msgstr ""
+"Případně, pokud používáte více projektů současně, vyzkoušejte některého ze %"
+"ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
 
 #: index.php:116
 msgid "Compute with BOINC"
@@ -205,12 +283,20 @@ msgid "Software updates"
 msgstr "Aktualizace softwaru"
 
 #: index.php:126
-msgid "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving you the computing power of thousands of CPUs."
-msgstr "%1Vědci%2: využijte BOINC k vytvoření %3dobrovolnického výpočetního projektu%4, který vám umožní využít výpočetní sílu tísíce procesorů."
+msgid ""
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
+"you the computing power of thousands of CPUs."
+msgstr ""
+"%1Vědci%2: využijte BOINC k vytvoření %3dobrovolnického výpočetního projektu%"
+"4, který vám umožní využít výpočetní sílu tísíce procesorů."
 
 #: index.php:130
-msgid "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing Center%4."
-msgstr "%1Univerzity%2: využijte BOINC k vytvoření %3virtuálního univerzitního superpočítače%4."
+msgid ""
+"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
+"Center%4."
+msgstr ""
+"%1Univerzity%2: využijte BOINC k vytvoření %3virtuálního univerzitního "
+"superpočítače%4."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
@@ -286,8 +372,10 @@ msgstr "Dle výchozího nastavení prohlížeče"
 
 #: index.php:258
 #, php-format
-msgid "Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr "Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s."
+msgid ""
+"Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgstr ""
+"Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s."
 
 #: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"

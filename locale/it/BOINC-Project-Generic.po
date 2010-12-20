@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-02-24 12:40-0700\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
-"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
@@ -332,7 +332,6 @@ msgid "Last time contacted server"
 msgstr "Ultima volta in cui è stato contattato il server"
 
 #: ../inc/host.inc:181
-#, php-format
 #, fuzzy, php-format
 msgid "% of time BOINC is running"
 msgstr "% di tempo che il client BOINC è attivo"
@@ -594,8 +593,8 @@ msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
-"Sospendere l'elaborazione mentre il computer funziona a batterie? %"
-"1(riguarda solo i computer portatili)%2"
+"Sospendere l'elaborazione mentre il computer funziona a batterie? %1"
+"(riguarda solo i computer portatili)%2"
 
 #: ../inc/prefs.inc:84
 msgid "Suspend work while computer is in use?"
@@ -623,9 +622,9 @@ msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
-"Sospende l'elaborazione se non c'è attività del mouse/tastiera negli ultimi "
-"%1(Necessario per entrare in modalità risparmio energetico in certi "
-"computer)%2"
+"Sospende l'elaborazione se non c'è attività del mouse/tastiera negli ultimi %"
+"1(Necessario per entrare in modalità risparmio energetico in certi computer)%"
+"2"
 
 #: ../inc/prefs.inc:113
 #, fuzzy
@@ -680,7 +679,6 @@ msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr ""
 
 #: ../inc/prefs.inc:166
-#, php-format
 #, fuzzy, php-format
 msgid "% of CPU time"
 msgstr "Tempo CPU"
@@ -700,7 +698,6 @@ msgstr "(Valori più piccoli di %s sono ignorati)"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
-#, php-format
 #, fuzzy, php-format
 msgid "% of total"
 msgstr "% di spazio totale su disco"
@@ -822,8 +819,8 @@ msgstr "Usa la CPU %1(Si applica dalla versione 6.10+ dei client)%2"
 #, fuzzy
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr ""
-"Usa la GPU NVIDIA se presente %1(Si applica dalla versione 6.10+ dei client)"
-"%2"
+"Usa la GPU NVIDIA se presente %1(Si applica dalla versione 6.10+ dei client)%"
+"2"
 
 #: ../inc/prefs.inc:338
 #, fuzzy
@@ -2104,8 +2101,8 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
-"Se vuoi aggiungere una immagine al tuo profilo, clicca sul pulsante \"Browse\" "
-"e seleziona una file JPEG o PNG. Sei pregato di scegliere un file più "
+"Se vuoi aggiungere una immagine al tuo profilo, clicca sul pulsante \"Browse"
+"\" e seleziona una file JPEG o PNG. Sei pregato di scegliere un file più "
 "piccolo di %1."
 
 #: ../user/create_profile.php:87
@@ -2533,8 +2530,8 @@ msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
-"Hai richiesto di aggiungere %1 agli amici. Notificheremo la cosa a %2 e "
-"gli/le chiederemo di confermare che siete amici."
+"Hai richiesto di aggiungere %1 agli amici. Notificheremo la cosa a %2 e gli/"
+"le chiederemo di confermare che siete amici."
 
 #: ../user/friend.php:75
 msgid "Add an optional message here:"
@@ -2695,8 +2692,8 @@ msgid ""
 "using their computers for projects such as %1."
 msgstr ""
 "Avvia %1 solo sui tuoi computer o su quelli per cui hai ottenuto il permesso "
-"dal proprietario. Alcune aziende e scuole proibiscono l'uso di progetti "
-"come %1 sui propri computer."
+"dal proprietario. Alcune aziende e scuole proibiscono l'uso di progetti come "
+"%1 sui propri computer."
 
 #: ../user/info.php:36
 msgid "How %1 will use your computer"
@@ -2749,8 +2746,8 @@ msgstr ""
 "processore, quantità di memoria, ecc...) saranno registrate da %1 e usate "
 "per decidere il tipo di lavoro da assegnare al tuo computer. Queste "
 "informazioni saranno inoltre mostrati sul sito web di %1. Non verrà mostrato "
-"niente che possa rivelare l'ubicazione del tuo computer (per esempio il "
-"nome del suo dominio o gli indirizzi di rete)."
+"niente che possa rivelare l'ubicazione del tuo computer (per esempio il nome "
+"del suo dominio o gli indirizzi di rete)."
 
 #: ../user/info.php:43
 msgid ""
@@ -3390,8 +3387,8 @@ msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr ""
-"Puoi anche ottenere le tue attuali statistiche in forma di immagine "
-"(\"firma\"):"
+"Puoi anche ottenere le tue attuali statistiche in forma di immagine (\"firma"
+"\"):"
 
 #: ../user/stats.php:41
 msgid ""

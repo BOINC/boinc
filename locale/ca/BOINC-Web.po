@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-10-20 02:05+0200\n"
 "Last-Translator: Xavier <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: doc\n"
@@ -25,8 +25,7 @@ msgstr ""
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
 msgstr ""
-"La versió actual està preparada per treballar amb aquestes versions de "
-"Linux:"
+"La versió actual està preparada per treballar amb aquestes versions de Linux:"
 
 #: versions.inc:14
 msgid ""
@@ -137,9 +136,9 @@ msgid ""
 "problems you might have."
 msgstr ""
 "L'Ajuda en línia de BOINC li permet converses directes amb usuaris experts, "
-"que poden: %s respondre preguntes respecte BOINC i la computació assistida; "
-"%s proporcionar informació respecte el procés d'instal·lació i utilització "
-"de BOINC; %s resolució de qualsevol problema que pugui tenir."
+"que poden: %s respondre preguntes respecte BOINC i la computació assistida; %"
+"s proporcionar informació respecte el procés d'instal·lació i utilització de "
+"BOINC; %s resolució de qualsevol problema que pugui tenir."
 
 #: help.php:21
 #, php-format
@@ -193,7 +192,8 @@ msgstr ""
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr "Si ja és un Voluntari: per editar la seva configuració, %spremi aquí%s."
+msgstr ""
+"Si ja és un Voluntari: per editar la seva configuració, %spremi aquí%s."
 
 #: help_funcs.php:107
 msgid ""
@@ -272,11 +272,11 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
-" Utilitzar el temps d'inactivitat del seu ordinador  (Windows, Mac, o Linux) "
-" per curar malalties, estudiar el calentament global,  descobrir pulsars, i "
-"realitzar molts altres tipus de recerca científica.  Es segur i fàcil:  %"
-"sEsculli%s els projectes  %sDescarregui%s i executi el programari BOINC  %"
-"sEntri%s una adreça de correu electrònic i contrasenya. "
+" Utilitzar el temps d'inactivitat del seu ordinador  (Windows, Mac, o "
+"Linux)  per curar malalties, estudiar el calentament global,  descobrir "
+"pulsars, i realitzar molts altres tipus de recerca científica.  Es segur i "
+"fàcil:  %sEsculli%s els projectes  %sDescarregui%s i executi el programari "
+"BOINC  %sEntri%s una adreça de correu electrònic i contrasenya. "
 
 #: index.php:100
 #, php-format
