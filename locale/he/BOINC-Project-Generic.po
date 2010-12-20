@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-12-14 15:55+0200\n"
+"PO-Revision-Date: 2010-12-14 15:56+0200\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -429,12 +429,10 @@ msgid "Couldn't update results"
 msgstr "לא ניתן לעדכן תוצאות"
 
 #: ../inc/host.inc:572
-#, fuzzy
 msgid "Couldn't retire old computer"
 msgstr "לא ניתן לבטל מחשב ישן"
 
 #: ../inc/host.inc:574
-#, fuzzy
 msgid "Retired old computer %1"
 msgstr "מחשב ישן שבוטל %1"
 
@@ -649,7 +647,6 @@ msgid "GB"
 msgstr "GB"
 
 #: ../inc/prefs.inc:179
-#, fuzzy
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
 msgstr "דיסק: השאר חופשי לכל הפחות %1 ערכים נמוכים מ %2 לא ייחשבו %3"
 
@@ -660,7 +657,6 @@ msgid "% of total"
 msgstr "% מהסך הכללי"
 
 #: ../inc/prefs.inc:193
-#, fuzzy
 msgid "Tasks checkpoint to disk at most every"
 msgstr "משימות יכתבו נקודות ביקורת לדיסק לכל היותר כל"
 
@@ -709,8 +705,7 @@ msgstr ""
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
-msgstr ""
-"להתנתק בעת סיום? %1 הכרחי רק אם ברשותך חיבור בעזרת מודם, ISDN או VPN %2"
+msgstr "להתנתק בעת סיום? %1 הכרחי רק אם ברשותך חיבור בעזרת מודם, ISDN או VPN %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
@@ -1176,7 +1171,6 @@ msgid "Too many errors (may have bug)"
 msgstr "יותר מדי שגיאות (ייתכן וקיים באג)"
 
 #: ../inc/result.inc:226
-#, fuzzy
 msgid "Too many results (may be nondeterministic)"
 msgstr "יותר מדי תוצאות (ייתכן ואינו דטרמיניסטי)"
 
@@ -2618,8 +2612,8 @@ msgid ""
 msgstr ""
 "אם אתה נוטל חלק ב-%1, מידע אודות מחשבך (כגון סוג מעבד, כמות זכרון וכו') "
 "יתועד על-ידי %1 וינוצל בכדי להחליט לגבי סוג העבודה אשר יוקצב עבור מחשבך. כמו "
-"כן, מידע זה יוצג באתר של %1. לא יוצג אף פרט אשר חושף את מיקום מחשבך (כגון שם "
-"תחום או כתובת רשת)."
+"כן, מידע זה יוצג באתר של %1. לא יוצג אף פרט אשר חושף את מיקום מחשבך (כגון "
+"שם תחום או כתובת רשת)."
 
 #: ../user/info.php:43
 msgid ""
@@ -2955,7 +2949,6 @@ msgid "User of the Day"
 msgstr "משתמש היום"
 
 #: ../user/profile_menu.php:56
-#, fuzzy
 msgid "User Profile Explorer"
 msgstr "סייר פרופיל משתמש"
 
@@ -2972,8 +2965,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"דפדף בפרופילים %1באקראיות%2, %3באקראיות עם תמונות%2 או %4באקראיות ללא תמונות%"
-"2."
+"דפדף בפרופילים %1באקראיות%2, %3באקראיות עם תמונות%2 או %4באקראיות ללא תמונות"
+"%2."
 
 #: ../user/profile_menu.php:65
 msgid "Alphabetical profile listings:"
@@ -3186,8 +3179,9 @@ msgid "unsent"
 msgstr "לא נשלח"
 
 #: ../user/server_status.php:398
+#, fuzzy
 msgid "in progress"
-msgstr ""
+msgstr "בתהליך"
 
 #: ../user/server_status.php:398
 msgid "avg runtime of last 100 results in h (min-max)"
@@ -3846,8 +3840,8 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"סוף התוצאות. %1 אם אינך מוצא את הקבוצה אותה אתה מחפש, באפשרותך %2ליצור קבוצה%"
-"3 בעצמך."
+"סוף התוצאות. %1 אם אינך מוצא את הקבוצה אותה אתה מחפש, באפשרותך %2ליצור קבוצה"
+"%3 בעצמך."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
@@ -4112,8 +4106,9 @@ msgid "Decreasing average credit"
 msgstr "ממוצע נקודות זכות לאחרונה"
 
 #: ../user/user_search.php:117
+#, fuzzy
 msgid "Decreasing total credit"
-msgstr ""
+msgstr "ממוצע נקודות זכות לאחרונה"
 
 #: ../user/user_search.php:118
 msgid "Filters"
@@ -4341,7 +4336,8 @@ msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr ""
-"ספר לנו על עצמך. תוכל לספר מהיכן אתה, מה גילך, עיסוקך, תחביביך או כל דבר אחר."
+"ספר לנו על עצמך. תוכל לספר מהיכן אתה, מה גילך, עיסוקך, תחביביך או כל דבר "
+"אחר."
 
 #: ../project.sample/project.inc:93
 msgid "Your opinions about %1"
@@ -4372,8 +4368,7 @@ msgstr "הרץ את היישומים הנבחרים בלבד"
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
-msgstr ""
-"אם לא קיימת עבודה עבור היישומים הנבחרים, האם לקבל עבודה מיישומים אחרים?"
+msgstr "אם לא קיימת עבודה עבור היישומים הנבחרים, האם לקבל עבודה מיישומים אחרים?"
 
 #: ../project.sample/project_specific_prefs.inc:80
 msgid "(all applications)"

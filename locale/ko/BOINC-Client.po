@@ -86,15 +86,11 @@ msgstr "cc_config.xml에 마침 태그가 빠짐"
 
 #: ../sched/handle_request.cpp:299
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
-"계정 키가 잘못되었거나 없습니다. 수정하려면 프로젝트를 삭제하고 다시 추가하세"
-"요."
+msgstr "계정 키가 잘못되었거나 없습니다. 수정하려면 프로젝트를 삭제하고 다시 추가하세요."
 
 #: ../sched/handle_request.cpp:822
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
-"암호 서명 키가 잘못되었습니다. 수정하려면 프로젝트를 삭제하고 다시 추가하세"
-"요."
+msgstr "암호 서명 키가 잘못되었습니다. 수정하려면 프로젝트를 삭제하고 다시 추가하세요."
 
 #: ../sched/handle_request.cpp:832
 msgid ""
@@ -121,22 +117,18 @@ msgstr "이 프로젝트는 해당 컴퓨터를 지원하지 않습니다"
 
 #: ../sched/sched_send.cpp:1267
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
-"해당 컴퓨터의 GPU로 작업을 처리하시려면 최신 드라이버로 업그레이드하세요"
+msgstr "해당 컴퓨터의 GPU로 작업을 처리하시려면 최신 드라이버로 업그레이드하세요"
 
 #: ../sched/sched_send.cpp:1274
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"이 프로젝트의 GPU 응용 프로그램을 사용하려면 최신 드라이버로 업그레이드하세요"
+msgstr "이 프로젝트의 GPU 응용 프로그램을 사용하려면 최신 드라이버로 업그레이드하세요"
 
 #: ../sched/sched_send.cpp:1298
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
-msgstr ""
-"NVIDIA GPU를 사용하려면 더 높은 BOINC 버전이 필요합니다. 최신 버전으로 업그레"
-"이드하세요"
+msgstr "NVIDIA GPU를 사용하려면 더 높은 BOINC 버전이 필요합니다. 최신 버전으로 업그레이드하세요"
 
 #: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
@@ -154,9 +146,7 @@ msgstr "이 프로젝트의 작업을 실행하려면 ATI GPU가 필요합니다
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
-msgstr ""
-"선택한 응용 프로그램으로 실행할 작업이 없습니다. 웹 사이트에서 프로젝트 환경 "
-"설정을 확인해 주세요"
+msgstr "선택한 응용 프로그램으로 실행할 작업이 없습니다. 웹 사이트에서 프로젝트 환경 설정을 확인해 주세요"
 
 #: ../sched/sched_send.cpp:1443
 msgid "Your computer type is not supported by this project"

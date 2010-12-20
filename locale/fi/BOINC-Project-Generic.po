@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2010-09-17 22:40+0200\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -957,8 +957,8 @@ msgid ""
 "are displayed only to logged-in users.  We apologize for this inconvenience."
 msgstr ""
 "Spämmin estämiseksi niiden käyttäjien profiilit, joiden keskim. pisteet ovat "
-"alle %1, näkyvät vain kirjautuneille käyttäjille.  Pahoittelemme mahdollista "
-"haittaa."
+"alle %1, näkyvät vain kirjautuneille käyttäjille.  Pahoittelemme "
+"mahdollista haittaa."
 
 #: ../inc/profile.inc:191
 msgid "User is banished"
@@ -1881,7 +1881,8 @@ msgstr ""
 #: ../user/account_finish.php:40 ../user/create_account_form.php:84
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
-"Sinut tunnistetaan tällä nettisivullamme. Voit käyttää oikeaa tai lempinimeä."
+"Sinut tunnistetaan tällä nettisivullamme. Voit käyttää oikeaa tai "
+"lempinimeä."
 
 #: ../user/account_finish.php:44 ../user/create_account_form.php:103
 msgid "Select the country you want to represent, if any."
@@ -2010,8 +2011,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
-"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto (%"
-"1 tai vähemmän)."
+"Vaihda se napsauttamalla \"Selaa\" ja valitse joko JPEG- tai PNG-tiedosto (%1 "
+"tai vähemmän)."
 
 #: ../user/create_profile.php:67
 msgid "To remove it from your profile, check this box:"
@@ -2619,9 +2620,9 @@ msgid ""
 "done for %1. If you want to be anonymous, choose a name that doesn't reveal "
 "your identity."
 msgstr ""
-"%1 -tilisi tunnistetaan valitsemallasi nimellä. Nimi saattaa näkyä %1 -"
-"projektin nettisivulla samoin kuin tietokoneesi suorittamat työt %1 -"
-"projektille. Jos haluat pysyä anonyyminä, valitse nimi joka ei paljasta "
+"%1 -tilisi tunnistetaan valitsemallasi nimellä. Nimi saattaa näkyä %1 "
+"-projektin nettisivulla samoin kuin tietokoneesi suorittamat työt %1 "
+"-projektille. Jos haluat pysyä anonyyminä, valitse nimi joka ei paljasta "
 "identiteettiäsi."
 
 #: ../user/info.php:42
@@ -2708,8 +2709,7 @@ msgstr ""
 #: ../user/info.php:49
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
-"%1 kehitettiin %2 toimesta. BOINC kehitettiin Kalifornian yliopistolla."
+msgstr "%1 kehitettiin %2 toimesta. BOINC kehitettiin Kalifornian yliopistolla."
 
 #: ../user/info.php:51
 msgid "Liability"
@@ -2758,8 +2758,7 @@ msgstr "Kielivalinta"
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
-msgstr ""
-"Tämä nettisivu löytyy useammalla kielellä. Nykyinen kielivalinta on %1."
+msgstr "Tämä nettisivu löytyy useammalla kielellä. Nykyinen kielivalinta on %1."
 
 #: ../user/language_select.php:74
 msgid ""
@@ -2772,8 +2771,8 @@ msgstr ""
 #: ../user/language_select.php:79
 msgid "Firefox: Tools/Options/General"
 msgstr ""
-"Firefox: Työkalut/Asetukset/Sisältö-välilehti, josta Kielet-kohta ja Valitse-"
-"nappi"
+"Firefox: Työkalut/Asetukset/Sisältö-välilehti, josta Kielet-kohta ja "
+"Valitse-nappi"
 
 #: ../user/language_select.php:81
 msgid "Microsoft IE: Tools/Internet Options/Languages"
@@ -2963,8 +2962,8 @@ msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
 msgstr ""
-"%1Profiilien%2 avulla voi jakaa taustatietojaan ja mielipiteitään %3 -"
-"yhteisön kanssa."
+"%1Profiilien%2 avulla voi jakaa taustatietojaan ja mielipiteitään %3 "
+"-yhteisön kanssa."
 
 #: ../user/profile_menu.php:37
 msgid ""
@@ -3001,8 +3000,8 @@ msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
-"Selaa profiileja %1satunnaisjärjestyksessä%2, %3satunnaisesti kuvilla%2 tai %"
-"4satunnaisesti ilman kuvia%2."
+"Selaa profiileja %1satunnaisjärjestyksessä%2, %3satunnaisesti kuvilla%2 tai "
+"%4satunnaisesti ilman kuvia%2."
 
 #: ../user/profile_menu.php:65
 msgid "Alphabetical profile listings:"
@@ -3802,8 +3801,8 @@ msgstr ""
 "Jos tiimin perustaja ei ole aktiivinen ja haluat omaksua perustajan roolin, "
 "napsauta allaolevaa nappia. Nykyiselle perustajalle lähetetään sähköposti "
 "koskien pyyntöäsi ja mahdollisuus siirtää tai evätä perustajuus. Jos "
-"perustaja ei vastaa 60 päivän kuluessa, voit saada perustajuuden.<br /><br /"
-">\n"
+"perustaja ei vastaa 60 päivän kuluessa, voit saada perustajuuden.<br /><br "
+"/>\n"
 "                       Haluatko pyytää perustajuutta?"
 
 #: ../user/team_founder_transfer_form.php:63
@@ -3888,7 +3887,8 @@ msgid ""
 "End of results. %1 If you cannot find the team you are looking for, you may %"
 "2create a team%3 yourself."
 msgstr ""
-"Tulosten loppu. %1 Jos et löydä hakemaasi tiimiä, voit itse %1luoda tiimin%2."
+"Tulosten loppu. %1 Jos et löydä hakemaasi tiimiä, voit itse %1luoda tiimin%"
+"2."
 
 #: ../user/team_manage.php:24
 msgid "Team administration for %1"
@@ -3928,8 +3928,7 @@ msgstr "XML"
 
 #: ../user/team_manage.php:37
 msgid "See when members joined or quit this team"
-msgstr ""
-"Tarkastele, milloin jäsenet ovat liittyneet tai eronneet tästä tiimistä"
+msgstr "Tarkastele, milloin jäsenet ovat liittyneet tai eronneet tästä tiimistä"
 
 #: ../user/team_manage.php:48
 msgid "Respond to foundership request."
@@ -4311,8 +4310,8 @@ msgid ""
 "file' for this project. This file has a name of the form "
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
-"Käyttääksesi heikkoa tiliavainta tietokoneella, etsi tai luo \"tilitiedosto"
-"\" projektille. Tiedoston nimi on muotoa <b>account_PROJECT_URL.xml</b>. "
+"Käyttääksesi heikkoa tiliavainta tietokoneella, etsi tai luo \"tilitiedosto\" "
+"projektille. Tiedoston nimi on muotoa <b>account_PROJECT_URL.xml</b>. "
 "Tilitiedosto projektille %1 on <b>%2</b>."
 
 #: ../user/weak_auth.php:52

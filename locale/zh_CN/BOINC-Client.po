@@ -128,8 +128,7 @@ msgstr "将你计算机中 GPU 的驱动升级到最新版本后，才能运行�
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
-msgstr ""
-"如果要使用你的 NVIDIA GPU 来进行计算，请将 BOINC 升级至最新的正式版本。"
+msgstr "如果要使用你的 NVIDIA GPU 来进行计算，请将 BOINC 升级至最新的正式版本。"
 
 #: ../sched/sched_send.cpp:1311
 msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
@@ -147,9 +146,7 @@ msgstr "运行这个项目要求计算机配备一块 ATI 的显卡。"
 msgid ""
 "No work available for the applications you have selected.  Please check your "
 "project preferences on the web site."
-msgstr ""
-"你当前选择的计算程序类型没有任务可供处理，请在项目网站上检查你的项目参数设"
-"置。"
+msgstr "你当前选择的计算程序类型没有任务可供处理，请在项目网站上检查你的项目参数设置。"
 
 #: ../sched/sched_send.cpp:1443
 msgid "Your computer type is not supported by this project"
@@ -163,8 +160,7 @@ msgstr "要求更新版本的 BOINC，请安装当前最新的正式版本"
 msgid ""
 "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 "accept them"
-msgstr ""
-"目前还有 NVIDIA GPU 的计算任务，但你在参数设置中选择了不下载该类型的任务"
+msgstr "目前还有 NVIDIA GPU 的计算任务，但你在参数设置中选择了不下载该类型的任务"
 
 #: ../sched/sched_send.cpp:1465
 msgid ""

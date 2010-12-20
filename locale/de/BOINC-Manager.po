@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-19 14:52-0500\n"
-"PO-Revision-Date: 2010-10-26 21:36+0200\n"
+"PO-Revision-Date: 2010-11-22 12:07+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -1860,11 +1860,11 @@ msgstr "Ressourcen"
 
 #: clientgui/DlgItemProperties.cpp:308
 msgid "Estimated app speed"
-msgstr ""
+msgstr "Geschätzte Geschwindigkeit der Anwendung"
 
 #: clientgui/DlgItemProperties.cpp:311
 msgid "Estimated task size"
-msgstr ""
+msgstr "Geschätzte Größe der Aufgabe"
 
 #: clientgui/DlgItemProperties.cpp:314
 msgid "CPU time at last checkpoint"
@@ -2498,7 +2498,7 @@ msgstr "Klick"
 
 #: clientgui/NoticeListCtrl.cpp:477
 msgid "There are no notices at this time."
-msgstr ""
+msgstr "Hierzu sind momentan keine Nachrichten vorhanden."
 
 #: clientgui/NoticeListCtrl.cpp:528
 msgid "more..."
