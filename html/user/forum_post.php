@@ -116,7 +116,7 @@ if ($force_title && $title){
 
 //Message
 row2(tra("Message").html_info().post_warning().$body_help,
-     $bbcode_html."<textarea name=\"content\" rows=\"12\" cols=\"54\">".htmlspecialchars($content)."</textarea>"
+     $bbcode_html."<textarea name=\"content\" rows=\"12\" cols=\"80\" class=\"message_field\">".htmlspecialchars($content)."</textarea>"
 );
 
 if (!$logged_in_user->prefs->no_signature_by_default) {

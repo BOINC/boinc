@@ -111,7 +111,7 @@ $special_user_bitfield[S_SCIENTIST]="Project scientist";
 function show_forum_header($user) {
     echo "<form action=\"forum_search_action.php\" method=\"POST\">
     ";
-    start_table_noborder();
+    echo "<table cellpadding=\"5\" width=\"100%\" class=\"forum_header\">";
     echo "<tr>
     ";
     
@@ -501,7 +501,7 @@ function show_post(
 
 
     // Print the special user lines, if any
-    global $special_user_bitfield; 
+    global $special_user_bitfield;
     $fstatus="";
     $keys = array_keys($special_user_bitfield);
     $is_posted_by_special = false;
@@ -626,13 +626,13 @@ function show_post(
         
         echo "<p>", $posttext, "</p>";
         echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
-        if ($no_forum_rating) { 
+        if ($no_forum_rating) {
             echo " | <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, "Report this post as offensive", "Report as offensive", REPORT_POST_IMAGE_HEIGHT);
             echo "</a>";
         } else {
             $rating = $post->rating();
-            echo " | Rating: ", $rating, "</i> | rate: 
+            echo " | Rating: ", $rating, "</i> | rate:
                 <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p$tokens\">
             ";
             show_image(RATE_POSITIVE_IMAGE, "Click if you like this message", "Rate +", RATE_POSITIVE_IMAGE_HEIGHT);
@@ -978,7 +978,7 @@ function get_thread_posts($threadid, $sort_style, $show_hidden) {
         break;
     default:
         $sql .= ' ORDER BY timestamp asc';
-        break;        
+        break;
     }
     return BoincPost::enum($sql);
 }

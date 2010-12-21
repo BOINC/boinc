@@ -22,7 +22,7 @@ Rom    4 Jan 2010
     - lib: fixup notice RPCs to make them manager compatible.
     - lib: remove memset from notice constructor, bad things can happen
         when you null out a std::string structure.
-        
+
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
@@ -30,7 +30,7 @@ Rom    4 Jan 2010
 
 Rom    4 Jan 2010
     - MGR: Implement Notice RPC infrastructure.
-    
+
     clientgui/
         AsyncRPC.cpp, .h
         MainDocument.cpp, .h
@@ -112,16 +112,16 @@ David  5 Jan 2010
         work_fetch.cpp
 
 Charlie  6 Jan 2010
-    - client: Eliminate x86_64 Mac client; i386 client determines if 
-        system supports x86_64 applications and sets HOSTTYPE and 
-        platform accordingly.  This allows us to link with the 32-bit 
-        CUDA libraries.  The one other effect is that the benchmarks 
+    - client: Eliminate x86_64 Mac client; i386 client determines if
+        system supports x86_64 applications and sets HOSTTYPE and
+        platform accordingly.  This allows us to link with the 32-bit
+        CUDA libraries.  The one other effect is that the benchmarks
         are run in 32-bit mode even on a 64-bit capable Mac.
     - client: Async get_state RPC was not updating state.have_ati field.
-    - MGR: Rebuild Advanced Menu and Taskbar Menu after connecting to 
-        client, so GPU Activity and Snooze GPU items are displayed if 
+    - MGR: Rebuild Advanced Menu and Taskbar Menu after connecting to
+        client, so GPU Activity and Snooze GPU items are displayed if
         needed.
-        
+
     client/
         cs_cmdline.cpp
         cs_platforms.cpp
@@ -157,7 +157,7 @@ David  6 Jan 2010
 Charlie  6 Jan 2010
     - client: Fix compiler warning.
     - client: Fix crash bug.
-        NOTE: do not call memset(this, 0, sizeof(*this)) when the data 
+        NOTE: do not call memset(this, 0, sizeof(*this)) when the data
         contains a std::string.
 
     client/
@@ -205,7 +205,7 @@ David  7 Jan 2010
 
 Rom    7 Jan 2010
     - MGR: Prevent timer events from causing recursive ui issues.
-    
+
     clientgui/
         ViewNotifications.cpp
 
@@ -220,7 +220,7 @@ Charlie  8 Jan 2010
     - MGR: Separate refresh of Event Log from refresh of tabs.
     - MGR: Update Notices tab only when data has changed.
     - MGR: Clean up some async RPC logic.
-    
+
     clientgui/
         AdvancedFrame.cpp
         AsyncRPC.cpp, .h
@@ -230,7 +230,7 @@ Charlie  8 Jan 2010
         ViewNotifications.cpp, .h
 
 Charlie  8 Jan 2010
-    - MGR: When Event Log is open, do get_messages RPC once per second but 
+    - MGR: When Event Log is open, do get_messages RPC once per second but
         do view-specific periodic RPCs at their normal View refresh rate.
 
     clientgui/
@@ -294,9 +294,9 @@ David  11 Jan 2010
 
 Charlie  12 Jan 2010
     - client sandbox: set LD_LIBRARY_PATH and DYLD_LIBRARY_PATH in switcher.
-        For unknown reasons, the these 2 environment variables are not 
-        passed in to switcher, though all other environment variables do get 
-        propagated.  
+        For unknown reasons, the these 2 environment variables are not
+        passed in to switcher, though all other environment variables do get
+        propagated.
 
     client/
         switcher.cpp
@@ -377,14 +377,14 @@ David  12 Jan 2010
         parse.cpp,h
 
 Charlie  13 Jan 2010
-    - MGR: The fix of 14 Oct 2009 for "initial first connection problem on 
-        startup" caused the Tools menu to be incorrect when switching from 
-        Simple to Advanced View if using an account manager: solve this by 
-        calling pDoc->IsConnected() in CAdvancedFrame::CreateMenu() instead 
-        of using bool argument bRPCsSafe.  Remove unused bRPCsSafe arg from 
-        CAdvancedFrame::CreateNotebook(), CAdvancedFrame::CreateStatusbar(). 
+    - MGR: The fix of 14 Oct 2009 for "initial first connection problem on
+        startup" caused the Tools menu to be incorrect when switching from
+        Simple to Advanced View if using an account manager: solve this by
+        calling pDoc->IsConnected() in CAdvancedFrame::CreateMenu() instead
+        of using bool argument bRPCsSafe.  Remove unused bRPCsSafe arg from
+        CAdvancedFrame::CreateNotebook(), CAdvancedFrame::CreateStatusbar().
     - Mac: Update XCode project for ViewNotifications* -> ViewNotices*.
-        
+
     clientgui/
         AdvancedFrame.cpp, .h
      mac_build/
@@ -424,10 +424,10 @@ David  13 Jan 2010
 
 Rom    14 Jan 2010
     - MGR: Use an event handler, the function overload is deprecated.
-    
+
     clientgui/
         ViewNotices.cpp,h
-    
+
 David  15 Jan 2010
     - web DB code: fix PHP warning when enumeration returns nothing.
         From Nicolas. fixes #974
@@ -456,7 +456,7 @@ David  15 Jan 2010
 
 Charlie  16 Jan 2010
     - Mac Installer: fix bug launching client when configured as a service.
-    
+
     mac_installer/
         PostInstall.cpp
 
@@ -486,7 +486,7 @@ David  18 Jan 2010
 
     sched/
         sched_types.cpp
-    
+
 David  18 Jan 2010
     - API: fix crashing bug.  Don't memset(0) APP_INIT_DATA;
         it contains HOST_INFO, which now contains COPROCS,
@@ -603,11 +603,11 @@ Bernd 21 Jan 2010
         Makefile.mingw
 
 Charlie  22 Jan 2010
-    - Mac Sandbox: To keep authenticators private, make all .xml files readable 
+    - Mac Sandbox: To keep authenticators private, make all .xml files readable
         only by user and group boinc_master; except ss_config.xml is world-
-        readable so screensaver coordinator can access it.  All other files 
-        except gui_rpc_auth.cfg are world-readable to allow access by 
-        screensavers. 
+        readable so screensaver coordinator can access it.  All other files
+        except gui_rpc_auth.cfg are world-readable to allow access by
+        screensavers.
 
     clientgui/
         mac/
@@ -703,15 +703,15 @@ David  26 Jan 2010
             sample_index.php
 
 Charlie  26 Jan 2010
-    - Mac Sandbox: The init_data.xml file in each slot directory also contains 
-        an authenticator; to keep these private, change ownership of the "slots" 
-        directory to boinc_master:boinc_project and eliminate read and execute 
-        permissions of this directory for "other".  For consistency, make the 
-        same changes to the "projects" directory.  The individual slot and 
-        project directories are still world-executable and they and their 
-        contents are still world-readable, so the Client can still read files 
+    - Mac Sandbox: The init_data.xml file in each slot directory also contains
+        an authenticator; to keep these private, change ownership of the "slots"
+        directory to boinc_master:boinc_project and eliminate read and execute
+        permissions of this directory for "other".  For consistency, make the
+        same changes to the "projects" directory.  The individual slot and
+        project directories are still world-executable and they and their
+        contents are still world-readable, so the Client can still read files
         created by project apps with ownership boinc_project:boinc_project.
-      - NOTE: I believe this should not cause any problems for either BOINC or 
+      - NOTE: I believe this should not cause any problems for either BOINC or
         project applications, but it needs to be tested thoroughly.
 
     client/
@@ -727,7 +727,7 @@ Charlie  26 Jan 2010
         Mac_SA_Secure.sh
 
 Charlie  27 Jan 2010
-    - MGR: Fix minor bugs in Mac accessibility reporting kAXWindowAttribute and 
+    - MGR: Fix minor bugs in Mac accessibility reporting kAXWindowAttribute and
         kAXTopLevelUIElementAttribute.
 
     clientgui/
@@ -771,8 +771,8 @@ David  28 Jan 2010
         work_fetch.cpp
 
 Charlie  28 Jan 2010
-    - Mac Sandbox: SetupAuthorizationExecuteWithPrivileges() forks to run chmod and chown, 
-        leaving zombie processes which can exceed the system-imposed limit of processes 
+    - Mac Sandbox: SetupAuthorizationExecuteWithPrivileges() forks to run chmod and chown,
+        leaving zombie processes which can exceed the system-imposed limit of processes
         MAXUPRC for a user.  Call waitpid() to clear these zombies.
     - Mac Sandbox: fix comment in Mac_SA_Secure.sh script.
 
@@ -822,12 +822,12 @@ David  1 Feb 2010
         txf_util.cpp
 
 Charlie  2 Feb 2010
-    - ss_app: Allow branding for GridRepublic by compiling with -D_GRIDREPUBLIC on 
-        non_apple systems and by testing Branding file on Macs. 
+    - ss_app: Allow branding for GridRepublic by compiling with -D_GRIDREPUBLIC on
+        non_apple systems and by testing Branding file on Macs.
     - ss_app: Add a high-resolution background GridRepublic logo.
     - Mac Installer: update script for new gridrepublic_ss_logo.jpg file, etc.
     - Mac Installer: add .txt extension to copyright files in GUI installer extras.
-    
+
     clientscr/
         ss_app.cpp
         res/
@@ -847,7 +847,7 @@ David  2 Feb 2010
 Rom    2 Feb 2010
     - client: newer ATI drivers crash if struct_size isn't filled out
         before the structure is used.
-        
+
     client/
         coproc_detect.cpp
 
@@ -855,7 +855,7 @@ Charlie  2 Feb 2010
     - Mac SS: look for Branding file in BOINC Data folder before the one in Manager
         to avoid confusion if newer copies of BOINC Manager exist elsewhere on system.
         (This is primarily for convenience in debugging on build system)
-        
+
     clientscr/
         mac_saver_module.cpp
 
@@ -909,7 +909,7 @@ David  4 Feb 2010
         sched_customize.cpp
 
 Charlie  4 Feb 2010
-    - Mac Installer: when adding non-admin users to group boinc_master, also add 
+    - Mac Installer: when adding non-admin users to group boinc_master, also add
         them to group boinc_project; this fixes permissions error -1200 for non-
         admin users; show "Please wait" alert if WaitPermissions takes > 15 seconds.
 
@@ -928,13 +928,13 @@ David  4 Feb 2010
 
 Rom    5 Feb 2010
     - WINSCR: cleanup configuration dialog text.
-    
+
     clientscr/
         boinc_ss.rc
 
 Rom    5 Feb 2010
     - MGR: Enable task bar icon on Linux.
-    
+
     clientgui/
         AsyncRPC.cpp
         BOINCBaseFrame.cpp
@@ -943,14 +943,14 @@ Rom    5 Feb 2010
 Rom    5 Feb 2010
     - MGR: Move cross-platform event handlers for creating context menus and updating
         tooltips out of the Windows only scope.
-        
+
     clientgui/
         BOINCTaskBar.cpp, .h
 
 Rom    5 Feb 2010
     - MGR: Fix build break by adjusting the SetIcon function prototype so that it conforms
         to the wxWidget standard.
-        
+
     clientgui/
         BOINCTaskBar.cpp, .h
     clientgui/msw/
@@ -960,14 +960,14 @@ Rom    5 Feb 2010
     - MGR: Change the 'Open BOINC Manager' menu item ID for the task bar icon.  wxID_OPEN
         causes a folder icon to be prepended to the menu item on Linux.
     - MGR: Enable the Test Notification menu item on Linux
-        
+
     clientgui/
         BOINCTaskBar.cpp, .h
- 
+
 Rom    6 Feb 2010
      - MGR: Introduce balloons to Linux version of BOINC Manager.
          (Note: Not debugged yet)
-         
+
     clientgui/
         BOINCTaskBar.cpp, .h
         Makefile.am
@@ -1003,14 +1003,14 @@ Rom    8 Feb 2010
     - client: detect CPU information via the cpuid instruction instead of
         the registry.  This change is only for Windows but I haven't tested
         this with GCC.
-        
+
     client/
         hostinfo_win.cpp
 
 Charlie  8 Feb 2010
     - MGR: Fix build breaks and potential crashes from recent task bar changes.
-    - Mac SS: change configuration dialog text to match new Windows wording.  
-    
+    - Mac SS: change configuration dialog text to match new Windows wording.
+
     clientgui/
         BOINCBaseFrame.cpp
         BOINCTaskBar.cpp, .h
@@ -1030,19 +1030,19 @@ David  9 Feb 2010
 
 Rom    9 Feb 2010
     - client: some more CPU detection cleanup.
-    
+
     client/
         hostinfo_win.cpp
 
 Charlie  10 Feb 2010
-    - Mac installer: If installing an acct_mgr_url.xml file, don't install it 
-        directly into the BOINC Data directory.  Instead, put it into the 
-        installer's resources and have the postinstall or postupgrade script 
-        copy it to the BOINC Data directory.  This fixes a problem which would 
-        happen if the user later ran the standard BOINC installer without an 
-        acct_mgr_url.xml file: the Apple installer would then delete the file, 
+    - Mac installer: If installing an acct_mgr_url.xml file, don't install it
+        directly into the BOINC Data directory.  Instead, put it into the
+        installer's resources and have the postinstall or postupgrade script
+        copy it to the BOINC Data directory.  This fixes a problem which would
+        happen if the user later ran the standard BOINC installer without an
+        acct_mgr_url.xml file: the Apple installer would then delete the file,
         causing BOINC to detach from the account manager.
-    
+
     mac_installer/
         make_GridRepublic.sh
         make_ProgThruProc.sh
@@ -1051,13 +1051,13 @@ Charlie  10 Feb 2010
 
 Charlie  10 Feb 2010
     - Mac Installer: Fix receipt name for GridRepublic installer so we can remove it.
-    
+
     mac_installer/
         PostInstall.cpp
 
 Rom    10 Feb 2010
     - build: Attempt to hook up the gtk flags and libs to BOINC Manager
-    
+
     /
         configure.ac
     clientgui/
@@ -1065,13 +1065,13 @@ Rom    10 Feb 2010
 
 Rom    10 Feb 2010
     - MGR: Move GTK structures out of the class scope.
-    
+
     clientgui/gtk
         taskbarex.cpp, .h
 
 Rom    10 Feb 2010
     - build: replace gtk flags and libs with libnotify
-    
+
     /
         configure.ac
     clientgui/
@@ -1079,28 +1079,28 @@ Rom    10 Feb 2010
 
 Rom    10 Feb 2010
     - MGR: Add some debugging to the notification code
-    
+
     clientgui/gtk
         taskbarex.cpp, .h
 
 Rom    10 Feb 2010
     - MGR: Re-enable the test notification mechanism so
         that it is compatible with Linux.
-        
+
     clientgui/
         BOINCTaskBar.cpp, .h
 
 Rom    10 Feb 2010
     - MGR: Re-enable the context menu support mechanism so
         that it is compatible with Linux.
-        
+
     clientgui/
         BOINCTaskBar.cpp, .h
 
 Rom    10 Feb 2010
     - MGR: Fill in missing pieces to get the notification
         handler to signal us when a notification has closed.
-        
+
     clientgui/gtk
         taskbarex.cpp, .h
 
@@ -1110,14 +1110,14 @@ Rom    10 Feb 2010
         property has been removed and that is why I was having
         so many problems.  Hook up the events I can determine
         from the remaining information.
-        
+
     clientgui/gtk
         taskbarex.cpp, .h
 
 Rom    10 Feb 2010
     - MGR: Re-enable the balloon context click event handler
         for Linux.
-        
+
     clientgui/
         BOINCTaskBar.cpp, .h
 
@@ -1126,14 +1126,14 @@ Rom    10 Feb 2010
         activity happens over the notification icon, so merge the
         OnMouseMove event handler with the OnRefresh event handler
         so we have the correct tooltips.
-        
+
     clientgui/
         BOINCTaskBar.cpp, .h
 
 Rom    10 Feb 2010
     - MGR: Another place that interacts with the taskbar but was
         included only if compiled for Windows or the Mac.
-        
+
     clientgui/
         AsyncRPC.cpp
         MainDocument.cpp
@@ -1141,7 +1141,7 @@ Rom    10 Feb 2010
 Rom    10 Feb 2010
     - MGR: Only notify the OS of a change in the notification area
         if something has changed, otherwise don't update.
-        
+
     clientgui/
         BOINCTaskBar.cpp, .h
 
@@ -1157,7 +1157,7 @@ David  11 Feb 2009
         prefs.inc
 
 Charlie  11 Feb 2010
-    - Mac: Update build script for OS 10.6 and XCode 3.2 (thanks to Jack 
+    - Mac: Update build script for OS 10.6 and XCode 3.2 (thanks to Jack
         Shultz for pointing out this was needed.)
 
     mac_build/
@@ -1197,7 +1197,7 @@ David  14 Feb 2010
 
 Charlie  15 Feb 2010
     Mac wrapper: add build script and make file to buuild wrapper on Mac.
-    
+
     samples/
         wrapper/
             BuildMacWrapper.sh
@@ -1209,9 +1209,9 @@ David  15 Feb 2010
     html/various
 
 Charlie  16 Feb 2010
-    - Samples: Update MakeMacExample.sh and Mac make files in example_app for 
+    - Samples: Update MakeMacExample.sh and Mac make files in example_app for
         OS 10.6 and XCode 3.2.
-        
+
     samples/
         example_app/
             Makefile_mac
@@ -1234,7 +1234,7 @@ David  16 Feb 2010
 
 Rom    16 Feb 2010
     - MGR: Fix icons for dialogs that display them.
-    
+
     clientgui/
         DlgEventLog.cpp
         sg_DlgMessages.cpp
@@ -1276,7 +1276,7 @@ David  18 Feb 2010
 Rom    18 Feb 2010
     - locale: automatically update each language based on whatever the
         new template has.
-        
+
     locale/
         updatetrans.sh
 
@@ -1356,7 +1356,7 @@ Rom    23 Feb 2010
     - client: Add a function to the client software to be able to detect
         the number of bytes sent and received across all non-loopback
         interfaces.
-        
+
     client/
         hostinfo_win.cpp
 
@@ -1366,14 +1366,14 @@ David  23 Feb 2010
         team_forum.php
 
 Charlie  25 Feb 2010
-    - MGR: Fix a long-standing bug that made sizers fail on Mac for Advanced 
-        Preferences dialog: I added bSizer1->Fit(this) to end of constructor. 
-        To work around this bug, the dialog had been made resizeable and the 
-        height and width were saved in the Manager settings.  But this meant 
-        that when we add an item to the dialog, it is too small until the 
+    - MGR: Fix a long-standing bug that made sizers fail on Mac for Advanced
+        Preferences dialog: I added bSizer1->Fit(this) to end of constructor.
+        To work around this bug, the dialog had been made resizeable and the
+        height and width were saved in the Manager settings.  But this meant
+        that when we add an item to the dialog, it is too small until the
         user expands it.  And Modal dialogs like this should not be resizeable.
         I also made the dialog no longer resizeable by the user.
-        
+
     clientgui/
         DlgAdvPreferences.cpp
         DlgAdvPreferencesBase.cpp, .h
@@ -1382,23 +1382,23 @@ Rom    25 Feb 2010
     - WIN: Add some missing CPU features to the feature list
     - WIN: Make sure the Brand string for a CPU is printable. Older Intel
         processors have some control characters.
-        
+
     client/
         hostinfo_win.cpp
 
 Charlie  26 Feb 2010
     - MGR: Save and restore height and width of Properties dialog; fix comments.
-    
+
     clientgui/
         DlgAdvPreferences.cpp
         DlgItemProperties.cpp, .h
 
 Charlie  26 Feb 2010
-    - MGR: Implement lost features from old messages display in Event Log: 
-        filtering by project (show only this project), dimming Event Log 
-        display when disconnected; alternating gray and white background 
+    - MGR: Implement lost features from old messages display in Event Log:
+        filtering by project (show only this project), dimming Event Log
+        display when disconnected; alternating gray and white background
         stripes for readability.
-        
+
     clientgui/
         DlgEventLog.cpp, .h
         MainDocument.cpp
@@ -1407,7 +1407,7 @@ Rom    26 Feb 2010
     - client: Add SEH handlers around the Nvidia and ATI detection
         routines.  Take care of situations where something within
         the vendors functions cause a crash.
-        
+
     client/
         coproc_detect.cpp
 
@@ -1475,7 +1475,7 @@ David  1 Mar 2010
 Rom    1 Mar 2010
     - client: Improve error checking with CPU detection features.
     - lib: cleanup some warnings.
-    
+
     client/
         hostinfo_win.cpp
     lib/
@@ -1491,12 +1491,12 @@ David  1 Mar 2010
         cs_prefs.cpp
 
 Charlie  2 Mar 2010
-    - MGR: Fix more Event Log bugs: Exit from taskbar closes Event Log just 
-        like exit from regular menu; enable and disable Copy Selected and Filter 
-        buttons depending on selected messages; fix misplaced curly bracket in 
-        CMainDocument::RunPeriodicRPCs() which caused excessive CPU usage and 
+    - MGR: Fix more Event Log bugs: Exit from taskbar closes Event Log just
+        like exit from regular menu; enable and disable Copy Selected and Filter
+        buttons depending on selected messages; fix misplaced curly bracket in
+        CMainDocument::RunPeriodicRPCs() which caused excessive CPU usage and
         other problems.
-    
+
     clientgui/
         AdvancedFrame.cpp
         BOINCBaseFrame.cpp
@@ -1505,17 +1505,17 @@ Charlie  2 Mar 2010
         MainDocument.cpp
 
 Charlie  2 Mar 2010
-    - MGR: Keep getting messages even if the Event Log is not open; otherwise 
+    - MGR: Keep getting messages even if the Event Log is not open; otherwise
         some may be lost due to the limited size of the client's buffer,
         causing gaps when the Event Log is later opened.
-        
+
     clientgui/
         MainDocument.cpp
 
 Rom    2 Mar 2010
     - client: Add missing European SKUs to the host detection code.
         (from: Robert Kreﬂ)
-        
+
     client/
         hostinfo_win.cpp
 
@@ -1554,10 +1554,10 @@ David  2 Mar 2010
         gui_rpc_server_ops.cpp
 
 Charlie  2 Mar 2010
-    - MGR: Save & restore size information of properties dialogs separately 
-        for project and task property dialogs, also save and restore dialog 
+    - MGR: Save & restore size information of properties dialogs separately
+        for project and task property dialogs, also save and restore dialog
         positions on Mac.
-        
+
     clientgui/
         DlgItemProperties.cpp, .h
 
@@ -1568,7 +1568,7 @@ Rom    3 Mar 2010
         backgrounded items to display a white background after Windows
         inverted the color for highlighting. By using theme colors we avoid
         having to worry about such things.
-        
+
     clientgui/
         BOINCBaseView.cpp
         DlgEventLog.cpp
@@ -1620,12 +1620,12 @@ David  3 Mar 2010
         prefs.inc
 
 Charlie  4 Mar 2010
-    - MGR: Instead of alternating gray and white backgrounds in lists, 
-        create CBOINCListCtrl and CDlgEventLogListCtrl with wxLC_HRULES 
-        flag.  This avoids theme color conflicts with our backgrounds.  
-        It also eliminates the need to set item attributes in the views, 
-        since the default attribute setting already uses theme colors. 
-        (We still use item attributes in the Event Log to list 
+    - MGR: Instead of alternating gray and white backgrounds in lists,
+        create CBOINCListCtrl and CDlgEventLogListCtrl with wxLC_HRULES
+        flag.  This avoids theme color conflicts with our backgrounds.
+        It also eliminates the need to set item attributes in the views,
+        since the default attribute setting already uses theme colors.
+        (We still use item attributes in the Event Log to list
         error messages in red text.)
 
     clientgui/
@@ -1634,8 +1634,8 @@ Charlie  4 Mar 2010
         DlgEventLog.cpp
 
 Charlie  4 Mar 2010
-    - MGR: in Event Log: enable and disable Copy Selected and Filter buttons 
-        immediately when selecting or deselecting items; fix Mac-only bug 
+    - MGR: in Event Log: enable and disable Copy Selected and Filter buttons
+        immediately when selecting or deselecting items; fix Mac-only bug
         drawing selected items when Event Log window is inactive.
 
     clientgui/
@@ -1664,8 +1664,8 @@ David  4 Mar 2010
         client_state.cpp
 
 Charlie  4 Mar 2010
-    - MGR: Allow compile-time choice of either rules or alternating gray and white 
-        background stripes in lists by defining EVENT_LOG_STRIPES (in DlgEventLog.h) 
+    - MGR: Allow compile-time choice of either rules or alternating gray and white
+        background stripes in lists by defining EVENT_LOG_STRIPES (in DlgEventLog.h)
         and BASEVIEW_STRIPES (in BOINCBaseView.h) to 0 for rules or 1 for stripes.
 
     clientgui/
@@ -1796,10 +1796,10 @@ David  10 Mar 2010
         app_control.cpp
 
 Charlie  10 Mar 2010
-    - MGR: Improve performance when reducing number of rows in lists (as  
-        when selecting "Show active tasks") by calling ClearSelections() 
+    - MGR: Improve performance when reducing number of rows in lists (as
+        when selecting "Show active tasks") by calling ClearSelections()
         and SetItemCount() instead of repeatedly calling DeleteItem().
-        
+
     clientgui/
         BOINCBaseView.cpp
 
@@ -1813,17 +1813,17 @@ David  10 Mar 2010
         credit_test.php
 
 Charlie  11 Mar 2010
-    - MGR: Fix a bug which caused unnecessary demand RPCs on some platforms: 
-        set RPC time stamps to 1 rather than 0 in RefreshRPCs() so a not to 
+    - MGR: Fix a bug which caused unnecessary demand RPCs on some platforms:
+        set RPC time stamps to 1 rather than 0 in RefreshRPCs() so a not to
         trigger initialization code.
-        
+
     clientgui/
         MainDocument.cpp
 
 Rom    11 Mar 2010
     - MGR: Prevent flicker and lack of display by using the regular tooltip
         for the Project List control on Windows.
-        
+
     clientgui/
         ProjectListCtrl.cpp, .h
 
@@ -1838,16 +1838,16 @@ David  11 Mar 2010
         average.cpp,h
 
 Charlie  11 Mar 2010
-    - MGR: Fix to my previous checkin: RefreshRPCs() shouldn't change time stamp 
-        if it was zero, as this is a special vslue to indicate the RPC has never 
+    - MGR: Fix to my previous checkin: RefreshRPCs() shouldn't change time stamp
+        if it was zero, as this is a special vslue to indicate the RPC has never
         been called.
-        
+
     clientgui/
         MainDocument.cpp
 
 Charlie  11 Mar 2010
-    - MGR: use alternating gray and white background stripes in all lists; change 
-        gray color to (247, 247, 247) from (240, 240, 240).  Use system colors for 
+    - MGR: use alternating gray and white background stripes in all lists; change
+        gray color to (247, 247, 247) from (240, 240, 240).  Use system colors for
         text.
 
     clientgui/
@@ -1868,10 +1868,10 @@ David  11 Mar 2010
         notice.cpp
 
 Charlie  12 Mar 2010
-    - MGR: Allow separate compile-time choice of rules and / or alternating gray 
-        and white background stripes in lists by defining EVENT_LOG_RULES and 
-        EVENT_LOG_STRIPES (in DlgEventLog.h) and BASEVIEW_RULES and BASEVIEW_STRIPES 
-        (in BOINCBaseView.h); set each to 1 to enable or 0 to disable; currently all 
+    - MGR: Allow separate compile-time choice of rules and / or alternating gray
+        and white background stripes in lists by defining EVENT_LOG_RULES and
+        EVENT_LOG_STRIPES (in DlgEventLog.h) and BASEVIEW_RULES and BASEVIEW_STRIPES
+        (in BOINCBaseView.h); set each to 1 to enable or 0 to disable; currently all
         are set to 1 for both stripes and rules in both types of lists.
 
     clientgui/
@@ -1881,7 +1881,7 @@ Charlie  12 Mar 2010
 Rom    12 Mar 2010
     - Remove BOINC_RCSID tags from source files, we are doing branching and tagging
         properly.
-        
+
     <Various Files>
 
 David  12 Mar 2010
@@ -1959,9 +1959,9 @@ David  15 Mar 2010
         procinfo_win.cpp
 
 Charlie  16 Mar 2010
-    - Mac Sandbox: Fix bug in my changes of 26 Jan 2010 to set projects directory 
+    - Mac Sandbox: Fix bug in my changes of 26 Jan 2010 to set projects directory
         and slots directory to group boinc_project, not boinc_master.
-        
+
     client/
         file_names.cpp
 
@@ -1992,7 +1992,7 @@ Rom    16 Mar 2010
         *.vcproc
 
 Charlie  18 Mar 2010
-    - MGR: If user selects Event Log from menu when Event Log window already open, 
+    - MGR: If user selects Event Log from menu when Event Log window already open,
         just bring it to the front instead of opening another window.
     - lib: Fix crash bugs.
 
@@ -2011,16 +2011,16 @@ David  18 Mar 2010
         gui_rpc_client_ops.cpp
 
 Charlie  19 Mar 2010
-    - MGR: Switch background color for the list view stripes back to 
+    - MGR: Switch background color for the list view stripes back to
         the original color (240, 240, 240) from (247, 247, 247).
-        
+
     clientgui/
         BOINCBaseView.cpp
         DlgEventLog.cpp
 
 Rom    22 Mar 2010
     - MGR: Add event map to the properties dialog.
-    
+
     clientgui/
         DlgItemProperties.cpp, .h
 
@@ -2034,7 +2034,7 @@ David  22 Mar 2010
 
 Charlie  22 Mar 2010
     - MGR: Fix crash bug when using Mac accessibility with Event Log.
-    
+
     clientgui/
         DlgEventLogListCtrl.cpp, .h
 
@@ -2065,7 +2065,7 @@ David  23 Mar 2010
 
 Charlie  23 Mar 2010
     - MGR: Change Advanced Menu item "Run GPU never" to "Suspend GPU".
-    
+
     clientgui/
         AdvancedFrame.cpp
 
@@ -2087,7 +2087,7 @@ David  25 Mar 2010
 Rom    25 Mar 2010
     - MGR: Simplify the taskbar code before implementing the notice detection
         code for the taskbar.
-        
+
     clientgui/
         BOINCTaskBar.cpp
 
@@ -2129,7 +2129,7 @@ Rom    29 Mar 2010
     - MGR: Display a balloon on Windows and Linux, while causing
         the dock to bounce on the Mac whenever new notices arrive.
     - MGR: More cleanup work for the task bar.
-    
+
     clientgui/
         BOINCTaskBar.cpp, .h
     clientgui/msw/
@@ -2198,7 +2198,7 @@ David  29 Mar 2010
         Makefile.am
         average.cpp,h
     py/Boinc/
-        database.py 
+        database.py
     sched/
         Makefile.am
         credit.cpp,h
@@ -2227,17 +2227,17 @@ David  29 Mar 2010
         gui_rpc_client_ops.cpp
 
 Charlie  29 Mar 2010
-    - MGR: Call get_notices RPC once per minute when Notices tab is not open 
+    - MGR: Call get_notices RPC once per minute when Notices tab is not open
         so we can notify the user when new notices become available.
 
     clientgui/
         MainDocument.cpp, .h
 
 Charlie  29 Mar 2010
-    - MGR: Mac fixes for recent task bar cleanup work.  Remove taskbar icon 
-         tooltip code on Mac since Mac Taskbar Icon does not support 
+    - MGR: Mac fixes for recent task bar cleanup work.  Remove taskbar icon
+         tooltip code on Mac since Mac Taskbar Icon does not support
          tooltips (this code is not removed by compiler optimization.)
-    
+
     clientgui/
         BOINCTaskBar.cpp, .h
         mac/
@@ -2249,7 +2249,7 @@ Charlie  30 Mar 2010
         - Display an alert if Manager is open to a tab other than Notices
           (If Manager is now hidden, alert will appear when Manager is shown.)
           Allow updates to continue behind the notification alert.
-    
+
     clientgui/
         BOINCTaskBar.cpp, .h
 
@@ -2274,7 +2274,7 @@ David  30 Mar 2010
 Rom    30 Mar 2010
     - MGR: Bad things happen when you don't initialize default values
         for variables under wxWidgets.
-        
+
     clientgui/
         TermsOfUsePage.cpp
 
@@ -2311,7 +2311,7 @@ David  31 Mar 2010
 Rom    31 Mar 2010
     - MGR: Fix double inclusion problem with change in header layouts
         on Linux.
-        
+
     clientgui/gtk/
         taskbarex.cpp
 
@@ -2338,13 +2338,13 @@ David  31 Mar 2010
         *.h
 
 Charlie  1 Apr 2010
-    - MGR: Show number of unread notices in title of Notices tab (we consider 
-        all notices as having been read when Notices tab is showing and BOINC 
-        Manager is front process).  Notify (balloon on Window or Linux, bounce 
-        Dock icon on Mac for 15 seconds) repeatedly when there are unread 
-        messages, with notification frequency set by Options dialog reminder 
+    - MGR: Show number of unread notices in title of Notices tab (we consider
+        all notices as having been read when Notices tab is showing and BOINC
+        Manager is front process).  Notify (balloon on Window or Linux, bounce
+        Dock icon on Mac for 15 seconds) repeatedly when there are unread
+        messages, with notification frequency set by Options dialog reminder
         interval slider.
-        Note: Should there be 2 separate reminder frequency sliders for network 
+        Note: Should there be 2 separate reminder frequency sliders for network
         connection and Unread notices?
 
     clientgui/
@@ -2367,7 +2367,7 @@ Rom    1 Apr 2010
         programatically causes events to be fired and processed just
         like user input. This causes the menu items to flip flop
         back and forth between different modes.
-        
+
     clientgui/
         AdvancedFrame.cpp
 
@@ -2444,17 +2444,17 @@ David  2 Apr 2010
         db_base.cpp,h
 
 Charlie  1 Apr 2010
-    - Mac: Update build instructions to replace dead link for 
+    - Mac: Update build instructions to replace dead link for
         downloading JPEG 6b sources.
-    
+
      mac_build/
         HowToBuildBOINC_XCode.rtf
 
 Charlie  3 Apr 2010
-    - Mac: Build with c-ares 1.6.0 instead of c-ares 1.7.0, because the newer 
-        c-ares has problems resolving host names on OS 10.6 with default 
+    - Mac: Build with c-ares 1.6.0 instead of c-ares 1.7.0, because the newer
+        c-ares has problems resolving host names on OS 10.6 with default
         settings when used with AT&T U-Verse 2Wire gateway routers and Airport.
-        
+
      mac_build/
         buildc-ares.sh
         buildcurl.sh
@@ -2477,7 +2477,7 @@ David  4 Apr 2010
         client_state.cpp
 
 Charlie  5 Apr 2010
-    - MGR: If user is not active, delay notification until he is active 
+    - MGR: If user is not active, delay notification until he is active
         (Mac only).
 
     clientgui/
@@ -2581,7 +2581,7 @@ Charlie  7 Apr 2010
         screensaver.cpp
     lib/
         procinfo_mac.cpp
-    
+
 David  7 Apr 2010
     - client: don't include graphics apps in non-BOINC CPU time (Unix).
 
@@ -2639,7 +2639,7 @@ David  7 Apr 2010
 Rom    8 Apr 2010
     - WINSETUP: Add support for the <team_name> tag in the Windows
         installer for the auto created project_init.xml file.
-        
+
     win_build/installerv2/redist/Windows/src/boinccas/
         boinccas.rc
         CACreateProjectInitFile.cpp
@@ -2686,9 +2686,9 @@ David  7 Apr 2010
         forum.inc
 
 Charlie  9 Apr 2010
-    SS: Ignore SUSPEND_REASON_CPU_USAGE in SS coordinator, so it won't kill 
+    SS: Ignore SUSPEND_REASON_CPU_USAGE in SS coordinator, so it won't kill
         graphics apps for short-term CPU usage spikes (such as anti-virus.)
-    
+
     clientscr/
         screensaver.cpp
 
@@ -2720,7 +2720,7 @@ David  9 Apr 2010
             projected FLOPS.  But its accuracy is not important;
             it's not used once the server has statistics
             for the (host, app version)
-        
+
     sched/
         credit.cpp
         sched_customize.cpp
@@ -2742,7 +2742,7 @@ David  10 Apr 2010
         sched_send.cpp
 
 Charlie  13 Apr 2010
-    - client: Add code for determining non-BOINC CPU time for GridRepublic 
+    - client: Add code for determining non-BOINC CPU time for GridRepublic
         and Progress Thru Processors clients (Mac & Windows).
 
     lib/
@@ -2836,7 +2836,7 @@ Charlie  15 Apr 2010
 
 Charlie  15 Apr 2010
     - client: fix build break.
-    
+
     client/
         coproc_detect.cpp
 
@@ -2857,7 +2857,7 @@ Rom    16 Apr 2010
         size to the dialog creation routines instead of setting the size
         after dialog initialization.  Avoids artifacts and things having
         to be tweaked later.
-        
+
     clientgui/
         DlgEventLog.cpp, .h
 
@@ -2884,16 +2884,16 @@ David  16 Apr 2010
         cpu_sched.cpp
 
 Charlie  16 Apr 2010
-    - Mac Installer: Set uninstaller's writeable-by-user permission bit so 
+    - Mac Installer: Set uninstaller's writeable-by-user permission bit so
         3rd-party Unarchiver can inflate the Zip file (from Eric Myers).
-    
+
     mac_installer/
         make_GridRepublic.sh
         make_ProgThruProc.sh
         release_boinc.sh
 
 Charlie  17 Apr 2010
-    - Mac Installer: AddRemoveUser utility accepts both full / login user 
+    - Mac Installer: AddRemoveUser utility accepts both full / login user
         names and short / Posix user names.
 
     mac_installer/
@@ -3056,11 +3056,11 @@ David  21 Apr 2010
         prefs.cpp
 
 Charlie  22 Apr 2010
-    - client: Add get_network_usage_totals() function to the Macintosh 
-        client to report the number of bytes sent and received across 
-        all non-loopback interfaces.  Note: this code may also work on 
+    - client: Add get_network_usage_totals() function to the Macintosh
+        client to report the number of bytes sent and received across
+        all non-loopback interfaces.  Note: this code may also work on
         onther UNIX-like systems in addition to Macintosh.
-        
+
     client/
         hostinfo_unix.cpp
 
@@ -3135,7 +3135,7 @@ David  23 Apr 2010
         prefs.cpp,h
     client/
         cs_prefs.cpp
-        
+
 David  23 Apr 2010
     - manager: add network quota to advanced prefs dialog
 
@@ -3202,7 +3202,7 @@ David  26 Apr 2010
 David  26 Apr 2010
     - validator: bug fixes: bad formula for low_average();
         failure to reread app_versions because of 1e6/1e-6 typo
-    
+
     db/
         boinc_db.h
     sched/
@@ -3222,13 +3222,13 @@ David  27 Apr 2010
         project_specific_prefs.inc
 
 Charlie  28 Apr 2010
-    - MGR: more Event Log bug fixes: fix Copy Selected button when filtering 
-        by project; save window dimensions properly when exiting Manager with 
-        Event Log window open; add spaces around field delimiters when copying 
-        to clipboard for better readability; fix sizer problem on Mac (buttons 
-        disappeared if window height was too small) by initializing size of 
+    - MGR: more Event Log bug fixes: fix Copy Selected button when filtering
+        by project; save window dimensions properly when exiting Manager with
+        Event Log window open; add spaces around field delimiters when copying
+        to clipboard for better readability; fix sizer problem on Mac (buttons
+        disappeared if window height was too small) by initializing size of
         CDlgEventLogListCtrl to wxDefaultSize instead of 640X480.
-        
+
     clientgui/
         DlgEventLog.cpp
         DlgEventLogListCtrl.cpp
@@ -3241,12 +3241,12 @@ David  28 Apr 2010
         net_stats.cpp
 
 Charlie  29 Apr 2010
-    - client: Add get_max_cpu_temperature to the Macintosh client to 
+    - client: Add get_max_cpu_temperature to the Macintosh client to
         report the highest current CPU temperature as degrees Celsius.
-        This code is for Intel macs only.  Returns zero if it fails 
-        (or on a PowerPC Mac).  I do have code to do this on PowerPC 
+        This code is for Intel macs only.  Returns zero if it fails
+        (or on a PowerPC Mac).  I do have code to do this on PowerPC
         Macs, but it is long and complex.
-        
+
     client/
         hostinfo_unix.cpp
 
@@ -3290,7 +3290,7 @@ David  29 Apr 2010
         cs_scheduler.cpp
 
 Charlie  30 Apr 2010
-    - client: Restore RUN_MODE_ALWAYS functionality in network suspension 
+    - client: Restore RUN_MODE_ALWAYS functionality in network suspension
         logic which was lost in code cleanup of 26 Apr 2010.
 
         cs_prefs.pp
@@ -3322,14 +3322,14 @@ David  3 May 2010
 
 Rom    3 May 2010
     - client: fix build break
-    
+
     client/
         net_stats.cpp
 
 Rom    5 May 2010
     - client: include the configured download url in the
         get_newer_version RPC.
-        
+
     client/
         gui_rpc_server_ops.cpp
 
@@ -3347,7 +3347,7 @@ Rom    5 May 2010
 
 Charlie  5 May 2010
     - MGR: Fix build break.
-    
+
     clientgui/
         AsyncRPC.cpp, .h
 
@@ -3414,7 +3414,7 @@ David  7 May 2010
 
 Rom    7 May 2010
     - DIAG: Make init functions consistent with one another.
-    
+
     lib/
         diagnostics.cpp
 
@@ -3443,7 +3443,7 @@ David  10 May 2010
 Rom    10 May 2010
     - client & lib: bring header inclusion up-to-date for the CC to begin
         hunting down a memory leak.
-        
+
     client/
         <Various Files>
     lib/
@@ -3451,7 +3451,7 @@ Rom    10 May 2010
 
 Rom    10 May 2010
     - client: re-enable memory leak detection on Windows.
-    
+
     client/
         main.cpp
 
@@ -3499,14 +3499,14 @@ David  11 May 2010
 Rom    11 May 2010
     - client: leave template for causing the debugger to break on a
         specific memory allocation.
-        
+
     client/
         main.cpp
 
 Charlie  11 May 2010
-    - client: Fix build break on Mac.  Please be careful changing the order 
+    - client: Fix build break on Mac.  Please be careful changing the order
         of #includes.
-    
+
     client/
         gui_rpc_server_ops.cpp
 
@@ -3534,7 +3534,7 @@ David  11 May 2010
 
 Rytis  12 May 2010
     - user web: use CDATA section for title in the RSS feed
-    
+
     html/inc/
         forum_rss.inc
 
@@ -3845,11 +3845,11 @@ Rytis  23 May 2010
         am_get_info.php
 
 Charlie  24 May 2010
-    - MGR: If get_results RPC takes x seconds, do it no more often than 
-        once every (x * GET_RESULTS_FREQUENCY_FACTOR) seconds.  
+    - MGR: If get_results RPC takes x seconds, do it no more often than
+        once every (x * GET_RESULTS_FREQUENCY_FACTOR) seconds.
         GET_RESULTS_FREQUENCY_FACTOR is currently defined as 10.
-        NOTE: we must measure the RPC time in the RPC thread, so this 
-        code assumes that dtime() is thread-safe, or at least that any 
+        NOTE: we must measure the RPC time in the RPC thread, so this
+        code assumes that dtime() is thread-safe, or at least that any
         error introduced due to thread preemption is small.
 
     clientgui/
@@ -3888,7 +3888,7 @@ David  26 May 2010
 Rom    27 May 2010
     - client: fix elasped time tracking bug
         (from Kevin Reed)
-    
+
     client/
         app_start.cpp
 
@@ -3896,7 +3896,7 @@ Rom    28 May 2010
     - samples: plug in a skeleton CUDA sample with nothing in it.  Setup Windows
         project environment so the thing will at least compile. The nvcc compiler
         is a bit touchy.
-        
+
     samples/cuda
         cuda.cu
         cuda_kernel.cu
@@ -3991,7 +3991,7 @@ David  1 Jun 2010
             - Even with this change, hosts that return SUCCESS but
                 invalid results will continue to get the initial daily quota.
                 It would be desirable to reduce their quota to 1.
-            
+
     db/
         boinc_db.cpp
     sched/
@@ -4067,13 +4067,13 @@ David  2 Jun 2010
 Rom    2 Jun 2010
     - MGR: When starting up and attaching to a project for the first time,
         show the correct tab if in the advanced view.
-        
+
     clientgui/
         AdvancedFrame.cpp
 
 Charlie  2 Jun 2010
     - client: fix compiler warning (unused variable.)
-    
+
     client/
         log_flags.cpp
 
@@ -4138,14 +4138,14 @@ David  4 Jun 2010
 
 Charlie  7 Jun 2010
     - client: Display Mac OS Version as well as Darwin version in Event Log.
-        
+
     client/
         client_state.cpp
 
 Charlie  7 Jun 2010
-    - Mac: Don't generate xX86_64 client symbol table (was empty); fix 
+    - Mac: Don't generate xX86_64 client symbol table (was empty); fix
         generation of PowerPC symbol tables (thin to ppc7400 not ppc).
-    
+
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
@@ -4197,21 +4197,21 @@ David  8 Jun 2010
         build_po
 
 Charlie  9 Jun 2010
-    - Mac installer: Create script to build installer for Campus Party (installs 
+    - Mac installer: Create script to build installer for Campus Party (installs
         custom project_init.xml file.)
-    
+
     mac_installer/
         release_campus_party.sh
 
 Rom    9 Jun 2010
-    - win_build: Commit project files to build sample applications for cuda 
+    - win_build: Commit project files to build sample applications for cuda
         and OpenCL (ATI & Nvidia)
-        
+
     samples/
         <Various Files>
     win_build/
         <various Files>
-        
+
 David  10 Jun 2010
     - server: change credit constant from 100 to 200.
         Data from S@h beta (running for a month or so)
@@ -4301,7 +4301,7 @@ David  16 Jun 2010
     - client: let fake CUDA specify driver version
     - client: restore call to diagnostics_finish() on exit.
         (should print mem info, but doesn't)
-    - manager: notices display tweak 
+    - manager: notices display tweak
 
     client/
         client_state.cpp
@@ -4364,20 +4364,20 @@ David  17 Jun 2010
         prefs.inc
 
 Charlie  18 Jun 2010
-    - lib: Fix the value returned from get_mac_addresses() on Macintosh 
+    - lib: Fix the value returned from get_mac_addresses() on Macintosh
         computers.  It has returned the value of kernResult, which is 0
-        on success, instead of true for success, since the routine was 
-        first written in November 2008.  This causes the client to 
+        on success, instead of true for success, since the routine was
+        first written in November 2008.  This causes the client to
         generate a new random CPID every time the client is launched.
-    
+
     lib/
         mac_address.cpp
 
 Charlie  18 Jun 2010
-    MGR: save last notice which has been read in persistent storage, by 
-        saving its arrival time.  Store a separate entry for each CPID 
+    MGR: save last notice which has been read in persistent storage, by
+        saving its arrival time.  Store a separate entry for each CPID
         so it will work for Managers managing multiple remote clients.
-        
+
     clientgui/
         MainDocument.cpp, .h
 
@@ -4413,9 +4413,9 @@ David  18 Jun 2010
         credit.cpp
 
 Charlie  18 Jun 2010
-    MGR: Take into account that there may be gaps in the sequence numbers 
+    MGR: Take into account that there may be gaps in the sequence numbers
         because some notices may have been deleted.
-        
+
     clientgui/
         MainDocument.cpp, .h
 
@@ -4482,10 +4482,10 @@ David  22 June 2010
         acct_mgr.cpp
 
 Charlie 22 Jun 2010
-    - MGR: save host name (from host.domain_name) instead of CPID when 
-        saving arrival time of last read notice; wait until we have 
-        host.domain_name before checking for unread messages. 
-                
+    - MGR: save host name (from host.domain_name) instead of CPID when
+        saving arrival time of last read notice; wait until we have
+        host.domain_name before checking for unread messages.
+
     clientgui/
         MainDocument.cpp
 
@@ -4508,7 +4508,7 @@ Rom    23 June 2010
         downloaded once after selecting the item.  I presume it
         decides it needs to re-download the image becuase the
         background color for the whole line changes.
-        
+
     clientgui/
         NoticeListCtrl.cpp, .h
         ProjectListCtrl.cpp
@@ -4536,7 +4536,7 @@ David  23 Jun 2010
 
 Charlie 23 Jun 2010
     - MGR: Fix order of items displayed in Notices tab correctly this time.
-    
+
     clientgui/
         ViewNotices.cpp
         NoticeListCtrl.cpp
@@ -4567,7 +4567,7 @@ David  23 Jun 2010
 
 Rom    25 Jun 2010
     - MGR: Handle sorting the notices control a different way.
-    
+
     clientgui/
         ViewNotices.cpp
         NoticeListCtrl.cpp, .h
@@ -4660,7 +4660,7 @@ David  25 Jun 2010
 
 Rom    25 Jun 2010
     - MGR: Sort notices by dtime()
-    
+
     clientgui/
         ViewNotices.cpp
         NoticeListCtrl.cpp, .h
@@ -4675,7 +4675,7 @@ Rom    27 Jun 2010
     - MGR: Delete expired entries from the notices control
     - MGR: Remove sort code.  Entries in the pDoc notices
         structure is already sorted.
-        
+
     clientgui/
         NoticeListCtrl.cpp, .h
         ViewNotices.cpp
@@ -4688,7 +4688,7 @@ Charlie 28 Jun 2010
 
 Rom    28 Jun 2010
     - CC: Fix typo
-    
+
     client/
         cs_notice.cpp
 
@@ -4715,7 +4715,7 @@ Rom    28 Jun 2010
 
 Charlie 28 Jun 2010
     - Mac: Update XCode project for new source files BOINCInternetFSHandler.cpp,.h.
-        
+
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
@@ -4749,24 +4749,24 @@ David  28 Jun 2010
 
 Charlie 29 Jun 2010
     - client: Fix 2 bugs in handling of notices:
-        - When client sends all notices instead of starting with the requested 
-            sequence number (e.g., due to having removed a notice), it must 
-            prefix the notices with a dummy notice with sequence number -1 to 
-            tell the manager to clear the notices vector.  
-        - When parsing RSS feeds, call notices.append() with keep_old false.  
-            It was passing true, so notices of new posts to threads were not 
-            having their arrival times updated when additional posts to the 
+        - When client sends all notices instead of starting with the requested
+            sequence number (e.g., due to having removed a notice), it must
+            prefix the notices with a dummy notice with sequence number -1 to
+            tell the manager to clear the notices vector.
+        - When parsing RSS feeds, call notices.append() with keep_old false.
+            It was passing true, so notices of new posts to threads were not
+            having their arrival times updated when additional posts to the
             same thread were reported.
 
     client/
         cs_notices.cpp
 
 Charlie 29 Jun 2010
-    - client: revert my recent change to keep_old argument above.  It caused all 
-        RSS feeds to be updated repeatedly.  We need to somehow differentiate 
-        between old news items and notices that are new but identical to previous 
+    - client: revert my recent change to keep_old argument above.  It caused all
+        RSS feeds to be updated repeatedly.  We need to somehow differentiate
+        between old news items and notices that are new but identical to previous
         ones.  Should we use the pubDate for that?
-        
+
     client/
         cs_notices.cpp
 
@@ -4836,9 +4836,9 @@ David  29 Jun 2010
         gui_rpc_client.h
 
 Charlie 30 Jun 2010
-    - MGR: logic changes & fixes to Notices display for new NOTICES::complete 
+    - MGR: logic changes & fixes to Notices display for new NOTICES::complete
         flag:
-        - ViewNotices clears NoticeListCtrl if NOTICES::complete is set. 
+        - ViewNotices clears NoticeListCtrl if NOTICES::complete is set.
         - after GUI RPC sets NOTICES::complete, only ViewNotices clears it.
         - unread / read notices logic checks arrival times, not sequence nos.
         - NoticeListCtrl clears NeedsRefresh flag agfter refresh.
@@ -4880,7 +4880,7 @@ Rom    30 Jun 2010
         reason the Nvidia or ATI APIs cause an exception don't use the GPUs and
         don't crash BOINC.
     - WIN: rename boinc_ss to boinc_os_ss and ss_app to boinc_ss.
-        
+
     client/
         coproc_detect.cpp
     win_build/
@@ -4890,14 +4890,14 @@ Rom    30 Jun 2010
     - MGR: Fix a bug in the notices code.  Refresh the UI if the complete notices
         list has been downloaded regardless of whether or not the item counts are
         the same.
-        
+
     clientgui/
         NoticeListCtrl.cpp, .h
 
 Rom    30 Jun 2010
     - LIB: Reset the completed flag to false at the beginning of the
         get_notices RPC in case the notices buffer is being reused.
-        
+
     lib/
         gui_rpc_client_ops.cpp
 
@@ -4908,7 +4908,7 @@ David  30 Jun 2010
         gui_rpc_server.cpp
 
 Charlie 30 Jun 2010
-    - MGR: get_messages and get_notices RPCs don't alternate buffers, so 
+    - MGR: get_messages and get_notices RPCs don't alternate buffers, so
         remove the unused buffers from CMainDocument class.
 
     clientgui/
@@ -4935,7 +4935,7 @@ David  30 Jun 2010
 
 Rom    6 July 2010
     - MGR: Fix Linux build break.
-    
+
     clientgui/
         NoticeListCtrl.cpp, .h
 
@@ -4956,7 +4956,7 @@ David  6 Jul 2010
 
 Charlie 8 Jul 2010
     - MGR: Fix bugs in accessibility code for Notices tab.
-    
+
     clientgui/
         NoticeListCtrl.cpp, .h
         mac/
@@ -4965,7 +4965,7 @@ Charlie 8 Jul 2010
 David  8 Jul 2010
     - fix gcc 4 compiler warnings
 
-    sched/   
+    sched/
         file_deleter.cpp
         single_job_assimilator.cpp
         sched_locality.cpp
@@ -4982,9 +4982,9 @@ David  8 Jul 2010
         boinc.sln
 
 Charlie 9 Jul 2010
-    - MGR: Fix accessibility code bug in Attach Wizard's ProjectListCtrl, 
+    - MGR: Fix accessibility code bug in Attach Wizard's ProjectListCtrl,
         consolidate and clean up Mac accessibility code.
-    
+
     clientgui/
         NoticeListCtrl.cpp, .h
         ProjectListCtrl.cpp, .h
@@ -4992,7 +4992,7 @@ Charlie 9 Jul 2010
             MacAccessiblity.cpp
 
 David  9 Jul 2010
-    - client: change the calculation of exponential backoff used for 
+    - client: change the calculation of exponential backoff used for
         1) individual file transfers
         2) project-level file transfer backoff
         3) scheduler operations
@@ -5009,12 +5009,12 @@ David  9 Jul 2010
         pers_file_xfer.h
 
 Charlie 9 Jul 2010
-    - MGR: Fix accessibility code bug in Attach Wizard's ProjectListCtrl, 
+    - MGR: Fix accessibility code bug in Attach Wizard's ProjectListCtrl,
         consolidate and clean up Mac accessibility code.
-    
+
 Charlie 10 Jul 2010
     - MGR: More code cleanup, optimization and bug fixes.
-    
+
     clientgui/
         BOINCListCtrl.h
         DlgEventLogListCtrl.h
@@ -5069,24 +5069,24 @@ David  12 Jul 2010
 
 Rom    13 July 2010
     - MGR: Load up the new BOINC-Client catalog if it exists.
-    
+
     clientgui/
         BOINCGUIApp.cpp
 
 Charlie 14 Jul 2010
-    - MGR: Prevent a race condition which could erroneously invoke the 
+    - MGR: Prevent a race condition which could erroneously invoke the
         Attach Wizard when restarting the client.
-    
+
     clientgui/
         AdvancedFrame.cpp
         MainDocument.cpp
 
 Charlie 14 Jul 2010
-    - MGR: If the client exits unexpectedly, auto-restart it on Windows (and Mac) 
+    - MGR: If the client exits unexpectedly, auto-restart it on Windows (and Mac)
         even if it was installed as a service / daemon.
     - MGR: Display an alert if we auto-restart the client due to unexpected exits
         3 times within CLIENT_3_CRASH_MAX_TIME minutes (currently 30 minutes.)
-    
+
     clientgui/
         BOINCBaseFrame.cpp
         BOINCClientManager.cpp, .h
@@ -5112,7 +5112,7 @@ Rom    14 Jul 2010
 Rom    14 Jul 2010
     - MGR: Fix build break.
     - MGR: Change the crash detect dialog target to 'crash_detection'
-    
+
     clientgui/
         BOINCClientManager.cpp
 
@@ -5133,7 +5133,7 @@ David  14 Jul 2010
 
 Charlie 14 Jul 2010
     - MGR: Tweak text in crash alert.
-    
+
     clientgui/
         BOINCClientManager.cpp
 
@@ -5180,10 +5180,10 @@ Bernd  15 July 2010
         assimilator.cpp
 
 Charlie 16 Jul 2010
-    - MGR: Better solution to prevent a race condition which could erroneously 
-        invoke the Attach Wizard when restarting the client, fix serious bug 
+    - MGR: Better solution to prevent a race condition which could erroneously
+        invoke the Attach Wizard when restarting the client, fix serious bug
         in Simple View I introduced with my previous fix of 14 July.
-    
+
     clientgui/
         AdvancedFrame.cpp
         MainDocument.cpp
@@ -5197,7 +5197,7 @@ Charlie 16 Jul 2010
         version.h
 
 Charlie 16 Jul 2010
-    - MGR: Bug fix: event log text was not dimmed if event log was opened after 
+    - MGR: Bug fix: event log text was not dimmed if event log was opened after
         Client was disconnected.
 
     clientgui/
@@ -5245,7 +5245,7 @@ Rom    19 July 2010
         removal of boinc.dll and addition of boinclog.exe.
     - MGR: Move auto-proxy detection code into its own thread.
     - client: Isolate the auto-proxy detection code to its own thread.
-    
+
     client/
         main.cpp
         sysmon_win.cpp
@@ -5350,7 +5350,7 @@ Rom    21 Jul 2010
 Rom    21 July 2010
     - WINSETUP: Update validate install procedure to account for the
         removal of boinclog.exe.
-    
+
     win_build/installerv2/
         BOINC.ism
         BOINCx64.ism
@@ -5365,7 +5365,7 @@ Rom    21 July 2010
 
 Rom    21 July 2010
     - MGR: Make the simple GUI messages dialog display notices instead.
-    
+
     clientgui/
         sg_BoincSimpleGUI.cpp
         sg_DlgMessages.cpp, .h
@@ -5392,24 +5392,24 @@ David  21 Jul 2010
         NoticeListCtrl.cpp
 
 Charlie 21 Jul 2010
-    - MGR: Mark all notices as having been read if either Simple GUI 
+    - MGR: Mark all notices as having been read if either Simple GUI
         messages dialog or Advanced GUI Notices tab is open.
-        
+
     clientgui/
         MainDocument.cpp
 
 Charlie 22 Jul 2010
     - Mac: Delete source files sg_SGUIListControl.cpp,.h from XCode project.
-        
+
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
 
 Charlie 22 Jul 2010
     - MGR: If Event Log was open on Manager exit, open it on manager launch.
-    - MGR: Clicking main window's close box when Event Log is open also 
+    - MGR: Clicking main window's close box when Event Log is open also
         hides the Event Log; show Event Log again if "Open BOINC Manager" is
-        selected from task bar icon menu.  Clicking main window's Minimize 
+        selected from task bar icon menu.  Clicking main window's Minimize
         box does not affect Event Log window.
 
     clientgui/
@@ -5494,7 +5494,7 @@ Bernd  22 Jul 2010
 
 Rom    22 July 2010
     - MGR: Add some padding to each notice.
-    
+
     clientgui/
         NoticeListCtrl.cpp
 
@@ -5512,16 +5512,16 @@ David  22 July 2010
         notify.inc
 
 Charlie 23 Jul 2010
-    - MGR: for saving / restoring arrival time of last read notice, 
-        extract the host name from host.domain_name, to avoid future 
-        problems if we ever set host.domain_name to a fully-qualified 
+    - MGR: for saving / restoring arrival time of last read notice,
+        extract the host name from host.domain_name, to avoid future
+        problems if we ever set host.domain_name to a fully-qualified
         domain name in the future.
-                
+
     clientgui/
         MainDocument.cpp
 
 Charlie 23 Jul 2010
-    - MGR: If Event Log was open, show it in front of main window when 
+    - MGR: If Event Log was open, show it in front of main window when
         "opening" Manager after it was hidden.
 
     clientgui/
@@ -5537,7 +5537,7 @@ Rom    23 Jul 2010
         clicks on the balloon.
     - MGR: Stop the simple GUI from blinking the messages button
         when the balloon is clicked.
-        
+
     clientgui/
         AdvancedFrame.cpp
         BOINCGUIApp.cpp
@@ -5578,7 +5578,7 @@ David  23 Jul 2010
 
 Rom    23 July 2010
     - MGR: Enable the manager to be able to deal with any size notice.
-    
+
     clientgui/
         DlgEventLog.cpp
         MainDocument.cpp, .h
@@ -5588,7 +5588,7 @@ Rom    23 July 2010
     - MGR: Take another stab at the z-order problem when both the event log
         and main window are open.
     - MGR: Don't replace control characters for regular messages.
-    
+
     clientgui/
         BOINCGUIApp.cpp, .h
         DlgEventLog.cpp
@@ -5596,7 +5596,7 @@ Rom    23 July 2010
         NoticeListCtrl.cpp
 
 Charlie 23 Jul 2010
-    - MGR: I had it backwards: if Event Log was open, show it behind main 
+    - MGR: I had it backwards: if Event Log was open, show it behind main
         window when "opening" Manager after it was hidden.
 
     clientgui/
@@ -5604,9 +5604,9 @@ Charlie 23 Jul 2010
         BOINCGUIApp.cpp
 
 Charlie 23 Jul 2010
-    - MGR: remove my code for extracting host name from host.domain_name; 
+    - MGR: remove my code for extracting host name from host.domain_name;
         it is not needed.
-                
+
     clientgui/
         MainDocument.cpp
 
@@ -5621,12 +5621,12 @@ Rom    26 Jul 2010
 Rom    28 Jul 2010
     - client: fix typo that prevented the correct link to be used for going
         to the log flag configuration wiki page.
-        
+
     client/
         log_flags.cpp
 
 Charlie 30 Jul 2010
-    - MGR: Fix a bug that hid the Event Log when switching between Advanced and 
+    - MGR: Fix a bug that hid the Event Log when switching between Advanced and
         Simple Views.
 
     clientgui/
@@ -5637,7 +5637,7 @@ Rom    30 Jul 2010
         attempt a follow-up reference site check if the proxy server name
         changes. This may mean that'll it will be the second or third connection
         attempt before the CC starts using the new proxy information.
-        
+
     client/
         net_stats.cpp
         sysmon_win.cpp
@@ -5681,11 +5681,11 @@ David  1 Aug 2010
         sched_types.cpp
 
 Charlie 1 Aug 2010
-    - MGR: Fix bugs saving and restoring info on which notices have been read: 
+    - MGR: Fix bugs saving and restoring info on which notices have been read:
         saving as a double reduces precision, so save arrival time as string;
-        to avoid problems caused by rounding in save & restore operation, test in 
-        reverse order (oldest first) and for arrival time <= dLastReadNoticeTime 
-                
+        to avoid problems caused by rounding in save & restore operation, test in
+        reverse order (oldest first) and for arrival time <= dLastReadNoticeTime
+
     clientgui/
         MainDocument.cpp
 
@@ -5693,28 +5693,28 @@ Rom    2 Aug 2010
     - MGR: Remove any remaining hints that there were two wizards at one time.
     - MGR: Save the username and email address in different places in the
         registry/config file
-    
+
     clientgui/
         <Various Wizard Files>
 
 Rom    2 Aug 2010
     - MGR: Remove connection needed type sys tray notifications from the manager,
         lets the CC inform via a notice instead.
-        
+
     clientgui/
         BOINCDialupManager.cpp, .h
 
 Rom    2 Aug 2010
     - MGR: Use the account manager name provided by the project config RPC instead
         of the skin name on the CompletionPage in the wizard.
-        
+
     clientgui/
         CompletionPage.cpp
 
 Rom    2 Aug 2010
     - client: wait until after the proxy check completes before attempting to
         check on the reference site.
-        
+
     client/
         net_status.cpp
 
@@ -5724,20 +5724,20 @@ David  2 Aug 2010
 
 Charlie 3 Aug 2010
     - MGR: fix crash bug on non-Windows computers.
-        
+
     clientgui/
         BOINCDialupManager.cpp
 
 Charlie 3 Aug 2010
-     - Mac: XCode project: delete source files WizardAttachProject.cpp,.h and 
+     - Mac: XCode project: delete source files WizardAttachProject.cpp,.h and
         BOINCWizards.h; add files WizardAttach.cpp,.h.
-        
+
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
 
 Charlie 3 Aug 2010
-    - MGR: clear notices display when selecting a different host to force display 
+    - MGR: clear notices display when selecting a different host to force display
         of new host's notices.
 
     clientgui/
@@ -5746,7 +5746,7 @@ Charlie 3 Aug 2010
 
 Charlie 3 Aug 2010
     - MGR: fix compiler warnings, some of which predict incorrect operation.
-        
+
     clientgui/
         AccountInfoPage.cpp
         CompletionPage.cpp
@@ -5754,13 +5754,13 @@ Charlie 3 Aug 2010
 Rom    3 Aug 2010
     - client: Fix autoproxy detection so that it doesn't break platforms that
         currently do not support proxy detection.
-        
+
     client/
         net_stats.cpp
         sysmon_win.cpp
     lib/
         proxy_info.cpp, .h
-    
+
 David  4 Aug 2010
     - client/scheduler: tweak translatable messages
 
@@ -5776,13 +5776,13 @@ Rom    5 Aug 2010
         recursive call to itself on shutdown thereby halting the Windows
         shutdown procedure on Windows XP and older systems. It would
         eventually crash the process with a stack overflow error.
-        
+
     clientgui/
         BOINCGUIApp.cpp, .h
 
 Rom    5 Aug 2010
     - MGR: Remove useless Notices button.
-    
+
     clientgui/
         ViewNotices.cpp
 
@@ -5810,14 +5810,14 @@ Rom    5 Aug 2010
     - MGR: Modeless top level windows should not have the context help
         button in the upper right-hand corner of the dialog. Use the
         standard control there.
-        
+
     clientgui/
         DlgEventLog.cpp
 
 Charlie 5 Aug 2010
-    - MGR: Fix a bug which shut down local client even though Manager didn't launch it 
+    - MGR: Fix a bug which shut down local client even though Manager didn't launch it
         when Manager was connected to a remote host.
-        
+
     clientgui/
         BOINCBaseFrame.cpp
         BOINCClientManager.h
@@ -5838,16 +5838,16 @@ Charlie 6 Aug 2010
         -n --namehost       Host name or IP address
         -g --gui_rpc_port   GUI RPC port number
         -p --password       Password
-    - MGR: If currently connected host name is empty string, don't autorestart 
+    - MGR: If currently connected host name is empty string, don't autorestart
         local client.
-        
+
     clientgui/
         BOINCGUIApp.cpp, .h
         MainDocument.cpp
 
 Rom    10 Aug 2010
     - MGR: Possible fix for vtable reference issue.
-    
+
     clientgui/
         WizardAttach.h
 
@@ -5861,7 +5861,7 @@ David  10 Aug 2010
 
 David  10 Aug 2010
     - scheduler: add <primary_platform_only> config option:
-        send only 64-bit app versions to 64-bit hosts 
+        send only 64-bit app versions to 64-bit hosts
         (the default is to send whatever app version is fastest)
 
     sched/
@@ -5869,15 +5869,15 @@ David  10 Aug 2010
         sched_version.cpp
 
 Charlie 11 Aug 2010
-    - MGR: preserve message filtering by project if Event Log is closed and 
+    - MGR: preserve message filtering by project if Event Log is closed and
         reopened, but not when selecting a different host or exiting Manager.
 
     clientgui/
         DlgEventLog.cpp, .h
 
 Charlie 11 Aug 2010
-    - MGR: Check whether another instance of BOINC Manager is already running; 
-        if so, show Select Computer dialog with extra text saying another 
+    - MGR: Check whether another instance of BOINC Manager is already running;
+        if so, show Select Computer dialog with extra text saying another
         instance is running; if user cancels dialog, exit Manager.
 
     clientgui/
@@ -5889,13 +5889,13 @@ Charlie 11 Aug 2010
 
 Rom    11 Aug 2010
     - MGR: Adjust control positions and resize controls after a text change.
-    
+
     clientgui/
         DlgEventLog.cpp
 
 Rom    11 Aug 2010
     - lib: Make procinfo_win.cpp Unicode compatible.
-    
+
     lib/
         procinfo_win.cpp
 
@@ -5903,7 +5903,7 @@ Rom    11 Aug 2010
     - MGR: Don't allow the Create function of the Wizard to be called twice,
         it'll basically lead to both an assert and a memory leak.
     - MGR: Don't create the wizard unless we are going to use it.
-        
+
     clientgui/
         AdvancedFrame.cpp
         sg_BoincSimpleGUI.cpp
@@ -5911,7 +5911,7 @@ Rom    11 Aug 2010
 
 Rom    11 Aug 2010
     - WIN_BUILD: Remove references to crypto.cpp, and .h from
-        libboinc_staticcrt so that projects who use it won't need to 
+        libboinc_staticcrt so that projects who use it won't need to
         worry about pulling in OpenSSL.
 
     win_build/
@@ -6000,35 +6000,35 @@ David  11 Aug 2010
         filesys.cpp,h
 
 Charlie 11 Aug 2010
-    - MGR: revert Rom's change #22191; calling Fit() after a text change 
-        redraws the dialog at its minimum size, making it impossible to 
+    - MGR: revert Rom's change #22191; calling Fit() after a text change
+        redraws the dialog at its minimum size, making it impossible to
         resize the dialog.
-        
+
     clientgui/
         DlgEventLog.cpp
 
 Charlie 11 Aug 2010
-    - MGR: "Another instance" message in Select Computer dialog gets Manager name 
+    - MGR: "Another instance" message in Select Computer dialog gets Manager name
         from skin.
 
      clientgui/
         DlgSelectComputer.cpp
 
 Charlie 12 Aug 2010
-    - MGR: Adjust control positions and resize controls after a text change, 
+    - MGR: Adjust control positions and resize controls after a text change,
         using Layout(); don't use Fit() or FitInside(), which resize the window.
-        Remove the messy logic I used before to ensure the filter button is long 
+        Remove the messy logic I used before to ensure the filter button is long
         enough to fit the longer text.
-        NOTE: we should add this logic everywhere we have a control whose label 
-        text changes with status, since we cannot predict which label will be 
+        NOTE: we should add this logic everywhere we have a control whose label
+        text changes with status, since we cannot predict which label will be
         longer in every language translation.
-    
+
     clientgui/
         DlgEventLog.cpp
 
 Rom    12 Aug 2010
     - lib: Prevent category information from being lost in notices.
-    
+
     lib/
         notice.cpp
 
@@ -6042,7 +6042,7 @@ Rom    13 Aug 2010
 
 Rom    13 Aug 2010
     - lib: prevent crash on startup if slot directories have been deleted.
-    
+
     lib/
         filesys.cpp
 
@@ -6066,7 +6066,7 @@ David  14 Aug 2010
 
 Charlie 14 Aug 2010
     - MGR: Fix build break on Mac.
-    
+
     clientgui/
         AsyncRPC.cpp
 
@@ -6084,9 +6084,9 @@ David  14 Aug 2010
         handle_request.cpp
 
 Charlie 15 Aug 2010
-    - MGR: Allow Notices tab to scroll smoothly, disallow selection of 
+    - MGR: Allow Notices tab to scroll smoothly, disallow selection of
         items in Notices tab.
-    
+
     clientgui/
         BOINCHtmlListBox.cpp, .h (new)
         BOINCVListBox.cpp, .h (new)
@@ -6111,20 +6111,20 @@ Rom    17 Aug 2010
     - MGR: In the future I need to be more careful when I flatten a
         class hierarchy. I broke the ability to get the latest
         project configuration from account managers. Fix that.
-        
+
     clientgui/
         WizardAttach.cpp
 
 Rom    17 Aug 2010
     - MGR: Fix build issue on Linux (Sqlite3 needed to be added to the
         list of libs and header directories to be included)
-    
+
     clientgui/
         Makefile.am
 
 Rom    17 Aug 2010
     - MGR: Remove copyright claims to wxWidgets code.
-    
+
     clientgui/
         BOINCHtmlLBox.cpp, .h
         BOINCVListBox.cpp, .h
@@ -6139,7 +6139,7 @@ David  17 Aug 2010
 
 Charlie 17 Aug 2010
     - MGR: Remove unused WXDLL* declarations to improve Linux compatibility.
-    
+
     clientgui/
         BOINCHtmlLBox.cpp, .h
         BOINCVListBox.cpp, .h
@@ -6147,14 +6147,14 @@ Charlie 17 Aug 2010
 Rom    18 Aug 2010
     - MGR: Set the email text box validator to a simple text validator when
         the project in question only supports usernames.
-        
+
     clientgui/
         AccountInfoPage.cpp
 
 Rom    18 Aug 2010
     - client: Only error out of the CPU version check if the call to CPUID(0)
         returns zero.
-        
+
     client/
         hostinfo_win.cpp
 
@@ -6170,7 +6170,7 @@ Rom    18 Aug 2010
 Rom    18 Aug 2010
     - MGR: Finish implementing the use of Usernames in the account manager part
         of the wizard.  I must have been asleep at the wheel on that one.
-        
+
     clientgui/
         AccountInfoPage.h
         AccountManagerProcessingPage.cpp
@@ -6199,25 +6199,25 @@ David  22 Aug 2010
 Charlie 23 Aug 2010
     - MGR: Further refinements to Client shutdown logic on Manager Exit:
         Old: Manager shut down Client only if it started the Client.
-        New: 
+        New:
             Don't show exit dialog if connected Client is not on localhost.
-            Mac: Manager shuts down Client only if it started the Client 
+            Mac: Manager shuts down Client only if it started the Client
                 and if the Client is on localhost.
-            Windows, Linux: Manager shuts down Client, whether or not the 
-                Manager started the Client, but only if the Client is on 
+            Windows, Linux: Manager shuts down Client, whether or not the
+                Manager started the Client, but only if the Client is on
                 localhost and the user requests Client shutdown in the exit
-                dialog, even if running as a service on Windows.  As before, 
-                it skips the exit dialog and uses the saved behavior if the 
-                user previously set "Remember this decision and do not show 
+                dialog, even if running as a service on Windows.  As before,
+                it skips the exit dialog and uses the saved behavior if the
+                user previously set "Remember this decision and do not show
                 this dialog."
-        
+
     clientgui/
         BOINCClientManager.cpp
         BOINCGUIApp.cpp
         MainDocument.cpp
 
 Charlie 26 Aug 2010
-    - MGR: On Mac only, Close Window menu item (or its shortcut Command-w) 
+    - MGR: On Mac only, Close Window menu item (or its shortcut Command-w)
         closes the Event Log if it is the front window.
 
     clientgui/
@@ -6310,7 +6310,7 @@ David  29 Aug 2010
 
 Charlie 31 Aug 2010
     - client: fix problems with exclusive_gpu_app feature.
-    
+
     client/
         app.cpp
         client_state.cpp
@@ -6360,7 +6360,7 @@ Rom    6 Sept 2010
     - MGR: Properly display which components have trouble loading when
         a skin is defined.
     - MGR: A new new skin which will become the new default skin.
-        
+
     clientgui/
         SkinManager.cpp
     clientgui/skin/BOINC
@@ -6389,7 +6389,7 @@ David  7 Sept 2010
         URL/size/MD5 in the create_work() call.
 
         From Zoltan Farkas (SZTAKI)
-        
+
     tools/
         backend_lib.cpp
 
@@ -6434,7 +6434,7 @@ David  8 Sept 2010
 
 Rytis  9 Sept 2010
     - user web: fix division by zero in host app versions page.
-    
+
     html/user/
         host_app_versions.php
 
@@ -6460,10 +6460,10 @@ David  9 Sept 2010
         work_fetch.cpp
 
 Charlie 10 Sept 2010
-    - MGR: Statistics tab: add scroll bar to project list, replace 
-        hidden double-click function with new "Hide / Show Project 
+    - MGR: Statistics tab: add scroll bar to project list, replace
+        hidden double-click function with new "Hide / Show Project
         List" button, enable & disable buttons appropriately.
-    
+
     clientgui/
         Events.h
         ViewStatistics.cpp, .h
@@ -6476,7 +6476,7 @@ David  11 Sept 2010
 
 Rytis  12 Sept 2010
     - user web: filter results by application.
-    
+
     html/
         inc/
             result.inc
@@ -6490,7 +6490,7 @@ Rom    13 Sept 2010
     - WINSCR: Be a bit more paranoid about not being able to detect keyboard
         and mouse activity.  If the function fails for whatever reason
         shutdown the screensaver.
-        
+
     clientscr/
         screensaver_win.cpp
 
@@ -6512,10 +6512,10 @@ David  13 Sept 2010
         sched_main.cpp
 
 Charlie 14 Sept 2010
-    - MGR: Statistics tab: add graph showing sum of selected projects, rename 
-        other mode buttons "All projects (separate)", "All projects (together)". 
+    - MGR: Statistics tab: add graph showing sum of selected projects, rename
+        other mode buttons "All projects (separate)", "All projects (together)".
         Minor bug fix: call UpdateSelection() from OnRestoreState().
-    
+
     clientgui/
         Events.h
         ViewStatistics.cpp, .h
@@ -6526,9 +6526,9 @@ David  14 Sept 2010
         util.cpp
 
 Charlie 15 Sept 2010
-    - MGR: Statistics tab: optimize and fix bugs in new graph showing sum of 
+    - MGR: Statistics tab: optimize and fix bugs in new graph showing sum of
         selected projects.
-    
+
     clientgui/
         ViewStatistics.cpp, .h
 
@@ -6717,7 +6717,7 @@ David  20 Sept 2010
 
 Charlie 20 Sept 2010
     - Mac: Update XCode project for XCode 3.2.4.
-    
+
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
@@ -6756,7 +6756,7 @@ Rom    23 Sept 2010
         what is being shutdown.  Use the same scheme as the exit text in the
         status bar so that it'll automatically be localized.
     - SCR: Remove some old Win9x code.
-    
+
     clientgui/
         AdvancedFrame.cpp
         BOINCTaskBar.cpp
@@ -6778,7 +6778,7 @@ David  23 Sept 2010
 
 Charlie 24 Sept 2010
     Mac: add Mac executables of wrapper application.
-    
+
     samples/
         wrapper/
             i386/
@@ -6850,7 +6850,7 @@ David  27 Sept 2010
 
 Rom    28 Sept 2010
     - MGR: Make the new BOINC skin the default skin.
-    
+
     clientgui/
         BOINCGUIApp.cpp
         SkinManager.cpp, .h
@@ -6937,12 +6937,12 @@ David  29 Sept 2010
         procinfo_mac.cpp
 
 Charlie 29 Sept 2010
-    lib: Temporary work-around for unknown problem with IPV6-compatible 
+    lib: Temporary work-around for unknown problem with IPV6-compatible
         code on Mac.
-    
+
     lib/
         gui_rpc_client.cpp,h
-    
+
 David  29 Sept 2010
     - lib: make str_util.h C-compatible (from Matt Arsenault)
 
@@ -6950,17 +6950,17 @@ David  29 Sept 2010
         str_util.h
 
 Charlie 29 Sept 2010
-    lib: Add test for low-priority processes to procinfo_setup() and 
+    lib: Add test for low-priority processes to procinfo_setup() and
         relatives on Mac.
-        
+
     lib/
         procinfo_mac.cpp
 
 Charlie 30 Sept 2010
-    lib: Fix problem with IPV6-compatible code on Mac: we need to set the 
+    lib: Fix problem with IPV6-compatible code on Mac: we need to set the
         third argument to connect() differently for IPV4 or IPV6.
     NOTE: This is not yet tested with actual IPV6 addresses.
-    
+
     lib/
         gui_rpc_client.cpp,h
 
@@ -7060,7 +7060,7 @@ David  4 Oct 2010
     - client: don't fetch RSS feeds if "no_info_fetch" flag is set
 
     client/
-        client_state.cpp 
+        client_state.cpp
 
 David  4 Oct 2010
     - web: fix bug in "email passwd" page
@@ -7093,22 +7093,22 @@ David  5 Oct 2010
         cs_prefs.cpp
 
 Charlie 6 Oct 2010
-    - ss_app: call rpc.init(NULL) not rpc.init("localhost") to work around 
-        a bug which prevented default screensaver boincscr from communicating 
+    - ss_app: call rpc.init(NULL) not rpc.init("localhost") to work around
+        a bug which prevented default screensaver boincscr from communicating
         with client on Mac (and probably other computers which support IPV6.)
 
     clientscr/
         ss_app.cpp
 
 Charlie 6 Oct 2010
-    - MGR: Add command-line argument --multiple or -m to allow multiple 
-        instances of BOINC Manager to be run.  If a second instance is 
-        launched without this argument, it will bring the original 
-        instance to the front and quit.  If this argument is present, 
-        the second instance will automatically run the Selectr Computer 
+    - MGR: Add command-line argument --multiple or -m to allow multiple
+        instances of BOINC Manager to be run.  If a second instance is
+        launched without this argument, it will bring the original
+        instance to the front and quit.  If this argument is present,
+        the second instance will automatically run the Selectr Computer
         dialog (as before.)
         Also add "Launch another BOINC Manager" menu item to Advanced menu.
-        
+
     clientgui/
         AdvancedFrame.cpp, .h
         BOINCGUIApp.cpp, .h
@@ -7234,7 +7234,7 @@ David  8 Oct 2010
 
 Charlie 8 Oct 2010
     - Mac: Update build example.
-    
+
     samples/
         mac_build/
             UpperCase2.xcodeproj/
@@ -7242,7 +7242,7 @@ Charlie 8 Oct 2010
 
 Charlie 11 Oct 2010
     - Mac: Update build scripts, build examples and documentation.
-    
+
     mac_build/
         buildc-ares.sh
         buildcurl.sh
@@ -7263,7 +7263,7 @@ Charlie 11 Oct 2010
 Rom    13 Oct 2010
     - Win/Linux: Implement the launch new manager functionality for Windows
         and Linux.
-        
+
     clientgui/
         AdvancedFrame.cpp
         BOINCGUIApp.cpp, .h
@@ -7272,13 +7272,13 @@ Rom    13 Oct 2010
 
 Rom    13 Oct 2010
     - MGR: Sanitize the event log output from the CC.
-    
+
     clientgui/
         DlgEventLog.cpp
 
 Rom    13 Oct 2010
     - MGR: Take two of the above.
-    
+
     clientgui/
         DlgEventLog.cpp
         MainDocument.cpp, .h
@@ -7313,8 +7313,8 @@ David  13 Oct 2010
         coproc_detect.cpp
 
 Charlie 14 Oct 2010
-    - client: fix compiler warning.    
-    
+    - client: fix compiler warning.
+
     client/
         cs_scheduler.cpp
 
@@ -7322,7 +7322,7 @@ Rom    14 Oct 2010
     - MGR: Check for a duplicate instance much earlier in the initialization
         cycle, before any window or document creation.  Prevents rapid window
         creation and then destruction.
-        
+
     clientgui/
         BOINCGUIApp.cpp, .h
 
@@ -7337,22 +7337,22 @@ David  14 Oct 2010
 
 Rom    14 Oct 2010
     - MGR: Complete above initialization changes for the Mac
-    
+
     clientgui/
         BOINCGUIApp.cpp, .h
         MainDocument.cpp
 
 Charlie 14 Oct 2010
-    - MGR: Don't require --multiple arg to launch a new instance if both 
+    - MGR: Don't require --multiple arg to launch a new instance if both
         --namehost and --password args are specified.
-        
+
     clientgui/
         BOINCGUIApp.cpp
 
 Rom    15 Oct 2010
     - MGR: Handle paths with spaces in them when launching new instances
         of the manager.
-        
+
     clientgui/
         AdvancedFrame.cpp
 
@@ -7362,7 +7362,7 @@ Rom    15 Oct 2010
         quotes around the parameter didn't fix the issue.  For the time being
         just hard code 'boincmgr.exe' as argv[0] as it isn't used by the Windows
         client at all.  wxWidgets won't find --multiple if it is argv[0].
-        
+
     clientgui/
         AdvancedFrame.cpp
 
@@ -7394,9 +7394,9 @@ David  15 Oct 2010
         sched_send.cpp
 
 Charlie 16 Oct 2010
-    - lib: Fix problems with Mac backtrace code: use atos only if present, etc. 
+    - lib: Fix problems with Mac backtrace code: use atos only if present, etc.
         (atos is installed only if developer tools are installed.)
-    
+
     lib/
         mac/
             mac_backtrace.cpp, .h
@@ -7407,7 +7407,7 @@ David  16 Oct 2010
         E.g., if a project deletes a news item, remove it from notices.
     - notices RSS: remove the "since_time" mechanism
         (an optimization that conflicts with the above)
-        
+
     html/user/
         notices.php
     lib/
@@ -7437,7 +7437,7 @@ David  16 Oct 2010
 Rom    16 Oct 2010
     - MGR(WIN): While it is a perfectly valid thing to use FindWindow() and
         ShowWindow() on an application frame to restore an application from
-        a minimized state or a hidden state on Windows(75% of the UI test 
+        a minimized state or a hidden state on Windows(75% of the UI test
         automation would fail at Microsoft without this ability), it appeartly
         isn't for other platforms.  wxWidgets is or appears to be tracking window
         state internally, which leads to problems when the OS restores the window
@@ -7449,7 +7449,7 @@ Rom    16 Oct 2010
         global message is fired make sure the CBOINCGUIApp::SetActiveGUI() function
         is called to restore the window state which in turn updates all the internal
         framework data structures.
-        
+
     clientgui/
         BOINCGUIApp.cpp
     clientgui/
@@ -7490,7 +7490,7 @@ David  18 Oct 2010
 
 Charlie 18 Oct 2010
     - Mac: Update XCode project for new source files client/current_version.cpp,.h.
-        
+
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
@@ -7521,10 +7521,10 @@ Rom    19 Oct 2010
         NoticeListCtrl.cpp
 
 Charlie 16 Oct 2010
-    - lib: Mac backtrace code (including the backtrace() API) doesn't work 
-        on PowerPC Macs running under OS 10.5.x, so display explanatory text 
+    - lib: Mac backtrace code (including the backtrace() API) doesn't work
+        on PowerPC Macs running under OS 10.5.x, so display explanatory text
         when attempting a backtrace on those machines.
-    
+
     lib/
         mac/
             mac_backtrace.cpp
@@ -8068,19 +8068,19 @@ David  10 Nov 2010
 
 Charlie  11 Nov 2010
     - Mac SS: Minor tweak for use in debugging.
-        
+
     clientscr/
         mac_saver_module.cpp
 
 Rom    11 Nov 2010
     - MGR: Disable balloons on Linux for the time being.
-    
+
     clientgui/gtk/
         taskbarex.h
 
 Charlie  12 Nov 2010
-    - MGR: Save window dimensions and position on SIZE and MOVE events 
-        to make sure changes are recorded even if the window is minimized 
+    - MGR: Save window dimensions and position on SIZE and MOVE events
+        to make sure changes are recorded even if the window is minimized
         (iconized) when exiting BOINC.
 
     clientgui/
@@ -8122,7 +8122,7 @@ David  17 Nov 2010
 
 Rom    17 Nov 2010
     - client: Add support to detect VirtualBox VM software.
-    
+
     client/
         client_state.cpp
         hostinfo_win.cpp
@@ -8132,7 +8132,7 @@ Rom    17 Nov 2010
 Rom    17 Nov 2010
     - sched: Parse the detected virtual machine software from
         the scheduler request so it can be used in plan classes.
-        
+
     db/
         boinc_db.h
     sched/
@@ -8154,19 +8154,19 @@ David  17 Nov 2010
 
 Charlie 18 Nov 2010
     - client: Add support to detect VirtualBox VM software on Mac.
-    
+
     client/
         hostinfo_unix.cpp
 
 Charlie 18 Nov 2010
     - Mac Installer: remove obsolete kludge for generating x86_64 screensaver.
-    
+
     mac_installer/
         release_boinc.sh
 
 Rom    18 Nov 2010
     - win_tray: Add logging support to trap crashes.
-    
+
     clienttray/
         tray_win.cpp
     win_build/
@@ -8192,16 +8192,16 @@ David  18 Nov 2010
 
 Rom    18 Nov 2010
     - client: Add VirtualBox detection for linux
-    
+
     client/
         hostinfo_unix.cpp
         hostinfo_win.cpp
 
 Charlie 19 Nov 2010
-    - Mac Installer: eliminate wrapper application around install package 
+    - Mac Installer: eliminate wrapper application around install package
         (was only needed for OS 10.3.x support); set our custom icon in
         the install package "BOINC Installer.pkg".
-    
+
     clientgui/
         mac/
             SetVersion.cpp
@@ -8211,10 +8211,10 @@ Charlie 19 Nov 2010
         release_boinc.sh
 
 Charlie 19 Nov 2010
-    - Mac Installer: to permit remote install via SSH, suppress dialogs if 
-        COMMAND_LINE_INSTALL environment variable was set by command-line 
-        installer; if set, recognize two additional environment variables 
-        NONADMINUSERSOK (to allow non-admin users to run Manager) and 
+    - Mac Installer: to permit remote install via SSH, suppress dialogs if
+        COMMAND_LINE_INSTALL environment variable was set by command-line
+        installer; if set, recognize two additional environment variables
+        NONADMINUSERSOK (to allow non-admin users to run Manager) and
         SETBOINCSAVER (to set BOINC as screensaver for all BOINC users.)
 
     mac_installer/
@@ -8245,15 +8245,15 @@ David  20 Nov 2010
         start
 
 Charlie 22 Nov 2010
-    - Mac Installer: It turns out that the command-line installer clears all 
-        environment variables, so instead of checking environment variables  
-        during command-line installs, we check for the existence of files 
-        /tmp/nonadminusersok.txt and /tmp/setboincsaver.txt.  In normal GUI 
-        installs, these are ignored and the normal BOINC installer dialogs 
-        are used to determine these options.  See the comments at the top of 
-        PostInstall.cpp for details of doing command-line installs on remote 
+    - Mac Installer: It turns out that the command-line installer clears all
+        environment variables, so instead of checking environment variables
+        during command-line installs, we check for the existence of files
+        /tmp/nonadminusersok.txt and /tmp/setboincsaver.txt.  In normal GUI
+        installs, these are ignored and the normal BOINC installer dialogs
+        are used to determine these options.  See the comments at the top of
+        PostInstall.cpp for details of doing command-line installs on remote
         Macs.
-        
+
     mac_installer/
         PostInstall.cpp
         postinstall
@@ -8262,7 +8262,7 @@ Charlie 22 Nov 2010
 Rom    22 Nov 2010
     - MGR: Switch to the tasks tab when a request to execute benchmarks has
         been requested.  The messages tab no longer exists.
-        
+
     clientgui/
         AdvancedFrame.cpp
 
@@ -8280,7 +8280,7 @@ David  22 Nov 2010
 
 Charlie 23 Nov 2010
     - Mac Installer: Better handling of custom installer icon.
-    
+
     clientgui/
         res/
             MacPkgIcon.zip
@@ -8288,16 +8288,16 @@ Charlie 23 Nov 2010
         release_boinc.sh
 
 Charlie 23 Nov 2010
-    - MGR: Statistics tab: in graph showing sum of selected projects, always 
-        show statistics for the last 30 days.  This is now possible due to 
+    - MGR: Statistics tab: in graph showing sum of selected projects, always
+        show statistics for the last 30 days.  This is now possible due to
         November 20 changes to the way credit history is maintained.
-    
+
     clientgui/
         ViewStatistics.cpp
 
 Charlie 23 Nov 2010
     - Remove BOINC_RCSID tags from more source files.
-    
+
     api/
         mac_icon.cpp
         make_app_icon_h.cpp
@@ -8318,7 +8318,7 @@ Charlie 23 Nov 2010
 Rom    23 Nov 2010
     - client: Copy the AltiVec CPU feature to the p_features field, leave
         AltiVec in the host model field for backwards compatibility.
-        
+
     client/
         hostinfo_unix.cpp
 
@@ -8370,7 +8370,7 @@ David  23 Nov 2010
 
 Charlie 24 Nov 2010
      - client: fix compiler warning.
-     
+
     client/
         cpu_sched.cpp
 
@@ -8379,7 +8379,7 @@ Rom    24 Nov 2010
         API set.  Use the existing wrapper as the baseline.  Current
         wrapper just dumps the existing VMs defined on the machine.
         More to follow.
-        
+
     samples/vboxwrapper/mscom/
         VirtualBox.h
         VirtualBox.tlb
@@ -8397,7 +8397,7 @@ David  24 Nov 2010
         since we now do round-robin for GPUs as well as CPU.
         NOTE: this bug was found using the client simulator!
     - client simulator: generate REC graph
-        
+
     client/
         work_fetch.cpp,h
         cpu_sched.cpp
@@ -8434,7 +8434,7 @@ David  24 Nov 2010
 
 Charlie 26 Nov 2010
      - client: fix crash bug.
-     
+
     client/
         client_types.cpp
 
@@ -8469,7 +8469,7 @@ Rom    29 Nov 2010
         vboxwrapper, and VM specific functionality in vbox_*.  Ideally
         only the stub functions would have to change for other VM
         implementations.
-        
+
     samples/vboxwrapper/
         vbox.cpp, .h
         vbox_win.cpp
@@ -8493,8 +8493,8 @@ David  29 Nov 2010
 	- add VS project file for wrappture_example; fix Win compile
 
 	samples/wrappture/
-		wrappture.cpp	
-		wrappture_example.cpp	
+		wrappture.cpp
+		wrappture_example.cpp
 	win_build/
 		boinc.sln
 		wrappture_example.vcproj
@@ -8528,7 +8528,7 @@ Bernd  01 Dec 2010
 
 Rom    01 Dec 2010
     - MGR: Use standard menus, even on Windows, for the Simple GUI.
-    
+
     clientgui/
         sg_StatImageLoader.cpp
 
@@ -8581,17 +8581,17 @@ David  1 Dec 2010
         acct_mgr.cpp
 
 Charlie 2 Dec 2010
-    - lib: The custom Mac backtrace code doesn't work on Intel Macs running 
-        under OS 10.5.x, so use newer backtrace() and backtrace_symbols() 
+    - lib: The custom Mac backtrace code doesn't work on Intel Macs running
+        under OS 10.5.x, so use newer backtrace() and backtrace_symbols()
         APIs under OS 10.5.x, with explanatory text suggesting alternatives.
-    
+
     lib/
         mac/
             mac_backtrace.cpp
 
 Charlie 2 Dec 2010
     - Mac Installer: Updates for OS 10.6.5 compatibility.
-    
+
     mac_installer/
         PostInstall.cpp
         release_boinc.sh
@@ -8627,7 +8627,7 @@ David  2 Dec 2010
 
 Charlie 6 Dec 2010
     - Mac Installer: Fix failure to auto-launch on OS 10.4.x.
-    
+
     mac_installer/
         postinstall
         postupgrade
@@ -8659,7 +8659,7 @@ David  7 Dec 2010
 Rom    8 Dec 2010
     - VBOX: Implement stubs for starting/stopping/suspending/resuming VMs
         TODO: create/delete.
-        
+
     samples/vboxwrapper/
         vbox.cpp, .h
         vbox_win.cpp
@@ -8810,3 +8810,15 @@ David  17 Dec 2010
 		from [P3D] Crashtest
     client/
         coproc_detect.cpp
+
+Rytis  21 Dec 2010
+    - user web: add some CSS classes for easier styling
+
+    html/
+        inc/
+            bbcode_html.inc
+            forum.inc
+        user/
+            forum_edit.php
+            forum_forum.php
+            forum_post.php

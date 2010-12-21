@@ -3,7 +3,7 @@
 $bbcode_js = "<script type=\"text/javascript\" src=\"bbcode_toolbar.js\"></script>";
 
 $bbcode_html = <<<EOT
-<table width="40%" border="0" cellspacing="0" cellpadding="2">
+<table width="40%" border="0" cellspacing="0" cellpadding="2" class="bbcode_buttons">
           <tr align="center" valign="middle">
             <td><span class="genmed">
               <input type="button" class="button" accesskey="b" name="addbbcode0" value=" B " style="font-weight:bold; width: 30px" onClick="bbstyle(0)" title="Bold text: [b]text[/b]  (alt+b)" />

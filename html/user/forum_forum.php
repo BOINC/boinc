@@ -86,7 +86,7 @@ case 1:
 echo '
     <p>
     <form action="forum_forum.php" method="get">
-    <table width="100%" cellspacing="0" cellpadding="0">
+    <table width="100%" cellspacing="0" cellpadding="0" class="forum_toplinks">
     <tr valign="top">
     <td colspan=2>
 ';
