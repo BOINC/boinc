@@ -8822,3 +8822,11 @@ Rytis  21 Dec 2010
             forum_edit.php
             forum_forum.php
             forum_post.php
+
+David  22 Dec 2010
+    - client simulator: add client availability logic
+
+    client/
+        client_state.cpp
+        sim.cpp,h
+        time_stats.cpp

@@ -29,7 +29,7 @@
 //          index.html (lists other files)
 //          timeline.html
 //          log.txt
-//          summary.xml
+//          summary.dat
 //          if using REC:
 //              rec.png
 //          if not using REC:
@@ -70,7 +70,7 @@ const char* file_prefix = "";
 
 #define TIMELINE_FNAME "timeline.html"
 #define LOG_FNAME "log.txt"
-#define SUMMARY_FNAME "summary.xml"
+#define SUMMARY_FNAME "summary.dat"
 #define DEBT_FNAME "debt.dat"
 
 bool user_active;
@@ -82,7 +82,8 @@ FILE* index_file;
 char log_filename[256];
 
 string html_msg;
-double running_time = 0;
+double active_time = 0;
+double gpu_active_time = 0;
 bool server_uses_workload = false;
 bool cpu_sched_rr_only;
 
@@ -109,9 +110,9 @@ void usage(char* prog) {
     exit(1);
 }
 
-// peak flops of an app version running for dt secs
+// peak flops of an app version
 //
-double app_peak_flops(APP_VERSION* avp, double dt, double cpu_scale) {
+double app_peak_flops(APP_VERSION* avp, double cpu_scale) {
     double x = avp->avg_ncpus*cpu_scale;
     if (avp->ncudas) {
         x += avp->ncudas * cuda_work_fetch.relative_speed;
@@ -120,20 +121,21 @@ double app_peak_flops(APP_VERSION* avp, double dt, double cpu_scale) {
         x += avp->natis * ati_work_fetch.relative_speed;
     }
     x *= gstate.host_info.p_fpops;
-    return x*dt;
+    return x;
 }
 
-// peak flops of all devices
-//
-double total_peak_flops() {
+double gpu_peak_flops() {
     double cuda = gstate.host_info.coprocs.cuda.count * cuda_work_fetch.relative_speed * gstate.host_info.p_fpops;
     double ati = gstate.host_info.coprocs.ati.count * ati_work_fetch.relative_speed * gstate.host_info.p_fpops;
-    double cpu = gstate.ncpus * gstate.host_info.p_fpops;
-    double tot = cpu+ati+cuda;
-    printf("CPU: %.2fG CUDA: %.2fG ATI: %.2fG total: %.2fG\n",
-        cpu/1e9, cuda/1e9, ati/1e9, tot/1e9
-    );
-    return tot;
+    return cuda + ati;
+}
+
+double cpu_peak_flops() {
+    return gstate.ncpus * gstate.host_info.p_fpops;
+}
+
+double total_peak_flops() {
+    return gpu_peak_flops() + cpu_peak_flops();
 }
 
 void print_project_results(FILE* f) {
@@ -408,6 +410,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         request_schedule_cpus("simulate_rpc");
         request_work_fetch("simulate_rpc");
     }
+    sim_results.nrpcs++;
     return true;
 }
 
@@ -491,6 +494,9 @@ bool ACTIVE_TASK_SET::poll() {
     double diff = gstate.now - last_time;
     if (diff < 1.0) return false;
     last_time = gstate.now;
+    if (diff > delta) {
+        diff = 0;
+    }
     PROJECT* p;
 
     for (i=0; i<gstate.projects.size(); i++) {
@@ -535,6 +541,7 @@ bool ACTIVE_TASK_SET::poll() {
         cpu_scale = (gstate.ncpus - cpu_usage_gpu) / (cpu_usage - cpu_usage_gpu);
     }
 
+    double used = 0;
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
@@ -563,12 +570,16 @@ bool ACTIVE_TASK_SET::poll() {
             html_msg += buf;
             action = true;
         }
-        double pf = app_peak_flops(rp->avp, diff, cpu_scale);
+        double pf = diff * app_peak_flops(rp->avp, cpu_scale);
         rp->project->project_results.flops_used += pf;
         rp->peak_flop_count += pf;
         sim_results.flops_used += pf;
+        used += pf;
         rp->project->idle = false;
     }
+    printf("%d: peak %.3fG used %.3fG\n",
+        (int)gstate.now, total_peak_flops()*diff/1e9, used/1e9
+    );
 
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
@@ -579,7 +590,10 @@ bool ACTIVE_TASK_SET::poll() {
             p->idle_time = 0;
         }
     }
-    running_time += diff;
+    active_time += diff;
+    if (gpu_active) {
+        gpu_active_time += diff;
+    }
 
     return action;
 }
@@ -625,7 +639,7 @@ double CLIENT_STATE::monotony() {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
-        double avg_ss = p->idle_time_sumsq/running_time;
+        double avg_ss = p->idle_time_sumsq/active_time;
         double s = sqrt(avg_ss);
         sum += s;
     }
@@ -639,7 +653,8 @@ double CLIENT_STATE::monotony() {
 // the CPU totals are there; compute the other fields
 //
 void SIM_RESULTS::compute() {
-    double flops_total = total_peak_flops()*running_time;
+    double flops_total = cpu_peak_flops()*active_time
+        + gpu_peak_flops()*gpu_active_time;
     printf("total %fG\n", flops_total/1e9);
     double flops_idle = flops_total - flops_used;
     printf("used: %fG wasted: %fG idle: %fG\n",
@@ -651,14 +666,11 @@ void SIM_RESULTS::compute() {
     monotony = gstate.monotony();
 }
 
-// top-level results (for aggregating multiple simulations)
-//
-void SIM_RESULTS::print(FILE* f, const char* title) {
-    if (title) {
-        fprintf(f, "%s: ", title);
-    }
-    fprintf(f, "wasted_frac %f idle_frac %f share_violation %f monotony %f\n",
-        wasted_frac, idle_frac, share_violation, monotony
+void SIM_RESULTS::print(FILE* f) {
+    int njobs = nresults_met_deadline + nresults_missed_deadline;
+    double r = ((double)nrpcs)/(njobs*2);
+    fprintf(f, "wf %f if %f sv %f m %f r %f\n",
+        wasted_frac, idle_frac, share_violation, monotony, r
     );
 }
 
@@ -1243,7 +1255,15 @@ void do_client_simulation() {
 
     sim_results.compute();
 
-    // print machine-readable first
+    sprintf(buf, "%s%s", file_prefix, SUMMARY_FNAME);
+    FILE* f = fopen(buf, "w");
+    sim_results.print(f);
+    fclose(f);
+
+    printf("Peak FLOPS: CPU %.2fG GPU %.2fG\n",
+        cpu_peak_flops()/1e9,
+        gpu_peak_flops()/1e9
+    );
     sim_results.print(stdout);
 
     // then other

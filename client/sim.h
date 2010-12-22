@@ -32,9 +32,10 @@ struct SIM_RESULTS {
     double monotony;
     double wasted_frac;
     double idle_frac;
+    int nrpcs;
 
     void compute();
-    void print(FILE* f, const char* title=0);
+    void print(FILE* f);
     void parse(FILE* f);
     void add(SIM_RESULTS& r);
     void divide(int);
@@ -96,6 +97,11 @@ extern bool cpu_sched_rr_only;
 extern bool dual_dcf;
 extern bool work_fetch_old;
 extern bool gpus_usable;
+
+extern RANDOM_PROCESS on_proc;
+extern RANDOM_PROCESS connected_proc;
+extern RANDOM_PROCESS active_proc;
+extern RANDOM_PROCESS gpu_active_proc;
 
 //#define START_TIME  946684800
     // Jan 1 2000
