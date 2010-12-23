@@ -19,12 +19,14 @@
 //
 // usage: sim options
 //
-//  [--file_prefix X]
-//      Prefix of filenames; default is blank.
+//  [--infile_prefix X]
+//      Prefix of input filenames; default is blank.
 //      Input files are:
 //          client_state.xml
 //          global_prefs.xml
 //          cc_config.xml
+//  [--outfile_prefix X]
+//      Prefix of output filenames; default is blank.
 //      Output files are:
 //          index.html (lists other files)
 //          timeline.html
@@ -66,7 +68,8 @@
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
-const char* file_prefix = "";
+const char* infile_prefix = "";
+const char* outfile_prefix = "";
 
 #define TIMELINE_FNAME "timeline.html"
 #define LOG_FNAME "log.txt"
@@ -100,7 +103,8 @@ SIM_RESULTS sim_results;
 
 void usage(char* prog) {
     fprintf(stderr, "usage: %s\n"
-        "[--file_prefix F]\n"
+        "[--infile_prefix F]\n"
+        "[--outfile_prefix F]\n"
         "[--duration X]\n"
         "[--delta X]\n"
         "[--server_uses_workload]\n"
@@ -367,6 +371,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
             if (check_candidate(c, ncpus, ip_results)) {
                 ip_results.push_back(c);
             } else {
+                printf("%d: %s misses deadline\n", (int)gstate.now, p->project_name);
                 APP_VERSION* avp = rp->avp;
                 delete rp;
                 delete wup;
@@ -376,6 +381,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         } else {
             double et = wup->rsc_fpops_est / rp->avp->flops;
             if (get_estimated_delay(rp) + et > wup->app->latency_bound) {
+                printf("%d: %s misses deadline\n", (int)gstate.now, p->project_name);
                 APP_VERSION* avp = rp->avp;
                 delete rp;
                 delete wup;
@@ -452,6 +458,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     
         p = find_project_with_overdue_results();
         if (p) {
+            printf("doing RPC to %s to report results\n", p->project_name);
             work_fetch.compute_work_request(p);
             action = simulate_rpc(p);
             break;
@@ -577,9 +584,6 @@ bool ACTIVE_TASK_SET::poll() {
         used += pf;
         rp->project->idle = false;
     }
-    printf("%d: peak %.3fG used %.3fG\n",
-        (int)gstate.now, total_peak_flops()*diff/1e9, used/1e9
-    );
 
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
@@ -798,7 +802,7 @@ int nproc_types = 1;
 void html_start() {
     char buf[256];
 
-    sprintf(buf, "%s%s", file_prefix, TIMELINE_FNAME);
+    sprintf(buf, "%s%s", outfile_prefix, TIMELINE_FNAME);
     html_out = fopen(buf, "w");
     if (!html_out) {
         fprintf(stderr, "can't open %s for writing\n", buf);
@@ -905,7 +909,7 @@ void write_recs() {
 void make_graph(const char* title, const char* fname, int field) {
     char gp_fname[256], cmd[256], png_fname[256];
 
-    sprintf(gp_fname, "%s%s.gp", file_prefix, fname);
+    sprintf(gp_fname, "%s%s.gp", outfile_prefix, fname);
     FILE* f = fopen(gp_fname, "w");
     fprintf(f,
         "set terminal png small size 1024, 768\n"
@@ -917,12 +921,12 @@ void make_graph(const char* title, const char* fname, int field) {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         fprintf(f, "\"%sdebt.dat\" using 1:%d title \"%s\" with lines%s",
-            file_prefix, 2+i+field, p->project_name,
+            outfile_prefix, 2+i+field, p->project_name,
             (i==gstate.projects.size()-1)?"\n":", \\\n"
         );
     }
     fclose(f);
-    sprintf(png_fname, "%s%s.png", file_prefix, fname);
+    sprintf(png_fname, "%s%s.png", outfile_prefix, fname);
     sprintf(cmd, "gnuplot < %s > %s", gp_fname, png_fname);
     fprintf(index_file, "<br><a href=%s>Graph of %s</a>\n", png_fname, title);
     system(cmd);
@@ -972,7 +976,7 @@ void write_debts() {
 void make_graph(const char* title, const char* fname, int field, int nfields) {
     char gp_fname[256], cmd[256], png_fname[256];
 
-    sprintf(gp_fname, "%s%s.gp", file_prefix, fname);
+    sprintf(gp_fname, "%s%s.gp", outfile_prefix, fname);
     FILE* f = fopen(gp_fname, "w");
     fprintf(f,
         "set terminal png small size 1024, 768\n"
@@ -983,12 +987,12 @@ void make_graph(const char* title, const char* fname, int field, int nfields) {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         fprintf(f, "\"%sdebt.dat\" using 1:%d title \"%s\" with lines%s",
-            file_prefix, 2+field+i*nfields, p->project_name,
+            outfile_prefix, 2+field+i*nfields, p->project_name,
             (i==gstate.projects.size()-1)?"\n":", \\\n"
         );
     }
     fclose(f);
-    sprintf(png_fname, "%s%s.png", file_prefix, fname);
+    sprintf(png_fname, "%s%s.png", outfile_prefix, fname);
     sprintf(cmd, "gnuplot < %s > %s", gp_fname, png_fname);
     fprintf(index_file, "<br><a href=%s>Graph of %s</a>\n", png_fname, title);
     system(cmd);
@@ -1205,7 +1209,7 @@ void do_client_simulation() {
     char buf[256], buf2[256];
     msg_printf(0, MSG_INFO, "SIMULATION START");
 
-    sprintf(buf, "%s%s", file_prefix, CONFIG_FILE);
+    sprintf(buf, "%s%s", infile_prefix, CONFIG_FILE);
     read_config_file(true, buf);
     fprintf(index_file,
         "<br><a href=%s>Configuration file (cc_config.xml)</a>\n",
@@ -1214,14 +1218,14 @@ void do_client_simulation() {
     config.show();
 
     gstate.add_platform("client simulator");
-    sprintf(buf, "%s%s", file_prefix, STATE_FILE_NAME);
+    sprintf(buf, "%s%s", infile_prefix, STATE_FILE_NAME);
     gstate.parse_state_file_aux(buf);
     fprintf(index_file,
         "<br><a href=%s>State file (client_state.xml)</a>\n",
         buf
     );
-    sprintf(buf, "%s%s", file_prefix, GLOBAL_PREFS_FILE_NAME);
-    sprintf(buf2, "%s%s", file_prefix, GLOBAL_PREFS_OVERRIDE_FILE);
+    sprintf(buf, "%s%s", infile_prefix, GLOBAL_PREFS_FILE_NAME);
+    sprintf(buf2, "%s%s", infile_prefix, GLOBAL_PREFS_OVERRIDE_FILE);
     gstate.read_global_prefs(buf, buf2);
     fprintf(index_file,
         "<br><a href=%s>Preferences file (global_prefs.xml)</a>\n"
@@ -1255,7 +1259,7 @@ void do_client_simulation() {
 
     sim_results.compute();
 
-    sprintf(buf, "%s%s", file_prefix, SUMMARY_FNAME);
+    sprintf(buf, "%s%s", outfile_prefix, SUMMARY_FNAME);
     FILE* f = fopen(buf, "w");
     sim_results.print(f);
     fclose(f);
@@ -1291,8 +1295,10 @@ int main(int argc, char** argv) {
     sim_results.clear();
     for (i=1; i<argc;) {
         char* opt = argv[i++];
-        if (!strcmp(opt, "--file_prefix")) {
-            file_prefix = argv[i++];
+        if (!strcmp(opt, "--infile_prefix")) {
+            infile_prefix = argv[i++];
+        } else if (!strcmp(opt, "--outfile_prefix")) {
+            outfile_prefix = argv[i++];
         } else if (!strcmp(opt, "--duration")) {
             duration = atof(next_arg(argc, argv, i));
         } else if (!strcmp(opt, "--delta")) {
@@ -1315,13 +1321,13 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sprintf(buf, "%s%s", file_prefix, "index.html");
+    sprintf(buf, "%s%s", outfile_prefix, "index.html");
     index_file = fopen(buf, "w");
     fprintf(index_file,
         "<h2>Input files</h2>\n"
     );
 
-    sprintf(log_filename, "%s%s", file_prefix, LOG_FNAME);
+    sprintf(log_filename, "%s%s", outfile_prefix, LOG_FNAME);
     logfile = fopen(log_filename, "w");
     if (!logfile) {
         fprintf(stderr, "Can't open %s\n", buf);
@@ -1329,7 +1335,7 @@ int main(int argc, char** argv) {
     }
     setbuf(logfile, 0);
 
-    sprintf(buf, "%s%s", file_prefix, DEBT_FNAME);
+    sprintf(buf, "%s%s", outfile_prefix, DEBT_FNAME);
     debt_file = fopen(buf, "w");
 
     do_client_simulation();
