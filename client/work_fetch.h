@@ -23,7 +23,9 @@
 
 #include <vector>
 
-//#define USE_REC
+//#define NEW_WF
+
+#define USE_REC
 #define REC_HALF_LIFE (10*86400)
 //#define REC_HALF_LIFE (1*86400)
 
@@ -222,7 +224,11 @@ struct RSC_WORK_FETCH {
     void accumulate_shortfall(double d_time);
     void update_saturated_time(double dt);
     void update_busy_time(double dur, double nused);
+#ifdef NEW_WF
+    PROJECT* choose_project();
+#else
     PROJECT* choose_project(int);
+#endif
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
 #ifndef USE_REC
     void update_long_term_debts();

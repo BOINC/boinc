@@ -8830,3 +8830,12 @@ David  22 Dec 2010
         client_state.cpp
         sim.cpp,h
         time_stats.cpp
+
+David  23 Dec 2010
+    - client: initial, partial checkin for hysteresis work-fetch
+    client/
+        work_fetch.cpp,h
+        client_state.h
+        sim.cpp
+        sim_util.cpp
+        sim_control.php

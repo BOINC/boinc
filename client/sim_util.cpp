@@ -145,10 +145,12 @@ bool RANDOM_PROCESS::sample(double diff) {
             value = true;
         }
     }
+#if 0
     msg_printf(0, MSG_INFO,
         "value: %d lambda: %f time_left %f",
         value, lambda, time_left
     );
+#endif
     return value;
 }
 

@@ -479,6 +479,8 @@ struct CLIENT_STATE {
 extern CLIENT_STATE gstate;
 
 extern bool gpus_usable;
+    // set to false if GPUs not usable because of remote desktop
+    // or login situation (Windows)
 
 // return a random double in the range [MIN,min(e^n,MAX))
 

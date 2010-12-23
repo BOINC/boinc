@@ -438,14 +438,16 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     // check only every 5 sec
     //
     if (now - last_time < SCHEDULER_RPC_POLL_PERIOD) {
+#if 0
         msg_printf(NULL, MSG_INFO, "RPC poll: not time %f - %f < %f",
             now, last_time, SCHEDULER_RPC_POLL_PERIOD
         );
+#endif
         return false;
     }
     last_time = now;
 
-    msg_printf(NULL, MSG_INFO, "RPC poll start");
+    //msg_printf(NULL, MSG_INFO, "RPC poll start");
     while (1) {
 #if 0
         p = next_project_sched_rpc_pending();
@@ -483,11 +485,13 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         }
         break;
     }
+#if 0
     if (action) {
         msg_printf(p, MSG_INFO, "RPC poll: did an RPC");
     } else {
         msg_printf(0, MSG_INFO, "RPC poll: didn't do an RPC");
     }
+#endif
     return action;
 }
 
@@ -673,6 +677,7 @@ void SIM_RESULTS::compute() {
 void SIM_RESULTS::print(FILE* f) {
     int njobs = nresults_met_deadline + nresults_missed_deadline;
     double r = ((double)nrpcs)/(njobs*2);
+    printf("NRPCS: %d njobs: %d\n", nrpcs, njobs);
     fprintf(f, "wf %f if %f sv %f m %f r %f\n",
         wasted_frac, idle_frac, share_violation, monotony, r
     );
@@ -1046,11 +1051,11 @@ void simulate() {
                 if (connected) {
                     action |= gstate.scheduler_rpc_poll();
                 }
-                msg_printf(0, MSG_INFO, action?"did action":"did no action");
+                //msg_printf(0, MSG_INFO, action?"did action":"did no action");
                 if (!action) break;
             }
         }
-        msg_printf(0, MSG_INFO, "took time step");
+        //msg_printf(0, MSG_INFO, "took time step");
         for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
             ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
             if (atp->task_state() == PROCESS_EXECUTING) {
@@ -1176,6 +1181,7 @@ void cull_projects() {
     }
     for (i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->app->ignore) continue;
         if (avp->ncudas) {
             avp->project->no_cuda_apps = false;
         } else if (avp->natis) {
@@ -1202,6 +1208,14 @@ void cull_projects() {
         } else {
             iter++;
         }
+    }
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        msg_printf(p, MSG_INFO, "%s%s%s",
+            p->no_cpu_apps?" no CPU apps":"",
+            p->no_cuda_apps?" no nvidia apps":"",
+            p->no_ati_apps?" no ATI apps":""
+        );
     }
 }
 
