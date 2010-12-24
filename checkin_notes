@@ -8839,3 +8839,9 @@ David  23 Dec 2010
         sim.cpp
         sim_util.cpp
         sim_control.php
+
+Rytis  24 Dec 2010
+    - user web: change forum RSS encoding from ISO-8859-1 to UTF-8
+    
+    html/inc/
+        forum_rss.inc

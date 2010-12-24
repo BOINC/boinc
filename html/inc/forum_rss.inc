@@ -94,7 +94,7 @@ function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
     }
     $channel_image = URL_BASE . "rss_image.gif";
     $language = "en-us";
-    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
+    echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>
         <rss version=\"2.0\">
         <channel>
         <title>".$description."</title>
