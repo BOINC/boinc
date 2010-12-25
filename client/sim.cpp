@@ -31,7 +31,8 @@
 //          index.html (lists other files)
 //          timeline.html
 //          log.txt
-//          summary.dat
+//          results.dat (simulation results in XML)
+//          summary.txt (summary of inputs; detailed outputs)
 //          if using REC:
 //              rec.png
 //          if not using REC:
@@ -73,7 +74,8 @@ const char* outfile_prefix = "";
 
 #define TIMELINE_FNAME "timeline.html"
 #define LOG_FNAME "log.txt"
-#define SUMMARY_FNAME "summary.dat"
+#define RESULTS_FNAME "results.dat"
+#define SUMMARY_FNAME "summary.txt"
 #define DEBT_FNAME "debt.dat"
 
 bool user_active;
@@ -82,6 +84,7 @@ FILE* logfile;
 FILE* html_out;
 FILE* debt_file;
 FILE* index_file;
+FILE* summary_file;
 char log_filename[256];
 
 string html_msg;
@@ -100,6 +103,7 @@ bool gpu_active;
 bool connected;
 
 SIM_RESULTS sim_results;
+int njobs;
 
 void usage(char* prog) {
     fprintf(stderr, "usage: %s\n"
@@ -216,7 +220,7 @@ void make_job(
     rp->avp = avp;
     rp->app = app;
     if (!rp->avp) {
-        printf("ERROR - NO APP VERSION\n");
+        fprintf(stderr, "ERROR - NO APP VERSION\n");
         exit(1);
     }
     rp->project = p;
@@ -371,7 +375,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
             if (check_candidate(c, ncpus, ip_results)) {
                 ip_results.push_back(c);
             } else {
-                printf("%d: %s misses deadline\n", (int)gstate.now, p->project_name);
+                //printf("%d: %s misses deadline\n", (int)gstate.now, p->project_name);
                 APP_VERSION* avp = rp->avp;
                 delete rp;
                 delete wup;
@@ -381,7 +385,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         } else {
             double et = wup->rsc_fpops_est / rp->avp->flops;
             if (get_estimated_delay(rp) + et > wup->app->latency_bound) {
-                printf("%d: %s misses deadline\n", (int)gstate.now, p->project_name);
+                //printf("%d: %s misses deadline\n", (int)gstate.now, p->project_name);
                 APP_VERSION* avp = rp->avp;
                 delete rp;
                 delete wup;
@@ -403,6 +407,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         decrement_request(rp);
     }
 
+    njobs += new_results.size();
     msg_printf(0, MSG_INFO, "Got %d tasks", new_results.size());
     sprintf(buf, "got %d tasks<br>", new_results.size());
     html_msg += buf;
@@ -460,7 +465,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     
         p = find_project_with_overdue_results();
         if (p) {
-            printf("doing RPC to %s to report results\n", p->project_name);
+            //printf("doing RPC to %s to report results\n", p->project_name);
             work_fetch.compute_work_request(p);
             action = simulate_rpc(p);
             break;
@@ -663,9 +668,9 @@ double CLIENT_STATE::monotony() {
 void SIM_RESULTS::compute() {
     double flops_total = cpu_peak_flops()*active_time
         + gpu_peak_flops()*gpu_active_time;
-    printf("total %fG\n", flops_total/1e9);
+    fprintf(summary_file, "total %fG\n", flops_total/1e9);
     double flops_idle = flops_total - flops_used;
-    printf("used: %fG wasted: %fG idle: %fG\n",
+    fprintf(summary_file, "used: %fG wasted: %fG idle: %fG\n",
         flops_used/1e9, flops_wasted/1e9, flops_idle/1e9
     );
     wasted_frac = flops_wasted/flops_total;
@@ -675,9 +680,7 @@ void SIM_RESULTS::compute() {
 }
 
 void SIM_RESULTS::print(FILE* f) {
-    int njobs = nresults_met_deadline + nresults_missed_deadline;
     double r = ((double)nrpcs)/(njobs*2);
-    printf("NRPCS: %d njobs: %d\n", nrpcs, njobs);
     fprintf(f, "wf %f if %f sv %f m %f r %f\n",
         wasted_frac, idle_frac, share_violation, monotony, r
     );
@@ -887,7 +890,7 @@ void html_end() {
     fclose(html_out);
 }
 
-#ifdef USE_REC
+//#ifdef USE_REC
 
 void set_initial_rec() {
     unsigned int i;
@@ -937,7 +940,7 @@ void make_graph(const char* title, const char* fname, int field) {
     system(cmd);
 }
 
-#else
+//#else
 
 // lines in the debt file have these fields:
 // time
@@ -1019,15 +1022,15 @@ void debt_graphs() {
     }
 }
 
-#endif
+//#endif
 
 void simulate() {
     bool action;
     double start = START_TIME;
     gstate.now = start;
     html_start();
-    msg_printf(0, MSG_INFO,
-        "starting simulation. delta %f duration %f", delta, duration
+    fprintf(summary_file,
+        "starting simulation. delta %f duration %f\n", delta, duration
     );
     while (1) {
         on = on_proc.sample(delta);
@@ -1063,11 +1066,11 @@ void simulate() {
             }
         }
         html_rec();
-#ifdef USE_REC
+if (use_rec) {
         write_recs();
-#else
+} else {
         write_debts();
-#endif
+}
         gstate.now += delta;
         if (gstate.now > start + duration) break;
     }
@@ -1075,8 +1078,9 @@ void simulate() {
 }
 
 void show_app(APP* app) {
-    msg_printf(app->project, MSG_INFO,
-        "app %s fpops_est %.0fG fpops mean %.0fG std_dev %.0fG latency %.2f weight %.2f",
+    fprintf(summary_file,
+        "%s: app %s fpops_est %.0fG fpops mean %.0fG std_dev %.0fG latency %.2f weight %.2f\n",
+        app->project->project_name,
         app->name, app->fpops_est/1e9,
         app->fpops.mean/1e9, app->fpops.std_dev/1e9,
         app->latency_bound,
@@ -1085,8 +1089,8 @@ void show_app(APP* app) {
     for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app != app) continue;
-        msg_printf(avp->project, MSG_INFO,
-            "   app version %s %d (%s): ncpus %.2f ncuda %.2f nati %.2f flops %.0fG",
+        fprintf(summary_file,
+            "   app version %s %d (%s): ncpus %.2f ncuda %.2f nati %.2f flops %.0fG\n",
             avp->app_name, avp->version_num, avp->plan_class,
             avp->avg_ncpus, avp->ncudas, avp->natis,
             avp->flops/1e9
@@ -1131,13 +1135,15 @@ void get_app_params() {
         app = gstate.apps[i];
         if (!app->fpops_est || !app->latency_bound) {
             app->ignore = true;
-            msg_printf(app->project, MSG_INFO,
-                "ignoring app %s - no fpops_est or latency bound",
+            fprintf(summary_file,
+                "%s: ignoring app %s - no fpops_est or latency bound\n",
+                app->project->project_name,
                 app->name
             );
         } else if (app->ignore) {
-            msg_printf(app->project, MSG_INFO,
-                "ignoring app %s - no app versions",
+            fprintf(summary_file,
+                "%s: ignoring app %s - no app versions\n",
+                app->project->project_name,
                 app->name
             );
         } else {
@@ -1201,8 +1207,9 @@ void cull_projects() {
     while (iter != gstate.projects.end()) {
         p = *iter;
         if (p->dont_request_more_work) {
-            msg_printf(p, MSG_INFO,
-                "Removing from simulation - no jobs in client_state.xml"
+            fprintf(summary_file,
+                "%s: Removing from simulation - no jobs in client_state.xml\n",
+                p->project_name
             );
             iter = gstate.projects.erase(iter);
         } else {
@@ -1211,7 +1218,8 @@ void cull_projects() {
     }
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
-        msg_printf(p, MSG_INFO, "%s%s%s",
+        fprintf(summary_file, "%s: %s%s%s\n",
+            p->project_name,
             p->no_cpu_apps?" no CPU apps":"",
             p->no_cuda_apps?" no nvidia apps":"",
             p->no_ati_apps?" no ATI apps":""
@@ -1221,7 +1229,6 @@ void cull_projects() {
 
 void do_client_simulation() {
     char buf[256], buf2[256];
-    msg_printf(0, MSG_INFO, "SIMULATION START");
 
     sprintf(buf, "%s%s", infile_prefix, CONFIG_FILE);
     read_config_file(true, buf);
@@ -1264,34 +1271,33 @@ void do_client_simulation() {
     gstate.set_ncpus();
     work_fetch.init();
 
-#ifdef USE_REC
+if (use_rec) {
     set_initial_rec();
-#endif
+}
 
     gstate.request_work_fetch("init");
     simulate();
 
     sim_results.compute();
 
-    sprintf(buf, "%s%s", outfile_prefix, SUMMARY_FNAME);
+    sprintf(buf, "%s%s", outfile_prefix, RESULTS_FNAME);
     FILE* f = fopen(buf, "w");
     sim_results.print(f);
     fclose(f);
 
-    printf("Peak FLOPS: CPU %.2fG GPU %.2fG\n",
+    fprintf(summary_file, "Peak FLOPS: CPU %.2fG GPU %.2fG\n",
         cpu_peak_flops()/1e9,
         gpu_peak_flops()/1e9
     );
-    sim_results.print(stdout);
+    sim_results.print(summary_file);
 
-    // then other
-    print_project_results(stdout);
+    print_project_results(summary_file);
 
-#ifdef USE_REC
+if (use_rec) {
     make_graph("REC", "rec", 0);
-#else
+} else {
     debt_graphs();
-#endif
+}
 }
 
 char* next_arg(int argc, char** argv, int& i) {
@@ -1321,6 +1327,8 @@ int main(int argc, char** argv) {
             server_uses_workload = true;
         } else if (!strcmp(opt, "--cpu_sched_rr_only")) {
             cpu_sched_rr_only = true;
+        } else if (!strcmp(opt, "--use_rec")) {
+            use_rec = true;
         } else {
             usage(argv[0]);
         }
@@ -1351,6 +1359,9 @@ int main(int argc, char** argv) {
 
     sprintf(buf, "%s%s", outfile_prefix, DEBT_FNAME);
     debt_file = fopen(buf, "w");
+
+    sprintf(buf, "%s%s", outfile_prefix, SUMMARY_FNAME);
+    summary_file = fopen(buf, "w");
 
     do_client_simulation();
 }

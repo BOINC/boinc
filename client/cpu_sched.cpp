@@ -346,23 +346,23 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
         PROJECT* p = projects[i];
         if (!p->next_runnable_result) continue;
         if (p->non_cpu_intensive) continue;
-#ifdef USE_REC
+if (use_rec) {
         if (first || project_priority(p)> best_debt) {
             first = false;
             best_project = p;
             best_debt = project_priority(p);
         }
-#else
+} else {
         if (first || p->cpu_pwf.anticipated_debt > best_debt) {
             first = false;
             best_project = p;
             best_debt = p->cpu_pwf.anticipated_debt;
         }
-#endif
+}
     }
     if (!best_project) return NULL;
 
-#ifndef USE_REC
+if (!use_rec) {
     if (log_flags.cpu_sched_debug) {
         msg_printf(best_project, MSG_INFO,
             "[cpu_sched] highest debt: %f %s",
@@ -370,7 +370,7 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
             best_project->next_runnable_result->name
         );
     }
-#endif
+}
     RESULT* rp = best_project->next_runnable_result;
     best_project->next_runnable_result = 0;
     return rp;
@@ -391,18 +391,18 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
 RESULT* first_coproc_result(int rsc_type) {
     unsigned int i;
     RESULT* best = NULL;
-    double best_std=0;
+    double best_std=0, std;
     for (i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->resource_type() != rsc_type) continue;
         if (!rp->runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
-#ifdef USE_REC
-        double std = project_priority(rp->project);
-#else
-        double std = rp->project->anticipated_debt(rsc_type);
-#endif
+if (use_rec) {
+        std = project_priority(rp->project);
+} else {
+        std = rp->project->anticipated_debt(rsc_type);
+}
         if (!best) {
             best = rp;
             best_std = std;
@@ -549,8 +549,6 @@ void CLIENT_STATE::reset_debt_accounting() {
     debt_interval_start = now;
 }
 
-#ifdef USE_REC
-
 // update REC (recent estimated credit)
 //
 static void update_rec() {
@@ -649,8 +647,6 @@ void adjust_rec_temp(RESULT* rp) {
     p->pwf.rec_temp += peak_flops(rp->avp);
 }
 
-#endif
-
 // adjust project debts (short, long-term)
 //
 void CLIENT_STATE::adjust_debts() {
@@ -688,9 +684,9 @@ void CLIENT_STATE::adjust_debts() {
         work_fetch.accumulate_inst_sec(atp, elapsed_time);
     }
 
-#ifdef USE_REC
+if (use_rec) {
     update_rec();
-#else
+} else {
     cpu_work_fetch.update_long_term_debts();
     cpu_work_fetch.update_short_term_debts();
     if (host_info.have_cuda()) {
@@ -701,7 +697,7 @@ void CLIENT_STATE::adjust_debts() {
         ati_work_fetch.update_long_term_debts();
         ati_work_fetch.update_short_term_debts();
     }
-#endif
+}
 
     reset_debt_accounting();
 }
@@ -766,16 +762,16 @@ static bool schedule_if_possible(
     }
     proc_rsc.schedule(rp);
 
-#ifdef USE_REC
+if (use_rec) {
     adjust_rec_temp(rp);
-#else
+} else {
     // project STD at end of time slice
     //
     double dt = gstate.global_prefs.cpu_scheduling_period();
     rp->project->cpu_pwf.anticipated_debt -= dt*rp->avp->avg_ncpus/cpu_work_fetch.ninstances;
     rp->project->cuda_pwf.anticipated_debt -= dt*rp->avp->ncudas/cuda_work_fetch.ninstances;
     rp->project->ati_pwf.anticipated_debt -= dt*rp->avp->natis/ati_work_fetch.ninstances;
-#endif
+}
     return true;
 }
 
@@ -878,9 +874,9 @@ void CLIENT_STATE::schedule_cpus() {
 
     // set temporary variables
     //
-#ifdef USE_REC
+if (use_rec) {
     project_priority_init();
-#endif
+}
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         rp->already_selected = false;
@@ -889,11 +885,11 @@ void CLIENT_STATE::schedule_cpus() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->next_runnable_result = NULL;
-#ifndef USE_REC
+if (!use_rec) {
         p->cpu_pwf.anticipated_debt = p->cpu_pwf.short_term_debt;
         p->cuda_pwf.anticipated_debt = p->cuda_pwf.short_term_debt;
         p->ati_pwf.anticipated_debt = p->ati_pwf.short_term_debt;
-#endif
+}
         p->cpu_pwf.deadlines_missed_copy = p->cpu_pwf.deadlines_missed;
         p->cuda_pwf.deadlines_missed_copy = p->cuda_pwf.deadlines_missed;
         p->ati_pwf.deadlines_missed_copy = p->ati_pwf.deadlines_missed;

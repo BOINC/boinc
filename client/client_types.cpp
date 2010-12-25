@@ -205,13 +205,13 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_bool(buf, "dont_request_more_work", dont_request_more_work)) continue;
         if (parse_bool(buf, "detach_when_done", detach_when_done)) continue;
         if (parse_bool(buf, "ended", ended)) continue;
-#ifdef USE_REC
+//#ifdef USE_REC
         if (parse_double(buf, "<rec>", pwf.rec)) continue;
         if (parse_double(buf, "<rec_time>", pwf.rec_time)) continue;
-#else
+//#else
         if (parse_double(buf, "<short_term_debt>", cpu_pwf.short_term_debt)) continue;
         if (parse_double(buf, "<long_term_debt>", cpu_pwf.long_term_debt)) continue;
-#endif
+//#endif
         if (parse_double(buf, "<cpu_backoff_interval>", cpu_pwf.backoff_interval)) continue;
         if (parse_double(buf, "<cpu_backoff_time>", cpu_pwf.backoff_time)) {
             if (cpu_pwf.backoff_time > gstate.now + 28*SECONDS_PER_DAY) {
@@ -219,16 +219,16 @@ int PROJECT::parse_state(MIOFILE& in) {
             }
             continue;
         }
-#ifndef USE_REC
+//#ifndef USE_REC
         if (parse_double(buf, "<cuda_short_term_debt>", cuda_pwf.short_term_debt)) continue;
         if (parse_double(buf, "<cuda_debt>", cuda_pwf.long_term_debt)) continue;
-#endif
+//#endif
         if (parse_double(buf, "<cuda_backoff_interval>", cuda_pwf.backoff_interval)) continue;
         if (parse_double(buf, "<cuda_backoff_time>", cuda_pwf.backoff_time)) continue;
-#ifndef USE_REC
+//#ifndef USE_REC
         if (parse_double(buf, "<ati_short_term_debt>", ati_pwf.short_term_debt)) continue;
         if (parse_double(buf, "<ati_debt>", ati_pwf.long_term_debt)) continue;
-#endif
+//#endif
         if (parse_double(buf, "<ati_backoff_interval>", ati_pwf.backoff_interval)) continue;
         if (parse_double(buf, "<ati_backoff_time>", ati_pwf.backoff_time)) continue;
         if (parse_double(buf, "<resource_share>", x)) continue;
@@ -294,25 +294,25 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%f</min_rpc_time>\n"
         "    <next_rpc_time>%f</next_rpc_time>\n"
-#ifdef USE_REC
+//#ifdef USE_REC
         "    <rec>%f</rec>\n"
         "    <rec_time>%f</rec_time>\n"
-#else
+//#else
         "    <short_term_debt>%f</short_term_debt>\n"
         "    <long_term_debt>%f</long_term_debt>\n"
-#endif
+//#endif
         "    <cpu_backoff_interval>%f</cpu_backoff_interval>\n"
         "    <cpu_backoff_time>%f</cpu_backoff_time>\n"
-#ifndef USE_REC
+//#ifndef USE_REC
         "    <cuda_short_term_debt>%f</cuda_short_term_debt>\n"
         "    <cuda_debt>%f</cuda_debt>\n"
-#endif
+//#endif
         "    <cuda_backoff_interval>%f</cuda_backoff_interval>\n"
         "    <cuda_backoff_time>%f</cuda_backoff_time>\n"
-#ifndef USE_REC
+//#ifndef USE_REC
         "    <ati_short_term_debt>%f</ati_short_term_debt>\n"
         "    <ati_debt>%f</ati_debt>\n"
-#endif
+//#endif
         "    <ati_backoff_interval>%f</ati_backoff_interval>\n"
         "    <ati_backoff_time>%f</ati_backoff_time>\n"
         "    <resource_share>%f</resource_share>\n"
@@ -348,25 +348,25 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         master_fetch_failures,
         min_rpc_time,
         next_rpc_time,
-#ifdef USE_REC
+//#ifdef USE_REC
         pwf.rec,
         pwf.rec_time,
-#else
+//#else
         cpu_pwf.short_term_debt,
         cpu_pwf.long_term_debt,
-#endif
+//#endif
         cpu_pwf.backoff_interval,
         cpu_pwf.backoff_time,
-#ifndef USE_REC
+//#ifndef USE_REC
         cuda_pwf.short_term_debt,
         cuda_pwf.long_term_debt,
-#endif
+//#endif
         cuda_pwf.backoff_interval,
         cuda_pwf.backoff_time,
-#ifndef USE_REC
+//#ifndef USE_REC
         ati_pwf.short_term_debt,
         ati_pwf.long_term_debt,
-#endif
+//#endif
         ati_pwf.backoff_interval,
         ati_pwf.backoff_time,
         resource_share,

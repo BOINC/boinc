@@ -3,7 +3,7 @@
 // script to do simulator runs and graph the output
 
 function do_sim($in, $out, $rec) {
-    $prog = $rec?"sim_rec":"sim_debt";
+    $prog = $rec?"sim --use_rec":"sim";
     $cmd = "$prog --infile_prefix $in --outfile_prefix $out --duration 864000";
     echo "cmd: $cmd\n";
     system($cmd);
@@ -36,10 +36,10 @@ function compare_rec($in) {
     do_sim($in, $rec_out, true);
     do_sim($in, $debt_out, false);
 
-    // concatenate the summary files
+    // concatenate the result files
 
-    $r = file_get_contents($rec_out."summary.dat");
-    $d = file_get_contents($debt_out."summary.dat");   
+    $r = file_get_contents($rec_out."results.dat");
+    $d = file_get_contents($debt_out."results.dat");   
 
     $data_fname = $in."cr.dat";
     $f = fopen($data_fname, "w");

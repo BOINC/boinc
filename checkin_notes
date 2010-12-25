@@ -8845,3 +8845,16 @@ Rytis  24 Dec 2010
     
     html/inc/
         forum_rss.inc
+
+David  25 Dec 2010
+    - client: enabled REC-based scheduling with a cmdline option
+        rather than a compile flag
+
+    client/
+        work_fetch.cpp,h
+        client_types.cpp,h
+        client_state.cpp
+        sim.cpp
+        gui_rpc_server_ops.cpp
+        sim_control.php
+        cpu_sched.cpp

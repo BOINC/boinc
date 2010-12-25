@@ -1894,9 +1894,9 @@ void CLIENT_STATE::clear_absolute_times() {
         p->cpu_pwf.clear_backoff();
         p->cuda_pwf.clear_backoff();
         p->ati_pwf.clear_backoff();
-#ifdef USE_REC
+//#ifdef USE_REC
         p->pwf.rec_time = now;
-#endif
+//#endif
     }
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         PERS_FILE_XFER* pfx = pers_file_xfers->pers_file_xfers[i];

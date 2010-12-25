@@ -940,7 +940,7 @@ static void read_all_projects_list_file(MIOFILE& fout) {
     }
 }
 
-#ifndef USE_REC
+//#ifndef USE_REC
 static int set_debt(XML_PARSER& xp) {
     bool is_tag;
     char tag[256], url[256];
@@ -1024,7 +1024,7 @@ static void handle_set_debts(char* buf, MIOFILE& fout) {
     }
     fout.printf("<error>No end tag</error>\n");
 }
-#endif
+//#endif
 
 static void handle_set_cc_config(char* buf, MIOFILE& fout) {
     char *p, *q=0;
@@ -1307,10 +1307,10 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.set_ncpus();
         gstate.request_schedule_cpus("Core client configuration");
         gstate.request_work_fetch("Core client configuration");
-#ifndef USE_REC
+//#ifndef USE_REC
     } else if (match_req(request_msg, "set_debts")) {
         handle_set_debts(request_msg, mf);
-#endif
+//#endif
     } else if (match_req(request_msg, "get_notices")) {
         handle_get_notices(request_msg, mf, notice_refresh);
         notice_refresh = false;

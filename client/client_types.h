@@ -421,7 +421,7 @@ struct PROJECT : PROJ_AM {
         }
         return cpu_pwf.deadlines_missed;
     }
-#ifndef USE_REC
+//#ifndef USE_REC
     inline double anticipated_debt(int rsc_type) {
         switch(rsc_type) {
         case RSC_TYPE_CUDA: return cuda_pwf.anticipated_debt;
@@ -429,7 +429,7 @@ struct PROJECT : PROJ_AM {
         }
         return cpu_pwf.anticipated_debt;
     }
-#endif
+//#endif
     void get_task_durs(double& not_started_dur, double& in_progress_dur);
 
     int nresults_returned;
