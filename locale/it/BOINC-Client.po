@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-18 09:11-0800\n"
-"PO-Revision-Date: 2010-11-25 19:20+0200\n"
+"PO-Revision-Date: 2010-12-21 23:05+0200\n"
 "Last-Translator: Morris83 <zara-83@libero.it>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: it\n"
@@ -22,7 +22,6 @@ msgid "error"
 msgstr "errore"
 
 #: client_msgs.cpp:77
-#, fuzzy
 msgid "Message from server"
 msgstr "Messaggio dal server del progetto:"
 
@@ -31,6 +30,8 @@ msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
+"Alcuni lavori richiedono più memoria di quella resa disponibile dalle tue "
+"preferenze. Per favore controllale."
 
 #: client_state.cpp:414
 msgid "Couldn't write state file; check directory permissions"
@@ -209,7 +210,6 @@ msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Il tuo file app_info.xml non ha una versione utilizzabile di"
 
 #: ../sched/sched_version.cpp:709
-#, fuzzy
 msgid "is not available for"
 msgstr "non è disponibile per il tuo tipo di computer"
 

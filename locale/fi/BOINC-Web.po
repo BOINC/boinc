@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-08-13 10:30-0700\n"
+"PO-Revision-Date: 2010-12-26 22:11+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: versions.inc:6
@@ -122,9 +122,8 @@ msgid ""
 "problems you might have."
 msgstr ""
 "BOINC Online apu mahdollistaa puhumisen kokeneen BOINC-käyttäjän kanssa, "
-"joka %s osaa vastata kysymyksiin BOINCista ja laskennasta, %s auttaa  "
-"BOINCin asennuksessa ja käytössä, %s ratkaisee ongelmia joita sinulla "
-"saattaa olla."
+"joka %s osaa vastata kysymyksiin BOINCista ja laskennasta, %s auttaa BOINCin "
+"asennuksessa ja käytössä, %s ratkaisee ongelmia joita sinulla saattaa olla."
 
 #: help.php:21
 #, php-format
@@ -206,7 +205,7 @@ msgstr "Tilastot"
 
 #: index.php:53
 msgid "Active:"
-msgstr "Aktiivisia"
+msgstr "Aktiivisia:"
 
 #: index.php:53
 msgid "volunteers,"
@@ -248,11 +247,11 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
-"Käytä tietokoneesi joutoaikaa (Windows, Mac tai Linux) parantamaan "
+" Käytä tietokoneesi joutoaikaa (Windows, Mac tai Linux) parantamaan "
 "sairauksia, tutkimaan ilmastonlämpenemistä, löytämään pulsareita ja tekemään "
 "monia muita tieteellisiä tutkimuksia. Se on turvallista, luotettavaa ja "
 "helppoa: %sValitse%s projektit %sLataa%s ja aja BOINC-ohjelmisto %sAnna%s "
-"sähköpostiosoite ja salasana."
+"sähköpostiosoite ja salasana. "
 
 #: index.php:100
 #, php-format

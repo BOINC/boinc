@@ -4,36 +4,27 @@
 # FileID  : $Id$
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2010-08-10 12:43 PDT\n"
-"PO-Revision-Date: 2010-09-19 20:42+0200\n"
-"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
-"Language-Team: Russia\n"
-"Language: ru\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.1\n"
-"X-Poedit-SearchPath-0: doc\n"
+"X-Generator: Translate Toolkit 1.8.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-KeywordsList: tra\n"
 
 #: versions.inc:6
 msgid "The current release is known to work with these Linux versions:"
-msgstr "Текущий выпуск, как известно, работает с этими версиями Linux:"
+msgstr ""
 
 #: versions.inc:14
 msgid ""
 "For other Linux versions, check if a BOINC package is offered by your Linux "
 "distribution."
 msgstr ""
-"Для других версий Linux проверьте, входит ли пакет BOINC в ваш дистрибутив "
-"Linux."
 
 #: versions.inc:25
 msgid ""
@@ -41,33 +32,28 @@ msgid ""
 "doesn't have a graphical interface, but it should work on all Linux systems, "
 "both x86 and x64."
 msgstr ""
-"Либо загрузите %1клиент BOINC для более старых версий Linux%2. В нем нет "
-"графического интерфейса, но он должен работать на всех системах Linux, как "
-"на x86, так и на x64."
 
 #: docutil.php:21
 msgid "Search"
-msgstr "Найти"
+msgstr ""
 
 #: docutil.php:102
 msgid "Return to BOINC main page"
-msgstr "Вернуться на главную страницу BOINC"
+msgstr ""
 
 #: docutil.php:113
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr "Эту страницу можно %sперевести%s."
+msgstr ""
 
-# #######################################
-# download.php
 #: download.php:40
 msgid "Download BOINC"
-msgstr "Загрузить BOINC"
+msgstr ""
 
 #: download.php:42
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr "%s для %s (%s МБайт)"
+msgstr ""
 
 #: download.php:89
 msgid ""
@@ -76,20 +62,12 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
-"BOINC - это программа, предоставляющая неиспользуемое время вашего "
-"компьютера для научных проектов, таких как: SETI@home, "
-"Climateprediction.net, Rosetta@home, World Community Grid и других. <p> "
-"После установки BOINC на ваш компьютер, вы сможете выбрать и участвовать "
-"одновременно в нескольких проектах, каких - решайте сами."
 
 #: download.php:91
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
-"Вы можете запустить это программное обеспечение на компьютере только в том "
-"случае, если Вы владеете компьютером или у Вас есть разрешение его "
-"владельца."
 
 #: download.php:116
 #, php-format
@@ -97,32 +75,30 @@ msgid ""
 "Note: if your computer is equipped with an Graphics Processing Unit (GPU), "
 "you may be able to %suse it to compute faster%s"
 msgstr ""
-"Примечание: если ваш компьютер оборудован видеокартой с графическим "
-"процессором (GPU), вы можете %sиспользовать её для ускорения вычислений%s"
 
 #: download.php:122
 msgid "System requirements"
-msgstr "Системные требования"
+msgstr ""
 
 #: download.php:123
 msgid "Release notes"
-msgstr "Описание последней версии"
+msgstr ""
 
 #: download.php:124 index.php:82
 msgid "Help"
-msgstr "Помощь"
+msgstr ""
 
 #: download.php:125
 msgid "All versions"
-msgstr "Все версии"
+msgstr ""
 
 #: download.php:126
 msgid "Version history"
-msgstr "История версий"
+msgstr ""
 
 #: download.php:143
 msgid "BOINC: compute for science"
-msgstr "BOINC: вычисления для науки"
+msgstr ""
 
 #: help.php:12
 #, php-format
@@ -132,10 +108,6 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
-"С помощью данной горячей линии BOINC, вы можете задать вопросы опытным "
-"пользователям BOINC лично: %s о том, что такое BOINC и распределённые "
-"вычисления; %s об установке программного обеспечения BOINC и процессе "
-"подключения к проектам; %s о возникших проблемах, связанных с работой BOINC."
 
 #: help.php:21
 #, php-format
@@ -145,11 +117,6 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
-"Горячая линия техподдержки BOINC построена на использовании "
-"интернет-телефона %sSkype%s. Skype - это бесплатная программа, позволяющая "
-"бесплатно звонить по всему миру.  Если у вас ещё не установлен Skype, вы "
-"можете %sзагрузить и установить%s его, а затем вернуться на данную страницу "
-"для выбора помощника."
 
 #: help.php:28
 msgid ""
@@ -158,21 +125,16 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
-"Лучше всего задать вопрос помощнику лично в режиме телефонного разговора, но "
-"для этого потребуются микрофон и наушники.  В качестве альтернативы, в "
-"Skype можно воспользоваться текстовым чатом, в крайнем случае оставьте ваш "
-"вопрос и адрес электронной почты (чтобы можно было на него ответить)."
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
 msgstr ""
-"Помощники разговаривают на разных языках. Вы можете выбрать понятный вам:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr "Станьте добровольным помощником"
+msgstr ""
 
 #: help.php:50
 #, php-format
@@ -181,81 +143,70 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
-"Если вы достаточно хорошо понимаете, что такое BOINC и как оно работает, вы "
-"сами %sможете стать добровольным помощником%s.  Этим вы поможете как новым "
-"участникам BOINC, так и развитию BOINC и распределённых вычислений."
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
-"Если вы уже являетесь добровольным помощником: для изменения ваших настроек, "
-"%sзайдите сюда%s."
 
 #: help_funcs.php:107
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
-"Помощники BOINC - это добровольцы, не получающие оплату. BOINC или "
-"Университет Калифорнии не несут ответственности за их советы."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
-"%1Никогда%2 не давайте информацию об адресе электронной почты или пароле "
-"помощникам BOINC."
 
 #: index.php:23
 msgid "Computing power"
-msgstr "Вычислительные мощности"
+msgstr ""
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr "100 лучших участников"
+msgstr ""
 
 #: index.php:26
 msgid "Statistics"
-msgstr "Статистика"
+msgstr ""
 
 #: index.php:53
 msgid "Active:"
-msgstr "Активно:"
+msgstr ""
 
 #: index.php:53
 msgid "volunteers,"
-msgstr "участников,"
+msgstr ""
 
 #: index.php:53
 msgid "computers.\n"
-msgstr "компьютеров.\n"
+msgstr ""
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr "В среднем за 24 часа:"
+msgstr ""
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr "терафлопс."
+msgstr ""
 
 #: index.php:66
 msgid "News"
-msgstr "Новости"
+msgstr ""
 
 #: index.php:79
 msgid "Volunteer"
-msgstr "Информация для участников"
+msgstr ""
 
-# #######################################
-# download.php
 #: index.php:81
 msgid "Download"
-msgstr "Страница загрузки"
+msgstr ""
 
 #: index.php:83 index.php:118 index.php:169
 msgid "Documentation"
-msgstr "Документация"
+msgstr ""
 
 #: index.php:89
 #, php-format
@@ -265,13 +216,6 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
-" Предоставьте неиспользуемое время вашего компьютера (с ОС: Windows, Mac, "
-"или Linux) для поиска лекарств и методов лечения, изучения глобального "
-"изменения климата, пульсаров, а также для множества других научных "
-"исследований.  Сделать это достаточно просто и относительно безопасно:  %"
-"sВыберите%s понравившиеся проекты  %sЗагрузите%s и установите программное "
-"обеспечение BOINC  %sУкажите:%s ваш адрес электронной почты и пароль для "
-"вашей учётной записи в проекте. "
 
 #: index.php:100
 #, php-format
@@ -279,122 +223,105 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"При желании участвовать одновременно в нескольких проектах, в качестве "
-"альтернативы можно воспользоваться сайтами %sменеджеров проектов%s, такими "
-"как %sGridRepublic%s или %sBAM!%s. "
 
 #: index.php:116
 msgid "Compute with BOINC"
-msgstr "Используйте BOINC для организации вычислений"
+msgstr ""
 
 #: index.php:119
 msgid "Software updates"
-msgstr "Обновления серверного ПО"
+msgstr ""
 
 #: index.php:126
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
-"%1Ученые%2: используйте BOINC, чтобы создать %3проект добровольных "
-"распределённых вычислений%4, дающий Вам вычислительную мощь тысяч "
-"центральных процессоров."
 
 #: index.php:130
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
-"%1Университеты%2: используйте BOINC, чтобы создать %3Виртуальный "
-"Суперкомпьютерный Центр ВУЗа%4."
 
 #: index.php:135
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr ""
-"%1Компании%2: используйте BOINC для %3распределённых вычислений в локальной "
-"сети%4."
 
 #: index.php:147
 msgid "The BOINC project"
-msgstr "Разработка BOINC"
+msgstr ""
 
 #: index.php:153
 msgid "Message boards"
-msgstr "Доска сообщений"
+msgstr ""
 
 #: index.php:154
 msgid "Email lists"
-msgstr "Рассылки"
+msgstr ""
 
 #: index.php:155
 msgid "Personnel and contributors"
-msgstr "Список разработчиков"
+msgstr ""
 
 #: index.php:156
 msgid "Events"
-msgstr "События"
+msgstr ""
 
 #: index.php:157
 msgid "Papers and talks"
-msgstr "Статьи и доклады"
+msgstr ""
 
 #: index.php:158
 msgid "Research projects"
-msgstr "Научно-исследовательские проекты"
+msgstr ""
 
 #: index.php:159
 msgid "Logos and graphics"
-msgstr "Изображения и логотипы"
+msgstr ""
 
 #: index.php:160
 msgid "and"
-msgstr "и"
+msgstr ""
 
 #: index.php:164
 msgid "Help wanted"
-msgstr "Нужна помощь"
+msgstr ""
 
 #: index.php:166
 msgid "Programming"
-msgstr "Программирование"
+msgstr ""
 
 #: index.php:167
 msgid "Translation"
-msgstr "Перевод"
+msgstr ""
 
 #: index.php:168
 msgid "Testing"
-msgstr "Тестирование"
+msgstr ""
 
 #: index.php:170
 msgid "Publicity"
-msgstr "Реклама"
+msgstr ""
 
 #: index.php:172
 msgid "Software development"
-msgstr "Разработка программного обеспечения"
+msgstr ""
 
 #: index.php:173
 msgid "APIs for add-on software"
-msgstr "API для ПО сторонних разработчиков"
+msgstr ""
 
 #: index.php:207
 msgid "Browser default"
-msgstr "как в браузере"
+msgstr ""
 
-# grid - это как ?
 #: index.php:258
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
-"Программное обеспечение с открытым исходным кодом для организации %"
-"sдобровольных распределённых вычислений%s и %sраспределённых вычислений в "
-"сети%s."
 
 #: index.php:271
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr "BOINC находится в Университете Калифорнии, Беркли"
-
-#~ msgid "Conferences"
-#~ msgstr "Конференции"
+msgstr ""

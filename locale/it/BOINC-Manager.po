@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-19 14:52-0500\n"
-"PO-Revision-Date: 2010-12-10 11:25+0200\n"
+"PO-Revision-Date: 2010-12-21 23:08+0200\n"
 "Last-Translator: Morris83 <zara-83@libero.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it\n"
@@ -339,9 +339,8 @@ msgid "Run based on &preferences"
 msgstr "Elaborazione secondo le &preferenze"
 
 #: clientgui/AdvancedFrame.cpp:472
-#, fuzzy
 msgid "Allow work according to preferences"
-msgstr "Elabora seguendo le specifiche fornite dalle preferenze"
+msgstr "Consenti l'invio di lavoro secondo le preferenze"
 
 #: clientgui/AdvancedFrame.cpp:476
 msgid "&Suspend"
@@ -366,7 +365,7 @@ msgstr "Ela&borazione GPU secondo le preferenze"
 
 #: clientgui/AdvancedFrame.cpp:508
 msgid "Allow GPU work according to preferences"
-msgstr "Elabora con la GPU ssecondo le preferenze"
+msgstr "consenti l'invio di lavoro per la GPU secondo le preferenze"
 
 #: clientgui/AdvancedFrame.cpp:512
 msgid "Suspend GPU"
@@ -393,8 +392,7 @@ msgstr "Attività di rete secondo le pr&eferenze"
 #: clientgui/AdvancedFrame.cpp:543
 #, fuzzy
 msgid "Allow network activity according to preferences"
-msgstr ""
-"Permetti l'attività di rete seguendo le specifiche fornite dalle preferenze"
+msgstr "Permetti l'attività di rete secondo le preferenze"
 
 #: clientgui/AdvancedFrame.cpp:547
 msgid "Network activity suspended"

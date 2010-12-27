@@ -7,22 +7,23 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-18 09:11-0800\n"
-"PO-Revision-Date: 2010-10-15 11:09-0000\n"
-"Last-Translator: Miguel Veiga <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2010-12-06 13:59+0200\n"
+"Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.1.1\n"
 
 #: acct_mgr.cpp:411 acct_mgr.cpp:421
 msgid "error"
 msgstr "erro"
 
 #: client_msgs.cpp:77
-#, fuzzy
 msgid "Message from server"
-msgstr "Mensagem do servidor do projecto:"
+msgstr "Mensagem do servidor "
 
 #: client_state.cpp:232
 msgid ""

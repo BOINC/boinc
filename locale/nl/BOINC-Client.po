@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-18 09:11-0800\n"
-"PO-Revision-Date: 2010-10-24 12:58+0200\n"
+"PO-Revision-Date: 2010-12-23 21:52+0200\n"
 "Last-Translator: Rene <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -22,15 +22,16 @@ msgid "error"
 msgstr "fout"
 
 #: client_msgs.cpp:77
-#, fuzzy
 msgid "Message from server"
-msgstr "Bericht van project server:"
+msgstr "Bericht van de server:"
 
 #: client_state.cpp:232
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
+"Sommige taken hebben meer geheugen nodig dan toegestaan bij uw voorkeuren. "
+"Controleer alstublieft de voorkeuren."
 
 #: client_state.cpp:414
 msgid "Couldn't write state file; check directory permissions"
@@ -125,7 +126,7 @@ msgstr "Dit project ondersteund geen computers van het type"
 #: ../sched/sched_send.cpp:1267
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
-"Om taken te kunnen verwerken, met de aanwezige GPU, is het nodig om het "
+"Om taken te kunnen verwerken met de aanwezige GPU, is het nodig om het "
 "stuurprogramma bij te werken"
 
 #: ../sched/sched_send.cpp:1274
@@ -203,9 +204,8 @@ msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Het app_info.xml bestand vermeldt geen bruikbare versie van"
 
 #: ../sched/sched_version.cpp:709
-#, fuzzy
 msgid "is not available for"
-msgstr "is niet beschikbaar voor dit type computer"
+msgstr "is niet beschikbaar voor"
 
 #~ msgid "Notice from BOINC"
 #~ msgstr "Mededeling van BOINC"
