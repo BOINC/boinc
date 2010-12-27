@@ -1788,20 +1788,23 @@ msgid "CPU work fetch deferred for"
 msgstr "Η αποδοχή εργασιών για την κεντρική μονάδα επεξεργασίας αναβλήθηκε για"
 
 #: clientgui/DlgItemProperties.cpp:249
+#, fuzzy
 msgid "CPU work fetch deferral interval"
-msgstr ""
+msgstr "Η αποδοχή εργασιών για την κεντρική μονάδα επεξεργασίας αναβλήθηκε για"
 
 #: clientgui/DlgItemProperties.cpp:252
 msgid "Don't fetch NVIDIA GPU tasks"
 msgstr "Να μη δέχεται εργασίες για την μονάδα επεξεργασίας γραφικών NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:254
+#, fuzzy
 msgid "NVIDIA GPU scheduling priority"
-msgstr ""
+msgstr "Προτεραιότητα χρονοδιαγράμματος της κεντρικής μονάδας επεξεργασίας"
 
 #: clientgui/DlgItemProperties.cpp:255
+#, fuzzy
 msgid "NVIDIA GPU work fetch priority"
-msgstr ""
+msgstr "Προτεραιότητα αποδοχής εργασιών για την κεντρική μονάδα επεξεργασίας "
 
 #: clientgui/DlgItemProperties.cpp:258
 #, fuzzy
@@ -1809,8 +1812,9 @@ msgid "NVIDIA GPU work fetch deferred for"
 msgstr "Η αποδοχή εργασιών για την κεντρική μονάδα επεξεργασίας αναβλήθηκε για"
 
 #: clientgui/DlgItemProperties.cpp:259
+#, fuzzy
 msgid "NVIDIA GPU work fetch deferral interval"
-msgstr ""
+msgstr "Η αποδοχή εργασιών για την κεντρική μονάδα επεξεργασίας αναβλήθηκε για"
 
 #: clientgui/DlgItemProperties.cpp:263
 msgid "Don't fetch ATI GPU tasks"
@@ -1832,8 +1836,9 @@ msgid "ATI GPU work fetch deferred for"
 msgstr "Η αποδοχή εργασιών για την κεντρική μονάδα επεξεργασίας αναβλήθηκε για"
 
 #: clientgui/DlgItemProperties.cpp:270
+#, fuzzy
 msgid "ATI GPU work fetch deferral interval"
-msgstr ""
+msgstr "Η αποδοχή εργασιών για την κεντρική μονάδα επεξεργασίας αναβλήθηκε για"
 
 #: clientgui/DlgItemProperties.cpp:272
 msgid "Duration correction factor"
@@ -3951,6 +3956,7 @@ msgid "; selected row %d ; "
 msgstr "; επιλεγμένη σειρά %d;"
 
 #: clientgui/mac/MacAccessiblity.cpp:868
+#, c-format
 #, c-format, fuzzy
 msgid "; row %d of %d; "
 msgstr "σειρά %d του %d;"
