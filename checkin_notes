@@ -8858,3 +8858,12 @@ David  25 Dec 2010
         gui_rpc_server_ops.cpp
         sim_control.php
         cpu_sched.cpp
+
+David  30 Dec 2010
+    - client: more hysteresis work fetch policy stuff
+    - client simulator work
+
+    client/
+        work_fetch.cpp,h
+        sim.cpp
+        sim_control.cpp

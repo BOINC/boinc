@@ -34,6 +34,7 @@
 using std::vector;
 
 bool use_rec = false;
+bool use_hysteresis = false;
 
 RSC_WORK_FETCH cuda_work_fetch;
 RSC_WORK_FETCH ati_work_fetch;
@@ -268,8 +269,7 @@ static bool wacky_dcf(PROJECT* p) {
     return (dcf < 0.02 || dcf > 80.0);
 }
 
-#ifdef NEW_WF
-PROJECT* RSC_WORK_FETCH::choose_project() {
+PROJECT* RSC_WORK_FETCH::choose_project_hyst() {
     PROJECT* pbest = NULL;
     if (saturated_time > gstate.work_buf_min()) return NULL;
     for (unsigned i=0; i<gstate.projects.size(); i++) {
@@ -293,11 +293,9 @@ if (use_rec) {
     }
     if (!pbest) return NULL;
     work_fetch.clear_request();
-    work_fetch.set_all_requests(pbest, rsc_type);
+    work_fetch.set_all_requests_hyst(pbest, rsc_type);
     return pbest;
 }
-
-#else
 
 // Choose the best project to ask for work for this resource,
 // given the specific criterion
@@ -404,7 +402,6 @@ if (use_rec) {
 
     return pbest;
 }
-#endif
 
 // request this project's share of shortfall and instances.
 // don't request anything if project is overworked or backed off.
@@ -752,7 +749,6 @@ void WORK_FETCH::rr_init() {
     }
 }
 
-#ifdef NEW_WF
 // if the given project is highest-priority among the projects
 // eligible for the resource, set request fields
 //
@@ -770,13 +766,13 @@ void RSC_WORK_FETCH::supplement(PROJECT* pp) {
         }
     }
     // didn't find a better project; ask for work
-    set_request(p);
+    set_request(pp, true);
 }
 
-void WORK_FETCH::set_all_requests(PROJECT* p, int rsc_type) {
+void WORK_FETCH::set_all_requests_hyst(PROJECT* p, int rsc_type) {
     switch (rsc_type) {
     case RSC_TYPE_CPU:
-        cpu_work_fetch.set_request(p);
+        cpu_work_fetch.set_request(p, true);
         if (gstate.host_info.have_cuda() && gpus_usable) {
             cuda_work_fetch.supplement(p);
         }
@@ -785,15 +781,15 @@ void WORK_FETCH::set_all_requests(PROJECT* p, int rsc_type) {
         }
         break;
     case RSC_TYPE_CUDA:
-        cuda_work_fetch.set_request(p);
+        cuda_work_fetch.set_request(p, true);
         cpu_work_fetch.supplement(p);
         if (gstate.host_info.have_ati() && gpus_usable) {
             ati_work_fetch.supplement(p);
         }
         break;
     case RSC_TYPE_ATI:
-        ati_work_fetch.set_request(p);
-        cuda_work_fetch.set_request(p);
+        ati_work_fetch.set_request(p, true);
+        cpu_work_fetch.supplement(p);
         if (gstate.host_info.have_cuda() && gpus_usable) {
             cuda_work_fetch.supplement(p);
         }
@@ -801,7 +797,6 @@ void WORK_FETCH::set_all_requests(PROJECT* p, int rsc_type) {
     }
 }
 
-#else
 void WORK_FETCH::set_all_requests(PROJECT* p) {
     cpu_work_fetch.set_request(p, false);
     if (gstate.host_info.have_cuda() && gpus_usable) {
@@ -811,7 +806,6 @@ void WORK_FETCH::set_all_requests(PROJECT* p) {
         ati_work_fetch.set_request(p, false);
     }
 }
-#endif
 
 //#ifndef USE_REC
 // Compute an "overall long-term debt" for each project.
@@ -981,20 +975,17 @@ if (use_rec) {
     bool cuda_usable = gstate.host_info.have_cuda() && gpus_usable;
     bool ati_usable = gstate.host_info.have_ati() && gpus_usable;
 
-#ifdef NEW_WF
+if (use_hysteresis) {
     if (cuda_usable) {
-        p = cuda_work_fetch.choose_project();
-        rsc_type = RSC_TYPE_CUDA;
+        p = cuda_work_fetch.choose_project_hyst();
     }
     if (!p && ati_usable) {
-        p = ati_work_fetch.choose_project();
-        rsc_type = RSC_TYPE_ATI;
+        p = ati_work_fetch.choose_project_hyst();
     }
     if (!p) {
-        p = cpu_work_fetch.choose_project();
-        rsc_type = RSC_TYPE_CPU;
+        p = cpu_work_fetch.choose_project_hyst();
     }
-#else
+} else {
     if (cuda_usable) {
         p = cuda_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
     }
@@ -1031,7 +1022,7 @@ if (use_rec) {
     if (!p) {
         p = cpu_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
     }
-#endif
+}
 
     if (log_flags.work_fetch_debug) {
         print_state();

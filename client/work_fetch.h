@@ -23,13 +23,12 @@
 
 #include <vector>
 
-//#define NEW_WF
-
 extern bool use_rec;
 #define USE_REC
 #define REC_HALF_LIFE (10*86400)
 //#define REC_HALF_LIFE (1*86400)
 
+extern bool use_hysteresis;
 
 #define RSC_TYPE_ANY    0
 #define RSC_TYPE_CPU    1
@@ -225,11 +224,9 @@ struct RSC_WORK_FETCH {
     void accumulate_shortfall(double d_time);
     void update_saturated_time(double dt);
     void update_busy_time(double dur, double nused);
-#ifdef NEW_WF
-    PROJECT* choose_project();
-#else
+    PROJECT* choose_project_hyst();
     PROJECT* choose_project(int);
-#endif
+    void supplement(PROJECT*);
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
 //#ifndef USE_REC
     void update_long_term_debts();
@@ -296,6 +293,7 @@ struct WORK_FETCH {
     );
     void set_initial_work_request();
     void set_all_requests(PROJECT*);
+    void set_all_requests_hyst(PROJECT*, int rsc_type);
     void print_state();
     void init();
     void rr_init();

@@ -794,14 +794,17 @@ void show_resource(int rsc_type) {
         found = true;
     }
     if (!found) fprintf(html_out, "IDLE");
-    fprintf(html_out, "<br>Jobs in progress\n");
+    fprintf(html_out, "<br>Jobs in progress:");
+    found = false;
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         int n = njobs_in_progress(p, rsc_type);
         if (n) {
             fprintf(html_out, "<br>%s: %d\n", p->project_name, n);
+            found = true;
         }
     }
+    if (!found) fprintf(html_out, " ---\n");
     fprintf(html_out, "</td>");
 }
 
@@ -820,7 +823,7 @@ void html_start() {
     fprintf(index_file, "<br><a href=%s>Timeline</a>\n", buf);
     fprintf(html_out, "<h2>BOINC client simulator</h2>\n");
     fprintf(html_out,
-        "<table border=1 cellpadding=4><tr><th width=%d>Time</th>\n", WIDTH1
+        "<table border=0 cellpadding=4><tr><th width=%d>Time</th>\n", WIDTH1
     );
     fprintf(html_out,
         "<th width=%d>CPU<br><font size=-2>Job name and estimated time left<br>color denotes project<br>* means EDF mode</font></th>", WIDTH2
@@ -839,7 +842,7 @@ void html_start() {
 void html_rec() {
     if (html_msg.size()) {
         fprintf(html_out,
-            "<table border=1><tr><td width=%d valign=top>%.0f</td>",
+            "<table border=0 cellpadding=4><tr><td width=%d valign=top>%.0f</td>",
             WIDTH1, gstate.now
         );
         fprintf(html_out,
@@ -849,7 +852,7 @@ void html_rec() {
         );
         html_msg = "";
     }
-    fprintf(html_out, "<table border=1><tr><td width=%d valign=top>%.0f</td>", WIDTH1, gstate.now);
+    fprintf(html_out, "<table border=0 cellpadding=4><tr><td width=%d valign=top>%.0f</td>", WIDTH1, gstate.now);
 
     if (active) {
         show_resource(RSC_TYPE_CPU);
@@ -1329,6 +1332,8 @@ int main(int argc, char** argv) {
             cpu_sched_rr_only = true;
         } else if (!strcmp(opt, "--use_rec")) {
             use_rec = true;
+        } else if (!strcmp(opt, "--use_hyst_fetch")) {
+            use_hyst_fetch = true;
         } else {
             usage(argv[0]);
         }
