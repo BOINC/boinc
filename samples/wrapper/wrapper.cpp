@@ -25,7 +25,7 @@
 // - checkpointing
 //      (at the level of task; or potentially within task)
 //
-// See http://boinc.berkeley.edu/wrapper.php for details
+// See http://boinc.berkeley.edu/trac/wiki/WrapperApp for details
 // Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
 
 #include <stdio.h>

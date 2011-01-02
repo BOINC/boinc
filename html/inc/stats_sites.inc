@@ -37,9 +37,6 @@ $cpid_stats_sites = array(
     array("The Knights Who Say 'Ni!'",
         "http://stats.kwsn.net/user.php?proj=all&amp;cpid=%s"
     ),
-    array("Team Starfire World BOINC Stats 'N Stones",
-        "http://statsnstones.tswb.org/userdetail.aspx?cpid=%s"
-    ),
 );
 
 $stats_sites = array(
@@ -48,11 +45,6 @@ $stats_sites = array(
         "Formula BOINC",
         "(Team ranking based on position within projects,
         as in Formula 1 racing, rather than total points)"
-    ),
-    array(
-        "http://statsnstones.tswb.org/",
-        "Team Starfire World BOINC Stats 'N Stones",
-        ""
     ),
     array(
         "http://www.allprojectstats.com/",

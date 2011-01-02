@@ -65,8 +65,13 @@ class RESULT {
         $this->rpcs = 0;
     }
     function write($f) {
-        fprintf($f, "\"%s\" wf %f if %f sv %f m %f r %f\n",
-            $this->name,
+        if (is_numeric($this->name)) {
+            fprintf($f, "%e", $this->name);
+        } else {
+            fprintf($f, "\"%s\"", $this->name);
+        }
+        fprintf($f,
+            " wf %f if %f sv %f m %f r %f\n",
             $this->wasted_frac,
             $this->idle_frac,
             $this->share_violation,
