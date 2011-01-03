@@ -14,3 +14,9 @@ David  1 Jan 2011
             uc2.cpp
     client/
         sim_control.cpp
+
+David  2 Jan 2011
+    - unix build: remove hardwired -ldl
+
+    lib/
+        Makefile.am

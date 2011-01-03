@@ -296,7 +296,7 @@ language("Japanese", array(
         "translation by Komori Hitoshi")
 ));
 language("Korean", array(
-    site("http://cafe.naver.com/setikah", "SETIKAH@home"),
+    site("http://cafe.naver.com/setikah", "SETIKAH@KOREA"),
     site("http://boincatkorea.xo.st/", "BOINC@KOREA"),
 ));
 
