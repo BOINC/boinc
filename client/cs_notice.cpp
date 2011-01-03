@@ -324,9 +324,17 @@ bool NOTICES::remove_dups(NOTICE& n) {
             return false;
         } else if (same_text(n, n2)) {
             int min_diff = 0;
+
+            // show a given system notice (client or scheduler)
+            // at most once a week
+            //
             if (!strcmp(n.category, "scheduler")) {
-                min_diff = 86400;
+                min_diff = 7*86400;
             }
+            if (!strcmp(n.category, "client")) {
+                min_diff = 7*86400;
+            }
+
             if (n.create_time > n2.create_time + min_diff) {
                 i = notices.erase(i);
                 removed_something = true;

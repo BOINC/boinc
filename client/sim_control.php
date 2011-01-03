@@ -252,7 +252,7 @@ if (0) {
 
 // evaluate a policy over a set of parameterized policies
 //
-if (1) {
+if (0) {
     $p = new POLICY();
     $p->use_rec = true;
     $lo = 2e9;
