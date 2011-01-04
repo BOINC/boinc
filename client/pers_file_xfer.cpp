@@ -142,6 +142,9 @@ int PERS_FILE_XFER::create_xfer() {
         fxp = NULL;
         return retval;
     }
+    if (is_upload) {
+        fip->project->last_upload_start = gstate.now;
+    }
     if (log_flags.file_xfer) {
         msg_printf(
             fip->project, MSG_INFO, "Started %s of %s",

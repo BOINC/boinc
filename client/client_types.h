@@ -222,7 +222,7 @@ struct PROJECT : PROJ_AM {
     double resource_share_frac;
         // fraction of RS of non-suspended, compute-intensive projects
 
-    // the following are the user's project prefs
+    // the following are from the user's project prefs
     //
     bool no_cpu_pref;
     bool no_cuda_pref;
@@ -386,6 +386,12 @@ struct PROJECT : PROJ_AM {
     bool some_download_stalled();
         // a download is backed off
     bool some_result_suspended();
+    double last_upload_start;
+        // the last time an upload was started.
+        // Used for "work fetch deferral" mechanism:
+        // don't request work from a project if an upload started
+        // in last X minutes and is still active
+    bool uploading();
 
     RR_SIM_PROJECT_STATUS rr_sim_status;
         // temps used in CLIENT_STATE::rr_simulation();

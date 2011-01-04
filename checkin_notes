@@ -8242,3 +8242,17 @@ David  11 Dec 2010
     client/
         client_types.h
         cpu_sched.cpp
+
+David  13 Dec 2010
+    - client: work fetch: if the chosen project is currently uploading a file,
+        and an upload started in the last 5 min, don't fetch work from it.
+        The goal is to merge the 2 scheduler RPCs
+        (fetch work, report completed taskS) into a single RPC.
+        Note: this may result in idleness in some cases.
+
+    client/
+        client_types.h
+        work_fetch.cpp
+        client_state.h
+        pers_file_xfer.cpp
+        cs_scheduler.cpp

@@ -445,6 +445,15 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     p = work_fetch.choose_project();
     if (p) {
+        if (p->uploading() && (gstate.now - p->last_upload_start < WF_DEFER_INTERVAL)) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[wfd] deferring work fetch; upload active, started %d sec ago",
+                    (int)(gstate.now - p->last_upload_start)
+                );
+                return false;
+            }
+        }
         scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
         return true;
     }
