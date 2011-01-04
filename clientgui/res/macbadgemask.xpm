@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 /* XPM */
-static char *macbadgemask[] = {
+static const char *macbadgemask[] = {
 /* width height ncolors chars_per_pixel */
 "128 128 6 1",
 /* colors */

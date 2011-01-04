@@ -18,7 +18,7 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 /* XPM */
-static char *left_arrow_button_xpm[] = {
+static const char *left_arrow_button_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "20 20 157 2",
 "h. c #709F9C",

@@ -8201,3 +8201,9 @@ Charlie 7 Dec 2010
     /
         configure.ac
         version.h
+
+David  2 Dec 2010
+    - manager: fix compile warnings; from Steffen Moller
+
+    clientgui/
+        */*.xpm

@@ -18,7 +18,7 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 /* XPM */
-static char *macsnoozebadge[] = {
+static const char *macsnoozebadge[] = {
 /* width height ncolors chars_per_pixel */
 "128 128 6 1",
 /* colors */

@@ -3,7 +3,7 @@
 //
 
 /* XPM */
-static char *atiicon_xpm[] = {
+static const char *atiicon_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 249 2",
 "n. c #A6222E",

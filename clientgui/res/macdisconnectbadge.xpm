@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 /* XPM */
-static char *macdisconnectbadge[] = {
+static const char *macdisconnectbadge[] = {
 /* width height ncolors chars_per_pixel */
 "128 128 7 1",
 /* colors */
