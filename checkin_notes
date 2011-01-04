@@ -8302,3 +8302,10 @@ David  2 Jan 2011
 
     lib/
         Makefile.am
+
+David  3 Jan 2011
+    - client: show a given system notice at most once a week
+
+    client/
+        client_msgs.cpp
+        cs_notice.cpp
