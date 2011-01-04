@@ -29,11 +29,12 @@
 #include <unistd.h>
 #endif
 
-#include "error_numbers.h"
 #include "common_defs.h"
+#include "diagnostics.h"
+#include "error_numbers.h"
+#include "filesys.h"
 #include "parse.h"
 #include "str_util.h"
-#include "filesys.h"
 
 #include "file_names.h"
 #include "client_state.h"
@@ -492,8 +493,12 @@ int read_config_file(bool init) {
     }
     f = boinc_fopen(CONFIG_FILE, "r");
     if (!f) return ERR_FOPEN;
-    config.parse(f);
+    int retval = config.parse(f);
     fclose(f);
+    if (retval) return retval;
+    diagnostics_set_max_file_sizes(
+        config.max_stdout_file_size, config.max_stderr_file_size
+    );
     return 0;
 }
 

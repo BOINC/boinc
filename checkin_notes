@@ -8216,3 +8216,11 @@ David  7 Dec 2010
 
     client/
         work_fetch.cpp
+
+David  9 Dec 2010
+    - client: fix bug where "reread config file" didn't update
+        the max log file sizes
+
+    client/
+        main.cpp
+        log_flags.cpp
