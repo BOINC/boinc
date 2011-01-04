@@ -8296,3 +8296,9 @@ David  17 Dec 2010
 
     client/
         coproc_detect.cpp
+
+David  2 Jan 2011
+    - unix build: remove hardwired -ldl
+
+    lib/
+        Makefile.am
