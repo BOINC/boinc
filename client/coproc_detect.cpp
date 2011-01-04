@@ -584,7 +584,7 @@ bool COPROC_CUDA::check_running_graphics_app() {
 ////////////////// ATI STARTS HERE /////////////////
 //
 // Docs:
-// http://developer.amd.com/gpu_assets/Stream_Computing_User_Guide.pdf
+// http://developer.amd.com/gpu/ATIStreamSDK/assets/ATI_Stream_SDK_CAL_Programming_Guide_v2.0%5B1%5D.pdf
 // ?? why don't they have HTML docs??
 
 // criteria:
