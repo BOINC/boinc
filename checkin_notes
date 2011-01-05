@@ -8310,6 +8310,13 @@ David  3 Jan 2011
         client_msgs.cpp
         cs_notice.cpp
 
+Charlie 4 Jan 2010
+    - Mac: Fix symbol table generation.
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
 Rom    4 Dec 2010
     - Tag for 6.12.10 release, all platforms
       boinc_core_release_6_12_10
