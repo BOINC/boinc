@@ -28,7 +28,7 @@ libdcapi_boinc_la_LIBADD = \
 		../common/libdcapi-common-master.la \
 		-lsched -lboinc -lcrypto -luuid -lm
 libdcapi_boinc_la_CPPFLAGS = $(AM_CPPFLAGS) $(BOINC_SERVER_CPPFLAGS)
-libdcapi_boinc_la_LDFLAGS = -version-info 1:0:0 -export-symbols $(top_srcdir)/common/master.sym
+libdcapi_boinc_la_LDFLAGS = -version-info 1:0:1 -export-symbols $(top_srcdir)/common/master.sym
 
 libdcapi_client_boinc_la_SOURCES = \
 		client.C
