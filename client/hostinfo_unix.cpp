@@ -711,7 +711,7 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
         // this CPU doesn't support cpuid
         return;
     }
-	
+
     snprintf(host.p_vendor, sizeof(host.p_vendor), "%.12s",
         cpuInfo.eax_0.vendor_id);
     
@@ -762,7 +762,7 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
     }
 
     get_cpuid(&cpuInfo, 1, cpu);
-	
+
     int family, stepping, model;
 
     family = cpuInfo.eax_1.family + (cpuInfo.eax_1.family == 0xf ?
@@ -842,12 +842,12 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 // detect the network usage totals for the host.
 //
 int get_network_usage_totals(unsigned int& total_received, unsigned int& total_sent) {
-	static size_t  sysctlBufferSize = 0;
-	static uint8_t *sysctlBuffer = NULL;
+    static size_t  sysctlBufferSize = 0;
+    static uint8_t *sysctlBuffer = NULL;
 
-	int	mib[] = { CTL_NET, PF_ROUTE, 0, 0, NET_RT_IFLIST, 0 };
+    int    mib[] = { CTL_NET, PF_ROUTE, 0, 0, NET_RT_IFLIST, 0 };
     struct if_msghdr *ifmsg;
-	size_t currentSize = 0;
+    size_t currentSize = 0;
 
     total_received = 0;
     total_sent = 0;
@@ -993,12 +993,11 @@ kern_return_t SMCClose()
 }
 
 
-kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val)
-{
+kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
     kern_return_t       result;
     SMCKeyData_t        inputStructure;
     SMCKeyData_t        outputStructure;
- 	size_t              structureInputSize;
+     size_t              structureInputSize;
     size_t              structureOutputSize;
 
     memset(&inputStructure, 0, sizeof(SMCKeyData_t));
@@ -1010,20 +1009,21 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val)
 
     structureInputSize = sizeof(inputStructure);
     structureOutputSize = sizeof(outputStructure);
-	result = IOConnectMethodStructureIStructureO(
-                    conn, KERNEL_INDEX_SMC, structureInputSize, &structureOutputSize, 
-                    &inputStructure, &outputStructure
-            );
-    if (result != kIOReturnSuccess)
+    result = IOConnectMethodStructureIStructureO(
+        conn, KERNEL_INDEX_SMC, structureInputSize, &structureOutputSize, 
+        &inputStructure, &outputStructure
+    );
+    if (result != kIOReturnSuccess) {
         return result;
+    }
 
     inputStructure.keyInfo.dataSize = outputStructure.keyInfo.dataSize;
     inputStructure.data8 = SMC_CMD_READ_BYTES;
 
-	result = IOConnectMethodStructureIStructureO(
-                    conn, KERNEL_INDEX_SMC, structureInputSize, &structureOutputSize, 
-                    &inputStructure, &outputStructure
-            );
+    result = IOConnectMethodStructureIStructureO(
+        conn, KERNEL_INDEX_SMC, structureInputSize, &structureOutputSize, 
+        &inputStructure, &outputStructure
+    );
     if (result != kIOReturnSuccess)
         return result;
 

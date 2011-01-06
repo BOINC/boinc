@@ -148,11 +148,11 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f, "    <code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
     }
 
-	// send working prefs
-	//
-	fprintf(f, "<working_global_preferences>\n");
-	global_prefs.write(mf);
-	fprintf(f, "</working_global_preferences>\n");
+    // send working prefs
+    //
+    fprintf(f, "<working_global_preferences>\n");
+    global_prefs.write(mf);
+    fprintf(f, "</working_global_preferences>\n");
 
     // send master global preferences if present and not host-specific
     //
@@ -382,8 +382,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     if (network_suspended) return false;
 
-	// check only every 5 sec
-	//
+    // check only every 5 sec
+    //
     if (now - last_time < SCHEDULER_RPC_POLL_PERIOD) return false;
     last_time = now;
 
@@ -420,7 +420,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         scheduler_op->init_op_project(p, RPC_REASON_TRICKLE_UP);
         return true;
     }
-    
+
     // report overdue results
     //
     p = find_project_with_overdue_results();
@@ -574,7 +574,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     if (sr.project_is_down) {
         if (sr.request_delay) {
             double x = now + sr.request_delay;
-			project->set_min_rpc_time(x, "project is down");
+            project->set_min_rpc_time(x, "project is down");
         }
         return ERR_PROJECT_DOWN;
     }
@@ -583,24 +583,24 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     // insert extra elements, write to disk, and parse
     //
     if (sr.global_prefs_xml) {
-		// skip this if we have host-specific prefs
-		// and we're talking to an old scheduler
-		//
-		if (!global_prefs.host_specific || sr.scheduler_version >= 507) {
-			retval = save_global_prefs(
-				sr.global_prefs_xml, project->master_url, scheduler_url
-			);
-			if (retval) {
-				return retval;
-			}
-			update_global_prefs = true;
-		} else {
-			if (log_flags.sched_op_debug) {
-				msg_printf(project, MSG_INFO,
-					"ignoring prefs from old server; we have host-specific prefs"
-				);
-			}
-		}
+        // skip this if we have host-specific prefs
+        // and we're talking to an old scheduler
+        //
+        if (!global_prefs.host_specific || sr.scheduler_version >= 507) {
+            retval = save_global_prefs(
+                sr.global_prefs_xml, project->master_url, scheduler_url
+            );
+            if (retval) {
+                return retval;
+            }
+            update_global_prefs = true;
+        } else {
+            if (log_flags.sched_op_debug) {
+                msg_printf(project, MSG_INFO,
+                    "ignoring prefs from old server; we have host-specific prefs"
+                );
+            }
+        }
     }
 
     // see if we have a new venue from this project
@@ -1028,22 +1028,22 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
 #endif // SIM
 
 void CLIENT_STATE::check_project_timeout() {
-	unsigned int i;
-	for (i=0; i<projects.size(); i++) {
-		PROJECT* p = projects[i];
-		if (p->possibly_backed_off && now > p->min_rpc_time) {
-			p->possibly_backed_off = false;
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->possibly_backed_off && now > p->min_rpc_time) {
+            p->possibly_backed_off = false;
             char buf[256];
             sprintf(buf, "Backoff ended for %s", p->get_project_name());
-			request_work_fetch(buf);
-		}
-	}
+            request_work_fetch(buf);
+        }
+    }
 }
 
 void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
     if (future_time <= min_rpc_time) return;
     min_rpc_time = future_time;
-	possibly_backed_off = true;
+    possibly_backed_off = true;
     if (log_flags.sched_op_debug) {
         msg_printf(this, MSG_INFO,
             "[sched_op] Deferring communication for %s",
@@ -1184,7 +1184,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
 }
 
 // trigger work fetch
-// 
+//
 void CLIENT_STATE::request_work_fetch(const char* where) {
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO, "[work_fetch] Request work fetch: %s", where);

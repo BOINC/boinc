@@ -35,3 +35,12 @@ Charlie 4 Jan 2010
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  6 Jan 2011
+    - user web: fix bugs in server status page
+    - fix some indentation
+
+    html/user/
+        server_status.php
+    client/
+        *.cpp

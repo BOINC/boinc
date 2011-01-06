@@ -295,8 +295,8 @@ void CLIENT_STATE::parse_env_vars() {
         }
     }
 
-	p = getenv("SOCKS_SERVER");
-	if (!p) p = getenv("SOCKS5_SERVER");
+    p = getenv("SOCKS_SERVER");
+    if (!p) p = getenv("SOCKS5_SERVER");
     if (p && strlen(p)) {
         parse_url(p, purl);
         env_var_proxy_info.present = true;
@@ -307,13 +307,13 @@ void CLIENT_STATE::parse_env_vars() {
         env_var_proxy_info.socks_server_port = purl.port;
     }
 
-	p = getenv("SOCKS5_USER");
-	if (!p) p = getenv("SOCKS_USER");
+    p = getenv("SOCKS5_USER");
+    if (!p) p = getenv("SOCKS_USER");
     if (p) {
         strcpy(env_var_proxy_info.socks5_user_name, p);
     }
 
-	p = getenv("SOCKS5_PASSWD");
+    p = getenv("SOCKS5_PASSWD");
     if (p) {
         strcpy(env_var_proxy_info.socks5_user_passwd, p);
     }

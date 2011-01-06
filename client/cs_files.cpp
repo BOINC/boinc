@@ -44,8 +44,8 @@
 #include "file_xfer.h"
 
 #define MAX_TRANSFERS_PER_PROJECT   2
-#define MAX_TRANSFERS_TOTAL			8
-	// kind of arbitrary
+#define MAX_TRANSFERS_TOTAL            8
+    // kind of arbitrary
 
 using std::vector;
 
@@ -72,7 +72,7 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
         }
     }
     if (nproj >= config.max_file_xfers_per_project) return false;
-	if (ntotal >= config.max_file_xfers) return false;
+    if (ntotal >= config.max_file_xfers) return false;
     return true;
 }
 

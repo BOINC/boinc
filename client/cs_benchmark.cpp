@@ -179,12 +179,12 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
         return 0;
     }
 #ifdef _WIN32
-	// Windows: do integer benchmark only on CPU zero.
-	// There's a mysterious bug/problem that gives wildly
-	// differing benchmarks on multi-CPU and multi-core machines,
-	// if you use all the CPUs at once.
-	//
-	if (bdp->ordinal == 0) {
+    // Windows: do integer benchmark only on CPU zero.
+    // There's a mysterious bug/problem that gives wildly
+    // differing benchmarks on multi-CPU and multi-core machines,
+    // if you use all the CPUs at once.
+    //
+    if (bdp->ordinal == 0) {
 #endif
     retval = dhrystone(vax_mips, int_loops, int_time, MIN_CPU_TIME);
     if (retval) {
@@ -195,7 +195,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     host_info.p_iops = vax_mips*1e6;
     host_info.p_membw = 1e9;
 #ifdef _WIN32
-	}
+    }
     bdp->host_info = host_info;
     bdp->int_loops = int_loops;
     bdp->int_time = int_time;
@@ -231,7 +231,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
                 "[benchmark] start_cpu_benchmarks(): Skipping CPU benchmarks"
             );
         }
-		cpu_benchmarks_set_defaults();
+        cpu_benchmarks_set_defaults();
         return;
     }
     msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
@@ -444,7 +444,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             "CPU benchmarks timed out, using default values"
         );
         abort_cpu_benchmarks();
-		cpu_benchmarks_set_defaults();
+        cpu_benchmarks_set_defaults();
         benchmarks_running = false;
         set_client_state_dirty("CPU benchmarks");
     }
@@ -476,7 +476,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     if (ndone == bm_ncpus) {
         double old_p_fpops = host_info.p_fpops;
         if (had_error) {
-			cpu_benchmarks_set_defaults();
+            cpu_benchmarks_set_defaults();
         } else {
             double p_fpops = 0;
             double p_iops = 0;
@@ -549,7 +549,7 @@ void CLIENT_STATE::print_benchmark_results() {
 }
 
 bool CLIENT_STATE::cpu_benchmarks_done() {
-	return (host_info.p_calculated != 0);
+    return (host_info.p_calculated != 0);
 }
 
 // If a benchmark is nonzero, keep it.  Otherwise use default value

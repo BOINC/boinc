@@ -21,7 +21,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <pwd.h>	// getpwnam
+#include <pwd.h>    // getpwnam
 #include <grp.h>
 #include <sys/param.h>  // for MAXPATHLEN
 #include <dirent.h>
@@ -58,13 +58,13 @@ static char         boinc_project_group_name[64];
 static gid_t        boinc_master_gid, boinc_project_gid;
 static uid_t        boinc_master_uid, boinc_project_uid;
 
-// Called from BOINC Manager, BOINC Client and Installer.  
+// Called from BOINC Manager, BOINC Client and Installer.
 // The arguments are use only when called from the Installer
 
 // Returns FALSE (0) if owners and permissions are OK, else TRUE (1)
 int check_security(
 #ifdef _MAC_INSTALLER
-char *bundlePath, char *dataPath, 
+char *bundlePath, char *dataPath,
 #endif
 int use_sandbox, int isManager
 ) {
@@ -106,13 +106,13 @@ saverName[2] = "Progress Thru Processors";
 #endif      // __APPLE__
 #endif      // _DEBUG
 
-// GDB can't attach to applications which are running as a diferent user or group so 
+// GDB can't attach to applications which are running as a diferent user or group so
 //  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
-// To work around this, and to allow testing the uninstalled Deployment version, we 
-//  assume that the BOINC Client has the correct user and group.  
-// We must get the BOINC Client's user and group differently depending on whether we 
+// To work around this, and to allow testing the uninstalled Deployment version, we
+//  assume that the BOINC Client has the correct user and group. 
+// We must get the BOINC Client's user and group differently depending on whether we
 //  were called from the Manager or from the Client
-        
+
 #ifdef __WXMAC__                            // If Mac BOINC Manager
     // Get the full path to BOINC Manager application's bundle
     retval = GetCurrentProcess (&ourPSN);
@@ -124,11 +124,11 @@ saverName[2] = "Progress Thru Processors";
     retval = GetProcessInformation(&ourPSN, &pInfo);
     if (retval)
         return -1001;          // Should never happen
-    
+
     retval = GetProcessBundleLocation(&ourPSN, &ourFSRef);
     if (retval)
         return -1002;          // Should never happen
-    
+
     retval = FSRefMakePath (&ourFSRef, (UInt8*)dir_path, sizeof(dir_path));
     if (retval)
         return -1003;          // Should never happen
@@ -193,7 +193,7 @@ saverName[2] = "Progress Thru Processors";
     if (grp == NULL)
         return -1009;
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
-    
+
 #endif
 
     if (useFakeProjectUserAndGroup) {

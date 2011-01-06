@@ -113,16 +113,16 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         break;
     default:
         for (i=0; i<rp->output_files.size(); i++) {
-			FILE_REF& fref = rp->output_files[i];
+            FILE_REF& fref = rp->output_files[i];
             fip = fref.file_info;
             if (fip->uploaded) continue;
             get_pathname(fip, path, sizeof(path));
             retval = file_size(path, size);
             if (retval) {
-				if (fref.optional) {
-					fip->upload_when_present = false;
-					continue;
-				}
+                if (fref.optional) {
+                    fip->upload_when_present = false;
+                    continue;
+                }
 
                 // an output file is unexpectedly absent.
                 //

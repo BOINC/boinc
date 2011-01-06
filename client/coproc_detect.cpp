@@ -868,7 +868,7 @@ void COPROC_ATI::get(
         case 19:
             gpu_name="AMD Radeon HD 6300 series (Caicos)";
             break;
-		// there arent any other target ids inside the Shadercompiler (YET !!! )
+        // there arent any other target ids inside the Shadercompiler (YET !!! )
         default:
             gpu_name="ATI unknown";
             break;

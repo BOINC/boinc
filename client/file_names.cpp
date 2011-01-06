@@ -79,13 +79,13 @@ void get_pathname(FILE_INFO* fip, char* path, int len) {
     // an associated PROJECT.
     //
     if (p) {
-		if (fip->is_auto_update_file) {
-			boinc_version_dir(*p, gstate.auto_update.version, buf);
-		} else {
+        if (fip->is_auto_update_file) {
+            boinc_version_dir(*p, gstate.auto_update.version, buf);
+        } else {
             get_project_dir(p, buf, sizeof(buf));
-		}
-	    snprintf(path, len, "%s/%s", buf, fip->name);
-	} else {
+        }
+        snprintf(path, len, "%s/%s", buf, fip->name);
+    } else {
         strlcpy(path, fip->name, len);
     }
 }
@@ -140,7 +140,7 @@ int make_project_dir(PROJECT& p) {
             |S_IRGRP|S_IWGRP|S_IXGRP
         );
         umask(old_mask);
-        // Only user boinc_master and group boinc_project can access 
+        // Only user boinc_master and group boinc_project can access
         // project directories, to keep authenticators private
         set_to_project_group(PROJECTS_DIR);
     }
@@ -150,7 +150,7 @@ int make_project_dir(PROJECT& p) {
 #ifndef _WIN32
     if (g_use_sandbox) {
         old_mask = umask(2);
-        // Contents of projects directory must be world-readable so BOINC Client can read 
+        // Contents of projects directory must be world-readable so BOINC Client can read
         // files written by projects which have user boinc_project and group boinc_project
         chmod(buf,
             S_IRUSR|S_IWUSR|S_IXUSR
@@ -196,7 +196,7 @@ int make_slot_dir(int slot) {
             |S_IRGRP|S_IWGRP|S_IXGRP
         );
         umask(old_mask);
-        // Only user boinc_master and group boinc_project can 
+        // Only user boinc_master and group boinc_project can
         // access slot directories, to keep authenticators private
         set_to_project_group(SLOTS_DIR);
     }
@@ -207,7 +207,7 @@ int make_slot_dir(int slot) {
 #ifndef _WIN32
     if (g_use_sandbox) {
         old_mask = umask(2);
-        // Contents of slots directory must be world-readable so BOINC Client can read 
+        // Contents of slots directory must be world-readable so BOINC Client can read
         // files written by projects which have user boinc_project and group boinc_project
         chmod(buf,
             S_IRUSR|S_IWUSR|S_IXUSR
@@ -240,8 +240,8 @@ void delete_old_slot_dirs() {
             char init_data_path[1024];
             SHMEM_SEG_NAME shmem_seg_name;
 
-            // If BOINC crashes or exits suddenly (e.g., due to 
-            // being called with --exit_after_finish) it may leave 
+            // If BOINC crashes or exits suddenly (e.g., due to
+            // being called with --exit_after_finish) it may leave
             // orphan shared memory segments in the system.
             // Clean these up here. (We must do this before deleting the
             // INIT_DATA_FILE, if any, from each slot directory.)
@@ -333,8 +333,8 @@ bool is_image_file(const char* filename) {
 }
 
 void boinc_version_dir(PROJECT& p, VERSION_INFO& vi, char* buf) {
-	char projdir[1024];
-	get_project_dir(&p, projdir, sizeof(projdir));
+    char projdir[1024];
+    get_project_dir(&p, projdir, sizeof(projdir));
     sprintf(buf, "%s/boinc_version_%d_%d_%d", projdir, vi.major, vi.minor, vi.release);
 }
 

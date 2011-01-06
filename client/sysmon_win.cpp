@@ -174,7 +174,7 @@ static DWORD WINAPI WindowsMonitorSystemPowerThread( LPVOID  ) {
     wc.hCursor       = NULL;
     wc.hbrBackground = NULL;
     wc.lpszMenuName  = NULL;
-	wc.lpszClassName = "BOINCWindowsMonitorSystemPower";
+    wc.lpszClassName = "BOINCWindowsMonitorSystemPower";
 
     if (!RegisterClass(&wc)) {
         log_message_error("Failed to register the WindowsMonitorSystem window class.");
@@ -183,7 +183,7 @@ static DWORD WINAPI WindowsMonitorSystemPowerThread( LPVOID  ) {
 
     g_hWndWindowsMonitorSystemPower = CreateWindow(
         wc.lpszClassName,
-		"BOINC Monitor System (Power)",
+        "BOINC Monitor System (Power)",
         WS_OVERLAPPEDWINDOW & ~WS_VISIBLE,
         CW_USEDEFAULT,
         CW_USEDEFAULT,
@@ -459,8 +459,7 @@ int initialize_service_dispatcher(int /*argc*/, char** /*argv*/) {
 //    the user defined main() routine to perform majority
 //    of the work.
 //
-void WINAPI BOINCServiceMain(DWORD /*dwArgc*/, LPTSTR * /*lpszArgv*/)
-{
+void WINAPI BOINCServiceMain(DWORD /*dwArgc*/, LPTSTR * /*lpszArgv*/) {
     // SERVICE_STATUS members that don't change in example
     //
     ssStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
@@ -486,11 +485,13 @@ cleanup:
 
     // try to report the stopped status to the service control manager.
     //
-    if (sshStatusHandle)
+    if (sshStatusHandle) {
         (VOID)ReportStatus(
             SERVICE_STOPPED,
             dwErr,
-            0);
+            0
+        );
+    }
 }
 
 
@@ -508,12 +509,10 @@ cleanup:
 //
 //  COMMENTS:
 //
-VOID WINAPI BOINCServiceCtrl(DWORD dwCtrlCode)
-{
+VOID WINAPI BOINCServiceCtrl(DWORD dwCtrlCode) {
     // Handle the requested control code.
     //
-    switch(dwCtrlCode)
-    {
+    switch(dwCtrlCode) {
         // Stop the service.
         //
         // SERVICE_STOP_PENDING should be reported before
@@ -522,28 +521,28 @@ VOID WINAPI BOINCServiceCtrl(DWORD dwCtrlCode)
         // which may result in a 1053 - The Service did not respond...
         // error.
         case SERVICE_CONTROL_STOP:
-		case SERVICE_CONTROL_SHUTDOWN:
+        case SERVICE_CONTROL_SHUTDOWN:
             ReportStatus(SERVICE_STOP_PENDING, ERROR_SUCCESS, 30000);
-			quit_client();
+            quit_client();
             return;
 
         // Pause the service.
         //
-		case SERVICE_CONTROL_PAUSE:
+        case SERVICE_CONTROL_PAUSE:
             ReportStatus(SERVICE_PAUSE_PENDING, ERROR_SUCCESS, 10000);
-			suspend_client(true);
+            suspend_client(true);
             ReportStatus(SERVICE_PAUSED, ERROR_SUCCESS, 10000);
             return;
 
         // Continue the service.
         //
-		case SERVICE_CONTROL_CONTINUE:
+        case SERVICE_CONTROL_CONTINUE:
             ReportStatus(SERVICE_CONTINUE_PENDING, ERROR_SUCCESS, 10000);
-			resume_client();
+            resume_client();
             ReportStatus(SERVICE_RUNNING, ERROR_SUCCESS, 10000);
             return;
 
-		// Update the service status.
+        // Update the service status.
         //
         case SERVICE_CONTROL_INTERROGATE:
             break;
@@ -576,10 +575,11 @@ VOID WINAPI BOINCServiceCtrl(DWORD dwCtrlCode)
 //
 //  COMMENTS:
 //
-BOOL ReportStatus(DWORD dwCurrentState,
-                  DWORD dwWin32ExitCode,
-                  DWORD dwWaitHint)
-{
+BOOL ReportStatus(
+    DWORD dwCurrentState,
+    DWORD dwWin32ExitCode,
+    DWORD dwWaitHint
+) {
     static DWORD dwCheckPoint = 1;
     BOOL fResult = TRUE;
 
@@ -593,15 +593,17 @@ BOOL ReportStatus(DWORD dwCurrentState,
     ssStatus.dwWaitHint = dwWaitHint;
 
     if ( ( dwCurrentState == SERVICE_RUNNING ) ||
-            ( dwCurrentState == SERVICE_STOPPED ) )
+            ( dwCurrentState == SERVICE_STOPPED )
+    ) {
         ssStatus.dwCheckPoint = 0;
-    else
+    } else {
         ssStatus.dwCheckPoint = dwCheckPoint++;
+    }
 
 
     // Report the status of the service to the service control manager.
     //
-	fResult = SetServiceStatus( sshStatusHandle, &ssStatus);
+    fResult = SetServiceStatus( sshStatusHandle, &ssStatus);
     if (!fResult) {
         LogEventErrorMessage(TEXT("SetServiceStatus"));
     }
@@ -623,8 +625,7 @@ BOOL ReportStatus(DWORD dwCurrentState,
 //
 //  COMMENTS:
 //
-VOID LogEventErrorMessage(LPTSTR lpszMsg)
-{
+VOID LogEventErrorMessage(LPTSTR lpszMsg) {
     TCHAR   szMsg[1024];
     HANDLE  hEventSource;
     LPTSTR  lpszStrings[2];
@@ -648,11 +649,12 @@ VOID LogEventErrorMessage(LPTSTR lpszMsg)
             2,                    // strings in lpszStrings
             0,                    // no bytes of raw data
             (LPCSTR*)lpszStrings, // array of error strings
-            NULL);                // no raw data
+            NULL                  // no raw data
+        );
 
         (VOID) DeregisterEventSource(hEventSource);
     }
- }
+}
 
 
 //
@@ -668,8 +670,7 @@ VOID LogEventErrorMessage(LPTSTR lpszMsg)
 //
 //  COMMENTS:
 //
-VOID LogEventWarningMessage(LPTSTR lpszMsg)
-{
+VOID LogEventWarningMessage(LPTSTR lpszMsg) {
     HANDLE  hEventSource;
     LPTSTR  lpszStrings[2];
 
@@ -709,8 +710,7 @@ VOID LogEventWarningMessage(LPTSTR lpszMsg)
 //
 //  COMMENTS:
 //
-VOID LogEventInfoMessage(LPTSTR lpszMsg)
-{
+VOID LogEventInfoMessage(LPTSTR lpszMsg) {
     HANDLE  hEventSource;
     LPTSTR  lpszStrings[2];
 

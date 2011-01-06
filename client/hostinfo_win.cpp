@@ -52,7 +52,7 @@
 #define SM_STARTER 88
 #endif
 #ifndef SM_SERVERR2
-#define SM_SERVERR2 89   
+#define SM_SERVERR2 89
 #endif
 
 
@@ -280,7 +280,7 @@
 //
 int get_timezone(int& timezone) {
     TIME_ZONE_INFORMATION tzi;
-	memset(&tzi, 0, sizeof(TIME_ZONE_INFORMATION));
+    memset(&tzi, 0, sizeof(TIME_ZONE_INFORMATION));
     DWORD result = GetTimeZoneInformation(&tzi);
     if (result == TIME_ZONE_ID_DAYLIGHT) {
         timezone = -(tzi.Bias + tzi.DaylightBias) * 60;
@@ -337,7 +337,7 @@ int get_os_information(
 
     // Try calling GetVersionEx using the OSVERSIONINFOEX structure.
     // If that fails, try using the OSVERSIONINFO structure.
-	bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi);
+    bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi);
     if(!bOsVersionInfoEx) {
         osvi.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
         GetVersionEx ( (OSVERSIONINFO *) &osvi );
@@ -476,13 +476,13 @@ int get_os_information(
                             case PRODUCT_STARTER:
                                strcat(szSKU, "Starter ");
                                break;
-							case PRODUCT_PROFESSIONAL_N:
+                            case PRODUCT_PROFESSIONAL_N:
                                strcat(szSKU, "Professional N ");
                                break;
-							case PRODUCT_HOME_PREMIUM_N:
+                            case PRODUCT_HOME_PREMIUM_N:
                                strcat(szSKU, "Home Premium N ");
                                break;
-							case PRODUCT_HOME_BASIC_N:
+                            case PRODUCT_HOME_BASIC_N:
                                strcat(szSKU, "Home Basic N ");
                                break;
                             case PRODUCT_ULTIMATE_N:
@@ -494,13 +494,13 @@ int get_os_information(
                             case PRODUCT_BUSINESS_N:
                                strcat(szSKU, "Business N ");
                                break;
-							case PRODUCT_PROFESSIONAL_E:
+                            case PRODUCT_PROFESSIONAL_E:
                                strcat(szSKU, "Professional E ");
                                break;
-							case PRODUCT_HOME_PREMIUM_E:
+                            case PRODUCT_HOME_PREMIUM_E:
                                strcat(szSKU, "Home Premium E ");
                                break;
-							case PRODUCT_HOME_BASIC_E:
+                            case PRODUCT_HOME_BASIC_E:
                                strcat(szSKU, "Home Basic E ");
                                break;
                             case PRODUCT_ULTIMATE_E:
@@ -534,7 +534,7 @@ int get_os_information(
                         strcat(szSKU, "Workstation ");
                     }
                 }
-            
+
                 // Test for the server type.
                 else if ( (osvi.wProductType == VER_NT_SERVER) || (osvi.wProductType == VER_NT_DOMAIN_CONTROLLER) ) {
                     if( (osvi.dwMajorVersion == 6) ) {
@@ -623,7 +623,7 @@ int get_os_information(
                             strcat( szSKU, "Standard Server " );
                         }
 
-                    } else { // Windows NT 4.0 
+                    } else { // Windows NT 4.0
                         if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
                             strcat( szSKU, "Enterprise Server " );
                         } else {
@@ -730,12 +730,12 @@ int get_os_information(
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0) {
                 if ( osvi.szCSDVersion[1] == 'C' || osvi.szCSDVersion[1] == 'B' )
                     strcpy( szServicePack, "OSR2" );
-            } 
+            }
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10) {
                 if ( osvi.szCSDVersion[1] == 'A' )
                     strcpy( szServicePack, "SE" );
-            } 
+            }
 
             break;
     }
@@ -748,7 +748,7 @@ int get_os_information(
 
 // Handle the cpuid instruction on supported compilers
 // NOTE: This only handles structured exceptions with Microsoft compilers.
-// 
+//
 int get_cpuid(unsigned int info_type, unsigned int& a, unsigned int& b, unsigned int& c, unsigned int& d) {
 
 #ifdef _MSC_VER
@@ -888,7 +888,7 @@ int get_processor_cache(int& cache) {
 }
 
 
-// Returns the features supported by the processor, use the 
+// Returns the features supported by the processor, use the
 // Linux CPU processor feature mnemonics.
 // see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
@@ -970,30 +970,30 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(std_supported, (std_ecx & (1 << 5)), "vmx ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 6)), "smx ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 8)), "tm2 ");
-		FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
+        FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 18)), "dca ");
-		FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");
+        FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");
-		FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
+        FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
 
         FEATURE_TEST(std_supported, (std_edx & (1 << 31)), "pbe ");
     }
 
     if (amd_supported) {
         // AMD only features
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 2)), "svm ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 2)), "svm ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 6)), "sse4a ");
-        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 9)), "osvw "); 
- 		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 10)), "ibs ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 11)), "xop ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 12)), "skinit ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 13)), "wdt ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 9)), "osvw ");
+         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 10)), "ibs ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 11)), "xop ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 12)), "skinit ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 13)), "wdt ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 15)), "lwp ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 16)), "fma4 ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 16)), "fma4 ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 18)), "cvt16 ");
 
-		FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "page1gb ");
-		FEATURE_TEST(ext_supported, (ext_edx & (1 << 27)), "rdtscp ");
+        FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "page1gb ");
+        FEATURE_TEST(ext_supported, (ext_edx & (1 << 27)), "rdtscp ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 30)), "3dnowext ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 31)), "3dnow ");
     }
@@ -1022,8 +1022,7 @@ int get_processor_count(int& processor_count) {
 int get_processor_info(
     char* p_vendor, int p_vendor_size, char* p_model, int p_model_size,
     char* p_features, int p_features_size, double& p_cache, int& p_ncpus
-)
-{
+) {
     int family = 0, model = 0, stepping = 0, cache = 0;
     char vendor_name[256], processor_name[256], features[256];
 
@@ -1034,18 +1033,15 @@ int get_processor_info(
     get_processor_features(vendor_name, features, sizeof(features));
     get_processor_count(p_ncpus);
 
-    snprintf(p_vendor, p_vendor_size,
-        "%s", 
-        vendor_name
-    );
+    snprintf(p_vendor, p_vendor_size, "%s", vendor_name);
 
     snprintf(p_model, p_model_size,
-        "%s [Family %d Model %d Stepping %d]", 
+        "%s [Family %d Model %d Stepping %d]",
         processor_name, family, model, stepping
     );
 
     snprintf(p_features, p_features_size,
-        "%s", 
+        "%s",
         features
     );
 
@@ -1149,8 +1145,8 @@ int HOST_INFO::get_virtualbox_version() {
 // Gets host information; called on startup and before each sched RPC
 //
 int HOST_INFO::get_host_info() {
-	get_timezone(timezone);
-	get_filesystem_info(d_total, d_free);
+    get_timezone(timezone);
+    get_filesystem_info(d_total, d_free);
     get_memory_info(m_nbytes, m_swap);
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
@@ -1171,13 +1167,13 @@ int HOST_INFO::get_host_info() {
 }
 
 bool HOST_INFO::host_is_running_on_batteries() {
-	SYSTEM_POWER_STATUS pStatus;
-	ZeroMemory(&pStatus, sizeof(SYSTEM_POWER_STATUS));
-	if (!GetSystemPowerStatus(&pStatus)) {
-		return false;
-	}
+    SYSTEM_POWER_STATUS pStatus;
+    ZeroMemory(&pStatus, sizeof(SYSTEM_POWER_STATUS));
+    if (!GetSystemPowerStatus(&pStatus)) {
+        return false;
+    }
 
-    // Sometimes the system reports the ACLineStatus as an 
+    // Sometimes the system reports the ACLineStatus as an
     //   undocumented value, so lets check to see if the
     //   battery is charging or missing and make that part
     //   of the decision.
@@ -1185,7 +1181,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     bool bIsBatteryCharging = ((pStatus.BatteryFlag & 8) == 8);
     bool bIsBatteryMissing = ((pStatus.BatteryFlag & 128) == 128);
 
-	return (bIsOnBatteryPower && !bIsBatteryCharging && !bIsBatteryMissing);
+    return (bIsOnBatteryPower && !bIsBatteryCharging && !bIsBatteryMissing);
 }
 
 bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {

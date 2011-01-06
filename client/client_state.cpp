@@ -163,7 +163,7 @@ void CLIENT_STATE::show_host_info() {
     int major, minor, rev;
     sscanf(host_info.os_version, "%d.%d.%d", &major, &minor, &rev);
     msg_printf(NULL, MSG_INFO,
-        "OS: Mac OS X 10.%d.%d (%s %s)", major-4, minor, 
+        "OS: Mac OS X 10.%d.%d (%s %s)", major-4, minor,
         host_info.os_name, host_info.os_version
     );
 #else
@@ -260,7 +260,7 @@ int CLIENT_STATE::init() {
 
     notices.init();
     daily_xfer_history.init();
-    
+
     detect_platforms();
     time_stats.start();
 
@@ -582,7 +582,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
     while (1) {
         curl_fds.zero();
         gui_rpc_fds.zero();
-		http_ops->get_fdset(curl_fds);
+        http_ops->get_fdset(curl_fds);
         all_fds = curl_fds;
         gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         double_to_timeval(x, tv);
@@ -660,7 +660,7 @@ bool CLIENT_STATE::poll_slow_events() {
         last_wakeup_time = now;
     }
 
-	if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
+    if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
         run_cpu_benchmarks = false;
         start_cpu_benchmarks();
     }
@@ -709,7 +709,7 @@ bool CLIENT_STATE::poll_slow_events() {
     }
 #endif
 
-    // active_tasks.get_memory_usage() sets variables needed by 
+    // active_tasks.get_memory_usage() sets variables needed by
     // check_suspend_processing(), so it must be called first.
     active_tasks.get_memory_usage();
     suspend_reason = check_suspend_processing();
@@ -791,7 +791,7 @@ bool CLIENT_STATE::poll_slow_events() {
     // in that order (active_tasks_poll() sets must_schedule_cpus,
     // and handle_finished_apps() must be done before possibly_schedule_cpus()
 
-	check_project_timeout();
+    check_project_timeout();
     //auto_update.poll();
     POLL_ACTION(active_tasks           , active_tasks.poll      );
     POLL_ACTION(garbage_collect        , garbage_collect        );
@@ -956,7 +956,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         );
         return ERR_NOT_UNIQUE;
     }
-    
+
 #ifndef SIM
 
     strcpy(avp->graphics_exec_path, "");
@@ -1372,7 +1372,7 @@ bool CLIENT_STATE::garbage_collect_always() {
 
     // reference-count sticky files not marked for deletion
     //
-    
+
     for (fi_iter = file_infos.begin(); fi_iter!=file_infos.end(); fi_iter++) {
         fip = *fi_iter;
         if (!fip->sticky) continue;

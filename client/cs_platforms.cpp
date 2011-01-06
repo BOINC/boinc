@@ -115,7 +115,7 @@ void CLIENT_STATE::detect_platforms() {
         HOSTTYPE = "i686-apple-darwin";
     }
 
-    // Supported on both Mac Intel architectures    
+    // Supported on both Mac Intel architectures
     add_platform("i686-apple-darwin");
 #endif
     // Supported on all 3 Mac architectures
@@ -132,7 +132,7 @@ void CLIENT_STATE::detect_platforms() {
 
     // find the 'uname' executable
     do {
-        if (boinc_file_exists(uname[eno])) break; 
+        if (boinc_file_exists(uname[eno])) break;
     } while (uname[++eno] != 0);
 
     // run it and check the kernel machine architecture.
@@ -148,36 +148,36 @@ void CLIENT_STATE::detect_platforms() {
         }
 
         if (!support64) {
-	        // we're running on a 32 bit kernel, so we will assume
-	        // we are i686-pc-linux-gnu only.
-	        support32=1;
-	    } else {
-	        // we're running on a 64 bit kernel.
-	        // Now comes the hard part.  How to tell whether we can run
-	        // 32-bit binaries.
+            // we're running on a 32 bit kernel, so we will assume
+            // we are i686-pc-linux-gnu only.
+            support32=1;
+        } else {
+            // we're running on a 64 bit kernel.
+            // Now comes the hard part.  How to tell whether we can run
+            // 32-bit binaries.
 #if defined(__i386__) && !defined(__x86_64__)
             // If we're a 32 bit binary, then we obviously can.
-	        support32=1;
+            support32=1;
 #else
             // If we're a 64 bit binary, the check is a bit harder.
-	        // We'll use the file command to check installation of
-	        // 32 bit libraries or executables.
-	        const char *file[]={"/usr/bin/file","/bin/file",0};
-	        const char *libdir[]={"/lib","/lib32","/lib/32","/usr/lib","/usr/lib32","/usr/lib/32"};
-	        const int nlibdirs=sizeof(libdir)/sizeof(char *);
-    	    
+            // We'll use the file command to check installation of
+            // 32 bit libraries or executables.
+            const char *file[]={"/usr/bin/file","/bin/file",0};
+            const char *libdir[]={"/lib","/lib32","/lib/32","/usr/lib","/usr/lib32","/usr/lib/32"};
+            const int nlibdirs=sizeof(libdir)/sizeof(char *);
+
             // find 'file'
             eno=0;
             do {
-                if (boinc_file_exists(file[eno])) break; 
+                if (boinc_file_exists(file[eno])) break;
             } while (file[++eno] != 0);
-    	    
+
             // now try to find a 32-bit C library.
-	        if (file[eno] != 0) {
-	            int i;
-	            for (i=0; i < nlibdirs; i++) {
-	                struct dirent *entry;
-	                DIR *a = opendir(libdir[i]);
+            if (file[eno] != 0) {
+                int i;
+                for (i=0; i < nlibdirs; i++) {
+                    struct dirent *entry;
+                    DIR *a = opendir(libdir[i]);
                     // if dir doesn't exist, do to the next one
                     if (a == 0) continue;
                     // dir exists. read each entry until you find a 32bit lib
@@ -190,18 +190,18 @@ void CLIENT_STATE::detect_platforms() {
                         f = popen(cmdline, "r");
                         if (f) {
                             while (!std::feof(f)) {
-	                            fgets(cmdline,256,f);
+                                fgets(cmdline,256,f);
                                 // If the library is 32-bit ELF, then we're
                                 // golden.
-		                        if (strstr(cmdline, "ELF") && strstr(cmdline, "32-bit")) support32=1;
-	                        }
-			                pclose(f);
-                        }  
+                                if (strstr(cmdline, "ELF") && strstr(cmdline, "32-bit")) support32=1;
+                            }
+                            pclose(f);
+                        }
                     }
                     closedir(a);
                     if (support32) break;
                 }
-	        }
+            }
 #endif
         }
     }
@@ -239,7 +239,7 @@ void CLIENT_STATE::detect_platforms() {
 #endif
 
 #ifndef UNKNOWN_SOLARIS_PROCESSOR
-    FILE *f=fopen(exe64,"r"); 
+    FILE *f=fopen(exe64,"r");
     char *argv[3];
     pid_t pid;
     int rv=0;
@@ -263,9 +263,9 @@ void CLIENT_STATE::detect_platforms() {
                 done=waitpid(pid,&rv,WNOHANG);
                 sleep(1);
             } while (!done && ((time(0)-start)<5));
-            // if we timed out, kill the process	
+            // if we timed out, kill the process
             if ((time(0)-start)>=5) {
-                kill(pid,SIGKILL); 
+                kill(pid,SIGKILL);
                 done=-1;
             }
             // if we exited with success add the 64 bit platform
@@ -276,7 +276,7 @@ void CLIENT_STATE::detect_platforms() {
     }
     add_platform(platform32);
     // the following platform is obsolete, but we'll add it anyway.
-#if defined(__sparc) || defined(sparc) 
+#if defined(__sparc) || defined(sparc)
     add_platform("sparc-sun-solaris2.7");
 #endif
 #else  // !defined(UNKNOWN_SOLARIS_PROCESSOR)
@@ -288,7 +288,7 @@ void CLIENT_STATE::detect_platforms() {
 
 #endif  // !defined(UNKNOWN_SOLARIS_PROCESSOR)
 
-#else                   
+#else
 
     // Any other platform, fall back to the previous method
     add_platform(HOSTTYPE);

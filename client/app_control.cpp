@@ -120,7 +120,7 @@ bool ACTIVE_TASK_SET::poll() {
 //
 #ifdef _WIN32
 bool ACTIVE_TASK::kill_all_children() {
-	unsigned int i,j;
+    unsigned int i,j;
     std::vector<PROCINFO> ps;
     std::vector<PROCINFO> tps;
 
@@ -130,17 +130,17 @@ bool ACTIVE_TASK::kill_all_children() {
     pi.id = pid;
     tps.push_back(pi);
 
-	for (i=0; i < tps.size(); i++) {
-		PROCINFO tp = tps[i];
-	    for (j=0; j < ps.size(); j++) {
-		    PROCINFO p = ps[j];
+    for (i=0; i < tps.size(); i++) {
+        PROCINFO tp = tps[i];
+        for (j=0; j < ps.size(); j++) {
+            PROCINFO p = ps[j];
             if (tp.id == p.parentid) {
                 if (TerminateProcessById(p.id)) {
                     tps.push_back(p);
                 }
             }
-	    }
-	}
+        }
+    }
     return true;
 }
 #endif
@@ -151,7 +151,7 @@ bool ACTIVE_TASK::kill_all_children() {
 int ACTIVE_TASK::request_exit() {
     if (!app_client_shm.shm) return 1;
     process_control_queue.msg_queue_send(
-		"<quit/>",
+        "<quit/>",
         app_client_shm.shm->process_control_request
     );
     quit_time = gstate.now;
@@ -163,7 +163,7 @@ int ACTIVE_TASK::request_exit() {
 int ACTIVE_TASK::request_abort() {
     if (!app_client_shm.shm) return 1;
     process_control_queue.msg_queue_send(
-		"<abort/>",
+        "<abort/>",
         app_client_shm.shm->process_control_request
     );
     return 0;
@@ -183,14 +183,14 @@ int ACTIVE_TASK::kill_task(bool restart) {
     kill(pid, SIGKILL);
 #endif
     cleanup_task();
-	if (restart) {
-		set_task_state(PROCESS_UNINITIALIZED, "kill_task");
+    if (restart) {
+        set_task_state(PROCESS_UNINITIALIZED, "kill_task");
         char buf[256];
         sprintf(buf, "restarting %s", result->name);
-		gstate.request_schedule_cpus(buf);
-	} else {
-		set_task_state(PROCESS_ABORTED, "kill_task");
-	}
+        gstate.request_schedule_cpus(buf);
+    } else {
+        set_task_state(PROCESS_ABORTED, "kill_task");
+    }
     return 0;
 }
 
@@ -508,18 +508,18 @@ void ACTIVE_TASK_SET::send_trickle_downs() {
 void ACTIVE_TASK_SET::send_heartbeats() {
     unsigned int i;
     ACTIVE_TASK* atp;
-	char buf[1024];
-	double ar = gstate.available_ram();
+    char buf[1024];
+    double ar = gstate.available_ram();
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         if (!atp->app_client_shm.shm) continue;
-		snprintf(buf, sizeof(buf), "<heartbeat/>"
-			"<wss>%e</wss>"
-			"<max_wss>%e</max_wss>",
-			atp->procinfo.working_set_size, ar
-		);
+        snprintf(buf, sizeof(buf), "<heartbeat/>"
+            "<wss>%e</wss>"
+            "<max_wss>%e</max_wss>",
+            atp->procinfo.working_set_size, ar
+        );
         bool sent = atp->app_client_shm.shm->heartbeat.send_msg(buf);
         if (log_flags.app_msg_send) {
             if (sent) {
@@ -546,21 +546,21 @@ void ACTIVE_TASK_SET::process_control_poll() {
         if (!atp->process_exists()) continue;
         if (!atp->app_client_shm.shm) continue;
 
-		// if app has had the same message in its send buffer for 180 sec,
-		// assume it's hung and restart it
-		//
-		if (atp->process_control_queue.timeout(180)) {
+        // if app has had the same message in its send buffer for 180 sec,
+        // assume it's hung and restart it
+        //
+        if (atp->process_control_queue.timeout(180)) {
             if (log_flags.task_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
                     "Restarting %s - message timeout", atp->result->name
                 );
             }
-			atp->kill_task(true);
-		} else {
-			atp->process_control_queue.msg_queue_poll(
-				atp->app_client_shm.shm->process_control_request
-			);
-		}
+            atp->kill_task(true);
+        } else {
+            atp->process_control_queue.msg_queue_poll(
+                atp->app_client_shm.shm->process_control_request
+            );
+        }
     }
 }
 
@@ -660,8 +660,8 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     bool do_disk_check = false;
     bool did_anything = false;
 
-	double ram_left = gstate.available_ram();
-	double max_ram = gstate.max_available_ram();
+    double ram_left = gstate.available_ram();
+    double max_ram = gstate.max_available_ram();
 
     // Some slot dirs have lots of files,
     // so only check every min(disk_interval, 300) secs
@@ -674,36 +674,36 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
-		if (!atp->result->project->non_cpu_intensive && (atp->elapsed_time > atp->max_elapsed_time)) {
-			msg_printf(atp->result->project, MSG_INFO,
-				"Aborting task %s: exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
-				atp->result->name, atp->max_elapsed_time,
+        if (!atp->result->project->non_cpu_intensive && (atp->elapsed_time > atp->max_elapsed_time)) {
+            msg_printf(atp->result->project, MSG_INFO,
+                "Aborting task %s: exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
+                atp->result->name, atp->max_elapsed_time,
                 atp->result->wup->rsc_fpops_bound/1e9,
                 atp->result->avp->flops/1e9
-			);
-			atp->abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum elapsed time exceeded");
-			did_anything = true;
-			continue;
-		}
-		if (atp->procinfo.working_set_size_smoothed > max_ram) {
-			msg_printf(atp->result->project, MSG_INFO,
-				"Aborting task %s: exceeded memory limit %.2fMB > %.2fMB\n",
-				atp->result->name,
-				atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
-			);
-			atp->abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory exceeded");
-			did_anything = true;
-			continue;
-		}
+            );
+            atp->abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum elapsed time exceeded");
+            did_anything = true;
+            continue;
+        }
+        if (atp->procinfo.working_set_size_smoothed > max_ram) {
+            msg_printf(atp->result->project, MSG_INFO,
+                "Aborting task %s: exceeded memory limit %.2fMB > %.2fMB\n",
+                atp->result->name,
+                atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
+            );
+            atp->abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory exceeded");
+            did_anything = true;
+            continue;
+        }
         if (do_disk_check && atp->check_max_disk_exceeded()) {
             did_anything = true;
-			continue;
+            continue;
         }
-		ram_left -= atp->procinfo.working_set_size_smoothed;
+        ram_left -= atp->procinfo.working_set_size_smoothed;
     }
-	if (ram_left < 0) {
-		gstate.request_schedule_cpus("RAM usage limit exceeded");
-	}
+    if (ram_left < 0) {
+        gstate.request_schedule_cpus("RAM usage limit exceeded");
+    }
     if (do_disk_check) {
         last_disk_check_time = gstate.now;
     }
@@ -720,7 +720,7 @@ int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     if (task_state() == PROCESS_EXECUTING || task_state() == PROCESS_SUSPENDED) {
         set_task_state(PROCESS_ABORT_PENDING, "abort_task");
         abort_time = gstate.now;
-		request_abort();
+        request_abort();
     } else {
         set_task_state(PROCESS_ABORTED, "abort_task");
     }
@@ -887,11 +887,11 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         switch (reason) {
         case SUSPEND_REASON_CPU_THROTTLE:
-			// if we're doing CPU throttling, don't bother suspending apps
-			// that don't use a full CPU
-			//
-			if (atp->result->project->non_cpu_intensive) continue;
-			if (atp->app_version->avg_ncpus < 1) continue;
+            // if we're doing CPU throttling, don't bother suspending apps
+            // that don't use a full CPU
+            //
+            if (atp->result->project->non_cpu_intensive) continue;
+            if (atp->app_version->avg_ncpus < 1) continue;
             atp->preempt(REMOVE_NEVER);
             break;
         case SUSPEND_REASON_BENCHMARKS:
@@ -983,18 +983,18 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
 //
 int ACTIVE_TASK::suspend() {
     if (!app_client_shm.shm) return 0;
-	if (task_state() != PROCESS_EXECUTING) {
-		msg_printf(result->project, MSG_INFO,
-			"Internal error: expected process %s to be executing", result->name
-		);
-	}
-	int n = process_control_queue.msg_queue_purge("<resume/>");
-	if (n == 0) {
-		process_control_queue.msg_queue_send(
-			"<suspend/>",
-			app_client_shm.shm->process_control_request
-		);
-	}
+    if (task_state() != PROCESS_EXECUTING) {
+        msg_printf(result->project, MSG_INFO,
+            "Internal error: expected process %s to be executing", result->name
+        );
+    }
+    int n = process_control_queue.msg_queue_purge("<resume/>");
+    if (n == 0) {
+        process_control_queue.msg_queue_send(
+            "<suspend/>",
+            app_client_shm.shm->process_control_request
+        );
+    }
     set_task_state(PROCESS_SUSPENDED, "suspend");
     return 0;
 }
@@ -1003,23 +1003,23 @@ int ACTIVE_TASK::suspend() {
 //
 int ACTIVE_TASK::unsuspend() {
     if (!app_client_shm.shm) return 0;
-	if (task_state() != PROCESS_SUSPENDED) {
-		msg_printf(result->project, MSG_INFO,
-			"Internal error: expected process %s to be suspended", result->name
-		);
-	}
+    if (task_state() != PROCESS_SUSPENDED) {
+        msg_printf(result->project, MSG_INFO,
+            "Internal error: expected process %s to be suspended", result->name
+        );
+    }
     if (log_flags.cpu_sched) {
         msg_printf(result->project, MSG_INFO,
             "[cpu_sched] Resuming %s", result->name
         );
     }
-	int n = process_control_queue.msg_queue_purge("<suspend/>");
-	if (n == 0) {
-		process_control_queue.msg_queue_send(
-			"<resume/>",
-			app_client_shm.shm->process_control_request
-		);
-	}
+    int n = process_control_queue.msg_queue_purge("<suspend/>");
+    if (n == 0) {
+        process_control_queue.msg_queue_send(
+            "<resume/>",
+            app_client_shm.shm->process_control_request
+        );
+    }
     set_task_state(PROCESS_EXECUTING, "unsuspend");
     return 0;
 }

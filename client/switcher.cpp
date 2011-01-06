@@ -20,7 +20,7 @@
 // When run as
 // switcher Full-Path Executable-Name X1 ... Xn
 // runs program at Full-Path with args X1. ... Xn
-// note that the executable name nust be specified twice: 
+// note that the executable name nust be specified twice:
 //  once as part of the Full_Path and again as just the name
 
 #include <unistd.h>
@@ -30,7 +30,7 @@
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>  // for MAXPATHLEN
 #endif
-#include <pwd.h>	// getpwuid
+#include <pwd.h>    // getpwuid
 #include <grp.h>
 
 #include "app_ipc.h"
@@ -52,11 +52,11 @@ int main(int argc, char** argv) {
     strcpy(group_name, "boinc_project");
 
 #if 0           // For debugging only
-    char	current_dir[MAXPATHLEN];
+    char    current_dir[MAXPATHLEN];
 
     getcwd( current_dir, sizeof(current_dir));
     fprintf(stderr, "current directory = %s\n", current_dir);
-    
+
     for (int i=0; i<argc; i++) {
         fprintf(stderr, "switcher arg %d: %s\n", i, argv[i]);
     }
@@ -72,19 +72,19 @@ int main(int argc, char** argv) {
 
 #endif
 
-    // We are running setuid root, so setgid() sets real group ID, 
+    // We are running setuid root, so setgid() sets real group ID,
     // effective group ID and saved set_group-ID for this process
     grp = getgrnam(group_name);
     if (grp) setgid(grp->gr_gid);
 
-    // We are running setuid root, so setuid() sets real user ID, 
+    // We are running setuid root, so setuid() sets real user ID,
     // effective user ID and saved set_user-ID for this process
     pw = getpwnam(user_name);
     if (pw) setuid(pw->pw_uid);
 
     // For unknown reasons, the LD_LIBRARY_PATH and DYLD_LIBRARY_PATH
-    // environment variables are not passed in to switcher, though all 
-    // other environment variables do get propagated.  So we recreate 
+    // environment variables are not passed in to switcher, though all
+    // other environment variables do get propagated.  So we recreate
     // LD_LIBRARY_PATH and DYLD_LIBRARY_PATH here.
     f = fopen(INIT_DATA_FILE, "r");
     if (f) {
@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
             ++projectDirName;
         } else {
             projectDirName = aid.project_dir;
-        } 
+        }
         sprintf(newlibs, "../../%s:.:../..", projectDirName);
 #ifdef __APPLE__
         strcat(newlibs, ":/usr/local/cuda/lib/");
@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
     }
 
     execv(argv[1], argv+2);
-    
+
     // If we got here execv failed
     fprintf(stderr, "Process creation (%s) failed: errno=%d\n", argv[1], errno);
 

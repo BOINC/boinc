@@ -98,7 +98,7 @@ void PROJECT::init() {
     nrpc_failures = 0;
     master_fetch_failures = 0;
     min_rpc_time = 0;
-	possibly_backed_off = true;
+    possibly_backed_off = true;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
     next_rpc_time = 0;
@@ -317,15 +317,15 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <ati_backoff_time>%f</ati_backoff_time>\n"
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
-		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
-		"    <send_time_stats_log>%d</send_time_stats_log>\n"
-		"    <send_job_log>%d</send_job_log>\n"
-		"    <no_cpu_apps>%d</no_cpu_apps>\n"
-		"    <no_cuda_apps>%d</no_cuda_apps>\n"
-		"    <no_ati_apps>%d</no_ati_apps>\n"
-		"    <no_cpu_ams>%d</no_cpu_ams>\n"
-		"    <no_cuda_ams>%d</no_cuda_ams>\n"
-		"    <no_ati_ams>%d</no_ati_ams>\n"
+        "    <sched_rpc_pending>%d</sched_rpc_pending>\n"
+        "    <send_time_stats_log>%d</send_time_stats_log>\n"
+        "    <send_job_log>%d</send_job_log>\n"
+        "    <no_cpu_apps>%d</no_cpu_apps>\n"
+        "    <no_cuda_apps>%d</no_cuda_apps>\n"
+        "    <no_ati_apps>%d</no_ati_apps>\n"
+        "    <no_cpu_ams>%d</no_cpu_ams>\n"
+        "    <no_cuda_ams>%d</no_cuda_ams>\n"
+        "    <no_ati_ams>%d</no_ati_ams>\n"
         "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -371,7 +371,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         ati_pwf.backoff_time,
         resource_share,
         duration_correction_factor,
-		sched_rpc_pending,
+        sched_rpc_pending,
         send_time_stats_log,
         send_job_log,
         no_cpu_apps?1:0,
@@ -609,7 +609,6 @@ int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
     unsigned int i;
     char project_dir[256], path[256];
 
-    
     if (delete_existing_symlinks) {
         // delete current sym links.
         // This is done when parsing scheduler reply,
@@ -646,7 +645,7 @@ int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
 // and flag FILE_INFOs as being project files.
 //
 void PROJECT::link_project_files(bool recreate_symlink_files) {
-	FILE_INFO* fip;
+    FILE_INFO* fip;
     vector<FILE_REF>::iterator fref_iter;
     fref_iter = project_files.begin();
     while (fref_iter != project_files.end()) {
@@ -664,14 +663,14 @@ void PROJECT::link_project_files(bool recreate_symlink_files) {
         fref_iter++;
     }
 
-	if (recreate_symlink_files) {
-		for (unsigned i=0; i<gstate.file_infos.size(); i++) {
-			fip = gstate.file_infos[i];
-			if (fip->project == this && fip->is_project_file && fip->status == FILE_PRESENT) {
-				write_symlink_for_project_file(fip);
-			}
-		}
-	}
+    if (recreate_symlink_files) {
+        for (unsigned i=0; i<gstate.file_infos.size(); i++) {
+            fip = gstate.file_infos[i];
+            if (fip->project == this && fip->is_project_file && fip->status == FILE_PRESENT) {
+                write_symlink_for_project_file(fip);
+            }
+        }
+    }
 }
 
 void PROJECT::write_project_files(MIOFILE& f) {
@@ -787,7 +786,7 @@ FILE_INFO::FILE_INFO() {
     signature_required = false;
     is_user_file = false;
     is_project_file = false;
-	is_auto_update_file = false;
+    is_auto_update_file = false;
     pers_file_xfer = NULL;
     result = NULL;
     project = NULL;
@@ -819,7 +818,7 @@ int FILE_INFO::set_permissions() {
     get_pathname(this, pathname, sizeof(pathname));
 
     if (g_use_sandbox) {
-        // give exec permissions for user, group and others but give 
+        // give exec permissions for user, group and others but give
         // read permissions only for user and group to protect account keys
         retval = set_to_project_group(pathname);
         if (retval) return retval;
@@ -1404,15 +1403,15 @@ int FILE_REF::parse(MIOFILE& in) {
     strcpy(open_name, "");
     main_program = false;
     copy_file = false;
-	optional = false;
+    optional = false;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_ref>")) return 0;
         if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
         if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
         if (parse_bool(buf, "main_program", main_program)) continue;
         if (parse_bool(buf, "copy_file", copy_file)) continue;
-		if (parse_bool(buf, "optional", optional)) continue;
-		if (parse_bool(buf, "no_validate", temp)) continue;
+        if (parse_bool(buf, "optional", optional)) continue;
+        if (parse_bool(buf, "no_validate", temp)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] FILE_REF::parse(): unrecognized: %s\n", buf
@@ -1892,7 +1891,6 @@ int RESULT::write_gui(MIOFILE& out) {
             sprintf(resources,
                 "%.2f CPUs + %.2f ATI GPUs",
                 avp->avg_ncpus, avp->natis
-                
             );
         } else if (avp->avg_ncpus != 1) {
             sprintf(resources, "%.2f CPUs", avp->avg_ncpus);
@@ -1940,7 +1938,7 @@ bool RESULT::is_upload_done() {
     return true;
 }
 
-// resets all FILE_INFO's in result to uploaded = false 
+// resets all FILE_INFO's in result to uploaded = false
 // if upload_when_present is true.
 //
 void RESULT::clear_uploaded_flags() {
@@ -2069,10 +2067,10 @@ int MODE::get_current() {
 }
 
 double MODE::delay() {
-	if (temp_timeout > gstate.now) {
-		return temp_timeout - gstate.now;
-	} else {
-		return 0;
-	}
+    if (temp_timeout > gstate.now) {
+        return temp_timeout - gstate.now;
+    } else {
+        return 0;
+    }
 }
 

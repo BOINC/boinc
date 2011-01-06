@@ -65,7 +65,7 @@ start_cache($cache_period, $cache_args);
 //
 function daemon_status($host, $pidname, $progname, $disabled) {
     global $ssh_exe, $ps_exe, $project_host;
-    $path = "../../pid_$host/$pidname.pid";
+    $path = "../../pid_$host/$pidname";
     $running = 0;
     if (is_file($path)) {
         $pid = file_get_contents($path);
@@ -85,10 +85,10 @@ function daemon_status($host, $pidname, $progname, $disabled) {
     return $running;
 }
 
-function show_status($host, $function, $running) {
+function show_status($host, $progname, $running) {
     global $xml;
-    $xmlstring = "    <daemon>\n      <host>$host</host>\n      <command>$function</command>\n";
-    $htmlstring = "<tr><td>$function</td><td>$host</td>";
+    $xmlstring = "    <daemon>\n      <host>$host</host>\n      <command>$progname</command>\n";
+    $htmlstring = "<tr><td>$progname</td><td>$host</td>";
     if ($running == 1) {
         $xmlstring .= "      <status>running</status>\n";
         $htmlstring .= "<td class=\"running\">".tra("Running")."</td>\n";
@@ -111,7 +111,7 @@ function show_status($host, $function, $running) {
 
 function show_daemon_status($host, $pidname, $progname, $disabled) {
     $running = daemon_status($host, $pidname, $progname, $disabled);
-    show_status($host, $pidname, $running);
+    show_status($host, $progname, $running);
 }
 
 function show_counts($key, $xmlkey, $value) {
@@ -238,7 +238,7 @@ show_status($www_host, tra("data-driven web pages"), $web_running);
 
 // Check for httpd.pid file of upload/download server.
 //
-$uldl_running = !file_exists($uldl_pid);
+$uldl_running = file_exists($uldl_pid);
 if ($uldl_running == 0) $uldl_running = -1;
 show_status($uldl_host, tra("upload/download server"), $uldl_running);
 
@@ -254,18 +254,21 @@ while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",$cursor))) {
         $host = $project_host;
     }
     $cmd = parse_element($thisxml,"<cmd>");
-    list($ncmd) = explode(" ",$cmd);
+    list($cmd) = explode(" ", $cmd);
     $log = parse_element($thisxml,"<output>");
     if (!$log) {
-        $log = $ncmd . ".log";
+        $log = $cmd . ".log";
     }
-    list($nlog) = explode(".log",$log);
+    list($log) = explode(".log", $log);
     $pid = parse_element($thisxml,"<pid_file>");
     if (!$pid) {
-        $pid = $ncmd . ".pid";
+        $pid = $cmd . ".pid";
     }
     $disabled = parse_element($thisxml,"<disabled>");
-    show_daemon_status($host, $nlog, $ncmd, $disabled);
+
+    // surrogate for command
+    list($c) = explode(".", $log);
+    show_daemon_status($host, $pid, $c, $disabled);
 }
 
 $xmlstring = "  </daemon_status>\n  <database_file_states>\n";

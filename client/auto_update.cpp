@@ -114,8 +114,8 @@ void AUTO_UPDATE::write(MIOFILE& out) {
 int AUTO_UPDATE::validate_and_link(PROJECT* proj) {
     char dir[256];
     int retval;
-	unsigned int i;
-	FILE_INFO* fip;
+    unsigned int i;
+    FILE_INFO* fip;
 
     if (!version.greater_than(gstate.core_client_version)) {
         msg_printf(NULL, MSG_INFO,
@@ -146,19 +146,19 @@ int AUTO_UPDATE::validate_and_link(PROJECT* proj) {
     for (i=0; i<file_refs.size(); i++) {
         FILE_REF& fref = file_refs[i];
         fip = gstate.lookup_file_info(project, fref.file_name);
-		if (!fip) {
-			msg_printf(project, MSG_INTERNAL_ERROR,
+        if (!fip) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "missing update file %s", fref.file_name
             );
             return ERR_INVALID_PARAM;
-		}
-		fref.file_info = fip;
-		fip->is_auto_update_file = true;
+        }
+        fref.file_info = fip;
+        fip->is_auto_update_file = true;
         if (fref.main_program) nmain++;
-	}
+    }
 
     if (nmain != 1) {
-		msg_printf(project, MSG_INTERNAL_ERROR,
+        msg_printf(project, MSG_INTERNAL_ERROR,
             "Auto update has %d main programs", nmain
         );
         return ERR_INVALID_PARAM;
@@ -167,10 +167,10 @@ int AUTO_UPDATE::validate_and_link(PROJECT* proj) {
     //
     boinc_version_dir(*project, version, dir);
     retval = boinc_mkdir(dir);
-	if (retval) {
-		msg_printf(project, MSG_INTERNAL_ERROR, "Couldn't make version dir %s", dir);
-		return retval;
-	}
+    if (retval) {
+        msg_printf(project, MSG_INTERNAL_ERROR, "Couldn't make version dir %s", dir);
+        return retval;
+    }
     gstate.auto_update = *this;
     return 0;
 }

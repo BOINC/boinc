@@ -134,7 +134,7 @@ int NET_STATS::parse(MIOFILE& in) {
 // in the case of a modem connection waiting to be closed by the mgr)
 //
 int NET_STATUS::network_status() {
-	int retval;
+    int retval;
 
     if (gstate.http_ops->nops()) {
         last_comm_time = gstate.now;
@@ -143,20 +143,20 @@ int NET_STATUS::network_status() {
         retval = NETWORK_STATUS_LOOKUP_PENDING;
     } else if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
         retval = NETWORK_STATUS_LOOKUP_PENDING;
-	} else if (gstate.now - last_comm_time < 10) {
+    } else if (gstate.now - last_comm_time < 10) {
         retval = NETWORK_STATUS_ONLINE;
     } else if (need_physical_connection) {
         retval = NETWORK_STATUS_WANT_CONNECTION;
     } else if (gstate.active_tasks.want_network()) {
         retval = NETWORK_STATUS_WANT_CONNECTION;
-	} else {
-		have_sporadic_connection = false;
-		retval = NETWORK_STATUS_WANT_DISCONNECT;
-	}
-	if (log_flags.network_status_debug) {
-		msg_printf(NULL, MSG_INFO, "[network_status] status: %s", network_status_string(retval));
-	}
-	return retval;
+    } else {
+        have_sporadic_connection = false;
+        retval = NETWORK_STATUS_WANT_DISCONNECT;
+    }
+    if (log_flags.network_status_debug) {
+        msg_printf(NULL, MSG_INFO, "[network_status] status: %s", network_status_string(retval));
+    }
+    return retval;
 }
 
 // There's now a network connection, after some period of disconnection.
@@ -208,14 +208,14 @@ void NET_STATUS::got_http_error() {
 }
 
 void NET_STATUS::contact_reference_site() {
-	if (log_flags.network_status_debug) {
-		msg_printf(0, MSG_INFO,
-			"[network_status] need_phys_conn %d; trying %s",
+    if (log_flags.network_status_debug) {
+        msg_printf(0, MSG_INFO,
+            "[network_status] need_phys_conn %d; trying %s",
             need_physical_connection, config.network_test_url.c_str()
-		);
-	}
+        );
+    }
     gstate.lookup_website_op.do_rpc(config.network_test_url);
-	need_to_contact_reference_site = false;
+    need_to_contact_reference_site = false;
 }
 
 static void show_fail_msg() {
@@ -236,7 +236,7 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     if (retval) {
         error_num = retval;
         net_status.need_physical_connection = true;
-		net_status.last_comm_time = 0;
+        net_status.last_comm_time = 0;
 
         show_fail_msg();
     } else {
@@ -255,7 +255,7 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
     //
     if (http_op_retval) {
         net_status.need_physical_connection = true;
-		net_status.last_comm_time = 0;
+        net_status.last_comm_time = 0;
         show_fail_msg();
     } else {
         if (net_status.show_ref_message) {
@@ -279,9 +279,9 @@ void NET_STATUS::poll() {
         working_proxy_info.need_autodetect_proxy_settings &&
         !working_proxy_info.have_autodetect_proxy_settings) return;
 
-	if (net_status.need_to_contact_reference_site && !gstate.gui_http.is_busy()) {
-		net_status.contact_reference_site();
-	}
+    if (net_status.need_to_contact_reference_site && !gstate.gui_http.is_busy()) {
+        net_status.contact_reference_site();
+    }
 }
 
 int DAILY_XFER::parse(XML_PARSER& xp) {

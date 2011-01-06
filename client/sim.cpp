@@ -24,6 +24,7 @@
 //      Input files are:
 //          client_state.xml
 //          global_prefs.xml
+//          global_prefs_override.xml
 //          cc_config.xml
 //  [--outfile_prefix X]
 //      Prefix of output filenames; default is blank.

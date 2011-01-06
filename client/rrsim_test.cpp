@@ -168,7 +168,7 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
     if (x>1) {
         x = 1;
     }
-	rrsim_proc_rate = x*gstate.overall_cpu_frac();
+    rrsim_proc_rate = x*gstate.overall_cpu_frac();
     if (log_flags.rr_simulation) {
         msg_printf(this, MSG_INFO,
             "set_rrsim_proc_rate: %f (rrs %f, rs %f, nactive %d, ocf %f",
@@ -177,7 +177,7 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
     }
 }
 bool CLIENT_STATE::rr_simulation() {
-	double rrs = nearly_runnable_resource_share();
+    double rrs = nearly_runnable_resource_share();
     double trs = total_resource_share();
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
@@ -187,16 +187,16 @@ bool CLIENT_STATE::rr_simulation() {
     vector<RESULT*>::iterator it;
     bool rval = false;
 
-	if (log_flags.rr_simulation) {
-		msg_printf(0, MSG_INFO,
+    if (log_flags.rr_simulation) {
+        msg_printf(0, MSG_INFO,
             "rr_sim start: work_buf_min %f rrs %f trs %f",
             work_buf_min(), rrs, trs
         );
-	}
+    }
 
     // Initialize result lists for each project:
-	// "active" is what's currently running (in the simulation)
-	// "pending" is what's queued
+    // "active" is what's currently running (in the simulation)
+    // "pending" is what's queued
     //
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -229,7 +229,7 @@ bool CLIENT_STATE::rr_simulation() {
         // the shortfall is its entire share.
         //
         if (!p->active.size()) {
-			double rsf = trs ? p->resource_share/trs : 1;
+            double rsf = trs ? p->resource_share/trs : 1;
             p->cpu_shortfall = (work_buf_min()+work_buf_additional()) * overall_cpu_frac() * ncpus * rsf;
             if (log_flags.rr_simulation) {
                 msg_printf(p, MSG_INFO,
@@ -265,7 +265,7 @@ bool CLIENT_STATE::rr_simulation() {
         if (log_flags.rr_simulation) {
             msg_printf(pbest, MSG_INFO,
                 "rr_sim: result %s finishes after %f (%f/%f)",
-				rpbest->name, rpbest->rrsim_finish_delay, rpbest->rrsim_cpu_left, pbest->rrsim_proc_rate
+                rpbest->name, rpbest->rrsim_finish_delay, rpbest->rrsim_cpu_left, pbest->rrsim_proc_rate
             );
         }
 
@@ -276,12 +276,12 @@ bool CLIENT_STATE::rr_simulation() {
             rpbest->rr_sim_misses_deadline = true;
             pbest->rr_sim_deadlines_missed++;
             rval = true;
-			if (log_flags.rr_simulation) {
-				msg_printf(0, MSG_INFO,
-					"rr_sim: result %s misses deadline by %f",
-					rpbest->name, diff
-				);
-			}
+            if (log_flags.rr_simulation) {
+                msg_printf(0, MSG_INFO,
+                    "rr_sim: result %s misses deadline by %f",
+                    rpbest->name, diff
+                );
+            }
         }
 
         int last_active_size = active.size();
@@ -350,42 +350,42 @@ bool CLIENT_STATE::rr_simulation() {
             if (nidle_cpus<0) nidle_cpus = 0;
             if (nidle_cpus > 0) cpu_shortfall += d_time*nidle_cpus;
 
-			double rsf = trs?pbest->resource_share/trs:1;
+            double rsf = trs?pbest->resource_share/trs:1;
             double proj_cpu_share = ncpus*rsf;
 
             if (last_proj_active_size < proj_cpu_share) {
                 pbest->cpu_shortfall += d_time*(proj_cpu_share - last_proj_active_size);
-				if (log_flags.rr_simulation) {
-					msg_printf(pbest, MSG_INFO,
-						"rr_sim: new shortfall %f d_time %f proj_cpu_share %f lpas %d",
-						pbest->cpu_shortfall, d_time, proj_cpu_share, last_proj_active_size
-					);
-				}
+                if (log_flags.rr_simulation) {
+                    msg_printf(pbest, MSG_INFO,
+                        "rr_sim: new shortfall %f d_time %f proj_cpu_share %f lpas %d",
+                        pbest->cpu_shortfall, d_time, proj_cpu_share, last_proj_active_size
+                    );
+                }
             }
 
-			if (end_time < buf_end) {
+            if (end_time < buf_end) {
                 d_time = buf_end - end_time;
                 // if this is the last result for this project, account for the tail
                 if (!pbest->active.size()) { 
                     pbest->cpu_shortfall += d_time * proj_cpu_share;
-					if (log_flags.rr_simulation) {
-						 msg_printf(pbest, MSG_INFO, "rr_sim proj out of work; shortfall %f d %f pcs %f",
-							 pbest->cpu_shortfall, d_time, proj_cpu_share
-					     );
-					}
+                    if (log_flags.rr_simulation) {
+                         msg_printf(pbest, MSG_INFO, "rr_sim proj out of work; shortfall %f d %f pcs %f",
+                             pbest->cpu_shortfall, d_time, proj_cpu_share
+                         );
+                    }
                 }
             }
             if (log_flags.rr_simulation) {
                 msg_printf(0, MSG_INFO,
                     "rr_sim total: idle cpus %d, last active %d, active %d, shortfall %f",
                     nidle_cpus, last_active_size, (int)active.size(), cpu_shortfall
-					
-				);
-				msg_printf(0, MSG_INFO,
-					"rr_sim proj %s: last active %d, active %d, shortfall %f",
-					pbest->get_project_name(), last_proj_active_size, (int)pbest->active.size(),
-					pbest->cpu_shortfall
-				);
+                    
+                );
+                msg_printf(0, MSG_INFO,
+                    "rr_sim proj %s: last active %d, active %d, shortfall %f",
+                    pbest->get_project_name(), last_proj_active_size, (int)pbest->active.size(),
+                    pbest->cpu_shortfall
+                );
             }
         }
 

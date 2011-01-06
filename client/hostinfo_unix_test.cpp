@@ -23,8 +23,7 @@
 #define bool int
 #define strlcpy strncpy
 
-int main(void)
-{
+int main(void) {
     char buf[256], features[1024], model_buf[1024];
     bool vendor_found=false, model_found=false;
     bool cache_found=false, features_found=false;
@@ -61,43 +60,43 @@ int main(void)
                 /* there might be conflicts if we dont #ifdef */
 #ifdef __ia64__
                 strstr(buf, "vendor     : ")
-#elif __hppa__		
-		strstr(buf, "cpu\t\t: ")
+#elif __hppa__        
+        strstr(buf, "cpu\t\t: ")
 #elif __powerpc__
                 strstr(buf, "machine\t\t: ")
 #elif __sparc__
-		strstr(buf, "type\t\t: ")
+        strstr(buf, "type\t\t: ")
 #elif __alpha__
-		strstr(buf, "cpu\t\t\t: ")
+        strstr(buf, "cpu\t\t\t: ")
 #else
-	strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
+    strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
 #endif
-		) {
+        ) {
             if (!vendor_hack && !vendor_found) {
                 vendor_found = true;
                 strlcpy(p_vendor, strchr(buf, ':') + 2, sizeof(p_vendor));
             } else if (!vendor_found) {
-	    	vendor_found = true;
-		strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_vendor) - strlen(p_vendor) - 1);
-		strcat(p_vendor, buf2);
-	    }
+            vendor_found = true;
+        strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_vendor) - strlen(p_vendor) - 1);
+        strcat(p_vendor, buf2);
+        }
         }
 
         if (
 #ifdef __ia64__
-		strstr(buf, "family     : ") || strstr(buf, "model name : ")
+        strstr(buf, "family     : ") || strstr(buf, "model name : ")
 #elif __powerpc__ || __sparc__
-		strstr(buf, "cpu\t\t: ")
+        strstr(buf, "cpu\t\t: ")
 #else
-	strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
+    strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
                 ) {
             if (!model_hack && !model_found) {
                 model_found = true;
 #ifdef __powerpc__
-	    char *coma = NULL;
+        char *coma = NULL;
             if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
-	    	*coma = '\0';	/* strip the unwanted line */
+            *coma = '\0';    /* strip the unwanted line */
                 strcpy(features, "altivec");
                 features_found = true;
             }
@@ -105,26 +104,26 @@ int main(void)
                 strlcpy(p_model, strchr(buf, ':') + 2, sizeof(p_model));
             } else if (!model_found) {
 #ifdef __ia64__
-		/* depending on kernel version, family can be either
-		a number or a string. If number, we have a model name,
-		else we don't */
-		char *testc = NULL;
-		testc = strrchr(buf, ':')+2;
-		if (isdigit(*testc)) {
-			family = atoi(testc);
-			continue;	/* skip this line */
-		}
+        /* depending on kernel version, family can be either
+        a number or a string. If number, we have a model name,
+        else we don't */
+        char *testc = NULL;
+        testc = strrchr(buf, ':')+2;
+        if (isdigit(*testc)) {
+            family = atoi(testc);
+            continue;    /* skip this line */
+        }
 #endif
-		model_found = true;
-		strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_model) - strlen(p_model) - 1);
-		strcat(p_model, buf2);
-	    }		
+        model_found = true;
+        strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_model) - strlen(p_model) - 1);
+        strcat(p_model, buf2);
+        }        
         }
 
 #ifndef __hppa__
-	/* XXX: hppa: "cpu family	: PA-RISC 2.0" */
+    /* XXX: hppa: "cpu family    : PA-RISC 2.0" */
         if (strstr(buf, "cpu family\t: ") && family<0) {
-		family = atoi(buf+strlen("cpu family\t: "));
+        family = atoi(buf+strlen("cpu family\t: "));
         }
         /* XXX: hppa: "model            : 9000/785/J6000" */
         if (strstr(buf, "model\t\t: ") && model<0) {

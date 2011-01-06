@@ -142,14 +142,14 @@ int main(int argc, char** argv) {
     int i, retval, port=0;
     MESSAGES messages;
     NOTICES notices;
-	char passwd_buf[256], hostname_buf[256], *hostname=0;
+    char passwd_buf[256], hostname_buf[256], *hostname=0;
     char* passwd = passwd_buf, *p;
 
 #ifdef _WIN32
     chdir_to_data_dir();
 #endif
-	strcpy(passwd_buf, "");
-	read_gui_rpc_password(passwd_buf);
+    strcpy(passwd_buf, "");
+    read_gui_rpc_password(passwd_buf);
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;

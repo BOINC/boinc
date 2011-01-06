@@ -454,7 +454,7 @@ bool SCHEDULER_OP::poll() {
                     msg_printf(cur_proj, MSG_INFO, "Master file download succeeded");
                     cur_proj->master_fetch_failures = 0;
                     changed = update_urls(cur_proj, urls);
-                    
+
                     // reenable scheduler RPCs if have new URLs
                     //
                     if (changed) {
@@ -517,7 +517,7 @@ bool SCHEDULER_OP::poll() {
                     backoff(cur_proj, "can't parse scheduler reply");
                     break;
                 }
-				cur_proj->sched_rpc_pending = 0;
+                cur_proj->sched_rpc_pending = 0;
                     // do this after handle_scheduler_reply()
             }
             cur_proj = NULL;

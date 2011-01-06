@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
     MESSAGES msgs;
     char buf[256];
     char datadir[256];
-	char hostname_buf[256], passwd_buf[256];
+    char hostname_buf[256], passwd_buf[256];
     char *hostname = 0, *passwd = passwd_buf, *p;
     struct tm* ptm;
     time_t timestamp;
@@ -121,11 +121,11 @@ int main(int argc, char** argv) {
     std::string msg_body;
     std::string msg_tmp;
 
-	strcpy(buf, "");
-	strcpy(datadir, "");
-	strcpy(hostname_buf, "");
-	strcpy(passwd_buf, "");
-	strcpy(g_log_filename, "");
+    strcpy(buf, "");
+    strcpy(datadir, "");
+    strcpy(hostname_buf, "");
+    strcpy(passwd_buf, "");
+    strcpy(g_log_filename, "");
     g_message_sequence = 0;
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
@@ -251,7 +251,7 @@ int main(int argc, char** argv) {
             }
 
             // Dump to tab delimited file
-            fprintf(f, 
+            fprintf(f,
                 "%s\t%s\t%s\t%s\t%s\n",
                 msg_datetime.c_str(),
                 msg_priority.c_str(),

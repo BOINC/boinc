@@ -158,7 +158,7 @@ static int get_boinc_proc_info(int my_pid, int boinc_pid) {
             print_procinfo(child_total);
 #endif
             // look for child processes
- 	    add_child_totals(child_total, piv, p.id, 0);
+         add_child_totals(child_total, piv, p.id, 0);
 #ifdef _DEBUG
             printf("Totals for process %d and its children:\n", child_total.id);
 #endif
@@ -187,53 +187,53 @@ static void output_child_totals(PROCINFO& pinfo) {
 }
 
 static int build_proc_list (vector<PROCINFO>& pi, int boinc_pid) {
-	boolean_t               retval = FALSE;
-	kern_return_t           error;
+    boolean_t               retval = FALSE;
+    kern_return_t           error;
         mach_port_t             appstats_port;
-	processor_set_t         *psets, pset;
-	task_t                  *tasks;
-	unsigned                i, j, pcnt, tcnt;
+    processor_set_t         *psets, pset;
+    task_t                  *tasks;
+    unsigned                i, j, pcnt, tcnt;
         PROCINFO                pinfo;
-	int                     pid, mib[4];
-	struct kinfo_proc	kinfo;
-	size_t			kinfosize;
+    int                     pid, mib[4];
+    struct kinfo_proc    kinfo;
+    size_t            kinfosize;
         
-	appstats_port = mach_host_self();
+    appstats_port = mach_host_self();
 
         // First, get a list of all tasks / processes
 
-	error = host_processor_sets(appstats_port, &psets, &pcnt);
-	if (error != KERN_SUCCESS) {
-		fprintf(stderr,
-		    "Error in host_processor_sets(): %s",
-		    mach_error_string(error));
-		retval = TRUE;
-		goto RETURN;
-	}
+    error = host_processor_sets(appstats_port, &psets, &pcnt);
+    if (error != KERN_SUCCESS) {
+        fprintf(stderr,
+            "Error in host_processor_sets(): %s",
+            mach_error_string(error));
+        retval = TRUE;
+        goto RETURN;
+    }
 
-	for (i = 0; i < pcnt; i++) {
+    for (i = 0; i < pcnt; i++) {
                 if (retval)
                         break;
                 
-		error = host_processor_set_priv(appstats_port, psets[i], &pset);
-		if (error != KERN_SUCCESS) {
-			fprintf(stderr, 
-			    "Error in host_processor_set_priv(): %s",
-			    mach_error_string(error));
-			retval = TRUE;
-			break;
-		}
+        error = host_processor_set_priv(appstats_port, psets[i], &pset);
+        if (error != KERN_SUCCESS) {
+            fprintf(stderr, 
+                "Error in host_processor_set_priv(): %s",
+                mach_error_string(error));
+            retval = TRUE;
+            break;
+        }
 
-		error = processor_set_tasks(pset, &tasks, &tcnt);
-		if (error != KERN_SUCCESS) {
-			fprintf(stderr,
-			    "Error in processor_set_tasks(): %s",
-			    mach_error_string(error));
-			retval = TRUE;
-			break;
-		}
+        error = processor_set_tasks(pset, &tasks, &tcnt);
+        if (error != KERN_SUCCESS) {
+            fprintf(stderr,
+                "Error in processor_set_tasks(): %s",
+                mach_error_string(error));
+            retval = TRUE;
+            break;
+        }
 
-		for (j = 0; j < tcnt; j++) {
+        for (j = 0; j < tcnt; j++) {
                         if (retval)
                                 break;
                         
@@ -281,88 +281,88 @@ static int build_proc_list (vector<PROCINFO>& pi, int boinc_pid) {
 #endif
         
         // Now get the process information for each descendant
-	for (i = 0; i < pcnt; i++) {
-		for (j = 0; j < tcnt; j++) {
+    for (i = 0; i < pcnt; i++) {
+        for (j = 0; j < tcnt; j++) {
                         if (! retval)
                             if (appstats_task_update(tasks[j], pi)) {
                                     retval = TRUE;
                                     goto RETURN;
                             }
 
-			/* Delete task port if it isn't our own. */
-			if (tasks[j] != mach_task_self()) {
-				mach_port_deallocate(mach_task_self(),
-				    tasks[j]);
-			}
-		}
+            /* Delete task port if it isn't our own. */
+            if (tasks[j] != mach_task_self()) {
+                mach_port_deallocate(mach_task_self(),
+                    tasks[j]);
+            }
+        }
 
-		error = vm_deallocate((vm_map_t)mach_task_self(),
-		    (vm_address_t)tasks, tcnt * sizeof(task_t));
-		if (error != KERN_SUCCESS) {
+        error = vm_deallocate((vm_map_t)mach_task_self(),
+            (vm_address_t)tasks, tcnt * sizeof(task_t));
+        if (error != KERN_SUCCESS) {
                         if (!retval)
                                 fprintf(stderr,
                                     "Error in vm_deallocate(): %s",
                                     mach_error_string(error));
-			retval = TRUE;
-			goto RETURN;
-		}
-		if ((error = mach_port_deallocate(mach_task_self(),
-			 pset)) != KERN_SUCCESS
-		    || (error = mach_port_deallocate(mach_task_self(),
-			psets[i])) != KERN_SUCCESS) {
+            retval = TRUE;
+            goto RETURN;
+        }
+        if ((error = mach_port_deallocate(mach_task_self(),
+             pset)) != KERN_SUCCESS
+            || (error = mach_port_deallocate(mach_task_self(),
+            psets[i])) != KERN_SUCCESS) {
                         if (!retval)
                                 fprintf(stderr,
                                     "Error in mach_port_deallocate(): %s",
                                     mach_error_string(error));
-			retval = TRUE;
-			goto RETURN;
-		}
-	}
+            retval = TRUE;
+            goto RETURN;
+        }
+    }
 
-	error = vm_deallocate((vm_map_t)mach_task_self(),
-	    (vm_address_t)psets, pcnt * sizeof(processor_set_t));
-	if (error != KERN_SUCCESS) {
+    error = vm_deallocate((vm_map_t)mach_task_self(),
+        (vm_address_t)psets, pcnt * sizeof(processor_set_t));
+    if (error != KERN_SUCCESS) {
                 if (!retval)
                         fprintf(stderr,
                             "Error in vm_deallocate(): %s",
                             mach_error_string(error));
-		retval = TRUE;
-		goto RETURN;
-	}
+        retval = TRUE;
+        goto RETURN;
+    }
 
-	RETURN:
-	return retval;
+    RETURN:
+    return retval;
 
 }
 
 /* Update statistics for task a_task. */
 static boolean_t appstats_task_update(task_t a_task, vector<PROCINFO>& piv)
 {
-	boolean_t		retval;
-	kern_return_t		error;
-	mach_msg_type_number_t	count;
-	task_basic_info_data_t	ti;
-	vm_address_t		address;
-	mach_port_t		object_name;
-	vm_region_top_info_data_t info;
-	vm_size_t		size;
-	thread_array_t		thread_table;
-	unsigned int		table_size;
-	thread_basic_info_t	thi;
-	thread_basic_info_data_t thi_data;
-	unsigned		i;
-	task_events_info_data_t	events;
+    boolean_t        retval;
+    kern_return_t        error;
+    mach_msg_type_number_t    count;
+    task_basic_info_data_t    ti;
+    vm_address_t        address;
+    mach_port_t        object_name;
+    vm_region_top_info_data_t info;
+    vm_size_t        size;
+    thread_array_t        thread_table;
+    unsigned int        table_size;
+    thread_basic_info_t    thi;
+    thread_basic_info_data_t thi_data;
+    unsigned        i;
+    task_events_info_data_t    events;
         vm_size_t               vsize, rsize;
         PROCINFO                *pinfo;
         int                     pid;
         
-	/* Get pid for this task. */
-	error = pid_for_task(a_task, &pid);
-	if (error != KERN_SUCCESS) {
-		/* Not a process, or the process is gone. */
-		retval = FALSE;
-		goto GONE;
-	}
+    /* Get pid for this task. */
+    error = pid_for_task(a_task, &pid);
+    if (error != KERN_SUCCESS) {
+        /* Not a process, or the process is gone. */
+        retval = FALSE;
+        goto GONE;
+    }
         
         for (i=0; i<piv.size(); i++) {
                 pinfo = &piv[i];
@@ -371,37 +371,37 @@ static boolean_t appstats_task_update(task_t a_task, vector<PROCINFO>& piv)
         }
 
         if (pinfo->id != pid) {
-		fprintf(stderr, "pid %d missing from list\n", pid);
-		retval = FALSE;
-		goto RETURN;
-	}
+        fprintf(stderr, "pid %d missing from list\n", pid);
+        retval = FALSE;
+        goto RETURN;
+    }
         
 #if ! GET_NON_BOINC_INFO
         if (!pinfo->is_boinc_app) {
-		retval = FALSE;
-		goto RETURN;
-	}
+        retval = FALSE;
+        goto RETURN;
+    }
 #endif        
-	/*
-	 * Get task_info, which is used for memory usage and CPU usage
-	 * statistics.
-	 */
-	count = TASK_BASIC_INFO_COUNT;
-	error = task_info(a_task, TASK_BASIC_INFO, (task_info_t)&ti, &count);
-	if (error != KERN_SUCCESS) {
-		retval = FALSE;
-		goto GONE;
-	}
+    /*
+     * Get task_info, which is used for memory usage and CPU usage
+     * statistics.
+     */
+    count = TASK_BASIC_INFO_COUNT;
+    error = task_info(a_task, TASK_BASIC_INFO, (task_info_t)&ti, &count);
+    if (error != KERN_SUCCESS) {
+        retval = FALSE;
+        goto GONE;
+    }
 
-	/*
-	 * Get memory usage statistics.
-	 */
+    /*
+     * Get memory usage statistics.
+     */
 
-	/*
-	 * Set rsize and vsize; they require no calculation.  (Well, actually,
-	 * we adjust vsize if traversing memory objects to not include the
-	 * globally shared text and data regions).
-	 */
+    /*
+     * Set rsize and vsize; they require no calculation.  (Well, actually,
+     * we adjust vsize if traversing memory objects to not include the
+     * globally shared text and data regions).
+     */
          rsize = ti.resident_size;
 #if GET_SWAP_SIZE
          vsize = ti.virtual_size;
@@ -430,7 +430,7 @@ static boolean_t appstats_task_update(task_t a_task, vector<PROCINFO>& piv)
                              * virtual memory size and exit loop.
                              */
                             if (info.share_mode == SM_EMPTY) {
-                                    vm_region_basic_info_data_64_t	b_info;
+                                    vm_region_basic_info_data_64_t    b_info;
 
                                     count = VM_REGION_BASIC_INFO_COUNT_64;
                                     if (vm_region_64(a_task, &address,
@@ -451,74 +451,74 @@ static boolean_t appstats_task_update(task_t a_task, vector<PROCINFO>& piv)
         vsize = 0;
 #endif      // GET_SWAP_SIZE
         pinfo->working_set_size = rsize;
-	pinfo->swap_size = vsize;
+    pinfo->swap_size = vsize;
 
-	/*
-	 * Get CPU usage statistics.
-	 */
+    /*
+     * Get CPU usage statistics.
+     */
 
         pinfo->user_time = (double)ti.user_time.seconds + (((double)ti.user_time.microseconds)/1000000.);
         pinfo->kernel_time = (double)ti.system_time.seconds + (((double)ti.system_time.microseconds)/1000000.);
 
-	/* Get number of threads. */
-	error = task_threads(a_task, &thread_table, &table_size);
-	if (error != KERN_SUCCESS) {
-		retval = FALSE;
-		goto RETURN;
-	}
+    /* Get number of threads. */
+    error = task_threads(a_task, &thread_table, &table_size);
+    if (error != KERN_SUCCESS) {
+        retval = FALSE;
+        goto RETURN;
+    }
 
 #if GET_CPU_TIMES
-	/* Iterate through threads and collect usage stats. */
-	thi = &thi_data;
-	for (i = 0; i < table_size; i++) {
-		count = THREAD_BASIC_INFO_COUNT;
-		if (thread_info(thread_table[i], THREAD_BASIC_INFO,
-		    (thread_info_t)thi, &count) == KERN_SUCCESS) {
-			if ((thi->flags & TH_FLAGS_IDLE) == 0) {
+    /* Iterate through threads and collect usage stats. */
+    thi = &thi_data;
+    for (i = 0; i < table_size; i++) {
+        count = THREAD_BASIC_INFO_COUNT;
+        if (thread_info(thread_table[i], THREAD_BASIC_INFO,
+            (thread_info_t)thi, &count) == KERN_SUCCESS) {
+            if ((thi->flags & TH_FLAGS_IDLE) == 0) {
                             pinfo->user_time += (double)thi->user_time.seconds + (((double)thi->user_time.microseconds)/1000000.);
                             pinfo->kernel_time += (double)thi->system_time.seconds + (((double)thi->system_time.microseconds)/1000000.);
-			}
-		}
-		if (a_task != mach_task_self()) {
-			if ((error = mach_port_deallocate(mach_task_self(),
-			    thread_table[i])) != KERN_SUCCESS) {
-				fprintf(stderr, 
-				    "Error in mach_port_deallocate(): %s",
-				    mach_error_string(error));
-				retval = TRUE;
-				goto RETURN;
-			}
-		}
-	}
-	if ((error = vm_deallocate(mach_task_self(), (vm_offset_t)thread_table,
-	    table_size * sizeof(thread_array_t)) != KERN_SUCCESS)) {
-		fprintf(stderr,
-		    "Error in vm_deallocate(): %s",
-		    mach_error_string(error));
-		retval = TRUE;
-		goto RETURN;
-	}
+            }
+        }
+        if (a_task != mach_task_self()) {
+            if ((error = mach_port_deallocate(mach_task_self(),
+                thread_table[i])) != KERN_SUCCESS) {
+                fprintf(stderr, 
+                    "Error in mach_port_deallocate(): %s",
+                    mach_error_string(error));
+                retval = TRUE;
+                goto RETURN;
+            }
+        }
+    }
+    if ((error = vm_deallocate(mach_task_self(), (vm_offset_t)thread_table,
+        table_size * sizeof(thread_array_t)) != KERN_SUCCESS)) {
+        fprintf(stderr,
+            "Error in vm_deallocate(): %s",
+            mach_error_string(error));
+        retval = TRUE;
+        goto RETURN;
+    }
 #endif GET_CPU_TIMES
 
-	/*
-	 * Get event counters.
-	 */
+    /*
+     * Get event counters.
+     */
 
-	count = TASK_EVENTS_INFO_COUNT;
-	if (task_info(a_task, TASK_EVENTS_INFO,
-	    (task_info_t)&events, &count) != KERN_SUCCESS) {
-		/* Error. */
-		retval = FALSE;
-		goto RETURN;
-	} else {
+    count = TASK_EVENTS_INFO_COUNT;
+    if (task_info(a_task, TASK_EVENTS_INFO,
+        (task_info_t)&events, &count) != KERN_SUCCESS) {
+        /* Error. */
+        retval = FALSE;
+        goto RETURN;
+    } else {
             pinfo->page_fault_count = events.pageins;
         }
 
-	retval = FALSE;
-	RETURN:
-	GONE:
+    retval = FALSE;
+    RETURN:
+    GONE:
         
-	return retval;
+    return retval;
 }
 
 // Scan the process table marking all the decendants of the parent 
@@ -593,7 +593,7 @@ static void add_others(PROCINFO& pi, vector<PROCINFO>& piv) {
 
 static void sig_pipe(int signo)
 {
-	exit(1);
+    exit(1);
 }
 
 #ifdef _DEBUG
@@ -618,96 +618,96 @@ static void print_procinfo(PROCINFO& pinfo) {
  */
 static void vm_size_render(unsigned long long a_size)
 {
-	if (a_size < 1024) {
-		/* 1023B. */
-		printf("%4lluB", a_size);
-	} else if (a_size < (1024ULL * 1024ULL)) {
-		/* K. */
-		if (a_size < 10ULL * 1024ULL) {
-			/* 9.99K */
-			printf("%1.2fK",
-			    ((double)a_size) / 1024);
-		} else if (a_size < 100ULL * 1024ULL) {
-			/* 99.9K */
-			printf("%2.1fK",
-			    ((double)a_size) / 1024);
-		} else {
-			/* 1023K */
-			printf("%4lluK",
-			    a_size / 1024ULL);
-		}
-	} else if (a_size < (1024ULL * 1024ULL * 1024ULL)) {
-		/* M. */
-		if (a_size < 10ULL * 1024ULL * 1024ULL) {
-			/* 9.99M */
-			printf("%1.2fM",
-			    ((double)a_size) / (1024 * 1024));
-		} else if (a_size < 100ULL * 1024ULL * 1024ULL) {
-			/* 99.9M */
-			printf("%2.1fM",
-			    ((double)a_size) / (1024 * 1024));
-		} else {
-			/* 1023M */
-			printf("%4lluM",
-			    a_size / (1024ULL * 1024ULL));
-		}
-	} else if (a_size < (1024ULL * 1024ULL * 1024ULL * 1024ULL)) {
-		/* G. */
-		if (a_size < 10ULL * 1024ULL * 1024ULL * 1024ULL) {
-			/* 9.99G. */
-			printf("%1.2fG",
-			    ((double)a_size) / (1024 * 1024 * 1024));
-		} else if (a_size < 100ULL * 1024ULL * 1024ULL * 1024ULL) {
-			/* 99.9G. */
-			printf("%2.1fG",
-			    ((double)a_size) / (1024 * 1024 * 1024));
-		} else {
-			/* 1023G */
-			printf("%4lluG",
-			    a_size / (1024ULL * 1024ULL * 1024ULL));
-		}
-	} else if (a_size < (1024ULL * 1024ULL * 1024ULL * 1024ULL)) {
-		/* T. */
-		if (a_size < 10ULL * 1024ULL * 1024ULL * 1024ULL * 1024ULL) {
-			/* 9.99T. */
-			printf("%1.2fT",
-				 ((double)a_size) /
-				 (1024ULL * 1024ULL * 1024ULL * 1024ULL));
-		} else if (a_size < (100ULL * 1024ULL * 1024ULL * 1024ULL
-				     * 1024ULL)) {
-			/* 99.9T. */
-			printf("%2.1fT",
-				 ((double)a_size) /
-				 (1024ULL * 1024ULL * 1024ULL * 1024ULL));
-		} else {
-			/* 1023T */
-			printf("%4lluT",
-				 a_size /
-				 (1024ULL * 1024ULL * 1024ULL * 1024ULL));
-		}
-	} else {
-		/* P. */
-		if (a_size < (10ULL * 1024ULL * 1024ULL * 1024ULL * 1024ULL
-			      * 1024ULL)) {
-			/* 9.99P. */
-			printf("%1.2fP",
-				 ((double)a_size) /
-				 (1024ULL * 1024ULL * 1024ULL * 1024ULL
-				  * 1024ULL));
-		} else if (a_size < (100ULL * 1024ULL * 1024ULL * 1024ULL
-				     * 1024ULL)) {
-			/* 99.9P. */
-			printf("%2.1fP",
-				 ((double)a_size) /
-				 (1024ULL * 1024ULL * 1024ULL * 1024ULL
-				  * 1024ULL));
-		} else {
-			/* 1023P */
-			printf("%4lluP",
-				 a_size /
-				 (1024ULL * 1024ULL * 1024ULL * 1024ULL
-				  * 1024ULL));
-		}
-	}
+    if (a_size < 1024) {
+        /* 1023B. */
+        printf("%4lluB", a_size);
+    } else if (a_size < (1024ULL * 1024ULL)) {
+        /* K. */
+        if (a_size < 10ULL * 1024ULL) {
+            /* 9.99K */
+            printf("%1.2fK",
+                ((double)a_size) / 1024);
+        } else if (a_size < 100ULL * 1024ULL) {
+            /* 99.9K */
+            printf("%2.1fK",
+                ((double)a_size) / 1024);
+        } else {
+            /* 1023K */
+            printf("%4lluK",
+                a_size / 1024ULL);
+        }
+    } else if (a_size < (1024ULL * 1024ULL * 1024ULL)) {
+        /* M. */
+        if (a_size < 10ULL * 1024ULL * 1024ULL) {
+            /* 9.99M */
+            printf("%1.2fM",
+                ((double)a_size) / (1024 * 1024));
+        } else if (a_size < 100ULL * 1024ULL * 1024ULL) {
+            /* 99.9M */
+            printf("%2.1fM",
+                ((double)a_size) / (1024 * 1024));
+        } else {
+            /* 1023M */
+            printf("%4lluM",
+                a_size / (1024ULL * 1024ULL));
+        }
+    } else if (a_size < (1024ULL * 1024ULL * 1024ULL * 1024ULL)) {
+        /* G. */
+        if (a_size < 10ULL * 1024ULL * 1024ULL * 1024ULL) {
+            /* 9.99G. */
+            printf("%1.2fG",
+                ((double)a_size) / (1024 * 1024 * 1024));
+        } else if (a_size < 100ULL * 1024ULL * 1024ULL * 1024ULL) {
+            /* 99.9G. */
+            printf("%2.1fG",
+                ((double)a_size) / (1024 * 1024 * 1024));
+        } else {
+            /* 1023G */
+            printf("%4lluG",
+                a_size / (1024ULL * 1024ULL * 1024ULL));
+        }
+    } else if (a_size < (1024ULL * 1024ULL * 1024ULL * 1024ULL)) {
+        /* T. */
+        if (a_size < 10ULL * 1024ULL * 1024ULL * 1024ULL * 1024ULL) {
+            /* 9.99T. */
+            printf("%1.2fT",
+                 ((double)a_size) /
+                 (1024ULL * 1024ULL * 1024ULL * 1024ULL));
+        } else if (a_size < (100ULL * 1024ULL * 1024ULL * 1024ULL
+                     * 1024ULL)) {
+            /* 99.9T. */
+            printf("%2.1fT",
+                 ((double)a_size) /
+                 (1024ULL * 1024ULL * 1024ULL * 1024ULL));
+        } else {
+            /* 1023T */
+            printf("%4lluT",
+                 a_size /
+                 (1024ULL * 1024ULL * 1024ULL * 1024ULL));
+        }
+    } else {
+        /* P. */
+        if (a_size < (10ULL * 1024ULL * 1024ULL * 1024ULL * 1024ULL
+                  * 1024ULL)) {
+            /* 9.99P. */
+            printf("%1.2fP",
+                 ((double)a_size) /
+                 (1024ULL * 1024ULL * 1024ULL * 1024ULL
+                  * 1024ULL));
+        } else if (a_size < (100ULL * 1024ULL * 1024ULL * 1024ULL
+                     * 1024ULL)) {
+            /* 99.9P. */
+            printf("%2.1fP",
+                 ((double)a_size) /
+                 (1024ULL * 1024ULL * 1024ULL * 1024ULL
+                  * 1024ULL));
+        } else {
+            /* 1023P */
+            printf("%4lluP",
+                 a_size /
+                 (1024ULL * 1024ULL * 1024ULL * 1024ULL
+                  * 1024ULL));
+        }
+    }
 }
 #endif  // _DEBUG
