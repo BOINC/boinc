@@ -51,9 +51,9 @@ SCHED_MSG_LOG::~SCHED_MSG_LOG() {
 
 void SCHED_MSG_LOG::close() {
     if (output) {
-	   flush();
-	   fclose(output);
-	   output = NULL;
+        flush();
+        fclose(output);
+        output = NULL;
     }
 }
 

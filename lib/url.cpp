@@ -245,12 +245,12 @@ void escape_url_readable(char *in, char* out) {
 void canonicalize_master_url(char* url) {
     char buf[1024];
     size_t n;
-	bool bSSL = false; // keep track if they sent in https://
+    bool bSSL = false; // keep track if they sent in https://
 
     char *p = strstr(url, "://");
     if (p) {
-		bSSL = (bool) (p == url + 5);
-		strcpy(buf, p+3);
+        bSSL = (bool) (p == url + 5);
+        strcpy(buf, p+3);
     } else {
         strcpy(buf, url);
     }
@@ -263,7 +263,7 @@ void canonicalize_master_url(char* url) {
     if (buf[n-1] != '/') {
         strcat(buf, "/");
     }
-	sprintf(url, "http%s://%s", (bSSL ? "s" : ""), buf);
+    sprintf(url, "http%s://%s", (bSSL ? "s" : ""), buf);
 }
 
 void canonicalize_master_url(string& url) {
@@ -278,19 +278,19 @@ void canonicalize_master_url(string& url) {
 bool valid_master_url(char* buf) {
     char* p, *q;
     size_t n;
-	bool bSSL = false;
+    bool bSSL = false;
 
     p = strstr(buf, "http://");
-	if (p != buf) {
-		// allow https
-	    p = strstr(buf, "https://");
-		if (p == buf) {
-			bSSL = true;
-		} else {
-			return false; // no http or https, it's bad!
-	    }
-	}
-	q = p+strlen(bSSL ? "https://" : "http://");
+    if (p != buf) {
+        // allow https
+        p = strstr(buf, "https://");
+        if (p == buf) {
+            bSSL = true;
+        } else {
+            return false; // no http or https, it's bad!
+        }
+    }
+    q = p+strlen(bSSL ? "https://" : "http://");
     p = strstr(q, ".");
     if (!p) return false;
     if (p == q) return false;

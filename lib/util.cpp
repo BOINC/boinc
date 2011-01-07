@@ -308,9 +308,9 @@ double linux_cpu_time(int pid) {
 
 void boinc_crash() {
 #ifdef _WIN32
-	DebugBreak();
+    DebugBreak();
 #else
-	*(int*)0 = 0;
+    *(int*)0 = 0;
 #endif
 }
 

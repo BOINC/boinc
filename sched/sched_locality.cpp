@@ -362,12 +362,12 @@ static bool retrieve_single_trigger_by_fileset_name(char *fileset_name, DB_SCHED
 // (no way to be sure if it succeeded).
 //
 int make_more_work_for_file(char* filename) {
-	int retval = 0;
+    int retval = 0;
     DB_SCHED_TRIGGER trigger;
 
 
     if (!retrieve_single_trigger_by_fileset_name(filename, trigger)) {
-    	// trigger retrieval failed (message logged by previous method)
+        // trigger retrieval failed (message logged by previous method)
         return -1;
     }
 
@@ -514,11 +514,11 @@ static int get_working_set_filename(char *filename, bool slowhost) {
 
 
 static void flag_for_possible_removal(char* fileset_name) {
-	int retval = 0;
+    int retval = 0;
     DB_SCHED_TRIGGER trigger;
 
     if (!retrieve_single_trigger_by_fileset_name(fileset_name, trigger)) {
-    	// trigger retrieval failed (message logged by previous method)
+        // trigger retrieval failed (message logged by previous method)
         return;
     }
 
@@ -1198,13 +1198,13 @@ void send_work_locality() {
             // generate corresponding l1_XXXX.XX_S5R4 and *_S5R7 patterns and delete it also
             //
             if (strlen(fi.name)==15 && !strncmp("h1_", fi.name, 3)) {
-	        FILE_INFO fil4,fil7,fih7;
-		fil4=fi;
-		fil4.name[0]='l';
-		fil7=fil4;
-		fil7.name[14]='7';
-		fih7=fi;
-		fih7.name[14]='7';
+                FILE_INFO fil4,fil7,fih7;
+                fil4=fi;
+                fil4.name[0]='l';
+                fil7=fil4;
+                fil7.name[14]='7';
+                fih7=fi;
+                fih7.name[14]='7';
                 g_reply->file_deletes.push_back(fil4);
                 g_reply->file_deletes.push_back(fil7);
                 g_reply->file_deletes.push_back(fih7);

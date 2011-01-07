@@ -821,7 +821,7 @@ void html_start() {
         exit(1);
     }
     setbuf(html_out, 0);
-    fprintf(index_file, "<br><a href=%s>Timeline</a>\n", buf);
+    fprintf(index_file, "<br><a href=%s>Timeline</a>\n", TIMELINE_FNAME);
     fprintf(html_out, "<h2>BOINC client simulator</h2>\n");
     fprintf(html_out,
         "<table border=0 cellpadding=4><tr><th width=%d>Time</th>\n", WIDTH1
@@ -940,7 +940,7 @@ void make_graph(const char* title, const char* fname, int field) {
     fclose(f);
     sprintf(png_fname, "%s%s.png", outfile_prefix, fname);
     sprintf(cmd, "gnuplot < %s > %s", gp_fname, png_fname);
-    fprintf(index_file, "<br><a href=%s>Graph of %s</a>\n", png_fname, title);
+    fprintf(index_file, "<br><a href=%s.png>Graph of %s</a>\n", fname, title);
     system(cmd);
 }
 
@@ -1006,7 +1006,7 @@ void make_graph(const char* title, const char* fname, int field, int nfields) {
     fclose(f);
     sprintf(png_fname, "%s%s.png", outfile_prefix, fname);
     sprintf(cmd, "gnuplot < %s > %s", gp_fname, png_fname);
-    fprintf(index_file, "<br><a href=%s>Graph of %s</a>\n", png_fname, title);
+    fprintf(index_file, "<br><a href=%s.png>Graph of %s</a>\n", fname, title);
     system(cmd);
 }
 
@@ -1234,10 +1234,14 @@ void cull_projects() {
 void do_client_simulation() {
     char buf[256], buf2[256];
 
+    fprintf(index_file,
+        "<h2>Input files</h2>\n"
+    );
+
     sprintf(buf, "%s%s", infile_prefix, CONFIG_FILE);
     read_config_file(true, buf);
     fprintf(index_file,
-        "<br><a href=%s>Configuration file (cc_config.xml)</a>\n",
+        "<br><a href=../../%s>Configuration file (cc_config.xml)</a>\n",
         buf
     );
     config.show();
@@ -1246,18 +1250,18 @@ void do_client_simulation() {
     sprintf(buf, "%s%s", infile_prefix, STATE_FILE_NAME);
     gstate.parse_state_file_aux(buf);
     fprintf(index_file,
-        "<br><a href=%s>State file (client_state.xml)</a>\n",
+        "<br><a href=../../%s>State file (client_state.xml)</a>\n",
         buf
     );
     sprintf(buf, "%s%s", infile_prefix, GLOBAL_PREFS_FILE_NAME);
     sprintf(buf2, "%s%s", infile_prefix, GLOBAL_PREFS_OVERRIDE_FILE);
     gstate.read_global_prefs(buf, buf2);
     fprintf(index_file,
-        "<br><a href=%s>Preferences file (global_prefs.xml)</a>\n"
-        "<br><a href=%s>Preferences override file (global_prefs_override.xml)</a>\n"
+        "<br><a href=../../%s>Preferences file (global_prefs.xml)</a>\n"
+        "<br><a href=../../%s>Preferences override file (global_prefs_override.xml)</a>\n"
         "<h2>Output files</h2>\n"
         "<a href=%s>Log file</a>\n",
-        buf, buf2, log_filename
+        buf, buf2, LOG_FNAME
     );
 
     get_app_params();
@@ -1351,9 +1355,6 @@ int main(int argc, char** argv) {
 
     sprintf(buf, "%s%s", outfile_prefix, "index.html");
     index_file = fopen(buf, "w");
-    fprintf(index_file,
-        "<h2>Input files</h2>\n"
-    );
 
     sprintf(log_filename, "%s%s", outfile_prefix, LOG_FNAME);
     logfile = fopen(log_filename, "w");

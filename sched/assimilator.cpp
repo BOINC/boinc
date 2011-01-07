@@ -168,7 +168,7 @@ bool do_pass(APP& app) {
                 assimilate_state = ASSIMILATE_INIT;
             }
             sprintf(
-                buf, "assimilate_state=%d, transition_time=%d", 
+                buf, "assimilate_state=%d, transition_time=%d",
                 assimilate_state, (int)time(0)
             );
             retval = wu.update_field(buf);
@@ -230,7 +230,7 @@ int main(int argc, char** argv) {
             // your project.
             update_db = false;
         } else if (is_arg(argv[i], "noinsert")) {
-            // This option is also for testing and is used to 
+            // This option is also for testing and is used to
             // prevent the inserting of results into the *backend*
             // (as opposed to the boinc) DB.
             noinsert = true;
@@ -282,11 +282,11 @@ int main(int argc, char** argv) {
     }
     install_stop_signal_handler();
     do {
-      if (!do_pass(app)) {
-	if (!one_pass) {
-          sleep(sleep_interval);
+        if (!do_pass(app)) {
+            if (!one_pass) {
+                sleep(sleep_interval);
+            }
         }
-      }
     } while (!one_pass);
 }
 

@@ -108,23 +108,23 @@ void mark_edf_misses (int ncpus, vector<IP_RESULT>& ip_results){
                 lowest_booked_cpu = j;
             }
         }
-      
+
         booked_to[lowest_booked_cpu] += r.cpu_time_remaining;
         log_msg(DETAIL, "[edf_detail]   running %s on cpu %d; finishes at %.2f\n",
             r.name, lowest_booked_cpu, booked_to[lowest_booked_cpu]/3600
         );
         if (booked_to[lowest_booked_cpu] > r.computation_deadline) {
-	        r.misses_deadline = true;
-	        r.estimated_completion_time = booked_to[lowest_booked_cpu];
-	        log_msg(DETAIL, "[edf_detail]   %s misses_deadline; est completion %.2f\n",
+            r.misses_deadline = true;
+            r.estimated_completion_time = booked_to[lowest_booked_cpu];
+            log_msg(DETAIL, "[edf_detail]   %s misses_deadline; est completion %.2f\n",
                 r.name, booked_to[lowest_booked_cpu]/3600
             );
         } else {
-	        r.misses_deadline = false;
-	        log_msg(DETAIL, "[edf_detail]   %s makes deadline; est completion %.2f\n",
+            r.misses_deadline = false;
+            log_msg(DETAIL, "[edf_detail]   %s makes deadline; est completion %.2f\n",
                 r.name, booked_to[lowest_booked_cpu]/3600
             );
-	        // if result doesn't miss its deadline,
+            // if result doesn't miss its deadline,
             // then the estimated_completion_time is of no use
         }
     }
@@ -158,24 +158,24 @@ void init_ip_results(
 }
 
 #if 0
-// Sort test_results by computation_deadline. 
+// Sort test_results by computation_deadline.
 // For each test result in ascending order of deadline,
 // see whether adding it to the work queue would cause deadline misses
 // or deadline miss delays.
 // If a test result passes these checks, append it to the work queue
 // for further result additions.
-// Return list of new results that can be sent to the client.  
+// Return list of new results that can be sent to the client.
 //
 // NOTE: should we sort by increasing deadline or by increasing slack time?
 //
 vector<TEMP_RESULT> REQUEST_HANDLER_WORK_SEND::find_sendable_test_results (
     vector<TEMP_RESULT> test_results,
-    int ncpus, 
-    vector<TEMP_RESULT> ipp_results, 
+    int ncpus,
+    vector<TEMP_RESULT> ipp_results,
     double cpu_pessimism_factor // = 1 by default
 ) {
     //test results to send
-    vector<TEMP_RESULT> sendable_test_results; 
+    vector<TEMP_RESULT> sendable_test_results;
     vector<TEMP_RESULT>::iterator test_results_it;
 
     sort(test_results.begin(), test_results.end(), lessthan_deadline);
@@ -214,7 +214,7 @@ vector<TEMP_RESULT> REQUEST_HANDLER_WORK_SEND::find_sendable_test_results (
 //
 bool check_candidate (
     IP_RESULT& candidate,
-    int ncpus, 
+    int ncpus,
     vector<IP_RESULT> ip_results        // passed by value (copy)
 ) {
     double booked_to[128];     // keeps track of when each cpu is free
@@ -244,7 +244,7 @@ bool check_candidate (
         double lowest_booked_time = booked_to[0];
         int lowest_booked_cpu = 0;
         for (j=1; j<ncpus; j++) {
-	        if (booked_to[j] < lowest_booked_time) {
+            if (booked_to[j] < lowest_booked_time) {
                 lowest_booked_time = booked_to[j];
                 lowest_booked_cpu = j;
             }
@@ -260,7 +260,7 @@ bool check_candidate (
         if (booked_to[lowest_booked_cpu] > r.computation_deadline
             && !r.misses_deadline
         ) {
-	        log_msg(SUMMARY,
+            log_msg(SUMMARY,
                 "[send]  cand. fails; %s now misses deadline: %.2f > %.2f\n",
                 r.name, booked_to[lowest_booked_cpu]/3600,
                 r.computation_deadline/3600
@@ -270,7 +270,7 @@ bool check_candidate (
         // check a late result (i.e., one that would have missed its
         // deadline) // would be made even later
         //
-        if (r.misses_deadline 
+        if (r.misses_deadline
             && booked_to[lowest_booked_cpu] > r.estimated_completion_time
         ){
             log_msg(SUMMARY,

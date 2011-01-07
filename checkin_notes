@@ -44,3 +44,9 @@ David  6 Jan 2011
         server_status.php
     client/
         *.cpp
+
+David  6 Jan 2011
+    - simulator work
+    - fix some indentation
+
+    various files

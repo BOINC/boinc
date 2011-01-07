@@ -34,7 +34,7 @@
 using std::vector;
 
 bool use_rec = false;
-bool use_hysteresis = false;
+bool use_hyst_fetch = false;
 
 RSC_WORK_FETCH cuda_work_fetch;
 RSC_WORK_FETCH ati_work_fetch;
@@ -975,7 +975,7 @@ if (use_rec) {
     bool cuda_usable = gstate.host_info.have_cuda() && gpus_usable;
     bool ati_usable = gstate.host_info.have_ati() && gpus_usable;
 
-if (use_hysteresis) {
+if (use_hyst_fetch) {
     if (cuda_usable) {
         p = cuda_work_fetch.choose_project_hyst();
     }

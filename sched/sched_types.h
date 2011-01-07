@@ -32,8 +32,8 @@
 // this records an app for which the user will accept work
 //
 struct APP_INFO {
-	int appid;
-	int work_available;
+    int appid;
+    int work_available;
 };
 
 // represents a resource (disk etc.) that the client may not have enough of
@@ -184,7 +184,7 @@ struct BEST_APP_VERSION {
 
     DB_HOST_APP_VERSION* host_app_version();
         // get the HOST_APP_VERSION, if any
-        
+
     BEST_APP_VERSION() {
         present = false;
         cavp = NULL;
@@ -264,7 +264,7 @@ struct SCHEDULER_REQUEST {
     int core_client_version;    // 10000*major + 100*minor + release
     int rpc_seqno;
     double work_req_seconds;
-		// in "normalized CPU seconds" (see work_req.php)
+        // in "normalized CPU seconds" (see work_req.php)
     double cpu_req_secs;
     double cpu_req_instances;
     double resource_share_fraction;
@@ -353,9 +353,9 @@ struct WORK_REQ {
     bool no_cuda;
     bool no_ati;
     bool no_cpu;
-	bool allow_non_preferred_apps;
-	bool allow_beta_work;
-	std::vector<APP_INFO> preferred_apps;
+    bool allow_non_preferred_apps;
+    bool allow_beta_work;
+    std::vector<APP_INFO> preferred_apps;
 
     bool has_reliable_version;
         // whether the host has a reliable app version

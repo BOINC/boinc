@@ -23,7 +23,7 @@
 //      show the average results as a function of the parameter.
 //      Show the figures of merit as line graphs.
 
-$duration = 86400;     // sim duration
+$duration = 864000;     // sim duration
 
 // a set of scheduling policies
 //
@@ -259,6 +259,13 @@ if (0) {
     $hi = 1e10;
     $inc = 1e9;
     compare_params(array("s3"), $p, $lo, $hi, $inc, "test2");
+}
+
+if (1) {
+    $p1 = new POLICY();
+    $p2 = new POLICY();
+    $p2->use_hyst_fetch = true;
+    compare_policies(array("scen1"), $p1, $p2, "test3");
 }
 
 ?>

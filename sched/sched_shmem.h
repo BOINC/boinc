@@ -55,7 +55,7 @@ struct WU_RESULT {
     int state;
         // EMPTY, PRESENT, or PID of locking process
     int infeasible_count;
-    bool need_reliable;		// try to send to a reliable host
+    bool need_reliable;        // try to send to a reliable host
     WORKUNIT workunit;
     int resultid;
     int time_added_to_shared_memory;

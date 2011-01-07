@@ -150,8 +150,8 @@ void get_log_path(char* p, const char* filename) {
 }
 
 static void filename_hash(const char* filename, int fanout, char* dir) {
-	std::string s = md5_string((const unsigned char*)filename, strlen(filename));
-	int x = strtol(s.substr(1, 7).c_str(), 0, 16);
+    std::string s = md5_string((const unsigned char*)filename, strlen(filename));
+    int x = strtol(s.substr(1, 7).c_str(), 0, 16);
     sprintf(dir, "%x", x % fanout);
 }
 
@@ -160,7 +160,7 @@ static void filename_hash(const char* filename, int fanout, char* dir) {
 //
 int dir_hier_path(
     const char* filename, const char* root, int fanout,
-	char* path, bool create
+    char* path, bool create
 ) {
     char dir[256], dirpath[256];
     int retval;
@@ -190,7 +190,7 @@ int dir_hier_path(
 //
 int dir_hier_url(
     const char* filename, const char* root, int fanout,
-	char* result
+    char* result
 ) {
     char dir[256];
 
@@ -272,13 +272,13 @@ bool is_arg(const char* x, const char* y) {
 
 #ifdef GCL_SIMULATOR
 
-void simulator_signal_handler(int signum){    
+void simulator_signal_handler(int signum) {
     FILE *fsim;
     char currenttime[64];
     fsim = fopen(config.project_path("simulator/sim_time.txt"),"r");
     if(fsim){
         fscanf(fsim,"%s", currenttime);
-        simtime = atof(currenttime); 
+        simtime = atof(currenttime);
         fclose(fsim);
     }
     log_messages.printf(MSG_NORMAL,

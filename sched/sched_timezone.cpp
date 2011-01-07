@@ -52,9 +52,9 @@ static int hostid=0;
 static int compare(const void *x, const void *y) {
     const URLTYPE *a=(const URLTYPE *)x;
     const URLTYPE *b=(const URLTYPE *)y;
-    
+
     char longname[512];
-    
+
     const int twelve_hours = 12*3600;
 
     int diffa = abs(tzone - (a->zone));
@@ -63,7 +63,7 @@ static int compare(const void *x, const void *y) {
     if (diffa > twelve_hours) {
         diffa = 2*twelve_hours-diffa;
     }
-    
+
     if (diffb > twelve_hours) {
         diffb = 2*twelve_hours-diffb;
     }
@@ -71,11 +71,11 @@ static int compare(const void *x, const void *y) {
     if (diffa < diffb) {
         return -1;
     }
-    
+
     if (diffa > diffb) {
         return +1;
     }
-    
+
     // In order to ensure uniform distribution, we hash paths that are
     // equidistant from the host's timezone in a way that gives a
     // unique ordering for each host but which is effectively random
@@ -87,15 +87,15 @@ static int compare(const void *x, const void *y) {
     std::string sb = md5_string((const unsigned char *)longname, strlen((const char *)longname));
     int xa = strtol(sa.substr(1, 7).c_str(), 0, 16);
     int xb = strtol(sb.substr(1, 7).c_str(), 0, 16);
-    
+
     if (xa<xb) {
         return -1;
     }
-    
+
     if (xa>xb) {
         return 1;
     }
-    
+
     return 0;
 }
 
@@ -105,13 +105,13 @@ static URLTYPE *cached=NULL;
 URLTYPE* read_download_list() {
     int count=0;
     int i;
-    
+
     if (cached) return cached;
 
     const char *download_servers = config.project_path("download_servers");
 #ifndef _USING_FCGI_
     FILE *fp=fopen(download_servers, "r");
-#else 
+#else
     FCGI_FILE *fp=FCGI::fopen(download_servers, "r");
 #endif
 
@@ -142,7 +142,7 @@ URLTYPE* read_download_list() {
         }
     }
     fclose(fp);
-    
+
     if (!count) {
         log_messages.printf(MSG_CRITICAL,
             "File %s contained no valid entries!\n"
@@ -153,11 +153,11 @@ URLTYPE* read_download_list() {
         free(cached);
         return NULL;
     }
-    
+
     // sort URLs by distance from host timezone.  See compare() above
     // for details.
     qsort(cached, count, sizeof(URLTYPE), compare);
-    
+
     log_messages.printf(MSG_DEBUG,
         "Sorted list of URLs follows [host timezone: UTC%+d]\n",
         tzone
@@ -180,9 +180,9 @@ int make_download_list(char *buffer, char *path, unsigned int lim, int tz) {
     // global variable used in the compare() function
     tzone=tz;
     URLTYPE *serverlist=read_download_list();
-    
+
     if (!serverlist) return -1;
-    
+
     // print list of servers in sorted order.
     // Space is to format them nicely
     //
@@ -210,7 +210,7 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
 
     p = (r = old_xml);
 
-    // search for next URL to do surgery on 
+    // search for next URL to do surgery on
     while ((q=strstr(p, "<url>"))) {
         // p is at current position
         // q is at beginning of next "<url>" tag
@@ -218,19 +218,19 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
         char *s;
         char path[1024];
         int  len = q-p;
-        
+
         // copy everything from p to q to new_xml
         //
         strncpy(new_xml, p, len);
         new_xml += len;
-        
+
         // locate next instance of </url>
         //
         if (!(r = strstr(q, "</url>"))) {
             return 1;
         }
         r += strlen("</url>");
-        
+
         // r points to the end of the whole "<url>...</url>" tag
         // parse out the URL into 'path'
         //
@@ -246,8 +246,8 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
             new_xml += r-q;
             p=r;
         } else {
-	    // calculate free space available for URL replaces
-	    int lim = total_free - (len - (p - old_xml));
+            // calculate free space available for URL replaces
+            int lim = total_free - (len - (p - old_xml));
 
             // find end of the specified replace string,
             // i.e. start of the 'path'
@@ -256,10 +256,10 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
             // insert new download list in place of the original single URL
             len = make_download_list(new_xml, s, lim, tz);
             if (len == 0) {
-	        // if the replacement would exceed the maximum XML length,
-	        // just keep the original URL
-	        len = r-q;
-	        strncpy(new_xml, q, len);
+                // if the replacement would exceed the maximum XML length,
+                // just keep the original URL
+                len = r-q;
+                strncpy(new_xml, q, len);
             } else if (len < 0) {
                 return 1;
             }
@@ -269,7 +269,7 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
             p=r;
         }
     }
-    
+
     strcpy(new_xml, r);
     return 0;
 }
@@ -305,7 +305,7 @@ void process_wu_timezone(
 
     tzone = g_reply->host.timezone;
     hostid = g_reply->host.id;
-        
+
     retval = add_download_servers(wu2.xml_doc, wu3.xml_doc, g_reply->host.timezone);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
