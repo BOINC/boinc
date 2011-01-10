@@ -7,21 +7,19 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-02-24 12:40-0700\n"
-"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: 2011-01-02 23:57+0200\n"
+"Last-Translator: Morris83 <zara-83@libero.it>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.1.1\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Italiano"
@@ -214,12 +212,13 @@ msgid "Average credit"
 msgstr "Credito medio"
 
 #: ../inc/host.inc:112
+#, fuzzy
 msgid "Cross project credit"
-msgstr ""
+msgstr "Crediti dei progetto incrociato"
 
 #: ../inc/host.inc:114
 msgid "CPU type"
-msgstr "tipo CPU"
+msgstr "tipo di CPU"
 
 #: ../inc/host.inc:115
 msgid "Number of processors"
@@ -309,23 +308,20 @@ msgstr "%1 giorni"
 # ########################################
 # Apps page (apps.php)
 #: ../inc/host.inc:164
-#, fuzzy
 msgid "Application details"
-msgstr "Applicazioni"
+msgstr "Dettagli dell'applicazione"
 
 #: ../inc/host.inc:165 ../inc/result.inc:420
-#, fuzzy
 msgid "Show"
-msgstr "\"Visualizza:"
+msgstr "Visualizza:"
 
 #: ../inc/host.inc:175 ../inc/host.inc:302 ../inc/user.inc:153
 msgid "Tasks"
 msgstr "Elaborazioni"
 
 #: ../inc/host.inc:179
-#, fuzzy
 msgid "Number of times BOINC has contacted server"
-msgstr "Numero di volte che il client ha contattato il server"
+msgstr "Numero di volte che BOINC ha contattato il server"
 
 #: ../inc/host.inc:180
 msgid "Last time contacted server"
@@ -354,7 +350,7 @@ msgstr "Efficienza media CPU"
 
 #: ../inc/host.inc:190
 msgid "Task duration correction factor"
-msgstr ""
+msgstr "Fattore di correzione della durata del lavoro"
 
 #: ../inc/host.inc:192 ../inc/host.inc:614
 msgid "Location"
@@ -367,12 +363,11 @@ msgstr "Cancella questo computer"
 #: ../inc/host.inc:198
 #, fuzzy
 msgid "Merge duplicate records of this computer"
-msgstr "Unisci questo computer"
+msgstr "Unisci risultati multipli di questo computer"
 
 #: ../inc/host.inc:198
-#, fuzzy
 msgid "Merge"
-msgstr "Messaggio"
+msgstr "Unisci"
 
 #: ../inc/host.inc:211
 msgid "Computer info"
@@ -421,8 +416,9 @@ msgid "Cross-project stats:"
 msgstr "Statistiche di tutti i progetti:"
 
 #: ../inc/host.inc:460
+#, fuzzy
 msgid "Host %1 has overlapping lifetime:"
-msgstr ""
+msgstr "L'host %1 ha un tempo di sovrapposizione:"
 
 #: ../inc/host.inc:467
 msgid "Host %1 has an incompatible OS:"
@@ -454,20 +450,19 @@ msgstr "Non posso aggiornare i risultati"
 
 #: ../inc/host.inc:572
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "Non posso ritirare un vecchio computer"
 
 #: ../inc/host.inc:574
 msgid "Retired old computer %1"
-msgstr ""
+msgstr "Ritirato il vecchio computer %1"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Show:"
-msgstr "\"Visualizza:"
+msgstr "Visualizza:"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
-#, fuzzy
 msgid "All computers"
-msgstr "I migliori computer"
+msgstr "Tutti i  computer"
 
 #: ../inc/host.inc:597 ../inc/host.inc:600
 msgid "Only computers active in past 30 days"
@@ -548,21 +543,20 @@ msgstr "Spedisci il messaggio"
 # ########################################
 # Private messages
 #: ../inc/pm.inc:118
-#, fuzzy
 msgid "- private message"
-msgstr "Spedisci un messaggio privato"
+msgstr "- messaggio privato"
 
 #: ../inc/pm.inc:124
 msgid "sent you a private message; subject:"
-msgstr ""
+msgstr "ti ho mandato un messaggio privato; titolo:"
 
 #: ../inc/pm.inc:130
 msgid "Private message%1 from %2, subject:"
-msgstr ""
+msgstr "Messaggio priba da %1 a %2, titolo:"
 
 #: ../inc/pm.inc:139
 msgid "Couldn't create message"
-msgstr ""
+msgstr "Non in grado di scrivere il messaggio"
 
 #: ../inc/pm.inc:170
 msgid ""
@@ -584,9 +578,8 @@ msgstr ""
 # ########################################
 # Private messages
 #: ../inc/pm.inc:202
-#, fuzzy
 msgid "Private message from"
-msgstr "Messaggi privati"
+msgstr "Messaggio privato da"
 
 #: ../inc/prefs.inc:76
 #, fuzzy
@@ -637,9 +630,8 @@ msgstr ""
 "assenza di restrizioni<br>Si applica dalla versione 6.10.30+%2"
 
 #: ../inc/prefs.inc:121
-#, fuzzy
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr "Elabora solamente tra le ore"
+msgstr "Elabora solamente tra le ore di %1. Nessuna restrizione se uguale a %2"
 
 #: ../inc/prefs.inc:129
 #, fuzzy
@@ -651,9 +643,8 @@ msgstr ""
 "affermativo le applicazioni consumano memoria di swap)%2"
 
 #: ../inc/prefs.inc:138
-#, fuzzy
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
-msgstr "Cambia applicazione ogni %1(consigliati: 60 minuti)%2"
+msgstr "Cambia applicazione ogni %1(consigliato: 60 minuti%2"
 
 #: ../inc/prefs.inc:146
 msgid "On multiprocessors, use at most"
@@ -678,25 +669,26 @@ msgstr "% dei processori"
 #: ../inc/prefs.inc:161
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr ""
+"Utilizza al massimo %s. Può essere utlizzato per ridurre il riscaldamento "
+"della CPU %2"
 
 #: ../inc/prefs.inc:166
 #, php-format
 #, fuzzy, php-format
 msgid "% of CPU time"
-msgstr "Tempo CPU"
+msgstr "% del tempo della CPU"
 
 #: ../inc/prefs.inc:174 ../inc/prefs.inc:188
 msgid "Disk: use at most"
-msgstr ""
+msgstr "Disco: utilizza al massimo"
 
 #: ../inc/prefs.inc:176 ../inc/prefs.inc:185
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: ../inc/prefs.inc:179
-#, fuzzy
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr "(Valori più piccoli di %s sono ignorati)"
+msgstr "Disco: lascia libero almeno %1 Valori minori di %2 vengono ignorati %3"
 
 #: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
 #: ../inc/prefs.inc:210
@@ -706,27 +698,25 @@ msgid "% of total"
 msgstr "% di spazio totale su disco"
 
 #: ../inc/prefs.inc:193
+#, fuzzy
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Checkpoint del lavoro su disco al massimo ogni"
 
 #: ../inc/prefs.inc:195
 msgid "seconds"
 msgstr "secondi"
 
 #: ../inc/prefs.inc:198
-#, fuzzy
 msgid "Swap space: use at most"
-msgstr "Spazio di swap"
+msgstr "Spazio di swap: utilizza al massimo"
 
 #: ../inc/prefs.inc:203
-#, fuzzy
 msgid "Memory: when computer is in use, use at most"
-msgstr "% della memoria quando il computer è in uso"
+msgstr "Memoria: quando il computer è in uso, utilizza al massimo"
 
 #: ../inc/prefs.inc:208
-#, fuzzy
 msgid "Memory: when computer is not in use, use at most"
-msgstr "% della memoria quando il computer è inattivo"
+msgstr "Memoria: quando il computer è in uso, utilizza al massimo "
 
 #: ../inc/prefs.inc:217
 #, fuzzy
@@ -747,22 +737,20 @@ msgid "Maintain enough work for an additional"
 msgstr "Richiedi abbastanza riserva di lavoro per"
 
 #: ../inc/prefs.inc:232
-#, fuzzy
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr ""
-"Confermare prima di connettersi a Internet? %1(ha senso solo in caso tu "
-"abbia un modem, ISDN o una connessione VPN)%2"
+"Confermare prima di connettersi a Internet? % Ha senso solo in caso tu abbia "
+"un modem, ISDN o una connessione VPN %2"
 
 #: ../inc/prefs.inc:241
-#, fuzzy
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
 msgstr ""
-"Disconnettere al termine? %1(ha senso solo in caso tu abbia un modem, ISDN o "
-"una connessione VPN)%2"
+"Disconnettere al termine? %1 Ha senso solo in caso tu abbia un modem, ISDN o "
+"una connessione VPN %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
@@ -777,17 +765,16 @@ msgid "Maximum upload rate:"
 msgstr "Velocità massima upload:"
 
 #: ../inc/prefs.inc:259
-#, fuzzy
 msgid "Use network only between the hours of"
-msgstr "Elabora solamente tra le ore"
+msgstr "Utilizza la connessione  di rete solamente tra le ore"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr ""
+msgstr "Trasferisci al massimo %s Introdotta dalla versione 6.10.46 %2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
-msgstr ""
+msgstr "Mbytes ogni"
 
 #: ../inc/prefs.inc:274
 #, fuzzy
@@ -807,45 +794,47 @@ msgid ""
 "with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
 msgstr ""
+"Divisione delle risorse %s Determina la proporzione delle risorse del "
+"computer destinate a questo progetto. Esempio: se partecipi a due progetti "
+"con divisione delle risorse 100 e 200, il primo progetto riceverà 1/3 delle "
+"tue risorse, mentre il secondo riceverà 2/3 %2"
 
 #: ../inc/prefs.inc:300
-#, fuzzy
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr "Usa la CPU %1(Si applica dalla versione 6.10+ dei client)%2"
+msgstr "Usa la CPU %1 Si applica dalla versione 6.10+ dei client %2"
 
 #: ../inc/prefs.inc:312
-#, fuzzy
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr "Usa la CPU %1(Si applica dalla versione 6.10+ dei client)%2"
+msgstr "Usa la GPU ATI % Si applica dalla versione 6.10+ dei client %2"
 
 #: ../inc/prefs.inc:324
-#, fuzzy
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr ""
-"Usa la GPU NVIDIA se presente %1(Si applica dalla versione 6.10+ dei client)"
+"Usa la GPU NVIDIA se presente %1 Si applica dalla versione 6.10+ dei client "
 "%2"
 
 #: ../inc/prefs.inc:338
-#, fuzzy
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
-"Avviare i test applicazioni? %1Questo ci aiuta a sviluppare le applicazioni, "
-"ma potrebbe causare fallimenti dei lavori sul tuo computer%2"
+"Avviare le applicazioni  test? %1 Questo ci aiuta a sviluppare le "
+"applicazioni, ma potrebbe causare fallimenti dei lavori sul tuo computer %2"
 
 #: ../inc/prefs.inc:347
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
+"Verranno mandate email da %1; accerati che il tuo filtro di spam accetti "
+"questo indirizzo. "
 
 #: ../inc/prefs.inc:354
 msgid "Is it OK for %1 and your team (if any) to email you?"
-msgstr ""
+msgstr "Sei d'accordo che %1 mandi un email a te ed al tuo team?"
 
 #: ../inc/prefs.inc:360
 msgid "Should %1 show your computers on its web site?"
-msgstr ""
+msgstr "%1 può mostrare i tuoi computer sul suo sito web?"
 
 #: ../inc/prefs.inc:367
 msgid "Disk and memory usage"

@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-18 09:11-0800\n"
-"PO-Revision-Date: 2010-11-28 13:54+0100\n"
-"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
+"PO-Revision-Date: 2011-01-02 19:50+0200\n"
+"Last-Translator: Martin <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -22,15 +22,16 @@ msgid "error"
 msgstr "chyba"
 
 #: client_msgs.cpp:77
-#, fuzzy
 msgid "Message from server"
-msgstr "Zpráva z projektového serveru:"
+msgstr "Zpráva ze serveru"
 
 #: client_state.cpp:232
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
+"Některé úlohy vyžadují více operační paměti, než máte povoleno. Zkontrolujte "
+"prosím vaše předvolby."
 
 #: client_state.cpp:414
 msgid "Couldn't write state file; check directory permissions"
@@ -200,9 +201,8 @@ msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Váš soubor app_info.xml neobsahuje použitelnou verzi"
 
 #: ../sched/sched_version.cpp:709
-#, fuzzy
 msgid "is not available for"
-msgstr "není dostupná pro váš typ počítače"
+msgstr "není dostupné pro"
 
 #~ msgid "Notice from BOINC"
 #~ msgstr "Zpráva od systému BOINC"

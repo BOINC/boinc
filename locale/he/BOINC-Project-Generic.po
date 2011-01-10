@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-12-14 15:56+0200\n"
+"PO-Revision-Date: 2011-01-04 11:31+0200\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: he\n"
@@ -1463,13 +1463,13 @@ msgstr "מנהל"
 #: ../user/top_users.php:125
 #, fuzzy
 msgid "Previous %1"
-msgstr "%1 הקודמים"
+msgstr "%1 הקודמים/הקודם"
 
 #: ../inc/team.inc:268 ../user/top_hosts.php:96 ../user/top_teams.php:124
 #: ../user/top_users.php:130
 #, fuzzy
 msgid "Next %1"
-msgstr "%1 הבאים"
+msgstr "%1 הבאים/הבא"
 
 #: ../inc/team.inc:276
 msgid "No such team."
@@ -3123,8 +3123,9 @@ msgid "Tasks ready to send"
 msgstr "משימות מוכנות לשליחה"
 
 #: ../user/server_status.php:313 ../user/workunit.php:52
+#, fuzzy
 msgid "Tasks in progress"
-msgstr ""
+msgstr "משימות בתהליך"
 
 #: ../user/server_status.php:318
 msgid "Workunits waiting for validation"
@@ -3757,6 +3758,10 @@ msgid ""
 "will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
 msgstr ""
+"אם מייסד הקבוצה אינו פעיל וברצונך לקבל את תפקיד המייסד, לחץ על הלחצן למטה. "
+"המייסד הנוכחי יקבל דוא\"ל המפרט את בקשתך ויוכל להעביר לך את הרשאות המייסד או "
+"לסרב לבקשה. במידה והמייסד לא יענה תוך 60 יום, תוכל להפוך למייסד.<br /><br />\n"
+" האם אתה בטוח שברצונך לבקש הרשאות מייסד?"
 
 #: ../user/team_founder_transfer_form.php:63
 msgid "Request foundership"
@@ -3924,18 +3929,24 @@ msgid ""
 "To have this team created on all BOINC projects (current and future) you can "
 "make it into a %1BOINC-wide team%2."
 msgstr ""
+"בכדי להקים קבוצה זו בכל פרוייקטי BOINC (נוכחיים ועתידיים), באפשרותך להפוך "
+"אותה ל%1קבוצת BOINC-wide%2."
 
 #: ../user/team_manage.php:71
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
 msgstr ""
+"אנו מעודדים מנהלי קבוצה להצטרף ולהשתתף בקבוצת %מייסדי קבוצות boinc%2 של "
+"Google."
 
 #: ../user/team_manage.php:73
 msgid ""
 "Other resources for BOINC team admins are available from a third-party site, "
 "%1www.boincteams.com%2."
 msgstr ""
+"משאבים אחרים עבור מנהלי קבוצות BOINC ניתן למצוא באתר צד שלישי, %"
+"1www.boincteams.com%2"
 
 #: ../user/team_manage.php:89
 msgid "Can't delete non-empty team"
@@ -3975,6 +3986,13 @@ msgid ""
 "in any way.\n"
 "         </ul>"
 msgstr ""
+"<strong>שים לב לפני הפרישה מקבוצה:</strong>\n"
+"         <ul>\n"
+"         <li>אם תפרוש מקבוצה, ביכולתך להצטרף מחדש מאוחר יותר, או להצטרף לכל "
+"קבוצה אחרת שתחפוץ בה\n"
+"         <li>הפרישה מקבוצה לא משפיע על סטטיסטיקת הניקודות זכות האישיות שלך "
+"באף צורה.\n"
+"         </ul>"
 
 #: ../user/team_quit_form.php:40
 msgid "Quit Team"
@@ -4030,6 +4048,9 @@ msgid ""
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
 msgstr ""
+"הקבוצות הבאות תואמות לאחד או יותר מקריטריוני החיפוש שלך.\n"
+"בכדי להצטרף לקבוצה, לחץ על שמה על מנת לגשת לדף הקבוצה,\n"
+"ולאחר מכן לחץ %1הצטרף לקבוצה זו%2."
 
 #: ../user/team_search.php:140
 msgid "Change your search"
@@ -4253,6 +4274,9 @@ msgid ""
 "file' for this project. This file has a name of the form "
 "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
+"בכדי להשתמש במפתח החשבון החלש שלך במחשב נתון, מצא או צור את 'קובץ החשבון' "
+"עבור פרוייקט זה. התבנית של שם הקובץ היא <b>account_PROJECT_URL.xml</b>. קובץ "
+"החשבון עבור %1 הוא <b>%2</b>."
 
 #: ../user/weak_auth.php:52
 msgid "Create this file if needed. Set its contents to:"
@@ -4351,6 +4375,11 @@ msgid ""
 "    <li>Any suggestions?\n"
 "    </ol>"
 msgstr ""
+"ספר לנו את מחשבותייך על %1<ol>\n"
+"<li>מדוע אתה מריץ את %1?\n"
+"<li>מהן השקפותייך על הפרוייקט?\n"
+"<li>הצעות כלשהן?\n"
+"</ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"

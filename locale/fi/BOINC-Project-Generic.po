@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2010-12-26 22:14+0200\n"
+"PO-Revision-Date: 2011-01-01 20:18+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1811,7 +1811,7 @@ msgstr "Kirjauduttu nimellä %1."
 
 #: ../inc/util.inc:97
 msgid "Log in as someone else."
-msgstr ""
+msgstr "Kirjaudu jonakin toisena."
 
 #: ../inc/util.inc:99
 msgid "Not logged in."
@@ -3086,7 +3086,7 @@ msgstr "Sammutettu"
 
 #: ../user/server_status.php:216
 msgid "Project status"
-msgstr ""
+msgstr "Projektin tila"
 
 #: ../user/server_status.php:218
 msgid "Server software version: %1"
@@ -3142,7 +3142,7 @@ msgstr "Ohjelma on sammutettu"
 
 #: ../user/server_status.php:285
 msgid "Computing status"
-msgstr ""
+msgstr "Laskennan tila"
 
 #: ../user/server_status.php:291
 msgid "The database server is not accessible"
@@ -3930,7 +3930,7 @@ msgstr "Vastaa perustajuuspyyntöön."
 
 #: ../user/team_manage.php:48
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
-msgstr ""
+msgstr "Jos et vastaa %1 mennessä, %2 voi ottaa tämän tiimin perustajuuden."
 
 #: ../user/team_manage.php:53
 msgid "Remove inactive or unwanted members from this team"
@@ -4004,7 +4004,7 @@ msgstr "Tiimiä ei ole tai et kuulu siihen."
 
 #: ../user/team_quit_form.php:31
 msgid "Quit %1"
-msgstr ""
+msgstr "Eroa %1"
 
 #: ../user/team_quit_form.php:32
 msgid ""
@@ -4416,7 +4416,7 @@ msgstr "Grafiikan värivalinta"
 
 #: ../project.sample/project_specific_prefs.inc:48
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr ""
+msgstr "Suurin CPU:n %-osuus grafiikalle%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"

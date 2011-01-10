@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC-Client\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-18 09:11-0800\n"
-"PO-Revision-Date: 2010-10-28 10:21+0200\n"
+"PO-Revision-Date: 2010-12-28 11:38+0200\n"
 "Last-Translator: Dima <dima666@012.net.il>\n"
 "Language-Team: IOPanel.net\n"
 "Language: he\n"
@@ -22,15 +22,16 @@ msgid "error"
 msgstr "שגיאה"
 
 #: client_msgs.cpp:77
-#, fuzzy
 msgid "Message from server"
-msgstr "הודעה משרת הפרוייקט:"
+msgstr "הודעה מהשרת"
 
 #: client_state.cpp:232
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
+"חלק מהמשימות מצריכות יותר זיכרון מהכמות המאושרת בהגדרות שלך. אנא בדוק את "
+"ההגדרות."
 
 #: client_state.cpp:414
 msgid "Couldn't write state file; check directory permissions"
@@ -187,9 +188,8 @@ msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "קובץ ה- app_info.xml שלך אינו מכיל גרסה שמישה של"
 
 #: ../sched/sched_version.cpp:709
-#, fuzzy
 msgid "is not available for"
-msgstr "אינו זמין לסוג המחשב שלך"
+msgstr "אינו זמין עבור"
 
 #~ msgid "Notice from BOINC"
 #~ msgstr "התראה מ-BOINC"

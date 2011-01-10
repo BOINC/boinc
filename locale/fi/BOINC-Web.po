@@ -58,7 +58,7 @@ msgstr "Lataa BOINC"
 #: download.php:42
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr "%s %s:sta (%s Mt)"
+msgstr "%s %s:lle (%s Mt)"
 
 #: download.php:89
 msgid ""
