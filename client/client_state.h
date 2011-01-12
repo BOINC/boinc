@@ -253,7 +253,7 @@ struct CLIENT_STATE {
     void clear_absolute_times();
     inline void set_now() {
         double x = dtime();
-        if (x < now) {
+        if (x < (now-60)) {
             clear_absolute_times();
         }
         now = x;

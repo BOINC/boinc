@@ -88,3 +88,10 @@ David  11 Jan 2011
     client/
         cs_apps.cpp
         pers_file_xfer.cpp
+
+David  12 Jan 2011
+    - client: tweak [22842] so that system clock changes
+        of < 60 seconds are ignored
+
+    client/
+        client_state.h
