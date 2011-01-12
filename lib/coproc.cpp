@@ -71,28 +71,6 @@ int COPROC_REQ::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
-int COPROC::parse(MIOFILE& fin) {
-    char buf[1024];
-    strcpy(type, "");
-    count = 0;
-    used = 0;
-    req_secs = 0;
-    estimated_delay = 0;
-    req_instances = 0;
-    while (fin.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</coproc>")) {
-            if (!strlen(type)) return ERR_XML_PARSE;
-            return 0;
-        }
-        if (parse_str(buf, "<type>", type, sizeof(type))) continue;
-        if (parse_int(buf, "<count>", count)) continue;
-        if (parse_double(buf, "<req_secs>", req_secs)) continue;
-        if (parse_double(buf, "<req_instances>", req_instances)) continue;
-        if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
-    }
-    return ERR_XML_PARSE;
-}
-
 #ifndef _USING_FCGI_
 void COPROC::write_request(MIOFILE& f) {
     f.printf(
@@ -173,7 +151,7 @@ void COPROC_CUDA::description(char* buf) {
     }
     sprintf(buf, "%s (driver version %s, CUDA version %d, compute capability %d.%d, %.0fMB, %.0f GFLOPS peak)",
         prop.name, vers, cuda_version, prop.major, prop.minor,
-        prop.totalGlobalMem/(1024.*1024.), peak_flops()/1e9
+        prop.totalGlobalMem/(1024.*1024.), peak_flops/1e9
     );
 }
 
@@ -230,6 +208,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f, bool include_request) {
 #endif
 
 void COPROC_CUDA::clear() {
+    peak_flops = 0;
     count = 0;
     used = 0;
     req_secs = 0;
@@ -265,8 +244,18 @@ int COPROC_CUDA::parse(MIOFILE& fin) {
     clear();
     while (fin.fgets(buf, sizeof(buf))) {
         if (strstr(buf, "</coproc_cuda>")) {
+            if (!peak_flops) {
+                // clock rate is scaled down by 1000;
+                // each processor has 8 or 32 cores;
+                // each core can do 2 ops per clock
+                //
+                int cores_per_proc = (prop.major>=2)?32:8;
+                double x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * 2.;
+                peak_flops =  x?x:5e10;
+            }
             return 0;
         }
+        if (parse_double(buf, "<peak_flops>", peak_flops)) continue;
         if (parse_int(buf, "<count>", count)) continue;
         if (parse_double(buf, "<req_secs>", req_secs)) continue;
         if (parse_double(buf, "<req_instances>", req_instances)) continue;
@@ -385,6 +374,7 @@ void COPROC_ATI::write_xml(MIOFILE& f, bool include_request) {
 
 void COPROC_ATI::clear() {
     count = 0;
+    peak_flops = 0;
     used = 0;
     req_secs = 0;
     req_instances = 0;
@@ -408,8 +398,15 @@ int COPROC_ATI::parse(MIOFILE& fin) {
             int major, minor, release;
             sscanf(version, "%d.%d.%d", &major, &minor, &release);
             version_num = major*1000000 + minor*1000 + release;
+
+            if (!peak_flops) {
+                double x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
+                // clock is in MHz
+                peak_flops = x?x:5e10;
+            }
             return 0;
         }
+        if (parse_double(buf, "<peak_flops>", peak_flops)) continue;
         if (parse_int(buf, "<count>", count)) continue;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_double(buf, "<req_secs>", req_secs)) continue;
@@ -481,6 +478,6 @@ int COPROC_ATI::parse(MIOFILE& fin) {
 
 void COPROC_ATI::description(char* buf) {
     sprintf(buf, "%s (CAL version %s, %.0fMB, %.0f GFLOPS peak)",
-        name, version, attribs.localRAM/1024.*1024., peak_flops()/1.e9
+        name, version, attribs.localRAM/1024.*1024., peak_flops/1.e9
     );
 }

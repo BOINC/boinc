@@ -50,3 +50,31 @@ David  6 Jan 2011
     - fix some indentation
 
     various files
+
+David  11 Jan 2011
+    - client: use std::deque instead of std::vector
+        for RR sim's pending-job lists.
+        Erasing head of vector is slow.
+    - lib: allow GPU peak FLOPS to be specified in XML (for simulator)
+    - simulator work
+    - client: old work fetch policy: projects may need enough jobs
+        for all device instances, not just resource_share*ninst.
+        E.g. a project that has only CPU jobs in a CPU/GPU client
+    - client: with REC scheduling, don't ask for work for
+        secondary resources if project has negative priority.
+    - client: in RR sim, make sure we saturate devices if possible.
+        Otherwise we may report a shortfall incorrectly
+    
+    client/
+        coproc_detect.cpp
+        cpu_sched.cpp
+        rr_sim.cpp,h
+        sim.cpp
+        sim_control.php
+        sim_scenario.php (new)
+        work_fetch.cpp,h
+    lib/
+        coproc.cpp,h
+    sched/
+        sched_customize.cpp
+        sched_types.cpp

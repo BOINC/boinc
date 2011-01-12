@@ -70,10 +70,10 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
 
             double f = host_usage.avg_ncpus * g_reply->host.p_fpops;
             if (host_usage.ncudas && g_request->coprocs.cuda.count) {
-                f += host_usage.ncudas*g_request->coprocs.cuda.peak_flops();
+                f += host_usage.ncudas*g_request->coprocs.cuda.peak_flops;
             }
             if (host_usage.natis && g_request->coprocs.ati.count) {
-                f += host_usage.natis*g_request->coprocs.ati.peak_flops();
+                f += host_usage.natis*g_request->coprocs.ati.peak_flops;
             }
             host_usage.peak_flops = f;
             return 0;

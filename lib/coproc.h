@@ -85,7 +85,7 @@ struct COPROC_REQ {
     int parse(MIOFILE&);
 };
 
-// represents a coproc on a particular computer.
+// represents a set of identical coprocessors on a particular computer.
 // Abstract class;
 // objects will always be a derived class (COPROC_CUDA, COPROC_ATI)
 // Used in both client and server.
@@ -93,6 +93,7 @@ struct COPROC_REQ {
 struct COPROC {
     char type[256];     // must be unique
     int count;          // how many are present
+    double peak_flops;
     double used;           // how many are in use (used by client)
 
     // the following are used in both client and server for work-fetch info
@@ -159,7 +160,6 @@ struct COPROC {
         clear();
     }
     virtual ~COPROC(){}
-    int parse(MIOFILE&);
     void print_available_ram();
 };
 
@@ -206,20 +206,6 @@ struct COPROC_CUDA : public COPROC {
 	void description(char*);
     void clear();
     int parse(MIOFILE&);
-
-    // Estimate of peak FLOPS.
-    // FLOPS for a given app may be much less;
-    // e.g. for SETI@home it's about 0.18 of the peak
-    //
-    inline double peak_flops() {
-        // clock rate is scaled down by 1000;
-        // each processor has 8 or 32 cores;
-        // each core can do 2 ops per clock
-        //
-        int cores_per_proc = (prop.major>=2)?32:8;
-        double x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * 2.;
-        return x?x:5e10;
-    }
     void get_available_ram();
 
     bool check_running_graphics_app();
@@ -250,11 +236,6 @@ struct COPROC_ATI : public COPROC {
     void description(char*);
     void clear();
     int parse(MIOFILE&);
-    inline double peak_flops() {
-		double x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
-        // clock is in MHz
-        return x?x:5e10;
-    }
     void get_available_ram();
     void fake(double, int);
 };
