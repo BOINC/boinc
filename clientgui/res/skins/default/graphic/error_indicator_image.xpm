@@ -1,70 +1,64 @@
-// Berkeley Open Infrastructure for Network Computing
+/* XPM */
+// This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2008 University of California
 //
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-
-/* XPM */
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 static const char *error_indicator_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
-"69 20 46 1",
+"69 20 43 1",
 "  c Black",
 "= c #FF6666",
-"q c #110000",
-"h c #993333",
+"d c #993333",
 "- c #FF2222",
-"$ c #220000",
 "* c #FFFFFF",
 "> c #900000",
-"8 c #330000",
-"f c #200000",
-"p c #FFBBBB",
-"a c #440000",
-"e c #550000",
+"u c #FFBBBB",
+"i c #440000",
+". c #310000",
+"q c #550000",
 "1 c #FF7777",
 "3 c #660000",
 "O c #B00000",
 "X c #400000",
 "% c #770000",
 "6 c #FF3333",
-"0 c #880000",
+"9 c #880000",
 ": c #D93333",
 "7 c #990000",
 "2 c #D00000",
-"j c #FFCCCC",
-"g c #600000",
-"s c #AA0000",
-"w c #BB0000",
-"u c #FF8888",
-"9 c #CC0000",
-"t c #F00000",
-"i c #DD0000",
+"f c #FFCCCC",
+"s c #600000",
+"p c #AA0000",
+"0 c #BB0000",
+"t c #FF8888",
+"8 c #CC0000",
+"e c #F00000",
+"y c #DD0000",
 "4 c #FF4444",
 "# c #800000",
 "o c #100000",
-"r c #EE0000",
+"w c #EE0000",
+"$ c #210000",
 "+ c #FF0000",
 ", c #FFDDDD",
 "5 c #A00000",
 "< c #FF9999",
-". c #300000",
-"y c #FF5555",
+"r c #FF5555",
 "& c #DFAAAA",
-"k c #C00000",
-"d c #FF1111",
+"g c #C00000",
+"a c #FF1111",
 "; c #FFEEEE",
 "@ c #E00000",
 /* pixels */
@@ -74,17 +68,17 @@ static const char *error_indicator_image_xpm[] = {
 "       &**=++-;*:o       $++++++++%                                  ",
 "      >-;*,++<*1+2o      $++3                                        ",
 "     X++1**14*,+++#      $++3                                        ",
-"     5+++,*;,*6+++@      $++3       %+7897 ++$%+$  %+++0q   w+3er3   ",
-"     t+++y***u+++++.     $++3       %+7i+7 ++%++$ 9+++++iq  w+%++3   ",
-"     +++++p**y+++++X     $+++++++3  %+r9$  ++r%  %+ra $i+0  w+rs     ",
-"     ++++d,**,+++++X     $+++++++3  %++8   ++s   9+%   3+r  w+r      ",
-"     ++++u*p**1++++X     $++3       %+r    ++%   ++a   $++q w+s      ",
-"     @++4*,+,*;-+++.     $++3       %+i    ++3   ++a   $++q w+7      ",
-"     5++,*4+=**<++@      $++3       %+i    ++3   9+%   3+r  w+7      ",
-"     f+u*<+++p**4+g      $++3       %+i    ++3   %+ra 8i+%  w+7      ",
-"      h*;d+++4**j2       $++++++++7 %+i    ++3    9+++++9q  w+7      ",
-"       >++++++++ko       $++++++++7 %+i    ++3    q0+++%    w+7      ",
-"        X5t+++Og                                                     ",
+"     5+++,*;,*6+++@      $++3       %+7.87 ++$%+$  %+++9o   0+3qw3   ",
+"     e+++r***t+++++.     $++3       %+7y+7 ++%++$ 8+++++yo  0+%++3   ",
+"     +++++u**r+++++X     $+++++++3  %+w8$  ++w%  %+wi $y+9  0+wp     ",
+"     ++++a,**,+++++X     $+++++++3  %++.   ++p   8+%   3+w  0+w      ",
+"     ++++t*u**1++++X     $++3       %+w    ++%   ++i   $++o 0+p      ",
+"     @++4*,+,*;-+++.     $++3       %+y    ++3   ++i   $++o 0+7      ",
+"     5++,*4+=**<++@      $++3       %+y    ++3   8+%   3+w  0+7      ",
+"     $+t*<+++u**4+s      $++3       %+y    ++3   %+wi .y+%  0+7      ",
+"      d*;a+++4**f2       $++++++++7 %+y    ++3    8+++++8o  0+7      ",
+"       >++++++++go       $++++++++7 %+y    ++3    o9+++%    0+7      ",
+"        X5e+++Os                                                     ",
 "                                                                     ",
 "                                                                     ",
 "                                                                     "

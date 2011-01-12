@@ -587,22 +587,6 @@
 							>
 						</File>
 						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\change_button.xpm"
-							>
-						</File>
-						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\change_clicked_button.xpm"
-							>
-						</File>
-						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\clear_button.xpm"
-							>
-						</File>
-						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\clear_clicked_button.xpm"
-							>
-						</File>
-						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\close_button.xpm"
 							>
 						</File>
@@ -615,7 +599,35 @@
 							>
 						</File>
 						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\copy_all_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\copy_all_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\copy_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\copy_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\dialog_background_image.xpm"
+							>
+						</File>
+						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\error_indicator_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\help_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\help_clicked_button.xpm"
 							>
 						</File>
 						<File
@@ -631,15 +643,7 @@
 							>
 						</File>
 						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\messages_dialog_background_image.xpm"
-							>
-						</File>
-						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\messages_link_image.xpm"
-							>
-						</File>
-						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\preferences_dialog_background_image.xpm"
 							>
 						</File>
 						<File
