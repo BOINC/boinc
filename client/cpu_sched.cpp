@@ -607,6 +607,7 @@ static double rec_sum;
 //
 void project_priority_init() {
     double rs_sum = 0;
+    rec_sum = 0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
@@ -632,8 +633,9 @@ void project_priority_init() {
 double project_priority(PROJECT* p) {
     double x = p->resource_share_frac - p->pwf.rec_temp/rec_sum;
 #if 0
-    printf("%s: rs frac %.3f rec_temp %.3f rec_sum %.3f prio %.3f\n",
-        p->project_name, p->resource_share_frac, p->pwf.rec_temp, rec_sum, x
+    msg_printf(p, MSG_INFO,
+        "priority: rs frac %.3f rec_temp %.3f rec_sum %.3f prio %f\n",
+        p->resource_share_frac, p->pwf.rec_temp, rec_sum, x
     );
 #endif
     return x;
@@ -644,7 +646,7 @@ double project_priority(PROJECT* p) {
 //
 void adjust_rec_temp(RESULT* rp) {
     PROJECT* p = rp->project;
-    p->pwf.rec_temp += peak_flops(rp->avp);
+    p->pwf.rec_temp += peak_flops(rp->avp)/86400;
 }
 
 // adjust project debts (short, long-term)
@@ -757,7 +759,8 @@ static bool schedule_if_possible(
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(rp->project, MSG_INFO,
-            "[cpu_sched] scheduling %s (%s)", rp->name, description
+            "[cpu_sched] scheduling %s (%s) (%f)", rp->name, description,
+            use_rec?project_priority(rp->project):0
         );
     }
     proc_rsc.schedule(rp);
@@ -851,6 +854,12 @@ void CLIENT_STATE::schedule_cpus() {
     PROC_RESOURCES proc_rsc;
     ACTIVE_TASK* atp;
     bool can_run;
+
+    // NOTE: there's an assumption that debt is adjusted at
+    // least as often as the CPU sched period (see client_state.h).
+    // If you remove the following, make changes accordingly
+    //
+    adjust_debts();
 
     proc_rsc.ncpus = ncpus;
     proc_rsc.ncpus_used_st = 0;
@@ -1482,11 +1491,6 @@ bool CLIENT_STATE::enforce_schedule() {
     double ncpus_used=0, ncpus_used_non_gpu=0;
     ACTIVE_TASK* atp;
 
-    // NOTE: there's an assumption that debt is adjusted at
-    // least as often as the CPU sched period (see client_state.h).
-    // If you remove the following, make changes accordingly
-    //
-    adjust_debts();
     last_time = now;
     bool action = false;
 

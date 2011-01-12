@@ -28,21 +28,18 @@ $duration = 864000;     // sim duration
 // a set of scheduling policies
 //
 class POLICY {
+    public $name;
     public $use_rec;
     public $use_hyst_fetch;
     public $cpu_sched_rr_only;
     public $server_uses_workload;
 
-    function __construct() {
+    function __construct($name) {
+        $this->name = $name;
         $this->use_rec = false;
         $this->use_hyst_fetch = false;
         $this->cpu_sched_rr_only = false;
         $this->server_uses_workload = false;
-    }
-
-    function name() {
-        if ($this->use_rec) return "REC";
-        return "debt";
     }
 }
 
@@ -117,15 +114,15 @@ function do_sim($in, $out, $policy) {
 function write_gp_bar($fname, $title, $data_fname) {
     $f = fopen($fname, "w");
     $s = <<<EOT
-set terminal png small size 640, 480
-set title "Scenario 1"
+set terminal png small size 320, 240
+set title "$title"
 set style fill pattern
 set style histogram clustered
-# set yrange[0:1]
+set yrange[0:1]
 plot \
     "$data_fname" u 3:xtic(1) t "Wasted" w histograms, \
     "" u 5 t "Idle" w histograms, \
-    "" u 7 t "Share violation" w histograms, \
+    "" u 7 t "Share" w histograms, \
     "" u 9 t "Monotony" w histograms, \
     "" u 11 t "RPCs" w histograms
 EOT;
@@ -136,16 +133,16 @@ EOT;
 function write_gp_line($fname, $title, $data_fname) {
     $f = fopen($fname, "w");
     $s = <<<EOT
-set terminal png small size 640, 480
-set title "Scenario 1"
+set terminal png small size 320, 240
+set title "$title"
 set xlabel "foobar"
 set format x "%e"
 set style data linesp
-# set yrange[0:1]
+set yrange[0:1]
 plot \
     "$data_fname" u 3:xtic(1) t "Wasted" , \
     "" u 5 t "Idle" , \
-    "" u 7 t "Share violation" , \
+    "" u 7 t "Share" , \
     "" u 9 t "Monotony" , \
     "" u 11 t "RPCs" 
 EOT;
@@ -153,7 +150,7 @@ EOT;
     fclose($f);
 }
 
-function graph_2_results($dir, $r1, $r2) {
+function graph_2_results($title, $dir, $r1, $r2) {
     $data_fname = "$dir/cr.dat";
     $f = fopen($data_fname, "w");
     $r1->write($f);
@@ -161,11 +158,11 @@ function graph_2_results($dir, $r1, $r2) {
     fclose($f);
     $gp_fname = "$dir/cr.gp";
     $png_fname = "$dir/cr.png";
-    write_gp_bar($gp_fname, "policy comparison", $data_fname);
+    write_gp_bar($gp_fname, $title, $data_fname);
     system("gnuplot < $gp_fname > $png_fname");
 }
 
-function graph_n_results($dir, $results) {
+function graph_n_results($title, $dir, $results) {
     $data_fname = "$dir/cr.dat";
     $f = fopen($data_fname, "w");
     foreach ($results as $r) {
@@ -174,7 +171,7 @@ function graph_n_results($dir, $results) {
     fclose($f);
     $gp_fname = "$dir/cr.gp";
     $png_fname = "$dir/cr.png";
-    write_gp_line($gp_fname, "policy comparison", $data_fname);
+    write_gp_line($gp_fname, $title, $data_fname);
     system("gnuplot < $gp_fname > $png_fname");
 }
 
@@ -208,9 +205,9 @@ function do_sim_param($out_dir, $scenario, $policy, $param, $sum) {
 // Outputs are stored in the given directory.
 // Subdirectories policy_scenario/ store individual sim outputs.
 //
-function compare_policies($set, $p1, $p2, $out_dir) {
-    $sum1 = new RESULT($p1->name());
-    $sum2 = new RESULT($p2->name());
+function compare_policies($title, $set, $p1, $p2, $out_dir) {
+    $sum1 = new RESULT($p1->name);
+    $sum2 = new RESULT($p2->name);
     @mkdir($out_dir);
     foreach ($set as $s) {
         $sum1 = do_sim_aux($out_dir, $s, $p1, "p1", $sum1);
@@ -218,7 +215,7 @@ function compare_policies($set, $p1, $p2, $out_dir) {
     }
     $sum1->scale(count($set));
     $sum2->scale(count($set));
-    graph_2_results($out_dir, $sum1, $sum2);
+    graph_2_results($title, $out_dir, $sum1, $sum2);
 }
 
 // For a given policy and a set of parameterized scenarios,
@@ -226,7 +223,7 @@ function compare_policies($set, $p1, $p2, $out_dir) {
 // Outputs are stored in the given directory.
 // Subdirectories scenario_arg/ store individual sim outputs
 //
-function compare_params($set, $policy, $lo, $hi, $inc, $out_dir) {
+function compare_params($title, $set, $policy, $lo, $hi, $inc, $out_dir) {
     @mkdir($out_dir);
     $results = array();
     for ($x = $lo; $x <= $hi; $x += $inc) {
@@ -236,7 +233,7 @@ function compare_params($set, $policy, $lo, $hi, $inc, $out_dir) {
         }
         $results[] = $sum;
     }
-    graph_n_results($out_dir, $results);
+    graph_n_results($title, $out_dir, $results);
 }
 
 ///////////// EXAMPLE USAGES ////////////
@@ -244,28 +241,40 @@ function compare_params($set, $policy, $lo, $hi, $inc, $out_dir) {
 // compare REC and debt scheduling for a set of scenarios
 //
 if (0) {
-    $p1 = new POLICY();
-    $p2 = new POLICY();
+    $p1 = new POLICY("JS_LOCAL");
+    $p2 = new POLICY("JS_GLOBAL");
     $p2->use_rec = true;
-    compare_policies(array("s2"), $p1, $p2, "test1");
+    compare_policies("Scenario 2", array("scen2"), $p1, $p2, "test1");
 }
 
 // evaluate a policy over a set of parameterized policies
 //
-if (0) {
-    $p = new POLICY();
+if (1) {
+    $p = new POLICY("");
     $p->use_rec = true;
     $lo = 2e9;
     $hi = 1e10;
     $inc = 1e9;
-    compare_params(array("s3"), $p, $lo, $hi, $inc, "test2");
+    compare_params("Scenario 3", array("s3"), $p, $lo, $hi, $inc, "test2");
 }
 
-if (1) {
-    $p1 = new POLICY();
-    $p2 = new POLICY();
+if (0) {
+    $p1 = new POLICY("WF_ORIG");
+    $p2 = new POLICY("WF_HYST");
     $p2->use_hyst_fetch = true;
-    compare_policies(array("scen1"), $p1, $p2, "test3");
+    compare_policies("Scenario 1", array("scen1"), $p1, $p2, "test3");
 }
 
+if (0) {
+    $p1 = new POLICY("JS_LOCAL");
+    $p2 = new POLICY("JS_GLOBAL");
+    $p2->use_rec = true;
+    compare_policies("Scenario 4", array("scen4"), $p1, $p2, "test4");
+}
+if (0) {
+    $p1 = new POLICY("JS_LOCAL");
+    $p2 = new POLICY("JS_GLOBAL");
+    $p2->use_rec = true;
+    compare_policies("Scenario 3", array("scen3"), $p1, $p2, "test5");
+}
 ?>

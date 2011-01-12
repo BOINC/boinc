@@ -149,8 +149,8 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool loose) {
     }
     if (c1.prop.totalGlobalMem > c2.prop.totalGlobalMem) return 1;
     if (c1.prop.totalGlobalMem < c2.prop.totalGlobalMem) return -1;
-    double s1 = c1.peak_flops();
-    double s2 = c2.peak_flops();
+    double s1 = c1.peak_flops;
+    double s2 = c2.peak_flops;
     if (s1 > s2) return 1;
     if (s1 < s2) return -1;
     return 0;
@@ -603,8 +603,8 @@ int ati_compare(COPROC_ATI& c1, COPROC_ATI& c2, bool loose) {
     }
     if (c1.attribs.localRAM > c2.attribs.localRAM) return 1;
     if (c1.attribs.localRAM < c2.attribs.localRAM) return -1;
-    double s1 = c1.peak_flops();
-    double s2 = c2.peak_flops();
+    double s1 = c1.peak_flops;
+    double s2 = c2.peak_flops;
     if (s1 > s2) return 1;
     if (s1 < s2) return -1;
     return 0;

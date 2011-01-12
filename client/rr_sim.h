@@ -18,12 +18,15 @@
 #ifndef __RR_SIM__
 #define __RR_SIM__
 
+#include <vector>
+#include <deque>
+
 struct RESULT;
 
 struct RR_SIM_PROJECT_STATUS {
     std::vector<RESULT*>active;
         // jobs currently running (in simulation)
-    std::vector<RESULT*>pending;
+    std::deque<RESULT*>pending;
         // CPU jobs runnable but not running yet
 
     inline void clear() {

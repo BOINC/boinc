@@ -752,17 +752,19 @@ const char* colors[] = {
 #define WIDTH2  400
 
 
-int njobs_in_progress(PROJECT* p, int rsc_type) {
-    int n = 0;
+void job_count(PROJECT* p, int rsc_type, int& in_progress, int& done) {
+    in_progress = done = 0;
     unsigned int i;
     for (i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->project != p) continue;
         if (rp->resource_type() != rsc_type) continue;
-        if (rp->state() > RESULT_FILES_DOWNLOADED) continue;
-        n++;
+        if (rp->state() < RESULT_FILES_UPLOADED) {
+            in_progress++;
+        } else {
+            done++;
+        }
     }
-    return n;
 }
 
 void show_resource(int rsc_type) {
@@ -795,13 +797,16 @@ void show_resource(int rsc_type) {
         found = true;
     }
     if (!found) fprintf(html_out, "IDLE");
-    fprintf(html_out, "<br>Jobs in progress:");
+    fprintf(html_out, "<br>Jobs");
     found = false;
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        int n = njobs_in_progress(p, rsc_type);
-        if (n) {
-            fprintf(html_out, "<br>%s: %d\n", p->project_name, n);
+        int in_progress, done;
+        job_count(p, rsc_type, in_progress, done);
+        if (in_progress || done) {
+            fprintf(html_out, "<br>%s: %d in prog, %d done\n",
+                p->project_name, in_progress, done
+            );
             found = true;
         }
     }
@@ -1034,7 +1039,27 @@ void simulate() {
     gstate.now = start;
     html_start();
     fprintf(summary_file,
-        "starting simulation. delta %f duration %f\n", delta, duration
+        "hardware\n   %d CPUs, %fG\n",
+        gstate.host_info.p_ncpus, gstate.host_info.p_fpops/1e9
+    );
+    if (gstate.host_info.have_cuda()) {
+        fprintf(summary_file,
+            "   %d GPUs, %fG\n",
+            gstate.host_info.coprocs.cuda.count,
+            gstate.host_info.coprocs.cuda.peak_flops/1e9
+        );
+    }
+    fprintf(summary_file,
+        "preferences\n"
+        "   buf min %f max %f\n"
+        "   cpu sched period %f\n"
+        "sim params\n"
+        "   delta %f duration %f\n"
+        "starting simulation\n"
+        "-------------------\n",
+        gstate.work_buf_min(), gstate.work_buf_total(),
+        gstate.global_prefs.cpu_scheduling_period(),
+        delta, duration
     );
     while (1) {
         on = on_proc.sample(delta);
@@ -1051,13 +1076,14 @@ void simulate() {
         }
         if (on) {
             while (1) {
-                action = gstate.active_tasks.poll();
-                action |= gstate.handle_finished_apps();
-                gpu_suspend_reason = gpu_active?0:1;
+                action = false;
                 action |= gstate.possibly_schedule_cpus();
                 if (connected) {
                     action |= gstate.scheduler_rpc_poll();
                 }
+                action |= gstate.active_tasks.poll();
+                action |= gstate.handle_finished_apps();
+                gpu_suspend_reason = gpu_active?0:1;
                 //msg_printf(0, MSG_INFO, action?"did action":"did no action");
                 if (!action) break;
             }
@@ -1083,7 +1109,7 @@ if (use_rec) {
 
 void show_app(APP* app) {
     fprintf(summary_file,
-        "%s: app %s fpops_est %.0fG fpops mean %.0fG std_dev %.0fG latency %.2f weight %.2f\n",
+        "%s\n   app %s fpops_est %.0fG fpops mean %.0fG std_dev %.0fG latency %.2f weight %.2f\n",
         app->project->project_name,
         app->name, app->fpops_est/1e9,
         app->fpops.mean/1e9, app->fpops.std_dev/1e9,
@@ -1094,7 +1120,7 @@ void show_app(APP* app) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app != app) continue;
         fprintf(summary_file,
-            "   app version %s %d (%s): ncpus %.2f ncuda %.2f nati %.2f flops %.0fG\n",
+            "      app version %s %d (%s): ncpus %.2f ncuda %.2f nati %.2f flops %.0fG\n",
             avp->app_name, avp->version_num, avp->plan_class,
             avp->avg_ncpus, avp->ncudas, avp->natis,
             avp->flops/1e9
@@ -1260,8 +1286,9 @@ void do_client_simulation() {
         "<br><a href=../../%s>Preferences file (global_prefs.xml)</a>\n"
         "<br><a href=../../%s>Preferences override file (global_prefs_override.xml)</a>\n"
         "<h2>Output files</h2>\n"
-        "<a href=%s>Log file</a>\n",
-        buf, buf2, LOG_FNAME
+        "<a href=%s>Summary</a>\n"
+        "<br><a href=%s>Log file</a>\n",
+        buf, buf2, SUMMARY_FNAME, LOG_FNAME
     );
 
     get_app_params();

@@ -244,6 +244,7 @@ void RSC_WORK_FETCH::rr_init() {
 void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
     double idle = ninstances - sim_nused;
     if (idle > 1e-6) {
+        //msg_printf(0, MSG_INFO, "adding shortfall %d %f", rsc_type, idle*d_time);
         shortfall += idle*d_time;
     }
 #if 0
@@ -339,8 +340,11 @@ if (!use_rec) {
         case FETCH_IF_PROJECT_STARVED:
 if (!use_rec) {
             if (rpwf.overworked()) continue;
-}
             if (rpwf.nused_total >= ninstances*rpwf.fetchable_share) continue;
+} else {
+            if (project_priority(p) < 0) continue;
+            if (rpwf.nused_total >= ninstances) continue;
+}
             if (!p->resource_share) continue;
             break;
         }
@@ -377,7 +381,11 @@ if (use_rec) {
     case FETCH_IF_MINOR_SHORTFALL:
         // in this case, potentially request work for all resources
         //
-        work_fetch.set_all_requests(pbest);
+        if (use_rec && (project_priority(pbest) < 0)) {
+            set_request(pbest, true);
+        } else {
+            work_fetch.set_all_requests(pbest);
+        }
         break;
     }
     // in principle there should be a nonzero request.
@@ -438,7 +446,12 @@ if (!use_rec) {
 
     // the number of additional instances needed to have our share
     //
-    double x1 = (ninstances * w.fetchable_share) - w.nused_total;
+    double x1;
+    if (use_rec) {
+        x1 = ninstances - w.nused_total;
+    } else {
+        x1 = (ninstances * w.fetchable_share) - w.nused_total;
+    }
 
     // our share of the idle instances
     //
@@ -1239,21 +1252,21 @@ void WORK_FETCH::set_initial_work_request() {
 //
 void WORK_FETCH::init() {
     cpu_work_fetch.init(RSC_TYPE_CPU, gstate.ncpus, 1);
-    double cpu_flops = gstate.ncpus*gstate.host_info.p_fpops;
+    double cpu_flops = gstate.host_info.p_fpops;
 
     // use 20% as a rough estimate of GPU efficiency
 
     if (gstate.host_info.have_cuda()) {
         cuda_work_fetch.init(
             RSC_TYPE_CUDA, gstate.host_info.coprocs.cuda.count,
-            gstate.host_info.coprocs.cuda.count*0.2*gstate.host_info.coprocs.cuda.peak_flops()/cpu_flops
+            gstate.host_info.coprocs.cuda.count*0.2*gstate.host_info.coprocs.cuda.peak_flops/cpu_flops
         );
     }
     if (gstate.host_info.have_ati()) {
         ati_work_fetch.init(
             RSC_TYPE_ATI,
             gstate.host_info.coprocs.ati.count,
-            gstate.host_info.coprocs.ati.count*0.2*gstate.host_info.coprocs.ati.peak_flops()/cpu_flops
+            gstate.host_info.coprocs.ati.count*0.2*gstate.host_info.coprocs.ati.peak_flops/cpu_flops
         );
     }
 
