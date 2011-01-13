@@ -105,3 +105,11 @@ Rom    12 Jan 2011
         SkinManager.cpp
     win_build/
         boincmgr.vcproj
+
+David  12 Jan 2011
+    - single-job submission system: don't hardwire i686 architecture;
+        make it work on any Linux system.
+        From Steffen Moller.
+
+    html/ops/
+        single_job_setup.php

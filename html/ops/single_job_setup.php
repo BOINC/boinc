@@ -28,7 +28,8 @@
 ini_set('error_reporting', E_ALL);
 
 // globals
-$platform = 'i686-pc-linux-gnu';
+$platform = `arch|tr -d "\n"`.'-pc-linux-gnu';
+    // assume we're on Linux
 $boinc_samples_dir = null;
 $wrapper_filename = null;
 $wrapper_md5 = null;
@@ -47,7 +48,7 @@ function check_dirs() {
 }
 
 function usage() {
-    error("Usage: single_job_setup path-to-boinc_samples");
+    error("Usage: ./html/ops/single_job_setup path-to-boinc_samples");
 }
 
 function get_includes() {
