@@ -271,6 +271,8 @@ struct PROJECT : PROJ_AM {
     double user_total_credit;
     double user_expavg_credit;
     double user_create_time;
+    int userid;
+    int teamid;
     int hostid;
     double host_total_credit;
     double host_expavg_credit;

@@ -123,3 +123,16 @@ Rom    13 Jan 2011
     clientgui/
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
+
+David  13 Jan 2011
+    - scheduler/client/API: pass user ID and team ID from scheduler to client,
+        and from client to app (host ID is already passed).
+        E@h asked for this, not sure why.
+
+    client/
+        client_types.cpp,h
+        app_start.cpp
+    lib/
+        app_ipc.cpp,h
+    sched/
+        sched_types.cpp

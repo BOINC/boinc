@@ -750,10 +750,12 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     if (user.id) {
         xml_escape(user.name, buf, sizeof(buf));
         fprintf(fout,
+            "<userid>%d</userid>\n"
             "<user_name>%s</user_name>\n"
             "<user_total_credit>%f</user_total_credit>\n"
             "<user_expavg_credit>%f</user_expavg_credit>\n"
             "<user_create_time>%d</user_create_time>\n",
+            user.id,
             buf,
             user.total_credit,
             user.expavg_credit,
@@ -807,7 +809,9 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     if (team.id) {
         xml_escape(team.name, buf, sizeof(buf));
         fprintf(fout,
+            "<teamid>%d</teamid>\n"
             "<team_name>%s</team_name>\n",
+            team.id,
             buf
         );
     } else {

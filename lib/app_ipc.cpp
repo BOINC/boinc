@@ -96,6 +96,8 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     minor_version                 = a.minor_version;
     release                       = a.release;
     app_version                   = a.app_version;
+    userid                        = a.userid;
+    teamid                        = a.teamid;
     hostid                        = a.hostid;
     slot                          = a.slot;
     user_total_credit             = a.user_total_credit;
@@ -131,11 +133,15 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<minor_version>%d</minor_version>\n"
         "<release>%d</release>\n"
         "<app_version>%d</app_version>\n"
+        "<userid>%d</userid>\n"
+        "<teamid>%d</teamid>\n"
         "<hostid>%d</hostid>\n",
         ai.major_version,
         ai.minor_version,
         ai.release,
         ai.app_version,
+        ai.userid,
+        ai.teamid,
         ai.hostid
     );
     if (strlen(ai.app_name)) {
@@ -232,6 +238,8 @@ void APP_INIT_DATA::clear() {
     strcpy(symstore, "");
     strcpy(acct_mgr_url, "");
     project_preferences = NULL;
+    userid = 0;
+    teamid = 0;
     hostid = 0;
     strcpy(user_name, "");
     strcpy(team_name, "");
@@ -316,6 +324,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_str(tag, "app_name", ai.app_name, sizeof(ai.app_name))) continue;
         if (xp.parse_str(tag, "symstore", ai.symstore, sizeof(ai.symstore))) continue;
         if (xp.parse_str(tag, "acct_mgr_url", ai.acct_mgr_url, sizeof(ai.acct_mgr_url))) continue;
+        if (xp.parse_int(tag, "userid", ai.userid)) continue;
+        if (xp.parse_int(tag, "teamid", ai.teamid)) continue;
         if (xp.parse_int(tag, "hostid", ai.hostid)) continue;
         if (xp.parse_str(tag, "user_name", buf, sizeof(buf))) {
             xml_unescape(buf, ai.user_name, sizeof(ai.user_name));
