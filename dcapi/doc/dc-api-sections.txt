@@ -76,7 +76,6 @@ DC_destroyMasterEvent
 DC_getWUNumber
 DC_createWU
 DC_addWUInput
-DC_addWURemoteInput
 DC_addWUOutput
 DC_setWUPriority
 DC_setWUBatch
