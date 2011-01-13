@@ -273,7 +273,6 @@ void CPanelPreferences::CreateControls()
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
     CPanelPreferences* itemDialog1 = this;
-    itemDialog1->SetForegroundColour(wxColour(wxT("White")));
 
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
     itemDialog1->SetSizer(itemBoxSizer2);
