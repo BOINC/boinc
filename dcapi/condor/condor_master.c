@@ -509,6 +509,7 @@ DC_addWUInput(DC_Workunit *wu,
 			_DC_destroyPhysicalFile(file);
 			return(DC_ERR_BADPARAM);
 		}
+	case DC_FILE_REMOTE:
 		break;
 	}
 

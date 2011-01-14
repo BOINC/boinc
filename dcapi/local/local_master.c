@@ -559,6 +559,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 				_DC_destroyPhysicalFile(file);
 				return DC_ERR_BADPARAM; /* XXX */
 			}
+		case DC_FILE_REMOTE:
 			break;
 	}
 

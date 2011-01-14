@@ -152,7 +152,7 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 					_DC_wu_cfg(wu, cfg_management_box));
 			char *message;
 			if ((message= _DC_read_message(s->str,
-						       _DCAPI_MSG_ACK,
+						       (char *)_DCAPI_MSG_ACK,
 						       FALSE)))
 			{
 				DC_log(LOG_DEBUG, "Acknowledge exists: %s",
@@ -162,7 +162,7 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 					DC_log(LOG_DEBUG, "Suspend "
 					       "acknowledged");
 					_DC_read_message(s->str,
-							 _DCAPI_MSG_ACK,
+							 (char *)_DCAPI_MSG_ACK,
 							 TRUE);
 					wu->asked_to_suspend= TRUE;
 				}
