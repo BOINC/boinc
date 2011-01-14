@@ -144,3 +144,11 @@ Rom    13 Jan 2010
     clientgui/
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
+
+Bernd  14 Jan 2011
+    - unix build system: generate_svn_version
+      - generate version string from plain git repositories, too
+      - define SVN_REPOSITORY (URL) and SVN_REVISION (numerical) separately
+        so these could be used in proprocessor directives 
+
+    generate_svn_version.sh
