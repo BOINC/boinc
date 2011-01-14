@@ -97,8 +97,18 @@ Describes a physical file.
 @label: logical name of the file as used by the application.
 @path: the real path name of the file.
 @mode: usage mode of the file.
-@physicalfilename: 
-@physicalfilehash: 
+@physicalfilename: filename to be used in case of Attic files.
+@physicalfilehash: MD5 hash and size information of Attic files.
+
+<!-- ##### STRUCT DC_RemoteFile ##### -->
+<para>
+Describes a physical file.
+</para>
+
+@label: logical name of the file as used by the application.
+@url: the URL of the file.
+@remotefilehash: the MD5 hash of the file.
+@remotefilesize: the size of the file.
 
 <!-- ##### FUNCTION DC_getCfgStr ##### -->
 <para>

@@ -360,6 +360,9 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 			if (ret)
 				return DC_ERR_SYSTEM;
 			break;
+		case DC_FILE_REMOTE:
+			/* Ignore this case, entirely handled by BOINC */
+			break;
 	}
 
 	/* Stupid C++ */

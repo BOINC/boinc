@@ -11,6 +11,7 @@ DC_LABEL_STDOUT
 DC_LABEL_STDERR
 DC_LABEL_CLIENTLOG
 DC_PhysicalFile
+DC_RemoteFile
 DC_getCfgStr
 DC_getCfgInt
 DC_getCfgBool
