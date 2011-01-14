@@ -18,7 +18,7 @@
 static const char *dialog_background_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "800 598 1 1",
-"  c Black",
+"  c #D3D3D3",
 /* pixels */
 "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ",
 "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ",
