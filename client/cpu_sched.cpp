@@ -90,6 +90,7 @@ struct PROC_RESOURCES {
     double ncpus_used_st;   // #CPUs of GPU or single-thread jobs
     double ncpus_used_mt;   // #CPUs of multi-thread jobs
     COPROCS coprocs;
+    double ram_left;
 
     // should we stop scanning jobs?
     //
@@ -106,7 +107,14 @@ struct PROC_RESOURCES {
 
     // should we consider scheduling this job?
     //
-    bool can_schedule(RESULT* rp) {
+    bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
+        double wss;
+        if (atp) {
+            wss = atp->procinfo.working_set_size_smoothed;
+        } else {
+            wss = rp->avp->max_working_set_size;
+        }
+        if (wss > ram_left) return false;
         if (rp->schedule_backoff > gstate.now) return false;
         if (rp->uses_coprocs()) {
             if (gpu_suspend_reason) return false;
@@ -129,7 +137,7 @@ struct PROC_RESOURCES {
 
     // we've decided to run this - update bookkeeping
     //
-    void schedule(RESULT* rp) {
+    void schedule(RESULT* rp, ACTIVE_TASK* atp) {
         reserve_coprocs(
             *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug"
         );
@@ -140,6 +148,13 @@ struct PROC_RESOURCES {
         } else {
             ncpus_used_st += rp->avp->avg_ncpus;
         }
+        double wss;
+        if (atp) {
+            wss = atp->procinfo.working_set_size_smoothed;
+        } else {
+            wss = rp->avp->max_working_set_size;
+        }
+        ram_left -= wss;
     }
 
     bool sufficient_coprocs(APP_VERSION& av, bool log_flag) {
@@ -763,7 +778,7 @@ static bool schedule_if_possible(
             use_rec?project_priority(rp->project):0
         );
     }
-    proc_rsc.schedule(rp);
+    proc_rsc.schedule(rp, atp);
 
 if (use_rec) {
     adjust_rec_temp(rp);
@@ -810,8 +825,8 @@ void add_coproc_jobs(int rsc_type, PROC_RESOURCES& proc_rsc) {
         rp = earliest_deadline_result(rsc_type);
         if (!rp) break;
         rp->already_selected = true;
-        if (!proc_rsc.can_schedule(rp)) continue;
         atp = gstate.lookup_active_task_by_result(rp);
+        if (!proc_rsc.can_schedule(rp, atp)) continue;
         can_run = schedule_if_possible(
             rp, atp, proc_rsc, "coprocessor job, EDF"
         );
@@ -834,8 +849,8 @@ void add_coproc_jobs(int rsc_type, PROC_RESOURCES& proc_rsc) {
         rp = first_coproc_result(rsc_type);
         if (!rp) break;
         rp->already_selected = true;
-        if (!proc_rsc.can_schedule(rp)) continue;
         atp = gstate.lookup_active_task_by_result(rp);
+        if (!proc_rsc.can_schedule(rp, atp)) continue;
         can_run = schedule_if_possible(
             rp, atp, proc_rsc, "coprocessor job, FIFO"
         );
@@ -865,6 +880,7 @@ void CLIENT_STATE::schedule_cpus() {
     proc_rsc.ncpus_used_st = 0;
     proc_rsc.ncpus_used_mt = 0;
     proc_rsc.coprocs.clone(host_info.coprocs, false);
+    proc_rsc.ram_left = available_ram();
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched] schedule_cpus(): start");
@@ -938,8 +954,8 @@ if (!use_rec) {
         rp = earliest_deadline_result(RSC_TYPE_CPU);
         if (!rp) break;
         rp->already_selected = true;
-        if (!proc_rsc.can_schedule(rp)) continue;
         atp = lookup_active_task_by_result(rp);
+        if (!proc_rsc.can_schedule(rp, atp)) continue;
         can_run = schedule_if_possible(
             rp, atp, proc_rsc, "CPU job, EDF"
         );
@@ -959,7 +975,7 @@ if (!use_rec) {
         rp = largest_debt_project_best_result();
         if (!rp) break;
         atp = lookup_active_task_by_result(rp);
-        if (!proc_rsc.can_schedule(rp)) continue;
+        if (!proc_rsc.can_schedule(rp, atp)) continue;
         can_run = schedule_if_possible(
             rp, atp, proc_rsc, "CPU job, debt order"
         );
