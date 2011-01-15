@@ -111,6 +111,8 @@ function do_sim($in, $out, $policy) {
     system($cmd);
 }
 
+// display N results (usually 2) as bar graphs
+//
 function write_gp_bar($fname, $title, $data_fname) {
     $f = fopen($fname, "w");
     $s = <<<EOT
@@ -130,6 +132,8 @@ EOT;
     fclose($f);
 }
 
+// display N results as line graphs, one for each figure of merit
+//
 function write_gp_line($fname, $title, $data_fname) {
     $f = fopen($fname, "w");
     $s = <<<EOT
@@ -150,6 +154,25 @@ EOT;
     fclose($f);
 }
 
+// display 2 groups of N results as line graphs.
+// Show only 1 figure of merit (waste).
+//
+function write_gp_line2($fname, $title, $xlabel, $lab1, $lab2, $data1, $data2) {
+    $f = fopen($fname, "w");
+    $s = <<<EOT
+set terminal png small size 320, 240
+set title "$title"
+set xlabel "$xlabel"
+set format x "%e"
+set style data linesp
+set yrange[0:1]
+plot "$data1" u 3:xtic(1) t "$lab1" , "$data2" u 3:xtic(1) t "$lab2" 
+
+EOT;
+    fwrite($f, $s);
+    fclose($f);
+}
+
 function graph_2_results($title, $dir, $r1, $r2) {
     $data_fname = "$dir/cr.dat";
     $f = fopen($data_fname, "w");
@@ -162,7 +185,7 @@ function graph_2_results($title, $dir, $r1, $r2) {
     system("gnuplot < $gp_fname > $png_fname");
 }
 
-function graph_n_results($title, $dir, $results) {
+function graph_n_results1($title, $dir, $results) {
     $data_fname = "$dir/cr.dat";
     $f = fopen($data_fname, "w");
     foreach ($results as $r) {
@@ -172,6 +195,22 @@ function graph_n_results($title, $dir, $results) {
     $gp_fname = "$dir/cr.gp";
     $png_fname = "$dir/cr.png";
     write_gp_line($gp_fname, $title, $data_fname);
+    system("gnuplot < $gp_fname > $png_fname");
+}
+
+function graph_n_results2($title, $xlabel, $lab1, $lab2, $dir, $results1, $results2) {
+    for ($i=0; $i<2; $i++) {
+        $data_fname = "$dir/cr_$i.dat";
+        $f = fopen($data_fname, "w");
+        $rr = $i?$results2:$results1;
+        foreach ($rr as $r) {
+            $r->write($f);
+        }
+        fclose($f);
+    }
+    $gp_fname = "$dir/cr.gp";
+    $png_fname = "$dir/cr.png";
+    write_gp_line2($gp_fname, $title, $xlabel, $lab1, $lab2, "$dir/cr_0.dat", "$dir/cr_1.dat");
     system("gnuplot < $gp_fname > $png_fname");
 }
 
@@ -186,7 +225,7 @@ function do_sim_aux($out_dir, $scenario, $policy, $pname, $sum) {
 }
 
 function do_sim_param($out_dir, $scenario, $policy, $param, $sum) {
-    $sim_out_dir = $out_dir."/".$scenario."_".$param;
+    $sim_out_dir = $out_dir."/".$scenario."_".$policy->name."_".$param;
     @mkdir($sim_out_dir);
     $cs_template_fname = "$scenario/client_state_template.xml";
     $cs_fname = "$scenario/client_state.xml";
@@ -223,7 +262,7 @@ function compare_policies($title, $set, $p1, $p2, $out_dir) {
 // Outputs are stored in the given directory.
 // Subdirectories scenario_arg/ store individual sim outputs
 //
-function compare_params($title, $set, $policy, $lo, $hi, $inc, $out_dir) {
+function compare_params1($title, $set, $policy, $lo, $hi, $inc, $out_dir) {
     @mkdir($out_dir);
     $results = array();
     for ($x = $lo; $x <= $hi; $x += $inc) {
@@ -233,7 +272,28 @@ function compare_params($title, $set, $policy, $lo, $hi, $inc, $out_dir) {
         }
         $results[] = $sum;
     }
-    graph_n_results($title, $out_dir, $results);
+    graph_n_results1($title, $out_dir, $results);
+}
+
+// same, but compare 2 policies and graph only wasted CPU
+//
+function compare_params2($title, $xlabel, $lab1, $lab2, $set, $p1, $p2, $lo, $hi, $inc, $out_dir) {
+    @mkdir($out_dir);
+    $rr1 = array();
+    $rr2 = array();
+    for ($x = $lo; $x <= $hi; $x += $inc) {
+        $sum = new RESULT($x);
+        foreach ($set as $s) {
+            $sum = do_sim_param($out_dir, $s, $p1, $x, $sum);
+        }
+        $rr1[] = $sum;
+        $sum = new RESULT($x);
+        foreach ($set as $s) {
+            $sum = do_sim_param($out_dir, $s, $p2, $x, $sum);
+        }
+        $rr2[] = $sum;
+    }
+    graph_n_results2($title, $xlabel, $lab1, $lab2, $out_dir, $rr1, $rr2);
 }
 
 ///////////// EXAMPLE USAGES ////////////
@@ -247,15 +307,24 @@ if (0) {
     compare_policies("Scenario 2", array("scen2"), $p1, $p2, "test1");
 }
 
-// evaluate a policy over a set of parameterized policies
-//
-if (1) {
+if (0) {
     $p = new POLICY("");
     $p->use_rec = true;
     $lo = 2e9;
     $hi = 1e10;
     $inc = 1e9;
-    compare_params("Scenario 3", array("s3"), $p, $lo, $hi, $inc, "test2");
+    compare_params1("Scenario 3", array("s3"), $p, $lo, $hi, $inc, "test2");
+}
+
+// compare WRR and EDF
+if (1) {
+    $p1 = new POLICY("DC_SIM");
+    $p1->server_uses_workload = true;
+    $p2 = new POLICY("DC_APPROX");
+    $lo = 1000;
+    $hi = 2000;
+    $inc = 100;
+    compare_params2("Wasted processing", "Job deadline", "DC_SIM", "DC_APPROX", array("scen5"), $p1, $p2, $lo, $hi, $inc, "test6");
 }
 
 if (0) {

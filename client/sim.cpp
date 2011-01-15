@@ -248,12 +248,17 @@ void CLIENT_STATE::handle_completed_results(PROJECT* p) {
     while (result_iter != results.end()) {
         RESULT* rp = *result_iter;
         if (rp->project == p && rp->ready_to_report) {
-            sprintf(buf, "result %s reported; %s<br>",
-                rp->name,
-                (gstate.now > rp->report_deadline)?
-                "<font color=#cc0000>MISSED DEADLINE</font>":
-                "<font color=#00cc00>MADE DEADLINE</font>"
-            );
+            if (gstate.now > rp->report_deadline) {
+                sprintf(buf, "result %s reported; "
+                    "<font color=#cc0000>MISSED DEADLINE by %f</font><br>\n",
+                    rp->name, gstate.now - rp->report_deadline
+                );
+            } else {
+                sprintf(buf, "result %s reported; "
+                    "<font color=#00cc00>MADE DEADLINE</font><br>\n",
+                    rp->name
+                );
+            }
             PROJECT* spp = rp->project;
             if (gstate.now > rp->report_deadline) {
                 sim_results.flops_wasted += rp->peak_flop_count;
@@ -281,7 +286,7 @@ void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
         RESULT* rp = results[i];
         double x = rp->estimated_time_remaining();
         if (x == 0) continue;
-        IP_RESULT ipr(rp->name, rp->report_deadline, x);
+        IP_RESULT ipr(rp->name, rp->report_deadline-now, x);
         ip_results.push_back(ipr);
     }
     init_ip_results(work_buf_min(), ncpus, ip_results);
@@ -371,8 +376,9 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
         WORKUNIT* wup = new WORKUNIT;
         make_job(p, wup, rp, apps);
 
+        double et = wup->rsc_fpops_est / rp->avp->flops;
         if (server_uses_workload) {
-            IP_RESULT c(rp->name, rp->report_deadline, rp->final_cpu_time);
+            IP_RESULT c(rp->name, rp->report_deadline-now, et);
             if (check_candidate(c, ncpus, ip_results)) {
                 ip_results.push_back(c);
             } else {
@@ -384,7 +390,6 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
                 continue;
             }
         } else {
-            double et = wup->rsc_fpops_est / rp->avp->flops;
             if (get_estimated_delay(rp) + et > wup->app->latency_bound) {
                 //printf("%d: %s misses deadline\n", (int)gstate.now, p->project_name);
                 APP_VERSION* avp = rp->avp;

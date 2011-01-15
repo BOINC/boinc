@@ -118,9 +118,9 @@ EXTRA_DIST = *.h \
     ../lib/error_numbers.h \
     locale $(mac_headers)
 
-boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS)
-boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS)
-boincmgr_LDADD = $(LIBBOINC) $(SQLITE3_LIBS) $(LIBNOTIFY_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS)
+boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) `pkg-config --cflags gtk+-2.0`
+boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) `pkg-config --cflags gtk+-2.0`
+boincmgr_LDFLAGS = $(LIBBOINC) $(SQLITE3_LIBS) $(LIBNOTIFY_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS) `pkg-config --libs gtk+-2.0` -lnotify
 
 win_config.h: $(top_srcdir)/config.h
 	grep '#define.*BOINC.*VERSION' $^ > $@

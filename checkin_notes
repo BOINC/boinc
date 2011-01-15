@@ -152,3 +152,15 @@ Bernd  14 Jan 2011
         so these could be used in proprocessor directives 
 
     generate_svn_version.sh
+
+David  14 Jan 2011
+    - make the Manager build on FC11
+    - simulator work
+
+    clientgui/
+        Makefile.am
+    sched/
+        edf_sim.cpp
+    client/
+        sim.cpp
+        sim_control.php
