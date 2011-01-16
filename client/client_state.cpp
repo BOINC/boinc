@@ -787,9 +787,9 @@ bool CLIENT_STATE::poll_slow_events() {
     // must have:
     //  active_tasks_poll
     //  handle_finished_apps
-    //  possibly_schedule_cpus
+    //  schedule_cpus
     // in that order (active_tasks_poll() sets must_schedule_cpus,
-    // and handle_finished_apps() must be done before possibly_schedule_cpus()
+    // and handle_finished_apps() must be done before schedule_cpus()
 
     check_project_timeout();
     //auto_update.poll();
@@ -812,7 +812,7 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
     POLL_ACTION(update_results         , update_results         );
     if (!tasks_suspended) {
-        POLL_ACTION(possibly_schedule_cpus, possibly_schedule_cpus          );
+        POLL_ACTION(schedule_cpus, schedule_cpus          );
         tasks_restarted = true;
     }
     if (!network_suspended) {
@@ -1687,11 +1687,6 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     project->project_files.clear();
 
     garbage_collect_always();
-
-    // "ordered_scheduled_results" may contain pointers (now dangling)
-    // to tasks of this project.
-    //
-    ordered_scheduled_results.clear();
 
     // remove apps and app_versions (but not if anonymous platform)
     //

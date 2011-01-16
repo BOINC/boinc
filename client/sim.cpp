@@ -289,7 +289,8 @@ void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
         IP_RESULT ipr(rp->name, rp->report_deadline-now, x);
         ip_results.push_back(ipr);
     }
-    init_ip_results(work_buf_min(), ncpus, ip_results);
+    //init_ip_results(work_buf_min(), ncpus, ip_results);
+    init_ip_results(0, ncpus, ip_results);
 }
 
 void get_apps_needing_work(PROJECT* p, vector<APP*>& apps) {
@@ -1082,7 +1083,7 @@ void simulate() {
         if (on) {
             while (1) {
                 action = false;
-                action |= gstate.possibly_schedule_cpus();
+                action |= gstate.schedule_cpus();
                 if (connected) {
                     action |= gstate.scheduler_rpc_poll();
                 }

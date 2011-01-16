@@ -177,3 +177,12 @@ David  15 Jan 2011
         Solution: keep track of RAM usage while building the runnable job list.
     client/
         cpu_sched.cpp
+
+David  15 Jan 2011
+    - client: code cleanup in CPU scheduling;
+        eliminate global variable
+
+    client/
+        client_state.cpp,h
+        cpu_sched.cpp
+        sim.cpp
