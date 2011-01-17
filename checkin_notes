@@ -8395,3 +8395,16 @@ Rom    13 Jan 2010
     clientgui/
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
+
+David  15 Jan 2011
+    - client: fix job scheduling bug.
+        Scenario: we have 2 CPUs and 1GB RAM
+        Project A has jobs that use 1GB.
+        Project B has small-mem jobs.
+        Currently, we ignore RAM usage in building the runnable job list,
+        so we might pick 2 jobs from project A.
+        enforce_schedule() (which checks RAM usage) will run just one of them,
+        and the other CPU will be idle.
+        Solution: keep track of RAM usage while building the runnable job list.
+    client/
+        cpu_sched.cpp
