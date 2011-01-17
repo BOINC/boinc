@@ -206,7 +206,7 @@ IMPLEMENT_DYNAMIC_CLASS( CPanelPreferences, wxPanel )
 
 BEGIN_EVENT_TABLE( CPanelPreferences, wxPanel )
 ////@begin CPanelPreferences event table entries
-    EVT_ERASE_BACKGROUND( CPanelPreferences::OnEraseBackground )
+    //EVT_ERASE_BACKGROUND( CPanelPreferences::OnEraseBackground )
     EVT_CHECKBOX( ID_CUSTOMIZEPREFERENCES, CPanelPreferences::OnCustomizePreferencesClick )
     EVT_COMBOBOX( ID_WORKBETWEENBEGIN, CPanelPreferences::OnWorkBetweenBeginSelected )
     EVT_COMBOBOX( ID_CONNECTBETWEENBEGIN, CPanelPreferences::OnConnectBetweenBeginSelected )
@@ -273,6 +273,7 @@ void CPanelPreferences::CreateControls()
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
     CPanelPreferences* itemDialog1 = this;
+    itemDialog1->SetForegroundColour(wxColour(wxT("White")));
 
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
     itemDialog1->SetSizer(itemBoxSizer2);
@@ -281,7 +282,6 @@ void CPanelPreferences::CreateControls()
     itemBoxSizer2->Add(itemFlexGridSizer3, 0, wxGROW|wxALL, 5);
 
     CTransparentStaticText* itemStaticText4 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Skin"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText4->SetForegroundColour(wxColor(wxT("White")));
     itemStaticText4->SetFont(wxFont(LARGE_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
     itemFlexGridSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 

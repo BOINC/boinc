@@ -1,3 +1,4 @@
+<<<<<<< .working
 David  3 Jan 2010
     - client: ATI available RAM wasn't being detected correctly
 
@@ -8363,3 +8364,13 @@ Rom    12 Jan 2011
         SkinManager.cpp
     win_build/
         boincmgr.vcproj
+
+Rom    13 Jan 2011
+    - MGR: Disable the background repaint events for the SGUI Messages and
+        SGUI Preferences dialog.  Changing the font color wasn't as easy as
+        I had hoped and the black background for the skin doesn't do any
+        good when the text itself is black as well.
+        
+    clientgui/
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
