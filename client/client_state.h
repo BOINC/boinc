@@ -271,14 +271,13 @@ struct CLIENT_STATE {
     void assign_results_to_projects();
     RESULT* largest_debt_project_best_result();
     void reset_debt_accounting();
-    bool possibly_schedule_cpus();
-    void schedule_cpus();
-    bool enforce_schedule();
+    bool schedule_cpus();
+    void make_run_list(vector<RESULT*>&);
+    bool enforce_run_list(vector<RESULT*>&);
     void append_unfinished_time_slice(vector<RESULT*>&);
 
     double runnable_resource_share(int);
     void adjust_debts();
-    std::vector <RESULT*> ordered_scheduled_results;
     double retry_shmem_time;
         // if we fail to start a task due to no shared-mem segments,
         // wait until at least this time to try running

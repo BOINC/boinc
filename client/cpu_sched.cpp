@@ -722,14 +722,13 @@ void CLIENT_STATE::adjust_debts() {
 }
 
 
-// Decide whether to run the CPU scheduler.
+// Possibly do job scheduling.
 // This is called periodically.
-// Scheduled tasks are placed in order of urgency for scheduling
-// in the ordered_scheduled_results vector
 //
-bool CLIENT_STATE::possibly_schedule_cpus() {
+bool CLIENT_STATE::schedule_cpus() {
     double elapsed_time;
     static double last_reschedule=0;
+    vector<RESULT*> run_list;
 
     if (projects.size() == 0) return false;
     if (results.size() == 0) return false;
@@ -746,7 +745,15 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
     if (!must_schedule_cpus) return false;
     last_reschedule = now;
     must_schedule_cpus = false;
-    schedule_cpus();
+
+    // NOTE: there's an assumption that debt is adjusted at
+    // least as often as the CPU sched period (see client_state.h).
+    // If you remove the following, make changes accordingly
+    //
+    adjust_debts();
+
+    make_run_list(run_list);
+    enforce_run_list(run_list);
     return true;
 }
 
@@ -812,7 +819,7 @@ static void promote_once_ran_edf() {
     }
 }
 
-void add_coproc_jobs(int rsc_type, PROC_RESOURCES& proc_rsc) {
+void add_coproc_jobs(vector<RESULT*>& run_list, int rsc_type, PROC_RESOURCES& proc_rsc) {
     ACTIVE_TASK* atp;
     RESULT* rp;
     bool can_run;
@@ -838,7 +845,7 @@ void add_coproc_jobs(int rsc_type, PROC_RESOURCES& proc_rsc) {
             rp->project->ati_pwf.deadlines_missed_copy--;
         }
         rp->edf_scheduled = true;
-        gstate.ordered_scheduled_results.push_back(rp);
+        run_list.push_back(rp);
     }
 #ifdef SIM
     }
@@ -856,14 +863,13 @@ void add_coproc_jobs(int rsc_type, PROC_RESOURCES& proc_rsc) {
             rp, atp, proc_rsc, "coprocessor job, FIFO"
         );
         if (!can_run) continue;
-        gstate.ordered_scheduled_results.push_back(rp);
+        run_list.push_back(rp);
     }
 }
 
-// CPU scheduler - decide which results to run.
-// output: sets ordered_scheduled_result.
+// Make an ordered list of jobs to run.
 //
-void CLIENT_STATE::schedule_cpus() {
+void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     RESULT* rp;
     PROJECT* p;
     unsigned int i;
@@ -927,12 +933,10 @@ void CLIENT_STATE::schedule_cpus() {
         }
     }
 
-    ordered_scheduled_results.clear();
-
     // first, add GPU jobs
 
-    add_coproc_jobs(RSC_TYPE_CUDA, proc_rsc);
-    add_coproc_jobs(RSC_TYPE_ATI, proc_rsc);
+    add_coproc_jobs(run_list, RSC_TYPE_CUDA, proc_rsc);
+    add_coproc_jobs(run_list, RSC_TYPE_ATI, proc_rsc);
 
     // then add CPU jobs.
     // Note: the jobs that actually get run are not necessarily
@@ -957,7 +961,7 @@ void CLIENT_STATE::schedule_cpus() {
         if (!can_run) continue;
         rp->project->cpu_pwf.deadlines_missed_copy--;
         rp->edf_scheduled = true;
-        ordered_scheduled_results.push_back(rp);
+        run_list.push_back(rp);
     }
 #ifdef SIM
     }
@@ -975,15 +979,14 @@ void CLIENT_STATE::schedule_cpus() {
             rp, atp, proc_rsc, "CPU job, debt order"
         );
         if (!can_run) continue;
-        ordered_scheduled_results.push_back(rp);
+        run_list.push_back(rp);
     }
 
-    enforce_schedule();
 }
 
-static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
-    for (unsigned int i=0; i<gstate.ordered_scheduled_results.size(); i++) {
-        if (atp->result == gstate.ordered_scheduled_results[i]) return true;
+static inline bool in_run_list(vector<RESULT*>& run_list, ACTIVE_TASK* atp) {
+    for (unsigned int i=0; i<run_list.size(); i++) {
+        if (atp->result == run_list[i]) return true;
     }
     return false;
 }
@@ -1074,11 +1077,9 @@ static void print_job_list(vector<RESULT*>& jobs) {
 // find running jobs that haven't finished their time slice.
 // Mark them as such, and add to list if not already there
 //
-void CLIENT_STATE::append_unfinished_time_slice(
-    vector<RESULT*> &runnable_jobs
-) {
+void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
     unsigned int i;
-    int seqno = (int)runnable_jobs.size();
+    int seqno = (int)run_list.size();
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
@@ -1088,8 +1089,8 @@ void CLIENT_STATE::append_unfinished_time_slice(
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (finished_time_slice(atp)) continue;
         atp->result->unfinished_time_slice = true;
-        if (in_ordered_scheduled_results(atp)) continue;
-        runnable_jobs.push_back(atp->result);
+        if (in_run_list(run_list, atp)) continue;
+        run_list.push_back(atp->result);
         atp->result->seqno = seqno;
     }
 }
@@ -1496,7 +1497,7 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
 //     and at the end it starts/resumes and preempts tasks
 //     based on scheduler_state and next_scheduler_state.
 // 
-bool CLIENT_STATE::enforce_schedule() {
+bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     unsigned int i;
     vector<ACTIVE_TASK*> preemptable_tasks;
     static double last_time = 0;
@@ -1524,7 +1525,7 @@ bool CLIENT_STATE::enforce_schedule() {
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched] enforce_schedule(): start");
         msg_printf(0, MSG_INFO, "[cpu_sched] preliminary job list:");
-        print_job_list(ordered_scheduled_results);
+        print_job_list(run_list);
     }
 
     // Set next_scheduler_state to PREEMPT for all tasks
@@ -1534,33 +1535,29 @@ bool CLIENT_STATE::enforce_schedule() {
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
     }
 
-    // make initial "to-run" list
-    //
-    vector<RESULT*>runnable_jobs;
-    for (i=0; i<ordered_scheduled_results.size(); i++) {
-        RESULT* rp = ordered_scheduled_results[i];
+    for (i=0; i<run_list.size(); i++) {
+        RESULT* rp = run_list[i];
         rp->seqno = i;
         rp->unfinished_time_slice = false;
-        runnable_jobs.push_back(rp);
     }
 
     // append running jobs not done with time slice to the to-run list
     //
-    append_unfinished_time_slice(runnable_jobs);
+    append_unfinished_time_slice(run_list);
 
     // sort to-run list by decreasing importance
     //
     std::sort(
-        runnable_jobs.begin(),
-        runnable_jobs.end(),
+        run_list.begin(),
+        run_list.end(),
         more_important
     );
 
-    promote_multi_thread_jobs(runnable_jobs);
+    promote_multi_thread_jobs(run_list);
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched] final job list:");
-        print_job_list(runnable_jobs);
+        print_job_list(run_list);
     }
 
     double ram_left = available_ram();
@@ -1606,14 +1603,14 @@ bool CLIENT_STATE::enforce_schedule() {
     // assign coprocessors to coproc jobs,
     // and prune those that can't be assigned
     //
-    assign_coprocs(runnable_jobs);
+    assign_coprocs(run_list);
 
     // prune jobs that don't fit in RAM or that exceed CPU usage limits.
     // Mark the rest as SCHEDULED
     //
     bool running_multithread = false;
-    for (i=0; i<runnable_jobs.size(); i++) {
-        RESULT* rp = runnable_jobs[i];
+    for (i=0; i<run_list.size(); i++) {
+        RESULT* rp = run_list[i];
         atp = lookup_active_task_by_result(rp);
 
         if (!rp->uses_coprocs()) {
