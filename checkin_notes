@@ -7719,6 +7719,7 @@ David  09 Nov 2010
 
     sched/
         sched_types.cpp
+<<<<<<< .working
     client/
         work_fetch.cpp
         client_types.cpp
@@ -8335,3 +8336,13 @@ David 11 Jan 2011
     client/
         rr_sim.cpp, .h
         work_fetch.h
+
+David  11 Jan 2011
+    - client: set PROJECT::last_upload_start when a job completes,
+        NOT when its first upload starts.
+        This prevents a scheduler RPC from happening between the two.
+        This was a bug in [22841]
+
+    client/
+        cs_apps.cpp
+        pers_file_xfer.cpp
