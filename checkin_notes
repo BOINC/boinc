@@ -1,4 +1,5 @@
 <<<<<<< .working
+<<<<<<< .working
 David  3 Jan 2010
     - client: ATI available RAM wasn't being detected correctly
 
@@ -7720,7 +7721,6 @@ David  09 Nov 2010
 
     sched/
         sched_types.cpp
-<<<<<<< .working
     client/
         work_fetch.cpp
         client_types.cpp
@@ -8374,3 +8374,16 @@ Rom    13 Jan 2011
     clientgui/
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
+
+David  13 Jan 2011
+    - scheduler/client/API: pass user ID and team ID from scheduler to client,
+        and from client to app (host ID is already passed).
+        E@h asked for this, not sure why.
+
+    client/
+        client_types.cpp,h
+        app_start.cpp
+    lib/
+        app_ipc.cpp,h
+    sched/
+        sched_types.cpp

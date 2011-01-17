@@ -91,6 +91,8 @@ void PROJECT::init() {
     user_create_time = 0;
     ams_resource_share = -1;
     rpc_seqno = 0;
+    userid = 0;
+    teamid = 0;
     hostid = 0;
     host_total_credit = 0;
     host_expavg_credit = 0;
@@ -174,6 +176,8 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         if (parse_double(buf, "<user_create_time>", user_create_time)) continue;
         if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
+        if (parse_int(buf, "<userid>", userid)) continue;
+        if (parse_int(buf, "<teamid>", teamid)) continue;
         if (parse_int(buf, "<hostid>", hostid)) continue;
         if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
         if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
@@ -286,6 +290,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <user_expavg_credit>%f</user_expavg_credit>\n"
         "    <user_create_time>%f</user_create_time>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
+        "    <userid>%d</userid>\n"
+        "    <teamid>%d</teamid>\n"
         "    <hostid>%d</hostid>\n"
         "    <host_total_credit>%f</host_total_credit>\n"
         "    <host_expavg_credit>%f</host_expavg_credit>\n"
@@ -340,6 +346,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         user_expavg_credit,
         user_create_time,
         rpc_seqno,
+        userid,
+        teamid,
         hostid,
         host_total_credit,
         host_expavg_credit,
@@ -458,6 +466,8 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     user_create_time = p.user_create_time;
     cpid_time = p.cpid_time;
     rpc_seqno = p.rpc_seqno;
+    userid = p.userid;
+    teamid = p.teamid;
     hostid = p.hostid;
     host_total_credit = p.host_total_credit;
     host_expavg_credit = p.host_expavg_credit;

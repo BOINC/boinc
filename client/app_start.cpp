@@ -210,6 +210,8 @@ int ACTIVE_TASK::write_app_init_file() {
     if (wup->project->project_specific_prefs.length()) {
         aid.project_preferences = strdup(wup->project->project_specific_prefs.c_str());
     }
+    aid.userid = wup->project->userid;
+    aid.teamid = wup->project->teamid;
     aid.hostid = wup->project->hostid;
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
