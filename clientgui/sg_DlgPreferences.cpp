@@ -206,7 +206,7 @@ IMPLEMENT_DYNAMIC_CLASS( CPanelPreferences, wxPanel )
 
 BEGIN_EVENT_TABLE( CPanelPreferences, wxPanel )
 ////@begin CPanelPreferences event table entries
-    //EVT_ERASE_BACKGROUND( CPanelPreferences::OnEraseBackground )
+    EVT_ERASE_BACKGROUND( CPanelPreferences::OnEraseBackground )
     EVT_CHECKBOX( ID_CUSTOMIZEPREFERENCES, CPanelPreferences::OnCustomizePreferencesClick )
     EVT_COMBOBOX( ID_WORKBETWEENBEGIN, CPanelPreferences::OnWorkBetweenBeginSelected )
     EVT_COMBOBOX( ID_CONNECTBETWEENBEGIN, CPanelPreferences::OnConnectBetweenBeginSelected )

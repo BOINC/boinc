@@ -61,7 +61,7 @@ IMPLEMENT_DYNAMIC_CLASS( CPanelMessages, wxPanel )
 
 BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
 ////@begin CPanelPreferences event table entries
-    //EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
+    EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
     EVT_BUTTON(ID_SIMPLE_HELP, CPanelMessages::OnButtonHelp)
 ////@end CPanelPreferences event table entries

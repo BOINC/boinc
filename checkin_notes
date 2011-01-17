@@ -8387,3 +8387,11 @@ David  13 Jan 2011
         app_ipc.cpp,h
     sched/
         sched_types.cpp
+
+Rom    13 Jan 2010
+    - MGR: re-enable background painting and just change the default background
+        color for the new default skin to light gray.
+        
+    clientgui/
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
