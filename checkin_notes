@@ -8353,3 +8353,13 @@ David  12 Jan 2011
 
     client/
         client_state.h
+
+Rom    12 Jan 2011
+    - MGR: Embed the BOINC skin in the executable using XPM files.
+
+    clientgui/res/skins/default/graphic/
+        <Various Files>
+    clientgui/
+        SkinManager.cpp
+    win_build/
+        boincmgr.vcproj
