@@ -8310,17 +8310,28 @@ David  3 Jan 2011
         client_msgs.cpp
         cs_notice.cpp
 
-Charlie 4 Jan 2010
+Charlie 4 Jan 2011
     - Mac: Fix symbol table generation.
     
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
 
-Rom    4 Dec 2010
+Rom    4 Dec 2011
     - Tag for 6.12.10 release, all platforms
       boinc_core_release_6_12_10
 
     /
         configure.ac
         version.h
+
+David 11 Jan 2011
+    - client: use std::deque instead of std::vector
+        for RR sim's pending-job lists.
+        Erasing head of vector is slow.
+    - client: in RR sim, make sure we saturate devices if possible.
+        Otherwise we may report a shortfall incorrectly
+
+    client/
+        rr_sim.cpp, .h
+        work_fetch.h
