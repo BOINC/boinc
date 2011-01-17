@@ -8319,7 +8319,7 @@ Charlie 4 Jan 2011
         boinc.xcodeproj/
             project.pbxproj
 
-Rom    4 Dec 2011
+Rom    4 Jan 2011
     - Tag for 6.12.10 release, all platforms
       boinc_core_release_6_12_10
 
@@ -8416,3 +8416,11 @@ David  15 Jan 2011
     client/
         client_state.cpp,h
         cpu_sched.cpp
+
+Rom    17 Jan 2011
+    - Tag for 6.12.11 release, all platforms
+      boinc_core_release_6_12_11
+
+    /
+        configure.ac
+        version.h
