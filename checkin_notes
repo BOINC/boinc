@@ -8424,3 +8424,10 @@ Rom    17 Jan 2011
     /
         configure.ac
         version.h
+
+Charlie 18 Jan 2011
+    Mac: update release script to remove install of separate BOINC skin.
+    (Checked in to 6.12.11 tag.)
+
+    mac_installer/
+        release_boinc.sh
