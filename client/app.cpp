@@ -112,6 +112,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     shm_handle = NULL;
 #endif
     premature_exit_count = 0;
+    overdue_checkpoint = false;
+    last_deadline_miss_time = 0;
 }
 
 // preempt this task;

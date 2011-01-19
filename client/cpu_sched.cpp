@@ -269,6 +269,9 @@ static inline bool finished_time_slice(ACTIVE_TASK* atp) {
     bool running_beyond_sched_period = time_running >= gstate.global_prefs.cpu_scheduling_period();
     double time_since_checkpoint = gstate.now - atp->checkpoint_wall_time;
     bool checkpointed_recently = time_since_checkpoint < 10;
+    if (running_beyond_sched_period && !checkpointed_recently) {
+        atp->overdue_checkpoint = true;
+    }
     return (running_beyond_sched_period && checkpointed_recently);
 }
 
@@ -802,10 +805,12 @@ if (use_rec) {
     return true;
 }
 
-// If a job J once ran in EDF,
-// and its project has another job of the same resource type
-// marked as deadline miss, mark J as deadline miss.
-// This avoids domino-effect preemption
+// Mark a job J as a deadline miss if either
+// - it once ran in EDF, and its project has another job
+//   of the same resource type marked as deadline miss.
+//   This avoids domino-effect preemption
+// - it was recently marked as a deadline miss by RR sim.
+//   This avoids "thrashing" if a job oscillates between miss and not miss.
 //
 static void promote_once_ran_edf() {
     for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
@@ -816,6 +821,9 @@ static void promote_once_ran_edf() {
             if (p->deadlines_missed(rp->avp->rsc_type())) {
                 rp->rr_sim_misses_deadline = true;
             }
+        }
+        if (gstate.now - atp->last_deadline_miss_time < gstate.global_prefs.cpu_scheduling_period()) {
+            atp->result->rr_sim_misses_deadline = true;
         }
     }
 }
@@ -1084,6 +1092,7 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+        atp->overdue_checkpoint = false;
         if (!atp->result->runnable()) continue;
         if (atp->result->uses_coprocs() && gpu_suspend_reason) continue;
         if (atp->result->project->non_cpu_intensive) continue;

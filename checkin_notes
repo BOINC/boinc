@@ -202,3 +202,24 @@ David  18 Jan 2011
         sim.cpp
         sim_control.cpp
         client_types.cpp
+
+David  19 Jan 2011
+    - client: eliminate unnecessary CPU reschedules.
+        Currently we do a reschedule any time a job checkpoints,
+        in case there's a job that has finished a time slice
+        but hasn't checkpointed yet.
+        Instead: flag such jobs, and trigger a reschedule
+        on checkpoint only for flagged jobs.
+    - client: fix instability in job scheduling that happens
+        if a job's estimated completion time in RR sim is close to its deadline.
+        It can alternate between making and missing deadline,
+        causing the scheduler to alternate rapidly between jobs.
+        Solution: if RR sim has marked a job as deadline miss
+        any time in the last (CPU scheduling period),
+        treat it as a deadline miss.
+
+    client/
+        app.cpp,h
+        rr_sim.cpp
+        app_control.cpp
+        cpu_sched.cpp

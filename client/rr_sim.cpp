@@ -349,6 +349,9 @@ void CLIENT_STATE::rr_simulation() {
         double diff = (sim_now + rpbest->rrsim_finish_delay) - rpbest->computation_deadline();
         if (diff > 0) {
             ACTIVE_TASK* atp = lookup_active_task_by_result(rpbest);
+            if (atp) {
+                atp->last_deadline_miss_time = now;
+            }
             if (atp && atp->procinfo.working_set_size_smoothed > ar) {
                 if (log_flags.rr_simulation) {
                     msg_printf(pbest, MSG_INFO,

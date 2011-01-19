@@ -129,6 +129,10 @@ struct ACTIVE_TASK {
     double quit_time;
     int premature_exit_count;
         // when we sent a quit message; kill if still there after 10 sec
+    bool overdue_checkpoint;
+        // running past end of time slice because not checkpointed;
+        // when we do checkpoint, reschedule
+    double last_deadline_miss_time;
 
     APP_CLIENT_SHM app_client_shm;
         // core/app shared mem segment
