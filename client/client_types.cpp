@@ -235,7 +235,7 @@ int PROJECT::parse_state(MIOFILE& in) {
 //#endif
         if (parse_double(buf, "<ati_backoff_interval>", ati_pwf.backoff_interval)) continue;
         if (parse_double(buf, "<ati_backoff_time>", ati_pwf.backoff_time)) continue;
-        if (parse_double(buf, "<resource_share>", x)) continue;
+        if (parse_double(buf, "<resource_share>", resource_share)) continue;
             // not authoritative
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;

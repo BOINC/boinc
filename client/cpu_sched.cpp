@@ -79,6 +79,8 @@
 using std::vector;
 using std::list;
 
+double rec_half_life = 10*86400;    // half-life of recent est credit
+
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
@@ -591,7 +593,7 @@ static void update_rec() {
             gstate.now,
             gstate.debt_interval_start,
             x,
-            REC_HALF_LIFE,
+            rec_half_life,
             p->pwf.rec,
             p->pwf.rec_time
         );

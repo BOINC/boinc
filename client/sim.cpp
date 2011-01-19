@@ -56,6 +56,12 @@
 //      simulate use of EDF sim by scheduler
 //  [--cpu_sched_rr_only]
 //      use only RR scheduling
+//  [--use_rec]
+//      client scheduling is based on recent estimated credit (REC)
+//  [--use_hyst_fetch]
+//      client work fetch uses hysteresis
+//  [--rec_half_life X]
+//      half-life of recent est credit
 
 #include "error_numbers.h"
 #include "str_util.h"
@@ -1059,12 +1065,29 @@ void simulate() {
         "preferences\n"
         "   buf min %f max %f\n"
         "   cpu sched period %f\n"
+        "policies\n"
+        "   WRR only: %s\n"
+        "   scheduler EDF sim: %s\n"
+        "   hysteresis work fetch: %s\n"
+        "   REC-based scheduling: %s\n",
+        gstate.work_buf_min(), gstate.work_buf_total(),
+        gstate.global_prefs.cpu_scheduling_period(),
+        cpu_sched_rr_only?"yes":"no",
+        server_uses_workload?"yes":"no",
+        use_hyst_fetch?"yes":"no",
+        use_rec?"yes":"no"
+    );
+    if (use_rec) {
+        fprintf(summary_file,
+            "   REC half-life: %f\n",
+            rec_half_life
+        );
+    }
+    fprintf(summary_file,
         "sim params\n"
         "   delta %f duration %f\n"
         "starting simulation\n"
         "-------------------\n",
-        gstate.work_buf_min(), gstate.work_buf_total(),
-        gstate.global_prefs.cpu_scheduling_period(),
         delta, duration
     );
     while (1) {
@@ -1372,6 +1395,8 @@ int main(int argc, char** argv) {
             use_rec = true;
         } else if (!strcmp(opt, "--use_hyst_fetch")) {
             use_hyst_fetch = true;
+        } else if (!strcmp(opt, "--rec_half_life")) {
+            rec_half_life = atof(argv[i++]);
         } else {
             usage(argv[0]);
         }

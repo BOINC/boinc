@@ -367,14 +367,14 @@ $math = array(
 //            "Find prime numbers of the form k*2<sup>n</sup>-1",
 //            ""
 //        ),
-        array(
-            "Rectilinear Crossing Number",
-            "http://dist.ist.tugraz.at/cape5/",
-            "Graz University of Technology (Austria)",
-            "Mathematics",
-            "What is the least number of crossings a straight-edge drawing of the complete graph on top of a set of n points in the plane obtains?  From very recent (not even published yet) mathematical considerations the rectilinear crossing numbers for n=19 and n=21 are also known. So the most tantalizing problem now is to determine the true value for n=18, which is the main focus of this project.",
-            ""
-        ),
+//        array(
+//            "Rectilinear Crossing Number",
+//            "http://dist.ist.tugraz.at/cape5/",
+//            "Graz University of Technology (Austria)",
+//            "Mathematics",
+//            "What is the least number of crossings a straight-edge drawing of the complete graph on top of a set of n points in the plane obtains?  From very recent (not even published yet) mathematical considerations the rectilinear crossing numbers for n=19 and n=21 are also known. So the most tantalizing problem now is to determine the true value for n=18, which is the main focus of this project.",
+//            ""
+//        ),
         array(
             "Chess960@home",
             "http://www.chess960athome.org/alpha/",

@@ -192,3 +192,13 @@ Charlie 18 Jan 2011
 
     mac_installer/
         release_boinc.sh
+
+David  18 Jan 2011
+    - simulator work
+
+    client/
+        cpu_sched.cpp
+        work_fetch.h
+        sim.cpp
+        sim_control.cpp
+        client_types.cpp

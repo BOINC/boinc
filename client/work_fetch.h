@@ -25,8 +25,7 @@
 
 extern bool use_rec;
 #define USE_REC
-#define REC_HALF_LIFE (10*86400)
-//#define REC_HALF_LIFE (1*86400)
+extern double rec_half_life;
 
 extern bool use_hyst_fetch;
 
