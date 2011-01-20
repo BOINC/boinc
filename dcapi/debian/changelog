@@ -1,3 +1,10 @@
+dcapi (0.10-1) unstable; urgency=low
+
+  * Introduce remote files, supported by BOINC backend
+  * Add support for setting workunit batch ID in the BOINC backend
+
+ -- Zoltán Farkas <zfarkas@sztaki.hu>  Thu, 20 Jan 2011 09:43:07 +0100
+
 dcapi (0.9-30) unstable; urgency=low
 
   * Add support for client applications using the native BOINC API.

@@ -1,4 +1,4 @@
-AC_INIT([Distributed Computing API], [0.91], [desktopgrid@lpds.sztaki.hu], [dcapi])
+AC_INIT([Distributed Computing API], [0.10], [desktopgrid@lpds.sztaki.hu], [dcapi])
 AC_CONFIG_MACRO_DIR([cf])
 AC_CONFIG_HEADERS([include/config.h])
 AC_CONFIG_AUX_DIR([scripts])
