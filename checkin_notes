@@ -223,3 +223,11 @@ David  19 Jan 2011
         rr_sim.cpp
         app_control.cpp
         cpu_sched.cpp
+
+David  19 Jan 2011
+    - client: if we're using an acct mgr,
+        and we're attached to a project manually (not via acct mgr)
+        and the acct mgr tells us to detach from it, don't.
+
+    client/
+        acct_mgr.cpp
