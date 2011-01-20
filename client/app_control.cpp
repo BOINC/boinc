@@ -1142,7 +1142,9 @@ void ACTIVE_TASK_SET::get_msgs() {
             if (old_time != atp->checkpoint_cpu_time) {
                 char buf[256];
                 sprintf(buf, "%s checkpointed", atp->result->name);
-                gstate.request_schedule_cpus(buf);
+                if (atp->overdue_checkpoint) {
+                    gstate.request_schedule_cpus(buf);
+                }
                 atp->checkpoint_wall_time = gstate.now;
                 atp->premature_exit_count = 0;
                 atp->checkpoint_elapsed_time = atp->elapsed_time;
