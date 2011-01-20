@@ -293,8 +293,8 @@ int itime() {
 void continue_simulation(const char *daemonname){
     char daemonfilelok[64];
     char daemonfile[64];
-    sprintf(daemonfile, config.project_path("simulator/sim_%s.txt"),daemonname);
-    sprintf(daemonfilelok, config.project_path("simulator/sim_%s.lok"),daemonname);
+    sprintf(daemonfile, strcat((char*)config.project_path("simulator/"),"sim_%s.txt"),daemonname);
+    sprintf(daemonfilelok, strcat((char*)config.project_path("simulator/"),"sim_%s.lok"),daemonname);
     FILE *fsimlok = fopen(daemonfilelok, "w");
     if (fsimlok){
         fclose(fsimlok);

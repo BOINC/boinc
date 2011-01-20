@@ -231,3 +231,9 @@ David  19 Jan 2011
 
     client/
         acct_mgr.cpp
+
+David  19 Jan 2011
+    - server: fix for EmBOINC
+
+    sched/
+        sched_util.cpp
