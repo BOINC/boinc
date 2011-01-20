@@ -481,7 +481,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             pp = gstate.lookup_project(acct.url.c_str());
             if (pp) {
                 if (acct.detach) {
-                    gstate.detach_project(pp);
+                    if (pp->attached_via_acct_mgr) {
+                        gstate.detach_project(pp);
+                    }
                 } else {
                     // BAM! leaves authenticator blank if our request message
                     // had the current account info
