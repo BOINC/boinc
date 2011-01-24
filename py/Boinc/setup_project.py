@@ -408,6 +408,8 @@ class Project:
         self.config = configxml.ConfigFile(self.dir('config.xml')).init_empty()
         config = self.config.config
 
+        # this is where default project config is defined
+
         config.long_name = self.long_name
         config.db_user = options.db_user
         config.db_name = db_name or options.user_name + '_' + self.short_name
@@ -426,6 +428,8 @@ class Project:
         config.fuh_debug_level = 3
         config.one_result_per_user_per_wu = 0
         config.send_result_abort = 1
+        config.dont_generate_upload_certificates = 1
+        config.ignore_upload_certificates = 1
         if web_only:
             config.no_computing = 1
 

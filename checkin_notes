@@ -237,3 +237,10 @@ David  19 Jan 2011
 
     sched/
         sched_util.cpp
+
+David  24 Jan 2011
+    - server: disable upload certificates by default.
+        These increase server load and it's not clear they're needed.
+        
+    py/Boinc/
+        setup_project.py
