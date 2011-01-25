@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-19 14:53-0500\n"
-"PO-Revision-Date: 2010-12-14 22:20+0200\n"
+"PO-Revision-Date: 2011-01-18 18:58+0200\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -20,8 +20,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -974,11 +972,11 @@ msgstr "Nincs kapcsolódva a klienshez."
 #: clientgui/BOINCTaskBar.cpp:763
 #, c-format
 msgid "%s Notices"
-msgstr "%s Megjegyzések"
+msgstr "%s Értesítések"
 
 #: clientgui/BOINCTaskBar.cpp:769
 msgid "There are new notices - click to view."
-msgstr ""
+msgstr "Új üzenetek érkeztek - kattintson a megtekintésükhöz."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to add project"
@@ -1943,7 +1941,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should BOINC remind you of new notices?"
-msgstr ""
+msgstr "Milyen gyakran értesítse a BOINC az új üzenetekről?"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -2501,7 +2499,7 @@ msgstr ""
 
 #: clientgui/NoticeListCtrl.cpp:477
 msgid "There are no notices at this time."
-msgstr ""
+msgstr "Jelenleg nincs új üzenet."
 
 #: clientgui/NoticeListCtrl.cpp:528
 msgid "more..."
@@ -3170,7 +3168,7 @@ msgstr "Az összes projekt üzeneteinek mutatása."
 
 #: clientgui/ViewNotices.cpp:89
 msgid "Notices"
-msgstr ""
+msgstr "Értesítések"
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-19 14:53-0500\n"
-"PO-Revision-Date: 2011-01-03 21:12+0200\n"
+"PO-Revision-Date: 2011-01-11 19:39+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -696,7 +696,7 @@ msgstr ""
 #: clientgui/BOINCBaseFrame.cpp:620
 #, c-format
 msgid "%s - Daemon Start Failed"
-msgstr ""
+msgstr "%s - Daemonin käynnistys epäonnistui"
 
 #: clientgui/BOINCBaseFrame.cpp:630
 #, c-format
@@ -711,6 +711,8 @@ msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
 msgstr ""
+"%s ei onnistu käynnistämään %s ohjelmaa.\n"
+"Käynnistä daemoni ja yritä uudelleen."
 
 #: clientgui/BOINCBaseFrame.cpp:687
 #, c-format
@@ -851,7 +853,7 @@ msgstr "Konenimi tai IP-osoite"
 
 #: clientgui/BOINCGUIApp.cpp:534
 msgid "GUI RPC port number"
-msgstr ""
+msgstr "GUI RPC porttinumero"
 
 #: clientgui/BOINCGUIApp.cpp:535
 msgid "Password"
@@ -1041,7 +1043,7 @@ msgstr "Versio:"
 
 #: clientgui/DlgAbout.cpp:167
 msgid "wxWidgets Version:"
-msgstr ""
+msgstr "wxWidgettien versio:"
 
 #: clientgui/DlgAbout.cpp:175
 msgid "Copyright:"
@@ -1913,7 +1915,7 @@ msgstr "Näytä lopetusikkuna kun Manageria sammutetaan."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Dial-up and Virtual Private Network settings"
-msgstr ""
+msgstr "Puhelinverkko- ja VPN-asetukset"
 
 #: clientgui/DlgOptions.cpp:227
 msgid "&Set Default"
@@ -2202,7 +2204,7 @@ msgstr "Hanki tietoja World Community Grid -projekteista"
 
 #: clientgui/MainDocument.cpp:587
 msgid "Starting client"
-msgstr ""
+msgstr "Käynnistetään ohjelma"
 
 #: clientgui/MainDocument.cpp:595
 msgid "Connecting to client"
@@ -2250,11 +2252,11 @@ msgstr "käynnistetään"
 
 #: clientgui/MainDocument.cpp:2395
 msgid "an exclusive app is running"
-msgstr ""
+msgstr "erityisohjelma käynnissä"
 
 #: clientgui/MainDocument.cpp:2396
 msgid "CPU is busy"
-msgstr ""
+msgstr "CPU varattu"
 
 #: clientgui/MainDocument.cpp:2397
 msgid "network bandwidth limit exceeded"
@@ -2784,11 +2786,11 @@ msgstr "60"
 
 #: clientgui/sg_DlgPreferences.cpp:283
 msgid "Skin"
-msgstr ""
+msgstr "Ulkoasu"
 
 #: clientgui/sg_DlgPreferences.cpp:290
 msgid "Skin:"
-msgstr ""
+msgstr "Ulkoasu:"
 
 #: clientgui/sg_DlgPreferences.cpp:306
 msgid "Preferences"
@@ -2850,7 +2852,7 @@ msgstr "%d Mt"
 #: clientgui/sg_DlgPreferences.cpp:786
 #, c-format
 msgid "%4.2f GB"
-msgstr ""
+msgstr "%4.2f Gt"
 
 #: clientgui/sg_DlgPreferences.cpp:827
 #, c-format
@@ -2904,12 +2906,12 @@ msgstr ""
 
 #: clientgui/sg_ProjectsComponent.cpp:119
 msgid "Synchronize projects with account manager system"
-msgstr ""
+msgstr "Synkronisoi projektit tilihallitsijajärjestelmän kanssa"
 
 #: clientgui/sg_ProjectsComponent.cpp:190
 #: clientgui/sg_ProjectsComponent.cpp:201
 msgid "Open a window to view messages"
-msgstr ""
+msgstr "Avaa ikkuna katsoaksesi viestejä"
 
 #: clientgui/sg_ProjectsComponent.cpp:219
 msgid "Stop all activity"
@@ -2921,11 +2923,11 @@ msgstr "Jatka toimintaa"
 
 #: clientgui/sg_ProjectsComponent.cpp:248
 msgid "Open a window to set your preferences"
-msgstr ""
+msgstr "Avaa ikkuna asetuksien muuttamiseksi"
 
 #: clientgui/sg_ProjectsComponent.cpp:265
 msgid "Switch to the BOINC advanced view"
-msgstr ""
+msgstr "Vaihda BOINCin laajennettuun näkymään"
 
 #: clientgui/sg_ProjectsComponent.cpp:292
 msgid "My Projects:"
@@ -2959,7 +2961,7 @@ msgstr "%d t %d min %d sek"
 
 #: clientgui/sg_ViewTabPage.cpp:423
 msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr ""
+msgstr "Haluatko näyttää etäkoneen grafiikat?"
 
 #: clientgui/sg_ViewTabPage.cpp:424
 msgid "Show graphics"
@@ -3425,7 +3427,7 @@ msgstr "Käytä koko alue grafiikalle"
 
 #: clientgui/ViewStatistics.cpp:2019
 msgid "Mode view"
-msgstr ""
+msgstr "Näkymä"
 
 #: clientgui/ViewStatistics.cpp:2023
 msgid "One project"
@@ -3817,11 +3819,11 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:732
 msgid "list of events"
-msgstr ""
+msgstr "tapahtumien lista"
 
 #: clientgui/mac/MacAccessiblity.cpp:734
 msgid "list of events is empty"
-msgstr ""
+msgstr "tapahtumien lista on tyhjä"
 
 #: clientgui/mac/MacAccessiblity.cpp:739
 #, c-format

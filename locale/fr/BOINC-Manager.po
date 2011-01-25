@@ -17,8 +17,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_12\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-Language: English\n"
 
 #: clientgui/AccountInfoPage.cpp:386
 msgid "Identify your account "
@@ -2479,7 +2477,7 @@ msgstr "Cliquer"
 #: clientgui/NoticeListCtrl.cpp:477
 #, fuzzy
 msgid "There are no notices at this time."
-msgstr "il n'y a aucune notification actuellement"
+msgstr "Il n'y a actuellement aucune notification."
 
 #: clientgui/NoticeListCtrl.cpp:528
 msgid "more..."
