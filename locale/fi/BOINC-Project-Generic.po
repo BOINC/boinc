@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2010-10-06 13:10 PDT\n"
-"PO-Revision-Date: 2011-01-01 20:18+0200\n"
+"PO-Revision-Date: 2011-01-11 22:13+0200\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -1847,7 +1847,7 @@ msgstr ""
 
 #: ../inc/util.inc:440
 msgid "View the profile of %1"
-msgstr ""
+msgstr "Katso %1:n profiilia"
 
 #: ../inc/util.inc:496
 msgid "Use BBCode tags to format your text"
@@ -3169,9 +3169,8 @@ msgid "Workunits waiting for file deletion"
 msgstr "Poistoa odottavat työpaketit"
 
 #: ../user/server_status.php:333
-#, fuzzy
 msgid "Tasks waiting for file deletion"
-msgstr "Poistoa odottavat työpaketit"
+msgstr "Poistoa odottavat paketit"
 
 #: ../user/server_status.php:346
 msgid "Transitioner backlog (hours)"
@@ -3569,7 +3568,7 @@ msgstr "%1 Postituslista"
 
 #: ../user/team_email_list.php:61
 msgid "Member list of %1"
-msgstr ""
+msgstr "%1:n jäsenlista"
 
 #: ../user/team_email_list.php:76
 msgid "Show as plain text"
@@ -3805,7 +3804,7 @@ msgstr "Pyydä perustajuutta"
 
 #: ../user/team_founder_transfer_form.php:72
 msgid "Founder change has already been requested by %1 on %2."
-msgstr ""
+msgstr "%1 on jo pyytänyt perustajuuden vaihtoa %2."
 
 #: ../user/team_founder_transfer_form.php:75
 msgid ""
@@ -3992,7 +3991,7 @@ msgstr "Raja saavutettu: näytetään vain ensimmäiset 1000 jäsentä."
 
 #: ../user/team_members.php:43
 msgid "Members of %1"
-msgstr ""
+msgstr "%1:n jäsenet"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"

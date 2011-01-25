@@ -3254,9 +3254,10 @@ msgstr "Unités de travail en attente de nettoyage de fichiers"
 msgid "Tasks waiting for file deletion"
 msgstr "Tâches en attente de nettoyage de fichiers"
 
+# aucune idée de comment traduire ce truc...
 #: ../user/server_status.php:346
 msgid "Transitioner backlog (hours)"
-msgstr ""
+msgstr "Transitioner backlog (heures)"
 
 #: ../user/server_status.php:353
 msgid "Users"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-18 09:11-0800\n"
-"PO-Revision-Date: 2010-10-27 22:42+0200\n"
+"PO-Revision-Date: 2011-01-14 00:17+0200\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -22,15 +22,16 @@ msgid "error"
 msgstr "Erreur"
 
 #: client_msgs.cpp:77
-#, fuzzy
 msgid "Message from server"
-msgstr "Message du serveur de projet :"
+msgstr "Message du serveur de projet"
 
 #: client_state.cpp:232
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
+"Certaines tâches ont besoin de plus de mémoire que ce qui permis par votre "
+"préférences : veuillez les vérifier."
 
 #: client_state.cpp:414
 msgid "Couldn't write state file; check directory permissions"
@@ -214,9 +215,8 @@ msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Votre fichier app_info.xml n'a pas une version habituelle de"
 
 #: ../sched/sched_version.cpp:709
-#, fuzzy
 msgid "is not available for"
-msgstr "n'est pas disponible pour votre type d'ordinateur"
+msgstr "n'est pas disponible pour "
 
 #~ msgid "Notice from BOINC"
 #~ msgstr "Notification de BOINC"
