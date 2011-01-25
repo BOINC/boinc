@@ -244,3 +244,13 @@ David  24 Jan 2011
         
     py/Boinc/
         setup_project.py
+
+Rom    25 Jan 2011
+    - MGR: Fix advanced view button is Simple GUI.
+        (Button Text is Verdana 8pt. in MS Paint)
+    
+    clientgui/res/skins/default/graphic/
+        advanced_link_image.xpm
+    clientgui/res/templates/skins/
+        advanced_link_image.gif (Added)
+        btnAdvancedView.png (Removed)
