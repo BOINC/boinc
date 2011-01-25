@@ -106,6 +106,7 @@ struct LOG_FLAGS {
     bool notice_debug;
 
     LOG_FLAGS();
+    void init();
     int parse(XML_PARSER&);
     void show();
 };

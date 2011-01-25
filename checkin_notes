@@ -254,3 +254,10 @@ Rom    25 Jan 2011
     clientgui/res/templates/skins/
         advanced_link_image.gif (Added)
         btnAdvancedView.png (Removed)
+
+David  25 Jan 2011
+    - client: accept <options/> and <log_flags/> in cc_config.xml
+    - client: reset log flags (as well as options) when rereading cc_config.xml
+
+    client/
+        log_flags.cpp,h
