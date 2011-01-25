@@ -8469,3 +8469,11 @@ Rom    25 Jan 2011
     clientgui/res/templates/skins/
         advanced_link_image.gif (Added)
         btnAdvancedView.png (Removed)
+
+Rom    25 Jan 2011
+    - Tag for 6.12.12 release, all platforms
+      boinc_core_release_6_12_12
+
+    /
+        configure.ac
+        version.h
