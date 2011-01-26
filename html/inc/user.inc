@@ -192,12 +192,10 @@ function weak_auth($user) {
 // show static user info (private)
 //
 function show_user_info_private($user) {
-    if (is_valid_email_addr($user->email_addr)) {
-        $email_text = $user->email_addr;
-    } else {
-        $email_text = tra("Email address verification pending");
+    $email_text = $user->email_addr;
+    if (defined("SHOW_NONVALIDATED_EMAIL_ADDR") && !$user->email_validated) {
+        $email_text .= " (<a href=validate_email_addr.php>must be validated</a>)";
     }
-
     row1(tra("Account information"));
     row2(tra("Name"), $user->name);
     row2(tra("Email address"), $email_text);

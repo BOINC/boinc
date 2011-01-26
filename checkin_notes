@@ -261,3 +261,13 @@ David  25 Jan 2011
 
     client/
         log_flags.cpp,h
+
+David  25 Jan 2011
+    - web: tweaks so that BOINC-Wide Teams site can warn people if
+        their email address is not validated
+
+    html/
+        inc/
+            user.inc
+        user/
+            edit_email_action.php

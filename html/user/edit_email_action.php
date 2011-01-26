@@ -60,6 +60,9 @@ if (!is_valid_email_addr($email_addr)) {
                 echo "
                     The email address of your account is now $email_addr.
                 ";
+                if (defined("SHOW_NONVALIDATED_EMAIL_ADDR")) {
+                    echo "<p>Please <a href=validate_email_addr.php>validate this email address</a>.\n";
+                }
             } else {
                 echo "
                     We can't update your email address
