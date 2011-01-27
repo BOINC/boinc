@@ -35,6 +35,7 @@ libdcapi-boinc.so.1 libdcapi-boinc1 #MINVER#
  DC_setMessageCb@Base 0.9-23
  DC_setResultCb@Base 0.9-23
  DC_setSubresultCb@Base 0.9-23
+ DC_setWUBatch@Base 0.10-1
  DC_setWUPriority@Base 0.9-23
  DC_submitWU@Base 0.9-23
  DC_suspendWU@Base 0.9-23
