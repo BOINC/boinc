@@ -718,6 +718,7 @@ int CSkinSimple::Parse(MIOFILE& in) {
 
 bool CSkinSimple::InitializeDelayedValidation() {
     m_BackgroundImage.SetDefaults(
+//        wxT("background"), (const char**)background_image_xpm, wxT("133:181:178")
         wxT("background"), (const char**)background_image_xpm, wxT("0:0:0")
     );
     m_SpacerImage.SetDefaults(wxT("spacer"), (const char**)spacer_image_xpm);
@@ -725,7 +726,7 @@ bool CSkinSimple::InitializeDelayedValidation() {
         if (show_error_msgs) {
             fprintf(stderr, "Skin Manager: Failed to parse static line color. Using default.\n");
         }
-        m_StaticLineColor = ParseColor(wxString(wxT("5:5:5")));
+        m_StaticLineColor = ParseColor(wxString(wxT("204:102:51")));
         wxASSERT(m_StaticLineColor.Ok());
     }
     m_StateIndicatorBackgroundImage.SetDefaults(
@@ -738,19 +739,19 @@ bool CSkinSimple::InitializeDelayedValidation() {
         wxT("error indicator"), (const char**)error_indicator_image_xpm
     );
     m_WorkunitActiveTab.SetDefaults(
-        wxT("active"), (const char**)workunit_active_image_xpm, wxT("102:102:102"), wxT("102:102:102"), wxT("179:179:179")
+        wxT("active"), (const char**)workunit_active_image_xpm, wxString(wxT("20:82:82")), wxString(wxT("134:179:176")), wxString(wxT("51:102:102"))
     );
     m_WorkunitSuspendedTab.SetDefaults(
-        wxT("suspended"), (const char**)workunit_suspended_image_xpm, wxT("80:80:80"), wxT("50:50:50"), wxT("50:50:50")
+        wxT("suspended"), (const char**)workunit_suspended_image_xpm, wxString(wxT("102:153:153")), wxString(wxT("134:179:176")), wxString(wxT("84:175:175"))
     );
     m_WorkunitTabAreaBackgroundImage.SetDefaults(
         wxT("workunit tab area background"), (const char**)workunit_tab_area_background_image_xpm
     );
     m_WorkunitAreaBackgroundImage.SetDefaults(
-        wxT("workunit area background"), (const char**)workunit_area_background_image_xpm, wxT("0:0:0")
+        wxT("workunit area background"), (const char**)workunit_area_background_image_xpm
     );
     m_WorkunitAnimationBackgroundImage.SetDefaults(
-        wxT("workunit animation background"), (const char**)workunit_animation_background_image_xpm, wxT("0:0:0")
+        wxT("workunit animation background"), (const char**)workunit_animation_background_image_xpm
     );
     m_WorkunitAnimationImage.SetDefaults(
         wxT("workunit animation"), (const char**)workunit_animation_image_xpm
@@ -1264,8 +1265,8 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     m_strSelectedSkin = strSkin;
 
     // Check to see if the skin we want to change to is the default skin
-    if (GetDefaultSkinName() == m_strSelectedSkin || GetDefaultBOINCSkinName() == m_strSelectedSkin) {
-        m_strSelectedSkin = GetDefaultSkinName();
+    if (GetDefaultSkinName() == m_strSelectedSkin) {
+        m_strSelectedSkin = GetDefaultBOINCSkinName();
     }
 
     // First we try the users canonical locale resources.

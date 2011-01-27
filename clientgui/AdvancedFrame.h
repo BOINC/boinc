@@ -60,6 +60,7 @@ public:
 
     void OnChangeView( wxCommandEvent& event );
     void OnChangeGUI( wxCommandEvent& event );
+    void OnNewSG( wxCommandEvent& event );  /* CAF */
 
     void OnWizardAttach( wxCommandEvent& event );
     void OnWizardUpdate( wxCommandEvent& event );

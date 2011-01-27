@@ -183,7 +183,6 @@
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD635A420D384FA500BAC1A5 /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD635A410D384FA500BAC1A5 /* texfont.cpp */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
-		DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
 		DD6802300E701ACD0067D009 /* cert_sig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD68022E0E701ACD0067D009 /* cert_sig.cpp */; };
@@ -201,6 +200,10 @@
 		DD7475520D86273300860636 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD7A5D8312EEBE5E0006268E /* sg_TaskCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */; };
+		DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D9E12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp */; };
+		DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5DAA12EEC37B0006268E /* sg_ProjectCommandPopup.cpp */; };
+		DD7A5E5012EEE3A20006268E /* sg_BoincSimpleFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAFA7AC12D4834D00997329 /* sg_BoincSimpleFrame.cpp */; };
 		DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */; };
 		DD7BF7DA0B8E7A9800A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD7BF7E10B8E7B3700A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
@@ -283,6 +286,7 @@
 		DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAD31D60EC26B14002DA09D /* mac_address.cpp */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */; };
 		DDB219B210B3BBA900417AEF /* WaitPermissions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */; };
+		DDB42E3412F1B6A400E6D8A2 /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDB6E3EF0D5B27AA00ED12B8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DDB74A6C0D74259E00E97A40 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
@@ -302,14 +306,17 @@
 		DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */; };
 		DDBD51760C169B770074905B /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
+		DDBEABA212DB1E930087252D /* MacBitmapComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBEABA112DB1E930087252D /* MacBitmapComboBox.cpp */; };
 		DDC06AB410A3E93F00C8D9A5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDC06AB810A3E97700C8D9A5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDC06ABC10A3E98D00C8D9A5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */; };
+		DDC321AE12E45162006CB55F /* sg_PanelBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC321AC12E45162006CB55F /* sg_PanelBase.cpp */; };
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
 		DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */; };
 		DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
+		DDD0697312D70C9400120920 /* sg_TaskPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0697112D70C9400120920 /* sg_TaskPanel.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.cpp */; };
 		DDD3370A106224E800867C7D /* AddRemoveUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD33709106224E800867C7D /* AddRemoveUser.cpp */; };
 		DDD3370F10622C6C00867C7D /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
@@ -370,6 +377,7 @@
 		DDD9C5AB10CCF6A300A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AC10CCF6AB00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
+		DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */; };
 		DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */; };
 		DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372810DC5E5300161D6B /* cs_notice.cpp */; };
 		DDE1372F10DC5E8D00161D6B /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
@@ -821,6 +829,12 @@
 		DD7475500D86273300860636 /* coproc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coproc.cpp; sourceTree = "<group>"; };
 		DD7748980A356C880025D05E /* SetUpSecurity */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetUpSecurity; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
+		DD7A5D8112EEBDF30006268E /* sg_TaskCommandPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_TaskCommandPopup.h; path = ../clientgui/sg_TaskCommandPopup.h; sourceTree = SOURCE_ROOT; };
+		DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_TaskCommandPopup.cpp; path = ../clientgui/sg_TaskCommandPopup.cpp; sourceTree = SOURCE_ROOT; };
+		DD7A5D9D12EEBFC20006268E /* sg_ProjectWebSitesPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_ProjectWebSitesPopup.h; path = ../clientgui/sg_ProjectWebSitesPopup.h; sourceTree = SOURCE_ROOT; };
+		DD7A5D9E12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectWebSitesPopup.cpp; path = ../clientgui/sg_ProjectWebSitesPopup.cpp; sourceTree = SOURCE_ROOT; };
+		DD7A5DA712EEC33F0006268E /* sg_ProjectCommandPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_ProjectCommandPopup.h; path = ../clientgui/sg_ProjectCommandPopup.h; sourceTree = SOURCE_ROOT; };
+		DD7A5DAA12EEC37B0006268E /* sg_ProjectCommandPopup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectCommandPopup.cpp; path = ../clientgui/sg_ProjectCommandPopup.cpp; sourceTree = SOURCE_ROOT; };
 		DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = screensaver.cpp; path = ../clientscr/screensaver.cpp; sourceTree = SOURCE_ROOT; };
 		DD7AEB680C87CE6500AC3B5C /* screensaver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = screensaver.h; path = ../clientscr/screensaver.h; sourceTree = SOURCE_ROOT; };
 		DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = str_util.cpp; sourceTree = "<group>"; };
@@ -909,6 +923,8 @@
 		DDAD31D70EC26B14002DA09D /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mac_address.h; path = ../lib/mac_address.h; sourceTree = SOURCE_ROOT; };
 		DDAEC9E107FA583B00A7BC36 /* SetVersion */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetVersion; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetVersion.cpp; path = ../clientgui/mac/SetVersion.cpp; sourceTree = SOURCE_ROOT; };
+		DDAFA7AC12D4834D00997329 /* sg_BoincSimpleFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sg_BoincSimpleFrame.cpp; sourceTree = "<group>"; };
+		DDAFA7AD12D4834D00997329 /* sg_BoincSimpleFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sg_BoincSimpleFrame.h; sourceTree = "<group>"; };
 		DDB219A410B3BB6100417AEF /* WaitPermissions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaitPermissions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDB219A610B3BB6200417AEF /* WaitPermissions-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WaitPermissions-Info.plist"; sourceTree = "<group>"; };
 		DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaitPermissions.cpp; path = ../mac_installer/WaitPermissions.cpp; sourceTree = SOURCE_ROOT; };
@@ -928,10 +944,14 @@
 		DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateEmailAddress.cpp; path = ../clientgui/ValidateEmailAddress.cpp; sourceTree = SOURCE_ROOT; };
 		DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateEmailAddress.h; path = ../clientgui/ValidateEmailAddress.h; sourceTree = SOURCE_ROOT; };
 		DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = cs_platforms.cpp; sourceTree = "<group>"; };
+		DDBEABA012DB1E930087252D /* MacBitmapComboBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacBitmapComboBox.h; path = ../clientgui/MacBitmapComboBox.h; sourceTree = "<group>"; };
+		DDBEABA112DB1E930087252D /* MacBitmapComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MacBitmapComboBox.cpp; path = ../clientgui/MacBitmapComboBox.cpp; sourceTree = "<group>"; };
 		DDC06AB210A3E93F00C8D9A5 /* url.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = url.cpp; path = ../lib/url.cpp; sourceTree = SOURCE_ROOT; };
 		DDC06AB310A3E93F00C8D9A5 /* url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = url.h; path = ../lib/url.h; sourceTree = SOURCE_ROOT; };
 		DDC132F10E2DAB1B0014D305 /* AsyncRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncRPC.h; sourceTree = "<group>"; };
 		DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AsyncRPC.cpp; sourceTree = "<group>"; };
+		DDC321AC12E45162006CB55F /* sg_PanelBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_PanelBase.cpp; path = ../clientgui/sg_PanelBase.cpp; sourceTree = SOURCE_ROOT; };
+		DDC321AD12E45162006CB55F /* sg_PanelBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_PanelBase.h; path = ../clientgui/sg_PanelBase.h; sourceTree = SOURCE_ROOT; };
 		DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCClientManager.cpp; path = ../clientgui/BOINCClientManager.cpp; sourceTree = SOURCE_ROOT; };
 		DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCClientManager.h; path = ../clientgui/BOINCClientManager.h; sourceTree = SOURCE_ROOT; };
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
@@ -954,6 +974,8 @@
 		DDCE783F0A70BF72008218B6 /* sg_ProjectsComponent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProjectsComponent.h; path = ../clientgui/sg_ProjectsComponent.h; sourceTree = SOURCE_ROOT; };
 		DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DlgItemProperties.cpp; sourceTree = "<group>"; };
 		DDCF84070E1B7C0A005EDC45 /* DlgItemProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgItemProperties.h; sourceTree = "<group>"; };
+		DDD0697112D70C9400120920 /* sg_TaskPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_TaskPanel.cpp; path = ../clientgui/sg_TaskPanel.cpp; sourceTree = SOURCE_ROOT; };
+		DDD0697212D70C9400120920 /* sg_TaskPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_TaskPanel.h; path = ../clientgui/sg_TaskPanel.h; sourceTree = SOURCE_ROOT; };
 		DDD0953F0A3EDD2500C95BA4 /* switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = switcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD095480A3EDF2D00C95BA4 /* switcher.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = switcher.cpp; sourceTree = "<group>"; };
 		DDD337021062235D00867C7D /* AddRemoveUser */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AddRemoveUser; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -966,6 +988,8 @@
 		DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWork.h; path = ../clientgui/ViewWork.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coproc_detect.cpp; path = ../client/coproc_detect.cpp; sourceTree = SOURCE_ROOT; };
+		DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectPanel.cpp; path = ../clientgui/sg_ProjectPanel.cpp; sourceTree = SOURCE_ROOT; };
+		DDDD6D7F12E4611300C258A0 /* sg_ProjectPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_ProjectPanel.h; path = ../clientgui/sg_ProjectPanel.h; sourceTree = SOURCE_ROOT; };
 		DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgExitMessage.cpp; path = ../clientgui/DlgExitMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDDE43B80EC04C3C00083520 /* DlgExitMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgExitMessage.h; path = ../clientgui/DlgExitMessage.h; sourceTree = SOURCE_ROOT; };
 		DDE1372810DC5E5300161D6B /* cs_notice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_notice.cpp; path = ../client/cs_notice.cpp; sourceTree = SOURCE_ROOT; };
@@ -1074,10 +1098,10 @@
 				DD3E15310A774397007E0084 /* Carbon.framework in Frameworks */,
 				DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */,
 				DD3E15330A774397007E0084 /* Security.framework in Frameworks */,
-				DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */,
 				DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */,
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
 				DD1682B10F8DC6D90096D714 /* OpenGL.framework in Frameworks */,
+				DDB42E3412F1B6A400E6D8A2 /* libwx_mac_static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1413,6 +1437,8 @@
 				DD58C45F08F334EA00C1DF66 /* ProxyPage.h */,
 				DD58C46008F334EA00C1DF66 /* resource.h */,
 				DD81C41707C5D13E0098A04D /* stdwx.cpp */,
+				DDAFA7AC12D4834D00997329 /* sg_BoincSimpleFrame.cpp */,
+				DDAFA7AD12D4834D00997329 /* sg_BoincSimpleFrame.h */,
 				DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */,
 				DDCAD7D20A6C603A0086C7EE /* sg_BoincSimpleGUI.h */,
 				DD4C560A0AD389A2009E23C6 /* sg_ClientStateIndicator.cpp */,
@@ -1427,12 +1453,24 @@
 				DD4C560F0AD389A2009E23C6 /* sg_ImageButton.h */,
 				DDCAD7D50A6C603A0086C7EE /* sg_ImageLoader.cpp */,
 				DDCAD7D60A6C603A0086C7EE /* sg_ImageLoader.h */,
+				DDC321AC12E45162006CB55F /* sg_PanelBase.cpp */,
+				DDC321AD12E45162006CB55F /* sg_PanelBase.h */,
 				DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */,
 				DD4C56110AD389A2009E23C6 /* sg_ProgressBar.h */,
+				DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */,
+				DDDD6D7F12E4611300C258A0 /* sg_ProjectPanel.h */,
+				DD7A5DAA12EEC37B0006268E /* sg_ProjectCommandPopup.cpp */,
+				DD7A5DA712EEC33F0006268E /* sg_ProjectCommandPopup.h */,
 				DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */,
 				DDCE783F0A70BF72008218B6 /* sg_ProjectsComponent.h */,
+				DD7A5D9D12EEBFC20006268E /* sg_ProjectWebSitesPopup.h */,
+				DD7A5D9E12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp */,
 				DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */,
 				DDCAD7DA0A6C603A0086C7EE /* sg_StatImageLoader.h */,
+				DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */,
+				DD7A5D8112EEBDF30006268E /* sg_TaskCommandPopup.h */,
+				DDD0697112D70C9400120920 /* sg_TaskPanel.cpp */,
+				DDD0697212D70C9400120920 /* sg_TaskPanel.h */,
 				DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */,
 				DDCAD7DC0A6C603A0086C7EE /* sg_ViewTabPage.h */,
 				DD247AF70AEA308A0034104A /* SkinManager.cpp */,
@@ -1733,6 +1771,8 @@
 				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
 				DDA99BF31099AF18002F8E9B /* MacAccessiblity.cpp */,
 				DD29728E10BB657A00DF3C2E /* MacAccessiblity.h */,
+				DDBEABA112DB1E930087252D /* MacBitmapComboBox.cpp */,
+				DDBEABA012DB1E930087252D /* MacBitmapComboBox.h */,
 				DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */,
 				DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */,
 				DD2F32EF07F2A83E00645DDC /* MacSysMenu.h */,
@@ -2595,6 +2635,14 @@
 				DDA850A41207EED900B473A6 /* WizardAttach.cpp in Sources */,
 				DD4FA25D121828E400154856 /* BOINCHtmlLBox.cpp in Sources */,
 				DD4FA2621218290600154856 /* BOINCVListBox.cpp in Sources */,
+				DDD0697312D70C9400120920 /* sg_TaskPanel.cpp in Sources */,
+				DDBEABA212DB1E930087252D /* MacBitmapComboBox.cpp in Sources */,
+				DDC321AE12E45162006CB55F /* sg_PanelBase.cpp in Sources */,
+				DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */,
+				DD7A5D8312EEBE5E0006268E /* sg_TaskCommandPopup.cpp in Sources */,
+				DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */,
+				DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */,
+				DD7A5E5012EEE3A20006268E /* sg_BoincSimpleFrame.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3151,7 +3199,11 @@
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxMac-2.8.10/src/build/Deployment/";
+				LIBRARY_SEARCH_PATHS = (
+					"../../wxMac-2.8.10/src/build/Deployment/",
+					"\"$(SRCROOT)/../../jpeg-6b\"",
+					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
+				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3197,7 +3249,11 @@
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxMac-2.8.10/src/build/Deployment/";
+				LIBRARY_SEARCH_PATHS = (
+					"../../wxMac-2.8.10/src/build/Deployment/",
+					"\"$(SRCROOT)/../../jpeg-6b\"",
+					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
+				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3243,7 +3299,11 @@
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxMac-2.8.10/src/build/Deployment/";
+				LIBRARY_SEARCH_PATHS = (
+					"../../wxMac-2.8.10/src/build/Deployment/",
+					"\"$(SRCROOT)/../../jpeg-6b\"",
+					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
+				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3289,7 +3349,11 @@
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxMac-2.8.10/src/build/Deployment/";
+				LIBRARY_SEARCH_PATHS = (
+					"../../wxMac-2.8.10/src/build/Deployment/",
+					"\"$(SRCROOT)/../../jpeg-6b\"",
+					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
+				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3766,7 +3830,11 @@
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxMac-2.8.10/src/build/Deployment/";
+				LIBRARY_SEARCH_PATHS = (
+					"../../wxMac-2.8.10/src/build/Deployment/",
+					"\"$(SRCROOT)/../../jpeg-6b\"",
+					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
+				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3811,7 +3879,11 @@
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxMac-2.8.10/src/build/Deployment/";
+				LIBRARY_SEARCH_PATHS = (
+					"../../wxMac-2.8.10/src/build/Deployment/",
+					"\"$(SRCROOT)/../../jpeg-6b\"",
+					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
+				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -4286,7 +4358,11 @@
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "../../wxMac-2.8.10/src/build/Deployment/";
+				LIBRARY_SEARCH_PATHS = (
+					"../../wxMac-2.8.10/src/build/Deployment/",
+					"\"$(SRCROOT)/../../jpeg-6b\"",
+					"\"$(SRCROOT)/../../wxMac-2.8.10/src/build/Deployment\"",
+				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",

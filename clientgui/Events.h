@@ -156,6 +156,20 @@
 #define ID_SIMPLE_RESUME                        6605
 #define ID_SIMPLE_PREFERENCES                   6606
 #define ID_SIMPLE_MESSAGESVIEW                  6607
+#define ID_SIMPLE_PROGRESSPULSETIMER            6608
+
+//
+// New Simple GUI
+//
+#define ID_SGTASKSELECTOR                       12001
+#define ID_TASKSCOMMANDBUTTON                   12002
+#define ID_ADDROJECTBUTTON                      12101
+#define ID_SGPROJECTSELECTOR                    12102
+#define ID_PROJECTWEBSITESBUTTON                12103
+#define ID_PROJECTCOMMANDBUTTON                 12104
+#define ID_SGNOTICESBUTTON                      12201
+#define ID_SGPAUSERESUMEBUTTON                  12202
+#define ID_SGOPTIONS                            12301
 
 //
 // Taskbar/System Tray

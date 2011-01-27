@@ -154,6 +154,7 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::OnSize - Function End"));
 }
 
+#define ID_NEWSG 6120   /* CAF */
 
 IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 
@@ -161,6 +162,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     // View
     EVT_MENU_RANGE(ID_ADVNOTICESVIEW, ID_ADVRESOURCEUSAGEVIEW, CAdvancedFrame::OnChangeView)
     EVT_MENU(ID_CHANGEGUI, CAdvancedFrame::OnChangeGUI)
+    EVT_MENU(ID_NEWSG, CAdvancedFrame::OnNewSG) /* CAF */
     // Tools
     EVT_MENU(ID_WIZARDATTACH, CAdvancedFrame::OnWizardAttach)
     EVT_MENU(ID_WIZARDUPDATE, CAdvancedFrame::OnWizardUpdate)
@@ -407,6 +409,12 @@ bool CAdvancedFrame::CreateMenu() {
     if (wxGetApp().IsAccessibilityEnabled()) {
         menuView->Enable(ID_CHANGEGUI, false);
     }
+    
+    menuView->Append(
+        ID_NEWSG,
+        _("New Simple View..."),
+        _("Display the new simple graphical interface.")
+    );
 
 
     // Tools menu
@@ -1071,6 +1079,15 @@ void CAdvancedFrame::OnChangeGUI(wxCommandEvent& WXUNUSED(event)) {
     wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnChangeGUI - Function End"));
+}
+
+
+void CAdvancedFrame::OnNewSG(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNewSG - Function Begin"));
+
+    wxGetApp().SetActiveGUI(BOINC_NEWSIMPLEGUI, true);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNewSG - Function End"));
 }
 
 

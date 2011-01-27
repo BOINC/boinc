@@ -69,7 +69,8 @@ END_EVENT_TABLE()
 CTransparentStaticText::CTransparentStaticText() {}
 
 CTransparentStaticText::CTransparentStaticText(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) {
-    Create(parent, id, label, pos, size, style, name);
+    // Set name same as label for accessibility on Windows
+    Create(parent, id, label, pos, size, style, label);
 }
 
 
@@ -82,6 +83,14 @@ bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxStr
 
     return bRetVal;
 }
+
+
+#ifndef __WXMAC__
+void CTransparentStaticText::SetLabel(const wxString& label) {
+    wxStaticText::SetLabel(label);
+	GetParent()->RefreshRect(GetRect());
+}
+#endif
 
 
 void CTransparentStaticText::OnPaint(wxPaintEvent& /*event*/) {

@@ -278,3 +278,29 @@ Charlie 27 Jan 2011
 
      mac_build/
         Mac_SA_Insecure.sh
+
+Charlie 27 Jan 2011
+    Add new Simple GUI.
+    
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCGUIApp.cpp, .h
+        Events.h
+        MacBitmapComboBox.cpp, .h (new)
+        sg_BoincSimpleFrame.cpp, .h (new)
+        sg_CustomControls.cpp, .h
+        sg_TaskPanel.cpp, .h (new)
+        sg_PanelBase.cpp, .h (new)
+        sg_ProjectCommandPopup.cpp, .h (new)
+        sg_ProjectPanel.cpp, .h (new)
+        sg_ProjectWebSitesPopup.cpp, .h (new)
+        sg_TaskCommandPopup.cpp, .h (new)
+        SkinManager.cpp
+        res/
+            RedDot16.xpm (new)
+            YellowDot16.xpm (new)
+            GreenDot16.xpm (new)
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+ 
