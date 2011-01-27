@@ -1,10 +1,11 @@
 This is the Debian GNU/Linux packaged version of the Distributed Computing
 Platform Application Programming Interface (DC-API).
 
-Packaging is done by Gábor Gombás <gombasg@sztaki.hu>
+Package maintainer is Attila Csaba Marosi <atisu@sztaki.hu>
 
 Upstream Authors:
-	Gábor Gombás <gombasg@sztaki.hu> (overall framework, BOINC backend)
+	Gábor Gombás <gombasg@sztaki.hu> (overall framework, BOINC backend, 
+	        packaging and previous package maintainer)
 	Dániel Drótos <drdani@mazsola.iit.uni-miskolc.hu> (Condor & local
 		backends)
 	Attila Csaba Marosi <atisu@sztaki.hu>
