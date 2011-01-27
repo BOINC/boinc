@@ -41,7 +41,7 @@
 # the --insecure option.
 # NOTE: running BOINC with security disabled is not recommended.
 #
-# Last updated 1/26/10 for BOINC versions 6.8.19, 6.10.30 and 6.11.1 
+# Last updated 1/27/11 for BOINC versions 6.8.19, 6.10.30 and 6.11.1 
 # WARNING: do not use this script with older versions of BOINC older 
 # than 6.8.17 and 6.10.3
 
@@ -93,9 +93,9 @@ then
     exit
 fi
 
-if [ ! -f "boinc" ]
+if [ ! -x "switcher/switcher" ]
 then
-    echo "Can't find boinc Client in directory $(pwd); exiting"
+    echo "Can't find switcher application in directory $(pwd); exiting"
     exit
 fi
 

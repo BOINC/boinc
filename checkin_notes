@@ -271,3 +271,10 @@ David  25 Jan 2011
             user.inc
         user/
             edit_email_action.php
+
+Charlie 27 Jan 2011
+    Mac: update Mac_SA_Insecure.sh script to not require BOIN Client in 
+        BOINC Data folder.
+
+     mac_build/
+        Mac_SA_Insecure.sh
