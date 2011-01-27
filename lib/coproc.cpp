@@ -245,13 +245,7 @@ int COPROC_CUDA::parse(MIOFILE& fin) {
     while (fin.fgets(buf, sizeof(buf))) {
         if (strstr(buf, "</coproc_cuda>")) {
             if (!peak_flops) {
-                // clock rate is scaled down by 1000;
-                // each processor has 8 or 32 cores;
-                // each core can do 2 ops per clock
-                //
-                int cores_per_proc = (prop.major>=2)?32:8;
-                double x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * 2.;
-                peak_flops =  x?x:5e10;
+				set_peak_flops();
             }
             return 0;
         }
@@ -400,9 +394,7 @@ int COPROC_ATI::parse(MIOFILE& fin) {
             version_num = major*1000000 + minor*1000 + release;
 
             if (!peak_flops) {
-                double x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
-                // clock is in MHz
-                peak_flops = x?x:5e10;
+				set_peak_flops();
             }
             return 0;
         }

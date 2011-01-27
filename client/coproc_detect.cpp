@@ -418,6 +418,7 @@ void COPROC_CUDA::get(
 #endif
         cc.cuda_version = cuda_version;
         cc.device_num = j;
+		cc.set_peak_flops();
         gpus.push_back(cc);
     }
 
@@ -493,6 +494,7 @@ void COPROC_CUDA::fake(int driver_version, double ram, int n) {
    prop.clockRate = 1250000;
    prop.textureAlignment = 1000;
    prop.multiProcessorCount = 14;
+   set_peak_flops();
 }
 
 // See how much RAM is available on each GPU.
@@ -880,6 +882,7 @@ void COPROC_ATI::get(
         cc.amdrt_detected = amdrt_detected;
         cc.atirt_detected = atirt_detected;
         cc.device_num = i;
+		cc.set_peak_flops();
         gpus.push_back(cc);
     }
 
@@ -939,6 +942,7 @@ void COPROC_ATI::fake(double ram, int n) {
     for (int i=0; i<count; i++) {
         device_nums[i] = i;
     }
+	set_peak_flops();
 }
 
 void COPROC_ATI::get_available_ram() {

@@ -305,3 +305,11 @@ Charlie 27 Jan 2011
             project.pbxproj
     win_build/
         boincmgr.vcproj
+
+David  27 Jan 2011
+    - client: fix bug in setting GPU peak flops
+
+    client/
+        coproc_detect.cpp
+    lib/
+        coproc.cpp,h
