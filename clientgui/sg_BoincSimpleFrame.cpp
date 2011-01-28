@@ -118,7 +118,7 @@ CNewSimpleFrame::CNewSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, w
     menuTools->Append(
         ID_CHANGEGUI,
         _("Advanced View...\tCtrl+Shift+A"),
-        _("Display the advanced (accessible) graphical interface.")
+        _("Display the advanced graphical interface.")
     );
 
     menuTools->Append(      /* CAF TEMPORARY */
