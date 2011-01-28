@@ -210,7 +210,7 @@ BEGIN_EVENT_TABLE( CPanelPreferences, wxPanel )
     EVT_CHECKBOX( ID_CUSTOMIZEPREFERENCES, CPanelPreferences::OnCustomizePreferencesClick )
     EVT_COMBOBOX( ID_WORKBETWEENBEGIN, CPanelPreferences::OnWorkBetweenBeginSelected )
     EVT_COMBOBOX( ID_CONNECTBETWEENBEGIN, CPanelPreferences::OnConnectBetweenBeginSelected )
-    EVT_BUTTON( wxID_HELP, CPanelPreferences::OnButtonHelp )
+    EVT_BUTTON( ID_SIMPLE_HELP, CPanelPreferences::OnButtonHelp )
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
 
@@ -465,7 +465,7 @@ void CPanelPreferences::CreateControls()
 
 #ifndef __WXMSW__
 #ifdef __WXMAC__
-    wxButton* itemButton46 = new wxButton( this, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* itemButton46 = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 #ifdef wxUSE_TOOLTIPS
 	itemButton46->SetToolTip(new wxToolTip(_("Get help with BOINC")));
 #endif
@@ -519,7 +519,7 @@ void CPanelPreferences::OnConnectBetweenBeginSelected( wxCommandEvent& /*event*/
 
 
 /*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_HELP / ID_SIMPLE_HELP
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
  */
 
 void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
@@ -533,7 +533,7 @@ void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
             wxT("%s?target=simple_preferences&version=%s&controlid=%d"),
             strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
-            ID_SIMPLE_HELP
+            event.GetId()
         );
         wxLaunchDefaultBrowser(wxurl);
     }

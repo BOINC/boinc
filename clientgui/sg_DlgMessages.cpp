@@ -63,7 +63,7 @@ BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
 ////@begin CPanelPreferences event table entries
     EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
-    EVT_BUTTON(wxID_HELP, CPanelMessages::OnButtonHelp)
+    EVT_BUTTON(ID_SIMPLE_HELP, CPanelMessages::OnButtonHelp)
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
 
@@ -137,7 +137,7 @@ void CPanelMessages::CreateControls()
 
 #ifndef __WXMSW__
 #ifdef __WXMAC__
-    wxButton* itemButton45 = new wxButton( this, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* itemButton45 = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 #ifdef wxUSE_TOOLTIPS
 	itemButton45->SetToolTip(new wxToolTip(_("Get help with BOINC")));
 #endif
@@ -237,7 +237,7 @@ void CPanelMessages::OnOK( wxCommandEvent& event ) {
 
 
 /*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_HELP / ID_SIMPLE_HELP
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
  */
 
 void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {

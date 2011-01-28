@@ -315,13 +315,20 @@ David  27 Jan 2011
         coproc.cpp,h
 
 Charlie 28 Jan 2011
-       - MGR: Fix default skin selection display in Simple Preferences 
+    - MGR: Fix default skin selection display in Simple Preferences 
             dialog.
-       - MGR: Use standard native buttons in Simple Preferences and 
+    - MGR: Use standard native buttons in Simple Preferences and 
             Simple Notices dialogs.
+    - MGR: Use our control IDs instead of wxID_HELP for Help buttons 
+        for Mac accessibility (wxID_HELP makes a bitmap button on 
+        Macs which VoiceOver screen reader can't read.)
        
     clientgui/
+        DlgAdvPreferences.cpp
+        DlgAdvPreferencesBase.cpp
+        sg_BoincSimpleFrame.cpp
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
+        wizardex.cpp
         SkinManager.cpp
  

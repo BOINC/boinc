@@ -20,6 +20,7 @@
 // http://www.wxformbuilder.org/
 
 #include "stdwx.h"
+#include "Events.h"
 #include "diagnostics.h"
 #include "util.h"
 #include "mfile.h"
@@ -105,7 +106,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     buttonSizer->Add( m_btnCancel, 0, wxALL, 5 );
 
-    m_btnHelp = new wxButton( m_panelButtons, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnHelp = new wxButton( m_panelButtons, ID_HELPBOINC, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnHelp->SetToolTip( _("shows the preferences web page") );
 
     buttonSizer->Add( m_btnHelp, 0, wxALL, 5 );

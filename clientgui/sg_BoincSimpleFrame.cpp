@@ -555,7 +555,7 @@ BEGIN_EVENT_TABLE(CSimpleGUIPanel, wxPanel)
     EVT_ERASE_BACKGROUND(CSimpleGUIPanel::OnEraseBackground)    
 	EVT_BUTTON(ID_SGNOTICESBUTTON,CSimpleGUIPanel::OnShowNotices)
 	EVT_BUTTON(ID_SGPAUSERESUMEBUTTON,CSimpleGUIPanel::OnPauseResume)
-	EVT_BUTTON(wxID_HELP,CSimpleGUIPanel::OnHelp)
+	EVT_BUTTON(ID_SIMPLE_HELP,CSimpleGUIPanel::OnHelp)
 	EVT_TIMER(ID_SIMPLEMESSAGECHECKTIMER, CSimpleGUIPanel::OnCheckForNewNotices)
     EVT_PAINT(CSimpleGUIPanel::OnPaint)
 END_EVENT_TABLE()
@@ -618,7 +618,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 	buttonsSizer->Add( m_PauseResumeButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
     buttonsSizer->AddStretchSpacer();
 
-    m_HelpButton = new wxButton( this, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_HelpButton = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 	buttonsSizer->Add( m_HelpButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
     m_HelpButton->SetToolTip( _("Get help with BOINC"));
 

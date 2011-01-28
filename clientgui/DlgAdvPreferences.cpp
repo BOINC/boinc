@@ -45,7 +45,7 @@ BEGIN_EVENT_TABLE(CDlgAdvPreferences, wxDialog)
 	EVT_COMMAND_RANGE(20000,21000,wxEVT_COMMAND_TEXT_UPDATED,CDlgAdvPreferences::OnHandleCommandEvent)
 	//buttons
 	EVT_BUTTON(wxID_OK,CDlgAdvPreferences::OnOK)
-	EVT_BUTTON(wxID_HELP,CDlgAdvPreferences::OnHelp)
+	EVT_BUTTON(ID_HELPBOINC,CDlgAdvPreferences::OnHelp)
 	EVT_BUTTON(ID_BTN_CLEAR,CDlgAdvPreferences::OnClear)
 END_EVENT_TABLE()
 
