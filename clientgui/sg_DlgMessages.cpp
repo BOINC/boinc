@@ -63,7 +63,7 @@ BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
 ////@begin CPanelPreferences event table entries
     EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
-    EVT_BUTTON(ID_SIMPLE_HELP, CPanelMessages::OnButtonHelp)
+    EVT_BUTTON(wxID_HELP, CPanelMessages::OnButtonHelp)
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
 
@@ -114,10 +114,6 @@ CPanelMessages::~CPanelMessages()
 void CPanelMessages::CreateControls()
 {
     CPanelMessages* itemDialog1 = this;
-    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-
-    wxASSERT(pSkinSimple);
-    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
     wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer2->AddGrowableRow(0);
@@ -135,38 +131,13 @@ void CPanelMessages::CreateControls()
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
-    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(
-        this,
-        wxID_OK,
-        *pSkinSimple->GetCloseButton()->GetBitmap(),
-        wxDefaultPosition,
-        wxSize(
-            (*pSkinSimple->GetCloseButton()->GetBitmap()).GetWidth(),
-            (*pSkinSimple->GetCloseButton()->GetBitmap()).GetHeight()
-        ),
-        wxBU_AUTODRAW
-    );
-	if ( pSkinSimple->GetCloseButton()->GetBitmapClicked() != NULL ) {
-		itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetCloseButton()->GetBitmapClicked());
-	}
-    itemBoxSizer4->Add(itemBitmapButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxButton* itemButton44 = new wxButton(this, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
+
+    itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #ifndef __WXMSW__
 #ifdef __WXMAC__
-	wxBitmapButton* itemButton45 = new wxBitmapButton(
-        this,
-        ID_SIMPLE_HELP,
-        *pSkinSimple->GetHelpButton()->GetBitmap(),
-        wxDefaultPosition,
-        wxSize(
-            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetWidth(),
-            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetHeight()
-        ),
-        wxBU_AUTODRAW
-    );
-	if ( pSkinSimple->GetHelpButton()->GetBitmapClicked() != NULL ) {
-		itemButton45->SetBitmapSelected(*pSkinSimple->GetHelpButton()->GetBitmapClicked());
-	}
+    wxButton* itemButton45 = new wxButton( this, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 #ifdef wxUSE_TOOLTIPS
 	itemButton45->SetToolTip(new wxToolTip(_("Get help with BOINC")));
 #endif
@@ -266,7 +237,7 @@ void CPanelMessages::OnOK( wxCommandEvent& event ) {
 
 
 /*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_HELP / ID_SIMPLE_HELP
  */
 
 void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {
@@ -280,7 +251,7 @@ void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {
             wxT("%s?target=simple_messages&version=%s&controlid=%d"),
             strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
-            event.GetId()
+            ID_SIMPLE_HELP
         );
         wxLaunchDefaultBrowser(wxurl);
     }
@@ -454,7 +425,7 @@ void CDlgMessages::OnHelp(wxHelpEvent& event) {
             wxT("%s?target=simple_messages&version=%s&controlid=%d"),
             strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
-            event.GetId()
+            ID_SIMPLE_HELP
         );
         wxLaunchDefaultBrowser(wxurl);
     }

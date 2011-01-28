@@ -280,7 +280,7 @@ Charlie 27 Jan 2011
         Mac_SA_Insecure.sh
 
 Charlie 27 Jan 2011
-    Add new Simple GUI.
+    - MGR: Add new Simple GUI.
     
     clientgui/
         AdvancedFrame.cpp, .h
@@ -313,3 +313,15 @@ David  27 Jan 2011
         coproc_detect.cpp
     lib/
         coproc.cpp,h
+
+Charlie 28 Jan 2011
+       - MGR: Fix default skin selection display in Simple Preferences 
+            dialog.
+       - MGR: Use standard native buttons in Simple Preferences and 
+            Simple Notices dialogs.
+       
+    clientgui/
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        SkinManager.cpp
+ 

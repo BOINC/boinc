@@ -1265,8 +1265,8 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     m_strSelectedSkin = strSkin;
 
     // Check to see if the skin we want to change to is the default skin
-    if (GetDefaultSkinName() == m_strSelectedSkin) {
-        m_strSelectedSkin = GetDefaultBOINCSkinName();
+    if (GetDefaultSkinName() == m_strSelectedSkin || GetDefaultBOINCSkinName() == m_strSelectedSkin) {
+        m_strSelectedSkin = GetDefaultSkinName();
     }
 
     // First we try the users canonical locale resources.

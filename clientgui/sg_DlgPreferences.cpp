@@ -210,7 +210,7 @@ BEGIN_EVENT_TABLE( CPanelPreferences, wxPanel )
     EVT_CHECKBOX( ID_CUSTOMIZEPREFERENCES, CPanelPreferences::OnCustomizePreferencesClick )
     EVT_COMBOBOX( ID_WORKBETWEENBEGIN, CPanelPreferences::OnWorkBetweenBeginSelected )
     EVT_COMBOBOX( ID_CONNECTBETWEENBEGIN, CPanelPreferences::OnConnectBetweenBeginSelected )
-    EVT_BUTTON( ID_SIMPLE_HELP, CPanelPreferences::OnButtonHelp )
+    EVT_BUTTON( wxID_HELP, CPanelPreferences::OnButtonHelp )
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
 
@@ -456,54 +456,16 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, 5);
 
-    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(
-        itemDialog1,
-        wxID_OK,
-        *pSkinSimple->GetSaveButton()->GetBitmap(),
-        wxDefaultPosition,
-        wxSize(
-            (*pSkinSimple->GetSaveButton()->GetBitmap()).GetWidth(),
-            (*pSkinSimple->GetSaveButton()->GetBitmap()).GetHeight()
-        ),
-        wxBU_AUTODRAW
-    );
-	if ( pSkinSimple->GetSaveButton()->GetBitmapClicked() != NULL ) {
-		itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetSaveButton()->GetBitmapClicked());
-	}
-    itemBoxSizer44->Add(itemBitmapButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    wxBitmapButton* itemBitmapButton45 = new wxBitmapButton(
-        itemDialog1,
-        wxID_CANCEL,
-        *pSkinSimple->GetCancelButton()->GetBitmap(),
-        wxDefaultPosition,
-        wxSize(
-            (*pSkinSimple->GetCancelButton()->GetBitmap()).GetWidth(),
-            (*pSkinSimple->GetCancelButton()->GetBitmap()).GetHeight()
-        ),
-        wxBU_AUTODRAW
-    );
-	if ( pSkinSimple->GetCancelButton()->GetBitmapClicked() != NULL ) {
-		itemBitmapButton45->SetBitmapSelected(*pSkinSimple->GetCancelButton()->GetBitmapClicked());
-	}
-    itemBoxSizer44->Add(itemBitmapButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxButton* itemButton45 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #ifndef __WXMSW__
 #ifdef __WXMAC__
-	wxBitmapButton* itemButton46 = new wxBitmapButton(
-        this,
-        ID_SIMPLE_HELP,
-        *pSkinSimple->GetHelpButton()->GetBitmap(),
-        wxDefaultPosition,
-        wxSize(
-            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetWidth(),
-            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetHeight()
-        ),
-        wxBU_AUTODRAW
-    );
-	if ( pSkinSimple->GetHelpButton()->GetBitmapClicked() != NULL ) {
-		itemButton46->SetBitmapSelected(*pSkinSimple->GetHelpButton()->GetBitmapClicked());
-	}
+    wxButton* itemButton46 = new wxButton( this, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 #ifdef wxUSE_TOOLTIPS
 	itemButton46->SetToolTip(new wxToolTip(_("Get help with BOINC")));
 #endif
@@ -557,7 +519,7 @@ void CPanelPreferences::OnConnectBetweenBeginSelected( wxCommandEvent& /*event*/
 
 
 /*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_HELP / ID_SIMPLE_HELP
  */
 
 void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
@@ -571,7 +533,7 @@ void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
             wxT("%s?target=simple_preferences&version=%s&controlid=%d"),
             strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
-            event.GetId()
+            ID_SIMPLE_HELP
         );
         wxLaunchDefaultBrowser(wxurl);
     }
